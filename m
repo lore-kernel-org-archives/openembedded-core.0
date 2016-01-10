@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 52509762AF
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 09CA073CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:31:17 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 65so2204665pfd.1
+	Sun, 10 Jan 2016 00:39:35 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id n128so2208104pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:31:18 -0800 (PST)
+	Sat, 09 Jan 2016 16:39:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=G7HnlEtSN8YfBvcBeyk19gfaa2JtEtQIGXzlsC5WjSM=;
-	b=O3ONP0Lw7rz1Hcm5KZWgsuPOCfeAH2gKqQfr9R0/awSZxUJOnpa5aHDgIc1NBoy9ci
-	50LosjX+qD4WA9FJiEmWmQGnHpiRIXMtuVZlZV1ZORhpzxHOekQBOQgB+Sw1Tf6B1v2l
-	TNC2T+/9o2F6FeTHjI+R2JuW5u97ujUD5qcgPxJqksjjhpQ+dXPKU+1rSJeZBV2zEgiQ
-	6fY39ICDN6Yg/69MsAsOAUjKgFwHuQIkLiwSVzPp1O54+1L37YVcLWqp2eolgz+CvKe5
-	fgWS+I3Aj3VvIt88aWZ8c5Dv2xmjVcCy9KYmW71LlhDZJ92t0ClR7pUTJkJS7hAZzcBG
-	wuBA==
-X-Received: by 10.98.31.8 with SMTP id f8mr15339029pff.71.1452385878409;
-	Sat, 09 Jan 2016 16:31:18 -0800 (PST)
+	:references; bh=8ND6e8jOqWvLezkE1H8WcsXzqHAwsgKLr6+8sLaZGKw=;
+	b=uNKggwVfLObRTQz14gkfnvk5cu8/YI2TDI0c084SjzDq02x2X2YgKu9UgWBPbBSSBI
+	sNXUdvs14gn4yES8S3d+BFb0dhuBqL+JBtqmIKpfLhatyIxkb+pv8UAkrLj2cyXGvSbf
+	SzwTYMIdDunALeCGvS32luUxUS4q94fhAtOOrr5kirUVcWd+UNAJIU034FdWHjzbHOOj
+	nTUFuWIo6ojfWxIYR3V8DE37YCzlDHdV8n6fOavmtbWeuyHWdq0MXQ4JuRIa5QX/x7Rp
+	w0JzfJQHGeke9VOW3ctNV+8sUAJn8Pp0GvAi93+Nq7yoN6j0VXQQADLMIai3SgmALTnl
+	graQ==
+X-Received: by 10.98.31.151 with SMTP id l23mr15886084pfj.76.1452386376375;
+	Sat, 09 Jan 2016 16:39:36 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	fc6sm176270309pac.44.2016.01.09.16.31.07
+	v2sm13722537pfi.93.2016.01.09.16.39.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Jan 2016 16:31:11 -0800 (PST)
+	Sat, 09 Jan 2016 16:39:34 -0800 (PST)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 31600FCC84B; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
+	id 41342FCC84C; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:44 -0800
-Message-Id: <4807ff0ca0abf085e6b81257534a4a62fde88d16.1452385572.git.akuster808@gmail.com>
+Date: Sat,  9 Jan 2016 16:30:46 -0800
+Message-Id: <7a99aa9ea73d5d12d73599c860644fc28efd5135.1452385572.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 18/20] Fixes a heap buffer overflow in glibc wscanf.
+Subject: [PATCH 20/20] bind: CVE-2015-8000
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,155 +48,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 00:31:17 -0000
+X-List-Received-Date: Sun, 10 Jan 2016 00:39:36 -0000
+
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+
+Fixes a denial of service in BIND.
+
+An error in the parsing of incoming responses allows some
+records with an incorrect class to be accepted by BIND
+instead of being rejected as malformed. This can trigger
+a REQUIRE assertion failure when those records are subsequently
+cached.
+
+[YOCTO #8838]
 
 References:
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1472
-https://sourceware.org/ml/libc-alpha/2015-02/msg00119.html
-http://openwall.com/lists/oss-security/2015/02/04/1
-
-Reference to upstream fix:
-https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;
-h=5bd80bfe9ca0d955bfbbc002781bc7b01b6bcb06
+http://www.openwall.com/lists/oss-security/2015/12/15/14
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8000
+https://bugzilla.redhat.com/attachment.cgi?id=1105581
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-
-Hand applied.
-
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...5-1472-wscanf-allocates-too-little-memory.patch | 108 +++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.20.bb              |   1 +
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
+ .../bind/bind/CVE-2015-8000.patch                  | 194 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   1 +
+ 2 files changed, 195 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
 new file mode 100644
-index 0000000..ab513aa
+index 0000000..b8d8412
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
-@@ -0,0 +1,108 @@
-+CVE-2015-1472: wscanf allocates too little memory
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+@@ -0,0 +1,194 @@
++responses with a malformed class attribute can trigger an
++assertion failure in db.c
 +
-+BZ #16618
-+
-+Under certain conditions wscanf can allocate too little memory for the
-+to-be-scanned arguments and overflow the allocated buffer.  The
-+implementation now correctly computes the required buffer size when
-+using malloc.
-+
-+A regression test was added to tst-sscanf.
++[security]
++Insufficient testing when parsing a message allowed records with
++an incorrect class to be be accepted, triggering a REQUIRE failure
++when those records were subsequently cached. (CVE-2015-8000) [RT#4098]
 +
 +Upstream-Status: Backport
 +
-+The patch is from (Paul Pluzhnikov <ppluzhnikov@google.com>):
-+[https://sourceware.org/git/?p=glibc.git;a=patch;h=5bd80bfe9ca0d955bfbbc002781bc7b01b6bcb06]
++[The patch is taken from BIND 9.9.4:
++https://bugzilla.redhat.com/attachment.cgi?id=1105581]
 +
-+diff -ruN a/ChangeLog b/ChangeLog
-+--- a/ChangeLog	2015-09-22 10:20:14.399408389 +0200
-++++ b/ChangeLog	2015-09-22 10:33:07.374388595 +0200
-+@@ -1,3 +1,12 @@
-++2015-02-05  Paul Pluzhnikov  <ppluzhnikov@google.com>
-++
-++       [BZ #16618] CVE-2015-1472
-++       * stdio-common/tst-sscanf.c (main): Test for buffer overflow.
-++       * stdio-common/vfscanf.c (_IO_vfscanf_internal): Compute needed
-++       size in bytes. Store needed elements in wpmax. Use needed size
-++       in bytes for extend_alloca.
-++
-++
-+ 2014-12-16  Florian Weimer  <fweimer@redhat.com>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++diff --git a/lib/dns/include/dns/message.h b/lib/dns/include/dns/message.h
++index a6862fa..d999e75 100644
++--- a/lib/dns/include/dns/message.h
+++++ b/lib/dns/include/dns/message.h
++@@ -210,6 +210,8 @@ struct dns_message {
++ 	unsigned int			verify_attempted : 1;
++ 	unsigned int			free_query : 1;
++ 	unsigned int			free_saved : 1;
+++	unsigned int			tkey : 1;
+++	unsigned int			rdclass_set : 1;
 + 
-+        [BZ #17630]
-+diff -ruN a/stdio-common/tst-sscanf.c b/stdio-common/tst-sscanf.c
-+--- a/stdio-common/tst-sscanf.c	2015-09-22 10:20:09.995596201 +0200
-++++ b/stdio-common/tst-sscanf.c	2015-09-22 10:21:39.211791399 +0200
-+@@ -233,5 +233,38 @@
-+ 	}
-+     }
++ 	unsigned int			opt_reserved;
++ 	unsigned int			sig_reserved;
++@@ -1374,6 +1376,15 @@ dns_message_buildopt(dns_message_t *msg, dns_rdataset_t **opt,
++  * \li	 other.
++  */
 + 
-++  /* BZ #16618
-++     The test will segfault during SSCANF if the buffer overflow
-++     is not fixed.  The size of `s` is such that it forces the use
-++     of malloc internally and this triggers the incorrect computation.
-++     Thus the value for SIZE is arbitrariy high enough that malloc
-++     is used.  */
-++  {
-++#define SIZE 131072
-++    CHAR *s = malloc ((SIZE + 1) * sizeof (*s));
-++    if (s == NULL)
-++      abort ();
-++    for (size_t i = 0; i < SIZE; i++)
-++      s[i] = L('0');
-++    s[SIZE] = L('\0');
-++    int i = 42;
-++    /* Scan multi-digit zero into `i`.  */
-++    if (SSCANF (s, L("%d"), &i) != 1)
-++      {
-++	printf ("FAIL: bug16618: SSCANF did not read one input item.\n");
-++	result = 1;
-++      }
-++    if (i != 0)
-++      {
-++	printf ("FAIL: bug16618: Value of `i` was not zero as expected.\n");
-++	result = 1;
-++      }
-++    free (s);
-++    if (result != 1)
-++      printf ("PASS: bug16618: Did not crash.\n");
-++#undef SIZE
-++  }
+++void
+++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass);
+++/*%<
+++ * Set the expected class of records in the response.
+++ *
+++ * Requires:
+++ * \li   msg be a valid message with parsing intent.
+++ */
 ++
-++
-+   return result;
++ ISC_LANG_ENDDECLS
++ 
++ #endif /* DNS_MESSAGE_H */
++diff --git a/lib/dns/message.c b/lib/dns/message.c
++index 53efc5a..73def73 100644
++--- a/lib/dns/message.c
+++++ b/lib/dns/message.c
++@@ -436,6 +436,8 @@ msginit(dns_message_t *m) {
++ 	m->saved.base = NULL;
++ 	m->saved.length = 0;
++ 	m->free_saved = 0;
+++	m->tkey = 0;
+++	m->rdclass_set = 0;
++ 	m->querytsig = NULL;
 + }
-+diff -ruN a/stdio-common/vfscanf.c b/stdio-common/vfscanf.c
-+--- a/stdio-common/vfscanf.c	2015-09-22 10:20:14.051423230 +0200
-++++ b/stdio-common/vfscanf.c	2015-09-22 10:21:39.215791228 +0200
-+@@ -279,9 +279,10 @@
-+       if (__glibc_unlikely (wpsize == wpmax))				      \
-+ 	{								    \
-+ 	  CHAR_T *old = wp;						    \
-+-	  size_t newsize = (UCHAR_MAX + 1 > 2 * wpmax			    \
-+-			    ? UCHAR_MAX + 1 : 2 * wpmax);		    \
-+-	  if (use_malloc || !__libc_use_alloca (newsize))		    \
-++	  bool fits = __glibc_likely (wpmax <= SIZE_MAX / sizeof (CHAR_T) / 2); \
-++	  size_t wpneed = MAX (UCHAR_MAX + 1, 2 * wpmax);		    \
-++	  size_t newsize = fits ? wpneed * sizeof (CHAR_T) : SIZE_MAX;	    \
-++	  if (!__libc_use_alloca (newsize))				    \
-+ 	    {								    \
-+ 	      wp = realloc (use_malloc ? wp : NULL, newsize);		    \
-+ 	      if (wp == NULL)						    \
-+@@ -293,14 +294,13 @@
-+ 		}							    \
-+ 	      if (! use_malloc)						    \
-+ 		MEMCPY (wp, old, wpsize);				    \
-+-	      wpmax = newsize;						    \
-++	      wpmax = wpneed;						    \
-+ 	      use_malloc = true;					    \
-+ 	    }								    \
-+ 	  else								    \
-+ 	    {								    \
-+ 	      size_t s = wpmax * sizeof (CHAR_T);			    \
-+-	      wp = (CHAR_T *) extend_alloca (wp, s,			    \
-+-					     newsize * sizeof (CHAR_T));    \
-++	      wp = (CHAR_T *) extend_alloca (wp, s, newsize);		    \
-+ 	      wpmax = s / sizeof (CHAR_T);				    \
-+ 	      if (old != NULL)						    \
-+ 		MEMCPY (wp, old, wpsize);				    \
-diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index 2ab4083..bfd8c64 100644
---- a/meta/recipes-core/glibc/glibc_2.20.bb
-+++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -46,6 +46,7 @@ CVEPATCHES = "\
-         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
-         file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
-         file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
-+	file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch \
-     "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
-       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++ 
++@@ -1086,13 +1088,19 @@ getquestions(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 		 * If this class is different than the one we already read,
++ 		 * this is an error.
++ 		 */
++-		if (msg->state == DNS_SECTION_ANY) {
++-			msg->state = DNS_SECTION_QUESTION;
+++		if (msg->rdclass_set == 0) {
++ 			msg->rdclass = rdclass;
+++			msg->rdclass_set = 1;
++ 		} else if (msg->rdclass != rdclass)
++ 			DO_FORMERR;
++ 
++ 		/*
+++		 * Is this a TKEY query?
+++		 */
+++		if (rdtype == dns_rdatatype_tkey)
+++			msg->tkey = 1;
+++
+++		/*
++ 		 * Can't ask the same question twice.
++ 		 */
++ 		result = dns_message_find(name, rdclass, rdtype, 0, NULL);
++@@ -1236,12 +1244,12 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 		 * If there was no question section, we may not yet have
++ 		 * established a class.  Do so now.
++ 		 */
++-		if (msg->state == DNS_SECTION_ANY &&
+++		if (msg->rdclass_set == 0 &&
++ 		    rdtype != dns_rdatatype_opt &&	/* class is UDP SIZE */
++ 		    rdtype != dns_rdatatype_tsig &&	/* class is ANY */
++ 		    rdtype != dns_rdatatype_tkey) {	/* class is undefined */
++ 			msg->rdclass = rdclass;
++-			msg->state = DNS_SECTION_QUESTION;
+++			msg->rdclass_set = 1;
++ 		}
++ 
++ 		/*
++@@ -1251,7 +1259,7 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 		if (msg->opcode != dns_opcode_update
++ 		    && rdtype != dns_rdatatype_tsig
++ 		    && rdtype != dns_rdatatype_opt
++-		    && rdtype != dns_rdatatype_dnskey /* in a TKEY query */
+++		    && rdtype != dns_rdatatype_key /* in a TKEY query */
++ 		    && rdtype != dns_rdatatype_sig /* SIG(0) */
++ 		    && rdtype != dns_rdatatype_tkey /* Win2000 TKEY */
++ 		    && msg->rdclass != dns_rdataclass_any
++@@ -1259,6 +1267,16 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 			DO_FORMERR;
++ 
++ 		/*
+++		 * If this is not a TKEY query/response then the KEY
+++		 * record's class needs to match.
+++		 */
+++		if (msg->opcode != dns_opcode_update && !msg->tkey &&
+++		    rdtype == dns_rdatatype_key &&
+++		    msg->rdclass != dns_rdataclass_any &&
+++		    msg->rdclass != rdclass)
+++			DO_FORMERR;
+++
+++		/*
++ 		 * Special type handling for TSIG, OPT, and TKEY.
++ 		 */
++ 		if (rdtype == dns_rdatatype_tsig) {
++@@ -1372,6 +1390,10 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 				skip_name_search = ISC_TRUE;
++ 				skip_type_search = ISC_TRUE;
++ 				issigzero = ISC_TRUE;
+++			} else {
+++				if (msg->rdclass != dns_rdataclass_any &&
+++				    msg->rdclass != rdclass)
+++					DO_FORMERR;
++ 			}
++ 		} else
++ 			covers = 0;
++@@ -1610,6 +1632,7 @@ dns_message_parse(dns_message_t *msg, isc_buffer_t *source,
++ 	msg->counts[DNS_SECTION_ADDITIONAL] = isc_buffer_getuint16(source);
++ 
++ 	msg->header_ok = 1;
+++	msg->state = DNS_SECTION_QUESTION;
++ 
++ 	/*
++ 	 * -1 means no EDNS.
++@@ -3550,3 +3573,15 @@ dns_message_buildopt(dns_message_t *message, dns_rdataset_t **rdatasetp,
++ 		dns_message_puttemprdatalist(message, &rdatalist);
++ 	return (result);
++ }
+++
+++void
+++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass) {
+++
+++	REQUIRE(DNS_MESSAGE_VALID(msg));
+++	REQUIRE(msg->from_to_wire == DNS_MESSAGE_INTENTPARSE);
+++	REQUIRE(msg->state == DNS_SECTION_ANY);
+++	REQUIRE(msg->rdclass_set == 0);
+++
+++	msg->rdclass = rdclass;
+++	msg->rdclass_set = 1;
+++}
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index aa23b11..d220986 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -6964,6 +6964,8 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
++ 			goto done;
++ 	}
++ 
+++	dns_message_setclass(message, fctx->res->rdclass);
+++
++ 	result = dns_message_parse(message, &devent->buffer, 0);
++ 	if (result != ISC_R_SUCCESS) {
++ 		switch (result) {
++@@ -7036,6 +7038,12 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
++ 	 */
++ 	log_packet(message, ISC_LOG_DEBUG(10), fctx->res->mctx);
++ 
+++	if (message->rdclass != fctx->res->rdclass) {
+++		resend = ISC_TRUE;
+++		FCTXTRACE("bad class");
+++		goto done;
+++	}
+++
++ 	/*
++ 	 * Process receive opt record.
++ 	 */
++diff --git a/lib/dns/xfrin.c b/lib/dns/xfrin.c
++index 9ad8960..938373a 100644
++--- a/lib/dns/xfrin.c
+++++ b/lib/dns/xfrin.c
++@@ -1241,6 +1241,8 @@ xfrin_recv_done(isc_task_t *task, isc_event_t *ev) {
++ 	msg->tsigctx = xfr->tsigctx;
++ 	xfr->tsigctx = NULL;
++ 
+++	dns_message_setclass(msg, xfr->rdclass);
+++
++ 	if (xfr->nmsg > 0)
++ 		msg->tcp_continuation = 1;
++ 
+diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+index ee94011..6e4878d 100644
+--- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+ 	   file://CVE-2015-1349.patch \ 
+ 	   file://CVE-2015-4620.patch \
+ 	   file://CVE-2015-5722.patch \
++           file://CVE-2015-8000.patch \
+ 	   "
+ 
+ SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
 -- 
 1.9.1
 
