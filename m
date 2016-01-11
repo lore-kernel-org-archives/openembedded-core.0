@@ -1,30 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08902731F1
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 575486E666
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 16:33:31 +0000 (UTC)
+	Mon, 11 Jan 2016 16:58:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0BGXSZN030226
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 11 Jan 2016 08:33:31 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 11 Jan 2016 08:33:27 -0800
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1452528799-11292-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <5693D956.40107@windriver.com>
-Date: Mon, 11 Jan 2016 10:33:26 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0BGwSMe026648
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Jan 2016 08:58:28 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 11 Jan 2016 08:58:27 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 11 Jan 2016 11:58:25 -0500
+Message-ID: <cover.1452531312.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-In-Reply-To: <1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: Re: [PATCH 3/3] oe.gpg_sign: support obs-signd
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto: introduce 4.4 named/versioned recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,149 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 16:33:32 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Jan 2016 16:58:29 -0000
+Content-Type: text/plain
 
-On 1/11/16 10:13 AM, Markus Lehtonen wrote:
-> Implement support for remote signing using obs-signd. It is now possible
-> to sign both RPM packages and package feeds with this method. The user
-> just needs to set RPM_GPG_BACKEND and/or PACKAGE_FEED_GPG_BACKEND
-> variables to 'obssign' in the bitbake config. Of course, in addition,
-> one needs to setup the signing server and the configure the 'sign'
-> client command on the build host. The *_PASSPHRASE_FILE settings are not
-> used when the obssign backend is enabled.
-> 
-> [YOCTO #8755]
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/classes/sign_package_feed.bbclass |  5 +++-
->  meta/classes/sign_rpm.bbclass          |  5 +++-
->  meta/lib/oe/gpg_sign.py                | 48 ++++++++++++++++++++++++++++++++++
->  3 files changed, 56 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
-> index d5df8af..953fa85 100644
-> --- a/meta/classes/sign_package_feed.bbclass
-> +++ b/meta/classes/sign_package_feed.bbclass
-> @@ -24,7 +24,10 @@ PACKAGE_FEED_GPG_BACKEND ?= 'local'
->  
->  python () {
->      # Check sanity of configuration
-> -    for var in ('PACKAGE_FEED_GPG_NAME', 'PACKAGE_FEED_GPG_PASSPHRASE_FILE'):
-> +    required = ['PACKAGE_FEED_GPG_NAME']
-> +    if d.getVar('PACKAGE_FEED_GPG_BACKEND', True) != 'obssign':
-> +        required.append('PACKAGE_FEED_GPG_PASSPHRASE_FILE')
-> +    for var in required:
->          if not d.getVar(var, True):
->              raise_sanity_error("You need to define %s in the config" % var, d)
->  
-> diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
-> index 8bcabee..8be1c35 100644
-> --- a/meta/classes/sign_rpm.bbclass
-> +++ b/meta/classes/sign_rpm.bbclass
-> @@ -23,7 +23,10 @@ RPM_GPG_BACKEND ?= 'local'
->  
->  python () {
->      # Check configuration
-> -    for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE_FILE'):
-> +    required = ['RPM_GPG_NAME']
-> +    if d.getVar('RPM_GPG_BACKEND', True) != 'obssign':
-> +        required.append('RPM_GPG_PASSPHRASE_FILE')
-> +    for var in required:
->          if not d.getVar(var, True):
->              raise_sanity_error("You need to define %s in the config" % var, d)
->  
-> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-> index 55abad8..d8ab816 100644
-> --- a/meta/lib/oe/gpg_sign.py
-> +++ b/meta/lib/oe/gpg_sign.py
-> @@ -66,11 +66,59 @@ class LocalSigner(object):
->                                        (input_file, output))
->  
->  
-> +class ObsSigner(object):
-> +    """Class for handling signing with obs-signd"""
-> +    def __init__(self, keyid):
-> +        self.keyid = keyid
-> +        self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpm")
-> +
-> +    def export_pubkey(self, output_file):
-> +        """Export GPG public key to a file"""
-> +        cmd = "sign -u '%s' -p" % self.keyid
-> +        status, output = oe.utils.getstatusoutput(cmd)
-> +        if status:
-> +            raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
-> +                                      (self.keyid, output))
-> +        with open(output_file, 'w') as fobj:
-> +            fobj.write(output)
-> +            fobj.write('\n')
-> +
-> +    def sign_rpms(self, files):
-> +        """Sign RPM files"""
-> +        import pexpect
-> +
-> +        # Remove existing signatures
-> +        cmd = "%s --delsign %s" % (self.rpm_bin, ' '.join(files))
+Richard/Ross,
 
-Why are you removing existing signatures?  I believe for many cases this is
-actually incorrect.
+The 4.4 kernel has been released for about 20 hours, so it is about time
+we get a named recipe in oe-core master :)
 
-RPM (5) has the ability to have an endless number of signatures within a given
-package.  The package SHOULD included the internal non-repudiable signature...
+This is a quick update and re-test of what has already been in linux-yocto -dev.
+Nothing blew up in my smoke testing, so hopefully that means a smooth
+integration.
 
-(to refresh memory) all RPM 5 packages include an internal non-repudiable
-signature.  Think of this as an extended md5sum, sha256sum, etc.  It doesn't
-change that a package is 'authentic' in any way (often the purpose of signatures
-like what this code is doing), but instead keeps a high reliability way to sign
-and verify the package is signed properly.
+This is just the kernel part of the updates, I'll be following up with
+preferred version bumps, and a rev of libc-headers shortly .. but there's
+no need to wait on this.
 
-This is used for validation if the system doing the install does not have the
-public key that the package was signed with.
+Cheers,
 
-... as well as one or more repudiable signatures that can be used to verify that
-it's "authentic" in some way.  A system could very easily have OSV, OEM, and ISV
-keys install on them.  You can program RPM in such a way that it will refused to
-install packages with unknown authentication keys or the non-repudiable key as well.
+Bruce
 
-So, I believe running delsign is wrong.  If the obs-signd can't handle ADDING
-signatures to packages, then I'd say it is broken and should be fixed in some
-way -- or at least the signature deletion code should be optional.
 
-> +        status, output = oe.utils.getstatusoutput(cmd)
-> +        if status:
-> +            raise bb.build.FuncFailed("Failed to remove RPM signatures: %s" %
-> +                                      output)
-> +        # Sign packages
-> +        cmd = "sign -u '%s' -r %s" % (self.keyid, ' '.join(files))
-> +        status, output = oe.utils.getstatusoutput(cmd)
-> +        if status:
-> +            raise bb.build.FuncFailed("Failed to sign RPM packages: %s" %
-> +                                      output)
-> +
-> +    def detach_sign(self, input_file):
-> +        """Create a detached signature of a file"""
-> +        cmd = "sign -u '%s' -d %s" % (self.keyid, input_file)
-> +        status, output = oe.utils.getstatusoutput(cmd)
-> +        if status:
-> +            raise bb.build.FuncFailed("Failed to create signature for '%s': %s" %
-> +                                      (input_file, output))
-> +
-> +
->  def get_signer(d, backend, keyid, passphrase_file):
->      """Get signer object for the specified backend"""
->      # Use local signing by default
->      if backend == 'local':
->          return LocalSigner(d, keyid, passphrase_file)
-> +    elif backend == 'obssign':
-> +        if passphrase_file:
-> +            bb.note("GPG passphrase file setting not used when 'obssign' "
-> +                    "backend is used.")
-> +        return ObsSigner(keyid)
->      else:
->          bb.fatal("Unsupported signing backend '%s'" % backend)
->  
-> 
+The following changes since commit 1ee08426d792ce27213dd411a885595d8435ae33:
+
+  sstatesig: Handle special case of gcc-source shared-workdir for printdiff (2016-01-11 15:41:47 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto: introduce v4.4 standard/preempt-rt/standard kernel
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 27 +++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 23 +++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 42 +++++++++++++++++++++++
+ 3 files changed, 92 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.4.bb
+
+-- 
+2.1.0
 
 
