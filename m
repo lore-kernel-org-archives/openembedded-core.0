@@ -1,42 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 70793731DE
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E261731CF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 18:15:46 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id yy13so232305170pab.3
+	Mon, 11 Jan 2016 18:20:14 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id ho8so64212068pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 10:15:48 -0800 (PST)
+	Mon, 11 Jan 2016 10:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=zC4YB75o8ldylEmHce1U7xEX4Z+8RVQi1s+W7F46FhM=;
-	b=ph/7rJnHp4TbAC5Xo74yhAOAN3/mdAN6bX9MxHaO9KqQc7y6NOyXSH8wCamTpCmpLY
-	ZlvSNZ/6LtKgHi8lGqNN6pEZ+F9hxCAEZxsfluWY4JjLTyM7fkTcKGB05SUlReBhdNkv
-	pLXuE1R5QvnKNVpJsiiMVvEXQ2OWlDBMbHLSDqwYw+C6+j+tIAcBrIUfRd7Znn0r67dU
-	wpNukLe60D3k8dInrku1NHE/G01Y68ijVyJIQCFK+s9VdsSTvTrcLcxo3XHhQhebOGE3
-	GN6qPkkVukhgCW5Ap7d/mtBj3rS+Zq1QKhIj09SXCNuEoIx02UN6twuK6+3hHOtwUTtu
-	1vtA==
-X-Received: by 10.66.216.7 with SMTP id om7mr180974569pac.90.1452536147859;
-	Mon, 11 Jan 2016 10:15:47 -0800 (PST)
+	bh=n21LLBq2PxaBkuhzBouJ5wc5Or48bHU3ejuxDNLEcMM=;
+	b=dTf29FxM19PfOrlIXkhGIpaQzZOXgSSkGr7EHMIjBIQ6Qexw2vLWOyyzHb1abSfTvJ
+	fxPbU5QOhfhtOr1YVGBNNdUeCXlsOlfd/W6gd3wyUXSrl9Ay3iwx80Tj8bM4t8yfUEwr
+	HExYWNUGqI6hj0pLbr/6/+vvf9kMhxKhsa2XoLZj0gXRp7OMOZLn2SpmaB8ar6AowRKW
+	imNCwqjNBcdM/E2Aeqlgh5sVF/Hw910PfV+nkdAhLpcYS/L6hwo8RdqgFZeFRMHdQ+CN
+	E7FB/bWlP38Xmhjp3mcxrr9Z59IT+nCfI0dNAU3TfCBaCvMdXpRJeocpanr8O7x3eue6
+	1p1g==
+X-Received: by 10.67.24.33 with SMTP id if1mr106394048pad.137.1452536415689;
+	Mon, 11 Jan 2016 10:20:15 -0800 (PST)
 Received: from ?IPv6:2601:646:8802:5d5c:d5b:ee56:59f:5eeb?
 	([2601:646:8802:5d5c:d5b:ee56:59f:5eeb])
 	by smtp.gmail.com with ESMTPSA id
-	dz12sm124185585pac.2.2016.01.11.10.15.46
+	d80sm8375629pfb.55.2016.01.11.10.20.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jan 2016 10:15:47 -0800 (PST)
+	Mon, 11 Jan 2016 10:20:14 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <DUB130-W1779730C543EF8ECE041E9DAC90@phx.gbl>
-Date: Mon, 11 Jan 2016 10:15:45 -0800
-Message-Id: <D84B77DD-57D3-4E8F-BE0F-0E2BB58AE8AF@gmail.com>
-References: <DUB130-W1779730C543EF8ECE041E9DAC90@phx.gbl>
-To: Chris Trobridge <christrobridge@hotmail.com>
+In-Reply-To: <2523177d0da5233c60da6a6aa99f74631a9277b7.1452491844.git.Qi.Chen@windriver.com>
+Date: Mon, 11 Jan 2016 10:20:13 -0800
+Message-Id: <79D0CE6B-7A5E-4D08-BA90-06C6155E25D0@gmail.com>
+References: <cover.1452491844.git.Qi.Chen@windriver.com>
+	<2523177d0da5233c60da6a6aa99f74631a9277b7.1452491844.git.Qi.Chen@windriver.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 X-Mailer: Apple Mail (2.3112)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Handliong Duplicate Files
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/7] curl: upgrade to 7.46
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,171 +49,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 18:15:47 -0000
-X-Groupsio-MsgNum: 75859
+X-List-Received-Date: Mon, 11 Jan 2016 18:20:15 -0000
+X-Groupsio-MsgNum: 75860
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_94AB15FA-A234-49BB-B553-4A8FDF298B4B";
+	boundary="Apple-Mail=_D1B2FFB2-A025-4651-B828-0835E58CAF22";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_94AB15FA-A234-49BB-B553-4A8FDF298B4B
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_696B4ABD-75CF-4E34-A843-3DA12F6CDCD7"
-
---Apple-Mail=_696B4ABD-75CF-4E34-A843-3DA12F6CDCD7
+--Apple-Mail=_D1B2FFB2-A025-4651-B828-0835E58CAF22
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=iso-8859-1
+	charset=utf-8
 
 
-> On Jan 11, 2016, at 3:13 AM, Chris Trobridge =
-<christrobridge@hotmail.com> wrote:
+> On Jan 10, 2016, at 9:58 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
 >=20
-> Hi,
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+> meta/recipes-support/curl/{curl_7.45.0.bb =3D> curl_7.46.0.bb} | 6 =
+++++--
+> 1 file changed, 4 insertions(+), 2 deletions(-)
+> rename meta/recipes-support/curl/{curl_7.45.0.bb =3D> curl_7.46.0.bb} =
+(92%)
 >=20
-> I have been looking into producing a 'python3-dbus' recipe, based on =
-the python-dbus recipe.
+> diff --git a/meta/recipes-support/curl/curl_7.45.0.bb =
+b/meta/recipes-support/curl/curl_7.46.0.bb
+> similarity index 92%
+> rename from meta/recipes-support/curl/curl_7.45.0.bb
+> rename to meta/recipes-support/curl/curl_7.46.0.bb
+> index a7ed778..8b109ba 100644
+> --- a/meta/recipes-support/curl/curl_7.45.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.46.0.bb
+> @@ -14,8 +14,8 @@ SRC_URI =3D =
+"http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+> #
+> SRC_URI +=3D " file://configure_ac.patch"
 >=20
-> This recipe outputs a couple of files that are version independent but =
-end up overlapping and causing the build to fail:
-> /usr/lib/pkgconfig/dbus-python.pc
-> /usr/include/dbus-1.0/dbus/dbus-python.h
+> -SRC_URI[md5sum] =3D "62c1a352b28558f25ba6209214beadc8"
+> -SRC_URI[sha256sum] =3D =
+"65154e66b9f8a442b57c436904639507b4ac37ec13d6f8a48248f1b4012b98ea"
+> +SRC_URI[md5sum] =3D "9979f989a2a9930d10f1b3deeabc2148"
+> +SRC_URI[sha256sum] =3D =
+"b7d726cdd8ed4b6db0fa1b474a3c59ebbbe4dcd4c61ac5e7ade0e0270d3195ad"
+>=20
+> inherit autotools pkgconfig binconfig multilib_header
+>=20
+> @@ -55,4 +55,6 @@ PACKAGES =3D+ "lib${BPN}"
+> FILES_lib${BPN} =3D "${libdir}/lib*.so.*"
+> RRECOMMENDS_lib${BPN} +=3D "ca-certificates"
+>=20
+> +FILES_${PN}-dev +=3D "${datadir}/zsh=E2=80=9D
 
-you can let one provide it and then delete it from other recipe but it =
-means now you created a dependency also
-second option is to install the files after renaming. e.g. =
-dbus-python3.pc and dbus-python3.h
-the may be you can use alternatives mechanism to symlink python3 =
-versions to provide python2 versions as well
-only if python2 is not installed.
+what files are in ${datadir}/zsh ?
 
->=20
-> These files are currently marked as python-version independent - the =
-header file has #ifdefs for python3.
->=20
-> The immediate 'fix' was to follow the advice in the error text to add =
-the file paths to SSTATE_DUPWHITELIST.
->=20
-> SSTATE_DUPWHITELIST is not mentioned much elsewhere and does not seem =
-like a scalable solution.  Is there a preferred method to resolve the =
-situation where two recipes install the same files?
->=20
-> Thanks,
-> Chris
+> +
+
+> BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 1.9.1
 >=20
 > --
 > _______________________________________________
 > Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
-<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---Apple-Mail=_696B4ABD-75CF-4E34-A843-3DA12F6CDCD7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=iso-8859-1
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Jan 11, 2016, at 3:13 AM, Chris Trobridge &lt;<a =
-href=3D"mailto:christrobridge@hotmail.com" =
-class=3D"">christrobridge@hotmail.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D"">Hi,<div class=3D""><br =
-class=3D""></div><div class=3D"">I have been looking into producing a =
-'python3-dbus' recipe, based on the&nbsp;python-dbus recipe.</div><div =
-class=3D""><br class=3D""></div><div class=3D"">This recipe outputs a =
-couple of files that are version independent but end up overlapping and =
-causing the build to fail:</div><div class=3D""><div =
-class=3D"">/usr/lib/pkgconfig/dbus-python.pc</div></div><div =
-class=3D""><div =
-class=3D"">/usr/include/dbus-1.0/dbus/dbus-python.h</div></div></div></div=
-></blockquote><div><br class=3D""></div><div>you can let one provide it =
-and then delete it from other recipe but it means now you created a =
-dependency also</div><div>second option is to install the files after =
-renaming. e.g. dbus-python3.pc and dbus-python3.h</div><div>the may be =
-you can use alternatives mechanism to symlink python3 versions to =
-provide python2 versions as well</div><div>only if python2 is not =
-installed.</div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D""><div dir=3D"ltr" style=3D"font-family: Calibri; font-size: =
-16px; font-style: normal; font-variant: normal; font-weight: normal; =
-letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; widows: auto; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px;" class=3D""><div =
-class=3D""><br class=3D""></div><div class=3D"">These files are =
-currently marked as python-version independent - the header file has =
-#ifdefs for python3.</div><div class=3D""><br class=3D""></div><div =
-class=3D"">The immediate 'fix' was to follow the advice in the error =
-text to add the file paths to&nbsp;SSTATE_DUPWHITELIST.</div><div =
-class=3D""><br class=3D""></div><div class=3D"">SSTATE_DUPWHITELIST is =
-not mentioned much elsewhere and does not seem like a scalable solution. =
-&nbsp;Is there a preferred method to resolve the situation where two =
-recipes install the same files?</div><div class=3D""><br =
-class=3D""></div><div class=3D"">Thanks,</div><div =
-class=3D"">Chris</div><div class=3D""><br class=3D""></div></div><span =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" class=3D"">--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
-Calibri; font-size: 16px; font-style: normal; font-variant: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
-none; display: inline !important;" =
-class=3D"">_______________________________________________</span><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
-Calibri; font-size: 16px; font-style: normal; font-variant: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
-none; display: inline !important;" class=3D"">Openembedded-core mailing =
-list</span><br style=3D"font-family: Calibri; font-size: 16px; =
-font-style: normal; font-variant: normal; font-weight: normal; =
-letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; widows: auto; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e</a></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_696B4ABD-75CF-4E34-A843-3DA12F6CDCD7--
-
---Apple-Mail=_94AB15FA-A234-49BB-B553-4A8FDF298B4B
+--Apple-Mail=_D1B2FFB2-A025-4651-B828-0835E58CAF22
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -224,9 +125,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlaT8VEACgkQuwUzVZGdMxR0IQCeMjvACXUrv7AqetJJDdnouMXh
-uqkAoJOf/9Pj+avGSWK+NfwbGPXMsT1A
-=mqCe
+iEYEARECAAYFAlaT8l0ACgkQuwUzVZGdMxQotwCfSTjTEOzFzLzcgqFLOpiMKl3Z
+rGIAniNPkHbgAWmRfQd7SrKgGbYA6dFi
+=sbRK
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_94AB15FA-A234-49BB-B553-4A8FDF298B4B--
+--Apple-Mail=_D1B2FFB2-A025-4651-B828-0835E58CAF22--
