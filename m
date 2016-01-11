@@ -1,41 +1,33 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A29B360124
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 14F096072C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 14:55:05 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id k127so42855951iok.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 06:55:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=UQp7dSYDV0sLRKV0h8W2xBg2ivl74l6tC6Z6O5V5Kdg=;
-	b=alXFxudTf1sY+Kgxi/jbkqXd/kEQg6S/+cB3xaK3yTIh5ZDPLVFHn+2B3nM1uahmwy
-	MuG/KzHAcLrh5LhwsLaOp5KdInP2o+NzfWNjGmujrJp/l0mGA1lvSDemhNSUWbkyL/qj
-	LMyUYDnWZphUXVS3CJ9B2vi+iTrSTAMceO4hr/9RX6waGY3NK11mTdklvjuYx+yONXPD
-	Tug2z/zCma/A9ydMKGldEdltvvsf8yXYXtbI54wIeCGfdXksQQF1UaI5DSF1MQIiBUMc
-	haOq1Y3/PcmFwncKK//lyQOBn4Zfig6GI7cuSwPtGChDAfgp061viyCYMGd1aMcVGBc+
-	6WOA==
-X-Received: by 10.107.132.162 with SMTP id o34mr110749413ioi.13.1452524106283; 
-	Mon, 11 Jan 2016 06:55:06 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	mu8sm4688075igb.16.2016.01.11.06.55.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jan 2016 06:55:05 -0800 (PST)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1452489034.git.liezhi.yang@windriver.com>
-	<4f5f10ebe2593fb40fbb637978480d87d9697f40.1452489034.git.liezhi.yang@windriver.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <5693C245.7060304@gmail.com>
-Date: Mon, 11 Jan 2016 09:55:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Mon, 11 Jan 2016 15:00:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0BF0gNq002962
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Jan 2016 07:00:42 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 11 Jan 2016 07:00:41 -0800
+To: Matthias Schiffer <mschiffer@universe-factory.net>
+References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
+	<f8b6e0a67be1bede97cded62d1ee42aae8b8977b.1451778497.git.mschiffer@universe-factory.net>
+	<568AF96A.50302@windriver.com> <568B0443.5090407@universe-factory.net>
+	<568B0B5D.8000209@windriver.com>
+	<5692911F.1050601@universe-factory.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
+Organization: Wind River Systems
+Message-ID: <5693C3A5.4010301@windriver.com>
+Date: Mon, 11 Jan 2016 09:00:53 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.0
 MIME-Version: 1.0
-In-Reply-To: <4f5f10ebe2593fb40fbb637978480d87d9697f40.1452489034.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/2] glibc-initial.inc: use relative path to run configure
+In-Reply-To: <5692911F.1050601@universe-factory.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/3] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 14:55:06 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jan 2016 15:00:43 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
+On 1/10/16 11:13 AM, Matthias Schiffer wrote:
+(Trimming to just this comment)
 
+> * I stand by my opinion that moving files automatically is a bad idea,
+> and the FILES issue mentioned in the other thread further backs my point
+> (besides that issue, I've mentioned relative symlinks and relative paths
+> in general as problems that can break packages when their files are moved).
 
-On 01/11/16 00:11, Robert Yang wrote:
-> Avoid potential build path in output files.
->
-> [YOCTO #8894]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-initial.inc |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
-> index 8e81f09..cb2f8dd 100644
-> --- a/meta/recipes-core/glibc/glibc-initial.inc
-> +++ b/meta/recipes-core/glibc/glibc-initial.inc
-> @@ -11,7 +11,7 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
->  do_configure () {
->  	(cd ${S} && gnu-configize) || die "failure in running gnu-configize"
->  	find ${S} -name "configure" | xargs touch
-> -	${S}/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
-> +	../git/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
+The issue is simply that MANY packages have a fixed way they install things, and
+then other actions (do_install) "move" them around to the expected place.  We
+follow that behavior with the fs-perms.txt and "move them around".
 
-Although I haven't tested it, this _looks_ like it might fail quite
-readily. I'm sure there are some recipes that play tricks with ${S}, and
-what about recipes that don't pull their sources from git?
+The only alternative I can think of is to move the fs-perms.txt processing at
+the beginning of do_install.  It could then create the symlinks and directories
+mentioned.  Then the install occurs and the tools would need to know how to deal
+with it "or fail".  (I don't like the or fail..)
 
-Maybe something like: (cd ${S} && ./configure ...) would be better?
+The other problem though is this would introduce a number of (potentially) empty
+directories to the a given recipe's install which would kick off the QA
+warnings.  (We'd need to resolve that issue first.)
 
->  		--prefix=/usr \
->  		--without-cvs --disable-sanity-checks \
->  		--with-headers=${STAGING_DIR_TARGET}${includedir} \
+> My proposal would be to change the fs-perms.txt handling to only check
+> if nothing conflicts with default symlinks, but not to create or move
+> anything. This is another point I'd like to get more input on.
 
+The key here, it can be a lot of additional work (based on experience) to have
+to go in and change the locations that things are installing components.  Things
+that PROPERLY use gnu autoconf, and other variable systems have an advantage
+here, but it's not unusual to see references to '/lib' (i.e. the /lib/firmware
+case), or even to '/sbin' for the non "/usr/sbin" case.
+
+We really want this path change, and setup to be seemless for the distro
+developer.  Set up the values in the distro configuration (path variables and
+fs-perms.txt in some cases) and provide necessary .bbappends or distro specific
+version of base-files package.  Theoretically that SHOULD be all that is
+required to define the 'filesystem'.
+
+--Mark
 
