@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E7373D27
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 275E77325A
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Jan 2016 05:11:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B5BcG6009678
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B5Bdjk026147
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 21:11:38 -0800 (PST)
+	Sun, 10 Jan 2016 21:11:39 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 10 Jan 2016 21:11:38 -0800
+	Sun, 10 Jan 2016 21:11:39 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 10 Jan 2016 21:11:36 -0800
-Message-ID: <4f5f10ebe2593fb40fbb637978480d87d9697f40.1452489034.git.liezhi.yang@windriver.com>
+Date: Sun, 10 Jan 2016 21:11:37 -0800
+Message-ID: <14ff920caae337da99cd7e5954986749fb26dc82.1452489034.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1452489034.git.liezhi.yang@windriver.com>
 References: <cover.1452489034.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] glibc-initial.inc: use relative path to run configure
+Subject: [PATCH 2/2] autotools.bbclass: use relative path to run configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +36,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 Jan 2016 05:11:39 -0000
 Content-Type: text/plain
 
-Avoid potential build path in output files.
+The absolute path (/path/to/configure) caused VPATH in Makefile to be an
+absolute path, and then it will be in elf files, use relative path to
+run configure can fix the problem.
+
+This will reduce a lot of buildpaths QA issues in a world buld.
 
 [YOCTO #8894]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/glibc/glibc-initial.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/autotools.bbclass |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
-index 8e81f09..cb2f8dd 100644
---- a/meta/recipes-core/glibc/glibc-initial.inc
-+++ b/meta/recipes-core/glibc/glibc-initial.inc
-@@ -11,7 +11,7 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
- do_configure () {
- 	(cd ${S} && gnu-configize) || die "failure in running gnu-configize"
- 	find ${S} -name "configure" | xargs touch
--	${S}/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
-+	../git/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
- 		--prefix=/usr \
- 		--without-cvs --disable-sanity-checks \
- 		--with-headers=${STAGING_DIR_TARGET}${includedir} \
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index d546a5c..44cb422 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -83,7 +83,9 @@ CONFIGURE_SCRIPT ?= "${AUTOTOOLS_SCRIPT_PATH}/configure"
+ AUTOTOOLS_AUXDIR ?= "${AUTOTOOLS_SCRIPT_PATH}"
+ 
+ oe_runconf () {
+-	cfgscript="${CONFIGURE_SCRIPT}"
++	# Use relative path to avoid buildpaths in files
++	cfgscript_name="`basename ${CONFIGURE_SCRIPT}`"
++	cfgscript=`python -c "import os; print os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.')"`/$cfgscript_name
+ 	if [ -x "$cfgscript" ] ; then
+ 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+ 		set +e
 -- 
 1.7.9.5
 
