@@ -1,25 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F0BE56FF9F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ADE0731E7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 00:31:43 +0000 (UTC)
+	Mon, 11 Jan 2016 05:11:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B0ViVi023960
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 10 Jan 2016 16:31:44 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 10 Jan 2016 16:31:43 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 11 Jan 2016 08:30:39 +0800
-Message-ID: <854f4360ebccd50379b91acd6228171fd7ffcce8.1452472146.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1452472146.git.hongxu.jia@windriver.com>
-References: <cover.1452472146.git.hongxu.jia@windriver.com>
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0B5BcIM013533
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Jan 2016 21:11:38 -0800
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 10 Jan 2016 21:11:37 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 10 Jan 2016 21:11:35 -0800
+Message-ID: <cover.1452489034.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 9/9] gnupg: 2.1.7 -> 2.1.10
+Subject: [PATCH 0/2] autotools.bbclass: use relative path to run configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 00:31:44 -0000
+X-List-Received-Date: Mon, 11 Jan 2016 05:11:37 -0000
 Content-Type: text/plain
 
-Add PACKAGECONFIG for sqlite3 to avoid QA Warning
-...
-WARNING: QA Issue: gnupg rdepends on libsqlite3, but it isn't a build dependency? [build-deps]
-...
+Hi,
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-support/gnupg/{gnupg_2.1.7.bb => gnupg_2.1.10.bb} | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.1.7.bb => gnupg_2.1.10.bb} (84%)
+The 2 patches can reduce a lot of QA Issues for buildpaths.
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.1.7.bb b/meta/recipes-support/gnupg/gnupg_2.1.10.bb
-similarity index 84%
-rename from meta/recipes-support/gnupg/gnupg_2.1.7.bb
-rename to meta/recipes-support/gnupg/gnupg_2.1.10.bb
-index 979e6f9..5a4f2e8 100644
---- a/meta/recipes-support/gnupg/gnupg_2.1.7.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.1.10.bb
-@@ -15,8 +15,8 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://autogen.sh-fix-find-version-for-beta-checking.patch \
-           "
- 
--SRC_URI[md5sum] = "ebdf92b15b8bcd8579b643c7f41a3238"
--SRC_URI[sha256sum] = "c18a3776d47fec98892d51d28b6574ef16bf0a25eabb0956231058aaf2e7846e"
-+SRC_URI[md5sum] = "f0a7cb09fe119f8b82eba7efecd27dc0"
-+SRC_URI[sha256sum] = "93bd58d81771a4fa488566e5d2e13b1fd7afc86789401eb41731882abfd26cf9"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
-@@ -40,3 +40,6 @@ do_install_append() {
- }
- 
- RDEPENDS_${PN} = "gnutls"
-+
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[sqlite3] = "--enable-sqlite, --disable-sqlite, sqlite3"
+// Robert
+
+The following changes since commit 5661d8cb7849df62358368743134c0aaf523965e:
+
+  image: Really remove lockfiles flag (2016-01-07 13:41:47 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/relative
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/relative
+
+Robert Yang (2):
+  glibc-initial.inc: use relative path to run configure
+  autotools.bbclass: use relative path to run configure script
+
+ meta/classes/autotools.bbclass            |    4 +++-
+ meta/recipes-core/glibc/glibc-initial.inc |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
 -- 
-1.9.1
+1.7.9.5
 
 
