@@ -1,44 +1,44 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 807B16FEE0
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9479B6FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 23:18:21 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id n128so51853396pfn.3
+	Mon, 11 Jan 2016 23:21:37 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id q63so53413049pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 15:18:22 -0800 (PST)
+	Mon, 11 Jan 2016 15:21:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=hf4IJvmeL86ZWOhkw7i151ndL843B5UWReZUlxb0T2Y=;
-	b=fDeGQhYbdzRLYNHkTIM6zj6RFFQsgBrE2+CRmzwGDd/Q3p8B9vKanwUaJ90AxtWX2q
-	MvlhBvosUhVV37M0Mv5eBupn8ySXpvAkuf2I2HZA528subQan6twbYoVIgmtSYAYnRex
-	dUdyOalEk97LM6M8EfQBleXxePw3GYnlfA9ggHt+exkOxnilE2VR/AYx/Iq+gMCQTbEy
-	UF2xAdTtzwJuDhHlJL26y0tLRGCJxZFkrzsHHeCgCWrk9UPTclmG/WK3R5cYQPRhtFh/
-	vjmodlfrR9KmvfeDOm2aJdYCnB2DV/DqFf2pJ3rpLXY/AXK6eM4FzcJEFlxazb+oOlVS
-	76QA==
-X-Received: by 10.98.15.213 with SMTP id 82mr30342538pfp.52.1452554301970;
-	Mon, 11 Jan 2016 15:18:21 -0800 (PST)
-Received: from [192.168.0.4] (c-73-252-206-77.hsd1.ca.comcast.net.
-	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	xr8sm188067478pab.26.2016.01.11.15.18.21
+	bh=QMDKx3UCCK/OWA9hXilmqNk6D+VygqHEC60oEVThRVg=;
+	b=OH3ftZIOBCskmC5Mi0DJVH+CNvmue3mCMYfxCj2zPOtskVUtI1sKECtBxk0/gKSWn9
+	ASQ0/PiWiynKaecTGu78YWIKLXojXUq4N0ywq49Ojt45Ozp6DTf+sNApf101DI/tNnfy
+	hvnAI2O20QXBy5vR6N8fXFjcIjYDxOvQg6B6nIUIvMXa655vgMnJF/3IYgTFQzBWZuIA
+	iUIjaHzjwvC+NxEhgLe7rUpkMPY826xOz2g0eHuFNhzTe867ngDbU1h7az15/VsZY4/e
+	IYm7uIyxALLsskMu44TROJ3MSgD7XBhGUJGpv0e1i2V5HK0q9b5gVPtVIw8wMRjxTna0
+	ktXA==
+X-Received: by 10.98.9.220 with SMTP id 89mr30192922pfj.17.1452554498767;
+	Mon, 11 Jan 2016 15:21:38 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:409b:83af:918e:bae1?
+	([2601:646:8802:5d5c:409b:83af:918e:bae1])
+	by smtp.gmail.com with ESMTPSA id
+	z15sm25615854pfa.71.2016.01.11.15.21.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jan 2016 15:18:21 -0800 (PST)
+	Mon, 11 Jan 2016 15:21:38 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1452553655.7598.206.camel@linuxfoundation.org>
-Date: Mon, 11 Jan 2016 15:18:17 -0800
-Message-Id: <77011399-2719-4BA7-96B0-7040D169AA7E@gmail.com>
-References: <1452205752-6353-1-git-send-email-armccurdy@gmail.com>
-	<1452205752-6353-4-git-send-email-armccurdy@gmail.com>
-	<1452210004.2002.129.camel@pbcl.net>
-	<4E2CA517-1339-416B-832B-AB2EFF04CEE6@gmail.com>
-	<1452553655.7598.206.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1731469.ftd10BAJx1@peggleto-mobl.ger.corp.intel.com>
+Date: Mon, 11 Jan 2016 15:21:37 -0800
+Message-Id: <67FE2658-C78E-468E-9D8E-6EE0CB927555@gmail.com>
+References: <1452277369.7598.136.camel@linuxfoundation.org>
+	<10682729.sQ8qah7Y6F@peggleto-mobl.ger.corp.intel.com>
+	<E820897B-DAC3-4691-A276-923CB1C48FB0@gmail.com>
+	<1731469.ftd10BAJx1@peggleto-mobl.ger.corp.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 X-Mailer: Apple Mail (2.3112)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 3/4] libav.inc: duplicate armv7a over-rides for armv7ve
+Subject: Re: [PATCH] pixz: Add 1.0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,77 +51,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 23:18:21 -0000
-X-Groupsio-MsgNum: 75886
+X-List-Received-Date: Mon, 11 Jan 2016 23:21:40 -0000
+X-Groupsio-MsgNum: 75887
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E34D398A-96FA-4493-8F65-D1516CA25A5A";
+	boundary="Apple-Mail=_800B599E-20B6-46E9-A042-5494B21DD42F";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_E34D398A-96FA-4493-8F65-D1516CA25A5A
+--Apple-Mail=_800B599E-20B6-46E9-A042-5494B21DD42F
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=utf-8
 
 
-> On Jan 11, 2016, at 3:07 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
+> On Jan 11, 2016, at 2:36 PM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
 >=20
-> On Mon, 2016-01-11 at 14:58 -0800, Khem Raj wrote:
->>> On Jan 7, 2016, at 3:40 PM, Phil Blundell <pb@pbcl.net> wrote:
+> On Mon, 11 Jan 2016 13:17:14 Khem Raj wrote:
+>>> On Jan 11, 2016, at 1:07 PM, Paul Eggleton =
+<paul.eggleton@linux.intel.com>
+>>> wrote:>
+>>> On Mon, 11 Jan 2016 09:36:36 Paul Eggleton wrote:
+>>>> On Mon, 11 Jan 2016 09:26:39 Paul Eggleton wrote:
+>>>>> On Fri, 08 Jan 2016 18:22:49 Richard Purdie wrote:
+>>>>>> xz gives better compression results than bzip/gz but is often =
+slower.
+>>>>>> Using parallel compression mitigates this somewhat and is =
+particularly
+>>>>>> useful for the SDK.
+>>>>>>=20
+>>>>>> Signed-off-by: Richard Purdie =
+<richard.purdie@linuxfoundation.org>
+>>>>>>=20
+>>>>>> diff --git a/meta/recipes-support/pixz/pixz_1.0.6.bb
+>>>>>> b/meta/recipes-support/pixz/pixz_1.0.6.bb new file mode 100644
+>>>>>> index 0000000..e6e4ac2
+>>>>>> --- /dev/null
+>>>>>> +++ b/meta/recipes-support/pixz/pixz_1.0.6.bb
+>>>>>> @@ -0,0 +1,14 @@
+>>>>>> +SUMMARY =3D "Parallel, indexed xz compressor"
+>>>>>> +
+>>>>>> +DEPENDS =3D "xz libarchive"
+>>>>>> +
+>>>>>> +SRC_URI =3D
+>>>>>> =
+"https://github.com/vasi/pixz/releases/download/v${PV}/${BPN}-${PV}.tar
+>>>>>> .
+>>>>>> xz
+>>>>>> "
+>>>>>=20
+>>>>> Can we rely on this never changing? I thought we'd experienced =
+problems
+>>>>> with github's release tarballs being generated on the fly in the =
+past...
+>>>>=20
+>>>> Another thing, this seems to fail to build without asciidoc:
+>>>>=20
+>>>> ------------ snip ------------
+>>>> checking for src/pixz.1... no
+>>>> checking for a2x... no
+>>>> configure: error: AsciiDoc not found, not able to generate the man =
+page.
+>>>> ------------ snip ------------
+>>>>=20
+>>>> This is also related to not supporting B !=3D S, since src/pixz.1 =
+does
+>>>> exist,
+>>>> just in S and not B. If you inherit autotools-brokensep instead of
+>>>> autotools it works.
 >>>=20
->>> On Thu, 2016-01-07 at 14:29 -0800, Andre McCurdy wrote:
->>>> FULL_OPTIMIZATION_armv7a =3D "-fexpensive-optimizations -fomit
->>>> -frame-pointer -O4 -ffast-math"
->>>> +FULL_OPTIMIZATION_armv7ve =3D "-fexpensive-optimizations -fomit
->>>> -frame-pointer -O4 -ffast-math"
->>>=20
+>>> Possibly a bit obvious, but even inheriting autotools-brokensep =
+isn't
+>>> enough, because if it runs "make clean" on re-executing =
+do_configure,
+>>> src/pixz.1 gets deleted and you get the same issue.
 >>=20
->> O4 ? may be just replace this whole thing with -Ofast now a days
->> -fexpensive-optimizations is enabled at -O2,-O3 anyway same for fomit
->> -frame-pointer and -Ofast turns on
->> feast-match on top of -O3
->>=20
->>> I wonder if this would be better as just FULL_OPTIMIZATION_arm.
->>> That
->>> said, the OPTIMIZATION variables are primarily distro knobs and
->>> it's not
->>> entirely clear that individual packages ought to be overriding them
->>> at
->>> all.
->>>=20
->>> Does anybody know whether there is any actual science behind the
->>> use of
->>> those flags on armv7a specifically?
->>=20
->> it came into ffmpeg circa 2008 and proliferated into related
->> components primarily to support vectorization and neon
->> which was quite nascent for ARM architecture in those days in gcc.
->> Today if you were to configure libav with default options
->> then it uses mainly -fomit-frame-pointer-O3 -fno-math-errno -fno
->> -signed-zeros -fno-tree-vectorize
->>=20
->> which is primarily -Ofast -fno-tree-vectorize
+>> Adding --without-manpage might get you past this issue.
 >=20
-> I have to admit that my personal instinct on these is simply to remove
-> them. I doubt they're buying much now and if people really want to =
-tune
-> specific recipes by hand they still can do so from their local/distro
-> config.
+> I'm afraid that's not a valid option for this configure script.
+>=20
+> I had more shenanigans trying to build the target version. In the end =
+I needed
+> to add "ac_cv_file_src_pixz_1=3Dyes" to EXTRA_OECONF and inherit =
+pkgconfig.
+>=20
 
-Thats ok, however the most tested option combination seems to use -O3 =
-since
-thats configure=E2=80=99s default for libav
-If we start using -O2 .. as we use that for global optimizations in OE
-then we are odd man out.
+I think you are missing
+=
+https://github.com/vasi/pixz/commit/936d8068ae19d95260d3058f41dd6cf718101c=
+d6
 
->=20
+which is committed after 1.0.6 release. It should be back ported.
+may be not use tarball but straight use =
+SRCREV=3D=E2=80=9C936d8068ae19d95260d3058f41dd6cf718101cd6=E2=80=9D
+with git fetcher might be better.
+
 > Cheers,
+> Paul
 >=20
-> Richard
+> --
 >=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
 
---Apple-Mail=_E34D398A-96FA-4493-8F65-D1516CA25A5A
+--Apple-Mail=_800B599E-20B6-46E9-A042-5494B21DD42F
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -132,9 +165,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlaUODwACgkQuwUzVZGdMxQdXgCfZZWxYkf9oOjCdTPVF5icmlhI
-FV4AnRPRnZK4etMwAfy63bTJZnZjj0ih
-=IF+C
+iEYEARECAAYFAlaUOQEACgkQuwUzVZGdMxQTuwCfTzBIOEd/BwP659TMmv3hLK/U
+9aYAni50nKrKu3/cSDmv7svh5TgJCVWi
+=F7Pa
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_E34D398A-96FA-4493-8F65-D1516CA25A5A--
+--Apple-Mail=_800B599E-20B6-46E9-A042-5494B21DD42F--
