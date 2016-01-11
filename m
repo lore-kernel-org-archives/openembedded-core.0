@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 017E360589
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ED09731D7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 21:12:06 +0000 (UTC)
+	Mon, 11 Jan 2016 21:12:07 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0BLC76H005848
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0BLC8I9006331
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 13:12:07 -0800
+	Mon, 11 Jan 2016 13:12:08 -0800 (PST)
 Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 11 Jan 2016 13:12:06 -0800
+	Mon, 11 Jan 2016 13:12:07 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jan 2016 15:12:03 -0600
-Message-ID: <1452546725-211503-1-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 11 Jan 2016 15:12:04 -0600
+Message-ID: <1452546725-211503-2-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1452546725-211503-1-git-send-email-mark.hatle@windriver.com>
+References: <1452546725-211503-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fix some oe-core issues using meta-mingw
+Subject: [PATCH 1/2] tcmode-default.inc: Fix preferred provider nativesdk-sdk_prefix-libc-initial
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 Jan 2016 21:12:09 -0000
 Content-Type: text/plain
 
-There are two patches here.. 1/2 seems like it's pretty straight forward and
-should be able to be used as is.  = to ?=
+Similar to the libc-for-gcc preferred provider, we also need a libc-initial
+version.  Layers such as meta-mingw need the ability to override these
+values in order to generate an SDK that works on non Linux environments.
 
-2/2 however is more of an RFC.  I discovered today that the always on
-native of the populate_sdk_ext has broken non-Linux SDKMACHINEs.  I put
-together something that only enabled populate_sdk_ext when Linux is the
-SDKMACHINE, but I'm guessing there is probably a better way... looking
-forward to comments.
-
-Mark Hatle (2):
-  tcmode-default.inc: Fix preferred provider
-    nativesdk-sdk_prefix-libc-initial
-  image.bbclass: Unconditional includes of populate_sdk_ext fails
-
- meta/classes/image.bbclass                  | 5 ++++-
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
  meta/conf/distro/include/tcmode-default.inc | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 16507c4..5fc99875 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}compilerlibs = "nativesdk-gcc-runtime"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "${TCLIBC}"
+ PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-for-gcc ?= "nativesdk-glibc"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
+-PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial = "nativesdk-glibc-initial"
++PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
+ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ 
+ GCCVERSION ?= "5.%"
 -- 
 1.9.3
 
