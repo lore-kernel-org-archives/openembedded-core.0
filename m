@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D25D73211
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C28F16FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 00:31:36 +0000 (UTC)
+	Mon, 11 Jan 2016 00:31:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0B0VbHp007347
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 10 Jan 2016 16:31:37 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B0VdAs023957
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 10 Jan 2016 16:31:39 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 10 Jan 2016 16:31:36 -0800
+	14.3.248.2; Sun, 10 Jan 2016 16:31:38 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 11 Jan 2016 08:30:35 +0800
-Message-ID: <e7acefd026e9db956256f64a9e5ee1379e1d2a3e.1452472146.git.hongxu.jia@windriver.com>
+Date: Mon, 11 Jan 2016 08:30:36 +0800
+Message-ID: <3cb28a7edb40f7e138cdc4c15f5cca5802a3018a.1452472146.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452472146.git.hongxu.jia@windriver.com>
 References: <cover.1452472146.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/9] libgcrypt: 1.6.3 -> 1.6.4
+Subject: [PATCH 6/9] ghostscript: 9.16 -> 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 00:31:37 -0000
+X-List-Received-Date: Mon, 11 Jan 2016 00:31:38 -0000
 Content-Type: text/plain
+
+Remove '--without-jbig2dec', since upstream did not
+support it very well which caused build failure:
+...
+|make[1]: *** No rule to make target `obj/sjbig2_.dev',
+needed by `obj/sjbig2.dev'.  Stop.
+...
+
+The same to option '--without-jbig2dec'.
+
+Already file a bug to upstream:
+http://bugs.ghostscript.com/show_bug.cgi?id=696497
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb | 4 ----
- meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb
+ .../ghostscript/{ghostscript_9.16.bb => ghostscript_9.18.bb}        | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.16.bb => ghostscript_9.18.bb} (94%)
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb
-deleted file mode 100644
-index cd06ce7..0000000
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require libgcrypt.inc
--
--SRC_URI[md5sum] = "de03b867d02fdf115a1bac8bb8b5c3a3"
--SRC_URI[sha256sum] = "69e94e1a7084d94e1a6ca26d436068cb74862d10a7353cfae579a2d88674ff09"
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb
-new file mode 100644
-index 0000000..1ed4291
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb
-@@ -0,0 +1,4 @@
-+require libgcrypt.inc
-+
-+SRC_URI[md5sum] = "7dc7d51cdbf56ad75e95c4166f90e985"
-+SRC_URI[sha256sum] = "5c2076212961712e4774abf32c85cb58537d544d6016a2464fb32783653d1b6d"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.16.bb b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+similarity index 94%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.16.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+index d584c49..665c677 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.16.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+@@ -34,10 +34,10 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
+ 
+-SRC_URI[md5sum] = "829319325bbdb83f5c81379a8f86f38f"
+-SRC_URI[sha256sum] = "746d77280cca8afdd3d4c2c1389e332ed9b0605bd107bcaae1d761b061d1a68d"
++SRC_URI[md5sum] = "33a47567d7a591c00a253caddd12a88a"
++SRC_URI[sha256sum] = "5fc93079749a250be5404c465943850e3ed5ffbc0d5c07e10c7c5ee8afbbdb1b"
+ 
+-EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
++EXTRA_OECONF = "--without-x --with-system-libtiff \
+                 --with-fontpath=${datadir}/fonts \
+                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
+                 --with-cups-datadir=${datadir}/cups \
 -- 
 1.9.1
 
