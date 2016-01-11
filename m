@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 72BED6080F
+Return-Path: <christrobridge@hotmail.com>
+Received: from DUB004-OMC3S36.hotmail.com (dub004-omc3s36.hotmail.com
+	[157.55.2.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 0873E6FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 10:22:55 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Jan 2016 02:22:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,552,1444719600"; d="scan'208";a="631560489"
-Received: from mariacha-mobl2.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.175.41])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Jan 2016 02:22:54 -0800
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 11 Jan 2016 23:22:51 +1300
-Message-ID: <2774306.O6kas5tnnr@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
-	)
-In-Reply-To: <1452277522.7598.140.camel@linuxfoundation.org>
-References: <1452277522.7598.140.camel@linuxfoundation.org>
+	Mon, 11 Jan 2016 11:13:56 +0000 (UTC)
+Received: from DUB130-W17 ([157.55.2.7]) by DUB004-OMC3S36.hotmail.com over
+	TLS secured channel with Microsoft SMTPSVC(7.5.7601.23008); 
+	Mon, 11 Jan 2016 03:13:56 -0800
+X-TMN: [E7oqH2+kaHg03COBQYdmCv6HN0USmuR8]
+X-Originating-Email: [christrobridge@hotmail.com]
+Message-ID: <DUB130-W1779730C543EF8ECE041E9DAC90@phx.gbl>
+From: Chris Trobridge <christrobridge@hotmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jan 2016 11:13:56 +0000
+Importance: Normal
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH] populate_sdk_ext: Change to include siginfo and non sstate task sigs
+X-OriginalArrivalTime: 11 Jan 2016 11:13:56.0928 (UTC)
+	FILETIME=[29EB4C00:01D14C61]
+Subject: Handliong Duplicate Files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,94 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 10:22:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 11 Jan 2016 11:13:57 -0000
+Content-Type: multipart/alternative;
+	boundary="_87cba88e-0661-44a9-953d-d7fbc57f3dca_"
 
-On Fri, 08 Jan 2016 18:25:22 Richard Purdie wrote:
-> Right now, the locked task hashes list for the extensible SDK locks
-> down only the sstate tasks.
-> 
-> Whilst aesthetically pleasing, this gives two problems:
-> 
-> * Half the task are left floating meaning checksum mismatches
->   are a pain to debug
-> * The later code which copies relavent data files out the sstate
->   cache can't use any of this data.
-> 
-> This patch modifies things so all the checksums are listed in the locked
-> file. An exclusion of tasks probably makes more sense for the library
-> function rather than an allowed list.
-> 
-> The only sstate task being deliberately excluded here was do_package
-> so add in a function to explictly exclude those sstate object files.
-> 
-> The net result of this that siginfo files for all tasks are included in
-> the SDK, which means commands like "bitbake -S printdiff" now function.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> b/meta/classes/populate_sdk_ext.bbclass index 317043d..3a65c07 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -171,10 +171,9 @@ python copy_buildsystem () {
->      oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
-> 
->      # Filter the locked signatures file to just the sstate tasks we are
-> interested in -    allowed_tasks = ['do_populate_lic',
-> 'do_populate_sysroot', 'do_packagedata', 'do_package_write_ipk',
-> 'do_package_write_rpm', 'do_package_write_deb', 'do_package_qa',
-> 'do_deploy'] excluded_targets = d.getVar('SDK_TARGETS', True)
->      lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
-> -    oe.copy_buildsystem.prune_lockedsigs(allowed_tasks,
-> +    oe.copy_buildsystem.prune_lockedsigs([],
->                                           excluded_targets,
->                                           sigfile,
->                                           lockedsigs_pruned)
-> @@ -187,6 +186,12 @@ python copy_buildsystem () {
->                                                     d.getVar('SSTATE_DIR',
-> True), sstate_out, d, fixedlsbstring) +    # We don't need sstate
-> do_package files
-> +    for root, dirs, files in os.walk(sstate_out):
-> +        for name in files:
-> +            if name.endswith("_package.tgz"):
-> +                f = os.path.join(root, name)
-> +                os.remove(f)
->  }
-> 
->  def extsdk_get_buildtools_filename(d):
-> diff --git a/meta/lib/oe/copy_buildsystem.py
-> b/meta/lib/oe/copy_buildsystem.py index 15af4eb..a5ca3df 100644
-> --- a/meta/lib/oe/copy_buildsystem.py
-> +++ b/meta/lib/oe/copy_buildsystem.py
-> @@ -75,7 +75,7 @@ def generate_locked_sigs(sigfile, d):
->      tasks = ['%s.%s' % (v[2], v[1]) for v in depd.itervalues()]
->      bb.parse.siggen.dump_lockedsigs(sigfile, tasks)
-> 
-> -def prune_lockedsigs(allowed_tasks, excluded_targets, lockedsigs,
-> pruned_output): +def prune_lockedsigs(excluded_tasks, excluded_targets,
-> lockedsigs, pruned_output): with open(lockedsigs, 'r') as infile:
->          bb.utils.mkdirhier(os.path.dirname(pruned_output))
->          with open(pruned_output, 'w') as f:
-> @@ -84,7 +84,7 @@ def prune_lockedsigs(allowed_tasks, excluded_targets,
-> lockedsigs, pruned_output) if invalue:
->                      if line.endswith('\\\n'):
->                          splitval = line.strip().split(':')
-> -                        if splitval[1] in allowed_tasks and not splitval[0]
-> in excluded_targets: +                        if not splitval[1] in
-> excluded_tasks and not splitval[0] in excluded_targets: f.write(line)
->                      else:
->                          f.write(line)
+--_87cba88e-0661-44a9-953d-d7fbc57f3dca_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-This looks good to me.
+Hi=2C
+I have been looking into producing a 'python3-dbus' recipe=2C based on the =
+python-dbus recipe.
+This recipe outputs a couple of files that are version independent but end =
+up overlapping and causing the build to fail:/usr/lib/pkgconfig/dbus-python=
+.pc/usr/include/dbus-1.0/dbus/dbus-python.h
+These files are currently marked as python-version independent - the header=
+ file has #ifdefs for python3.
+The immediate 'fix' was to follow the advice in the error text to add the f=
+ile paths to SSTATE_DUPWHITELIST.
+SSTATE_DUPWHITELIST is not mentioned much elsewhere and does not seem like =
+a scalable solution.  Is there a preferred method to resolve the situation =
+where two recipes install the same files?
+Thanks=2CChris
+ 		 	   		  =
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+--_87cba88e-0661-44a9-953d-d7fbc57f3dca_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Paul
+<html>
+<head>
+<style><!--
+.hmmessage P
+{
+margin:0px=3B
+padding:0px
+}
+body.hmmessage
+{
+font-size: 12pt=3B
+font-family:Calibri
+}
+--></style></head>
+<body class=3D'hmmessage'><div dir=3D'ltr'>Hi=2C<div><br></div><div>I have =
+been looking into producing a 'python3-dbus' recipe=2C based on the&nbsp=3B=
+python-dbus recipe.</div><div><br></div><div>This recipe outputs a couple o=
+f files that are version independent but end up overlapping and causing the=
+ build to fail:</div><div><div>/usr/lib/pkgconfig/dbus-python.pc</div></div=
+><div><div>/usr/include/dbus-1.0/dbus/dbus-python.h</div></div><div><br></d=
+iv><div>These files are currently marked as python-version independent - th=
+e header file has #ifdefs for python3.</div><div><br></div><div>The immedia=
+te 'fix' was to follow the advice in the error text to add the file paths t=
+o&nbsp=3BSSTATE_DUPWHITELIST.</div><div><br></div><div>SSTATE_DUPWHITELIST =
+is not mentioned much elsewhere and does not seem like a scalable solution.=
+ &nbsp=3BIs there a preferred method to resolve the situation where two rec=
+ipes install the same files?</div><div><br></div><div>Thanks=2C</div><div>C=
+hris</div><div><br></div> 		 	   		  </div></body>
+</html>=
 
--- 
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--_87cba88e-0661-44a9-953d-d7fbc57f3dca_--
