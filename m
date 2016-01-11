@@ -1,26 +1,29 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E20C736B6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 26AD86FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 07:19:31 +0000 (UTC)
+	Mon, 11 Jan 2016 08:27:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0B7JWB5016204
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 23:19:32 -0800
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 10 Jan 2016 23:19:31 -0800
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B8Rsdb027413
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Jan 2016 00:27:54 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jan 2016 00:27:53 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1452152689.git.liezhi.yang@windriver.com>
+	<40d0365cec15c63a1f77e9aa43fb4022f62e0f66.1452152689.git.liezhi.yang@windriver.com>
+	<1452164226.7598.108.camel@linuxfoundation.org>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 10 Jan 2016 23:19:25 -0800
-Message-ID: <294fc07a87288bfd6470824b86f02ddf83cf6fe5.1452496745.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1452496745.git.liezhi.yang@windriver.com>
-References: <cover.1452496745.git.liezhi.yang@windriver.com>
+Message-ID: <56936788.9080202@windriver.com>
+Date: Mon, 11 Jan 2016 16:27:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH 6/8] less: 479 -> 481
+In-Reply-To: <1452164226.7598.108.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/3] run-postinsts: can't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 07:19:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Jan 2016 08:27:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../less/{less_479.bb => less_481.bb}              |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/less/{less_479.bb => less_481.bb} (89%)
 
-diff --git a/meta/recipes-extended/less/less_479.bb b/meta/recipes-extended/less/less_481.bb
-similarity index 89%
-rename from meta/recipes-extended/less/less_479.bb
-rename to meta/recipes-extended/less/less_481.bb
-index c1858f0..0fcd819 100644
---- a/meta/recipes-extended/less/less_479.bb
-+++ b/meta/recipes-extended/less/less_481.bb
-@@ -27,8 +27,8 @@ DEPENDS = "ncurses"
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
- 	  "
- 
--SRC_URI[md5sum] = "049f51ccfe2686009c6ce943eeb4bbaf"
--SRC_URI[sha256sum] = "5bf06cb30ee2a2bd1f79f39aa91e46444e7cb19b48c95c4992fa63cfe4527a80"
-+SRC_URI[md5sum] = "50ef46065c65257141a7340123527767"
-+SRC_URI[sha256sum] = "3fa38f2cf5e9e040bb44fffaa6c76a84506e379e47f5a04686ab78102090dda5"
- 
- UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
- 
--- 
-1.7.9.5
 
+On 01/07/2016 06:57 PM, Richard Purdie wrote:
+> On Wed, 2016-01-06 at 23:45 -0800, Robert Yang wrote:
+>> The dependencies chain:
+>> run-postinsts -> update-rc.d.bbclass -> initscripts -> update
+>> -alternatives.
+>>
+>> The update-alternatives is provided by opkg-utils which is not
+>> allarch.
+>>
+>> This caused a problem:
+>> $ bitbake lib32-core-image-minimal
+>>
+>> Both lib32-opkg-utils and opkg-utils would be built, but opkg-utils
+>> shouldn't, this patch can fix the problem.
+>>
+>> [YOCTO #8879]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Removing allarch isn't the correct way to fix this, we need to figure
+> out what is going wrong and fix multilib.
+
+After more investigations, the problem is for allarch recipe such as
+run-postinsts:
+$ bitbake lib32-run-postinsts
+
+No lib32 recipes was built, but 64bit python, flex, openssl and
+others are built since lib32-allarch recipe is the same as allarch
+one. (the dependencies chain:
+run-postinsts -> update-rc.d.bbclass -> initscripts -> 
+update-alternatives-opkg-utils)
+
+I think that SIGGEN_EXCLUDERECIPES_ABISAFE is for recipes which depend on
+the abisafe ones, not for abisafe ones depend on otheres.
+
+I'm still thinking how to fix it, any suggestions is appreciated.
+
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
 
