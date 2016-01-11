@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 68749731AC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 299DA731AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 05:58:34 +0000 (UTC)
+	Mon, 11 Jan 2016 05:58:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B5wZ8A026227
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B5wcP7012762
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 21:58:35 -0800 (PST)
+	Sun, 10 Jan 2016 21:58:38 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.246) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 10 Jan 2016 21:58:35 -0800
+	14.3.248.2; Sun, 10 Jan 2016 21:58:38 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jan 2016 13:58:37 +0800
-Message-ID: <cover.1452491844.git.Qi.Chen@windriver.com>
+Date: Mon, 11 Jan 2016 13:58:39 +0800
+Message-ID: <74f628453853f5f4c103f5197217fe9688e3641b.1452491844.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1452491844.git.Qi.Chen@windriver.com>
+References: <cover.1452491844.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/7] Package Upgrades
+Subject: [PATCH 2/7] resolvconf: upgrade to 1.78
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 05:58:37 -0000
+X-List-Received-Date: Mon, 11 Jan 2016 05:58:38 -0000
 Content-Type: text/plain
 
-The following changes since commit 5661d8cb7849df62358368743134c0aaf523965e:
-
-  image: Really remove lockfiles flag (2016-01-07 13:41:47 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/PU-20160111
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/PU-20160111
-
-Chen Qi (7):
-  pciutils: upgrade to 3.4.1
-  resolvconf: upgrade to 1.78
-  kmod: upgrade to 22
-  at: upgrade to 3.18
-  sysstat: upgrade to 11.2.0
-  curl: upgrade to 7.46
-  xz: upgrade to 5.2.2
-
- .../{pciutils_3.3.1.bb => pciutils_3.4.1.bb}        |  4 ++--
- .../{resolvconf_1.77.bb => resolvconf_1.78.bb}      |  6 +++---
- .../at/at/fix_parallel_build_error.patch            | 21 ++++++++++++++-------
- .../at/{at_3.1.16.bb => at_3.1.18.bb}               |  6 +++---
- .../{sysstat_11.1.5.bb => sysstat_11.2.0.bb}        |  5 ++---
- .../xz/{xz_5.2.1.bb => xz_5.2.2.bb}                 |  4 ++--
- meta/recipes-kernel/kmod/kmod.inc                   |  4 ++--
- .../curl/{curl_7.45.0.bb => curl_7.46.0.bb}         |  6 ++++--
- 8 files changed, 32 insertions(+), 24 deletions(-)
- rename meta/recipes-bsp/pciutils/{pciutils_3.3.1.bb => pciutils_3.4.1.bb} (92%)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../resolvconf/{resolvconf_1.77.bb => resolvconf_1.78.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-connectivity/resolvconf/{resolvconf_1.77.bb => resolvconf_1.78.bb} (90%)
- rename meta/recipes-extended/at/{at_3.1.16.bb => at_3.1.18.bb} (91%)
- rename meta/recipes-extended/sysstat/{sysstat_11.1.5.bb => sysstat_11.2.0.bb} (53%)
- rename meta/recipes-extended/xz/{xz_5.2.1.bb => xz_5.2.2.bb} (90%)
- rename meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} (92%)
 
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.77.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.78.bb
+similarity index 90%
+rename from meta/recipes-connectivity/resolvconf/resolvconf_1.77.bb
+rename to meta/recipes-connectivity/resolvconf/resolvconf_1.78.bb
+index cc37541..f4c5851 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.77.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.78.bb
+@@ -11,13 +11,13 @@ AUTHOR = "Thomas Hood"
+ HOMEPAGE = "http://packages.debian.org/resolvconf"
+ RDEPENDS_${PN} = "bash"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20150511T214718Z/pool/main/r/${BPN}/${BPN}_${PV}.tar.xz \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20150828T220730Z/pool/main/r/${BPN}/${BPN}_1.78.tar.xz \
+            file://fix-path-for-busybox.patch \
+            file://99_resolvconf \
+           "
+ 
+-SRC_URI[md5sum] = "7362d766e47bfc253500f42b30330d9f"
+-SRC_URI[sha256sum] = "5a6e21e8ba6822a5f93075c8c8fe7977e34780ba551af51930d0b31fdd99ab56"
++SRC_URI[md5sum] = "373a9f9544c84aa477a7425ae773b8b5"
++SRC_URI[sha256sum] = "961b22e8fcf0c7de7e90a050323e6fa221bc8b25a5348c160be3506f7e73a7a3"
+ 
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
 -- 
 1.9.1
 
