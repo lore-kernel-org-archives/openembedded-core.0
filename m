@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 37F5E760AC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CAFE076230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 05:58:44 +0000 (UTC)
+	Mon, 11 Jan 2016 05:58:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0B5wjKG026233
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0B5wkuI014693
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 21:58:45 -0800 (PST)
+	Sun, 10 Jan 2016 21:58:46 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.246) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 10 Jan 2016 21:58:44 -0800
+	14.3.248.2; Sun, 10 Jan 2016 21:58:46 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jan 2016 13:58:43 +0800
-Message-ID: <2523177d0da5233c60da6a6aa99f74631a9277b7.1452491844.git.Qi.Chen@windriver.com>
+Date: Mon, 11 Jan 2016 13:58:44 +0800
+Message-ID: <b9ab9a322e5a53d8657083105a20e8adcd7a025c.1452491844.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452491844.git.Qi.Chen@windriver.com>
 References: <cover.1452491844.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/7] curl: upgrade to 7.46
+Subject: [PATCH 7/7] xz: upgrade to 5.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 05:58:44 -0000
+X-List-Received-Date: Mon, 11 Jan 2016 05:58:46 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} (92%)
+ meta/recipes-extended/xz/{xz_5.2.1.bb => xz_5.2.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.2.1.bb => xz_5.2.2.bb} (90%)
 
-diff --git a/meta/recipes-support/curl/curl_7.45.0.bb b/meta/recipes-support/curl/curl_7.46.0.bb
-similarity index 92%
-rename from meta/recipes-support/curl/curl_7.45.0.bb
-rename to meta/recipes-support/curl/curl_7.46.0.bb
-index a7ed778..8b109ba 100644
---- a/meta/recipes-support/curl/curl_7.45.0.bb
-+++ b/meta/recipes-support/curl/curl_7.46.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
+diff --git a/meta/recipes-extended/xz/xz_5.2.1.bb b/meta/recipes-extended/xz/xz_5.2.2.bb
+similarity index 90%
+rename from meta/recipes-extended/xz/xz_5.2.1.bb
+rename to meta/recipes-extended/xz/xz_5.2.2.bb
+index cf7fba6..d118f3a 100644
+--- a/meta/recipes-extended/xz/xz_5.2.1.bb
++++ b/meta/recipes-extended/xz/xz_5.2.2.bb
+@@ -22,8 +22,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
  
--SRC_URI[md5sum] = "62c1a352b28558f25ba6209214beadc8"
--SRC_URI[sha256sum] = "65154e66b9f8a442b57c436904639507b4ac37ec13d6f8a48248f1b4012b98ea"
-+SRC_URI[md5sum] = "9979f989a2a9930d10f1b3deeabc2148"
-+SRC_URI[sha256sum] = "b7d726cdd8ed4b6db0fa1b474a3c59ebbbe4dcd4c61ac5e7ade0e0270d3195ad"
+ SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+-SRC_URI[md5sum] = "3e44c766c3fb4f19e348e646fcd5778a"
+-SRC_URI[sha256sum] = "b918b6648076e74f8d7ae19db5ee663df800049e187259faf5eb997a7b974681"
++SRC_URI[md5sum] = "7cf6a8544a7dae8e8106fdf7addfa28c"
++SRC_URI[sha256sum] = "73df4d5d34f0468bd57d09f2d8af363e95ed6cc3a4a86129d2f2c366259902a2"
  
- inherit autotools pkgconfig binconfig multilib_header
+ inherit autotools gettext
  
-@@ -55,4 +55,6 @@ PACKAGES =+ "lib${BPN}"
- FILES_lib${BPN} = "${libdir}/lib*.so.*"
- RRECOMMENDS_lib${BPN} += "ca-certificates"
- 
-+FILES_${PN}-dev += "${datadir}/zsh"
-+
- BBCLASSEXTEND = "native nativesdk"
 -- 
 1.9.1
 
