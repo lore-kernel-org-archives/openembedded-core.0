@@ -1,32 +1,30 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A32C2607A4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 08902731F1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 16:25:43 +0000 (UTC)
+	Mon, 11 Jan 2016 16:33:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0BGPgKx020378
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Jan 2016 08:25:42 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0BGXSZN030226
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 11 Jan 2016 08:33:31 -0800
 Received: from Marks-MacBook-Pro.local (172.25.36.227) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 11 Jan 2016 08:25:42 -0800
-To: Christopher Larson <clarson@kergoth.com>
-References: <cover.1452489034.git.liezhi.yang@windriver.com>
-	<4f5f10ebe2593fb40fbb637978480d87d9697f40.1452489034.git.liezhi.yang@windriver.com>
-	<5693C245.7060304@gmail.com> <5693C4EE.4040507@windriver.com>
-	<CABcZANkU3GRDbP0UXkFkGfD8uS7BOKk4XKFcAr9HazbYwTjPBQ@mail.gmail.com>
+	14.3.248.2; Mon, 11 Jan 2016 08:33:27 -0800
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1452528799-11292-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
 From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
 Organization: Wind River Systems
-Message-ID: <5693D785.90907@windriver.com>
-Date: Mon, 11 Jan 2016 10:25:41 -0600
+Message-ID: <5693D956.40107@windriver.com>
+Date: Mon, 11 Jan 2016 10:33:26 -0600
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
 	Gecko/20100101 Thunderbird/38.5.0
 MIME-Version: 1.0
-In-Reply-To: <CABcZANkU3GRDbP0UXkFkGfD8uS7BOKk4XKFcAr9HazbYwTjPBQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] glibc-initial.inc: use relative path to run configure
+In-Reply-To: <1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: Re: [PATCH 3/3] oe.gpg_sign: support obs-signd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,72 +37,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 16:25:45 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jan 2016 16:33:32 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
-On 1/11/16 10:18 AM, Christopher Larson wrote:
+On 1/11/16 10:13 AM, Markus Lehtonen wrote:
+> Implement support for remote signing using obs-signd. It is now possible
+> to sign both RPM packages and package feeds with this method. The user
+> just needs to set RPM_GPG_BACKEND and/or PACKAGE_FEED_GPG_BACKEND
+> variables to 'obssign' in the bitbake config. Of course, in addition,
+> one needs to setup the signing server and the configure the 'sign'
+> client command on the build host. The *_PASSPHRASE_FILE settings are not
+> used when the obssign backend is enabled.
 > 
-> On Mon, Jan 11, 2016 at 8:06 AM, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
+> [YOCTO #8755]
 > 
->     On 1/11/16 8:55 AM, Trevor Woerner wrote:
->     >
->     >
->     > On 01/11/16 00:11, Robert Yang wrote:
->     >> Avoid potential build path in output files.
->     >>
->     >> [YOCTO #8894]
->     >>
->     >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com <mailto:liezhi.yang@windriver.com>>
->     >> ---
->     >>  meta/recipes-core/glibc/glibc-initial.inc |    2 +-
->     >>  1 file changed, 1 insertion(+), 1 deletion(-)
->     >>
->     >> diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
->     >> index 8e81f09..cb2f8dd 100644
->     >> --- a/meta/recipes-core/glibc/glibc-initial.inc
->     >> +++ b/meta/recipes-core/glibc/glibc-initial.inc
->     >> @@ -11,7 +11,7 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
->     >>  do_configure () {
->     >>      (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
->     >>      find ${S} -name "configure" | xargs touch
->     >> -    ${S}/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
->     >> +    ../git/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
->     >
->     > Although I haven't tested it, this _looks_ like it might fail quite
->     > readily. I'm sure there are some recipes that play tricks with ${S}, and
->     > what about recipes that don't pull their sources from git?
->     >
->     > Maybe something like: (cd ${S} && ./configure ...) would be better?
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  meta/classes/sign_package_feed.bbclass |  5 +++-
+>  meta/classes/sign_rpm.bbclass          |  5 +++-
+>  meta/lib/oe/gpg_sign.py                | 48 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 56 insertions(+), 2 deletions(-)
 > 
->     That won't work since it'll run configure in the S directory.
-> 
->     IF we need to use relative paths here, we need to calculate the relative path
->     from B to S and use that.  It looks like patch 2/2 already does something like
->     this using the python..  we can probably do the same.  (I don't know any reason,
->     at least for glibc, that all of the items won't be in the same "WORKDIR".  So it
->     would be relative within the WORKDIR, which SHOULD be fine.)
-> 
-> 
-> Unless we want to specifically not support externalsrc (and therefore, devtool
-> modify -x) for a particular recipe, we should probably not make the assumption
-> that S and B are relative to WORKDIR :)
+> diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+> index d5df8af..953fa85 100644
+> --- a/meta/classes/sign_package_feed.bbclass
+> +++ b/meta/classes/sign_package_feed.bbclass
+> @@ -24,7 +24,10 @@ PACKAGE_FEED_GPG_BACKEND ?= 'local'
+>  
+>  python () {
+>      # Check sanity of configuration
+> -    for var in ('PACKAGE_FEED_GPG_NAME', 'PACKAGE_FEED_GPG_PASSPHRASE_FILE'):
+> +    required = ['PACKAGE_FEED_GPG_NAME']
+> +    if d.getVar('PACKAGE_FEED_GPG_BACKEND', True) != 'obssign':
+> +        required.append('PACKAGE_FEED_GPG_PASSPHRASE_FILE')
+> +    for var in required:
+>          if not d.getVar(var, True):
+>              raise_sanity_error("You need to define %s in the config" % var, d)
+>  
+> diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
+> index 8bcabee..8be1c35 100644
+> --- a/meta/classes/sign_rpm.bbclass
+> +++ b/meta/classes/sign_rpm.bbclass
+> @@ -23,7 +23,10 @@ RPM_GPG_BACKEND ?= 'local'
+>  
+>  python () {
+>      # Check configuration
+> -    for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE_FILE'):
+> +    required = ['RPM_GPG_NAME']
+> +    if d.getVar('RPM_GPG_BACKEND', True) != 'obssign':
+> +        required.append('RPM_GPG_PASSPHRASE_FILE')
+> +    for var in required:
+>          if not d.getVar(var, True):
+>              raise_sanity_error("You need to define %s in the config" % var, d)
+>  
+> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+> index 55abad8..d8ab816 100644
+> --- a/meta/lib/oe/gpg_sign.py
+> +++ b/meta/lib/oe/gpg_sign.py
+> @@ -66,11 +66,59 @@ class LocalSigner(object):
+>                                        (input_file, output))
+>  
+>  
+> +class ObsSigner(object):
+> +    """Class for handling signing with obs-signd"""
+> +    def __init__(self, keyid):
+> +        self.keyid = keyid
+> +        self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpm")
+> +
+> +    def export_pubkey(self, output_file):
+> +        """Export GPG public key to a file"""
+> +        cmd = "sign -u '%s' -p" % self.keyid
+> +        status, output = oe.utils.getstatusoutput(cmd)
+> +        if status:
+> +            raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
+> +                                      (self.keyid, output))
+> +        with open(output_file, 'w') as fobj:
+> +            fobj.write(output)
+> +            fobj.write('\n')
+> +
+> +    def sign_rpms(self, files):
+> +        """Sign RPM files"""
+> +        import pexpect
+> +
+> +        # Remove existing signatures
+> +        cmd = "%s --delsign %s" % (self.rpm_bin, ' '.join(files))
 
-There ya go.  I didn't realize even with externalsrc and such that the code
-wasn't copied or otherwise linked into the typical 'S' inside of WORKDIR.
+Why are you removing existing signatures?  I believe for many cases this is
+actually incorrect.
 
-So relative here is still potentially useful, but the problem being solved isn't
-actually being solved in the end.  We're still ended up embedded specific paths
-that are triggered QA errors because of the split S/B issue.
+RPM (5) has the ability to have an endless number of signatures within a given
+package.  The package SHOULD included the internal non-repudiable signature...
 
---Mark
+(to refresh memory) all RPM 5 packages include an internal non-repudiable
+signature.  Think of this as an extended md5sum, sha256sum, etc.  It doesn't
+change that a package is 'authentic' in any way (often the purpose of signatures
+like what this code is doing), but instead keeps a high reliability way to sign
+and verify the package is signed properly.
 
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+This is used for validation if the system doing the install does not have the
+public key that the package was signed with.
+
+... as well as one or more repudiable signatures that can be used to verify that
+it's "authentic" in some way.  A system could very easily have OSV, OEM, and ISV
+keys install on them.  You can program RPM in such a way that it will refused to
+install packages with unknown authentication keys or the non-repudiable key as well.
+
+So, I believe running delsign is wrong.  If the obs-signd can't handle ADDING
+signatures to packages, then I'd say it is broken and should be fixed in some
+way -- or at least the signature deletion code should be optional.
+
+> +        status, output = oe.utils.getstatusoutput(cmd)
+> +        if status:
+> +            raise bb.build.FuncFailed("Failed to remove RPM signatures: %s" %
+> +                                      output)
+> +        # Sign packages
+> +        cmd = "sign -u '%s' -r %s" % (self.keyid, ' '.join(files))
+> +        status, output = oe.utils.getstatusoutput(cmd)
+> +        if status:
+> +            raise bb.build.FuncFailed("Failed to sign RPM packages: %s" %
+> +                                      output)
+> +
+> +    def detach_sign(self, input_file):
+> +        """Create a detached signature of a file"""
+> +        cmd = "sign -u '%s' -d %s" % (self.keyid, input_file)
+> +        status, output = oe.utils.getstatusoutput(cmd)
+> +        if status:
+> +            raise bb.build.FuncFailed("Failed to create signature for '%s': %s" %
+> +                                      (input_file, output))
+> +
+> +
+>  def get_signer(d, backend, keyid, passphrase_file):
+>      """Get signer object for the specified backend"""
+>      # Use local signing by default
+>      if backend == 'local':
+>          return LocalSigner(d, keyid, passphrase_file)
+> +    elif backend == 'obssign':
+> +        if passphrase_file:
+> +            bb.note("GPG passphrase file setting not used when 'obssign' "
+> +                    "backend is used.")
+> +        return ObsSigner(keyid)
+>      else:
+>          bb.fatal("Unsupported signing backend '%s'" % backend)
+>  
+> 
 
 
