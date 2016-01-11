@@ -1,37 +1,42 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 54655731FB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 74984731FC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 20:34:02 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id u188so27910439wmu.0
+	Mon, 11 Jan 2016 20:51:58 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id e65so50327793pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 12:34:03 -0800 (PST)
+	Mon, 11 Jan 2016 12:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=F2hnQ9VdJCNK9O4MKQvZprSTWVe/McAFutm9N6e7eMc=;
-	b=UhWJSHGHIjAVxSeZjNl4wvwTixNkLXf205NPUJJqSIftpGVa53T7ASMpmt7N2qGfbr
-	IjHPt9xSbms1BVnZ87sjdbVtcfMWJxwDYAkz3S7qqzxt7kBnq0aZCnqlVbyUSGM9xZDK
-	hS4UOqHx/AlCI3UphimzZq7YmHynzbCV3a3J7scRbkB++sskLvwPjzJtOjOxN36848Cr
-	mlaFleoXZFOnqKOUo1lvaLDIBxIkCuHwWiSSZyI66+/rUklXlTBWEiSsnHPvYTK24tiZ
-	kvouA40XRYNMMplPH8WoznkFvnChuYXUID5h/V1ZGevTpx6MeQ/bdmXr8qdV+F4NnrzJ
-	WMKQ==
-MIME-Version: 1.0
-X-Received: by 10.28.86.196 with SMTP id k187mr15145426wmb.61.1452544442661;
-	Mon, 11 Jan 2016 12:34:02 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 11 Jan 2016 12:34:02 -0800 (PST)
-In-Reply-To: <8651587C-FF80-4B9A-8287-3DD5AD06AE76@gmail.com>
-References: <1452357775.7598.159.camel@linuxfoundation.org>
-	<CAJ86T=WraHEDTL7v7dSCYr4Dwj0xrmu_rLQWTNbotNWCrytOFg@mail.gmail.com>
-	<DD2F7F62-3F3D-4456-9C39-6A36CE797CE1@gmail.com>
-	<CAJ86T=W7e9GTjpY6-_ryzFz50oNwWj0Z7J-qjKu8xtzAs+ia+g@mail.gmail.com>
-	<8651587C-FF80-4B9A-8287-3DD5AD06AE76@gmail.com>
-Date: Mon, 11 Jan 2016 12:34:02 -0800
-Message-ID: <CAJ86T=VbLtipAvixVChPF8QDBnpcq3nFcGZ8YyHROLunP9VF=g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC] sstate: Switch from tgz to tar.xz for sstate
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=VBGi6EZ+ZkcOGwgWuAw2iJGKHTjUJE+5yMJNfYCegJQ=;
+	b=lpcFGSQGO30lxS/j+wS2J55oBdebo9pknMqXuiZChwYb1kWQ8X2W7P+FuLWL+Yl7ce
+	rj0pwV06DyljPxy+RoYwXY4zOZm9zcjH0xDQgII3nrM3CYL3+2C9aoa3gCRc+2p9YOUF
+	oBIj6hOqQCHy2kzNqBMGS8kywmTvt/z4KeMwKRNvp1U9p5ET/vopWmpP1pBQpdj5pKWv
+	7cDAiFBaVeRKQmn3IZ+3Iq8EqRIcxym6Q45lC5an3pjYFAClXVLMiNlLeZhLT9uGo0d4
+	zWPbxPQwCls2dmYSHzbopp2IawSXo7rcusZubvLOVgAxcUGx1WmWxBFWZXEmYnWRBxna
+	dkSg==
+X-Received: by 10.98.40.2 with SMTP id o2mr8420508pfo.92.1452545518823;
+	Mon, 11 Jan 2016 12:51:58 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:409b:83af:918e:bae1?
+	([2601:646:8802:5d5c:409b:83af:918e:bae1])
+	by smtp.gmail.com with ESMTPSA id
+	l75sm25246532pfj.7.2016.01.11.12.51.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jan 2016 12:51:58 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1451986361-10021-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+Date: Mon, 11 Jan 2016 12:51:53 -0800
+Message-Id: <3263F3BC-4801-4145-9210-12F9ADE54B5D@gmail.com>
+References: <1450352712-31476-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<1451986361-10021-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: Apple Mail (2.3112)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] boost: ensure boost to remain an empty metapackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,315 +49,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 20:34:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Jan 2016 20:52:02 -0000
+X-Groupsio-MsgNum: 75873
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_09ADD895-AFDB-4C0B-ADBB-A5E304C8FAA6";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Mon, Jan 11, 2016 at 12:12 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Jan 11, 2016, at 12:00 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Mon, Jan 11, 2016 at 11:52 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>>> On Jan 11, 2016, at 11:05 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>>>
->>>> On Sat, Jan 9, 2016 at 8:42 AM, Richard Purdie
->>>> <richard.purdie@linuxfoundation.org> wrote:
->>>>> xz compresses with a better compression ratio than gz with similar speed
->>>>> for compression and decompression.
->>>>
->>>> When you measured compression speed to be similar, was that with
->>>> parallel compression? If so, with how many CPU cores?
->>>>
->>>> A quick test of plain single threaded "tar -cz" -vs- "tar -cJ" on my
->>>> laptop seems to indicate that xz is _significantly_ slower:
->>>>
->>>> $ time tar -czf /tmp/jjj.tgz
->>>> tmp/work/cortexa15hf-neon-rdk-linux-gnueabi/glibc/2.22-r0/git
->>>>
->>>> real    0m4.708s
->>>> user    0m4.682s
->>>> sys    0m0.477s
->>>>
->>>> $ time tar -cJf /tmp/jjj.tar.xz
->>>> tmp/work/cortexa15hf-neon-rdk-linux-gnueabi/glibc/2.22-r0/git
->>>>
->>>> real    0m56.491s
->>>> user    0m56.489s
->>>> sys    0m0.744s
->>>
->>>
->>> on 8-core machine with pixz it is recovered a bit but still is slow tried a small load
->>>
->>>
->>> tar -cJf /tmp/xx.tar.xz   21.14s user 0.36s system 102% cpu 21.061 total
->>>
->>> tar -czf /tmp/xx.tar.gz   2.35s user 0.19s system 109% cpu 2.320 total
->>>
->>> tar -Ipixz -cf /tmp/xx.tar.xz   27.14s user 0.88s system 490% cpu 5.708 total
->>>
->>> When changing the compression level to -3 ( it gets a bit faster )
->>>
->>> pixz -3 /tmp/xx.tar /tmp/xx.tar.xz  17.58s user 0.18s system 606% cpu 2.927 total
->>>
->>
->> For a fair comparison, we should probably be testing parallel gzip
->> against parallel xz.
->
-> its not about speed, all this additional tooling is to achieve more compression in same time.
+--Apple-Mail=_09ADD895-AFDB-4C0B-ADBB-A5E304C8FAA6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-Yes, you're right. Creating sstate tar files is going to happen in
-parallel with other bitbake tasks, so overall CPU time is important,
-not speed.
 
->> In general, I'm not really convinced about this change though. Disk
->> space is cheap and always getting cheaper, but builds can never be
->> fast enough. Is it really worthwhile to trade off build performance
->> for a reduction in sstate disk usage?
->
-> if you use sstate mirrors over network then its just not disk but also network load involved.
-> but if the build speed is impacted due to slower comp/decomp then it needs to optional rather than default. Since it will not be
-> a one time thing but will impact every build that a developer/user is going to do.
->
->>
->> Perhaps the sstate compression algorithm should be configurable so
->> that people low on disk space can opt into slower builds?
->>
->>
->>>>
->>>>> It therefore makes sense to switch
->>>>> to it for the sstate objects.
->>>>>
->>>>> As an example, the gcc-cross populate_sysroot object goes from
->>>>> 79,509,871 to 53,031,752 bytes which is a significant improvement.
->>>>>
->>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>>
->>>>> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
->>>>> index 4153e58..734303c 100644
->>>>> --- a/meta/classes/buildhistory.bbclass
->>>>> +++ b/meta/classes/buildhistory.bbclass
->>>>> @@ -537,7 +537,7 @@ python buildhistory_get_extra_sdkinfo() {
->>>>>        filesizes = {}
->>>>>        for root, _, files in os.walk('${SDK_OUTPUT}/${SDKPATH}/sstate-cache'):
->>>>>            for fn in files:
->>>>> -                if fn.endswith('.tgz'):
->>>>> +                if fn.endswith('.tar.xz'):
->>>>>                    fsize = int(math.ceil(float(os.path.getsize(os.path.join(root, fn))) / 1024))
->>>>>                    task = fn.rsplit(':', 1)[1].split('_', 1)[1].split('.')[0]
->>>>>                    origtotal = tasksizes.get(task, 0)
->>>>> diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
->>>>> index 3a65c07..4ff5e9e 100644
->>>>> --- a/meta/classes/populate_sdk_ext.bbclass
->>>>> +++ b/meta/classes/populate_sdk_ext.bbclass
->>>>> @@ -189,7 +189,7 @@ python copy_buildsystem () {
->>>>>    # We don't need sstate do_package files
->>>>>    for root, dirs, files in os.walk(sstate_out):
->>>>>        for name in files:
->>>>> -            if name.endswith("_package.tgz"):
->>>>> +            if name.endswith("_package.tar.xz"):
->>>>>                f = os.path.join(root, name)
->>>>>                os.remove(f)
->>>>> }
->>>>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
->>>>> index 9bef212..d9adf01 100644
->>>>> --- a/meta/classes/sstate.bbclass
->>>>> +++ b/meta/classes/sstate.bbclass
->>>>> @@ -294,8 +294,8 @@ def sstate_installpkg(ss, d):
->>>>>        oe.path.remove(dir)
->>>>>
->>>>>    sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['task'])
->>>>> -    sstatefetch = d.getVar('SSTATE_PKGNAME', True) + '_' + ss['task'] + ".tgz"
->>>>> -    sstatepkg = d.getVar('SSTATE_PKG', True) + '_' + ss['task'] + ".tgz"
->>>>> +    sstatefetch = d.getVar('SSTATE_PKGNAME', True) + '_' + ss['task'] + ".tar.xz"
->>>>> +    sstatepkg = d.getVar('SSTATE_PKG', True) + '_' + ss['task'] + ".tar.xz"
->>>>>
->>>>>    if not os.path.exists(sstatepkg):
->>>>>        pstaging_fetch(sstatefetch, sstatepkg, d)
->>>>> @@ -372,7 +372,7 @@ python sstate_hardcode_path_unpack () {
->>>>> def sstate_clean_cachefile(ss, d):
->>>>>    import oe.path
->>>>>
->>>>> -    sstatepkgfile = d.getVar('SSTATE_PATHSPEC', True) + "*_" + ss['task'] + ".tgz*"
->>>>> +    sstatepkgfile = d.getVar('SSTATE_PATHSPEC', True) + "*_" + ss['task'] + ".tar.xz*"
->>>>>    bb.note("Removing %s" % sstatepkgfile)
->>>>>    oe.path.remove(sstatepkgfile)
->>>>>
->>>>> @@ -555,7 +555,7 @@ def sstate_package(ss, d):
->>>>>    tmpdir = d.getVar('TMPDIR', True)
->>>>>
->>>>>    sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
->>>>> -    sstatepkg = d.getVar('SSTATE_PKG', True) + '_'+ ss['task'] + ".tgz"
->>>>> +    sstatepkg = d.getVar('SSTATE_PKG', True) + '_'+ ss['task'] + ".tar.xz"
->>>>>    bb.utils.remove(sstatebuild, recurse=True)
->>>>>    bb.utils.mkdirhier(sstatebuild)
->>>>>    bb.utils.mkdirhier(os.path.dirname(sstatepkg))
->>>>> @@ -677,14 +677,14 @@ sstate_create_package () {
->>>>>       # Need to handle empty directories
->>>>>       if [ "$(ls -A)" ]; then
->>>>>               set +e
->>>>> -               tar -czf $TFILE *
->>>>> +               tar -cJf $TFILE *
->>>>>               ret=$?
->>>>>               if [ $ret -ne 0 ] && [ $ret -ne 1 ]; then
->>>>>                       exit 1
->>>>>               fi
->>>>>               set -e
->>>>>       else
->>>>> -               tar -cz --file=$TFILE --files-from=/dev/null
->>>>> +               tar -cJ --file=$TFILE --files-from=/dev/null
->>>>>       fi
->>>>>       chmod 0664 $TFILE
->>>>>       mv -f $TFILE ${SSTATE_PKG}
->>>>> @@ -703,7 +703,7 @@ sstate_create_package () {
->>>>> # Will be run from within SSTATE_INSTDIR.
->>>>> #
->>>>> sstate_unpack_package () {
->>>>> -       tar -xmvzf ${SSTATE_PKG}
->>>>> +       tar -xmvJf ${SSTATE_PKG}
->>>>>       # Use "! -w ||" to return true for read only files
->>>>>       [ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
->>>>>       [ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
->>>>> @@ -716,7 +716,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
->>>>>
->>>>>    ret = []
->>>>>    missed = []
->>>>> -    extension = ".tgz"
->>>>> +    extension = ".tar.xz"
->>>>>    if siginfo:
->>>>>        extension = extension + ".siginfo"
->>>>>
->>>>> @@ -821,11 +821,11 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
->>>>>        evdata = {'missed': [], 'found': []};
->>>>>        for task in missed:
->>>>>            spec, extrapath, tname = getpathcomponents(task, d)
->>>>> -            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz")
->>>>> +            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tar.xz")
->>>>>            evdata['missed'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
->>>>>        for task in ret:
->>>>>            spec, extrapath, tname = getpathcomponents(task, d)
->>>>> -            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz")
->>>>> +            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tar.xz")
->>>>>            evdata['found'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
->>>>>        bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
->>>>>
->>>>> @@ -914,7 +914,7 @@ python sstate_eventhandler() {
->>>>>    d = e.data
->>>>>    # When we write an sstate package we rewrite the SSTATE_PKG
->>>>>    spkg = d.getVar('SSTATE_PKG', True)
->>>>> -    if not spkg.endswith(".tgz"):
->>>>> +    if not spkg.endswith(".tar.xz"):
->>>>>        taskname = d.getVar("BB_RUNTASK", True)[3:]
->>>>>        spec = d.getVar('SSTATE_PKGSPEC', True)
->>>>>        swspec = d.getVar('SSTATE_SWSPEC', True)
->>>>> @@ -922,7 +922,7 @@ python sstate_eventhandler() {
->>>>>            d.setVar("SSTATE_PKGSPEC", "${SSTATE_SWSPEC}")
->>>>>            d.setVar("SSTATE_EXTRAPATH", "")
->>>>>        sstatepkg = d.getVar('SSTATE_PKG', True)
->>>>> -        bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
->>>>> +        bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tar.xz" ".siginfo", d)
->>>>> }
->>>>>
->>>>> SSTATE_PRUNE_OBSOLETEWORKDIR = "1"
->>>>> diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
->>>>> index c33662b..4d545ad 100644
->>>>> --- a/meta/lib/oeqa/selftest/signing.py
->>>>> +++ b/meta/lib/oeqa/selftest/signing.py
->>>>> @@ -111,13 +111,13 @@ class Signing(oeSelfTest):
->>>>>        bitbake('-c cleansstate %s' % test_recipe)
->>>>>        bitbake(test_recipe)
->>>>>
->>>>> -        recipe_sig = glob.glob(sstatedir + '/*/*:ed:*_package.tgz.sig')
->>>>> -        recipe_tgz = glob.glob(sstatedir + '/*/*:ed:*_package.tgz')
->>>>> +        recipe_sig = glob.glob(sstatedir + '/*/*:ed:*_package.tar.xz.sig')
->>>>> +        recipe_txz = glob.glob(sstatedir + '/*/*:ed:*_package.tar.xz')
->>>>>
->>>>>        self.assertEqual(len(recipe_sig), 1, 'Failed to find .sig file.')
->>>>> -        self.assertEqual(len(recipe_tgz), 1, 'Failed to find .tgz file.')
->>>>> +        self.assertEqual(len(recipe_txz), 1, 'Failed to find .tar.xz file.')
->>>>>
->>>>> -        ret = runCmd('gpg --homedir %s --verify %s %s' % (self.gpg_dir, recipe_sig[0], recipe_tgz[0]))
->>>>> +        ret = runCmd('gpg --homedir %s --verify %s %s' % (self.gpg_dir, recipe_sig[0], recipe_txz[0]))
->>>>>        # gpg: Signature made Thu 22 Oct 2015 01:45:09 PM EEST using RSA key ID 61EEFB30
->>>>>        # gpg: Good signature from "testuser (nocomment) <testuser@email.com>"
->>>>>        self.assertIn('gpg: Good signature from', ret.output, 'Package signed incorrectly.')
->>>>> diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
->>>>> index 512cb4f..73e5132 100644
->>>>> --- a/meta/lib/oeqa/selftest/sstatetests.py
->>>>> +++ b/meta/lib/oeqa/selftest/sstatetests.py
->>>>> @@ -55,15 +55,15 @@ class SStateTests(SStateBase):
->>>>>        bitbake(['-ccleansstate'] + targets)
->>>>>
->>>>>        bitbake(targets)
->>>>> -        tgz_created = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific, distro_nonspecific)
->>>>> -        self.assertTrue(tgz_created, msg="Could not find sstate .tgz files for: %s" % ', '.join(map(str, targets)))
->>>>> +        txz_created = self.search_sstate('|'.join(map(str, [s + '.*?\.tar.xz$' for s in targets])), distro_specific, distro_nonspecific)
->>>>> +        self.assertTrue(txz_created, msg="Could not find sstate .tar.xz files for: %s" % ', '.join(map(str, targets)))
->>>>>
->>>>>        siginfo_created = self.search_sstate('|'.join(map(str, [s + '.*?\.siginfo$' for s in targets])), distro_specific, distro_nonspecific)
->>>>>        self.assertTrue(siginfo_created, msg="Could not find sstate .siginfo files for: %s" % ', '.join(map(str, targets)))
->>>>>
->>>>>        bitbake(['-ccleansstate'] + targets)
->>>>> -        tgz_removed = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific, distro_nonspecific)
->>>>> -        self.assertTrue(not tgz_removed, msg="do_cleansstate didn't remove .tgz sstate files for: %s" % ', '.join(map(str, targets)))
->>>>> +        txz_removed = self.search_sstate('|'.join(map(str, [s + '.*?\.tar.xz$' for s in targets])), distro_specific, distro_nonspecific)
->>>>> +        self.assertTrue(not txz_removed, msg="do_cleansstate didn't remove .tar.xz sstate files for: %s" % ', '.join(map(str, targets)))
->>>>>
->>>>>    @testcase(977)
->>>>>    def test_cleansstate_task_distro_specific_nonspecific(self):
->>>>> @@ -87,8 +87,8 @@ class SStateTests(SStateBase):
->>>>>        bitbake(['-ccleansstate'] + targets)
->>>>>
->>>>>        bitbake(targets)
->>>>> -        self.assertTrue(self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific=False, distro_nonspecific=True) == [], msg="Found distro non-specific sstate for: %s" % ', '.join(map(str, targets)))
->>>>> -        file_tracker_1 = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
->>>>> +        self.assertTrue(self.search_sstate('|'.join(map(str, [s + '.*?\.tar.xz$' for s in targets])), distro_specific=False, distro_nonspecific=True) == [], msg="Found distro non-specific sstate for: %s" % ', '.join(map(str, targets)))
->>>>> +        file_tracker_1 = self.search_sstate('|'.join(map(str, [s + '.*?\.tar.xz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
->>>>>        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
->>>>>
->>>>>        self.track_for_cleanup(self.distro_specific_sstate + "_old")
->>>>> @@ -97,7 +97,7 @@ class SStateTests(SStateBase):
->>>>>
->>>>>        bitbake(['-cclean'] + targets)
->>>>>        bitbake(targets)
->>>>> -        file_tracker_2 = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
->>>>> +        file_tracker_2 = self.search_sstate('|'.join(map(str, [s + '.*?\.tar.xz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
->>>>>        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
->>>>>
->>>>>        not_recreated = [x for x in file_tracker_1 if x not in file_tracker_2]
->>>>> @@ -146,18 +146,18 @@ class SStateTests(SStateBase):
->>>>>            if not sstate_arch in sstate_archs_list:
->>>>>                sstate_archs_list.append(sstate_arch)
->>>>>            if target_config[idx] == target_config[-1]:
->>>>> -                target_sstate_before_build = self.search_sstate(target + '.*?\.tgz$')
->>>>> +                target_sstate_before_build = self.search_sstate(target + '.*?\.tar.xz$')
->>>>>            bitbake("-cclean %s" % target)
->>>>>            result = bitbake(target, ignore_status=True)
->>>>>            if target_config[idx] == target_config[-1]:
->>>>> -                target_sstate_after_build = self.search_sstate(target + '.*?\.tgz$')
->>>>> +                target_sstate_after_build = self.search_sstate(target + '.*?\.tar.xz$')
->>>>>                expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build if not any(pattern in x for pattern in ignore_patterns)]
->>>>>            self.remove_config(global_config[idx])
->>>>>            self.remove_recipeinc(target, target_config[idx])
->>>>>            self.assertEqual(result.status, 0, msg = "build of %s failed with %s" % (target, result.output))
->>>>>
->>>>>        runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated --extra-archs=%s" % (self.sstate_path, ','.join(map(str, sstate_archs_list))))
->>>>> -        actual_remaining_sstate = [x for x in self.search_sstate(target + '.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
->>>>> +        actual_remaining_sstate = [x for x in self.search_sstate(target + '.*?\.tar.xz$') if not any(pattern in x for pattern in ignore_patterns)]
->>>>>
->>>>>        actual_not_expected = [x for x in actual_remaining_sstate if x not in expected_remaining_sstate]
->>>>>        self.assertFalse(actual_not_expected, msg="Files should have been removed but ware not: %s" % ', '.join(map(str, actual_not_expected)))
->>>>>
->>>>>
->>>>> --
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->
+> On Jan 5, 2016, at 1:32 AM, Lukas Bulwahn =
+<lukas.bulwahn@oss.bmw-carit.de> wrote:
+>=20
+> To ensure that boost remains an empty metapackage after version
+> updates, we explicitly require boost files to be empty. If new
+> libraries exist after a version update of the boost recipe,
+> bitbake will emit a warning at the do_package task. For example,
+> at the version update from 1.58.0 to 1.59.0, the new timer
+> library is indicated with:
+>=20
+> WARNING: QA Issue: boost: Files/directories were installed but not =
+shipped in any package:
+>  /usr/lib/libboost_timer.so.1.59.0
+> Please set FILES such that these items are packaged. Alternatively if =
+they are unneeded, avoid installing them or delete them within =
+do_install.
+> boost: 1 installed and not shipped files. [installed-vs-shipped]
+>=20
+> Ross Burton suggested this improvement on the openembedded-core
+> mailing list during review of the boost recipe version update [1].
+>=20
+> [1] =
+http://lists.openembedded.org/pipermail/openembedded-core/2015-December/11=
+4314.html
+>=20
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+> ---
+> meta/recipes-support/boost/boost.inc | 1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-support/boost/boost.inc =
+b/meta/recipes-support/boost/boost.inc
+> index 9d7fb89..7167ac3 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -59,6 +59,7 @@ FILES_boost-test =3D =
+"${libdir}/libboost_prg_exec_monitor*.so.* \
+>=20
+> # -dev last to pick up the remaining stuff
+> PACKAGES +=3D "${PN}-dev ${PN}-staticdev"
+> +FILES_${PN} =3D =E2=80=9C"
 
+alternatively use PACKAGES_remove =3D =E2=80=9C${PN}"
+
+> FILES_${PN}-dev =3D "${includedir} ${libdir}/libboost_*.so"
+> FILES_${PN}-staticdev =3D "${libdir}/libboost_*.a"
+>=20
+> --
+> 1.9.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_09ADD895-AFDB-4C0B-ADBB-A5E304C8FAA6
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlaUFe0ACgkQuwUzVZGdMxQVAACfYv0od2Onxq8u3vjcXEqxG/9G
+YQUAn3PexuO1+jMdu1/QymU6zJDMFJSD
+=0lH6
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_09ADD895-AFDB-4C0B-ADBB-A5E304C8FAA6--
