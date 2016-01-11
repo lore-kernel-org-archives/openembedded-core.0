@@ -1,26 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AD38731E3
+	by mail.openembedded.org (Postfix) with ESMTP id 7EDF6731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 07:07:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0B77LNu015949
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 10 Jan 2016 23:07:21 -0800
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 10 Jan 2016 23:07:20 -0800
-From: <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Mon, 11 Jan 2016 15:07:12 +0800
-Message-ID: <b1f3994f64c6bb285c762038cec35351934aa553.1452495946.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.6.1
-In-Reply-To: <cover.1452495946.git.kai.kang@windriver.com>
-References: <cover.1452495946.git.kai.kang@windriver.com>
+	Mon, 11 Jan 2016 07:19:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0B7JSkb016198
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Jan 2016 23:19:28 -0800
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 10 Jan 2016 23:19:28 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 10 Jan 2016 23:19:19 -0800
+Message-ID: <cover.1452496745.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] glib-2.0: add dependency glib-2.0-native back
+Subject: [PATCH 0/8] Packages Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 07:07:23 -0000
+X-List-Received-Date: Mon, 11 Jan 2016 07:19:28 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+The following changes since commit 5661d8cb7849df62358368743134c0aaf523965e:
 
-It uses command glib-genmarshal to build glib-2.0 which is from
-glib-2.0-native. If the command doesn't exist on host, build fails
-with error:
+  image: Really remove lockfiles flag (2016-01-07 13:41:47 +0000)
 
-| /bin/sh: --prefix=test_marshal: command not found
-| make[4]: *** [testmarshal.c] Error 127
+are available in the git repository at:
 
-So add the dependency back.
+  git://git.openembedded.org/openembedded-core-contrib rbt/PU
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PU
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/glib-2.0/glib.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Robert Yang (8):
+  autogen-native: 5.18.5 -> 5.18.6
+  file: 5.24 -> 5.25
+  git: 2.5.0 -> 2.7.0
+  wget: 1.17 -> 1.17.1
+  iputils: s20121221 -> s20151218
+  less: 479 -> 481
+  libbsd: 0.8.0 -> 0.8.1
+  rsync: 3.1.1 -> 3.1.2
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 86f7e0e..785d4d7 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -17,10 +17,10 @@ SECTION = "libs"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--DEPENDS = "virtual/libiconv libffi zlib"
--DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' glib-2.0-native dbus', '', d)}"
-+DEPENDS = "virtual/libiconv libffi zlib glib-2.0-native"
-+DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' dbus', '', d)}"
- DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
--DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib"
-+DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib glib-2.0-native"
- 
- PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
- 
+ ...n-native_5.18.5.bb => autogen-native_5.18.6.bb} |    4 +-
+ .../autogen/autogen/increase-timeout-limit.patch   |   29 ++---
+ .../file/{file_5.24.bb => file_5.25.bb}            |    2 +-
+ meta/recipes-devtools/git/git_2.5.0.bb             |   11 --
+ meta/recipes-devtools/git/git_2.7.0.bb             |   11 ++
+ ...-an-inc-recursive-path-is-not-right-for-i.patch |  135 --------------------
+ .../rsync/rsync-3.1.1/rsync.git-eac858085.patch    |  101 ---------------
+ .../rsync/{rsync_3.1.1.bb => rsync_3.1.2.bb}       |    6 +-
+ ...x-build-command-line-argument-with-gnutls.patch |   37 ------
+ .../{iputils_s20121221.bb => iputils_s20151218.bb} |    7 +-
+ .../less/{less_479.bb => less_481.bb}              |    4 +-
+ meta/recipes-extended/wget/wget/fix_makefile.patch |   18 ---
+ .../wget/{wget_1.17.bb => wget_1.17.1.bb}          |    5 +-
+ .../libbsd/0001-Use-local-SHA512-header.patch      |   75 -----------
+ .../libbsd/{libbsd_0.8.0.bb => libbsd_0.8.1.bb}    |    7 +-
+ 15 files changed, 39 insertions(+), 413 deletions(-)
+ rename meta/recipes-devtools/autogen/{autogen-native_5.18.5.bb => autogen-native_5.18.6.bb} (90%)
+ rename meta/recipes-devtools/file/{file_5.24.bb => file_5.25.bb} (96%)
+ delete mode 100644 meta/recipes-devtools/git/git_2.5.0.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.7.0.bb
+ delete mode 100644 meta/recipes-devtools/rsync/rsync-3.1.1/0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch
+ delete mode 100644 meta/recipes-devtools/rsync/rsync-3.1.1/rsync.git-eac858085.patch
+ rename meta/recipes-devtools/rsync/{rsync_3.1.1.bb => rsync_3.1.2.bb} (72%)
+ delete mode 100644 meta/recipes-extended/iputils/files/fix-build-command-line-argument-with-gnutls.patch
+ rename meta/recipes-extended/iputils/{iputils_s20121221.bb => iputils_s20151218.bb} (90%)
+ rename meta/recipes-extended/less/{less_479.bb => less_481.bb} (89%)
+ delete mode 100644 meta/recipes-extended/wget/wget/fix_makefile.patch
+ rename meta/recipes-extended/wget/{wget_1.17.bb => wget_1.17.1.bb} (47%)
+ delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
+ rename meta/recipes-support/libbsd/{libbsd_0.8.0.bb => libbsd_0.8.1.bb} (73%)
+
 -- 
-2.6.1
+1.7.9.5
 
 
