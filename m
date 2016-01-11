@@ -1,29 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 820B2731FA
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 017E360589
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 21:08:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Jan 2016 13:07:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,554,1444719600"; d="scan'208";a="858417772"
-Received: from mariacha-mobl2.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.175.41])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jan 2016 13:07:41 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 12 Jan 2016 10:07:39 +1300
-Message-ID: <10682729.sQ8qah7Y6F@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
-	)
-In-Reply-To: <1771478.km9IAYYp8Q@peggleto-mobl.ger.corp.intel.com>
-References: <1452277369.7598.136.camel@linuxfoundation.org>
-	<3794662.0pqDkncOgQ@peggleto-mobl.ger.corp.intel.com>
-	<1771478.km9IAYYp8Q@peggleto-mobl.ger.corp.intel.com>
+	Mon, 11 Jan 2016 21:12:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0BLC76H005848
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jan 2016 13:12:07 -0800
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jan 2016 13:12:06 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jan 2016 15:12:03 -0600
+Message-ID: <1452546725-211503-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pixz: Add 1.0.6
+Subject: [PATCH 0/2] Fix some oe-core issues using meta-mingw
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 21:08:08 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 11 Jan 2016 21:12:09 -0000
+Content-Type: text/plain
 
-On Mon, 11 Jan 2016 09:36:36 Paul Eggleton wrote:
-> On Mon, 11 Jan 2016 09:26:39 Paul Eggleton wrote:
-> > On Fri, 08 Jan 2016 18:22:49 Richard Purdie wrote:
-> > > xz gives better compression results than bzip/gz but is often slower.
-> > > Using parallel compression mitigates this somewhat and is particularly
-> > > useful for the SDK.
-> > > 
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > 
-> > > diff --git a/meta/recipes-support/pixz/pixz_1.0.6.bb
-> > > b/meta/recipes-support/pixz/pixz_1.0.6.bb new file mode 100644
-> > > index 0000000..e6e4ac2
-> > > --- /dev/null
-> > > +++ b/meta/recipes-support/pixz/pixz_1.0.6.bb
-> > > @@ -0,0 +1,14 @@
-> > > +SUMMARY = "Parallel, indexed xz compressor"
-> > > +
-> > > +DEPENDS = "xz libarchive"
-> > > +
-> > > +SRC_URI =
-> > > "https://github.com/vasi/pixz/releases/download/v${PV}/${BPN}-${PV}.tar.
-> > > xz
-> > > "
-> > 
-> > Can we rely on this never changing? I thought we'd experienced problems
-> > with github's release tarballs being generated on the fly in the past...
-> Another thing, this seems to fail to build without asciidoc:
-> 
-> ------------ snip ------------
-> checking for src/pixz.1... no
-> checking for a2x... no
-> configure: error: AsciiDoc not found, not able to generate the man page.
-> ------------ snip ------------
-> 
-> This is also related to not supporting B != S, since src/pixz.1 does exist,
-> just in S and not B. If you inherit autotools-brokensep instead of autotools
-> it works.
+There are two patches here.. 1/2 seems like it's pretty straight forward and
+should be able to be used as is.  = to ?=
 
-Possibly a bit obvious, but even inheriting autotools-brokensep isn't enough, 
-because if it runs "make clean" on re-executing do_configure, src/pixz.1 gets 
-deleted and you get the same issue.
+2/2 however is more of an RFC.  I discovered today that the always on
+native of the populate_sdk_ext has broken non-Linux SDKMACHINEs.  I put
+together something that only enabled populate_sdk_ext when Linux is the
+SDKMACHINE, but I'm guessing there is probably a better way... looking
+forward to comments.
 
-Cheers,
-Paul
+Mark Hatle (2):
+  tcmode-default.inc: Fix preferred provider
+    nativesdk-sdk_prefix-libc-initial
+  image.bbclass: Unconditional includes of populate_sdk_ext fails
+
+ meta/classes/image.bbclass                  | 5 ++++-
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 -- 
+1.9.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
