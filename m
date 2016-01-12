@@ -1,29 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EF9AB731A4
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 256DB6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 21:32:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0CLSvZe031576; Tue, 12 Jan 2016 21:32:10 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jZRpQTW41uQq; Tue, 12 Jan 2016 21:32:10 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0CLW4tH031625
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 12 Jan 2016 21:32:06 GMT
-Message-ID: <1452634324.28375.24.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 21:32:04 +0000
-In-Reply-To: <1452583117-812-1-git-send-email-armccurdy@gmail.com>
-References: <1452583117-812-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/5] strace: misc fixes + update 4.10 -> 4.11
+	Tue, 12 Jan 2016 21:39:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jan 2016 13:39:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,285,1449561600"; d="scan'208";a="889200382"
+Received: from rusilaw-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.149.174])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2016 13:39:28 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jan 2016 10:39:02 +1300
+Message-Id: <cover.1452634698.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 0/1] Additional extensible SDK fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +28,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 21:32:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jan 2016 21:39:30 -0000
 
-On Mon, 2016-01-11 at 23:18 -0800, Andre McCurdy wrote:
-> Andre McCurdy (5):
->   strace: drop unnecessary dependency on acl
->   strace: fix --disable-aio configure option
->   strace: remove need for git-version-gen script
->   strace: fix ARCH definition in tests/Makefile
->   strace: update 4.10 -> 4.11
+This should have been included in my earlier series (and should be
+applied on top of it).
 
-I included this in a -next build but it failed on the autobuilder:
 
-http://errors.yoctoproject.org/Errors/Details/27173/
-http://errors.yoctoproject.org/Errors/Details/27101/
-http://errors.yoctoproject.org/Errors/Details/27101/
+The following changes since commit b12177a5a627861a191addeec5294548c38949ba:
 
-One is poky, one is poky-lsb, looks like it might be a debian system
-specific issue :/.
+  classes/populate_sdk_ext: check that extensible SDK prepared correctly (2016-01-13 07:44:58 +1300)
 
-Cheers,
+are available in the git repository at:
 
-Richard
+  git://git.openembedded.org/openembedded-core-contrib paule/extsdkfixes4-oe-addendum
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/extsdkfixes4-oe-addendum
+
+Paul Eggleton (1):
+  classes/populate_sdk_ext: avoid unnecessary sstate being brought in
+
+ meta/classes/populate_sdk_ext.bbclass | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
+
+-- 
+2.5.0
 
 
