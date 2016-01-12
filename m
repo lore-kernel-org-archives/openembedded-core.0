@@ -1,35 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 869A56FF9F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 22:58:01 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id b14so33849288wmb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 14:58:02 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7673D60670;
+	Tue, 12 Jan 2016 23:23:39 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id cy9so347303876pac.0;
+	Tue, 12 Jan 2016 15:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=b9DTfqFqfZYE7ZtoDdQFoGTAnmWS0OrkVosxemkvuDw=;
-	b=JK6vzGDX93eOMCCCrITRhNi87wV4H6a+ujU/eiFN0KomBEO7H8rsgRbQlNm2tGSDYJ
-	LiHU7+f8l754AVYHKJk07HGsFZtvha080QCngGRpKEJi2zj/FH9iutu52ErrOCM7dUnC
-	oRrozYa6oMkKKOXXPNUk5oNNhl+mSvhAhadMu4QW74/pHroDHsYh+mj9KhDx++fOMIE4
-	Ca4WNsvWzdFXt7A+xfWcGO8VE/fzHMxOsm7+hhszQju9y4QFBq7a//+m1PomdeMjxQwp
-	7QJPVA7ERpgTwTNy2jjJQQOeUKMUcW+MDJ3mus6+ITgRK5jC6R1F/p1y5GpSdTFJuZvX
-	nSuA==
-MIME-Version: 1.0
-X-Received: by 10.194.24.226 with SMTP id x2mr140503841wjf.43.1452639481601;
-	Tue, 12 Jan 2016 14:58:01 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Tue, 12 Jan 2016 14:58:01 -0800 (PST)
-In-Reply-To: <CAJ86T=VNzj0hSnd2sG77rEqi2T9FDU+PoBJrq_SkmeFLfRJtsA@mail.gmail.com>
-References: <1452583117-812-1-git-send-email-armccurdy@gmail.com>
-	<1452634324.28375.24.camel@linuxfoundation.org>
-	<CAJ86T=VNzj0hSnd2sG77rEqi2T9FDU+PoBJrq_SkmeFLfRJtsA@mail.gmail.com>
-Date: Tue, 12 Jan 2016 14:58:01 -0800
-Message-ID: <CAJ86T=VRr=pop7dDx3kRbWbM+zNzmEoPw7nMTNK-foNRRWg6QQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] strace: misc fixes + update 4.10 -> 4.11
+	h=from:content-type:subject:date:message-id:cc:to:mime-version;
+	bh=3XYBQsRNVY11t1JCKHRlLA9x15MzKokslLCQMekiTYc=;
+	b=PHRz88no29Ng9FS9K9cY8/eZU4Z393yEVf5zU7zLcm+o4rIfDpQrsN9XPJLRVeboOq
+	AXDnuGFXbN1UUngxAsBkc+dBmcE7YUADQG60+iIifFJKqjPKNTQo0F7YHzSsE4qopiWN
+	OJjuFE7rGgYO4X+ora5X2ZwvmUskkKmhzmt66vSO7MtRibmRsFie3uY1gJL0QW0F0jDu
+	XYDOjMLBFC2TZwXU/4mMPdji/6A8K9+f65EgFPuOrTFR1xJt3OC02L9XAM1MjhyfvVxw
+	qdlhRskPMOYjXgv2tP1rXoaog7UZ0FVtzuXjAwJAyaPV+L/J4BUKABEYWAJKknqrLtJ8
+	DgUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:content-type:subject:date:message-id:cc:to
+	:mime-version;
+	bh=3XYBQsRNVY11t1JCKHRlLA9x15MzKokslLCQMekiTYc=;
+	b=jIYrWjZSThf9vpHZakY/dFfpgCVNUubdzgnwAVWwC9b91wup7R3IKy8irDd21tMCYa
+	Y/+D1q3vm6A7IVHZ3AMd5HbZthhiNk0mMQOtKCFk3IrAPS8Vtl9vIJnl/PspDWHWZqNe
+	BY7i+tgrDY3ki4hChgpqZ9l+VSqQG4qUbxGXDVQE7xgzA3pew8ombAaB+DGNEvQWB6nG
+	Eu2hRcFxrWWl6Ph6oZaWS7pYweMSvlgUX987unLU2IBM8nqxTIQZg5ihh0rGtqySiqeQ
+	H5doOvgJFFlh7zBnXCnJWj5m84kmeQKwlDZ8BECy3ancii/hs8FZLZgsmYZRaYIY+3nm
+	tWJw==
+X-Gm-Message-State: ALoCoQkMzlozIu4TnlxoJ3QrriUkkhGwSRqpjs36XVSW0U4TAqTd4tQuh40sXSdy0BdH9uCuVJEOaIhiB/bZyw87Ntk4G2Fzng==
+X-Received: by 10.66.189.200 with SMTP id gk8mr26761457pac.36.1452641020075;
+	Tue, 12 Jan 2016 15:23:40 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:5819:3c63:1381:916a?
+	([2601:646:8802:5d5c:5819:3c63:1381:916a])
+	by smtp.gmail.com with ESMTPSA id
+	l14sm32744781pfb.73.2016.01.12.15.23.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 12 Jan 2016 15:23:39 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Tue, 12 Jan 2016 15:23:33 -0800
+Message-Id: <39606447-07D3-4F1F-93A1-CB9C77114535@gmail.com>
+To: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Cached size of off_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,54 +56,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 22:58:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Jan 2016 23:23:41 -0000
+X-Groupsio-MsgNum: 75959
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Tue, Jan 12, 2016 at 2:02 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Tue, Jan 12, 2016 at 1:32 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2016-01-11 at 23:18 -0800, Andre McCurdy wrote:
->>> Andre McCurdy (5):
->>>   strace: drop unnecessary dependency on acl
->>>   strace: fix --disable-aio configure option
->>>   strace: remove need for git-version-gen script
->>>   strace: fix ARCH definition in tests/Makefile
->>>   strace: update 4.10 -> 4.11
->>
->> I included this in a -next build but it failed on the autobuilder:
->>
->> http://errors.yoctoproject.org/Errors/Details/27173/
->> http://errors.yoctoproject.org/Errors/Details/27101/
->> http://errors.yoctoproject.org/Errors/Details/27101/
->>
->> One is poky, one is poky-lsb, looks like it might be a debian system
->> specific issue :/.
->
-> Looks like it's calling the host gcc with -isystem set to OE's
-> x86_64-linux sysroot, and then gets confused because host gcc seems to
-> be generating 32bit binaries by default.
->
-> Does adding "-m64" to the failing gcc command line fix it?
+--Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Clearing CFLAGS_FOR_BUILD, CPPFLAGS_FOR_BUILD and LDFLAGS_FOR_BUILD
-from within the recipe looks like it's going to fix it.
+Hi
 
-  CPPFLAGS_FOR_BUILD = ""
-  CFLAGS_FOR_BUILD = ""
-  CXXFLAGS_FOR_BUILD=""
-  LDFLAGS_FOR_BUILD = ""
-
-It raises some questions though. We setup CFLAGS_FOR_BUILD etc
-unconditionally from autotools.bbclass with -isystem pointing to the
-native sysroot, but I don't see any default dependency to ensure that
-the native sysroot actually contains anything. Should CFLAGS_FOR_BUILD
-etc perhaps only be setup for packages which are known to need it,
-when we know there's an appropriate dependency in place to populate
-the native sysroot?
+We cache size of off_t in site files and the value is 4 in most cases
 
 
->> Cheers,
->>
->> Richard
->>
+meta/site/arm-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
+meta/site/ix86-common:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
+meta/site/nios2-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
+meta/site/powerpc32-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
+meta/site/x32-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D8}
+meta/site/x86_64-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D8}
 
+
+However this value is wrong when largefile support is enabled (which is =
+default) on
+most OE based distros. It also lands us in nasty bugs which are =
+complicated to uncover
+eg. the curl issue
+
+=
+http://git.openembedded.org/openembedded-core/commit/?id=3D3c58712465494e4=
+41c4036a7cf21d2e6d343efab
+
+and just in OE-Core more e.g. grub2,libsndfile1,pax are showing same =
+symptoms.
+
+I think this value should be left for configure to compute and
+autotools.bbclass should pass --{enable|disable}-largefile based upon
+DISTRO_FEATURES enabling largefile support
+
+Do we see any downsides or point I might have missed
+
+Thank you
+-Khem
+
+
+--Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlaVivoACgkQuwUzVZGdMxR03ACeKG5AF+XX9pDo2RxFeqBs5Jwq
+rGcAmwaVWcLYrEtUD4SOjJYD62ePwwMS
+=j6pn
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D--
