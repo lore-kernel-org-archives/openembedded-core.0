@@ -1,49 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 7673D60670;
-	Tue, 12 Jan 2016 23:23:39 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id cy9so347303876pac.0;
-	Tue, 12 Jan 2016 15:23:40 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D5506013D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jan 2016 23:25:48 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id pv5so27340624pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jan 2016 15:25:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:subject:date:message-id:cc:to:mime-version;
-	bh=3XYBQsRNVY11t1JCKHRlLA9x15MzKokslLCQMekiTYc=;
-	b=PHRz88no29Ng9FS9K9cY8/eZU4Z393yEVf5zU7zLcm+o4rIfDpQrsN9XPJLRVeboOq
-	AXDnuGFXbN1UUngxAsBkc+dBmcE7YUADQG60+iIifFJKqjPKNTQo0F7YHzSsE4qopiWN
-	OJjuFE7rGgYO4X+ora5X2ZwvmUskkKmhzmt66vSO7MtRibmRsFie3uY1gJL0QW0F0jDu
-	XYDOjMLBFC2TZwXU/4mMPdji/6A8K9+f65EgFPuOrTFR1xJt3OC02L9XAM1MjhyfvVxw
-	qdlhRskPMOYjXgv2tP1rXoaog7UZ0FVtzuXjAwJAyaPV+L/J4BUKABEYWAJKknqrLtJ8
-	DgUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:content-type:subject:date:message-id:cc:to
-	:mime-version;
-	bh=3XYBQsRNVY11t1JCKHRlLA9x15MzKokslLCQMekiTYc=;
-	b=jIYrWjZSThf9vpHZakY/dFfpgCVNUubdzgnwAVWwC9b91wup7R3IKy8irDd21tMCYa
-	Y/+D1q3vm6A7IVHZ3AMd5HbZthhiNk0mMQOtKCFk3IrAPS8Vtl9vIJnl/PspDWHWZqNe
-	BY7i+tgrDY3ki4hChgpqZ9l+VSqQG4qUbxGXDVQE7xgzA3pew8ombAaB+DGNEvQWB6nG
-	Eu2hRcFxrWWl6Ph6oZaWS7pYweMSvlgUX987unLU2IBM8nqxTIQZg5ihh0rGtqySiqeQ
-	H5doOvgJFFlh7zBnXCnJWj5m84kmeQKwlDZ8BECy3ancii/hs8FZLZgsmYZRaYIY+3nm
-	tWJw==
-X-Gm-Message-State: ALoCoQkMzlozIu4TnlxoJ3QrriUkkhGwSRqpjs36XVSW0U4TAqTd4tQuh40sXSdy0BdH9uCuVJEOaIhiB/bZyw87Ntk4G2Fzng==
-X-Received: by 10.66.189.200 with SMTP id gk8mr26761457pac.36.1452641020075;
-	Tue, 12 Jan 2016 15:23:40 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:5819:3c63:1381:916a?
-	([2601:646:8802:5d5c:5819:3c63:1381:916a])
-	by smtp.gmail.com with ESMTPSA id
-	l14sm32744781pfb.73.2016.01.12.15.23.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jan 2016 15:23:39 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Pgp-Agent: GPGMail 2.6b2
-Date: Tue, 12 Jan 2016 15:23:33 -0800
-Message-Id: <39606447-07D3-4F1F-93A1-CB9C77114535@gmail.com>
-To: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Mailer: Apple Mail (2.3112)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Cached size of off_t
+	h=from:to:subject:date:message-id;
+	bh=EwRGK9iEL6Vp1bzSuS147DOiTJPm0vvkTk2gapfnuVU=;
+	b=v211WNMpWf8CKBU+yE9p2mG99VD16+5PAUab4xz8zEclBiNqQBlt9G9CXMihDw22AB
+	BYwYgwlWoyXwNZjS1ve/m92Hj0O7pqGDZBNlqBSihPHh6TsS5p7WI9vFmGLR1x93j7NT
+	IbUjNI/+KI8gqS+voeamZrcojIcVBTf9+V1/tuLmAPcVDYktZWWK8y1u9Z5OPFF7XhSo
+	jYHLxEdo4nPVgxgDbUr7eozRi0gTYLPZWAMn6zlNFMjM5TfesjwXRIXSRGidBA7OzBXt
+	d/pzTfcoOyHOQMeklEC+NvvbYIB8cNRzZXN0WytPQjTFPiqJbzq+YSulKDDcvaSusR16
+	y32g==
+X-Received: by 10.66.144.5 with SMTP id si5mr23910414pab.51.1452641148924;
+	Tue, 12 Jan 2016 15:25:48 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	s84sm32754733pfa.74.2016.01.12.15.25.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 12 Jan 2016 15:25:47 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jan 2016 15:25:43 -0800
+Message-Id: <cover.1452640824.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 00/13] Jethro, Fido openssl and libxml security fixes vi git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,67 +42,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 23:23:41 -0000
-X-Groupsio-MsgNum: 75959
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 12 Jan 2016 23:25:48 -0000
 
---Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+changes in contrib branch for alt integration.
 
-Hi
+The following changes since commit 0073b234d793099a371b2e529f740987decce756:
 
-We cache size of off_t in site files and the value is 4 in most cases
+  yocto-bsp: Typo on the file extension (2016-01-07 12:13:55 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akuster/jethro_sec_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro_sec_fixes
+
+Armin Kuster (13):
+  openssl: fix for CVE-2015-3193
+  openssl: fix for CVE-2015-3194
+  openssl: fix for CVE-2015-3195
+  libxml2: security fix CVE-2015-7941
+  libxml2: security fix CVE-2015-8317
+  libxml2: security fix CVE-2015-7942
+  libxml2: security fix CVE-2015-8035
+  libxml2: security fix CVE-2015-7498
+  libxml2: security fix CVE-2015-7497
+  libxml2: security fix CVE-2015-7499
+  libxml2: security fix CVE-2015-7500
+  libxml2: security fix CVE-2015-8242
+  libxml2: security fix CVE-2015-5312
+
+ .../openssl/0001-Add-test-for-CVE-2015-3194.patch  |  66 ++++++++++
+ ...64-mont5.pl-fix-carry-propagating-bug-CVE.patch | 101 +++++++++++++++
+ .../CVE-2015-3194-1-Add-PSS-parameter-check.patch  |  45 +++++++
+ ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch |  66 ++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   4 +
+ meta/recipes-core/libxml/libxml2.inc               |  14 +++
+ ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
+ ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
+ ...00-Fix-memory-access-error-due-to-incorre.patch | 131 +++++++++++++++++++
+ ...2015-8035-Fix-XZ-compression-support-loop.patch |  38 ++++++
+ ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
+ ...n-name-parsing-at-the-end-of-current-inpu.patch | 138 +++++++++++++++++++++
+ ...ssing-entities-after-encoding-conversion-.patch |  89 +++++++++++++
+ ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88 +++++++++++++
+ ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
+ ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
+ ...leanup-conditional-section-error-handling.patch |  56 +++++++++
+ ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
+ ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
+ ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
+ 20 files changed, 1162 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Add-test-for-CVE-2015-3194.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-1-Add-PSS-parameter-check.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch
+
+-- 
+2.3.5
 
 
-meta/site/arm-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
-meta/site/ix86-common:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
-meta/site/nios2-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
-meta/site/powerpc32-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
-meta/site/x32-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D8}
-meta/site/x86_64-linux:ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D8}
-
-
-However this value is wrong when largefile support is enabled (which is =
-default) on
-most OE based distros. It also lands us in nasty bugs which are =
-complicated to uncover
-eg. the curl issue
-
-=
-http://git.openembedded.org/openembedded-core/commit/?id=3D3c58712465494e4=
-41c4036a7cf21d2e6d343efab
-
-and just in OE-Core more e.g. grub2,libsndfile1,pax are showing same =
-symptoms.
-
-I think this value should be left for configure to compute and
-autotools.bbclass should pass --{enable|disable}-largefile based upon
-DISTRO_FEATURES enabling largefile support
-
-Do we see any downsides or point I might have missed
-
-Thank you
--Khem
-
-
---Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaVivoACgkQuwUzVZGdMxR03ACeKG5AF+XX9pDo2RxFeqBs5Jwq
-rGcAmwaVWcLYrEtUD4SOjJYD62ePwwMS
-=j6pn
------END PGP SIGNATURE-----
-
---Apple-Mail=_E804F38C-5F94-416D-91F1-150791842E7D--
