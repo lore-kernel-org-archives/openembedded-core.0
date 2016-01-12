@@ -1,27 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 99EB17316E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F6C26011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 02:54:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jan 2016 18:54:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,556,1444719600"; d="scan'208";a="725060390"
-Received: from mariacha-mobl2.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.175.41])
-	by orsmga003.jf.intel.com with ESMTP; 11 Jan 2016 18:54:12 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 15:54:10 +1300
-Message-ID: <2742933.c5PQfXKTiF@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
-	)
-In-Reply-To: <1452546725-211503-3-git-send-email-mark.hatle@windriver.com>
-References: <1452546725-211503-1-git-send-email-mark.hatle@windriver.com>
-	<1452546725-211503-3-git-send-email-mark.hatle@windriver.com>
+	Tue, 12 Jan 2016 03:35:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0C3ZZ8v001564
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Jan 2016 19:35:35 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jan 2016 19:35:34 -0800
+To: Armin Kuster <akuster808@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1452207843-29858-1-git-send-email-akuster808@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56947484.2060908@windriver.com>
+Date: Tue, 12 Jan 2016 11:35:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2 [RFC]] image.bbclass: Unconditional includes of populate_sdk_ext fails
+In-Reply-To: <1452207843-29858-1-git-send-email-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: Re: [PATCH][V2][Jethro, fido 1/3] openssl: fix for CVE-2015-3193
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +35,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 02:54:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 Jan 2016 03:35:39 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 11 Jan 2016 15:12:05 Mark Hatle wrote:
-> populate_sdk_ext requires uninative support, which is only available on
-> glibc based SDKMACHINES.  For instance, when using mingw32 a dependency
-> error will occur:
-> 
-> NOTE: Runtime target 'nativesdk-glibc' is unbuildable, removing...
-> ERROR: Required build target 'core-image-minimal' has no buildable
-> providers. Missing or unbuildable dependency chain was:
-> ['core-image-minimal', 'uninative-tarball', 'nativesdk-glibc']
-> 
-> This is dues to populate_sdk_ext.bbclass having:
-> do_populate_sdk_ext[depends] += "buildtools-tarball:do_populate_sdk
-> uninative-tarball:do_populate_sdk" addtask populate_sdk_ext
-> 
-> Since bitbake can't determine for dependency resolution if the task is going
-> to be run yet, it blows up and says it simply can't be resolved.
-> 
-> Workaround this problem by making the inherit conditional on the SDK_OS
-> containing 'linux'.
-> 
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+
+Hi Armin,
+
+I got strange errors when use git am:
+
+  git am /tmp/jethro/*openssl*
+Applying: openssl: fix for CVE-2015-3193
+/buildarea/lyang1/poky/.git/rebase-apply/patch:24: trailing whitespace.
+This patch was imported from
+/buildarea/lyang1/poky/.git/rebase-apply/patch:41: space before tab in indent.
+         add     (%rdx),%r8              # can this overflow?
+/buildarea/lyang1/poky/.git/rebase-apply/patch:51: space before tab in indent.
+         xor     %rax,%rax
+/buildarea/lyang1/poky/.git/rebase-apply/patch:52: trailing whitespace.
+
+/buildarea/lyang1/poky/.git/rebase-apply/patch:53: space before tab in indent.
+         neg     $carry
+warning: squelched 11 whitespace errors
+warning: 16 lines add whitespace errors.
+fatal: cannot convert from y to UTF-8
+
+Would please put the patches to a repo ? so that I can fetch them ?
+
+// Robert
+
+On 01/08/2016 07:04 AM, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+>
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
 > ---
->  meta/classes/image.bbclass | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index e3769b4..d37995a 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -1,6 +1,9 @@
->  inherit rootfs_${IMAGE_PKGTYPE}
-> 
-> -inherit populate_sdk_ext
-> +# Only Linux SDKs support populate_sdk_ext, fall back to populate_sdk
-> +# in the non-Linux SDK_OS case, such as mingw32
-> +SDKEXTCLASS ?= "${@['populate_sdk', 'populate_sdk_ext']['linux' in
-> d.getVar("SDK_OS", True)]}" +inherit ${SDKEXTCLASS}
-> 
->  TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
->  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
-
-Looks OK to me, FWIW.
-
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+>   ...64-mont5.pl-fix-carry-propagating-bug-CVE.patch | 101 +++++++++++++++++++++
+>   .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
+>   2 files changed, 102 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
+> new file mode 100644
+> index 0000000..125016a
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
+> @@ -0,0 +1,101 @@
+> +From d73cc256c8e256c32ed959456101b73ba9842f72 Mon Sep 17 00:00:00 2001
+> +From: Andy Polyakov <appro@openssl.org>
+> +Date: Tue, 1 Dec 2015 09:00:32 +0100
+> +Subject: [PATCH] bn/asm/x86_64-mont5.pl: fix carry propagating bug
+> + (CVE-2015-3193).
+> +
+> +Reviewed-by: Richard Levitte <levitte@openssl.org>
+> +(cherry picked from commit e7c078db57908cbf16074c68034977565ffaf107)
+> +
+> +Upstream-Status: Backport
+> +
+> +This patch was imported from
+> +https://git.openssl.org/?p=openssl.git;a=commit;h=d73cc256c8e256c32ed959456101b73ba9842f72
+> +
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + crypto/bn/asm/x86_64-mont5.pl | 22 +++++++++++++++++++---
+> + crypto/bn/bntest.c            | 18 ++++++++++++++++++
+> + 2 files changed, 37 insertions(+), 3 deletions(-)
+> +
+> +Index: openssl-1.0.2d/crypto/bn/asm/x86_64-mont5.pl
+> +===================================================================
+> +--- openssl-1.0.2d.orig/crypto/bn/asm/x86_64-mont5.pl
+> ++++ openssl-1.0.2d/crypto/bn/asm/x86_64-mont5.pl
+> +@@ -1779,6 +1779,15 @@ sqr8x_reduction:
+> + .align	32
+> + .L8x_tail_done:
+> + 	add	(%rdx),%r8		# can this overflow?
+> ++	adc	\$0,%r9
+> ++	adc	\$0,%r10
+> ++	adc	\$0,%r11
+> ++	adc	\$0,%r12
+> ++	adc	\$0,%r13
+> ++	adc	\$0,%r14
+> ++	adc	\$0,%r15		# can't overflow, because we
+> ++					# started with "overhung" part
+> ++					# of multiplication
+> + 	xor	%rax,%rax
+> +
+> + 	neg	$carry
+> +@@ -3125,6 +3134,15 @@ sqrx8x_reduction:
+> + .align	32
+> + .Lsqrx8x_tail_done:
+> + 	add	24+8(%rsp),%r8		# can this overflow?
+> ++	adc	\$0,%r9
+> ++	adc	\$0,%r10
+> ++	adc	\$0,%r11
+> ++	adc	\$0,%r12
+> ++	adc	\$0,%r13
+> ++	adc	\$0,%r14
+> ++	adc	\$0,%r15		# can't overflow, because we
+> ++					# started with "overhung" part
+> ++					# of multiplication
+> + 	mov	$carry,%rax		# xor	%rax,%rax
+> +
+> + 	sub	16+8(%rsp),$carry	# mov 16(%rsp),%cf
+> +@@ -3168,13 +3186,11 @@ my ($rptr,$nptr)=("%rdx","%rbp");
+> + my @ri=map("%r$_",(10..13));
+> + my @ni=map("%r$_",(14..15));
+> + $code.=<<___;
+> +-	xor	%rbx,%rbx
+> ++	xor	%ebx,%ebx
+> + 	sub	%r15,%rsi		# compare top-most words
+> + 	adc	%rbx,%rbx
+> + 	mov	%rcx,%r10		# -$num
+> +-	.byte	0x67
+> + 	or	%rbx,%rax
+> +-	.byte	0x67
+> + 	mov	%rcx,%r9		# -$num
+> + 	xor	\$1,%rax
+> + 	sar	\$3+2,%rcx		# cf=0
+> +Index: openssl-1.0.2d/crypto/bn/bntest.c
+> +===================================================================
+> +--- openssl-1.0.2d.orig/crypto/bn/bntest.c
+> ++++ openssl-1.0.2d/crypto/bn/bntest.c
+> +@@ -1027,6 +1027,24 @@ int test_mod_exp_mont_consttime(BIO *bp,
+> +             return 0;
+> +         }
+> +     }
+> ++
+> ++    /* Regression test for carry propagation bug in sqr8x_reduction */
+> ++    BN_hex2bn(&a, "050505050505");
+> ++    BN_hex2bn(&b, "02");
+> ++    BN_hex2bn(&c,
+> ++        "4141414141414141414141274141414141414141414141414141414141414141"
+> ++        "4141414141414141414141414141414141414141414141414141414141414141"
+> ++        "4141414141414141414141800000000000000000000000000000000000000000"
+> ++        "0000000000000000000000000000000000000000000000000000000000000000"
+> ++        "0000000000000000000000000000000000000000000000000000000000000000"
+> ++        "0000000000000000000000000000000000000000000000000000000001");
+> ++    BN_mod_exp(d, a, b, c, ctx);
+> ++    BN_mul(e, a, a, ctx);
+> ++    if (BN_cmp(d, e)) {
+> ++        fprintf(stderr, "BN_mod_exp and BN_mul produce different results!\n");
+> ++        return 0;
+> ++    }
+> ++
+> +     BN_free(a);
+> +     BN_free(b);
+> +     BN_free(c);
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> index fd56841..79e86d8 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> @@ -37,6 +37,7 @@ SRC_URI += "file://configure-targets.patch \
+>               file://crypto_use_bigint_in_x86-64_perl.patch \
+>               file://openssl-1.0.2a-x32-asm.patch \
+>               file://ptest_makefile_deps.patch  \
+> +            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
+>
 
