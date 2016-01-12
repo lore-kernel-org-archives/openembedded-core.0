@@ -1,37 +1,30 @@
 Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D6E73232
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id BE32A6FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 09:03:07 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u0C935x4017332; Tue, 12 Jan 2016 03:03:05 -0600
+	Tue, 12 Jan 2016 09:23:29 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0C9NSUr000658; Tue, 12 Jan 2016 03:23:28 -0600
 Received: from ionel-workpc.emea.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016011203030563-1925727 ;
-	Tue, 12 Jan 2016 03:03:05 -0600 
-Date: Tue, 12 Jan 2016 11:03:01 +0200
+	HF1218) with ESMTP id 2016011203232838-1926233 ;
+	Tue, 12 Jan 2016 03:23:28 -0600 
 From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20160112110301.70ad927a@ionel-workpc.emea.corp.natinst.com>
-In-Reply-To: <20160112102602.13095fdf@ionel-workpc.emea.corp.natinst.com>
-References: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LbnFsAVPv6r_vh8EX9m7Kir-WW-zq+24FJS1Cr4-vVKZA@mail.gmail.com>
-	<20151223120303.7a2bb7df@adi-pc-linux>
-	<4152432.VEWvmsyppU@peggleto-mobl.ger.corp.intel.com>
-	<20160112102602.13095fdf@ionel-workpc.emea.corp.natinst.com>
-Organization: National Instruments
-MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jan 2016 11:23:25 +0200
+Message-Id: <1452590605-29328-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.0
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/12/2016 03:03:05 AM,
+	8.5.3FP6 HF1218|December 12, 2014) at 01/12/2016 03:23:28 AM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/12/2016 03:03:05 AM,
-	Serialize complete at 01/12/2016 03:03:05 AM
+	HF1218|December 12, 2014) at 01/12/2016 03:23:28 AM,
+	Serialize complete at 01/12/2016 03:23:28 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2016-01-12_03:, , signatures=0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RESEND PATCH v3] util-linux: create util-linux-runuser package
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH] util-linux: create util-linux-runuser iff pam in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,58 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 09:03:08 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 12 Jan 2016 09:23:30 -0000
 
-On Tue, 12 Jan 2016 10:26:02 +0200
-Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+If pam is not present in DISTRO_FEATURES, then exclude
+util-linux-runuser from PACKAGES to avoid its libpam dependency.
 
-> On Tue, 12 Jan 2016 15:52:50 +1300
-> Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> 
-> > On Wed, 23 Dec 2015 12:03:03 Ioan-Adrian Ratiu wrote:  
-> > > On Tue, 22 Dec 2015 17:34:12 +0000
-> > > 
-> > > "Burton, Ross" <ross.burton@intel.com> wrote:    
-> > > > On 15 December 2015 at 09:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>     
-> > wrote:  
-> > > > > Split runuser into its own package (previously provided by util-linux).
-> > > > > Since runuser is compiled only when DISTRO_FEATURES includes pam,
-> > > > > the creation of util-linux-runuser is also constrained by this.    
-> > > > 
-> > > > What's the rationale for pulling this out into a separate package?    
-> > > 
-> > > I need runuser on a busybox image and can't install the entire util-linux
-> > > package.    
-> > > > >  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount',
-> > > > > 
-> > > > > 'util-linux-pylibmount', '', d)}"
-> > > > > +PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam',
-> > > > > 'util-linux-runuser', '', d)}"    
-> > > > 
-> > > > No need for conditionals: empty packages are not created.    
-> > > 
-> > > Thank you for this tip, I've modified and sent v4.    
-> > 
-> > Unfortunately this wasn't right - the package being excluded from PACKAGES was 
-> > serving to avoid the libpam dependency when pam was not in DISTRO_FEATURES; as 
-> > of this patch we are now building it unconditionally leading to a warning.
-> > 
-> > Ioan-Adrian, could you please send a patch that changes it back to how you had 
-> > it in v3?  
-> 
-> Yes, I'll send v5 which will revert the change from v4.
-> 
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Uh oh, I just rebased on origin/master and it looks like v4 was commited there a few hours ago.
-
-So I'll just send a new patch to introduce the pam conditional on top of the already integrated change.
-
-> > 
-> > Thanks,
-> > Paul
-> >   
-> 
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 7ef7a54..e7e32e8 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -29,11 +29,12 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-swaponoff util-linux-losetup util-linux-umount \
+              util-linux-mount util-linux-readprofile util-linux-uuidd \
+              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
+-             util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-runuser \
++             util-linux-mkfs util-linux-mcookie util-linux-reset \
+              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
+              util-linux-findfs util-linux-getopt util-linux-sulogin"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
++PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+ 
+ PACKAGES_DYNAMIC = "^util-linux-lib.*"
+ 
+-- 
+2.7.0
 
 
