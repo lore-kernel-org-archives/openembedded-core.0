@@ -1,31 +1,27 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 18AD3731D7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A5004731EC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 05:02:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="2483396"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Jan 2016 13:02:39 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id B57E0418911C
+	Tue, 12 Jan 2016 05:32:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0C5Wioc011890
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 13:02:26 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.98) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Tue, 12 Jan 2016 13:06:05 +0800
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
+	Mon, 11 Jan 2016 21:32:44 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jan 2016 21:32:44 -0800
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jan 2016 08:02:14 +0300
-Message-ID: <1452574934-2053-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+References: <cover.1451286789.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56948FFA.2010405@windriver.com>
+Date: Tue, 12 Jan 2016 13:32:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.98]
-X-yoursite-MailScanner-ID: B57E0418911C.A0070
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] net-tools_1.60-26.bb: Error fix
+In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 00/40] [jethro] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +34,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 05:02:41 -0000
-Content-Type: text/plain
-
-when set PATCHTOOL = "patch" in conf/local.conf,error will occur
-in the step of do_patch.
-The error is: "quilt: command not found",so fix it.
-
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 923d048..e173f54 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -30,6 +30,7 @@ SRC_URI[patch.sha256sum] = "aeeeafaff68866a446f01bb639d4e0146a60af34dcd20e31a3e4
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
- 
- inherit gettext
-+DEPENDS = "quilt-native"
- 
- # The Makefile is lame, no parallel build
- PARALLEL_MAKE = ""
-@@ -40,7 +41,7 @@ PARALLEL_MAKE = ""
- # up all previously applied patches in the start
- nettools_do_patch() {
- 	cd ${S}
--	quilt pop -a || true
-+	${STAGING_BINDIR_NATIVE}/quilt pop -a || true
- 	if [ -d ${S}/.pc-nettools ]; then
- 		rm -rf ${S}/.pc
- 		mv ${S}/.pc-nettools ${S}/.pc
--- 
-1.8.4.2
+X-List-Received-Date: Tue, 12 Jan 2016 05:32:46 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
+
+On 12/28/2015 03:14 PM, Robert Yang wrote:
+> The following changes since commit 224bcc2ead676600bcd9e290ed23d9b2ed2f481e:
+>
+>    rpcbind: Security Advisory - rpcbind - CVE-2015-7236 (2015-12-08 00:18:12 -0800)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/jethro-next
+
+Appended a patch to the thread, there are 41 commits in the repo.
+
+commit c0a13c410393ce51a2a55e36a0913c0136058bdc
+Author: Hongxu Jia <hongxu.jia@windriver.com>
+Date:   Mon Nov 2 16:33:27 2015 +0800
+
+     logrotate: do not move binary logrotate to /usr/bin
+
+// Robert
+
+>
+> Andre McCurdy (2):
+>    directfb.inc: force bfd linker for armv7a
+>    cairo: fix license for cairo-script-interpreter
+>
+> Fang Jia (1):
+>    toolchain-scripts.bbclass: unset command_not_found_handle
+>
+> Jean-Francois Dagenais (1):
+>    toolchain-shar-relocate: don't assume last state of env_setup_script
+>      is good
+>
+> Jens Rehsack (1):
+>    autotools: Allow recipe-individual configure scripts
+>
+> Khem Raj (1):
+>    libxcb: Add a workaround for gcc5 bug on mips
+>
+> Li Xin (1):
+>    glibc: Backported a patch to fix glibc's bug(18589)
+>
+> Mark Hatle (4):
+>    populate_sdk_ext.bbclass: Be more permissive on the name of the
+>      buildtools
+>    prelink: Fix various prelink issues on IA32, ARM, and MIPS.
+>    gcc: Update default Power GCC settings to use secure-plt
+>    glibc: Fix ld.so / prelink interface for
+>      ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA
+>
+> Martin Jansa (9):
+>    icu: force arm mode
+>    guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable
+>      thumb where it fails for qemuarm
+>    libunwind: fix build for qemuarm
+>    gstreamer1.0-plugins-{base,good}: update PACKAGECONFIGs
+>    gstreamer1.0-plugins-bad: fix dependencies for uvch264 PACKAGECONFIG
+>    gstreamer1.0-plugins-good: fix PACKAGECONFIG for gudev and add one
+>      for v4l2 and libv4l2
+>    gst-plugins-bad: add PACKAGECONFIGs for voamrwbenc, voaacenc,
+>      resindvd
+>    package_manager.py: define info_dir and status_file when OPKGLIBDIR
+>      isn't the default
+>    texinfo: don't create dependency on INHERIT variable
+>
+> Paul Eggleton (16):
+>    classes/distrodata: split SRC_URI properly before determining type
+>    oeqa/selftest/devtool: fix test if build directory is not inside
+>      COREBASE
+>    oeqa/selftest/layerappend: fix test if build directory is not inside
+>      COREBASE
+>    classes/metadata_scm: fix git errors showing up on non-git
+>      repositories
+>    classes/license: fix intermittent license collection warning
+>    classes/populate_sdk_ext: tidy up preparation log file writing
+>    classes/populate_sdk_ext: make it clear when SDK installation has
+>      failed
+>    classes/populate_sdk_ext: tweak reporting of workspace exclusion
+>    classes/populate_sdk_ext: fail if SDK_ARCH != BUILD_ARCH
+>    toolchain-shar-extract.sh: proper fix for additional env setup
+>      scripts
+>    scripts/gen-lockedsig-cache: improve output
+>    toolchain-shar-extract.sh: do not allow $ in paths for ext SDK
+>    devtool: upgrade: fix removing other recipes from workspace on reset
+>    devtool: upgrade: fix updating PV and SRCREV
+>    devtool: upgrade: remove erroneous error when not renaming recipe
+>    devtool: upgrade: fetch remote repository before checking out new
+>      revision
+>
+> Randy Witt (1):
+>    uninative.bbclass: Choose the correct loader based on BUILD_ARCH
+>
+> Ross Burton (2):
+>    libsdl2: require GLES when building Wayland support
+>    openssl: sanity check that the bignum module is present
+>
+> Tzu-Jung Lee (1):
+>    devtool: include do_patch in SRCTREECOVEREDTASKS
+>
+>   meta/classes/autotools.bbclass                     |   43 +--
+>   meta/classes/distrodata.bbclass                    |    4 +-
+>   meta/classes/license.bbclass                       |    1 +
+>   meta/classes/metadata_scm.bbclass                  |   20 +-
+>   meta/classes/populate_sdk_ext.bbclass              |   15 +-
+>   meta/classes/toolchain-scripts.bbclass             |    1 +
+>   meta/classes/uninative.bbclass                     |    2 +-
+>   meta/files/toolchain-shar-extract.sh               |   15 +-
+>   meta/lib/oe/copy_buildsystem.py                    |    5 +-
+>   meta/lib/oe/package_manager.py                     |   19 ++
+>   meta/lib/oeqa/selftest/devtool.py                  |    2 +-
+>   meta/lib/oeqa/selftest/layerappend.py              |    9 +-
+>   .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   10 +
+>   ...TYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch |   84 +++++
+>   ...ove-incorrect-STRDIFF-based-optimization-.patch |  323 ++++++++++++++++++++
+>   meta/recipes-core/glibc/glibc_2.22.bb              |    2 +
+>   meta/recipes-devtools/gcc/gcc-common.inc           |    5 +
+>   meta/recipes-devtools/gcc/gcc-configure-common.inc |    1 +
+>   meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    1 +
+>   meta/recipes-devtools/gcc/gcc_4.9.bb               |    5 +-
+>   meta/recipes-devtools/guile/guile_2.0.11.bb        |    4 +
+>   meta/recipes-devtools/opensp/opensp_1.5.2.bb       |    4 +
+>   meta/recipes-devtools/prelink/prelink_git.bb       |    4 +-
+>   meta/recipes-extended/mailx/mailx_12.5-5.bb        |    5 +
+>   meta/recipes-extended/texinfo/texinfo_6.0.bb       |    2 +-
+>   meta/recipes-graphics/cairo/cairo.inc              |    3 +
+>   meta/recipes-graphics/directfb/directfb.inc        |    3 +
+>   meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb     |    2 +-
+>   meta/recipes-graphics/xorg-lib/libxcb.inc          |    4 +-
+>   .../libxcb/gcc-mips-pr68302-mips-workaround.patch  |   22 ++
+>   .../gstreamer/gstreamer1.0-libav_1.4.5.bb          |    3 +
+>   .../gstreamer/gstreamer1.0-plugins-bad.inc         |   15 +-
+>   .../gstreamer/gstreamer1.0-plugins-base.inc        |    7 +-
+>   .../gstreamer/gstreamer1.0-plugins-good.inc        |   14 +-
+>   meta/recipes-support/icu/icu_55.1.bb               |    4 +
+>   ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch |   61 ++++
+>   meta/recipes-support/libunwind/libunwind_1.1.bb    |    5 +
+>   scripts/gen-lockedsig-cache                        |   13 +-
+>   scripts/lib/devtool/standard.py                    |    4 +-
+>   scripts/lib/devtool/upgrade.py                     |   36 ++-
+>   40 files changed, 686 insertions(+), 96 deletions(-)
+>   create mode 100644 meta/recipes-core/glibc/glibc/0028-Clear-ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch
+>   create mode 100644 meta/recipes-core/glibc/glibc/strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libxcb/gcc-mips-pr68302-mips-workaround.patch
+>   create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+>
 
