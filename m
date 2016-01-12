@@ -1,46 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 351667317F
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D578731F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 10:23:41 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id u188so249298551wmu.1
+	Tue, 12 Jan 2016 10:24:31 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id z14so122213954igp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 02:23:42 -0800 (PST)
+	Tue, 12 Jan 2016 02:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=dA2BPMAlcHjbyneWn7/5/OE1pLmWY4Bzv9Gx9d8cX14=;
-	b=sMQS4NUZudNkUoD2kHnLTe/jBxH/b0Zy5s8K7WwZo6PwO6ktSyz3GGL0YxuzYRFlkn
-	pzgrOzEAXtvrtO32ANfw6m4VUB84EMxB+m4peD3PgctdEE+pQGoJBeKC2+XBFVVXYRO9
-	0tv1L4E3FKA6lYIBDkVvp216zBun3FtEh6syC1B/X0uq8TdIwIHhdChyqSvDh2SvN++V
-	ZfTY92+K1ZTSeuwCMGEMX5qONCGATG3Z320nKZ/MQqfpXBYSCTFw9JUzvnW08HW58/2c
-	NUTN4ylctpfbW6mcX0GMYh7w/5EsCBea4V1s1yO+rvMnmghPwpjYIe2VonnjZCRU4S+O
-	IIXQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=aowsy0sx33x6Y/ySAMJ4cY9Ey5ku9f4WhPj0tJJmlIM=;
+	b=p9Ndyglcv9ABuxpHVb9Cv/3ZgKtKsZ17I59qCGiYLF+/CNUI+HsOF0Lwpy6sR8/oTZ
+	Vtvx92pXnpxTwsizrIW2KOPyGGIOSWf89KhUps8CD5oow6Smge0Pb7G4oonKSHCDmvfv
+	kFwKtZEUZ+7siwihbpa1bHoQA0hFvCctl8hdR74xYwlfcDOq0EUGXDRdBdrgAF37LzVL
+	yW4bBM/Njp0D72MKxITHE0gQOJscBIlrE2V3Mfo/+l2LrjFpZJcaQWHKXzpuWFQm5BoE
+	A6JCbqGJbO6JRuSvpJNgcEHr4h32v5qGS8Jrnp9p/qNPfZjC2QftvUzvJnEUDjATk+Ff
+	1EXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dA2BPMAlcHjbyneWn7/5/OE1pLmWY4Bzv9Gx9d8cX14=;
-	b=Y+FrPiGRygRUJh0D0rTiieyxYIUbyQbu5TNMTgWpvV/0vTNi4Yx/x9zmMwXYS+O/kN
-	Q0MOIFwXbTzXedQPnR6MbLJdd2f3/xE6dQsbVqsWDXH6DgkwWfxklj0PpHm8fhIUhLG2
-	gHHQ+jhrkirbXBSDACW0BUJBfjy1A3fTYTQGyaAWydTsOWkP7gCoolXSgh1LVmVwQ5a5
-	iaR2kHwvipDEvEvpbZwg71WfyTZ2w1WelmMP3E092bjZNlAX5adLuJgNR7oDGcrHy7mA
-	qRHRFgnmMdbAOrggbQp9u+yatb2IJv2prXSUMMfkfhNVqlh8DUwIVpaejGhwuO6UrEJq
-	UAqQ==
-X-Gm-Message-State: ALoCoQlQN7y+80eN3Tq2q7hPRWU2SAJubxy3HktI3GULazeQXxLGr3QaOnXc4xUqyThWyx9adtMdAz+JxS8Ubcm1MPv2jmaHWA==
-X-Received: by 10.194.158.73 with SMTP id ws9mr156745781wjb.40.1452594222035; 
-	Tue, 12 Jan 2016 02:23:42 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	yz5sm71619470wjc.36.2016.01.12.02.23.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 12 Jan 2016 02:23:41 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 10:23:39 +0000
-Message-Id: <1452594219-6803-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] tzdata: remove bashism
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=aowsy0sx33x6Y/ySAMJ4cY9Ey5ku9f4WhPj0tJJmlIM=;
+	b=IZ7l6/ozNyWnQ3owxSyGgVWTvks1MOkwZpLr02cSuoRkEoZRh8FPc+xVlPDUtJXRT8
+	t68EtjnA4A3GYAHFcorU4JqCYYifXiCwR4k9VKcx24LR9RpG7vNW7l5MJRRs4OnLqrks
+	xG/PNi+3nuxNhAqQl7IQLaUpdDInG4w+zntnDUpYs4IdN6poCPoNMxDe+UEP7vd0N9X4
+	vvKS+2ir4dOvwAh4bliB/mr8bbcPV1nt0JH5gyryjNsm36zuqBsQCsFj0P00fdEjGeNn
+	ryc/VceijEjofbvaVUN1dY246rcnGgvEx4h8thl6/hSST200sb7txIi7ffjsRcYju8Ux
+	qnNA==
+X-Gm-Message-State: ALoCoQnMNsNrHZE4u/qkiJFjvxLvV+3zsnHrR+wDMn493n8egXLUjgkT4PISsIlVE3jRRtGTYuX5c1Uh6FMejgWvML0qNzo+eZQbBQHnU1Nsdr19ZSMHQxg=
+X-Received: by 10.50.43.133 with SMTP id w5mr16109324igl.52.1452594272410;
+	Tue, 12 Jan 2016 02:24:32 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Tue, 12 Jan 2016 02:24:13 -0800 (PST)
+In-Reply-To: <CAJ86T=XLn=tLvxv+aOH4=Z0ma3B7A_fuuESZYUZA=K4KKsLOfg@mail.gmail.com>
+References: <CAJTo0LaHTkODDiLfOYDQoFC-VBDD5h4XctAidjzRfyYGgdAfKA@mail.gmail.com>
+	<1452020669-24036-1-git-send-email-haris.okanovic@ni.com>
+	<CAJ86T=XLn=tLvxv+aOH4=Z0ma3B7A_fuuESZYUZA=K4KKsLOfg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Jan 2016 10:24:13 +0000
+Message-ID: <CAJTo0LbktbQ2h=LCveqxqFuuxajwZAYGJT3M9JcVNqTqf0WwJQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Haris Okanovic <haris.okanovic@ni.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] tzdata: Make /etc/timezone optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 10:23:45 -0000
+X-List-Received-Date: Tue, 12 Jan 2016 10:24:32 -0000
+Content-Type: multipart/alternative; boundary=089e01175f2b9c3ad1052920750f
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/tzdata/tzdata_2015g.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--089e01175f2b9c3ad1052920750f
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-index a6faa1d..ec6e236 100644
---- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-@@ -49,7 +49,7 @@ do_install () {
-         # Install default timezone
-         if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
-             install -d ${D}${sysconfdir}
--            if [ "${INSTALL_TIMEZONE_FILE}" == "1" ]; then
-+            if [ "${INSTALL_TIMEZONE_FILE}" = "1" ]; then
-                 echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
-             fi
-             ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
--- 
-2.6.4
+On 12 January 2016 at 04:03, Andre McCurdy <armccurdy@gmail.com> wrote:
 
+> You lose a style point for == in a shell script...
+>
 
+Patch sent.  We really need to scan for bashisms in our shell fragments.
+
+Ross
+
+--089e01175f2b9c3ad1052920750f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 January 2016 at 04:03, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":22z" class=3D"a=
+3s" style=3D"overflow:hidden">You lose a style point for =3D=3D in a shell =
+script...</div></blockquote><div><br></div><div>Patch sent.=C2=A0 We really=
+ need to scan for bashisms in our shell fragments.</div><div><br></div><div=
+>Ross=C2=A0</div></div></div></div>
+
+--089e01175f2b9c3ad1052920750f--
