@@ -1,26 +1,95 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 893656FF6B
+Return-Path: <haris.okanovic@ni.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0108.outbound.protection.outlook.com [207.46.100.108])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EDC9731EF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 16:25:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2016 08:24:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,558,1444719600"; d="scan'208";a="891657438"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2016 08:24:12 -0800
-Message-ID: <1452615851.13987.6.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 12 Jan 2016 18:24:11 +0200
-In-Reply-To: <5693D956.40107@windriver.com>
-References: <1452528799-11292-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
-	<5693D956.40107@windriver.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] oe.gpg_sign: support obs-signd
+	Tue, 12 Jan 2016 16:26:04 +0000 (UTC)
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=haris.okanovic@ni.com; 
+Received: from harisdt.amer.corp.natinst.com (130.164.62.171) by
+	BL2PR04MB004.namprd04.prod.outlook.com (10.255.228.22) with Microsoft
+	SMTP Server (TLS) id 15.1.377.16; Tue, 12 Jan 2016 16:26:03 +0000
+To: "Burton, Ross" <ross.burton@intel.com>, Andre McCurdy <armccurdy@gmail.com>
+References: <CAJTo0LaHTkODDiLfOYDQoFC-VBDD5h4XctAidjzRfyYGgdAfKA@mail.gmail.com>
+	<1452020669-24036-1-git-send-email-haris.okanovic@ni.com>
+	<CAJ86T=XLn=tLvxv+aOH4=Z0ma3B7A_fuuESZYUZA=K4KKsLOfg@mail.gmail.com>
+	<CAJTo0LbktbQ2h=LCveqxqFuuxajwZAYGJT3M9JcVNqTqf0WwJQ@mail.gmail.com>
+From: Haris Okanovic <haris.okanovic@ni.com>
+Message-ID: <56952913.7050202@ni.com>
+Date: Tue, 12 Jan 2016 10:25:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbktbQ2h=LCveqxqFuuxajwZAYGJT3M9JcVNqTqf0WwJQ@mail.gmail.com>
+X-Originating-IP: [130.164.62.171]
+X-ClientProxiedBy: BLUPR05CA0056.namprd05.prod.outlook.com (10.141.20.26) To
+	BL2PR04MB004.namprd04.prod.outlook.com (10.255.228.22)
+X-Microsoft-Exchange-Diagnostics: 1; BL2PR04MB004;
+	2:DU6CZYvAf3sqn8AVkQdMh+PE0A21qBkV6cba/KWYdOK6Apl1mnoJeQz88/jBZ3msMjRRn1sPV1223ehkp1XbMxFAMJ/3pylXFmjKhZZmudbojFRZSIyXFq30TUtCI4SpAWjENDWt9NNrbpteMESGOQ==;
+	3:qYEi1UkkqRHghUQ+r+4MpB8xcO9UwZuEZsuC6Pat42kR8VB5GWN5GqMMpm0hfv+L0RR/4RSsO1E3ham1sYpBGatb2gIwHl5RLbAcH6NxJNAN9owwmKbNIhut0UG3X65X;
+	25:1kbKEAqzKjXPjUtECGZ5SPvvN4yqj1X1WMo6ca2JqN2pPKKSNZvG8WoV/evxtvJyxXONhNEtbE6ZdF7sturp90/ySurL6keBd0l/2PYqo4EnBH0rMnJ/e0xM4ZujqGUx3aQM1qRmBxgaNETpViSsATzsDWQ3ZAwqLuGDsZP5Ziwv4l2TL8A2dIzCu7jpvYPTJ7u/zv9aNJo3lsITM8TBw1x48ZXwssKoy4UUfwlSkzL0wJOdCXaHH4KmTMHNDiyP
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BL2PR04MB004;
+X-MS-Office365-Filtering-Correlation-Id: 9e45263b-f5e2-4fba-b1e0-08d31b6d10db
+X-Microsoft-Exchange-Diagnostics: 1; BL2PR04MB004;
+	20:t29lQa072qvenR26rcMPRZ33sywr5z9hgHFlusdPIqwrEImzj7ODW0NpySynPGZiVcRNePe8Nt/qhaZUqWVBtPZDZcfd9VDhQqAMMAzM6VgVwM3wkyB1Ss11TV9XPNAufvNnnhT9zjYAae6OHteMV3pHWFYFp7CXlDl//oTnX/ndZ7AhxJsMmoVQWaqiIXXhZjhZhKdxAYP4vfWULECk4DmeBm5SFgAD1JwYCDIHbwF/06cHaX6KlUs55lK7gi2z3MI3iva1qyl4EwvUFjOi8al/kxXpzNMXQRlQ0pcKowCeqLXTNX6T8XqdM+72xGl6L6usZOGre3CphJvUsH1ToLYtF67G1THt5QQWRqYhtn3/t1+mEpgiVVPyWbPTzbUPyTPQsVhF76NAish6zTpHeQdEy4Y0z3IFTCkVzoK9hQnV5DMylItntU38YVuoGfcMfSA7AVMzat5ChtAoVujPscYa0hx6FRzUe+rBQNPwQ8UiNx2ZedKzApLUbtJTq9toVkUvuyBcSJ1APWhj+ahXKzq3bOJ1s74cJbYAtdUw9jBuExzxfhvQLLN4nr7ZOfuQIoxXU9lWca1IBM2P4JdV7TWh2+gD1dZ36q04OVWRWkw=
+X-Microsoft-Antispam-PRVS: <BL2PR04MB0045DC3FABBCB6E8D4AFAE9E5CA0@BL2PR04MB004.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(123027)(601004)(2401047)(5005006)(520078)(8121501046)(3002001)(10201501046);
+	SRVR:BL2PR04MB004; BCL:0; PCL:0; RULEID:; SRVR:BL2PR04MB004; 
+X-Microsoft-Exchange-Diagnostics: 1; BL2PR04MB004;
+	4:wG1d/ned8wX5Lq/QJFfmeWX34QX20Y9xo6V4Qo/7jQqn3ZFOWRVTNDQn8k7ewNu8i7ZjzybrQy3aoPQ9Q2lBT/ZVeNoSdv7Os+4Mskk/qJD7kVcq7wofkN3IRNu3QE3um19eYq2kFA4msiaZW10Axyf7C1noUvoEeu0E5dqW4FKsgj3uwfhXdrbtzLUNlKONO+5kNuweyPKx1cp/7qdgGVo1gQL8D4CDoZnSnrzZQ70+1N0RX5fc+avzwFNxIrRlO9Eqj4RTLmdjsSWDCV7cIIcZseEHhjGiIu1cXOo2h6QsTqe9k9+8TUa0+v3Chmd3TzMKFPEGyFBcI+ebMAAs9pqTtVKwMXekRa+jJtp93NagUud7AYGp/SJZJ27291L4oTBh9n+9SFqIh+6MN8NxOg==
+X-Forefront-PRVS: 081904387B
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(6009001)(479174004)(189002)(199003)(24454002)(377454003)(65806001)(6116002)(122386002)(5001770100001)(87976001)(86362001)(76176999)(50986999)(65816999)(77096005)(5001960100002)(586003)(1096002)(2950100001)(54356999)(3846002)(15975445007)(1720100001)(40100003)(97736004)(189998001)(92566002)(23676002)(4001350100001)(64126003)(93886004)(5008740100001)(66066001)(47776003)(65956001)(117636001)(42186005)(36756003)(83506001)(81156007)(230700001)(105586002)(19580395003)(2906002)(101416001)(99136001)(87266999)(5004730100002)(19580405001)(106356001)(59896002)(4326007)(50466002)(62816006);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BL2PR04MB004;
+	H:harisdt.amer.corp.natinst.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: ni.com does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCTDJQUjA0TUIwMDQ7MjM6dno4RDA0ajNBb01vOHRxcnJ6NTM5MzhSWkhv?=
+	=?utf-8?B?Q292WmdwOG9RQ1g4T1ZqL1o4cm5FR1c0WW44MzI4ME10TFBldjQ2Q2VJUFUw?=
+	=?utf-8?B?M1p3aEM0YjhOQkRVWFNxWGVzZkFyUFlZMXp3bkdSZ2VJRUluRUdEbjhxVm1D?=
+	=?utf-8?B?WlhQUUlwMkF3d0s5Z1FFM205dmVFS0xGcjh1WDB1cm1CREdwU2UvUVg3dVBJ?=
+	=?utf-8?B?YVVGT1pCbm53c29EQ0pVc0g1Nkd4RS9nOVJpb1BEeDZVYUxUQmJhUUx0YnM5?=
+	=?utf-8?B?Z3pneDRyN3dsNEVtZXc3MGV1YUZjTUlHSXZKMmluSUhRWElxZXR2NC9iTzVT?=
+	=?utf-8?B?YWtZRzJiWkUyN0lVbVFXTUxSeWJYSHBnYmM4S3BmbVFOZzl2Q1hkeElJOFky?=
+	=?utf-8?B?a3BGMEU0NXptZ1c2d0ZsUktKcnh6di9wSmp6ODFDb2szWk85eWtOZVpDWnpq?=
+	=?utf-8?B?dnFnanFKSGlaQklhaVhuakJjcFh4R1lBNjhPSG5yV0IzcHdKVEJDUlhWTG5P?=
+	=?utf-8?B?RDBXM0lndys2WjRwOVpmVVNLZitieTFLc0tkYjdTYm1wTFViUHhRYXAycWdX?=
+	=?utf-8?B?bkVxd0VYQkdEUnZrelZQaCt5MzN6QUkwc2RCSk5xSnQva2NLNkFjL3lKNGZT?=
+	=?utf-8?B?aDI3RzFQdDEvMkNVRVVhOGUvS0xObzlTZU42cXBUbUtzMVdUd2M3MTA4YW9y?=
+	=?utf-8?B?NFBPdm5ZYTFnaTh6MXgxUjE1ZFJnUlJKK3E0anhvWnoydFZVMDBJTXljb1hW?=
+	=?utf-8?B?bWRuRWx1U0FYblZEUXJXMFB5ZHBTVUNYdXJyWTdXZDdBUUhycjVtbk9abUxP?=
+	=?utf-8?B?eTEzdzVFZTAxZ1VqS2J5YmtsdEl1NnpPV3VJUW84WVZGSGFkV3NWT1lPM200?=
+	=?utf-8?B?Z3F0cHR3MVhtT1lWeE9NdVZleWNXUzdZY3RwVzRjVEVoem85ZU1NcVlQSEFv?=
+	=?utf-8?B?MFJjV3Y5T29TOUlGN1dib1pjcDRhdm9rMVZ5WjhNeGp5QWhub1I1NVE2Y1RH?=
+	=?utf-8?B?SEJoTTRaZ3JqQ2dscUhtUEFrb0tCQjFZUTkwaExKOVBEMG0zN2JXZXJ1NDdW?=
+	=?utf-8?B?UDE4SW1EOXlnbk5GWHJFRGlEWlZWSUJmaURGMkZrMVQ2VytSZkg0SFdkU1RC?=
+	=?utf-8?B?M3kxOFQ3R1hIU1dHWWFXMVlmQUpDcEtlTHVPMDNLTklWQkg0L2N6WjgxUEZD?=
+	=?utf-8?B?UmVJenI3cVJIczNWR04xYnRjVlJUd1B5VUoxcVNlL0FGdFhORndRTlhFQVVn?=
+	=?utf-8?B?T2RKR3RMVU82UnZPRGQzL1c1MXFwc0lFSkI3VmJoanpIenJ4bXNra016d0lr?=
+	=?utf-8?B?WStOV2NHdjJtQk9ZSDRtS0NydzdDQUdXSndSREJhVEtjNzhyMWdZWUFwZGVs?=
+	=?utf-8?B?Z05HbW50TmVWSkx0NCtqR1F0QlkvN0hXYVVzZXdGdXV6R1lpQXBjWG02bEox?=
+	=?utf-8?B?c041cGI0cm9XRytXTXkzeC9FV3IrL0Q2dnM1ZzNaZnpkSFAwU1o4aUs2Tm9X?=
+	=?utf-8?B?SHgzZE9GQzhZaGc1WFNxeUNlbEJRMGdzcjh4NjI2M1V1citlRUg3cFAya0RP?=
+	=?utf-8?B?MlhXeEl5S3UzYVorcHlzUHp0M1hLZGJ0Z0R5RmZHWFd6ZGRIOUFnYy9sTVZk?=
+	=?utf-8?B?eTFpVjlCU3FIVzE5UkNYbnd5cUJPSTdNTmpwT3ZPQ2cyYkFHTkxkaWxrY1Z6?=
+	=?utf-8?B?ME1RenJTK1NjbDMxQ0ZBYWJEeGRlUk1BcU1xVzVjQ1BtOUNXSDFaK1dYVmdz?=
+	=?utf-8?B?OVE3SDErejZLbk84RjNPb1lNYzIwT09MckZNakY3Qm5PdVFKTDVzYmxiNUJi?=
+	=?utf-8?B?T2l1VXNsT0svcTlZT01sYjRTV2Z2enJZQ1JrNWE3Z1hKMXdSeE5tWW1IZG94?=
+	=?utf-8?Q?4NUPC5EQnOh78deQ9nMUKx1+rK7i6mw?=
+X-Microsoft-Exchange-Diagnostics: 1; BL2PR04MB004;
+	5:2O5yMUjNniIAlC62CP3n1nWYcPbjZx8Y5cQ2wMo9mjGbR2qrEHujFMUUgGIE2WHvoAMMqVIdb5A0K5hEjcQMhKAL2JOCb8FPRdnQQCVx0u+zUfnPBhPnmxmKnUiUR9UKdZ8ZJGZ7qoFeJQm+qXR68Q==;
+	24:wImekqoTD2r9SBn1A4SQY8a1SRqqJfSOT79CawKNBESxh+9Us/+oH4JG6z3ZLB7buWwHNp9AEQ1tbQpbrh1vZF0qgUsPGCL/6v4KY+eBeoQ=
+SpamDiagnosticOutput: 1:23
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2016 16:26:03.5250 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2PR04MB004
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] tzdata: Make /etc/timezone optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,170 +102,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 16:25:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Jan 2016 16:26:04 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+On 01/12/2016 04:24 AM, Burton, Ross wrote:
+>
+> On 12 January 2016 at 04:03, Andre McCurdy <armccurdy@gmail.com
+> <mailto:armccurdy@gmail.com>> wrote:
+>
+>     You lose a style point for == in a shell script...
+>
+> Patch sent.  We really need to scan for bashisms in our shell fragments.
 
-Thank you for your review! Comments below.
+Bah, my bad. Perhaps we can run checkbashisms in QA.
+http://linux.die.net/man/1/checkbashisms
 
-On Mon, 2016-01-11 at 10:33 -0600, Mark Hatle wrote:
-> On 1/11/16 10:13 AM, Markus Lehtonen wrote:
-> > Implement support for remote signing using obs-signd. It is now possible
-> > to sign both RPM packages and package feeds with this method. The user
-> > just needs to set RPM_GPG_BACKEND and/or PACKAGE_FEED_GPG_BACKEND
-> > variables to 'obssign' in the bitbake config. Of course, in addition,
-> > one needs to setup the signing server and the configure the 'sign'
-> > client command on the build host. The *_PASSPHRASE_FILE settings are not
-> > used when the obssign backend is enabled.
-> > 
-> > [YOCTO #8755]
-> > 
-> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > ---
-> >  meta/classes/sign_package_feed.bbclass |  5 +++-
-> >  meta/classes/sign_rpm.bbclass          |  5 +++-
-> >  meta/lib/oe/gpg_sign.py                | 48 ++++++++++++++++++++++++++++++++++
-> >  3 files changed, 56 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
-> > index d5df8af..953fa85 100644
-> > --- a/meta/classes/sign_package_feed.bbclass
-> > +++ b/meta/classes/sign_package_feed.bbclass
-> > @@ -24,7 +24,10 @@ PACKAGE_FEED_GPG_BACKEND ?= 'local'
-> >  
-> >  python () {
-> >      # Check sanity of configuration
-> > -    for var in ('PACKAGE_FEED_GPG_NAME', 'PACKAGE_FEED_GPG_PASSPHRASE_FILE'):
-> > +    required = ['PACKAGE_FEED_GPG_NAME']
-> > +    if d.getVar('PACKAGE_FEED_GPG_BACKEND', True) != 'obssign':
-> > +        required.append('PACKAGE_FEED_GPG_PASSPHRASE_FILE')
-> > +    for var in required:
-> >          if not d.getVar(var, True):
-> >              raise_sanity_error("You need to define %s in the config" % var, d)
-> >  
-> > diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
-> > index 8bcabee..8be1c35 100644
-> > --- a/meta/classes/sign_rpm.bbclass
-> > +++ b/meta/classes/sign_rpm.bbclass
-> > @@ -23,7 +23,10 @@ RPM_GPG_BACKEND ?= 'local'
-> >  
-> >  python () {
-> >      # Check configuration
-> > -    for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE_FILE'):
-> > +    required = ['RPM_GPG_NAME']
-> > +    if d.getVar('RPM_GPG_BACKEND', True) != 'obssign':
-> > +        required.append('RPM_GPG_PASSPHRASE_FILE')
-> > +    for var in required:
-> >          if not d.getVar(var, True):
-> >              raise_sanity_error("You need to define %s in the config" % var, d)
-> >  
-> > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-> > index 55abad8..d8ab816 100644
-> > --- a/meta/lib/oe/gpg_sign.py
-> > +++ b/meta/lib/oe/gpg_sign.py
-> > @@ -66,11 +66,59 @@ class LocalSigner(object):
-> >                                        (input_file, output))
-> >  
-> >  
-> > +class ObsSigner(object):
-> > +    """Class for handling signing with obs-signd"""
-> > +    def __init__(self, keyid):
-> > +        self.keyid = keyid
-> > +        self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpm")
-> > +
-> > +    def export_pubkey(self, output_file):
-> > +        """Export GPG public key to a file"""
-> > +        cmd = "sign -u '%s' -p" % self.keyid
-> > +        status, output = oe.utils.getstatusoutput(cmd)
-> > +        if status:
-> > +            raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
-> > +                                      (self.keyid, output))
-> > +        with open(output_file, 'w') as fobj:
-> > +            fobj.write(output)
-> > +            fobj.write('\n')
-> > +
-> > +    def sign_rpms(self, files):
-> > +        """Sign RPM files"""
-> > +        import pexpect
-> > +
-> > +        # Remove existing signatures
-> > +        cmd = "%s --delsign %s" % (self.rpm_bin, ' '.join(files))
-> 
-> Why are you removing existing signatures?  I believe for many cases this is
-> actually incorrect.
-> 
-> RPM (5) has the ability to have an endless number of signatures within a given
-> package.  The package SHOULD included the internal non-repudiable signature...
-> 
-> (to refresh memory) all RPM 5 packages include an internal non-repudiable
-> signature.  Think of this as an extended md5sum, sha256sum, etc.  It doesn't
-> change that a package is 'authentic' in any way (often the purpose of signatures
-> like what this code is doing), but instead keeps a high reliability way to sign
-> and verify the package is signed properly.
-> 
-> This is used for validation if the system doing the install does not have the
-> public key that the package was signed with.
-> 
-> ... as well as one or more repudiable signatures that can be used to verify that
-> it's "authentic" in some way.  A system could very easily have OSV, OEM, and ISV
-> keys install on them.  You can program RPM in such a way that it will refused to
-> install packages with unknown authentication keys or the non-repudiable key as well.
-> 
-> So, I believe running delsign is wrong.  If the obs-signd can't handle ADDING
-> signatures to packages, then I'd say it is broken and should be fixed in some
-> way -- or at least the signature deletion code should be optional.
-
-Yes, unfortunately this is currently the limitation of obs-signd. It
-refuses to sign if there are signatures present in the rpm package.
-Using --delsign is "unfortunate" consequence of this and that should've
-probably been described in a comment. Making signature deletion a
-configurable setting is hopefully a decent resolution for now. I will
-send a new version of the patchset later.
-
-
-Thanks,
-   Markus
-
-
-
-> > +        status, output = oe.utils.getstatusoutput(cmd)
-> > +        if status:
-> > +            raise bb.build.FuncFailed("Failed to remove RPM signatures: %s" %
-> > +                                      output)
-> > +        # Sign packages
-> > +        cmd = "sign -u '%s' -r %s" % (self.keyid, ' '.join(files))
-> > +        status, output = oe.utils.getstatusoutput(cmd)
-> > +        if status:
-> > +            raise bb.build.FuncFailed("Failed to sign RPM packages: %s" %
-> > +                                      output)
-> > +
-> > +    def detach_sign(self, input_file):
-> > +        """Create a detached signature of a file"""
-> > +        cmd = "sign -u '%s' -d %s" % (self.keyid, input_file)
-> > +        status, output = oe.utils.getstatusoutput(cmd)
-> > +        if status:
-> > +            raise bb.build.FuncFailed("Failed to create signature for '%s': %s" %
-> > +                                      (input_file, output))
-> > +
-> > +
-> >  def get_signer(d, backend, keyid, passphrase_file):
-> >      """Get signer object for the specified backend"""
-> >      # Use local signing by default
-> >      if backend == 'local':
-> >          return LocalSigner(d, keyid, passphrase_file)
-> > +    elif backend == 'obssign':
-> > +        if passphrase_file:
-> > +            bb.note("GPG passphrase file setting not used when 'obssign' "
-> > +                    "backend is used.")
-> > +        return ObsSigner(keyid)
-> >      else:
-> >          bb.fatal("Unsupported signing backend '%s'" % backend)
-> >  
-> > 
-> 
-
-
-
+-- Haris
 
