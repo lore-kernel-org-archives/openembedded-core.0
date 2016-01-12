@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF73731EB
+	by mail.openembedded.org (Postfix) with ESMTP id C2CDC60616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 11:32:39 +0000 (UTC)
+	Tue, 12 Jan 2016 11:39:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0CBWUdk030079; Tue, 12 Jan 2016 11:32:30 GMT
+	u0CBdDVa030385; Tue, 12 Jan 2016 11:39:13 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OivVkVRYwKXu; Tue, 12 Jan 2016 11:32:30 +0000 (GMT)
+	with LMTP id V3Tn9wUofkpM; Tue, 12 Jan 2016 11:39:13 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0CBWP0t030076
+	u0CBd9j1030382
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 12 Jan 2016 11:32:26 GMT
-Message-ID: <1452598345.28375.12.camel@linuxfoundation.org>
+	Tue, 12 Jan 2016 11:39:11 GMT
+Message-ID: <1452598749.28375.13.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Li Xin <lixin.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 11:32:25 +0000
-In-Reply-To: <1452574934-2053-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1452574934-2053-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	openembedded-core@lists.openembedded.org, ross.burton@intel.com
+Date: Tue, 12 Jan 2016 11:39:09 +0000
+In-Reply-To: <3cb28a7edb40f7e138cdc4c15f5cca5802a3018a.1452472146.git.hongxu.jia@windriver.com>
+References: <cover.1452472146.git.hongxu.jia@windriver.com>
+	<3cb28a7edb40f7e138cdc4c15f5cca5802a3018a.1452472146.git.hongxu.jia@windriver.com>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] net-tools_1.60-26.bb: Error fix
+Subject: Re: [PATCH 6/9] ghostscript: 9.16 -> 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 11:32:40 -0000
+X-List-Received-Date: Tue, 12 Jan 2016 11:39:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2016-01-12 at 08:02 +0300, Li Xin wrote:
-> when set PATCHTOOL = "patch" in conf/local.conf,error will occur
-> in the step of do_patch.
-> The error is: "quilt: command not found",so fix it.
+On Mon, 2016-01-11 at 08:30 +0800, Hongxu Jia wrote:
+> Remove '--without-jbig2dec', since upstream did not
+> support it very well which caused build failure:
+> ...
+> > make[1]: *** No rule to make target `obj/sjbig2_.dev',
+> needed by `obj/sjbig2.dev'.  Stop.
+> ...
 > 
-> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> The same to option '--without-jbig2dec'.
 > 
-> diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> index 923d048..e173f54 100644
-> --- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> +++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> @@ -30,6 +30,7 @@ SRC_URI[patch.sha256sum] =
-> "aeeeafaff68866a446f01bb639d4e0146a60af34dcd20e31a3e4
->  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
->  
->  inherit gettext
-> +DEPENDS = "quilt-native"
+> Already file a bug to upstream:
+> http://bugs.ghostscript.com/show_bug.cgi?id=696497
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 
-
-DEPENDS works against do_configure and you need this in do_patch so
-this is incorrect. You need something like:
-
-do_patch[depends] = "quilt-native:do_populate_sysroot"
+Presumably we use this option for a reason. What effect does removing
+it have? Should we backport the fixes instead?
 
 Cheers,
 
 Richard
-
->  
->  # The Makefile is lame, no parallel build
->  PARALLEL_MAKE = ""
-> @@ -40,7 +41,7 @@ PARALLEL_MAKE = ""
->  # up all previously applied patches in the start
->  nettools_do_patch() {
->  	cd ${S}
-> -	quilt pop -a || true
-> +	${STAGING_BINDIR_NATIVE}/quilt pop -a || true
->  	if [ -d ${S}/.pc-nettools ]; then
->  		rm -rf ${S}/.pc
->  		mv ${S}/.pc-nettools ${S}/.pc
-> -- 
-> 1.8.4.2
-> 
-> 
-> 
 
