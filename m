@@ -1,48 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AB3F7318D
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 691E0731EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 15:34:26 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id g73so191537716ioe.3
+	Tue, 12 Jan 2016 16:18:25 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jan 2016 08:18:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,558,1444719600"; d="scan'208";a="28050482"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 12 Jan 2016 08:18:26 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id BB2976A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 07:34:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=TnCLestUfW8SRZBgkzrlI1xD3Pab6Hiy4P81JSOoSbs=;
-	b=xNEXa2kMJm7QWR6XYO122AUsvTtzrN5rhX+Ja+LB9AtwcqR/lvmtyE7FHQOkySTnIT
-	g2HiK6oPJTToLdR3Yr0xsfwolXVkeWUHw1x6mijKoug12WvuCAqqZnkEcrgbrSnBfycX
-	nbR/kJdN6DbBsFG99MKdzpvH0R8d9WoKIjvWw8h4N0pKGG/CcVEulzmLswWZ77WD2UpC
-	0XnJ0x+FjxSCPPOe4o32zF5PNdYPYSJE2Ewahztmhx3b765MUUG3tEbIkVYT8Ac2R2N5
-	YfGokrK/+opKOs1OQ6jOXrYQrWCgNGejy0vKxKJIQnCYYiyqkJrCIMXeZ10io5S1KKnf
-	z2rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TnCLestUfW8SRZBgkzrlI1xD3Pab6Hiy4P81JSOoSbs=;
-	b=WHAvce6EJAnrfzD6/kKA0GslweZpI/nQzb299Z7bot569Hs1DjVhn1T5Ls8cOu9W4d
-	rFTk1n+1fC3DlJzIb8Sud3qkTRI04jPBmBC4iRiMtr0SvGGysw4ARx6DjEzhkYxRp36b
-	jlAu6RA3zE8iiaNGMXSo2NUI2HBi7HKSGDD+5tBTlslZSkW2o5a+7xqirzMpVBaNFRYJ
-	HyZ/8Zo3NzXj4UEkUjjtsY32rToEPkkFddht4vQ4/X1eJHTvwXrRzbke+09nyW8CwHyT
-	GgIAyDpZudiLMfj/OofYyZlgnOTR1vd1g9/Oiir5igYKYAx0lbdLGrEaEE4g29cqZH6r
-	9X8g==
-X-Gm-Message-State: ALoCoQkEgZIcn/JCryN6zU9zRJNTjvjd2y1f3oCDozUn1VoJ7IEJrRGOFl1gftro3uuHYGfQcCU9mBUERGhXsYQFGrsX2KLpWobCp5eS9NcEmsstUWW221M=
-X-Received: by 10.107.164.161 with SMTP id d33mr109810485ioj.148.1452612867072;
-	Tue, 12 Jan 2016 07:34:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 12 Jan 2016 07:34:07 -0800 (PST)
-In-Reply-To: <5695015D.9040903@linux.intel.com>
-References: <cover.1452604534.git.alexander.kanavin@linux.intel.com>
-	<5695015D.9040903@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Jan 2016 15:34:07 +0000
-Message-ID: <CAJTo0Lbzu8PEk5bLSoBrnjmZsxx7wxAFhE6FFVuUyxd2h1cpUA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] Version updates
+	Tue, 12 Jan 2016 09:06:22 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jan 2016 18:20:31 +0200
+Message-Id: <1452615632-5232-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] connman: upgrade to 1.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +34,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 15:34:27 -0000
-Content-Type: multipart/alternative; boundary=001a1141c976f07b87052924c93e
+X-List-Received-Date: Tue, 12 Jan 2016 16:18:26 -0000
 
---001a1141c976f07b87052924c93e
-Content-Type: text/plain; charset=UTF-8
+1.30 -> 1.31
 
-On 12 January 2016 at 13:36, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Included newly introduced connman-wait-online service.
 
-> Oh, forgot to mention that this is the first time where the task of
-> figuring out the checksums and sending the initial commits to me by email
-> was done by Automated Update Helper, and all I had to do is apply the
-> patches and make sure they do build.
->
-> Awesome work, Anibal!
->
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-connectivity/connman/connman.inc              | 14 +++++++++++---
+ .../connman/{connman_1.30.bb => connman_1.31.bb}           |  4 ++--
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.30.bb => connman_1.31.bb} (77%)
 
-Hooray!  Thanks Anibal, that's awesome news.
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 76e61b4..856ba44 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -43,7 +43,7 @@ PACKAGECONFIG ??= "wispr \
+ # local.conf or distro config
+ # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
+ 
+-PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
++PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/ --with-tmpfilesdir=${sysconfdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
+ PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant, wpa-supplicant"
+ PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}, ${BLUEZ}"
+ PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
+@@ -68,6 +68,7 @@ python __anonymous () {
+ 
+ SYSTEMD_SERVICE_${PN} = "connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
++SYSTEMD_SERVICE_${PN}-wait-online = "connman-wait-online.service"
+ SYSTEMD_WIRED_SETUP = "ExecStartPre=-${datadir}/connman/wired-setup"
+ 
+ do_compile_append() {
+@@ -156,11 +157,12 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+             ${libdir}/connman/plugins \
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+             ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
+-            ${datadir}/dbus-1/system-services/*"
++            ${datadir}/dbus-1/system-services/* \
++            ${sysconfdir}/tmpfiles.d/connman_resolvconf.conf"
+ 
+ FILES_${PN}-dev += "${libdir}/connman/*/*.la"
+ 
+-PACKAGES =+ "${PN}-vpn"
++PACKAGES =+ "${PN}-vpn ${PN}-wait-online"
+ 
+ SUMMARY_${PN}-vpn = "A daemon for managing VPN connections within embedded devices"
+ DESCRIPTION_${PN}-vpn = "The ConnMan VPN provides a daemon for \
+@@ -174,6 +176,12 @@ FILES_${PN}-vpn += "${sbindir}/connman-vpnd \
+                     ${datadir}/dbus-1/system-services/net.connman.vpn.service \
+                     ${systemd_unitdir}/system/connman-vpn.service"
+ 
++SUMMARY_${PN}-wait-online = "A program that will return once ConnMan has connected to a network"
++DESCRIPTION_${PN}-wait-online = "A service that can be enabled so that \
++the system waits until a network connection is established."
++FILES_${PN}-wait-online += "${sbindir}/connmand-wait-online \
++                            ${systemd_unitdir}/system/connman-wait-online.service"
++
+ SUMMARY_${PN}-plugin-vpn-openvpn = "An OpenVPN plugin for ConnMan VPN"
+ DESCRIPTION_${PN}-plugin-vpn-openvpn = "The ConnMan OpenVPN plugin uses openvpn client \
+ to create a VPN connection to OpenVPN server."
+diff --git a/meta/recipes-connectivity/connman/connman_1.30.bb b/meta/recipes-connectivity/connman/connman_1.31.bb
+similarity index 77%
+rename from meta/recipes-connectivity/connman/connman_1.30.bb
+rename to meta/recipes-connectivity/connman/connman_1.31.bb
+index 7d65ac9..7b6bcfb 100644
+--- a/meta/recipes-connectivity/connman/connman_1.30.bb
++++ b/meta/recipes-connectivity/connman/connman_1.31.bb
+@@ -7,8 +7,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0003-Fix-header-inclusions-for-musl.patch \
+             file://connman \
+             "
+-SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
+-SRC_URI[sha256sum] = "5c5e464bacc9c27ed4e7269fb9b5059f07947f5be26433b59212133663ffa991"
++SRC_URI[md5sum] = "cb1c413fcc4f49430294bbd7a92f5f3c"
++SRC_URI[sha256sum] = "88fcf0b6df334796b90e2fd2e434d6f5b36cd6f13b886a119b8c90276b72b8e2"
+ 
+ RRECOMMENDS_${PN} = "connman-conf"
+ 
+-- 
+2.4.0
 
-Ross
 
---001a1141c976f07b87052924c93e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 January 2016 at 13:36, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
-kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":as" class=3D"a3s" style=3D"overflow:hidden">Oh, forgot to =
-mention that this is the first time where the task of figuring out the chec=
-ksums and sending the initial commits to me by email was done by Automated =
-Update Helper, and all I had to do is apply the patches and make sure they =
-do build.<br>
-<br>
-Awesome work, Anibal!<br></div></blockquote></div><br>Hooray!=C2=A0 Thanks =
-Anibal, that&#39;s awesome news.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
-
---001a1141c976f07b87052924c93e--
