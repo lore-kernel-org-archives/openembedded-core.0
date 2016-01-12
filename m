@@ -1,25 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <jianxun.zhang@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B6406731D9
+	by mail.openembedded.org (Postfix) with ESMTP id 2AEF86FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 21:39:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Jan 2016 13:39:32 -0800
+	Tue, 12 Jan 2016 21:54:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jan 2016 13:54:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,285,1449561600"; d="scan'208";a="889200394"
-Received: from rusilaw-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.149.174])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2016 13:39:30 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,285,1449561600"; d="scan'208";a="891875875"
+Received: from chang-s2600cp.jf.intel.com ([10.54.31.19])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2016 13:54:20 -0800
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2016 10:39:03 +1300
-Message-Id: <ea9660989f55814d4db0c6489dd8689c1b341242.1452634698.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1452634698.git.paul.eggleton@linux.intel.com>
-References: <cover.1452634698.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1452634698.git.paul.eggleton@linux.intel.com>
-References: <cover.1452634698.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/populate_sdk_ext: avoid unnecessary sstate being brought in
+Date: Tue, 12 Jan 2016 13:53:56 -0800
+Message-Id: <1452635636-23327-1-git-send-email-jianxun.zhang@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2] Explicitly mapping between i386/x86_64 and x86 for kernel ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,82 +27,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 21:39:32 -0000
+X-List-Received-Date: Tue, 12 Jan 2016 21:54:36 -0000
 
-Create a separate task where we can just have the recursive dependencies
-for the tasks corresponding to constructing the SDK content (i.e. from
-the image contents). This avoids us recursing into dependencies from
-buildtools and getting a bunch of nativesdk stuff, for example.
+For a bare-bone kernel recipe which specifies 32 bit x86 target,
+a 64 bit .config will be generated from do_configure task when
+building 32-bit qemux86, once all of these conditions are true:
 
-(This isn't an ideal way to have to implement it, but without
-overcomplicating things on the BitBake side just for this use-case I
-can't see a better way.)
+() arch of host is x86_64
+() kernel source tree used in build has commit ffee0de41 which
+actually chooses i386 or x86_64 defconfig by asking host when
+ARCH is "x86" (arch/x86/Makefile)
+() bare-bone kernel recipe inherits directly from kernel without
+other special treatments.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Build will fail because of the mismatched kernel architecture.
+
+The patch sets ARCH i386 or x86_64 explicitly to configure
+task to avoid this host contamination. Kernel artifact is also
+changed so that it can map i386 and x64 back to arch/x86 when
+needed.
+
+Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 4d8d2a6..2f788ee 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -182,11 +182,9 @@ python copy_buildsystem () {
-                 if line.strip() and not line.startswith('#'):
-                     f.write(line)
+The old V1 broke lttng-modules building in the last submission. This V2 updates
+kernel artifact to fix it. Considering there are multiple references of ARCH
+in poky, a better test coverage is suggested before merging it to mainline, even
+I have done some build tests prior to submission.
+
+ meta/classes/kernel-arch.bbclass |  4 +++-
+ meta/classes/kernel.bbclass      | 15 ++++++++++++---
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index 3ed5986..d8b180e 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -21,7 +21,9 @@ def map_kernel_arch(a, d):
  
--    sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
--    oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
--
-     # Filter the locked signatures file to just the sstate tasks we are interested in
-     excluded_targets = d.getVar('SDK_TARGETS', True)
-+    sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
-     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
-     oe.copy_buildsystem.prune_lockedsigs([],
-                                          excluded_targets.split(),
-@@ -288,6 +286,24 @@ fakeroot python do_populate_sdk_ext() {
-     bb.build.exec_func("do_populate_sdk", d)
+     valid_archs = d.getVar('valid_archs', True).split()
+ 
+-    if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
++    if   re.match('i.86$', a):                  return 'i386'
++    elif re.match('x86.64$', a):                return 'x86_64'
++    elif re.match('athlon$', a):                return 'x86'
+     elif re.match('armeb$', a):                 return 'arm'
+     elif re.match('aarch64$', a):               return 'arm64'
+     elif re.match('aarch64_be$', a):            return 'arm64'
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 997376d..5c3287b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -317,9 +317,18 @@ do_shared_workdir () {
+ 		cp -fR include/generated/* $kerneldir/include/generated/
+ 	fi
+ 
+-	if [ -d arch/${ARCH}/include/generated ]; then
+-		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
+-		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
++	# When ARCH is set to i386 or x86_64, we need to map ARCH to the real name of src
++	# dir (x86) under arch/ of kenrel tree, so that we can find correct source to copy.
++
++	if [ "${ARCH}" = "i386" ] || [ "${ARCH}" = "x86_64" ]; then
++		KERNEL_SRCARCH=x86
++	else
++		KERNEL_SRCARCH=${ARCH}
++	fi
++
++	if [ -d arch/${KERNEL_SRCARCH}/include/generated ]; then
++		mkdir -p $kerneldir/arch/${KERNEL_SRCARCH}/include/generated/
++		cp -fR arch/${KERNEL_SRCARCH}/include/generated/* $kerneldir/arch/${KERNEL_SRCARCH}/include/generated/
+ 	fi
  }
  
-+def get_ext_sdk_depends(d):
-+    return d.getVarFlag('do_rootfs', 'depends', True) + ' ' + d.getVarFlag('do_build', 'depends', True)
-+
-+python do_sdk_depends() {
-+    # We have to do this separately in its own task so we avoid recursing into
-+    # dependencies we don't need to (e.g. buildtools-tarball) and bringing those
-+    # into the SDK's sstate-cache
-+    import oe.copy_buildsystem
-+    sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
-+    oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
-+}
-+addtask sdk_depends
-+
-+do_sdk_depends[dirs] = "${WORKDIR}"
-+do_sdk_depends[depends] = "${@get_ext_sdk_depends(d)}"
-+do_sdk_depends[recrdeptask] = "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
-+do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy"
-+
- def get_sdk_ext_rdepends(d):
-     localdata = d.createCopy()
-     localdata.appendVar('OVERRIDES', ':task-populate-sdk-ext')
-@@ -297,15 +313,12 @@ def get_sdk_ext_rdepends(d):
- do_populate_sdk_ext[dirs] = "${@d.getVarFlag('do_populate_sdk', 'dirs', False)}"
- do_populate_sdk_ext[depends] += "${@d.getVarFlag('do_populate_sdk', 'depends', False)}"
- do_populate_sdk_ext[rdepends] = "${@get_sdk_ext_rdepends(d)}"
--do_populate_sdk_ext[recrdeptask] += "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
--
- 
- do_populate_sdk_ext[depends] += "buildtools-tarball:do_populate_sdk uninative-tarball:do_populate_sdk"
- 
- do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in d.getVar('SDK_TARGETS', True).split()])}"
--do_populate_sdk_ext[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy"
- 
- # Make sure codes change in copy_buildsystem can result in rebuilt
- do_populate_sdk_ext[vardeps] += "copy_buildsystem"
- 
--addtask populate_sdk_ext
-+addtask populate_sdk_ext after do_sdk_depends
 -- 
-2.5.0
+1.9.1
 
 
