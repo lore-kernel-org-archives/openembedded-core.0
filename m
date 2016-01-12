@@ -1,43 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B52456FF84
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 56258731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 01:23:23 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id ho8so69402307pac.2
+	Tue, 12 Jan 2016 01:41:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0C1fcV8012883
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 17:23:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=Tg6QH0LeYmdp1bt3QnS7jydL6CQQy2F50GAilazkdZg=;
-	b=VQ/kwiS1Gz2fYUsPD8MLKZd219vl5Nn9NnlafRboN6WV2Rt8GGsz+d9tZvEdt6w9ax
-	iP3K2q7TzyAyQg56fYmJsEG7TeKCmakyMCtUx1hExD2RvIRl9AVhi0ZtxZBbHnOzYrjV
-	yTwxFVFiYNSX/oN2FZGimqiODar/Tv7HM7f0zvb+dPp6gHPH0aIk/XwykrlSMKy8b3vm
-	Sev5NJ7mKXi6xJjzL27SGgtz8XmGO5B7OZAcGGr2+36avuebdkCQwdORnJvUAXJCM8Lq
-	NFWgwLNjoe8lDdv6c0+wUcoMwjrzIFOsD4lbpACWF8tfeYhJkgDnEKa50yFL4mhEM09j
-	eM4w==
-X-Received: by 10.66.232.170 with SMTP id tp10mr185650341pac.38.1452561804368; 
-	Mon, 11 Jan 2016 17:23:24 -0800 (PST)
-Received: from [192.168.0.4] (c-73-252-206-77.hsd1.ca.comcast.net.
-	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	g26sm25897794pfg.35.2016.01.11.17.23.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jan 2016 17:23:23 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5694545C.1050802@windriver.com>
-Date: Mon, 11 Jan 2016 17:23:22 -0800
-Message-Id: <3FA0B274-B9B5-488B-A0E5-82AC5B9CAEB3@gmail.com>
-References: <cover.1452491844.git.Qi.Chen@windriver.com>
-	<2523177d0da5233c60da6a6aa99f74631a9277b7.1452491844.git.Qi.Chen@windriver.com>
-	<79D0CE6B-7A5E-4D08-BA90-06C6155E25D0@gmail.com>
-	<5694545C.1050802@windriver.com>
-To: ChenQi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] curl: upgrade to 7.46
+	Mon, 11 Jan 2016 17:41:38 -0800
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jan 2016 17:41:37 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1452496745.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <569459D0.5040506@windriver.com>
+Date: Tue, 12 Jan 2016 09:41:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1452496745.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/8] Packages Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,114 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 01:23:23 -0000
-X-Groupsio-MsgNum: 75895
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_60A270F2-1D9D-44F7-BB0B-3BC6FCB281DD";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_60A270F2-1D9D-44F7-BB0B-3BC6FCB281DD
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-
-> On Jan 11, 2016, at 5:18 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->=20
-> On 01/12/2016 02:20 AM, Khem Raj wrote:
->>> On Jan 10, 2016, at 9:58 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->>>=20
->>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> ---
->>> meta/recipes-support/curl/{curl_7.45.0.bb =3D> curl_7.46.0.bb} | 6 =
-++++--
->>> 1 file changed, 4 insertions(+), 2 deletions(-)
->>> rename meta/recipes-support/curl/{curl_7.45.0.bb =3D> =
-curl_7.46.0.bb} (92%)
->>>=20
->>> diff --git a/meta/recipes-support/curl/curl_7.45.0.bb =
-b/meta/recipes-support/curl/curl_7.46.0.bb
->>> similarity index 92%
->>> rename from meta/recipes-support/curl/curl_7.45.0.bb
->>> rename to meta/recipes-support/curl/curl_7.46.0.bb
->>> index a7ed778..8b109ba 100644
->>> --- a/meta/recipes-support/curl/curl_7.45.0.bb
->>> +++ b/meta/recipes-support/curl/curl_7.46.0.bb
->>> @@ -14,8 +14,8 @@ SRC_URI =3D =
-"http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->>> #
->>> SRC_URI +=3D " file://configure_ac.patch"
->>>=20
->>> -SRC_URI[md5sum] =3D "62c1a352b28558f25ba6209214beadc8"
->>> -SRC_URI[sha256sum] =3D =
-"65154e66b9f8a442b57c436904639507b4ac37ec13d6f8a48248f1b4012b98ea"
->>> +SRC_URI[md5sum] =3D "9979f989a2a9930d10f1b3deeabc2148"
->>> +SRC_URI[sha256sum] =3D =
-"b7d726cdd8ed4b6db0fa1b474a3c59ebbbe4dcd4c61ac5e7ade0e0270d3195ad"
->>>=20
->>> inherit autotools pkgconfig binconfig multilib_header
->>>=20
->>> @@ -55,4 +55,6 @@ PACKAGES =3D+ "lib${BPN}"
->>> FILES_lib${BPN} =3D "${libdir}/lib*.so.*"
->>> RRECOMMENDS_lib${BPN} +=3D "ca-certificates"
->>>=20
->>> +FILES_${PN}-dev +=3D "${datadir}/zsh=E2=80=9D
->> what files are in ${datadir}/zsh ?
->=20
-> Hi Khem,
->=20
-> There's only one file in this directory. See below.
->=20
-> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ cat =
-tmp/work/armv5e-poky-linux-gnueabi/curl/7.46.0-r0/packages-split/curl-dev/=
-usr/share/zsh/site-functions/_curl
-> #compdef curl
->=20
-> # curl zsh completion
->=20
-> local curcontext=3D"$curcontext" state state_descr line
-> typeset -A opt_args
->=20
-> local rc=3D1
->=20
-> _arguments -C -S \
->=20
->  '*:URL:_urls' && rc=3D0
->=20
-> return rc
-
-this is a tab completion file. Please move it to PN
-
->=20
-> Best Regards,
-> Chen Qi
->=20
->>> +
->>> BBCLASSEXTEND =3D "native nativesdk"
->>> --
->>> 1.9.1
->>>=20
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_60A270F2-1D9D-44F7-BB0B-3BC6FCB281DD
+X-List-Received-Date: Tue, 12 Jan 2016 01:41:38 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlaUVYoACgkQuwUzVZGdMxS7EwCfTorPrUvUK+Iz4SVnJHOLMJqF
-ByUAni0nuzpges1V79tB5euSjCRmfk+Q
-=zav0
------END PGP SIGNATURE-----
+Updated this patches a little, drop libbsd patches since Martin had
+upgraded it:
 
---Apple-Mail=_60A270F2-1D9D-44F7-BB0B-3BC6FCB281DD--
+   git://git.openembedded.org/openembedded-core-contrib rbt/PU
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PU
+
+Robert Yang (7):
+   autogen-native: 5.18.5 -> 5.18.6
+   file: 5.24 -> 5.25
+   git: 2.5.0 -> 2.7.0
+   wget: 1.17 -> 1.17.1
+   iputils: s20121221 -> s20151218
+   less: 479 -> 481
+   rsync: 3.1.1 -> 3.1.2
+
+// Robert
+
+On 01/11/2016 03:19 PM, Robert Yang wrote:
+> The following changes since commit 5661d8cb7849df62358368743134c0aaf523965e:
+>
+>    image: Really remove lockfiles flag (2016-01-07 13:41:47 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/PU
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PU
+>
+> Robert Yang (8):
+>    autogen-native: 5.18.5 -> 5.18.6
+>    file: 5.24 -> 5.25
+>    git: 2.5.0 -> 2.7.0
+>    wget: 1.17 -> 1.17.1
+>    iputils: s20121221 -> s20151218
+>    less: 479 -> 481
+>    libbsd: 0.8.0 -> 0.8.1
+>    rsync: 3.1.1 -> 3.1.2
+>
+>   ...n-native_5.18.5.bb => autogen-native_5.18.6.bb} |    4 +-
+>   .../autogen/autogen/increase-timeout-limit.patch   |   29 ++---
+>   .../file/{file_5.24.bb => file_5.25.bb}            |    2 +-
+>   meta/recipes-devtools/git/git_2.5.0.bb             |   11 --
+>   meta/recipes-devtools/git/git_2.7.0.bb             |   11 ++
+>   ...-an-inc-recursive-path-is-not-right-for-i.patch |  135 --------------------
+>   .../rsync/rsync-3.1.1/rsync.git-eac858085.patch    |  101 ---------------
+>   .../rsync/{rsync_3.1.1.bb => rsync_3.1.2.bb}       |    6 +-
+>   ...x-build-command-line-argument-with-gnutls.patch |   37 ------
+>   .../{iputils_s20121221.bb => iputils_s20151218.bb} |    7 +-
+>   .../less/{less_479.bb => less_481.bb}              |    4 +-
+>   meta/recipes-extended/wget/wget/fix_makefile.patch |   18 ---
+>   .../wget/{wget_1.17.bb => wget_1.17.1.bb}          |    5 +-
+>   .../libbsd/0001-Use-local-SHA512-header.patch      |   75 -----------
+>   .../libbsd/{libbsd_0.8.0.bb => libbsd_0.8.1.bb}    |    7 +-
+>   15 files changed, 39 insertions(+), 413 deletions(-)
+>   rename meta/recipes-devtools/autogen/{autogen-native_5.18.5.bb => autogen-native_5.18.6.bb} (90%)
+>   rename meta/recipes-devtools/file/{file_5.24.bb => file_5.25.bb} (96%)
+>   delete mode 100644 meta/recipes-devtools/git/git_2.5.0.bb
+>   create mode 100644 meta/recipes-devtools/git/git_2.7.0.bb
+>   delete mode 100644 meta/recipes-devtools/rsync/rsync-3.1.1/0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch
+>   delete mode 100644 meta/recipes-devtools/rsync/rsync-3.1.1/rsync.git-eac858085.patch
+>   rename meta/recipes-devtools/rsync/{rsync_3.1.1.bb => rsync_3.1.2.bb} (72%)
+>   delete mode 100644 meta/recipes-extended/iputils/files/fix-build-command-line-argument-with-gnutls.patch
+>   rename meta/recipes-extended/iputils/{iputils_s20121221.bb => iputils_s20151218.bb} (90%)
+>   rename meta/recipes-extended/less/{less_479.bb => less_481.bb} (89%)
+>   delete mode 100644 meta/recipes-extended/wget/wget/fix_makefile.patch
+>   rename meta/recipes-extended/wget/{wget_1.17.bb => wget_1.17.1.bb} (47%)
+>   delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
+>   rename meta/recipes-support/libbsd/{libbsd_0.8.0.bb => libbsd_0.8.1.bb} (73%)
+>
+
