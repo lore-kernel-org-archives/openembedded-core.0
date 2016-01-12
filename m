@@ -1,30 +1,25 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id BE32A6FF56
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id C42286FF72
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 09:23:29 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u0C9NSUr000658; Tue, 12 Jan 2016 03:23:28 -0600
-Received: from ionel-workpc.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016011203232838-1926233 ;
-	Tue, 12 Jan 2016 03:23:28 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 11:23:25 +0200
-Message-Id: <1452590605-29328-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.7.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/12/2016 03:23:28 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/12/2016 03:23:28 AM,
-	Serialize complete at 01/12/2016 03:23:28 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-12_03:, , signatures=0
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] util-linux: create util-linux-runuser iff pam in DISTRO_FEATURES
+	Tue, 12 Jan 2016 09:42:45 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1aIvTQ-0004g3-QV; Tue, 12 Jan 2016 10:42:45 +0100
+Message-ID: <1452591757.1950.33.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 12 Jan 2016 09:42:37 +0000
+In-Reply-To: <4E2CA517-1339-416B-832B-AB2EFF04CEE6@gmail.com>
+References: <1452205752-6353-1-git-send-email-armccurdy@gmail.com>
+	<1452205752-6353-4-git-send-email-armccurdy@gmail.com>
+	<1452210004.2002.129.camel@pbcl.net>
+	<4E2CA517-1339-416B-832B-AB2EFF04CEE6@gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 3/4] libav.inc: duplicate armv7a over-rides for armv7ve
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 09:23:30 -0000
+X-List-Received-Date: Tue, 12 Jan 2016 09:42:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If pam is not present in DISTRO_FEATURES, then exclude
-util-linux-runuser from PACKAGES to avoid its libpam dependency.
+On Mon, 2016-01-11 at 14:58 -0800, Khem Raj wrote:
+> it came into ffmpeg circa 2008 and proliferated into related components primarily to support vectorization and neon
+> which was quite nascent for ARM architecture in those days in gcc. Today if you were to configure libav with default options
+> then it uses mainly -fomit-frame-pointer-O3 -fno-math-errno -fno-signed-zeros -fno-tree-vectorize
+> 
+> which is primarily -Ofast -fno-tree-vectorize
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I think -fno-tree-vectorize is just there as a workaround for old
+compilers.  It sounds like you're saying that ffmpeg basically just
+wants "-Ofast", and by implication it wants this on all architectures.
+So in that case there is no need for a FULL_OPTIMIZATION override on
+arm, let alone armv7a specifically.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 7ef7a54..e7e32e8 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -29,11 +29,12 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-swaponoff util-linux-losetup util-linux-umount \
-              util-linux-mount util-linux-readprofile util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
--             util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-runuser \
-+             util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
-              util-linux-findfs util-linux-getopt util-linux-sulogin"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
-+PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
- 
- PACKAGES_DYNAMIC = "^util-linux-lib.*"
- 
--- 
-2.7.0
+Whether ffmpeg ought to be forcing its own FULL_OPTIMIZATION at all
+versus leaving it up to the distro is another question.  Personally I
+think that individual recipes have no business setting those variables,
+and ffmpeg is no exception, but I don't have a particularly strong
+opinion either way.
+
+p.
+
 
 
