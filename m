@@ -1,32 +1,32 @@
-Return-Path: <Yi.Zhao@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 940FE60017
+	by mail.openembedded.org (Postfix) with ESMTP id D5AFD731F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 01:51:18 +0000 (UTC)
+	Tue, 12 Jan 2016 02:03:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0C1pIVm008569
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0C23Stv008612
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Jan 2016 17:51:18 -0800 (PST)
-Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	Mon, 11 Jan 2016 18:03:28 -0800 (PST)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Mon, 11 Jan 2016 17:51:17 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1452137394-333-1-git-send-email-yi.zhao@windriver.com>
-	<1452137394-333-4-git-send-email-yi.zhao@windriver.com>
-	<CAJTo0LZ67jsAcGxjsDEExDOjDsqE5JwNcOitZ1PjpL10VTgObA@mail.gmail.com>
-	<568F76EF.20009@windriver.com>
-	<CAJTo0LYvLxSBXZ5VWzVrKzSww7xQgpX=L2_dc=ZxOOkCpzX+vA@mail.gmail.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <56945C12.7020507@windriver.com>
-Date: Tue, 12 Jan 2016 09:51:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Mon, 11 Jan 2016 18:03:28 -0800
+Message-ID: <56945EF9.2040209@windriver.com>
+Date: Tue, 12 Jan 2016 10:03:37 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYvLxSBXZ5VWzVrKzSww7xQgpX=L2_dc=ZxOOkCpzX+vA@mail.gmail.com>
-X-Originating-IP: [128.224.162.175]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] oeqa/runtime/parselogs: escape special character for grep
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1452491844.git.Qi.Chen@windriver.com>
+	<2523177d0da5233c60da6a6aa99f74631a9277b7.1452491844.git.Qi.Chen@windriver.com>
+	<79D0CE6B-7A5E-4D08-BA90-06C6155E25D0@gmail.com>
+	<5694545C.1050802@windriver.com>
+	<3FA0B274-B9B5-488B-A0E5-82AC5B9CAEB3@gmail.com>
+In-Reply-To: <3FA0B274-B9B5-488B-A0E5-82AC5B9CAEB3@gmail.com>
+X-Originating-IP: [128.224.162.246]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/7] curl: upgrade to 7.46
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,101 +39,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 01:51:18 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030205030206090307020208"
-
---------------030205030206090307020208
+X-List-Received-Date: Tue, 12 Jan 2016 02:03:31 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
+On 01/12/2016 09:23 AM, Khem Raj wrote:
+>> On Jan 11, 2016, at 5:18 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+>>
+>> On 01/12/2016 02:20 AM, Khem Raj wrote:
+>>>> On Jan 10, 2016, at 9:58 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>>>
+>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>> ---
+>>>> meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} | 6 ++++--
+>>>> 1 file changed, 4 insertions(+), 2 deletions(-)
+>>>> rename meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} (92%)
+>>>>
+>>>> diff --git a/meta/recipes-support/curl/curl_7.45.0.bb b/meta/recipes-support/curl/curl_7.46.0.bb
+>>>> similarity index 92%
+>>>> rename from meta/recipes-support/curl/curl_7.45.0.bb
+>>>> rename to meta/recipes-support/curl/curl_7.46.0.bb
+>>>> index a7ed778..8b109ba 100644
+>>>> --- a/meta/recipes-support/curl/curl_7.45.0.bb
+>>>> +++ b/meta/recipes-support/curl/curl_7.46.0.bb
+>>>> @@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+>>>> #
+>>>> SRC_URI += " file://configure_ac.patch"
+>>>>
+>>>> -SRC_URI[md5sum] = "62c1a352b28558f25ba6209214beadc8"
+>>>> -SRC_URI[sha256sum] = "65154e66b9f8a442b57c436904639507b4ac37ec13d6f8a48248f1b4012b98ea"
+>>>> +SRC_URI[md5sum] = "9979f989a2a9930d10f1b3deeabc2148"
+>>>> +SRC_URI[sha256sum] = "b7d726cdd8ed4b6db0fa1b474a3c59ebbbe4dcd4c61ac5e7ade0e0270d3195ad"
+>>>>
+>>>> inherit autotools pkgconfig binconfig multilib_header
+>>>>
+>>>> @@ -55,4 +55,6 @@ PACKAGES =+ "lib${BPN}"
+>>>> FILES_lib${BPN} = "${libdir}/lib*.so.*"
+>>>> RRECOMMENDS_lib${BPN} += "ca-certificates"
+>>>>
+>>>> +FILES_${PN}-dev += "${datadir}/zsh”
+>>> what files are in ${datadir}/zsh ?
+>> Hi Khem,
+>>
+>> There's only one file in this directory. See below.
+>>
+>> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ cat tmp/work/armv5e-poky-linux-gnueabi/curl/7.46.0-r0/packages-split/curl-dev/usr/share/zsh/site-functions/_curl
+>> #compdef curl
+>>
+>> # curl zsh completion
+>>
+>> local curcontext="$curcontext" state state_descr line
+>> typeset -A opt_args
+>>
+>> local rc=1
+>>
+>> _arguments -C -S \
+>>
+>>   '*:URL:_urls' && rc=0
+>>
+>> return rc
+> this is a tab completion file. Please move it to PN
+
+Done.
+I've updated the remote branch.
+
+Thanks,
+Chen Qi
+
+>> Best Regards,
+>> Chen Qi
+>>
+>>>> +
+>>>> BBCLASSEXTEND = "native nativesdk"
+>>>> --
+>>>> 1.9.1
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-在 2016年01月08日 16:59, Burton, Ross 写道:
->
-> On 8 January 2016 at 08:44, Yi Zhao <yi.zhao@windriver.com 
-> <mailto:yi.zhao@windriver.com>> wrote:
->
->     It still need to escape quotation marks if using -F option.
->     Consider the following log:
->     [521514.737] (EE) evdev: Qemu Tablet: Unable to open evdev device
->     "/dev/input/touchscreen0".
->
->     We still need an extra step to replace " with \" before grep
->
->
-> Actually that's only true as the grep command is passed to 
-> subproces.check_output() as a string.  If it was constructed as a list 
-> the shell wouldn't be parsing it and you wouldn't have to worry about 
-> quoting at all.
->
-> (always pass lists instead of strings to subprocess, it makes 
-> everything a lot easier)
->
-> Ross
-
-Thanks, Ross.
-
-I will test it and send the v2 patch.
-
-Yi
-
---------------030205030206090307020208
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">在 2016年01月08日 16:59, Burton, Ross 写道:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYvLxSBXZ5VWzVrKzSww7xQgpX=L2_dc=ZxOOkCpzX+vA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 8 January 2016 at 08:44, Yi Zhao <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:yi.zhao@windriver.com" target="_blank">yi.zhao@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div bgcolor="#FFFFFF" text="#000000">It still need to
-                escape quotation marks if using -F option. <br>
-                Consider the following log:<br>
-                [521514.737] (EE) evdev: Qemu Tablet: Unable to open
-                evdev device "/dev/input/touchscreen0".<br>
-                <br>
-                We still need an extra step to replace " with \" before
-                grep</div>
-            </blockquote>
-          </div>
-          <br>
-          Actually that's only true as the grep command is passed to
-          subproces.check_output() as a string.  If it was constructed
-          as a list the shell wouldn't be parsing it and you wouldn't
-          have to worry about quoting at all.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">(always pass lists instead of strings
-          to subprocess, it makes everything a lot easier)</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    Thanks, Ross.<br>
-    <br>
-    I will test it and send the v2 patch.<br>
-    <br>
-    Yi<br>
-  </body>
-</html>
-
---------------030205030206090307020208--
