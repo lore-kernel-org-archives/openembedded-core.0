@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 59D2B65CC3
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A393C73172
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 07:19:19 +0000 (UTC)
-Received: by mail-ob0-f195.google.com with SMTP id tr5so28890952obc.2
+	Tue, 12 Jan 2016 07:19:24 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id a202so4846734oib.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 23:19:21 -0800 (PST)
+	Mon, 11 Jan 2016 23:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YOMDr3d/8Jjr0OWGe2OcTN9iNTXQJ+b59kSaVZUFP/4=;
-	b=HtUlZZS0bIsddzC7B1p5rOJcxJ/ZNdHV6aV43aTtlsDfnzFIxuHDmB1BvuOiDuFl4F
-	8zR879ll0cp6pGYadA5iXigoUtqGU14FRD2BwJCG7ip4zRm4iWFQmej4yGXllH6L56+o
-	ls+2JaNuK+1PbFdj9xwlKKEvc1kbomql2JmBjhs50Nq/Rh//Ppbwm23Ni3Goid2EgNhk
-	jOe3Ml/I+ALT3AOPLK+ch0Dovl99SkAdJnT2+wNIa8VpojuV2pQhUW94ir4QnsbtUyDL
-	ImeganyOB1JSWxCX9u/kmGmgGA3G+n9f5fr0y/bSNDX/Z6NvmrwJqN4XAV7+GjvECheQ
-	5NTw==
-X-Received: by 10.182.28.33 with SMTP id y1mr88011136obg.53.1452583160704;
-	Mon, 11 Jan 2016 23:19:20 -0800 (PST)
+	bh=ElfiXsRs9rTF+xQq0P02N7QWtwnqGFtXzdKaSSiUtQY=;
+	b=UCFxraCgTmjh64j5uzZnuVrbBANbcRy/o9uuNvwHnYtHBRAyBwivE2+ELzatkPEYUl
+	tB93MfufLuzdOXRShRjmOeH1ZDMSpegJljtdAYeT7znUtHaPrQRLyJwBnzjen+nVxIj6
+	vMrzhSnOTJBleZdNLVinoq6DgNi0CzBjy8BfoVT9eoh8Pafu6Ji0EC+FICG4bR9/V6+L
+	OPySQVExaPF+WM5wYRqyLDSMi367sHYmtXLVnfAsdeZKgHFGFpdeMd++iV6OQzZM8onh
+	VGKkaKD7Kc8/XtnhfNklz/L4cKfHvd5W2wTkihU/Tmuwh1lcv024w0ohu4Gisq7OUnIw
+	lwpA==
+X-Received: by 10.202.1.18 with SMTP id 18mr95605663oib.100.1452583165701;
+	Mon, 11 Jan 2016 23:19:25 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	d2sm49992973oic.12.2016.01.11.23.19.19
+	d2sm49992973oic.12.2016.01.11.23.19.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Jan 2016 23:19:19 -0800 (PST)
+	Mon, 11 Jan 2016 23:19:24 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jan 2016 23:18:34 -0800
-Message-Id: <1452583117-812-3-git-send-email-armccurdy@gmail.com>
+Date: Mon, 11 Jan 2016 23:18:36 -0800
+Message-Id: <1452583117-812-5-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1452583117-812-1-git-send-email-armccurdy@gmail.com>
 References: <1452583117-812-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/5] strace: fix --disable-aio configure option
+Subject: [PATCH 4/5] strace: fix ARCH definition in tests/Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 07:19:20 -0000
+X-List-Received-Date: Tue, 12 Jan 2016 07:19:27 -0000
 
-Remove the original unconditional check for libaio.h,
-since it's included in the newly added conditional check.
+TARGET_ARCH doesn't map to strace's ARCH variable, so we can't assign
+one from the other. Forcing the incorrect value via the make command
+line doesn't cause any problems with strace v4.10, but it will do for
+strace v4.11.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../strace/strace/strace-add-configure-options.patch       | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ .../define-OS-ARCH-in-tests-Makefile-am.patch      | 26 ++++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.10.bb        |  3 ++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/strace/strace/define-OS-ARCH-in-tests-Makefile-am.patch
 
-diff --git a/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch b/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
-index a3f8ec4..84b9f9c 100644
---- a/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
-+++ b/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
-@@ -12,7 +12,19 @@ diff --git a/configure.ac b/configure.ac
- index e73958c..9099370 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -745,6 +745,20 @@ if test "x$ac_cv_lib_dl_dladdr" = xyes;
-+@@ -303,11 +303,6 @@ AC_CHECK_MEMBERS([struct sysinfo.totalhi
+diff --git a/meta/recipes-devtools/strace/strace/define-OS-ARCH-in-tests-Makefile-am.patch b/meta/recipes-devtools/strace/strace/define-OS-ARCH-in-tests-Makefile-am.patch
+new file mode 100644
+index 0000000..4b1bb26
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/define-OS-ARCH-in-tests-Makefile-am.patch
+@@ -0,0 +1,26 @@
++Ensure that OS and ARCH are defined in tests/Makefile.am
++
++For strace v4.10 this is a purely cosmetic fix, since the include
++paths derived from $(OS)/${ARCH) are never used. These variables are
++correctly defined by default in strace v4.11.
++
++Partial backport of upstream commit:
++
++  http://sourceforge.net/p/strace/code/ci/25c804ce42261b24b19d35c637bf2745c237ee07
++
++Upstream-Status: Backport
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++
++Index: strace-4.10/tests/Makefile.am
++===================================================================
++--- strace-4.10.orig/tests/Makefile.am
+++++ strace-4.10/tests/Makefile.am
++@@ -1,5 +1,7 @@
++ # Automake input for strace tests.
 + 
-+ AC_CHECK_TYPES([struct flock64],,, [#include <fcntl.h>])
-+ 
-+-AC_CHECK_HEADERS([libaio.h], [
-+-	AC_CHECK_MEMBERS([struct iocb.u.c.flags],,, [#include <libaio.h>])
-+-	AC_CHECK_DECLS([IO_CMD_PWRITE, IO_CMD_PWRITEV],,, [#include <libaio.h>])
-+-])
-+-
-+ AC_CHECK_HEADERS([linux/input.h], [
-+ 	AC_CHECK_MEMBERS([struct input_absinfo.resolution],,, [#include <linux/input.h>])
-+ ])
-+@@ -745,6 +740,20 @@ if test "x$ac_cv_lib_dl_dladdr" = xyes;
-  fi
-  AC_SUBST(dl_LIBS)
-  
+++OS = linux
+++ARCH = @arch@
++ AM_CFLAGS = $(WARN_CFLAGS)
++ AM_CPPFLAGS = -I$(top_builddir)/$(OS)/$(ARCH) \
++ 	      -I$(top_srcdir)/$(OS)/$(ARCH) \
+diff --git a/meta/recipes-devtools/strace/strace_4.10.bb b/meta/recipes-devtools/strace/strace_4.10.bb
+index 0b2316b..1b64743 100644
+--- a/meta/recipes-devtools/strace/strace_4.10.bb
++++ b/meta/recipes-devtools/strace/strace_4.10.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://run-ptest \
+            file://Include-sys-stat.h-for-S_I-macros.patch \
+            file://Include-linux-ioctl.h-for-_IOC_-macros.patch \
++           file://define-OS-ARCH-in-tests-Makefile-am.patch \
+           "
+ 
+ SRC_URI[md5sum] = "107a5be455493861189e9b57a3a51912"
+@@ -37,7 +38,7 @@ do_install_append() {
+ }
+ 
+ do_compile_ptest() {
+-	oe_runmake -C ${TESTDIR} buildtest-TESTS OS=linux ARCH="${TARGET_ARCH}"
++	oe_runmake -C ${TESTDIR} buildtest-TESTS
+ }
+ 
+ do_install_ptest() {
 -- 
 1.9.1
 
