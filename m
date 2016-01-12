@@ -1,20 +1,34 @@
-Return-Path: <jianxun.zhang@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AEF86FEE0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 962A97316E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 21:54:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Jan 2016 13:54:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,285,1449561600"; d="scan'208";a="891875875"
-Received: from chang-s2600cp.jf.intel.com ([10.54.31.19])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2016 13:54:20 -0800
-From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 13:53:56 -0800
-Message-Id: <1452635636-23327-1-git-send-email-jianxun.zhang@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] Explicitly mapping between i386/x86_64 and x86 for kernel ARCH
+	Tue, 12 Jan 2016 22:02:04 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id b14so33666474wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jan 2016 14:02:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=RwGm+AgTKr1XTJtUIQnhaIVoQxOiOveGyrm8hjhcfZY=;
+	b=mWyw+qwMi0n9n6PswKIWY2XgCpW249AaoJdV7oENqTTDZ4KgcgJqUz1WFd1+pehQ/G
+	+opGjyRYau8OHAY2niqrWIuAm6sYWCNOdGpb9Lu/QnnEH9cAabbmhoEgZlJKlAmlhG3h
+	Nn7T4VRwNypFACTjtTTrJKWXDhZGBBDxpLjeOEY3SPyBsY9XRxyvWjeP+eyBWk4XNdXg
+	sIPkxKINVs3RzNgyMHsgofw3aeEAaVkVZBChyIWI/FMAzSxGxqD3cNPdUKmX5fbagPdY
+	PTQ4usLR8/v8x2moITJV7dcNSC+MKvYk0YUjmILJ1deMS7mX1j6yudgkfMrlIMg9P1rY
+	Q3Og==
+MIME-Version: 1.0
+X-Received: by 10.194.203.99 with SMTP id kp3mr143291119wjc.3.1452636124788;
+	Tue, 12 Jan 2016 14:02:04 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Tue, 12 Jan 2016 14:02:04 -0800 (PST)
+In-Reply-To: <1452634324.28375.24.camel@linuxfoundation.org>
+References: <1452583117-812-1-git-send-email-armccurdy@gmail.com>
+	<1452634324.28375.24.camel@linuxfoundation.org>
+Date: Tue, 12 Jan 2016 14:02:04 -0800
+Message-ID: <CAJ86T=VNzj0hSnd2sG77rEqi2T9FDU+PoBJrq_SkmeFLfRJtsA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] strace: misc fixes + update 4.10 -> 4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,80 +41,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 21:54:36 -0000
+X-List-Received-Date: Tue, 12 Jan 2016 22:02:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-For a bare-bone kernel recipe which specifies 32 bit x86 target,
-a 64 bit .config will be generated from do_configure task when
-building 32-bit qemux86, once all of these conditions are true:
+On Tue, Jan 12, 2016 at 1:32 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2016-01-11 at 23:18 -0800, Andre McCurdy wrote:
+>> Andre McCurdy (5):
+>>   strace: drop unnecessary dependency on acl
+>>   strace: fix --disable-aio configure option
+>>   strace: remove need for git-version-gen script
+>>   strace: fix ARCH definition in tests/Makefile
+>>   strace: update 4.10 -> 4.11
+>
+> I included this in a -next build but it failed on the autobuilder:
+>
+> http://errors.yoctoproject.org/Errors/Details/27173/
+> http://errors.yoctoproject.org/Errors/Details/27101/
+> http://errors.yoctoproject.org/Errors/Details/27101/
+>
+> One is poky, one is poky-lsb, looks like it might be a debian system
+> specific issue :/.
 
-() arch of host is x86_64
-() kernel source tree used in build has commit ffee0de41 which
-actually chooses i386 or x86_64 defconfig by asking host when
-ARCH is "x86" (arch/x86/Makefile)
-() bare-bone kernel recipe inherits directly from kernel without
-other special treatments.
+Looks like it's calling the host gcc with -isystem set to OE's
+x86_64-linux sysroot, and then gets confused because host gcc seems to
+be generating 32bit binaries by default.
 
-Build will fail because of the mismatched kernel architecture.
+Does adding "-m64" to the failing gcc command line fix it?
 
-The patch sets ARCH i386 or x86_64 explicitly to configure
-task to avoid this host contamination. Kernel artifact is also
-changed so that it can map i386 and x64 back to arch/x86 when
-needed.
-
-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
----
-
-The old V1 broke lttng-modules building in the last submission. This V2 updates
-kernel artifact to fix it. Considering there are multiple references of ARCH
-in poky, a better test coverage is suggested before merging it to mainline, even
-I have done some build tests prior to submission.
-
- meta/classes/kernel-arch.bbclass |  4 +++-
- meta/classes/kernel.bbclass      | 15 ++++++++++++---
- 2 files changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 3ed5986..d8b180e 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -21,7 +21,9 @@ def map_kernel_arch(a, d):
- 
-     valid_archs = d.getVar('valid_archs', True).split()
- 
--    if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
-+    if   re.match('i.86$', a):                  return 'i386'
-+    elif re.match('x86.64$', a):                return 'x86_64'
-+    elif re.match('athlon$', a):                return 'x86'
-     elif re.match('armeb$', a):                 return 'arm'
-     elif re.match('aarch64$', a):               return 'arm64'
-     elif re.match('aarch64_be$', a):            return 'arm64'
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 997376d..5c3287b 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -317,9 +317,18 @@ do_shared_workdir () {
- 		cp -fR include/generated/* $kerneldir/include/generated/
- 	fi
- 
--	if [ -d arch/${ARCH}/include/generated ]; then
--		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
--		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
-+	# When ARCH is set to i386 or x86_64, we need to map ARCH to the real name of src
-+	# dir (x86) under arch/ of kenrel tree, so that we can find correct source to copy.
-+
-+	if [ "${ARCH}" = "i386" ] || [ "${ARCH}" = "x86_64" ]; then
-+		KERNEL_SRCARCH=x86
-+	else
-+		KERNEL_SRCARCH=${ARCH}
-+	fi
-+
-+	if [ -d arch/${KERNEL_SRCARCH}/include/generated ]; then
-+		mkdir -p $kerneldir/arch/${KERNEL_SRCARCH}/include/generated/
-+		cp -fR arch/${KERNEL_SRCARCH}/include/generated/* $kerneldir/arch/${KERNEL_SRCARCH}/include/generated/
- 	fi
- }
- 
--- 
-1.9.1
-
+> Cheers,
+>
+> Richard
+>
 
