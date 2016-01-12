@@ -1,35 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 829B76FF9B
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F1D6E73232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 08:49:44 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id 77so345397667ioc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 00:49:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=AW06YBi1VmPPWk+80cp3xPCn1B+yCvlJcM954glUPbo=;
-	b=cbIAuPdvNWmfKURdQoOlc0AVhhP5JaBXp7cW6MZ4sd9BtTSlCDWfb3gx5ZUGLdCtOS
-	lKSGRdvJRlKEsNg7XrIt+l3wSw5+UziwdNgQKdhNSRd7vRV3e7QRHA6C6H9bakwiDnys
-	lzHhOZEVcAJfkiixzUb/2mqSsHAbr5ZnspX5Tos6M5ffyt+HQmBxMo6oKeWmVcz2eqWx
-	9MdKSOyU5my8xkCMZgpfdVw8zDdt0hKbIaEbOCcIqAT9YYLjsAexOWLVbKLObAuiWlMN
-	zMerQeDmKs75EYtA9DWjJgqYwS4N98UjZZZC8pwA7yrrK1zNdqoaclfU+eQkqV2YuOwO
-	WBxg==
-X-Received: by 10.107.165.14 with SMTP id o14mr29008452ioe.49.1452588585835;
-	Tue, 12 Jan 2016 00:49:45 -0800 (PST)
+	Tue, 12 Jan 2016 09:03:07 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0C935x4017332; Tue, 12 Jan 2016 03:03:05 -0600
+Received: from ionel-workpc.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016011203030563-1925727 ;
+	Tue, 12 Jan 2016 03:03:05 -0600 
+Date: Tue, 12 Jan 2016 11:03:01 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20160112110301.70ad927a@ionel-workpc.emea.corp.natinst.com>
+In-Reply-To: <20160112102602.13095fdf@ionel-workpc.emea.corp.natinst.com>
+References: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
+	<CAJTo0LbnFsAVPv6r_vh8EX9m7Kir-WW-zq+24FJS1Cr4-vVKZA@mail.gmail.com>
+	<20151223120303.7a2bb7df@adi-pc-linux>
+	<4152432.VEWvmsyppU@peggleto-mobl.ger.corp.intel.com>
+	<20160112102602.13095fdf@ionel-workpc.emea.corp.natinst.com>
+Organization: National Instruments
 MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Tue, 12 Jan 2016 00:49:16 -0800 (PST)
-In-Reply-To: <1452574934-2053-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1452574934-2053-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Jan 2016 00:49:16 -0800
-Message-ID: <CAMKF1spJJxLbhWd5Hpv7EzYYve9Y0mASmsAHdZ0XpAU970CJgA@mail.gmail.com>
-To: Li Xin <lixin.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] net-tools_1.60-26.bb: Error fix
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/12/2016 03:03:05 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/12/2016 03:03:05 AM,
+	Serialize complete at 01/12/2016 03:03:05 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-12_03:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RESEND PATCH v3] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,51 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 08:49:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Jan 2016 09:03:08 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Jan 11, 2016 at 9:02 PM, Li Xin <lixin.fnst@cn.fujitsu.com> wrote:
-> when set PATCHTOOL = "patch" in conf/local.conf,error will occur
-> in the step of do_patch.
-> The error is: "quilt: command not found",so fix it.
->
-> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> index 923d048..e173f54 100644
-> --- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> +++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-> @@ -30,6 +30,7 @@ SRC_URI[patch.sha256sum] = "aeeeafaff68866a446f01bb639d4e0146a60af34dcd20e31a3e4
->  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
->
->  inherit gettext
-> +DEPENDS = "quilt-native"
->
->  # The Makefile is lame, no parallel build
->  PARALLEL_MAKE = ""
-> @@ -40,7 +41,7 @@ PARALLEL_MAKE = ""
->  # up all previously applied patches in the start
->  nettools_do_patch() {
->         cd ${S}
-> -       quilt pop -a || true
-> +       ${STAGING_BINDIR_NATIVE}/quilt pop -a || true
+On Tue, 12 Jan 2016 10:26:02 +0200
+Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
-Can you see if this change is sstate safe ?
+> On Tue, 12 Jan 2016 15:52:50 +1300
+> Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> 
+> > On Wed, 23 Dec 2015 12:03:03 Ioan-Adrian Ratiu wrote:  
+> > > On Tue, 22 Dec 2015 17:34:12 +0000
+> > > 
+> > > "Burton, Ross" <ross.burton@intel.com> wrote:    
+> > > > On 15 December 2015 at 09:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>     
+> > wrote:  
+> > > > > Split runuser into its own package (previously provided by util-linux).
+> > > > > Since runuser is compiled only when DISTRO_FEATURES includes pam,
+> > > > > the creation of util-linux-runuser is also constrained by this.    
+> > > > 
+> > > > What's the rationale for pulling this out into a separate package?    
+> > > 
+> > > I need runuser on a busybox image and can't install the entire util-linux
+> > > package.    
+> > > > >  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount',
+> > > > > 
+> > > > > 'util-linux-pylibmount', '', d)}"
+> > > > > +PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam',
+> > > > > 'util-linux-runuser', '', d)}"    
+> > > > 
+> > > > No need for conditionals: empty packages are not created.    
+> > > 
+> > > Thank you for this tip, I've modified and sent v4.    
+> > 
+> > Unfortunately this wasn't right - the package being excluded from PACKAGES was 
+> > serving to avoid the libpam dependency when pam was not in DISTRO_FEATURES; as 
+> > of this patch we are now building it unconditionally leading to a warning.
+> > 
+> > Ioan-Adrian, could you please send a patch that changes it back to how you had 
+> > it in v3?  
+> 
+> Yes, I'll send v5 which will revert the change from v4.
+> 
 
->         if [ -d ${S}/.pc-nettools ]; then
->                 rm -rf ${S}/.pc
->                 mv ${S}/.pc-nettools ${S}/.pc
-> --
-> 1.8.4.2
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Uh oh, I just rebased on origin/master and it looks like v4 was commited there a few hours ago.
+
+So I'll just send a new patch to introduce the pam conditional on top of the already integrated change.
+
+> > 
+> > Thanks,
+> > Paul
+> >   
+> 
+
 
