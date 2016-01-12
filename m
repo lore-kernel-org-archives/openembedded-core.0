@@ -1,43 +1,44 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E1D4B6FF23
+Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 90FBB60620
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 00:29:04 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id yy13so236809916pab.3
+	Tue, 12 Jan 2016 00:36:03 +0000 (UTC)
+Received: by mail-pf0-f171.google.com with SMTP id n128so52815009pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jan 2016 16:29:05 -0800 (PST)
+	Mon, 11 Jan 2016 16:36:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=2BXJe2dRYqE0QJL5fWnGFkWqGKNsvBaJEa46wOhCqBw=;
-	b=EbZ6dC6SRHImhQl/OdW6/tyaAYUZ7LQhWI10Mj5v/FyQDvAt8fQb30Z8xJrgnMz6Ra
-	k50KAyf6yNuWphPco44FcMc1JQF+621U+DXwx+6gXeReM7Rl++fqDHv3SZgpdDwKKHLH
-	NW7WRH9YqUSy+mAf/XrCLFOGijtNqLO7euXmlc/O/iQ/Xw6gNVXgj6V2f2/A5bziQbP1
-	UXnNYX1OS7ZmcYIAcaWVDgjmtnzJpXI6dM1CC9flhWItmZOd2cDXucbpxZETtx/PPRJO
-	2Ynbq35XikEagUgZ5AW3mszSwCWEMYJLpJgG7Z33VtWSjvzaECATbU9QHi+LxgVjY4LU
-	tN4Q==
-X-Received: by 10.66.162.9 with SMTP id xw9mr184582416pab.46.1452558545318;
-	Mon, 11 Jan 2016 16:29:05 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:409b:83af:918e:bae1?
-	([2601:646:8802:5d5c:409b:83af:918e:bae1])
-	by smtp.gmail.com with ESMTPSA id 78sm4094543pfl.36.2016.01.11.16.29.04
+	bh=m8ayXhX/gPvh17d/lBBI2NBc3GDWOUj8ctTvM2eQywY=;
+	b=ewYbfCmpEN6s24VtvpxnTKxHPpE0JNanBVzTBr2DSlKdy79p2KG8dTgpv4BOYB0oV+
+	EjhNZtxsLsGHNGZyTD86HfCAH/bCNbo0cBfFPutPZtF701e6/cpDnM3lt0G86axWlB3m
+	u3A762iXOX5Az5de9EO0xCV7hKCMuurMLRKxAdgN4fKCLDlb3YVUzX8lH+Rx9/mt/fGr
+	eBRmpcAx71+HsBHmGpAiNTC1m1UpcgF4yY/zSwpMIf2GB/Oe5zRnX1JkpcrgVvjbwuul
+	3XCczgHfr5fjakNqCeAgwv6n+M4u2FgSPG4ClYLNizZO48UG0iwFmbUOkqBtUzfsVPIX
+	Ti1w==
+X-Received: by 10.98.14.80 with SMTP id w77mr30396620pfi.152.1452558964145;
+	Mon, 11 Jan 2016 16:36:04 -0800 (PST)
+Received: from [192.168.0.4] (c-73-252-206-77.hsd1.ca.comcast.net.
+	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
+	f27sm25767455pfj.0.2016.01.11.16.36.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jan 2016 16:29:04 -0800 (PST)
+	Mon, 11 Jan 2016 16:36:03 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJ86T=V71XZfoY54VgBJP2=Ec6ycpi2YSF6FcR6tTuow4eBaVg@mail.gmail.com>
-Date: Mon, 11 Jan 2016 16:29:04 -0800
-Message-Id: <8C1C6409-C8B8-43EE-AE9A-8F376177AA00@gmail.com>
-References: <1452199993-3885-1-git-send-email-armccurdy@gmail.com>
-	<1452199993-3885-2-git-send-email-armccurdy@gmail.com>
-	<20160107210943.GH2512@jama>
-	<CAJ86T=V71XZfoY54VgBJP2=Ec6ycpi2YSF6FcR6tTuow4eBaVg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+In-Reply-To: <568EA7ED.6010806@gmail.com>
+Date: Mon, 11 Jan 2016 16:35:58 -0800
+Message-Id: <B4FAE527-8438-4342-8B84-6635C8C2ADED@gmail.com>
+References: <568DF5C6.90509@gmail.com> <568E1CB6.708@windriver.com>
+	<568E86EF.5050408@gmail.com>
+	<CAJTo0LaDS4+ETDGLc+Ja8Q+TjCOJ=xn6dSvO4UsNMnLUPhzkcw@mail.gmail.com>
+	<1452184627.7598.132.camel@linuxfoundation.org>
+	<568EA7ED.6010806@gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
 X-Mailer: Apple Mail (2.3112)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] qemu.bbclass: duplicate armv7a over-ride for armv7ve
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: invoking a native compiler (gcc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,74 +51,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 00:29:06 -0000
-X-Groupsio-MsgNum: 75890
+X-List-Received-Date: Tue, 12 Jan 2016 00:36:03 -0000
+X-Groupsio-MsgNum: 75891
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_18CD76CD-9CC5-476D-8352-9DA543C27C2F";
+	boundary="Apple-Mail=_9D95E13F-DCFF-43E1-B4EE-D0F566000F7F";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_18CD76CD-9CC5-476D-8352-9DA543C27C2F
+--Apple-Mail=_9D95E13F-DCFF-43E1-B4EE-D0F566000F7F
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 
-> On Jan 7, 2016, at 1:17 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->=20
-> On Thu, Jan 7, 2016 at 1:09 PM, Martin Jansa <martin.jansa@gmail.com> =
+> On Jan 7, 2016, at 10:01 AM, Trevor Woerner <twoerner@gmail.com> =
 wrote:
->> On Thu, Jan 07, 2016 at 12:53:10PM -0800, Andre McCurdy wrote:
->>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>> ---
->>> meta/classes/qemu.bbclass | 1 +
->>> 1 file changed, 1 insertion(+)
->>>=20
->>> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
->>> index 315c17f..4ec7657 100644
->>> --- a/meta/classes/qemu.bbclass
->>> +++ b/meta/classes/qemu.bbclass
->>> @@ -43,6 +43,7 @@ QEMU_OPTIONS[vardeps] +=3D =
-"QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
->>> QEMU_EXTRAOPTIONS_iwmmxt    =3D " -cpu pxa270-c5"
->>> QEMU_EXTRAOPTIONS_armv6     =3D " -cpu arm1136"
->>> QEMU_EXTRAOPTIONS_armv7a    =3D " -cpu cortex-a8"
->>> +QEMU_EXTRAOPTIONS_armv7ve   =3D " -cpu cortex-a8"
->>=20
->> would it make sense to use cortex-a15 here? It's supported at least =
-in qemu-2.5.0
 >=20
-> Yes, I think you're right. If qemu configured for cortex-a8 is going
-> to barf on armv7ve integer division instructions then we should enable
-> an armv7ve cpu such as cortex-a15.
 >=20
-> To avoid unnecessary diversity, should we then also use cortex-a15 for =
-armv7a ?
-
-I think yes.
-
 >=20
->>> QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
->>> QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
->>> QEMU_EXTRAOPTIONS_ppce5500 =3D " -cpu e5500"
->>> --
->>> 1.9.1
->>>=20
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>=20
->> --
->> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On 01/07/16 11:37, Richard Purdie wrote:
+>> On Thu, 2016-01-07 at 15:46 +0000, Burton, Ross wrote:
+>>> On 7 January 2016 at 15:40, Trevor Woerner <twoerner@gmail.com>
+>>> wrote:
+>>>> I was surprised to find that BUILD_CC is being set to whatever
+>>>> comes up
+>>>> first in our build computer's PATH. But I guess the alternative
+>>>> would be
+>>>> to make our builds longer by compiling our own native compiler for
+>>>> such
+>>>> cases.
+>>>>=20
+>>> You could always set BUILD_CC to explicitly point to the right
+>>> compiler on your machine.  When I was trying to make OE work on
+>>> Darwin I had to set BUILD_CC to point at brew's gcc binaries.
+>> Or you setup PATH to include things in the right order as we do with
+>> other native tools...
+>=20
+> I was surprised to learn that a compiler from the host machine was
+> potentially being used as part of a build, not which one is found and
+> being used. When I discovered this I was quite sure I had configured
+> something incorrectly. This is more of an academic exercise, I didn't
+> run into any problems.
+>=20
+> I guess we're covered in the sense that each release specifies which
+> distros are supported. So as long as any native tools that are used in
+> each of the support distros are able to produce a successful build
+> everything should be fine. BUILD_CC is almost like an implicit
+> ASSUME_PROVIDED.
+
+It doesnt end at compiler.
+We are cross compiling. so yes we do bootstrap using tools from build =
+host.
+you can go down the lane and start insulating from hosts by building =
+native packages
+for everything but it does not buy us much. We basically then end up =
+building a build host distro =E2=80=98sort of=E2=80=99
+before anything is built for target. We already are building too many =
+things then
+I would think we should. It also has a maintenance cost to build e..g OE =
+packages to run on ubuntu
+its an untested combination where as running ubuntu package on ubuntu is =
+a tested combo
 
 
---Apple-Mail=_18CD76CD-9CC5-476D-8352-9DA543C27C2F
+
+--Apple-Mail=_9D95E13F-DCFF-43E1-B4EE-D0F566000F7F
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -128,9 +125,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlaUSNAACgkQuwUzVZGdMxTWlQCgjVARvf8r8D/YrcTdJCssLWcg
-xPUAoIWOWeDGSNTL9yCoQpIjGwAetZBl
-=sbLK
+iEYEARECAAYFAlaUSnIACgkQuwUzVZGdMxQutACeIa0TTnbp54+uXZmC1usMhbZF
+UogAniijdgdgSA6Eh4scPWB9Q7KOv0w5
+=/4K0
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_18CD76CD-9CC5-476D-8352-9DA543C27C2F--
+--Apple-Mail=_9D95E13F-DCFF-43E1-B4EE-D0F566000F7F--
