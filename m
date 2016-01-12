@@ -1,32 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D5AFD731F3
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 685EB6FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 02:03:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0C23Stv008612
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Jan 2016 18:03:28 -0800 (PST)
-Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Mon, 11 Jan 2016 18:03:28 -0800
-Message-ID: <56945EF9.2040209@windriver.com>
-Date: Tue, 12 Jan 2016 10:03:37 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Tue, 12 Jan 2016 02:04:25 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0C24QNF013335
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jan 2016 18:04:26 -0800
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jan 2016 18:04:25 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1452489034.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56945F28.70608@windriver.com>
+Date: Tue, 12 Jan 2016 10:04:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1452491844.git.Qi.Chen@windriver.com>
-	<2523177d0da5233c60da6a6aa99f74631a9277b7.1452491844.git.Qi.Chen@windriver.com>
-	<79D0CE6B-7A5E-4D08-BA90-06C6155E25D0@gmail.com>
-	<5694545C.1050802@windriver.com>
-	<3FA0B274-B9B5-488B-A0E5-82AC5B9CAEB3@gmail.com>
-In-Reply-To: <3FA0B274-B9B5-488B-A0E5-82AC5B9CAEB3@gmail.com>
-X-Originating-IP: [128.224.162.246]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] curl: upgrade to 7.46
+In-Reply-To: <cover.1452489034.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/2] autotools.bbclass: use relative path to run configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,85 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 02:03:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 12 Jan 2016 02:04:26 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 01/12/2016 09:23 AM, Khem Raj wrote:
->> On Jan 11, 2016, at 5:18 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->>
->> On 01/12/2016 02:20 AM, Khem Raj wrote:
->>>> On Jan 10, 2016, at 9:58 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->>>>
->>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>> ---
->>>> meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} | 6 ++++--
->>>> 1 file changed, 4 insertions(+), 2 deletions(-)
->>>> rename meta/recipes-support/curl/{curl_7.45.0.bb => curl_7.46.0.bb} (92%)
->>>>
->>>> diff --git a/meta/recipes-support/curl/curl_7.45.0.bb b/meta/recipes-support/curl/curl_7.46.0.bb
->>>> similarity index 92%
->>>> rename from meta/recipes-support/curl/curl_7.45.0.bb
->>>> rename to meta/recipes-support/curl/curl_7.46.0.bb
->>>> index a7ed778..8b109ba 100644
->>>> --- a/meta/recipes-support/curl/curl_7.45.0.bb
->>>> +++ b/meta/recipes-support/curl/curl_7.46.0.bb
->>>> @@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->>>> #
->>>> SRC_URI += " file://configure_ac.patch"
->>>>
->>>> -SRC_URI[md5sum] = "62c1a352b28558f25ba6209214beadc8"
->>>> -SRC_URI[sha256sum] = "65154e66b9f8a442b57c436904639507b4ac37ec13d6f8a48248f1b4012b98ea"
->>>> +SRC_URI[md5sum] = "9979f989a2a9930d10f1b3deeabc2148"
->>>> +SRC_URI[sha256sum] = "b7d726cdd8ed4b6db0fa1b474a3c59ebbbe4dcd4c61ac5e7ade0e0270d3195ad"
->>>>
->>>> inherit autotools pkgconfig binconfig multilib_header
->>>>
->>>> @@ -55,4 +55,6 @@ PACKAGES =+ "lib${BPN}"
->>>> FILES_lib${BPN} = "${libdir}/lib*.so.*"
->>>> RRECOMMENDS_lib${BPN} += "ca-certificates"
->>>>
->>>> +FILES_${PN}-dev += "${datadir}/zsh”
->>> what files are in ${datadir}/zsh ?
->> Hi Khem,
->>
->> There's only one file in this directory. See below.
->>
->> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ cat tmp/work/armv5e-poky-linux-gnueabi/curl/7.46.0-r0/packages-split/curl-dev/usr/share/zsh/site-functions/_curl
->> #compdef curl
->>
->> # curl zsh completion
->>
->> local curcontext="$curcontext" state state_descr line
->> typeset -A opt_args
->>
->> local rc=1
->>
->> _arguments -C -S \
->>
->>   '*:URL:_urls' && rc=0
->>
->> return rc
-> this is a tab completion file. Please move it to PN
+Thanks all, I updated "glibc-initial.inc: use relative path to run configure",
+now it should work for external source:
 
-Done.
-I've updated the remote branch.
+   git://git.openembedded.org/openembedded-core-contrib rbt/relative
+ 
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/relative
 
-Thanks,
-Chen Qi
+Robert Yang (2):
+   glibc-initial.inc: use relative path to run configure
+   autotools.bbclass: use relative path to run configure script
 
->> Best Regards,
->> Chen Qi
->>
->>>> +
->>>> BBCLASSEXTEND = "native nativesdk"
->>>> --
->>>> 1.9.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/glibc/glibc-initial.inc 
+b/meta/recipes-core/glibc/glibc-initial.inc
+index 8e81f09..7214f71 100644
+--- a/meta/recipes-core/glibc/glibc-initial.inc
++++ b/meta/recipes-core/glibc/glibc-initial.inc
+@@ -11,7 +11,8 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
+  do_configure () {
+         (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
+         find ${S} -name "configure" | xargs touch
+-       ${S}/configure --host=${TARGET_SYS} --build=${BUILD_SYS} \
++       cfgscript=`python -c "import os; print os.path.relpath('${S}', 
+'.')"`/configure
++       $cfgscript --host=${TARGET_SYS} --build=${BUILD_SYS} \
+                 --prefix=/usr \
+                 --without-cvs --disable-sanity-checks \
+                 --with-headers=${STAGING_DIR_TARGET}${includedir} \
 
+// Robert
+
+On 01/11/2016 01:11 PM, Robert Yang wrote:
+> Hi,
+>
+> The 2 patches can reduce a lot of QA Issues for buildpaths.
+>
+> // Robert
+>
+> The following changes since commit 5661d8cb7849df62358368743134c0aaf523965e:
+>
+>    image: Really remove lockfiles flag (2016-01-07 13:41:47 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/relative
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/relative
+>
+> Robert Yang (2):
+>    glibc-initial.inc: use relative path to run configure
+>    autotools.bbclass: use relative path to run configure script
+>
+>   meta/classes/autotools.bbclass            |    4 +++-
+>   meta/recipes-core/glibc/glibc-initial.inc |    2 +-
+>   2 files changed, 4 insertions(+), 2 deletions(-)
+>
 
