@@ -1,25 +1,26 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A761865CB6
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C199C731D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 09:59:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jan 2016 01:59:40 -0800
+	Wed, 13 Jan 2016 10:22:12 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Jan 2016 02:22:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,288,1449561600"; d="scan'208";a="892228381"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Jan 2016 01:59:40 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 780486A4004;
-	Wed, 13 Jan 2016 02:47:36 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2016 10:03:04 +0200
-Message-Id: <1452672184-30919-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1452525707-1734-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1452525707-1734-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH v2] bitbake.conf: rename python-native-runtime
+X-IronPort-AV: E=Sophos;i="5.22,288,1449561600"; d="scan'208";a="632707723"
+Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Jan 2016 02:22:12 -0800
+Date: Wed, 13 Jan 2016 12:24:32 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160113102432.GA5979@mbabyjoh-mobl.fi.intel.com>
+References: <1452615632-5232-1-git-send-email-maxin.john@intel.com>
+	<1452615632-5232-2-git-send-email-maxin.john@intel.com>
+	<CAJTo0LY1Zqd6qtve-LBaDKikidHihhjxGwhEWsQrkNouzAtK6A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY1Zqd6qtve-LBaDKikidHihhjxGwhEWsQrkNouzAtK6A@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] sqlite3: upgrade to version 3.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 09:59:41 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 10:22:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The code in native.bbclass adds -native suffix to the package
-names that don't have it.
+Hi Ross,
 
-Renamed python-native-runtime -> hostpython-runtime-native to avoid
-mangling it and to conform with the naming convetion for native
-packages.
+On Tue, Jan 12, 2016 at 06:44:35PM +0000, Burton, Ross wrote:
+>>On 12 January 2016 at 16:20, Maxin B. John <maxin.john@intel.com> wrote:
+>>
+>>    3.9.2 -> 3.10.0
+>>
+>>        Fixed a parallel build problem.
+>>
+>
+>        buildhistory-diff reports:
+>
+>        packages/corei7-64-poky-linux/sqlite3/sqlite3-dbg: RRECOMMENDS: removed "readline-dbg"
+>        packages/corei7-64-poky-linux/sqlite3/sqlite3: RDEPENDS: removed all items "readline (['>= 6.3'])"
+>
+>        Which indicates that sqlite3 has a non-deterministic and autodetected dependency on readline.  Can you add a PACKAGECONFIG or similar for this please?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sure. Thanks for noticing it. I will send v2 with PACKAGECONFIG for readline.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2fe6b24..fc57a58 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -172,7 +172,7 @@ ASSUME_PROVIDED = "\
-     diffstat-native \
-     patch-native \
-     hostperl-runtime-native \
--    python-native-runtime \
-+    hostpython-runtime-native \
-     tar-native \
-     virtual/libintl-native \
-     virtual/libiconv-native \
--- 
-2.1.4
-
+>        Ross
+Thanks and Regards,
+Maxin
 
