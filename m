@@ -1,25 +1,64 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 572F46FF3D
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C0A460110
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 15:28:40 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Jan 2016 07:28:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,289,1449561600"; d="scan'208";a="28676119"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga004.fm.intel.com with ESMTP; 13 Jan 2016 07:28:41 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2016 07:24:51 +0000
-Message-Id: <2e5045f117b6069f0e5e62680ae57f75325cc3be.1452669610.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1452669610.git.mariano.lopez@linux.intel.com>
-References: <cover.1452669610.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1452669610.git.mariano.lopez@linux.intel.com>
-References: <cover.1452669610.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 4/4] lib/oe/package_manager.py: Remove list() from PkgsList class
+	Wed, 13 Jan 2016 15:39:55 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id ho8so99356290pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jan 2016 07:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=VWwHCRBn3DCWodZmwQG43W77d2SXCiwFPjIra+A1AAg=;
+	b=pDWAnDzojXc0ZDo87LbSHWY0t3vUXzlXt1d+5OZ8FWcnRtaF1pDiJjzgdLu+nSpDlI
+	DuuV1jEm3uEBA0UaRycanRLdj2kyPBpneA9a6I3GMFFc1vr4s843hrbschC8T6qhj9NM
+	zrK1gp2QsICXxWufTxV0LIOx8zmzZhPYcNA3TkU7P4pVm8X+5/Jhd8rKL2I6IkGUjhrh
+	bU/wgdv95vzE9Z3uqutEMI7T5s6HmT8UErZveCq+qLdupNFcTrSc8tYXtIg41alaGync
+	nTX2v1Dtq93FCw5O3lj4553FwvQ1GpeCQNTiBUoguwACwG29HTgoR7Kmb4gmD24bb2bm
+	yptg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=VWwHCRBn3DCWodZmwQG43W77d2SXCiwFPjIra+A1AAg=;
+	b=aNP9WF8mn/eKu0yTo2kNDvujCFY157IeYExl/sUD23nQeNpbiZxSR68ypBmbuyB45k
+	105hTY/pF+UjzW9YDQX76TZK1nPNVU8wP9+EJyYpim55M3PD85kIe2jC3IBE5+P2moYq
+	oZeEqvPtBriheghMON35/mLzpX7nbBPKdVuiNMfOcOiAMvMwemtdHM4P68O8gzVKRj8c
+	wxw/DW5xYC6Me/bA3AJHk/+Sub4l0ghId00HwbMVgJUUmno9AH/uijNJ6Kdax0NKt2AV
+	+MgA5fLi3G93IFQVl2pFljMKAgw6btvLItRerycTmfQKmZGzxi3Z6h0UmcYRsoUv+DYD
+	/jLQ==
+X-Gm-Message-State: ALoCoQnYCZEt52syMyR6cs0/l2J2WckbL28CnsMBJn5QgitzGSLJdCOSCCe1DCAZbX03Br4fEpMJRzZ0GZVDann4pTCAjDdKaA==
+X-Received: by 10.67.15.73 with SMTP id fm9mr166824223pad.130.1452699596611;
+	Wed, 13 Jan 2016 07:39:56 -0800 (PST)
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com.
+	[209.85.192.173]) by smtp.gmail.com with ESMTPSA id
+	r89sm3457161pfa.57.2016.01.13.07.39.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Jan 2016 07:39:55 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f173.google.com with SMTP id e65so83279625pfe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jan 2016 07:39:54 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.98.31.84 with SMTP id f81mr43417487pff.98.1452699594043;
+	Wed, 13 Jan 2016 07:39:54 -0800 (PST)
+Received: by 10.66.72.229 with HTTP; Wed, 13 Jan 2016 07:39:53 -0800 (PST)
+In-Reply-To: <201601131534.58933.marex@denx.de>
+References: <1452656212-9836-1-git-send-email-marex@denx.de>
+	<CAP9ODKr1iOkB-n7yfyOGk0dYnuni1V5=84k1CK1eG+TPFsFLuA@mail.gmail.com>
+	<201601131534.58933.marex@denx.de>
+Date: Wed, 13 Jan 2016 13:39:53 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKohVDvN=bnowqXaHa_3yNvOf70EevWwV6T9rrNLbEHxOA@mail.gmail.com>
+Message-ID: <CAP9ODKohVDvN=bnowqXaHa_3yNvOf70EevWwV6T9rrNLbEHxOA@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2016.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,205 +71,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 15:28:40 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 15:39:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Wed, Jan 13, 2016 at 12:34 PM, Marek Vasut <marex@denx.de> wrote:
+> On Wednesday, January 13, 2016 at 01:04:31 PM, Otavio Salvador wrote:
+>> On Wed, Jan 13, 2016 at 1:36 AM, Marek Vasut <marex@denx.de> wrote:
+>> > Upgrade U-Boot to latest version and drop upstreamed patches.
+>> >
+>> > Repair configuration of U-Boot during build. It is no longer
+>> > possible to run "make foomachine" in U-Boot. Instead, it is
+>> > necessary to do "make foomachine_defconfig ; make". Fix this
+>> > in u-boot.inc and u-boot-fw-utils*.bb .
+>>
+>> Please drop this config suffix, from u-boot.inc. The config value
+>> should be used as is and the respective BSP ought to be fixed to
+>> change _config to _defconfig.
+>
+> If I don't have the _defconfig there AND I define UBOOT_MACHINE in my machine
+> file, it will call "make machine", which no longer works.
 
-Now that the method list() is not used anymore, remove it.
+I know and the right fix is to use the right value to UBOOT_MACHINE as
+we do for KERNEL_DEVICETREE.
 
-[YOCTO #7427]
+Doing this 'under the hood' change hides wrong settings and I think we
+should no do this. the defconfig is in use for a while (2 release,
+from YP point of view) and people had time to move the BSP to use
+proper values.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 153 -----------------------------------------
- 1 file changed, 153 deletions(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 3eeeb03..67d54db 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -293,10 +293,6 @@ class PkgsList(object):
-         self.rootfs_dir = rootfs_dir
- 
-     @abstractmethod
--    def list(self, format=None):
--        pass
--
--    @abstractmethod
-     def list_pkgs(self):
-         pass
- 
-@@ -409,56 +405,6 @@ class RpmPkgsList(PkgsList):
- 
-         return output
- 
--    def list(self, format=None):
--        if format == "deps":
--            if self.rpm_version == 4:
--                bb.fatal("'deps' format dependency listings are not supported with rpm 4 since rpmresolve does not work")
--            return self._list_pkg_deps()
--
--        cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
--        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
--        if self.rpm_version == 4:
--            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION}\n]'"
--        else:
--            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
--
--        try:
--            # bb.note(cmd)
--            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip()
--
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
--
--        output = list()
--        for line in tmp_output.split('\n'):
--            if len(line.strip()) == 0:
--                continue
--            pkg = line.split()[0]
--            arch = line.split()[1]
--            ver = line.split()[2]
--            # Skip GPG keys
--            if pkg == 'gpg-pubkey':
--                continue
--            if self.rpm_version == 4:
--                pkgorigin = "unknown"
--            else:
--                pkgorigin = line.split()[3]
--            new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
--
--            if format == "arch":
--                output.append('%s %s' % (new_pkg, new_arch))
--            elif format == "file":
--                output.append('%s %s %s' % (new_pkg, pkgorigin, new_arch))
--            elif format == "ver":
--                output.append('%s %s %s' % (new_pkg, new_arch, ver))
--            else:
--                output.append('%s' % (new_pkg))
--
--            output.sort()
--
--        return '\n'.join(output)
--
-     def list_pkgs(self):
-         cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
-         cmd += ' -D "_dbpath /var/lib/rpm" -qa'
-@@ -521,51 +467,6 @@ class OpkgPkgsList(PkgsList):
-         self.opkg_args = "-f %s -o %s " % (config_file, rootfs_dir)
-         self.opkg_args += self.d.getVar("OPKG_ARGS", True)
- 
--    def list(self, format=None):
--        opkg_query_cmd = bb.utils.which(os.getenv('PATH'), "opkg-query-helper.py")
--
--        if format == "arch":
--            cmd = "%s %s status | %s -a" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        elif format == "file":
--            cmd = "%s %s status | %s -f" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        elif format == "ver":
--            cmd = "%s %s status | %s -v" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        elif format == "deps":
--            cmd = "%s %s status | %s" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        else:
--            cmd = "%s %s list_installed | cut -d' ' -f1" % \
--                (self.opkg_cmd, self.opkg_args)
--
--        try:
--            # bb.note(cmd)
--            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip()
--
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
--
--        output = list()
--        for line in tmp_output.split('\n'):
--            if len(line.strip()) == 0:
--                continue
--            if format == "file":
--                pkg, pkg_file, pkg_arch = line.split()
--                full_path = os.path.join(self.rootfs_dir, pkg_arch, pkg_file)
--                if os.path.exists(full_path):
--                    output.append('%s %s %s' % (pkg, full_path, pkg_arch))
--                else:
--                    output.append('%s %s %s' % (pkg, pkg_file, pkg_arch))
--            else:
--                output.append(line)
--
--        output.sort()
--
--        return '\n'.join(output)
--
-     def list_pkgs(self, format=None):
-         cmd = "%s %s status" % (self.opkg_cmd, self.opkg_args)
- 
-@@ -581,60 +482,6 @@ class OpkgPkgsList(PkgsList):
- 
- 
- class DpkgPkgsList(PkgsList):
--    def list(self, format=None):
--        cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
--               "--admindir=%s/var/lib/dpkg" % self.rootfs_dir,
--               "-W"]
--
--        if format == "arch":
--            cmd.append("-f=${Package} ${PackageArch}\n")
--        elif format == "file":
--            cmd.append("-f=${Package} ${Package}_${Version}_${Architecture}.deb ${PackageArch}\n")
--        elif format == "ver":
--            cmd.append("-f=${Package} ${PackageArch} ${Version}\n")
--        elif format == "deps":
--            cmd.append("-f=Package: ${Package}\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n")
--        else:
--            cmd.append("-f=${Package}\n")
--
--        try:
--            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).strip()
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output))
--
--        if format == "file":
--            tmp_output = ""
--            for line in tuple(output.split('\n')):
--                if not line.strip():
--                    continue
--                pkg, pkg_file, pkg_arch = line.split()
--                full_path = os.path.join(self.rootfs_dir, pkg_arch, pkg_file)
--                if os.path.exists(full_path):
--                    tmp_output += "%s %s %s\n" % (pkg, full_path, pkg_arch)
--                else:
--                    tmp_output += "%s %s %s\n" % (pkg, pkg_file, pkg_arch)
--
--            output = tmp_output
--        elif format == "deps":
--            opkg_query_cmd = bb.utils.which(os.getenv('PATH'), "opkg-query-helper.py")
--            file_out = tempfile.NamedTemporaryFile()
--            file_out.write(output)
--            file_out.flush()
--
--            try:
--                output = subprocess.check_output("cat %s | %s" %
--                                                 (file_out.name, opkg_query_cmd),
--                                                 stderr=subprocess.STDOUT,
--                                                 shell=True)
--            except subprocess.CalledProcessError as e:
--                file_out.close()
--                bb.fatal("Cannot compute packages dependencies. Command '%s' "
--                         "returned %d:\n%s" % (e.cmd, e.returncode, e.output))
--
--            file_out.close()
--
--        return output
- 
-     def list_pkgs(self):
-         cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
 -- 
-1.8.4.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
