@@ -1,33 +1,29 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id EACC360620
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E49366FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 01:05:43 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="2520875"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Jan 2016 09:05:41 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A3A5641890EC
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 09:05:29 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.98) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Wed, 13 Jan 2016 09:09:09 +0800
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jan 2016 04:05:11 +0300
-Message-ID: <1452647111-3884-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1452598345.28375.12.camel@linuxfoundation.org>
-References: <1452598345.28375.12.camel@linuxfoundation.org>
+	Wed, 13 Jan 2016 01:45:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0D1jB1h022321
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Jan 2016 17:45:11 -0800 (PST)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 12 Jan 2016 17:45:11 -0800
+Message-ID: <5695ABF4.8080500@windriver.com>
+Date: Wed, 13 Jan 2016 09:44:20 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.98]
-X-yoursite-MailScanner-ID: A3A5641890EC.AFCAB
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] net-tools_1.60-26.bb: Error fix
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+References: <cover.1452472146.git.hongxu.jia@windriver.com>	
+	<3cb28a7edb40f7e138cdc4c15f5cca5802a3018a.1452472146.git.hongxu.jia@windriver.com>
+	<1452598749.28375.13.camel@linuxfoundation.org>
+In-Reply-To: <1452598749.28375.13.camel@linuxfoundation.org>
+Subject: Re: [PATCH 6/9] ghostscript: 9.16 -> 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,42 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 01:05:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Jan 2016 01:45:16 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-when set PATCHTOOL = "patch" in conf/local.conf,error will occur
-in the step of do_patch.
-The error is: "quilt: command not found",so fix it.
+On 01/12/2016 07:39 PM, Richard Purdie wrote:
+> On Mon, 2016-01-11 at 08:30 +0800, Hongxu Jia wrote:
+>> Remove '--without-jbig2dec', since upstream did not
+>> support it very well which caused build failure:
+>> ...
+>>> make[1]: *** No rule to make target `obj/sjbig2_.dev',
+>> needed by `obj/sjbig2.dev'.  Stop.
+>> ...
+>>
+>> The same to option '--without-jbig2dec'.
+>>
+>> Already file a bug to upstream:
+>> http://bugs.ghostscript.com/show_bug.cgi?id=696497
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Presumably we use this option for a reason. What effect does removing
+> it have? Should we backport the fixes instead?
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The initial recipe has used this option without reason, The upstream
+have replied the bug:
 
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 923d048..cf820db 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -31,6 +31,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
- 
- inherit gettext
- 
-+do_patch[depends] = "quilt-native:do_populate_sysroot"
- # The Makefile is lame, no parallel build
- PARALLEL_MAKE = ""
- 
-@@ -40,7 +41,7 @@ PARALLEL_MAKE = ""
- # up all previously applied patches in the start
- nettools_do_patch() {
- 	cd ${S}
--	quilt pop -a || true
-+	${STAGING_BINDIR_NATIVE}/quilt pop -a || true
- 	if [ -d ${S}/.pc-nettools ]; then
- 		rm -rf ${S}/.pc
- 		mv ${S}/.pc-nettools ${S}/.pc
--- 
-1.8.4.2
+http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=4b7b278d
+http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=b0f5a975
 
+I will do the test and backport them in V2
 
+//Hongxu
+
+> Cheers,
+>
+> Richard
 
 
