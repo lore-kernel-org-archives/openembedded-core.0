@@ -1,57 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 897B4731C6
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 52A0B731E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 06:42:29 +0000 (UTC)
-Received: by mail-pf0-f179.google.com with SMTP id e65so76341157pfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 22:42:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=2OakWzX/VyNPc7MMdhM7xygOufE+xlIvnLrlEtQBCgU=;
-	b=yzbTLG/qGRFMNDvwqRoXqJWwHy2TTVO6cx9pkUgLBIfLEAOkTUA2B86XIf06Jr385s
-	4kHZgyg0weBAft2kdJWgvgioIrXN2VWRq7JhHbr+T7Drxve3Z9v9x9VVhrnKPzCjn0dR
-	fWS+PGOWTBZPD3TIafwgpvcLnpjhWGO0CNhWBJ7q1iZdf9b0j75jp+aKfpGTzz17Ev3D
-	7g9BL/SCAY5oPBQi3xKTxvbhkO/Ajs52EwElFXzBEdAvpEqYFlkznG12EwYENUCYZw8K
-	KgH7Rc+nNLjkHiEZNCN9OYAv1uHS7V6OuCWQkKGNTW/qcXFeUz2frvbSiQTrDTZdoPtz
-	1/5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=2OakWzX/VyNPc7MMdhM7xygOufE+xlIvnLrlEtQBCgU=;
-	b=AXaVua7Ilsvu/KzKAGfRzLUx38GF5xgPnEJ87KJgaytt2KVVnLXbdwr75mHQ0beUl5
-	5yCnBwSd3evJmgua72ygiJ0vIOWOQS9sW4CBU3YXO6y9CJLFFwpIbZBiBWyy3nWMHRqb
-	qyjQ6WYWoo7Zi56JFaEbAaK8xS93kl6HWUSKXos82kbQAYnvPj0MZ6e5GauM5B/wa6NE
-	VMrgMlwy5BNQ/PZpPQ2MhlqwEbpwl12RTP+yAydiPS89Xeo9e5wVtCxQswNagD83X+4q
-	hk9aX4q6n7GHrxlbY9AP8WAgk0PeNWLODb4v+WR8ZUzM8PZGjJWe1E0gPzrOBnmOymH/
-	P+Ew==
-X-Gm-Message-State: ALoCoQmcJgQWAYxz5iJ/GPrp/b6vc5m3RdoT15lcEL7QLMVQi38R+oRJWQqu/n1FctG+x/trAxV28Pd2Ms8DoqizItq1wuFc4w==
-X-Received: by 10.98.68.211 with SMTP id m80mr40431697pfi.117.1452667350241;
-	Tue, 12 Jan 2016 22:42:30 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:5819:3c63:1381:916a?
-	([2601:646:8802:5d5c:5819:3c63:1381:916a])
-	by smtp.gmail.com with ESMTPSA id
-	c86sm34664029pfd.75.2016.01.12.22.42.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jan 2016 22:42:29 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <201601130601.50890.marex@denx.de>
-Date: Tue, 12 Jan 2016 22:42:24 -0800
-Message-Id: <7493A0EF-E1B8-4FFF-B056-15F07BBCC480@gmail.com>
-References: <1452656212-9836-1-git-send-email-marex@denx.de>
-	<CAMKF1spwghM0XJ7TP0chW4i1fwpG5qLqu=YzR8Jjc_BsLi48Hw@mail.gmail.com>
-	<201601130601.50890.marex@denx.de>
-To: Marek Vasut <marex@denx.de>
-X-Mailer: Apple Mail (2.3112)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2016.01 release
+	Wed, 13 Jan 2016 08:30:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0D8Uax7021951
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Jan 2016 00:30:36 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 13 Jan 2016 00:30:35 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<raj.khem@gmail.com>, <randy.macleod@windriver.com>,
+	<richard.purdie@linuxfoundation.org>
+Date: Wed, 13 Jan 2016 03:30:29 -0500
+Message-ID: <bf3a881847465f2962c81eafc0ee6016c8a5b4fe.1452673538.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1452673538.git.hongxu.jia@windriver.com>
+References: <cover.1452673538.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH V2 3/9] pax-utils: 1.0.5 -> 1.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,83 +34,233 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 06:42:29 -0000
-X-Groupsio-MsgNum: 75980
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B8F27FCF-32A9-4328-8E2D-4D41FFDF1193";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 13 Jan 2016 08:30:38 -0000
+Content-Type: text/plain
 
---Apple-Mail=_B8F27FCF-32A9-4328-8E2D-4D41FFDF1193
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset=us-ascii
+- Support autotools:
+  *) Touch NEWS/AUTHORS/ChangeLog to workaroud failure
+     caused by 'automake --add-missing'
+  *) Add patch to fix configure failure caused by missing
+     macro definition in m4 directory
+
+- Add PACKAGECONFIG flags for libcap, libseccomp and pyelftools,
+  and disable them by default.
+
+- Add PACKAGECONFIG flag for largefile.
+
+- Since we add PACKAGECONFIG flags for pyelftools, we do not need
+  python in RDEPENDS.
+
+BTW:
+Currently oe-core does not support libseccomp.
+(https://github.com/seccomp/libseccomp)
+
+Currently oe-core does not support pyelftools.
+(https://github.com/eliben/pyelftools)
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../pax-utils/files/fix-configure-failure.patch    | 146 +++++++++++++++++++++
+ .../{pax-utils_1.0.5.bb => pax-utils_1.1.4.bb}     |  23 +++-
+ 2 files changed, 165 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+ rename meta/recipes-devtools/pax-utils/{pax-utils_1.0.5.bb => pax-utils_1.1.4.bb} (48%)
+
+diff --git a/meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch b/meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+new file mode 100644
+index 0000000..43bfeb6
+--- /dev/null
++++ b/meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+@@ -0,0 +1,146 @@
++From 70334129f5d849813c2ea5ce6070e6fb433412f7 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 13 Jan 2016 01:12:19 -0500
++Subject: [PATCH] autotools/m4: fix unexpected token 'AX_APPEND_FLAG'
++
++Added missing macro definition "ax_require_defined.m4" and "ax_append_flag.m4"
++to the m4 macro directories.
++...
++pax-utils-1.1.4/configure: line 33077: syntax error near unexpected token `AX_APPEND_FLAG'
++pax-utils-1.1.4/configure: line 33077: `AX_REQUIRE_DEFINED(AX_APPEND_FLAG)'
++...
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ autotools/m4/ax_append_flag.m4     | 72 ++++++++++++++++++++++++++++++++++++++
++ autotools/m4/ax_require_defined.m4 | 38 ++++++++++++++++++++
++ 2 files changed, 110 insertions(+)
++ create mode 100644 autotools/m4/ax_append_flag.m4
++ create mode 100644 autotools/m4/ax_require_defined.m4
++
++diff --git a/autotools/m4/ax_append_flag.m4 b/autotools/m4/ax_append_flag.m4
++new file mode 100644
++index 0000000..c98a5c5
++--- /dev/null
+++++ b/autotools/m4/ax_append_flag.m4
++@@ -0,0 +1,72 @@
+++# ===========================================================================
+++#      http://www.gnu.org/software/autoconf-archive/ax_append_flag.html
+++# ===========================================================================
+++#
+++# SYNOPSIS
+++#
+++#   AX_APPEND_FLAG(FLAG, [FLAGS-VARIABLE])
+++#
+++# DESCRIPTION
+++#
+++#   FLAG is appended to the FLAGS-VARIABLE shell variable, with a space
+++#   added in between.
+++#
+++#   If FLAGS-VARIABLE is not specified, the current language's flags (e.g.
+++#   CFLAGS) is used.  FLAGS-VARIABLE is not changed if it already contains
+++#   FLAG.  If FLAGS-VARIABLE is unset in the shell, it is set to exactly
+++#   FLAG.
+++#
+++#   NOTE: Implementation based on AX_CFLAGS_GCC_OPTION.
+++#
+++# LICENSE
+++#
+++#   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
+++#   Copyright (c) 2011 Maarten Bosmans <mkbosmans@gmail.com>
+++#
+++#   This program is free software: you can redistribute it and/or modify it
+++#   under the terms of the GNU General Public License as published by the
+++#   Free Software Foundation, either version 3 of the License, or (at your
+++#   option) any later version.
+++#
+++#   This program is distributed in the hope that it will be useful, but
+++#   WITHOUT ANY WARRANTY; without even the implied warranty of
+++#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+++#   Public License for more details.
+++#
+++#   You should have received a copy of the GNU General Public License along
+++#   with this program. If not, see <http://www.gnu.org/licenses/>.
+++#
+++#   As a special exception, the respective Autoconf Macro's copyright owner
+++#   gives unlimited permission to copy, distribute and modify the configure
+++#   scripts that are the output of Autoconf when processing the Macro. You
+++#   need not follow the terms of the GNU General Public License when using
+++#   or distributing such scripts, even though portions of the text of the
+++#   Macro appear in them. The GNU General Public License (GPL) does govern
+++#   all other use of the material that constitutes the Autoconf Macro.
+++#
+++#   This special exception to the GPL applies to versions of the Autoconf
+++#   Macro released by the Autoconf Archive. When you make and distribute a
+++#   modified version of the Autoconf Macro, you may extend this special
+++#   exception to the GPL to apply to your modified version as well.
+++
+++#serial 6
+++
+++AC_DEFUN([AX_APPEND_FLAG],
+++[dnl
+++AC_PREREQ(2.64)dnl for _AC_LANG_PREFIX and AS_VAR_SET_IF
+++AS_VAR_PUSHDEF([FLAGS], [m4_default($2,_AC_LANG_PREFIX[FLAGS])])
+++AS_VAR_SET_IF(FLAGS,[
+++  AS_CASE([" AS_VAR_GET(FLAGS) "],
+++    [*" $1 "*], [AC_RUN_LOG([: FLAGS already contains $1])],
+++    [
+++     AS_VAR_APPEND(FLAGS,[" $1"])
+++     AC_RUN_LOG([: FLAGS="$FLAGS"])
+++    ])
+++  ],
+++  [
+++  AS_VAR_SET(FLAGS,[$1])
+++  AC_RUN_LOG([: FLAGS="$FLAGS"])
+++  ])
+++AS_VAR_POPDEF([FLAGS])dnl
+++])dnl AX_APPEND_FLAG
+++
++diff --git a/autotools/m4/ax_require_defined.m4 b/autotools/m4/ax_require_defined.m4
++new file mode 100644
++index 0000000..4cb6f3c
++--- /dev/null
+++++ b/autotools/m4/ax_require_defined.m4
++@@ -0,0 +1,38 @@
+++# ===========================================================================
+++#    http://www.gnu.org/software/autoconf-archive/ax_require_defined.html
+++# ===========================================================================
+++#
+++# SYNOPSIS
+++#
+++#   AX_REQUIRE_DEFINED(MACRO)
+++#
+++# DESCRIPTION
+++#
+++#   AX_REQUIRE_DEFINED is a simple helper for making sure other macros have
+++#   been defined and thus are available for use.  This avoids random issues
+++#   where a macro isn't expanded.  Instead the configure script emits a
+++#   non-fatal:
+++#
+++#     ./configure: line 1673: AX_CFLAGS_WARN_ALL: command not found
+++#
+++#   It's like AC_REQUIRE except it doesn't expand the required macro.
+++#
+++#   Here's an example:
+++#
+++#     AX_REQUIRE_DEFINED([AX_CHECK_LINK_FLAG])
+++#
+++# LICENSE
+++#
+++#   Copyright (c) 2014 Mike Frysinger <vapier@gentoo.org>
+++#
+++#   Copying and distribution of this file, with or without modification, are
+++#   permitted in any medium without royalty provided the copyright notice
+++#   and this notice are preserved. This file is offered as-is, without any
+++#   warranty.
+++
+++#serial 1
+++
+++AC_DEFUN([AX_REQUIRE_DEFINED], [dnl
+++  m4_ifndef([$1], [m4_fatal([macro ]$1[ is not defined; is a m4 file missing?])])
+++])dnl AX_REQUIRE_DEFINED
+++
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/pax-utils/pax-utils_1.0.5.bb b/meta/recipes-devtools/pax-utils/pax-utils_1.1.4.bb
+similarity index 48%
+rename from meta/recipes-devtools/pax-utils/pax-utils_1.0.5.bb
+rename to meta/recipes-devtools/pax-utils/pax-utils_1.1.4.bb
+index 0716a08..48b342e 100644
+--- a/meta/recipes-devtools/pax-utils/pax-utils_1.0.5.bb
++++ b/meta/recipes-devtools/pax-utils/pax-utils_1.1.4.bb
+@@ -7,15 +7,30 @@ HOMEPAGE = "http://www.gentoo.org/proj/en/hardened/pax-utils.xml"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+ 
+-SRC_URI = "http://gentoo.osuosl.org/distfiles/pax-utils-${PV}.tar.xz"
++SRC_URI = "http://gentoo.osuosl.org/distfiles/pax-utils-${PV}.tar.xz \
++           file://fix-configure-failure.patch \
++"
+ 
+-SRC_URI[md5sum] = "d731f5385682a7a62ee2e7b7dacc13a7"
+-SRC_URI[sha256sum] = "f69a9938e4af7912d26d585094bc0203e43571a990fdd048319088a8b8ad906f"
++SRC_URI[md5sum] = "1bfbb5237881f0c5e476b2f7ffcc00d5"
++SRC_URI[sha256sum] = "796860fbd48c5f811e699e8492dc1110459bad0a62efa8d346b74a4f6f556414"
+ 
+-RDEPENDS_${PN} += "bash python"
++RDEPENDS_${PN} += "bash"
++
++do_configure_prepend() {
++    touch ${S}/NEWS ${S}/AUTHORS ${S}/ChangeLog
++}
+ 
+ do_install() {
+     oe_runmake PREFIX=${D}${prefix} DESTDIR=${D} install
+ }
+ 
+ BBCLASSEXTEND = "native"
++
++inherit autotools pkgconfig
++
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'largefile', '', d)} \
++"
++PACKAGECONFIG[libcap] = "--with-caps, --without-caps, libcap"
++PACKAGECONFIG[libseccomp] = "--with-seccomp, --without-seccomp, libseccomp"
++PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
++PACKAGECONFIG[pyelftools] = "--with-python, --without-python,, pyelftools"
+-- 
+1.9.1
 
 
-> On Jan 12, 2016, at 9:01 PM, Marek Vasut <marex@denx.de> wrote:
-> 
-> On Wednesday, January 13, 2016 at 05:49:08 AM, Khem Raj wrote:
->> On Tue, Jan 12, 2016 at 7:36 PM, Marek Vasut <marex@denx.de> wrote:
->>> Upgrade U-Boot to latest version and drop upstreamed patches.
->>> 
->>> Repair configuration of U-Boot during build. It is no longer
->>> possible to run "make foomachine" in U-Boot. Instead, it is
->>> necessary to do "make foomachine_defconfig ; make". Fix this
->>> in u-boot.inc and u-boot-fw-utils*.bb .
->>> 
->>> Signed-off-by: Marek Vasut <marex@denx.de>
->>> Cc: Otavio Salvador <otavio@ossystems.com.br>
->>> Cc: Ross Burton <ross.burton@intel.com>
->>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> ---
->>> 
->>> meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.10.bb |   49 -
->>> meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.01.bb |   49 +
->>> meta/recipes-bsp/u-boot/u-boot-mkimage_2015.10.bb  |   32 -
->>> meta/recipes-bsp/u-boot/u-boot-mkimage_2016.01.bb  |   32 +
->> 
->> can you make git work hard to detect renames so its easier to review it ?
->> 
->> git format -C
-> 
-> I usually use git format-patch -M -C, but didn't do it this time.
-> I can do a repost if needed.
-> 
-> btw. do you have any other comment about this patch? It'd be nice if you
-> could snip out of the irrelevant part(s) of the patch so it's easier to
-> find the relevant comments.
-
-I started to review it and it just put me off at very beginning.
-
-> 
->>> meta/recipes-bsp/u-boot/u-boot.inc                 |    4 +-
->>> ...-u-boot-.lds-remove-_GLOBAL_OFFSET_TABLE_.patch |  185 ---
->>> ...-non-Android-booting-with-ramdisk-and-or-.patch |   36 -
->>> ...board_f-enable-setup_board_part1-for-MIPS.patch |   59 -
->>> ...PS-bootm-rework-and-fix-broken-bootm-code.patch |  254 -----
->>> ...PS-bootm-use-CONFIG_IS_ENABLED-everywhere.patch |   93 --
->>> ...-Replace-extern-inline-with-static-inline.patch | 1184
->>> -------------------- meta/recipes-bsp/u-boot/u-boot_2015.10.bb
-> 
-> [...]
-> 
-> Best regards,
-> Marek Vasut
-
-
---Apple-Mail=_B8F27FCF-32A9-4328-8E2D-4D41FFDF1193
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaV8dQACgkQuwUzVZGdMxTB4ACeMepcHzUQXKaK9TWDoDPhsgcE
-gP0An1eUWaFJjweeRDArJlFiGY/wC2eW
-=ui99
------END PGP SIGNATURE-----
-
---Apple-Mail=_B8F27FCF-32A9-4328-8E2D-4D41FFDF1193--
