@@ -1,30 +1,21 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id EC2A4731CD
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D42276FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 14:56:27 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3pgX0W2Dlvz3hjkf;
-	Wed, 13 Jan 2016 15:56:27 +0100 (CET)
-X-Auth-Info: RGOPfKxgz1F1jef3+99d4D+Qx06A/2FPab8IGVOAJgQ=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3pgX0V60ChzvdWS; 
-	Wed, 13 Jan 2016 15:56:26 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Wed, 13 Jan 2016 15:34:58 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1452656212-9836-1-git-send-email-marex@denx.de>
-	<CAP9ODKr1iOkB-n7yfyOGk0dYnuni1V5=84k1CK1eG+TPFsFLuA@mail.gmail.com>
-In-Reply-To: <CAP9ODKr1iOkB-n7yfyOGk0dYnuni1V5=84k1CK1eG+TPFsFLuA@mail.gmail.com>
-MIME-Version: 1.0
-Message-Id: <201601131534.58933.marex@denx.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2016.01 release
+	Wed, 13 Jan 2016 15:28:33 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Jan 2016 07:28:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,289,1449561600"; d="scan'208";a="28676071"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by fmsmga004.fm.intel.com with ESMTP; 13 Jan 2016 07:28:33 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jan 2016 07:24:47 +0000
+Message-Id: <cover.1452669610.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCHv2 0/4] Clean PkgsList return data implementation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 14:56:28 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jan 2016 15:28:35 -0000
 
-On Wednesday, January 13, 2016 at 01:04:31 PM, Otavio Salvador wrote:
-> On Wed, Jan 13, 2016 at 1:36 AM, Marek Vasut <marex@denx.de> wrote:
-> > Upgrade U-Boot to latest version and drop upstreamed patches.
-> > 
-> > Repair configuration of U-Boot during build. It is no longer
-> > possible to run "make foomachine" in U-Boot. Instead, it is
-> > necessary to do "make foomachine_defconfig ; make". Fix this
-> > in u-boot.inc and u-boot-fw-utils*.bb .
-> 
-> Please drop this config suffix, from u-boot.inc. The config value
-> should be used as is and the respective BSP ought to be fixed to
-> change _config to _defconfig.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-If I don't have the _defconfig there AND I define UBOOT_MACHINE in my machine
-file, it will call "make machine", which no longer works.
+Currently the when calling the list() from the classes that inherit
+from PKgsList, it must pass the format required and it will return
+a formated string listing all the packages installed. Retruning such
+string is not the best data structure to manipulate in the callers.
 
-> Apart from that, it seems fine. As suggested by Khem, please post it
-> with rename detection so we can double check it.
+This series of patches change PkgsList to return a dictionary and the
+callers will format the output as required.
 
-Best regards,
-Marek Vasut
+Changes in V2:
+
+- Fix the last break line in the image manifest
+- Fix issue not showing the last pkg when using deb or ipk
+
+[YOCTO #7427]
+
+
+The following changes since commit 96a34e7f847ad34deac520b78809e7dd82dbc59e:
+
+  conf/distro/poky-tiny: correctly disable python in opkg-utils (2016-01-12 15:35:27 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mariano/bug7427v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug7427v2
+
+Mariano Lopez (4):
+  lib/oe/package_manager: Add list_pkgs() to PkgsList class
+  lib/oe/utils: Add function format_pkg_list()
+  lib/oe/rootfs: Use list_pkgs() instead of list()
+  lib/oe/package_manager.py: Remove list() from PkgsList class
+
+ meta/classes/buildhistory.bbclass        |  11 +-
+ meta/classes/license.bbclass             |   8 +-
+ meta/classes/populate_sdk_base.bbclass   |   8 +-
+ meta/classes/rootfs-postcommands.bbclass |   4 +-
+ meta/lib/oe/package_manager.py           | 193 ++++++++++++++-----------------
+ meta/lib/oe/rootfs.py                    |   8 +-
+ meta/lib/oe/sdk.py                       |   8 +-
+ meta/lib/oe/utils.py                     |  22 ++++
+ 8 files changed, 137 insertions(+), 125 deletions(-)
+
+-- 
+1.8.4.5
+
 
