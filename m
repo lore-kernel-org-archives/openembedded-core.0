@@ -1,23 +1,23 @@
 Return-Path: <Dengke.Du@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EE8F6FFA1
+	by mail.openembedded.org (Postfix) with ESMTP id 7FEB76FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 02:13:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0D2DoQH013795
+	Wed, 13 Jan 2016 02:18:25 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0D2IPjs014098
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Jan 2016 18:13:50 -0800 (PST)
-Received: from [128.224.163.159] (128.224.163.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 12 Jan 2016 18:13:50 -0800
+	Tue, 12 Jan 2016 18:18:26 -0800 (PST)
+Received: from [128.224.163.159] (128.224.163.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 12 Jan 2016 18:18:24 -0800
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1452264916.git.alexander.kanavin@linux.intel.com>
 	<548fe6538063b3021c1dc46b1d710c495f5d67d8.1452264916.git.alexander.kanavin@linux.intel.com>
 From: "dengke.du@windriver.com" <dengke.du@windriver.com>
-Message-ID: <5695B2D8.6050006@windriver.com>
-Date: Wed, 13 Jan 2016 10:13:44 +0800
+Message-ID: <5695B3EB.8040504@windriver.com>
+Date: Wed, 13 Jan 2016 10:18:19 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.4.0
 MIME-Version: 1.0
@@ -35,11 +35,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 02:13:50 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 02:18:26 -0000
 Content-Type: multipart/alternative;
-	boundary="------------020308080309070900070307"
+	boundary="------------010002090700040802070409"
 
---------------020308080309070900070307
+--------------010002090700040802070409
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -122,7 +122,7 @@ On 2016年01月08日 22:57, Alexander Kanavin wrote:
 >   CFLAGS_append_libc-uclibc = " -D__UCLIBC__ "
 
 
---------------020308080309070900070307
+--------------010002090700040802070409
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
@@ -221,4 +221,4 @@ index 0823144..575db35 100644
   </body>
 </html>
 
---------------020308080309070900070307--
+--------------010002090700040802070409--
