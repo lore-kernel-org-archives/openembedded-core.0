@@ -1,46 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 961516FFF7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C4B07731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 21:47:15 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id f206so393428549wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 13:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=kaIdiWWWAuYVTJgwZBXPJr0C1hHVAhwMQV3MVJI/trA=;
-	b=HiAbrOn/2O7THHv+y2GJ5pRcmHcUauQXJhLzTezQurd0L/sQD12Kcc3gCH0gqdzonG
-	N12CbIcLwX4mohue7fUraWggIjSOk+Ubn3cp8pfZvxGtI/g8fs37PiPyfxyRLeRxMGIu
-	Y7VclOrwFRJtXSi5isIxrX1Smdl/buhtjEv8jTBKbG29edgIcqU3p2Y6QnhtkGdv5kWt
-	RZ9Bcw0gpRbVO+m+1kV9k1KeLgVh/sTztYrrSBeTUV5IBCwxEiryLASFg26qAzCay7Zy
-	RBJNEbaPZjtkBRsn2NyPzpKvGm8isKzAOSTCdda0Mv98ZYKaem8lt/geow5LreOgmuqa
-	zr5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kaIdiWWWAuYVTJgwZBXPJr0C1hHVAhwMQV3MVJI/trA=;
-	b=Yw+2ik2McVjqJrF9Dv5splBN8dqolhpVL77ZAMeCKWdM+l6/8V+tcPt6wi7iCoVAhD
-	WZG9GXjD3CmJpOcQfTMS3aSkdo/Y0kuOsD4k37GXyDI/fYWNwodbggGJkJ7O8Q2sAsC2
-	f6hwhSS/AKegMgG1yUpt2EygfZiYymVVoIezuiKZxQE/RFX9dxv/F4TE/nnkb0skpAUd
-	L6OuBKqcZpGnsDutNzgBaJKbUp1vmhTGmU38E9RPDUflsDppaYxvwGcW5KEK3bYrZt53
-	1gW3gxCjkKQRKhApNJbJfX8fEK0wZIjZcM45QPUfkJLUfXrOh0Tfcv6MwmFcrT0PuyoV
-	BQ9Q==
-X-Gm-Message-State: ALoCoQmh1GVeqTHlGElPZ/1hXssSUqbpJbqKa/uiBHD+t04/EPoBAjdO5wZ7fqr2vJuBKz0c5IYvylucjZ21mglFZpIDgXh3Cg==
-X-Received: by 10.28.194.197 with SMTP id s188mr1079516wmf.44.1452721635589;
-	Wed, 13 Jan 2016 13:47:15 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id l7sm3212161wjx.14.2016.01.13.13.47.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Jan 2016 13:47:14 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2016 21:47:12 +0000
-Message-Id: <1452721632-11855-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] autotools: don't output the full config.log on configure failure
+	Wed, 13 Jan 2016 21:47:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0DLlLGB003665
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Jan 2016 13:47:21 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 13 Jan 2016 13:47:21 -0800
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+References: <1452528799-11292-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
+	<5693D956.40107@windriver.com>
+	<1452615851.13987.6.camel@linux.intel.com>
+	<1452680933.13987.10.camel@linux.intel.com>
+	<5696658C.4020903@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
+Organization: Wind River Systems
+Message-ID: <5696C5E8.4060207@windriver.com>
+Date: Wed, 13 Jan 2016 15:47:20 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <5696658C.4020903@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] oe.gpg_sign: support obs-signd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +41,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 21:47:15 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 21:47:21 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
-The config.log written by autoconf includes many pages of useless output,
-followed by an obfuscated error message, and then more pages of every variable
-that's been set.  It's only understandable if you're well versed in how autoconf
-behaves, and often in simple failure modes doesn't actually make it clear what
-the problem was.
+On 1/13/16 8:56 AM, Mark Hatle wrote:
+> On 1/13/16 4:28 AM, Markus Lehtonen wrote:
+>> Hi,
+>>
+>> On Tue, 2016-01-12 at 18:24 +0200, Markus Lehtonen wrote:
+>>> Hi Mark,
+>>>
+>>> Thank you for your review! Comments below.
+>>>
+>>> On Mon, 2016-01-11 at 10:33 -0600, Mark Hatle wrote:
+>>>> On 1/11/16 10:13 AM, Markus Lehtonen wrote:
+>>>>> Implement support for remote signing using obs-signd. It is now possible
+>>>>> to sign both RPM packages and package feeds with this method. The user
+>>>>> just needs to set RPM_GPG_BACKEND and/or PACKAGE_FEED_GPG_BACKEND
+>>>>> variables to 'obssign' in the bitbake config. Of course, in addition,
+>>>>> one needs to setup the signing server and the configure the 'sign'
+>>>>> client command on the build host. The *_PASSPHRASE_FILE settings are not
+>>>>> used when the obssign backend is enabled.
+>>>>>
+>>>>> [YOCTO #8755]
+>>>>>
+>>>>> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+>>>>> ---
+>>>>>  meta/classes/sign_package_feed.bbclass |  5 +++-
+>>>>>  meta/classes/sign_rpm.bbclass          |  5 +++-
+>>>>>  meta/lib/oe/gpg_sign.py                | 48 ++++++++++++++++++++++++++++++++++
+>>>>>  3 files changed, 56 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+>>>>> index d5df8af..953fa85 100644
+>>>>> --- a/meta/classes/sign_package_feed.bbclass
+>>>>> +++ b/meta/classes/sign_package_feed.bbclass
+>>>>> @@ -24,7 +24,10 @@ PACKAGE_FEED_GPG_BACKEND ?= 'local'
+>>>>>  
+>>>>>  python () {
+>>>>>      # Check sanity of configuration
+>>>>> -    for var in ('PACKAGE_FEED_GPG_NAME', 'PACKAGE_FEED_GPG_PASSPHRASE_FILE'):
+>>>>> +    required = ['PACKAGE_FEED_GPG_NAME']
+>>>>> +    if d.getVar('PACKAGE_FEED_GPG_BACKEND', True) != 'obssign':
+>>>>> +        required.append('PACKAGE_FEED_GPG_PASSPHRASE_FILE')
+>>>>> +    for var in required:
+>>>>>          if not d.getVar(var, True):
+>>>>>              raise_sanity_error("You need to define %s in the config" % var, d)
+>>>>>  
+>>>>> diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
+>>>>> index 8bcabee..8be1c35 100644
+>>>>> --- a/meta/classes/sign_rpm.bbclass
+>>>>> +++ b/meta/classes/sign_rpm.bbclass
+>>>>> @@ -23,7 +23,10 @@ RPM_GPG_BACKEND ?= 'local'
+>>>>>  
+>>>>>  python () {
+>>>>>      # Check configuration
+>>>>> -    for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE_FILE'):
+>>>>> +    required = ['RPM_GPG_NAME']
+>>>>> +    if d.getVar('RPM_GPG_BACKEND', True) != 'obssign':
+>>>>> +        required.append('RPM_GPG_PASSPHRASE_FILE')
+>>>>> +    for var in required:
+>>>>>          if not d.getVar(var, True):
+>>>>>              raise_sanity_error("You need to define %s in the config" % var, d)
+>>>>>  
+>>>>> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+>>>>> index 55abad8..d8ab816 100644
+>>>>> --- a/meta/lib/oe/gpg_sign.py
+>>>>> +++ b/meta/lib/oe/gpg_sign.py
+>>>>> @@ -66,11 +66,59 @@ class LocalSigner(object):
+>>>>>                                        (input_file, output))
+>>>>>  
+>>>>>  
+>>>>> +class ObsSigner(object):
+>>>>> +    """Class for handling signing with obs-signd"""
+>>>>> +    def __init__(self, keyid):
+>>>>> +        self.keyid = keyid
+>>>>> +        self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpm")
+>>>>> +
+>>>>> +    def export_pubkey(self, output_file):
+>>>>> +        """Export GPG public key to a file"""
+>>>>> +        cmd = "sign -u '%s' -p" % self.keyid
+>>>>> +        status, output = oe.utils.getstatusoutput(cmd)
+>>>>> +        if status:
+>>>>> +            raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
+>>>>> +                                      (self.keyid, output))
+>>>>> +        with open(output_file, 'w') as fobj:
+>>>>> +            fobj.write(output)
+>>>>> +            fobj.write('\n')
+>>>>> +
+>>>>> +    def sign_rpms(self, files):
+>>>>> +        """Sign RPM files"""
+>>>>> +        import pexpect
+>>>>> +
+>>>>> +        # Remove existing signatures
+>>>>> +        cmd = "%s --delsign %s" % (self.rpm_bin, ' '.join(files))
+>>>>
+>>>> Why are you removing existing signatures?  I believe for many cases this is
+>>>> actually incorrect.
+>>>>
+>>>> RPM (5) has the ability to have an endless number of signatures within a given
+>>>> package.  The package SHOULD included the internal non-repudiable signature...
+>>>>
+>>>> (to refresh memory) all RPM 5 packages include an internal non-repudiable
+>>>> signature.  Think of this as an extended md5sum, sha256sum, etc.  It doesn't
+>>>> change that a package is 'authentic' in any way (often the purpose of signatures
+>>>> like what this code is doing), but instead keeps a high reliability way to sign
+>>>> and verify the package is signed properly.
+>>>>
+>>>> This is used for validation if the system doing the install does not have the
+>>>> public key that the package was signed with.
+>>>>
+>>>> ... as well as one or more repudiable signatures that can be used to verify that
+>>>> it's "authentic" in some way.  A system could very easily have OSV, OEM, and ISV
+>>>> keys install on them.  You can program RPM in such a way that it will refused to
+>>>> install packages with unknown authentication keys or the non-repudiable key as well.
+>>>>
+>>>> So, I believe running delsign is wrong.  If the obs-signd can't handle ADDING
+>>>> signatures to packages, then I'd say it is broken and should be fixed in some
+>>>> way -- or at least the signature deletion code should be optional.
+>>>
+>>> Yes, unfortunately this is currently the limitation of obs-signd. It
+>>> refuses to sign if there are signatures present in the rpm package.
+>>> Using --delsign is "unfortunate" consequence of this and that should've
+>>> probably been described in a comment. Making signature deletion a
+>>> configurable setting is hopefully a decent resolution for now. I will
+>>> send a new version of the patchset later.
+>>
+>> Backing up a bit here. I did some quick testing and it seems that RPM5
+>> does not support multiple signatures (anymore?). Doing --addsign seems
+>> to overwrite the existing signatures similarly to --resign. Support for
+>> multiple signatures were removed from RPM4 years ago.
+>>
+>> In this light, doing --delsign should be ok. What do you think?
+> 
+> I'll have to double check, but I used multiple signature support about 6 months
+> ago with the YP 2.0 (still current oe version) version of RPM.
+> 
+> Are you using the correct rpm signing tool?  If you sign using RPM4's tool, then
+> you can get the behavior you are talking about.
+> 
+> (The easiest way to verify the signing is 'multiple' was via a debug flag, I
+> don't remember if rpm -K -vvvv <package> was the right approach of if it was a
+> more specific one, but the debugging clearly showed it loading multiple signatures.)
 
-Instead of outputting config.log to the console when do_configure() fails, just
-use bbfatal_log so the human-readable configure output (not the config.log) is
-shown to the user.
+I got clarification from the RPM5 maintainer.
 
-[ YOCTO #8856 ]
+More or less there are slots for up to 3 signatures to be added.  Signatures may
+include the ECDSA non-repudiable, RSA/DSA and another.  If the default signature
+is already RSA/DSA it may be replaced -- from what I understand newer versions
+of RPM5 default to an ECDSA non-repudiable signature.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/autotools.bbclass | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+The order of signature verification is first found.  So the -K behavior will
+likely not quite match what is actually verified during a package installation.
+ So comparing rpm -Kvv and rpm -qvvp will show the various signatures a package
+has loaded and will verify.
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index d546a5c..99f64b8 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -86,14 +86,7 @@ oe_runconf () {
- 	cfgscript="${CONFIGURE_SCRIPT}"
- 	if [ -x "$cfgscript" ] ; then
- 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
--		set +e
--		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"
--		if [ "$?" != "0" ]; then
--			echo "Configure failed. The contents of all config.log files follows to aid debugging"
--			find ${B} -ignore_readdir_race -name config.log -print -exec cat {} \;
--			die "oe_runconf failed"
--		fi
--		set -e
-+		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@" || bbfatal_log "configure failed"
- 	else
- 		bbfatal "no configure script found at $cfgscript"
- 	fi
--- 
-2.6.4
+(RPM5 should -always- have at least one signature that has a matching key known
+to RPM.  This is used for validation purposes of the header.)
+
+So short answer.  We still should avoid 'delsign' in the RPM5 case.  Let RPM
+decide which slot to use and ensure that each package has either a repudiable or
+non-repudiable signature (and included pubkey).
+
+--Mark
+
+> --Mark
+> 
+>>
+>> Thanks,
+>>   Markus
+>>
+> 
 
 
