@@ -1,25 +1,46 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4800360017
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 92D4F60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 12:55:26 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Jan 2016 04:55:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,289,1449561600"; d="scan'208";a="880484806"
-Received: from jlock-mobl.gar.corp.intel.com (HELO
-	jlock-mobl1.gar.corp.intel.com) ([10.252.9.77])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Jan 2016 04:55:26 -0800
-To: Bob Ham <bob.ham@collabora.com>, openembedded-core@lists.openembedded.org
-References: <1452684873-15629-1-git-send-email-bob.ham@collabora.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-Message-ID: <5696493C.8070700@linux.intel.com>
-Date: Wed, 13 Jan 2016 12:55:24 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
-MIME-Version: 1.0
-In-Reply-To: <1452684873-15629-1-git-send-email-bob.ham@collabora.com>
-Subject: Re: [PATCH] xserver-xorg: ensure xkbcomp is present for xwayland-only installs
+	Wed, 13 Jan 2016 12:55:50 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id l65so292216763wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jan 2016 04:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=qMYuhzoTtaeQPoGudu6NtJI1CX/PBPtoyC594MovMC0=;
+	b=TC4IvpBt5PFeRS2HqvFzigUZTsFQeuiOzrQbmVXdLofSrLdQr+KLK8xy89sz5P4SXl
+	NMxh6WKIyDkIBaIapUQS0UmMqKn4WaFPV60y8+MViYGSSRGpE2KJ4E0Dvb5Br304tG0S
+	IwiY4Lq0mpidDJu+LqiJrQAsdNxCJMuM+jNelwGhO2fu27KH52Np9h00Fsq59BZkjhd2
+	a0EubTXCJb2COfwe3A2cfikcioBdTpd4amm6VE5khwve/iHs+Lajr0eCsV/gxuyWSCuy
+	oJIJlLI/M/EPLUSHpugat7C4nj2729LR/g/QenuLyyYLmOHOo1wEaSvKaIxVC+hMSZ98
+	ZQUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=qMYuhzoTtaeQPoGudu6NtJI1CX/PBPtoyC594MovMC0=;
+	b=Xr9Jm7/drnQRiShDSMIieonXutQ+2oNT4ZF6nf9fqh8MfuMNbHhYOhAfLIqBZ3jq4R
+	EupVXALFLv7ZIL7cv+Vm3nebYF0Eu4uCcjS7zqN+xiUaWoW2s27HTDQWZJ8VXBMrw+jC
+	mOHo/NsqAZtc5rbbBi3GmXrWRVYrNO+wmKp5qFS0O/czPs2wjN+zhRKsRvkmUql/7mR+
+	utTbls9NWU7F9QxPobY1s77t3YhjY/o4AHsQHGSU0Ekf8/i625+/ZBl4LaeqJgRIuxrl
+	muvvlJF9QXGfXu8Fdpdzf5Dl1t3/6lyBGieS4eBCQ+FTHjjhUyJsksnIzu6QuI/DADV2
+	V2Vg==
+X-Gm-Message-State: ALoCoQlOGuBe5cWlB/LWRl2ycD+JXu6mohZGB23xoZurrpy9ze1MpF+K9F4+YliQklL6W8B+p2sC79CzvZLd0gBAXHX0JVcUAw==
+X-Received: by 10.28.212.9 with SMTP id l9mr26925788wmg.75.1452689750425;
+	Wed, 13 Jan 2016 04:55:50 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z65sm2544117wmg.10.2016.01.13.04.55.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 13 Jan 2016 04:55:49 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jan 2016 12:55:46 +0000
+Message-Id: <1452689746-22603-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] python3: add missing dependency on PN-misc to PN-modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 12:55:26 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jan 2016 12:55:51 -0000
 
-Hi Bob,
+Installing python3-modules should install *all* of the Python standard library,
+not just most of it.
 
-On 13/01/16 11:34, Bob Ham wrote:
-> Add appropriate RRECOMMENDS for Xwayland runtime dependencies.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python3_3.5.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-A change was merged to master some time back for this[1], is this patch 
-intended for the jethro branch?
+diff --git a/meta/recipes-devtools/python/python3_3.5.0.bb b/meta/recipes-devtools/python/python3_3.5.0.bb
+index d5e26ff..6184c79 100644
+--- a/meta/recipes-devtools/python/python3_3.5.0.bb
++++ b/meta/recipes-devtools/python/python3_3.5.0.bb
+@@ -215,6 +215,7 @@ FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+ RDEPENDS_${PN}-misc += "${PN}-core"
++RDEPENDS_${PN}-modules += "${PN}-misc"
+ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
+ 
+ # catch manpage
+-- 
+2.6.4
 
-If so the usual convention is to backport, or request a cherry-pick, of 
-the changes from the master branch.
-Furthermore submissions to a stable branch should include the name of 
-the stable branch in the subject.
-
-Policies for stable branches are similar to those for the Yocto 
-Project[2], though we should probably create a similar page on the OE 
-wiki documenting the desired process for this project.
-
-Regards,
-
-Joshua
-
-1. 
-http://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc?id=682fb02f585c830e3f28a858b97276adf71693d2
-2. https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
-
-> Co-Authored-By: Joshua Lock <joshua.lock@collabora.co.uk>
-> Signed-off-by: Bob Ham <bob.ham@collabora.com>
-> ---
->   meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> index 9881c94..8707e34 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> @@ -73,6 +73,7 @@ SUMMARY_xf86-video-modesetting = "X.Org X server -- modesetting display driver"
->   INSANE_SKIP_xf86-video-modesetting = "xorg-driver-abi"
->
->   RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
-> +RRECOMMENDS_${PN}-xwayland += "xkeyboard-config rgb xserver-xf86-config xkbcomp"
->   RDEPENDS_${PN}-xvfb += "xkeyboard-config"
->   RDEPENDS_${PN}-module-exa = "${PN} (= ${EXTENDPKGV})"
->
->
 
