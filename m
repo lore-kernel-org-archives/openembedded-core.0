@@ -1,35 +1,27 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D5506013D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 23:25:48 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id pv5so27340624pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jan 2016 15:25:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=EwRGK9iEL6Vp1bzSuS147DOiTJPm0vvkTk2gapfnuVU=;
-	b=v211WNMpWf8CKBU+yE9p2mG99VD16+5PAUab4xz8zEclBiNqQBlt9G9CXMihDw22AB
-	BYwYgwlWoyXwNZjS1ve/m92Hj0O7pqGDZBNlqBSihPHh6TsS5p7WI9vFmGLR1x93j7NT
-	IbUjNI/+KI8gqS+voeamZrcojIcVBTf9+V1/tuLmAPcVDYktZWWK8y1u9Z5OPFF7XhSo
-	jYHLxEdo4nPVgxgDbUr7eozRi0gTYLPZWAMn6zlNFMjM5TfesjwXRIXSRGidBA7OzBXt
-	d/pzTfcoOyHOQMeklEC+NvvbYIB8cNRzZXN0WytPQjTFPiqJbzq+YSulKDDcvaSusR16
-	y32g==
-X-Received: by 10.66.144.5 with SMTP id si5mr23910414pab.51.1452641148924;
-	Tue, 12 Jan 2016 15:25:48 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	s84sm32754733pfa.74.2016.01.12.15.25.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 12 Jan 2016 15:25:47 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jan 2016 15:25:43 -0800
-Message-Id: <cover.1452640824.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH 00/13] Jethro, Fido openssl and libxml security fixes vi git
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E61E860797;
+	Wed, 13 Jan 2016 00:09:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 12 Jan 2016 16:09:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,285,1449561600"; d="scan'208";a="859296204"
+Received: from rusilaw-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.149.174])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2016 16:09:45 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 13 Jan 2016 13:09:43 +1300
+Message-ID: <1462345.ZzKELdxCEg@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <39606447-07D3-4F1F-93A1-CB9C77114535@gmail.com>
+References: <39606447-07D3-4F1F-93A1-CB9C77114535@gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-architecture@lists.openembedded.org,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Cached size of off_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,75 +34,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jan 2016 23:25:48 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 00:09:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-changes in contrib branch for alt integration.
+On Tue, 12 Jan 2016 15:23:33 Khem Raj wrote:
+> Hi
+> 
+> We cache size of off_t in site files and the value is 4 in most cases
+> 
+> 
+> meta/site/arm-linux:ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
+> meta/site/ix86-common:ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
+> meta/site/nios2-linux:ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
+> meta/site/powerpc32-linux:ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
+> meta/site/x32-linux:ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=8}
+> meta/site/x86_64-linux:ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=8}
+> 
+> 
+> However this value is wrong when largefile support is enabled (which is
+> default) on most OE based distros. It also lands us in nasty bugs which are
+> complicated to uncover eg. the curl issue
+> 
+> http://git.openembedded.org/openembedded-core/commit/?id=3c58712465494e441c4
+> 036a7cf21d2e6d343efab
+> 
+> and just in OE-Core more e.g. grub2,libsndfile1,pax are showing same
+> symptoms.
+> 
+> I think this value should be left for configure to compute and
+> autotools.bbclass should pass --{enable|disable}-largefile based upon
+> DISTRO_FEATURES enabling largefile support
+> 
+> Do we see any downsides or point I might have missed
 
-The following changes since commit 0073b234d793099a371b2e529f740987decce756:
+IIRC I think the issue was older configure scripts without the capability to 
+compute this properly (where we're not auto-reconf'ing them).
 
-  yocto-bsp: Typo on the file extension (2016-01-07 12:13:55 +0000)
+Ross, any thoughts?
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akuster/jethro_sec_fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro_sec_fixes
-
-Armin Kuster (13):
-  openssl: fix for CVE-2015-3193
-  openssl: fix for CVE-2015-3194
-  openssl: fix for CVE-2015-3195
-  libxml2: security fix CVE-2015-7941
-  libxml2: security fix CVE-2015-8317
-  libxml2: security fix CVE-2015-7942
-  libxml2: security fix CVE-2015-8035
-  libxml2: security fix CVE-2015-7498
-  libxml2: security fix CVE-2015-7497
-  libxml2: security fix CVE-2015-7499
-  libxml2: security fix CVE-2015-7500
-  libxml2: security fix CVE-2015-8242
-  libxml2: security fix CVE-2015-5312
-
- .../openssl/0001-Add-test-for-CVE-2015-3194.patch  |  66 ++++++++++
- ...64-mont5.pl-fix-carry-propagating-bug-CVE.patch | 101 +++++++++++++++
- .../CVE-2015-3194-1-Add-PSS-parameter-check.patch  |  45 +++++++
- ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch |  66 ++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   4 +
- meta/recipes-core/libxml/libxml2.inc               |  14 +++
- ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
- ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
- ...00-Fix-memory-access-error-due-to-incorre.patch | 131 +++++++++++++++++++
- ...2015-8035-Fix-XZ-compression-support-loop.patch |  38 ++++++
- ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
- ...n-name-parsing-at-the-end-of-current-inpu.patch | 138 +++++++++++++++++++++
- ...ssing-entities-after-encoding-conversion-.patch |  89 +++++++++++++
- ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88 +++++++++++++
- ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
- ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
- ...leanup-conditional-section-error-handling.patch |  56 +++++++++
- ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
- ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
- ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
- 20 files changed, 1162 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Add-test-for-CVE-2015-3194.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-1-Add-PSS-parameter-check.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch
+Cheers,
+Paul
 
 -- 
-2.3.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
