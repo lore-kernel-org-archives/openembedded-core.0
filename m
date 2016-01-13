@@ -1,21 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 02D89731A3
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id A0E4C6E6B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 19:09:11 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 13 Jan 2016 11:09:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,290,1449561600"; d="scan'208";a="880732827"
-Received: from unknown (HELO swold-mobl.jf.intel.com) ([10.252.130.206])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Jan 2016 11:09:12 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Wed, 13 Jan 2016 11:09:11 -0800
-Message-Id: <1452712151-28662-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] linux-yocto: Update Genericx86* BSPs to 4.1.15
+	Wed, 13 Jan 2016 20:51:39 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3pggtM19sdz3hjGp;
+	Wed, 13 Jan 2016 21:51:39 +0100 (CET)
+X-Auth-Info: wo03mYGaq0tNDdqTVbj7Zjs+Q2HvrREE8BuES9uT/Mg=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3pggtL3bzyzvdWS; 
+	Wed, 13 Jan 2016 21:51:38 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Wed, 13 Jan 2016 21:35:10 +0100
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1452656212-9836-1-git-send-email-marex@denx.de>
+	<201601131842.35661.marex@denx.de>
+	<CAP9ODKrfxXs2pZDGU+5xq41-NKSss1CiDWa1czTTmC8juNp+bQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKrfxXs2pZDGU+5xq41-NKSss1CiDWa1czTTmC8juNp+bQ@mail.gmail.com>
+MIME-Version: 1.0
+Message-Id: <201601132135.10606.marex@denx.de>
+Cc: Tom Rini <trini@konsulko.com>, Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2016.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,29 +38,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 19:09:12 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 20:51:40 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wednesday, January 13, 2016 at 06:56:36 PM, Otavio Salvador wrote:
+> On Wed, Jan 13, 2016 at 3:42 PM, Marek Vasut <marex@denx.de> wrote:
+> > On Wednesday, January 13, 2016 at 06:16:01 PM, Otavio Salvador wrote:
+> >> On Wed, Jan 13, 2016 at 3:09 PM, Marek Vasut <marex@denx.de> wrote:
+> >> > On Wednesday, January 13, 2016 at 05:40:20 PM, Otavio Salvador wrote:
+> >> >> On Wed, Jan 13, 2016 at 2:30 PM, Marek Vasut <marex@denx.de> wrote:
+> >> >> > On Wednesday, January 13, 2016 at 04:55:56 PM, Otavio Salvador wrote:
+> >> >> >> On Wed, Jan 13, 2016 at 1:53 PM, Marek Vasut <marex@denx.de> wrote:
+> >> >> >> > On Wednesday, January 13, 2016 at 04:39:53 PM, Otavio Salvador 
+wrote:
+> >> >> >> >> On Wed, Jan 13, 2016 at 12:34 PM, Marek Vasut <marex@denx.de> 
+wrote:
+> >> >> >> >> > On Wednesday, January 13, 2016 at 01:04:31 PM, Otavio
+> >> >> >> >> > Salvador
+> > 
+> > wrote:
+> >> >> >> >> >> On Wed, Jan 13, 2016 at 1:36 AM, Marek Vasut <marex@denx.de>
+> > 
+> > wrote:
+> >> >> >> >> >> > Upgrade U-Boot to latest version and drop upstreamed
+> >> >> >> >> >> > patches.
+> >> >> >> >> >> > 
+> >> >> >> >> >> > Repair configuration of U-Boot during build. It is no
+> >> >> >> >> >> > longer possible to run "make foomachine" in U-Boot.
+> >> >> >> >> >> > Instead, it is necessary to do "make foomachine_defconfig
+> >> >> >> >> >> > ; make". Fix this in u-boot.inc and u-boot-fw-utils*.bb .
+> >> >> >> >> >> 
+> >> >> >> >> >> Please drop this config suffix, from u-boot.inc. The config
+> >> >> >> >> >> value should be used as is and the respective BSP ought to
+> >> >> >> >> >> be fixed to change _config to _defconfig.
+> >> >> >> >> > 
+> >> >> >> >> > If I don't have the _defconfig there AND I define
+> >> >> >> >> > UBOOT_MACHINE in my machine file, it will call "make
+> >> >> >> >> > machine", which no longer works.
+> >> >> >> >> 
+> >> >> >> >> I know and the right fix is to use the right value to
+> >> >> >> >> UBOOT_MACHINE as we do for KERNEL_DEVICETREE.
+> >> >> >> > 
+> >> >> >> > So what is the right value ? UBOOT_MACHINE := "foo_defconfig" ?
+> >> >> >> > This does not sound right at all.
+> >> >> >> > 
+> >> >> >> > And what is the right value of UBOOT_CONFIG then ?
+> >> >> >> 
+> >> >> >> foo_defconfig.
+> >> >> >> 
+> >> >> >> This is what we pass for make to configure the board and should be
+> >> >> >> the given value.
+> >> >> > 
+> >> >> > OK, that makes sense. You didn't answer my question about
+> >> >> > UBOOT_MACHINE though. Any thoughts on that ?
+> >> >> 
+> >> >> If using UBOOT_MACHINE = "foo_defconfig" will work just fine.
+> >> > 
+> >> > This makes no sense at all, does it ? How can UBOOT_MACHINE contain
+> >> > _defconfig ? This sounds like a crude hack, not a systematic solution.
+> >> 
+> >> I think it makes more sense than it adding _defconfig suffix behind
+> >> the scenes...
+> > 
+> > The machine is just that, the name of the machine. For machine foo, the
+> > UBOOT_MACHINE should be foo , not foo_defconfig . The _defconfig should
+> > be added by the recipe, but certainly not by the user, since that would
+> > be a dirty hack and confusing as hell. The "foo_defconfig" string would
+> > only be sensible for UBOOT_CONFIG variable, but no way for UBOOT_MACHINE.
+> 
+> UBOOT_CONFIG is different on this context; it is more like PACKAGECONFIG.
+> 
+> You can see, for example:
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-fsl-arm/tree/conf/machine/im
+> x6qsabresd.conf#n14
+> 
+> So I understand it is a little confusing but it is indeed how it has been
+> done.
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend
-index 916e4ae..0473b08 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend
-@@ -7,8 +7,8 @@ KBRANCH_mpc8315e-rdb = "standard/fsl-mpc8315e-rdb"
- KMACHINE_genericx86 ?= "common-pc"
- KMACHINE_genericx86-64 ?= "common-pc-64"
- 
--SRCREV_machine_genericx86    ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
--SRCREV_machine_genericx86-64 ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
-+SRCREV_machine_genericx86    ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
-+SRCREV_machine_genericx86-64 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
- SRCREV_machine_edgerouter ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
- SRCREV_machine_beaglebone ?= "efb6ffb2ca96a364f916c9890ad023fc595e0e6e"
- SRCREV_machine_mpc8315e-rdb ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
--- 
-2.5.0
-
+Just because some variable is misused in some metalayer doesn't make it right,
+does it ?
 
