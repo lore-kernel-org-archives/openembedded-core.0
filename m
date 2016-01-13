@@ -1,29 +1,62 @@
-Return-Path: <rah@fern.h.settrans.net>
-X-Greylist: delayed 954 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 13 Jan 2016 11:50:29 UTC
-Received: from verain.settrans.net (verain.settrans.net [93.93.131.233])
-	by mail.openembedded.org (Postfix) with ESMTP id 2599C60588
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0350B6080F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 11:50:29 +0000 (UTC)
-Received: from rah-1-pt.tunnel.tserv10.par1.ipv6.he.net
-	([2001:470:1f12:e23::2] helo=myrtle.6gnip.net ident=Debian-exim)
-	by verain.settrans.net with esmtps (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <rah@fern.h.settrans.net>)
-	id 1aJJhC-0007wO-QS for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jan 2016 11:34:34 +0000
-Received: from fern.arb.net ([172.18.111.33] helo=fern.h.settrans.net)
-	by myrtle.6gnip.net with esmtp (Exim 4.84)
-	(envelope-from <rah@fern.h.settrans.net>) id 1aJJhB-0002UI-RF
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jan 2016 11:34:33 +0000
-Received: by fern.h.settrans.net (Postfix, from userid 1000)
-	id CBD60B40E59; Wed, 13 Jan 2016 11:34:33 +0000 (GMT)
-From: Bob Ham <bob.ham@collabora.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2016 11:34:33 +0000
-Message-Id: <1452684873-15629-1-git-send-email-bob.ham@collabora.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] xserver-xorg: ensure xkbcomp is present for xwayland-only installs
+	Wed, 13 Jan 2016 12:04:32 +0000 (UTC)
+Received: by mail-pf0-f172.google.com with SMTP id e65so80714724pfe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jan 2016 04:04:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=euZ1KF5LAEXJKJ+N0iw0o0v8e0NbRiQ72XVA0mO+K8U=;
+	b=yVH37hUQp8R+lvzb+qyaIa+WAYv9cat8lQLCV0V1JJSOxUq04F5gV3KqEPnZnmzpax
+	it6LNuSNVVtq2+HSFS2pqNIpMbdm9dKwisKIFqI2Wg1qIpjSaZdloq4WHwiv6lSFXHDZ
+	qnhN9wEhTVWKlwXeV5hVVUf6yPaywZ9BG+4e/K/DapwxjPlZVdYPcQwdBQ24hlpbGX7N
+	6R5X4nTOkAU9cbbMzqzo2Fo7Il+jgUpNZbb1Wrhyz1wlr8lsL8482MZF0i/3v0M3Pw9T
+	CGR3c3fL+ONyP5NzQ6j5TpJ5WBOcg4znI+/JJRKMCTkj6ex7UDVwCg66j+x3K3riodBy
+	3gDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=euZ1KF5LAEXJKJ+N0iw0o0v8e0NbRiQ72XVA0mO+K8U=;
+	b=AgBdb5lz9sXHlE12sdG5ijj+Hnjak5Gvb0h/csB3V9LgW10R8snLIIgLQ5MQT1cSw8
+	+B7wlX98GJzc8jTwqlUrk7gtQe+xQ7bVWtRxG5Ne3PL1XLYresG+u8SsabqKpndnsQwL
+	goofaYqSz4iaYCdKEJbgyrutrhe7qLtDB8xO5NWVb8WpExZZMZDJSc+mvv5AYIemvQUM
+	LrNX2uwo3HNSZ8wUvhc2XzuETlJLO32QPvAusbbrjzlv3WH2LlXCMxFekeFb1NpI1Muc
+	g0hOC5wouWRBch7wwxrSK37U7zhYREpDxErTm7pSJsbQ676hgt9pFZ1rdnLglM79PEkk
+	BTaw==
+X-Gm-Message-State: ALoCoQlmR3fz4OzDRnOx48FXBS3lQO0Xz2L4wn1lvLTnLe4kJsbLL4d/LAjqlb4gpbmqLuZqcheUo01ZR4hjw8ZdB1TUf7zyPQ==
+X-Received: by 10.98.42.83 with SMTP id q80mr7493534pfq.1.1452686673304;
+	Wed, 13 Jan 2016 04:04:33 -0800 (PST)
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com.
+	[209.85.220.54]) by smtp.gmail.com with ESMTPSA id
+	kw10sm2319973pab.0.2016.01.13.04.04.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Jan 2016 04:04:31 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f54.google.com with SMTP id uo6so341539578pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jan 2016 04:04:31 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.66.232.74 with SMTP id tm10mr141971846pac.128.1452686671358; 
+	Wed, 13 Jan 2016 04:04:31 -0800 (PST)
+Received: by 10.66.72.229 with HTTP; Wed, 13 Jan 2016 04:04:31 -0800 (PST)
+In-Reply-To: <1452656212-9836-1-git-send-email-marex@denx.de>
+References: <1452656212-9836-1-git-send-email-marex@denx.de>
+Date: Wed, 13 Jan 2016 10:04:31 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKr1iOkB-n7yfyOGk0dYnuni1V5=84k1CK1eG+TPFsFLuA@mail.gmail.com>
+Message-ID: <CAP9ODKr1iOkB-n7yfyOGk0dYnuni1V5=84k1CK1eG+TPFsFLuA@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2016.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +69,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 11:50:30 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 12:04:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add appropriate RRECOMMENDS for Xwayland runtime dependencies.
+On Wed, Jan 13, 2016 at 1:36 AM, Marek Vasut <marex@denx.de> wrote:
+> Upgrade U-Boot to latest version and drop upstreamed patches.
+>
+> Repair configuration of U-Boot during build. It is no longer
+> possible to run "make foomachine" in U-Boot. Instead, it is
+> necessary to do "make foomachine_defconfig ; make". Fix this
+> in u-boot.inc and u-boot-fw-utils*.bb .
 
-Co-Authored-By: Joshua Lock <joshua.lock@collabora.co.uk>
-Signed-off-by: Bob Ham <bob.ham@collabora.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 1 +
- 1 file changed, 1 insertion(+)
+Please drop this config suffix, from u-boot.inc. The config value
+should be used as is and the respective BSP ought to be fixed to
+change _config to _defconfig.
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 9881c94..8707e34 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -73,6 +73,7 @@ SUMMARY_xf86-video-modesetting = "X.Org X server -- modesetting display driver"
- INSANE_SKIP_xf86-video-modesetting = "xorg-driver-abi"
- 
- RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
-+RRECOMMENDS_${PN}-xwayland += "xkeyboard-config rgb xserver-xf86-config xkbcomp"
- RDEPENDS_${PN}-xvfb += "xkeyboard-config"
- RDEPENDS_${PN}-module-exa = "${PN} (= ${EXTENDPKGV})"
- 
+Apart from that, it seems fine. As suggested by Khem, please post it
+with rename detection so we can double check it.
+
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
