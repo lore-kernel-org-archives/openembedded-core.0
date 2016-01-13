@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 92D4F60017
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C70E600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 12:55:50 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id l65so292216763wmf.1
+	Wed, 13 Jan 2016 13:10:19 +0000 (UTC)
+Received: by mail-ig0-f180.google.com with SMTP id h5so108720826igh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jan 2016 04:55:51 -0800 (PST)
+	Wed, 13 Jan 2016 05:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=qMYuhzoTtaeQPoGudu6NtJI1CX/PBPtoyC594MovMC0=;
-	b=TC4IvpBt5PFeRS2HqvFzigUZTsFQeuiOzrQbmVXdLofSrLdQr+KLK8xy89sz5P4SXl
-	NMxh6WKIyDkIBaIapUQS0UmMqKn4WaFPV60y8+MViYGSSRGpE2KJ4E0Dvb5Br304tG0S
-	IwiY4Lq0mpidDJu+LqiJrQAsdNxCJMuM+jNelwGhO2fu27KH52Np9h00Fsq59BZkjhd2
-	a0EubTXCJb2COfwe3A2cfikcioBdTpd4amm6VE5khwve/iHs+Lajr0eCsV/gxuyWSCuy
-	oJIJlLI/M/EPLUSHpugat7C4nj2729LR/g/QenuLyyYLmOHOo1wEaSvKaIxVC+hMSZ98
-	ZQUg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Np+t7xDvLPl6ijCCwB/a/JVM5oK0ZhpHx2CHQSgERc4=;
+	b=R5ugAki2POOdGze9nt6eJK/LEYfU6RtOj/gHyOihpER7Uz3VxtBwEg+AEoV4ehhg1e
+	3BHRXDlGYIxKmgaLqaGz0EtwQ847bz4qEzRRbi5JxrEGs18UkochL3AiRyB37BVEkBvw
+	vGaREYmZ7XlGRuGLTse9xr0enhIgvzd6/tjBRIzu1bOFf2Aq9FMYWqYni6KijUkMZUsl
+	HWqu3+ElkRUj8rbOLHm2Dl+KsBalc56lYeDxbJvcgQTxWBzocNzLfmFjIDHOrMr0LMz8
+	GGS39lTiK6tO3Ec6lB0Mdgv4OMCsJDa2RBum+WHkG0vJ0C4dTbwbBddpWNtRZFu+Gl8I
+	EsYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qMYuhzoTtaeQPoGudu6NtJI1CX/PBPtoyC594MovMC0=;
-	b=Xr9Jm7/drnQRiShDSMIieonXutQ+2oNT4ZF6nf9fqh8MfuMNbHhYOhAfLIqBZ3jq4R
-	EupVXALFLv7ZIL7cv+Vm3nebYF0Eu4uCcjS7zqN+xiUaWoW2s27HTDQWZJ8VXBMrw+jC
-	mOHo/NsqAZtc5rbbBi3GmXrWRVYrNO+wmKp5qFS0O/czPs2wjN+zhRKsRvkmUql/7mR+
-	utTbls9NWU7F9QxPobY1s77t3YhjY/o4AHsQHGSU0Ekf8/i625+/ZBl4LaeqJgRIuxrl
-	muvvlJF9QXGfXu8Fdpdzf5Dl1t3/6lyBGieS4eBCQ+FTHjjhUyJsksnIzu6QuI/DADV2
-	V2Vg==
-X-Gm-Message-State: ALoCoQlOGuBe5cWlB/LWRl2ycD+JXu6mohZGB23xoZurrpy9ze1MpF+K9F4+YliQklL6W8B+p2sC79CzvZLd0gBAXHX0JVcUAw==
-X-Received: by 10.28.212.9 with SMTP id l9mr26925788wmg.75.1452689750425;
-	Wed, 13 Jan 2016 04:55:50 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z65sm2544117wmg.10.2016.01.13.04.55.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Jan 2016 04:55:49 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2016 12:55:46 +0000
-Message-Id: <1452689746-22603-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] python3: add missing dependency on PN-misc to PN-modules
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Np+t7xDvLPl6ijCCwB/a/JVM5oK0ZhpHx2CHQSgERc4=;
+	b=eV0RTYXGZqxjnGQhfUiEGCT5OJLEqEEE3huOPADc2YXx0HEEm/bNZLdvIiZGAmpUN6
+	bdiM9Z/zcUD7yHcVwgT1E+yhPOXM4kWIBnLxfr+7gRzlHyyqp5jN5m+xykQOYpEGRkye
+	8bai7XByT0VCHdE6XDZF57nG38hTsGVizwJL09VorSrPgm6GWPKtBQJdrJYY+XswS+Tk
+	LjxXK+M9G1RFH0fBfY/KRQ6DhKtDn/Kr2QSpeyye4irmODlQln23hlcxjW/1zWmZsp1d
+	P6gy+pcOA405XIuJn0usGlMQn51zMcceooBnJkNr5wdDG72svWmy4eJKADfDJMZAXNcw
+	++Bg==
+X-Gm-Message-State: ALoCoQnfmOgrn7fLNQbxzUkYRhZlWTwHiLnCJhTx+IpuNeDtPQljn4pzDZYYR9gBOpzoqnPOpoUlsKsn442dnGtKrYHaP5UMaurN53dBfeNgtKQITkMRZUA=
+X-Received: by 10.50.55.4 with SMTP id n4mr21825126igp.64.1452690620532; Wed,
+	13 Jan 2016 05:10:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Wed, 13 Jan 2016 05:10:01 -0800 (PST)
+In-Reply-To: <1452647111-3884-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1452598345.28375.12.camel@linuxfoundation.org>
+	<1452647111-3884-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Jan 2016 13:10:01 +0000
+Message-ID: <CAJTo0LaNFs_vV9Q6xLM4Qh2YT==8U263F79f0hdET1nK2a_JXw@mail.gmail.com>
+To: Li Xin <lixin.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] net-tools_1.60-26.bb: Error fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jan 2016 12:55:51 -0000
+X-List-Received-Date: Wed, 13 Jan 2016 13:10:23 -0000
+Content-Type: multipart/alternative; boundary=e89a8f3b9b4967e623052936e479
 
-Installing python3-modules should install *all* of the Python standard library,
-not just most of it.
+--e89a8f3b9b4967e623052936e479
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python3_3.5.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 13 January 2016 at 01:05, Li Xin <lixin.fnst@cn.fujitsu.com> wrote:
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.0.bb b/meta/recipes-devtools/python/python3_3.5.0.bb
-index d5e26ff..6184c79 100644
---- a/meta/recipes-devtools/python/python3_3.5.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.0.bb
-@@ -215,6 +215,7 @@ FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_
- # catch all the rest (unsorted)
- PACKAGES += "${PN}-misc"
- RDEPENDS_${PN}-misc += "${PN}-core"
-+RDEPENDS_${PN}-modules += "${PN}-misc"
- FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
- 
- # catch manpage
--- 
-2.6.4
+> -       quilt pop -a || true
+> +       ${STAGING_BINDIR_NATIVE}/quilt pop -a || true
+>
 
+Isn't this in PATH already?
 
+Ross
+
+--e89a8f3b9b4967e623052936e479
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 January 2016 at 01:05, Li Xin <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:lixin.fnst@cn.fujitsu.com" target=3D"_blank">lixin.fnst@cn.fujitsu.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"">-=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0quilt pop -a || true<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${STAGING_BINDIR_NATIVE}/quilt pop -a || true<b=
+r></div></blockquote></div><br>Isn&#39;t this in PATH already?</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--e89a8f3b9b4967e623052936e479--
