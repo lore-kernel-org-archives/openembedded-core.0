@@ -1,31 +1,27 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id C0A0C731E0
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B59F4731D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 22:13:43 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3phKfZ5sVtz3hjZY;
-	Thu, 14 Jan 2016 23:13:42 +0100 (CET)
-X-Auth-Info: d1C20AmufwaWn1tUqEpLzlafROuelifU2qyWaVrtOM0=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3phKfZ3ngfzvdWV; 
-	Thu, 14 Jan 2016 23:13:42 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Thu, 14 Jan 2016 22:41:38 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1452656212-9836-1-git-send-email-marex@denx.de>
-	<201601142215.19475.marex@denx.de>
-	<CAP9ODKptS3b30mw8ZDZ1Pd2gLsN+wj8aJxxz+X4xWAr7qiAZCw@mail.gmail.com>
-In-Reply-To: <CAP9ODKptS3b30mw8ZDZ1Pd2gLsN+wj8aJxxz+X4xWAr7qiAZCw@mail.gmail.com>
+	Thu, 14 Jan 2016 22:25:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 14 Jan 2016 14:25:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,296,1449561600"; d="scan'208";a="881619234"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.151])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2016 14:25:23 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: poky@yoctoproject.org
+Date: Thu, 14 Jan 2016 16:27:02 -0600
+Message-Id: <2a9a9e8df578c4d6e2bed5e0545c89df2f9709e5.1452808372.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1452808370.git.anibal.limon@linux.intel.com>
+References: <cover.1452808370.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1452808370.git.anibal.limon@linux.intel.com>
+References: <cover.1452808370.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Message-Id: <201601142241.39038.marex@denx.de>
-Cc: Tom Rini <trini@konsulko.com>, Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2016.01 release
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org,
+	georgex.l.musat@intel.com, benjamin.esquivel@intel.com
+Subject: [PATCH 1/3] ptest-runner2: Add new ptest-runner2 recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 22:13:44 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Jan 2016 22:25:26 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thursday, January 14, 2016 at 10:37:16 PM, Otavio Salvador wrote:
-> On Thu, Jan 14, 2016 at 7:15 PM, Marek Vasut <marex@denx.de> wrote:
-> ...
-> 
-> > Taking a look at u-boot.inc and uboot-config.bbclass makes me wonder how
-> > all that could work at all. It's either a stackpile of legacy cruft or
-> > just poor design.
-> 
-> I think it is a mix of both.
-> 
-> How would you address this in a clean way?
+The ptest-runner2 is C written program for run ptests of
+Yocto/Openembedded, is fully compatible with previous version of
+ptest-runner that was a shell script that runs ptests sequencially.
 
-I would have one U-Boot build per package. Debian doesn't do it that way tho,
-so their rationale might be something to consider here too.
+The mainly reason for the new ptest-runner in C is because is designed
+for run in tiny systems also the old shell script version have problems
+when certain ptest hang it becomes blocked indefinitely.
 
-I would also have exactly one variable to for a machine and it would be the
-name of the config _WITHOUT_ any _config or _defconfig or _whatever suffix.
+Now the ptest-runner2 support the next features:
 
-Best regards,
-Marek Vasut
+	- Specify the directory for search ptests.
+	- List available ptests.
+	- Specify the timeout for avoid blocking indefinetly.
+	- Only run certain ptests.
+
+Proposed features:
+
+	- Adds support for per ptest output file.
+	- Adds support for run ptests in parallel (review possible
+	  colisions in ptests).
+
+[YOCTO #8021]
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ .../ptest-runner2/ptest-runner2_0.1.bb             | 24 ++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
+
+diff --git a/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb b/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
+new file mode 100644
+index 0000000..97c640c
+--- /dev/null
++++ b/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "A C program to run all installed ptests"
++DESCRIPTION = "The ptest-runner2 package installs a ptest-runner \
++program which loops through all installed ptest test suites and \
++runs them in sequence."
++HOMEPAGE = "https://github.com/alimon/ptest-runner2"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
++
++SRC_URI = "git://github.com/alimon/ptest-runner2.git;protocol=https;tag=v0.1"
++PV = "0.1+git${SRCPV}"
++S = "${WORKDIR}/git"
++
++FILES_${PN} = "${bindir}/ptest-runner"
++
++RCONFLICTS_${PN} = "ptest-runner"
++
++do_compile () {
++	oe_runmake
++}
++
++do_install () {
++	install -D -m 0755 ${WORKDIR}/git/ptest-runner ${D}${bindir}/ptest-runner
++}
+-- 
+2.1.4
+
 
