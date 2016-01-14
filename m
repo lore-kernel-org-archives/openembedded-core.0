@@ -1,48 +1,48 @@
 Return-Path: <george.mccollister@gmail.com>
-Received: from mail-ig0-f196.google.com (mail-ig0-f196.google.com
-	[209.85.213.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CFD4731E5
+Received: from mail-ig0-f193.google.com (mail-ig0-f193.google.com
+	[209.85.213.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BD8F5731E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 20:58:40 +0000 (UTC)
-Received: by mail-ig0-f196.google.com with SMTP id o2so20907973iga.3
+	Thu, 14 Jan 2016 20:58:42 +0000 (UTC)
+Received: by mail-ig0-f193.google.com with SMTP id h5so6482466igh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:58:41 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mhlwExPv1r2jlkgXl6SE2uK94ZIX5BcN5LXFIG+kdK8=;
-	b=hycvo89An9PvXG2NrgbEzgmh9+NJPsQ7JEAtHh82lapHNUtbEI10o1KnLFefAd1JKt
-	/xGpqErzil6S3U7SHvLr171orSmUes2+aRbiQs8Ec2XZ3MGhhOynQFnOMgxhhSPp8uPW
-	K8wXhSUEPdM9K0uimKO1Njkbq/iA1i1dYrfe0Cl1vktYkeeqpi3F7T5cRpC6uS+pSQ+A
-	L202mR7dv97j812/3uxrdlUKAIv0SMnmedborsjIDSzQU98/MOU1m1ebB2jTR57kZILX
-	dLyYEghUFK39r8MLTkmScU6G9epPYC4Uq3aPgL8hCyFA87g2BAgR867XvzyoPxmS3+w2
-	jGkQ==
+	bh=gPboiCax9GOQYpcN0w4gVXd/k1uXUolxhfFmM7zdU4k=;
+	b=jFI92USRExh490qYrFntI+TQ3zz3131YZbvSry7j+9tIWwRzkXyhHtdvG6cEU73gZ9
+	CH4DlXuInmT8y7cilwhvC2exPB0Xl5+lMpzATpF8BqowQameIcCZyR0YhfMpsaV+lZOl
+	T8yluogcuu76KXqum+Q9WBa3cyiWL140t9+xaJaFTus7CDY0PPWNdVKHpS1YGgHcd9VZ
+	PgYAi6ps6RBSg9RgOs8CDwpjXvj4ETFNS323mrdeKUp7Me5WNQ18Gz4Nbl36aMjNHAIH
+	Tn5tpK6AO3BYEL9csWJY29a+aBHSI7f8OK6PGLXOsFI6M+FDt7+fFNxtOeffa11pOT9u
+	lRyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=mhlwExPv1r2jlkgXl6SE2uK94ZIX5BcN5LXFIG+kdK8=;
-	b=XofUm+DWVl1H5s9Z5nRsiVwI83flcOGwdSsWrv1RZ77racl9/OsfRwKcV1+Oal4nLl
-	BbI1oHHPWoSthijWR/W0uuzxY4sMqmmBcXfNN4t3lEQrKCY6cVyI81aomsmzNbTX7cbR
-	mjHyTJFqn4YCjXnzdmh9MUIK+3U7xkmVb5u0TbwvlmnXQ1LCl7hw4YOoPdmpGnvj5xvh
-	/bCun7d925VsxLxgVNDX6WUinLkrxBmKtA2n18Jj6rW9NDvjXXHRHn5USmAGx5kR+ZYa
-	dj38xYxG/j13g8SpCHfZaWKdnKppXz9gpPzKaWxl+aZlLFB7NjxpSU90l1uVlTJL6N7E
-	uGBw==
-X-Gm-Message-State: AG10YOQ7RCBAQm+GLZP0iRIDLOeEVwtBs9tAdYGPlvvrTh1o5zzjb60er1IQMdOCgbymYQ==
-X-Received: by 10.50.23.77 with SMTP id k13mr2957905igf.2.1452805121238;
-	Thu, 14 Jan 2016 12:58:41 -0800 (PST)
+	bh=gPboiCax9GOQYpcN0w4gVXd/k1uXUolxhfFmM7zdU4k=;
+	b=Y1RD7cS1TEC3CrdeNE8MJsQZdV6eBguzNyctMLpf/3QBarWdvkONq5Ix2csB2zrVM1
+	EwdrRApqLlHnBrSxmp9citffZiYlk5AHzzrJbrAn7E9mdgLEvEajyKooEz/nBC2JmpuB
+	n+J320RVuxqgv/HJQDt7I3htMPPivxBrB/PFsqWunKTcTVkKFXwJVosvamp/7qMw+68t
+	xlntEH5fJM42/BO/X7geErNaWHAJ3NuAmfk/95xF0mQIlQWL65NmcBvjzb39VALCuxsz
+	vuRP28awIQt1BYnfDu3la+JJyBimmlexG8jU6yw/Az0L56KGl2E+JjY3baudyg9kNOC6
+	bsuA==
+X-Gm-Message-State: ALoCoQmyivD9AZ0tGJRJ3vHZtXcKJBqUlEUj5rukZlkNa1V2RqQ8pv9PnFrJ12m2MFQL6l7+z9VtOjxDd1orEAJFdZI2NI1Ubw==
+X-Received: by 10.50.61.209 with SMTP id s17mr31251826igr.40.1452805123176;
+	Thu, 14 Jan 2016 12:58:43 -0800 (PST)
 Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
 	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	204sm3203278iob.44.2016.01.14.12.58.40
+	204sm3203278iob.44.2016.01.14.12.58.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jan 2016 12:58:40 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:42 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:56:34 -0600
-Message-Id: <1452804997-20926-7-git-send-email-george.mccollister@gmail.com>
+Date: Thu, 14 Jan 2016 14:56:35 -0600
+Message-Id: <1452804997-20926-8-git-send-email-george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.4.5
 In-Reply-To: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
 References: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
-Subject: [RFC][PATCH 6/9] util-linux: use bash-completion.bbclass
+Subject: [RFC][PATCH 7/9] git: use bash-completion.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 20:58:40 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 20:58:42 -0000
 
 Use bash-completion.bbclass to package bash completions.
 
 Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/git/git.inc | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 7ef7a54..b9961f7 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1715f5ee3e01203ca1e1e0b9ee65918c
-                     file://libmount/COPYING;md5=fb93f01d4361069c5616327705373b16 \
-                     file://libblkid/COPYING;md5=fb93f01d4361069c5616327705373b16"
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index d9770e6..c19e0d4 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -17,7 +17,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
+ 		--without-tcltk \
+ "
  
--inherit autotools gettext pkgconfig systemd update-alternatives python-dir ptest
-+inherit autotools gettext pkgconfig systemd update-alternatives python-dir ptest bash-completion
- DEPENDS = "zlib ncurses"
- DEPENDS_append_class-native = " lzo-native"
- DEPENDS_append_class-nativesdk = " lzo-native"
-@@ -31,7 +31,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
-              util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-runuser \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
--             util-linux-partx ${PN}-bash-completion util-linux-hwclock \
-+             util-linux-partx util-linux-hwclock \
-              util-linux-findfs util-linux-getopt util-linux-sulogin"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+-inherit autotools-brokensep perlnative
++inherit autotools-brokensep perlnative bash-completion
  
-@@ -64,7 +64,6 @@ PACKAGECONFIG[pylibmount] = "--with-python --enable-pylibmount,--without-python
- # Readline support
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ EXTRA_OEMAKE = "NO_PYTHON=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
+ EXTRA_OEMAKE += "'PERL_PATH=/usr/bin/env perl'"
+@@ -96,10 +96,6 @@ PERLTOOLS = " \
+     ${datadir}/git-core/templates/hooks/pre-rebase.sample \
+ "
  
--FILES_${PN}-bash-completion += "${datadir}/bash-completion"
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
- FILES_${PN}-dev += "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.la"
+-# Basic tab completion support
+-PACKAGES =+ "${PN}-bash-completion"
+-FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
+-
+ # Git tools requiring perl
+ PACKAGES =+ "${PN}-perltools"
+ FILES_${PN}-perltools += " \
 -- 
 2.4.5
 
