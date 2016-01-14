@@ -1,48 +1,48 @@
 Return-Path: <george.mccollister@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A365C731C8
+Received: from mail-ig0-f196.google.com (mail-ig0-f196.google.com
+	[209.85.213.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 50955731E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 20:58:33 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id q21so33905234iod.3
+	Thu, 14 Jan 2016 20:58:36 +0000 (UTC)
+Received: by mail-ig0-f196.google.com with SMTP id o2so20907887iga.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:58:34 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qFqVE+egVQrS1yqkeURf77Eydd3oqq/9zHEZYMB2cKk=;
-	b=sUghXRmuilcdwPHcqu17MD0DbsbpCpxPfUGchOosOMCtZ6SANJZghRKL4LWv6u7wyK
-	TYtVIkVnDaiYrm+vL14zYSVeNyR8VOIvPRazZUOBG6dToa0DsfBExEwXpAVUX3mqOgrL
-	5XMSBDkolcN2nWUD1e7TWTyjWdP6p5ziOxdHgGDzFfxplecjEr1N+hlk3CGESozLw/OC
-	GTm0YQ/4BL3krDSSeLuJazDsJL50oMFKhInaSJk3V8viXlzQVVuwwbWe4fDKJUyqSIGF
-	Gi51Bq7jl/pc7vfQKhhIaZqmzK0Y1qNgofdm/209m61DAiziDtDTY3tgnakQIlFVWafA
-	dLfg==
+	bh=OkKbUD94qOB//fu4um5Q2W4oz8OC4iVnopZg0UeUR5g=;
+	b=N0D7u3zLiCVS4hHuxOLYbjiF2lhIxW4++FrpuRw9qnwK3q+ucxrrvik0QX0dBZCe3V
+	NKHbdjvmcqgz94uxKlNaqhGR5qGE+YK3eQXaj53sytd3nr2YphrYUO7Vctg1JO/8ekFp
+	odZC7YvMQQ8CLNfIXqK/4R0DXSyzjSp/QXjSdv3zYu0xUq9i+KzrdpUZZ4WAhMp7mPiH
+	GASV6lPVuHZW2CH+HQ4tgwtOHcOmtoL4/a+81atrUXTOZLbAGycvQ3K4rjEwC6ECQEw2
+	Wf4/a/zSlDik2EvhPw1PcBEHyDN/TLf7z1Re+txBqmL0WrlsV7ZthgmVYrV+5zNaOvZy
+	Ny6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=qFqVE+egVQrS1yqkeURf77Eydd3oqq/9zHEZYMB2cKk=;
-	b=MFxl7/pYNg/Uqx3JEx5dgZAMUcSbFukq5Zbu0Dzh9TbcmFw4+FWaooo/TIkx+mqDgO
-	oHd62B3hUVqjkZOnMddmqdzobHxcZbUrjlqJszODSVubuN9vc+WNLvu0QG6TeukfHoGM
-	ucs+Y6OUJo3v6+4pAm+vsaI++DQdfkLEGzwfJZJzeQ1977oE7RKA9QI1FlPoEjFkLdKQ
-	VHUH15rYrvq/6tkyBR9Sr9/dXuuob24BbhXiJKqVbfW5dt2iwepfVJQqg2LpaWfcM7HE
-	aLdhGbNmpAP9SFLg1nJ2ei4uKPTtYKACSTsunFm3WoS0fl6vg/jkeMDLx+X0mRJoT3SZ
-	ElLQ==
-X-Gm-Message-State: ALoCoQmc4ZllOgF/doZPLtwVzycsynd0htmu6gkEmgrTbTQ/SAMgYQBX+vV56KMxP5cIwP+3mYDhTIf6np3GkNd8kmV5L8ibbA==
-X-Received: by 10.107.11.68 with SMTP id v65mr6649983ioi.188.1452805114626;
-	Thu, 14 Jan 2016 12:58:34 -0800 (PST)
+	bh=OkKbUD94qOB//fu4um5Q2W4oz8OC4iVnopZg0UeUR5g=;
+	b=MtJcGrFPywtV7ZPof25QjlZhrWtAOdkZowFRDAxQVflte/qRYwXYeHG1fB1o7nbV04
+	8preJe5YH7ak1pHfXOPeoWJd4EdroTRO6gNTwfwQH61Ukb3N2jIY3Yb4GSPdcuUrTeB+
+	fTW92xAwWGRbLWbfe1yT7c+z8s4zllGGPtkqE+NrrW/JZlnhuNHh9i6hjpcpvxc8gOfK
+	/CkbI2nOz6qfy4U5wNDHB2/2fa82NLz00UCU3UNJD93Qpsgkl5vqsyvEwo2bu7XC3ghI
+	ima3awwJETV1Y49dP1mhYHvASsErLm1mex7mWOinYpA9go65cTg2UX19otJ1cWXHt6GY
+	AzjA==
+X-Gm-Message-State: ALoCoQnx27Dlvyj1LXC0rO3nD0d3lbdL++RwxLfz63jOhczWb27+0UhzPraswY97PTFjv4fsz0Az6vK+6FjX9fKb3OaDOesa5g==
+X-Received: by 10.50.141.226 with SMTP id rr2mr28662749igb.75.1452805117767;
+	Thu, 14 Jan 2016 12:58:37 -0800 (PST)
 Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
 	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	204sm3203278iob.44.2016.01.14.12.58.33
+	204sm3203278iob.44.2016.01.14.12.58.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jan 2016 12:58:34 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:37 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:56:32 -0600
-Message-Id: <1452804997-20926-5-git-send-email-george.mccollister@gmail.com>
+Date: Thu, 14 Jan 2016 14:56:33 -0600
+Message-Id: <1452804997-20926-6-git-send-email-george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.4.5
 In-Reply-To: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
 References: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
-Subject: [RFC][PATCH 4/9] dbus-glib: use bash-completion.bbclass
+Subject: [RFC][PATCH 5/9] glib: use bash-completion.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 20:58:33 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 20:58:37 -0000
 
 Use bash-completion.bbclass to package bash completions.
 
 Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- meta/recipes-core/dbus/dbus-glib.inc | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-core/glib-2.0/glib.inc | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
-index f8c0ebe..4661e3a 100644
---- a/meta/recipes-core/dbus/dbus-glib.inc
-+++ b/meta/recipes-core/dbus/dbus-glib.inc
-@@ -15,7 +15,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz
-            file://test-install-makefile.patch \
- "
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 86f7e0e..079b214 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -22,12 +22,12 @@ DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' glib-2.0-native
+ DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
+ DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib"
  
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext bash-completion
+-PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
++PACKAGES =+ "${PN}-utils ${PN}-codegen"
  
- #default disable regression tests, some unit test code in non testing code
- #PACKAGECONFIG_pn-${PN} = "tests" enable regression tests local.conf
-@@ -26,11 +26,10 @@ EXTRA_OECONF = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-in
-                 --with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
- EXTRA_OECONF_class-native = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml"
+ LEAD_SONAME = "libglib-2.0.*"
+ FILES_${PN}-utils = "${bindir}/* ${datadir}/glib-2.0/gettext"
  
--PACKAGES += "${PN}-bash-completion ${PN}-tests"
-+PACKAGES += "${PN}-tests"
+-inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even
++inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion
  
- FILES_${PN} = "${libdir}/lib*${SOLIBS}"
--FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-completion.sh \
--   ${libexecdir}/dbus-bash-completion-helper"
-+FILES_${PN}-bash-completion += "${libexecdir}/dbus-bash-completion-helper"
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
- FILES_${PN}-dev += "${bindir}/dbus-binding-tool"
+ S = "${WORKDIR}/glib-${PV}"
  
+@@ -51,8 +51,6 @@ FILES_${PN}-dev += "${libdir}/glib-2.0/include \
+                     ${libdir}/gio/modules/*.la"
+ FILES_${PN}-dbg += "${datadir}/glib-2.0/gdb ${datadir}/gdb"
+ FILES_${PN}-codegen = "${datadir}/glib-2.0/codegen/*.py"
+-FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d \
+-                               ${datadir}/bash-completion"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ USE_NLS = "yes"
 -- 
 2.4.5
 
