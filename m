@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D1E3C60232
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6732160851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 14:14:11 +0000 (UTC)
+	Thu, 14 Jan 2016 14:14:13 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Jan 2016 06:13:47 -0800
+	by orsmga102.jf.intel.com with ESMTP; 14 Jan 2016 06:14:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,294,1449561600"; d="scan'208";a="890434318"
+X-IronPort-AV: E=Sophos;i="5.22,294,1449561600"; d="scan'208";a="890434574"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jan 2016 06:13:47 -0800
+	by orsmga002.jf.intel.com with ESMTP; 14 Jan 2016 06:14:15 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 2C6CE6A4002
+	by linux.intel.com (Postfix) with ESMTP id 56F8A6A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 07:01:41 -0800 (PST)
+	Thu, 14 Jan 2016 07:02:10 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:12:53 +0200
-Message-Id: <3844376a0edcaa2050c86b1061fb6a92bb262722.1452766193.git.ed.bartosh@linux.intel.com>
+Date: Thu, 14 Jan 2016 14:12:54 +0200
+Message-Id: <f4ee3029cdb7ae1efc096b61b2cff24398359f78.1452766193.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 References: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 References: <cover.1452766193.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 3/9] wic: use new kickstart parser
+Subject: [wic][PATCH 4/9] wic: remove pykickstart code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +35,3425 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 14:14:13 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 14:14:14 -0000
 
-Used KickStart parser class instead of pykickstart API.
-
-This commit breaks wic as data structures and field names
-provided by new API are a bit different from old ones.
-This issue will be addressed in the following commits.
+Removed pykickstart-related code as it's replaced by
+new kickstart parser.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/conf.py          | 4 ++--
- scripts/lib/wic/imager/direct.py | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/wic/3rdparty/pykickstart/__init__.py   |   0
+ scripts/lib/wic/3rdparty/pykickstart/base.py       | 466 ----------------
+ .../wic/3rdparty/pykickstart/commands/__init__.py  |  20 -
+ .../3rdparty/pykickstart/commands/bootloader.py    | 216 -------
+ .../wic/3rdparty/pykickstart/commands/partition.py | 314 -----------
+ scripts/lib/wic/3rdparty/pykickstart/constants.py  |  57 --
+ scripts/lib/wic/3rdparty/pykickstart/errors.py     | 103 ----
+ .../wic/3rdparty/pykickstart/handlers/__init__.py  |   0
+ .../wic/3rdparty/pykickstart/handlers/control.py   |  46 --
+ .../lib/wic/3rdparty/pykickstart/handlers/f16.py   |  24 -
+ scripts/lib/wic/3rdparty/pykickstart/ko.py         |  37 --
+ scripts/lib/wic/3rdparty/pykickstart/options.py    | 223 --------
+ scripts/lib/wic/3rdparty/pykickstart/parser.py     | 619 ---------------------
+ scripts/lib/wic/3rdparty/pykickstart/sections.py   | 244 --------
+ scripts/lib/wic/3rdparty/pykickstart/version.py    | 168 ------
+ scripts/lib/wic/kickstart/__init__.py              | 129 -----
+ .../lib/wic/kickstart/custom_commands/__init__.py  |   7 -
+ .../lib/wic/kickstart/custom_commands/partition.py | 526 -----------------
+ .../lib/wic/kickstart/custom_commands/wicboot.py   |  65 ---
+ 19 files changed, 3264 deletions(-)
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/__init__.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/base.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/commands/__init__.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/commands/bootloader.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/constants.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/errors.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/handlers/__init__.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/handlers/control.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/handlers/f16.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/ko.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/options.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/parser.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/sections.py
+ delete mode 100644 scripts/lib/wic/3rdparty/pykickstart/version.py
+ delete mode 100644 scripts/lib/wic/kickstart/__init__.py
+ delete mode 100644 scripts/lib/wic/kickstart/custom_commands/__init__.py
+ delete mode 100644 scripts/lib/wic/kickstart/custom_commands/partition.py
+ delete mode 100644 scripts/lib/wic/kickstart/custom_commands/wicboot.py
 
-diff --git a/scripts/lib/wic/conf.py b/scripts/lib/wic/conf.py
-index 1d4363a..2e29451 100644
---- a/scripts/lib/wic/conf.py
-+++ b/scripts/lib/wic/conf.py
-@@ -17,8 +17,8 @@
- 
- import os
- 
-+from wic.kickstart import KickStart
- from wic import msger
--from wic import kickstart
- from wic.utils import misc
- 
- 
-@@ -87,7 +87,7 @@ class ConfigMgr(object):
-         if not ksconf:
-             return
- 
--        ksobj = kickstart.read_kickstart(ksconf)
-+        ksobj = KickStart(ksconf)
- 
-         self.create['ks'] = ksobj
-         self.create['name'] = os.path.splitext(os.path.basename(ksconf))[0]
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index d5603fa..f89c42c 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -27,7 +27,7 @@
- import os
- import shutil
- 
--from wic import kickstart, msger
-+from wic import msger
- from wic.utils import fs_related
- from wic.utils.oe.misc import get_bitbake_var
- from wic.utils.partitionedfs import Image
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/__init__.py b/scripts/lib/wic/3rdparty/pykickstart/__init__.py
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/base.py b/scripts/lib/wic/3rdparty/pykickstart/base.py
+deleted file mode 100644
+index e6c8f56..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/base.py
++++ /dev/null
+@@ -1,466 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2006, 2007, 2008 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-Base classes for creating commands and syntax version object.
+-
+-This module exports several important base classes:
+-
+-    BaseData - The base abstract class for all data objects.  Data objects
+-               are contained within a BaseHandler object.
+-
+-    BaseHandler - The base abstract class from which versioned kickstart
+-                  handler are derived.  Subclasses of BaseHandler hold
+-                  BaseData and KickstartCommand objects.
+-
+-    DeprecatedCommand - An abstract subclass of KickstartCommand that should
+-                        be further subclassed by users of this module.  When
+-                        a subclass is used, a warning message will be
+-                        printed.
+-
+-    KickstartCommand - The base abstract class for all kickstart commands.
+-                       Command objects are contained within a BaseHandler
+-                       object.
+-"""
+-import gettext
+-gettext.textdomain("pykickstart")
+-_ = lambda x: gettext.ldgettext("pykickstart", x)
+-
+-import types
+-import warnings
+-from pykickstart.errors import *
+-from pykickstart.ko import *
+-from pykickstart.parser import Packages
+-from pykickstart.version import versionToString
+-
+-###
+-### COMMANDS
+-###
+-class KickstartCommand(KickstartObject):
+-    """The base class for all kickstart commands.  This is an abstract class."""
+-    removedKeywords = []
+-    removedAttrs = []
+-
+-    def __init__(self, writePriority=0, *args, **kwargs):
+-        """Create a new KickstartCommand instance.  This method must be
+-           provided by all subclasses, but subclasses must call
+-           KickstartCommand.__init__ first.  Instance attributes:
+-
+-           currentCmd    -- The name of the command in the input file that
+-                            caused this handler to be run.
+-           currentLine   -- The current unprocessed line from the input file
+-                            that caused this handler to be run.
+-           handler       -- A reference to the BaseHandler subclass this
+-                            command is contained withing.  This is needed to
+-                            allow referencing of Data objects.
+-           lineno        -- The current line number in the input file.
+-           writePriority -- An integer specifying when this command should be
+-                            printed when iterating over all commands' __str__
+-                            methods.  The higher the number, the later this
+-                            command will be written.  All commands with the
+-                            same priority will be written alphabetically.
+-        """
+-
+-        # We don't want people using this class by itself.
+-        if self.__class__ is KickstartCommand:
+-            raise TypeError, "KickstartCommand is an abstract class."
+-
+-        KickstartObject.__init__(self, *args, **kwargs)
+-
+-        self.writePriority = writePriority
+-
+-        # These will be set by the dispatcher.
+-        self.currentCmd = ""
+-        self.currentLine = ""
+-        self.handler = None
+-        self.lineno = 0
+-
+-        # If a subclass provides a removedKeywords list, remove all the
+-        # members from the kwargs list before we start processing it.  This
+-        # ensures that subclasses don't continue to recognize arguments that
+-        # were removed.
+-        for arg in filter(kwargs.has_key, self.removedKeywords):
+-            kwargs.pop(arg)
+-
+-    def __call__(self, *args, **kwargs):
+-        """Set multiple attributes on a subclass of KickstartCommand at once
+-           via keyword arguments.  Valid attributes are anything specified in
+-           a subclass, but unknown attributes will be ignored.
+-        """
+-        for (key, val) in kwargs.items():
+-            # Ignore setting attributes that were removed in a subclass, as
+-            # if they were unknown attributes.
+-            if key in self.removedAttrs:
+-                continue
+-
+-            if hasattr(self, key):
+-                setattr(self, key, val)
+-
+-    def __str__(self):
+-        """Return a string formatted for output to a kickstart file.  This
+-           method must be provided by all subclasses.
+-        """
+-        return KickstartObject.__str__(self)
+-
+-    def parse(self, args):
+-        """Parse the list of args and set data on the KickstartCommand object.
+-           This method must be provided by all subclasses.
+-        """
+-        raise TypeError, "parse() not implemented for KickstartCommand"
+-
+-    def apply(self, instroot="/"):
+-        """Write out the configuration related to the KickstartCommand object.
+-           Subclasses which do not provide this method will not have their
+-           configuration written out.
+-        """
+-        return
+-
+-    def dataList(self):
+-        """For commands that can occur multiple times in a single kickstart
+-           file (like network, part, etc.), return the list that we should
+-           append more data objects to.
+-        """
+-        return None
+-
+-    def deleteRemovedAttrs(self):
+-        """Remove all attributes from self that are given in the removedAttrs
+-           list.  This method should be called from __init__ in a subclass,
+-           but only after the superclass's __init__ method has been called.
+-        """
+-        for attr in filter(lambda k: hasattr(self, k), self.removedAttrs):
+-            delattr(self, attr)
+-
+-    # Set the contents of the opts object (an instance of optparse.Values
+-    # returned by parse_args) as attributes on the KickstartCommand object.
+-    # It's useful to call this from KickstartCommand subclasses after parsing
+-    # the arguments.
+-    def _setToSelf(self, optParser, opts):
+-        self._setToObj(optParser, opts, self)
+-
+-    # Sets the contents of the opts object (an instance of optparse.Values
+-    # returned by parse_args) as attributes on the provided object obj.  It's
+-    # useful to call this from KickstartCommand subclasses that handle lists
+-    # of objects (like partitions, network devices, etc.) and need to populate
+-    # a Data object.
+-    def _setToObj(self, optParser, opts, obj):
+-        for key in filter (lambda k: getattr(opts, k) != None, optParser.keys()):
+-            setattr(obj, key, getattr(opts, key))
+-
+-class DeprecatedCommand(KickstartCommand):
+-    """Specify that a command is deprecated and no longer has any function.
+-       Any command that is deprecated should be subclassed from this class,
+-       only specifying an __init__ method that calls the superclass's __init__.
+-       This is an abstract class.
+-    """
+-    def __init__(self, writePriority=None, *args, **kwargs):
+-        # We don't want people using this class by itself.
+-        if self.__class__ is KickstartCommand:
+-            raise TypeError, "DeprecatedCommand is an abstract class."
+-
+-        # Create a new DeprecatedCommand instance.
+-        KickstartCommand.__init__(self, writePriority, *args, **kwargs)
+-
+-    def __str__(self):
+-        """Placeholder since DeprecatedCommands don't work anymore."""
+-        return ""
+-
+-    def parse(self, args):
+-        """Print a warning message if the command is seen in the input file."""
+-        mapping = {"lineno": self.lineno, "cmd": self.currentCmd}
+-        warnings.warn(_("Ignoring deprecated command on line %(lineno)s:  The %(cmd)s command has been deprecated and no longer has any effect.  It may be removed from future releases, which will result in a fatal error from kickstart.  Please modify your kickstart file to remove this command.") % mapping, DeprecationWarning)
+-
+-
+-###
+-### HANDLERS
+-###
+-class BaseHandler(KickstartObject):
+-    """Each version of kickstart syntax is provided by a subclass of this
+-       class.  These subclasses are what users will interact with for parsing,
+-       extracting data, and writing out kickstart files.  This is an abstract
+-       class.
+-
+-       version -- The version this syntax handler supports.  This is set by
+-                  a class attribute of a BaseHandler subclass and is used to
+-                  set up the command dict.  It is for read-only use.
+-    """
+-    version = None
+-
+-    def __init__(self, mapping=None, dataMapping=None, commandUpdates=None,
+-                 dataUpdates=None, *args, **kwargs):
+-        """Create a new BaseHandler instance.  This method must be provided by
+-           all subclasses, but subclasses must call BaseHandler.__init__ first.
+-
+-           mapping          -- A custom map from command strings to classes,
+-                               useful when creating your own handler with
+-                               special command objects.  It is otherwise unused
+-                               and rarely needed.  If you give this argument,
+-                               the mapping takes the place of the default one
+-                               and so must include all commands you want
+-                               recognized.
+-           dataMapping      -- This is the same as mapping, but for data
+-                               objects.  All the same comments apply.
+-           commandUpdates   -- This is similar to mapping, but does not take
+-                               the place of the defaults entirely.  Instead,
+-                               this mapping is applied after the defaults and
+-                               updates it with just the commands you want to
+-                               modify.
+-           dataUpdates      -- This is the same as commandUpdates, but for
+-                               data objects.
+-
+-
+-           Instance attributes:
+-
+-           commands -- A mapping from a string command to a KickstartCommand
+-                       subclass object that handles it.  Multiple strings can
+-                       map to the same object, but only one instance of the
+-                       command object should ever exist.  Most users should
+-                       never have to deal with this directly, as it is
+-                       manipulated internally and called through dispatcher.
+-           currentLine -- The current unprocessed line from the input file
+-                          that caused this handler to be run.
+-           packages -- An instance of pykickstart.parser.Packages which
+-                       describes the packages section of the input file.
+-           platform -- A string describing the hardware platform, which is
+-                       needed only by system-config-kickstart.
+-           scripts  -- A list of pykickstart.parser.Script instances, which is
+-                       populated by KickstartParser.addScript and describes the
+-                       %pre/%post/%traceback script section of the input file.
+-        """
+-
+-        # We don't want people using this class by itself.
+-        if self.__class__ is BaseHandler:
+-            raise TypeError, "BaseHandler is an abstract class."
+-
+-        KickstartObject.__init__(self, *args, **kwargs)
+-
+-        # This isn't really a good place for these, but it's better than
+-        # everything else I can think of.
+-        self.scripts = []
+-        self.packages = Packages()
+-        self.platform = ""
+-
+-        # These will be set by the dispatcher.
+-        self.commands = {}
+-        self.currentLine = 0
+-
+-        # A dict keyed by an integer priority number, with each value being a
+-        # list of KickstartCommand subclasses.  This dict is maintained by
+-        # registerCommand and used in __str__.  No one else should be touching
+-        # it.
+-        self._writeOrder = {}
+-
+-        self._registerCommands(mapping, dataMapping, commandUpdates, dataUpdates)
+-
+-    def __str__(self):
+-        """Return a string formatted for output to a kickstart file."""
+-        retval = ""
+-
+-        if self.platform != "":
+-            retval += "#platform=%s\n" % self.platform
+-
+-        retval += "#version=%s\n" % versionToString(self.version)
+-
+-        lst = self._writeOrder.keys()
+-        lst.sort()
+-
+-        for prio in lst:
+-            for obj in self._writeOrder[prio]:
+-                retval += obj.__str__()
+-
+-        for script in self.scripts:
+-            retval += script.__str__()
+-
+-        retval += self.packages.__str__()
+-
+-        return retval
+-
+-    def _insertSorted(self, lst, obj):
+-        length = len(lst)
+-        i = 0
+-
+-        while i < length:
+-            # If the two classes have the same name, it's because we are
+-            # overriding an existing class with one from a later kickstart
+-            # version, so remove the old one in favor of the new one.
+-            if obj.__class__.__name__ > lst[i].__class__.__name__:
+-                i += 1
+-            elif obj.__class__.__name__ == lst[i].__class__.__name__:
+-                lst[i] = obj
+-                return
+-            elif obj.__class__.__name__ < lst[i].__class__.__name__:
+-                break
+-
+-        if i >= length:
+-            lst.append(obj)
+-        else:
+-            lst.insert(i, obj)
+-
+-    def _setCommand(self, cmdObj):
+-        # Add an attribute on this version object.  We need this to provide a
+-        # way for clients to access the command objects.  We also need to strip
+-        # off the version part from the front of the name.
+-        if cmdObj.__class__.__name__.find("_") != -1:
+-            name = unicode(cmdObj.__class__.__name__.split("_", 1)[1])
+-        else:
+-            name = unicode(cmdObj.__class__.__name__).lower()
+-
+-        setattr(self, name.lower(), cmdObj)
+-
+-        # Also, add the object into the _writeOrder dict in the right place.
+-        if cmdObj.writePriority is not None:
+-            if self._writeOrder.has_key(cmdObj.writePriority):
+-                self._insertSorted(self._writeOrder[cmdObj.writePriority], cmdObj)
+-            else:
+-                self._writeOrder[cmdObj.writePriority] = [cmdObj]
+-
+-    def _registerCommands(self, mapping=None, dataMapping=None, commandUpdates=None,
+-                          dataUpdates=None):
+-        if mapping == {} or mapping == None:
+-            from pykickstart.handlers.control import commandMap
+-            cMap = commandMap[self.version]
+-        else:
+-            cMap = mapping
+-
+-        if dataMapping == {} or dataMapping == None:
+-            from pykickstart.handlers.control import dataMap
+-            dMap = dataMap[self.version]
+-        else:
+-            dMap = dataMapping
+-
+-        if type(commandUpdates) == types.DictType:
+-            cMap.update(commandUpdates)
+-
+-        if type(dataUpdates) == types.DictType:
+-            dMap.update(dataUpdates)
+-
+-        for (cmdName, cmdClass) in cMap.iteritems():
+-            # First make sure we haven't instantiated this command handler
+-            # already.  If we have, we just need to make another mapping to
+-            # it in self.commands.
+-            cmdObj = None
+-
+-            for (key, val) in self.commands.iteritems():
+-                if val.__class__.__name__ == cmdClass.__name__:
+-                    cmdObj = val
+-                    break
+-
+-            # If we didn't find an instance in self.commands, create one now.
+-            if cmdObj == None:
+-                cmdObj = cmdClass()
+-                self._setCommand(cmdObj)
+-
+-            # Finally, add the mapping to the commands dict.
+-            self.commands[cmdName] = cmdObj
+-            self.commands[cmdName].handler = self
+-
+-        # We also need to create attributes for the various data objects.
+-        # No checks here because dMap is a bijection.  At least, that's what
+-        # the comment says.  Hope no one screws that up.
+-        for (dataName, dataClass) in dMap.iteritems():
+-            setattr(self, dataName, dataClass)
+-
+-    def dispatcher(self, args, lineno):
+-        """Call the appropriate KickstartCommand handler for the current line
+-           in the kickstart file.  A handler for the current command should
+-           be registered, though a handler of None is not an error.  Returns
+-           the data object returned by KickstartCommand.parse.
+-
+-           args    -- A list of arguments to the current command
+-           lineno  -- The line number in the file, for error reporting
+-        """
+-        cmd = args[0]
+-
+-        if not self.commands.has_key(cmd):
+-            raise KickstartParseError, formatErrorMsg(lineno, msg=_("Unknown command: %s" % cmd))
+-        elif self.commands[cmd] != None:
+-            self.commands[cmd].currentCmd = cmd
+-            self.commands[cmd].currentLine = self.currentLine
+-            self.commands[cmd].lineno = lineno
+-
+-            # The parser returns the data object that was modified.  This could
+-            # be a BaseData subclass that should be put into a list, or it
+-            # could be the command handler object itself.
+-            obj = self.commands[cmd].parse(args[1:])
+-            lst = self.commands[cmd].dataList()
+-            if lst is not None:
+-                lst.append(obj)
+-
+-            return obj
+-
+-    def maskAllExcept(self, lst):
+-        """Set all entries in the commands dict to None, except the ones in
+-           the lst.  All other commands will not be processed.
+-        """
+-        self._writeOrder = {}
+-
+-        for (key, val) in self.commands.iteritems():
+-            if not key in lst:
+-                self.commands[key] = None
+-
+-    def hasCommand(self, cmd):
+-        """Return true if there is a handler for the string cmd."""
+-        return hasattr(self, cmd)
+-
+-
+-###
+-### DATA
+-###
+-class BaseData(KickstartObject):
+-    """The base class for all data objects.  This is an abstract class."""
+-    removedKeywords = []
+-    removedAttrs = []
+-
+-    def __init__(self, *args, **kwargs):
+-        """Create a new BaseData instance.
+-        
+-           lineno -- Line number in the ks-file where this object was defined
+-        """
+-
+-        # We don't want people using this class by itself.
+-        if self.__class__ is BaseData:
+-            raise TypeError, "BaseData is an abstract class."
+-
+-        KickstartObject.__init__(self, *args, **kwargs)
+-        self.lineno = 0
+-
+-    def __str__(self):
+-        """Return a string formatted for output to a kickstart file."""
+-        return ""
+-
+-    def __call__(self, *args, **kwargs):
+-        """Set multiple attributes on a subclass of BaseData at once via
+-           keyword arguments.  Valid attributes are anything specified in a
+-           subclass, but unknown attributes will be ignored.
+-        """
+-        for (key, val) in kwargs.items():
+-            # Ignore setting attributes that were removed in a subclass, as
+-            # if they were unknown attributes.
+-            if key in self.removedAttrs:
+-                continue
+-
+-            if hasattr(self, key):
+-                setattr(self, key, val)
+-
+-    def deleteRemovedAttrs(self):
+-        """Remove all attributes from self that are given in the removedAttrs
+-           list.  This method should be called from __init__ in a subclass,
+-           but only after the superclass's __init__ method has been called.
+-        """
+-        for attr in filter(lambda k: hasattr(self, k), self.removedAttrs):
+-            delattr(self, attr)
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/commands/__init__.py b/scripts/lib/wic/3rdparty/pykickstart/commands/__init__.py
+deleted file mode 100644
+index 2d94550..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/commands/__init__.py
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2009 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-import bootloader, partition
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/commands/bootloader.py b/scripts/lib/wic/3rdparty/pykickstart/commands/bootloader.py
+deleted file mode 100644
+index c2b552f..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/commands/bootloader.py
++++ /dev/null
+@@ -1,216 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.options import *
+-
+-class FC3_Bootloader(KickstartCommand):
+-    removedKeywords = KickstartCommand.removedKeywords
+-    removedAttrs = KickstartCommand.removedAttrs
+-
+-    def __init__(self, writePriority=10, *args, **kwargs):
+-        KickstartCommand.__init__(self, writePriority, *args, **kwargs)
+-        self.op = self._getParser()
+-
+-        self.driveorder = kwargs.get("driveorder", [])
+-        self.appendLine = kwargs.get("appendLine", "")
+-        self.forceLBA = kwargs.get("forceLBA", False)
+-        self.linear = kwargs.get("linear", True)
+-        self.location = kwargs.get("location", "")
+-        self.md5pass = kwargs.get("md5pass", "")
+-        self.password = kwargs.get("password", "")
+-        self.upgrade = kwargs.get("upgrade", False)
+-        self.useLilo = kwargs.get("useLilo", False)
+-
+-        self.deleteRemovedAttrs()
+-
+-    def _getArgsAsStr(self):
+-        retval = ""
+-
+-        if self.appendLine != "":
+-            retval += " --append=\"%s\"" % self.appendLine
+-        if self.linear:
+-            retval += " --linear"
+-        if self.location:
+-            retval += " --location=%s" % self.location
+-        if hasattr(self, "forceLBA") and self.forceLBA:
+-            retval += " --lba32"
+-        if self.password != "":
+-            retval += " --password=\"%s\"" % self.password
+-        if self.md5pass != "":
+-            retval += " --md5pass=\"%s\"" % self.md5pass
+-        if self.upgrade:
+-            retval += " --upgrade"
+-        if self.useLilo:
+-            retval += " --useLilo"
+-        if len(self.driveorder) > 0:
+-            retval += " --driveorder=\"%s\"" % ",".join(self.driveorder)
+-
+-        return retval
+-
+-    def __str__(self):
+-        retval = KickstartCommand.__str__(self)
+-
+-        if self.location != "":
+-            retval += "# System bootloader configuration\nbootloader"
+-            retval += self._getArgsAsStr() + "\n"
+-
+-        return retval
+-
+-    def _getParser(self):
+-        def driveorder_cb (option, opt_str, value, parser):
+-            for d in value.split(','):
+-                parser.values.ensure_value(option.dest, []).append(d)
+-
+-        op = KSOptionParser()
+-        op.add_option("--append", dest="appendLine")
+-        op.add_option("--linear", dest="linear", action="store_true",
+-                      default=True)
+-        op.add_option("--nolinear", dest="linear", action="store_false")
+-        op.add_option("--location", dest="location", type="choice",
+-                      default="mbr",
+-                      choices=["mbr", "partition", "none", "boot"])
+-        op.add_option("--lba32", dest="forceLBA", action="store_true",
+-                      default=False)
+-        op.add_option("--password", dest="password", default="")
+-        op.add_option("--md5pass", dest="md5pass", default="")
+-        op.add_option("--upgrade", dest="upgrade", action="store_true",
+-                      default=False)
+-        op.add_option("--useLilo", dest="useLilo", action="store_true",
+-                      default=False)
+-        op.add_option("--driveorder", dest="driveorder", action="callback",
+-                      callback=driveorder_cb, nargs=1, type="string")
+-        return op
+-
+-    def parse(self, args):
+-        (opts, extra) = self.op.parse_args(args=args, lineno=self.lineno)
+-        self._setToSelf(self.op, opts)
+-
+-        if self.currentCmd == "lilo":
+-            self.useLilo = True
+-
+-        return self
+-
+-class FC4_Bootloader(FC3_Bootloader):
+-    removedKeywords = FC3_Bootloader.removedKeywords + ["linear", "useLilo"]
+-    removedAttrs = FC3_Bootloader.removedAttrs + ["linear", "useLilo"]
+-
+-    def __init__(self, writePriority=10, *args, **kwargs):
+-        FC3_Bootloader.__init__(self, writePriority, *args, **kwargs)
+-
+-    def _getArgsAsStr(self):
+-        retval = ""
+-        if self.appendLine != "":
+-            retval += " --append=\"%s\"" % self.appendLine
+-        if self.location:
+-            retval += " --location=%s" % self.location
+-        if hasattr(self, "forceLBA") and self.forceLBA:
+-            retval += " --lba32"
+-        if self.password != "":
+-            retval += " --password=\"%s\"" % self.password
+-        if self.md5pass != "":
+-            retval += " --md5pass=\"%s\"" % self.md5pass
+-        if self.upgrade:
+-            retval += " --upgrade"
+-        if len(self.driveorder) > 0:
+-            retval += " --driveorder=\"%s\"" % ",".join(self.driveorder)
+-        return retval
+-
+-    def _getParser(self):
+-        op = FC3_Bootloader._getParser(self)
+-        op.remove_option("--linear")
+-        op.remove_option("--nolinear")
+-        op.remove_option("--useLilo")
+-        return op
+-
+-    def parse(self, args):
+-        (opts, extra) = self.op.parse_args(args=args, lineno=self.lineno)
+-        self._setToSelf(self.op, opts)
+-        return self
+-
+-class F8_Bootloader(FC4_Bootloader):
+-    removedKeywords = FC4_Bootloader.removedKeywords
+-    removedAttrs = FC4_Bootloader.removedAttrs
+-
+-    def __init__(self, writePriority=10, *args, **kwargs):
+-        FC4_Bootloader.__init__(self, writePriority, *args, **kwargs)
+-
+-        self.timeout = kwargs.get("timeout", None)
+-        self.default = kwargs.get("default", "")
+-
+-    def _getArgsAsStr(self):
+-        ret = FC4_Bootloader._getArgsAsStr(self)
+-
+-        if self.timeout is not None:
+-            ret += " --timeout=%d" %(self.timeout,)
+-        if self.default:
+-            ret += " --default=%s" %(self.default,)
+-
+-        return ret
+-
+-    def _getParser(self):
+-        op = FC4_Bootloader._getParser(self)
+-        op.add_option("--timeout", dest="timeout", type="int")
+-        op.add_option("--default", dest="default")
+-        return op
+-
+-class F12_Bootloader(F8_Bootloader):
+-    removedKeywords = F8_Bootloader.removedKeywords
+-    removedAttrs = F8_Bootloader.removedAttrs
+-
+-    def _getParser(self):
+-        op = F8_Bootloader._getParser(self)
+-        op.add_option("--lba32", dest="forceLBA", deprecated=1, action="store_true")
+-        return op
+-
+-class F14_Bootloader(F12_Bootloader):
+-    removedKeywords = F12_Bootloader.removedKeywords + ["forceLBA"]
+-    removedAttrs = F12_Bootloader.removedKeywords + ["forceLBA"]
+-
+-    def _getParser(self):
+-        op = F12_Bootloader._getParser(self)
+-        op.remove_option("--lba32")
+-        return op
+-
+-class F15_Bootloader(F14_Bootloader):
+-    removedKeywords = F14_Bootloader.removedKeywords
+-    removedAttrs = F14_Bootloader.removedAttrs
+-
+-    def __init__(self, writePriority=10, *args, **kwargs):
+-        F14_Bootloader.__init__(self, writePriority, *args, **kwargs)
+-
+-        self.isCrypted = kwargs.get("isCrypted", False)
+-
+-    def _getArgsAsStr(self):
+-        ret = F14_Bootloader._getArgsAsStr(self)
+-
+-        if self.isCrypted:
+-            ret += " --iscrypted"
+-
+-        return ret
+-
+-    def _getParser(self):
+-        def password_cb(option, opt_str, value, parser):
+-            parser.values.isCrypted = True
+-            parser.values.password = value
+-
+-        op = F14_Bootloader._getParser(self)
+-        op.add_option("--iscrypted", dest="isCrypted", action="store_true", default=False)
+-        op.add_option("--md5pass", action="callback", callback=password_cb, nargs=1, type="string")
+-        return op
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py b/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
+deleted file mode 100644
+index b564b1a..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
++++ /dev/null
+@@ -1,314 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2005, 2006, 2007, 2008 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.errors import *
+-from pykickstart.options import *
+-
+-import gettext
+-import warnings
+-_ = lambda x: gettext.ldgettext("pykickstart", x)
+-
+-class FC3_PartData(BaseData):
+-    removedKeywords = BaseData.removedKeywords
+-    removedAttrs = BaseData.removedAttrs
+-
+-    def __init__(self, *args, **kwargs):
+-        BaseData.__init__(self, *args, **kwargs)
+-        self.active = kwargs.get("active", False)
+-        self.primOnly = kwargs.get("primOnly", False)
+-        self.end = kwargs.get("end", 0)
+-        self.fstype = kwargs.get("fstype", "")
+-        self.grow = kwargs.get("grow", False)
+-        self.maxSizeMB = kwargs.get("maxSizeMB", 0)
+-        self.format = kwargs.get("format", True)
+-        self.onbiosdisk = kwargs.get("onbiosdisk", "")
+-        self.disk = kwargs.get("disk", "")
+-        self.onPart = kwargs.get("onPart", "")
+-        self.recommended = kwargs.get("recommended", False)
+-        self.size = kwargs.get("size", None)
+-        self.start = kwargs.get("start", 0)
+-        self.mountpoint = kwargs.get("mountpoint", "")
+-
+-    def __eq__(self, y):
+-        if self.mountpoint:
+-            return self.mountpoint == y.mountpoint
+-        else:
+-            return False
+-
+-    def _getArgsAsStr(self):
+-        retval = ""
+-
+-        if self.active:
+-            retval += " --active"
+-        if self.primOnly:
+-            retval += " --asprimary"
+-        if hasattr(self, "end") and self.end != 0:
+-            retval += " --end=%s" % self.end
+-        if self.fstype != "":
+-            retval += " --fstype=\"%s\"" % self.fstype
+-        if self.grow:
+-            retval += " --grow"
+-        if self.maxSizeMB > 0:
+-            retval += " --maxsize=%d" % self.maxSizeMB
+-        if not self.format:
+-            retval += " --noformat"
+-        if self.onbiosdisk != "":
+-            retval += " --onbiosdisk=%s" % self.onbiosdisk
+-        if self.disk != "":
+-            retval += " --ondisk=%s" % self.disk
+-        if self.onPart != "":
+-            retval += " --onpart=%s" % self.onPart
+-        if self.recommended:
+-            retval += " --recommended"
+-        if self.size and self.size != 0:
+-            retval += " --size=%sk" % self.size
+-        if hasattr(self, "start") and self.start != 0:
+-            retval += " --start=%s" % self.start
+-
+-        return retval
+-
+-    def __str__(self):
+-        retval = BaseData.__str__(self)
+-        if self.mountpoint:
+-            mountpoint_str = "%s" % self.mountpoint
+-        else:
+-            mountpoint_str = "(No mount point)"
+-        retval += "part %s%s\n" % (mountpoint_str, self._getArgsAsStr())
+-        return retval
+-
+-class FC4_PartData(FC3_PartData):
+-    removedKeywords = FC3_PartData.removedKeywords
+-    removedAttrs = FC3_PartData.removedAttrs
+-
+-    def __init__(self, *args, **kwargs):
+-        FC3_PartData.__init__(self, *args, **kwargs)
+-        self.bytesPerInode = kwargs.get("bytesPerInode", 4096)
+-        self.fsopts = kwargs.get("fsopts", "")
+-        self.label = kwargs.get("label", "")
+-
+-    def _getArgsAsStr(self):
+-        retval = FC3_PartData._getArgsAsStr(self)
+-
+-        if hasattr(self, "bytesPerInode") and self.bytesPerInode != 0:
+-            retval += " --bytes-per-inode=%d" % self.bytesPerInode
+-        if self.fsopts != "":
+-            retval += " --fsoptions=\"%s\"" % self.fsopts
+-        if self.label != "":
+-            retval += " --label=%s" % self.label
+-
+-        return retval
+-
+-class F9_PartData(FC4_PartData):
+-    removedKeywords = FC4_PartData.removedKeywords + ["bytesPerInode"]
+-    removedAttrs = FC4_PartData.removedAttrs + ["bytesPerInode"]
+-
+-    def __init__(self, *args, **kwargs):
+-        FC4_PartData.__init__(self, *args, **kwargs)
+-        self.deleteRemovedAttrs()
+-
+-        self.fsopts = kwargs.get("fsopts", "")
+-        self.label = kwargs.get("label", "")
+-        self.fsprofile = kwargs.get("fsprofile", "")
+-        self.encrypted = kwargs.get("encrypted", False)
+-        self.passphrase = kwargs.get("passphrase", "")
+-
+-    def _getArgsAsStr(self):
+-        retval = FC4_PartData._getArgsAsStr(self)
+-
+-        if self.fsprofile != "":
+-            retval += " --fsprofile=\"%s\"" % self.fsprofile
+-        if self.encrypted:
+-            retval += " --encrypted"
+-
+-            if self.passphrase != "":
+-                retval += " --passphrase=\"%s\"" % self.passphrase
+-
+-        return retval
+-
+-class F11_PartData(F9_PartData):
+-    removedKeywords = F9_PartData.removedKeywords + ["start", "end"]
+-    removedAttrs = F9_PartData.removedAttrs + ["start", "end"]
+-
+-class F12_PartData(F11_PartData):
+-    removedKeywords = F11_PartData.removedKeywords
+-    removedAttrs = F11_PartData.removedAttrs
+-
+-    def __init__(self, *args, **kwargs):
+-        F11_PartData.__init__(self, *args, **kwargs)
+-
+-        self.escrowcert = kwargs.get("escrowcert", "")
+-        self.backuppassphrase = kwargs.get("backuppassphrase", False)
+-
+-    def _getArgsAsStr(self):
+-        retval = F11_PartData._getArgsAsStr(self)
+-
+-        if self.encrypted and self.escrowcert != "":
+-            retval += " --escrowcert=\"%s\"" % self.escrowcert
+-
+-            if self.backuppassphrase:
+-                retval += " --backuppassphrase"
+-
+-        return retval
+-
+-F14_PartData = F12_PartData
+-
+-class FC3_Partition(KickstartCommand):
+-    removedKeywords = KickstartCommand.removedKeywords
+-    removedAttrs = KickstartCommand.removedAttrs
+-
+-    def __init__(self, writePriority=130, *args, **kwargs):
+-        KickstartCommand.__init__(self, writePriority, *args, **kwargs)
+-        self.op = self._getParser()
+-
+-        self.partitions = kwargs.get("partitions", [])
+-
+-    def __str__(self):
+-        retval = ""
+-
+-        for part in self.partitions:
+-            retval += part.__str__()
+-
+-        if retval != "":
+-            return "# Disk partitioning information\n" + retval
+-        else:
+-            return ""
+-
+-    def _getParser(self):
+-        def part_cb (option, opt_str, value, parser):
+-            if value.startswith("/dev/"):
+-                parser.values.ensure_value(option.dest, value[5:])
+-            else:
+-                parser.values.ensure_value(option.dest, value)
+-
+-        op = KSOptionParser()
+-        op.add_option("--active", dest="active", action="store_true",
+-                      default=False)
+-        op.add_option("--asprimary", dest="primOnly", action="store_true",
+-                      default=False)
+-        op.add_option("--end", dest="end", action="store", type="int",
+-                      nargs=1)
+-        op.add_option("--fstype", "--type", dest="fstype")
+-        op.add_option("--grow", dest="grow", action="store_true", default=False)
+-        op.add_option("--maxsize", dest="maxSizeMB", action="store", type="int",
+-                      nargs=1)
+-        op.add_option("--noformat", dest="format", action="store_false",
+-                      default=True)
+-        op.add_option("--onbiosdisk", dest="onbiosdisk")
+-        op.add_option("--ondisk", "--ondrive", dest="disk")
+-        op.add_option("--onpart", "--usepart", dest="onPart", action="callback",
+-                      callback=part_cb, nargs=1, type="string")
+-        op.add_option("--recommended", dest="recommended", action="store_true",
+-                      default=False)
+-        op.add_option("--size", dest="size", action="store", type="size",
+-                      nargs=1)
+-        op.add_option("--start", dest="start", action="store", type="int",
+-                      nargs=1)
+-        return op
+-
+-    def parse(self, args):
+-        (opts, extra) = self.op.parse_args(args=args, lineno=self.lineno)
+-
+-        pd = self.handler.PartData()
+-        self._setToObj(self.op, opts, pd)
+-        pd.lineno = self.lineno
+-        if extra:
+-            pd.mountpoint = extra[0]
+-            if pd in self.dataList():
+-                warnings.warn(_("A partition with the mountpoint %s has already been defined.") % pd.mountpoint)
+-        else:
+-            pd.mountpoint = None
+-
+-        return pd
+-
+-    def dataList(self):
+-        return self.partitions
+-
+-class FC4_Partition(FC3_Partition):
+-    removedKeywords = FC3_Partition.removedKeywords
+-    removedAttrs = FC3_Partition.removedAttrs
+-
+-    def __init__(self, writePriority=130, *args, **kwargs):
+-        FC3_Partition.__init__(self, writePriority, *args, **kwargs)
+-
+-        def part_cb (option, opt_str, value, parser):
+-            if value.startswith("/dev/"):
+-                parser.values.ensure_value(option.dest, value[5:])
+-            else:
+-                parser.values.ensure_value(option.dest, value)
+-
+-    def _getParser(self):
+-        op = FC3_Partition._getParser(self)
+-        op.add_option("--bytes-per-inode", dest="bytesPerInode", action="store",
+-                      type="int", nargs=1)
+-        op.add_option("--fsoptions", dest="fsopts")
+-        op.add_option("--label", dest="label")
+-        return op
+-
+-class F9_Partition(FC4_Partition):
+-    removedKeywords = FC4_Partition.removedKeywords
+-    removedAttrs = FC4_Partition.removedAttrs
+-
+-    def __init__(self, writePriority=130, *args, **kwargs):
+-        FC4_Partition.__init__(self, writePriority, *args, **kwargs)
+-
+-        def part_cb (option, opt_str, value, parser):
+-            if value.startswith("/dev/"):
+-                parser.values.ensure_value(option.dest, value[5:])
+-            else:
+-                parser.values.ensure_value(option.dest, value)
+-
+-    def _getParser(self):
+-        op = FC4_Partition._getParser(self)
+-        op.add_option("--bytes-per-inode", deprecated=1)
+-        op.add_option("--fsprofile")
+-        op.add_option("--encrypted", action="store_true", default=False)
+-        op.add_option("--passphrase")
+-        return op
+-
+-class F11_Partition(F9_Partition):
+-    removedKeywords = F9_Partition.removedKeywords
+-    removedAttrs = F9_Partition.removedAttrs
+-
+-    def _getParser(self):
+-        op = F9_Partition._getParser(self)
+-        op.add_option("--start", deprecated=1)
+-        op.add_option("--end", deprecated=1)
+-        return op
+-
+-class F12_Partition(F11_Partition):
+-    removedKeywords = F11_Partition.removedKeywords
+-    removedAttrs = F11_Partition.removedAttrs
+-
+-    def _getParser(self):
+-        op = F11_Partition._getParser(self)
+-        op.add_option("--escrowcert")
+-        op.add_option("--backuppassphrase", action="store_true", default=False)
+-        return op
+-
+-class F14_Partition(F12_Partition):
+-    removedKeywords = F12_Partition.removedKeywords
+-    removedAttrs = F12_Partition.removedAttrs
+-
+-    def _getParser(self):
+-        op = F12_Partition._getParser(self)
+-        op.remove_option("--bytes-per-inode")
+-        op.remove_option("--start")
+-        op.remove_option("--end")
+-        return op
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/constants.py b/scripts/lib/wic/3rdparty/pykickstart/constants.py
+deleted file mode 100644
+index 5e12fc8..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/constants.py
++++ /dev/null
+@@ -1,57 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2005-2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-CLEARPART_TYPE_LINUX = 0
+-CLEARPART_TYPE_ALL = 1
+-CLEARPART_TYPE_NONE = 2
+-
+-DISPLAY_MODE_CMDLINE = 0
+-DISPLAY_MODE_GRAPHICAL = 1
+-DISPLAY_MODE_TEXT = 2
+-
+-FIRSTBOOT_DEFAULT = 0
+-FIRSTBOOT_SKIP = 1
+-FIRSTBOOT_RECONFIG = 2
+-
+-KS_MISSING_PROMPT = 0
+-KS_MISSING_IGNORE = 1
+-
+-SELINUX_DISABLED = 0
+-SELINUX_ENFORCING = 1
+-SELINUX_PERMISSIVE = 2
+-
+-KS_SCRIPT_PRE = 0
+-KS_SCRIPT_POST = 1
+-KS_SCRIPT_TRACEBACK = 2
+-
+-KS_WAIT = 0
+-KS_REBOOT = 1
+-KS_SHUTDOWN = 2
+-
+-KS_INSTKEY_SKIP = -99
+-
+-BOOTPROTO_DHCP = "dhcp"
+-BOOTPROTO_BOOTP = "bootp"
+-BOOTPROTO_STATIC = "static"
+-BOOTPROTO_QUERY = "query"
+-BOOTPROTO_IBFT = "ibft"
+-
+-GROUP_REQUIRED = 0
+-GROUP_DEFAULT = 1
+-GROUP_ALL = 2
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/errors.py b/scripts/lib/wic/3rdparty/pykickstart/errors.py
+deleted file mode 100644
+index a234d99..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/errors.py
++++ /dev/null
+@@ -1,103 +0,0 @@
+-#
+-# errors.py:  Kickstart error handling.
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-Error handling classes and functions.
+-
+-This module exports a single function:
+-
+-    formatErrorMsg - Properly formats an error message.
+-
+-It also exports several exception classes:
+-
+-    KickstartError - A generic exception class.
+-
+-    KickstartParseError - An exception for errors relating to parsing.
+-
+-    KickstartValueError - An exception for errors relating to option
+-                          processing.
+-
+-    KickstartVersionError - An exception for errors relating to unsupported
+-                            syntax versions.
+-"""
+-import gettext
+-_ = lambda x: gettext.ldgettext("pykickstart", x)
+-
+-def formatErrorMsg(lineno, msg=""):
+-    """Properly format the error message msg for inclusion in an exception."""
+-    if msg != "":
+-        mapping = {"lineno": lineno, "msg": msg}
+-        return _("The following problem occurred on line %(lineno)s of the kickstart file:\n\n%(msg)s\n") % mapping
+-    else:
+-        return _("There was a problem reading from line %s of the kickstart file") % lineno
+-
+-class KickstartError(Exception):
+-    """A generic exception class for unspecific error conditions."""
+-    def __init__(self, val = ""):
+-        """Create a new KickstartError exception instance with the descriptive
+-           message val.  val should be the return value of formatErrorMsg.
+-        """
+-        Exception.__init__(self)
+-        self.value = val
+-
+-    def __str__ (self):
+-        return self.value
+-
+-class KickstartParseError(KickstartError):
+-    """An exception class for errors when processing the input file, such as
+-       unknown options, commands, or sections.
+-    """
+-    def __init__(self, msg):
+-        """Create a new KickstartParseError exception instance with the
+-           descriptive message val.  val should be the return value of
+-           formatErrorMsg.
+-        """
+-        KickstartError.__init__(self, msg)
+-
+-    def __str__(self):
+-        return self.value
+-
+-class KickstartValueError(KickstartError):
+-    """An exception class for errors when processing arguments to commands,
+-       such as too many arguments, too few arguments, or missing required
+-       arguments.
+-    """
+-    def __init__(self, msg):
+-        """Create a new KickstartValueError exception instance with the
+-           descriptive message val.  val should be the return value of
+-           formatErrorMsg.
+-        """
+-        KickstartError.__init__(self, msg)
+-
+-    def __str__ (self):
+-        return self.value
+-
+-class KickstartVersionError(KickstartError):
+-    """An exception class for errors related to using an incorrect version of
+-       kickstart syntax.
+-    """
+-    def __init__(self, msg):
+-        """Create a new KickstartVersionError exception instance with the
+-           descriptive message val.  val should be the return value of
+-           formatErrorMsg.
+-        """
+-        KickstartError.__init__(self, msg)
+-
+-    def __str__ (self):
+-        return self.value
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/handlers/__init__.py b/scripts/lib/wic/3rdparty/pykickstart/handlers/__init__.py
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/handlers/control.py b/scripts/lib/wic/3rdparty/pykickstart/handlers/control.py
+deleted file mode 100644
+index 8dc80d1..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/handlers/control.py
++++ /dev/null
+@@ -1,46 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007, 2008, 2009, 2010 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.version import *
+-from pykickstart.commands import *
+-
+-# This map is keyed on kickstart syntax version as provided by
+-# pykickstart.version.  Within each sub-dict is a mapping from command name
+-# to the class that handles it.  This is an onto mapping - that is, multiple
+-# command names can map to the same class.  However, the Handler will ensure
+-# that only one instance of each class ever exists.
+-commandMap = {
+-    # based on f15
+-    F16: {
+-        "bootloader": bootloader.F15_Bootloader,
+-        "part": partition.F14_Partition,
+-        "partition": partition.F14_Partition,
+-    },
+-}
+-
+-# This map is keyed on kickstart syntax version as provided by
+-# pykickstart.version.  Within each sub-dict is a mapping from a data object
+-# name to the class that provides it.  This is a bijective mapping - that is,
+-# each name maps to exactly one data class and all data classes have a name.
+-# More than one instance of each class is allowed to exist, however.
+-dataMap = {
+-    F16: {
+-        "PartData": partition.F14_PartData,
+-    },
+-}
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/handlers/f16.py b/scripts/lib/wic/3rdparty/pykickstart/handlers/f16.py
+deleted file mode 100644
+index 3c52f8d..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/handlers/f16.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2011 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
+-
+-class F16Handler(BaseHandler):
+-    version = F16
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/ko.py b/scripts/lib/wic/3rdparty/pykickstart/ko.py
+deleted file mode 100644
+index 1350d19..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/ko.py
++++ /dev/null
+@@ -1,37 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2009 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-Base classes for internal pykickstart use.
+-
+-The module exports the following important classes:
+-
+-    KickstartObject - The base class for all classes in pykickstart
+-"""
+-
+-class KickstartObject(object):
+-    """The base class for all other classes in pykickstart."""
+-    def __init__(self, *args, **kwargs):
+-        """Create a new KickstartObject instance.  All other classes in
+-           pykickstart should be derived from this one.  Instance attributes:
+-        """
+-        pass
+-
+-    def __str__(self):
+-        return ""
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/options.py b/scripts/lib/wic/3rdparty/pykickstart/options.py
+deleted file mode 100644
+index ebc23ed..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/options.py
++++ /dev/null
+@@ -1,223 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2005, 2006, 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-Specialized option handling.
+-
+-This module exports two classes:
+-
+-    KSOptionParser - A specialized subclass of OptionParser to be used
+-                     in BaseHandler subclasses.
+-
+-    KSOption - A specialized subclass of Option.
+-"""
+-import warnings
+-from copy import copy
+-from optparse import *
+-
+-from constants import *
+-from errors import *
+-from version import *
+-
+-import gettext
+-_ = lambda x: gettext.ldgettext("pykickstart", x)
+-
+-class KSOptionParser(OptionParser):
+-    """A specialized subclass of optparse.OptionParser to handle extra option
+-       attribute checking, work error reporting into the KickstartParseError
+-       framework, and to turn off the default help.
+-    """
+-    def exit(self, status=0, msg=None):
+-        pass
+-
+-    def error(self, msg):
+-        if self.lineno != None:
+-            raise KickstartParseError, formatErrorMsg(self.lineno, msg=msg)
+-        else:
+-            raise KickstartParseError, msg
+-
+-    def keys(self):
+-        retval = []
+-
+-        for opt in self.option_list:
+-            if opt not in retval:
+-                retval.append(opt.dest)
+-
+-        return retval
+-
+-    def _init_parsing_state (self):
+-        OptionParser._init_parsing_state(self)
+-        self.option_seen = {}
+-
+-    def check_values (self, values, args):
+-        def seen(self, option):
+-            return self.option_seen.has_key(option)
+-
+-        def usedTooNew(self, option):
+-            return option.introduced and option.introduced > self.version
+-
+-        def usedDeprecated(self, option):
+-            return option.deprecated
+-
+-        def usedRemoved(self, option):
+-            return option.removed and option.removed <= self.version
+-
+-        for option in filter(lambda o: isinstance(o, Option), self.option_list):
+-            if option.required and not seen(self, option):
+-                raise KickstartValueError, formatErrorMsg(self.lineno, _("Option %s is required") % option)
+-            elif seen(self, option) and usedTooNew(self, option):
+-                mapping = {"option": option, "intro": versionToString(option.introduced),
+-                           "version": versionToString(self.version)}
+-                self.error(_("The %(option)s option was introduced in version %(intro)s, but you are using kickstart syntax version %(version)s.") % mapping)
+-            elif seen(self, option) and usedRemoved(self, option):
+-                mapping = {"option": option, "removed": versionToString(option.removed),
+-                           "version": versionToString(self.version)}
+-
+-                if option.removed == self.version:
+-                    self.error(_("The %(option)s option is no longer supported.") % mapping)
+-                else:
+-                    self.error(_("The %(option)s option was removed in version %(removed)s, but you are using kickstart syntax version %(version)s.") % mapping)
+-            elif seen(self, option) and usedDeprecated(self, option):
+-                mapping = {"lineno": self.lineno, "option": option}
+-                warnings.warn(_("Ignoring deprecated option on line %(lineno)s:  The %(option)s option has been deprecated and no longer has any effect.  It may be removed from future releases, which will result in a fatal error from kickstart.  Please modify your kickstart file to remove this option.") % mapping, DeprecationWarning)
+-
+-        return (values, args)
+-
+-    def parse_args(self, *args, **kwargs):
+-        if kwargs.has_key("lineno"):
+-            self.lineno = kwargs.pop("lineno")
+-
+-        return OptionParser.parse_args(self, **kwargs)
+-
+-    def __init__(self, mapping=None, version=None):
+-        """Create a new KSOptionParser instance.  Each KickstartCommand
+-           subclass should create one instance of KSOptionParser, providing
+-           at least the lineno attribute.  mapping and version are not required.
+-           Instance attributes:
+-
+-           mapping -- A mapping from option strings to different values.
+-           version -- The version of the kickstart syntax we are checking
+-                      against.
+-        """
+-        OptionParser.__init__(self, option_class=KSOption,
+-                              add_help_option=False,
+-                              conflict_handler="resolve")
+-        if mapping is None:
+-            self.map = {}
+-        else:
+-            self.map = mapping
+-
+-        self.lineno = None
+-        self.option_seen = {}
+-        self.version = version
+-
+-def _check_ksboolean(option, opt, value):
+-    if value.lower() in ("on", "yes", "true", "1"):
+-        return True
+-    elif value.lower() in ("off", "no", "false", "0"):
+-        return False
+-    else:
+-        mapping = {"opt": opt, "value": value}
+-        raise OptionValueError(_("Option %(opt)s: invalid boolean value: %(value)r") % mapping)
+-
+-def _check_string(option, opt, value):
+-    if len(value) > 2 and value.startswith("--"):
+-        mapping = {"opt": opt, "value": value}
+-        raise OptionValueError(_("Option %(opt)s: invalid string value: %(value)r") % mapping)
+-    else:
+-        return value
+-
+-def _check_size(option, opt, value):
+-    # Former default was MB
+-    if value.isdigit():
+-        return int(value) * 1024L
+-
+-    mapping = {"opt": opt, "value": value}
+-    if not value[:-1].isdigit():
+-        raise OptionValueError(_("Option %(opt)s: invalid size value: %(value)r") % mapping)
+-
+-    size = int(value[:-1])
+-    if value.endswith("k") or value.endswith("K"):
+-        return size
+-    if value.endswith("M"):
+-        return size * 1024L
+-    if value.endswith("G"):
+-        return size * 1024L * 1024L
+-    raise OptionValueError(_("Option %(opt)s: invalid size value: %(value)r") % mapping)
+-
+-# Creates a new Option class that supports several new attributes:
+-# - required:  any option with this attribute must be supplied or an exception
+-#              is thrown
+-# - introduced:  the kickstart syntax version that this option first appeared
+-#                in - an exception will be raised if the option is used and
+-#                the specified syntax version is less than the value of this
+-#                attribute
+-# - deprecated:  the kickstart syntax version that this option was deprecated
+-#                in - a DeprecationWarning will be thrown if the option is
+-#                used and the specified syntax version is greater than the
+-#                value of this attribute
+-# - removed:  the kickstart syntax version that this option was removed in - an
+-#             exception will be raised if the option is used and the specified
+-#             syntax version is greated than the value of this attribute
+-# Also creates a new type:
+-# - ksboolean:  support various kinds of boolean values on an option
+-# And two new actions:
+-# - map :  allows you to define an opt -> val mapping such that dest gets val
+-#          when opt is seen
+-# - map_extend:  allows you to define an opt -> [val1, ... valn] mapping such
+-#                that dest gets a list of vals built up when opt is seen
+-class KSOption (Option):
+-    ATTRS = Option.ATTRS + ['introduced', 'deprecated', 'removed', 'required']
+-    ACTIONS = Option.ACTIONS + ("map", "map_extend",)
+-    STORE_ACTIONS = Option.STORE_ACTIONS + ("map", "map_extend",)
+-
+-    TYPES = Option.TYPES + ("ksboolean", "string", "size")
+-    TYPE_CHECKER = copy(Option.TYPE_CHECKER)
+-    TYPE_CHECKER["ksboolean"] = _check_ksboolean
+-    TYPE_CHECKER["string"] = _check_string
+-    TYPE_CHECKER["size"] = _check_size
+-
+-    def _check_required(self):
+-        if self.required and not self.takes_value():
+-            raise OptionError(_("Required flag set for option that doesn't take a value"), self)
+-
+-    # Make sure _check_required() is called from the constructor!
+-    CHECK_METHODS = Option.CHECK_METHODS + [_check_required]
+-
+-    def process (self, opt, value, values, parser):
+-        Option.process(self, opt, value, values, parser)
+-        parser.option_seen[self] = 1
+-
+-    # Override default take_action method to handle our custom actions.
+-    def take_action(self, action, dest, opt, value, values, parser):
+-        if action == "map":
+-            values.ensure_value(dest, parser.map[opt.lstrip('-')])
+-        elif action == "map_extend":
+-            values.ensure_value(dest, []).extend(parser.map[opt.lstrip('-')])
+-        else:
+-            Option.take_action(self, action, dest, opt, value, values, parser)
+-
+-    def takes_value(self):
+-        # Deprecated options don't take a value.
+-        return Option.takes_value(self) and not self.deprecated
+-
+-    def __init__(self, *args, **kwargs):
+-        self.deprecated = False
+-        self.required = False
+-        Option.__init__(self, *args, **kwargs)
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/parser.py b/scripts/lib/wic/3rdparty/pykickstart/parser.py
+deleted file mode 100644
+index 9c9674b..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/parser.py
++++ /dev/null
+@@ -1,619 +0,0 @@
+-#
+-# parser.py:  Kickstart file parser.
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2005, 2006, 2007, 2008, 2011 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-Main kickstart file processing module.
+-
+-This module exports several important classes:
+-
+-    Script - Representation of a single %pre, %post, or %traceback script.
+-
+-    Packages - Representation of the %packages section.
+-
+-    KickstartParser - The kickstart file parser state machine.
+-"""
+-
+-from collections import Iterator
+-import os
+-import shlex
+-import sys
+-import tempfile
+-from copy import copy
+-from optparse import *
+-
+-import constants
+-from errors import KickstartError, KickstartParseError, KickstartValueError, formatErrorMsg
+-from ko import KickstartObject
+-from sections import *
+-import version
+-
+-import gettext
+-_ = lambda x: gettext.ldgettext("pykickstart", x)
+-
+-STATE_END = "end"
+-STATE_COMMANDS = "commands"
+-
+-ver = version.DEVEL
+-
+-
+-class PutBackIterator(Iterator):
+-    def __init__(self, iterable):
+-        self._iterable = iter(iterable)
+-        self._buf = None
+-
+-    def __iter__(self):
+-        return self
+-
+-    def put(self, s):
+-        self._buf = s
+-
+-    def next(self):
+-        if self._buf:
+-            retval = self._buf
+-            self._buf = None
+-            return retval
+-        else:
+-            return self._iterable.next()
+-
+-###
+-### SCRIPT HANDLING
+-###
+-class Script(KickstartObject):
+-    """A class representing a single kickstart script.  If functionality beyond
+-       just a data representation is needed (for example, a run method in
+-       anaconda), Script may be subclassed.  Although a run method is not
+-       provided, most of the attributes of Script have to do with running the
+-       script.  Instances of Script are held in a list by the Version object.
+-    """
+-    def __init__(self, script, *args , **kwargs):
+-        """Create a new Script instance.  Instance attributes:
+-
+-           errorOnFail -- If execution of the script fails, should anaconda
+-                          stop, display an error, and then reboot without
+-                          running any other scripts?
+-           inChroot    -- Does the script execute in anaconda's chroot
+-                          environment or not?
+-           interp      -- The program that should be used to interpret this
+-                          script.
+-           lineno      -- The line number this script starts on.
+-           logfile     -- Where all messages from the script should be logged.
+-           script      -- A string containing all the lines of the script.
+-           type        -- The type of the script, which can be KS_SCRIPT_* from
+-                          pykickstart.constants.
+-        """
+-        KickstartObject.__init__(self, *args, **kwargs)
+-        self.script = "".join(script)
+-
+-        self.interp = kwargs.get("interp", "/bin/sh")
+-        self.inChroot = kwargs.get("inChroot", False)
+-        self.lineno = kwargs.get("lineno", None)
+-        self.logfile = kwargs.get("logfile", None)
+-        self.errorOnFail = kwargs.get("errorOnFail", False)
+-        self.type = kwargs.get("type", constants.KS_SCRIPT_PRE)
+-
+-    def __str__(self):
+-        """Return a string formatted for output to a kickstart file."""
+-        retval = ""
+-
+-        if self.type == constants.KS_SCRIPT_PRE:
+-            retval += '\n%pre'
+-        elif self.type == constants.KS_SCRIPT_POST:
+-            retval += '\n%post'
+-        elif self.type == constants.KS_SCRIPT_TRACEBACK:
+-            retval += '\n%traceback'
+-
+-        if self.interp != "/bin/sh" and self.interp != "":
+-            retval += " --interpreter=%s" % self.interp
+-        if self.type == constants.KS_SCRIPT_POST and not self.inChroot:
+-            retval += " --nochroot"
+-        if self.logfile != None:
+-            retval += " --logfile %s" % self.logfile
+-        if self.errorOnFail:
+-            retval += " --erroronfail"
+-
+-        if self.script.endswith("\n"):
+-            if ver >= version.F8:
+-                return retval + "\n%s%%end\n" % self.script
+-            else:
+-                return retval + "\n%s\n" % self.script
+-        else:
+-            if ver >= version.F8:
+-                return retval + "\n%s\n%%end\n" % self.script
+-            else:
+-                return retval + "\n%s\n" % self.script
+-
+-
+-##
+-## PACKAGE HANDLING
+-##
+-class Group:
+-    """A class representing a single group in the %packages section."""
+-    def __init__(self, name="", include=constants.GROUP_DEFAULT):
+-        """Create a new Group instance.  Instance attributes:
+-
+-           name    -- The group's identifier
+-           include -- The level of how much of the group should be included.
+-                      Values can be GROUP_* from pykickstart.constants.
+-        """
+-        self.name = name
+-        self.include = include
+-
+-    def __str__(self):
+-        """Return a string formatted for output to a kickstart file."""
+-        if self.include == constants.GROUP_REQUIRED:
+-            return "@%s --nodefaults" % self.name
+-        elif self.include == constants.GROUP_ALL:
+-            return "@%s --optional" % self.name
+-        else:
+-            return "@%s" % self.name
+-
+-    def __cmp__(self, other):
+-        if self.name < other.name:
+-            return -1
+-        elif self.name > other.name:
+-            return 1
+-        return 0
+-
+-class Packages(KickstartObject):
+-    """A class representing the %packages section of the kickstart file."""
+-    def __init__(self, *args, **kwargs):
+-        """Create a new Packages instance.  Instance attributes:
+-
+-           addBase       -- Should the Base group be installed even if it is
+-                            not specified?
+-           default       -- Should the default package set be selected?
+-           excludedList  -- A list of all the packages marked for exclusion in
+-                            the %packages section, without the leading minus
+-                            symbol.
+-           excludeDocs   -- Should documentation in each package be excluded?
+-           groupList     -- A list of Group objects representing all the groups
+-                            specified in the %packages section.  Names will be
+-                            stripped of the leading @ symbol.
+-           excludedGroupList -- A list of Group objects representing all the
+-                                groups specified for removal in the %packages
+-                                section.  Names will be stripped of the leading
+-                                -@ symbols.
+-           handleMissing -- If unknown packages are specified in the %packages
+-                            section, should it be ignored or not?  Values can
+-                            be KS_MISSING_* from pykickstart.constants.
+-           packageList   -- A list of all the packages specified in the
+-                            %packages section.
+-           instLangs     -- A list of languages to install.
+-        """
+-        KickstartObject.__init__(self, *args, **kwargs)
+-
+-        self.addBase = True
+-        self.default = False
+-        self.excludedList = []
+-        self.excludedGroupList = []
+-        self.excludeDocs = False
+-        self.groupList = []
+-        self.handleMissing = constants.KS_MISSING_PROMPT
+-        self.packageList = []
+-        self.instLangs = None
+-
+-    def __str__(self):
+-        """Return a string formatted for output to a kickstart file."""
+-        pkgs = ""
+-
+-        if not self.default:
+-            grps = self.groupList
+-            grps.sort()
+-            for grp in grps:
+-                pkgs += "%s\n" % grp.__str__()
+-
+-            p = self.packageList
+-            p.sort()
+-            for pkg in p:
+-                pkgs += "%s\n" % pkg
+-
+-            grps = self.excludedGroupList
+-            grps.sort()
+-            for grp in grps:
+-                pkgs += "-%s\n" % grp.__str__()
+-
+-            p = self.excludedList
+-            p.sort()
+-            for pkg in p:
+-                pkgs += "-%s\n" % pkg
+-
+-            if pkgs == "":
+-                return ""
+-
+-        retval = "\n%packages"
+-
+-        if self.default:
+-            retval += " --default"
+-        if self.excludeDocs:
+-            retval += " --excludedocs"
+-        if not self.addBase:
+-            retval += " --nobase"
+-        if self.handleMissing == constants.KS_MISSING_IGNORE:
+-            retval += " --ignoremissing"
+-        if self.instLangs:
+-            retval += " --instLangs=%s" % self.instLangs
+-
+-        if ver >= version.F8:
+-            return retval + "\n" + pkgs + "\n%end\n"
+-        else:
+-            return retval + "\n" + pkgs + "\n"
+-
+-    def _processGroup (self, line):
+-        op = OptionParser()
+-        op.add_option("--nodefaults", action="store_true", default=False)
+-        op.add_option("--optional", action="store_true", default=False)
+-
+-        (opts, extra) = op.parse_args(args=line.split())
+-
+-        if opts.nodefaults and opts.optional:
+-            raise KickstartValueError, _("Group cannot specify both --nodefaults and --optional")
+-
+-        # If the group name has spaces in it, we have to put it back together
+-        # now.
+-        grp = " ".join(extra)
+-
+-        if opts.nodefaults:
+-            self.groupList.append(Group(name=grp, include=constants.GROUP_REQUIRED))
+-        elif opts.optional:
+-            self.groupList.append(Group(name=grp, include=constants.GROUP_ALL))
+-        else:
+-            self.groupList.append(Group(name=grp, include=constants.GROUP_DEFAULT))
+-
+-    def add (self, pkgList):
+-        """Given a list of lines from the input file, strip off any leading
+-           symbols and add the result to the appropriate list.
+-        """
+-        existingExcludedSet = set(self.excludedList)
+-        existingPackageSet = set(self.packageList)
+-        newExcludedSet = set()
+-        newPackageSet = set()
+-
+-        excludedGroupList = []
+-
+-        for pkg in pkgList:
+-            stripped = pkg.strip()
+-
+-            if stripped[0] == "@":
+-                self._processGroup(stripped[1:])
+-            elif stripped[0] == "-":
+-                if stripped[1] == "@":
+-                    excludedGroupList.append(Group(name=stripped[2:]))
+-                else:
+-                    newExcludedSet.add(stripped[1:])
+-            else:
+-                newPackageSet.add(stripped)
+-
+-        # Groups have to be excluded in two different ways (note: can't use
+-        # sets here because we have to store objects):
+-        excludedGroupNames = map(lambda g: g.name, excludedGroupList)
+-
+-        # First, an excluded group may be cancelling out a previously given
+-        # one.  This is often the case when using %include.  So there we should
+-        # just remove the group from the list.
+-        self.groupList = filter(lambda g: g.name not in excludedGroupNames, self.groupList)
+-
+-        # Second, the package list could have included globs which are not
+-        # processed by pykickstart.  In that case we need to preserve a list of
+-        # excluded groups so whatever tool doing package/group installation can
+-        # take appropriate action.
+-        self.excludedGroupList.extend(excludedGroupList)
+-
+-        existingPackageSet = (existingPackageSet - newExcludedSet) | newPackageSet
+-        existingExcludedSet = (existingExcludedSet - existingPackageSet) | newExcludedSet
+-
+-        self.packageList = list(existingPackageSet)
+-        self.excludedList = list(existingExcludedSet)
+-
+-
+-###
+-### PARSER
+-###
+-class KickstartParser:
+-    """The kickstart file parser class as represented by a basic state
+-       machine.  To create a specialized parser, make a subclass and override
+-       any of the methods you care about.  Methods that don't need to do
+-       anything may just pass.  However, _stateMachine should never be
+-       overridden.
+-    """
+-    def __init__ (self, handler, followIncludes=True, errorsAreFatal=True,
+-                  missingIncludeIsFatal=True):
+-        """Create a new KickstartParser instance.  Instance attributes:
+-
+-           errorsAreFatal        -- Should errors cause processing to halt, or
+-                                    just print a message to the screen?  This
+-                                    is most useful for writing syntax checkers
+-                                    that may want to continue after an error is
+-                                    encountered.
+-           followIncludes        -- If %include is seen, should the included
+-                                    file be checked as well or skipped?
+-           handler               -- An instance of a BaseHandler subclass.  If
+-                                    None, the input file will still be parsed
+-                                    but no data will be saved and no commands
+-                                    will be executed.
+-           missingIncludeIsFatal -- Should missing include files be fatal, even
+-                                    if errorsAreFatal is False?
+-        """
+-        self.errorsAreFatal = errorsAreFatal
+-        self.followIncludes = followIncludes
+-        self.handler = handler
+-        self.currentdir = {}
+-        self.missingIncludeIsFatal = missingIncludeIsFatal
+-
+-        self._state = STATE_COMMANDS
+-        self._includeDepth = 0
+-        self._line = ""
+-
+-        self.version = self.handler.version
+-
+-        global ver
+-        ver = self.version
+-
+-        self._sections = {}
+-        self.setupSections()
+-
+-    def _reset(self):
+-        """Reset the internal variables of the state machine for a new kickstart file."""
+-        self._state = STATE_COMMANDS
+-        self._includeDepth = 0
+-
+-    def getSection(self, s):
+-        """Return a reference to the requested section (s must start with '%'s),
+-           or raise KeyError if not found.
+-        """
+-        return self._sections[s]
+-
+-    def handleCommand (self, lineno, args):
+-        """Given the list of command and arguments, call the Version's
+-           dispatcher method to handle the command.  Returns the command or
+-           data object returned by the dispatcher.  This method may be
+-           overridden in a subclass if necessary.
+-        """
+-        if self.handler:
+-            self.handler.currentCmd = args[0]
+-            self.handler.currentLine = self._line
+-            retval = self.handler.dispatcher(args, lineno)
+-
+-            return retval
+-
+-    def registerSection(self, obj):
+-        """Given an instance of a Section subclass, register the new section
+-           with the parser.  Calling this method means the parser will
+-           recognize your new section and dispatch into the given object to
+-           handle it.
+-        """
+-        if not obj.sectionOpen:
+-            raise TypeError, "no sectionOpen given for section %s" % obj
+-
+-        if not obj.sectionOpen.startswith("%"):
+-            raise TypeError, "section %s tag does not start with a %%" % obj.sectionOpen
+-
+-        self._sections[obj.sectionOpen] = obj
+-
+-    def _finalize(self, obj):
+-        """Called at the close of a kickstart section to take any required
+-           actions.  Internally, this is used to add scripts once we have the
+-           whole body read.
+-        """
+-        obj.finalize()
+-        self._state = STATE_COMMANDS
+-
+-    def _handleSpecialComments(self, line):
+-        """Kickstart recognizes a couple special comments."""
+-        if self._state != STATE_COMMANDS:
+-            return
+-
+-        # Save the platform for s-c-kickstart.
+-        if line[:10] == "#platform=":
+-            self.handler.platform = self._line[11:]
+-
+-    def _readSection(self, lineIter, lineno):
+-        obj = self._sections[self._state]
+-
+-        while True:
+-            try:
+-                line = lineIter.next()
+-                if line == "":
+-                    # This section ends at the end of the file.
+-                    if self.version >= version.F8:
+-                        raise KickstartParseError, formatErrorMsg(lineno, msg=_("Section does not end with %%end."))
+-
+-                    self._finalize(obj)
+-            except StopIteration:
+-                break
+-
+-            lineno += 1
+-
+-            # Throw away blank lines and comments, unless the section wants all
+-            # lines.
+-            if self._isBlankOrComment(line) and not obj.allLines:
+-                continue
+-
+-            if line.startswith("%"):
+-                args = shlex.split(line)
+-
+-                if args and args[0] == "%end":
+-                    # This is a properly terminated section.
+-                    self._finalize(obj)
+-                    break
+-                elif args and args[0] == "%ksappend":
+-                    continue
+-                elif args and (self._validState(args[0]) or args[0] in ["%include", "%ksappend"]):
+-                    # This is an unterminated section.
+-                    if self.version >= version.F8:
+-                        raise KickstartParseError, formatErrorMsg(lineno, msg=_("Section does not end with %%end."))
+-
+-                    # Finish up.  We do not process the header here because
+-                    # kicking back out to STATE_COMMANDS will ensure that happens.
+-                    lineIter.put(line)
+-                    lineno -= 1
+-                    self._finalize(obj)
+-                    break
+-            else:
+-                # This is just a line within a section.  Pass it off to whatever
+-                # section handles it.
+-                obj.handleLine(line)
+-
+-        return lineno
+-
+-    def _validState(self, st):
+-        """Is the given section tag one that has been registered with the parser?"""
+-        return st in self._sections.keys()
+-
+-    def _tryFunc(self, fn):
+-        """Call the provided function (which doesn't take any arguments) and
+-           do the appropriate error handling.  If errorsAreFatal is False, this
+-           function will just print the exception and keep going.
+-        """
+-        try:
+-            fn()
+-        except Exception, msg:
+-            if self.errorsAreFatal:
+-                raise
+-            else:
+-                print msg
+-
+-    def _isBlankOrComment(self, line):
+-        return line.isspace() or line == "" or line.lstrip()[0] == '#'
+-
+-    def _stateMachine(self, lineIter):
+-        # For error reporting.
+-        lineno = 0
+-
+-        while True:
+-            # Get the next line out of the file, quitting if this is the last line.
+-            try:
+-                self._line = lineIter.next()
+-                if self._line == "":
+-                    break
+-            except StopIteration:
+-                break
+-
+-            lineno += 1
+-
+-            # Eliminate blank lines, whitespace-only lines, and comments.
+-            if self._isBlankOrComment(self._line):
+-                self._handleSpecialComments(self._line)
+-                continue
+-
+-            # Remove any end-of-line comments.
+-            sanitized = self._line.split("#")[0]
+-
+-            # Then split the line.
+-            args = shlex.split(sanitized.rstrip())
+-
+-            if args[0] == "%include":
+-                # This case comes up primarily in ksvalidator.
+-                if not self.followIncludes:
+-                    continue
+-
+-                if len(args) == 1 or not args[1]:
+-                    raise KickstartParseError, formatErrorMsg(lineno)
+-
+-                self._includeDepth += 1
+-
+-                try:
+-                    self.readKickstart(args[1], reset=False)
+-                except KickstartError:
+-                    # Handle the include file being provided over the
+-                    # network in a %pre script.  This case comes up in the
+-                    # early parsing in anaconda.
+-                    if self.missingIncludeIsFatal:
+-                        raise
+-
+-                self._includeDepth -= 1
+-                continue
+-
+-            # Now on to the main event.
+-            if self._state == STATE_COMMANDS:
+-                if args[0] == "%ksappend":
+-                    # This is handled by the preprocess* functions, so continue.
+-                    continue
+-                elif args[0][0] == '%':
+-                    # This is the beginning of a new section.  Handle its header
+-                    # here.
+-                    newSection = args[0]
+-                    if not self._validState(newSection):
+-                        raise KickstartParseError, formatErrorMsg(lineno, msg=_("Unknown kickstart section: %s" % newSection))
+-
+-                    self._state = newSection
+-                    obj = self._sections[self._state]
+-                    self._tryFunc(lambda: obj.handleHeader(lineno, args))
+-
+-                    # This will handle all section processing, kicking us back
+-                    # out to STATE_COMMANDS at the end with the current line
+-                    # being the next section header, etc.
+-                    lineno = self._readSection(lineIter, lineno)
+-                else:
+-                    # This is a command in the command section.  Dispatch to it.
+-                    self._tryFunc(lambda: self.handleCommand(lineno, args))
+-            elif self._state == STATE_END:
+-                break
+-
+-    def readKickstartFromString (self, s, reset=True):
+-        """Process a kickstart file, provided as the string str."""
+-        if reset:
+-            self._reset()
+-
+-        # Add a "" to the end of the list so the string reader acts like the
+-        # file reader and we only get StopIteration when we're after the final
+-        # line of input.
+-        i = PutBackIterator(s.splitlines(True) + [""])
+-        self._stateMachine (i)
+-
+-    def readKickstart(self, f, reset=True):
+-        """Process a kickstart file, given by the filename f."""
+-        if reset:
+-            self._reset()
+-
+-        # an %include might not specify a full path.  if we don't try to figure
+-        # out what the path should have been, then we're unable to find it
+-        # requiring full path specification, though, sucks.  so let's make
+-        # the reading "smart" by keeping track of what the path is at each
+-        # include depth.
+-        if not os.path.exists(f):
+-            if self.currentdir.has_key(self._includeDepth - 1):
+-                if os.path.exists(os.path.join(self.currentdir[self._includeDepth - 1], f)):
+-                    f = os.path.join(self.currentdir[self._includeDepth - 1], f)
+-
+-        cd = os.path.dirname(f)
+-        if not cd.startswith("/"):
+-            cd = os.path.abspath(cd)
+-        self.currentdir[self._includeDepth] = cd
+-
+-        try:
+-            s = file(f).read()
+-        except IOError, e:
+-            raise KickstartError, formatErrorMsg(0, msg=_("Unable to open input kickstart file: %s") % e.strerror)
+-
+-        self.readKickstartFromString(s, reset=False)
+-
+-    def setupSections(self):
+-        """Install the sections all kickstart files support.  You may override
+-           this method in a subclass, but should avoid doing so unless you know
+-           what you're doing.
+-        """
+-        self._sections = {}
+-
+-        # Install the sections all kickstart files support.
+-        self.registerSection(PreScriptSection(self.handler, dataObj=Script))
+-        self.registerSection(PostScriptSection(self.handler, dataObj=Script))
+-        self.registerSection(TracebackScriptSection(self.handler, dataObj=Script))
+-        self.registerSection(PackageSection(self.handler))
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/sections.py b/scripts/lib/wic/3rdparty/pykickstart/sections.py
+deleted file mode 100644
+index 44df856..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/sections.py
++++ /dev/null
+@@ -1,244 +0,0 @@
+-#
+-# sections.py:  Kickstart file sections.
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2011 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-This module exports the classes that define a section of a kickstart file.  A
+-section is a chunk of the file starting with a %tag and ending with a %end.
+-Examples of sections include %packages, %pre, and %post.
+-
+-You may use this module to define your own custom sections which will be
+-treated just the same as a predefined one by the kickstart parser.  All that
+-is necessary is to create a new subclass of Section and call
+-parser.registerSection with an instance of your new class.
+-"""
+-from constants import *
+-from options import KSOptionParser
+-from version import *
+-
+-class Section(object):
+-    """The base class for defining kickstart sections.  You are free to
+-       subclass this as appropriate.
+-
+-       Class attributes:
+-
+-       allLines    -- Does this section require the parser to call handleLine
+-                      for every line in the section, even blanks and comments?
+-       sectionOpen -- The string that denotes the start of this section.  You
+-                      must start your tag with a percent sign.
+-       timesSeen   -- This attribute is for informational purposes only.  It is
+-                      incremented every time handleHeader is called to keep
+-                      track of the number of times a section of this type is
+-                      seen.
+-    """
+-    allLines = False
+-    sectionOpen = ""
+-    timesSeen = 0
+-
+-    def __init__(self, handler, **kwargs):
+-        """Create a new Script instance.  At the least, you must pass in an
+-           instance of a baseHandler subclass.
+-
+-           Valid kwargs:
+-
+-           dataObj --
+-        """
+-        self.handler = handler
+-
+-        self.version = self.handler.version
+-
+-        self.dataObj = kwargs.get("dataObj", None)
+-
+-    def finalize(self):
+-        """This method is called when the %end tag for a section is seen.  It
+-           is not required to be provided.
+-        """
+-        pass
+-
+-    def handleLine(self, line):
+-        """This method is called for every line of a section.  Take whatever
+-           action is appropriate.  While this method is not required to be
+-           provided, not providing it does not make a whole lot of sense.
+-
+-           Arguments:
+-
+-           line -- The complete line, with any trailing newline.
+-        """
+-        pass
+-
+-    def handleHeader(self, lineno, args):
+-        """This method is called when the opening tag for a section is seen.
+-           Not all sections will need this method, though all provided with
+-           kickstart include one.
+-
+-           Arguments:
+-
+-           args -- A list of all strings passed as arguments to the section
+-                   opening tag.
+-        """
+-        self.timesSeen += 1
+-
+-class NullSection(Section):
+-    """This defines a section that pykickstart will recognize but do nothing
+-       with.  If the parser runs across a %section that has no object registered,
+-       it will raise an error.  Sometimes, you may want to simply ignore those
+-       sections instead.  This class is useful for that purpose.
+-    """
+-    def __init__(self, *args, **kwargs):
+-        """Create a new NullSection instance.  You must pass a sectionOpen
+-           parameter (including a leading '%') for the section you wish to
+-           ignore.
+-        """
+-        Section.__init__(self, *args, **kwargs)
+-        self.sectionOpen = kwargs.get("sectionOpen")
+-
+-class ScriptSection(Section):
+-    allLines = True
+-
+-    def __init__(self, *args, **kwargs):
+-        Section.__init__(self, *args, **kwargs)
+-        self._script = {}
+-        self._resetScript()
+-
+-    def _getParser(self):
+-        op = KSOptionParser(self.version)
+-        op.add_option("--erroronfail", dest="errorOnFail", action="store_true",
+-                      default=False)
+-        op.add_option("--interpreter", dest="interpreter", default="/bin/sh")
+-        op.add_option("--log", "--logfile", dest="log")
+-        return op
+-
+-    def _resetScript(self):
+-        self._script = {"interp": "/bin/sh", "log": None, "errorOnFail": False,
+-                        "lineno": None, "chroot": False, "body": []}
+-
+-    def handleLine(self, line):
+-        self._script["body"].append(line)
+-
+-    def finalize(self):
+-        if " ".join(self._script["body"]).strip() == "":
+-            return
+-
+-        kwargs = {"interp": self._script["interp"],
+-                  "inChroot": self._script["chroot"],
+-                  "lineno": self._script["lineno"],
+-                  "logfile": self._script["log"],
+-                  "errorOnFail": self._script["errorOnFail"],
+-                  "type": self._script["type"]}
+-
+-        s = self.dataObj (self._script["body"], **kwargs)
+-        self._resetScript()
+-
+-        if self.handler:
+-            self.handler.scripts.append(s)
+-
+-    def handleHeader(self, lineno, args):
+-        """Process the arguments to a %pre/%post/%traceback header for later
+-           setting on a Script instance once the end of the script is found.
+-           This method may be overridden in a subclass if necessary.
+-        """
+-        Section.handleHeader(self, lineno, args)
+-        op = self._getParser()
+-
+-        (opts, extra) = op.parse_args(args=args[1:], lineno=lineno)
+-
+-        self._script["interp"] = opts.interpreter
+-        self._script["lineno"] = lineno
+-        self._script["log"] = opts.log
+-        self._script["errorOnFail"] = opts.errorOnFail
+-        if hasattr(opts, "nochroot"):
+-            self._script["chroot"] = not opts.nochroot
+-
+-class PreScriptSection(ScriptSection):
+-    sectionOpen = "%pre"
+-
+-    def _resetScript(self):
+-        ScriptSection._resetScript(self)
+-        self._script["type"] = KS_SCRIPT_PRE
+-
+-class PostScriptSection(ScriptSection):
+-    sectionOpen = "%post"
+-
+-    def _getParser(self):
+-        op = ScriptSection._getParser(self)
+-        op.add_option("--nochroot", dest="nochroot", action="store_true",
+-                      default=False)
+-        return op
+-
+-    def _resetScript(self):
+-        ScriptSection._resetScript(self)
+-        self._script["chroot"] = True
+-        self._script["type"] = KS_SCRIPT_POST
+-
+-class TracebackScriptSection(ScriptSection):
+-    sectionOpen = "%traceback"
+-
+-    def _resetScript(self):
+-        ScriptSection._resetScript(self)
+-        self._script["type"] = KS_SCRIPT_TRACEBACK
+-
+-class PackageSection(Section):
+-    sectionOpen = "%packages"
+-
+-    def handleLine(self, line):
+-        if not self.handler:
+-            return
+-
+-        (h, s, t) = line.partition('#')
+-        line = h.rstrip()
+-
+-        self.handler.packages.add([line])
+-
+-    def handleHeader(self, lineno, args):
+-        """Process the arguments to the %packages header and set attributes
+-           on the Version's Packages instance appropriate.  This method may be
+-           overridden in a subclass if necessary.
+-        """
+-        Section.handleHeader(self, lineno, args)
+-        op = KSOptionParser(version=self.version)
+-        op.add_option("--excludedocs", dest="excludedocs", action="store_true",
+-                      default=False)
+-        op.add_option("--ignoremissing", dest="ignoremissing",
+-                      action="store_true", default=False)
+-        op.add_option("--nobase", dest="nobase", action="store_true",
+-                      default=False)
+-        op.add_option("--ignoredeps", dest="resolveDeps", action="store_false",
+-                      deprecated=FC4, removed=F9)
+-        op.add_option("--resolvedeps", dest="resolveDeps", action="store_true",
+-                      deprecated=FC4, removed=F9)
+-        op.add_option("--default", dest="defaultPackages", action="store_true",
+-                      default=False, introduced=F7)
+-        op.add_option("--instLangs", dest="instLangs", type="string",
+-                      default="", introduced=F9)
+-
+-        (opts, extra) = op.parse_args(args=args[1:], lineno=lineno)
+-
+-        self.handler.packages.excludeDocs = opts.excludedocs
+-        self.handler.packages.addBase = not opts.nobase
+-        if opts.ignoremissing:
+-            self.handler.packages.handleMissing = KS_MISSING_IGNORE
+-        else:
+-            self.handler.packages.handleMissing = KS_MISSING_PROMPT
+-
+-        if opts.defaultPackages:
+-            self.handler.packages.default = True
+-
+-        if opts.instLangs:
+-            self.handler.packages.instLangs = opts.instLangs
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/version.py b/scripts/lib/wic/3rdparty/pykickstart/version.py
+deleted file mode 100644
+index 8a8e6aa..0000000
+--- a/scripts/lib/wic/3rdparty/pykickstart/version.py
++++ /dev/null
+@@ -1,168 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2006, 2007, 2008, 2009, 2010 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-"""
+-Methods for working with kickstart versions.
+-
+-This module defines several symbolic constants that specify kickstart syntax
+-versions.  Each version corresponds roughly to one release of Red Hat Linux,
+-Red Hat Enterprise Linux, or Fedora Core as these are where most syntax
+-changes take place.
+-
+-This module also exports several functions:
+-
+-    makeVersion - Given a version number, return an instance of the
+-                  matching handler class.
+-
+-    returnClassForVersion - Given a version number, return the matching
+-                            handler class.  This does not return an
+-                            instance of that class, however.
+-
+-    stringToVersion - Convert a string representation of a version number
+-                      into the symbolic constant.
+-
+-    versionToString - Perform the reverse mapping.
+-
+-    versionFromFile - Read a kickstart file and determine the version of
+-                      syntax it uses.  This requires the kickstart file to
+-                      have a version= comment in it.
+-"""
+-import imputil, re, sys
+-
+-import gettext
+-_ = lambda x: gettext.ldgettext("pykickstart", x)
+-
+-from pykickstart.errors import KickstartVersionError
+-
+-# Symbolic names for internal version numbers.
+-RHEL3 = 900
+-FC3 = 1000
+-RHEL4 = 1100
+-FC4 = 2000
+-FC5 = 3000
+-FC6 = 4000
+-RHEL5 = 4100
+-F7  = 5000
+-F8 = 6000
+-F9 = 7000
+-F10 = 8000
+-F11 = 9000
+-F12 = 10000
+-F13 = 11000
+-RHEL6 = 11100
+-F14 = 12000
+-F15 = 13000
+-F16 = 14000
+-
+-# This always points at the latest version and is the default.
+-DEVEL = F16
+-
+-# A one-to-one mapping from string representations to version numbers.
+-versionMap = {
+-        "DEVEL": DEVEL,
+-        "FC3": FC3, "FC4": FC4, "FC5": FC5, "FC6": FC6, "F7": F7, "F8": F8,
+-        "F9": F9, "F10": F10, "F11": F11, "F12": F12, "F13": F13,
+-        "F14": F14, "F15": F15, "F16": F16,
+-        "RHEL3": RHEL3, "RHEL4": RHEL4, "RHEL5": RHEL5, "RHEL6": RHEL6
+-}
+-
+-def stringToVersion(s):
+-    """Convert string into one of the provided version constants.  Raises
+-       KickstartVersionError if string does not match anything.
+-    """
+-    # First try these short forms.
+-    try:
+-        return versionMap[s.upper()]
+-    except KeyError:
+-        pass
+-
+-    # Now try the Fedora versions.
+-    m = re.match("^fedora.* (\d+)$", s, re.I)
+-
+-    if m and m.group(1):
+-        if versionMap.has_key("FC" + m.group(1)):
+-            return versionMap["FC" + m.group(1)]
+-        elif versionMap.has_key("F" + m.group(1)):
+-            return versionMap["F" + m.group(1)]
+-        else:
+-            raise KickstartVersionError(_("Unsupported version specified: %s") % s)
+-
+-    # Now try the RHEL versions.
+-    m = re.match("^red hat enterprise linux.* (\d+)([\.\d]*)$", s, re.I)
+-
+-    if m and m.group(1):
+-        if versionMap.has_key("RHEL" + m.group(1)):
+-            return versionMap["RHEL" + m.group(1)]
+-        else:
+-            raise KickstartVersionError(_("Unsupported version specified: %s") % s)
+-
+-    # If nothing else worked, we're out of options.
+-    raise KickstartVersionError(_("Unsupported version specified: %s") % s)
+-
+-def versionToString(version, skipDevel=False):
+-    """Convert version into a string representation of the version number.
+-       This is the reverse operation of stringToVersion.  Raises
+-       KickstartVersionError if version does not match anything.
+-    """
+-    if not skipDevel and version == versionMap["DEVEL"]:
+-        return "DEVEL"
+-
+-    for (key, val) in versionMap.iteritems():
+-        if key == "DEVEL":
+-            continue
+-        elif val == version:
+-            return key
+-
+-    raise KickstartVersionError(_("Unsupported version specified: %s") % version)
+-
+-def returnClassForVersion(version=DEVEL):
+-    """Return the class of the syntax handler for version.  version can be
+-       either a string or the matching constant.  Raises KickstartValueError
+-       if version does not match anything.
+-    """
+-    try:
+-        version = int(version)
+-        module = "%s" % versionToString(version, skipDevel=True)
+-    except ValueError:
+-        module = "%s" % version
+-        version = stringToVersion(version)
+-
+-    module = module.lower()
+-
+-    try:
+-        import pykickstart.handlers
+-        sys.path.extend(pykickstart.handlers.__path__)
+-        found = imputil.imp.find_module(module)
+-        loaded = imputil.imp.load_module(module, found[0], found[1], found[2])
+-
+-        for (k, v) in loaded.__dict__.iteritems():
+-            if k.lower().endswith("%shandler" % module):
+-                return v
+-    except:
+-        raise KickstartVersionError(_("Unsupported version specified: %s") % version)
+-
+-def makeVersion(version=DEVEL):
+-    """Return a new instance of the syntax handler for version.  version can be
+-       either a string or the matching constant.  This function is useful for
+-       standalone programs which just need to handle a specific version of
+-       kickstart syntax (as provided by a command line argument, for example)
+-       and need to instantiate the correct object.
+-    """
+-    cl = returnClassForVersion(version)
+-    return cl()
+diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
+deleted file mode 100644
+index 79b39fb..0000000
+--- a/scripts/lib/wic/kickstart/__init__.py
++++ /dev/null
+@@ -1,129 +0,0 @@
+-#!/usr/bin/env python -tt
+-#
+-# Copyright (c) 2007 Red Hat, Inc.
+-# Copyright (c) 2009, 2010, 2011 Intel, Inc.
+-#
+-# This program is free software; you can redistribute it and/or modify it
+-# under the terms of the GNU General Public License as published by the Free
+-# Software Foundation; version 2 of the License
+-#
+-# This program is distributed in the hope that it will be useful, but
+-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+-# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+-# for more details.
+-#
+-# You should have received a copy of the GNU General Public License along
+-# with this program; if not, write to the Free Software Foundation, Inc., 59
+-# Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+-
+-import os, sys, re
+-import shutil
+-import subprocess
+-import string
+-
+-import pykickstart.sections as kssections
+-import pykickstart.commands as kscommands
+-import pykickstart.constants as ksconstants
+-import pykickstart.errors as kserrors
+-import pykickstart.parser as ksparser
+-import pykickstart.version as ksversion
+-from pykickstart.handlers.control import commandMap
+-from pykickstart.handlers.control import dataMap
+-
+-from wic import msger
+-from wic.utils import errors, misc, runner, fs_related as fs
+-from custom_commands import wicboot, partition
+-
+-def read_kickstart(path):
+-    """Parse a kickstart file and return a KickstartParser instance.
+-
+-    This is a simple utility function which takes a path to a kickstart file,
+-    parses it and returns a pykickstart KickstartParser instance which can
+-    be then passed to an ImageCreator constructor.
+-
+-    If an error occurs, a CreatorError exception is thrown.
+-    """
+-
+-    #version = ksversion.makeVersion()
+-    #ks = ksparser.KickstartParser(version)
+-
+-    using_version = ksversion.DEVEL
+-    commandMap[using_version]["bootloader"] = wicboot.Wic_Bootloader
+-    commandMap[using_version]["part"] = partition.Wic_Partition
+-    commandMap[using_version]["partition"] = partition.Wic_Partition
+-    dataMap[using_version]["PartData"] = partition.Wic_PartData
+-    superclass = ksversion.returnClassForVersion(version=using_version)
+-
+-    class KSHandlers(superclass):
+-        def __init__(self):
+-            superclass.__init__(self, mapping=commandMap[using_version])
+-
+-    kickstart = ksparser.KickstartParser(KSHandlers(), errorsAreFatal=True)
+-
+-    try:
+-        kickstart.readKickstart(path)
+-    except (kserrors.KickstartParseError, kserrors.KickstartError), err:
+-        msger.warning("Errors occurred when parsing kickstart file: %s\n" % path)
+-        msger.error("%s" % err)
+-
+-    return kickstart
+-
+-def get_image_size(kickstart, default=None):
+-    __size = 0
+-    for part in kickstart.handler.partition.partitions:
+-        if part.mountpoint == "/" and part.size:
+-            __size = part.size
+-    if __size > 0:
+-        return int(__size) * 1024L
+-    else:
+-        return default
+-
+-def get_image_fstype(kickstart, default=None):
+-    for part in kickstart.handler.partition.partitions:
+-        if part.mountpoint == "/" and part.fstype:
+-            return part.fstype
+-    return default
+-
+-def get_image_fsopts(kickstart, default=None):
+-    for part in kickstart.handler.partition.partitions:
+-        if part.mountpoint == "/" and part.fsopts:
+-            return part.fsopts
+-    return default
+-
+-def get_timeout(kickstart, default=None):
+-    if not hasattr(kickstart.handler.bootloader, "timeout"):
+-        return default
+-    if kickstart.handler.bootloader.timeout is None:
+-        return default
+-    return int(kickstart.handler.bootloader.timeout)
+-
+-def get_bootloader_file(kickstart, default=None):
+-    if not hasattr(kickstart.handler.bootloader, "configfile"):
+-        return default
+-    if kickstart.handler.bootloader.configfile is None:
+-        return default
+-    return kickstart.handler.bootloader.configfile
+-
+-def get_kernel_args(kickstart, default="ro rd.live.image"):
+-    if not hasattr(kickstart.handler.bootloader, "appendLine"):
+-        return default
+-    if kickstart.handler.bootloader.appendLine is None:
+-        return default
+-    return "%s %s" %(default, kickstart.handler.bootloader.appendLine)
+-
+-def get_menu_args(kickstart, default=""):
+-    if not hasattr(kickstart.handler.bootloader, "menus"):
+-        return default
+-    if kickstart.handler.bootloader.menus in (None, ""):
+-        return default
+-    return "%s" % kickstart.handler.bootloader.menus
+-
+-def get_default_kernel(kickstart, default=None):
+-    if not hasattr(kickstart.handler.bootloader, "default"):
+-        return default
+-    if not kickstart.handler.bootloader.default:
+-        return default
+-    return kickstart.handler.bootloader.default
+-
+-def get_partitions(kickstart):
+-    return kickstart.handler.partition.partitions
+diff --git a/scripts/lib/wic/kickstart/custom_commands/__init__.py b/scripts/lib/wic/kickstart/custom_commands/__init__.py
+deleted file mode 100644
+index e4ae406..0000000
+--- a/scripts/lib/wic/kickstart/custom_commands/__init__.py
++++ /dev/null
+@@ -1,7 +0,0 @@
+-from partition import Wic_Partition
+-from partition import Wic_PartData
+-
+-__all__ = (
+-    "Wic_Partition",
+-    "Wic_PartData",
+-)
+diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+deleted file mode 100644
+index babc006..0000000
+--- a/scripts/lib/wic/kickstart/custom_commands/partition.py
++++ /dev/null
+@@ -1,526 +0,0 @@
+-# ex:ts=4:sw=4:sts=4:et
+-# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+-#
+-# Copyright (c) 2013, Intel Corporation.
+-# All rights reserved.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License version 2 as
+-# published by the Free Software Foundation.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along
+-# with this program; if not, write to the Free Software Foundation, Inc.,
+-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-#
+-# DESCRIPTION
+-# This module provides the OpenEmbedded partition object definitions.
+-#
+-# AUTHORS
+-# Tom Zanussi <tom.zanussi (at] linux.intel.com>
+-#
+-
+-import os
+-import tempfile
+-import uuid
+-from optparse import OptionValueError
+-
+-from pykickstart.commands.partition import FC4_PartData, FC4_Partition
+-from wic.utils.oe.misc import msger, parse_sourceparams
+-from wic.utils.oe.misc import exec_cmd, exec_native_cmd
+-from wic.plugin import pluginmgr
+-
+-partition_methods = {
+-    "do_stage_partition":None,
+-    "do_prepare_partition":None,
+-    "do_configure_partition":None,
+-}
+-
+-class Wic_PartData(FC4_PartData):
+-    removedKeywords = FC4_PartData.removedKeywords
+-    removedAttrs = FC4_PartData.removedAttrs
+-
+-    def __init__(self, *args, **kwargs):
+-        FC4_PartData.__init__(self, *args, **kwargs)
+-        self.deleteRemovedAttrs()
+-        self.align = kwargs.get("align", None)
+-        self.extopts = kwargs.get("extopts", None)
+-        self.part_type = kwargs.get("part_type", None)
+-        self.source = kwargs.get("source", None)
+-        self.sourceparams = kwargs.get("sourceparams", None)
+-        self.rootfs = kwargs.get("rootfs-dir", None)
+-        self.no_table = kwargs.get("no-table", False)
+-        self.extra_space = kwargs.get("extra-space", "10M")
+-        self.overhead_factor = kwargs.get("overhead-factor", 1.3)
+-        self._use_uuid = False
+-        self.uuid = kwargs.get("uuid", None)
+-        self.use_uuid = kwargs.get("use-uuid", False)
+-        self.source_file = ""
+-        self.size = 0
+-
+-    def _getArgsAsStr(self):
+-        retval = FC4_PartData._getArgsAsStr(self)
+-
+-        if self.align:
+-            retval += " --align=%d" % self.align
+-        if self.extopts:
+-            retval += " --extoptions=%s" % self.extopts
+-        if self.part_type:
+-            retval += " --part-type=%s" % self.part_type
+-        if self.source:
+-            retval += " --source=%s" % self.source
+-            if self.sourceparams:
+-                retval += " --sourceparams=%s" % self.sourceparams
+-            if self.rootfs:
+-                retval += " --rootfs-dir=%s" % self.rootfs
+-        if self.no_table:
+-            retval += " --no-table"
+-        if self.use_uuid:
+-            retval += " --use-uuid"
+-        if self.uuid:
+-            retval += " --uuid=%s" % self.uuid
+-        retval += " --extra-space=%s" % self.extra_space
+-        retval += " --overhead-factor=%f" % self.overhead_factor
+-
+-        return retval
+-
+-    @property
+-    def use_uuid(self):
+-        return self._use_uuid
+-
+-    @use_uuid.setter
+-    def use_uuid(self, value):
+-        self._use_uuid = value
+-        if value and not self.uuid:
+-            self.uuid = str(uuid.uuid4())
+-
+-    def get_rootfs(self):
+-        """
+-        Acessor for rootfs dir
+-        """
+-        return self.rootfs
+-
+-    def set_rootfs(self, rootfs):
+-        """
+-        Acessor for actual rootfs dir, which must be set by source
+-        plugins.
+-        """
+-        self.rootfs = rootfs
+-
+-    def get_size(self):
+-        """
+-        Accessor for partition size, 0 or --size before set_size().
+-        """
+-        return self.size
+-
+-    def set_size(self, size):
+-        """
+-        Accessor for actual partition size, which must be set by source
+-        plugins.
+-        """
+-        self.size = size
+-
+-    def set_source_file(self, source_file):
+-        """
+-        Accessor for source_file, the location of the generated partition
+-        image, which must be set by source plugins.
+-        """
+-        self.source_file = source_file
+-
+-    def get_extra_block_count(self, current_blocks):
+-        """
+-        The --size param is reflected in self.size (in kB), and we already
+-        have current_blocks (1k) blocks, calculate and return the
+-        number of (1k) blocks we need to add to get to --size, 0 if
+-        we're already there or beyond.
+-        """
+-        msger.debug("Requested partition size for %s: %d" % \
+-                    (self.mountpoint, self.size))
+-
+-        if not self.size:
+-            return 0
+-
+-        requested_blocks = self.size
+-
+-        msger.debug("Requested blocks %d, current_blocks %d" % \
+-                    (requested_blocks, current_blocks))
+-
+-        if requested_blocks > current_blocks:
+-            return requested_blocks - current_blocks
+-        else:
+-            return 0
+-
+-    def prepare(self, creator, cr_workdir, oe_builddir, rootfs_dir, bootimg_dir,
+-                kernel_dir, native_sysroot):
+-        """
+-        Prepare content for individual partitions, depending on
+-        partition command parameters.
+-        """
+-        self.sourceparams_dict = {}
+-
+-        if self.sourceparams:
+-            self.sourceparams_dict = parse_sourceparams(self.sourceparams)
+-
+-        if not self.source:
+-            if not self.size:
+-                msger.error("The %s partition has a size of zero.  Please "
+-                            "specify a non-zero --size for that partition." % \
+-                            self.mountpoint)
+-            if self.fstype and self.fstype == "swap":
+-                self.prepare_swap_partition(cr_workdir, oe_builddir,
+-                                            native_sysroot)
+-            elif self.fstype:
+-                rootfs = "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
+-                                             self.lineno, self.fstype)
+-                if os.path.isfile(rootfs):
+-                    os.remove(rootfs)
+-                for prefix in ("ext", "btrfs", "vfat", "squashfs"):
+-                    if self.fstype.startswith(prefix):
+-                        method = getattr(self,
+-                                         "prepare_empty_partition_" + prefix)
+-                        method(rootfs, oe_builddir, native_sysroot)
+-                        self.source_file = rootfs
+-                        break
+-            return
+-
+-        plugins = pluginmgr.get_source_plugins()
+-
+-        if self.source not in plugins:
+-            msger.error("The '%s' --source specified for %s doesn't exist.\n\t"
+-                        "See 'wic list source-plugins' for a list of available"
+-                        " --sources.\n\tSee 'wic help source-plugins' for "
+-                        "details on adding a new source plugin." % \
+-                        (self.source, self.mountpoint))
+-
+-        self._source_methods = pluginmgr.get_source_plugin_methods(\
+-                                   self.source, partition_methods)
+-        self._source_methods["do_configure_partition"](self, self.sourceparams_dict,
+-                                                       creator, cr_workdir,
+-                                                       oe_builddir,
+-                                                       bootimg_dir,
+-                                                       kernel_dir,
+-                                                       native_sysroot)
+-        self._source_methods["do_stage_partition"](self, self.sourceparams_dict,
+-                                                   creator, cr_workdir,
+-                                                   oe_builddir,
+-                                                   bootimg_dir, kernel_dir,
+-                                                   native_sysroot)
+-        self._source_methods["do_prepare_partition"](self, self.sourceparams_dict,
+-                                                     creator, cr_workdir,
+-                                                     oe_builddir,
+-                                                     bootimg_dir, kernel_dir, rootfs_dir,
+-                                                     native_sysroot)
+-
+-    def prepare_rootfs_from_fs_image(self, cr_workdir, oe_builddir,
+-                                     rootfs_dir):
+-        """
+-        Handle an already-created partition e.g. xxx.ext3
+-        """
+-        rootfs = oe_builddir
+-        du_cmd = "du -Lbks %s" % rootfs
+-        out = exec_cmd(du_cmd)
+-        rootfs_size = out.split()[0]
+-
+-        self.size = rootfs_size
+-        self.source_file = rootfs
+-
+-    def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
+-                       native_sysroot):
+-        """
+-        Prepare content for a rootfs partition i.e. create a partition
+-        and fill it from a /rootfs dir.
+-
+-        Currently handles ext2/3/4, btrfs and vfat.
+-        """
+-        p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
+-        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
+-                                         "%s/../pseudo" % rootfs_dir)
+-        p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
+-        p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
+-        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
+-        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
+-        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
+-        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
+-        pseudo += "%s/usr/bin/pseudo " % native_sysroot
+-
+-        rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
+-                                         self.lineno, self.fstype)
+-        if os.path.isfile(rootfs):
+-            os.remove(rootfs)
+-
+-        for prefix in ("ext", "btrfs", "vfat", "squashfs"):
+-            if self.fstype.startswith(prefix):
+-                method = getattr(self, "prepare_rootfs_" + prefix)
+-                method(rootfs, oe_builddir, rootfs_dir, native_sysroot, pseudo)
+-
+-                self.source_file = rootfs
+-
+-                # get the rootfs size in the right units for kickstart (kB)
+-                du_cmd = "du -Lbks %s" % rootfs
+-                out = exec_cmd(du_cmd)
+-                self.size = out.split()[0]
+-
+-                break
+-
+-    def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_dir,
+-                           native_sysroot, pseudo):
+-        """
+-        Prepare content for an ext2/3/4 rootfs partition.
+-        """
+-        du_cmd = "du -ks %s" % rootfs_dir
+-        out = exec_cmd(du_cmd)
+-        actual_rootfs_size = int(out.split()[0])
+-
+-        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
+-        if extra_blocks < self.extra_space:
+-            extra_blocks = self.extra_space
+-
+-        rootfs_size = actual_rootfs_size + extra_blocks
+-        rootfs_size *= self.overhead_factor
+-
+-        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+-                    (extra_blocks, self.mountpoint, rootfs_size))
+-
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=0 bs=1k" % \
+-            (rootfs, rootfs_size)
+-        exec_cmd(dd_cmd)
+-
+-        extra_imagecmd = "-i 8192"
+-
+-        label_str = ""
+-        if self.label:
+-            label_str = "-L %s" % self.label
+-
+-        mkfs_cmd = "mkfs.%s -F %s %s %s -d %s" % \
+-            (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
+-        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+-
+-    def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+-                             native_sysroot, pseudo):
+-        """
+-        Prepare content for a btrfs rootfs partition.
+-
+-        Currently handles ext2/3/4 and btrfs.
+-        """
+-        du_cmd = "du -ks %s" % rootfs_dir
+-        out = exec_cmd(du_cmd)
+-        actual_rootfs_size = int(out.split()[0])
+-
+-        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
+-        if extra_blocks < self.extra_space:
+-            extra_blocks = self.extra_space
+-
+-        rootfs_size = actual_rootfs_size + extra_blocks
+-        rootfs_size *= self.overhead_factor
+-
+-        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+-                    (extra_blocks, self.mountpoint, rootfs_size))
+-
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=0 bs=1k" % \
+-            (rootfs, rootfs_size)
+-        exec_cmd(dd_cmd)
+-
+-        label_str = ""
+-        if self.label:
+-            label_str = "-L %s" % self.label
+-
+-        mkfs_cmd = "mkfs.%s -b %d -r %s %s %s" % \
+-            (self.fstype, rootfs_size * 1024, rootfs_dir, label_str, rootfs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+-
+-    def prepare_rootfs_vfat(self, rootfs, oe_builddir, rootfs_dir,
+-                            native_sysroot, pseudo):
+-        """
+-        Prepare content for a vfat rootfs partition.
+-        """
+-        du_cmd = "du -bks %s" % rootfs_dir
+-        out = exec_cmd(du_cmd)
+-        blocks = int(out.split()[0])
+-
+-        extra_blocks = self.get_extra_block_count(blocks)
+-        if extra_blocks < self.extra_space:
+-            extra_blocks = self.extra_space
+-
+-        blocks += extra_blocks
+-
+-        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+-                    (extra_blocks, self.mountpoint, blocks))
+-
+-        # Ensure total sectors is an integral number of sectors per
+-        # track or mcopy will complain. Sectors are 512 bytes, and we
+-        # generate images with 32 sectors per track. This calculation
+-        # is done in blocks, thus the mod by 16 instead of 32. Apply
+-        # sector count fix only when needed.
+-        if blocks % 16 != 0:
+-            blocks += (16 - (blocks % 16))
+-
+-        label_str = "-n boot"
+-        if self.label:
+-            label_str = "-n %s" % self.label
+-
+-        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, blocks)
+-        exec_native_cmd(dosfs_cmd, native_sysroot)
+-
+-        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
+-        exec_native_cmd(mcopy_cmd, native_sysroot)
+-
+-        chmod_cmd = "chmod 644 %s" % rootfs
+-        exec_cmd(chmod_cmd)
+-
+-    def prepare_rootfs_squashfs(self, rootfs, oe_builddir, rootfs_dir,
+-                                native_sysroot, pseudo):
+-        """
+-        Prepare content for a squashfs rootfs partition.
+-        """
+-        squashfs_cmd = "mksquashfs %s %s -noappend" % \
+-                       (rootfs_dir, rootfs)
+-        exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=pseudo)
+-
+-    def prepare_empty_partition_ext(self, rootfs, oe_builddir,
+-                                    native_sysroot):
+-        """
+-        Prepare an empty ext2/3/4 partition.
+-        """
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+-            (rootfs, self.size)
+-        exec_cmd(dd_cmd)
+-
+-        extra_imagecmd = "-i 8192"
+-
+-        label_str = ""
+-        if self.label:
+-            label_str = "-L %s" % self.label
+-
+-        mkfs_cmd = "mkfs.%s -F %s %s %s" % \
+-            (self.fstype, extra_imagecmd, label_str, rootfs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot)
+-
+-    def prepare_empty_partition_btrfs(self, rootfs, oe_builddir,
+-                                      native_sysroot):
+-        """
+-        Prepare an empty btrfs partition.
+-        """
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+-            (rootfs, self.size)
+-        exec_cmd(dd_cmd)
+-
+-        label_str = ""
+-        if self.label:
+-            label_str = "-L %s" % self.label
+-
+-        mkfs_cmd = "mkfs.%s -b %d %s %s" % \
+-            (self.fstype, self.size * 1024, label_str, rootfs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot)
+-
+-    def prepare_empty_partition_vfat(self, rootfs, oe_builddir,
+-                                     native_sysroot):
+-        """
+-        Prepare an empty vfat partition.
+-        """
+-        blocks = self.size
+-
+-        label_str = "-n boot"
+-        if self.label:
+-            label_str = "-n %s" % self.label
+-
+-        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, blocks)
+-        exec_native_cmd(dosfs_cmd, native_sysroot)
+-
+-        chmod_cmd = "chmod 644 %s" % rootfs
+-        exec_cmd(chmod_cmd)
+-
+-    def prepare_empty_partition_squashfs(self, cr_workdir, oe_builddir,
+-                                         native_sysroot):
+-        """
+-        Prepare an empty squashfs partition.
+-        """
+-        msger.warning("Creating of an empty squashfs %s partition was attempted. " \
+-                      "Proceeding as requested." % self.mountpoint)
+-
+-        path = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+-        os.path.isfile(path) and os.remove(path)
+-
+-        # it is not possible to create a squashfs without source data,
+-        # thus prepare an empty temp dir that is used as source
+-        tmpdir = tempfile.mkdtemp()
+-
+-        squashfs_cmd = "mksquashfs %s %s -noappend" % \
+-                       (tmpdir, path)
+-        exec_native_cmd(squashfs_cmd, native_sysroot)
+-
+-        os.rmdir(tmpdir)
+-
+-        # get the rootfs size in the right units for kickstart (kB)
+-        du_cmd = "du -Lbks %s" % path
+-        out = exec_cmd(du_cmd)
+-        fs_size = out.split()[0]
+-
+-        self.size = fs_size
+-
+-    def prepare_swap_partition(self, cr_workdir, oe_builddir, native_sysroot):
+-        """
+-        Prepare a swap partition.
+-        """
+-        path = "%s/fs.%s" % (cr_workdir, self.fstype)
+-
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+-            (path, self.size)
+-        exec_cmd(dd_cmd)
+-
+-        import uuid
+-        label_str = ""
+-        if self.label:
+-            label_str = "-L %s" % self.label
+-        mkswap_cmd = "mkswap %s -U %s %s" % (label_str, str(uuid.uuid1()), path)
+-        exec_native_cmd(mkswap_cmd, native_sysroot)
+-
+-
+-class Wic_Partition(FC4_Partition):
+-    removedKeywords = FC4_Partition.removedKeywords
+-    removedAttrs = FC4_Partition.removedAttrs
+-
+-    def _getParser(self):
+-        def overhead_cb(option, opt_str, value, parser):
+-            if value < 1:
+-                raise OptionValueError("Option %s: invalid value: %r" % \
+-                                       (option, value))
+-            setattr(parser.values, option.dest, value)
+-
+-        parser = FC4_Partition._getParser(self)
+-
+-        # The alignment value is given in kBytes. e.g., value 8 means that
+-        # the partition is aligned to start from 8096 byte boundary.
+-        parser.add_option("--align", type="int", action="store", dest="align",
+-                          default=None)
+-        parser.add_option("--extoptions", type="string", action="store", dest="extopts",
+-                          default=None)
+-        parser.add_option("--part-type", type="string", action="store", dest="part_type",
+-                          default=None)
+-        # use specified source file to fill the partition
+-        # and calculate partition size
+-        parser.add_option("--source", type="string", action="store",
+-                          dest="source", default=None)
+-        # comma-separated list of param=value pairs
+-        parser.add_option("--sourceparams", type="string", action="store",
+-                          dest="sourceparams", default=None)
+-        # use specified rootfs path to fill the partition
+-        parser.add_option("--rootfs-dir", type="string", action="store",
+-                          dest="rootfs", default=None)
+-        # wether to add the partition in the partition table
+-        parser.add_option("--no-table", dest="no_table", action="store_true",
+-                          default=False)
+-        # extra space beyond the partition size
+-        parser.add_option("--extra-space", dest="extra_space", action="store",
+-                          type="size", nargs=1, default="10M")
+-        parser.add_option("--overhead-factor", dest="overhead_factor",
+-                          action="callback", callback=overhead_cb, type="float",
+-                          nargs=1, default=1.3)
+-        parser.add_option("--use-uuid", dest="use_uuid", action="store_true",
+-                          default=False)
+-        parser.add_option("--uuid")
+-
+-        return parser
+diff --git a/scripts/lib/wic/kickstart/custom_commands/wicboot.py b/scripts/lib/wic/kickstart/custom_commands/wicboot.py
+deleted file mode 100644
+index eb17dab..0000000
+--- a/scripts/lib/wic/kickstart/custom_commands/wicboot.py
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# ex:ts=4:sw=4:sts=4:et
+-# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+-#
+-# Copyright (c) 2014, Intel Corporation.
+-# All rights reserved.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License version 2 as
+-# published by the Free Software Foundation.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along
+-# with this program; if not, write to the Free Software Foundation, Inc.,
+-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-#
+-# DESCRIPTION
+-# This module provides the OpenEmbedded bootloader object definitions.
+-#
+-# AUTHORS
+-# Tom Zanussi <tom.zanussi (at] linux.intel.com>
+-#
+-from pykickstart.commands.bootloader import F8_Bootloader
+-
+-class Wic_Bootloader(F8_Bootloader):
+-    def __init__(self, writePriority=10, appendLine="", driveorder=None,
+-                 forceLBA=False, location="", md5pass="", password="",
+-                 upgrade=False, menus=""):
+-        F8_Bootloader.__init__(self, writePriority, appendLine, driveorder,
+-                               forceLBA, location, md5pass, password, upgrade)
+-
+-        self.menus = ""
+-        self.ptable = "msdos"
+-        self.source = ""
+-        self.configfile = ""
+-
+-    def _getArgsAsStr(self):
+-        retval = F8_Bootloader._getArgsAsStr(self)
+-
+-        if self.menus == "":
+-            retval += " --menus=%s" %(self.menus,)
+-        if self.ptable:
+-            retval += " --ptable=\"%s\"" %(self.ptable,)
+-        if self.source:
+-            retval += " --source=%s" % self.source
+-        if self.configfile:
+-            retval += " --configfile=%s" % self.configfile
+-
+-        return retval
+-
+-    def _getParser(self):
+-        parser = F8_Bootloader._getParser(self)
+-        parser.add_option("--menus", dest="menus")
+-        parser.add_option("--ptable", dest="ptable", choices=("msdos", "gpt"),
+-                          default="msdos")
+-        # use specified source plugin to implement bootloader-specific methods
+-        parser.add_option("--source", type="string", action="store",
+-                      dest="source", default=None)
+-        parser.add_option("--configfile", type="string", action="store",
+-                      dest="configfile", default=None)
+-        return parser
+-
 -- 
 2.1.4
 
