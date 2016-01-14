@@ -1,29 +1,28 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AC87731C8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3F01731BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 04:41:04 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3pgtHz72t8z3hjc3;
-	Thu, 14 Jan 2016 05:41:03 +0100 (CET)
-X-Auth-Info: DTQkpo3E2FG1BDVb/dXr2cXisBc3q+uA/TewdZ55ibY=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3pgtHz5t5YzvdWV; 
-	Thu, 14 Jan 2016 05:41:03 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Jan 2016 05:41:04 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1452741432-10746-1-git-send-email-marex@denx.de>
-	<3EB3A651-B3EE-4E31-9A2D-F4D9D71EC4FA@gmail.com>
-In-Reply-To: <3EB3A651-B3EE-4E31-9A2D-F4D9D71EC4FA@gmail.com>
+	Thu, 14 Jan 2016 06:22:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0E6MYll029489
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 13 Jan 2016 22:22:34 -0800
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 13 Jan 2016 22:22:33 -0800
+To: "Wold, Saul" <saul.wold@intel.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1452640824.git.akuster808@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56973EA7.4050200@windriver.com>
+Date: Thu, 14 Jan 2016 14:22:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Message-Id: <201601140541.04430.marex@denx.de>
-Cc: trini@konsulko.com, Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] u-boot: Update to 2016.01 release
+In-Reply-To: <cover.1452640824.git.akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/13] Jethro, Fido openssl and libxml security fixes vi git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +35,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 04:41:05 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
+X-List-Received-Date: Thu, 14 Jan 2016 06:22:38 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thursday, January 14, 2016 at 05:04:22 AM, Khem Raj wrote:
-> > On Jan 13, 2016, at 7:17 PM, Marek Vasut <marex@denx.de> wrote:
-> > 
-> > Upgrade U-Boot to latest version and drop upstreamed patches.
-> > 
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Otavio Salvador <otavio@ossystems.com.br>
-> > Cc: Ross Burton <ross.burton@intel.com>
-> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > V2: Drop the _defconfig addition to make ${UBOOT_MACHINE} . This leaves
-> > 
-> >    U-Boot build broken unless you abuse the UBOOT_MACHINE variable to
-> >    explicitly contain the _defconfig bit. Apparently, some BSPs depend
-> >    on this behavior.
-> 
-> This looks fine now.
+Hi RP and Saul,
 
-Thanks. Are there any further comments down below ?
+I've verified that these patches built well on jethro, would you please help
+to merge them?
 
-> > ---
-> > ...utils_2015.10.bb => u-boot-fw-utils_2016.01.bb} |    6 +-
-> > ...kimage_2015.10.bb => u-boot-mkimage_2016.01.bb} |    6 +-
-> > ...-u-boot-.lds-remove-_GLOBAL_OFFSET_TABLE_.patch |  185 ---
-> > ...-non-Android-booting-with-ramdisk-and-or-.patch |   36 -
-> > ...board_f-enable-setup_board_part1-for-MIPS.patch |   59 -
-> > ...PS-bootm-rework-and-fix-broken-bootm-code.patch |  254 -----
-> > ...PS-bootm-use-CONFIG_IS_ENABLED-everywhere.patch |   93 --
-> > ...-Replace-extern-inline-with-static-inline.patch | 1184
-> > -------------------- meta/recipes-bsp/u-boot/u-boot_2015.10.bb         
+   git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
+ 
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/jethro-next
 
-[...]
+Armin Kuster (13):
+   openssl: fix for CVE-2015-3193
+   openssl: fix for CVE-2015-3194
+   openssl: fix for CVE-2015-3195
+   libxml2: security fix CVE-2015-7941
+   libxml2: security fix CVE-2015-8317
+   libxml2: security fix CVE-2015-7942
+   libxml2: security fix CVE-2015-8035
+   libxml2: security fix CVE-2015-7498
+   libxml2: security fix CVE-2015-7497
+   libxml2: security fix CVE-2015-7499
+   libxml2: security fix CVE-2015-7500
+   libxml2: security fix CVE-2015-8242
+   libxml2: security fix CVE-2015-5312
 
-Best regards,
-Marek Vasut
+// Robert
+
+On 01/13/2016 07:25 AM, Armin Kuster wrote:
+> changes in contrib branch for alt integration.
+>
+> The following changes since commit 0073b234d793099a371b2e529f740987decce756:
+>
+>    yocto-bsp: Typo on the file extension (2016-01-07 12:13:55 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib akuster/jethro_sec_fixes
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro_sec_fixes
+>
+> Armin Kuster (13):
+>    openssl: fix for CVE-2015-3193
+>    openssl: fix for CVE-2015-3194
+>    openssl: fix for CVE-2015-3195
+>    libxml2: security fix CVE-2015-7941
+>    libxml2: security fix CVE-2015-8317
+>    libxml2: security fix CVE-2015-7942
+>    libxml2: security fix CVE-2015-8035
+>    libxml2: security fix CVE-2015-7498
+>    libxml2: security fix CVE-2015-7497
+>    libxml2: security fix CVE-2015-7499
+>    libxml2: security fix CVE-2015-7500
+>    libxml2: security fix CVE-2015-8242
+>    libxml2: security fix CVE-2015-5312
+>
+>   .../openssl/0001-Add-test-for-CVE-2015-3194.patch  |  66 ++++++++++
+>   ...64-mont5.pl-fix-carry-propagating-bug-CVE.patch | 101 +++++++++++++++
+>   .../CVE-2015-3194-1-Add-PSS-parameter-check.patch  |  45 +++++++
+>   ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch |  66 ++++++++++
+>   .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   4 +
+>   meta/recipes-core/libxml/libxml2.inc               |  14 +++
+>   ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
+>   ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
+>   ...00-Fix-memory-access-error-due-to-incorre.patch | 131 +++++++++++++++++++
+>   ...2015-8035-Fix-XZ-compression-support-loop.patch |  38 ++++++
+>   ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
+>   ...n-name-parsing-at-the-end-of-current-inpu.patch | 138 +++++++++++++++++++++
+>   ...ssing-entities-after-encoding-conversion-.patch |  89 +++++++++++++
+>   ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88 +++++++++++++
+>   ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
+>   ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
+>   ...leanup-conditional-section-error-handling.patch |  56 +++++++++
+>   ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
+>   ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
+>   ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
+>   20 files changed, 1162 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Add-test-for-CVE-2015-3194.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-1-Add-PSS-parameter-check.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch
+>
 
