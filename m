@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C026FF7B
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C1357731C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 14:15:38 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jan 2016 06:15:39 -0800
+	Thu, 14 Jan 2016 14:15:45 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Jan 2016 06:15:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,294,1449561600"; d="scan'208";a="890435449"
+X-IronPort-AV: E=Sophos;i="5.22,294,1449561600"; d="scan'208";a="860455063"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jan 2016 06:15:40 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Jan 2016 06:15:24 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 7E4596A4002
+	by linux.intel.com (Postfix) with ESMTP id EBB2D6A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 07:03:35 -0800 (PST)
+	Thu, 14 Jan 2016 07:03:20 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:12:59 +0200
-Message-Id: <689a1bfa0f20b2713f020bfce058bb844eba1654.1452766193.git.ed.bartosh@linux.intel.com>
+Date: Thu, 14 Jan 2016 14:12:58 +0200
+Message-Id: <2bad6e86b3bd5ad53f08575d84174d624b7f3235.1452766193.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 References: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 References: <cover.1452766193.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 9/9] wic: get rid of 2 getters
+Subject: [wic][PATCH 8/9] wic: get rid of set_size and set_source_file setters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,82 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 14:15:38 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 14:15:45 -0000
 
-Used partitions and configfile bootloader attributes instead of
-using getters get_bootloader_file and get_partitions.
+Used size and source_file attributes instead of using
+setters. It's more pythonic, clear an consistent.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/imager/direct.py                 |  2 +-
- scripts/lib/wic/plugins/source/bootimg-efi.py    |  4 ++--
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 11 ++++++-----
- 3 files changed, 9 insertions(+), 8 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg-efi.py        | 4 ++--
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py     | 4 ++--
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 6 +++---
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 09ff5f8..8d4daec 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -159,7 +159,7 @@ class DirectImageCreator(BaseImageCreator):
-                 self.ks.partitions.append(part)
- 
-         # partitions list from kickstart file
--        return kickstart.get_partitions(self.ks)
-+        return self.ks.partitions
- 
-     def get_disk_names(self):
-         """ Returns a list of physical target disk names (e.g., 'sdb') which
 diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 8bfa3a9..22f9813 100644
+index 35afa30..8bfa3a9 100644
 --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
 +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -46,7 +46,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         """
-         Create loader-specific (grub-efi) config
-         """
--        configfile = kickstart.get_bootloader_file(creator.ks)
-+        configfile = creator.ks.bootloader.configfile
-         custom_cfg = None
-         if configfile:
-             custom_cfg = get_custom_config(configfile)
-@@ -104,7 +104,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         cfg.write(loader_conf)
-         cfg.close()
+@@ -235,5 +235,5 @@ class BootimgEFIPlugin(SourcePlugin):
+         out = exec_cmd(du_cmd)
+         bootimg_size = out.split()[0]
  
--        configfile = kickstart.get_bootloader_file(creator.ks)
-+        configfile = creator.ks.bootloader.configfile
-         custom_cfg = None
-         if configfile:
-             custom_cfg = get_custom_config(configfile)
+-        part.set_size(bootimg_size)
+-        part.set_source_file(bootimg)
++        part.size = bootimg_size
++        part.source_file = bootimg
 diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index e84bddf..0b5478e 100644
+index 255684b..e84bddf 100644
 --- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
 +++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -84,18 +84,19 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         install_cmd = "install -d %s" % hdddir
-         exec_cmd(install_cmd)
+@@ -205,7 +205,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         out = exec_cmd(du_cmd)
+         bootimg_size = out.split()[0]
  
--        configfile = kickstart.get_bootloader_file(creator.ks)
-+        bootloader = creator.ks.bootloader
-+
-         custom_cfg = None
--        if configfile:
--            custom_cfg = get_custom_config(configfile)
-+        if bootloader.configfile:
-+            custom_cfg = get_custom_config(bootloader.configfile)
-             if custom_cfg:
-                 # Use a custom configuration for grub
-                 syslinux_conf = custom_cfg
-                 msger.debug("Using custom configuration file "
--                        "%s for syslinux.cfg" % configfile)
-+                            "%s for syslinux.cfg" % bootloader.configfile)
-             else:
-                 msger.error("configfile is specified but failed to "
--                        "get it from %s." % configfile)
-+                            "get it from %s." % bootloader.configfile)
+-        part.set_size(bootimg_size)
+-        part.set_source_file(bootimg)
++        part.size = int(out.split()[0])
++        part.source_file = bootimg
  
-         if not custom_cfg:
-             # Create syslinux configuration using parameters from wks file
+ 
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index b5ca4d3..daefff3 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -302,7 +302,7 @@ class IsoImagePlugin(SourcePlugin):
+             # which contains rootfs
+             du_cmd = "du -bks %s" % rootfs_dir
+             out = exec_cmd(du_cmd)
+-            part.set_size(int(out.split()[0]))
++            part.size = int(out.split()[0])
+             part.extra_space = 0
+             part.overhead_factor = 1.2
+             part.prepare_rootfs(cr_workdir, oe_builddir, rootfs_dir, \
+@@ -502,8 +502,8 @@ class IsoImagePlugin(SourcePlugin):
+         out = exec_cmd(du_cmd)
+         isoimg_size = int(out.split()[0])
+ 
+-        part.set_size(isoimg_size)
+-        part.set_source_file(iso_img)
++        part.size = isoimg_size
++        part.source_file = iso_img
+ 
+     @classmethod
+     def do_install_disk(cls, disk, disk_name, creator, workdir, oe_builddir,
 -- 
 2.1.4
 
