@@ -1,53 +1,56 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D4B373183
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E92E773183
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 18:25:55 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id n128so103609673pfn.3
+	Thu, 14 Jan 2016 18:27:21 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id 65so103638905pff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 10:25:56 -0800 (PST)
+	Thu, 14 Jan 2016 10:27:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=fuFjFZiHF6+Eu41hgOlSBhtayl7fewrLPf0EEmtJUCg=;
-	b=IhLP1sD5NOB3LQ5lwUxdK5UOD/qLXDJ1L5JW11eYpSvS7VitygH7yH3TtlVvAtfzSD
-	izahVHnYK9O+JBlI9ytg2552O8ibyM4SnLPNgWINI2sHbtHSPpQv2of3goLtbc8QUO10
-	NaW2cCnMyxAGWbUToai5iy0MJpob1bQ3E6xLkBaQfmzAMa2vsR7nXRfGkHkUnHTPz5IR
-	KYn8nUrDYtGNqQIb16HvN5ykkdEyF6E8G4HiQR2/v3dGHnt8bC8W1iXrkyfHOktiUcRV
-	NYDXAx6WFum/7dpuzQhOi0vnPiuYGk1xax/a0M/3Fp92L4aooAxp4qRKMzedDXdj8r/g
-	wjbA==
+	bh=AWI2QRiGgMxOqjUdc7u4sHuXtGitK/4S6OaF7qg5cqk=;
+	b=OawH4/j1Nzays9Qpa9XPvhQkYox0qsIjVaYSQ1xOiaOfKFsgekUnUbgRkRiV0mg4By
+	4x5P8v0mpv3ONtktFzxdROVpTvKcl7FRhe31nJTwgvMLsLWAj8lgpTukNDxqwulwiP6J
+	0jdF/OGM0iRLmKd2JolFGssmhv8BPTKzUKqOV6w8LECu77Nee0SCVT81BXbc7Nh1+5Rf
+	Qyu3ttvwGGphevO/Xfdhq/zlC8Zx+vNxbUGfP1vEx4YFffcF8wuXPW9LVvRxQkmJuacO
+	PnBsIUVa4XRWO3IyPaaiUjGlyUMCf8x+9vS6WLqdUe/n9vsAqgrPF4WKSoX+mXi+6OgX
+	qOKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:content-type:from
 	:in-reply-to:date:cc:message-id:references:to;
-	bh=fuFjFZiHF6+Eu41hgOlSBhtayl7fewrLPf0EEmtJUCg=;
-	b=QGyGm4dpKWOzmjiblZp8+c91UWEzvAhtrMJ6oKobC0s72YfYNXTqD/a9HQktdJG5GP
-	GPltvdL2k6stf2Rms69uHjYL/2LYp73xZYBw5O0HhO44QjP8Pv0RzdhH/mGBDa8/v4b0
-	MutSGbp2+GHKLtdSF6DBd1sNANjOgTgDG9qbXFKd9L4QjeT3Lwu8O7tMaeVVu3Ohlovc
-	GvOfyXVISCDvJGWgsr/aiUwRQ/joINg/7cO/BDeUTBiQ972iInKgdJc3PBzbby+nRwvF
-	LQoZnie98Hq/aijA3yNYtT3G8LI2ccj+z+DW0nS4S250c1SSHQMYIYn2IKVhYPwMYiYH
-	V1sQ==
-X-Gm-Message-State: ALoCoQmdx2UaghzFl0hdjgvNtZ7zq7TzVCHksRVlIijuueeh8i5uQG0mHKrBEjaIkO6CPms23qzAhfzKNJNPcD2v/blxABzjLg==
-X-Received: by 10.98.16.72 with SMTP id y69mr8124927pfi.95.1452795956776;
-	Thu, 14 Jan 2016 10:25:56 -0800 (PST)
+	bh=AWI2QRiGgMxOqjUdc7u4sHuXtGitK/4S6OaF7qg5cqk=;
+	b=WhEXo8RlRJ5p7S1HQmc8yOhW5Odp6jVNAvpNeIxXcyQGxR7JKFvglkaHsBn5fKG6Wk
+	9Mb3KwRKPQqXXAuSPCBNz+l+Da4F9uu4A2WZRD+MewfF96cW4FmHR+VxUwxQme+n9UFq
+	ILvTEkDm6BoR+2QG+jNuNL7pcfg/E50dVuX7Ui39BsBVv7aHH938P9xF3kjKmRmfaQZY
+	ssWm4eXx/juvCIszP4hsfsSl5SJNCzxNew3pg3Fv35NyR5JEG5xjG0cXRw0jizGnWlHL
+	RyWsgUF7S0BQ6eOLjxiiOuo+16KUV5mQYzVWxvHtamBZ4GBJI04utRqwYfXkjbwzg3Wt
+	2MjA==
+X-Gm-Message-State: ALoCoQnwWV8F1i1pHryrZzXCUzxNhw0DY1go3zAPsCZ7tYGi258GJsXyWqKf4Q0vBiQElt1dtb/nZr72dZMn68uV/T/JXt0nUQ==
+X-Received: by 10.98.74.9 with SMTP id x9mr8281953pfa.14.1452796042749;
+	Thu, 14 Jan 2016 10:27:22 -0800 (PST)
 Received: from ?IPv6:2601:646:8802:5d5c:4c4c:5f92:7d4d:1d28?
 	([2601:646:8802:5d5c:4c4c:5f92:7d4d:1d28])
 	by smtp.gmail.com with ESMTPSA id
-	dg1sm10837514pad.18.2016.01.14.10.25.55
+	g87sm10883997pfj.1.2016.01.14.10.27.21
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 14 Jan 2016 10:25:56 -0800 (PST)
+	Thu, 14 Jan 2016 10:27:21 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1450746422-10755-1-git-send-email-armccurdy@gmail.com>
-Date: Thu, 14 Jan 2016 10:25:51 -0800
-Message-Id: <F80AC6C0-500C-42FD-B35F-F9F53FF4F446@gmail.com>
-References: <1450746422-10755-1-git-send-email-armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+In-Reply-To: <55F751DA.1020903@igalia.com>
+Date: Thu, 14 Jan 2016 10:27:21 -0800
+Message-Id: <3FF112F9-6E3D-4A9E-9A1D-AA30AF596FD6@gmail.com>
+References: <1441975783-21782-1-git-send-email-clopez@igalia.com>
+	<1441983077.31676.17.camel@pbcl.net>
+	<E1DF44AB-9219-4848-9031-60846FC2BF7B@gmail.com>
+	<55F751DA.1020903@igalia.com>
+To: Carlos Alberto Lopez Perez <clopez@igalia.com>
 X-Mailer: Apple Mail (2.3112)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] directfb.inc: enable bfd linker workaround for all arm targets
+Subject: Re: [PATCH] matchbox-keyboard: Fix build failure with ld-is-gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,68 +63,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 18:25:57 -0000
-X-Groupsio-MsgNum: 76074
+X-List-Received-Date: Thu, 14 Jan 2016 18:27:24 -0000
+X-Groupsio-MsgNum: 76075
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_17705D6C-C36C-4DB3-8B70-39E97ED6B41A";
+	boundary="Apple-Mail=_52EE5500-FADD-43A2-9EF4-CDAD7398DDC8";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_17705D6C-C36C-4DB3-8B70-39E97ED6B41A
+--Apple-Mail=_52EE5500-FADD-43A2-9EF4-CDAD7398DDC8
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=windows-1252
 
-Andre
+Carlos
 
-I have a fix for this issue in binutils
-
-can you try it out if it works for you ?
+Can you try this fix
 
 =
 https://github.com/kraj/openembedded-core/commit/0e35ad5a35262cfb7a6249ce1=
 58f76d1399d6cb4
 
 
-> On Dec 21, 2015, at 5:07 PM, Andre McCurdy <armccurdy@gmail.com> =
-wrote:
->=20
-> Although the gold linker problems with DirectFB have only so far been
-> observed with armv7a, they could potentially affect future arm targets
-> too. Since there's no particular downside to using the bfd linker for
-> DirectFB, apply the workaround to all arm targets.
->=20
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
-> meta/recipes-graphics/directfb/directfb.inc | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/directfb/directfb.inc =
-b/meta/recipes-graphics/directfb/directfb.inc
-> index b905ab0..603aba3 100644
-> --- a/meta/recipes-graphics/directfb/directfb.inc
-> +++ b/meta/recipes-graphics/directfb/directfb.inc
-> @@ -23,7 +23,7 @@ S =3D "${WORKDIR}/DirectFB-${PV}"
-> LDFLAGS_append =3D" -lts -lm"
->=20
-> # Workaround for linking issues seen with armv7a + gold
-> -LDFLAGS_append_armv7a =3D "${@base_contains('DISTRO_FEATURES', =
-'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)}"
-> +LDFLAGS_append_arm =3D "${@base_contains('DISTRO_FEATURES', =
-'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)}"
->=20
-> BINCONFIG =3D "${bindir}/directfb-config"
->=20
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This should help with this issue.
 
 
---Apple-Mail=_17705D6C-C36C-4DB3-8B70-39E97ED6B41A
+> On Sep 14, 2015, at 4:01 PM, Carlos Alberto Lopez Perez =
+<clopez@igalia.com> wrote:
+>=20
+> On 14/09/15 09:24, Khem Raj wrote:
+>>=20
+>>> On Sep 11, 2015, at 7:51 AM, Phil Blundell <pb@pbcl.net> wrote:
+>>>=20
+>>> On Fri, 2015-09-11 at 14:49 +0200, Carlos Alberto Lopez Perez wrote:
+>>>> * When ld-is-gold is enabled in DISTRO_FEATURES, matchbox-keyboard
+>>>>   will fail to build with this error:
+>>>>=20
+>>>>   ld: error: matchbox-keyboard-image.o: requires unsupported =
+dynamic
+>>>>              reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
+>>>=20
+>>> This is only an issue for ARM (and only for Thumb2 at that).  I =
+don't
+>>> think it's necessarily appropriate to force -fPIC on all targets.
+>>>=20
+>>> Also, before adding this sort of hack it would be worth verifying
+>>> whether this is in fact a toolchain bug and, if it is, fixing it =
+there.
+>>>=20
+>>=20
+>> This may not be a toolchain bug if there is a MOVW_ABS relocation =
+being emitted
+>> into an object that is eventually linked into shared library. Using =
+-fPIC seems to be right fix
+>> I know bfd linker silently ignored these relocations and generated =
+bad .so files but that was fixed
+>> several years ago. So I think what needs to be looked at is why does =
+same .o links ok with bfd linker
+>> is it some linker trampoline code thats in question here which may be =
+different between gold and ld
+>>=20
+>> Carlos
+>>=20
+>> Can you check the linker cmdline of failing link step and see if its =
+generating a shared object there ?
+>> if thats the case and I assume gcc is generating this relocation into =
+both
+>>=20
+>=20
+> It looks is generating an executable (matchbox-keyboard).
+>=20
+> Full log: http://sprunge.us/VPIN
+>=20
+
+
+--Apple-Mail=_52EE5500-FADD-43A2-9EF4-CDAD7398DDC8
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -132,9 +146,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlaX6DMACgkQuwUzVZGdMxRPFQCeInh/8kpvzvYw0tuK7zHXYiRF
-5mAAnAgc61/XiXEP/0ZZcPv6zKFkg6i3
-=Btzf
+iEYEARECAAYFAlaX6IkACgkQuwUzVZGdMxQ9pQCgi81W7C7OmgIDnLREwHzF6qzP
+lccAoI5Fd+9wCINRR2GFpVwaxxSTeiFm
+=0TE/
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_17705D6C-C36C-4DB3-8B70-39E97ED6B41A--
+--Apple-Mail=_52EE5500-FADD-43A2-9EF4-CDAD7398DDC8--
