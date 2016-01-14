@@ -1,62 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id BE634605BA
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 08048731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 20:53:51 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id pv5so29715213pac.0
+	Thu, 14 Jan 2016 20:58:18 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id 77so18900184ioc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:53:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=9qqQ2572Sx0M8viobGSzosxN1IDvTY9nbh/zgXFn2ns=;
-	b=J2GZwuBV1dZDJFATs5ujttBcPT0OzC30Dfn7njtg1Jjw73l7u8j/Tfa8hDR1ZOMR8R
-	2RCDXqZN210MW/rysPPbxBHhUx6H2dc1OPIKGv+UfIHo4A6ANmSACPYrjepVs50uFAln
-	j5OCTbA+Rk3nI4L/JXoJMAyGdNvoU+l7f9hTa52gN2Zc1UnFF1Thn8kh/OY+n2FEVA1p
-	uGFfMUrM/Vjjp1Tf1RFhYcOpSfXw0sGDCoyfuMgU6im2933yHGDFlC58vEo2uYiyq9WJ
-	9vTc8817EOFQCpw4CRIcLtYhpwKuoTbqKtjFyZChxW85n3tEf0L/IGDLdBE275Exz+yW
-	ar4Q==
+	Thu, 14 Jan 2016 12:58:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=fxQnB3Hv4KddKWC9PdCLtsEni9kG862eqW9L/3Mx7wg=;
+	b=NPOw9v+nk7BeJfHt17hMWTI3bcewb14v3Uc3OpZlnN9bKuVq52H0nARe3ZXXgzs2Vd
+	FX3wbGTTsLXHNUz54AhlxgZfFl1xSUDqwhXSuN+bxfzZScKzLDg6YoIcNsIR6Mkb0TXe
+	lCJVokXqV72q7IDb6z+23k55eV/0luijXWbmwQA4eYebqeSUMyA0LjxTGjfYA2GrT+Op
+	8tKbxRZckKSFSrZ2mwjn8YKur3BtUL6bd45D6l96c6HXflVguOmH2AU7K/gQrMYlfrrX
+	m4cJrWTiSemlxr4W1OOT6OZnkyHW/1PXNwZ9XNi3lzeb1PxvvZaS2xj4m4Lf9bHhM1ux
+	1Z5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=9qqQ2572Sx0M8viobGSzosxN1IDvTY9nbh/zgXFn2ns=;
-	b=F4Q5RMUvKGkJiNGJ+9FDmgxkr0exAWEzZL+u/SjXw3mwGg3N8xNRvI0aTsPnmewGJy
-	j62JJmBFm+iugHpajwNSLsvxGq6Sjp+86+Hhq7k+LbQdUpgIJFb/tJ++oJPU2jaF0kPL
-	cAyxAbVKylXUXX/69xudeg7gBYmWr0PZuFVUjXqeUOZP5SNDD/62Ymy0DZj8/BaRXXuU
-	IazRGgdqc4zI7Vgy1Kd4zPDUgDmr390N+a4HbuSeC4imb8KcVhFO7MM1fq3yHGiR9jtN
-	NVjbH3zShGG+Y6gBubZzVxir0C8yvwP08zX3o6A/w6fFrRf/xrb9E71yKZR45IGd3kwx
-	JMyQ==
-X-Gm-Message-State: ALoCoQlUyIZv8Rwx7DwAvmfOYHz+ceoXo3OBuaYkXyoDyDF37agUGLdySFVjupqCs8mKRmQh1qlxHXCu8pM22ts2DKj8BJHywA==
-X-Received: by 10.66.118.135 with SMTP id km7mr9257123pab.159.1452804832556;
-	Thu, 14 Jan 2016 12:53:52 -0800 (PST)
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com.
-	[209.85.192.171]) by smtp.gmail.com with ESMTPSA id
-	p66sm11249159pfi.34.2016.01.14.12.53.50
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=fxQnB3Hv4KddKWC9PdCLtsEni9kG862eqW9L/3Mx7wg=;
+	b=cJZb9Ro5ik7rEosaJPhEBR+L9T0Z4CPhWuHR9/Zh0hw7W5GlSI8Po9sJZW8I6tNPdZ
+	JtkKwPIsaI67CiQgGC49+BjlE6NKyjT/woOQgz7PyBvpSd47GLVOT50pjxMRkAKteeI5
+	ik6QxyRMmgyYk4dPjR0HzQiijpSv6643G5qyvwUVqF3qHMz4rMQA1nepv/ab9HycxdL4
+	w7h2y2o6LTyDYbdYRERIRrGpS3vuOyAUjVvTl3s8yDz25xKPqNG28kC6SvE++mgBP4so
+	R507erTQ3HrvKDVA7+/Am08QdpAx00/kxwObD3m0ugypiyWtD5BStQ95MWsXp7dOMqrX
+	cEPA==
+X-Gm-Message-State: ALoCoQnxi58kKue8s3yGk94ipq+Z9ML5HBzN+bHSyfgxrdjtT6B18Pc6sb7M9wKyE6xf7zagAQAU11Dda93nTWP9T5IUE7QZHw==
+X-Received: by 10.107.62.4 with SMTP id l4mr6164259ioa.45.1452805099622;
+	Thu, 14 Jan 2016 12:58:19 -0800 (PST)
+Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
+	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
+	204sm3203278iob.44.2016.01.14.12.58.19
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Jan 2016 12:53:50 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f171.google.com with SMTP id q63so108594409pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:53:50 -0800 (PST)
-MIME-Version: 1.0
-X-Received: by 10.98.74.135 with SMTP id c7mr9151584pfj.129.1452804830249;
-	Thu, 14 Jan 2016 12:53:50 -0800 (PST)
-Received: by 10.66.72.229 with HTTP; Thu, 14 Jan 2016 12:53:50 -0800 (PST)
-In-Reply-To: <1452741432-10746-1-git-send-email-marex@denx.de>
-References: <1452741432-10746-1-git-send-email-marex@denx.de>
-Date: Thu, 14 Jan 2016 18:53:50 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqezbmY2vOX2fkdjC=SSPstRBMx4HhcE1jvzzG5SzH01g@mail.gmail.com>
-Message-ID: <CAP9ODKqezbmY2vOX2fkdjC=SSPstRBMx4HhcE1jvzzG5SzH01g@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Tom Rini <trini@konsulko.com>, Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] u-boot: Update to 2016.01 release
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Jan 2016 12:58:19 -0800 (PST)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jan 2016 14:56:28 -0600
+Message-Id: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.4.5
+Subject: [RFC][PATCH 0/9] cleanup packaging of bash completions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,18 +53,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 20:53:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 14 Jan 2016 20:58:20 -0000
 
-On Thu, Jan 14, 2016 at 1:17 AM, Marek Vasut <marex@denx.de> wrote:
-> Upgrade U-Boot to latest version and drop upstreamed patches.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
+Recipes in OE core and meta-oe (possibly others too) package bash completion
+files in a similar but inconsitent manner. This patch series adds a class
+bash-completion.bbclass that creates a subpackage containing files installed to
+the common bash-completion paths.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Prior to this series some recipes created bash-completion subpackages which had
+no RDEPENDS, others with bash-completion and yet others with bash. I decided to
+have the class add an RDEPENDS for bash-completion and move bash-completion to
+OE-core for this reason. If someone has a different view on what should be done
+please, speak up.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I'll be posting an accompanying series to openembedded-devel for meta-oe.
+
 
