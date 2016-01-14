@@ -1,48 +1,48 @@
 Return-Path: <george.mccollister@gmail.com>
 Received: from mail-ig0-f196.google.com (mail-ig0-f196.google.com
 	[209.85.213.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 50955731E6
+	by mail.openembedded.org (Postfix) with ESMTP id 4CFD4731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 20:58:36 +0000 (UTC)
-Received: by mail-ig0-f196.google.com with SMTP id o2so20907887iga.3
+	Thu, 14 Jan 2016 20:58:40 +0000 (UTC)
+Received: by mail-ig0-f196.google.com with SMTP id o2so20907973iga.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:58:38 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OkKbUD94qOB//fu4um5Q2W4oz8OC4iVnopZg0UeUR5g=;
-	b=N0D7u3zLiCVS4hHuxOLYbjiF2lhIxW4++FrpuRw9qnwK3q+ucxrrvik0QX0dBZCe3V
-	NKHbdjvmcqgz94uxKlNaqhGR5qGE+YK3eQXaj53sytd3nr2YphrYUO7Vctg1JO/8ekFp
-	odZC7YvMQQ8CLNfIXqK/4R0DXSyzjSp/QXjSdv3zYu0xUq9i+KzrdpUZZ4WAhMp7mPiH
-	GASV6lPVuHZW2CH+HQ4tgwtOHcOmtoL4/a+81atrUXTOZLbAGycvQ3K4rjEwC6ECQEw2
-	Wf4/a/zSlDik2EvhPw1PcBEHyDN/TLf7z1Re+txBqmL0WrlsV7ZthgmVYrV+5zNaOvZy
-	Ny6g==
+	bh=mhlwExPv1r2jlkgXl6SE2uK94ZIX5BcN5LXFIG+kdK8=;
+	b=hycvo89An9PvXG2NrgbEzgmh9+NJPsQ7JEAtHh82lapHNUtbEI10o1KnLFefAd1JKt
+	/xGpqErzil6S3U7SHvLr171orSmUes2+aRbiQs8Ec2XZ3MGhhOynQFnOMgxhhSPp8uPW
+	K8wXhSUEPdM9K0uimKO1Njkbq/iA1i1dYrfe0Cl1vktYkeeqpi3F7T5cRpC6uS+pSQ+A
+	L202mR7dv97j812/3uxrdlUKAIv0SMnmedborsjIDSzQU98/MOU1m1ebB2jTR57kZILX
+	dLyYEghUFK39r8MLTkmScU6G9epPYC4Uq3aPgL8hCyFA87g2BAgR867XvzyoPxmS3+w2
+	jGkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OkKbUD94qOB//fu4um5Q2W4oz8OC4iVnopZg0UeUR5g=;
-	b=MtJcGrFPywtV7ZPof25QjlZhrWtAOdkZowFRDAxQVflte/qRYwXYeHG1fB1o7nbV04
-	8preJe5YH7ak1pHfXOPeoWJd4EdroTRO6gNTwfwQH61Ukb3N2jIY3Yb4GSPdcuUrTeB+
-	fTW92xAwWGRbLWbfe1yT7c+z8s4zllGGPtkqE+NrrW/JZlnhuNHh9i6hjpcpvxc8gOfK
-	/CkbI2nOz6qfy4U5wNDHB2/2fa82NLz00UCU3UNJD93Qpsgkl5vqsyvEwo2bu7XC3ghI
-	ima3awwJETV1Y49dP1mhYHvASsErLm1mex7mWOinYpA9go65cTg2UX19otJ1cWXHt6GY
-	AzjA==
-X-Gm-Message-State: ALoCoQnx27Dlvyj1LXC0rO3nD0d3lbdL++RwxLfz63jOhczWb27+0UhzPraswY97PTFjv4fsz0Az6vK+6FjX9fKb3OaDOesa5g==
-X-Received: by 10.50.141.226 with SMTP id rr2mr28662749igb.75.1452805117767;
-	Thu, 14 Jan 2016 12:58:37 -0800 (PST)
+	bh=mhlwExPv1r2jlkgXl6SE2uK94ZIX5BcN5LXFIG+kdK8=;
+	b=XofUm+DWVl1H5s9Z5nRsiVwI83flcOGwdSsWrv1RZ77racl9/OsfRwKcV1+Oal4nLl
+	BbI1oHHPWoSthijWR/W0uuzxY4sMqmmBcXfNN4t3lEQrKCY6cVyI81aomsmzNbTX7cbR
+	mjHyTJFqn4YCjXnzdmh9MUIK+3U7xkmVb5u0TbwvlmnXQ1LCl7hw4YOoPdmpGnvj5xvh
+	/bCun7d925VsxLxgVNDX6WUinLkrxBmKtA2n18Jj6rW9NDvjXXHRHn5USmAGx5kR+ZYa
+	dj38xYxG/j13g8SpCHfZaWKdnKppXz9gpPzKaWxl+aZlLFB7NjxpSU90l1uVlTJL6N7E
+	uGBw==
+X-Gm-Message-State: AG10YOQ7RCBAQm+GLZP0iRIDLOeEVwtBs9tAdYGPlvvrTh1o5zzjb60er1IQMdOCgbymYQ==
+X-Received: by 10.50.23.77 with SMTP id k13mr2957905igf.2.1452805121238;
+	Thu, 14 Jan 2016 12:58:41 -0800 (PST)
 Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
 	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	204sm3203278iob.44.2016.01.14.12.58.37
+	204sm3203278iob.44.2016.01.14.12.58.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jan 2016 12:58:37 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:40 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:56:33 -0600
-Message-Id: <1452804997-20926-6-git-send-email-george.mccollister@gmail.com>
+Date: Thu, 14 Jan 2016 14:56:34 -0600
+Message-Id: <1452804997-20926-7-git-send-email-george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.4.5
 In-Reply-To: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
 References: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
-Subject: [RFC][PATCH 5/9] glib: use bash-completion.bbclass
+Subject: [RFC][PATCH 6/9] util-linux: use bash-completion.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 20:58:37 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 20:58:40 -0000
 
 Use bash-completion.bbclass to package bash completions.
 
 Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 86f7e0e..079b214 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -22,12 +22,12 @@ DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' glib-2.0-native
- DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
- DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 7ef7a54..b9961f7 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1715f5ee3e01203ca1e1e0b9ee65918c
+                     file://libmount/COPYING;md5=fb93f01d4361069c5616327705373b16 \
+                     file://libblkid/COPYING;md5=fb93f01d4361069c5616327705373b16"
  
--PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
-+PACKAGES =+ "${PN}-utils ${PN}-codegen"
+-inherit autotools gettext pkgconfig systemd update-alternatives python-dir ptest
++inherit autotools gettext pkgconfig systemd update-alternatives python-dir ptest bash-completion
+ DEPENDS = "zlib ncurses"
+ DEPENDS_append_class-native = " lzo-native"
+ DEPENDS_append_class-nativesdk = " lzo-native"
+@@ -31,7 +31,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
+              util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-runuser \
+              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+-             util-linux-partx ${PN}-bash-completion util-linux-hwclock \
++             util-linux-partx util-linux-hwclock \
+              util-linux-findfs util-linux-getopt util-linux-sulogin"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
  
- LEAD_SONAME = "libglib-2.0.*"
- FILES_${PN}-utils = "${bindir}/* ${datadir}/glib-2.0/gettext"
+@@ -64,7 +64,6 @@ PACKAGECONFIG[pylibmount] = "--with-python --enable-pylibmount,--without-python
+ # Readline support
+ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
  
--inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even
-+inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion
+-FILES_${PN}-bash-completion += "${datadir}/bash-completion"
+ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
  
- S = "${WORKDIR}/glib-${PV}"
- 
-@@ -51,8 +51,6 @@ FILES_${PN}-dev += "${libdir}/glib-2.0/include \
-                     ${libdir}/gio/modules/*.la"
- FILES_${PN}-dbg += "${datadir}/glib-2.0/gdb ${datadir}/gdb"
- FILES_${PN}-codegen = "${datadir}/glib-2.0/codegen/*.py"
--FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d \
--                               ${datadir}/bash-completion"
- 
- ARM_INSTRUCTION_SET = "arm"
- USE_NLS = "yes"
+ FILES_${PN}-dev += "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.la"
 -- 
 2.4.5
 
