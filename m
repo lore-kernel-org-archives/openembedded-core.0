@@ -1,36 +1,48 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
-	[66.111.4.27])
-	by mail.openembedded.org (Postfix) with ESMTP id C6AD7731D2
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E81F26FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:41:34 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id B3F8F20AFD
+	Thu, 14 Jan 2016 12:47:30 +0000 (UTC)
+Received: by mail-ob0-f173.google.com with SMTP id vt7so81950640obb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 07:41:34 -0500 (EST)
-Received: from frontend2 ([10.202.2.161])
-	by compute6.internal (MEProxy); Thu, 14 Jan 2016 07:41:34 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:in-reply-to:message-id
-	:references:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=zbC3
-	SsSDQXtM1WUZu4LCTfKFAww=; b=ic0ilFsg6sryBKoUFfVmB1Gqjm92vsGJ1f31
-	7jim7Cwc4rcUP6xK+kvASkqelajOGc7+tsViG0zEIIhJtOotNzlka+NILbMoU5M+
-	x0OREYHSL8XcUErvbeXKrzrP7GhNezZCgW1lXaZmdSfNcYuOnqK15aSDFFdiJbkb
-	tVhjEqg=
-X-Sasl-enc: lIAFNEzCqlb4irTq1O9APror40ZHNS7x2pUWLXX2r2GH 1452775294
-Received: from laptop.tanuk.dy.fi (a88-114-110-232.elisa-laajakaista.fi
-	[88.114.110.232])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 2A1B4680174
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 07:41:34 -0500 (EST)
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:41:22 +0200
-Message-Id: <1452775282-5514-1-git-send-email-tanuk@iki.fi>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <1452754378-2096-1-git-send-email-tanuk@iki.fi>
-References: <1452754378-2096-1-git-send-email-tanuk@iki.fi>
-Subject: [PATCH v2] alsa-lib: 1.0.29 -> 1.1.0
+	Thu, 14 Jan 2016 04:47:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=2JYkHU+IPWR+4tRPp4ffdEmu2O4Nr1kqgdwEZY/VAfo=;
+	b=HM1tTv+1vXdiPl7xxDoDcrJdfQ1DjU9Z4UMtNV1VXy7HpcXdblxRwyiG4j8zdPhNie
+	RuMMdkDgNyLkVAOOO3qIpYnRXbr3jRbGkuG4zyybrba33q7VYTNxnXreGd8RMoQLlzpQ
+	NhKOW+cZTcUjL3Tmkvtt+m5MZ+smDHd1C/cmTG1+V0oA7tPI4DFGX78tyqdsW/N2cdxJ
+	/9EBck5SqBtee/wrBuIuvhP9fdoRGbRAr5HK0LCg2M/AVZTKy4KI2lEf/vnN6q0rp8cK
+	Cfe5t3amw9jffLzhNCReZltHG2qbiG11Z0+L3eKSgkuEIue1FbpV6r6Z41r1jYG7p91C
+	mdwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=2JYkHU+IPWR+4tRPp4ffdEmu2O4Nr1kqgdwEZY/VAfo=;
+	b=FD+SmLFbWfAQrJvPAKn/RnxvqUFJrYFG0mIidj/HKQkrnweVAnhDkZGWKOKn0OgcF0
+	aY7Lh0EuzZshoVG0uqx+YM9LL1AzVvYgOGTS6Gl1oBtqpz+Nz59GVqWx16xJ/eKqFxN/
+	+cOanRXb0gQexBaxZeunQwLvpzWKhUukXfWF/M7D4s6kx1gvsPpRlq56RXEb1hAIBhmZ
+	nLyq7VarClyEOXu3ba5nC7s8+df6U8C2Bsl1stbqy8iAPtMwPYz8sv/qRU2T0xHodd16
+	W48k/RAlfYsCgtwAVRZliZuUQHVtrsWPmftPA124BGlAOflpKXbwwaw8P37H1Xt3d338
+	ZZEw==
+X-Gm-Message-State: ALoCoQmjbHpEuD4sH6TZDDLG1MESyeq1iyD/AyGvsY5a36rY8aiDIKVvUlHOWdCfvSBQNuCRuXqdpubDKkvuC7d8iQeFykyL/d4SB4XNHoFik5oVEp8Ag2o=
+X-Received: by 10.182.200.162 with SMTP id jt2mr3124350obc.55.1452775650752;
+	Thu, 14 Jan 2016 04:47:30 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.202.51.67 with HTTP; Thu, 14 Jan 2016 04:47:01 -0800 (PST)
+In-Reply-To: <CAD3vsf4W4vEZYa=Ge_yF3SNBSppALXVYuu5U-7wqHx5cPRaPDw@mail.gmail.com>
+References: <1452349952-11016-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<CAD3vsf4W4vEZYa=Ge_yF3SNBSppALXVYuu5U-7wqHx5cPRaPDw@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 14 Jan 2016 14:47:01 +0200
+Message-ID: <CAHiDW_EzmRMSPpxJ46kVC0qi9=hYUPK68M4k0ZfD2NbXycc6EA@mail.gmail.com>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] cantarell-fonts: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,153 +55,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 12:41:35 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 12:47:31 -0000
+Content-Type: multipart/alternative; boundary=001a11c239309a129705294ab0f1
 
-Changelog: http://alsa-project.org/main/index.php/Changes_v1.0.29_v1.1.0
+--001a11c239309a129705294ab0f1
+Content-Type: text/plain; charset=UTF-8
 
-The most significant change is probably the addition of the "topology
-API", which is used to change the DSP topology from userspace. My
-understanding is that the API is (or will be) needed to support some
-new hardware, but I don't know any specifics about that.
+On 13 January 2016 at 19:36, Jagadeesh Krishnanjanappa <
+jkrishnanjanappa@mvista.com> wrote:
 
-Rebased Check-if-wordexp-function-is-supported.patch.
+> Ping.
+>
+> Without cantarell fonts, the pango test case  test-layout.test fails.
+> Previous result of pango ptest is at
+>
+> https://wiki.yoctoproject.org/wiki/Ptest_5e3e2e0cbb0a49986f4653e64c4c8d2b5461645e
+>
+>
+Normally I'm all for more test coverage but I'll point out that this is a
+18M source repo for a single test... Sure, the download and target sizes
+are a fraction of that but they still count.
 
-Dropped 0001-build-Do-not-try-to-detect-cross-compiler.patch, since it
-is included in the new release.
-
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
-
-Sorry, I sent v1 again without rename detection, making the changes
-hard to see. I now found that "git config diff.renames" helps with
-this, so this shouldn't happen any more. There are no functional
-changes in v2.
-
- ...build-Do-not-try-to-detect-cross-compiler.patch | 45 ----------------------
- .../Check-if-wordexp-function-is-supported.patch   | 14 +++----
- .../alsa/{alsa-lib_1.0.29.bb => alsa-lib_1.1.0.bb} |  5 +--
- 3 files changed, 9 insertions(+), 55 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.0.29.bb => alsa-lib_1.1.0.bb} (88%)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
-deleted file mode 100644
-index 583bc3d..0000000
---- a/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 17aeb3565f411e7796cabe403f92d15948a8ca95 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 21 Aug 2015 14:42:45 -0700
--Subject: [PATCH] build: Do not try to detect cross-compiler
--
--cross compilers are passed via path may not be a gcc based cross
--compiler in such cases this check fails and try's to force gcc based
--cross compiler detection, This code is a convenience that limits the
--build system
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- configure.ac | 14 --------------
-- 1 file changed, 14 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 3022cf8..9d77440 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -27,20 +27,6 @@ AC_PREFIX_DEFAULT(/usr)
-- 
-- dnl Checks for programs.
-- 
---dnl try to gues cross-compiler if not set
---if test "x$host" != "x$build" -a -z "`echo $CC | grep -e '-gcc'`";
---then
---  AC_MSG_CHECKING(for cross-compiler)
---
---  which ${program_prefix}gcc >/dev/null 2>&1 && CC=${program_prefix}gcc
---  which ${host_cpu}-${host_os}-gcc >/dev/null 2>&1 \
---  && CC=${host_cpu}-${host_os}-gcc
---  which ${host_cpu}-${host_vendor}-${host_os}-gcc >/dev/null 2>&1 \
---  && CC=${host_cpu}-${host_vendor}-${host_os}-gcc
---
---  AC_MSG_RESULT($CC)
---fi
---	    
-- CFLAGS="$CFLAGS -D_GNU_SOURCE"
-- 
-- 
---- 
--2.1.4
--
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/Check-if-wordexp-function-is-supported.patch b/meta/recipes-multimedia/alsa/alsa-lib/Check-if-wordexp-function-is-supported.patch
-index 75a6eb8..795e48a 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib/Check-if-wordexp-function-is-supported.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/Check-if-wordexp-function-is-supported.patch
-@@ -1,4 +1,4 @@
--From e33357b59a10d44e9bec5d24100ce23ca300cc79 Mon Sep 17 00:00:00 2001
-+From 3408f8e78776b12f131e433749721602f87e0a70 Mon Sep 17 00:00:00 2001
- From: "Hong H. Pham" <hong.pham@windriver.com>
- Date: Fri, 29 Aug 2014 17:13:55 +0300
- Subject: [PATCH] Check if wordexp function is supported
-@@ -18,15 +18,15 @@ Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-  2 files changed, 5 insertions(+), 2 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index b8353a0..773b72f 100644
-+index 9490d39..b08a90a 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -311,7 +311,10 @@ fi
-+@@ -295,7 +295,10 @@ fi
-  AC_SUBST(ALSA_DEPLIBS)
-  
-  dnl Check for headers
---AC_CHECK_HEADERS([wordexp.h endian.h sys/endian.h])
--+AC_CHECK_HEADERS([wordexp.h endian.h sys/endian.h],
-+-AC_CHECK_HEADERS([wordexp.h endian.h sys/endian.h sys/shm.h])
-++AC_CHECK_HEADERS([wordexp.h endian.h sys/endian.h sys/shm.h],
- +  dnl Make sure wordexp is supported by the C library
- +  AC_CHECK_FUNCS([wordexp])
- +)
-@@ -34,7 +34,7 @@ index b8353a0..773b72f 100644
-  dnl Check for resmgr support...
-  AC_MSG_CHECKING(for resmgr support)
- diff --git a/src/userfile.c b/src/userfile.c
--index 3a73836..b8ce809 100644
-+index 72779da..e9d13e6 100644
- --- a/src/userfile.c
- +++ b/src/userfile.c
- @@ -32,7 +32,7 @@
-@@ -47,5 +47,5 @@ index 3a73836..b8ce809 100644
-  #include <assert.h>
-  int snd_user_file(const char *file, char **result)
- -- 
--1.9.1
-+2.6.4
- 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
-similarity index 88%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
-index 8eaeff4..d62c1fc 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
-@@ -16,10 +16,9 @@ ARM_INSTRUCTION_SET = "arm"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
-            file://Check-if-wordexp-function-is-supported.patch \
--           file://0001-build-Do-not-try-to-detect-cross-compiler.patch \
- "
--SRC_URI[md5sum] = "de67e0eca72474d6b1121037dafe1024"
--SRC_URI[sha256sum] = "73043c35eb9636be0f4af6a240235c213f12a25feb1f04aeeac8cb7e30fcbdd0"
-+SRC_URI[md5sum] = "69515ca73c3c4a212ef45160dea846c1"
-+SRC_URI[sha256sum] = "dfde65d11e82b68f82e562ab6228c1fb7c78854345d3c57e2c68a9dd3dae1f15"
- 
- inherit autotools pkgconfig
- 
--- 
-2.6.4
+Jussi
 
 
+
+> Regards,
+> Jagadeesh
+>
+> On Sat, Jan 9, 2016 at 8:02 PM, Jagadeesh Krishnanjanappa <
+> jkrishnanjanappa@mvista.com> wrote:
+>
+>> 1. The Cantarell font typeface is designed as a
+>>    contemporary Humanist sans serif, and was developed for
+>>    on-screen reading; in particular, reading web pages on an
+>>    HTC Dream mobile phone.
+>>
+>> 2. Pango test case (test-layout.test) requires cantarell-font
+>>    typeface. This test case uses 'Cantarell 11' font type
+>>
+>> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+>> ---
+>>  .../cantarell-fonts/cantarell-fonts_git.bb         | 25
+>> ++++++++++++++++++++++
+>>  1 file changed, 25 insertions(+)
+>>  create mode 100644 meta/recipes-graphics/cantarell-fonts/
+>> cantarell-fonts_git.bb
+>>
+>> diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+>> b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+>> new file mode 100644
+>> index 0000000..f55fef1
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+>> @@ -0,0 +1,25 @@
+>> +SUMMARY = "Cantarell, a Humanist sans-serif font family"
+>> +
+>> +DESCRIPTION = "The Cantarell font typeface is designed as a \
+>> +               contemporary Humanist sans serif, and was developed for \
+>> +               on-screen reading; in particular, reading web pages on an
+>> \
+>> +               HTC Dream mobile phone."
+>> +
+>> +HOMEPAGE = "https://git.gnome.org/browse/cantarell-fonts/"
+>> +SECTION = "fonts"
+>> +LICENSE = "OFL-1.1"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=df91e3ffcab8cfb972a66bf11255188d"
+>> +
+>> +PV = "0.0.18.1+git${SRCPV}"
+>> +PR = "r0"
+>> +
+>> +SRCREV = "3e954528d06de1c7e5ba8ebf8b0cca9c68faa0c4"
+>> +SRC_URI = "git://
+>> git.gnome.org/cantarell-fonts;protocol=git;branch=master"
+>> +
+>> +S = "${WORKDIR}/git"
+>> +
+>> +inherit autotools allarch fontcache
+>> +
+>> +PACKAGECONFIG ??= ""
+>> +PACKAGECONFIG[fontforge] =
+>> "--enable-source-rebuild=yes,--enable-source-rebuild=no,fontforge-native"
+>> +FILES_${PN} = "${datadir}/fonts ${datadir}/fontconfig"
+>> --
+>> 1.9.1
+>>
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+--001a11c239309a129705294ab0f1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+3 January 2016 at 19:36, Jagadeesh Krishnanjanappa <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:jkrishnanjanappa@mvista.com" target=3D"_blank">jkrishnanjan=
+appa@mvista.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v dir=3D"ltr">Ping.<div><br></div><div>Without cantarell fonts, the pango t=
+est case=C2=A0<span style=3D"font-size:17.6000003814697px">=C2=A0</span><sp=
+an style=3D"font-size:12.8000001907349px">test-layout.test fails.</span></d=
+iv><div>Previous result of pango ptest is at</div><div><a href=3D"https://w=
+iki.yoctoproject.org/wiki/Ptest_5e3e2e0cbb0a49986f4653e64c4c8d2b5461645e" t=
+arget=3D"_blank">https://wiki.yoctoproject.org/wiki/Ptest_5e3e2e0cbb0a49986=
+f4653e64c4c8d2b5461645e</a><br></div><div><br></div></div></blockquote><div=
+><br></div><div>Normally I&#39;m all for more test coverage but I&#39;ll po=
+int out that this is a 18M source repo for a single test... Sure, the downl=
+oad and target sizes are a fraction of that but they still count.=C2=A0</di=
+v><div><br></div><div>Jussi</div><div><br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><div dir=3D"ltr"><div></div><div>Regards,</div><div>Ja=
+gadeesh</div><div><div class=3D"h5"><div class=3D"gmail_extra"><br><div cla=
+ss=3D"gmail_quote">On Sat, Jan 9, 2016 at 8:02 PM, Jagadeesh Krishnanjanapp=
+a <span dir=3D"ltr">&lt;<a href=3D"mailto:jkrishnanjanappa@mvista.com" targ=
+et=3D"_blank">jkrishnanjanappa@mvista.com</a>&gt;</span> wrote:<br><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-l=
+eft:1ex">1. The Cantarell font typeface is designed as a<br>
+=C2=A0 =C2=A0contemporary Humanist sans serif, and was developed for<br>
+=C2=A0 =C2=A0on-screen reading; in particular, reading web pages on an<br>
+=C2=A0 =C2=A0HTC Dream mobile phone.<br>
+<br>
+2. Pango test case (test-layout.test) requires cantarell-font<br>
+=C2=A0 =C2=A0typeface. This test case uses &#39;Cantarell 11&#39; font type=
+<br>
+<br>
+Signed-off-by: Jagadeesh Krishnanjanappa &lt;<a href=3D"mailto:jkrishnanjan=
+appa@mvista.com" target=3D"_blank">jkrishnanjanappa@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0.../cantarell-fonts/<a href=3D"http://cantarell-fonts_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">cantarell-fonts_git.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 25 ++++++++++++++++++++++<br>
+=C2=A01 file changed, 25 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-graphics/cantarell-fonts/<a href=3D"h=
+ttp://cantarell-fonts_git.bb" rel=3D"noreferrer" target=3D"_blank">cantarel=
+l-fonts_git.bb</a><br>
+<br>
+diff --git a/meta/recipes-graphics/cantarell-fonts/<a href=3D"http://cantar=
+ell-fonts_git.bb" rel=3D"noreferrer" target=3D"_blank">cantarell-fonts_git.=
+bb</a> b/meta/recipes-graphics/cantarell-fonts/<a href=3D"http://cantarell-=
+fonts_git.bb" rel=3D"noreferrer" target=3D"_blank">cantarell-fonts_git.bb</=
+a><br>
+new file mode 100644<br>
+index 0000000..f55fef1<br>
+--- /dev/null<br>
++++ b/meta/recipes-graphics/cantarell-fonts/<a href=3D"http://cantarell-fon=
+ts_git.bb" rel=3D"noreferrer" target=3D"_blank">cantarell-fonts_git.bb</a><=
+br>
+@@ -0,0 +1,25 @@<br>
++SUMMARY =3D &quot;Cantarell, a Humanist sans-serif font family&quot;<br>
++<br>
++DESCRIPTION =3D &quot;The Cantarell font typeface is designed as a \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0contemporary Humani=
+st sans serif, and was developed for \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0on-screen reading; =
+in particular, reading web pages on an \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0HTC Dream mobile ph=
+one.&quot;<br>
++<br>
++HOMEPAGE =3D &quot;<a href=3D"https://git.gnome.org/browse/cantarell-fonts=
+/" rel=3D"noreferrer" target=3D"_blank">https://git.gnome.org/browse/cantar=
+ell-fonts/</a>&quot;<br>
++SECTION =3D &quot;fonts&quot;<br>
++LICENSE =3D &quot;OFL-1.1&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Ddf91e3ffcab8cfb972a66bf112=
+55188d&quot;<br>
++<br>
++PV =3D &quot;0.0.18.1+git${SRCPV}&quot;<br>
++PR =3D &quot;r0&quot;<br>
++<br>
++SRCREV =3D &quot;3e954528d06de1c7e5ba8ebf8b0cca9c68faa0c4&quot;<br>
++SRC_URI =3D &quot;git://<a href=3D"http://git.gnome.org/cantarell-fonts;pr=
+otocol=3Dgit;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">git.gnom=
+e.org/cantarell-fonts;protocol=3Dgit;branch=3Dmaster</a>&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++inherit autotools allarch fontcache<br>
++<br>
++PACKAGECONFIG ??=3D &quot;&quot;<br>
++PACKAGECONFIG[fontforge] =3D &quot;--enable-source-rebuild=3Dyes,--enable-=
+source-rebuild=3Dno,fontforge-native&quot;<br>
++FILES_${PN} =3D &quot;${datadir}/fonts ${datadir}/fontconfig&quot;<br>
+<span><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+</font></span></blockquote></div><br></div></div></div></div>
+<br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+<br></blockquote></div><br></div></div>
+
+--001a11c239309a129705294ab0f1--
