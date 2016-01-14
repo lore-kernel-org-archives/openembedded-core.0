@@ -1,48 +1,48 @@
 Return-Path: <george.mccollister@gmail.com>
 Received: from mail-ig0-f193.google.com (mail-ig0-f193.google.com
 	[209.85.213.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BD8F5731E0
+	by mail.openembedded.org (Postfix) with ESMTP id 0A21C607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 20:58:42 +0000 (UTC)
-Received: by mail-ig0-f193.google.com with SMTP id h5so6482466igh.0
+	Thu, 14 Jan 2016 20:58:43 +0000 (UTC)
+Received: by mail-ig0-f193.google.com with SMTP id ik10so20906237igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 12:58:43 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gPboiCax9GOQYpcN0w4gVXd/k1uXUolxhfFmM7zdU4k=;
-	b=jFI92USRExh490qYrFntI+TQ3zz3131YZbvSry7j+9tIWwRzkXyhHtdvG6cEU73gZ9
-	CH4DlXuInmT8y7cilwhvC2exPB0Xl5+lMpzATpF8BqowQameIcCZyR0YhfMpsaV+lZOl
-	T8yluogcuu76KXqum+Q9WBa3cyiWL140t9+xaJaFTus7CDY0PPWNdVKHpS1YGgHcd9VZ
-	PgYAi6ps6RBSg9RgOs8CDwpjXvj4ETFNS323mrdeKUp7Me5WNQ18Gz4Nbl36aMjNHAIH
-	Tn5tpK6AO3BYEL9csWJY29a+aBHSI7f8OK6PGLXOsFI6M+FDt7+fFNxtOeffa11pOT9u
-	lRyQ==
+	bh=5HInMjXNjgaUU+c8qWQ7Ei37UHl1GkGrg2gdqAqR66U=;
+	b=tmN1ySykyWoCFV2RYQYNfKIvrCUc59gqpm/78iHTMZS70i4ZnFapEAR/ImvGuWiyJy
+	HwPBjzDzAzGdL3A3Y/xPNhUTEMN++EtlIXnAheovAvzBbFMNsOEYAUURwxDLDKvXFK1C
+	w5bE4JfQDE4D8g0NESM5mrhsbb0DihWkkJ2bt88x+bE7vZyL4BP2bBUGrNqVNZ1lZdXp
+	PU3Czja1/yVTDnhwJzsXFa/mhGKFkzvqg9k+Ex1MFpsAuRQbXHQAKGsTW5v+DMC2krDw
+	XmtvHzMs8GzijzH3rLM3cXsRUpF5Q/Tk/DGjUB5OjEMEHEhSJ7cTiM81EpaMlsafXj4u
+	onrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=gPboiCax9GOQYpcN0w4gVXd/k1uXUolxhfFmM7zdU4k=;
-	b=Y1RD7cS1TEC3CrdeNE8MJsQZdV6eBguzNyctMLpf/3QBarWdvkONq5Ix2csB2zrVM1
-	EwdrRApqLlHnBrSxmp9citffZiYlk5AHzzrJbrAn7E9mdgLEvEajyKooEz/nBC2JmpuB
-	n+J320RVuxqgv/HJQDt7I3htMPPivxBrB/PFsqWunKTcTVkKFXwJVosvamp/7qMw+68t
-	xlntEH5fJM42/BO/X7geErNaWHAJ3NuAmfk/95xF0mQIlQWL65NmcBvjzb39VALCuxsz
-	vuRP28awIQt1BYnfDu3la+JJyBimmlexG8jU6yw/Az0L56KGl2E+JjY3baudyg9kNOC6
-	bsuA==
-X-Gm-Message-State: ALoCoQmyivD9AZ0tGJRJ3vHZtXcKJBqUlEUj5rukZlkNa1V2RqQ8pv9PnFrJ12m2MFQL6l7+z9VtOjxDd1orEAJFdZI2NI1Ubw==
-X-Received: by 10.50.61.209 with SMTP id s17mr31251826igr.40.1452805123176;
-	Thu, 14 Jan 2016 12:58:43 -0800 (PST)
+	bh=5HInMjXNjgaUU+c8qWQ7Ei37UHl1GkGrg2gdqAqR66U=;
+	b=foZaGfdVOlkOwBXpQ4KK7BKcjwN5riYooUI/4EwZoH0z91KVS82zFsR3+Y2vayMYLV
+	9SigG8GR8dX5oUtf55pxS9BJKBs+xnX1wJOb6G8bx+6xKTL/tql3l6/+7k3OhSgvntnG
+	20eqjVXzpr7dH5L8Qh4m8ZIfqVZezeEyUWpOOOx6b34gfIsRp1ndoOhglX2ylyUzrYBg
+	9Y/09mHdj8oxQtfUKkgSCcCUshXC/FcIeDt7z79QF4EmfXL18bBgX56WW5enpiIrNQEt
+	bK5Fdbx8SsBpV7GOYP0w3jTKL5HScieoCQ5QQy5PxiAnaHwHZk3TtE8JudgaTR53Tcco
+	52wA==
+X-Gm-Message-State: ALoCoQmh9WvRP9n9MgYBDg0ReKSv2IvB6GpaVwR+9vZ0vweVTdERhb/MFsUC2rlIvOk+/cELXreJ30r4eRxjRC1KQgELjBM3VA==
+X-Received: by 10.50.161.8 with SMTP id xo8mr30113870igb.27.1452805124873;
+	Thu, 14 Jan 2016 12:58:44 -0800 (PST)
 Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
 	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	204sm3203278iob.44.2016.01.14.12.58.42
+	204sm3203278iob.44.2016.01.14.12.58.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jan 2016 12:58:42 -0800 (PST)
+	Thu, 14 Jan 2016 12:58:44 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:56:35 -0600
-Message-Id: <1452804997-20926-8-git-send-email-george.mccollister@gmail.com>
+Date: Thu, 14 Jan 2016 14:56:36 -0600
+Message-Id: <1452804997-20926-9-git-send-email-george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.4.5
 In-Reply-To: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
 References: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
-Subject: [RFC][PATCH 7/9] git: use bash-completion.bbclass
+Subject: [RFC][PATCH 8/9] kmod: use bash-completion.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,39 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 20:58:42 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 20:58:44 -0000
 
 Use bash-completion.bbclass to package bash completions.
 
 Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- meta/recipes-devtools/git/git.inc | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ meta/recipes-kernel/kmod/kmod_git.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index d9770e6..c19e0d4 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -17,7 +17,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- 		--without-tcltk \
- "
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index e0bb95c..69185b2 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -39,7 +39,7 @@ do_compile_prepend() {
+             sed -i 's/ac_pwd=/#ac_pwd=/' config.status ; sed -i "/#ac_pwd=/a\ac_pwd='.'" config.status
+ }
  
--inherit autotools-brokensep perlnative
-+inherit autotools-brokensep perlnative bash-completion
+-inherit update-alternatives
++inherit update-alternatives bash-completion
  
- EXTRA_OEMAKE = "NO_PYTHON=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
- EXTRA_OEMAKE += "'PERL_PATH=/usr/bin/env perl'"
-@@ -96,10 +96,6 @@ PERLTOOLS = " \
-     ${datadir}/git-core/templates/hooks/pre-rebase.sample \
- "
+ ALTERNATIVE_PRIORITY = "60"
  
--# Basic tab completion support
--PACKAGES =+ "${PN}-bash-completion"
--FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
--
- # Git tools requiring perl
- PACKAGES =+ "${PN}-perltools"
- FILES_${PN}-perltools += " \
+@@ -56,8 +56,7 @@ ALTERNATIVE_TARGET[lsmod] = "${base_bindir}/lsmod.${BPN}"
+ 
+ ALTERNATIVE_LINK_NAME[depmod] = "${base_sbindir}/depmod"
+ 
+-PACKAGES =+ "libkmod ${PN}-bash-completion"
++PACKAGES =+ "libkmod"
+ 
+ FILES_libkmod = "${base_libdir}/libkmod*${SOLIBS} ${libdir}/libkmod*${SOLIBS}"
+ FILES_${PN} += "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
+-FILES_${PN}-bash-completion = "${datadir}/bash-completion"
 -- 
 2.4.5
 
