@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A4C64731B3
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A468731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 13:06:19 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id q21so451924452iod.0
+	Thu, 14 Jan 2016 13:07:34 +0000 (UTC)
+Received: by mail-ob0-f169.google.com with SMTP id ba1so492441359obb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 05:06:20 -0800 (PST)
+	Thu, 14 Jan 2016 05:07:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=O5BqZovU7GyTOneVrmFLCGrmKToF+SYvklzDY1C8t18=;
-	b=uv4uzD6OH0CF6Q7ZG382zcWXgPejyaQ+8I53XB27a0OsLp1M43/RkxYLXY8nvU70rw
-	ja8E+Z620JkrEfqqPXz+UI1E9+AOHf5JjYpnsa1Fka+XGmUAM8Giy+5bKGGojuMcSPGx
-	9CT2JWmUy723XGpue07xjZoXKr6R3qUYodeJXekv4zdOchgLbhbqITVfE9v23mk3vMd7
-	7wHtJwqab0xKyUFd4GKMCQWAfZyilupXn6JDnrnZN0YEbvUrvdF2M3RYsDULFaJ7Qjm/
-	07Ylv1nqxo90McSQjnLTJA3+WXmPQ76mz+A+q97y0iQnclSc4ienHpv4rcrSSkLvZqgl
-	IP+Q==
+	:content-type; bh=Cg0k0vUQHU5+hgyaYYxFOhvb3KhwQXD1OaFV45jwAmU=;
+	b=TkuRTCfLav2+baYx745Nu/LD636EUjEB5YDSDHUVOykIuOuxmoE4cxgzsuhgBwFDjU
+	LyPVjeAsJO/BNtEjnGuzqKKYqVF1RGeLvtdzuNZ0UhmDq/1R2d4bjOwsxpcqcpWovqDW
+	1TN5AWCS/by6oToEdlK2Av2fNQHN4xp56S2828NxQiPZSVR4EhwAOvVCJvBI0wkE4ncW
+	4M/e798dUdRHjsJp39Ui2uNa1VvtfrKImM1Wp+xbJBguuSzkJaahFF39tjJuy14Sr6mI
+	P3PxY2ShUBBVLZYisSPsorj9e6nCacG19BSmJ8vVktli0+qC2jAczkF2sfzD7TpRLaDR
+	HyIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=O5BqZovU7GyTOneVrmFLCGrmKToF+SYvklzDY1C8t18=;
-	b=Z1HH1F4qDwAEtnePBPVTwbDBNo6GALQuYkv0UGWNVayuaDb+BK7o1Q32+BBSR2ACHA
-	NMdTDarhMiZpOKGPEY80HcF+di4TaaVo+buC2aeF1AThaJYVLaO5fhrtTWLj7CvLBX5T
-	7qazZhRj15dI+3U2/ck6Z+i3QQY77CLSPgNvVXeftOGvA4YNJUXN+z1e1D6M/aVdWJ6k
-	tk6/Mpw0KtwiFWVvx8P64ic1WaHMBwuvJdTARDwW6qFjHuJIlBmBI7SrDbhUzukS7IoN
-	yCQi3vkB2SIfXvB1oCTdLgFw1/GMoBI6pWOi+YkWMF8bGqPpALKcW3IYj+9ZV/9CNyMg
-	GBKQ==
-X-Gm-Message-State: ALoCoQm1c/rbBoQHPlSGUScFflRmNj5qy9Va5X6Bkeg6fQ0zdxy2ud9MsTd/Uez18GYYDfV3Re++70B6pP0ZzH+8ptPfQa2N76Udl/RC+21PB17J9n6v+Wk=
-X-Received: by 10.107.3.154 with SMTP id e26mr4251469ioi.99.1452776780143;
-	Thu, 14 Jan 2016 05:06:20 -0800 (PST)
+	:message-id:subject:to:content-type;
+	bh=Cg0k0vUQHU5+hgyaYYxFOhvb3KhwQXD1OaFV45jwAmU=;
+	b=WoyuTbaJNotRJMwMJ9VixNeXK1EfS66Q6e3NLwJ6QefZbR5CHJaEgoAAVJTrC//RtU
+	ClY/kuWhi0oDptm/HiHsgmCEUGpFtpWPktcnNpUYkbjx/f1cLIEUh8GeU+YXoHiafx2I
+	NLcR7wrMh662VRfQJQcci0CMKj/DoprkgVJX8fMuS45pMhckd/me7ByUd6FqdKMfvWJu
+	gxyK9F3jpFFYdQ/IzRRASIwTPHLoFKWIEDd+MjKLUYzMKTGojPJuvRTX7pdSh9QI2L6s
+	FbE18IVcvv8W9jIK52xV9CuYLb+GfkOqGRDpTpUlJUHLB1Mze4u1FlqY4oAPDK4Pocmv
+	rhLg==
+X-Gm-Message-State: ALoCoQmQTuFpaQrQKTq2BI3yKF5gP8xEg7k42F2pidHAMV9RRjynaE3xiBJrW0t128cWPTKytihsK/PpzscoUyTXeHr/3Rd8ZY9fK1Wt89q6oi3AQBK7PfE=
+X-Received: by 10.182.200.162 with SMTP id jt2mr3214327obc.55.1452776854696;
+	Thu, 14 Jan 2016 05:07:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 14 Jan 2016 05:06:00 -0800 (PST)
-In-Reply-To: <5697986A.7010603@linux.intel.com>
-References: <1452754378-2096-1-git-send-email-tanuk@iki.fi>
-	<5697824A.8040503@linux.intel.com> <1452774089.11077.100.camel@iki.fi>
-	<5697986A.7010603@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Jan 2016 13:06:00 +0000
-Message-ID: <CAJTo0LY2baHW6_8wNSSut14Jx2tg5K=L5OmYzybPS7GXF-v5tA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-lib: 1.0.29 -> 1.1.0
+Received: by 10.202.51.67 with HTTP; Thu, 14 Jan 2016 05:07:05 -0800 (PST)
+In-Reply-To: <b23c413682080d988bd163c6df0f439cd41ae7ad.1448455166.git.jussi.kukkonen@intel.com>
+References: <cover.1448455166.git.jussi.kukkonen@intel.com>
+	<b23c413682080d988bd163c6df0f439cd41ae7ad.1448455166.git.jussi.kukkonen@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 14 Jan 2016 15:07:05 +0200
+Message-ID: <CAHiDW_HxSHvF_f4ZaHHqt6hbvKs2kj7TJm799YV8CJf8ZpZEXQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] connman-gnome: rrecommend connman, don't rdepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,49 +54,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 13:06:23 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10aeb321f05294af3b1
+X-List-Received-Date: Thu, 14 Jan 2016 13:07:34 -0000
+Content-Type: multipart/alternative; boundary=001a11c239305cc25705294af815
 
---001a113ec10aeb321f05294af3b1
+--001a11c239305cc25705294af815
 Content-Type: text/plain; charset=UTF-8
 
-On 14 January 2016 at 12:45, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+On 25 November 2015 at 15:05, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-> It's more convenient if you send them in a single batch, with a branch to
-> pull from (using scripts/(create|send)-pull-request). Less manual
-> cherry-picking in the email client for Ross.
+> connman-gnome doesn't have a binary dependency on connman, and using
+> RRECOMMEND is better for multilib builds (connman-gnome works fine
+> with connman from a different architecture).
 >
 
-FWIW I threw some effort into automating tooling last week and can now go
-from patches in gmail to commits in my repo with just "ss" in gmail (tag
-message with a specific star) and then running "applyotron -m".
- (github:rossburton/ross-tools if anyone else is curious).  For something
-like alsa having all the updates happen at once is neater and easier, and
-branches mean I can never accidentally pull the wrong patch from mail.
+It's possible I've missed a thread during holidays but I believe this patch
+never made it into master.
 
-Ross
+Jussi
 
---001a113ec10aeb321f05294af3b1
+
+
+> Fixes [YOCTO #8586]
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+> b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+> index 7b875f0..1849dbd 100644
+> --- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+> +++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+> @@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
+>  inherit autotools-brokensep gtk-icon-cache pkgconfig distro_features_check
+>  ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+>
+> -RDEPENDS_${PN} = "connman"
+> +RRECOMMENDS_${PN} = "connman"
+>
+>  do_install_append() {
+>      install -m 0644 ${WORKDIR}/images/*
+> ${D}/usr/share/icons/hicolor/22x22/apps/
+> --
+> 2.1.4
+>
+>
+
+--001a11c239305cc25705294af815
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 January 2016 at 12:45, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
-kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":2om" class=3D"a3s" style=3D"overflow:hidden">It&#39;s more=
- convenient if you send them in a single batch, with a branch to pull from =
-(using scripts/(create|send)-pull-request). Less manual cherry-picking in t=
-he email client for Ross.<br></div></blockquote></div><br>FWIW I threw some=
- effort into automating tooling last week and can now go from patches in gm=
-ail to commits in my repo with just &quot;ss&quot; in gmail (tag message wi=
-th a specific star) and then running &quot;applyotron -m&quot;. =C2=A0(gith=
-ub:rossburton/ross-tools if anyone else is curious).=C2=A0 For something li=
-ke alsa having all the updates happen at once is neater and easier, and bra=
-nches mean I can never accidentally pull the wrong patch from mail.</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+5 November 2015 at 15:05, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">connman-gnome doesn=
+&#39;t have a binary dependency on connman, and using<br>
+RRECOMMEND is better for multilib builds (connman-gnome works fine<br>
+with connman from a different architecture).<br></blockquote><div><br></div=
+><div>It&#39;s possible I&#39;ve missed a thread during holidays but I beli=
+eve this patch never made it into master.</div><div><br></div><div>Jussi</d=
+iv><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Fixes [YOCTO #8586]<br>
+<br>
+Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.co=
+m">jussi.kukkonen@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-connectivity/connman/<a href=3D"http://connman-gnome_0.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">connman-gnome_0.7.bb</a> | 2 +-<b=
+r>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-connectivity/connman/<a href=3D"http://connman-gn=
+ome_0.7.bb" rel=3D"noreferrer" target=3D"_blank">connman-gnome_0.7.bb</a> b=
+/meta/recipes-connectivity/connman/<a href=3D"http://connman-gnome_0.7.bb" =
+rel=3D"noreferrer" target=3D"_blank">connman-gnome_0.7.bb</a><br>
+index 7b875f0..1849dbd 100644<br>
+--- a/meta/recipes-connectivity/connman/<a href=3D"http://connman-gnome_0.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">connman-gnome_0.7.bb</a><br>
++++ b/meta/recipes-connectivity/connman/<a href=3D"http://connman-gnome_0.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">connman-gnome_0.7.bb</a><br>
+@@ -22,7 +22,7 @@ S =3D &quot;${WORKDIR}/git&quot;<br>
+=C2=A0inherit autotools-brokensep gtk-icon-cache pkgconfig distro_features_=
+check<br>
+=C2=A0ANY_OF_DISTRO_FEATURES =3D &quot;${GTK2DISTROFEATURES}&quot;<br>
+<br>
+-RDEPENDS_${PN} =3D &quot;connman&quot;<br>
++RRECOMMENDS_${PN} =3D &quot;connman&quot;<br>
+<br>
+=C2=A0do_install_append() {<br>
+=C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/images/* ${D}/usr/share/icon=
+s/hicolor/22x22/apps/<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+</font></span></blockquote></div><br></div></div>
 
---001a113ec10aeb321f05294af3b1--
+--001a11c239305cc25705294af815--
