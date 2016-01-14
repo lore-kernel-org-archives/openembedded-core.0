@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1981E731C9
+	by mail.openembedded.org (Postfix) with ESMTP id 9A46F731EF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 14:14:57 +0000 (UTC)
+	Thu, 14 Jan 2016 14:15:11 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Jan 2016 06:14:58 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 14 Jan 2016 06:15:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,294,1449561600"; d="scan'208";a="893132076"
+X-IronPort-AV: E=Sophos;i="5.22,294,1449561600"; d="scan'208";a="893132457"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Jan 2016 06:14:58 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 14 Jan 2016 06:15:12 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 9C5506A4002
+	by linux.intel.com (Postfix) with ESMTP id 805526A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 07:02:54 -0800 (PST)
+	Thu, 14 Jan 2016 07:03:08 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jan 2016 14:12:56 +0200
-Message-Id: <aa6e98c51e792e36035bf59031b1e341c40c739a.1452766193.git.ed.bartosh@linux.intel.com>
+Date: Thu, 14 Jan 2016 14:12:57 +0200
+Message-Id: <0a948d53ca14af9ac009d54f6b4863626a9f2392.1452766193.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 References: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1452766193.git.ed.bartosh@linux.intel.com>
 References: <cover.1452766193.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 6/9] wic: get rid of get_timeout getter
+Subject: [wic][PATCH 7/9] wic: get rid of get_rootfs and set_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,177 +35,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 14:14:58 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 14:15:11 -0000
 
-Used bootloader.timeout instead of kickstart.get_timeout getter.
-
-Accessing attributes instead of getting them with getters is
-more pythonic, shorter and readable. It also more consistent as
-most of partition and bootloader attributes are used this way.
-
-This change also takes care of appendLine bootloader attribute:
-it's renamed to bootloader.append attribute provided by new parser.
+Got rid of get_rootfs and set_rootfs java-like getter and
+setter. Renamed rootfs to rootfs_dir to be consistent with
+the name of kickstart parameter --rootfs-dir.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py        | 18 ++++++------------
- scripts/lib/wic/plugins/source/bootimg-pcbios.py     |  9 ++-------
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 16 +++++++---------
- scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py  |  5 +----
- 4 files changed, 16 insertions(+), 32 deletions(-)
+ scripts/lib/wic/imager/direct.py                     |  6 +++---
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 14 +++++++-------
+ scripts/lib/wic/plugins/source/rootfs.py             | 14 +++++++-------
+ scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py  |  2 +-
+ 4 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 556586f..35afa30 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -66,16 +66,13 @@ class BootimgEFIPlugin(SourcePlugin):
-             grubefi_conf = ""
-             grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
-             grubefi_conf += "default=boot\n"
--            timeout = kickstart.get_timeout(creator.ks)
--            if not timeout:
--                timeout = 0
--            grubefi_conf += "timeout=%s\n" % timeout
-+            grubefi_conf += "timeout=%s\n" % bootloader.timeout
-             grubefi_conf += "menuentry 'boot'{\n"
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 25bab89..09ff5f8 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -233,7 +233,7 @@ class DirectImageCreator(BaseImageCreator):
+             # get rootfs size from bitbake variable if it's not set in .ks file
+             if not part.size:
+                 # and if rootfs name is specified for the partition
+-                image_name = part.get_rootfs()
++                image_name = part.rootfs_dir
+                 if image_name:
+                     # Bitbake variable ROOTFS_SIZE is calculated in
+                     # Image._get_rootfs_size method from meta/lib/oe/image.py
+@@ -336,13 +336,13 @@ class DirectImageCreator(BaseImageCreator):
  
-             kernel = "/bzImage"
- 
-             grubefi_conf += "linux %s root=%s rootwait %s\n" \
--                % (kernel, creator.rootdev, options)
-+                % (kernel, creator.rootdev, bootloader.append)
-             grubefi_conf += "}\n"
- 
-         msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
-@@ -95,15 +92,11 @@ class BootimgEFIPlugin(SourcePlugin):
-         install_cmd = "install -d %s/loader/entries" % hdddir
-         exec_cmd(install_cmd)
- 
--        options = creator.ks.handler.bootloader.appendLine
--
--        timeout = kickstart.get_timeout(creator.ks)
--        if not timeout:
--            timeout = 0
-+        bootloader = creator.ks.bootloader
- 
-         loader_conf = ""
-         loader_conf += "default boot\n"
--        loader_conf += "timeout %d\n" % timeout
-+        loader_conf += "timeout %d\n" % bootloader.timeout
- 
-         msger.debug("Writing gummiboot config %s/hdd/boot/loader/loader.conf" \
-                         % cr_workdir)
-@@ -131,7 +124,8 @@ class BootimgEFIPlugin(SourcePlugin):
-             boot_conf = ""
-             boot_conf += "title boot\n"
-             boot_conf += "linux %s\n" % kernel
--            boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
-+            boot_conf += "options LABEL=Boot root=%s %s\n" % \
-+                             (creator.rootdev, bootloader.append)
- 
-         msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
-                         % cr_workdir)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 80c7dfb..255684b 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -105,14 +105,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         msg += 'The following build artifacts were used to create the image(s):\n'
+         for part in parts:
+-            if part.get_rootfs() is None:
++            if part.rootfs_dir is None:
+                 continue
+             if part.mountpoint == '/':
+                 suffix = ':'
              else:
-                 splashline = ""
+                 suffix = '["%s"]:' % (part.mountpoint or part.label)
+-            msg += '  ROOTFS_DIR%s%s\n' % (suffix.ljust(20), part.get_rootfs())
++            msg += '  ROOTFS_DIR%s%s\n' % (suffix.ljust(20), part.rootfs_dir)
  
--            options = creator.ks.handler.bootloader.appendLine
--
-             syslinux_conf = ""
-             syslinux_conf += "PROMPT 0\n"
--            timeout = kickstart.get_timeout(creator.ks)
--            if not timeout:
--                timeout = 0
--            syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
-+            syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
-             syslinux_conf += "\n"
-             syslinux_conf += "ALLOWOPTIONS 1\n"
-             syslinux_conf += "SERIAL 0 115200\n"
-@@ -126,7 +121,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-             syslinux_conf += "KERNEL " + kernel + "\n"
- 
-             syslinux_conf += "APPEND label=boot root=%s %s\n" % \
--                                 (creator.rootdev, options)
-+                             (creator.rootdev, bootloader.append)
- 
-         msger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg" \
-                     % cr_workdir)
+         msg += '  BOOTIMG_DIR:                  %s\n' % self.bootimg_dir
+         msg += '  KERNEL_DIR:                   %s\n' % self.kernel_dir
 diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 9472d8a..9ad0bc7 100644
+index 9ad0bc7..b5ca4d3 100644
 --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
 +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -64,13 +64,11 @@ class IsoImagePlugin(SourcePlugin):
+@@ -262,26 +262,26 @@ class IsoImagePlugin(SourcePlugin):
+ 
+         isodir = "%s/ISO" % cr_workdir
+ 
+-        if part.rootfs is None:
++        if part.rootfs_dir is None:
+             if not 'ROOTFS_DIR' in rootfs_dir:
+                 msger.error("Couldn't find --rootfs-dir, exiting.\n")
+             rootfs_dir = rootfs_dir['ROOTFS_DIR']
          else:
-             splashline = ""
+-            if part.rootfs in rootfs_dir:
+-                rootfs_dir = rootfs_dir[part.rootfs]
+-            elif part.rootfs:
+-                rootfs_dir = part.rootfs
++            if part.rootfs_dir in rootfs_dir:
++                rootfs_dir = rootfs_dir[part.rootfs_dir]
++            elif part.rootfs_dir:
++                rootfs_dir = part.rootfs_dir
+             else:
+                 msg = "Couldn't find --rootfs-dir=%s connection "
+                 msg += "or it is not a valid path, exiting.\n"
+-                msger.error(msg % part.rootfs)
++                msger.error(msg % part.rootfs_dir)
  
--        options = creator.ks.handler.bootloader.appendLine
--
--        timeout = kickstart.get_timeout(creator.ks, 10)
-+        bootloader = creator.ks.bootloader
+         if not os.path.isdir(rootfs_dir):
+             rootfs_dir = get_bitbake_var("IMAGE_ROOTFS")
+         if not os.path.isdir(rootfs_dir):
+             msger.error("Couldn't find IMAGE_ROOTFS, exiting.\n")
  
-         syslinux_conf = ""
-         syslinux_conf += "PROMPT 0\n"
--        syslinux_conf += "TIMEOUT %s \n" % timeout
-+        syslinux_conf += "TIMEOUT %s \n" % (bootloader.timeout or 10)
-         syslinux_conf += "\n"
-         syslinux_conf += "ALLOWOPTIONS 1\n"
-         syslinux_conf += "SERIAL 0 115200\n"
-@@ -82,7 +80,8 @@ class IsoImagePlugin(SourcePlugin):
+-        part.set_rootfs(rootfs_dir)
++        part.rootfs_dir = rootfs_dir
  
-         kernel = "/bzImage"
-         syslinux_conf += "KERNEL " + kernel + "\n"
--        syslinux_conf += "APPEND initrd=/initrd LABEL=boot %s\n" % options
-+        syslinux_conf += "APPEND initrd=/initrd LABEL=boot %s\n" \
-+                             % bootloader.append
- 
-         msger.debug("Writing syslinux config %s/ISO/isolinux/isolinux.cfg" \
-                     % cr_workdir)
-@@ -100,14 +99,13 @@ class IsoImagePlugin(SourcePlugin):
+         # Prepare rootfs.img
+         hdd_dir = get_bitbake_var("HDDDIR")
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index a90712b..425da8b 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -61,23 +61,23 @@ class RootfsPlugin(SourcePlugin):
+         'prepares' the partition to be incorporated into the image.
+         In this case, prepare content for legacy bios boot partition.
+         """
+-        if part.rootfs is None:
++        if part.rootfs_dir is None:
+             if not 'ROOTFS_DIR' in krootfs_dir:
+                 msg = "Couldn't find --rootfs-dir, exiting"
+                 msger.error(msg)
+             rootfs_dir = krootfs_dir['ROOTFS_DIR']
          else:
-             splashline = ""
+-            if part.rootfs in krootfs_dir:
+-                rootfs_dir = krootfs_dir[part.rootfs]
+-            elif part.rootfs:
+-                rootfs_dir = part.rootfs
++            if part.rootfs_dir in krootfs_dir:
++                rootfs_dir = krootfs_dir[part.rootfs_dir]
++            elif part.rootfs_dir:
++                rootfs_dir = part.rootfs_dir
+             else:
+                 msg = "Couldn't find --rootfs-dir=%s connection"
+                 msg += " or it is not a valid path, exiting"
+-                msger.error(msg % part.rootfs)
++                msger.error(msg % part.rootfs_dir)
  
--        options = creator.ks.handler.bootloader.appendLine
-+        bootloader = creator.ks.bootloader
+         real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
  
-         grubefi_conf = ""
-         grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-         grubefi_conf += "--parity=no --stop=1\n"
-         grubefi_conf += "default=boot\n"
--        timeout = kickstart.get_timeout(creator.ks, 10)
--        grubefi_conf += "timeout=%s\n" % timeout
-+        grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-         grubefi_conf += "\n"
-         grubefi_conf += "search --set=root --label %s " % part.label
-         grubefi_conf += "\n"
-@@ -116,7 +114,7 @@ class IsoImagePlugin(SourcePlugin):
-         kernel = "/bzImage"
- 
-         grubefi_conf += "linux %s rootwait %s\n" \
--            % (kernel, options)
-+            % (kernel, bootloader.append)
-         grubefi_conf += "initrd /initrd \n"
-         grubefi_conf += "}\n"
+-        part.set_rootfs(real_rootfs_dir)
++        part.rootfs_dir = real_rootfs_dir
+         part.prepare_rootfs(cr_workdir, oe_builddir, real_rootfs_dir, native_sysroot)
  
 diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-index 4280ff7..bdf1b54 100644
+index bdf1b54..48b4817 100644
 --- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
 +++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-@@ -83,10 +83,7 @@ class RootfsPlugin(SourcePlugin):
-         syslinux_conf = ""
-         syslinux_conf += "PROMPT 0\n"
+@@ -141,7 +141,7 @@ class RootfsPlugin(SourcePlugin):
  
--        timeout = kickstart.get_timeout(image_creator.ks)
--        if not timeout:
--            timeout = 0
--        syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
-+        syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
-         syslinux_conf += "ALLOWOPTIONS 1\n"
+         real_rootfs_dir = cls._get_rootfs_dir(rootfs_dir)
  
-         # Derive SERIAL... line from from kernel boot parameters
+-        part.set_rootfs(real_rootfs_dir)
++        part.rootfs_dir = real_rootfs_dir
+         part.prepare_rootfs(image_creator_workdir, oe_builddir, real_rootfs_dir, native_sysroot)
+ 
+         # install syslinux into rootfs partition
 -- 
 2.1.4
 
