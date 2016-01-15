@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DF66E731AC
+	by mail.openembedded.org (Postfix) with ESMTP id 245C465CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 02:15:47 +0000 (UTC)
+	Fri, 15 Jan 2016 02:29:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0F2Flxh028156
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0F2TCOu028412
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 18:15:47 -0800
+	Thu, 14 Jan 2016 18:29:13 -0800
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 14 Jan 2016 18:15:47 -0800
+	Thu, 14 Jan 2016 18:29:12 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jan 2016 18:15:46 -0800
-Message-ID: <542ae24027e42b3a3c037341ecdc99eb77e412d8.1452824092.git.liezhi.yang@windriver.com>
+Date: Thu, 14 Jan 2016 18:29:04 -0800
+Message-ID: <cover.1452824908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1452824092.git.liezhi.yang@windriver.com>
-References: <cover.1452824092.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] insane.bbclass: make package_qa_walk() can print all the messages
+Subject: [PATCH 0/8] bitbake.conf: set CONFFILES by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 02:15:48 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 02:29:14 -0000
 Content-Type: text/plain
 
-* If more than one files have the same QA issue, package_qa_walk() can
-  only print the last one, others are overrided, for example:
-  messages["host-user-contaminated"] = "foo1"
-  messages["host-user-contaminated"] = "foo2"
-  Only foo2 will be printed, this patch fixes the issue.
+The following changes since commit 541315d6c56df6448f64c262f99d43d5c1e9400b:
 
-* Remove unused parameter "path" from package_qa_walk()
-  The path is a useless parameter in package_qa_walk() since it has been
-  redined inside.
+  update_font_cache: only scan system font directories (2016-01-11 23:23:18 +0000)
 
-[YOCTO #8436]
+are available in the git repository at:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/insane.bbclass |   20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+  git://git.openembedded.org/openembedded-core-contrib rbt/conf
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/conf
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index bf6a598..bb58f79 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -753,8 +753,15 @@ def package_qa_check_staged(path,d):
- 
-     return sane
- 
-+# Merge src dict's content into dest
-+def package_qa_merge_dict(dest, src):
-+    if len(dest) == len(src) and dest != src:
-+        for w in src:
-+            if dest[w] != src[w]:
-+                dest[w] = src[w] + '\n' + dest[w]
-+
- # Walk over all files in a directory and call func
--def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
-+def package_qa_walk(warnfuncs, errorfuncs, skip, package, d):
-     import oe.qa
- 
-     #if this will throw an exception, then fix the dict above
-@@ -770,9 +777,17 @@ def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
-             except:
-                 elf = None
-             for func in warnfuncs:
-+                warnings_orig = warnings.copy()
-                 func(path, package, d, elf, warnings)
-+                # warnings[foo] = "foo1" might be overrided by
-+                # warnings [foo] = "foo2", check and merge.
-+                package_qa_merge_dict(warnings, warnings_orig)
-             for func in errorfuncs:
-+                errors_orig = errors.copy()
-                 func(path, package, d, elf, errors)
-+                # errors[foo] = "foo1" might be overrided by
-+                # errors [foo] = "foo2", check and merge.
-+                package_qa_merge_dict(errors, errors_orig)
- 
-     for w in warnings:
-         package_qa_handle_error(w, warnings[w], d)
-@@ -1098,8 +1113,7 @@ python do_package_qa () {
-             package_qa_handle_error("pkgname",
-                     "%s doesn't match the [a-z0-9.+-]+ regex" % package, d)
- 
--        path = "%s/%s" % (pkgdest, package)
--        if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
-+        if not package_qa_walk(warnchecks, errorchecks, skip, package, d):
-             walk_sane  = False
-         if not package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d):
-             rdepends_sane = False
+Robert Yang (8):
+  bitbake.conf: set CONFFILES by default
+  recipes-bsp: cleanup CONFFILES
+  recipes-connectivity: cleanup CONFFILES
+  recipes-extended: cleanup CONFFILES
+  recipes-core: cleanup CONFFILES
+  recipes-devtools: cleanup CONFFILES
+  recipes-graphics: cleanup CONFFILES
+  recipes-multimedia/sato/support: cleanup CONFFILES
+
+ meta/conf/bitbake.conf                             |    1 +
+ meta/recipes-bsp/alsa-state/alsa-state.bb          |    1 -
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    2 --
+ meta/recipes-connectivity/avahi/avahi.inc          |    2 --
+ meta/recipes-connectivity/bind/bind_9.10.3-P2.bb   |   11 -----------
+ .../nfs-utils/nfs-utils_1.3.3.bb                   |    2 +-
+ meta/recipes-connectivity/openssh/openssh_7.1p1.bb |    3 ---
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |    1 -
+ .../wpa-supplicant/wpa-supplicant_2.5.bb           |    1 -
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    4 ----
+ meta/recipes-core/busybox/busybox.inc              |    3 ---
+ meta/recipes-core/dbus/dbus_1.8.20.bb              |    2 --
+ meta/recipes-core/glibc/glibc-package.inc          |    1 -
+ .../init-ifupdown/init-ifupdown_1.0.bb             |    1 -
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 --
+ meta/recipes-core/netbase/netbase_5.3.bb           |    2 --
+ meta/recipes-core/readline/readline.inc            |    2 --
+ meta/recipes-core/systemd/systemd_228.bb           |    7 -------
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    1 -
+ meta/recipes-core/udev/udev-extraconf_1.1.bb       |    1 -
+ meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb |    2 --
+ meta/recipes-devtools/opkg/opkg_0.3.1.bb           |    1 -
+ meta/recipes-extended/cronie/cronie_1.5.0.bb       |    1 -
+ meta/recipes-extended/cups/cups.inc                |    1 -
+ meta/recipes-extended/lighttpd/lighttpd_1.4.38.bb  |    2 --
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    3 +--
+ meta/recipes-extended/pam/libpam_1.2.1.bb          |    5 -----
+ meta/recipes-extended/procps/procps_3.3.11.bb      |    2 --
+ meta/recipes-extended/sudo/sudo.inc                |    2 --
+ meta/recipes-extended/sysklogd/sysklogd.inc        |    1 -
+ meta/recipes-extended/tzdata/tzdata_2015g.bb       |    3 ---
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    2 --
+ .../xinput-calibrator/pointercal-xinput_0.0.bb     |    1 -
+ .../xorg-xserver/xserver-xf86-config_0.1.bb        |    3 ---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    8 --------
+ .../pulseaudio-client-conf-sato_1.bb               |    1 -
+ .../ca-certificates/ca-certificates_20150426.bb    |    4 ----
+ 37 files changed, 3 insertions(+), 89 deletions(-)
+
 -- 
 1.7.9.5
 
