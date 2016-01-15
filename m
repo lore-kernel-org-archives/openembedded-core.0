@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 19EA0731AF
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A8A162134
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 02:29:16 +0000 (UTC)
+	Fri, 15 Jan 2016 03:07:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F2THOA018922
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 18:29:18 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 14 Jan 2016 18:29:17 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jan 2016 18:29:12 -0800
-Message-ID: <c957f3915b3385c419e1e8282d1bfafde8567470.1452824908.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1452824908.git.liezhi.yang@windriver.com>
-References: <cover.1452824908.git.liezhi.yang@windriver.com>
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F37WX1012790
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Jan 2016 19:07:33 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 14 Jan 2016 19:07:32 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>
+Date: Thu, 14 Jan 2016 22:07:29 -0500
+Message-ID: <cover.1452826805.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 8/8] recipes-multimedia/sato/support: cleanup CONFFILES
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] ncurses: 5.9 0 -> 6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 02:29:17 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 03:07:34 -0000
 Content-Type: text/plain
 
-The ${sysconfdir}/* are CONFFILES by default.
+The following changes since commit 92cc02fe517bad0af4e493fda3331738cbcc9a26:
 
-[YOCTO #8436]
+  linux-yocto: Update Genericx86* BSPs to 4.1.15 (2016-01-14 15:18:46 +0000)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    8 --------
- .../pulseaudio-client-conf-sato_1.bb               |    1 -
- .../ca-certificates/ca-certificates_20150426.bb    |    4 ----
- 3 files changed, 13 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index ec73526..21853b5 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -124,14 +124,6 @@ FILES_${PN}-misc = "${bindir}/* ${libdir}/pulseaudio/libpulsedsp.so"
- # Allow the pulseaudio package to be created empty as a placeholder (-dbg and -dev depend on it)
- ALLOW_EMPTY_${PN} = "1"
- 
--CONFFILES_libpulse = "${sysconfdir}/pulse/client.conf"
--
--CONFFILES_pulseaudio-server = "\ 
--  ${sysconfdir}/pulse/default.pa \
--  ${sysconfdir}/pulse/daemon.conf \
--  ${sysconfdir}/pulse/system.pa \
--  "
--
- pkg_postinst_${PN}-server() {
-         if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
-             ${sysconfdir}/init.d/populate-volatile.sh update
-diff --git a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-index e27339f..2ccda38 100644
---- a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-+++ b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-@@ -14,4 +14,3 @@ do_install() {
- }
- 
- FILES_${PN} = "${sysconfdir}/pulse/client.conf.d/50-sato.conf"
--CONFFILES_${PN} = "${sysconfdir}/pulse/client.conf.d/50-sato.conf"
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb b/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb
-index 716e3df..aca34a4 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb
-@@ -65,10 +65,6 @@ pkg_postinst_${PN} () {
-     SYSROOT="$D" update-ca-certificates
- }
- 
--CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
--
--# Postinsts don't seem to be run for nativesdk packages when populating SDKs.
--CONFFILES_${PN}_append_class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
- do_install_append_class-nativesdk () {
-     SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
- }
+  git://git.pokylinux.org/poky-contrib dengke/upgrade-ncurses
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dengke/upgrade-ncurses
+
+Dengke Du (1):
+  ncurses: 5.9 0 -> 6.0
+
+ .../recipes-core/ncurses/{ncurses-5.9 => ncurses-6.0}/config.cache | 0
+ .../ncurses/{ncurses-5.9 => ncurses-6.0}/tic-hang.patch            | 0
+ meta/recipes-core/ncurses/ncurses.inc                              | 1 -
+ meta/recipes-core/ncurses/{ncurses_5.9.bb => ncurses_6.0.bb}       | 7 +++----
+ 4 files changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses-6.0}/config.cache (100%)
+ rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses-6.0}/tic-hang.patch (100%)
+ rename meta/recipes-core/ncurses/{ncurses_5.9.bb => ncurses_6.0.bb} (59%)
+
 -- 
-1.7.9.5
+1.9.1
 
 
