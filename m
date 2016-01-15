@@ -1,33 +1,23 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DB6626067D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 23AF560249
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 01:26:03 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="2610090"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Jan 2016 09:26:01 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 06374418914D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 09:25:48 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.65) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 15 Jan 2016 09:29:29 +0800
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
+	Fri, 15 Jan 2016 02:05:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F25MJL007577
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Jan 2016 18:05:22 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 14 Jan 2016 18:05:22 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jan 2016 04:25:36 +0300
-Message-ID: <1452821136-1821-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Thu, 14 Jan 2016 18:05:21 -0800
+Message-ID: <cover.1452823464.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <CAJTo0LaNFs_vV9Q6xLM4Qh2YT==8U263F79f0hdET1nK2a_JXw@mail.gmail.com>
-References: <CAJTo0LaNFs_vV9Q6xLM4Qh2YT==8U263F79f0hdET1nK2a_JXw@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.65]
-X-yoursite-MailScanner-ID: 06374418914D.AAE84
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v3] net-tools_1.60-26.bb: Error fix
+Subject: [PATCH 0/1] e2fsprogs: 1.42.9 -> 1.43-WIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +30,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 01:26:09 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 02:05:23 -0000
 Content-Type: text/plain
 
-when set PATCHTOOL = "patch" in conf/local.conf,error will occur
-in the step of do_patch.
-The error is: "quilt: command not found",so fix it.
+The following changes since commit 541315d6c56df6448f64c262f99d43d5c1e9400b:
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 1 +
- 1 file changed, 1 insertion(+)
+  update_font_cache: only scan system font directories (2016-01-11 23:23:18 +0000)
 
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 923d048..632aee7 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -31,6 +31,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
- 
- inherit gettext
- 
-+do_patch[depends] = "quilt-native:do_populate_sysroot"
- # The Makefile is lame, no parallel build
- PARALLEL_MAKE = ""
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/e2fsprogs
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/e2fsprogs
+
+Robert Yang (1):
+  e2fsprogs: 1.42.9 -> 1.43-WIP
+
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc      |    8 +-
+ ...1-e2fsprogs-fix-cross-compilation-problem.patch |   55 ---
+ ...-fix-potential-buffer-overflow-in-closefs.patch |   59 ---
+ ...the-ability-to-copy-files-from-a-given-di.patch |   98 ----
+ ...isc-create_inode.c-copy-files-recursively.patch |  135 ------
+ ...3-misc-create_inode.c-create-special-file.patch |  103 ----
+ .../0004-misc-create_inode.c-create-symlink.patch  |   63 ---
+ ...005-misc-create_inode.c-copy-regular-file.patch |  224 ---------
+ ...0006-misc-create_inode.c-create-directory.patch |   62 ---
+ ..._inode.c-set-owner-mode-time-for-the-inod.patch |   81 ----
+ ...8-mke2fs.c-add-an-option-d-root-directory.patch |  168 -------
+ ...0009-misc-create_inode.c-handle-hardlinks.patch |  210 ---------
+ ...-use-the-functions-in-misc-create_inode.c.patch |  496 --------------------
+ ...s.8.in-update-the-manual-for-the-d-option.patch |   43 --
+ .../e2fsprogs/0012-Fix-musl-build-failures.patch   |   54 ---
+ .../e2fsprogs/e2fsprogs/CVE-2015-0247.patch        |   58 ---
+ .../e2fsprogs/e2fsprogs/cache_inode.patch          |   52 --
+ ...ate-hardlinks-with-the-correct-directory-.patch |   81 ----
+ .../e2fsprogs/e2fsprogs/fix-icache.patch           |   65 ---
+ ...c-return-error-when-failed-to-populate-fs.patch |   37 --
+ .../e2fsprogs/e2fsprogs/mkdir.patch                |   32 +-
+ .../e2fsprogs/e2fsprogs/ptest.patch                |   35 +-
+ .../{e2fsprogs_1.42.9.bb => e2fsprogs_git.bb}      |   44 +-
+ 23 files changed, 43 insertions(+), 2220 deletions(-)
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-cross-compilation-problem.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0003-misc-create_inode.c-create-special-file.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0004-misc-create_inode.c-create-symlink.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0010-debugfs-use-the-functions-in-misc-create_inode.c.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0012-Fix-musl-build-failures.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/cache_inode.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/copy-in-create-hardlinks-with-the-correct-directory-.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/fix-icache.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.42.9.bb => e2fsprogs_git.bb} (61%)
+
 -- 
-1.8.4.2
-
-
+1.7.9.5
 
 
