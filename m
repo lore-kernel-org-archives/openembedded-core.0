@@ -1,49 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 039E6731C4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 94627731C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 11:23:20 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id q21so483404461iod.0
+	Fri, 15 Jan 2016 11:50:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0FBo9XB018611 for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jan 2016 11:50:09 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id i90tXk4t8UvB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 03:23:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=IeRNtL0mTcqfYuhlFw6QPBzocHuPA96CLF4eC7aczlw=;
-	b=14iFf6s9QYYqtWXDi76q9Sr4Lyuasrew3B5Ewek0HAbpq86fHa9/LWaH5RJnxOElaf
-	i5N9YgdZ1CT5+ZZxxxO/NoP9JlLRCZAukn5rqFHQFsFLRxuOll5Ohzd0nyGm3dMggqEc
-	NHHtWfh/maAuUD+Zwgf7Cm+cmzWQ/neat8q7qMO9lL564lvJ1rNlpQU7wQmvcZOtELSi
-	rfF8Oa68F1bsrAiD+9ibI0CvDYkpBBTCiCCmq2wASZNWhyQc3K26MQ0r8aQqdcW5d094
-	38TxKb4SzjcgDs9jsnDVxaxkhfTBJgFa3cu8udgFcJKoxH2N8U8bl8Kh/q+gcrZpfNNP
-	eejg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IeRNtL0mTcqfYuhlFw6QPBzocHuPA96CLF4eC7aczlw=;
-	b=BLpupPaGlxdp6G4IqEAmnwhHQBiNIKd96PXgTUWzcmmOydV/XGAE6H0+FcEIlZfSHn
-	qDHq52laCwzclOXFlKUGHOMGX3kYWyKBM2GkZFlm2YmpF06/P3C2Oa7YM1T3qnxDBtLV
-	JV7ywjVxLZ5OSG8mQxKoLCHVf5332iwnd1B9ZY+SSn+b6BCO/HvTzxQdHtQGqTTvLeLP
-	22jVKMfjznmxQW4gIItyZ5yytvD9/SBtpN1svR2NAlDa3oXq07fAc3cU87+N//SqaSxS
-	5yRyFfQJv5p9XpfbZx8ce0l61F77LnPq7QypEC1d6Gay0giuPktdP3H3IjjG8eRkcJxn
-	MT/w==
-X-Gm-Message-State: ALoCoQmJ3HbGHIkV51cUER6VzAB8impKNgEIQ8xTt7vHre6UIXT/I8egUXwnwBkqBFzw8cYXc4QYiFrVRc7wJITIgQrQTI/xnMMZF91wlvkZ7w0sUv2+uvg=
-X-Received: by 10.107.3.154 with SMTP id e26mr9206812ioi.99.1452857001040;
-	Fri, 15 Jan 2016 03:23:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 15 Jan 2016 03:23:01 -0800 (PST)
-In-Reply-To: <1452856537.28375.142.camel@linuxfoundation.org>
-References: <cover.1452823464.git.liezhi.yang@windriver.com>
-	<2f2bda63c8a7f435e76c5d4ea1c5c529847f7f65.1452823464.git.liezhi.yang@windriver.com>
-	<1452856537.28375.142.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 15 Jan 2016 11:23:01 +0000
-Message-ID: <CAJTo0LY0KjioTDfG34hLkZQoCpOhkZrFwgnMJULQCKTHgD3Pew@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] e2fsprogs: 1.42.9 -> 1.43-WIP
+	Fri, 15 Jan 2016 11:50:09 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0FBo5RY018607
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jan 2016 11:50:07 GMT
+Message-ID: <1452858605.28375.144.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Jan 2016 11:50:05 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] image/image-live: Add back IMAGE_TYPES_MASKED support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,57 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 11:23:22 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10a74f6fb05295da11e
+X-List-Received-Date: Fri, 15 Jan 2016 11:50:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ec10a74f6fb05295da11e
-Content-Type: text/plain; charset=UTF-8
+IMAGE_TYPES_MASKED support was accidentally removed. The original 
+idea behind it was to remove some of the hardcoding in the core 
+image code, so do that for image-live and ensure the dependency 
+and masked variables correctly reflect the needs of the class. 
+This means we can remove all the hardcoded special cases since 
+image-vm already has the needed markup.
 
-On 15 January 2016 at 11:15, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> Can we just call this 1.42+1.43-git${SRCPV}?
->
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 624ff38..d2e8b85 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -15,4 +15,6 @@ do_bootimg[depends] += "${PN}:do_image_complete"
+ inherit bootimg
+ 
+ IMAGE_TYPEDEP_live = "ext4"
+-IMAGE_TYPES_MASKED += "live"
++IMAGE_TYPEDEP_iso = "ext4"
++IMAGE_TYPEDEP_hddimg = "ext4"
++IMAGE_TYPES_MASKED += "live hddimg iso"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 8a09db1..0b73965 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -297,8 +297,6 @@ python () {
+     old_overrides = d.getVar('OVERRIDES', 0)
+ 
+     def _image_base_type(type):
+-        if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
+-            type = "ext4"
+         basetype = type
+         for ctype in ctypes:
+             if type.endswith("." + ctype):
+@@ -337,18 +335,23 @@ python () {
+             _add_type(dep)
+             basedep = _image_base_type(dep)
+             typedeps[baset].add(basedep)
+-        
++
+     for t in alltypes[:]:
+         _add_type(t)
+ 
+     d.appendVarFlag('do_image', 'vardeps', ' '.join(vardeps))
+ 
++    maskedtypes = (d.getVar('IMAGE_TYPES_MASKED', True) or "").split()
++
+     for t in basetypes:
+         vardeps = set()
+         cmds = []
+         subimages = []
+         realt = t
+ 
++        if t in maskedtypes:
++            continue
++
+         localdata = bb.data.createCopy(d)
+         debug = ""
+         if t.startswith("debugfs_"):
 
-I've a branch somewhere which added test cases for each package manager to
-exercise the ~ codepaths in the package managers (where 1.42 < 1.43~git <
-1.43) with "interesting" conclusions:
 
-* dpkg works just fine
-* opkg's version compare logic is reimplemented three times, differently,
-and the tool for comparing versions from the shell is one of those
-implementations, at best returns inverted results, and at worse is
-non-deterministic.
-* rpm has no way to compare versions from the shell
 
-Something else to chip away at during this cycle I guess. Maybe in 2.2
-we'll be able to confidently use ~ in versions!
-
-Ross
-
---001a113ec10a74f6fb05295da11e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 January 2016 at 11:15, Richard Purdie <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
-rdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":39j" class=3D"a3s" style=3D"overflow:hidden">Can we just =
-call this 1.42+1.43-git${SRCPV}?<br></div></blockquote></div><br>I&#39;ve a=
- branch somewhere which added test cases for each package manager to exerci=
-se the ~ codepaths in the package managers (where 1.42 &lt; 1.43~git &lt; 1=
-.43) with &quot;interesting&quot; conclusions:</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">* dpkg works just fine</div><div c=
-lass=3D"gmail_extra">* opkg&#39;s version compare logic is reimplemented th=
-ree times, differently, and the tool for comparing versions from the shell =
-is one of those implementations, at best returns inverted results, and at w=
-orse is non-deterministic.</div><div class=3D"gmail_extra">* rpm has no way=
- to compare versions from the shell</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Something else to chip away at during this cy=
-cle I guess. Maybe in 2.2 we&#39;ll be able to confidently use ~ in version=
-s!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div>
-
---001a113ec10a74f6fb05295da11e--
