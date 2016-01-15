@@ -1,32 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E6A6B73183
+	by mail.openembedded.org (Postfix) with ESMTP id 2C034731F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:44:15 +0000 (UTC)
+	Fri, 15 Jan 2016 12:55:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0FCgr4Z020294 for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:44:16 GMT
+	u0FCtZa6020701 for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jan 2016 12:55:35 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oJI0Zfzo4WOi
+	with LMTP id fm17h2aLUeON
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:44:15 +0000 (GMT)
+	Fri, 15 Jan 2016 12:55:35 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0FCiAkV020313
+	u0FCtU06020698
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:44:11 GMT
-Message-ID: <1452861850.28375.151.camel@linuxfoundation.org>
+	Fri, 15 Jan 2016 12:55:31 GMT
+Message-ID: <1452862530.28375.152.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jan 2016 12:44:10 +0000
-In-Reply-To: <1452860701.28375.149.camel@linuxfoundation.org>
-References: <1452860701.28375.149.camel@linuxfoundation.org>
+Date: Fri, 15 Jan 2016 12:55:30 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH v2] insane: Clean up horrible return value processing code
+Subject: [PATCH] insane: Start to clean up do_configure_qa code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,147 +37,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 12:44:17 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 12:55:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Whilst in theory return values are nice, handling the complex
-aggregation of the return values is ugly. The code already uses QA_SANE
-as a marker to signal problems. Whilst that isn't as idealistic, it
-makes the code massively cleaner, so rely on this instead.
+This cleans up the do_configure_qa code so that the exit status from
+package_qa_handle_error is handled correctly.
+
+It also converts package_qa_check_license to use our standard QA check
+configuration interface through package_qa_handle_error rather than
+a mix of return values, bb.fatal and bb.build.FuncFailed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ba9c651..70d5fb8 100644
+index 16f5a47..cb65813 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -779,15 +779,12 @@ def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
-     for e in errors:
-         package_qa_handle_error(e, errors[e], d)
+@@ -38,6 +38,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+             split-strip packages-list pkgv-undefined var-undefined \
+             version-going-backwards expanded-d invalid-chars \
++            license-checksum \
+             "
+ FAKEROOT_QA = "host-user-contaminated"
+ FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
+@@ -637,6 +638,7 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+             if target.startswith(tmpdir):
+                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+                 messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
++
+ def package_qa_check_license(workdir, d):
+     """
+     Check for changes in the license files 
+@@ -649,11 +651,11 @@ def package_qa_check_license(workdir, d):
+     pn = d.getVar('PN', True)
  
--    return len(errors) == 0
--
- def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-     # Don't do this check for kernel/module recipes, there aren't too many debug/development
-     # packages and you can get false positives e.g. on kernel-module-lirc-dev
-     if bb.data.inherits_class("kernel", d) or bb.data.inherits_class("module-base", d):
+     if lic == "CLOSED":
 -        return True
 +        return
  
--    sane = True
-     if not "-dbg" in pkg and not "packagegroup-" in pkg and not "-image" in pkg:
-         localdata = bb.data.createCopy(d)
-         localdata.setVar('OVERRIDES', pkg)
-@@ -801,10 +798,10 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-             for rdepend in rdepends:
-                 if "-dbg" in rdepend and "debug-deps" not in skip:
-                     error_msg = "%s rdepends on %s" % (pkg,rdepend)
--                    sane = package_qa_handle_error("debug-deps", error_msg, d)
-+                    package_qa_handle_error("debug-deps", error_msg, d)
-                 if (not "-dev" in pkg and not "-staticdev" in pkg) and rdepend.endswith("-dev") and "dev-deps" not in skip:
-                     error_msg = "%s rdepends on %s" % (pkg, rdepend)
--                    sane = package_qa_handle_error("dev-deps", error_msg, d)
-+                    package_qa_handle_error("dev-deps", error_msg, d)
-                 if rdepend not in packages:
-                     rdep_data = oe.packagedata.read_subpkgdata(rdepend, d)
-                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
-@@ -822,7 +819,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
-                         continue
-                     error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
--                    sane = package_qa_handle_error("build-deps", error_msg, d)
-+                    package_qa_handle_error("build-deps", error_msg, d)
+     if not lic_files:
+-        bb.error(pn + ": Recipe file does not have license file information (LIC_FILES_CHKSUM)")
+-        return False
++        package_qa_handle_error("license-checksum", pn + ": Recipe file does not have license file information (LIC_FILES_CHKSUM)", d)
++        return
  
-         if "file-rdeps" not in skip:
-             ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
-@@ -889,19 +886,15 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                 for key in filerdepends:
-                     error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
-                             (filerdepends[key],pkg, key)
--                sane = package_qa_handle_error("file-rdeps", error_msg, d)
--
--    return sane
-+                package_qa_handle_error("file-rdeps", error_msg, d)
+     srcdir = d.getVar('S', True)
  
- def package_qa_check_deps(pkg, pkgdest, skip, d):
--    sane = True
- 
-     localdata = bb.data.createCopy(d)
-     localdata.setVar('OVERRIDES', pkg)
-     bb.data.update_data(localdata)
- 
-     def check_valid_deps(var):
--        sane = True
+@@ -661,10 +663,12 @@ def package_qa_check_license(workdir, d):
          try:
-             rvar = bb.utils.explode_dep_versions2(localdata.getVar(var, True) or "")
-         except ValueError as e:
-@@ -910,24 +903,14 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
-             for v in rvar[dep]:
-                 if v and not v.startswith(('< ', '= ', '> ', '<= ', '>=')):
-                     error_msg = "%s_%s is invalid: %s (%s)   only comparisons <, =, >, <=, and >= are allowed" % (var, pkg, dep, v)
--                    sane = package_qa_handle_error("dep-cmp", error_msg, d)
--        return sane
--
--    sane = True
--    if not check_valid_deps('RDEPENDS'):
--        sane = False
--    if not check_valid_deps('RRECOMMENDS'):
--        sane = False
--    if not check_valid_deps('RSUGGESTS'):
--        sane = False
--    if not check_valid_deps('RPROVIDES'):
--        sane = False
--    if not check_valid_deps('RREPLACES'):
--        sane = False
--    if not check_valid_deps('RCONFLICTS'):
--        sane = False
-+                    package_qa_handle_error("dep-cmp", error_msg, d)
+             (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
+         except bb.fetch.MalformedUrl:
+-            raise bb.build.FuncFailed( pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url)
++            package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
++            continue
+         srclicfile = os.path.join(srcdir, path)
+         if not os.path.isfile(srclicfile):
+-            raise bb.build.FuncFailed( pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile)
++            package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile, d)
++            continue
+ 
+         recipemd5 = parm.get('md5', '')
+         beginline, endline = 0, 0
+@@ -699,8 +703,8 @@ def package_qa_check_license(workdir, d):
+             bb.note (pn + ": md5 checksum matched for ", url)
+         else:
+             if recipemd5:
+-                bb.error(pn + ": md5 data is not matching for ", url)
+-                bb.error(pn + ": The new md5 checksum is ", md5chksum)
++                msg = pn + ": The LIC_FILES_CHKSUM does not match for " + url
++                msg = msg + "\n" + pn + ": The new md5 checksum is " + md5chksum
+                 if beginline:
+                     if endline:
+                         srcfiledesc = "%s (lines %d through to %d)" % (srclicfile, beginline, endline)
+@@ -710,13 +714,12 @@ def package_qa_check_license(workdir, d):
+                     srcfiledesc = "%s (ending on line %d)" % (srclicfile, endline)
+                 else:
+                     srcfiledesc = srclicfile
+-                bb.error(pn + ": Check if the license information has changed in %s to verify that the LICENSE value \"%s\" remains valid" % (srcfiledesc, lic))
+-            else:
+-                bb.error(pn + ": md5 checksum is not specified for ", url)
+-                bb.error(pn + ": The md5 checksum is ", md5chksum)
+-            sane = False
++                msg = msg + "\n" + pn + ": Check if the license information has changed in %s to verify that the LICENSE value \"%s\" remains valid" % (srcfiledesc, lic)
  
 -    return sane
-+    check_valid_deps('RDEPENDS')
-+    check_valid_deps('RRECOMMENDS')
-+    check_valid_deps('RSUGGESTS')
-+    check_valid_deps('RPROVIDES')
-+    check_valid_deps('RREPLACES')
-+    check_valid_deps('RCONFLICTS')
++            else:
++                msg = pn + ": LIC_FILES_CHKSUM is not specified for " +  url
++                msg = msg + "\n" + pn + ": The md5 checksum is " + md5chksum
++            package_qa_handle_error("license-checksum", msg, d)
  
- QAPATHTEST[expanded-d] = "package_qa_check_expanded_d"
- def package_qa_check_expanded_d(path,name,d,elf,messages):
-@@ -1072,9 +1055,6 @@ python do_package_qa () {
-         taskdeps.add(taskdepdata[dep][0])
+ def package_qa_check_staged(path,d):
+     """
+@@ -1166,8 +1169,7 @@ Missing inherit gettext?""" % (gt, config))
+     # Check license variables
+     ###########################################################################
  
-     g = globals()
--    walk_sane = True
--    rdepends_sane = True
--    deps_sane = True
-     for package in packages:
-         skip = (d.getVar('INSANE_SKIP_' + package, True) or "").split()
-         if skip:
-@@ -1099,19 +1079,16 @@ python do_package_qa () {
-                     "%s doesn't match the [a-z0-9.+-]+ regex" % package, d)
+-    if not package_qa_check_license(workdir, d):
+-        bb.fatal("Licensing Error: LIC_FILES_CHKSUM does not match, please fix")
++    package_qa_check_license(workdir, d)
  
-         path = "%s/%s" % (pkgdest, package)
--        if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
--            walk_sane  = False
--        if not package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d):
--            rdepends_sane = False
--        if not package_qa_check_deps(package, pkgdest, skip, d):
--            deps_sane = False
-+        package_qa_walk(path, warnchecks, errorchecks, skip, package, d)
- 
-+        package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d)
-+        package_qa_check_deps(package, pkgdest, skip, d)
- 
-     if 'libdir' in d.getVar("ALL_QA", True).split():
-         package_qa_check_libdir(d)
- 
-     qa_sane = d.getVar("QA_SANE", True)
--    if not walk_sane or not rdepends_sane or not deps_sane or not qa_sane:
+     ###########################################################################
+     # Check unrecognised configure options (with a white list)
+@@ -1199,6 +1201,10 @@ Missing inherit gettext?""" % (gt, config))
+                 pn = d.getVar('PN', True)
+                 error_msg = "%s: invalid PACKAGECONFIG: %s" % (pn, pconfig)
+                 package_qa_handle_error("invalid-packageconfig", error_msg, d)
++
++    qa_sane = d.getVar("QA_SANE", True)
 +    if not qa_sane:
-         bb.fatal("QA run found fatal errors. Please consider fixing them.")
-     bb.note("DONE with PACKAGE QA")
++        bb.fatal("Fatal QA errors found, failing task.")
  }
+ 
+ python do_qa_unpack() {
 
 
 
