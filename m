@@ -1,53 +1,21 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 99DF1731C6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D4C160249
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 23:45:21 +0000 (UTC)
-Received: by mail-yk0-f174.google.com with SMTP id k129so503167997yke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 15:45:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=7GuWVigRK7TZzFFGZqMBa5rQqUAwiI6TFitVDOXdZdI=;
-	b=Xa0eeyYxOca9DpwOAUQr5c8DFOIjnQOqq7wR6s2a9vhZU2e8Q1UK+SNnFjCctZcpJO
-	7A92FxI3gHSArZCG5lf0atesdpFhHPdUtenL+VZrCm/eFeCNDVfbAdNzIYObeBZedyVx
-	79DBq+79M2REck52/4KWfP6UzpJvhcrvAw55l51YnWfJ4CYVuhtZ9zKofTNRKA3BwTVu
-	mhwkJiK2Yn9obxqAzyp/bhfjHfHx5pgn/qKzEu4+z91T2e90S2DAVmqB2WYRvF0QT4yr
-	GFM6vb9DcMyM6cAJ46nXRm2C+gLNUTnPppMiAM2omCdbJzd4+5QzKpo1PcWQXE/AsXwY
-	ViEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=7GuWVigRK7TZzFFGZqMBa5rQqUAwiI6TFitVDOXdZdI=;
-	b=dN3jx5l4ih6IJbf0gxs0PTFadWq/R/y9/l2a9eK48WJO+l5hr4ur6RHsTrLGXPd3sa
-	f1pVU8vcVdo0o+Uo9pGmyb279RKcZdy+79EzDVYoQD6isEqBpI6FxYAMwE4Kzs9vnymq
-	rRLXCwUdPecMq8p2C83C4gIoYt2eMa7XDrz6JUOmQMJMD97DObw46w76mJTA61jxv4gU
-	+J6wEN7s5Fsyl/3ZNlwLv+ZF9SYE5dG5Pims2KSsSm1ZzWI1UD/2RNSqGlBVZ0yGeWAX
-	qv1yQLSk+VzkpZXXxMAfX2oFciffPXk98ZKnr6kIARib5erbXlwdaHeFMGnwj8l6y4M4
-	0ocA==
-X-Gm-Message-State: ALoCoQnM+Q8bh8ytU0Jf5s0eRxmh4CU9OObhkEo7u3dcPc+DMDvnFRnE0jlUKvjjQL+rs4Q3Loj8RVy1rLnJ0eFyhL5qfPRSSw==
-X-Received: by 10.13.234.141 with SMTP id t135mr5135852ywe.117.1452815121631; 
-	Thu, 14 Jan 2016 15:45:21 -0800 (PST)
-Received: from [10.43.100.29] ([64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	204sm6178971ywz.39.2016.01.14.15.45.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 14 Jan 2016 15:45:20 -0800 (PST)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1452785932-32245-1-git-send-email-alexander.kanavin@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <5698330E.504@gmail.com>
-Date: Thu, 14 Jan 2016 15:45:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1452785932-32245-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH] openssh: update to 7.1p2
+	Fri, 15 Jan 2016 00:15:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 14 Jan 2016 16:14:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,296,1449561600"; d="scan'208";a="881675459"
+Received: from ploh4-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.146.239])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2016 16:14:55 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jan 2016 13:14:11 +1300
+Message-Id: <cover.1452811534.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [jethro]PATCH 00/17] devtool/extensible SDK backports for jethro (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +28,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jan 2016 23:45:21 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jan 2016 00:15:14 -0000
 
+The following changes since commit 901af5a00338fd8f1ace939123484ea91c090a7a:
 
+  libaio: don't disable linking to the system libraries (2016-01-14 15:18:16 +0000)
 
-On 01/14/2016 07:38 AM, Alexander Kanavin wrote:
-> This fixes a number of security issues.
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+are available in the git repository at:
 
-This should apply to Jethro to as its the same version.
+  git://git.openembedded.org/openembedded-core-contrib paule/jethro-fixes2-oecore
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/jethro-fixes2-oecore
 
-- armin
+Ed Bartosh (1):
+  devtool: use cp instead of shutil.copytree
 
-> ---
->  .../openssh/{openssh_7.1p1.bb => openssh_7.1p2.bb}                    | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-connectivity/openssh/{openssh_7.1p1.bb => openssh_7.1p2.bb} (97%)
-> 
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.1p1.bb b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-> similarity index 97%
-> rename from meta/recipes-connectivity/openssh/openssh_7.1p1.bb
-> rename to meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-> index d81127c..ac824ee 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.1p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-> @@ -24,8 +24,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
->  
->  PAM_SRC_URI = "file://sshd"
->  
-> -SRC_URI[md5sum] = "8709736bc8a8c253bc4eeb4829888ca5"
-> -SRC_URI[sha256sum] = "fc0a6d2d1d063d5c66dffd952493d0cda256cad204f681de0f84ef85b2ad8428"
-> +SRC_URI[md5sum] = "4d8547670e2a220d5ef805ad9e47acf2"
-> +SRC_URI[sha256sum] = "dd75f024dcf21e06a0d6421d582690bf987a1f6323e32ad6619392f3bfde6bbd"
->  
->  inherit useradd update-rc.d update-alternatives systemd
->  
-> 
+Paul Eggleton (16):
+  classes/populate_sdk_ext: error out of install if buildtools install
+    fails
+  devtool: sdk-update: fix traceback without update server set
+  recipetool: create: handle https://....git URLs
+  recipetool: create: avoid traceback on fetch error
+  recipetool: create: fix do_install handling for makefile-only software
+  recipetool: create: prevent attempting to unpack entire DL_DIR
+  recipetool: create: detect when specified URL returns a web page
+  recipetool: create: fix error when extracting source to a specified
+    directory
+  buildhistory: fix not recording SDK information
+  scripts/oe-publish-sdk: add missing call to git update-server-info
+  classes/populate_sdk_ext: fix cascading from preparation failure
+  classes/populate_sdk_ext: disable signature warnings
+  devtool: sdk-update: fix not using updateserver config file option
+  devtool: sdk-update: fix metadata update step
+  devtool: sdk-update: fix error checking
+  devtool: reset: do clean for multiple recipes at once with -a
+
+ meta/classes/buildhistory.bbclass         |  2 +-
+ meta/classes/populate_sdk_ext.bbclass     |  6 ++--
+ scripts/lib/devtool/sdk.py                | 54 +++++++++++++++----------------
+ scripts/lib/devtool/standard.py           | 25 +++++++-------
+ scripts/lib/recipetool/create.py          | 28 +++++++++++++---
+ scripts/lib/recipetool/create_buildsys.py |  2 +-
+ scripts/lib/scriptutils.py                |  4 +++
+ scripts/oe-publish-sdk                    |  4 +--
+ 8 files changed, 74 insertions(+), 51 deletions(-)
+
+-- 
+2.5.0
+
 
