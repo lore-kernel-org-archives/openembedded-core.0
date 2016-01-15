@@ -1,21 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D4C160249
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 4834D731C0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 00:15:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Jan 2016 16:14:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,296,1449561600"; d="scan'208";a="881675459"
-Received: from ploh4-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.146.239])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2016 16:14:55 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jan 2016 13:14:11 +1300
-Message-Id: <cover.1452811534.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [jethro]PATCH 00/17] devtool/extensible SDK backports for jethro (cover letter only)
+	Fri, 15 Jan 2016 01:07:59 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3phPWg1tpHz3hj9k;
+	Fri, 15 Jan 2016 02:07:59 +0100 (CET)
+X-Auth-Info: BOtkbLLsRvlwT+6VeDmSHeEVjUyPIF2bXp6bEdVeFvc=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3phPWf70kSzvdWV; 
+	Fri, 15 Jan 2016 02:07:58 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Fri, 15 Jan 2016 02:07:58 +0100
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1452656212-9836-1-git-send-email-marex@denx.de>
+	<201601142241.39038.marex@denx.de>
+	<CAP9ODKocSQ0D4wRo-XpD9kYJ-V5hPSoWY+Yg2zFhv_Lp=vhjKw@mail.gmail.com>
+In-Reply-To: <CAP9ODKocSQ0D4wRo-XpD9kYJ-V5hPSoWY+Yg2zFhv_Lp=vhjKw@mail.gmail.com>
+MIME-Version: 1.0
+Message-Id: <201601150207.58412.marex@denx.de>
+Cc: Tom Rini <trini@konsulko.com>, Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2016.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,51 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 00:15:14 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 01:08:00 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 901af5a00338fd8f1ace939123484ea91c090a7a:
+On Friday, January 15, 2016 at 12:42:18 AM, Otavio Salvador wrote:
+> On Thu, Jan 14, 2016 at 7:41 PM, Marek Vasut <marex@denx.de> wrote:
+> > On Thursday, January 14, 2016 at 10:37:16 PM, Otavio Salvador wrote:
+> >> On Thu, Jan 14, 2016 at 7:15 PM, Marek Vasut <marex@denx.de> wrote:
+> >> ...
+> >> 
+> >> > Taking a look at u-boot.inc and uboot-config.bbclass makes me wonder
+> >> > how all that could work at all. It's either a stackpile of legacy
+> >> > cruft or just poor design.
+> >> 
+> >> I think it is a mix of both.
+> >> 
+> >> How would you address this in a clean way?
+> > 
+> > I would have one U-Boot build per package. Debian doesn't do it that way
+> > tho, so their rationale might be something to consider here too.
+> 
+> This is what we do in uboot-config class, isn't it?
 
-  libaio: don't disable linking to the system libraries (2016-01-14 15:18:16 +0000)
+The class lacks documentation and is written in rather obscure way, so I am
+not sure about how the result is packaged, sorry.
 
-are available in the git repository at:
+> Without going deep on the minor details, could you describe how you
+> think it should be done?
 
-  git://git.openembedded.org/openembedded-core-contrib paule/jethro-fixes2-oecore
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/jethro-fixes2-oecore
+Can you be more specific about this "it" ? What do you refer to ?
 
-Ed Bartosh (1):
-  devtool: use cp instead of shutil.copytree
-
-Paul Eggleton (16):
-  classes/populate_sdk_ext: error out of install if buildtools install
-    fails
-  devtool: sdk-update: fix traceback without update server set
-  recipetool: create: handle https://....git URLs
-  recipetool: create: avoid traceback on fetch error
-  recipetool: create: fix do_install handling for makefile-only software
-  recipetool: create: prevent attempting to unpack entire DL_DIR
-  recipetool: create: detect when specified URL returns a web page
-  recipetool: create: fix error when extracting source to a specified
-    directory
-  buildhistory: fix not recording SDK information
-  scripts/oe-publish-sdk: add missing call to git update-server-info
-  classes/populate_sdk_ext: fix cascading from preparation failure
-  classes/populate_sdk_ext: disable signature warnings
-  devtool: sdk-update: fix not using updateserver config file option
-  devtool: sdk-update: fix metadata update step
-  devtool: sdk-update: fix error checking
-  devtool: reset: do clean for multiple recipes at once with -a
-
- meta/classes/buildhistory.bbclass         |  2 +-
- meta/classes/populate_sdk_ext.bbclass     |  6 ++--
- scripts/lib/devtool/sdk.py                | 54 +++++++++++++++----------------
- scripts/lib/devtool/standard.py           | 25 +++++++-------
- scripts/lib/recipetool/create.py          | 28 +++++++++++++---
- scripts/lib/recipetool/create_buildsys.py |  2 +-
- scripts/lib/scriptutils.py                |  4 +++
- scripts/oe-publish-sdk                    |  4 +--
- 8 files changed, 74 insertions(+), 51 deletions(-)
-
--- 
-2.5.0
-
+Best regards,
+Marek Vasut
 
