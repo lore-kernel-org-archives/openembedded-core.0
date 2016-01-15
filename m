@@ -1,30 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C1E7F6FF01
+	by mail.openembedded.org (Postfix) with ESMTP id E6A6B73183
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:25:04 +0000 (UTC)
+	Fri, 15 Jan 2016 12:44:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0FCP5VY019888 for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:25:05 GMT
+	u0FCgr4Z020294 for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jan 2016 12:44:16 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id N0-ZWeFW87k3
+	with LMTP id oJI0Zfzo4WOi
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:25:04 +0000 (GMT)
+	Fri, 15 Jan 2016 12:44:15 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0FCP1PW019885
+	u0FCiAkV020313
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:25:02 GMT
-Message-ID: <1452860701.28375.149.camel@linuxfoundation.org>
+	Fri, 15 Jan 2016 12:44:11 GMT
+Message-ID: <1452861850.28375.151.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jan 2016 12:25:01 +0000
+Date: Fri, 15 Jan 2016 12:44:10 +0000
+In-Reply-To: <1452860701.28375.149.camel@linuxfoundation.org>
+References: <1452860701.28375.149.camel@linuxfoundation.org>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] insane: Clean up horrible return value processing code
+Subject: [PATCH v2] insane: Clean up horrible return value processing code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,19 +39,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 12:25:09 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 12:44:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Whilst in theory return values are nice, handling the complex aggregation
-of the return values is ugly. The code already uses QA_SANE as a marker
-to signal problems. Whilst that isn't as idealistic, it makes the code
-massively cleaner, so rely on this instead.
+Whilst in theory return values are nice, handling the complex
+aggregation of the return values is ugly. The code already uses QA_SANE
+as a marker to signal problems. Whilst that isn't as idealistic, it
+makes the code massively cleaner, so rely on this instead.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ba9c651..acf8639 100644
+index ba9c651..70d5fb8 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
 @@ -779,15 +779,12 @@ def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
@@ -135,12 +137,12 @@ index ba9c651..acf8639 100644
 +                    package_qa_handle_error("dep-cmp", error_msg, d)
  
 -    return sane
-+    check_valid_deps('RDEPENDS'):
-+    check_valid_deps('RRECOMMENDS'):
-+    check_valid_deps('RSUGGESTS'):
-+    check_valid_deps('RPROVIDES'):
-+    check_valid_deps('RREPLACES'):
-+    check_valid_deps('RCONFLICTS'):
++    check_valid_deps('RDEPENDS')
++    check_valid_deps('RRECOMMENDS')
++    check_valid_deps('RSUGGESTS')
++    check_valid_deps('RPROVIDES')
++    check_valid_deps('RREPLACES')
++    check_valid_deps('RCONFLICTS')
  
  QAPATHTEST[expanded-d] = "package_qa_check_expanded_d"
  def package_qa_check_expanded_d(path,name,d,elf,messages):
@@ -166,8 +168,8 @@ index ba9c651..acf8639 100644
 -            deps_sane = False
 +        package_qa_walk(path, warnchecks, errorchecks, skip, package, d)
  
-+        package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d):
-+        package_qa_check_deps(package, pkgdest, skip, d):
++        package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d)
++        package_qa_check_deps(package, pkgdest, skip, d)
  
      if 'libdir' in d.getVar("ALL_QA", True).split():
          package_qa_check_libdir(d)
