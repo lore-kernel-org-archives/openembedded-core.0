@@ -1,53 +1,52 @@
-Return-Path: <sledz@dresearch-fe.de>
+Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CE00A6057B
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8D96FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 12:03:15 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id u188so20344538wmu.1
+	Fri, 15 Jan 2016 12:05:09 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id f206so17634667wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 04:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=iJXwMQyP1L+4xfAlQQ8tkyb8OzYrJzthmazBt+M6LDY=;
-	b=sEau3NQSyGWSQ6U/pMxovTxpz54yGRBHAIUioBSZ6kozuKqq+fJP4J+mWZYnM2peta
-	cMKYTyBGGWL1qhek+WNuCOSzTFE/hK1pOzeGUMm1JyXnkusK7LtztH+iL3Is1K7mCi2B
-	ROkXjzhZRif/4IfsD98a1lVSGyhACgl+DE99kuCFaz70BlasgPH/YTP3nBX3dAW9Ov7N
-	FiXB2oULCrInoUrkAzlk719Vls3srStVINBDjIPXqHojCxpH1OcHnmidQB+ZWENkWevV
-	5uCwRWeyKg/QAAsWaMWPQ/RMoilgCpVmF92J5PBtCLUdkBW3oIbzWRhHYoZNieGBv0r2
-	/SPg==
+	Fri, 15 Jan 2016 04:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0zaRCqzpaQ1VVyzKL796a9lB6eRDjnsC0x1+DPWFKv4=;
+	b=lGuCUkJQ1ZeElBQiwrpyA1tYxCQoqakq1aIuZwvP+49jmRzteVZiz+7VSzeDywSRA1
+	k1l9ps1uE2mUf5UzxM57/4dY4DBxtzFCMC5XrZLDsON5RR0BxKzazAz3GPS5t8JvTk00
+	rU7hlIJAxE9fO2SVE3wgQNRJwvLv9zRbPKho6K71Mn91M9dYR0c73Rt7L45aEj24MVGX
+	NE6x1jIaLLpxN8WNL0VKVIjMlAYIQxepQZG21jXN689BpX4SOtaFTpiNH/aJGU7krdF4
+	XgNZS3ycs4c1FHF0idJhSSQcxNBNkeG10/mpiAjeFhh5UxlyMXRGsd7nyC5xnCb5e/nn
+	+wjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-type:content-transfer-encoding;
-	bh=iJXwMQyP1L+4xfAlQQ8tkyb8OzYrJzthmazBt+M6LDY=;
-	b=c96ypyxnkV8uc/JeiTfQLxX1npjwVsVVTZKzUV3AhgdaICWl6BEfh3mmuYxNmQzx5X
-	2xLAooLl9gDsvdws+7ZOpmYxKMxtw5e55eeMcNaLzRDpIqOz2Hmj3A5q2Q7I5aZkG/GV
-	BpV2Jgw9qHEpVNVySae0CdEPLV6Uz1KKstPj1AjiWAWeSLIRkrB2vLdAIe9JtrtGBkyu
-	4sm0V6v2H1IRuOvmeePh/nZYhHW06eGipQxQXo7IWEawCBvRt+6AirwutYyA0I5v6SGP
-	ifZhITlgYrN5Tuq2/MuQfNZ1ou4ACgCdK6LWkJ1PW1JtcsnkmcvDKWQc6fPXyLna4U/3
-	b73w==
-X-Gm-Message-State: AG10YOQDH7n3FK+HpGSaRdHDIW8EVieHHFGC3Bw2XQhsgguCDwdI26XKHgopqFJQHYl3WQ==
-X-Received: by 10.28.141.10 with SMTP id p10mr2876165wmd.83.1452859395819;
-	Fri, 15 Jan 2016 04:03:15 -0800 (PST)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by smtp.googlemail.com with ESMTPSA id
-	z127sm2265200wme.2.2016.01.15.04.03.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jan 2016 04:03:15 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Christopher Larson <clarson@kergoth.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-From: Steffen Sledz <sledz@dresearch-fe.de>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <5698E002.5090800@dresearch-fe.de>
-Date: Fri, 15 Jan 2016 13:03:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
+	h=x-gm-message-state:from:date:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=0zaRCqzpaQ1VVyzKL796a9lB6eRDjnsC0x1+DPWFKv4=;
+	b=Crabh1p/0bNNqmbTdDeRoIbAgv+3xeNa+RBWLiVyHp7gx8TNuUltZxAJ+dyxOP7xT+
+	rfKTt93VLj8NBFVCoCwzhNeDwpgX016RcTb5Gi2E+U+lVEoOBpkE/9EpuPtI0eCQQsEU
+	tcTF30DrOacCSBgS/reogWzrYw19wbWyVN1fVrTIKTqoJh4j0PovYFHuizhptATSYUgF
+	wQAz0LQACVz/MfVEz+c16twxJCFns3C+f8BtCqXG6f6lQ1sfwkb34D2Dq4BfpV+p44IO
+	EIg3luxtZRj3jk3UjrkNZvb76R9hJPFolChDqxZnXYyFS+gAMBAzwrdp/FQiadCury3B
+	5Pbw==
+X-Gm-Message-State: AG10YOS0Pk2OJAaVs1x/S9pVN2Lcu98uM2A71B0Csi5XtevphZVZOhP62FJuTdXe2opuVQ==
+X-Received: by 10.28.3.134 with SMTP id 128mr2844058wmd.92.1452859510135;
+	Fri, 15 Jan 2016 04:05:10 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	g187sm2253018wmf.8.2016.01.15.04.05.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Jan 2016 04:05:08 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 15 Jan 2016 13:06:05 +0100
+To: Joshua Lock <joshua.lock@collabora.co.uk>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20160115120605.GA2607@jama>
+References: <cover.1449754339.git.Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Subject: fido -> jethro switching problem
+In-Reply-To: <cover.1449754339.git.Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH][fido][RESEND 0/5] Backports for fido
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,108 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 12:03:16 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 15 Jan 2016 12:05:09 -0000
+X-Groupsio-MsgNum: 76144
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
+Content-Disposition: inline
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+--NzB8fVQJ5HfG6fxh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+On Thu, Dec 10, 2015 at 02:48:16PM +0100, Martin Jansa wrote:
+> The following changes since commit 9f339f516ab03d598fae0e536b3a420ea4d8ee=
+1a:
+>=20
+>   bash: Disable custom memory allocator (2015-11-20 15:46:27 +0000)
 
-for our internal development we use the Angstrom distro with some additional layers. Now we try to switch from fido to jethro branches and hit a problem where we are overchallenged.
+PING
 
-Our local.conf contains
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.openembedded.org/openembedded-core-contrib jansa/fido-backpor=
+ts
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Djansa/fido-backports
+>=20
+> Martin Jansa (2):
+>   texinfo: don't create dependency on INHERIT variable
+>   linux-dtb.inc: drop unused DTB_NAME variable from do_install
+>=20
+> Mike Crowe (1):
+>   allarch: Force TARGET_*FLAGS variable values
+>=20
+> Richard Purdie (2):
+>   layer.conf: Add several allarch dependency exclusions
+>   layer.conf: Add missing dependency for allarch package
+>     initramfs-framework
+>=20
+>  meta/classes/allarch.bbclass                 |  4 ++++
+>  meta/conf/layer.conf                         | 11 +++++++++++
+>  meta/recipes-extended/texinfo/texinfo_5.2.bb |  2 +-
+>  meta/recipes-kernel/linux/linux-dtb.inc      |  1 -
+>  4 files changed, 16 insertions(+), 2 deletions(-)
+>=20
+> --=20
+> 2.6.3
+>=20
 
-  DISTRO_FEATURES_remove = "x11 wayland"
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-what results in
+--NzB8fVQJ5HfG6fxh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-- ------------------> snip <---------------------
-ERROR: Overrides could not be expanded into a stable state after 5 iterations, overrides must be being referenced by other overridden variables in some recursive fashion. Please provide your configuration to bitbake-devel so we can laugh, er, I mean try and understand how to make it work.
-ERROR: Error parsing configuration files
-Traceback (most recent call last):
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/parse/ast.py", line 88, in DataNode.getFunc(key='DISTRO_FEATURES', data=<bb.data_smart.DataSmart object at 0x7fe7ea9df650>):
-             else:
-    >            return data.getVar(key, False, noweakdefault=True, parsing=True)
-
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/data_smart.py", line 565, in DataSmart.getVar(var='DISTRO_FEATURES', expand=False, noweakdefault=True, parsing=True):
-         def getVar(self, var, expand=False, noweakdefault=False, parsing=False):
-    >        return self.getVarFlag(var, "_content", expand, noweakdefault, parsing)
-
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/data_smart.py", line 737, in DataSmart.getVarFlag(var='DISTRO_FEATURES', flag='_content', expand=False, noweakdefault=True, parsing=True):
-                 removes = []
-    >            self.need_overrides()
-                 for (r, o) in local_var["_remove"]:
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/data_smart.py", line 435, in DataSmart.need_overrides():
-             else:
-    >            bb.fatal("Overrides could not be expanded into a stable state after 5 iterations, overrides must be being referenced by other overridden variables in some recursive fashion. Please provide your configuration to bitbake-devel so we can laugh, er, I mean try and understand how to make it work.")
-
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/__init__.py", line 102, in fatal:
-         logger.critical(''.join(args), extra=kwargs)
-    >    raise BBHandledException()
-
-BBHandledException
-- ------------------> snap <---------------------
-
-And also if we remove this line we end in a similar exception
-
-- ------------------> snip <---------------------
-ERROR: Overrides could not be expanded into a stable state after 5 iterations, overrides must be being referenced by other overridden variables in some recursive fashion. Please provide your configuration to bitbake-devel so we can laugh, er, I mean try and understand how to make it work.
-ERROR: Unable to parse DEFAULTTUNE_angstrom[:=]
-Traceback (most recent call last):
-  File "arm-defaults.inc", line 2, in arm_tune_handler(d=<bb.data_smart.DataSmart object at 0x7f9f383ea2d0>)
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/data_smart.py", line 565, in DataSmart.getVar(var='TUNE_FEATURES', expand=True, noweakdefault=False, parsing=False):
-         def getVar(self, var, expand=False, noweakdefault=False, parsing=False):
-    >        return self.getVarFlag(var, "_content", expand, noweakdefault, parsing)
-
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/data_smart.py", line 667, in DataSmart.getVarFlag(var='TUNE_FEATURES', flag='_content', expand=True, noweakdefault=False, parsing=False):
-                 active = {}
-    >            self.need_overrides()
-                 for (r, o) in self.overridedata[var]:
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/data_smart.py", line 435, in DataSmart.need_overrides():
-             else:
-    >            bb.fatal("Overrides could not be expanded into a stable state after 5 iterations, overrides must be being referenced by other overridden variables in some recursive fashion. Please provide your configuration to bitbake-devel so we can laugh, er, I mean try and understand how to make it work.")
-
-  File "/home/sledz/work/HIPOS.jethro/bitbake/lib/bb/__init__.py", line 102, in fatal:
-         logger.critical(''.join(args), extra=kwargs)
-    >    raise BBHandledException()
-
-ExpansionError: Failure expanding variable DEFAULTTUNE_angstrom[:=], expression was ${@arm_tune_handler(d)} which triggered exception BBHandledException:
-- ------------------> snap <---------------------
-
-Can someone give some hints what's going wrong here?
-
-Additional info:
-BitBake Build Tool Core version 1.28.0
-angstrom-v2015.12-yocto2.0 67032251d761f0107322a85595062029b95d788d
-
-Thx,
-Steffen
-
-- -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAEBAgAGBQJWmOACAAoJEIz5slJ1krPhgBoP+gJvuy3bu3s+jC8OvXholWTF
-iU25kd0aCHixe6qQn5rhvElak+T7/CSnIfgePPC9rz2h3AS6SkRUiernQmKxqvSE
-zXJCacMkfeOlX3J2Kjw5NZGU7K1flZcWU1gAPEaFjkaKUZfYie9ftGXrwm+uMcwH
-QgRBIa/xwYokmFDna2opz3Uv+B5Z5k2/PGNGQYEBErSTOSFgFAWjkNVI01jeMtSc
-bBGzKU9jIpOaWDV2UnHgglWfUr8IEdUnuP61nM2C4uAXfTCAuKQAspo+FtDsaXTy
-6nvgZgYV0/4RUl0x/8G+V0Hc8Iwe30c3tDShU8QF2OsNNXxbBtQgBgTciVTUEznr
-GN6OdosEy7+KHpFWML/vSgwoWieCVk0C6Tnre+da+HTxoYNkQtaNljsar0rYaMX0
-YNBgqYbKBPG+dW3mIW5sRR4jzzrXp82t7naTuNP49k5wY0Adkn0hg4jqTz/pgES8
-d4iNE9T5dZ7o2wxwD6zSl/QlWjVBLhbQfdOJvCSRd/vjce4kkihBFZTgN1twV9y1
-4oTa1m+0A/5uJq2g4IGm/PfeI7QNp6keaOEE3dC3IX+nx0KwTF3Zd1UQFWDOzQIz
-+WVt6pCNnpHv/HZETkl+TelQePqu2Fb29jg8Ex82TO7CBQhzWwPsVzYiRcH9suwb
-qPm924F6B+DB3SHmefth
-=cOzb
+iEYEARECAAYFAlaY4KwACgkQN1Ujt2V2gBxfywCfZQ4nFBORhVEtbfB1sWKGZQQx
+I4oAn19dLNFhCNLNc2Sp+omQ6exUV4lg
+=PoMG
 -----END PGP SIGNATURE-----
 
+--NzB8fVQJ5HfG6fxh--
