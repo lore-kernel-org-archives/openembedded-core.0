@@ -1,31 +1,33 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 4834D731C0
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id DB6626067D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 01:07:59 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3phPWg1tpHz3hj9k;
-	Fri, 15 Jan 2016 02:07:59 +0100 (CET)
-X-Auth-Info: BOtkbLLsRvlwT+6VeDmSHeEVjUyPIF2bXp6bEdVeFvc=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3phPWf70kSzvdWV; 
-	Fri, 15 Jan 2016 02:07:58 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Fri, 15 Jan 2016 02:07:58 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1452656212-9836-1-git-send-email-marex@denx.de>
-	<201601142241.39038.marex@denx.de>
-	<CAP9ODKocSQ0D4wRo-XpD9kYJ-V5hPSoWY+Yg2zFhv_Lp=vhjKw@mail.gmail.com>
-In-Reply-To: <CAP9ODKocSQ0D4wRo-XpD9kYJ-V5hPSoWY+Yg2zFhv_Lp=vhjKw@mail.gmail.com>
+	Fri, 15 Jan 2016 01:26:03 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
+   d="scan'208";a="2610090"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Jan 2016 09:26:01 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 06374418914D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jan 2016 09:25:48 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.65) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 15 Jan 2016 09:29:29 +0800
+From: Li Xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Jan 2016 04:25:36 +0300
+Message-ID: <1452821136-1821-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAJTo0LaNFs_vV9Q6xLM4Qh2YT==8U263F79f0hdET1nK2a_JXw@mail.gmail.com>
+References: <CAJTo0LaNFs_vV9Q6xLM4Qh2YT==8U263F79f0hdET1nK2a_JXw@mail.gmail.com>
 MIME-Version: 1.0
-Message-Id: <201601150207.58412.marex@denx.de>
-Cc: Tom Rini <trini@konsulko.com>, Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2016.01 release
+X-Originating-IP: [10.167.226.65]
+X-yoursite-MailScanner-ID: 06374418914D.AAE84
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v3] net-tools_1.60-26.bb: Error fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 01:08:00 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jan 2016 01:26:09 -0000
+Content-Type: text/plain
 
-On Friday, January 15, 2016 at 12:42:18 AM, Otavio Salvador wrote:
-> On Thu, Jan 14, 2016 at 7:41 PM, Marek Vasut <marex@denx.de> wrote:
-> > On Thursday, January 14, 2016 at 10:37:16 PM, Otavio Salvador wrote:
-> >> On Thu, Jan 14, 2016 at 7:15 PM, Marek Vasut <marex@denx.de> wrote:
-> >> ...
-> >> 
-> >> > Taking a look at u-boot.inc and uboot-config.bbclass makes me wonder
-> >> > how all that could work at all. It's either a stackpile of legacy
-> >> > cruft or just poor design.
-> >> 
-> >> I think it is a mix of both.
-> >> 
-> >> How would you address this in a clean way?
-> > 
-> > I would have one U-Boot build per package. Debian doesn't do it that way
-> > tho, so their rationale might be something to consider here too.
-> 
-> This is what we do in uboot-config class, isn't it?
+when set PATCHTOOL = "patch" in conf/local.conf,error will occur
+in the step of do_patch.
+The error is: "quilt: command not found",so fix it.
 
-The class lacks documentation and is written in rather obscure way, so I am
-not sure about how the result is packaged, sorry.
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Without going deep on the minor details, could you describe how you
-> think it should be done?
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 923d048..632aee7 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -31,6 +31,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
+ 
+ inherit gettext
+ 
++do_patch[depends] = "quilt-native:do_populate_sysroot"
+ # The Makefile is lame, no parallel build
+ PARALLEL_MAKE = ""
+ 
+-- 
+1.8.4.2
 
-Can you be more specific about this "it" ? What do you refer to ?
 
-Best regards,
-Marek Vasut
+
 
