@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 245C465CC2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 52EF573172
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Jan 2016 02:29:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0F2TCOu028412
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F2TDcr009075
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 18:29:13 -0800
+	Thu, 14 Jan 2016 18:29:13 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 14 Jan 2016 18:29:12 -0800
+	Thu, 14 Jan 2016 18:29:13 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jan 2016 18:29:04 -0800
-Message-ID: <cover.1452824908.git.liezhi.yang@windriver.com>
+Date: Thu, 14 Jan 2016 18:29:05 -0800
+Message-ID: <06cd5b4b25da645fae5767a44b2e5d63550cdb52.1452824908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1452824908.git.liezhi.yang@windriver.com>
+References: <cover.1452824908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] bitbake.conf: set CONFFILES by default
+Subject: [PATCH 1/8] bitbake.conf: set CONFFILES by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,64 +36,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 15 Jan 2016 02:29:14 -0000
 Content-Type: text/plain
 
-The following changes since commit 541315d6c56df6448f64c262f99d43d5c1e9400b:
+There are a lot of binary packages have files in /etc/, but only a few
+of them have set CONFFILES, more than 180 packages are not set in a
+world build.  So treat all the files in /etc/ as CONFFILES as Debian
+does:
+- All the files in /etc/ are CONFFILES
+- Move the file out of /etc/ if it is not a conffile
+- If /etc/foo can't be moved out, and is changed during
+  runtime, then create a symlink /etc/foo -> /var/foo
 
-  update_font_cache: only scan system font directories (2016-01-11 23:23:18 +0000)
+[YOCTO #8436]
 
-are available in the git repository at:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/conf/bitbake.conf |    1 +
+ 1 file changed, 1 insertion(+)
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/conf
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/conf
-
-Robert Yang (8):
-  bitbake.conf: set CONFFILES by default
-  recipes-bsp: cleanup CONFFILES
-  recipes-connectivity: cleanup CONFFILES
-  recipes-extended: cleanup CONFFILES
-  recipes-core: cleanup CONFFILES
-  recipes-devtools: cleanup CONFFILES
-  recipes-graphics: cleanup CONFFILES
-  recipes-multimedia/sato/support: cleanup CONFFILES
-
- meta/conf/bitbake.conf                             |    1 +
- meta/recipes-bsp/alsa-state/alsa-state.bb          |    1 -
- meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    2 --
- meta/recipes-connectivity/avahi/avahi.inc          |    2 --
- meta/recipes-connectivity/bind/bind_9.10.3-P2.bb   |   11 -----------
- .../nfs-utils/nfs-utils_1.3.3.bb                   |    2 +-
- meta/recipes-connectivity/openssh/openssh_7.1p1.bb |    3 ---
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |    1 -
- .../wpa-supplicant/wpa-supplicant_2.5.bb           |    1 -
- meta/recipes-core/base-files/base-files_3.0.14.bb  |    4 ----
- meta/recipes-core/busybox/busybox.inc              |    3 ---
- meta/recipes-core/dbus/dbus_1.8.20.bb              |    2 --
- meta/recipes-core/glibc/glibc-package.inc          |    1 -
- .../init-ifupdown/init-ifupdown_1.0.bb             |    1 -
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 --
- meta/recipes-core/netbase/netbase_5.3.bb           |    2 --
- meta/recipes-core/readline/readline.inc            |    2 --
- meta/recipes-core/systemd/systemd_228.bb           |    7 -------
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    1 -
- meta/recipes-core/udev/udev-extraconf_1.1.bb       |    1 -
- meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb |    2 --
- meta/recipes-devtools/opkg/opkg_0.3.1.bb           |    1 -
- meta/recipes-extended/cronie/cronie_1.5.0.bb       |    1 -
- meta/recipes-extended/cups/cups.inc                |    1 -
- meta/recipes-extended/lighttpd/lighttpd_1.4.38.bb  |    2 --
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    3 +--
- meta/recipes-extended/pam/libpam_1.2.1.bb          |    5 -----
- meta/recipes-extended/procps/procps_3.3.11.bb      |    2 --
- meta/recipes-extended/sudo/sudo.inc                |    2 --
- meta/recipes-extended/sysklogd/sysklogd.inc        |    1 -
- meta/recipes-extended/tzdata/tzdata_2015g.bb       |    3 ---
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    2 --
- .../xinput-calibrator/pointercal-xinput_0.0.bb     |    1 -
- .../xorg-xserver/xserver-xf86-config_0.1.bb        |    3 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    8 --------
- .../pulseaudio-client-conf-sato_1.bb               |    1 -
- .../ca-certificates/ca-certificates_20150426.bb    |    4 ----
- 37 files changed, 3 insertions(+), 89 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2fe6b24..f0e4b3a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -271,6 +271,7 @@ PACKAGE_BEFORE_PN ?= ""
+ PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+ PACKAGES_DYNAMIC = "^${PN}-locale-.*"
+ FILES = ""
++CONFFILES = "${sysconfdir}/*"
+ 
+ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS} \
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
 -- 
 1.7.9.5
 
