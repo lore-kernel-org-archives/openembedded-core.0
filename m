@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 522C8731B3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 19EA0731AF
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Jan 2016 02:29:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F2THri009081
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F2THOA018922
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 18:29:17 -0800 (PST)
+	Thu, 14 Jan 2016 18:29:18 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Thu, 14 Jan 2016 18:29:17 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jan 2016 18:29:11 -0800
-Message-ID: <dcec7ad6697d6ff0136077eb8a0b9264a3a8e8eb.1452824908.git.liezhi.yang@windriver.com>
+Date: Thu, 14 Jan 2016 18:29:12 -0800
+Message-ID: <c957f3915b3385c419e1e8282d1bfafde8567470.1452824908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1452824908.git.liezhi.yang@windriver.com>
 References: <cover.1452824908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/8] recipes-graphics: cleanup CONFFILES
+Subject: [PATCH 8/8] recipes-multimedia/sato/support: cleanup CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 02:29:16 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 02:29:17 -0000
 Content-Type: text/plain
 
 The ${sysconfdir}/* are CONFFILES by default.
@@ -42,33 +42,54 @@ The ${sysconfdir}/* are CONFFILES by default.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../xinput-calibrator/pointercal-xinput_0.0.bb     |    1 -
- .../xorg-xserver/xserver-xf86-config_0.1.bb        |    3 ---
- 2 files changed, 4 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    8 --------
+ .../pulseaudio-client-conf-sato_1.bb               |    1 -
+ .../ca-certificates/ca-certificates_20150426.bb    |    4 ----
+ 3 files changed, 13 deletions(-)
 
-diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-index 65348c3..9b52505 100644
---- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-@@ -17,4 +17,3 @@ do_install() {
- }
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--CONFFILES_${PN} = "${sysconfdir}/pointercal.xinput"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index e07c204..aa5099c 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -13,9 +13,6 @@ SRC_URI_append_libc-musl = "\
- 
- S = "${WORKDIR}"
- 
--CONFFILES_${PN} = "${sysconfdir}/X11/xorg.conf"
--CONFFILES_${PN}_append_libc-musl = " ${sysconfdir}/X11/xorg.conf.d/10-preload-modules.conf"
--
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index ec73526..21853b5 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -124,14 +124,6 @@ FILES_${PN}-misc = "${bindir}/* ${libdir}/pulseaudio/libpulsedsp.so"
+ # Allow the pulseaudio package to be created empty as a placeholder (-dbg and -dev depend on it)
  ALLOW_EMPTY_${PN} = "1"
  
+-CONFFILES_libpulse = "${sysconfdir}/pulse/client.conf"
+-
+-CONFFILES_pulseaudio-server = "\ 
+-  ${sysconfdir}/pulse/default.pa \
+-  ${sysconfdir}/pulse/daemon.conf \
+-  ${sysconfdir}/pulse/system.pa \
+-  "
+-
+ pkg_postinst_${PN}-server() {
+         if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
+             ${sysconfdir}/init.d/populate-volatile.sh update
+diff --git a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
+index e27339f..2ccda38 100644
+--- a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
++++ b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
+@@ -14,4 +14,3 @@ do_install() {
+ }
+ 
+ FILES_${PN} = "${sysconfdir}/pulse/client.conf.d/50-sato.conf"
+-CONFFILES_${PN} = "${sysconfdir}/pulse/client.conf.d/50-sato.conf"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb b/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb
+index 716e3df..aca34a4 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20150426.bb
+@@ -65,10 +65,6 @@ pkg_postinst_${PN} () {
+     SYSROOT="$D" update-ca-certificates
+ }
+ 
+-CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
+-
+-# Postinsts don't seem to be run for nativesdk packages when populating SDKs.
+-CONFFILES_${PN}_append_class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
+ do_install_append_class-nativesdk () {
+     SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
+ }
 -- 
 1.7.9.5
 
