@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E459865CC2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 522C8731B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 02:29:15 +0000 (UTC)
+	Fri, 15 Jan 2016 02:29:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0F2TGcR028422
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0F2THri009081
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jan 2016 18:29:16 -0800
+	Thu, 14 Jan 2016 18:29:17 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 14 Jan 2016 18:29:16 -0800
+	Thu, 14 Jan 2016 18:29:17 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jan 2016 18:29:10 -0800
-Message-ID: <905c92c89905467ca307e876d576ae82e6101551.1452824908.git.liezhi.yang@windriver.com>
+Date: Thu, 14 Jan 2016 18:29:11 -0800
+Message-ID: <dcec7ad6697d6ff0136077eb8a0b9264a3a8e8eb.1452824908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1452824908.git.liezhi.yang@windriver.com>
 References: <cover.1452824908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] recipes-devtools: cleanup CONFFILES
+Subject: [PATCH 7/8] recipes-graphics: cleanup CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +42,33 @@ The ${sysconfdir}/* are CONFFILES by default.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb |    2 --
- meta/recipes-devtools/opkg/opkg_0.3.1.bb           |    1 -
- 2 files changed, 3 deletions(-)
+ .../xinput-calibrator/pointercal-xinput_0.0.bb     |    1 -
+ .../xorg-xserver/xserver-xf86-config_0.1.bb        |    3 ---
+ 2 files changed, 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-index ace3de4..861f011 100644
---- a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-@@ -28,8 +28,6 @@ do_install () {
+diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+index 65348c3..9b52505 100644
+--- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
++++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+@@ -17,4 +17,3 @@ do_install() {
+ }
  
- FILES_${PN} = "${sysconfdir}/opkg/ "
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+-CONFFILES_${PN} = "${sysconfdir}/pointercal.xinput"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+index e07c204..aa5099c 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+@@ -13,9 +13,6 @@ SRC_URI_append_libc-musl = "\
  
--CONFFILES_${PN} += "${sysconfdir}/opkg/arch.conf"
+ S = "${WORKDIR}"
+ 
+-CONFFILES_${PN} = "${sysconfdir}/X11/xorg.conf"
+-CONFFILES_${PN}_append_libc-musl = " ${sysconfdir}/X11/xorg.conf.d/10-preload-modules.conf"
 -
- RREPLACES_${PN} = "opkg-config-base"
- RCONFLICTS_${PN} = "opkg-config-base"
- RPROVIDES_${PN} = "opkg-config-base"
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.1.bb b/meta/recipes-devtools/opkg/opkg_0.3.1.bb
-index 577f495..345b555 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.1.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.1.bb
-@@ -72,4 +72,3 @@ FILES_${PN} += "${systemd_unitdir}/system/"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ ALLOW_EMPTY_${PN} = "1"
  
- BBCLASSEXTEND = "native nativesdk"
- 
--CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
 -- 
 1.7.9.5
 
