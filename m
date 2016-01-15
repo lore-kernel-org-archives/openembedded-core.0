@@ -1,28 +1,29 @@
-Return-Path: <rpurdie@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B8BA66FF3D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 18:17:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 3B580731EC;
+	Fri, 15 Jan 2016 18:18:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0FIHH6K006006; Fri, 15 Jan 2016 18:17:17 GMT
+	u0FIIcIA006069; Fri, 15 Jan 2016 18:18:38 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cICXAXYbFBO8; Fri, 15 Jan 2016 18:17:17 +0000 (GMT)
+	with LMTP id tW4Z_D-ygKer; Fri, 15 Jan 2016 18:18:38 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0FIHEXi006002
+	u0FIIaqw006059
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 15 Jan 2016 18:17:15 GMT
-Message-ID: <1452881834.27999.0.camel@rpsys.net>
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Jian Liu <jian.liu@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jan 2016 18:17:14 +0000
-In-Reply-To: <1452754008-158464-1-git-send-email-jian.liu@windriver.com>
-References: <1452754008-158464-1-git-send-email-jian.liu@windriver.com>
+	Fri, 15 Jan 2016 18:18:37 GMT
+Message-ID: <1452881916.27999.1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>, openembeded-devel
+	<openembedded-devel@lists.openembedded.org>
+Date: Fri, 15 Jan 2016 18:18:36 +0000
+In-Reply-To: <2EB9392C-58FE-4807-9E1D-41738D761079@gmail.com>
+References: <2EB9392C-58FE-4807-9E1D-41738D761079@gmail.com>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] linux-libc-headers: set ALLOW_EMPTY
+Subject: Re: Remove pth recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 18:17:20 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 18:18:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-01-14 at 14:46 +0800, Jian Liu wrote:
-> If setting IMAGE_INSTALL += "linux-libc-headers", do_rootfs will
-> cause
-> error.
->   ERROR: linux-libc-headers not found in the base feeds
+On Wed, 2016-01-13 at 09:36 -0800, Khem Raj wrote:
+> Hi All,
 > 
-> This is because that there is no linux-libc-headers.rpm generated.
+> We are carrying pth recipe in OE-Core.
+> 
+> 1. There are no packages in OE-Core which depend on it.
+> 2. pth is quite old ( last release was in 2006) moreover there is
+> npth replacement available and we have recipe in OE-Core
+> 
+> I would like to propose a removal of this recipe but before doing so,
+> but wanted to find if there are any active users of this package
+> 
+> if you use it the please respond
 
-There is no point in generating an empty package just for the sake of
-it. Surely you just shouldn't put that in IMAGE_INSTALL?
+Sounds good to me if nothing depends on it FWIW.
 
 Cheers,
 
 Richard
-
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
-> 
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc
-> -headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc
-> -headers.inc
-> index 2ba6ed5..403360b 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> @@ -76,3 +76,5 @@ RRECOMMENDS_${PN}-dbg = "${PN}-dev (=
-> ${EXTENDPKGV})"
->  
->  INHIBIT_DEFAULT_DEPS = "1"
->  DEPENDS += "unifdef-native"
-> +
-> +ALLOW_EMPTY_${PN} = "1"
 
