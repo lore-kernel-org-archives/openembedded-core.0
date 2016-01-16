@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 75B2B605BA
+	by mail.openembedded.org (Postfix) with ESMTP id 2FE4160851
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 09:01:54 +0000 (UTC)
+	Sat, 16 Jan 2016 10:32:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0G91r4t001471; Sat, 16 Jan 2016 09:01:53 GMT
+	u0GAWm0H004049 for <openembedded-core@lists.openembedded.org>;
+	Sat, 16 Jan 2016 10:32:48 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HW_ZRAC7f6bf; Sat, 16 Jan 2016 09:01:53 +0000 (GMT)
+	with LMTP id N2RmLEWmicqp
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 16 Jan 2016 10:32:48 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0G91obF001466
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 16 Jan 2016 09:01:51 GMT
-Message-ID: <1452934910.27999.7.camel@linuxfoundation.org>
+	u0GAWiue004046
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 16 Jan 2016 10:32:45 GMT
+Message-ID: <1452940364.27999.8.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 16 Jan 2016 09:01:50 +0000
-In-Reply-To: <1452649638-16393-1-git-send-email-armccurdy@gmail.com>
-References: <1452649638-16393-1-git-send-email-armccurdy@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 16 Jan 2016 10:32:44 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] strace: clear native sysroot references from CFLAGS_FOR_BUILD etc
+Subject: [PATCH] image: Fix wic environment issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jan 2016 09:01:55 -0000
+X-List-Received-Date: Sat, 16 Jan 2016 10:32:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2016-01-12 at 17:47 -0800, Andre McCurdy wrote:
-> strace uses CC_FOR_BUILD to compile temporary utility apps to run as
-> part of the build process. There's no need to build those utils
-> against the native sysroot though (and things sometimes go wrong if
-> we
-> do), so clear CFLAGS_FOR_BUILD etc.
-> 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+The wic environment function needs to run after the rootfs size is
+setup. This fixes:
 
-I ran this along with the other strace patches under master-next on the
-autobuilder. We saw:
+======================================================================
+FAIL: test_image_env (oeqa.selftest.wic.Wic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py", line 106, in wrapped_f
+    return func(*args, **kwargs)
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/wic.py", line 218, in test_image_env
+    self.assertTrue(var in content, "%s is not in .env file" % var)
+AssertionError: False is not true : ROOTFS_SIZE is not in .env file
 
-https://autobuilder.yoctoproject.org/main/builders/ptest-x86-64/builds/
-251/steps/BuildImages/logs/stdio
+Ultimately this code can move to the main wic image task but this 
+fixes things for now.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
-uilds/616/steps/BuildImages/logs/stdio
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
-uilds/616/steps/BuildImages_1/logs/stdio
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index cc8a23c..8ff157a 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -242,8 +242,6 @@ fakeroot python do_image () {
+     pre_process_cmds = d.getVar("IMAGE_PREPROCESS_COMMAND", True)
+ 
+     execute_pre_post_process(d, pre_process_cmds)
+-
+-    write_wic_env(d)
+ }
+ do_image[dirs] = "${TOPDIR}"
+ do_image[umask] = "022"
+@@ -264,7 +262,7 @@ addtask do_image_complete after do_image before do_build
+ # Write environment variables used by wic
+ # to tmp/sysroots/<machine>/imgdata/<image>.env
+ #
+-def write_wic_env(d):
++python write_wic_env () {
+     wicvars = d.getVar('WICVARS', True)
+     if not wicvars:
+         return
+@@ -278,6 +276,7 @@ def write_wic_env(d):
+             value = d.getVar(var, True)
+             if value:
+                 envf.write('%s="%s"\n' % (var, value.strip()))
++}
+ 
+ def setup_debugfs_variables(d):
+     d.appendVar('IMAGE_ROOTFS', '-dbg')
+@@ -393,6 +392,9 @@ python () {
+         d.setVarFlag('do_image_%s' % t, 'subimages', subimages)
+         d.appendVarFlag('do_image_%s' % t, 'vardeps', ' '.join(vardeps))
+ 
++        if realt == "wic":
++            d.appendVarFlag('do_image_%s' % t, 'prefuncs', ' write_wic_env')
++
+         after = 'do_image'
+         for dep in typedeps[t]:
+             after += ' do_image_%s' % dep
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
-s/615/steps/BuildImages/logs/stdio
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
-s/615/steps/BuildImages_1/logs/stdio
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/bui
-lds/611/steps/BuildImages_4/logs/stdio
-
-https://autobuilder.yoctoproject.org/main/builders/build-appliance/buil
-ds/589/steps/BuildImages_1/logs/stdio
-
-So there is still something not right here. I've not looked into the
-details of the issue.
-
-Cheers,
-
-Richard
 
