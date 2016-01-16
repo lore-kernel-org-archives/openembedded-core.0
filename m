@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 82EAE60745
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp02.mail.online.nl (smtp02.mail.online.nl [194.134.25.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 03F71731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 10:33:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0GAXMPt004075 for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 10:33:22 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id N5uy_qsVuUoy
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 10:33:22 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0GAXIA5004071
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 10:33:19 GMT
-Message-ID: <1452940398.27999.10.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 16 Jan 2016 10:33:18 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] image: Fix instability of do_image_* checksums
+	Sat, 16 Jan 2016 10:51:56 +0000 (UTC)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp02.mail.online.nl (Postfix) with ESMTP id BB0141A0019;
+	Sat, 16 Jan 2016 11:51:54 +0100 (CET)
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1452824908.git.liezhi.yang@windriver.com>
+	<06cd5b4b25da645fae5767a44b2e5d63550cdb52.1452824908.git.liezhi.yang@windriver.com>
+	<56989142.2050800@topic.nl> <569893BA.80608@windriver.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+Message-ID: <569A20CA.2040201@topic.nl>
+Date: Sat, 16 Jan 2016 11:51:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <569893BA.80608@windriver.com>
+Subject: Re: [PATCH 1/8] bitbake.conf: set CONFFILES by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jan 2016 10:33:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 16 Jan 2016 10:51:57 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-The do_image_* tasks contained the expanded version of DATETIME. Due
-to the expansion, we couldn't exclude the value from the task checksum
-which meant the task would rerun.
+On 15-01-16 07:37, Robert Yang wrote:
+>
+>
+> On 01/15/2016 02:27 PM, Mike Looijmans wrote:
+>> How about /etc/init.d and /etc/rcS.d? Are these now suddenly CONFFILES
+>> too?
+>
+> For /etc/init.d/*, yes, and I think that they should be CONFFILES.
 
-We fix this by deleting the DATETIME value during expansion so we don't
-expand any references to at that time. This means the task's hash can be
-stable rather than having hardcoded date/time values. It will get expanded
-at execution time.
+Startup scripts are config files? Wow that's news to me.
 
-This also fixes errors shown by -S:
+They all include /etc/defaults/something for a good reason: So you don't 
+have to hack the script.
 
-NOTE: Reparsing files to collect dependency data
-Writing locked sigs to /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/locked-sigs.inc
-ERROR: Bitbake's cached basehash does not match the one we just generated (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/recipes-sato/images/core-image-sato.bb.do_image_tar)!
-ERROR: The mismatched hashes were 77872792556367f1dde49a1425caf1a0 and 9bb0aca6286ab7dd22d3c69964beb665
+> For /etc/rcS.d/*, they are symlinks which are not owned by pkg,
+> but created by update-rc.d.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 8ff157a..9d4438b 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -363,6 +363,10 @@ python () {
-         localdata.setVar('OVERRIDES', '%s:%s' % (realt, old_overrides))
-         bb.data.update_data(localdata)
-         localdata.setVar('type', realt)
-+        # Delete DATETIME so we don't expand any references to it now
-+        # This means the task's hash can be stable rather than having hardcoded
-+        # date/time values. It will get expanded at execution time.
-+        localdata.delVar('DATETIME')
- 
-         image_cmd = localdata.getVar("IMAGE_CMD", True)
-         vardeps.add('IMAGE_CMD_' + realt)
-@@ -391,6 +395,7 @@ python () {
-         d.setVarFlag('do_image_%s' % t, 'postfuncs', 'create_symlinks')
-         d.setVarFlag('do_image_%s' % t, 'subimages', subimages)
-         d.appendVarFlag('do_image_%s' % t, 'vardeps', ' '.join(vardeps))
-+        d.appendVarFlag('do_image_%s' % t, 'vardepsexclude', 'DATETIME')
- 
-         if realt == "wic":
-             d.appendVarFlag('do_image_%s' % t, 'prefuncs', ' write_wic_env')
+Only if the recipe happens to use update-rc. Quite some packages don't 
+use it and just create the symlinks themselves.
 
 
+As I recall, this suggestion has been made before and was rejected then. 
+Nothing really changed since.
+
+
+-- 
+Mike Looijmans
 
