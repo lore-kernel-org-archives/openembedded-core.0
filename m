@@ -1,50 +1,47 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D18BB73286
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BA6B73206
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 00:19:11 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id uo6so387199698pac.1
+	Sat, 16 Jan 2016 00:59:55 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id e65so9167178pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jan 2016 16:19:12 -0800 (PST)
+	Fri, 15 Jan 2016 16:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1NDcwjF9rRkljRAv++jJ68BF0v7Z3x5ecq4AVxjpEXE=;
-	b=oIyKjA+m2lnunXt1opm052LGY3q9udy4vhGavAUy/jcvCfdpLI3oNhqgEx0KYzyBRS
-	nM8U5lKKGRkmLuN20atukJfqP4nGNTJBAr/l2+J/MMgA7mnzaEMWPR3fYYIzxz3FlKqr
-	FCLlxUWQeSlZ8qFQn3KXQTWqSKAvvfGPpPQ9I9W/rj1lYCoZSDrj4OyX08fTk6kRoR+q
-	X0AQOFjZ5X4kEs2VHU6M3LEIMbkJ5avQCjKDKfMC24y8/s6Q2axHalJxBwYmkuD5Wttl
-	9xhC94yI1aPmcQ9OMPP5r/PkrrhjDnSLYUCFfHuhA6EkTefAgmgQkQsRk9gmugDl7iW1
-	mvyA==
+	h=from:to:subject:date:message-id;
+	bh=EwQG/+7Xuuel1qVKBR2lVSQyetHvmYiiwE+uA/neboQ=;
+	b=wROTWk6dDF48dYwkISt4EI9ckvbh37RDotSoPVLCJVFN3Du1llHTzExmySc5OmcdCX
+	ZM3LnSH99pr09jJ0tSsjfbY2j1i/AT3UePFHn0Hmmcf3me+EfjxUfL+nBs8/UKy1eD1G
+	ZObx5R62ZQbw8E6wbSJ7C7P7KJ/6+h+WwGpp73Pf/wA71XZqRvpxDbjWOF+O15tKxiBf
+	zwuCseFBmwIE5+G5097waNgjoFLtx2fH+XQuCZtd2+iZjvjmAxDoXYKfaAtNS2ua4xFa
+	NGJLs3xAdH26QBgrR9FLjY3up/gICpl3K2J5vgjksmQC06cAdpKEyyBZXZ/2pkCSHY/m
+	U64A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=1NDcwjF9rRkljRAv++jJ68BF0v7Z3x5ecq4AVxjpEXE=;
-	b=Fnzu6TkRozRXp6fOpjmdX8o1Uc3tfmrGtcYiqQ1kktXxU/WIuTvijPVlf7pD0fiMBg
-	oqKVr+r3meSQFt2ch7wsCxyQw8kjj73fC+31DHywDtQuaOjM77pHhR2S3BV3D4YtWCiI
-	1uaGvGNK1tlNQAo3AWsKUj+1ImI2jKfoglNtTRuRTGWpH9MSOIbT2FVgJo5Ku03azcZt
-	2QwtR6zDv7tT75inWttuFdgbHEIsVyAJTCghOYeavQujCKgrwGmYXxGt9/Vj+s1RZ4QB
-	1oTWFEJ/npw2hJD50G8lM4NR7vUuJihJ9IOHKkdqvd5g7iuYJBAkj0d8xXNg3TM9t79A
-	WoeA==
-X-Gm-Message-State: ALoCoQkwNmfx89jF88oW5B+L7TmmoM9svddg5+jy1CJY7pxI/T+R2fEwsseygcEBCGLDpy2kIskcq3t8uyMcDgaVTkHxb6qxEg==
-X-Received: by 10.66.189.200 with SMTP id gk8mr18916259pac.36.1452903550070;
-	Fri, 15 Jan 2016 16:19:10 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EwQG/+7Xuuel1qVKBR2lVSQyetHvmYiiwE+uA/neboQ=;
+	b=K7EzRAg18qk+LWcBIAgbcLmMyBMSkPg3Z7Z+uv6ewdMCp/2lMgSsidErhJz+XdY4Kb
+	blo5Lidvub9hvMwZJhkgaVzBJTTpVKJUm0nO+HZZMsgb1bgRXz8Q+HASBhd2j/unz4EG
+	0gMYbDtL/8cxeNq6nU9NXUqEVXTtjur8qh+GTHhRb+T9CYcuRMAOSie6N/KgGV3S30+8
+	P/VniawHGkrUkKhytSJG2BhWeYJqG4IyU7ET6cmZtCDXStKd1/YoMR9tyQy/QDZdj7P4
+	78BR/6Irn8RgXtK7G7Rb/I/50mGTFffyfEoJRdjTmKReBujQRfOm701uRwg3bmivJ50t
+	5Fdw==
+X-Gm-Message-State: ALoCoQmgkiBiYf6LhOeIh/EyPbQ39GkfUP1pFQQvMi1TOaHT9qgjfv7ViROrMsQIUDakryxBuTDT1glbFyQ1betF3SJuJNRnhQ==
+X-Received: by 10.98.72.130 with SMTP id q2mr19179607pfi.154.1452905996718;
+	Fri, 15 Jan 2016 16:59:56 -0800 (PST)
 Received: from bigIsland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
 	by smtp.gmail.com with ESMTPSA id
-	dz6sm17904479pab.19.2016.01.15.16.19.08
+	i76sm17915055pfj.68.2016.01.15.16.59.54
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 Jan 2016 16:19:09 -0800 (PST)
+	Fri, 15 Jan 2016 16:59:55 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jan 2016 16:19:01 -0800
-Message-Id: <1452903541-19597-2-git-send-email-akuster808@gmail.com>
+Date: Fri, 15 Jan 2016 16:59:48 -0800
+Message-Id: <1452905989-29316-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1452903541-19597-1-git-send-email-akuster808@gmail.com>
-References: <1452903541-19597-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][master][jetrho]] openssh: CVE-2016-1907
+Subject: [PATCH v2][master][jetrho] openssh: CVE-2016-1907
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,74 +54,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jan 2016 00:19:11 -0000
+X-List-Received-Date: Sat, 16 Jan 2016 00:59:56 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+Found two more commits for this CVE. 
 
-SECURITY: Fix an out of-bound read access in the packet handling code.
-Reported by Ben Hawkes
-https://anongit.mindrot.org/openssh.git/commit/?id=2fecfd486bdba9f51b3a789277bb0733ca36e1c
+Armin Kuster (1):
+  openssh: CVE-2016-1907
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../openssh/CVE-2016-1907_upstream_commit.patch    | 33 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.1p2.bb |  3 +-
- 2 files changed, 35 insertions(+), 1 deletion(-)
+ .../openssh/openssh/CVE-2016-1907_2.patch          |  65 ++++
+ .../openssh/openssh/CVE-2016-1907_3.patch          | 329 +++++++++++++++++++++
+ .../openssh/CVE-2016-1907_upstream_commit.patch    |  33 +++
+ meta/recipes-connectivity/openssh/openssh_7.1p2.bb |   5 +-
+ 4 files changed, 431 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_2.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_3.patch
  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_upstream_commit.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_upstream_commit.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_upstream_commit.patch
-new file mode 100644
-index 0000000..f3d132e
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_upstream_commit.patch
-@@ -0,0 +1,33 @@
-+From d77148e3a3ef6c29b26ec74331455394581aa257 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Sun, 8 Nov 2015 21:59:11 +0000
-+Subject: [PATCH] upstream commit
-+
-+fix OOB read in packet code caused by missing return
-+ statement found by Ben Hawkes; ok markus@ deraadt@
-+
-+Upstream-ID: a3e3a85434ebfa0690d4879091959591f30efc62
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-1907
-+
-+[YOCTO #8935]
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ packet.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+Index: openssh-7.1p2/packet.c
-+===================================================================
-+--- openssh-7.1p2.orig/packet.c
-++++ openssh-7.1p2/packet.c
-+@@ -1855,6 +1855,7 @@ ssh_packet_process_incoming(struct ssh *
-+ 		if (len >= state->packet_discard) {
-+ 			if ((r = ssh_packet_stop_discard(ssh)) != 0)
-+ 				return r;
-++			return SSH_ERR_CONN_CORRUPT;
-+ 		}
-+ 		state->packet_discard -= len;
-+ 		return 0;
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.1p2.bb b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-index ac824ee..288d37e 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-@@ -20,7 +20,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://sshdgenkeys.service \
-            file://volatiles.99_sshd \
-            file://add-test-support-for-busybox.patch \
--           file://run-ptest"
-+           file://run-ptest \
-+           file://CVE-2016-1907_upstream_commit.patch "
- 
- PAM_SRC_URI = "file://sshd"
- 
 -- 
 1.9.1
 
