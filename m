@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 13C1D73257
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8246B731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:11 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id e65so142593586pfe.0
+	Sun, 17 Jan 2016 11:37:12 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id cy9so418759521pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:12 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=4hrQQKrOcicnQfJHt4KvTvenakqc54GLXhoA2EF6LmY=;
-	b=YRg0VWh+oJMX9+7vqgaDqCpJbxmvUm31GWUxV/BIp4UX4kHh7qplhfeNPCW/Oiqquc
-	tO9jSgysu9mYLyzbnhebVmMQmFslWYIC+9iBabN6LoNVrvhwaXOjtpxiOUXK/pRkB97M
-	ji9q9JWP9xpoWoph7uMtkTkNHy6NmObSaW1iT9jaDwhfR0+fQgMTklm7ZmnOQjnR5PPA
-	gLMq0YHksW+V8s42qLJuWm7SKQzvkU4TW8KrSTIHE0qz0dPwwCk507IkHeF+qcPWTjBd
-	sSfhNurp61iendfr5NR+9b1NcylV2gfJxOygXIk7QolKszU7CJtlxxk5e0DqmGR08Dkr
-	babw==
+	bh=nDlkBM8KiWn6/0rFjDqyTcsgiMFwVql+q7FCafRoEH4=;
+	b=SieT4AGNFjY+s3sJfPgemLKlsIowayrXnX0UHBVAibiRZ1zTyiepzmESof48h7AmfS
+	4Cdnn2Wn6gaHp0mTDBYTz/QfRGG/HajVddlmeC4NPZCa/qwbW6ZHa6TWGQ4xYLYpaxZr
+	JSeMd9cQgizboo3xGJCLIV+O9Evcyspp2UBa93rmByRWCl3iDK6/Apz7EMmZqgY2Jcac
+	cEOWpnNU4euKjqsSOIVjwmg0c0fPXydsnVGMvSDaHy5i+4oq1PfJTNoE4KH9phzg/VEP
+	JKiVfgigoaZqD2quaFUYGyFFH2A1ldPyFeeYa0TRGcw0xO6UlUf/RvMC7DbjAiEdnaoR
+	l14w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=4hrQQKrOcicnQfJHt4KvTvenakqc54GLXhoA2EF6LmY=;
-	b=eUT2jOguqPJhIrtm+jvr2kxuDGHfnV332ordNPZDyy5nqPaxe0seH3x9GVKrDWoOsV
-	rvIhggwu8ncpL1Dru3FaHbyd2DUdilMYwpMLxKXUOEnkFp7rQcY68uJuBTCD2wwOuHL7
-	HhjoPvm5SthC5K3D6WbYla4rXgvjYpNUyITZle+KibExF/VrwpGWvsPcBZG8NN4KOjs/
-	nVadUsh+J9TkknwFfAgHjJIulvV4Dae77Zuhc+6ZzwPg+SGVoGU/wQj28jgYY6tlzTZo
-	YU6HVdnzMp6Vmyo0sf4nPeVXc+m/D6Lt9fqRrXpAh4/yUTcqcjcMoPMrhaGki+TR0or0
-	yfpA==
-X-Gm-Message-State: ALoCoQkggDoTpRQZu6/QAyOwyCiBRq4HeHhyVUsS7BtLSiRS9DYS0chx4wafchxAxK5R3V7ttvOEiUSVATjQosMKfiakCWKEYA==
-X-Received: by 10.98.71.197 with SMTP id p66mr29053682pfi.166.1453030632130;
-	Sun, 17 Jan 2016 03:37:12 -0800 (PST)
+	bh=nDlkBM8KiWn6/0rFjDqyTcsgiMFwVql+q7FCafRoEH4=;
+	b=OdGwA8vJgvDPt8Hrj7FbgcSkcUpEc7ZT92A/5R8hT/8mYV3q8fBbYNyioGg8CyvPV9
+	5QT0NDLGnn8RAK7W8PYR3LzbZdo+3fHFvM28PAAu/Rihy5GOEgKNDuHMAL0GzWufJ8Ge
+	ofxxF54LNwR/freLZoRlTw56CU2QpAs08PvnPEsjWLI25pRAm25sYnkrpo+kiyXbqQxd
+	xQOXLhhcbm9mCOc2Dy9RRBdvphRoh9jiwd1XbF8540cboS18TbMKmfk7fwtQflTsmVuN
+	GtaIqltnPoRmS4b6TWnm+WoWBsazOvrQVY/g2vdSTH2esczm5BlzYgkbDr3aaYSmlQV1
+	u2/A==
+X-Gm-Message-State: ALoCoQn90JPm5yeuMqjOt9L465K1Tklp64T7r0elw7ceJHlXFUlU1KSe9+uFcLUyaANffvSpRxth0rYqO/YKun1Kl+NqiR5Uzw==
+X-Received: by 10.66.234.226 with SMTP id uh2mr28482652pac.20.1453030633272;
+	Sun, 17 Jan 2016 03:37:13 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.11
+	ty5sm26838363pac.48.2016.01.17.03.37.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:11 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:12 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:35:46 -0800
-Message-Id: <64d103db0864a200573b3eb75cb6a23338ea91b5.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:35:47 -0800
+Message-Id: <30b9847bc3bd6931817a7c1d1ceceddb81ec7cc4.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 13/73] util-linux: Fix ptest builds on musl
+Subject: [PATCH 14/73] elfutils: Fix build with uclibc/musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,127 +58,1532 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jan 2016 11:37:11 -0000
+X-List-Received-Date: Sun, 17 Jan 2016 11:37:13 -0000
 
-musl doesnt implement error() API, hence provide one
+Remove mempcpy patch its already in uclibc now
+refresh libargp patch to match latest elfutils
+
+Add ALLOW_EMPTY for musl
+
+core-image-cmdline-full asks for elfutils package to be added to package
+it has all eu-* tools but we dont build them on musl. nevertheless lets
+satisfy the dependency so image can build for musl
+
+Build libdw,libasm,libebl along with libelf
+
+enhance the musl portability patch to compile every other library
+except the eu-* tools
+
+Fix build on aarch64/musl issues
+
+Header inclusion ends up with duplicate definitions of iovec struct
+since uclibc defines the same in usersapce, we have been depending upong
+including the kernel header on aarch64, using sys/uio.h is the right
+approach
+
+Fix x86 build warning seen on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../util-linux/uuid-test-error-api.patch           | 92 ++++++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.27.1.bb  |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
+ ...de-alternatives-for-glibc-assumptions-hel.patch | 1161 ++++++++++++++++++++
+ .../elfutils/elfutils-0.164/aarch64_uio.patch      |   47 +
+ .../elfutils/elfutils-0.164/shadow.patch           |   23 +
+ .../elfutils/elfutils-0.164/uclibc-support.patch   |  129 +++
+ .../elfutils/elfutils/mempcpy.patch                |   24 -
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    1 -
+ meta/recipes-devtools/elfutils/elfutils_0.164.bb   |   13 +-
+ 7 files changed, 1368 insertions(+), 30 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.164/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.164/aarch64_uio.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.164/shadow.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.164/uclibc-support.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils/mempcpy.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch b/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.164/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch b/meta/recipes-devtools/elfutils/elfutils-0.164/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
 new file mode 100644
-index 0000000..1b0ff79
+index 0000000..ffab4c2
 --- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
-@@ -0,0 +1,92 @@
-+This patch adds error() API implementation for non-glibc system C libs
++++ b/meta/recipes-devtools/elfutils/elfutils-0.164/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+@@ -0,0 +1,1161 @@
++From 4b0fe80b3951f044c1c1b14d1d7f5f0b8ab67507 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 31 Dec 2015 06:35:34 +0000
++Subject: [PATCH] build: Provide alternatives for glibc assumptions helps
++ compiling it on musl
 +
-+Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Makefile.am                      |  2 +-
++ lib/color.c                      |  2 +-
++ lib/crc32_file.c                 |  4 +++-
++ lib/fixedsizehash.h              |  4 ++--
++ lib/system.h                     | 11 +++++++++++
++ lib/xmalloc.c                    |  2 +-
++ libasm/asm_end.c                 |  2 +-
++ libasm/asm_newscn.c              |  2 +-
++ libcpu/i386_gendis.c             |  2 +-
++ libcpu/i386_lex.c                |  2 +-
++ libcpu/i386_parse.c              |  2 +-
++ libdw/Makefile.am                |  2 +-
++ libdw/libdw_alloc.c              |  3 ++-
++ libdwfl/Makefile.am              |  2 ++
++ libdwfl/dwfl_build_id_find_elf.c |  3 ++-
++ libdwfl/dwfl_error.c             |  4 +++-
++ libdwfl/dwfl_module_getdwarf.c   |  1 +
++ libdwfl/find-debuginfo.c         |  2 +-
++ libdwfl/libdwfl_crc32_file.c     | 10 ++++++++++
++ libdwfl/linux-kernel-modules.c   |  1 +
++ libebl/eblopenbackend.c          |  2 +-
++ libebl/eblwstrtab.c              |  2 +-
++ libelf/elf.h                     |  9 ++++++---
++ libelf/libelf.h                  |  1 +
++ libelf/libelfP.h                 |  1 +
++ src/addr2line.c                  |  2 +-
++ src/ar.c                         |  2 +-
++ src/arlib.c                      |  2 +-
++ src/arlib2.c                     |  2 +-
++ src/elfcmp.c                     |  2 +-
++ src/elflint.c                    |  2 +-
++ src/findtextrel.c                |  2 +-
++ src/i386_ld.c                    |  2 +-
++ src/ld.c                         |  2 +-
++ src/ldgeneric.c                  |  2 +-
++ src/ldlex.c                      |  2 +-
++ src/ldscript.c                   |  2 +-
++ src/nm.c                         |  2 +-
++ src/objdump.c                    |  2 +-
++ src/ranlib.c                     |  2 +-
++ src/readelf.c                    |  2 +-
++ src/size.c                       |  2 +-
++ src/stack.c                      |  2 +-
++ src/strings.c                    |  2 +-
++ src/strip.c                      |  2 +-
++ src/unstrip.c                    |  2 +-
++ tests/addrscopes.c               |  2 +-
++ tests/allregs.c                  |  2 +-
++ tests/backtrace-data.c           |  2 +-
++ tests/backtrace-dwarf.c          |  2 +-
++ tests/backtrace.c                |  2 +-
++ tests/buildid.c                  |  2 +-
++ tests/debugaltlink.c             |  2 +-
++ tests/debuglink.c                |  2 +-
++ tests/deleted.c                  |  2 +-
++ tests/dwfl-addr-sect.c           |  2 +-
++ tests/dwfl-bug-addr-overflow.c   |  2 +-
++ tests/dwfl-bug-fd-leak.c         |  2 +-
++ tests/dwfl-bug-getmodules.c      |  2 +-
++ tests/dwfl-report-elf-align.c    |  2 +-
++ tests/dwfllines.c                |  2 +-
++ tests/dwflmodtest.c              |  2 +-
++ tests/dwflsyms.c                 |  2 +-
++ tests/early-offscn.c             |  2 +-
++ tests/ecp.c                      |  2 +-
++ tests/find-prologues.c           |  2 +-
++ tests/funcretval.c               |  2 +-
++ tests/funcscopes.c               |  2 +-
++ tests/getsrc_die.c               |  2 +-
++ tests/line2addr.c                |  2 +-
++ tests/low_high_pc.c              |  2 +-
++ tests/md5-sha1-test.c            |  2 +-
++ tests/rdwrmmap.c                 |  2 +-
++ tests/saridx.c                   |  2 +-
++ tests/sectiondump.c              |  2 +-
++ tests/varlocs.c                  |  2 +-
++ tests/vdsosyms.c                 |  2 +-
++ 77 files changed, 109 insertions(+), 73 deletions(-)
 +
-+Index: util-linux-2.27.1/tests/helpers/test_uuidd.c
++Index: elfutils-0.164/Makefile.am
 +===================================================================
-+--- util-linux-2.27.1.orig/tests/helpers/test_uuidd.c
-++++ util-linux-2.27.1/tests/helpers/test_uuidd.c
-+@@ -23,7 +23,6 @@
-+  *
-+  *	make uuidd uuidgen localstatedir=/var
-+  */
-+-#include <error.h>
-+ #include <libgen.h>
-+ #include <pthread.h>
-+ #include <stdio.h>
-+@@ -39,6 +38,17 @@
-+ #include "xalloc.h"
-+ #include "strutils.h"
++--- elfutils-0.164.orig/Makefile.am
+++++ elfutils-0.164/Makefile.am
++@@ -24,7 +24,7 @@ pkginclude_HEADERS = version.h
 + 
-++#ifdef __GLIBC__
-++#include <error.h>
-++#else
-++extern void (*error_print_progname)(void);
-++extern unsigned int error_message_count;
-++extern int error_one_per_line;
++ # Add doc back when we have some real content.
++ SUBDIRS = config m4 lib libelf libebl libdwelf libdwfl libdw libcpu libasm \
++-	  backends src po tests
+++	  backends po tests
++ 
++ EXTRA_DIST = elfutils.spec GPG-KEY NOTES CONTRIBUTING \
++ 	     COPYING COPYING-GPLV2 COPYING-LGPLV3
++Index: elfutils-0.164/lib/color.c
++===================================================================
++--- elfutils-0.164.orig/lib/color.c
+++++ elfutils-0.164/lib/color.c
++@@ -32,7 +32,7 @@
++ #endif
++ 
++ #include <argp.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <stdlib.h>
++ #include <string.h>
++Index: elfutils-0.164/lib/crc32_file.c
++===================================================================
++--- elfutils-0.164.orig/lib/crc32_file.c
+++++ elfutils-0.164/lib/crc32_file.c
++@@ -30,12 +30,14 @@
++ # include <config.h>
++ #endif
++ 
++-#include "system.h"
++ #include <errno.h>
++ #include <unistd.h>
+++#include <stdint.h>
++ #include <sys/stat.h>
++ #include <sys/mman.h>
++ 
+++#include "system.h"
 ++
-++void error(int, int, const char *, ...);
-++void error_at_line(int, int, const char *, unsigned int, const char *, ...);
++ int
++ crc32_file (int fd, uint32_t *resp)
++ {
++Index: elfutils-0.164/lib/fixedsizehash.h
++===================================================================
++--- elfutils-0.164.orig/lib/fixedsizehash.h
+++++ elfutils-0.164/lib/fixedsizehash.h
++@@ -30,12 +30,12 @@
++ #include <errno.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <sys/cdefs.h>
++ #include <sys/param.h>
++ 
++ #include <system.h>
++ 
++-#define CONCAT(t1,t2) __CONCAT (t1,t2)
+++#define CONCAT1(x,y) x##y
+++#define CONCAT(x,y) CONCAT1(x,y)
++ 
++ /* Before including this file the following macros must be defined:
++ 
++Index: elfutils-0.164/lib/system.h
++===================================================================
++--- elfutils-0.164.orig/lib/system.h
+++++ elfutils-0.164/lib/system.h
++@@ -49,6 +49,16 @@
++ #else
++ # error "Unknown byte order"
++ #endif
+++#ifndef TEMP_FAILURE_RETRY
+++#define TEMP_FAILURE_RETRY(expression) \
+++  (__extension__							      \
+++    ({ long int __result;						      \
+++       do __result = (long int) (expression);				      \
+++       while (__result == -1L && errno == EINTR);			      \
+++       __result; }))
 ++#endif
 ++
-+ #define LOG(level,args) if (loglev >= level) { fprintf args; }
+++#define error(status, errno, ...) err(status, __VA_ARGS__)
 + 
-+ size_t nprocesses = 4;
-+@@ -257,6 +267,56 @@ static void object_dump(size_t idx, obje
-+ 	fprintf(stderr, "}\n");
-+ }
++ extern void *xmalloc (size_t) __attribute__ ((__malloc__));
++ extern void *xcalloc (size_t, size_t) __attribute__ ((__malloc__));
++Index: elfutils-0.164/lib/xmalloc.c
++===================================================================
++--- elfutils-0.164.orig/lib/xmalloc.c
+++++ elfutils-0.164/lib/xmalloc.c
++@@ -30,7 +30,7 @@
++ # include <config.h>
++ #endif
 + 
-++#ifndef __GLIBC__
-++extern char *__progname;
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <stddef.h>
++ #include <stdlib.h>
++Index: elfutils-0.164/libasm/asm_end.c
++===================================================================
++--- elfutils-0.164.orig/libasm/asm_end.c
+++++ elfutils-0.164/libasm/asm_end.c
++@@ -32,7 +32,7 @@
++ #endif
++ 
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++Index: elfutils-0.164/libasm/asm_newscn.c
++===================================================================
++--- elfutils-0.164.orig/libasm/asm_newscn.c
+++++ elfutils-0.164/libasm/asm_newscn.c
++@@ -32,7 +32,7 @@
++ #endif
++ 
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <stdlib.h>
++ #include <string.h>
++Index: elfutils-0.164/libcpu/i386_gendis.c
++===================================================================
++--- elfutils-0.164.orig/libcpu/i386_gendis.c
+++++ elfutils-0.164/libcpu/i386_gendis.c
++@@ -31,7 +31,7 @@
++ # include <config.h>
++ #endif
++ 
++-#include <error.h>
+++#include <err.h>
++ #include <errno.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++Index: elfutils-0.164/libcpu/i386_lex.c
++===================================================================
++--- elfutils-0.164.orig/libcpu/i386_lex.c
+++++ elfutils-0.164/libcpu/i386_lex.c
++@@ -571,7 +571,7 @@ char *i386_text;
++ #endif
++ 
++ #include <ctype.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ 
++ #include <system.h>
++Index: elfutils-0.164/libcpu/i386_parse.c
++===================================================================
++--- elfutils-0.164.orig/libcpu/i386_parse.c
+++++ elfutils-0.164/libcpu/i386_parse.c
++@@ -107,7 +107,7 @@
++ #include <assert.h>
++ #include <ctype.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <inttypes.h>
++ #include <libintl.h>
++ #include <math.h>
++Index: elfutils-0.164/libdw/Makefile.am
++===================================================================
++--- elfutils-0.164.orig/libdw/Makefile.am
+++++ elfutils-0.164/libdw/Makefile.am
++@@ -117,7 +117,7 @@ libdw.so$(EXEEXT): $(srcdir)/libdw.map l
++ 		-Wl,--enable-new-dtags,-rpath,$(pkglibdir) \
++ 		-Wl,--version-script,$<,--no-undefined \
++ 		-Wl,--whole-archive $(filter-out $<,$^) -Wl,--no-whole-archive\
++-		-ldl $(argp_LDADD) $(zip_LIBS) $(libdw_so_LDLIBS)
+++		-ldl $(argp_LDADD) $(zip_LIBS) $(libdw_so_LDLIBS) -lfts -largp
++ 	@$(textrel_check)
++ 	$(AM_V_at)ln -fs $@ $@.$(VERSION)
++ 
++Index: elfutils-0.164/libdw/libdw_alloc.c
++===================================================================
++--- elfutils-0.164.orig/libdw/libdw_alloc.c
+++++ elfutils-0.164/libdw/libdw_alloc.c
++@@ -31,11 +31,12 @@
++ # include <config.h>
++ #endif
++ 
++-#include <error.h>
+++#include <err.h>
++ #include <errno.h>
++ #include <stdlib.h>
++ #include <sys/param.h>
++ #include "libdwP.h"
+++#include "system.h"
++ 
++ 
++ void *
++Index: elfutils-0.164/libdwfl/Makefile.am
++===================================================================
++--- elfutils-0.164.orig/libdwfl/Makefile.am
+++++ elfutils-0.164/libdwfl/Makefile.am
++@@ -86,6 +86,8 @@ libelf = ../libelf/libelf.so
++ libebl = ../libebl/libebl.a
++ libeu = ../lib/libeu.a
++ 
+++LDADD = -lfts
 ++
-++void (*error_print_progname)(void) = 0;
-++unsigned int error_message_count = 0;
-++int error_one_per_line = 0;
-++
-++static void eprint(int status, int e, const char *file, unsigned int line, const char *fmt, va_list ap)
-++{
-++	if (file && error_one_per_line) {
-++		static const char *oldfile;
-++		static unsigned int oldline;
-++		if (line == oldline && strcmp(file, oldfile) == 0)
-++			return;
-++		oldfile = file;
-++		oldline = line;
-++	}
-++	if (error_print_progname)
-++		error_print_progname();
-++	else
-++		fprintf(stderr, "%s: ", __progname);
-++	if (file)
-++		fprintf(stderr, "%s:%u: ", file, line);
-++	vfprintf(stderr, fmt, ap);
-++	if (e)
-++		fprintf(stderr, ": %s", strerror(e));
-++	putc('\n', stderr);
-++	fflush(stderr);
-++	error_message_count++;
-++	if (status)
-++		exit(status);
-++}
-++
-++void error(int status, int e, const char *fmt, ...)
-++{
-++	va_list ap;
-++	va_start(ap,fmt);
-++	eprint(status, e, 0, 0, fmt, ap);
-++	va_end(ap);
-++}
-++
-++void error_at_line(int status, int e, const char *file, unsigned int line, const char *fmt, ...)
-++{
-++	va_list ap;
-++	va_start(ap,fmt);
-++	eprint(status, e, file, line, fmt, ap);
-++	va_end(ap);
-++}
-++#endif /* __GLIBC__ */
-++
-+ int main(int argc, char *argv[])
++ libdwfl_pic_a_SOURCES =
++ am_libdwfl_pic_a_OBJECTS = $(libdwfl_a_SOURCES:.c=.os)
++ 
++Index: elfutils-0.164/libdwfl/dwfl_build_id_find_elf.c
++===================================================================
++--- elfutils-0.164.orig/libdwfl/dwfl_build_id_find_elf.c
+++++ elfutils-0.164/libdwfl/dwfl_build_id_find_elf.c
++@@ -27,6 +27,7 @@
++    not, see <http://www.gnu.org/licenses/>.  */
++ 
++ #include "libdwflP.h"
+++#include "system.h"
++ #include <inttypes.h>
++ #include <fcntl.h>
++ #include <unistd.h>
++@@ -94,7 +95,7 @@ __libdwfl_open_by_build_id (Dwfl_Module
++ 	{
++ 	  if (*file_name != NULL)
++ 	    free (*file_name);
++-	  *file_name = canonicalize_file_name (name);
+++	  *file_name = realpath (name, NULL);
++ 	  if (*file_name == NULL)
++ 	    {
++ 	      *file_name = name;
++Index: elfutils-0.164/libdwfl/dwfl_error.c
++===================================================================
++--- elfutils-0.164.orig/libdwfl/dwfl_error.c
+++++ elfutils-0.164/libdwfl/dwfl_error.c
++@@ -140,6 +140,7 @@ __libdwfl_seterrno (Dwfl_Error error)
++ const char *
++ dwfl_errmsg (int error)
 + {
-+ 	size_t i, nfailed = 0, nignored = 0;
-diff --git a/meta/recipes-core/util-linux/util-linux_2.27.1.bb b/meta/recipes-core/util-linux/util-linux_2.27.1.bb
-index 14a77ca..7549158 100644
---- a/meta/recipes-core/util-linux/util-linux_2.27.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.27.1.bb
-@@ -19,6 +19,7 @@ SRC_URI += "file://util-linux-ng-2.16-mount_lock_path.patch \
-             file://avoid_unsupported_grep_opts.patch \
-             file://display_testname_for_subtest.patch \
-             file://avoid_parallel_tests.patch \
-+            file://uuid-test-error-api.patch \
+++  static __thread char s[64] = "";
++   if (error == 0 || error == -1)
++     {
++       int last_error = global_error;
++@@ -154,7 +155,8 @@ dwfl_errmsg (int error)
++   switch (error &~ 0xffff)
++     {
++     case OTHER_ERROR (ERRNO):
++-      return strerror_r (error & 0xffff, "bad", 0);
+++      strerror_r (error & 0xffff, s, sizeof(s));
+++      return s;
++     case OTHER_ERROR (LIBELF):
++       return elf_errmsg (error & 0xffff);
++     case OTHER_ERROR (LIBDW):
++Index: elfutils-0.164/libdwfl/dwfl_module_getdwarf.c
++===================================================================
++--- elfutils-0.164.orig/libdwfl/dwfl_module_getdwarf.c
+++++ elfutils-0.164/libdwfl/dwfl_module_getdwarf.c
++@@ -31,6 +31,7 @@
++ #include <fcntl.h>
++ #include <string.h>
++ #include <unistd.h>
+++#include "system.h"
++ #include "../libdw/libdwP.h"	/* DWARF_E_* values are here.  */
++ #include "../libelf/libelfP.h"
++ 
++Index: elfutils-0.164/libdwfl/find-debuginfo.c
++===================================================================
++--- elfutils-0.164.orig/libdwfl/find-debuginfo.c
+++++ elfutils-0.164/libdwfl/find-debuginfo.c
++@@ -372,7 +372,7 @@ dwfl_standard_find_debuginfo (Dwfl_Modul
++       /* If FILE_NAME is a symlink, the debug file might be associated
++ 	 with the symlink target name instead.  */
++ 
++-      char *canon = canonicalize_file_name (file_name);
+++      char *canon = realpath (file_name, NULL);
++       if (canon != NULL && strcmp (file_name, canon))
++ 	fd = find_debuginfo_in_path (mod, canon,
++ 				     debuglink_file, debuglink_crc,
++Index: elfutils-0.164/libdwfl/libdwfl_crc32_file.c
++===================================================================
++--- elfutils-0.164.orig/libdwfl/libdwfl_crc32_file.c
+++++ elfutils-0.164/libdwfl/libdwfl_crc32_file.c
++@@ -31,6 +31,16 @@
++ 
++ #define crc32_file attribute_hidden __libdwfl_crc32_file
++ #define crc32 __libdwfl_crc32
+++
+++#ifndef TEMP_FAILURE_RETRY
+++#define TEMP_FAILURE_RETRY(expression) \
+++  (__extension__							      \
+++    ({ long int __result;						      \
+++       do __result = (long int) (expression);				      \
+++       while (__result == -1L && errno == EINTR);			      \
+++       __result; }))
+++#endif
+++
++ #define LIB_SYSTEM_H	1
++ #include <libdwflP.h>
++ #include "../lib/crc32_file.c"
++Index: elfutils-0.164/libdwfl/linux-kernel-modules.c
++===================================================================
++--- elfutils-0.164.orig/libdwfl/linux-kernel-modules.c
+++++ elfutils-0.164/libdwfl/linux-kernel-modules.c
++@@ -34,6 +34,7 @@
++ #include <config.h>
++ 
++ #include "libdwflP.h"
+++#include "system.h"
++ #include <inttypes.h>
++ #include <errno.h>
++ #include <stdio.h>
++Index: elfutils-0.164/libebl/eblopenbackend.c
++===================================================================
++--- elfutils-0.164.orig/libebl/eblopenbackend.c
+++++ elfutils-0.164/libebl/eblopenbackend.c
++@@ -32,7 +32,7 @@
++ 
++ #include <assert.h>
++ #include <dlfcn.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libelfP.h>
++ #include <dwarf.h>
++ #include <stdlib.h>
++Index: elfutils-0.164/libebl/eblwstrtab.c
++===================================================================
++--- elfutils-0.164.orig/libebl/eblwstrtab.c
+++++ elfutils-0.164/libebl/eblwstrtab.c
++@@ -305,7 +305,7 @@ copystrings (struct Ebl_WStrent *nodep,
++ 
++   /* Process the current node.  */
++   nodep->offset = *offsetp;
++-  *freep = wmempcpy (*freep, nodep->string, nodep->len);
+++  *freep = wmemcpy (*freep, nodep->string, nodep->len) + nodep->len;
++   *offsetp += nodep->len * sizeof (wchar_t);
++ 
++   for (subs = nodep->next; subs != NULL; subs = subs->next)
++Index: elfutils-0.164/libelf/elf.h
++===================================================================
++--- elfutils-0.164.orig/libelf/elf.h
+++++ elfutils-0.164/libelf/elf.h
++@@ -21,7 +21,9 @@
++ 
++ #include <features.h>
++ 
++-__BEGIN_DECLS
+++#ifdef __cplusplus
+++extern "C" {
+++#endif
++ 
++ /* Standard ELF types.  */
++ 
++@@ -3552,7 +3554,8 @@ enum
++ 
++ #define R_TILEGX_NUM		130
++ 
++-
++-__END_DECLS
+++#ifdef __cplusplus
+++}
+++#endif
++ 
++ #endif	/* elf.h */
++Index: elfutils-0.164/libelf/libelf.h
++===================================================================
++--- elfutils-0.164.orig/libelf/libelf.h
+++++ elfutils-0.164/libelf/libelf.h
++@@ -29,6 +29,7 @@
++ #ifndef _LIBELF_H
++ #define _LIBELF_H 1
++ 
+++#include <fcntl.h>
++ #include <stdint.h>
++ #include <sys/types.h>
++ 
++Index: elfutils-0.164/libelf/libelfP.h
++===================================================================
++--- elfutils-0.164.orig/libelf/libelfP.h
+++++ elfutils-0.164/libelf/libelfP.h
++@@ -36,6 +36,7 @@
++ 
++ #include <ar.h>
++ #include <gelf.h>
+++#include <libelf.h>
++ 
++ #include <errno.h>
++ #include <stdint.h>
++Index: elfutils-0.164/src/addr2line.c
++===================================================================
++--- elfutils-0.164.orig/src/addr2line.c
+++++ elfutils-0.164/src/addr2line.c
++@@ -23,7 +23,7 @@
++ #include <argp.h>
++ #include <assert.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <inttypes.h>
++ #include <libdwfl.h>
++Index: elfutils-0.164/src/ar.c
++===================================================================
++--- elfutils-0.164.orig/src/ar.c
+++++ elfutils-0.164/src/ar.c
++@@ -22,7 +22,7 @@
++ 
++ #include <argp.h>
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <libintl.h>
++Index: elfutils-0.164/src/arlib.c
++===================================================================
++--- elfutils-0.164.orig/src/arlib.c
+++++ elfutils-0.164/src/arlib.c
++@@ -21,7 +21,7 @@
++ #endif
++ 
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <gelf.h>
++ #include <libintl.h>
++ #include <stdio.h>
++Index: elfutils-0.164/src/arlib2.c
++===================================================================
++--- elfutils-0.164.orig/src/arlib2.c
+++++ elfutils-0.164/src/arlib2.c
++@@ -20,7 +20,7 @@
++ # include <config.h>
++ #endif
++ 
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <limits.h>
++ #include <string.h>
++Index: elfutils-0.164/src/elfcmp.c
++===================================================================
++--- elfutils-0.164.orig/src/elfcmp.c
+++++ elfutils-0.164/src/elfcmp.c
++@@ -23,7 +23,7 @@
++ #include <argp.h>
++ #include <assert.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <locale.h>
++ #include <libintl.h>
++Index: elfutils-0.164/src/elflint.c
++===================================================================
++--- elfutils-0.164.orig/src/elflint.c
+++++ elfutils-0.164/src/elflint.c
++@@ -24,7 +24,7 @@
++ #include <assert.h>
++ #include <byteswap.h>
++ #include <endian.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <inttypes.h>
++Index: elfutils-0.164/src/findtextrel.c
++===================================================================
++--- elfutils-0.164.orig/src/findtextrel.c
+++++ elfutils-0.164/src/findtextrel.c
++@@ -23,7 +23,7 @@
++ #include <argp.h>
++ #include <assert.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <libdw.h>
++Index: elfutils-0.164/src/i386_ld.c
++===================================================================
++--- elfutils-0.164.orig/src/i386_ld.c
+++++ elfutils-0.164/src/i386_ld.c
++@@ -20,7 +20,7 @@
++ #endif
++ 
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <stdlib.h>
++ #include <string.h>
++Index: elfutils-0.164/src/ld.c
++===================================================================
++--- elfutils-0.164.orig/src/ld.c
+++++ elfutils-0.164/src/ld.c
++@@ -21,7 +21,7 @@
++ 
++ #include <argp.h>
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <libelf.h>
++ #include <libintl.h>
++Index: elfutils-0.164/src/ldgeneric.c
++===================================================================
++--- elfutils-0.164.orig/src/ldgeneric.c
+++++ elfutils-0.164/src/ldgeneric.c
++@@ -23,7 +23,7 @@
++ #include <ctype.h>
++ #include <dlfcn.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <fnmatch.h>
++ #include <gelf.h>
++Index: elfutils-0.164/src/ldlex.c
++===================================================================
++--- elfutils-0.164.orig/src/ldlex.c
+++++ elfutils-0.164/src/ldlex.c
++@@ -1099,7 +1099,7 @@ char *ldtext;
++ #include <assert.h>
++ #include <ctype.h>
++ #include <elf.h>
++-#include <error.h>
+++#include <err.h>
++ #include <inttypes.h>
++ #include <libintl.h>
++ #include <stdbool.h>
++Index: elfutils-0.164/src/ldscript.c
++===================================================================
++--- elfutils-0.164.orig/src/ldscript.c
+++++ elfutils-0.164/src/ldscript.c
++@@ -95,7 +95,7 @@
++ #endif
++ 
++ #include <assert.h>
++-#include <error.h>
+++#include <err.h>
++ #include <libintl.h>
++ #include <stdbool.h>
++ #include <stdint.h>
++Index: elfutils-0.164/src/nm.c
++===================================================================
++--- elfutils-0.164.orig/src/nm.c
+++++ elfutils-0.164/src/nm.c
++@@ -26,7 +26,7 @@
++ #include <ctype.h>
++ #include <dwarf.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <inttypes.h>
++Index: elfutils-0.164/src/objdump.c
++===================================================================
++--- elfutils-0.164.orig/src/objdump.c
+++++ elfutils-0.164/src/objdump.c
++@@ -21,7 +21,7 @@
++ #endif
++ 
++ #include <argp.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <inttypes.h>
++ #include <libintl.h>
++Index: elfutils-0.164/src/ranlib.c
++===================================================================
++--- elfutils-0.164.orig/src/ranlib.c
+++++ elfutils-0.164/src/ranlib.c
++@@ -24,7 +24,7 @@
++ #include <argp.h>
++ #include <assert.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <libintl.h>
++Index: elfutils-0.164/src/readelf.c
++===================================================================
++--- elfutils-0.164.orig/src/readelf.c
+++++ elfutils-0.164/src/readelf.c
++@@ -25,7 +25,7 @@
++ #include <ctype.h>
++ #include <dwarf.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <inttypes.h>
++Index: elfutils-0.164/src/size.c
++===================================================================
++--- elfutils-0.164.orig/src/size.c
+++++ elfutils-0.164/src/size.c
++@@ -21,7 +21,7 @@
++ #endif
++ 
++ #include <argp.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <inttypes.h>
++Index: elfutils-0.164/src/stack.c
++===================================================================
++--- elfutils-0.164.orig/src/stack.c
+++++ elfutils-0.164/src/stack.c
++@@ -18,7 +18,7 @@
++ #include <config.h>
++ #include <assert.h>
++ #include <argp.h>
++-#include <error.h>
+++#include <err.h>
++ #include <stdlib.h>
++ #include <inttypes.h>
++ #include <stdio.h>
++Index: elfutils-0.164/src/strings.c
++===================================================================
++--- elfutils-0.164.orig/src/strings.c
+++++ elfutils-0.164/src/strings.c
++@@ -25,7 +25,7 @@
++ #include <ctype.h>
++ #include <endian.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <inttypes.h>
++Index: elfutils-0.164/src/strip.c
++===================================================================
++--- elfutils-0.164.orig/src/strip.c
+++++ elfutils-0.164/src/strip.c
++@@ -24,7 +24,7 @@
++ #include <assert.h>
++ #include <byteswap.h>
++ #include <endian.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <libelf.h>
++Index: elfutils-0.164/src/unstrip.c
++===================================================================
++--- elfutils-0.164.orig/src/unstrip.c
+++++ elfutils-0.164/src/unstrip.c
++@@ -31,7 +31,7 @@
++ #include <argp.h>
++ #include <assert.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <fnmatch.h>
++ #include <libintl.h>
++Index: elfutils-0.164/tests/addrscopes.c
++===================================================================
++--- elfutils-0.164.orig/tests/addrscopes.c
+++++ elfutils-0.164/tests/addrscopes.c
++@@ -25,7 +25,7 @@
++ #include <stdio_ext.h>
++ #include <locale.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ 
++ 
++Index: elfutils-0.164/tests/allregs.c
++===================================================================
++--- elfutils-0.164.orig/tests/allregs.c
+++++ elfutils-0.164/tests/allregs.c
++@@ -21,7 +21,7 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <error.h>
+++#include <err.h>
++ #include <locale.h>
++ #include <argp.h>
++ #include <assert.h>
++Index: elfutils-0.164/tests/backtrace-data.c
++===================================================================
++--- elfutils-0.164.orig/tests/backtrace-data.c
+++++ elfutils-0.164/tests/backtrace-data.c
++@@ -27,7 +27,7 @@
++ #include <dirent.h>
++ #include <stdlib.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <unistd.h>
++ #include <dwarf.h>
++ #if defined(__x86_64__) && defined(__linux__)
++Index: elfutils-0.164/tests/backtrace-dwarf.c
++===================================================================
++--- elfutils-0.164.orig/tests/backtrace-dwarf.c
+++++ elfutils-0.164/tests/backtrace-dwarf.c
++@@ -22,7 +22,7 @@
++ #include <stdio_ext.h>
++ #include <locale.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <unistd.h>
++ #include <sys/ptrace.h>
++ #include <sys/types.h>
++Index: elfutils-0.164/tests/backtrace.c
++===================================================================
++--- elfutils-0.164.orig/tests/backtrace.c
+++++ elfutils-0.164/tests/backtrace.c
++@@ -24,7 +24,7 @@
++ #include <dirent.h>
++ #include <stdlib.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <unistd.h>
++ #include <dwarf.h>
++ #ifdef __linux__
++Index: elfutils-0.164/tests/buildid.c
++===================================================================
++--- elfutils-0.164.orig/tests/buildid.c
+++++ elfutils-0.164/tests/buildid.c
++@@ -23,7 +23,7 @@
++ #include ELFUTILS_HEADER(elf)
++ #include ELFUTILS_HEADER(dwelf)
++ #include <stdio.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <stdlib.h>
++ #include <sys/types.h>
++Index: elfutils-0.164/tests/debugaltlink.c
++===================================================================
++--- elfutils-0.164.orig/tests/debugaltlink.c
+++++ elfutils-0.164/tests/debugaltlink.c
++@@ -23,7 +23,7 @@
++ #include ELFUTILS_HEADER(dw)
++ #include ELFUTILS_HEADER(dwelf)
++ #include <stdio.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <stdlib.h>
++ #include <sys/types.h>
++Index: elfutils-0.164/tests/debuglink.c
++===================================================================
++--- elfutils-0.164.orig/tests/debuglink.c
+++++ elfutils-0.164/tests/debuglink.c
++@@ -21,7 +21,7 @@
++ #include <errno.h>
++ #include ELFUTILS_HEADER(dwelf)
++ #include <stdio.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <stdlib.h>
++ #include <sys/types.h>
++Index: elfutils-0.164/tests/deleted.c
++===================================================================
++--- elfutils-0.164.orig/tests/deleted.c
+++++ elfutils-0.164/tests/deleted.c
++@@ -21,7 +21,7 @@
++ #include <unistd.h>
++ #include <assert.h>
++ #include <stdio.h>
++-#include <error.h>
+++#include <err.h>
++ #include <errno.h>
++ #ifdef __linux__
++ #include <sys/prctl.h>
++Index: elfutils-0.164/tests/dwfl-addr-sect.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwfl-addr-sect.c
+++++ elfutils-0.164/tests/dwfl-addr-sect.c
++@@ -23,7 +23,7 @@
++ #include <stdio_ext.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <error.h>
+++#include <err.h>
++ #include <locale.h>
++ #include <argp.h>
++ #include ELFUTILS_HEADER(dwfl)
++Index: elfutils-0.164/tests/dwfl-bug-addr-overflow.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwfl-bug-addr-overflow.c
+++++ elfutils-0.164/tests/dwfl-bug-addr-overflow.c
++@@ -20,7 +20,7 @@
++ #include <inttypes.h>
++ #include <stdio.h>
++ #include <stdio_ext.h>
++-#include <error.h>
+++#include <err.h>
++ #include <locale.h>
++ #include ELFUTILS_HEADER(dwfl)
++ 
++Index: elfutils-0.164/tests/dwfl-bug-fd-leak.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwfl-bug-fd-leak.c
+++++ elfutils-0.164/tests/dwfl-bug-fd-leak.c
++@@ -24,7 +24,7 @@
++ #include <dirent.h>
++ #include <stdlib.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <unistd.h>
++ #include <dwarf.h>
++ #include <sys/resource.h>
++Index: elfutils-0.164/tests/dwfl-bug-getmodules.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwfl-bug-getmodules.c
+++++ elfutils-0.164/tests/dwfl-bug-getmodules.c
++@@ -18,7 +18,7 @@
++ #include <config.h>
++ #include ELFUTILS_HEADER(dwfl)
++ 
++-#include <error.h>
+++#include <err.h>
++ 
++ static const Dwfl_Callbacks callbacks =
++   {
++Index: elfutils-0.164/tests/dwfl-report-elf-align.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwfl-report-elf-align.c
+++++ elfutils-0.164/tests/dwfl-report-elf-align.c
++@@ -20,7 +20,7 @@
++ #include <inttypes.h>
++ #include <stdio.h>
++ #include <stdio_ext.h>
++-#include <error.h>
+++#include <err.h>
++ #include <locale.h>
++ #include <string.h>
++ #include <stdlib.h>
++Index: elfutils-0.164/tests/dwfllines.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwfllines.c
+++++ elfutils-0.164/tests/dwfllines.c
++@@ -27,7 +27,7 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <error.h>
+++#include <err.h>
++ 
++ int
++ main (int argc, char *argv[])
++Index: elfutils-0.164/tests/dwflmodtest.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwflmodtest.c
+++++ elfutils-0.164/tests/dwflmodtest.c
++@@ -23,7 +23,7 @@
++ #include <stdio_ext.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <error.h>
+++#include <err.h>
++ #include <locale.h>
++ #include <argp.h>
++ #include ELFUTILS_HEADER(dwfl)
++Index: elfutils-0.164/tests/dwflsyms.c
++===================================================================
++--- elfutils-0.164.orig/tests/dwflsyms.c
+++++ elfutils-0.164/tests/dwflsyms.c
++@@ -25,7 +25,7 @@
++ #include <stdio.h>
++ #include <stdio_ext.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ 
++ static const char *
++Index: elfutils-0.164/tests/early-offscn.c
++===================================================================
++--- elfutils-0.164.orig/tests/early-offscn.c
+++++ elfutils-0.164/tests/early-offscn.c
++@@ -19,7 +19,7 @@
++ #endif
++ 
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <stdio.h>
++Index: elfutils-0.164/tests/ecp.c
++===================================================================
++--- elfutils-0.164.orig/tests/ecp.c
+++++ elfutils-0.164/tests/ecp.c
++@@ -20,7 +20,7 @@
++ #endif
++ 
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <stdlib.h>
++Index: elfutils-0.164/tests/find-prologues.c
++===================================================================
++--- elfutils-0.164.orig/tests/find-prologues.c
+++++ elfutils-0.164/tests/find-prologues.c
++@@ -25,7 +25,7 @@
++ #include <stdio_ext.h>
++ #include <locale.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <fnmatch.h>
++ 
++Index: elfutils-0.164/tests/funcretval.c
++===================================================================
++--- elfutils-0.164.orig/tests/funcretval.c
+++++ elfutils-0.164/tests/funcretval.c
++@@ -25,7 +25,7 @@
++ #include <stdio_ext.h>
++ #include <locale.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <fnmatch.h>
++ 
++Index: elfutils-0.164/tests/funcscopes.c
++===================================================================
++--- elfutils-0.164.orig/tests/funcscopes.c
+++++ elfutils-0.164/tests/funcscopes.c
++@@ -25,7 +25,7 @@
++ #include <stdio_ext.h>
++ #include <locale.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <fnmatch.h>
++ 
++Index: elfutils-0.164/tests/getsrc_die.c
++===================================================================
++--- elfutils-0.164.orig/tests/getsrc_die.c
+++++ elfutils-0.164/tests/getsrc_die.c
++@@ -19,7 +19,7 @@
++ #endif
++ 
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <inttypes.h>
++ #include <libelf.h>
++Index: elfutils-0.164/tests/line2addr.c
++===================================================================
++--- elfutils-0.164.orig/tests/line2addr.c
+++++ elfutils-0.164/tests/line2addr.c
++@@ -26,7 +26,7 @@
++ #include <locale.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <error.h>
+++#include <err.h>
++ 
++ 
++ static void
++Index: elfutils-0.164/tests/low_high_pc.c
++===================================================================
++--- elfutils-0.164.orig/tests/low_high_pc.c
+++++ elfutils-0.164/tests/low_high_pc.c
++@@ -25,7 +25,7 @@
++ #include <stdio_ext.h>
++ #include <locale.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <fnmatch.h>
++ 
++Index: elfutils-0.164/tests/md5-sha1-test.c
++===================================================================
++--- elfutils-0.164.orig/tests/md5-sha1-test.c
+++++ elfutils-0.164/tests/md5-sha1-test.c
++@@ -19,7 +19,7 @@
++ #endif
++ 
++ #include <string.h>
++-#include <error.h>
+++#include <err.h>
++ 
++ #include "md5.h"
++ #include "sha1.h"
++Index: elfutils-0.164/tests/rdwrmmap.c
++===================================================================
++--- elfutils-0.164.orig/tests/rdwrmmap.c
+++++ elfutils-0.164/tests/rdwrmmap.c
++@@ -19,7 +19,7 @@
++ #endif
++ 
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <stdio.h>
++ #include <fcntl.h>
++ #include <unistd.h>
++Index: elfutils-0.164/tests/saridx.c
++===================================================================
++--- elfutils-0.164.orig/tests/saridx.c
+++++ elfutils-0.164/tests/saridx.c
++@@ -17,7 +17,7 @@
++ 
++ #include <config.h>
++ 
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <stdio.h>
++Index: elfutils-0.164/tests/sectiondump.c
++===================================================================
++--- elfutils-0.164.orig/tests/sectiondump.c
+++++ elfutils-0.164/tests/sectiondump.c
++@@ -18,7 +18,7 @@
++ #include <config.h>
++ 
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <fcntl.h>
++ #include <gelf.h>
++ #include <inttypes.h>
++Index: elfutils-0.164/tests/varlocs.c
++===================================================================
++--- elfutils-0.164.orig/tests/varlocs.c
+++++ elfutils-0.164/tests/varlocs.c
++@@ -25,7 +25,7 @@
++ #include <dwarf.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++-#include <error.h>
+++#include <err.h>
++ #include <string.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
++Index: elfutils-0.164/tests/vdsosyms.c
++===================================================================
++--- elfutils-0.164.orig/tests/vdsosyms.c
+++++ elfutils-0.164/tests/vdsosyms.c
++@@ -18,7 +18,7 @@
++ #include <config.h>
++ #include <assert.h>
++ #include <errno.h>
++-#include <error.h>
+++#include <err.h>
++ #include <inttypes.h>
++ #include <stdio.h>
++ #include <string.h>
++Index: elfutils-0.164/libelf/elf_getarsym.c
++===================================================================
++--- elfutils-0.164.orig/libelf/elf_getarsym.c
+++++ elfutils-0.164/libelf/elf_getarsym.c
++@@ -302,7 +302,7 @@ elf_getarsym (Elf *elf, size_t *ptr)
++ 		arsym[cnt].as_off = (*u32)[cnt];
++ 
++ 	      arsym[cnt].as_hash = _dl_elf_hash (str_data);
++-	      str_data = rawmemchr (str_data, '\0') + 1;
+++	      str_data = memchr (str_data, '\0', SIZE_MAX) + 1;
++ 	    }
++ 
++ 	  /* At the end a special entry.  */
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.164/aarch64_uio.patch b/meta/recipes-devtools/elfutils/elfutils-0.164/aarch64_uio.patch
+new file mode 100644
+index 0000000..38dc57b
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.164/aarch64_uio.patch
+@@ -0,0 +1,47 @@
++Fix build on aarch64/musl
++
++Errors
++
++invalid operands to binary & (have 'long double' and 'unsigned int')
++
++error: redefinition
++ of 'struct iovec'
++ struct iovec { void *iov_base; size_t iov_len; };
++        ^
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Index: elfutils-0.163/backends/aarch64_initreg.c
++===================================================================
++--- elfutils-0.163.orig/backends/aarch64_initreg.c
+++++ elfutils-0.163/backends/aarch64_initreg.c
++@@ -33,7 +33,7 @@
++ #include "system.h"
++ #include <assert.h>
++ #ifdef __aarch64__
++-# include <linux/uio.h>
+++# include <sys/uio.h>
++ # include <sys/user.h>
++ # include <sys/ptrace.h>
++ /* Deal with old glibc defining user_pt_regs instead of user_regs_struct.  */
++@@ -82,7 +82,7 @@ aarch64_set_initial_registers_tid (pid_t
++ 
++   Dwarf_Word dwarf_fregs[32];
++   for (int r = 0; r < 32; r++)
++-    dwarf_fregs[r] = fregs.vregs[r] & 0xFFFFFFFF;
+++    dwarf_fregs[r] = (unsigned int)fregs.vregs[r] & 0xFFFFFFFF;
++ 
++   if (! setfunc (64, 32, dwarf_fregs, arg))
++     return false;
++Index: elfutils-0.163/backends/arm_initreg.c
++===================================================================
++--- elfutils-0.163.orig/backends/arm_initreg.c
+++++ elfutils-0.163/backends/arm_initreg.c
++@@ -37,7 +37,7 @@
++ #endif
++ 
++ #ifdef __aarch64__
++-# include <linux/uio.h>
+++# include <sys/uio.h>
++ # include <sys/user.h>
++ # include <sys/ptrace.h>
++ /* Deal with old glibc defining user_pt_regs instead of user_regs_struct.  */
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.164/shadow.patch b/meta/recipes-devtools/elfutils/elfutils-0.164/shadow.patch
+new file mode 100644
+index 0000000..d31961f
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.164/shadow.patch
+@@ -0,0 +1,23 @@
++Fix control path where we have str as uninitialized string
++
++| /home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/i586-oe-linux-musl/elfutils/0.164-r0/elfutils-0.164/libcpu/i386_disasm.c: In function 'i386_disasm':
++| /home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/i586-oe-linux-musl/elfutils/0.164-r0/elfutils-0.164/libcpu/i386_disasm.c:310:5: error: 'str' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++|      memcpy (buf + bufcnt, _str, _len);           \
++|      ^
++| /home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/i586-oe-linux-musl/elfutils/0.164-r0/elfutils-0.164/libcpu/i386_disasm.c:709:17: note: 'str' was declared here
++|      const char *str;
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: elfutils-0.164/libcpu/i386_disasm.c
++===================================================================
++--- elfutils-0.164.orig/libcpu/i386_disasm.c
+++++ elfutils-0.164/libcpu/i386_disasm.c
++@@ -821,6 +821,7 @@ i386_disasm (const uint8_t **startp, con
++ 			    }
++ 
++ 			default:
+++			  str = "";
++ 			  assert (! "INVALID not handled");
++ 			}
++ 		    }
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.164/uclibc-support.patch b/meta/recipes-devtools/elfutils/elfutils-0.164/uclibc-support.patch
+new file mode 100644
+index 0000000..966b70f
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.164/uclibc-support.patch
+@@ -0,0 +1,129 @@
++From 3daec2dd11a04955f95e8f65a48820103d84dbec Mon Sep 17 00:00:00 2001
++From: Junling Zheng <zhengjunling@huawei.com>
++Date: Thu, 9 Apr 2015 12:12:49 +0000
++Subject: [PATCH] uclibc support for elfutils 0.161
++
++on uclibc systems libintl and libuargp are separate from libc.
++so they need to be specified on commandline when we use proxy-libintl
++then libintl is a static archive so it should be listed last since
++elfutils does not respect disable-nls we need to link in libintl
++
++We add a new option --enable-uclibc which will be used to control
++the uclibc specific configurations during build.
++
++Upstream-Status: Inappropriate [uclibc specific]
++
++Signed-off-by: Khem Raj <raj.khem>
++Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
++[Junling Zheng:
++ - adjust context
++]
++---
++ configure.ac       | 8 ++++++++
++ libcpu/Makefile.am | 4 ++++
++ libdw/Makefile.am  | 7 ++++++-
++ libelf/Makefile.am | 5 +++++
++ 4 files changed, 23 insertions(+), 1 deletion(-)
++
++Index: elfutils-0.164/configure.ac
++===================================================================
++--- elfutils-0.164.orig/configure.ac
+++++ elfutils-0.164/configure.ac
++@@ -66,6 +66,14 @@ AS_IF([test "$use_locks" = yes],
++ 
++ AH_TEMPLATE([USE_LOCKS], [Defined if libraries should be thread-safe.])
++ 
+++AC_ARG_ENABLE([uclibc],
+++AS_HELP_STRING([--enable-uclibc], [Use uclibc for system libraries]),
+++use_uclibc=yes, use_uclibc=no)
+++AM_CONDITIONAL(USE_UCLIBC, test "$use_uclibc" = yes)
+++AS_IF([test "$use_uclibc" = yes], [AC_DEFINE(USE_UCLIBC)])
+++
+++AH_TEMPLATE([USE_UCLIBC], [Defined if uclibc libraries are used.])
+++
++ AC_PROG_CC
++ AC_PROG_RANLIB
++ AC_PROG_YACC
++@@ -291,18 +299,13 @@ AC_LINK_IFELSE(
++ )
++ 
++ dnl If our libc doesn't provide argp, then test for libargp
++-if test "$libc_has_argp" = "false" ; then
++-	AC_MSG_WARN("libc does not have argp")
++-	AC_CHECK_LIB([argp], [argp_parse], [have_argp="true"], [have_argp="false"])
++-
++-	if test "$have_argp" = "false"; then
++-		AC_MSG_ERROR("no libargp found")
++-	else
++-		argp_LDADD="-largp"
++-	fi
++-else
++-	argp_LDADD=""
++-fi
+++AS_IF([test "x$libc_has_argp" = "xfalse"],
+++	[AC_MSG_WARN("libc does not have argp")
+++	AC_CHECK_LIB([argp], [argp_parse], [have_argp="true" argp_LDADD="-largp"], [have_argp="false"])], [argp_LDADD=""])
+++
+++AS_IF([test "x$libc_has_argp" = "xfalse" -a "x$have_argp" = "xfalse"],
+++	AC_CHECK_LIB([uargp], [argp_parse], [have_uargp="true" argp_LDADD="-luargp"], [have_uargp="false"])], [argp_LDADD=""])
+++
++ AC_SUBST([argp_LDADD])
++ 
++ dnl The directories with content.
++Index: elfutils-0.164/libcpu/Makefile.am
++===================================================================
++--- elfutils-0.164.orig/libcpu/Makefile.am
+++++ elfutils-0.164/libcpu/Makefile.am
++@@ -80,6 +80,10 @@ i386_parse_CFLAGS = -DNMNES="`wc -l < i3
++ i386_lex.o: i386_parse.h
++ i386_gendis_LDADD = $(libeu) -lm
++ 
+++if USE_UCLIBC
+++i386_gendis_LDADD += -lintl
+++endif
+++
++ i386_parse.h: i386_parse.c ;
++ 
++ EXTRA_DIST = defs/i386
++Index: elfutils-0.164/libdw/Makefile.am
++===================================================================
++--- elfutils-0.164.orig/libdw/Makefile.am
+++++ elfutils-0.164/libdw/Makefile.am
++@@ -102,6 +102,11 @@ endif
++ libdw_pic_a_SOURCES =
++ am_libdw_pic_a_OBJECTS = $(libdw_a_SOURCES:.c=.os)
++ 
+++libdw_so_LDLIBS =
+++if USE_UCLIBC
+++libdw_so_LDLIBS += -lintl
+++endif
+++
++ libdw_so_SOURCES =
++ libdw.so$(EXEEXT): $(srcdir)/libdw.map libdw_pic.a ../libdwelf/libdwelf_pic.a \
++ 	  ../libdwfl/libdwfl_pic.a ../libebl/libebl.a \
++@@ -112,7 +117,7 @@ libdw.so$(EXEEXT): $(srcdir)/libdw.map l
++ 		-Wl,--enable-new-dtags,-rpath,$(pkglibdir) \
++ 		-Wl,--version-script,$<,--no-undefined \
++ 		-Wl,--whole-archive $(filter-out $<,$^) -Wl,--no-whole-archive\
++-		-ldl $(argp_LDADD) $(zip_LIBS)
+++		-ldl $(argp_LDADD) $(zip_LIBS) $(libdw_so_LDLIBS)
++ 	@$(textrel_check)
++ 	$(AM_V_at)ln -fs $@ $@.$(VERSION)
++ 
++Index: elfutils-0.164/libelf/Makefile.am
++===================================================================
++--- elfutils-0.164.orig/libelf/Makefile.am
+++++ elfutils-0.164/libelf/Makefile.am
++@@ -93,7 +93,12 @@ libelf_a_SOURCES = elf_version.c elf_has
++ libelf_pic_a_SOURCES =
++ am_libelf_pic_a_OBJECTS = $(libelf_a_SOURCES:.c=.os)
++ 
+++
++ libelf_so_LDLIBS =
+++if USE_UCLIBC
+++libelf_so_LDLIBS += -lintl
+++endif
+++
++ if USE_LOCKS
++ libelf_so_LDLIBS += -lpthread
++ endif
+diff --git a/meta/recipes-devtools/elfutils/elfutils/mempcpy.patch b/meta/recipes-devtools/elfutils/elfutils/mempcpy.patch
+deleted file mode 100644
+index 24e31fa..0000000
+--- a/meta/recipes-devtools/elfutils/elfutils/mempcpy.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-
+-uclibc does not export __mempcpy like glibc so we alias it here.
+-This patch may make sense for upstream but elfutils uses more
+-glibc specific features like obstack_printf which are missing in
+-uclibc they need to be fixed along to make it work all the way
+-
+-Upstream-Status: Inappropriate[Elfutils uses more glibc specific features]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: elfutils-0.148/libelf/elf_begin.c
+-===================================================================
+---- elfutils-0.148.orig/libelf/elf_begin.c
+-+++ elfutils-0.148/libelf/elf_begin.c
+-@@ -68,6 +68,9 @@
+- #include "libelfP.h"
+- #include "common.h"
+- 
+-+#ifdef __UCLIBC__
+-+#define __mempcpy mempcpy
+-+#endif
+- 
+- /* Create descriptor for archive in memory.  */
+- static inline Elf *
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index 0d8490d..ff53257 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -27,7 +27,6 @@ SRC_URI += "\
+         file://elf_additions.diff \
+         file://elfutils-fsize.patch \
+         file://remove-unused.patch \
+-        file://mempcpy.patch \
+         file://fix_for_gcc-4.7.patch \
+         file://dso-link-change.patch \
+         file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.164.bb b/meta/recipes-devtools/elfutils/elfutils_0.164.bb
+index c27635d..4964c05 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.164.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.164.bb
+@@ -4,6 +4,7 @@ SECTION = "base"
+ LICENSE = "(GPLv3 & Elfutils-Exception)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
++DEPENDS_append_libc-musl = " argp-standalone fts "
+ 
+ SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/${PV}/${BP}.tar.bz2"
+ 
+@@ -11,13 +12,14 @@ SRC_URI[md5sum] = "2e4536c1c48034f188a80789a59114d8"
+ SRC_URI[sha256sum] = "9683c025928a12d06b7fe812928aa6235249e22d197d086f7084606a48165900"
+ 
+ SRC_URI += "\
+-        file://mempcpy.patch \
+         file://dso-link-change.patch \
+         file://Fix_elf_cvt_gunhash.patch \
+         file://fixheadercheck.patch \
+         file://0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch \
+         file://0001-remove-the-unneed-checking.patch \
+         file://0001-fix-a-stack-usage-warning.patch \
++        file://aarch64_uio.patch \
++        file://shadow.patch \
  "
- SRC_URI[md5sum] = "3cd2698d1363a2c64091c2dadc974647"
- SRC_URI[sha256sum] = "0a818fcdede99aec43ffe6ca5b5388bff80d162f2f7bd4541dca94fecb87a290"
+ 
+ # pick the patch from debian
+@@ -33,10 +35,9 @@ SRC_URI += "\
+         file://0001-Ignore-differences-between-mips-machine-identifiers.patch \
+         file://0002-Add-support-for-mips64-abis-in-mips_retval.c.patch \
+         file://0003-Add-mips-n64-relocation-format-hack.patch \
++        file://uclibc-support.patch \
+ "
+-
+-# Only apply when building uclibc based target recipe
+-SRC_URI_append_libc-uclibc = " file://uclibc-support-for-elfutils-0.161.patch"
++SRC_URI_append_libc-musl = " file://0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch "
+ 
+ # The buildsystem wants to generate 2 .h files from source using a binary it just built,
+ # which can not pass the cross compiling, so let's work around it by adding 2 .h files
+@@ -50,7 +51,7 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-uclibc"
+ 
+ do_install_append() {
+ 	if [ "${TARGET_ARCH}" != "x86_64" ] && [ -z `echo "${TARGET_ARCH}"|grep 'i.86'` ];then
+-		rm ${D}${bindir}/eu-objdump
++		rm -f ${D}${bindir}/eu-objdump
+ 	fi
+ }
+ 
+@@ -62,6 +63,8 @@ EXTRA_OEMAKE_libc-uclibc = "-C libelf"
+ EXTRA_OEMAKE_class-native = ""
+ EXTRA_OEMAKE_class-nativesdk = ""
+ 
++ALLOW_EMPTY_${PN}_libc-musl = "1"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ # Package utilities separately
 -- 
 2.7.0
 
