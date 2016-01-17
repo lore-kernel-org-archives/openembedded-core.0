@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 66657762B3
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id CBD6C76102
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 17 Jan 2016 11:37:26 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id ho8so157838882pac.2
+Received: by mail-pa0-f45.google.com with SMTP id uo6so404040698pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:27 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=XNunPw/7W+TNTJ/vFwgmWXyCoGrma3ynjn6Ij50ev2Q=;
-	b=08zaEeafntc+V7IXV3kXvGSPAaC+96VnQch4mn3Rz3vhyQ0mcE9E2Avbp8Juksoeby
-	uxbNhqjyhCOhXBn9T+04gFaxcv+tiTwyC0NweL5JkLdPfqJMvSZuii6Q1FwViPhzGF6C
-	DlLJZiLminA+25ucDxLKR3DvBlz6iiTGIyh2F5XhUt65ZDCGdG3EdqTKsZdvByrgATqH
-	t6z+HkuyM39/7TeHeUIPRtNRb2k1W1DGw3BBh/tJPy+xKUm8nZHZvk4FBnT+G/Qp/Cje
-	/hgXsBeFfe9n/Xg7lUNK4ubOeBb3YeShcasSMRREkiIIkPOgjkNx3WFvdfq3al9FxdVP
-	yxoQ==
+	bh=A71wkhRb/KdKJN5ettIY2JJf70cQv6JDjEVfp/oPbvU=;
+	b=m9Kj0dnjMXd3uQAw7Ic2s1pmznTBjaG5Av28pZn72AmSEXrImwP1mIJhby5UrPRtGY
+	rSZnxhcdpiMBZG943JUAsYXeC2bleReib0SvITVSw48a3+Awy1Ai3DdKmy9vg49G6Ap+
+	YsaLCQOIiIL030dtX9NpXTmmmsFYvw2oLieeSas3goMdokpiJAFduskx/JbdF5oWDPEh
+	hgGhgk9DoQRINblQLTT1ldLw03NiDyhniQvhtPTPCzfVhcMuZ6FKBzBjW7brt0uTSQjj
+	b6FqWPRLJALb/WlPa9Fi8DWsJsD37OsANmmhPqXg++5LeELgEejKnWZLcECngltso2ny
+	cleQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=XNunPw/7W+TNTJ/vFwgmWXyCoGrma3ynjn6Ij50ev2Q=;
-	b=Ezu2iZRXIo8587pIlJp7OQmJt7nT3Qzrz6VjbFJMTfAylEMBWMP+qeUF308ruO1Aag
-	hON5AmDOhUz1xM5pKqkDKN02/6+9+LesttohqbtFXHNvHmejNNwkaxBwMu2F+3+c1c4O
-	W7FJdBnxolQw7UXlqDLMejqT1RYKpa97ObxIoyrbsCJLtFO6077pGs9lyY9wgaMjZU42
-	ePaGBaxgFhvOFkUMkebcbVoKz/1xMWdM/bnHdzipxhLc6Z3EwRBayoExaDlipbkkuV74
-	znj5SPjZHK0DpOTeuBc81fMCfOBR+gtrUDft9e9n5M+9PmWAOBDuUiEZR00KGaqrvKBj
-	10Qg==
-X-Gm-Message-State: ALoCoQkI+ZY33qG6/4QTSZvrmAgG7Y5mBnK5+8xa9pixBKAWPeIzUIoeenCMl5pRgoygwhbvkbtisuGQ/hJk7G/7gJb2l+f69Q==
-X-Received: by 10.66.117.199 with SMTP id kg7mr28558750pab.105.1453030645378; 
-	Sun, 17 Jan 2016 03:37:25 -0800 (PST)
+	bh=A71wkhRb/KdKJN5ettIY2JJf70cQv6JDjEVfp/oPbvU=;
+	b=AMNEwEzgnuVH8Ee3jsuO8vPdQwMJFrZCr0uvV/2Ap0vamyyCNQWVfO1lkJ173TTceG
+	3BNJuqMHKIZpGWIzKMnFTnTuys5uiGkhfVSmqJJ6ArvOmWCiOcoMO+SFJPtDRVsH9L6Y
+	UidVqR0lPzGZjBUqastJNzsFHHyFVQI3xPHGEDbILhbzM/hDNgnu3HgC0RGDpxaxlaQg
+	B4d6QYMLRBCH7e8I4g63vpo/GxXmfgTt/5BVUqoX8yWk+dtNN5TRW5xwB/epTEnOkV0N
+	sNNK8feRs5sUhIQMPEnN5dvFJd6LHjjX4/6Y9be6IZ+TPOVJWYFmqe/GTF322dNY+Tj/
+	ZnBg==
+X-Gm-Message-State: ALoCoQnpHUW/ndjuSeSOg4WITlqltCtZqqQ7UDapuS1BCl7RoWAV+uEc0KN/4ggUoj7S0z8JTOvYyrQQQpZKYzuVZwXc4SS7kQ==
+X-Received: by 10.66.252.136 with SMTP id zs8mr28367821pac.110.1453030647886; 
+	Sun, 17 Jan 2016 03:37:27 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.24
+	ty5sm26838363pac.48.2016.01.17.03.37.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:24 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:27 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:36:00 -0800
-Message-Id: <89c840f61a93e7c93f227f875b3707c9243cb859.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:36:03 -0800
+Message-Id: <37bb7f5fd749848a0540ea5d3a0d2b8ec8c3f7e7.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 27/73] dpkg: Add musleabi to known architectures
+Subject: [PATCH 30/73] libunwind: backtrace APIs are glibc specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,90 +60,79 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 17 Jan 2016 11:37:27 -0000
 
-Remove a glibc specific patch to be applied only for native version,
-this is a dpkg-native specific patch needed for Centos 5.8, this patch
-should be redone to be glibc independent for it to be applied to all
-types of dpkg recipes
+Make backtrace() API's use conditional on glibc
+this helps make libunwind compile on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...0006-add-musleabi-to-known-target-tripets.patch | 42 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.18.2.bb          |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
+ ...-backtrace-Use-only-with-glibc-and-uclibc.patch | 45 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch
 new file mode 100644
-index 0000000..a6b0088
+index 0000000..9aed419
 --- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-@@ -0,0 +1,42 @@
-+From f8910022dc3ec622272f168cd0022dbdf6dff93a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch
+@@ -0,0 +1,45 @@
++From 04437142399662b576bd55a85485c6dcc14d0812 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 30 Dec 2015 23:05:41 +0000
-+Subject: [PATCH] add musleabi to known target tripets
++Date: Thu, 31 Dec 2015 06:44:07 +0000
++Subject: [PATCH] backtrace: Use only with glibc and uclibc
 +
-+helps compiling dpkg for musl/arm-softfloat
++backtrace API is glibc specific not linux specific
++so make it behave so.
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ ostable      | 1 +
-+ triplettable | 1 +
-+ 2 files changed, 2 insertions(+)
++ tests/test-coredump-unwind.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/ostable b/ostable
-+index 3bb6819..d0ffdc7 100644
-+--- a/ostable
-++++ b/ostable
-+@@ -15,6 +15,7 @@
-+ uclibceabi-linux	linux-uclibceabi	linux[^-]*-uclibceabi
-+ uclibc-linux		linux-uclibc		linux[^-]*-uclibc
-+ musleabihf-linux	linux-musleabihf	linux[^-]*-musleabihf
-++musleabi-linux		linux-musleabi		linux[^-]*-musleabi
-+ musl-linux		linux-musl		linux[^-]*-musl
-+ gnueabihf-linux		linux-gnueabihf		linux[^-]*-gnueabihf
-+ gnueabi-linux		linux-gnueabi		linux[^-]*-gnueabi
-+diff --git a/triplettable b/triplettable
-+index 1213584..70d24c1 100644
-+--- a/triplettable
-++++ b/triplettable
-+@@ -6,6 +6,7 @@
-+ uclibceabi-linux-arm	uclibc-linux-armel
-+ uclibc-linux-<cpu>	uclibc-linux-<cpu>
-+ musleabihf-linux-arm	musl-linux-armhf
-++musleabi-linux-arm	musl-linux-armel
-+ musl-linux-<cpu>	musl-linux-<cpu>
-+ gnueabihf-linux-arm	armhf
-+ gnueabi-linux-arm	armel
++diff --git a/tests/test-coredump-unwind.c b/tests/test-coredump-unwind.c
++index 5254708..8767b42 100644
++--- a/tests/test-coredump-unwind.c
+++++ b/tests/test-coredump-unwind.c
++@@ -57,7 +57,9 @@
++ #include <grp.h>
++ 
++ /* For SIGSEGV handler code */
+++#ifdef __GLIBC__
++ #include <execinfo.h>
+++#endif
++ #include <sys/ucontext.h>
++ 
++ #include <libunwind-coredump.h>
++@@ -238,11 +240,11 @@ void handle_sigsegv(int sig, siginfo_t *info, void *ucontext)
++ 			ip);
++ 
++   {
+++#ifdef __GLIBC__
++     /* glibc extension */
++     void *array[50];
++     int size;
++     size = backtrace(array, 50);
++-#ifdef __linux__
++     backtrace_symbols_fd(array, size, 2);
++ #endif
++   }
 +-- 
 +2.6.4
 +
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-index 4c3fa4f..dd1109b 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-@@ -1,17 +1,18 @@
- require dpkg.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index aa62bcc..7df9f5e 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -7,6 +7,7 @@ SRC_URI += "\
+     file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
+     file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
+     file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
++    file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
+ "
  
-+SRC_URI_append_class-native =" file://glibc2.5-sync_file_range.patch "
- SRC_URI += "file://noman.patch \
-             file://remove-tar-no-timestamp.patch \
-             file://fix-abs-redefine.patch \
-             file://arch_pm.patch \
-             file://dpkg-configure.service \
--            file://glibc2.5-sync_file_range.patch \
-             file://add_armeb_triplet_entry.patch \
- 	    file://0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch \
- 	    file://0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch \
- 	    file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
- 	    file://0005-dpkg-compiler.m4-remove-Wvla.patch \
-+	    file://0006-add-musleabi-to-known-target-tripets.patch \
-            "
- 
- SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
 -- 
 2.7.0
 
