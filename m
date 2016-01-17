@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id CD05E731A7
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CB8B973211
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:08 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id e65so142593281pfe.0
+	Sun, 17 Jan 2016 11:37:09 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id n128so142172777pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:09 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=O2ID1iLrNjRVSxem0nFnde+iKPa6XhHh2U1hUlkaQuw=;
-	b=GOmIQo/sbdo4ZkLZ6LOFzUihL/jV3/iaimc6MdfmSKqcQmclPlqAd6s7qOqAgmICH/
-	bRoyb0PmFO0InYZuoz1KD2BRI2pdmDpVoZktDqqZlC2K9iqzsfGwVXYWy626hjWybfy+
-	cSBLOjqiBBLpwf/DHMHZTkdHQ++yK1ppCMe4UCVvsbqfGIL3YA1F5KGuTGt106J1hiAk
-	kP3uwJ0vbaHzZKwTYUhPhZEF2eqS6pW2lnYwpCjO2hDEWotIfrgQCuYc/5Ln17+A/FWl
-	Odd6qhIsvCQwrbup3CNWTp6Mdv7SGrGgz/DGgJu5uo30xz6yTElsGHTEyAAQ4qj0kxeV
-	hdfw==
+	bh=qCtkanenKUtaTP7JjmPZVFaOYg3G1+pdreaVfGAcbTU=;
+	b=g4HRoI0YaWP+We5bxJQ/Pq7onp+kVZ3toeZdO9P46tcS2Do3rHHQt7gMUn0l/jkdaX
+	8950lGPpCLwcBzii1yq+D8/WY9E5Na4Nwd35cQUNyYAzYuC8wyt3CXR0BgIUSXTLhmt2
+	Vy04uTJNMCCFjD+Xm4/6c/KaIbWbJl4hIeM0RgTsSdgI6PruKTaW4wTjuEOLwfFDcReZ
+	bpoA1ryIHx5og8UtMMGzl5StWlsXewip00Ol62MraOpWPRjg1uzXHZmXgIOGhB8v+ccp
+	V6q8L7LmA91U4o3+T7DX4cgYgDZUsSL7i+VjRnnqdQtREb8HXnKl8dwQ9r5Urdmv+9pv
+	K1sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=O2ID1iLrNjRVSxem0nFnde+iKPa6XhHh2U1hUlkaQuw=;
-	b=ja87Wb2462eWvADhBoSKy642y9TC9BuVvNyWcf59nav9PWNslmdzSrvzkzIcxKZHtx
-	BjEdwLi6sPdIagTDxDwNY3d2F19IrlT8lnQo0PbKsBJCrm/k/yK98zTVWn58lMkxlrWQ
-	dpFxbTrckoBqKbnqaoqMmFEIE2N3ujW0zKXCjcN9ME1ylRihNf4jcTnBWCAmYizTbkpT
-	UCDrj+tsQc8YN92I+HPq2XWirjAEB+veVKjy83t89AK2k5j1J2/pizqvLpTJy4S1FnS7
-	i4S0sWWANLSMYI82BcctWP/Kevw9kLiMuk2Cj+LycfQRWc9wLcWJUW68P8ujgEFkYf/7
-	L0Og==
-X-Gm-Message-State: ALoCoQkzWxCv8/U3xG9HLwG7JcMI8w+aKfn4YAk9cLDOIT42VTTsqs+3E8VddSzFIx7jrPbRqqrvK68ikXFVLvt986nElc6hLw==
-X-Received: by 10.98.10.203 with SMTP id 72mr28738074pfk.87.1453030629375;
-	Sun, 17 Jan 2016 03:37:09 -0800 (PST)
+	bh=qCtkanenKUtaTP7JjmPZVFaOYg3G1+pdreaVfGAcbTU=;
+	b=cmUHtJ/9sTKkbxfrSl5QaO609pTBdFbSC6RRCuUYLpoIgPOORNHUPlwoBKjre5/Ga+
+	jGH+FVw4R6LauqVKiSgtSWB5RHOzt+zUeMK5i+Ud1xeQeEevXI7pAqfj4SiI+ILHFAmq
+	I2YI3q6jzSc0imCPm8Tb1tIIcoqdpI/L8hYSp1Ph4HdIsofaIgI9n3CYWjwv4x+0w6nw
+	KeimUMJRKeCdn/MUMIruk8eM75xnUagbJh3UflwHwG9VvLuIlH+C2wM33/5jS4uL0+Ic
+	aGJHhWRPsQIcK6CwoM2vKuLTrcf244jvztH39D2sxcuywf+OQv/6/gzdO1gokuVPAgbI
+	waJw==
+X-Gm-Message-State: AG10YOQvzGAi2j9VhA19dOGMLy+2l9fWK2YcHpIQcUDORPtJRfMjvB+uIwGWAL0lwtyzhg==
+X-Received: by 10.98.11.209 with SMTP id 78mr25828515pfl.92.1453030630307;
+	Sun, 17 Jan 2016 03:37:10 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.08
+	ty5sm26838363pac.48.2016.01.17.03.37.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:08 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:09 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:35:43 -0800
-Message-Id: <54d539b494ebfa2cc733a7dc8703e20a2129b141.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:35:44 -0800
+Message-Id: <94623ccd492c0f8b3489193d8be3966e69cce355.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 10/73] gdk-pixbuf: Fix latent build issue exposed by musl
+Subject: [PATCH 11/73] argp-standalone: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,96 +58,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jan 2016 11:37:08 -0000
+X-List-Received-Date: Sun, 17 Jan 2016 11:37:10 -0000
+
+This helps packages like gnutls to compile with musl
+any package that needs glibc's implementation of argp
+can link to this library
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch      | 63 ++++++++++++++++++++++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch
+ .../argp-standalone/argp-standalone_1.3.bb         | 28 ++++++++
+ .../files/0001-throw-in-funcdef.patch              | 84 ++++++++++++++++++++++
+ .../argp-standalone/files/0002-isprint.patch       | 51 +++++++++++++
+ 3 files changed, 163 insertions(+)
+ create mode 100644 meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
+ create mode 100644 meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch
+ create mode 100644 meta/recipes-support/argp-standalone/files/0002-isprint.patch
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch
+diff --git a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
 new file mode 100644
-index 0000000..82a27c3
+index 0000000..a5d20d3
 --- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch
-@@ -0,0 +1,63 @@
-+From 205a3b04e1216c1df199aec95185f7f48b8e0491 Mon Sep 17 00:00:00 2001
-+From: Natanael Copa <ncopa@alpinelinux.org>
-+Date: Tue, 6 Oct 2015 09:11:38 +0200
-+Subject: Run only pixbuf-lowmem test on GNU libc
++++ b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
+@@ -0,0 +1,28 @@
++# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
 +
-+The test case depends on GNU libc specific internals so we only run it
-+on GNU libc.
++DESCRIPTION = "Glibc hierarchical argument parsing standalone library"
++HOMEPAGE = "http://www.lysator.liu.se/~nisse/misc/"
++LICENSE = "LGPL-2.1"
++LIC_FILES_CHKSUM = "file://argp.h;beginline=1;endline=20;md5=008b7e53dea6f9e1d9fdef0d9cf3184a"
++SECTION = "libs"
 +
-+This fixes build on Linux with musl libc.
++SRC_URI = "http://www.lysator.liu.se/~nisse/misc/argp-standalone-${PV}.tar.gz \
++           file://0001-throw-in-funcdef.patch \
++           file://0002-isprint.patch \
++          "
++SRC_URI[md5sum] = "720704bac078d067111b32444e24ba69"
++SRC_URI[sha256sum] = "dec79694da1319acd2238ce95df57f3680fea2482096e483323fddf3d818d8be"
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=756078
-+---
++inherit autotools
++
++CFLAGS += "-fPIC -U__OPTIMIZE__"
++
++do_install() {
++	install -D -m 0644 ${B}/libargp.a ${D}${libdir}/libargp.a
++	install -D -m 0644 ${S}/argp.h ${D}${includedir}/argp.h
++}
++#
++# We will skip parsing for non-musl systems
++#
++COMPATIBLE_HOST = ".*-musl.*"
+diff --git a/meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch b/meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch
+new file mode 100644
+index 0000000..a6e2759
+--- /dev/null
++++ b/meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch
+@@ -0,0 +1,84 @@
++# --- T2-COPYRIGHT-NOTE-BEGIN ---
++# This copyright note is auto-generated by ./scripts/Create-CopyPatch.
++# 
++# T2 SDE: package/.../rng-tools/throw-in-funcdef.patch.argp-standalone
++# Copyright (C) 2006 The T2 SDE Project
++# 
++# More information can be found in the files COPYING and README.
++# 
++# This patch file is dual-licensed. It is available under the license the
++# patched project is licensed under, as long as it is an OpenSource license
++# as defined at http://www.opensource.org/ (e.g. BSD, X11) or under the terms
++# of the GNU General Public License as published by the Free Software
++# Foundation; either version 2 of the License, or (at your option) any later
++# version.
++# --- T2-COPYRIGHT-NOTE-END ---
++
++
++No __THROW in function implementation.
++	--jsaw
++
++Taken from buildroot
++
++Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Backport
 +
-+ tests/Makefile.am     | 5 -----
-+ tests/pixbuf-lowmem.c | 8 ++++++++
-+ 2 files changed, 8 insertions(+), 5 deletions(-)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index bdd68f3..c122188 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -19,13 +19,8 @@ LDADD = \
-+ noinst_PROGRAMS += 			\
-+ 	pixbuf-read			\
-+ 	pixbuf-random			\
-+-	$(NULL)
-+-
-+-if OS_LINUX
-+-noinst_PROGRAMS += 			\
-+ 	pixbuf-lowmem			\
-+ 	$(NULL)
-+-endif
++--- argp-standalone-1.4-test2/argp.h.orig	2006-01-06 02:29:59.000000000 +0100
+++++ argp-standalone-1.4-test2/argp.h	2006-01-06 02:41:10.000000000 +0100
++@@ -560,17 +560,17 @@
++ # endif
 + 
-+ test_programs = 			\
-+ 	animation			\
-+diff --git a/tests/pixbuf-lowmem.c b/tests/pixbuf-lowmem.c
-+index ae71788..9e9571f 100644
-+--- a/tests/pixbuf-lowmem.c
-++++ b/tests/pixbuf-lowmem.c
-+@@ -24,6 +24,7 @@
-+ #include <time.h>
-+ #include <string.h>
++ # ifndef ARGP_EI
++-#  define ARGP_EI extern __inline__
+++#  define ARGP_EI extern inline
++ # endif
 + 
-++#ifdef __GLIBC__
-+ #define PRETEND_MEM_SIZE (16 * 1024 * 1024)
-+ #define REMAINING_MEM_SIZE 100000
-+ 
-+@@ -225,3 +226,10 @@ main (int argc, char **argv)
-+   
-+   return 0;
++ ARGP_EI void
++-__argp_usage (__const struct argp_state *__state) __THROW
+++__argp_usage (__const struct argp_state *__state)
++ {
++   __argp_state_help (__state, stderr, ARGP_HELP_STD_USAGE);
 + }
-++#else
-++int
-++main (int argc, char **argv)
-++{
-++	return 0;
-++}
-++#endif
-+-- 
-+cgit v0.11.2
++ 
++ ARGP_EI int
++-__option_is_short (__const struct argp_option *__opt) __THROW
+++__option_is_short (__const struct argp_option *__opt)
++ {
++   if (__opt->flags & OPTION_DOC)
++     return 0;
++@@ -582,7 +582,7 @@
++ }
++ 
++ ARGP_EI int
++-__option_is_end (__const struct argp_option *__opt) __THROW
+++__option_is_end (__const struct argp_option *__opt)
++ {
++   return !__opt->key && !__opt->name && !__opt->doc && !__opt->group;
++ }
++--- argp-standalone-1.4-test2/argp-parse.c.orig	2006-01-06 02:47:48.000000000 +0100
+++++ argp-standalone-1.4-test2/argp-parse.c	2006-01-06 02:48:16.000000000 +0100
++@@ -1290,13 +1290,13 @@
++ /* Defined here, in case a user is not inlining the definitions in
++  * argp.h */
++ void
++-__argp_usage (__const struct argp_state *__state) __THROW
+++__argp_usage (__const struct argp_state *__state)
++ {
++   __argp_state_help (__state, stderr, ARGP_HELP_STD_USAGE);
++ }
++ 
++ int
++-__option_is_short (__const struct argp_option *__opt) __THROW
+++__option_is_short (__const struct argp_option *__opt) 
++ {
++   if (__opt->flags & OPTION_DOC)
++     return 0;
++@@ -1310,7 +1310,7 @@
++ }
++ 
++ int
++-__option_is_end (__const struct argp_option *__opt) __THROW
+++__option_is_end (__const struct argp_option *__opt) 
++ {
++   return !__opt->key && !__opt->name && !__opt->doc && !__opt->group;
++ }
+diff --git a/meta/recipes-support/argp-standalone/files/0002-isprint.patch b/meta/recipes-support/argp-standalone/files/0002-isprint.patch
+new file mode 100644
+index 0000000..1c07eea
+--- /dev/null
++++ b/meta/recipes-support/argp-standalone/files/0002-isprint.patch
+@@ -0,0 +1,51 @@
++Subject: restrict value range passed to isprint function
 +
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-index 084fe36..104c743 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://extending-libinstall-dependencies.patch \
-            file://run-ptest \
-            file://fatal-loader.patch \
-+           file://libc_memfuncs.patch \
-            "
- 
- SRC_URI[md5sum] = "b1590189a2e89fab9f871959c168508c"
++According to C standards isprint argument shall be representable as an
++unsigned char or be equal to EOF, otherwise the behaviour is undefined.
++
++Passing arbitrary ints leads to segfault in nm program from elfutils.
++
++Restrict isprint argument range to values representable by unsigned char.
++
++Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
++
++Taken from buildroot
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++---
++Index: b/argp.h
++===================================================================
++--- a/argp.h
+++++ b/argp.h
++@@ -23,6 +23,7 @@
++ 
++ #include <stdio.h>
++ #include <ctype.h>
+++#include <limits.h>
++ 
++ #define __need_error_t
++ #include <errno.h>
++@@ -577,7 +578,7 @@
++   else
++     {
++       int __key = __opt->key;
++-      return __key > 0 && isprint (__key);
+++      return __key > 0 && __key <= UCHAR_MAX && isprint (__key);
++     }
++ }
++ 
++Index: b/argp-parse.c
++===================================================================
++--- a/argp-parse.c
+++++ b/argp-parse.c
++@@ -1292,7 +1292,7 @@
++       int __key = __opt->key;
++       /* FIXME: whether or not a particular key implies a short option
++        * ought not to be locale dependent. */
++-      return __key > 0 && isprint (__key);
+++      return __key > 0 && __key <= UCHAR_MAX && isprint (__key);
++     }
++ }
++ 
 -- 
 2.7.0
 
