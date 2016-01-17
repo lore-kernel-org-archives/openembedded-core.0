@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2162577101
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3501D766A3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:38:02 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id ho8so157843049pac.2
+	Sun, 17 Jan 2016 11:38:03 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id e65so142599454pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:38:03 -0800 (PST)
+	Sun, 17 Jan 2016 03:38:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=6sM1MnrsUiHrxvgT6r5CbXG0FlqwOsUaeNsNKDeQcMU=;
-	b=zi8VojBrCx015K8RQr9WaEbF1fa1TG3W6dGvvKVWY03Ej904RcHbVE/suZR8D57FNe
-	2+WLZD2tDM7uuECijRMHWjUW1pGtcxzXNkaPRlESpJ+DbNuYM/U2DeXWlRH/gOYw/ff3
-	V9rIieWp6/P2RexlKcr7Hj5uPPn8NIYkph4xml9s7ABrEvylWPrcSUHhD5yEL9eurFu9
-	bGaf5sl09tzgCdeC/x58l+ry4F7tFoern1sZsis5n7RiODYR/wNsAAv7WI2lfPc6P23U
-	iAowMuD1ncu6jXHtUNfjLuxMRD0t+hRwch/uhNdiasjDojRZkXHPrFK8LbICzxLm6IIu
-	FEGw==
+	bh=lK6j+w5GkmjWunAforSQQ5QLLv+czVi7QIVEsgP00Pk=;
+	b=ktd4J5LIB9xaoE6RxMzi+tLX8GAC4T40+seBSAcQVMhB5bvzB8QuqSzoGJpG+9Znyf
+	+0Xrg0YQqAiwUBy3FX/QhcXWzpvAexgWqZWgRnga6ERM9ICRFzZKE59uM1MwJ1XRpcD6
+	CdP3FR9f2oj1ZMNc9JEoDYbE8vXVpoKcDm6sFd/WYExvWEQ6oIiHiP9sqn575I979/tZ
+	SkEPEDkqq3YKj8PH0mHjjXftr9HHDSdfv1VqnS/h/VG3n9HRgW9zSv82GVBSYEklwSdp
+	ET4iyh9yYv2tcqE0oYmkUYBfN1rN8LXBKzBjJ6GDMJyu6955XfZugfeoPBa0aN+EaUDP
+	/k4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=6sM1MnrsUiHrxvgT6r5CbXG0FlqwOsUaeNsNKDeQcMU=;
-	b=PcgJsC3XCWoImTFjlfydvAaa6UN2cbrQ1m7Kcx6qYKixNNhEkoLX7RyVmoLY7kK6jm
-	uNay35iqQfiJS1U+BdciCylP378I6PXrjSlV90MVZ9ke50Sr+ydELqhaIl90eEyqQk+T
-	t7ZipCTGMUHgs3hS4Hsy3l+x3NG0UjvjYhsL9AHRyeh5eOmH3xQfVYsBrhai3TIRyxKW
-	XpWL7CyFBvCnO9odYPVZlhopvyoO+rDrObh39Do6wOeeK6iqBC/q0Xef2fv4Xz21ZnOJ
-	Xxh8P+6qtfk2DDLfTygRk2UW9XOXhbZzFthgtwIG++Y9rcOpCPVghxTNlSaQOOyh6SGK
-	w3Vg==
-X-Gm-Message-State: ALoCoQkqNUKOH0k0CtDkGcd3CqEbTK9Ta42iqrcA7B8tV28jE17I5o8Vgg7xbvW47ZgrXrRqyYNIGH9mcw2hyY+6JEFdJr3/LQ==
-X-Received: by 10.66.180.48 with SMTP id dl16mr28276870pac.39.1453030683188;
-	Sun, 17 Jan 2016 03:38:03 -0800 (PST)
+	bh=lK6j+w5GkmjWunAforSQQ5QLLv+czVi7QIVEsgP00Pk=;
+	b=WlZ659ywDuNkG2jMh6zZ4ypWktbWFL9oecDwTdgF4JBmL0O13PY0sGak04ozPKj5zK
+	36EB29zqqLwYHRlaJfgAHWD9LUUP7Pyh0ehuWDKoljscBj5Y02jqle2x3RYIXHZe+rrG
+	tNDfKAWvmToAwFc4ZodZfT6b3wS5QnqVw01GvVT6hOeHCmzJj4X6i2bEZPEmKaERfGD5
+	5en8C0n186edRgb5y+QnvKMe4JvhRvJ0AWJxDvd2IMJo43StmQCszIUDa8hRMZEACGAO
+	1NjwXvcfSo2oOecmXR+nMwl7b1qbBJsmTsvM765rwMHmqGCY9I8V9IuzKVu1mDNf4qVI
+	5vrg==
+X-Gm-Message-State: AG10YOR/v8cIfqDCY8BBtirBTM3YPRWM1YSy07tR5pPPD6KbKNrnRmN6a5QxLd3bgz0ZpQ==
+X-Received: by 10.98.11.209 with SMTP id 78mr25832706pfl.92.1453030684229;
+	Sun, 17 Jan 2016 03:38:04 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.38.02
+	ty5sm26838363pac.48.2016.01.17.03.38.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:38:02 -0800 (PST)
+	Sun, 17 Jan 2016 03:38:03 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:36:43 -0800
-Message-Id: <ac7aabfa155b2f8eaf898b6df9baed720327505d.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:36:44 -0800
+Message-Id: <0aa71a230259b79a131174efc7c05158145e5b98.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 70/73] puzzles: Silence warning on arm with clang
+Subject: [PATCH 71/73] binutils: Fix gold linking errors due to unresolved R_ARM_MOVW_ABS_NC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,109 +58,1043 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jan 2016 11:38:02 -0000
+X-List-Received-Date: Sun, 17 Jan 2016 11:38:03 -0000
 
-Clang finds overflows when comparison is done between an unsigned char
-and a integer constant. So explicitly typecast the constant before
-comparison
+This issue has been seen in multiple times e.g.
+
+http://patchwork.openembedded.org/patch/103083/
+
+https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg72513.html
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...1-palisade-Fix-warnings-with-clang-on-arm.patch | 72 ++++++++++++++++++++++
- meta/recipes-sato/puzzles/puzzles_git.bb           |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
+ meta/recipes-devtools/binutils/binutils-2.25.1.inc |    1 +
+ ...h-adds-IFUNC-support-for-arm-gold-backend.patch | 1004 ++++++++++++++++++++
+ 2 files changed, 1005 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-This-patch-adds-IFUNC-support-for-arm-gold-backend.patch
 
-diff --git a/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch b/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.25.1.inc b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
+index bf29da1..dc23c4d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.25.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
+@@ -35,6 +35,7 @@ SRC_URI = "\
+      file://0013-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
+      file://0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch \
+      file://0015-Fix-dynamic-list-so-that-symbols-not-in-the-list-are.patch \
++     file://0016-This-patch-adds-IFUNC-support-for-arm-gold-backend.patch \
+      file://binutils-octeon3.patch \
+      file://add-thunderx-support-for-gas.patch \
+      "
+diff --git a/meta/recipes-devtools/binutils/binutils/0016-This-patch-adds-IFUNC-support-for-arm-gold-backend.patch b/meta/recipes-devtools/binutils/binutils/0016-This-patch-adds-IFUNC-support-for-arm-gold-backend.patch
 new file mode 100644
-index 0000000..5351f8e
+index 0000000..dcac308
 --- /dev/null
-+++ b/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
-@@ -0,0 +1,72 @@
-+From 6d8326275802a2e6e61d3e99460af6891ae8362f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 13 Jan 2016 23:10:19 -0800
-+Subject: [puzzles][PATCH] palisade: Fix warnings with clang on arm
++++ b/meta/recipes-devtools/binutils/binutils/0016-This-patch-adds-IFUNC-support-for-arm-gold-backend.patch
+@@ -0,0 +1,1004 @@
++From b780c9e06cabe6d8e301aaf46f33f116f3224021 Mon Sep 17 00:00:00 2001
++From: Han Shen <shenhan@google.com>
++Date: Thu, 29 Jan 2015 10:00:46 -0800
++Subject: [PATCH] This patch adds IFUNC support for arm gold backend.
 +
-+ARM treats 'char' as unsigned char when 'char' is not qualified with
-+'signed' or 'unsigned' explicitly.
++This is a feature required in chromeos arm development work.
 +
-+This results in warnings e.g.
-+
-+palisade.c:531:22: error: comparison of constant -1 with expression of
-+type 'clue' (aka 'char') is always false
-+[-Werror,-Wtautological-constant-out-of-range-compare]
-+        if (clues[i] == EMPTY) continue;
-+
-+Therefore, typcast the contant to char in such places to be explicit
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Tested:
++1) Built passed all-gold on x86_64 machine
++2) Tested with basic gold aarch64 ifunc unittests -
++   a) global ifunc, statically/non-statically linked
++   b) local ifunc, statically/non-statically linked
++   c) global/local, other shared library routine mixed,
++   statically/non-statically linked
++   d) arm/thumb mode ifunc
++   e) linking chrome browser passed
 +---
-+Upstream-Status: Submitted
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+ palisade.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
++ elfcpp/arm.h    |   5 +-
++ gold/aarch64.cc |   2 +-
++ gold/arm.cc     | 593 +++++++++++++++++++++++++++++++++++++++++++++++++++-----
++ gold/output.h   |  11 ++
++ 4 files changed, 561 insertions(+), 50 deletions(-)
 +
-+diff --git a/palisade.c b/palisade.c
-+index 984e616..2b9c25c 100644
-+--- a/palisade.c
-++++ b/palisade.c
-+@@ -295,11 +295,11 @@ static void solver_connected_clues_versus_region_size(solver_ctx *ctx)
-+      * If p = q = 3 then the region has size exactly 2. */
++diff --git a/elfcpp/arm.h b/elfcpp/arm.h
++index 8c6b6bf..1c13dc9 100644
++--- a/elfcpp/arm.h
+++++ b/elfcpp/arm.h
++@@ -192,11 +192,12 @@ enum
++   R_ARM_PRIVATE_14 = 126,
++   R_ARM_PRIVATE_15 = 127,
++   R_ARM_ME_TOO = 128,		// Obsolete
++-  R_ARM_THM_TLS_DESCSEQ16 = 129,// Static	Thumb16	
+++  R_ARM_THM_TLS_DESCSEQ16 = 129,// Static	Thumb16
++   R_ARM_THM_TLS_DESCSEQ32 = 130,// Static	Thumb32
++   // 131 - 139			Unallocated
++   // 140 - 159			Dynamic		Reserved for future allocation
++-  // 160 - 255			Unallocated
+++  R_ARM_IRELATIVE = 160,	// Dynamic
+++  // 161 - 255			Unallocated
++ };
 + 
-+     for (i = 0; i < wh; ++i) {
-+-        if (ctx->clues[i] == EMPTY) continue;
-++        if (ctx->clues[i] == (char)EMPTY) continue;
-+         for (dir = 0; dir < 4; ++dir) {
-+             int j = i + dx[dir] + w*dy[dir];
-+             if (disconnected(ctx, i, j, dir)) continue;
-+-            if (ctx->clues[j] == EMPTY) continue;
-++            if (ctx->clues[j] == (char)EMPTY) continue;
-+             if ((8 - ctx->clues[i] - ctx->clues[j] > ctx->params->k) ||
-+                 (ctx->clues[i] == 3 && ctx->clues[j] == 3 &&
-+                  ctx->params->k != 2))
-+@@ -317,7 +317,7 @@ static int solver_number_exhausted(solver_ctx *ctx)
-+     int changed = FALSE;
++ // e_flags values used for ARM.  We only support flags defined in AAELF.
++diff --git a/gold/aarch64.cc b/gold/aarch64.cc
++index afb9024..7fbbdbd 100644
++--- a/gold/aarch64.cc
+++++ b/gold/aarch64.cc
++@@ -1226,7 +1226,7 @@ class Output_data_plt_aarch64 : public Output_section_data
++   // The number of PLT entries.
++   unsigned int count_;
 + 
-+     for (i = 0; i < wh; ++i) {
-+-        if (ctx->clues[i] == EMPTY) continue;
-++        if (ctx->clues[i] == (char)EMPTY) continue;
++-  // Number of PLT entries with R_X86_64_IRELATIVE relocs.  These
+++  // Number of PLT entries with R_AARCH64_IRELATIVE relocs.  These
++   // follow the regular PLT entries.
++   unsigned int irelative_count_;
 + 
-+         if (bitcount[(ctx->borders[i] & BORDER_MASK)] == ctx->clues[i]) {
-+             for (dir = 0; dir < 4; ++dir) {
-+@@ -528,7 +528,7 @@ static int is_solved(const game_params *params, clue *clues,
-+     for (i = 0; i < wh; ++i) {
-+         if (dsf[i] == UNVISITED) dfs_dsf(i, params->w, border, dsf, TRUE);
-+         if (dsf_size(dsf, i) != k) goto error;
-+-        if (clues[i] == EMPTY) continue;
-++        if (clues[i] == (char)EMPTY) continue;
-+         if (clues[i] != bitcount[border[i] & BORDER_MASK]) goto error;
++diff --git a/gold/arm.cc b/gold/arm.cc
++index 6c472bb..8719cc9 100644
++--- a/gold/arm.cc
+++++ b/gold/arm.cc
++@@ -2119,8 +2119,8 @@ class Target_arm : public Sized_target<32, big_endian>
++ 
++   Target_arm(const Target::Target_info* info = &arm_info)
++     : Sized_target<32, big_endian>(info),
++-      got_(NULL), plt_(NULL), got_plt_(NULL), rel_dyn_(NULL),
++-      copy_relocs_(elfcpp::R_ARM_COPY),
+++      got_(NULL), plt_(NULL), got_plt_(NULL), got_irelative_(NULL),
+++      rel_dyn_(NULL), rel_irelative_(NULL), copy_relocs_(elfcpp::R_ARM_COPY),
++       got_mod_index_offset_(-1U), tls_base_symbol_defined_(false),
++       stub_tables_(), stub_factory_(Stub_factory::get_instance()),
++       should_force_pic_veneer_(false),
++@@ -2258,6 +2258,18 @@ class Target_arm : public Sized_target<32, big_endian>
++   uint64_t
++   do_dynsym_value(const Symbol*) const;
++ 
+++  // Return the plt address for globals. Since we have irelative plt entries,
+++  // address calculation is not as straightforward as plt_address + plt_offset.
+++  uint64_t
+++  do_plt_address_for_global(const Symbol* gsym) const
+++  { return this->plt_section()->address_for_global(gsym); }
+++
+++  // Return the plt address for locals. Since we have irelative plt entries,
+++  // address calculation is not as straightforward as plt_address + plt_offset.
+++  uint64_t
+++  do_plt_address_for_local(const Relobj* relobj, unsigned int symndx) const
+++  { return this->plt_section()->address_for_local(relobj, symndx); }
+++
++   // Relocate a section.
++   void
++   relocate_section(const Relocate_info<32, big_endian>*,
++@@ -2357,6 +2369,10 @@ class Target_arm : public Sized_target<32, big_endian>
++   unsigned int
++   plt_entry_size() const;
++ 
+++  // Get the section to use for IRELATIVE relocations, create it if necessary.
+++  Reloc_section*
+++  rel_irelative_section(Layout*);
+++
++   // Map platform-specific reloc types
++   static unsigned int
++   get_real_reloc_type(unsigned int r_type);
++@@ -2448,8 +2464,11 @@ class Target_arm : public Sized_target<32, big_endian>
++  protected:
++   // Make the PLT-generator object.
++   Output_data_plt_arm<big_endian>*
++-  make_data_plt(Layout* layout, Output_data_space* got_plt)
++-  { return this->do_make_data_plt(layout, got_plt); }
+++  make_data_plt(Layout* layout,
+++		Arm_output_data_got<big_endian>* got,
+++		Output_data_space* got_plt,
+++		Output_data_space* got_irelative)
+++  { return this->do_make_data_plt(layout, got, got_plt, got_irelative); }
++ 
++   // Make an ELF object.
++   Object*
++@@ -2530,9 +2549,14 @@ class Target_arm : public Sized_target<32, big_endian>
++   do_define_standard_symbols(Symbol_table*, Layout*);
++ 
++   virtual Output_data_plt_arm<big_endian>*
++-  do_make_data_plt(Layout* layout, Output_data_space* got_plt)
+++  do_make_data_plt(Layout* layout,
+++		   Arm_output_data_got<big_endian>* got,
+++		   Output_data_space* got_plt,
+++		   Output_data_space* got_irelative)
++   {
++-    return new Output_data_plt_arm_standard<big_endian>(layout, got_plt);
+++    gold_assert(got_plt != NULL && got_irelative != NULL);
+++    return new Output_data_plt_arm_standard<big_endian>(
+++	layout, got, got_plt, got_irelative);
++   }
++ 
++  private:
++@@ -2602,6 +2626,9 @@ class Target_arm : public Sized_target<32, big_endian>
++       if (sym->is_undefined() && !parameters->options().shared())
++ 	return false;
++ 
+++      if (sym->type() == elfcpp::STT_GNU_IFUNC)
+++	return true;
+++
++       return (!parameters->doing_static_link()
++ 	      && (sym->type() == elfcpp::STT_FUNC
++ 		  || sym->type() == elfcpp::STT_ARM_TFUNC)
++@@ -2613,6 +2640,11 @@ class Target_arm : public Sized_target<32, big_endian>
++     inline bool
++     possible_function_pointer_reloc(unsigned int r_type);
++ 
+++    // Whether a plt entry is needed for ifunc.
+++    bool
+++    reloc_needs_plt_for_ifunc(Sized_relobj_file<32, big_endian>*,
+++			      unsigned int r_type);
+++
++     // Whether we have issued an error about a non-PIC compilation.
++     bool issued_non_pic_error_;
++   };
++@@ -2718,10 +2750,20 @@ class Target_arm : public Sized_target<32, big_endian>
++     return this->got_plt_;
++   }
++ 
+++  // Create the PLT section.
+++  void
+++  make_plt_section(Symbol_table* symtab, Layout* layout);
+++
++   // Create a PLT entry for a global symbol.
++   void
++   make_plt_entry(Symbol_table*, Layout*, Symbol*);
++ 
+++  // Create a PLT entry for a local STT_GNU_IFUNC symbol.
+++  void
+++  make_local_ifunc_plt_entry(Symbol_table*, Layout*,
+++			     Sized_relobj_file<32, big_endian>* relobj,
+++			     unsigned int local_sym_index);
+++
++   // Define the _TLS_MODULE_BASE_ symbol in the TLS segment.
++   void
++   define_tls_base_symbol(Symbol_table*, Layout*);
++@@ -2903,8 +2945,12 @@ class Target_arm : public Sized_target<32, big_endian>
++   Output_data_plt_arm<big_endian>* plt_;
++   // The GOT PLT section.
++   Output_data_space* got_plt_;
+++  // The GOT section for IRELATIVE relocations.
+++  Output_data_space* got_irelative_;
++   // The dynamic reloc section.
++   Reloc_section* rel_dyn_;
+++  // The section to use for IRELATIVE relocs.
+++  Reloc_section* rel_irelative_;
++   // Relocs saved to avoid a COPY reloc.
++   Copy_relocs<elfcpp::SHT_REL, 32, big_endian> copy_relocs_;
++   // Offset of the GOT entry for the TLS module index.
++@@ -4244,6 +4290,15 @@ Target_arm<big_endian>::got_section(Symbol_table* symtab, Layout* layout)
++ 				    elfcpp::STB_LOCAL,
++ 				    elfcpp::STV_HIDDEN, 0,
++ 				    false, false);
+++
+++      // If there are any IRELATIVE relocations, they get GOT entries
+++      // in .got.plt after the jump slot entries.
+++      this->got_irelative_ = new Output_data_space(4, "** GOT IRELATIVE PLT");
+++      layout->add_output_section_data(".got", elfcpp::SHT_PROGBITS,
+++				      (elfcpp::SHF_ALLOC | elfcpp::SHF_WRITE),
+++				      this->got_irelative_,
+++				      got_order, is_got_relro);
+++
++     }
++   return this->got_;
++ }
++@@ -4257,14 +4312,43 @@ Target_arm<big_endian>::rel_dyn_section(Layout* layout)
++   if (this->rel_dyn_ == NULL)
++     {
++       gold_assert(layout != NULL);
+++      // Create both relocation sections in the same place, so as to ensure
+++      // their relative order in the output section.
++       this->rel_dyn_ = new Reloc_section(parameters->options().combreloc());
+++      this->rel_irelative_ = new Reloc_section(false);
++       layout->add_output_section_data(".rel.dyn", elfcpp::SHT_REL,
++ 				      elfcpp::SHF_ALLOC, this->rel_dyn_,
++ 				      ORDER_DYNAMIC_RELOCS, false);
+++      layout->add_output_section_data(".rel.dyn", elfcpp::SHT_REL,
+++				      elfcpp::SHF_ALLOC, this->rel_irelative_,
+++				      ORDER_DYNAMIC_RELOCS, false);
++     }
++   return this->rel_dyn_;
++ }
++ 
+++
+++// Get the section to use for IRELATIVE relocs, creating it if necessary.  These
+++// go in .rela.dyn, but only after all other dynamic relocations.  They need to
+++// follow the other dynamic relocations so that they can refer to global
+++// variables initialized by those relocs.
+++
+++template<bool big_endian>
+++typename Target_arm<big_endian>::Reloc_section*
+++Target_arm<big_endian>::rel_irelative_section(Layout* layout)
+++{
+++  if (this->rel_irelative_ == NULL)
+++    {
+++      // Delegate the creation to rel_dyn_section so as to ensure their order in
+++      // the output section.
+++      this->rel_dyn_section(layout);
+++      gold_assert(this->rel_irelative_ != NULL
+++		  && (this->rel_dyn_->output_section()
+++		      == this->rel_irelative_->output_section()));
+++    }
+++  return this->rel_irelative_;
+++}
+++
+++
++ // Insn_template methods.
++ 
++ // Return byte size of an instruction template.
++@@ -7221,24 +7305,80 @@ template<bool big_endian>
++ class Output_data_plt_arm : public Output_section_data
++ {
++  public:
+++  // Unlike aarch64, which records symbol value in "addend" field of relocations
+++  // and could be done at the same time an IRelative reloc is created for the
+++  // symbol, arm puts the symbol value into "GOT" table, which, however, is
+++  // issued later in Output_data_plt_arm::do_write(). So we have a struct here
+++  // to keep necessary symbol information for later use in do_write. We usually
+++  // have only a very limited number of ifuncs, so the extra data required here
+++  // is also limited.
+++
+++  struct IRelative_data
+++  {
+++    IRelative_data(Sized_symbol<32>* sized_symbol)
+++      : symbol_is_global_(true)
+++    {
+++      u_.global = sized_symbol;
+++    }
+++
+++    IRelative_data(Sized_relobj_file<32, big_endian>* relobj,
+++		   unsigned int index)
+++      : symbol_is_global_(false)
+++    {
+++      u_.local.relobj = relobj;
+++      u_.local.index = index;
+++    }
+++
+++    union
+++    {
+++      Sized_symbol<32>* global;
+++
+++      struct
+++      {
+++	Sized_relobj_file<32, big_endian>* relobj;
+++	unsigned int index;
+++      } local;
+++    } u_;
+++
+++    bool symbol_is_global_;
+++  };
+++
++   typedef Output_data_reloc<elfcpp::SHT_REL, true, 32, big_endian>
++     Reloc_section;
++ 
++-  Output_data_plt_arm(Layout*, uint64_t addralign, Output_data_space*);
+++  Output_data_plt_arm(Layout* layout, uint64_t addralign,
+++		      Arm_output_data_got<big_endian>* got,
+++		      Output_data_space* got_plt,
+++		      Output_data_space* got_irelative);
++ 
++   // Add an entry to the PLT.
++   void
++-  add_entry(Symbol* gsym);
+++  add_entry(Symbol_table* symtab, Layout* layout, Symbol* gsym);
+++
+++  // Add the relocation for a plt entry.
+++  void
+++  add_relocation(Symbol_table* symtab, Layout* layout,
+++		 Symbol* gsym, unsigned int got_offset);
+++
+++  // Add an entry to the PLT for a local STT_GNU_IFUNC symbol.
+++  unsigned int
+++  add_local_ifunc_entry(Symbol_table* symtab, Layout*,
+++			Sized_relobj_file<32, big_endian>* relobj,
+++			unsigned int local_sym_index);
++ 
++   // Return the .rel.plt section data.
++   const Reloc_section*
++   rel_plt() const
++   { return this->rel_; }
++ 
+++  // Return the PLT relocation container for IRELATIVE.
+++  Reloc_section*
+++  rel_irelative(Symbol_table*, Layout*);
+++
++   // Return the number of PLT entries.
++   unsigned int
++   entry_count() const
++-  { return this->count_; }
+++  { return this->count_ + this->irelative_count_; }
++ 
++   // Return the offset of the first non-reserved PLT entry.
++   unsigned int
++@@ -7250,6 +7390,14 @@ class Output_data_plt_arm : public Output_section_data
++   get_plt_entry_size() const
++   { return this->do_get_plt_entry_size(); }
++ 
+++  // Return the PLT address for globals.
+++  uint32_t
+++  address_for_global(const Symbol*) const;
+++
+++  // Return the PLT address for locals.
+++  uint32_t
+++  address_for_local(const Relobj*, unsigned int symndx) const;
+++
++  protected:
++   // Fill in the first PLT entry.
++   void
++@@ -7298,19 +7446,37 @@ class Output_data_plt_arm : public Output_section_data
++   set_final_data_size()
++   {
++     this->set_data_size(this->first_plt_entry_offset()
++-			+ this->count_ * this->get_plt_entry_size());
+++			+ ((this->count_ + this->irelative_count_)
+++			   * this->get_plt_entry_size()));
++   }
++ 
++   // Write out the PLT data.
++   void
++   do_write(Output_file*);
++ 
+++  // Record irelative symbol data.
+++  void insert_irelative_data(const IRelative_data& idata)
+++  { irelative_data_vec_.push_back(idata); }
+++
++   // The reloc section.
++   Reloc_section* rel_;
+++  // The IRELATIVE relocs, if necessary.  These must follow the
+++  // regular PLT relocations.
+++  Reloc_section* irelative_rel_;
+++  // The .got section.
+++  Arm_output_data_got<big_endian>* got_;
++   // The .got.plt section.
++   Output_data_space* got_plt_;
+++  // The part of the .got.plt section used for IRELATIVE relocs.
+++  Output_data_space* got_irelative_;
++   // The number of PLT entries.
++   unsigned int count_;
+++  // Number of PLT entries with R_ARM_IRELATIVE relocs.  These
+++  // follow the regular PLT entries.
+++  unsigned int irelative_count_;
+++  // Vector for irelative data.
+++  typedef std::vector<IRelative_data> IRelative_data_vec;
+++  IRelative_data_vec irelative_data_vec_;
++ };
++ 
++ // Create the PLT section.  The ordinary .got section is an argument,
++@@ -7318,10 +7484,14 @@ class Output_data_plt_arm : public Output_section_data
++ // section just for PLT entries.
++ 
++ template<bool big_endian>
++-Output_data_plt_arm<big_endian>::Output_data_plt_arm(Layout* layout,
++-						     uint64_t addralign,
++-						     Output_data_space* got_plt)
++-  : Output_section_data(addralign), got_plt_(got_plt), count_(0)
+++Output_data_plt_arm<big_endian>::Output_data_plt_arm(
+++    Layout* layout, uint64_t addralign,
+++    Arm_output_data_got<big_endian>* got,
+++    Output_data_space* got_plt,
+++    Output_data_space* got_irelative)
+++  : Output_section_data(addralign), irelative_rel_(NULL),
+++    got_(got), got_plt_(got_plt), got_irelative_(got_irelative),
+++    count_(0), irelative_count_(0)
++ {
++   this->rel_ = new Reloc_section(false);
++   layout->add_output_section_data(".rel.plt", elfcpp::SHT_REL,
++@@ -7340,40 +7510,210 @@ Output_data_plt_arm<big_endian>::do_adjust_output_section(Output_section* os)
++ 
++ template<bool big_endian>
++ void
++-Output_data_plt_arm<big_endian>::add_entry(Symbol* gsym)
+++Output_data_plt_arm<big_endian>::add_entry(Symbol_table* symtab,
+++					   Layout* layout,
+++					   Symbol* gsym)
++ {
++   gold_assert(!gsym->has_plt_offset());
++ 
++-  // Note that when setting the PLT offset we skip the initial
++-  // reserved PLT entry.
++-  gsym->set_plt_offset((this->count_) * this->get_plt_entry_size()
++-		       + this->first_plt_entry_offset());
+++  unsigned int* entry_count;
+++  Output_section_data_build* got;
+++
+++  // We have 2 different types of plt entry here, normal and ifunc.
+++
+++  // For normal plt, the offset begins with first_plt_entry_offset(20), and the
+++  // 1st entry offset would be 20, the second 32, third 44 ... etc.
+++
+++  // For ifunc plt, the offset begins with 0. So the first offset would 0,
+++  // second 12, third 24 ... etc.
+++
+++  // IFunc plt entries *always* come after *normal* plt entries.
+++
+++  // Notice, when computing the plt address of a certain symbol, "plt_address +
+++  // plt_offset" is no longer correct. Use target->plt_address_for_global() or
+++  // target->plt_address_for_local() instead.
+++
+++  int begin_offset = 0;
+++  if (gsym->type() == elfcpp::STT_GNU_IFUNC
+++      && gsym->can_use_relative_reloc(false))
+++    {
+++      entry_count = &this->irelative_count_;
+++      got = this->got_irelative_;
+++      // For irelative plt entries, offset is relative to the end of normal plt
+++      // entries, so it starts from 0.
+++      begin_offset = 0;
+++      // Record symbol information.
+++      this->insert_irelative_data(
+++	  IRelative_data(symtab->get_sized_symbol<32>(gsym)));
+++    }
+++  else
+++    {
+++      entry_count = &this->count_;
+++      got = this->got_plt_;
+++      // Note that for normal plt entries, when setting the PLT offset we skip
+++      // the initial reserved PLT entry.
+++      begin_offset = this->first_plt_entry_offset();
+++    }
+++
+++  gsym->set_plt_offset(begin_offset
+++		       + (*entry_count) * this->get_plt_entry_size());
++ 
++-  ++this->count_;
+++  ++(*entry_count);
++ 
++-  section_offset_type got_offset = this->got_plt_->current_data_size();
+++  section_offset_type got_offset = got->current_data_size();
++ 
++   // Every PLT entry needs a GOT entry which points back to the PLT
++   // entry (this will be changed by the dynamic linker, normally
++   // lazily when the function is called).
++-  this->got_plt_->set_current_data_size(got_offset + 4);
+++  got->set_current_data_size(got_offset + 4);
++ 
++   // Every PLT entry needs a reloc.
++-  gsym->set_needs_dynsym_entry();
++-  this->rel_->add_global(gsym, elfcpp::R_ARM_JUMP_SLOT, this->got_plt_,
++-			 got_offset);
+++  this->add_relocation(symtab, layout, gsym, got_offset);
++ 
++   // Note that we don't need to save the symbol.  The contents of the
++   // PLT are independent of which symbols are used.  The symbols only
++   // appear in the relocations.
++ }
++ 
+++// Add an entry to the PLT for a local STT_GNU_IFUNC symbol.  Return
+++// the PLT offset.
+++
+++template<bool big_endian>
+++unsigned int
+++Output_data_plt_arm<big_endian>::add_local_ifunc_entry(
+++    Symbol_table* symtab,
+++    Layout* layout,
+++    Sized_relobj_file<32, big_endian>* relobj,
+++    unsigned int local_sym_index)
+++{
+++  this->insert_irelative_data(IRelative_data(relobj, local_sym_index));
+++
+++  // Notice, when computingthe plt entry address, "plt_address + plt_offset" is
+++  // no longer correct. Use target->plt_address_for_local() instead.
+++  unsigned int plt_offset = this->irelative_count_ * this->get_plt_entry_size();
+++  ++this->irelative_count_;
+++
+++  section_offset_type got_offset = this->got_irelative_->current_data_size();
+++
+++  // Every PLT entry needs a GOT entry which points back to the PLT
+++  // entry.
+++  this->got_irelative_->set_current_data_size(got_offset + 4);
+++
+++
+++  // Every PLT entry needs a reloc.
+++  Reloc_section* rel = this->rel_irelative(symtab, layout);
+++  rel->add_symbolless_local_addend(relobj, local_sym_index,
+++				   elfcpp::R_ARM_IRELATIVE,
+++				   this->got_irelative_, got_offset);
+++  return plt_offset;
+++}
+++
+++
+++// Add the relocation for a PLT entry.
+++
+++template<bool big_endian>
+++void
+++Output_data_plt_arm<big_endian>::add_relocation(
+++    Symbol_table* symtab, Layout* layout, Symbol* gsym, unsigned int got_offset)
+++{
+++  if (gsym->type() == elfcpp::STT_GNU_IFUNC
+++      && gsym->can_use_relative_reloc(false))
+++    {
+++      Reloc_section* rel = this->rel_irelative(symtab, layout);
+++      rel->add_symbolless_global_addend(gsym, elfcpp::R_ARM_IRELATIVE,
+++					this->got_irelative_, got_offset);
+++    }
+++  else
+++    {
+++      gsym->set_needs_dynsym_entry();
+++      this->rel_->add_global(gsym, elfcpp::R_ARM_JUMP_SLOT, this->got_plt_,
+++			     got_offset);
+++    }
+++}
+++
+++
+++// Create the irelative relocation data.
+++
+++template<bool big_endian>
+++typename Output_data_plt_arm<big_endian>::Reloc_section*
+++Output_data_plt_arm<big_endian>::rel_irelative(Symbol_table* symtab,
+++						Layout* layout)
+++{
+++  if (this->irelative_rel_ == NULL)
+++    {
+++      // Since irelative relocations goes into 'rel.dyn', we delegate the
+++      // creation of irelative_rel_ to where rel_dyn section gets created.
+++      Target_arm<big_endian>* arm_target =
+++	  Target_arm<big_endian>::default_target();
+++      this->irelative_rel_ = arm_target->rel_irelative_section(layout);
+++
+++      // Make sure we have a place for the TLSDESC relocations, in
+++      // case we see any later on.
+++      // this->rel_tlsdesc(layout);
+++      if (parameters->doing_static_link())
+++	{
+++	  // A statically linked executable will only have a .rel.plt section to
+++	  // hold R_ARM_IRELATIVE relocs for STT_GNU_IFUNC symbols.  The library
+++	  // will use these symbols to locate the IRELATIVE relocs at program
+++	  // startup time.
+++	  symtab->define_in_output_data("__rel_iplt_start", NULL,
+++					Symbol_table::PREDEFINED,
+++					this->irelative_rel_, 0, 0,
+++					elfcpp::STT_NOTYPE, elfcpp::STB_GLOBAL,
+++					elfcpp::STV_HIDDEN, 0, false, true);
+++	  symtab->define_in_output_data("__rel_iplt_end", NULL,
+++					Symbol_table::PREDEFINED,
+++					this->irelative_rel_, 0, 0,
+++					elfcpp::STT_NOTYPE, elfcpp::STB_GLOBAL,
+++					elfcpp::STV_HIDDEN, 0, true, true);
+++	}
+++    }
+++  return this->irelative_rel_;
+++}
+++
+++
+++// Return the PLT address for a global symbol.
+++
+++template<bool big_endian>
+++uint32_t
+++Output_data_plt_arm<big_endian>::address_for_global(const Symbol* gsym) const
+++{
+++  uint64_t begin_offset = 0;
+++  if (gsym->type() == elfcpp::STT_GNU_IFUNC
+++      && gsym->can_use_relative_reloc(false))
+++    {
+++      begin_offset = (this->first_plt_entry_offset() +
+++		      this->count_ * this->get_plt_entry_size());
+++    }
+++  return this->address() + begin_offset + gsym->plt_offset();
+++}
+++
+++
+++// Return the PLT address for a local symbol.  These are always
+++// IRELATIVE relocs.
+++
+++template<bool big_endian>
+++uint32_t
+++Output_data_plt_arm<big_endian>::address_for_local(
+++    const Relobj* object,
+++    unsigned int r_sym) const
+++{
+++  return (this->address()
+++	  + this->first_plt_entry_offset()
+++	  + this->count_ * this->get_plt_entry_size()
+++	  + object->local_plt_offset(r_sym));
+++}
+++
+++
++ template<bool big_endian>
++ class Output_data_plt_arm_standard : public Output_data_plt_arm<big_endian>
++ {
++  public:
++-  Output_data_plt_arm_standard(Layout* layout, Output_data_space* got_plt)
++-    : Output_data_plt_arm<big_endian>(layout, 4, got_plt)
+++  Output_data_plt_arm_standard(Layout* layout,
+++			       Arm_output_data_got<big_endian>* got,
+++			       Output_data_space* got_plt,
+++			       Output_data_space* got_irelative)
+++    : Output_data_plt_arm<big_endian>(layout, 4, got, got_plt, got_irelative)
++   { }
++ 
++  protected:
++@@ -7485,8 +7825,11 @@ Output_data_plt_arm<big_endian>::do_write(Output_file* of)
++   unsigned char* const oview = of->get_output_view(offset, oview_size);
++ 
++   const off_t got_file_offset = this->got_plt_->offset();
+++  gold_assert(got_file_offset + this->got_plt_->data_size()
+++	      == this->got_irelative_->offset());
++   const section_size_type got_size =
++-    convert_to_section_size_type(this->got_plt_->data_size());
+++    convert_to_section_size_type(this->got_plt_->data_size()
+++				 + this->got_irelative_->data_size());
++   unsigned char* const got_view = of->get_output_view(got_file_offset,
++ 						      got_size);
++   unsigned char* pov = oview;
++@@ -7505,7 +7848,8 @@ Output_data_plt_arm<big_endian>::do_write(Output_file* of)
++ 
++   unsigned int plt_offset = this->first_plt_entry_offset();
++   unsigned int got_offset = 12;
++-  const unsigned int count = this->count_;
+++  const unsigned int count = this->count_ + this->irelative_count_;
+++  gold_assert(this->irelative_count_ == this->irelative_data_vec_.size());
++   for (unsigned int i = 0;
++        i < count;
++        ++i,
++@@ -7518,8 +7862,33 @@ Output_data_plt_arm<big_endian>::do_write(Output_file* of)
++       this->fill_plt_entry(pov, got_address, plt_address,
++ 			   got_offset, plt_offset);
++ 
++-      // Set the entry in the GOT.
++-      elfcpp::Swap<32, big_endian>::writeval(got_pov, plt_address);
+++      Arm_address value;
+++      if (i < this->count_)
+++	{
+++	  // For non-irelative got entries, the value is the beginning of plt.
+++	  value = plt_address;
+++	}
+++      else
+++	{
+++	  // For irelative got entries, the value is the (global/local) symbol
+++	  // address.
+++	  const IRelative_data& idata =
+++	      this->irelative_data_vec_[i - this->count_];
+++	  if (idata.symbol_is_global_)
+++	    {
+++	      // Set the entry in the GOT for irelative symbols.  The content is
+++	      // the address of the ifunc, not the address of plt start.
+++	      const Sized_symbol<32>* sized_symbol = idata.u_.global;
+++	      gold_assert(sized_symbol->type() == elfcpp::STT_GNU_IFUNC);
+++	      value = sized_symbol->value();
+++	    }
+++	  else
+++	    {
+++	      value = idata.u_.local.relobj->local_symbol_value(
+++		  idata.u_.local.index, 0);
+++	    }
+++	}
+++      elfcpp::Swap<32, big_endian>::writeval(got_pov, value);
 +     }
 + 
-+@@ -674,7 +674,7 @@ static char *new_game_desc(const game_params *params, random_state *rs,
-+     p = numbers;
-+     r = 0;
-+     for (i = 0; i < wh; ++i) {
-+-        if (numbers[i] != EMPTY) {
-++        if (numbers[i] != (char)EMPTY) {
-+             while (r) {
-+                 while (r > 26) {
-+                     *p++ = 'z';
++   gold_assert(static_cast<section_size_type>(pov - oview) == oview_size);
++@@ -7529,6 +7898,7 @@ Output_data_plt_arm<big_endian>::do_write(Output_file* of)
++   of->write_output_view(got_file_offset, got_size, got_view);
++ }
++ 
+++
++ // Create a PLT entry for a global symbol.
++ 
++ template<bool big_endian>
++@@ -7540,20 +7910,58 @@ Target_arm<big_endian>::make_plt_entry(Symbol_table* symtab, Layout* layout,
++     return;
++ 
++   if (this->plt_ == NULL)
+++    this->make_plt_section(symtab, layout);
+++
+++  this->plt_->add_entry(symtab, layout, gsym);
+++}
+++
+++
+++// Create the PLT section.
+++template<bool big_endian>
+++void
+++Target_arm<big_endian>::make_plt_section(
+++  Symbol_table* symtab, Layout* layout)
+++{
+++  if (this->plt_ == NULL)
++     {
++-      // Create the GOT sections first.
+++      // Create the GOT section first.
++       this->got_section(symtab, layout);
++ 
++-      this->plt_ = this->make_data_plt(layout, this->got_plt_);
+++      // GOT for irelatives is create along with got.plt.
+++      gold_assert(this->got_ != NULL
+++		  && this->got_plt_ != NULL
+++		  && this->got_irelative_ != NULL);
+++      this->plt_ = this->make_data_plt(layout, this->got_, this->got_plt_,
+++				       this->got_irelative_);
++ 
++       layout->add_output_section_data(".plt", elfcpp::SHT_PROGBITS,
++ 				      (elfcpp::SHF_ALLOC
++ 				       | elfcpp::SHF_EXECINSTR),
++ 				      this->plt_, ORDER_PLT, false);
++     }
++-  this->plt_->add_entry(gsym);
++ }
++ 
+++
+++// Make a PLT entry for a local STT_GNU_IFUNC symbol.
+++
+++template<bool big_endian>
+++void
+++Target_arm<big_endian>::make_local_ifunc_plt_entry(
+++    Symbol_table* symtab, Layout* layout,
+++    Sized_relobj_file<32, big_endian>* relobj,
+++    unsigned int local_sym_index)
+++{
+++  if (relobj->local_has_plt_offset(local_sym_index))
+++    return;
+++  if (this->plt_ == NULL)
+++    this->make_plt_section(symtab, layout);
+++  unsigned int plt_offset = this->plt_->add_local_ifunc_entry(symtab, layout,
+++							      relobj,
+++							      local_sym_index);
+++  relobj->set_local_plt_offset(local_sym_index, plt_offset);
+++}
+++
+++
++ // Return the number of entries in the PLT.
++ 
++ template<bool big_endian>
++@@ -7823,6 +8231,7 @@ Target_arm<big_endian>::Scan::check_non_pic(Relobj* object,
++     case elfcpp::R_ARM_JUMP_SLOT:
++     case elfcpp::R_ARM_ABS32:
++     case elfcpp::R_ARM_ABS32_NOI:
+++    case elfcpp::R_ARM_IRELATIVE:
++     case elfcpp::R_ARM_PC24:
++     // FIXME: The following 3 types are not supported by Android's dynamic
++     // linker.
++@@ -7853,6 +8262,27 @@ Target_arm<big_endian>::Scan::check_non_pic(Relobj* object,
++     }
++ }
++ 
+++
+++// Return whether we need to make a PLT entry for a relocation of the
+++// given type against a STT_GNU_IFUNC symbol.
+++
+++template<bool big_endian>
+++bool
+++Target_arm<big_endian>::Scan::reloc_needs_plt_for_ifunc(
+++    Sized_relobj_file<32, big_endian>* object,
+++    unsigned int r_type)
+++{
+++  int flags = Scan::get_reference_flags(r_type);
+++  if (flags & Symbol::TLS_REF)
+++    {
+++      gold_error(_("%s: unsupported TLS reloc %u for IFUNC symbol"),
+++		 object->name().c_str(), r_type);
+++      return false;
+++    }
+++  return flags != 0;
+++}
+++
+++
++ // Scan a relocation for a local symbol.
++ // FIXME: This only handles a subset of relocation types used by Android
++ // on ARM v5te devices.
++@@ -7874,6 +8304,15 @@ Target_arm<big_endian>::Scan::local(Symbol_table* symtab,
++     return;
++ 
++   r_type = get_real_reloc_type(r_type);
+++
+++  // A local STT_GNU_IFUNC symbol may require a PLT entry.
+++  bool is_ifunc = lsym.get_st_type() == elfcpp::STT_GNU_IFUNC;
+++  if (is_ifunc && this->reloc_needs_plt_for_ifunc(object, r_type))
+++    {
+++      unsigned int r_sym = elfcpp::elf_r_sym<32>(reloc.get_r_info());
+++      target->make_local_ifunc_plt_entry(symtab, layout, object, r_sym);
+++    }
+++
++   switch (r_type)
++     {
++     case elfcpp::R_ARM_NONE:
++@@ -7898,7 +8337,7 @@ Target_arm<big_endian>::Scan::local(Symbol_table* symtab,
++ 	  // we need to add check_non_pic(object, r_type) here.
++ 	  rel_dyn->add_local_relative(object, r_sym, elfcpp::R_ARM_RELATIVE,
++ 				      output_section, data_shndx,
++-				      reloc.get_r_offset());
+++				      reloc.get_r_offset(), is_ifunc);
++ 	}
++       break;
++ 
++@@ -8265,6 +8704,11 @@ Target_arm<big_endian>::Scan::global(Symbol_table* symtab,
++       && strcmp(gsym->name(), "_GLOBAL_OFFSET_TABLE_") == 0)
++     target->got_section(symtab, layout);
++ 
+++  // A STT_GNU_IFUNC symbol may require a PLT entry.
+++  if (gsym->type() == elfcpp::STT_GNU_IFUNC
+++      && this->reloc_needs_plt_for_ifunc(object, r_type))
+++    target->make_plt_entry(symtab, layout, gsym);
+++
++   r_type = get_real_reloc_type(r_type);
++   switch (r_type)
++     {
++@@ -8309,6 +8753,24 @@ Target_arm<big_endian>::Scan::global(Symbol_table* symtab,
++ 	      }
++ 	    else if ((r_type == elfcpp::R_ARM_ABS32
++ 		      || r_type == elfcpp::R_ARM_ABS32_NOI)
+++		     && gsym->type() == elfcpp::STT_GNU_IFUNC
+++		     && gsym->can_use_relative_reloc(false)
+++		     && !gsym->is_from_dynobj()
+++		     && !gsym->is_undefined()
+++		     && !gsym->is_preemptible())
+++	      {
+++		// Use an IRELATIVE reloc for a locally defined STT_GNU_IFUNC
+++		// symbol. This makes a function address in a PIE executable
+++		// match the address in a shared library that it links against.
+++		Reloc_section* rel_irelative =
+++		    target->rel_irelative_section(layout);
+++		unsigned int r_type = elfcpp::R_ARM_IRELATIVE;
+++		rel_irelative->add_symbolless_global_addend(
+++		    gsym, r_type, output_section, object,
+++		    data_shndx, reloc.get_r_offset());
+++	      }
+++	    else if ((r_type == elfcpp::R_ARM_ABS32
+++		      || r_type == elfcpp::R_ARM_ABS32_NOI)
++ 		     && gsym->can_use_relative_reloc(false))
++ 	      {
++ 		Reloc_section* rel_dyn = target->rel_dyn_section(layout);
++@@ -8442,7 +8904,13 @@ Target_arm<big_endian>::Scan::global(Symbol_table* symtab,
++ 	Arm_output_data_got<big_endian>* got =
++ 	  target->got_section(symtab, layout);
++ 	if (gsym->final_value_is_known())
++-	  got->add_global(gsym, GOT_TYPE_STANDARD);
+++	  {
+++	    // For a STT_GNU_IFUNC symbol we want the PLT address.
+++	    if (gsym->type() == elfcpp::STT_GNU_IFUNC)
+++	      got->add_global_plt(gsym, GOT_TYPE_STANDARD);
+++	    else
+++	      got->add_global(gsym, GOT_TYPE_STANDARD);
+++	  }
++ 	else
++ 	  {
++ 	    // If this symbol is not fully resolved, we need to add a
++@@ -8452,12 +8920,29 @@ Target_arm<big_endian>::Scan::global(Symbol_table* symtab,
++ 		|| gsym->is_undefined()
++ 		|| gsym->is_preemptible()
++ 		|| (gsym->visibility() == elfcpp::STV_PROTECTED
++-		    && parameters->options().shared()))
+++		    && parameters->options().shared())
+++		|| (gsym->type() == elfcpp::STT_GNU_IFUNC
+++		    && parameters->options().output_is_position_independent()))
++ 	      got->add_global_with_rel(gsym, GOT_TYPE_STANDARD,
++ 				       rel_dyn, elfcpp::R_ARM_GLOB_DAT);
++ 	    else
++ 	      {
++-		if (got->add_global(gsym, GOT_TYPE_STANDARD))
+++		// For a STT_GNU_IFUNC symbol we want to write the PLT
+++		// offset into the GOT, so that function pointer
+++		// comparisons work correctly.
+++		bool is_new;
+++		if (gsym->type() != elfcpp::STT_GNU_IFUNC)
+++		  is_new = got->add_global(gsym, GOT_TYPE_STANDARD);
+++		else
+++		  {
+++		    is_new = got->add_global_plt(gsym, GOT_TYPE_STANDARD);
+++		    // Tell the dynamic linker to use the PLT address
+++		    // when resolving relocations.
+++		    if (gsym->is_from_dynobj()
+++			&& !parameters->options().shared())
+++		      gsym->set_needs_dynsym_value();
+++		  }
+++		if (is_new)
++ 		  rel_dyn->add_global_relative(
++ 		      gsym, elfcpp::R_ARM_RELATIVE, got,
++ 		      gsym->got_offset(GOT_TYPE_STANDARD));
++@@ -8919,8 +9404,7 @@ Target_arm<big_endian>::Relocate::relocate(
++ 	  if (gsym->use_plt_offset(Scan::get_reference_flags(r_type)))
++ 	    {
++ 	      // This uses a PLT, change the symbol value.
++-	      symval.set_output_value(target->plt_section()->address()
++-				      + gsym->plt_offset());
+++	      symval.set_output_value(target->plt_address_for_global(gsym));
++ 	      psymval = &symval;
++ 	    }
++ 	  else if (gsym->is_weak_undefined())
++@@ -8958,6 +9442,13 @@ Target_arm<big_endian>::Relocate::relocate(
++ 	  elfcpp::Elf_types<32>::Elf_WXword r_info = rel.get_r_info();
++ 	  unsigned int r_sym = elfcpp::elf_r_sym<32>(r_info);
++ 	  thumb_bit = object->local_symbol_is_thumb_function(r_sym) ? 1 : 0;
+++
+++	  if (psymval->is_ifunc_symbol() && object->local_has_plt_offset(r_sym))
+++	    {
+++	      symval.set_output_value(
+++		  target->plt_address_for_local(object, r_sym));
+++	      psymval = &symval;
+++	    }
++ 	}
++     }
++   else
++@@ -9936,7 +10427,7 @@ uint64_t
++ Target_arm<big_endian>::do_dynsym_value(const Symbol* gsym) const
++ {
++   gold_assert(gsym->is_from_dynobj() && gsym->has_plt_offset());
++-  return this->plt_section()->address() + gsym->plt_offset();
+++  return this->plt_address_for_global(gsym);
++ }
++ 
++ // Map platform-specific relocs to real relocs
++@@ -11083,8 +11574,7 @@ Target_arm<big_endian>::scan_reloc_for_stub(
++       if (gsym->use_plt_offset(Scan::get_reference_flags(r_type)))
++ 	{
++ 	  // This uses a PLT, change the symbol value.
++-	  symval.set_output_value(this->plt_section()->address()
++-				  + gsym->plt_offset());
+++	  symval.set_output_value(this->plt_address_for_global(gsym));
++ 	  psymval = &symval;
++ 	  target_is_thumb = false;
++ 	}
++@@ -12187,8 +12677,13 @@ class Target_arm_nacl : public Target_arm<big_endian>
++ 
++  protected:
++   virtual Output_data_plt_arm<big_endian>*
++-  do_make_data_plt(Layout* layout, Output_data_space* got_plt)
++-  { return new Output_data_plt_arm_nacl<big_endian>(layout, got_plt); }
+++  do_make_data_plt(
+++		   Layout* layout,
+++		   Arm_output_data_got<big_endian>* got,
+++		   Output_data_space* got_plt,
+++		   Output_data_space* got_irelative)
+++  { return new Output_data_plt_arm_nacl<big_endian>(
+++      layout, got, got_plt, got_irelative); }
++ 
++  private:
++   static const Target::Target_info arm_nacl_info;
++@@ -12225,8 +12720,12 @@ template<bool big_endian>
++ class Output_data_plt_arm_nacl : public Output_data_plt_arm<big_endian>
++ {
++  public:
++-  Output_data_plt_arm_nacl(Layout* layout, Output_data_space* got_plt)
++-    : Output_data_plt_arm<big_endian>(layout, 16, got_plt)
+++  Output_data_plt_arm_nacl(
+++      Layout* layout,
+++      Arm_output_data_got<big_endian>* got,
+++      Output_data_space* got_plt,
+++      Output_data_space* got_irelative)
+++    : Output_data_plt_arm<big_endian>(layout, 16, got, got_plt, got_irelative)
++   { }
++ 
++  protected:
++diff --git a/gold/output.h b/gold/output.h
++index ba0cdaa..599c2b7 100644
++--- a/gold/output.h
+++++ b/gold/output.h
++@@ -1714,6 +1714,17 @@ class Output_data_reloc<elfcpp::SHT_REL, dynamic, size, big_endian>
++ 				    address, true, true, false, false));
++   }
++ 
+++  void
+++  add_local_relative(Sized_relobj<size, big_endian>* relobj,
+++		     unsigned int local_sym_index, unsigned int type,
+++		     Output_data* od, unsigned int shndx, Address address,
+++		     bool use_plt_offset)
+++  {
+++    this->add(od, Output_reloc_type(relobj, local_sym_index, type, shndx,
+++				    address, true, true, false,
+++				    use_plt_offset));
+++  }
+++
++   // Add a local relocation which does not use a symbol for the relocation,
++   // but which gets its addend from a symbol.
++ 
 +-- 
 +2.7.0
 +
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 9c8170c..dab5440 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
-            file://fix-compiling-failure-with-option-g-O.patch \
-            file://0001-Use-labs-instead-of-abs.patch \
-            file://0001-rect-Fix-compiler-errors-about-uninitialized-use-of-.patch \
-+           file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
- "
- SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
- PE = "1"
 -- 
 2.7.0
 
