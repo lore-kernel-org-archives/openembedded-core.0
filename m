@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B8CE5731BF
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 35728731EE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:05 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id q63so146453404pfb.1
+	Sun, 17 Jan 2016 11:37:06 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id 65so142170897pff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:06 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=DX4+BH+JoZUWBDr+R5pFFHxgAVBemP2CjGCW8OSRQwM=;
-	b=DBhgxkPeHs0nTFsE1JBZ7KdZN0uUBaH1e+jsd5TiJ71fk53mWWDi0PSsJRbfIHFfvo
-	i2rVwkRGQ+3GEAYu3fy9aBQaMfvWplXu3XQBe+HbRXI2q+wEMyPESJ9MurbCJ4/MKzV1
-	pgcO68baoIJyBTB71l2jDloSHeZNElNVMYBurvNeX+EhTdHDUxY7MhCEYekWlSEznqra
-	vpyI2kc0h0S7QRF6D/8SuTNsaLDMQ3Q34LUw06ZDBiSXGi9GxqJO8cEGJ1ch3imthfao
-	eB9rh3VcaOBwClAdK1+YN0CRfNixEmrH0PNKU72CHDzidh7q/A+L7UOIebxE8wvhq7du
-	t1lA==
+	bh=xEG91cAfwrj159UOyRPg+7Lmtw4TIiy/r+Of09o34kc=;
+	b=aeX4nH1oTItlEQc9Mqkqh0XE+mcQYquscYDtv9iVmjFlvdFwRq4Gn/LYO1Wdoj7QLW
+	oiOCQ1IzQ12OszZnPifHVoPRxLw8GOEBnto29v3lAqDY1c8B+zjEcWSiZyFtH580A+uo
+	Rnbm68XZ3UwZoK0JV14qoN9oOKn9lpAmmqqgLHcTVLsqcQedt9Grrzclg71wQ9xN3rtG
+	cR0z9gR+OTIomkR4mvHQF0B7YdwsIkWDTZvNPi4EQcHihnQb7cALbGoPoD2Np88bbbWK
+	HuhDgaXH24aa3dPcshv+Bbw5Z4ajaSUvUwU7sjtqXSRU3iSwiUb1A/WfMVYxrHth5faX
+	NBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=DX4+BH+JoZUWBDr+R5pFFHxgAVBemP2CjGCW8OSRQwM=;
-	b=PShXxAmLf8WbjB2coaHZymOwCI/kIe6ltrpDidiNayTOdFvZNFvG/4ZrxvxmFXGal1
-	PFUDZrlgQDCjIkQJw8Wv3QXNo6uWKRu0nCZyBKcVggk8J7tdOV3ddZZeci4wl+vs8bgx
-	Xp4hQoGqnF0LSq3nALA9H04vwwOObPrHoMNoBryo13xpFScr6VsRmpCqivA5uAbRuRjh
-	J6k/WkJ3TIIckVIj96uU47F6rDDN3QttCyjQfOeRooXz3XKyJi78HwvFbo3NutCXDSHs
-	e+sB9RPw306MRiPfCIqJ+r6EcFt9uYeSH3y9M9f6eh5xj/A9CwyysWWLdHERY3k0/mOw
-	84/w==
-X-Gm-Message-State: ALoCoQlwJKKCE0lW7LLQG3835VpNebCNjGq2HO9YrfLLCdjCQXjIQzIFZ8XoPh0W/BgkszFQsUdKPs8nwT+n7iCKesKpgTbJCQ==
-X-Received: by 10.98.86.67 with SMTP id k64mr28959483pfb.50.1453030626622;
-	Sun, 17 Jan 2016 03:37:06 -0800 (PST)
+	bh=xEG91cAfwrj159UOyRPg+7Lmtw4TIiy/r+Of09o34kc=;
+	b=JPV+/QZKS5jBbtZ+tpB2KeWYaUgoTtr36CgwI6qP1mY9hNLuV5bQ8LMIxsIOiFSNSl
+	7bTV74qk5fBGc2DfuO76V9h8wF/GEaRlXn7vor2rzTsz5EKTEIga3EuwwzmMj51xiaBE
+	L2+p/7LXm13MJpXoTnSAb4OccbBDIrAdHu2iFA44qkvqiX449Iq/nhGBjXj07H8sfZN5
+	fliJ9j4Yw7VBh57MsLI8FzvonJt3DSqTVBX2GIla4JaCKSA5OFj6fmtBPBy1EwRTi/Zu
+	5uwc2iC0MBkCei4WJXMhcvl6CHj7Ooqxo7b44WesrkFiqpdQcL6MUgkR+04CqOvNWbvW
+	YWAA==
+X-Gm-Message-State: ALoCoQm3BOKxwQD5E9CuIqI2w4JEnQn3joUv3tbVgNRY7bCUT9uevivR4h/FS6ktRm10ZLP/UDFccu1qLRBnUP9ggHrCQyxwAQ==
+X-Received: by 10.98.10.81 with SMTP id s78mr26412703pfi.119.1453030627704;
+	Sun, 17 Jan 2016 03:37:07 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.05
+	ty5sm26838363pac.48.2016.01.17.03.37.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:06 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:07 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:35:40 -0800
-Message-Id: <64fbb32462ca6d7e4677c09813bef36b1030a532.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:35:41 -0800
+Message-Id: <18ac68070f3ab7b83d6e689c11ed207dcece851c.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 07/73] libcgroup: Add dependency on fts when building on musl
+Subject: [PATCH 08/73] linux-libc-headers: Port patches for linux-headers for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,277 +58,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jan 2016 11:37:06 -0000
+X-List-Received-Date: Sun, 17 Jan 2016 11:37:07 -0000
+
+These patches have revealed issues with linux kernel headers which has
+been proposed upstream but hasnt been applied yet
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libcgroup/libcgroup/musl-decls-compat.patch    | 235 +++++++++++++++++++++
- meta/recipes-core/libcgroup/libcgroup_0.41.bb      |   4 +
- 2 files changed, 239 insertions(+)
- create mode 100644 meta/recipes-core/libcgroup/libcgroup/musl-decls-compat.patch
+ ...mpat.h-fix-some-issues-arising-from-in6.h.patch | 82 ++++++++++++++++++++++
+ ...t.h-prevent-redefinition-of-struct-ethhdr.patch | 59 ++++++++++++++++
+ ...remove-inclusion-of-sysinfo.h-in-kernel.h.patch | 32 +++++++++
+ .../linux-libc-headers/linux-libc-headers_4.1.bb   |  5 ++
+ 4 files changed, 178 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
 
-diff --git a/meta/recipes-core/libcgroup/libcgroup/musl-decls-compat.patch b/meta/recipes-core/libcgroup/libcgroup/musl-decls-compat.patch
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch
 new file mode 100644
-index 0000000..65f4ef9
+index 0000000..3db52cf
 --- /dev/null
-+++ b/meta/recipes-core/libcgroup/libcgroup/musl-decls-compat.patch
-@@ -0,0 +1,235 @@
-+commit ca780b4f7f71abeeb04a585f2a4d889caaa985fa
-+Author: Isaac Dunham <ibid.ag@gmail.com>
-+Date:   Fri Sep 5 22:35:32 2014 -0700
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch
+@@ -0,0 +1,82 @@
++From 2872f5d8bcef84e62b15b37ba4ffeccfb6402dad Mon Sep 17 00:00:00 2001
++From: rofl0r <retnyg@gmx.net>
++Date: Wed, 22 Jan 2014 00:48:28 +0100
++Subject: [PATCH 1/3] libc-compat.h: fix some issues arising from in6.h
 +
-+    Remove __.*DECLS nonsense
-+
-+Upstream-Status: Pending
++namely redefinition of some structs provided by netinet/in.h.
++---
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Submitted
 +
-+Index: libcgroup-0.41/include/libcgroup/config.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/config.h
-++++ libcgroup-0.41/include/libcgroup/config.h
-+@@ -9,7 +9,9 @@
-+ #include <features.h>
-+ #endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /**
-+  * @defgroup group_config 5. Configuration
-+@@ -107,6 +109,8 @@ int cgroup_config_create_template_group(
-+  * @}
-+  * @}
-+  */
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /*_LIBCGROUP_CONFIG_H*/
-+Index: libcgroup-0.41/include/libcgroup/error.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/error.h
-++++ libcgroup-0.41/include/libcgroup/error.h
-+@@ -9,7 +9,9 @@
-+ #include <features.h>
-+ #endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /**
-+  * @defgroup group_errors 6. Error handling
-+@@ -99,6 +101,8 @@ int cgroup_get_last_errno(void);
-+  * @}
-+  * @}
-+  */
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _LIBCGROUP_INIT_H */
-+Index: libcgroup-0.41/include/libcgroup/groups.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/groups.h
-++++ libcgroup-0.41/include/libcgroup/groups.h
-+@@ -11,7 +11,9 @@
-+ #include <stdbool.h>
-+ #endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /**
-+  * Flags for cgroup_delete_cgroup_ext().
-+@@ -577,6 +579,8 @@ char *cgroup_get_cgroup_name(struct cgro
-+  */
-+ 
-+ 
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _LIBCGROUP_GROUPS_H */
-+Index: libcgroup-0.41/include/libcgroup/init.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/init.h
-++++ libcgroup-0.41/include/libcgroup/init.h
-+@@ -9,7 +9,9 @@
-+ #include <features.h>
-+ #endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /**
-+  * @defgroup group_init 1. Initialization
-+@@ -58,6 +60,8 @@ int cgroup_get_subsys_mount_point(const
-+  * @}
-+  * @}
-+  */
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _LIBCGROUP_INIT_H */
-+Index: libcgroup-0.41/include/libcgroup/iterators.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/iterators.h
-++++ libcgroup-0.41/include/libcgroup/iterators.h
-+@@ -11,7 +11,9 @@
-+ #include <features.h>
-+ #endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /**
-+  * @defgroup group_iterators 3. Iterators
-+@@ -423,6 +425,8 @@ int cgroup_get_subsys_mount_point_end(vo
-+  * @}
-+  */
-+ 
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _LIBCGROUP_ITERATORS_H */
-+Index: libcgroup-0.41/include/libcgroup/tasks.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/tasks.h
-++++ libcgroup-0.41/include/libcgroup/tasks.h
-+@@ -12,7 +12,9 @@
-+ #include <stdbool.h>
-+ #endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /** Flags for cgroup_change_cgroup_uid_gid(). */
-+ enum cgflags {
-+@@ -204,6 +206,8 @@ int cgroup_register_unchanged_process(pi
-+  * @}
-+  * @}
-+  */
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _LIBCGROUP_TASKS_H */
-+Index: libcgroup-0.41/src/daemon/cgrulesengd.h
-+===================================================================
-+--- libcgroup-0.41.orig/src/daemon/cgrulesengd.h
-++++ libcgroup-0.41/src/daemon/cgrulesengd.h
-+@@ -17,7 +17,9 @@
-+ 
-+ #include <features.h>
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ #include "config.h"
-+ #include "libcgroup.h"
-+@@ -119,7 +121,9 @@ void cgre_flash_templates(int signum);
-+  */
-+ void cgre_catch_term(int signum);
-+ 
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _CGRULESENGD_H */
-+ 
-+Index: libcgroup-0.41/src/libcgroup-internal.h
-+===================================================================
-+--- libcgroup-0.41.orig/src/libcgroup-internal.h
-++++ libcgroup-0.41/src/libcgroup-internal.h
-+@@ -16,7 +16,9 @@
-+ 
-+ #define __LIBCG_INTERNAL
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ #include "config.h"
-+ #include <fts.h>
-+@@ -279,6 +281,8 @@ extern void cgroup_dictionary_iterator_e
-+  */
-+ int cg_chmod_path(const char *path, mode_t mode, int owner_is_umask);
-+ 
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif
-+Index: libcgroup-0.41/include/libcgroup/log.h
-+===================================================================
-+--- libcgroup-0.41.orig/include/libcgroup/log.h
-++++ libcgroup-0.41/include/libcgroup/log.h
-+@@ -11,7 +11,9 @@
-+ 
-+ #include <stdarg.h>
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /**
-+  * @defgroup group_log 7. Logging
-+@@ -142,6 +144,8 @@ extern int cgroup_parse_log_level_str(co
-+  * @}
-+  * @}
-+  */
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif /* _LIBCGROUP_LOG_H */
-diff --git a/meta/recipes-core/libcgroup/libcgroup_0.41.bb b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-index 287aecd..9597963 100644
---- a/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-+++ b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-@@ -11,12 +11,16 @@ inherit autotools pkgconfig
- DEPENDS = "bison-native flex-native ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${BPN}/v0.41/${BPN}-${PV}.tar.bz2"
-+SRC_URI_append_libc-musl = " file://musl-decls-compat.patch"
- 
- SRC_URI[md5sum] = "3dea9d50b8a5b73ff0bf1cdcb210f63f"
- SRC_URI[sha256sum] = "e4e38bdc7ef70645ce33740ddcca051248d56b53283c0dc6d404e17706f6fb51"
- 
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libcg/files/libcgroup/"
- 
-+DEPENDS_append_libc-musl = " fts "
-+EXTRA_OEMAKE_append_libc-musl = "LIBS=-lfts"
++ include/uapi/linux/libc-compat.h | 25 ++++++++-----------------
++ 1 file changed, 8 insertions(+), 17 deletions(-)
 +
- EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam-module-dir=${base_libdir}/security --enable-pam=yes', '--enable-pam=no', d)}"
++diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
++index fa673e9..afe15c2 100644
++--- a/include/uapi/linux/libc-compat.h
+++++ b/include/uapi/linux/libc-compat.h
++@@ -48,24 +48,15 @@
++ #ifndef _UAPI_LIBC_COMPAT_H
++ #define _UAPI_LIBC_COMPAT_H
++ 
++-/* We have included glibc headers... */
++-#if defined(__GLIBC__)
+++#ifndef __KERNEL__ /* we're used from userspace */
++ 
++-/* Coordinate with glibc netinet/in.h header. */
+++/* Coordinate with libc netinet/in.h header. */
++ #if defined(_NETINET_IN_H)
++ 
++-/* GLIBC headers included first so don't define anything
+++/* libc headers included first so don't define anything
++  * that would already be defined. */
++ #define __UAPI_DEF_IN6_ADDR		0
++-/* The exception is the in6_addr macros which must be defined
++- * if the glibc code didn't define them. This guard matches
++- * the guard in glibc/inet/netinet/in.h which defines the
++- * additional in6_addr macros e.g. s6_addr16, and s6_addr32. */
++-#if defined(__USE_MISC) || defined (__USE_GNU)
++ #define __UAPI_DEF_IN6_ADDR_ALT		0
++-#else
++-#define __UAPI_DEF_IN6_ADDR_ALT		1
++-#endif
++ #define __UAPI_DEF_SOCKADDR_IN6		0
++ #define __UAPI_DEF_IPV6_MREQ		0
++ #define __UAPI_DEF_IPPROTO_V6		0
++@@ -73,13 +64,13 @@
++ #define __UAPI_DEF_IN6_PKTINFO		0
++ #define __UAPI_DEF_IP6_MTUINFO		0
++ 
++-#else
+++#else /* defined(_NETINET_IN_H) */
++ 
++ /* Linux headers included first, and we must define everything
++- * we need. The expectation is that glibc will check the
+++ * we need. The expectation is that the libc will check the
++  * __UAPI_DEF_* defines and adjust appropriately. */
++ #define __UAPI_DEF_IN6_ADDR		1
++-/* We unconditionally define the in6_addr macros and glibc must
+++/* We unconditionally define the in6_addr macros and libc must
++  * coordinate. */
++ #define __UAPI_DEF_IN6_ADDR_ALT		1
++ #define __UAPI_DEF_SOCKADDR_IN6		1
++@@ -101,7 +92,7 @@
++ /* If we did not see any headers from any supported C libraries,
++  * or we are being included in the kernel, then define everything
++  * that we need. */
++-#else /* !defined(__GLIBC__) */
+++#else /* __KERNEL__ */
++ 
++ /* Definitions for in6.h */
++ #define __UAPI_DEF_IN6_ADDR		1
++@@ -116,6 +107,6 @@
++ /* Definitions for xattr.h */
++ #define __UAPI_DEF_XATTR		1
++ 
++-#endif /* __GLIBC__ */
+++#endif /* __KERNEL__ */
++ 
++ #endif /* _UAPI_LIBC_COMPAT_H */
++-- 
++2.6.4
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch
+new file mode 100644
+index 0000000..c617093
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch
+@@ -0,0 +1,59 @@
++From 75ba4a547282f91d653872a4bba5f5eae234ea6c Mon Sep 17 00:00:00 2001
++From: rofl0r <retnyg@gmx.net>
++Date: Wed, 22 Jan 2014 00:57:48 +0100
++Subject: [PATCH 2/3] libc-compat.h: prevent redefinition of struct ethhdr
++
++---
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Submitted
++
++ include/uapi/linux/if_ether.h    | 4 +++-
++ include/uapi/linux/libc-compat.h | 6 ++++++
++ 2 files changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/include/uapi/linux/if_ether.h b/include/uapi/linux/if_ether.h
++index aa63ed0..e94da57 100644
++--- a/include/uapi/linux/if_ether.h
+++++ b/include/uapi/linux/if_ether.h
++@@ -22,6 +22,7 @@
++ #define _UAPI_LINUX_IF_ETHER_H
++ 
++ #include <linux/types.h>
+++#include <linux/libc-compat.h>
++ 
++ /*
++  *	IEEE 802.3 Ethernet magic constants.  The frame sizes omit the preamble
++@@ -134,11 +135,12 @@
++  *	This is an Ethernet frame header.
++  */
++ 
+++#if __UAPI_DEF_ETHHDR
++ struct ethhdr {
++ 	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
++ 	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
++ 	__be16		h_proto;		/* packet type ID field	*/
++ } __attribute__((packed));
++-
+++#endif
++ 
++ #endif /* _UAPI_LINUX_IF_ETHER_H */
++diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
++index afe15c2..7d0c78a 100644
++--- a/include/uapi/linux/libc-compat.h
+++++ b/include/uapi/linux/libc-compat.h
++@@ -50,6 +50,12 @@
++ 
++ #ifndef __KERNEL__ /* we're used from userspace */
++ 
+++#ifdef _NETINET_IF_ETHER_H /* musl */
+++#define __UAPI_DEF_ETHHDR 0
+++#else /* glibc uses __NETINET_IF_ETHER_H, and includes the kernel header. */
+++#define __UAPI_DEF_ETHHDR 1
+++#endif
+++
++ /* Coordinate with libc netinet/in.h header. */
++ #if defined(_NETINET_IN_H)
++ 
++-- 
++2.6.4
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
+new file mode 100644
+index 0000000..6d9e8d8
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
+@@ -0,0 +1,32 @@
++From 8e69b663d6ddef132041a1186f081fdd74d4a31d Mon Sep 17 00:00:00 2001
++From: rofl0r <retnyg@gmx.net>
++Date: Mon, 20 Jan 2014 21:31:34 +0100
++Subject: [PATCH 3/3] remove inclusion of sysinfo.h in kernel.h
++
++the declaration of struct sysinfo clashes with userspace.
++it's not quite clear why that header was included from kernel.h,
++as none of its functionality is needed.
++---
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Submitted
++
++ include/uapi/linux/kernel.h | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/include/uapi/linux/kernel.h b/include/uapi/linux/kernel.h
++index 321e399..e8ff821 100644
++--- a/include/uapi/linux/kernel.h
+++++ b/include/uapi/linux/kernel.h
++@@ -1,7 +1,9 @@
++ #ifndef _UAPI_LINUX_KERNEL_H
++ #define _UAPI_LINUX_KERNEL_H
++ 
+++#ifdef __GLIBC__
++ #include <linux/sysinfo.h>
+++#endif
++ 
++ /*
++  * 'kernel.h' contains some often-used function prototypes etc
++-- 
++2.6.4
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb
+index 01037c1..6f2c427 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb
+@@ -1,4 +1,9 @@
+ require linux-libc-headers.inc
  
- PACKAGES =+ "cgroups-pam-plugin"
++SRC_URI_append_libc-musl = "\
++    file://0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch \
++    file://0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch \
++    file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
++   "
+ SRC_URI[md5sum] = "fe9dc0f6729f36400ea81aa41d614c37"
+ SRC_URI[sha256sum] = "caf51f085aac1e1cea4d00dbbf3093ead07b551fc07b31b2a989c05f8ea72d9f"
 -- 
 2.7.0
 
