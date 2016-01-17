@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E003E770C6
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 40390770FB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:38:00 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id ho8so157842813pac.2
+	Sun, 17 Jan 2016 11:38:01 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id n128so142178665pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:38:01 -0800 (PST)
+	Sun, 17 Jan 2016 03:38:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=4F3IapZAJgs2h/keXc7RJjQlOWT/LebDzGchb2VEp0s=;
-	b=JywHbyHpQ2elYJdS4LIHa0M9nIMkQgpfk3UWVhDJyv+FHsD0t3iFS78ed5F/jPxJoQ
-	mHUYQtkY/1cLW0xmBflu6W27UTJxHZ+JhPeM5knAj+Cc5on7Jrbmg9WvhMkXa1KSkT/j
-	QegMCEWvmYelZ/RxGSP3Iekmzb2KLkqD6WdCx65VA6W/8wzENH3kHDxqOVcpdnqMw6nO
-	FWrTfo4eyvgPmMXOtrCJedL/d8RzFo5MDROE+jYfCO9NC9jKXsxQwKymKTu2V9SuG0v0
-	rqGLv+wfQ2QtSfoS58tBugWz7lq0T8FxRA4slkL7VTFQaSmYsD1/G1bd8DW2wp/s1HEG
-	klKg==
+	bh=nNzsjkfUG8pmoItOTYUp+neXIroh+nL7vDKipeZDt90=;
+	b=cuZ72VVMhFPgPaC4fzqByQd2wNhAO9PVusDBzI+toqZagj+giywCnQwO5hjCauOGY3
+	3ceXTTBurdiLxzYwJdgS+GSfpUY2orOSxc8bgcatnLb99ri7WB7DiwgtqJNFjdiffifa
+	dtNL8TeGuJDx23yaaIMbmu0HssS+OpJMYFIAcEcsafxWmQRZPfCWw8UV53dnLzZLsl9d
+	OAOLtZHWULkK+bF1SEwjpM3FzKvRaF8BsQJux7Wp4qUmQD2QiD7kUeI/sxfrNIAa32tC
+	yU4R0E/GF/rv18wyaiQBt36ACPZzKo/MZr3FHdsBtvvuYX5WDIMYC1iWUxrVe5FHT/nI
+	/ULA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=4F3IapZAJgs2h/keXc7RJjQlOWT/LebDzGchb2VEp0s=;
-	b=chbnMfGc4rgwSFhVx2vCnrEPAOflK/AtTuQI2Gsw/UEjLgvIGqtvlO5c0cgmj1T+zA
-	CPk2MdjdIFJzOfUyUV6XUAOt739yXCBfB6pNnHmJFA4oXbh8bdY3drEafMpWKti4MHJJ
-	Edt2GqcRuWQuOkASTZSlM19aj2NZ/VKv8/+N7W30WERRyGlsdT2P6rs/AFGSDcZ8uMCB
-	Sci23Yn8sRXKjJqDMJtlxYC+SMfcTHr+eZeRec47yQFOQKFkJ1wkAiaclrYqLASc24MM
-	H0+8EZAWCNH+LwwTs1OKC1q902lZXAy2zrdHp7KSHBd8HCfsWXN1FJhnmMwIYey+bfSe
-	T1XA==
-X-Gm-Message-State: ALoCoQmNDjfROuLeU5XsiSv9XxVz2yjVjG0JTRGxWc4Qvfm3nbB8JDGnbuLx03GoLwMvu2J7IIz8LJaxsP5ZreZuf67uG2w0lA==
-X-Received: by 10.66.158.129 with SMTP id wu1mr28655305pab.146.1453030681437; 
-	Sun, 17 Jan 2016 03:38:01 -0800 (PST)
+	bh=nNzsjkfUG8pmoItOTYUp+neXIroh+nL7vDKipeZDt90=;
+	b=Uyxvq6ZSkhJRxPcEn5LY16DbS7EzmLfVICp7g61v9hoO8g3FWdAX2M9wsTzNsFrB5F
+	D6kmprqqTV3pnPjx7i4Adlt7RZMAL/uiy40yNgCtfToQnnYXK2pZqutgyBvzzVf0GrGI
+	s/pwmEeHDAezBT3s2FBfQDRVqE2DPKo38oubzhJ/0EgAGcVMxNi/IIat+6PBQM/RnEXM
+	1cuaz9HNdhkcluGE20Q/lf92DPnTBunChavHSUdbg5gvcK8dXowLXz1fa0XtQ+7VQNCu
+	tu3VlVtn58VY13ScqqU9tU4bxDvpwtuNMXR33GLRLomR/zlvEyOZDrKgS1W24H2SWa6F
+	eG6g==
+X-Gm-Message-State: ALoCoQlutKHVgSmae/I7nSWY4t8aAM5omoxcyDBBdOep8Q6BdYPuOfIJnjsQIvG0+ePnjneklQd3IgpNF/opQcRHPYwwJBghaw==
+X-Received: by 10.98.68.132 with SMTP id m4mr28505718pfi.79.1453030682305;
+	Sun, 17 Jan 2016 03:38:02 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.38.00
+	ty5sm26838363pac.48.2016.01.17.03.38.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:38:00 -0800 (PST)
+	Sun, 17 Jan 2016 03:38:01 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:36:41 -0800
-Message-Id: <a8d86f976ca4573df82fab90bcdafb393e71af73.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:36:42 -0800
+Message-Id: <49764a572cc9b2f0ba47b82be636df41f10e05ce.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 68/73] mdadm: Fix build with musl
+Subject: [PATCH 69/73] eglinfo: Fix build on raspberrypi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,100 +60,68 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 17 Jan 2016 11:38:01 -0000
 
-Define _POSIX_C_SOURCE if not defined
-Add sockaddr_un* to sockaddr* typecast to make compiler happy
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-Define-_POSIX_C_SOURCE-if-undefined.patch | 59 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_3.3.4.bb         |  2 +-
- 2 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-Define-_POSIX_C_SOURCE-if-undefined.patch
+ meta/recipes-graphics/eglinfo/eglinfo.inc          |  4 ++-
+ ...GING_INCDIR-to-searchpath-for-egl-headers.patch | 34 ++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-Define-_POSIX_C_SOURCE-if-undefined.patch b/meta/recipes-extended/mdadm/files/0001-Define-_POSIX_C_SOURCE-if-undefined.patch
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
+index fb89175..d0c0c27 100644
+--- a/meta/recipes-graphics/eglinfo/eglinfo.inc
++++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
+@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d4f33bc3add976f7dfae85dab66f03c"
+ 
+ DEPENDS = "virtual/egl"
+ 
+-SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master"
++SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master \
++           file://0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch \
++          "
+ SRCREV = "4b317648ec6cf39556a9e5d8078f605bc0edd5de"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch b/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
 new file mode 100644
-index 0000000..a461b76
+index 0000000..ca9f55c
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-Define-_POSIX_C_SOURCE-if-undefined.patch
-@@ -0,0 +1,59 @@
-+From d74b02d4653d1ea26029c2528eb93d7268b83eb3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
+@@ -0,0 +1,34 @@
++From 94b1e6daf7d70550b0e32fbb269fcf6887948d3f Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 13 Jan 2016 07:28:33 +0000
-+Subject: [PATCH] Define _POSIX_C_SOURCE if undefined
++Date: Wed, 13 Jan 2016 16:08:22 -0800
++Subject: [PATCH] Add STAGING_INCDIR to searchpath for egl headers
 +
-+typecast second argument of connect() API to use struct sockaddr*
++bcm_host.h is in standard includedir in sysroot
++add that to header search paths.
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Pending
++Upstream-Status: Submitted
 +
-+ config.c | 3 +++
-+ mdmon.c  | 2 +-
-+ msg.c    | 2 +-
-+ 3 files changed, 5 insertions(+), 2 deletions(-)
++ wscript | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/config.c b/config.c
-+index a882ed3..a675688 100644
-+--- a/config.c
-++++ b/config.c
-+@@ -63,6 +63,9 @@
-+  * but may not wrap over lines
-+  *
-+  */
-++#ifndef _POSIX_C_SOURCE
-++#define _POSIX_C_SOURCE 200809L
-++#endif
-+ 
-+ #ifndef CONFFILE
-+ #define CONFFILE "/etc/mdadm.conf"
-+diff --git a/mdmon.c b/mdmon.c
-+index ee12b7c..e4b73d9 100644
-+--- a/mdmon.c
-++++ b/mdmon.c
-+@@ -235,7 +235,7 @@ static int make_control_sock(char *devname)
-+ 	addr.sun_family = PF_LOCAL;
-+ 	strcpy(addr.sun_path, path);
-+ 	umask(077); /* ensure no world write access */
-+-	if (bind(sfd, &addr, sizeof(addr)) < 0) {
-++	if (bind(sfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-+ 		close(sfd);
-+ 		return -1;
-+ 	}
-+diff --git a/msg.c b/msg.c
-+index 754630b..45cd450 100644
-+--- a/msg.c
-++++ b/msg.c
-+@@ -170,7 +170,7 @@ int connect_monitor(char *devname)
-+ 
-+ 	addr.sun_family = PF_LOCAL;
-+ 	strcpy(addr.sun_path, path);
-+-	if (connect(sfd, &addr, sizeof(addr)) < 0) {
-++	if (connect(sfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-+ 		close(sfd);
-+ 		return -1;
-+ 	}
++diff --git a/wscript b/wscript
++index fcbb55b..cece8bf 100644
++--- a/wscript
+++++ b/wscript
++@@ -163,9 +163,10 @@ def configure_raspberrypi_device(conf, platform):
++ 	conf.check_cxx(mandatory = 1, lib = ['GLESv2', 'EGL', 'bcm_host'], uselib_store = 'EGL')
++ 	import os
++ 	sysroot = conf.options.sysroot + conf.options.prefix
+++        std_include_path = os.path.join(sysroot, 'include')
++ 	vcos_pthread_path = os.path.join(sysroot, 'include/interface/vcos/pthreads')
++ 	vcms_host_path = os.path.join(sysroot, 'include/interface/vmcs_host/linux')
++-	if not conf.check_cxx(mandatory = 0, header_name = ['vcos_platform_types.h', 'EGL/egl.h', 'bcm_host.h'], includes = [vcos_pthread_path, vcms_host_path], uselib_store = 'EGL'):
+++	if not conf.check_cxx(mandatory = 0, header_name = ['vcos_platform_types.h', 'EGL/egl.h', 'bcm_host.h'], includes = [vcos_pthread_path, vcms_host_path, std_include_path], uselib_store = 'EGL'):
++ 		conf.fatal('Check if --prefix and --sysroot are set correctly.')
++ 	conf.env['WITH_APIS'] = []
++ 	if check_gles2(conf):
 +-- 
 +2.7.0
 +
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.4.bb b/meta/recipes-extended/mdadm/mdadm_3.3.4.bb
-index 0993611..e004030 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.3.4.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.3.4.bb
-@@ -14,13 +14,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://mdadm-3.3.2_x32_abi_time_t.patch \
-            file://0001-Fix-typo-in-comparision.patch \
-            file://mdadm-fix-ptest-build-errors.patch \
-+           file://0001-Define-_POSIX_C_SOURCE-if-undefined.patch \
-            file://run-ptest \
- 	  "
- SRC_URI[md5sum] = "7ca8b114710f98f53f20c5787b674a09"
- SRC_URI[sha256sum] = "8ae5f45306b873190e91f410709b00e51997b633c072b33f8efd9f7df022ca68"
- 
- CFLAGS += "-fno-strict-aliasing"
--
- inherit autotools-brokensep
- 
- EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
 -- 
 2.7.0
 
