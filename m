@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 41DF6731BD
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 12F58731AE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:18 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id n128so142173920pfn.3
+	Sun, 17 Jan 2016 11:37:19 +0000 (UTC)
+Received: by mail-pf0-f176.google.com with SMTP id n128so142173996pfn.3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 17 Jan 2016 03:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=O5Cyfhvc+rZQJ6B3pnZ1ixiCfU+XzjakZalFIReG0bQ=;
-	b=l1yeX8vkvBRZqgWZfvNn086LgQIfo6GNrCU9rGr9ldziAHrcQMeEv+5yTDjl8R0DJt
-	L9QCt74seuYe/a3kw0nqnqs0oOBSMpxEBbumUBXPw2XGjBEcLruHNWw7ZJPvjy1emZfk
-	FPulbEEHNaBewGGy3xdgR5zTifJ2nELyojHbIqoXDv1XOJ3C+VNZggOAlE0BDeFAkfJ8
-	zIoCjkR4sQhkduLiAzMRv6yW5MeY2GN/phG4TqYwkTGY34P5dc9iaeTXtpyCiZ33Cs1R
-	yLYJgF5GSn/PQMzMs08NhfoNW7HnYLn7bM1RAp3w1DA8wQykMVFYuOO+lh5QOtDOXRwW
-	sjCg==
+	bh=nt1xYDqE3cSkBi/Oc7F3rCuUtfeCXL92fUlrytgzZbA=;
+	b=uNwDR9NyqcBT9ZeaX3pGhiATci7cKefG4rCzLc80XPmtjKjWpp7s5YRQt2aLe5tt8r
+	H1CFR6l4RJGYgfW8VSZgcqn6f48KEBpnAnH/AzuqFmcUnNNOF58w0r6YARyrk+Luy7oZ
+	LUcAOq7d/mAazZCPYFpl/wQcIe6wO9FQ0oCA5X3PWMtF0styCTPOmSqh0A+SOumMrLt4
+	xvOkc40K2+Q44WEBvK23+HD+n5PR4S02MgTeyH91O4+rHJe5JAaWxGkdnCk+0sD2rsgc
+	63QWG9V676HsV2JxycpT0TyPCc6vh3IaLFaLg4hktic1a8aGQSECoPH2CEh0B6wgtirg
+	HeZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=O5Cyfhvc+rZQJ6B3pnZ1ixiCfU+XzjakZalFIReG0bQ=;
-	b=LMrz3CjFlTwhI2y/ZGReyQPymqc7P0gHU6l5rZvY94oSePivXyJr56iTNy+GCR1m/j
-	TsfJBQjcbLvfVboTTCDq5iw1uf6u3b7HBLMnuUbl7G1F/5JQE0V5SOpzs5AyLoAFC8wy
-	9ZPA9v0iQafPvUwM0HOAcwPKpE/lsZ+elYLGmacbEawGgCSIQyOiSM0FeIGjHOqsM2a1
-	vtRLzC+1P1GVzpBT+BM/VFc/z8oMdvQXKVEf2ss8PVTW2rouY+A2TZttSlPPq8lu1X1s
-	tGPPp9mFWmazJ93We0lAXcFwUxuIxBs+EFvjAy8GjT6bZQaK3kz5VnnDLdWJkLpJHGb4
-	Q3yw==
-X-Gm-Message-State: ALoCoQm/7GcGs3XAheTESic8LWZ/+1AqDFgjJx8L/TWLBRDXFwxiyI/Gh7ciTk3s3WXL61L8MUJMKW0xSCnX4vjc7+t/cuBwZA==
-X-Received: by 10.98.18.145 with SMTP id 17mr28822657pfs.103.1453030639899;
-	Sun, 17 Jan 2016 03:37:19 -0800 (PST)
+	bh=nt1xYDqE3cSkBi/Oc7F3rCuUtfeCXL92fUlrytgzZbA=;
+	b=E6FVeXiTSEXeL8ldEpMNA2RWT5ktt2W0ITnA+5GxC4+87hD9l0ayirUI+Nmch9pRmM
+	HTnUvGy0Y6ejcGDJio79IKNMTeonZQmvOSQL3EReQk3cfoZUk1oDvv0/G4mE5o9BUqLL
+	pHGMslso4CSYwcW3l5c8rSH/G5cSEt7cb9PdsvtSduoLO1Aup6jnV69BpVz68V/ZhEZB
+	nfhH+aYGo2dKaNcwpIaPc7uA8C7r5P694GdH0LU6GJt2wKcA1xk9ySCw0zVHjB0Fs0Nx
+	rDO0S2N2TWAGMATqkPqjJVomOZdc4iJpQUsPeVpj57jWuiDVBLd6a7hRUtlbGhhr6C4N
+	OpaA==
+X-Gm-Message-State: AG10YORGyUAE6sgVViv908Vfv6+aJvNZTmsKDL1zbsNslpwZgkvt+6RHX3HKYtvxw4LssA==
+X-Received: by 10.98.42.83 with SMTP id q80mr22289626pfq.19.1453030640750;
+	Sun, 17 Jan 2016 03:37:20 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
 	ty5sm26838363pac.48.2016.01.17.03.37.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:19 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:20 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:35:54 -0800
-Message-Id: <64d7a9aa86c39b7bdaa1ae035f33a3cee3117d4f.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:35:55 -0800
+Message-Id: <ae92e4f1b2b1ce46e943903798d96a7b39a1fc85.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 21/73] net-tools: Link with libintl on uclibc
+Subject: [PATCH 22/73] libdrm: Upgrade 2.4.65 -> 2.4.66
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,146 +58,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jan 2016 11:37:19 -0000
+X-List-Received-Date: Sun, 17 Jan 2016 11:37:20 -0000
 
-libintl is needed explicitly on linker cmdline on uclibc since the APIs
-are not in libc itelf.
-
-Fix build on musl
+Fix test build failures
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../net-tools/net-tools/musl-fixes.patch           | 100 +++++++++++++++++++++
- .../net-tools/net-tools_1.60-26.bb                 |   3 +-
- 2 files changed, 102 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/net-tools/net-tools/musl-fixes.patch
+ ...tests-kms-steal-crtc-Include-sys-select.h.patch | 33 ++++++++++++++++++++++
+ .../recipes-graphics/drm/libdrm/installtests.patch | 24 +++++-----------
+ .../drm/{libdrm_2.4.65.bb => libdrm_2.4.66.bb}     |  8 ++++--
+ 3 files changed, 45 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.65.bb => libdrm_2.4.66.bb} (86%)
 
-diff --git a/meta/recipes-extended/net-tools/net-tools/musl-fixes.patch b/meta/recipes-extended/net-tools/net-tools/musl-fixes.patch
+diff --git a/meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch b/meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
 new file mode 100644
-index 0000000..f694d59
+index 0000000..c18228e
 --- /dev/null
-+++ b/meta/recipes-extended/net-tools/net-tools/musl-fixes.patch
-@@ -0,0 +1,100 @@
-+Adjust headers for non-glibc cases
-+especially exposed by musl
++++ b/meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
+@@ -0,0 +1,33 @@
++From 46fb5516fb0ab17bcf46a0306a11e8966bb36e14 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 29 Dec 2015 22:17:21 +0000
++Subject: [PATCH] tests/kms-steal-crtc: Include sys/select.h
++
++Fixes errors e.g.
++
++error: implicit declaration of function 'select'
++
++and missing definitions of FD_* defines
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
++---
++Upstream-Status: Submitted
 +
-+Index: net-tools-1.60/lib/inet6_gr.c
-+===================================================================
-+--- net-tools-1.60.orig/lib/inet6_gr.c
-++++ net-tools-1.60/lib/inet6_gr.c
-+@@ -23,7 +23,7 @@
-+ #include <string.h>
++ tests/kms/kms-steal-crtc.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/tests/kms/kms-steal-crtc.c b/tests/kms/kms-steal-crtc.c
++index 2f7f327..24d70ab 100644
++--- a/tests/kms/kms-steal-crtc.c
+++++ b/tests/kms/kms-steal-crtc.c
++@@ -31,6 +31,7 @@
 + #include <stdio.h>
-+ #include <unistd.h>
-+-#ifndef __GLIBC__
-++#ifdef HAVE_IPV6_ROUTE_H
-+ #include <netinet6/ipv6_route.h>	/* glibc doesn't have this */
-+ #endif
-+ #include "version.h"
-+Index: net-tools-1.60/lib/inet6_sr.c
-+===================================================================
-+--- net-tools-1.60.orig/lib/inet6_sr.c
-++++ net-tools-1.60/lib/inet6_sr.c
-+@@ -23,10 +23,10 @@
-+ #include <string.h>
-+ #include <stdio.h>
-+ #include <unistd.h>
-+-#ifdef __GLIBC__
-+-#include <net/route.h>
-+-#else
-++#ifdef HAVE_IPV6_ROUTE_H
-+ #include <netinet6/ipv6_route.h>	/* glibc does not have this */
-++#else
-++#include <net/route.h>
-+ #endif
-+ #include "version.h"
-+ #include "net-support.h"
-+Index: net-tools-1.60/lib/inet_sr.c
-+===================================================================
-+--- net-tools-1.60.orig/lib/inet_sr.c
-++++ net-tools-1.60/lib/inet_sr.c
-+@@ -26,6 +26,7 @@
-+ #include <string.h>
-+ #include <stdio.h>
-+ #include <unistd.h>
-++#include <asm-generic/param.h>
-+ #include "version.h"
-+ #include "net-support.h"
-+ #include "pathnames.h"
-+Index: net-tools-1.60/lib/util-ank.c
-+===================================================================
-+--- net-tools-1.60.orig/lib/util-ank.c
-++++ net-tools-1.60/lib/util-ank.c
-+@@ -14,6 +14,7 @@
-+  * Rani Assaf <rani@magic.metawire.com> 980929:	resolve addresses
-+  */
-+ 
-++#include <limits.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <unistd.h>
-+Index: net-tools-1.60/mii-tool.c
-+===================================================================
-+--- net-tools-1.60.orig/mii-tool.c
-++++ net-tools-1.60/mii-tool.c
-+@@ -47,10 +47,6 @@ static char Version[] = "$Id: mii-tool.c
-+ #include <net/if.h>
-+ #include <linux/sockios.h>
-+ 
-+-#ifndef __GLIBC__
-+-#include <linux/if_arp.h>
-+-#include <linux/if_ether.h>
-+-#endif
-+ #include "mii.h"
-+ #include "version.h"
-+ 
-+Index: net-tools-1.60/netstat.c
-+===================================================================
-+--- net-tools-1.60.orig/netstat.c
-++++ net-tools-1.60/netstat.c
-+@@ -87,6 +87,7 @@
-+ #include <dirent.h>
-+ #include <sys/stat.h>
-+ #include <sys/types.h>
-++#include <asm-generic/param.h>
-+ 
-+ #include "net-support.h"
-+ #include "pathnames.h"
-+Index: net-tools-1.60/slattach.c
-+===================================================================
-+--- net-tools-1.60.orig/slattach.c
-++++ net-tools-1.60/slattach.c
-+@@ -44,6 +44,7 @@
 + #include <string.h>
 + #include <unistd.h>
-+ #include <getopt.h>
-++#include <termios.h>
-+ #include <linux/if_slip.h>
+++#include <sys/select.h>
 + 
-+ #if defined(__GLIBC__)
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 923d048..79c7291 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20050312T000000Z/pool/main/
-            file://net-tools-config.h \
-            file://net-tools-config.make \
-            file://ifconfig-interface-0-del-IP-will-remove-the-aliased-.patch \
-+           file://musl-fixes.patch \
- 	   "
++ #include <drm_fourcc.h>
++ 
++-- 
++2.6.4
++
+diff --git a/meta/recipes-graphics/drm/libdrm/installtests.patch b/meta/recipes-graphics/drm/libdrm/installtests.patch
+index f460ef5..30e0a61 100644
+--- a/meta/recipes-graphics/drm/libdrm/installtests.patch
++++ b/meta/recipes-graphics/drm/libdrm/installtests.patch
+@@ -4,22 +4,12 @@ Upstream-Status: Inappropriate [configuration]
  
- # for this package we're mostly interested in tracking debian patches,
-@@ -30,7 +31,7 @@ SRC_URI[patch.sha256sum] = "aeeeafaff68866a446f01bb639d4e0146a60af34dcd20e31a3e4
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
+ Signed-off-by: Yu Ke <ke.yu@intel.com>
  
- inherit gettext
--
-+LDFLAGS_append_libc-uclibc = " -lintl "
- # The Makefile is lame, no parallel build
- PARALLEL_MAKE = ""
+-Index: libdrm-2.4.65/tests/Makefile.am
++Index: libdrm-2.4.66/tests/Makefile.am
+ ===================================================================
+---- libdrm-2.4.65.orig/tests/Makefile.am
+-+++ libdrm-2.4.65/tests/Makefile.am
+-@@ -29,9 +29,11 @@ AM_CFLAGS = \
+- 
+- LDADD = $(top_builddir)/libdrm.la
+- 
+--check_PROGRAMS = \
+--	dristat \
+--	drmstat
+-+bin_PROGRAMS = \
+-+        dristat \
+-+        drmstat
+-+ 
+-+check_PROGRAMS =
+- 
+- dristat_LDADD = -lm
++--- libdrm-2.4.66.orig/tests/Makefile.am
+++++ libdrm-2.4.66/tests/Makefile.am
++@@ -73,3 +73,4 @@ TESTS +=					\
++ endif
+  
++ check_PROGRAMS += $(TESTS)
+++bin_PROGRAMS = $(check_PROGRAMS)
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.65.bb b/meta/recipes-graphics/drm/libdrm_2.4.66.bb
+similarity index 86%
+rename from meta/recipes-graphics/drm/libdrm_2.4.65.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.66.bb
+index e5ed260..214dccc 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.65.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.66.bb
+@@ -11,10 +11,12 @@ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs udev libpciaccess"
+ 
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+-           file://installtests.patch "
++           file://installtests.patch \
++           file://0001-tests-kms-steal-crtc-Include-sys-select.h.patch \
++          "
+ 
+-SRC_URI[md5sum] = "de49916e5f8aef4eba55223c79709b05"
+-SRC_URI[sha256sum] = "71960ac8bde7d710992b1bc8879935e8300a870c36bd06f22412d0447e3d96c4"
++SRC_URI[md5sum] = "c6809c48538d6e5999588832045ff014"
++SRC_URI[sha256sum] = "79cb8e988749794edfb2d777b298d5292eff353bbbb71ed813589e61d2bc2d76"
+ 
+ inherit autotools pkgconfig
  
 -- 
 2.7.0
