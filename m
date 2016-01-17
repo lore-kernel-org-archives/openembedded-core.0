@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D582C76988
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FA75731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:38 +0000 (UTC)
-Received: by mail-pf0-f179.google.com with SMTP id n128so142176090pfn.3
+	Sun, 17 Jan 2016 11:37:39 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id q63so146457397pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:39 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=23z1uyB3MAS7KlBlPErpOUAsLhJfpN2wS/HlRH9G1bk=;
-	b=IPbhqC6nURb8qt6jSKJG7wpsUZji6Pb4heL+3MmpnZ2IS/HVwuA1Dmsvo4BWbl0J2e
-	/ITWzl3+2AVYukqGoSbNo53Re0q36rWegNhU3nKGYjK2d5ADMuq0LJAD75o4PBFEAJEy
-	nRPvmmLN6qPY7FaMGnM4qx9uZGDvVATwh/i1uoczsijga2ctn6pXtaIIj8htjmKSkMOv
-	FHneAzLnH6Ff+LQcV/cLNZ/26dvpI9+qqF8OTfGgf5lFGPnDVOg9b+ixg/aJdBgnZihA
-	9sPeZdDeBLsyrr4PpLf+sH85BazpBPbuDJZKQQX/LU6840J7WlRj3SAv/CmdaHkAN+lM
-	bZfQ==
+	bh=4Ej3AGoAw/++iOLZhubeuCR+bHlPKSvwP4kZxd9ky7w=;
+	b=bBqmPE16kDQELqOLJoaXCXL8LrMyyDtApWFey2LrjWKUq36l6EgIdGd/ywMiy9cuIv
+	PkdRAw40l2c05hiprv+EjTaWORd8m0AdaQF0wKCjp+pUYclC+LtFeUZLNGw+OQdjllit
+	8SJjOlrwUKOLJduZ3BBza/G7eUXVJmfHoy2NSYtOkDzri25aVQiEC4zuki6Vv7/WV/7u
+	OX6DAJO9B36VEVcKR08VGFBn8V0+CqTbNACIOR4W/giqUXQ1FOwiVz4O+KCL0xptYuky
+	SvQgawZCZ92cAiUXcBUOTwD1uDbpPWARkc3L/WJ+YB6ahP2L4cpvXR3dqHAvMDn+B4Qz
+	P7Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=23z1uyB3MAS7KlBlPErpOUAsLhJfpN2wS/HlRH9G1bk=;
-	b=iaWhyytVopzfkKj1yiQ4sVII+Ls7zmvv8xSWi4EJrCTMuGL+jKPp+/u9Wx3/HaAGjP
-	pYs8aG+i98PVtIsKwtnVmzGp0kbkF3VvgeCfkaXrdp0P0WRd7YwAYATBDXV/D3uhJjOA
-	fTGYWcsIKvVKulWkkz7FYmpQvgnbij9FcIhFa+GyfePHqTUpFfnMS6riHH0iknqRbs6c
-	3Qv9btKwd1A2V9Z6SyuoaShlQyLXrP615sartiocj3GSPHOtY6b5mC9ngE7WDcANiUKy
-	1Z1/32f//eI7UW7Aer17eRV7IcgoJvQs7YaRUSSLPaDKYLs8B7VNtp0rXB7Nb6TSDdmG
-	KSkg==
-X-Gm-Message-State: ALoCoQlL4nxybjfBU7NViePEI8d6M0aSUzJw0FA9LOEenFRRetnQLtJw3HFiO1QLv3TmB+Imdzxyz+n5Tz49UrTS5AbszyTfOA==
-X-Received: by 10.98.86.67 with SMTP id k64mr28962103pfb.50.1453030659292;
-	Sun, 17 Jan 2016 03:37:39 -0800 (PST)
+	bh=4Ej3AGoAw/++iOLZhubeuCR+bHlPKSvwP4kZxd9ky7w=;
+	b=J6szxd0hp5PT9L7TqpdmSedW+8HRMfXd2fXmbQyooZbDw1uFhQCqvAckNbIpjv/qWb
+	aT81723ogeK2TxmmVJuRGkz9XMc2jJHDm9IOpzKUXeYae2z63cz8QGFlTmRfJppr3e4h
+	iwZTdDc32dbn+BYb5P/mcPMgv7Om6JUYaLkufAi5ODWdCLwluVyDDj4qXx8t5KWfzZXM
+	CHVRnP6CC/D9oB+JLRVd/xTSCXrDrgSK454lHRe/L/R7t7p3UeP7HZH31mDFntNury5Z
+	uLMN0jS8Ceoqkbjk25j2Zf2I4gCCTV0oUUpj2pWMuyQj/uqZko+ZNWUlWQrSHinFeDuV
+	W11g==
+X-Gm-Message-State: ALoCoQlqjix2zhtQj1XGY5iC8oiqdM6MTLPeT6+S72LUDAb5RqK7UENckqNv29Wculx1cnL+H8VUzZD42ObGPptuqhZOpNBZOw==
+X-Received: by 10.98.75.4 with SMTP id y4mr28453025pfa.32.1453030660121;
+	Sun, 17 Jan 2016 03:37:40 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.38
+	ty5sm26838363pac.48.2016.01.17.03.37.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:38 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:39 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:36:16 -0800
-Message-Id: <aba25858cb060e82f164a17ac7475a2b7cbaf929.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:36:17 -0800
+Message-Id: <f2c3eff4eb560c943122656a681d4924122d662f.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 43/73] chkconfig: Avoid using caddr_t
+Subject: [PATCH 44/73] tcf-agent: Implement canonicalize_file_name() for musl as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,65 +62,75 @@ X-List-Received-Date: Sun, 17 Jan 2016 11:37:39 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../chkconfig/chkconfig/replace_caddr_t.patch      | 33 ++++++++++++++++++++++
- .../recipes-extended/chkconfig/chkconfig_1.3.58.bb |  4 ++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
+ ...nonicalize_file_name-is-specific-to-glibc.patch | 46 ++++++++++++++++++++++
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/0001-canonicalize_file_name-is-specific-to-glibc.patch
 
-diff --git a/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch b/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-canonicalize_file_name-is-specific-to-glibc.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-canonicalize_file_name-is-specific-to-glibc.patch
 new file mode 100644
-index 0000000..96d1938
+index 0000000..5f93c46
 --- /dev/null
-+++ b/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
-@@ -0,0 +1,33 @@
-+caddr_t is a legacy BSD type which was rejected by the POSIX standard.
-+Use void * instead.
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-canonicalize_file_name-is-specific-to-glibc.patch
+@@ -0,0 +1,46 @@
++From 23a3759b74d081b3b2849b0d37a0e5219f37813e Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 7 Jan 2016 22:37:48 +0000
++Subject: [PATCH] canonicalize_file_name is specific to glibc
 +
-+sys/unitstd.h is not needed and moreover its not available on all C library
-+implementations e.g. musl
++When on Linux and not using glibc then we need to define
++canonicalize_file_name() API, therefore add a check for finding out if
++its not glibc
 +
-+Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: chkconfig-1.3.58/alternatives.c
-+===================================================================
-+--- chkconfig-1.3.58.orig/alternatives.c
-++++ chkconfig-1.3.58/alternatives.c
-+@@ -22,7 +22,6 @@
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <sys/stat.h>
-+-#include <sys/unistd.h>
-+ #include <unistd.h>
++---
++Upstream-Status: Pending
++
++ agent/tcf/framework/mdep.c | 2 +-
++ agent/tcf/framework/mdep.h | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/agent/tcf/framework/mdep.c b/agent/tcf/framework/mdep.c
++index 2b52ca8..7d09655 100644
++--- a/agent/tcf/framework/mdep.c
+++++ b/agent/tcf/framework/mdep.c
++@@ -1042,7 +1042,7 @@ char * canonicalize_file_name(const char * path) {
++     return strdup(res);
++ }
 + 
-+ #define	FLAGS_TEST	(1 << 0)
-+Index: chkconfig-1.3.58/leveldb.c
-+===================================================================
-+--- chkconfig-1.3.58.orig/leveldb.c
-++++ chkconfig-1.3.58/leveldb.c
-+@@ -442,7 +442,7 @@ int parseServiceInfo(int fd, char * name
-+     fstat(fd, &sb);
++-#elif defined(__UCLIBC__)
+++#elif defined(__UCLIBC__) || !defined(__GLIBC__)
 + 
-+     bufstart = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0);
-+-    if (bufstart == ((caddr_t) -1)) {
-++    if (bufstart == ((void*) -1)) {
-+ 	close(fd);
-+ 	return -1;
-+     }
-diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-index 488847a..e839026 100644
---- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-+++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-@@ -16,7 +16,9 @@ PROVIDES += "virtual/update-alternatives"
- 
- PR = "r7"
- 
--SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2"
-+SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2 \
-+           file://replace_caddr_t.patch \
-+          "
- 
- SRC_URI[md5sum] = "c2039ca67f2749fe0c06ef7c6f8ee246"
- SRC_URI[sha256sum] = "18b497d25b2cada955c72810e45fcad8280d105f17cf45e2970f18271211de68"
++ char * canonicalize_file_name(const char * path) {
++     return realpath(path, NULL);
++diff --git a/agent/tcf/framework/mdep.h b/agent/tcf/framework/mdep.h
++index 1e718a2..187c399 100644
++--- a/agent/tcf/framework/mdep.h
+++++ b/agent/tcf/framework/mdep.h
++@@ -276,7 +276,7 @@ extern int loc_clock_gettime(int, struct timespec *);
++ 
++ #define O_BINARY 0
++ 
++-#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
+++#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__) || !defined(__GLIBC__)
++ #  define O_LARGEFILE 0
++ extern char ** environ;
++ extern char * canonicalize_file_name(const char * path);
++-- 
++2.7.0
++
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index fff81a5..ab2fcd7 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -12,6 +12,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=1.3_mars_bugfix \
+            file://fix_ranlib.patch \
+            file://ldflags.patch \
++           file://0001-canonicalize_file_name-is-specific-to-glibc.patch;striplevel=2 \
+            file://tcf-agent.init \
+            file://tcf-agent.service \
+           "
 -- 
 2.7.0
 
