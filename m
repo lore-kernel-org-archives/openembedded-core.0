@@ -1,46 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EAAF60616
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B41C773180
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 18:56:56 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id r129so7876174wmr.0
+	Sun, 17 Jan 2016 01:42:27 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 65so10102736pfd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jan 2016 10:56:57 -0800 (PST)
+	Sat, 16 Jan 2016 17:42:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=KPz09eU82Th/8cjCn584Nv2060ajqpMNuTBW3eGpo2k=;
-	b=GTpF2z3xPzEja+JblzUdeua4UWbKxpiFH7mbww/5m4svqFWJkoppYQonQtb/w0sTCi
-	0eKdIqzof4WSxtQjMKQM++ZS00r9O/qiOj1TriU1sz4H8Y8gSYum2Nz8Nqk+C4Q246PV
-	MoBAW0OOm/noeW9ENe01rAg55+NOLcow725ocQuiXSb5xMfS5toWC3OipsUnonGvB1gL
-	QPoS83dOV14SGQS/EhtPZ5O5iDZTWCVpdCTPSBZdxvielG7RmJ3jFP42BZ64YX8qWI2j
-	g0NrOKGw2jlsITQP8m8XxZWJlciBKX+EklFZGZKbyjuKVks6TL0xspNmsXo4r6ajBGa4
-	hgOA==
+	h=subject:to:references:from:cc:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=8A5P/g9GDETXmU/McuHWVUgAvkQSkmWvioc81nrL4tw=;
+	b=tw+N79qfaEtRez7ep5/S+i8B06Lh2Uo7UALM777xuFRkxiy6UQRLe51AKCNXuE5Eep
+	MC6BVfWY8kc2nOibbMicXKC2N/h5l/7fzTGPJ76vWKB2qH6l+h8XQlb9+4Rn1jJkn1GM
+	tPIVhCvDGZkUO/nsb7JCB0wc//y6asDAxa1Fzo4irCg70rlIfm3AXOgAKVR+yarmRXWj
+	wtYzJlLr8Ey8B0iEiS8i16pSnbY8eZJDle3racZeVLtCgXWbUmPyEmf7IqaHlGIP0m+3
+	fhzJASn/WTygn0O8e5Iko7ULeDW+PGbh9LK+B6aPmLu3hlElCb1Zr52dQAoRli5OVTX6
+	ZU8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=KPz09eU82Th/8cjCn584Nv2060ajqpMNuTBW3eGpo2k=;
-	b=cjqfjcpPt4GgERIhUx6o6jz8FD+//ZIcUXiJEv/D17Qo39W4EMCEKMOQDXZ2bJaGEA
-	dkvATFxC7KQ9dEq7WZPZhsqAAGJiNqUFH9BeZF926CGTXCGXV0cW/GzTf/vGeKdzIeNW
-	OG52ryVyUop6mqhl01liSC0LKhdgOd8V3F++GeZ0F6aG9o97nKi/Q4gS8QHVSACzaN7G
-	BIYgAhmSbT4XNlL3nAm3PA2gdCc9VsHQ26/KkfWVy1918Di4s/kDVmlLEU7pmfzjxuaO
-	YbVjmWKZyruD0f0Cr+hEsRVm5+8DWNVx4tOJaJa8M7Zw1jG+c/YZcpzfzcjqdEmGuB07
-	h7rA==
-X-Gm-Message-State: AG10YORLMSpA2KlkuAvf4dwsPTn8CR2unZReLlaYy0MUQlJusp+AOe3aYEAiM7sbkvYN8HqwxDYKb5qf1jV9Iw==
+	h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=8A5P/g9GDETXmU/McuHWVUgAvkQSkmWvioc81nrL4tw=;
+	b=BsWFXd1w2AWA8QgsMEUwq44dE27OEWfwvyL46w4oeyf70Dmzw/FVee1JCWAxcYCuVq
+	gzpburDdd9BQzuf5QioXas2WZoZz7kzBkdOy/yj3f/lwi6MOEySpUVpf2a0vvtNFYe8G
+	GQgpUeMAA9oTmXqR0i93+HEWwb3SckJAl5J9N+7O5gbocKRCDeWaPrLgzcRdmENRSAi4
+	/C06jgH1L2hwiyIKgFdAnCqb9hPNtWUHLLCH/KUXU0cdlv4BsC4VfGGBShznfgsiQfrM
+	nO1SjRILNPdtEn2r/uq9k8fyanx1BuCOIu4do3RKcS1K6BWw5XWFVKUdBnIPBXNo2ouw
+	1DEA==
+X-Gm-Message-State: ALoCoQkryHPSM58M62fPcAgQDkg8zp+/7TB50M9oZA/+MsWvVNt12V6iwjfqju5vpVNlex4wkce3GXFXCQy1GDdtZ1DdsSvukg==
+X-Received: by 10.98.70.17 with SMTP id t17mr25920382pfa.107.1452994948787;
+	Sat, 16 Jan 2016 17:42:28 -0800 (PST)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by smtp.gmail.com with ESMTPSA id
+	w85sm24408149pfi.13.2016.01.16.17.42.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 16 Jan 2016 17:42:27 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1452121054.7598.94.camel@linuxfoundation.org>
+From: Jonathan Liu <net147@gmail.com>
+Message-ID: <569AF17F.4080607@gmail.com>
+Date: Sun, 17 Jan 2016 12:42:23 +1100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-X-Received: by 10.28.146.8 with SMTP id u8mr4673111wmd.72.1452970617297; Sat,
-	16 Jan 2016 10:56:57 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Sat, 16 Jan 2016 10:56:57 -0800 (PST)
-In-Reply-To: <1452934910.27999.7.camel@linuxfoundation.org>
-References: <1452649638-16393-1-git-send-email-armccurdy@gmail.com>
-	<1452934910.27999.7.camel@linuxfoundation.org>
-Date: Sat, 16 Jan 2016 10:56:57 -0800
-Message-ID: <CAJ86T=WjhqxN1nbMJrAZu6m38H4Y3jSx-n9Hh+M0z=UYZ-hm3w@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] strace: clear native sysroot references from CFLAGS_FOR_BUILD etc
+In-Reply-To: <1452121054.7598.94.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/4] image.bbclass: Separate out image generation into a new task, do_image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,68 +60,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jan 2016 18:56:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 17 Jan 2016 01:42:28 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jan 16, 2016 at 1:01 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2016-01-12 at 17:47 -0800, Andre McCurdy wrote:
->> strace uses CC_FOR_BUILD to compile temporary utility apps to run as
->> part of the build process. There's no need to build those utils
->> against the native sysroot though (and things sometimes go wrong if
->> we
->> do), so clear CFLAGS_FOR_BUILD etc.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->
-> I ran this along with the other strace patches under master-next on the
-> autobuilder. We saw:
+Hi Richard,
 
-OK, I think I see real issue. Previous patch was OK, but it wasn't the
-host gcc calls seen in the log which were failing. The failure is
-actually coming from gcc commands being run from within the "mpers.sh"
-script, which don't show up directly in the do_compile log. For
-example, commands such as:
+I have issues building a core-image-minimal Raspberry Pi 2 SD image 
+after this series of patches using openembedded-core master 
+(b3b679d5be86f73d1a06c7230cb00872f0a407b5) and meta-raspberrypi master 
+(0d8e9271855ccb9bc21bdc0743f8e0f6ff0d2d5c).
 
-  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3
--mfpmath=sse --sysroot=/.../build/tmp/sysroots/qemux86-64
--DHAVE_CONFIG_H -I./linux/x86_64 -I../strace-4.11/linux/x86_64
--I./linux -I../strace-4.11/linux -I. -I../strace-4.11 -gdwarf-2 -c
--m32 mpers-m32/kernel_dirent.c -o mpers-m32/kernel_dirent.o
+| DEBUG: Executing python function set_image_size
+| DEBUG: Python function set_image_size finished
+| DEBUG: Executing shell function do_image_rpi-sdimg
+| 
+/home/build/git/pi2/build/tmp/work/raspberrypi2-custom-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.do_image_rpi-sdimg.8349: 
+line 108: do_image_rpi-sdimg: command not found
+| WARNING: 
+/home/build/git/pi2/build/tmp/work/raspberrypi2-custom-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.do_image_rpi-sdimg.8349:1 
+exit 127 from
+|   do_image_rpi-sdimg
+| ERROR: Function failed: do_image_rpi-sdimg (log file is located at 
+/home/build/git/pi2/build/tmp/work/raspberrypi2-custom-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_image_rpi-sdimg.8349)
 
-ie the 64bit cross compiler is being used to try to generate 32bit
-binaries, which it doesn't support.
+openembedded-core 38237b7ac53c416f85c4a70a61acafc3404c8b5f - ok
+openembedded-core b3b679d5be86f73d1a06c7230cb00872f0a407b5 - fails
 
-Adding multiarch to DISTRO_FEATURES might be a workaround.
+Any ideas?
 
-I'll dig around a little more to see if there are better solutions.
+Regards,
+Jonathan
 
+On 7/01/2016 9:57 AM, Richard Purdie wrote:
+> I've heard complaints from people trying to create more interesting image
+> types about how hard it is to understand the rootfs/image generation code
+> and that its a pain to develop/test/debug.
+>
+> Having looked at it myself, the internal construction of shell functions which
+> then gets passed into a multiprocessing pool is rather convoluted and it places
+> rather odd constraints on when variables are expanded. Its therefore no wonder
+> people find it confusing/complex.
+>
+> This patch starts the process of splitting this up by separating out image
+> generation from the do_rootfs task into a new do_image task.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 81971fe..77a8548 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -207,7 +207,6 @@ PACKAGE_EXCLUDE[type] = "list"
+>   
+>   fakeroot python do_rootfs () {
+>       from oe.rootfs import create_rootfs
+> -    from oe.image import create_image
+>       from oe.manifest import create_manifest
+>   
+>       # Handle package exclusions
+> @@ -244,9 +243,6 @@ fakeroot python do_rootfs () {
+>   
+>       # Generate rootfs
+>       create_rootfs(d)
+> -
+> -    # generate final images
+> -    create_image(d)
+>   }
+>   do_rootfs[dirs] = "${TOPDIR}"
+>   do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+> @@ -254,6 +250,16 @@ do_rootfs[cleandirs] += "${S}"
+>   do_rootfs[umask] = "022"
+>   addtask rootfs before do_build
+>   
+> +fakeroot python do_image () {
+> +    from oe.image import create_image
+> +
+> +    # generate final images
+> +    create_image(d)
+> +}
+> +do_image[dirs] = "${TOPDIR}"
+> +do_image[umask] = "022"
+> +addtask do_image after do_rootfs before do_build
+> +
+>   MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
+>   MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
+>   MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
+>
+>
 
-> https://autobuilder.yoctoproject.org/main/builders/ptest-x86-64/builds/
-> 251/steps/BuildImages/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
-> uilds/616/steps/BuildImages/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
-> uilds/616/steps/BuildImages_1/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
-> s/615/steps/BuildImages/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build
-> s/615/steps/BuildImages_1/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/bui
-> lds/611/steps/BuildImages_4/logs/stdio
->
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/buil
-> ds/589/steps/BuildImages_1/logs/stdio
->
-> So there is still something not right here. I've not looked into the
-> details of the issue.
->
-> Cheers,
->
-> Richard
 
