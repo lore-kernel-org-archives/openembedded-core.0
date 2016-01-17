@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F58731AE
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 77CB2731AE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:19 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id n128so142173996pfn.3
+	Sun, 17 Jan 2016 11:37:20 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id q63so146455002pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:20 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=nt1xYDqE3cSkBi/Oc7F3rCuUtfeCXL92fUlrytgzZbA=;
-	b=uNwDR9NyqcBT9ZeaX3pGhiATci7cKefG4rCzLc80XPmtjKjWpp7s5YRQt2aLe5tt8r
-	H1CFR6l4RJGYgfW8VSZgcqn6f48KEBpnAnH/AzuqFmcUnNNOF58w0r6YARyrk+Luy7oZ
-	LUcAOq7d/mAazZCPYFpl/wQcIe6wO9FQ0oCA5X3PWMtF0styCTPOmSqh0A+SOumMrLt4
-	xvOkc40K2+Q44WEBvK23+HD+n5PR4S02MgTeyH91O4+rHJe5JAaWxGkdnCk+0sD2rsgc
-	63QWG9V676HsV2JxycpT0TyPCc6vh3IaLFaLg4hktic1a8aGQSECoPH2CEh0B6wgtirg
-	HeZA==
+	bh=QU7281lhoBO+qDlSTViMEuU8SvYF96B6/H2CLOPTkl4=;
+	b=Fg/4lJ+1kesnh79dMkP60+zNBvK9KzUKfPh1eOKyvisHUxj2GJa2lWphxjFPkrFLTu
+	uK5TN4n0xb+9H2FtXp7MbtA3tE0ZzVwhOqfQjYnZUOvB12waNEglM3xz3wf0ux1OxDBf
+	PVANkcUDCNM49SZFQxYvXcRPjMZ8rlodaJko0cvztxZfSQb1XnlXZntPvl76K5lEcArE
+	+LN701geaud4gPLZPk5edzCHbuJt5DpZ47OztplHX7VaD/EpJ6cNcUc9nQ7yFgP98M/9
+	XcheDwKlbxPXydKvsPf+CyDsbSl8gE19JNt1n/0aU8cv1U4IPC074a5YzYII7zQHHZ95
+	tAQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=nt1xYDqE3cSkBi/Oc7F3rCuUtfeCXL92fUlrytgzZbA=;
-	b=E6FVeXiTSEXeL8ldEpMNA2RWT5ktt2W0ITnA+5GxC4+87hD9l0ayirUI+Nmch9pRmM
-	HTnUvGy0Y6ejcGDJio79IKNMTeonZQmvOSQL3EReQk3cfoZUk1oDvv0/G4mE5o9BUqLL
-	pHGMslso4CSYwcW3l5c8rSH/G5cSEt7cb9PdsvtSduoLO1Aup6jnV69BpVz68V/ZhEZB
-	nfhH+aYGo2dKaNcwpIaPc7uA8C7r5P694GdH0LU6GJt2wKcA1xk9ySCw0zVHjB0Fs0Nx
-	rDO0S2N2TWAGMATqkPqjJVomOZdc4iJpQUsPeVpj57jWuiDVBLd6a7hRUtlbGhhr6C4N
-	OpaA==
-X-Gm-Message-State: AG10YORGyUAE6sgVViv908Vfv6+aJvNZTmsKDL1zbsNslpwZgkvt+6RHX3HKYtvxw4LssA==
-X-Received: by 10.98.42.83 with SMTP id q80mr22289626pfq.19.1453030640750;
-	Sun, 17 Jan 2016 03:37:20 -0800 (PST)
+	bh=QU7281lhoBO+qDlSTViMEuU8SvYF96B6/H2CLOPTkl4=;
+	b=nBhtF0EITS6u5kVOBTxNxM7IMaBlrffIShbQsngAt4mXOIeBSjuZKvNSp0rGUlOBq6
+	gSNtUrc4Q6rl53DEQKKE/dqGy9ZhRPjEiu67D1RAqXJZYei5+5TtGhmlp3fJIGl8N5xH
+	Wj8N0uMhfNjdEQ8uGqDTLHOJ93GsFEFPBctAtyqclH5H1DihWQvQAovHfU2nglSsd2UZ
+	lFdyW4eo41NEKpTsh2ZnaSuyPJlJiHpw9J5n6Hl06cHRNA4bX8VuSA4QL4xNWKC8xysm
+	UphaUIU0zJrqWBKQeWJJU21RdNjvRWUW7QCq/EtrCQ/6VEmfcN9lXVdSSCI29me7IM3d
+	CCCg==
+X-Gm-Message-State: ALoCoQldZN4pq+FnuEAfMUMGSo9ZYjRJd3mrdShVvNwhlzJHzEVuFH50d98/oi+mqONmYGhrpACAQwFIb2/BHOzUEpqoqlt0Ww==
+X-Received: by 10.98.9.220 with SMTP id 89mr28576597pfj.17.1453030638991;
+	Sun, 17 Jan 2016 03:37:18 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.19
+	ty5sm26838363pac.48.2016.01.17.03.37.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:20 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:18 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:35:55 -0800
-Message-Id: <ae92e4f1b2b1ce46e943903798d96a7b39a1fc85.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:35:53 -0800
+Message-Id: <9d21dbc1ab71876c15f4d7e649ee4377c96355e8.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 22/73] libdrm: Upgrade 2.4.65 -> 2.4.66
+Subject: [PATCH 20/73] parted: Fix build with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,112 +60,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 17 Jan 2016 11:37:20 -0000
 
-Fix test build failures
+unlike glibc, uclibc does not have internal APIs implemented for
+libiconv, so it needs to depend upon libiconv
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...tests-kms-steal-crtc-Include-sys-select.h.patch | 33 ++++++++++++++++++++++
- .../recipes-graphics/drm/libdrm/installtests.patch | 24 +++++-----------
- .../drm/{libdrm_2.4.65.bb => libdrm_2.4.66.bb}     |  8 ++++--
- 3 files changed, 45 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
- rename meta/recipes-graphics/drm/{libdrm_2.4.65.bb => libdrm_2.4.66.bb} (86%)
+ meta/recipes-extended/parted/parted_3.2.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch b/meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
-new file mode 100644
-index 0000000..c18228e
---- /dev/null
-+++ b/meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
-@@ -0,0 +1,33 @@
-+From 46fb5516fb0ab17bcf46a0306a11e8966bb36e14 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 29 Dec 2015 22:17:21 +0000
-+Subject: [PATCH] tests/kms-steal-crtc: Include sys/select.h
-+
-+Fixes errors e.g.
-+
-+error: implicit declaration of function 'select'
-+
-+and missing definitions of FD_* defines
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ tests/kms/kms-steal-crtc.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tests/kms/kms-steal-crtc.c b/tests/kms/kms-steal-crtc.c
-+index 2f7f327..24d70ab 100644
-+--- a/tests/kms/kms-steal-crtc.c
-++++ b/tests/kms/kms-steal-crtc.c
-+@@ -31,6 +31,7 @@
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <unistd.h>
-++#include <sys/select.h>
-+ 
-+ #include <drm_fourcc.h>
-+ 
-+-- 
-+2.6.4
-+
-diff --git a/meta/recipes-graphics/drm/libdrm/installtests.patch b/meta/recipes-graphics/drm/libdrm/installtests.patch
-index f460ef5..30e0a61 100644
---- a/meta/recipes-graphics/drm/libdrm/installtests.patch
-+++ b/meta/recipes-graphics/drm/libdrm/installtests.patch
-@@ -4,22 +4,12 @@ Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index ff8ae09..30c00c8 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
+ SECTION = "console/tools"
+-DEPENDS = "ncurses readline util-linux"
++DEPENDS = "ncurses readline util-linux virtual/libiconv"
+ PR = "r1"
  
- Signed-off-by: Yu Ke <ke.yu@intel.com>
+ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+@@ -21,6 +21,7 @@ SRC_URI[md5sum] = "0247b6a7b314f8edeb618159fa95f9cb"
+ SRC_URI[sha256sum] = "858b589c22297cacdf437f3baff6f04b333087521ab274f7ab677cb8c6bb78e4"
  
--Index: libdrm-2.4.65/tests/Makefile.am
-+Index: libdrm-2.4.66/tests/Makefile.am
- ===================================================================
----- libdrm-2.4.65.orig/tests/Makefile.am
--+++ libdrm-2.4.65/tests/Makefile.am
--@@ -29,9 +29,11 @@ AM_CFLAGS = \
-- 
-- LDADD = $(top_builddir)/libdrm.la
-- 
---check_PROGRAMS = \
---	dristat \
---	drmstat
--+bin_PROGRAMS = \
--+        dristat \
--+        drmstat
--+ 
--+check_PROGRAMS =
-- 
-- dristat_LDADD = -lm
-+--- libdrm-2.4.66.orig/tests/Makefile.am
-++++ libdrm-2.4.66/tests/Makefile.am
-+@@ -73,3 +73,4 @@ TESTS +=					\
-+ endif
-  
-+ check_PROGRAMS += $(TESTS)
-++bin_PROGRAMS = $(check_PROGRAMS)
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.65.bb b/meta/recipes-graphics/drm/libdrm_2.4.66.bb
-similarity index 86%
-rename from meta/recipes-graphics/drm/libdrm_2.4.65.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.66.bb
-index e5ed260..214dccc 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.65.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.66.bb
-@@ -11,10 +11,12 @@ PROVIDES = "drm"
- DEPENDS = "libpthread-stubs udev libpciaccess"
+ EXTRA_OECONF = "--disable-device-mapper"
++LDFLAGS_append_libc-uclibc = " -liconv "
  
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
--           file://installtests.patch "
-+           file://installtests.patch \
-+           file://0001-tests-kms-steal-crtc-Include-sys-select.h.patch \
-+          "
- 
--SRC_URI[md5sum] = "de49916e5f8aef4eba55223c79709b05"
--SRC_URI[sha256sum] = "71960ac8bde7d710992b1bc8879935e8300a870c36bd06f22412d0447e3d96c4"
-+SRC_URI[md5sum] = "c6809c48538d6e5999588832045ff014"
-+SRC_URI[sha256sum] = "79cb8e988749794edfb2d777b298d5292eff353bbbb71ed813589e61d2bc2d76"
- 
- inherit autotools pkgconfig
+ inherit autotools pkgconfig gettext texinfo ptest
  
 -- 
 2.7.0
