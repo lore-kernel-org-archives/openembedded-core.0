@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id D3AD47391A
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6DC76DBC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:36 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id yy13so325930266pab.3
+	Sun, 17 Jan 2016 11:37:37 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id 65so142174441pff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:37 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=hOA/Iid3+ixYQWFNswb2iyqhmFYBvOsDq4nM8hUXMuE=;
-	b=vAGzti1f0JCWXQ14ylmmMG+qU3C46MOyOvaGSaxzJtUzsRXoXAoXhDGJTlYdM0PS5E
-	zxtJNnP/p0jVGm734YgKfOfwbONPcaZm2o94SJTU1qGaZXBCgtQMIyU5XgPwAaAzBxqX
-	eO6Fn1bqnXL+0/JkCaOYqi0qdNBuIbtAE+Dkcuo0EoXnI1T7UHudqTrWmY+NfsmmeyI+
-	nRHeR47Q/1/Csn8uOt86jdfQbam6qycsB2txVQ4fEcCCnVN57AVicw7SwHZotW4ljzCo
-	QUekEABDNuu8wq1u8cbqHvo8OsO31FvDcq+xMyqwyoQ46oqRc17vDUyrAJOeC2qFgXG3
-	ND+A==
+	bh=PFmPMXnLhYCeeJtrnDY4krMYirY7+yDXIRX2YIyzuQU=;
+	b=inA4roiLTvNFKEE8rX5BU/0Kg3oU5NWqcvnyLgIOS+ArXDT0OCKANRFnTwlI/bNUbj
+	Id+UlO2VlfujSPiS/k6reyAZszC1ldxyYIPYBe5m5XlHbnJtnQTYlvEXPa0H3AwLJyON
+	BwWJutfA01gUte8eyI1625KoiK1QQWO2aVtkz0X+94pGSDiV1lR7KyOPOGEV9vhrRK4t
+	ZLIVptnNW8MMSuO4uAabhzPVEVgm2OZ6bIZTkp+CnKHqcUKDFizhWZE7XXZAmJhR4ivn
+	a5o9zZ6tszOJE45Qs/iPWO/gFEhHDLON7TEk/XhCgqtiGKpPKzzzQvmmPwZa9siqc2vj
+	3+FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=hOA/Iid3+ixYQWFNswb2iyqhmFYBvOsDq4nM8hUXMuE=;
-	b=S5QyJKEs35qUcVyh6WwU8xTWQgGbtIc9dTeKyPs98m3mZJT0O+B4dggoB94ls9tGNQ
-	XuZOn9qIEI13RW8jHPJN5uZsalM7iMCayV1v8S7M4XjVGFhN+q0V8AQBAhDcSdmhyI1B
-	36htC3rmtaENVibZHaL+cUNrRCwb67FbJ5nwkaegL9U6Xgq/hWAXumO6/PQRBm/Omvir
-	gPw1at5Vv6dfx88POkr7PIkcomFVAWNFJ9Yg1XyRq9a5zuVPPQlANBO4GDotBEK1w6AH
-	Uhn+m717z76MUE+6+nghXWX5O83P8XKXdr9KMSHsI3JdiXaan9u/uGl6WJp7U/V9UjH9
-	0Qnw==
-X-Gm-Message-State: ALoCoQkU/BclmNnwxetmQFHYrHZ4HtcbqL0RvHGYffQqaDdzAn99e53vg7IJvru70Bj+tbPzQQwzpRdufa8oAOtH6L1Ij/Jr8w==
-X-Received: by 10.66.220.170 with SMTP id px10mr28696592pac.145.1453030657486; 
-	Sun, 17 Jan 2016 03:37:37 -0800 (PST)
+	bh=PFmPMXnLhYCeeJtrnDY4krMYirY7+yDXIRX2YIyzuQU=;
+	b=EOaZMDsvrysKCuJPfImcc5GOlS8baekNcQXVwAaun/x9ir4EOpNwf4tKfHA+d4sLOd
+	Uz8FoemUYDltTprHivwMGrjwWWrXaytD0pbBj2GBmcGjptQv3c0k+ZCs8mxkqTpKAWbm
+	ArCSZ1nt8gAfNqgDCbi5go37WcPJhhs6iBfs77Ur+wuQlOAyyZ9y8mCGYoyn2erz6rV2
+	vb26TKy13DE4LruOBviGzsm590JArh0jgSxmrTjwspaUe8SKvmT+mJuv67um5henisLf
+	RziCcDhDAh3E1YeOn/Ap0brCUom7gIiSCnmqto7XLPlthmh4+qOsAixV6JNJIGAo0W77
+	cXNA==
+X-Gm-Message-State: ALoCoQlCT1zblAaWGdWJoYEXT7VWEa+HSVAZ1r8K41hQTkkw9KyBF/9HGClhh4v0h9Q/pj+0Dq+mKVKjaFOG/v/waGRTSmMGQQ==
+X-Received: by 10.98.69.209 with SMTP id n78mr27839837pfi.81.1453030658373;
+	Sun, 17 Jan 2016 03:37:38 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.36
+	ty5sm26838363pac.48.2016.01.17.03.37.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:36 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:37 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:36:14 -0800
-Message-Id: <e677553dde1a7508f94329231aab89a7dfbd7755.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:36:15 -0800
+Message-Id: <6dc97210679f497c730fe667a18ef03595236c1f.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 41/73] irda-utils: Fix header inclusions
+Subject: [PATCH 42/73] nspr: Drop older glibc code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,62 +60,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 17 Jan 2016 11:37:37 -0000
 
-Helps compile with musl
+This was not only getting included for libc5 but also for not-glibc libc
+implementations e.g. musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../irda-utils/irda-utils-0.9.18/musl.patch        | 29 ++++++++++++++++++++++
- .../irda-utils/irda-utils_0.9.18.bb                |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
+ ...001-Remove-the-check-for-LINUX-glibc-case.patch | 35 ++++++++++++++++++++++
+ meta/recipes-support/nspr/nspr_4.11.bb             |  9 ++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch
 
-diff --git a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
+diff --git a/meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch b/meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch
 new file mode 100644
-index 0000000..97eb975
+index 0000000..5b17355
 --- /dev/null
-+++ b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
-@@ -0,0 +1,29 @@
-+Replace use of <net/if_packet.h> with <linux/if_packet.h>.
++++ b/meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch
+@@ -0,0 +1,35 @@
++From 9b9c95e0390395c7e9ad24a882deb87a50846059 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 8 Aug 2015 17:10:34 -0700
++Subject: [PATCH] Remove the check for LINUX == glibc case
 +
-+kernel headers <linux/if_packet.h> already provides the
-+needed definitions, moreover not all libc implementations
-+provide if_packet.h e.g. musl
++Here it does not consider the case where musl can be an options it does
++consider the bionic case with !defined(ANDROID) but musl does not define
++and musl'ism defines like that
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
 +Upstream-Status: Pending
 +
-+Index: irda-utils-0.9.18/irdaping/irdaping.c
-+===================================================================
-+--- irda-utils-0.9.18.orig/irdaping/irdaping.c
-++++ irda-utils-0.9.18/irdaping/irdaping.c
-+@@ -33,7 +33,6 @@
-+ #include <sys/socket.h>
-+ #include <sys/ioctl.h>
-+ #include <net/if.h>		/* For struct ifreq */
-+-#include <net/if_packet.h>	/* For struct sockaddr_pkt */
-+ #include <net/if_arp.h>		/* For ARPHRD_IRDA */
-+ #include <netinet/if_ether.h>	/* For ETH_P_ALL */
-+ #include <netinet/in.h>		/* For htons */
-+@@ -46,6 +45,7 @@
-+ #include <asm/byteorder.h>	/* __cpu_to_le32 and co. */
++ pr/src/misc/prnetdb.c | 5 +----
++ 1 file changed, 1 insertion(+), 4 deletions(-)
++
++diff --git a/pr/src/misc/prnetdb.c b/pr/src/misc/prnetdb.c
++index b86248f..dc83a56 100644
++--- a/pr/src/misc/prnetdb.c
+++++ b/pr/src/misc/prnetdb.c
++@@ -61,10 +61,7 @@ PRLock *_pr_dnsLock = NULL;
++ #define _PR_HAVE_GETPROTO_R_POINTER
++ #endif
 + 
-+ #include <linux/types.h>	/* For __u8 and co. */
-++#include <linux/if_packet.h>	/* For struct sockaddr_pkt */
-+ #include <irda.h>
-+ 
-+ #ifndef AF_IRDA
-diff --git a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
-index bd2f815..11b2ee9 100644
---- a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
-+++ b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
-@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://irdadump/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f
++-#if defined(SOLARIS) || (defined(BSDI) && defined(_REENTRANT)) \
++-	|| (defined(LINUX) && defined(_REENTRANT) \
++-        && !(defined(__GLIBC__) && __GLIBC__ >= 2) \
++-        && !defined(ANDROID))
+++#if defined(SOLARIS) || (defined(BSDI) && defined(_REENTRANT))
++ #define _PR_HAVE_GETPROTO_R
++ #define _PR_HAVE_GETPROTO_R_POINTER
++ #endif
++-- 
++2.1.4
++
+diff --git a/meta/recipes-support/nspr/nspr_4.11.bb b/meta/recipes-support/nspr/nspr_4.11.bb
+index 3048641..3dabcb6 100644
+--- a/meta/recipes-support/nspr/nspr_4.11.bb
++++ b/meta/recipes-support/nspr/nspr_4.11.bb
+@@ -13,6 +13,15 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/irda/irda-utils-${PV}.tar.gz \
-            file://ldflags.patch \
-+           file://musl.patch \
-            file://init"
+ SRC_URI += "file://nspr.pc.in"
  
- SRC_URI[md5sum] = "84dc12aa4c3f61fccb8d8919bf4079bb"
++CACHED_CONFIGUREVARS_append_libc-musl = " CFLAGS='${CFLAGS} -D_PR_POLL_AVAILABLE \
++                                          -D_PR_HAVE_OFF64_T -D_PR_INET6 -D_PR_HAVE_INET_NTOP \
++                                          -D_PR_HAVE_GETHOSTBYNAME2 -D_PR_HAVE_GETADDRINFO \
++                                          -D_PR_INET6_PROBE'"
++
++SRC_URI_append_libc-musl = "\
++        file://0001-Remove-the-check-for-LINUX-glibc-case.patch \
++        "
++
+ UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
+ UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
+ 
 -- 
 2.7.0
 
