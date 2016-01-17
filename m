@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 38B4E731C0
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 25C4C731FA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 11:37:31 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id n128so142175289pfn.3
+	Sun, 17 Jan 2016 11:37:32 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id yy13so325929766pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jan 2016 03:37:32 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=rcg1WeisGPNTF9TdNP+mIfx7vhL5vqCMSyX7OvXk69I=;
-	b=WMJfGqvLKsRiIAQOnYSDDfcPrEJYyIpFFX/CujsDFnAImdrwSqIBB7t6AYhpYkG+Ai
-	D+oGSlYHpDfuVAYEUxSBJ6bDIlK6z4F3MgRIZzJRIVqpcX0vzW7Fi4nI4v82gZO31KaS
-	KJLAncg7vjjJOcXE7mFpDHdd0K7LCVPmRhjX8gx1cTguW6QWBhg5UHv/4kgygqGplwHH
-	t7g4uiL/jq5xErcbMalyO2fio+vp4rMNOKPBIcj+h2DZMMThNzFli3QhqNbHYZhg7JWq
-	QlV58j6Qgu+FEbemA5QFVBa9rjBXpAZNuw06vLbCJmwouqkmCe4/WPotWY2F6X/quv1y
-	RfwA==
+	bh=IN0/bMFAeVMuXEZ3x5qGD48Cmm9EfByBxxavhyMwPkg=;
+	b=n6GOlOJPFYL5PCZc6VZWHvk1eF4INC+MboAyzBJVfDGmMNffB+YLHG7Ud+IpvzIzYw
+	gk6XKHO9U92UG2AVcbKicfqMU53YX0pfgVFtMLzH5ltTI53Ey1oDvXq6rV5XiEY7VkAE
+	fAXfTS0nftFeUcX9JhJIe9mrTbUVE/zQffcluqeVGalpfrhJOlmnpJnj5cCrYDkUzGfk
+	ROXDnWo+FMS9NuTL0l1QLrfvVvYa9wCmSLDrQUqi5xoRMnBwwOa9bj9HSJ2+S/dm4nwA
+	/Vz+G4ARempVt9aD0GbecTy2p0d8Ox26JzJ2GjPziVk+ZW2JQmCY7jSXqav48ND43Use
+	TzjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=rcg1WeisGPNTF9TdNP+mIfx7vhL5vqCMSyX7OvXk69I=;
-	b=C0pnotPvY6qdfU6JPAvFqm23I9xTaWYFfKQwf8k4q0/5zvK4IihITActFxunY1VlrC
-	ZsPfWN4csHUoNRjUW0KezCA+Q5SaeV+8kFXP0+E6wXEtwSFlfUvyH3whcgmuQg8pWXsE
-	ZXUsEjYmntRr3SAE/eSgyTSfHwjl4WrIOuK3LCdt08yB0wQi6bOXte63L8Y+p97j3yoG
-	oeS/OsTkIM+lUkQqsTtceEULGjCDnVYvWo2Bq2Enaqy1hUzheZmc1qrEbkarGc1swYhB
-	HYH3fJ5aY6QkIjvHn2FPw5L7H6ZCodFEDAXWZyUjJyUzcrtP0yjABPrhwemm0iXTLVgN
-	8dUw==
-X-Gm-Message-State: ALoCoQlkce36r7T7GHUgQzrNcABr7J+oZXu2KLpYKVyrF834Cx05mTbPTjCT9huAjonKoHZzshWVdmVdOWoOlLQjDBSq9Xi7FQ==
-X-Received: by 10.98.67.135 with SMTP id l7mr28720331pfi.148.1453030652286;
-	Sun, 17 Jan 2016 03:37:32 -0800 (PST)
+	bh=IN0/bMFAeVMuXEZ3x5qGD48Cmm9EfByBxxavhyMwPkg=;
+	b=hNulHiGpRo85kc6vmbc1Qf6pf+taYGosfoHjyeAqddvjnouCRaXpTMUWMX2TMUIoUx
+	CzM4ndw48LtwGxGq12Ymzt29+8cDP7dC0j6fUUMd7I6H1/JQ79gL9LC9K2UyzSwb/CkS
+	/iv8WMN3IhQaUWULEcrIYaozXVNC0+h7TwwmyS5gAWFL3XlxZYyLTLTmacryVyhEnlpD
+	kOu7n/7y5e6dz3kNTrzF2koynT1rXT3DxCewj8y0bUHlZO00Cf+IvCSYf+1p13Y2xeax
+	gwbap2t33FLGRdDNsBSaSLr3KPCYejTRvKHglkexO5q2Ilz0m51wKmfXdLxnlnAWDjBy
+	O6eA==
+X-Gm-Message-State: ALoCoQlVhhPKSg0jXwbfkMTaCqZLoBcRt7NwPZ/cvElAedJiyiSPOD5KTwQLXQ7ruX151U1Jb/imZmEsz1JEjRPGykTsxDj+Yw==
+X-Received: by 10.67.1.69 with SMTP id be5mr27890447pad.6.1453030653205;
+	Sun, 17 Jan 2016 03:37:33 -0800 (PST)
 Received: from arch.hsd1.ca.comcast.net (c-73-252-206-77.hsd1.ca.comcast.net.
 	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	ty5sm26838363pac.48.2016.01.17.03.37.31
+	ty5sm26838363pac.48.2016.01.17.03.37.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Jan 2016 03:37:31 -0800 (PST)
+	Sun, 17 Jan 2016 03:37:32 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jan 2016 03:36:08 -0800
-Message-Id: <467729f751cbfa91f08647a40f075f8f1ddae146.1453029952.git.raj.khem@gmail.com>
+Date: Sun, 17 Jan 2016 03:36:09 -0800
+Message-Id: <5e74a39b03c25135b2223e856ce2afb0d1f199f9.1453029952.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-Subject: [PATCH 35/73] rt-tests: Fix build with non-gcc compilers
+Subject: [PATCH 36/73] tar: Fix build for musl based targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +58,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jan 2016 11:37:31 -0000
+X-List-Received-Date: Sun, 17 Jan 2016 11:37:32 -0000
 
-Makery hard sets CC to be some form of gcc, make it set only if CC
-variable is absent in environment.
+It only considered linux-gnu hosts when cross compiling
+here we add linux-musl to the mix as well
+
+Fixes errors e.g.
+
+1.28-r0/tar-1.28/src/tar.c:1351:5: error: 'SAVEDIR_SORT_INODE'
+undeclared here (not in a function)
+|      SAVEDIR_SORT_INODE
+|      ^
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...t-CC-AR-variable-only-if-it-doesn-t-have-.patch | 30 ++++++++++++++++++++++
- meta/recipes-rt/rt-tests/rt-tests_0.96.bb          |  3 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
+ meta/recipes-extended/tar/tar/musl_dirent.patch | 19 +++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.28.bb           |  6 ++++++
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/musl_dirent.patch
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
+diff --git a/meta/recipes-extended/tar/tar/musl_dirent.patch b/meta/recipes-extended/tar/tar/musl_dirent.patch
 new file mode 100644
-index 0000000..00fcc7d
+index 0000000..b0dc16c
 --- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
-@@ -0,0 +1,30 @@
-+From 9640dde4241e1314b8e8ea35b0c8dab0b30ae51f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 3 Jan 2016 10:50:56 -0800
-+Subject: [PATCH] Makefile: Set CC/AR variable only if it doesn't have a value
-+
-+This helps it compile with clang or any other compilers besides gcc
++++ b/meta/recipes-extended/tar/tar/musl_dirent.patch
+@@ -0,0 +1,19 @@
++musl has valid d_ino implementation
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
++Upstream-Status: Pending
 +
-+ Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 1e4b7d1..2c2d396 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -1,6 +1,6 @@
-+ VERSION = 0.96
-+-CC=$(CROSS_COMPILE)gcc
-+-AR=$(CROSS_COMPILE)ar
-++CC?=$(CROSS_COMPILE)gcc
-++AR?=$(CROSS_COMPILE)ar
-+ 
-+ OBJDIR = bld
-+ 
-+-- 
-+2.6.4
-+
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.96.bb b/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
-index 7d70392..2f96fea 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
-@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
- require rt-tests.inc
- inherit ptest
++Index: tar-1.28/m4/d-ino.m4
++===================================================================
++--- tar-1.28.orig/m4/d-ino.m4
+++++ tar-1.28/m4/d-ino.m4
++@@ -40,7 +40,8 @@ AC_DEFUN([gl_CHECK_TYPE_STRUCT_DIRENT_D_
++            [gl_cv_struct_dirent_d_ino=no],
++            [case "$host_os" in
++                            # Guess yes on glibc systems with Linux kernel.
++-              linux*-gnu*) gl_cv_struct_dirent_d_ino="guessing yes" ;;
+++              linux*-gnu*|linux*-musl*)
+++                           gl_cv_struct_dirent_d_ino="guessing yes" ;;
++                            # If we don't know, assume the worst.
++               *)           gl_cv_struct_dirent_d_ino="guessing no" ;;
++             esac
+diff --git a/meta/recipes-extended/tar/tar_1.28.bb b/meta/recipes-extended/tar/tar_1.28.bb
+index 8816000..518e622 100644
+--- a/meta/recipes-extended/tar/tar_1.28.bb
++++ b/meta/recipes-extended/tar/tar_1.28.bb
+@@ -7,6 +7,12 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--SRC_URI += "file://run-ptest \
-+SRC_URI += "file://0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch \
-+            file://run-ptest \
-             file://rt_bmark.py \
+ SRC_URI += "file://remove-gets.patch \
++            file://musl_dirent.patch \
             "
- # Do not install hwlatdetect
+ SRC_URI[md5sum] = "8f32b2bc1ed7ddf4cf4e4a39711341b0"
+ SRC_URI[sha256sum] = "60e4bfe0602fef34cd908d91cf638e17eeb09394d7b98c2487217dc4d3147562"
++
++do_install_append_libc-musl() {
++	rm -f ${D}${libdir}/charset.alias
++	rmdir ${D}${libdir}
++}
 -- 
 2.7.0
 
