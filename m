@@ -1,32 +1,61 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id ED3246FFCD
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E456FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 10:04:53 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2016 02:04:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,312,1449561600"; d="scan'208";a="635411801"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2016 02:04:53 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0DF362C8002;
-	Mon, 18 Jan 2016 02:52:48 -0800 (PST)
-Date: Mon, 18 Jan 2016 10:08:23 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Joshua Lock <joshua.g.lock@intel.com>
-Message-ID: <20160118080823.GA9555@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1452519231-13332-1-git-send-email-joshua.g.lock@intel.com>
+	Mon, 18 Jan 2016 10:10:51 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id n5so55556066wmn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jan 2016 02:10:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=IIWbpO6FHf62j8C/n49eanVQuLu8nwD6161FgZmn+co=;
+	b=J48QqD38X6oayYBI1n8FUbFrn1oFhp7EVSLr8DnqjoQ2lkQVKAZmFAOasvl6EpS/ho
+	uiaONlSMQiqXgCMGOu6cNfLNh7KUV3YFZVU1j7S/GkIDIn8/SSgd1ggW2IIdBufBJtWj
+	1Zgy3TUrFV0ZUvUJjmy+ua9f5uAFfAeM+b6jXa46YK2yUmcMKcvxrC0+dTsvARqrTacU
+	z7VToBKsZTPrPb90UZnwmpUqScwmGgIYONqEN9MCHJsynkyIR3rOFKbHwipO+vZAsj7H
+	H+ElU1mi2sPzjjrCGMxovtOlwFFnvosVyc8rkUKikJbdEKKZ6bn+0w+l4CsCrnwxxU94
+	MfTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=IIWbpO6FHf62j8C/n49eanVQuLu8nwD6161FgZmn+co=;
+	b=V3PBDikBgzr8tLMDyvgUp+lEY7EEkS9VpmK2+BsBoznmJaz2OLtu/tdo/pU/ezzCWc
+	AwORcq3f66MZxb+sFy+7vWq20MTw6A6Qx2Cm+UHfaf8pXyF+96ZpNQwA6Kj/Jlkh5nZg
+	AxBqVf2cUKB0csp41JmzJ6XzjV+XLseXdB/Vy7fNKrON6/uxbefRFoWH/JzmWQvtAohT
+	HrBEKjCJjDke539F35NVZP0o5/GuNuuCOsXRYsgGpva/g+5PVC1i7HswixDqPKK/unpY
+	/km9jsD/x8yMBjIqhwYRBWTi+A2ndGwnhxcC1h1275M3Hn35T+CiKLQHqPXwNdxQyV54
+	g3DA==
+X-Gm-Message-State: ALoCoQnXhQrzZ1Zk3VZT04H8qs7nZLiF/BkBv2sGAuqtNTpjum+pTHTuALWNx1Xc3WdP5hTcUHfqWGQkX8NQ9pYE70kg61oYbA==
+X-Received: by 10.194.79.37 with SMTP id g5mr25158899wjx.89.1453111852130;
+	Mon, 18 Jan 2016 02:10:52 -0800 (PST)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by smtp.googlemail.com with ESMTPSA id
+	r10sm23048752wjz.24.2016.01.18.02.10.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 18 Jan 2016 02:10:51 -0800 (PST)
+To: Koen Kooi <koen@dominion.thruhere.net>,
+	Otavio Salvador <otavio@ossystems.com.br>
+References: <5698E002.5090800@dresearch-fe.de>
+	<1452863169.28375.161.camel@linuxfoundation.org>
+	<5698F31E.1020905@dresearch-fe.de> <56990180.9080407@dresearch-fe.de>
+	<6AFD6AF0-3B94-44BB-BAA0-30EBB9747193@dominion.thruhere.net>
+	<569CA241.20805@dresearch-fe.de>
+	<F620CA2D-BA83-436A-B7D4-EA0C117154D9@dominion.thruhere.net>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <569CBA29.60301@dresearch-fe.de>
+Date: Mon, 18 Jan 2016 11:10:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.0
 MIME-Version: 1.0
-In-Reply-To: <1452519231-13332-1-git-send-email-joshua.g.lock@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wic/help.py: document requirements for valid fstab generation
+In-Reply-To: <F620CA2D-BA83-436A-B7D4-EA0C117154D9@dominion.thruhere.net>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: fido -> jethro switching problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,57 +68,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 10:04:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Jan 2016 10:10:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hi Joshua,
+On 18.01.2016 09:41, Koen Kooi wrote:
+>> Op 18 jan. 2016, om 09:28 heeft Steffen Sledz <sledz@dresearch-fe.de> het volgende geschreven:
+>> On 15.01.2016 15:29, Koen Kooi wrote:
+>>>> Op 15 jan. 2016 om 15:26 heeft Steffen Sledz <sledz@dresearch-fe.de> het volgende geschreven:
+>>>> It seems that all machines based on armv5e are affected.
+>>>
+>>> FWIW, I'm seeing the same problem. The last time it happened it was due to the fixup angstrom does for broken arm BSPs
+>>
+>> What commits do you talking about ("last time it happened")?
+>>
+>> https://github.com/Angstrom-distribution/meta-angstrom/commit/7f3d898930077710dfa42150882bce60d437af7d ?
+>> https://github.com/Angstrom-distribution/meta-angstrom/commit/4b2e8ecb9a82109022727f6d80b8db56ae493fe8 ?
+>>
+>> Or something else?
+> 
+> Yes, those ones. 
 
-Thank you for the patch!
+If I understand right you only introduced an own DEFAULTUNE override for angstrom to work around the problem. Right?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Did you identify the parts of meta-fsl-arm which were responsible for these problems?
 
-On Mon, Jan 11, 2016 at 01:33:51PM +0000, Joshua Lock wrote:
-> Without one of the --ondrive, --ondisk or --use-uuid options for a
-> partition with a mountpoint specified the automatically generated
-> fstab entry will be invalid.
-> 
-> [YOCTO #8844]
-> 
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> ---
->  scripts/lib/wic/help.py | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index be334e7..f5587bb 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -629,6 +629,13 @@ DESCRIPTION
->         If a <mountpoint> is not specified the partition will be created
->         but will not be mounted.
->  
-> +       Partitions with a <mountpoint> specified will be automatically mounted.
-> +       This is achieved by wic adding entries to the fstab during image
-> +       generation. In order for a valid fstab to be generated one of the
-> +       --ondrive, --ondisk or --use-uuid partition options must be used for
-> +       each partition that specifies a mountpoint.
-> +
-> +
->         The following are supported 'part' options:
->  
->           --size: The minimum partition size. Specify an integer value
-> -- 
-> 2.5.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Steffen
+
+PS: Hi Otavio, I've added you to this discussion as the official meta-fsl-arm maintainer.
 
 -- 
---
-Regards,
-Ed
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
