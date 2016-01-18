@@ -1,27 +1,44 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FDAB60621
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 404BF6FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 15:50:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Jan 2016 07:50:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,312,1449561600"; d="scan'208";a="729560699"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.154])
-	([10.219.5.154])
-	by orsmga003.jf.intel.com with ESMTP; 18 Jan 2016 07:50:44 -0800
-To: poky@yoctoproject.org
-References: <cover.1452808370.git.anibal.limon@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <569D0A3D.2030102@linux.intel.com>
-Date: Mon, 18 Jan 2016 09:52:29 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon, 18 Jan 2016 16:12:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D45A5180BF;
+	Mon, 18 Jan 2016 17:12:50 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id b4hkOLdxyFLe; Mon, 18 Jan 2016 17:12:50 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 42429180B6;
+	Mon, 18 Jan 2016 17:12:50 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id EB9511477;
+	Mon, 18 Jan 2016 17:12:49 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id DF5181387;
+	Mon, 18 Jan 2016 17:12:49 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id D64373424A;
+	Mon, 18 Jan 2016 17:12:49 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0; Mon, 18 Jan 2016
+	17:12:49 +0100
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 8C9CB9C724; 
+	Mon, 18 Jan 2016 17:12:49 +0100 (CET)
+Date: Mon, 18 Jan 2016 17:12:49 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160118161249.GQ31212@axis.com>
+References: <20160118124428.GK31212@axis.com>
+	<1453127827.27999.64.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <cover.1452808370.git.anibal.limon@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] ptest-runner2 C implementation
+In-Reply-To: <1453127827.27999.64.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: PV from filename, not reflected in siginfo?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +51,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 15:50:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Jan 2016 16:12:52 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
+On 16-01-18 14:37 +0000, Richard Purdie wrote:
+> On Mon, 2016-01-18 at 13:44 +0100, Olof Johansson wrote:
+> > Hi,
+> > 
+> > I'm currently investigating reports of bitbake not correctly
+> > handling a type of change to a recipe, where the only change is a
+> > filename rename to update the PV.
+...
+> > Is this a known issue? Any ideas on how to solve this? Nicer
+> > workarounds?
+> 
+> It isn't known but I can imagine how this could cause a problem.
+> 
+> I suspect (but am guessing) that:
+> 
+> PV[vardepvalue] = "${PV}"
+> 
+> might happen to fix this...
 
-ping...
+Indeed, that works! Thanks a lot! It's not completely obvious to
+me why it works, but I'm guessing that this is just a way to make
+sure PV is expanded before siginfo is dumped?
 
-On 01/14/2016 04:27 PM, Aníbal Limón wrote:
-> This is the changes that adds new ptest-runner2 C implementation a detail
-> description exists in the recipe adding.
-> 
-> You can review the ptest-runner2 code on [1], i wrote unit tests for all
-> the code using check framework also i used mtrace for found possible memory leaks.
-> 
-> Finally i tested the new runner on qemux86, qemuarm, qemumips, qemuppc using
-> core-image-minimal and qemux86/poky-tiny/core-image-minimal.
-> 
-> [YOCTO #8021]
-> 
-> [1] https://github.com/alimon/ptest-runner2
-> 
-> The following changes since commit 92cc02fe517bad0af4e493fda3331738cbcc9a26:
-> 
->   linux-yocto: Update Genericx86* BSPs to 4.1.15 (2016-01-14 15:18:46 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib alimon/ptest-runner2
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/ptest-runner2
-> 
-> Aníbal Limón (3):
->   ptest-runner2: Add new ptest-runner2 recipe.
->   ptests: Update references to new ptest-runner2.
->   Update dev-manual to point to the new ptest-runner2.
-> 
->  .../dev-manual/dev-manual-common-tasks.xml         |  4 ++--
->  meta/classes/ptest.bbclass                         |  2 +-
->  meta/lib/oeqa/runtime/_ptest.py                    |  4 ++--
->  .../ptest-runner2/ptest-runner2_0.1.bb             | 24 ++++++++++++++++++++++
->  4 files changed, 29 insertions(+), 5 deletions(-)
->  create mode 100644 meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
-> 
+Is something based on this acceptable for integration in oe-core,
+or is this just a (much) nicer workaround?
+
+-- 
+olofjn
 
