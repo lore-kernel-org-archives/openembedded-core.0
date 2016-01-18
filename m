@@ -1,29 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AB396FFC7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 429AE6FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 14:37:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0IEbEpL019714; Mon, 18 Jan 2016 14:37:14 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OSFe1RRMBIMR; Mon, 18 Jan 2016 14:37:14 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0IEb7Dk019711
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 18 Jan 2016 14:37:09 GMT
-Message-ID: <1453127827.27999.64.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Olof Johansson <olof.johansson@axis.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jan 2016 14:37:07 +0000
-In-Reply-To: <20160118124428.GK31212@axis.com>
-References: <20160118124428.GK31212@axis.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: PV from filename, not reflected in siginfo?
+	Mon, 18 Jan 2016 14:44:18 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id mw1so49484447igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jan 2016 06:44:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=wnkA8kveIFmASgcGdMzIPUxzcn1hJqODER/1VXG98+E=;
+	b=yl0tvA0KePvkVj7iCdrWclqOfMqAfl7jAa+aUNwfECEB6GSUuoequNI3C4mXseFnk/
+	TDiHkch9n8o3Hx4MWgy48ZqcSR6XD2OnIazcusgxB8S94A8za0iud8xRhjGT38V/MHT/
+	Gx3HsnmzbAyn34Ekupw8tOidhSUJi62GSj1MUlAvrQMwlRRThQ7wBNoniRQ6tT871wHP
+	KG/90PvIorxbd5csrtXU/cvt3nX6LicUaYKE9IGt3VjOEXCss1SuAbTzafEAlIGqcmfU
+	xC8lFlzVb7lLKcO897yIBblmXHx0sv6/Ds5QYxBaYqvUd4QyqU4TdV7FlUoYCRgXQXU/
+	qMCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wnkA8kveIFmASgcGdMzIPUxzcn1hJqODER/1VXG98+E=;
+	b=WFMinJSjknQbZiCsOodSqxuhwTtmNGivezwYYh+SU2esAVf/4twifhjumLS24Clrdz
+	PxlngrVZcbz89Ce++CnmKG4C9bRfD/jtEP2y5+Sbz8lcug9O43yNuoo39mMp0HRxJDD4
+	E6IdBbhk273zqHS985sA+e3B+jNnCPBRhgXqjebTHeNXcpqqeEG2+EPUD2IqkGPa09Um
+	2/QzqxBjYY5le9o0u0O52W+bcv78+X+U1vwThp99uWxZ/h0ffJ5hPTIkDem6bS/+uxHk
+	4EPCWxeYHTKXOYaj8djX1zcrfY8kGb06d+nDR8ec1ba06kF3QUCXmYDSbnQT8LZGLNK1
+	PhRA==
+X-Gm-Message-State: AG10YOQtjbKcmRPmg9aPsnmBvVZC0vpHNXm15ohME+FRI6otIDASdI/+Ca9zwOErdFEM9jj2/gOMV5XkP5wY1SU1
+X-Received: by 10.50.43.133 with SMTP id w5mr10512000igl.52.1453128259470;
+	Mon, 18 Jan 2016 06:44:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 06:44:00 -0800 (PST)
+In-Reply-To: <568FD7B7.7010703@collabora.co.uk>
+References: <CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
+	<94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
+	<CAJTo0Lada89cW8Hs=P65aHfRKiiZuu13jDu3PO=3NkJq_Wt7xA@mail.gmail.com>
+	<c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
+	<11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
+	<CAJTo0LbyG07bauQnVJeHYCcZ9=zhjFZdj44E1vS-kXHMVuq0BQ@mail.gmail.com>
+	<5683B790.7000905@collabora.co.uk> <20160108153451.GA2573@jama>
+	<568FD7B7.7010703@collabora.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Jan 2016 14:44:00 +0000
+Message-ID: <CAJTo0LaR8iqj_P4GuSufyOXy_MryV7jLVJYxgU+O4=qxFdfTCw@mail.gmail.com>
+To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] cups: update systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,68 +61,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 14:37:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Jan 2016 14:44:19 -0000
+Content-Type: multipart/alternative; boundary=089e01175f2bb8240205299cc99c
 
-On Mon, 2016-01-18 at 13:44 +0100, Olof Johansson wrote:
-> Hi,
-> 
-> I'm currently investigating reports of bitbake not correctly
-> handling a type of change to a recipe, where the only change is a
-> filename rename to update the PV.
-> 
-> With bitbake-dumpsigs:
-> 
->  ...
->  Variable PV value is ${@bb.parse.BBHandler.vars_from_file(d.getVar('
-> FILE', False),d)[1] or '1.0'}
->  Variable PN value is ${@bb.parse.BBHandler.vars_from_file(d.getVar('
-> FILE', False),d)[0] or 'defaultpkgname'}
->  ...
-> 
-> ... with nothing containing the resolved value of PV. I would
-> expect the computed value of PV to be a part of the siginfo. The
-> consquence of this seems to be that bitbake doesn't schedule
-> dependents to be rebuilt, i.e. if I rename the recipe
-> foo_1.2.3.bb to foo_1.2.4.bb, the recipe foo is rebuilt, but the
-> image isn't.
-> 
-> I tried some changes:
-> 
->  - Changing the PV assignment in bitbake.conf to :=. Didn't work,
->    got errors that I suspect are related to not being able to
->    include foo-${PV}.inc files. The value of PV was clobbered.
->    Also played around with using BB_FILENAME instead, but didn't
->    help.
-> 
->  - Changes within Bitbake that assigned the version part of the
->    filename to PV when loading new files ending with .bb. This
->    worked but is really ugly.
-> 
->  - Moving the PV assignment into the recipe (as an explicit
->    assignment). This works, makes dependents build as expected
->    and bitbake-dumpsigs lists the value, but is also ugly.
-> 
-> I suspect this isn't usually a problem in OE-Core, since most
-> recipe updates requires updates within the recipe as well
-> (tarball checksums, for instance), but that's not as true for our
-> internal recipes.
-> 
-> Is this a known issue? Any ideas on how to solve this? Nicer
-> workarounds?
+--089e01175f2bb8240205299cc99c
+Content-Type: text/plain; charset=UTF-8
 
-It isn't known but I can imagine how this could cause a problem.
+On 8 January 2016 at 15:37, Andrew Shadura <andrew.shadura@collabora.co.uk>
+wrote:
 
-I suspect (but am guessing) that:
+> Hmm, the whole point of my change is precisely fixing this issue, are
+> you sure you have applied my patch?
+>
 
-PV[vardepvalue] = "${PV}"
+Merged to my local staging branch, sorry it took so long!
 
-might happen to fix this...
+Ross
 
-Cheers,
+--089e01175f2bb8240205299cc99c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 January 2016 at 15:37, Andrew Shadura <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:andrew.shadura@collabora.co.uk" target=3D"_blank">andrew.shadura@co=
+llabora.co.uk</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":5qu" class=3D"a3s" style=3D"overflow:hidden">Hmm, the whole point of=
+ my change is precisely fixing this issue, are<br>
+you sure you have applied my patch?</div></blockquote><div><br></div><div>M=
+erged to my local staging branch, sorry it took so long!</div><div><br></di=
+v><div>Ross=C2=A0</div></div></div></div>
 
-
-
+--089e01175f2bb8240205299cc99c--
