@@ -1,31 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AACBB65CBF
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FA5C60116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 16:28:10 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2016 08:28:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,313,1449561600"; d="scan'208";a="729579012"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 18 Jan 2016 08:28:11 -0800
-Received: by linux.intel.com (Postfix, from userid 48)
-	id E3EC02C8001; Mon, 18 Jan 2016 09:16:07 -0800 (PST)
-Received: from 10.252.12.252
-	(SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Mon, 18 Jan 2016 19:16:07 +0200 (EET)
-Message-ID: <56864.10.252.12.252.1453137367.squirrel@linux.intel.com>
-In-Reply-To: <1453109582-25485-1-git-send-email-b54851@freescale.com>
-References: <1453109582-25485-1-git-send-email-b54851@freescale.com>
-Date: Mon, 18 Jan 2016 19:16:07 +0200 (EET)
-From: alexander.kanavin@linux.intel.com
-To: "Yuqing Zhu" <b54851@freescale.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+	Mon, 18 Jan 2016 16:49:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0IGn6HA028853
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Jan 2016 08:49:06 -0800 (PST)
+Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Jan 2016 08:49:06 -0800
+To: <openembedded-core@lists.openembedded.org>, Otavio Salvador
+	<otavio@ossystems.com.br>
+References: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <569D1781.200@windriver.com>
+Date: Mon, 18 Jan 2016 11:49:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [poky][PATCH 00/13] Add patches for gstreamer 1.6
+In-Reply-To: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
+X-Originating-IP: [128.224.56.84]
+Subject: Re: [PATCH] slang: Add dependency on ncorses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 16:28:12 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Jan 2016 16:49:08 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> ---gstreamer1.0
->    Correct the setting for FLAG_DISCONT when push to adapter.
+Please fix typo in shortlog:
+
+s/ncorses/ncurses/
+
+../Randy
+On 2016-01-18 10:18 AM, Otavio Salvador wrote:
+> Slang links over ncurses' terminal information library thus it
+> requires it to be available for build.
 >
-> ---gstreamer1.0-plugins-base
->    Fix taglist not being sent to down stream issue.
->    Fix audio/video decoder error.
->    Make gstaudiobasesink print warning instead of returning ERROR.
->    Disable orc optimization for lib video.
->    Add video crop supporting when convert frame.
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
 >
-> ---gstreamer1.0-plugins-bad
->    Fix mpegtsmux get wrong pid.
->    Add code type checking in mpeg4videoparse when draining.
->    Detect picture coding type when draining.
->    Fix frame rate info lost when fixating caps.
->    Add video stitching support based on Open CV.
->    Fix memory leak of navigation thread in glwindow.
->    Fix loop test hang in glimagesink.
-
-Please explain what is the benefit of having these patches in oe-core
-right now, instead of just getting the fixes automatically from future
-upstream releases. Why are you submitting these patches in particular, are
-they something that a lot of people will benefit from?
-
-These patches add significantly to the maintenance burden of oe-core
-recipes, and if they're difficult to forward port, they will simply be
-dropped from the recipes when new versions of gstreamer are out.
-
-Generally, we prefer to take patches that:
-a) fix build issues, particularly those exposed by cross-compilation or
-less common architectures.
-b) fix issues that are embedded-specific.
+>   meta/recipes-extended/slang/slang_2.2.4.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+> index bfaa9a5..237e9f2 100644
+> --- a/meta/recipes-extended/slang/slang_2.2.4.bb
+> +++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+> @@ -9,7 +9,7 @@ to recode S-Lang procedures in C if you need to."
+>
+>   HOMEPAGE = "http://www.jedsoft.org/slang/"
+>   SECTION = "libs"
+> -DEPENDS = "pcre"
+> +DEPENDS = "pcre ncurses"
+>   PR = "r12"
+>
+>   LICENSE = "GPLv2"
+>
 
 
-Alex
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
