@@ -1,32 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 709AF7317C
+	by mail.openembedded.org (Postfix) with ESMTP id 8AADD608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 17:52:36 +0000 (UTC)
+	Mon, 18 Jan 2016 17:57:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0IHqaPl032761; Mon, 18 Jan 2016 17:52:36 GMT
+	u0IHv724000438; Mon, 18 Jan 2016 17:57:07 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id IJP53BzhXtCL; Mon, 18 Jan 2016 17:52:36 +0000 (GMT)
+	with LMTP id EenatdaPsyHu; Mon, 18 Jan 2016 17:57:07 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0IHqVDA032757
+	u0IHv1MJ000434
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 18 Jan 2016 17:52:32 GMT
-Message-ID: <1453139551.27999.75.camel@linuxfoundation.org>
+	Mon, 18 Jan 2016 17:57:02 GMT
+Message-ID: <1453139821.27999.78.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Robert Yang
-	<liezhi.yang@windriver.com>
-Date: Mon, 18 Jan 2016 17:52:31 +0000
-In-Reply-To: <20160118165317.GC2614@jama>
-References: <cover.1452848807.git.liezhi.yang@windriver.com>
-	<85829b7950f74cb41f39b5f1fbd8541bcb7b6d1e.1452848807.git.liezhi.yang@windriver.com>
-	<20160118165317.GC2614@jama>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jan 2016 17:57:01 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] gstreamer1.0-plugins-good.inc: add gudev back to PACKAGECONFIG
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: [PATCH] sstate: Add packagedata to list of tasks not to recurse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,36 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 17:52:37 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 17:57:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2016-01-18 at 17:53 +0100, Martin Jansa wrote:
-> On Fri, Jan 15, 2016 at 01:07:20AM -0800, Robert Yang wrote:
-> > The 66e32244aed8d33f1b49fbe78179f2442545c730 wrongly removed gudev
-> > from
-> > PACKAGECONFIG, now add it back.
-> 
-> It was removed intentionally, because for systemd images there isn't
-> libgudev provider in oe-core, only in meta-oe.
-> 
-> RP's fix:
-> http://git.openembedded.org/openembedded-core/commit/?h=jethro&id=bc4
-> 58ae9586b45b11b6908eadb31e94d892e698f
-> 
-> breaks the dependencies again, because when systemd is used there
-> won't
-> be libgudev needed by gstreamer1.0-plugins-good
-> 
-> Please revert both "fixes"
+If we "bitbake X -c packagedata" and the packagedata comes from sstate, we 
+don't need any of the tasks dependencies. This is similar to the 
+populate_lic case, we only care about the end result.
 
-The "backported" patch should have made mention of the changes compared
-to the version in master since otherwise, "intentionally" looked like a
-mistake :/.
+Therefore short circuit the dependencies so packagedata doesn't pull in
+any other dependencies.
 
-What is the impact to gstreamer of removing libgudev?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cheers,
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index d9adf01..7d65f4a 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -854,6 +854,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+     if taskdependees[task][1] == "do_populate_lic":
+         return True
+ 
++    # We only need to trigger packagedata through direct dependencies
++    if taskdependees[task][1] == "do_packagedata":
++        return True
++
+     for dep in taskdependees:
+         bb.debug(2, "  considering dependency: %s" % (str(taskdependees[dep])))
+         if task == dep:
+-- 
+cgit v0.10.2
 
-Richard
 
