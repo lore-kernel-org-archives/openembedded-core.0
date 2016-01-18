@@ -1,55 +1,26 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx6-11.smtp.antispamcloud.com (mx6-11.smtp.antispamcloud.com
-	[95.211.2.202])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FA33601B8
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E22B160620
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 08:02:29 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1aL4lZ-00072B-1N for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jan 2016 09:02:29 +0100
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 18 Jan 2016 09:02:19 +0100
-To: <openembedded-core@lists.openembedded.org>
-References: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <569C9C0B.1080004@topic.nl>
-Date: Mon, 18 Jan 2016 09:02:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Mon, 18 Jan 2016 08:10:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0I8A4ol022051
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Jan 2016 00:10:04 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Jan 2016 00:10:03 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<richard.purdie@linuxfoundation.org>
+Date: Mon, 18 Jan 2016 03:09:58 -0500
+Message-ID: <2382eb9452dcabfe40f31b43d612330c484cc921.1453104253.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1453104253.git.hongxu.jia@windriver.com>
+References: <cover.1453104253.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrpCI7kDm0Ihd/Oo6ocNwjjpHdWVoeO6vQ9PY7
-	IoibDcU8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OThywdm+G+OuTB
-	a63I3wwHWkCYl0PAtPLuCCRu2JEQGZMQ31MusX2Xci0Z8D9aucAtXl4nN7+GwpCp8XCZQDlq825t
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Subject: Re: Lots of [host-user-contaminated] warning
+Subject: [PATCH V2 1/2] pax-utils: 1.0.5 -> 1.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,68 +33,233 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 08:02:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Jan 2016 08:10:07 -0000
+Content-Type: text/plain
 
-=EF=BB=BFOn 17-11-15 09:46, Andreas M=C3=BCller wrote:
-> Hi,
->
-> this bugs me for a while and I wonder if I am again the only one
-> facing this: I get floods of warnings for sourcecode files as
->
-> WARNING: QA Issue: qtserialport:
-> /qtserialport-dbg/usr/src/debug/qtserialport/5.5.99+5.6.0-alpha1+gitAUTOI=
-NC+2575d33fab-r0/git/src/serialport/qserialport_p.h
-> is owned by uid 1000, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
-> WARNING: QA Issue: qtx11extras:
-> /qtx11extras-dbg/usr/src/debug/qtx11extras/5.5.99+5.6.0-alpha1+gitAUTOINC=
-+d64ee96f0d-r0/git/src/x11extras/qx11info_x11.cpp
-> is owned by uid 1000, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
-> WARNING: QA Issue: qtxmlpatterns:
-> /qtxmlpatterns-dbg/usr/src/debug/qtxmlpatterns/5.5.99+5.6.0-alpha1+gitAUT=
-OINC+94136d4280-r0/git/src/xmlpatterns/type/qbuiltintypes.cpp
-> is owned by uid 1000, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
->
-> I checked PACKAGE_DEBUG_SPLIT_STYLE is not set globally - few recipes
-> set PACKAGE_DEBUG_SPLIT_STYLE to debug-without-src.
->
-> Help appreciated
+- Support autotools:
+  *) Touch NEWS/AUTHORS/ChangeLog to workaroud failure
+     caused by 'automake --add-missing'
+  *) Add patch to fix configure failure caused by missing
+     macro definition in m4 directory
 
-I got rid of these messages by doing the following replacements in do_insta=
-ll=20
-and package install scripts:
+- Add PACKAGECONFIG flags for libcap, libseccomp and pyelftools,
+  and disable them by default.
 
-Instead of "cp -r -p ..." use "cp -r --preserve=3Dmode,links ..."
-Instead of "cp -a ..." use "cp -R --no-dereference --preserve=3Dmode,links =
-..."
+- Add PACKAGECONFIG flag for largefile.
 
-This fixes these QA warnings in a more structured way than running a blunt=
-=20
-"chown root:root ..."
+- Since we add PACKAGECONFIG flags for pyelftools, we do not need
+  python in RDEPENDS.
 
+BTW:
+Currently oe-core does not support libseccomp.
+(https://github.com/seccomp/libseccomp)
 
+Currently oe-core does not support pyelftools.
+(https://github.com/eliben/pyelftools)
 
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../pax-utils/files/fix-configure-failure.patch    | 146 +++++++++++++++++++++
+ .../{pax-utils_1.0.5.bb => pax-utils_1.1.4.bb}     |  23 +++-
+ 2 files changed, 165 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+ rename meta/recipes-devtools/pax-utils/{pax-utils_1.0.5.bb => pax-utils_1.1.4.bb} (48%)
 
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+diff --git a/meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch b/meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+new file mode 100644
+index 0000000..43bfeb6
+--- /dev/null
++++ b/meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+@@ -0,0 +1,146 @@
++From 70334129f5d849813c2ea5ce6070e6fb433412f7 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 13 Jan 2016 01:12:19 -0500
++Subject: [PATCH] autotools/m4: fix unexpected token 'AX_APPEND_FLAG'
++
++Added missing macro definition "ax_require_defined.m4" and "ax_append_flag.m4"
++to the m4 macro directories.
++...
++pax-utils-1.1.4/configure: line 33077: syntax error near unexpected token `AX_APPEND_FLAG'
++pax-utils-1.1.4/configure: line 33077: `AX_REQUIRE_DEFINED(AX_APPEND_FLAG)'
++...
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ autotools/m4/ax_append_flag.m4     | 72 ++++++++++++++++++++++++++++++++++++++
++ autotools/m4/ax_require_defined.m4 | 38 ++++++++++++++++++++
++ 2 files changed, 110 insertions(+)
++ create mode 100644 autotools/m4/ax_append_flag.m4
++ create mode 100644 autotools/m4/ax_require_defined.m4
++
++diff --git a/autotools/m4/ax_append_flag.m4 b/autotools/m4/ax_append_flag.m4
++new file mode 100644
++index 0000000..c98a5c5
++--- /dev/null
+++++ b/autotools/m4/ax_append_flag.m4
++@@ -0,0 +1,72 @@
+++# ===========================================================================
+++#      http://www.gnu.org/software/autoconf-archive/ax_append_flag.html
+++# ===========================================================================
+++#
+++# SYNOPSIS
+++#
+++#   AX_APPEND_FLAG(FLAG, [FLAGS-VARIABLE])
+++#
+++# DESCRIPTION
+++#
+++#   FLAG is appended to the FLAGS-VARIABLE shell variable, with a space
+++#   added in between.
+++#
+++#   If FLAGS-VARIABLE is not specified, the current language's flags (e.g.
+++#   CFLAGS) is used.  FLAGS-VARIABLE is not changed if it already contains
+++#   FLAG.  If FLAGS-VARIABLE is unset in the shell, it is set to exactly
+++#   FLAG.
+++#
+++#   NOTE: Implementation based on AX_CFLAGS_GCC_OPTION.
+++#
+++# LICENSE
+++#
+++#   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
+++#   Copyright (c) 2011 Maarten Bosmans <mkbosmans@gmail.com>
+++#
+++#   This program is free software: you can redistribute it and/or modify it
+++#   under the terms of the GNU General Public License as published by the
+++#   Free Software Foundation, either version 3 of the License, or (at your
+++#   option) any later version.
+++#
+++#   This program is distributed in the hope that it will be useful, but
+++#   WITHOUT ANY WARRANTY; without even the implied warranty of
+++#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+++#   Public License for more details.
+++#
+++#   You should have received a copy of the GNU General Public License along
+++#   with this program. If not, see <http://www.gnu.org/licenses/>.
+++#
+++#   As a special exception, the respective Autoconf Macro's copyright owner
+++#   gives unlimited permission to copy, distribute and modify the configure
+++#   scripts that are the output of Autoconf when processing the Macro. You
+++#   need not follow the terms of the GNU General Public License when using
+++#   or distributing such scripts, even though portions of the text of the
+++#   Macro appear in them. The GNU General Public License (GPL) does govern
+++#   all other use of the material that constitutes the Autoconf Macro.
+++#
+++#   This special exception to the GPL applies to versions of the Autoconf
+++#   Macro released by the Autoconf Archive. When you make and distribute a
+++#   modified version of the Autoconf Macro, you may extend this special
+++#   exception to the GPL to apply to your modified version as well.
+++
+++#serial 6
+++
+++AC_DEFUN([AX_APPEND_FLAG],
+++[dnl
+++AC_PREREQ(2.64)dnl for _AC_LANG_PREFIX and AS_VAR_SET_IF
+++AS_VAR_PUSHDEF([FLAGS], [m4_default($2,_AC_LANG_PREFIX[FLAGS])])
+++AS_VAR_SET_IF(FLAGS,[
+++  AS_CASE([" AS_VAR_GET(FLAGS) "],
+++    [*" $1 "*], [AC_RUN_LOG([: FLAGS already contains $1])],
+++    [
+++     AS_VAR_APPEND(FLAGS,[" $1"])
+++     AC_RUN_LOG([: FLAGS="$FLAGS"])
+++    ])
+++  ],
+++  [
+++  AS_VAR_SET(FLAGS,[$1])
+++  AC_RUN_LOG([: FLAGS="$FLAGS"])
+++  ])
+++AS_VAR_POPDEF([FLAGS])dnl
+++])dnl AX_APPEND_FLAG
+++
++diff --git a/autotools/m4/ax_require_defined.m4 b/autotools/m4/ax_require_defined.m4
++new file mode 100644
++index 0000000..4cb6f3c
++--- /dev/null
+++++ b/autotools/m4/ax_require_defined.m4
++@@ -0,0 +1,38 @@
+++# ===========================================================================
+++#    http://www.gnu.org/software/autoconf-archive/ax_require_defined.html
+++# ===========================================================================
+++#
+++# SYNOPSIS
+++#
+++#   AX_REQUIRE_DEFINED(MACRO)
+++#
+++# DESCRIPTION
+++#
+++#   AX_REQUIRE_DEFINED is a simple helper for making sure other macros have
+++#   been defined and thus are available for use.  This avoids random issues
+++#   where a macro isn't expanded.  Instead the configure script emits a
+++#   non-fatal:
+++#
+++#     ./configure: line 1673: AX_CFLAGS_WARN_ALL: command not found
+++#
+++#   It's like AC_REQUIRE except it doesn't expand the required macro.
+++#
+++#   Here's an example:
+++#
+++#     AX_REQUIRE_DEFINED([AX_CHECK_LINK_FLAG])
+++#
+++# LICENSE
+++#
+++#   Copyright (c) 2014 Mike Frysinger <vapier@gentoo.org>
+++#
+++#   Copying and distribution of this file, with or without modification, are
+++#   permitted in any medium without royalty provided the copyright notice
+++#   and this notice are preserved. This file is offered as-is, without any
+++#   warranty.
+++
+++#serial 1
+++
+++AC_DEFUN([AX_REQUIRE_DEFINED], [dnl
+++  m4_ifndef([$1], [m4_fatal([macro ]$1[ is not defined; is a m4 file missing?])])
+++])dnl AX_REQUIRE_DEFINED
+++
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/pax-utils/pax-utils_1.0.5.bb b/meta/recipes-devtools/pax-utils/pax-utils_1.1.4.bb
+similarity index 48%
+rename from meta/recipes-devtools/pax-utils/pax-utils_1.0.5.bb
+rename to meta/recipes-devtools/pax-utils/pax-utils_1.1.4.bb
+index 0716a08..48b342e 100644
+--- a/meta/recipes-devtools/pax-utils/pax-utils_1.0.5.bb
++++ b/meta/recipes-devtools/pax-utils/pax-utils_1.1.4.bb
+@@ -7,15 +7,30 @@ HOMEPAGE = "http://www.gentoo.org/proj/en/hardened/pax-utils.xml"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+ 
+-SRC_URI = "http://gentoo.osuosl.org/distfiles/pax-utils-${PV}.tar.xz"
++SRC_URI = "http://gentoo.osuosl.org/distfiles/pax-utils-${PV}.tar.xz \
++           file://fix-configure-failure.patch \
++"
+ 
+-SRC_URI[md5sum] = "d731f5385682a7a62ee2e7b7dacc13a7"
+-SRC_URI[sha256sum] = "f69a9938e4af7912d26d585094bc0203e43571a990fdd048319088a8b8ad906f"
++SRC_URI[md5sum] = "1bfbb5237881f0c5e476b2f7ffcc00d5"
++SRC_URI[sha256sum] = "796860fbd48c5f811e699e8492dc1110459bad0a62efa8d346b74a4f6f556414"
+ 
+-RDEPENDS_${PN} += "bash python"
++RDEPENDS_${PN} += "bash"
++
++do_configure_prepend() {
++    touch ${S}/NEWS ${S}/AUTHORS ${S}/ChangeLog
++}
+ 
+ do_install() {
+     oe_runmake PREFIX=${D}${prefix} DESTDIR=${D} install
+ }
+ 
+ BBCLASSEXTEND = "native"
++
++inherit autotools pkgconfig
++
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'largefile', '', d)} \
++"
++PACKAGECONFIG[libcap] = "--with-caps, --without-caps, libcap"
++PACKAGECONFIG[libseccomp] = "--with-seccomp, --without-seccomp, libseccomp"
++PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
++PACKAGECONFIG[pyelftools] = "--with-python, --without-python,, pyelftools"
+-- 
+1.9.1
 
 
