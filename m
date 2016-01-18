@@ -1,17 +1,17 @@
 Return-Path: <B54851@freescale.com>
 Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0116.outbound.protection.outlook.com [157.56.110.116])
-	by mail.openembedded.org (Postfix) with ESMTP id 02F3D73175
+	(mail-bn1bon0135.outbound.protection.outlook.com [157.56.111.135])
+	by mail.openembedded.org (Postfix) with ESMTP id A36D973175
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 09:50:17 +0000 (UTC)
-Received: from BN3PR0301CA0008.namprd03.prod.outlook.com (10.160.180.146) by
-	CY1PR0301MB1180.namprd03.prod.outlook.com (10.160.165.23) with
+	Mon, 18 Jan 2016 09:50:23 +0000 (UTC)
+Received: from BN3PR0301CA0049.namprd03.prod.outlook.com (10.160.152.145) by
+	CY1PR0301MB1177.namprd03.prod.outlook.com (10.160.165.20) with
 	Microsoft SMTP
-	Server (TLS) id 15.1.365.19; Mon, 18 Jan 2016 09:35:35 +0000
-Received: from BY2FFO11FD024.protection.gbl (2a01:111:f400:7c0c::147) by
-	BN3PR0301CA0008.outlook.office365.com (2a01:111:e400:4000::18) with
+	Server (TLS) id 15.1.365.19; Mon, 18 Jan 2016 09:35:39 +0000
+Received: from BL2FFO11FD047.protection.gbl (2a01:111:f400:7c09::168) by
+	BN3PR0301CA0049.outlook.office365.com (2a01:111:e400:401e::17) with
 	Microsoft SMTP Server (TLS) id 15.1.365.19 via Frontend Transport;
-	Mon, 18 Jan 2016 09:35:34 +0000
+	Mon, 18 Jan 2016 09:35:39 +0000
 Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none; freescale.mail.onmicrosoft.com;
@@ -19,78 +19,79 @@ Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 Received-SPF: PermError (protection.outlook.com: domain of freescale.com used
 	an invalid SPF mechanism)
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD024.mail.protection.outlook.com (10.1.15.213) with Microsoft
-	SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
-	Mon, 18 Jan 2016 09:35:33 +0000
+	BL2FFO11FD047.mail.protection.outlook.com (10.173.161.209) with
+	Microsoft SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
+	Mon, 18 Jan 2016 09:35:39 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	u0I9ZROX015522; Mon, 18 Jan 2016 02:35:32 -0700
+	u0I9ZROa015522; Mon, 18 Jan 2016 02:35:37 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jan 2016 17:32:51 +0800
-Message-ID: <1453109582-25485-3-git-send-email-b54851@freescale.com>
+Date: Mon, 18 Jan 2016 17:32:54 +0800
+Message-ID: <1453109582-25485-6-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453109582-25485-1-git-send-email-b54851@freescale.com>
 References: <1453109582-25485-1-git-send-email-b54851@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD024;
-	1:LKhgfZ5//wV7BVIjCut8BbtvWk6iRDGEPf/QYqWCRJnScS2AfEfsM9KnJQ0Ak0o1nkARL06enB/iwJGeyjK17QAbq8YigIZUOv3tcrUkQqtmAGYRpM/mrmcGK/PhbtGAWzNb2kj6bPn4UHsv/LA2puPj+B0hALP5qjPJZYXEEQ3omiHuRze3X6WOsMAcssLgfDETYfq7t350xCGMcxRpUoACrnyTafI4qmNBiTlP7/GwknLy/IGPkwLk56Hu2pUKBGWQ4fUjVfpuRRpIoAOQ2/48jeRMpdh9u0ry/tl5KxIkBZkvxAaUeX9P1NorgdMbouKioWt6NNV2qCz0IOvhx91IRvryiSCYCCeocwad04GIVRtqKW6GfHkINCupIZKIxzhs3y1ELQO90nFlFr4z3pk373qArPi/PXiT1Wr7Ymg=
+X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD047;
+	1:s5+bnn+qnTtxpKjT3ZagE+AfavBant2HKAYKL6hoXkF51H4AAVWZnlCPtkuALRWuHvbXsjw2n/Z/qVakuaHSlvHkqfbI6XBcq5IYZ6qwRwRD7aFr3BbzHMKR8L/dWmxXSHPU1fycr1Wv3CWV85Mih092XHtBnyPefo2nmDwgdsPdjTxzDqLnCXbjZl/jcgw6y1QA/fCmkGydFgZjzfTBvgbl3WcGaCPBbvfrV8Kdki0K3OrBeoqDN/hyXsmcFEnhjfQFoHRFA2F7myhDwSc7NZBvnPWqXSqvXaTck+OtgWTcMC/5GMj2hycFU5xP7A+ACNjjt/H6de60kmoG7Q2px0MJhI92uZRk81fdKsjbR3KDCTxaBXd5G+3C41ehObgoog39BRBpWEaSSYaJintFh0I8yCwK0g31D9300kXQ2jg=
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(448002)(189002)(199003)(15975445007)(19580405001)(19580395003)(106466001)(50466002)(76176999)(77096005)(230783001)(48376002)(5001960100002)(47776003)(107886002)(5003940100001)(189998001)(110136002)(85326001)(2351001)(97736004)(81156007)(50986999)(36756003)(2950100001)(4326007)(6806005)(5008740100001)(586003)(104016004)(1220700001)(2906002)(1096002)(229853001)(33646002)(4001430100002)(92566002)(50226001)(86362001)(450100001)(87936001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1180;
+	SFS:(10019020)(6009001)(2980300002)(448002)(199003)(189002)(110136002)(2351001)(450100001)(6806005)(15975445007)(5008740100001)(92566002)(5001960100002)(50226001)(5003940100001)(81156007)(97736004)(104016004)(1220700001)(4001430100002)(50466002)(77096005)(1096002)(229853001)(4326007)(230783001)(48376002)(2950100001)(2906002)(76176999)(11100500001)(33646002)(85326001)(107886002)(50986999)(189998001)(86362001)(19580395003)(106466001)(47776003)(19580405001)(87936001)(586003)(36756003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1177;
 	H:tx30smr01.am.freescale.net; FPR:; SPF:PermError;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 53fa1f07-29cc-4e1e-9581-08d31feab6f3
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
-	2:e79HcV/ZnKBDE1au5Gcfm+P5KrDUUMtByRhcttqByVqJ05UdnRfzQHc3uquuQy7tT70ywrDZ+aQ2bRnsQWdjB2B09gsG6DoYbDVjcJiE9nvdUUbIsl35DOgYBqLbZ74uXN42PFNUzjLEHTVqRSxudUa9CBNQX/KCyayy+7ZR3kpzlfe0QEPOsZhbH66nBOgN;
-	3:1JH20mHNVb9HDOsBjMLjsZlwnTGQXWlYdCSokr62PECtsRMemY+1RLZjb5jMWFb3/d4hLHhmApHPv5xZOI+Hkshu4ehjBuRi2nbTT+2iVQVmcWPZl5eitnfXA9s92Mkn+4L0J0rWLZqOMTZMpCa4640lFWPXpcRXm6P0hrlhjAH7rrwtD1zMTheY649M5hB7w0LYGBB668VFBVc5EFwBdtRL8Za+ZSLAzRoZ2/ijJ+8=;
-	25:jbDHwE9peubebPtXs8t1+BCnbmusI8WosJ2USwufWEcfx9wp12Sx5FEdIKtaPR4p4GgZGOfJBMfNr0Idb4fMKfMcZ51Wxh+JrrHcWCyINuArrQHiv6vnzu8GkORW/3gd91V9GtSEs2RDs5soO8O3+M/eJ1gSxVExEUOko3L2NszQOE5YdTkZF/ybma9sWTXsc4NfK5Y+SCJhLPpvXdiE+/8AMJelZIE0OVs8jsRQZIy9hMm4tkO47snz4MS98/Wl
+X-MS-Office365-Filtering-Correlation-Id: 06791e8d-3eaa-42da-1528-08d31feab9f7
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1177;
+	2:vK8IHSN7GjQVTdxESxRWbXkn4byWqqkUenxouHOUFAS7nAD4j+m/+l8kv4Gm5+hUyVE49K4dLJHq4DY5PDD36Kbd60h7FW26JP0Do29/8Bue0Wvy39o1Ls51fab+6pYjo1tfeP/fnlXNZK73N97gkKYa3ICMkTVx/UaK1hXKM6seC/pSrAOW3UF+3iB0YZGB;
+	3:fFF+nt5/J73ETWSqVLDmThb2Nx66xaLLnWRZgdG5LSiIPDJ2oewvZLtkxWac7umepNCjzIqjrLp21k+4EIVYqTyHpDMK/UkcNoMSD3c2JuhjXt4bpzDkuTIT3IAJ/xMcskj3cj0fV4Hlhdfn6hXjxmEqkD263mWceR5OqXH8QEW+DzmzpsI4P1sF8HRIN1WVgNbNHws4z0K3EbFGDgd599D5TQQi8lWm8lXhYluTzEw=;
+	25:mqqKOQQCk5kzVIhK37lNd+ZOXviopXrsyAORW3ivuqg3d7FTaI+R7puCB+DA3cQ0sBQpqI7luZ1k/d29CLzJhFb6358qWiIVHd9VIcJoXRJCK7tVvv4YyszawynJ3oX2bgXVQ0FPEuyWd0if6FSfmxGCIUYhJtI7zP+r8ZbhKeTp6mQ79noPIEjMP4auFSoUV7F0lAgwhwOzWb6mBjubQnZ35MDO8kb97Xn5PEUU/CHHy5AFmWKuVyBi8i805dWi
 X-Exchange-Antispam-Report-Test: UriScan:; BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB1180; UriScan:(101931422205132); 
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
-	20:AYaMWyRifz+RWmsynVdyt5Dz056QOKS/1MlxskMrWFg7VseCaIp+GbmtsGDGrT8OG3s5OJeUT2/C2MFS/iTtk6mkRlLM58vK04nrF0sKAeH2gJ8/mbJYpFb5T5o6WLafaWV1ylPSdEtYZHZAl7iONLnPfg66sN5RbQpUfF7CDqw7hfgIK1BZLioVaNhEneAlftlmipQPc0o2ubSNfN5+xk15bdjmP7HsQAF0sANomKyxlEddaj+F6qEao34MwIrCKK47YMapqCSlhU7ASObQxHpYHGBZjcA5q05g2p2RzQlbDPB1E0JRZCT8Ruv/YOFvczjYQdZf2hwtH83Hgw985uqI5vBaRJe3H+tcQ5ruwB2bjjpLsPUQ8ZWg1hXi+pIZToYeHHvpAmw9xN2HSFrgrnQM27xmeGv7ZCpN+D/n+qwK19kiKsAug1OAlGtigFi/;
-	4:dMyz2UFkhUAgRSPa8vMDh1I3Qo1oMopd3aoYarPtMPmzbcEVyWuCwkVQwg//DR+rIk2hnD24N9IczO0X1pCAd52Ysi3debT5tEQp4QmasdivnuGh/JEyVJHA6HjYrPKeUVh9tt5GVHt8K3WbNBMhfLfsSxnXiobn1qooO+3TOX8XYVsRaRQLpx5JU+dKfOyfzYJVdzv8UldMCC8F0mM1STxGtF4/3wNU7JBPlXDCdO0idkkroN03kqKRYIqxO6eLsCjQ7FztdqhF2P1EC6NFxN4J91CRXds2LkP8ANikCT9pZiYJYQWRp3NoUjTEx2KYyH41wTE9XwsWI5FYw2bAeaWnkoS0Y/5rqe+XYI3kqoCsImRmSEJIkjIWF1TIrAXPn9D5Qb1S0aLS45BwazuIDpKlqZ9sAilvFARMWIKxb7DcF8/v7fGkQSA8nZCNMN1AvAUuiGcco+YPLRaqk6eBJVVCxpAWt94E9WE3ijqAtThOpD3PTTGyL3Bo0JN4Pmqf
-X-Microsoft-Antispam-PRVS: <CY1PR0301MB11804EEC9AE6C34D4C8379FA86C00@CY1PR0301MB1180.namprd03.prod.outlook.com>
+	SRVR:CY1PR0301MB1177; UriScan:(101931422205132); 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1177;
+	20:YfvgNiLlLsngrrLS+iBV7sgCyWfX/dv4tJdqwU/qHR5RCq8b/FxjwJBQdaJ1O3Cd6L6A2/bFzNBZ6MIwZ1TJdgdCcneqc5gUArVom7LQxmj7jD94Hylx3lodjcZHwPWrf70h5jFtI+QNkcww2N3RwUYEaMptaTx7/QYiV8ZgFTTsB70qI7f12c5+snYUBwnmczAPZkpuqBG+vkiofz0x5oHt17RH5DS/ioovapZexFC21NbyeyrbJWskj3qMrDfrH0b1w5X9gtV+rDCJVXnqawI33UcgXrop+ussVwFn33gneFQXk2NHss47iQ4TXErlMueY6F4Ad91EwXs7n5hnjBHCADO6JNu7ZjqORlsgruaDfeE3tRxaLx3byLWZ7jgGcXbu5B7Q2U8pUFltKGOTR5LrPJk7LM2cuWtN6wDuprJYjev+Y3r1+BKXoZCOUA8g;
+	4:WwdVuriVVVXI2vvlANBADYfuoHd6YIhXffZFNeW9t9kQmzdxYrk03iZYQU608gkxCkN1k4FZEMh2CcGDGCLNnNaNV03ZeqKhmQiT+3DNKaOMs9kUlL3OqYT39ASTcMZd2kVpJpNonFVtfmTlkiLzQacxdCMpl82A9JSBmfjiE8WavrhFJS8nKtVfDb6ZbHP0UpkKeSR0XfNXOo0K3w+4q2N4EHWgTCfsCDTIKRZW4Kmag5Z1iYqJsxEcmLgNqPoi8AIu8x4aJtzqcmR/aMaIa4MTMdvkMKIq1kQEx/MHIQ8POdDVY/BvBUydXc70WIshGfGRg2SKeGTBpjOizUO47Fi/DKe4pxdwL6+dS9BdZg9EXAmKmy5o19PIP5IXpFWQIXgcpDccKZFT/aeBQeYU7WNhAti0dzjvSpvTm02adubDffj23T2kVg+harHI7n6RVuvVFu1TYFbb9Sh0X4Gi/TQm3GRHe5y6d8xfoZFZJqs=
+X-Microsoft-Antispam-PRVS: <CY1PR0301MB1177FBA0F3EE17A5B380B26C86C00@CY1PR0301MB1177.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(5005006)(13018025)(13023023)(8121501046)(13017025)(13015025)(520078)(10201501046)(3002001);
-	SRVR:CY1PR0301MB1180; BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB1180; 
+	RULEID:(601004)(2401047)(5005006)(13018025)(520078)(13015025)(8121501046)(13017025)(10201501046)(3002001);
+	SRVR:CY1PR0301MB1177; BCL:0; PCL:0; RULEID:;
+	SRVR:CY1PR0301MB1177; 
 X-Forefront-PRVS: 08252193F3
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1180;
-	23:aBpbyQ/XprZ8XT2bN1W6IcYnhQ3j5gfHEnHuxKo?=
-	=?us-ascii?Q?qlja6DmfdkCw8jecQ4BBnx/2uLZOL9Qa2boEmFB50Ok/VylYfBb7Qb81B9ex?=
-	=?us-ascii?Q?kVAt/2iIqsVFnDw+FoxDGY1/sGzz1H5HPEtyaXQ9El9d0QpMHgKqOD3k4YoE?=
-	=?us-ascii?Q?XpoiFZgY+v7fF0zDYcBjT3tgyAVHGUolQCly55oOr4U/hJZ3eyoU0dV2ks4W?=
-	=?us-ascii?Q?4fvMMTysNqhat8ZNZz0kmPeLgVznmXxuQyRIdUrra8ZxF/RSe69CQ592r9wP?=
-	=?us-ascii?Q?ccyDpOjwFwN7+G2K7Py+leMZ15FAiPZBhDtJolg4A+sjosx+ZQ3ILYlPm1kb?=
-	=?us-ascii?Q?7H9ntG8nmkc5f4wroNaLQiIGaIMi/RCm0oi3n/1NIlaSd6XFbRY6nIUqql1t?=
-	=?us-ascii?Q?RwWjf15t6t7YEI9OAt5L+dsyhLy0/StwxLqGC+Uusx1+CvmdX67ZlmxPaa0W?=
-	=?us-ascii?Q?YLx2hvkZSM+7c34SZeGzo0CULm/4YSKYJ8zY73fA+m2oRXpnMmzD21Fulequ?=
-	=?us-ascii?Q?BJmaHdkPJcJco+pcfnhims8G52K+au4sTlOaL6JGSObtqRKAn7By46UR/9Xj?=
-	=?us-ascii?Q?mwjpKxjHcOl961oGKZT+uvLU5cV8TzgBUhnI8m5/RkYUvI092oHD3VNyKJsb?=
-	=?us-ascii?Q?PsknsDnznZuxalpMrVAUE2SnUdjw3v+NkZ991VMxUB62EJcGdo/vDeif+W2D?=
-	=?us-ascii?Q?yuJ8h2Xp0XIZaca8I/w9wRN1P7YPkaxy61ZFyTkAnKvmS/nn94OBw8a+0XW4?=
-	=?us-ascii?Q?26aQj8zMUBrYmT2l4rqLqASFUdEgtCGRZozbRH0BgtS6mKbDs4d8LKTBL+Rb?=
-	=?us-ascii?Q?AnQ4BCuve18ISxweeB09NMecn/uTNQCOa+/K8ICHSd6cFEkcaQ+hmkd8y7CQ?=
-	=?us-ascii?Q?wI5GhV56Duuwo2B8wYF23+6tLp5Vm/hQe5k3OzmxxBGDy7ApR8RTr1gggTHB?=
-	=?us-ascii?Q?xCB/6Ne+NcVtCpCaQ2Aqtw/ZbjccSvQQmA70dALvv4wN0MdDyZjXkbakL/Ln?=
-	=?us-ascii?Q?3NJV3dWrOtZSMbVYGSPZFVSV8jRUv2n4P+TjuW6abR1vVBn50bT/E5XTmRX6?=
-	=?us-ascii?Q?Xc4uzZgxeJSbVsBBhGiqAsBQnVpiEhdwK3t0PCr3wJXvvQJn6n0Du//DbHTb?=
-	=?us-ascii?Q?QR5++IHyDpfW9hibVQwOqd0KwW0V6wJy1?=
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
-	5:/oEjly86ZrhQzzOpF+MhP9cF4n6gpj78Q7zi0LBdqyBjB0nIwsy8GvOfOiL5RroUKGCSX9BZCX3JJXIqzdb3CYUNevrRV8IAr8UwFwHhkLAP6tVN4FGe+UF3F2MNGe6gEdrCQxKlsSotiSibxk8iVA==;
-	24:ZYL3t/KXAAvkCTNwps7XSvsqyrBPZqWOfmjqh3GnOlNDLAs6tMuzu7zc/f6w1cXsdnMvCrE9dUid505sP+HfNVexYY9VoS/ycTXl6PS9+YI=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1177;
+	23:g94AzUhmPbUf1aq5APk472e6YuK58EXrQzpsbFL?=
+	=?us-ascii?Q?h2t6C2L62EvoRc+fCQYDhSiH9BPLdm0ICODBpUipFqWt/kmORlcVRxzeJzdm?=
+	=?us-ascii?Q?PoaYVRWYeHZFoHoCcEE0FtjavuXz1SWKXdIXD5lmwcFa8OqON00t6Pdrk59W?=
+	=?us-ascii?Q?cXw5XW67b8QVLJzaTjTD4FzaO6b/KQgNjWOG/pziF0dBU7Aj18cX9MK2hYEY?=
+	=?us-ascii?Q?Q69a3rKjToEcLMFuUBhJLvJERl8krdjECA0EH8BOj3mK44AZ2VxNkEEtW1ji?=
+	=?us-ascii?Q?pD1pRe/ngJJQR38jMZ9v+MXMl4KcvlH5vJj6uSOTC2Cjm6QVYibiFgbxXjFV?=
+	=?us-ascii?Q?br0nlcW1ecv80NhJ6zKX850mgzJlpnZSgMcoiyaOVJ03Xe0qDU+/+f+Z+Rw5?=
+	=?us-ascii?Q?dTlyIGNHUEuId19SXOrrFx8262Uvi+CAOHEs2AcaBx22BRy4Hhqp/WBnxoJv?=
+	=?us-ascii?Q?A8d6xtrsOb1fOZd3gpAY3hfLwXWyPASuIvOao0M9MREH+j/gADjrQvMbrDCR?=
+	=?us-ascii?Q?H65il8Mo/CCY8pLuy/oKk/LngvdtKy+ARJ47HHO9aTlJ7K+LmwA+SNnRG+7f?=
+	=?us-ascii?Q?eY/uqyDCWqOPI7YH5m9xbpesU077zTpfe4rPdSgVN1n+Tx5qfq98qT6Jw67X?=
+	=?us-ascii?Q?LkoIfSS41TAXlt1AvslfxknlM7pcINu3cJe8jHaZIvtmt+Bk+VjA1RITbjmR?=
+	=?us-ascii?Q?qToLhnTI4XS41ffr1EUr55rSKxmimsQa4yJ3pKWIFYodf0OPqUHgkE6T04RG?=
+	=?us-ascii?Q?OxkggsAvL7ZEhetz0BDJUS2Wa53jQMmbjjcB88NHLP1u9n0n1UeASUQN1upw?=
+	=?us-ascii?Q?dfIkY2/q9QE8Ab26NCmhZliXEt4jIXaFT1vTL8XOqQ3a0CwLSFxik/3ndTSP?=
+	=?us-ascii?Q?s5ywT7jt6LC1tGKcxn77E82i063psww7aYuOozIiH+lDnNwzDLo8tY+yIFFY?=
+	=?us-ascii?Q?9gS3t7z+wA1XbVAkPND6RN4wokPbz+AXrM5WCsb4bGPE6jMZXa/khpooZu4i?=
+	=?us-ascii?Q?DtM/Lq+ngDpnm0HUKsFjlb851s0IbBK87cdRD6rv4WSeTWg+x/8MBByePIoq?=
+	=?us-ascii?Q?+0KGxAGRnPFc56v135BH/hnaQvk1N7Npgs3sMmYTQouCHeq/WCIY8PqaqdQ7?=
+	=?us-ascii?Q?Zul+O9GcnOR3f709UfBhAPyeaTjBH+/+gkINuuzWhrJEKzSS4YMGCFA=3D?=
+	=?us-ascii?Q?=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1177;
+	5:fPzfjwcXLklBh+0phoXqZONHAu3QXqWwzt25AutBniH6zZpuwM2IYJBi4dIn2CaOmnxtWmtOFq02bHPcQZWQ/kTawPdkbPkCYNkLi14AmcToDJ+5rT/xi0OAW5lf9HgFtr7q9XwwKivfIe0r/qoucw==;
+	24:gPEnpANpTxcez6JBUGxQJsv7sX2LTcViu5SzjXtGfGMUf1fC6vvMIWpU4FkGabP7H8gn26MLHMUkCWg7v1gRwC+iilFSilqJDSLX/VOqSzE=
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2016 09:35:33.9569 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2016 09:35:39.0442 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1180
-Subject: [poky][PATCH 02/13] gstreamer1.0-plugins-base: Fix taglist not being sent to down stream if all the frame corrupted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1177
+Subject: [poky][PATCH 05/13] gstreamer1.0-plugins-base: Disable orc optimization for lib video
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -103,89 +104,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 09:50:18 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 09:50:24 -0000
 Content-Type: text/plain
+
+- the orc optimization for lib video in plugins base may
+  cause segmentation fault.
+
+- disalbe orc optimization for lib video and just use the c source.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...-send-to-down-stream-if-all-the-frame-cor.patch | 58 ++++++++++++++++++++++
+ ...-optimization-for-lib-video-in-plugins-ba.patch | 34 ++++++++++++++++++++++
  .../gstreamer/gstreamer1.0-plugins-base_1.6.2.bb   |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
+ 2 files changed, 35 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0008-Disable-orc-optimization-for-lib-video-in-plugins-ba.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0008-Disable-orc-optimization-for-lib-video-in-plugins-ba.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0008-Disable-orc-optimization-for-lib-video-in-plugins-ba.patch
 new file mode 100755
-index 0000000..1e5ef5d
+index 0000000..9e80d96
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
-@@ -0,0 +1,58 @@
-+From 2f2fc40a88061995053c60d700efe20cb17358c9 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0008-Disable-orc-optimization-for-lib-video-in-plugins-ba.patch
+@@ -0,0 +1,34 @@
++From 51554875c2ee2714a4f80456f805cc2dfd612f78 Mon Sep 17 00:00:00 2001
 +From: Lyon Wang <lyon.wang@freescale.com>
-+Date: Wed, 21 Oct 2015 16:35:43 +0800
-+Subject: [PATCH 8/9] taglist not send to down stream if all the frame
-+ corrupted
++Date: Thu, 10 Dec 2015 14:32:43 +0800
++Subject: [PATCH] Disable orc optimization for lib video in plugins-base
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=737246
++- the orc optimization for lib video in plugins base may
++cause segmentation fault
++- disalbe orc optimization for lib video and just use the c source
 +
-+Upstream-Status: Pending
++package:  gstreamer1.0-plugins-base
++Community ticket: https://bugzilla.gnome.org/show_bug.cgi?id=759286
++Upstream-Status: pending
 +
-+Signed-off-by: Jian Li <lj.qfy.sh@gmail.com>
++Signed-off-by: Lyon Wang <lyon.wang@freescale.com>
 +---
-+ gst-libs/gst/audio/gstaudiodecoder.c | 9 +++++++++
-+ gst-libs/gst/video/gstvideodecoder.c | 8 ++++++++
-+ 2 files changed, 17 insertions(+)
++ gst-libs/gst/video/Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/gst-libs/gst/audio/gstaudiodecoder.c b/gst-libs/gst/audio/gstaudiodecoder.c
-+index f4c663a..b68f9eb 100644
-+--- a/gst-libs/gst/audio/gstaudiodecoder.c
-++++ b/gst-libs/gst/audio/gstaudiodecoder.c
-+@@ -2309,6 +2309,15 @@ gst_audio_decoder_sink_eventfunc (GstAudioDecoder * dec, GstEvent * event)
-+             ("no valid frames found"));
-+       }
++diff --git a/gst-libs/gst/video/Makefile.am b/gst-libs/gst/video/Makefile.am
++index 5d31fa1..f91fca6 100644
++--- a/gst-libs/gst/video/Makefile.am
+++++ b/gst-libs/gst/video/Makefile.am
++@@ -84,7 +84,7 @@ nodist_libgstvideo_@GST_API_VERSION@include_HEADERS = $(built_headers)
++ noinst_HEADERS = gstvideoutilsprivate.h
 + 
-++      /* send taglist if no valid frame is decoded util EOS */
-++      if (dec->priv->taglist && dec->priv->taglist_changed) {
-++        GST_DEBUG_OBJECT (dec, "codec tag %" GST_PTR_FORMAT, dec->priv->taglist);
-++        if (!gst_tag_list_is_empty (dec->priv->taglist))
-++          gst_audio_decoder_push_event (dec,
-++              gst_event_new_tag (gst_tag_list_ref (dec->priv->taglist)));
-++        dec->priv->taglist_changed = FALSE;
-++      }
-++
-+       /* Forward EOS because no buffer or serialized event will come after
-+        * EOS and nothing could trigger another _finish_frame() call. */
-+       if (dec->priv->pending_events)
-+diff --git a/gst-libs/gst/video/gstvideodecoder.c b/gst-libs/gst/video/gstvideodecoder.c
-+index f8a5869..514c06f 100644
-+--- a/gst-libs/gst/video/gstvideodecoder.c
-++++ b/gst-libs/gst/video/gstvideodecoder.c
-+@@ -1265,6 +1265,14 @@ gst_video_decoder_sink_event_default (GstVideoDecoder * decoder,
-+        * parent class' ::sink_event() until a later time.
-+        */
-+       forward_immediate = TRUE;
-++
-++      /* send taglist if no valid frame is decoded util EOS */
-++      if (decoder->priv->tags && decoder->priv->tags_changed) {
-++        gst_video_decoder_push_event (decoder,
-++            gst_event_new_tag (gst_tag_list_ref (decoder->priv->tags)));
-++        decoder->priv->tags_changed = FALSE;
-++      }
-++
-+       break;
-+     }
-+     case GST_EVENT_GAP:
++ libgstvideo_@GST_API_VERSION@_la_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_BASE_CFLAGS) $(GST_CFLAGS) \
++-					$(ORC_CFLAGS)
+++					$(ORC_CFLAGS) -DDISABLE_ORC
++ libgstvideo_@GST_API_VERSION@_la_LIBADD = $(GST_BASE_LIBS) $(GST_LIBS) $(ORC_LIBS) $(LIBM)
++ libgstvideo_@GST_API_VERSION@_la_LDFLAGS = $(GST_LIB_LDFLAGS) $(GST_ALL_LDFLAGS) $(GST_LT_LDFLAGS)
++ 
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
-index 473dbcd..3139148 100644
+index 2e7952b..c6f5d77 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://get-caps-from-src-pad-when-query-caps.patch \
-             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
-             file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
-             file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
-+            file://0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
+@@ -12,6 +12,7 @@ SRC_URI += "file://get-caps-from-src-pad-when-query-caps.patch \
+             file://0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
+             file://0006-handle-audio-video-decoder-error.patch \
+             file://0007-gstaudiobasesink-print-warning-istead-of-return-ERRO.patch \
++            file://0008-Disable-orc-optimization-for-lib-video-in-plugins-ba.patch \
  "
  
  SRC_URI[md5sum] = "f530fbbe287edce79c55a37bd1a39fe2"
