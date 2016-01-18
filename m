@@ -1,39 +1,48 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 69F256E666
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E8AA06FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 15:19:12 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id o6so12752656qkc.2
+	Mon, 18 Jan 2016 15:41:14 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id z14so58082145igp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 07:19:13 -0800 (PST)
+	Mon, 18 Jan 2016 07:41:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=eFFz/XFX+SclmuQ3NKqkY6AUZlg7v08PlBovo3J4xaY=;
+	b=w+1apsHywFRJJag+rHJnyM30mNbH9eDuNHAnUdnlyyFE7HPwsv+iKDclrwLuuz24PG
+	/8+qqw8X8mlHDs/DjQFF/AiXyFDzIq63igzObMcXeZ86WJDFTDtPeixDJo9aZJErUR0Y
+	i6JzFA7ofN1Y2Qv9RrrGOhLTWtca3jekGf7c82QWqT1jVlBmV6ZGh7fJngYSnOcWShZc
+	DPV9dCzTjIDF8elr7TlYd85VQOcJkeEAHZGlEO1BEiFLUvA4fPV6lH4NNw0I2b6whfY4
+	HKHZyf8Lu85GMNDcxTc2DUZVw1ySWTM5ioBcTfh4ocH6zyosevXCLuxOhHzhcpcJB7qE
+	73xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=8W4Z1N+tuF4OYwiSVE+GrJXeQTnBauZDTdwL6bj/sJc=;
-	b=Zz1+mvWqBD5R4Sjc/mndUOttPff1hPrNIBhikfhRZtGBBlg8yP4sce0FPZVDpp78uW
-	nRSIIVQ7Zkknzi/AbbSbl8dGKVRDRczYaM70RyYQToILhVsaE56THjsk8rTzSdq48WJN
-	UwDkQARYcX6o5N1SA/5PEU2xZkw1lcz6NoRXwHI0IAZmMyyTQjm3/KPEasn+GWrVPoys
-	2tSLDwF0onow68Ahx9PgLeekUygblh9K80rmcWE5h7j2vqyuNZbWZqdWSuS7ptWWFOyM
-	KwGtK8NbtxXCXTEvjwgfaKOYwdEPV7EPlWUaBy47jeE1cEStR/kSCIBBc9rGKGks8FZr
-	bIBQ==
-X-Gm-Message-State: ALoCoQkYrpoe96JS/jRY4JOaPmhnM1xNoXWOpdPvh1/M4TAdo3v9rnHU4YklWyXkTRMpAYm2E2dIl4ltB/77iYd9eScsUQTF3g==
-X-Received: by 10.55.82.193 with SMTP id g184mr32344301qkb.65.1453130352980;
-	Mon, 18 Jan 2016 07:19:12 -0800 (PST)
-Received: from localhost ([177.127.4.194]) by smtp.gmail.com with ESMTPSA id
-	p188sm5612683qhb.34.2016.01.18.07.19.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Jan 2016 07:19:11 -0800 (PST)
-Received: by localhost (sSMTP sendmail emulation);
-	Mon, 18 Jan 2016 13:18:58 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jan 2016 13:18:57 -0200
-Message-Id: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.7.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] slang: Add dependency on ncorses
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=eFFz/XFX+SclmuQ3NKqkY6AUZlg7v08PlBovo3J4xaY=;
+	b=Oq7B1b3He5v7p3z8HEsytFmrIc5J0Q5QVB1efBUobjVYp9hpDb59oZgW7tKV+WEJyh
+	luEc0hSZcPk5xjG82ZJQOnLwgQ9VoHFx7zF0K48uUo7vZKS7NAzxco8nR8fJ8VhxZ2uN
+	LZrIewA8okmA1yoZTkh+0YtDnwLP+uCpxJT92MrgFPwz53Gqkg6ZLcfXMKf4TDGujiEx
+	Lm8cgMHckjO5/KrusQavCKQlWYp2Kn1unpij8X6fDt0ZJP0qBZAuRucJ4W/Ggl4JPnSc
+	/u7mtRBrFest+Jf5/EwAmKVDJOavT7l23pWUsX48Ned/yMkRruXt++j7q9QoqRbpORQ/
+	Axgw==
+X-Gm-Message-State: AG10YOT0pEO7BWwctDTY2/QZPSAaQJviTznnqHpHkXI1SyNaRCR2c8QkLD9GZ48H0GIWfM6tf7wHkCDjMtW1dSIF
+X-Received: by 10.50.30.69 with SMTP id q5mr11657877igh.78.1453131675064; Mon,
+	18 Jan 2016 07:41:15 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 07:40:55 -0800 (PST)
+In-Reply-To: <ae92e4f1b2b1ce46e943903798d96a7b39a1fc85.1453029952.git.raj.khem@gmail.com>
+References: <cover.1453029952.git.raj.khem@gmail.com>
+	<ae92e4f1b2b1ce46e943903798d96a7b39a1fc85.1453029952.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Jan 2016 15:40:55 +0000
+Message-ID: <CAJTo0LY_hqMjgrTX6-RJTvcMabdoA7vE-M54H2fDCXJoz8-1Sw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 22/73] libdrm: Upgrade 2.4.65 -> 2.4.66
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 15:19:13 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 15:41:16 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc1c0c4e5f4705299d956a
 
-Slang links over ncurses' terminal information library thus it
-requires it to be available for build.
+--047d7bdc1c0c4e5f4705299d956a
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+On 17 January 2016 at 11:35, Khem Raj <raj.khem@gmail.com> wrote:
 
- meta/recipes-extended/slang/slang_2.2.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Fix test build failures
+>
 
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index bfaa9a5..237e9f2 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -9,7 +9,7 @@ to recode S-Lang procedures in C if you need to."
- 
- HOMEPAGE = "http://www.jedsoft.org/slang/"
- SECTION = "libs"
--DEPENDS = "pcre"
-+DEPENDS = "pcre ncurses"
- PR = "r12"
- 
- LICENSE = "GPLv2"
--- 
-2.7.0
+packages/corei7-64-poky-linux/libdrm/libdrm: PKG changed from libdrm2 to
+libdrm [default] - may indicate debian renaming failure
+packages/corei7-64-poky-linux/libdrm/libdrm: PKGSIZE changed from 56367 to
+176551 (+213%)
+  * PV changed from "2.4.65" to "2.4.66"
+  * FILELIST: added "/usr/bin/random /usr/bin/getversion
+/usr/bin/updatedraw /usr/bin/setversion /usr/bin/name_from_fd
+/usr/bin/getstats /usr/bin/hash /usr/bin/openclose
+/usr/bin/kms-universal-planes /usr/bin/kms-steal-crtc /usr/bin/getclient"
 
+Please remember to run buildhistory-diff :)
 
+This is a simple matter of more binaries being added and overly-restricted
+FILES matches, I've fixed locally.
+
+Ross
+
+--047d7bdc1c0c4e5f4705299d956a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 January 2016 at 11:35, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
+le:solid;padding-left:1ex"><div id=3D":7i5" class=3D"" style=3D"overflow:hi=
+dden">Fix test build failures<br></div></blockquote></div><br><div class=3D=
+"gmail_extra">packages/corei7-64-poky-linux/libdrm/libdrm: PKG changed from=
+ libdrm2 to libdrm [default] - may indicate debian renaming failure</div><d=
+iv class=3D"gmail_extra">packages/corei7-64-poky-linux/libdrm/libdrm: PKGSI=
+ZE changed from 56367 to 176551 (+213%)<br></div><div class=3D"gmail_extra"=
+>=C2=A0 * PV changed from &quot;2.4.65&quot; to &quot;2.4.66&quot;</div><di=
+v class=3D"gmail_extra">=C2=A0 * FILELIST: added &quot;/usr/bin/random /usr=
+/bin/getversion /usr/bin/updatedraw /usr/bin/setversion /usr/bin/name_from_=
+fd /usr/bin/getstats /usr/bin/hash /usr/bin/openclose /usr/bin/kms-universa=
+l-planes /usr/bin/kms-steal-crtc /usr/bin/getclient&quot;</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Please remember to ru=
+n buildhistory-diff :)</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">This is a simple matter of more binaries being added and o=
+verly-restricted FILES matches, I&#39;ve fixed locally.</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+
+--047d7bdc1c0c4e5f4705299d956a--
