@@ -1,45 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D82C260616
+Received: from mail-ob0-f194.google.com (mail-ob0-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C8B37317C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 21:34:08 +0000 (UTC)
-Received: by mail-ob0-f195.google.com with SMTP id oj9so16996494obc.0
+	Mon, 18 Jan 2016 21:34:13 +0000 (UTC)
+Received: by mail-ob0-f194.google.com with SMTP id oj9so16996607obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 13:34:10 -0800 (PST)
+	Mon, 18 Jan 2016 13:34:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=8qsBYI+hUb10VTRyKAasekL4taCh4uPYsqOHttsk52k=;
-	b=SQRHj90q8XJjxUCoAostr6zekvXXcqZxu+QZhfvPWIkREBnw+KVy3xBzFNPUVrxYep
-	ISC3JEt0xIWrN/j5usfge7h0vSF5h7qKrjrJwIqDhXlsFUMgAf0IuJDUgxLXiBg9ZYie
-	k3oRAoKgko9AKFj0s+EoTV8Aai4livdNv/SvUiQMVKyGBAxx0qV2H1BQw7OxT7Xa1OzO
-	asooPTVzrX28FhKDLckf5NlEAWHJRsqvrhdSrL4e+a2R1vtuLn8UdON1FnIeCT7fQtc3
-	Iy4rIrSY8WYDmkk0+UtC9q25OUQgqN+cHgZFLgyeZHaufxL8gCSzDEdPHpMDpWaronqj
-	80cw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=BSOLgIB9qiAXDP4JSN0X3M9w/orBHvx/lJgaoJodjmY=;
+	b=TRTCmKQkYy5YshjomFfhS4nlJgnzQAzibY61+oTfa0gQzh0BBCUYztU26qwLtnSzX4
+	BrTVtV6kh748Nq7zSplz1Ts5QXbxxi0RPgg0lA3e3Ws2wsH0IbmGSsmzxwzS198aSHq+
+	sYS8jERl0Pui8r6x1geat33tioN51cRv8F+kxcYXOTSO9/dwS2agXH07HR5dS/WuJyLF
+	wpZtMuhMPPtpvnu0VWoTCHWyNSJ4I7c2Ff49I5bYw5OKBMpkDja9H8GdhURTJcHSyZPo
+	8uZpZ9usHoyMVRPmkrjSpea9VR9ZmbVoLh++wCP22tJuOTc/j4eKoP0iE5yPbE5RTCBd
+	v0VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=8qsBYI+hUb10VTRyKAasekL4taCh4uPYsqOHttsk52k=;
-	b=gkWvxa8JNfbWW3pZvVBrcMD10mQeeU+c2ddEiLfqNCxR4Q/j5pMqeYnsQb6Ezg3znC
-	Y9e+hlPSmrod84MmWeqNgCm+jrEMYWf7gHlpMMwB7sLeEmoTUA86XKekZ3vD50yHBVKs
-	Prl+uS1vg/BHxz18vG90FxYC+jojLbFNwp17NzsDj1cDiaAQjaP2zvAk3E45M2FV/pqY
-	Nxbdh3T/HBzVsz8eSQaTc3AiE5ts5+al/o40ZCSe3lmhUeaudZvC99Pkw5OCMKTYOH2u
-	VvurzxnxXEFNKJ9geRU1lvIHfAheEh30p/A8w0rg10AStktnhx2Zg5H7r5kMHrER1++U
-	zmBA==
-X-Gm-Message-State: ALoCoQmbIc35tdlG4LKv+zI/gEqw3m+b8U4ecRJsXbuEVgfg4yw+Uhs7mHaU+Aq9eWcz2PXQl4ndvyQ8q8nIRpqodrwarDi5uA==
-X-Received: by 10.182.137.198 with SMTP id qk6mr20232805obb.5.1453152848566;
-	Mon, 18 Jan 2016 13:34:08 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=BSOLgIB9qiAXDP4JSN0X3M9w/orBHvx/lJgaoJodjmY=;
+	b=ToRklR7ow7KPABVz21bb47rs6CnHg7NX4fdKLpxuV5JBzZizLP/b/FwQY92ba3iK4i
+	dx1S7+3jkrCdqLdtHihn6nDm1Zhja7FtOelJUJ/qVC11DtCDsWrmN9cGbv+1vVP5JyDX
+	8oN7l2HBQaPEPJbna1oF0tdA3pa1kO6NOzaKAmPg/sWg8asH5HivPGkrGKJ7jcTewpp9
+	E1L8S0KHOLwJAt6Xk2R6dB5k3z9vzC/AizY5QSjzrcPfpz4MNy+F6zWnMq2cJP37lBsp
+	1j5CiU5TxHuvGoZldSKkZ1TFUz8w+TWjs4zvA70ECGMfAPv4XkvHe4hNn62JjhtABhcx
+	XXLA==
+X-Gm-Message-State: ALoCoQkiQ1y4/PatbNACioCcf2tbXpZqQC0QEB7hQ9/1LUubQjzXeJOBr/aZHHbsmzYuPTNjJIiyQFQjJZOtRhN3L8Ky82yVkQ==
+X-Received: by 10.60.60.3 with SMTP id d3mr20562668oer.24.1453152854454;
+	Mon, 18 Jan 2016 13:34:14 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id v6sm5928816oer.10.2016.01.18.13.34.06
+	by smtp.gmail.com with ESMTPSA id v6sm5928816oer.10.2016.01.18.13.34.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 Jan 2016 13:34:07 -0800 (PST)
+	Mon, 18 Jan 2016 13:34:13 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jan 2016 13:33:47 -0800
-Message-Id: <1453152832-12019-1-git-send-email-armccurdy@gmail.com>
+Date: Mon, 18 Jan 2016 13:33:48 -0800
+Message-Id: <1453152832-12019-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2 0/5] strace: update 4.10 -> 4.11
+In-Reply-To: <1453152832-12019-1-git-send-email-armccurdy@gmail.com>
+References: <1453152832-12019-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH v2 1/5] strace: drop unnecessary dependency on acl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +55,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 21:34:13 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 21:34:14 -0000
 
-v2: add mpers.m4 patch to fix x86-64 build failures.
+The dependency on acl was removed from strace prior to the v4.10
+release, so it's no longer necessary to add a configure option to
+allow acl to be disabled.
 
-Andre McCurdy (5):
-  strace: drop unnecessary dependency on acl
-  strace: fix --disable-aio configure option
-  strace: remove need for git-version-gen script
-  strace: fix ARCH definition in tests/Makefile
-  strace: update 4.10 -> 4.11
+  http://sourceforge.net/p/strace/code/ci/681452b0f854833d4bd443fcd9bb0bab2b46339f
 
- .../0001-Add-linux-aarch64-arch_regs.h.patch       |  25 ---
- .../Include-linux-ioctl.h-for-_IOC_-macros.patch   |  69 -------
- .../strace/Include-sys-stat.h-for-S_I-macros.patch |  52 -----
- .../strace/strace/Makefile-ptest.patch             |  18 +-
- .../strace/strace/disable-git-version-gen.patch    |  20 ++
- .../recipes-devtools/strace/strace/git-version-gen | 225 ---------------------
- ...-robust-test-for-m32-mx32-compile-support.patch |  46 +++++
- .../strace/strace-add-configure-options.patch      |  57 ------
- .../strace/strace/update-gawk-paths.patch          | 118 +++++++++++
- .../strace/{strace_4.10.bb => strace_4.11.bb}      |  26 +--
- 10 files changed, 202 insertions(+), 454 deletions(-)
- delete mode 100644 meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
- delete mode 100644 meta/recipes-devtools/strace/strace/Include-linux-ioctl.h-for-_IOC_-macros.patch
- delete mode 100644 meta/recipes-devtools/strace/strace/Include-sys-stat.h-for-S_I-macros.patch
- create mode 100644 meta/recipes-devtools/strace/strace/disable-git-version-gen.patch
- delete mode 100755 meta/recipes-devtools/strace/strace/git-version-gen
- create mode 100644 meta/recipes-devtools/strace/strace/more-robust-test-for-m32-mx32-compile-support.patch
- delete mode 100644 meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
- create mode 100644 meta/recipes-devtools/strace/strace/update-gawk-paths.patch
- rename meta/recipes-devtools/strace/{strace_4.10.bb => strace_4.11.bb} (51%)
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../strace/strace-add-configure-options.patch      | 24 ++--------------------
+ meta/recipes-devtools/strace/strace_4.10.bb        |  3 +--
+ 2 files changed, 3 insertions(+), 24 deletions(-)
 
+diff --git a/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch b/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
+index e48e4b3..a3f8ec4 100644
+--- a/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
++++ b/meta/recipes-devtools/strace/strace/strace-add-configure-options.patch
+@@ -1,4 +1,4 @@
+-Add options "aio" and "acl" to enable/disable libaio and acl support.
++Add option "aio" to enable/disable libaio support.
+ 
+ Upstream-Status: Pending
+ 
+@@ -12,26 +12,7 @@ diff --git a/configure.ac b/configure.ac
+ index e73958c..9099370 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -270,6 +270,18 @@ AC_CHECK_HEADERS(m4_normalize([
+- 	sys/vfs.h
+- 	sys/xattr.h
+- ]))
+-+
+-+AC_ARG_ENABLE([acl],
+-+	[AS_HELP_STRING([--enable-acl], [turn on acl support])],
+-+	[case $enableval in
+-+	yes)
+-+		AC_CHECK_HEADERS([sys/acl.h])
+-+		;;
+-+	no)  ;;
+-+	*)   AC_MSG_ERROR([bad value $enableval for aio option]) ;;
+-+	esac]
+-+)
+-+
+- AC_CHECK_HEADERS([linux/icmp.h linux/in6.h linux/netlink.h linux/if_packet.h],
+-                  [], [], [#include <stddef.h>
+- #include <sys/socket.h>
+-@@ -745,6 +757,20 @@ if test "x$ac_cv_lib_dl_dladdr" = xyes; then
++@@ -745,6 +745,20 @@ if test "x$ac_cv_lib_dl_dladdr" = xyes;
+  fi
+  AC_SUBST(dl_LIBS)
+  
+@@ -54,4 +35,3 @@ index e73958c..9099370 100644
+  dnl stack trace with libunwind
+ --
+ 1.9.1
+-
+diff --git a/meta/recipes-devtools/strace/strace_4.10.bb b/meta/recipes-devtools/strace/strace_4.10.bb
+index 20b7e3d..fe250b7 100644
+--- a/meta/recipes-devtools/strace/strace_4.10.bb
++++ b/meta/recipes-devtools/strace/strace_4.10.bb
+@@ -21,12 +21,11 @@ inherit autotools ptest bluetooth
+ RDEPENDS_${PN}-ptest += "make coreutils grep gawk"
+ 
+ PACKAGECONFIG_class-target ??= "\
+-    libaio ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
++    libaio \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+ "
+ 
+ PACKAGECONFIG[libaio] = "--enable-aio,--disable-aio,libaio"
+-PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+ PACKAGECONFIG[libunwind] = "--with-libunwind, --without-libunwind, libunwind"
+ PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,${BLUEZ}"
+ 
 -- 
 1.9.1
 
