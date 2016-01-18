@@ -1,19 +1,17 @@
 Return-Path: <B54851@freescale.com>
-X-Greylist: delayed 877 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 18 Jan 2016 09:50:12 UTC
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0145.outbound.protection.outlook.com [207.46.100.145])
-	by mail.openembedded.org (Postfix) with ESMTP id BBB8A7017C
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0116.outbound.protection.outlook.com [157.56.110.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F3D73175
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 09:50:12 +0000 (UTC)
-Received: from BLUPR0301CA0026.namprd03.prod.outlook.com (10.162.113.164) by
-	CY1PR0301MB1179.namprd03.prod.outlook.com (10.160.165.22) with
+	Mon, 18 Jan 2016 09:50:17 +0000 (UTC)
+Received: from BN3PR0301CA0008.namprd03.prod.outlook.com (10.160.180.146) by
+	CY1PR0301MB1180.namprd03.prod.outlook.com (10.160.165.23) with
 	Microsoft SMTP
-	Server (TLS) id 15.1.365.19; Mon, 18 Jan 2016 09:35:43 +0000
-Received: from BN1BFFO11FD027.protection.gbl (2a01:111:f400:7c10::1:122) by
-	BLUPR0301CA0026.outlook.office365.com (2a01:111:e400:5259::36) with
+	Server (TLS) id 15.1.365.19; Mon, 18 Jan 2016 09:35:35 +0000
+Received: from BY2FFO11FD024.protection.gbl (2a01:111:f400:7c0c::147) by
+	BN3PR0301CA0008.outlook.office365.com (2a01:111:e400:4000::18) with
 	Microsoft SMTP Server (TLS) id 15.1.365.19 via Frontend Transport;
-	Mon, 18 Jan 2016 09:35:42 +0000
+	Mon, 18 Jan 2016 09:35:34 +0000
 Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none; freescale.mail.onmicrosoft.com;
@@ -21,79 +19,78 @@ Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 Received-SPF: PermError (protection.outlook.com: domain of freescale.com used
 	an invalid SPF mechanism)
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1BFFO11FD027.mail.protection.outlook.com (10.58.144.90) with
-	Microsoft SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
-	Mon, 18 Jan 2016 09:35:41 +0000
+	BY2FFO11FD024.mail.protection.outlook.com (10.1.15.213) with Microsoft
+	SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
+	Mon, 18 Jan 2016 09:35:33 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	u0I9ZROb015522; Mon, 18 Jan 2016 02:35:39 -0700
+	u0I9ZROX015522; Mon, 18 Jan 2016 02:35:32 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jan 2016 17:32:55 +0800
-Message-ID: <1453109582-25485-7-git-send-email-b54851@freescale.com>
+Date: Mon, 18 Jan 2016 17:32:51 +0800
+Message-ID: <1453109582-25485-3-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453109582-25485-1-git-send-email-b54851@freescale.com>
 References: <1453109582-25485-1-git-send-email-b54851@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BN1BFFO11FD027;
-	1:lROVGAzdNy+QZej2JI7B50rFKdlR/hJMUBZpISsfuS+64UdryXV58OLz2f137TitZ5meApRTclY/yxzmMa8h/BbAIVQD2ChUtYLQAPmeWKpsx032nxcn+Wac3dx5FcbmpwWDofUUS+2sUW4IOz4zwdzhK1JUsL1n5Jz1RKpZODZ3mNnRhCpREY7fAHXP4bqZQknsNP9Kj6f6q3DnZQAVm9Trz46G5mL0IsuNTXS3nnJOqcp+1tRxADfBUAkvpAQcydoyTzlm3hBvl38mEweoNH1r1/5yl0R/1/pILWNPyzvYu0fzjnypjcc5N9p+qBlOMbmmeoZc1bq68kZCBohC3y0Xt5kzx5JLVY2o4DcGVMeT4pUmSOodXIek4PXDUQnqVXUTWpUR474iVH6i2Kk6HL5PW9SCBzg9heVVkwsxFY8=
+X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD024;
+	1:LKhgfZ5//wV7BVIjCut8BbtvWk6iRDGEPf/QYqWCRJnScS2AfEfsM9KnJQ0Ak0o1nkARL06enB/iwJGeyjK17QAbq8YigIZUOv3tcrUkQqtmAGYRpM/mrmcGK/PhbtGAWzNb2kj6bPn4UHsv/LA2puPj+B0hALP5qjPJZYXEEQ3omiHuRze3X6WOsMAcssLgfDETYfq7t350xCGMcxRpUoACrnyTafI4qmNBiTlP7/GwknLy/IGPkwLk56Hu2pUKBGWQ4fUjVfpuRRpIoAOQ2/48jeRMpdh9u0ry/tl5KxIkBZkvxAaUeX9P1NorgdMbouKioWt6NNV2qCz0IOvhx91IRvryiSCYCCeocwad04GIVRtqKW6GfHkINCupIZKIxzhs3y1ELQO90nFlFr4z3pk373qArPi/PXiT1Wr7Ymg=
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(448002)(199003)(189002)(5001960100002)(586003)(48376002)(15975445007)(2351001)(19580395003)(76176999)(19580405001)(229853001)(50226001)(4001430100002)(4326007)(5008740100001)(47776003)(50466002)(87936001)(5003940100001)(2950100001)(106466001)(85326001)(50986999)(107886002)(230783001)(110136002)(97736004)(92566002)(77096005)(33646002)(575784001)(189998001)(2906002)(36756003)(450100001)(6806005)(86362001)(1096002)(104016004)(1220700001)(81156007);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1179;
+	SFS:(10019020)(6009001)(2980300002)(448002)(189002)(199003)(15975445007)(19580405001)(19580395003)(106466001)(50466002)(76176999)(77096005)(230783001)(48376002)(5001960100002)(47776003)(107886002)(5003940100001)(189998001)(110136002)(85326001)(2351001)(97736004)(81156007)(50986999)(36756003)(2950100001)(4326007)(6806005)(5008740100001)(586003)(104016004)(1220700001)(2906002)(1096002)(229853001)(33646002)(4001430100002)(92566002)(50226001)(86362001)(450100001)(87936001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1180;
 	H:tx30smr01.am.freescale.net; FPR:; SPF:PermError;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 8602ef7d-1d1e-4314-8b4a-08d31feabbbc
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1179;
-	2:btyVfDoQZ0MLYUWVEEaAEYHL7WpWBMd4psyi+8tqGTLwBXwh/2vl8euXaDwTgLt9xLruaJQD/s0m6GnsjOuKsQPQ6R2afnDUzt5mYdUCtTuXx03gjoqrBoLNj7jfCjMFXXkrYj8XSUuhpfM0u4Lo5VnpYydfI/eo321N6159zwfw3k0M0PUca+bBeHqJlDAr;
-	3:5AqAO5ZM3/YuK6Sb7KMakz/Qq5ALmvQU7Z5JBckbq6XoxtdxvAAJr4uD1+yHffFrD8BOB26Rku2sbd+7qxoDAvd3Uwy7LH9brUJhOLgsf/Vd8rSFZNXFRb1c2eBhzI4ZrgP2ZsYFm4rNnHtM6ZoV9Xv6eXbZ+aeujPjyU74AppOb8MxmmH8Nj0znyMpWlA3B+RGIcahJkFDfl90hFTslG+9A9W8RGFGrnfg0I5TuHI8=;
-	25:w/lHFBqiQb8DRYP+S3kRzGkuWt7YRN2C6xMaWDw90Ur1z1iDzJQP/7U5JstGySF4BAT08tZVFEkzIoIgImSMtd9mOEgRSFSB64rO8n8tS24hGbJkRSD2Xvyt1Qy4fP4btvBtuwtGK27oN5TouLd/WV6DNaRo1Ks3hpX1KTbhzZ4pPaeWm46ulS9FbaU4Wm9NREsyuITvZB4xeCrgU/ET6IR0l8XXCl9Bfe+PDV8LIf4sRvAzOvsafbGlmMuy+A5h
+X-MS-Office365-Filtering-Correlation-Id: 53fa1f07-29cc-4e1e-9581-08d31feab6f3
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	2:e79HcV/ZnKBDE1au5Gcfm+P5KrDUUMtByRhcttqByVqJ05UdnRfzQHc3uquuQy7tT70ywrDZ+aQ2bRnsQWdjB2B09gsG6DoYbDVjcJiE9nvdUUbIsl35DOgYBqLbZ74uXN42PFNUzjLEHTVqRSxudUa9CBNQX/KCyayy+7ZR3kpzlfe0QEPOsZhbH66nBOgN;
+	3:1JH20mHNVb9HDOsBjMLjsZlwnTGQXWlYdCSokr62PECtsRMemY+1RLZjb5jMWFb3/d4hLHhmApHPv5xZOI+Hkshu4ehjBuRi2nbTT+2iVQVmcWPZl5eitnfXA9s92Mkn+4L0J0rWLZqOMTZMpCa4640lFWPXpcRXm6P0hrlhjAH7rrwtD1zMTheY649M5hB7w0LYGBB668VFBVc5EFwBdtRL8Za+ZSLAzRoZ2/ijJ+8=;
+	25:jbDHwE9peubebPtXs8t1+BCnbmusI8WosJ2USwufWEcfx9wp12Sx5FEdIKtaPR4p4GgZGOfJBMfNr0Idb4fMKfMcZ51Wxh+JrrHcWCyINuArrQHiv6vnzu8GkORW/3gd91V9GtSEs2RDs5soO8O3+M/eJ1gSxVExEUOko3L2NszQOE5YdTkZF/ybma9sWTXsc4NfK5Y+SCJhLPpvXdiE+/8AMJelZIE0OVs8jsRQZIy9hMm4tkO47snz4MS98/Wl
 X-Exchange-Antispam-Report-Test: UriScan:; BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB1179; UriScan:(101931422205132); 
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1179;
-	20:qkmEBikOqpMjxD8Mb8vzPjduiaJYS7iRmA1f7qzW1Rj+/nEs+MbjRxHk5hiT24AkYpq80CRuphwV0E2So9DT77paBHOaNkSAsEH8zepftQqA4GpiBuB29kbv1mbvaiyalsxeQtJqfps2cxWJM3cOzmIT+35BbyAkB6vxcymECYouQXatI7usqL06dPgd0/ejL8zTSg2QADjhnPgKEx+mY9t8PiywbGCxp/QnEH0jpVz8sKx0LxP/S6A/XWvV1LEC5BFiIiN59nUybwne2W9hczxCbw23YsPy7FkG9uaBFIgr6t+1DfJrJv7OWZykYqZTw6W01J+w8Aec6EiDGn/nzeeNlI6gQUQGsNhVgjxfwKaugbOq+qs1SvyKqek+8aWHYkvWWSaXF5hl++G0x87RgaTxTBxO7KbF7Wwi3s2ieXMSFkXdROKH776/kYjs2hV6;
-	4:tS/9/rDFHyRm1OlIeFPvGz2pKxx7LfLwCgrVMbBA6fZATCx1EXQVwt1qvFfIpwP77VAl3WpjlO2Zf3xXYUfciQPxGoWyqxo84PQqWbzxmNBF3yIbrtG4RphBrLV18SgY0gm8hWo6krBJbGNav5uX3bTO448nmerc6/UcOO6lNmhcceZq8M9IpKSb4lcF5N6koPvg1XQkusKxniae0ehLHixrkHYFpDumxTO+LPmnvbkyz9zddXKfLdv/fxTdnrVvMKdCWaGf1WjTjymb3TNW88KuMNyABFIcr4Gv/HIccEQBBnW3x8FYNWQShY+3tZ7c/h3pLecoQT6SPLpfKkA7SABiTUmpfgA21tEL0X43bnr1dtK3shgJbEx+g5zkVnBB00ek39T6kCdNMaT5aZEv1wlCit/zilyuZSKAUul50snREF6MTgOiQWQxha0A2+U3xomUdYFM1obKoDfp8tMyiMWjIONvPkgKPnW4NfY4u8QpdOCk9qM7QAgYrxe7tXa4
-X-Microsoft-Antispam-PRVS: <CY1PR0301MB117911A1A977440F7AAEA6E086C00@CY1PR0301MB1179.namprd03.prod.outlook.com>
+	SRVR:CY1PR0301MB1180; UriScan:(101931422205132); 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	20:AYaMWyRifz+RWmsynVdyt5Dz056QOKS/1MlxskMrWFg7VseCaIp+GbmtsGDGrT8OG3s5OJeUT2/C2MFS/iTtk6mkRlLM58vK04nrF0sKAeH2gJ8/mbJYpFb5T5o6WLafaWV1ylPSdEtYZHZAl7iONLnPfg66sN5RbQpUfF7CDqw7hfgIK1BZLioVaNhEneAlftlmipQPc0o2ubSNfN5+xk15bdjmP7HsQAF0sANomKyxlEddaj+F6qEao34MwIrCKK47YMapqCSlhU7ASObQxHpYHGBZjcA5q05g2p2RzQlbDPB1E0JRZCT8Ruv/YOFvczjYQdZf2hwtH83Hgw985uqI5vBaRJe3H+tcQ5ruwB2bjjpLsPUQ8ZWg1hXi+pIZToYeHHvpAmw9xN2HSFrgrnQM27xmeGv7ZCpN+D/n+qwK19kiKsAug1OAlGtigFi/;
+	4:dMyz2UFkhUAgRSPa8vMDh1I3Qo1oMopd3aoYarPtMPmzbcEVyWuCwkVQwg//DR+rIk2hnD24N9IczO0X1pCAd52Ysi3debT5tEQp4QmasdivnuGh/JEyVJHA6HjYrPKeUVh9tt5GVHt8K3WbNBMhfLfsSxnXiobn1qooO+3TOX8XYVsRaRQLpx5JU+dKfOyfzYJVdzv8UldMCC8F0mM1STxGtF4/3wNU7JBPlXDCdO0idkkroN03kqKRYIqxO6eLsCjQ7FztdqhF2P1EC6NFxN4J91CRXds2LkP8ANikCT9pZiYJYQWRp3NoUjTEx2KYyH41wTE9XwsWI5FYw2bAeaWnkoS0Y/5rqe+XYI3kqoCsImRmSEJIkjIWF1TIrAXPn9D5Qb1S0aLS45BwazuIDpKlqZ9sAilvFARMWIKxb7DcF8/v7fGkQSA8nZCNMN1AvAUuiGcco+YPLRaqk6eBJVVCxpAWt94E9WE3ijqAtThOpD3PTTGyL3Bo0JN4Pmqf
+X-Microsoft-Antispam-PRVS: <CY1PR0301MB11804EEC9AE6C34D4C8379FA86C00@CY1PR0301MB1180.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
 	RULEID:(601004)(2401047)(5005006)(13018025)(13023023)(8121501046)(13017025)(13015025)(520078)(10201501046)(3002001);
-	SRVR:CY1PR0301MB1179; BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB1179; 
+	SRVR:CY1PR0301MB1180; BCL:0; PCL:0; RULEID:;
+	SRVR:CY1PR0301MB1180; 
 X-Forefront-PRVS: 08252193F3
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1179;
-	23:OvrlcG6Osw7ZdstoHOnbUIOMEtruMeMVwgaDA7S?=
-	=?us-ascii?Q?gIuXBloBf8HZQwso2oGLFZxap8PW8NASdaPIuxUC/u5tsCp77yOteLuBSVmy?=
-	=?us-ascii?Q?Gj9ipiZ3gZKzqn1d6nJILHSl0AFUj/RKdZFKPwe3NJ7BSuHIpcRr4rTYgTDo?=
-	=?us-ascii?Q?G4iwn0T0HkwCkznEg8kw3ggjk1ljI3WH9x76zAu9AWOzdkcro5Kqt1HgON0W?=
-	=?us-ascii?Q?oazVKSDIc+sg8ecgKtXWVaZhEDv3VVWCWWxso/0sR8vCfe7NNGziRPs7IqbX?=
-	=?us-ascii?Q?crH3hQii+KPNmswkY8+cbjvC4+VG1YIvkxA3P6xQwFzAf3kB4+43ylPba0QY?=
-	=?us-ascii?Q?5uhpz74ufJVoDOK52kIoXn7gs+XQa44btMIIdKgUxQOPjVrifdhW1ZeK/rqp?=
-	=?us-ascii?Q?Qhgjf+/ajn4OqMOnO1npcDi15k5k8R+CIfbX9gAVu/mcXc2exi7T+JxCs28b?=
-	=?us-ascii?Q?yJNBO0TbYKEASK4/xxJs3VartPFmpc8D7n4ualCphgDL8pWMCaLfNVBZMTz1?=
-	=?us-ascii?Q?QhuhLDQ/v7O/ati7OHObH2HZPBsc7s6fDpWTFKyVZe0bUxO4JVIF99VnrmlH?=
-	=?us-ascii?Q?yh5Qanwun2GihuLj+F+b2OGhQoNOW1Q+GQvY7eK62sXbwkuEtZmH9nNS7A+W?=
-	=?us-ascii?Q?Euc/Nu70tUaXnwObuWvsLBZ2V0BRkxM4N099kEqCi2cS3YdDFUkzFm1UyMsf?=
-	=?us-ascii?Q?Elwvchm6zgxY3XoVwKzpTFK7KxLRZF4gASGz0ya5o4wNMN30KiLH8uZJx+Om?=
-	=?us-ascii?Q?9SwVOVuOE6ZZqh7+jVHG3y6p693N/fjVUl2QpkeewF9LEdNRJ5LAV/Ru/2GB?=
-	=?us-ascii?Q?BHp3LWs4rwJ5gdFrEDUeVGNpE0OYDfONvicQ0J7e9tcqn9BhDwk6mGtRclyX?=
-	=?us-ascii?Q?thSBQXiyBaXqGePpGg4Km0PDEdw0Cwyn3VW4myiaiilIwX8cC2QPyjssl/gO?=
-	=?us-ascii?Q?WIgpH6xdtRpBm1WN7HZVvwAnGa2r/hZTaXXUQMNr14AbtbnKd2sjF0YaIfou?=
-	=?us-ascii?Q?ne0/5KPFTWMhnukYkDsL26CiMZKsVnLN73D1uuXpi4AHQtZwpxA4pnd8iWcn?=
-	=?us-ascii?Q?cnYdeDKBomnQ4hF8yTwda0YxVCeRmrWLKvhJnHuxR4EuB3JW5arPUwHSMMmF?=
-	=?us-ascii?Q?GG8m5ydaPfBsD3X5LXtjysjTNM+hJl1J8B7v16AvEsKzTeAXL0uUylw=3D?=
-	=?us-ascii?Q?=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1179;
-	5:7Iw79ckMI3RKEc7/Grsq3MW7AoUZxBwl9VyQV/14FtGnHWTWJIYyw/+RYl4QAV5+Yv1QyaMBlsamyWsvwlVvHkyFWh+3E6qGGAdS5FNftlNiErUI03jRlTp5+2IQpW/+ZE3XaIrLzSoYPSWbSBbXEg==;
-	24:VnIaOKscq3f+MAkpSWP1yOTNoSl6mU/ZMlWe4d2oprlb8DrY8NrdQMTq5qLblwuUAVRj8G1dWmOwqga5zDX+FOGZbtDd2SoW/fw+99/6rL4=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1180;
+	23:aBpbyQ/XprZ8XT2bN1W6IcYnhQ3j5gfHEnHuxKo?=
+	=?us-ascii?Q?qlja6DmfdkCw8jecQ4BBnx/2uLZOL9Qa2boEmFB50Ok/VylYfBb7Qb81B9ex?=
+	=?us-ascii?Q?kVAt/2iIqsVFnDw+FoxDGY1/sGzz1H5HPEtyaXQ9El9d0QpMHgKqOD3k4YoE?=
+	=?us-ascii?Q?XpoiFZgY+v7fF0zDYcBjT3tgyAVHGUolQCly55oOr4U/hJZ3eyoU0dV2ks4W?=
+	=?us-ascii?Q?4fvMMTysNqhat8ZNZz0kmPeLgVznmXxuQyRIdUrra8ZxF/RSe69CQ592r9wP?=
+	=?us-ascii?Q?ccyDpOjwFwN7+G2K7Py+leMZ15FAiPZBhDtJolg4A+sjosx+ZQ3ILYlPm1kb?=
+	=?us-ascii?Q?7H9ntG8nmkc5f4wroNaLQiIGaIMi/RCm0oi3n/1NIlaSd6XFbRY6nIUqql1t?=
+	=?us-ascii?Q?RwWjf15t6t7YEI9OAt5L+dsyhLy0/StwxLqGC+Uusx1+CvmdX67ZlmxPaa0W?=
+	=?us-ascii?Q?YLx2hvkZSM+7c34SZeGzo0CULm/4YSKYJ8zY73fA+m2oRXpnMmzD21Fulequ?=
+	=?us-ascii?Q?BJmaHdkPJcJco+pcfnhims8G52K+au4sTlOaL6JGSObtqRKAn7By46UR/9Xj?=
+	=?us-ascii?Q?mwjpKxjHcOl961oGKZT+uvLU5cV8TzgBUhnI8m5/RkYUvI092oHD3VNyKJsb?=
+	=?us-ascii?Q?PsknsDnznZuxalpMrVAUE2SnUdjw3v+NkZ991VMxUB62EJcGdo/vDeif+W2D?=
+	=?us-ascii?Q?yuJ8h2Xp0XIZaca8I/w9wRN1P7YPkaxy61ZFyTkAnKvmS/nn94OBw8a+0XW4?=
+	=?us-ascii?Q?26aQj8zMUBrYmT2l4rqLqASFUdEgtCGRZozbRH0BgtS6mKbDs4d8LKTBL+Rb?=
+	=?us-ascii?Q?AnQ4BCuve18ISxweeB09NMecn/uTNQCOa+/K8ICHSd6cFEkcaQ+hmkd8y7CQ?=
+	=?us-ascii?Q?wI5GhV56Duuwo2B8wYF23+6tLp5Vm/hQe5k3OzmxxBGDy7ApR8RTr1gggTHB?=
+	=?us-ascii?Q?xCB/6Ne+NcVtCpCaQ2Aqtw/ZbjccSvQQmA70dALvv4wN0MdDyZjXkbakL/Ln?=
+	=?us-ascii?Q?3NJV3dWrOtZSMbVYGSPZFVSV8jRUv2n4P+TjuW6abR1vVBn50bT/E5XTmRX6?=
+	=?us-ascii?Q?Xc4uzZgxeJSbVsBBhGiqAsBQnVpiEhdwK3t0PCr3wJXvvQJn6n0Du//DbHTb?=
+	=?us-ascii?Q?QR5++IHyDpfW9hibVQwOqd0KwW0V6wJy1?=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	5:/oEjly86ZrhQzzOpF+MhP9cF4n6gpj78Q7zi0LBdqyBjB0nIwsy8GvOfOiL5RroUKGCSX9BZCX3JJXIqzdb3CYUNevrRV8IAr8UwFwHhkLAP6tVN4FGe+UF3F2MNGe6gEdrCQxKlsSotiSibxk8iVA==;
+	24:ZYL3t/KXAAvkCTNwps7XSvsqyrBPZqWOfmjqh3GnOlNDLAs6tMuzu7zc/f6w1cXsdnMvCrE9dUid505sP+HfNVexYY9VoS/ycTXl6PS9+YI=
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2016 09:35:41.0643 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2016 09:35:33.9569 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1179
-Subject: [poky][PATCH 06/13] gstreamer1.0-plugins-base: Add video crop supporting when convert frame
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1180
+Subject: [poky][PATCH 02/13] gstreamer1.0-plugins-base: Fix taglist not being sent to down stream if all the frame corrupted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,178 +103,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 09:50:13 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 09:50:18 -0000
 Content-Type: text/plain
-
-Getting thumbnail will use convertframe to convert video frame to
-desired video format and size. But haven't process crop meta on
-the video buffer. Need to add video crop support.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...ame-Support-video-crop-when-convert-frame.patch | 143 +++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-base_1.6.2.bb   |   1 +
- 2 files changed, 144 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-convertframe-Support-video-crop-when-convert-frame.patch
+ ...-send-to-down-stream-if-all-the-frame-cor.patch | 58 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-base_1.6.2.bb   |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-convertframe-Support-video-crop-when-convert-frame.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-convertframe-Support-video-crop-when-convert-frame.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
 new file mode 100755
-index 0000000..096a6f4
+index 0000000..1e5ef5d
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-convertframe-Support-video-crop-when-convert-frame.patch
-@@ -0,0 +1,143 @@
-+From 5be6ed00aad028d9cbb4e0c63af0be69d335c71e Mon Sep 17 00:00:00 2001
-+From: Song Bing <b06498@freescale.com>
-+Date: Fri, 11 Dec 2015 21:42:00 +0800
-+Subject: [PATCH] convertframe: Support video crop when convert frame
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
+@@ -0,0 +1,58 @@
++From 2f2fc40a88061995053c60d700efe20cb17358c9 Mon Sep 17 00:00:00 2001
++From: Lyon Wang <lyon.wang@freescale.com>
++Date: Wed, 21 Oct 2015 16:35:43 +0800
++Subject: [PATCH 8/9] taglist not send to down stream if all the frame
++ corrupted
 +
-+Get thumbnail will user convertframe to convert video frame to
-+desired video format and size. But haven't process crop meta on
-+the video buffer. Add support video crop.
++https://bugzilla.gnome.org/show_bug.cgi?id=737246
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=759329
++Upstream-Status: Pending
 +
-+Upstream-Status: Backport [1.7.1]
-+
++Signed-off-by: Jian Li <lj.qfy.sh@gmail.com>
 +---
-+ gst-libs/gst/video/convertframe.c | 65 +++++++++++++++++++++++++++++++++------
-+ 1 file changed, 56 insertions(+), 9 deletions(-)
++ gst-libs/gst/audio/gstaudiodecoder.c | 9 +++++++++
++ gst-libs/gst/video/gstvideodecoder.c | 8 ++++++++
++ 2 files changed, 17 insertions(+)
 +
-+diff --git a/gst-libs/gst/video/convertframe.c b/gst-libs/gst/video/convertframe.c
-+index aa9c3d3..942a51e 100644
-+--- a/gst-libs/gst/video/convertframe.c
-++++ b/gst-libs/gst/video/convertframe.c
-+@@ -110,12 +110,23 @@ fail:
-+ static GstElement *
-+ build_convert_frame_pipeline (GstElement ** src_element,
-+     GstElement ** sink_element, const GstCaps * from_caps,
-+-    const GstCaps * to_caps, GError ** err)
-++    GstVideoCropMeta * cmeta, const GstCaps * to_caps, GError ** err)
-+ {
-+-  GstElement *src = NULL, *csp = NULL, *vscale = NULL;
-+-  GstElement *sink = NULL, *encoder = NULL, *pipeline;
-++  GstElement *vcrop = NULL, *csp = NULL, *csp2 = NULL, *vscale = NULL;
-++  GstElement *src = NULL, *sink = NULL, *encoder = NULL, *pipeline;
-++  GstVideoInfo info;
-+   GError *error = NULL;
++diff --git a/gst-libs/gst/audio/gstaudiodecoder.c b/gst-libs/gst/audio/gstaudiodecoder.c
++index f4c663a..b68f9eb 100644
++--- a/gst-libs/gst/audio/gstaudiodecoder.c
+++++ b/gst-libs/gst/audio/gstaudiodecoder.c
++@@ -2309,6 +2309,15 @@ gst_audio_decoder_sink_eventfunc (GstAudioDecoder * dec, GstEvent * event)
++             ("no valid frames found"));
++       }
 + 
-++  if (cmeta) {
-++    if (!create_element ("videocrop", &vcrop, &error)) {
-++      g_warning
-++          ("build_convert_frame_pipeline: Buffer has crop metadata but videocrop element is not found. Cropping will be disabled");
-++    } else {
-++      if (!create_element ("videoconvert", &csp2, &error))
-++        goto no_elements;
-++    }
-++  }
+++      /* send taglist if no valid frame is decoded util EOS */
+++      if (dec->priv->taglist && dec->priv->taglist_changed) {
+++        GST_DEBUG_OBJECT (dec, "codec tag %" GST_PTR_FORMAT, dec->priv->taglist);
+++        if (!gst_tag_list_is_empty (dec->priv->taglist))
+++          gst_audio_decoder_push_event (dec,
+++              gst_event_new_tag (gst_tag_list_ref (dec->priv->taglist)));
+++        dec->priv->taglist_changed = FALSE;
+++      }
 ++
-+   /* videoscale is here to correct for the pixel-aspect-ratio for us */
-+   GST_DEBUG ("creating elements");
-+   if (!create_element ("appsrc", &src, &error) ||
-+@@ -133,15 +144,42 @@ build_convert_frame_pipeline (GstElement ** src_element,
-+ 
-+   GST_DEBUG ("adding elements");
-+   gst_bin_add_many (GST_BIN (pipeline), src, csp, vscale, sink, NULL);
-++  if (vcrop)
-++    gst_bin_add_many (GST_BIN (pipeline), vcrop, csp2, NULL);
-+ 
-+   /* set caps */
-+   g_object_set (src, "caps", from_caps, NULL);
-++  if (vcrop) {
-++    gst_video_info_from_caps (&info, from_caps);
-++    g_object_set (vcrop, "left", cmeta->x, NULL);
-++    g_object_set (vcrop, "top", cmeta->y, NULL);
-++    g_object_set (vcrop, "right", GST_VIDEO_INFO_WIDTH (&info) - cmeta->width,
-++        NULL);
-++    g_object_set (vcrop, "bottom",
-++        GST_VIDEO_INFO_HEIGHT (&info) - cmeta->height, NULL);
-++    GST_DEBUG ("crop meta [x,y,width,height]: %d %d %d %d", cmeta->x, cmeta->y,
-++        cmeta->width, cmeta->height);
-++  }
-+   g_object_set (sink, "caps", to_caps, NULL);
-+ 
-+   /* FIXME: linking is still way too expensive, profile this properly */
-+-  GST_DEBUG ("linking src->csp");
-+-  if (!gst_element_link_pads (src, "src", csp, "sink"))
-+-    goto link_failed;
-++  if (vcrop) {
-++    GST_DEBUG ("linking src->csp2");
-++    if (!gst_element_link_pads (src, "src", csp2, "sink"))
-++      goto link_failed;
++       /* Forward EOS because no buffer or serialized event will come after
++        * EOS and nothing could trigger another _finish_frame() call. */
++       if (dec->priv->pending_events)
++diff --git a/gst-libs/gst/video/gstvideodecoder.c b/gst-libs/gst/video/gstvideodecoder.c
++index f8a5869..514c06f 100644
++--- a/gst-libs/gst/video/gstvideodecoder.c
+++++ b/gst-libs/gst/video/gstvideodecoder.c
++@@ -1265,6 +1265,14 @@ gst_video_decoder_sink_event_default (GstVideoDecoder * decoder,
++        * parent class' ::sink_event() until a later time.
++        */
++       forward_immediate = TRUE;
 ++
-++    GST_DEBUG ("linking csp2->vcrop");
-++    if (!gst_element_link_pads (csp2, "src", vcrop, "sink"))
-++      goto link_failed;
+++      /* send taglist if no valid frame is decoded util EOS */
+++      if (decoder->priv->tags && decoder->priv->tags_changed) {
+++        gst_video_decoder_push_event (decoder,
+++            gst_event_new_tag (gst_tag_list_ref (decoder->priv->tags)));
+++        decoder->priv->tags_changed = FALSE;
+++      }
 ++
-++    GST_DEBUG ("linking vcrop->csp");
-++    if (!gst_element_link_pads (vcrop, "src", csp, "sink"))
-++      goto link_failed;
-++  } else {
-++    GST_DEBUG ("linking src->csp");
-++    if (!gst_element_link_pads (src, "src", csp, "sink"))
-++      goto link_failed;
-++  }
-+ 
-+   GST_DEBUG ("linking csp->vscale");
-+   if (!gst_element_link_pads_full (csp, "src", vscale, "sink",
-+@@ -193,8 +231,12 @@ no_elements:
-+   {
-+     if (src)
-+       gst_object_unref (src);
-++    if (vcrop)
-++      gst_object_unref (vcrop);
-+     if (csp)
-+       gst_object_unref (csp);
-++    if (csp2)
-++      gst_object_unref (csp2);
-+     if (vscale)
-+       gst_object_unref (vscale);
-+     if (sink)
-+@@ -209,7 +251,11 @@ no_elements:
-+ no_pipeline:
-+   {
-+     gst_object_unref (src);
-++    if (vcrop)
-++      gst_object_unref (vcrop);
-+     gst_object_unref (csp);
-++    if (csp2)
-++      gst_object_unref (csp2);
-+     gst_object_unref (vscale);
-+     gst_object_unref (sink);
-+ 
-+@@ -282,7 +328,8 @@ gst_video_convert_sample (GstSample * sample, const GstCaps * to_caps,
-+   }
-+ 
-+   pipeline =
-+-      build_convert_frame_pipeline (&src, &sink, from_caps, to_caps_copy, &err);
-++      build_convert_frame_pipeline (&src, &sink, from_caps,
-++      gst_buffer_get_video_crop_meta (buf), to_caps_copy, &err);
-+   if (!pipeline)
-+     goto no_pipeline;
-+ 
-+@@ -646,8 +693,8 @@ gst_video_convert_sample_async (GstSample * sample,
-+   }
-+ 
-+   pipeline =
-+-      build_convert_frame_pipeline (&src, &sink, from_caps, to_caps_copy,
-+-      &error);
-++      build_convert_frame_pipeline (&src, &sink, from_caps,
-++      gst_buffer_get_video_crop_meta (buf), to_caps_copy, &error);
-+   if (!pipeline)
-+     goto no_pipeline;
-+ 
++       break;
++     }
++     case GST_EVENT_GAP:
 +-- 
-+2.5.0
++1.9.1
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
-index c6f5d77..97b1a87 100644
+index 473dbcd..3139148 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
-@@ -13,6 +13,7 @@ SRC_URI += "file://get-caps-from-src-pad-when-query-caps.patch \
-             file://0006-handle-audio-video-decoder-error.patch \
-             file://0007-gstaudiobasesink-print-warning-istead-of-return-ERRO.patch \
-             file://0008-Disable-orc-optimization-for-lib-video-in-plugins-ba.patch \
-+            file://0009-convertframe-Support-video-crop-when-convert-frame.patch \
+@@ -9,6 +9,7 @@ SRC_URI += "file://get-caps-from-src-pad-when-query-caps.patch \
+             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
+             file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
+             file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
++            file://0005-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
  "
  
  SRC_URI[md5sum] = "f530fbbe287edce79c55a37bd1a39fe2"
