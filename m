@@ -1,24 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 349FC6FFD7
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D70527316B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 14:19:17 +0000 (UTC)
+	Mon, 18 Jan 2016 14:19:40 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Jan 2016 06:19:18 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jan 2016 06:19:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,312,1449561600"; d="scan'208";a="729518278"
+X-IronPort-AV: E=Sophos;i="5.22,312,1449561600"; d="scan'208";a="729518385"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 18 Jan 2016 06:19:18 -0800
+	by orsmga003.jf.intel.com with ESMTP; 18 Jan 2016 06:19:41 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 233E12C8001
+	by linux.intel.com (Postfix) with ESMTP id 1328A2C8002
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 07:07:13 -0800 (PST)
+	Mon, 18 Jan 2016 07:07:36 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jan 2016 14:22:40 +0200
-Message-Id: <cover.1453119482.git.ed.bartosh@linux.intel.com>
+Date: Mon, 18 Jan 2016 14:22:41 +0200
+Message-Id: <886899efaeaa5a5b8d09ce44d34d8e4141d3dd25.1453119482.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH 0/6] wic: kickstart fixes
+In-Reply-To: <cover.1453119482.git.ed.bartosh@linux.intel.com>
+References: <cover.1453119482.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1453119482.git.ed.bartosh@linux.intel.com>
+References: <cover.1453119482.git.ed.bartosh@linux.intel.com>
+Subject: [wic][PATCH 1/6] wic: add custom exception KickStartError
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 14:19:21 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 14:19:42 -0000
 
-Hi,
+This exception will be raised by kickstart parser
+on parsing errors and processed in the code which
+calls parser to produce meaningful error output.
 
-This patchset includes usability fixes and error handling improvements
-for new kickstart parser.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/kickstart.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The following changes since commit a2f23fa62858b89850aab339ddec16dcf6026b37:
-
-  openssh: CVE-2016-1907 (2016-01-18 11:47:08 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wic/kickstart-fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/kickstart-fixes
-
-Ed Bartosh (6):
-  wic: add custom exception KickStartError
-  wic: catch KickStartError
-  wic: improve processing of parseing errors
-  wic: removed unused imports
-  wic: override ArgumentParser.error
-  wic: rename kickstarter.py -> ksparser.py
-
- scripts/lib/wic/conf.py                            |  7 +++++--
- scripts/lib/wic/{kickstart.py => ksparser.py}      | 24 ++++++++++++++++++----
- scripts/lib/wic/plugins/source/bootimg-efi.py      |  2 +-
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  2 +-
- .../lib/wic/plugins/source/isoimage-isohybrid.py   |  2 +-
- .../lib/wic/plugins/source/rootfs_pcbios_ext.py    |  1 -
- 6 files changed, 28 insertions(+), 10 deletions(-)
- rename scripts/lib/wic/{kickstart.py => ksparser.py} (82%)
-
---
-Regards,
-Ed
+diff --git a/scripts/lib/wic/kickstart.py b/scripts/lib/wic/kickstart.py
+index 2208395..7f0105d 100644
+--- a/scripts/lib/wic/kickstart.py
++++ b/scripts/lib/wic/kickstart.py
+@@ -31,6 +31,9 @@ from argparse import ArgumentParser, ArgumentTypeError
+ 
+ from wic.partition import Partition
+ 
++class KickStartError(Exception):
++    pass
++
+ def sizetype(arg):
+     """
+     Custom type for ArgumentParser
+-- 
+2.1.4
 
 
