@@ -1,48 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 97D5860112
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 69F256E666
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 15:10:26 +0000 (UTC)
-Received: by mail-ig0-f176.google.com with SMTP id z14so57229069igp.1
+	Mon, 18 Jan 2016 15:19:12 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id o6so12752656qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 07:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=aj2FT8+yYY0ljSeljnmjwd32HeDq9aa9je/PjBFFYkg=;
-	b=zcG0YHhmyaqRpNBu1BMtPHqjCaJdcGpedgVbpimSlvnBCZdCoIyF8wtAFUWbTVvoZJ
-	6wDb6MpecAeWZI/oKBJRiQf60+6OaPtsja3TPr9lb6uC1tMW5QLONpmpDjpVndXqzsa/
-	JtpD1ynuUPBLOmo0qFl2ukDD/ZkP0hQXVgm8h5pfoWFbYWrZ4p1zMdA7zvHE7YZkT63w
-	cyp0uwBlIVZhrlBWeRwB6tDUEwX98rQlGBqxvojIov0DKmVHBpn2GRKf7ppVRGXmmE0h
-	CwGWkuaGssBeGgbEeX9ZQdOghC9QJjGSXkOj11+XuVqBuy/XtZlD4c/Eduqq3D19JdRG
-	SgYA==
+	Mon, 18 Jan 2016 07:19:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=aj2FT8+yYY0ljSeljnmjwd32HeDq9aa9je/PjBFFYkg=;
-	b=YzlFuEKli77SqeBfRK4+Gd/u1rpxskHVszXsVF18NusDBoc4kSkpGPSCAau7y9YbcQ
-	TZ85UQ6UNv7AdvjTOvW1Jf6Fe9unEUrTtot2184pEJBoX3PBDBocX5ITcsTTZTjJZUVz
-	8DCZU5zT593jpZ8g86npHR24XGTQU2QMRVphzAx9yXF5q+4x3IRgrbAi1LtuI+X4pKSs
-	qOGlJVtNjk1GqPifsKidmwdfsiH5RjN1GM4ykOQju1y9bwf1T/4vzh5nqrfE4QIP0s6T
-	WRhFIq1l4NQy2cDARrcLPGsT1mkv2sK6a4bKTzl+LrhW/w2cnPua7TuIvXVKMHUQiDzv
-	d7Pw==
-X-Gm-Message-State: AG10YOT5V2+or2QF+uewyvMxDNV0AlisTssh7QvJgzUtEYwHeXvaftDUY225Hv7NSXvf2ddINL7hvupwmGsBy4JD
-X-Received: by 10.50.126.8 with SMTP id mu8mr10633325igb.52.1453129827126;
-	Mon, 18 Jan 2016 07:10:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 07:10:07 -0800 (PST)
-In-Reply-To: <1453109582-25485-12-git-send-email-b54851@freescale.com>
-References: <1453109582-25485-1-git-send-email-b54851@freescale.com>
-	<1453109582-25485-12-git-send-email-b54851@freescale.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Jan 2016 15:10:07 +0000
-Message-ID: <CAJTo0LYdsdZdmAEMk9meSrTMcFhuXOzk9=5xK8tXq-x37XvK-w@mail.gmail.com>
-To: Yuqing Zhu <b54851@freescale.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH 11/13] gstreamer1.0-plugins-bad: Add video stitching support based on Open CV
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=8W4Z1N+tuF4OYwiSVE+GrJXeQTnBauZDTdwL6bj/sJc=;
+	b=Zz1+mvWqBD5R4Sjc/mndUOttPff1hPrNIBhikfhRZtGBBlg8yP4sce0FPZVDpp78uW
+	nRSIIVQ7Zkknzi/AbbSbl8dGKVRDRczYaM70RyYQToILhVsaE56THjsk8rTzSdq48WJN
+	UwDkQARYcX6o5N1SA/5PEU2xZkw1lcz6NoRXwHI0IAZmMyyTQjm3/KPEasn+GWrVPoys
+	2tSLDwF0onow68Ahx9PgLeekUygblh9K80rmcWE5h7j2vqyuNZbWZqdWSuS7ptWWFOyM
+	KwGtK8NbtxXCXTEvjwgfaKOYwdEPV7EPlWUaBy47jeE1cEStR/kSCIBBc9rGKGks8FZr
+	bIBQ==
+X-Gm-Message-State: ALoCoQkYrpoe96JS/jRY4JOaPmhnM1xNoXWOpdPvh1/M4TAdo3v9rnHU4YklWyXkTRMpAYm2E2dIl4ltB/77iYd9eScsUQTF3g==
+X-Received: by 10.55.82.193 with SMTP id g184mr32344301qkb.65.1453130352980;
+	Mon, 18 Jan 2016 07:19:12 -0800 (PST)
+Received: from localhost ([177.127.4.194]) by smtp.gmail.com with ESMTPSA id
+	p188sm5612683qhb.34.2016.01.18.07.19.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Jan 2016 07:19:11 -0800 (PST)
+Received: by localhost (sSMTP sendmail emulation);
+	Mon, 18 Jan 2016 13:18:58 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jan 2016 13:18:57 -0200
+Message-Id: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.7.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] slang: Add dependency on ncorses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 15:10:26 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf28ad2705299d2796
+X-List-Received-Date: Mon, 18 Jan 2016 15:19:13 -0000
 
---047d7b1635bf28ad2705299d2796
-Content-Type: text/plain; charset=UTF-8
+Slang links over ncurses' terminal information library thus it
+requires it to be available for build.
 
-On 18 January 2016 at 09:33, Yuqing Zhu <b54851@freescale.com> wrote:
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-> +Add video stitching element based on Open CV.
->
+ meta/recipes-extended/slang/slang_2.2.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm not entirely convinced that we should be carrying patches to add
-entirely new elements to GStreamer.  Why can't this be in your layer until
-it's merged upstream?
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index bfaa9a5..237e9f2 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -9,7 +9,7 @@ to recode S-Lang procedures in C if you need to."
+ 
+ HOMEPAGE = "http://www.jedsoft.org/slang/"
+ SECTION = "libs"
+-DEPENDS = "pcre"
++DEPENDS = "pcre ncurses"
+ PR = "r12"
+ 
+ LICENSE = "GPLv2"
+-- 
+2.7.0
 
-Ross
 
---047d7b1635bf28ad2705299d2796
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 January 2016 at 09:33, Yuqing Zhu <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:b54851@freescale.com" target=3D"_blank">b54851@freescale.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2va" class=3D"a3=
-s" style=3D"overflow:hidden">+Add video stitching element based on Open CV.=
-<br></div></blockquote></div><br>I&#39;m not entirely convinced that we sho=
-uld be carrying patches to add entirely new elements to GStreamer.=C2=A0 Wh=
-y can&#39;t this be in your layer until it&#39;s merged upstream?</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
-
---047d7b1635bf28ad2705299d2796--
