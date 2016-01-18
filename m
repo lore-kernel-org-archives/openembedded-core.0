@@ -1,56 +1,61 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id D22916FFE5
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8189B60620
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 10:12:02 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id z14so52638202igp.0
+	Mon, 18 Jan 2016 10:19:42 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id b14so114923335wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 02:12:03 -0800 (PST)
+	Mon, 18 Jan 2016 02:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:content-type:mime-version:content-transfer-encoding;
-	bh=wsEvRNCp4/62o2fwPzzKdLmgDqB7W10XDVioeF0HKYg=;
-	b=mIHRtk6XKSplGUp/S+iPPlnqU1TOJjMf68/kZO/hzdqyDjZHCCQBkZ0Jt53m0iFhTR
-	6vYZf7n9bHvNYnilfnltQX1MWR68Ohe2bZ8TNxrch6IOfozNlO1FPoxJf+rs2csbsqiU
-	YHMdgOkXH0xPoghrppdpxndpuqPW0m0XsEwyv2uwvF8ixpxt6hOzcPwvZbXZoAy2/Zz/
-	FIBbgENsYzC3XmGIrz25ENHuSD4c2wrNL6zqWMJcNS7P7DmUTZHE14ZTu4Htgd1n7uIB
-	x2SAQYamsqMbmsNCuAVtkMm3Hm/i+QmKGAnUjI5rKfx3kecjlPrUomZ12XhD3121gsjJ
-	Wlug==
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=YDYnyTUNKLCnLrbYiWx9GZoT7oNHUHaqlZZinQe7pdk=;
+	b=Y6IpRcRrbGWXA9Lg4jvO/ltJYYfB3KOdgvBXoVsHWspm6/MkOfPy+0spnVlmUIHdGj
+	VE0kcVG6BhdzgSCMHyThdz2J42SDpLfGS7WnCiu0YFreWc9woz99JOvWOoAh2kkHQAqH
+	A41/G+ptcYka6ysweXqMbaYAMTpiatGqUyzoLJ6r0qXVyq0Wo9ftzKtJ6k33+3XtAuba
+	0nwXM3Ng0PQqZzxDDnMVDrXaSKofIx3g8FJmE4XKCGRt+5TIzAdfAo9FGUJr4oQipn6E
+	bSJppfq2q5YlZ/QQZcANn9zR/Bxmnv9ilccvyUkDXGgTS2n11goZ3LR3ZzbvfqzspSyz
+	vxFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=wsEvRNCp4/62o2fwPzzKdLmgDqB7W10XDVioeF0HKYg=;
-	b=Tri4O0w/SWBXpMaXmpZR8QG+CHWfsKEhGzLIaiTOTHdyL4PBjlrGvU+Z/NcZYb++Rd
-	xA47EdoIUSfi/rtnQoiKERTO2vt4cTZuQqetorqyUwe5Dms46GHAp0UBV5zFMg5ze05Y
-	6dhTuGpmTyux6TkHEeMD44Mivrsh8LClJiFL9rYYS4yjlEVozzkyz1ok6ivuSKOeLkqI
-	Z1kWYNrGyuSLCE8U6p8Pzq9r2MUKNaT356FNIizNMa5ttYY1QNHjvwikBb5Aj2uc75iL
-	O20a57jlpz8zYLq8Xqf84ODuuh4zdqflFzbDlMmZHToIUR7XmuUFWdoYoMCpAE/H9Tam
-	+PyQ==
-X-Gm-Message-State: AG10YORt9LNls94aqI9lvVTbjSA4oIABBm8vuza3PDO1vgfdaNY/P/3hpspqKmnjMWZ3cLRW
-X-Received: by 10.50.171.162 with SMTP id av2mr10397992igc.32.1453111923403;
-	Mon, 18 Jan 2016 02:12:03 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8CE7A.dip0.t-ipconnect.de. [93.232.206.122])
-	by smtp.gmail.com with ESMTPSA id a5sm5280616iga.7.2016.01.18.02.12.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Jan 2016 02:12:02 -0800 (PST)
-Message-ID: <1453111920.7013.30.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 18 Jan 2016 11:12:00 +0100
-In-Reply-To: <569C9B3D.1040201@windriver.com>
-References: <cover.1452823464.git.liezhi.yang@windriver.com>
-	<2f2bda63c8a7f435e76c5d4ea1c5c529847f7f65.1452823464.git.liezhi.yang@windriver.com>
-	<1452856537.28375.142.camel@linuxfoundation.org>
-	<1453102317.7013.27.camel@intel.com> <569C9B3D.1040201@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] e2fsprogs: 1.42.9 -> 1.43-WIP
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=YDYnyTUNKLCnLrbYiWx9GZoT7oNHUHaqlZZinQe7pdk=;
+	b=gmtH7MzapfFsMG23iXDW/lhcsTezBhR0f9AVYg0jnpHBEbjwzJo1KBxWoKbxOsGMMd
+	czAlTWcxtSthQjAtuLlgnztXRNe2inRMrUFp8lEPXjcQNOPTVG/QhLMP0V5IzoK2hm9t
+	xnoQ1haUCBoZCvU6gNw+Oc3hfI2MB2XyoL1Cfuf5dg84zGBeNI/AhJN9sclXmIbE1Iuq
+	oa8gGQpXLMurC8hewTIj91ldA3snKivTJF1nNFw5ehlf6mk9q/RUo2UcHagZUc2GCtOI
+	yOYYgs9IJsmWJn08O9tBpxMW2IEqv877O3bsiyETjQS3xOAOLHmbrUftnjRSERAmmOwz
+	qzzQ==
+X-Gm-Message-State: ALoCoQnIZT0nez1OGFx89yHKrreRmw0mZMnDNZlfl9z66u6Jf7XX3k9CukafAF3sBBpaDjgp9a5v176X2JZgImQqIB1VxTzk5A==
+X-Received: by 10.194.175.170 with SMTP id cb10mr27732662wjc.36.1453112383147; 
+	Mon, 18 Jan 2016 02:19:43 -0800 (PST)
+Received: from ?IPv6:2001:610:612::3870:6f41:fc04:319f?
+	([2001:610:612:0:3870:6f41:fc04:319f])
+	by smtp.gmail.com with ESMTPSA id
+	s129sm14966466wmf.18.2016.01.18.02.19.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 18 Jan 2016 02:19:41 -0800 (PST)
+Mime-Version: 1.0 (1.0)
+From: Koen Kooi <koen@dominion.thruhere.net>
+X-Mailer: iPhone Mail (13C75)
+In-Reply-To: <569CBA29.60301@dresearch-fe.de>
+Date: Mon, 18 Jan 2016 11:19:40 +0100
+Message-Id: <229F5D91-9E6E-42BB-81C6-24D0B46A456B@dominion.thruhere.net>
+References: <5698E002.5090800@dresearch-fe.de>
+	<1452863169.28375.161.camel@linuxfoundation.org>
+	<5698F31E.1020905@dresearch-fe.de>
+	<56990180.9080407@dresearch-fe.de>
+	<6AFD6AF0-3B94-44BB-BAA0-30EBB9747193@dominion.thruhere.net>
+	<569CA241.20805@dresearch-fe.de>
+	<F620CA2D-BA83-436A-B7D4-EA0C117154D9@dominion.thruhere.net>
+	<569CBA29.60301@dresearch-fe.de>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: fido -> jethro switching problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,30 +68,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 10:12:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2016-01-18 at 15:58 +0800, Robert Yang wrote:
-> 
-> On 01/18/2016 03:31 PM, Patrick Ohly wrote:
-> > I believe the "1.42.9+git${SRCPV}" string goes back to Ross, so I'd
-> > assume that it is not too unusual. Can we perhaps use "1.42.9+git
-> > ${SRCPV}" also in OE-core? Then if I'm not mistaken, the magic behind
-> > ${SRCPV} will ensure that the final version number will be higher.
-> 
-> Maybe use 1.42.13+git${SRCPV} ? Since 1.42.13 is the lastest 1.42 version.
-
-That would also work.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+X-List-Received-Date: Mon, 18 Jan 2016 10:19:45 -0000
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
 
+> Op 18 jan. 2016 om 11:10 heeft Steffen Sledz <sledz@dresearch-fe.de> het v=
+olgende geschreven:
+>=20
+> On 18.01.2016 09:41, Koen Kooi wrote:
+>>> Op 18 jan. 2016, om 09:28 heeft Steffen Sledz <sledz@dresearch-fe.de> he=
+t volgende geschreven:
+>>> On 15.01.2016 15:29, Koen Kooi wrote:
+>>>>> Op 15 jan. 2016 om 15:26 heeft Steffen Sledz <sledz@dresearch-fe.de> h=
+et volgende geschreven:
+>>>>> It seems that all machines based on armv5e are affected.
+>>>>=20
+>>>> FWIW, I'm seeing the same problem. The last time it happened it was due=
+ to the fixup angstrom does for broken arm BSPs
+>>>=20
+>>> What commits do you talking about ("last time it happened")?
+>>>=20
+>>> https://github.com/Angstrom-distribution/meta-angstrom/commit/7f3d898930=
+077710dfa42150882bce60d437af7d ?
+>>> https://github.com/Angstrom-distribution/meta-angstrom/commit/4b2e8ecb9a=
+82109022727f6d80b8db56ae493fe8 ?
+>>>=20
+>>> Or something else?
+>>=20
+>> Yes, those ones.
+>=20
+> If I understand right you only introduced an own DEFAULTUNE override for a=
+ngstrom to work around the problem. Right?
+
+right
+
+>=20
+> Did you identify the parts of meta-fsl-arm which were responsible for thes=
+e problems?
+
+The machine includes that tune to cortex-foo instead of armvX. I don't need 5=
+ different versions of bash for 5 'different' armv7 machines.
+
+>=20
+> Steffen
+>=20
+> PS: Hi Otavio, I've added you to this discussion as the official meta-fsl-=
+arm maintainer.
+>=20
+> --=20
+> DResearch Fahrzeugelektronik GmbH
+> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+> Fax: +49 30 515932-299
+> Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Weber, Werner M=C3=B6gle;
+> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+> Ust.-IDNr. DE273952058
 
