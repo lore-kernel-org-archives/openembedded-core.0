@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id DA33960116
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2348160116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 16:50:56 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id 77so523288479ioc.2
+	Mon, 18 Jan 2016 16:52:04 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b14so17749913wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 08:50:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=T0hpP/qnZUPlWnWEjVXri5OSHZ4kteTJsh9GB4LlJZ0=;
-	b=SzibGvXXofUAL/wimt6LlLK1G7cRRTxXKdPmj0aGjDUaT7YuyJl1yphpOTaEvC291K
-	fuSdtjGcM01W6Y0RmFCAo+6QwvEjdZjBeHSqisat6xsxxaxZ1hay7/vYdLFJmJ6D6k9u
-	GPN69ZrOPF9Gp+TefYYt8cZM0jQ4i3SkknKIO1s5iGiNulR/Iz7Y/5c0yG49+lN3p1sm
-	4pSITknUu4aOajuLyz0Rgo8DYIAJvcqB7jiwsqIe7dwd/EDVQVAVVkYSjlHGzbHO+Rx7
-	IHFJb5qFpb3yeDIhXt4PKpxApR7qfDjuEPks9xRIweFa7j+qYQCZsF6FOAhH0WQAvF+U
-	2F0A==
+	Mon, 18 Jan 2016 08:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Y1tYQXYJuwtIHIsifMgs2c5IxSdd7BU+ul0wvLMp4lM=;
+	b=jVpNwMuaDEZlZrEX1DaAjeqVtsdFSHIXrHNvFkhXu5phpqq6HJkIIIdbdUl6c2J4sf
+	mffem8ljlDFIJLeKBGYQ/UX/dX7JVvWh41tDTkMsdcGUGU38B6GH2JujYLilFQkcjCM4
+	S1YRDwJIBKyz1a57UE+wxYzOw+hJfIvk36QSaVx3IlKpbNgKjP5s3kzue4rGjrs6LToK
+	207YbMSKLyM5q9DVyEEA4xctDQM54fDYvMjlpOsryv+KNISdFwE0iFNQEn7Q2MYBfnMP
+	UkGRCsPtmCme6m9cuFxLGPPdjlqzC3aYzUW3joUu5EJPbjVV1sUy90laAHD3H4d4z3fW
+	jKWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=T0hpP/qnZUPlWnWEjVXri5OSHZ4kteTJsh9GB4LlJZ0=;
-	b=dCugQEj0tMm87HifjPhJF1S+XcMKfiKcMPVr9+Lk0olTw8aIQHJXWMGbWNKbOYVUkM
-	DjxlejXYnC5zQANxX5rwJv0PJondc45SV10Ex3WY6bRIu109N28SMAhrRAT5L8hvp+Bz
-	DC8+K6jKw+z/vZFmyXd6qaK0lGcmM4oD5hResO88yTpc2zGWNqlpJZvYlL+xTVZfXAjK
-	zTdE6lKn+z0JtG+PZQS03WsP6fUloc4mwVzwPZjuFLpLW1sBt6jDRYH+Caj7PMsp6KXO
-	qyAMpFbj09WVLe+x8QoTT/okei/reo83x+t9lEN+8KIGoB455YKkRx6xpPgthJSLmDIa
-	YLvg==
-X-Gm-Message-State: ALoCoQk0SeoEAt213ke6+sspbJZVKKRmbGA5hYPLXM2TQ40RlvlRM9dAmlZmZc7RITkgPRF07GhV8VAdsvuu1UowqXMGUCUc7RQIDbmdfH803quCnuCn0fk=
-X-Received: by 10.107.164.161 with SMTP id d33mr20662565ioj.148.1453135856946; 
-	Mon, 18 Jan 2016 08:50:56 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=Y1tYQXYJuwtIHIsifMgs2c5IxSdd7BU+ul0wvLMp4lM=;
+	b=eMecpV5HWTwrrHefINWSYTcqggkbRYvRGzNtewS5VyLNkL9SxlcfIgwYIFPVv28HIv
+	uHTTXlDH3qmpioxMKJWu4X3DOqpB7wohOpdKr0H0hDuhBcmgVE+ia2GihSXm12kjmatY
+	WULdGdzIKIpxIRxDCNPsdKr3xLP5vPEcixvnNQ95g27imyolRgH/Fpn3gN2qN2Gqiukp
+	00DhKkUBD+dFZ/GNjUhCHYQd7XPK9iDKk2W9tL75VDE03UrjizMB3vIHgUP2ux27dB7L
+	0uHOZQ2izLWjAwMbh6S+bv7IKqE4SBrIE9vwX9IR5TTc/oxnoMkxlDFN3LOvCVt9jvND
+	Qxhw==
+X-Gm-Message-State: AG10YORQJ4dcMovPlJkuXufmGPi+ShvAHNNCLwNkwAUAWEaIKuFw3KyCeSSxTHfXnAda3A==
+X-Received: by 10.194.85.161 with SMTP id i1mr1151503wjz.95.1453135925057;
+	Mon, 18 Jan 2016 08:52:05 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id 79sm16608061wmo.7.2016.01.18.08.52.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Jan 2016 08:52:04 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 18 Jan 2016 17:53:17 +0100
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20160118165317.GC2614@jama>
+References: <cover.1452848807.git.liezhi.yang@windriver.com>
+	<85829b7950f74cb41f39b5f1fbd8541bcb7b6d1e.1452848807.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 08:50:37 -0800 (PST)
-In-Reply-To: <569D1781.200@windriver.com>
-References: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
-	<569D1781.200@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Jan 2016 16:50:37 +0000
-Message-ID: <CAJTo0LZQ+oDM0gatYwmWOi8YV=mpud+M5VWE4fEYbMCqFPCh-g@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] slang: Add dependency on ncorses
+In-Reply-To: <85829b7950f74cb41f39b5f1fbd8541bcb7b6d1e.1452848807.git.liezhi.yang@windriver.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] gstreamer1.0-plugins-good.inc: add gudev back to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +59,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 16:50:57 -0000
-Content-Type: multipart/alternative; boundary=001a1141c97690638605299e8e28
+X-List-Received-Date: Mon, 18 Jan 2016 16:52:05 -0000
+X-Groupsio-MsgNum: 76347
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="s9fJI615cBHmzTOP"
+Content-Disposition: inline
 
---001a1141c97690638605299e8e28
-Content-Type: text/plain; charset=UTF-8
-
-On 18 January 2016 at 16:49, Randy MacLeod <randy.macleod@windriver.com>
-wrote:
-
-> Please fix typo in shortlog:
->
-> s/ncorses/ncurses/
->
-
-I fixed this when I pulled it into mut.
-
-Ross
-
---001a1141c97690638605299e8e28
-Content-Type: text/html; charset=UTF-8
+--s9fJI615cBHmzTOP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 January 2016 at 16:49, Randy MacLeod <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:randy.macleod@windriver.com" target=3D"_blank">randy.macleod@windri=
-ver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-:a02" class=3D"a3s" style=3D"overflow:hidden">Please fix typo in shortlog:<=
-br>
-<br>
-s/ncorses/ncurses/<br></div></blockquote></div><br>I fixed this when I pull=
-ed it into mut.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
+On Fri, Jan 15, 2016 at 01:07:20AM -0800, Robert Yang wrote:
+> The 66e32244aed8d33f1b49fbe78179f2442545c730 wrongly removed gudev from
+> PACKAGECONFIG, now add it back.
 
---001a1141c97690638605299e8e28--
+It was removed intentionally, because for systemd images there isn't
+libgudev provider in oe-core, only in meta-oe.
+
+RP's fix:
+http://git.openembedded.org/openembedded-core/commit/?h=3Djethro&id=3Dbc458=
+ae9586b45b11b6908eadb31e94d892e698f
+
+breaks the dependencies again, because when systemd is used there won't
+be libgudev needed by gstreamer1.0-plugins-good
+
+Please revert both "fixes"
+
+Regards,
+
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../gstreamer/gstreamer1.0-plugins-good.inc        |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.=
+inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> index edaafe8..2f987b4 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> @@ -11,7 +11,7 @@ inherit gettext
+>  PACKAGECONFIG ??=3D " \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', =
+'', d)} \
+> -    orc cairo flac gdk-pixbuf jpeg libpng soup speex taglib v4l2\
+> +    orc cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 \
+>      "
+> =20
+>  X11DEPENDS =3D "virtual/libx11 libsm libxrender libxfixes libxdamage"
+> --=20
+> 1.7.9.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--s9fJI615cBHmzTOP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAladGH0ACgkQN1Ujt2V2gBw7cwCfXhWSPJcmYpXfIe0VG/KNC2am
+BBcAn2+wjCDy9CjHyrtZpMoX1FW9Dhe8
+=1JLy
+-----END PGP SIGNATURE-----
+
+--s9fJI615cBHmzTOP--
