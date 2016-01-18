@@ -1,28 +1,30 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DF86473174
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 76BDF605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 14:20:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Jan 2016 06:20:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,312,1449561600"; d="scan'208";a="895743413"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2016 06:20:48 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 646F92C8001
+	Mon, 18 Jan 2016 14:26:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0IEQ4mJ019208 for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jan 2016 14:26:04 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CzVBrrb0A2dg
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 07:08:44 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jan 2016 14:22:46 +0200
-Message-Id: <817f92016161b8d85742d0f0349d5822792bde6d.1453119482.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1453119482.git.ed.bartosh@linux.intel.com>
-References: <cover.1453119482.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1453119482.git.ed.bartosh@linux.intel.com>
-References: <cover.1453119482.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 6/6] wic: rename kickstarter.py -> ksparser.py
+	Mon, 18 Jan 2016 14:26:04 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0IEPxtL019204
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jan 2016 14:26:00 GMT
+Message-ID: <1453127159.27999.62.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jan 2016 14:25:59 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] image: Always run do_rootfs_wicenv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 14:20:48 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 14:26:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-kickstarter.py was not the best name for this module as previously
-there was a directory with the same name in scripts/lib/wic/.
-All files were removed from it, but .pyc files could still stay there
-causing imports from wic.kickstart to fail with
-ImportError: cannot import name KickStart.
+The wic command can be used externally but for this to work, the wic
+environment file needs to be present. Therefore write this out
+universally, it runs in parallel with other image construction so
+any performance implications are negligible.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/conf.py                       | 2 +-
- scripts/lib/wic/{kickstart.py => ksparser.py} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename scripts/lib/wic/{kickstart.py => ksparser.py} (100%)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/scripts/lib/wic/conf.py b/scripts/lib/wic/conf.py
-index 922a0f6..f7d56d0 100644
---- a/scripts/lib/wic/conf.py
-+++ b/scripts/lib/wic/conf.py
-@@ -17,7 +17,7 @@
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index e81edb2..3870516 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -277,7 +277,7 @@ python do_rootfs_wicenv () {
+             if value:
+                 envf.write('%s="%s"\n' % (var, value.strip()))
+ }
+-addtask do_rootfs_wicenv after do_rootfs before do_image_wic
++addtask do_rootfs_wicenv after do_rootfs before do_image_wic do_image_complete
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ do_rootfs_wicenv[prefuncs] = 'set_image_size'
  
- import os
- 
--from wic.kickstart import KickStart, KickStartError
-+from wic.ksparser import KickStart, KickStartError
- from wic import msger
- from wic.utils import misc
- 
-diff --git a/scripts/lib/wic/kickstart.py b/scripts/lib/wic/ksparser.py
-similarity index 100%
-rename from scripts/lib/wic/kickstart.py
-rename to scripts/lib/wic/ksparser.py
--- 
-2.1.4
+
 
 
