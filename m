@@ -1,57 +1,45 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3385E6FFE2
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E49F36FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 08:41:17 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id l65so89570327wmf.1
+	Mon, 18 Jan 2016 09:05:50 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id py5so189330758obc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 00:41:18 -0800 (PST)
+	Mon, 18 Jan 2016 01:05:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=Cc2KF6lyjg+zY4IUf4WBtgjEcxnQogPavuMF70cWKWQ=;
-	b=rgebRGOtsfUvPwUQdaxCnqj3d3rzvA/9DRvUxWzi8FUj9TQipR+OqiTj7QZwrK72cJ
-	WEQsZOp4GvGF8vltyHsXODpHQV0VAWp170xJwzRhVYQkpqCyd+PXVqesji81t9Y5tF8q
-	Ts3+/Z3zP9ZxsMoNMU3IifY8de9LdEBI+VfqFTE6efg8iuRcRXuAlrGU6tGLHGthD06I
-	Jift6rBeBmW3XBGiMI+0AO3Lr2QUmkI5NS1Dlhez5P4z3ltOAo/3+ISij+CDmBdTyMMR
-	wLDhvTxJCyKaf0pnNv5Y7LiKwPRUs5W06msD/bnDQDbmQc/0FO+Hu/P+HtrXdo5mr3sl
-	sqxA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to:cc:content-type;
+	bh=PK15/W/e1TcNMO7bPX2k+LegQ4Jgez5WYcXYsr7wA/s=;
+	b=WlV+okhD4KQnAGzqLq2T+U+hwxMv0+0APAzqINXVQBq5NL/exabay5ZCi5s0rwMxKp
+	z4FRdRKcPbO9SuEHiU7s0jvZkG6opKPQ+hTixzSOaVkbnmaUUYn0mQzQr0RpmzmUDT2R
+	rCiig25QkP82Zd+AtXHMTkep+BGNzlHWtBcxlCB7XQ/CyOYUm89GzqTf+le8mTfPSDAR
+	4h+uFn5o9EgYlZAVQsjBKnaGoI/0Cxl7WORZLsrgl/Tofk4RJ8SThdWbPaFPEWTnpRT7
+	thxqHyjNJcO6x7LgNnYA83ZdYtcwaeJbBtVPIuuiyyCQ4byNv7jTkXZyHUoBFEo6JAKk
+	DtrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=Cc2KF6lyjg+zY4IUf4WBtgjEcxnQogPavuMF70cWKWQ=;
-	b=WRgWNhI7OApluOWXRHFB4JNyHk25sWX8kpALBNPPZXM8bANIyqTPIPrjKixktuDfTG
-	cQDIWX6XbCHNFfmAX+t/CMNZ/CPmngdD1JG5CTbxzUNJNAE9s2QMn8S80yKjvuOVvKRZ
-	9UeZVfz0dbwIzNr8hrKW5bJkupHvOwUgiR9TTeBPbtzn8cCXP25WVIMsQfHw7zu/4Ij3
-	5/7LnoyUHhbjLWtfiYuJf0ycnChwLSVp1BeMnxOF/TdwM4notKHpwjMgM+6pfeLeP5HO
-	x5uOkm9FNwprorMktO4b8TE0Bu2Qh6xPWX5nPfQvPI4HPz1OkSp5pf88VDqFx19yzfdz
-	QEag==
-X-Gm-Message-State: ALoCoQmiBO0im/bLsN0X4krMdJqtt678NrBScmHjfed81mi4+iyaqR1xDA4GffEfuSvszZlBF2AQ6P7CMHyfAUiW3spOZCYc5A==
-X-Received: by 10.194.92.8 with SMTP id ci8mr22870038wjb.33.1453106477596;
-	Mon, 18 Jan 2016 00:41:17 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by smtp.gmail.com with ESMTPSA id
-	qs1sm22733043wjc.2.2016.01.18.00.41.16
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 Jan 2016 00:41:16 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3117\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <569CA241.20805@dresearch-fe.de>
-Date: Mon, 18 Jan 2016 09:41:14 +0100
-Message-Id: <F620CA2D-BA83-436A-B7D4-EA0C117154D9@dominion.thruhere.net>
-References: <5698E002.5090800@dresearch-fe.de>
-	<1452863169.28375.161.camel@linuxfoundation.org>
-	<5698F31E.1020905@dresearch-fe.de>
-	<56990180.9080407@dresearch-fe.de>
-	<6AFD6AF0-3B94-44BB-BAA0-30EBB9747193@dominion.thruhere.net>
-	<569CA241.20805@dresearch-fe.de>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-X-Mailer: Apple Mail (2.3117)
-Cc: Christopher Larson <clarson@kergoth.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: fido -> jethro switching problem
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+	:content-type;
+	bh=PK15/W/e1TcNMO7bPX2k+LegQ4Jgez5WYcXYsr7wA/s=;
+	b=La8xMzVPJjNeS5eg5ths7H7xB0uBXbH91xs2zJ/J1zGowjC9P26gWsED6udSkLAVrE
+	03qQX/sp76M5LJniPuDibKL54BiuOwrLUvEGxt5qpFwdWVd9QIS4YoQROgWdI0FBaaDC
+	zmNVPeD4hSY3S8nHmCvpDnXUURCLkBrt6YehoBbo5nR1MkBWxdMV09KbODhkNZW05lvN
+	LIRFJ5Isp2br58sdJTXstByn4B0FJ1pO5NjXM7eS/IIxeKOSW7YVO/lPj6+8bHvryz5m
+	ci+iLjX2Spv1Z5txcJOMELrPQQQCmKuEiOLd4fpmI5tQ233Y3RvxIpbBEdBJbCZj57Lg
+	TEvw==
+X-Gm-Message-State: ALoCoQnqLZtDevKaUOAP2NtmlJEnA3QKq24+gWzLNwSF8UIA/EFiWhDZc3U3bVPvAgQR93SqXmzkoAGozNZXrHmGSgVHEdpiQHDEJRm0dnM02A0zvn63gbY=
+X-Received: by 10.182.200.162 with SMTP id jt2mr18667049obc.55.1453107950776; 
+	Mon, 18 Jan 2016 01:05:50 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.202.51.67 with HTTP; Mon, 18 Jan 2016 01:05:21 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 18 Jan 2016 11:05:21 +0200
+Message-ID: <CAHiDW_HkT_KaN=1b93+CRoEQ7V5SS4e6DUe757546VMVd2CMfw@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2][master][jethro] openssh: CVE-2016-1907
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,47 +52,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 08:41:18 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Mon, 18 Jan 2016 09:05:51 -0000
+Content-Type: multipart/alternative; boundary=001a11c239303a0f6b0529980fc5
+
+--001a11c239303a0f6b0529980fc5
+Content-Type: text/plain; charset=UTF-8
+
+Fixed the typo (jetrho instead jethro) in title, so the thread shows up in
+the right searches/filters.
+
+ - Jussi
+
+On 16 January 2016 at 02:59, Armin Kuster <akuster808@gmail.com> wrote:
+
+> Found two more commits for this CVE.
+>
+> Armin Kuster (1):
+>   openssh: CVE-2016-1907
+>
+>  .../openssh/openssh/CVE-2016-1907_2.patch          |  65 ++++
+>  .../openssh/openssh/CVE-2016-1907_3.patch          | 329
+> +++++++++++++++++++++
+>  .../openssh/CVE-2016-1907_upstream_commit.patch    |  33 +++
+>  meta/recipes-connectivity/openssh/openssh_7.1p2.bb |   5 +-
+>  4 files changed, 431 insertions(+), 1 deletion(-)
+>  create mode 100644
+> meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_2.patch
+>  create mode 100644
+> meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_3.patch
+>  create mode 100644
+> meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_upstream_commit.patch
+>
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a11c239303a0f6b0529980fc5
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Fixed the typo (jetrho instead jethro) in title, so the th=
+read shows up in the right searches/filters.<div><br></div><div>=C2=A0- Jus=
+si</div><div><br><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+6 January 2016 at 02:59, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex">Found two more commits for this CVE.<br>
+<br>
+Armin Kuster (1):<br>
+=C2=A0 openssh: CVE-2016-1907<br>
+<br>
+=C2=A0.../openssh/openssh/CVE-2016-1907_2.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 65 ++++<br>
+=C2=A0.../openssh/openssh/CVE-2016-1907_3.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 329 +++++++++++++++++++++<br>
+=C2=A0.../openssh/CVE-2016-1907_upstream_commit.patch=C2=A0 =C2=A0 |=C2=A0 =
+33 +++<br>
+=C2=A0meta/recipes-connectivity/openssh/<a href=3D"http://openssh_7.1p2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssh_7.1p2.bb</a> |=C2=A0 =C2=A05 =
++-<br>
+=C2=A04 files changed, 431 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016=
+-1907_2.patch<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016=
+-1907_3.patch<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016=
+-1907_upstream_commit.patch<br>
+<span class=3D""><font color=3D"#888888"><br>
+--<br>
+1.9.1<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div></div></div>
 
-> Op 18 jan. 2016, om 09:28 heeft Steffen Sledz <sledz@dresearch-fe.de> =
-het volgende geschreven:
->=20
-> On 15.01.2016 15:29, Koen Kooi wrote:
->>> Op 15 jan. 2016 om 15:26 heeft Steffen Sledz <sledz@dresearch-fe.de> =
-het volgende geschreven:
->>> It seems that all machines based on armv5e are affected.
->>=20
->> FWIW, I'm seeing the same problem. The last time it happened it was =
-due to the fixup angstrom does for broken arm BSPs
->=20
-> What commits do you talking about ("last time it happened")?
->=20
-> =
-https://github.com/Angstrom-distribution/meta-angstrom/commit/7f3d89893007=
-7710dfa42150882bce60d437af7d ?
-> =
-https://github.com/Angstrom-distribution/meta-angstrom/commit/4b2e8ecb9a82=
-109022727f6d80b8db56ae493fe8 ?
->=20
-> Or something else?
-
-Yes, those ones.=20
-
-regards,
-
-Koen
-
->=20
-> --=20
-> DResearch Fahrzeugelektronik GmbH
-> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-> Fax: +49 30 515932-299
-> Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Weber, Werner M=C3=B6gle;
-> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-> Ust.-IDNr. DE273952058
-
-
+--001a11c239303a0f6b0529980fc5--
