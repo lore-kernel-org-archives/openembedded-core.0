@@ -1,31 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 07ED26010D
+Return-Path: <preid@electromag.com.au>
+X-Greylist: delayed 398 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Jan 2016 02:48:48 UTC
+Received: from anchovy.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
+	by mail.openembedded.org (Postfix) with ESMTP id B4ADC601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 02:21:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0I2LonQ021895
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 17 Jan 2016 18:21:50 -0800 (PST)
-Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 17 Jan 2016 18:21:50 -0800
-To: Mike Looijmans <mike.looijmans@topic.nl>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
+	Mon, 18 Jan 2016 02:48:47 +0000 (UTC)
+Received: (qmail 26944 invoked by uid 5089); 18 Jan 2016 02:42:08 -0000
+Received: by simscan 1.2.0 ppid: 26909, pid: 26910, t: 0.0295s
+	scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
+Received: from unknown (HELO ?192.168.0.122?)
+	(preid@electromag.com.au@203.59.230.133)
+	by anchovy1.45ru.net.au with ESMTPA; 18 Jan 2016 02:42:07 -0000
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1452824908.git.liezhi.yang@windriver.com>
-	<06cd5b4b25da645fae5767a44b2e5d63550cdb52.1452824908.git.liezhi.yang@windriver.com>
-	<1452856339.28375.139.camel@linuxfoundation.org>
-	<5699D6FB.7040302@windriver.com> <569A248F.9030500@topic.nl>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <569C4C3C.1080606@windriver.com>
-Date: Mon, 18 Jan 2016 10:21:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+References: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
+From: Phil Reid <preid@electromag.com.au>
+Message-ID: <569C50FE.7080203@electromag.com.au>
+Date: Mon, 18 Jan 2016 10:42:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <569A248F.9030500@topic.nl>
-Subject: Re: [PATCH 1/8] bitbake.conf: set CONFFILES by default
+In-Reply-To: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
+Subject: Re: Lots of [host-user-contaminated] warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,90 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 02:21:53 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Jan 2016 02:48:49 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 17/11/2015 4:46 PM, Andreas Müller wrote:
+> Hi,
+>
+> this bugs me for a while and I wonder if I am again the only one
+> facing this: I get floods of warnings for sourcecode files as
+>
+> WARNING: QA Issue: qtserialport:
+> /qtserialport-dbg/usr/src/debug/qtserialport/5.5.99+5.6.0-alpha1+gitAUTOINC+2575d33fab-r0/git/src/serialport/qserialport_p.h
+> is owned by uid 1000, which is the same as the user running bitbake.
+> This may be due to host contamination [host-user-contaminated]
+> WARNING: QA Issue: qtx11extras:
+> /qtx11extras-dbg/usr/src/debug/qtx11extras/5.5.99+5.6.0-alpha1+gitAUTOINC+d64ee96f0d-r0/git/src/x11extras/qx11info_x11.cpp
+> is owned by uid 1000, which is the same as the user running bitbake.
+> This may be due to host contamination [host-user-contaminated]
+> WARNING: QA Issue: qtxmlpatterns:
+> /qtxmlpatterns-dbg/usr/src/debug/qtxmlpatterns/5.5.99+5.6.0-alpha1+gitAUTOINC+94136d4280-r0/git/src/xmlpatterns/type/qbuiltintypes.cpp
+> is owned by uid 1000, which is the same as the user running bitbake.
+> This may be due to host contamination [host-user-contaminated]
+>
+> I checked PACKAGE_DEBUG_SPLIT_STYLE is not set globally - few recipes
+> set PACKAGE_DEBUG_SPLIT_STYLE to debug-without-src.
+>
+> Help appreciated
+>
+> Andreas
+>
+I'm seeing similar warnings as well.
+I'm building from /home which I believe is susposed to be exempt from this test.
+Not sure how to fix / avoid the problem.
 
 
+-- 
+Regards
+Phil Reid
 
-On 01/16/2016 07:07 PM, Mike Looijmans wrote:
-> On 16-01-16 06:36, Robert Yang wrote:
->>
->>
->> On 01/15/2016 07:12 PM, Richard Purdie wrote:
->>> On Thu, 2016-01-14 at 18:29 -0800, Robert Yang wrote:
->>>> There are a lot of binary packages have files in /etc/, but only a
->>>> few
->>>> of them have set CONFFILES, more than 180 packages are not set in a
->>>> world build.  So treat all the files in /etc/ as CONFFILES as Debian
->>>> does:
->>>> - All the files in /etc/ are CONFFILES
->>>> - Move the file out of /etc/ if it is not a conffile
->>>> - If /etc/foo can't be moved out, and is changed during
->>>>    runtime, then create a symlink /etc/foo -> /var/foo
->>>>
->>>> [YOCTO #8436]
->>>>
->>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>> ---
->>>>   meta/conf/bitbake.conf |    1 +
->>>>   1 file changed, 1 insertion(+)
->>>
->>> We have discussed this before and we decided that setting CONFFILES
->>> globally seemed like a bad idea?
->
-> That is how I recall it. Please please please don't do it. It will wreak havoc
-> on all kinds of systems.
->
->> Sorry, but I can't find any emails which said this was a bad idea.
->> If we don't set CONFFILES by default, maybe we need mark a lot of
->> CONFFILES inside the recipes. I think that mark the CONFFILES under
->> /etc/ doesn't hurt anything, but help a lot when doing upgrade on
->> target:
->>
->> 1) When the old file is not changed, it will be replaced by new file.
->> 2) When the old file is changed, it will ask the user what to do (dpkg)
->>     or save a bak (rpm).
->
-> In a perfect world, yeah.
->
-> In the world other people have to live in, the GUI has to shut down to free up
-> resources to get the upgrade to complete successfully. This means you cannot ask
-> the user sitting on the couch holding the remote staring at a static "please
-> wait upgrade in progress" screen any questions.
->
-> Then if you could ask him questions, he'll just have no clue as to what to answer.
->
-> You can create "backup" files all you like, but 99% of the users will never ever
-> see the file system, and do not know how to rename, edit or copy a file. Which
-> on the other hand does not stop them from trying, and they're quite used to the
-> situation that a simple reinstall will bring things back in working order if
-> they somehow "got it wrong".
->
-> In the world I live in, things happen that change files that shouldn't be
-> changed. Power outage (could be just the cleaning lady pulling the plug) just to
-> name one.
->
-> Manually fixing things up is fine if you're an experienced developer or power
-> user. But remember that the majority of the end users are less tech savvy, and
-> just use a "box" with software that happens to be built by OpenEmbedded, which
-> they never heard of.
-
-
-For apt-get, you can configure dpkg to use non-interactive when upgrade or
-dist-upgrade:
---force-confnew or --force-confold
-
-For ipkg, I think that you can use: --force-maintainer
-
-For rpm, save a bak is the default action.
-
-// Robert
-
->
->>> What has changed since the last discussion?
->
-> Nothing relevant...
->
->
 
