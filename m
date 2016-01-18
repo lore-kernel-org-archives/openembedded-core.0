@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C566E5CB
+	by mail.openembedded.org (Postfix) with ESMTP id 5F9FF6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 22:37:00 +0000 (UTC)
+	Mon, 18 Jan 2016 22:37:02 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Jan 2016 14:37:00 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 18 Jan 2016 14:37:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,314,1449561600"; d="scan'208";a="863308153"
+X-IronPort-AV: E=Sophos;i="5.22,314,1449561600"; d="scan'208";a="863308214"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by orsmga001.jf.intel.com with ESMTP; 18 Jan 2016 14:37:00 -0800
+	by orsmga001.jf.intel.com with ESMTP; 18 Jan 2016 14:37:03 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jan 2016 14:33:03 +0000
-Message-Id: <cover.1453127396.git.mariano.lopez@linux.intel.com>
+Date: Mon, 18 Jan 2016 14:33:04 +0000
+Message-Id: <0464eebc604f877777f7dd553204a55781328255.1453127396.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCHv3 0/4] Clean PkgsList return data implementation.
+In-Reply-To: <cover.1453127396.git.mariano.lopez@linux.intel.com>
+References: <cover.1453127396.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1453127396.git.mariano.lopez@linux.intel.com>
+References: <cover.1453127396.git.mariano.lopez@linux.intel.com>
+Subject: [PATCHv3 1/4] lib/oe/package_manager: Add list_pkgs() to PkgsList class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,52 +32,193 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 22:37:01 -0000
+X-List-Received-Date: Mon, 18 Jan 2016 22:37:02 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Currently the when calling the list() from the classes that inherit
-from PKgsList, it must pass the format required and it will return
-a formated string listing all the packages installed. Retruning such
-string is not the best data structure to manipulate in the callers.
+Currently the class PkgList returns a formated string of the
+installed packages. It would be more clean to pass a standard
+data structure to the callers instead to format the output
+inside PkgsList class.
 
-This series of patches change PkgsList to return a dictionary and the
-callers will format the output as required.
+This patch adds list_pkgs() method to PkgsList class to get the
+all the information for installed packages and return a dictionary
+with the info.
 
-Changes in V2:
+[YOCTO #7427]
 
-- Fix the last break line in the image manifest
-- Fix issue not showing the last pkg when using deb or ipk
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 135 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 135 insertions(+)
 
-Changes in V3:
-
-- Fix exception when creating read only rootfs
-
-The following changes since commit a2f23fa62858b89850aab339ddec16dcf6026b37:
-
-  openssh: CVE-2016-1907 (2016-01-18 11:47:08 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug7427v3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug7427v3
-
-Mariano Lopez (4):
-  lib/oe/package_manager: Add list_pkgs() to PkgsList class
-  lib/oe/utils: Add function format_pkg_list()
-  lib/oe/rootfs: Use list_pkgs() instead of list()
-  lib/oe/package_manager.py: Remove list() from PkgsList class
-
- meta/classes/buildhistory.bbclass        |  11 +-
- meta/classes/license.bbclass             |   8 +-
- meta/classes/populate_sdk_base.bbclass   |   8 +-
- meta/classes/rootfs-postcommands.bbclass |   4 +-
- meta/lib/oe/package_manager.py           | 200 ++++++++++++++-----------------
- meta/lib/oe/rootfs.py                    |  10 +-
- meta/lib/oe/sdk.py                       |   8 +-
- meta/lib/oe/utils.py                     |  22 ++++
- 8 files changed, 145 insertions(+), 126 deletions(-)
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index bc39721..79cadda 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -296,6 +296,60 @@ class PkgsList(object):
+     def list(self, format=None):
+         pass
+ 
++    @abstractmethod
++    def list_pkgs(self):
++        pass
++
++
++    """
++    This method parse the output from the package manager
++    and return a dictionary with the information of the
++    installed packages. This is used whne the packages are
++    in deb or ipk format
++    """
++    def opkg_query(self, cmd_output):
++        verregex = re.compile(' \([=<>]* [^ )]*\)')
++        output = dict()
++        filename = ""
++        dep = []
++        for line in cmd_output.splitlines():
++            line = line.rstrip()
++            if ':' in line:
++                if line.startswith("Package: "):
++                    pkg = line.split(": ")[1]
++                elif line.startswith("Architecture: "):
++                    arch = line.split(": ")[1]
++                elif line.startswith("Version: "):
++                    ver = line.split(": ")[1]
++                elif line.startswith("File: "):
++                    filename = line.split(": ")[1]
++                elif line.startswith("Depends: "):
++                    depends = verregex.sub('', line.split(": ")[1])
++                    for depend in depends.split(", "):
++                        dep.append(depend)
++                elif line.startswith("Recommends: "):
++                    recommends = verregex.sub('', line.split(": ")[1])
++                    for recommend in recommends.split(", "):
++                        dep.append("%s [REC]" % recommend)
++            else:
++                # IPK doesn't include the filename
++                if not filename:
++                    filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
++                if pkg:
++                    output[pkg] = {"arch":arch, "ver":ver,
++                            "filename":filename, "deps": dep }
++                pkg = ""
++                filename = ""
++                dep = []
++
++        if pkg:
++            if not filename:
++                filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
++            output[pkg] = {"arch":arch, "ver":ver,
++                    "filename":filename, "deps": dep }
++
++        return output
++
+ 
+ class RpmPkgsList(PkgsList):
+     def __init__(self, d, rootfs_dir, arch_var=None, os_var=None):
+@@ -412,6 +466,59 @@ class RpmPkgsList(PkgsList):
+ 
+         return '\n'.join(output)
+ 
++    def list_pkgs(self):
++        cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
++        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
++        if self.rpm_version == 4:
++            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION}\n]'"
++        else:
++            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
++
++        try:
++            # bb.note(cmd)
++            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip()
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Cannot get the installed packages list. Command '%s' "
++                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
++
++        output = dict()
++        deps = dict()
++        if self.rpm_version == 4:
++            bb.warn("Dependency listings are not supported with rpm 4 since rpmresolve does not work")
++            dependencies = ""
++        else:
++            dependencies = self._list_pkg_deps()
++
++        # Populate deps dictionary for better manipulation
++        for line in dependencies.splitlines():
++            pkg, dep = line.split("|")
++            if not pkg in deps:
++                deps[pkg] = list()
++            if not dep in deps[pkg]:
++                deps[pkg].append(dep)
++
++        for line in tmp_output.split('\n'):
++            if len(line.strip()) == 0:
++                continue
++            pkg = line.split()[0]
++            arch = line.split()[1]
++            ver = line.split()[2]
++            dep = deps.get(pkg, [])
++
++            # Skip GPG keys
++            if pkg == 'gpg-pubkey':
++                continue
++            if self.rpm_version == 4:
++                pkgorigin = "unknown"
++            else:
++                pkgorigin = line.split()[3]
++            new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
++
++            output[new_pkg] = {"arch":new_arch, "ver":ver,
++                        "filename":pkgorigin, "deps":dep}
++
++        return output
++
+ 
+ class OpkgPkgsList(PkgsList):
+     def __init__(self, d, rootfs_dir, config_file):
+@@ -466,6 +573,19 @@ class OpkgPkgsList(PkgsList):
+ 
+         return '\n'.join(output)
+ 
++    def list_pkgs(self, format=None):
++        cmd = "%s %s status" % (self.opkg_cmd, self.opkg_args)
++
++        try:
++            # bb.note(cmd)
++            cmd_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip()
++
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Cannot get the installed packages list. Command '%s' "
++                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
++
++        return self.opkg_query(cmd_output)
++
+ 
+ class DpkgPkgsList(PkgsList):
+     def list(self, format=None):
+@@ -523,6 +643,21 @@ class DpkgPkgsList(PkgsList):
+ 
+         return output
+ 
++    def list_pkgs(self):
++        cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
++               "--admindir=%s/var/lib/dpkg" % self.rootfs_dir,
++               "-W"]
++
++        cmd.append("-f=Package: ${Package}\nArchitecture: ${PackageArch}\nVersion: ${Version}\nFile: ${Package}_${Version}_${Architecture}.deb\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n")
++
++        try:
++            cmd_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).strip()
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Cannot get the installed packages list. Command '%s' "
++                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output))
++
++        return self.opkg_query(cmd_output)
++
+ 
+ class PackageManager(object):
+     """
 -- 
 1.8.4.5
 
