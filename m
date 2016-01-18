@@ -1,27 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FA5C60116
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id DA33960116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 16:49:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0IGn6HA028853
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Jan 2016 08:49:06 -0800 (PST)
-Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Jan 2016 08:49:06 -0800
-To: <openembedded-core@lists.openembedded.org>, Otavio Salvador
-	<otavio@ossystems.com.br>
-References: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <569D1781.200@windriver.com>
-Date: Mon, 18 Jan 2016 11:49:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Mon, 18 Jan 2016 16:50:56 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id 77so523288479ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jan 2016 08:50:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=T0hpP/qnZUPlWnWEjVXri5OSHZ4kteTJsh9GB4LlJZ0=;
+	b=SzibGvXXofUAL/wimt6LlLK1G7cRRTxXKdPmj0aGjDUaT7YuyJl1yphpOTaEvC291K
+	fuSdtjGcM01W6Y0RmFCAo+6QwvEjdZjBeHSqisat6xsxxaxZ1hay7/vYdLFJmJ6D6k9u
+	GPN69ZrOPF9Gp+TefYYt8cZM0jQ4i3SkknKIO1s5iGiNulR/Iz7Y/5c0yG49+lN3p1sm
+	4pSITknUu4aOajuLyz0Rgo8DYIAJvcqB7jiwsqIe7dwd/EDVQVAVVkYSjlHGzbHO+Rx7
+	IHFJb5qFpb3yeDIhXt4PKpxApR7qfDjuEPks9xRIweFa7j+qYQCZsF6FOAhH0WQAvF+U
+	2F0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=T0hpP/qnZUPlWnWEjVXri5OSHZ4kteTJsh9GB4LlJZ0=;
+	b=dCugQEj0tMm87HifjPhJF1S+XcMKfiKcMPVr9+Lk0olTw8aIQHJXWMGbWNKbOYVUkM
+	DjxlejXYnC5zQANxX5rwJv0PJondc45SV10Ex3WY6bRIu109N28SMAhrRAT5L8hvp+Bz
+	DC8+K6jKw+z/vZFmyXd6qaK0lGcmM4oD5hResO88yTpc2zGWNqlpJZvYlL+xTVZfXAjK
+	zTdE6lKn+z0JtG+PZQS03WsP6fUloc4mwVzwPZjuFLpLW1sBt6jDRYH+Caj7PMsp6KXO
+	qyAMpFbj09WVLe+x8QoTT/okei/reo83x+t9lEN+8KIGoB455YKkRx6xpPgthJSLmDIa
+	YLvg==
+X-Gm-Message-State: ALoCoQk0SeoEAt213ke6+sspbJZVKKRmbGA5hYPLXM2TQ40RlvlRM9dAmlZmZc7RITkgPRF07GhV8VAdsvuu1UowqXMGUCUc7RQIDbmdfH803quCnuCn0fk=
+X-Received: by 10.107.164.161 with SMTP id d33mr20662565ioj.148.1453135856946; 
+	Mon, 18 Jan 2016 08:50:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
-X-Originating-IP: [128.224.56.84]
+Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 08:50:37 -0800 (PST)
+In-Reply-To: <569D1781.200@windriver.com>
+References: <1453130337-8044-1-git-send-email-otavio@ossystems.com.br>
+	<569D1781.200@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Jan 2016 16:50:37 +0000
+Message-ID: <CAJTo0LZQ+oDM0gatYwmWOi8YV=mpud+M5VWE4fEYbMCqFPCh-g@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] slang: Add dependency on ncorses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,43 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 16:49:08 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Jan 2016 16:50:57 -0000
+Content-Type: multipart/alternative; boundary=001a1141c97690638605299e8e28
 
-Please fix typo in shortlog:
+--001a1141c97690638605299e8e28
+Content-Type: text/plain; charset=UTF-8
 
-s/ncorses/ncurses/
+On 18 January 2016 at 16:49, Randy MacLeod <randy.macleod@windriver.com>
+wrote:
 
-../Randy
-On 2016-01-18 10:18 AM, Otavio Salvador wrote:
-> Slang links over ncurses' terminal information library thus it
-> requires it to be available for build.
+> Please fix typo in shortlog:
 >
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->
->   meta/recipes-extended/slang/slang_2.2.4.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-> index bfaa9a5..237e9f2 100644
-> --- a/meta/recipes-extended/slang/slang_2.2.4.bb
-> +++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-> @@ -9,7 +9,7 @@ to recode S-Lang procedures in C if you need to."
->
->   HOMEPAGE = "http://www.jedsoft.org/slang/"
->   SECTION = "libs"
-> -DEPENDS = "pcre"
-> +DEPENDS = "pcre ncurses"
->   PR = "r12"
->
->   LICENSE = "GPLv2"
+> s/ncorses/ncurses/
 >
 
+I fixed this when I pulled it into mut.
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+Ross
 
+--001a1141c97690638605299e8e28
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 January 2016 at 16:49, Randy MacLeod <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:randy.macleod@windriver.com" target=3D"_blank">randy.macleod@windri=
+ver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:a02" class=3D"a3s" style=3D"overflow:hidden">Please fix typo in shortlog:<=
+br>
+<br>
+s/ncorses/ncurses/<br></div></blockquote></div><br>I fixed this when I pull=
+ed it into mut.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div>
+
+--001a1141c97690638605299e8e28--
