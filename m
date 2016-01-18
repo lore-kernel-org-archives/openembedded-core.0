@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 75B9C6FFCE
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id E06CD60112
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 14:45:26 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id q21so551386842iod.0
+	Mon, 18 Jan 2016 15:04:44 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id q21so551937680iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 06:45:27 -0800 (PST)
+	Mon, 18 Jan 2016 07:04:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=Wevf34rAY8nz7QKpoinGGQp9T+3h46HqJRxKqy8JW/8=;
-	b=rpLRZIPZ9kgRLCvXzqgAko4Yx6g+nuAkf0X4/XDfkt6nHvX4HQKd8aDRJ/ELiAMHA8
-	hYzjdFTblq8O/Xlr+5dsNZrAPz3ckapT4q5HzkYF65W0XLYeNqn8Y214LuY47aem0j5F
-	fuLjiIEx5n3AJdqqphBjeCdJD6UHQZXD8N1tO7EZED/c54ULDujhoLoarojSJd9EoxIW
-	RjuXcJY5Q1SSGJnGf+PU8mG2bpImpphSJdOfBj+WxSYs+czviyAk1NGSkEVeUaco3uBd
-	Q1GbyCW+4kzLUgHSyKlvfY7dyVAXphOJmONkQ9ojOsEX53S+ISwOvHL17kerXRCh0HIa
-	g8GA==
+	bh=0MXCWt2NNQPpS+QRugny6m2XQbmZLJCR4ZUP5O6rURE=;
+	b=BLv87iMR4WzqvOoRY+g8JZwqad6akiZNKGdGv9I20reIzCOr7Zeo3rNYu/V8ozKz0t
+	Qk9ysmfRHou/cCcJb44CbtIsrZeYBvq8nwDTdyltWhx0guf1bQvV0YnWbK+DtCkElnmE
+	2wA6CKX1mPT5w/cwtkw/FyW+6oKt5UN+KOZPcoGmTngQTcXqQMf6bP0+njbXfb6kYegW
+	rdLY+ByEtRkaYAYY+x/NZ0qpZMXd2glHIQ6B3R4wqO1UPprTFoKCaGnMn9Ypx8H9dzEY
+	DBiBoNhTPHM3RZXhPyHg645GpDTHh+35vS5y5eSi2q2Vbs43uu3Od9nmTLNXB2idt+Py
+	okfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Wevf34rAY8nz7QKpoinGGQp9T+3h46HqJRxKqy8JW/8=;
-	b=kF09May3FOpcNqocrFqJ0WsNr+aLlV1G4GeuQ8ub6OKbdIQihXR4kSC+r03LI8RW/Y
-	ddI2qIfsF5rfY3PJkBqBwpcSfiuHVp7G3qtnu6yCEpzSW5ZRT9UDMC6LJfpaj6Kzn1Vj
-	3WG0bO1/AMAvc5nXvSJ8weeT19C+qrEiKYZIVWlhLkd5p+ETav01swVsm+TomjIsbzQm
-	t5q+BcQolHD+s1sO2b3Z+djm6azLfpvdTVw1QgYYhHKNNtCUPw7j4mjiunRhoZSz7gY3
-	BkVyWe79O3/Hwtdi1bvmvusk7Pr3+1jtZ7KKFGJqfLaQ9OBrzG56IxTSWcXIzKIKiKWV
-	tUoQ==
-X-Gm-Message-State: ALoCoQl9JuqHZCpPsGKMTReOYGBURX8jUjRMBu7bEp1fMjaa9VJPHAvb/A/F1Fp/mrX3VEhN4RBxcAD/pNxPq3o6h6N1lwhFJwuSAitA/0/kwhwRTuVRBcs=
-X-Received: by 10.107.135.104 with SMTP id j101mr24995430iod.133.1453128326984;
-	Mon, 18 Jan 2016 06:45:26 -0800 (PST)
+	bh=0MXCWt2NNQPpS+QRugny6m2XQbmZLJCR4ZUP5O6rURE=;
+	b=Yb8FMkjnGXZlarXp0oQ3eqHEmMA4O2eTsTQerz72MTen2mpkst2tbt28GYwO9RTu27
+	3RptSSPuhHstXbE4Zl7MCS8aqC+o8ZnnA6GHvJFCjhjjRv9kSMksf/33M7ldlSoegY5C
+	InsWopOH4JwgB82jus0nSV7/V87/jYCnajj1MIoObEwaXlkZB4jYzr5ZR9kqgVj0Yhug
+	tje8DYYEZeWrmlLnQAPBCkeRkgATOsUJCHNLcwZJGLHoqPhGfOet+1t/KLOk01/IpzZo
+	+e4fwF0lt2sXOvi8ScUBJmSricD/mfQa3mjXaqnnz1hlrOVSpZB47qmhz+S8uEr1TwbO
+	BTew==
+X-Gm-Message-State: ALoCoQkhkRJzop8Nr2A0EWrhmgzsCuyihuC4Tk4K+w2rKlcqNy4ANaeuQgdRkCTYIxSpgi1UCMPyqZ5Mq7+RcTNEo7Eu28WVwLCM6MBgl0JA2LQHFrpqfS8=
+X-Received: by 10.107.135.104 with SMTP id j101mr25085017iod.133.1453129485435;
+	Mon, 18 Jan 2016 07:04:45 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 06:45:07 -0800 (PST)
-In-Reply-To: <5695B289.1030902@jp.fujitsu.com>
-References: <5695B289.1030902@jp.fujitsu.com>
+Received: by 10.107.162.70 with HTTP; Mon, 18 Jan 2016 07:04:25 -0800 (PST)
+In-Reply-To: <1453109582-25485-11-git-send-email-b54851@freescale.com>
+References: <1453109582-25485-1-git-send-email-b54851@freescale.com>
+	<1453109582-25485-11-git-send-email-b54851@freescale.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Jan 2016 14:45:07 +0000
-Message-ID: <CAJTo0LYSVVHUXqgGE0v5u1g8HEVMns44DO7bAYw=MUJfVyMYRg@mail.gmail.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>
+Date: Mon, 18 Jan 2016 15:04:25 +0000
+Message-ID: <CAJTo0LZ3d+Bg+78KN4qY-Z2KDF2eriptPj=7EgqA9QDyVagp_w@mail.gmail.com>
+To: Yuqing Zhu <b54851@freescale.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Replace foomatic-filters with cups-filters
+Subject: Re: [poky][PATCH 10/13] gstreamer1.0-plugins-bad: Fix frame rate info lost when fixate caps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jan 2016 14:45:26 -0000
-Content-Type: multipart/alternative; boundary=001a113ebe92be4b5105299ccde2
+X-List-Received-Date: Mon, 18 Jan 2016 15:04:50 -0000
+Content-Type: multipart/alternative; boundary=001a113ebe92cacf3705299d123f
 
---001a113ebe92be4b5105299ccde2
+--001a113ebe92cacf3705299d123f
 Content-Type: text/plain; charset=UTF-8
 
-On 13 January 2016 at 02:12, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
+On 18 January 2016 at 09:32, Yuqing Zhu <b54851@freescale.com> wrote:
 
-> So I want to replace foomatic-filters with cups-filters in
-> packagegroup-core-lsb.bb file and replace the foomatic-filters.bb file
-> with cups-filters.bb file.
->
-> How do you think about it?
+> Frame rate info will be lost when fixate caps. It will
+> cause down stream element fail, such as avimux.
 >
 
-Sounds sensible, patches welcome!
+The upstream bug here rejects the patch, do you plan on improving it as per
+Sebastian's comment?
 
 Ross
 
---001a113ebe92be4b5105299ccde2
+--001a113ebe92cacf3705299d123f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 January 2016 at 02:12, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:fan.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5qa" class=3D"a=
-3s" style=3D"overflow:hidden">So I want to replace foomatic-filters with <s=
-pan class=3D"il">cups</span>-filters in<br>
-<a href=3D"http://packagegroup-core-lsb.bb" rel=3D"noreferrer" target=3D"_b=
-lank">packagegroup-core-lsb.bb</a> file and replace the <a href=3D"http://f=
-oomatic-filters.bb" rel=3D"noreferrer" target=3D"_blank">foomatic-filters.b=
-b</a> file<br>
-with <a href=3D"http://cups-filters.bb" rel=3D"noreferrer" target=3D"_blank=
-"><span class=3D"il">cups</span>-filters.bb</a> file.<br>
-<br>
-How do you think about it?<br></div></blockquote></div><br>Sounds sensible,=
- patches welcome!</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">Ross</div></div>
+On 18 January 2016 at 09:32, Yuqing Zhu <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:b54851@freescale.com" target=3D"_blank">b54851@freescale.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":364" class=3D"a3=
+s" style=3D"overflow:hidden">Frame rate info will be lost when fixate caps.=
+ It will<br>
+cause down stream element fail, such as avimux.<br></div></blockquote></div=
+><br>The upstream bug here rejects the patch, do you plan on improving it a=
+s per Sebastian&#39;s comment?</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">Ross</div></div>
 
---001a113ebe92be4b5105299ccde2--
+--001a113ebe92cacf3705299d123f--
