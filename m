@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B951F731EC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AE2E731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 17:36:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 19 Jan 2016 09:36:18 -0800
+	Tue, 19 Jan 2016 17:36:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 09:36:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="884869292"
+X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="863987327"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2016 09:36:18 -0800
+	by orsmga001.jf.intel.com with ESMTP; 19 Jan 2016 09:36:20 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id CDA332C8001
+	by linux.intel.com (Postfix) with ESMTP id 18B1F2C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 10:24:13 -0800 (PST)
+	Tue, 19 Jan 2016 10:24:15 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 17:38:55 +0200
-Message-Id: <2dda414f6c4ac8615407965a3aad279d0d4cc02c.1453217537.git.ed.bartosh@linux.intel.com>
+Date: Tue, 19 Jan 2016 17:38:57 +0200
+Message-Id: <d8552bc509c33f71af02009ec9c508d99bc2c2f2.1453217537.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1453217537.git.ed.bartosh@linux.intel.com>
 References: <cover.1453217537.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1453217537.git.ed.bartosh@linux.intel.com>
 References: <cover.1453217537.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 3/8] wic: do not remove build dir in source plugins
+Subject: [PATCH 5/8] wic: refactor get_boot_config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +37,64 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jan 2016 17:36:19 -0000
 
-Interesting bug was found during implementation of 'include'
-parser command.
+This function is going to be used by ks parser to find include .wks
+files. get_boot_config name is a bit confusing as function is quite
+generic. It looks if file is present in the canned wks directories.
 
-Build directory was removed in do_configure_partition method of
-bootimg- source plugins. This can cause removal of previously
-prepared partition images if /boot partition is mentioned after
-other partitions in .ks file.
-
-Moved work directory removal to direct.py before processing
-partitions.
+Renamed get_boot_config -> get_canned.
+Renamed parameter file_boot -> file_name.
+Updated description.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/imager/direct.py                    | 3 +++
- scripts/lib/wic/plugins/source/bootimg-efi.py       | 2 --
- scripts/lib/wic/plugins/source/bootimg-partition.py | 3 ---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py    | 2 --
- 4 files changed, 3 insertions(+), 7 deletions(-)
+ scripts/lib/wic/utils/misc.py | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 8d4daec..a1b4249 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -229,6 +229,9 @@ class DirectImageCreator(BaseImageCreator):
+diff --git a/scripts/lib/wic/utils/misc.py b/scripts/lib/wic/utils/misc.py
+index d886d75..1415ae9 100644
+--- a/scripts/lib/wic/utils/misc.py
++++ b/scripts/lib/wic/utils/misc.py
+@@ -58,25 +58,23 @@ def build_name(kscfg, release=None, prefix=None, suffix=None):
  
-         fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+     return ret
  
-+        shutil.rmtree(self.workdir)
-+        os.mkdir(self.workdir)
-+
-         for part in parts:
-             # get rootfs size from bitbake variable if it's not set in .ks file
-             if not part.size:
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 125c943..a4734c9 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -142,8 +142,6 @@ class BootimgEFIPlugin(SourcePlugin):
-         Called before do_prepare_partition(), creates loader-specific config
-         """
-         hdddir = "%s/hdd/boot" % cr_workdir
--        rm_cmd = "rm -rf %s" % cr_workdir
--        exec_cmd(rm_cmd)
+-def find_boot_config(scripts_path, boot_file):
++def find_canned(scripts_path, file_name):
+     """
+-    Find a config file with the given name in the canned files dir.
++    Find a file either by its path or by name in the canned files dir.
  
-         install_cmd = "install -d %s/EFI/BOOT" % hdddir
-         exec_cmd(install_cmd)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index bc2ca0f..b76c121 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -71,9 +71,6 @@ class BootimgPartitionPlugin(SourcePlugin):
-         - copies all files listed in IMAGE_BOOT_FILES variable
-         """
-         hdddir = "%s/boot" % cr_workdir
--        rm_cmd = "rm -rf %s/boot" % cr_workdir
--        exec_cmd(rm_cmd)
+-    Return False if not found
++    Return None if not found
+     """
+-    if os.path.exists(boot_file):
+-        return boot_file
++    if os.path.exists(file_name):
++        return file_name
+ 
+     layers_canned_wks_dir = wic.engine.build_canned_image_list(scripts_path)
+     for canned_wks_dir in layers_canned_wks_dir:
+         for root, dirs, files in os.walk(canned_wks_dir):
+             for fname in files:
+-                if fname == boot_file:
++                if fname == file_name:
+                     fullpath = os.path.join(canned_wks_dir, fname)
+                     return fullpath
+ 
+-    return None
 -
-         install_cmd = "install -d %s" % hdddir
-         exec_cmd(install_cmd)
+ def get_custom_config(boot_file):
+     """
+     Get the custom configuration to be used for the bootloader.
+@@ -88,7 +86,7 @@ def get_custom_config(boot_file):
+     for x in range(0, 3):
+         scripts_path = os.path.dirname(scripts_path)
  
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index a1bfa26..5b719bf 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -78,8 +78,6 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         Called before do_prepare_partition(), creates syslinux config
-         """
-         hdddir = "%s/hdd/boot" % cr_workdir
--        rm_cmd = "rm -rf " + cr_workdir
--        exec_cmd(rm_cmd)
- 
-         install_cmd = "install -d %s" % hdddir
-         exec_cmd(install_cmd)
+-    cfg_file = find_boot_config(scripts_path, boot_file)
++    cfg_file = find_canned(scripts_path, boot_file)
+     if cfg_file:
+         with open(cfg_file, "r") as f:
+             config = f.read()
 -- 
 2.1.4
 
