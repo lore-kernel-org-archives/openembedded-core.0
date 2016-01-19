@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 020DB731FB
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5195D731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 18:48:52 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 10:48:52 -0800
+	Tue, 19 Jan 2016 18:48:56 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 10:48:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="32428162"
+X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="894019657"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2016 10:48:52 -0800
+	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2016 10:48:55 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 4C2C32C8001
+	by linux.intel.com (Postfix) with ESMTP id 947F62C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 11:36:48 -0800 (PST)
+	Tue, 19 Jan 2016 11:36:50 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 18:51:08 +0200
-Message-Id: <f86bb8e2a5927e98ba5d9012e6ef70fc946a5df3.1453222163.git.ed.bartosh@linux.intel.com>
+Date: Tue, 19 Jan 2016 18:51:10 +0200
+Message-Id: <b6e2a2c9f95520adab9806ece5e0ee9c7d89f56e.1453222163.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1453222163.git.ed.bartosh@linux.intel.com>
 References: <cover.1453222163.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1453222163.git.ed.bartosh@linux.intel.com>
 References: <cover.1453222163.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 6/9] wic: implement search of includes
+Subject: [wic][PATCH v2 8/9] wic: add help for 'include' command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,64 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 18:48:54 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 18:48:57 -0000
 
-Used custom argument type to implement search of include
-.wks files in canned wks paths. Include files can be
-specified either by full path or by name.
-
-[YOCTO #8848]
+Added description of 'include' parser command to the
+'wic help kickstart' output.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/ksparser.py | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ scripts/lib/wic/help.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index c73a456..3722799 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -25,11 +25,12 @@
- # Ed Bartosh <ed.bartosh> (at] linux.intel.com>
- 
- 
--
-+import os
- import shlex
- from argparse import ArgumentParser, ArgumentError, ArgumentTypeError
- 
- from wic.partition import Partition
-+from wic.utils.misc import find_canned
- 
- class KickStartError(Exception):
-     pass
-@@ -78,6 +79,17 @@ def overheadtype(arg):
- 
-     return result
- 
-+def cannedpathtype(arg):
-+    """
-+    Custom type for ArgumentParser
-+    Tries to find file in the list of canned wks paths
-+    """
-+    scripts_path = os.path.abspath(os.path.dirname(__file__) + '../../..')
-+    result = find_canned(scripts_path, arg)
-+    if not result:
-+        raise ArgumentTypeError("file not found: %s" % arg)
-+    return result
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index f5587bb..405d25a 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -760,4 +760,18 @@ DESCRIPTION
+       implemented by the various --source plugins that implement
+       bootloader functionality; the bootloader command essentially
+       provides a means of modifying bootloader configuration.
 +
- class KickStart(object):
-     def __init__(self, confpath):
- 
-@@ -117,7 +129,7 @@ class KickStart(object):
-         bootloader.add_argument('--source')
- 
-         include = subparsers.add_parser('include')
--        include.add_argument('path')
-+        include.add_argument('path', type=cannedpathtype)
- 
-         self._parse(parser, confpath)
- 
++    * include
++
++      This command allows the user to include the content of .wks file
++      into original .wks file.
++
++      Command uses the following syntax:
++
++         include <file>
++
++      The <file> is either path to the file or its name. If name is
++      specified wic will try to find file in the directories with canned
++      .wks files.
++
+ """
 -- 
 2.1.4
 
