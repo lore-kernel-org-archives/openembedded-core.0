@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 37B906FFEA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2331071E63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 03:23:03 +0000 (UTC)
+	Tue, 19 Jan 2016 03:23:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0J3N4pI003156
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0J3N5dD028186
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 19:23:04 -0800
+	Mon, 18 Jan 2016 19:23:05 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Jan 2016 19:23:03 -0800
+	Mon, 18 Jan 2016 19:23:04 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jan 2016 19:23:01 -0800
-Message-ID: <cover.1453173729.git.liezhi.yang@windriver.com>
+Date: Mon, 18 Jan 2016 19:23:02 -0800
+Message-ID: <e7e5a178e659e50d3d611a9b3c45259afc14de3e.1453173729.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1453173729.git.liezhi.yang@windriver.com>
+References: <cover.1453173729.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] e2fsprogs: fix PV and PACKAGECONFIG
+Subject: [PATCH 1/2] e2fsprogs: add PACKAGECONFIG for fuse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 03:23:04 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 03:23:05 -0000
 Content-Type: text/plain
 
-The following changes since commit a42229df424552955c0ac62da1063461f97f5938:
+Fixed:
+e2fsprogs-1.42+1.43-gitAUTOINC+0f26747167: e2fsprogs rdepends on fuse, but it isn't a build dependency? [build-deps]
 
-  openssh: CVE-2016-1907 (2016-01-17 11:32:21 +0000)
+The fuse is in meta-filesystems layer.
 
-are available in the git repository at:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb |    3 +++
+ 1 file changed, 3 insertions(+)
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/e2fsprogs
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/e2fsprogs
-
-Robert Yang (2):
-  e2fsprogs: add PACKAGECONFIG for fuse
-  e2fsprogs: fix PV
-
- meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+index 0aab8ae..b1b7931 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+@@ -17,6 +17,9 @@ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+ 
+ EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[fuse] = '--enable-fuse2fs,--disable-fuse2fs,fuse'
++
+ do_configure_prepend () {
+ 	cp ${WORKDIR}/acinclude.m4 ${S}/
+ }
 -- 
 1.7.9.5
 
