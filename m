@@ -1,29 +1,38 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C826FFC7
+Return-Path: <paul.barker.commagility@gmail.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 91B066E687
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 14:46:56 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u0JEkuJe000803; Tue, 19 Jan 2016 08:46:56 -0600
-Received: from ionel-workpc.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016011908465626-72947 ;
-	Tue, 19 Jan 2016 08:46:56 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Tue, 19 Jan 2016 14:51:17 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id n5so115985411wmn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jan 2016 06:51:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:organization
+	:mime-version:content-type:content-transfer-encoding;
+	bh=O3TrmUcY0uq95Zwr0U8OV6p8HZrnvZSuS4r7BdUj3Bw=;
+	b=DjzobVxUE+uZ9279zAxx4P0TMA3QGUUiuPj/hVDjKvvSISH2CuhV/nqfODGBlwhm7o
+	wrxTaO6/1R9au62QgCrG155OGQ21IK1PiTr7hkqK/hAU3uiV84gq0i4cUeN/IuBYVjkT
+	LSMG4sbzdIi/jeuUOIJfgU4Nr5e0g56kFLxot9YnA29kj5ou3WCqVbx9ZL0ST3aKk66p
+	2gx7ctJGilU/TB8XDDWI/eDG7/V3bnS+puPyE3Tl/NmOwKuWrx5LrlG2nxBxEtW9owjs
+	IfJkUWeBnXQJHZlhblzxZch3+oe4UY5W1WkGQKC1jwS3UrzU/5AZ672Xr9Ih3GoQdrhw
+	NZsw==
+X-Gm-Message-State: ALoCoQmn7rnieheHwEi7kGuS8oOUqxld1ayqT35cBvutzz1uexMyIr8b3HiUrPXmdlfPwObr9vjVXdGFu7+Rfkwz814CWet6eg==
+X-Received: by 10.194.104.5 with SMTP id ga5mr30902895wjb.155.1453215077819;
+	Tue, 19 Jan 2016 06:51:17 -0800 (PST)
+Received: from ku1404 (inno-commagility-ownrouter.lut.ac.uk. [131.231.60.35])
+	by smtp.gmail.com with ESMTPSA id
+	u69sm20748062wmu.20.2016.01.19.06.51.16
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Tue, 19 Jan 2016 06:51:17 -0800 (PST)
+Date: Tue, 19 Jan 2016 14:51:13 +0000
+From: Paul Barker <paul.barker@commagility.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 16:46:43 +0200
-Message-Id: <1453214803-32393-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.7.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/19/2016 08:46:56 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/19/2016 08:46:56 AM,
-	Serialize complete at 01/19/2016 08:46:56 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-19_07:, , signatures=0
-Subject: [PATCH v2 1/1] gcc-runtime.inc: provide libquadmath
+Message-ID: <20160119145113.61a5af48@ku1404>
+Organization: CommAgility Ltd
+X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Subject: Daisy backport request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 14:46:57 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 14:51:17 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-libgfortran's build fails with "ld: cannot find -lquadmath" unless
-libquadmath is added to gcc-runtime's RUNTIMETARGET
+Hi,
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Is the daisy branch still accepting backport requests? I'd like to
+avoid carrying out-of-tree patches myself if possible.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index c31072a..0e62e97 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -10,7 +10,9 @@ EXTRA_OECONF_PATHS = "\
- 
- EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
- 
--RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic"
-+RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic \
-+    ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
-+"
- #  ?
- # libiberty
- # libmudflap
+The daisy branch of meta-mcsdk uses BAD_RECOMMENDATIONS, for this to
+work with opkg we need commit 3fa24eee41c26fecd5e4f680082288ec772d2de9
+in oe-core. This applies cleanly with a cherry-pick. It was added in
+dizzy so should be very safe to backport.
+
+Many thanks,
+
 -- 
-2.7.0
-
+Paul Barker
+CommAgility Ltd
 
