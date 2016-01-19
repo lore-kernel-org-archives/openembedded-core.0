@@ -1,24 +1,36 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A221734B8
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 49D0860670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 15:41:47 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 07:40:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,317,1449561600"; d="scan'208";a="893851885"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2016 07:40:36 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 17:37:43 +0200
-Message-Id: <bebc442d887c60110835aaa327192d94c0e1bdcb.1453217744.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-References: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-References: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 12/12] libjpeg-turbo: fix upstream version check (sort of)
+	Tue, 19 Jan 2016 16:03:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0JG35lS026636
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Jan 2016 08:03:05 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 19 Jan 2016 08:03:03 -0800
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
+	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
+	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
+	<5645EB64.4020200@windriver.com>
+	<60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
+	<56461044.2020202@windriver.com> <5649A752.2060308@linux.intel.com>
+	<564A0051.2080005@windriver.com> <564B346F.2000407@linux.intel.com>
+	<564B4193.7060104@windriver.com> <564CA303.9040700@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <569E5E36.8000300@windriver.com>
+Date: Tue, 19 Jan 2016 10:03:02 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <564CA303.9040700@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 15:41:47 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 16:03:08 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-We prepend '8d' to the version and at the moment there is no way
-to strip that out when doing upstream checks. But at least the latest
-upstream version is reported correctly.
+I know it's been about 2 months at this point, but I wanted to follow up and
+make it clear to people I've not ignored this.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+I still plan on following up on this, hopefully within about the next 3 weeks.
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-index da1923f..4859431 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-@@ -14,6 +14,8 @@ BASEPV = "${@d.getVar('PV',True).split('+')[1]}"
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${BASEPV}.tar.gz"
- SRC_URI[md5sum] = "86b0d5f7507c2e6c21c00219162c3c44"
- SRC_URI[sha256sum] = "521bb5d3043e7ac063ce3026d9a59cc2ab2e9636c655a2515af5f4706122233e"
-+UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
-+UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
- 
- S = "${WORKDIR}/${BPN}-${BASEPV}"
- 
--- 
-2.6.4
+--Mark
+
+On 11/18/15 10:10 AM, Alexander Kanavin wrote:
+> On 11/17/2015 05:02 PM, Mark Hatle wrote:
+> 
+>>> So the bottom line, to generate introspection info, you have to run the
+>>> code of the library that you introspect, either with QEMU, or on target
+>>> hardware, and I don't see a way to avoid this, short of complete rewrite
+>>> of the entire glib ecosystem. If someone wants to have this feature, but
+>>> doesn't have a working QEMU, they should get their act together and fix it.
+>>
+>> Can you put together a small piece of test code with instructions on how to
+>> compiler it, generate the '.gir' file and anything else?  I can take a look at
+>> this and see if there is a way to inspect the intermediate objects for the type
+>> information we need.
+> 
+> Alright. Here you go:
+> 
+> https://github.com/kanavin/gi-library-boilerplate
+> 
+> In there you have a library that provides:
+> 
+> 1) A simple class called MamanBar that is final (i.e. cannot be derived 
+> from) and has one public method and some internal state.
+> 
+> 2) An interface called MamanIbaz which specified two methods and one 
+> property.
+> 
+> 3) A derivable (can be subclassed) class called MamanBaz which 
+> implements the above interface, and also adds a virtual method and a signal.
+> 
+> When you run 'make', you'll get both the library and the introspection 
+> data - .gir and .typelib files.
+> 
+> All of the above is written using best current knowledge from the 
+> GObject manual:
+> 
+> https://developer.gnome.org/gobject/stable/index.html
+> 
+> Regards,
+> Alex
+> 
 
 
