@@ -1,30 +1,25 @@
-Return-Path: <roman@khimov.ru>
-Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E98E66FFAB
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 44CFA71957
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 06:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
-	s=mail; 
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:Reply-To:To:From;
-	bh=AgHh8Xc3lTbom9M0hk/2K9OCYtOXQk/B07tUKm9L3+o=; 
-	b=V6X+zRLttKQMHkHOrkTCUFZ8lNa7/SYwaP3OFOLJ5m8GTf1KhhnBohfKsiMb5L3zS5KAx5Ho0glZYkeP6rXWej7zo9ZTgKh5iaERi5lofTSJnh/tX9Dd+eCQXCyFZ3u4b2guekesldIhsC3mhG4xnLCS22MlKNT1w5kqlNyoRb8i9UrI0sn/2wYu0IFXhRgfC7wddHmA/LV2HCUk6cCNJXtbhbDWmyYAKfs0P1sNJXmbjBI4/iKpFqF56kLXjyvRM/LOPb2INnRaggSEpvrMJgYug4oXolol5aWbyxasvPxp8AjKcviuPHhhoG39BT6xQJ/86IIE9ytwNfWvzbC8WA==;
-Received: from [93.100.16.104] (helo=masala.hex)
-	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.84) (envelope-from <roman@khimov.ru>)
-	id 1aLPbH-0001NY-Jn; Tue, 19 Jan 2016 09:17:08 +0300
-From: Roman Khimov <roman@khimov.ru>
-To: Khem Raj <raj.khem@gmail.com>
-Reply-To: roman@khimov.ru
-Date: Tue, 19 Jan 2016 09:17:01 +0300
-Message-ID: <1616789.GRtlt9rzHW@masala.hex>
-User-Agent: KMail/4.14.10 (Linux/4.1.13-5-default; KDE/4.14.10; x86_64; ; )
-In-Reply-To: <F049320E-FDD3-4EBE-B25E-CA431E699223@gmail.com>
-References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
-	<1564093.TSl0G7yhEJ@masala.hex>
-	<F049320E-FDD3-4EBE-B25E-CA431E699223@gmail.com>
+	Tue, 19 Jan 2016 07:27:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0J7RApB009763
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jan 2016 23:27:10 -0800
+Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Jan 2016 23:27:09 -0800
+To: <openembedded-core@lists.openembedded.org>
+From: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <569DE54C.7090506@windriver.com>
+Date: Tue, 19 Jan 2016 15:27:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 19/73] mtools: Fix build with uclibc
+Subject: [BUG REPORT] failed to build valgrind on qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +32,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 06:17:11 -0000
-X-Groupsio-MsgNum: 76376
-Content-Type: multipart/signed; boundary="nextPart5173019.LsrblCmeVo";
-	micalg="pgp-sha1"; protocol="application/pgp-signature"
+X-List-Received-Date: Tue, 19 Jan 2016 07:27:12 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---nextPart5173019.LsrblCmeVo
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+1. on qemuarm:
 
-=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 18 =D1=8F=D0=BD=
-=D0=B2=D0=B0=D1=80=D1=8F 2016 13:51:36 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
-=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Khem Raj =D0=BD=D0=B0=D0=BF=D0=B8=
-=D1=81=D0=B0=D0=BB:
-> > And from what I remember, I had some issue building native package =
-with
-> > 'DEPENDS +=3D'. Although that's an old branch and probably things a=
-re
-> > different now.
->=20
-> I guess what you might have seen is that there is no provider for
-> libiconv-native which is already fixed by
-> https://github.com/kraj/openembedded-core/commit/a5e6f5939c0ee4280eab=
-d7cfc01
-> 131052040bc81
->=20
-> if it was something else. Please report with more details.
+| arm-poky-linux-gnueabi-gcc  -march=armv5e -marm 
+--sysroot=/buildarea1/lirq/Yocto/poky/arm/tmp/sysroots/qemuarm 
+-DHAVE_CONFIG_H -I. -I../../valgrind-3.11.0/memcheck -I.. 
+-I../../valgrind-3.11.0 -I../../valgrind-3.11.0/include 
+-I../../valgrind-3.11.0/VEX/pub -I../VEX/pub -DVGA_arm=1 -DVGO_linux=1 
+-DVGP_arm_linux=1 -DVGPV_arm_linux_vanilla=1  -O2 -g -std=gnu99 -Wall 
+-Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes 
+-Wmissing-declarations -Wcast-qual -Wwrite-strings -Wempty-body -Wformat 
+-Wformat-security -Wignored-qualifiers -Wmissing-parameter-type 
+-Wold-style-declaration -fno-stack-protector -fno-strict-aliasing 
+-fno-builtin  -marm -mcpu=cortex-a8 -O -g -fno-omit-frame-pointer 
+-fno-strict-aliasing -fpic -fno-builtin -fno-ipa-icf -O2 -O2 -pipe -g 
+-feliminate-unused-debug-types -c -o 
+vgpreload_memcheck_arm_linux_so-mc_replace_strmem.o `test -f 
+'mc_replace_strmem.c' || echo 
+'../../valgrind-3.11.0/memcheck/'`mc_replace_strmem.c
+| for f in ; do \
+|   if [ ! -e $f.dSYM  -o  $f -nt $f.dSYM ] ; then \
+|       echo "dsymutil $f"; \
+|       dsymutil $f; \
+|   fi; \
+| done
+| ../../valgrind-3.11.0/memcheck/mc_malloc_wrappers.c:1:0: warning: 
+switch -mcpu=cortex-a8 conflicts with -march=armv5e switch
+|
+|  ^
+| mkdir -p ../.in_place; \
+| for f in ; do \
+|   rm -f ../.in_place/$f.dSYM; \
+|   ln -f -s ../memcheck/$f.dSYM ../.in_place; \
+| done
+| ../../valgrind-3.11.0/memcheck/mc_leakcheck.c:1:0: warning: switch 
+-mcpu=cortex-a8 conflicts with -march=armv5e switch
+|
+|  ^
+| ../../valgrind-3.11.0/memcheck/mc_replace_strmem.c:1:0: warning: 
+switch -mcpu=cortex-a8 conflicts with -march=armv5e switch
+|
+|  ^
+| ../../valgrind-3.11.0/memcheck/mc_errors.c:1:0: warning: switch 
+-mcpu=cortex-a8 conflicts with -march=armv5e switch
+|
+|  ^
+| ../../valgrind-3.11.0/memcheck/mc_translate.c:1:0: warning: switch 
+-mcpu=cortex-a8 conflicts with -march=armv5e switch
+|
+|  ^
+| ../../valgrind-3.11.0/memcheck/mc_machine.c:1:0: warning: switch 
+-mcpu=cortex-a8 conflicts with -march=armv5e switch
+|
+|  ^
+| ../../valgrind-3.11.0/memcheck/mc_main.c:1:0: warning: switch 
+-mcpu=cortex-a8 conflicts with -march=armv5e switch
+|  /* -*- mode: C; c-basic-offset: 3; -*- */
+|  ^
+| {standard input}: Assembler messages:
+| {standard input}:25: Error: selected processor does not support ARM 
+mode `movw r3,#:lower16:primary_map'
+| {standard input}:28: Error: selected processor does not support ARM 
+mode `movt r3,#:upper16:primary_map'
+| {standard input}:30: Error: selected processor does not support ARM 
+mode `uxth r1,r0'
+| {standard input}:31: Error: selected processor does not support ARM 
+mode `movw r3,#0xAAAA'
+| {standard input}:40: Error: selected processor does not support ARM 
+mode `movw r3,#0x5555'
+| {standard input}:61: Error: selected processor does not support ARM 
+mode `movw r3,#:lower16:primary_map'
+| {standard input}:64: Error: selected processor does not support ARM 
+mode `movt r3,#:upper16:primary_map'
+| {standard input}:66: Error: selected processor does not support ARM 
+mode `uxth r1,r0'
+| {standard input}:94: Error: selected processor does not support ARM 
+mode `movw r3,#:lower16:primary_map'
+| {standard input}:95: Error: selected processor does not support ARM 
+mode `uxth r1,r0'
+| {standard input}:96: Error: selected processor does not support ARM 
+mode `movt r3,#:upper16:primary_map'
+| {standard input}:135: Error: selected processor does not support ARM 
+mode `movw r3,#:lower16:primary_map'
+| {standard input}:136: Error: selected processor does not support ARM 
+mode `uxth r1,r0'
+| {standard input}:137: Error: selected processor does not support ARM 
+mode `movt r3,#:upper16:primary_map'
 
-True, it was something like that. If that's already fixed, then everyth=
-ing is=20
-perfect. Will this kind of patches go to jethro?
 
-=2D-=20
- http://roman.khimov.ru
-mailto: roman@khimov.ru
-gpg --keyserver hkp://subkeys.pgp.net --recv-keys 0xE5E055C3
 
---nextPart5173019.LsrblCmeVo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+2: on qemuarma9
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEABECAAYFAlad1OIACgkQXJ70z+XgVcOV3ACfe4oqv5ZKrJPvz+VJIKG8Hiy8
-HkAAnRveVyayuXbo0ZEQTp8l0GTnskHm
-=wcGh
------END PGP SIGNATURE-----
+| arm-wrs-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp  -marm 
+-mthumb-interwork 
+--sysroot=/work/wr/buildarea/arm/bitbake_build/tmp/sysroots/qemuarma9 
+-DHAVE_CONFIG_H -I. 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests 
+-I../.. 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/include 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind 
+-I../../include 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub 
+-I../../VEX/pub -DVGA_arm=1 -DVGO_linux=1 -DVGP_arm_linux=1 
+-DVGPV_arm_linux_vanilla=1   -Winline -Wall -Wshadow -Wno-long-long -g 
+-fno-stack-protector    -O2 -pipe -g  -fno-omit-frame-pointer 
+-fvisibility=default -O0 -c -o sh-mem-random.o 
+/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/sh-mem-random.c
+| {standard input}: Assembler messages:
+| {standard input}:1107: Error: selected processor does not support ARM 
+mode `vld1.64 {d7},[r3]'
+| {standard input}:1107: Error: selected processor does not support ARM 
+mode `vst1.64 {d7},[r2]'
+| Makefile:2467: recipe for target 'sh-mem-random.o' failed
 
---nextPart5173019.LsrblCmeVo--
+
+and the codes are below:
+
+194 #elif defined(__linux__) && defined(__arm__) && !defined(__aarch64__)
+195             /* On arm32, many compilers generate a 64-bit float move
+196                using two 32 bit integer registers, which completely
+197                defeats this test.  Hence force a 64-bit NEON load and
+198                store.  I guess this will break the build on non-NEON
+199                capable targets. */
+200             __asm__ __volatile__ (
+201                "vld1.64 {d7},[%0] ; vst1.64 {d7},[%1] "
+202                : : "r"(arr+src), "r"(arr+dst) : "d7","memory"
+203             );
+204 #else
+
+
+-Roy
+
