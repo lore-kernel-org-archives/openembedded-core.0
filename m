@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D98B731EB
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 020DB731FB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 18:48:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 19 Jan 2016 10:48:54 -0800
+	Tue, 19 Jan 2016 18:48:52 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 10:48:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="896709208"
+X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="32428162"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2016 10:48:54 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2016 10:48:52 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 6B3332C8001
+	by linux.intel.com (Postfix) with ESMTP id 4C2C32C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 11:36:49 -0800 (PST)
+	Tue, 19 Jan 2016 11:36:48 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 18:51:09 +0200
-Message-Id: <8e5d75691ea944315a43ad7f29305b980c30ba84.1453222163.git.ed.bartosh@linux.intel.com>
+Date: Tue, 19 Jan 2016 18:51:08 +0200
+Message-Id: <f86bb8e2a5927e98ba5d9012e6ef70fc946a5df3.1453222163.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1453222163.git.ed.bartosh@linux.intel.com>
 References: <cover.1453222163.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1453222163.git.ed.bartosh@linux.intel.com>
 References: <cover.1453222163.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 7/9] wic: move parts of canned .wks into common.wks.inc
+Subject: [wic][PATCH v2 6/9] wic: implement search of includes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 18:48:53 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 18:48:54 -0000
 
-In order to give and example of 'include' feature of ks parser
-and for testing purposes common parts of 3 canned wks files were
-moved into common.wks.inc
+Used custom argument type to implement search of include
+.wks files in canned wks paths. Include files can be
+specified either by full path or by name.
+
+[YOCTO #8848]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/canned-wks/common.wks.inc                   | 3 +++
- scripts/lib/wic/canned-wks/directdisk-bootloader-config.wks | 4 +---
- scripts/lib/wic/canned-wks/directdisk.wks                   | 4 +---
- scripts/lib/wic/canned-wks/qemux86-directdisk.wks           | 4 +---
- 4 files changed, 6 insertions(+), 9 deletions(-)
- create mode 100644 scripts/lib/wic/canned-wks/common.wks.inc
+ scripts/lib/wic/ksparser.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
-new file mode 100644
-index 0000000..5cf2fd1
---- /dev/null
-+++ b/scripts/lib/wic/canned-wks/common.wks.inc
-@@ -0,0 +1,3 @@
-+# This file is included into 3 canned wks files from this directory
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-diff --git a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.wks b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.wks
-index 4808d04..3529e05 100644
---- a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.wks
-@@ -2,9 +2,7 @@
- # long-description: Creates a partitioned legacy BIOS disk image that the user
- # can directly dd to boot media. The bootloader configuration source is a user file.
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index c73a456..3722799 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -25,11 +25,12 @@
+ # Ed Bartosh <ed.bartosh> (at] linux.intel.com>
+ 
  
 -
--part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-+include common.wks.inc
++import os
+ import shlex
+ from argparse import ArgumentParser, ArgumentError, ArgumentTypeError
  
- bootloader --configfile="directdisk-bootloader-config.cfg"
+ from wic.partition import Partition
++from wic.utils.misc import find_canned
  
-diff --git a/scripts/lib/wic/canned-wks/directdisk.wks b/scripts/lib/wic/canned-wks/directdisk.wks
-index af4c9ea..6db74a7 100644
---- a/scripts/lib/wic/canned-wks/directdisk.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk.wks
-@@ -2,9 +2,7 @@
- # long-description: Creates a partitioned legacy BIOS disk image that the user
- # can directly dd to boot media.
+ class KickStartError(Exception):
+     pass
+@@ -78,6 +79,17 @@ def overheadtype(arg):
  
--
--part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-+include common.wks.inc
+     return result
  
- bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
++def cannedpathtype(arg):
++    """
++    Custom type for ArgumentParser
++    Tries to find file in the list of canned wks paths
++    """
++    scripts_path = os.path.abspath(os.path.dirname(__file__) + '../../..')
++    result = find_canned(scripts_path, arg)
++    if not result:
++        raise ArgumentTypeError("file not found: %s" % arg)
++    return result
++
+ class KickStart(object):
+     def __init__(self, confpath):
  
-diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
-index 8fc38b5..a6518a0 100644
---- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
-+++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
-@@ -2,9 +2,7 @@
- # long-description: Creates a partitioned legacy BIOS disk image that the user
- # can directly use to boot a qemu machine.
+@@ -117,7 +129,7 @@ class KickStart(object):
+         bootloader.add_argument('--source')
  
--
--part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-+include common.wks.inc
+         include = subparsers.add_parser('include')
+-        include.add_argument('path')
++        include.add_argument('path', type=cannedpathtype)
  
- bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/vda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
+         self._parse(parser, confpath)
  
 -- 
 2.1.4
