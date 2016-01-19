@@ -1,28 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 95EF173216
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 5D8976FF4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 17:36:28 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Jan 2016 09:36:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,318,1449561600"; d="scan'208";a="32378038"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2016 09:36:22 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 3C6762C8001
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 10:24:17 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 17:38:58 +0200
-Message-Id: <b9810da085cbec4fdadccf5ed1c0d73d476b22a2.1453217537.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1453217537.git.ed.bartosh@linux.intel.com>
-References: <cover.1453217537.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1453217537.git.ed.bartosh@linux.intel.com>
-References: <cover.1453217537.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 6/8] wic: implement search of includes
+	Tue, 19 Jan 2016 18:41:53 +0000 (UTC)
+Received: (qmail 28229 invoked by uid 1003); 19 Jan 2016 18:41:54 -0000
+Received: from unknown (HELO ?192.168.11.140?)
+	(philip@opensdr.com@108.44.110.59)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	19 Jan 2016 18:41:54 -0000
+To: Ekko <chai18740449846@gmail.com>, openembedded-core@lists.openembedded.org
+References: <CAGgoB6YiR0qqeWwe3hNnQZ8GRXpdyh0EEYWMPaSXZRis1mb4xw@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <569E8370.4020409@balister.org>
+Date: Tue, 19 Jan 2016 13:41:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAGgoB6YiR0qqeWwe3hNnQZ8GRXpdyh0EEYWMPaSXZRis1mb4xw@mail.gmail.com>
+Subject: Re: question about system on usrp E310
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,59 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 17:36:28 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 18:41:54 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Used custom argument type to implement search of include
-.wks files in canned wks paths. Include files can be
-specified either by full path or by name.
+On 01/19/2016 11:26 AM, Ekko wrote:
+> hello all
+> i am using a image of usrp e310.
+> this device is using the openembedded core.and i want to know
+> 1>>>>>>>..the details on waht happens during booting of the linux system,
+> 2>>>>>>> and a depth explanation of the way ARM in Zynq gets initialized
+> until it loads the bootloader from the SD card
+> 
+> 
+> i want to know what file i need to read so that i can fingure those two
+> problems,and how can i find it
+> 
 
-[YOCTO #8848]
+I've answered this email on the Ettus support list. The
+openembedded-core list is not for detailed questions about specific
+hardware.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/ksparser.py | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Philip
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index c73a456..cf28d65 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -30,6 +30,7 @@ import shlex
- from argparse import ArgumentParser, ArgumentError, ArgumentTypeError
- 
- from wic.partition import Partition
-+from wic.utils.misc import find_canned
- 
- class KickStartError(Exception):
-     pass
-@@ -78,6 +79,17 @@ def overheadtype(arg):
- 
-     return result
- 
-+def cannedpathtype(arg):
-+    """
-+    Custom type for ArgumentParser
-+    Tries to find file in the list of canned wks paths
-+    """
-+    scripts_path = os.path.abspath(os.path.dirname(__file__) + '../../..')
-+    result = find_canned(scripts_path, arg)
-+    if not result:
-+        raise ArgumentTypeError("file not found: %s" % arg)
-+    return result
-+
- class KickStart(object):
-     def __init__(self, confpath):
- 
-@@ -117,7 +129,7 @@ class KickStart(object):
-         bootloader.add_argument('--source')
- 
-         include = subparsers.add_parser('include')
--        include.add_argument('path')
-+        include.add_argument('path', type=cannedpathtype)
- 
-         self._parse(parser, confpath)
- 
--- 
-2.1.4
-
+> 
+> thank you
+> 
+> ---Ekko
+> 
+> 
+> 
 
