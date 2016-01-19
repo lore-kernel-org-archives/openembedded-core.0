@@ -1,54 +1,55 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 895FA6FF97
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 473BC601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 15:16:57 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id q63so182183168pfb.1
+	Tue, 19 Jan 2016 15:20:35 +0000 (UTC)
+Received: by mail-pf0-f170.google.com with SMTP id e65so177438731pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 07:16:58 -0800 (PST)
+	Tue, 19 Jan 2016 07:20:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=QWbxLuwzM4el5FNjstLbBBYI9U6F8ybSN1nbZcdDp6E=;
-	b=hlfnSD9qFLeXVTvG7DiYLROyzjgNG5e7vYn5NHdGQ9KhofOQB7eUIMpzvMV9hPRWF2
-	DUvYi/lxrqZNmwKArhG/thVC558BydJ42VX/oz+exUCmEDcY+ihNOb8LoojRxPSmD5ik
-	0xJr3SmB1sLJi6rDSqdmU4zbRUGZ8MpujdkyFgU4yWxjGqmOfsizWlbnNpCHHbs3OFcU
-	JfI9RsqrHlq6cs1gDFTvCDS2QfZSLhCD5Ha35QQD7GeQ99DGxq+DM1rDkAMXFXyvOu+0
-	/FtDn7P4/50txHj71A9VCrF7kSOaNQGjYe9K60anTFm7B4dedhinzcG9Iwzy7/ywK2vk
-	ZPsw==
+	bh=3TfZAp9V6nhQibCMw76XSojPQdefUJhL4I4QpUA0qVw=;
+	b=S0avjceG3bQa2CwdLylu8hjuNeJ9qYXgzkqK5EP6J3rOEQnJgGjnrZ/OubobquV5Zh
+	NWdoIgjcnhW8zOEWz/8xywVjWAtEMJY9nOA22RgjiCiSgnxVVaQpJd3eQnNMK8deZn6d
+	/cXWzdZipQaiSgB9EEEqPLS5AizBTsb6MUdk1rdU40ZUcv+y9BhkkTxt1bByiGD7uTu6
+	LbuLFgdvFLEdMgEcR3+ds9QfwOF++C1iVgOyIVsUVRzNA7fdf/C3aeRl8oLb5CMzgM6P
+	JVC3VGPT9YAXCoSr9R7XMI4p1+WQnqfy/PPipfGs4ewoLaXUqttaJ1FDJIXt6KEhoEZH
+	FH1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:content-type:from
 	:in-reply-to:date:cc:message-id:references:to;
-	bh=QWbxLuwzM4el5FNjstLbBBYI9U6F8ybSN1nbZcdDp6E=;
-	b=d7244Ip+wasJSa8Ccm6QF0txTvd1oLGnlWtqvHLZ5Gn43KdeE1KPORYYVEkrHFNZ0F
-	RuX1SLAxWehZRS5accQx0vJZoH5Ggz804+ylSQvQwUaCtqX4WmRwtwGOjKio7Mwg1GPP
-	4K+HzfnDOxjkoR5T7b5IZ9BZjV5DXEZPzpkRE61TcJXXIa3onFXnzu1iaQfZZmk4ydaJ
-	xJR/BIzMfWiv1SkIEjrUAa/4bVHmvcvWUzsql+Jp169ewtNE6TICXwzjB1dxFLQGg1YK
-	20ZiUqSLkJ+kMRyFdi1qPo5afd3A1ikQhhNgng5CtIsbTqKx3ryiV0PLQ5I5x1cAvror
-	FXbQ==
-X-Gm-Message-State: ALoCoQkaUvZE2kZgn7fbJPCjL9SxGbEUvotOQTXUznE9O/ziBY3ThHgevT+OkchNBsORA3Gpv2RSyWN2GSszR7iqQNTBVCjbpQ==
-X-Received: by 10.98.1.203 with SMTP id 194mr45716329pfb.10.1453216618639;
-	Tue, 19 Jan 2016 07:16:58 -0800 (PST)
+	bh=3TfZAp9V6nhQibCMw76XSojPQdefUJhL4I4QpUA0qVw=;
+	b=KBI2vU/Ms0muBkv90KE+20fUIvjgK1U6Civft9wXq/L221k7aNV43JQ6a4phlgjgne
+	qRrUqVeB6g4TnSc9kLwJ2/ODQGZEUJ4086FHr3ttEERylbvbt/KvYKJAuG/UN3EbGQKp
+	E/KBf1bJsnNQDHODWn7Sa32uRzR75AIHJgoPeENQMwFWLv4l+N6g9o64xnhCzzxNDxmH
+	9zAETpaYwZ/vn8EeM1m91ZE5igcssdOBdEherVOnyO7iYyY2AXXzXWPup6YERqT670kn
+	oqEjWJRpgTEkRnNoCVTphwPmLrnmZ/NMVJM5SznRxYJ6Yww4+G97fGfQ+xubTY9fB3NS
+	dXRw==
+X-Gm-Message-State: ALoCoQljPlIaKAyzEfEc7kIzVPxL49AnpmLP1XZmHhyPPKnEIlVE621beBQeDKM4o3th392A9Am6Lub/hvjKJJRTBisWBLNs6A==
+X-Received: by 10.98.70.208 with SMTP id o77mr45383456pfi.123.1453216836717;
+	Tue, 19 Jan 2016 07:20:36 -0800 (PST)
 Received: from ?IPv6:2601:646:8802:5d5c:2cdb:35b7:1df4:399a?
 	([2601:646:8802:5d5c:2cdb:35b7:1df4:399a])
 	by smtp.gmail.com with ESMTPSA id
-	k74sm42312100pfb.30.2016.01.19.07.16.57
+	q27sm42237660pfi.80.2016.01.19.07.20.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jan 2016 07:16:57 -0800 (PST)
+	Tue, 19 Jan 2016 07:20:36 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LYyJGHLyrHd7eZ9KR9WfDknoWpgKQ5uHiFm8dhOwSJdQw@mail.gmail.com>
-Date: Tue, 19 Jan 2016 07:16:52 -0800
-Message-Id: <7E0F6C64-238D-4CD7-9EE3-FEE65CA41458@gmail.com>
-References: <1453206311-26625-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LYyJGHLyrHd7eZ9KR9WfDknoWpgKQ5uHiFm8dhOwSJdQw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <67d8d3b06b6daf7bde8a09a63a0a8f778cb46958.1453200108.git.joshua.g.lock@intel.com>
+Date: Tue, 19 Jan 2016 07:20:35 -0800
+Message-Id: <992A10F8-76BA-4926-AC80-AAC8068CF9FF@gmail.com>
+References: <cover.1453200108.git.joshua.g.lock@intel.com>
+	<cover.1453200108.git.joshua.g.lock@intel.com>
+	<67d8d3b06b6daf7bde8a09a63a0a8f778cb46958.1453200108.git.joshua.g.lock@intel.com>
+To: Joshua Lock <joshua.g.lock@intel.com>
 X-Mailer: Apple Mail (2.3112)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gcc-runtime.inc: provide libquadmath
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] gcc-runtime: switch to removal override syntax to modify CXXFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +62,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 15:16:58 -0000
-X-Groupsio-MsgNum: 76399
+X-List-Received-Date: Tue, 19 Jan 2016 15:20:36 -0000
+X-Groupsio-MsgNum: 76400
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_99859CF4-7408-4EDB-80EB-A9B666E59437";
+	boundary="Apple-Mail=_4DA06941-40CB-4A99-9B04-86646ED5D052";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_99859CF4-7408-4EDB-80EB-A9B666E59437
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_A252CC19-6C11-4823-B7E1-F1F69D1630C0"
-
---Apple-Mail=_A252CC19-6C11-4823-B7E1-F1F69D1630C0
+--Apple-Mail=_4DA06941-40CB-4A99-9B04-86646ED5D052
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 
-> On Jan 19, 2016, at 5:14 AM, Burton, Ross <ross.burton@intel.com> =
+> On Jan 19, 2016, at 2:44 AM, Joshua Lock <joshua.g.lock@intel.com> =
 wrote:
 >=20
->=20
-> On 19 January 2016 at 12:25, Ioan-Adrian Ratiu <adrian.ratiu@ni.com =
-<mailto:adrian.ratiu@ni.com>> wrote:
-> +RUNTIMETARGET =3D "libssp libstdc++-v3 libgomp libatomic libquadmath"
->=20
-> If libquadmath is only needed when fortran is enabled, shouldn't this =
-respect the FORTRAN variable as well?  Or are there users beyond the =
-fortran support?
->=20
+> The use of immediate expansion can cause issues when trying to
+> override variables, further the removal override syntax is clearer
+> than oe_filter_out () =E2=80=94 switch to using removal override =
+syntax
+> instead.
 
-There might be others e.g.  libfftw3, galculator, libfeel++, scilab etc. =
-but they seem to be fortran apps.
+LGTM
 
-> Ross
+>=20
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc =
+b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index c31072a..075afbd 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -1,6 +1,6 @@
+> require gcc-configure-common.inc
+>=20
+> -CXXFLAGS :=3D "${@oe_filter_out('-fvisibility-inlines-hidden', =
+'${CXXFLAGS}', d)}"
+> +CXXFLAGS_remove =3D "-fvisibility-inlines-hidden"
+>=20
+> EXTRA_OECONF_PATHS =3D "\
+>     --with-gxx-include-dir=3D${includedir}/c++/${BINV} \
+> --
+> 2.5.0
+>=20
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -101,47 +115,7 @@ but they seem to be fortran apps.
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_A252CC19-6C11-4823-B7E1-F1F69D1630C0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Jan 19, 2016, at 5:14 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 19 January 2016 at 12:25, Ioan-Adrian Ratiu =
-<span dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:adrian.ratiu@ni.com" =
-target=3D"_blank" class=3D"">adrian.ratiu@ni.com</a>&gt;</span> =
-wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ns" =
-class=3D"a3s" style=3D"overflow:hidden">+RUNTIMETARGET =3D "libssp =
-libstdc++-v3 libgomp libatomic libquadmath"<br =
-class=3D""></div></blockquote></div><br class=3D"">If libquadmath is =
-only needed when fortran is enabled, shouldn't this respect the FORTRAN =
-variable as well?&nbsp; Or are there users beyond the fortran =
-support?</div><div class=3D"gmail_extra"><br =
-class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>There might be others e.g. =
-&nbsp;libfftw3,&nbsp;galculator,&nbsp;libfeel++,&nbsp;scilab etc. but =
-they seem to be fortran apps.&nbsp;</div><br class=3D""><blockquote =
-type=3D"cite" class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra">Ross</div></div>
--- <br class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_A252CC19-6C11-4823-B7E1-F1F69D1630C0--
-
---Apple-Mail=_99859CF4-7408-4EDB-80EB-A9B666E59437
+--Apple-Mail=_4DA06941-40CB-4A99-9B04-86646ED5D052
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -152,9 +126,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlaeU2gACgkQuwUzVZGdMxRqTQCfXBSITyBnCwXuHemoTeu/xhN1
-amIAn0nzXKQDw4cTbTDDSK+H2FAkzu0g
-=bksc
+iEYEARECAAYFAlaeVEMACgkQuwUzVZGdMxQ7BQCdGrJ/E/41ojXRs9MRxr8uvX8C
+K+kAmQEnLGlWt8X+zFZqqxm1TkpAh0f/
+=Pjpu
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_99859CF4-7408-4EDB-80EB-A9B666E59437--
+--Apple-Mail=_4DA06941-40CB-4A99-9B04-86646ED5D052--
