@@ -1,27 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C483C6FFFE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 33FCD6FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 09:29:56 +0000 (UTC)
+	Tue, 19 Jan 2016 09:36:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0J9TuEb004656
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Jan 2016 01:29:56 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0J9a5Gj012838
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jan 2016 01:36:05 -0800
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 01:29:55 -0800
-To: "Maxin B. John" <maxin.john@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1448873637-23617-1-git-send-email-maxin.john@intel.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <569E021D.3070501@windriver.com>
-Date: Tue, 19 Jan 2016 17:30:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
+	Tue, 19 Jan 2016 01:36:04 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Jan 2016 01:36:03 -0800
+Message-ID: <cover.1453196137.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <1448873637-23617-1-git-send-email-maxin.john@intel.com>
-Subject: Re: [PATCH] kexec: update supported architecture list
+Subject: [PATCH 0/1] insane.bbclass: ignore ipkg/dpkg's CONTROL dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 09:29:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Jan 2016 09:36:05 -0000
+Content-Type: text/plain
 
-On 2015年11月30日 16:53, Maxin B. John wrote:
-> Now, kexec is supported in mips, aarch64 and most of the machines within
-> powerpc family. So, remove those architecture specific restrictions.
->
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->   meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> index 95b3988..acbae11 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> @@ -11,13 +11,9 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
->   
->   inherit packagegroup
->   
-> -# kexec-tools doesn't work on Mips
-> +# kexec-tools doesn't work on e5500-64b yet
->   KEXECTOOLS ?= "kexec"
-> -KEXECTOOLS_mips ?= ""
-> -KEXECTOOLS_mipsel ?= ""
-> -KEXECTOOLS_powerpc ?= ""
->   KEXECTOOLS_e5500-64b ?= ""
-> -KEXECTOOLS_aarch64 ?= ""
->   
->   X11GLTOOLS = "\
->       mesa-demos \
+The following changes since commit aafe22fb5f2f58e1e7206a34f410e9cae0d3cfe3:
 
-May I ask why this patch didn't be merged?
+  e2fsprogs: fix PV (2016-01-19 08:53:02 +0000)
 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/ipk
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ipk
+
+Robert Yang (1):
+  insane.bbclass: ignore ipkg/dpkg's CONTROL dir
+
+ meta/classes/insane.bbclass |    4 ++++
+ 1 file changed, 4 insertions(+)
 
 -- 
-Regards,
-Neil | Kai Kang
+1.7.9.5
 
 
