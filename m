@@ -1,28 +1,29 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 179E66FFFE
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E36756FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 08:06:01 +0000 (UTC)
+	Tue, 19 Jan 2016 09:22:53 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0J861vi004271
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Jan 2016 00:06:01 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0J9Mqth012582
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 19 Jan 2016 01:22:52 -0800
 Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 00:06:00 -0800
-To: Rongqing Li <rongqing.li@windriver.com>,
-	<openembedded-core@lists.openembedded.org>, <armccurdy@gmail.com>
-References: <569DE54C.7090506@windriver.com> <569DEA11.30107@windriver.com>
-	<569DEAC0.9080204@windriver.com>
+	Tue, 19 Jan 2016 01:22:51 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1452152689.git.liezhi.yang@windriver.com>
+	<40d0365cec15c63a1f77e9aa43fb4022f62e0f66.1452152689.git.liezhi.yang@windriver.com>
+	<1452164226.7598.108.camel@linuxfoundation.org>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <569DEE66.4030604@windriver.com>
-Date: Tue, 19 Jan 2016 16:05:58 +0800
+Message-ID: <569E006A.6010009@windriver.com>
+Date: Tue, 19 Jan 2016 17:22:50 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <569DEAC0.9080204@windriver.com>
-Subject: Re: [BUG REPORT] failed to build valgrind on qemuarm
+In-Reply-To: <1452164226.7598.108.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/3] run-postinsts: can't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,200 +36,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 08:06:02 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 09:22:57 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Add Andre in the loop.
+
+
+On 01/07/2016 06:57 PM, Richard Purdie wrote:
+> On Wed, 2016-01-06 at 23:45 -0800, Robert Yang wrote:
+>> The dependencies chain:
+>> run-postinsts -> update-rc.d.bbclass -> initscripts -> update
+>> -alternatives.
+>>
+>> The update-alternatives is provided by opkg-utils which is not
+>> allarch.
+>>
+>> This caused a problem:
+>> $ bitbake lib32-core-image-minimal
+>>
+>> Both lib32-opkg-utils and opkg-utils would be built, but opkg-utils
+>> shouldn't, this patch can fix the problem.
+>>
+>> [YOCTO #8879]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Removing allarch isn't the correct way to fix this, we need to figure
+> out what is going wrong and fix multilib.
+
+After more investigations, it seems that there is no easy way to fix
+the problem, maybe we need choose not fix it atm. Here is a short summary.
+
+* Problem
+   When mutilib is enabled, for example:
+   MACHINE ?= "qemux86-64"
+   require conf/multilib.conf
+   MULTILIBS = "multilib:lib32"
+   DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+
+   $ bitbake core-image-minimal
+
+   We will see that a few 64 bit pkgs will be built, for example, 64 bit
+   python, bash, openssl, opkg-utils and, but they shouldn't, since it
+   doesn't make any sense to build them since they are not going to be
+   installed on the target by default.
+
+* Root Cause
+   This is caused by run-postinsts is allarch since:
+   $ bitbake lib32-run-postinsts
+   run-postinsts (no lib32 since it is an allarch pkg) would be built,
+   it depends on non-allarch recipe opkg-utils, and opkg-utils depends
+   on others, a simple graph.
+
+   core-image-minimal       ->  run-postinsts           -> opkg-utils
+   lib32-core-image-minimal ->  (lib32-)run-postinsts   -> opkg-utils (should be 
+lib32)
+
+   We can see that lib32-run-postinsts breaks multilib's dependencies chain,
+   and there is no easy way fix the problem AFAIK.
+
+* What I have tried
+   - Extend allarch to lib32-allarch, this would changed a lot on allarch,
+     and if we extend it, allarch is not really "all arch".
+
+   - Let each recipe provides a lib32allarch-recipe when extend multilib,
+     which is used for allarch recipe depends on it, and let bitbake decide
+     which to run for example:
+
+     opkg-utils        *provides* lib32allarch-opkg-utils
+     lib32-opkg-utils  *provides* lib32allarch-opkg-utils
+     And then:
+     run-postinsts     *depends*  lib32allarch-opkg-utils
+
+     Both opkg-utils and lib32-opkg-utils provides lib32allarch-opkg-utils,
+     then let bitbake choose a proper to build according what you are building,
+     (lib32-recipe -> lib32-opkg-utils, recipe -> opkg-utils) this also
+     need modify bitbake's PREFERRENCE_PROVIDER policies, which seems not worth,
+     so I drop this idea.
+
+Any suggestions is appreciated.
 
 // Robert
-On 01/19/2016 03:50 PM, Rongqing Li wrote:
+
 >
+> Cheers,
 >
-> On 2016年01月19日 15:47, Robert Yang wrote:
->>
->> On 01/19/2016 03:27 PM, Rongqing Li wrote:
->>> 1. on qemuarm:
->>
->> There is a patch for this:
->> [OE-core] [PATCH] valgrind: make it explicit that valgrind supports
->> armv7a and above
->>
->> // Robert
->
-> which armv7 BSP is tested?
->
-> thanks
->
-> -Roy
->
->
->>
->>>
->>> | arm-poky-linux-gnueabi-gcc  -march=armv5e -marm
->>> --sysroot=/buildarea1/lirq/Yocto/poky/arm/tmp/sysroots/qemuarm
->>> -DHAVE_CONFIG_H
->>> -I. -I../../valgrind-3.11.0/memcheck -I.. -I../../valgrind-3.11.0
->>> -I../../valgrind-3.11.0/include -I../../valgrind-3.11.0/VEX/pub
->>> -I../VEX/pub
->>> -DVGA_arm=1 -DVGO_linux=1 -DVGP_arm_linux=1
->>> -DVGPV_arm_linux_vanilla=1  -O2 -g
->>> -std=gnu99 -Wall -Wmissing-prototypes -Wshadow -Wpointer-arith
->>> -Wstrict-prototypes -Wmissing-declarations -Wcast-qual -Wwrite-strings
->>> -Wempty-body -Wformat -Wformat-security -Wignored-qualifiers
->>> -Wmissing-parameter-type -Wold-style-declaration -fno-stack-protector
->>> -fno-strict-aliasing -fno-builtin  -marm -mcpu=cortex-a8 -O -g
->>> -fno-omit-frame-pointer -fno-strict-aliasing -fpic -fno-builtin
->>> -fno-ipa-icf -O2
->>> -O2 -pipe -g -feliminate-unused-debug-types -c -o
->>> vgpreload_memcheck_arm_linux_so-mc_replace_strmem.o `test -f
->>> 'mc_replace_strmem.c' || echo
->>> '../../valgrind-3.11.0/memcheck/'`mc_replace_strmem.c
->>> | for f in ; do \
->>> |   if [ ! -e $f.dSYM  -o  $f -nt $f.dSYM ] ; then \
->>> |       echo "dsymutil $f"; \
->>> |       dsymutil $f; \
->>> |   fi; \
->>> | done
->>> | ../../valgrind-3.11.0/memcheck/mc_malloc_wrappers.c:1:0: warning:
->>> switch
->>> -mcpu=cortex-a8 conflicts with -march=armv5e switch
->>> |
->>> |  ^
->>> | mkdir -p ../.in_place; \
->>> | for f in ; do \
->>> |   rm -f ../.in_place/$f.dSYM; \
->>> |   ln -f -s ../memcheck/$f.dSYM ../.in_place; \
->>> | done
->>> | ../../valgrind-3.11.0/memcheck/mc_leakcheck.c:1:0: warning: switch
->>> -mcpu=cortex-a8 conflicts with -march=armv5e switch
->>> |
->>> |  ^
->>> | ../../valgrind-3.11.0/memcheck/mc_replace_strmem.c:1:0: warning: switch
->>> -mcpu=cortex-a8 conflicts with -march=armv5e switch
->>> |
->>> |  ^
->>> | ../../valgrind-3.11.0/memcheck/mc_errors.c:1:0: warning: switch
->>> -mcpu=cortex-a8 conflicts with -march=armv5e switch
->>> |
->>> |  ^
->>> | ../../valgrind-3.11.0/memcheck/mc_translate.c:1:0: warning: switch
->>> -mcpu=cortex-a8 conflicts with -march=armv5e switch
->>> |
->>> |  ^
->>> | ../../valgrind-3.11.0/memcheck/mc_machine.c:1:0: warning: switch
->>> -mcpu=cortex-a8 conflicts with -march=armv5e switch
->>> |
->>> |  ^
->>> | ../../valgrind-3.11.0/memcheck/mc_main.c:1:0: warning: switch
->>> -mcpu=cortex-a8
->>> conflicts with -march=armv5e switch
->>> |  /* -*- mode: C; c-basic-offset: 3; -*- */
->>> |  ^
->>> | {standard input}: Assembler messages:
->>> | {standard input}:25: Error: selected processor does not support ARM
->>> mode `movw
->>> r3,#:lower16:primary_map'
->>> | {standard input}:28: Error: selected processor does not support ARM
->>> mode `movt
->>> r3,#:upper16:primary_map'
->>> | {standard input}:30: Error: selected processor does not support ARM
->>> mode `uxth
->>> r1,r0'
->>> | {standard input}:31: Error: selected processor does not support ARM
->>> mode `movw
->>> r3,#0xAAAA'
->>> | {standard input}:40: Error: selected processor does not support ARM
->>> mode `movw
->>> r3,#0x5555'
->>> | {standard input}:61: Error: selected processor does not support ARM
->>> mode `movw
->>> r3,#:lower16:primary_map'
->>> | {standard input}:64: Error: selected processor does not support ARM
->>> mode `movt
->>> r3,#:upper16:primary_map'
->>> | {standard input}:66: Error: selected processor does not support ARM
->>> mode `uxth
->>> r1,r0'
->>> | {standard input}:94: Error: selected processor does not support ARM
->>> mode `movw
->>> r3,#:lower16:primary_map'
->>> | {standard input}:95: Error: selected processor does not support ARM
->>> mode `uxth
->>> r1,r0'
->>> | {standard input}:96: Error: selected processor does not support ARM
->>> mode `movt
->>> r3,#:upper16:primary_map'
->>> | {standard input}:135: Error: selected processor does not support ARM
->>> mode
->>> `movw r3,#:lower16:primary_map'
->>> | {standard input}:136: Error: selected processor does not support ARM
->>> mode
->>> `uxth r1,r0'
->>> | {standard input}:137: Error: selected processor does not support ARM
->>> mode
->>> `movt r3,#:upper16:primary_map'
->>>
->>>
->>>
->>> 2: on qemuarma9
->>>
->>>
->>> | arm-wrs-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp  -marm
->>> -mthumb-interwork
->>> --sysroot=/work/wr/buildarea/arm/bitbake_build/tmp/sysroots/qemuarma9
->>> -DHAVE_CONFIG_H -I.
->>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests
->>>
->>>
->>> -I../..
->>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0
->>>
->>>
->>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/include
->>>
->>>
->>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind
->>>
->>>
->>> -I../../include
->>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub
->>>
->>>
->>> -I../../VEX/pub -DVGA_arm=1 -DVGO_linux=1 -DVGP_arm_linux=1
->>> -DVGPV_arm_linux_vanilla=1   -Winline -Wall -Wshadow -Wno-long-long -g
->>> -fno-stack-protector    -O2 -pipe -g  -fno-omit-frame-pointer
->>> -fvisibility=default -O0 -c -o sh-mem-random.o
->>> /work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/sh-mem-random.c
->>>
->>>
->>>
->>> | {standard input}: Assembler messages:
->>> | {standard input}:1107: Error: selected processor does not support
->>> ARM mode
->>> `vld1.64 {d7},[r3]'
->>> | {standard input}:1107: Error: selected processor does not support
->>> ARM mode
->>> `vst1.64 {d7},[r2]'
->>> | Makefile:2467: recipe for target 'sh-mem-random.o' failed
->>>
->>>
->>> and the codes are below:
->>>
->>> 194 #elif defined(__linux__) && defined(__arm__) && !defined(__aarch64__)
->>> 195             /* On arm32, many compilers generate a 64-bit float move
->>> 196                using two 32 bit integer registers, which completely
->>> 197                defeats this test.  Hence force a 64-bit NEON load and
->>> 198                store.  I guess this will break the build on non-NEON
->>> 199                capable targets. */
->>> 200             __asm__ __volatile__ (
->>> 201                "vld1.64 {d7},[%0] ; vst1.64 {d7},[%1] "
->>> 202                : : "r"(arr+src), "r"(arr+dst) : "d7","memory"
->>> 203             );
->>> 204 #else
->>>
->>>
->>> -Roy
->>
+> Richard
 >
 
