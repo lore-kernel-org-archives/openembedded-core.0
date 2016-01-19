@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 33FCD6FFCE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 740856FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 09:36:04 +0000 (UTC)
+	Tue, 19 Jan 2016 09:36:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0J9a5Gj012838
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0J9a5P9013525
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 01:36:05 -0800
+	Tue, 19 Jan 2016 01:36:06 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 01:36:04 -0800
+	Tue, 19 Jan 2016 01:36:05 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Jan 2016 01:36:03 -0800
-Message-ID: <cover.1453196137.git.liezhi.yang@windriver.com>
+Date: Tue, 19 Jan 2016 01:36:04 -0800
+Message-ID: <bb110858045d626bc56fb43920ae9acda71d038c.1453196137.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1453196137.git.liezhi.yang@windriver.com>
+References: <cover.1453196137.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] insane.bbclass: ignore ipkg/dpkg's CONTROL dir
+Subject: [PATCH 1/1] insane.bbclass: ignore ipkg/dpkg's CONTROL dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 19 Jan 2016 09:36:05 -0000
 Content-Type: text/plain
 
-The following changes since commit aafe22fb5f2f58e1e7206a34f410e9cae0d3cfe3:
+Fixed race issue when:
+WARN_QA_append = " buildpaths"
+PACKAGE_CLASSES = "package_ipk"
+$ bitbake e2fsprogs
 
-  e2fsprogs: fix PV (2016-01-19 08:53:02 +0000)
+[snip]
+ *** 0595:    with open(path) as f:
+     0596:        file_content = f.read()
+     0597:        if tmpdir in file_content:
+     0598:            messages["buildpaths"] = "File %s in package contained reference to tmpdir" % package_qa_clean_path(path,d)
+     0599:
+Exception: IOError: [Errno 2] No such file or directory: '/path/to/tmp/work/core2-64-poky-linux/e2fsprogs/1.42.9-r0/packages-split/e2fsprogs-ptest/CONTROL/control'
 
-are available in the git repository at:
+The similar to package_deb.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/ipk
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ipk
-
-Robert Yang (1):
-  insane.bbclass: ignore ipkg/dpkg's CONTROL dir
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/insane.bbclass |    4 ++++
  1 file changed, 4 insertions(+)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index ba9c651..c16e6ad 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -584,6 +584,10 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     if os.path.islink(path):
+         return
+ 
++    # Ignore ipk and deb's CONTROL dir
++    if path.find(name + "/CONTROL/") != -1 or path.find(name + "/DEBIAN/") != -1:
++        return
++
+     tmpdir = d.getVar('TMPDIR', True)
+     with open(path) as f:
+         file_content = f.read()
 -- 
 1.7.9.5
 
