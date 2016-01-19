@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DFC746FF23
+	by mail.openembedded.org (Postfix) with ESMTP id 5C8BD6FF23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 15:41:20 +0000 (UTC)
+	Tue, 19 Jan 2016 15:41:21 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 07:40:25 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 07:40:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,317,1449561600"; d="scan'208";a="893851772"
+X-IronPort-AV: E=Sophos;i="5.22,317,1449561600"; d="scan'208";a="893851786"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2016 07:40:24 -0800
+	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2016 07:40:26 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 17:37:33 +0200
-Message-Id: <05132833acd389dbe36046e245665313ee574221.1453217744.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 19 Jan 2016 17:37:34 +0200
+Message-Id: <411cbba4d0bab45c4430463102f572089acdbbfc.1453217744.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
 References: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
 References: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 02/12] bootchart2: update to 0.14.8
+Subject: [PATCH 03/12] btrfs-tools: update to 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +35,26 @@ X-List-Received-Date: Tue, 19 Jan 2016 15:41:21 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../bootchart2/{bootchart2_0.14.7.bb => bootchart2_0.14.8.bb}           | 2 +-
+ .../btrfs-tools/{btrfs-tools_4.3.1.bb => btrfs-tools_4.4.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/bootchart2/{bootchart2_0.14.7.bb => bootchart2_0.14.8.bb} (99%)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.3.1.bb => btrfs-tools_4.4.bb} (94%)
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-similarity index 99%
-rename from meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-rename to meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-index 7586ff2..86c614a 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-@@ -95,7 +95,7 @@ SRC_URI = "git://github.com/mmeeks/bootchart.git \
-           "
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.3.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.4.bb
+similarity index 94%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.3.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.4.bb
+index e6b0132..c17b7c7 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.3.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.4.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+ DEPENDS = "util-linux attr e2fsprogs lzo acl"
  
- S = "${WORKDIR}/git"
--SRCREV = "6f050b65ae9f266645f04f0aecab9efb88375f1c"
-+SRCREV = "48e0071048564c6af75ab969e842d6dec808da09"
- 
- inherit systemd
- inherit update-rc.d
+-SRCREV = "7c3394ed9ef2063a7256d4bc078a485b6f826bc5"
++SRCREV = "21258fab2caeade405a15ba932d373b364aa6e8c"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://fix-parallel.patch \
+ "
 -- 
 2.6.4
 
