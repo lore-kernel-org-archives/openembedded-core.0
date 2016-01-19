@@ -1,55 +1,22 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A73D0731D2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0FA6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 22:03:18 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id c134so14590719lfb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 14:03:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=x0cZxCDSnrvq5Fw+RMhId4f8sQ5EfZDugDVIaYXEqyI=;
-	b=nerKQKAg/QkUF/c7uCDzze7u4sTRyx/PdhSBeUHBzEiACEt+3PpH6Fu7sg6xl+a5eF
-	gIFx5FJNomz1uv5eim0EzGItvGWfsF9neGaraet9TB6JPOlLc/US6+CN1o4WYfhpwZU8
-	JhW6EZF2Up9HcUiuKjEj8yYdaPAETjlC7fC3zDkIi4T8KYEnomcrZOUPESGc65ftJXAG
-	U2GitMhOOtc3tVaO5XQ/i71K8NLusP+NOJdE/mRstC863fFn9zRrG4N7my3BeTjFLtMQ
-	jnLHRfb4OMxf3oK4zesJxHg0u/C9EGkphEA53T6xHTZsJScxA1WXM2of0UiiTKvev5+E
-	VvoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=x0cZxCDSnrvq5Fw+RMhId4f8sQ5EfZDugDVIaYXEqyI=;
-	b=JX+H5IBExc5A9JTYTi3BM6EZQlZOxpHdpqQVXybT+DIWNxLgUBA5vgP/QbzfwW94gO
-	KYve8BHRYxK1TacyOllCMKvyWirDsEEgC1teCf7OcouVmYfQ96l3Qq2X7hBWK4S9ibMZ
-	vMwrSjaWvL/nvsAmGqF1hwQ93liAk3UAdChAm/nL98tKtHxUCv1RxzzALK4v/0+XIBhy
-	SB1+Hg7ZzAqSH8h5cd7y5Y+3auikfb2/1cm0cF/vUYAHG0F6/P8xGFIm7Tm3TftknEko
-	ZDAueDfR5MyfMxypLEvDCu6RVqr93fFpZ1fuJd03Mza4t4pvJtH6J0kawWWdAtmERwuB
-	KT7g==
-X-Gm-Message-State: ALoCoQlqlNOjRpYF6aEZsTN4FlBBjYf5tI/grnWpJQzghWJV9FO1i1J7i73s2z5N37yWe2v11IBZCqiX9WICUHQi3NjzLbLPrA==
-X-Received: by 10.25.20.218 with SMTP id 87mr11624593lfu.148.1453240999182;
-	Tue, 19 Jan 2016 14:03:19 -0800 (PST)
-Received: from [192.168.0.12] (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231])
-	by smtp.gmail.com with ESMTPSA id 34sm4314819lfs.25.2016.01.19.14.03.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jan 2016 14:03:18 -0800 (PST)
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1451999565-3502-1-git-send-email-liu.ming50@gmail.com>
-	<569E8FDB.3000401@windriver.com> <569EACA0.8000007@gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Message-ID: <569EB2A5.3030308@gmail.com>
-Date: Tue, 19 Jan 2016 23:03:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <569EACA0.8000007@gmail.com>
-Cc: yue.tao@windriver.com
-Subject: Re: [PATCH 0/3] Introduces kernel-initramfs recipe to resolve a implicit dependency issue
+	Tue, 19 Jan 2016 22:05:40 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 14:05:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="730631594"
+Received: from aganesha-mobl2.amr.corp.intel.com (HELO
+	swold-mobl.jf.intel.com) ([10.254.22.203])
+	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2016 14:05:13 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 19 Jan 2016 14:05:11 -0800
+Message-Id: <1453241111-3103-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] udev: Add 2 patches to support 4.4 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,144 +29,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 22:03:19 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jan 2016 22:05:43 -0000
 
+These 2 patches are needed to build udev with the 4.4 kernel, the first
+mtd-probe adds back a stdint.h header that was removed in the kernel's mtd-user.h
+header file.
 
+The second adds a check for a new header and sets a Makefile variable
+to determine which header to use for the new kernel vs older kernels.
 
-On 01/19/2016 10:37 PM, Ming Liu wrote:
->
->
-> On 01/19/2016 08:34 PM, Bruce Ashfield wrote:
->> On 16-01-05 08:12 AM, Ming Liu wrote:
->>> In current initramfs bundled kernel packaging policy, there are several
->>> dependency chains co-existing:
->>>
->>> | "core-image-minimal.do_build" -> 
->>> "core-image-minimal.do_bundle_initramfs"
->>> | "core-image-minimal.do_bundle_initramfs" -> 
->>> "virtual/kernel.do_bundle_initramfs"
->>> | "core-image-minimal.do_bundle_initramfs" -> 
->>> "core-image-minimal.do_rootfs"
->>
->> In current master, the above dependency should now be
->> do_image_complete, correct ?
-> Yes, now it has been changed to do_image_complete.
->
->>
->>> | "core-image-minimal.do_rootfs" -> 
->>> "virtual/kernel.do_package_write_${IMAGE_PKGTYPE}"
->>
->> And for the one above here, I'm not seeing this dependency. Are you
->> saying that it comes via the do_image_complete dependency ?
-> It comes from the "recrdeptask" flag in image bbclass, for instance, 
-> meta/classes/rootfs_rpm.bbclass, it has:
-> do_rootfs[recrdeptask] += "do_package_write_rpm"
->
-> this makes sure that do_rootfs task of a certain image would run after 
-> do_package_write_rpm of all its DEPENDS and RDEPENDS, recursively.
->
->>
->>> | "virtual/kernel.do_package_write_${IMAGE_PKGTYPE}" -> 
->>> "virtual/kernel.do_package"
->>> | "virtual/kernel.do_package" -> "virtual/kernel.do_install"
->>> |
->>> | "virtual/kernel.do_deploy" -> "virtual/kernel.do_bundle_initramfs"
->>> | "virtual/kernel.do_bundle_initramfs" -> "virtual/kernel.do_install"
->>
->> I'm somehow missing the above dependency as well. I suppose I could dump
->> out the dot file, but I'd like to hear it explained here as well. Since
->> if I can't get the dependency from the text of the commits, it will
->> become hard to maintain.
-> They are intertask dependencies, I still take RPM as a example:
-> meta/classes/package_rpm.bbclass:addtask package_write_rpm after 
-> do_packagedata do_package
-> meta/classes/kernel.bbclass:addtask bundle_initramfs after do_install 
-> before do_deploy
->
->>
->>>
->>> We could see, virtual/kernel.do_package is not explicitly depending on
->>> virtual/kernel.do_bundle_initramfs so far, therefore, there is not a
->>> workable way to add initramfs bundled kernel image into rootfs, because
->>> kernel's do_bundle_initramfs could run parallelly with its do_package,
->>> which means we will get a implicit kernel-image package that 
->>> sometimes it
->>> contains the initramfs bundled kernel or sometimes it doesn't.
->>
->> I do see what you are describing above. If we've defined
->> INITRAMFS_IMAGE, the anonymous python in kernel.bbclass does make
->> the kernel's do_bundle_initramfs depend on the initramfs image's
->> do_image_complete.
->>
->> Why not just add a task dependency ?
-> Do you mean adding a task dependency between package and 
-> bundle_initramfs in kernel recipe? But that would introduce a circular 
-> dependency issue as described in commit log of 
-> 609d5a9ab9e58bb1c2bcc2145399fbc8b701b85a, under following conditions:
-> 1 Some kernel modules have been added into INITRAMFS_IMAGE.
-> 2 INITRAMFS_IMAGE has been bundled into kernel image
-> 3 kernel-image package has been added into IMAGE_INSTALL.
-Here, I mean the IMAGE_INSTALL of a normal image like core-image-minimal.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/udev/udev.inc                    |  5 ++-
+ ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch | 26 +++++++++++
+ ...c-Makefile.am-Check-for-input.h-and-input.patch | 50 ++++++++++++++++++++++
+ 3 files changed, 80 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+ create mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
 
-//Ming Liu
->
->>
->>>
->>> To fix this problem, the idea is to let the initramfs bundled kernel
->>> packaging depend on do_bundle_initramfs, meanwhile, to avoid the 
->>> circular
->>> dependency issue that commit: 609d5a9ab9e58bb1c2bcc2145399fbc8b701b85a
->>> [ kernel.bbclass, image.bbclass: Implement kernel INITRAMFS 
->>> dependency and bundling ]
->>
->> But here's my issue. We know that the INITRAMFS image cannot contain,
->> or depend on a kernel itself. So the dependency won't be circular.
->> It is true that we don't enforce that, but that has always been stated
->> in the commits that created the bundling.
->>
->> Is it that condition you are trying to enforce with the split ?
-> I know that the users are not allowed to add kernel itself into a 
-> INITRAMFS_IMAGE meanwhile bundle it into kernel, which will certainly 
-> create a circular dependency. The split was not trying to resolve that 
-> condition, but to fix a implicit kernel-image package without 
-> introducing any circular dependencies.
->
-> //Ming Liu
->>
->> Bruce
->>
->>>
->>> was trying to address, this dependency has to be splitted from kernel
->>> recipe(at least, I could not figure out another way to achieve it), 
->>> so a
->>> new kernel-initramfs is introduced, in which a dependency chain is 
->>> created:
->>>
->>> | "kernel-initramfs.do_install" -> "virtual/kernel.do_deploy"
->>> | "virtual/kernel.do_deploy" -> "virtual/kernel.do_bundle_initramfs"
->>>
->>> Then the users can add initramfs bundled kernel image into rootfs by:
->>>
->>> IMAGE_INSTALL_append = " kernel-initramfs"
->>>
->>> without introducing any circular dependencies.
->>>
->>> Ming Liu (3):
->>>    kernel.bbclass: do not install initramfs bundled kernel image
->>>    image.bbclass: removes bundle_initramfs related code
->>>    kernel-initramfs: new recipe, creates initramfs bundled kernel
->>>      packaging
->>>
->>>   meta/classes/image.bbclass                    | 11 -----
->>>   meta/classes/kernel.bbclass                   |  4 --
->>>   meta/recipes-kernel/linux/kernel-initramfs.bb | 69 
->>> +++++++++++++++++++++++++++
->>>   3 files changed, 69 insertions(+), 15 deletions(-)
->>>   create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
->>>
->>
->
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index c00ed34..93d7369 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -31,7 +31,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://add-install-ptest.patch \
+            file://fix_rule-syntax-regex-ptest.patch \
+            file://run-ptest \
+-           file://init"
++           file://init \
++           file://0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch \
++           file://0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch \
++           "
+ 
+ inherit autotools pkgconfig update-rc.d ptest
+ RDEPENDS_${PN}-ptest += "make perl python"
+diff --git a/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+new file mode 100644
+index 0000000..439eeac
+--- /dev/null
++++ b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+@@ -0,0 +1,26 @@
++From 2935f9b2dfb92c3ce4376a988cd01b624430905b Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Tue, 19 Jan 2016 09:49:56 -0800
++Subject: [PATCH 1/2] mtd_probe.h: Add stdint.h as it was removed from
++ mtd-user.h in the kernel
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ src/mtd_probe/mtd_probe.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/mtd_probe/mtd_probe.h b/src/mtd_probe/mtd_probe.h
++index 2a37ede..49c1918 100644
++--- a/src/mtd_probe/mtd_probe.h
+++++ b/src/mtd_probe/mtd_probe.h
++@@ -18,6 +18,7 @@
++  */
++ 
++ #include <mtd/mtd-user.h>
+++#include <stdint.h>
++ 
++ /* Full oob structure as written on the flash */
++ struct sm_oob {
++-- 
++2.5.0
++
+diff --git a/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+new file mode 100644
+index 0000000..285680f
+--- /dev/null
++++ b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+@@ -0,0 +1,50 @@
++From 63ae7ebb0c6177efed46734061fb59c458a47a26 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Tue, 19 Jan 2016 09:49:19 -0800
++Subject: [PATCH 2/2] configure.ac/Makefile.am: Check for input.h and
++ input-event-codes.h
++
++Add INPUT_HEADER to know which header file to use because it changed
++in the 4.4 kernel code.
++
++Set INPUT_HEADER with default linux/input.h if it exists and if the
++newer input-events-codes.h exists from 4.4 use it instead.
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ Makefile.am  | 2 +-
++ configure.ac | 4 +++-
++ 2 files changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 2e32e69..04eb194 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -591,7 +591,7 @@ dist_udevkeymapforcerel_DATA = \
++ 	src/keymap/force-release-maps/samsung-other \
++ 	src/keymap/force-release-maps/common-volume-keys
++ 
++-src/keymap/keys.txt: $(INCLUDE_PREFIX)/linux/input.h
+++src/keymap/keys.txt: $(INCLUDE_PREFIX)/$(INPUT_HEADER)
++ 	$(AM_V_at)mkdir -p src/keymap
++ 	$(AM_V_GEN)$(AWK) '/^#define.*KEY_[^ ]+[ \t]+[0-9]/ { if ($$2 != "KEY_MAX") { print $$2 } }' < $< | sed 's/^KEY_COFFEE$$/KEY_SCREENLOCK/' > $@
++ 
++diff --git a/configure.ac b/configure.ac
++index 0500313..9674620 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -154,8 +154,10 @@ AS_IF([test "x$enable_keymap" = "xyes"], [
++        if test -z "$GPERF"; then
++               AC_MSG_ERROR([gperf is needed])
++        fi
+++       
+++       AC_CHECK_HEADER([linux/input.h], [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input.h')])], AC_MSG_ERROR([kernel headers not found]))
+++       AC_CHECK_HEADER([linux/input-event-codes.h], [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input-event-codes.h')])], [:])
++ 
++-       AC_CHECK_HEADER([linux/input.h], [:], AC_MSG_ERROR([kernel headers not found]))
++        AC_SUBST([INCLUDE_PREFIX], [$(echo '#include <linux/input.h>' | eval $ac_cpp -E - | sed -n '/linux\/input.h/ {s:.*"\(.*\)/linux/input.h".*:\1:; p; q}')])
++ ])
++ AM_CONDITIONAL([ENABLE_KEYMAP], [test "x$enable_keymap" = "xyes"])
++-- 
++2.5.0
++
+-- 
+2.5.0
 
 
