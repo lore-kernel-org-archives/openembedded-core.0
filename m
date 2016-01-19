@@ -1,21 +1,23 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C33886FFEC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C0384731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 21:55:37 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 13:55:38 -0800
+	Tue, 19 Jan 2016 21:55:47 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2016 13:55:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="730623073"
+X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="32546158"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
 	([10.23.219.47])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2016 13:55:38 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2016 13:55:40 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 21:56:26 +0000
-Message-Id: <cover.1453239938.git.alejandro.hernandez@linux.intel.com>
+Date: Tue, 19 Jan 2016 21:56:24 +0000
+Message-Id: <cbf1df80ebfa0611333ac37e9adf4c7c28db6338.1453239938.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/9] Several upgrades
+In-Reply-To: <cover.1453239938.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1453239938.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/9] python3-setuptools: upgrade to 19.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,55 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 21:55:40 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 21:55:48 -0000
 
-The following changes since commit a2f23fa62858b89850aab339ddec16dcf6026b37:
-
-  openssh: CVE-2016-1907 (2016-01-18 11:47:08 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib hsalejandro/upgrades
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/upgrades
-
-Alejandro Hernandez (9):
-  python3-setuptools: upgrade to 19.2
-  python-setuptools: Upgrade to 19.2
-  python-mako: upgrade to 1.0.3
-  python-pycurl: upgrade to 7.21.5
-  python-nose: upgrade to 1.3.7
-  python-scons: upgrade to 2.4.1
-  python-numpy: upgrade to 1.10.4
-  swig: upgrade to 3.0.8
-  python3: Minor upgrade 3.5.0 -> 3.5.1
-
- .../python/python-2.7-manifest.inc                 | 12 ++++++---
- .../{python-mako_1.0.1.bb => python-mako_1.0.3.bb} |  4 +--
- .../{python-nose_1.3.6.bb => python-nose_1.3.7.bb} |  8 ++++--
- ...thon-numpy_1.10.1.bb => python-numpy_1.10.4.bb} |  6 +++--
- ...-pycurl_7.19.5.2.bb => python-pycurl_7.21.5.bb} |  8 +++---
- ...ative_2.3.6.bb => python-scons-native_2.4.1.bb} |  0
- ...python-scons_2.3.6.bb => python-scons_2.4.1.bb} |  9 +++++--
- ...uptools_18.7.1.bb => python-setuptools_19.2.bb} | 12 +++++++--
- ...on3-native_3.5.0.bb => python3-native_3.5.1.bb} |  4 +--
- ...ptools_18.7.1.bb => python3-setuptools_19.2.bb} |  4 +--
- .../python/python3/000-cross-compile.patch         | 30 +++++++++++-----------
- .../python/{python3_3.5.0.bb => python3_3.5.1.bb}  |  4 +--
- .../swig/{swig_3.0.6.bb => swig_3.0.8.bb}          |  4 +--
- scripts/contrib/python/generate-manifest-2.7.py    |  3 +++
- 14 files changed, 67 insertions(+), 41 deletions(-)
- rename meta/recipes-devtools/python/{python-mako_1.0.1.bb => python-mako_1.0.3.bb} (80%)
- rename meta/recipes-devtools/python/{python-nose_1.3.6.bb => python-nose_1.3.7.bb} (75%)
- rename meta/recipes-devtools/python/{python-numpy_1.10.1.bb => python-numpy_1.10.4.bb} (92%)
- rename meta/recipes-devtools/python/{python-pycurl_7.19.5.2.bb => python-pycurl_7.21.5.bb} (77%)
- rename meta/recipes-devtools/python/{python-scons-native_2.3.6.bb => python-scons-native_2.4.1.bb} (100%)
- rename meta/recipes-devtools/python/{python-scons_2.3.6.bb => python-scons_2.4.1.bb} (69%)
- rename meta/recipes-devtools/python/{python-setuptools_18.7.1.bb => python-setuptools_19.2.bb} (79%)
- rename meta/recipes-devtools/python/{python3-native_3.5.0.bb => python3-native_3.5.1.bb} (94%)
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ .../{python3-setuptools_18.7.1.bb => python3-setuptools_19.2.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-devtools/python/{python3-setuptools_18.7.1.bb => python3-setuptools_19.2.bb} (91%)
- rename meta/recipes-devtools/python/{python3_3.5.0.bb => python3_3.5.1.bb} (98%)
- rename meta/recipes-devtools/swig/{swig_3.0.6.bb => swig_3.0.8.bb} (58%)
 
+diff --git a/meta/recipes-devtools/python/python3-setuptools_18.7.1.bb b/meta/recipes-devtools/python/python3-setuptools_19.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-setuptools_18.7.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_19.2.bb
+index eaf6e47..bb57982 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_18.7.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_19.2.bb
+@@ -11,8 +11,8 @@ DEPENDS_class-native += "python3-native"
+ SRC_URI = " \
+   http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+ "
+-SRC_URI[md5sum] = "a0984da9cd8d7b582e1fd7de67dfdbcc"
+-SRC_URI[sha256sum] = "aff36c95035e0b311eacb1434e3f7e85f5ccaad477773847e582978f8f45bd74"
++SRC_URI[md5sum] = "78353b1f80375ca5e088f4b4627ffe03"
++SRC_URI[sha256sum] = "f90ed8eb70b14b0594ba74e9de4ffca040c0ec8ee505cbf3570499467859f71a"
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
+ 
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
 -- 
 1.8.4.5
 
