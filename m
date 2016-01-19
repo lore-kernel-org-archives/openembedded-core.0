@@ -1,28 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D611065CC3
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 91D0060116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 09:41:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0J9f5lP015556
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 01:41:05 -0800 (PST)
-Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 01:41:04 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1453196137.git.liezhi.yang@windriver.com>
-	<bb110858045d626bc56fb43920ae9acda71d038c.1453196137.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <569E04AF.5090402@windriver.com>
-Date: Tue, 19 Jan 2016 17:41:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Tue, 19 Jan 2016 10:44:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 02:44:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,316,1449561600"; d="scan'208";a="863671925"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.31.203])
+	by orsmga001.jf.intel.com with ESMTP; 19 Jan 2016 02:44:55 -0800
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jan 2016 10:44:05 +0000
+Message-Id: <cover.1453200108.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <bb110858045d626bc56fb43920ae9acda71d038c.1453196137.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] insane.bbclass:buildpaths: ignore ipkg/dpkg's CONTROL dir
+Subject: [PATCH 0/2] Remove some uses of oe_filter_out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 09:41:06 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jan 2016 10:44:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Replace a couple of uses of oe_filter_out() with removes override syntax,
+which is much clearer and better matches modern style and convention.
 
-Update the subjected line a little in the repo:
+Furthermore this allows us to drop two uses of immediate expansion.
 
-insane.bbclass:buildpaths: ignore ipkg/dpkg's CONTROL dir
+The following changes since commit a42229df424552955c0ac62da1063461f97f5938:
 
-   git://git.openembedded.org/openembedded-core-contrib rbt/ipk
-   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ipk
+  openssh: CVE-2016-1907 (2016-01-17 11:32:21 +0000)
 
-Robert Yang (1):
-   insane.bbclass:buildpaths: ignore ipkg/dpkg's CONTROL dir
+are available in the git repository at:
 
-* Changes, added ":buildpaths" which is more accurate.
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/filter
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/filter
 
-// Robert
+Joshua Lock (2):
+  gcc-runtime: switch to removal override syntax to modify CXXFLAGS
+  uclibc: remove a use of immediate expansion and oe_filter_out ()
 
-On 01/19/2016 05:36 PM, Robert Yang wrote:
-> Fixed race issue when:
-> WARN_QA_append = " buildpaths"
-> PACKAGE_CLASSES = "package_ipk"
-> $ bitbake e2fsprogs
->
-> [snip]
->   *** 0595:    with open(path) as f:
->       0596:        file_content = f.read()
->       0597:        if tmpdir in file_content:
->       0598:            messages["buildpaths"] = "File %s in package contained reference to tmpdir" % package_qa_clean_path(path,d)
->       0599:
-> Exception: IOError: [Errno 2] No such file or directory: '/path/to/tmp/work/core2-64-poky-linux/e2fsprogs/1.42.9-r0/packages-split/e2fsprogs-ptest/CONTROL/control'
->
-> The similar to package_deb.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/classes/insane.bbclass |    4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index ba9c651..c16e6ad 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -584,6 +584,10 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
->       if os.path.islink(path):
->           return
->
-> +    # Ignore ipk and deb's CONTROL dir
-> +    if path.find(name + "/CONTROL/") != -1 or path.find(name + "/DEBIAN/") != -1:
-> +        return
-> +
->       tmpdir = d.getVar('TMPDIR', True)
->       with open(path) as f:
->           file_content = f.read()
->
+ meta/recipes-core/uclibc/uclibc.inc       | 2 +-
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.5.0
+
 
