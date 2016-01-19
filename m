@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A9E696FFEA
+Return-Path: <roman@khimov.ru>
+Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
+	by mail.openembedded.org (Postfix) with ESMTP id E98E66FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 03:23:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0J3N5Do002402
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jan 2016 19:23:06 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Jan 2016 19:23:05 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jan 2016 19:23:03 -0800
-Message-ID: <dc955f7651afe19ce915cedc95bfb9ab96d52d73.1453173729.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453173729.git.liezhi.yang@windriver.com>
-References: <cover.1453173729.git.liezhi.yang@windriver.com>
+	Tue, 19 Jan 2016 06:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
+	s=mail; 
+	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:Reply-To:To:From;
+	bh=AgHh8Xc3lTbom9M0hk/2K9OCYtOXQk/B07tUKm9L3+o=; 
+	b=V6X+zRLttKQMHkHOrkTCUFZ8lNa7/SYwaP3OFOLJ5m8GTf1KhhnBohfKsiMb5L3zS5KAx5Ho0glZYkeP6rXWej7zo9ZTgKh5iaERi5lofTSJnh/tX9Dd+eCQXCyFZ3u4b2guekesldIhsC3mhG4xnLCS22MlKNT1w5kqlNyoRb8i9UrI0sn/2wYu0IFXhRgfC7wddHmA/LV2HCUk6cCNJXtbhbDWmyYAKfs0P1sNJXmbjBI4/iKpFqF56kLXjyvRM/LOPb2INnRaggSEpvrMJgYug4oXolol5aWbyxasvPxp8AjKcviuPHhhoG39BT6xQJ/86IIE9ytwNfWvzbC8WA==;
+Received: from [93.100.16.104] (helo=masala.hex)
+	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.84) (envelope-from <roman@khimov.ru>)
+	id 1aLPbH-0001NY-Jn; Tue, 19 Jan 2016 09:17:08 +0300
+From: Roman Khimov <roman@khimov.ru>
+To: Khem Raj <raj.khem@gmail.com>
+Reply-To: roman@khimov.ru
+Date: Tue, 19 Jan 2016 09:17:01 +0300
+Message-ID: <1616789.GRtlt9rzHW@masala.hex>
+User-Agent: KMail/4.14.10 (Linux/4.1.13-5-default; KDE/4.14.10; x86_64; ; )
+In-Reply-To: <F049320E-FDD3-4EBE-B25E-CA431E699223@gmail.com>
+References: <a11d14dd08dcef1c508ae13079284cfb96629c50.1453029952.git.raj.khem@gmail.com>
+	<1564093.TSl0G7yhEJ@masala.hex>
+	<F049320E-FDD3-4EBE-B25E-CA431E699223@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] e2fsprogs: fix PV
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 19/73] mtools: Fix build with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 03:23:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Jan 2016 06:17:11 -0000
+X-Groupsio-MsgNum: 76376
+Content-Type: multipart/signed; boundary="nextPart5173019.LsrblCmeVo";
+	micalg="pgp-sha1"; protocol="application/pgp-signature"
 
-We had upgraded e2fsprogs from 1.42.9 to 1.43 (WIP), and used:
-PV = "1.42+1.43-git${SRCPV}"
-But:
-$ dpkg --compare-versions 1.42+1.43 gt 1.42.9 && echo greater || echo less
-less
+--nextPart5173019.LsrblCmeVo
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-It shows that 1.42+1.43 is less than 1.42.9, so this is a downgraded. Use
-PV = "1.42.13+git${SRCPV}"
-to fix the problem. 1.42.13 is the latest e2fsprogs 1.42 version.
+=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 18 =D1=8F=D0=BD=
+=D0=B2=D0=B0=D1=80=D1=8F 2016 13:51:36 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Khem Raj =D0=BD=D0=B0=D0=BF=D0=B8=
+=D1=81=D0=B0=D0=BB:
+> > And from what I remember, I had some issue building native package =
+with
+> > 'DEPENDS +=3D'. Although that's an old branch and probably things a=
+re
+> > different now.
+>=20
+> I guess what you might have seen is that there is no provider for
+> libiconv-native which is already fixed by
+> https://github.com/kraj/openembedded-core/commit/a5e6f5939c0ee4280eab=
+d7cfc01
+> 131052040bc81
+>=20
+> if it was something else. Please report with more details.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+True, it was something like that. If that's already fixed, then everyth=
+ing is=20
+perfect. Will this kind of patches go to jethro?
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-index b1b7931..60b2854 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-@@ -9,7 +9,7 @@ SRC_URI += "file://acinclude.m4 \
- "
- 
- SRCREV = "0f26747167cc9d82df849b0aad387bf824f04544"
--PV = "1.42+1.43-git${SRCPV}"
-+PV = "1.42.13+git${SRCPV}"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-                 --enable-elf-shlibs --disable-libuuid --disable-uuidd \
--- 
-1.7.9.5
+=2D-=20
+ http://roman.khimov.ru
+mailto: roman@khimov.ru
+gpg --keyserver hkp://subkeys.pgp.net --recv-keys 0xE5E055C3
 
+--nextPart5173019.LsrblCmeVo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEABECAAYFAlad1OIACgkQXJ70z+XgVcOV3ACfe4oqv5ZKrJPvz+VJIKG8Hiy8
+HkAAnRveVyayuXbo0ZEQTp8l0GTnskHm
+=wcGh
+-----END PGP SIGNATURE-----
+
+--nextPart5173019.LsrblCmeVo--
