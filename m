@@ -1,36 +1,42 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 49D0860670
+Return-Path: <chai18740449846@gmail.com>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C215B6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 16:03:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0JG35lS026636
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Jan 2016 08:03:05 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 19 Jan 2016 08:03:03 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
-	<5645EB64.4020200@windriver.com>
-	<60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-	<56461044.2020202@windriver.com> <5649A752.2060308@linux.intel.com>
-	<564A0051.2080005@windriver.com> <564B346F.2000407@linux.intel.com>
-	<564B4193.7060104@windriver.com> <564CA303.9040700@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <569E5E36.8000300@windriver.com>
-Date: Tue, 19 Jan 2016 10:03:02 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.1
+	Tue, 19 Jan 2016 16:26:25 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id m198so194745099lfm.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jan 2016 08:26:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=UUTGiZDoJg7gdrflTpqiF6tI4MIxqX5gX+21tmt+jps=;
+	b=D3VW0ykqkSvhV87CK0BS/5tFIMmz8wIdB7hG9AjsiOK1hOR9ScpX5a/lchTzWfc4pt
+	vO1Xt4v5ksEcocnrsNaxLsvzCVEzF5bRN5LGHV3b9Qi2ARVkztHN+iFkPZgqcie8s00T
+	swqLmJAfTMnEYwlxtlT7JD5SVH5hUGEFWIXRzfBwryvgXvncYPsDPYG0p1mfrHKogeT+
+	L1PCs2nK9mFSdBMV09Hg1SPHbbtolBHiVnMvYXyAGGKhYnGPkh5CYIekxVT3jTw5cKfU
+	qxRY2OGgyfYnR/Wj1hwn/s9gxviblY1QWwxkulThJQh6m9CcKFCusoA2+nddiUXAJyye
+	SbFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=UUTGiZDoJg7gdrflTpqiF6tI4MIxqX5gX+21tmt+jps=;
+	b=AyGEzLCvPX9NrB7yoY2OTy1kA2c2UDZU2Si3hPz+FzaXVyCYSUfK5dj9PR8IRbpy+6
+	8xNVkJv9ym9eW5HloJrToBY5PwDk45T7sphQaUcdytu/MweWUk2qRy5zzy/C2C4j6q8j
+	y61SX+VU/vqJ+fjTxXS4+JYEFbiwLsQLoSVS4K399UemtiNTz+/Lnednshw8gj0IYVN1
+	dpNi/1v9lGXJtsMi8s6fHGDGZB0H5s92Sh1Wj/u5yP/q0l7wvacDtfs1+Q+R9icufNkM
+	QKzeqGt5amaiEv/VI2kcHO/u+L3c84rdwpJJMEaNXOvbGHQuNcaH4y0XOdi71kYQMdfC
+	R6Lw==
+X-Gm-Message-State: ALoCoQlDFJoF1TD64tBZsemcge0JSpth67AU+upBhqTRa1P21TrPGVOIaK6quHHDkUzDk5AwNuPfP/bZ0YDN7ezmUUYWR19NEg==
 MIME-Version: 1.0
-In-Reply-To: <564CA303.9040700@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+X-Received: by 10.25.18.89 with SMTP id h86mr9024140lfi.165.1453220784883;
+	Tue, 19 Jan 2016 08:26:24 -0800 (PST)
+Received: by 10.114.177.106 with HTTP; Tue, 19 Jan 2016 08:26:24 -0800 (PST)
+Date: Wed, 20 Jan 2016 00:26:24 +0800
+Message-ID: <CAGgoB6YiR0qqeWwe3hNnQZ8GRXpdyh0EEYWMPaSXZRis1mb4xw@mail.gmail.com>
+From: Ekko <chai18740449846@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: question about system on usrp E310
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,56 +49,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 16:03:08 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jan 2016 16:26:26 -0000
+Content-Type: multipart/alternative; boundary=001a113fb96aa9d0540529b25462
 
-I know it's been about 2 months at this point, but I wanted to follow up and
-make it clear to people I've not ignored this.
+--001a113fb96aa9d0540529b25462
+Content-Type: text/plain; charset=UTF-8
 
-I still plan on following up on this, hopefully within about the next 3 weeks.
-
---Mark
-
-On 11/18/15 10:10 AM, Alexander Kanavin wrote:
-> On 11/17/2015 05:02 PM, Mark Hatle wrote:
-> 
->>> So the bottom line, to generate introspection info, you have to run the
->>> code of the library that you introspect, either with QEMU, or on target
->>> hardware, and I don't see a way to avoid this, short of complete rewrite
->>> of the entire glib ecosystem. If someone wants to have this feature, but
->>> doesn't have a working QEMU, they should get their act together and fix it.
->>
->> Can you put together a small piece of test code with instructions on how to
->> compiler it, generate the '.gir' file and anything else?  I can take a look at
->> this and see if there is a way to inspect the intermediate objects for the type
->> information we need.
-> 
-> Alright. Here you go:
-> 
-> https://github.com/kanavin/gi-library-boilerplate
-> 
-> In there you have a library that provides:
-> 
-> 1) A simple class called MamanBar that is final (i.e. cannot be derived 
-> from) and has one public method and some internal state.
-> 
-> 2) An interface called MamanIbaz which specified two methods and one 
-> property.
-> 
-> 3) A derivable (can be subclassed) class called MamanBaz which 
-> implements the above interface, and also adds a virtual method and a signal.
-> 
-> When you run 'make', you'll get both the library and the introspection 
-> data - .gir and .typelib files.
-> 
-> All of the above is written using best current knowledge from the 
-> GObject manual:
-> 
-> https://developer.gnome.org/gobject/stable/index.html
-> 
-> Regards,
-> Alex
-> 
+hello all
+i am using a image of usrp e310.
+this device is using the openembedded core.and i want to know
+1>>>>>>>..the details on waht happens during booting of the linux system,
+2>>>>>>> and a depth explanation of the way ARM in Zynq gets initialized
+until it loads the bootloader from the SD card
 
 
+i want to know what file i need to read so that i can fingure those two
+problems,and how can i find it
+
+
+thank you
+
+---Ekko
+
+--001a113fb96aa9d0540529b25462
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hello all=C2=A0<div>i am using a image of usrp e310.</div>=
+<div>this device is using the openembedded core.and i want to know=C2=A0</d=
+iv><div>1&gt;&gt;&gt;&gt;&gt;&gt;&gt;..the details on waht happens during b=
+ooting of the linux system,</div><div>2&gt;&gt;&gt;&gt;&gt;&gt;&gt; and a d=
+epth explanation of the way ARM in Zynq gets initialized until it loads the=
+ bootloader from the SD card</div><div><br></div><div><br></div><div>i want=
+ to know what file i need to read so that i can fingure those two problems,=
+and how can i find it</div><div><br></div><div><br></div><div>thank you=C2=
+=A0</div><div><br></div><div>---Ekko</div></div>
+
+--001a113fb96aa9d0540529b25462--
