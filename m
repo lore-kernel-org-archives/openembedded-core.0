@@ -1,55 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F2CBB6FF56
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D8CEB6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 19:05:18 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id yy13so363191509pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 11:05:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=U6YCOK/3zf1Lh1zDU4kJhDwhNpkmcEZMuez6t1OjDic=;
-	b=nUqZCaOygpynH686qt7dmUszg6wOUX5MX63avZ/mh5jPVQyy/O6WhLOpPWNMB5FKMd
-	+kVtUlii6S7IPNBUptH4msiXWFcDTCLkY7pUdbVdUbWk3VimqjVeclzk8KSNopIFji8V
-	+/z2ZJzpQoONmwvx2iGiqfp5Tl3HcX66qPNl9c+nMOXFHY7wExoDX+hTLuhd6CSDtY0S
-	8LkoGJm6OXhrm+vtWZuHs9a2v31gguzRezqdJF0r3BjOG+9pzY61uxGHQq2iqOXONTDs
-	bOTjJHdhgoYAObEBFPa/fUbVhqVAvKVj132D8dWqKxWIJmiv/Za3L8L6womFmDUJ1Pq4
-	qN7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=U6YCOK/3zf1Lh1zDU4kJhDwhNpkmcEZMuez6t1OjDic=;
-	b=ggQJtBN0+V+wiXFiLBCmE1xz1czCTJkLSRmEanwwQhrOXYFgxxX5MZ3j3T/UFdZpVl
-	ByrKSELbt7ESgWjKvaZngXacDTAay+Ly9PB3lYvFXP3A76HqvhMRFqoBdDjJMKP2agwB
-	cwlP9seIc9l1ZsQ3BU0QxwMaG5vCTKe+0KMynfHowp393h5xIZ8o0fAOak3jZnOIxqnA
-	vEFJs1AnXmR7QZf6kQzfCAiwSePenWSYZYMwxCDjiF7rsvDv/BkgB/vgTLyd3ARgOroK
-	ly+/m6qnIcU4za1fXOrPELZVrHL2pwu0Mfz42whlpCIGT1dTbUvtilNmjq8LznnOwsNX
-	0zwQ==
-X-Gm-Message-State: AG10YOR4R8P6byxXRzQIDUcnO08HJBlIyakub490XvyAO+9EJukr8PeltKC4GqwKz6tgiQ==
-X-Received: by 10.67.7.3 with SMTP id cy3mr36286378pad.100.1453230319047;
-	Tue, 19 Jan 2016 11:05:19 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:2cdb:35b7:1df4:399a?
-	([2601:646:8802:5d5c:2cdb:35b7:1df4:399a])
-	by smtp.gmail.com with ESMTPSA id
-	c86sm43148278pfd.75.2016.01.19.11.05.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jan 2016 11:05:18 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5f464411a18a53b395e749b2b3a1fbfaab4ffd74.1453217744.git.alexander.kanavin@linux.intel.com>
-Date: Tue, 19 Jan 2016 11:05:17 -0800
-Message-Id: <D70F5507-7ED6-4281-8FC9-4BFE9EAD0B72@gmail.com>
-References: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-	<cover.1453217744.git.alexander.kanavin@linux.intel.com>
-	<5f464411a18a53b395e749b2b3a1fbfaab4ffd74.1453217744.git.alexander.kanavin@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/12] nss: update to 3.21
+	Tue, 19 Jan 2016 19:34:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0JJYrH0017118
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Jan 2016 11:34:53 -0800 (PST)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Jan 2016 11:34:52 -0800
+To: Ming Liu <liu.ming50@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1451999565-3502-1-git-send-email-liu.ming50@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <569E8FDB.3000401@windriver.com>
+Date: Tue, 19 Jan 2016 14:34:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1451999565-3502-1-git-send-email-liu.ming50@gmail.com>
+Cc: yue.tao@windriver.com
+Subject: Re: [PATCH 0/3] Introduces kernel-initramfs recipe to resolve a implicit dependency issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,168 +34,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 19:05:21 -0000
-X-Groupsio-MsgNum: 76438
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CDDF0D43-68C8-40E8-B11A-9F8E69583B37";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_CDDF0D43-68C8-40E8-B11A-9F8E69583B37
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On Jan 19, 2016, at 7:37 AM, Alexander Kanavin =
-<alexander.kanavin@linux.intel.com> wrote:
->=20
-> Explicitly disable tests (they were previously implicitly disabled =
-upstream),
-> as they cause various architecture-specific build failures.
->=20
-> Add 0001-Fix-build-failure-on-opensuse-13.1.patch that fixes =
-compilation using gcc 4.8.
->=20
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
-> .../0001-Fix-build-failure-on-opensuse-13.1.patch  | 27 =
-++++++++++++++++++++++
-> .../nss/{nss_3.19.2.bb =3D> nss_3.21.bb}             | 11 ++++++---
-> 2 files changed, 35 insertions(+), 3 deletions(-)
-> create mode 100644 =
-meta/recipes-support/nss/nss/0001-Fix-build-failure-on-opensuse-13.1.patch=
-
-> rename meta/recipes-support/nss/{nss_3.19.2.bb =3D> nss_3.21.bb} (95%)
->=20
-> diff --git =
-a/meta/recipes-support/nss/nss/0001-Fix-build-failure-on-opensuse-13.1.pat=
-ch =
-b/meta/recipes-support/nss/nss/0001-Fix-build-failure-on-opensuse-13.1.pat=
-ch
-> new file mode 100644
-> index 0000000..cb3ad00
-> --- /dev/null
-> +++ =
-b/meta/recipes-support/nss/nss/0001-Fix-build-failure-on-opensuse-13.1.pat=
-ch
-> @@ -0,0 +1,27 @@
-> +=46rom 8758c6a4508a5ca01505a8d69a269c912ce10bee Mon Sep 17 00:00:00 =
-2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Mon, 18 Jan 2016 18:26:16 +0000
-> +Subject: [PATCH] Fix build failure on opensuse 13.1
-> +
-> +Upstream-Status: Inappropriate [gcc 4.8 specific issue]
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + nss/cmd/modutil/install-ds.h | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/nss/cmd/modutil/install-ds.h =
-b/nss/cmd/modutil/install-ds.h
-> +index 3a3afb3..433efe0 100644
-> +--- a/nss/cmd/modutil/install-ds.h
-> ++++ b/nss/cmd/modutil/install-ds.h
-> +@@ -243,7 +243,7 @@ struct Pk11Install_Info_str {
-> + Pk11Install_Info*
-> + Pk11Install_Info_new();
-> + void
-> +-Pk11Install_Info_init();
-> ++Pk11Install_Info_init(Pk11Install_Info* _this);
-> + void
-> + Pk11Install_Info_delete(Pk11Install_Info* _this);
-> + /*// Returns NULL for success, error message if parse error.*/
-> +--
-> +1.8.4.5
-> +
-> diff --git a/meta/recipes-support/nss/nss_3.19.2.bb =
-b/meta/recipes-support/nss/nss_3.21.bb
-> similarity index 95%
-> rename from meta/recipes-support/nss/nss_3.19.2.bb
-> rename to meta/recipes-support/nss/nss_3.21.bb
-> index c51b056..24892b4 100644
-> --- a/meta/recipes-support/nss/nss_3.19.2.bb
-> +++ b/meta/recipes-support/nss/nss_3.21.bb
-> @@ -15,17 +15,18 @@ LIC_FILES_CHKSUM =3D =
-"file://nss/COPYING;md5=3D3b1e88e1b9c0b5a4b2881d46cce06a18 \
->                     =
-file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=3D5d425c8f3157dbf212db2ec53d=
-9e5132"
->=20
-> SRC_URI =3D "\
-> -    =
-http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_19_2_RT=
-M/src/${BP}.tar.gz \
-> +    =
-http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_21_RTM/=
-src/${BP}.tar.gz \
->     file://nss-fix-support-cross-compiling.patch \
->     file://nss-no-rpath-for-cross-compiling.patch \
->     file://nss-fix-incorrect-shebang-of-perl.patch \
->     file://nss-fix-nsinstall-build.patch \
-> +    file://0001-Fix-build-failure-on-opensuse-13.1.patch \
->     file://nss.pc.in \
->     file://signlibs.sh \
-> "
->=20
-> -SRC_URI[md5sum] =3D "b02ffd1e8e8ef5f8512fa02d8ca9db3d"
-> -SRC_URI[sha256sum] =3D =
-"1306663e8f61d8449ad8cbcffab743a604dcd9f6f34232c210847c51dce2c9ae"
-> +SRC_URI[md5sum] =3D "3c8b2ed880dd3a8d86c9e0151afe6eba"
-> +SRC_URI[sha256sum] =3D =
-"3f7a5b027d7cdd5c0e4ff7544da33fdc6f56c2f8c27fff02938fd4a6fbe87239"
->=20
-> UPSTREAM_CHECK_URI =3D =
-"https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Release=
-s"
-> UPSTREAM_CHECK_REGEX =3D "NSS_(?P<pver>.+)_release_notes"
-> @@ -84,6 +85,8 @@ do_compile() {
->         export USE_X32=3D1
->     fi
->=20
-> +    export NSS_DISABLE_GTESTS=3D1
-> +
->     # We can modify CC in the environment, but if we set it via an
->     # argument to make, nsinstall, a host program, will also build =
-with it!
->     #
-> @@ -129,6 +132,8 @@ do_install() {
->         export USE_X32=3D1
->     fi
->=20
-> +    export NSS_DISABLE_GTESTS=3D1
-> +
-
-this export is appearing twice
-can it be optimized ?
-
->     make -C ./nss \
->         CCC=3D"${CXX}" \
->         OS_TEST=3D${OS_TEST} \
-> --
-> 2.6.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_CDDF0D43-68C8-40E8-B11A-9F8E69583B37
+X-List-Received-Date: Tue, 19 Jan 2016 19:34:58 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On 16-01-05 08:12 AM, Ming Liu wrote:
+> In current initramfs bundled kernel packaging policy, there are several
+> dependency chains co-existing:
+>
+> | "core-image-minimal.do_build" -> "core-image-minimal.do_bundle_initramfs"
+> | "core-image-minimal.do_bundle_initramfs" -> "virtual/kernel.do_bundle_initramfs"
+> | "core-image-minimal.do_bundle_initramfs" -> "core-image-minimal.do_rootfs"
 
-iEYEARECAAYFAlaeiO0ACgkQuwUzVZGdMxQKwQCeOkgw9BUoVQ9BzQYbtqhhEQg2
-r/4An1znXOQ9Ar18QkwbLPSwqJrYVhrT
-=3T5m
------END PGP SIGNATURE-----
+In current master, the above dependency should now be
+do_image_complete, correct ?
 
---Apple-Mail=_CDDF0D43-68C8-40E8-B11A-9F8E69583B37--
+> | "core-image-minimal.do_rootfs" -> "virtual/kernel.do_package_write_${IMAGE_PKGTYPE}"
+
+And for the one above here, I'm not seeing this dependency. Are you
+saying that it comes via the do_image_complete dependency ?
+
+> | "virtual/kernel.do_package_write_${IMAGE_PKGTYPE}" -> "virtual/kernel.do_package"
+> | "virtual/kernel.do_package" -> "virtual/kernel.do_install"
+> |
+> | "virtual/kernel.do_deploy" -> "virtual/kernel.do_bundle_initramfs"
+> | "virtual/kernel.do_bundle_initramfs" -> "virtual/kernel.do_install"
+
+I'm somehow missing the above dependency as well. I suppose I could dump
+out the dot file, but I'd like to hear it explained here as well. Since
+if I can't get the dependency from the text of the commits, it will
+become hard to maintain.
+
+>
+> We could see, virtual/kernel.do_package is not explicitly depending on
+> virtual/kernel.do_bundle_initramfs so far, therefore, there is not a
+> workable way to add initramfs bundled kernel image into rootfs, because
+> kernel's do_bundle_initramfs could run parallelly with its do_package,
+> which means we will get a implicit kernel-image package that sometimes it
+> contains the initramfs bundled kernel or sometimes it doesn't.
+
+I do see what you are describing above. If we've defined
+INITRAMFS_IMAGE, the anonymous python in kernel.bbclass does make
+the kernel's do_bundle_initramfs depend on the initramfs image's
+do_image_complete.
+
+Why not just add a task dependency ?
+
+>
+> To fix this problem, the idea is to let the initramfs bundled kernel
+> packaging depend on do_bundle_initramfs, meanwhile, to avoid the circular
+> dependency issue that commit: 609d5a9ab9e58bb1c2bcc2145399fbc8b701b85a
+> [ kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling ]
+
+But here's my issue. We know that the INITRAMFS image cannot contain,
+or depend on a kernel itself. So the dependency won't be circular.
+It is true that we don't enforce that, but that has always been stated
+in the commits that created the bundling.
+
+Is it that condition you are trying to enforce with the split ?
+
+Bruce
+
+>
+> was trying to address, this dependency has to be splitted from kernel
+> recipe(at least, I could not figure out another way to achieve it), so a
+> new kernel-initramfs is introduced, in which a dependency chain is created:
+>
+> | "kernel-initramfs.do_install" -> "virtual/kernel.do_deploy"
+> | "virtual/kernel.do_deploy" -> "virtual/kernel.do_bundle_initramfs"
+>
+> Then the users can add initramfs bundled kernel image into rootfs by:
+>
+> IMAGE_INSTALL_append = " kernel-initramfs"
+>
+> without introducing any circular dependencies.
+>
+> Ming Liu (3):
+>    kernel.bbclass: do not install initramfs bundled kernel image
+>    image.bbclass: removes bundle_initramfs related code
+>    kernel-initramfs: new recipe, creates initramfs bundled kernel
+>      packaging
+>
+>   meta/classes/image.bbclass                    | 11 -----
+>   meta/classes/kernel.bbclass                   |  4 --
+>   meta/recipes-kernel/linux/kernel-initramfs.bb | 69 +++++++++++++++++++++++++++
+>   3 files changed, 69 insertions(+), 15 deletions(-)
+>   create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
+>
+
+
