@@ -1,24 +1,56 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id E20BD6FF73
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id ADDCE6FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 10:44:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 02:44:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,316,1449561600"; d="scan'208";a="863671943"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.31.203])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jan 2016 02:44:57 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 10:44:07 +0000
-Message-Id: <fded6d2dc4a1c3e71d4a1ce1ed9aa985e3467a3c.1453200108.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1453200108.git.joshua.g.lock@intel.com>
-References: <cover.1453200108.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1453200108.git.joshua.g.lock@intel.com>
-References: <cover.1453200108.git.joshua.g.lock@intel.com>
-Subject: [PATCH 2/2] uclibc: remove a use of immediate expansion and oe_filter_out ()
+	Tue, 19 Jan 2016 11:36:18 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id b14so22695707wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jan 2016 03:36:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0/DQUb7atpi38hhxO4+iEMr30gXsTvkAosDk+Xu2s/w=;
+	b=vbPJ+72RgDcd7ymHgvtQshPMPdrp2w1iTw1ROcAqncEte5XBxOYhRLa1vo9ZvMAEps
+	Cv8LlktKi9MLUoPyeKnZTbA8XBwIIp1ekopzSlJbfexs5+UeBkur1j+wwB/gGNmSlro4
+	ueHs0icw8xCEraLhH9l34LskqtUmkWl5fQFDwV5QJszydt2Ja9jJosMNQ2nqoFxJJkKw
+	vo3noOrNwaO+PP7X/UXGj7s5BLq/gOuCawM23u1TNH7FEH4ex2/3AuVgXbtVOQzOTsUI
+	CpdHFtTqoCyudFdbh0nmez9vDMu2b966eET5CK+SqTTZ1nTYblaLIbauoi7bi2eNBkgN
+	011A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=0/DQUb7atpi38hhxO4+iEMr30gXsTvkAosDk+Xu2s/w=;
+	b=CGNt+oe1tYgNrtAFgqIb4bEUZW/kECxcTQrn0J29PlXzNRg46aNsMtwkeiYKgCfx61
+	Tu4knGGPzkY0hQ5APdEoVVzaeH/miyDlhunTQkZnLL3KpzUjcecswfz2F1dsbCpG4Nmf
+	be2lm34eAC0Vbl0MSqrMAq1j5zNRPdXmiYTgFS2PaGfuJyuK+rehhNr6BzU3zApdrDYs
+	OyWd3Cz2kehFlgsDGMmBhYwzsIQICyc8+5CApKhV3lLVn8LSbiVniflAtXRYgLevlFej
+	Lg4emDVNGIXorlY9q3TFIDYxSocqt2ekNIsOz4UHv0LjQe96xQXWzQ/oUm9mmCUp9loB
+	S6vQ==
+X-Gm-Message-State: AG10YORFt/8Z1S/iRNctjIxNyiBs7jvGqbimPI+5b+4mX5cZVQYnNdGEGSTOXgX3k3TcUw==
+X-Received: by 10.28.6.213 with SMTP id 204mr18277858wmg.47.1453203378580;
+	Tue, 19 Jan 2016 03:36:18 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	i63sm20023738wmf.24.2016.01.19.03.36.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Jan 2016 03:36:17 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 19 Jan 2016 12:37:42 +0100
+To: Jian Liu <jian.liu@windriver.com>
+Message-ID: <20160119113742.GB2611@jama>
+References: <1452754008-158464-1-git-send-email-jian.liu@windriver.com>
+	<1452881834.27999.0.camel@rpsys.net>
+	<569DA992.4030806@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <569DA992.4030806@windriver.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Richard Purdie <rpurdie@rpsys.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] linux-libc-headers: set ALLOW_EMPTY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +63,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 10:44:58 -0000
+X-List-Received-Date: Tue, 19 Jan 2016 11:36:18 -0000
+X-Groupsio-MsgNum: 76389
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
+Content-Disposition: inline
 
-The remove overrides syntax is much clearer here, and more closely
-matches the preferred style for modern metadata.
+--s2ZSL+KKDSLx8OML
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/recipes-core/uclibc/uclibc.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jan 19, 2016 at 11:12:18AM +0800, Jian Liu wrote:
+>=20
+>=20
+> On 2016=E5=B9=B401=E6=9C=8816=E6=97=A5 02:17, Richard Purdie wrote:
+> > On Thu, 2016-01-14 at 14:46 +0800, Jian Liu wrote:
+> >> If setting IMAGE_INSTALL +=3D "linux-libc-headers", do_rootfs will
+> >> cause
+> >> error.
+> >>    ERROR: linux-libc-headers not found in the base feeds
+> >>
+> >> This is because that there is no linux-libc-headers.rpm generated.
+> > There is no point in generating an empty package just for the sake of
+> > it. Surely you just shouldn't put that in IMAGE_INSTALL?
+> >
+> > Cheers,
+> >
+> > Richard
+>=20
+> Yes, I submit this patch just considering that someone who is not=20
+> familiar with yocto may be confused
+> by this behavior. There is linux-libc-headers bb file so IMAGE_INSTALL=20
+> +=3D "linux-libc-headers" is taken for
+> granted.
+>=20
+> This is really not a bug and it is just a usage problem.
 
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index 2b34c34..b63158a 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -62,7 +62,7 @@ export V="2"
- # -O<n> -fno-omit-frame-pointer ends up with GCC ICE on thumb as reported
- # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44860
- #
--CFLAGS_arm := "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
-+CFLAGS_remove_arm = "-fno-omit-frame-pointer"
- UCLIBC_EXTRA_CFLAGS  := "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
- 
- configmangle = '/^KERNEL_HEADERS/d; \
--- 
-2.5.0
+And you're making it worse, by allowing such person to install
+completely useless empty package assuming that (s)he installed
+linux-libc-headers to the image.
 
+Error message is _much_ better than empty useless package.
 
+> >> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc
+> >> -headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc
+> >> -headers.inc
+> >> index 2ba6ed5..403360b 100644
+> >> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> >> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> >> @@ -76,3 +76,5 @@ RRECOMMENDS_${PN}-dbg =3D "${PN}-dev (=3D
+> >> ${EXTENDPKGV})"
+> >>  =20
+> >>   INHIBIT_DEFAULT_DEPS =3D "1"
+> >>   DEPENDS +=3D "unifdef-native"
+> >> +
+> >> +ALLOW_EMPTY_${PN} =3D "1"
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--s2ZSL+KKDSLx8OML
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlaeIAYACgkQN1Ujt2V2gBxFLgCdFK7cfArQlndlEvqGN6VtfmZF
+vzEAni1HqHGHJEQzZWPuHTve5hz4fYyH
+=K2Ts
+-----END PGP SIGNATURE-----
+
+--s2ZSL+KKDSLx8OML--
