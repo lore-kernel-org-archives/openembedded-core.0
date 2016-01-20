@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 07E6C6FEFE
+Received: from mail-ob0-f196.google.com (mail-ob0-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2140C6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 02:48:02 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id a202so15615309oib.3
+	Wed, 20 Jan 2016 02:48:04 +0000 (UTC)
+Received: by mail-ob0-f196.google.com with SMTP id tr5so42729699obc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 18:48:03 -0800 (PST)
+	Tue, 19 Jan 2016 18:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=I3HiNG/57/UnHrIMY0TyEudStXUrakXGc4jUMfRBJJ8=;
-	b=YgJBcbHonzIhsEh/Ed4aQOfLmXBh24fTVsuuZ6b7I2rst3Oudq3rcFTdBXWY+obN8B
-	HIdxxq0dVS2+maTGeQKYN4aWvcsW+bBvVIfEwn9uQXZpN/f0fU353BDHHzlETmAcrrSZ
-	E32ApsAMMyHppV345FH1eDdUBqdcgpk57V8j5GpsEkOhkESZeYZnPLafEKImIycNTAYb
-	jlYksfDHGw1Ooc6MCAfWZhNfcRDV6K0IVE6QTADO466OqGnOLY8UF95MHb9q0s6sEstF
-	kFvkc6oZh+Ad5lkpfZTMSlci7CJGnqGhrKMRfEvSTbiYvL8kMYJeMVy9BqJu/MIdJlf6
-	qLAQ==
+	bh=Nfl/aWMliSehKTY6ia1Q+8ji4xuhXJsDDX29x1gSjn4=;
+	b=vDV9b2VIavFkB20V2ITQnFTbFRkrQiv21ICX9Deq17xhETVgxcvCZ2ntjDsfzhXAGA
+	DS8Wh+aU+deOceEING9Ukxj3SAVhbK5x6zrs0ROgTtrkhn7LsK03M+icrpktxhCsmjiI
+	oouiGJ9bPQkiAPvf73+wMKHOpq26+SY3JiN0OpL8eNo7md3L2Iponiz4fmOo6WRRaV4Q
+	RqfQ2GqVh7bWbJcQMojrb39dwhysua9VZjD3b5qeMWPbQlkHHz1nEYKkwIskI9O9aDyD
+	pPqzNy7FEGEieg1cJdQbR2k5/hSrbMx+f/a+kJhJr+5zxAuhnQSOcW+1tRduwPFRrmEI
+	7fBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=I3HiNG/57/UnHrIMY0TyEudStXUrakXGc4jUMfRBJJ8=;
-	b=Rf/au41sW7twf0wOQHGVC0qtzH8+Bo5plkkQJILV1eZpZTJxjMuOreRDAVgnleo0kb
-	CnA9TQsAyfE4REYDopyO7n6GnqKTG7E2yNf1c2OKvEz+YhyVwcTNpfpSdsOsw+QirOJH
-	MzoGasgicq2E73e6RZH1slBuZdl90bS3Lr6skOilNOFIGK0/4bkpVTU4sH6ybAysIrU1
-	dfKWqC3ZZEffg8s+GbZO0Bs0cH4k+EU+BvUymr/j24/x7pIlUYLZhXZLfbe0MtYxqL9y
-	ovk8Cz96VLY1I4AEHBMRj0QLi9/GQYAxacU6wjdiKq4/QUigTanI8bPJyJr5EQ4Lf441
-	cTUg==
-X-Gm-Message-State: ALoCoQnMa/p+Vc1ksbXXgOrY6sfyZ81N/Nv2KXex6/cFuVl5wSZLyCvmQaTQzXKQuENBwH68Qm7qs+HnvoX2kA18TPEwi53ocg==
-X-Received: by 10.202.0.204 with SMTP id 195mr25379127oia.131.1453258082895;
-	Tue, 19 Jan 2016 18:48:02 -0800 (PST)
+	bh=Nfl/aWMliSehKTY6ia1Q+8ji4xuhXJsDDX29x1gSjn4=;
+	b=U2BaYg/AuVqDC324zH+0K4pO0KbXmnr462P03QmqGSdw6/q3+0GNH8pCm8rSzh4N8w
+	158+hsvlckJUVxKBlg10Ibj9XkwuamWR+WQ8Z2hlgidgXRbDb7g3o6YrZuMNkp5gPwhi
+	Nia/2K/LXvie9g5TnBrM501wMDrbh8zYETitvM9pFeTe5udUgG+igHg6RAemuRspjAvJ
+	jByEfzuyJnVaW7Yrm6Z52b4d14ynRS11kWxAdXuPomFAR4xt19+I4rDf1MluRTEBP3UR
+	dLYRuIUOsFe+DSSRiETIVaLiA/QqU8L9G8cRhetef4HY1K8gUjjprx2cloYrNZDA1TsN
+	+GXA==
+X-Gm-Message-State: AG10YOQ8MmAi6agXm8Ff0N/jpd8bim4ZIkEo0gVc4Jw2rGx8rx+nYfVP5lKEBD38vAIGOA==
+X-Received: by 10.60.178.70 with SMTP id cw6mr4878783oec.46.1453258085618;
+	Tue, 19 Jan 2016 18:48:05 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	v142sm17042620oie.28.2016.01.19.18.48.01
+	v142sm17042620oie.28.2016.01.19.18.48.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Jan 2016 18:48:01 -0800 (PST)
+	Tue, 19 Jan 2016 18:48:04 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 18:47:50 -0800
-Message-Id: <1453258071-22847-3-git-send-email-armccurdy@gmail.com>
+Date: Tue, 19 Jan 2016 18:47:51 -0800
+Message-Id: <1453258071-22847-4-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
 References: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 2/3] valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
+Subject: [PATCH v2 3/3] valgrind: avoid neon for targets which don't support it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,167 +56,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 02:48:02 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 02:48:05 -0000
 
-The intdiv test has been partially fixed upstream and the
-vcvt_fixed_float_VFP test can be fixed with a similar approach, ie
-ensuring that it is always compiled with appropriate
--march/-mcpu/-mfpu flags to support the instructions being tested.
-
-For tests requiring armv7ve instructions, ensure that we set both
--march=armv7ve and -mcpu=cortex-a15 (since some TUNE_CCARGS may set
--march=armv7-a and adding -mcpu=cortex-a15 alone is not enough to
-over-ride that).
-
-See similar cases in none/tests/arm/Makefile.am
+The sh-mem-random.c test app tries to use neon loads and stores to
+test 64-bit float copies when building for ARM. Allow it to do so if
+possible, but fallback to C when building for ARM targets which don't
+support neon.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
- ...opriate-march-mcpu-mfpu-for-ARM-test-apps.patch | 44 +++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |  2 +-
- 3 files changed, 45 insertions(+), 67 deletions(-)
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+ ...d-neon-for-targets-which-don-t-support-it.patch | 33 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-deleted file mode 100644
-index 2319ab9..0000000
---- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--Remove arm tests that don't compile
--
--Upstream-Status: Pending
--
--Corrects the original commit for the patch that removed ARM ptest CFLAGS
--settings. Since the flags could be set by a user, the flags should
--be kept in place during compilation.  By keeping the original up-stream
--CFLAGS for the tests, then additional tests successfully compile
--for all tested ARM tunings.
--
--However, there were still two tests listed below that did not compile
--for any beaglebone tuning that is valid for valgrind. With the updated
--patch, the set of excluded ARM ptests and their respective build
--failures are:
--  intdiv - fails for all beaglebone tunings with 2 errors:
--  {standard input}:(40 or 41): Error: selected processor does not
--       support Thumb mode `udiv r3,r9,r10'
--  {standard input}:(72 or 73): Error: selected processor does not
--       support Thumb mode `sdiv r3,r9,r10'
--
--  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
--  two ways:
--    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
--    without neon tuning fails with 3 errors:
--    {standard input}:33: Error: selected FPU does not support
--      instruction -- `vcvt.f32.s32 s15,s15,#1'
--    {standard input}:58: Error: selected FPU does not support
--      instruction -- `vcvt.f32.s32 s15,s15,#32'
--    {standard input}:136: Error: selected FPU does not support
--      instruction -- `vcvt.f32.u32 s15,s15,#1'
--
--After applying this commit, the valgrind ARM ptests compile without
--errors for tunings:
--  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
--where the tuning [option] was successfully compiled, both with
--and without the 'option', and in combination with all other options.
--
--Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
--
--Index: valgrind-3.10.1/none/tests/arm/Makefile.am
--===================================================================
----- valgrind-3.10.1.orig/none/tests/arm/Makefile.am	2015-05-19 15:11:59.224842927 -0500
--+++ valgrind-3.10.1/none/tests/arm/Makefile.am	2015-05-19 15:14:20.808847028 -0500
--@@ -17,9 +17,13 @@
-- 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
-- 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
-- 
--+# Remove the following tests which cause compiler errors for all tunings
--+#  available for beagle bone (see remove-arm-variant-specific.patch):
--+#	intdiv
--+#	vcvt_fixed_float_VFP
--+
-- check_PROGRAMS = \
-- 	allexec \
---	intdiv \
-- 	ldrt \
-- 	ldrt_arm \
-- 	neon128 \
--@@ -27,7 +31,6 @@
-- 	v6intARM \
-- 	v6intThumb \
-- 	v6media \
---	vcvt_fixed_float_VFP \
-- 	vfp \
-- 	vfpv4_fma
-- 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+diff --git a/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch b/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
 new file mode 100644
-index 0000000..adea405
+index 0000000..5fcfec0
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
-@@ -0,0 +1,44 @@
-+From d134dafc2f11e0d247420a0ba360bcdef77b4093 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
+@@ -0,0 +1,33 @@
++From 8facc29c3c56e6cf9cfef70986cf73876044a3fb Mon Sep 17 00:00:00 2001
 +From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Tue, 19 Jan 2016 16:00:00 -0800
-+Subject: [PATCH] use appropriate -march/-mcpu/-mfpu for ARM test apps
++Date: Tue, 19 Jan 2016 16:42:36 -0800
++Subject: [PATCH] avoid neon for targets which don't support it
 +
-+Ensure that test apps in none/tests/arm are compiled with appropriate
-+-march/-mcpu/-mfpu flags to support the instructions being tested.
-+The aim is to build all tests, even ones which may not run correctly
-+on all target CPUs.
-+
-+For tests requiring armv7ve instructions, ensure that we set both
-+-march=armv7ve and -mcpu=cortex-a15 (since some TUNE_CCARGS may set
-+-march=armv7-a and adding -mcpu=cortex-a15 alone is not enough to
-+over-ride that).
-+
-+See similar cases in none/tests/arm/Makefile.am
++The sh-mem-random.c test app tries to use neon loads and stores to
++test 64-bit float copies when building for ARM. Allow it to do so if
++possible, but fallback to C when building for ARM targets which don't
++support neon.
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 +---
-+ none/tests/arm/Makefile.am | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
++ memcheck/tests/sh-mem-random.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
-+index 4507a20..825290f 100644
-+--- a/none/tests/arm/Makefile.am
-++++ b/none/tests/arm/Makefile.am
-+@@ -62,8 +62,10 @@ neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
-+ 			-mfpu=neon \
-+ 			-mthumb
-+ 
-+-intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
-++intdiv_CFLAGS	  = $(AM_CFLAGS) -g -march=armv7ve -mcpu=cortex-a15 -mthumb
-+ ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
-+ ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
-+ 
-+-vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
-++vcvt_fixed_float_VFP_CFLAGS = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mfpu=vfpv3
-++
-++vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -march=armv7ve -mcpu=cortex-a15 -mfpu=vfpv4 -marm
++diff --git a/memcheck/tests/sh-mem-random.c b/memcheck/tests/sh-mem-random.c
++index ae82248..816e139 100644
++--- a/memcheck/tests/sh-mem-random.c
+++++ b/memcheck/tests/sh-mem-random.c
++@@ -191,7 +191,7 @@ void do_test_at ( U1* arr )
++                "emms"
++                : : "r"(arr+dst), "r"(arr+src) : "memory"
++             );
++-#elif defined(__linux__) && defined(__arm__) && !defined(__aarch64__)
+++#elif defined(__linux__) && defined(__arm__) && defined(__ARM_NEON__) && !defined(__aarch64__)
++             /* On arm32, many compilers generate a 64-bit float move
++                using two 32 bit integer registers, which completely
++                defeats this test.  Hence force a 64-bit NEON load and
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index 8e9b72c..4f7c39a 100644
+index 4f7c39a..7ef1e48 100644
 --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
 +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -15,13 +15,13 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
- SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://fixed-perl-path.patch \
-            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
--           file://remove-arm-variant-specific.patch \
-            file://run-ptest \
-            file://11_mips-link-tool.patch \
-            file://0002-remove-rpath.patch \
-            file://0004-Fix-out-of-tree-builds.patch \
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
             file://0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch \
             file://0001-Remove-tests-that-fail-to-build-on-some-PPC32-config.patch \
-+           file://use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch \
+            file://use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch \
++           file://avoid-neon-for-targets-which-don-t-support-it.patch \
             "
  
  SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
