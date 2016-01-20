@@ -1,55 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 20F7560111
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CDD9960043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 17:16:51 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id uo6so7845332pac.1
+	Wed, 20 Jan 2016 20:21:12 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id n5so48190848wmn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 09:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=R7glLhAQctmDislS/VQi/c0tXJjEVbePtosn93ZYVFI=;
-	b=RAQjkT7BbjVTrgBEcZeCKoDeAv3dv4KCy7SydkBrqsQcQE3WQns+AHVY26rEexSVv+
-	qtrJmXcGw0aSBBI5iTr0+1N2kdFJp2xI/zj5RKtYgvZdmpR6/ewj8A4sd/1OnbzkJ2/S
-	SHk/UA3snV7bTMyRQslqyXGzUFb3u3e0JwLhWggU5qneqtKuHOIsR2/L5+1kdErYCQ6d
-	UiYTw+4vWvoReN8REUqgFcZnAJd/LkuTF9nGFfjl8VAblwOQEiR1WAsGvI+lYaPDPDEF
-	6EW5V3j1PaM+jvoHT7TLd0y/fVxsRX1LNR8xZqGy3Iil5dvaiIDgeK4CCj0BLhYAmpI2
-	mlXw==
+	Wed, 20 Jan 2016 12:21:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=VaXJf8s/O3I+w7wwzC6RRerfNkaNNGoq5yJh4OC/KNA=;
+	b=jfaLl3B10KmZi4HKkqfkrWgAa2zYqdPdj8BE3e9Ij3nMPTPg0JlH4VMOkgTYwSKBte
+	NiJp6BQGHOavbOkpaoAid96oVCA+C3Mtbyss/49ntu4t81VKxX6If+lFlVQmBIptwLAU
+	4kn2B5EG4PtdXvVtM8KcPT2r9sCS1lMv8Bw8Tt6CEkOHlaaf2CyXaODQYvfaw24H/m58
+	DC1ezBCBMBFPWgYkyXEkjVnhibr3WIzlBTS6JFELa9Bkamu9X93mVPvcEHugGg8eamht
+	d1fJW2uaQLz6z/BDzn+6SLykO7YSWfeUrb6UKD8EYvPl9e3fHb3KsO4D+521AWNBsDHS
+	FO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=R7glLhAQctmDislS/VQi/c0tXJjEVbePtosn93ZYVFI=;
-	b=l9kSSERwqTyPhH76OLxc9orCww+0VuCmrSCd9IZ3wiyXfKZhnmKD7q9UrMngoB3334
-	N5WYGms4NQZXRVDgGsjj2cSeEajU4c0KrueSLw91COCpiS7gM6/dQtMK+xl2WY23xQ6l
-	SbeB5lm7AAm46lF5MocHFClaoXJZaYMrpbLAtB0HD04358mP6XmGAFQx6CTdc9vlD1MO
-	+tQF7X4jEU0ssOTpiK4EKGAyQirJtHsxLpjl+QiwLcXj8dMqNBWysm5a4WkIb4KIzg9P
-	VQyYvrmDIj5p5Bh1MrRRR1YQBWy5nLfZkfDzX+jyTOYh6QN4NurrvfDxxT/zwuXlM4fw
-	3wGg==
-X-Gm-Message-State: ALoCoQmNlI47MITUhLR814dRpExhNpsA9tG/sm6+4zmCrTzDBX7NeM3fJ/gz20Jq29QjXKr9DSyUYkS4/FxKX+9ZQ+15eQYEBQ==
-X-Received: by 10.66.253.198 with SMTP id ac6mr54110394pad.37.1453310212362;
-	Wed, 20 Jan 2016 09:16:52 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:450b:e083:385a:4667?
-	([2601:646:8802:5d5c:450b:e083:385a:4667])
-	by smtp.gmail.com with ESMTPSA id
-	h66sm50037057pfj.52.2016.01.20.09.16.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Jan 2016 09:16:51 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20160120150754.GA26306@mbabyjoh-mobl.fi.intel.com>
-Date: Wed, 20 Jan 2016 09:16:46 -0800
-Message-Id: <EFF0F4EC-126D-4B7A-B276-32850ABFEB56@gmail.com>
-References: <cover.1452472146.git.hongxu.jia@windriver.com>
-	<f457364648f238d8b0353c2f7d14a5b08ed427fe.1452472146.git.hongxu.jia@windriver.com>
-	<20160120150754.GA26306@mbabyjoh-mobl.fi.intel.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/9] elfutils: 0.163 -> 0.164
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VaXJf8s/O3I+w7wwzC6RRerfNkaNNGoq5yJh4OC/KNA=;
+	b=I5B34+ZEmqI7WzFLREtIEid8dZ3Em3Jdl09Wh/wUwtsxmWFj8c5kFnsHorEzfQzWBs
+	h14gCSjei21nmeCIublla3CSBudvfrV3/WPB2aDsGloS3QohiGr92XYSRMonzhNgFkUT
+	f74DUXH+nLJcNurNyCT89N0YMYQtMOVVq9cDtZSnFgU8hMar7eAVui9sP72i7jpiKjtZ
+	7dMVUVF+73TkI9uQnJzMBKup6CWYe2f0YcJ5HTV2zv48bLkeZS3kDXWXHoVa6mXcfx/w
+	3yFq580d6rCICyfbNJUBJFbQSkOVswfh8Gje7GQ9TBf74Rh+azAr7Z/BRl1sOmcOYy04
+	FCTQ==
+X-Gm-Message-State: ALoCoQkuqEtI7vKuCxBudQ4jWHyfQRouBJCsrV1VAKyNRXU/nRWd+0acH9RfGValM/DPIrqMmFq664aI6iPd4HlRYntjqdc9+g==
+X-Received: by 10.194.6.37 with SMTP id x5mr44716317wjx.178.1453321272935;
+	Wed, 20 Jan 2016 12:21:12 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	fx8sm26467626wjb.13.2016.01.20.12.21.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 Jan 2016 12:21:11 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jan 2016 20:21:05 +0000
+Message-Id: <1453321265-14564-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] bitbake: set libexecdir to prefix/libexec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,106 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 17:16:52 -0000
-X-Groupsio-MsgNum: 76531
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_4395F5D8-B495-4CB9-B96D-CD060D6C5F90";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 20 Jan 2016 20:21:13 -0000
 
---Apple-Mail=_4395F5D8-B495-4CB9-B96D-CD060D6C5F90
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-> On Jan 20, 2016, at 7:07 AM, Maxin B. John <maxin.john@intel.com> =
-wrote:
->=20
-> Hi,
->=20
-> On Mon, Jan 11, 2016 at 08:30:32AM +0800, Hongxu Jia wrote:
->> Update patches from debian
->> =
-http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.164-1.debi=
-an.tar.xz
->>=20
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->> .../elfutils/elfutils-0.163/arm_func_value.patch   |  165 ----
->> .../elfutils-0.163/arm_unwind_ret_mask.patch       |   83 --
->> .../elfutils/elfutils-0.163/non_linux.patch        |   35 -
->> .../elfutils-0.163/redhat-portability.diff         | 1021 =
---------------------
->> .../elfutils/elfutils-0.163/scanf-format.patch     |   40 -
->> .../uclibc-support-for-elfutils-0.161.patch        |  106 --
->> ...ferences-between-mips-machine-identifiers.patch |   34 +
->> ...m-Silence-Werror-maybe-uninitialized-fals.patch |    0
->> .../0001-fix-a-stack-usage-warning.patch           |    0
->> .../0001-remove-the-unneed-checking.patch          |    0
->> ...-support-for-mips64-abis-in-mips_retval.c.patch |  168 ++++
->> .../0003-Add-mips-n64-relocation-format-hack.patch |  226 +++++
->> .../arm_backend.diff                               |  389 ++++----
->> .../fixheadercheck.patch                           |    0
->> .../hppa_backend.diff                              |   69 +-
->> .../elfutils/elfutils-0.164/kfreebsd_path.patch    |   15 +
->> .../m68k_backend.diff                              |   61 +-
->> .../mips_backend.diff                              |   71 +-
->> .../mips_readelf_w.patch                           |    8 +-
->> .../testsuite-ignore-elflint.diff                  |    0
->> .../{elfutils_0.163.bb =3D> elfutils_0.164.bb}       |   15 +-
->> 21 files changed, 735 insertions(+), 1771 deletions(-)
->> delete mode 100644 =
-meta/recipes-devtools/elfutils/elfutils-0.163/arm_func_value.patch
->> delete mode 100644 =
-meta/recipes-devtools/elfutils/elfutils-0.163/arm_unwind_ret_mask.patch
->> delete mode 100644 =
-meta/recipes-devtools/elfutils/elfutils-0.163/non_linux.patch
->> delete mode 100644 =
-meta/recipes-devtools/elfutils/elfutils-0.163/redhat-portability.diff
->> delete mode 100644 =
-meta/recipes-devtools/elfutils/elfutils-0.163/scanf-format.patch
->> delete mode 100644 =
-meta/recipes-devtools/elfutils/elfutils-0.163/uclibc-support-for-elfutils-=
-0.161.patch
->=20
-> Here, the patch uclibc-support-for-elfutils-0.161.patch was removed.
-> However, it is still referenced in the recipe. It should be updated
-> to fix build error with uclibc.
->=20
-> WARNING: Failed to fetch URL =
-file://uclibc-support-for-elfutils-0.161.patch, attempting MIRRORS if =
-available
-> ERROR: Fetcher failure: Unable to find file =
-file://uclibc-support-for-elfutils-0.161.patch anywhere. The paths that =
-were searched were:
-> =E2=80=A6
-
-its already fixed in my musl pull request.
-
->=20
-> Best Regards,
-> Maxin
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index fc57a58..fba4d17 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -41,7 +41,7 @@ export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
+ export bindir = "${exec_prefix}/bin"
+ export sbindir = "${exec_prefix}/sbin"
+ export libdir = "${exec_prefix}/${baselib}"
+-export libexecdir = "${libdir}/${BPN}"
++export libexecdir = "${exec_prefix}/libexec"
+ export includedir = "${exec_prefix}/include"
+ export oldincludedir = "${exec_prefix}/include"
+ localedir = "${libdir}/locale"
+@@ -55,7 +55,7 @@ bindir_native = "${prefix_native}/bin"
+ sbindir_native = "${prefix_native}/sbin"
+ includedir_native = "${prefix_native}/include"
+ libdir_native = "${prefix_native}/lib"
+-libexecdir_native = "${libdir_native}/${BPN}"
++libexecdir_native = "${prefix_native}/libexec"
+ base_libdir_native = "/lib"
+ datadir_native = "${prefix_native}/share"
+ bindir_cross = "/bin"
+-- 
+2.6.4
 
 
---Apple-Mail=_4395F5D8-B495-4CB9-B96D-CD060D6C5F90
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlafwQIACgkQuwUzVZGdMxQ1DwCeKySwlPT/Fg9TFfTQ0iZAudgs
-mVEAn0KEMWFEHwMsQCG5ped6wLJe4Lyk
-=1UeM
------END PGP SIGNATURE-----
-
---Apple-Mail=_4395F5D8-B495-4CB9-B96D-CD060D6C5F90--
