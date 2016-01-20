@@ -1,25 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BBBBD73163
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3601 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 20 Jan 2016 03:49:16 UTC
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 943886011F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 03:46:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Jan 2016 19:46:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="730815774"
-Received: from aganesha-mobl2.amr.corp.intel.com ([10.254.22.203])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2016 19:46:44 -0800
-Message-ID: <1453261604.27763.17.camel@linux.intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Jan 2016 19:46:44 -0800
-In-Reply-To: <33B3E41A-2F24-4D5D-A909-040AC2CC1820@gmail.com>
-References: <1453241111-3103-1-git-send-email-sgw@linux.intel.com>
-	<33B3E41A-2F24-4D5D-A909-040AC2CC1820@gmail.com>
-X-Mailer: Evolution 3.18.1 (3.18.1-1.fc23) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev: Add 2 patches to support 4.4 kernel
+	Wed, 20 Jan 2016 03:49:16 +0000 (UTC)
+Received: from gandalf.denix.org ([100.15.86.14]) by vms173023.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPSA id <0O180023QD63P891@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 19 Jan 2016 20:49:15 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=btqxfxui c=1 sm=1 tr=0	a=xDJgBcBrK5EN9DJ6g74wNQ==:117
+	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=7aQ_Q-yQQ-AA:10 a=sozttTNsAAAA:8
+	a=QyXUC8HyAAAA:8 a=6ohNodAXAAAA:8	a=e5mUnYsNAAAA:8
+	a=a9kjj81HjlkexrJ9X8wA:9
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id DDAAF161E01;	Tue,
+	19 Jan 2016 21:49:14 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jan 2016 21:49:05 -0500
+Message-id: <1453258146-7654-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.2.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH 1/2] wayland: upgrade 1.8.1 -> 1.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,183 +38,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 03:46:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Jan 2016 03:49:16 -0000
 
-On Tue, 2016-01-19 at 15:44 -0800, Khem Raj wrote:
-> > On Jan 19, 2016, at 2:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> > 
-> > These 2 patches are needed to build udev with the 4.4 kernel, the
-> > first
-> > mtd-probe adds back a stdint.h header that was removed in the
-> > kernel's mtd-user.h
-> > header file.
-> > 
-> > The second adds a check for a new header and sets a Makefile
-> > variable
-> > to determine which header to use for the new kernel vs older
-> > kernels.
-> 
-> 
-> Patches are ok. You need to add Upstream-Status to both of them.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Dang, to long away from doing core work, new ones coming.
+* The license was updated from MIT X11 to MIT Expat.
+* always-build-scanner.patch was accepted upstream.
+* disable-macro-checks-not-used-for-scanner.patch is no longer needed with
+  the new --disable-libraries flag.
 
-Sau!
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ .../wayland/wayland/always-build-scanner.patch     | 105 ---------------------
+ ...disable-macro-checks-not-used-for-scanner.patch |  50 ----------
+ .../wayland/{wayland_1.8.1.bb => wayland_1.9.0.bb} |  20 ++--
+ 3 files changed, 8 insertions(+), 167 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/always-build-scanner.patch
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
+ rename meta/recipes-graphics/wayland/{wayland_1.8.1.bb => wayland_1.9.0.bb} (72%)
 
-> > 
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> > meta/recipes-core/udev/udev.inc                    |  5 ++-
-> > ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch | 26 +++++++++++
-> > ...c-Makefile.am-Check-for-input.h-and-input.patch | 50
-> > ++++++++++++++++++++++
-> > 3 files changed, 80 insertions(+), 1 deletion(-)
-> > create mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-
-> > Add-stdint.h-as-it-was-removed-from-mtd-.patch
-> > create mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-
-> > Makefile.am-Check-for-input.h-and-input.patch
-> > 
-> > diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-
-> > core/udev/udev.inc
-> > index c00ed34..93d7369 100644
-> > --- a/meta/recipes-core/udev/udev.inc
-> > +++ b/meta/recipes-core/udev/udev.inc
-> > @@ -31,7 +31,10 @@ SRC_URI =
-> > "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-> >            file://add-install-ptest.patch \
-> >            file://fix_rule-syntax-regex-ptest.patch \
-> >            file://run-ptest \
-> > -           file://init"
-> > +           file://init \
-> > +           file://0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-
-> > from-mtd-.patch \
-> > +           file://0002-configure.ac-Makefile.am-Check-for-input.h-
-> > and-input.patch \
-> > +           "
-> > 
-> > inherit autotools pkgconfig update-rc.d ptest
-> > RDEPENDS_${PN}-ptest += "make perl python"
-> > diff --git a/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-
-> > stdint.h-as-it-was-removed-from-mtd-.patch b/meta/recipes-
-> > core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-
-> > from-mtd-.patch
-> > new file mode 100644
-> > index 0000000..439eeac
-> > --- /dev/null
-> > +++ b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-
-> > it-was-removed-from-mtd-.patch
-> > @@ -0,0 +1,26 @@
-> > +From 2935f9b2dfb92c3ce4376a988cd01b624430905b Mon Sep 17 00:00:00
-> > 2001
-> > +From: Saul Wold <sgw@linux.intel.com>
-> > +Date: Tue, 19 Jan 2016 09:49:56 -0800
-> > +Subject: [PATCH 1/2] mtd_probe.h: Add stdint.h as it was removed
-> > from
-> > + mtd-user.h in the kernel
-> > +
-> > +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > +---
-> > + src/mtd_probe/mtd_probe.h | 1 +
-> > + 1 file changed, 1 insertion(+)
-> > +
-> > +diff --git a/src/mtd_probe/mtd_probe.h b/src/mtd_probe/mtd_probe.h
-> > +index 2a37ede..49c1918 100644
-> > +--- a/src/mtd_probe/mtd_probe.h
-> > ++++ b/src/mtd_probe/mtd_probe.h
-> > +@@ -18,6 +18,7 @@
-> > +  */
-> > +
-> > + #include <mtd/mtd-user.h>
-> > ++#include <stdint.h>
-> > +
-> > + /* Full oob structure as written on the flash */
-> > + struct sm_oob {
-> > +--
-> > +2.5.0
-> > +
-> > diff --git a/meta/recipes-core/udev/udev/0002-configure.ac-
-> > Makefile.am-Check-for-input.h-and-input.patch b/meta/recipes-
-> > core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-
-> > input.patch
-> > new file mode 100644
-> > index 0000000..285680f
-> > --- /dev/null
-> > +++ b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-
-> > Check-for-input.h-and-input.patch
-> > @@ -0,0 +1,50 @@
-> > +From 63ae7ebb0c6177efed46734061fb59c458a47a26 Mon Sep 17 00:00:00
-> > 2001
-> > +From: Saul Wold <sgw@linux.intel.com>
-> > +Date: Tue, 19 Jan 2016 09:49:19 -0800
-> > +Subject: [PATCH 2/2] configure.ac/Makefile.am: Check for input.h
-> > and
-> > + input-event-codes.h
-> > +
-> > +Add INPUT_HEADER to know which header file to use because it
-> > changed
-> > +in the 4.4 kernel code.
-> > +
-> > +Set INPUT_HEADER with default linux/input.h if it exists and if
-> > the
-> > +newer input-events-codes.h exists from 4.4 use it instead.
-> > +
-> > +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > +---
-> > + Makefile.am  | 2 +-
-> > + configure.ac | 4 +++-
-> > + 2 files changed, 4 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/Makefile.am b/Makefile.am
-> > +index 2e32e69..04eb194 100644
-> > +--- a/Makefile.am
-> > ++++ b/Makefile.am
-> > +@@ -591,7 +591,7 @@ dist_udevkeymapforcerel_DATA = \
-> > + 	src/keymap/force-release-maps/samsung-other \
-> > + 	src/keymap/force-release-maps/common-volume-keys
-> > +
-> > +-src/keymap/keys.txt: $(INCLUDE_PREFIX)/linux/input.h
-> > ++src/keymap/keys.txt: $(INCLUDE_PREFIX)/$(INPUT_HEADER)
-> > + 	$(AM_V_at)mkdir -p src/keymap
-> > + 	$(AM_V_GEN)$(AWK) '/^#define.*KEY_[^ ]+[ \t]+[0-9]/ { if
-> > ($$2 != "KEY_MAX") { print $$2 } }' < $< | sed
-> > 's/^KEY_COFFEE$$/KEY_SCREENLOCK/' > $@
-> > +
-> > +diff --git a/configure.ac b/configure.ac
-> > +index 0500313..9674620 100644
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -154,8 +154,10 @@ AS_IF([test "x$enable_keymap" = "xyes"], [
-> > +        if test -z "$GPERF"; then
-> > +               AC_MSG_ERROR([gperf is needed])
-> > +        fi
-> > ++
-> > ++       AC_CHECK_HEADER([linux/input.h], [AC_SUBST([INPUT_HEADER],
-> > [$(echo 'linux/input.h')])], AC_MSG_ERROR([kernel headers not
-> > found]))
-> > ++       AC_CHECK_HEADER([linux/input-event-codes.h],
-> > [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input-event-codes.h')])],
-> > [:])
-> > +
-> > +-       AC_CHECK_HEADER([linux/input.h], [:], AC_MSG_ERROR([kernel
-> > headers not found]))
-> > +        AC_SUBST([INCLUDE_PREFIX], [$(echo '#include
-> > <linux/input.h>' | eval $ac_cpp -E - | sed -n '/linux\/input.h/
-> > {s:.*"\(.*\)/linux/input.h".*:\1:; p; q}')])
-> > + ])
-> > + AM_CONDITIONAL([ENABLE_KEYMAP], [test "x$enable_keymap" =
-> > "xyes"])
-> > +--
-> > +2.5.0
-> > +
-> > --
-> > 2.5.0
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+diff --git a/meta/recipes-graphics/wayland/wayland/always-build-scanner.patch b/meta/recipes-graphics/wayland/wayland/always-build-scanner.patch
+deleted file mode 100644
+index 5e0e6bf..0000000
+--- a/meta/recipes-graphics/wayland/wayland/always-build-scanner.patch
++++ /dev/null
+@@ -1,105 +0,0 @@
+-build: always build wayland-scanner
+-
+-The previous idiom for building a cross-compiled Wayland is to build once for
+-the build host (with --enable-scanner --disable-libraries) to get a
+-wayland-scanner binary that can then be used in a cross-compile (with
+---disable-scanner).  The problem with this is that the cross wayland is missing
+-a wayland-scanner binary, which means you then can't do any Wayland development
+-on the target.
+-
+-Instead, always build wayland-scanner for the target and change
+---enable/disable-scanner to --with/without-host-scanner.  Normal builds use the
+-default of --without-host-scanner and run the wayland-scanner it just built, and
+-cross-compiled builds pass --with-host-scanner to use a previously built host
+-scanner but still get a wayland-scanner to install.
+-
+-(a theoretically neater solution would be to build two scanners if required (one
+-to run and one to install), but automake makes this overly complicated)
+-
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-Upstream-Status: Submitted
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index c19494f..c2d929b 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -64,16 +64,17 @@ nodist_libwayland_client_la_SOURCES =		\
+- 
+- pkgconfig_DATA += src/wayland-client.pc src/wayland-server.pc
+- 
+--if ENABLE_SCANNER
+--wayland_scanner = $(top_builddir)/wayland-scanner
+- bin_PROGRAMS = wayland-scanner
+- wayland_scanner_SOURCES = src/scanner.c
+- wayland_scanner_CFLAGS = $(EXPAT_CFLAGS) $(AM_CFLAGS)
+- wayland_scanner_LDADD = $(EXPAT_LIBS) libwayland-util.la
+--$(BUILT_SOURCES) : wayland-scanner
+- pkgconfig_DATA += src/wayland-scanner.pc
+--else
+-+
+-+if HOST_SCANNER
+- wayland_scanner = wayland-scanner
+-+else
+-+$(BUILT_SOURCES) : wayland-scanner
+-+wayland_scanner = $(top_builddir)/wayland-scanner
+- endif
+- 
+- protocol/%-protocol.c : $(top_srcdir)/protocol/%.xml
+-diff --git a/configure.ac b/configure.ac
+-index c2a804e..de0b02f 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -65,11 +65,11 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+- 	      [[#include <time.h>]])
+- AC_CHECK_HEADERS([execinfo.h])
+- 
+--AC_ARG_ENABLE([scanner],
+--              [AC_HELP_STRING([--disable-scanner],
+--                              [Disable compilation of wayland-scanner])],
+--              [],
+--              [enable_scanner=yes])
+-+AC_ARG_WITH([host-scanner],
+-+            [AC_HELP_STRING([--with-host-scanner],
+-+                            [Use a host wayland-scanner])],
+-+            [],
+-+            [with_host_scanner=no])
+- 
+- AC_ARG_ENABLE([documentation],
+- 	      [AC_HELP_STRING([--disable-documentation],
+-@@ -77,25 +77,23 @@ AC_ARG_ENABLE([documentation],
+- 	      [],
+- 	      [enable_documentation=yes])
+- 
+--AM_CONDITIONAL(ENABLE_SCANNER, test "x$enable_scanner" = xyes)
+-+AM_CONDITIONAL(HOST_SCANNER, test "x$with_host_scanner" = xyes)
+- 
+- AC_ARG_WITH(icondir, [  --with-icondir=<dir>    Look for cursor icons here],
+- 		     [  ICONDIR=$withval],
+- 		     [  ICONDIR=${datadir}/icons])
+- AC_SUBST([ICONDIR])
+- 
+--if test "x$enable_scanner" = "xyes"; then
+--	PKG_CHECK_MODULES(EXPAT, [expat], [],
+--		[AC_CHECK_HEADERS(expat.h, [],
+--			[AC_MSG_ERROR([Can't find expat.h. Please install expat.])])
+--		 SAVE_LIBS="$LIBS"
+--		 AC_SEARCH_LIBS(XML_ParserCreate, expat, [],
+--			[AC_MSG_ERROR([Can't find expat library. Please install expat.])])
+--		 EXPAT_LIBS="$LIBS"
+--		 LIBS="$SAVE_LIBS"
+--		 AC_SUBST(EXPAT_LIBS)
+--		])
+--fi
+-+PKG_CHECK_MODULES(EXPAT, [expat], [],
+-+	[AC_CHECK_HEADERS(expat.h, [],
+-+		[AC_MSG_ERROR([Can't find expat.h. Please install expat.])])
+-+	 SAVE_LIBS="$LIBS"
+-+	 AC_SEARCH_LIBS(XML_ParserCreate, expat, [],
+-+		[AC_MSG_ERROR([Can't find expat library. Please install expat.])])
+-+	 EXPAT_LIBS="$LIBS"
+-+	 LIBS="$SAVE_LIBS"
+-+	 AC_SUBST(EXPAT_LIBS)
+-+	])
+- 
+- AC_PATH_PROG(XSLTPROC, xsltproc)
+- AM_CONDITIONAL([HAVE_XSLTPROC], [test "x$XSLTPROC" != "x"])
+diff --git a/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch b/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
+deleted file mode 100644
+index cd8bc55..0000000
+--- a/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-disable macro checks not used for scanner
+-
+-We only build wayland-native for the scanner, so disable the bits we don't
+-actually need. This avoid build issue on older distro such as Centos 5.x:
+-| error: 'O_CLOEXEC' undeclared (first use in this function)
+-| error: sys/timerfd.h: No such file or directory
+-| error: 'CLOCK_MONOTONIC' undeclared (first use in this function)
+-| error: 'TFD_CLOEXEC' undeclared (first use in this function)
+-| error: 'SFD_CLOEXEC' undeclared (first use in this function)
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Ting Liu <b28495@freescale.com>
+----
+- configure.ac | 20 ++++++++++----------
+- 1 file changed, 10 insertions(+), 10 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -41,16 +41,16 @@ AC_SUBST(GCC_CFLAGS)
+- 
+- AC_CHECK_FUNCS([accept4 mkostemp posix_fallocate])
+- 
+--AC_CHECK_DECL(SFD_CLOEXEC,[],
+--	      [AC_MSG_ERROR("SFD_CLOEXEC is needed to compile wayland")],
+--	      [[#include <sys/signalfd.h>]])
+--AC_CHECK_DECL(TFD_CLOEXEC,[],
+--	      [AC_MSG_ERROR("TFD_CLOEXEC is needed to compile wayland")],
+--	      [[#include <sys/timerfd.h>]])
+--AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+--	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile wayland")],
+--	      [[#include <time.h>]])
+--AC_CHECK_HEADERS([execinfo.h])
+-+##AC_CHECK_DECL(SFD_CLOEXEC,[],
+-+#	      [AC_MSG_ERROR("SFD_CLOEXEC is needed to compile wayland")],
+-+#	      [[#include <sys/signalfd.h>]])
+-+#AC_CHECK_DECL(TFD_CLOEXEC,[],
+-+#	      [AC_MSG_ERROR("TFD_CLOEXEC is needed to compile wayland")],
+-+#	      [[#include <sys/timerfd.h>]])
+-+#AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+-+#	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile wayland")],
+-+#	      [[#include <time.h>]])
+-+#AC_CHECK_HEADERS([execinfo.h])
+- 
+- AC_ARG_ENABLE([scanner],
+-               [AC_HELP_STRING([--disable-scanner],
+--- 
+-1.8.3.2
+-
+diff --git a/meta/recipes-graphics/wayland/wayland_1.8.1.bb b/meta/recipes-graphics/wayland/wayland_1.9.0.bb
+similarity index 72%
+rename from meta/recipes-graphics/wayland/wayland_1.8.1.bb
+rename to meta/recipes-graphics/wayland/wayland_1.9.0.bb
+index 0f9a0aa..d12ac18 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.8.1.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.9.0.bb
+@@ -7,18 +7,14 @@ be traditional applications, X servers (rootless or fullscreen) or other \
+ display servers."
+ HOMEPAGE = "http://wayland.freedesktop.org"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
+-                    file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
+-
+-SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+-           file://always-build-scanner.patch"
+-SRC_URI[md5sum] = "6e877877c3e04cfb865cfcd0733c9ab1"
+-SRC_URI[sha256sum] = "f17c938d1c24fd0a10f650a623a2775d329db3168b5732e498b08388ec776fc8"
+-
+-SRC_URI_append_class-native = " \
+-    file://disable-macro-checks-not-used-for-scanner.patch \
+-    "
+-EXTRA_OECONF_class-native = "--disable-documentation"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
++                    file://src/wayland-server.c;endline=24;md5=b8e046164a766bb1ede8ba38e9dcd7ce"
++
++SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "5e141b3f2a7005d6c89d6f233c87c317"
++SRC_URI[sha256sum] = "9c8770720aa0034479735f58a4dc4ca9b172ecfede28f5134312e135b7301efa"
++
++EXTRA_OECONF_class-native = "--disable-documentation --disable-libraries"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.2.0
+
 
