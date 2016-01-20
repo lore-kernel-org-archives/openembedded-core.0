@@ -1,28 +1,25 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FE35731FA
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BBBBD73163
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 03:00:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0K30qxB007633
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 19 Jan 2016 19:00:52 -0800
-Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 19:00:51 -0800
-To: Andre McCurdy <armccurdy@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
-	<1453258071-22847-3-git-send-email-armccurdy@gmail.com>
-From: Rongqing Li <rongqing.li@windriver.com>
-Message-ID: <569EF861.9050302@windriver.com>
-Date: Wed, 20 Jan 2016 11:00:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1453258071-22847-3-git-send-email-armccurdy@gmail.com>
-Subject: Re: [PATCH v2 2/3] valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
+	Wed, 20 Jan 2016 03:46:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Jan 2016 19:46:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="730815774"
+Received: from aganesha-mobl2.amr.corp.intel.com ([10.254.22.203])
+	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2016 19:46:44 -0800
+Message-ID: <1453261604.27763.17.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 19 Jan 2016 19:46:44 -0800
+In-Reply-To: <33B3E41A-2F24-4D5D-A909-040AC2CC1820@gmail.com>
+References: <1453241111-3103-1-git-send-email-sgw@linux.intel.com>
+	<33B3E41A-2F24-4D5D-A909-040AC2CC1820@gmail.com>
+X-Mailer: Evolution 3.18.1 (3.18.1-1.fc23) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] udev: Add 2 patches to support 4.4 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,188 +32,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 03:00:54 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 20 Jan 2016 03:46:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
+On Tue, 2016-01-19 at 15:44 -0800, Khem Raj wrote:
+> > On Jan 19, 2016, at 2:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > 
+> > These 2 patches are needed to build udev with the 4.4 kernel, the
+> > first
+> > mtd-probe adds back a stdint.h header that was removed in the
+> > kernel's mtd-user.h
+> > header file.
+> > 
+> > The second adds a check for a new header and sets a Makefile
+> > variable
+> > to determine which header to use for the new kernel vs older
+> > kernels.
+> 
+> 
+> Patches are ok. You need to add Upstream-Status to both of them.
 
+Dang, to long away from doing core work, new ones coming.
 
-On 2016年01月20日 10:47, Andre McCurdy wrote:
-> The intdiv test has been partially fixed upstream and the
-> vcvt_fixed_float_VFP test can be fixed with a similar approach, ie
-> ensuring that it is always compiled with appropriate
-> -march/-mcpu/-mfpu flags to support the instructions being tested.
->
-> For tests requiring armv7ve instructions, ensure that we set both
-> -march=armv7ve and -mcpu=cortex-a15 (since some TUNE_CCARGS may set
-> -march=armv7-a and adding -mcpu=cortex-a15 alone is not enough to
-> over-ride that).
->
-> See similar cases in none/tests/arm/Makefile.am
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Sau!
 
-
-
-Tested-by: Roy Li <rongqing.li@windriver.com>
-
-
-thanks
-
-
--Roy
-> ---
->   .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
->   ...opriate-march-mcpu-mfpu-for-ARM-test-apps.patch | 44 +++++++++++++++
->   meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |  2 +-
->   3 files changed, 45 insertions(+), 67 deletions(-)
->   delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
->   create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
->
-> diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-> deleted file mode 100644
-> index 2319ab9..0000000
-> --- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-> +++ /dev/null
-> @@ -1,66 +0,0 @@
-> -Remove arm tests that don't compile
-> -
-> -Upstream-Status: Pending
-> -
-> -Corrects the original commit for the patch that removed ARM ptest CFLAGS
-> -settings. Since the flags could be set by a user, the flags should
-> -be kept in place during compilation.  By keeping the original up-stream
-> -CFLAGS for the tests, then additional tests successfully compile
-> -for all tested ARM tunings.
-> -
-> -However, there were still two tests listed below that did not compile
-> -for any beaglebone tuning that is valid for valgrind. With the updated
-> -patch, the set of excluded ARM ptests and their respective build
-> -failures are:
-> -  intdiv - fails for all beaglebone tunings with 2 errors:
-> -  {standard input}:(40 or 41): Error: selected processor does not
-> -       support Thumb mode `udiv r3,r9,r10'
-> -  {standard input}:(72 or 73): Error: selected processor does not
-> -       support Thumb mode `sdiv r3,r9,r10'
-> -
-> -  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
-> -  two ways:
-> -    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
-> -    without neon tuning fails with 3 errors:
-> -    {standard input}:33: Error: selected FPU does not support
-> -      instruction -- `vcvt.f32.s32 s15,s15,#1'
-> -    {standard input}:58: Error: selected FPU does not support
-> -      instruction -- `vcvt.f32.s32 s15,s15,#32'
-> -    {standard input}:136: Error: selected FPU does not support
-> -      instruction -- `vcvt.f32.u32 s15,s15,#1'
-> -
-> -After applying this commit, the valgrind ARM ptests compile without
-> -errors for tunings:
-> -  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
-> -where the tuning [option] was successfully compiled, both with
-> -and without the 'option', and in combination with all other options.
-> -
-> -Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
-> -
-> -Index: valgrind-3.10.1/none/tests/arm/Makefile.am
-> -===================================================================
-> ---- valgrind-3.10.1.orig/none/tests/arm/Makefile.am	2015-05-19 15:11:59.224842927 -0500
-> -+++ valgrind-3.10.1/none/tests/arm/Makefile.am	2015-05-19 15:14:20.808847028 -0500
-> -@@ -17,9 +17,13 @@
-> - 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
-> - 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
-> -
-> -+# Remove the following tests which cause compiler errors for all tunings
-> -+#  available for beagle bone (see remove-arm-variant-specific.patch):
-> -+#	intdiv
-> -+#	vcvt_fixed_float_VFP
-> -+
-> - check_PROGRAMS = \
-> - 	allexec \
-> --	intdiv \
-> - 	ldrt \
-> - 	ldrt_arm \
-> - 	neon128 \
-> -@@ -27,7 +31,6 @@
-> - 	v6intARM \
-> - 	v6intThumb \
-> - 	v6media \
-> --	vcvt_fixed_float_VFP \
-> - 	vfp \
-> - 	vfpv4_fma
-> -
-> diff --git a/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
-> new file mode 100644
-> index 0000000..adea405
-> --- /dev/null
-> +++ b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
-> @@ -0,0 +1,44 @@
-> +From d134dafc2f11e0d247420a0ba360bcdef77b4093 Mon Sep 17 00:00:00 2001
-> +From: Andre McCurdy <armccurdy@gmail.com>
-> +Date: Tue, 19 Jan 2016 16:00:00 -0800
-> +Subject: [PATCH] use appropriate -march/-mcpu/-mfpu for ARM test apps
-> +
-> +Ensure that test apps in none/tests/arm are compiled with appropriate
-> +-march/-mcpu/-mfpu flags to support the instructions being tested.
-> +The aim is to build all tests, even ones which may not run correctly
-> +on all target CPUs.
-> +
-> +For tests requiring armv7ve instructions, ensure that we set both
-> +-march=armv7ve and -mcpu=cortex-a15 (since some TUNE_CCARGS may set
-> +-march=armv7-a and adding -mcpu=cortex-a15 alone is not enough to
-> +over-ride that).
-> +
-> +See similar cases in none/tests/arm/Makefile.am
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> +---
-> + none/tests/arm/Makefile.am | 6 ++++--
-> + 1 file changed, 4 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
-> +index 4507a20..825290f 100644
-> +--- a/none/tests/arm/Makefile.am
-> ++++ b/none/tests/arm/Makefile.am
-> +@@ -62,8 +62,10 @@ neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
-> + 			-mfpu=neon \
-> + 			-mthumb
-> +
-> +-intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
-> ++intdiv_CFLAGS	  = $(AM_CFLAGS) -g -march=armv7ve -mcpu=cortex-a15 -mthumb
-> + ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
-> + ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
-> +
-> +-vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
-> ++vcvt_fixed_float_VFP_CFLAGS = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mfpu=vfpv3
-> ++
-> ++vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -march=armv7ve -mcpu=cortex-a15 -mfpu=vfpv4 -marm
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-> index 8e9b72c..4f7c39a 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-> @@ -15,13 +15,13 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
->   SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->              file://fixed-perl-path.patch \
->              file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
-> -           file://remove-arm-variant-specific.patch \
->              file://run-ptest \
->              file://11_mips-link-tool.patch \
->              file://0002-remove-rpath.patch \
->              file://0004-Fix-out-of-tree-builds.patch \
->              file://0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch \
->              file://0001-Remove-tests-that-fail-to-build-on-some-PPC32-config.patch \
-> +           file://use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch \
->              "
->
->   SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+> > 
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> > meta/recipes-core/udev/udev.inc                    |  5 ++-
+> > ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch | 26 +++++++++++
+> > ...c-Makefile.am-Check-for-input.h-and-input.patch | 50
+> > ++++++++++++++++++++++
+> > 3 files changed, 80 insertions(+), 1 deletion(-)
+> > create mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-
+> > Add-stdint.h-as-it-was-removed-from-mtd-.patch
+> > create mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-
+> > Makefile.am-Check-for-input.h-and-input.patch
+> > 
+> > diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-
+> > core/udev/udev.inc
+> > index c00ed34..93d7369 100644
+> > --- a/meta/recipes-core/udev/udev.inc
+> > +++ b/meta/recipes-core/udev/udev.inc
+> > @@ -31,7 +31,10 @@ SRC_URI =
+> > "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+> >            file://add-install-ptest.patch \
+> >            file://fix_rule-syntax-regex-ptest.patch \
+> >            file://run-ptest \
+> > -           file://init"
+> > +           file://init \
+> > +           file://0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-
+> > from-mtd-.patch \
+> > +           file://0002-configure.ac-Makefile.am-Check-for-input.h-
+> > and-input.patch \
+> > +           "
+> > 
+> > inherit autotools pkgconfig update-rc.d ptest
+> > RDEPENDS_${PN}-ptest += "make perl python"
+> > diff --git a/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-
+> > stdint.h-as-it-was-removed-from-mtd-.patch b/meta/recipes-
+> > core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-
+> > from-mtd-.patch
+> > new file mode 100644
+> > index 0000000..439eeac
+> > --- /dev/null
+> > +++ b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-
+> > it-was-removed-from-mtd-.patch
+> > @@ -0,0 +1,26 @@
+> > +From 2935f9b2dfb92c3ce4376a988cd01b624430905b Mon Sep 17 00:00:00
+> > 2001
+> > +From: Saul Wold <sgw@linux.intel.com>
+> > +Date: Tue, 19 Jan 2016 09:49:56 -0800
+> > +Subject: [PATCH 1/2] mtd_probe.h: Add stdint.h as it was removed
+> > from
+> > + mtd-user.h in the kernel
+> > +
+> > +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > +---
+> > + src/mtd_probe/mtd_probe.h | 1 +
+> > + 1 file changed, 1 insertion(+)
+> > +
+> > +diff --git a/src/mtd_probe/mtd_probe.h b/src/mtd_probe/mtd_probe.h
+> > +index 2a37ede..49c1918 100644
+> > +--- a/src/mtd_probe/mtd_probe.h
+> > ++++ b/src/mtd_probe/mtd_probe.h
+> > +@@ -18,6 +18,7 @@
+> > +  */
+> > +
+> > + #include <mtd/mtd-user.h>
+> > ++#include <stdint.h>
+> > +
+> > + /* Full oob structure as written on the flash */
+> > + struct sm_oob {
+> > +--
+> > +2.5.0
+> > +
+> > diff --git a/meta/recipes-core/udev/udev/0002-configure.ac-
+> > Makefile.am-Check-for-input.h-and-input.patch b/meta/recipes-
+> > core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-
+> > input.patch
+> > new file mode 100644
+> > index 0000000..285680f
+> > --- /dev/null
+> > +++ b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-
+> > Check-for-input.h-and-input.patch
+> > @@ -0,0 +1,50 @@
+> > +From 63ae7ebb0c6177efed46734061fb59c458a47a26 Mon Sep 17 00:00:00
+> > 2001
+> > +From: Saul Wold <sgw@linux.intel.com>
+> > +Date: Tue, 19 Jan 2016 09:49:19 -0800
+> > +Subject: [PATCH 2/2] configure.ac/Makefile.am: Check for input.h
+> > and
+> > + input-event-codes.h
+> > +
+> > +Add INPUT_HEADER to know which header file to use because it
+> > changed
+> > +in the 4.4 kernel code.
+> > +
+> > +Set INPUT_HEADER with default linux/input.h if it exists and if
+> > the
+> > +newer input-events-codes.h exists from 4.4 use it instead.
+> > +
+> > +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > +---
+> > + Makefile.am  | 2 +-
+> > + configure.ac | 4 +++-
+> > + 2 files changed, 4 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/Makefile.am b/Makefile.am
+> > +index 2e32e69..04eb194 100644
+> > +--- a/Makefile.am
+> > ++++ b/Makefile.am
+> > +@@ -591,7 +591,7 @@ dist_udevkeymapforcerel_DATA = \
+> > + 	src/keymap/force-release-maps/samsung-other \
+> > + 	src/keymap/force-release-maps/common-volume-keys
+> > +
+> > +-src/keymap/keys.txt: $(INCLUDE_PREFIX)/linux/input.h
+> > ++src/keymap/keys.txt: $(INCLUDE_PREFIX)/$(INPUT_HEADER)
+> > + 	$(AM_V_at)mkdir -p src/keymap
+> > + 	$(AM_V_GEN)$(AWK) '/^#define.*KEY_[^ ]+[ \t]+[0-9]/ { if
+> > ($$2 != "KEY_MAX") { print $$2 } }' < $< | sed
+> > 's/^KEY_COFFEE$$/KEY_SCREENLOCK/' > $@
+> > +
+> > +diff --git a/configure.ac b/configure.ac
+> > +index 0500313..9674620 100644
+> > +--- a/configure.ac
+> > ++++ b/configure.ac
+> > +@@ -154,8 +154,10 @@ AS_IF([test "x$enable_keymap" = "xyes"], [
+> > +        if test -z "$GPERF"; then
+> > +               AC_MSG_ERROR([gperf is needed])
+> > +        fi
+> > ++
+> > ++       AC_CHECK_HEADER([linux/input.h], [AC_SUBST([INPUT_HEADER],
+> > [$(echo 'linux/input.h')])], AC_MSG_ERROR([kernel headers not
+> > found]))
+> > ++       AC_CHECK_HEADER([linux/input-event-codes.h],
+> > [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input-event-codes.h')])],
+> > [:])
+> > +
+> > +-       AC_CHECK_HEADER([linux/input.h], [:], AC_MSG_ERROR([kernel
+> > headers not found]))
+> > +        AC_SUBST([INCLUDE_PREFIX], [$(echo '#include
+> > <linux/input.h>' | eval $ac_cpp -E - | sed -n '/linux\/input.h/
+> > {s:.*"\(.*\)/linux/input.h".*:\1:; p; q}')])
+> > + ])
+> > + AM_CONDITIONAL([ENABLE_KEYMAP], [test "x$enable_keymap" =
+> > "xyes"])
+> > +--
+> > +2.5.0
+> > +
+> > --
+> > 2.5.0
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
