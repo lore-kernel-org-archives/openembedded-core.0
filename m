@@ -1,27 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B36A60767
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DC626FFDA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 09:30:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0K9UhLL006488
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 01:30:43 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 20 Jan 2016 01:30:42 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: <dengke.du@windriver.com>
-Date: Wed, 20 Jan 2016 04:30:36 -0500
-Message-ID: <2a8d19d4ef60a323c8770722ec7f60811ced53ca.1453281406.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1453281406.git.dengke.du@windriver.com>
+	Wed, 20 Jan 2016 09:33:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0K9XXUG010369; Wed, 20 Jan 2016 09:33:33 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xmXyjO2rlpq5; Wed, 20 Jan 2016 09:33:33 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0K9XTrH010365
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 20 Jan 2016 09:33:30 GMT
+Message-ID: <1453282408.27999.143.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Dengke Du <dengke.du@windriver.com>
+Date: Wed, 20 Jan 2016 09:33:28 +0000
+In-Reply-To: <2a8d19d4ef60a323c8770722ec7f60811ced53ca.1453281406.git.dengke.du@windriver.com>
 References: <cover.1453281406.git.dengke.du@windriver.com>
-MIME-Version: 1.0
+	<2a8d19d4ef60a323c8770722ec7f60811ced53ca.1453281406.git.dengke.du@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] ncurses: drop the compatible option
+Subject: Re: [PATCH 1/1] ncurses: drop the compatible option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +37,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 09:30:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Jan 2016 09:33:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-drop the compatible option --with-abi-version=5
+On Wed, 2016-01-20 at 04:30 -0500, Dengke Du wrote:
+> drop the compatible option --with-abi-version=5
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-core/ncurses/ncurses.inc    | 10 +++++-----
- meta/recipes-core/ncurses/ncurses_6.0.bb |  1 -
- 2 files changed, 5 insertions(+), 6 deletions(-)
+This says what the patch does, but not why.
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index fbe74d5..0ebf8d5 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -7,7 +7,7 @@ SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_class-native = ""
- 
--BINCONFIG = "${bindir}/ncurses5-config ${bindir}/ncursesw5-config"
-+BINCONFIG = "${bindir}/ncurses6-config ${bindir}/ncursesw6-config"
- 
- inherit autotools binconfig-disabled multilib_header pkgconfig
- 
-@@ -205,7 +205,7 @@ do_install() {
-                 test -h $f || continue
-                 rm -f $f
-                 echo '/* GNU ld script */'  >$f
--                echo "INPUT($i.so.5 AS_NEEDED(-ltinfo))" >>$f
-+                echo "INPUT($i.so.6 AS_NEEDED(-ltinfo))" >>$f
-         done
- 
-         # Make sure that libcurses is linked so that it gets -ltinfo
-@@ -231,7 +231,7 @@ do_install() {
-             # Use lnr to ensure this is a relative link despite absolute paths
-             # (as we can't know the relationship between base_libdir and libdir).
-             # At some point we can rely on coreutils 8.16 which has ln -r.
--            lnr ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinfo.so
-+            lnr ${D}${base_libdir}/libtinfo.so.6 ${D}${libdir}/libtinfo.so
-         fi
-         if [ -d "${D}${includedir}/ncurses" ]; then
-             for f in `find ${D}${includedir}/ncurses -name "*.h"`
-@@ -271,8 +271,8 @@ PACKAGES += " \
- FILES_${PN} = "\
-   ${bindir}/tput \
-   ${bindir}/tset \
--  ${bindir}/ncurses5-config \
--  ${bindir}/ncursesw5-config \
-+  ${bindir}/ncurses6-config \
-+  ${bindir}/ncursesw6-config \
-   ${datadir}/tabset \
- "
- 
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0.bb b/meta/recipes-core/ncurses/ncurses_6.0.bb
-index 8587287..ea45ea7 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0.bb
-@@ -8,4 +8,3 @@ SRC_URI += "file://tic-hang.patch \
- # commit id corresponds to the above listed REVISION
- SRCREV = "c6b034b4d69f8c9092c2a1b5d5bb718282b2a522"
- S = "${WORKDIR}/git"
--EXTRA_OECONF += "--with-abi-version=5"
--- 
-1.9.1
+Why should we do this? Does any of our software depend on the v5 ABI?
+How did you test this?
 
+Cheers,
+
+Richard
 
