@@ -1,53 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CA5D6FFFE
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C40B6FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 23:44:41 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id n128so183375321pfn.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 15:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=GhVJ4fd6vdwaB2WM1xitrLEMMaEX0hY2XsJHfGTWUe4=;
-	b=Sye0JMyePB7/uNR4PTrq2YmuxPEuk5xOQr/xcDCQnLCJhiVCkxv+l5radgW0b/+stJ
-	vDuAqd0AGVQn9ZJAanoz0efzY/fOqeePQ1Tb+RznssL/ReIXr3AmmxibsPVvkUDw3g/n
-	pMbrRXI8Y5y9jShPIs0UZTOw62fdarLjRMLqLF1omW0HO0G3qQ+RbVad0BbnlgHC4ztl
-	9zdX/2pTqOVWIeNDO1Uw84RiAXUA1z+Vtufw+pVWvVfvwtRkQaxo1G0zQ0E1ZHaer6C0
-	ZQYz3CEY2ZuzR+zsEfDcVl9Sa1/JzhpDlWUVBgHK/CHukUG3QTCHGGGqxvA9Tm0M2l/X
-	xDYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=GhVJ4fd6vdwaB2WM1xitrLEMMaEX0hY2XsJHfGTWUe4=;
-	b=lF3X46RY89UzBH7sah4yF8Wf/DDdNP9RvTl0jXscENujPT6EUQp1dZ1Saajc2vxS2S
-	YwRPnYJlgGKtdp05YMnFWRyhEd/VoOJCBXTzfCUA4bpICV+deKX4CmWSK4XYiIFRL08P
-	cupfdbjIu+Yzehyx5k6xcDxP6xgHRdCcAL9V5VvtCkHKdLAR7rMvlGpAHFbVzoOebvfJ
-	+rZBctsKP/dot7JXLA2fnJ/iBPY9ZOtYoewosUAPlcVj+ylA9vs/ZuuHIaW+VZzdIc46
-	xQBOH9Km6jhfrs+zgAZvrRti/KghS1ZXh2AnnWIOWbGcFVPi8SNW8MzIdTjNgFkUQd3b
-	MsLg==
-X-Gm-Message-State: ALoCoQlLZsTO8XuTy2aRdGHbOepSh3g7qzFK/qf30t4CVgWAFgQBHeyA9TWi4GNoQJn0yL5FIrnXWhzURZ+nQ6DfKz4SPjudrQ==
-X-Received: by 10.98.16.139 with SMTP id 11mr48281912pfq.128.1453247082440;
-	Tue, 19 Jan 2016 15:44:42 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:2cdb:35b7:1df4:399a?
-	([2601:646:8802:5d5c:2cdb:35b7:1df4:399a])
-	by smtp.gmail.com with ESMTPSA id
-	ss5sm11945356pab.15.2016.01.19.15.44.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jan 2016 15:44:41 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1453241111-3103-1-git-send-email-sgw@linux.intel.com>
-Date: Tue, 19 Jan 2016 15:44:40 -0800
-Message-Id: <33B3E41A-2F24-4D5D-A909-040AC2CC1820@gmail.com>
-References: <1453241111-3103-1-git-send-email-sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev: Add 2 patches to support 4.4 kernel
+	Wed, 20 Jan 2016 01:17:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0K1H2eN015004
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Jan 2016 17:17:02 -0800 (PST)
+Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Jan 2016 17:17:01 -0800
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <569DE54C.7090506@windriver.com>
+	<CAJ86T=WDHvsC2PKP5wKizrq_+Ri1Z6OTnJLhxsS4O1DoKpy=Bw@mail.gmail.com>
+From: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <569EE00C.6070408@windriver.com>
+Date: Wed, 20 Jan 2016 09:17:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=WDHvsC2PKP5wKizrq_+Ri1Z6OTnJLhxsS4O1DoKpy=Bw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [BUG REPORT] failed to build valgrind on qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,199 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jan 2016 23:44:44 -0000
-X-Groupsio-MsgNum: 76466
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_34DA22F7-65D0-47C1-9BD6-7E1554DC248F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_34DA22F7-65D0-47C1-9BD6-7E1554DC248F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 20 Jan 2016 01:17:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> On Jan 19, 2016, at 2:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
->=20
-> These 2 patches are needed to build udev with the 4.4 kernel, the =
-first
-> mtd-probe adds back a stdint.h header that was removed in the kernel's =
-mtd-user.h
-> header file.
->=20
-> The second adds a check for a new header and sets a Makefile variable
-> to determine which header to use for the new kernel vs older kernels.
 
+On 2016年01月20日 04:20, Andre McCurdy wrote:
+> On Mon, Jan 18, 2016 at 11:27 PM, Rongqing Li <rongqing.li@windriver.com> wrote:
+>>
+>> 2: on qemuarma9
+>>
+>
+> The problem seems to be that the machine doesn't support NEON and
+> Valgrind 3.11 includes a new test case which uses embedded NEON
+> instructions.
+>
+> We do already disable a few tests which don't build for all ARM
+> machines (see "remove-arm-variant-specific.patch"), so maybe the
+> "sh-mem-random" test should be disabled as well. I'll take a look.
+>
+> What DEFAULTTUNE does the qemuarma9 machine use?
+>
 
-Patches are ok. You need to add Upstream-Status to both of them.
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-core/udev/udev.inc                    |  5 ++-
-> ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch | 26 +++++++++++
-> ...c-Makefile.am-Check-for-input.h-and-input.patch | 50 =
-++++++++++++++++++++++
-> 3 files changed, 80 insertions(+), 1 deletion(-)
-> create mode 100644 =
-meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-remove=
-d-from-mtd-.patch
-> create mode 100644 =
-meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.=
-h-and-input.patch
->=20
-> diff --git a/meta/recipes-core/udev/udev.inc =
-b/meta/recipes-core/udev/udev.inc
-> index c00ed34..93d7369 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -31,7 +31,10 @@ SRC_URI =3D =
-"${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
->            file://add-install-ptest.patch \
->            file://fix_rule-syntax-regex-ptest.patch \
->            file://run-ptest \
-> -           file://init"
-> +           file://init \
-> +           =
-file://0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch \
-> +           =
-file://0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch \
-> +           "
->=20
-> inherit autotools pkgconfig update-rc.d ptest
-> RDEPENDS_${PN}-ptest +=3D "make perl python"
-> diff --git =
-a/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-remo=
-ved-from-mtd-.patch =
-b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-remo=
-ved-from-mtd-.patch
-> new file mode 100644
-> index 0000000..439eeac
-> --- /dev/null
-> +++ =
-b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-remo=
-ved-from-mtd-.patch
-> @@ -0,0 +1,26 @@
-> +=46rom 2935f9b2dfb92c3ce4376a988cd01b624430905b Mon Sep 17 00:00:00 =
-2001
-> +From: Saul Wold <sgw@linux.intel.com>
-> +Date: Tue, 19 Jan 2016 09:49:56 -0800
-> +Subject: [PATCH 1/2] mtd_probe.h: Add stdint.h as it was removed from
-> + mtd-user.h in the kernel
-> +
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> +---
-> + src/mtd_probe/mtd_probe.h | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/src/mtd_probe/mtd_probe.h b/src/mtd_probe/mtd_probe.h
-> +index 2a37ede..49c1918 100644
-> +--- a/src/mtd_probe/mtd_probe.h
-> ++++ b/src/mtd_probe/mtd_probe.h
-> +@@ -18,6 +18,7 @@
-> +  */
-> +
-> + #include <mtd/mtd-user.h>
-> ++#include <stdint.h>
-> +
-> + /* Full oob structure as written on the flash */
-> + struct sm_oob {
-> +--
-> +2.5.0
-> +
-> diff --git =
-a/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-inpu=
-t.h-and-input.patch =
-b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-inpu=
-t.h-and-input.patch
-> new file mode 100644
-> index 0000000..285680f
-> --- /dev/null
-> +++ =
-b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-inpu=
-t.h-and-input.patch
-> @@ -0,0 +1,50 @@
-> +=46rom 63ae7ebb0c6177efed46734061fb59c458a47a26 Mon Sep 17 00:00:00 =
-2001
-> +From: Saul Wold <sgw@linux.intel.com>
-> +Date: Tue, 19 Jan 2016 09:49:19 -0800
-> +Subject: [PATCH 2/2] configure.ac/Makefile.am: Check for input.h and
-> + input-event-codes.h
-> +
-> +Add INPUT_HEADER to know which header file to use because it changed
-> +in the 4.4 kernel code.
-> +
-> +Set INPUT_HEADER with default linux/input.h if it exists and if the
-> +newer input-events-codes.h exists from 4.4 use it instead.
-> +
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> +---
-> + Makefile.am  | 2 +-
-> + configure.ac | 4 +++-
-> + 2 files changed, 4 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/Makefile.am b/Makefile.am
-> +index 2e32e69..04eb194 100644
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -591,7 +591,7 @@ dist_udevkeymapforcerel_DATA =3D \
-> + 	src/keymap/force-release-maps/samsung-other \
-> + 	src/keymap/force-release-maps/common-volume-keys
-> +
-> +-src/keymap/keys.txt: $(INCLUDE_PREFIX)/linux/input.h
-> ++src/keymap/keys.txt: $(INCLUDE_PREFIX)/$(INPUT_HEADER)
-> + 	$(AM_V_at)mkdir -p src/keymap
-> + 	$(AM_V_GEN)$(AWK) '/^#define.*KEY_[^ ]+[ \t]+[0-9]/ { if ($$2 !=3D=
- "KEY_MAX") { print $$2 } }' < $< | sed =
-'s/^KEY_COFFEE$$/KEY_SCREENLOCK/' > $@
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 0500313..9674620 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -154,8 +154,10 @@ AS_IF([test "x$enable_keymap" =3D "xyes"], [
-> +        if test -z "$GPERF"; then
-> +               AC_MSG_ERROR([gperf is needed])
-> +        fi
-> ++
-> ++       AC_CHECK_HEADER([linux/input.h], [AC_SUBST([INPUT_HEADER], =
-[$(echo 'linux/input.h')])], AC_MSG_ERROR([kernel headers not found]))
-> ++       AC_CHECK_HEADER([linux/input-event-codes.h], =
-[AC_SUBST([INPUT_HEADER], [$(echo 'linux/input-event-codes.h')])], [:])
-> +
-> +-       AC_CHECK_HEADER([linux/input.h], [:], AC_MSG_ERROR([kernel =
-headers not found]))
-> +        AC_SUBST([INCLUDE_PREFIX], [$(echo '#include <linux/input.h>' =
-| eval $ac_cpp -E - | sed -n '/linux\/input.h/ =
-{s:.*"\(.*\)/linux/input.h".*:\1:; p; q}')])
-> + ])
-> + AM_CONDITIONAL([ENABLE_KEYMAP], [test "x$enable_keymap" =3D "xyes"])
-> +--
-> +2.5.0
-> +
-> --
-> 2.5.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+DEFAULTTUNE="armv7at"
 
+thanks
 
---Apple-Mail=_34DA22F7-65D0-47C1-9BD6-7E1554DC248F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+-Roy
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+>>
+>> | arm-wrs-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp  -marm
+>> -mthumb-interwork
+>> --sysroot=/work/wr/buildarea/arm/bitbake_build/tmp/sysroots/qemuarma9
+>> -DHAVE_CONFIG_H -I.
+>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests
+>> -I../..
+>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0
+>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/include
+>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind
+>> -I../../include
+>> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub
+>> -I../../VEX/pub -DVGA_arm=1 -DVGO_linux=1 -DVGP_arm_linux=1
+>> -DVGPV_arm_linux_vanilla=1   -Winline -Wall -Wshadow -Wno-long-long -g
+>> -fno-stack-protector    -O2 -pipe -g  -fno-omit-frame-pointer
+>> -fvisibility=default -O0 -c -o sh-mem-random.o
+>> /work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/sh-mem-random.c
+>> | {standard input}: Assembler messages:
+>> | {standard input}:1107: Error: selected processor does not support ARM mode
+>> `vld1.64 {d7},[r3]'
+>> | {standard input}:1107: Error: selected processor does not support ARM mode
+>> `vst1.64 {d7},[r2]'
+>> | Makefile:2467: recipe for target 'sh-mem-random.o' failed
+>>
+>>
+>> and the codes are below:
+>>
+>> 194 #elif defined(__linux__) && defined(__arm__) && !defined(__aarch64__)
+>> 195             /* On arm32, many compilers generate a 64-bit float move
+>> 196                using two 32 bit integer registers, which completely
+>> 197                defeats this test.  Hence force a 64-bit NEON load and
+>> 198                store.  I guess this will break the build on non-NEON
+>> 199                capable targets. */
+>> 200             __asm__ __volatile__ (
+>> 201                "vld1.64 {d7},[%0] ; vst1.64 {d7},[%1] "
+>> 202                : : "r"(arr+src), "r"(arr+dst) : "d7","memory"
+>> 203             );
+>> 204 #else
+>>
+>>
+>> -Roy
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-iEYEARECAAYFAlaeymgACgkQuwUzVZGdMxQ6uACfbVMvX6jzQSfPQ0ZkXQBzrgTr
-4sAAn0TFDkqtLtfd2q32vffnA3EIqPJl
-=8h7b
------END PGP SIGNATURE-----
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
---Apple-Mail=_34DA22F7-65D0-47C1-9BD6-7E1554DC248F--
