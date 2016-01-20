@@ -1,32 +1,22 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3601 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 20 Jan 2016 03:49:31 UTC
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 926566011F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6356011F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 03:49:31 +0000 (UTC)
-Received: from gandalf.denix.org ([100.15.86.14]) by vms173017.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPSA id <0O18009X0D63I550@vms173017.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 19 Jan 2016 20:49:15 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=EdU1O6SC c=1 sm=1 tr=0	a=xDJgBcBrK5EN9DJ6g74wNQ==:117
-	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=7aQ_Q-yQQ-AA:10 a=sozttTNsAAAA:8
-	a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8	a=1Mo1Ge4T6OwGOiJerrcA:9
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id E1A93161E02;	Tue,
-	19 Jan 2016 21:49:14 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 21:49:06 -0500
-Message-id: <1453258146-7654-2-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.2.0
-In-reply-to: <1453258146-7654-1-git-send-email-denis@denix.org>
-References: <1453258146-7654-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 2/2] weston: upgrade 1.8.0 -> 1.9.0
+	Wed, 20 Jan 2016 03:50:38 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 19:50:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="730817026"
+Received: from aganesha-mobl2.amr.corp.intel.com (HELO
+	swold-mobl.jf.intel.com) ([10.254.22.203])
+	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2016 19:50:38 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 19 Jan 2016 19:50:37 -0800
+Message-Id: <1453261837-6728-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH v2] udev: Add 2 patches to support 4.4 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,101 +29,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 03:49:32 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 03:50:40 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
+These 2 patches are needed to build udev with the 4.4 kernel, the first
+mtd-probe adds back a stdint.h header that was removed in the kernel's mtd-user.h
+header file.
 
-* The license was updated from MIT X11 to MIT Expat
-* parallelmake.patch was accepted upstream.
+The second adds a check for a new header and sets a Makefile variable
+to determine which header to use for the new kernel vs older kernels.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
 ---
- .../wayland/weston/parallelmake.patch              | 40 ----------------------
- .../wayland/{weston_1.8.0.bb => weston_1.9.0.bb}   |  9 +++--
- 2 files changed, 4 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/weston/parallelmake.patch
- rename meta/recipes-graphics/wayland/{weston_1.8.0.bb => weston_1.9.0.bb} (92%)
+v2: Added Upstream-Status in additional patches (Thanks Khem)
 
-diff --git a/meta/recipes-graphics/wayland/weston/parallelmake.patch b/meta/recipes-graphics/wayland/weston/parallelmake.patch
-deleted file mode 100644
-index 42b5efb..0000000
---- a/meta/recipes-graphics/wayland/weston/parallelmake.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--Backport two patches from upstream to fix parallel builds
--
--- mkdir races (2eff22b8e6f6e5255a1915c33dfd91cecf02cbbc)
--- weston.desktop race (315476fa7b1f1c44c1b35116036df54ac5cb9a03)
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/Makefile.am b/Makefile.am
--index 5819b19..ff13b19 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -20,7 +20,7 @@ weston.ini : $(srcdir)/weston.ini.in
-- 		$< > $@
-- 
-- ivi-shell/weston.ini : $(srcdir)/ivi-shell/weston.ini.in
---	$(AM_V_GEN)$(SED) \
--+	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && $(SED) \
-- 		-e 's|@bindir[@]|$(bindir)|g' \
-- 		-e 's|@abs_top_builddir[@]|$(abs_top_builddir)|g' \
-- 		-e 's|@abs_top_srcdir[@]|$(abs_top_srcdir)|g' \
--@@ -29,7 +29,7 @@ ivi-shell/weston.ini : $(srcdir)/ivi-shell/weston.ini.in
-- 		$< > $@
-- 
-- tests/weston-ivi.ini : $(srcdir)/ivi-shell/weston.ini.in
---	$(AM_V_GEN)$(SED) \
--+	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && $(SED) \
-- 		-e 's|@bindir[@]|$(bindir)|g' \
-- 		-e 's|@abs_top_builddir[@]|$(abs_top_builddir)|g' \
-- 		-e 's|@abs_top_srcdir[@]|$(abs_top_srcdir)|g' \
--@@ -179,8 +179,7 @@ pkgconfigdir = $(libdir)/pkgconfig
-- pkgconfig_DATA = src/weston.pc
-- 
-- wayland_sessiondir = $(datadir)/wayland-sessions
---wayland_session_DATA = src/weston.desktop
---dist_wayland_session_DATA = $(wayland_session_DATA)
--+dist_wayland_session_DATA = src/weston.desktop
-- 
-- westonincludedir = $(includedir)/weston
-- westoninclude_HEADERS =				\
-diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/wayland/weston_1.8.0.bb
-rename to meta/recipes-graphics/wayland/weston_1.9.0.bb
-index aff9a12..e14ea9d 100644
---- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-@@ -2,8 +2,8 @@ SUMMARY = "Weston, a Wayland compositor"
- DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
- HOMEPAGE = "http://wayland.freedesktop.org"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
--                    file://src/compositor.c;endline=23;md5=a9793f1edc8d1a4c344ca8ae252352fb"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
-+                    file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
+ meta/recipes-core/udev/udev.inc                    |  5 ++-
+ ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch | 29 ++++++++++++
+ ...c-Makefile.am-Check-for-input.h-and-input.patch | 52 ++++++++++++++++++++++
+ 3 files changed, 85 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+ create mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index c00ed34..93d7369 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -31,7 +31,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://add-install-ptest.patch \
+            file://fix_rule-syntax-regex-ptest.patch \
+            file://run-ptest \
+-           file://init"
++           file://init \
++           file://0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch \
++           file://0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch \
++           "
  
- SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-@@ -11,12 +11,11 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://make-lcms-explicitly-configurable.patch \
-            file://make-libwebp-explicitly-configurable.patch \
-            file://0001-make-error-portable.patch \
--           file://parallelmake.patch \
-            file://libsystemd.patch \
-            file://explicit-enable-disable-systemd.patch \
- "
--SRC_URI[md5sum] = "24cb8a7ed0535b4fc3642643988dab36"
--SRC_URI[sha256sum] = "8963e69f328e815cec42c58046c4af721476c7541bb7d9edc71740fada5ad312"
-+SRC_URI[md5sum] = "66bbba12f546570b4d97f676bc79a28e"
-+SRC_URI[sha256sum] = "9c1b03f3184fa0b0dfdf67e215048085156e1a2ca344af6613fed36794ac48cf"
- 
- inherit autotools pkgconfig useradd distro_features_check
- # depends on virtual/egl
+ inherit autotools pkgconfig update-rc.d ptest
+ RDEPENDS_${PN}-ptest += "make perl python"
+diff --git a/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+new file mode 100644
+index 0000000..8d2df1a
+--- /dev/null
++++ b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+@@ -0,0 +1,29 @@
++From 2935f9b2dfb92c3ce4376a988cd01b624430905b Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Tue, 19 Jan 2016 09:49:56 -0800
++Subject: [PATCH 1/2] mtd_probe.h: Add stdint.h as it was removed from
++ mtd-user.h in the kernel
++
++
++Upstream-Status: Inappropriate [Upstream unsupported]
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ src/mtd_probe/mtd_probe.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/mtd_probe/mtd_probe.h b/src/mtd_probe/mtd_probe.h
++index 2a37ede..49c1918 100644
++--- a/src/mtd_probe/mtd_probe.h
+++++ b/src/mtd_probe/mtd_probe.h
++@@ -18,6 +18,7 @@
++  */
++ 
++ #include <mtd/mtd-user.h>
+++#include <stdint.h>
++ 
++ /* Full oob structure as written on the flash */
++ struct sm_oob {
++-- 
++2.5.0
++
+diff --git a/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+new file mode 100644
+index 0000000..a9dc627
+--- /dev/null
++++ b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+@@ -0,0 +1,52 @@
++From 63ae7ebb0c6177efed46734061fb59c458a47a26 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Tue, 19 Jan 2016 09:49:19 -0800
++Subject: [PATCH 2/2] configure.ac/Makefile.am: Check for input.h and
++ input-event-codes.h
++
++Add INPUT_HEADER to know which header file to use because it changed
++in the 4.4 kernel code.
++
++Set INPUT_HEADER with default linux/input.h if it exists and if the
++newer input-events-codes.h exists from 4.4 use it instead.
++
++Upstream-Status: Inappropriate [Upstream unsupported]
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ Makefile.am  | 2 +-
++ configure.ac | 4 +++-
++ 2 files changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 2e32e69..04eb194 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -591,7 +591,7 @@ dist_udevkeymapforcerel_DATA = \
++ 	src/keymap/force-release-maps/samsung-other \
++ 	src/keymap/force-release-maps/common-volume-keys
++ 
++-src/keymap/keys.txt: $(INCLUDE_PREFIX)/linux/input.h
+++src/keymap/keys.txt: $(INCLUDE_PREFIX)/$(INPUT_HEADER)
++ 	$(AM_V_at)mkdir -p src/keymap
++ 	$(AM_V_GEN)$(AWK) '/^#define.*KEY_[^ ]+[ \t]+[0-9]/ { if ($$2 != "KEY_MAX") { print $$2 } }' < $< | sed 's/^KEY_COFFEE$$/KEY_SCREENLOCK/' > $@
++ 
++diff --git a/configure.ac b/configure.ac
++index 0500313..9674620 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -154,8 +154,10 @@ AS_IF([test "x$enable_keymap" = "xyes"], [
++        if test -z "$GPERF"; then
++               AC_MSG_ERROR([gperf is needed])
++        fi
+++       
+++       AC_CHECK_HEADER([linux/input.h], [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input.h')])], AC_MSG_ERROR([kernel headers not found]))
+++       AC_CHECK_HEADER([linux/input-event-codes.h], [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input-event-codes.h')])], [:])
++ 
++-       AC_CHECK_HEADER([linux/input.h], [:], AC_MSG_ERROR([kernel headers not found]))
++        AC_SUBST([INCLUDE_PREFIX], [$(echo '#include <linux/input.h>' | eval $ac_cpp -E - | sed -n '/linux\/input.h/ {s:.*"\(.*\)/linux/input.h".*:\1:; p; q}')])
++ ])
++ AM_CONDITIONAL([ENABLE_KEYMAP], [test "x$enable_keymap" = "xyes"])
++-- 
++2.5.0
++
 -- 
-2.2.0
+2.5.0
 
 
