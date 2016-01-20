@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E9B6080F
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 94CEA6FFEC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 01:34:17 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id e195so28656200oig.2
+	Wed, 20 Jan 2016 01:45:49 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id l65so160908343wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 17:34:18 -0800 (PST)
+	Tue, 19 Jan 2016 17:45:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KagZKnPrghb8Q3IponLADk+9c1usVaVolh7VwNHg5T4=;
-	b=ffufMp28Fz1RwFjUbcxzLhIE2dL6iwzKP1w9M2uN+9u3nd8p9u+8Ry4IuygYm0cA4a
-	ww4w+LwQLTYHfrLWTqcdn0vZcfTcbfrmqqhiMoSobLxbpGUcRNYM7rzlUQiqJJzd9iPx
-	9OtwKBMYavf6OWPhGZ4nM+qaLpBNl/LSFQc1CtI98JrD7IC8/k/RUYBlocAcvSqzHMJy
-	5l0F3ek0ijP6vttW5eW07O5+pKZAhmeWuCvYQt5aNoQ5AKuCCobjNxcnv6a4UtzvjnnI
-	mulEp7vCWb+V/bFq2xNQuc/bW2SOxdBMES+SuuyHdIzAWFbnkDYjmGE/IhLiwpsjeN+d
-	c2lg==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=q3XX9N1SjWHTSddgEHPBIicA5/cXsx+LahzpR3ZZYG8=;
+	b=rVqWwdEheHrIo1TjZbYd7WX/iMgoCQ958W6UtdUcsxG7c2nfdhSNLOwqsF0MUYWNqd
+	DZ8OaNAu0Vpx04guNomZgyWVVgdycnuWUF3JRYoze2mc+2NTL1JccF52jtpWh5uBLcQW
+	vdOlHRDM4F6kAjbIL340dESJvWJgaX3+2205I7vcdpTUKjD4jLYIF9ZdnpDbwjNV+gcp
+	2Y87NHjeniDPiksGXhkCco0044TGMiRaGC6rTQVTCI8AgkKd8Duh1t7SPj0zNkNZvzKZ
+	pWO4VIgtlGZAts3ULxGrQVQtS3LcHUJwTmyKpQSmDgqubrhAG4tygaA+T7Svbp5BOgOj
+	QLjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KagZKnPrghb8Q3IponLADk+9c1usVaVolh7VwNHg5T4=;
-	b=f1mXvC+hSlcXU6bQq6tTzegdhIfWrcYFlho3yrb0VUfhzCBFni7w5B2kySBpTCtPtB
-	w5HkmfMGlOx8uVJzOjw6ULMkW+E4mcfncP8k7gxu1HupgNRZ2hDP9E4t7tg+h+784TPj
-	6ixoU5CWlTfIIeKTRhct94bIh98fzfmSNt9YiDuVS+EfVSHOrcdUV0KluddFSGoiPNZ5
-	Wma4UbTEeFIzxD4x+mFOmLuNH33N8MiN4raeUeEWgeImnKw/zZpkEulIkrYG9jjIgRrK
-	I25lpx8B9XO8FGA7TEki818BWsIiRrQ4lIO0bVBUHfeGohhpbM1zjw92RHYQ93tMu95e
-	W32w==
-X-Gm-Message-State: ALoCoQkGc7UKchxt/QhQe+rxMkpQBKKroH8CTJ+BsZN/MDCKcBUWv5RU482g1C6FbuhuVF0J1Oad1ArYRCUVn4ZTgGQDOn3vEA==
-X-Received: by 10.202.102.228 with SMTP id m97mr25685026oik.49.1453253658612; 
-	Tue, 19 Jan 2016 17:34:18 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	j201sm11858118oih.19.2016.01.19.17.34.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Jan 2016 17:34:17 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=q3XX9N1SjWHTSddgEHPBIicA5/cXsx+LahzpR3ZZYG8=;
+	b=lVRSd5jrGLO7RO7mGxbf0c8LyFtcW0GaBS1kn3KiAr/rHAJJW9Dn8icWZ2/AZnDWlw
+	sJrfj3D59aNod00v5pUXxctA586MqPHW0uohOEGwGqyZYepsf4VtNKkn/OksyK4OpWeF
+	VlR7Z5ba+qwd201/zREAB2pikTtCTiKfAJmXCk+WPz72pRIkYC0Uj1H/Er4YIkIMbFIN
+	CGWspV0TE3L5M5VKlZeyx5ZmhN6j/DYMHt8D/iAHSmOWzty5G/y6eF4XhC0rn2LGn1TD
+	GyY4gmY09VyO8SzHuIGSmUGVFQlU7q7w0px7YUDoaXuH112ZwkdPaNVYSAlc+IsEmU2f
+	s89Q==
+X-Gm-Message-State: ALoCoQmuWUwXu6yi4nkOuxxzf07vrOf+CQnmhKlkiRRHNuEo0R503HNqgRYanVkACqdXcPBisNJ++xbMH7zjPfGoAEopIBukfw==
+MIME-Version: 1.0
+X-Received: by 10.194.24.226 with SMTP id x2mr32504570wjf.43.1453254349665;
+	Tue, 19 Jan 2016 17:45:49 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Tue, 19 Jan 2016 17:45:49 -0800 (PST)
+In-Reply-To: <B84185CF-3666-49D6-A3FB-3FBCBBFE6B17@gmail.com>
+References: <569DE54C.7090506@windriver.com>
+	<4D27B3F8-BDBC-43AF-A54C-E4B556388202@gmail.com>
+	<CAJ86T=WSMw4f0tC0=MVqHE+gPJ_5N4MpLNGW8m7Gy2xgsQcmZw@mail.gmail.com>
+	<B84185CF-3666-49D6-A3FB-3FBCBBFE6B17@gmail.com>
+Date: Tue, 19 Jan 2016 17:45:49 -0800
+Message-ID: <CAJ86T=VWgN=NGTgT1CTE1z1VuDzu-56sjA=qObDpxwLQ4gWz_g@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 17:34:01 -0800
-Message-Id: <1453253641-6309-4-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1453253641-6309-1-git-send-email-armccurdy@gmail.com>
-References: <1453253641-6309-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] valgrind: avoid neon for targets which don't support it
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [BUG REPORT] failed to build valgrind on qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,72 +56,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 01:34:20 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 01:45:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The sh-mem-random.c test app tries to use neon loads and stores to
-test 64-bit float copies when building for ARM. Allow it to do so if
-possible, but fallback to C when building for ARM targets which don't
-support neon.
+On Tue, Jan 19, 2016 at 3:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Jan 19, 2016, at 1:38 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> On Tue, Jan 19, 2016 at 1:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>>> On Jan 18, 2016, at 11:27 PM, Rongqing Li <rongqing.li@windriver.com> =
+wrote:
+>>>>
+>>>> 2: on qemuarma9
+>>>>
+>>>> | arm-wrs-linux-gnueabi-gcc -march=3Darmv7-a -mfloat-abi=3Dsoftfp  -ma=
+rm -mthumb-interwork --sysroot=3D/work/wr/buildarea/arm/bitbake_build/tmp/s=
+ysroots/qemuarma9 -DHAVE_CONFIG_H -I. -I/work/wr/buildarea/arm/bitbake_buil=
+d/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/=
+memcheck/tests -I../.. -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv=
+7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0 -I/work/wr/buil=
+darea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11=
+.0-r0/valgrind-3.11.0/include -I/work/wr/buildarea/arm/bitbake_build/tmp/wo=
+rk/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrin=
+d -I../../include -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vf=
+p-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub -I../../VEX/=
+pub -DVGA_arm=3D1 -DVGO_linux=3D1 -DVGP_arm_linux=3D1 -DVGPV_arm_linux_vani=
+lla=3D1   -Winline -Wall -Wshadow -Wno-long-long -g -fno-stack-protector   =
+ -O2 -pipe -g  -fno-omit-frame-pointer -fvisibility=3Ddefault -O0 -c -o sh-=
+mem-random.o /work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-l=
+inux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/sh-mem-rando=
+m.c
+>>>> | {standard input}: Assembler messages:
+>>>> | {standard input}:1107: Error: selected processor does not support AR=
+M mode `vld1.64 {d7},[r3]'
+>>>> | {standard input}:1107: Error: selected processor does not support AR=
+M mode `vst1.64 {d7},[r2]'
+>>>> | Makefile:2467: recipe for target 'sh-mem-random.o=E2=80=99 failed
+>>>
+>>>
+>>> So you disable neon but do not choose a particular implementation which=
+ allows so. e.g. you should have -mtune=3Dcortex-a9 which allows neon to be=
+ optional
+>>> but thats probably just the semantic thing. Below code should check for=
+ __ARM_NEON__ internal define being set as well before resorting to use neo=
+n instructions.
+>>
+>> It's a test app which is failing, so I think we have 3 solutions:
+>>
+>> 1) Disable tests which don't build for all supported targets (the
+>> traditional OE approach). See:
+>>
+>>  http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtool=
+s/valgrind/valgrind/remove-arm-variant-specific.patch
+>>
+>> 2) Tweak CFLAGS so that the test always compiles but fails at run-time
+>> on non-neon targets.
+>>
+>> 3) Tweak test code so that it avoids NEON instructions on non-neon
+>> targets (risk then is that the run-time test will appear to pass on
+>> non-neon targets when it should actually fail).
+>>
+>> Any preference?
+>
+> option 3
+>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- ...d-neon-for-targets-which-don-t-support-it.patch | 33 ++++++++++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
+Yes, I think that's right in this case. The sh-mem-random.c test isn't
+really about testing neon, so falling back to C for non-neon targets
+seems correct.
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch b/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
-new file mode 100644
-index 0000000..5fcfec0
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
-@@ -0,0 +1,33 @@
-+From 8facc29c3c56e6cf9cfef70986cf73876044a3fb Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Tue, 19 Jan 2016 16:42:36 -0800
-+Subject: [PATCH] avoid neon for targets which don't support it
-+
-+The sh-mem-random.c test app tries to use neon loads and stores to
-+test 64-bit float copies when building for ARM. Allow it to do so if
-+possible, but fallback to C when building for ARM targets which don't
-+support neon.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+---
-+ memcheck/tests/sh-mem-random.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/memcheck/tests/sh-mem-random.c b/memcheck/tests/sh-mem-random.c
-+index ae82248..816e139 100644
-+--- a/memcheck/tests/sh-mem-random.c
-++++ b/memcheck/tests/sh-mem-random.c
-+@@ -191,7 +191,7 @@ void do_test_at ( U1* arr )
-+                "emms"
-+                : : "r"(arr+dst), "r"(arr+src) : "memory"
-+             );
-+-#elif defined(__linux__) && defined(__arm__) && !defined(__aarch64__)
-++#elif defined(__linux__) && defined(__arm__) && defined(__ARM_NEON__) && !defined(__aarch64__)
-+             /* On arm32, many compilers generate a 64-bit float move
-+                using two 32 bit integer registers, which completely
-+                defeats this test.  Hence force a 64-bit NEON load and
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index d2a78c3..5d16c78 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch \
-            file://0001-Remove-tests-that-fail-to-build-on-some-PPC32-config.patch \
-            file://use-appropriate-flags-for-vcvt-fixed-float-VFP.patch \
-+           file://avoid-neon-for-targets-which-don-t-support-it.patch \
-            "
- 
- SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
--- 
-1.9.1
-
+Patch sent.
 
