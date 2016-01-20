@@ -1,49 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 94CEA6FFEC
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E6426FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 01:45:49 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id l65so160908343wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 17:45:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=q3XX9N1SjWHTSddgEHPBIicA5/cXsx+LahzpR3ZZYG8=;
-	b=rVqWwdEheHrIo1TjZbYd7WX/iMgoCQ958W6UtdUcsxG7c2nfdhSNLOwqsF0MUYWNqd
-	DZ8OaNAu0Vpx04guNomZgyWVVgdycnuWUF3JRYoze2mc+2NTL1JccF52jtpWh5uBLcQW
-	vdOlHRDM4F6kAjbIL340dESJvWJgaX3+2205I7vcdpTUKjD4jLYIF9ZdnpDbwjNV+gcp
-	2Y87NHjeniDPiksGXhkCco0044TGMiRaGC6rTQVTCI8AgkKd8Duh1t7SPj0zNkNZvzKZ
-	pWO4VIgtlGZAts3ULxGrQVQtS3LcHUJwTmyKpQSmDgqubrhAG4tygaA+T7Svbp5BOgOj
-	QLjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=q3XX9N1SjWHTSddgEHPBIicA5/cXsx+LahzpR3ZZYG8=;
-	b=lVRSd5jrGLO7RO7mGxbf0c8LyFtcW0GaBS1kn3KiAr/rHAJJW9Dn8icWZ2/AZnDWlw
-	sJrfj3D59aNod00v5pUXxctA586MqPHW0uohOEGwGqyZYepsf4VtNKkn/OksyK4OpWeF
-	VlR7Z5ba+qwd201/zREAB2pikTtCTiKfAJmXCk+WPz72pRIkYC0Uj1H/Er4YIkIMbFIN
-	CGWspV0TE3L5M5VKlZeyx5ZmhN6j/DYMHt8D/iAHSmOWzty5G/y6eF4XhC0rn2LGn1TD
-	GyY4gmY09VyO8SzHuIGSmUGVFQlU7q7w0px7YUDoaXuH112ZwkdPaNVYSAlc+IsEmU2f
-	s89Q==
-X-Gm-Message-State: ALoCoQmuWUwXu6yi4nkOuxxzf07vrOf+CQnmhKlkiRRHNuEo0R503HNqgRYanVkACqdXcPBisNJ++xbMH7zjPfGoAEopIBukfw==
+	Wed, 20 Jan 2016 01:49:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0K1nF0Q015351
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Jan 2016 17:49:15 -0800 (PST)
+Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Jan 2016 17:49:14 -0800
+To: Andre McCurdy <armccurdy@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1453253641-6309-1-git-send-email-armccurdy@gmail.com>
+	<1453253641-6309-3-git-send-email-armccurdy@gmail.com>
+From: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <569EE799.7090203@windriver.com>
+Date: Wed, 20 Jan 2016 09:49:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-Received: by 10.194.24.226 with SMTP id x2mr32504570wjf.43.1453254349665;
-	Tue, 19 Jan 2016 17:45:49 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Tue, 19 Jan 2016 17:45:49 -0800 (PST)
-In-Reply-To: <B84185CF-3666-49D6-A3FB-3FBCBBFE6B17@gmail.com>
-References: <569DE54C.7090506@windriver.com>
-	<4D27B3F8-BDBC-43AF-A54C-E4B556388202@gmail.com>
-	<CAJ86T=WSMw4f0tC0=MVqHE+gPJ_5N4MpLNGW8m7Gy2xgsQcmZw@mail.gmail.com>
-	<B84185CF-3666-49D6-A3FB-3FBCBBFE6B17@gmail.com>
-Date: Tue, 19 Jan 2016 17:45:49 -0800
-Message-ID: <CAJ86T=VWgN=NGTgT1CTE1z1VuDzu-56sjA=qObDpxwLQ4gWz_g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [BUG REPORT] failed to build valgrind on qemuarm
+In-Reply-To: <1453253641-6309-3-git-send-email-armccurdy@gmail.com>
+Subject: Re: [PATCH 2/3] valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,76 +35,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 01:45:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Jan 2016 01:49:15 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 19, 2016 at 3:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
+
+On 2016年01月20日 09:34, Andre McCurdy wrote:
+> The intdiv test has been fixed upstream and the vcvt_fixed_float_VFP
+> test can be fixed with a similar approach, ie ensuring that it is
+> always compiled with appropriate -mcpu/-mfpu flags to support the
+> instructions being tested.
 >
->> On Jan 19, 2016, at 1:38 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Tue, Jan 19, 2016 at 1:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>>> On Jan 18, 2016, at 11:27 PM, Rongqing Li <rongqing.li@windriver.com> =
-wrote:
->>>>
->>>> 2: on qemuarma9
->>>>
->>>> | arm-wrs-linux-gnueabi-gcc -march=3Darmv7-a -mfloat-abi=3Dsoftfp  -ma=
-rm -mthumb-interwork --sysroot=3D/work/wr/buildarea/arm/bitbake_build/tmp/s=
-ysroots/qemuarma9 -DHAVE_CONFIG_H -I. -I/work/wr/buildarea/arm/bitbake_buil=
-d/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/=
-memcheck/tests -I../.. -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv=
-7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0 -I/work/wr/buil=
-darea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11=
-.0-r0/valgrind-3.11.0/include -I/work/wr/buildarea/arm/bitbake_build/tmp/wo=
-rk/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrin=
-d -I../../include -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vf=
-p-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub -I../../VEX/=
-pub -DVGA_arm=3D1 -DVGO_linux=3D1 -DVGP_arm_linux=3D1 -DVGPV_arm_linux_vani=
-lla=3D1   -Winline -Wall -Wshadow -Wno-long-long -g -fno-stack-protector   =
- -O2 -pipe -g  -fno-omit-frame-pointer -fvisibility=3Ddefault -O0 -c -o sh-=
-mem-random.o /work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-l=
-inux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/sh-mem-rando=
-m.c
->>>> | {standard input}: Assembler messages:
->>>> | {standard input}:1107: Error: selected processor does not support AR=
-M mode `vld1.64 {d7},[r3]'
->>>> | {standard input}:1107: Error: selected processor does not support AR=
-M mode `vst1.64 {d7},[r2]'
->>>> | Makefile:2467: recipe for target 'sh-mem-random.o=E2=80=99 failed
->>>
->>>
->>> So you disable neon but do not choose a particular implementation which=
- allows so. e.g. you should have -mtune=3Dcortex-a9 which allows neon to be=
- optional
->>> but thats probably just the semantic thing. Below code should check for=
- __ARM_NEON__ internal define being set as well before resorting to use neo=
-n instructions.
->>
->> It's a test app which is failing, so I think we have 3 solutions:
->>
->> 1) Disable tests which don't build for all supported targets (the
->> traditional OE approach). See:
->>
->>  http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtool=
-s/valgrind/valgrind/remove-arm-variant-specific.patch
->>
->> 2) Tweak CFLAGS so that the test always compiles but fails at run-time
->> on non-neon targets.
->>
->> 3) Tweak test code so that it avoids NEON instructions on non-neon
->> targets (risk then is that the run-time test will appear to pass on
->> non-neon targets when it should actually fail).
->>
->> Any preference?
+> See similar cases in none/tests/arm/Makefile.am
 >
-> option 3
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>   .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
+>   ...ppropriate-flags-for-vcvt-fixed-float-VFP.patch | 33 +++++++++++
+>   meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |  2 +-
+>   3 files changed, 34 insertions(+), 67 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+>   create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-flags-for-vcvt-fixed-float-VFP.patch
+>
+> diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+> deleted file mode 100644
+> index 2319ab9..0000000
+> --- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+> +++ /dev/null
+> @@ -1,66 +0,0 @@
+> -Remove arm tests that don't compile
+> -
+> -Upstream-Status: Pending
+> -
+> -Corrects the original commit for the patch that removed ARM ptest CFLAGS
+> -settings. Since the flags could be set by a user, the flags should
+> -be kept in place during compilation.  By keeping the original up-stream
+> -CFLAGS for the tests, then additional tests successfully compile
+> -for all tested ARM tunings.
+> -
+> -However, there were still two tests listed below that did not compile
+> -for any beaglebone tuning that is valid for valgrind. With the updated
+> -patch, the set of excluded ARM ptests and their respective build
+> -failures are:
+> -  intdiv - fails for all beaglebone tunings with 2 errors:
+> -  {standard input}:(40 or 41): Error: selected processor does not
+> -       support Thumb mode `udiv r3,r9,r10'
+> -  {standard input}:(72 or 73): Error: selected processor does not
+> -       support Thumb mode `sdiv r3,r9,r10'
+> -
+> -  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
+> -  two ways:
+> -    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
+> -    without neon tuning fails with 3 errors:
+> -    {standard input}:33: Error: selected FPU does not support
+> -      instruction -- `vcvt.f32.s32 s15,s15,#1'
+> -    {standard input}:58: Error: selected FPU does not support
+> -      instruction -- `vcvt.f32.s32 s15,s15,#32'
+> -    {standard input}:136: Error: selected FPU does not support
+> -      instruction -- `vcvt.f32.u32 s15,s15,#1'
+> -
+> -After applying this commit, the valgrind ARM ptests compile without
+> -errors for tunings:
+> -  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
+> -where the tuning [option] was successfully compiled, both with
+> -and without the 'option', and in combination with all other options.
+> -
+> -Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+> -
+> -Index: valgrind-3.10.1/none/tests/arm/Makefile.am
+> -===================================================================
+> ---- valgrind-3.10.1.orig/none/tests/arm/Makefile.am	2015-05-19 15:11:59.224842927 -0500
+> -+++ valgrind-3.10.1/none/tests/arm/Makefile.am	2015-05-19 15:14:20.808847028 -0500
+> -@@ -17,9 +17,13 @@
+> - 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
+> - 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
+> -
+> -+# Remove the following tests which cause compiler errors for all tunings
+> -+#  available for beagle bone (see remove-arm-variant-specific.patch):
+> -+#	intdiv
+> -+#	vcvt_fixed_float_VFP
+> -+
+> - check_PROGRAMS = \
+> - 	allexec \
+> --	intdiv \
+> - 	ldrt \
+> - 	ldrt_arm \
+> - 	neon128 \
+> -@@ -27,7 +31,6 @@
+> - 	v6intARM \
+> - 	v6intThumb \
+> - 	v6media \
+> --	vcvt_fixed_float_VFP \
+
+it failed on my platform again
+
+
+| arm-wrs-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp  -marm 
+-mthumb-interwork 
+--sysroot=/work/wr/buildarea/arm/bitbake_build/tmp/sysroots/qemuarma9 
+-Winline -Wall -Wshadow -Wno-long-long -g -fno-stack-protector 
+-Wno-nonnull   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o allexec 
+allexec-allexec.o
+| arm-wrs-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp  -marm 
+-mthumb-interwork 
+--sysroot=/work/wr/buildarea/arm/bitbake_build/tmp/sysroots/qemuarma9 
+-DHAVE_CONFIG_H -I. 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/none/tests/arm 
+-I../../.. 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/include 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind 
+-I../../../include 
+-I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub 
+-I../../../VEX/pub -DVGA_arm=1 -DVGO_linux=1 -DVGP_arm_linux=1 
+-DVGPV_arm_linux_vanilla=1   -Winline -Wall -Wshadow -Wno-long-long -g 
+-fno-stack-protector    -g -mcpu=cortex-a15 -mthumb  -c -o 
+intdiv-intdiv.o `test -f 'intdiv.c' || echo 
+'/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/none/tests/arm/'`intdiv.c
+| 
+/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/none/tests/arm/intdiv.c:1:0: 
+warning: switch -mcpu=cortex-a15 conflicts with -march=armv7-a switch
+|
+|  ^
+| /tmp/ccw8BXpd.s: Assembler messages:
+| /tmp/ccw8BXpd.s:49: Error: selected processor does not support Thumb 
+mode `udiv r3,r9,r10'
+| /tmp/ccw8BXpd.s:104: Error: selected processor does not support Thumb 
+mode `sdiv r3,r9,r10'
+| Makefile:811: recipe for target 'intdiv-intdiv.o' failed
+| make[5]: *** [intdiv-intdiv.o] Error 1
+
+
+
+-Roy
+
+
+> - 	vfp \
+> - 	vfpv4_fma
+> -
+> diff --git a/meta/recipes-devtools/valgrind/valgrind/use-appropriate-flags-for-vcvt-fixed-float-VFP.patch b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-flags-for-vcvt-fixed-float-VFP.patch
+> new file mode 100644
+> index 0000000..b60bbec
+> --- /dev/null
+> +++ b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-flags-for-vcvt-fixed-float-VFP.patch
+> @@ -0,0 +1,33 @@
+> +From 3edcad177058150a841a88cf0798fdc0bd0dad43 Mon Sep 17 00:00:00 2001
+> +From: Andre McCurdy <armccurdy@gmail.com>
+> +Date: Tue, 19 Jan 2016 16:00:00 -0800
+> +Subject: [PATCH] use appropriate -mcpu/-mfpu for vcvt_fixed_float_VFP
+> +
+> +vcvt_fixed_float_VFP.c contains embedded vfpv3 instructions. Ensure
+> +that it is always compiled with appropriate -mcpu/-mfpu flags to
+> +support the instructions being tested. The aim is to build all tests,
+> +even ones which may not run correctly on all target CPUs.
+> +
+> +See similar cases in none/tests/arm/Makefile.am
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> +---
+> + none/tests/arm/Makefile.am | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
+> +index 4507a20..b38a082 100644
+> +--- a/none/tests/arm/Makefile.am
+> ++++ b/none/tests/arm/Makefile.am
+> +@@ -66,4 +66,6 @@ intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
+> + ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
+> + ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
+> +
+> ++vcvt_fixed_float_VFP_CFLAGS = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mfpu=vfpv3
+> ++
+> + vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
+> +--
+> +1.9.1
+> +
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+> index 8e9b72c..d2a78c3 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+> @@ -15,13 +15,13 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
+>   SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>              file://fixed-perl-path.patch \
+>              file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
+> -           file://remove-arm-variant-specific.patch \
+>              file://run-ptest \
+>              file://11_mips-link-tool.patch \
+>              file://0002-remove-rpath.patch \
+>              file://0004-Fix-out-of-tree-builds.patch \
+>              file://0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch \
+>              file://0001-Remove-tests-that-fail-to-build-on-some-PPC32-config.patch \
+> +           file://use-appropriate-flags-for-vcvt-fixed-float-VFP.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
 >
 
-Yes, I think that's right in this case. The sh-mem-random.c test isn't
-really about testing neon, so falling back to C for non-neon targets
-seems correct.
-
-Patch sent.
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
