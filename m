@@ -1,22 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B6356011F
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A3F0E605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 03:50:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2016 19:50:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,319,1449561600"; d="scan'208";a="730817026"
-Received: from aganesha-mobl2.amr.corp.intel.com (HELO
-	swold-mobl.jf.intel.com) ([10.254.22.203])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2016 19:50:38 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 19 Jan 2016 19:50:37 -0800
-Message-Id: <1453261837-6728-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH v2] udev: Add 2 patches to support 4.4 kernel
+	Wed, 20 Jan 2016 04:44:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0K4hpKe009952
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 19 Jan 2016 20:43:52 -0800
+Received: from server.local (128.224.22.105) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Jan 2016 20:43:51 -0800
+To: Ming Liu <liu.ming50@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1451999565-3502-1-git-send-email-liu.ming50@gmail.com>
+	<1451999565-3502-2-git-send-email-liu.ming50@gmail.com>
+	<569E90F9.6020806@windriver.com> <569EB15C.9040502@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <569F1086.6030400@windriver.com>
+Date: Tue, 19 Jan 2016 23:43:50 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <569EB15C.9040502@gmail.com>
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: Re: [PATCH 1/3] kernel.bbclass: do not install initramfs bundled kernel image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,137 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 03:50:40 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 04:44:03 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-These 2 patches are needed to build udev with the 4.4 kernel, the first
-mtd-probe adds back a stdint.h header that was removed in the kernel's mtd-user.h
-header file.
+On 2016-01-19 4:57 PM, Ming Liu wrote:
+>
+>
+> On 01/19/2016 08:39 PM, Bruce Ashfield wrote:
+>> On 16-01-05 08:12 AM, Ming Liu wrote:
+>>> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>>>
+>>> It makes no sense to install a initramfs bundled kernel image since
+>>> do_package does not depend on do_bundle_initramfs at all, otherwise, it
+>>> leads to a implicit kernel-image package depending on do_package run
+>>> before
+>>> or after do_bundle_initramfs.
+>>
+>> Again. So why not just add the ordering in the task dependencies ?
+> If we add a intertask dependency like:
+> add bundle_initramfs before do_install after do_deploy do_package
+>
+> Then it will somehow introduce a circular dependency as I described in
+> another mail.
+>>
+>> I'm probably missing something, which just means we need to tweak
+>> the commit log a bit more.
+> Maybe I should add some description in commit log about why I think we
+> could not introduce a intertask dependency as a fix.
+>
 
-The second adds a check for a new header and sets a Makefile variable
-to determine which header to use for the new kernel vs older kernels.
+That would be ideal, the more information the better.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>
+>> The code you are removing is conditional, and is run after an
+>> explicit kernel_do_compile is called, to rebuild the existing
+>> kernel configuration with an embedded initramfs (via alternate initrd).
+>> So outside of some ordering/parallel execution issues, I'm not seeing
+>> it as broken.
+> Yes, I agree, it will not break the kernel re-compiling, the problem I
+> want to fix here is just that it does not provide a certain way that we
+> could add initramfs bundled kernel image into a rootfs.
+>
 
----
-v2: Added Upstream-Status in additional patches (Thanks Khem)
+Speaking of breaking. What happens to existing users of INITRAMFS_IMAGE?
+Do their existing image types and bundling continue to work without
+modification ?
 
- meta/recipes-core/udev/udev.inc                    |  5 ++-
- ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch | 29 ++++++++++++
- ...c-Makefile.am-Check-for-input.h-and-input.patch | 52 ++++++++++++++++++++++
- 3 files changed, 85 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
- create mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+Bruce
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index c00ed34..93d7369 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -31,7 +31,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://add-install-ptest.patch \
-            file://fix_rule-syntax-regex-ptest.patch \
-            file://run-ptest \
--           file://init"
-+           file://init \
-+           file://0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch \
-+           file://0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch \
-+           "
- 
- inherit autotools pkgconfig update-rc.d ptest
- RDEPENDS_${PN}-ptest += "make perl python"
-diff --git a/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
-new file mode 100644
-index 0000000..8d2df1a
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
-@@ -0,0 +1,29 @@
-+From 2935f9b2dfb92c3ce4376a988cd01b624430905b Mon Sep 17 00:00:00 2001
-+From: Saul Wold <sgw@linux.intel.com>
-+Date: Tue, 19 Jan 2016 09:49:56 -0800
-+Subject: [PATCH 1/2] mtd_probe.h: Add stdint.h as it was removed from
-+ mtd-user.h in the kernel
-+
-+
-+Upstream-Status: Inappropriate [Upstream unsupported]
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+---
-+ src/mtd_probe/mtd_probe.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/mtd_probe/mtd_probe.h b/src/mtd_probe/mtd_probe.h
-+index 2a37ede..49c1918 100644
-+--- a/src/mtd_probe/mtd_probe.h
-++++ b/src/mtd_probe/mtd_probe.h
-+@@ -18,6 +18,7 @@
-+  */
-+ 
-+ #include <mtd/mtd-user.h>
-++#include <stdint.h>
-+ 
-+ /* Full oob structure as written on the flash */
-+ struct sm_oob {
-+-- 
-+2.5.0
-+
-diff --git a/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
-new file mode 100644
-index 0000000..a9dc627
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
-@@ -0,0 +1,52 @@
-+From 63ae7ebb0c6177efed46734061fb59c458a47a26 Mon Sep 17 00:00:00 2001
-+From: Saul Wold <sgw@linux.intel.com>
-+Date: Tue, 19 Jan 2016 09:49:19 -0800
-+Subject: [PATCH 2/2] configure.ac/Makefile.am: Check for input.h and
-+ input-event-codes.h
-+
-+Add INPUT_HEADER to know which header file to use because it changed
-+in the 4.4 kernel code.
-+
-+Set INPUT_HEADER with default linux/input.h if it exists and if the
-+newer input-events-codes.h exists from 4.4 use it instead.
-+
-+Upstream-Status: Inappropriate [Upstream unsupported]
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+---
-+ Makefile.am  | 2 +-
-+ configure.ac | 4 +++-
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 2e32e69..04eb194 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -591,7 +591,7 @@ dist_udevkeymapforcerel_DATA = \
-+ 	src/keymap/force-release-maps/samsung-other \
-+ 	src/keymap/force-release-maps/common-volume-keys
-+ 
-+-src/keymap/keys.txt: $(INCLUDE_PREFIX)/linux/input.h
-++src/keymap/keys.txt: $(INCLUDE_PREFIX)/$(INPUT_HEADER)
-+ 	$(AM_V_at)mkdir -p src/keymap
-+ 	$(AM_V_GEN)$(AWK) '/^#define.*KEY_[^ ]+[ \t]+[0-9]/ { if ($$2 != "KEY_MAX") { print $$2 } }' < $< | sed 's/^KEY_COFFEE$$/KEY_SCREENLOCK/' > $@
-+ 
-+diff --git a/configure.ac b/configure.ac
-+index 0500313..9674620 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -154,8 +154,10 @@ AS_IF([test "x$enable_keymap" = "xyes"], [
-+        if test -z "$GPERF"; then
-+               AC_MSG_ERROR([gperf is needed])
-+        fi
-++       
-++       AC_CHECK_HEADER([linux/input.h], [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input.h')])], AC_MSG_ERROR([kernel headers not found]))
-++       AC_CHECK_HEADER([linux/input-event-codes.h], [AC_SUBST([INPUT_HEADER], [$(echo 'linux/input-event-codes.h')])], [:])
-+ 
-+-       AC_CHECK_HEADER([linux/input.h], [:], AC_MSG_ERROR([kernel headers not found]))
-+        AC_SUBST([INCLUDE_PREFIX], [$(echo '#include <linux/input.h>' | eval $ac_cpp -E - | sed -n '/linux\/input.h/ {s:.*"\(.*\)/linux/input.h".*:\1:; p; q}')])
-+ ])
-+ AM_CONDITIONAL([ENABLE_KEYMAP], [test "x$enable_keymap" = "xyes"])
-+-- 
-+2.5.0
-+
--- 
-2.5.0
+> //Ming Liu
+>>
+>> Bruce
+>>
+>>>
+>>> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+>>> ---
+>>>   meta/classes/kernel.bbclass | 4 ----
+>>>   1 file changed, 4 deletions(-)
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>> index 4ce1611..d1ca614 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -179,10 +179,6 @@ do_bundle_initramfs () {
+>>>           kernel_do_compile
+>>>           mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+>>>           mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+>>> -        # Update install area
+>>> -        echo "There is kernel image bundled with initramfs:
+>>> ${B}/${KERNEL_OUTPUT}.initramfs"
+>>> -        install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs
+>>> ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+>>> -        echo "${B}/${KERNEL_OUTPUT}.initramfs"
+>>>       fi
+>>>   }
+>>>
+>>>
+>>
+>
 
 
