@@ -1,46 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 847806FEFE
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B254E731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 02:47:56 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id x140so15055745oif.1
+	Wed, 20 Jan 2016 02:47:59 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id e195so28724119oig.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 18:47:57 -0800 (PST)
+	Tue, 19 Jan 2016 18:48:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=jU3uMIBGaXGkRqs7p6u97cX97Q/jhg89AejOn7ubnQE=;
-	b=kwusYplJN7IrzV2EIFlMAAOZ/nDjBTd1YEKB/8CMpSVvQom5Nf5Acw9xEFLm0SRorW
-	rQpdtagQJqhpvcF6nGNMxWm3rs4tx+NzZJ2rNNQY33qLp/W9hyJw97BD3ON9d3V0eZ9B
-	eTr5a9xU1aDx/R0zfuZpap7aODNzwug++UT8fFqvxFbtsmTuM0LRdwrUkkpHEF2a5b8L
-	BL9DsWksWLdDTesrr4FJ80p5T4Kho2XpIY4njcAtIOoMuZ6yLjumD4VpfiggW7UzvWjR
-	fIq4V6LnDDF1mk/YapvdlUdr6jRazb6i+h2qjsqs0fO8UfxUo4EdCb6JY1ssa1+TifBz
-	QrQg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=UGT3MZQpPQoDc6Tgeh0X3AMdEJVPBxFyyoeCuVxDHhE=;
+	b=EcT/2kRUXYQH/RIDQ/lWnv/hGyh+eMDrQJsT4dZiwwGFqhAJ3Q6OqNivvDq2Mc7yRj
+	BCCKD2X4pq0eLGyJmjJbt96Kzx+mn5ofaAaKiOOVNpjHrj6EwoloPsPAOiDkEItA0ko2
+	hmeObbmHZxU9s+Go0m2b4yXUTF1WkuYYW1T3VwLfkiQqRR1prI5GjYQu8fCIL734ce4V
+	NsZm7nJvsp3pxaDaEVnovH82PA/AB/ugbR5cWH9OKsK2TTSqZaM72ozVDKqfSDSh0ecH
+	sysm3Uir+fRpcEZ+4suI8ZAcEB2BIZ5okvtblMBXM0WpPphdDuokduCAZigwb/6dhCkw
+	LErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jU3uMIBGaXGkRqs7p6u97cX97Q/jhg89AejOn7ubnQE=;
-	b=jb4nzqOLfQ8JQZeV2iI5UEW1btFCf/T2SI4esZVBipHaiac+vHUH8pbOE9/jr88COK
-	lhJ+8r0cRqo+r1NZKv1uJ0uuPHtin0JtVlSpfaDJbI6j0V1qJzVWxG2W4GRxI0xV4Pzx
-	LseuoKFXdG2TFw0QATTr8tpFe2pJ4dgwJxQpPDpzprNzWoXH9arQv3r8EzAuKrIHzNeh
-	6tLHIGeKkYBaoQeGsIc2vJSDUQg/dxtmj807gygbyooJ1JjJ0YkcQzhPdPi2KvxusO8H
-	hEBiZ/llc5v47uvjilSQV7pcJFRIekeNAN2rq5kpJGuPFQ88zsZtE4BT4OEvVxF9AIJG
-	Zp8Q==
-X-Gm-Message-State: ALoCoQllx69CkS0j49wg1OSukBe4PKpGNk1MJMbcob7x4KALgj6c0c+WGg6GtlHXbYDHPehiIDL2+4V0SM15B1bqgD3W4Gtq3A==
-X-Received: by 10.202.102.102 with SMTP id a99mr25546913oic.113.1453258076814; 
-	Tue, 19 Jan 2016 18:47:56 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=UGT3MZQpPQoDc6Tgeh0X3AMdEJVPBxFyyoeCuVxDHhE=;
+	b=FiMePgkx2IKkRG4yQjuH+m/tiJQnLCxBPf0ubcjkr/PBYnhNqmXBYkN3j5HspBrzAo
+	UPR5jRmI6vopSnjJWFTqa4ZmVlDgllxP9naXNpfAgKiJU1C8nkAd0HtRvZs48zH3QBPm
+	/FuCxIx4EdzvJLcqD4CdR4IQBgrUhFbExQWz3imFGWDeg9FQ+xuV9XQ3ZfqI3A2SEa85
+	dQElEhclS41DY8nyVaOR+3JgH/6HCdOeJeHrnnMVhcHXMrfqk3n1X782fx9BoY0r4wd5
+	Ig8jzL3erdZ7WjAfVjjIjKcHSLR/MIWtSlB/RCrd7t+8X30YlUA5botVKflPmvGGlWtg
+	3lFg==
+X-Gm-Message-State: ALoCoQllVYw88z3fRu8l194CJpY0rTMB/VJu/vqHf8yi2zN0G7hZjvAnEy2Borbl0Z18top+Xxhu2e9JO1k63BuI5mXlGmYY/Q==
+X-Received: by 10.202.60.135 with SMTP id j129mr24821347oia.70.1453258079914; 
+	Tue, 19 Jan 2016 18:47:59 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	v142sm17042620oie.28.2016.01.19.18.47.55
+	v142sm17042620oie.28.2016.01.19.18.47.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Jan 2016 18:47:55 -0800 (PST)
+	Tue, 19 Jan 2016 18:47:58 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 18:47:48 -0800
-Message-Id: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
+Date: Tue, 19 Jan 2016 18:47:49 -0800
+Message-Id: <1453258071-22847-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2 0/3] valgrind cleanup + fix for armv7a without vfp/neon
+In-Reply-To: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
+References: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH v2 1/3] valgrind: let valgrind determine its own optimisation flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,24 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 02:47:56 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 02:48:00 -0000
 
-v2: fix issue with intdiv test if TUNE_CCARGS sets -march instead of -mcpu
+Valgrind likes to control its own optimisation flags. It generally
+defaults to -O2 but uses -O0 for some specific test apps etc. Passing
+our own flags (via CFLAGS) means we interfere with that.
 
-Andre McCurdy (3):
-  valgrind: let valgrind determine its own optimisation flags
-  valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
-  valgrind: avoid neon for targets which don't support it
+Giving valgrind control of optimisation is hopefully an even better
+solution than the previous one of forcing -O0 for all tests.
 
- ...d-neon-for-targets-which-don-t-support-it.patch | 33 +++++++++++
- .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
- ...opriate-march-mcpu-mfpu-for-ARM-test-apps.patch | 44 +++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  | 12 ++--
- 4 files changed, 85 insertions(+), 70 deletions(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+  http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=98c4a3ffb8dca10739be600e8d6df7fb6aa4958f
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+index 70d84fe..8e9b72c 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+@@ -44,6 +44,11 @@ EXTRA_OECONF_append_arm = " --host=armv7${HOST_VENDOR}-${HOST_OS}"
+ 
+ EXTRA_OEMAKE = "-w"
+ 
++# valgrind likes to control its own optimisation flags. It generally defaults
++# to -O2 but uses -O0 for some specific test apps etc. Passing our own flags
++# (via CFLAGS) means we interfere with that.
++SELECTED_OPTIMIZATION = ""
++
+ CFLAGS_append_libc-uclibc = " -D__UCLIBC__ "
+ 
+ do_install_append () {
+@@ -63,10 +68,9 @@ RDEPENDS_${PN}-ptest += " sed perl glibc-utils perl-module-file-glob"
+ INSANE_SKIP_${PN}-ptest += "file-rdeps"
+ 
+ do_compile_ptest() {
+-    oe_runmake check CFLAGS="${CFLAGS} -O0" CXXFLAGS="${CXXFLAGS} -O0"
++    oe_runmake check
+ }
+ 
+-
+ do_install_ptest() {
+     chmod +x ${B}/tests/vg_regtest
+ 
+@@ -107,4 +111,3 @@ do_install_ptest() {
+     # handle multilib
+     sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+ }
+-
 -- 
 1.9.1
 
