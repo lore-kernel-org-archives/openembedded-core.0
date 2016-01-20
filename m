@@ -1,26 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF7157316D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 847806FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 02:27:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0K2RLp3015518
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 20 Jan 2016 02:47:56 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id x140so15055745oif.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 18:27:21 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 18:27:21 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Jan 2016 18:27:20 -0800
-Message-ID: <4b7c55bccc71648ef3c78ae4a934e05b423e78ea.1453255442.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453255442.git.liezhi.yang@windriver.com>
-References: <cover.1453255442.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] e2fsprogs: set PV to 1.42.99+1.43+git${SRCPV}
+	Tue, 19 Jan 2016 18:47:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=jU3uMIBGaXGkRqs7p6u97cX97Q/jhg89AejOn7ubnQE=;
+	b=kwusYplJN7IrzV2EIFlMAAOZ/nDjBTd1YEKB/8CMpSVvQom5Nf5Acw9xEFLm0SRorW
+	rQpdtagQJqhpvcF6nGNMxWm3rs4tx+NzZJ2rNNQY33qLp/W9hyJw97BD3ON9d3V0eZ9B
+	eTr5a9xU1aDx/R0zfuZpap7aODNzwug++UT8fFqvxFbtsmTuM0LRdwrUkkpHEF2a5b8L
+	BL9DsWksWLdDTesrr4FJ80p5T4Kho2XpIY4njcAtIOoMuZ6yLjumD4VpfiggW7UzvWjR
+	fIq4V6LnDDF1mk/YapvdlUdr6jRazb6i+h2qjsqs0fO8UfxUo4EdCb6JY1ssa1+TifBz
+	QrQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=jU3uMIBGaXGkRqs7p6u97cX97Q/jhg89AejOn7ubnQE=;
+	b=jb4nzqOLfQ8JQZeV2iI5UEW1btFCf/T2SI4esZVBipHaiac+vHUH8pbOE9/jr88COK
+	lhJ+8r0cRqo+r1NZKv1uJ0uuPHtin0JtVlSpfaDJbI6j0V1qJzVWxG2W4GRxI0xV4Pzx
+	LseuoKFXdG2TFw0QATTr8tpFe2pJ4dgwJxQpPDpzprNzWoXH9arQv3r8EzAuKrIHzNeh
+	6tLHIGeKkYBaoQeGsIc2vJSDUQg/dxtmj807gygbyooJ1JjJ0YkcQzhPdPi2KvxusO8H
+	hEBiZ/llc5v47uvjilSQV7pcJFRIekeNAN2rq5kpJGuPFQ88zsZtE4BT4OEvVxF9AIJG
+	Zp8Q==
+X-Gm-Message-State: ALoCoQllx69CkS0j49wg1OSukBe4PKpGNk1MJMbcob7x4KALgj6c0c+WGg6GtlHXbYDHPehiIDL2+4V0SM15B1bqgD3W4Gtq3A==
+X-Received: by 10.202.102.102 with SMTP id a99mr25546913oic.113.1453258076814; 
+	Tue, 19 Jan 2016 18:47:56 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	v142sm17042620oie.28.2016.01.19.18.47.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Jan 2016 18:47:55 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jan 2016 18:47:48 -0800
+Message-Id: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2 0/3] valgrind cleanup + fix for armv7a without vfp/neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +53,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 02:27:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Jan 2016 02:47:56 -0000
 
-As Martin and Ross suggested.
+v2: fix issue with intdiv test if TUNE_CCARGS sets -march instead of -mcpu
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Andre McCurdy (3):
+  valgrind: let valgrind determine its own optimisation flags
+  valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
+  valgrind: avoid neon for targets which don't support it
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-index 60b2854..ea26145 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-@@ -9,7 +9,7 @@ SRC_URI += "file://acinclude.m4 \
- "
- 
- SRCREV = "0f26747167cc9d82df849b0aad387bf824f04544"
--PV = "1.42.13+git${SRCPV}"
-+PV = "1.42.99+1.43+git${SRCPV}"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-                 --enable-elf-shlibs --disable-libuuid --disable-uuidd \
+ ...d-neon-for-targets-which-don-t-support-it.patch | 33 +++++++++++
+ .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
+ ...opriate-march-mcpu-mfpu-for-ARM-test-apps.patch | 44 +++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  | 12 ++--
+ 4 files changed, 85 insertions(+), 70 deletions(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+
 -- 
-1.7.9.5
+1.9.1
 
 
