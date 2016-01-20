@@ -1,16 +1,16 @@
 Return-Path: <B54851@freescale.com>
 Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0140.outbound.protection.outlook.com [157.56.110.140])
-	by mail.openembedded.org (Postfix) with ESMTP id 012A26FFE5
+	(mail-bn1on0145.outbound.protection.outlook.com [157.56.110.145])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E3ED71951
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 09:54:36 +0000 (UTC)
-Received: from DM2PR03CA0031.namprd03.prod.outlook.com (10.141.96.30) by
-	DM2PR0301MB1184.namprd03.prod.outlook.com (10.160.217.146) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.365.19; Wed, 20 Jan 2016 09:54:36 +0000
-Received: from BN1BFFO11FD001.protection.gbl (2a01:111:f400:7c10::1:189) by
-	DM2PR03CA0031.outlook.office365.com (2a01:111:e400:2428::30) with
-	Microsoft SMTP Server (TLS) id 15.1.365.19 via Frontend Transport;
+	Wed, 20 Jan 2016 09:54:38 +0000 (UTC)
+Received: from DM2PR03CA0007.namprd03.prod.outlook.com (10.141.96.17) by
+	CY1PR0301MB1180.namprd03.prod.outlook.com (10.160.165.23) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.365.19; Wed, 20 Jan 2016 09:54:36 +0000
+Received: from BL2FFO11FD019.protection.gbl (2a01:111:f400:7c09::158) by
+	DM2PR03CA0007.outlook.office365.com (2a01:111:e400:2428::17) with
+	Microsoft SMTP Server (TLS) id 15.1.390.13 via Frontend Transport;
 	Wed, 20 Jan 2016 09:54:36 +0000
 Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
@@ -19,80 +19,80 @@ Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 Received-SPF: PermError (protection.outlook.com: domain of freescale.com used
 	an invalid SPF mechanism)
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1BFFO11FD001.mail.protection.outlook.com (10.58.144.64) with
+	BL2FFO11FD019.mail.protection.outlook.com (10.173.161.37) with
 	Microsoft SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
-	Wed, 20 Jan 2016 09:54:34 +0000
+	Wed, 20 Jan 2016 09:54:36 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	u0K9s9RL004523; Wed, 20 Jan 2016 02:54:33 -0700
+	u0K9s9RM004523; Wed, 20 Jan 2016 02:54:34 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Jan 2016 17:51:38 +0800
-Message-ID: <1453283501-3982-5-git-send-email-b54851@freescale.com>
+Date: Wed, 20 Jan 2016 17:51:39 +0800
+Message-ID: <1453283501-3982-6-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453283501-3982-1-git-send-email-b54851@freescale.com>
 References: <1453283501-3982-1-git-send-email-b54851@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BN1BFFO11FD001;
-	1:kKorvTTRhfB1S0416Wgjxbirl770YzEX0u7Ri87+EJAWZrqc1cHNpA+Colaxy5j1cN8I6RL5zE5Jz3/PGTeEnH+ElGPmF8LGVUo9+1f2YvGvtcmn6XnNz3dWVcNwUEfssvXc28wrPuXzDR63bAn4/3UhJatLfGOLZTLUJKKCWrEbzhrn+D9qFZUOHnWLr39m4tQPAarI3SCjZV5wxE7AaLVqwhFrCUKON1pmm0jwMSIpd2DsXzh7zRhzhCESfoB+spIFVtLcxzwc0raeiyjhzBzYrISZwAB99SPN1kkKQ6obLtPG2V0555QyZNPwgKUKcZvL+46B6fHHFe6OaHoKTdUjGMTELjQB35twAvQlG84urge3FLOhAOOL7DC8G+RcyjFB8wIjN1tgvLHV5xgC16mZWRVhXAqnzSzdiiWDffxSwzHCFite+sPnIUdy0yIt
+X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD019;
+	1:Cmu9nI3+QF6Vx+SWFNJjtxETlfNuFlDNfRb8L7Fzgv0uxkPZd0pjmusunCeupZsYQ+giJbXXH4Ay+mswxHaYF6VKef375/nxZyaOHjhH4m+YE+qh9hQm2r59piTUFxUsKcOFhz2Iu6txdnPyzJTZZ2e3bUSD51+V2et9uHhJuGb2VL1igKQEY8uiLRaeu/LuaPerLFg+dEsY135A63FjvgAGDf5WEO7CyP598/2/aQoefK+ZjrNxZtngBZSFuYoZo/XYJeEykwL+8MitW/rqRHEyAFv642xwmxG/ZWBYD99P7+M+C/oz0hsvEJY3/a/HOW99EX8vt0INgUd0BmxsDyvjVSFVygjwEaIaF/EsnnsSeLW753HYYzw3u26Ue295QjwEOtCYyXKSxwX15OceF8JS34RfYrXRQQFefaEcHvS7AoEI3HCV4cwy0/8gIaPD
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(448002)(199003)(189002)(85326001)(50226001)(5008740100001)(450100001)(76176999)(87936001)(4001430100002)(50986999)(104016004)(1220700001)(4326007)(92566002)(1096002)(33646002)(19580395003)(36756003)(19580405001)(586003)(6806005)(48376002)(97736004)(5003940100001)(47776003)(81156007)(50466002)(189998001)(107886002)(110136002)(230783001)(86362001)(106466001)(2906002)(2351001)(229853001)(11100500001)(2950100001)(575784001)(77096005)(15975445007)(5001960100002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1184;
+	SFS:(10019020)(6009001)(2980300002)(448002)(189002)(199003)(36756003)(50226001)(97736004)(2351001)(4326007)(86362001)(575784001)(87936001)(50986999)(11100500001)(5008740100001)(1096002)(104016004)(2950100001)(92566002)(4001430100002)(81156007)(33646002)(586003)(6806005)(1220700001)(2906002)(229853001)(450100001)(5003940100001)(19580395003)(19580405001)(230783001)(189998001)(50466002)(106466001)(15975445007)(85326001)(76176999)(107886002)(47776003)(110136002)(5001960100002)(77096005)(48376002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1180;
 	H:tx30smr01.am.freescale.net; FPR:; SPF:PermError;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: c78b1274-3b25-448a-d59c-08d3217fb42f
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1184;
-	2:0JYukG4tgO1WdBtj+nfjpDqyKQcUIdTEmW0qG5KfnmmVC2c5X69A9Azs0qVoCgr7L0Ol0WL11PiHcdmSJLlVoEqZhzrz6x/0581UgpgmIwEaeMfyAb01R+0cPFeHrqOP48+MntfLJEg8lqLiQx3TXUQXNE2aXOuNqomOqV5e+112/MiR7tA2CaBZjyfSWWtG;
-	3:YxYXfkIDv/kFxRhUIE3UnirQxF5mKd7ZOFr8ihJcTKkOkh1olheTgiOSlpoW/rYvy9+mkj8Q4wio4aw4AvlnZiADgDAe66b179AP790o1lc9J4Jf72k5gITVI1xc9eSnV98YnhYp4xwQ5Q5LhRIc1z/GsvhOb9PqtyKw1JUiTB5GNq5aDeOAI4kVA1i/kjP5D7+7V6BS5bTjDAmkd3woL5Fw/lkNt4L7VLhLzkmMobM=;
-	25:ciVa0vN1nEaaCUkZ2pocVqjJFmo4Z2lHJttSd94CCEMJBJ8euf7n/5MYKBDsrzsiU5yQ9BhZmPnYz8sw/1eeEPVj/KeEnac+k66oB/Fm0kaA2LCZBhC3jhmeqQCdCksYaqiyeEABHqfo8QD/8SuGceUiQfGtLxSgRSj3RMNnQJocO+dg9ONWPJGIIXJFbLeyXz7vtcWDdSGosrCjHW+jUYrIL9c/ahHA9fqBCkisMkwl38sqD52zD1QaOkxaNUHH
+X-MS-Office365-Filtering-Correlation-Id: 666d21d6-57b9-466b-5d38-08d3217fb47b
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	2:MQqLd5QdkboqLaP2C/jCCVmugB63GF/7aS/GaIpCqKD3nYjGLmt1zYGZPt5C0aujtcQnMr9lk3nOhxeyrhVhoOCvVCfGNCvOEP8LEfYmnuG6FTL+qqUVNizjT4bykki/CAR98uucrKzDboSDNriym3GUC4RrnVvfVR/mzXk/kTFzntAl+bNZmjK61LJS3XBW;
+	3:WKWq2FfH+mq7uDEDKdhipcE6DQIeUDBccM08KmbbCABuvnI/6Gwf2P8937A1FjX38ncaMe/+WlZAh2EpTfDNb7ZZkTyBRhuutbZBulBeZm+XQ3oT8QMkHaDPQexmaVj5z8YAWoVuNICDOG2rL1NGTYm8DlLk9XGrilAzwgCHPc+yFD/CO7v/GrRIXwpm3zk9zOxXrrC946H79D9S6S6cuI4Dhg+EyBolhbu5akC0Mj4=;
+	25:IAGa9kQZHuFK/28EZASXjkZHx/zdfrXwmP6RyLfio0+H6v3ELp8QG+3Ogafnha4GnsPWyKSC0PPaIjMBRmPCKPWTjnqvzJQpl8GOzGToSBymew4XU1Kg1er2M6Qr3Hd0AimyCZlrdmh2TE5NcWubCsZftYnq6ZChdJhLLTSA03YtnR8ELI/E+EzjTXwyfnoCeeAiIg6OIbHH9sKiYr6a/TdheVtEgIUeDU6m3r5rV342ODS4VMhn4iga3lzuygX2
 X-Exchange-Antispam-Report-Test: UriScan:; BCL:0; PCL:0; RULEID:;
-	SRVR:DM2PR0301MB1184; UriScan:(101931422205132); 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1184;
-	20:psU3svYgBhP7iC2f/HkOnFauzfVlTQEFwiXTnIzgwJEv6rw+R6LMqzw+8cLuI6/fOAY79f+u1rm9fNAh0xUdqbC0fU3hsDU89rwUDrVpfsy3Q6Am4C6/QssExyU857gYpfWR9TcQfV9OXZ9v0GkIlZE31BL/s0bn6EnBKWX4nEIlOx4hO/H6o3X2CDyM3tdk8U7VPmJwKzzORuy3kw8DwnyRUhQ4s47JfxIqLstJEa6cATQLAE42TKChQNixoUM8VQyhBUI4Dy9ekQUzQu1WbNU86pm4x3pR0xmziYPmiKeYRLHZ29mYcAvEa5W9IFvGZHn3hd82DhWvS0eAwV98FevsB2+m7wDcLWZ6vdRQBozHr16yLX6MCCBNU4Vx1HLcEp5n4OqypUvc4bpboVuHPHGzUOSUlvcG2lkCYj6iRkURBWaJBn9Pi/+daiY2Y09u
-X-Microsoft-Antispam-PRVS: <DM2PR0301MB1184DA750D45526861BDD82586C20@DM2PR0301MB1184.namprd03.prod.outlook.com>
+	SRVR:CY1PR0301MB1180; UriScan:(101931422205132); 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	20:uavI3FBe0HXPjXHECEf93ydHM9+PErPltA7eRVH3CGiBzk6CdWeiahoHWUnJqd+1cTlXPpcLz2Cuzel6LSDqv/+pdkefENTMbICw60WSrJQQXqkAvzxKaEIx6ecDd88hwOnZSfK+mVxI6L0Xk2mez5t9GB5Sn2ea7xSfvKmfeUKQjQSpdS4igGsxm9/j2MeWk5hLepC46j9uVRulEWCQNMuNO/mbbXiEyJJ9zYKJemK1DH4cdFhPnv0I6kVUo+iLFNBbutGUZUSSg2uTGshzXvBRC3PcK+zmLU/P1WNSeQ4JxO9zDQCbJ9h+bj0e1qAiZPQ3gbupUkwVdc8oJvKIAuRw1I5KC4GWXufIdKfUksr1We0F5+vkZKTY3I4AMVCLJULqnf9fx76fCDWG21MLX10I5Jv1bnqMLIckfKId8dKlKV+WpaTs/+QgNGm9JUaR
+X-Microsoft-Antispam-PRVS: <CY1PR0301MB1180C555EABB376A2334526A86C20@CY1PR0301MB1180.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(13018025)(8121501046)(13017025)(5005006)(13023025)(13015025)(13024025)(520078)(3002001)(10201501046);
-	SRVR:DM2PR0301MB1184; BCL:0; PCL:0; RULEID:;
-	SRVR:DM2PR0301MB1184; 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1184;
-	4:PgcwFnEbnhcpmCiCqp6LNaRUd/x1U55Ry6xpO2WAZ25jtZ3NxuT+bGh9oWp37lDkgFu57bLRg0+xHU71s9OK8/agXdxIVk3EQyBB7PakSRyDjDiIF2TbJBCYrV8PZQLsKZCLkfjyrChyEz9KZ87QJB+ZQFRYh1V4vI3NJNYrIX/dvwYW3TfFv4xaGqMVcYnT4zLNFW8+Oj4latQf5yUf3f2OkYy9cO6KxpM3kVzftACx8MbgHi25h8PVVNXzb1ri3FbkabQr4JN9YME9mflT1tkQCGhIYidAdBmoPXYLZQc/VZ6hvatP/C1W8IBt4vKlFmaJHyenQrBkCYver9CXtsYFL/UJkdGcb1ALws7UVDaYkShjdYQgbHzNJLKOVrXmOdkmyJikF9w5kYADirGwzCfrstL1ZwJCY3wBO60E+5C2zBDoi7hbtJg1boqxJh/a5uzz7dEiSX4o9I7H12Zum3sfiLXcXp/PxZzZsDQgFut/qz/yJK6wq6OPx9ydLeEPCdahE0MEpKs8hiLm0GOArA==
+	RULEID:(601004)(2401047)(13017025)(13023025)(13018025)(13015025)(520078)(13024025)(8121501046)(5005006)(3002001)(10201501046);
+	SRVR:CY1PR0301MB1180; BCL:0; PCL:0; RULEID:;
+	SRVR:CY1PR0301MB1180; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	4:Cag2zY3gKw/6ZRhjzQM5GLrsZjjpTf46kxho39cmyEPCYjuot/i6N9v+EasmLvJg+w/TmV33J5K5KwtSb2HhP+DDeEGoJOqFW+kC89mC3zvZQtQ2eQG7W2+/BTzehhptYHjQhQ3KSAQWFOTpXOVmkYNIErc12RCJffU76Vdeb8rQ+QucNb30D8OHtJ0ATo5INRTL8eIC7MudZA3T/CoGGbXjX5ohvWE1qy0e35szpw1Od0mjjUVTUAcFUpLHy62sJheo9y9h2Loun83r1vsrv1bP0VJB/VL/X0qjCBOLwsnOl+nZ9IXgaCf7YPitNAJsZFqmltOr0vGF+JR8L8kIU94lFnZywFur2BGPCUBo3HWOUgzLhRtusfZeJeV0uIBQ3VO30HCgmy9R3ZHrHwaYyK71dCETn7zH5ct15oYqSEzIJXasyL1ojfEX9kO8ZJocQN0icZ/JMMhZp9NsO4RraBGjlx/GDzAn8PfxhYEC38HMAC3dG5lkNWyjdwpl0nvTcbVM79D9ELnJjuY7xHVktQ==
 X-Forefront-PRVS: 0827D7ACB9
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB1184;
-	23:9XA3cbSA4KetANdLdYyDdHbInWhCat4XPtYqkut?=
-	=?us-ascii?Q?lxymIWKvMnVulijD0aAGeP8GPXzpDQSd26RZvB5jOmHhgkxbKN10/tQRtn9N?=
-	=?us-ascii?Q?kYKvql37nexybYxIuP76mEbR3p2++mGh82irPeGYEHVGw2sMHbZNPP6WazTY?=
-	=?us-ascii?Q?11CcLouts3Qbv8RJn7du/fQMeIQmLC0w2Gev6V7hN0/r8Adzy5SuDPzw3lgG?=
-	=?us-ascii?Q?kpMvHu7+p9AriyHXl6a0a5QGhEPg/ayRBsmLRgSSF8rlgGJu/kGEybxI09Sy?=
-	=?us-ascii?Q?4NZNzU1x/XolKdgp0WqEcY5rCCaU71T/RI9qRPqWReu1YELLhY+BjIXp3sd9?=
-	=?us-ascii?Q?W6W2H8J2fSijWB6tyFOnkWoeIA8bZ0cw8zCnLFn1aRhlkqKmMlfx7CB4K7CH?=
-	=?us-ascii?Q?Yo1qUcFdHF3+90sJHzRmSxUOTPFY2lkrKBcGHiIY720GhwiRFhXneXE8/TRO?=
-	=?us-ascii?Q?fDKU1I7XUaFQCsnJs7B4GlxV1pqXm/pE++Hh2o/Tr+Xa14+1DrX5/ox9oNTy?=
-	=?us-ascii?Q?4uOc72lp4oDlFXeLeehbVDkmRG+Saiek7XVBVGTjQYRANTmymfKHpnclB6hb?=
-	=?us-ascii?Q?8LFSI+vVshcICggj7zoK7MBSZpj+c0fGRLZfSujStw1+FowToPidOw6HLd6t?=
-	=?us-ascii?Q?CRNEQDcJ5pc+ieRX4IZm7zAptWmDcXIxSy5wBYrvxqpIjSCcoL4/wTEUQpUL?=
-	=?us-ascii?Q?IUDzZxoCYwOSYfHsnKkzhJpVS55P9Y62P9T9kyN4LYpMgYLn5fnn77SeXFY3?=
-	=?us-ascii?Q?ZQZ7GrO/jma2RUU4XGp94H7/lHwo2kpF4FFBm9dA+q1g3UqDQdUsKpmEbOvU?=
-	=?us-ascii?Q?Gcrs6HsYddtBWdGMnImvoTyVNMAB1n1+8DxshmFoNJsxuEEJFghiRQtEepKO?=
-	=?us-ascii?Q?l/D2XxGpE6fPgjFqGXh4AyGOQ86HsuJg70sdF0E7tJzsbg4ULGLhBVMOUsL4?=
-	=?us-ascii?Q?xTu7iEB2uid8Z5Zu5C6Mn9cWbesuAyX2NARSeNBUgH3EtAzAKbwCMVUfEJPZ?=
-	=?us-ascii?Q?RHJHghqVjivXTC4oxPdqb/2q5h730k9OkReU26HrNHIl0LLBdyhxveGYSIge?=
-	=?us-ascii?Q?nFs8zXiDr+OngAM1cbnme8lEoFWZjw+/ty0uvg3raAEpTMQtKMIxQeGsvd1X?=
-	=?us-ascii?Q?yXjOmM8oEfEO8HZkdzxgjEjX0T5wrpwYNoloboFLlhWOGaZqfmlLWZR07fVv?=
-	=?us-ascii?Q?3Z65+EMB+BhrB7/c=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1184;
-	5:eXdMuJC3KFDmG1hfk6VDIRXeB0X8XyRGgiwAIUcp0elVmDx+mAd+4fdpZw24MlYEPQfAN+NySjBskxUpWjs6cGUJoYkWsNKWv2lIpbfZO2gRTfFd5io/VadGMRaT4CzTRYm1WF7S77wu1C5n/3edhQ==;
-	24:nG5y+VMuQd7Ir+RBht2bbFF6DeAv7yFCoKBXX7I7aPCJSAJfxjCvBbwjXiN7HeDNaUxVrlTSP1u0yYEEektK3cVqBPteYC0a1E8Nwi0FgVk=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1180;
+	23:rqLjip5fmea8Ir8PA0Wgv05HTSEFRKFCay4BEtR?=
+	=?us-ascii?Q?9t3OrvWM5sTqab7VLiDw2SRnw0+/08tzrTvhkVZrKzLryLa6T26OjLHROi0n?=
+	=?us-ascii?Q?V4sC2S44VT5VCIMrnkTJZoAn/G5S/2l2OLA7BL7Qtpw08dl6Z1+UUXjl7cxI?=
+	=?us-ascii?Q?1L60vVEEQGJ+N+wZN3ZRhXG97n9MdgPEYiW/0URXkOdnx5rfpOMHFnhbSvtV?=
+	=?us-ascii?Q?9jUBt1Q2vp26Ctu6e7itlZEyRffRYeWMK4Pj509axlTz7qtYx2e29V6UzhvW?=
+	=?us-ascii?Q?wLXxKdudIzBxhJIdfQHONT53y0oHGpZpDQfX0jmMPotavwBx1dO01wWLgZ3z?=
+	=?us-ascii?Q?kZ2C9VmJzOuZFJvmqNGCe/HJSVOgv/UIM/Bf0PimiiIF+UGGDX92MLQNmIw7?=
+	=?us-ascii?Q?FKYB2xWmdS3PIaEJM2eVV9d+4RACToYjlmTH0JUplm9m1vO4kZULaEAC1cMZ?=
+	=?us-ascii?Q?GbTb+/LKn1m8ozVhQp83IDBneQ/C6TiDBS27jKwCHccNiHhB/XkvofuBci7m?=
+	=?us-ascii?Q?FcaBG+lJNjtOP8cxqiK39OHhP2odNmNQSeXY8OOXeK1Ym5jpQerhMWWX4l/+?=
+	=?us-ascii?Q?gOJOfF4cfCrC706wt3vEZshhAwjSHW4erTkjnPj409V0w9uNhZMC4lZrBQyr?=
+	=?us-ascii?Q?+BaI/493LpfUN94srPdrJIaX0K6NisDCHYXEnCjAfa7WwUyFAW0GLy60QLpC?=
+	=?us-ascii?Q?7ILpxay9db6YOc13GkcvpZgtGD63yck2N4sL9jKBbyG4xtXI8eChspiM92X3?=
+	=?us-ascii?Q?zHD1ClE//Jwax+ECzscbuQX/GrkPjUuhlWWgKH3NX+1OKoQZpsl9PZQAI8q9?=
+	=?us-ascii?Q?dJk/eqfdXCC/y8xFtZWtbMVeN1Qm8mRQXTvzhulFKeyltpqEJ8G8r75iNnrW?=
+	=?us-ascii?Q?2VqWc939nVH0J1qT+IM+X98wEaufCX12Oyge8HBzfMkbsBBEqCxOjWRNGP8J?=
+	=?us-ascii?Q?Dh1lePbcMOzxmJ5h9N6OgmXKy9URUrLWKVxMwgZQBJ4cTrb5bUnfGnK3AWZP?=
+	=?us-ascii?Q?ab5w0sArGddDaOW1bCN8a7JmPFtRLYzjG4FG+bvKqjrc+xoqjDb/XeSNMo1L?=
+	=?us-ascii?Q?B+tE5i34XRQSZqZZp9c9WlIe0GwRk+3W7uN0+6AfqXJbVMTRf8/9Kzff1S9M?=
+	=?us-ascii?Q?Fd8XHXC4xKJJhRRj50EltnXD1Uvr+rA8NB5APh+iOqT6klrWdXLdi2+4INcv?=
+	=?us-ascii?Q?su2+WkGtcHrzWFAc=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
+	5:wUsSC4GHppv0K3dcTp3mEtVPTzWIX54ZAaN+eSwt/sWj5Rz3iHBSEEzgxR7ncEFEALFnwoG7e1Fc/Aw/8SxAR8YuIrNk17H/c2OFnXgIy20c5RwCkpfyGezxMapYVFcQyTzCDyVPcllfXyj/kR2f7Q==;
+	24:kMHwdrhg09w412IkF4eF5/QP509nouXB9RXHTTRdp1VW2zlT0l2rceJ0BxWi4qA7XeAFHIUJ42YZZms8TgPRIfH1+JDB6KXDQuyiL2m3wqU=
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2016 09:54:34.8544 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2016 09:54:36.0046 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1184
-Subject: [poky][PATCH v2 4/7] gstreamer1.0-plugins-bad: Need to set right pid if pid is 0 when create streams
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1180
+Subject: [poky][PATCH v2 5/7] gstreamer1.0-plugins-bad: Add detecting picture coding type when drain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,84 +108,84 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 20 Jan 2016 09:54:39 -0000
 Content-Type: text/plain
 
-When camerabin use mpegtsmux as muxer to start video recording and then
-stop video recording and then start video recording again, mpegtsmux will
-get wrong pid.
-Need to get pid when create streams.
+Our use case is demuxer only output key frame when backward playback.
+Every frame is DISCONT and KEY frame. mpeg4videoparse will detect coding
+type when detect start code after VOP. Our use case will drain after VOP
+and can't detect start code after VOP. Add check coding type code when
+drain.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...pegtsmux-Need-get-pid-when-create-streams.patch | 45 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb    |  4 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-mpegtsmux-Need-get-pid-when-create-streams.patch
+ ...arse-Need-detect-picture-coding-type-when.patch | 47 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb    |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-mpeg4videoparse-Need-detect-picture-coding-type-when.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-mpegtsmux-Need-get-pid-when-create-streams.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-mpegtsmux-Need-get-pid-when-create-streams.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-mpeg4videoparse-Need-detect-picture-coding-type-when.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-mpeg4videoparse-Need-detect-picture-coding-type-when.patch
 new file mode 100755
-index 0000000..21819a7
+index 0000000..3f09d4d
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-mpegtsmux-Need-get-pid-when-create-streams.patch
-@@ -0,0 +1,45 @@
-+From 3e0bc017ca9b4e093484ee6b3b73917918364e92 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0003-mpeg4videoparse-Need-detect-picture-coding-type-when.patch
+@@ -0,0 +1,47 @@
++From f712092e768347b59719f5016714c91d4d82483b Mon Sep 17 00:00:00 2001
 +From: Song Bing <b06498@freescale.com>
-+Date: Wed, 22 Apr 2015 18:06:35 +0800
-+Subject: [PATCH 02/10] mpegtsmux: Need get pid when create streams.
++Date: Wed, 20 May 2015 15:13:20 +0800
++Subject: [PATCH 03/10] mpeg4videoparse: Need detect picture coding type when
++ drain
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+when camerabin use mpegtsmux as muxer, start video recording and then
-+stop video recording and then start video recording, mpegtsmux get wrong
-+pid.
++our use case is demuxer only output key frame when backward playback.
++every frame is DISCONT and KEY frame. mpeg4videoparse will detect coding
++type when detect start code after VOP. our use case will drain after VOP
++and can't detect start code after VOP. Add check coding type code when
++drain.
 +
-+
-+Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=748288]
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=749617]
 +
 +---
-+ gst/mpegtsmux/mpegtsmux.c | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
++ gst/videoparsers/gstmpeg4videoparse.c | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
 +
-+diff --git a/gst/mpegtsmux/mpegtsmux.c b/gst/mpegtsmux/mpegtsmux.c
-+index c3a0dbb..5a6d9e1 100644
-+--- a/gst/mpegtsmux/mpegtsmux.c
-++++ b/gst/mpegtsmux/mpegtsmux.c
-+@@ -761,6 +761,21 @@ mpegtsmux_create_streams (MpegTsMux * mux)
-+       } else {
-+         ts_data->prog_id = DEFAULT_PROG_ID;
-+       }
-++
-++      if (!ts_data->pid) {
-++        gint pid = -1;
-++
-++        name = GST_PAD_NAME (c_data->pad);
-++        if (name != NULL && sscanf (name, "sink_%d", &pid) == 1) {
-++          if (tsmux_find_stream (mux->tsmux, pid)) {
-++            GST_WARNING_OBJECT (mux, "Duplicate PID");
++diff --git a/gst/videoparsers/gstmpeg4videoparse.c b/gst/videoparsers/gstmpeg4videoparse.c
++index 53db2d5..dbbd6d2 100644
++--- a/gst/videoparsers/gstmpeg4videoparse.c
+++++ b/gst/videoparsers/gstmpeg4videoparse.c
++@@ -502,6 +502,18 @@ next:
++     case (GST_MPEG4_PARSER_ERROR):
++       /* if draining, take all */
++       if (GST_BASE_PARSE_DRAINING (parse)) {
+++        /* need decide intra_frame */
+++        if (mp4vparse->vop_offset >= 0) {
+++          if (G_LIKELY (size > mp4vparse->vop_offset + 1)) {
+++            mp4vparse->intra_frame =
+++              ((data[mp4vparse->vop_offset + 1] >> 6 & 0x3) == 0);
+++          } else {
+++            GST_WARNING_OBJECT (mp4vparse, "no data following VOP startcode");
+++            mp4vparse->intra_frame = FALSE;
 ++          }
-++        } else {
-++          pid = tsmux_get_new_pid (mux->tsmux);
+++          GST_LOG_OBJECT (mp4vparse, "is intra %d %d",
+++              mp4vparse->intra_frame, mp4vparse->vop_offset);
 ++        }
-++
-++        ts_data->pid = pid;
-++      }
-+     }
-+ 
-+     ts_data->prog =
++         framesize = size;
++         ret = TRUE;
++       } else {
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-index 284e1f2..3f30f86 100644
+index 3f30f86..507d048 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
-                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
-                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
  
--SRC_URI += "file://0001-glimagesink-Downrank-to-marginal.patch"
-+SRC_URI += "file://0001-glimagesink-Downrank-to-marginal.patch \
-+            file://0002-mpegtsmux-Need-get-pid-when-create-streams.patch \
-+"
+ SRC_URI += "file://0001-glimagesink-Downrank-to-marginal.patch \
+             file://0002-mpegtsmux-Need-get-pid-when-create-streams.patch \
++            file://0003-mpeg4videoparse-Need-detect-picture-coding-type-when.patch \
+ "
  
  SRC_URI[md5sum] = "7c73bec1d389f0e184ebbbbb9e9f883d"
- SRC_URI[sha256sum] = "650855e39ff56a8bb6cb0c192109c5926ce12f536d06e19ebf829de71ef396fe"
 -- 
 1.9.1
 
