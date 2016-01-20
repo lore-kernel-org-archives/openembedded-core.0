@@ -1,28 +1,46 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C40B6FFE5
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 21DFF605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 01:17:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0K1H2eN015004
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Jan 2016 17:17:02 -0800 (PST)
-Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 17:17:01 -0800
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <569DE54C.7090506@windriver.com>
-	<CAJ86T=WDHvsC2PKP5wKizrq_+Ri1Z6OTnJLhxsS4O1DoKpy=Bw@mail.gmail.com>
-From: Rongqing Li <rongqing.li@windriver.com>
-Message-ID: <569EE00C.6070408@windriver.com>
-Date: Wed, 20 Jan 2016 09:17:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WDHvsC2PKP5wKizrq_+Ri1Z6OTnJLhxsS4O1DoKpy=Bw@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [BUG REPORT] failed to build valgrind on qemuarm
+	Wed, 20 Jan 2016 01:34:10 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id j3so14426555oig.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jan 2016 17:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=nudNhrFDdTGVVH83cPeKDzB6f26nP1gaWFJppDjcLaA=;
+	b=ry8b0xY0mcb+xjYRQ1wh9r3bfsJ9nib60Gi4ZcsQn/ZtRUIVLNrgCH4B3cn11zxK9b
+	UrX4jpaxTrCjPMSlsqclqoPS9LgHiuqOwvi4BYxbOPIe++w2z6mA4oYfGpLExCq0WC+V
+	mXucbQ7oejMMLpRigsBHlZ9nMfpE9D7xU97EHcT72xNK2X/wjw0/i3nRXbv4YbRRbiFx
+	0nsITf6u+AHWNy+MEInGAOU+1APa+pGu8TH5JSz1/RO9zBSfV0z+lRqZ+YRNvgcVcD2Q
+	O4GUuJqFj6fHK8lEtoirn564rOnnvBzmxE96yqdUquiCpZKp6rP7bP18UYz0i5wpOIr2
+	8Vzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nudNhrFDdTGVVH83cPeKDzB6f26nP1gaWFJppDjcLaA=;
+	b=ixcwiuT5nup0keWVEe/py+a6gJi5RkZY5GVC0KYLiHUU215sknGpP5kq/bF8MV5sjQ
+	xTIkyM5rx9xBtHoGOEjUrPilvd+rly2AtyeYhTe84NRYEbs3Yg2UZx1cmA6wF9Fh9j8k
+	PfWpOUoxdpsk3RrhTT/v3QUQSCsxOmqWkkzCWdIrir3fOyQ72RfmJ/FDceoqGIkNrWG9
+	6o9OB9l97JrBxLYENRYXabQky6ezwug5wGxX9+LdYcfUGUe7cHobMAskgkGqdh8W1SSf
+	cb/fwxH5VzBVEusGsJMwnoE3Vj00ErmZ47C0IFAsktx+cSI7Ham4X3fAUtQg4T4NSxRJ
+	Zlpg==
+X-Gm-Message-State: ALoCoQkhVLQ5EKEJ783Vck8gGalS/0ehSVdiEGoyrs0Oq6uxWXWrHUz80aQYG/6YVHRDdDw/zQ9gDcn9JSt/ZEJAa3dLjitgEw==
+X-Received: by 10.202.44.79 with SMTP id s76mr22607010ois.123.1453253651428;
+	Tue, 19 Jan 2016 17:34:11 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	j201sm11858118oih.19.2016.01.19.17.34.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Jan 2016 17:34:10 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jan 2016 17:33:58 -0800
+Message-Id: <1453253641-6309-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/3] valgrind cleanup + fix for armv7a without vfp/neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 01:17:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Jan 2016 01:34:11 -0000
 
+Andre McCurdy (3):
+  valgrind: let valgrind determine its own optimisation flags
+  valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
+  valgrind: avoid neon for targets which don't support it
 
-
-On 2016年01月20日 04:20, Andre McCurdy wrote:
-> On Mon, Jan 18, 2016 at 11:27 PM, Rongqing Li <rongqing.li@windriver.com> wrote:
->>
->> 2: on qemuarma9
->>
->
-> The problem seems to be that the machine doesn't support NEON and
-> Valgrind 3.11 includes a new test case which uses embedded NEON
-> instructions.
->
-> We do already disable a few tests which don't build for all ARM
-> machines (see "remove-arm-variant-specific.patch"), so maybe the
-> "sh-mem-random" test should be disabled as well. I'll take a look.
->
-> What DEFAULTTUNE does the qemuarma9 machine use?
->
-
-DEFAULTTUNE="armv7at"
-
-thanks
-
--Roy
-
->>
->> | arm-wrs-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp  -marm
->> -mthumb-interwork
->> --sysroot=/work/wr/buildarea/arm/bitbake_build/tmp/sysroots/qemuarma9
->> -DHAVE_CONFIG_H -I.
->> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests
->> -I../..
->> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0
->> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/include
->> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind
->> -I../../include
->> -I/work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/VEX/pub
->> -I../../VEX/pub -DVGA_arm=1 -DVGO_linux=1 -DVGP_arm_linux=1
->> -DVGPV_arm_linux_vanilla=1   -Winline -Wall -Wshadow -Wno-long-long -g
->> -fno-stack-protector    -O2 -pipe -g  -fno-omit-frame-pointer
->> -fvisibility=default -O0 -c -o sh-mem-random.o
->> /work/wr/buildarea/arm/bitbake_build/tmp/work/armv7a-vfp-wrs-linux-gnueabi/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/sh-mem-random.c
->> | {standard input}: Assembler messages:
->> | {standard input}:1107: Error: selected processor does not support ARM mode
->> `vld1.64 {d7},[r3]'
->> | {standard input}:1107: Error: selected processor does not support ARM mode
->> `vst1.64 {d7},[r2]'
->> | Makefile:2467: recipe for target 'sh-mem-random.o' failed
->>
->>
->> and the codes are below:
->>
->> 194 #elif defined(__linux__) && defined(__arm__) && !defined(__aarch64__)
->> 195             /* On arm32, many compilers generate a 64-bit float move
->> 196                using two 32 bit integer registers, which completely
->> 197                defeats this test.  Hence force a 64-bit NEON load and
->> 198                store.  I guess this will break the build on non-NEON
->> 199                capable targets. */
->> 200             __asm__ __volatile__ (
->> 201                "vld1.64 {d7},[%0] ; vst1.64 {d7},[%1] "
->> 202                : : "r"(arr+src), "r"(arr+dst) : "d7","memory"
->> 203             );
->> 204 #else
->>
->>
->> -Roy
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+ ...d-neon-for-targets-which-don-t-support-it.patch | 33 +++++++++++
+ .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
+ ...ppropriate-flags-for-vcvt-fixed-float-VFP.patch | 33 +++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  | 12 ++--
+ 4 files changed, 74 insertions(+), 70 deletions(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-don-t-support-it.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-flags-for-vcvt-fixed-float-VFP.patch
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.1
+
 
