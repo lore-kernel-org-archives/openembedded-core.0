@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E98E731EB
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1932F6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 08:34:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0K8YRvP017611
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 20 Jan 2016 08:40:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0K8eCWP015315
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 00:34:28 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 20 Jan 2016 00:34:27 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Wed, 20 Jan 2016 00:40:12 -0800
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 20 Jan 2016 00:40:11 -0800
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Jan 2016 00:34:24 -0800
-Message-ID: <ad9275c62cbf5f3f95a43d3e208bc05874a4c3a3.1453278829.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453278829.git.liezhi.yang@windriver.com>
-References: <cover.1453278829.git.liezhi.yang@windriver.com>
+Date: Wed, 20 Jan 2016 16:39:30 +0800
+Message-ID: <1453279170-4842-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] insane.bbclass: fix package_qa_walk()
+Subject: [PATCH] kexec-tools: inherit update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 08:34:27 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 08:40:12 -0000
 Content-Type: text/plain
 
-The parameter "path" would be redefined inside package_qa_walk() which
-is useless,  so remove it.
+From: Roy Li <rongqing.li@windriver.com>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+init script kdump is added, so inherit update-rc.d
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/classes/insane.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/kexec/kexec-tools_2.0.11.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ec17a48..c3dfa76 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -763,7 +763,7 @@ def package_qa_check_staged(path,d):
-     return sane
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.11.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.11.bb
+index 7173767..866441b 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.11.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.11.bb
+@@ -22,6 +22,12 @@ FILES_kexec = "${sbindir}/kexec"
+ FILES_kdump = "${sbindir}/kdump"
+ FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
  
- # Walk over all files in a directory and call func
--def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
-+def package_qa_walk(warnfuncs, errorfuncs, skip, package, d):
-     import oe.qa
- 
-     #if this will throw an exception, then fix the dict above
-@@ -1088,7 +1088,7 @@ python do_package_qa () {
-                     "%s doesn't match the [a-z0-9.+-]+ regex" % package, d)
- 
-         path = "%s/%s" % (pkgdest, package)
--        package_qa_walk(path, warnchecks, errorchecks, skip, package, d)
-+        package_qa_walk(warnchecks, errorchecks, skip, package, d)
- 
-         package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d)
-         package_qa_check_deps(package, pkgdest, skip, d)
++inherit update-rc.d
++
++INITSCRIPT_PACKAGES = "kdump"
++INITSCRIPT_NAME_kdump = "kdump"
++INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
++
+ do_install_append () {
+         install -d ${D}${sysconfdir}/init.d
+         install -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
 -- 
-1.7.9.5
+2.5.0
 
 
