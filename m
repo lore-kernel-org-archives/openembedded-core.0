@@ -1,23 +1,23 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E0FF06067C
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AA4DC731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 11:34:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 20 Jan 2016 03:34:42 -0800
+	Wed, 20 Jan 2016 11:37:21 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 20 Jan 2016 03:37:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,320,1449561600"; d="scan'208";a="885438653"
+X-IronPort-AV: E=Sophos;i="5.22,320,1449561600"; d="scan'208";a="864598419"
 Received: from jlock-mobl1.gar.corp.intel.com ([10.252.14.26])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2016 03:34:40 -0800
-Message-ID: <1453289679.3855.2.camel@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2016 03:37:20 -0800
+Message-ID: <1453289839.3855.5.camel@linux.intel.com>
 From: Joshua G Lock <joshua.g.lock@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jan 2016 11:34:39 +0000
-In-Reply-To: <1453094810-8670-1-git-send-email-akuster808@gmail.com>
-References: <1453094810-8670-1-git-send-email-akuster808@gmail.com>
+Date: Wed, 20 Jan 2016 11:37:19 +0000
+In-Reply-To: <cover.1452889139.git.joshua.g.lock@intel.com>
+References: <cover.1452889139.git.joshua.g.lock@intel.com>
 X-Mailer: Evolution 3.18.3 (3.18.3-1.fc23) 
 Mime-Version: 1.0
-Subject: Re: [PATCH][fido] openssh: CVE-2016-077x
+Subject: Re: [PATCH 00/16][Fido] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,112 +30,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 11:34:44 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 11:37:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2016-01-17 at 21:26 -0800, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
+On Mon, 2016-01-18 at 09:18 +0000, Joshua Lock wrote:
+> The following changes since commit
+> 3f2701c102e4e5b95fc79a8d967f9c48f8232fc6:
 > 
-> this address two CVE's.
-> CVE-2016-0777 and CVE-2016-0778
+>   grub2: Fix CVE-2015-8370 (2016-01-11 11:10:11 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-
+> next
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-
+> contrib/log/?h=joshuagl/fido-next
 
-Thank you, this is pushed to my joshuagl/fido-next branch.
+I just pushed another patch from Armin to this same branch which adds
+security fixes to OpenSSH for CVE-2016-0777 and CVE-2016-0778.
 
 Regards,
 
 Joshua
 
 > 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  .../openssh/openssh/CVE-2016-077x.patch            | 56
-> ++++++++++++++++++++++
->  meta/recipes-connectivity/openssh/openssh_6.7p1.bb |  1 +
->  2 files changed, 57 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-
-> 2016-077x.patch
+> Armin Kuster (13):
+>   openssl: fix for CVE-2015-3193
+>   openssl: fix for CVE-2015-3194
+>   openssl: fix for CVE-2015-3195
+>   libxml2: security fix CVE-2015-7941
+>   libxml2: security fix CVE-2015-8317
+>   libxml2: security fix CVE-2015-7942
+>   libxml2: security fix CVE-2015-8035
+>   libxml2: security fix CVE-2015-7498
+>   libxml2: security fix CVE-2015-7497
+>   libxml2: security fix CVE-2015-7499
+>   libxml2: security fix CVE-2015-7500
+>   libxml2: security fix CVE-2015-8242
+>   libxml2: security fix CVE-2015-5312
+
+    openssh: CVE-2016-077x
+
 > 
-> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2016-
-> 077x.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2016-
-> 077x.patch
-> new file mode 100644
-> index 0000000..4cc462d
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2016-077x.patch
-> @@ -0,0 +1,56 @@
-> +From e6c85f8889c5c9eb04796fdb76d2807636b9eef5 Mon Sep 17 00:00:00
-> 2001
-> +From: Damien Miller <djm@mindrot.org>
-> +Date: Fri, 15 Jan 2016 01:30:36 +1100
-> +Subject: [PATCH] forcibly disable roaming support in the client
-> +
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2016-0777
-> +CVE: CVE-2016-0778
-> +
-> +[Yocto #8935]
-> +
-> +Signed-off-by: Armin Kuster <akuster@mvista.com>
-> +
-> +---
-> + readconf.c | 5 ++---
-> + ssh.c      | 3 ---
-> + 2 files changed, 2 insertions(+), 6 deletions(-)
-> +
-> +Index: openssh-6.7p1/readconf.c
-> +===================================================================
-> +--- openssh-6.7p1.orig/readconf.c
-> ++++ openssh-6.7p1/readconf.c
-> +@@ -1597,7 +1597,7 @@ initialize_options(Options * options)
-> + 	options->tun_remote = -1;
-> + 	options->local_command = NULL;
-> + 	options->permit_local_command = -1;
-> +-	options->use_roaming = -1;
-> ++	options->use_roaming = 0;
-> + 	options->visual_host_key = -1;
-> + 	options->ip_qos_interactive = -1;
-> + 	options->ip_qos_bulk = -1;
-> +@@ -1768,8 +1768,7 @@ fill_default_options(Options * options)
-> + 		options->tun_remote = SSH_TUNID_ANY;
-> + 	if (options->permit_local_command == -1)
-> + 		options->permit_local_command = 0;
-> +-	if (options->use_roaming == -1)
-> +-		options->use_roaming = 1;
-> ++	options->use_roaming = 0;
-> + 	if (options->visual_host_key == -1)
-> + 		options->visual_host_key = 0;
-> + 	if (options->ip_qos_interactive == -1)
-> +Index: openssh-6.7p1/ssh.c
-> +===================================================================
-> +--- openssh-6.7p1.orig/ssh.c
-> ++++ openssh-6.7p1/ssh.c
-> +@@ -1800,9 +1800,6 @@ ssh_session2(void)
-> + 			fork_postauth();
-> + 	}
-> + 
-> +-	if (options.use_roaming)
-> +-		request_roaming();
-> +-
-> + 	return client_loop(tty_flag, tty_flag ?
-> + 	    options.escape_char : SSH_ESCAPECHAR_NONE, id);
-> + }
-> diff --git a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> index 9246284..700bf7f 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> @@ -26,6 +26,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSS
-> H/portable/openssh-${PV}.tar.
->             file://CVE-2015-6564.patch \
->             file://CVE-2015-6565.patch \
->             file://CVE-2015-5600.patch \
-> +           file://CVE-2016-077x.patch \
->             "
->  
->  PAM_SRC_URI = "file://sshd"
+> Hongxu Jia (1):
+>   logrotate: do not move binary logrotate to /usr/bin
+> 
+> Joshua Lock (1):
+>   libxml2: remove files for easier maintenance
+> 
+> Martin Jansa (1):
+>   texinfo: don't create dependency on INHERIT variable
+> 
+>  .../openssl/0001-Add-test-for-CVE-2015-3194.patch  |  66 ++++++++++
+>  ...64-mont5.pl-fix-carry-propagating-bug-CVE.patch | 101
+> +++++++++++++++
+>  .../CVE-2015-3194-1-Add-PSS-parameter-check.patch  |  45 +++++++
+>  ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch |  66 ++++++++++
+>  .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   4 +
+>  meta/recipes-core/libxml/libxml2.inc               |  16 ++-
+>  ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
+>  ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
+>  ...00-Fix-memory-access-error-due-to-incorre.patch | 131
+> +++++++++++++++++++
+>  ...015-8035-Fix-XZ-compression-support-loop.patch} |   9 +-
+>  ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
+>  ...n-name-parsing-at-the-end-of-current-inpu.patch | 138
+> +++++++++++++++++++++
+>  ...ssing-entities-after-encoding-conversion-.patch |  89
+> +++++++++++++
+>  ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88
+> +++++++++++++
+>  ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
+>  ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
+>  ...eanup-conditional-section-error-handling.patch} |  25 ++--
+>  ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
+>  ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
+>  ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
+>  meta/recipes-extended/logrotate/logrotate_3.8.8.bb |   2 +-
+>  meta/recipes-extended/texinfo/texinfo_5.2.bb       |   2 +-
+>  22 files changed, 1086 insertions(+), 22 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-
+> Add-test-for-CVE-2015-3194.patch
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-
+> 2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-
+> 2015-3194-1-Add-PSS-parameter-check.patch
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-
+> 2015-3195-Fix-leak-with-ASN.1-combine.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-
+> 5312-Another-entity-expansion-issue.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-
+> 7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-
+> 7500-Fix-memory-access-error-due-to-incorre.patch
+>  rename meta/recipes-core/libxml/libxml2/{CVE-2015-8035.patch =>
+> 0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch} (83%)
+>  create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-
+> 8242-Buffer-overead-with-HTML-parser-in-pus.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-
+> on-name-parsing-at-the-end-of-current-inpu.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-
+> Avoid-processing-entities-after-encoding-conversion-.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-
+> Add-xmlHaltParser-to-stop-the-parser.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-
+> Detect-incoherency-on-GROW.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-
+> Stop-parsing-on-entities-boundaries-errors.patch
+>  rename meta/recipes-core/libxml/libxml2/{CVE-2015-7942.patch => CVE-
+> 2015-7941-2-Cleanup-conditional-section-error-handling.patch} (68%)
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-
+> Fix-an-error-in-previous-Conditional-section-patch.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-
+> Another-variation-of-overflow-in-Conditional-section.patch
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-
+> Fail-parsing-early-on-if-encoding-conversion-failed.patch
+> 
 > -- 
-> 1.9.1
+> 2.5.0
 > 
 
