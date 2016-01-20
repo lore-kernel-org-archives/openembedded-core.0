@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
 Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
 	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B254E731A5
+	by mail.openembedded.org (Postfix) with ESMTP id 07E6C6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 02:47:59 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id e195so28724119oig.2
+	Wed, 20 Jan 2016 02:48:02 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id a202so15615309oib.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jan 2016 18:48:00 -0800 (PST)
+	Tue, 19 Jan 2016 18:48:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UGT3MZQpPQoDc6Tgeh0X3AMdEJVPBxFyyoeCuVxDHhE=;
-	b=EcT/2kRUXYQH/RIDQ/lWnv/hGyh+eMDrQJsT4dZiwwGFqhAJ3Q6OqNivvDq2Mc7yRj
-	BCCKD2X4pq0eLGyJmjJbt96Kzx+mn5ofaAaKiOOVNpjHrj6EwoloPsPAOiDkEItA0ko2
-	hmeObbmHZxU9s+Go0m2b4yXUTF1WkuYYW1T3VwLfkiQqRR1prI5GjYQu8fCIL734ce4V
-	NsZm7nJvsp3pxaDaEVnovH82PA/AB/ugbR5cWH9OKsK2TTSqZaM72ozVDKqfSDSh0ecH
-	sysm3Uir+fRpcEZ+4suI8ZAcEB2BIZ5okvtblMBXM0WpPphdDuokduCAZigwb/6dhCkw
-	LErw==
+	bh=I3HiNG/57/UnHrIMY0TyEudStXUrakXGc4jUMfRBJJ8=;
+	b=YgJBcbHonzIhsEh/Ed4aQOfLmXBh24fTVsuuZ6b7I2rst3Oudq3rcFTdBXWY+obN8B
+	HIdxxq0dVS2+maTGeQKYN4aWvcsW+bBvVIfEwn9uQXZpN/f0fU353BDHHzlETmAcrrSZ
+	E32ApsAMMyHppV345FH1eDdUBqdcgpk57V8j5GpsEkOhkESZeYZnPLafEKImIycNTAYb
+	jlYksfDHGw1Ooc6MCAfWZhNfcRDV6K0IVE6QTADO466OqGnOLY8UF95MHb9q0s6sEstF
+	kFvkc6oZh+Ad5lkpfZTMSlci7CJGnqGhrKMRfEvSTbiYvL8kMYJeMVy9BqJu/MIdJlf6
+	qLAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=UGT3MZQpPQoDc6Tgeh0X3AMdEJVPBxFyyoeCuVxDHhE=;
-	b=FiMePgkx2IKkRG4yQjuH+m/tiJQnLCxBPf0ubcjkr/PBYnhNqmXBYkN3j5HspBrzAo
-	UPR5jRmI6vopSnjJWFTqa4ZmVlDgllxP9naXNpfAgKiJU1C8nkAd0HtRvZs48zH3QBPm
-	/FuCxIx4EdzvJLcqD4CdR4IQBgrUhFbExQWz3imFGWDeg9FQ+xuV9XQ3ZfqI3A2SEa85
-	dQElEhclS41DY8nyVaOR+3JgH/6HCdOeJeHrnnMVhcHXMrfqk3n1X782fx9BoY0r4wd5
-	Ig8jzL3erdZ7WjAfVjjIjKcHSLR/MIWtSlB/RCrd7t+8X30YlUA5botVKflPmvGGlWtg
-	3lFg==
-X-Gm-Message-State: ALoCoQllVYw88z3fRu8l194CJpY0rTMB/VJu/vqHf8yi2zN0G7hZjvAnEy2Borbl0Z18top+Xxhu2e9JO1k63BuI5mXlGmYY/Q==
-X-Received: by 10.202.60.135 with SMTP id j129mr24821347oia.70.1453258079914; 
-	Tue, 19 Jan 2016 18:47:59 -0800 (PST)
+	bh=I3HiNG/57/UnHrIMY0TyEudStXUrakXGc4jUMfRBJJ8=;
+	b=Rf/au41sW7twf0wOQHGVC0qtzH8+Bo5plkkQJILV1eZpZTJxjMuOreRDAVgnleo0kb
+	CnA9TQsAyfE4REYDopyO7n6GnqKTG7E2yNf1c2OKvEz+YhyVwcTNpfpSdsOsw+QirOJH
+	MzoGasgicq2E73e6RZH1slBuZdl90bS3Lr6skOilNOFIGK0/4bkpVTU4sH6ybAysIrU1
+	dfKWqC3ZZEffg8s+GbZO0Bs0cH4k+EU+BvUymr/j24/x7pIlUYLZhXZLfbe0MtYxqL9y
+	ovk8Cz96VLY1I4AEHBMRj0QLi9/GQYAxacU6wjdiKq4/QUigTanI8bPJyJr5EQ4Lf441
+	cTUg==
+X-Gm-Message-State: ALoCoQnMa/p+Vc1ksbXXgOrY6sfyZ81N/Nv2KXex6/cFuVl5wSZLyCvmQaTQzXKQuENBwH68Qm7qs+HnvoX2kA18TPEwi53ocg==
+X-Received: by 10.202.0.204 with SMTP id 195mr25379127oia.131.1453258082895;
+	Tue, 19 Jan 2016 18:48:02 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	v142sm17042620oie.28.2016.01.19.18.47.58
+	v142sm17042620oie.28.2016.01.19.18.48.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Jan 2016 18:47:58 -0800 (PST)
+	Tue, 19 Jan 2016 18:48:01 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2016 18:47:49 -0800
-Message-Id: <1453258071-22847-2-git-send-email-armccurdy@gmail.com>
+Date: Tue, 19 Jan 2016 18:47:50 -0800
+Message-Id: <1453258071-22847-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
 References: <1453258071-22847-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 1/3] valgrind: let valgrind determine its own optimisation flags
+Subject: [PATCH v2 2/3] valgrind: re-enable ARM intdiv and vcvt_fixed_float_VFP tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +56,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jan 2016 02:48:00 -0000
+X-List-Received-Date: Wed, 20 Jan 2016 02:48:02 -0000
 
-Valgrind likes to control its own optimisation flags. It generally
-defaults to -O2 but uses -O0 for some specific test apps etc. Passing
-our own flags (via CFLAGS) means we interfere with that.
+The intdiv test has been partially fixed upstream and the
+vcvt_fixed_float_VFP test can be fixed with a similar approach, ie
+ensuring that it is always compiled with appropriate
+-march/-mcpu/-mfpu flags to support the instructions being tested.
 
-Giving valgrind control of optimisation is hopefully an even better
-solution than the previous one of forcing -O0 for all tests.
+For tests requiring armv7ve instructions, ensure that we set both
+-march=armv7ve and -mcpu=cortex-a15 (since some TUNE_CCARGS may set
+-march=armv7-a and adding -mcpu=cortex-a15 alone is not enough to
+over-ride that).
 
-  http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=98c4a3ffb8dca10739be600e8d6df7fb6aa4958f
+See similar cases in none/tests/arm/Makefile.am
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .../valgrind/remove-arm-variant-specific.patch     | 66 ----------------------
+ ...opriate-march-mcpu-mfpu-for-ARM-test-apps.patch | 44 +++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |  2 +-
+ 3 files changed, 45 insertions(+), 67 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
 
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+deleted file mode 100644
+index 2319ab9..0000000
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-Remove arm tests that don't compile
+-
+-Upstream-Status: Pending
+-
+-Corrects the original commit for the patch that removed ARM ptest CFLAGS
+-settings. Since the flags could be set by a user, the flags should
+-be kept in place during compilation.  By keeping the original up-stream
+-CFLAGS for the tests, then additional tests successfully compile
+-for all tested ARM tunings.
+-
+-However, there were still two tests listed below that did not compile
+-for any beaglebone tuning that is valid for valgrind. With the updated
+-patch, the set of excluded ARM ptests and their respective build
+-failures are:
+-  intdiv - fails for all beaglebone tunings with 2 errors:
+-  {standard input}:(40 or 41): Error: selected processor does not
+-       support Thumb mode `udiv r3,r9,r10'
+-  {standard input}:(72 or 73): Error: selected processor does not
+-       support Thumb mode `sdiv r3,r9,r10'
+-
+-  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
+-  two ways:
+-    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
+-    without neon tuning fails with 3 errors:
+-    {standard input}:33: Error: selected FPU does not support
+-      instruction -- `vcvt.f32.s32 s15,s15,#1'
+-    {standard input}:58: Error: selected FPU does not support
+-      instruction -- `vcvt.f32.s32 s15,s15,#32'
+-    {standard input}:136: Error: selected FPU does not support
+-      instruction -- `vcvt.f32.u32 s15,s15,#1'
+-
+-After applying this commit, the valgrind ARM ptests compile without
+-errors for tunings:
+-  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
+-where the tuning [option] was successfully compiled, both with
+-and without the 'option', and in combination with all other options.
+-
+-Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+-
+-Index: valgrind-3.10.1/none/tests/arm/Makefile.am
+-===================================================================
+---- valgrind-3.10.1.orig/none/tests/arm/Makefile.am	2015-05-19 15:11:59.224842927 -0500
+-+++ valgrind-3.10.1/none/tests/arm/Makefile.am	2015-05-19 15:14:20.808847028 -0500
+-@@ -17,9 +17,13 @@
+- 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
+- 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
+- 
+-+# Remove the following tests which cause compiler errors for all tunings
+-+#  available for beagle bone (see remove-arm-variant-specific.patch):
+-+#	intdiv
+-+#	vcvt_fixed_float_VFP
+-+
+- check_PROGRAMS = \
+- 	allexec \
+--	intdiv \
+- 	ldrt \
+- 	ldrt_arm \
+- 	neon128 \
+-@@ -27,7 +31,6 @@
+- 	v6intARM \
+- 	v6intThumb \
+- 	v6media \
+--	vcvt_fixed_float_VFP \
+- 	vfp \
+- 	vfpv4_fma
+- 
+diff --git a/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+new file mode 100644
+index 0000000..adea405
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+@@ -0,0 +1,44 @@
++From d134dafc2f11e0d247420a0ba360bcdef77b4093 Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Tue, 19 Jan 2016 16:00:00 -0800
++Subject: [PATCH] use appropriate -march/-mcpu/-mfpu for ARM test apps
++
++Ensure that test apps in none/tests/arm are compiled with appropriate
++-march/-mcpu/-mfpu flags to support the instructions being tested.
++The aim is to build all tests, even ones which may not run correctly
++on all target CPUs.
++
++For tests requiring armv7ve instructions, ensure that we set both
++-march=armv7ve and -mcpu=cortex-a15 (since some TUNE_CCARGS may set
++-march=armv7-a and adding -mcpu=cortex-a15 alone is not enough to
++over-ride that).
++
++See similar cases in none/tests/arm/Makefile.am
++
++Upstream-Status: Pending
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ none/tests/arm/Makefile.am | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
++index 4507a20..825290f 100644
++--- a/none/tests/arm/Makefile.am
+++++ b/none/tests/arm/Makefile.am
++@@ -62,8 +62,10 @@ neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
++ 			-mfpu=neon \
++ 			-mthumb
++ 
++-intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
+++intdiv_CFLAGS	  = $(AM_CFLAGS) -g -march=armv7ve -mcpu=cortex-a15 -mthumb
++ ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
++ ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
++ 
++-vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
+++vcvt_fixed_float_VFP_CFLAGS = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mfpu=vfpv3
+++
+++vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -march=armv7ve -mcpu=cortex-a15 -mfpu=vfpv4 -marm
++-- 
++1.9.1
++
 diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index 70d84fe..8e9b72c 100644
+index 8e9b72c..4f7c39a 100644
 --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
 +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -44,6 +44,11 @@ EXTRA_OECONF_append_arm = " --host=armv7${HOST_VENDOR}-${HOST_OS}"
+@@ -15,13 +15,13 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://fixed-perl-path.patch \
+            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
+-           file://remove-arm-variant-specific.patch \
+            file://run-ptest \
+            file://11_mips-link-tool.patch \
+            file://0002-remove-rpath.patch \
+            file://0004-Fix-out-of-tree-builds.patch \
+            file://0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch \
+            file://0001-Remove-tests-that-fail-to-build-on-some-PPC32-config.patch \
++           file://use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch \
+            "
  
- EXTRA_OEMAKE = "-w"
- 
-+# valgrind likes to control its own optimisation flags. It generally defaults
-+# to -O2 but uses -O0 for some specific test apps etc. Passing our own flags
-+# (via CFLAGS) means we interfere with that.
-+SELECTED_OPTIMIZATION = ""
-+
- CFLAGS_append_libc-uclibc = " -D__UCLIBC__ "
- 
- do_install_append () {
-@@ -63,10 +68,9 @@ RDEPENDS_${PN}-ptest += " sed perl glibc-utils perl-module-file-glob"
- INSANE_SKIP_${PN}-ptest += "file-rdeps"
- 
- do_compile_ptest() {
--    oe_runmake check CFLAGS="${CFLAGS} -O0" CXXFLAGS="${CXXFLAGS} -O0"
-+    oe_runmake check
- }
- 
--
- do_install_ptest() {
-     chmod +x ${B}/tests/vg_regtest
- 
-@@ -107,4 +111,3 @@ do_install_ptest() {
-     # handle multilib
-     sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
- }
--
+ SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
 -- 
 1.9.1
 
