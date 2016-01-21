@@ -1,46 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1929060088
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D29B731EC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 14:56:25 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id n5so84976627wmn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 06:56:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=ITFnwQsa07/1KVTb4uT/ZqhSl4+usKSq9gTEl2oMjSY=;
-	b=mvYC99fVSipKgzIzJ5SfUfNe+6mJueaDqW/DN41eHWvl61H0B87oDilxEtd+VJ5nGm
-	skKFCteGRjmNuYv1Rpwoxx+AcufukntsOvnGLLlQdhLqftC4UUpQBQhvU8nJi8G4SXAd
-	kOS62P2JElF2BpzZn3AAl/sp2Z73S3lFz3R5VleHYzIA3Hud4ppcIzV/5SVcIoy9Vcpn
-	LXNYpK6fUSSQCDTerGC7T4pVmqC61zwexcvyU06tkozAXTMMnUtNhqo39eZsNDy1onHO
-	XljWAdEJVcnXTkSdEuUuDWS7ydFnQgYo6WNGvxRlQjripZhhjwlNk1sgAnJfaVFyHwWn
-	FhTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ITFnwQsa07/1KVTb4uT/ZqhSl4+usKSq9gTEl2oMjSY=;
-	b=Q/ZatdD67jAjJUN+wOsVm8y8JGa9z2NhX1OMlwKZJ6S5G5vQtyoP3DGCDkxQeKlksN
-	tG7OV13widWXvREN4zLSmdihWOj83bGPtqDOb94poB6mHSnFBTEUy/gn4341WyFeL38r
-	qZtopKrSE9U6YC3IKsR6dEaOWirO2RFQdLjkR/QlhhVQSHkxxkBYOaJl38oCNJhJtCUx
-	X4Xzke2GjEd1uufjXz++AGMmLYZHoytlmh3CmaJC3mZ3wG8JJ0IKN/n+PPzGC//k8jYb
-	Z0Np6upoPOYDz/fWR0xUKrPhOElVF0JeRJEuuOdkr/sJnL9lH46cismfovF7tmok7RPB
-	ppNQ==
-X-Gm-Message-State: AG10YOShSYrbbU3v66Ahd0Q2iaq5/IzjCzV15tzmfAsVRiW+z37gv0ApaERIWILkjLPzhqx1
-X-Received: by 10.194.59.20 with SMTP id v20mr5289864wjq.84.1453388185722;
-	Thu, 21 Jan 2016 06:56:25 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id o7sm1788205wjf.45.2016.01.21.06.56.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jan 2016 06:56:25 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 21 Jan 2016 15:17:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2016 07:17:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,325,1449561600"; d="scan'208";a="865485903"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2016 07:16:59 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 14:56:23 +0000
-Message-Id: <1453388183-8838-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH][V3] autotools: don't output the full config.log on configure failure
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <56A0F5D4.5090701@linux.intel.com>
+Date: Thu, 21 Jan 2016 17:14:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.5.0
+MIME-Version: 1.0
+Subject: proposal: let's move oe-core to ffmpeg (from libav)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 14:56:29 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 15:17:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The config.log written by autoconf includes many pages of useless output,
-followed by an obfuscated error message, and then more pages of every variable
-that's been set.  It's only understandable if you're well versed in how autoconf
-behaves, and often in simple failure modes doesn't actually make it clear what
-the problem was.
+Hello,
 
-Instead of outputting the whole config.log to the console when do_configure()
-fails, use bbfatal_log so the human-readable configure output (not the
-config.log) is shown to the user, and tell the user where config.log can be
-found if they need it.
+let's replace libav with ffmpeg in oe-core. The reasons are:
 
-[ YOCTO #8856 ]
+- all of the major distributions are using ffmpeg now (the last holdout 
+was Debian, and they switched to ffmpeg in summer 2015 after a long 
+discussion and deliberation [1][2])
+- ffmpeg is much more responsive to security issues
+- ffmpeg does regular releases, while libav hasn't had one since spring 2015
+- other reasons listed in [2]
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/autotools.bbclass | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+[1] https://lwn.net/Articles/650816/
+[2] https://wiki.debian.org/Debate/libav-provider/ffmpeg
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 44cb422..1400b44 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -88,14 +88,11 @@ oe_runconf () {
- 	cfgscript=`python -c "import os; print os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.')"`/$cfgscript_name
- 	if [ -x "$cfgscript" ] ; then
- 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
--		set +e
--		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"
--		if [ "$?" != "0" ]; then
--			echo "Configure failed. The contents of all config.log files follows to aid debugging"
--			find ${B} -ignore_readdir_race -name config.log -print -exec cat {} \;
--			die "oe_runconf failed"
-+		if ! ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
-+			bbnote "The following config.log files may provide further information."
-+			bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
-+			bbfatal_log "configure failed"
- 		fi
--		set -e
- 	else
- 		bbfatal "no configure script found at $cfgscript"
- 	fi
--- 
-2.6.4
+Objections, thoughts?
 
+
+Alex
 
