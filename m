@@ -1,52 +1,27 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EBFD5731AE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 05E1E7316D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 07:21:37 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b14so8944267wmb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 23:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=e53oQcsQ5rN3whQZNP8Aop7kmRYSqa23Myf87BQ2S+4=;
-	b=q6TGBQ0tUvqadL2BcrIA9f/kvakhj7aWxe/CyxO+G1auyST+OOrwD6YTpVKHYFD1tr
-	uIPhN9f3hhcMWdfS8ImA2+UlC3ZUiDqmmLINDMaDf3RXVoff03im90buBRCm7VrqA4ra
-	bEm0I0WhQpJX5s+Qb4kW3310sd1M2uKXp21qejxFULNlI+Zrh4EGAJMNBMGSFSBslp6r
-	K2jSTJdsL79IHqq2vE+BQsmEgswFcm1sMGWfU7GytHRNVJzTZPYbPHDFLkUOAn4zAz2C
-	9gSeOYWli9ff4nxd/r3Q55rAi8ZoRBO2FP9A/EyWi37fhvMw0Co0xGcVoojcbPwxuX59
-	scXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=e53oQcsQ5rN3whQZNP8Aop7kmRYSqa23Myf87BQ2S+4=;
-	b=MZUxglwCmmg1zjF2Y65+8NiH3NQsDYqM5To42MpOZiUwOWvA2pSgaLXDTpEZYPLDDa
-	hhvXBkL1x/zzvph8WsCH5aUy3vYyvA70Qj4Crs3lJbLOg3VjecTNr90TAMrar9FNzQ3m
-	1w25ACm4DCwXqhqhjNV0bwA2bVof1tKHoaAr/FjdtIeZFs1E5XpaO7k74+DuUqMt0TlR
-	yaooDKuv8Q0Kd/cHSoJ15qeviMC2KWqHuiqVVcjfW//Zo+2eQ0X3hHyuaCpO8rdLqSQD
-	vstq748vpUSpHVDE8/8/TTwv/KGBjTjDpbDR+tG6bD10aboOJA3c6rsjOcUndXyiygcy
-	5lXg==
-X-Gm-Message-State: AG10YOSIzgaNPUuyKnzicpJAKxxj8r3KajEomMNvMEgXhqnTyF2pEbWPNrycXmwGqAFoZw==
-X-Received: by 10.28.97.135 with SMTP id v129mr8545658wmb.78.1453360898009;
-	Wed, 20 Jan 2016 23:21:38 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by smtp.gmail.com with ESMTPSA id
-	193sm28407313wmg.16.2016.01.20.23.21.36
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jan 2016 23:21:36 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3117\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <2f2bda63c8a7f435e76c5d4ea1c5c529847f7f65.1452823464.git.liezhi.yang@windriver.com>
-Date: Thu, 21 Jan 2016 08:21:35 +0100
-Message-Id: <CEE6CE79-B5BE-404E-98C8-9BAA6AC73F57@dominion.thruhere.net>
-References: <cover.1452823464.git.liezhi.yang@windriver.com>
-	<2f2bda63c8a7f435e76c5d4ea1c5c529847f7f65.1452823464.git.liezhi.yang@windriver.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Mailer: Apple Mail (2.3117)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] e2fsprogs: 1.42.9 -> 1.43-WIP
+	Thu, 21 Jan 2016 07:42:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0L7gUH8014388
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 20 Jan 2016 23:42:30 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 20 Jan 2016 23:42:29 -0800
+To: Koen Kooi <koen.kooi@linaro.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1453360859-16992-1-git-send-email-koen.kooi@linaro.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56A08BE4.1090306@windriver.com>
+Date: Thu, 21 Jan 2016 15:42:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1453360859-16992-1-git-send-email-koen.kooi@linaro.org>
+Subject: Re: [PATCH] e2fsprogs: disable libblkid again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,56 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 07:21:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jan 2016 07:42:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-> Op 15 jan. 2016, om 03:05 heeft Robert Yang =
-<liezhi.yang@windriver.com> het volgende geschreven:
->=20
-> Upgrade to 1.43-WIP to make "mke2fs -d" support xattr, so that the =
-layer
-> which requires xattr such as meta-selinux can populate images easily.
->=20
->=20
-> * Add --enable-libblkid to EXTRA_OECONF since libblkid is not created =
-by
->  default.
 
-*ahem*
+On 01/21/2016 03:20 PM, Koen Kooi wrote:
+> We use the util-linux one and do_install deletes it anyway.
+>
+> See OE-core commit fb8e776ea91c39d586b46400ad30aeea8dead1c4 for more info.
+>
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> ---
+>   meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+> index c82e99a..f244473 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+> @@ -14,7 +14,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+>
+>   EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+>                   --enable-elf-shlibs --disable-libuuid --disable-uuidd \
+> -                --enable-libblkid --enable-verbose-makecmds"
+> +                --disable-libblkid --enable-verbose-makecmds"
 
-commit fb8e776ea91c39d586b46400ad30aeea8dead1c4
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Sat Aug 25 16:45:33 2012 +0100
+Thanks, maybe we also need cleanup other codes like:
 
-    e2fsprogs: Fully remove/disable blkid
+     # We use blkid from util-linux now so remove from here
+     rm -f ${D}${base_libdir}/libblkid*
 
-    We've removed libblkid from e2fsprogs as it was being provided by =
-util-linux. The blkid
-    binary is also provided there and providing it within e2fsprogs too, =
-linked against
-    a different and potentially incompatible library we're likely asking =
-for trouble.
+And:
 
-    It also leads to inconsistencies in the native sysroot since we =
-don't consistently
-    get one given provider of blkid (but always the liblibid from =
-util-linux).
+ALTERNATIVE_${PN}-doc = "libblkid.3 blkid.8"
+ALTERNATIVE_LINK_NAME[libblkid.3] = "${mandir}/man3/libblkid.3"
+ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
 
-    To clean this up, fully remove/disable the blkid binary and package.
+// Robert
 
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-And the do_install in the recipe:
-
-        # We use blkid from util-linux now so remove from here
-        rm -f ${D}${base_libdir}/libblkid*
-        rm -rf ${D}${includedir}/blkid
-        rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
-        rm -f ${D}${base_sbindir}/blkid
-        rm -f ${D}${base_sbindir}/fsck
-        rm -f ${D}${base_sbindir}/findfs
-
-
+>
+>   EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
+>
+>
 
