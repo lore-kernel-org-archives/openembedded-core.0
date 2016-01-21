@@ -1,23 +1,20 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B441260588
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AE0160290
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 16:45:43 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Jan 2016 08:45:17 -0800
+	Thu, 21 Jan 2016 17:46:45 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2016 09:46:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="33686160"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2016 08:45:17 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="637950340"
+Received: from unknown (HELO mqz-osx-suse64.fi.intel.com) ([10.252.18.3])
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2016 09:46:44 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 16:46:06 +0000
-Message-Id: <9933e8b1687c8629ffe6cf7f48a157788934c594.1453394707.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1453394707.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1453394707.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] python-setuptools: Unify and upgrade python-setuptools and python3-setuptools to 19.4
+Date: Thu, 21 Jan 2016 19:46:40 +0200
+Message-Id: <1453398401-32288-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] build-perf-test.sh: more generic timing function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,128 +27,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 16:45:44 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 17:46:46 -0000
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Make it possible to time also other than bitbake commands. The name of
+the log file is changed from bitbake.log to commands.log.
+
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc | 21 ++++++++++++++++++++
- ...etuptools_19.2.bb => python-setuptools_19.4.bb} | 20 +------------------
- ...tuptools_19.2.bb => python3-setuptools_19.4.bb} | 23 ++--------------------
- 3 files changed, 24 insertions(+), 40 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-setuptools.inc
- rename meta/recipes-devtools/python/{python-setuptools_19.2.bb => python-setuptools_19.4.bb} (49%)
- rename meta/recipes-devtools/python/{python3-setuptools_19.2.bb => python3-setuptools_19.4.bb} (51%)
+ scripts/contrib/build-perf-test.sh | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-new file mode 100644
-index 0000000..0917e88
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -0,0 +1,21 @@
-+SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
-+HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
-+SECTION = "devel/python"
-+LICENSE = "PSF | ZPL-2.0"
-+
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=78;endline=78;md5=8a314270dd7a8dbca741775415f1716e"
-+
-+SRCNAME = "setuptools"
-+
-+SRC_URI = "http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "c5a7d90c1e0acf8c4ec5c2bf31bc25b5"
-+SRC_URI[sha256sum] = "214bf29933f47cf25e6faa569f710731728a07a19cae91ea64f826051f68a8cf"
-+
-+UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
+diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
+index cdd7885..105b54b 100755
+--- a/scripts/contrib/build-perf-test.sh
++++ b/scripts/contrib/build-perf-test.sh
+@@ -128,7 +128,7 @@ rev=$(git rev-parse --short HEAD)  || exit 1
+ OUTDIR="$clonedir/build-perf-test/results-$rev-`date "+%Y%m%d%H%M%S"`"
+ BUILDDIR="$OUTDIR/build"
+ resultsfile="$OUTDIR/results.log"
+-bboutput="$OUTDIR/bitbake.log"
++cmdoutput="$OUTDIR/commands.log"
+ myoutput="$OUTDIR/output.log"
+ globalres="$clonedir/build-perf-test/globalres.log"
+ 
+@@ -180,14 +180,13 @@ time_count=0
+ declare -a SIZES
+ size_count=0
+ 
+-bbtime () {
+-    local arg="$@"
+-    log "   Timing: bitbake ${arg}"
++time_cmd () {
++    log "   Timing: $*"
+ 
+     if [ $verbose -eq 0 ]; then 
+-        /usr/bin/time -v -o $resultsfile bitbake ${arg} >> $bboutput
++        /usr/bin/time -v -o $resultsfile "$@" >> $cmdoutput
+     else
+-        /usr/bin/time -v -o $resultsfile bitbake ${arg}
++        /usr/bin/time -v -o $resultsfile "$@"
+     fi
+     ret=$?
+     if [ $ret -eq 0 ]; then
+@@ -206,12 +205,16 @@ bbtime () {
+     log "More stats can be found in ${resultsfile}.${i}"    
+ }
+ 
++bbtime () {
++    time_cmd bitbake "$@"
 +}
-diff --git a/meta/recipes-devtools/python/python-setuptools_19.2.bb b/meta/recipes-devtools/python/python-setuptools_19.4.bb
-similarity index 49%
-rename from meta/recipes-devtools/python/python-setuptools_19.2.bb
-rename to meta/recipes-devtools/python/python-setuptools_19.4.bb
-index 404d301..86bbebf 100644
---- a/meta/recipes-devtools/python/python-setuptools_19.2.bb
-+++ b/meta/recipes-devtools/python/python-setuptools_19.4.bb
-@@ -1,10 +1,4 @@
--SUMMARY = "Downloads, builds, installs, upgrades, and uninstalls Python packages"
--HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
--SECTION = "devel/python"
--LICENSE = "Python-2.0 | ZPL-2.0"
--LIC_FILES_CHKSUM = "file://setup.py;beginline=78;endline=78;md5=8a314270dd7a8dbca741775415f1716e"
--
--SRCNAME = "setuptools"
-+require python-setuptools.inc
- 
- PROVIDES = "python-distribute"
- 
-@@ -13,20 +7,8 @@ DEPENDS_class-native += "python-native"
- 
- inherit distutils
- 
--SRC_URI = "https://pypi.python.org/packages/source/s/setuptools/setuptools-${PV}.tar.gz"
--SRC_URI[md5sum] = "78353b1f80375ca5e088f4b4627ffe03"
--SRC_URI[sha256sum] = "f90ed8eb70b14b0594ba74e9de4ffca040c0ec8ee505cbf3570499467859f71a"
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--
- DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
- 
--do_install_prepend() {
--    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
--}
--
- RDEPENDS_${PN} = "\
-   python-stringold \
-   python-email \
-diff --git a/meta/recipes-devtools/python/python3-setuptools_19.2.bb b/meta/recipes-devtools/python/python3-setuptools_19.4.bb
-similarity index 51%
-rename from meta/recipes-devtools/python/python3-setuptools_19.2.bb
-rename to meta/recipes-devtools/python/python3-setuptools_19.4.bb
-index bb57982..fb2931c 100644
---- a/meta/recipes-devtools/python/python3-setuptools_19.2.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_19.4.bb
-@@ -1,32 +1,13 @@
--SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
--HOMEPAGE = "http://packages.python.org/setuptools"
--SECTION = "devel/python"
--LICENSE = "PSF"
--LIC_FILES_CHKSUM = "file://setup.py;beginline=78;endline=78;md5=8a314270dd7a8dbca741775415f1716e"
-+require python-setuptools.inc
- 
--SRCNAME = "setuptools"
- DEPENDS += "python3"
- DEPENDS_class-native += "python3-native"
- 
--SRC_URI = " \
--  http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
--"
--SRC_URI[md5sum] = "78353b1f80375ca5e088f4b4627ffe03"
--SRC_URI[sha256sum] = "f90ed8eb70b14b0594ba74e9de4ffca040c0ec8ee505cbf3570499467859f71a"
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
- inherit distutils3
- 
- DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
- 
--do_install_prepend() {
--    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
--}
--#
--#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
--#
-+# The installer puts the wrong path in the setuptools.pth file.  Correct it.
- do_install_append() {
-     rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-     mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
++
+ #we don't time bitbake here
+ bbnotime () {
+     local arg="$@"
+     log "   Running: bitbake ${arg}"
+     if [ $verbose -eq 0 ]; then
+-        bitbake ${arg} >> $bboutput
++        bitbake ${arg} >> $cmdoutput
+     else
+         bitbake ${arg}
+     fi
 -- 
-1.8.4.5
+2.1.4
 
 
