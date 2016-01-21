@@ -1,29 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 356FF605BA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id DB99F60670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 01:30:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0L1U34Q027995
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Jan 2016 17:30:03 -0800 (PST)
-Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 20 Jan 2016 17:30:03 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Dengke Du
-	<dengke.du@windriver.com>
+	Thu, 21 Jan 2016 02:18:18 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id q21so40213986iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jan 2016 18:18:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=rbmFvsqqFC7PNChN1uEcEQ0X31jw8rr91WEjZsfQFww=;
+	b=G1j//OxCfsNqHDXcd7JOxl32G6kZEC2Edgy4L+Ip1+JUAIWsXLx1FvZ4awTnBPaCfv
+	N3WL6ctblWdUsKo60xXqH1pvZIkRC9zjruUXq5eUGWuL6ZzOYl9wpqupj3upvniDeseO
+	DNnLRlznQ+twy3Ioedv0S1UPQjYoacdxEgEhYuZTOP3UwexbQ/N20KTG3bADF9JZmNxB
+	7UNmvYK/LXO56FsiAo5hUGxda7j4Qnv0dj/OXTX+lPI3ixGz7/4InE6lZ6ZVyAAffHGJ
+	QUqqadpPBd/1jzENAmNe4XyAO7sHK/huj5vOC0pSGthyR+zAD2JmJy1AHIIH0iRZQmIE
+	XR/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=rbmFvsqqFC7PNChN1uEcEQ0X31jw8rr91WEjZsfQFww=;
+	b=mlTXLTI5B9JshwAvcGdV0fLWh/fwGeIlM96z1QupxUP8ff/IWi9ura3n+GUSp+ltdZ
+	Ie4DC7PrEZloOsphezzF0wYzPtuNDza79pr+lQMyGLn+3Dox7OJvYDEnV7LLYogMSA28
+	2w6JKwQEAYfw81OiVSIi76ncRbYlrSa6Xm5nFhzMK9oB9mM2b+dJLvTFYXj++p8XPnTF
+	YD31RQhzZuMkQp+MHgCiQ0ktnLg4jirh+4KcPYajvAvOt0137O98nFf+WBBXT+6ZaCV3
+	Aa4cRVh6owvI5H6O9R15OytgEoI5GYIsstfXOHthTUAQqIGFhBPb2t8XTZKZALPIriP4
+	CntA==
+X-Gm-Message-State: ALoCoQn2fqZFEc7yKBnDm+OzE1Lbe1GvHo7z6ZfLyEfK/POotFCrvYKH675p/hWeo1VUPyi0bJgEEmehDwHXQWvOg0SqvXjo7A==
+X-Received: by 10.107.34.79 with SMTP id i76mr40526271ioi.195.1453342699079;
+	Wed, 20 Jan 2016 18:18:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.16.74 with HTTP; Wed, 20 Jan 2016 18:17:49 -0800 (PST)
+In-Reply-To: <56A03499.2080703@windriver.com>
 References: <cover.1453281406.git.dengke.du@windriver.com>
 	<2a8d19d4ef60a323c8770722ec7f60811ced53ca.1453281406.git.dengke.du@windriver.com>
 	<1453282408.27999.143.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <56A03499.2080703@windriver.com>
-Date: Thu, 21 Jan 2016 09:30:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1453282408.27999.143.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+	<56A03499.2080703@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jan 2016 18:17:49 -0800
+Message-ID: <CAMKF1soSrq1P9ztt5_Uavc7e_jtHtR-PNzYH7PERUE3dJfgeaQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] ncurses: drop the compatible option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -37,30 +57,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 01:30:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jan 2016 02:18:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 01/20/2016 05:33 PM, Richard Purdie wrote:
-> On Wed, 2016-01-20 at 04:30 -0500, Dengke Du wrote:
->> drop the compatible option --with-abi-version=5
+On Wed, Jan 20, 2016 at 5:30 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
 >
-> This says what the patch does, but not why.
+> I had talked with Dengke, we have upgraded ncurses to 6, so remove
+> --with-abi-version=5 seems better. He had tested world and sdk
+> build based on oe-core. He will test it based on meta-openembedded.
 
-I had talked with Dengke, we have upgraded ncurses to 6, so remove
---with-abi-version=5 seems better. He had tested world and sdk
-build based on oe-core. He will test it based on meta-openembedded.
-
-// Robert
-
->
-> Why should we do this? Does any of our software depend on the v5 ABI?
-> How did you test this?
->
-> Cheers,
->
-> Richard
->
+we need to ensure that all apps using ncurses are able to work with
+new APIs if we drop compatibility.
+may be have ncurses5 package still around to provide backward compatibility.
 
