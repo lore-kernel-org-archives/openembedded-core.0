@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 578B860111
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 79111731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 12:18:44 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id b14so77644192wmb.1
+	Thu, 21 Jan 2016 12:19:34 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id q21so52164037iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 04:18:45 -0800 (PST)
+	Thu, 21 Jan 2016 04:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=yS69JuDUlALpkTLZsSaGfOeduAuAsdiIQQlK68kQFE0=;
-	b=uu04a+OsE365OjxnQQyYFhZmyIRJ+RV5bZHIRV5Me9cGpdhW5ZFEvSuHmPJz05VvEH
-	1Qd0wKZP8j+DtqOdq9/CvzOR+WMn9so9vbaXCnxVJjWgqgeSCeDkpnXNx6DuUUSF7zNN
-	Mf/y6Oe15kMrZB29ZGjFxtZ0QoBupTRqKrKLyKlWA1pY9da2jgadP2tWnlw61rusOfU4
-	0gExXZURpi9PP0jQQhscTptB/YaDY6Ri9YbHPbHawN+RAe3cYbuE9VE0QbBocRi/cf9F
-	+4NpdtBSY+qSH7rH7QTMiWxS7/zYHNTzpRBWj9ajTOYPom5aBqOARfzoIePyta/2aFjM
-	OSWg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=/+QZCZkwXQOxyPKMQI9Ixm4CA6DAq3xUHaG6jjjEYlk=;
+	b=E4a2kSZgtGV9BkBNfGZg45e2z/XFWTdSOh8PcVgRan67wOYnnYPddrDrkRj87Zk5vd
+	SKWujR3fABo2Czxdp1aALLTXHThVupNLS1S3UWSuIwH0lb3Y7GcgRr9xslJmxGeQdN4+
+	3RkHx/90dT7oqXJF5ecGAVvlHjtr7HqBwbQ1DK1Iiahlhis59q0K8/OZjmy2uQaMndF6
+	La28mv7LB7W6clpkm09aAT0K7Szcm+tn1j9SkEDNQLJpvLr7XFhB0sYIQhEHT+S4TEHu
+	GEABt7YWUbxp9jkpEZwfK71eqo1dMtJX0ie/+DOjEA06tLVAIWthG2L3XdQbvZwOAcd8
+	EfwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=yS69JuDUlALpkTLZsSaGfOeduAuAsdiIQQlK68kQFE0=;
-	b=Mzjh0XNIQuPveyemdv4YyuTJOCFBgbRCX0qbPEKE7WL+T8bY3Qu6mimDX9Hm80a9Wn
-	NAG+TxxzQtuoNaabXDyiGFg0n0nqkj4RW9ti2AIZIFaxlpD8i3j1s/ujUoHq0uHNHepg
-	lV5wZcjGI8erfT5uQm0qU+uBGCChNHavDF4/rpk9gwHi361Bm3sYQrw9UGLtpVtCsrbn
-	y/OA5DL2+1u97v1rjrHkWaqFTUlAzuLnuz/4y843v/NivrpqbYY6WhZ40veIetcd20HR
-	/FgdEMtyoNRyytPEnkg4AnMI5JO2vNEanmjIyCzaHUMpLkdYcsbNX9NmWNKJ2Lv+T72m
-	lDDw==
-X-Gm-Message-State: ALoCoQnv7UZeoVSB8y3A9xWYg5bgrUjLuEcMUir0Ja5FateIqbMx0H3dLeRxToZrT8QwG3sO5J4EIv+DCTGhgY0KkJlvzpZryg==
-X-Received: by 10.194.78.175 with SMTP id c15mr42549552wjx.16.1453378724712;
-	Thu, 21 Jan 2016 04:18:44 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m143sm2700963wma.17.2016.01.21.04.18.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jan 2016 04:18:44 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 12:18:41 +0000
-Message-Id: <1453378721-27571-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] sstate: display the sysroot name when cleaning for clarity
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/+QZCZkwXQOxyPKMQI9Ixm4CA6DAq3xUHaG6jjjEYlk=;
+	b=CAlgRku2KnVqcEyUAdDLXihOtEkUrlLHNESuJKEjrDTpDQt0IhzSFc0krZWeVds77f
+	E6CFrx7RLm7Hxxe/Y0hQunoJfh+mDypYRideYT2Am1zlmwMewyn4hgSKMaaSwphjQzzA
+	pcJH8odJUjpfnkDpS7bKFPRGWHEtGKM1x5Gp81juGc78jXOWY4/aprYXNX93Mdvu8ycs
+	9dEaUsmt4glxF6iCNMRkx63aYiodL6S7RaCivqNxqGlK7TUob0+l0+B73p6aF/yT2Nyz
+	5a0/gxLJC0LsBCkM3rsGjAw114Z2/y5mW0Hs1fY0sPJdVxQ8UmZngKzD6vogu/vW5vdH
+	60eg==
+X-Gm-Message-State: ALoCoQmZYXw94dP02DFbC+0/EiSXvTxyLpFTjKUxL/jRdh9sNkeexhFJNCJ0hRnz9c6eRjvulY/5ocJWiF3BIJuU3FwdsA+aa5i4vzpX0gTuVwi/FfI0loI=
+X-Received: by 10.107.164.161 with SMTP id d33mr34046671ioj.148.1453378774881; 
+	Thu, 21 Jan 2016 04:19:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Thu, 21 Jan 2016 04:19:15 -0800 (PST)
+In-Reply-To: <56A097CA.1070703@windriver.com>
+References: <1453134365-26107-1-git-send-email-ross.burton@intel.com>
+	<56A097CA.1070703@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Jan 2016 12:19:15 +0000
+Message-ID: <CAJTo0LakG7AEqPxyBKFB-HZjJV4JHjOUNQH_X=d29peqKbHF-A@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate: replace verbose manifest removal with a single count
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 12:18:48 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 12:19:35 -0000
+Content-Type: multipart/alternative; boundary=001a1141c97699ed0a0529d71db8
 
-When cleaning old builds from the sysroots, also print the sysroot architecture.
+--001a1141c97699ed0a0529d71db8
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sstate.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 21 January 2016 at 08:33, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 40b51fe..295e033 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -960,7 +960,7 @@ python sstate_eventhandler2() {
-                         seen.append(stamp)
- 
-         if toremove:
--            bb.note("There are %d recipes to be removed from the sysroot, removing..." % (len(toremove)))
-+            bb.note("There are %d recipes to be removed from sysroot %s, removing..." % (len(toremove), a))
- 
-         for r in toremove:
-             (stamp, manifest, workdir) = r.split()
--- 
-2.6.4
+> NOTE: There are 10 recipes to be removed from the sysroot, removing...
+> NOTE: There are 15 recipes to be removed from the sysroot, removing...
+> NOTE: There are 30 recipes to be removed from the sysroot, removing...
+>
 
+Yeah, good point.  Patch sent.
 
+Ross
+
+--001a1141c97699ed0a0529d71db8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 January 2016 at 08:33, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":laj" =
+class=3D"a3s" style=3D"overflow:hidden">NOTE: There are 10 recipes to be re=
+moved from the sysroot, removing...<br>
+NOTE: There are 15 recipes to be removed from the sysroot, removing...<br>
+NOTE: There are 30 recipes to be removed from the sysroot, removing...</div=
+></blockquote></div><br>Yeah, good point.=C2=A0 Patch sent.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1141c97699ed0a0529d71db8--
