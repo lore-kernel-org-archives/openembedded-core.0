@@ -1,46 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A6C7B6E687
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 20:38:31 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id l65so235574331wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 12:38:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=dmBN1/uBjJG3ST4DzflkeR31oPznPySj2hAQ5azlQgw=;
-	b=Nj2i9zLmz+w4vaGk8PrmtqNpYcNtH1BuSg582W2quSz65nlLQu4GCRElO4shp3Zju+
-	DbsCZzauWM8YKpTg4kRYME0z12G6zPmxmeXQ70NxFtPvnN0u1GjBuCaPOnfy2qKze/Kd
-	9Mexnrms6rLZG+tjNLs0s6YIRPlExdkqu5gi/4cU538qa0xUKURM8R4f2fwQq29huAY/
-	Ld/5wYJjYqDp+zHCnZAzd0VHLlBdHggYrkgX01tchXQdePeA1UlPQQUlhu0ZtC/ZUeOU
-	ehRIztjYCLDGRYXwJpnTrIQFKFOnrRaF2Ks17XQ5D2I8q+P4TScYFact+PdCrDpFztWD
-	TxiA==
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D09B76E687;
+	Thu, 21 Jan 2016 20:38:59 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id cy9so28773237pac.0;
+	Thu, 21 Jan 2016 12:39:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:content-type:subject:date:message-id:to:mime-version;
+	bh=dU3HMJPHKQWqZEpFv2Ee7yEFIaKrU+nbwnOCDwdFoBI=;
+	b=XmhP6Zkn9mIjRUlcymyieuMU61TZIzTokrJaqbolgtHNy3sWvm6gid0bOtHLveS0ny
+	QKf7KVftWTstiPqYLP6ESNl0lcYqx0v+G/NEQS+u+vJdst8S5OIV2hW0hr58ZdbfMVGm
+	A7j5gEolWSjoKLzhpa4pQI6Om6CH4rbjhvuYpISmoy5aGqKHASZ2p4u1s9D3a5Nr4QMX
+	/jtkHmUJ+EsKnW/WqzuAVGFTHH16+p0pIKrYS730u889Dfkmal40RmkQp8It5e1ZuCX3
+	nQ1IEgcreh9MnOC3Gh6QCPGCdiI0rR822GsHTAbHTooMD12+/OAId5Xb2+G532jfvQk1
+	ZG7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dmBN1/uBjJG3ST4DzflkeR31oPznPySj2hAQ5azlQgw=;
-	b=MHLrUwEjh2jTP2jk+K0LpHUVkiF+ZijTxwl602gGj0RUnISiFAx44szdPLpkhGzGHc
-	56SNERGwc2iEXSC78oc1cY0STYoM6rT8V6d0kuB24X4Yu7EG9cCh5F9A5++VX+gGdlse
-	tLYyHKcBJslzyHTl0HGOybl83RODS/c4PsqsEcdou8BtBeqxZiEla87hCy6TaDGIdkw7
-	fu47lUSwWFf4X+h4atQcvhuKYgHMkpFeAshejx9wfBqSi7CKtnOIER6xmNNIVu5A07eK
-	u2yaGHt7cwO1T8vkxqVVSmAtHPFlqR/KPyBjG5L+YIMUi8KEK3NFFm3gCznFhzXORByD
-	oOSg==
-X-Gm-Message-State: ALoCoQkX8fFU29yppV78DX9kdla2RfzG/z13YEOu97N/EokV2LqMjXn0FpDDaIZNXpGb/ctVvNzuvqQp4MQ3JYaB2QnAkQQU6g==
-X-Received: by 10.194.234.41 with SMTP id ub9mr44195294wjc.9.1453408711998;
-	Thu, 21 Jan 2016 12:38:31 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q75sm31483227wmd.6.2016.01.21.12.38.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jan 2016 12:38:31 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 20:38:29 +0000
-Message-Id: <1453408709-32367-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] update-alternatives: when warning about alt_link==alt_target, say what PN
+	h=x-gm-message-state:from:content-type:subject:date:message-id:to
+	:mime-version;
+	bh=dU3HMJPHKQWqZEpFv2Ee7yEFIaKrU+nbwnOCDwdFoBI=;
+	b=PkZbHt3oMujZhUbOJawA4sRL3bXrBGIBXDp3uCTWfkdrSsakE9S3qWEdKPDaojf07V
+	aGqEJce2tWVa4595SX4aCN2S/XD/ZlSyt4S1zABlBtRL1kIHcdS+4gB2dcEWwgqrHw8Q
+	AQoYLWgZ3Yl6MK7YK/qwsMZpwrhDvc50V5EGWC5pfMds5qFQzB86EhsqjWbF0zUrzPtt
+	CK7PRz4yZ5ZPUKdWwDiY3fkfALCkRvRB5j97WuxWdmi0+9DIHr/id8ye1v1y1CKhHSx2
+	CDpOGLiA0ns80MTacQOL8V1/FWyeKNlW+y3b/3c4zEOE6vYqWWfrv0MzMmhsHyQhDNqP
+	JifA==
+X-Gm-Message-State: ALoCoQk55/j/46EZ9msKAGe8NsQ/93EzGKBBy16L5O8iJ63pNWOTEdOE+up83bUaE1mXxlFLEmpKPV9U2hPHfgx4vuu/yBLuSQ==
+X-Received: by 10.66.65.203 with SMTP id z11mr63713905pas.152.1453408740134;
+	Thu, 21 Jan 2016 12:39:00 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:153d:39b8:c78:68fa?
+	([2601:646:8802:5d5c:153d:39b8:c78:68fa])
+	by smtp.gmail.com with ESMTPSA id
+	r15sm4546296pfr.59.2016.01.21.12.38.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 21 Jan 2016 12:38:59 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Thu, 21 Jan 2016 12:38:53 -0800
+Message-Id: <27913D31-C426-4F79-B305-92401B7860E0@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+Subject: meta-openwrt layer is available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 20:38:33 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 20:39:01 -0000
+X-Groupsio-MsgNum: 76641
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5BD983AD-0EF1-478D-87E4-49C631F35CB3";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-A warning that doesn't say what the PN is doesn't really help.
+--Apple-Mail=_5BD983AD-0EF1-478D-87E4-49C631F35CB3
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/update-alternatives.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi all
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index 825cc88..70a8185 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -252,7 +252,7 @@ python package_do_filedeps_append () {
-             alt_target   = alt_target or d.getVar('ALTERNATIVE_TARGET_%s' % pkg, True) or d.getVar('ALTERNATIVE_TARGET', True) or alt_link
- 
-             if alt_link == alt_target:
--                bb.warn('alt_link == alt_target: %s == %s' % (alt_link, alt_target))
-+                bb.warn('%s: alt_link == alt_target: %s == %s' % (pn, alt_link, alt_target))
-                 alt_target = '%s.%s' % (alt_target, pn)
- 
-             if not os.path.lexists('%s/%s/%s' % (pkgdest, pkg, alt_target)):
--- 
-2.6.4
+A new layer for openwrt packages is available
+
+https://github.com/kraj/meta-openwrt
+
+This is aimed at providing OE metadata for packages which are unique to
+openwrt. Currently it does not contain recipes for all possible packages
+but if you have one or are housing them in different layers please feel free
+to move them to this layer
+
+The layer index URI is
+
+http://layers.openembedded.org/layerindex/branch/master/layer/meta-openwrt/
+
+Thanks
+-Khem
 
 
+--Apple-Mail=_5BD983AD-0EF1-478D-87E4-49C631F35CB3
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlahQeEACgkQuwUzVZGdMxRleQCcDhfw+GyEROtC+hK6UZi5Gx3Z
+KaQAnjiQv2heI9oOoiBLiRn4H1rYfSBk
+=0Gq+
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_5BD983AD-0EF1-478D-87E4-49C631F35CB3--
