@@ -1,23 +1,27 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C6F971E63
+	by mail.openembedded.org (Postfix) with ESMTP id 4E53573179
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 17:57:15 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Jan 2016 09:57:12 -0800
+	Thu, 21 Jan 2016 18:29:22 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Jan 2016 10:29:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="33728874"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2016 09:57:11 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="895552227"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.181.236])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2016 10:29:19 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 17:58:00 +0000
-Message-Id: <963acd46a261201df3f0bbb7bf882204c9d98bd0.1453399031.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1453399031.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1453399031.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] python3-pip: Upgrade to 8.0.0
+Date: Fri, 22 Jan 2016 07:29:17 +1300
+Message-ID: <2992852.OT1HfBaFUF@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.3-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <56A099D8.4020908@windriver.com>
+References: <cover.1453363852.git.liezhi.yang@windriver.com>
+	<20160121081654.GD31212@axis.com> <56A099D8.4020908@windriver.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] insane.bbclass: do_package_qa depends on WARN_QA and ERROR_QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 17:57:17 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 18:29:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-LIC_FILES_CHKSUM changed, but LICESE still applies, dates changed
+On Thu, 21 Jan 2016 16:42:00 Robert Yang wrote:
+> On 01/21/2016 04:16 PM, Olof Johansson wrote:
+> > On 16-01-21 00:11 -0800, Robert Yang wrote:
+> >> --- a/meta/classes/insane.bbclass
+> >> +++ b/meta/classes/insane.bbclass
+> >> @@ -1098,6 +1098,7 @@ python do_package_qa () {
+> >> 
+> >>   do_package_qa[vardepsexclude] = "BB_TASKDEPDATA"
+> >>   do_package_qa[rdeptask] = "do_packagedata"
+> >> 
+> >> +do_package_qa[vardeps] += "${WARN_QA} ${ERROR_QA}"
+> > 
+> > Shouldn't this be "WARN_QA ERROR_QA"? Or you'll get the expanded
+> > values of the variables.
+> 
+> Sorry, please drop this patch, need more work it.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- .../python/{python3-pip_7.1.2.bb => python3-pip_8.0.0.bb}           | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_7.1.2.bb => python3-pip_8.0.0.bb} (85%)
+Aside from that, didn't we already have a discussion on whether changing these 
+variables should force do_package_qa to re-execute? Ross, I seem to recall you 
+were involved last time.
 
-diff --git a/meta/recipes-devtools/python/python3-pip_7.1.2.bb b/meta/recipes-devtools/python/python3-pip_8.0.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-pip_7.1.2.bb
-rename to meta/recipes-devtools/python/python3-pip_8.0.0.bb
-index 297b351..834ecda 100644
---- a/meta/recipes-devtools/python/python3-pip_7.1.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_8.0.0.bb
-@@ -2,7 +2,7 @@ SUMMARY = "The PyPA recommended tool for installing Python packages"
- sHOMEPAGEsss = "https://pypi.python.org/pypi/pip"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=45665b53032c02b35e29ddab8e61fa91"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=25fba45109565f87de20bae85bc39452"
- 
- SRCNAME = "pip"
- DEPENDS += "python3 python3-setuptools-native"
-@@ -10,8 +10,8 @@ DEPENDS += "python3 python3-setuptools-native"
- SRC_URI = " \
-   http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
- "
--SRC_URI[md5sum] = "3823d2343d9f3aaab21cf9c917710196"
--SRC_URI[sha256sum] = "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
-+SRC_URI[md5sum] = "5601c4323464add1482291634142894d"
-+SRC_URI[sha256sum] = "90112b296152f270cb8dddcd19b7b87488d9e002e8cf622e14c4da9c2f6319b1"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pip"
- 
+Cheers,
+Paul
+
 -- 
-1.8.4.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
