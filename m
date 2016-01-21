@@ -1,45 +1,51 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 954FB6FF01
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 98B63731C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 07:44:17 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id cl12so18446144lbc.1
+	Thu, 21 Jan 2016 07:47:36 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b14so9052960wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 23:44:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=NwoNek7eC58T8jBmT4FotdS/6qCA8+/DXZnXOPJF9ZQ=;
-	b=d1QxxGmmQrjKMYOJtryH1QCLCQAOgVtvlVD5MJIpEXPGBzMuFwQBU0qNLapHiLmxOR
-	h8l00j6W+Z0kJ/MutkpaukerC1vJfwOeJ0J7TLw2T1ZxJVg0ihatslbw0jkyKz+bJdui
-	dLhhCVxX0XhMrXz0TfD7sGVIGaPEUhVUVD3Lg=
+	Wed, 20 Jan 2016 23:47:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=+jcx3XOmIKtVAMZb1rwP9jjU7DGNXggUZkqewYFpQOM=;
+	b=oriQCzu3tBw7ezjiPxskJ5/t69OWZ1xhyvy5AEREq/LUQM/Ra6PKSa5WWPR5I3bve0
+	Aukcis992AnHVtrstTgMc5yPADiW0Rw8d9z886XNfV8eA+kO5/moOK4PD/dKm5IbS+cv
+	0pGWaSramqzdCfuwwG0dAF7eeMkwLhzBEQGxb8Xl1RqHIoPNMXHoxWBqNJd0QH2xtbhp
+	nzLUfXL2FKmsvXi7JzaYWE6u6F+u2mad6OCq+zN/ePpuQcLoGD7SgWQ57YlPvfIVUs7e
+	COl78gCWV0vEMbkmbUmpHV200foNpl1WisJSmhjUvAR4ij7IsJoFrQuoudnOwE1xEVfh
+	TVvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=NwoNek7eC58T8jBmT4FotdS/6qCA8+/DXZnXOPJF9ZQ=;
-	b=m19m6I8GGKSbu0Q65mPhtf/uc9HWdGXs4CaaoUmLdRBw6s0gLjvUegssPzBZbw+8m5
-	9d6Auj6/LVmrNJw8J1N9EM/7oOl+w5qpF4zId4ryPOp4Pmc/wzLnIjFciYWIGOUSmx2O
-	u+GFzca65AvVUFtnScNDAyED/RK9k2ulTMVYkh/fhyhoPsDOVrt/D6XimHAnZQW9JzZA
-	FilPNd5a1o5aBoQ85AGoVL0q71PPE6pCddQ6YdRsfhLXqhhYWE2U5cNROBUc2hsB2ClS
-	Fu3aQWSN6F7RbyP19e1opbapMBiWixjjUL+HCp7m3OUFJCoWzJxbwsQOAtPsjqpgikHr
-	T70w==
-X-Gm-Message-State: ALoCoQmG9W7+2xFP5a26TQV3kmGyulQgo/546XqXH0tDxY2KrQbItswG5BQpayR7E60IJUhDNsV4+UHyypfStKxHxYyRdZUTICs1OCwf/BZsDTjiU7DmaAo=
-MIME-Version: 1.0
-X-Received: by 10.112.198.72 with SMTP id ja8mr14877360lbc.142.1453362257076; 
-	Wed, 20 Jan 2016 23:44:17 -0800 (PST)
-Received: by 10.112.204.200 with HTTP; Wed, 20 Jan 2016 23:44:17 -0800 (PST)
-In-Reply-To: <56A08BE4.1090306@windriver.com>
-References: <1453360859-16992-1-git-send-email-koen.kooi@linaro.org>
-	<56A08BE4.1090306@windriver.com>
-Date: Thu, 21 Jan 2016 08:44:17 +0100
-Message-ID: <CAP0W-R=Nqx=eqhvXD6Ex=RB8NxiPZcpwWqSMA+RvT1W3CMct2g@mail.gmail.com>
-From: Koen Kooi <koen.kooi@linaro.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] e2fsprogs: disable libblkid again
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=+jcx3XOmIKtVAMZb1rwP9jjU7DGNXggUZkqewYFpQOM=;
+	b=R1wXP/OhOL4YSe4XkEgxoLBXP7eD0dfTdkhEWmPke/LWiKUEnok0BRCWTB+p/h6hNq
+	xL4fHFjMFY4UtTzhN87Uk7j4JOQEvb0h1Rikd8JdRqNXQjNOaLr79D5RnYkrw7RyfQqg
+	lWxMDgZ5gETE7hzfKnngIMLrKSDhRsj3lKsQQpjO5Wzh/SSbkt4dZIb3CxlR8Lv9L6D9
+	kO3skaxAlXrGZawTndMIst3sEqg7cmNB02LMpFRz2a5/WgWnmI28oIg6kKivku5yBezG
+	zBz0+aYo66j/Ur33QndU12KCMLs5AqOlf+agAmI6PwWi+MyfehQ0C7DWxEeHqS2kkZ6s
+	A05w==
+X-Gm-Message-State: AG10YORpppEjVq6N5kwtI2TB245BCtAtjTTlSs4EpcwIL1nO9JFg4kehS5P7aF69vtHiZw==
+X-Received: by 10.194.5.161 with SMTP id t1mr794400wjt.38.1453362456862;
+	Wed, 20 Jan 2016 23:47:36 -0800 (PST)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by smtp.gmail.com with ESMTPSA id kb5sm124156wjc.22.2016.01.20.23.47.35
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 Jan 2016 23:47:35 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3117\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1452804997-20926-3-git-send-email-george.mccollister@gmail.com>
+Date: Thu, 21 Jan 2016 08:47:34 +0100
+Message-Id: <D448FD3D-8C29-4F26-AF95-068346B6FA00@dominion.thruhere.net>
+References: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
+	<1452804997-20926-3-git-send-email-george.mccollister@gmail.com>
+To: George McCollister <george.mccollister@gmail.com>
+X-Mailer: Apple Mail (2.3117)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH 2/9] bash-completion: build nativesdk variant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,70 +58,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 07:44:17 -0000
-Content-Type: text/plain; charset=UTF-8
-
-On 21 January 2016 at 08:42, Robert Yang <liezhi.yang@windriver.com> wrote:
->
->
-> On 01/21/2016 03:20 PM, Koen Kooi wrote:
->>
->> We use the util-linux one and do_install deletes it anyway.
->>
->> See OE-core commit fb8e776ea91c39d586b46400ad30aeea8dead1c4 for more info.
->>
->> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->> ---
->>   meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
->> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
->> index c82e99a..f244473 100644
->> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
->> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
->> @@ -14,7 +14,7 @@ UPSTREAM_CHECK_GITTAGREGEX =
->> "v(?P<pver>\d+\.\d+(\.\d+)*)$"
->>
->>   EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
->>                   --enable-elf-shlibs --disable-libuuid --disable-uuidd \
->> -                --enable-libblkid --enable-verbose-makecmds"
->> +                --disable-libblkid --enable-verbose-makecmds"
->
->
-> Thanks, maybe we also need cleanup other codes like:
->
->     # We use blkid from util-linux now so remove from here
->     rm -f ${D}${base_libdir}/libblkid*
-
-That one should stay in, because we *really* don't want it to end up
-in packages.
-
->
-> And:
->
-> ALTERNATIVE_${PN}-doc = "libblkid.3 blkid.8"
-> ALTERNATIVE_LINK_NAME[libblkid.3] = "${mandir}/man3/libblkid.3"
-> ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
-
-I don't have a strong opinion on those, RP?
-
->
-> // Robert
->
->
->>
->>   EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir}
->> --enable-bsd-shlibs"
->>
->>
->
+X-List-Received-Date: Thu, 21 Jan 2016 07:47:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+> Op 14 jan. 2016, om 21:56 heeft George McCollister =
+<george.mccollister@gmail.com> het volgende geschreven:
+>=20
+> The nativesdk variant is required for some recipes like git to use the =
+class.
 
--- 
-Koen Kooi
+Squash this into 1/9 to avoid mid-series breakage.
 
-Builds and Baselines | Release Manager
-Linaro.org | Open source software for ARM SoCs
+regards,
+
+Koen=
 
