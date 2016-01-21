@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f194.google.com (mail-ob0-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F735731C2
+Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B00827653B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 05:37:47 +0000 (UTC)
-Received: by mail-ob0-f194.google.com with SMTP id tr5so2014829obc.2
+	Thu, 21 Jan 2016 05:37:49 +0000 (UTC)
+Received: by mail-ob0-f195.google.com with SMTP id is5so2010504obc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 21:37:48 -0800 (PST)
+	Wed, 20 Jan 2016 21:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=l0VTKRySc+iE7RSaMMQdJ4PunmNRcBDBERVtRvx3mK4=;
-	b=LXWsRimU39zd1gDJDSHFHo+Ey30n+HEylZvUebe5bIBr5tf7fNwEZsBG9sOGXpk+IN
-	2u8it5y5Ky55oPZBrgzjH2cbNgud6SG94TI/UGQAckTcU2FY8HmV2+oLVLfBIz03+OKN
-	bHyQKwZ6LLYqcKvMFKmYbnfHUm0sf2O1EylFpCeSURiuXTE6WQPRalJJmOPMB8m3maAV
-	LWDoYXHDTIWSqZeQdSuIdDUC1kfhjDFWY3tki2eoSi7Soy8SKMRKYyC1jgB2wPacs9qi
-	m0CFqmTDt/lS9iqR9l+5ZQN/o2rVQB4pXC6ux/eWAuea0CAU1WKSs0HqN7/yEN9pSM2Y
-	HaZQ==
+	bh=8Jt1WiOOtNMzwZFi/k8oaFvb0moavjsBZnN1LY5BzhQ=;
+	b=pYK9zm2veJjspmRbl5wgVuBhHA8ITQhxMfUoFDTCGonJjt2ffuLN2c1meqbj5+QZya
+	tIyMH6aB+5irX6Q5zSab+g20RSFBdYWjmIKjcM8azed5CNM1oA3/4ZWu8vrv1AzWhizZ
+	R3bb7Vb+wxg+QjbvNW4fI4Yy2sXbO3L0qrdwEh4KBArhwK1gKWNjzIMjW9E+WAlZJHuL
+	ywTJT0mqbVmkEXYY/pMCqtESkcAt2keEPV5b507GCAtSdJapZa/MU1573oayVG6Z7813
+	DC8NGJIiryDjmcC+nr0QtpPIIkQKEM4YVy3yQpBxKbsH820xap4oApOU9jcurSQ5N5jr
+	KgeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=l0VTKRySc+iE7RSaMMQdJ4PunmNRcBDBERVtRvx3mK4=;
-	b=kEbHcsb6fO/Udy+1aRObixyEpEMKUYwWMLxONIdFbiZH8hqh3b/tgHVe7A/4W3vYG5
-	mbcIJaS56jWXaGEXx81aYMFUpGrg/N0IIM8ylDE3lxNgZkbwr3SAD/xvI+YoFemJ86QX
-	SMK4qnjyWHt4O3nNt0YRdnFRF0nFqi7oukK9LRzsa0tjL21gqbdVkS0nVXs0nt+81hqQ
-	L3NN4RpWWrc+WWhfiR/+800OriEWOUUekq4Tv8DqfzlcFAjBTJTPiYjrqgwfMGuRgZeq
-	NOPYfI7UPrFKAWp0L2QIuALPqa9razJ+OZLF3mvfJcpyHop/45LxsEOQCWdzDF4iwweL
-	23aw==
-X-Gm-Message-State: ALoCoQn85FQ9PO9EfZKD4YNkh68TdmsFjgi/RB/l1n2uoRt8HwUoqB4cTy0BPYs3r2qdDxItYuazyMNZeblduRas02jfBzKzrA==
-X-Received: by 10.182.20.98 with SMTP id m2mr30698052obe.61.1453354668251;
-	Wed, 20 Jan 2016 21:37:48 -0800 (PST)
+	bh=8Jt1WiOOtNMzwZFi/k8oaFvb0moavjsBZnN1LY5BzhQ=;
+	b=gr7+RoBr3DnDW5MGEcHQTo3+t/Iphosov9OkEaXObnB0W74G1n9yR/17TRya0ZT115
+	t0zTmOJFvmxQ+15o+idfq95+DH+f7RfCYJSauz7IDaBMVavQoyKpKC2ffgq4Vr/0DOpC
+	nxKTcbbXBQ1pIN0DRhZUAFZCJxf+n0WPi8QbUst4xprhx3ltq37Gh3FI0sLbNguJPt1/
+	FIN6wafNKwyVSzrnQNl1+CyXXB+G1fKaWcvMqrc2C1YMTHZBIUueqsHi4YTpXiPa+HK8
+	EeR3mEk7F73Tom92PY56WBRPffF7SOEgJ/msZ078jJR7SIgHoiYYKm4EoSG8odqS9KI7
+	ct6w==
+X-Gm-Message-State: ALoCoQnh4vs9L27BxFgUIY/enIU+0eHhtLJr0UJzM/rJWhqx/fiNmNoLjmzDTEfto15YcwK2MPrNbKJRERpJZK6QnYwRAYpGbw==
+X-Received: by 10.182.241.3 with SMTP id we3mr30636910obc.82.1453354670355;
+	Wed, 20 Jan 2016 21:37:50 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	w143sm19735990oiw.16.2016.01.20.21.37.46
+	w143sm19735990oiw.16.2016.01.20.21.37.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jan 2016 21:37:47 -0800 (PST)
+	Wed, 20 Jan 2016 21:37:49 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jan 2016 21:36:40 -0800
-Message-Id: <1453354610-19218-23-git-send-email-armccurdy@gmail.com>
+Date: Wed, 20 Jan 2016 21:36:41 -0800
+Message-Id: <1453354610-19218-24-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
 References: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 22/32] gstreamer1.0-plugins-base: update 1.6.2 -> 1.6.3
+Subject: [PATCH v2 23/32] gstreamer1.0-plugins-good: update 1.6.2 -> 1.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 05:37:47 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 05:37:50 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- ...er1.0-plugins-base_1.6.2.bb => gstreamer1.0-plugins-base_1.6.3.bb} | 4 ++--
+ ...er1.0-plugins-good_1.6.2.bb => gstreamer1.0-plugins-good_1.6.3.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.6.2.bb => gstreamer1.0-plugins-base_1.6.3.bb} (83%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.6.2.bb => gstreamer1.0-plugins-good_1.6.3.bb} (80%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.3.bb
-similarity index 83%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.3.bb
-index e4297cb..95a012e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.6.3.bb
-@@ -12,7 +12,7 @@ SRC_URI = " \
-     file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.6.3.bb
+similarity index 80%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.6.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.6.3.bb
+index aae8406..0b4f436 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.6.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.6.3.bb
+@@ -9,7 +9,7 @@ SRC_URI = " \
+     file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
  "
  
--SRC_URI[md5sum] = "f530fbbe287edce79c55a37bd1a39fe2"
--SRC_URI[sha256sum] = "c75dd400e451526ed71e1c4955e33d470a2581f5e71ecf84920a41c0a5c75322"
-+SRC_URI[md5sum] = "3ddde0ad598ef69f58d6a2e87f8b460f"
-+SRC_URI[sha256sum] = "b6154f8fdba4877e95efd94610ef0ada4f0171cd12eb829a3c3c97345d9c7a75"
+-SRC_URI[md5sum] = "ef4f5bc4f31f706832a234b0f603967b"
+-SRC_URI[sha256sum] = "876e54dfce93274b98e024f353258d35fa4d49d1f9010069e676c530f6eb6a92"
++SRC_URI[md5sum] = "a1958df7aa498b42793e2f2048673815"
++SRC_URI[sha256sum] = "24b19db70b2a83461ebddfe20033db432dadfdb5d4b54ffb1dfa0d830134a177"
  
- S = "${WORKDIR}/gst-plugins-base-${PV}"
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
 -- 
 1.9.1
 
