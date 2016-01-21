@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f193.google.com (mail-ob0-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B496731FD
+Received: from mail-ob0-f194.google.com (mail-ob0-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 94E617317D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 05:37:17 +0000 (UTC)
-Received: by mail-ob0-f193.google.com with SMTP id oj9so2022681obc.0
+	Thu, 21 Jan 2016 05:37:19 +0000 (UTC)
+Received: by mail-ob0-f194.google.com with SMTP id oj9so2022715obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 21:37:18 -0800 (PST)
+	Wed, 20 Jan 2016 21:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=XgsP3DSXPQxHapBnWd4eBITf8Zp5NbM8ujAZPxwXaHY=;
-	b=TzyBAw/zRZnt12XgCEKoB64dapv6qMZaivpm+HHRQr3yWJnnPNlagZMkQrQ7C6Chfl
-	eLGGULYEdqFaGXwfGLTtAsZlX64oS2TvCZL+wEP5tpVXfzuWe1TZY9EMtsipm+K1g/UX
-	fx2L5m9Hh/8hH4xNFoGrB/f9yWpbkwNY0RSDl8P8aPwjQ0NzgBhsrNS+3cIPqGI4ridf
-	Rx+0r6oadK3R+b7i9xPJUYhCe5Hkf+fmTJG/T+aYmt816IjtEk+4AVLMZwmgrlymkOXw
-	0tqkmsg9hfkAiZ9+NxHhdqI0VYx2S4XVYAG+tZWSvFXHlrbEmcR3da08MNsYtQhHIZxV
-	8GIQ==
+	bh=x0YDEMw/YUZXdecCurkKb830szdh3KwgoXErqBrCv38=;
+	b=lLSIZLJ2FRLOnFcpMvw3faJhUQFwIbmGqFisB6xdMcMSgZm7ed1285SiRr/WUhrcsg
+	geUwKABnpvnGdFrgPWsh61GfHZzzrFFwJaBZ9N/+XvI8SkT/TKY2NSrQGaps2NFjcrlr
+	7w8mrkS2ihGt20Yt1AYSRyFICP0qVOZxz0wIxlPClOEgjdc8KFg4sTlAbiBNX1jFejg9
+	ihOZfB6g0BWFoBwlyCzY90qLtMZb8URpl+2TyEeJJGw2RleBwLVPTEEwaNyuaZ5XRr8P
+	ud73AQWTJlqIezg9dNkjdLSG8cM45lSO1GlSOpNDJY5sL9USpz1I3Dxt30IPUpjvgYBv
+	cvAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=XgsP3DSXPQxHapBnWd4eBITf8Zp5NbM8ujAZPxwXaHY=;
-	b=J26TztxQoX080nJkJk4LtgQQiBifBFMe2tGqHapjVZZO8zIPtV+KM1V4qEu1wccJuF
-	D93lxiVN6YysyT8ebhCCWA7h+AfHHcScBXZd6YCniRT3PMNrYhMoB3CkApcIvHKEStJI
-	MasAopK06cQtCyXhZOmcF1CobWJCv+DqR5+1EgrQNb87MPStQ9ztnDfjT+4ws/0NB0LD
-	CAm3WV1H/HjgbT9Zg5SyD7csyIwJNpWQwuRoai5JmaFh2npdaVVbYy+v5zXkjcih1TV9
-	lJs6l4RSFpHUUwO6K00Y+UZTfdL4XVQqFX/kqXAUBPYkNqYgOMpiuUO5G0bGiFYcpMnN
-	P6cw==
-X-Gm-Message-State: AG10YOS3yPwFuBOxnjhPFDa1Hg9JzJeWHpEO39KjnnYIiBd43gutAxKjXpJB/6IpNPU2PA==
-X-Received: by 10.182.138.68 with SMTP id qo4mr24667386obb.26.1453354638342;
-	Wed, 20 Jan 2016 21:37:18 -0800 (PST)
+	bh=x0YDEMw/YUZXdecCurkKb830szdh3KwgoXErqBrCv38=;
+	b=JVykmCyTaPSZ63zSWQpg+YDgwtKy/VVGysLPIUJLLARxWFKq+NnX+NWMQPJNPCxPvV
+	KyyQorGvsyyl3HncWLt00qswLwr5yzLBm+YDkLLWQDG6r7TUQ/FeeuBXtHgF7Ih2wKKn
+	p8nnN+Ht2x82XjYOpUMKcU7/YPNWlySDxPxSuNbHwHFRIyrQ8rhg5t95TRn+Q35Kxx94
+	ddEiR/b0i5HTpkgIPtcpjhfZs5ZpqhCDx1f0fy1qOTVTh7ILFMAC369fU33VNY5aN4fu
+	NgwKc9YQFa4psRn8D8H2cndnXZp0wnuM1qqCWV2bsHUJB8fyNrus5GiqVu07TIL46RVN
+	nKzA==
+X-Gm-Message-State: ALoCoQmvSigOxY/IqprkBqXyfzM+b6gyNbeA3KvGPGcRtP7/N+X7t2ftLKoJx7griJ07SzcoMRP3RSk2jhBPeGfYknGXN585uw==
+X-Received: by 10.182.142.105 with SMTP id rv9mr32868871obb.66.1453354640542; 
+	Wed, 20 Jan 2016 21:37:20 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	w143sm19735990oiw.16.2016.01.20.21.37.17
+	w143sm19735990oiw.16.2016.01.20.21.37.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jan 2016 21:37:17 -0800 (PST)
+	Wed, 20 Jan 2016 21:37:19 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jan 2016 21:36:25 -0800
-Message-Id: <1453354610-19218-8-git-send-email-armccurdy@gmail.com>
+Date: Wed, 20 Jan 2016 21:36:26 -0800
+Message-Id: <1453354610-19218-9-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
 References: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 07/32] gstreamer1.0-plugins-bad: minor formatting improvements
+Subject: [PATCH v2 08/32] gstreamer1.0-plugins-ugly: minor formatting improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,207 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 05:37:17 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 05:37:19 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad.inc         | 74 ++++++++++------------
- .../gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb    |  5 +-
- .../gstreamer/gstreamer1.0-plugins-bad_git.bb      | 11 ++--
- 3 files changed, 42 insertions(+), 48 deletions(-)
+ .../gstreamer/gstreamer1.0-plugins-ugly.inc                | 14 ++++++--------
+ .../gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb           |  3 +--
+ .../gstreamer/gstreamer1.0-plugins-ugly_git.bb             |  7 +++----
+ 3 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 9bdf9da..4aa2f56 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -1,13 +1,12 @@
- require gstreamer1.0-plugins.inc
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+index eb49e22..869022a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+@@ -7,26 +7,24 @@ DEPENDS += "gstreamer1.0-plugins-base libid3tag"
  
--LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
-+LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
+ inherit gettext
  
- DEPENDS += "gstreamer1.0-plugins-base libpng jpeg"
- 
--S = "${WORKDIR}/gst-plugins-bad-${PV}"
-+SRC_URI += "file://configure-allow-to-disable-libssh2.patch"
- 
--SRC_URI += "file://configure-allow-to-disable-libssh2.patch \
--           "
-+S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
- inherit gettext bluetooth
- 
-@@ -15,54 +14,52 @@ inherit gettext bluetooth
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
- PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)}"
- 
-+# gtk is not in the PACKAGECONFIG variable by default until
-+# the transition to gtk+3 is finished
+-
  PACKAGECONFIG ??= " \
-     ${PACKAGECONFIG_GL} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--    orc curl uvch264 neon sndfile hls sbc dash bz2 smoothstreaming rsvg dtls \
+-    orc a52dec lame mad mpeg2dec \
 -    "
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-+    bz2 curl dash dtls hls neon orc rsvg sbc smoothstreaming sndfile uvch264 \
++    a52dec lame mad mpeg2dec orc \
 +"
  
--# gtk is not in the PACKAGECONFIG variable by default until
--# the transition to gtk+3 is finished
--#
--# dash = Dynamic Adaptive Streaming over HTTP
- PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
-+PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
-+PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
- PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
--PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
--PACKAGECONFIG[opengl]          = "--enable-opengl,--disable-opengl,virtual/libgl libglu"
-+PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
-+PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
-+PACKAGECONFIG[dtls]            = "--enable-dtls,--disable-dtls,openssl"
- PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
- PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
-+PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
-+PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
-+PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
-+PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
-+PACKAGECONFIG[hls]             = "--enable-hls,--disable-hls,gnutls"
- PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
-+PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
- PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
- PACKAGECONFIG[mpg123]          = "--enable-mpg123,--disable-mpg123,mpg123"
--PACKAGECONFIG[opus]            = "--enable-opus,--disable-opus,libopus"
--PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
--PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
--PACKAGECONFIG[wayland]         = "--enable-wayland --enable-egl,--disable-wayland --disable-egl,wayland virtual/egl"
--PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
--PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
- PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
- PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
--PACKAGECONFIG[hls]             = "--enable-hls,--disable-hls,gnutls"
-+PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
-+PACKAGECONFIG[opengl]          = "--enable-opengl,--disable-opengl,virtual/libgl libglu"
-+PACKAGECONFIG[opus]            = "--enable-opus,--disable-opus,libopus"
-+PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdread libdvdnav"
-+PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
-+PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
- PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
--PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
--PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
--PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
--PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
--PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
- PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
--PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
--PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
--PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
--PACKAGECONFIG[dtls]            = "--enable-dtls,--disable-dtls,openssl"
--PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
- PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
-+PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
- PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
- PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
--PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdread libdvdnav"
-+PACKAGECONFIG[wayland]         = "--enable-wayland --enable-egl,--disable-wayland --disable-egl,wayland virtual/egl"
-+PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
- 
- # these plugins have not been ported to 1.0 (yet):
- #   apexsink dc1394 lv2 linsys musepack nas timidity teletextdec sdl xvid wininet
-@@ -81,10 +78,10 @@ PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdrea
- # in a gstreamer1.0-plugins-bad bbappend).
+ PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
++PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
++PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
+ PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
+ PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
+ PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
+ PACKAGECONFIG[mad]      = "--enable-mad,--disable-mad,libmad"
+ PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
+ PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
+-PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
+-PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
+-
  
  EXTRA_OECONF += " \
-+    --enable-decklink \
-     --enable-dvb \
--    --enable-shm \
-     --enable-fbdev \
--    --enable-decklink \
-+    --enable-shm \
-     --enable-vcd \
-     --disable-acm \
-     --disable-android_media \
-@@ -104,8 +101,8 @@ EXTRA_OECONF += " \
-     --disable-gsm \
-     --disable-kate \
-     --disable-ladspa \
--    --disable-libvisual \
-     --disable-libde265 \
-+    --disable-libvisual \
-     --disable-linsys \
-     --disable-lv2 \
-     --disable-mimic \
-@@ -139,14 +136,13 @@ EXTRA_OECONF += " \
-     --disable-xvid \
-     --disable-zbar \
-     ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--disable-yadif", "", d)} \
+     --disable-sidplay \
+     --disable-twolame \
 -    "
 +"
  
--OPENCV_PREFIX="${STAGING_DIR_TARGET}${prefix}"
--export OPENCV_PREFIX
-+export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
+-FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
+ FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
++FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb
+index 67b72fa..d935f6d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb
+@@ -1,10 +1,9 @@
+ include gstreamer1.0-plugins-ugly.inc
  
- ARM_INSTRUCTION_SET = "arm"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+-                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
++                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
  
--FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
-+FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
- FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
-+FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
- FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
--FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-index 284e1f2..c1c322b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-@@ -1,9 +1,9 @@
- include gstreamer1.0-plugins-bad.inc
+ SRC_URI[md5sum] = "0f0e30336e3155443cd5bfec5c215d56"
+ SRC_URI[sha256sum] = "e7f1b6321c8667fabc0dedce3998a3c6e90ce9ce9dea7186d33dc4359f9e9845"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
--                    file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a \
-                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
--                    file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
-+                    file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50 \
-+                    file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a"
- 
- SRC_URI += "file://0001-glimagesink-Downrank-to-marginal.patch"
- 
-@@ -11,4 +11,3 @@ SRC_URI[md5sum] = "7c73bec1d389f0e184ebbbbb9e9f883d"
- SRC_URI[sha256sum] = "650855e39ff56a8bb6cb0c192109c5926ce12f536d06e19ebf829de71ef396fe"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
 -
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-index 309505f..79c1777 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-@@ -3,24 +3,23 @@ DEFAULT_PREFERENCE = "-1"
- include gstreamer1.0-plugins-bad.inc
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
+index dcf5ffc..e06b5ea 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
+@@ -3,15 +3,14 @@ DEFAULT_PREFERENCE = "-1"
+ include gstreamer1.0-plugins-ugly.inc
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
--                    file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a \
-                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
--                    file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+-                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
 -
 -S = "${WORKDIR}/git"
-+                    file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50 \
-+                    file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a"
++                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
  
- SRCREV = "6e5db57d2446a753aaa76bee268e1f95600b14ce"
+ SRCREV = "06b8ac10cee85c5c304ca320997aa8f44295a66f"
  
 +S = "${WORKDIR}/git"
 +
- PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
- PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
- 
- EXTRA_OECONF += " \
-     -disable-openjpeg \
--    "
-+"
- 
  do_configure_prepend() {
  	cd ${S}
  	./autogen.sh --noconfigure
