@@ -1,16 +1,16 @@
 Return-Path: <Tom.Hochstein@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0136.outbound.protection.outlook.com [157.56.110.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C196FFD7
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0111.outbound.protection.outlook.com [207.46.100.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 00B6E73212
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 21 Jan 2016 22:48:09 +0000 (UTC)
-Received: from DM2PR03CA0026.namprd03.prod.outlook.com (10.141.96.25) by
-	BN3PR03MB1413.namprd03.prod.outlook.com (10.163.34.20) with Microsoft
-	SMTP Server (TLS) id 15.1.390.13; Thu, 21 Jan 2016 22:48:08 +0000
-Received: from BY2FFO11FD024.protection.gbl (2a01:111:f400:7c0c::111) by
-	DM2PR03CA0026.outlook.office365.com (2a01:111:e400:2428::25) with
-	Microsoft SMTP Server (TLS) id 15.1.390.13 via Frontend Transport;
-	Thu, 21 Jan 2016 22:48:08 +0000
+Received: from BY2PR03CA040.namprd03.prod.outlook.com (10.141.249.13) by
+	BY1PR03MB1419.namprd03.prod.outlook.com (10.162.127.149) with Microsoft
+	SMTP Server (TLS) id 15.1.365.19; Thu, 21 Jan 2016 22:48:09 +0000
+Received: from BN1BFFO11FD044.protection.gbl (2a01:111:f400:7c10::1:187) by
+	BY2PR03CA040.outlook.office365.com (2a01:111:e400:2c5d::13) with
+	Microsoft SMTP Server (TLS) id 15.1.365.19 via Frontend Transport;
+	Thu, 21 Jan 2016 22:48:09 +0000
 Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none; freescale.mail.onmicrosoft.com;
@@ -18,78 +18,77 @@ Authentication-Results: spf=permerror (sender IP is 192.88.168.50)
 Received-SPF: PermError (protection.outlook.com: domain of freescale.com used
 	an invalid SPF mechanism)
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD024.mail.protection.outlook.com (10.1.15.213) with Microsoft
-	SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
-	Thu, 21 Jan 2016 22:48:07 +0000
+	BN1BFFO11FD044.mail.protection.outlook.com (10.58.144.107) with
+	Microsoft SMTP Server (TLS) id 15.1.355.15 via Frontend Transport;
+	Thu, 21 Jan 2016 22:48:08 +0000
 Received: from paisano.freescale.net (paisano.am.freescale.net [10.81.19.190])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	u0LMm654012064; Thu, 21 Jan 2016 15:48:07 -0700
+	u0LMm657012064; Thu, 21 Jan 2016 15:48:07 -0700
 From: Tom Hochstein <tom.hochstein@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jan 2016 16:47:33 -0600
-Message-ID: <1453416456-27728-2-git-send-email-tom.hochstein@freescale.com>
+Date: Thu, 21 Jan 2016 16:47:36 -0600
+Message-ID: <1453416456-27728-5-git-send-email-tom.hochstein@freescale.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1453416456-27728-1-git-send-email-tom.hochstein@freescale.com>
 References: <1453416456-27728-1-git-send-email-tom.hochstein@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD024;
-	1:EE0Fghb9eOI3YbciVb195YSJOBB/n8CskaH49W2x1dRwg86yy792q2v4PN/BK6tbO8rEibk8RBegPExtCxwDh2yF3DBRdxLLiUgobz9O5jaHyOzlkD3tp2BCHF2tUpVAsBhNbd+ufyma3e8j30S5BNhqV+NYDUkuLOToiWZSjBBCSb/mHkYQTkloCZnvUQEoBvWZuAPxAgIDmZC/PsXiWlIKBy0SMExLnCXRxFyOTvLSnzd/llDW0fbv7aRH11fx8K60u3SCiCVXkVaEZlKeVFTW1sU4oQynKcpU52+t3K/F51rH2ZGFu0cW3hHg5Phpqf3o7QhkImvPCtWMYzByjM7V7oAJKTm4iwTj6aOoqWYkWn9cv2lfpPfeer/PfMEBhLg2GV+HbOwiPKXCToNBqiTA9eLT19VQyl3gKONY9WaybV3gYxukiMncI+5sINY9RD48eS8MUZxyEgKwHpNGnU83wIUNO09Cy/2jOaZzcFM=
+X-Microsoft-Exchange-Diagnostics: 1; BN1BFFO11FD044;
+	1:r4KuooJlVa6TkDnIkbmBgTvDlFr2aSoHSJpYN9X9eDBkUtoLj9UZF5Eyx0Pmma3QzWEtQLNoMMBblSxNt2wSf/nT/miLTKAO9piGUguyIIPubA3Wt3DZ0MO/PvHrf7qeVcoQw33AvKPyxjtSAaVtIl5QyZmkOfY1nS2mp7SAX4gddwWCZ/ttK66lwoY6E+s5imnMoYf4ks4qagBHIRtnLw/fT/DJcbT3QETLESHSAy6ZsW5FGNEs+GRQdscFTGKvELVgAgcGUHIrY4XJClnMuVjQovxqColn308bdarmDE1wPf1Yo5QnXRO9Waw0iSArrm4U4KdVX0zSm/5VEKa+SLyf+QkRMtJWkiQ1zZRUplAOvsG6ykFtzTKn6Y7rELq72516RIhn4mu7xHXxSXAfsta0Q6vxdntPoYw1hoK+TSBeTkCsgx8yTvarotOY1j5RzU53LF7EKtnN+5wPpLoGmqgTpjVEX0whC0Gef3NbP6w=
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(448002)(3190300001)(199003)(189002)(230783001)(19580395003)(85326001)(87936001)(106466001)(2351001)(229853001)(76176999)(33646002)(47776003)(92566002)(110136002)(1096002)(81156007)(5008740100001)(48376002)(107886002)(50466002)(5001960100002)(5003940100001)(450100001)(77096005)(36756003)(19580405001)(189998001)(586003)(2906002)(53416004)(104016004)(50986999)(1220700001)(11100500001)(6806005)(2950100001)(86362001)(4326007)(97736004)(4001430100002)(50226001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR03MB1413;
+	SFS:(10019020)(6009001)(2980300002)(448002)(3190300001)(189002)(199003)(5008740100001)(50466002)(2906002)(189998001)(450100001)(36756003)(86362001)(81156007)(6806005)(104016004)(11100500001)(5001960100002)(1220700001)(110136002)(586003)(2351001)(4001430100002)(107886002)(48376002)(50226001)(19580395003)(1096002)(19580405001)(92566002)(47776003)(229853001)(5003940100001)(87936001)(97736004)(4326007)(85326001)(76176999)(50986999)(53416004)(2950100001)(77096005)(33646002)(106466001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR03MB1419;
 	H:tx30smr01.am.freescale.net; FPR:; SPF:PermError;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 9fcd5f04-ec70-4d77-5ac3-08d322b4ee80
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR03MB1413;
-	2:VMVLfb8BSAr/oyddSghRsAU34mWDIlBnt3IC+QwhsGTyYmb0Lkbf4ZwJMyc+cHUrhVxRWxOMSsCmNdAeDWPJA/chpq6VLjANWz01ZS4NLeKPPo6Jmz7WCChVSEVgVG7oRIVAmqBm/BNDnbOvnkcGUv2MEbtBImq2gGHF+MeErsgoQ/xoepPzjRALP0hH4/3T;
-	3:bqvR6Irj/WXf88J7Rojcw9qIS6fDVOyzkZ9VcPnmFPPHfnOIlQOENHqBbMrRdV72gslKyGZ5J0IMEBOddJtFaSzFR/X48WuaeB7P4G+Vy7YgOWSjSG3Msoay5PDnS+zB9CVfsR11f3gdRnO6Im/GovRczbr22CPUYLitBeAVFG5s/tQc6MY2izPCc8DfRw1QKO7MDMJJ7UUXraGK8F8eG9aXQhLGHrPeCNkvBVcZ5Xs=;
-	25:vdQX7XP/cS2+LEoQO0PwjNtF4eP3CP1t0HopQ3KxaKBS+PYjuU8jkEF3voBIDAVRMoA0nST0a5KhqDXYGNLr8Qdg+OHVWwluBcOhUWGHs2q4mdxkvmiKhDrnaTFDE4UuxeuqW/NyNS0ptgvQW2dhynTU3s63IJTGkaDOWcD2c4tLoR5joaaxgGYjCC8x8ElpvAXctwnfKBGcwJWL9hUpued4RBCApY6zvyuBLFEyD3pliccLrGq9K8R0PknRE3Ps
+X-MS-Office365-Filtering-Correlation-Id: 58af9555-99ab-427f-63e9-08d322b4ef0f
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR03MB1419;
+	2:cNAxItvIVQGfpGAHXOT/dgVauW4wRuP1CmAW/AAFdzJHYAjqbU01eGG+ogRVqQmP86intcrY264ymhr6azWTJJho2vyU70hqDjNA39NW8jCwL4owd5qCz9RSA0CPZzMxsySdz0xEa+x73cI+0M9ewVW5iYRdH+XjBOCSQ2UB74dyRojLA1Qmx6mz6nSDFOuj;
+	3:RPMOUaeCxcfnnpJcfseq5I0niw8QFFinHPtf6Oufcwk2sNvNe+Dk0nTDCSlNRYMUIEpIbC052HUojDYot+DHCaVHJnpnio5lnC2GsV51tjg+snE6rwxWFkJ4L7HyYoba5M8jvJzYnW81zw69Ri3VbOIeH4xFNC/XZ8lu/per0DqrXTAlB03Ko/c/iUUqFc5kpqC6NjqPh4F4Hh7xLXQidc+Xe2oQ32GVyhXU8Qiom8g=;
+	25:1VJwDwTsp2QeLya1kCi4LbT+sDQ8+kM/hjgm6JtvYjzG5ZFPNLkwFnwm3Mrrj833wjORXXJ8OtrfY6Wb6k1YyyeyQI0OCiOV3uv8ZKbNJaN+C0yqAcnE+gFxYCkEQFYBjoB0I8ybYLY6qO84S/E//cl9ENXBEJK+I7FrTMWV3yJW2Kt8FPU4Xk3HnXcWUwNhN+fpIX1Df6+AbxyQY9KZcadp80DLWjvUlk9KqXGYr2DBTVx6MMe7qwp7sUqXcFpo
 X-Exchange-Antispam-Report-Test: UriScan:; BCL:0; PCL:0; RULEID:;
-	SRVR:BN3PR03MB1413; UriScan:(101931422205132); 
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR03MB1413;
-	20:E6mw6ymxRYOwmW9DNR07BFQ5nGRGFicJA4VaVJpjzcXqkdexLRcNj3+YVBmhcwlzFCaxnXjbqgagC88wT+9bcUp88u8WzXW4ee4bv2XUEvrfAjwxgBNlZV2siHR9+BhQMQMVlSXBWISgdeCjlbF96exnBaHfJ5w/3xPYczHtm4RicC1v5Kp41tLSKAmcDTnHSvo9WpCuInacPD5dgtPkY87l1DE1gjA5srNDBa7whcR5+UuxZpautcDfok6eKnJL/+BK93Lansn5iMbTtdLYbbiWIi3AlW4JtZFb49t004Ocw83Nk0pWKMykXcGq1pQU/LYo+LzLXsSWF5Sm9yk6kFPvbR+mbC+mNT6ridQmdW/IreSyGf9ILoCat1aXSDNwr6SPa0N9QAguitsRCLtZCr7VTwKfeBfGfUSJ98+tUZeA+mEurWDYa+eNhUBMEAoN
-X-Microsoft-Antispam-PRVS: <BN3PR03MB1413F82327600C62217EFB14E8C30@BN3PR03MB1413.namprd03.prod.outlook.com>
+	SRVR:BY1PR03MB1419; UriScan:(101931422205132); 
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR03MB1419;
+	20:E5YzDr+G70kzNuaBrwnnUtk45d8kBP5KsmszzhbFB8zWVgtFl3t/bbBS0poc8tnIEuORZvOocwRuLjAGPfGav4eC7UvG5TA1WqpNkAndujGjFFtzeDTjju+UDMZZSEEy7cYPKebGUuB+Ht9WAh98AlAySMNoJvf0YyjqCJEP0Y4r5bbGcJlrTLt+FwGXvO4ugZZ2AwKos2SwZTljFnRheZUdAwh9IdJ/fsqrXVyKuMbejzZlFEZTIE7niIc/GhEVYdvd7TdSosGzm+281lDMZS5jfxcxGqv4OXEgBvFi+WOSiOw1az4rySxPSE2NvXJIY1NPwYpGQ81tWXxCHkjsBz7iMRq+Ztr8IpVo/WZzABS0nQ8WKQbZEEbphs0wPPVz8ktJFPzGZpJel5l21aXlpSMx3TJ+nQXhtVEVRqB4IqxppuB5xNZ2hk7G4WPfOpll
+X-Microsoft-Antispam-PRVS: <BY1PR03MB1419BFDC4BE22370F70C4CB3E8C30@BY1PR03MB1419.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(123027)(601004)(2401047)(13018025)(13024025)(13023025)(13015025)(13017025)(5005006)(8121501046)(520078)(10201501046)(3002001);
-	SRVR:BN3PR03MB1413; BCL:0; PCL:0; RULEID:; SRVR:BN3PR03MB1413; 
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR03MB1413;
-	4:Nb4448NIBHEKyEg3bWSUSY6V6JuS/XnFBDgjUTfeO2LspIMaTE2XcDXKqmZDbjuQEu3sqiKXMOrUEQIdl/1xd0rKGQ3dKxXAKKcB+sZ1tgKBfphdWgpM6k/a9QZ0kdmqD2b6cqP6XvimBRaoexlAV8K6Y94IhcFDiiun8z+IaNcGUb6HjSnvNxC2k1fMxR184eHr8garIh8xAEg2pf4fPpddkJBhVUcp1nWZfWr3B7hcRlYlUa3zkHWtOf5YqY/JW/Pa5pcfDUzAbDWwTvMRRu11lIfNJehEIPH+sxtcC46qUOZLc/EvCv/j/bLg6EamxixCMYSzkBbAeRV5m+iDB0EtE78/c4Nt5aq1pQ8jQq8kIT5SP8QVG2r/eFVsbLZiN7DGSbzXroQGHS1IqUPDModWVHTL7VgJxc6qwuWz5bcGkCW2AzGPeAyAOJumFNR+Nkzygnf/1sG52t34wGVVzB5nnb4AEyw1r3lq3jZSV4U7HYO8wwEMNsUzmtcLk7Mi47a/rwM6hQBFgTn8thT+rARsr2qUKApAFITqRLI1xTI=
+	RULEID:(601004)(2401047)(13023025)(520078)(13015025)(13018025)(13017025)(5005006)(8121501046)(13024025)(10201501046)(3002001);
+	SRVR:BY1PR03MB1419; BCL:0; PCL:0; RULEID:; SRVR:BY1PR03MB1419; 
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR03MB1419;
+	4:wn6rgRKZFPJ9vCygCSGR2YQ9vqvG2fAaupiSW28+ZQekrlOuIY+0IV7i3ztRyllWoKkxkTZz1Y04ofkWt1m9p/xWjOZunh7wH4G/x1AzBJIoV6h8WziqTgHarC7+4kAeqeBuz0Q4iTKB6gPGthENY92L1YCW8v15D4r2amHGPl1cSQRJBFlBu4a1XX4KK9+uScbkQwAZEnKOHzG7rKG7y7pjTXzPqy/6XkHZGWRRf6l+Nt/RPySp5qK/XpVY7QoQts2465LWiDS2UK7H4mP8rOMRjpp3g3W6H9ZRlqnJ0C9Cas8JDhZdy1HUhPaOO8AJ9hgEk/h+O0xiy8KeuHsWrkU3NN4uK8e1xbYgnvTrVHloVqlRrsvKmY6mkrzu7vYKs4zC3ygMS8tyXXY7nJvRulN2zc56ww9tZyybalb34awhQKK62t+dO4CeMS1FIzet7Z0Pflwwl8jUU1PIgHlhGDzjhQfOcQ1/QYzcUCBH7DImv6iTKeCYrp0OuMSCuNR2mwq0vO0l2NKz5YlHwHsEOA==
 X-Forefront-PRVS: 08286A0BE2
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN3PR03MB1413;
-	23:4fDfLJlFdLQ8h5W/XzZ+pNrlTw3NFqwF9qvq4gNr4?=
-	=?us-ascii?Q?ArcDGWY1D9nUzCV+dUj7eO2DpkL0f/tl2EmCdfpsLAZbOc4tgy5yS4a+bfZ2?=
-	=?us-ascii?Q?gKF0doJTjG/vhng6cYuvfXjar67r7ZryfY4akyRXgFr2Th95Ch7eqYhSwkfI?=
-	=?us-ascii?Q?Xcfzh27OjGTLHR73r4qkjnpcYCn46IADDBm+VxjdCHZsj8ekk4nPSHo/8oSd?=
-	=?us-ascii?Q?fkd5t6oUCQLG2M5bp6jW9UUD+JF8jfdDjFEx4glZkg1CQrONrBfAY2uCdMhv?=
-	=?us-ascii?Q?zdbPY98kNSv64VoxgZjRplrnnoj3P99NUNiv3SFbStIbNhk5DCecfR8PQNHE?=
-	=?us-ascii?Q?X0K8NrjMQeAKvxewlpOrR3+zFFhcROwhPzDMhUd6q3/cSp7t5PoN4Pod0f7O?=
-	=?us-ascii?Q?vqRhHma0aMzMwo9AeNEKG52f0pXYEAGnY/ri2MUEa/QUIruEcehExVcwc4nW?=
-	=?us-ascii?Q?7x04yR0wCXwIfZLBHcMoYuue5a2EiTUA+FdDoKv81DgrfTAQLomjfuYp0ecI?=
-	=?us-ascii?Q?gff7tfhKpGx/tWSqEBPjQ9VVVRdLM/TDBTbt9dtxo8ktwg+kmMtERwDBxC1J?=
-	=?us-ascii?Q?oTcogWLEWnkXyM2k9i6PxaYw2V8hmZFOuEU3hFoBT23Tq5SG2XIbLvRWxhzz?=
-	=?us-ascii?Q?wV4o2icpJtpBX+NzZMGFgK9cETXvvIY8nepI+DCv+fDeLH28odwBcIyijQn9?=
-	=?us-ascii?Q?nJiXfd+8RXUzI7tV9Bz9OKZ7tZmxPO9nL90eHC47IY7DacHJALOBkldCWBrs?=
-	=?us-ascii?Q?8FQbooSSK+oCmJ2NbYM9suD25AHmpPmV4C6MYMqPz33aC7ZgCxg58RIXKLNn?=
-	=?us-ascii?Q?X8gBf5cnVhVVM7VbuuQRYhhUmP4IJdajWJxuDa/fHydripxpFDWHzKwviskI?=
-	=?us-ascii?Q?4JsvsbFXSuiKCwD+x7O0SaoG19hfQ2DBycV2GYq4LB/Pjpi4Rs8O0AQK8Xcd?=
-	=?us-ascii?Q?7h5z3EX2lYb8hLIdfutLCp9h4ToZRiAqMXuFFsL13xRxqLXlX75na9z+E5P9?=
-	=?us-ascii?Q?jG/H824ODuai3QxjibpmZ+/vi2BbDY3XZC7HQd4MreOGojjMVRR7Ls/lsfVD?=
-	=?us-ascii?Q?8No7SX9EyQaXlaOC5HCCSIssPlytaUCbnyPABzoBHrmTorea0uCUypHbj7ce?=
-	=?us-ascii?Q?nVsVE8coN5ygphLmuUGKadh9jiOHOyRYyDT2VnImq5EaSCz+EMLFE9IWqjHu?=
-	=?us-ascii?Q?6CgZ3NvE1N8xnc=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR03MB1413;
-	5:E3IsRAwb1RiDghGigrwirezo7xT2N6UaLiFIJv+nNjdaFjSBSPKaxzBA5HDqxE2tFnjNE0eWAvAGbZAcPss1V1zYnAhmQn51M87vk8umxch1/pK4tbwzJRjAN6YnjIZutJuSclR4g5svWZqze56u1w==;
-	24:rdjmOHfyzYf43ujqIctNBYKxqZZS54II/hdekH+r9e8r2E4DMm83MIjiIYDT7OxMOLO2ixjs7u1n1drqRi/Wo++Ll60nfHEqIQXklVShY1s=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BY1PR03MB1419;
+	23:uP/7zNLTjhgF48UBTO+DdK10BNEpSB0wwdOAgUZr0?=
+	=?us-ascii?Q?FXGgKYeZoZ3R+seH4VuD1VYGc+wCxEuraSYzzaGvtSlME80n95iwSNdg4yEo?=
+	=?us-ascii?Q?BehUs6YXKrI57xHSI0KCZVsfQDbJJ8p6GEq4VEFqRqCJ0Evun/Mox5Ibz2xV?=
+	=?us-ascii?Q?Xr2GsPnDSmJdO/49cBUwHSYu+vg/DVBlGDw8CWu88IfNjFwB0YPh3MPgY1Qa?=
+	=?us-ascii?Q?j/hX4dkAy1gxuapXShizlTOIkasvXk1CKXJ3v3feFh4A/FxL3ZXSOLJI42L8?=
+	=?us-ascii?Q?fQTVjL/s4tp9705FcfUMF/R98+hiWwQ2JpET7euUQ4oLrle7iBWH9aF9Jr9A?=
+	=?us-ascii?Q?8BjrJBDPHU3D2i9lbY0G6yOeDJ6P/+E/BvWl+tXGBQ096i2PC710BGb6IMlU?=
+	=?us-ascii?Q?Vo+1UM7nfqLr4P4xrYvmoeUrVo+HcEqTvHlm+QpfAjzw6oFpQIZLb50vCV4L?=
+	=?us-ascii?Q?M+ZkFLkar47i937YuFvxp+IsnWkcWmogJO5c+qLkep4TvcKvALkaHCMWOkmZ?=
+	=?us-ascii?Q?Ly+rgxgBkeHQOQ6zPp8C63V9XtCppgsaOyeATVhhPPQrEKHGPAuYApw709Wp?=
+	=?us-ascii?Q?j+OK5cZ4WeGoqiwoyWhzPF1+M+68u7U8Fp0Xc9nH3UTVCF41LqtXyW+mxetr?=
+	=?us-ascii?Q?YhzgFmpHFgqQQuTd7EXJXyh7nTwI9W/RlNiRaHX54wMDa3fnnKzedjiKeukp?=
+	=?us-ascii?Q?Ama9eGhyyKVo5xOjJl8R5y8HxGcPl017cHveqYbdbM+RX7vqx5Tqesmre+RI?=
+	=?us-ascii?Q?Bwimfu+QW18ZfswatOIu5BkZUMhSGOBpNgk6seGP4ojH5Nqj+h5tO7hsHZvC?=
+	=?us-ascii?Q?3n0lQWWjKaaVf98Sh4uewcZPRxoaoSw9Z8km1c3/JSM7huKolERYNb00wIA5?=
+	=?us-ascii?Q?K/EAUNmA/tDokjeuMbJJwm27C+SDC3zwEZiveIEzarbpug6S00HwroXhEI0x?=
+	=?us-ascii?Q?oUCKmrI3rAdv02WBCLwvCldC48EtkDnb9kHZsnkgcfn10kcO5S8qfYBSA/4t?=
+	=?us-ascii?Q?ONyNwDn8wTHdo2lYAQhlwsHGDl4AA/+Movkt16peaBzqs4tNms0BiZAANtpZ?=
+	=?us-ascii?Q?Gg2bM11Jn86htlmRH4r4LB21Yfkcc5eGmG29AHeHZniu0PKzbZffT3lhhIYE?=
+	=?us-ascii?Q?VELnxcP6sxdRPyPlmFGKZ0RGMnEjoiIBS/HlIHS08BSXgNn+lG0tw=3D=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR03MB1419;
+	5:Il3IorZbK57SZR+/NPxbZmdxOc0GHpAD2KG+ZCqU4d1ooYH/40VpVu8MzVu2qP5OdYanSnL+2Cbh2Z4rq7Xn8wq3x1cu98XTITeZ3wpIpHVZA2xJzF9WiuzlIwnYifMdIOGiewYIJ8y3u7qjSibeLg==;
+	24:sO731aF9gkDrskIZ8NXzn+cqxGXL4pipIlSQhWcVwy8EAKMJOTXbcYj8eZWybsczLmzGwPO7vtpjnPNKX4Zb7tNJ6YbkRXMC9DNQKoH4LfA=
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2016 22:48:07.7722 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2016 22:48:08.1168 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR03MB1413
-Subject: [PATCH v3 2/5] packagegroup-core-x11-xserver: Add xserver-xorg-xwayland for XWayland image
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR03MB1419
+Subject: [PATCH v3 5/5] weston-init: Handle Weston startup correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,31 +104,105 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 21 Jan 2016 22:48:11 -0000
 Content-Type: text/plain
 
-The package xserver-xorg-xwayland is required for XWayland support.
+Weston is started in different ways depending on the image
+configuration and the runtime scenario. Refer to the weston man
+page for more information.
 
 Signed-off-by: Tom Hochstein <tom.hochstein@freescale.com>
 ---
- .../packagegroups/packagegroup-core-x11-xserver.bb                 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/wayland/weston-init.bb       | 10 +++++++++-
+ meta/recipes-graphics/wayland/weston-init/init     |  2 +-
+ .../wayland/weston-init/weston-start               | 22 ++++++++++++++++++++++
+ .../wayland/weston-init/weston.service             |  4 ++--
+ 4 files changed, 34 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston-start
 
-diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-index c53f1b7..56c28f9 100644
---- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-+++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-@@ -12,7 +12,12 @@ inherit packagegroup distro_features_check
- # rdepends on XSERVER
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 653541e..7b5481a 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -3,7 +3,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
  
--XSERVER ?= "xserver-xorg xf86-video-fbdev xf86-input-evdev"
-+XSERVER ?= " \
-+    xserver-xorg \
-+    ${@base_contains('DISTRO_FEATURES', 'xwayland', 'xserver-xorg-xwayland', '', d)} \
-+    xf86-video-fbdev \
-+    xf86-input-evdev \
-+    "
- XSERVERCODECS ?= ""
+ SRC_URI = "file://init \
+-           file://weston.service"
++           file://weston.service \
++           file://weston-start \
++           "
  
- RDEPENDS_${PN} = "\
+ S = "${WORKDIR}"
+ 
+@@ -13,6 +15,12 @@ do_install() {
+ 
+ 	install -d ${D}${systemd_system_unitdir}
+ 	install -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}
++
++	install -d ${D}${bindir}
++	install -m755 ${WORKDIR}/weston-start ${D}${bindir}
++	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xwayland', 'xwayland', '', d)}" = "xwayland" ]; then
++		sed -i 's|USE_XWAYLAND="0"|USE_XWAYLAND="1"|g' ${D}${bindir}/weston-start
++	fi
+ }
+ 
+ inherit allarch update-rc.d distro_features_check systemd
+diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
+index 2e938f4..8567dfc 100644
+--- a/meta/recipes-graphics/wayland/weston-init/init
++++ b/meta/recipes-graphics/wayland/weston-init/init
+@@ -38,7 +38,7 @@ case "$1" in
+                 chmod 0700 $XDG_RUNTIME_DIR
+         fi
+ 
+-        openvt -s weston -- $OPTARGS
++        weston-start
+   ;;
+ 
+   stop)
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
+new file mode 100644
+index 0000000..da20921
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -0,0 +1,22 @@
++#! /bin/sh
++
++# There are multiple ways to start weston.
++if [ "$WAYLAND_DISPLAY" ]; then
++    echo -e "\aError: A Wayland compositor is already running."
++    echo "This script does not support launching a nested Weston instance."
++    exit 1
++else
++    if [ "$DISPLAY" ]; then
++        echo "Launching Weston under X"
++        openvt -s -- sh -c "weston -- $OPTARGS > /var/log/weston.log 2>&1"
++    else
++        echo "Launching Weston as first windowing system"
++        export XDG_CONFIG_HOME=/etc
++        USE_XWAYLAND="0"
++        if [ "$USE_XWAYLAND" = "1" ]; then
++            mkdir -p /tmp/.X11-unix
++            OPTARGS="--modules=xwayland.so $OPTARGS"
++        fi
++        openvt $OPENVT_ARGS -- sh -c "weston-launch -- $OPTARGS > /var/log/weston.log 2>&1"
++    fi
++fi
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+index 4f1f7ff..856f91f 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -5,10 +5,10 @@ RequiresMountsFor=/run
+ [Service]
+ User=root
+ EnvironmentFile=-/etc/default/weston
+-Environment="XDG_RUNTIME_DIR=/run/user/root"
++Environment="XDG_RUNTIME_DIR=/run/user/root" "OPENVT_ARGS=-w"
+ ExecStartPre=/bin/mkdir -p /run/user/root
+ ExecStartPre=/bin/chmod 0700 /run/user/root
+-ExecStart=/usr/bin/openvt -v -e /usr/bin/weston -- $OPTARGS
++ExecStart=/usr/bin/weston-start
+ 
+ [Install]
+ WantedBy=multi-user.target
 -- 
 2.1.4
 
