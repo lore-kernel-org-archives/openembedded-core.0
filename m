@@ -1,22 +1,28 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A21BB60290
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 17:46:46 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2016 09:46:47 -0800
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A5031600B3;
+	Thu, 21 Jan 2016 17:55:13 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Jan 2016 09:55:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="637950347"
-Received: from unknown (HELO mqz-osx-suse64.fi.intel.com) ([10.252.18.3])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2016 09:46:47 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 19:46:41 +0200
-Message-Id: <1453398401-32288-2-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1453398401-32288-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1453398401-32288-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/2] build-perf-test.sh: add eSDK testing
+X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="895531902"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.181.236])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2016 09:55:09 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Fri, 22 Jan 2016 06:55:04 +1300
+Message-ID: <2161898.1hvMfJMvNz@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.3-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <CAJTo0LYvEUgd0xNdu-HoVR1dW_eXYpZjy-BjzxOm0KKt0vcWcA@mail.gmail.com>
+References: <56A0F5D4.5090701@linux.intel.com>
+	<CAJTo0LYvEUgd0xNdu-HoVR1dW_eXYpZjy-BjzxOm0KKt0vcWcA@mail.gmail.com>
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] proposal: let's move oe-core to ffmpeg (from libav)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,62 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 17:46:47 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 17:55:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Add simple initial eSDK test. Currently, only download size and
-installation time of eSDK is measured. The eSDK to be tested is
-generated from the same image that the other tests are run for. This
-patch will add two new fields to the global results log and that needs
-to be taken into account when examining the results.
+On Thu, 21 Jan 2016 15:40:10 Burton, Ross wrote:
+> [CC'ing oe-devel]
+> 
+> On 21 January 2016 at 15:14, Alexander Kanavin <
+> 
+> alexander.kanavin@linux.intel.com> wrote:
+> > let's replace libav with ffmpeg in oe-core. The reasons are:
+> > 
+> > - all of the major distributions are using ffmpeg now (the last holdout
+> > was Debian, and they switched to ffmpeg in summer 2015 after a long
+> > discussion and deliberation [1][2])
+> > - ffmpeg is much more responsive to security issues
+> > - ffmpeg does regular releases, while libav hasn't had one since spring
+> > 2015
+> > - other reasons listed in [2]
+> > 
+> > [1] https://lwn.net/Articles/650816/
+> > [2] https://wiki.debian.org/Debate/libav-provider/ffmpeg
+> > 
+> > Objections, thoughts?
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/contrib/build-perf-test.sh | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+FWIW I did effectively make this same proposal last July, I think people were broadly in favour:
 
-diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
-index 105b54b..f1f44d3 100755
---- a/scripts/contrib/build-perf-test.sh
-+++ b/scripts/contrib/build-perf-test.sh
-@@ -353,6 +353,29 @@ test3 () {
-     bbtime -p
- }
- 
-+#
-+# Test 4 - eSDK
-+# Measure: eSDK size and installation time
-+test4 () {
-+    log "Running Test 4: eSDK size and installation time"
-+    bbnotime $IMAGE -c do_populate_sdk_ext
-+
-+    esdk_installer=(tmp/deploy/sdk/*-toolchain-ext-*.sh)
-+
-+    if [ ${#esdk_installer[*]} -eq 1 ]; then
-+        s=$((`stat -c %s "$esdk_installer"` / 1024))
-+        SIZES[(( size_count++ ))]="$s"
-+        log "Download SIZE of eSDK is: $s kB"
-+
-+        do_sync
-+        time_cmd "$esdk_installer" -y -d "tmp/esdk-deploy"
-+    else
-+        log "ERROR: other than one sdk found (${esdk_installer[*]}), reporting size and time as 0."
-+        SIZES[(( size_count++ ))]="0"
-+        TIMES[(( time_count++ ))]="0"
-+    fi
-+
-+}
- 
- 
- # RUN!
-@@ -362,6 +385,7 @@ test1_p2
- test1_p3
- test2
- test3
-+test4
- 
- # if we got til here write to global results
- write_results
+http://lists.openembedded.org/pipermail/openembedded-core/2015-July/107091.html
+
+> Sounds sensible to me.  However we're a week away from M2 deadline so I'm
+> not sure we'll be able to have a consensus and get patches before that
+> unless someone is incredibly motivated.
+
+Right, yes.
+
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
