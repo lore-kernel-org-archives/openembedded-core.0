@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AE0160290
+	by mail.openembedded.org (Postfix) with ESMTP id A21BB60290
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 17:46:45 +0000 (UTC)
+	Thu, 21 Jan 2016 17:46:46 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2016 09:46:46 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2016 09:46:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="637950340"
+X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="637950347"
 Received: from unknown (HELO mqz-osx-suse64.fi.intel.com) ([10.252.18.3])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2016 09:46:44 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2016 09:46:47 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 19:46:40 +0200
-Message-Id: <1453398401-32288-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu, 21 Jan 2016 19:46:41 +0200
+Message-Id: <1453398401-32288-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/2] build-perf-test.sh: more generic timing function
+In-Reply-To: <1453398401-32288-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1453398401-32288-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 2/2] build-perf-test.sh: add eSDK testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,66 +29,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 17:46:46 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 17:46:47 -0000
 
-Make it possible to time also other than bitbake commands. The name of
-the log file is changed from bitbake.log to commands.log.
+Add simple initial eSDK test. Currently, only download size and
+installation time of eSDK is measured. The eSDK to be tested is
+generated from the same image that the other tests are run for. This
+patch will add two new fields to the global results log and that needs
+to be taken into account when examining the results.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/contrib/build-perf-test.sh | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ scripts/contrib/build-perf-test.sh | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
-index cdd7885..105b54b 100755
+index 105b54b..f1f44d3 100755
 --- a/scripts/contrib/build-perf-test.sh
 +++ b/scripts/contrib/build-perf-test.sh
-@@ -128,7 +128,7 @@ rev=$(git rev-parse --short HEAD)  || exit 1
- OUTDIR="$clonedir/build-perf-test/results-$rev-`date "+%Y%m%d%H%M%S"`"
- BUILDDIR="$OUTDIR/build"
- resultsfile="$OUTDIR/results.log"
--bboutput="$OUTDIR/bitbake.log"
-+cmdoutput="$OUTDIR/commands.log"
- myoutput="$OUTDIR/output.log"
- globalres="$clonedir/build-perf-test/globalres.log"
- 
-@@ -180,14 +180,13 @@ time_count=0
- declare -a SIZES
- size_count=0
- 
--bbtime () {
--    local arg="$@"
--    log "   Timing: bitbake ${arg}"
-+time_cmd () {
-+    log "   Timing: $*"
- 
-     if [ $verbose -eq 0 ]; then 
--        /usr/bin/time -v -o $resultsfile bitbake ${arg} >> $bboutput
-+        /usr/bin/time -v -o $resultsfile "$@" >> $cmdoutput
-     else
--        /usr/bin/time -v -o $resultsfile bitbake ${arg}
-+        /usr/bin/time -v -o $resultsfile "$@"
-     fi
-     ret=$?
-     if [ $ret -eq 0 ]; then
-@@ -206,12 +205,16 @@ bbtime () {
-     log "More stats can be found in ${resultsfile}.${i}"    
+@@ -353,6 +353,29 @@ test3 () {
+     bbtime -p
  }
  
-+bbtime () {
-+    time_cmd bitbake "$@"
-+}
++#
++# Test 4 - eSDK
++# Measure: eSDK size and installation time
++test4 () {
++    log "Running Test 4: eSDK size and installation time"
++    bbnotime $IMAGE -c do_populate_sdk_ext
 +
- #we don't time bitbake here
- bbnotime () {
-     local arg="$@"
-     log "   Running: bitbake ${arg}"
-     if [ $verbose -eq 0 ]; then
--        bitbake ${arg} >> $bboutput
-+        bitbake ${arg} >> $cmdoutput
-     else
-         bitbake ${arg}
-     fi
++    esdk_installer=(tmp/deploy/sdk/*-toolchain-ext-*.sh)
++
++    if [ ${#esdk_installer[*]} -eq 1 ]; then
++        s=$((`stat -c %s "$esdk_installer"` / 1024))
++        SIZES[(( size_count++ ))]="$s"
++        log "Download SIZE of eSDK is: $s kB"
++
++        do_sync
++        time_cmd "$esdk_installer" -y -d "tmp/esdk-deploy"
++    else
++        log "ERROR: other than one sdk found (${esdk_installer[*]}), reporting size and time as 0."
++        SIZES[(( size_count++ ))]="0"
++        TIMES[(( time_count++ ))]="0"
++    fi
++
++}
+ 
+ 
+ # RUN!
+@@ -362,6 +385,7 @@ test1_p2
+ test1_p3
+ test2
+ test3
++test4
+ 
+ # if we got til here write to global results
+ write_results
 -- 
 2.1.4
 
