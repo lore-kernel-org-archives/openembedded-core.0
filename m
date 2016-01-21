@@ -1,28 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A5031600B3;
-	Thu, 21 Jan 2016 17:55:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Jan 2016 09:55:10 -0800
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6F971E63
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jan 2016 17:57:15 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Jan 2016 09:57:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="895531902"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.181.236])
-	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2016 09:55:09 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Fri, 22 Jan 2016 06:55:04 +1300
-Message-ID: <2161898.1hvMfJMvNz@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.3.3-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
-	)
-In-Reply-To: <CAJTo0LYvEUgd0xNdu-HoVR1dW_eXYpZjy-BjzxOm0KKt0vcWcA@mail.gmail.com>
-References: <56A0F5D4.5090701@linux.intel.com>
-	<CAJTo0LYvEUgd0xNdu-HoVR1dW_eXYpZjy-BjzxOm0KKt0vcWcA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] proposal: let's move oe-core to ffmpeg (from libav)
+X-IronPort-AV: E=Sophos;i="5.22,326,1449561600"; d="scan'208";a="33728874"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2016 09:57:11 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jan 2016 17:58:00 +0000
+Message-Id: <963acd46a261201df3f0bbb7bf882204c9d98bd0.1453399031.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1453399031.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1453399031.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/1] python3-pip: Upgrade to 8.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 17:55:15 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 21 Jan 2016 17:57:17 -0000
 
-On Thu, 21 Jan 2016 15:40:10 Burton, Ross wrote:
-> [CC'ing oe-devel]
-> 
-> On 21 January 2016 at 15:14, Alexander Kanavin <
-> 
-> alexander.kanavin@linux.intel.com> wrote:
-> > let's replace libav with ffmpeg in oe-core. The reasons are:
-> > 
-> > - all of the major distributions are using ffmpeg now (the last holdout
-> > was Debian, and they switched to ffmpeg in summer 2015 after a long
-> > discussion and deliberation [1][2])
-> > - ffmpeg is much more responsive to security issues
-> > - ffmpeg does regular releases, while libav hasn't had one since spring
-> > 2015
-> > - other reasons listed in [2]
-> > 
-> > [1] https://lwn.net/Articles/650816/
-> > [2] https://wiki.debian.org/Debate/libav-provider/ffmpeg
-> > 
-> > Objections, thoughts?
+LIC_FILES_CHKSUM changed, but LICESE still applies, dates changed
 
-FWIW I did effectively make this same proposal last July, I think people were broadly in favour:
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ .../python/{python3-pip_7.1.2.bb => python3-pip_8.0.0.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pip_7.1.2.bb => python3-pip_8.0.0.bb} (85%)
 
-http://lists.openembedded.org/pipermail/openembedded-core/2015-July/107091.html
-
-> Sounds sensible to me.  However we're a week away from M2 deadline so I'm
-> not sure we'll be able to have a consensus and get patches before that
-> unless someone is incredibly motivated.
-
-Right, yes.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-devtools/python/python3-pip_7.1.2.bb b/meta/recipes-devtools/python/python3-pip_8.0.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-pip_7.1.2.bb
+rename to meta/recipes-devtools/python/python3-pip_8.0.0.bb
+index 297b351..834ecda 100644
+--- a/meta/recipes-devtools/python/python3-pip_7.1.2.bb
++++ b/meta/recipes-devtools/python/python3-pip_8.0.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "The PyPA recommended tool for installing Python packages"
+ sHOMEPAGEsss = "https://pypi.python.org/pypi/pip"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=45665b53032c02b35e29ddab8e61fa91"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=25fba45109565f87de20bae85bc39452"
+ 
+ SRCNAME = "pip"
+ DEPENDS += "python3 python3-setuptools-native"
+@@ -10,8 +10,8 @@ DEPENDS += "python3 python3-setuptools-native"
+ SRC_URI = " \
+   http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+ "
+-SRC_URI[md5sum] = "3823d2343d9f3aaab21cf9c917710196"
+-SRC_URI[sha256sum] = "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
++SRC_URI[md5sum] = "5601c4323464add1482291634142894d"
++SRC_URI[sha256sum] = "90112b296152f270cb8dddcd19b7b87488d9e002e8cf622e14c4da9c2f6319b1"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pip"
+ 
 -- 
+1.8.4.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
