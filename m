@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A5464731EF
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3B1731EC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 05:38:04 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id j3so1563229oig.0
+	Thu, 21 Jan 2016 05:38:06 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id e195so1566972oig.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 21:38:05 -0800 (PST)
+	Wed, 20 Jan 2016 21:38:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zfLfTJ4vxFxfPpVr3a/JkMUl0TlYwhKSPFcZc11Dg+Q=;
-	b=SY7yg6mSZ/DIZ8ztrSHqFOBEmVx/f+NM/ecqaCbKrUuMngV9V3/egrtsgAtXHJ5VfS
-	lfMAKLq/hK3nIo8KThUSMxige8tYdsB3bcq5a/E/9jRM+AAWNLX0g47nB78AsWZbFkQK
-	Jw+RHzmrcqqoC7FGOIjsiRmivqJsswxTXPaVbCvRmCyOz0VT767GglUj/x5EOwVyiDjM
-	qeV+wCqy4kcukywwsZsmPHgw/oXaeBuATq+SQ7BhZ35yQXhXz8221U0HN6EJk/Jstmp9
-	b0ANal75z9OvCTZbU4WNNRanbgrIa23+/buuVnHtwLxN4CuUHgFYuD/S4OY8c/mBQ+q6
-	P5nQ==
+	bh=k4j9PCbCsYb5uIowU4EQmbycq5s61hVkOavS1iytRws=;
+	b=DVuEIIDy8XY9XDyY7Ha7p3n64hb7gUnJOS/LnxVd/GpevvYSTu79KMxbzGgyBXJt6g
+	nP6csPu2I8HbgCUjE+BzPX9dwTBrf3K/9M2XxiKnOSbgh/Tcy73BQSk/JIXWkl355XU2
+	J2vCdjPLiABQsk8rNTXnBnGTaQKlhu1B8gAdaXzWmTBtwO/g8WMLsAZaxmE7RuelUX8G
+	h8to2mETvQpkhAVX5KH6N9PD23SK4zW0nvr1dT8XSZoaIb5RRwxwPkwFPqmYbrFV2pxh
+	nF6HLnVUMdLdfZ9gwGh9vHcU0z7Mav9XaWFx3E62O4CocafhAlsjrNUKTv00AGtwajc0
+	d9dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zfLfTJ4vxFxfPpVr3a/JkMUl0TlYwhKSPFcZc11Dg+Q=;
-	b=nCbTuU5+oKPp0m6psLg8+vCLkrPWZ9fn8dLimLJA9KDFwWOd9WGqc0nesXIaZixuIx
-	teM1dIgUO0cZgIwE94YVeBcoN8ctedJoOpn0oTJcynK9ldPGi4H58E+Pv71GYZmC37YR
-	etdr0eHhLLMbcyTq9rca5nsExfuW+03S3IVT8IvyiHoKSQ6OfTnJZ5Z91cA52zVy9ksp
-	YgcKPSDg8hcJrY2Fe++tJfmTEPK/6OxUNXWH5iaVO0bGCsfHOREYkBcPCM7MP/+QfHTW
-	33DSW63TMzsqqwA7zuSXcVWHpKrpUD/ItSCW+grEOwCCqABlzZI0RbEimzX7GRWN+oFb
-	Yw5w==
-X-Gm-Message-State: ALoCoQn3cKM0NcKHhL66M+EKQzs4gtv1O7KWrLus4cTJbb5ZszzduHyX0lanF6NM09C2to+hpkf38sw2nhC5seeNYBuicoNAww==
-X-Received: by 10.202.211.80 with SMTP id k77mr30453660oig.98.1453354685599;
-	Wed, 20 Jan 2016 21:38:05 -0800 (PST)
+	bh=k4j9PCbCsYb5uIowU4EQmbycq5s61hVkOavS1iytRws=;
+	b=VT/nJFsIfxhPJ/Eo/fj2jSqET7z4Azh3My83S40jSKfuqeJaXxeb18lPn5lxEK7SD9
+	V8xJHFXh4uKxf2yw1C2Wry3yOAJWPWo2qQMHQn1wmvMxUeOcWQ4NOSmapSODgp4Ffv4C
+	EwcLTcc6IIJWnYQZvEdKl4VLwtpyaFFm+Z34dJPkGLkVJtGkLIyBbrk9YExF+IFZUVSC
+	x54CJGY/du7bYVei0wbWRI3ueU9dZbWDb6FcCDlo6wMZ4yqgu1hq2FnHg2KB/ROQfXRg
+	EbVrrn20Bl06vVwCf5ZzEuUt2abflK4nw0m4cST1nqc4pRK1QkLEUWhHK4POIFb7nyZJ
+	RS9A==
+X-Gm-Message-State: ALoCoQkerth4GF2Dp3EbzP/rO/IPo6hB0GnuCCMox6XgZhCObAgnGRvBr4E4TuKLZO4pXe1rnZ0I3fhidImZBKqyQqJqIZXn7Q==
+X-Received: by 10.202.184.69 with SMTP id i66mr30328861oif.62.1453354687850;
+	Wed, 20 Jan 2016 21:38:07 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	w143sm19735990oiw.16.2016.01.20.21.38.04
+	w143sm19735990oiw.16.2016.01.20.21.38.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jan 2016 21:38:04 -0800 (PST)
+	Wed, 20 Jan 2016 21:38:06 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jan 2016 21:36:48 -0800
-Message-Id: <1453354610-19218-31-git-send-email-armccurdy@gmail.com>
+Date: Wed, 20 Jan 2016 21:36:49 -0800
+Message-Id: <1453354610-19218-32-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
 References: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 30/32] gstreamer1.0-plugins-bad: update git recipe to 1.7.1
+Subject: [PATCH v2 31/32] gstreamer1.0-plugins-ugly: update git recipe to 1.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,79 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 05:38:04 -0000
-
-Handle renaming of the HLS plugin:
-
-  http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=efe62292a3d045126654d93239fdf4cc8e48ae08
-
-Switch AES decryption for the HLS plugin from nettle to openssl.
+X-List-Received-Date: Thu, 21 Jan 2016 05:38:07 -0000
 
 The autogen.sh script takes care of cd'ing to the correct directory
 before it does anything, so we don't need to cd on its behalf any more
 in do_configure_prepend().
 
-  http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/tree/autogen.sh?id=1.7.1
+  http://cgit.freedesktop.org/gstreamer/gst-plugins-ugly/tree/autogen.sh?id=1.7.1
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_git.bb      | 40 ++++++++++++++++------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ .../gstreamer/gstreamer1.0-plugins-ugly_git.bb            | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-index 654eab0..ebf579f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-@@ -7,21 +7,39 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
-                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50 \
-                     file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
+index 5d710f0..f99b300 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
+@@ -5,14 +5,19 @@ include gstreamer1.0-plugins-ugly.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
  
--SRC_URI = "git://anongit.freedesktop.org/gstreamer/gst-plugins-bad"
+-SRC_URI = "git://anongit.freedesktop.org/gstreamer/gst-plugins-ugly"
 +SRC_URI = " \
-+    git://anongit.freedesktop.org/gstreamer/gst-plugins-bad;name=base \
++    git://anongit.freedesktop.org/gstreamer/gst-plugins-ugly;name=base \
 +    git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
-+    file://configure-allow-to-disable-libssh2.patch \
 +"
  
--SRCREV = "6e5db57d2446a753aaa76bee268e1f95600b14ce"
+-SRCREV = "06b8ac10cee85c5c304ca320997aa8f44295a66f"
 +PV = "1.7.1+git${SRCPV}"
- 
--S = "${WORKDIR}/git"
-+SRCREV_base = "3a088ecc9330d5cb8888ff43de0fe4f61c23a607"
++
++SRCREV_base = "c9c37983babad909d01c1c4c417d42a0cf252c1d"
 +SRCREV_common = "86e46630ed8af8d94796859db550a9c3d89c9f65"
 +SRCREV_FORMAT = "base"
  
--PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
--PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
-+S = "${WORKDIR}/git"
- 
--EXTRA_OECONF += " \
--    -disable-openjpeg \
--"
-+# over-ride the default hls PACKAGECONFIG in gstreamer1.0-plugins-bad.inc to
-+# pass an additional --with-hls-crypto=XXX option (new in 1.7.x) and switch HLS
-+# AES decryption from nettle to openssl (ie a shared dependency with dtls).
-+# This should move back to the common .inc once the main recipe updates to 1.8.x
-+PACKAGECONFIG[hls] = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl"
+ S = "${WORKDIR}/git"
  
  do_configure_prepend() {
 -	cd ${S}
 -	./autogen.sh --noconfigure
 -	cd ${B}
 +	${S}/autogen.sh --noconfigure
-+}
-+
-+# In 1.6.2, the "--enable-hls" configure option generated an installable package
-+# called "gstreamer1.0-plugins-bad-fragmented". In 1.7.1 that HLS plugin package
-+# has become "gstreamer1.0-plugins-bad-hls". See:
-+# http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=efe62292a3d045126654d93239fdf4cc8e48ae08
-+
-+PACKAGESPLITFUNCS_append = " handle_hls_rename "
-+
-+python handle_hls_rename () {
-+    d.setVar('RPROVIDES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
-+    d.setVar('RREPLACES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
-+    d.setVar('RCONFLICTS_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
  }
 -- 
 1.9.1
