@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f194.google.com (mail-ob0-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 94E617317D
+Received: from mail-ob0-f193.google.com (mail-ob0-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6387D731EC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 05:37:19 +0000 (UTC)
-Received: by mail-ob0-f194.google.com with SMTP id oj9so2022715obc.0
+	Thu, 21 Jan 2016 05:37:21 +0000 (UTC)
+Received: by mail-ob0-f193.google.com with SMTP id x5so2017220obg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 21:37:20 -0800 (PST)
+	Wed, 20 Jan 2016 21:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=x0YDEMw/YUZXdecCurkKb830szdh3KwgoXErqBrCv38=;
-	b=lLSIZLJ2FRLOnFcpMvw3faJhUQFwIbmGqFisB6xdMcMSgZm7ed1285SiRr/WUhrcsg
-	geUwKABnpvnGdFrgPWsh61GfHZzzrFFwJaBZ9N/+XvI8SkT/TKY2NSrQGaps2NFjcrlr
-	7w8mrkS2ihGt20Yt1AYSRyFICP0qVOZxz0wIxlPClOEgjdc8KFg4sTlAbiBNX1jFejg9
-	ihOZfB6g0BWFoBwlyCzY90qLtMZb8URpl+2TyEeJJGw2RleBwLVPTEEwaNyuaZ5XRr8P
-	ud73AQWTJlqIezg9dNkjdLSG8cM45lSO1GlSOpNDJY5sL9USpz1I3Dxt30IPUpjvgYBv
-	cvAA==
+	bh=kVFIOSalLxV9C9t2tzoWjCxFqvoaTdEV9naObIS2tR8=;
+	b=R+DywhkRa2eh7paItxOyTZ2aIl1Ub127Yjfv9WJw7AvO8GshzwsOetYqrrznE/Zvru
+	WeanzTQ9axyVOLq7bfUMknL7EMqdU03UnFFktwxC+XlNzaKwb+BpYlrGLuUBkaXI4p/Y
+	u+aa/W6dNfT57qVlBsKHhDHd7UO/snaxa1RCwLLE1t8yDF0Ugx7a63zDvyNDijsYPIoO
+	GmaSwWhGmB0cLV7GlEZHshEe/TVcfgAaWPCRGrncOSXnKLP3kiiUfPcFI7WBDnHWuX9/
+	Q3XFzjjJKRoUDNe/IhXQvXraWRWTII6TQ+nxMXpCKiQtDaxivrKGbuwnMQuJ1T2GyvuA
+	/ZTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=x0YDEMw/YUZXdecCurkKb830szdh3KwgoXErqBrCv38=;
-	b=JVykmCyTaPSZ63zSWQpg+YDgwtKy/VVGysLPIUJLLARxWFKq+NnX+NWMQPJNPCxPvV
-	KyyQorGvsyyl3HncWLt00qswLwr5yzLBm+YDkLLWQDG6r7TUQ/FeeuBXtHgF7Ih2wKKn
-	p8nnN+Ht2x82XjYOpUMKcU7/YPNWlySDxPxSuNbHwHFRIyrQ8rhg5t95TRn+Q35Kxx94
-	ddEiR/b0i5HTpkgIPtcpjhfZs5ZpqhCDx1f0fy1qOTVTh7ILFMAC369fU33VNY5aN4fu
-	NgwKc9YQFa4psRn8D8H2cndnXZp0wnuM1qqCWV2bsHUJB8fyNrus5GiqVu07TIL46RVN
-	nKzA==
-X-Gm-Message-State: ALoCoQmvSigOxY/IqprkBqXyfzM+b6gyNbeA3KvGPGcRtP7/N+X7t2ftLKoJx7griJ07SzcoMRP3RSk2jhBPeGfYknGXN585uw==
-X-Received: by 10.182.142.105 with SMTP id rv9mr32868871obb.66.1453354640542; 
-	Wed, 20 Jan 2016 21:37:20 -0800 (PST)
+	bh=kVFIOSalLxV9C9t2tzoWjCxFqvoaTdEV9naObIS2tR8=;
+	b=Wp9vycE+zCkuQqVNncdgDTr1jsZkDxNSRDuWVQqxyKH38aHd1zkHOwKaI3alSW50bE
+	Cs/fTf4nHuOc6Cv4hXKlcmGIXBsRWPLDfdv28RIuswH7AP1fkx7/x1h1VFoBVeV63/qs
+	XCFeG0DfS+T+N1L0pBN82nN2tq8dV2v/MxwwimLNyY7tgOZLeEc8ubWJ992pJM2aK6tc
+	yYfbGFqRdnA/yrp0D1ccsATKucbXEOWDYkOWjQACTax3JerwBCjyUBgjW9QN9jGXNedY
+	YdOwa6IAoe6QEX6xt+zGuIfXAT9VB0KQeug3HDQP8JfM+FBDegyq7/CSOjdHZL/TX/Ek
+	yV2g==
+X-Gm-Message-State: ALoCoQlotdE1SmCg5auvegfPhDKoNejtG9LFBNCel4Elx+QkEPQnR+vCisEl/k1Vf9V+k1Mse3jIw6j0yLf9smTXlgItm40n0A==
+X-Received: by 10.182.133.37 with SMTP id oz5mr30864167obb.16.1453354642316;
+	Wed, 20 Jan 2016 21:37:22 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	w143sm19735990oiw.16.2016.01.20.21.37.18
+	w143sm19735990oiw.16.2016.01.20.21.37.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jan 2016 21:37:19 -0800 (PST)
+	Wed, 20 Jan 2016 21:37:21 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jan 2016 21:36:26 -0800
-Message-Id: <1453354610-19218-9-git-send-email-armccurdy@gmail.com>
+Date: Wed, 20 Jan 2016 21:36:27 -0800
+Message-Id: <1453354610-19218-10-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
 References: <1453354610-19218-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 08/32] gstreamer1.0-plugins-ugly: minor formatting improvements
+Subject: [PATCH v2 09/32] gstreamer1.0-libav: minor formatting improvements + update HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +56,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 05:37:19 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 05:37:21 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-ugly.inc                | 14 ++++++--------
- .../gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb           |  3 +--
- .../gstreamer/gstreamer1.0-plugins-ugly_git.bb             |  7 +++----
- 3 files changed, 10 insertions(+), 14 deletions(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc  | 15 ++++++++-------
+ .../gstreamer/gstreamer1.0-libav_1.6.2.bb                 |  5 +++--
+ .../gstreamer/gstreamer1.0-libav_git.bb                   |  4 ++--
+ 3 files changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-index eb49e22..869022a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-@@ -7,26 +7,24 @@ DEPENDS += "gstreamer1.0-plugins-base libid3tag"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+index 3948b40..c3c7d5b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+@@ -1,8 +1,10 @@
+ SUMMARY = "Libav-based GStreamer 1.x plugin"
++HOMEPAGE = "http://gstreamer.freedesktop.org/"
+ SECTION = "multimedia"
++
+ LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
+ LICENSE_FLAGS = "commercial"
+-HOMEPAGE = "http://www.gstreamer.net/"
++
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
  
- inherit gettext
+ inherit autotools pkgconfig upstream-version-is-even
+@@ -10,12 +12,12 @@ inherit autotools pkgconfig upstream-version-is-even
+ # CAUTION: Using the system libav is not recommended. Since the libav API is changing all the time,
+ # compilation errors (and other, more subtle bugs) can happen. It is usually better to rely on the
+ # libav copy included in the gst-libav package.
+-PACKAGECONFIG ??= " orc yasm "
+-PACKAGECONFIG[libav] = "--with-system-libav,,libav"
+-PACKAGECONFIG[gpl]  = "--enable-gpl,--disable-gpl,"
+-PACKAGECONFIG[yasm]  = "--enable-yasm,--disable-yasm,yasm-native"
+-PACKAGECONFIG[orc]  = "--enable-orc,--disable-orc,orc"
++PACKAGECONFIG ??= "orc yasm"
  
++PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl,"
++PACKAGECONFIG[libav] = "--with-system-libav,,libav"
++PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
++PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,yasm-native"
+ 
+ GSTREAMER_1_0_DEBUG ?= "--disable-debug"
+ 
+@@ -28,4 +30,3 @@ EXTRA_OECONF = "${LIBAV_EXTRA_CONFIGURE_COMMON}"
+ FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
+ FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la"
+ FILES_${PN}-staticdev += "${libdir}/gstreamer-1.0/*.a"
 -
- PACKAGECONFIG ??= " \
--    orc a52dec lame mad mpeg2dec \
--    "
-+    a52dec lame mad mpeg2dec orc \
-+"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.2.bb
+index 1091b84..77e0655 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.2.bb
+@@ -13,17 +13,18 @@ SRC_URI = " \
+     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
+     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+ "
++
+ SRC_URI[md5sum] = "09644a38827d233f53edeac815dd0ec0"
+ SRC_URI[sha256sum] = "2597acc00171006d49f0d300440a87df51b113d557466e532153abc740db3469"
  
- PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
-+PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
-+PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
- PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
- PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
- PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
- PACKAGECONFIG[mad]      = "--enable-mad,--disable-mad,libmad"
- PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
- PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
--PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
--PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
++S = "${WORKDIR}/gst-libav-${PV}"
++
+ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+   --ranlib='${RANLIB}' \
+   ${GSTREAMER_1_0_DEBUG} \
+   --cross-prefix='${HOST_PREFIX}'"
+ 
+-S = "${WORKDIR}/gst-libav-${PV}"
 -
+ # http://errors.yoctoproject.org/Errors/Details/20493/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
+index bf1b87e..32f4814 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
+@@ -12,10 +12,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
  
- EXTRA_OECONF += " \
-     --disable-sidplay \
-     --disable-twolame \
--    "
-+"
- 
--FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
- FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
-+FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb
-index 67b72fa..d935f6d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.2.bb
-@@ -1,10 +1,9 @@
- include gstreamer1.0-plugins-ugly.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
--                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
-+                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
- 
- SRC_URI[md5sum] = "0f0e30336e3155443cd5bfec5c215d56"
- SRC_URI[sha256sum] = "e7f1b6321c8667fabc0dedce3998a3c6e90ce9ce9dea7186d33dc4359f9e9845"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
-index dcf5ffc..e06b5ea 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb
-@@ -3,15 +3,14 @@ DEFAULT_PREFERENCE = "-1"
- include gstreamer1.0-plugins-ugly.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
--                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
--
+ SRC_URI = "git://anongit.freedesktop.org/gstreamer/gst-libav;branch=master"
 -S = "${WORKDIR}/git"
-+                    file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
  
- SRCREV = "06b8ac10cee85c5c304ca320997aa8f44295a66f"
+ SRCREV = "127202d6f65584891dabf92be031f0d170b0e7f1"
  
 +S = "${WORKDIR}/git"
 +
- do_configure_prepend() {
- 	cd ${S}
+ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+   ${GSTREAMER_1_0_DEBUG} \
+@@ -26,4 +27,3 @@ do_configure_prepend() {
  	./autogen.sh --noconfigure
  	cd ${B}
  }
