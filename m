@@ -1,50 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D4F0365CBB
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BEE61605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 15:18:33 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id q21so57330930iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 07:18:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=q6A3Kx8Etoc5jpRd2Ykfu40+K2AaG9JKG/akGZtXV+M=;
-	b=CBL/fBF9bt9FioR9OUQ1wnQWVhCCX0GcYSiJkqWPNAMNmjAZ0iHsbOH98jYCP9kTlF
-	Ls9hs0TGX5FHrXEjhNk+CXw14ZGn0oZig4qY/47LD/arZBgM4SENB1EXSVd0/7DnWm9S
-	+AJ3uWsQiH7RWMql80LCGN/rmcSGmNuaGgFy9+iSMUQ8W4qLTrmhT7Cy0k/r8QKZkl1h
-	EtRGrVfSApRIkDeSxySU8IdNf5piWaD/CCT+UY4+4BitXrtrMfRvXD/uC6ChVrZDKcRy
-	OhWwvf/TTpgXRsMbPZM+KoBHy0r+EhmJ22s88jSv8iagOAi1CSybAtsy6qGWC8cl6L6x
-	5vfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=q6A3Kx8Etoc5jpRd2Ykfu40+K2AaG9JKG/akGZtXV+M=;
-	b=Sg6m7Z//ZF8eawuAk5i+1fN17lND9MUFw6UbIP8tLSYyi+ftTc2EmMW51FZn06BHL7
-	B1lclxpO+qI65Ow3w8fLlLqnrvSAqNXCkIdThrOJifedvtKof0/drv2xuAH69hTstJZt
-	V77a1OYmIJ8PfJjdNbo1fsd8io5/G9loBQzebNUGAEakOsVLoeUbOISHD+V95i/aGxVr
-	iCLxlblMtmXPZvrUdbW+m3WVyqqM9ZE9gUsW1CegI8KwVWfjRqI+3YsAq8AHQsaPCoEF
-	S1WHtZT9EjUkefUKrSGO+bGA8Bz1Fjl2scCYECPOFP51X149VFmdaBKC2vMYjy4oaehZ
-	8x3Q==
-X-Gm-Message-State: ALoCoQmyK7leXYGJoJysTRdVnjfpKQ1J42ldLVfwTMVsmhQXCKBCmM2bATqBMJ+gdInXuu6nJC4AmX1GXxkrtC51Ben7sxI4OQ==
-X-Received: by 10.107.165.14 with SMTP id o14mr35269165ioe.49.1453389514291;
-	Thu, 21 Jan 2016 07:18:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Thu, 21 Jan 2016 07:18:04 -0800 (PST)
-In-Reply-To: <56A0F02B.9000600@linux.intel.com>
-References: <cover.1453217744.git.alexander.kanavin@linux.intel.com>
-	<5f464411a18a53b395e749b2b3a1fbfaab4ffd74.1453217744.git.alexander.kanavin@linux.intel.com>
-	<D70F5507-7ED6-4281-8FC9-4BFE9EAD0B72@gmail.com>
-	<56A0F02B.9000600@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Jan 2016 07:18:04 -0800
-Message-ID: <CAMKF1sqSmreyx2oVcH=nSiX_a-C3NLbPW5wfMOadhtYdUPriBQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] nss: update to 3.21
+	Thu, 21 Jan 2016 15:23:41 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2016 07:23:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,325,1449561600"; d="scan'208";a="33640901"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2016 07:23:41 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jan 2016 17:21:07 +0200
+Message-Id: <1453389667-4715-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.7.0.rc3
+Subject: [PATCH] build-appliance-image: bump version to 14.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +27,218 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 15:18:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 21 Jan 2016 15:23:49 -0000
 
-On Thu, Jan 21, 2016 at 6:50 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 01/19/2016 09:05 PM, Khem Raj wrote:
->>>
->>> +    export NSS_DISABLE_GTESTS=1
->>> +
->>
->>
->> this export is appearing twice
->> can it be optimized ?
->
->
-> I'm only following the pattern in the nss recipe: it has custom do_compile()
-> and do_install() sections which to a large extend duplicate each other.
-> Eliminating this duplication was not a goal, I just wanted to update to
-> latest upstream.
+Bumping to 14.0 was incorrect: upstream version tag is 14.0.0.
+This change is done solely to improve accuracy of RRS version reporting.
 
-understood. Its normal practice to improve things when some one it at it.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ .../images/build-appliance-image_14.0.0.bb         | 93 ++++++++++++++++++++++
+ .../images/build-appliance-image_14.0.bb           | 93 ----------------------
+ 2 files changed, 93 insertions(+), 93 deletions(-)
+ create mode 100644 meta/recipes-core/images/build-appliance-image_14.0.0.bb
+ delete mode 100644 meta/recipes-core/images/build-appliance-image_14.0.bb
 
->
-> Alex
->
+diff --git a/meta/recipes-core/images/build-appliance-image_14.0.0.bb b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
+new file mode 100644
+index 0000000..8f9ce1b
+--- /dev/null
++++ b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
+@@ -0,0 +1,93 @@
++SUMMARY = "An image containing the build system itself"
++DESCRIPTION = "An image containing the build system that you can boot and run using either VMware Player or VMware Workstation."
++HOMEPAGE = "http://www.yoctoproject.org/documentation/build-appliance"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegroup-self-hosted"
++
++IMAGE_FEATURES += "x11-base package-management splash"
++
++# Ensure there's enough space to do a core-image-sato build, with rm_work enabled
++IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
++
++# Do a quiet boot with limited console messages
++APPEND += "rootfstype=ext4 quiet"
++
++DEPENDS = "zip-native"
++IMAGE_FSTYPES = "vmdk"
++
++inherit core-image
++
++SRCREV ?= "992e5774714ef44bc91d45e2aaf2acfc23c72d63"
++SRC_URI = "git://git.yoctoproject.org/poky \
++           file://Yocto_Build_Appliance.vmx \
++           file://Yocto_Build_Appliance.vmxf \
++          "
++
++IMAGE_CMD_ext4_append () {
++	# We don't need to reserve much space for root, 0.5% is more than enough
++	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
++}
++
++fakeroot do_populate_poky_src () {
++	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
++	# will become invalid in the target.
++	rm -rf ${WORKDIR}/git/.git
++	rm -f ${WORKDIR}/git/.gitignore
++
++	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
++
++	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
++	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
++	cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
++
++	# Remove the git2_* tarballs -- this is ok since we still have the git2/.
++	rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
++
++	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
++	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
++	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
++	echo "export PSEUDO_PREFIX=/usr" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
++	echo "export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
++	echo "export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
++
++	chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
++
++	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky
++
++	# Allow builder to use sudo to setup tap/tun
++	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
++
++	# Use Clearlooks GTK+ theme
++	mkdir -p ${IMAGE_ROOTFS}/etc/gtk-2.0
++	echo 'gtk-theme-name = "Clearlooks"' > ${IMAGE_ROOTFS}/etc/gtk-2.0/gtkrc
++}
++
++IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
++
++addtask rootfs after do_unpack
++
++python () {
++	# Ensure we run these usually noexec tasks
++	d.delVarFlag("do_fetch", "noexec")
++	d.delVarFlag("do_unpack", "noexec")
++}
++
++create_bundle_files () {
++	cd ${WORKDIR}
++	mkdir -p Yocto_Build_Appliance
++	cp *.vmx* Yocto_Build_Appliance
++	ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
++	zip -r ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
++	ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance.zip 
++}
++
++python do_bundle_files() {
++    bb.build.exec_func('create_bundle_files', d)
++}
++
++addtask bundle_files after do_vmimg before do_build
++do_bundle_files[nostamp] = "1"
+diff --git a/meta/recipes-core/images/build-appliance-image_14.0.bb b/meta/recipes-core/images/build-appliance-image_14.0.bb
+deleted file mode 100644
+index 8f9ce1b..0000000
+--- a/meta/recipes-core/images/build-appliance-image_14.0.bb
++++ /dev/null
+@@ -1,93 +0,0 @@
+-SUMMARY = "An image containing the build system itself"
+-DESCRIPTION = "An image containing the build system that you can boot and run using either VMware Player or VMware Workstation."
+-HOMEPAGE = "http://www.yoctoproject.org/documentation/build-appliance"
+-
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+-IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegroup-self-hosted"
+-
+-IMAGE_FEATURES += "x11-base package-management splash"
+-
+-# Ensure there's enough space to do a core-image-sato build, with rm_work enabled
+-IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+-
+-# Do a quiet boot with limited console messages
+-APPEND += "rootfstype=ext4 quiet"
+-
+-DEPENDS = "zip-native"
+-IMAGE_FSTYPES = "vmdk"
+-
+-inherit core-image
+-
+-SRCREV ?= "992e5774714ef44bc91d45e2aaf2acfc23c72d63"
+-SRC_URI = "git://git.yoctoproject.org/poky \
+-           file://Yocto_Build_Appliance.vmx \
+-           file://Yocto_Build_Appliance.vmxf \
+-          "
+-
+-IMAGE_CMD_ext4_append () {
+-	# We don't need to reserve much space for root, 0.5% is more than enough
+-	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
+-}
+-
+-fakeroot do_populate_poky_src () {
+-	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
+-	# will become invalid in the target.
+-	rm -rf ${WORKDIR}/git/.git
+-	rm -f ${WORKDIR}/git/.gitignore
+-
+-	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
+-
+-	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
+-	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
+-	cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
+-
+-	# Remove the git2_* tarballs -- this is ok since we still have the git2/.
+-	rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
+-
+-	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
+-	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+-	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
+-	echo "export PSEUDO_PREFIX=/usr" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+-	echo "export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+-	echo "export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+-
+-	chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
+-
+-	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky
+-
+-	# Allow builder to use sudo to setup tap/tun
+-	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
+-
+-	# Use Clearlooks GTK+ theme
+-	mkdir -p ${IMAGE_ROOTFS}/etc/gtk-2.0
+-	echo 'gtk-theme-name = "Clearlooks"' > ${IMAGE_ROOTFS}/etc/gtk-2.0/gtkrc
+-}
+-
+-IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
+-
+-addtask rootfs after do_unpack
+-
+-python () {
+-	# Ensure we run these usually noexec tasks
+-	d.delVarFlag("do_fetch", "noexec")
+-	d.delVarFlag("do_unpack", "noexec")
+-}
+-
+-create_bundle_files () {
+-	cd ${WORKDIR}
+-	mkdir -p Yocto_Build_Appliance
+-	cp *.vmx* Yocto_Build_Appliance
+-	ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+-	zip -r ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
+-	ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance.zip 
+-}
+-
+-python do_bundle_files() {
+-    bb.build.exec_func('create_bundle_files', d)
+-}
+-
+-addtask bundle_files after do_vmimg before do_build
+-do_bundle_files[nostamp] = "1"
+-- 
+2.7.0.rc3
+
 
