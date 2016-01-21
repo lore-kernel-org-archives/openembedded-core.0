@@ -1,48 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f194.google.com (mail-ob0-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E709F6FFD4
+Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D2F6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 02:44:02 +0000 (UTC)
-Received: by mail-ob0-f194.google.com with SMTP id x5so1828709obg.1
+	Thu, 21 Jan 2016 02:44:04 +0000 (UTC)
+Received: by mail-ob0-f195.google.com with SMTP id oj9so1833495obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jan 2016 18:44:04 -0800 (PST)
+	Wed, 20 Jan 2016 18:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=DvbgkKYEnTMXCOM2eORbcndyc0nLErr469X0KYjsxCk=;
-	b=poAn6MpwW9P8HRL415JEsi76/dLx3AMpyRCFLKUm2PDtnBWHAHI5p3xaclv2//fPVP
-	UpKoATfj94Kl0dlkz9nDUsKjqZryeGFDbISR3mD4t7esQRRVeUKGr92MG5gF8dlX5014
-	hCI5z1iNvtD4EBBnLPdipXfvDzffc7+99oQ6qnkmpBlbnIr9rgbaxZgxyVari+sAu5ef
-	JHPhHIaAjICyRUjqs7SMFpMYn5ZfFxnl12YNQ6TNohzSseXeh3fa2uZ9OdlsUBe9byB7
-	uAjfi5xPFsRQXRLlouWLLw8I78M3C33d9ppoNxe7tPV6hTg1KljHL/dohbL4b7MZUrkL
-	cyfQ==
+	bh=Somk8fQPf9dK2Qb/etw2eGfkR6Y9QohY1/gHAhVk9TQ=;
+	b=MnXlzyCBeDOaP5Nxig6XAZ+dWGHMdvH0UQI96mCIHeSOlnlvEiTJOeVmNPkxHnJ7Ph
+	soQpKCqfrMCMwmaHc/y1wP4YSYxxrELLliXJuvcOrKw/cfgXA/OIQE9KSd9dCz+qxe2E
+	xYVzl/Z1LTUWz3xfzOCoDUibGZU3eGblO5pj4L6S8fhCK8weO5ayGkcLlv/ecTj/lEo2
+	bZEjcvQIhK8cwLSXRFAg0fnflib45m4IzbDDdljDN8VeFdQAgattbwmkSJstHUtdUGJG
+	+umrZu8g5JwdQ4LbM2BgNHqcb0KZ5bAP+H1yiTg3V6/Yc3H8+hlBOrUNBeRvVVlJPGkA
+	wj2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=DvbgkKYEnTMXCOM2eORbcndyc0nLErr469X0KYjsxCk=;
-	b=IMCSetOt6K/TO+lh+dTtzt9Tsrh3wqqhTws1odB+lLoERwDXOjmLBGxBE3Iv7KTK48
-	m6QWBnN2lJDeja/F0RsNc9RtjRc5VAYua6Ld8Lkpskwjxz5QuEqmjsJ8GlCEocj8Huoj
-	q4oTQZC/HkXFZMC9zMiz6OnegPtgZk9xJZ41HE25GRMT6ACM+PhNEEAER/mWXJTU1bUI
-	VzVTeXxY1mpsbbsk7/xnVx43xczWOr0vdKtSnt56ruj/y4CASBhSEJYSeA+D3ZaWQyil
-	BD+ReMIsTMZwcDYwdCirDS3GgUuttjwvEoWldRhkW/l8+IGxvJyr4kSwuMwv1QWJQNhS
-	lZ4A==
-X-Gm-Message-State: ALoCoQmLSH0Ya3xPNhzVnS4TXCUWYzOa7WIDz//xUn8mdW5D5DI/KfG8qgNr9+3BNcwtXeNjw4clVP6CSwRs9yMYganRXfgptA==
-X-Received: by 10.60.227.104 with SMTP id rz8mr31852413oec.45.1453344243872;
-	Wed, 20 Jan 2016 18:44:03 -0800 (PST)
+	bh=Somk8fQPf9dK2Qb/etw2eGfkR6Y9QohY1/gHAhVk9TQ=;
+	b=Ka6zyYKC01MVuyStiYqrZDs47E3P04fxz3q3WAUk34r393BRDG8fS4kKCqk4q2/6um
+	G1/X+2Onfpz/nxRgjIHzGyHHVHL5LKiJ4reqE6wC8JhzETE+Yy3MUgZUdzuBMOLWBBZ6
+	A1QHaH8yKIoILAWHTdm3ZisHZvNzhxY4DjjszozgXDH26cfb/uhcyDi63qyUs9mItVrS
+	Y/dGAf5FWLdOehcjzgdEcdaaebmd3F/lc0MAu27kv70lOcRm/+VUH05Le8oSAhwU27pt
+	rIl/m20eQBRx9ztVFyJas0xVJw9LWoOt7XttTkUFznAfwnGglnuteIWNQp3Balb4GjbG
+	Svwg==
+X-Gm-Message-State: AG10YORfkRFphgMmHWNv1GIy/ip3qZensPFUVVE5x+WS+mE7sZT0aSCghi6FetSalqPJfQ==
+X-Received: by 10.182.75.198 with SMTP id e6mr16591945obw.0.1453344245788;
+	Wed, 20 Jan 2016 18:44:05 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id l3sm19310608oeq.0.2016.01.20.18.44.02
+	by smtp.gmail.com with ESMTPSA id l3sm19310608oeq.0.2016.01.20.18.44.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jan 2016 18:44:03 -0800 (PST)
+	Wed, 20 Jan 2016 18:44:05 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jan 2016 18:43:14 -0800
-Message-Id: <1453344203-7118-17-git-send-email-armccurdy@gmail.com>
+Date: Wed, 20 Jan 2016 18:43:15 -0800
+Message-Id: <1453344203-7118-18-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453344203-7118-1-git-send-email-armccurdy@gmail.com>
 References: <1453344203-7118-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 16/25] gstreamer1.0-plugins-bad.inc: don't set ${S} or apply version specific patch
+Subject: [PATCH 17/25] gstreamer1.0-plugins-bad.inc: update hls dependency gnutls -> nettle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jan 2016 02:44:03 -0000
+X-List-Received-Date: Thu, 21 Jan 2016 02:44:05 -0000
 
-gstreamer1.0-plugins-bad.inc is shared by both the 1.6.2 and git
-recipes, so must not set ${S} or apply any version specific patches.
+The HLS plugin requires AES decryption and links with nettle, not
+with gnutls.
+
+  http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/tree/configure.ac?h=1.6&id=7dee47fe39223d8a98615f03f34d9221f9e8a6c1#n3038
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc      | 4 ----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb | 5 ++++-
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 4aa2f56..689d3ad 100644
+index 689d3ad..c4199bd 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -4,10 +4,6 @@ LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
- 
- DEPENDS += "gstreamer1.0-plugins-base libpng jpeg"
- 
--SRC_URI += "file://configure-allow-to-disable-libssh2.patch"
--
--S = "${WORKDIR}/gst-plugins-bad-${PV}"
--
- inherit gettext bluetooth
- 
- # opengl packageconfig factored out to make it easy for distros
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-index c1c322b..004d053 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.6.2.bb
-@@ -5,7 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
-                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50 \
-                     file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a"
- 
--SRC_URI += "file://0001-glimagesink-Downrank-to-marginal.patch"
-+SRC_URI += " \
-+    file://configure-allow-to-disable-libssh2.patch \
-+    file://0001-glimagesink-Downrank-to-marginal.patch \
-+"
- 
- SRC_URI[md5sum] = "7c73bec1d389f0e184ebbbbb9e9f883d"
- SRC_URI[sha256sum] = "650855e39ff56a8bb6cb0c192109c5926ce12f536d06e19ebf829de71ef396fe"
+@@ -33,7 +33,7 @@ PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
+ PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
+ PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
+ PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+-PACKAGECONFIG[hls]             = "--enable-hls,--disable-hls,gnutls"
++PACKAGECONFIG[hls]             = "--enable-hls,--disable-hls,nettle"
+ PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
+ PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
+ PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
 -- 
 1.9.1
 
