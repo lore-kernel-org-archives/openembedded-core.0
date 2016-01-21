@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5737573190
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 67D36731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 08:11:18 +0000 (UTC)
+	Thu, 21 Jan 2016 08:11:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0L8BIv2017898
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0L8BIHB018628
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 00:11:18 -0800 (PST)
+	Thu, 21 Jan 2016 00:11:18 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Jan 2016 00:11:18 -0800
+	Thu, 21 Jan 2016 00:11:17 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jan 2016 00:11:17 -0800
-Message-ID: <39e5a62da63a29ebd513bc2e926bd11f4b250227.1453363852.git.liezhi.yang@windriver.com>
+Date: Thu, 21 Jan 2016 00:11:16 -0800
+Message-ID: <cover.1453363852.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453363852.git.liezhi.yang@windriver.com>
-References: <cover.1453363852.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] insane.bbclass: do_package_qa depends on WARN_QA and ERROR_QA
+Subject: [PATCH 0/1] insane.bbclass: do_package_qa depends on WARN_QA and ERROR_QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 21 Jan 2016 08:11:20 -0000
 Content-Type: text/plain
 
-do_package_qa() should rerun when WARN_QA or ERROR_QA changed
+The following changes since commit 8084c185c43cb7e7f5e29d31939dfd308f8a0f93:
 
-[YOCTO #8445]
+  udev: Add 2 patches to support 4.4 kernel (2016-01-20 09:20:06 +0000)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/rerun
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rerun
+
+Robert Yang (1):
+  insane.bbclass: do_package_qa depends on WARN_QA and ERROR_QA
+
  meta/classes/insane.bbclass |    1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index f7781ce..0ab756f 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1098,6 +1098,7 @@ python do_package_qa () {
- 
- do_package_qa[vardepsexclude] = "BB_TASKDEPDATA"
- do_package_qa[rdeptask] = "do_packagedata"
-+do_package_qa[vardeps] += "${WARN_QA} ${ERROR_QA}"
- addtask do_package_qa after do_packagedata do_package before do_build
- 
- SSTATETASKS += "do_package_qa"
 -- 
 1.7.9.5
 
