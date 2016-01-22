@@ -1,55 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 755657316D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id ABCEC75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 21:06:12 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id q63so49320193pfb.1
+	Fri, 22 Jan 2016 21:26:32 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id w75so55351463oie.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 13:06:13 -0800 (PST)
+	Fri, 22 Jan 2016 13:26:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=e44VP9faiPWTR0SMlOobL3upqT1nYGsY1t5RACxS5J4=;
-	b=sxF9vjyKY4HX7wsVYfdaG+NtguBmnwrce8EUpe77QkkZeCn7K2GF6Djl7h5yowrUXg
-	iH4R5S3BztOK4F8bLoOtFkI7fvwI3SN0GjFJq1mb7WLxf1SMqn7JOVcTfXdZIl7wuTSA
-	fhdep+l9di9wNOE8hl863OysfUrjIgRy2q/T6icSVlu9mZAVFIMwk/z+au0AzYk0MVxk
-	LQKQFuqlJg9zDqQcZ7BK3dyQfanBkKvQacpfdaoYCNupy5ETWgl+jlXlHJ9DOMlx8Cdt
-	pPp27/+xRNSf3R/3TRo5dwCSwiDrzNMZ4eUzFuFvQiUBSm5+vCM9sI8/6HOujylrcjCN
-	EpLg==
+	h=from:to:cc:subject:date:message-id;
+	bh=SGtM+dEzITI6hfmO6V98KuJhyj93mL/1VJuFow9Criw=;
+	b=D0La1a3LKzVu4HCQxk4KTy+/M0JuLyCYD1VwmxzFLWUjT2KuxtJBk1dEJYNuP66HxX
+	eI2K1WPls8E5KOVZp0/GHC6MaazniQAdTFBmF2z4C6v6ppZnKILit//17y4QGehQ3pE6
+	dpGb+WHOCJvbM3Ezw1gvieBdjMmPYPWNgrKbbtKHXgjsgRPWbJRBBwM6NFRWtFizbvYj
+	NFpTC0Pe4a+C7RO8GwN92tXEy7dKg64gtzqxI5nIkKKXtNvyqA57f/eQZ2hRBOGLxYnI
+	mTgdva06k+yRoUI7g21CiQ12vcZscGfo2BIQ+Uja+1rEoHkv8hE4iJzkZilBLfLylWW5
+	cV+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=e44VP9faiPWTR0SMlOobL3upqT1nYGsY1t5RACxS5J4=;
-	b=bMhqCTqvmBRhpUV2OzzV7agRSgynKiV70EH+1lExjjU4ZBeJLTN87yqVXCs4NJMjnN
-	j2C0gX1hh2NNyorHssfNpx5r3iDQZBvU9nKx5E7I8zcB/+kitlz9DM+EJc+FLOUoLkY9
-	qumPXiN8GqkeiwVyLx1aULa06wDLZ6kHHsHUQgDoolHQpzJ/zOjQzYGSBwt9xWTUQnAI
-	+zElmRm4DcDTXmPtU8ZekwMZ5wJR1sq5A+zx/Msk4uZyMx4Je8dnb7on1/AnGy30wsOr
-	pc4oA3SCG85yYvzEY9dbmOaf7c21zAC3BmuIB2qUU8K1kFd9OwZp/HoWxZq0bNS+Z2dx
-	v7xA==
-X-Gm-Message-State: AG10YOTV5x5cq8iO6ZWlAlyMOfLNp3cjax3TuE4HQIdq+AG09dy067EGl0lULwziialo8Q==
-X-Received: by 10.98.16.72 with SMTP id y69mr7400308pfi.95.1453496773693;
-	Fri, 22 Jan 2016 13:06:13 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:e5eb:ae30:b4f8:4402?
-	([2601:646:8802:5d5c:e5eb:ae30:b4f8:4402])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SGtM+dEzITI6hfmO6V98KuJhyj93mL/1VJuFow9Criw=;
+	b=gkzfuRBWL/6YKjaNxzJX5h1UPpTDCEawv8Y2LtoGiZ7IoVyVXgMDrcWREJQwVvSseO
+	alUW3zOjgMxtq4o0D6RRMfKBoHfuwGCFPQQFJYDnWmU6EDJCQQECGgZwD92WoTRMPTZ6
+	LmdcsmHH8qX4X0iL3Mg9eAunhQJSs5AaNqMSDdMoX3h5AunLxP9XAQZFJOqKjmWIYrya
+	cppMCPaf4F54zUo1HwKBO28j4FJzfNkbmEtmiEhRCTMgbRVP1RC4cVbPmvfnR34Did4+
+	VKlaOt7u76/ZyeLsnQmJn3PogiXCB6I6RPpArp5cI2uJX/bcgb7uDLkksoEElgJZOLDY
+	bGgQ==
+X-Gm-Message-State: AG10YOR2qumSO5MMgWpi6GCDlU/wU4u+oqnBwMDLG3sTozJIj0KPkQkt5jJZ9+gPkPOVnA==
+X-Received: by 10.202.188.68 with SMTP id m65mr4142822oif.37.1453497990985;
+	Fri, 22 Jan 2016 13:26:30 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	72sm11742697pfk.28.2016.01.22.13.06.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Jan 2016 13:06:11 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1453496277.10444.78.camel@iki.fi>
-Date: Fri, 22 Jan 2016 13:06:04 -0800
-Message-Id: <1F3F5607-7430-45DF-BD68-9AB746D030EC@gmail.com>
-References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
-	<1453495750-104494-2-git-send-email-raj.khem@gmail.com>
-	<1453496277.10444.78.camel@iki.fi>
-To: Tanu Kaskinen <tanuk@iki.fi>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] local.conf.sample: Document HOW-TO enable systemd or busbox to replace sysvinit
+	l19sm4042723oig.27.2016.01.22.13.26.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 22 Jan 2016 13:26:29 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jan 2016 13:26:22 -0800
+Message-Id: <1453497982-9859-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] bsd-headers: fix LICENSE syntax, && -> &
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,92 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 21:06:13 -0000
-X-Groupsio-MsgNum: 76729
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_5601002D-41DA-48A2-AC71-55DDFC45BDF0";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 22 Jan 2016 21:26:37 -0000
 
---Apple-Mail=_5601002D-41DA-48A2-AC71-55DDFC45BDF0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-core/bsd-headers/bsd-headers.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-> On Jan 22, 2016, at 12:57 PM, Tanu Kaskinen <tanuk@iki.fi> wrote:
->=20
-> On Fri, 2016-01-22 at 20:49 +0000, Khem Raj wrote:
->> OE core provides systemd,busybox as options for system init system =
-along
->> with sysvinit being the default. Document the needed settings to =
-enable
->> systemd and busybox as options if user wishes.
->>=20
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/conf/local.conf.sample | 17 +++++++++++++++++
->>  1 file changed, 17 insertions(+)
->>=20
->> diff --git a/meta/conf/local.conf.sample =
-b/meta/conf/local.conf.sample
->> index a662f4d..b760546 100644
->> --- a/meta/conf/local.conf.sample
->> +++ b/meta/conf/local.conf.sample
->> @@ -209,6 +209,23 @@ PACKAGECONFIG_append_pn-qemu-native =3D " sdl"
->>  PACKAGECONFIG_append_pn-nativesdk-qemu =3D " sdl"
->>  #ASSUME_PROVIDED +=3D "libsdl-native"
->>=20
->> +#
->> +# Use busybox/mdev for system initialization
->> +#
->> +#VIRTUAL-RUNTIME_dev_manager =3D "busybox-mdev"
->> +#VIRTUAL-RUNTIME_login_manager =3D "busybox"
->> +#VIRTUAL-RUNTIME_init_manager =3D "busybox"
->> +#VIRTUAL-RUNTIME_initscripts =3D "initscripts"
->> +#VIRTUAL-RUNTIME_keymaps =3D "keymaps"
->> +#DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
->> +
->> +#
->> +# Use systemd for system initialization
->> +#
->> +#DISTRO_FEATURES_append =3D " systemd sysvinit"
->> +#DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
->=20
-> Why is sysvinit included in both DISTRO_FEATURES and
-> DISTRO_FEATURES_BACKFILL_CONSIDERED? My understanding is that
-> BACKFILL_CONSIDERED only makes sense when the value is not included in
-> DISTRO_FEATURES.
-
-There are two possibilities. one where its pure systemd no sysvinit, in =
-this case
-we should have DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D =E2=80=9Csysvinit=E2=
-=80=9D and remove
-DISTRO_FEATURES_append.
-
-In case where we want sysvinit scripts also be there and systemd can =
-execute on them
-then above setting is needed as it is. Option 2 is what I have tried to =
-put in there
-
->=20
-> --
-> Tanu
+diff --git a/meta/recipes-core/bsd-headers/bsd-headers.bb b/meta/recipes-core/bsd-headers/bsd-headers.bb
+index 12a2cca..1fd5b82 100644
+--- a/meta/recipes-core/bsd-headers/bsd-headers.bb
++++ b/meta/recipes-core/bsd-headers/bsd-headers.bb
+@@ -2,7 +2,7 @@
+ # Released under the MIT license (see COPYING.MIT for the terms)
+ 
+ DESCRIPTION = "bsd compatible headers"
+-LICENSE = "BSD-3-Clause && BSD-2-Clause"
++LICENSE = "BSD-3-Clause & BSD-2-Clause"
+ SECTION = "devel"
+ 
+ SRC_URI = "file://sys-queue.h \
+-- 
+1.9.1
 
 
---Apple-Mail=_5601002D-41DA-48A2-AC71-55DDFC45BDF0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaimcIACgkQuwUzVZGdMxSSLwCfQPrIEH8CF7uT2apIIjZpmpPl
-Z3AAn3zxwlG3j6Fr7MBUZ5uKfHW0QSps
-=+xAw
------END PGP SIGNATURE-----
-
---Apple-Mail=_5601002D-41DA-48A2-AC71-55DDFC45BDF0--
