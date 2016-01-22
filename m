@@ -1,46 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id ABCEC75E2D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A93E769F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 21:26:32 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id w75so55351463oie.0
+	Fri, 22 Jan 2016 22:58:12 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id mw1so1396968igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 13:26:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SGtM+dEzITI6hfmO6V98KuJhyj93mL/1VJuFow9Criw=;
-	b=D0La1a3LKzVu4HCQxk4KTy+/M0JuLyCYD1VwmxzFLWUjT2KuxtJBk1dEJYNuP66HxX
-	eI2K1WPls8E5KOVZp0/GHC6MaazniQAdTFBmF2z4C6v6ppZnKILit//17y4QGehQ3pE6
-	dpGb+WHOCJvbM3Ezw1gvieBdjMmPYPWNgrKbbtKHXgjsgRPWbJRBBwM6NFRWtFizbvYj
-	NFpTC0Pe4a+C7RO8GwN92tXEy7dKg64gtzqxI5nIkKKXtNvyqA57f/eQZ2hRBOGLxYnI
-	mTgdva06k+yRoUI7g21CiQ12vcZscGfo2BIQ+Uja+1rEoHkv8hE4iJzkZilBLfLylWW5
-	cV+g==
+	Fri, 22 Jan 2016 14:58:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=9jjR1UXo4iEEpcSCBUQWPmpNaO/T2Q/YSTX+CrsvHiY=;
+	b=rEMV5va9oyA9XZ6xmHxgqlG698yaCrr9eo6kxTsXl8qsK7jjmga4iJfLr0gmodYiA2
+	k1TGPryJdlk5NywAoDraSi4HfQOZl6Xl0Qfi3Om8yXa6doHPS/YP2YHR1wcXuP6wIoSO
+	VBwEjOGk7ZCL+92BjRz//yvjtM/i2mTB+iB65UHbxLw65Zy0MESfI91EngTtrXic2isb
+	EBYDIsWyBicZMM3AqHJkECUzGTBVxE1+PyTCnCzEsft0Yi+b8uJlezlJ7NSZC8ZAFbVA
+	rNdMzwBfyFRiEFKlmr/rfr2V2ZfKquCPbAiK62DJT/fK7zea7zA1DHX+m3aJ1VVoWeto
+	IV2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SGtM+dEzITI6hfmO6V98KuJhyj93mL/1VJuFow9Criw=;
-	b=gkzfuRBWL/6YKjaNxzJX5h1UPpTDCEawv8Y2LtoGiZ7IoVyVXgMDrcWREJQwVvSseO
-	alUW3zOjgMxtq4o0D6RRMfKBoHfuwGCFPQQFJYDnWmU6EDJCQQECGgZwD92WoTRMPTZ6
-	LmdcsmHH8qX4X0iL3Mg9eAunhQJSs5AaNqMSDdMoX3h5AunLxP9XAQZFJOqKjmWIYrya
-	cppMCPaf4F54zUo1HwKBO28j4FJzfNkbmEtmiEhRCTMgbRVP1RC4cVbPmvfnR34Did4+
-	VKlaOt7u76/ZyeLsnQmJn3PogiXCB6I6RPpArp5cI2uJX/bcgb7uDLkksoEElgJZOLDY
-	bGgQ==
-X-Gm-Message-State: AG10YOR2qumSO5MMgWpi6GCDlU/wU4u+oqnBwMDLG3sTozJIj0KPkQkt5jJZ9+gPkPOVnA==
-X-Received: by 10.202.188.68 with SMTP id m65mr4142822oif.37.1453497990985;
-	Fri, 22 Jan 2016 13:26:30 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	l19sm4042723oig.27.2016.01.22.13.26.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Jan 2016 13:26:29 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jan 2016 13:26:22 -0800
-Message-Id: <1453497982-9859-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] bsd-headers: fix LICENSE syntax, && -> &
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9jjR1UXo4iEEpcSCBUQWPmpNaO/T2Q/YSTX+CrsvHiY=;
+	b=IxVRLaFtnHZIHdIiLwbwTRA4sEqbn5BUBTNXTB80fCJ6QdfIWnHQNv4T1uYOcZ7w4K
+	QeImGRjdPyfJJ44Pivts+SCGKIADpI5cmlzJhXL4HbXWZTnzDG9OzVrBjvPn6cKGe/eZ
+	9T6HhQcgSOHDgnG98zRLKMq0NeWR+F19LLOJCbIzC1SNMwsk5WD2ayiIJBuTkO0+5bEJ
+	99w15ocdF5qpJMoMPmhsOMTbtFt9EAWHKwud4V0Z5H9WIw5sRN8DD/fecizN1rlVyj3U
+	Q8Kr+xZgwE+ZhmXySnj7+MacFsXEqKicROdit07oW791eAXJAcEHycE6ONjZMdfcRaxJ
+	L1DA==
+X-Gm-Message-State: AG10YORAKah/3a/gYvZs+JuxgoQszniYGAhf/Q1v9nl+GtFBnt6ggQawexkt98/695x0iDToJ47y+U2NP6p/nvnT
+X-Received: by 10.50.23.108 with SMTP id l12mr3189973igf.78.1453503492966;
+	Fri, 22 Jan 2016 14:58:12 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 14:57:53 -0800 (PST)
+In-Reply-To: <7c60a8094ba098006166f4b2eb8f23b6891c7e7e.1453427939.git.liezhi.yang@windriver.com>
+References: <cover.1453427939.git.liezhi.yang@windriver.com>
+	<7c60a8094ba098006166f4b2eb8f23b6891c7e7e.1453427939.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Jan 2016 22:57:53 +0000
+Message-ID: <CAJTo0LY17Bv-1XiAhd3O1xti0Xtt0gUsrEer21an+vfRd39zDA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] meta: cleanup PACKAGECONFIG ??= ""
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 21:26:37 -0000
+X-List-Received-Date: Fri, 22 Jan 2016 22:58:14 -0000
+Content-Type: multipart/alternative; boundary=089e0149cbe860e8350529f42772
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/bsd-headers/bsd-headers.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--089e0149cbe860e8350529f42772
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-core/bsd-headers/bsd-headers.bb b/meta/recipes-core/bsd-headers/bsd-headers.bb
-index 12a2cca..1fd5b82 100644
---- a/meta/recipes-core/bsd-headers/bsd-headers.bb
-+++ b/meta/recipes-core/bsd-headers/bsd-headers.bb
-@@ -2,7 +2,7 @@
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
- DESCRIPTION = "bsd compatible headers"
--LICENSE = "BSD-3-Clause && BSD-2-Clause"
-+LICENSE = "BSD-3-Clause & BSD-2-Clause"
- SECTION = "devel"
- 
- SRC_URI = "file://sys-queue.h \
--- 
-1.9.1
+On 22 January 2016 at 01:59, Robert Yang <liezhi.yang@windriver.com> wrote:
 
+> The base.bbclass can handle PACKAGECONFIG well when it is not set, so
+> PACKAGECONFIG ??= "" isn't useful here, but there are a lot of them,
+> which may mislead the newbie that it is a must.
+>
 
+I actually like the clarity of PACKAGECONFIG??="".  Does anyone else have
+an opinion either way?
+
+Ross
+
+--089e0149cbe860e8350529f42772
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 January 2016 at 01:59, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":u77" =
+class=3D"a3s" style=3D"overflow:hidden">The base.bbclass can handle PACKAGE=
+CONFIG well when it is not set, so<br>
+PACKAGECONFIG ??=3D &quot;&quot; isn&#39;t useful here, but there are a lot=
+ of them,<br>
+which may mislead the newbie that it is a must.</div></blockquote></div><br=
+>I actually like the clarity of PACKAGECONFIG??=3D&quot;&quot;.=C2=A0 Does =
+anyone else have an opinion either way?</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--089e0149cbe860e8350529f42772--
