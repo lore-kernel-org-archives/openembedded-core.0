@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA9A6FFA1
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 494D36FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 12:40:14 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id z14so148184319igp.1
+	Fri, 22 Jan 2016 12:41:21 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id q21so86828972iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 04:40:16 -0800 (PST)
+	Fri, 22 Jan 2016 04:41:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=tuHeLpVUxPGzKJDNX9125Dg9BbsB3FShgRuk70wQXA0=;
-	b=0VNqrCRUFwtP/UaRTZkN+TrqBuL4WlfRQPqwNdi0+kumXzmfje1z4sT6VKq+HnuhGP
-	pB7cowWXxRvC44o0u5yOBCrOvDLUEtgyDeuy14ZRKIOWoxtGh59St7S/43MY9drjf5fu
-	pLM58+xYT2JzNRxEzClvsqeDZRdccrVmuNPGy/zzr5suOGUwXahCowcrX9R++Il21GnN
-	uOtOLKHtwVg2wSALjqa+amdSo0wMn7asAqFjtcxOMnyajP03LfEoAIl1KPeAjSTiGCWr
-	lwxQG5CyVCYQkoGNe+s6ibHCOGbP55s04/uaO0gSfDR028jBjTjDfzS1xj0sW7nBvjO9
-	DjEQ==
+	bh=lVkykDLIRB3vMj4ABLd9997H61oxAiwluJfCV+/WFLg=;
+	b=p4g4x9t/Qbo1bssn6D9Us7MvQJhZr1Pht58Lpfi5bYaXaRHnOoTqTFTyP+d0O1iVR8
+	BAAcgfhS46ZEEli9ADRVHgb8byBu5cSffd5Zq7lNm9kiXjrw07MEZaJCM/apCoH6vB0j
+	z2kSKIHZS8Z+jG8pPlsvuXUdiYSD8+DFAkJGJz0edyjn+Zn48SsZXvCmc6bJgHC3AseT
+	LezfSICCzPpm96wXkClmxYOcoyJIVzdj63CqYvMaipM/dEWeFoiz2Fyl6V4NqUotweYV
+	RR/5678DBgrQvW+I6qJaYId8p0O2seEs2FhzQChNs8uigoz/6FrZYvlKd/o+oQRAsNp+
+	rpRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=tuHeLpVUxPGzKJDNX9125Dg9BbsB3FShgRuk70wQXA0=;
-	b=jThxy3UhfIkhnaPhNalXV+yki0Y1vkwVxVUnf1M5oU891nV5a+Wsfbf2S1SSEWJegZ
-	FlLZ5IDjmJiv/8i+/oljFepLlwKdkOPsk/qh2bLlPOQU4RLzC6KVLVdY6E6n03lJHHvp
-	48l/tSsVfaq6MMUbOugTsTio+Iy87+gGl+WflUD1mrOzM6PXVd6HEH2TWsBFWNtZzZj4
-	KowL7738fD4OTHX1RfZDah0HD33Qzm2wFRCzGP9U8mbDfdt/QHHP+ZuFhvPEOCjvllj6
-	wBPraqq6+Q8TxJ+1Z6Th+J0MCoyE68pkWEGOoUQX1FbAdH5PKlyES1O3FMbQWU54/WTh
-	zDhg==
-X-Gm-Message-State: AG10YOQxp8hQ43x9EJuJja8wRSdB4BvZ/MTwPxoHesT8+vT4RElpyrKRLzcbECeSHRCwKLN0HcbVKqjIUtUmrqVo
-X-Received: by 10.50.111.111 with SMTP id ih15mr3433119igb.78.1453466415623;
-	Fri, 22 Jan 2016 04:40:15 -0800 (PST)
+	bh=lVkykDLIRB3vMj4ABLd9997H61oxAiwluJfCV+/WFLg=;
+	b=llno+H48ntvPmRFaSdS4QoN+r/ZDxkqlT5cWb2MGlImhVRWF2qZe+M0qr6Gw8aKsvg
+	G79W29vastd/GNj7D6voV451wb+K6Yik25Rfb1irOCtDCUNwJbdQXcTmtLHkCaiKniha
+	yvYKGd92Zrm3BCMihhv1V7UufoxNiHE5OTUkj+sHTu8BsSBboe1rLTBU9ChAhPKlJ3JI
+	DPoK3px931jB8KvKHumizlGjWN0ArEv7PKowiQGVAXc/Hg6bxGtu2/zgfIqgGgoNh0bp
+	9u0RExxOq1G9V2oscZJH8XgJcajHnzAs0oZbrO2HHQ6oDzt/2FAY3WRsc2Wasy64Ty17
+	wo+Q==
+X-Gm-Message-State: AG10YOSgdIhK/KMA9sl5F3dmfDi8Tzy6HDKiq5fTwCQtIsPIfnIPbkTlR2XgZcU+YI//dhjyQer6Yri92manBZuk
+X-Received: by 10.107.164.161 with SMTP id d33mr3133625ioj.148.1453466482119; 
+	Fri, 22 Jan 2016 04:41:22 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 04:39:56 -0800 (PST)
-In-Reply-To: <4db181ab873afe453a8203c7f10a9e08a5e4f41c.1453029952.git.raj.khem@gmail.com>
+Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 04:41:02 -0800 (PST)
+In-Reply-To: <a430918d3d3c0fe58d3cc8ea3d8178e3980c571e.1453029952.git.raj.khem@gmail.com>
 References: <cover.1453029952.git.raj.khem@gmail.com>
-	<4db181ab873afe453a8203c7f10a9e08a5e4f41c.1453029952.git.raj.khem@gmail.com>
+	<a430918d3d3c0fe58d3cc8ea3d8178e3980c571e.1453029952.git.raj.khem@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Jan 2016 12:39:56 +0000
-Message-ID: <CAJTo0La-aNU6nMmrykB6VcTV_zOLVsj_+0T35QtZ1Zjs6bMCxw@mail.gmail.com>
+Date: Fri, 22 Jan 2016 12:41:02 +0000
+Message-ID: <CAJTo0LZa9oM8gpqcG7baZa30gree1ijxJsdj9Y1-YttxZ3OqYA@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 54/73] btrfs-tools: Disable backtrace on musl
+Subject: Re: [PATCH 51/73] db: Use cross libtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 12:40:15 -0000
-Content-Type: multipart/alternative; boundary=089e0149be34658d920529eb8535
+X-List-Received-Date: Fri, 22 Jan 2016 12:41:24 -0000
+Content-Type: multipart/alternative; boundary=001a1141c9765c2d1a0529eb89d4
 
---089e0149be34658d920529eb8535
+--001a1141c9765c2d1a0529eb89d4
 Content-Type: text/plain; charset=UTF-8
 
 On 17 January 2016 at 11:36, Khem Raj <raj.khem@gmail.com> wrote:
 
-> musl does not support backtrace APIs
-> include limit.h for PATH_MAX definition
+> db is not reconfigured like usual autotools based components so it
+> generates its own libtool, and this libtool is not equipped to do cross
+> builds, e.g. when building using clang on musl, it misdirects linker to
+> use libstdc++.so from build host instead of target, the reason being it
+> does not understand sysroot.
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Use cross libtool instead to build the target versions
 >
+> Fixes errors like below
+>
+> | libtool: link: arm-oe-linux-musleabi-ranlib .libs/libdb-6.0.a
+> |
+>
+> /a/builder/mnt/build-oe/tmp-musl/sysroots/x86_64-linux/usr/bin/arm-oe-linux-musleabi/arm-oe-linux-musleabi-ld:
+> error: /usr/lib/libstdc++.so: incompatible target
 
-Since the rebase to btrfs-tools 4.4 this fails to patch:
 
-NOTE: Applying patch '0001-btrfs-corrupt-blocks-Include-limits.h.patch'
-(../meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-corrupt-blocks-Include-limits.h.patch)
-ERROR: Command Error: exit status: 1  Output:
-Applying patch 0001-btrfs-corrupt-blocks-Include-limits.h.patch
-patching file btrfs-corrupt-block.c
-Hunk #1 FAILED at 21.
-1 out of 1 hunk FAILED -- rejects in file btrfs-corrupt-block.c
-Patch 0001-btrfs-corrupt-blocks-Include-limits.h.patch can be
-reverse-applied
+This fails to build on the autobuilder in poky-lsb configurations (which
+turns on securityflags.inc):
 
-Presumably 4.4 accepted these patches and this can be dropped?
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/qemux86/usr/lib/libc_nonshared.a(elf-init.oS):
+In function `__libc_csu_init':
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/i586-poky-linux/glibc/2.22-r0/git/csu/elf-init.c:87:
+undefined reference to `__init_array_start'
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/5.3.0/ld:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/qemux86/usr/lib/libc_nonshared.a(elf-init.oS):
+relocation R_386_GOTOFF against undefined hidden symbol
+`__init_array_start' can not be used when making a shared object
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/5.3.0/ld:
+final link failed: Bad value
+collect2: error: ld returned 1 exit status
+Makefile:884: recipe for target 'libdb_cxx-6.0.la' failed
 
 Ross
 
---089e0149be34658d920529eb8535
+--001a1141c9765c2d1a0529eb89d4
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -94,21 +107,39 @@ On 17 January 2016 at 11:36, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
 to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
 wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
 ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D":v04" class=3D"" style=3D"overflow:hi=
-dden">musl does not support backtrace APIs<br>
-include limit.h for PATH_MAX definition<br>
+le:solid;padding-left:1ex"><span class=3D"">db</span> is not reconfigured l=
+ike usual autotools based components so it<br>
+generates its own libtool, and this libtool is not equipped to do cross<br>
+builds, e.g. when building using clang on musl, it misdirects linker to<br>
+use libstdc++.so from build host instead of target, the reason being it<br>
+does not understand sysroot.<br>
 <br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
-gmail.com</a>&gt;</div></blockquote><div>=C2=A0</div></div></div>Since the =
-rebase to btrfs-tools 4.4 this fails to patch:<br><br>NOTE: Applying patch =
-&#39;0001-btrfs-corrupt-blocks-Include-limits.h.patch&#39; (../meta/recipes=
--devtools/btrfs-tools/btrfs-tools/0001-btrfs-corrupt-blocks-Include-limits.=
-h.patch)<br>ERROR: Command Error: exit status: 1 =C2=A0Output:<br>Applying =
-patch 0001-btrfs-corrupt-blocks-Include-limits.h.patch<br><div>patching fil=
-e btrfs-corrupt-block.c<br>Hunk #1 FAILED at 21.<br>1 out of 1 hunk FAILED =
--- rejects in file btrfs-corrupt-block.c<br>Patch 0001-btrfs-corrupt-blocks=
--Include-limits.h.patch can be reverse-applied</div><div><br></div><div>Pre=
-sumably 4.4 accepted these patches and this can be dropped?</div><div><br><=
-/div><div>Ross</div></div>
+Use cross libtool instead to build the target versions<br>
+<br>
+Fixes errors like below<br>
+<br>
+| libtool: link: arm-oe-linux-musleabi-ranlib .libs/libdb-6.0.a<br>
+|<br>
+/a/builder/mnt/build-oe/tmp-musl/sysroots/x86_64-linux/usr/bin/arm-oe-linux=
+-musleabi/arm-oe-linux-musleabi-ld:<br>
+error: /usr/lib/libstdc++.so: incompatible target</blockquote></div><br>Thi=
+s fails to build on the autobuilder in poky-lsb configurations (which turns=
+ on securityflags.inc):<br><br>/home/pokybuild/yocto-autobuilder/yocto-work=
+er/nightly-world-lsb/build/build/tmp/sysroots/qemux86/usr/lib/libc_nonshare=
+d.a(elf-init.oS): In function `__libc_csu_init&#39;:<br>/home/pokybuild/yoc=
+to-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/i586-pok=
+y-linux/glibc/2.22-r0/git/csu/elf-init.c:87: undefined reference to `__init=
+_array_start&#39;<br>/home/pokybuild/yocto-autobuilder/yocto-worker/nightly=
+-world-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linu=
+x/gcc/i586-poky-linux/5.3.0/ld: /home/pokybuild/yocto-autobuilder/yocto-wor=
+ker/nightly-world-lsb/build/build/tmp/sysroots/qemux86/usr/lib/libc_nonshar=
+ed.a(elf-init.oS): relocation R_386_GOTOFF against undefined hidden symbol =
+`__init_array_start&#39; can not be used when making a shared object<br>/ho=
+me/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/t=
+mp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/5.=
+3.0/ld: final link failed: Bad value<br>collect2: error: ld returned 1 exit=
+ status<br>Makefile:884: recipe for target &#39;<a href=3D"http://libdb_cxx=
+-6.0.la">libdb_cxx-6.0.la</a>&#39; failed</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
 
---089e0149be34658d920529eb8535--
+--001a1141c9765c2d1a0529eb89d4--
