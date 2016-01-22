@@ -1,37 +1,47 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 329 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 22 Jan 2016 15:43:49 UTC
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C803E605BA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7115F731F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 15:43:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id D47CE315EE07
+	Fri, 22 Jan 2016 16:13:14 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id z14so152427374igp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 16:38:19 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id BEeMBWAgzB0a
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 16:38:17 +0100 (CET)
-Received: from [172.22.22.61] (55d46ff4.access.ecotel.net [85.212.111.244])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 413E1315EE06
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 16:38:17 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
-References: <56A22767.7050000@linux.intel.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56A24CE8.8010501@opendreambox.org>
-Date: Fri, 22 Jan 2016 16:38:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Fri, 22 Jan 2016 08:13:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ahgFJ6jHmzMpiIEhrjZRUOEwesi0ev8Vt0Ph1mxwaTU=;
+	b=xI8B8GFuytUKxal0OM4wbJTx0cQGjH16SX/1e3zk7ggdag5IcofqCo0M4vT+bmkNxT
+	NKk0WCBoKczOGO6iprEqwfmBPsp1uEhMdnNPB1Nz2iWhj6x6e2E2T7231YIIYd5Q8aW0
+	3IR/zsH7etjthdOIuOG6zIH/11Ti0L9VTtI9vAg380v1nwseeW+H2OqZnwY7JiQL1Uzs
+	nvINYHQXnvlb7PqmT5D7u6hUhpDleZOKPIUBM4gAei2uIQHSuuhCruBPNXMBBHj50b51
+	oAb60niorcLRFV3geFimFOUnZbNqA/2L4blFMt/iZ58P6WXFeyc1xqFqu633u3Dz5ar+
+	rvxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ahgFJ6jHmzMpiIEhrjZRUOEwesi0ev8Vt0Ph1mxwaTU=;
+	b=DYvmKIw3xyW1wHwarvMx+ACKysYQaOQAy7mJBCBFJR15f1QAExDrwgRgJxPWKwPiHX
+	bTzrpUNi7jUWo9OySg2btLiVVkohWB5jiFikqw33WLqE/v9DddF9kKsiDBJruy4KZet2
+	lSsoiH92+BIJkBtKMgNaHmDzZZpLbycB3dY+3GorvGABqul3DmTMnJGx31lXaJa95ZAI
+	H8C/ikm46WOAuoyodNcVzpmZ+Xc1R5IMRySvoaV6qO+hxMzmY2/T7HBBP5s+wB/Fxjms
+	j6cZ4EhIA/LYV60+GYFp0UCtw70Io9qwd4zpBKrca6FEuB/NRWKZN/BkMBM26GXozraV
+	rWnQ==
+X-Gm-Message-State: AG10YOTqZI1QVY6aD4jMamUuinCl+HAzHGdfZkcfl1/8imzeVrrR1D9opJBJOeE1f12Zspp7FcX/+XQhH15z9ze5
+X-Received: by 10.50.55.4 with SMTP id n4mr4117614igp.64.1453479194830; Fri,
+	22 Jan 2016 08:13:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <56A22767.7050000@linux.intel.com>
+Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 08:12:55 -0800 (PST)
+In-Reply-To: <56A24CE8.8010501@opendreambox.org>
+References: <56A22767.7050000@linux.intel.com>
+	<56A24CE8.8010501@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Jan 2016 16:12:55 +0000
+Message-ID: <CAJTo0LaAY=Bru-JzaNMQe5KNuAH3+A0VW_mQ6sNy4GvDU7nk6w@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: proposal: remove DirectFB from oe-core in the next release cycle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,30 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 15:43:51 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jan 2016 16:13:14 -0000
+Content-Type: multipart/alternative; boundary=e89a8f3b9b4918cc790529ee7fba
 
-On 22.01.2016 13:58, Alexander Kanavin wrote:
-> Hello,
-> 
-> DirectFB upstream project has been dead for several months, the website
-> has completely disappeared, and no explanation or apology has ever
-> surfaced. [1]
-> 
-> So let's keep DirectFB in the forthcoming release, but drop it early in
-> the next release cycle.
-> 
-> [1] http://www.phoronix.com/scan.php?page=news_item&px=DirectFB-Is-It-Gone
+--e89a8f3b9b4918cc790529ee7fba
+Content-Type: text/plain; charset=UTF-8
 
-FWIW, https://github.com/deniskropp/DirectFB is the new location of the
-upstream repository. I see that you opened an issue there, so you're
-already aware. The last commit is from October 2015.
+On 22 January 2016 at 15:38, Andreas Oberritter <obi@opendreambox.org>
+wrote:
 
-I guess many other projects in OE-Corew have seen much less activity. So
-what's the real reason for this proposal? Failing update scripts?
+> FWIW, https://github.com/deniskropp/DirectFB is the new location of the
+> upstream repository. I see that you opened an issue there, so you're
+> already aware. The last commit is from October 2015.
+>
 
-Regards,
-Andreas
+I guess the thing missing is an indication that the repo on github is
+official and maintained.  Specifically the deniskropp repo has been
+recently touched but you have to admit that
+https://github.com/DirectFB/directfb looks more official.
 
+Ross
 
+--e89a8f3b9b4918cc790529ee7fba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 January 2016 at 15:38, Andreas Oberritter <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex"><div id=3D":v62" class=3D"" style=
+=3D"overflow:hidden">FWIW, <a href=3D"https://github.com/deniskropp/DirectF=
+B" rel=3D"noreferrer" target=3D"_blank">https://github.com/deniskropp/Direc=
+tFB</a> is the new location of the<br>
+upstream repository. I see that you opened an issue there, so you&#39;re<br=
+>
+already aware. The last commit is from October 2015.</div></blockquote></di=
+v><br>I guess the thing missing is an indication that the repo on github is=
+ official and maintained.=C2=A0 Specifically the deniskropp repo has been r=
+ecently touched but you have to admit that=C2=A0<a href=3D"https://github.c=
+om/DirectFB/directfb">https://github.com/DirectFB/directfb</a> looks more o=
+fficial.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
+
+--e89a8f3b9b4918cc790529ee7fba--
