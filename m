@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B16C760290
+Return-Path: <bmouring@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D496012C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 23:18:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0MNIKix022655; Fri, 22 Jan 2016 23:18:20 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id D6DCtMoeohTp; Fri, 22 Jan 2016 23:18:20 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0MNIEPa022651
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 22 Jan 2016 23:18:16 GMT
-Message-ID: <1453504694.6378.28.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jan 2016 23:18:14 +0000
-In-Reply-To: <56A27C8C.8000403@windriver.com>
-References: <1453483030.6378.24.camel@linuxfoundation.org>
-	<56A27C8C.8000403@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] uninative: Fix conflicts with normal sysroot
+	Fri, 22 Jan 2016 23:25:40 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0MNPeOU015264; Fri, 22 Jan 2016 17:25:40 -0600
+Received: from zardoz.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with SMTP id 2016012217253947-214061 ;
+	Fri, 22 Jan 2016 17:25:39 -0600 
+Received: by zardoz.amer.corp.natinst.com (sSMTP sendmail emulation);
+	Fri, 22 Jan 2016 17:25:39 -0600
+From: bmouring@ni.com
+Date: Fri, 22 Jan 2016 17:25:39 -0600
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160122232539.GA28611@zardoz.amer.corp.natinst.com>
+References: <1453486432-24073-1-git-send-email-brad.mouring@ni.com>
+	<CAJTo0La_+cYqBCVy384W4cXTGk322TRj7c+zJGHw9kBH+msPoQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La_+cYqBCVy384W4cXTGk322TRj7c+zJGHw9kBH+msPoQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/22/2016 05:25:40 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/22/2016 05:25:40 PM,
+	Serialize complete at 01/22/2016 05:25:40 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-22_07:, , signatures=0
+Cc: bmouring@ni.com, Brad Mouring <brad.mouring@ni.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] avahi: Add patch to fix Win10 mDNS issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 23:18:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jan 2016 23:25:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2016-01-22 at 13:01 -0600, Mark Hatle wrote:
-> On 1/22/16 11:17 AM, Richard Purdie wrote:
-> > Currently this code installs into the standard sysroot, however
-> > this causes
-> > some conflicts when linking since the linker can look specifically
-> > for
-> > versioned .so files (e.g. like libpthreads.so.0). This breaks
-> > builds
-> > of util-linux-native for example.
-> > 
-> > The easiest solution is to install uninative into its own separate
-> > sysroot.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > 
-> > diff --git a/meta/classes/uninative.bbclass
-> > b/meta/classes/uninative.bbclass
-> > index fe1e89b..8686159 100644
-> > --- a/meta/classes/uninative.bbclass
-> > +++ b/meta/classes/uninative.bbclass
-> > @@ -1,6 +1,6 @@
-> >  NATIVELSBSTRING = "universal"
-> >  
-> > -UNINATIVE_LOADER ?= "${@bb.utils.contains('BUILD_ARCH', 'x86_64',
-> > '${STAGING_DIR_NATIVE}/lib/ld-linux-x86-64.so.2',
-> > '${STAGING_DIR_NATIVE}/lib/ld-linux.so.2', d)}"
-> > +UNINATIVE_LOADER ?= "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/
-> > lib/${@bb.utils.contains('BUILD_ARCH', 'x86_64', 'ld-linux-x86
-> > -64.so.2', 'ld-linux.so.2', d)}"
+On Fri, Jan 22, 2016 at 11:08:06PM +0000, Burton, Ross wrote:
+> On 22 January 2016 at 18:13, <bmouring@ni.com> wrote:
 > 
-> Have you considered changing the name of the ld.so for the uninative
-> so that
-> there is no way it can conflict with the host system.
+> > +SRC_URI_append = " \
+> > +
+> > file://0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch \
+> > +    "
+> > +
+> >  DEPENDS += "intltool-native"
+> >
 > 
-> This would require a minor patch to the uninative linker/compiler to
-> use the new
-> name -- and of course above to know it as well.
+> Can you add this to the SRC_URI assignment in avahi.inc please.
+
+I did this initially, but considering that the next version of avahi will
+include this change, I didn't think that was the best approach. I'm fine
+with including it there, but it didn't seem right to me. Convince me
+that it's the correct place to put the change.
+
+> > --- /dev/null
+> > +++
+> > b/meta/recipes-connectivity/avahi/files/0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch
+> > @@ -0,0 +1,151 @@
+> > +From de7cde877e4daa5d9d4fb5b1a349299eaa94969d Mon Sep 17 00:00:00 2001
+> > +From: Trent Lloyd <trent@lloyd.id.au>
+> > +Date: Sat, 10 Oct 2015 06:20:46 +0800
+> > +Subject: [PATCH] Don't log warnings about invalid packets (Fixes
+> > + lathiat/avahi#10)
+> >
 > 
-> This might be a useful safety to prevent the system from every
-> falling back to
-> the /lib/... version.
+> This patch is missing Upstream-Status and Signed-off-by (by you,
+> presumably) tags.
 
-The problem wasn't/isn't ld.so. Its that ${STAGING_DIR_NATIVE}/lib/ is
-in the linker paths for -native utils and it was picking up random
-pieces of the libc from there like libpthread, even though there was
-only versioned .so files there, no .so links. It was those that
-conflicted with the host system.
+Will correct, keep an eye out for v2 (I'll wait for feedback on the
+other point first before unleashing v2)
 
-The ld.so references are in the interpreter sections of the binaries so
-very hard to get confused and I'm not aware of any issue there, nor can
-I really envisage one.
+> Ross
 
-So whilst I appreciate the idea, I'm not sure it solves any issue we
-have...
-
-Cheers,
-
-Richard
+-- 
+Brad Mouring
+Senior Software Engineer
+National Instruments
+512-683-6610 / bmouring@ni.com
 
