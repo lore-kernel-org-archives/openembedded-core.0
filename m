@@ -1,27 +1,48 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id E25D1766E1
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-ig0-f196.google.com (mail-ig0-f196.google.com
+	[209.85.213.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7130E76A98
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 19:58:41 +0000 (UTC)
-Received: (qmail 32386 invoked by uid 1003); 22 Jan 2016 19:58:42 -0000
-Received: from unknown (HELO ?192.168.11.140?)
-	(philip@opensdr.com@108.44.110.59)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	22 Jan 2016 19:58:41 -0000
-To: "Jolley, Stephen K" <stephen.k.jolley@intel.com>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E56FAE346@fmsmsx111.amr.corp.intel.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <56A289F0.3070800@balister.org>
-Date: Fri, 22 Jan 2016 14:58:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
+	Fri, 22 Jan 2016 20:38:26 +0000 (UTC)
+Received: by mail-ig0-f196.google.com with SMTP id mw1so8401436igb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 12:38:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Eg6irq6KUryzFl3uBr6153v+3hyk7SEu3L5bTeR9OVw=;
+	b=Y58AcEWlk0gzZgQ5b8UjjapYuuHPSBMRFEClJ8kgEJp6yXs9JOWdqJbReuOylE2456
+	u33muHuvZDdzELVNBs1yCjnlHGTjzRevQlbAYYEQ6+L5zYVcDKkI8zOw35nPw0fokh18
+	rWFeYbMaEWI4amuQzfSL3jQhVxqZ/ZqGpBRgABIKc851UMqBtNuiACR6Xhk9wVWMbKex
+	aglruT8qKyEVjMmvgntGtWu/V47xC2hZQxXMGijL1P1N3Qd4CAmCnVE/KYaREbV3q0/u
+	wpVocA027ioNZYFMqYB4G5ByatAO9jVKa/wD+W0+kWtmaEE1JR6NGRo2BBfaPJG+mvEd
+	7EmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=Eg6irq6KUryzFl3uBr6153v+3hyk7SEu3L5bTeR9OVw=;
+	b=j+zweH1KZeKIaoj4s4K2cl1yjGQKi85VFZyUsxn5fEGX2FIfvotYOobLarF7oFi0iM
+	dZYU+ac5qs7bh2NfHFq6nC8/Doq9nU3qS2VOpomCaUoqw2yxg7eSQ2feaS5S1TSorlWf
+	43BIzxI2vfrR82uNkJ7XnSREnC91gYx0SmoqqebyZQ2G3Gh4nOpSH05UVtpUiKYhApU3
+	cCDK7XARS06Z2iVRSedxMtJaw3CBWKsfJMWvvksR/uQqEbtg4GzGWcFuwbiOaD34fyOf
+	ugMfSzB/KFNPeS1GNHqvuXMtBkTGQuOmE4LSSDz8QT8rqw18cnsn7hajw1nsgksbwRVm
+	yAKQ==
+X-Gm-Message-State: AG10YOT0RlUl2XkG5meDZt27sEQqwtFvGXAsNQbnWzeDhSwCOKDRJYVhbM1t+kHJa4w8VfdwQCras26TnV24kA==
 MIME-Version: 1.0
-In-Reply-To: <9ADD3FDE8B189B4AA2F8A3C711F8155E56FAE346@fmsmsx111.amr.corp.intel.com>
-Subject: Re: [yocto] Yocto Project Status WW04
+X-Received: by 10.50.73.168 with SMTP id m8mr5829989igv.53.1453495106659; Fri,
+	22 Jan 2016 12:38:26 -0800 (PST)
+Received: by 10.36.46.79 with HTTP; Fri, 22 Jan 2016 12:38:26 -0800 (PST)
+In-Reply-To: <D448FD3D-8C29-4F26-AF95-068346B6FA00@dominion.thruhere.net>
+References: <1452804997-20926-1-git-send-email-george.mccollister@gmail.com>
+	<1452804997-20926-3-git-send-email-george.mccollister@gmail.com>
+	<D448FD3D-8C29-4F26-AF95-068346B6FA00@dominion.thruhere.net>
+Date: Fri, 22 Jan 2016 14:38:26 -0600
+Message-ID: <CAFSKS=MTx7RsNXf2yrAp2cgSwz6SxTKb6=Y_qKHyE-BUYZbTQA@mail.gmail.com>
+From: George McCollister <george.mccollister@gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH 2/9] bash-completion: build nativesdk variant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +55,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 19:58:43 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jan 2016 20:38:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 01/22/2016 11:29 AM, Jolley, Stephen K wrote:
->   *   I'd like to highlight that there are increasing numbers of stack overflow questions about the project and help in providing good answers on there would be appreciated.
+>
+>> Op 14 jan. 2016, om 21:56 heeft George McCollister <george.mccollister@gmail.com> het volgende geschreven:
+>>
+>> The nativesdk variant is required for some recipes like git to use the class.
+>
+> Squash this into 1/9 to avoid mid-series breakage.
 
-We've been raising this issue the last few OpenEmbedded developer
-meetings. There are a few people trying to answer questions there as we
-have time. It takes time to build up enough reputation to be useful
-there. Please people try and help out with this work. You should be able
-to search on OpenEmbedded, Yocto, and Poky and get most of the questions.
+Will do.
 
-Philip
-
-
->   *   WDD and bug trend continue to rise to new heights. We are simply receiving more bugs than we have resources to fix/close.
-> 
-> Key YP 2.1 Dates:
-> YP 2.1 M2 Cutoff (Feature Freeze) date is January 25, 2016 noon GMT
-> YP 2.1 M2 Target release date is February 12, 2016
-> YP 2.1 M3 Cutoff (Feature Freeze) date is February 29, 2016 noon GMT
-> YP 2.1 M3 Target release date is March 18, 2016
-> YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - Stabilization only milestone.
-> YP 2.1 Final Release Target: April 29, 2016
-> 
-> Key Status Links for YP:
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.1_Status
-> https://wiki.yoctoproject.org/wiki/Yocto_2.1_Schedule
-> https://wiki.yoctoproject.org/wiki/Yocto_2.1_Features
-> 
-> Tracking Metrics:
->             WDD 2581 (last week 2524 )
-> (https://wiki.yoctoproject.org/charts/combo.html)
-> 
-> [If anyone has suggestions for other information you'd like to see on this weekly status update, let us know!]
-> 
-> Thanks,
-> 
-> Stephen K. Jolley
-> Yocto Project Program Manager
-> INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-> *   Work Telephone:          (503) 712-0534
-> *    Cell:                                (208) 244-4460
-> * Email:                             stephen.k.jolley@intel.com
-> 
-> 
-> 
-> 
+Thanks,
+George
 
