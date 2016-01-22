@@ -1,26 +1,45 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 812DB7320F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 874BF73183
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 02:01:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0M21sFq010521
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 22 Jan 2016 03:23:43 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id p187so39733939oia.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 18:01:54 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.246) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 21 Jan 2016 18:01:54 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jan 2016 10:02:18 +0800
-Message-ID: <2123a9457649d41670e9c35ad4b77a80064c95ed.1453427632.git.Qi.Chen@windriver.com>
+	Thu, 21 Jan 2016 19:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=tiemzA/0ETT3uXc4toC33+ksZxyKL5iMEp3dkf76Hr8=;
+	b=IIE/Ot+QNGwYpZe3tUoClcFnJlaXxB5B1Y/6c3A9No3SSMuVF2pgSNYs1trCy0VtBM
+	Ruws3uBBiDTulYp7qhbzz4m0DzweD0jgLQGln5/XoFh/j2tj/wnaqI3ogheZKwbpo1WJ
+	fI3pY1YUXGrX/rBLt+QPIs9w1bd3BYWU2DH59ZVAv3ElVhLmqPmxLvr1nYot1nl94xfX
+	naqDWS+fXUfGIf4gQnUFpD6PrKVjyKjfnvSC4v9TXRtrRDmqYQMM0BR6gbBRuenh/AcJ
+	J7lipYM9SFkMwxmv5sG15RcogXxv6Vjp54XKFSef+LhdAitNHjTcoyn48KQk0KY+nFQK
+	Ovjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tiemzA/0ETT3uXc4toC33+ksZxyKL5iMEp3dkf76Hr8=;
+	b=HsocqExkYPuoXN3WRayOP+6aPNDF26W8Y+brqTMyFx+9Xz32QRxDeyJ2nD15WlkUtY
+	YJ+xjj/6Tr4z08Cjo9y6FSiDDq3tD49+YTJiFz1YemgeVbMgd1DSCCMH1k5a39vBdw/9
+	4RJJjX5LLzHxMX2ydA1+UVKW5djeYkQRTVjO0JVE3WFncWnJyZ+f/aKoGEAWLM8DSMF5
+	7ALVpQs+AEp2egNPYpq8WXTEH3U6ornQrIpw7UL/N4Wl5nenxhzGv5Ig/8EJxQi1MuN8
+	XNU9e/mBi7ZxhD+LHV6zNF8bVW9UDpvwdXIK0GjN7Ot+4KSZxLzBraJAKWRhhsljbzoG
+	gx7Q==
+X-Gm-Message-State: AG10YOQEPDTYUjvOfuXOZrTQdXKMXX3de0zmZ/IbiKjLfr4s2GE7Te4KrG4k3WTxf7PzTQ==
+X-Received: by 10.202.219.10 with SMTP id s10mr561740oig.27.1453433024698;
+	Thu, 21 Jan 2016 19:23:44 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id m67sm2210273oik.4.2016.01.21.19.23.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 21 Jan 2016 19:23:43 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jan 2016 19:23:37 -0800
+Message-Id: <1453433017-25240-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1453427632.git.Qi.Chen@windriver.com>
-References: <cover.1453427632.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: work around the boot problem on qemuarm64
+Subject: [PATCH] gstreamer1.0-plugins.inc: drop obsolete ${S}/po/Makefile.in.in workaround
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 02:01:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Jan 2016 03:23:44 -0000
 
-This is a workaround to make qemuarm64 boot for systemd systems.
+The workaround was originally added to the 0.10.x gst-plugins recipes
+in late 2012 [1] and the root cause seems to have been fixed upstream
+in late 2013 [2] (ie prior to the 1.4.0 release).
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ [1] http://lists.openembedded.org/pipermail/openembedded-core/2012-November/071149.html
+ [2] https://bugzilla.gnome.org/show_bug.cgi?id=705455
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_228.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
-index aa2e846..3bc5927 100644
---- a/meta/recipes-core/systemd/systemd_228.bb
-+++ b/meta/recipes-core/systemd/systemd_228.bb
-@@ -133,6 +133,7 @@ EXTRA_OECONF_append_libc-uclibc = " --disable-myhostname --disable-sysusers"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index fd0d8bd..6ea911e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -23,12 +23,3 @@ EXTRA_OECONF = " \
+ "
  
- # per the systemd README, define VALGRIND=1 to run under valgrind
- CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', '', d)}"
-+CFLAGS_append_qemuarm64 = " -O1"
- 
- # disable problematic GCC 5.2 optimizations [YOCTO #8291]
- FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns -fno-schedule-insns2"
+ PACKAGES_DYNAMIC = "^${PN}-.*"
+-
+-# apply gstreamer hack after Makefile.in.in in source is replaced by our version from
+-# ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in, but before configure is executed 
+-# http://lists.linuxtogo.org/pipermail/openembedded-core/2012-November/032233.html
+-oe_runconf_prepend() {
+-	if [ -e ${S}/po/Makefile.in.in ]; then
+-		sed -i -e "1a\\" -e 'GETTEXT_PACKAGE = @GETTEXT_PACKAGE@' ${S}/po/Makefile.in.in
+-	fi
+-}
 -- 
 1.9.1
 
