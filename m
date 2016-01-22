@@ -1,45 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E2911731A4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 03:23:59 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id vt7so52614430obb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 19:24:00 -0800 (PST)
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B0F573189;
+	Fri, 22 Jan 2016 05:25:04 +0000 (UTC)
+Received: by mail-lf0-f47.google.com with SMTP id c192so40117928lfe.2;
+	Thu, 21 Jan 2016 21:25:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=lNWCb61EVvOtoi2QuFmPhPdR2diq6mNrFrLCxKQVYpI=;
-	b=Q0m2bu7Xjc+JBSqONxTOYNzZ2EhoSWpZeyOxhwyE+a2Yj5wVdwOVakZ2RBU9TpU91c
-	PsPJ9u/dmzHAhm3Pz9jHWCR7y2gP1yVOmAW5d+k3p92d1xhSYJmWCLM8XVfGWrqciReM
-	QakT2y5uvSdf0tUuOR05ONmM0PEYWL3bBL1iNOo9++PSPUmltwSoGEy4CV3IKz2jlggv
-	fM0JPJtGrCOrUbeDnrs5uQrMBU1l9IjdqqppUsrHWCo5e3Fv8hg7Ul/C9MeldoqV5G3P
-	MY7L+x63At1GipsDzS4hDwkXy3KqXR89xPLBLtgbQjHWHL2Z8/TJjspPGsUxdSVuLMwe
-	WeEQ==
+	h=mime-version:sender:from:date:message-id:subject:to:cc:content-type; 
+	bh=tjAtfta+qJDoXqyFN/KP8TxKp776x0m15pyz5Qj6Ckk=;
+	b=xfx3jqLH38kwB6Srem/p6Mvm5S/o5H2VsG2JxXPDQnAdTHQMFqf9R5/BE6ErpoTZBQ
+	3yOwstwG5X6lyNlQm1k5A1uqjKhBc80b8Qkk1Ggn27vzKgaMOiwEQsCxh8OSNjeAcmXO
+	1xOlarjfdzZclYKQiyLmaSAoFGp0WWzqx01jDLu8CglbRmLuAEcOAWwrKrZ9T9bjq9NK
+	eyjuYwLifT8RyzoKNcnVzQfFQZFaecFjqqg8qkcKkOitIehwegl3ogvfkhQsBNUSSn5i
+	H7jK/PgL45eaimqfQdyePEd8puoTT0XI7DXNinRPsVQuOF0DeC7xg6sIo9nh/bszk60q
+	rhdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=lNWCb61EVvOtoi2QuFmPhPdR2diq6mNrFrLCxKQVYpI=;
-	b=leR5uqpjxSH0pqV3bfFROfdBroBVqXFTwBErOKX0zGSS2O0JltPjU4nQENPxWdBss7
-	SDamrSscc40iifXqLKrWAdnaH608GQHyPR6ncstevpaRGKNN4hq7HZmgLoYoWApvMihS
-	DxxZrT7cIoRIyaRBNdCLgboLL9sJ/d4o0W2uD69xt73XGypLYCqXQ4vEdITJaiP5B2Z+
-	CnnbQwCVSXsStcPxfTw4JOm3dHKV52nKcng4Bhr3r5F69Y8DrZ91oI1fW3Vzfe6EfjnO
-	udcZ9nDZmckq1bXF/+DtmjsEqD0QrRuiUIBv41z7yYGFM+ccgXfcvgUfB3afM7qL8cw1
-	zCpw==
-X-Gm-Message-State: AG10YOSsfwv95+QD3TSb5nVRFPpzjxnFa9WifMRmrvxNhS4OaXzcGRjTioUDDnj+a832bA==
-X-Received: by 10.60.76.201 with SMTP id m9mr542288oew.33.1453433040063;
-	Thu, 21 Jan 2016 19:24:00 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id i10sm2153432oer.5.2016.01.21.19.23.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jan 2016 19:23:59 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 19:23:53 -0800
-Message-Id: <1453433033-25320-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] orc: update HOMEPAGE
+	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+	:to:cc:content-type;
+	bh=tjAtfta+qJDoXqyFN/KP8TxKp776x0m15pyz5Qj6Ckk=;
+	b=SHB2BjSZk449aLL2/NYKFXWgHcZkkKNQyKAF1juE5IlXFPFN0fRzQk1xPt68jZmyCe
+	vuntcQzDnMzY79q/tpUA1LNtMPZ3v/ZT1J0FF+2R0re6DzM6AB3Xl7u6c+b2ZnmjE1Xy
+	ysvR3z9ALd5203dbvxg8pG4vGBxcfLaliOIfCye7HMDvPz0my0bSQg8RQ8iQieOuXPSB
+	bcHPDzZ4yjXQt0F5b+8Zn73QSFkuWLES58CYLYLAwN1VMg4MNvQc+FjahADq/WqJ/3LZ
+	urVswHS1M78ZifW3y9j450Ve0+IfWn2fIFWX2vDwPB7lRbjH4QZQ1dVNmzXd0liYB1Hn
+	iU6w==
+X-Gm-Message-State: AG10YOTY1X40y5Zihj8nnvLm8zbGSRILqIsjFP+Kzc9cqMzKzKJQxs3JY9NEhLrAs8IYFtRtikoYwO+c0J7/xw==
+X-Received: by 10.25.212.199 with SMTP id l190mr423488lfg.163.1453440303487;
+	Thu, 21 Jan 2016 21:25:03 -0800 (PST)
+MIME-Version: 1.0
+Sender: jefro.net@gmail.com
+Received: by 10.112.55.101 with HTTP; Thu, 21 Jan 2016 21:24:43 -0800 (PST)
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Thu, 21 Jan 2016 21:24:43 -0800
+X-Google-Sender-Auth: nR0H_jh2R1Gy-hv8wr4wlNyIc4c
+Message-ID: <CA+YB3rb4nYhY+8PHiU9yAwFkfr7vZZkNRhtTVOGLwqNyk85Gkw@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: CORRECTION Re: Save the day OEDAM (after ELC and YP devday)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +55,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 03:24:00 -0000
+X-List-Received-Date: Fri, 22 Jan 2016 05:25:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The old entropywave.com URL no longer responds.
+This should be Friday, April 8.
 
-Also remove unnecessary 'name=orc' from SRC_URI.
+If you are making plans to travel to ELC, the conference takes place
+Mon-Wed Apr 4-6. DevDay is being planned for Thu Apr 7. OEDAM will be
+Friday Apr 8.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-devtools/orc/orc_0.4.24.bb | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Please RSVP if you plan to attend. I am looking for a venue and need
+to get an idea of how many people to accommodate. We may also plan
+some kind of social event for Friday night if enough people are
+interested.
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.24.bb b/meta/recipes-devtools/orc/orc_0.4.24.bb
-index 9e70d55..520f88d 100644
---- a/meta/recipes-devtools/orc/orc_0.4.24.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.24.bb
-@@ -1,11 +1,12 @@
- SUMMARY = "Optimised Inner Loop Runtime Compiler"
--HOMEPAGE = "http://code.entropywave.com/projects/orc/"
-+HOMEPAGE = "http://gstreamer.freedesktop.org/modules/orc.html"
- LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
- 
--SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz;name=orc"
--SRC_URI[orc.md5sum] = "9e793ec34c0e20339659dd4bbbf62135"
--SRC_URI[orc.sha256sum] = "338cd493b5247300149821c6312bdf7422a3593ae98691fc75d7e4fe727bd39b"
-+SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
-+
-+SRC_URI[md5sum] = "9e793ec34c0e20339659dd4bbbf62135"
-+SRC_URI[sha256sum] = "338cd493b5247300149821c6312bdf7422a3593ae98691fc75d7e4fe727bd39b"
- 
- inherit autotools pkgconfig
- 
+Summary: if you plan to come to OEDAM, please plan to stay through Friday eve.
+
+thanks
+
+On Thu, Jan 21, 2016 at 2:24 PM, Philip Balister <philip@balister.org> wrote:
+> We are arranging an OpenEmbedded developer meeting on April 7, 2016 in
+> San Diego. This is after ELC and the Yocto Project developer day on
+> Thursday. (This is more a training day)
+>
+> We will publish more information as we work it out, but we did want
+> people to know so they can schedule travel.
+>
+> If you have suggestions for this you would like to cover at the
+> developer meeting, let us know.
+>
+> Thanks,
+>
+> Philip
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.9.1
-
+Jeff Osier-Mixon
+Open Source Community Architect, Intel Corporation
 
