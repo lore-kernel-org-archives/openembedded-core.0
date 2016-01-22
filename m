@@ -1,55 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 504A0731DC;
-	Fri, 22 Jan 2016 01:28:56 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id e65so32862010pfe.0;
-	Thu, 21 Jan 2016 17:28:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=NFl278OoYN9eDasJgJkIBX5s1LIG25iJ2xZrG/Adu5Y=;
-	b=HwMKzeV1Cf5UFytv71u7/ejgE5Rkm1z0weMv0WYAirIff8shNBr1F7bKmFYBg0NZ2P
-	d4gr9L3utdrIxeCWyX0SH+UZWX56o+jpDA48ORwn9a7o8N86cI2BLBnqEaxZSA1oha/8
-	IpxAZ+Hgju6Z+Cz3vdIYaUXsrlQ23Cmyi9j68mpXkgjSImmzaSb1mAkSOvXAwzY29Q6+
-	gc5Pp/dgxvGpTxo6X1MS/QsRuRm2vrDGhICFqGNsiea2J5jNCDgh/CHRqb0vPWb+KPMs
-	wW8OikaAzqwr4DSyPhNFo/YL3sWnmjXzskYK1BIvbe/6JKR501H5rqcwXpdE7FfBFgkV
-	7iwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=NFl278OoYN9eDasJgJkIBX5s1LIG25iJ2xZrG/Adu5Y=;
-	b=dj2ls/idmqMhKsAtAM1+IPV1+CYcHh8J6Uec7qe4GsaWJv+N3qEo0oATBSRz3lEy1w
-	8gkaR1dWh6k618sD3VXIOhuMol9OxdhF3uFgi86Tym0rNX+QiWER+AYdXWnGaQYm2aMw
-	HA3wsQkHbXfL6MsaJonWgebc21gYscycFXk+OMyVZHECu5CSC6SHjbGp794PQlhI0Xpo
-	tnGq4Z6pRVpQuarBjdcS8OTXxWala1RY6Bb/EtoLGg8Cz9SEwsw212vgIobiAyyWD9Ei
-	lLQrhCM18m0EbI/i0wudOcozxRZBt2v0codCU+lMzLC9ZiX93x6YUM5OsPJxUToovVRd
-	nl9Q==
-X-Gm-Message-State: AG10YOROypv/CZTnm9WbYeE6Y5oCXaLQ1PqRo1rIVx/B1FYNA0gI8vEypRJHoix/L8amHg==
-X-Received: by 10.98.67.14 with SMTP id q14mr537287pfa.137.1453426137701;
-	Thu, 21 Jan 2016 17:28:57 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:f0f5:a917:60f2:fe2?
-	([2601:202:4000:1239:f0f5:a917:60f2:fe2])
-	by smtp.googlemail.com with ESMTPSA id
-	h87sm5286458pfd.33.2016.01.21.17.28.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Jan 2016 17:28:56 -0800 (PST)
-To: openembedded-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-References: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56A185D6.8030502@gmail.com>
-Date: Thu, 21 Jan 2016 17:28:54 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5300A6E687
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 01:38:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0M1cQeB013215
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 21 Jan 2016 17:38:26 -0800
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Thu, 21 Jan 2016 17:38:25 -0800
+Message-ID: <56A1882A.50802@windriver.com>
+Date: Fri, 22 Jan 2016 09:38:50 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-In-Reply-To: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
-Subject: Re: [oe] [RFT] Glibc 2.23 and binutils 2.26
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1452655299.git.Qi.Chen@windriver.com>
+	<35fd9829f35bd0486288037c7f0a3cf5ada85948.1452655299.git.Qi.Chen@windriver.com>
+	<CAJTo0LbRy5fd8Wcz5ZqQ0cTjW1o+wJ-m-srL-H0cRknQua9upw@mail.gmail.com>
+In-Reply-To: <CAJTo0LbRy5fd8Wcz5ZqQ0cTjW1o+wJ-m-srL-H0cRknQua9upw@mail.gmail.com>
+X-Originating-IP: [128.224.162.246]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] cups: upgrade to 2.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,60 +37,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 01:28:58 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 22 Jan 2016 01:38:29 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040401020101020801000608"
+
+--------------040401020101020801000608
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 01/18/2016 10:44 PM, Burton, Ross wrote:
+>
+> On 13 January 2016 at 03:23, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     Add PACKAGECONFIG for systemd. And install our own systemd unit files.
+>
+>
+> Why would we want to use our own units over the upstream units?
+>
+> Ross
 
+Hi Ross,
 
-On 01/17/2016 03:54 AM, Khem Raj wrote:
-> Hi all
-> 
-> upstream glibc and binutils release branches have been cut out and are being made ready for next release
-> I have put together update patchset for both of them
-> 
-> here are the branches
-> 
-> https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26
-> https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
+Sorry for the late reply.
 
-Several Security fixes will be included in glibc-2.23 update.
+Our unit files are the same with the Fedora's.
+And the unit files that cups it self provides have strange names like 
+org.cups.cupsd.socket and org.cups.cupsd.service.
+And contents are something like below.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=8980
+chenqi@pek-hostel-deb01:~/poky/build-systemd/tmp/work/core2-64-poky-linux/cups/2.1.2-r0/cups-2.1.2/scheduler 
+[1] $ cat org.cups.cupsd.service
+[Unit]
+Description=CUPS Scheduler
+Documentation=man:cupsd(8)
 
+[Service]
+ExecStart=/usr/sbin/cupsd -l
+Type=simple
 
-CVE-2015-8776 - Passing out of range data to strftime() causes a segfault
+[Install]
+Also=org.cups.cupsd.socket org.cups.cupsd.path
+WantedBy=printer.target
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=18985
+So if we use unit files that cups provides, we either change both the 
+file names and the contents, or we use these strange names.
 
+Best Regards,
+Chen Qi
 
-CVE-2015-8777 - LD_POINTER_GUARD is not ignored for privileged binaries
-https://sourceware.org/bugzilla/show_bug.cgi?id=18928
+--------------040401020101020801000608
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-CVE-2015-8778 - hcreate((size_t)-1) should fail with ENOMEM
-https://sourceware.org/bugzilla/show_bug.cgi?id=18240
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/18/2016 10:44 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbRy5fd8Wcz5ZqQ0cTjW1o+wJ-m-srL-H0cRknQua9upw@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 13 January 2016 at 03:23, Chen Qi
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":5qy" class="a3s" style="overflow:hidden">Add
+                PACKAGECONFIG for systemd. And install our own systemd
+                unit files.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Why would we want to use our own units over the upstream
+          units?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Ross, <br>
+    <br>
+    Sorry for the late reply.<br>
+    <br>
+    Our unit files are the same with the Fedora's.<br>
+    And the unit files that cups it self provides have strange names
+    like org.cups.cupsd.socket and org.cups.cupsd.service.<br>
+    And contents are something like below.<br>
+    <br>
+    <a class="moz-txt-link-abbreviated" href="mailto:chenqi@pek-hostel-deb01:~/poky/build-systemd/tmp/work/core2-64-poky-linux/cups/2.1.2-r0/cups-2.1.2/scheduler">chenqi@pek-hostel-deb01:~/poky/build-systemd/tmp/work/core2-64-poky-linux/cups/2.1.2-r0/cups-2.1.2/scheduler</a>
+    [1] $ cat org.cups.cupsd.service<br>
+    [Unit]<br>
+    Description=CUPS Scheduler<br>
+    Documentation=<a class="moz-txt-link-freetext" href="man:cupsd(8)">man:cupsd(8)</a><br>
+    <br>
+    [Service]<br>
+    ExecStart=/usr/sbin/cupsd -l<br>
+    Type=simple<br>
+    <br>
+    [Install]<br>
+    Also=org.cups.cupsd.socket org.cups.cupsd.path<br>
+    WantedBy=printer.target<br>
+    <br>
+    So if we use unit files that cups provides, we either change both
+    the file names and the contents, or we use these strange names.<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+  </body>
+</html>
 
-CVE-2014-9761 - nan function unbounded stack allocation
-https://sourceware.org/bugzilla/show_bug.cgi?id=16962
-
-CVE-2015-8779 - catopen() Multiple unbounded stack allocations
-https://sourceware.org/bugzilla/show_bug.cgi?id=17905
-
-> 
-> FYI These are still using autorev to ensure that we test tip of release branches
-> 
-> Please give them a shot in your environments and report any issues you encounter.
-
-BTW, Mips64 Octeon3 works fine. Aarch64 qemu boot tested.
-
-- Armin
-> 
-> Thanks for help
-> 
-> -Khem
-> 
-> 
-> 
-> 
-> 
-
+--------------040401020101020801000608--
