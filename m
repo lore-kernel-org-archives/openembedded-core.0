@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A9F3A731EC
+	by mail.openembedded.org (Postfix) with ESMTP id 241D7731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 12:00:22 +0000 (UTC)
+	Fri, 22 Jan 2016 12:00:25 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2016 04:00:24 -0800
+	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2016 04:00:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,330,1449561600"; d="scan'208";a="732272748"
+X-IronPort-AV: E=Sophos;i="5.22,330,1449561600"; d="scan'208";a="732272765"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.181.236])
-	by orsmga003.jf.intel.com with ESMTP; 22 Jan 2016 04:00:22 -0800
+	by orsmga003.jf.intel.com with ESMTP; 22 Jan 2016 04:00:24 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Jan 2016 00:59:54 +1300
-Message-Id: <7457c72365ec0034aaa3c6e2928cb1f04861e26a.1453463789.git.paul.eggleton@linux.intel.com>
+Date: Sat, 23 Jan 2016 00:59:55 +1300
+Message-Id: <3fea7289d34159135a083d58c3a4be4d79fbb8e7.1453463789.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1453463789.git.paul.eggleton@linux.intel.com>
 References: <cover.1453463789.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1453463789.git.paul.eggleton@linux.intel.com>
 References: <cover.1453463789.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 07/14] classes/populate_sdk*: add dependencies on script files
+Subject: [PATCH 08/14] toolchain-shar-extract.sh: improve behaviour when xz is not installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 12:00:22 -0000
+X-List-Received-Date: Fri, 22 Jan 2016 12:00:25 -0000
 
-If the script files we use to construct the SDK installer change then
-that really ought to trigger re-execution of the do_populate_sdk(_ext)
-task, so add file-checksums varflags to ensure that happens.
+Currently if xz isn't installed when installing the SDK you get an error
+from tar and then the SDK installation continues, cascading into a load
+of other failures since files are missing. Add a check to see if xz can
+be run and error out if it can't, and also exit if tar fails.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass | 3 +++
- meta/classes/populate_sdk_ext.bbclass  | 5 +++++
- 2 files changed, 8 insertions(+)
+ meta/files/toolchain-shar-extract.sh | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 99b64f7..966161f 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -243,6 +243,9 @@ populate_sdk_log_check() {
- 	done
- }
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index b1ef4b7..d844771 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -29,6 +29,11 @@ if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
+ 	fi
+ fi
  
-+do_populate_sdk[file-checksums] += "${COREBASE}/meta/files/toolchain-shar-relocate.sh:True \
-+                                    ${COREBASE}/meta/files/toolchain-shar-extract.sh:True"
++if ! xz -V > /dev/null 2>&1; then
++	echo "Error: xz is required for installation of this SDK, please install it first"
++	exit 1
++fi
 +
- do_populate_sdk[dirs] = "${PKGDATA_DIR} ${TOPDIR}"
- do_populate_sdk[depends] += "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_DEPENDS', True).split()])}  ${@d.getVarFlag('do_rootfs', 'depends', False)}"
- do_populate_sdk[rdepends] = "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_RDEPENDS', True).split()])}"
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 2944576..a115127 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -259,6 +259,7 @@ install_tools() {
+ DEFAULT_INSTALL_DIR="@SDKPATH@"
+ SUDO_EXEC=""
+ target_sdk_dir=""
+@@ -168,7 +173,7 @@ fi
+ payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
  
- 	install -m 0644 ${COREBASE}/meta/files/ext-sdk-prepare.py ${SDK_OUTPUT}/${SDKPATH}
- }
-+do_populate_sdk_ext[file-checksums] += "${COREBASE}/meta/files/ext-sdk-prepare.py:True"
+ printf "Extracting SDK..."
+-tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500
++tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500 || exit 1
+ echo "done"
  
- # Since bitbake won't run as root it doesn't make sense to try and install
- # the extensible sdk as root.
-@@ -358,4 +359,8 @@ do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in d.getVar
- # Make sure codes change in copy_buildsystem can result in rebuilt
- do_populate_sdk_ext[vardeps] += "copy_buildsystem"
- 
-+do_populate_sdk_ext[file-checksums] += "${COREBASE}/meta/files/toolchain-shar-relocate.sh:True \
-+                                        ${COREBASE}/meta/files/toolchain-shar-extract.sh:True \
-+                                        ${COREBASE}/scripts/gen-lockedsig-cache:True"
-+
- addtask populate_sdk_ext after do_sdk_depends
+ printf "Setting it up..."
 -- 
 2.5.0
 
