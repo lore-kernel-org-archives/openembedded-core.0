@@ -1,48 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA1673257
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 477E174197
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 17:09:09 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id z14so153634181igp.1
+	Fri, 22 Jan 2016 17:17:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0MHHD7L010488 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 17:17:13 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id d8vDVFB1FaVW
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 09:09:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=zqSR3ikSrB1GPWIpMfcXjpi9DclAS8HwR+wkHveRBoA=;
-	b=Jjg3V2C7WtLvZbVG0dlRgDEzyAljSSjCHzd37UpE3NR/LkV1W7fYjIwJC6JgaeAkfy
-	QEwXJ1asby4gBy4EiL0WDX5qn/txcP7FKrFWvzLpoZb8YBqfyy3KoD2+nd1KfC+1i/E2
-	KmOwz3TBahzVpsVp3E2whtKIBhFjWslwrNvyiXL4qg3Y5192v1uTBaCu/P3DzAc6Vrnn
-	QsN576eWMEGGSieU0zRYAJMj/cWt37zlvIMDdxmm4DO0PZL0huRagV/DphtOP9SaZPYj
-	JmqghPO1ZsFX43/Gnu0xxNvKgOfJj89cBpJD1eI8kJGulEOby4bDWzJBueap2/K50WFO
-	qu5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zqSR3ikSrB1GPWIpMfcXjpi9DclAS8HwR+wkHveRBoA=;
-	b=hRNs6oLoeEjnAKynoh/H7i3BGXdUgTGTv/+CtKdKrdDHQQnQ4V/aI5HgEFX7iiZ9tE
-	VFX1r1GIMXUWyOJCJCcK0/Bov351aG3M3UCOEej2R0MnYAylV+tQMfrjVT+gwpdKfXGt
-	H0dQw5DDLy7seN+i9CYUNvOYW63loXspzgInkMmtsqJbIWt2pPIjFKKerzVEfzcyXHMo
-	l0NDrOBBAz1PqoY1k4NenJ87sms0pRMnyxOqMUkS5O6ooRbGSzIdLmfa1Vp1Qblzb3sK
-	/wfE8e4ZNRlIh7DDk0vvzoJ3K9BqavkOnalgVQcQthZi0HVP8tRGAacFKZo+SGQynUHJ
-	Sc/Q==
-X-Gm-Message-State: AG10YORsXVfJ5Kmpn/wDKq8oZpZzP+/w9tyFJfqsC2vS9wH+9x77RfJiZM2futokhCEOzBnVGodS/sPY34CLQQ==
-X-Received: by 10.50.13.102 with SMTP id g6mr4861109igc.77.1453482550476; Fri,
-	22 Jan 2016 09:09:10 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Fri, 22 Jan 2016 09:08:41 -0800 (PST)
-In-Reply-To: <CAJTo0LZa9oM8gpqcG7baZa30gree1ijxJsdj9Y1-YttxZ3OqYA@mail.gmail.com>
-References: <cover.1453029952.git.raj.khem@gmail.com>
-	<a430918d3d3c0fe58d3cc8ea3d8178e3980c571e.1453029952.git.raj.khem@gmail.com>
-	<CAJTo0LZa9oM8gpqcG7baZa30gree1ijxJsdj9Y1-YttxZ3OqYA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Jan 2016 09:08:41 -0800
-Message-ID: <CAMKF1sqvJ8eZBbwwqVDO=nv9Ase_YQTVaBqcCTAUpWOdhXdwbw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 51/73] db: Use cross libtool
+	Fri, 22 Jan 2016 17:17:13 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0MHHARB010484
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 17:17:11 GMT
+Message-ID: <1453483030.6378.24.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Jan 2016 17:17:10 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] uninative: Fix conflicts with normal sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 17:09:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 22 Jan 2016 17:17:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 22, 2016 at 4:41 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 17 January 2016 at 11:36, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> db is not reconfigured like usual autotools based components so it
->> generates its own libtool, and this libtool is not equipped to do cross
->> builds, e.g. when building using clang on musl, it misdirects linker to
->> use libstdc++.so from build host instead of target, the reason being it
->> does not understand sysroot.
->>
->> Use cross libtool instead to build the target versions
->>
->> Fixes errors like below
->>
->> | libtool: link: arm-oe-linux-musleabi-ranlib .libs/libdb-6.0.a
->> |
->>
->> /a/builder/mnt/build-oe/tmp-musl/sysroots/x86_64-linux/usr/bin/arm-oe-linux-musleabi/arm-oe-linux-musleabi-ld:
->> error: /usr/lib/libstdc++.so: incompatible target
->
->
-> This fails to build on the autobuilder in poky-lsb configurations (which
-> turns on securityflags.inc):
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/qemux86/usr/lib/libc_nonshared.a(elf-init.oS):
-> In function `__libc_csu_init':
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/i586-poky-linux/glibc/2.22-r0/git/csu/elf-init.c:87:
-> undefined reference to `__init_array_start'
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/5.3.0/ld:
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/qemux86/usr/lib/libc_nonshared.a(elf-init.oS):
-> relocation R_386_GOTOFF against undefined hidden symbol `__init_array_start'
+Currently this code installs into the standard sysroot, however this causes
+some conflicts when linking since the linker can look specifically for
+versioned .so files (e.g. like libpthreads.so.0). This breaks builds
+of util-linux-native for example.
 
-You can drop this one from this patch set I will submit it another
-time after finding the cause and fix.
-I need to reproduce it locally here. I think the issue might be that
-the makefiles are calling linker directly which works
-in common cases but not when -pie is used. Do you have full errors log
-somewhere to look into ?
+The easiest solution is to install uninative into its own separate sysroot.
 
-> can not be used when making a shared object
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/5.3.0/ld:
-> final link failed: Bad value
-> collect2: error: ld returned 1 exit status
-> Makefile:884: recipe for target 'libdb_cxx-6.0.la' failed
->
-> Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index fe1e89b..8686159 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -1,6 +1,6 @@
+ NATIVELSBSTRING = "universal"
+ 
+-UNINATIVE_LOADER ?= "${@bb.utils.contains('BUILD_ARCH', 'x86_64', '${STAGING_DIR_NATIVE}/lib/ld-linux-x86-64.so.2', '${STAGING_DIR_NATIVE}/lib/ld-linux.so.2', d)}"
++UNINATIVE_LOADER ?= "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/${@bb.utils.contains('BUILD_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
+ 
+ UNINATIVE_URL ?= "unset"
+ UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
+@@ -41,7 +41,8 @@ python uninative_eventhandler() {
+                 fetcher.download()
+             except Exception as exc:
+                 bb.fatal("Unable to download uninative tarball: %s" % str(exc))
+-        cmd = e.data.expand("mkdir -p ${STAGING_DIR}; cd ${STAGING_DIR}; tar -xjf ${UNINATIVE_DLDIR}/${UNINATIVE_TARBALL}; ${STAGING_DIR}/relocate_sdk.py ${STAGING_DIR_NATIVE} ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_BINDIR_NATIVE}/patchelf-uninative")
++
++        cmd = e.data.expand("mkdir -p ${STAGING_DIR}-uninative; cd ${STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/${UNINATIVE_TARBALL}; ${STAGING_DIR}-uninative/relocate_sdk.py ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/patchelf-uninative")
+         try:
+             subprocess.check_call(cmd, shell=True)
+         except subprocess.CalledProcessError as exc:
+@@ -51,6 +52,8 @@ python uninative_eventhandler() {
+ 
+ SSTATEPOSTUNPACKFUNCS_append = " uninative_changeinterp"
+ 
++PATH_prepend = "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:"
++
+ python uninative_changeinterp () {
+     import subprocess
+     import stat
+
+
 
