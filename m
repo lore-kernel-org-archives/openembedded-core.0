@@ -1,48 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 86165731E0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E5736FF5D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 12:43:44 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id g73so88660254ioe.3
+	Fri, 22 Jan 2016 12:58:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0MCwGhl019747 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 12:58:16 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id e_Kvi1t7PorS
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 04:43:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=A8IP+YRmcoNbY//J6PhxJvLbqyCobwiSiJxjzD9//IA=;
-	b=CVkb76GLGr5DJ4SBmSG3Of3c+66WtXQ1A9Un0xwiFQaCAPb4TmbhX4rFq8/gEsjfbs
-	YjcXmRrNX9s2EGB6Sr71kMUNeF2wo78UCBhJ7uee6TAQ9e+k7ykMxqmwPmdQD7GFAE3t
-	tiVcOoyzeAzknPdE1ptpK5DBP4KgEw/NnncdG5PSE4ALjy6wlH/jfUFuZf2RGIaYWVoA
-	b0uxhBapege+bNrFaZ6if0QWXb25qeLuzhFsbJ9YXNzeYLOfFL3CEXAonQM+VyFyomch
-	KxE7Zq/9I3SfvQS3u4cq83aBNKWUA89o0W7tNbp1yiWV002io3Ip8vLIZwr82/bQCKng
-	NsXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=A8IP+YRmcoNbY//J6PhxJvLbqyCobwiSiJxjzD9//IA=;
-	b=SZcxvrQKNqS0ayWGAZLNduDyQmsfN2zv5KsakNW2jHK4Yc0xtEJctbI0Etrc/spCay
-	dFnNuYtEL3keUzHdaACXMBl95PDCAupwHTag6hrkobAAsXuBNTuiUIgYd8mLOjifiR1y
-	7uMmBSoSTlJTveNT1T4trTlqfeA9bnCzuVg7bfO1/dJL7ivFXcv+Kh52gRZ2FvJNrFU9
-	+TgjhDKf95GFXnGQFquQuT0h7hreG4Qqyqa6lq/7g+IxeL1tZzbhqZn8C5RRR/0gGUKI
-	dfZHaWqwe15NfW8E2u+uf4DcEx4cMAdkcbvWoNrDSCtvr8S+zW4wD254wbSDnrHoB8U3
-	LiUQ==
-X-Gm-Message-State: AG10YOSiJ7LAaxEYAU2+FzeA790JyD2Ol/NK7FsD3P2WCHPtVH7gyD6JVNhji5gCCvtz8b/rX0unSm0E+ZsUB7JM
-X-Received: by 10.107.3.154 with SMTP id e26mr3144158ioi.99.1453466625793;
-	Fri, 22 Jan 2016 04:43:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 04:43:26 -0800 (PST)
-In-Reply-To: <d4925a4659964507e08b4b9e67c88f3913fbc860.1453029952.git.raj.khem@gmail.com>
-References: <cover.1453029952.git.raj.khem@gmail.com>
-	<d4925a4659964507e08b4b9e67c88f3913fbc860.1453029952.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Jan 2016 12:43:26 +0000
-Message-ID: <CAJTo0LaFqUeC9+qWrovAcahz93aHgWvem2BRHXKgEz0_KYom5Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 64/73] acpid: Fix build on musl
+	Fri, 22 Jan 2016 12:58:16 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0MCwBHO019743
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 12:58:13 GMT
+Message-ID: <1453467491.27999.197.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Jan 2016 12:58:11 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH v2] pixz: Add 1.0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +37,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 12:43:45 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10aec6eaa0529eb91e3
+X-List-Received-Date: Fri, 22 Jan 2016 12:58:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ec10aec6eaa0529eb91e3
-Content-Type: text/plain; charset=UTF-8
+xz gives better compression results than bzip/gz but is often slower.
+Using parallel compression mitigates this somewhat and is particularly
+useful for the SDK.
 
-On 17 January 2016 at 11:36, Khem Raj <raj.khem@gmail.com> wrote:
+Whilst xz does have some parallel support, pixz appears to perform better 
+and supports parallel decompression as well as a simpler command line.
 
-> implement isfdtype() if libc does not provide it
->
-> Fix build when S != B
->
-> use top_builddir instead of top_srcdir
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This and Maxin's upgrade are conflicting:
+---
+[v2: Add patch to fix asciidoc issues]
 
-NOTE: Applying patch '0001-Define-isfdtype-if-libc-doesn-t-have-it.patch'
-(../meta/recipes-bsp/acpid/acpid/0001-Define-isfdtype-if-libc-doesn-t-have-it.patch)
-ERROR: Command Error: exit status: 1  Output:
-Applying patch 0001-Define-isfdtype-if-libc-doesn-t-have-it.patch
-patching file configure.ac
-Hunk #1 FAILED at 41.
-1 out of 1 hunk FAILED -- rejects in file configure.ac
-patching file sock.c
-Hunk #1 succeeded at 61 with fuzz 2 (offset 11 lines).
-Patch 0001-Define-isfdtype-if-libc-doesn-t-have-it.patch does not apply
-(enforce with -f)
+diff --git a/meta/recipes-extended/pixz/pixz/936d8068ae19d95260d3058f41dd6cf718101cd6.patch b/meta/recipes-extended/pixz/pixz/936d8068ae19d95260d3058f41dd6cf718101cd6.patch
+new file mode 100644
+index 0000000..e3489db
+--- /dev/null
++++ b/meta/recipes-extended/pixz/pixz/936d8068ae19d95260d3058f41dd6cf718101cd6.patch
+@@ -0,0 +1,68 @@
++From 936d8068ae19d95260d3058f41dd6cf718101cd6 Mon Sep 17 00:00:00 2001
++From: Christian Krause <kizkizzbangbang@googlemail.com>
++Date: Sat, 26 Dec 2015 14:36:17 +0100
++Subject: [PATCH] option to not build man page
++
++fixes #56
++---
++ configure.ac    | 23 +++++++++++++++++++----
++ src/Makefile.am |  2 ++
++ 2 files changed, 21 insertions(+), 4 deletions(-)
++
++Upstream-Status: Backport
++RP 2016/01/22
++
++diff --git a/configure.ac b/configure.ac
++index b437e56..4cb56bc 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -20,13 +20,28 @@ AC_CHECK_FILE(
++   [src/pixz.1],
++   [],
++   [
++-    AC_CHECK_PROG(A2X, a2x, a2x, [])
++-    if test "x$A2X" = x ; then
++-      AC_MSG_ERROR([AsciiDoc not found, not able to generate the man page.])
++-    fi
+++    AC_ARG_WITH(
+++      [manpage],
+++      [  --without-manpage       don't build man page],
+++      [case ${withval} in
+++        yes) manpage=true ;;
+++        no)  manpage=false ;;
+++        *)   AC_MSG_ERROR([bad value ${withval} for --with-manpage]) ;;
+++      esac],
+++      [manpage=true]
+++    )
++   ]
++ )
++ 
+++AM_CONDITIONAL([MANPAGE], [test x$manpage = xtrue])
+++
+++if test x$manpage = xtrue ; then
+++  AC_CHECK_PROG(A2X, a2x, a2x, [])
+++  if test "x$A2X" = x ; then
+++    AC_MSG_ERROR([AsciiDoc not found, not able to generate the man page.])
+++  fi
+++fi
+++
++ # Checks for libraries.
++ AC_CHECK_LIB([m], [ceil])
++ AX_PTHREAD
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 600ec90..b98f450 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -15,6 +15,7 @@ pixz_SOURCES = \
++ 	read.c \
++ 	write.c
++ 
+++if MANPAGE
++ # TODO remove when possible: This is a hack because a2x is not able to output the man pages to a
++ # specific directory, only to where the source is.
++ pixz.1: pixz.1.asciidoc
++@@ -26,3 +27,4 @@ man_MANS = pixz.1
++ CLEANFILES = pixz.1
++ 
++ EXTRA_DIST = $(man_MANS) pixz.1.asciidoc
+++endif
+diff --git a/meta/recipes-extended/pixz/pixz_1.0.6.bb b/meta/recipes-extended/pixz/pixz_1.0.6.bb
+new file mode 100644
+index 0000000..0dbac7d
+--- /dev/null
++++ b/meta/recipes-extended/pixz/pixz_1.0.6.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "Parallel, indexed xz compressor"
++
++DEPENDS = "xz libarchive"
++DEEPNDS_class-native = "xz-replacement-native libarchive-native"
++
++SRC_URI = "https://github.com/vasi/pixz/releases/download/v${PV}/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "f6dc5909c9a31b192f69aa397ae8df48"
++SRC_URI[sha256sum] = "02c50746b134fa1b1aae41fcc314d7c6f1919b3d48bcdea01bf11769f83f72e8"
++
++LICENSE = "BSD-2-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5cf6d164086105f1512ccb81bfff1926"
++
++SRC_URI += "file://936d8068ae19d95260d3058f41dd6cf718101cd6.patch"
++
++EXTRA_OECONF += "--without-manpage"
++
++inherit autotools
++
++BBCLASSEXTEND = "native"
 
-Can you see if anything else is required beyond Maxin's upgrade?
 
-Ross
 
---001a113ec10aec6eaa0529eb91e3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 January 2016 at 11:36, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D":v0i" class=3D"" style=3D"overflow:hi=
-dden">implement isfdtype() if libc does not provide it<br>
-<br>
-Fix build when S !=3D B<br>
-<br>
-use top_builddir instead of top_srcdir</div></blockquote></div><br></div><d=
-iv class=3D"gmail_extra">This and Maxin&#39;s upgrade are conflicting:</div=
-><div class=3D"gmail_extra"><br>NOTE: Applying patch &#39;0001-Define-isfdt=
-ype-if-libc-doesn-t-have-it.patch&#39; (../meta/recipes-bsp/acpid/acpid/000=
-1-Define-isfdtype-if-libc-doesn-t-have-it.patch)<br>ERROR: Command Error: e=
-xit status: 1 =C2=A0Output:<br>Applying patch 0001-Define-isfdtype-if-libc-=
-doesn-t-have-it.patch<br>patching file <a href=3D"http://configure.ac">conf=
-igure.ac</a><br>Hunk #1 FAILED at 41.<br>1 out of 1 hunk FAILED -- rejects =
-in file <a href=3D"http://configure.ac">configure.ac</a><br>patching file s=
-ock.c<br>Hunk #1 succeeded at 61 with fuzz 2 (offset 11 lines).<br>Patch 00=
-01-Define-isfdtype-if-libc-doesn-t-have-it.patch does not apply (enforce wi=
-th -f)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Can you see if anything else is required beyond Maxin&#39;s upgrade?</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
-
---001a113ec10aec6eaa0529eb91e3--
