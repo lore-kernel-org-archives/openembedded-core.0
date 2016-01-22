@@ -1,46 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B351731EF
+Return-Path: <obi@opendreambox.org>
+X-Greylist: delayed 329 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 22 Jan 2016 15:43:49 UTC
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C803E605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 14:53:00 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id r129so216396589wmr.0
+	Fri, 22 Jan 2016 15:43:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id D47CE315EE07
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 06:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=IJMLNUwYcAbHp2trgjLOHU30eSrrk16vGh6upLjB1fc=;
-	b=mtatOn/i/BBtKZ3G1aV3HvTpaFdtTzSpzVvORWhvietpuLeHtso299gRffS1St1eRo
-	FBzIKcbqsSBfsHXqwteUE1RepI4LuPFEwu1DtA6UFHi43qfWFK7A2dbI22Kvr3qCdL3b
-	2Ha/6Vcf3uC261hGEXFEGwOgbWhOp4ERzl3TDZVy87rKTFfeMtidSkGqFwWzjSI/ct00
-	QH/2W+OLG7VLbvYN63G+ZlDTnDF0q5iRaTT8tbqgle7/n4Od4pK0KS8lo5LaR9AzG44R
-	KE76Hr7vpREOrvGAUWmdyult28SqZF0SmD+HKKJd2UTdYaeoVD7zAxetudc3Bj1yjG1g
-	okcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=IJMLNUwYcAbHp2trgjLOHU30eSrrk16vGh6upLjB1fc=;
-	b=WkYLkA4QSnDBW1Vk1F1jLqNPI8vVuQHE2qUM3FexMF0wt0Fxd6bY9mI9GX9w/m0KKa
-	/u43V6lWPFPFi+ScZVDDkFnjT0zxpTYpjbg4rFLONewFooMdYeN1x3cGMZMFchEQ5VPo
-	7QeRv4tr2bpZ95SaXSNQhSFtZzGUXXUXtiqn7Yr6sSotiNRw1h2W/HxzQwbaA8tcnL/I
-	FqinQcSzI97rf8Q9GgMODUwumBlUax+xfkbSWJTerurbAbuHQsx32EPO8bWFt7QrNOKv
-	Cy4Gf8A/K+P725yRfYQ+iUCkjVUgPsS2Q1eZ9lf6fc+eg2d/N8H1a6hd8DNCkWUFDz6o
-	vNzA==
-X-Gm-Message-State: AG10YORiggfuSS3/iLYGSOASXTqePcjiC4T1juE/TKLyf4JvobipGggL5v3EGOLgMkh7FjPw
-X-Received: by 10.194.5.193 with SMTP id u1mr3545195wju.166.1453474380056;
-	Fri, 22 Jan 2016 06:53:00 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	di8sm6261545wjc.34.2016.01.22.06.52.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Jan 2016 06:52:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 22 Jan 2016 16:38:19 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id BEeMBWAgzB0a
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 16:38:17 +0100 (CET)
+Received: from [172.22.22.61] (55d46ff4.access.ecotel.net [85.212.111.244])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 413E1315EE06
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 16:38:17 +0100 (CET)
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jan 2016 14:52:56 +0000
-Message-Id: <1453474376-7094-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] mesa: add missing wayland-native build dependency
+References: <56A22767.7050000@linux.intel.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <56A24CE8.8010501@opendreambox.org>
+Date: Fri, 22 Jan 2016 16:38:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <56A22767.7050000@linux.intel.com>
+Subject: Re: proposal: remove DirectFB from oe-core in the next release cycle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 14:53:01 -0000
+X-List-Received-Date: Fri, 22 Jan 2016 15:43:51 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Mesa needs wayland-scanner, which is provided by wayland-native.
+On 22.01.2016 13:58, Alexander Kanavin wrote:
+> Hello,
+> 
+> DirectFB upstream project has been dead for several months, the website
+> has completely disappeared, and no explanation or apology has ever
+> surfaced. [1]
+> 
+> So let's keep DirectFB in the forthcoming release, but drop it early in
+> the next release cycle.
+> 
+> [1] http://www.phoronix.com/scan.php?page=news_item&px=DirectFB-Is-It-Gone
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+FWIW, https://github.com/deniskropp/DirectFB is the new location of the
+upstream repository. I see that you opened an issue there, so you're
+already aware. The last commit is from October 2015.
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index cd01870..9b316e1 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -32,7 +32,7 @@ PACKAGECONFIG ??= "egl gles dri \
- X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
- PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
- PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
--PACKAGECONFIG[wayland] = ",,wayland"
-+PACKAGECONFIG[wayland] = ",,wayland-native wayland"
- 
- DRIDRIVERS = "swrast"
- DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
--- 
-2.6.4
+I guess many other projects in OE-Corew have seen much less activity. So
+what's the real reason for this proposal? Failing update scripts?
+
+Regards,
+Andreas
 
 
