@@ -1,50 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 692AA75D4A
+Return-Path: <bmouring@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 278D173E3B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 18:13:11 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id h5so58636405igh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 10:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=1kTHDTP7n05VhQm9N/gdMRmD+OQFpfPubvlrpTKLaw4=;
-	b=xCIWZG90ufxVuyDvDWv0sKWIv18+/ZGbT0tz6qN1d0rJMH5cDFoHACjhvGgZxVLXvm
-	NG3ELcQECXSgJc4RZE9pJijab3h3bGkepaOji9YVJfTpue1izSMcF/Cm+Zj/k4gH7lE6
-	xNQZEr3c0/+Q17VLAxGrkIFagIgnkJLDzAo2phHyVc68zBTJ/bMJlVqfUsw997Hd0YQ7
-	HfFZCaa8LW+Ywin6Xrq4lmb2GUU4Gf6LF0KSM+yL0LJ+s6XcGGylNgJS8WmkRJPirnNX
-	lX/hihyti1Ks+7hKMZSkXyAO9CzB7X826U3/YICUurPlLfM1WZd8oBGTaUY6G3hsStOX
-	vxKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=1kTHDTP7n05VhQm9N/gdMRmD+OQFpfPubvlrpTKLaw4=;
-	b=JUBq8GP/Ko13p0gmel5H8e7rejRsZwAK0W5pdO6t4F3qavHDCx/2d58IscOFc+Honj
-	xvfr9UNNkcYnCBEGyXIg0p/wF23wfJxcI7Oxse6M+OwZ7r3Sbk9AuOsuKIQfWQAxcJiZ
-	wzePVWscN5WzBFI8iIbzJ7/pFduT9t5QfQaOfA3pNI9K55vP5lfa4MlkycIyBVKLpu9R
-	x4OCmfW9x5kWlXSbniCNqaad7lJdeI6WZqG0EvQGkVat5Vuw7I8sMyZLBy835/mWWTjA
-	OSsBmmNuARJzG9kEGy2UwYMZjRQwH2VT2h/CWgN8ahClAZlkzXL+CecC8wkWbo8Y5wv9
-	D2qA==
-X-Gm-Message-State: AG10YOSOy4Vdixq8CMqkoaP9q5CWc325UfZGgqGlytXxRQwc5JNIxUcmjWBSBogsjW8wq08FWNdVMb8kexAwwV7y
-X-Received: by 10.50.126.8 with SMTP id mu8mr4705677igb.52.1453486392581; Fri,
-	22 Jan 2016 10:13:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 10:12:53 -0800 (PST)
-In-Reply-To: <56A26F89.8080505@opendreambox.org>
-References: <56A22767.7050000@linux.intel.com>
-	<56A24CE8.8010501@opendreambox.org>
-	<CAJTo0LaAY=Bru-JzaNMQe5KNuAH3+A0VW_mQ6sNy4GvDU7nk6w@mail.gmail.com>
-	<56A26F89.8080505@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Jan 2016 18:12:53 +0000
-Message-ID: <CAJTo0LZhW-wGySxDt5E5V_FYj3PdsRvDGxH5w8hwpL7ON7JG1Q@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: proposal: remove DirectFB from oe-core in the next release cycle
+	Fri, 22 Jan 2016 18:14:16 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0MIEHOI030275; Fri, 22 Jan 2016 12:14:17 -0600
+Received: from zardoz.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with SMTP id 2016012212141614-205937 ;
+	Fri, 22 Jan 2016 12:14:16 -0600 
+Received: by zardoz.amer.corp.natinst.com (sSMTP sendmail emulation);
+	Fri, 22 Jan 2016 12:14:15 -0600
+From: bmouring@ni.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jan 2016 12:13:52 -0600
+Message-Id: <1453486432-24073-1-git-send-email-brad.mouring@ni.com>
+X-Mailer: git-send-email 2.6.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/22/2016 12:14:17 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/22/2016 12:14:17 PM,
+	Serialize complete at 01/22/2016 12:14:17 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-22_07:, , signatures=0
+Cc: Brad Mouring <brad.mouring@ni.com>
+Subject: [PATCH] avahi: Add patch to fix Win10 mDNS issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +39,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 18:13:12 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf1dc0c20529f02c1c
+X-List-Received-Date: Fri, 22 Jan 2016 18:14:17 -0000
 
---047d7b1635bf1dc0c20529f02c1c
-Content-Type: text/plain; charset=UTF-8
+Windows 10 will respond to mDNS messages when it  really shouldn't,
+resulting in a lot of logging. Pulling the change from avahi upstream.
+This will be fixed in avahi 0.6.32
 
-On 22 January 2016 at 18:06, Andreas Oberritter <obi@opendreambox.org>
-wrote:
+External References:
+https://bugs.launchpad.net/ubuntu/+source/avahi/+bug/1342400
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=794145
+https://bugzilla.redhat.com/show_bug.cgi?id=1240711
+https://social.technet.microsoft.com/Forums/en-US/b334e797-ef80-4525-b74a-b4830420a14e/windows-10-spams-network-with-invalid-mdns-response-packets?forum=win10itpronetworking
 
-> Denis Oliver Kropp is the main developer of DirectFB and the description
-> of https://github.com/deniskropp/DirectFB says "Official DirectFB GitHub
-> Repository".
->
+Signed-off-by: Brad Mouring <brad.mouring@ni.com>
+---
+ meta/recipes-connectivity/avahi/avahi_0.6.31.bb    |   4 +
+ ...arnings-about-invalid-packets-Fixes-lathi.patch | 151 +++++++++++++++++++++
+ 2 files changed, 155 insertions(+)
+ create mode 100644 meta/recipes-connectivity/avahi/files/0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch
 
-The owner being the main developer is good, thanks.
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.31.bb b/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
+index 5d796a2..fc666df 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
+@@ -17,6 +17,10 @@ PR = "${INC_PR}.1"
+ SRC_URI[md5sum] = "2f22745b8f7368ad5a0a3fddac343f2d"
+ SRC_URI[sha256sum] = "8372719b24e2dd75de6f59bb1315e600db4fd092805bd1201ed0cb651a2dab48"
+ 
++SRC_URI_append = " \
++    file://0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch \
++    "
++
+ DEPENDS += "intltool-native"
+ 
+ PACKAGES =+ "libavahi-gobject"
+diff --git a/meta/recipes-connectivity/avahi/files/0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch b/meta/recipes-connectivity/avahi/files/0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch
+new file mode 100644
+index 0000000..34f3fad
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/0001-Don-t-log-warnings-about-invalid-packets-Fixes-lathi.patch
+@@ -0,0 +1,151 @@
++From de7cde877e4daa5d9d4fb5b1a349299eaa94969d Mon Sep 17 00:00:00 2001
++From: Trent Lloyd <trent@lloyd.id.au>
++Date: Sat, 10 Oct 2015 06:20:46 +0800
++Subject: [PATCH] Don't log warnings about invalid packets (Fixes
++ lathiat/avahi#10)
++
++Various invalid packets would generate a warning, in particular
++Windows 10 generates response packets with no answer records and
++generally seemingly empty.  Unsure why at this stage.
++
++This results in spamming syslog quite a lot on busy networks,
++similar issues like this have occured over time due to changes
++in various operating systems and specs (e.g. Avahi #284, #282)
++
++Rather than just disable this single message or case, I have
++pre-emptively turned the majority of these bad packet messages
++into debug messages.  They can still be output on production
++builds if reuqired using the --debug option (no rebuild required).
++
++External References:
++https://bugs.launchpad.net/ubuntu/+source/avahi/+bug/1342400
++https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=794145
++https://bugzilla.redhat.com/show_bug.cgi?id=1240711
++---
++ avahi-core/server.c | 28 ++++++++++++++--------------
++ 1 file changed, 14 insertions(+), 14 deletions(-)
++
++diff --git a/avahi-core/server.c b/avahi-core/server.c
++index e87f035..a2cb19a 100644
++--- a/avahi-core/server.c
+++++ b/avahi-core/server.c
++@@ -587,7 +587,7 @@ static void handle_query_packet(AvahiServer *s, AvahiDnsPacket *p, AvahiInterfac
++         int unicast_response = 0;
++ 
++         if (!(key = avahi_dns_packet_consume_key(p, &unicast_response))) {
++-            avahi_log_warn(__FILE__": Packet too short or invalid while reading question key. (Maybe a UTF-8 problem?)");
+++            avahi_log_debug(__FILE__": Packet too short or invalid while reading question key. (Maybe a UTF-8 problem?)");
++             goto fail;
++         }
++ 
++@@ -615,7 +615,7 @@ static void handle_query_packet(AvahiServer *s, AvahiDnsPacket *p, AvahiInterfac
++             int unique = 0;
++ 
++             if (!(record = avahi_dns_packet_consume_record(p, &unique))) {
++-                avahi_log_warn(__FILE__": Packet too short or invalid while reading known answer record. (Maybe a UTF-8 problem?)");
+++                avahi_log_debug(__FILE__": Packet too short or invalid while reading known answer record. (Maybe a UTF-8 problem?)");
++                 goto fail;
++             }
++ 
++@@ -632,7 +632,7 @@ static void handle_query_packet(AvahiServer *s, AvahiDnsPacket *p, AvahiInterfac
++             int unique = 0;
++ 
++             if (!(record = avahi_dns_packet_consume_record(p, &unique))) {
++-                avahi_log_warn(__FILE__": Packet too short or invalid while reading probe record. (Maybe a UTF-8 problem?)");
+++                avahi_log_debug(__FILE__": Packet too short or invalid while reading probe record. (Maybe a UTF-8 problem?)");
++                 goto fail;
++             }
++ 
++@@ -669,7 +669,7 @@ static void handle_response_packet(AvahiServer *s, AvahiDnsPacket *p, AvahiInter
++         int cache_flush = 0;
++ 
++         if (!(record = avahi_dns_packet_consume_record(p, &cache_flush))) {
++-            avahi_log_warn(__FILE__": Packet too short or invalid while reading response record. (Maybe a UTF-8 problem?)");
+++            avahi_log_debug(__FILE__": Packet too short or invalid while reading response record. (Maybe a UTF-8 problem?)");
++             break;
++         }
++ 
++@@ -901,13 +901,13 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++ 
++     if (!(i = avahi_interface_monitor_get_interface(s->monitor, iface, src_address->proto)) ||
++         !i->announcing) {
++-        avahi_log_warn("Received packet from invalid interface.");
+++        avahi_log_debug("Received packet from invalid interface.");
++         return;
++     }
++ 
++     if (port <= 0) {
++         /* This fixes RHBZ #475394 */
++-        avahi_log_warn("Received packet from invalid source port %u.", (unsigned) port);
+++        avahi_log_debug("Received packet from invalid source port %u.", (unsigned) port);
++         return;
++     }
++ 
++@@ -924,7 +924,7 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++         from_local_iface = originates_from_local_iface(s, iface, src_address, port);
++ 
++     if (avahi_dns_packet_check_valid_multicast(p) < 0) {
++-        avahi_log_warn("Received invalid packet.");
+++        avahi_log_debug("Received invalid packet.");
++         return;
++     }
++ 
++@@ -940,7 +940,7 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++ 
++             if ((avahi_dns_packet_get_field(p, AVAHI_DNS_FIELD_ANCOUNT) != 0 ||
++                  avahi_dns_packet_get_field(p, AVAHI_DNS_FIELD_NSCOUNT) != 0)) {
++-                avahi_log_warn("Invalid legacy unicast query packet.");
+++                avahi_log_debug("Invalid legacy unicast query packet.");
++                 return;
++             }
++ 
++@@ -956,19 +956,19 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++         char t[AVAHI_ADDRESS_STR_MAX];
++ 
++         if (port != AVAHI_MDNS_PORT) {
++-            avahi_log_warn("Received response from host %s with invalid source port %u on interface '%s.%i'", avahi_address_snprint(t, sizeof(t), src_address), port, i->hardware->name, i->protocol);
+++            avahi_log_debug("Received response from host %s with invalid source port %u on interface '%s.%i'", avahi_address_snprint(t, sizeof(t), src_address), port, i->hardware->name, i->protocol);
++             return;
++         }
++ 
++         if (ttl != 255 && s->config.check_response_ttl) {
++-            avahi_log_warn("Received response from host %s with invalid TTL %u on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), ttl, i->hardware->name, i->protocol);
+++            avahi_log_debug("Received response from host %s with invalid TTL %u on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), ttl, i->hardware->name, i->protocol);
++             return;
++         }
++ 
++         if (!is_mdns_mcast_address(dst_address) &&
++             !avahi_interface_address_on_link(i, src_address)) {
++ 
++-            avahi_log_warn("Received non-local response from host %s on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), i->hardware->name, i->protocol);
+++            avahi_log_debug("Received non-local response from host %s on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), i->hardware->name, i->protocol);
++             return;
++         }
++ 
++@@ -976,7 +976,7 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++             avahi_dns_packet_get_field(p, AVAHI_DNS_FIELD_ANCOUNT) == 0 ||
++             avahi_dns_packet_get_field(p, AVAHI_DNS_FIELD_NSCOUNT) != 0) {
++ 
++-            avahi_log_warn("Invalid response packet from host %s.", avahi_address_snprint(t, sizeof(t), src_address));
+++            avahi_log_debug("Invalid response packet from host %s.", avahi_address_snprint(t, sizeof(t), src_address));
++             return;
++         }
++ 
++@@ -992,12 +992,12 @@ static void dispatch_legacy_unicast_packet(AvahiServer *s, AvahiDnsPacket *p) {
++     assert(p);
++ 
++     if (avahi_dns_packet_check_valid(p) < 0 || avahi_dns_packet_is_query(p)) {
++-        avahi_log_warn("Received invalid packet.");
+++        avahi_log_debug("Received invalid packet.");
++         return;
++     }
++ 
++     if (!(slot = find_slot(s, avahi_dns_packet_get_field(p, AVAHI_DNS_FIELD_ID)))) {
++-        avahi_log_warn("Received legacy unicast response with unknown id");
+++        avahi_log_debug("Received legacy unicast response with unknown id");
++         return;
++     }
++ 
++-- 
++2.6.4
++
+-- 
+2.6.4
 
-Ross
 
---047d7b1635bf1dc0c20529f02c1c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 January 2016 at 18:06, Andreas Oberritter <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":w1v" cla=
-ss=3D"a3s" style=3D"overflow:hidden">Denis Oliver Kropp is the main develop=
-er of DirectFB and the description<br>
-of <a href=3D"https://github.com/deniskropp/DirectFB" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://github.com/deniskropp/DirectFB</a> says &quot;Offic=
-ial DirectFB GitHub<br>
-Repository&quot;.<br></div></blockquote></div><br>The owner being the main =
-developer is good, thanks.</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
-
---047d7b1635bf1dc0c20529f02c1c--
