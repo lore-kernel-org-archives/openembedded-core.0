@@ -1,45 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 874BF73183
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 15D82731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 03:23:43 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id p187so39733939oia.2
+	Fri, 22 Jan 2016 03:23:51 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id o124so39641540oia.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jan 2016 19:23:45 -0800 (PST)
+	Thu, 21 Jan 2016 19:23:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=tiemzA/0ETT3uXc4toC33+ksZxyKL5iMEp3dkf76Hr8=;
-	b=IIE/Ot+QNGwYpZe3tUoClcFnJlaXxB5B1Y/6c3A9No3SSMuVF2pgSNYs1trCy0VtBM
-	Ruws3uBBiDTulYp7qhbzz4m0DzweD0jgLQGln5/XoFh/j2tj/wnaqI3ogheZKwbpo1WJ
-	fI3pY1YUXGrX/rBLt+QPIs9w1bd3BYWU2DH59ZVAv3ElVhLmqPmxLvr1nYot1nl94xfX
-	naqDWS+fXUfGIf4gQnUFpD6PrKVjyKjfnvSC4v9TXRtrRDmqYQMM0BR6gbBRuenh/AcJ
-	J7lipYM9SFkMwxmv5sG15RcogXxv6Vjp54XKFSef+LhdAitNHjTcoyn48KQk0KY+nFQK
-	Ovjw==
+	bh=gmOKYW02yTlLCgNzxBAQL8IS3yrU0Ym3rOB7Ww2p/QQ=;
+	b=Jj6qn/FWzqEGNGSM5Yu4Yj2DUHMjNHH1LBquP5/ui6NisvUdEIirWgqDaCLbhsts4k
+	hk0Tch4ICi/20b0dyFsU2khSFP20Z+ZtLf/3o0OlPxYYOFy9YUlWQpxfi7rfg+Qh79Ce
+	+lmDrwes0Ce9jODJbIPKF9KRro4rQ5eyWGxrwlsmpS44h4wkxoBE9nZz57Bv3rH4h2sp
+	u0OUZ1J/Hl6ZUQKXsuyeX9ke3Iw/8qcMI0iUp/XCPJdHmsj+6n6CFDPJGHygsUTzIf07
+	NfU3iWSmUEsZ/Pqb/pqKsy7rL8T0rdOjx5QAWVjlVklS8Bx/S3+vXtgtSUYQaiORNnbg
+	Tikw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tiemzA/0ETT3uXc4toC33+ksZxyKL5iMEp3dkf76Hr8=;
-	b=HsocqExkYPuoXN3WRayOP+6aPNDF26W8Y+brqTMyFx+9Xz32QRxDeyJ2nD15WlkUtY
-	YJ+xjj/6Tr4z08Cjo9y6FSiDDq3tD49+YTJiFz1YemgeVbMgd1DSCCMH1k5a39vBdw/9
-	4RJJjX5LLzHxMX2ydA1+UVKW5djeYkQRTVjO0JVE3WFncWnJyZ+f/aKoGEAWLM8DSMF5
-	7ALVpQs+AEp2egNPYpq8WXTEH3U6ornQrIpw7UL/N4Wl5nenxhzGv5Ig/8EJxQi1MuN8
-	XNU9e/mBi7ZxhD+LHV6zNF8bVW9UDpvwdXIK0GjN7Ot+4KSZxLzBraJAKWRhhsljbzoG
-	gx7Q==
-X-Gm-Message-State: AG10YOQEPDTYUjvOfuXOZrTQdXKMXX3de0zmZ/IbiKjLfr4s2GE7Te4KrG4k3WTxf7PzTQ==
-X-Received: by 10.202.219.10 with SMTP id s10mr561740oig.27.1453433024698;
-	Thu, 21 Jan 2016 19:23:44 -0800 (PST)
+	bh=gmOKYW02yTlLCgNzxBAQL8IS3yrU0Ym3rOB7Ww2p/QQ=;
+	b=TCwGVuloMao+cj4VQ7prO4T3tfbbTd0MH9KJ0EzsEp6FzF+PGJyjjStcdC2cAsdm5Y
+	7owjD9V/5iRxyS4ycN9t/M9c1Wfxg7I2gtKOVIo8Wu2j35JJ3CFuuTxosnhKbLPZ7cI0
+	WuuGWEKFK5L7/hMPQe/8ZbgYI6NzSj8cAY4fp2iJzAmEl19jUxptlVk9fYQ6MApuY/Fk
+	3qtsgt0JGMee8Up0tpG6gIEwwdNAFNhnEY1BSK23hNnWWM5Ia9v3Jrzuoc6nc6+gyYEy
+	WttGJxqRQUC/7rHwfSoFINz+bsoDBsxwZ8JyUOhbyeKxCzTVmStVT/x/gmq5+IMvdifX
+	wzkQ==
+X-Gm-Message-State: AG10YORQCX9CPrK1hrLZy6XbAI1xqKzp6tKSst+Wznur/TIUd/5aAE5RSA2vOpIv1e+tYA==
+X-Received: by 10.202.80.201 with SMTP id e192mr563870oib.14.1453433032808;
+	Thu, 21 Jan 2016 19:23:52 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id m67sm2210273oik.4.2016.01.21.19.23.43
+	by smtp.gmail.com with ESMTPSA id i10sm2153206oer.5.2016.01.21.19.23.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jan 2016 19:23:43 -0800 (PST)
+	Thu, 21 Jan 2016 19:23:51 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2016 19:23:37 -0800
-Message-Id: <1453433017-25240-1-git-send-email-armccurdy@gmail.com>
+Date: Thu, 21 Jan 2016 19:23:45 -0800
+Message-Id: <1453433025-25280-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gstreamer1.0-plugins.inc: drop obsolete ${S}/po/Makefile.in.in workaround
+Subject: [PATCH] pulseaudio.inc: drop obsolete dependency on liboil
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 03:23:44 -0000
+X-List-Received-Date: Fri, 22 Jan 2016 03:23:56 -0000
 
-The workaround was originally added to the 0.10.x gst-plugins recipes
-in late 2012 [1] and the root cause seems to have been fixed upstream
-in late 2013 [2] (ie prior to the 1.4.0 release).
+Pulseaudio dropped its dependency on liboil in 2009.
 
- [1] http://lists.openembedded.org/pipermail/openembedded-core/2012-November/071149.html
- [2] https://bugzilla.gnome.org/show_bug.cgi?id=705455
+  http://cgit.freedesktop.org/pulseaudio/pulseaudio/commit/?id=25724cdd40283a00e6edd9449d0f3cf16823b41b
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 9 ---------
- 1 file changed, 9 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index fd0d8bd..6ea911e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -23,12 +23,3 @@ EXTRA_OECONF = " \
- "
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index ec73526..b278115 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://src/pulsecore/resampler.h;beginline=4;endline=21;md5=09794012ae16912c0270f3280cc8ff84"
  
- PACKAGES_DYNAMIC = "^${PN}-.*"
--
--# apply gstreamer hack after Makefile.in.in in source is replaced by our version from
--# ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in, but before configure is executed 
--# http://lists.linuxtogo.org/pipermail/openembedded-core/2012-November/032233.html
--oe_runconf_prepend() {
--	if [ -e ${S}/po/Makefile.in.in ]; then
--		sed -i -e "1a\\" -e 'GETTEXT_PACKAGE = @GETTEXT_PACKAGE@' ${S}/po/Makefile.in.in
--	fi
--}
+-DEPENDS = "libatomic-ops liboil libsndfile1 libtool"
++DEPENDS = "libatomic-ops libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 gconf"
+ DEPENDS += "json-c gdbm speexdsp libxml-parser-perl-native libcap"
 -- 
 1.9.1
 
