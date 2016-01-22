@@ -1,37 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CF2760620
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B351731EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 14:09:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0ME9OTL030771
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 22 Jan 2016 06:09:24 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 22 Jan 2016 06:09:23 -0800
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-References: <1452528799-11292-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1452528799-11292-4-git-send-email-markus.lehtonen@linux.intel.com>
-	<5693D956.40107@windriver.com>
-	<1452615851.13987.6.camel@linux.intel.com>
-	<1452680933.13987.10.camel@linux.intel.com>
-	<1453375237.13987.27.camel@linux.intel.com>
-	<56A0F794.7060603@windriver.com>
-	<2EA21AEF-AF0C-4AFF-A18B-6358B6C6115F@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <56A23812.3080501@windriver.com>
-Date: Fri, 22 Jan 2016 08:09:22 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <2EA21AEF-AF0C-4AFF-A18B-6358B6C6115F@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] oe.gpg_sign: support obs-signd
+	Fri, 22 Jan 2016 14:53:00 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id r129so216396589wmr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 06:53:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=IJMLNUwYcAbHp2trgjLOHU30eSrrk16vGh6upLjB1fc=;
+	b=mtatOn/i/BBtKZ3G1aV3HvTpaFdtTzSpzVvORWhvietpuLeHtso299gRffS1St1eRo
+	FBzIKcbqsSBfsHXqwteUE1RepI4LuPFEwu1DtA6UFHi43qfWFK7A2dbI22Kvr3qCdL3b
+	2Ha/6Vcf3uC261hGEXFEGwOgbWhOp4ERzl3TDZVy87rKTFfeMtidSkGqFwWzjSI/ct00
+	QH/2W+OLG7VLbvYN63G+ZlDTnDF0q5iRaTT8tbqgle7/n4Od4pK0KS8lo5LaR9AzG44R
+	KE76Hr7vpREOrvGAUWmdyult28SqZF0SmD+HKKJd2UTdYaeoVD7zAxetudc3Bj1yjG1g
+	okcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=IJMLNUwYcAbHp2trgjLOHU30eSrrk16vGh6upLjB1fc=;
+	b=WkYLkA4QSnDBW1Vk1F1jLqNPI8vVuQHE2qUM3FexMF0wt0Fxd6bY9mI9GX9w/m0KKa
+	/u43V6lWPFPFi+ScZVDDkFnjT0zxpTYpjbg4rFLONewFooMdYeN1x3cGMZMFchEQ5VPo
+	7QeRv4tr2bpZ95SaXSNQhSFtZzGUXXUXtiqn7Yr6sSotiNRw1h2W/HxzQwbaA8tcnL/I
+	FqinQcSzI97rf8Q9GgMODUwumBlUax+xfkbSWJTerurbAbuHQsx32EPO8bWFt7QrNOKv
+	Cy4Gf8A/K+P725yRfYQ+iUCkjVUgPsS2Q1eZ9lf6fc+eg2d/N8H1a6hd8DNCkWUFDz6o
+	vNzA==
+X-Gm-Message-State: AG10YORiggfuSS3/iLYGSOASXTqePcjiC4T1juE/TKLyf4JvobipGggL5v3EGOLgMkh7FjPw
+X-Received: by 10.194.5.193 with SMTP id u1mr3545195wju.166.1453474380056;
+	Fri, 22 Jan 2016 06:53:00 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	di8sm6261545wjc.34.2016.01.22.06.52.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 22 Jan 2016 06:52:59 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jan 2016 14:52:56 +0000
+Message-Id: <1453474376-7094-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] mesa: add missing wayland-native build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,126 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 14:09:27 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Jan 2016 14:53:01 -0000
 
-On 1/22/16 4:43 AM, Markus Lehtonen wrote:
-> Hi Mark,
-> 
-> 
-> 
-> (CC'd the mailing list which was accidentally dropped from my previous email)
-> 
-> On 21/01/16 17:21, "Mark Hatle" <mark.hatle@windriver.com> wrote:
-> 
->> On 1/21/16 5:20 AM, Markus Lehtonen wrote:
->>> On Wed, 2016-01-13 at 12:28 +0200, Markus Lehtonen wrote:
->>>> On Tue, 2016-01-12 at 18:24 +0200, Markus Lehtonen wrote:
->>>>> Hi Mark,
->>>>>
->>>>> Thank you for your review! Comments below.
->>>>>
->>>>> On Mon, 2016-01-11 at 10:33 -0600, Mark Hatle wrote:
->>>
->>> [...SNIP...]
->>>
->>>>>>
->>>>>> Why are you removing existing signatures?  I believe for many cases this is
->>>>>> actually incorrect.
->>>>>>
->>>>>> RPM (5) has the ability to have an endless number of signatures within a given
->>>>>> package.  The package SHOULD included the internal non-repudiable signature...
->>>>>>
->>>>>> (to refresh memory) all RPM 5 packages include an internal non-repudiable
->>>>>> signature.  Think of this as an extended md5sum, sha256sum, etc.  It doesn't
->>>>>> change that a package is 'authentic' in any way (often the purpose of signatures
->>>>>> like what this code is doing), but instead keeps a high reliability way to sign
->>>>>> and verify the package is signed properly.
->>>>>>
->>>>>> This is used for validation if the system doing the install does not have the
->>>>>> public key that the package was signed with.
->>>>>>
->>>>>> ... as well as one or more repudiable signatures that can be used to verify that
->>>>>> it's "authentic" in some way.  A system could very easily have OSV, OEM, and ISV
->>>>>> keys install on them.  You can program RPM in such a way that it will refused to
->>>>>> install packages with unknown authentication keys or the non-repudiable key as well.
->>>>>>
->>>>>> So, I believe running delsign is wrong.  If the obs-signd can't handle ADDING
->>>>>> signatures to packages, then I'd say it is broken and should be fixed in some
->>>>>> way -- or at least the signature deletion code should be optional.
->>>>>
->>>>> Yes, unfortunately this is currently the limitation of obs-signd. It
->>>>> refuses to sign if there are signatures present in the rpm package.
->>>>> Using --delsign is "unfortunate" consequence of this and that should've
->>>>> probably been described in a comment. Making signature deletion a
->>>>> configurable setting is hopefully a decent resolution for now. I will
->>>>> send a new version of the patchset later.
->>>>
->>>> Backing up a bit here. I did some quick testing and it seems that RPM5
->>>> does not support multiple signatures (anymore?). Doing --addsign seems
->>>> to overwrite the existing signatures similarly to --resign. Support for
->>>> multiple signatures were removed from RPM4 years ago.
->>>>
->>>> In this light, doing --delsign should be ok. What do you think?
->>>
->>> Hi Mark. Do you have any comments to the above? I'd like to get this
->>> patchset out of my hands :)
->>
->> RPM5 does have multiple signatures, but only allows one of each of the three
->> types to be installed.  The delsign shouldn't be used as it might remove the
->> wrong signature.
-> 
-> AFAIU, rpm only allows one signature so be present. The file format allows that, but, the rpm tool does not (anymore). For example, rpm --addsign will remove an existing DSA signature when adding an RSA signature. The SHA1 / MD5 digests are not touched by --delsign.
-> 
-> 
->> (Three types are DSA/RSA, ECDSA, and simple SHA256 or similar.)
-> 
-> I didn't know that rpm(5?) supports ECDSA signatures.
-> 
-> 
->> But making the --delsign optional I think is the best approach.  (It would be
->> better to move it to the obs-sign script itself -- but I can live with doing it
->> on the OE side since people are trying to use their owns systems.)
-> 
-> I still believe that making it optional is just worthless and complicates things because doing rpm --addsign has exactly the same effect.
-> 
-> 
->> The alternative would be to not call the script 'obs-sign', but instead call an
->> arbitrarily named (and defined in a bitbake variable) script.. Then THAT script
->> can do the del and call the obs-sign.)
-> 
-> Hmm, I probably don't like this idea that much. This user-written script would need to be a bit more complex as a it needs to support multiple operations (signrpm, detach sign, export pubkey). Of course, I could write a default script and put it under scripts/ but somehow feels more complex than needed.
+Mesa needs wayland-scanner, which is provided by wayland-native.
 
-The more I look at this, the more I think that makes sense.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've had some of my (WR Linux) release guys look at this, and the obs-sign
-mechanism will not work for us.  So we're going to have to write some custom
-signing code anyway.  It will be much easier if there is a generic interface.
-The previous thought was to use the obs-sign "interface", but write our own...
-but at that point OBS has nothing to do with it.. It's just really being used as
-a signing interface.
-
-I'm assuming at this point that we're not alone in this need.  I've talked to a
-variety of commercial people and they all have slightly different signing
-policies and mechanisms.  Everything from, we don't sign the packages but check
-separate checksums -- to we sign locally with a local keyring key -- to we sign
-locally with a special in-memory key -- to after every package is built we have
-to upload the package to an (internal password protected) FTP/HTTP site and
-trigger it to be signed, then once signed we download it.  (And of course OBS
-specific signing...)
-
-I think in this case an external script makes this all much easier for someone
-to implement their specific policy and procedures, especially with a defined
-API.  Including default scripts with this as useful runners or examples would
-definitely be a part of the work in my mind.
-
---Mark
-
-> 
-> Thanks,
->   Markus
-> 
-> 
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index cd01870..9b316e1 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -32,7 +32,7 @@ PACKAGECONFIG ??= "egl gles dri \
+ X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
+ PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
+ PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+-PACKAGECONFIG[wayland] = ",,wayland"
++PACKAGECONFIG[wayland] = ",,wayland-native wayland"
+ 
+ DRIDRIVERS = "swrast"
+ DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+-- 
+2.6.4
 
 
