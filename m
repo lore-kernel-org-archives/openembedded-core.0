@@ -1,48 +1,29 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B0F573189;
-	Fri, 22 Jan 2016 05:25:04 +0000 (UTC)
-Received: by mail-lf0-f47.google.com with SMTP id c192so40117928lfe.2;
-	Thu, 21 Jan 2016 21:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:cc:content-type; 
-	bh=tjAtfta+qJDoXqyFN/KP8TxKp776x0m15pyz5Qj6Ckk=;
-	b=xfx3jqLH38kwB6Srem/p6Mvm5S/o5H2VsG2JxXPDQnAdTHQMFqf9R5/BE6ErpoTZBQ
-	3yOwstwG5X6lyNlQm1k5A1uqjKhBc80b8Qkk1Ggn27vzKgaMOiwEQsCxh8OSNjeAcmXO
-	1xOlarjfdzZclYKQiyLmaSAoFGp0WWzqx01jDLu8CglbRmLuAEcOAWwrKrZ9T9bjq9NK
-	eyjuYwLifT8RyzoKNcnVzQfFQZFaecFjqqg8qkcKkOitIehwegl3ogvfkhQsBNUSSn5i
-	H7jK/PgL45eaimqfQdyePEd8puoTT0XI7DXNinRPsVQuOF0DeC7xg6sIo9nh/bszk60q
-	rhdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-	:to:cc:content-type;
-	bh=tjAtfta+qJDoXqyFN/KP8TxKp776x0m15pyz5Qj6Ckk=;
-	b=SHB2BjSZk449aLL2/NYKFXWgHcZkkKNQyKAF1juE5IlXFPFN0fRzQk1xPt68jZmyCe
-	vuntcQzDnMzY79q/tpUA1LNtMPZ3v/ZT1J0FF+2R0re6DzM6AB3Xl7u6c+b2ZnmjE1Xy
-	ysvR3z9ALd5203dbvxg8pG4vGBxcfLaliOIfCye7HMDvPz0my0bSQg8RQ8iQieOuXPSB
-	bcHPDzZ4yjXQt0F5b+8Zn73QSFkuWLES58CYLYLAwN1VMg4MNvQc+FjahADq/WqJ/3LZ
-	urVswHS1M78ZifW3y9j450Ve0+IfWn2fIFWX2vDwPB7lRbjH4QZQ1dVNmzXd0liYB1Hn
-	iU6w==
-X-Gm-Message-State: AG10YOTY1X40y5Zihj8nnvLm8zbGSRILqIsjFP+Kzc9cqMzKzKJQxs3JY9NEhLrAs8IYFtRtikoYwO+c0J7/xw==
-X-Received: by 10.25.212.199 with SMTP id l190mr423488lfg.163.1453440303487;
-	Thu, 21 Jan 2016 21:25:03 -0800 (PST)
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F4460017
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 05:29:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0M5Thj1012235
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jan 2016 21:29:43 -0800 (PST)
+Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 21 Jan 2016 21:29:42 -0800
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1453255296-6863-1-git-send-email-rongqing.li@windriver.com>
+	<56A162A5.1000802@windriver.com>
+From: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <56A1BE45.3040900@windriver.com>
+Date: Fri, 22 Jan 2016 13:29:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.55.101 with HTTP; Thu, 21 Jan 2016 21:24:43 -0800 (PST)
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Thu, 21 Jan 2016 21:24:43 -0800
-X-Google-Sender-Auth: nR0H_jh2R1Gy-hv8wr4wlNyIc4c
-Message-ID: <CA+YB3rb4nYhY+8PHiU9yAwFkfr7vZZkNRhtTVOGLwqNyk85Gkw@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: CORRECTION Re: Save the day OEDAM (after ELC and YP devday)
+In-Reply-To: <56A162A5.1000802@windriver.com>
+Subject: Re: [PATCH] watchdog: enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 05:25:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 22 Jan 2016 05:29:45 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This should be Friday, April 8.
 
-If you are making plans to travel to ELC, the conference takes place
-Mon-Wed Apr 4-6. DevDay is being planned for Thu Apr 7. OEDAM will be
-Friday Apr 8.
 
-Please RSVP if you plan to attend. I am looking for a venue and need
-to get an idea of how many people to accommodate. We may also plan
-some kind of social event for Friday night if enough people are
-interested.
-
-Summary: if you plan to come to OEDAM, please plan to stay through Friday eve.
-
-thanks
-
-On Thu, Jan 21, 2016 at 2:24 PM, Philip Balister <philip@balister.org> wrote:
-> We are arranging an OpenEmbedded developer meeting on April 7, 2016 in
-> San Diego. This is after ELC and the Yocto Project developer day on
-> Thursday. (This is more a training day)
+On 2016年01月22日 06:58, Randy MacLeod wrote:
+> On 2016-01-19 09:01 PM, rongqing.li@windriver.com wrote:
+>> 1. inherit systemd, and add two unit files which are from Fedora 23
 >
-> We will publish more information as we work it out, but we did want
-> people to know so they can schedule travel.
+> Fine.
+>> 2. auto load soft dog kernel module
 >
-> If you have suggestions for this you would like to cover at the
-> developer meeting, let us know.
+> I haven't used a hardware watchdog for a while. Does softdog
+> abstract that away so that it's hidden by the BSP? If not,
+> can a user ditch the softdog for a hardware watchdog? Does that
+> over-ride process need to be documented?
 >
-> Thanks,
 >
-> Philip
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Usually, watchdog timers are implemented as add-on cards, or as on-chip
+peripherals within microcontrollers. But if there is no hardware watchdog,
+the Linux kernel can provide a software watchdog implemented using kernel
+timers.
+
+https://en.wikibooks.org/wiki/The_Linux_Kernel/Softdog_Driver
+
+
+if the machine has the hardware watchdog, and drivers are compiled in,
+the /dev/watchdog will be generated; softdog is /dev/watchdog1 or
+/dev/watchdog2, and the watchdog daemon will use the hardware watchdog
+
+
+if drivers are compiled as module, udev will auto load it, but udev
+will be run after systemd-modules-load.service, and softdog will be
+used
 
 
 -- 
-Jeff Osier-Mixon
-Open Source Community Architect, Intel Corporation
+Best Reagrds,
+Roy | RongQing Li
 
