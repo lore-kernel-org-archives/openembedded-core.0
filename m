@@ -1,20 +1,44 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 603DD6FF6B
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 7481E6AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 09:44:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 22 Jan 2016 01:44:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,330,1449561600"; d="scan'208";a="866059293"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.8.7])
-	by orsmga001.jf.intel.com with ESMTP; 22 Jan 2016 01:44:12 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jan 2016 09:43:59 +0000
-Message-Id: <1453455839-11281-1-git-send-email-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] lib/oe/package_manager: prevent testing an undefined variable
+	Fri, 22 Jan 2016 09:50:16 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id q21so83059339iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 01:50:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=LMyiY0jFy9jmiv8WaYSQ3LjrZpM17oZv2ZsPlDd83CI=;
+	b=DnEko/ij9zwCpUJbiEv96C+qxyExBss6T0B8PwWzebhri9z5o3646ipFaTFPePlCJf
+	zydyrVZNoah3yRZXO39aMOOdnmvS+ufnr/9WsHzQqPJLRk5hWp+bL0q5fH/70ACQmwwi
+	d0eOmIrmiVLYbvVXv1u2zEj146V5q7hUssppvAB8GEnUBHjtZqNL055vUPfFtFHZ9Pdw
+	QclC1vkTU19l+kj2+m+ZVu4SxcD+BJgMVEp5I1d0GaqeLECNKqUPPzGZxc5qD7QTmxL3
+	pZ+eKzZhhy7Y83dxs6XgYqQK07uCyOE4U1KeAgw9WCUlA/J266+Ow0K9hJ2H7t7fd/pL
+	zbLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=LMyiY0jFy9jmiv8WaYSQ3LjrZpM17oZv2ZsPlDd83CI=;
+	b=AUmORu31f6ZOqY5Bq7BQ0m7WkFK+FT5OeNWP8EiBSPDJBuF60fLmQwIbwrz7X67i7+
+	TOd7FDiNnEZqQ0nTVc6k4Z56bVqXaUPLtVwklnYZGQiz98S9eytl5P4aA0I5V2NX9bbK
+	+GBkWywz9Fe0ZojCjWm61yrAA8c6onXhD7GQ14S/CGvVvOo1/HoXuXy3XnxjksipeJ18
+	HM6RgwMwdA/66iEwdm0qg0hEPmXHghGk0D7klHTjRr8jYvmWGrTy28ZcgfUpVtQ0Xv2U
+	zwrVQ7Jxxnxk8fVBcYIhDNijbEbtyA07cHzwzcHbgBJvycUeRIEdbbTnhC9671BIzCP8
+	AiCg==
+X-Gm-Message-State: AG10YOS8CiR69rH61tynqSYCcalKffS0kBWE0X1kBkH98oDrZvKBFY3yewpyNMVWhtWKzH4DXVL6GBwjBlHj0g==
+MIME-Version: 1.0
+X-Received: by 10.107.3.154 with SMTP id e26mr2489147ioi.99.1453456217499;
+	Fri, 22 Jan 2016 01:50:17 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Fri, 22 Jan 2016 01:50:17 -0800 (PST)
+Date: Fri, 22 Jan 2016 10:50:17 +0100
+Message-ID: <CALbNGRSZ+edCEyGJzWbkniTkds6M=PqF3_gD65=fO0JiYOELBA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: opkg pkg_prerm on package update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +51,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 09:44:13 -0000
+X-List-Received-Date: Fri, 22 Jan 2016 09:50:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This prevents an error in do_populate_sdk when building
-buildtools-tarball with ipk as the package manager:
+Hi,
 
-Exception: UnboundLocalError: local variable 'pkg' referenced
-before assignment
+although opkg 0.2 -> 0.3 is long ago I noticed a change in behaviour
+when updating a package:
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/lib/oe/package_manager.py | 1 +
- 1 file changed, 1 insertion(+)
+* 0.2.x did not call pkg_prerm
+* 0.3.x calls pkg_prerm
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 6a6e3e9..5b87f45 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -308,6 +308,7 @@ class PkgsList(object):
-         output = dict()
-         filename = ""
-         dep = []
-+        pkg = ""
-         for line in cmd_output.splitlines():
-             line = line.rstrip()
-             if ':' in line:
--- 
-2.5.0
+Is calling pkg_prerm a valid behaviour when updating a package?
 
+Why I ask this:
+
+systemd.bbclass does
+
+* stop a service on pkg_prerm
+* restart a service on pkg_postinst
+
+This default causes trouble when updating displaymanager within a
+X-session: Displaymanager is stopped - killing the update process...
+
+For opkg 0.2.x a workaround was to override pkg_postinst avoiding
+systemd service restart. This worked properly for all my use cases:
+update / remove.
+
+With the 0.3.x behaviour I can help myself by overriding pkg_prerm and
+pkg_postinst but when removing displaymanger it is not stopped.
+
+Thoughts?
+
+Andreas
 
