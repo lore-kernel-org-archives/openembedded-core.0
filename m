@@ -1,31 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D3BA7680A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F19976DBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 20:39:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0MKdMTV022376
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Jan 2016 12:39:22 -0800 (PST)
-Received: from bruce-ashfields-macbook.local (128.224.22.138) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 22 Jan 2016 12:39:21 -0800
-To: Ming Liu <liu.ming50@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1451999565-3502-1-git-send-email-liu.ming50@gmail.com>
-	<1451999565-3502-2-git-send-email-liu.ming50@gmail.com>
-	<569E90F9.6020806@windriver.com> <569EB15C.9040502@gmail.com>
-	<569F1086.6030400@windriver.com> <56A01873.8010604@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56A29386.1090600@windriver.com>
-Date: Fri, 22 Jan 2016 15:39:34 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.0
-MIME-Version: 1.0
-In-Reply-To: <56A01873.8010604@gmail.com>
-Cc: "Tao, Yue" <Yue.Tao@windriver.com>,
-	Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: Re: [PATCH 1/3] kernel.bbclass: do not install initramfs bundled kernel image
+	Fri, 22 Jan 2016 20:49:18 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id e32so67315563qgf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jan 2016 12:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=dMwDoN08hbTL3r5165MmH+/AAe1PIzVLzKxXCl8wms8=;
+	b=EF3mZz1uCecfe6oCShd+/g6BzgNxfyMpecTAIhoDKyT7YaxAlIsNiZksreM4U8jsnf
+	vS9XtsPWnRlXDuzyhLTe6re0glKb9SL0iW5K0ZZwoEDV/1gjUUZjAH/Ou3MFCY217c3b
+	TI4NheifDAzJSFH/2H+aZW/5suU/cFfdNwEhJfteUYq7mPwKMp/F46zh/p7AZsn00QKZ
+	74SbdBKrBJ93Yc/GgwLpI8w3577vvkX/im27qe9rhhYn/jhER0kewKHPzQcqTRXWuFIp
+	fQkYfkC8aZHtUg186avKx30dYFy4b8jyUNb4BDr0O1SheVS+TdZ+JYIjo9jUlRj+sJKs
+	owYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=dMwDoN08hbTL3r5165MmH+/AAe1PIzVLzKxXCl8wms8=;
+	b=Cvq599nnwxYOYHZj6aRPvD0PaRfOhjXBgCLlMwvBGq/fiuOyGQGEt87IxWqry6yc+h
+	6ksEqqH0IN+JJUPrWkq7i31+nNSYgTfYwsUBaoepFl1bc8mJhu4ISYzGy/B7SqfNKA9g
+	IV+yDzbP50dwmLBar+4M9vnQ12jGQJXVR9xHvr4ks988eMi5P6uRAioDMZAukrvNNtMr
+	RlOhSo5n7mSSuI2cMmmx08dWlppVNPchDH3fmEj3oKzpdtPER1n6fC2/m4K4JEx/VmOk
+	VVM99PeGD+WqSbVV3fpCYDwvvuA8wYefWJcBCD7tprEojuwAKPIQEgxncJ7Dfo5xXert
+	Ebfg==
+X-Gm-Message-State: AG10YOSDHRAvhYmOuS4G3Pkyud4aG5i0qKmYiak7NuYmXg3ssiJglsg5wV5w9nGXT6ylrw==
+X-Received: by 10.140.101.119 with SMTP id t110mr6401394qge.68.1453495759059; 
+	Fri, 22 Jan 2016 12:49:19 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	j23sm3486276qge.23.2016.01.22.12.49.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 22 Jan 2016 12:49:18 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jan 2016 20:49:10 +0000
+Message-Id: <1453495750-104494-2-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.0
+In-Reply-To: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
+References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/2] local.conf.sample: Document HOW-TO enable systemd or busbox to replace sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,112 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 20:39:26 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jan 2016 20:49:19 -0000
 
-On 16-01-20 6:29 PM, Ming Liu wrote:
->
->
-> On 01/20/2016 05:43 AM, Bruce Ashfield wrote:
->> On 2016-01-19 4:57 PM, Ming Liu wrote:
->>>
->>>
->>> On 01/19/2016 08:39 PM, Bruce Ashfield wrote:
->>>> On 16-01-05 08:12 AM, Ming Liu wrote:
->>>>> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->>>>>
->>>>> It makes no sense to install a initramfs bundled kernel image since
->>>>> do_package does not depend on do_bundle_initramfs at all,
->>>>> otherwise, it
->>>>> leads to a implicit kernel-image package depending on do_package run
->>>>> before
->>>>> or after do_bundle_initramfs.
->>>>
->>>> Again. So why not just add the ordering in the task dependencies ?
->>> If we add a intertask dependency like:
->>> add bundle_initramfs before do_install after do_deploy do_package
->>>
->>> Then it will somehow introduce a circular dependency as I described in
->>> another mail.
->>>>
->>>> I'm probably missing something, which just means we need to tweak
->>>> the commit log a bit more.
->>> Maybe I should add some description in commit log about why I think we
->>> could not introduce a intertask dependency as a fix.
->>>
->>
->> That would be ideal, the more information the better.
->>
->>>>
->>>> The code you are removing is conditional, and is run after an
->>>> explicit kernel_do_compile is called, to rebuild the existing
->>>> kernel configuration with an embedded initramfs (via alternate initrd).
->>>> So outside of some ordering/parallel execution issues, I'm not seeing
->>>> it as broken.
->>> Yes, I agree, it will not break the kernel re-compiling, the problem I
->>> want to fix here is just that it does not provide a certain way that we
->>> could add initramfs bundled kernel image into a rootfs.
->>>
->>
->> Speaking of breaking. What happens to existing users of INITRAMFS_IMAGE?
->> Do their existing image types and bundling continue to work without
->> modification ?
-> That depends, the existing users always can find the INITRAMFS_IMAGE
-> bundled kernel in DEPLOY_DIR with or without my patches, it is not
-> broken. But if they want it installed in the rootfs, for some reasons,
-> they will have the problem, like in my company, we want to boot the
-> kernel from /boot/ on a USB disk, but it is not guaranteed we will get
-> the INITRAMFS_IMAGE bundled kernel there during the build.
+OE core provides systemd,busybox as options for system init system along
+with sysvinit being the default. Document the needed settings to enable
+systemd and busybox as options if user wishes.
 
-Right. And if someone isn't doing any initramfs bundling, is there
-any impact ? No variables to change, etc ?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/local.conf.sample | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-I'd suggest double checking meta-initramfs:
-
-http://layers.openembedded.org/layerindex/branch/master/layer/meta-initramfs/
-
-And checking with Andrea to be sure that none of the existing use
-cases are broken.
-
-Bruce
-
->
-> //Ming Liu
->>
->> Bruce
->>
->>> //Ming Liu
->>>>
->>>> Bruce
->>>>
->>>>>
->>>>> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
->>>>> ---
->>>>>   meta/classes/kernel.bbclass | 4 ----
->>>>>   1 file changed, 4 deletions(-)
->>>>>
->>>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>>>> index 4ce1611..d1ca614 100644
->>>>> --- a/meta/classes/kernel.bbclass
->>>>> +++ b/meta/classes/kernel.bbclass
->>>>> @@ -179,10 +179,6 @@ do_bundle_initramfs () {
->>>>>           kernel_do_compile
->>>>>           mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
->>>>>           mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
->>>>> -        # Update install area
->>>>> -        echo "There is kernel image bundled with initramfs:
->>>>> ${B}/${KERNEL_OUTPUT}.initramfs"
->>>>> -        install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs
->>>>> ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
->>>>> -        echo "${B}/${KERNEL_OUTPUT}.initramfs"
->>>>>       fi
->>>>>   }
->>>>>
->>>>>
->>>>
->>>
->>
->
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index a662f4d..b760546 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -209,6 +209,23 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
+ PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+ #ASSUME_PROVIDED += "libsdl-native"
+ 
++#
++# Use busybox/mdev for system initialization
++#
++#VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
++#VIRTUAL-RUNTIME_login_manager = "busybox"
++#VIRTUAL-RUNTIME_init_manager = "busybox"
++#VIRTUAL-RUNTIME_initscripts = "initscripts"
++#VIRTUAL-RUNTIME_keymaps = "keymaps"
++#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
++
++#
++# Use systemd for system initialization
++#
++#DISTRO_FEATURES_append = " systemd sysvinit"
++#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
++#VIRTUAL-RUNTIME_init_manager = "systemd"
++#VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+ 
+ # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+ # track the version of this file when it was generated. This can safely be ignored if
+-- 
+2.7.0
 
 
