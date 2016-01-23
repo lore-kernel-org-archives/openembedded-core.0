@@ -1,42 +1,42 @@
 Return-Path: <straka.derek@gmail.com>
 Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
 	[209.85.192.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E06F377040
+	by mail.openembedded.org (Postfix) with ESMTP id E301977054
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 23:10:20 +0000 (UTC)
-Received: by mail-qg0-f67.google.com with SMTP id b35so7531261qge.2
+	Sat, 23 Jan 2016 23:10:19 +0000 (UTC)
+Received: by mail-qg0-f67.google.com with SMTP id o11so7625168qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 15:10:21 -0800 (PST)
+	Sat, 23 Jan 2016 15:10:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=Kqxiza1MsWc9HrEoJoMngN0ZN6Z9pjCXJQqEvruke68=;
-	b=X0bP5rzMF4jLqUCi1ZifpbjqO1yPrN+xfxTs1d49yZd2qK6oVbtdAkiuHu28U0PvLC
-	AvxKLlZKRkuqqoPTuQFfBEDjJ6brKtNyQp60DHIYM9Dz81DErfBnbocDfgZ/q+L9xMX4
-	9L31cJswGklQMFTphxOsb/aOw2u8ieiOU89X1q9g+bvavA9+OBWU/1UdihfRlxAbcEA/
-	xeEfbexQXxgZBwP/66tF0cgmp8Ody9RlE3rG2YvlzaOcbRo72eWyw5vv5kidZ77qwLgv
-	nTL7sdqkTMBWrIE63E3qFOpxpct8+GztTz5bnyw4ANg+Br33mRVsi9mewzF0v/UWuJt7
-	UMVA==
-X-Gm-Message-State: AG10YOT2+TEjePxCXdS6A3MTkTD6hq0DNQf5s8pbbFnNQDHdCC8DYJ0lNoGHeZAl6d/egw==
-X-Received: by 10.140.201.20 with SMTP id w20mr13497322qha.10.1453590621416;
-	Sat, 23 Jan 2016 15:10:21 -0800 (PST)
+	bh=ThyMAnw41PjK9Uyk+xYZHK0mEI/Mm9TuWjFiWcCDfKs=;
+	b=amFAh6Qg0TxFc5VHVRJ6pYapvwrq38iDQH4dhf0ugwt3UzBcz2zwSYEr80Mg06XSuj
+	1YLh3CAqlXHuEdqZd0Ifc+QR9OYE2eZHvX4i63TnrSFxzuMBi68AORdSu1HuQkzwrXPb
+	rsC/1GJRjKRKB+zVeTnSWrz+Fa7ORTtFa0b1TAdqL/76SvJbgfIKA9JK6XS2HqY86u4Z
+	OVGl1/na85fW0C4CjBcIVkCWJ8aLxF/ZtUcbVe8RZVGqbABWy/4zhkU/XZ8hD2cvH9bG
+	yZvCjhXbry09VhFzpVk3jvIJdT1kxSzzvwuh9Mz6XMtKSy784R8W+690s1V49PMGPp+q
+	p4oQ==
+X-Gm-Message-State: AG10YOTiGbj6czazQ97myxIqMZkwYZF2LJkglPgESwH5qb3zTmLbz1E6/HvF/GVn1CLTfg==
+X-Received: by 10.141.0.4 with SMTP id b4mr13487406qhd.23.1453590620080;
+	Sat, 23 Jan 2016 15:10:20 -0800 (PST)
 Received: from build-slave.star.lab (c-73-172-178-168.hsd1.md.comcast.net.
 	[73.172.178.168])
-	by smtp.gmail.com with ESMTPSA id 67sm5769501qht.14.2016.01.23.15.10.20
+	by smtp.gmail.com with ESMTPSA id 67sm5769501qht.14.2016.01.23.15.10.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Jan 2016 15:10:21 -0800 (PST)
+	Sat, 23 Jan 2016 15:10:19 -0800 (PST)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Jan 2016 18:10:03 -0500
-Message-Id: <603b9c9d49db9fee00b9685bf6113c63df2d5dc2.1453589999.git.derek@asterius.io>
+Date: Sat, 23 Jan 2016 18:10:01 -0500
+Message-Id: <9126b4b2d5fbe537c762f601b772aa5decd8e21a.1453589999.git.derek@asterius.io>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1453589999.git.derek@asterius.io>
 References: <cover.1453589999.git.derek@asterius.io>
 In-Reply-To: <cover.1453589999.git.derek@asterius.io>
 References: <cover.1453589999.git.derek@asterius.io>
-Subject: [meta-python][PATCH 06/13] python-lxml: update to 3.5.0
+Subject: [meta-python][PATCH 04/13] python-cython: update to 0.23.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +52,54 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 23 Jan 2016 23:10:22 -0000
 
 ---
- meta-python/recipes-devtools/python/python-lxml.inc                 | 6 ++++--
- .../python/{python-lxml_3.4.4.bb => python-lxml_3.5.0.bb}           | 0
- .../python/{python3-lxml_3.4.4.bb => python3-lxml_3.5.0.bb}         | 0
- 3 files changed, 4 insertions(+), 2 deletions(-)
- rename meta-python/recipes-devtools/python/{python-lxml_3.4.4.bb => python-lxml_3.5.0.bb} (100%)
- rename meta-python/recipes-devtools/python/{python3-lxml_3.4.4.bb => python3-lxml_3.5.0.bb} (100%)
+ meta-python/recipes-devtools/python/python-cython.inc      | 14 +++++++-------
+ .../{python-cython_0.23.1.bb => python-cython_0.23.4.bb}   |  0
+ .../{python3-cython_0.23.1.bb => python3-cython_0.23.4.bb} |  0
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta-python/recipes-devtools/python/{python-cython_0.23.1.bb => python-cython_0.23.4.bb} (100%)
+ rename meta-python/recipes-devtools/python/{python3-cython_0.23.1.bb => python3-cython_0.23.4.bb} (100%)
 
-diff --git a/meta-python/recipes-devtools/python/python-lxml.inc b/meta-python/recipes-devtools/python/python-lxml.inc
-index 1d5d7f4..ac0f0bd 100644
---- a/meta-python/recipes-devtools/python/python-lxml.inc
-+++ b/meta-python/recipes-devtools/python/python-lxml.inc
-@@ -7,8 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=f9f1dc24f720c143c2240df41fe5073b"
+diff --git a/meta-python/recipes-devtools/python/python-cython.inc b/meta-python/recipes-devtools/python/python-cython.inc
+index 6c8b084..781027f 100644
+--- a/meta-python/recipes-devtools/python/python-cython.inc
++++ b/meta-python/recipes-devtools/python/python-cython.inc
+@@ -1,17 +1,15 @@
+ DESCRIPTION = "Cython is a language specially designed for writing Python extension modules. \
+ It's designed to bridge the gap between the nice, high-level, easy-to-use world of Python \
+ and the messy, low-level world of C."
+-SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
+-SRCNAME = "Cython"
+-BBCLASSEXTEND = "native"
  
- DEPENDS += "libxml2 libxslt"
- 
--SRC_URI[md5sum] = "a9a65972afc173ec7a39c585f4eea69c"
--SRC_URI[sha256sum] = "b3d362bac471172747cda3513238f115cbd6c5f8b8e6319bf6a97a7892724099"
-+PYPI_PACKAGE = "lxml" 
+-SRC_URI = "http://www.cython.org/release/${SRCNAME}-${PV}.tar.gz"
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
++PYPI_PACKAGE = "Cython"
 +
-+SRC_URI[md5sum] = "9f0c5f1eb43ff44d5455dab4b4efbe73"
-+SRC_URI[sha256sum] = "349f93e3a4b09cc59418854ab8013d027d246757c51744bf20069bc89016f578"
++SRC_URI[md5sum] = "157df1f69bcec6b56fd97e0f2e057f6e"
++SRC_URI[sha256sum] = "fec42fecee35d6cc02887f1eef4e4952c97402ed2800bfe41bbd9ed1a0730d8e"
  
- DISTUTILS_BUILD_ARGS += " \
-                      --with-xslt-config='pkg-config libxslt' \
-diff --git a/meta-python/recipes-devtools/python/python-lxml_3.4.4.bb b/meta-python/recipes-devtools/python/python-lxml_3.5.0.bb
+-SRC_URI[md5sum] = "db3c5b365e1c3f71c7cd90e96473a3ab"
+-SRC_URI[sha256sum] = "bdfd12d6a2a2e34b9a1bbc1af5a772cabdeedc3851703d249a52dcda8378018a"
++inherit pypi
+ 
+ RDEPENDS_${PN} += "\
+     ${PYTHON_PN}-netserver \
+@@ -19,3 +17,5 @@ RDEPENDS_${PN} += "\
+     ${PYTHON_PN}-shell \
+ "
+ RDEPENDS_${PN}_class-native = ""
++
++BBCLASSEXTEND = "native"
+diff --git a/meta-python/recipes-devtools/python/python-cython_0.23.1.bb b/meta-python/recipes-devtools/python/python-cython_0.23.4.bb
 similarity index 100%
-rename from meta-python/recipes-devtools/python/python-lxml_3.4.4.bb
-rename to meta-python/recipes-devtools/python/python-lxml_3.5.0.bb
-diff --git a/meta-python/recipes-devtools/python/python3-lxml_3.4.4.bb b/meta-python/recipes-devtools/python/python3-lxml_3.5.0.bb
+rename from meta-python/recipes-devtools/python/python-cython_0.23.1.bb
+rename to meta-python/recipes-devtools/python/python-cython_0.23.4.bb
+diff --git a/meta-python/recipes-devtools/python/python3-cython_0.23.1.bb b/meta-python/recipes-devtools/python/python3-cython_0.23.4.bb
 similarity index 100%
-rename from meta-python/recipes-devtools/python/python3-lxml_3.4.4.bb
-rename to meta-python/recipes-devtools/python/python3-lxml_3.5.0.bb
+rename from meta-python/recipes-devtools/python/python3-cython_0.23.1.bb
+rename to meta-python/recipes-devtools/python/python3-cython_0.23.4.bb
 -- 
 1.9.1
 
