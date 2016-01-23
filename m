@@ -1,42 +1,42 @@
 Return-Path: <straka.derek@gmail.com>
 Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
 	[209.85.192.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E63EF7705D
+	by mail.openembedded.org (Postfix) with ESMTP id E4ECA77058
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 23:10:18 +0000 (UTC)
-Received: by mail-qg0-f67.google.com with SMTP id 94so7509721qgt.1
+	Sat, 23 Jan 2016 23:10:19 +0000 (UTC)
+Received: by mail-qg0-f67.google.com with SMTP id o11so7625175qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 15:10:19 -0800 (PST)
+	Sat, 23 Jan 2016 15:10:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=m5xncimz/flxVfzEqOgUqzjWK9lgfU9Cnk/4m9AAUOM=;
-	b=aNQZ23AHbDrTWJuW0o0ADnekWUw0VeHwL8DJ8w+OtIO9beQ6PBlEe5hRcKQuUIxAvB
-	3pM129wdxGF1sqEqOFuYEltA3tytN9slOSnVmQHVr5Gn06f6uZFtda/tx10B7PHZafR4
-	tUeqIGGtHiepebV3pZT2lBZlCZzgeZGBxOl2V6XLSezi5Cl/0l0/9Y5FjqLFL0Xvgm+L
-	XEg+O8areZZPVg8UlSYifGJj+gEmHJW+1LvDJvXruj+NKodFl3FP5vAFXvnusy+jnLAB
-	GaQVo0PCSnMnQbevXxN7xoV8udM7xBgJDRPfKy4a74uTZzLX2BgnMH2ke3+mPY4ZeeR/
-	yseQ==
-X-Gm-Message-State: AG10YORsvqiRqj8mrl09H5nZIprfrSo9AU52Kc8L3oEPPKm6IxKK8kDpmc6PgzGIxf4o6w==
-X-Received: by 10.140.249.68 with SMTP id u65mr13279261qhc.53.1453590619425;
-	Sat, 23 Jan 2016 15:10:19 -0800 (PST)
+	bh=HcluAA1dxwcBCjDbtUUMOJ35NXI0I+hsdZYSYQcJXJk=;
+	b=l8ha39FPksm/xAK1uUe1usvHBwFPdefNpKWaNupGdGpSwnUtEctQSlxNwugUCLNBkU
+	0QPM2F8Ew4nMBs16p2dxE5DHx/owqYC73wFThL4IC8qQMzPOasB9bSZsRgbgIIMhGnXm
+	1WF6afOAXK79cUr5mv3y3Qr1Ux+k5SSpvExCpNG6QRaDAzcVgZe6AnV13faoxiih+BtK
+	Ms/h468+QwhBAYecRhatuK/KUCngmrbNmuO/cBEghWwRXODp9jHDvQORekNNPNHy+7Bg
+	w4yhyS6me/SkdJApgXpj492gcUHUu4v7HeGAjwWO/YJcaD5jD8gqSlMn0GRj2qv7dcI+
+	yQCQ==
+X-Gm-Message-State: AG10YOS2Mo/IigVBh5QQdKzkzYfPN3z8p+cjNWbTpcS8l6R3Oo4clupB/8H5gqdQOXaTFA==
+X-Received: by 10.140.219.208 with SMTP id p199mr13331745qhb.80.1453590620838; 
+	Sat, 23 Jan 2016 15:10:20 -0800 (PST)
 Received: from build-slave.star.lab (c-73-172-178-168.hsd1.md.comcast.net.
 	[73.172.178.168])
-	by smtp.gmail.com with ESMTPSA id 67sm5769501qht.14.2016.01.23.15.10.18
+	by smtp.gmail.com with ESMTPSA id 67sm5769501qht.14.2016.01.23.15.10.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Jan 2016 15:10:18 -0800 (PST)
+	Sat, 23 Jan 2016 15:10:20 -0800 (PST)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Jan 2016 18:10:00 -0500
-Message-Id: <e9d7ef7044e92e7247a27671f58e24afe5791982.1453589999.git.derek@asterius.io>
+Date: Sat, 23 Jan 2016 18:10:02 -0500
+Message-Id: <897be8375c4d9ac673b1e4f6e2f0383a95c5f9a7.1453589999.git.derek@asterius.io>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1453589999.git.derek@asterius.io>
 References: <cover.1453589999.git.derek@asterius.io>
 In-Reply-To: <cover.1453589999.git.derek@asterius.io>
 References: <cover.1453589999.git.derek@asterius.io>
-Subject: [meta-python][PATCH 03/13] pyrtm: update to 0.4.2
+Subject: [meta-python][PATCH 05/13] python-decorator: update to 4.0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +52,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 23 Jan 2016 23:10:22 -0000
 
 ---
- .../recipes-devtools/python/{pyrtm_0.2.bb => pyrtm_0.4.2.bb}      | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
- rename meta-python/recipes-devtools/python/{pyrtm_0.2.bb => pyrtm_0.4.2.bb} (57%)
+ meta-python/recipes-devtools/python/python-decorator.inc            | 6 ++++--
+ .../python/{python-decorator_4.0.2.bb => python-decorator_4.0.6.bb} | 0
+ .../{python3-decorator_4.0.2.bb => python3-decorator_4.0.6.bb}      | 0
+ 3 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta-python/recipes-devtools/python/{python-decorator_4.0.2.bb => python-decorator_4.0.6.bb} (100%)
+ rename meta-python/recipes-devtools/python/{python3-decorator_4.0.2.bb => python3-decorator_4.0.6.bb} (100%)
 
-diff --git a/meta-python/recipes-devtools/python/pyrtm_0.2.bb b/meta-python/recipes-devtools/python/pyrtm_0.4.2.bb
-similarity index 57%
-rename from meta-python/recipes-devtools/python/pyrtm_0.2.bb
-rename to meta-python/recipes-devtools/python/pyrtm_0.4.2.bb
-index 3d382b9..5d47e2b 100644
---- a/meta-python/recipes-devtools/python/pyrtm_0.2.bb
-+++ b/meta-python/recipes-devtools/python/pyrtm_0.4.2.bb
-@@ -3,7 +3,9 @@ AUTHOR = "Sridhar Ratnakumar / srid"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=a53cbc7cb75660694e138ba973c148df"
+diff --git a/meta-python/recipes-devtools/python/python-decorator.inc b/meta-python/recipes-devtools/python/python-decorator.inc
+index a599fd8..65598c1 100644
+--- a/meta-python/recipes-devtools/python/python-decorator.inc
++++ b/meta-python/recipes-devtools/python/python-decorator.inc
+@@ -9,7 +9,9 @@ decorator, just because you can."
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=41e24e0e235a97e60cdb5c4137fa2cd0"
  
--inherit pypi distutils
-+PYPI_PACKAGE_EXT = "tar.bz2"
+-SRC_URI[md5sum] = "033c9563af492c4ce2680ee6ca481fa7"
+-SRC_URI[sha256sum] = "1a089279d5de2471c47624d4463f2e5b3fc6a2cf65045c39bf714fc461a25206"
++PYPI_PACKAGE = "decorator" 
 +
-+SRC_URI[md5sum] = "7c87da94656b620dfe532ca63d642eb8"
-+SRC_URI[sha256sum] = "b2d701b25ad3f9a1542057f3eb492c5c1d7dbe2b8d1e8f763043dcc14ee1d933"
++SRC_URI[md5sum] = "b17bfa17c294d33022a89de0f61d38fe"
++SRC_URI[sha256sum] = "1c6254597777fd003da2e8fb503c3dbf3d9e8f8d55f054709c0e65be3467209c"
  
--SRC_URI[md5sum] = "34423f39caf7df8a9db8e243be9cf1a0"
--SRC_URI[sha256sum] = "d9d46d096a38cb692b55f4ee9f364d54348298e9497b11c1ef057539b5de1567"
-+inherit pypi distutils
+ inherit pypi
+diff --git a/meta-python/recipes-devtools/python/python-decorator_4.0.2.bb b/meta-python/recipes-devtools/python/python-decorator_4.0.6.bb
+similarity index 100%
+rename from meta-python/recipes-devtools/python/python-decorator_4.0.2.bb
+rename to meta-python/recipes-devtools/python/python-decorator_4.0.6.bb
+diff --git a/meta-python/recipes-devtools/python/python3-decorator_4.0.2.bb b/meta-python/recipes-devtools/python/python3-decorator_4.0.6.bb
+similarity index 100%
+rename from meta-python/recipes-devtools/python/python3-decorator_4.0.2.bb
+rename to meta-python/recipes-devtools/python/python3-decorator_4.0.6.bb
 -- 
 1.9.1
 
