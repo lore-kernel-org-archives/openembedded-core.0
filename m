@@ -1,47 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BBF2F770C5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 295EE6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 04:55:32 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id mw1so4282971igb.1
+	Sat, 23 Jan 2016 09:40:02 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id 77so110690042ioc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 20:55:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Sat, 23 Jan 2016 01:40:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=zmNuKo6P7Mzffgzx5DZtXi2azmqV7Fhvq9VwaGC6NGA=;
-	b=L0nUyyJhhQmUTsf8+47rSv46gM2i2/zSEGFphLRubezVQeS/DD9O3CyUv5ojqRqNP9
-	gDP3VQ5vZcQC37XKgwsXEKiF+O105snr1oY6LvEsM3v857EFH8jZ/YvR3Gmp4XlpJO/O
-	PwX8/SzussanzL1ZGLVeI2E1qnxil3q3F5HqFcWftKKIdz+jMB0PvLqb/7yNJDOcUDXy
-	T8X3gMOMZfoZUmwt16D3w1MXr5tcSJXaWL+96vHQiBHz25JaFEYwXlu91LqMKfJltj5F
-	f6kkEyyPm6ImzpHGm6twUnDdpWggZWAQZYoNeDjbz2+rysPWn/jxTO4XFU3mPEjRkuce
-	7GMw==
+	bh=e+iMP0l7S7Z/iFsYEkbecLCbBbXWAay1WSWmHQLlwMc=;
+	b=GhwTr03HnBttouHtuX0zFD9lPcNU7B8vHpY2/A3Gg3zFizPey4JfDaNvEjqu0w8kJ1
+	JXfk9ES4f8Ox2+eTYpQGWS8yQ8ryDkH2s12wDyjBHvPeKf/fpQo4VTGjS9wx7oHXPajm
+	iQsT93FIrYak5oDomkZiwZF7LsdCl8/1fB5n8JAt0+pmObFGaZHo1BdDNxsCwCyOvagQ
+	A8qvbVRVoqaD1t3RX3AtlOFnKUhD7qywG9jar2I33h+2d7NEfZGbf26eXe826MKhxQbi
+	i+RJdlp2yNac/etUb5Wm0oF587ULx4bU2NggSzOavfUZccFlDM4XQzzgsXnI+4+1h6eh
+	jbbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=zmNuKo6P7Mzffgzx5DZtXi2azmqV7Fhvq9VwaGC6NGA=;
-	b=Oji2lF50cIYm2pmqzvI/KisUAr4jPv7qbsKPUGf/+KddeacbhMykHQe+8CL41HaGz+
-	AfmC6U6Tvk2SlE1bQ9CRZhIRIrABofL6vzAhr5v6P9vCEYIeN7Yv1TiiIaqVAwtktGrL
-	tZcjGQp1zJPL9GRCsytfA/rqXgkTnyblSzxuoOjw9NVAb0PPp7GUcxTtZyYI82kcz0M8
-	cNfXE1BIf7UP/yQWpg/vFTaDTOcry2ZhAagE6G43Befkq2tSj+NgZG2ye5R5fDFgCr/0
-	9U8jnIYL0sRZvHsvp5VIfdsgZFSChNkVg45xnzI88jRu7p4zJAv41+NxErttr1RpZ4f2
-	Ay3g==
-X-Gm-Message-State: AG10YOQzEpbYStECc4wrphm2ieDxRwjYm2356SdAvxjDDSOCpGctZ20eqjkig3jFrEJis+Wo527U9Q77fSR6Zg==
-X-Received: by 10.50.141.226 with SMTP id rr2mr6438528igb.75.1453524933532;
-	Fri, 22 Jan 2016 20:55:33 -0800 (PST)
+	bh=e+iMP0l7S7Z/iFsYEkbecLCbBbXWAay1WSWmHQLlwMc=;
+	b=EMp9fzGF+KwZU4OUaGfxhNnROe384C6hBCsyqar/KfmEqKv4T6QdUFkcZ+bm/dNoyF
+	iEO+BT6tK1qeA5M9Jx5edss+uoapN5T3Q4N9OTkooCi2clDgSZN/FYGi0jDe85aRn0A7
+	MJbkGO8Tp2pxaldovR6CCCkpZM+fk9LfPEXoXLasMw7nL/EJl2K2SQubgSUnyfrYpap6
+	H+gaoQZU9hIMkCvvKJMRcVPgQMSd3rMY62XkshqKzqk5KF482y9OHKVjpOWyshzG0+Rg
+	QClTXvFGc9CQq9VDYWDpJ31s4ArJwqTkteetUqiUgKkgi82kfE0/fWl/c6RA0IFquTIU
+	udUA==
+X-Gm-Message-State: AG10YOTjJCXuW3xKi7yHe0BDA7gYHQxkfSU4FlJ+3pNoYDiLedgKJ99lKPsu4BYcqehebWGoT6giD5NOrlyTqgt8
+X-Received: by 10.107.164.161 with SMTP id d33mr7067492ioj.148.1453542003631; 
+	Sat, 23 Jan 2016 01:40:03 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Fri, 22 Jan 2016 20:55:03 -0800 (PST)
-In-Reply-To: <1453433025-25280-1-git-send-email-armccurdy@gmail.com>
-References: <1453433025-25280-1-git-send-email-armccurdy@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Jan 2016 20:55:03 -0800
-Message-ID: <CAMKF1sqwNy8HJ0taYMVT-yi8tOg24bFp7v2Syu_d4yG1SXQMJw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+Received: by 10.107.162.70 with HTTP; Sat, 23 Jan 2016 01:39:44 -0800 (PST)
+In-Reply-To: <CAMKF1sobhDsXQ1ag9ZfrdHQyka7Y88C-thvzvMADa_V5C=9rqg@mail.gmail.com>
+References: <cover.1453427632.git.Qi.Chen@windriver.com>
+	<2123a9457649d41670e9c35ad4b77a80064c95ed.1453427632.git.Qi.Chen@windriver.com>
+	<CAMKF1sobhDsXQ1ag9ZfrdHQyka7Y88C-thvzvMADa_V5C=9rqg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 23 Jan 2016 09:39:44 +0000
+Message-ID: <CAJTo0LYPF=bkqU_OGwCU5NZOgDja70Xsr338xJo6rJCf6MNpxA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio.inc: drop obsolete dependency on liboil
+Subject: Re: [PATCH 1/1] systemd: work around the boot problem on qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jan 2016 04:55:32 -0000
+X-List-Received-Date: Sat, 23 Jan 2016 09:40:04 -0000
+Content-Type: multipart/alternative; boundary=001a1141c976caff4a0529fd1ece
+
+--001a1141c976caff4a0529fd1ece
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jan 21, 2016 at 7:23 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Pulseaudio dropped its dependency on liboil in 2009.
+On 23 January 2016 at 04:52, Khem Raj <raj.khem@gmail.com> wrote:
+
+> This is general aarch64 problem, so make this across all aarch64
+> this is the original problem
 >
->   http://cgit.freedesktop.org/pulseaudio/pulseaudio/commit/?id=25724cdd40283a00e6edd9449d0f3cf16823b41b
+> https://github.com/systemd/systemd/pull/1190#issuecomment-166294683
 >
 
-ah discard my another message.
-but also drop liboil
+And according to that link, is a binutils problem.  Can't we just fix that
+instead?
 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index ec73526..b278115 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
->                      file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->                      file://src/pulsecore/resampler.h;beginline=4;endline=21;md5=09794012ae16912c0270f3280cc8ff84"
->
-> -DEPENDS = "libatomic-ops liboil libsndfile1 libtool"
-> +DEPENDS = "libatomic-ops libsndfile1 libtool"
->  # optional
->  DEPENDS += "udev alsa-lib glib-2.0 gconf"
->  DEPENDS += "json-c gdbm speexdsp libxml-parser-perl-native libcap"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
+--001a1141c976caff4a0529fd1ece
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 January 2016 at 04:52, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":10kq" class=3D"a3s" st=
+yle=3D"overflow:hidden">This is general aarch64 problem, so make this acros=
+s all aarch64<br>
+this is the original problem<br>
+<br>
+<a href=3D"https://github.com/systemd/systemd/pull/1190#issuecomment-166294=
+683" rel=3D"noreferrer" target=3D"_blank">https://github.com/systemd/system=
+d/pull/1190#issuecomment-166294683</a></div></blockquote></div><br>And acco=
+rding to that link, is a binutils problem.=C2=A0 Can&#39;t we just fix that=
+ instead?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--001a1141c976caff4a0529fd1ece--
