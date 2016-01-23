@@ -1,37 +1,39 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9176376FC4
+Return-Path: <bmouring@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 849216FF01
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 16:28:05 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id o11so79942441qge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 08:28:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=C4kY6PtxldnyYCkMYGiKUFwsOz6lg/fyM41ZXuRVfKY=;
-	b=UJTUMG245LglBsNMaohuz7NSDTedcKDtR/QdTlOnHyx6cGs69YTZ7hk/fvF7O8Ejki
-	hF0BBFt62OIdgty6uhXqVwHkQDuegylX1jPxwQ7Wt3xNKYqafp9IIaNmkmv2506pKqP+
-	3vLc41kQkvYm86GJHNnsxWB8LNtCMRZ+A2LdEKeE5oBfLfUFtCZEzcyBSZu4ugIjp+Q7
-	9Jtev5tCm8aRG6OQ/czdTebcwehD2zNSqBelzSfXKwXQvdptKczPIikQ40YHoKhWYbCR
-	Nkwa3I/1QXrjk2vFbPAWXzV5jPI4z2XIG51+rmzcIvjjh8CExgb1HKlC617HurTpGaCp
-	+Fgg==
-X-Gm-Message-State: AG10YOQrXfDBJenpLZg8Ct90SwS2StXDSwLF8nwQh6cbNEnCp9NNAvPxlasL7RLF3/wlzQ==
-X-Received: by 10.140.101.130 with SMTP id u2mr11515267qge.71.1453566486366;
-	Sat, 23 Jan 2016 08:28:06 -0800 (PST)
-Received: from build-slave.star.lab (c-73-172-178-168.hsd1.md.comcast.net.
-	[73.172.178.168]) by smtp.gmail.com with ESMTPSA id
-	s64sm5169844qgd.28.2016.01.23.08.28.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Jan 2016 08:28:05 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Jan 2016 11:27:57 -0500
-Message-Id: <1453566477-30040-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 1.9.1
-Cc: Derek Straka <derek@asterius.io>
-Subject: [meta-python][PATCH] python-ujson: update to 1.35
+	Sat, 23 Jan 2016 18:36:17 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0NIaH5l031270; Sat, 23 Jan 2016 12:36:17 -0600
+Received: from zardoz.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with SMTP id 2016012312361604-224103 ;
+	Sat, 23 Jan 2016 12:36:16 -0600 
+Received: by zardoz.amer.corp.natinst.com (sSMTP sendmail emulation);
+	Sat, 23 Jan 2016 12:36:15 -0600
+From: bmouring@ni.com
+Date: Sat, 23 Jan 2016 12:36:15 -0600
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160123183615.GA32740@zardoz.amer.corp.natinst.com>
+References: <1453486432-24073-1-git-send-email-brad.mouring@ni.com>
+	<CAJTo0La_+cYqBCVy384W4cXTGk322TRj7c+zJGHw9kBH+msPoQ@mail.gmail.com>
+	<20160122232539.GA28611@zardoz.amer.corp.natinst.com>
+	<CAJTo0LYZ8qx_f8n2MfFprP6YKSSY8D=bAbdoAuShWkXtE4kVdQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYZ8qx_f8n2MfFprP6YKSSY8D=bAbdoAuShWkXtE4kVdQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/23/2016 12:36:17 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/23/2016 12:36:17 PM,
+	Serialize complete at 01/23/2016 12:36:17 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-23_09:, , signatures=0
+Cc: bmouring@ni.com, Brad Mouring <brad.mouring@ni.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] avahi: Add patch to fix Win10 mDNS issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jan 2016 16:28:08 -0000
+X-List-Received-Date: Sat, 23 Jan 2016 18:36:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  - source file extension change
-  - license updated for whitespace modifications and author entity name change
----
- .../python/{python-ujson_1.33.bb => python-ujson_1.35.bb}         | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta-python/recipes-devtools/python/{python-ujson_1.33.bb => python-ujson_1.35.bb} (65%)
+On Fri, Jan 22, 2016 at 11:36:44PM +0000, Burton, Ross wrote:
+> On 22 January 2016 at 23:25, <bmouring@ni.com> wrote:
+> 
+> > > Can you add this to the SRC_URI assignment in avahi.inc please.
+> >
+> > I did this initially, but considering that the next version of avahi will
+> > include this change, I didn't think that was the best approach. I'm fine
+> > with including it there, but it didn't seem right to me. Convince me
+> > that it's the correct place to put the change.
+> 
+> 
+> Mainly for consistency: all the other patches are listed in the SRC_URI in
+> avahi.inc.
+> 
+> Another good reason is that it ensures that both avahi and avahi-ui get
+> built with the same source.
 
-diff --git a/meta-python/recipes-devtools/python/python-ujson_1.33.bb b/meta-python/recipes-devtools/python/python-ujson_1.35.bb
-similarity index 65%
-rename from meta-python/recipes-devtools/python/python-ujson_1.33.bb
-rename to meta-python/recipes-devtools/python/python-ujson_1.35.bb
-index 8fdd2b8..8cd7858 100644
---- a/meta-python/recipes-devtools/python/python-ujson_1.33.bb
-+++ b/meta-python/recipes-devtools/python/python-ujson_1.35.bb
-@@ -3,16 +3,16 @@ DESCRIPTION = "UltraJSON is an ultra fast JSON encoder and decoder written in pu
- HOMEPAGE = "https://pypi.python.org/pypi/ujson"
- 
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=5b206f6ba5e41c60df8cdcddf79a3d82"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=008b4463162884ce4a43480de2e750f4"
- 
- SRCNAME = "ujson"
- 
- SRC_URI = " \
--    http://pypi.python.org/packages/source/u/ujson/${SRCNAME}-${PV}.zip \
-+    http://pypi.python.org/packages/source/u/ujson/${SRCNAME}-${PV}.tar.gz \
- "
- 
--SRC_URI[md5sum] = "8148a2493fff78940feab1e11dc0a893"
--SRC_URI[sha256sum] = "68cf825f227c82e1ac61e423cfcad923ff734c27b5bdd7174495d162c42c602b"
-+SRC_URI[md5sum] = "42f77b0cce686dfa4da2e68480b1dd24"
-+SRC_URI[sha256sum] = "f66073e5506e91d204ab0c614a148d5aa938bdbf104751be66f8ad7a222f5f86"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
+Good enough reasoning for me. As I noted, I was on the fence anyway. Comment
+to that effect in the recipe, simply leave it to the commit message, or
+some exotic ${bb shell} conditional include?
+
+I'll submit v2 on Monday. Thanks for the feedback.
+
+> Ross
+
 -- 
-1.9.1
-
+Brad Mouring
+Senior Software Engineer
+National Instruments
+512-683-6610 / bmouring@ni.com
 
