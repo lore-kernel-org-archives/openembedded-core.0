@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D69977058
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D7377058
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 01:26:15 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id e65so4055392pfe.0
+	Sat, 23 Jan 2016 01:26:21 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id pv5so3841073pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 17:26:17 -0800 (PST)
+	Fri, 22 Jan 2016 17:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zvO5tJgECyzNATKCrcV42FLuOh5PrVTJ5Ye/G+OgNy4=;
-	b=PPsZRX5cUjNsMYnLqvgBg6LoKSDe+lf1LAJnb11U+yF8K4xpyVwPFdPvFWv53YK8tO
-	3TZDI6VoJ9OioJPhICoa3HWdIvQtgPW2R2btushwy1QTxDf+M82HOP1Tp9mzjKosYzSa
-	+M57QNf0Ca8RORMBxc/smUmk3Y7aJhsa4yf4b0H0whbnlXY1d94Sb3jWqDl2/jz+sgfc
-	skiux4k0BxuRHbsnGQdhbOe9WTWgIdZxU4FW0aAHd6MuDSr3Eg5HxHmOCMvcoAeKqGQG
-	ANdDq6VeLfFkOv75anUfU/eV1gGe4PIbRrCSVUc+qumE2x/8vR6I8d+Zx1td0+pVA+mj
-	H+AQ==
+	bh=A8Q7dSmyFDU1zapTVqU/o1XMNDWBipip52fj8fao8Sk=;
+	b=NVNccHiMruv7+KvAqJdkrKvSxFDCQ7ypd26GZdvQoPU44Qj7dBQno7TtJrxs0O0Z90
+	Z5X3WF/Ne7/qrFTzNXzqRi7hPyNA1VDMvSwPfE/sCKMNcJ7yQJn6vwaKhPdhmJztfDOC
+	bSnBBlDh8RTEdlMwrKHgvj3GPWN5kCNbcBccF7F3P2O9/Ikrnt8zvhwvTTrWJyEYowMV
+	r3xHSy5xvO/M3G8raFoQyji9nI5AvqGaPZqhLKSEpjI+xleZROQAi6CsVKHpj0ZtuxlD
+	m9WcReR0W5g0GF8dPhQyYAv41FxSCrvxt6T3YkFSNI97x2hk+ee/OxTbwSVn8nKj74js
+	uh8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zvO5tJgECyzNATKCrcV42FLuOh5PrVTJ5Ye/G+OgNy4=;
-	b=movX5znqG5lI0zdaLCmTgAVwi/8r5uHbjNz0OiFtAooteJrE1GqnMXp58M8ggwHMIl
-	SfJWGuYddwn1n+ntdr3FLgie1R5Wnpx8AW+ms/eWynknLbbaRFJAV4cSqqgXYxRpMEBj
-	G+nPN16JirIQMiW5VHNOq6+XltCzgI2OzbJSRsbzao310ouJR+ahye5QVGMb1+7wBUA9
-	CHX5jeVkzIm9vw4/Mnj5C6C4Wlf6uprwK6Azj0ann5Wrq5TaybOVfZmQFBUNslOmFnuh
-	TmbqmT1rdRXWGVregiRjGVB17vtzILOBrA90vuZlyTR01TCTYLOArbxvywdzHequ7bxz
-	JKng==
-X-Gm-Message-State: AG10YOQbmgUMNtKizLDg86XAXGNjZgWK87cZssGhoQLqKu/5vb5jtohHEVuBU2LNL4Tq/Q==
-X-Received: by 10.98.80.79 with SMTP id e76mr8761187pfb.126.1453512376811;
-	Fri, 22 Jan 2016 17:26:16 -0800 (PST)
+	bh=A8Q7dSmyFDU1zapTVqU/o1XMNDWBipip52fj8fao8Sk=;
+	b=mBU/hmDWGEfegZ1gcHkwiuEf1LhmATolXyR1QdQkc7L5F7lA+LeMKSLbvrDp6AdCPX
+	PddM16whKfiGYRrFwUgfTXSOo0O5K/aWYkLHQWsrp+dwcnD9ZRKSDqDXLSPwl0mWguWF
+	lIyV92ryo9oAaxvy83+Al/9VviagLUl95sFLE3ECPPKFyJianf94pJByjB8c1xjJgOTh
+	9pVbBiJ+44fbNr6lOKUFnsHH4Ew6IeTUzBxl3LigjqSzvS/TXsO524DqL6McPEXkHMvv
+	xKuSXzpqfA9reNeLBVRX195tj0JbkTmTUfC0cVBXdpaysbtLLMRrmKDM0xNl86p+3i2z
+	jK6w==
+X-Gm-Message-State: AG10YORhR27lTGEgXivZEYGVHBCHrxn+0XEF3Hvnb1xaveTs0d4BpvhGpU1hpgJ1WI4n4w==
+X-Received: by 10.66.218.40 with SMTP id pd8mr8843132pac.159.1453512382791;
+	Fri, 22 Jan 2016 17:26:22 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	qz9sm12302299pab.39.2016.01.22.17.26.15
+	qz9sm12302299pab.39.2016.01.22.17.26.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Jan 2016 17:26:15 -0800 (PST)
+	Fri, 22 Jan 2016 17:26:21 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jan 2016 17:25:59 -0800
-Message-Id: <1453512366-11405-2-git-send-email-armccurdy@gmail.com>
+Date: Fri, 22 Jan 2016 17:26:00 -0800
+Message-Id: <1453512366-11405-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453512366-11405-1-git-send-email-armccurdy@gmail.com>
 References: <1453512366-11405-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/7] sqlite3: fix the parallel build fix patch
+Subject: [PATCH 2/7] sqlite3.inc: fix readline PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,72 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jan 2016 01:26:16 -0000
+X-List-Received-Date: Sat, 23 Jan 2016 01:26:24 -0000
 
-The previous parallel.patch broke dynamically linking sqlite3 with
-libsqlite3.so (ie using the --disable-static-shell configure option).
+Make it clearer that readline support for the target build is now
+disabled by default.
+
+Since readline dependencies and configure options are now handled by
+PACKAGECONFIG, avoid duplicating readline in DEPENDS or duplicating
+--disable-readline in EXTRA_OECONF.
+
+Also add --disable-editline to EXTRA_OECONF to avoid a potential
+floating dependency, since the configure script checks for libedit
+before it checks for libreadline.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-support/sqlite/sqlite3/parallel.patch | 46 +++++++++++++---------
- 1 file changed, 27 insertions(+), 19 deletions(-)
+ meta/recipes-support/sqlite/sqlite3.inc | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/parallel.patch b/meta/recipes-support/sqlite/sqlite3/parallel.patch
-index 87471f0..7b886a6 100644
---- a/meta/recipes-support/sqlite/sqlite3/parallel.patch
-+++ b/meta/recipes-support/sqlite/sqlite3/parallel.patch
-@@ -1,24 +1,32 @@
--build: Fix parallel build problems
-+From 140476c3e6a6f497bdd95c0c039cb9a680f5a414 Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Fri, 22 Jan 2016 15:53:04 -0800
-+Subject: [PATCH] parallel build fix
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 5eb5de3..7245285 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -1,15 +1,16 @@
+ SUMMARY = "Embeddable SQL database engine"
+ HOMEPAGE = "http://www.sqlite.org"
+ SECTION = "libs"
+-DEPENDS = "readline ncurses"
+-DEPENDS_class-native = ""
+ LICENSE = "PD"
  
--Avoid parallel build errors related to sqlite3.o target.
-+When statically linking the sqlite3 binary, ensure that it depends on
-+its own version of sqlite3.o, instead of the version being built (in
-+parallel) for use in the libsqlite3.a static library.
+ inherit autotools pkgconfig
  
- Upstream-Status: Pending
- 
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
- ---
--diff -Naur sqlite-autoconf-3100000-orig/Makefile.am sqlite-autoconf-3100000/Makefile.am
----- sqlite-autoconf-3100000-orig/Makefile.am	2016-01-06 14:03:00.000000000 +0200
--+++ sqlite-autoconf-3100000/Makefile.am	2016-01-12 13:14:03.620117514 +0200
--@@ -6,10 +6,8 @@
-- libsqlite3_la_LDFLAGS = -no-undefined -version-info 8:6:8
-- 
-- bin_PROGRAMS = sqlite3
---sqlite3_SOURCES = shell.c sqlite3.h
---EXTRA_sqlite3_SOURCES = sqlite3.c
---sqlite3_LDADD = @EXTRA_SHELL_OBJ@ @READLINE_LIBS@
---sqlite3_DEPENDENCIES = @EXTRA_SHELL_OBJ@
--+sqlite3_SOURCES = shell.c sqlite3.c sqlite3.h
--+sqlite3_LDADD = @READLINE_LIBS@
-- sqlite3_CFLAGS = $(AM_CFLAGS)
-- 
-- include_HEADERS = sqlite3.h sqlite3ext.h
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
+-EXTRA_OECONF = "--enable-shared --enable-threadsafe"
+-EXTRA_OECONF_class-native = "--enable-shared --enable-threadsafe --disable-readline"
+-PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline"
++PACKAGECONFIG ?= ""
++PACKAGECONFIG_class-native = ""
 +
-+diff --git a/configure.ac b/configure.ac
-+index e9b3950..0e8f043 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -129,7 +129,7 @@ AC_ARG_ENABLE(static-shell, [AS_HELP_STRING(
-+   [statically link libsqlite3 into shell tool [default=yes]])], 
-+   [], [enable_static_shell=yes])
-+ if test x"$enable_static_shell" == "xyes"; then
-+-  EXTRA_SHELL_OBJ=sqlite3.$OBJEXT
-++  EXTRA_SHELL_OBJ=sqlite3-sqlite3.$OBJEXT
-+ else
-+   EXTRA_SHELL_OBJ=libsqlite3.la
-+ fi
-+-- 
-+1.9.1
++PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline ncurses"
 +
++EXTRA_OECONF = "--enable-shared --enable-threadsafe --disable-editline"
+ 
+ export config_BUILD_CC = "${BUILD_CC}"
+ export config_BUILD_CFLAGS = "${BUILD_CFLAGS}"
 -- 
 1.9.1
 
