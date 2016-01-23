@@ -1,42 +1,42 @@
 Return-Path: <straka.derek@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EE2F7705C
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B4B577065
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 23 Jan 2016 23:10:23 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id q184so3930488qkb.0
+Received: by mail-qk0-f193.google.com with SMTP id q184so3930491qkb.0
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 23 Jan 2016 15:10:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=XyoqeLGaOzw+GsSbiCZoPACmk+gEj5Y8ZjVYK58Ql9E=;
-	b=k1RzaSNLbmafEZjbPF+iwGckWN8pGjx5yfGLm0f6I0nrCa6UzM66Tvv9AR3OeX+uTi
-	XrJfOGV7ZGMqFlHUjYvdiDLA/yksMnde3I1QBibBVzc8cZkhVtWIsP5+y+Ou+7NmfPyz
-	6TETIemSw901e5ELzyEXQp2pv3hVlqGk/jG84Fy/zpUBlyf/0qx6xIFZgSWPwtQx+49W
-	XvWT2V9v/k8aR5DW1YY2quaKBRr0yawiJtlHo9WXUcRhWf2tKK2p4H/b4N1KE+gVRdxK
-	IOBPjEAn7E+9BTyojxl3OlEFSc8pbPoLxRv3OFkB229XVzHgjIUN0TOkktBtKd4PdEI3
-	KgfQ==
-X-Gm-Message-State: AG10YORAHHhsWvjLvMVTQlpS2fjkbwD7A58SfK71mtABZIvITXkTl/1r26BKL/Jf0AyMww==
-X-Received: by 10.55.71.195 with SMTP id u186mr12608659qka.38.1453590623979;
-	Sat, 23 Jan 2016 15:10:23 -0800 (PST)
+	bh=golBVG4Y5EEhjIywG0qUEmCnak2nHhXAcT06YPfZvAI=;
+	b=fngkCd+hfgFSfLOAe/+a8zFecKFRj5KbGKtnQh9P5i3ScGdjyMbNsBWBwwMaDQ8bxi
+	IAIT0M8c8lgk06bzTTAuunK6xD454Kzako84Sga9+sVyyfkX115nmBFXwJQzucPV2d+T
+	Tpvng598EMDr+rvNqr0en7hkZAFZ3wkth83dSFJXCnQxjZVEZgX5PWclRMXg4PiW+KBh
+	+iG7SirK6V4WKNbJAtBx4Ko+yoTsOBBb2TP6HpQKqJTgnmrG/GcZ2lrQ2ORo9B8Q1N4D
+	IYGqqhhRtKiu8RRTUTsNMS5XNQEqY0Q+mlbbwBWoXXU/IWkeGtatJGhnbMre9cfYEDV0
+	R7gg==
+X-Gm-Message-State: AG10YOTEjhM3KD4BQSiSL3VXlB5NgIjPSd5p8QdFR6nZFZttN1YX8PwQPjHandSxaALSaA==
+X-Received: by 10.55.78.207 with SMTP id c198mr12489969qkb.34.1453590624562;
+	Sat, 23 Jan 2016 15:10:24 -0800 (PST)
 Received: from build-slave.star.lab (c-73-172-178-168.hsd1.md.comcast.net.
 	[73.172.178.168])
-	by smtp.gmail.com with ESMTPSA id 67sm5769501qht.14.2016.01.23.15.10.23
+	by smtp.gmail.com with ESMTPSA id 67sm5769501qht.14.2016.01.23.15.10.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Jan 2016 15:10:23 -0800 (PST)
+	Sat, 23 Jan 2016 15:10:24 -0800 (PST)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Jan 2016 18:10:07 -0500
-Message-Id: <8478bbd6a16a5f7e25514a2a5da4fba77e5d57a0.1453589999.git.derek@asterius.io>
+Date: Sat, 23 Jan 2016 18:10:08 -0500
+Message-Id: <6180683641385982dbb76a9062302dac110f6224.1453589999.git.derek@asterius.io>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1453589999.git.derek@asterius.io>
 References: <cover.1453589999.git.derek@asterius.io>
 In-Reply-To: <cover.1453589999.git.derek@asterius.io>
 References: <cover.1453589999.git.derek@asterius.io>
-Subject: [meta-python][PATCH 10/13] python-cmd2: update to 0.6.8
+Subject: [meta-python][PATCH 11/13] python-daemonize: update to 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,28 +52,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 23 Jan 2016 23:10:28 -0000
 
 ---
- .../python/{python-cmd2_0.6.7.bb => python-cmd2_0.6.8.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-python/recipes-devtools/python/{python-cmd2_0.6.7.bb => python-cmd2_0.6.8.bb} (66%)
+ .../{python-daemonize_2.4.1.bb => python-daemonize_2.4.2.bb}       | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta-python/recipes-devtools/python/{python-daemonize_2.4.1.bb => python-daemonize_2.4.2.bb} (67%)
 
-diff --git a/meta-python/recipes-devtools/python/python-cmd2_0.6.7.bb b/meta-python/recipes-devtools/python/python-cmd2_0.6.8.bb
-similarity index 66%
-rename from meta-python/recipes-devtools/python/python-cmd2_0.6.7.bb
-rename to meta-python/recipes-devtools/python/python-cmd2_0.6.8.bb
-index 0ae5c43..f4962d6 100644
---- a/meta-python/recipes-devtools/python/python-cmd2_0.6.7.bb
-+++ b/meta-python/recipes-devtools/python/python-cmd2_0.6.8.bb
-@@ -3,8 +3,8 @@ HOMEPAGE = "http://packages.python.org/cmd2/"
+diff --git a/meta-python/recipes-devtools/python/python-daemonize_2.4.1.bb b/meta-python/recipes-devtools/python/python-daemonize_2.4.2.bb
+similarity index 67%
+rename from meta-python/recipes-devtools/python/python-daemonize_2.4.1.bb
+rename to meta-python/recipes-devtools/python/python-daemonize_2.4.2.bb
+index e10c853..9c0bc8d 100644
+--- a/meta-python/recipes-devtools/python/python-daemonize_2.4.1.bb
++++ b/meta-python/recipes-devtools/python/python-daemonize_2.4.2.bb
+@@ -1,16 +1,15 @@
+ SUMMARY = "Library to enable your code run as a daemon process on Unix-like systems"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://setup.py;beginline=21;endline=21;md5=a00047b7e92e0781452d0beba4e7b44e"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=13e982bf1b7b164b9d6d1665dac83873"
+-SRCNAME = "daemonize"
  
--SRC_URI[md5sum] = "842df29ff2f72d64d7f0d917039c0e51"
--SRC_URI[sha256sum] = "8e98c7a1cfd106183559240b269e7cd9fe97e8342b5c05295f591aab6fd2f4f0"
-+SRC_URI[md5sum] = "c32c9a897e010c977b50c1ddc13f09fe"
-+SRC_URI[sha256sum] = "ac780d8c31fc107bf6b4edcbcea711de4ff776d59d89bb167f8819d2d83764a8"
+ inherit pypi
  
- inherit pypi setuptools
- 
++SRC_URI[md5sum] = "bb5b341b94abc15d6788002cafaa9da4"
++SRC_URI[sha256sum] = "c21a94cd676d3fbb718af62e6f22209afc7000a9588169b6fb779d62b04e2378"
++
+ RDEPENDS_${PN} = "\
+                python-fcntl \
+                python-unixadmin \
+                python-logging \
+                python-resource \
+ "
+-
+-SRC_URI[md5sum] = "f08ad971573a1d83d2d4adab13f59448"
+-SRC_URI[sha256sum] = "2fbe8a4af6bafb3f53d64b8c05c073bfff6c8bc829b83563f5774b0052fc656e"
 -- 
 1.9.1
 
