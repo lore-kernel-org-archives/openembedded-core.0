@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CFF7677058
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FF337708E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jan 2016 01:26:23 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id a20so3848137pag.3
+	Sat, 23 Jan 2016 01:26:25 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id a20so3848159pag.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 17:26:24 -0800 (PST)
+	Fri, 22 Jan 2016 17:26:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=O0/2riLfXl8dQeYWJkkWSERLTTBfmnBLWGdu7Bw0nRo=;
-	b=NaFKPEi6hebCqDAk8WlcPINYRs+NNczMjTZuBNnMioJ5q33E9j23TWc0fmvxqj/E0m
-	gvqqWFL5yFE/g7bk5Zqn9ppf24934KFRQwxEpDiV9Ze0KdiQidxxnOWLUGj4n98eQ+mS
-	mnGWAeYpJlFX1q+QF8zPbNYKRCzwjbAQ4RgSsSzyOJISuiK6TECeVttQxfb3t39Pvw+F
-	wCoRjC79XXVYZqzT+HirjWlZwf/3TLXAAM9rXNfTatou0CAeBf1yzHYFN5YZ08qlusjj
-	PkOFmVNMuB3Hjtasw4EUi7+MRbH5FYwYAIm9o/++wtZuMJJiqYczTgiZPGnuaGn8K6BH
-	aumA==
+	bh=vB6UItG4wEhIIEeKcas2KfO9uZoHrLr6HkS9LqfSV/U=;
+	b=d105xXcfM4LYgaBW4Pl0bJP01//ru8pzGtW7026NJpqH9mHwzfj88ycvuZ/07Gk+hR
+	thD83hNy87zKZm2IAYMqcCF7rvL/CLcsUdysOut+3wBuj+rNRJvtJBFTd+S/FLZMbyFD
+	1LDnGN2ItSohBB7S9WXdwWWP/MY/iSZU3qvPGifbNMOKmiGFr/oKHVWiGeUshNy1iuQR
+	jdNebUzBP7tVpoNlZSPHdDUrJ0NQ0jL4OOuah0M58fBveQZrb24y6JTIEu8wMwSM5ZCX
+	ZYuS8pulCTAMiZOewnL9MxkKaCBMuxtWpFEvzkV616egjdyvnnuzSgm9CE5u3l1Tx1ad
+	Pn9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=O0/2riLfXl8dQeYWJkkWSERLTTBfmnBLWGdu7Bw0nRo=;
-	b=QBKWAB2KwoRnFw6k0dpS//1H6a4IJSg3VbfxuRwa+xLBSZkX4tmExeiglA3DoXVo9K
-	SvyI0yrc1o/g6bniDMUy9wfRwWlUt3yMMhiLFCOGFUEsccYeAyZfJ903esDUj/L0xbFW
-	+P47fPEEyK/mQkyMRwbw9bEUhha87sw0dRP9q5mGuov1LyETigqbUyiPQIvSJRQQ8H+r
-	jQHHGyTSigBG3QyNJHc82qIXDMmdKhEEFHSME66XHmqiFaWnIB2Yziq6M5H3S0zun7W+
-	zNXKAFBUrkpsiIsgU6i38EZxz7VNgD1qh1rfjPoSPP/q/FC5m3jkpNGe/QmC2mrOofhl
-	4jxg==
-X-Gm-Message-State: AG10YOQwDTBpHqoTNDRzI+/+NStM+363JHHTIq0+9TwNl7tcr7k5rR1oKEtPItv2GmV+kA==
-X-Received: by 10.67.1.164 with SMTP id bh4mr8778711pad.118.1453512384598;
-	Fri, 22 Jan 2016 17:26:24 -0800 (PST)
+	bh=vB6UItG4wEhIIEeKcas2KfO9uZoHrLr6HkS9LqfSV/U=;
+	b=FvRa31E+aAAzYS7JyTMV4zK6qgND0rxnJ5bLvmbduRFLHukp+ANJJvLVtpWtW2HxB+
+	0Qv1V89/VZyYajML2gGM1hdrtEozvSRDbpuw6z810jtJX9nnckAOFuJDwNK/PeMz5Tf/
+	XNp2Lcnh3zVFvL9TMFni5oKfFlC4W6JefcQLg9HR0eQwj9JXKGRSvL0x1jCi2uyO3x/V
+	ZTHG/knx8HcgpUkFe00Cd/rVURlw19yIC7kHO2H1yNCJDdtEdnDOK/4bTXUN1YnhY3fL
+	/V5UA3kAtUpHOTDEWaDoCvdiKtRKI73e6sAO8M90S7EVESSkptFydXx/Dtk6NAhzzSJ2
+	P+Yg==
+X-Gm-Message-State: AG10YOQbSPuLAawDnawe8uthTdmgVMy0YdsChlrQdW3pMmXm1IHAgLYvB5fgOHgDVTrawQ==
+X-Received: by 10.66.236.69 with SMTP id us5mr8700112pac.93.1453512386737;
+	Fri, 22 Jan 2016 17:26:26 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	qz9sm12302299pab.39.2016.01.22.17.26.23
+	qz9sm12302299pab.39.2016.01.22.17.26.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Jan 2016 17:26:23 -0800 (PST)
+	Fri, 22 Jan 2016 17:26:25 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jan 2016 17:26:01 -0800
-Message-Id: <1453512366-11405-4-git-send-email-armccurdy@gmail.com>
+Date: Fri, 22 Jan 2016 17:26:02 -0800
+Message-Id: <1453512366-11405-5-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1453512366-11405-1-git-send-email-armccurdy@gmail.com>
 References: <1453512366-11405-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/7] sqlite3.inc: drop obsolete config_BUILD_CC, etc exports
+Subject: [PATCH 4/7] sqlite: formatting improvements, move more stuff into sqlite3.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +56,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jan 2016 01:26:25 -0000
+X-List-Received-Date: Sat, 23 Jan 2016 01:26:26 -0000
 
-These exports date back to 2007, when sqlite needed patching
-in order to cross compile:
-
-  http://git.openembedded.org/openembedded-core/commit/?id=4ffe8f6b1ff640722880cf2cd88990956de87e30
+Reformatting only, no functional changes.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc | 8 --------
- 1 file changed, 8 deletions(-)
+ meta/recipes-support/sqlite/sqlite3.inc       | 23 +++++++++++++++++++++--
+ meta/recipes-support/sqlite/sqlite3_3.10.0.bb | 20 ++------------------
+ 2 files changed, 23 insertions(+), 20 deletions(-)
 
 diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index 7245285..ac19be9 100644
+index ac19be9..540d2b6 100644
 --- a/meta/recipes-support/sqlite/sqlite3.inc
 +++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -12,14 +12,6 @@ PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline ncurses
+@@ -1,7 +1,21 @@
+ SUMMARY = "Embeddable SQL database engine"
+ HOMEPAGE = "http://www.sqlite.org"
+ SECTION = "libs"
+-LICENSE = "PD"
++
++PE = "3"
++
++def sqlite_download_version(d):
++    pvsplit = d.getVar('PV', True).split('.')
++    if len(pvsplit) < 4:
++        pvsplit.append('0')
++    return pvsplit[0] + ''.join([part.rjust(2,'0') for part in pvsplit[1:]])
++
++SQLITE_PV = "${@sqlite_download_version(d)}"
++
++S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
++
++UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
++UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
  
- EXTRA_OECONF = "--enable-shared --enable-threadsafe --disable-editline"
+ inherit autotools pkgconfig
  
--export config_BUILD_CC = "${BUILD_CC}"
--export config_BUILD_CFLAGS = "${BUILD_CFLAGS}"
--export config_BUILD_LIBS = "${BUILD_LDFLAGS}"
--export config_TARGET_CC = "${CC}"
--export config_TARGET_LINK = "${CCLD}"
--export config_TARGET_CFLAGS = "${CFLAGS}"
--export config_TARGET_LFLAGS = "${LDFLAGS}"
--
- # pread() is in POSIX.1-2001 so any reasonable system must surely support it
+@@ -16,14 +30,19 @@ EXTRA_OECONF = "--enable-shared --enable-threadsafe --disable-editline"
  BUILD_CFLAGS += "-DUSE_PREAD"
  TARGET_CFLAGS += "-DUSE_PREAD"
+ 
++# Provide column meta-data API
++BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
++TARGET_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
++
+ PACKAGES = "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-staticdev ${PN}"
+ 
+ FILES_${PN} = "${bindir}/*"
+ FILES_lib${BPN} = "${libdir}/*.so.*"
+ FILES_lib${BPN}-dev = "${libdir}/*.la ${libdir}/*.so \
+-	                	   ${libdir}/pkgconfig ${includedir}"
++                       ${libdir}/pkgconfig ${includedir}"
+ FILES_lib${BPN}-doc = "${docdir} ${mandir} ${infodir}"
+ FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
++
+ AUTO_LIBNAME_PKGS = "${MLPREFIX}lib${BPN}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.10.0.bb b/meta/recipes-support/sqlite/sqlite3_3.10.0.bb
+index 092f782..c183692 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.10.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.10.0.bb
+@@ -1,27 +1,11 @@
+ require sqlite3.inc
+ 
++LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
+ 
+-def sqlite_download_version(d):
+-    pvsplit = d.getVar('PV', True).split('.')
+-    if len(pvsplit) < 4:
+-        pvsplit.append('0')
+-    return pvsplit[0] + ''.join([part.rjust(2,'0') for part in pvsplit[1:]])
+-
+-PE = "3"
+-SQLITE_PV = "${@sqlite_download_version(d)}"
+ SRC_URI = "http://www.sqlite.org/2016/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://parallel.patch \
+-          "
++"
+ 
+ SRC_URI[md5sum] = "274364e6ca5c1104d42912f11e61ed26"
+ SRC_URI[sha256sum] = "43cc292d70711fa7580250c8a1cd7c64813a4a0a479dbd502cce5f10b5d91042"
+-
+-UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
+-UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+-
+-S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+-
+-# Provide column meta-data API
+-BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
+-TARGET_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
 -- 
 1.9.1
 
