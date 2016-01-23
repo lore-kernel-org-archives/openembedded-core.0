@@ -1,50 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 033D67317D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7385277058
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 23:37:02 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id q21so103940555iod.0
+	Sat, 23 Jan 2016 01:26:13 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id pv5so3840980pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jan 2016 15:37:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=E7k9cVoV3LnbHM3Ba1KsNsGkatUlVWS4XTN+Gnl1ruo=;
-	b=CO4OArVwWlPQxD4L/wIvVtrR9OlabUC3dwQlpYWFkyBUw8LUynzKIYAvnlZB8zfaTZ
-	g9d0g3/nWjAEu5qTwv3UEYbrEAcy+CfQ2QOqjaEklkwlMsBgLElBdbwNW1mTiRqf0jd7
-	lqzmixspem7MelYAOxtMF8hBGWrJ83aJn+UyclxciJjQBmE0nb6RQ9pVxMEGNV38leAr
-	7IwwlPhse/caeusjyucmwpz8qIGEiRFNYYCCX6iv6VJOUsKgAnHfdzJHtsjCOK9zOhic
-	bBrBdFS58000ANORinH5OcixpWmBNw5aGTCt9eXJnrl/+sOoEChotGgmT5CF04VfUMSY
-	9M5w==
+	Fri, 22 Jan 2016 17:26:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=CvlMWYB/C5tiiMuKGpXrLdotD5/quDv+pNm4zw8b8oo=;
+	b=CrzMIToz3UeboCEEpsX6JldPm9IVIp7VfIONZx9NzZokJnjw5Z0eJca33lnOpgrMq+
+	ytF8/qfBbdCuVDGZ32BPcHzuNmWfwGrQKA3Lo3CqHD5U1dWQazwcEk8Mt6CTolRAkuOT
+	48RW11HcBOz36lS509M98nVvrNeoU/d2RbQgjiOGxM9OnsJG/jlx6d/7nCbL9NOjubvm
+	VX6UiKAQKILq3bFbeBXjPjFlmHOOOCjx71dHJdZq+NnRc6rUp/id10qgpVY9Pq3KjEWg
+	Te9sQpsFpFMvgYl9D5q7CJcBPW3sqUdqnOEvurW0K+3JI+9YiCkmHx+fRJ4GtiRFOkPR
+	qtFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=E7k9cVoV3LnbHM3Ba1KsNsGkatUlVWS4XTN+Gnl1ruo=;
-	b=fqyYAcHJHSf0/yKUw42SN/o0SdqF2l++fhVz+hU31ab5wfnYeRqzkVX5SBTXCbPNq8
-	n0hzXgRr3RI24rpO9IQx/fytDdszn+VOp92Mh7xy0ZcLT+OnAEB48lL8dOUuftARcUJV
-	B+SYpkn71mQjZhog7wlOELkr9BUixEjOo/5dvfmEMboS6qaqtPjdtHlPCDcSu7taMyah
-	cP8TgfF11Qu98oVEBbQ1RD7E0yHInlkfqRc5LLGXEufwpNImsMXCitTtFOJ5Ys/LPqgZ
-	YiQOdAHVZ6QopADfzyA9scOE7Kb7NBTJQoUi+y1mGcwNFsplFeYKkYX79X2f/jOzKYwf
-	CtdA==
-X-Gm-Message-State: AG10YORdBP6IlGHdJWZGeqlbie0JIwQqmLP8y/s30HFmNLKq6KVvYci+uEN2YP9CSADnqDZHgnBBGemunxo+fDZ3
-X-Received: by 10.107.3.154 with SMTP id e26mr5672898ioi.99.1453505823664;
-	Fri, 22 Jan 2016 15:37:03 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 22 Jan 2016 15:36:44 -0800 (PST)
-In-Reply-To: <20160122232539.GA28611@zardoz.amer.corp.natinst.com>
-References: <1453486432-24073-1-git-send-email-brad.mouring@ni.com>
-	<CAJTo0La_+cYqBCVy384W4cXTGk322TRj7c+zJGHw9kBH+msPoQ@mail.gmail.com>
-	<20160122232539.GA28611@zardoz.amer.corp.natinst.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Jan 2016 23:36:44 +0000
-Message-ID: <CAJTo0LYZ8qx_f8n2MfFprP6YKSSY8D=bAbdoAuShWkXtE4kVdQ@mail.gmail.com>
-To: bmouring@ni.com
-Cc: Brad Mouring <brad.mouring@ni.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] avahi: Add patch to fix Win10 mDNS issues
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CvlMWYB/C5tiiMuKGpXrLdotD5/quDv+pNm4zw8b8oo=;
+	b=XXiwiAS86zCHCxHSnze/ikaaKpKM6ceRTh2sGkt7ofikXLQhqKPEHVCJ7cxEXyyOsa
+	0lwEdSzhP3jJ49rWDcElQRJfHkn9aE79KNQ9iIeYWLJm5dmsoA0YO5OYIux1E8C0n6Jn
+	N+YgqjStrWgJdjXlFSNuU3s1RYu5Fvwcjr8EwbYtkW9fVHxT+dmfunhKBNf8s4KUFhLI
+	p56tz7T7K5iTQyF0mQRvEDGHng4GJ1Ai79/yfoUm4kwB9LYTMJ8PrW9rvhGKH99T1E5B
+	LaYOZYPAGKvid8sh+HOugGkw6Tr/Q3mdSJD7UNZaohGokWr7TaVzUtxE5VhAZttKtZfR
+	CSyQ==
+X-Gm-Message-State: AG10YOQ9iW/gHRusW5UvVR5Iqt/lsaJYGirxfpnXMa6DfK5Mr98kyxYOpQ9C4DlpxJe1lA==
+X-Received: by 10.66.100.163 with SMTP id ez3mr8797328pab.5.1453512373873;
+	Fri, 22 Jan 2016 17:26:13 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	qz9sm12302299pab.39.2016.01.22.17.26.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 22 Jan 2016 17:26:13 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jan 2016 17:25:58 -0800
+Message-Id: <1453512366-11405-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/7] sqlite3: misc fixes, cleanup + update 3.10.0 -> 3.10.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,52 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jan 2016 23:37:05 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10a4c8a280529f4b2b2
+X-List-Received-Date: Sat, 23 Jan 2016 01:26:13 -0000
 
---001a113ec10a4c8a280529f4b2b2
-Content-Type: text/plain; charset=UTF-8
+Andre McCurdy (7):
+  sqlite3: fix the parallel build fix patch
+  sqlite3.inc: fix readline PACKAGECONFIG
+  sqlite3.inc: drop obsolete config_BUILD_CC, etc exports
+  sqlite: formatting improvements, move more stuff into sqlite3.inc
+  sqlite3.inc: dynamically link the sqlite3 command-line utility
+  sqlite3.inc: add PACKAGECONFIG to support building against libedit
+  sqlite3: update 3.10.0 -> 3.10.2
 
-On 22 January 2016 at 23:25, <bmouring@ni.com> wrote:
+ meta/recipes-support/sqlite/sqlite3.inc            | 45 ++++++++++++++-------
+ meta/recipes-support/sqlite/sqlite3/parallel.patch | 46 +++++++++++++---------
+ meta/recipes-support/sqlite/sqlite3_3.10.0.bb      | 27 -------------
+ meta/recipes-support/sqlite/sqlite3_3.10.2.bb      | 11 ++++++
+ 4 files changed, 69 insertions(+), 60 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.10.0.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.10.2.bb
 
-> > Can you add this to the SRC_URI assignment in avahi.inc please.
->
-> I did this initially, but considering that the next version of avahi will
-> include this change, I didn't think that was the best approach. I'm fine
-> with including it there, but it didn't seem right to me. Convince me
-> that it's the correct place to put the change.
+-- 
+1.9.1
 
 
-Mainly for consistency: all the other patches are listed in the SRC_URI in
-avahi.inc.
-
-Another good reason is that it ensures that both avahi and avahi-ui get
-built with the same source.
-
-Ross
-
---001a113ec10a4c8a280529f4b2b2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 January 2016 at 23:25,  <span dir=3D"ltr">&lt;<a href=3D"mailto:bmour=
-ing@ni.com" target=3D"_blank">bmouring@ni.com</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex"><span class=3D"">&gt; Can you add this to the SR=
-C_URI assignment in avahi.inc please.<br>
-<br>
-</span>I did this initially, but considering that the next version of avahi=
- will<br>
-include this change, I didn&#39;t think that was the best approach. I&#39;m=
- fine<br>
-with including it there, but it didn&#39;t seem right to me. Convince me<br=
->
-that it&#39;s the correct place to put the change.</blockquote></div><br>Ma=
-inly for consistency: all the other patches are listed in the SRC_URI in av=
-ahi.inc.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Another good reason is that it ensures that both avahi and avahi-ui get =
-built with the same source.</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
-
---001a113ec10a4c8a280529f4b2b2--
