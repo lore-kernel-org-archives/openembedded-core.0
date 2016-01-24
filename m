@@ -1,25 +1,49 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BC17770EF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f193.google.com (mail-ig0-f193.google.com
+	[209.85.213.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D1EC465CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jan 2016 19:38:09 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Jan 2016 11:38:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,341,1449561600"; d="scan'208";a="35360044"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2016 11:38:11 -0800
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 80ECD2C8001;
-	Sun, 24 Jan 2016 12:26:04 -0800 (PST)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Jan 2016 21:49:51 +0200
-Message-Id: <1453664991-31706-13-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1453664991-31706-1-git-send-email-costin.c.constantin@intel.com>
-References: <1453664991-31706-1-git-send-email-costin.c.constantin@intel.com>
-Subject: [PATCH 13/13] Files to test the patch set.
+	Sun, 24 Jan 2016 20:20:46 +0000 (UTC)
+Received: by mail-ig0-f193.google.com with SMTP id h5so3163486igh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 24 Jan 2016 12:20:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=fi4jqkg5ttjkPYM8rZsX1i5YshuS8V/cdeN6h5cWeYA=;
+	b=LEmiV+sx6i6SyJZwETe+a9/ZDmiEZG5D5ByZebjrDlM53ogT9MfrcbqkxZg/CrCGsr
+	xgbrxC2KCQ+lhzBnxP8otgBiwBlG1dQwJZZKEJQOdahBl2TJyOi2q12ryFNLNhbHNwwc
+	gfp17eqBKZ01Otu5SQEsY3dk7jEXWXIdoSrJ1iPeVQOx5O7M7Nan3DTTDkPkrhpmf4+K
+	KEvGBQourrgXosLRbit9SBVIS93HsFloSTfm9PEbKe74Zy08VjdrZtdYsExV6tuaW7fq
+	2CQSCJp36Sw2JdCZEXv0nUJXaeotlJFB5L3Qcw5cJ13/YMtK8NCKHnvGVdcQXv73Lr3c
+	P2TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=fi4jqkg5ttjkPYM8rZsX1i5YshuS8V/cdeN6h5cWeYA=;
+	b=SoWA2i8cqVMRDxX8oAlteWuUxK1DDEFt1NyXcw6MLb0eIwHw86KUArOwkpQpNEQ65m
+	E69RVnJwTPf/AvRGCUj7HydO/Jebrh6vcFxAUGX6Ccaoj84saqBn/zWickmwJOtbM7DE
+	LTyNR8ARNGFz15uHwFHQNEtHrxaxH40cI8W9hGrxTBJ0/e6y9S75BfopSPuCJXzQznfr
+	d/57tharXsWIhAjE+RsRwwW0KvdEww+SoIA0olQdT/ja92k26X+8RTnBIqUYGWEGsnmC
+	KbOPf36FiDucm8njbo4ua0ZwIZ4zhmqR1lGRanr0rCnr+IdsKEgRuM6CvbQVKBshwp1W
+	4K0w==
+X-Gm-Message-State: AG10YOSlAcPltrdZIBSOZXDfOEEvbJy1BElw4SWvasLS/Qd8dTLeGgcK5ivewfTBw0cIMkJtBZjyicddmM1FXA==
+X-Received: by 10.50.33.81 with SMTP id p17mr12849295igi.75.1453666847484;
+	Sun, 24 Jan 2016 12:20:47 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.16.74 with HTTP; Sun, 24 Jan 2016 12:20:18 -0800 (PST)
+In-Reply-To: <1692476.LQWgxAY4ZP@peggleto-mobl.ger.corp.intel.com>
+References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
+	<1453495750-104494-2-git-send-email-raj.khem@gmail.com>
+	<1692476.LQWgxAY4ZP@peggleto-mobl.ger.corp.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 24 Jan 2016 12:20:18 -0800
+Message-ID: <CAMKF1srdMfR7o+zNHH9h7bvuKNuMyWytpy_jOsHmYrMir=Xnxg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] local.conf.sample: Document HOW-TO enable systemd or busbox to replace sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,170 +56,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Jan 2016 19:38:09 -0000
+X-List-Received-Date: Sun, 24 Jan 2016 20:20:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Please don't include these files. Their sole purpose is to provide
-necessary ground to easily test the patch set.
+On Sun, Jan 24, 2016 at 11:21 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Fri, 22 Jan 2016 20:49:10 Khem Raj wrote:
+>> OE core provides systemd,busybox as options for system init system along
+>> with sysvinit being the default. Document the needed settings to enable
+>> systemd and busybox as options if user wishes.
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/conf/local.conf.sample | 17 +++++++++++++++++
+>>  1 file changed, 17 insertions(+)
+>>
+>> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+>> index a662f4d..b760546 100644
+>> --- a/meta/conf/local.conf.sample
+>> +++ b/meta/conf/local.conf.sample
+>> @@ -209,6 +209,23 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
+>>  PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+>>  #ASSUME_PROVIDED += "libsdl-native"
+>>
+>> +#
+>> +# Use busybox/mdev for system initialization
+>> +#
+>> +#VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
+>> +#VIRTUAL-RUNTIME_login_manager = "busybox"
+>> +#VIRTUAL-RUNTIME_init_manager = "busybox"
+>> +#VIRTUAL-RUNTIME_initscripts = "initscripts"
+>> +#VIRTUAL-RUNTIME_keymaps = "keymaps"
+>> +#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+>> +
+>> +#
+>> +# Use systemd for system initialization
+>> +#
+>> +#DISTRO_FEATURES_append = " systemd sysvinit"
+>> +#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+>> +#VIRTUAL-RUNTIME_init_manager = "systemd"
+>> +#VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+>>
+>>  # CONF_VERSION is increased each time build/conf/ changes incompatibly and
+>> is used to # track the version of this file when it was generated. This can
+>> safely be ignored if
+>
+> Is this sort of thing really appropriate for local.conf though? Shouldn't we
+> be encouraging people to create a distro config for this level of
+> customisation?
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- meta/lib/oeqa/runtime/mytest.py                | 25 +++++++++++++++++++++++++
- meta/recipes-test/hello-dut/files/hello.c      |  8 ++++++++
- meta/recipes-test/hello-dut/hello-dut_0.1.bb   | 15 +++++++++++++++
- meta/recipes-test/hello-native/files/hello.c   |  9 +++++++++
- meta/recipes-test/hello-native/hello_0.1.bb    | 16 ++++++++++++++++
- meta/recipes-test/hello-test/files/hello.c     |  9 +++++++++
- meta/recipes-test/hello-test/hello-test_0.1.bb | 16 ++++++++++++++++
- 7 files changed, 98 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/mytest.py
- create mode 100644 meta/recipes-test/hello-dut/files/hello.c
- create mode 100644 meta/recipes-test/hello-dut/hello-dut_0.1.bb
- create mode 100644 meta/recipes-test/hello-native/files/hello.c
- create mode 100644 meta/recipes-test/hello-native/hello_0.1.bb
- create mode 100644 meta/recipes-test/hello-test/files/hello.c
- create mode 100644 meta/recipes-test/hello-test/hello-test_0.1.bb
+with IRC feedback from RP and others. Its more of local.conf.extended
+item. So I have moved it in there in my v2 patch currently under test.
 
-diff --git a/meta/lib/oeqa/runtime/mytest.py b/meta/lib/oeqa/runtime/mytest.py
-new file mode 100644
-index 0000000..6afb79e
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/mytest.py
-@@ -0,0 +1,25 @@
-+import os
-+from time import sleep
-+from oeqa.oetest import oeRuntimeTest
-+from oeqa.utils.decorators import TestNeedsBin
-+
-+class mytest(oeRuntimeTest):
-+
-+############### A simple test for the DUT ######################
-+
-+    @TestNeedsBin(("hello-dut","rm"),
-+                  ("hello-test","rm"),
-+                  ("hello-test","rpm","rm"),
-+                  ("hello-dut","rpm"),
-+                  ("hello","native")
-+                  )
-+    def test_hello_on_DUT_3(self):
-+         (status, output) = self.target.run("hello")
-+         self.a=5
-+         print("For hello: " + str(output) + "\n")
-+         (status1,output1) = self.target.run("hello-test")
-+         print("For hello-test: " + str(output1) + "\n")
-+         self.assertEqual(status, 0, "failed for hello")
-+         self.assertEqual(status1, 0, "failed for hello-test")
-+
-+       
-diff --git a/meta/recipes-test/hello-dut/files/hello.c b/meta/recipes-test/hello-dut/files/hello.c
-new file mode 100644
-index 0000000..fb89415
---- /dev/null
-+++ b/meta/recipes-test/hello-dut/files/hello.c
-@@ -0,0 +1,8 @@
-+#include <stdio.h>
-+
-+int main(int argc, char** argv)
-+{
-+  printf("Hello world on DUT \n");
-+  return 0;
-+
-+}
-diff --git a/meta/recipes-test/hello-dut/hello-dut_0.1.bb b/meta/recipes-test/hello-dut/hello-dut_0.1.bb
-new file mode 100644
-index 0000000..832b62f
---- /dev/null
-+++ b/meta/recipes-test/hello-dut/hello-dut_0.1.bb
-@@ -0,0 +1,15 @@
-+SUMMARY = "Hello world recipe"
-+DESCRIPTION = "test application"
-+LICENSE = "CLOSED"
-+SRC_URI = "file://hello.c \
-+"
-+S = "${WORKDIR}"
-+do_compile() {
-+    ${CC} hello.c -o hello
-+}
-+
-+do_install() {
-+    install -d ${D}/${bindir}
-+    install -m 0755 hello ${D}/${bindir}
-+}
-+
-diff --git a/meta/recipes-test/hello-native/files/hello.c b/meta/recipes-test/hello-native/files/hello.c
-new file mode 100644
-index 0000000..ed30d69
---- /dev/null
-+++ b/meta/recipes-test/hello-native/files/hello.c
-@@ -0,0 +1,9 @@
-+#include <stdio.h>
-+
-+int main(int argc, char** argv)
-+{
-+  printf("Hello world on host machine \n");
-+
-+  return 0;
-+
-+}
-diff --git a/meta/recipes-test/hello-native/hello_0.1.bb b/meta/recipes-test/hello-native/hello_0.1.bb
-new file mode 100644
-index 0000000..42659b9
---- /dev/null
-+++ b/meta/recipes-test/hello-native/hello_0.1.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "Hello world recipe"
-+DESCRIPTION = "test application"
-+LICENSE = "CLOSED"
-+SRC_URI = "file://hello.c \
-+"
-+S = "${WORKDIR}"
-+do_compile() {
-+    ${CC} hello.c -o hello
-+}
-+
-+do_install() {
-+    install -d ${D}/${bindir}
-+    install -m 0755 hello ${D}/${bindir}
-+}
-+
-+BBCLASSEXTEND = "nativesdk native"
-diff --git a/meta/recipes-test/hello-test/files/hello.c b/meta/recipes-test/hello-test/files/hello.c
-new file mode 100644
-index 0000000..405aed1
---- /dev/null
-+++ b/meta/recipes-test/hello-test/files/hello.c
-@@ -0,0 +1,9 @@
-+#include <stdio.h>
-+
-+int main(int argc, char** argv)
-+{
-+  printf("Hello test \n");
-+
-+  return 0;
-+
-+}
-diff --git a/meta/recipes-test/hello-test/hello-test_0.1.bb b/meta/recipes-test/hello-test/hello-test_0.1.bb
-new file mode 100644
-index 0000000..9832eb0
---- /dev/null
-+++ b/meta/recipes-test/hello-test/hello-test_0.1.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "Hello world recipe"
-+DESCRIPTION = "test application"
-+LICENSE = "CLOSED"
-+SRC_URI = "file://hello.c \
-+"
-+S = "${WORKDIR}"
-+do_compile() {
-+    ${CC} hello.c -o hello-test
-+}
-+
-+do_install() {
-+    install -d ${D}/${bindir}
-+    install -m 0755 hello-test ${D}/${bindir}
-+}
-+
-+BBCLASSEXTEND = "nativesdk native"
--- 
-2.5.0
+https://github.com/kraj/openembedded-core/commit/78edec042a47814ffb465d3c6c326fcd2e45447f
 
+poky .e.g works well with both sysvinit and systemd
+and some other derived distros as well. So think more it may be
+that putting this sort of information in nodistro conf in OE-Core may
+be another option but extended local conf is quite advanced user experience
+as well
+
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
