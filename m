@@ -1,52 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 659A177060
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 64F8E77028
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jan 2016 12:25:56 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id 1so127913309ion.1
+	Sun, 24 Jan 2016 13:13:13 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id o11so90859280qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jan 2016 04:25:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=kj3jaN93/nqUrrgdvb4eEYx9/N5T8a3AA5U2VngsH7M=;
-	b=XUZ4pOFyu/RHbf+5GyXxyaUPGp7nk1VeJG2zFTDqzo5mQMUjKKRuRhAfVm95MlYbVL
-	PsS7nCOhu0T9RCBTJqW17g3lDfvWOaZKy4Vt4b9IChmTYjkkS2DZUzIj/PNK6w68k08/
-	hc9r2KswcAwsUtpQfL9H2mzaTWEymQSXBtuIkMtbP/c5CbshtGP8Agf7yP1OUO34beIp
-	9QcqHD3KWQgZhDWaoqIYE4uRAu28F+isEojmH+B6/UgzkS07aPKUnczEPeoPFDVCKHwx
-	dm8AdTP6OZZryuvC7G7omxkFGepL4/eQNIaEd3q1HTfSQQr/w0mhejBZPJ/sof7LyYfU
-	6EUQ==
+	Sun, 24 Jan 2016 05:13:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=kj3jaN93/nqUrrgdvb4eEYx9/N5T8a3AA5U2VngsH7M=;
-	b=ivHLmzU5Pg4mISXmXG7Lhkaq20h8OxIARKezLzKkAILCAAncvXfDLoYHc2pfDkWdn9
-	8qnG99Eylnp77SRPqdxDWQW3OjoRdIbfdEYEW9ogJ6M1fZ2YYCcMLEy4R0bCclfu3/pK
-	Q1ISrLgQGFUklGNavPa5vrhMPB9wUq6fBoDL/WETpT8cXIzKN8LDQEi5UybdRP6UAsQn
-	tSl1H30p+muR0SwFDkdF9NOw7HFzBzKssyeJr/+Iew1ADOfyDy240TEeyLTQwOOvq93D
-	PeSw511EB7o4zUcGp2MIfhhiD/v6gfDjrvmt8OLECZzK14AIRvvy87Zgx8vT6ca15+dg
-	IaHg==
-X-Gm-Message-State: AG10YORKz3wTb8a7Gh+6qV0qImTJr1IS/qA2qbrMX+gyVN37dTDJdck5Q57tL+KOmONFm+LqEAVnpPz4U9YoJDle
-X-Received: by 10.107.3.154 with SMTP id e26mr11349570ioi.99.1453638356890;
-	Sun, 24 Jan 2016 04:25:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Sun, 24 Jan 2016 04:25:37 -0800 (PST)
-In-Reply-To: <20160123183615.GA32740@zardoz.amer.corp.natinst.com>
-References: <1453486432-24073-1-git-send-email-brad.mouring@ni.com>
-	<CAJTo0La_+cYqBCVy384W4cXTGk322TRj7c+zJGHw9kBH+msPoQ@mail.gmail.com>
-	<20160122232539.GA28611@zardoz.amer.corp.natinst.com>
-	<CAJTo0LYZ8qx_f8n2MfFprP6YKSSY8D=bAbdoAuShWkXtE4kVdQ@mail.gmail.com>
-	<20160123183615.GA32740@zardoz.amer.corp.natinst.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 24 Jan 2016 12:25:37 +0000
-Message-ID: <CAJTo0LZcE+n2hLr0xTtjQmtWoVLtKS9DTQTqOfHG0hDLgSe1cw@mail.gmail.com>
-To: bmouring@ni.com
-Cc: Brad Mouring <brad.mouring@ni.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] avahi: Add patch to fix Win10 mDNS issues
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zbSfSs27V8iuZbjj6ASLSiuuSi+a+EBU5Kcqi2sMKGs=;
+	b=Q50WaYugtqdCIkkPBDMwTEGOfOa0CxY5l4iWshevslQ0IEU7Qlvb2gedABLkAnJyV7
+	+NHXBubtw6AaRycyGgG70vvodpG6N9SbKGv50oBlBUCnYL5QDXPDtfc7UPJC0V38aLRM
+	8FsJjz7le7rCeBIzQ6GOsb2Br+hOLzzyJCNEbIY7lbuAYOp9DQ+LSMcG5evGkbM/+wNK
+	bdkvguE+S+WbzqA4vK/S8lfG1FDSekCREFp0Gc+6d0eBAwcie4yhSyULfiXParPQmDP+
+	UZKgzzjiU8oRDUVbJ8NX7tWZRwqwseY+mnJ0w8FSa45Vm1enK/FVOuPQ//Sv8r2fU9GC
+	N2cQ==
+X-Gm-Message-State: AG10YOQMIH/0u6cPu2gECmKBMmSslNp/jjgnzNwn4/IYPE7aMpvoRUmIWgEu341vgUkdrw==
+X-Received: by 10.140.128.8 with SMTP id 8mr15688090qha.54.1453641194598;
+	Sun, 24 Jan 2016 05:13:14 -0800 (PST)
+Received: from build-slave.minotaur.lab (c-73-172-178-168.hsd1.md.comcast.net.
+	[73.172.178.168]) by smtp.gmail.com with ESMTPSA id
+	x79sm6835516qka.37.2016.01.24.05.13.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 24 Jan 2016 05:13:14 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Jan 2016 08:13:04 -0500
+Message-Id: <1453641184-1655-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 1.9.1
+Cc: Derek Straka <derek@asterius.io>
+Subject: [PATCH] bind: update to 9.10.3-P3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Jan 2016 12:25:56 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10ae50f07052a138da3
+X-List-Received-Date: Sun, 24 Jan 2016 13:13:15 -0000
 
---001a113ec10ae50f07052a138da3
-Content-Type: text/plain; charset=UTF-8
+Addresses CVE-2015-8704 and CVE-2015-8705
 
-On 23 January 2016 at 18:36, <bmouring@ni.com> wrote:
+CVE-2015-8704
+Allows remote authenticated users to cause a denial of service via a malformed Address Prefix List record
 
-> Good enough reasoning for me. As I noted, I was on the fence anyway.
-> Comment
-> to that effect in the recipe, simply leave it to the commit message, or
-> some exotic ${bb shell} conditional include?
->
+CVE-2015-8705:
+When debug loggin is enabled, allows remote attackers to cause a denial of service or have possibly unspecified impact via OPT data or ECS option
 
-Just put it in the SRC_URI in avahi.inc, we already apply a number of
-patches there.
+[YOCTO 8966]
 
-Ross
+References:
+https://kb.isc.org/article/AA-01346/0/BIND-9.10.3-P3-Release-Notes.html
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8704
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8705
+---
+ .../bind/{bind_9.10.3-P2.bb => bind_9.10.3-P3.bb}                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.10.3-P2.bb => bind_9.10.3-P3.bb} (96%)
 
---001a113ec10ae50f07052a138da3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.3-P2.bb b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.10.3-P2.bb
+rename to meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+index 875a0c8..da414c0 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.3-P2.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+@@ -23,8 +23,8 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+            "
+ 
+-SRC_URI[md5sum] = "672dd3c2796b12ac8440f55bcaecfa82"
+-SRC_URI[sha256sum] = "4a6c1911ac0d4b6be635b63de3429b6c168ea244043f12bbc8a4eb3368fd6ecd"
++SRC_URI[md5sum] = "bcf7e772b616f7259420a3edc5df350a"
++SRC_URI[sha256sum] = "690810d1fbb72afa629e74638d19cd44e28d2b2e5eb63f55c705ad85d1a4cb83"
+ 
+ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+ EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
+-- 
+1.9.1
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 January 2016 at 18:36,  <span dir=3D"ltr">&lt;<a href=3D"mailto:bmour=
-ing@ni.com" target=3D"_blank">bmouring@ni.com</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex"><div id=3D":y8w" class=3D"a3s" style=3D"overflow=
-:hidden">Good enough reasoning for me. As I noted, I was on the fence anywa=
-y. Comment<br>
-to that effect in the recipe, simply leave it to the commit message, or<br>
-some exotic ${bb shell} conditional include?</div></blockquote></div><br>Ju=
-st put it in the SRC_URI in avahi.inc, we already apply a number of patches=
- there.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
 
---001a113ec10ae50f07052a138da3--
