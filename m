@@ -1,50 +1,49 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ECBB77045
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A834D6FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 12:58:21 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id n5so78451750wmn.0
+	Mon, 25 Jan 2016 13:50:15 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id 77so151471765ioc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 04:58:22 -0800 (PST)
+	Mon, 25 Jan 2016 05:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=jdSr3/nLEKYz0RgdVJRFwfMuvIsmY5cscB7JK/MFB9g=;
-	b=vjfSyS8MW97Py31rcqvefa4R20H8/ZRm2x+E0ASdNhaJp7hiBjTsMvx8Gcj0jn4Y4r
-	5P6XtqFi94/N7u02qpC4PVZTcd35AtY4fdU8ZNOHyb7fGG4dGf69nLfVAYGvdqqMgHAg
-	8Z80tpqYEv/1j7sfdAzgcwncAcYE/1i4m7fW7SdujI84pIqb8xzJerhyWPm/8IUES45H
-	MA+rhW3593lhEz9SmzlndlTF59+PpN1ZFA2xO2mhGrNCAXplCm3UYkoHoWMb+jhCm1rE
-	6Gg1stPNAnejRvdC8+3m63fjOSHdBj9l4CUThREuvBMgP9cROkJRXXmcil6jBBLzqbpX
-	XbbQ==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=WrMgWUhnQ7uqqiL2H9T02sHlq3sevnPTT6l+0WirO/8=;
+	b=DYPhYBT9hfi2Xeo0i1rLhLWVyxztl54ydDALfxAnPgJ+emGA4196OWvKSdB5HwxtWd
+	/nP8LATMdXODYJZhT3SInXWAyI3MsQvD1NTTt3xx6TOg5Twa4+GBr0C1IQGPJyeZSuZr
+	04uakePeImq29jTB1pRjkVIkYnFpphoxI6KtSWDk+Zjpspi4eBbRCGWz7d/jNPN6TV7j
+	rCVC57bdXyKv5iRSdbep1sKmYcfSHVN9fkM4yniWbETfzP2rEDYHcWOV0pScXFyqB76A
+	j5XbDdtjHC/rBZqjw1V2CegWJQvy8Q6Ux7BhzR5VAJMR15Rpq1jDb6YBb829quXDF3QB
+	BHtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-type:content-transfer-encoding;
-	bh=jdSr3/nLEKYz0RgdVJRFwfMuvIsmY5cscB7JK/MFB9g=;
-	b=GlQE4zgekJNYAjsx4dagWhqTCb2nqilVeOcb2tcfb5QsW/R/w9bKLgyXbrg3Wyga2e
-	Gah3JEgNyjktaSisxfJypFQMNLO3SkpUYM1/kO3wdVT2sIkBjUhvT0mX6d3gHD0Fu1DJ
-	FM+1OPzePZiCG6QLG11Q2lcPmbfILiC+8shWrrmuidyWuWq2m9OSvLFJQlst4fVHZW7Z
-	m0Jy3KQ2tTewvmDW2ziJKzSn6FMqnNO8j1vPzNXIYEefmBn3ukRfdPcVwD9x2BTUPqWH
-	qtRi3wKIuxHIERKsJ5F2ZDA5hZCqX6rdmxlFn9AvPGdnNu4lKOh3NSrIpKt41uYNu5WR
-	/71A==
-X-Gm-Message-State: AG10YOThDD5D4o+2AhfqhlCs/YOuvZkzPZhtDEl3TMBMrrUvwnVjovLo9M9fSu5McXBG/A==
-X-Received: by 10.28.223.67 with SMTP id w64mr18896127wmg.28.1453726701610;
-	Mon, 25 Jan 2016 04:58:21 -0800 (PST)
-Received: from localhost.localdomain
-	(ip-176-198-253-155.hsi05.unitymediagroup.de. [176.198.253.155])
-	by smtp.googlemail.com with ESMTPSA id
-	m206sm16044667wmf.16.2016.01.25.04.58.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Jan 2016 04:58:21 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2016 13:57:52 +0100
-Message-Id: <1453726672-7954-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.5.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WrMgWUhnQ7uqqiL2H9T02sHlq3sevnPTT6l+0WirO/8=;
+	b=D1+gZClx8UaM9YrRoUl0SN3uHtnHIKlBZWwTy5Ahh156mK+Elu2bDT+W7q+54y8ufI
+	BwukY2MgZWZb/TR7ZqjxTjNg7hBfi36N3i3JQ+zof2PWAIRh3H8FdxuGkH3ID2i/m9O0
+	rkA15Nscok8nyKpabnlGltbyraAaIjRtYgNNsWes7U+haKvA2QUUFeovIOYE1sHZeKCS
+	io/TgpmuFnYiNs1pjb9jou2iFGUSCL67PT7scIrY9aYzbZySWyDGzt4ot42JWIIz4DTD
+	2AZf5KKX8wKjYogWwj5Wqm/fDi/668YQ8Wwx4ZQlIeR34CqYUdYRGTBeTNZAxpWBCxnE
+	HRUA==
+X-Gm-Message-State: AG10YORvLh/fMHKUaB42e6RSHyHxLca8ZNuyYv7A2wgtgEDscO2/qkbQCEQl2YeUxPr0qNRcDoyD2gieV3IEjK/t
+X-Received: by 10.107.164.38 with SMTP id n38mr252467ioe.148.1453729815694;
+	Mon, 25 Jan 2016 05:50:15 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] xf86-input-libinput: initial add 0.16.0
+Received: by 10.107.162.70 with HTTP; Mon, 25 Jan 2016 05:49:56 -0800 (PST)
+In-Reply-To: <CAMKF1sq-mQQpBAa1YCcZFdQxEPOd=2DH-cm+oKKV2uD8_PPJ+A@mail.gmail.com>
+References: <1453497982-9859-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1sq-mQQpBAa1YCcZFdQxEPOd=2DH-cm+oKKV2uD8_PPJ+A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Jan 2016 13:49:56 +0000
+Message-ID: <CAJTo0LavmAFOxe2uL_L1OR4ZA0=_4JUz-qF5TE756ODkC3SyPQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bsd-headers: fix LICENSE syntax, && -> &
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 12:58:21 -0000
+X-List-Received-Date: Mon, 25 Jan 2016 13:50:18 -0000
+Content-Type: multipart/alternative; boundary=001a1142263243a7f5052a28d98a
+
+--001a1142263243a7f5052a28d98a
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Some distributions already use this as input default. It is planned to include
-it in xorg server 1.20. To
+On 23 January 2016 at 04:48, Khem Raj <raj.khem@gmail.com> wrote:
 
-* prepare usage now
-* make merge more easier later
+> This is already fixed in my tree. see
+>
+> https://github.com/kraj/openembedded-core/commit/86cd0650126b0ed7434335cd986272af69dc3671
+>
 
-include it in oe-core now.
+That's lovely but you didn't send it to the list, so nobody else knew. ;)
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- .../xorg-driver/xf86-input-libinput_0.16.0.bb                 | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb
+Ross
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb
-new file mode 100644
-index 0000000..0252baf
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb
-@@ -0,0 +1,11 @@
-+require xorg-driver-input.inc
-+
-+SUMMARY = "Generic input driver for the X.Org server based on libinput"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
-+
-+DEPENDS += "libinput"
-+
-+SRC_URI[md5sum] = "2c8cb520f88da7bafaceebc0b34ea1d4"
-+SRC_URI[sha256sum] = "fdade531e91e79acf6dce8ac55fa4f65abe3f1358c5d3d777ae48dbc74b76f49"
-+
-+FILES_${PN} += "${datadir}/X11/xorg.conf.d"
--- 
-2.5.0
+--001a1142263243a7f5052a28d98a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 January 2016 at 04:48, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":10kp" class=3D"a3s" st=
+yle=3D"overflow:hidden">This is already fixed in my tree. see<br>
+<a href=3D"https://github.com/kraj/openembedded-core/commit/86cd0650126b0ed=
+7434335cd986272af69dc3671" rel=3D"noreferrer" target=3D"_blank">https://git=
+hub.com/kraj/openembedded-core/commit/86cd0650126b0ed7434335cd986272af69dc3=
+671</a></div></blockquote></div><br>That&#39;s lovely but you didn&#39;t se=
+nd it to the list, so nobody else knew. ;)</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1142263243a7f5052a28d98a--
