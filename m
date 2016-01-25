@@ -1,24 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F1677117
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CE958605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 16:11:47 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jan 2016 08:11:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,345,1449561600"; d="scan'208";a="641144009"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Jan 2016 08:11:04 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2016 18:07:26 +0200
-Message-Id: <7ddc681595d12058128a499a50b92e059a8e5c98.1453737141.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.7.0.rc3
-In-Reply-To: <cover.1453737141.git.alexander.kanavin@linux.intel.com>
-References: <cover.1453737141.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1453737141.git.alexander.kanavin@linux.intel.com>
-References: <cover.1453737141.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/16] rxvt-unicode: update to 9.22
+	Mon, 25 Jan 2016 16:14:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0PGENuW017683
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 25 Jan 2016 08:14:23 -0800 (PST)
+Received: from server.local (128.224.22.131) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 25 Jan 2016 08:14:23 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <1453734454.25948.13.camel@linuxfoundation.org>
+	<56A64385.1020804@windriver.com>
+	<1453737176.25948.18.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <56A649DE.8080608@windriver.com>
+Date: Mon, 25 Jan 2016 11:14:22 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1453737176.25948.18.camel@linuxfoundation.org>
+Subject: Re: [PATCH] kernel: Clean DEPLOYDIR before do_deploy runs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 16:11:49 -0000
+X-List-Received-Date: Mon, 25 Jan 2016 16:14:25 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-License checksum change due to new copyright year.
+On 2016-01-25 10:52 AM, Richard Purdie wrote:
+> On Mon, 2016-01-25 at 10:47 -0500, Bruce Ashfield wrote:
+>> On 2016-01-25 10:07 AM, Richard Purdie wrote:
+>>> If we don't do this, the deploy sstate object contains an every
+>>> increasing number of modules tarballs and kernel images, one per
+>>> execution of "-c deploy -f".
+>>>
+>>
+>> Stupid question, since my sstate/deploy foo is weak at times.
+>> Does this mean that only a single set of modules + kernel images
+>> will be in tmp/deploy ? Or is it only sstate that is being
+>> cleaned ?
+>
+> One side effect is that it will remove the older copies. The older
+> copies were being built into each new sstate object which was growing
+> huge.
+>
+>> I sometimes need multiple copies around for debug purposes, so
+>> I'm wondering if that is still possible with this change ?
+>
+> You'd need to archive them before running another build since this
+> effectively cleans up the older copies now. This is due to the system
+> removing the old sstate "object", then installing a new one to replace
+> it. You can't keep the old ones around easily as they're named to
+> conflict (and hence replace each other).
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc                     | 2 +-
- .../rxvt-unicode/{rxvt-unicode_9.21.bb => rxvt-unicode_9.22.bb}     | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.21.bb => rxvt-unicode_9.22.bb} (50%)
+Ack'd. I'll have to remember to copy out what I need! :)
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-index 04a43c0..4d5daa6 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-@@ -5,7 +5,7 @@ terminal emulator rxvt, modified to store text in Unicode \
- (either UCS-2 or UCS-4) and to use locale-correct input and \
- output. It also supports mixing multiple fonts at the \
- same time, including Xft fonts."
--DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf"
-+DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu"
- 
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
- 	   file://xwc.patch \
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.21.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-similarity index 50%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.21.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-index 7049495..bfa8a61 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.21.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-@@ -2,7 +2,7 @@ require rxvt-unicode.inc
- 
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://src/main.C;beginline=1;endline=31;md5=7dac0395806570856e037f98aba8513b"
-+                    file://src/main.C;beginline=1;endline=31;md5=d3600d7ee1062667fcd1193fbe6485f6"
- 
--SRC_URI[md5sum] = "a9a06c608258c5fd247c3725d8f44582"
--SRC_URI[sha256sum] = "75270ed72bc5895a64a1d7392bf45a622204192371c3965bd3dd978dc088956b"
-+SRC_URI[md5sum] = "93782dec27494eb079467dacf6e48185"
-+SRC_URI[sha256sum] = "e94628e9bcfa0adb1115d83649f898d6edb4baced44f5d5b769c2eeb8b95addd"
--- 
-2.7.0.rc3
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
 
 
