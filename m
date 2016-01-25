@@ -1,22 +1,22 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A185731F1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CE56C7716F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 23:19:49 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 25 Jan 2016 15:19:51 -0800
+	Mon, 25 Jan 2016 23:27:50 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jan 2016 15:27:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,347,1449561600"; d="scan'208";a="898196466"
+X-IronPort-AV: E=Sophos;i="5.22,347,1449561600"; d="scan'208";a="641335475"
 Received: from mrsafer-mobl.amr.corp.intel.com (HELO
 	alimonb-mobl1.zpn.intel.com) ([10.254.48.62])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jan 2016 15:19:49 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Jan 2016 15:27:50 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2016 17:21:26 -0600
-Message-Id: <1453764086-24971-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Mon, 25 Jan 2016 17:29:37 -0600
+Message-Id: <1453764577-26470-1-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCHv2] ptest-runner_2.0: Add ptest-runner_2.0 recipe.
+Subject: [PATCHv3] ptest-runner_2.0: Add ptest-runner_2.0 recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 23:19:50 -0000
+X-List-Received-Date: Mon, 25 Jan 2016 23:27:51 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -64,7 +64,7 @@ Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 
 diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
 new file mode 100644
-index 0000000..94672a82
+index 0000000..221cf6c
 --- /dev/null
 +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
 @@ -0,0 +1,24 @@
@@ -77,10 +77,10 @@ index 0000000..94672a82
 +LICENSE = "GPLv2"
 +LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
 +
-+SRC_REV = "8bfdf946e784f4d5757bebee1fbc4b4a3d7a95c4"
++SRCREV = "8bfdf946e784f4d5757bebee1fbc4b4a3d7a95c4"
 +PV = "2.0+git${SRCPV}"
 +
-+SRC_URI = "git://github.com/alimon/ptest-runner2.git;protocol=https;rev=${SRC_REV}"
++SRC_URI = "git://github.com/alimon/ptest-runner2.git;protocol=https"
 +S = "${WORKDIR}/git"
 +
 +FILES_${PN} = "${bindir}/ptest-runner"
