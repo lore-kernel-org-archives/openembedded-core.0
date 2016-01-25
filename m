@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EE10077101
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ABFD77103
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 25 Jan 2016 18:32:45 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id o11so115460110qge.2
+Received: by mail-qg0-f50.google.com with SMTP id 6so115247501qgy.1
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 25 Jan 2016 10:32:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=8QxsbYSiOm9d4T7jgG0wdG0G5ayS+aaopxRA3sJCa8s=;
-	b=vrVN7IB6pfnKCJmnbu22rO5MnLxTQVMbKmSA34AUOqIU58AruMQhRIWEaZbuP40r6+
-	jbNGMS40ytHHKLD79dtlekTqoUs3t+wPr7scgIGcfHvFP4rN/75ZCaCWTQoF8oFpIM+W
-	Y+T6mk1B+OOFj+7WCJ6YZ4jsSSkJvZTyE5eSFss7aFizlxjCk15OHgbGG6jY/wUHrmcb
-	TEbDDoulaDvDGy6BflyX7C/CiELoqxNAVM7kCQ/oW2y6RqdA6RS2cDFhAY2zV2g4gsXu
-	wO4AHz2I4s+Zc0MtQzPD6mjcYSc3+NJP7rc8xXE+0CgWeOx5qLyQ08ZivC4Eh6lVvgis
-	EGug==
+	bh=8/uYpK2KRIE2IfdDAKT63Rga9KGiR+OIVbpUwrcX5Zg=;
+	b=aGbzkqWnlhzZLUnwap+qOGshTaxS3dz42YNh4MlF2tTi0fJvrJDB2SJQKFrfcv+Cnp
+	bF5CN4HuzNYyhkC0Bop51UVfCWlRksdyWe3DTAkNRIOSw5lpfzYNydAu3HxHRbs8cgBb
+	B16PyLY9OfZkX/bXuiTCGRMcSYvcb7e5TwLMeaGxSaiOJc7VxPveuxgcK4bX5qUklnZ5
+	o9N3NQGtn3tPvGeG9u7NqskfY3Hcmy6C8vhW952Rtcm9M7IrMSylINLYldCONumABiH+
+	//ffE8mANBvTb+cX9oDzcvxJ4WRoiRE9myAX3akO4dcQtgFghw9/ieyEmAfiSM//nkps
+	l64Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=8QxsbYSiOm9d4T7jgG0wdG0G5ayS+aaopxRA3sJCa8s=;
-	b=WyNSS5u1g1P7jwlB3+dT/bOecg6KjewCdRY2PXNBHLljVkL2OotfTOJPkSEm5tCYZx
-	kaDHTe0iLjqROVvb4xjzIQEDS50uK1kHQhGGHP1AzrYZAdlp/1VdnflpXhL3+uHdlJkI
-	shzmdkmPq7gl5mCBZByCqIswBFXLA3kVo1G/XraNQvEYFYiSmkyNjpHlyLejoK0r7czl
-	cgzrvO/UegZVoe028uVwE8KaXTbqaf989LIwBqbQ/em0gawjMwN5Aqrx6Ne/8qi34uBD
-	H6R3CFNQsibTDN6hU79oLxDZu8xxvbTFzlJnNNnNS+jwTRPaoCU+98TpKjF6013CyIt1
-	aK6w==
-X-Gm-Message-State: AG10YORihz3RnvbO0O3+/OaYiUkcZqeMIXkbSMenhAgLVqHE9xKATg54h7ZSMJHyVirFbQ==
-X-Received: by 10.140.100.141 with SMTP id s13mr22200395qge.25.1453746766625; 
+	bh=8/uYpK2KRIE2IfdDAKT63Rga9KGiR+OIVbpUwrcX5Zg=;
+	b=QKLs2oiWOsJ1b1TuF4xeh6dVYeTlJ29bX1oh0NJBmpjc/sQvVG7XC/AtozOvz8+Tcr
+	LsXycO9VNIIl6qR4TuEY8QPsGrUpcdQ47HrX4sjaQdOkdwvmIjOdLgoqpVSV/gidforW
+	V5HJ0MRY5NYEjifPTagWdQHup/UaEY5HFlVbTFvuGBDJGpqba6YYz9DXM3lcQHhc55oj
+	bBkdX8q+7LQSBzXFFYzJcvjfi/YY1ndelgHYVT1KuhnnM6CyxcUwqsR0apJoiKjNMyqK
+	2qrvBHWOXv/NNmosdNqY/QzeNCuUIsVU/3uafQGHZFv52iebEvky5PSZJC+my3KW6CES
+	XPeQ==
+X-Gm-Message-State: AG10YOTmwdvi+kdVGVfzZ0GkB3kImMtzsIc8VHQuJVotHl3BbOX7tIQOzAecHdZoByC7tQ==
+X-Received: by 10.140.195.136 with SMTP id q130mr24192641qha.45.1453746766001; 
 	Mon, 25 Jan 2016 10:32:46 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id h99sm9201586qge.7.2016.01.25.10.32.46
+	by smtp.gmail.com with ESMTPSA id h99sm9201586qge.7.2016.01.25.10.32.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Jan 2016 10:32:46 -0800 (PST)
+	Mon, 25 Jan 2016 10:32:45 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2016 18:32:24 +0000
-Message-Id: <c668391781fe6fec58f87b830967eee778ec0f51.1453746280.git.raj.khem@gmail.com>
+Date: Mon, 25 Jan 2016 18:32:23 +0000
+Message-Id: <aa0761de05941fbf51f0197adb424c9902cc0756.1453746280.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <ebc4ed16be5884afa7dfaa10f7f0db64baaca54d.1453746280.git.raj.khem@gmail.com>
 References: <ebc4ed16be5884afa7dfaa10f7f0db64baaca54d.1453746280.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1453746280.git.raj.khem@gmail.com>
 References: <cover.1453746280.git.raj.khem@gmail.com>
-Subject: [PATCH 08/11] bsd-headers: Fix LICENCE and dev package RDEPENDS
+Subject: [PATCH 07/11] ltp: Add rdep on ldd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +59,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 25 Jan 2016 18:32:46 -0000
 
-Clear out runtime deps for dev package, since PN is empty packager will
-try to resolve to PN when building images with musl and error out since
-PN is deleted as its empty
+Fixes runtime errors e.g.
 
-musl-dev explicitly depends upon it so it will get pulled into build
-in right order
+/opt/ltp/ver_linux: line 50: ldd: command not found
+awk: cmd. line:2: (FILENAME=- FNR=1) fatal: attempt to access field -1
+/opt/ltp/ver_linux: line 54: ldd: command not found
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/bsd-headers/bsd-headers.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-extended/ltp/ltp_20150903.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/bsd-headers/bsd-headers.bb b/meta/recipes-core/bsd-headers/bsd-headers.bb
-index 12a2cca..8f43d43 100644
---- a/meta/recipes-core/bsd-headers/bsd-headers.bb
-+++ b/meta/recipes-core/bsd-headers/bsd-headers.bb
-@@ -2,7 +2,8 @@
- # Released under the MIT license (see COPYING.MIT for the terms)
+diff --git a/meta/recipes-extended/ltp/ltp_20150903.bb b/meta/recipes-extended/ltp/ltp_20150903.bb
+index a15c704..f018dae 100644
+--- a/meta/recipes-extended/ltp/ltp_20150903.bb
++++ b/meta/recipes-extended/ltp/ltp_20150903.bb
+@@ -63,7 +63,7 @@ do_install(){
+     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+ }
  
- DESCRIPTION = "bsd compatible headers"
--LICENSE = "BSD-3-Clause && BSD-2-Clause"
-+LICENSE = "BSD-3-Clause & BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://sys-queue.h;beginline=1;endline=32;md5=c6352b0f03bb448600456547d334b56f"
- SECTION = "devel"
+-RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect"
++RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd"
  
- SRC_URI = "file://sys-queue.h \
-@@ -24,4 +25,7 @@ do_install() {
- #
- # We will skip parsing for non-musl systems
- #
-+
- COMPATIBLE_HOST = ".*-musl.*"
-+RDEPENDS_${PN}-dev = ""
-+RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+ FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
+ 
 -- 
 2.7.0
 
