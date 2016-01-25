@@ -1,31 +1,32 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CF81E6FF3D
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id EBDA0700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 10:01:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0PA1006014298
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Jan 2016 02:01:01 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jan 2016 02:01:00 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
-References: <cover.1453703961.git.kai.kang@windriver.com>
-	<51f0a96271229055e28dfe5ab12a29559c474614.1453703961.git.kai.kang@windriver.com>
-	<CAMKF1sohABk==LdOMgph7JyHaTH2B0-=5ODtFy49-BJHbcM4Lg@mail.gmail.com>
-	<CAJTo0LYrOjAaOALMkon02aJNrDL43dNgJ6s2G=aPhtejodQwMA@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <56A5F267.3090608@windriver.com>
-Date: Mon, 25 Jan 2016 18:01:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Mon, 25 Jan 2016 11:00:20 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0PB0JGn009066 for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jan 2016 05:00:19 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016012505001991-247694 ;
+	Mon, 25 Jan 2016 05:00:19 -0600 
+Date: Mon, 25 Jan 2016 13:00:08 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20160125130008.1db46bed@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <88b6d7a2acf46e3623c02685cff661a958f9a7ea.1451983009.git.adrian.ratiu@ni.com>
+References: <88b6d7a2acf46e3623c02685cff661a958f9a7ea.1451983009.git.adrian.ratiu@ni.com>
+Organization: National Instruments
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYrOjAaOALMkon02aJNrDL43dNgJ6s2G=aPhtejodQwMA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] wget: inherit perlnative
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/25/2016 05:00:20 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/25/2016 05:00:20 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-25_06:, , signatures=0
+Subject: Re: [RESEND PATCH v3 1/2] package_ipk: support signing of ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,123 +39,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 10:01:03 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030204060408090701020206"
+X-List-Received-Date: Mon, 25 Jan 2016 11:00:21 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---------------030204060408090701020206
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, 5 Jan 2016 10:38:51 +0200
+Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
-On 2016年01月25日 16:48, Burton, Ross wrote:
->
-> On 25 January 2016 at 07:27, Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>> wrote:
->
->     what happens for wget-native ? Does it now serialize the build ?
->
->
-> Thankfully wget-native is an assumed dependency (albeit not 
-> explicitly, we should fix that).
->
-> But I do agree that perlnative is a *huge* dependency for a bit of 
-> documentation.  SLED 11 is rather old now (released 2009), we don't 
-> test it on the autobuilders, and support for it ends in less than two 
-> months.  I'd prefer to either call this a distro patch for products 
-> who want to continue to support SLED11, or patch the documentation 
-> build so that it doesn't pass --utf8 if that isn't harmful.
+> Minimum required opkg version: 3.0 (already in master/jethro).
+>=20
+> Add a new bbclass for creating signatures for ipk files.
+> The signing process is very similar to the existing rpm signing,
+> but different in some important ways:
+>     - Signatures are stored outside the ipk files, opkg connects
+> to a feed server and downloads them as separate files which are
+> used to verify ipk's. These files go everywhere alongside the ipk.
+>     - Signatures can be of two types: binary (.sig) and ascii-armored
+> (.asc). By default OE and opkg use binary, can be configured by using
+> IPK=5FSIGNATURE=5FTYPE (in OE) and "option signature=5Ftype gpg-asc" in
+> opkg.
+>     - The public key is stored on device and the keyring managed
+> by the opkg-keyrings package. See its recipe for more details.
+>=20
+> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+> ---
+>  meta/classes/package=5Fipk.bbclass |  6 ++++
+>  meta/classes/sign=5Fipk.bbclass    | 73 ++++++++++++++++++++++++++++++++=
+++++++++
+>  2 files changed, 79 insertions(+)
+>  create mode 100644 meta/classes/sign=5Fipk.bbclass
+>=20
+> diff --git a/meta/classes/package=5Fipk.bbclass b/meta/classes/package=5F=
+ipk.bbclass
+> index 51bee28..4f5bbd0 100644
+> --- a/meta/classes/package=5Fipk.bbclass
+> +++ b/meta/classes/package=5Fipk.bbclass
+> @@ -246,6 +246,12 @@ python do=5Fpackage=5Fipk () {
+>              bb.utils.unlockfile(lf)
+>              raise bb.build.FuncFailed("opkg-build execution failed")
+> =20
+> +        if d.getVar('IPK=5FSIGN=5FPACKAGES', True) =3D=3D '1':
+> +            ipkver =3D "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
+> +            ipk=5Fto=5Fsign =3D "%s/%s=5F%s=5F%s.ipk" % (pkgoutdir, pkgn=
+ame, ipkver, d.getVar('PACKAGE=5FARCH', True))
+> +            d.setVar('IPK=5FTO=5FSIGN', ipk=5Fto=5Fsign)
+> +            bb.build.exec=5Ffunc("sign=5Fipk", d)
+> +
+>          cleanupcontrol(root)
+>          bb.utils.unlockfile(lf)
+> =20
+> diff --git a/meta/classes/sign=5Fipk.bbclass b/meta/classes/sign=5Fipk.bb=
+class
+> new file mode 100644
+> index 0000000..a4f1f3a
+> --- /dev/null
+> +++ b/meta/classes/sign=5Fipk.bbclass
+> @@ -0,0 +1,73 @@
+> +# Class for generating signed IPK packages.
+> +#
+> +# Configuration variables used by this class:
+> +# IPK=5FGPG=5FPASSPHRASE=5FFILE
+> +#           Path to a file containing the passphrase of the signing key.
+> +# IPK=5FGPG=5FNAME
+> +#           Name of the key to sign with.
+> +# IPK=5FSIGNATURE=5FTYPE
+> +#           Optional type of signature to accompany IPK files, can be:
+> +#                     1. Ascii armored (ASC)
+> +#                     2. Binary (BIN), default
+> +# GPG=5FBIN
+> +#           Optional variable for specifying the gpg binary/wrapper to u=
+se for
+> +#           signing.
+> +#
+> +
+> +inherit sanity
+> +
+> +IPK=5FSIGN=5FPACKAGES =3D '1'
+> +
+> +def ipksign=5Fwrapper(d, ipk=5Ffile, passphrase, gpg=5Fname=3DNone, sigt=
+ype=3D"BIN"):
+> +    import subprocess
+> +    from subprocess import Popen
+> +
+> +    keypipe =3D os.pipe()
+> +    os.write(keypipe[1], passphrase + '\n')
+> +
+> +    # use gpg from host PATH if user did not define a specific binary
+> +    cmd =3D [d.getVar('GPG=5FBIN', True) or bb.utils.which(os.getenv('PA=
+TH'), "gpg")]
+> +
+> +    if gpg=5Fname:
+> +        cmd +=3D ["-q", "--batch", "--yes", "-b", "-u", gpg=5Fname]
+> +    else:
+> +        raise=5Fsanity=5Ferror("You need to define IPK=5FGPG=5FNAME in b=
+itbake config", d)
+> +
+> +    # transmit using pipes for security
+> +    cmd +=3D ["--passphrase-fd",  str(keypipe[0])]
+> +
+> +    # ascii armored or binary signatures
+> +    if sigtype.lower() =3D=3D "ASC".lower():
+> +        cmd +=3D ["-a"]
+> +    elif sigtype.lower() !=3D "BIN".lower():
+> +        raise=5Fsanity=5Ferror("Invalid IPK=5FSIGNATURE=5FTYPE in bitbak=
+e config", d)
+> +
+> +    cmd +=3D [ipk=5Ffile]
+> +
+> +    p =3D Popen(cmd, stdin=3Dsubprocess.PIPE)
+> +    p.wait()
+> +
+> +    os.close(keypipe[1])
+> +    os.close(keypipe[0])
+> +
+> +    return p.returncode
+> +
+> +
+> +python sign=5Fipk () {
+> +    ipk=5Fgpg=5Fpass=5Ffile =3D (d.getVar("IPK=5FGPG=5FPASSPHRASE=5FFILE=
+", True) or "")
+> +    if ipk=5Fgpg=5Fpass=5Ffile:
+> +        with open(ipk=5Fgpg=5Fpass=5Ffile) as fobj:
+> +            ipk=5Fgpg=5Fpassphrase =3D fobj.readlines()[0].rstrip('\n')
+> +    else:
+> +        raise=5Fsanity=5Ferror("You need to define IPK=5FGPG=5FPASSPHRAS=
+E=5FFILE in the config", d)
+> +
+> +    ipk=5Fgpg=5Fname =3D (d.getVar("IPK=5FGPG=5FNAME", True) or "")
+> +
+> +    ipk=5Ffile =3D d.getVar('IPK=5FTO=5FSIGN')
+> +    bb.debug(1, 'IPK=5FTO=5FSIGN: %s' % ipk=5Ffile)
+> +
+> +    sigtype =3D (d.getVar("IPK=5FSIGNATURE=5FTYPE", True) or "")
+> +
+> +    if ipksign=5Fwrapper(d, ipk=5Ffile, ipk=5Fgpg=5Fpassphrase, ipk=5Fgp=
+g=5Fname, sigtype) !=3D 0:
+> +        raise bb.build.FuncFailed("IPK signing failed")
+> +}
 
-If oe-core doesn't support SLED11, I'll make this as a local commit. 
-When the support for SLED11 ends, it could be removed easily.
+ping?
 
-Thank you all.
-
---Kai
-
-
->
-> Ross
-
-
--- 
-Regards,
-Neil | Kai Kang
-
-
---------------030204060408090701020206
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2016年01月25日 16:48, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYrOjAaOALMkon02aJNrDL43dNgJ6s2G=aPhtejodQwMA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 25 January 2016 at 07:27, Khem Raj
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:raj.khem@gmail.com" target="_blank">raj.khem@gmail.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":12yt" class="a3s" style="overflow:hidden">what
-                happens for wget-native ? Does it now serialize the
-                build ?</div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Thankfully wget-native is an assumed dependency (albeit
-              not explicitly, we should fix that).</div>
-            <div><br>
-            </div>
-            <div>But I do agree that perlnative is a *huge* dependency
-              for a bit of documentation.  SLED 11 is rather old now
-              (released 2009), we don't test it on the autobuilders, and
-              support for it ends in less than two months.  I'd prefer
-              to either call this a distro patch for products who want
-              to continue to support SLED11, or patch the documentation
-              build so that it doesn't pass --utf8 if that isn't
-              harmful.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    If oe-core doesn't support SLED11, I'll make this as a local commit.
-    When the support for SLED11 ends, it could be removed easily.<br>
-    <br>
-    Thank you all.<br>
-    <br>
-    --Kai<br>
-    <br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYrOjAaOALMkon02aJNrDL43dNgJ6s2G=aPhtejodQwMA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <div>Ross</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------030204060408090701020206--
