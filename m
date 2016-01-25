@@ -1,37 +1,46 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 138D4770A2
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C3AEC7705C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 19:15:34 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id b35so116364588qge.0
+	Mon, 25 Jan 2016 19:25:15 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id pv5so6916554pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 11:15:35 -0800 (PST)
+	Mon, 25 Jan 2016 11:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=Glbv/0u0TqM4R0eCqVnbSyhbToTjnecdaIifpQSh8J4=;
+	b=MgCI66MsToNMvh7dg1AynqGdDiaeY3SQhPSJkbZOhQLvb4rsf0asGye/c4Gb3E/5E2
+	TuNYY500qNaoSqTU++6WG6nJQDDtl/GuOQs0ecaVAELOrJSzIEK2ZvnTLB1gOtIvtcc5
+	8xpanX875VEXBHSBhlTPgh2Ga6zwGrrfqBh9dIENQKwm9xyNxX9BG0vdEBSxTIJbxuSR
+	zqo/h1NNvF6ULdSYXKncULSDc0WZSc/9b9Z6ZqV9NebEA0QEWs+fy63lPbtYa0tUg8eS
+	LwlTbLA0aNVnBJd4gOplyABIwqgzVArM16JHl0BapN6K8VggVm8+upf+BF7V9btSdqes
+	DBvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0KcGT5i571NH5T61KeaeehNPaH+ga+D2Df9egZkl0AE=;
-	b=fOba8Cpelt9ptcpEEzrjS4/LaSO/fg4Hr7bTJasPlXFxuOEPIT6Kh8J9cFuCxbjjEN
-	4UAmqXsHkQokA7sKJkT++Aoedh1+xSHHwjOOPN8H1vWVYaAOTm1zFNSKYUfHwxHjiymk
-	yijs6ukvK+0HwRaDi28ASWE+0F3h5fatBknRDM57QL98CSZLlAfM5L6zbRW0JNFrRcxW
-	wiV9C0G9Ew9O5JO3L43CRkFxREA+nJtq66rS3WcZatmUOLbRnHb46yQw4jT8u1d3QkKX
-	FNbZd18Fh7w0LcmB22AXxvrerhR7Bb4FYbyeuHlKT+ynxm7XiMCEPmpGAKTqCtvMEvOw
-	gWkg==
-X-Gm-Message-State: AG10YOSJTV0RtRaUt+DLWSKNapl24HFZTTwKy3Hth60OkzU5IwUwCx/KPaWurYn7lZTrWg==
-X-Received: by 10.140.177.8 with SMTP id x8mr24654880qhx.38.1453749335283;
-	Mon, 25 Jan 2016 11:15:35 -0800 (PST)
-Received: from build-slave.star.lab (c-73-172-178-168.hsd1.md.comcast.net.
-	[73.172.178.168]) by smtp.gmail.com with ESMTPSA id
-	z138sm9227911qhb.7.2016.01.25.11.15.34
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Glbv/0u0TqM4R0eCqVnbSyhbToTjnecdaIifpQSh8J4=;
+	b=j4l2Pmo07muVfJSYJxFz7m9IeS/9du/HWhWCeUDMqkLKs+23gWvTMMOa5NEdLtc44s
+	btiPD9SlnnvlhIOpRIaEv9BDqSeKo1EhQHmsit7pSJsy4WqluXZa2A6Myy1uu98km/Vj
+	HMW8aGk5wK5bNO5ep+LXDBEuoQpHObgEep1bdre4Ceqy5uekPNJSY4KbYzuO3uPjsWbd
+	47cYrQeNEcTTzjWWsb6O5EiDeX+YHOmIF0vKyeu5y00WhyZnabqvuZ6PeE8o54YSHL7K
+	BELLonOEUOv/mMG47vGjilK86NTt3XS0tGDWLHxIrIUX3Bm/EbkB0L1LJoa+Lbbvnpe+
+	k7Ug==
+X-Gm-Message-State: AG10YOSTtArUAicKuA4oIHgXcpUMKJv6xtBnPabCEQoHZzXc0wMB1bSI4UKAQH9LmOwKgg==
+X-Received: by 10.66.235.162 with SMTP id un2mr28115773pac.17.1453749915872;
+	Mon, 25 Jan 2016 11:25:15 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	b84sm30482439pfj.25.2016.01.25.11.25.14
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Jan 2016 11:15:34 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
+	Mon, 25 Jan 2016 11:25:14 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2016 14:15:28 -0500
-Message-Id: <1453749328-23041-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 1.9.1
-Cc: Derek Straka <derek@asterius.io>
-Subject: [jethro][PATCH] bind: CVE-2015-8704 and CVE-2015-8705
+Date: Mon, 25 Jan 2016 11:25:03 -0800
+Message-Id: <cover.1453749700.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 0/4][jethro] Glibc security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,128 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 19:15:35 -0000
+X-List-Received-Date: Mon, 25 Jan 2016 19:25:15 -0000
 
-CVE-2015-8704:
-Allows remote authenticated users to cause a denial of service via a malformed Address Prefix List record
+not sure if my first request went out correctly.
 
-CVE-2015-8705:
-When debug logging is enabled, allows remote attackers to cause a denial of service or have possibly unspecified impact via OPT data or ECS option
+please consider these for the next jethro update
 
-[YOCTO 8966]
+The following changes since commit dd0ba9ea4a11ab15348d4fe3574e4b28784db82f:
 
-References:
-https://kb.isc.org/article/AA-01346/0/BIND-9.10.3-P3-Release-Notes.html
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8704
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8705
+  build-appliance-image: Update to jethro head revision (2016-01-17 14:33:04 +0000)
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- .../bind/bind/CVE-2015-8704.patch                  | 28 ++++++++++++++
- .../bind/bind/CVE-2015-8705.patch                  | 44 ++++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |  2 +
- 3 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch
+are available in the git repository at:
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
-new file mode 100644
-index 0000000..d5bf740
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
-@@ -0,0 +1,28 @@
-+a buffer size check can cause denial of service under certain circumstances 
-+
-+[security]
-+The following flaw in BIND was reported by ISC:
-+
-+A buffer size check used to guard against overflow could cause named to exit with an INSIST failure In apl_42.c.
-+
-+A server could exit due to an INSIST failure in apl_42.c when performing certain string formatting operations.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2015-8704
-+
-+[The patch is taken from BIND 9.10.3:
-+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-8704]
-+
-+Signed-off-by: Derek Straka <derek@asterius.io>
-+diff --git a/lib/dns/rdata/in_1/apl_42.c b/lib/dns/rdata/in_1/apl_42.c
-+index bedd38e..28eb7f2 100644
-+--- a/lib/dns/rdata/in_1/apl_42.c
-++++ b/lib/dns/rdata/in_1/apl_42.c
-+@@ -116,7 +116,7 @@ totext_in_apl(ARGS_TOTEXT) {
-+	isc_uint8_t len;
-+	isc_boolean_t neg;
-+	unsigned char buf[16];
-+-	char txt[sizeof(" !64000")];
-++	char txt[sizeof(" !64000:")];
-+	const char *sep = "";
-+	int n;
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch
-new file mode 100644
-index 0000000..c4a052d
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch
-@@ -0,0 +1,44 @@
-+a crash or assertion failure can during format processing 
-+
-+[security]
-+The following flaw in BIND was reported by ISC:
-+
-+In versions of BIND 9.10, errors can occur when OPT pseudo-RR data or ECS options are formatted to text. In 9.10.3 through 9.10.3-P2, the issue may result in a REQUIRE assertion failure in buffer.c.
-+
-+This issue can affect both authoritative and recursive servers if they are performing debug logging. (It may also crash related tools which use the same code, such as dig or delv.)
-+
-+A server could exit due to an INSIST failure in apl_42.c when performing certain string formatting operations.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2015-8705
-+
-+[The patch is taken from BIND 9.10.3:
-+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-8705]
-+
-+Signed-off-by: Derek Straka <derek@asterius.io>
-+diff --git a/lib/dns/message.c b/lib/dns/message.c
-+index ea7b93a..810c58e 100644
-+--- a/lib/dns/message.c
-++++ b/lib/dns/message.c
-+@@ -3310,9 +3310,19 @@
-+ 			} else if (optcode == DNS_OPT_SIT) {
-+ 				ADD_STRING(target, "; SIT");
-+ 			} else if (optcode == DNS_OPT_CLIENT_SUBNET) {
-++				isc_buffer_t ecsbuf;
-+ 				ADD_STRING(target, "; CLIENT-SUBNET: ");
-+-				render_ecs(&optbuf, target);
-+-				ADD_STRING(target, "\n");
-++				isc_buffer_init(&ecsbuf,
-++							isc_buffer_current(&optbuf),
-++							optlen);
-++				isc_buffer_add(&ecsbuf, optlen);
-++				result = render_ecs(&ecsbuf, target);
-++				if (result == ISC_R_NOSPACE)
-++					return (result);
-++				if (result == ISC_R_SUCCESS) {
-++					isc_buffer_forward(&optbuf, optlen);
-++                                        ADD_STRING(target, "\n");
-++                }
-+ 				continue;
-+ 			} else if (optcode == DNS_OPT_EXPIRE) {
-+ 				if (optlen == 4) {
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-index 1e1e726..c9a7acd 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-@@ -21,6 +21,8 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
-+           file://CVE-2015-8704.patch \
-+           file://CVE-2015-8705.patch \
-            "
- 
- SRC_URI[md5sum] = "8b1f5064837756c938eadc1537dec5c7"
+  git://git.yoctoproject.org/poky-contrib akuster/jethro_glibc_cve_fixes
+  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/jethro_glibc_cve_fixes
+
+Armin Kuster (4):
+  glibc: CVE-2015-8777.patch
+  glibc: CVE-2015-8779
+  glibc: CVE-2015-9761
+  glibc: CVE-2015-8776
+
+ meta/recipes-core/glibc/glibc/CVE-2015-8776.patch  |  155 +++
+ meta/recipes-core/glibc/glibc/CVE-2015-8777.patch  |  123 +++
+ meta/recipes-core/glibc/glibc/CVE-2015-8779.patch  |  262 +++++
+ .../recipes-core/glibc/glibc/CVE-2015-9761_1.patch | 1039 ++++++++++++++++++++
+ .../recipes-core/glibc/glibc/CVE-2015-9761_2.patch |  385 ++++++++
+ meta/recipes-core/glibc/glibc_2.22.bb              |    5 +
+ 6 files changed, 1969 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
+
 -- 
-1.9.1
+2.3.5
 
 
