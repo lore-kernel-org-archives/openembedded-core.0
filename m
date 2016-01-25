@@ -1,47 +1,47 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id EBAF277085
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A4C38601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 18:04:21 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id z14so41215585igp.1
+	Mon, 25 Jan 2016 18:14:23 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id g73so163907537ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 10:04:22 -0800 (PST)
+	Mon, 25 Jan 2016 10:14:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=ubS5H6rNN9BdrUDi6gEZOm9MmBjGqslwO/wDEW54Ubk=;
-	b=Nwt/vNORAZbMdFlyz/WL+9iYPzYRLJT0Ri+X6qktB/e8w3ytBEbLkLAkm17T687C/C
-	QTyDOHgAlSJE1OtlVF6HvjZWo24aNqxrFBrba0sc22G0kN6QYH58RAD6w8+ewo3uO6Y0
-	AToe1ec8qhm8sZ6U3YDV0WSPAeH3VAVwz+bbRXLcM90bm9Ke5euBKSc/Ao+6iTsr0bRy
-	bPsqZMYD2RZcXXU0TwS65sCCS08lHQz+ZTHMWSepYT+U0uRuwRDiCxXXzBj4fduFZpdh
-	ErVefvTiGLrICzyoENBqYrP9Di004dxRFl7/hQtHyaMMKuDdbtlWFJ9+63gJUtsnbEGT
-	Swsg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=vML4/AW0XFSBX/EuAlzn+tFoiC+2YBKwpwz8uXKuVns=;
+	b=EFagzNHIr7Wp/P6cJN4XHtdFqul5/WTtsgVj5c1yEhiXVbAlcg3AO3xP1RMNhfhKXu
+	EDcNMMyqhl2xQVw+dZvwo+/kzNmpiCWx3CnAr9nQwdNy/MnjMXg7u7Qp8PcBi5GleTq6
+	rI7uU08tHAnJ/OWmtsN7LfegXXfHmFYFAGdLhXnqOCJNnEC1y0jSOR479NLnN4umFI4f
+	N5F1PycoNuHbunTiGs9/vsewaxHiO4S5lRCqAu1xrv+xsCAbRhUiipjPO/DDSUKwi02p
+	oBasVeIq09CMl88HpFcnntzZ96o5FayMwKEh8cO3qpEd9Bql/O0T3d551+sQ3b8LDfHx
+	eHXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=ubS5H6rNN9BdrUDi6gEZOm9MmBjGqslwO/wDEW54Ubk=;
-	b=Kc7or7dz156VEJcEY/knk7VBM8EN2Ce8dv1LlMq6WBwdIwVfvR1TQQG7sprQhv1TZF
-	l+V76G8lQT+XO1EXB2Wbr37cjfcv7OLDfp7UMY5Z2IEmUUbL55ngTXe9LaSnh2+4lZjN
-	pEKA3M1wXQqLpGbHa27Q1sjUpcP/8QFB7ZBIkU1I29C51OvWZT33COf4zKqbWeR8qnIr
-	wZ0obbSq0pJsHNiQWSebasAHVyPiF8KDgZnm+eE7V+2Gxckut27rJurn4518jDPcYcOG
-	0QThveh5gESKkJJGOq9hMA3hYHrcfYrrJQ598bNilRMmN4Ykv1zmfVLtDc5bOrVEko9Y
-	5rMw==
-X-Gm-Message-State: AG10YORHn8A1tsjwXLf7ehrz6dLWF1RYhktOchgdnbhjOGfruqHYh0orNq/fj0MNhbMVPKUS+NMdu0kGJ7VWWA==
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vML4/AW0XFSBX/EuAlzn+tFoiC+2YBKwpwz8uXKuVns=;
+	b=QxZGS8y0CYR1XqjKKN/0UvNwUHm8EYJTsg8RJpj/pdnL35qDAbycWPmuab/f58zQdC
+	2lP608Rf5BPF/riK6ZSiLCVx2V5SvN9v/pFLuVvKZN3ARLh1pbssXTK5v4gu1aGUG02c
+	XZkZL4lHag632r+ZP0Hfzx2aLsrd38s//P1gHiXDwXmZavgg1Xa6xppqnWSHc3eAyKHO
+	nskWtWzeBRvA577kNeoDiPQ+MoAn0o8G7cB8oSpCNmWvDJUlO/DqKu60kqudaENUH/w7
+	bP2zPV5ygZU+P2wHjKsHut81R2vCE8lA1c+NzIhxv2hSyXe2lhkEPTDwcSNQQETffwbl
+	Hcnw==
+X-Gm-Message-State: AG10YORJpr6k4CnYvJrWaLnIso69Vr4aTGwfoJR5j3nBTGc+Gk+Dmgu9/h3wxdO2aWhMHnfLBDmnTjhq4duZ8i0H
+X-Received: by 10.107.3.154 with SMTP id e26mr16912028ioi.99.1453745664688;
+	Mon, 25 Jan 2016 10:14:24 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.50.111.111 with SMTP id ih15mr19333230igb.78.1453745062127; 
-	Mon, 25 Jan 2016 10:04:22 -0800 (PST)
-Received: by 10.36.25.81 with HTTP; Mon, 25 Jan 2016 10:04:22 -0800 (PST)
-In-Reply-To: <CAJTo0LZbDJS6MCjsXqaBE7krYiR9toB=VoxaXGx+2J45hw+jKQ@mail.gmail.com>
+Received: by 10.107.162.70 with HTTP; Mon, 25 Jan 2016 10:14:05 -0800 (PST)
+In-Reply-To: <CALbNGRR-p420-Ot8Qy6KNpUnc1VvWTKy+uCz7b7xSVWmzBX7TQ@mail.gmail.com>
 References: <CALbNGRSZ+edCEyGJzWbkniTkds6M=PqF3_gD65=fO0JiYOELBA@mail.gmail.com>
 	<CAJTo0LZbDJS6MCjsXqaBE7krYiR9toB=VoxaXGx+2J45hw+jKQ@mail.gmail.com>
-Date: Mon, 25 Jan 2016 19:04:22 +0100
-Message-ID: <CALbNGRR-p420-Ot8Qy6KNpUnc1VvWTKy+uCz7b7xSVWmzBX7TQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CALbNGRR-p420-Ot8Qy6KNpUnc1VvWTKy+uCz7b7xSVWmzBX7TQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Jan 2016 18:14:05 +0000
+Message-ID: <CAJTo0LbFsW0iSagKop1EvT67VyrCZBzZq0cfCH88DskDThM+aw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: opkg pkg_prerm on package update
@@ -57,45 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 18:04:23 -0000
+X-List-Received-Date: Mon, 25 Jan 2016 18:14:24 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10af02772052a2c894c
+
+--001a113ec10af02772052a2c894c
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 25, 2016 at 6:37 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 22 January 2016 at 09:50, Andreas M=C3=BCller <schnitzeltony@googlemai=
-l.com>
-> wrote:
->>
->> although opkg 0.2 -> 0.3 is long ago I noticed a change in behaviour
->> when updating a package:
->>
->> * 0.2.x did not call pkg_prerm
->> * 0.3.x calls pkg_prerm
->>
->> Is calling pkg_prerm a valid behaviour when updating a package?
->
->
-> opkg is copying what dpkg does [1], which makes sense considering opkg is
-> basically a dpkg clone.  It passes variables to the script so you can
-> identify if the context is "i'm being deleted" or "i'm being upgraded".
->
-> This changed in
-> http://git.yoctoproject.org/cgit/cgit.cgi/opkg/commit/?id=3Da8555d352d285=
-1ee1482b74b57ba9eacfb354c18
-> if you want more context.
->
-> [1] https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html is
-> what dpkg does, fwiw.
->
-> Ross
-Thanks a lot but I need to ask for more :)
+On 25 January 2016 at 18:04, Andreas M=C3=BCller <schnitzeltony@googlemail.=
+com>
+wrote:
 
-As you know of "i'm being deleted" or "i'm being upgraded" - you have
-a pointer for this? To find a common solution: Do package managers
-share same behaviour here - or is there a common document package
-managers should comply with?
+> As you know of "i'm being deleted" or "i'm being upgraded" - you have
+> a pointer for this? To find a common solution: Do package managers
+> share same behaviour here - or is there a common document package
+> managers should comply with?
+>
 
-Andreas
+The dpkg reference explains how dpkg works, which is generally how opkg
+works.
 
+Annoyingly I'm not sure rpm behaves the same way...
+
+Ross
+
+--001a113ec10af02772052a2c894c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 January 2016 at 18:04, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony=
+@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v id=3D":12g0" class=3D"a3s" style=3D"overflow:hidden">As you know of &quot=
+;i&#39;m being deleted&quot; or &quot;i&#39;m being upgraded&quot; - you ha=
+ve<br>
+a pointer for this? To find a common solution: Do package managers<br>
+share same behaviour here - or is there a common document package<br>
+managers should comply with?</div></blockquote></div><br>The dpkg reference=
+ explains how dpkg works, which is generally how opkg works.</div><div clas=
+s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Annoyingly I&#39;m n=
+ot sure rpm behaves the same way...</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ec10af02772052a2c894c--
