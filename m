@@ -1,51 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 624917707B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B6EDB75D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jan 2016 23:20:26 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id cy9so70807039pac.0
+	Mon, 25 Jan 2016 02:49:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0P2noag025577
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jan 2016 15:20:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=NHeznB3cjR/EPe+ApDFMxk0MrwL6moRO8Hhgz5169vI=;
-	b=g2Lkf7/bmq/5ko/JP5UAVmL4Xt9JgySjkaulR/DasXiK2P4awZnHWfwfrC4B74F6Ak
-	zsM8y6cFL4F4FGd6Ea0D6UEj20+Pte7Q/yTCoRia3mi4G2WRcf1uuNv7PI8eWJDgTcPK
-	9JyaTQzmb85JIOoTDbguII7k0g6geNcvSVeTh+d4R5NGIajqEMHlu+YFrvQbMIAl6s49
-	6hhS4vVE2M/yHAzHDKv6l14DMceQsc9Idh4Z6j5I2p/xvOqsW7F9b19mUI5p4cXD9Bwp
-	ePw9GQZdzMSzqwixA1Hup+qJ3Na+X9XONtohpaNdMOQecOaXHoFWF4t9z8IjqZnI15mM
-	FqWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-type:content-transfer-encoding;
-	bh=NHeznB3cjR/EPe+ApDFMxk0MrwL6moRO8Hhgz5169vI=;
-	b=QdQrHI7S6TOpfwQXiK6xliL/RBXL/3lIzYAX4+oO84xC5ZM2lIRmY0KbkTIOWdIg8u
-	OHopWvs8ZGVn5jKB5W7EtrDw8UZ7jfGo1QYRvYbp3beMFjlFM16kWFS5ZpDTvqkeZRg6
-	QWDPf5oBkNE6NPueY8pWLHOcQo54fPbWUgnij4WAlUYRZ3BGuin0iNnQRWCJKOsA4Yx9
-	001DMkobmxEQX+/cnzyctTIGtult2gvfQPoYaO/eyE2yOe2GNAwTsgRl9Vnp5fRPqQMC
-	B+l+IgM33TazQaQzQ6r5q2vS6P8gEIvA6K4Js33MFUwqFD3QKRZGJJo3QeuUtqEXPs98
-	vXpg==
-X-Gm-Message-State: AG10YOSdTUBp59UlC/pxOZi+MC6MEirMeNUObQqRSyiHuodHCUMTuXlrx05srFA8+w5Gjw==
-X-Received: by 10.66.236.69 with SMTP id us5mr21463733pac.93.1453677627962;
-	Sun, 24 Jan 2016 15:20:27 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:b584:3e69:b68e:9dba?
-	([2601:202:4000:1239:b584:3e69:b68e:9dba])
-	by smtp.googlemail.com with ESMTPSA id
-	b84sm23816094pfj.25.2016.01.24.15.20.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 24 Jan 2016 15:20:26 -0800 (PST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56A55C2D.9030205@gmail.com>
-Date: Sun, 24 Jan 2016 15:20:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Sun, 24 Jan 2016 18:49:50 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Sun, 24 Jan 2016 18:49:49 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Jan 2016 10:48:47 +0800
+Message-ID: <1453690127-24751-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Jethro backport request
+Subject: [PATCH] [v2] watchdog: enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,14 +31,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Jan 2016 23:20:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jan 2016 02:49:51 -0000
+Content-Type: text/plain
 
+From: Roy Li <rongqing.li@windriver.com>
 
-Please backport a2f23fa62858b89850aab339ddec16dcf6026b37  from master to
-Jethro
+1. inherit systemd, and add two unit files which are from Fedora 23
+2. auto load soft dog kernel module
 
-regards,
-Armin
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../watchdog/watchdog/watchdog-ping.service             | 12 ++++++++++++
+ .../recipes-extended/watchdog/watchdog/watchdog.service | 12 ++++++++++++
+ meta/recipes-extended/watchdog/watchdog_5.14.bb         | 17 ++++++++++++++++-
+ 3 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog.service
+
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+new file mode 100644
+index 0000000..fce6e12
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=watchdog daemon for use with ping test / network dependency
++After=network.target
++Conflicts=watchdog.service
++
++[Service]
++Type=forking
++ExecStart=@SBINDIR@/watchdog
++ControlGroup=cpu:/
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog.service b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+new file mode 100644
+index 0000000..f945bc9
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=watchdog daemon
++# man systemd.special
++# auto added After=basic.target
++
++[Service]
++Type=forking
++ExecStart=@SBINDIR@/watchdog
++ControlGroup=cpu:/
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+index fc717bc..9e21075 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+@@ -14,6 +14,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+ 	   file://watchdog-init.patch \
+ 	   file://watchdog-conf.patch \
+ 	   file://0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch \
++	   file://watchdog-ping.service \
++	   file://watchdog.service \
+ "
+ 
+ SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
+@@ -23,7 +25,7 @@ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/watchdog/files/watchdog/"
+ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
+ inherit autotools
+-inherit update-rc.d
++inherit update-rc.d systemd
+ 
+ DEPENDS_append_libc-musl = " libtirpc "
+ CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
+@@ -34,6 +36,19 @@ INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
+ 
+ RRECOMMENDS_${PN} = "kernel-module-softdog"
+ 
++
++SYSTEMD_SERVICE_${PN} = "watchdog.service"
++
+ do_install_append() {
+ 	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/watchdog*.service ${D}${systemd_unitdir}/system
++
++	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++		install -d ${D}${sysconfdir}/modules-load.d
++		echo "softdog" > ${D}${sysconfdir}/modules-load.d/softdog.conf
++		sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/*.service
++	fi
+ }
++
++FILES_${PN} += "${systemd_unitdir}/system/*"
+-- 
+1.9.1
+
 
