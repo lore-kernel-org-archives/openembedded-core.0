@@ -1,24 +1,24 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6EDB75D4B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 75CED7391A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 02:49:50 +0000 (UTC)
+	Mon, 25 Jan 2016 03:05:35 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0P2noag025577
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0P35Zud017923
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jan 2016 18:49:50 -0800 (PST)
+	Sun, 24 Jan 2016 19:05:35 -0800
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 24 Jan 2016 18:49:49 -0800
+	14.3.248.2; Sun, 24 Jan 2016 19:05:34 -0800
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jan 2016 10:48:47 +0800
-Message-ID: <1453690127-24751-1-git-send-email-rongqing.li@windriver.com>
+Date: Mon, 25 Jan 2016 11:04:33 +0800
+Message-ID: <1453691073-14559-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] [v2] watchdog: enable systemd support
+Subject: [PATCH] systemd: make TEST_DIR configurable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,101 +31,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 02:49:51 -0000
+X-List-Received-Date: Mon, 25 Jan 2016 03:05:36 -0000
 Content-Type: text/plain
 
 From: Roy Li <rongqing.li@windriver.com>
 
-1. inherit systemd, and add two unit files which are from Fedora 23
-2. auto load soft dog kernel module
+1. make TEST_DIR configurable, and configure it to ptest dir, since
+the *.service for test are installed into ptest dir. 
+2. always follow symbolic links in SOURCE when copy test files
+to install dir, since some *.service under test dir are linked to
+../unit/*.service which are not installed into ptest dir
 
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../watchdog/watchdog/watchdog-ping.service             | 12 ++++++++++++
- .../recipes-extended/watchdog/watchdog/watchdog.service | 12 ++++++++++++
- meta/recipes-extended/watchdog/watchdog_5.14.bb         | 17 ++++++++++++++++-
- 3 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
- create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog.service
+ .../systemd/0001-make-test-dir-configurable.patch  | 64 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_228.bb           |  4 +-
+ 2 files changed, 67 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-make-test-dir-configurable.patch
 
-diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+diff --git a/meta/recipes-core/systemd/systemd/0001-make-test-dir-configurable.patch b/meta/recipes-core/systemd/systemd/0001-make-test-dir-configurable.patch
 new file mode 100644
-index 0000000..fce6e12
+index 0000000..7d06371
 --- /dev/null
-+++ b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=watchdog daemon for use with ping test / network dependency
-+After=network.target
-+Conflicts=watchdog.service
++++ b/meta/recipes-core/systemd/systemd/0001-make-test-dir-configurable.patch
+@@ -0,0 +1,64 @@
++From 3eeec270d3af166e3bc09537626850562487742b Mon Sep 17 00:00:00 2001
++From: Roy Li <rongqing.li@windriver.com>
++Date: Fri, 22 Jan 2016 16:44:11 +0800
++Subject: [PATCH] make test dir configurable
 +
-+[Service]
-+Type=forking
-+ExecStart=@SBINDIR@/watchdog
-+ControlGroup=cpu:/
++Upstream-Status: Pending
 +
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog.service b/meta/recipes-extended/watchdog/watchdog/watchdog.service
-new file mode 100644
-index 0000000..f945bc9
---- /dev/null
-+++ b/meta/recipes-extended/watchdog/watchdog/watchdog.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=watchdog daemon
-+# man systemd.special
-+# auto added After=basic.target
++test maybe be run on target in cross-compile environment, and test dir
++is not the compilation dir, so make it configurable
 +
-+[Service]
-+Type=forking
-+ExecStart=@SBINDIR@/watchdog
-+ControlGroup=cpu:/
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ Makefile.am  | 2 +-
++ configure.ac | 7 +++++++
++ 2 files changed, 8 insertions(+), 1 deletion(-)
 +
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb b/meta/recipes-extended/watchdog/watchdog_5.14.bb
-index fc717bc..9e21075 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
-@@ -14,6 +14,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
- 	   file://watchdog-init.patch \
- 	   file://watchdog-conf.patch \
- 	   file://0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch \
-+	   file://watchdog-ping.service \
-+	   file://watchdog.service \
- "
++diff --git a/Makefile.am b/Makefile.am
++index 931d13f..7155ec7 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -209,7 +209,7 @@ AM_CPPFLAGS = \
++ 	-DROOTLIBDIR=\"$(rootlibdir)\" \
++ 	-DROOTLIBEXECDIR=\"$(rootlibexecdir)\" \
++ 	-DROOTHOMEDIR=\"$(roothomedir)\" \
++-	-DTEST_DIR=\"$(abs_top_srcdir)/test\" \
+++	-DTEST_DIR=\"$(testdir)/test\" \
++ 	-I $(top_srcdir)/src \
++ 	-I $(top_builddir)/src/basic \
++ 	-I $(top_srcdir)/src/basic \
++diff --git a/configure.ac b/configure.ac
++index 76090a1..b02968d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1411,6 +1411,11 @@ AC_ARG_WITH([roothomedir],
++         [],
++         [with_roothomedir=/root])
++ 
+++AC_ARG_WITH([testdir],
+++        AS_HELP_STRING([--with-testdir=DIR], [test file directory]),
+++        [],
+++        [with_testdir=${abs_top_srcdir}])
+++
++ AC_ARG_WITH([pamlibdir],
++         AS_HELP_STRING([--with-pamlibdir=DIR], [Directory for PAM modules]),
++         [],
++@@ -1503,6 +1508,7 @@ AC_SUBST([pamconfdir], [$with_pamconfdir])
++ AC_SUBST([rootprefix], [$with_rootprefix])
++ AC_SUBST([rootlibdir], [$with_rootlibdir])
++ AC_SUBST([roothomedir], [$with_roothomedir])
+++AC_SUBST([testdir], [$with_testdir])
++ 
++ AC_CONFIG_FILES([
++         Makefile
++@@ -1593,6 +1599,7 @@ AC_MSG_RESULT([
++         lib dir:                 ${libdir}
++         rootlib dir:             ${with_rootlibdir}
++         root home dir:           ${with_roothomedir}
+++        test dir:                ${with_testdir}
++         SysV init scripts:       ${SYSTEM_SYSVINIT_PATH}
++         SysV rc?.d directories:  ${SYSTEM_SYSVRCND_PATH}
++         Build Python:            ${PYTHON}
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+index 0e1bd8b..a110f0c 100644
+--- a/meta/recipes-core/systemd/systemd_228.bb
++++ b/meta/recipes-core/systemd/systemd_228.bb
+@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+            file://00-create-volatile.conf \
+            file://init \
+            file://run-ptest \
++           file://0001-make-test-dir-configurable.patch \ 
+           "
+ SRC_URI_append_libc-uclibc = "\
+             file://0001-define-exp10-if-missing.patch \
+@@ -127,6 +128,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+                  --without-python \
+                  --with-sysvrcnd-path=${sysconfdir} \
+                  --with-firmware-path=/lib/firmware \
++                 --with-testdir=${PTEST_PATH} \
+                "
+ # uclibc does not have NSS
+ EXTRA_OECONF_append_libc-uclibc = " --disable-myhostname --disable-sysusers"
+@@ -215,7 +217,7 @@ do_install() {
  
- SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
-@@ -23,7 +25,7 @@ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/watchdog/files/watchdog/"
- UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
- 
- inherit autotools
--inherit update-rc.d
-+inherit update-rc.d systemd
- 
- DEPENDS_append_libc-musl = " libtirpc "
- CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
-@@ -34,6 +36,19 @@ INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- 
- RRECOMMENDS_${PN} = "kernel-module-softdog"
- 
-+
-+SYSTEMD_SERVICE_${PN} = "watchdog.service"
-+
- do_install_append() {
- 	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/watchdog*.service ${D}${systemd_unitdir}/system
-+
-+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		install -d ${D}${sysconfdir}/modules-load.d
-+		echo "softdog" > ${D}${sysconfdir}/modules-load.d/softdog.conf
-+		sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/*.service
-+	fi
- }
-+
-+FILES_${PN} += "${systemd_unitdir}/system/*"
+ do_install_ptest () {
+        install -d ${D}${PTEST_PATH}/test
+-       cp -rf ${S}/test/* ${D}${PTEST_PATH}/test
++       cp -rfL ${S}/test/* ${D}${PTEST_PATH}/test
+        install -m 0755  ${B}/test-udev ${D}${PTEST_PATH}/
+        install -d ${D}${PTEST_PATH}/build-aux
+        cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
 -- 
 1.9.1
 
