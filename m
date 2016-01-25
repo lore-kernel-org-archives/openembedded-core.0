@@ -1,32 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 53DA665CBB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FC886FF01
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 15:19:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0PFJAQB014378; Mon, 25 Jan 2016 15:19:17 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id D_LB-LBL3jh8; Mon, 25 Jan 2016 15:19:17 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0PFJClO014395
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 25 Jan 2016 15:19:13 GMT
-Message-ID: <1453735152.25948.14.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
-	openembedded-core@lists.openembedded.org, "Belal, Awais"
-	<Awais_Belal@mentor.com>
-Date: Mon, 25 Jan 2016 15:19:12 +0000
-In-Reply-To: <56A63611.8050505@linux.intel.com>
-References: <1446210513-16152-1-git-send-email-awais_belal@mentor.com>
-	<2021B186DC632746BD5A3CE32F12BD280119A934F7@EU-MBX-02.mgc.mentorg.com>
-	<56A63611.8050505@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [RFC][PATCH] python: ensure usage of host modules while cross compiling
+	Mon, 25 Jan 2016 15:36:02 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id r129so69056950wmr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jan 2016 07:36:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ohYPjqP0pnI5dv5VjtS9a+6gPJ7hIu8Mb8NvLCmQg9Q=;
+	b=r5HaQ+s4LnwtenblbQaMHrXVdKZHm3UAa3xCp+nD0d4fE/ObXAjOyONAZWHSSXNHQ7
+	D2OgNXCZagU6M8ooGMwBDvBHKxeHwx77mIjahctZKS5hWZm/1+2759wOEG4PlKX63F5I
+	kZW0gGWTO50SjEodCavpGsIH9PtwRCypQTviQoBKbZTgkiEkVul8b5ptCMQRHSBBI3uR
+	CyrNO9jBLK1W/w4GNumO7q87uD1oYhy+VDY6l/ADDar7ZrMY15b8dOT3APofWS0EAavH
+	yS+JMYVNqiYikwRwaS4IyCMNPT9ujerLvWFZ9g6l64/IrH99WzTs6swz7M8v+43zYr0a
+	+iXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ohYPjqP0pnI5dv5VjtS9a+6gPJ7hIu8Mb8NvLCmQg9Q=;
+	b=lifGuZ1xsGTabXXqHTCQEId5LrJIuQCKBRs7r/0bnTwUp5GFz+3L1HI/zE6FjElTTT
+	dFWUuPsAkntrZ3vfbqVGe8SG5HFEBo+6PdD35J54k+v14FxHlxFFZaYYIwrKbEziZW7U
+	uWz7Nq7+YLt1GIgWbGowQh+37SRBHpb3MXN2v+jW3sFgsIBvx3pfAKndZxemWxRSR9y/
+	CS1tJ/DO9BxFg1mHHMy3c2eiwrJoBLcR+86xDCTfTwt1C8TlIjZoCF2IsvOa0caqvtml
+	JnFk8Zyai2b2Tghg4wfNxJgN33j/I0ovoBAcLcmrUyLtqE5Oz3Di/OEbCOXieUkTapxb
+	GfjA==
+X-Gm-Message-State: AG10YOQVlsp4ZtyLsSkZwZmnl9aYex+UPdTtD10drEOaZYdhb8BHVIlaTL0xGyQaqATNpYT7
+X-Received: by 10.194.158.73 with SMTP id ws9mr20788451wjb.40.1453736162262;
+	Mon, 25 Jan 2016 07:36:02 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	w23sm16774624wmd.1.2016.01.25.07.36.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Jan 2016 07:36:01 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jan 2016 15:35:55 +0000
+Message-Id: <1453736157-21837-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH 1/3] scripts/wipe-sysroot: also delete uninative sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,25 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 15:19:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jan 2016 15:36:03 -0000
 
-On Mon, 2016-01-25 at 08:49 -0600, Alejandro Hernandez wrote:
-> Ping
-> 
-> This has been here for a while now, if it doesnt apply let me know
-> and I 
-> will rebase this, this fixes bug 8671.
+The uninative sysroot is in ${STAGING_DIR}-uninative so delete that alongwith
+$STAGING_DIR.
 
-Wasn't this fixed by:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/wipe-sysroot | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=a1fa8d9ac53625737aab29b4e5e1687fc01bdfc2
-
-?
-
-Cheers,
-
-Richard
+diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
+index c22d39a..9e067e8 100755
+--- a/scripts/wipe-sysroot
++++ b/scripts/wipe-sysroot
+@@ -42,7 +42,7 @@ fi
+ echo "Deleting the sysroots in $STAGING_DIR, and selected stamps in $SSTATE_MANIFESTS and $STAMPS_DIR."
+ 
+ # The sysroots themselves
+-rm -rf $STAGING_DIR
++rm -rf $STAGING_DIR ${STAGING_DIR}-uninative
+ 
+ # The stamps that said the sysroot was populated
+ rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot.*
+-- 
+2.6.4
 
 
