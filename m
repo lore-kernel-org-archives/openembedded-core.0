@@ -1,45 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 78DB576A51
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4341176A51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 19:14:42 +0000 (UTC)
-Received: by mail-ob0-f178.google.com with SMTP id is5so149966324obc.0
+	Tue, 26 Jan 2016 19:16:30 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id cy9so102134487pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 11:14:43 -0800 (PST)
+	Tue, 26 Jan 2016 11:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=L3f0zt96XEYNHjate6OYv5BqEPia8bV/wyWnOkCQDZ8=;
-	b=T4jH1ahtOASk9zxvxrEpv+jVP2Niog8NQN7cWVz+/Hj1iwgEM7wOHfa5BojRyVMwPg
-	yuOkQ+BiTaL/GZqhO5H5G1YUvLBvCzocRpNldGZ5yA5fF7NVvifv+vHgzQg8XEmNN9FI
-	TkU9ABxhHxnb58QCGoNu5xgfN7DWinul+iGQN2PB6zpP0QtaIY2P19KIWn5YucF5+FYe
-	f2j4nkxH+FH6hEaIMZ/OwPqDJNZiYu285OvGkiaZyiRWuURoVHEwAMWUGJA3XR5n8xmX
-	k2sNetcdylz0VKp2kYMuG7zmGe5cQrwxIKn+dkfswbXlaEPDQz4I/ft3e/ZOmNrNMxPq
-	/2WQ==
+	bh=P3Tg7pI/Uvph4XWr1YUWvgC00ZwCzbadGY6WdMS8NhA=;
+	b=ANVZgetNxlmEWdWoBblSFU7Sb4UwzM7iO1DAbmoQ1iI0MkM51+5CKBLUbbrTUgIjV7
+	R/DdyJu6Snfkl+wRk53E6iUwYJfdPqz/cZ/g5ef4FMq8H9qrGyHE9aVbcZLRz2s3AXyT
+	CO9Btc8JYqWq2RG8CLQVYzWzyw9II3X4ZlzkuRN6AQcPCNEVvwVt7W2CAXDIGhfav4rP
+	9NbyT+bMXk7IZEJFPgTc9Q6bB/gvnvpK4loqoxqphs/dNcqC9rR4M45KgtJkQ22azu+z
+	w3s3UmNUICHGnryRgyPmwAQ2lLCQyhDFSs1D9ZwEIQs0cnW8ct2F5zOMReluafMY2qDP
+	Uhag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=L3f0zt96XEYNHjate6OYv5BqEPia8bV/wyWnOkCQDZ8=;
-	b=ZFOoB/BoDbb5DkbwahiZ24l8cc8xpVc2h619rLUV+vy6Z4j6ROL4UbOKuSmyMcRNkt
-	qRov3vCFXAQYpA6LtffWC7ooH6x1cyEPaFq5z1S7OwW/7cRIf9dy6bvfi7hV2YpM4ya8
-	4VJ8bfmwpc1DVCTJutahX9Vh+Bl+XrE6/VJ8xcOusmY3Gz0HMB+fHMxCdFQDBVNIeY4i
-	eElNNBbr88+FuJ3JF+UtXGGNQM32UYm8G7tVfAUXdRv2ushWQUx4aUyiR42cJFAPVGtf
-	pOOlIqpQ1IhTQfwVv5R3em05y0M8x4irRPlAYJXvZ8eo5DkLDn5ukhrAihjg1Dm70/TT
-	Wb7g==
-X-Gm-Message-State: AG10YOQwAG12UBoMLhTJRfksVXZSlOMGoK4awIr9qMudMuZ8dBFuMQRnjU1EjPJVqhqVlQ==
-X-Received: by 10.60.136.197 with SMTP id qc5mr19980197oeb.79.1453835682644;
-	Tue, 26 Jan 2016 11:14:42 -0800 (PST)
+	bh=P3Tg7pI/Uvph4XWr1YUWvgC00ZwCzbadGY6WdMS8NhA=;
+	b=dXnrsVm+ZvxL/x/9CIN801JNHZkrQXO+FDYhxgmlmC58sH6J+5Lu0tUyzUlVMZWuzq
+	FhUj4wJyvMRD8aRBQknVwrwDUYFEjbVjEz1krvHQ/xVcKxS3haTehBSVGpDQLygDVJYY
+	nWYPIkXZ5vDmlt5v3hivv2wN/2HreHwzR9ZoPaUyGMGf/mH8qMfhT4DTbwKnffddMVnN
+	3fUqXyy07GVEroD1q684jTHHfYMktmL0ymdW6LTc2dE5zNADh/RJyQCMwUvFJwFlW1uR
+	tWrgG+cGI7AyS3DlMsbGDLLxqpymOTZj1SpRoMnKmNi7ELGupJutR0VoVd0bxFtvzIdg
+	FdMA==
+X-Gm-Message-State: AG10YOSqVNuMCoc8k/fwEBWSdCcRC6KaqVr/z2BEAO8dkFCaOnMNnFKT+eIwI4uzcPMWjg==
+X-Received: by 10.66.216.69 with SMTP id oo5mr35506366pac.126.1453835791647;
+	Tue, 26 Jan 2016 11:16:31 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id x142sm987730oix.8.2016.01.26.11.14.41
+	by smtp.gmail.com with ESMTPSA id
+	tp6sm3525799pab.25.2016.01.26.11.16.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 26 Jan 2016 11:14:41 -0800 (PST)
+	Tue, 26 Jan 2016 11:16:30 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jan 2016 11:14:34 -0800
-Message-Id: <1453835674-14822-1-git-send-email-armccurdy@gmail.com>
+Date: Tue, 26 Jan 2016 11:16:24 -0800
+Message-Id: <1453835784-14884-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] mtools: keep v3.9.9 recipe in sync with the v4.0.18 version
+Subject: [PATCH] busybox: fix stop -vs- start typo in rcS script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,87 +53,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 19:14:42 -0000
+X-List-Received-Date: Tue, 26 Jan 2016 19:16:33 -0000
 
-Changes are mostly cosmetic, but also include one important fix
-to support builds using musl libc.
-
-  http://git.openembedded.org/openembedded-core/commit/?id=9f5eb272784d3be17e7fe8e7cab511bd4086ba1e
+Also make the rcS and rcK comments match the code.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/mtools/mtools_3.9.9.bb | 36 +++++++++++++++-------------
- 1 file changed, 19 insertions(+), 17 deletions(-)
+ meta/recipes-core/busybox/files/rcK | 5 +++--
+ meta/recipes-core/busybox/files/rcS | 7 ++++---
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
-index c284a71..26d52a9 100644
---- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
-+++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
-@@ -1,16 +1,15 @@
--# mtools OE build file
--# Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
--# Released under the MIT license (see packages/COPYING)
--
- SUMMARY = "Utilities to access MS-DOS disks without mounting them"
--DESCRIPTION = "Mtools is a collection of utilities for accessing MS-DOS disks from Unix without mounting them."
-+DESCRIPTION = "Mtools is a collection of utilities to access MS-DOS disks from GNU and Unix without mounting them."
- HOMEPAGE = "http://www.gnu.org/software/mtools/"
-+SECTION = "optional"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=92b58ec77696788ce278b044d2a8e9d3"
- PR = "r6"
+diff --git a/meta/recipes-core/busybox/files/rcK b/meta/recipes-core/busybox/files/rcK
+index 050086e..f8a63e1 100644
+--- a/meta/recipes-core/busybox/files/rcK
++++ b/meta/recipes-core/busybox/files/rcK
+@@ -1,9 +1,10 @@
+ #!/bin/sh
  
--RDEPENDS_${PN} = "glibc-gconv-ibm850"
--RRECOMMENDS_${PN} = "\
-+DEPENDS += "virtual/libiconv"
+-# Stop all init scripts in /etc/init.d
+-# executing them in reversed numerical order.
++# Stop all init scripts in /etc/rc6.d
++# executing them in numerical order.
+ #
+ for i in /etc/rc6.d/K??*; do
 +
-+RDEPENDS_${PN}_libc-glibc = "glibc-gconv-ibm850"
-+RRECOMMENDS_${PN}_libc-glibc = "\
- 	glibc-gconv-ibm437 \
- 	glibc-gconv-ibm737 \
- 	glibc-gconv-ibm775 \
-@@ -26,24 +25,22 @@ RRECOMMENDS_${PN} = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--
--#http://mtools.linux.lu/mtools-${PV}.tar.gz 
--SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
--	file://mtools-makeinfo.patch \
--	file://mtools.patch \
--	file://no-x11.patch \
--	file://fix-broken-lz.patch \
--"
--
- SRC_URI[md5sum] = "3e68b857b4e1f3a6521d1dfefbd30a36"
- SRC_URI[sha256sum] = "af083a73425d664d4607ef6c6564fd9319a0e47ee7c105259a45356cb834690e"
+      # Ignore dangling symlinks (if any).
+      [ ! -f "$i" ] && continue
  
--S = "${WORKDIR}/mtools-${PV}"
-+#http://mtools.linux.lu/mtools-${PV}.tar.gz 
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
-+           file://mtools-makeinfo.patch \
-+           file://mtools.patch \
-+           file://no-x11.patch \
-+           file://fix-broken-lz.patch"
+diff --git a/meta/recipes-core/busybox/files/rcS b/meta/recipes-core/busybox/files/rcS
+index d18c26b..bb03eb6 100644
+--- a/meta/recipes-core/busybox/files/rcS
++++ b/meta/recipes-core/busybox/files/rcS
+@@ -1,10 +1,11 @@
+ #!/bin/sh
  
- inherit autotools texinfo
+-# Stop all init scripts in /etc/init.d
+-# executing them in reversed numerical order.
++# Start all init scripts in /etc/rcS.d and /etc/rc5.d
++# executing them in numerical order.
+ #
  
- EXTRA_OECONF = "--without-x"
- 
-+LDFLAGS_append_libc-uclibc = " -liconv "
+ for i in /etc/rcS.d/S??* /etc/rc5.d/S??* ;do
 +
- BBCLASSEXTEND = "native nativesdk"
+      # Ignore dangling symlinks (if any).
+      [ ! -f "$i" ] && continue
  
- PACKAGECONFIG ??= ""
-@@ -54,3 +51,8 @@ do_install_prepend () {
-     mkdir -p ${D}/${bindir}
-     mkdir -p ${D}/${datadir}
- }
-+
-+do_install_append_class-native () {
-+    create_wrapper ${D}${bindir}/mcopy \
-+        GCONV_PATH=${libdir}/gconv
-+}
+@@ -13,7 +14,7 @@ for i in /etc/rcS.d/S??* /etc/rc5.d/S??* ;do
+ 	    # Source shell script for speed.
+ 	    (
+ 		trap - INT QUIT TSTP
+-		set stop
++		set start
+ 		. $i
+ 	    )
+ 	    ;;
 -- 
 1.9.1
 
