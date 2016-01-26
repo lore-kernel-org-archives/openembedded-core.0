@@ -1,27 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 11A1B76FF2
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 13C146FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 18:02:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0QI2NxW028454; Tue, 26 Jan 2016 18:02:23 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id o82zYRbMhrrA; Tue, 26 Jan 2016 18:02:23 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0QI2L4B028451
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 26 Jan 2016 18:02:22 GMT
-Message-ID: <1453831341.25948.64.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jan 2016 18:02:21 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] image: Don't create tasks with '.' in the name
+	Tue, 26 Jan 2016 18:20:46 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id s5so66344954qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jan 2016 10:20:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=shZ+//iq5hIW+CknvAldhosgHG20ezcduYoWTyFWIAw=;
+	b=Zt+uL1rnxUqJd5wjZ8sHV0EXPEO0vo/ERa1COfFtbMAMwYZ1Xdnmon0et2qt8iqFVt
+	FFBos2bbOPMBtzOfONhIMaoe/sO76p9ZAClL6o7v74ZEpQVkfUR9RaYtZ39Fwn7ASEAK
+	kP47+1xNAnUAhB3T8akhmKapwGV8LSjKjujgSvCMvn5B/dhx5KQxXkTx65V62fDJslFD
+	/cRP41AAkuN/4uzkzznXw3V+XyqAMhnAQ5+eUHXOpR8qa/Tggtfskikgb44KOk1R9EHI
+	+VbB2Jja/Iu7JO4j4xFXZ0ElleipbIo9B5cSOegxws3JGUlhfGDYRRA2wwfA2wNfULdM
+	ghDw==
+X-Gm-Message-State: AG10YOTonqtojQDJLgmK2WesUip9bOS/BCCeqc/gbaDKjcn//aA4+qnpk+ZwmsCy/d5pJA==
+X-Received: by 10.55.73.68 with SMTP id w65mr29477106qka.68.1453832447330;
+	Tue, 26 Jan 2016 10:20:47 -0800 (PST)
+Received: from localhost.localdomain ([96.91.222.230])
+	by smtp.gmail.com with ESMTPSA id r7sm965490qhb.41.2016.01.26.10.20.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Jan 2016 10:20:46 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jan 2016 13:20:38 -0500
+Message-Id: <1453832438-20802-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 1.9.1
+Cc: Derek Straka <derek@asterius.io>
+Subject: [PATCH] attr: fix build issue with NLS disabled on non-uclibc targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 18:02:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jan 2016 18:20:54 -0000
 
-Similarly to "-", "." doesn't work well in task names but is used in
-some real world image classes. Work around this with some replacements
-for now to unbreak layers.
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ meta/recipes-support/attr/ea-acl.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-(Issues don't show themselves until runtime, e.g. with --dry-run)
-
-Tested-By: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 3870516..797f342 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -395,9 +395,9 @@ python () {
+diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+index 370e16f..ab98380 100644
+--- a/meta/recipes-support/attr/ea-acl.inc
++++ b/meta/recipes-support/attr/ea-acl.inc
+@@ -23,8 +23,8 @@ FILES_lib${BPN} = "${base_libdir}/lib*${SOLIBS}"
  
-         after = 'do_image'
-         for dep in typedeps[t]:
--            after += ' do_image_%s' % dep.replace("-", "_")
-+            after += ' do_image_%s' % dep.replace("-", "_").replace(".", "_")
+ BBCLASSEXTEND = "native"
+ # Only append ldflags for target recipe and if USE_NLS is enabled
+-LDFLAGS_append_libc-uclibc_class-target = "${@['', ' -lintl '][(d.getVar('USE_NLS', True) == 'yes')]}"
+-EXTRA_OECONF_append_libc-uclibc_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
++LDFLAGS_append_class-target = "${@['', ' -lintl '][(d.getVar('USE_NLS', True) == 'yes')]}"
++EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
  
--        t = t.replace("-", "_")
-+        t = t.replace("-", "_").replace(".", "_")
- 
-         d.setVar('do_image_%s' % t, '\n'.join(cmds))
-         d.setVarFlag('do_image_%s' % t, 'func', '1')
-
+ fix_symlink () {
+ 	if [ "${BB_CURRENTTASK}" != "populate_sysroot" -a "${BB_CURRENTTASK}" != "populate_sysroot_setscene" ]
+-- 
+1.9.1
 
 
