@@ -1,46 +1,41 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4341176A51
+Return-Path: <compudj@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [78.47.125.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BE09731F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 19:16:30 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id cy9so102134487pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 11:16:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=P3Tg7pI/Uvph4XWr1YUWvgC00ZwCzbadGY6WdMS8NhA=;
-	b=ANVZgetNxlmEWdWoBblSFU7Sb4UwzM7iO1DAbmoQ1iI0MkM51+5CKBLUbbrTUgIjV7
-	R/DdyJu6Snfkl+wRk53E6iUwYJfdPqz/cZ/g5ef4FMq8H9qrGyHE9aVbcZLRz2s3AXyT
-	CO9Btc8JYqWq2RG8CLQVYzWzyw9II3X4ZlzkuRN6AQcPCNEVvwVt7W2CAXDIGhfav4rP
-	9NbyT+bMXk7IZEJFPgTc9Q6bB/gvnvpK4loqoxqphs/dNcqC9rR4M45KgtJkQ22azu+z
-	w3s3UmNUICHGnryRgyPmwAQ2lLCQyhDFSs1D9ZwEIQs0cnW8ct2F5zOMReluafMY2qDP
-	Uhag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=P3Tg7pI/Uvph4XWr1YUWvgC00ZwCzbadGY6WdMS8NhA=;
-	b=dXnrsVm+ZvxL/x/9CIN801JNHZkrQXO+FDYhxgmlmC58sH6J+5Lu0tUyzUlVMZWuzq
-	FhUj4wJyvMRD8aRBQknVwrwDUYFEjbVjEz1krvHQ/xVcKxS3haTehBSVGpDQLygDVJYY
-	nWYPIkXZ5vDmlt5v3hivv2wN/2HreHwzR9ZoPaUyGMGf/mH8qMfhT4DTbwKnffddMVnN
-	3fUqXyy07GVEroD1q684jTHHfYMktmL0ymdW6LTc2dE5zNADh/RJyQCMwUvFJwFlW1uR
-	tWrgG+cGI7AyS3DlMsbGDLLxqpymOTZj1SpRoMnKmNi7ELGupJutR0VoVd0bxFtvzIdg
-	FdMA==
-X-Gm-Message-State: AG10YOSqVNuMCoc8k/fwEBWSdCcRC6KaqVr/z2BEAO8dkFCaOnMNnFKT+eIwI4uzcPMWjg==
-X-Received: by 10.66.216.69 with SMTP id oo5mr35506366pac.126.1453835791647;
-	Tue, 26 Jan 2016 11:16:31 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	tp6sm3525799pab.25.2016.01.26.11.16.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 26 Jan 2016 11:16:30 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jan 2016 11:16:24 -0800
-Message-Id: <1453835784-14884-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] busybox: fix stop -vs- start typo in rcS script
+	Tue, 26 Jan 2016 19:59:54 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 17A85340356;
+	Tue, 26 Jan 2016 19:59:55 +0000 (UTC)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id uw_QRwBuSKN6; Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 657D834050A;
+	Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id xk8ySRxrB1pJ; Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
+Received: from evm-mail-1.efficios.com (evm-mail-1.efficios.com [78.47.125.74])
+	by mail.efficios.com (Postfix) with ESMTP id 30D08340356;
+	Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
+Date: Tue, 26 Jan 2016 19:59:49 +0000 (UTC)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
+In-Reply-To: <51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
+References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
+	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
+MIME-Version: 1.0
+X-Originating-IP: [78.47.125.74]
+X-Mailer: Zimbra 8.6.0_GA_1178 (ZimbraWebClient - FF43 (Linux)/8.6.0_GA_1178)
+Thread-Topic: Bogus openembedded gcc patch
+Thread-Index: J8YVlSsuyEf+1Ae9ACCJfyQo44Gf9g==
+Cc: lttng-dev <lttng-dev@lists.lttng.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Bogus openembedded gcc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,61 +48,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 19:16:33 -0000
+X-List-Received-Date: Tue, 26 Jan 2016 19:59:55 -0000
+X-Groupsio-MsgNum: 76931
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_5070_652604609.1453838389502"
 
-Also make the rcS and rcK comments match the code.
+------=_Part_5070_652604609.1453838389502
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/busybox/files/rcK | 5 +++--
- meta/recipes-core/busybox/files/rcS | 7 ++++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
+----- On Jan 26, 2016, at 11:28 AM, Khem Raj raj.khem@gmail.com wrote:
 
-diff --git a/meta/recipes-core/busybox/files/rcK b/meta/recipes-core/busybox/files/rcK
-index 050086e..f8a63e1 100644
---- a/meta/recipes-core/busybox/files/rcK
-+++ b/meta/recipes-core/busybox/files/rcK
-@@ -1,9 +1,10 @@
- #!/bin/sh
- 
--# Stop all init scripts in /etc/init.d
--# executing them in reversed numerical order.
-+# Stop all init scripts in /etc/rc6.d
-+# executing them in numerical order.
- #
- for i in /etc/rc6.d/K??*; do
-+
-      # Ignore dangling symlinks (if any).
-      [ ! -f "$i" ] && continue
- 
-diff --git a/meta/recipes-core/busybox/files/rcS b/meta/recipes-core/busybox/files/rcS
-index d18c26b..bb03eb6 100644
---- a/meta/recipes-core/busybox/files/rcS
-+++ b/meta/recipes-core/busybox/files/rcS
-@@ -1,10 +1,11 @@
- #!/bin/sh
- 
--# Stop all init scripts in /etc/init.d
--# executing them in reversed numerical order.
-+# Start all init scripts in /etc/rcS.d and /etc/rc5.d
-+# executing them in numerical order.
- #
- 
- for i in /etc/rcS.d/S??* /etc/rc5.d/S??* ;do
-+
-      # Ignore dangling symlinks (if any).
-      [ ! -f "$i" ] && continue
- 
-@@ -13,7 +14,7 @@ for i in /etc/rcS.d/S??* /etc/rc5.d/S??* ;do
- 	    # Source shell script for speed.
- 	    (
- 		trap - INT QUIT TSTP
--		set stop
-+		set start
- 		. $i
- 	    )
- 	    ;;
+>> On Jan 25, 2016, at 8:02 PM, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>> wrote:
+>> 
+>> Hi,
+>> 
+>> We are noticing the presence of the following patch in various
+>> openembedded gcc versions:
+>> 
+>> 0024-PR-target-32219.patch
+>> 
+>> "From e0d15f4f8bf28c351b9215ca37f1caa24df0e1fd Mon Sep 17 00:00:00 2001
+>> From: Khem Raj <raj.khem@gmail.com>
+>> Date: Fri, 29 Mar 2013 09:18:54 +0400
+>> Subject: [PATCH 24/35] PR target/32219
+>> 
+>> * varasm.c (default_binds_local_p_1): Weak data is not local.
+>> 
+>> Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> 
+>> Upstream-Status: Backport"
+>> 
+>> However, contrarily to its "Backport" status, that patch is
+>> not upstream in gcc, and we're starting to wonder if this
+>> would be the patch that breaks handling of start/stop automatic
+>> hidden symbols we use in lttng-ust.
+>> 
+>> We are only experiencing problems on the various openembedded
+>> compilers, but on no other distro (with same compiler versions),
+>> which leads us to suspect a buggy distro-specific gcc patch.
+>> 
+>> We've been testing with openembedded gcc-4.9.2-r0.
+>> 
+>> The original gold linker issue that this patch was trying to
+>> address seems to have been fixed in the gold linke since
+>> then.
+>> 
+>> Refs:
+>> http://lists.lttng.org/pipermail/lttng-dev/2014-May/023112.html
+>> https://gcc.gnu.org/ml/gcc-help/2014-05/msg00042.html
+>> http://cgit.openembedded.org/openembedded-core/commit/?id=3cb2b003db7371b3a47d02c08352a262e1e419b4
+>> https://sourceware.org/bugzilla/show_bug.cgi?id=15435
+>> 
+>> Thoughts ?
+> 
+> OE has defaulted to gcc5 since last release, and gold issue is fixed in binutils
+> 2.25
+> which is what we use in 2.0 as well so it might be OK to unbolt this fix.
+> Although I am not sure
+> about the original problem reported in PR32219 is fixed for gcc 4.9 if we remove
+> this fix.
+> Have you narrowed down your issue to this patch ? if not, then it would be good
+> to do so
+
+Yes, we have narrowed down our problem to this specific patch by
+removing the patch from the OE gcc patches, rebuilding gcc, and
+then building our test program with that gcc. The problem goes
+away when we do so, which points directly to that patch as a
+culprit.
+
+Test program is attached.
+
+Faulty[gcc 4.9-r0 with patch 0024]:
+
+main: myvar addr=0x600c90 __start___test=0x600c90
+fct: myvar addr=0x7f8733d1eae8 __start___test=0x600c90
+fct2: myvar addr=0x7f8733d1eaec __start___test=0x600c90
+fct3: myvar addr=0x600c94 __start___test=0x600c90
+
+Valid[gcc 4.9-r0 without patch 0024]:
+
+main: myvar addr=0x600c60 __start___test=0x600c60
+fct: myvar addr=0x7fb62c758a90 __start___test=0x7fb62c758a90
+fct2: myvar addr=0x7fb62c758a94 __start___test=0x7fb62c758a90
+fct3: myvar addr=0x600c64 __start___test=0x600c60
+
+Thanks,
+
+Mathieu
+
+> 
+>> 
+>> Thanks,
+>> 
+>> Mathieu
+>> 
+>> --
+>> Mathieu Desnoyers
+>> EfficiOS Inc.
+> > http://www.efficios.com
+
 -- 
-1.9.1
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
 
+------=_Part_5070_652604609.1453838389502
+Content-Type: application/x-compressed-tar; name=yocto-hidden-bug2.tar.gz
+Content-Disposition: attachment; filename=yocto-hidden-bug2.tar.gz
+Content-Transfer-Encoding: base64
 
+H4sIAF2np1YAA+2WXW/TMBRA+1r/CtNpKJWaNB91Im0MaYiHIQ2YJiQ0AbISx1nNUqdKnEKF9t+5
+aVfWNlQF1GYwfB4S59bXdu0cO9OMqcwcijjm0ozKa7ff2jk2EBBS3Z2A2Mv3BS3H9YkTuB7xnJbt
+DKDYwmT3Q6lTFirMMW6xbDQu488b6237/R9lWlv/vJRWMdxlH1vXnzjz9SceIbYH6088eA2wvctB
+bOI/X/+DJ/1IyH4xRGgU3nB0/pKev3pxeXp5RS9O352dWNjqK14o9NAD1eyFuv+v4TVIRMp310el
+uD8YbPTfJYP7/R/OAvDfdwPtfxOEaXqE2teMYfN92jNNmZlhYUrOYx5jMxkL+KEYhnn1lOFURKMp
+XByryLBjMexabHN2hqudA5tpnK5mhpAZQSayLs7evrk6wizloUSzK4wmH0HP89zlNL0F7YG6/7A4
+O+5jm/+B7y3O/8AeBNX3Hwn0+d8IB0KytIw5flaoWGTW8DlaDUm1GovThMlaNVC0iiGYTAVbBssk
+yAu5eDSdwPRSGiqVi6hUnFLDKDhTIpNGh9LK8k632z1GiH9VPJdLuZRWa6PovNaHT6i91s4XHt70
+8EQUIhKpUFOjM3+R5w3+tL1s/KfNAZNMxDhhyqgKEFo8u+sBbxFAszkIhTS66BtqJ+McAokBM8bz
+vIc7h8XR3RSFcZyfHI7X/jREPspOD6JJKRmlPdRuP50l9NZqQmftamh3d3dR8GaFnKsS5sI+Rrer
+22jdf7dx/4kf/PDfqeqB/46r/W+CX/T/UYu9pvH+Rb39ez5l6v5Hjfvve/69/7Y789/X538j6PP/
+t7cJ7zFtE3X/nQc4/5f89+b+20T73wT6/F//rH8cXms0Go1Go9FoNBqNRrPMd2JyaasAKAAA
+
+------=_Part_5070_652604609.1453838389502--
