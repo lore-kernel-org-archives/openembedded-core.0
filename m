@@ -1,33 +1,46 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id EDAE773216
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DEB073216
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 12:46:09 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u0QCk9JI009707; Tue, 26 Jan 2016 06:46:09 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016012606460984-294363 ;
-	Tue, 26 Jan 2016 06:46:09 -0600 
-Date: Tue, 26 Jan 2016 14:45:57 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160126144557.250200d4@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <CAJTo0LZqhHhX2dPGW5DGeKxavFTgn=9=51U=mrjExx0VOYis0w@mail.gmail.com>
-References: <1453807516-2205-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LZqhHhX2dPGW5DGeKxavFTgn=9=51U=mrjExx0VOYis0w@mail.gmail.com>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/26/2016 06:46:10 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/26/2016 06:46:10 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-26_05:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gcc: libgcc-common.inc: symlink gthr-posix -> gthr-default.h
+	Tue, 26 Jan 2016 12:48:27 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id u188so104779734wmu.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jan 2016 04:48:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=F6ETBhbviTt88z/qAl/JT5ZuPGVkYaak1w4Hdc3Oaa8=;
+	b=YF+5EDUuGvy2v4SONhbkrg1xGmLEiQdI1xkBqUEec+4EOALMFBZNynRhYlUCCNV1sk
+	fzMutqVuupDsuKzQzBbC5NS8feuobBm/Bp5K5q/Svr1ClOm9wmrTlpxHVvk99e6D6EPc
+	IRsg5lowI6k0klzzmgY7b9K72KFI28sV193VUj2nvuP+R3Ih6LGXYEKGwIzTshRFWZTp
+	7dbTn1EPUkT/y65F7bT0vJXFw/iHGjURsEcoIiET9QJ2DDxOj+VYio3MV6diaVWqQ+64
+	4Mo1rmlPyqxUJSrIEensLBAzFdmM/iaqLQcVqbGbCJSt+hJwiwlACJE5FMXXP3VGWq3H
+	nhJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=F6ETBhbviTt88z/qAl/JT5ZuPGVkYaak1w4Hdc3Oaa8=;
+	b=W/AXp9PftgGML/jO5wahY6Ex1dqnzmYQWUbxoaIQ5a6TlHKEfkdMMEeEcC3bKrJPuV
+	f9cLw5TemHXZTn8iFO6dmIZZTfb/NpaE0m/4JfPX5VJJykr0uJ9iIWNBYnLnzK6mrotS
+	Q23Rzo8EEMpdlEnkLczkVMQM7zpaYZiev/phaxaXx/9n/yX3rEcNxihPXXPvLg5UZtGr
+	6Aoxc495YupM1W7otBdTSq4TRoGOLYNr+K+vADh9kCMIpKsKLTLkWv+KY9SspryI8xae
+	b5N4xNiEkF5n59vemtxzXBxKjIZma8cF2aKE8mgQ4FZuOnDAQfg6XbI/IdlngEBUYZFT
+	vU/Q==
+X-Gm-Message-State: AG10YOQRGgdjAIUNSJrJIgj1bAZwY0sGrNxJ7Qhdfk5uFIlV/cNmoPY5jyneSUN6pVOFK1e9
+X-Received: by 10.194.22.101 with SMTP id c5mr26528295wjf.151.1453812508033;
+	Tue, 26 Jan 2016 04:48:28 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	i63sm2741068wmf.24.2016.01.26.04.48.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Jan 2016 04:48:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jan 2016 12:48:25 +0000
+Message-Id: <1453812505-14138-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] meta: fix capitalisation in Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,59 +53,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 12:46:11 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Jan 2016 12:48:28 -0000
 
-On Tue, 26 Jan 2016 12:20:43 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch     | 2 +-
+ .../glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch | 2 +-
+ meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch   | 2 +-
+ meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch               | 2 +-
+ meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch                | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-> On 26 January 2016 at 11:25, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrot=
-e:
->=20
-> > libgfortran needs gthr-default.h to exist (included by libgcc/gthr.h),
-> > but for some reason it is not symlinked in configure as defined by
-> > AC=5FCONFIG=5FLINKS. This patch creates it at the end of do=5Fconfigure=
-; thus
-> > allowing libgfortran to build without erros.
-> >
->=20
-> Are you sure?  libgfortran builds here and gthr-default.h is in the build
-> tree:
->=20
-> In
-> .../work/corei7-64-poky-linux/libgcc/5.3.0-r0/gcc-5.3.0/build.x86=5F64-po=
-ky-linux.x86=5F64-poky-linux/libgcc
-> $ ls -l gthr-default.h
-> lrwxrwxrwx 1 ross ross 76 Jan 25 16:20 gthr-default.h ->
-> /data/poky-master/tmp/work-shared/gcc-5.3.0-r0/gcc-5.3.0/libgcc/gthr-posi=
-x.h
->=20
-> I'll note that libgfortran actually then errors out in package QA:
->=20
-> ERROR: QA Issue: libgfortran: Files/directories were installed but not
-> shipped in any package:
->   /usr/lib/gcc/x86=5F64-poky-linux/5.3.0/finclude
->   /usr/lib/gcc/x86=5F64-poky-linux/5.3.0/finclude/ieee=5Ffeatures.mod
->   /usr/lib/gcc/x86=5F64-poky-linux/5.3.0/finclude/ieee=5Farithmetic.mod
->   /usr/lib/gcc/x86=5F64-poky-linux/5.3.0/finclude/ieee=5Fexceptions.mod
->=20
-> If you actually use fortran would you be able to submit the right fix?  I=
-'d
-> guess at adding those to FILES=5FPN would be right, but that's a guess.
-
-I'm using fortran to build a recipe for python-scipy on the fido branch. Th=
-e header symlink is definitely not created in fido.
-Also I'm not getting any QA errors; I don't see why the symlink gets create=
-d on master while not in fido.
-
-I'll try to test more extensively on the master branch and then cherry-pick=
- if there are any fixes there to fido.
-
-Thanks,
-Adrian
-
->=20
-> Ross
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch b/meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
+index 12d3c9b..32bdaf0 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
+@@ -1,6 +1,6 @@
+ define macro _PATH_DHCPD_CONF and _PATH_DHCLIENT_CONF
+ 
+-Upstream-Status: inappropriate <oe specific>
++Upstream-Status: Inappropriate [OE specific]
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+diff --git a/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch b/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
+index d71e576..df3c1ef 100644
+--- a/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
++++ b/meta/recipes-core/glibc/glibc/0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
+@@ -10,7 +10,7 @@ ${S}/.pc/aarch64-0001-glibc-fsf-v1-eaf6f205.patch/ports/sysdeps/
+ aarch64/libm-test-ulps), run libm-err-tab.pl with specific dirs
+ in ${S}.
+ 
+-Upstream-Status: inappropriate [OE specific]
++Upstream-Status: Inappropriate [OE specific]
+ 
+ Signed-off-by: Ting Liu <b28495@freescale.com>
+ ---
+diff --git a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
+index be27341..5b5de07 100644
+--- a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
++++ b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
+@@ -1,4 +1,4 @@
+-Upstream-Status: inappropriate [embedded specific]
++Upstream-Status: Inappropriate [embedded specific]
+ 
+ Fixes tcl target recipe build on old distros which have glibc older than 2.14
+ 
+diff --git a/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
+index 20fc5e5..3eaf6a7 100644
+--- a/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
++++ b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
+@@ -8,7 +8,7 @@ The commit replaces an earlier fix that detected and adjusted a
+ patch is that the oprofile tools are adjusted to the current run-time
+ path to ~root, not the build time path.
+ 
+-Upstream-Status: inappropriate [OE specific]
++Upstream-Status: Inappropriate [OE specific]
+ 
+ Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+ 
+diff --git a/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch b/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch
+index 9569645..16499f5 100644
+--- a/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch
++++ b/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch
+@@ -8,7 +8,7 @@ Remove the 'tools' dir creation, it always existed.
+ And it caused gen_test_char unexpected rebuilt at
+ do_install time.
+ 
+-Upstream-Status: inappropriate [oe specific]
++Upstream-Status: Inappropriate [oe specific]
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+-- 
+2.6.4
 
 
