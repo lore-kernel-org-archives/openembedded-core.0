@@ -1,28 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB9226010B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EBF2D77122
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 04:36:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0Q4a48v024535
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 25 Jan 2016 20:36:05 -0800
-Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jan 2016 20:36:03 -0800
-To: Denys Dmytriyenko <denis@denix.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1453779264-8652-1-git-send-email-denis@denix.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <56A6F7B2.8080203@windriver.com>
-Date: Tue, 26 Jan 2016 12:36:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1453779264-8652-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] stress-ng: add 0.05.09
+	Tue, 26 Jan 2016 04:38:28 +0000 (UTC)
+Received: by mail-ob0-f170.google.com with SMTP id vt7so134873589obb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jan 2016 20:38:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=Az3QKzur6XDCkXrX8/zLXR01+rXcwlC4f9MJhyJslmo=;
+	b=FhaWb2YC/V/YMKUiCVYWmrj2erK+8B10BfEPn+S23N/E1EnKSVw3cl9qJT1C3wiPDn
+	s6XVaML+2ICXeE2z/BlRJfu5FMryuh+B9DsPk7aB1LShCSInRMbWu70lkmXr9GAFmMAY
+	Qnccu88RizxCHd6/+lUtdetAYtyaDpkczDg7NqsygwdX7SOnM8pcrU4sm8tW6RB0sWI7
+	q7YU/OTorVXBjPQDcG9vuQOeEznJaRd00obENdIAmmH9n+kpi8tXR6u/Qrb336sfnvE0
+	T8pIt7t3LGkqt5C8AMeuckzTpWknK6zxfYNH3KJfn2nHNUVD8tgRLdSzxcYkbSnhzPs9
+	xtFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Az3QKzur6XDCkXrX8/zLXR01+rXcwlC4f9MJhyJslmo=;
+	b=k3R+tcvdg3zFh9VDUAu0S88/foiTp2zqiwu4IPOFN9JUaTYtdhO+O5feD39HbJ5cpO
+	4T+tAYp4rnd9vkmlDt0pQUx9i6O/CEef81DnQGTN4Az9fEq4xAEjzB80mZnqNZcyJNnY
+	FxPk798rUBECRkNsHucHFzHbCxeRajkHeqGCOMNSh2iU74LF/enEzRhnoxM1ohqyAezd
+	Q1tv86P1kVWSLiQT6x2j7/Na2WYGpr4eH99jz7dANL5ejINVOB6zWICp9byu+rLp79uZ
+	UCJ9sTWvAE2y9Zwpt7xTvWN7PcDfn7mMQAfzQHbmlDcU9M5gqPCnZuOCa7LUumGF7zTo
+	44ug==
+X-Gm-Message-State: AG10YOSSj0xqya440dl9vU5oIG4HhRgFvrduKOgzH9TLczH0ywlnunHcHz9vpGQ+tUsX/A==
+X-Received: by 10.182.33.101 with SMTP id q5mr16128761obi.28.1453783109164;
+	Mon, 25 Jan 2016 20:38:29 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	gi5sm12310102obb.6.2016.01.25.20.38.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Jan 2016 20:38:28 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jan 2016 20:38:22 -0800
+Message-Id: <1453783102-8811-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] pango.inc: drop obsolete FULL_OPTIMIZATION over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 04:36:10 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jan 2016 04:38:33 -0000
 
+Legacy workaround dating back to 2007, no longer required.
 
+  http://git.openembedded.org/openembedded-core/commit/?id=975809901d32756a1abb03d23a459ab0c6eadc17
 
-On 01/26/2016 11:34 AM, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
->
-> A clean room re-implementation and extension of the original stress tool.
->
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->   meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
->   create mode 100644 meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
->
-> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> new file mode 100644
-> index 0000000..2e92c53
-> --- /dev/null
-> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> @@ -0,0 +1,15 @@
-> +SUMMARY = "A tool to load and stress a computer system"
-> +HOMEPAGE = "http://kernel.ubuntu.com/~cking/stress-ng/"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +
-> +SRC_URI = "http://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "fe65047991f654ffaac3c59ea9537763"
-> +SRC_URI[sha256sum] = "d785b5f2df042d42c43ddfd5bbafa19151ed96f0c483d7f44c737f492b52ddd6"
-> +
-> +CFLAGS += "-Wall -Wextra -DVERSION='"$(VERSION)"' -O2"
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-graphics/pango/pango.inc | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Why hardcode -O2, please ? It impacts the DEBUG_BUILD.
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 3e9c068..3d5ae36 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -22,9 +22,6 @@ inherit gnomebase gtk-doc qemu ptest-gnome upstream-version-is-even
+ 
+ EXTRA_AUTORECONF = ""
+ 
+-# seems to go wrong with default cflags
+-FULL_OPTIMIZATION_arm = "-O2"
+-
+ EXTRA_OECONF = "--disable-introspection \
+ 	        --disable-debug \
+ 	        "
+-- 
+1.9.1
 
-// Robert
-
-> +
-> +do_install() {
-> +	oe_runmake DESTDIR=${D} install
-> +}
->
 
