@@ -1,46 +1,33 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CC52D731C8
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3603 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 26 Jan 2016 06:05:10 UTC
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E872755F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 05:10:49 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id is5so135101398obc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 21:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6U3GQFfOJueesUJ2koUshMESHgV7amWD/755UY8r8wE=;
-	b=YSS5gjWlYFgvyy9GBH24dVKaQMIcuYbOZh2YsUrjRDbdpng7X5r088NrHPu7ZYMQor
-	zBdxYoWH/0vVuRLu554tj/uIjDA4Ji4gsY+hoI1yMUbJbyUqNwVuXpMD0F0b7SvHl8Aa
-	vDAoFpwxp7fBLUz0sjxIAECqUD25EPT37iWcOsXuq8ZyAEbXdHVVZx3PAPiyehU2OUyR
-	pTb1MFrRcFR+ar7uVivGNwBacCZKWs05Pf7SVmF2H/obuB/TCvgoKkINXpj/ifES7qII
-	oUAdOOmy7CC61ahKFUo6mLZJ3Y7Bmy/FsiY2joGpr5dEV7Nno9IgzYb49pYWXSKRVW+N
-	nvpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6U3GQFfOJueesUJ2koUshMESHgV7amWD/755UY8r8wE=;
-	b=fnhLed771UwFXgqVU+fVej5VRvJzKj/d+/hdbDeatEs42aaMbVtMhP1TrTR7iWuc7z
-	FTKGI8hJIjxoeOom3aNmBmkKGrBRRFEOicVXA51Cy4mwWFuuB4RoK3GCQ5irNZuSgz0k
-	DMm/kwEQBbOiauN4EeU2CeV8hCZUn3KKoEdY23k0tIMwCNw0mHskR27TYZI9e6HeW6w4
-	BvPXEh1fPg5nbEY2/a0bQ6HUuDDct5WXAOKtItRZ8fg/wWOR62dml3fNY3BLoluSE4Uo
-	DvSA1ib1kg79c5qcplERUa9VtTGyWOn/o5RstGNriq+OeHX0PXV4U8bFIO9pUsIw79zN
-	jVag==
-X-Gm-Message-State: AG10YOThe0HSXbaRIG0g9e24VfN7nyThLDNSMic16tqycs+SScMYFIdLpy5CAw8ku5P7Ow==
-X-Received: by 10.182.254.34 with SMTP id af2mr17101529obd.60.1453785049135;
-	Mon, 25 Jan 2016 21:10:49 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	m131sm12171963oif.18.2016.01.25.21.10.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Jan 2016 21:10:47 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2016 21:10:46 -0800
-Message-Id: <1453785046-9017-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [RFC][PATCH] gcc-runtime.inc: force libstdc++ to always use gcc4 compatible ABI
+	Tue, 26 Jan 2016 06:05:10 +0000 (UTC)
+Received: from gandalf.denix.org ([100.15.86.14]) by vms173019.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPSA id <0O1J00IVJNG1YZ90@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 25 Jan 2016 23:04:50 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=xDJgBcBrK5EN9DJ6g74wNQ==:117
+	a=kj9zAlcOel0A:10 a=7aQ_Q-yQQ-AA:10	a=sozttTNsAAAA:8 a=fxJcL_dCAAAA:8
+	a=snS9ORLDqdp--L-pTRYA:9	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 6F4BE161E19; Tue,
+	26 Jan 2016 00:04:49 -0500 (EST)
+Date: Tue, 26 Jan 2016 00:04:49 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-id: <20160126050449.GD1652@denix.org>
+References: <1453779264-8652-1-git-send-email-denis@denix.org>
+	<56A6F7B2.8080203@windriver.com>
+MIME-version: 1.0
+In-reply-to: <56A6F7B2.8080203@windriver.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] stress-ng: add 0.05.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,52 +40,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 05:10:49 -0000
+X-List-Received-Date: Tue, 26 Jan 2016 06:05:12 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Experimental hack, not expected to be merged.
+On Tue, Jan 26, 2016 at 12:36:02PM +0800, Robert Yang wrote:
+> 
+> 
+> On 01/26/2016 11:34 AM, Denys Dmytriyenko wrote:
+> >From: Denys Dmytriyenko <denys@ti.com>
+> >
+> >A clean room re-implementation and extension of the original stress tool.
+> >
+> >Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> >---
+> >  meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >  create mode 100644 meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
+> >
+> >diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
+> >new file mode 100644
+> >index 0000000..2e92c53
+> >--- /dev/null
+> >+++ b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
+> >@@ -0,0 +1,15 @@
+> >+SUMMARY = "A tool to load and stress a computer system"
+> >+HOMEPAGE = "http://kernel.ubuntu.com/~cking/stress-ng/"
+> >+LICENSE = "GPLv2"
+> >+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> >+
+> >+SRC_URI = "http://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.gz"
+> >+
+> >+SRC_URI[md5sum] = "fe65047991f654ffaac3c59ea9537763"
+> >+SRC_URI[sha256sum] = "d785b5f2df042d42c43ddfd5bbafa19151ed96f0c483d7f44c737f492b52ddd6"
+> >+
+> >+CFLAGS += "-Wall -Wextra -DVERSION='"$(VERSION)"' -O2"
+> 
+> Why hardcode -O2, please ? It impacts the DEBUG_BUILD.
 
-Without this, the http://www.cplusplus.com/reference/string/string/append/
-example fails to build with -std=c++11 and it's not clear why (it's as if we
-build a version of libstdc++ which supports only the old ABI but with headers
-which try to use the new ABI when compiled with -std=c++11 ?). As a workaround,
-force libstdc++ to provide, and default to using, the old ABI in all cases.
+Those above are the same exact CFLAGS used by stress-ng own Makefile. In 
+reality it only needs -DVERSION to build, but I decided to preserve all flags 
+in order to simplify comparison with other published stress results...
 
-See also:
 
-  https://gcc.gnu.org/onlinedocs/libstdc++/manual/configure.html
-  https://mail.gnome.org/archives/gtkmm-list/2015-June/msg00026.html
-  https://wiki.debian.org/GCC5
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index f20d298..3a476cd 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -10,6 +10,19 @@ EXTRA_OECONF_PATHS = "\
- 
- EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
- 
-+# gcc-runtime.inc: force libstdc++ to always use gcc4 compatible ABI
-+# Experimental hack. Without this, the http://www.cplusplus.com/reference/string/string/append/
-+# example fails to build with -std=c++11 and it's not clear why (it's as if we
-+# build a version of libstdc++ which supports only the old ABI but with headers
-+# which try to use the new ABI when compiled with -std=c++11 ?). As a workaround,
-+# force libstdc++ to provide, and default to using, the old ABI in all cases.
-+# See also:
-+# https://gcc.gnu.org/onlinedocs/libstdc++/manual/configure.html
-+# https://mail.gnome.org/archives/gtkmm-list/2015-June/msg00026.html
-+# https://wiki.debian.org/GCC5
-+#
-+EXTRA_OECONF_append = " --disable-libstdcxx-dual-abi --with-default-libstdcxx-abi=gcc4-compatible"
-+
- RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic \
-     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
- "
--- 
-1.9.1
-
+> >+
+> >+do_install() {
+> >+	oe_runmake DESTDIR=${D} install
+> >+}
+> >
+> 
 
