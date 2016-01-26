@@ -1,41 +1,25 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C23A77172
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A59B770CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 23:42:10 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id l65so84146166wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jan 2016 15:42:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=H421Jbwru0K+TxzwP2aOFaEdCcAR/pa0FKIX0eSOpSQ=;
-	b=orRjg5gkgexhETzg4F5ZJ/VhbHdjqyn+ykpsJYVsqaUOt9+E6T00djFMDGnfzb5XfC
-	/5c7JSsoY4xhNERBM7hhEF4FTSgkSe2utT8PVSORTnYAHNPX3w8ypRx1nefCfxjlZVHI
-	yZKEZ/ltVRnWLau6cizlzMnSU9CS6nXSrOl5bGEoyFm4zQ21Q7K4tQqs6jUzk98VKnG0
-	GXyI+wUHALsN8VHUjcZEpIYnXyZg6hp6KVfK7Wk16W9baZ2S6veDBkEfKNSoxU3RpNSU
-	eo6wfzFHRw3QydfqV3QG95aZ9ok2DY32N+ytnOshqsT5Osm6oyaimtG1zlH8FRGepP18
-	Cc7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=H421Jbwru0K+TxzwP2aOFaEdCcAR/pa0FKIX0eSOpSQ=;
-	b=aqx1WXr+Lga/jPbYYtx/QBvNsAzBeSo6mse+I0ABMvAgmp4UPnDnehEeiP4Nbd+Aak
-	jkLTgRlSivc2tJj1oktWnrN+ZKzHHOtIBeDTcPZKlYnUSOdk33ZSAg/6yPMggoHykEqT
-	biSfYn9aJVOBdqFCnWQbCSUKbOCHZVt9gq6Y80M6qu7O50jOObj0CK7Zm91mMBhfPh85
-	6Yyfgg+NPXwPS8G9CHme6eLctsQqxXlGJ7T5iTWe/xqdjaUAPa3cFnCPg1y1qtULxJO9
-	Xw+k7BiG54EZ7Oin4cyBfkjAi54t8vFlOUr0YdHsn0p0VwTUiQh8DqDzbqQUQSMZN1xK
-	Gs1A==
-X-Gm-Message-State: AG10YOR7Sqtv2fivmsp1Gg1NrhUFpwa3spUyWyRLMLDKoE63OFgjBxw0iZAZFSVP7Jll7WbpKoAsetSd8zPRlA==
-MIME-Version: 1.0
-X-Received: by 10.28.146.8 with SMTP id u8mr19710233wmd.72.1453765330697; Mon,
-	25 Jan 2016 15:42:10 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 25 Jan 2016 15:42:10 -0800 (PST)
-Date: Mon, 25 Jan 2016 15:42:10 -0800
-Message-ID: <CAJ86T=VqpBLNsD5-W=+dF4WiSQ-3Zx_5Hs5P_ZqShVuqTTKCrg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: c++11 support in OE's gcc 5.x toolchain
+	Tue, 26 Jan 2016 00:21:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jan 2016 16:20:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,347,1449561600"; d="scan'208";a="868528148"
+Received: from wkhoh-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.149.195])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2016 16:20:53 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jan 2016 13:20:24 +1300
+Message-Id: <f51afe22a8c067fda84994789496b96500d230bd.1453767579.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1453767579.git.paul.eggleton@linux.intel.com>
+References: <cover.1453767579.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1453767579.git.paul.eggleton@linux.intel.com>
+References: <cover.1453767579.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] gen-lockedsig-cache: fix bad destination path joining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,58 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jan 2016 23:42:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 26 Jan 2016 00:21:03 -0000
 
-I'm seeing an error when trying to compile the string::append example
-from cplusplus.com (
-http://www.cplusplus.com/reference/string/string/append ) with the
-oe-core gcc 5.3 / glibc toolchain and -std=c++11. Log below.
+When copying the sstate-cache into the extensible SDK, if the source
+path had a trailing / and the destination path did not, there would be a
+missing / between the path and the subdirectory name, and you'd end up
+with subdirectories like "sstate-cacheCentOS-6.7". There are functions
+in os.path for this sort of thing so let's just use them and avoid the
+problem.
 
-The problem seems to be related to the new libstdc++ dual ABI
-introduced in GCC 5.1:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/gen-lockedsig-cache | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html
+diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
+index a4e9ded..0986a21 100755
+--- a/scripts/gen-lockedsig-cache
++++ b/scripts/gen-lockedsig-cache
+@@ -41,7 +41,7 @@ for f in files:
+         # Most likely a temp file, skip it
+         print('skipping')
+         continue
+-    dst = f.replace(sys.argv[2], sys.argv[3])
++    dst = os.path.join(sys.argv[3], os.path.relpath(f, sys.argv[2]))
+     destdir = os.path.dirname(dst)
+     mkdir(destdir)
+ 
+-- 
+2.5.0
 
-If I use -std=c++11 together with -D_GLIBCXX_USE_CXX11_ABI=0 to force
-the old ABI then the test app compiles OK.
-
-Do we perhaps need to do something different when building libstdc++
-to enable the new ABI?
-
-----
-
-  i686-rdk-linux-g++ -m32 -march=core2 -mtune=core2 -msse3
--mfpmath=sse --sysroot=/.../tmp/sysroots/vbox32 -std=c++11 test.cpp
-  test.cpp: In function 'int main()':
-  test.cpp:18:25: error: no matching function for call to
-'std::__cxx11::basic_string<char>::append(int, int)'
-     str.append<int>(5,0x2E);                // "....."
-                           ^
-  In file included from
-/.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/string:52:0,
-                   from
-/.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/bits/locale_classes.h:40,
-                   from
-/.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/bits/ios_base.h:41,
-                   from /.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/ios:42,
-                   from
-/.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/ostream:38,
-                   from
-/.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/iostream:39,
-                   from test.cpp:2:
-  /.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/bits/basic_string.h:1071:9:
-note: candidate: template<class _InputIterator, class>
-std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&
-std::__cxx11::basic_string<_CharT, _Traits,
-_Alloc>::append(_InputIterator, _InputIterator) [with _InputIterator =
-_InputIterator; <template-parameter-2-2> = <template-parameter-1-2>;
-_CharT = char; _Traits = std::char_traits<char>; _Alloc =
-std::allocator<char>]
-           append(_InputIterator __first, _InputIterator __last)
-           ^
-  /.../tmp/sysroots/vbox32/usr/include/c++/5.3.0/bits/basic_string.h:1071:9:
-note:   template argument deduction/substitution failed:
-
-----
 
