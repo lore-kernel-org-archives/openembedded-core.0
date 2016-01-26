@@ -1,30 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EB3777118
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id CC52D731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 05:01:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 25 Jan 2016 21:01:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,348,1449561600"; d="scan'208";a="901158466"
-Received: from wkhoh-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.149.195])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Jan 2016 21:01:52 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Jan 2016 18:01:49 +1300
-Message-ID: <4144143.PJRcGgX4R8@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.3.3-301.fc23.x86_64; KDE/4.14.16; x86_64; ;
-	)
-In-Reply-To: <2466348.b8R0cso7fs@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1453776397.git.paul.eggleton@linux.intel.com>
-	<CAMKF1sqqU+2DvonXYAk73Bbt_MSkQ4yB5U+_ExTaxod6T63d2g@mail.gmail.com>
-	<2466348.b8R0cso7fs@peggleto-mobl.ger.corp.intel.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] devtool: add configure-help subcommand
+	Tue, 26 Jan 2016 05:10:49 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id is5so135101398obc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jan 2016 21:10:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6U3GQFfOJueesUJ2koUshMESHgV7amWD/755UY8r8wE=;
+	b=YSS5gjWlYFgvyy9GBH24dVKaQMIcuYbOZh2YsUrjRDbdpng7X5r088NrHPu7ZYMQor
+	zBdxYoWH/0vVuRLu554tj/uIjDA4Ji4gsY+hoI1yMUbJbyUqNwVuXpMD0F0b7SvHl8Aa
+	vDAoFpwxp7fBLUz0sjxIAECqUD25EPT37iWcOsXuq8ZyAEbXdHVVZx3PAPiyehU2OUyR
+	pTb1MFrRcFR+ar7uVivGNwBacCZKWs05Pf7SVmF2H/obuB/TCvgoKkINXpj/ifES7qII
+	oUAdOOmy7CC61ahKFUo6mLZJ3Y7Bmy/FsiY2joGpr5dEV7Nno9IgzYb49pYWXSKRVW+N
+	nvpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6U3GQFfOJueesUJ2koUshMESHgV7amWD/755UY8r8wE=;
+	b=fnhLed771UwFXgqVU+fVej5VRvJzKj/d+/hdbDeatEs42aaMbVtMhP1TrTR7iWuc7z
+	FTKGI8hJIjxoeOom3aNmBmkKGrBRRFEOicVXA51Cy4mwWFuuB4RoK3GCQ5irNZuSgz0k
+	DMm/kwEQBbOiauN4EeU2CeV8hCZUn3KKoEdY23k0tIMwCNw0mHskR27TYZI9e6HeW6w4
+	BvPXEh1fPg5nbEY2/a0bQ6HUuDDct5WXAOKtItRZ8fg/wWOR62dml3fNY3BLoluSE4Uo
+	DvSA1ib1kg79c5qcplERUa9VtTGyWOn/o5RstGNriq+OeHX0PXV4U8bFIO9pUsIw79zN
+	jVag==
+X-Gm-Message-State: AG10YOThe0HSXbaRIG0g9e24VfN7nyThLDNSMic16tqycs+SScMYFIdLpy5CAw8ku5P7Ow==
+X-Received: by 10.182.254.34 with SMTP id af2mr17101529obd.60.1453785049135;
+	Mon, 25 Jan 2016 21:10:49 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	m131sm12171963oif.18.2016.01.25.21.10.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Jan 2016 21:10:47 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jan 2016 21:10:46 -0800
+Message-Id: <1453785046-9017-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [RFC][PATCH] gcc-runtime.inc: force libstdc++ to always use gcc4 compatible ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,118 +53,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 05:01:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 26 Jan 2016 05:10:49 -0000
 
-On Tue, 26 Jan 2016 17:59:53 Paul Eggleton wrote:
-> On Mon, 25 Jan 2016 22:27:27 Khem Raj wrote:
-> > On Mon, Jan 25, 2016 at 10:21 PM, Paul Eggleton
-> > 
-> > <paul.eggleton@linux.intel.com> wrote:
-> > > On Tue, 26 Jan 2016 16:17:39 Paul Eggleton wrote:
-> > >> Hi Khem,
-> > >> 
-> > >> On Mon, 25 Jan 2016 22:14:09 Khem Raj wrote:
-> > >> > > On Jan 25, 2016, at 9:53 PM, Paul Eggleton
-> > >> > > <paul.eggleton@linux.intel.com>
-> > >> > > wrote:
-> > >> > > 
-> > >> > > When you need to set EXTRA_OECONF for a recipe, you need to know
-> > >> > > what
-> > >> > > options the configure script actually supports; the configure
-> > >> > > script
-> > >> > > however is only accessible from within a devshell and (at least in
-> > >> > > the
-> > >> > > case of autotooled software fetched from an SCM repository) may not
-> > >> > > actually exist until do_configure has run. Thus, provide a "devtool
-> > >> > > configure-help" subcommand that runs the configure script for a
-> > >> > > recipe
-> > >> > > with --help and shows you the output through a pager (e.g. less),
-> > >> > > prefaced by a header describing the current options being
-> > >> > > specified.
-> > >> > > 
-> > >> > > There is basic support for autotools, cmake and bare configure
-> > >> > > scripts.
-> > >> > > The cmake support is a little hacky since cmake doesn't really have
-> > >> > > a
-> > >> > > concise help option that lists user-defined knobs (without actually
-> > >> > > running through the configure process), however that being a design
-> > >> > > feature of cmake there's not much I can think of to do about that
-> > >> > > at
-> > >> > > the moment.
-> > >> > 
-> > >> > this option is autotools specific. We need to convey this precisely.
-> > >> > may
-> > >> > be
-> > >> > involve autotools in the option name or something
-> > >> 
-> > >> Whilst not all non-autoconf configure scripts provide a --help option,
-> > >> some
-> > >> do. ffmpeg/libav is one example (and one where you really do need to
-> > >> see
-> > >> the output since there are a lot of options...)
-> > > 
-> > > I meant to add, even if configure --help doesn't work (or there is no
-> > > configure script at all) the header this subcommand prints will work
-> > > with
-> > > any recipe provided that do_configure is actually implemented and
-> > > contains some actual commands as opposed to calls to some other
-> > > function.
-> > 
-> > my worry is it being associated to do_configure, and we know that only
-> > a subset ( although a large one) is only using autotools but not all.
-> > So think about avoiding that confusion.
-> 
-> I'm not terribly convinced there could be much confusion. FWIW, I just
-> looked through the other recipes we have in OE-Core that have a call to a
-> configure script  that don't use autoconf (man, zlib, x264, v86d, ed,
-> libpostproc); the configure scripts for all of these at least produce some
-> useful output when called with --help. I then took a look at meta-oe (the
-> layer)
+Experimental hack, not expected to be merged.
 
-Actually this ended up being meta-oe, meta-networking, and meta-multimedia by 
-the time I was finished.
+Without this, the http://www.cplusplus.com/reference/string/string/append/
+example fails to build with -std=c++11 and it's not clear why (it's as if we
+build a version of libstdc++ which supports only the old ABI but with headers
+which try to use the new ABI when compiled with -std=c++11 ?). As a workaround,
+force libstdc++ to provide, and default to using, the old ABI in all cases.
 
-> , and checked the following recipes:
-> 
-> * concurrencykit - works
-> * ddrescue - works
-> * fio - works
-> * libvpx - works
-> * lzip - works
-> * nodejs - works
-> * mg - works (no options, but message is sensible)
-> * terminus-font - configure script is supplied without the execute bit set
-> but does support --help
-> * iscsi-initiator-utils - configure script is in a subdir so isn't found,
-> but does support --help
-> * netkit-rsh - works
-> * netkit-rpc - works
-> * netkit-telnet - works
-> * netkit-tftp - works
-> * netkit-rusers - works
-> * netkit-rwho - works
-> * netmap - configure script is in a subdir so isn't found, but does support
->   --help
-> * ntimed - configure script is dumb and takes no options at all
-> * tvheadend - works
-> * mozjs - seems to break devtool modify, but configure script does support
->   --help
-> 
-> So there are some minor bugs to fix, but of those recipes I tested there is
-> a grand total of 1 script that doesn't support --help. Honestly I think if
-> a configure script exists it's reasonable to assume that
-> --help is going to print something useful; even if it doesn't there
-> shouldn't be any major harm and you're still going to get a printout of the
-> do_configure value in which you'll be able to see what options are
-> currently passed.
-> 
-> Cheers,
-> Paul
+See also:
 
+  https://gcc.gnu.org/onlinedocs/libstdc++/manual/configure.html
+  https://mail.gnome.org/archives/gtkmm-list/2015-June/msg00026.html
+  https://wiki.debian.org/GCC5
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index f20d298..3a476cd 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -10,6 +10,19 @@ EXTRA_OECONF_PATHS = "\
+ 
+ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+ 
++# gcc-runtime.inc: force libstdc++ to always use gcc4 compatible ABI
++# Experimental hack. Without this, the http://www.cplusplus.com/reference/string/string/append/
++# example fails to build with -std=c++11 and it's not clear why (it's as if we
++# build a version of libstdc++ which supports only the old ABI but with headers
++# which try to use the new ABI when compiled with -std=c++11 ?). As a workaround,
++# force libstdc++ to provide, and default to using, the old ABI in all cases.
++# See also:
++# https://gcc.gnu.org/onlinedocs/libstdc++/manual/configure.html
++# https://mail.gnome.org/archives/gtkmm-list/2015-June/msg00026.html
++# https://wiki.debian.org/GCC5
++#
++EXTRA_OECONF_append = " --disable-libstdcxx-dual-abi --with-default-libstdcxx-abi=gcc4-compatible"
++
+ RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic \
+     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+ "
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
