@@ -1,26 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 79C80766E1
+	by mail.openembedded.org (Postfix) with ESMTP id BA582731F0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 09:37:56 +0000 (UTC)
+	Tue, 26 Jan 2016 09:43:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0Q9bvJd027244
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 01:37:57 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 26 Jan 2016 01:37:57 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jan 2016 01:37:56 -0800
-Message-ID: <db9c94907c59145f66a0bee387d5c95dc2d3c174.1453801040.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453801040.git.liezhi.yang@windriver.com>
-References: <cover.1453801040.git.liezhi.yang@windriver.com>
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0Q9hkTI027268
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 26 Jan 2016 01:43:47 -0800 (PST)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Tue, 26 Jan 2016 01:43:46 -0800
+Message-ID: <56A73FCF.90309@windriver.com>
+Date: Tue, 26 Jan 2016 17:43:43 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image.bbclass: chek circular dependency when IMAGE_FSTYPES append hddimg
+To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1453427632.git.Qi.Chen@windriver.com>
+	<2123a9457649d41670e9c35ad4b77a80064c95ed.1453427632.git.Qi.Chen@windriver.com>
+	<CAMKF1sobhDsXQ1ag9ZfrdHQyka7Y88C-thvzvMADa_V5C=9rqg@mail.gmail.com>
+	<CAJTo0LYPF=bkqU_OGwCU5NZOgDja70Xsr338xJo6rJCf6MNpxA@mail.gmail.com>
+	<CAMKF1sqBv67DS+8=vSJJQfRXdWJLgHxS8ur8p7ET0qFa3nks=A@mail.gmail.com>
+In-Reply-To: <CAMKF1sqBv67DS+8=vSJJQfRXdWJLgHxS8ur8p7ET0qFa3nks=A@mail.gmail.com>
+X-Originating-IP: [128.224.162.246]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemd: work around the boot problem on qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 09:38:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Jan 2016 09:43:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixed:
-IMAGE_FSTYPES_append = " hddimg"
+On 01/23/2016 10:03 PM, Khem Raj wrote:
+> On Sat, Jan 23, 2016 at 1:39 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 23 January 2016 at 04:52, Khem Raj <raj.khem@gmail.com> wrote:
+>>> This is general aarch64 problem, so make this across all aarch64
+>>> this is the original problem
+>>>
+>>> https://github.com/systemd/systemd/pull/1190#issuecomment-166294683
+>>
+>> And according to that link, is a binutils problem.  Can't we just fix that
+>> instead?
+>>
+> We can. May be try out the binutils patches I posted and see if that fixes it
+> https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26
+>
+>
+>> Ross
+>
 
-$ bitbake -g core-image-minimal-initramfs
-NOTE: Resolving any missing task queue dependencies
-NOTE: Preparing RunQueue
-ERROR: Task /path/to/core-image-minimal-initramfs.bb (do_bootimg) has circular dependency on /path/to/core-image-minimal-initramfs.bb (do_image_complete)
-ERROR: Command execution failed: Exited with 1
+Hi Khem and Ross,
 
-This is because IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}", and if
-IMAGE_FSTYPES append hddimg, then core-image-minimal-initramfs.bb would
-be circular dependency:
-do_bootimg -> do_image_complete -> do_bootimg.
+I've verified the patch above does fix the systemd qemuarm64 problem.
+Thanks all :)
 
-Now we check and error out.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/image-live.bbclass |   11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index aafa7d5..d2314aa 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -9,7 +9,6 @@ LABELS_append = " ${SYSLINUX_LABELS} "
- 
- ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4"
- 
--do_bootimg[depends] += "${INITRD_IMAGE}:do_image_complete"
- do_bootimg[depends] += "${PN}:do_image_ext4"
- 
- inherit bootimg
-@@ -18,3 +17,13 @@ IMAGE_TYPEDEP_live = "ext4"
- IMAGE_TYPEDEP_iso = "ext4"
- IMAGE_TYPEDEP_hddimg = "ext4"
- IMAGE_TYPES_MASKED += "live hddimg iso"
-+
-+python() {
-+    image_b = d.getVar('IMAGE_BASENAME', True)
-+    initrd_i = d.getVar('INITRD_IMAGE', True)
-+    if image_b == initrd_i:
-+        bb.error('INITRD_IMAGE %s cannot use image live, hddimg or iso.' % initrd_i)
-+        bb.fatal('Check IMAGE_FSTYPES and INITRAMFS_FSTYPES settings.')
-+    else:
-+        d.appendVarFlag('do_bootimg', 'depends', ' %s:do_image_complete' % initrd_i)
-+}
--- 
-1.7.9.5
-
+Best Regards,
+Chen Qi
 
