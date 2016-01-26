@@ -1,50 +1,45 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 17DCC6FFF7
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 78DB576A51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 18:51:34 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id 77so195559850ioc.2
+	Tue, 26 Jan 2016 19:14:42 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id is5so149966324obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 10:51:36 -0800 (PST)
+	Tue, 26 Jan 2016 11:14:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=/lM2sFPe9G8fUKrf+PyEFv39Gvid42tgzCFw+1DnQ6s=;
-	b=mjEDTWrDBAvVLt5PGesp4wueGLNSoIyLkLu0d9QosJHIhfVeSPMLbxaatr4Y+1dJul
-	TXmN2qJq/ZuYjHUPg+I7EKfzwpvPxelZ+El/djF1PVcyp1hsA+a8vxmitviARkiu5Pjy
-	CYI3C4tvEzR3B39lQg3TrJxO3pxAnyOFOxOfZdAfEgfGuHi00gYNt7NYVwfe4bZgb9Gi
-	u/xLy8mLhR+JqLgSrqtYShmNEu0+MCtnmsxtCW0VKS+PNBrchr8vj6ZSB6wR6RBiV6If
-	Q98mIdxvwoYfTUFc5mfoZ+v4ZuqlkaIONMEbhuAnN30IwfXm8H4aXoLVq0/AIy7bw1xO
-	HQJA==
+	h=from:to:cc:subject:date:message-id;
+	bh=L3f0zt96XEYNHjate6OYv5BqEPia8bV/wyWnOkCQDZ8=;
+	b=T4jH1ahtOASk9zxvxrEpv+jVP2Niog8NQN7cWVz+/Hj1iwgEM7wOHfa5BojRyVMwPg
+	yuOkQ+BiTaL/GZqhO5H5G1YUvLBvCzocRpNldGZ5yA5fF7NVvifv+vHgzQg8XEmNN9FI
+	TkU9ABxhHxnb58QCGoNu5xgfN7DWinul+iGQN2PB6zpP0QtaIY2P19KIWn5YucF5+FYe
+	f2j4nkxH+FH6hEaIMZ/OwPqDJNZiYu285OvGkiaZyiRWuURoVHEwAMWUGJA3XR5n8xmX
+	k2sNetcdylz0VKp2kYMuG7zmGe5cQrwxIKn+dkfswbXlaEPDQz4I/ft3e/ZOmNrNMxPq
+	/2WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=/lM2sFPe9G8fUKrf+PyEFv39Gvid42tgzCFw+1DnQ6s=;
-	b=IU0NzAh6a3cvkEHzfHJXalv0uTHtx2sR3eRyRKX9MqkJFr6aDRRfPr1wy9MWYTgU3T
-	M1e31rxOlHuQJ1dajKx3nbLlV6C0I3OZNUDIgNAeGrdB3GjCGu1KU+QWVqel2bQESa+O
-	nIibhC+kBX0Q3nufwyw/rlu+73Wk3VXHyzPsXZRf4RYHN5PmxPn3N/Sjo/e00MZU3fkZ
-	5yqH67cfbTekSxUaUQNv8/dGruPW352/aSpg8m9gKYkSZHRWwmRFt5AlevRlzzJVW4ek
-	oMfW9e0LGTeqZW8CdNvj/kYdxk/nMkv0b1p3xGtR+digZDq/nCVMZFOM7pQseKwhp0fk
-	5ySw==
-X-Gm-Message-State: AG10YOTA8o0d3sZfFjklObsQMLbTFO3O2uB7zkwD44v10Wsb93tgpb5hJsT6RE9MuBlPWkvp3QDShKSoxJ1DNg==
-MIME-Version: 1.0
-X-Received: by 10.107.14.72 with SMTP id 69mr24555366ioo.145.1453834295732;
-	Tue, 26 Jan 2016 10:51:35 -0800 (PST)
-Received: by 10.36.200.70 with HTTP; Tue, 26 Jan 2016 10:51:35 -0800 (PST)
-Received: by 10.36.200.70 with HTTP; Tue, 26 Jan 2016 10:51:35 -0800 (PST)
-In-Reply-To: <51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
-References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
-	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
-Date: Tue, 26 Jan 2016 19:51:35 +0100
-Message-ID: <CAC1BbcRi+Vf0Y=Jxt3bZwMvs2V6fSQQkTfasrDHMWRdyjoUNzA@mail.gmail.com>
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: lttng-dev <lttng-dev@lists.lttng.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Bogus openembedded gcc patch
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=L3f0zt96XEYNHjate6OYv5BqEPia8bV/wyWnOkCQDZ8=;
+	b=ZFOoB/BoDbb5DkbwahiZ24l8cc8xpVc2h619rLUV+vy6Z4j6ROL4UbOKuSmyMcRNkt
+	qRov3vCFXAQYpA6LtffWC7ooH6x1cyEPaFq5z1S7OwW/7cRIf9dy6bvfi7hV2YpM4ya8
+	4VJ8bfmwpc1DVCTJutahX9Vh+Bl+XrE6/VJ8xcOusmY3Gz0HMB+fHMxCdFQDBVNIeY4i
+	eElNNBbr88+FuJ3JF+UtXGGNQM32UYm8G7tVfAUXdRv2ushWQUx4aUyiR42cJFAPVGtf
+	pOOlIqpQ1IhTQfwVv5R3em05y0M8x4irRPlAYJXvZ8eo5DkLDn5ukhrAihjg1Dm70/TT
+	Wb7g==
+X-Gm-Message-State: AG10YOQwAG12UBoMLhTJRfksVXZSlOMGoK4awIr9qMudMuZ8dBFuMQRnjU1EjPJVqhqVlQ==
+X-Received: by 10.60.136.197 with SMTP id qc5mr19980197oeb.79.1453835682644;
+	Tue, 26 Jan 2016 11:14:42 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id x142sm987730oix.8.2016.01.26.11.14.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Jan 2016 11:14:41 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jan 2016 11:14:34 -0800
+Message-Id: <1453835674-14822-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] mtools: keep v3.9.9 recipe in sync with the v4.0.18 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,155 +52,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 18:51:38 -0000
-Content-Type: multipart/alternative; boundary=001a113fcf0ec2714e052a412c6d
+X-List-Received-Date: Tue, 26 Jan 2016 19:14:42 -0000
 
---001a113fcf0ec2714e052a412c6d
-Content-Type: text/plain; charset=UTF-8
+Changes are mostly cosmetic, but also include one important fix
+to support builds using musl libc.
 
-On 26 Jan 2016 17:28, "Khem Raj" <raj.khem@gmail.com> wrote:
->
->
-> > On Jan 25, 2016, at 8:02 PM, Mathieu Desnoyers <
-mathieu.desnoyers@efficios.com> wrote:
-> >
-> > Hi,
-> >
-> > We are noticing the presence of the following patch in various
-> > openembedded gcc versions:
-> >
-> > 0024-PR-target-32219.patch
-> >
-> > "From e0d15f4f8bf28c351b9215ca37f1caa24df0e1fd Mon Sep 17 00:00:00 2001
-> > From: Khem Raj <raj.khem@gmail.com>
-> > Date: Fri, 29 Mar 2013 09:18:54 +0400
-> > Subject: [PATCH 24/35] PR target/32219
-> >
-> > * varasm.c (default_binds_local_p_1): Weak data is not local.
-> >
-> > Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >
-> > Upstream-Status: Backport"
-> >
-> > However, contrarily to its "Backport" status, that patch is
-> > not upstream in gcc, and we're starting to wonder if this
-> > would be the patch that breaks handling of start/stop automatic
-> > hidden symbols we use in lttng-ust.
-> >
-> > We are only experiencing problems on the various openembedded
-> > compilers, but on no other distro (with same compiler versions),
-> > which leads us to suspect a buggy distro-specific gcc patch.
-> >
-> > We've been testing with openembedded gcc-4.9.2-r0.
-> >
-> > The original gold linker issue that this patch was trying to
-> > address seems to have been fixed in the gold linke since
-> > then.
-> >
-> > Refs:
-> > http://lists.lttng.org/pipermail/lttng-dev/2014-May/023112.html
-> > https://gcc.gnu.org/ml/gcc-help/2014-05/msg00042.html
-> >
-http://cgit.openembedded.org/openembedded-core/commit/?id=3cb2b003db7371b3a47d02c08352a262e1e419b4
-> > https://sourceware.org/bugzilla/show_bug.cgi?id=15435
-> >
-> > Thoughts ?
->
-> OE has defaulted to gcc5 since last release, and gold issue is fixed in
-binutils 2.25
-> which is what we use in 2.0 as well so it might be OK to unbolt this fix.
-Although I am not sure
-> about the original problem reported in PR32219 is fixed for gcc 4.9 if we
-remove this fix.
-> Have you narrowed down your issue to this patch ? if not, then it would
-be good to do so
+  http://git.openembedded.org/openembedded-core/commit/?id=9f5eb272784d3be17e7fe8e7cab511bd4086ba1e
 
-See http://gcc.gnu.org/PR32219 this is fixed for at least 6.0 so should
-certainly be dropped for any fixed GCC. Not sure if anybody is willing to
-backport this one, you might ask.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb | 36 +++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
 
-Thanks,
->
-> >
-> > Thanks,
-> >
-> > Mathieu
-> >
-> > --
-> > Mathieu Desnoyers
-> > EfficiOS Inc.
-> > http://www.efficios.com
->
+diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+index c284a71..26d52a9 100644
+--- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
++++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+@@ -1,16 +1,15 @@
+-# mtools OE build file
+-# Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+-# Released under the MIT license (see packages/COPYING)
+-
+ SUMMARY = "Utilities to access MS-DOS disks without mounting them"
+-DESCRIPTION = "Mtools is a collection of utilities for accessing MS-DOS disks from Unix without mounting them."
++DESCRIPTION = "Mtools is a collection of utilities to access MS-DOS disks from GNU and Unix without mounting them."
+ HOMEPAGE = "http://www.gnu.org/software/mtools/"
++SECTION = "optional"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=92b58ec77696788ce278b044d2a8e9d3"
+ PR = "r6"
+ 
+-RDEPENDS_${PN} = "glibc-gconv-ibm850"
+-RRECOMMENDS_${PN} = "\
++DEPENDS += "virtual/libiconv"
++
++RDEPENDS_${PN}_libc-glibc = "glibc-gconv-ibm850"
++RRECOMMENDS_${PN}_libc-glibc = "\
+ 	glibc-gconv-ibm437 \
+ 	glibc-gconv-ibm737 \
+ 	glibc-gconv-ibm775 \
+@@ -26,24 +25,22 @@ RRECOMMENDS_${PN} = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-
+-#http://mtools.linux.lu/mtools-${PV}.tar.gz 
+-SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
+-	file://mtools-makeinfo.patch \
+-	file://mtools.patch \
+-	file://no-x11.patch \
+-	file://fix-broken-lz.patch \
+-"
+-
+ SRC_URI[md5sum] = "3e68b857b4e1f3a6521d1dfefbd30a36"
+ SRC_URI[sha256sum] = "af083a73425d664d4607ef6c6564fd9319a0e47ee7c105259a45356cb834690e"
+ 
+-S = "${WORKDIR}/mtools-${PV}"
++#http://mtools.linux.lu/mtools-${PV}.tar.gz 
++SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
++           file://mtools-makeinfo.patch \
++           file://mtools.patch \
++           file://no-x11.patch \
++           file://fix-broken-lz.patch"
+ 
+ inherit autotools texinfo
+ 
+ EXTRA_OECONF = "--without-x"
+ 
++LDFLAGS_append_libc-uclibc = " -liconv "
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ PACKAGECONFIG ??= ""
+@@ -54,3 +51,8 @@ do_install_prepend () {
+     mkdir -p ${D}/${bindir}
+     mkdir -p ${D}/${datadir}
+ }
++
++do_install_append_class-native () {
++    create_wrapper ${D}${bindir}/mcopy \
++        GCONV_PATH=${libdir}/gconv
++}
+-- 
+1.9.1
 
---001a113fcf0ec2714e052a412c6d
-Content-Type: text/html; charset=UTF-8
 
-<p dir="ltr"><br>
-On 26 Jan 2016 17:28, &quot;Khem Raj&quot; &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; &gt; On Jan 25, 2016, at 8:02 PM, Mathieu Desnoyers &lt;<a href="mailto:mathieu.desnoyers@efficios.com">mathieu.desnoyers@efficios.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Hi,<br>
-&gt; &gt;<br>
-&gt; &gt; We are noticing the presence of the following patch in various<br>
-&gt; &gt; openembedded gcc versions:<br>
-&gt; &gt;<br>
-&gt; &gt; 0024-PR-target-32219.patch<br>
-&gt; &gt;<br>
-&gt; &gt; &quot;From e0d15f4f8bf28c351b9215ca37f1caa24df0e1fd Mon Sep 17 00:00:00 2001<br>
-&gt; &gt; From: Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt; Date: Fri, 29 Mar 2013 09:18:54 +0400<br>
-&gt; &gt; Subject: [PATCH 24/35] PR target/32219<br>
-&gt; &gt;<br>
-&gt; &gt; * varasm.c (default_binds_local_p_1): Weak data is not local.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Bernhard Reutner-Fischer &lt;<a href="mailto:rep.dot.nop@gmail.com">rep.dot.nop@gmail.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Upstream-Status: Backport&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; However, contrarily to its &quot;Backport&quot; status, that patch is<br>
-&gt; &gt; not upstream in gcc, and we&#39;re starting to wonder if this<br>
-&gt; &gt; would be the patch that breaks handling of start/stop automatic<br>
-&gt; &gt; hidden symbols we use in lttng-ust.<br>
-&gt; &gt;<br>
-&gt; &gt; We are only experiencing problems on the various openembedded<br>
-&gt; &gt; compilers, but on no other distro (with same compiler versions),<br>
-&gt; &gt; which leads us to suspect a buggy distro-specific gcc patch.<br>
-&gt; &gt;<br>
-&gt; &gt; We&#39;ve been testing with openembedded gcc-4.9.2-r0.<br>
-&gt; &gt;<br>
-&gt; &gt; The original gold linker issue that this patch was trying to<br>
-&gt; &gt; address seems to have been fixed in the gold linke since<br>
-&gt; &gt; then.<br>
-&gt; &gt;<br>
-&gt; &gt; Refs:<br>
-&gt; &gt; <a href="http://lists.lttng.org/pipermail/lttng-dev/2014-May/023112.html">http://lists.lttng.org/pipermail/lttng-dev/2014-May/023112.html</a><br>
-&gt; &gt; <a href="https://gcc.gnu.org/ml/gcc-help/2014-05/msg00042.html">https://gcc.gnu.org/ml/gcc-help/2014-05/msg00042.html</a><br>
-&gt; &gt; <a href="http://cgit.openembedded.org/openembedded-core/commit/?id=3cb2b003db7371b3a47d02c08352a262e1e419b4">http://cgit.openembedded.org/openembedded-core/commit/?id=3cb2b003db7371b3a47d02c08352a262e1e419b4</a><br>
-&gt; &gt; <a href="https://sourceware.org/bugzilla/show_bug.cgi?id=15435">https://sourceware.org/bugzilla/show_bug.cgi?id=15435</a><br>
-&gt; &gt;<br>
-&gt; &gt; Thoughts ?<br>
-&gt;<br>
-&gt; OE has defaulted to gcc5 since last release, and gold issue is fixed in binutils 2.25<br>
-&gt; which is what we use in 2.0 as well so it might be OK to unbolt this fix. Although I am not sure<br>
-&gt; about the original problem reported in PR32219 is fixed for gcc 4.9 if we remove this fix.<br>
-&gt; Have you narrowed down your issue to this patch ? if not, then it would be good to do so</p>
-<p dir="ltr">See <a href="http://gcc.gnu.org/PR32219">http://gcc.gnu.org/PR32219</a> this is fixed for at least 6.0 so should certainly be dropped for any fixed GCC. Not sure if anybody is willing to backport this one, you might ask.</p>
-<p dir="ltr">Thanks,<br>
-&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Thanks,<br>
-&gt; &gt;<br>
-&gt; &gt; Mathieu<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; Mathieu Desnoyers<br>
-&gt; &gt; EfficiOS Inc.<br>
-&gt; &gt; <a href="http://www.efficios.com">http://www.efficios.com</a><br>
-&gt;<br>
-</p>
-
---001a113fcf0ec2714e052a412c6d--
