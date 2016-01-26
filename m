@@ -1,41 +1,48 @@
-Return-Path: <compudj@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [78.47.125.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE09731F3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B23496FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 19:59:54 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 17A85340356;
-	Tue, 26 Jan 2016 19:59:55 +0000 (UTC)
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id uw_QRwBuSKN6; Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 657D834050A;
-	Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id xk8ySRxrB1pJ; Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
-Received: from evm-mail-1.efficios.com (evm-mail-1.efficios.com [78.47.125.74])
-	by mail.efficios.com (Postfix) with ESMTP id 30D08340356;
-	Tue, 26 Jan 2016 19:59:50 +0000 (UTC)
-Date: Tue, 26 Jan 2016 19:59:49 +0000 (UTC)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
-In-Reply-To: <51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
-References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
-	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
+	Tue, 26 Jan 2016 20:08:24 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id 77so197995641ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jan 2016 12:08:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=MDkTMQRypqeRenQSFtm/dI4oymdtEZEVGSpJtb0FYDA=;
+	b=fE089uZOdu1cjqx5adJyZ4Bn+jSowyZ3Uzg7DgQY91asqqI9AOfoF/ddQj08uv5aJf
+	+AVhoAOq7vK0VgYaI/Aa4WB0RVxZOGPFv8AfPB3OlmeN9cIXqRaKDAiK6tyww7T+0Bxc
+	kILWGSuLUfyS4T0S9lfdIV0WrC5lCfGOJQnXCBWwIU2VjcMPkLJobXODHejGlxzBgADV
+	8AqrpAaUJLHz2j4qSffvvDZSJ0CpuS4j7Z5X1k5riU2b8vcucREB/Y6IGsVVctJhabMr
+	nOabSrTANlFu84z5g1JEtImeidNFX/RgSG4MHszpOftve+Ew9ekIwlKzjCRvWBiJ2596
+	Ke4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=MDkTMQRypqeRenQSFtm/dI4oymdtEZEVGSpJtb0FYDA=;
+	b=miIcbuQePVfeICpZRPbIAYGQps00RfTG80VMLUZMs2S84ODgovlBtvXyrw45dJLU2/
+	4Cr3H2CKaYA09AFryISX/hUcX0zGQzQIVRcM8igyjkOi5oWgLS5jdVOtalbBCnP1WeRo
+	SNcZQa1zkCj3ggRCWyHDduuYsNxNNocpX8a5I/GLJL4brlewz7V3DklTqrKgs0fataPZ
+	7bc0f8F7MNZYAcElrB0PVO3/+6CaKBISriEE/82CZ8+hf8ifJ2iD/trTioYZe/gPLYAQ
+	ZATFfX67srAS+hiLC4aVI0o4iTD7yeCnJj2Hf23qU8nakSTvCJsUMuNRKILC7z3GvdsN
+	fi7A==
+X-Gm-Message-State: AG10YORRZDLJFbh7SBm0XIuBvlHCAxR+EjjQVaMU2WTqT7lNvpf/PO7ItN7OJInq220pX+JOPS1zI5akTKrazAjP
+X-Received: by 10.107.3.154 with SMTP id e26mr22677095ioi.99.1453838905419;
+	Tue, 26 Jan 2016 12:08:25 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [78.47.125.74]
-X-Mailer: Zimbra 8.6.0_GA_1178 (ZimbraWebClient - FF43 (Linux)/8.6.0_GA_1178)
-Thread-Topic: Bogus openembedded gcc patch
-Thread-Index: J8YVlSsuyEf+1Ae9ACCJfyQo44Gf9g==
-Cc: lttng-dev <lttng-dev@lists.lttng.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Bogus openembedded gcc patch
+Received: by 10.107.162.70 with HTTP; Tue, 26 Jan 2016 12:08:06 -0800 (PST)
+In-Reply-To: <024e4a066a9ba9ee5333961b46fc6bbb5814d31d.1453746280.git.raj.khem@gmail.com>
+References: <cover.1453746280.git.raj.khem@gmail.com>
+	<024e4a066a9ba9ee5333961b46fc6bbb5814d31d.1453746280.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Jan 2016 20:08:06 +0000
+Message-ID: <CAJTo0LZxqgccVkB38Skp=5tqvKm8U7g+gryzpdokihdMcfgtbw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/11] pth: Delete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,129 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 19:59:55 -0000
-X-Groupsio-MsgNum: 76931
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_5070_652604609.1453838389502"
+X-List-Received-Date: Tue, 26 Jan 2016 20:08:25 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10a84d1ee052a423ffc
 
-------=_Part_5070_652604609.1453838389502
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+--001a113ec10a84d1ee052a423ffc
+Content-Type: text/plain; charset=UTF-8
 
------ On Jan 26, 2016, at 11:28 AM, Khem Raj raj.khem@gmail.com wrote:
+On 25 January 2016 at 18:32, Khem Raj <raj.khem@gmail.com> wrote:
 
->> On Jan 25, 2016, at 8:02 PM, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
->> wrote:
->> 
->> Hi,
->> 
->> We are noticing the presence of the following patch in various
->> openembedded gcc versions:
->> 
->> 0024-PR-target-32219.patch
->> 
->> "From e0d15f4f8bf28c351b9215ca37f1caa24df0e1fd Mon Sep 17 00:00:00 2001
->> From: Khem Raj <raj.khem@gmail.com>
->> Date: Fri, 29 Mar 2013 09:18:54 +0400
->> Subject: [PATCH 24/35] PR target/32219
->> 
->> * varasm.c (default_binds_local_p_1): Weak data is not local.
->> 
->> Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> 
->> Upstream-Status: Backport"
->> 
->> However, contrarily to its "Backport" status, that patch is
->> not upstream in gcc, and we're starting to wonder if this
->> would be the patch that breaks handling of start/stop automatic
->> hidden symbols we use in lttng-ust.
->> 
->> We are only experiencing problems on the various openembedded
->> compilers, but on no other distro (with same compiler versions),
->> which leads us to suspect a buggy distro-specific gcc patch.
->> 
->> We've been testing with openembedded gcc-4.9.2-r0.
->> 
->> The original gold linker issue that this patch was trying to
->> address seems to have been fixed in the gold linke since
->> then.
->> 
->> Refs:
->> http://lists.lttng.org/pipermail/lttng-dev/2014-May/023112.html
->> https://gcc.gnu.org/ml/gcc-help/2014-05/msg00042.html
->> http://cgit.openembedded.org/openembedded-core/commit/?id=3cb2b003db7371b3a47d02c08352a262e1e419b4
->> https://sourceware.org/bugzilla/show_bug.cgi?id=15435
->> 
->> Thoughts ?
-> 
-> OE has defaulted to gcc5 since last release, and gold issue is fixed in binutils
-> 2.25
-> which is what we use in 2.0 as well so it might be OK to unbolt this fix.
-> Although I am not sure
-> about the original problem reported in PR32219 is fixed for gcc 4.9 if we remove
-> this fix.
-> Have you narrowed down your issue to this patch ? if not, then it would be good
-> to do so
+> replacement in npth is available in OE-core
+>
 
-Yes, we have narrowed down our problem to this specific patch by
-removing the patch from the OE gcc patches, rebuilding gcc, and
-then building our test program with that gcc. The problem goes
-away when we do so, which points directly to that patch as a
-culprit.
+This breaks anyone using core-image-lsb because that pulls in pth
+explicitly.
 
-Test program is attached.
+I can't see any mention of pth in the LSB specification so it could be that
+it can just be removed.  Or maybe it should be replaced with npth.  Does
+anyone have any opinions here?
 
-Faulty[gcc 4.9-r0 with patch 0024]:
+Ross
 
-main: myvar addr=0x600c90 __start___test=0x600c90
-fct: myvar addr=0x7f8733d1eae8 __start___test=0x600c90
-fct2: myvar addr=0x7f8733d1eaec __start___test=0x600c90
-fct3: myvar addr=0x600c94 __start___test=0x600c90
+--001a113ec10a84d1ee052a423ffc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Valid[gcc 4.9-r0 without patch 0024]:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 January 2016 at 18:32, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":1yh" class=3D"a3s" sty=
+le=3D"overflow:hidden">replacement in npth is available in OE-core<br></div=
+></blockquote></div><br>This breaks anyone using core-image-lsb because tha=
+t pulls in pth explicitly.</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">I can&#39;t see any mention of pth in the LSB specific=
+ation so it could be that it can just be removed.=C2=A0 Or maybe it should =
+be replaced with npth.=C2=A0 Does anyone have any opinions here?</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-main: myvar addr=0x600c60 __start___test=0x600c60
-fct: myvar addr=0x7fb62c758a90 __start___test=0x7fb62c758a90
-fct2: myvar addr=0x7fb62c758a94 __start___test=0x7fb62c758a90
-fct3: myvar addr=0x600c64 __start___test=0x600c60
-
-Thanks,
-
-Mathieu
-
-> 
->> 
->> Thanks,
->> 
->> Mathieu
->> 
->> --
->> Mathieu Desnoyers
->> EfficiOS Inc.
-> > http://www.efficios.com
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
-
-------=_Part_5070_652604609.1453838389502
-Content-Type: application/x-compressed-tar; name=yocto-hidden-bug2.tar.gz
-Content-Disposition: attachment; filename=yocto-hidden-bug2.tar.gz
-Content-Transfer-Encoding: base64
-
-H4sIAF2np1YAA+2WXW/TMBRA+1r/CtNpKJWaNB91Im0MaYiHIQ2YJiQ0AbISx1nNUqdKnEKF9t+5
-aVfWNlQF1GYwfB4S59bXdu0cO9OMqcwcijjm0ozKa7ff2jk2EBBS3Z2A2Mv3BS3H9YkTuB7xnJbt
-DKDYwmT3Q6lTFirMMW6xbDQu488b6237/R9lWlv/vJRWMdxlH1vXnzjz9SceIbYH6088eA2wvctB
-bOI/X/+DJ/1IyH4xRGgU3nB0/pKev3pxeXp5RS9O352dWNjqK14o9NAD1eyFuv+v4TVIRMp310el
-uD8YbPTfJYP7/R/OAvDfdwPtfxOEaXqE2teMYfN92jNNmZlhYUrOYx5jMxkL+KEYhnn1lOFURKMp
-XByryLBjMexabHN2hqudA5tpnK5mhpAZQSayLs7evrk6wizloUSzK4wmH0HP89zlNL0F7YG6/7A4
-O+5jm/+B7y3O/8AeBNX3Hwn0+d8IB0KytIw5flaoWGTW8DlaDUm1GovThMlaNVC0iiGYTAVbBssk
-yAu5eDSdwPRSGiqVi6hUnFLDKDhTIpNGh9LK8k632z1GiH9VPJdLuZRWa6PovNaHT6i91s4XHt70
-8EQUIhKpUFOjM3+R5w3+tL1s/KfNAZNMxDhhyqgKEFo8u+sBbxFAszkIhTS66BtqJ+McAokBM8bz
-vIc7h8XR3RSFcZyfHI7X/jREPspOD6JJKRmlPdRuP50l9NZqQmftamh3d3dR8GaFnKsS5sI+Rrer
-22jdf7dx/4kf/PDfqeqB/46r/W+CX/T/UYu9pvH+Rb39ez5l6v5Hjfvve/69/7Y789/X538j6PP/
-t7cJ7zFtE3X/nQc4/5f89+b+20T73wT6/F//rH8cXms0Go1Go9FoNBqNRrPMd2JyaasAKAAA
-
-------=_Part_5070_652604609.1453838389502--
+--001a113ec10a84d1ee052a423ffc--
