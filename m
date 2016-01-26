@@ -1,33 +1,48 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3603 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 26 Jan 2016 06:05:10 UTC
-Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
-	[206.46.173.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E872755F8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CBFE160670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 06:05:10 +0000 (UTC)
-Received: from gandalf.denix.org ([100.15.86.14]) by vms173019.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPSA id <0O1J00IVJNG1YZ90@vms173019.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 25 Jan 2016 23:04:50 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=xDJgBcBrK5EN9DJ6g74wNQ==:117
-	a=kj9zAlcOel0A:10 a=7aQ_Q-yQQ-AA:10	a=sozttTNsAAAA:8 a=fxJcL_dCAAAA:8
-	a=snS9ORLDqdp--L-pTRYA:9	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 6F4BE161E19; Tue,
-	26 Jan 2016 00:04:49 -0500 (EST)
-Date: Tue, 26 Jan 2016 00:04:49 -0500
-From: Denys Dmytriyenko <denis@denix.org>
+	Tue, 26 Jan 2016 08:54:45 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id 77so178504084ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jan 2016 00:54:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=QU3p4/OoDk4NssjM+E6P+TnN4nBTj5tq/Cjmzz/1a4c=;
+	b=scdbxsyafysKQ/sEPT+d0wegGp15+zoyp5PqDPW4x5OCIbl/Yag0AsMfw1uVzjPPVm
+	Uz7oq1Q8GSxDEWrH2dKGP9yK6NF2cn+ZDuw2CoV1XUQjOkzt7zHOX/QNI/Wrn0KH4lyn
+	V1T5ELxwGTJe5nvrk/3mx8FtgOrHzmIYAj0Ld/LVgh+NCz+mC0kjJXm5UAxGiEWIpKN0
+	0C/44EH5u2387/NfdgDhYJct/TYARUfu7eXOXd8xAXB6pZ3nv+kqKlkiNQTEzwCz6l/I
+	hCiDUPrcvl1hmeb1wGPJtMx2IbGNl1ldgNHKO8R2BSaKLr2bbSxvFgwmVVO6h8Vfr5Dv
+	ZfYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QU3p4/OoDk4NssjM+E6P+TnN4nBTj5tq/Cjmzz/1a4c=;
+	b=SQfeGaQYJr40/nWsVhfydlBJTxCKQfM9yhGRYOooAM6g2rC3/07x4bSMx2D/usJMDY
+	FZBGlpfJWaILYDe3uLkKMe7EKGfklNybk9jCJYOiQgq9iPyQQ3/3baaj21jDPPSVr4gM
+	gkEzTw4aN65YDUdprodS3CssRXQUP63epmjpXFT/Qq1clfCn45V2TwyBDXRVyciZMtoq
+	BfyV+DlVZd4gKz8ChOH6ZeRlPJjH6nDVsZY/Zlq/SBNmAbpPIBFz3HdcFP1oJaAgeYD+
+	7sDMdvFyTop0pRBx+CJP3+3NulkvAr9M9q3Ov42+LtMXkRa2dHA0BOe4YxeCY93b5hny
+	F/xw==
+X-Gm-Message-State: AG10YOQ72BlAJPrtARV6/ILEwTQC6FZxs/zTPlcOmGguSSzhr3lA3d3E+lP+c3moxjeW0wGWu/m+J3Pnv7PwKuNh
+X-Received: by 10.107.135.104 with SMTP id j101mr24199016iod.133.1453798486612;
+	Tue, 26 Jan 2016 00:54:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Tue, 26 Jan 2016 00:54:27 -0800 (PST)
+In-Reply-To: <56A6F861.9000101@windriver.com>
+References: <1453764577-26470-1-git-send-email-anibal.limon@linux.intel.com>
+	<56A6F861.9000101@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Jan 2016 08:54:27 +0000
+Message-ID: <CAJTo0Lb=VfoUnVWdfc9UuQbBzgGBBRshTc5bwpQ5CJfAs6zr0A@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
-Message-id: <20160126050449.GD1652@denix.org>
-References: <1453779264-8652-1-git-send-email-denis@denix.org>
-	<56A6F7B2.8080203@windriver.com>
-MIME-version: 1.0
-In-reply-to: <56A6F7B2.8080203@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] stress-ng: add 0.05.09
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3] ptest-runner_2.0: Add ptest-runner_2.0 recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,53 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 06:05:12 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 26 Jan 2016 08:54:48 -0000
+Content-Type: multipart/alternative; boundary=001a113ebe925ebcd9052a38d65b
 
-On Tue, Jan 26, 2016 at 12:36:02PM +0800, Robert Yang wrote:
-> 
-> 
-> On 01/26/2016 11:34 AM, Denys Dmytriyenko wrote:
-> >From: Denys Dmytriyenko <denys@ti.com>
-> >
-> >A clean room re-implementation and extension of the original stress tool.
-> >
-> >Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> >---
-> >  meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >  create mode 100644 meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> >
-> >diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> >new file mode 100644
-> >index 0000000..2e92c53
-> >--- /dev/null
-> >+++ b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> >@@ -0,0 +1,15 @@
-> >+SUMMARY = "A tool to load and stress a computer system"
-> >+HOMEPAGE = "http://kernel.ubuntu.com/~cking/stress-ng/"
-> >+LICENSE = "GPLv2"
-> >+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> >+
-> >+SRC_URI = "http://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.gz"
-> >+
-> >+SRC_URI[md5sum] = "fe65047991f654ffaac3c59ea9537763"
-> >+SRC_URI[sha256sum] = "d785b5f2df042d42c43ddfd5bbafa19151ed96f0c483d7f44c737f492b52ddd6"
-> >+
-> >+CFLAGS += "-Wall -Wextra -DVERSION='"$(VERSION)"' -O2"
-> 
-> Why hardcode -O2, please ? It impacts the DEBUG_BUILD.
+--001a113ebe925ebcd9052a38d65b
+Content-Type: text/plain; charset=UTF-8
 
-Those above are the same exact CFLAGS used by stress-ng own Makefile. In 
-reality it only needs -DVERSION to build, but I decided to preserve all flags 
-in order to simplify comparison with other published stress results...
+On 26 January 2016 at 04:38, Robert Yang <liezhi.yang@windriver.com> wrote:
 
+> If it is fully compatible with 1.0, how about remove 1.0, please ?
+>
 
-> >+
-> >+do_install() {
-> >+	oe_runmake DESTDIR=${D} install
-> >+}
-> >
-> 
+Agreed, I squashed that into the patch when merging it into my staging
+branch.
 
+Ross
+
+--001a113ebe925ebcd9052a38d65b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 January 2016 at 04:38, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1al7"=
+ class=3D"a3s" style=3D"overflow:hidden">If it is fully compatible with 1.0=
+, how about remove 1.0, please ?<br></div></blockquote></div><br>Agreed, I =
+squashed that into the patch when merging it into my staging branch.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
+
+--001a113ebe925ebcd9052a38d65b--
