@@ -1,46 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
 Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
 	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F6E077187
+	by mail.openembedded.org (Postfix) with ESMTP id 27D6A77187
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 23:28:43 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 66so658295pfe.2
+	Wed, 27 Jan 2016 23:28:46 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id 66so658339pfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 15:28:44 -0800 (PST)
+	Wed, 27 Jan 2016 15:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=q5Cy3GTMhU1unRXWi8a7QUfzu4htTigddZX1C5DD72w=;
-	b=Rfz4CA+JPeIQZoQiOIx4FvWBXxWO2ppSh+pRSXi2lNoghGsWDjcs5iesAmmjUat+Zt
-	apVMLnoUGwTM1aFrhKRLmBN9WbAoC89FB5Kf6xAD+DhlMPaJOKN+U8PceOQ5AcU0dpNW
-	hRBO5MHOa9KMBqgoXkvJheH++FgI/BQnRAKwRGqMINWmZ3nYyZH8S7M7/dl3ew5ewsmd
-	kIm2vOz29LwWv6lZah8T6HYuqwqvL/MgPy928eKRdHIhtqkPzPzcNIZ/e0DGExqBQCIn
-	DFeZjIuGxATlrFYuumzmR0KL3R8e1/9bbNXhxrHCtaCgVklRHTgrHisnonMGUliEe/uI
-	RvCw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=OM2521D5bhf0nX7LwKiFFcdqc2itv1KbQvyyhLkarYI=;
+	b=vxwjBmMtU9Ua4EsINtgpbtuwwJVIh1f52x1C7s0ZqRtW/KWtqMVRSUNtLi4byYMcyE
+	goSnxMhg2g9IlYOmFdD5IsZLvvAXhT07Fajom4PkOsX/HrohIC/LiJJma//B+lmtvnUS
+	qmisljSPAoOfHQocwL8uBaI2Esdt4GQ1ys3hjWRjdZ+aW5W9WWY1L7pQKn0ZUOmlQWgI
+	fHPA1oO57QsoVHDFbThpYS6v270tT7vw9eWTGSI+FThX1FGsM709OAFCZZ90y8jgg+sS
+	cC00x9sEfkwXhdws+v9kQ6r6O1kg5ieawci2nDVsoWR+QD5phMtgYle39ccF0Xexy/UW
+	9mRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=q5Cy3GTMhU1unRXWi8a7QUfzu4htTigddZX1C5DD72w=;
-	b=bWCJSDoE7QIgivoOfbJg1krXVtg9eoO93fERGfk/agK1gnyEsj/JCC0ufeZEbmHJoN
-	esKiJI0E60OdjxKqaLndJP3hAKNSRy/Nq6K4DssFgp9LtREp1t/E+A331FVMBF7JLXLC
-	PgKo3T9RvXG9KMFHQqcD7N0+4DbygJVFSVeFDz/j05lDqFV8yt40GvikEv53dWUDhDJD
-	d+rU7frUn4P6mtNh6yxaT6ce/CajyCNsOdwPQJJAWQH0kSYZHKE/tG6AHzXvrAHVKGYu
-	knwRoWUFMgXOMjLqxnliENy1sKU86s9EeP/LYuLjzw2wyC+daah3X/lBMMILfh4KgTLu
-	0PkQ==
-X-Gm-Message-State: AG10YOS7mnrSH3SYKfvucFaAqguQWHz6paiRlksL9H/km6GwspdtEQb622ZPuE99sUhlWA==
-X-Received: by 10.98.16.72 with SMTP id y69mr46260544pfi.95.1453937324600;
-	Wed, 27 Jan 2016 15:28:44 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=OM2521D5bhf0nX7LwKiFFcdqc2itv1KbQvyyhLkarYI=;
+	b=Jb0iSDTFxIT1TWLcIpNrRd6cbeErF/zlsSuVAzGRPb5TQmNFEZkH043yffbdD2/JQw
+	Q5+s1vV04zhznfTKI7/gjVPa+3jw+Q8hIkXFH2IMm+3rhK9yecfxUO3wOhVVdQEL8y/i
+	ljCijsK6rC2ZCa95Ej0TXbvSuP2Zqzz2NuJydbNgOI08lJyoNrTDCy/cXVUJXTDVzRjY
+	tq1SrE90h8n1rFW/hCpVB3et6lo/dll1gYAjlZc2sq9WSdVaAUQ2WW0rTsDSlhyJBA4e
+	WykYkFscj7Pnq09/+7Cbji0r1AaHGaBgLmCtIzbgtTBCp41SR9NS8I0gH3ne02C/a2YY
+	NjdA==
+X-Gm-Message-State: AG10YOQ1K5leL07p6r4k6XV//BQ9ywL/qhPzPV94of2l8mtU2c8aYcmflPvbA6fTBnRJxw==
+X-Received: by 10.98.9.75 with SMTP id e72mr45676110pfd.29.1453937327228;
+	Wed, 27 Jan 2016 15:28:47 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	h66sm11422372pfj.52.2016.01.27.15.28.43
+	h66sm11422372pfj.52.2016.01.27.15.28.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Jan 2016 15:28:43 -0800 (PST)
+	Wed, 27 Jan 2016 15:28:46 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jan 2016 15:28:33 -0800
-Message-Id: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
+Date: Wed, 27 Jan 2016 15:28:34 -0800
+Message-Id: <1453937316-1311-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/3] glib-2.0: minor fixes and updates
+In-Reply-To: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
+References: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 1/3] glib-2.0: refresh configure-libtool.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,20 +56,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 23:28:45 -0000
+X-List-Received-Date: Wed, 27 Jan 2016 23:28:46 -0000
 
-Andre McCurdy (3):
-  glib-2.0: refresh configure-libtool.patch
-  glib-2.0: drop add-march-i486-into-CFLAGS-automatically.patch
-  glib.inc: limit ARM_INSTRUCTION_SET over-rides to armv4/armv5
+Refresh configure-libtool.patch to replace one more instance of
+./libtool in configure.ac, first introduced in v2.31.20:
 
- .../add-march-i486-into-CFLAGS-automatically.patch | 39 ----------------------
- .../glib-2.0/glib-2.0/configure-libtool.patch      | 22 +++++++-----
- meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb      |  1 -
- meta/recipes-core/glib-2.0/glib.inc                |  4 ++-
- 4 files changed, 17 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/add-march-i486-into-CFLAGS-automatically.patch
+  https://git.gnome.org/browse/glib/commit/?id=59ee6dbc004adda8c4e4c8ff58bf21a9173eb99f
 
+Fixes "./libtool: No such file or directory" warnings when running
+configure:
+
+ | ...
+ | checking for dlsym in -ldl... yes
+ | ../glib-2.46.2/configure: line 25481: ./libtool: No such file or directory
+ | checking for RTLD_GLOBAL brokenness... (cached) yes
+ | ...
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../glib-2.0/glib-2.0/configure-libtool.patch      | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+index 1d69a3f..aa5de27 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+@@ -1,4 +1,4 @@
+-From 1c5718648d49e795efee91c220a2bf9386c184f2 Mon Sep 17 00:00:00 2001
++From e8740833336c59d6f616a1781b256e648e338c26 Mon Sep 17 00:00:00 2001
+ From: Martin Jansa <Martin.Jansa@gmail.com>
+ Date: Sat, 28 Apr 2012 18:24:50 +0200
+ Subject: [PATCH] configure: use $host_alias-libtool instead of libtool
+@@ -13,19 +13,20 @@ from PATH though
+ 
+ Rebased to glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>
+ Rebased to glib-2.32.1 by Martin Jansa <Martin.Jansa@gmail.com>
++Rebased to glib-2.31.20+ by Andre McCurdy <armccurdy@gmail.com>
+ 
+ Upstream-Status: Inappropriate [configuration]
+ 
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ ---
+- configure.ac |    8 ++++----
+- 1 files changed, 4 insertions(+), 4 deletions(-)
++ configure.ac | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index a6478c6..9a93d60 100644
++index 1af90c5..f6b7a73 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1470,7 +1470,7 @@ if test x"$glib_native_win32" = xyes; then
++@@ -1378,7 +1378,7 @@ if test x"$glib_native_win32" = xyes; then
+    G_MODULE_LDFLAGS=
+  else
+    export SED
+@@ -34,7 +35,7 @@ index a6478c6..9a93d60 100644
+  fi
+  dnl G_MODULE_IMPL= don't reset, so cmd-line can override
+  G_MODULE_NEED_USCORE=0
+-@@ -1535,9 +1535,9 @@ if test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL"; then
++@@ -1427,13 +1427,13 @@ AS_IF([ test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL" ], [
+  	LDFLAGS="$LDFLAGS $G_MODULE_LDFLAGS"
+  dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
+  	echo "void glib_plugin_test(void) { }" > plugin.c
+@@ -46,7 +47,12 @@ index a6478c6..9a93d60 100644
+  		${LDFLAGS} -module -o plugin.la -export-dynamic \
+  		-shrext ".o" -avoid-version plugin.lo \
+  		-rpath /dont/care >/dev/null 2>&1
+-@@ -1614,7 +1614,7 @@ fi
++-	eval `./libtool --config | grep ^objdir`
+++	eval `./$host_alias-libtool --config | grep ^objdir`
++ 	AC_CACHE_CHECK([for RTLD_GLOBAL brokenness],
++ 		glib_cv_rtldglobal_broken,[
++ 		AC_TRY_RUN([
++@@ -1506,7 +1506,7 @@ fi
+  
+  AC_MSG_CHECKING(for the suffix of module shared libraries)
+  export SED
+@@ -56,5 +62,5 @@ index a6478c6..9a93d60 100644
+  module=yes eval std_shrext=$shrext_cmds
+  # chop the initial dot
+ -- 
+-1.7.8.6
++1.9.1
+ 
 -- 
 1.9.1
 
