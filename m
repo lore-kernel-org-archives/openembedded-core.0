@@ -1,44 +1,27 @@
-Return-Path: <compudj@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [78.47.125.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A1A37327F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 78FDA770FB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:59:44 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 3CEF334048A;
-	Wed, 27 Jan 2016 11:59:44 +0000 (UTC)
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id j6ff8-0ldWSu; Wed, 27 Jan 2016 11:59:39 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id B3D6534052C;
-	Wed, 27 Jan 2016 11:59:39 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id Dvk9S15e1f2y; Wed, 27 Jan 2016 11:59:39 +0000 (UTC)
-Received: from evm-mail-1.efficios.com (evm-mail-1.efficios.com [78.47.125.74])
-	by mail.efficios.com (Postfix) with ESMTP id 528E334048A;
-	Wed, 27 Jan 2016 11:59:39 +0000 (UTC)
-Date: Wed, 27 Jan 2016 11:59:38 +0000 (UTC)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <883932458.5623.1453895978760.JavaMail.zimbra@efficios.com>
-In-Reply-To: <CAJTo0LZazTzkp94ASdACaBOuC4JpNWCpnf46kAucjY5B+wX2vQ@mail.gmail.com>
-References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
-	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
-	<433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
-	<CAMKF1sofnyADcNkAc+YrXjPED=ALxf60oPEsuQiJTAY87oB31Q@mail.gmail.com>
-	<CAJTo0LZazTzkp94ASdACaBOuC4JpNWCpnf46kAucjY5B+wX2vQ@mail.gmail.com>
-MIME-Version: 1.0
-X-Originating-IP: [78.47.125.74]
-X-Mailer: Zimbra 8.6.0_GA_1178 (ZimbraWebClient - FF43 (Linux)/8.6.0_GA_1178)
-Thread-Topic: Bogus openembedded gcc patch
-Thread-Index: CaEJUMCRK3cdkB5jLdTSqPyGskdd6g==
-Cc: lttng-dev <lttng-dev@lists.lttng.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Bogus openembedded gcc patch
+	Wed, 27 Jan 2016 12:23:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0RCNc2f013179; Wed, 27 Jan 2016 12:23:38 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4rxNmzuy-2Zn; Wed, 27 Jan 2016 12:23:38 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0RCNYc3013176
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 27 Jan 2016 12:23:35 GMT
+Message-ID: <1453897414.10340.6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jan 2016 12:23:34 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] base: Move COMPATIBLE_MACHINE out the scope of SOURCE_MIRROR_FETCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,92 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 11:59:45 -0000
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_5622_1195741865.1453895978758"
-
-------=_Part_5622_1195741865.1453895978758
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Wed, 27 Jan 2016 12:23:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
------ On Jan 27, 2016, at 6:31 AM, Burton, Ross <ross.burton@intel.com> wrote: 
+Recipes setting COMPATIBLE_MACHINE are likely to have SRC_URI
+entries which can heavily depend on the configured machine. Skipping
+them for SOURCE_MIRROR_FETCH is therefore not advised and leads to
+build errors whilst not particularly improving source mirrors.
 
-> On 26 January 2016 at 23:14, Khem Raj < raj.khem@gmail.com > wrote:
+[YOCTO #8802]
 
->> > Yes, we have narrowed down our problem to this specific patch by
->> > removing the patch from the OE gcc patches, rebuilding gcc, and
->> > then building our test program with that gcc. The problem goes
->> > away when we do so, which points directly to that patch as a
->> > culprit.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
->> > Test program is attached.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 5fc9271..dad198f 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -462,6 +462,17 @@ python () {
+         d.appendVarFlag('do_package_setscene', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+         d.setVarFlag('do_devshell', 'fakeroot', '1')
+         d.appendVarFlag('do_devshell', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
++
++    need_machine = d.getVar('COMPATIBLE_MACHINE', True)
++    if need_machine:
++        import re
++        compat_machines = (d.getVar('MACHINEOVERRIDES', True) or "").split(":")
++        for m in compat_machines:
++            if re.match(need_machine, m):
++                break
++        else:
++            raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % d.getVar('MACHINE', True))
++
+     source_mirror_fetch = d.getVar('SOURCE_MIRROR_FETCH', 0)
+     if not source_mirror_fetch:
+         need_host = d.getVar('COMPATIBLE_HOST', True)
+@@ -471,17 +482,6 @@ python () {
+             if not re.match(need_host, this_host):
+                 raise bb.parse.SkipPackage("incompatible with host %s (not in COMPATIBLE_HOST)" % this_host)
+ 
+-        need_machine = d.getVar('COMPATIBLE_MACHINE', True)
+-        if need_machine:
+-            import re
+-            compat_machines = (d.getVar('MACHINEOVERRIDES', True) or "").split(":")
+-            for m in compat_machines:
+-                if re.match(need_machine, m):
+-                    break
+-            else:
+-                raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % d.getVar('MACHINE', True))
+-
+-
+         bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
+ 
+         check_license = False if pn.startswith("nativesdk-") else True
 
->> Ok I think we can remove this from master and jethro release
 
-> Mathieu, as you found this do you want the glory by submitting a the removal
-> patch?
 
-Thanks for asking, but for me a 
-
-Reported-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com> 
-
-in the patch commit messge is good enough. 
-You'll probably want to have a link to this discussion thread 
-also in the commit message. 
-
-Thanks, 
-
-Mathieu 
-
-> Cheerss,
-> Ross
-
--- 
-Mathieu Desnoyers 
-EfficiOS Inc. 
-http://www.efficios.com 
-
-------=_Part_5622_1195741865.1453895978758
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
-ize: 12pt; color: #000000"><div><span id=3D"zwchr" data-marker=3D"__DIVIDER=
-__">----- On Jan 27, 2016, at 6:31 AM, Burton, Ross &lt;ross.burton@intel.c=
-om&gt; wrote:<br></span></div><div data-marker=3D"__QUOTED_TEXT__"><blockqu=
-ote style=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px=
-;color:#000;font-weight:normal;font-style:normal;text-decoration:none;font-=
-family:Helvetica,Arial,sans-serif;font-size:12pt;"><div dir=3D"ltr"><div cl=
-ass=3D"gmail_extra"><br><div class=3D"gmail_quote">On 26 January 2016 at 23=
-:14, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" t=
-arget=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><div id=3D":aj" class=3D"a3s" style=3D"overflow:hidden">&g=
-t; Yes, we have narrowed down our problem to this specific patch by<br>
-&gt; removing the patch from the OE gcc patches, rebuilding gcc, and<br>
-&gt; then building our test program with that gcc. The problem goes<br>
-&gt; away when we do so, which points directly to that patch as a<br>
-&gt; culprit.<br>
-&gt;<br>
-&gt; Test program is attached.<p dir=3D"ltr">Ok I think we can remove this =
-from master and jethro release<br></p></div></blockquote></div><br>Mathieu,=
- as you found this do you want the glory by submitting a the removal patch?=
-</div></div></blockquote><div><br></div><div>Thanks for asking, but for me =
-a<br data-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>Re=
-ported-by: Mathieu Desnoyers &lt;mathieu.desnoyers@efficios.com&gt;<br data=
--mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>in the patc=
-h commit messge is good enough.<br data-mce-bogus=3D"1"></div><div>You'll p=
-robably want to have a link to this discussion thread<br data-mce-bogus=3D"=
-1"></div><div>also in the commit message.<br data-mce-bogus=3D"1"></div><di=
-v><br data-mce-bogus=3D"1"></div><div>Thanks,<br data-mce-bogus=3D"1"></div=
-><div><br data-mce-bogus=3D"1"></div><div>Mathieu<br data-mce-bogus=3D"1"><=
-/div><div><br data-mce-bogus=3D"1"></div><blockquote style=3D"border-left:2=
-px solid #1010FF;margin-left:5px;padding-left:5px;color:#000;font-weight:no=
-rmal;font-style:normal;text-decoration:none;font-family:Helvetica,Arial,san=
-s-serif;font-size:12pt;"><div dir=3D"ltr"><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Cheerss,</div><div class=3D"gmail_extra">Ros=
-s</div></div><br></blockquote></div><div><br></div><div data-marker=3D"__SI=
-G_POST__">-- <br></div><div>Mathieu Desnoyers<br>EfficiOS Inc.<br>http://ww=
-w.efficios.com</div></div></body></html>
-
-------=_Part_5622_1195741865.1453895978758--
