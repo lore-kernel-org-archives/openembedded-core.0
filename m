@@ -1,49 +1,27 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C983377187
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 254DE76BD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 23:28:51 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id gi1so1037282pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 15:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=U3dwSvlhHOWc7znYMt7McTgnZjDPNYG69+hqGeF+RKQ=;
-	b=U4zZ1FgiB3jCzTItrcXvFjKiQsGLqtEJjfPqZcY43yxLcTLKtlLYdtZ3G5HezmTjaF
-	VuaT13KWYNjr0LoZDVsHXdkfgyIJTjhmNrbFaqI8e3CU8zozKklaM11Khs/nk7lMD6C9
-	UCDRSazVPNnSqHR6tE/FhDPZy3JQ1WuUQPxOl1Dt58M3eA4Owz2bDJl60TUuct9iyKSd
-	+j1vnQzl3AET9FzIZ7wliC6elJzm9WOmQx93PrWJzpatp0cWVSl1R1aTXa5g3py2UDlH
-	4n6ykyAPbp7BUsumXc2qp2x+UesiywbN7JRgwLR+ko3byVfccGAvoMge2w23Zj8CKqCn
-	O25g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=U3dwSvlhHOWc7znYMt7McTgnZjDPNYG69+hqGeF+RKQ=;
-	b=V+M1xFQWcO8hS8SMJRBaHnWqKbrDwe6J3YlA6Ix0sY25JMF8tts4DBF5QE+imHDhem
-	d5wvUD4+GN3fI0ReR9PrJqF3Ya0z6KLjaTBrfiDze6l30Yo0PIM/nsPe6hSOqvdQcQPl
-	nqSZVUlyg4DXP/u1JvBkGF0TO/1Gy11WRnq/VkOnAJ/8dGDettA1QR7Y6Xm2B4+PzZjG
-	qDPH45GlHSH5dlV4EdMYDkFy9k5pMIuwdAXTBBuyZxfF81GlPHYGtTkbMlK71M6zlKD4
-	i4LSG69zR43K9s8SfP565DF7CHlXuf2gvyWGuzTYJ4ggCSgdOXOPH6nOEntT/RmIA6B1
-	gs4A==
-X-Gm-Message-State: AG10YORfJsLuPEBq5ytiNs7LQHwSBeqHM0d3gwCCpipBnesLMupo/4QVEhBs2hC5BWVCKw==
-X-Received: by 10.66.122.97 with SMTP id lr1mr45837264pab.68.1453937332139;
-	Wed, 27 Jan 2016 15:28:52 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	h66sm11422372pfj.52.2016.01.27.15.28.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Jan 2016 15:28:51 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jan 2016 15:28:36 -0800
-Message-Id: <1453937316-1311-4-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
-References: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] glib.inc: limit ARM_INSTRUCTION_SET over-rides to armv4/armv5
+	Wed, 27 Jan 2016 23:29:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0RNTc7b023310; Wed, 27 Jan 2016 23:29:38 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id M5CxuyHFUOSX; Wed, 27 Jan 2016 23:29:38 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0RNTaKJ023305
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 27 Jan 2016 23:29:37 GMT
+Message-ID: <1453937376.10340.15.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jan 2016 23:29:36 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Witt, Randy E" <randy.e.witt@intel.com>
+Subject: [PATCH] gtk-icon-utils-native: Drop problematic dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 23:28:52 -0000
+X-List-Received-Date: Wed, 27 Jan 2016 23:29:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The original over-ride dates back to 2007:
+The setscene [depends] support is nasty with hidden side effects, in
+particular hardcoding that the items mentioned basically always get
+installed from sstate. Installing librsvg-native ends up pulling
+in qemu-native and all kinds of things we don't want.
 
-  http://git.openembedded.org/openembedded-core/commit/?id=fc5366261e12c100e18dc1d9ef0b86b91500e355
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=e384d9ba0c4a3335575a766a82ed79201d794b11
+was meant to resolve the reasons this dependency was present and
+I suspect I simply forgot to remove it at the time. Remove it now
+for much better sstate usage.
 
-There are no obvious issues seen now when building glib-2.0 v2.46.2
-in thumb2 for Cortex A15.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/glib-2.0/glib.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.18.6.bb b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.18.6.bb
+index 7882bb4..d4a169a 100644
+--- a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.18.6.bb
++++ b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.18.6.bb
+@@ -58,6 +58,3 @@ do_install() {
+ 	create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
+ 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
+ }
+-
+-# Prevent bitbake from optimizing away the native librsvg sysroot population
+-do_populate_sysroot_setscene[depends] += "librsvg-native:do_populate_sysroot_setscene"
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index eff5997..14722db 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -54,7 +54,9 @@ FILES_${PN}-codegen = "${datadir}/glib-2.0/codegen/*.py"
- FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d \
-                                ${datadir}/bash-completion"
- 
--ARM_INSTRUCTION_SET = "arm"
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-+
- USE_NLS = "yes"
- 
- do_install_append () {
--- 
-1.9.1
 
 
