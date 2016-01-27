@@ -1,54 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C8F3A77195
+Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
+	[209.85.192.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 176DB731C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 19:28:53 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id x1so7850686qkc.1
+	Wed, 27 Jan 2016 19:34:16 +0000 (UTC)
+Received: by mail-qg0-f65.google.com with SMTP id b35so1140719qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:28:54 -0800 (PST)
+	Wed, 27 Jan 2016 11:34:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=ifRhhHEtXB9c7keV0GBVQMISEBXAW1fHhsvMg3f41HE=;
-	b=eDyUq7xRP3fioQ2aPnqmhB9N6x+w6pdJ1yMIPjUbaTzKRiR3y3mVz6iTCZZyLkQ6kZ
-	4uzlKMrxjew/i4Ih3huGDEW8ICS28ORfW6faJrpewBHhKUZeH7OvCzyFWGJnaWoFhEIg
-	Nv98hTUReZxYxKejR66jZoow3YczzRv1mjQbu+rhYI09BpM2V1ZZTT/JLLyVh95q3ouJ
-	KRvvUBRxdOAP/n6QwR6LAO8oUAd9v3Cf13TcrLtI8RSeUFZxDOAQ3S0bdiiq4nKI1Fca
-	AuvmM3wLjpVVWqkPrJodeNZNmHeQnV4Kj+PIsV/eJ+CCuluZxrZGQkSUVzboI326Ajbf
-	UdfA==
+	bh=a/Vmx2yCTwsA7QwAMKi/CjdV04e5rA1Q7I4cjTkcqMs=;
+	b=j2MoJmD9WHkZjJ66W04Q0/8rj/H4/qZLPICbW0/dv/R25d2Dc27nxk5ftVipE1z/Y6
+	h2Hv9M2iXP7CDskLbRPDIQTrxx4gAitWOlSbddUQLzruAFQ8g8tYB0sL2gNxbIj7Tg3i
+	RL4Ct6zS3aHC/FWev0xuNEkRBY+Td0AMm+XP4KC/P3LFgFJ3Ff7Jcg5ryu94wgqz5kLQ
+	NRUb9SKWTDePxPP7vy9SczcgLa4xU6QhIK8IPQ7+15UpeJhI2ypvgOA2BG4tP+lhJ9t4
+	4sp5cUyHp7g+vjNMRHdV8sfLNLk9dlKHEo0jWGnOLU7/9dqFd7LF7awZYU232l/HMJdd
+	Gmfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:content-type:from
 	:in-reply-to:date:cc:message-id:references:to;
-	bh=ifRhhHEtXB9c7keV0GBVQMISEBXAW1fHhsvMg3f41HE=;
-	b=ebv6pIIT+Crn8EwhRaGif7upCgqdHJIevxjhbt5svjhrkYo+16zBHZyRowUe9EaFBO
-	Ixh9ImXRJ6KdXEkGOaZHGReMTJgmUFYP56dJvnjn8i+Eip42jK2nD54I0hWsGM4jtCex
-	aPbS9C0BWFZWqkEwVKkggbKYqK/WhHQG4jb4NTgZZuo1sRBsrqqujLdUWDoR5ojh51a3
-	pxSZzWMNfopgbTMHVIaGo/k/90Oo/S7Zu1QpLKO+H1lnJtCPvhFa+HblOJ3pEom4d9F5
-	5WbxrW6clfuQHbHlqoIlYeLzaMYd98yWu8LkiBaj3TnlElKmYCRsR89VFLTMSgqhKA+E
-	AcNg==
-X-Gm-Message-State: AG10YOSMu6Jktcb+LwPrgWtaHkLGJbaruS9yIdSXd57KS0VPSOs0DIpiPDQXwCbzUtxktA==
-X-Received: by 10.55.197.140 with SMTP id k12mr7282841qkl.5.1453922933965;
-	Wed, 27 Jan 2016 11:28:53 -0800 (PST)
-Received: from [172.20.20.20] ([50.153.94.2])
-	by smtp.gmail.com with ESMTPSA id 31sm3232275qgz.8.2016.01.27.11.28.52
+	bh=a/Vmx2yCTwsA7QwAMKi/CjdV04e5rA1Q7I4cjTkcqMs=;
+	b=YvnSPvOFJA08pi03vYvHhd3r5P8F2Trek07k+7Uz7sIeEcpwRB4CY+CAbJK5l90I7G
+	zFcNkIaJzNn+ZpB6axBZTsT72K4oN0ePOOg2XEWEDwk2jjslJZZNPmWThQdhSzTTrjLK
+	5SK7/wdrWHEnWDh0gpRTG3oM9ePadDAK4EqXSi3P8ivznocT01F7vFSRKYD7oY7e+9Sh
+	j5lvHiyJSPsuOUvp99h52DHRk0gYm0EK+Wso7Z6eEUgYU5R7VXCach6IuyJBdQmsnOae
+	FB8Ii+2Dbi45TTv5lEkwK6fYRfNv8RUJfQmoPXB96YQs6swe3+0Efuu3wxaNApgFaYDE
+	NlXQ==
+X-Gm-Message-State: AG10YOQ7O7eNn1qIr2mLJ1/VHJ2PS0oWgsfT3P1oDslem+ee2Ap94XhpRdnjxcXOBKJiGQ==
+X-Received: by 10.140.105.198 with SMTP id c64mr37753104qgf.94.1453923256700; 
+	Wed, 27 Jan 2016 11:34:16 -0800 (PST)
+Received: from [172.20.20.20] ([50.153.94.2]) by smtp.gmail.com with ESMTPSA id
+	z138sm2935694qhb.7.2016.01.27.11.34.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jan 2016 11:28:53 -0800 (PST)
+	Wed, 27 Jan 2016 11:34:15 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20160127191614.GH1652@denix.org>
-Date: Wed, 27 Jan 2016 14:28:47 -0500
-Message-Id: <C4EFBCA2-18D0-4FB2-BA45-FB21E83A3189@gmail.com>
-References: <1453779264-8652-1-git-send-email-denis@denix.org>
-	<CAJTo0LbSM2W2ZW_T69tSBWVR3Kg_TQXu7W6TqoG6=DivrU4C4A@mail.gmail.com>
-	<20160126142023.GE1652@denix.org> <20160127191614.GH1652@denix.org>
-To: Denys Dmytriyenko <denis@denix.org>
+In-Reply-To: <1453889810.10340.5.camel@linuxfoundation.org>
+Date: Wed, 27 Jan 2016 14:34:11 -0500
+Message-Id: <F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
+References: <cover.1453882496.git.hongxu.jia@windriver.com>
+	<1453889810.10340.5.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.3112)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] stress-ng: add 0.05.09
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +59,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 19:28:54 -0000
-X-Groupsio-MsgNum: 76995
+X-List-Received-Date: Wed, 27 Jan 2016 19:34:18 -0000
+X-Groupsio-MsgNum: 76996
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_8FD1F21F-A916-4F58-A146-FD25D7CC624D";
+	boundary="Apple-Mail=_762F4ABD-5952-411C-9E21-8CBAF355FEC6";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_8FD1F21F-A916-4F58-A146-FD25D7CC624D
+--Apple-Mail=_762F4ABD-5952-411C-9E21-8CBAF355FEC6
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On Jan 27, 2016, at 2:16 PM, Denys Dmytriyenko <denis@denix.org> =
-wrote:
+> On Jan 27, 2016, at 5:16 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 >=20
-> On Tue, Jan 26, 2016 at 09:20:23AM -0500, Denys Dmytriyenko wrote:
->> On Tue, Jan 26, 2016 at 11:24:43AM +0000, Burton, Ross wrote:
->>> On 26 January 2016 at 03:34, Denys Dmytriyenko <denis@denix.org> =
-wrote:
->>>=20
->>>> A clean room re-implementation and extension of the original stress =
-tool.
->>>>=20
->>>=20
->>> What's the rationale for adding this to oe-core over another layer?
->>=20
->> None, besides the original stress is in oe-core. What other layer =
-would you
->> suggest?
+> I like the idea of this a lot, I think it makes sense however why not
+> just:
 >=20
-> Ross,
->=20
-> Care do make your own suggestion? Do you think meta-oe would be a =
-better fit?
-> Are there any other considerations, since stress-ng is a replacement =
-of the
-> original stress and it was added to oe-core? Thanks.
->=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e80ee18..284f7fb 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install =3D =
+"${PARALLEL_MAKEINST} "
+> ##################################################################
+> # Optimization flags.
+> ##################################################################
+> -DEBUG_FLAGS ?=3D "-g -feliminate-unused-debug-types"
+> +DEBUG_FLAGS ?=3D "-g \
+> +    -feliminate-unused-debug-types \
+> +    -fdebug-prefix-map=3D${B}=3D/usr/src/${BPN} \
+> +    -fdebug-prefix-map=3D${S}=3D/usr/src/${BPN}
+> +    -gno-record-gcc-switches \
 
-IIRC we had meta-benchmarking. They all should go there.
+can we leave the switches in ?
 
-> --
-> Denys
+> +    -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
+> +    -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
+> +"
+> # Disabled until the option works properly -feliminate-dwarf2-dups
+> FULL_OPTIMIZATION =3D "-O2 -pipe ${DEBUG_FLAGS}"
+> DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} =
+-pipe"
+>=20
+> ?
+>=20
+> Cheers,
+>=20
+> Richard
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -111,7 +115,7 @@ IIRC we had meta-benchmarking. They all should go there.
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_8FD1F21F-A916-4F58-A146-FD25D7CC624D
+--Apple-Mail=_762F4ABD-5952-411C-9E21-8CBAF355FEC6
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -122,9 +126,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlapGnMACgkQuwUzVZGdMxTnPgCfbFxSG8tHCNg7yMUCA9YU1A7y
-PmAAoJHx2+yBZY8UwnnQaqW6B/xDdZGP
-=G+H5
+iEYEARECAAYFAlapG7YACgkQuwUzVZGdMxQspgCfYvMdj2K/zTQVvmE1gQu5cyQk
+FssAnA9vH0Pw6OxmzSebR7axBR/Z8Ebf
+=sX51
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_8FD1F21F-A916-4F58-A146-FD25D7CC624D--
+--Apple-Mail=_762F4ABD-5952-411C-9E21-8CBAF355FEC6--
