@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B60BD77117
+	by mail.openembedded.org (Postfix) with ESMTP id B492377116
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 09:35:28 +0000 (UTC)
+	Wed, 27 Jan 2016 09:35:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0R9ZSDl002560
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0R9ZUIj002563
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 01:35:28 -0800
+	Wed, 27 Jan 2016 01:35:30 -0800
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jan 2016 01:35:28 -0800
+	Wed, 27 Jan 2016 01:35:29 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jan 2016 01:35:21 -0800
-Message-ID: <75cae9ea3daad04e282b37f1c4c678ae311be36d.1453877220.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Jan 2016 01:35:24 -0800
+Message-ID: <3935b83930d7771548be29a88b171f09c6a5f385.1453877220.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1453877220.git.liezhi.yang@windriver.com>
 References: <cover.1453877220.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] glibc: CVE-2015-8777.patch
+Subject: [PATCH 4/7] glibc: CVE-2015-8776
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,156 +38,188 @@ Content-Type: text/plain
 
 From: Armin Kuster <akuster@mvista.com>
 
-The process_envvars function in elf/rtld.c in the GNU C Library (aka glibc or
-libc6) before 2.23 allows local users to bypass a pointer-guarding protection
-mechanism via a zero value of the LD_POINTER_GUARD environment variable.
+it was found that out-of-range time values passed to the strftime function may
+cause it to crash, leading to a denial of service, or potentially disclosure
+information.
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2015-8777.patch |  123 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc/CVE-2015-8776.patch |  155 +++++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.22.bb             |    1 +
- 2 files changed, 124 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
+ 2 files changed, 156 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-8777.patch b/meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-8776.patch b/meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
 new file mode 100644
-index 0000000..eeab72d
+index 0000000..684f344
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
-@@ -0,0 +1,123 @@
-+From a014cecd82b71b70a6a843e250e06b541ad524f7 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Thu, 15 Oct 2015 09:23:07 +0200
-+Subject: [PATCH] Always enable pointer guard [BZ #18928]
-+
-+Honoring the LD_POINTER_GUARD environment variable in AT_SECURE mode
-+has security implications.  This commit enables pointer guard
-+unconditionally, and the environment variable is now ignored.
-+
-+        [BZ #18928]
-+        * sysdeps/generic/ldsodefs.h (struct rtld_global_ro): Remove
-+        _dl_pointer_guard member.
-+        * elf/rtld.c (_rtld_global_ro): Remove _dl_pointer_guard
-+        initializer.
-+        (security_init): Always set up pointer guard.
-+        (process_envvars): Do not process LD_POINTER_GUARD.
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
+@@ -0,0 +1,155 @@
++From d36c75fc0d44deec29635dd239b0fbd206ca49b7 Mon Sep 17 00:00:00 2001
++From: Paul Pluzhnikov <ppluzhnikov@google.com>
++Date: Sat, 26 Sep 2015 13:27:48 -0700
++Subject: [PATCH] Fix BZ #18985 -- out of range data to strftime() causes a
++ segfault
 +
 +Upstream-Status: Backport
-+CVE: CVE-2015-8777
++CVE: CVE-2015-8776
 +[Yocto # 8980]
 +
-+https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=a014cecd82b71b70a6a843e250e06b541ad524f7
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=d36c75fc0d44deec29635dd239b0fbd206ca49b7
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ ChangeLog                  | 10 ++++++++++
-+ NEWS                       | 13 ++++++++-----
-+ elf/rtld.c                 | 15 ++++-----------
-+ sysdeps/generic/ldsodefs.h |  3 ---
-+ 4 files changed, 22 insertions(+), 19 deletions(-)
++ ChangeLog           |  8 ++++++++
++ NEWS                |  2 +-
++ time/strftime_l.c   | 20 +++++++++++++-------
++ time/tst-strftime.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++++++-
++ 4 files changed, 73 insertions(+), 9 deletions(-)
 +
 +Index: git/ChangeLog
 +===================================================================
 +--- git.orig/ChangeLog
 ++++ git/ChangeLog
-+@@ -1,3 +1,14 @@
-++2015-10-15  Florian Weimer  <fweimer@redhat.com>
++@@ -1,3 +1,11 @@
+++2015-09-26  Paul Pluzhnikov  <ppluzhnikov@google.com>
 ++
-++   [BZ #18928]
-++   * sysdeps/generic/ldsodefs.h (struct rtld_global_ro): Remove
-++   _dl_pointer_guard member.
-++   * elf/rtld.c (_rtld_global_ro): Remove _dl_pointer_guard
-++   initializer.
-++   (security_init): Always set up pointer guard.
-++   (process_envvars): Do not process LD_POINTER_GUARD.
+++	[BZ #18985]
+++	* time/strftime_l.c (a_wkday, f_wkday, a_month, f_month): Range check.
+++	(__strftime_internal): Likewise.
+++	* time/tst-strftime.c (do_bz18985): New test.
+++	(do_test): Call it.
 ++
-++
-+ 2015-08-10  Maxim Ostapenko  <m.ostapenko@partner.samsung.com>
++ 2015-12-04  Joseph Myers  <joseph@codesourcery.com>
 + 
-+ 	[BZ #18778]
-+Index: git/NEWS
++ 	[BZ #16961]
++Index: git/time/strftime_l.c
 +===================================================================
-+--- git.orig/NEWS
-++++ git/NEWS
-+@@ -34,7 +34,10 @@ Version 2.22
-+   18533, 18534, 18536, 18539, 18540, 18542, 18544, 18545, 18546, 18547,
-+   18549, 18553, 18557, 18558, 18569, 18583, 18585, 18586, 18592, 18593,
-+   18594, 18602, 18612, 18613, 18619, 18633, 18635, 18641, 18643, 18648,
-+-  18657, 18676, 18694, 18696.
-++  18657, 18676, 18694, 18696, 18928.
-++
-++* The LD_POINTER_GUARD environment variable can no longer be used to
-++  disable the pointer guard feature.  It is always enabled.
-+ 
-+ * Cache information can be queried via sysconf() function on s390 e.g. with
-+   _SC_LEVEL1_ICACHE_SIZE as argument.
-+Index: git/elf/rtld.c
-+===================================================================
-+--- git.orig/elf/rtld.c
-++++ git/elf/rtld.c
-+@@ -163,7 +163,6 @@ struct rtld_global_ro _rtld_global_ro at
-+     ._dl_hwcap_mask = HWCAP_IMPORTANT,
-+     ._dl_lazy = 1,
-+     ._dl_fpu_control = _FPU_DEFAULT,
-+-    ._dl_pointer_guard = 1,
-+     ._dl_pagesize = EXEC_PAGESIZE,
-+     ._dl_inhibit_cache = 0,
-+ 
-+@@ -710,15 +709,12 @@ security_init (void)
-+ #endif
-+ 
-+   /* Set up the pointer guard as well, if necessary.  */
-+-  if (GLRO(dl_pointer_guard))
-+-    {
-+-      uintptr_t pointer_chk_guard = _dl_setup_pointer_guard (_dl_random,
-+-							     stack_chk_guard);
-++  uintptr_t pointer_chk_guard
-++    = _dl_setup_pointer_guard (_dl_random, stack_chk_guard);
-+ #ifdef THREAD_SET_POINTER_GUARD
-+-      THREAD_SET_POINTER_GUARD (pointer_chk_guard);
-++  THREAD_SET_POINTER_GUARD (pointer_chk_guard);
-+ #endif
-+-      __pointer_chk_guard_local = pointer_chk_guard;
-+-    }
-++  __pointer_chk_guard_local = pointer_chk_guard;
-+ 
-+   /* We do not need the _dl_random value anymore.  The less
-+      information we leave behind, the better, so clear the
-+@@ -2478,9 +2474,6 @@ process_envvars (enum mode *modep)
-+ 	      GLRO(dl_use_load_bias) = envline[14] == '1' ? -1 : 0;
-+ 	      break;
++--- git.orig/time/strftime_l.c
+++++ git/time/strftime_l.c
++@@ -514,13 +514,17 @@ __strftime_internal (s, maxsize, format,
++      only a few elements.  Dereference the pointers only if the format
++      requires this.  Then it is ok to fail if the pointers are invalid.  */
++ # define a_wkday \
++-  ((const CHAR_T *) _NL_CURRENT (LC_TIME, NLW(ABDAY_1) + tp->tm_wday))
+++  ((const CHAR_T *) (tp->tm_wday < 0 || tp->tm_wday > 6			     \
+++		     ? "?" : _NL_CURRENT (LC_TIME, NLW(ABDAY_1) + tp->tm_wday)))
++ # define f_wkday \
++-  ((const CHAR_T *) _NL_CURRENT (LC_TIME, NLW(DAY_1) + tp->tm_wday))
+++  ((const CHAR_T *) (tp->tm_wday < 0 || tp->tm_wday > 6			     \
+++		     ? "?" : _NL_CURRENT (LC_TIME, NLW(DAY_1) + tp->tm_wday)))
++ # define a_month \
++-  ((const CHAR_T *) _NL_CURRENT (LC_TIME, NLW(ABMON_1) + tp->tm_mon))
+++  ((const CHAR_T *) (tp->tm_mon < 0 || tp->tm_mon > 11			     \
+++		     ? "?" : _NL_CURRENT (LC_TIME, NLW(ABMON_1) + tp->tm_mon)))
++ # define f_month \
++-  ((const CHAR_T *) _NL_CURRENT (LC_TIME, NLW(MON_1) + tp->tm_mon))
+++  ((const CHAR_T *) (tp->tm_mon < 0 || tp->tm_mon > 11			     \
+++		     ? "?" : _NL_CURRENT (LC_TIME, NLW(MON_1) + tp->tm_mon)))
++ # define ampm \
++   ((const CHAR_T *) _NL_CURRENT (LC_TIME, tp->tm_hour > 11		      \
++ 				 ? NLW(PM_STR) : NLW(AM_STR)))
++@@ -530,8 +534,10 @@ __strftime_internal (s, maxsize, format,
++ # define ap_len STRLEN (ampm)
++ #else
++ # if !HAVE_STRFTIME
++-#  define f_wkday (weekday_name[tp->tm_wday])
++-#  define f_month (month_name[tp->tm_mon])
+++#  define f_wkday (tp->tm_wday < 0 || tp->tm_wday > 6	\
+++		   ? "?" : weekday_name[tp->tm_wday])
+++#  define f_month (tp->tm_mon < 0 || tp->tm_mon > 11	\
+++		   ? "?" : month_name[tp->tm_mon])
++ #  define a_wkday f_wkday
++ #  define a_month f_month
++ #  define ampm (L_("AMPM") + 2 * (tp->tm_hour > 11))
++@@ -1325,7 +1331,7 @@ __strftime_internal (s, maxsize, format,
++ 		  *tzset_called = true;
++ 		}
++ # endif
++-	      zone = tzname[tp->tm_isdst];
+++	      zone = tp->tm_isdst <= 1 ? tzname[tp->tm_isdst] : "?";
 + 	    }
-+-
-+-	  if (memcmp (envline, "POINTER_GUARD", 13) == 0)
-+-	    GLRO(dl_pointer_guard) = envline[14] != '0';
-+ 	  break;
-+ 
-+ 	case 14:
-+Index: git/sysdeps/generic/ldsodefs.h
++ #endif
++ 	  if (! zone)
++Index: git/time/tst-strftime.c
 +===================================================================
-+--- git.orig/sysdeps/generic/ldsodefs.h
-++++ git/sysdeps/generic/ldsodefs.h
-+@@ -600,9 +600,6 @@ struct rtld_global_ro
-+   /* List of auditing interfaces.  */
-+   struct audit_ifaces *_dl_audit;
-+   unsigned int _dl_naudit;
-+-
-+-  /* 0 if internal pointer values should not be guarded, 1 if they should.  */
-+-  EXTERN int _dl_pointer_guard;
-+ };
-+ # define __rtld_global_attribute__
-+ # if IS_IN (rtld)
++--- git.orig/time/tst-strftime.c
+++++ git/time/tst-strftime.c
++@@ -4,6 +4,56 @@
++ #include <time.h>
++ 
++ 
+++static int
+++do_bz18985 (void)
+++{
+++  char buf[1000];
+++  struct tm ttm;
+++  int rc, ret = 0;
+++
+++  memset (&ttm, 1, sizeof (ttm));
+++  ttm.tm_zone = NULL;  /* Dereferenced directly if non-NULL.  */
+++  rc = strftime (buf, sizeof (buf), "%a %A %b %B %c %z %Z", &ttm);
+++
+++  if (rc == 66)
+++    {
+++      const char expected[]
+++	= "? ? ? ? ? ? 16843009 16843009:16843009:16843009 16844909 +467836 ?";
+++      if (0 != strcmp (buf, expected))
+++	{
+++	  printf ("expected:\n  %s\ngot:\n  %s\n", expected, buf);
+++	  ret += 1;
+++	}
+++    }
+++  else
+++    {
+++      printf ("expected 66, got %d\n", rc);
+++      ret += 1;
+++    }
+++
+++  /* Check negative values as well.  */
+++  memset (&ttm, 0xFF, sizeof (ttm));
+++  ttm.tm_zone = NULL;  /* Dereferenced directly if non-NULL.  */
+++  rc = strftime (buf, sizeof (buf), "%a %A %b %B %c %z %Z", &ttm);
+++
+++  if (rc == 30)
+++    {
+++      const char expected[] = "? ? ? ? ? ? -1 -1:-1:-1 1899  ";
+++      if (0 != strcmp (buf, expected))
+++	{
+++	  printf ("expected:\n  %s\ngot:\n  %s\n", expected, buf);
+++	  ret += 1;
+++	}
+++    }
+++  else
+++    {
+++      printf ("expected 30, got %d\n", rc);
+++      ret += 1;
+++    }
+++
+++  return ret;
+++}
+++
++ static struct
++ {
++   const char *fmt;
++@@ -104,7 +154,7 @@ do_test (void)
++ 	}
++     }
++ 
++-  return result;
+++  return result + do_bz18985 ();
++ }
++ 
++ #define TEST_FUNCTION do_test ()
 diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
-index c1f6b4e..8348313 100644
+index 9205066..e512672 100644
 --- a/meta/recipes-core/glibc/glibc_2.22.bb
 +++ b/meta/recipes-core/glibc/glibc_2.22.bb
-@@ -41,6 +41,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://nscd-no-bash.patch \
-            file://strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch \
-            file://0028-Clear-ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch \
-+           file://CVE-2015-8777.patch \
+@@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://CVE-2015-8779.patch \
+            file://CVE-2015-9761_1.patch \
+            file://CVE-2015-9761_2.patch \
++           file://CVE-2015-8776.patch \
  "
  
  SRC_URI += "\
