@@ -1,53 +1,45 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f194.google.com (mail-lb0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id DDA867704E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 366766FFA6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 23:22:50 +0000 (UTC)
-Received: by mail-lb0-f194.google.com with SMTP id oe3so8935695lbb.1
+	Wed, 27 Jan 2016 00:17:00 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id r14so12447104oie.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jan 2016 15:22:51 -0800 (PST)
+	Tue, 26 Jan 2016 16:17:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=KJP0UUJ+dFjqgsvyUJIbRnzVh0GovH97NJuI2wwv1bI=;
-	b=FuFSzDzUv6EVWDiw+GpWyW0qqTIvjAV9cG2nIQfvwVUk2lIndHCvlW5qqjKzHmnPD4
-	1OI3Ef1Py+nabZkqDD3D031R0vvWBBz7D7a+SiNBmFSKsK69YZoc8fJXNunTOeSL5RdS
-	lSn2TmjAVK8Fl2NX6BIXWAPZPLdw2CFZBcg06qzjb6V81B9dmw7zwWrlTFwDPpAmei7f
-	xUnLjVzXukvlRhixv7U2aNQ438Ksigfv8GbnilsXbJUSiqnyMqjOFrCBZkRHGp6iV+j5
-	VMKJx7xXB/jnbqjJAMlHVbboZxA1IncdhGbimFOAGSTbMto+URDJcP1aiFm8KL+B3VBX
-	Txmw==
+	h=from:to:cc:subject:date:message-id;
+	bh=oqiMQ7bw3ywxy1dW3nCzRMFtD2wTub8R8yazZmHWxRo=;
+	b=mtjaUEFP/gmxfH8KAwfu27ylDbS13ngBHFjUMjo7a+woQFIgKI8c7cKbaYa7prd+48
+	YsY05omBnzzugsz7SUF/bmdj4pMV/i3v/6sA8l3NRg6qqzg3MBbnWmv0MjnD5qU+b4bc
+	R/OcqgHwMgnCk7I4tdBL7kWHlzmPjkpfvo4ctJC+c0RSg2ljNGFz7zegMJj77XGKEug/
+	eAQjyCq3zTXjjZ40j3YxIACsizP+et7o8YAe8Fg79l8ZDjq/nvoWom4dWOKAMlzvCnQD
+	5euPWic+t6u70CC9VP9kV5pPwiQWvxO9FPHi56R6ix7RZL/+sYyxfC3qw3iGIpQlrE0s
+	8MEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=KJP0UUJ+dFjqgsvyUJIbRnzVh0GovH97NJuI2wwv1bI=;
-	b=C/J1/6GaivF6VwliPBhRl+QwwI3VnMHKTGo4mOpJY/zIARmh4Nn4yi7yBXVe5yDT14
-	7GVvKweT+zZUWFOzjut8Y9buarT3DR4689fjb6ZY0XTJnJp5XeBcE9chXfwgs09AGPdM
-	bMarLSsPexSf6Z7YKVdmQsnGrwV95xJLhZISiowUaPuM5qlzgKv1HmWMnxpkpYE71pl0
-	OI0vDJw0ZWH8J+DLxq7xat1RDs3sHVUOANK5WsRaXwQ2RUj1KUdybJPHfc7ig3yKWCU8
-	mxikoDvCuPrJ2kbKNGxI3uBckPO2u4Afs0q+dBS9Jd3y/0OFaUsaF1X6ral33kMqDWIv
-	I2gQ==
-X-Gm-Message-State: AG10YOS+UReBqRR9R2Ehd51Q9t6tfOfq9u8RKQdIj7J2BjregsYT4TWzZ3QbfYWLoT2X6cLdj8i0KLFenZeeqg==
-MIME-Version: 1.0
-X-Received: by 10.112.170.101 with SMTP id al5mr9555487lbc.92.1453850569695;
-	Tue, 26 Jan 2016 15:22:49 -0800 (PST)
-Received: by 10.114.19.35 with HTTP; Tue, 26 Jan 2016 15:22:49 -0800 (PST)
-In-Reply-To: <56A7EF65.60909@gmail.com>
-References: <1451999565-3502-1-git-send-email-liu.ming50@gmail.com>
-	<1451999565-3502-2-git-send-email-liu.ming50@gmail.com>
-	<569E90F9.6020806@windriver.com> <569EB15C.9040502@gmail.com>
-	<569F1086.6030400@windriver.com> <56A01873.8010604@gmail.com>
-	<56A29386.1090600@windriver.com> <56A7EF65.60909@gmail.com>
-Date: Wed, 27 Jan 2016 00:22:49 +0100
-Message-ID: <CAAQYJAtdatk62e+UmydFZnhpdDv7MOZG05YH0uC-s_DV7bvZbA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>, "Tao,
-	Yue" <Yue.Tao@windriver.com>,
-	Ming Liu <peter.x.liu@external.atlascopco.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] kernel.bbclass: do not install initramfs bundled kernel image
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=oqiMQ7bw3ywxy1dW3nCzRMFtD2wTub8R8yazZmHWxRo=;
+	b=F5vmKjmNqm3SJMDUiIfO6etlxuV6ykvbv4IRzcWPfc0JtgTBev8I+w+ZUSM5X42Sn3
+	KJ8+y9DhwPd+Uj/UGhVCNsMBAHcTgeJFyTEZomkxRnj0BJ7Ww9YtCMcM2yQvUOuDVOy3
+	pi98LdQO20A7Ca1gxATfusaFmiaHHY3u9Zq+28akSeUKTlPa3hqx6r4LAq3a25zK5FF4
+	jNDffx6Z/2z2EzBO4GWLgQE6lolTc1x9blSePRlGxqRgqo2OcacQrdTR14hyblqeZq9u
+	3YDdmUk14QxFM4xqkAJLhwrV+J1oDTSRi+c3Y6BMhbeWARjyV5zcbGQggraiADYWpL49
+	vhAg==
+X-Gm-Message-State: AG10YOThyDQjt5By23xuRHm1W/Qxm4tedbTf0EmGeQyhwFnVkFWoftw8bHziJHb62A1rlA==
+X-Received: by 10.202.195.18 with SMTP id t18mr2500235oif.80.1453853821221;
+	Tue, 26 Jan 2016 16:17:01 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id q4sm1861354oew.6.2016.01.26.16.16.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Jan 2016 16:17:00 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jan 2016 16:16:54 -0800
+Message-Id: <1453853814-8364-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] libtirpc: remove stray .orig file from Use-netbsd-queue.h.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,157 +52,729 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jan 2016 23:22:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 27 Jan 2016 00:17:01 -0000
 
-On Tue, Jan 26, 2016 at 11:12 PM, Ming Liu <liu.ming50@gmail.com> wrote:
->
->
-> On 01/22/2016 09:39 PM, Bruce Ashfield wrote:
->>
->> On 16-01-20 6:29 PM, Ming Liu wrote:
->>>
->>>
->>>
->>> On 01/20/2016 05:43 AM, Bruce Ashfield wrote:
->>>>
->>>> On 2016-01-19 4:57 PM, Ming Liu wrote:
->>>>>
->>>>>
->>>>>
->>>>> On 01/19/2016 08:39 PM, Bruce Ashfield wrote:
->>>>>>
->>>>>> On 16-01-05 08:12 AM, Ming Liu wrote:
->>>>>>>
->>>>>>> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->>>>>>>
->>>>>>> It makes no sense to install a initramfs bundled kernel image since
->>>>>>> do_package does not depend on do_bundle_initramfs at all,
->>>>>>> otherwise, it
->>>>>>> leads to a implicit kernel-image package depending on do_package run
->>>>>>> before
->>>>>>> or after do_bundle_initramfs.
->>>>>>
->>>>>>
->>>>>> Again. So why not just add the ordering in the task dependencies ?
->>>>>
->>>>> If we add a intertask dependency like:
->>>>> add bundle_initramfs before do_install after do_deploy do_package
->>>>>
->>>>> Then it will somehow introduce a circular dependency as I described in
->>>>> another mail.
->>>>>>
->>>>>>
->>>>>> I'm probably missing something, which just means we need to tweak
->>>>>> the commit log a bit more.
->>>>>
->>>>> Maybe I should add some description in commit log about why I think we
->>>>> could not introduce a intertask dependency as a fix.
->>>>>
->>>>
->>>> That would be ideal, the more information the better.
->>>>
->>>>>>
->>>>>> The code you are removing is conditional, and is run after an
->>>>>> explicit kernel_do_compile is called, to rebuild the existing
->>>>>> kernel configuration with an embedded initramfs (via alternate
->>>>>> initrd).
->>>>>> So outside of some ordering/parallel execution issues, I'm not seeing
->>>>>> it as broken.
->>>>>
->>>>> Yes, I agree, it will not break the kernel re-compiling, the problem I
->>>>> want to fix here is just that it does not provide a certain way that we
->>>>> could add initramfs bundled kernel image into a rootfs.
->>>>>
->>>>
->>>> Speaking of breaking. What happens to existing users of INITRAMFS_IMAGE?
->>>> Do their existing image types and bundling continue to work without
->>>> modification ?
->>>
->>> That depends, the existing users always can find the INITRAMFS_IMAGE
->>> bundled kernel in DEPLOY_DIR with or without my patches, it is not
->>> broken. But if they want it installed in the rootfs, for some reasons,
->>> they will have the problem, like in my company, we want to boot the
->>> kernel from /boot/ on a USB disk, but it is not guaranteed we will get
->>> the INITRAMFS_IMAGE bundled kernel there during the build.
->>
->>
->> Right. And if someone isn't doing any initramfs bundling, is there
->> any impact ? No variables to change, etc ?
->
-> Would not impact, no need to change any variables.
->
->>
->> I'd suggest double checking meta-initramfs:
->>
->>
->> http://layers.openembedded.org/layerindex/branch/master/layer/meta-initramfs/
->>
-> OK, I will do that and let you know the results.
->
->> And checking with Andrea to be sure that none of the existing use
->> cases are broken.
->>
-> OK, I will check with Andrea after I finished the tests with meta-initramfs
-> layer.
->
->
-> //Ming Liu
->>
->> Bruce
->>
->>>
->>> //Ming Liu
->>>>
->>>>
->>>> Bruce
->>>>
->>>>> //Ming Liu
->>>>>>
->>>>>>
->>>>>> Bruce
->>>>>>
->>>>>>>
->>>>>>> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
->>>>>>> ---
->>>>>>>   meta/classes/kernel.bbclass | 4 ----
->>>>>>>   1 file changed, 4 deletions(-)
->>>>>>>
->>>>>>> diff --git a/meta/classes/kernel.bbclass
->>>>>>> b/meta/classes/kernel.bbclass
->>>>>>> index 4ce1611..d1ca614 100644
->>>>>>> --- a/meta/classes/kernel.bbclass
->>>>>>> +++ b/meta/classes/kernel.bbclass
->>>>>>> @@ -179,10 +179,6 @@ do_bundle_initramfs () {
->>>>>>>           kernel_do_compile
->>>>>>>           mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
->>>>>>>           mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
->>>>>>> -        # Update install area
->>>>>>> -        echo "There is kernel image bundled with initramfs:
->>>>>>> ${B}/${KERNEL_OUTPUT}.initramfs"
->>>>>>> -        install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs
->>>>>>> ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
->>>>>>> -        echo "${B}/${KERNEL_OUTPUT}.initramfs"
->>>>>>>       fi
->>>>>>>   }
->>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
->
+The file 'src/clnt_bcast.c.orig' seems to have been accidentally
+included when the Use-netbsd-queue.h.patch patch was created.
 
-Hi,
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../libtirpc/libtirpc/Use-netbsd-queue.h.patch     | 701 ---------------------
+ 1 file changed, 701 deletions(-)
 
-I could not yet test the proposed changes.
-For a quick test please do build initramfs-kexecboot-klibc-image for qemu.
-Thanks
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/Use-netbsd-queue.h.patch b/meta/recipes-extended/libtirpc/libtirpc/Use-netbsd-queue.h.patch
+index 21c6c53..f93223f 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc/Use-netbsd-queue.h.patch
++++ b/meta/recipes-extended/libtirpc/libtirpc/Use-netbsd-queue.h.patch
+@@ -26,707 +26,6 @@ diff -Naur libtirpc-1.0.1-orig/src/clnt_bcast.c libtirpc-1.0.1/src/clnt_bcast.c
+  #include "rpc_com.h"
+  #include "debug.h"
+  
+-diff -Naur libtirpc-1.0.1-orig/src/clnt_bcast.c.orig libtirpc-1.0.1/src/clnt_bcast.c.orig
+---- libtirpc-1.0.1-orig/src/clnt_bcast.c.orig	1970-01-01 02:00:00.000000000 +0200
+-+++ libtirpc-1.0.1/src/clnt_bcast.c.orig	2015-10-30 17:15:14.000000000 +0200
+-@@ -0,0 +1,697 @@
+-+/*
+-+ * Copyright (c) 2009, Sun Microsystems, Inc.
+-+ * All rights reserved.
+-+ *
+-+ * Redistribution and use in source and binary forms, with or without
+-+ * modification, are permitted provided that the following conditions are met:
+-+ * - Redistributions of source code must retain the above copyright notice,
+-+ *   this list of conditions and the following disclaimer.
+-+ * - Redistributions in binary form must reproduce the above copyright notice,
+-+ *   this list of conditions and the following disclaimer in the documentation
+-+ *   and/or other materials provided with the distribution.
+-+ * - Neither the name of Sun Microsystems, Inc. nor the names of its
+-+ *   contributors may be used to endorse or promote products derived
+-+ *   from this software without specific prior written permission.
+-+ *
+-+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+-+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+-+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+-+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+-+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+-+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+-+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+-+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+-+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+-+ * POSSIBILITY OF SUCH DAMAGE.
+-+ */
+-+/*
+-+ * Copyright (c) 1986-1991 by Sun Microsystems Inc. 
+-+ */
+-+
+-+/*
+-+ * clnt_bcast.c
+-+ * Client interface to broadcast service.
+-+ *
+-+ * Copyright (C) 1988, Sun Microsystems, Inc.
+-+ *
+-+ * The following is kludged-up support for simple rpc broadcasts.
+-+ * Someday a large, complicated system will replace these routines.
+-+ */
+-+#include <sys/socket.h>
+-+#include <sys/types.h>
+-+#include <sys/queue.h>
+-+
+-+#include <net/if.h>
+-+#include <netinet/in.h>
+-+#include <ifaddrs.h>
+-+#include <poll.h>
+-+#include <rpc/rpc.h>
+-+#ifdef PORTMAP
+-+#include <rpc/pmap_prot.h>
+-+#include <rpc/pmap_clnt.h>
+-+#include <rpc/pmap_rmt.h>
+-+#endif				/* PORTMAP */
+-+#include <rpc/nettype.h>
+-+#include <arpa/inet.h>
+-+#include <stdio.h>
+-+#include <errno.h>
+-+#include <stdlib.h>
+-+#include <unistd.h>
+-+#include <netdb.h>
+-+#include <err.h>
+-+#include <string.h>
+-+
+-+#include "rpc_com.h"
+-+#include "debug.h"
+-+
+-+#define	MAXBCAST 20	/* Max no of broadcasting transports */
+-+#define	INITTIME 4000	/* Time to wait initially */
+-+#define	WAITTIME 8000	/* Maximum time to wait */
+-+
+-+# define POLLRDNORM     0x040           /* Normal data may be read.  */
+-+# define POLLRDBAND     0x080           /* Priority data may be read.  */
+-+
+-+
+-+
+-+/*
+-+ * If nettype is NULL, it broadcasts on all the available
+-+ * datagram_n transports. May potentially lead to broadacst storms
+-+ * and hence should be used with caution, care and courage.
+-+ *
+-+ * The current parameter xdr packet size is limited by the max tsdu
+-+ * size of the transport. If the max tsdu size of any transport is
+-+ * smaller than the parameter xdr packet, then broadcast is not
+-+ * sent on that transport.
+-+ *
+-+ * Also, the packet size should be less the packet size of
+-+ * the data link layer (for ethernet it is 1400 bytes).  There is
+-+ * no easy way to find out the max size of the data link layer and
+-+ * we are assuming that the args would be smaller than that.
+-+ *
+-+ * The result size has to be smaller than the transport tsdu size.
+-+ *
+-+ * If PORTMAP has been defined, we send two packets for UDP, one for
+-+ * rpcbind and one for portmap. For those machines which support
+-+ * both rpcbind and portmap, it will cause them to reply twice, and
+-+ * also here it will get two responses ... inefficient and clumsy.
+-+ */
+-+
+-+#define	TAILQ_NEXT(elm, field)	((elm)->field.tqe_next)
+-+
+-+#define	TAILQ_FIRST(head)	((head)->tqh_first)
+-+
+-+
+-+struct broadif {
+-+	int index;
+-+	struct sockaddr_storage broadaddr;
+-+	TAILQ_ENTRY(broadif) link;
+-+};
+-+
+-+typedef TAILQ_HEAD(, broadif) broadlist_t;
+-+
+-+int __rpc_getbroadifs(int, int, int, broadlist_t *);
+-+void __rpc_freebroadifs(broadlist_t *);
+-+int __rpc_broadenable(int, int, struct broadif *);
+-+
+-+int __rpc_lowvers = 0;
+-+
+-+int
+-+__rpc_getbroadifs(int af, int proto, int socktype, broadlist_t *list)
+-+{
+-+	int count = 0;
+-+	struct broadif *bip;
+-+	struct ifaddrs *ifap, *ifp;
+-+#ifdef INET6
+-+	struct sockaddr_in6 *sin6;
+-+#endif
+-+	struct sockaddr_in *sin;
+-+	struct addrinfo hints, *res;
+-+
+-+	if (getifaddrs(&ifp) < 0)
+-+		return 0;
+-+
+-+	memset(&hints, 0, sizeof hints);
+-+
+-+	hints.ai_family = af;
+-+	hints.ai_protocol = proto;
+-+	hints.ai_socktype = socktype;
+-+
+-+	if (getaddrinfo(NULL, "sunrpc", &hints, &res) != 0)
+-+		return 0;
+-+
+-+	for (ifap = ifp; ifap != NULL; ifap = ifap->ifa_next) {
+-+		if (ifap->ifa_addr == NULL ||		/* happens for eg tuntap devices */
+-+		    ifap->ifa_addr->sa_family != af ||
+-+		    !(ifap->ifa_flags & IFF_UP))
+-+			continue;
+-+		bip = (struct broadif *)malloc(sizeof *bip);
+-+		if (bip == NULL)
+-+			break;
+-+		bip->index = if_nametoindex(ifap->ifa_name);
+-+		if (
+-+#ifdef INET6
+-+		af != AF_INET6 &&
+-+#endif
+-+		(ifap->ifa_flags & IFF_BROADCAST) &&
+-+		 ifap->ifa_broadaddr) {
+-+		  /*	memcpy(&bip->broadaddr, ifap->ifa_broadaddr,
+-+			(size_t)ifap->ifa_broadaddr->sa_len);*/
+-+			memcpy(&bip->broadaddr, ifap->ifa_broadaddr,
+-+					sizeof(bip->broadaddr));
+-+			sin = (struct sockaddr_in *)(void *)&bip->broadaddr;
+-+			sin->sin_port =
+-+			    ((struct sockaddr_in *)
+-+			    (void *)res->ai_addr)->sin_port;
+-+		} else
+-+#ifdef INET6
+-+		if (af == AF_INET6 && (ifap->ifa_flags & IFF_MULTICAST)) {
+-+			sin6 = (struct sockaddr_in6 *)(void *)&bip->broadaddr;
+-+			inet_pton(af, RPCB_MULTICAST_ADDR, &sin6->sin6_addr);
+-+			sin6->sin6_family = af;
+-+			sin6->sin6_port =
+-+			    ((struct sockaddr_in6 *)
+-+			    (void *)res->ai_addr)->sin6_port;
+-+			sin6->sin6_scope_id = bip->index;
+-+		} else
+-+#endif
+-+		{
+-+			free(bip);
+-+			continue;
+-+		}
+-+		TAILQ_INSERT_TAIL(list, bip, link);
+-+		count++;
+-+	}
+-+	freeifaddrs(ifp);
+-+	freeaddrinfo(res);
+-+
+-+	return count;
+-+}
+-+
+-+void
+-+__rpc_freebroadifs(broadlist_t *list)
+-+{
+-+	struct broadif *bip, *next;
+-+
+-+	bip = TAILQ_FIRST(list);
+-+
+-+	while (bip != NULL) {
+-+		next = TAILQ_NEXT(bip, link);
+-+		free(bip);
+-+		bip = next;
+-+	}
+-+}
+-+
+-+int
+-+/*ARGSUSED*/
+-+__rpc_broadenable(int af, int s, struct broadif *bip)
+-+{
+-+	int o = 1;
+-+
+-+#if 0
+-+	if (af == AF_INET6) {
+-+		fprintf(stderr, "set v6 multicast if to %d\n", bip->index);
+-+		if (setsockopt(s, IPPROTO_IPV6, IPV6_MULTICAST_IF, &bip->index,
+-+		    sizeof bip->index) < 0)
+-+			return -1;
+-+	} else
+-+#endif
+-+		if (setsockopt(s, SOL_SOCKET, SO_BROADCAST, &o, sizeof o) < 0)
+-+			return -1;
+-+
+-+	return 0;
+-+}
+-+
+-+/*
+-+ * Some rpcbind implementations use an IPv6 socket to serve both 
+-+ * IPv4 and IPv6 messages, but neglect to check for the caller's
+-+ * address family when sending broadcast replies. These rpcbind
+-+ * implementations return an IPv6 address in reply to an IPv4
+-+ * broadcast. We can either ignore them, or try to patch them up.
+-+ */
+-+static struct netbuf *
+-+__ipv6v4_fixup(struct sockaddr_storage *ss, const char *uaddr)
+-+{
+-+	struct sockaddr_in sin;
+-+	struct netbuf *np;
+-+
+-+	/* ss is the remote rpcbind server's address */
+-+	if (ss->ss_family != AF_INET)
+-+		return NULL;
+-+	memcpy(&sin, ss, sizeof(sin));
+-+
+-+	np = __rpc_uaddr2taddr_af(AF_INET6, uaddr);
+-+	if (np == NULL)
+-+		return NULL;
+-+
+-+	/* Overwrite the port with that of the service we
+-+	 * wanted to talk to. */
+-+	sin.sin_port = ((struct sockaddr_in6 *) np)->sin6_port;
+-+
+-+	/* We know netbuf holds a sockaddr_in6, so it can easily
+-+	 * hold a sockaddr_in as well. */
+-+	memcpy(np->buf, &sin, sizeof(sin));
+-+	np->len = sizeof(sin);
+-+
+-+	return np;
+-+}
+-+
+-+enum clnt_stat
+-+rpc_broadcast_exp(prog, vers, proc, xargs, argsp, xresults, resultsp,
+-+	eachresult, inittime, waittime, nettype)
+-+	rpcprog_t	prog;		/* program number */
+-+	rpcvers_t	vers;		/* version number */
+-+	rpcproc_t	proc;		/* procedure number */
+-+	xdrproc_t	xargs;		/* xdr routine for args */
+-+	caddr_t		argsp;		/* pointer to args */
+-+	xdrproc_t	xresults;	/* xdr routine for results */
+-+	caddr_t		resultsp;	/* pointer to results */
+-+	resultproc_t	eachresult;	/* call with each result obtained */
+-+	int 		inittime;	/* how long to wait initially */
+-+	int 		waittime;	/* maximum time to wait */
+-+	const char		*nettype;	/* transport type */
+-+{
+-+	enum clnt_stat	stat = RPC_SUCCESS; /* Return status */
+-+	XDR 		xdr_stream; /* XDR stream */
+-+	XDR 		*xdrs = &xdr_stream;
+-+	struct rpc_msg	msg;	/* RPC message */
+-+	struct timeval	t;
+-+	char 		*outbuf = NULL;	/* Broadcast msg buffer */
+-+	char		*inbuf = NULL; /* Reply buf */
+-+	int		inlen;
+-+	u_int 		maxbufsize = 0;
+-+	AUTH 		*sys_auth = authunix_create_default();
+-+	int		i;
+-+	void		*handle;
+-+	char		uaddress[1024];	/* A self imposed limit */
+-+	char		*uaddrp = uaddress;
+-+	int 		pmap_reply_flag; /* reply recvd from PORTMAP */
+-+	/* An array of all the suitable broadcast transports */
+-+	struct {
+-+		int fd;		/* File descriptor */
+-+		int af;
+-+		int proto;
+-+		struct netconfig *nconf; /* Netconfig structure */
+-+		u_int asize;	/* Size of the addr buf */
+-+		u_int dsize;	/* Size of the data buf */
+-+		struct sockaddr_storage raddr; /* Remote address */
+-+		broadlist_t nal;
+-+	} fdlist[MAXBCAST];
+-+	struct pollfd pfd[MAXBCAST];
+-+	size_t fdlistno = 0;
+-+	struct r_rpcb_rmtcallargs barg;	/* Remote arguments */
+-+	struct r_rpcb_rmtcallres bres; /* Remote results */
+-+	size_t outlen;
+-+	struct netconfig *nconf;
+-+	int msec;
+-+	int pollretval;
+-+	int fds_found;
+-+
+-+#ifdef PORTMAP
+-+	size_t outlen_pmap = 0;
+-+	u_long port;		/* Remote port number */
+-+	int pmap_flag = 0;	/* UDP exists ? */
+-+	char *outbuf_pmap = NULL;
+-+	struct rmtcallargs barg_pmap;	/* Remote arguments */
+-+	struct rmtcallres bres_pmap; /* Remote results */
+-+	u_int udpbufsz = 0;
+-+#endif				/* PORTMAP */
+-+
+-+	if (sys_auth == NULL) {
+-+		return (RPC_SYSTEMERROR);
+-+	}
+-+	/*
+-+	 * initialization: create a fd, a broadcast address, and send the
+-+	 * request on the broadcast transport.
+-+	 * Listen on all of them and on replies, call the user supplied
+-+	 * function.
+-+	 */
+-+
+-+	if (nettype == NULL)
+-+		nettype = "datagram_n";
+-+	if ((handle = __rpc_setconf(nettype)) == NULL) {
+-+		return (RPC_UNKNOWNPROTO);
+-+	}
+-+	while ((nconf = __rpc_getconf(handle)) != NULL) {
+-+		int fd;
+-+		struct __rpc_sockinfo si;
+-+
+-+		if (nconf->nc_semantics != NC_TPI_CLTS)
+-+			continue;
+-+		if (fdlistno >= MAXBCAST)
+-+			break;	/* No more slots available */
+-+		if (!__rpc_nconf2sockinfo(nconf, &si))
+-+			continue;
+-+
+-+		TAILQ_INIT(&fdlist[fdlistno].nal);
+-+		if (__rpc_getbroadifs(si.si_af, si.si_proto, si.si_socktype, 
+-+		    &fdlist[fdlistno].nal) == 0)
+-+			continue;
+-+
+-+		fd = socket(si.si_af, si.si_socktype, si.si_proto);
+-+		if (fd < 0) {
+-+			stat = RPC_CANTSEND;
+-+			continue;
+-+		}
+-+		fdlist[fdlistno].af = si.si_af;
+-+		fdlist[fdlistno].proto = si.si_proto;
+-+		fdlist[fdlistno].fd = fd;
+-+		fdlist[fdlistno].nconf = nconf;
+-+		fdlist[fdlistno].asize = __rpc_get_a_size(si.si_af);
+-+		pfd[fdlistno].events = POLLIN | POLLPRI |
+-+			POLLRDNORM | POLLRDBAND;
+-+		pfd[fdlistno].fd = fdlist[fdlistno].fd = fd;
+-+		fdlist[fdlistno].dsize = __rpc_get_t_size(si.si_af, si.si_proto,
+-+							  0);
+-+
+-+		if (maxbufsize <= fdlist[fdlistno].dsize)
+-+			maxbufsize = fdlist[fdlistno].dsize;
+-+
+-+#ifdef PORTMAP
+-+		if (si.si_af == AF_INET && si.si_proto == IPPROTO_UDP) {
+-+			udpbufsz = fdlist[fdlistno].dsize;
+-+			if ((outbuf_pmap = malloc(udpbufsz)) == NULL) {
+-+				close(fd);
+-+				stat = RPC_SYSTEMERROR;
+-+				goto done_broad;
+-+			}
+-+			pmap_flag = 1;
+-+		}
+-+#endif				/* PORTMAP */
+-+		fdlistno++;
+-+	}
+-+
+-+	if (fdlistno == 0) {
+-+		if (stat == RPC_SUCCESS)
+-+			stat = RPC_UNKNOWNPROTO;
+-+		goto done_broad;
+-+	}
+-+	if (maxbufsize == 0) {
+-+		if (stat == RPC_SUCCESS)
+-+			stat = RPC_CANTSEND;
+-+		goto done_broad;
+-+	}
+-+	inbuf = malloc(maxbufsize);
+-+	outbuf = malloc(maxbufsize);
+-+	if ((inbuf == NULL) || (outbuf == NULL)) {
+-+		stat = RPC_SYSTEMERROR;
+-+		goto done_broad;
+-+	}
+-+
+-+	/* Serialize all the arguments which have to be sent */
+-+	(void) gettimeofday(&t, NULL);
+-+	msg.rm_xid = __RPC_GETXID(&t);
+-+	msg.rm_direction = CALL;
+-+	msg.rm_call.cb_rpcvers = RPC_MSG_VERSION;
+-+	msg.rm_call.cb_prog = RPCBPROG;
+-+	msg.rm_call.cb_vers = RPCBVERS;
+-+	msg.rm_call.cb_proc = RPCBPROC_CALLIT;
+-+	barg.prog = prog;
+-+	barg.vers = vers;
+-+	barg.proc = proc;
+-+	barg.args.args_val = argsp;
+-+	barg.xdr_args = xargs;
+-+	bres.addr = uaddrp;
+-+	bres.results.results_val = resultsp;
+-+	bres.xdr_res = xresults;
+-+	msg.rm_call.cb_cred = sys_auth->ah_cred;
+-+	msg.rm_call.cb_verf = sys_auth->ah_verf;
+-+	xdrmem_create(xdrs, outbuf, maxbufsize, XDR_ENCODE);
+-+	if ((!xdr_callmsg(xdrs, &msg)) ||
+-+	    (!xdr_rpcb_rmtcallargs(xdrs,
+-+	    (struct rpcb_rmtcallargs *)(void *)&barg))) {
+-+		stat = RPC_CANTENCODEARGS;
+-+		goto done_broad;
+-+	}
+-+	outlen = xdr_getpos(xdrs);
+-+	xdr_destroy(xdrs);
+-+
+-+#ifdef PORTMAP
+-+	/* Prepare the packet for version 2 PORTMAP */
+-+	if (pmap_flag) {
+-+		msg.rm_xid++;	/* One way to distinguish */
+-+		msg.rm_call.cb_prog = PMAPPROG;
+-+		msg.rm_call.cb_vers = PMAPVERS;
+-+		msg.rm_call.cb_proc = PMAPPROC_CALLIT;
+-+		barg_pmap.prog = prog;
+-+		barg_pmap.vers = vers;
+-+		barg_pmap.proc = proc;
+-+		barg_pmap.args_ptr = argsp;
+-+		barg_pmap.xdr_args = xargs;
+-+		bres_pmap.port_ptr = &port;
+-+		bres_pmap.xdr_results = xresults;
+-+		bres_pmap.results_ptr = resultsp;
+-+		xdrmem_create(xdrs, outbuf_pmap, udpbufsz, XDR_ENCODE);
+-+		if ((! xdr_callmsg(xdrs, &msg)) ||
+-+		    (! xdr_rmtcall_args(xdrs, &barg_pmap))) {
+-+			stat = RPC_CANTENCODEARGS;
+-+			goto done_broad;
+-+		}
+-+		outlen_pmap = xdr_getpos(xdrs);
+-+		xdr_destroy(xdrs);
+-+	}
+-+#endif				/* PORTMAP */
+-+
+-+	/*
+-+	 * Basic loop: broadcast the packets to transports which
+-+	 * support data packets of size such that one can encode
+-+	 * all the arguments.
+-+	 * Wait a while for response(s).
+-+	 * The response timeout grows larger per iteration.
+-+	 */
+-+	for (msec = inittime; msec <= waittime; msec += msec) {
+-+		struct broadif *bip;
+-+
+-+		/* Broadcast all the packets now */
+-+		for (i = 0; i < fdlistno; i++) {
+-+			if (fdlist[i].dsize < outlen) {
+-+				stat = RPC_CANTSEND;
+-+				continue;
+-+			}
+-+			for (bip = TAILQ_FIRST(&fdlist[i].nal); bip != NULL;
+-+			     bip = TAILQ_NEXT(bip, link)) {
+-+				void *addr;
+-+
+-+				addr = &bip->broadaddr;
+-+
+-+				__rpc_broadenable(fdlist[i].af, fdlist[i].fd,
+-+				    bip);
+-+
+-+				/*
+-+				 * Only use version 3 if lowvers is not set
+-+				 */
+-+
+-+				if (!__rpc_lowvers)
+-+					if (sendto(fdlist[i].fd, outbuf,
+-+					    outlen, 0, (struct sockaddr*)addr,
+-+					    (size_t)fdlist[i].asize) !=
+-+					    outlen) {
+-+						LIBTIRPC_DEBUG(1, 
+-+							("rpc_broadcast_exp: sendto failed: errno %d", errno));
+-+						warnx("rpc_broadcast_exp: cannot send broadcast packet");
+-+						stat = RPC_CANTSEND;
+-+						continue;
+-+					};
+-+				if (!__rpc_lowvers)
+-+					LIBTIRPC_DEBUG(3, ("rpc_broadcast_exp: Broadcast packet sent for %s\n",
+-+						 fdlist[i].nconf->nc_netid));
+-+#ifdef PORTMAP
+-+				/*
+-+				 * Send the version 2 packet also
+-+				 * for UDP/IP
+-+				 */
+-+				if (pmap_flag &&
+-+				    fdlist[i].proto == IPPROTO_UDP) {
+-+					if (sendto(fdlist[i].fd, outbuf_pmap,
+-+					    outlen_pmap, 0, addr,
+-+					    (size_t)fdlist[i].asize) !=
+-+						outlen_pmap) {
+-+						warnx("clnt_bcast: "
+-+						    "Cannot send broadcast packet");
+-+						stat = RPC_CANTSEND;
+-+						continue;
+-+					}
+-+				}
+-+				LIBTIRPC_DEBUG(3, ("rpc_broadcast_exp: PMAP Broadcast packet sent for %s\n",
+-+					fdlist[i].nconf->nc_netid));
+-+#endif				/* PORTMAP */
+-+			}
+-+			/* End for sending all packets on this transport */
+-+		}	/* End for sending on all transports */
+-+
+-+		if (eachresult == NULL) {
+-+			stat = RPC_SUCCESS;
+-+			goto done_broad;
+-+		}
+-+
+-+		/*
+-+		 * Get all the replies from these broadcast requests
+-+		 */
+-+	recv_again:
+-+
+-+		switch (pollretval = poll(pfd, fdlistno, msec)) {
+-+		case 0:		/* timed out */
+-+			stat = RPC_TIMEDOUT;
+-+			continue;
+-+		case -1:	/* some kind of error - we ignore it */
+-+			goto recv_again;
+-+		}		/* end of poll results switch */
+-+
+-+		for (i = fds_found = 0;
+-+		     i < fdlistno && fds_found < pollretval; i++) {
+-+			bool_t done = FALSE;
+-+
+-+			if (pfd[i].revents == 0)
+-+				continue;
+-+			else if (pfd[i].revents & POLLNVAL) {
+-+				/*
+-+				 * Something bad has happened to this descri-
+-+				 * ptor. We can cause _poll() to ignore
+-+				 * it simply by using a negative fd.  We do that
+-+				 * rather than compacting the pfd[] and fdlist[]
+-+				 * arrays.
+-+				 */
+-+				pfd[i].fd = -1;
+-+				fds_found++;
+-+				continue;
+-+			} else
+-+				fds_found++;
+-+			LIBTIRPC_DEBUG(3, ("rpc_broadcast_exp: response for %s\n", 
+-+				fdlist[i].nconf->nc_netid));
+-+		try_again:
+-+			inlen = recvfrom(fdlist[i].fd, inbuf, fdlist[i].dsize,
+-+			    0, (struct sockaddr *)(void *)&fdlist[i].raddr,
+-+			    &fdlist[i].asize);
+-+			if (inlen < 0) {
+-+				if (errno == EINTR)
+-+					goto try_again;
+-+				warnx("clnt_bcast: Cannot receive reply to "
+-+					"broadcast");
+-+				stat = RPC_CANTRECV;
+-+				continue;
+-+			}
+-+			if (inlen < sizeof (u_int32_t))
+-+				continue; /* Drop that and go ahead */
+-+			/*
+-+			 * see if reply transaction id matches sent id.
+-+			 * If so, decode the results. If return id is xid + 1
+-+			 * it was a PORTMAP reply
+-+			 */
+-+			if (*((u_int32_t *)(void *)(inbuf)) ==
+-+			    *((u_int32_t *)(void *)(outbuf))) {
+-+				pmap_reply_flag = 0;
+-+				msg.acpted_rply.ar_verf = _null_auth;
+-+				msg.acpted_rply.ar_results.where =
+-+					(caddr_t)(void *)&bres;
+-+				msg.acpted_rply.ar_results.proc =
+-+					(xdrproc_t)xdr_rpcb_rmtcallres;
+-+#ifdef PORTMAP
+-+			} else if (pmap_flag &&
+-+				*((u_int32_t *)(void *)(inbuf)) ==
+-+				*((u_int32_t *)(void *)(outbuf_pmap))) {
+-+				pmap_reply_flag = 1;
+-+				msg.acpted_rply.ar_verf = _null_auth;
+-+				msg.acpted_rply.ar_results.where =
+-+					(caddr_t)(void *)&bres_pmap;
+-+				msg.acpted_rply.ar_results.proc =
+-+					(xdrproc_t)xdr_rmtcallres;
+-+#endif				/* PORTMAP */
+-+			} else
+-+				continue;
+-+			xdrmem_create(xdrs, inbuf, (u_int)inlen, XDR_DECODE);
+-+			if (xdr_replymsg(xdrs, &msg)) {
+-+				if ((msg.rm_reply.rp_stat == MSG_ACCEPTED) &&
+-+				    (msg.acpted_rply.ar_stat == SUCCESS)) {
+-+					struct netbuf *np;
+-+#ifdef PORTMAP
+-+					struct netbuf taddr;
+-+					struct sockaddr_in sin;
+-+
+-+					if (pmap_flag && pmap_reply_flag) {
+-+						memcpy(&sin, &fdlist[i].raddr, sizeof(sin)); 
+-+						sin.sin_port = htons((u_short)port);
+-+						memcpy(&fdlist[i].raddr, &sin, sizeof(sin)); 
+-+						taddr.len = taddr.maxlen = 
+-+						    sizeof(fdlist[i].raddr);
+-+						taddr.buf = &fdlist[i].raddr;
+-+						done = (*eachresult)(resultsp,
+-+						    &taddr, fdlist[i].nconf);
+-+					} else {
+-+#endif				/* PORTMAP */
+-+						LIBTIRPC_DEBUG(3, ("rpc_broadcast_exp: uaddr %s\n", uaddrp));
+-+						np = uaddr2taddr(
+-+						    fdlist[i].nconf, uaddrp);
+-+						/* Some misguided rpcbind implemenations
+-+						 * seem to return an IPv6 uaddr in IPv4
+-+						 * responses. */
+-+						if (np == NULL)
+-+							np = __ipv6v4_fixup(
+-+								&fdlist[i].raddr,
+-+								uaddrp);
+-+						if (np != NULL) {
+-+							done = (*eachresult)(resultsp,
+-+							    np, fdlist[i].nconf);
+-+							free(np);
+-+						}
+-+#ifdef PORTMAP
+-+					}
+-+#endif				/* PORTMAP */
+-+				}
+-+				/* otherwise, we just ignore the errors ... */
+-+			}
+-+			/* else some kind of deserialization problem ... */
+-+
+-+			xdrs->x_op = XDR_FREE;
+-+			msg.acpted_rply.ar_results.proc = (xdrproc_t) xdr_void;
+-+			(void) xdr_replymsg(xdrs, &msg);
+-+			(void) (*xresults)(xdrs, resultsp);
+-+			XDR_DESTROY(xdrs);
+-+			if (done) {
+-+				stat = RPC_SUCCESS;
+-+				goto done_broad;
+-+			} else {
+-+				goto recv_again;
+-+			}
+-+		}		/* The recv for loop */
+-+	}			/* The giant for loop */
+-+
+-+done_broad:
+-+	if (inbuf)
+-+		(void) free(inbuf);
+-+	if (outbuf)
+-+		(void) free(outbuf);
+-+#ifdef PORTMAP
+-+	if (outbuf_pmap)
+-+		(void) free(outbuf_pmap);
+-+#endif				/* PORTMAP */
+-+	for (i = 0; i < fdlistno; i++) {
+-+		(void)close(fdlist[i].fd);
+-+		__rpc_freebroadifs(&fdlist[i].nal);
+-+	}
+-+	AUTH_DESTROY(sys_auth);
+-+	(void) __rpc_endconf(handle);
+-+
+-+	return (stat);
+-+}
+-+
+-+
+-+enum clnt_stat
+-+rpc_broadcast(prog, vers, proc, xargs, argsp, xresults, resultsp,
+-+			eachresult, nettype)
+-+	rpcprog_t	prog;		/* program number */
+-+	rpcvers_t	vers;		/* version number */
+-+	rpcproc_t	proc;		/* procedure number */
+-+	xdrproc_t	xargs;		/* xdr routine for args */
+-+	caddr_t		argsp;		/* pointer to args */
+-+	xdrproc_t	xresults;	/* xdr routine for results */
+-+	caddr_t		resultsp;	/* pointer to results */
+-+	resultproc_t	eachresult;	/* call with each result obtained */
+-+	const char		*nettype;	/* transport type */
+-+{
+-+	enum clnt_stat	dummy;
+-+
+-+	dummy = rpc_broadcast_exp(prog, vers, proc, xargs, argsp,
+-+		xresults, resultsp, eachresult,
+-+		INITTIME, WAITTIME, nettype);
+-+	return (dummy);
+-+}
+ diff -Naur libtirpc-1.0.1-orig/tirpc/queue.h libtirpc-1.0.1/tirpc/queue.h
+ --- libtirpc-1.0.1-orig/tirpc/queue.h	1970-01-01 02:00:00.000000000 +0200
+ +++ libtirpc-1.0.1/tirpc/queue.h	2015-12-21 17:02:44.427853905 +0200
+-- 
+1.9.1
 
-Andrea
-
-P.S. We did restore the old documentation about plain embedded
-initramfs, pls have a look at the (outdated) msg:
-https://github.com/kexecboot/kexecboot/wiki/oe-yocto
 
