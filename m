@@ -1,37 +1,45 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BF47573289
+Return-Path: <compudj@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [78.47.125.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B73976FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 13:21:12 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id 6so6005389qgy.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 05:21:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=K5RDSKJp3flijAJ0T1uB65pXFuINUqVEIJUjdaLLIsU=;
-	b=X4PcHdstZU8TUeFg427i/rf2B5Ns03y8oMlkZv8nIvNMm9f7oLXLAEACspIklkV1bj
-	O4GqNbGAGQdgnIKHlVDnY4yvcNQh0c7K8fT+PuB/kyJ9VJaf+eRCTmKyIbK5gM0QoiiS
-	S3TR7+UwkyynctLbraRM5I/WBNHPCPE7gjCIrzcB5jUj2HCKIcVPcYbktsGpZo/YoLkR
-	hq4bOZY33+IX2ppw+Zwo//vYP5hNbyWU1QqvspNr1nw/pZLV9PjKBPX1kdJ7+JRIWGac
-	oAjjv301tuKtNbHHd9W4W8cqYVzBfQDpyDftuELxKqCnbYa/sMj+jqe9HH2z8/t+wSSJ
-	RlRg==
-X-Gm-Message-State: AG10YORIF7Kl9i9SUuXOz76kXyRg5nVWEq6hWNSD1IDhZuuliGI069T6/qzQveadm2IceQ==
-X-Received: by 10.140.19.43 with SMTP id 40mr35561692qgg.72.1453900873044;
-	Wed, 27 Jan 2016 05:21:13 -0800 (PST)
-Received: from localhost.localdomain ([96.91.222.230])
-	by smtp.gmail.com with ESMTPSA id
-	l107sm2604481qge.22.2016.01.27.05.21.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Jan 2016 05:21:12 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jan 2016 08:20:57 -0500
-Message-Id: <1453900857-28834-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 1.9.1
-Cc: Derek Straka <derek@asterius.io>
-Subject: [jethro][PATCH] grub2: fix CVE-2015-8370
+	Wed, 27 Jan 2016 13:30:59 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 9B04F340529;
+	Wed, 27 Jan 2016 13:30:59 +0000 (UTC)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id D79BubFk-knt; Wed, 27 Jan 2016 13:30:58 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 0F0DD340538;
+	Wed, 27 Jan 2016 13:30:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id cKgecK-Ocg-0; Wed, 27 Jan 2016 13:30:57 +0000 (UTC)
+Received: from evm-mail-1.efficios.com (evm-mail-1.efficios.com [78.47.125.74])
+	by mail.efficios.com (Postfix) with ESMTP id DB1F3340529;
+	Wed, 27 Jan 2016 13:30:57 +0000 (UTC)
+Date: Wed, 27 Jan 2016 13:30:57 +0000 (UTC)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <809092932.5736.1453901457659.JavaMail.zimbra@efficios.com>
+In-Reply-To: <883932458.5623.1453895978760.JavaMail.zimbra@efficios.com>
+References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
+	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
+	<433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
+	<CAMKF1sofnyADcNkAc+YrXjPED=ALxf60oPEsuQiJTAY87oB31Q@mail.gmail.com>
+	<CAJTo0LZazTzkp94ASdACaBOuC4JpNWCpnf46kAucjY5B+wX2vQ@mail.gmail.com>
+	<883932458.5623.1453895978760.JavaMail.zimbra@efficios.com>
+MIME-Version: 1.0
+X-Originating-IP: [78.47.125.74]
+X-Mailer: Zimbra 8.6.0_GA_1178 (ZimbraWebClient - FF43 (Linux)/8.6.0_GA_1178)
+Thread-Topic: Bogus openembedded gcc patch
+Thread-Index: CaEJUMCRK3cdkB5jLdTSqPyGskdd6hQytqrP
+Cc: lttng-dev <lttng-dev@lists.lttng.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [lttng-dev] Bogus openembedded gcc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,97 +52,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 13:21:12 -0000
+X-List-Received-Date: Wed, 27 Jan 2016 13:31:01 -0000
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_5735_1906414831.1453901457658"
 
-CVE-2015-8370:
-Integer underflows allow attacks with physicall access to bypass authentication
+------=_Part_5735_1906414831.1453901457658
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-[YOCTO 8850]
+----- On Jan 27, 2016, at 6:59 AM, Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote: 
 
-References:
-http://git.savannah.gnu.org/cgit/grub.git/commit/?id=451d80e52d851432e109771bb8febafca7a5f1f2
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8370
+> ----- On Jan 27, 2016, at 6:31 AM, Burton, Ross <ross.burton@intel.com> wrote:
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 54 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc                    |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch
+>> On 26 January 2016 at 23:14, Khem Raj < raj.khem@gmail.com > wrote:
 
-diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch
-new file mode 100644
-index 0000000..e06c3bf
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch
-@@ -0,0 +1,54 @@
-+
-+Upstream-Status: Accepted
-+CVE: CVE-2015-8370
-+Signed-off-by: Derek Straka <derek@asterius.io>
-+
-+From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001
-+From: Hector Marco-Gisbert <hecmargi@upv.es>
-+Date: Wed, 16 Dec 2015 04:57:18 +0000
-+Subject: Fix security issue when reading username and password
-+
-+This patch fixes two integer underflows at:
-+  * grub-core/lib/crypto.c
-+  * grub-core/normal/auth.c
-+
-+CVE-2015-8370
-+
-+Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>
-+Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>
-+Also-By: Andrey Borzenkov <arvidjaar@gmail.com>
-+---
-+diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c
-+index 010e550..683a8aa 100644
-+--- a/grub-core/lib/crypto.c
-++++ b/grub-core/lib/crypto.c
-+@@ -458,7 +458,8 @@ grub_password_get (char buf[], unsigned buf_size)
-+ 
-+       if (key == '\b')
-+ 	{
-+-	  cur_len--;
-++	  if (cur_len)
-++	    cur_len--;
-+ 	  continue;
-+ 	}
-+ 
-+diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c
-+index c6bd96e..8615c48 100644
-+--- a/grub-core/normal/auth.c
-++++ b/grub-core/normal/auth.c
-+@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)
-+ 
-+       if (key == '\b')
-+ 	{
-+-	  cur_len--;
-+-	  grub_printf ("\b");
-++	  if (cur_len)
-++	    {
-++	      cur_len--;
-++	      grub_printf ("\b");
-++	    }
-+ 	  continue;
-+ 	}
-+ 
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 312771b..a8c41f8 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -27,6 +27,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch \
-            file://grub2-fix-initrd-size-bug.patch \
-+           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch \
-             "
- 
- DEPENDS = "flex-native bison-native xz"
+>>> > Yes, we have narrowed down our problem to this specific patch by
+>>> > removing the patch from the OE gcc patches, rebuilding gcc, and
+>>> > then building our test program with that gcc. The problem goes
+>>> > away when we do so, which points directly to that patch as a
+>>> > culprit.
+
+>>> > Test program is attached.
+
+>>> Ok I think we can remove this from master and jethro release
+
+>> Mathieu, as you found this do you want the glory by submitting a the removal
+>> patch?
+
+> Thanks for asking, but for me a
+
+> Reported-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+
+> in the patch commit messge is good enough.
+> You'll probably want to have a link to this discussion thread
+> also in the commit message.
+
+I have a few minutes in front of me, I'll prepare a patch. 
+
+Thanks, 
+
+Mathieu 
+
+> Thanks,
+
+> Mathieu
+
+>> Cheerss,
+>> Ross
+
+> --
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> http://www.efficios.com
+
+> _______________________________________________
+> lttng-dev mailing list
+> lttng-dev@lists.lttng.org
+> http://lists.lttng.org/cgi-bin/mailman/listinfo/lttng-dev
+
 -- 
-1.9.1
+Mathieu Desnoyers 
+EfficiOS Inc. 
+http://www.efficios.com 
 
+------=_Part_5735_1906414831.1453901457658
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
+ize: 12pt; color: #000000"><div><span id=3D"zwchr" data-marker=3D"__DIVIDER=
+__">----- On Jan 27, 2016, at 6:59 AM, Mathieu Desnoyers &lt;mathieu.desnoy=
+ers@efficios.com&gt; wrote:<br></span></div><div data-marker=3D"__QUOTED_TE=
+XT__"><blockquote style=3D"border-left:2px solid #1010FF;margin-left:5px;pa=
+dding-left:5px;color:#000;font-weight:normal;font-style:normal;text-decorat=
+ion:none;font-family:Helvetica,Arial,sans-serif;font-size:12pt;"><div style=
+=3D"font-family: arial, helvetica, sans-serif; font-size: 12pt; color: #000=
+000"><div><span id=3D"zwchr">----- On Jan 27, 2016, at 6:31 AM, Burton, Ros=
+s &lt;ross.burton@intel.com&gt; wrote:<br></span></div><div><blockquote sty=
+le=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px;color:=
+#000;font-weight:normal;font-style:normal;text-decoration:none;font-family:=
+Helvetica,Arial,sans-serif;font-size:12pt;"><div dir=3D"ltr"><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 26 January 2016 at 23:14, Kh=
+em Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div id=3D":aj" class=3D"a3s" style=3D"overflow:hidden">&gt; =
+Yes, we have narrowed down our problem to this specific patch by<br>
+&gt; removing the patch from the OE gcc patches, rebuilding gcc, and<br>
+&gt; then building our test program with that gcc. The problem goes<br>
+&gt; away when we do so, which points directly to that patch as a<br>
+&gt; culprit.<br>
+&gt;<br>
+&gt; Test program is attached.<p dir=3D"ltr">Ok I think we can remove this =
+from master and jethro release<br></p></div></blockquote></div><br>Mathieu,=
+ as you found this do you want the glory by submitting a the removal patch?=
+</div></div></blockquote><br><div>Thanks for asking, but for me a<br></div>=
+<br><div>Reported-by: Mathieu Desnoyers &lt;mathieu.desnoyers@efficios.com&=
+gt;<br></div><br><div>in the patch commit messge is good enough.<br></div><=
+div>You'll probably want to have a link to this discussion thread<br></div>=
+<div>also in the commit message.</div></div></div></blockquote><div><br></d=
+iv><div>I have a few minutes in front of me, I'll prepare a patch.<br data-=
+mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>Thanks,<br d=
+ata-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>Mathieu<=
+br data-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><blockquo=
+te style=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px;=
+color:#000;font-weight:normal;font-style:normal;text-decoration:none;font-f=
+amily:Helvetica,Arial,sans-serif;font-size:12pt;"><div style=3D"font-family=
+: arial, helvetica, sans-serif; font-size: 12pt; color: #000000"><div><div>=
+<br></div><br><div>Thanks,<br></div><br><div>Mathieu<br></div><br><blockquo=
+te style=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px;=
+color:#000;font-weight:normal;font-style:normal;text-decoration:none;font-f=
+amily:Helvetica,Arial,sans-serif;font-size:12pt;"><div dir=3D"ltr"><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheerss,</div><div =
+class=3D"gmail_extra">Ross</div></div><br></blockquote></div><br><div>-- <b=
+r></div><div>Mathieu Desnoyers<br>EfficiOS Inc.<br>http://www.efficios.com<=
+/div></div><br>_______________________________________________<br>lttng-dev=
+ mailing list<br>lttng-dev@lists.lttng.org<br>http://lists.lttng.org/cgi-bi=
+n/mailman/listinfo/lttng-dev<br></blockquote></div><div><br></div><div data=
+-marker=3D"__SIG_POST__">-- <br></div><div>Mathieu Desnoyers<br>EfficiOS In=
+c.<br>http://www.efficios.com</div></div></body></html>
+
+------=_Part_5735_1906414831.1453901457658--
