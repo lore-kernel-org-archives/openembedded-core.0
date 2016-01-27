@@ -1,53 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FC17731E6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 3773577060
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:30:59 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id p63so2770748wmp.1
+	Wed, 27 Jan 2016 11:31:26 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id z14so78652154igp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 03:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=EuH2NLKzqDWwfze4iiWZiKuyMgc9WJCeYKrGRwkDCcs=;
-	b=F6zZBbhvZjSIugqC3j4HB/4mlN9BYkWv6BXCc19jo8bTOod6J8oLNEsmco4m8uE2X5
-	UAHPIkvUd5XuFSN++wTzypv52uFILUye98W6NL3Wbn9nCwDPk1K1O6kgKzWW61wBbm2l
-	pWCuFHVt0Fufg33YSxUnlqZ1qK5251vuNTFiplSXxwaLtvApG0IZsHg2BcHL4jyPNt9W
-	XK/5GtIImfOy1tT6rrAewr6Fo3TYNeKB1x2GPc03LqGLVhdZcXfU7cVmdNxbTmih5rQQ
-	E0xI5uxGo8tSqVxIIOb/KVV2F2cP5wN10Sx2jvoKYlJqwpH+R+i213hfo/bNi8G57vG/
-	0qQA==
+	Wed, 27 Jan 2016 03:31:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=swcKWGBU4e1Nb3AJDyzyb8OU8YdvjdJ02CxQGERCPrs=;
+	b=nvbsyiUOhbyLxHL8xLVFhrxx3rUyrYC4PsZHR5iSQ84JkmYVL3Tit+HxB6sMlfHWh2
+	YSZOIcQXuD+u85JEycFBBodpH/RdrbTHL2HVouxd1suG56hCErw1M/cvG68fKDajGWgv
+	Z5WLgktYKZkitXTQlNQ1H3R8WJi1bD77ki0XIsTSFdi0cBsVbrvwvXFt35t1XVJEeeGW
+	GAPrvP5NyucxN6LcjHNVau194hAhx2UCqkmGiQt7x4SRfxGKdkOvfV4pDrhlRI/9z8Pv
+	RRJUJGaCnDuCDGVPsxRjvPgV0z32M5I1ykkFTQkxQw4GnjF9jYCgRxBYytK/CD+tg1IU
+	l36w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent;
-	bh=EuH2NLKzqDWwfze4iiWZiKuyMgc9WJCeYKrGRwkDCcs=;
-	b=KsqFpxuBGjFF21MIGT8IpQcKk3S7mEsCF0BCJRxLZ5BOrG0oL98H3wSzZ/RuPHUq9v
-	YkrMvAIXfOFvfq1mM3dG0DjA22N2on8/DId+KUGF2SbTYAJNj4md6HfU1Q/utxELhVSW
-	o2eQWUtmtgMq09DAykA/ihOj1SDBsbuGJEqXku/fDAhBXWATCLPPB9K4V0rHm2EaRaUb
-	G85OCH+akHqxf263nm8rwnJZ4CqNcFnkBa6cvDf9ZWYaX5j7jtQeLW1NG7wWmbbulMyg
-	VOcMbx+EyDW9juk8befpFyYfCC/ZqSONwvhqJYpLJ+cvXd0zVq54WOP5EbulZr8Is6Fv
-	rEgg==
-X-Gm-Message-State: AG10YOSAotpY8Ihh7DsahOargbqY1DeAH7U9NYTrwc++9RgqXPejz6FNSEgdMwAH+r0NTA==
-X-Received: by 10.28.232.208 with SMTP id f77mr31009623wmi.34.1453894260179;
-	Wed, 27 Jan 2016 03:31:00 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	g187sm7836353wmf.8.2016.01.27.03.30.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Jan 2016 03:30:58 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 27 Jan 2016 12:33:11 +0100
-To: Armin Kuster <akuster808@gmail.com>
-Message-ID: <20160127113311.GA2574@jama>
-References: <cover.1452385571.git.akuster808@gmail.com>
-	<20160121115752.GA2603@jama>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=swcKWGBU4e1Nb3AJDyzyb8OU8YdvjdJ02CxQGERCPrs=;
+	b=OGpURWcp2GF3QlfJZjbCBL7RaUw7qLHbj68bxxEcyXJuMJBsjjSfJ/sMVokzkRsHCG
+	ryK4+Mt1YHmoq1u7re3NCsCx9zJ22lIusVYsa8hMrQqCa97TCmNcVKuI+PcKFxHF5+r/
+	3jwt0VL3t2p1ubpEJCGLcAjXp2PzRZPZyzSXxydff5MCbuLauEyNktJaPjANtI/NfkML
+	Oe4Ard4qmValC/e5vymGAd3LoqN29Kp+fQAtkPXR02qPk6aXUtniVYtxvQFgMAIM/AWO
+	PGNpNAxeVhvFmJ617/2NuwC4DddJ3/Jdd4032jsDitqKCSGaEhe6SvgDfkrjRTjU0qHa
+	GZfg==
+X-Gm-Message-State: AG10YOSsL+QGI0W84XttKN+4CCE+tGfVuowukVuwW0fTMZ13BHuJ0o2Cug5Ss31q0H/xuNmXrghvhucmyz19/TlF
+X-Received: by 10.50.23.108 with SMTP id l12mr26460273igf.78.1453894287371;
+	Wed, 27 Jan 2016 03:31:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20160121115752.GA2603@jama>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/20] Dizzy-next pull request 2016-1
+Received: by 10.107.162.70 with HTTP; Wed, 27 Jan 2016 03:31:08 -0800 (PST)
+In-Reply-To: <CAMKF1sofnyADcNkAc+YrXjPED=ALxf60oPEsuQiJTAY87oB31Q@mail.gmail.com>
+References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
+	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
+	<433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
+	<CAMKF1sofnyADcNkAc+YrXjPED=ALxf60oPEsuQiJTAY87oB31Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Jan 2016 11:31:08 +0000
+Message-ID: <CAJTo0LZazTzkp94ASdACaBOuC4JpNWCpnf46kAucjY5B+wX2vQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: lttng-dev <lttng-dev@lists.lttng.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Bogus openembedded gcc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,179 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 11:31:00 -0000
-X-Groupsio-MsgNum: 76970
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Jan 2016 11:31:29 -0000
+Content-Type: multipart/alternative; boundary=089e0149cbe88a4904052a4f24bc
 
---zYM0uCDKw75PZbzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--089e0149cbe88a4904052a4f24bc
+Content-Type: text/plain; charset=UTF-8
+
+On 26 January 2016 at 23:14, Khem Raj <raj.khem@gmail.com> wrote:
+
+> > Yes, we have narrowed down our problem to this specific patch by
+> > removing the patch from the OE gcc patches, rebuilding gcc, and
+> > then building our test program with that gcc. The problem goes
+> > away when we do so, which points directly to that patch as a
+> > culprit.
+> >
+> > Test program is attached.
+>
+> Ok I think we can remove this from master and jethro release
+>
+
+Mathieu, as you found this do you want the glory by submitting a the
+removal patch?
+
+Cheerss,
+Ross
+
+--089e0149cbe88a4904052a4f24bc
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 21, 2016 at 12:57:52PM +0100, Martin Jansa wrote:
-> On Sat, Jan 09, 2016 at 04:30:26PM -0800, Armin Kuster wrote:
-> > Please consider these changes for dizzy-next community support.
-> >=20
-> > The following changes since commit 6d34267e0a13e10ab91b60590b27a2b5ba3b=
-7da6:
-> >=20
-> >   documentation: Changed some 'intro' tags to resolve multiple mega-man=
-ual warnings. (2015-11-18 16:44:05 +0000)
-> >=20
-> > are available in the git repository at:
-> >=20
-> >   git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
-> >   http://git.yoctoproject.org/cgit.cgi//log/?h=3Dakuster/dizzy-next
->=20
-> This is for oe-core, right? So it shouldn't be in poky-contrib and the
-> http link doesn't work, it should be:
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dakuster/dizzy-=
-next
->=20
-> >=20
-> > Armin Kuster (2):
-> >   openssh: CVE-2015-6563 CVE-2015-6564 CVE-2015-6565
-> >   Fixes a heap buffer overflow in glibc wscanf.
->=20
-> What is this 2nd patch? It doesn't follow commit summary convention and
-> I don't see it in master (at least not with this subject)
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Dakuster/diz=
-zy-next&id=3D4807ff0ca0abf085e6b81257534a4a62fde88d16
->=20
-> Other changes look good to me.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 January 2016 at 23:14, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":aj" class=3D"a3s" styl=
+e=3D"overflow:hidden">&gt; Yes, we have narrowed down our problem to this s=
+pecific patch by<br>
+&gt; removing the patch from the OE gcc patches, rebuilding gcc, and<br>
+&gt; then building our test program with that gcc. The problem goes<br>
+&gt; away when we do so, which points directly to that patch as a<br>
+&gt; culprit.<br>
+&gt;<br>
+&gt; Test program is attached.<p></p>
+<p dir=3D"ltr">Ok I think we can remove this from master and jethro release=
+<br></p></div></blockquote></div><br>Mathieu, as you found this do you want=
+ the glory by submitting a the removal patch?</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Cheerss,</div><div class=3D"gmail_e=
+xtra">Ross</div></div>
 
-ping?
-
-> > Belal, Awais (1):
-> >   grub2: Fix CVE-2015-8370
-> >=20
-> > Chen Qi (1):
-> >   image.bbclass: don't let do_rootfs depend on BUILDNAME
-> >=20
-> > Martin Jansa (3):
-> >   fontcache: allow to pass extra parameters and environment to fc-cache
-> >   texinfo: don't create dependency on INHERIT variable
-> >   linux-dtb.inc: drop unused DTB_NAME variable from do_install
-> >=20
-> > Mike Crowe (1):
-> >   allarch: Force TARGET_*FLAGS variable values
-> >=20
-> > Richard Purdie (2):
-> >   layer.conf: Add several allarch dependency exclusions
-> >   layer.conf: Add missing dependency for allarch package
-> >     initramfs-framework
-> >=20
-> > Sergiy Kibrik (1):
-> >   rsync: backport libattr checking patch
-> >=20
-> > Sona Sarmadi (7):
-> >   libtasn1: CVE-2015-3622
-> >   grep2.19: CVE-2015-1345
-> >   libxml2: CVE-2015-7942
-> >   libxml2: CVE-2015-8035
-> >   openssl: CVE-2015-3194, CVE-2015-3195
-> >   libxml2: CVE-2015-8241
-> >   bind: CVE-2015-8000
-> >=20
-> > Tudor Florea (2):
-> >   glibc: use patch for CVE-2015-1781
-> >   unzip: CVE-2015-7696, CVE-2015-7697
-> >=20
-> >  meta/classes/allarch.bbclass                       |   4 +
-> >  meta/classes/fontcache.bbclass                     |  19 +-
-> >  meta/classes/image.bbclass                         |   2 +-
-> >  meta/conf/layer.conf                               |  11 ++
-> >  ...E-2015-8370-Grub2-user-pass-vulnerability.patch |  50 ++++++
-> >  meta/recipes-bsp/grub/grub-efi_2.00.bb             |   1 +
-> >  meta/recipes-bsp/grub/grub_2.00.bb                 |   1 +
-> >  .../bind/bind/CVE-2015-8000.patch                  | 194 +++++++++++++=
-++++++++
-> >  meta/recipes-connectivity/bind/bind_9.9.5.bb       |   1 +
-> >  .../openssh/openssh/CVE-2015-6563.patch            |  36 ++++
-> >  .../openssh/openssh/CVE-2015-6564.patch            |  34 ++++
-> >  .../openssh/openssh/CVE-2015-6565.patch            |  35 ++++
-> >  meta/recipes-connectivity/openssh/openssh_6.6p1.bb |   5 +-
-> >  .../CVE-2015-3194-Add-PSS-parameter-check.patch    |  37 ++++
-> >  ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch |  61 +++++++
-> >  .../recipes-connectivity/openssl/openssl_1.0.1p.bb |   2 +
-> >  ...5-1472-wscanf-allocates-too-little-memory.patch | 108 ++++++++++++
-> >  meta/recipes-core/glibc/glibc_2.20.bb              |   5 +-
-> >  meta/recipes-core/libxml/libxml2.inc               |   3 +
-> >  .../libxml/libxml2/CVE-2015-7942.patch             |  58 ++++++
-> >  .../libxml/libxml2/CVE-2015-8035.patch             |  35 ++++
-> >  .../libxml/libxml2/CVE-2015-8241.patch             |  41 +++++
-> >  .../rsync/files/check_libattr.patch                |  33 ++++
-> >  meta/recipes-devtools/rsync/rsync_3.1.0.bb         |   3 +-
-> >  .../grep/grep-2.19/grep2.19-CVE-2015-1345.patch    | 129 ++++++++++++++
-> >  meta/recipes-extended/grep/grep_2.19.bb            |   4 +-
-> >  meta/recipes-extended/texinfo/texinfo_5.2.bb       |   2 +-
-> >  .../unzip/unzip/CVE-2015-7696.patch                |  38 ++++
-> >  .../unzip/unzip/CVE-2015-7697.patch                |  31 ++++
-> >  meta/recipes-extended/unzip/unzip_6.0.bb           |   2 +
-> >  meta/recipes-kernel/linux/linux-dtb.inc            |   1 -
-> >  .../gnutls/libtasn1/libtasn1-CVE-2015-3622.patch   |  44 +++++
-> >  meta/recipes-support/gnutls/libtasn1_4.0.bb        |   1 +
-> >  scripts/postinst-intercepts/update_font_cache      |   4 +-
-> >  34 files changed, 1020 insertions(+), 15 deletions(-)
-> >  create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-=
-Grub2-user-pass-vulnerability.patch
-> >  create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.p=
-atch
-> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-=
-6563.patch
-> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-=
-6564.patch
-> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-=
-6565.patch
-> >  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-=
-3194-Add-PSS-parameter-check.patch
-> >  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-=
-3195-Fix-leak-with-ASN.1-combine.patch
-> >  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-=
-allocates-too-little-memory.patch
-> >  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
-> >  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-> >  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
-> >  create mode 100644 meta/recipes-devtools/rsync/files/check_libattr.pat=
-ch
-> >  create mode 100644 meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2=
-015-1345.patch
-> >  create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7696.pat=
-ch
-> >  create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7697.pat=
-ch
-> >  create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2=
-015-3622.patch
-> >=20
-> > --=20
-> > 1.9.1
-> >=20
-> > --=20
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---zYM0uCDKw75PZbzx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlaoqvYACgkQN1Ujt2V2gBy92ACgiwJj/3LJWbiToPhyOarQexX9
-TxgAn3oo7q8sCsifofjANPabE/pTL1hB
-=yDj5
------END PGP SIGNATURE-----
-
---zYM0uCDKw75PZbzx--
+--089e0149cbe88a4904052a4f24bc--
