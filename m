@@ -1,45 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3015E77181
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 15:32:12 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id ik10so83197717igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 07:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=zlUYKanMuFpb7ZsEQGFcTT/Pblh/B5ryKwxWyEGuNWo=;
-	b=sZE3JUuvfdxZUcbeJgrp2bLcP+Hf5XZzE3f1KNJ2e3VflTtm3BmHBFLR7GsVjhkykW
-	MBeWWh9rGBRjU8c6Xo9kFDTN8cU5cEVQXQTuTa+Er52JZaX2yXg7rMOJDDDb6Nf/Yva1
-	QmgHLa5l3pUc9OGAUKkna7TI2oGPuL3KFigWYM18yPWRKRlFFCVQJHHlVTJ9NV6oyyFt
-	hGknItioHQDDP0UGBV3+P7jviOOYumxfvg83ZTer/jxbCo091ET3POgpJX3YjDckoC7D
-	xUaYVbCPy1MZRH/HD0fx1gzQqczzbeNN/a8K5FsdN8sV2eVP7JJkAIaVUcR9P0MEvZrb
-	EZwg==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A943758DB;
+	Wed, 27 Jan 2016 15:44:09 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id l65so150022079wmf.1;
+	Wed, 27 Jan 2016 07:44:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ov/iUgQVQbfftyhbDp8un/NGgNfjM3+YDN3Fo9mL+wk=;
+	b=c8tEWXiHnTfFkfDf0FBvUN2ik7v8ABIdPRcF6hmEhXJioVR+JW5q+643O/8SgEZVO1
+	QGDMDq4uD40/topI0WJzeaUsgNp0uiJvvmUjY/1/mQ7272KrqYFteaIMlUKLUgz18j80
+	fUZOugDUkuHJGmi6KK5W8JER46150ObUhuIyn8okXDgxIb9n4Ascor3Ou3kS8gkblxjX
+	PlPNi3fdumnRRrhjrgf20pGRBUyU8XximhZQ7Kq5GEdi/VjH2hsIob2U+W1W9ZJMVYvm
+	qvAA/BqY0M+7f/19fuhxMH61MDKqqC65fCOvM0yNfpqeL1wBkHuZeFmufnYb2/8eIOKH
+	mYYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zlUYKanMuFpb7ZsEQGFcTT/Pblh/B5ryKwxWyEGuNWo=;
-	b=fcgB5Ko87ST2dEehB7KxU4RsuJJgYau7GlKy2LXrBY52KYOlvXkFQrsmdToYkaK8UW
-	cpj7MSCCV1DLY+/r3ymk/GubofIcq9IMCKUDe4CpFMNU5+Upj+mzFiow2RtbX0rIM0W4
-	jbE38ZInmt4aestr1w0Wb5OxBb+LQ1dfKEtAJ6SF7zQRzkOASvdud7Kyp67W5Re8Z+Pg
-	UPyhpCqjjoBhA+Vi8NBlojjeXI6/aILaCW+NdCsct7vaPZkMQsCzAeEw6vpXRKKihYpj
-	Q9XXC5Nh/+P5D7dd7l8XPqCqg3HoxLqfKMblbgoM2F56EMCnaWCsp35NNagfP1e2kWVr
-	Gpfw==
-X-Gm-Message-State: AG10YOQP5YsVRIiCFGEKjwEUtSJsPnshbzKU+AoeJhx/lhrCYj2ACokOCuhp89xKt4H0R6C2ii//IQuc6x204pf0
-X-Received: by 10.50.13.100 with SMTP id g4mr27894270igc.64.1453908733109;
-	Wed, 27 Jan 2016 07:32:13 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 27 Jan 2016 07:31:53 -0800 (PST)
-In-Reply-To: <20160127141013.GE2574@jama>
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=ov/iUgQVQbfftyhbDp8un/NGgNfjM3+YDN3Fo9mL+wk=;
+	b=D43gKa9CQCzCNSXG7YBcr+8d2YIdUYzZi3rRtGJFl+hhpJJ5kbJhdi/iokU/8CSoyQ
+	MNsNtDS3S9rFDVlugDVPIJnFV1UtoYmtCdDa+XM/73H7DW2PCvz2FVTrgZF1J4QiOC8c
+	ZSBE+enjmZ4CvlPo6eOWmrosTUOnpo2cynJaFaaYlB0zps+bEfiooFOkxVwav7D9feNU
+	MhSZmwF6xkv4ehoyv5G/OJO+CoiFvyqtYyFdZ7x/YN/rKaUIDPn8s9ANDqX3ZOZVusai
+	ay5QfvtmRXWa+yF1pTHgTHwqLH0EOk+58TcVMsgjHGu6+y+a5petocK8RsPLWz5Hqckk
+	tpuQ==
+X-Gm-Message-State: AG10YOSrvPiDMsQlJyFAXvNebb/tSC5Zm4mwDBZmj3EhrfKfIvi3GDENh8iOEOdOfs1eqw==
+X-Received: by 10.194.6.98 with SMTP id z2mr29667151wjz.101.1453909449963;
+	Wed, 27 Jan 2016 07:44:09 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	m206sm8194735wmf.16.2016.01.27.07.44.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Jan 2016 07:44:08 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 27 Jan 2016 16:46:21 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160127154621.GJ2574@jama>
 References: <20160127141013.GE2574@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Jan 2016 15:31:53 +0000
-Message-ID: <CAJTo0LaD+n3yj+wQit+BQ+7jvsYPc2P8aUyLzC9kNwp8u2uChQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAJTo0LaD+n3yj+wQit+BQ+7jvsYPc2P8aUyLzC9kNwp8u2uChQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaD+n3yj+wQit+BQ+7jvsYPc2P8aUyLzC9kNwp8u2uChQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -56,43 +60,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 15:32:13 -0000
-Content-Type: multipart/alternative; boundary=089e013c661492fe99052a5281db
+X-List-Received-Date: Wed, 27 Jan 2016 15:44:13 -0000
+X-Groupsio-MsgNum: 76989
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6THr7QwYWIbrk6Kt"
+Content-Disposition: inline
 
---089e013c661492fe99052a5281db
-Content-Type: text/plain; charset=UTF-8
-
-On 27 January 2016 at 14:10, Martin Jansa <martin.jansa@gmail.com> wrote:
-
->     * /openembedded-core/meta/recipes-kernel/cryptodev/
-> cryptodev-module_1.8.bb, do_make_scripts
->     * /openembedded-core/meta/recipes-kernel/lttng/lttng-modules_git.bb,
-> do_make_scripts
->
-
-I can't replicate these with qemux86-64 and current oe-core master.  Do you
-have any idea what could be causing this?
-
-Ross
-
---089e013c661492fe99052a5281db
-Content-Type: text/html; charset=UTF-8
+--6THr7QwYWIbrk6Kt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 January 2016 at 14:10, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3qc" class=
-=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 * /openembedded-core/meta/=
-recipes-kernel/cryptodev/<a href=3D"http://cryptodev-module_1.8.bb" rel=3D"=
-noreferrer" target=3D"_blank">cryptodev-module_1.8.bb</a>, do_make_scripts<=
-br>
-=C2=A0 =C2=A0 * /openembedded-core/meta/recipes-kernel/lttng/<a href=3D"htt=
-p://lttng-modules_git.bb" rel=3D"noreferrer" target=3D"_blank">lttng-module=
-s_git.bb</a>, do_make_scripts<br></div></blockquote></div><br>I can&#39;t r=
-eplicate these with qemux86-64 and current oe-core master.=C2=A0 Do you hav=
-e any idea what could be causing this?</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
+On Wed, Jan 27, 2016 at 03:31:53PM +0000, Burton, Ross wrote:
+> On 27 January 2016 at 14:10, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> >     * /openembedded-core/meta/recipes-kernel/cryptodev/
+> > cryptodev-module_1.8.bb, do_make_scripts
+> >     * /openembedded-core/meta/recipes-kernel/lttng/lttng-modules_git.bb,
+> > do_make_scripts
+> >
+>=20
+> I can't replicate these with qemux86-64 and current oe-core master.  Do y=
+ou
+> have any idea what could be causing this?
 
---089e013c661492fe99052a5281db--
+linux-yocto is failing for me in various ways for last few months/years,
+it could be related to some conflicts with linux-yocto-tiny-kexecboot
+
+http://errors.yoctoproject.org/Errors/Details/30878/
+http://errors.yoctoproject.org/Errors/Details/30887/
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--6THr7QwYWIbrk6Kt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlao5kwACgkQN1Ujt2V2gBzRigCeNJ5xSAbpol4H+PvoaQoWpU9p
+CaYAoICL7OuX8RYkABIEN0oxkcUqtKsy
+=xeXk
+-----END PGP SIGNATURE-----
+
+--6THr7QwYWIbrk6Kt--
