@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 276D677116
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A755277101
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 09:35:31 +0000 (UTC)
+	Wed, 27 Jan 2016 09:35:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0R9ZWSe010250
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0R9ZXBE002566
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 01:35:33 -0800 (PST)
+	Wed, 27 Jan 2016 01:35:33 -0800
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jan 2016 01:35:32 -0800
+	Wed, 27 Jan 2016 01:35:33 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jan 2016 01:35:26 -0800
-Message-ID: <bc534f3a7ff03c8ff97e9d3af79854b57d6bf0e4.1453877220.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Jan 2016 01:35:27 -0800
+Message-ID: <9e0b58e482f76607503178a41c09e5287e3fea3c.1453877220.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1453877220.git.liezhi.yang@windriver.com>
 References: <cover.1453877220.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/7] rpmresolve.c: Fix unfreed pointers that keep DB opened
+Subject: [PATCH 7/7] bind: CVE-2015-8704 and CVE-2015-8705
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,76 +36,128 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 27 Jan 2016 09:35:32 -0000
 Content-Type: text/plain
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+From: Derek Straka <derek@asterius.io>
 
-There are some unfreed rpmmi pointers in printDepList()
-function; this happens when the package have null as
-the requirement.
+CVE-2015-8704:
+Allows remote authenticated users to cause a denial of service via a malformed Address Prefix List record
 
-This patch fixes these unfreed pointers and add small
-changes to keep consistency with some variables.
+CVE-2015-8705:
+When debug logging is enabled, allows remote attackers to cause a denial of service or have possibly unspecified impact via OPT data or ECS option
 
-[YOCTO #8028]
+[YOCTO 8966]
 
-(From OE-Core master rev: da7aa183f94adc1d0fff5bb81e827c584f9938ec)
+References:
+https://kb.isc.org/article/AA-01346/0/BIND-9.10.3-P3-Release-Notes.html
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8704
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8705
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Derek Straka <derek@asterius.io>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c |   10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ .../bind/bind/CVE-2015-8704.patch                  |   28 +++++++++++++
+ .../bind/bind/CVE-2015-8705.patch                  |   44 ++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |    2 +
+ 3 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-index 7f4caf9..c0b4d56 100644
---- a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-+++ b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-@@ -42,7 +42,7 @@ FILE *outf;
- int getPackageStr(rpmts ts, const char *NVRA, rpmTag tag, char **value)
- {
-     int rc = -1;
--    rpmmi mi = rpmtsInitIterator(ts, RPMTAG_NVRA, NVRA, 0);
-+    rpmmi mi = rpmmiInit(rpmtsGetRdb(ts), RPMTAG_NVRA, NVRA, 0);
-     Header h;
-     if ((h = rpmmiNext(mi)) != NULL) {
-         HE_t he = (HE_t) memset(alloca(sizeof(*he)), 0, sizeof(*he));
-@@ -225,7 +225,7 @@ int processPackages(rpmts *ts, int tscount, const char *packagelistfn, int ignor
- int lookupProvider(rpmts ts, const char *req, char **provider)
- {
-     int rc = 0;
--    rpmmi provmi = rpmtsInitIterator(ts, RPMTAG_PROVIDENAME, req, 0);
-+    rpmmi provmi = rpmmiInit(rpmtsGetRdb(ts), RPMTAG_PROVIDENAME, req, 0);
-     if(provmi) {
-         Header h;
-         if ((h = rpmmiNext(provmi)) != NULL) {
-@@ -266,7 +266,7 @@ int printDepList(rpmts *ts, int tscount)
-         HE_t he = (HE_t) memset(alloca(sizeof(*he)), 0, sizeof(*he));
-         int nkeys = argvCount(keys);
-         for(i=0; i<nkeys; i++) {
--            rpmmi mi = rpmtsInitIterator(ts[0], RPMTAG_NVRA, keys[i], 0);
-+            rpmmi mi = rpmmiInit(db, RPMTAG_NVRA, keys[i], 0);
-             Header h;
-             if ((h = rpmmiNext(mi)) != NULL) {
-                 /* Get name of package */
-@@ -280,6 +280,8 @@ int printDepList(rpmts *ts, int tscount)
-                         printf("DEBUG: %s requires null\n", name);
-                     }
-                     rc = 0;
-+                    free(name);
-+                    (void)rpmmiFree(mi);
-                     continue;
-                 }
-                 ARGV_t reqs = (ARGV_t)he->p.ptr;
-@@ -412,7 +414,7 @@ int main(int argc, char **argv)
-     }
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
+new file mode 100644
+index 0000000..d5bf740
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
+@@ -0,0 +1,28 @@
++a buffer size check can cause denial of service under certain circumstances 
++
++[security]
++The following flaw in BIND was reported by ISC:
++
++A buffer size check used to guard against overflow could cause named to exit with an INSIST failure In apl_42.c.
++
++A server could exit due to an INSIST failure in apl_42.c when performing certain string formatting operations.
++
++Upstream-Status: Backport
++CVE: CVE-2015-8704
++
++[The patch is taken from BIND 9.10.3:
++https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-8704]
++
++Signed-off-by: Derek Straka <derek@asterius.io>
++diff --git a/lib/dns/rdata/in_1/apl_42.c b/lib/dns/rdata/in_1/apl_42.c
++index bedd38e..28eb7f2 100644
++--- a/lib/dns/rdata/in_1/apl_42.c
+++++ b/lib/dns/rdata/in_1/apl_42.c
++@@ -116,7 +116,7 @@ totext_in_apl(ARGS_TOTEXT) {
++	isc_uint8_t len;
++	isc_boolean_t neg;
++	unsigned char buf[16];
++-	char txt[sizeof(" !64000")];
+++	char txt[sizeof(" !64000:")];
++	const char *sep = "";
++	int n;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch
+new file mode 100644
+index 0000000..c4a052d
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8705.patch
+@@ -0,0 +1,44 @@
++a crash or assertion failure can during format processing 
++
++[security]
++The following flaw in BIND was reported by ISC:
++
++In versions of BIND 9.10, errors can occur when OPT pseudo-RR data or ECS options are formatted to text. In 9.10.3 through 9.10.3-P2, the issue may result in a REQUIRE assertion failure in buffer.c.
++
++This issue can affect both authoritative and recursive servers if they are performing debug logging. (It may also crash related tools which use the same code, such as dig or delv.)
++
++A server could exit due to an INSIST failure in apl_42.c when performing certain string formatting operations.
++
++Upstream-Status: Backport
++CVE: CVE-2015-8705
++
++[The patch is taken from BIND 9.10.3:
++https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-8705]
++
++Signed-off-by: Derek Straka <derek@asterius.io>
++diff --git a/lib/dns/message.c b/lib/dns/message.c
++index ea7b93a..810c58e 100644
++--- a/lib/dns/message.c
+++++ b/lib/dns/message.c
++@@ -3310,9 +3310,19 @@
++ 			} else if (optcode == DNS_OPT_SIT) {
++ 				ADD_STRING(target, "; SIT");
++ 			} else if (optcode == DNS_OPT_CLIENT_SUBNET) {
+++				isc_buffer_t ecsbuf;
++ 				ADD_STRING(target, "; CLIENT-SUBNET: ");
++-				render_ecs(&optbuf, target);
++-				ADD_STRING(target, "\n");
+++				isc_buffer_init(&ecsbuf,
+++							isc_buffer_current(&optbuf),
+++							optlen);
+++				isc_buffer_add(&ecsbuf, optlen);
+++				result = render_ecs(&ecsbuf, target);
+++				if (result == ISC_R_NOSPACE)
+++					return (result);
+++				if (result == ISC_R_SUCCESS) {
+++					isc_buffer_forward(&optbuf, optlen);
+++                                        ADD_STRING(target, "\n");
+++                }
++ 				continue;
++ 			} else if (optcode == DNS_OPT_EXPIRE) {
++ 				if (optlen == 4) {
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
+index 1e1e726..c9a7acd 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
+@@ -21,6 +21,8 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
++           file://CVE-2015-8704.patch \
++           file://CVE-2015-8705.patch \
+            "
  
-     for(i=0; i<tscount; i++)
--        (void) rpmtsCloseDB(ts[i]);
-+        (void)rpmtsFree(ts[i]);
-     free(ts);
- 
-     if( outfile ) {
+ SRC_URI[md5sum] = "8b1f5064837756c938eadc1537dec5c7"
 -- 
 1.7.9.5
 
