@@ -1,45 +1,37 @@
-Return-Path: <compudj@efficios.com>
+Return-Path: <mathieu.desnoyers@efficios.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 27 Jan 2016 13:54:27 UTC
 Received: from mail.efficios.com (mail.efficios.com [78.47.125.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B73976FFA
+	by mail.openembedded.org (Postfix) with ESMTP id 2618077085
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 13:30:59 +0000 (UTC)
+	Wed, 27 Jan 2016 13:54:27 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 9B04F340529;
-	Wed, 27 Jan 2016 13:30:59 +0000 (UTC)
+	by mail.efficios.com (Postfix) with ESMTP id 8F155340540;
+	Wed, 27 Jan 2016 13:47:21 +0000 (UTC)
 Received: from mail.efficios.com ([127.0.0.1])
 	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
 	port 10032)
-	with ESMTP id D79BubFk-knt; Wed, 27 Jan 2016 13:30:58 +0000 (UTC)
+	with ESMTP id qeeT5kAoZ1Pc; Wed, 27 Jan 2016 13:47:17 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 0F0DD340538;
-	Wed, 27 Jan 2016 13:30:58 +0000 (UTC)
+	by mail.efficios.com (Postfix) with ESMTP id 050FD340355;
+	Wed, 27 Jan 2016 13:47:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
 	by localhost (evm-mail-1.efficios.com [127.0.0.1]) (amavisd-new,
 	port 10026)
-	with ESMTP id cKgecK-Ocg-0; Wed, 27 Jan 2016 13:30:57 +0000 (UTC)
-Received: from evm-mail-1.efficios.com (evm-mail-1.efficios.com [78.47.125.74])
-	by mail.efficios.com (Postfix) with ESMTP id DB1F3340529;
-	Wed, 27 Jan 2016 13:30:57 +0000 (UTC)
-Date: Wed, 27 Jan 2016 13:30:57 +0000 (UTC)
+	with ESMTP id XNNoCXA3LzNI; Wed, 27 Jan 2016 13:47:16 +0000 (UTC)
+Received: from thinkos.internal.efficios.com
+	(cable-192.222.213.99.electronicbox.net [192.222.213.99])
+	by mail.efficios.com (Postfix) with ESMTPSA id 9C14834024C;
+	Wed, 27 Jan 2016 13:47:15 +0000 (UTC)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <809092932.5736.1453901457659.JavaMail.zimbra@efficios.com>
-In-Reply-To: <883932458.5623.1453895978760.JavaMail.zimbra@efficios.com>
-References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
-	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
-	<433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
-	<CAMKF1sofnyADcNkAc+YrXjPED=ALxf60oPEsuQiJTAY87oB31Q@mail.gmail.com>
-	<CAJTo0LZazTzkp94ASdACaBOuC4JpNWCpnf46kAucjY5B+wX2vQ@mail.gmail.com>
-	<883932458.5623.1453895978760.JavaMail.zimbra@efficios.com>
-MIME-Version: 1.0
-X-Originating-IP: [78.47.125.74]
-X-Mailer: Zimbra 8.6.0_GA_1178 (ZimbraWebClient - FF43 (Linux)/8.6.0_GA_1178)
-Thread-Topic: Bogus openembedded gcc patch
-Thread-Index: CaEJUMCRK3cdkB5jLdTSqPyGskdd6hQytqrP
-Cc: lttng-dev <lttng-dev@lists.lttng.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [lttng-dev] Bogus openembedded gcc patch
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Jan 2016 08:47:10 -0500
+Message-Id: <1453902430-30567-1-git-send-email-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH poky (OE-core)] Fix: hidden weak symbols by removing buggy openembedded gcc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,124 +44,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 13:31:01 -0000
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_5735_1906414831.1453901457658"
+X-List-Received-Date: Wed, 27 Jan 2016 13:54:30 -0000
 
-------=_Part_5735_1906414831.1453901457658
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+We are noticing the presence of the following patch in various
+openembedded gcc versions:
 
------ On Jan 27, 2016, at 6:59 AM, Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote: 
+0024-PR-target-32219.patch
 
-> ----- On Jan 27, 2016, at 6:31 AM, Burton, Ross <ross.burton@intel.com> wrote:
+However, contrarily to its "Backport" status, that patch is
+not upstream in gcc, and it breaks handling of start/stop automatic
+weak hidden symbols we use in lttng-ust.
 
->> On 26 January 2016 at 23:14, Khem Raj < raj.khem@gmail.com > wrote:
+We are only experiencing problems on the various openembedded
+compilers, but on no other distro (with same compiler versions),
+which led us to suspect a buggy distro-specific gcc patch.
 
->>> > Yes, we have narrowed down our problem to this specific patch by
->>> > removing the patch from the OE gcc patches, rebuilding gcc, and
->>> > then building our test program with that gcc. The problem goes
->>> > away when we do so, which points directly to that patch as a
->>> > culprit.
+We've been testing with openembedded gcc-4.9.2-r0. Rebuilding the gcc
+compiler with this patch removed fixes the lttng-ust issue.
 
->>> > Test program is attached.
+Link: http://lists.openembedded.org/pipermail/openembedded-core/2016-January/116306.html
+Link: http://lists.lttng.org/pipermail/lttng-dev/2014-May/023112.html
+Link: https://gcc.gnu.org/ml/gcc-help/2014-05/msg00042.html
+Link: http://cgit.openembedded.org/openembedded-core/commit/?id=3cb2b003db7371b3a47d02c08352a262e1e419b4
+Link: https://sourceware.org/bugzilla/show_bug.cgi?id=15435
 
->>> Ok I think we can remove this from master and jethro release
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC: openembedded-core@lists.openembedded.org
+CC: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+CC: Khem Raj <raj.khem@gmail.com>
+CC: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 -
+ .../gcc/gcc-4.9/0024-PR-target-32219.patch         | 62 ----------------------
+ 2 files changed, 63 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0024-PR-target-32219.patch
 
->> Mathieu, as you found this do you want the glory by submitting a the removal
->> patch?
-
-> Thanks for asking, but for me a
-
-> Reported-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-
-> in the patch commit messge is good enough.
-> You'll probably want to have a link to this discussion thread
-> also in the commit message.
-
-I have a few minutes in front of me, I'll prepare a patch. 
-
-Thanks, 
-
-Mathieu 
-
-> Thanks,
-
-> Mathieu
-
->> Cheerss,
->> Ross
-
-> --
-> Mathieu Desnoyers
-> EfficiOS Inc.
-> http://www.efficios.com
-
-> _______________________________________________
-> lttng-dev mailing list
-> lttng-dev@lists.lttng.org
-> http://lists.lttng.org/cgi-bin/mailman/listinfo/lttng-dev
-
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index e9dfc50..736c956 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -47,7 +47,6 @@ SRC_URI = "\
+     file://0021-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch \
+     file://0022-COLLECT_GCC_OPTIONS.patch \
+     file://0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch \
+-    file://0024-PR-target-32219.patch \
+     file://0025-fortran-cross-compile-hack.patch \
+     file://0026-libgcc-sjlj-check.patch \
+     file://0027-cpp-honor-sysroot.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0024-PR-target-32219.patch b/meta/recipes-devtools/gcc/gcc-4.9/0024-PR-target-32219.patch
+deleted file mode 100644
+index 45acf7f..0000000
+--- a/meta/recipes-devtools/gcc/gcc-4.9/0024-PR-target-32219.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-From e0d15f4f8bf28c351b9215ca37f1caa24df0e1fd Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 29 Mar 2013 09:18:54 +0400
+-Subject: [PATCH 24/35] PR target/32219
+-
+-* varasm.c (default_binds_local_p_1): Weak data is not local.
+-
+-Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Backport
+----
+- gcc/testsuite/gcc.dg/visibility-21.c |   14 ++++++++++++++
+- gcc/varasm.c                         |    9 ++++-----
+- 2 files changed, 18 insertions(+), 5 deletions(-)
+- create mode 100644 gcc/testsuite/gcc.dg/visibility-21.c
+-
+-Index: gcc-4.9-20140316/gcc/varasm.c
+-===================================================================
+---- gcc-4.9-20140316.orig/gcc/varasm.c
+-+++ gcc-4.9-20140316/gcc/varasm.c
+-@@ -6771,6 +6771,10 @@ default_binds_local_p_1 (const_tree exp,
+-   /* Static variables are always local.  */
+-   else if (! TREE_PUBLIC (exp))
+-     local_p = true;
+-+  /* hidden weak can't be overridden by something non-local, all
+-+     that is possible is that it is not defined at all. */
+-+  else if (DECL_WEAK (exp))
+-+    local_p = false;
+-   /* A variable is local if the user has said explicitly that it will
+-      be.  */
+-   else if ((DECL_VISIBILITY_SPECIFIED (exp)
+-@@ -6784,11 +6788,6 @@ default_binds_local_p_1 (const_tree exp,
+-      local.  */
+-   else if (DECL_VISIBILITY (exp) != VISIBILITY_DEFAULT)
+-     local_p = true;
+--  /* Default visibility weak data can be overridden by a strong symbol
+--     in another module and so are not local.  */
+--  else if (DECL_WEAK (exp)
+--	   && !resolved_locally)
+--    local_p = false;
+-   /* If PIC, then assume that any global name can be overridden by
+-      symbols resolved from other modules.  */
+-   else if (shlib)
+-Index: gcc-4.9-20140316/gcc/testsuite/gcc.dg/visibility-22.c
+-===================================================================
+---- /dev/null
+-+++ gcc-4.9-20140316/gcc/testsuite/gcc.dg/visibility-22.c
+-@@ -0,0 +1,13 @@
+-+/* PR target/32219 */
+-+/* { dg-do run } */
+-+/* { dg-require-visibility "" } */
+-+/* { dg-options "-fPIC" { target fpic } } */
+-+
+-+extern void f() __attribute__((weak,visibility("hidden")));
+-+extern int puts( char const* );
+-+int main()
+-+{
+-+  if (f)
+-+    f();
+-+  return 0;
+-+}
 -- 
-Mathieu Desnoyers 
-EfficiOS Inc. 
-http://www.efficios.com 
+2.1.4
 
-------=_Part_5735_1906414831.1453901457658
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
-ize: 12pt; color: #000000"><div><span id=3D"zwchr" data-marker=3D"__DIVIDER=
-__">----- On Jan 27, 2016, at 6:59 AM, Mathieu Desnoyers &lt;mathieu.desnoy=
-ers@efficios.com&gt; wrote:<br></span></div><div data-marker=3D"__QUOTED_TE=
-XT__"><blockquote style=3D"border-left:2px solid #1010FF;margin-left:5px;pa=
-dding-left:5px;color:#000;font-weight:normal;font-style:normal;text-decorat=
-ion:none;font-family:Helvetica,Arial,sans-serif;font-size:12pt;"><div style=
-=3D"font-family: arial, helvetica, sans-serif; font-size: 12pt; color: #000=
-000"><div><span id=3D"zwchr">----- On Jan 27, 2016, at 6:31 AM, Burton, Ros=
-s &lt;ross.burton@intel.com&gt; wrote:<br></span></div><div><blockquote sty=
-le=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px;color:=
-#000;font-weight:normal;font-style:normal;text-decoration:none;font-family:=
-Helvetica,Arial,sans-serif;font-size:12pt;"><div dir=3D"ltr"><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 26 January 2016 at 23:14, Kh=
-em Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div id=3D":aj" class=3D"a3s" style=3D"overflow:hidden">&gt; =
-Yes, we have narrowed down our problem to this specific patch by<br>
-&gt; removing the patch from the OE gcc patches, rebuilding gcc, and<br>
-&gt; then building our test program with that gcc. The problem goes<br>
-&gt; away when we do so, which points directly to that patch as a<br>
-&gt; culprit.<br>
-&gt;<br>
-&gt; Test program is attached.<p dir=3D"ltr">Ok I think we can remove this =
-from master and jethro release<br></p></div></blockquote></div><br>Mathieu,=
- as you found this do you want the glory by submitting a the removal patch?=
-</div></div></blockquote><br><div>Thanks for asking, but for me a<br></div>=
-<br><div>Reported-by: Mathieu Desnoyers &lt;mathieu.desnoyers@efficios.com&=
-gt;<br></div><br><div>in the patch commit messge is good enough.<br></div><=
-div>You'll probably want to have a link to this discussion thread<br></div>=
-<div>also in the commit message.</div></div></div></blockquote><div><br></d=
-iv><div>I have a few minutes in front of me, I'll prepare a patch.<br data-=
-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>Thanks,<br d=
-ata-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>Mathieu<=
-br data-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"></div><blockquo=
-te style=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px;=
-color:#000;font-weight:normal;font-style:normal;text-decoration:none;font-f=
-amily:Helvetica,Arial,sans-serif;font-size:12pt;"><div style=3D"font-family=
-: arial, helvetica, sans-serif; font-size: 12pt; color: #000000"><div><div>=
-<br></div><br><div>Thanks,<br></div><br><div>Mathieu<br></div><br><blockquo=
-te style=3D"border-left:2px solid #1010FF;margin-left:5px;padding-left:5px;=
-color:#000;font-weight:normal;font-style:normal;text-decoration:none;font-f=
-amily:Helvetica,Arial,sans-serif;font-size:12pt;"><div dir=3D"ltr"><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheerss,</div><div =
-class=3D"gmail_extra">Ross</div></div><br></blockquote></div><br><div>-- <b=
-r></div><div>Mathieu Desnoyers<br>EfficiOS Inc.<br>http://www.efficios.com<=
-/div></div><br>_______________________________________________<br>lttng-dev=
- mailing list<br>lttng-dev@lists.lttng.org<br>http://lists.lttng.org/cgi-bi=
-n/mailman/listinfo/lttng-dev<br></blockquote></div><div><br></div><div data=
--marker=3D"__SIG_POST__">-- <br></div><div>Mathieu Desnoyers<br>EfficiOS In=
-c.<br>http://www.efficios.com</div></div></body></html>
-
-------=_Part_5735_1906414831.1453901457658--
