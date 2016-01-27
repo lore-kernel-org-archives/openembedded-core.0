@@ -1,33 +1,48 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F5F47714D
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 3859A77145
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 14:19:54 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u0REJtLI005258; Wed, 27 Jan 2016 08:19:55 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016012708195520-344421 ;
-	Wed, 27 Jan 2016 08:19:55 -0600 
-Date: Wed, 27 Jan 2016 16:19:41 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160127161941.72dbae8f@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <CAJTo0LZFPbdaapbQ5n+O9W5nbYkLQWiEP=f4LnoFMcrt3=V62w@mail.gmail.com>
-References: <1453903646-1919-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LZFPbdaapbQ5n+O9W5nbYkLQWiEP=f4LnoFMcrt3=V62w@mail.gmail.com>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/27/2016 08:19:55 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/27/2016 08:19:55 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-27_03:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] opkg: Add 'opkg-collateral' to PROVIDES variable
+	Wed, 27 Jan 2016 14:39:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 6A8792E3BB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:55 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id qKtnPQebo8aO
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:54 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 650D52E163
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:54 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 4394C157F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:54 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 35DD71566
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:54 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 342A234279
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:54 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u0REdswu021416
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 15:39:54 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u0REdsVu021412
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jan 2016 15:39:54 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jan 2016 15:39:51 +0100
+Message-Id: <cover.1453905512.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [master, jethro][PATCH 0/1] Make devtool handle read-only .git/hooks directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,27 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 14:19:56 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Jan 2016 14:39:56 -0000
 
-On Wed, 27 Jan 2016 14:11:45 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+When running "devtool extract <recipe> <dir>", it failed for us if the
+recipe contained any patches. This was due to devtools modification of
+the commit-msg and applypatch-msg Git hooks.
 
-> On 27 January 2016 at 14:07, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrot=
-e:
->=20
-> >  RPROVIDES=5F${PN} =3D "opkg-collateral"
-> > +PROVIDES +=3D "opkg-collateral"
-> >
->=20
-> Why does this also need a PROVIDES?  There's a RPROVIDES already for
-> on-target migration, and at least nothing in oe-core refers to
-> opkg-collateral directly.
->=20
-> Ross
+We have a bit unusal setup where .git/hooks is a symbolic link to a
+directory in /usr/share, which means that it is not writable by the
+user. This of course caused devtool to fail when it tried to modify
+the hooks.
 
-Ignore this. Sorry.
+The solution provided here temporarily moves away the .git/hooks
+directory (or link) instead, which should be safe since the .git
+directory should be writable.
 
-Adrian
+We also need this applied to Jethro. Do I need to supply a separate
+patch for that?
+
+//Peter
+
+The following changes since commit 3d2c0f5902cacf9d8544bf263b51ef0dd1a7218c:
+
+  cmake: update to 3.4.2 (2016-01-26 22:49:40 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/devtool_hooks
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/devtool_hooks
+
+Peter Kjellerstedt (1):
+  lib/oe/patch: Make GitApplyTree._applypatch() support read-only
+    .git/hooks
+
+ meta/lib/oe/patch.py | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
+
+-- 
+2.1.0
+
 
