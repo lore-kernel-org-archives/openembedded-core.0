@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 78307770E6
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F2ABF731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 10:16:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0RAGlRU004541; Wed, 27 Jan 2016 10:16:53 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vI6JyirpipO9; Wed, 27 Jan 2016 10:16:53 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0RAGohK004552
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 27 Jan 2016 10:16:51 GMT
-Message-ID: <1453889810.10340.5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	openembedded-core@lists.openembedded.org, liezhi.yang@windriver.com,
-	ross.burton@intel.com
-Date: Wed, 27 Jan 2016 10:16:50 +0000
-In-Reply-To: <cover.1453882496.git.hongxu.jia@windriver.com>
-References: <cover.1453882496.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
+	Wed, 27 Jan 2016 10:22:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0RAMN2n010680
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 02:22:24 -0800 (PST)
+Received: from no2.corp.ad.wrs.com (128.224.162.171) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 27 Jan 2016 02:22:23 -0800
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jan 2016 18:22:21 +0800
+Message-ID: <1453890141-4213-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] dpkg: fix CVE-2015-0860
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 10:17:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jan 2016 10:22:26 -0000
+Content-Type: text/plain
 
-I like the idea of this a lot, I think it makes sense however why not
-just:
+Backported and cherry picked upstream commit:
+https://anonscm.debian.org/cgit/dpkg/dpkg.git/commit/?h=wheezy&id=f1aac7d933819569bf6f347c3c0d5a64a90bbce0
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e80ee18..284f7fb 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
- ##################################################################
- # Optimization flags.
- ##################################################################
--DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
-+DEBUG_FLAGS ?= "-g \
-+    -feliminate-unused-debug-types \
-+    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
-+    -fdebug-prefix-map=${S}=/usr/src/${BPN} 
-+    -gno-record-gcc-switches \
-+    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-+    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-+"
- # Disabled until the option works properly -feliminate-dwarf2-dups
- FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
- DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+---
+ .../dpkg/dpkg/dpkg-CVE-2015-0860.patch             | 35 ++++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.18.2.bb          |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
 
-?
+diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
+new file mode 100644
+index 0000000..b8c70af
+--- /dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
+@@ -0,0 +1,35 @@
++From 708e60ea4e16afb1d85da60dd73cb374a987653d Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Hanno=20B=C3=B6ck?= <hanno@hboeck.de>
++Date: Thu, 19 Nov 2015 20:03:10 +0100
++Subject: [PATCH 1/1] dpkg-deb: Fix off-by-one write access on ctrllenbuf
++ variable
++
++This affects old format .deb packages.
++
++Fixes: CVE-2015-0860
++Warned-by: afl
++Signed-off-by: Guillem Jover <guillem@debian.org>
++
++Upstream-Status: Backport
++
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++---
++ dpkg-deb/extract.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/dpkg-deb/extract.c b/dpkg-deb/extract.c
++index 5a9587a..e39fb35 100644
++--- a/dpkg-deb/extract.c
+++++ b/dpkg-deb/extract.c
++@@ -247,7 +247,7 @@ extracthalf(const char *debar, const char *dir,
++     if (errstr)
++       ohshit(_("archive has invalid format version: %s"), errstr);
++ 
++-    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
+++    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
++     if (r < 0)
++       read_fail(r, debar, _("archive control member size"));
++     if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
+index dd1109b..eab896c 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
+@@ -13,6 +13,7 @@ SRC_URI += "file://noman.patch \
+ 	    file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
+ 	    file://0005-dpkg-compiler.m4-remove-Wvla.patch \
+ 	    file://0006-add-musleabi-to-known-target-tripets.patch \
++	    file://dpkg-CVE-2015-0860.patch \
+            "
+ 
+ SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
+-- 
+1.9.1
 
-Cheers,
-
-Richard
 
