@@ -1,33 +1,31 @@
 Return-Path: <denis@denix.org>
-Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
-	[206.46.173.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 33A7F731E5
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 924E877195
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 19:09:12 +0000 (UTC)
-Received: from gandalf.denix.org ([100.15.86.14]) by vms173019.mailsrvcs.net
+	Wed, 27 Jan 2016 19:16:46 +0000 (UTC)
+Received: from gandalf.denix.org ([100.15.86.14]) by vms173021.mailsrvcs.net
 	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPSA id <0O1M00MWTL6FOJA0@vms173019.mailsrvcs.net> for
+	2014)) with ESMTPSA id <0O1M00AQ3LJ2V2F0@vms173021.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Wed, 27 Jan 2016 13:08:45 -0600 (CST)
+	Wed, 27 Jan 2016 13:16:19 -0600 (CST)
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=EdU1O6SC c=1 sm=1 tr=0	a=xDJgBcBrK5EN9DJ6g74wNQ==:117
-	a=kj9zAlcOel0A:10 a=7aQ_Q-yQQ-AA:10	a=0gcC27t9AAAA:8 a=sozttTNsAAAA:8
-	a=fxJcL_dCAAAA:8 a=QgWq8QXbkcK35RA8WMEA:9	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 58019161E35; Wed,
-	27 Jan 2016 14:08:39 -0500 (EST)
-Date: Wed, 27 Jan 2016 14:08:39 -0500
+X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=xDJgBcBrK5EN9DJ6g74wNQ==:117
+	a=kj9zAlcOel0A:10 a=7aQ_Q-yQQ-AA:10	a=0gcC27t9AAAA:8
+	a=70xRKmAa80XiIEj3_EEA:9 a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4F63D161E35; Wed,
+	27 Jan 2016 14:16:14 -0500 (EST)
+Date: Wed, 27 Jan 2016 14:16:14 -0500
 From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-id: <20160127190839.GG1652@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-id: <20160127191614.GH1652@denix.org>
 References: <1453779264-8652-1-git-send-email-denis@denix.org>
-	<CAP9ODKoPmBQpmvChLUOADj1B2m-DUPJCeG-cB7Gk1BrPvk4byg@mail.gmail.com>
-	<20160126161427.GF1652@denix.org>
-	<CAP9ODKreoG189eO6k57u2g+7N5ViKj+hD=gPD=jVd43RREaHAA@mail.gmail.com>
+	<CAJTo0LbSM2W2ZW_T69tSBWVR3Kg_TQXu7W6TqoG6=DivrU4C4A@mail.gmail.com>
+	<20160126142023.GE1652@denix.org>
 MIME-version: 1.0
-In-reply-to: <CAP9ODKreoG189eO6k57u2g+7N5ViKj+hD=gPD=jVd43RREaHAA@mail.gmail.com>
+In-reply-to: <20160126142023.GE1652@denix.org>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
 	Denys Dmytriyenko <denys@ti.com>
 Subject: Re: [PATCH] stress-ng: add 0.05.09
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,50 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 19:09:14 -0000
+X-List-Received-Date: Wed, 27 Jan 2016 19:16:49 -0000
 Content-type: text/plain; charset=us-ascii
 Content-disposition: inline
 
-On Tue, Jan 26, 2016 at 02:18:41PM -0200, Otavio Salvador wrote:
-> On Tue, Jan 26, 2016 at 2:14 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> > On Tue, Jan 26, 2016 at 02:01:14PM -0200, Otavio Salvador wrote:
-> >> On Tue, Jan 26, 2016 at 1:34 AM, Denys Dmytriyenko <denis@denix.org> wrote:
-> >> > From: Denys Dmytriyenko <denys@ti.com>
-> >> >
-> >> > A clean room re-implementation and extension of the original stress tool.
-> >> >
-> >> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> >> > ---
-> >> >  meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb | 15 +++++++++++++++
-> >> >  1 file changed, 15 insertions(+)
-> >> >  create mode 100644 meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> >> >
-> >> > diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> >> > new file mode 100644
-> >> > index 0000000..2e92c53
-> >> > --- /dev/null
-> >> > +++ b/meta/recipes-extended/stress-ng/stress-ng_0.05.09.bb
-> >> > @@ -0,0 +1,15 @@
-> >> > +SUMMARY = "A tool to load and stress a computer system"
-> >> > +HOMEPAGE = "http://kernel.ubuntu.com/~cking/stress-ng/"
-> >> > +LICENSE = "GPLv2"
-> >> > +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> >> > +
-> >> > +SRC_URI = "http://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.gz"
-> >> > +
-> >> > +SRC_URI[md5sum] = "fe65047991f654ffaac3c59ea9537763"
-> >> > +SRC_URI[sha256sum] = "d785b5f2df042d42c43ddfd5bbafa19151ed96f0c483d7f44c737f492b52ddd6"
-> >> > +
-> >> > +CFLAGS += "-Wall -Wextra -DVERSION='"$(VERSION)"' -O2"
-> >>
-> >> Where version comes from?
-> >
-> > From the Makefile
+On Tue, Jan 26, 2016 at 09:20:23AM -0500, Denys Dmytriyenko wrote:
+> On Tue, Jan 26, 2016 at 11:24:43AM +0000, Burton, Ross wrote:
+> > On 26 January 2016 at 03:34, Denys Dmytriyenko <denis@denix.org> wrote:
+> > 
+> > > A clean room re-implementation and extension of the original stress tool.
+> > >
+> > 
+> > What's the rationale for adding this to oe-core over another layer?
 > 
-> And $(VERSION) ? I think you need to use ${PV} here.
+> None, besides the original stress is in oe-core. What other layer would you 
+> suggest?
 
-Yes, $(VERSION) is defined by the Makefile. I'd rather avoid magling CFLAGS 
-completely...
+Ross,
+
+Care do make your own suggestion? Do you think meta-oe would be a better fit? 
+Are there any other considerations, since stress-ng is a replacement of the 
+original stress and it was added to oe-core? Thanks.
 
 -- 
 Denys
