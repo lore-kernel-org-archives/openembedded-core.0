@@ -1,31 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EE7F7713E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 78FD2731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 22:13:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0RMDNZv019147; Wed, 27 Jan 2016 22:13:23 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eY7-bjFUsj_P; Wed, 27 Jan 2016 22:13:23 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0RMDInb019143
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 27 Jan 2016 22:13:19 GMT
-Message-ID: <1453932798.10340.11.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Jan 2016 22:13:18 +0000
-In-Reply-To: <F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
-References: <cover.1453882496.git.hongxu.jia@windriver.com>
-	<1453889810.10340.5.camel@linuxfoundation.org>
-	<F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
+	Wed, 27 Jan 2016 22:20:24 +0000 (UTC)
+Received: by mail-pf0-f179.google.com with SMTP id o185so7043896pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 14:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=lDpJqXSIM2djGl+4YD6lv7IBSwft+irnCh/axEkGBtw=;
+	b=iYMEJDNWsxjGJtOTto+pIyDEC5Ex2sMNYSZSBj8yy9+2lvZmMaZTIT2EfDKcLwSOLq
+	ph2fiYQOiHib8bF0xeWrw1yWD5RddoQOhiQw0FuGITyMdDEh1QIz465xpnWNWZtTbd7M
+	NoeN1MqFS2kAFOhaaXIAVF6/JLLf+4uRRnZKTAw5Maim1KvETOh9LPNKcXSv6QbJnrPg
+	wELJfTJXzBgV3qIz7MmxFl2xKreYhPCeN2cywlD8vmVdlA68nNj1bbb2Hwi2tcGgxEN6
+	ZcDzC6gYKtGGprTXYA68jJF9+Kp/8CUMnbYGsLjBNZKWvZZMn300u5hU2d9QCIUhRuHe
+	tYiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=lDpJqXSIM2djGl+4YD6lv7IBSwft+irnCh/axEkGBtw=;
+	b=OYik5ujek0EioNA4fdFV0NZaOk7b0Ybq2xbbMYqdQKJjMCfe1BcpxM7TEu+2x1pfj6
+	fz3lECpH1tRGERCYRooPqv8ROha/kwqefs4+E6XAru+gZoi/07CG4V4JO5LC/ByLRMCt
+	EbFFs+RXmLQbWiI5JkYnbU4ww7jcXnAlQryElCaJP6PTViu4hdr1FmJp7dSfktMY3tR9
+	+oAfV5eKjKcXYkfIL+8eVrgIlaurmZ+ehLLqNnWWwKW3y/3BKpbbm5QGUhQqOTbAd5zu
+	a2gXAtxGMR99s2QWT56FvUERRvEa4Pn9B4VXMmvcLXsg2fNSrfAXU1/+6GGCj0b2AJ1k
+	459w==
+X-Gm-Message-State: AG10YORwMUV75Sf+Gqvdo7/zHiZQqVlAmQrP2NyE7GemgvEuR2KND0XWoQafMiAKBR2/gg==
+X-Received: by 10.98.74.71 with SMTP id x68mr45470032pfa.80.1453933225812;
+	Wed, 27 Jan 2016 14:20:25 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	76sm11282162pfl.36.2016.01.27.14.20.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Jan 2016 14:20:24 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	liezhi.yang@windriver.com
+Date: Wed, 27 Jan 2016 14:20:20 -0800
+Message-Id: <1453933221-23617-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] Jethro libpcre update request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +53,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 22:13:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jan 2016 22:20:25 -0000
 
-On Wed, 2016-01-27 at 14:34 -0500, Khem Raj wrote:
-> > On Jan 27, 2016, at 5:16 AM, Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > I like the idea of this a lot, I think it makes sense however why
-> > not
-> > just:
-> > 
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index e80ee18..284f7fb 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install =
-> > "${PARALLEL_MAKEINST} "
-> > ##################################################################
-> > # Optimization flags.
-> > ##################################################################
-> > -DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
-> > +DEBUG_FLAGS ?= "-g \
-> > +    -feliminate-unused-debug-types \
-> > +    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
-> > +    -fdebug-prefix-map=${S}=/usr/src/${BPN}
-> > +    -gno-record-gcc-switches \
-> 
-> can we leave the switches in ?
+There are 19 security fixes. I propose moving to the next patch
+level release instead of backporting that many patches.
 
-Is there a way we can do some path substitutions on the switches?
+Armin Kuster (1):
+  libpcre: bug fixes include security
 
-I think part of the desire here is that the end resulting binaries
-shouldn't depend upon the path in which they were built and leaving
-these in is causing a problem there.
+ meta/recipes-support/libpcre/{libpcre_8.37.bb => libpcre_8.38.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre_8.37.bb => libpcre_8.38.bb} (94%)
 
-Cheers,
+-- 
+2.3.5
 
-Richard
-
-> > +    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-> > +    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-> > +"
-> > # Disabled until the option works properly -feliminate-dwarf2-dups
-> > FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
-> > DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} 
-> > -pipe"
-> > 
-> > ?
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
 
