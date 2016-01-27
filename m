@@ -1,28 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA58C7318C;
-	Wed, 27 Jan 2016 02:11:53 +0000 (UTC)
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC5470030
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 04:27:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0R2Br2a026504
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Jan 2016 18:11:53 -0800 (PST)
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Tue, 26 Jan 2016 18:11:52 -0800
-Message-ID: <56A82765.30403@windriver.com>
-Date: Wed, 27 Jan 2016 10:11:49 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0R4RqMe027774
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 26 Jan 2016 20:27:52 -0800
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 26 Jan 2016 20:27:51 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Jan 2016 23:27:48 -0500
+Message-ID: <d45862dcb48f20d9b9e92b904e8cf2175bb3e3d6.1453868682.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1453868682.git.bruce.ashfield@windriver.com>
+References: <cover.1453868682.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-To: <openembedded-devel@lists.openembedded.org>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>, Yocto Project
-	<yocto@yoctoproject.org>
-References: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
-In-Reply-To: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: [oe] [RFT] Glibc 2.23 and binutils 2.26
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/2] linux-yocto/4.1: update to 4.1.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,108 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 02:11:54 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010306050104020204020902"
+X-List-Received-Date: Wed, 27 Jan 2016 04:27:55 -0000
+Content-Type: text/plain
 
---------------010306050104020204020902
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-On 01/17/2016 07:54 PM, Khem Raj wrote:
-> Hi all
->
-> upstream glibc and binutils release branches have been cut out and are being made ready for next release
-> I have put together update patchset for both of them
->
-> here are the branches
->
-> https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26
-> https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
->
-> FYI These are still using autorev to ensure that we test tip of release branches
->
-> Please give them a shot in your environments and report any issues you encounter.
->
-> Thanks for help
->
-> -Khem
->
->
->
->
->
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index b441bf681154..2bc891c7c9fe 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -2,13 +2,13 @@ KBRANCH ?= "standard/preempt-rt/base"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "3188436876d5eaff8d48f82064367d4a65c3aa97"
+-SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
++SRCREV_machine ?= "368da9a4a63880c315aabff5834c8d3a807bbbbb"
++SRCREV_meta ?= "fde1381efc83859fcd873521bd1243646b22ef46"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.1.15"
++LINUX_VERSION ?= "4.1.16"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 4caa2523b30e..81f339d2b2d3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "4.1.15"
++LINUX_VERSION ?= "4.1.16"
+ 
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
+-SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
++SRCREV_machine ?= "9acf3d237d07758701d56c75cc2058f05a974899"
++SRCREV_meta ?= "fde1381efc83859fcd873521bd1243646b22ef46"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index b81458b3c057..cbc5f1a745d8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "cf760f381c5e1e58d0c3372d66f4dfdc33f0984c"
+-SRCREV_machine_qemuarm64 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
+-SRCREV_machine_qemumips ?= "aa46295ab927bd5c960930c377855dbc4e57b195"
+-SRCREV_machine_qemuppc ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
+-SRCREV_machine_qemux86 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
+-SRCREV_machine_qemux86-64 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
+-SRCREV_machine_qemumips64 ?= "949c0f2cbb4cf902478d009a7d38b6e4fb29e7c4"
+-SRCREV_machine ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
+-SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
++SRCREV_machine_qemuarm ?= "b635f136b1c5ffd0f570b1799c9265ba832efc3a"
++SRCREV_machine_qemuarm64 ?= "9acf3d237d07758701d56c75cc2058f05a974899"
++SRCREV_machine_qemumips ?= "fd7be86f6cafbf3947fdffdee23b0e9ca9e4abb0"
++SRCREV_machine_qemuppc ?= "9acf3d237d07758701d56c75cc2058f05a974899"
++SRCREV_machine_qemux86 ?= "9acf3d237d07758701d56c75cc2058f05a974899"
++SRCREV_machine_qemux86-64 ?= "9acf3d237d07758701d56c75cc2058f05a974899"
++SRCREV_machine_qemumips64 ?= "45cc8f9f06eb83d7804d03690e7fa0d76b060e16"
++SRCREV_machine ?= "9acf3d237d07758701d56c75cc2058f05a974899"
++SRCREV_meta ?= "fde1381efc83859fcd873521bd1243646b22ef46"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.1.15"
++LINUX_VERSION ?= "4.1.16"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-- 
+2.1.0
 
-0001-Generate-relocatable-SDKs.patch is included in SRC_URI twice, which 
-causes the following error when building binutils-crosssdk-XXX.
 
-ERROR: Command Error: exit status: 1  Output:
-Patch 0001-Generate-relocatable-SDKs.patch is already applied; check 
-your series file
-ERROR: Function failed: patch_do_patch
-
-binutils-2.26.inc and binutils-crosssdk_2.26.bb both has this patch in 
-its SRC_RUI.
-
-Regards,
-Chen Qi
-
---------------010306050104020204020902
-Content-Type: text/html; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 01/17/2016 07:54 PM, Khem Raj wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com"
-      type="cite">
-      <pre wrap="">Hi all
-
-upstream glibc and binutils release branches have been cut out and are being made ready for next release
-I have put together update patchset for both of them
-
-here are the branches
-
-<a class="moz-txt-link-freetext" href="https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26">https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26</a>
-<a class="moz-txt-link-freetext" href="https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23">https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23</a>
-
-FYI These are still using autorev to ensure that we test tip of release branches
-
-Please give them a shot in your environments and report any issues you encounter.
-
-Thanks for help
-
--Khem
-
-
-
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-    0001-Generate-relocatable-SDKs.patch is included in SRC_URI twice,
-    which causes the following error when building
-    binutils-crosssdk-XXX.<br>
-    <br>
-    ERROR: Command Error: exit status: 1  Output:<br>
-    Patch 0001-Generate-relocatable-SDKs.patch is already applied; check
-    your series file<br>
-    ERROR: Function failed: patch_do_patch<br>
-    <br>
-    binutils-2.26.inc and binutils-crosssdk_2.26.bb both has this patch
-    in its SRC_RUI.<br>
-    <br>
-    Regards,<br>
-    Chen Qi<br>
-  </body>
-</html>
-
---------------010306050104020204020902--
