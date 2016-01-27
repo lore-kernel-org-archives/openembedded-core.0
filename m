@@ -1,24 +1,24 @@
-Return-Path: <Catalin.Enache@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F2ABF731C8
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 611B5731D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 10:22:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0RAMN2n010680
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 02:22:24 -0800 (PST)
-Received: from no2.corp.ad.wrs.com (128.224.162.171) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 27 Jan 2016 02:22:23 -0800
-From: Catalin Enache <catalin.enache@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jan 2016 18:22:21 +0800
-Message-ID: <1453890141-4213-1-git-send-email-catalin.enache@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] dpkg: fix CVE-2015-0860
+	Wed, 27 Jan 2016 11:24:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Jan 2016 03:24:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,354,1449561600"; d="scan'208";a="869740561"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.8.138])
+	by orsmga001.jf.intel.com with ESMTP; 27 Jan 2016 03:24:17 -0800
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jan 2016 11:23:59 +0000
+Message-Id: <0816b3bfc4d8b544f7701def0b4d92cf92a06946.1453893763.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1453893763.git.joshua.g.lock@intel.com>
+References: <cover.1453893763.git.joshua.g.lock@intel.com>
+In-Reply-To: <cover.1453893763.git.joshua.g.lock@intel.com>
+References: <cover.1453893763.git.joshua.g.lock@intel.com>
+Subject: [PATCH v5 1/2] connman-conf: convert to systemd oneshot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 10:22:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Jan 2016 11:24:20 -0000
 
-Backported and cherry picked upstream commit:
-https://anonscm.debian.org/cgit/dpkg/dpkg.git/commit/?h=wheezy&id=f1aac7d933819569bf6f347c3c0d5a64a90bbce0
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+Install a oneshot unit file that is started before ConnMan to
+configure a wired network inteface with the wired-setup script,
+rather than requiring this script to be manually run some how.
+
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- .../dpkg/dpkg/dpkg-CVE-2015-0860.patch             | 35 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.18.2.bb          |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
+ meta/recipes-connectivity/connman/connman-conf.bb            | 12 +++++++++++-
+ .../connman/connman-conf/qemuall/wired-connection.service    | 10 ++++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
-new file mode 100644
-index 0000000..b8c70af
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
-@@ -0,0 +1,35 @@
-+From 708e60ea4e16afb1d85da60dd73cb374a987653d Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Hanno=20B=C3=B6ck?= <hanno@hboeck.de>
-+Date: Thu, 19 Nov 2015 20:03:10 +0100
-+Subject: [PATCH 1/1] dpkg-deb: Fix off-by-one write access on ctrllenbuf
-+ variable
-+
-+This affects old format .deb packages.
-+
-+Fixes: CVE-2015-0860
-+Warned-by: afl
-+Signed-off-by: Guillem Jover <guillem@debian.org>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ dpkg-deb/extract.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/dpkg-deb/extract.c b/dpkg-deb/extract.c
-+index 5a9587a..e39fb35 100644
-+--- a/dpkg-deb/extract.c
-++++ b/dpkg-deb/extract.c
-+@@ -247,7 +247,7 @@ extracthalf(const char *debar, const char *dir,
-+     if (errstr)
-+       ohshit(_("archive has invalid format version: %s"), errstr);
-+ 
-+-    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
-++    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
-+     if (r < 0)
-+       read_fail(r, debar, _("archive control member size"));
-+     if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-index dd1109b..eab896c 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-@@ -13,6 +13,7 @@ SRC_URI += "file://noman.patch \
- 	    file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
- 	    file://0005-dpkg-compiler.m4-remove-Wvla.patch \
- 	    file://0006-add-musleabi-to-known-target-tripets.patch \
-+	    file://dpkg-CVE-2015-0860.patch \
-            "
+diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
+index 9254ed7..9a519ec 100644
+--- a/meta/recipes-connectivity/connman/connman-conf.bb
++++ b/meta/recipes-connectivity/connman/connman-conf.bb
+@@ -4,8 +4,11 @@ network interface for a qemu machine."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
  
- SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
++inherit systemd
++
+ SRC_URI_append_qemuall = " file://wired.config \
+                            file://wired-setup \
++                           file://wired-connection.service \
+ "
+ PR = "r2"
+ 
+@@ -17,10 +20,17 @@ FILES_${PN} = "${localstatedir}/* ${datadir}/*"
+ 
+ do_install() {
+     #Configure Wired network interface in case of qemu* machines
+-    if test -e ${WORKDIR}/wired.config && test -e ${WORKDIR}/wired-setup; then
++    if test -e ${WORKDIR}/wired.config &&
++       test -e ${WORKDIR}/wired-setup &&
++       test -e ${WORKDIR}/wired-connection.service; then
+         install -d ${D}${localstatedir}/lib/connman
+         install -m 0644 ${WORKDIR}/wired.config ${D}${localstatedir}/lib/connman
+         install -d ${D}${datadir}/connman
+         install -m 0755 ${WORKDIR}/wired-setup ${D}${datadir}/connman
++        install -d ${D}${systemd_system_unitdir}
++        install -m 0644 ${WORKDIR}/wired-connection.service ${D}${systemd_system_unitdir}
++        sed -i -e 's|@SCRIPTDIR@|${datadir}/connman|g' ${D}${systemd_system_unitdir}/wired-connection.service
+     fi
+ }
++
++SYSTEMD_SERVICE_${PN}_qemuall = "wired-connection.service"
+diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+new file mode 100644
+index 0000000..48adfc0
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Setup a wired interface
++Before=connman.service
++
++[Service]
++Type=oneshot
++ExecStart=@SCRIPTDIR@/wired-setup
++
++[Install]
++WantedBy=network.target
 -- 
-1.9.1
+2.5.0
 
 
