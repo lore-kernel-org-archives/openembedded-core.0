@@ -1,48 +1,55 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 511E77713E;
-	Wed, 27 Jan 2016 17:24:04 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id cl12so9338551lbc.1;
-	Wed, 27 Jan 2016 09:24:05 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 33ABB7713E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 17:26:00 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id d63so9628687ioj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 09:26:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=HE9oQU8amdGIznoFuWunWUSyLDpM7YshxxRjxS72Hs0=;
-	b=jaCCBPVJaRIPZ1bgbf2lwLMhXNTkMK+8LbQMXEFko8BRDnvLaMDYbu2a3zIrlbvMmU
-	+wPEgl0qtORtBhLqgpnFOA5zYhvp4LUVpp20Yss9o/Sfq5fKYHlOIqIy4JvB1BvCbxdr
-	o58bocYwMgTWZWNr0iyYU39XzheXuEXLvFP54YzAIPwTRfFJfpYJZ9YjOVAUvWoB8P3v
-	Zq0vecs5SOiBToWA1gXsSJ8F24KHP/HFFswW2wyA8SEdI7Tu1kGl9Y3C1/as2g7x3DNN
-	hyR3fLyG1C65X3qbRvqguAkyapHpKfK0n+Zxq1n+ZxVqRGRe3U+lPL1TdYULbbaznzFV
-	NtSA==
+	bh=A3do41zHgyro8CK/xg8Vu2efWzL3vGHUnf4YNH6Nzig=;
+	b=WXMQqc61YWyS3tSOPvsweDOe8ijbV5S6mqObaCUeBzdkhcb4CEGnkZlvZQ5k9alD+L
+	61TTsxW71Z7fugtnOPG7D9GpqLh+DqVx2he6Yg8AJSUNRbQOeAPMWkBtktgTLJjWDQa6
+	0tcRztDHe/g2V6aVBPX1E0nI+wHVQtIDAciFUWwEPe5s0AHZrAb/4rXusGsTiTPPaugT
+	FwYGIGJTdV+ufqFt9uSd7AoANWmEPWvGPK4ffPZPhnsDZJTrSUJpDe5fqfPm9DhE9Rh7
+	IKYCR4g+NZ9o6w1sBmm+WYDeiu+FdeRKrwf4ZyxbqEgMZqrdDYGEJLSqShPqIvxTC17H
+	fQJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=HE9oQU8amdGIznoFuWunWUSyLDpM7YshxxRjxS72Hs0=;
-	b=JQsl+lgN8C6xlTHHJcgiXSHe/8D4KmlENDBBqrE9mi7ruafnXidkiQ/zz2Zw9aSfOE
-	o6jY2KPhnfM0NHWysW+j1GAK/0DiQLX2gLbpr/5Mky1unDDKWZ7T8If2ah9zMK7JfOaV
-	I8F1cgImNbzRyxRlVhsux8Lr8ongQjHGoRoVNoojB+kPEvQorCEPP/XDwNuImnw+l5Uj
-	IEPmdXggONkN85mQ3Ub3mHUYg2jNyWScc0YJRoo1XogA2JYhpf4ZTC/kjCtb/NIdCezy
-	hyZdumvG0HiW2gMcGM1Kasg9KVsb9n6sqmhYnO51GDwQ+P8srNft4nXnArC1tY1rz1E4
-	VGrw==
-X-Gm-Message-State: AG10YOQBabr5AAwzZBrKCEdCeBl2AhAyRV/dQgHFxOdMwFObiDHDO4mfLZSOL7YN/1cj24kxjRXaG64IV+39sQ==
+	bh=A3do41zHgyro8CK/xg8Vu2efWzL3vGHUnf4YNH6Nzig=;
+	b=b39MUQw3j+a2UpJGzJLJ+O/6OGCS8Evy4RTr3JC3i018ZZOdPaPIM19n0iRatvD0M7
+	BZ1lsalorm3x7dYxoDqeghG4/UICBRZRhUliSrqZCMtDIh7CVxicuTeEOPw6jT6kykmd
+	cJ9MncaSMbozwOooQbYoNPo77vBV9vKtBReycNZ0O1f/+uXFcjtC/yZbi6lhf8+D7JLu
+	8RoOwbinmg8BX+ZeWPHEGdWaOwtwdZsJNJWIr1/DMX6mwfyAB36AY03ItS82pSWTeS6T
+	AtA0jvNPPMnZpZpNOJQUM+ihVjKgIgAfH5YuxFq/zJGSore1rreMJ0fW/TmD+kfvW41I
+	I2vA==
+X-Gm-Message-State: AG10YOQVYzckYEknziv/z/dxswa3xFuD6spEZl7+ad3iiY0cqzX6DZKS3ZYV4X0vvgH2S8CkHIBFBiXbIZyWTw==
 MIME-Version: 1.0
-X-Received: by 10.112.148.131 with SMTP id ts3mr11331571lbb.102.1453915443554; 
-	Wed, 27 Jan 2016 09:24:03 -0800 (PST)
-Received: by 10.114.19.35 with HTTP; Wed, 27 Jan 2016 09:24:03 -0800 (PST)
-In-Reply-To: <20160127154621.GJ2574@jama>
-References: <20160127141013.GE2574@jama>
-	<CAJTo0LaD+n3yj+wQit+BQ+7jvsYPc2P8aUyLzC9kNwp8u2uChQ@mail.gmail.com>
-	<20160127154621.GJ2574@jama>
-Date: Wed, 27 Jan 2016 18:24:03 +0100
-Message-ID: <CAAQYJAuNkirG4zRbHMZ1zVug2tUt=4YJs8zEN5Aq+Gj87d2gqA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2016-01-25
+X-Received: by 10.107.9.224 with SMTP id 93mr28225362ioj.112.1453915561285;
+	Wed, 27 Jan 2016 09:26:01 -0800 (PST)
+Received: by 10.107.16.74 with HTTP; Wed, 27 Jan 2016 09:26:00 -0800 (PST)
+Received: by 10.107.16.74 with HTTP; Wed, 27 Jan 2016 09:26:00 -0800 (PST)
+In-Reply-To: <809092932.5736.1453901457659.JavaMail.zimbra@efficios.com>
+References: <1037243108.4336.1453770172960.JavaMail.zimbra@efficios.com>
+	<51287CFC-6F3C-43B1-9190-84F3B20C192E@gmail.com>
+	<433937130.5072.1453838389504.JavaMail.zimbra@efficios.com>
+	<CAMKF1sofnyADcNkAc+YrXjPED=ALxf60oPEsuQiJTAY87oB31Q@mail.gmail.com>
+	<CAJTo0LZazTzkp94ASdACaBOuC4JpNWCpnf46kAucjY5B+wX2vQ@mail.gmail.com>
+	<883932458.5623.1453895978760.JavaMail.zimbra@efficios.com>
+	<809092932.5736.1453901457659.JavaMail.zimbra@efficios.com>
+Date: Wed, 27 Jan 2016 12:26:00 -0500
+Message-ID: <CAMKF1sqEb-G3ENVWkhesEoMkgMJdvKf8wcbvOJ3hDf6EVQb=XQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: lttng-dev <lttng-dev@lists.lttng.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [lttng-dev] Bogus openembedded gcc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +62,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 17:24:04 -0000
+X-List-Received-Date: Wed, 27 Jan 2016 17:26:03 -0000
+Content-Type: multipart/alternative; boundary=001a113ebd7c905e82052a541817
+
+--001a113ebd7c905e82052a541817
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jan 27, 2016 at 4:46 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Wed, Jan 27, 2016 at 03:31:53PM +0000, Burton, Ross wrote:
->> On 27 January 2016 at 14:10, Martin Jansa <martin.jansa@gmail.com> wrote:
->>
->> >     * /openembedded-core/meta/recipes-kernel/cryptodev/
->> > cryptodev-module_1.8.bb, do_make_scripts
->> >     * /openembedded-core/meta/recipes-kernel/lttng/lttng-modules_git.bb,
->> > do_make_scripts
->> >
->>
->> I can't replicate these with qemux86-64 and current oe-core master.  Do you
->> have any idea what could be causing this?
+On Jan 27, 2016 8:30 AM, "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+wrote:
 >
-> linux-yocto is failing for me in various ways for last few months/years,
-> it could be related to some conflicts with linux-yocto-tiny-kexecboot
+> ----- On Jan 27, 2016, at 6:59 AM, Mathieu Desnoyers <
+mathieu.desnoyers@efficios.com> wrote:
+>>
+>> ----- On Jan 27, 2016, at 6:31 AM, Burton, Ross <ross.burton@intel.com>
+wrote:
+>>>
+>>>
+>>> On 26 January 2016 at 23:14, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>
+>>>> > Yes, we have narrowed down our problem to this specific patch by
+>>>> > removing the patch from the OE gcc patches, rebuilding gcc, and
+>>>> > then building our test program with that gcc. The problem goes
+>>>> > away when we do so, which points directly to that patch as a
+>>>> > culprit.
+>>>> >
+>>>> > Test program is attached.
+>>>>
+>>>> Ok I think we can remove this from master and jethro release
+>>>
+>>>
+>>> Mathieu, as you found this do you want the glory by submitting a the
+removal patch?
+>>
+>>
+>> Thanks for asking, but for me a
+>>
+>> Reported-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>>
+>> in the patch commit messge is good enough.
+>> You'll probably want to have a link to this discussion thread
+>> also in the commit message.
 >
-> http://errors.yoctoproject.org/Errors/Details/30878/
-> http://errors.yoctoproject.org/Errors/Details/30887/
+>
+> I have a few minutes in front of me, I'll prepare a patch.
 
-First thing, this recipe has been built for years.
-
-A couple of weeks ago (Failed tasks 2016-01-09) the error was related
-to a kernel bug and this should have been fixed in the meantime (
-https://lkml.org/lkml/2015/7/12/163 ).
-
-The logs you got seem showing that indeed building the recipe without
-having a specific defconfig in the bsp does now lead to a failure
-building the cpio.
-I say 'seem' because I didn't have yet the time to really check it.
-
-This is a new error and is possibly related to the last INITRAMFS_
-blah changes: more are upcoming (see ML).
-FWIW there have been some new bugs/changes in oe-core concerning
-xz/lzma cpio images in the last days. I'm looking at the commit
-history but hey..there are really too many patches flowing around even
-if we are in RC phase.
-
-I'll try to fire a build for qemuXXX asap and if I see a quick
-solution I'll send it to the ML.
-
-Otherwise I see two possible alternatives:
-1) add a defconfig for linux-yocto-tiny-kexecboot for qemu* (Normally
-this is done in the BSP layers...)
-
-2) collapse all -kexecboot and -klibc stuff in meta-handheld for I
-don't think there are many users apart Zaurus community (this proposal
-was already done but someone did reject saying they were using
-meta-initramfs)
-
-My 2 cents
-
-Andrea
-
-
+Ok. I think for jethro and master its ok, for other branches. This needs
+testing
+>
+> Thanks,
+>
+> Mathieu
+>
+>>
+>>
+>> Thanks,
+>>
+>> Mathieu
+>>
+>>>
+>>> Cheerss,
+>>> Ross
+>>>
+>>
+>> --
+>> Mathieu Desnoyers
+>> EfficiOS Inc.
+>> http://www.efficios.com
+>>
+>> _______________________________________________
+>> lttng-dev mailing list
+>> lttng-dev@lists.lttng.org
+>> http://lists.lttng.org/cgi-bin/mailman/listinfo/lttng-dev
+>
 >
 > --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> http://www.efficios.com
 
+--001a113ebd7c905e82052a541817
+Content-Type: text/html; charset=UTF-8
+
+<p dir="ltr"><br>
+On Jan 27, 2016 8:30 AM, &quot;Mathieu Desnoyers&quot; &lt;<a href="mailto:mathieu.desnoyers@efficios.com">mathieu.desnoyers@efficios.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; ----- On Jan 27, 2016, at 6:59 AM, Mathieu Desnoyers &lt;<a href="mailto:mathieu.desnoyers@efficios.com">mathieu.desnoyers@efficios.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; ----- On Jan 27, 2016, at 6:31 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On 26 January 2016 at 23:14, Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; &gt; Yes, we have narrowed down our problem to this specific patch by<br>
+&gt;&gt;&gt;&gt; &gt; removing the patch from the OE gcc patches, rebuilding gcc, and<br>
+&gt;&gt;&gt;&gt; &gt; then building our test program with that gcc. The problem goes<br>
+&gt;&gt;&gt;&gt; &gt; away when we do so, which points directly to that patch as a<br>
+&gt;&gt;&gt;&gt; &gt; culprit.<br>
+&gt;&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt;&gt; &gt; Test program is attached.<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Ok I think we can remove this from master and jethro release<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Mathieu, as you found this do you want the glory by submitting a the removal patch?<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks for asking, but for me a<br>
+&gt;&gt;<br>
+&gt;&gt; Reported-by: Mathieu Desnoyers &lt;<a href="mailto:mathieu.desnoyers@efficios.com">mathieu.desnoyers@efficios.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; in the patch commit messge is good enough.<br>
+&gt;&gt; You&#39;ll probably want to have a link to this discussion thread<br>
+&gt;&gt; also in the commit message.<br>
+&gt;<br>
+&gt;<br>
+&gt; I have a few minutes in front of me, I&#39;ll prepare a patch.</p>
+<p dir="ltr">Ok. I think for jethro and master its ok, for other branches. This needs testing<br>
+&gt;<br>
+&gt; Thanks,<br>
+&gt;<br>
+&gt; Mathieu<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks,<br>
+&gt;&gt;<br>
+&gt;&gt; Mathieu<br>
+&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Cheerss,<br>
+&gt;&gt;&gt; Ross<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -- <br>
+&gt;&gt; Mathieu Desnoyers<br>
+&gt;&gt; EfficiOS Inc.<br>
+&gt;&gt; <a href="http://www.efficios.com">http://www.efficios.com</a><br>
+&gt;&gt;<br>
+&gt;&gt; _______________________________________________<br>
+&gt;&gt; lttng-dev mailing list<br>
+&gt;&gt; <a href="mailto:lttng-dev@lists.lttng.org">lttng-dev@lists.lttng.org</a><br>
+&gt;&gt; <a href="http://lists.lttng.org/cgi-bin/mailman/listinfo/lttng-dev">http://lists.lttng.org/cgi-bin/mailman/listinfo/lttng-dev</a><br>
+&gt;<br>
+&gt;<br>
+&gt; -- <br>
+&gt; Mathieu Desnoyers<br>
+&gt; EfficiOS Inc.<br>
+&gt; <a href="http://www.efficios.com">http://www.efficios.com</a></p>
+
+--001a113ebd7c905e82052a541817--
