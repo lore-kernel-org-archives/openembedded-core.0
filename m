@@ -1,24 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 632CF731E0
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EE2EE731FC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 08:01:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0R81TuP028850
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 00:01:30 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 27 Jan 2016 00:01:29 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jan 2016 16:00:19 +0800
-Message-ID: <1453881619-19154-1-git-send-email-rongqing.li@windriver.com>
+	Wed, 27 Jan 2016 08:45:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0R8jK2w001502
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 27 Jan 2016 00:45:21 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 27 Jan 2016 00:45:20 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
+	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
+Date: Wed, 27 Jan 2016 03:45:14 -0500
+Message-ID: <cover.1453882496.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] netbase: add ipv6 host to /etc/hosts
+Subject: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 08:01:31 -0000
+X-List-Received-Date: Wed, 27 Jan 2016 08:45:24 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+Test Steps:
 
-There is a script in netbase, debian/netbase.postinst, which create
-/etc/hosts, but it is not called, so ipv6 host is missing.
+vim local.conf
+...
+MACHINE ?= "qemux86-64"
+WARN_QA += "buildpaths"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
+...
 
-now copy them from Ubuntu; and add localhost as alias of ::1
+bitbake -k world
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-core/netbase/netbase/hosts | 6 ++++++
- 1 file changed, 6 insertions(+)
+It fixed buidpath QA warning of 142 recipes (before 236, after 94) 
+These newly added options does not work on native.(Which TARGET_CFLAGS
+have been overrided in native.bbclass)
 
-diff --git a/meta/recipes-core/netbase/netbase/hosts b/meta/recipes-core/netbase/netbase/hosts
-index 2f33245..b94f414 100644
---- a/meta/recipes-core/netbase/netbase/hosts
-+++ b/meta/recipes-core/netbase/netbase/hosts
-@@ -1,2 +1,8 @@
- 127.0.0.1	localhost.localdomain		localhost
- 
-+# The following lines are desirable for IPv6 capable hosts
-+::1     localhost ip6-localhost ip6-loopback
-+fe00::0 ip6-localnet
-+ff00::0 ip6-mcastprefix
-+ff02::1 ip6-allnodes
-+ff02::2 ip6-allrouters
+//Hongxu
+
+The following changes since commit 3d2c0f5902cacf9d8544bf263b51ef0dd1a7218c:
+
+  cmake: update to 3.4.2 (2016-01-26 22:49:40 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+
+Hongxu Jia (4):
+  base/bbclass: use target path as compile dir in debugging info
+  base/bbclass: disallow appending the compile options in debugging info
+  base/bbclass: use target path as include dir in debugging info
+  base/bbclass: fix missing to replace build dir in debugging info
+
+ meta/classes/base.bbclass | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
 -- 
 1.9.1
 
