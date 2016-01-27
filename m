@@ -1,46 +1,30 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id EF38360112
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 78307770E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 10:14:36 +0000 (UTC)
+	Wed, 27 Jan 2016 10:16:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id CD3BD2E3B4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:14:34 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id IH2Brzy4aOeu
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:14:33 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 6C28B2E3AE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:14:33 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 4DAA41540
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:14:33 +0100 (CET)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 425021458
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:14:33 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by thoth.se.axis.com (Postfix) with ESMTP id 3FFC7341BD
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 11:14:33 +0100 (CET)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0; Wed, 27 Jan 2016
-	11:14:32 +0100
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id D1E419C075; 
-	Wed, 27 Jan 2016 11:14:32 +0100 (CET)
-From: Olof Johansson <olof.johansson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jan 2016 11:14:32 +0100
-Message-ID: <1453889672-17360-1-git-send-email-olof.johansson@axis.com>
-X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH] bitbake-whatchanged: avoid double do_ task name prefix
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0RAGlRU004541; Wed, 27 Jan 2016 10:16:53 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vI6JyirpipO9; Wed, 27 Jan 2016 10:16:53 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0RAGohK004552
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 27 Jan 2016 10:16:51 GMT
+Message-ID: <1453889810.10340.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	openembedded-core@lists.openembedded.org, liezhi.yang@windriver.com,
+	ross.burton@intel.com
+Date: Wed, 27 Jan 2016 10:16:50 +0000
+In-Reply-To: <cover.1453882496.git.hongxu.jia@windriver.com>
+References: <cover.1453882496.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 10:14:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Jan 2016 10:17:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When used with --verbose, the heading for each task looks like
+I like the idea of this a lot, I think it makes sense however why not
+just:
 
-  === The verbose changes of example.do_do_compile:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e80ee18..284f7fb 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
+ ##################################################################
+ # Optimization flags.
+ ##################################################################
+-DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
++DEBUG_FLAGS ?= "-g \
++    -feliminate-unused-debug-types \
++    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
++    -fdebug-prefix-map=${S}=/usr/src/${BPN} 
++    -gno-record-gcc-switches \
++    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
++    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
++"
+ # Disabled until the option works properly -feliminate-dwarf2-dups
+ FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+ DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
 
-This should instead be
+?
 
-  === The verbose changes of example.do_compile:
+Cheers,
 
-Signed-off-by: Olof Johansson <olof.johansson@axis.com>
----
- scripts/bitbake-whatchanged | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
-index 55cfe4b..af54d16 100755
---- a/scripts/bitbake-whatchanged
-+++ b/scripts/bitbake-whatchanged
-@@ -190,7 +190,7 @@ def print_depchanged(d_new = None, d_old = None, verbose = False):
-             if sigdata_re.match(full_path_old) and sigdata_re.match(full_path_new):
-                 output = bb.siggen.compare_sigfiles(full_path_old, full_path_new)
-                 if output:
--                    print("\n=== The verbose changes of %s.do_%s:" % (pn, task))
-+                    print("\n=== The verbose changes of %s.%s:" % (pn, task))
-                     print('\n'.join(output))
-         else:
-             # Format the output, the format is:
--- 
-2.1.4
-
+Richard
 
