@@ -1,26 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB1DE771CF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D4083771C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 09:46:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0S9kdt4006566
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Thu, 28 Jan 2016 11:03:19 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id mw1so9750606igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 01:46:39 -0800
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 28 Jan 2016 01:46:38 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jan 2016 01:46:36 -0800
-Message-ID: <91634146b612d3b83a57b7bb4bef944fb2cde167.1453974352.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453974352.git.liezhi.yang@windriver.com>
-References: <cover.1453974352.git.liezhi.yang@windriver.com>
+	Thu, 28 Jan 2016 03:03:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=twSCAwLDH2ZnikQ9YfLCdjvqKAADLavEq2jJ8OTY/+c=;
+	b=k0oLT54jutppxr7ql7T+9dV8YN+6iQ1JFTh6Cib+kamnhYCv1vjcfKB2cneu3acqTQ
+	4uuCdv4U4QiPEZdDQtfKElkJXl/kzPzb59TDAC77NWXPU69v0Efrwd4vDKMc9oE+mJPg
+	R34AaSHHY4xZgbkZEj6G3JPCcBPKDm/Mke6dP98uK44s2usLqiWtzktzCGX212X0sPAq
+	Srx/Cg8RRSbBPMW3Iy4Iv/KCvvFiEpDPl4UV0zgXA9m84ueFE1v61RM15LBtWru2eyuu
+	R4FF6/nGfyCfSczmFdun3yx91IX4VOL0WlIYPzBf4i6PvyAFCncNUJAiyvGmw70oTIVy
+	lXvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=twSCAwLDH2ZnikQ9YfLCdjvqKAADLavEq2jJ8OTY/+c=;
+	b=jvcWpCOgfmeAt8aGsDiwXgk2G46Q16TR5xDBJhj9sRUDQG+hTCD/JCQVNF2hr3vrYu
+	Nog9KmXxZVdzYRfSlBYLh7tFNucgkOoUhTtPK/gCPau7HvzdSO4h3R2bXApBMbg8fhgL
+	Ul9pxjpwSEZ37mmVdxxGsKP6FXlIZjYsHA4cp/q2cR5nOvGW7A5hyjlJPt8rsutnYZo3
+	ytesP4no24NIN9AJOUMB5PRiWoIVAzQfGNtWxfhUSPL9M1QRqKvOooPXC7Sdj3AeouJd
+	ugSRVKEA1R3ohiozN/L++n3p3kiReKy9XH10n0eR2One3IbbTurnmUZRwrikZBh24EgC
+	Bi6A==
+X-Gm-Message-State: AG10YOSX5GbDQPTmr8z4Yaw/TVgHdVE+d0mlFe7h2WADewFfIUYFus13NB27LE94tqwElovI/DOIqxZdZam/f3m/
+X-Received: by 10.50.126.8 with SMTP id mu8mr2519284igb.52.1453979000758; Thu,
+	28 Jan 2016 03:03:20 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/3] autotools_stage.bbclass: remove it
+Received: by 10.107.162.70 with HTTP; Thu, 28 Jan 2016 03:03:01 -0800 (PST)
+In-Reply-To: <72cdd5db4b60c2b93b71ab366c1c7eb85ca7e88b.1453974352.git.liezhi.yang@windriver.com>
+References: <cover.1453974352.git.liezhi.yang@windriver.com>
+	<72cdd5db4b60c2b93b71ab366c1c7eb85ca7e88b.1453974352.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Jan 2016 11:03:01 +0000
+Message-ID: <CAJTo0LZnCQPt9=nxPg0MbokMdsRPdbQFsB8TSb09dXXj01Mjag@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] perf.bb: add python scripts corresponding packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 09:46:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Jan 2016 11:03:23 -0000
+Content-Type: multipart/alternative; boundary=047d7b1635bfd9fec4052a62dd17
 
-Not needed any more, the autotools.bbclass can fully instead of it.
+--047d7b1635bfd9fec4052a62dd17
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/autotools_stage.bbclass |    2 --
- 1 file changed, 2 deletions(-)
- delete mode 100644 meta/classes/autotools_stage.bbclass
+On 28 January 2016 at 09:46, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-diff --git a/meta/classes/autotools_stage.bbclass b/meta/classes/autotools_stage.bbclass
-deleted file mode 100644
-index b3c41e4..0000000
---- a/meta/classes/autotools_stage.bbclass
-+++ /dev/null
-@@ -1,2 +0,0 @@
--inherit autotools
--
--- 
-1.7.9.5
+> +FILES_${PN}-python = "${libdir}/python*/site-packages
+> ${libdir}/perf/perf-core/scripts/python \
+> +                      ${libexecdir}/perf-core/scripts/python \
+>
 
+Nothing in perf appears to be in $libdir/perf explicitly, it's all in
+$libexecdir.
 
+(as verified by building perf with the libexecdir change, and nothing is in
+/usr/lib/perf)
+
+Ross
+
+--047d7b1635bfd9fec4052a62dd17
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 January 2016 at 09:46, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":v5" c=
+lass=3D"a3s" style=3D"overflow:hidden">+FILES_${PN}-python =3D &quot;${libd=
+ir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${libexecdir}/perf-core/scripts/python \</div></blockquote></div><br>No=
+thing in perf appears to be in $libdir/perf explicitly, it&#39;s all in $li=
+bexecdir.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">(as verified by building perf with the libexecdir change, and nothing i=
+s in /usr/lib/perf)</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra">Ross</div></div>
+
+--047d7b1635bfd9fec4052a62dd17--
