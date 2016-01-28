@@ -1,26 +1,46 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BDFCF771CB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id F288876710
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 14:47:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0SElts4027810
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jan 2016 06:47:55 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 28 Jan 2016 06:47:54 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
-	<raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>
-Date: Thu, 28 Jan 2016 09:47:45 -0500
-Message-ID: <26e25aa4b366f26ad1df09e74b99bca8f4dfdd80.1453991989.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1453991989.git.hongxu.jia@windriver.com>
-References: <cover.1453991989.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] mkelfimage: fix target cflags leaks to host
+	Thu, 28 Jan 2016 15:52:56 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id p63so30666317wmp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jan 2016 07:52:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Hs1BXSqnxSjBQBYtWn8JxvW+q0jH9eIGxcoI67tKKxM=;
+	b=PxqD0wUs1ccuZZHb+uy3VEX9DKjxl+exrF8t18ZmQrTMp13ZTJgKFt/J0nwaXupFch
+	IBPanZ1eel1eJrk1OYPtQj6/hvvfpQ3PT9BWCn0gIIYPbAv8yOLIRVFpJNHi0cruvagx
+	SnFS9BeuQ2mm8Usfk9o1oysGEIDypBiezjlR/H9V5LX40BBNxsJtRaRx1+T0PLUZ6auc
+	Cz7vsFzOMBXufyJ1DL6+zZtsX29aupIf91auABgMxIMDzeQbTLZ/c5Kk7E1V/IyNgYUW
+	Kqe/polt4j2zUf8LR93nJTk29jrkivfB0xs7jpO3pf0I+WYm4Sjc8LQyPj+Syz32Yxh0
+	cGfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Hs1BXSqnxSjBQBYtWn8JxvW+q0jH9eIGxcoI67tKKxM=;
+	b=AaawTMonCHBAneTz8MwDD7OOfTviuV305rpaqNOvdoIJv+RMWlqYD6EX7cDsmdgKHD
+	V9h3vP9GfSmeWmCnti71AdHfrSicfJMcNT3wpqxPZ+CZNSWzQlbUH6ek4ny45huGN031
+	rziYjElIBcWLFEKAsZaRlDDH0lOZTqgk0vMtP1aRrkDGfoP/PhKFei8nTLYtehG/LdtO
+	bmro7upjumCnOCLNbmdTzQetsHGzf+STvIGM8rQJXw+1z0rqUyg9PqS34Lk0LlBrg856
+	Rx9utgMSmo26CbfT/LJsNfZlLqrCCw1RrLtJUo+kvOGGxOoSijwxWHkG3bcCcAlDFXI9
+	FdSA==
+X-Gm-Message-State: AG10YOQpCoP6JJV4LeADyjOqCLEKUhPkgQclJv4PyShTv8ehNbPgQTbeD1pAeppAdVn25+bM
+X-Received: by 10.194.176.74 with SMTP id cg10mr4512755wjc.169.1453996376028; 
+	Thu, 28 Jan 2016 07:52:56 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e14sm3441330wmi.21.2016.01.28.07.52.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 28 Jan 2016 07:52:55 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jan 2016 15:52:47 +0000
+Message-Id: <1453996367-14011-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] oeqa/runtime/rpm: be more verbose if test_rpm_query_nonroot fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 14:47:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Jan 2016 15:52:57 -0000
 
-The patch fix-makefile-to-find-libz.patch fixed native
-compile failure; for target compile, it incorrectly
-leaks CFLAGS to HOST_CFLAGS.
+If some parts of this test fail put the failing output in the logs to help
+debugging.
 
-[YOCTO #3547]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/rpm.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-index e1c33a6..92435cd 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -14,8 +14,10 @@ DEPENDS += "zlib"
+diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime/rpm.py
+index 32aae24..624c515 100644
+--- a/meta/lib/oeqa/runtime/rpm.py
++++ b/meta/lib/oeqa/runtime/rpm.py
+@@ -52,11 +52,11 @@ class RpmInstallRemoveTest(oeRuntimeTest):
+     @skipUnlessPassed('test_ssh')
+     def test_rpm_query_nonroot(self):
+         (status, output) = self.target.run('useradd test1')
+-        self.assertTrue(status == 0, msg="Failed to create new user")
++        self.assertTrue(status == 0, msg="Failed to create new user: " + output)
+         (status, output) = self.target.run('sudo -u test1 id')
+         self.assertTrue('(test1)' in output, msg="Failed to execute as new user")
+         (status, output) = self.target.run('sudo -u test1 rpm -qa')
+-        self.assertEqual(status, 0, msg="status: %s. Cannot run rpm -qa" % status)
++        self.assertEqual(status, 0, msg="status: %s. Cannot run rpm -qa: %s" % (status, output))
  
- SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
-            file://cross-compile.patch   \
--           file://fix-makefile-to-find-libz.patch   \
-           "
-+SRC_URI_append_class-native = " \
-+           file://fix-makefile-to-find-libz.patch   \
-+"
- 
- CLEANBROKEN = "1"
- 
+     @testcase(195)
+     @skipUnlessPassed('test_rpm_install')
 -- 
-1.9.1
+2.6.4
 
 
