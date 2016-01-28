@@ -1,49 +1,31 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F55A771B4
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3A576FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 02:18:05 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id uo6so14794556pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 18:18:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=b3dODbUCDyZao7CI7cRnEwop6efA5VkbVTiiXht11Ic=;
-	b=JWhe6EvAK9NHuKQ+5SPFk/qHzcq4Euner/BXwMIdO+wP090+DB8RLTrfBMS0yzkV2D
-	VaphtPspGOj4W5QE2PPUUeYuX4jx+ZF/CLGWuNrbfbNZYnlWF0SBbhK8N9gIWn3LgBxn
-	9ol7lTB5mOIhtnkwfVL6lvjM06/CLQhPvdDtAH6rT7cagjpBmK/c6o8Ebbf1Cv5jWHtm
-	vvuYK0Rtlvz6V4wmcuz2dpP7NAWA29XnwrGPmNUyZD94kmWJZISfQ4SWG4+7cCpjU8Cy
-	yUvV4tKrBCWjc26gAex9SlHQ1l2LQvEljtA1QTGSeWKHQkahYenytd6pG/Hw7YwJ03ZF
-	8Z9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=b3dODbUCDyZao7CI7cRnEwop6efA5VkbVTiiXht11Ic=;
-	b=WwfgGg5X+g/cae++mwYI7VhfSwpMO+Lnj+sYOcpF57dfwZDMjChaiGonF0+wFnb2LN
-	cQQYURbkCP1vTfOhzikRfVsEaz5b6s5s5DUyIkdS/jUi8PuorIMaTtG1wtwz9pNqnB+R
-	/CIo5jRRnh1UVqPjo96M/ohUVQRw4uZ3x0KW5rpP2pO+71nlDe5pAI1IzHArHR1U2IP5
-	4kq6UJaxPk5QqM+6SomAFtglo9mRfjd2X/5CbFbMmSlquiZP4WXTpX5d56Swnpkdt+M4
-	UM25aP5R1blWFIp+ZiwPTGQCs8hXysb8MCQ3omlfgjDb1bbSsUQ+OobT3gd+0XGDOQTn
-	Obhg==
-X-Gm-Message-State: AG10YOS26wCLpo8H/Tl5ySUbMS5qvPoNOL+UhaD7tmhI4IjDkMdiitIKrCSCErEVlY3TPw==
-X-Received: by 10.66.255.39 with SMTP id an7mr759232pad.101.1453947486117;
-	Wed, 27 Jan 2016 18:18:06 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	x81sm11844509pfa.72.2016.01.27.18.18.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Jan 2016 18:18:04 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jan 2016 18:17:59 -0800
-Message-Id: <1453947479-9270-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1453947479-9270-1-git-send-email-akuster808@gmail.com>
-References: <1453947479-9270-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][master, jethro, fido] 2/2] tzdata: update to 2016a
+	Thu, 28 Jan 2016 02:58:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0S2wpOJ029521
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 27 Jan 2016 18:58:51 -0800
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 27 Jan 2016 18:58:50 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>
+References: <cover.1453882496.git.hongxu.jia@windriver.com>
+	<1453889810.10340.5.camel@linuxfoundation.org>
+	<F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
+	<1453932798.10340.11.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56A983DE.6030907@windriver.com>
+Date: Thu, 28 Jan 2016 10:58:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1453932798.10340.11.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,73 +38,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 02:18:05 -0000
+X-List-Received-Date: Thu, 28 Jan 2016 02:58:54 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Armin Kuster <akuster@mvista.com>
+On 01/28/2016 06:13 AM, Richard Purdie wrote:
+> On Wed, 2016-01-27 at 14:34 -0500, Khem Raj wrote:
+>>> On Jan 27, 2016, at 5:16 AM, Richard Purdie <
+>>> richard.purdie@linuxfoundation.org> wrote:
+>>>
+>>> I like the idea of this a lot, I think it makes sense however why
+>>> not
 
-Changed LIC_CHKSUM_FILES to a new LICENSE  file.
-Add BSD-3-clause to licenses
+My original trying was just added them here, but the variable parsing
+at here is too early, the ${BPN}, ${B} and {S} was assigned with
+'defaultpkgname' at this time. Which we have:
+...
+| -fdebug-prefix-map=/buildarea/raid0/hjia/build-20160127-yocto-buildpath-2/
+tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=
+/usr/src/defaultpkgname
+...
 
-Changes affecting future time stamps
+>>> just:
+>>>
+>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>>> index e80ee18..284f7fb 100644
+>>> --- a/meta/conf/bitbake.conf
+>>> +++ b/meta/conf/bitbake.conf
+>>> @@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install =
+>>> "${PARALLEL_MAKEINST}"
+>>> ##################################################################
+>>> # Optimization flags.
+>>> ##################################################################
+>>> -DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
+>>> +DEBUG_FLAGS ?= "-g \
+>>> +    -feliminate-unused-debug-types \
+>>> +    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
+>>> +    -fdebug-prefix-map=${S}=/usr/src/${BPN}
+>>> +    -gno-record-gcc-switches \
+>> can we leave the switches in ?
+> Is there a way we can do some path substitutions on the switches?
 
-America/Cayman will not observe daylight saving this year after all.
-Revert our guess that it would.  (Thanks to Matt Johnson.)
+With searching the manual, I could not find a gcc option to
+do the path substitution on switches in debugging information.
 
-Asia/Chita switches from +0800 to +0900 on 2016-03-27 at 02:00.
-(Thanks to Alexander Krivenyshev.)
+Maybe we could add a patch for gcc to do this. I could try in V2
+if there is no side effect.
 
-Asia/Tehran now has DST predictions for the year 2038 and later,
-to be March 21 00:00 to September 21 00:00.  This is likely better
-than predicting no DST, albeit off by a day every now and then.
+>
+> I think part of the desire here is that the end resulting binaries
+> shouldn't depend upon the path in which they were built and leaving
+> these in is causing a problem there.
 
-Changes affecting past and future time stamps
+Compile with '-fdebug-prefix-map':
+objdump -g packages-split/lib32-glibc-dev/usr/lib/gcrt1.o
+...
+| <0><5e>: Abbrev Number: 1 (DW_TAG_compile_unit)
+|    <5f>   DW_AT_producer    : (indirect string, offset: 0xbb): GNU C99 5.3.0 -m32
+-march=core2 -mtune=core2 -msse3 -mfpmath=sse -mpreferred-stack-boundary=4 -g -O2
+-std=gnu99 -fgnu89-inline -fdebug-prefix-map=/buildarea/raid0/hjia/build-20160119-
+yocto-buildpath/tmp/work/core2-32-pokymllib32-linux/lib32-glibc/2.22-r0/git=/usr/src/glibc
+-feliminate-unused-debug-types -fmerge-all-constants -frounding-math -ftls-model=initial-exec
 
-America/Metlakatla switched from PST all year to AKST/AKDT on
-2015-11-01 at 02:00.  (Thanks to Steffen Thorsen.)
+When we use '-fdebug-prefix-map', the TMPDIR was added to switches. Although
+remove the switches is to avoid buildpath QA check, the side effect is 
+the other
+part of compile options have also been removed.
 
-America/Santa_Isabel has been removed, and replaced with a
-backward compatibility link to America/Tijuana.  Its contents were
-apparently based on a misreading of Mexican legislation.
+If we need to leave the switches in, I think we could tweak the 
+buildpath QA check,
+which allows TMPDIR in '-fdebug-prefix-map=' without warning. I think I 
+should
+send a V2 to do this for discussion.
 
-Changes affecting past time stamps
-Asia/Karachi's two transition times in 2002 were off by a minute.
-(Thanks to Matt Johnson.)
+Solution1: do some path substitutions on the switches
+Solution2: tweak buildpath QA check to allow TMPDIR in '-fdebug-prefix-map='
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../tzdata/{tzdata_2015g.bb => tzdata_2016a.bb}                | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2015g.bb => tzdata_2016a.bb} (96%)
+I will try them in V2.
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2016a.bb
-similarity index 96%
-rename from meta/recipes-extended/tzdata/tzdata_2015g.bb
-rename to meta/recipes-extended/tzdata/tzdata_2016a.bb
-index ec6e236..cacc480 100644
---- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2016a.bb
-@@ -1,15 +1,15 @@
- SUMMARY = "Timezone data"
- HOMEPAGE = "http://www.iana.org/time-zones"
- SECTION = "base"
--LICENSE = "PD & BSD"
--LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=996a9811747aa48db91ed239e5b355a1 \
--                    file://README;md5=d0ff93a73dd5bc3c6e724bb4343760f6"
-+LICENSE = "PD & BSD & BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=76ae2becfcb9a685041c6f166b44c2c2"
-+
- DEPENDS = "tzcode-native"
- 
- SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
- 
--SRC_URI[tzdata.md5sum] = "8d46e8b225b9a04c75f5c39636435ad6"
--SRC_URI[tzdata.sha256sum] = "b923cdbf078491696b17bc8d069c74bce73fabc5774629da2f410c9b31576161"
-+SRC_URI[tzdata.md5sum] = "0d3123eb1b453ec0620822bd65be4c42"
-+SRC_URI[tzdata.sha256sum] = "5efa6b324e64ef921ef700ac3273a51895f672684a30e342f68e47871c6a8cd1"
- 
- inherit allarch
- 
--- 
-2.3.5
+//Hongxu
+
+> Cheers,
+>
+> Richard
+>
+>>> +    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+>>> +    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+>>> +"
+>>> # Disabled until the option works properly -feliminate-dwarf2-dups
+>>> FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+>>> DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS}
+>>> -pipe"
+>>>
+>>> ?
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
