@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58C2060746
+	by mail.openembedded.org (Postfix) with ESMTP id 59D89771CF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 09:46:39 +0000 (UTC)
+	Thu, 28 Jan 2016 09:46:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0S9ke4q010662
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0S9kc5d010658
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 01:46:40 -0800 (PST)
+	Thu, 28 Jan 2016 01:46:38 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 28 Jan 2016 01:46:39 -0800
+	Thu, 28 Jan 2016 01:46:37 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jan 2016 01:46:37 -0800
-Message-ID: <72cdd5db4b60c2b93b71ab366c1c7eb85ca7e88b.1453974352.git.liezhi.yang@windriver.com>
+Date: Thu, 28 Jan 2016 01:46:34 -0800
+Message-ID: <cover.1453974352.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1453974352.git.liezhi.yang@windriver.com>
-References: <cover.1453974352.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] perf.bb: add python scripts corresponding packages
+Subject: [PATCH 0/3] meta: 3 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +34,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 28 Jan 2016 09:46:42 -0000
 Content-Type: text/plain
 
-Fixed:
-/usr/libexec/perf-core/tests/attr.py contained in package perf requires /usr/bin/python, but no providers found in RDEPENDS_perf? [file-rdeps]
-/usr/libexec/perf-core/scripts/python/sched-migration.py contained in package perf requires /usr/bin/python, but no providers found in RDEPENDS_perf? [file-rdeps]
+The following changes since commit 2a6e061712cfe9cb4738806a0c351a64e0d30144:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+  cmake: update to 3.4.2 (2016-01-26 22:48:57 +0000)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 33acb42..dde6046 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -201,8 +201,12 @@ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
- 
- FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
- FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
--FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
--FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
-+FILES_${PN}-tests = "${libdir}/perf/perf-core/tests \
-+                     ${libexecdir}/perf-core/tests \
-+                     "
-+FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python \
-+                      ${libexecdir}/perf-core/scripts/python \
-+                     "
- FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
- 
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/3fixes
+
+Robert Yang (3):
+  gdb-common.inc: add PACKAGECONFIG for readline
+  autotools_stage.bbclass: remove it
+  perf.bb: add python scripts corresponding packages
+
+ meta/classes/autotools_stage.bbclass     |    2 --
+ meta/recipes-devtools/gdb/gdb-common.inc |    8 ++++++--
+ meta/recipes-kernel/perf/perf.bb         |    8 ++++++--
+ 3 files changed, 12 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/classes/autotools_stage.bbclass
+
 -- 
 1.7.9.5
 
