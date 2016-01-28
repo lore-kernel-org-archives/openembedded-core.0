@@ -1,27 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E34077029
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DCE3C771FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 14:32:03 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 28 Jan 2016 06:32:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,358,1449561600"; d="scan'208";a="735886364"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 28 Jan 2016 06:32:03 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 80B982C8001
+	Thu, 28 Jan 2016 14:38:47 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id f81so56119415iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 07:19:57 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jan 2016 16:34:45 +0200
-Message-Id: <1453991685-14489-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] libical: update to 2.0.0
+	Thu, 28 Jan 2016 06:38:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=yO3qyvivziVDutuoZMOLOofytcx48b/mzaZ2nhq+sBU=;
+	b=Y3KFJITUZm/I7sV47f4N+6Q3x1xvjU1vaQshy+8Va7N/okbn6bCwIBIiKGX3DmO7Ra
+	xAckGM++MIaLOIMyCOvXjEFixLnonPio0VbPSS5LshZ7728x9VvC72a9B7MY7w6MP4Ah
+	DrwetPcNs52W29kQlQ+UxZQfZz0wDTYPP1cTp3snpDfq+Oi8BTmZitICHrvqUGPkVU8z
+	4TdRuunJaWHMte6sceZ8T4NYMxvzOXuG4amMiScrXUKJVx/TbansT0Y8xFOTw0tXr02x
+	ZxKn/cSZ9HuZejwahK4eIdo37mygSBJgwUFw2S+s3kT6Ivdxleqr2Ia3yazgwO2TB/Ny
+	ZEMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=yO3qyvivziVDutuoZMOLOofytcx48b/mzaZ2nhq+sBU=;
+	b=E1KF7q7TTOGP1heNM3rCBhNL0O6g1UwzjPXC6zG7byW4wbA3NAQDU0vleDEuvl/gjQ
+	0nPOJLnYSB/NFDRvNUbVJsu45GdwvsgpkAA/TBRQqmiyNlnuhOm63Cqe1xsMAM3sTtBi
+	DJ1EVSV3GyDv7thhZ5sK7VWzaUXewhxDgenj4hnIaxzG/y7UU0NKGH21416Ng7+7pLVw
+	zaayxTLWD+k8nzOqv+iDHHpBrLeRZWhfU+rt9p8ZRpbBu/ELHmkWAyXwyTbzjIcl1KWS
+	6G7Xou/JH0Oqkt9zqYZmy+qhELFUogDb6i8PfvqEzxaOrjGrYyrC9n8BlKZvQjbN90XL
+	Ufmg==
+X-Gm-Message-State: AG10YOSXNxJNuZF1xCCNsSQ/OXWGB4OQBDFE5zABns0ic71Zfdz5VPFeF0LkdiMAgdt7DBDY01bAl0dJIjX3hWck
+X-Received: by 10.107.3.154 with SMTP id e26mr4065665ioi.99.1453991927941;
+	Thu, 28 Jan 2016 06:38:47 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Thu, 28 Jan 2016 06:38:28 -0800 (PST)
+In-Reply-To: <1453991685-14489-1-git-send-email-maxin.john@intel.com>
+References: <1453991685-14489-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Jan 2016 14:38:28 +0000
+Message-ID: <CAJTo0LZYk7H518jo6=1rFXpEh-qYK2iui8TXcfxpFO8vKXQ82w@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libical: update to 2.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,147 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 14:32:06 -0000
+X-List-Received-Date: Thu, 28 Jan 2016 14:38:49 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10a5f1a4b052a65e069
 
-1.0.1 -> 2.0.0
+--001a113ec10a5f1a4b052a65e069
+Content-Type: text/plain; charset=UTF-8
 
-1. New version is not Binary Compatible with Older Versions
-2. Removed two backported patches
-        a. Fix-x32-ABI-build.patch
-        b. Depend-on-headers-to-fix-parallel-build.patch
+On 28 January 2016 at 14:34, Maxin B. John <maxin.john@intel.com> wrote:
 
-3. New RSCALE support requires icu
+>  SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz \
+>
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../Depend-on-headers-to-fix-parallel-build.patch  | 46 ----------------------
- .../libical/libical/Fix-x32-ABI-build.patch        | 38 ------------------
- .../libical/{libical_1.0.1.bb => libical_2.0.0.bb} |  8 ++--
- 3 files changed, 4 insertions(+), 88 deletions(-)
- delete mode 100644 meta/recipes-support/libical/libical/Depend-on-headers-to-fix-parallel-build.patch
- delete mode 100644 meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch
- rename meta/recipes-support/libical/{libical_1.0.1.bb => libical_2.0.0.bb} (71%)
+FWIW I changed this URI to point to /downloads/releases/v${PV}/${BP}.tar.gz
+as that is *definitely* not going to change, as it was uploaded by the
+maintainer instead of being generated by github.
 
-diff --git a/meta/recipes-support/libical/libical/Depend-on-headers-to-fix-parallel-build.patch b/meta/recipes-support/libical/libical/Depend-on-headers-to-fix-parallel-build.patch
-deleted file mode 100644
-index 4d65c81..0000000
---- a/meta/recipes-support/libical/libical/Depend-on-headers-to-fix-parallel-build.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 56a10a14c0a544df99c97ce279801ddf40b0df52 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Mon, 14 Sep 2015 13:35:42 +0300
--Subject: [PATCH] WIP: Depend on headers to fix parallel build
--
--Parallel builds occasionally fail because generated headers are only
--half built when they're being used.
--
--This fix is extracted
--from https://github.com/libical/libical/commit/dcc40c7ae2d337a0d83c077bf9d8f283499c6717
--
--Upstream-Status: Backport
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--
-----
-- examples/CMakeLists.txt    | 1 +
-- src/libical/CMakeLists.txt | 1 +
-- 2 files changed, 2 insertions(+)
--
--diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
--index 3379ffd..514956b 100644
----- a/examples/CMakeLists.txt
--+++ b/examples/CMakeLists.txt
--@@ -16,6 +16,7 @@ set(doesnothing_SRCS
-- )
-- 
-- add_executable(doesnothing ${doesnothing_SRCS})
--+add_dependencies(doesnothing ical icalss icalvcal)
-- 
-- target_link_libraries(doesnothing ical icalss icalvcal ical icalss icalvcal)
-- 
--diff --git a/src/libical/CMakeLists.txt b/src/libical/CMakeLists.txt
--index 6774352..468a7d9 100644
----- a/src/libical/CMakeLists.txt
--+++ b/src/libical/CMakeLists.txt
--@@ -261,6 +261,7 @@ add_library(ical ${LIBRARY_TYPE} ${ical_LIB_SRCS})
-- add_library(ical-static STATIC ${ical_LIB_SRCS})
-- 
-- add_dependencies(ical ical-header)
--+add_dependencies(ical-static ical-header)
-- 
-- target_link_libraries(ical ${CMAKE_THREAD_LIBS_INIT})
-- 
---- 
--2.1.4
--
-diff --git a/meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch b/meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch
-deleted file mode 100644
-index 12186e2..0000000
---- a/meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--Subject: [PATCH] Use GNUInstallDirs.
--
--x32 ABI build fails because of improper library path. Use
--GNUInstallDirs to fix it.
--
--Upstream-Status: Backport
--
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
--diff -Naur libical-1.0.1-orig/CMakeLists.txt libical-1.0.1/CMakeLists.txt
----- libical-1.0.1-orig/CMakeLists.txt	2015-12-07 18:13:58.311503974 +0200
--+++ libical-1.0.1/CMakeLists.txt	2015-12-07 18:17:18.362002998 +0200
--@@ -92,6 +92,10 @@
-- endif()
-- 
-- set(PERL_EXECUTABLE perl)
--+# Ensure finding 64bit libs when using 64-bit compilers
--+if(CMAKE_CL_64)
--+  set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS True)
--+endif()
-- 
-- # MSVC specific definitions
-- if(WIN32)
--@@ -104,10 +108,10 @@
--   add_definitions(-DBIG_ENDIAN=0 -DLITTLE_ENDIAN=1 -DBYTE_ORDER=BIG_ENDIAN)
-- endif()
-- 
---set(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
---set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" CACHE STRING "Library directory name" FORCE)
---set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE STRING "Include directory name" FORCE)
---set(SHARE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Share directory name" FORCE)
--+include(GNUInstallDirs)
--+set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR} CACHE STRING "Library directory name" FORCE)
--+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING "Include directory name" FORCE)
--+set(SHARE_INSTALL_DIR ${CMAKE_INSTALL_DATAROOTDIR} CACHE STRING "Share directory name")
-- 
-- # set the output paths
-- set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
-diff --git a/meta/recipes-support/libical/libical_1.0.1.bb b/meta/recipes-support/libical/libical_2.0.0.bb
-similarity index 71%
-rename from meta/recipes-support/libical/libical_1.0.1.bb
-rename to meta/recipes-support/libical/libical_2.0.0.bb
-index 838e788..61d1f59 100644
---- a/meta/recipes-support/libical/libical_1.0.1.bb
-+++ b/meta/recipes-support/libical/libical_2.0.0.bb
-@@ -8,11 +8,11 @@ SECTION = "libs"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz \
-            file://Remove-cmake-check-for-Perl.patch \
--           file://Fix-x32-ABI-build.patch \
--           file://Depend-on-headers-to-fix-parallel-build.patch \
-            "
--SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
--SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
-+DEPENDS = "icu"
-+
-+SRC_URI[md5sum] = "ab743a66927284ccf42ee28847550144"
-+SRC_URI[sha256sum] = "20f4a98475052e1200d2691ba50b27969e4bedc6e50bffd5e2fa81f4ac90de9a"
- UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
- 
- inherit cmake
--- 
-2.4.0
+Ross
 
+--001a113ec10a5f1a4b052a65e069
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 January 2016 at 14:34, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":x7" class=3D"=
+a3s" style=3D"overflow:hidden">=C2=A0SRC_URI =3D &quot;<a href=3D"https://g=
+ithub.com/${BPN}/${BPN}/archive/v${PV}.tar.gz" rel=3D"noreferrer" target=3D=
+"_blank">https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz</a> \<br></=
+div></blockquote></div><br>FWIW I changed this URI to point to /downloads/r=
+eleases/v${PV}/${BP}.tar.gz as that is *definitely* not going to change, as=
+ it was uploaded by the maintainer instead of being generated by github.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
+
+--001a113ec10a5f1a4b052a65e069--
