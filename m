@@ -1,44 +1,46 @@
-Return-Path: <just4tech83@gmail.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B5C771A9;
-	Thu, 28 Jan 2016 18:01:05 +0000 (UTC)
-Received: by mail-ig0-f176.google.com with SMTP id t15so18967621igr.0;
-	Thu, 28 Jan 2016 10:01:06 -0800 (PST)
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A669A77144
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jan 2016 20:11:58 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id ho8so28255408pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jan 2016 12:11:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:cc:content-type;
-	bh=kIdvWs93Rb8BsoLY2ujcUEED0jHGLpXp+eQGK/FYkcs=;
-	b=us2fn0b/lbMFNHWv22d20vm3o1TqdJ21zo9+vzeTWYuJkthOdGVe2VAd2+6XcetToW
-	W5YMzMq3g9WAWkRMlEa049q6pp5TNF1IzwmLcbRPNtcx8RbKNCggFiQwC8LB3LDQJIkS
-	/SnQaVL8O4ET8uf7Dn9kgMewkKCuxSY1ztzZq6urkP6F9qzPO+2WUGUJOsKRlmh9u874
-	NEHxah7jhn0OYwOxlOPB5GFbXE6XHDnr/O46cRGj2UQXi+Fd5ebEuZsKNMqy4XtMfOPH
-	obJ1jG9YGh66Jnbiz4pkfHKf+Cl9buRzu5i+Ssd7RJyJuVLUo1hKtZNEGJLEQR4u8dsv
-	UK/w==
+	h=from:to:cc:subject:date:message-id;
+	bh=EXetrFKBy6nd5N52wUabRHhQqxzuTK8stVr5o7pRJBI=;
+	b=BdZeh4pSUbn+LSw0W2PoV/Df5/bEuG0a8bMBREnO1bFKDdKOcpg5C/ODJUSt4fPl8r
+	N3EuzmHeX0lDRk0zeLx0Ua/9tY0dO1jocbMoy5NtBFxgNTqZMHgXA6xz7W8KmQrZmmV+
+	aZaKlCTbu3KjoftmRLzKFYgTZ4em/C7K9GpLyuOZLjpirJkhDTH5+nn+0xKeDt5lbiqN
+	qbm81s8Juk2eEKU9PXhFqHA+VTmS4oC6ybiSu0NRnji66jm73RhRy/fFZTLQzj3L76Ib
+	rA3U1hIaUO+XLakgRr5Q6BQNuCibTR0bEH9lQJNMla/tr/zvV3JxzusLSNrZPvSFwRzy
+	4Mkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc
-	:content-type;
-	bh=kIdvWs93Rb8BsoLY2ujcUEED0jHGLpXp+eQGK/FYkcs=;
-	b=mQWCNvKNAYZflfeYSTOjKMJ5MYs/4EMYg+ctAhEzrRuYBlLc4obR6QyQsa8A6r3Iis
-	WJ7j4V6U+mnYOKwbi6WanA08Qv0MANL+7wL6EfrEjb3TQwe1UU0qpFiQIu1qiTf+EQ2z
-	2TGSD7R2dVhKm/kFR7yE3u3Y7N94rswEU2LgnRdz7A7lo5xbFHyw74X80EpVMvJiE0d6
-	ENlKT/xZ16qGJdG7yBgjWRaDV+ANPcUU9Am1PptgCGOd8aFS+TShLT5prbMFUd3F3heU
-	qMazuYo9aMLdE+MX4mrbdN0NF/RA61qkSYi5P//+9HGLtgZXx2gZlAKjUjtQMIGN85Gz
-	JQjA==
-X-Gm-Message-State: AG10YOQ8Tw3cKr1qyjkQw/l7EDvR5J2BAbVy0FJeye6VfAMdrav3/cZAjegln66qFnfxHZCd0vfd8b9duwayuQ==
-MIME-Version: 1.0
-X-Received: by 10.50.183.7 with SMTP id ei7mr4856772igc.17.1454004066323; Thu,
-	28 Jan 2016 10:01:06 -0800 (PST)
-Received: by 10.36.196.133 with HTTP; Thu, 28 Jan 2016 10:01:06 -0800 (PST)
-Received: by 10.36.196.133 with HTTP; Thu, 28 Jan 2016 10:01:06 -0800 (PST)
-Date: Thu, 28 Jan 2016 23:31:06 +0530
-Message-ID: <CAD2C2VRqrrOKLixFBBXq-Vxu-nb5DzSXqV8Xrr2yuwb6auds5w@mail.gmail.com>
-From: Bryan <just4tech83@gmail.com>
-To: openembedded-devel@lists.openembedded.org, linux-yocto@yoctoproject.org, 
-	poky@yoctoproject.org, bitbake-devel@lists.openembedded.org, 
-	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Cc: Chander.kashyap@gmail.com
-Subject: Plymouth support in yocto
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=EXetrFKBy6nd5N52wUabRHhQqxzuTK8stVr5o7pRJBI=;
+	b=fmacgb/Qv1mXQscqOm7sb0NjfeIagiLqUNPOOwfpzPqsXGm9J+NFUx2bQDZpV0KpwC
+	KGeesUyMkqw8ttgBl+RxbVOauO2RhoehAmZ0qJTiHW6z/qbMBkKgkmMew8EOTosleJeb
+	kk46WaZlXPK/xXTE07qlQ4CDBwKaIrqK5U/y5gvrIjXO2WaSZwD1+Fh4Tm2WNNSCvoVg
+	5H03lWkFXyriGBsPaO8Oux/shuHWzedMb6Tx//WqfR4xKJPa3FtCQzDk25OM73Kc3UUl
+	BY1qZeYlsLXeqiaeCsZEMLzwqfUsWAgOEnkr9pssE3kcjlfeZ0IbkE252+pbPgFK9nxD
+	yIcw==
+X-Gm-Message-State: AG10YOQH6cSRcxy7JK846o41PRtPfv+DW8PVRStifskpjJoi6oVRenlmN9SKHJsQtgKhtw==
+X-Received: by 10.66.120.77 with SMTP id la13mr7485928pab.74.1454011919080;
+	Thu, 28 Jan 2016 12:11:59 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	x10sm18329407pas.37.2016.01.28.12.11.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 28 Jan 2016 12:11:57 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jan 2016 12:11:52 -0800
+Message-Id: <1454011912-11757-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] autotools.bbclass: don't create subshell to delete configure scipts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,28 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 18:01:11 -0000
-Content-Type: multipart/alternative; boundary=001a11c3ac26e0159e052a68b3e4
+X-List-Received-Date: Thu, 28 Jan 2016 20:11:59 -0000
 
---001a11c3ac26e0159e052a68b3e4
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/classes/autotools.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hi,
-   Can  we integrate plymouth package in yocto  so that we can properly
-display splash screen on different resolution monitors.
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 1400b44..4601148 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -226,9 +226,9 @@ autotools_do_configure() {
+ 	# for a package whose autotools are old, on an x86_64 machine, which the old
+ 	# config.sub does not support.  Work around this by installing them manually
+ 	# regardless.
+-	( for ac in `find ${S} -ignore_readdir_race -name configure.in -o -name configure.ac`; do
++	for ac in `find ${S} -ignore_readdir_race -name configure.in -o -name configure.ac`; do
+ 		rm -f `dirname $ac`/configure
+-		done )
++	done
+ 	if [ -e ${AUTOTOOLS_SCRIPT_PATH}/configure.in -o -e ${AUTOTOOLS_SCRIPT_PATH}/configure.ac ]; then
+ 		olddir=`pwd`
+ 		cd ${AUTOTOOLS_SCRIPT_PATH}
+-- 
+1.9.1
 
-Thanks in advance
-Bryan
 
---001a11c3ac26e0159e052a68b3e4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr">Hi,=C2=A0 <br>
-=C2=A0=C2=A0 Can=C2=A0 we integrate plymouth package in yocto=C2=A0 so that=
- we can properly display splash screen on different resolution monitors. </=
-p>
-<p dir=3D"ltr">Thanks in advance <br>
-Bryan</p>
-
---001a11c3ac26e0159e052a68b3e4--
