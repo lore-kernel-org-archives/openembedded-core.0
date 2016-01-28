@@ -1,46 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC9A77161
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D8477182
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 21:31:43 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id o185so25065191pfb.1
+	Thu, 28 Jan 2016 21:43:53 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id g73so70573690ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 13:31:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=hTLukt/hG/2IeUymRT88fVdISx6VLgFS6ffRQ652bzU=;
-	b=aM9pUhf6arVahK6+NY+RSb2YB1FTclICaSNFaXI0sjzmmbtmWCh0k4a00iq9eZQSs9
-	XN8q8EenyNUXGEd/UFTj6BdIo9S13XGQVcLtntZogMFXVPqEtaRxCA/GOlD2WGfHIM+K
-	DtGLHfwGc8go01rsDJWtVU6LAi45PS2nV0lZj6C1HTxGmYKJ6hJXAXlEO1kybgYhPAkC
-	dA294t1bSyS/xf+yVlWWTla5xnMNyTLwYWp+6RHvoojIWZ0MFydW8CakXrS3KwMbySjE
-	Maeuhx6lFsPNR3LnZzWFIJAtYJ42V6BtsNf5VYIQm/qxC0VtLT/AZ2Ies4Z4oCeynWJf
-	a2zQ==
+	Thu, 28 Jan 2016 13:43:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=QC41/1wdRKuRapE5IlvvLet1XNwDD+Oox5Ge+UvnVo0=;
+	b=r+e81dR8H6DBFoKkzIBktQfZYdueGUI2DzsDwVnu6it5uLZKLIIH+4/ODOg7J7mmKG
+	xFXf2BfKqKJbWSgZ3nqjI88lItndTexM9Q7MWJ3kW2J6XganISS+gKnfbPnINs/wPoLJ
+	mWCuaWVicr7Ez3vuQsa+h6CPSTtsPGURzZosJNvux77+uzVkNDt2T+TX6Ptt8FPblSvq
+	wn26U2WQ/HPxabUvFyRVlomqTeSi0Gb/m73FvQzkpd4DyHoE7ceuFer6OKnIbhhsLwC3
+	aRS0bLxXX0faRegOdQj0dakR3nQ0ghxP8k1hCLngqkypsI7Dy60wkj7eL546DJt9mzUX
+	Iugw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hTLukt/hG/2IeUymRT88fVdISx6VLgFS6ffRQ652bzU=;
-	b=jJ9kVHlgpTdtHyuKTbAnBj8Dv0jJi5iApdpXi9nWi6/vYCavvILDvwtMW1/or946En
-	egqL3ljPKB3LSFTlD0c/LLXdA4rb9ctp+86u51UmiyOieSFPlAMDD/RaL5CTPKTGr/r3
-	ECir2SFyS9gTiROL/jCkJi6naC8VkBC/uqC/dlFFK3Pq2KpIYgvUZcwCheZ+jZMDT3yS
-	DZtFPDpje5v1JEB/vRTrsjGvAnhQpdXlBolNUA70Tw9O3xWrCJQGMGdB6CZTjk9nhHUV
-	u09oqXjUjTToVZeMMwNa7myDqgvzXhz9EQvdjqmoh/o7iOhVFYsnimvEtk5XIoWz5D8s
-	stvQ==
-X-Gm-Message-State: AG10YOSpo3jcR+yfhJFGEFAIn16a4v+lmwGp1UljlaDjaWM0z85tsb8gY6eDj6+r/ZcpzA==
-X-Received: by 10.98.75.4 with SMTP id y4mr8077732pfa.32.1454016704456;
-	Thu, 28 Jan 2016 13:31:44 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	ze5sm18623743pac.32.2016.01.28.13.31.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Jan 2016 13:31:43 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jan 2016 13:31:38 -0800
-Message-Id: <1454016698-27409-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] curl: update 7.46.0 -> 7.47.0 ( CVE-2016-0754 CVE-2016-0755 )
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QC41/1wdRKuRapE5IlvvLet1XNwDD+Oox5Ge+UvnVo0=;
+	b=XXaAllz76BpZFVyQjOes0aZwGoE+3IW7fqhzlQluRB/rGC61I3vYG1GoC8tG8DL7kR
+	ZgYuXa5Dlz2IsGiSwLxnaky4AREH/88vjqW3wYmeLK7SCjtq8zZsH7DqD1fmHjpqhaim
+	2bJ7b6WfZQjypdrYI8M0uJZcQPn2aLK6pLy6g0taUkZzg11lfvB/oeJyRQaqDWbZ4tBr
+	Bwcg4bxlnKvkyYjzCfHxVeC3f7Vt+TtIsxj2t+n6Hup+32XKyvzsdq6i7dsxl8QqsydS
+	qoEtmHvpGRK1TUmnHgWe7jUWm+HSbhNvKutUHOUu1w2D0sLVxDi3hDyaDfaMeijwKciH
+	ZELQ==
+X-Gm-Message-State: AG10YOQ1Z7NPXR5u2NwE3fEbKi5AkOsOztyrS26VqX99ZRhLSDdqjPZmGCOYvb9HWfxMmk/meeuuNyRR+W+sNgO2
+X-Received: by 10.107.135.104 with SMTP id j101mr7174361iod.133.1454017434312; 
+	Thu, 28 Jan 2016 13:43:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Thu, 28 Jan 2016 13:43:34 -0800 (PST)
+In-Reply-To: <CAD2C2VRqrrOKLixFBBXq-Vxu-nb5DzSXqV8Xrr2yuwb6auds5w@mail.gmail.com>
+References: <CAD2C2VRqrrOKLixFBBXq-Vxu-nb5DzSXqV8Xrr2yuwb6auds5w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Jan 2016 21:43:34 +0000
+Message-ID: <CAJTo0LbUkpF3Oq5FDXgizhUW6ANbwcyiTrrzZATBsZ_7ABsHEg@mail.gmail.com>
+To: Bryan <just4tech83@gmail.com>
+Cc: "Development list for the linux-yocto*.git Linux kernel repositories"
+	<linux-yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Chander.kashyap@gmail.com,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Poky Project <poky@yoctoproject.org>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: [linux-yocto] Plymouth support in yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 21:31:45 -0000
+X-List-Received-Date: Thu, 28 Jan 2016 21:43:58 -0000
+Content-Type: multipart/alternative; boundary=001a113ebe92ab7b55052a6bd023
 
-Full changelog: http://curl.haxx.se/changes.html#7_47_0
-Security fixes: http://curl.haxx.se/docs/vulnerabilities.html
+--001a113ebe92ab7b55052a6bd023
+Content-Type: text/plain; charset=UTF-8
 
-CVE-2016-0754 : remote file name path traversal in curl tool for Windows
-CVE-2016-0755 : NTLM credentials not-checked for proxy connection re-use
+On 28 January 2016 at 18:01, Bryan <just4tech83@gmail.com> wrote:
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/curl/{curl_7.46.0.bb => curl_7.47.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.46.0.bb => curl_7.47.0.bb} (93%)
+>    Can  we integrate plymouth package in yocto  so that we can properly
+> display splash screen on different resolution monitors.
+>
+>
+http://layers.openembedded.org/layerindex/recipe/39966/
 
-diff --git a/meta/recipes-support/curl/curl_7.46.0.bb b/meta/recipes-support/curl/curl_7.47.0.bb
-similarity index 93%
-rename from meta/recipes-support/curl/curl_7.46.0.bb
-rename to meta/recipes-support/curl/curl_7.47.0.bb
-index f798886..ab3c7e1 100644
---- a/meta/recipes-support/curl/curl_7.46.0.bb
-+++ b/meta/recipes-support/curl/curl_7.47.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "9979f989a2a9930d10f1b3deeabc2148"
--SRC_URI[sha256sum] = "b7d726cdd8ed4b6db0fa1b474a3c59ebbbe4dcd4c61ac5e7ade0e0270d3195ad"
-+SRC_URI[md5sum] = "85c58a00412476993050cb242a3f365d"
-+SRC_URI[sha256sum] = "2b096f9387fb9b2be08d17e518c62b6537b1f4d4bb59111d5b4fa0272f383f66"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--- 
-1.9.1
+Ross
 
+--001a113ebe92ab7b55052a6bd023
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 January 2016 at 18:01, Bryan <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+just4tech83@gmail.com" target=3D"_blank">just4tech83@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><p dir=3D"ltr">=C2=A0=C2=A0 Can=C2=A0 we inte=
+grate plymouth package in yocto=C2=A0 so that we can properly display splas=
+h screen on different resolution monitors. </p>
+<p dir=3D"ltr"></p></blockquote></div><br><a href=3D"http://layers.openembe=
+dded.org/layerindex/recipe/39966/">http://layers.openembedded.org/layerinde=
+x/recipe/39966/</a><br></div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
+
+--001a113ebe92ab7b55052a6bd023--
