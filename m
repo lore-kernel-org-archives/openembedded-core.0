@@ -1,27 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 81AE17719E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CD9E577156
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jan 2016 23:30:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0RNU1eH023337; Wed, 27 Jan 2016 23:30:32 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id YIuBFFU7sc7j; Wed, 27 Jan 2016 23:30:32 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u0RNUUOH023425
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 27 Jan 2016 23:30:31 GMT
-Message-ID: <1453937430.10340.16.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jan 2016 23:30:30 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Witt, Randy E" <randy.e.witt@intel.com>
-Subject: [PATCH] sstate: Improve handling of useradd dependencies
+	Thu, 28 Jan 2016 02:11:17 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id r14so54127oie.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jan 2016 18:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=BODkHv2mw6++WsVx3BjDM2Jt8V4IVArGxByNxcMylBg=;
+	b=aM3kbBRXrZurX2197Y6oVJn9oYdyApviYTmsOfykuKZl7ANfJ3aSTJQ1znz6UvzHI4
+	XtzY/JWxsq+hmEXEfHan4esMYaewOdyVrjS+w+pOFjvCpm2O2elIm6s9XIpTwJ+UxYpy
+	GTeRt1t1kor4LUV4O7P829QJvPC7mVFDKgnmWHE4QGpkvVNj5wgJ+IoEkYpq/bhOJdxH
+	BzGKVUuSqwYYiZrtocSGi1LKoN0I6pTkNc1hLSFT47XwHaHk3fxDDshwIoxFcd9iBs6V
+	2bqNNjz4Gw0SEVeGPcvs1EtWkfdxOg4U+57xMI/ZYrD1mrTYCMl/Y0sOzQ1z1xlbEgrF
+	5hug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BODkHv2mw6++WsVx3BjDM2Jt8V4IVArGxByNxcMylBg=;
+	b=B+7UTRm6KGYduTJrm3isIolsSjhnrmFf/0Tz/VFRBgVczzpMWSIcGmpZ2tmW+uyWiz
+	RBYYu4lD5bLb1Npcin+MyEpN7HkkjHE7d90VMEhj7lQ6OnawCTrc6ylfZDHkJQ1frgbO
+	XtHZMHTt17tVP4gGHc8bsze/2qgMi2lVmgNyVSpNQ0VxEBXiegj6OA3EApWtJJjmDIFS
+	QTnqacJaKhklpMtWhtr26lTuvL+OBVc5+vhRpXhDHfZRaO7z9ddFxeNcBKRLcv+l9LqN
+	eY7Y2HvxgXS8SznT6O3MNXDZ6q9xxQLJl43wHgm3Og1bWLVNx5/pT0Jh8ajijPCDFYMR
+	bZCg==
+X-Gm-Message-State: AG10YOTWsDtHVT4JrOlRyzWMmXMVPQCsP5d8psCjE4SFrxbyBmtpmZzI9czjyCSHUYXATg==
+X-Received: by 10.202.195.18 with SMTP id t18mr332450oif.80.1453947078273;
+	Wed, 27 Jan 2016 18:11:18 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id q4sm4448874oew.6.2016.01.27.18.11.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Jan 2016 18:11:17 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jan 2016 18:11:08 -0800
+Message-Id: <1453947071-13364-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/3] stop exporting PATCH_GET = "0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +52,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jan 2016 23:30:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jan 2016 02:11:18 -0000
 
-useradd has sstate [depends] for both do_package and do_populate_sysroot
-yet the dependency validation code only covers do_package.
+Andre McCurdy (3):
+  bitbake.conf: stop exporting PATCH_GET = "0"
+  gcc-cross.inc: drop pruning of PATCH_GET from the testgcc script
+  glibc-testing.inc: drop pruning of PATCH_GET from the testglibc script
 
-Add coverage of populate_sysroot, else the order inversion that [depends]
-creates means unexpected installation of users of useradd.bbclass (e.g.
-avahi do_populate_sysroot) in cases where it shouldn't be (e.g.
-libnss-mdns -c packagedata).
+ meta/conf/bitbake.conf                    | 10 ----------
+ meta/recipes-core/glibc/glibc-testing.inc |  1 -
+ meta/recipes-devtools/gcc/gcc-cross.inc   |  1 -
+ 3 files changed, 12 deletions(-)
 
-The code needs to move above the other populate_sysroot intercept code
-since there are specific cases we need to cover before that code.
-
-The result of this change is more optimal installation of sstate objects
-in common usage scenarios.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 57aaf487..18d6fb7 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -876,6 +876,11 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata', 'do_package', 'do_package_qa']:
-             continue
- 
-+        # This is due to the [depends] in useradd.bbclass complicating matters
-+        # The logic *is* reversed here due to the way hard setscene dependencies are injected
-+        if (taskdependees[task][1] == 'do_package' or taskdependees[task][1] == 'do_populate_sysroot') and taskdependees[dep][0].endswith(('shadow-native', 'shadow-sysroot', 'base-passwd', 'pseudo-native')) and taskdependees[dep][1] == 'do_populate_sysroot':
-+            continue
-+
-         # Consider sysroot depending on sysroot tasks
-         if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
-             # base-passwd/shadow-sysroot don't need their dependencies
-@@ -902,10 +907,6 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         if taskdependees[dep][1] == "do_populate_lic":
-             continue
- 
--        # This is due to the [depends] in useradd.bbclass complicating matters
--        # The logic *is* reversed here due to the way hard setscene dependencies are injected
--        if taskdependees[task][1] == 'do_package' and taskdependees[dep][0].endswith(('shadow-native', 'shadow-sysroot', 'base-passwd', 'pseudo-native')) and taskdependees[dep][1] == 'do_populate_sysroot':
--            continue
- 
-         # Safe fallthrough default
-         bb.debug(2, " Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])))
-
+-- 
+1.9.1
 
 
