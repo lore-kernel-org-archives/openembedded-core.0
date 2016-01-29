@@ -1,26 +1,21 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 16CF677112
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id AE86973189
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 09:39:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0T9dUi0011815
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 01:39:30 -0800
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 29 Jan 2016 01:39:29 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Jan 2016 17:38:06 +0800
-Message-ID: <12f8c4e21c66d0272e0096600c533e3ac5cce6c2.1454060185.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.6.1
-In-Reply-To: <cover.1454060185.git.kai.kang@windriver.com>
-References: <cover.1454060185.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] docbook-xsl-stylesheets: create a link for easy refer
+	Fri, 29 Jan 2016 12:04:08 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Jan 2016 04:04:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,363,1449561600"; d="scan'208";a="643457050"
+Received: from mshai-mobl1.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.30.5])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2016 04:04:07 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jan 2016 14:04:06 +0200
+Message-Id: <1454069046-10432-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] autotools.bbclass: use oe_runmake instead of ${MAKE}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 09:39:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 29 Jan 2016 12:04:11 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+Use oe_runmake like in base.bbclass so that EXTRA_OEMAKE will be
+respected.
 
-Create a link to stylesheets directory for docbook-xsl-stylesheets to
-make it easy to refer.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/autotools.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-index 3c4ed6a..52de3ab 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-@@ -34,7 +34,8 @@ do_compile (){
- do_install () {
- 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/docbook-xsl.html
- 	# for details.
--	install -v -m755 -d ${D}${datadir}/xml/docbook/xsl-stylesheets-1.78.1
-+	install -v -m755 -d ${D}${datadir}/xml/docbook/xsl-stylesheets-${PV}
-+	ln -s xsl-stylesheets-${PV} ${D}${datadir}/xml/docbook/xsl-stylesheets
- 
- 	cp -v -R VERSION common eclipse epub extensions fo highlighting html \
- 		htmlhelp images javahelp lib manpages params profiling \
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 1400b44..7bf510b 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -112,8 +112,7 @@ autotools_preconfigure() {
+ 				# regenerate them even if CFLAGS/LDFLAGS are different
+ 				cd ${S}
+ 				if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
+-					echo "Running \"${MAKE} clean\" in ${S}"
+-					${MAKE} clean
++					oe_runmake clean
+ 				fi
+ 				find ${S} -ignore_readdir_race -name \*.la -delete
+ 			fi
 -- 
-2.6.1
+2.1.4
 
 
