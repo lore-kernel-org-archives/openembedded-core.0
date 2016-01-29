@@ -1,50 +1,34 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D6FE46FF23
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 684CE73259
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 06:40:38 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id j99so1501477lfi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 22:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rrKLjwvBchQJauOnAU9REhKaaJRBDwIA2hZ7A6NyyBU=;
-	b=N9mFl2XAVRLDYuDGOGm39XuE8y+Wg8Ipt4u2fE3jiE37/iBz7UsxT7mh/Mwt87Ayeq
-	xLW19Bxkr9OuZXxNsSQF26iVOWgZFwmEzxluKvgKSE/k3wONRMjqWqnIb1uOB0N9uGnw
-	0X3DonHGszu/bprGegisKS7he+o8V7E7BdVZ59DPL/B2pnMpVT8ebCDGdeUBoFz7m/cD
-	DwQa7866PTxb1X2jCq2kYjrIQy64aIGr41HUNaD+5x4BnUU8zXj51HQ2NCHzFSq0zelb
-	WYC4i6sI9hAXapJuxCQ8biSSNIhFr7Vkds7QY4duRZESBKZ5kd2aUO7uIrq9OGaaft6P
-	QUrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=rrKLjwvBchQJauOnAU9REhKaaJRBDwIA2hZ7A6NyyBU=;
-	b=MGTy0nGwGldiw50op2QseMgD9tzcgqjFW0PHr+5EHXxNgPhdUBZ6kutgd3/5x/+HkE
-	mD6L0s2tn5zHinFXDuK+GbVotvDuBz7khwP5xMsyv9ySkhCzp9iN4FeOHrNm+rSXLiei
-	9/XUgyF+nOk0a5XqmvUqD6qfcIvhFFep1q8dwNlorDo9ZwDl47uIsYajdbYL1qPX2WKF
-	PsYkxUFOLXeTRM3tWq16Y+5EtV3T0r7jyP2c470BzVyPEr/Sk/8W7J7FHLYMijTNigeI
-	B9cIFZIg60cMetC1Z1TKYfMPx6EIxBi8U4YrFfkNkr/3fJuE/TcTWd7gdqRUKqrFIOiJ
-	y+1A==
-X-Gm-Message-State: AG10YOSnmY4y9ARAk+PTAZmFbZA+qzkV7sXGodnjEEyINJxMjiiRh5gryuk6KfE7DUnyPA==
-X-Received: by 10.25.28.134 with SMTP id c128mr2219185lfc.95.1454049639140;
-	Thu, 28 Jan 2016 22:40:39 -0800 (PST)
-Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	mj4sm1874949lbc.19.2016.01.28.22.40.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Jan 2016 22:40:38 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2016 07:40:19 +0100
-Message-Id: <1454049619-22703-4-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
-References: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
-	bruce.ashfield@windriver.com, darren@dvhart.com
-Subject: [PATCH V3 3/3] kernel-initramfs: new recipe, creates initramfs bundled kernel packaging
+	Fri, 29 Jan 2016 06:58:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0T6wYV5018576
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Jan 2016 22:58:34 -0800 (PST)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 28 Jan 2016 22:58:33 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1453882496.git.hongxu.jia@windriver.com>
+	<1453889810.10340.5.camel@linuxfoundation.org>
+	<F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
+	<1453932798.10340.11.camel@linuxfoundation.org>
+	<56A983DE.6030907@windriver.com>
+	<1454000660.10340.52.camel@linuxfoundation.org>
+	<56AADEEB.6050106@windriver.com>
+	<1454049630.10340.60.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56AB0D8C.2070603@windriver.com>
+Date: Fri, 29 Jan 2016 14:58:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1454049630.10340.60.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,110 +41,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 06:40:41 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 06:58:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On 01/29/2016 02:40 PM, Richard Purdie wrote:
+>
+> I investigated this a little. When I tried your patch I saw:
+>
+> $ bitbake glibc -e | grep TARGET_CFLAGS=
+> export TARGET_CFLAGS="
+> -I/media/build1/poky/build/tmp5/sysroots/qemux86/usr/include -O2 -pipe
+> -g -feliminate-unused-debug-types -fdebug-prefix
+> -map=/media/build1/poky/build/tmp5/work/i586-poky
+> -linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname
+> -fdebug-prefix-map=/media/build1/poky/build/tmp5/work/i586-poky
+> -linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname
+> -gno-record-gcc-switches -fdebug-prefix
+> -map=/media/build1/poky/build/tmp5/sysroots/x86_64-linux= -fdebug
+> -prefix-map=/media/build1/poky/build/tmp5/sysroots/qemux86= "
+>
+> and then once I commented out:
+>
+> SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
+>
+> in glibc.inc I see:
+>
+> $ bitbake glibc -e | grep TARGET_CFLAGS=
+> export TARGET_CFLAGS="
+> -I/media/build1/poky/build/tmp5/sysroots/qemux86/usr/include -O2 -pipe
+> -g -feliminate-unused-debug-types -fdebug-prefix
+> -map=/media/build1/poky/build/tmp5/work/i586-poky-linux/glibc/2.22
+> -r0/build-i586-poky-linux=/usr/src/glibc -fdebug-prefix
+> -map=/media/build1/poky/build/tmp5/work/i586-poky-linux/glibc/2.22
+> -r0/git=/usr/src/glibc -gno-record-gcc-switches -fdebug-prefix
+> -map=/media/build1/poky/build/tmp5/sysroots/x86_64-linux= -fdebug
+> -prefix-map=/media/build1/poky/build/tmp5/sysroots/qemux86= "
+>
+> I'd much prefer to fix glibc.inc and put the entries in bitbake.conf
+> than further complicate the variables unnecessarily.
+>
+> For example, we could do:
+>
+> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> index 17fa2d5..8e62b3a 100644
+> --- a/meta/recipes-core/glibc/glibc.inc
+> +++ b/meta/recipes-core/glibc/glibc.inc
+> @@ -10,25 +10,20 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
+>   
+>   # glibc can't be built without optimization, if someone tries to compile an
+>   # entire image as -O0, we override it with -O2 here and give a note about it.
+> -def get_optimization(d):
+> +python () {
+>       selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
+> -    if bb.utils.contains("SELECTED_OPTIMIZATION", "-O2", "x", "", d) == "x":
+> -        return selected_optimization
+> -    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O", "x", "", d) == "x":
+> +    if bb.utils.contains("SELECTED_OPTIMIZATION", "-O", "x", "", d) == "x":
+>           bb.note("glibc can't be built with -O, -O -Wno-error will be used instead.")
+> -        return selected_optimization.replace("-O", "-O -Wno-error")
+> +        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+>       elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+> -        bb.note("glibc can't be built with -O0, -O2 will be used instead.")
+> -        return selected_optimization.replace("-O0", "-O2")
+> +        bb.fatal("glibc can't be built with -O0, using -O1 -Wno-error or -O1 instead.")
+>       elif bb.utils.contains("SELECTED_OPTIMIZATION", "-Os", "x", "", d) == "x":
+>           bb.note("glibc can't be built with -Os, -Os -Wno-error will be used instead.")
+> -        return selected_optimization.replace("-Os", "-Os -Wno-error")
+> +        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+>       elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O1", "x", "", d) == "x":
+>           bb.note("glibc can't be built with -O1, -O1 -Wno-error will be used instead.")
+> -        return selected_optimization.replace("-O1", "-O1 -Wno-error")
+> -    return selected_optimization
+> -
+> -SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
+> +        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+> +}
+>   
+>   # siteconfig.bbclass runs configure which needs a working compiler
+>   # For the compiler to work we need a working libc yet libc isn't
+>
+> which will now give an error for -O0 but I think that is reasonable.
+> I'd even prefer to drop the above entirely and use bitbake.conf to be
+> honest but I know some people insisted we should have the above.
 
-So far, there is not a workable way to package the initramfs bundled kernel
-image, the only place is tmp/deploy from where we could get it, but if a
-user want to add it into a certain image, there is no guarantee that he
-will achieve it because a explicit dependency is missing between package
-and bundle_initramfs, and this was designed to avoid introducing circular
-dependencies when using kernel modules in the initramfs image.bb that is
-caused by kernel.bbclass trying to build the initramfs before the kernel
-packaging.
+Yes, you are right! They immediate expand SELECTED_OPTIMIZATION
+in glibc and systemtap. I will modify both of them by 'anonymous python
+function to replace' to replace in V3.
 
-To fix this problem, the idea is to split the initramfs bundled kernel
-packaging to a new recipe, make the do_install depend on kernel's deploy
-task, then with the following config:
+And then, I will directly put the entries in bitbake.conf.
 
-IMAGE_INSTALL_append = " kernel-initramfs"
+V3 incoming
 
-The initramfs bundled kernel could be added to the image without
-introducing any circular dependencies.
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/recipes-kernel/linux/kernel-initramfs.bb | 69 +++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
-
-diff --git a/meta/recipes-kernel/linux/kernel-initramfs.bb b/meta/recipes-kernel/linux/kernel-initramfs.bb
-new file mode 100644
-index 0000000..49d539f
---- /dev/null
-+++ b/meta/recipes-kernel/linux/kernel-initramfs.bb
-@@ -0,0 +1,69 @@
-+SUMMARY = "Initramfs bundled kernel image"
-+DESCRIPTION = "When built, it packages a initramfs bundled kernel image of the \
-+preferred virtual/kernel provider."
-+
-+SECTION = "kernel"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "[file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6]file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+
-+inherit linux-kernel-base
-+
-+# Whilst not a module, this ensures we don't get multilib extended. (which would make no sense)
-+inherit module-base
-+
-+S = "${STAGING_KERNEL_DIR}"
-+B = "${WORKDIR}/build"
-+
-+# we dont need the default dependencies.
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+KERNEL_IMAGETYPE ?= "zImage"
-+KERNEL_IMAGEDEST = "boot"
-+KERNEL_VERSION = "${@['1.0.0', get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}')][get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}') != None]}"
-+
-+KERNEL_PRIORITY ?= "${@int(d.getVar('KERNEL_VERSION', True).split('-')[0].split('+')[0].split('.')[0]) * 10000 + \
-+                       int(d.getVar('KERNEL_VERSION', True).split('-')[0].split('+')[0].split('.')[1]) * 100 + \
-+                       int(d.getVar('KERNEL_VERSION', True).split('-')[0].split('+')[0].split('.')[-1])}"
-+
-+PACKAGES = "${PN}"
-+FILES_${PN} = "/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}*"
-+
-+PKG_${PN} = "${PN}-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+# Skip processing of this recipe if INITRAMFS_IMAGE or INITRAMFS_IMAGE_BUNDLE
-+# is not set correctly, to avoid generate a single empty package which makes
-+# no sense.
-+python __anonymous () {
-+    if not d.getVar('INITRAMFS_IMAGE', True) or d.getVar('INITRAMFS_IMAGE_BUNDLE', True) != '1':
-+        raise bb.parse.SkipPackage("Set INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE to enable it")
-+}
-+
-+# Need the output of deploy.
-+do_install[depends] += "virtual/kernel:do_deploy"
-+
-+# We only need the packaging tasks - disable the rest
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
-+do_install() {
-+	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+		echo "Copying initramfs bundled kernel image from ${DEPLOY_DIR_IMAGE}..."
-+		install -d ${D}/${KERNEL_IMAGEDEST}
-+		install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-initramfs-${KERNEL_VERSION}
-+	fi
-+}
-+
-+pkg_postinst_${PN} () {
-+	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-initramfs ${KERNEL_IMAGETYPE}-initramfs /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-initramfs-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+}
-+
-+pkg_postrm_${PN} () {
-+	update-alternatives --remove ${KERNEL_IMAGETYPE}-initramfs ${KERNEL_IMAGETYPE}-initramfs-${KERNEL_VERSION} || true
-+}
--- 
-1.9.1
+//Hongxu
+> Cheers,
+>
+> Richard
 
 
