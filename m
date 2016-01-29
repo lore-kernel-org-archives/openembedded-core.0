@@ -1,32 +1,47 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EAA7731A7
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id ACCB56FF23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 03:39:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0T3dbqb004155
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jan 2016 19:39:37 -0800 (PST)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 28 Jan 2016 19:39:36 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1453882496.git.hongxu.jia@windriver.com>
-	<1453889810.10340.5.camel@linuxfoundation.org>
-	<F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
-	<1453932798.10340.11.camel@linuxfoundation.org>
-	<56A983DE.6030907@windriver.com>
-	<1454000660.10340.52.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56AADEEB.6050106@windriver.com>
-Date: Fri, 29 Jan 2016 11:39:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1454000660.10340.52.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
+	Fri, 29 Jan 2016 06:40:33 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id j99so1501424lfi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jan 2016 22:40:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=dWUxQz1dPt0GTJf09ApN3oWi13dWtsNxlIDsOeYPqEM=;
+	b=GZrxwwWJPnsWqsmx1KUlMs7Qhk6HQfFzBXcwP9Bq+yVjqxWh1lf6eoUzRCWZmjDYzu
+	z7z82O16nBbhmPYrBbLl5abQ2CdyM5ZA3Lh9MNyvS2LdPSUsJqvJLlqI6AQNRDyM9BMJ
+	5SzgghshFNd45yVElRA7jCNEy7jg4tDnagD12Hz57LIMxilWj2g065bif/dTYEaGo/E9
+	PoS6GdjJIN9D0Npkt+sUrQJ/sP7wsd0Hl++t9yFBWVMPspVMap7ddedZXP7mQOmO14Db
+	WtQUzlAfzCXQTR8kheoSXDI+nPwGe4QFUXts8L8toD/HtWaBdBfDz9avm+DJw7dJBGMo
+	huRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dWUxQz1dPt0GTJf09ApN3oWi13dWtsNxlIDsOeYPqEM=;
+	b=GDZsvYTJL0UJ5nbfr6npA7jNHA8IIynfNhYdj+2hLNrBLR9NH7nIrLx7fbHbyXagm2
+	yOJVsAo0c4Ih0lKOoGhh5l/1u+pn0X8B3hX1WrLfIUH0bhJwBOzl9/EOh9vj66xBJEZf
+	vSsOolbNmOCsyR1BcU4nBN78zjw0IAq8y5B/ni7ZcjMgYT+x0FypvXMRs05J/iT1SaHB
+	dWEjwTOkE6LvcPfz+HJccGHBOiiVpVSYNcYmQyopjDAvY+d5T8FBBh4ZYWVXKT9trL95
+	N+46W6IaZbvqbgOqldvwYILLHW/4yNTqf58SK0b44VzjoulNdNBq+qY8h9pir7uPAAFP
+	hQew==
+X-Gm-Message-State: AG10YORBfO1E4fn98871cFlR8eKNp9J/Cj/8pZrTzAebYRIUe2/IL2HCpGBMsZA9X5Bowg==
+X-Received: by 10.25.78.66 with SMTP id c63mr2278091lfb.18.1454049632600;
+	Thu, 28 Jan 2016 22:40:32 -0800 (PST)
+Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
+	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
+	mj4sm1874949lbc.19.2016.01.28.22.40.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 28 Jan 2016 22:40:32 -0800 (PST)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jan 2016 07:40:16 +0100
+Message-Id: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <liu.ming50@gmail.com>,
+	bruce.ashfield@windriver.com, darren@dvhart.com
+Subject: [PATCH V3 0/3] Introduces kernel-initramfs recipe to resolve a implicit dependency issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,146 +54,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 03:39:43 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Jan 2016 06:40:34 -0000
 
-On 01/29/2016 01:04 AM, Richard Purdie wrote:
-> On Thu, 2016-01-28 at 10:58 +0800, Hongxu Jia wrote:
->> On 01/28/2016 06:13 AM, Richard Purdie wrote:
->>> On Wed, 2016-01-27 at 14:34 -0500, Khem Raj wrote:
->>>>> On Jan 27, 2016, at 5:16 AM, Richard Purdie <
->>>>> richard.purdie@linuxfoundation.org> wrote:
->>>>>
->>>>> I like the idea of this a lot, I think it makes sense however
->>>>> why
->>>>> not
->> My original trying was just added them here, but the variable parsing
->> at here is too early, the ${BPN}, ${B} and {S} was assigned with
->> 'defaultpkgname' at this time. Which we have:
->> ...
->>> -fdebug-prefix-map=/buildarea/raid0/hjia/build-20160127-yocto
->>> -buildpath-2/
->> tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname
->> -1.0=
->> /usr/src/defaultpkgname
->
-> I think this is just from your debugging technique. By the time these
-> are used in recipes, they will have the correct value for these
-> variables. Expansion happens late, not when the line is parsed.
+Changes in V3:
+1 Adjusted to the tip:2a6e061712cfe9cb4738806a0c351a64e0d30144
+[ cmake: update to 3.4.2 ]
+2 Fixed a KERNEL_PRIORITY expanding issue
+3 Tested with following configuration in local.conf:
+  a) INITRAMFS_IMAGE = "initramfs-kexecboot-klibc-image"
+     INITRAMFS_IMAGE_BUNDLE = "1"
+     IMAGE_INSTALL_append = "kernel-initramfs"
 
-For var DEBUG_FLAGS, it indeed has correct value at last, but the CFLAGS
-and TARGET_CFLAGS was expanded when DEBUG_FLAGS has 'defaultpkgname'
+  b) INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+     INITRAMFS_IMAGE_BUNDLE = "1"
+     IMAGE_INSTALL_append = "kernel-initramfs"
 
-The CFLAGS and TARGET_CFLAGS is shell variables (export CFLAGS=), it
-seems shell variable is expanded only once.
+  c) # INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+     INITRAMFS_IMAGE_BUNDLE = "1"
+     IMAGE_INSTALL_append = "kernel-initramfs"
 
->
-> Can you be more specific about how you tested this and the problem you
-> saw?
+  d) # INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+     # INITRAMFS_IMAGE_BUNDLE = "1"
+     # IMAGE_INSTALL_append = "kernel-initramfs"
 
-1. Modify bitbake.conf
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e80ee18..3ddb9e8 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install = 
-"${PARALLEL_MAKEINST} "
-  ##################################################################
-  # Optimization flags.
-  ##################################################################
--DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
-+DEBUG_FLAGS ?= "-g \
-+    -feliminate-unused-debug-types \
-+    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
-+    -fdebug-prefix-map=${S}=/usr/src/${BPN} \
-+    -gno-record-gcc-switches \
-+    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-+    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-+"
+Test was based on qemux86-64 machine, core-image-minimal.
+With a and b, the kernel-initramfs package has been installed into rootfs correclty.
+With c, got a error message like:
+......
+ERROR: Nothing RPROVIDES 'kernel-initramfs' (but /data/poky/meta/recipes-core/images/core-image-minimal.bb RDEPENDS on or otherwise requires it)
+ERROR: kernel-initramfs was skipped: Set INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE to enable it
+NOTE: Runtime target 'kernel-initramfs' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['kernel-initramfs']
+ERROR: Required build target 'core-image-minimal' has no buildable providers.
+Missing or unbuildable dependency chain was: ['core-image-minimal', 'kernel-initramfs']
+......
 
-2. Build lib32-glibc, there are still buildpath QA Warnings
-...
-$ bitbake lib32-glibc
-ERROR: QA Issue: File 
-work/core2-32-pokymllib32-linux/lib32-glibc/2.22-r0/packages-split/lib32-glibc-dev/usr/lib/crt1.o 
-in package contained reference to tmpdir
-...
+With d, nothing changed comparing to without the patches.
 
-3. vim temp/run.do_compile
-...
-export 
-TARGET_CFLAGS="-I/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/lib32-qemux86-64/usr/include 
--O2 -pipe -g -feliminate-unused-debug-types 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
--gno-record-gcc-switches 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/x86_64-linux= 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/qemux86-64= 
-"
+-----------------------------------------------------------------------
+In current initramfs bundled kernel packaging policy, there are several
+dependency chains co-existing:
 
-export 
-CFLAGS="-I/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/lib32-qemux86-64/usr/include 
--O2 -pipe -g -feliminate-unused-debug-types 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
--gno-record-gcc-switches 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/x86_64-linux= 
--fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/qemux86-64= 
-"
-...
+| "core-image-minimal.do_build" -> "core-image-minimal.do_bundle_initramfs"
+| "core-image-minimal.do_bundle_initramfs" -> "virtual/kernel.do_bundle_initramfs"
+| "core-image-minimal.do_bundle_initramfs" -> "core-image-minimal.do_rootfs"
+| "core-image-minimal.do_rootfs" -> "virtual/kernel.do_package_write_${IMAGE_PKGTYPE}"
+| "virtual/kernel.do_package_write_${IMAGE_PKGTYPE}" -> "virtual/kernel.do_package"
+| "virtual/kernel.do_package" -> "virtual/kernel.do_install"
+|
+| "virtual/kernel.do_deploy" -> "virtual/kernel.do_bundle_initramfs"
+| "virtual/kernel.do_bundle_initramfs" -> "virtual/kernel.do_install"
 
->> With searching the manual, I could not find a gcc option to
->> do the path substitution on switches in debugging information.
->>
->> Maybe we could add a patch for gcc to do this. I could try in V2
->> if there is no side effect.
-> I like that idea.
+We could see, virtual/kernel.do_package is not explicitly depending on
+virtual/kernel.do_bundle_initramfs so far, therefore, there is not a
+workable way to add initramfs bundled kernel image into rootfs, because
+kernel's do_bundle_initramfs could run parallelly with its do_package,
+which means we will get a implicit kernel-image package that sometimes it
+contains the initramfs bundled kernel or sometimes it doesn't.
 
-I have sent a simple modification on gcc in V2, it adds
-a new option to not record  '-fdebug-prefix-map' to gcc
-command line switches in debugging information.
+To fix this problem, the idea is to let the initramfs bundled kernel
+packaging depend on do_bundle_initramfs, meanwhile, to avoid the circular
+dependency issue that commit: 609d5a9ab9e58bb1c2bcc2145399fbc8b701b85a
+[ kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling ]
 
-//Hongxu
+was trying to address, this dependency has to be splitted from kernel
+recipe(at least, I could not figure out another way to achieve it), so a
+new kernel-initramfs is introduced, in which a dependency chain is created:
 
->> Compile with '-fdebug-prefix-map':
->> objdump -g packages-split/lib32-glibc-dev/usr/lib/gcrt1.o
->> ...
->>> <0><5e>: Abbrev Number: 1 (DW_TAG_compile_unit)
->>>     <5f>   DW_AT_producer    : (indirect string, offset: 0xbb): GNU
->>> C99 5.3.0 -m32
->> -march=core2 -mtune=core2 -msse3 -mfpmath=sse -mpreferred-stack
->> -boundary=4 -g -O2
->> -std=gnu99 -fgnu89-inline -fdebug-prefix
->> -map=/buildarea/raid0/hjia/build-20160119-
->> yocto-buildpath/tmp/work/core2-32-pokymllib32-linux/lib32-glibc/2.22
->> -r0/git=/usr/src/glibc
->> -feliminate-unused-debug-types -fmerge-all-constants -frounding-math
->> -ftls-model=initial-exec
->>
->> When we use '-fdebug-prefix-map', the TMPDIR was added to switches.
->> Although
->> remove the switches is to avoid buildpath QA check, the side effect
->> is
->> the other
->> part of compile options have also been removed.
->>
->> If we need to leave the switches in, I think we could tweak the
->> buildpath QA check,
->> which allows TMPDIR in '-fdebug-prefix-map=' without warning. I think
->> I
->> should
->> send a V2 to do this for discussion.
->>
->> Solution1: do some path substitutions on the switches
->> Solution2: tweak buildpath QA check to allow TMPDIR in '-fdebug
->> -prefix-map='
->>
->> I will try them in V2.
-> Thanks, that part looks good to me.
->
-> Cheers,
->
-> Richard
+| "kernel-initramfs.do_install" -> "virtual/kernel.do_deploy"
+| "virtual/kernel.do_deploy" -> "virtual/kernel.do_bundle_initramfs"
+
+Then the users can add initramfs bundled kernel image into rootfs by:
+
+IMAGE_INSTALL_append = " kernel-initramfs"
+
+without introducing any circular dependencies.
+
+Ming Liu (3):
+  kernel.bbclass: do not install initramfs bundled kernel image
+  image.bbclass: removes bundle_initramfs related code
+  kernel-initramfs: new recipe, creates initramfs bundled kernel
+    packaging
+
+ meta/classes/image.bbclass                    | 13 -----
+ meta/classes/kernel.bbclass                   |  4 --
+ meta/recipes-kernel/linux/kernel-initramfs.bb | 69 +++++++++++++++++++++++++++
+ 3 files changed, 69 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
+
+-- 
+1.9.1
 
 
