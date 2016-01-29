@@ -1,23 +1,31 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A999F76DF3
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AD706FF93
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 15:04:48 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 29 Jan 2016 07:04:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,364,1449561600"; d="scan'208";a="891900248"
-Received: from mshai-mobl1.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.30.5])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jan 2016 07:04:34 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Fri, 29 Jan 2016 15:07:36 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u0TF7arj022575; Fri, 29 Jan 2016 09:07:36 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016012909073628-440974 ;
+	Fri, 29 Jan 2016 09:07:36 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2016 17:04:31 +0200
-Message-Id: <1454079871-4658-4-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1454079871-4658-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1454079871-4658-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 3/3] externalsrc: use shared CONFIGURESTAMPFILE if B=S
+Date: Fri, 29 Jan 2016 17:07:21 +0200
+Message-Id: <1454080041-28576-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/29/2016 09:07:36 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/29/2016 09:07:36 AM,
+	Serialize complete at 01/29/2016 09:07:36 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-29_06:, , signatures=0
+Cc: Adam Chappell <adam.chappell@ni.com>,
+	Jacob Champion <jacob.champion@ni.com>
+Subject: [PATCH v3 1/1] apr-util: add ldap crypto and sqlite3 to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 15:04:48 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 15:07:37 -0000
 
-External source tree is used as the builddir even for different
-architectures in case ${B}=${S}. This may cause problems if MACHINE is
-changed as do_configure is not being re-run (which would run make
-clean). This patches changes externalsrc to use a common (per-recipe)
-CONFIGURESTAMPFILE under 'work-shared' if ${B}=${S}. In addition,
-do_configure will depend on changes of this stamp file. As a result,
-do_configure is re-run and the build dir is cleaned correctly if a
-rebuild for different MACHINE is done.
+Enable apr-util's cryptographic routines so that the apache2 package
+can encrypt session data. Also add sqlite3 and ldap modules, disabled
+by default.
 
-[YOCTO #8950]
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Adam Chappell <adam.chappell@ni.com>
+Signed-off-by: Jacob Champion <jacob.champion@ni.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Acked-by: Ken Sharp <ken.sharp@ni.com>
 ---
- meta/classes/externalsrc.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/recipes-support/apr/apr-util_1.5.4.bb | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index f7ed66d..be0fe55 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -85,6 +85,17 @@ python () {
+diff --git a/meta/recipes-support/apr/apr-util_1.5.4.bb b/meta/recipes-support/apr/apr-util_1.5.4.bb
+index 6856db9..eb920b9 100644
+--- a/meta/recipes-support/apr/apr-util_1.5.4.bb
++++ b/meta/recipes-support/apr/apr-util_1.5.4.bb
+@@ -24,7 +24,6 @@ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
+ 		--with-dbm=gdbm \
+ 		--with-gdbm=${STAGING_DIR_HOST}${prefix} \
+ 		--without-sqlite2 \
+-		--without-sqlite3 \
+ 		--with-expat=${STAGING_DIR_HOST}${prefix}"
  
-         # Ensure compilation happens every time
-         d.setVarFlag('do_compile', 'nostamp', '1')
-+
-+        # If B=S the same builddir is used even for different architectures.
-+        # Thus, use a shared CONFIGURESTAMPFILE so that change of do_configure
-+        # task hash is correctly detected if e.g. MACHINE changes. In addition,
-+        # do_configure needs to depend on the stamp file so that the task is
-+        # re-run when the stamp was changed since the last run on this
-+        # architecture.
-+        if d.getVar('S', True) == d.getVar('B', True):
-+            configstamp = '${TMPDIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}/configure.sstate'
-+            d.setVar('CONFIGURESTAMPFILE', configstamp)
-+            d.setVarFlag('do_configure', 'file-checksums', configstamp + ':True')
+ 
+@@ -66,9 +65,16 @@ do_install_append_class-target() {
+ 	       -e 's,APU_BUILD_DIR=.*,APR_BUILD_DIR=,g' ${D}${bindir}/apu-1-config
  }
  
- python externalsrc_compile_prefunc() {
+-FILES_${PN}     += "${libdir}/apr-util-1/apr_dbm_gdbm-1.so"
+-FILES_${PN}-dev += "${libdir}/aprutil.exp ${libdir}/apr-util-1/apr_dbm_gdbm.so* ${libdir}/apr-util-1/apr_dbm_gdbm.la"
+-FILES_${PN}-staticdev += "${libdir}/apr-util-1/apr_dbm_gdbm.a"
++PACKAGECONFIG ??= "crypto"
++PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
++PACKAGECONFIG[crypto] = "--with-crypto,--without-crypto"
++PACKAGECONFIG[sqlite3] = "--with-sqlite3=${STAGING_DIR_HOST}${prefix},--without-sqlite3,sqlite3"
++
++FILES_${PN}     += "${libdir}/apr-util-1/apr*${SOLIBS}"
++FILES_${PN}-dev += "${libdir}/aprutil.exp \
++	${libdir}/apr-util-1/apr*${SOLIBSDEV} \
++	${libdir}/apr-util-1/*.la"
++FILES_${PN}-staticdev += "${libdir}/apr-util-1/*.a"
+ 
+ inherit ptest
+ 
 -- 
-2.1.4
+2.7.0
 
 
