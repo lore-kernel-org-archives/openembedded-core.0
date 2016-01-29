@@ -1,48 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ADB1760AD
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E61C76DF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 14:44:42 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id g73so92197637ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 06:44:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ZxnHgGlI0dkModBfpw/AnKc2cyX5y4o69w6f1TltCbc=;
-	b=CTDW/TznBzbINSycgABOyi0au5bLTiLNL3wr/9H54W7jP+DNJtPzl21jTvEAk1Mrgv
-	BsEpJySpaJ2KRwkfW6Z6uXdGpb+GVIkGnCWA5lUz/A6hvCkc+DwSUeqhkToeoYVoP+H4
-	N9ntqvK57ibIERL9M1Z2a4CM2kBFldWempEG0q9zgIa1xbBiMFJv2vp7HRBsdXN8F/ZZ
-	r9djHhSqMVqHxLqWijPX7cJo9HCMw1v1cc2Zgi6kpYiBRWoV3H/58KqAh/HS/DqR7xh5
-	q5cuJPTubfvoSBetQQBbuw+I6oLfr+uR2vF9ZwpuUVPXFvj+S2cI8acr5/BKQYu2rQih
-	OEjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ZxnHgGlI0dkModBfpw/AnKc2cyX5y4o69w6f1TltCbc=;
-	b=U/p+htXbUOkFOkImL9rssRHhT+Z/lVuNNRy3Wznogkw4VnUi1jk2GGh8qVXCTecLwf
-	ho5gxpE6jIfsMD56Q73uVm4FvGQerJXPl7qRbQ/mP3K9Xgj72HfpvLtpJAfac2piQ2A+
-	/ZCC4JEiOgOZHhTk9KAM9gWqnr8s1KklB3Dtul/DGvL1bOEmKVUqZl8FFQSPRF4C7GF3
-	q2B+N1p1FiEAtllyvvdcNxgED3314CvKdhW+Oh3vtxu2z8lNMMEmZKsVGvpgwX/aqAwi
-	ZotqkiyFNvoLa+zQfagZrhEaEGTVdOJJRYKcrdkhsrxcKt/1WaBqRsVCZzzFgVR+JxSr
-	sKgA==
-X-Gm-Message-State: AG10YOTu504OpdqH3JQhXes9Ofl8faF56L+PI+b84EWzp2tNC9PeQVs6FlDtzwPQX/kYh1IbD8Auxzua0Y58fQ==
-X-Received: by 10.107.9.211 with SMTP id 80mr4335207ioj.112.1454078683628;
-	Fri, 29 Jan 2016 06:44:43 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Fri, 29 Jan 2016 06:44:14 -0800 (PST)
-In-Reply-To: <56AB73C0.8030505@linux.intel.com>
-References: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
-	<56AB73C0.8030505@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 29 Jan 2016 06:44:14 -0800
-Message-ID: <CAMKF1spkRPwBzY+6j6pVM_epfB2sVYS37-i+s9rJw4-rTXOMbQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] Glibc 2.23 and binutils 2.26
+	Fri, 29 Jan 2016 15:04:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 29 Jan 2016 07:04:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,364,1449561600"; d="scan'208";a="891900207"
+Received: from mshai-mobl1.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.30.5])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jan 2016 07:04:31 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jan 2016 17:04:28 +0200
+Message-Id: <1454079871-4658-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] correctly clean ${B] when externalsrc and {B}=${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 14:44:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 29 Jan 2016 15:04:48 -0000
 
-On Fri, Jan 29, 2016 at 6:14 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 01/17/2016 01:54 PM, Khem Raj wrote:
->>
->> upstream glibc and binutils release branches have been cut out and are
->> being made ready for next release
->> I have put together update patchset for both of them
->>
->> here are the branches
->>
->> https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26
->> https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
->
->
-> Hello Khem,
->
-> when are you planning to submit these?
+This patchset aims in fixing a build failure when B=S and externalsrc is used.
+The build failure was caused by build artefacts from a previous build not being
+cleaned up when MACHINE was changed.
 
-binutils exposes a problem for ppc as a result kernel fails to build.
-The fix is to drop
-http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+[YOCTO #8950]
 
-that patch makes generic ppc configs to be specific to fsl ppc.
-but we need context as to why this was done
+The following changes since commit 2a6e061712cfe9cb4738806a0c351a64e0d30144:
 
-glibc is still not released.
+  cmake: update to 3.4.2 (2016-01-26 22:48:57 +0000)
 
->
->
-> Alex
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+are available in the git repository at:
+
+  contrib-git marquiz/externalsrc
+
+for you to fetch changes up to 58bb2b3bd3195af2715e8dd594326dfa73fc72e9:
+
+  externalsrc: use shared CONFIGURESTAMPFILE if B=S (2016-01-29 16:53:19 +0200)
+
+
+Markus Lehtonen (3):
+  autotools.bbclass: use oe_runmake instead of ${MAKE}
+  Make sure that the directory for CONFIGURESTAMPFILE exists
+  externalsrc: use shared CONFIGURESTAMPFILE if B=S
+
+ meta/classes/autotools.bbclass   |  4 ++--
+ meta/classes/base.bbclass        |  1 +
+ meta/classes/externalsrc.bbclass | 11 +++++++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+-- 
+2.1.4
+
 
