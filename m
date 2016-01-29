@@ -1,50 +1,35 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A2161731F1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 11204731F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 06:40:36 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id n70so3239735lfn.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 22:40:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=uvUlFt7/cDZAA2O0Mn+QKtLbqRQlvp2GsoC/jF1l1rU=;
-	b=e0PRSvD9hHsznaeEMPkil9oXcVGNtObNgWpENB+5x7AdaTN7A/MwAc2hl8jKuhAxAK
-	Rm8JYCp/kCZlYTP6XH+6wd+KTL1aKbpmSwH2GG9LVF68nBbQUs2iTj15hGpVDvCVyW4N
-	0BOGmzbH4UW2dlnnZWnHSDw0cc7UtXS8RAieawAbUh+Xto5p1s9LFBujCo2B07TbjH22
-	YXys36yrIKXPTNSVWyBPKgg8QpktGnKvHdZGynOnwNWw0OkaQwXaA4rX3DRBwwkCXheu
-	lGfpFFy5Ct2Pm4uwNr95yRWkJQ7TfzlLg9BNUrgiWWNYvkOP1rE7noO9u0SytyT2dKj3
-	SDNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=uvUlFt7/cDZAA2O0Mn+QKtLbqRQlvp2GsoC/jF1l1rU=;
-	b=M4YuZfrfprKIuD42kldgPhAcbY87DOhMZjkcxzDQQWk1zt+MGzrufjWK/kJXRjVWvb
-	r0gEIxFQ1Xt+gFJ70pVfbg65rJKOgus2A2ZDGjekWXsCtqXCjDDIan5f55Nb+kXdSX/X
-	e1s2VkyVsfWAbnoV4gFBYURCGXXh+n9Tmh9ngbqD1+919RyAChl1VOlHwJ7h5lgWKOYb
-	oI3CrLXULeMP7jRnWPObWAIy2puKEzpsVQxyNbCpj2/Xp9k4GjkcTrY0QwlkIfkl1+3n
-	nTKATKHnX9pJardgDjhh1PX3XW1lttsOOXkDEXpK3QGz7taiehK6hwtuQoJ0iODcLzrm
-	tYPw==
-X-Gm-Message-State: AG10YOQhxxYRw24yS5Tyq+UcO4SMa7kg2LtANbyK86ieyFwnIhRKVe/PWJwG93BBuigQUg==
-X-Received: by 10.25.143.208 with SMTP id r199mr2624985lfd.148.1454049636982; 
-	Thu, 28 Jan 2016 22:40:36 -0800 (PST)
-Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	mj4sm1874949lbc.19.2016.01.28.22.40.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Jan 2016 22:40:36 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2016 07:40:18 +0100
-Message-Id: <1454049619-22703-3-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
-References: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
-	bruce.ashfield@windriver.com, darren@dvhart.com
-Subject: [PATCH V3 2/3] image.bbclass: removes bundle_initramfs related code
+	Fri, 29 Jan 2016 06:40:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0T6eXA1001280; Fri, 29 Jan 2016 06:40:33 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id myM2cIxrtn0D; Fri, 29 Jan 2016 06:40:33 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0T6eU4P001264
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 29 Jan 2016 06:40:32 GMT
+Message-ID: <1454049630.10340.60.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Fri, 29 Jan 2016 06:40:30 +0000
+In-Reply-To: <56AADEEB.6050106@windriver.com>
+References: <cover.1453882496.git.hongxu.jia@windriver.com>
+	<1453889810.10340.5.camel@linuxfoundation.org>
+	<F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
+	<1453932798.10340.11.camel@linuxfoundation.org>
+	<56A983DE.6030907@windriver.com>
+	<1454000660.10340.52.camel@linuxfoundation.org>
+	<56AADEEB.6050106@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +42,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 06:40:37 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 06:40:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On Fri, 2016-01-29 at 11:39 +0800, Hongxu Jia wrote:
+> On 01/29/2016 01:04 AM, Richard Purdie wrote:
+> > On Thu, 2016-01-28 at 10:58 +0800, Hongxu Jia wrote:
+> > > On 01/28/2016 06:13 AM, Richard Purdie wrote:
+> > > > On Wed, 2016-01-27 at 14:34 -0500, Khem Raj wrote:
+> > > > > > On Jan 27, 2016, at 5:16 AM, Richard Purdie <
+> > > > > > richard.purdie@linuxfoundation.org> wrote:
+> > > > > > 
+> > > > > > I like the idea of this a lot, I think it makes sense
+> > > > > > however
+> > > > > > why
+> > > > > > not
+> > > My original trying was just added them here, but the variable
+> > > parsing
+> > > at here is too early, the ${BPN}, ${B} and {S} was assigned with
+> > > 'defaultpkgname' at this time. Which we have:
+> > > ...
+> > > > -fdebug-prefix-map=/buildarea/raid0/hjia/build-20160127-yocto
+> > > > -buildpath-2/
+> > > tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname
+> > > -1.0=
+> > > /usr/src/defaultpkgname
+> > 
+> > I think this is just from your debugging technique. By the time
+> > these
+> > are used in recipes, they will have the correct value for these
+> > variables. Expansion happens late, not when the line is parsed.
+> 
+> For var DEBUG_FLAGS, it indeed has correct value at last, but the
+> CFLAGS
+> and TARGET_CFLAGS was expanded when DEBUG_FLAGS has 'defaultpkgname'
+> 
+> The CFLAGS and TARGET_CFLAGS is shell variables (export CFLAGS=), it
+> seems shell variable is expanded only once.
+> 
+> > 
+> > Can you be more specific about how you tested this and the problem
+> > you
+> > saw?
+> 
+> 1. Modify bitbake.conf
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e80ee18..3ddb9e8 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install = 
+> "${PARALLEL_MAKEINST} "
+>   ##################################################################
+>   # Optimization flags.
+>   ##################################################################
+> -DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
+> +DEBUG_FLAGS ?= "-g \
+> +    -feliminate-unused-debug-types \
+> +    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
+> +    -fdebug-prefix-map=${S}=/usr/src/${BPN} \
+> +    -gno-record-gcc-switches \
+> +    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+> +    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+> +"
+> 
+> 2. Build lib32-glibc, there are still buildpath QA Warnings
 
-The original purpose of these code is to repackage initramfs bundled kernel
-into rootfs by making image.bbclass build depend on bundle_initramfs of
-virtual/kernel. But this is not going to succeed because virtual/kernel's
-do_package is not depending on its bundle_initramfs.
+I investigated this a little. When I tried your patch I saw:
 
-We must figure out another way to package initramfs bundled kernel.
+$ bitbake glibc -e | grep TARGET_CFLAGS=
+export TARGET_CFLAGS="
+-I/media/build1/poky/build/tmp5/sysroots/qemux86/usr/include -O2 -pipe 
+-g -feliminate-unused-debug-types -fdebug-prefix
+-map=/media/build1/poky/build/tmp5/work/i586-poky
+-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname
+-fdebug-prefix-map=/media/build1/poky/build/tmp5/work/i586-poky
+-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname
+-gno-record-gcc-switches -fdebug-prefix
+-map=/media/build1/poky/build/tmp5/sysroots/x86_64-linux= -fdebug
+-prefix-map=/media/build1/poky/build/tmp5/sysroots/qemux86= "
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/classes/image.bbclass | 13 -------------
- 1 file changed, 13 deletions(-)
+and then once I commented out:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 56a49e7..87645a0 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -167,10 +167,6 @@ python () {
-     d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
+SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
+
+in glibc.inc I see:
+
+$ bitbake glibc -e | grep TARGET_CFLAGS=
+export TARGET_CFLAGS="
+-I/media/build1/poky/build/tmp5/sysroots/qemux86/usr/include -O2 -pipe 
+-g -feliminate-unused-debug-types -fdebug-prefix
+-map=/media/build1/poky/build/tmp5/work/i586-poky-linux/glibc/2.22
+-r0/build-i586-poky-linux=/usr/src/glibc -fdebug-prefix
+-map=/media/build1/poky/build/tmp5/work/i586-poky-linux/glibc/2.22
+-r0/git=/usr/src/glibc -gno-record-gcc-switches -fdebug-prefix
+-map=/media/build1/poky/build/tmp5/sysroots/x86_64-linux= -fdebug
+-prefix-map=/media/build1/poky/build/tmp5/sysroots/qemux86= "
+
+I'd much prefer to fix glibc.inc and put the entries in bitbake.conf
+than further complicate the variables unnecessarily.
+
+For example, we could do:
+
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 17fa2d5..8e62b3a 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -10,25 +10,20 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
  
-     check_image_features(d)
--    initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
--    if initramfs_image != "":
--        d.appendVarFlag('do_build', 'depends', " %s:do_bundle_initramfs" %  d.getVar('PN', True))
--        d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_image_complete" % initramfs_image)
- }
- 
- IMAGE_CLASSES += "image_types"
-@@ -511,12 +507,3 @@ do_packagedata[noexec] = "1"
- do_package_write_ipk[noexec] = "1"
- do_package_write_deb[noexec] = "1"
- do_package_write_rpm[noexec] = "1"
+ # glibc can't be built without optimization, if someone tries to compile an
+ # entire image as -O0, we override it with -O2 here and give a note about it.
+-def get_optimization(d):
++python () {
+     selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
+-    if bb.utils.contains("SELECTED_OPTIMIZATION", "-O2", "x", "", d) == "x":
+-        return selected_optimization
+-    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O", "x", "", d) == "x":
++    if bb.utils.contains("SELECTED_OPTIMIZATION", "-O", "x", "", d) == "x":
+         bb.note("glibc can't be built with -O, -O -Wno-error will be used instead.")
+-        return selected_optimization.replace("-O", "-O -Wno-error")
++        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+     elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+-        bb.note("glibc can't be built with -O0, -O2 will be used instead.")
+-        return selected_optimization.replace("-O0", "-O2")
++        bb.fatal("glibc can't be built with -O0, using -O1 -Wno-error or -O1 instead.")
+     elif bb.utils.contains("SELECTED_OPTIMIZATION", "-Os", "x", "", d) == "x":
+         bb.note("glibc can't be built with -Os, -Os -Wno-error will be used instead.")
+-        return selected_optimization.replace("-Os", "-Os -Wno-error")
++        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+     elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O1", "x", "", d) == "x":
+         bb.note("glibc can't be built with -O1, -O1 -Wno-error will be used instead.")
+-        return selected_optimization.replace("-O1", "-O1 -Wno-error")
+-    return selected_optimization
 -
--# Allow the kernel to be repacked with the initramfs and boot image file as a single file
--do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
--do_bundle_initramfs[nostamp] = "1"
--do_bundle_initramfs[noexec] = "1"
--do_bundle_initramfs () {
--	:
--}
--addtask bundle_initramfs after do_image_complete
--- 
-1.9.1
+-SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
++        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
++}
+ 
+ # siteconfig.bbclass runs configure which needs a working compiler
+ # For the compiler to work we need a working libc yet libc isn't
 
+which will now give an error for -O0 but I think that is reasonable.
+I'd even prefer to drop the above entirely and use bitbake.conf to be
+honest but I know some people insisted we should have the above.
+
+Cheers,
+
+Richard
 
