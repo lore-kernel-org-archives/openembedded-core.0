@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A268B76DE1
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 36A567680B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 29 Jan 2016 17:36:05 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0THa4x1014325
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 29 Jan 2016 09:36:04 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0THa14s023695
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 29 Jan 2016 09:36:02 -0800
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 29 Jan 2016 09:36:03 -0800
+	Fri, 29 Jan 2016 09:36:00 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>
-Date: Fri, 29 Jan 2016 12:35:54 -0500
-Message-ID: <51387bed968918e5c45820eb32ee898485cc0544.1454088695.git.hongxu.jia@windriver.com>
+Date: Fri, 29 Jan 2016 12:35:53 -0500
+Message-ID: <cover.1454088695.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1454088695.git.hongxu.jia@windriver.com>
-References: <cover.1454088695.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] base/bbclass: use target path as compile dir in debugging info
+Subject: [PATCH v3 0/5]use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 17:36:05 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 17:36:06 -0000
 Content-Type: text/plain
 
-In debugging information, it uses target paths rather than
-build ones as compile dir.
+Changed in V3:
+- Move entry from base.bbclass to bitbake.conf
+- Do not immediate expand SELECTED_OPTIMIZATION
+
+Changed in V2:
+- Do not use '-gno-record-gcc-switches' to leave gcc switches in;
+
+- Add gcc option '-gno-record-debug-prefix-map' to not record
+  '-fdebug-prefix-map' to gcc command line switches in DWARF
+  DW_AT_producer;
+
+Test Steps:
+
+vim local.conf
 ...
- -fdebug-prefix-map=old=new
-   When compiling files in directory old, record debugging
-   information describing them as in new instead.
+MACHINE ?= "qemux86-64"
+WARN_QA += "buildpaths"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
 ...
 
-Compile without this fix:
-objdump -g git/test.o
-...
- The Directory Table (offset 0x1b):
-|  1     /buildarea/raid0/hjia/build-20160119-yocto-buildpath/tmp/sysroots/x86_64-linux/usr/lib/
-i686-pokymllib32-linux.lib32-gcc-cross-initial-i686/gcc/i686-pokymllib32-linux/5.3.0/include
-|  2     /buildarea/raid0/hjia/build-20160119-yocto-buildpath/tmp/sysroots/lib32-qemux86-64/usr/include/bits
-|  3     /buildarea/raid0/hjia/build-20160119-yocto-buildpath/tmp/sysroots/lib32-qemux86-64/usr/include
-...
+bitbake -k world
 
-Compile with this fix:
-objdump -g git/test.o
-...
- The Directory Table (offset 0x1b):
-|  1     /usr/lib/i686-pokymllib32-linux.lib32-gcc-cross-initial-i686/gcc/i686-pokymllib32-linux/
-5.3.0/include
-|  2     /usr/include/bits
-|  3     /usr/include
-...
+It fixed buildpath QA warning of 169 recipes (previously 236, currently 67) 
+These newly added options does not work on native.(Which TARGET_CFLAGS
+have been overrided in native.bbclass)
 
-[YOCTO #7058]
+When do the world build, mkelfimage compile failed which
+triggered by the newly added gcc option.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/conf/bitbake.conf | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+//Hongxu
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e80ee18..bebaaf4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
- ##################################################################
- # Optimization flags.
- ##################################################################
--DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
-+DEBUG_FLAGS ?= "-g \
-+    -feliminate-unused-debug-types \
-+    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
-+    -fdebug-prefix-map=${S}=/usr/src/${BPN} \
-+    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-+    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-+"
-+
- # Disabled until the option works properly -feliminate-dwarf2-dups
- FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
- DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+The following changes since commit 3d2c0f5902cacf9d8544bf263b51ef0dd1a7218c:
+
+  cmake: update to 3.4.2 (2016-01-26 22:49:40 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+
+Hongxu Jia (5):
+  base/bbclass: use target path as compile dir in debugging info
+  gcc-5.3.inc/base.bbclass: add gcc option to not record
+    -fdebug-prefix-map to debugging info
+  mkelfimage: fix target cflags leaks to host
+  glibc.inc: do not immediate expand SELECTED_OPTIMIZATION
+  systemtap_git.inc: do not immediate expand SELECTED_OPTIMIZATION
+
+ meta/conf/bitbake.conf                             | 10 +++-
+ meta/recipes-core/glibc/glibc.inc                  | 22 +++-----
+ meta/recipes-devtools/gcc/gcc-5.3.inc              |  3 +-
+ ...48-add-option-gno-record-debug-prefix-map.patch | 65 ++++++++++++++++++++++
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  4 +-
+ meta/recipes-kernel/systemtap/systemtap_git.inc    | 12 ++--
+ 6 files changed, 91 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0048-add-option-gno-record-debug-prefix-map.patch
+
 -- 
 1.9.1
 
