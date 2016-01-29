@@ -1,31 +1,28 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AD706FF93
+Return-Path: <mac@mcrowe.com>
+X-Greylist: delayed 455 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 29 Jan 2016 15:55:25 UTC
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 88DC57721C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 15:07:36 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u0TF7arj022575; Fri, 29 Jan 2016 09:07:36 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016012909073628-440974 ;
-	Fri, 29 Jan 2016 09:07:36 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Fri, 29 Jan 2016 15:55:25 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id Brno1s00D0BmcFC01rnqxQ; Fri, 29 Jan 2016 15:47:50 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
+	a=7aQ_Q-yQQ-AA:10 a=lUMY98rfZbqYkMFD4F0A:9 a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.84)
+	(envelope-from <mac@mcrowe.com>) id 1aPBH2-0005FY-Py
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jan 2016 15:47:48 +0000
+Date: Fri, 29 Jan 2016 15:47:48 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2016 17:07:21 +0200
-Message-Id: <1454080041-28576-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.7.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/29/2016 09:07:36 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/29/2016 09:07:36 AM,
-	Serialize complete at 01/29/2016 09:07:36 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-29_06:, , signatures=0
-Cc: Adam Chappell <adam.chappell@ni.com>,
-	Jacob Champion <jacob.champion@ni.com>
-Subject: [PATCH v3 1/1] apr-util: add ldap crypto and sqlite3 to PACKAGECONFIG
+Message-ID: <20160129154748.GB19208@mcrowe.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: package.tgz files not touched in sstate-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,53 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 15:07:37 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 15:55:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Enable apr-util's cryptographic routines so that the apache2 package
-can encrypt session data. Also add sqlite3 and ldap modules, disabled
-by default.
+We have a shared sstate-cache that is populated by us building nightly
+images for various branches using Jenkins. This cache is pruned
+periodically (with special care of the siginfo files since we don't have
+80b3974081c4a8c604e23982a6db8fb32c616058 yet.)
 
-Signed-off-by: Adam Chappell <adam.chappell@ni.com>
-Signed-off-by: Jacob Champion <jacob.champion@ni.com>
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Acked-by: Ken Sharp <ken.sharp@ni.com>
----
- meta/recipes-support/apr/apr-util_1.5.4.bb | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Recently we went back to one of those branches that hadn't been changed for
+a while and were surprised to find that Bitbake wanted to build loads of
+packages from source.
 
-diff --git a/meta/recipes-support/apr/apr-util_1.5.4.bb b/meta/recipes-support/apr/apr-util_1.5.4.bb
-index 6856db9..eb920b9 100644
---- a/meta/recipes-support/apr/apr-util_1.5.4.bb
-+++ b/meta/recipes-support/apr/apr-util_1.5.4.bb
-@@ -24,7 +24,6 @@ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
- 		--with-dbm=gdbm \
- 		--with-gdbm=${STAGING_DIR_HOST}${prefix} \
- 		--without-sqlite2 \
--		--without-sqlite3 \
- 		--with-expat=${STAGING_DIR_HOST}${prefix}"
- 
- 
-@@ -66,9 +65,16 @@ do_install_append_class-target() {
- 	       -e 's,APU_BUILD_DIR=.*,APR_BUILD_DIR=,g' ${D}${bindir}/apu-1-config
- }
- 
--FILES_${PN}     += "${libdir}/apr-util-1/apr_dbm_gdbm-1.so"
--FILES_${PN}-dev += "${libdir}/aprutil.exp ${libdir}/apr-util-1/apr_dbm_gdbm.so* ${libdir}/apr-util-1/apr_dbm_gdbm.la"
--FILES_${PN}-staticdev += "${libdir}/apr-util-1/apr_dbm_gdbm.a"
-+PACKAGECONFIG ??= "crypto"
-+PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
-+PACKAGECONFIG[crypto] = "--with-crypto,--without-crypto"
-+PACKAGECONFIG[sqlite3] = "--with-sqlite3=${STAGING_DIR_HOST}${prefix},--without-sqlite3,sqlite3"
-+
-+FILES_${PN}     += "${libdir}/apr-util-1/apr*${SOLIBS}"
-+FILES_${PN}-dev += "${libdir}/aprutil.exp \
-+	${libdir}/apr-util-1/apr*${SOLIBSDEV} \
-+	${libdir}/apr-util-1/*.la"
-+FILES_${PN}-staticdev += "${libdir}/apr-util-1/*.a"
- 
- inherit ptest
- 
--- 
-2.7.0
+It turned out that whilst the populate_sysroot.gz and package_ipk.tgz files
+were still in the sstate-cache, the package.tgz tarball was not. This meant
+that the whole package was built again in order to satisfy the build
+dependencies of other packages that had changed.
 
+I'm suspicious that this behaviour was introduced by the optimisation in
+a0f584ac3d5a94dec121b684206ecd40c968f7fc so we hadn't seen it on older
+branches.
+
+Is there a way to cause the package.tgz file to be touched during these
+nightly builds too? Or, is there a way to get hold of the complete set of
+sstate files so they can be touched all in one go?
+
+Thanks.
+
+Mike.
 
