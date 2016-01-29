@@ -1,50 +1,50 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A91B16FF23
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A2161731F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 06:40:34 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id z62so3240404lfd.0
+	Fri, 29 Jan 2016 06:40:36 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id n70so3239735lfn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 22:40:35 -0800 (PST)
+	Thu, 28 Jan 2016 22:40:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7cKTqqYK2zCAU9Nomn1mol7AvpTYVlLfaF51V6VIVEI=;
-	b=em0w27rc6GWGMxxNP2zFeb19ep1ZE6AMxU9WQewbOZ0ke6GE4AMpL0pZqOt4H5qiTq
-	yHqnEboube9fB8dfc6DmqBhCrrkNQ9MEkLZLMOwLuYtJVEPJmeW9XWEHco3HLPMe8mUh
-	+dzQoYTrnFNYl3VaMYAvvinn6Me8ASfsi0zXTeH9ZbbtUHaQPjf6Zhi4h3FYw+aEUFt9
-	cY3ICGbhs3M2aVPlt2Vn8wZy3UZHP6lfTGH73WIqjJ9n9cpYpB5IjhK1fIL88VJUWpf2
-	wJw2w5tB+fK4sMXJ9g1I65l09bAjGNPKI0qOT88gn/kbNeimeFS/PZCOgGGVyTKDT9Hi
-	L7bQ==
+	bh=uvUlFt7/cDZAA2O0Mn+QKtLbqRQlvp2GsoC/jF1l1rU=;
+	b=e0PRSvD9hHsznaeEMPkil9oXcVGNtObNgWpENB+5x7AdaTN7A/MwAc2hl8jKuhAxAK
+	Rm8JYCp/kCZlYTP6XH+6wd+KTL1aKbpmSwH2GG9LVF68nBbQUs2iTj15hGpVDvCVyW4N
+	0BOGmzbH4UW2dlnnZWnHSDw0cc7UtXS8RAieawAbUh+Xto5p1s9LFBujCo2B07TbjH22
+	YXys36yrIKXPTNSVWyBPKgg8QpktGnKvHdZGynOnwNWw0OkaQwXaA4rX3DRBwwkCXheu
+	lGfpFFy5Ct2Pm4uwNr95yRWkJQ7TfzlLg9BNUrgiWWNYvkOP1rE7noO9u0SytyT2dKj3
+	SDNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=7cKTqqYK2zCAU9Nomn1mol7AvpTYVlLfaF51V6VIVEI=;
-	b=jK7aSOL6XE0jcq2fp77/RA0UbO7LlBa/fbffZAXr4AejyOAjjLPX2aUqWnwmQQ+mK5
-	d/JR9sOLWcra1olzbx6nGNlgvvdPdqpycHsAC4FgFFEjyeu8lkBWgGfLG1LcfupRPRAf
-	C/14h2+890JerBF16q8/MswEpkiRIcb765XaZBzrf775B7AqHWwdNwBH1bZYDIo83F6g
-	btsYw/5cKLyj9aeAcm0hwO0SugpsbelpOLAdxQap+7ozc4n9ULYV7nwRr5zCHRieX9Rv
-	rpXYMfdlM22C7dO+pclp+TwlJp9zWZjIWFArc7E1iOVDAGTVuTFIXmpYr8eDBtBl8JUg
-	zctw==
-X-Gm-Message-State: AG10YOR4Kh4e/mfEzzH0RJCJ7LNA8lbUIDpca8YHHAoc6FpiCBl0eu95MToSZZ8HvKoBMw==
-X-Received: by 10.25.21.29 with SMTP id l29mr478222lfi.123.1454049634866;
-	Thu, 28 Jan 2016 22:40:34 -0800 (PST)
+	bh=uvUlFt7/cDZAA2O0Mn+QKtLbqRQlvp2GsoC/jF1l1rU=;
+	b=M4YuZfrfprKIuD42kldgPhAcbY87DOhMZjkcxzDQQWk1zt+MGzrufjWK/kJXRjVWvb
+	r0gEIxFQ1Xt+gFJ70pVfbg65rJKOgus2A2ZDGjekWXsCtqXCjDDIan5f55Nb+kXdSX/X
+	e1s2VkyVsfWAbnoV4gFBYURCGXXh+n9Tmh9ngbqD1+919RyAChl1VOlHwJ7h5lgWKOYb
+	oI3CrLXULeMP7jRnWPObWAIy2puKEzpsVQxyNbCpj2/Xp9k4GjkcTrY0QwlkIfkl1+3n
+	nTKATKHnX9pJardgDjhh1PX3XW1lttsOOXkDEXpK3QGz7taiehK6hwtuQoJ0iODcLzrm
+	tYPw==
+X-Gm-Message-State: AG10YOQhxxYRw24yS5Tyq+UcO4SMa7kg2LtANbyK86ieyFwnIhRKVe/PWJwG93BBuigQUg==
+X-Received: by 10.25.143.208 with SMTP id r199mr2624985lfd.148.1454049636982; 
+	Thu, 28 Jan 2016 22:40:36 -0800 (PST)
 Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
 	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	mj4sm1874949lbc.19.2016.01.28.22.40.33
+	mj4sm1874949lbc.19.2016.01.28.22.40.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Jan 2016 22:40:34 -0800 (PST)
+	Thu, 28 Jan 2016 22:40:36 -0800 (PST)
 From: Ming Liu <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2016 07:40:17 +0100
-Message-Id: <1454049619-22703-2-git-send-email-liu.ming50@gmail.com>
+Date: Fri, 29 Jan 2016 07:40:18 +0100
+Message-Id: <1454049619-22703-3-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
 References: <1454049619-22703-1-git-send-email-liu.ming50@gmail.com>
 Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
 	bruce.ashfield@windriver.com, darren@dvhart.com
-Subject: [PATCH V3 1/3] kernel.bbclass: do not install initramfs bundled kernel image
+Subject: [PATCH V3 2/3] image.bbclass: removes bundle_initramfs related code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 06:40:35 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 06:40:37 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-It makes no sense to install a initramfs bundled kernel image since
-do_package does not depend on do_bundle_initramfs at all, otherwise, it
-leads to a impicit kernel-image package depending on do_package run before
-or after do_bundle_initramfs.
+The original purpose of these code is to repackage initramfs bundled kernel
+into rootfs by making image.bbclass build depend on bundle_initramfs of
+virtual/kernel. But this is not going to succeed because virtual/kernel's
+do_package is not depending on its bundle_initramfs.
 
-And for some reason, we can not add a intertask dependency between
-do_package and do_bundle_initramfs, that would introduce a circular
-dependency in following scenarios:
-1 Some kernel modules have been added into INITRAMFS_IMAGE.
-2 INITRAMFS_IMAGE has been bundled into kernel image.
-3 kernel-image package has been added into core image's IMAGE_INSTALL.
-
-We need firgure out another way to fix this problem.
+We must figure out another way to package initramfs bundled kernel.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/kernel.bbclass | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/classes/image.bbclass | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index f37affc..a3b33d0 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -179,10 +179,6 @@ do_bundle_initramfs () {
- 		kernel_do_compile
- 		mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
- 		mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
--		# Update install area
--		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
--		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
--		echo "${B}/${KERNEL_OUTPUT}.initramfs"
- 	fi
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 56a49e7..87645a0 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -167,10 +167,6 @@ python () {
+     d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
+ 
+     check_image_features(d)
+-    initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
+-    if initramfs_image != "":
+-        d.appendVarFlag('do_build', 'depends', " %s:do_bundle_initramfs" %  d.getVar('PN', True))
+-        d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_image_complete" % initramfs_image)
  }
  
+ IMAGE_CLASSES += "image_types"
+@@ -511,12 +507,3 @@ do_packagedata[noexec] = "1"
+ do_package_write_ipk[noexec] = "1"
+ do_package_write_deb[noexec] = "1"
+ do_package_write_rpm[noexec] = "1"
+-
+-# Allow the kernel to be repacked with the initramfs and boot image file as a single file
+-do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
+-do_bundle_initramfs[nostamp] = "1"
+-do_bundle_initramfs[noexec] = "1"
+-do_bundle_initramfs () {
+-	:
+-}
+-addtask bundle_initramfs after do_image_complete
 -- 
 1.9.1
 
