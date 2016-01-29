@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
 	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B8F2E771A9
+	by mail.openembedded.org (Postfix) with ESMTP id 1A91A77042
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 20:35:27 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id gi1so4068912pac.2
+	Fri, 29 Jan 2016 20:35:29 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id yy13so4027423pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 12:35:28 -0800 (PST)
+	Fri, 29 Jan 2016 12:35:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=lt0dbNaPJJ3CVSVI4M+nQ8jUDtQHVJkd9UYbyphsaQc=;
-	b=dgTAG2JIxHETiDhMZFiT51BW7X7+hMpWbxg7wQPWjC/V9smets7fXvHErjuB2VXYIJ
-	2m5oT3Lk2F6twiOIkDUdSUrQntQ4vnD6lIVO2XF6lK5FPGExEVbZVKS+TjPl5qV+2/sV
-	ZKaqHa/Mc806FPGGWNKxniZktOefI0Y8HZh7B7P9wOQS57Zc4BTezMS5A+xNobX6TAn9
-	8vp0QNzfjeZrtAFax/LNScnpktMMaRIW0vRn/tKGYZmLeZF6fgjfdG9c1XCxFpq1DpQz
-	2fjAfIZ5Dj91WJEEzgwtEGu3vk0IvbQiJS0OD/yIfZn6ok155d136vehyGbwoIFj6g2b
-	ppHQ==
+	:references; bh=blcTtUmQ0juwpDvNlUzsFHw3OZ105yc1V0Eu6Z5/9X8=;
+	b=m58y5jZeQDsrAdE4DpJSASf7FMdAERwsdrsyQCkC6qcRjeLlb6W01qBF3FG54PIAxp
+	ARlnZG7ZM4547V2/0Q0+sxZN7l1NyJ1I1p/Y8Fc8WfLEIjXareVWnwgeKTvvITa5abAO
+	PeEBvxpoWpUTh8WR3aZe9e1qRJ+rrLc8laPcDO0dTHfUqm1EH0rfsNAjhIJSOjAIsbOI
+	B5ODFDRqsCctIzd2ydUwo1bZMS59Y4twT0kjSzZ11f+eXl97V7cgS113wFPRrPRRn7r4
+	2nW+FQOxQAe55I4lIojhWdxsgFDh1OsmTPvNr2tGyrdBT6TLc7zXoolHqlp1iIacuYDj
+	oUlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=lt0dbNaPJJ3CVSVI4M+nQ8jUDtQHVJkd9UYbyphsaQc=;
-	b=ag6CKFdS2gnMvG3lysGUY9WstRNXonZqv8fRuKvoWqEbIQB4nxPnHZrUozIFJGs6G+
-	y5Z2C4TCgFHNKe7tag6jh/sAVVQtjVA2hcsdsUjhPxm4zVIpluxg7TABJEO3RvQHbagS
-	+vHBqJQ5/ScXNhCunmYmh8oGunKEospkqusRNXacokxI2QxjmyeX3EBv1Qs0jZMc3qvL
-	du3qagSc50xTE49Ri3LJctyMdAWNZW5C6bYbkQ1xkvqsMAJBtJ1MFD3ehwfBsnOVzOCf
-	y3L4JRQNpvoBXWxCj82bATgADibliayI1roFfWJNozQ+S6oyX9HYWiQFeygYB6Cr58Iz
-	+i8A==
-X-Gm-Message-State: AG10YOQfzfG9mwgrwqdqA6OCuRSazSTIMbw7q9MC7bg0bYbrXtZLR40BAbUl51ZiePHUHQ==
-X-Received: by 10.66.141.71 with SMTP id rm7mr16630697pab.32.1454099728125;
-	Fri, 29 Jan 2016 12:35:28 -0800 (PST)
+	bh=blcTtUmQ0juwpDvNlUzsFHw3OZ105yc1V0Eu6Z5/9X8=;
+	b=aV4X32zAU+jSrOtNXKMDQDRdvQue5OmMWFE9RXObfasa4hJiRERLhlA+oSv9q1LZu3
+	dsw9un0pbedGa/2p8oeDlanAzVlBBKQ/vYhPsMuZV56HAsXYJlXZS23vrtgnBbR7JWGQ
+	4PZiPv5oL6r5rBWNd2DZbOjEXybNPaNjkS31VbCntU6wjgtyz0vYm+9v2XPFIp+RIqoJ
+	w7oJ5JBUE/Bdayhyq/LdbucH11ox1SA8/fGYb/C6YzHZWabZmZ/XFLGzshXE1iUYolis
+	Xw95D4980SQive9ZdGKA/kksQwepc4BuUl3N8Waq+dyRa0gm1u3LVSGicEmozNyum8E8
+	gFQQ==
+X-Gm-Message-State: AG10YOS0OzOJbHYKohlMs8Om3zUZU50mcNYgmT0RCtwoQDQb67uIDeYNJOc5z9l+Pp7rWw==
+X-Received: by 10.66.139.234 with SMTP id rb10mr16347437pab.82.1454099730151; 
+	Fri, 29 Jan 2016 12:35:30 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id r80sm858016pfi.9.2016.01.29.12.35.26
+	by smtp.gmail.com with ESMTPSA id r80sm858016pfi.9.2016.01.29.12.35.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Jan 2016 12:35:26 -0800 (PST)
+	Fri, 29 Jan 2016 12:35:28 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	liezhi.yang@windriver.com
-Date: Fri, 29 Jan 2016 12:35:16 -0800
-Message-Id: <111d4662c643b6b45a686f5c7ffa936f65c2c09c.1454099596.git.akuster@mvista.com>
+Date: Fri, 29 Jan 2016 12:35:17 -0800
+Message-Id: <615fe8cc0ba2b9d62669c2ef4cf7aba7582d5fe6.1454099596.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454099596.git.akuster@mvista.com>
 References: <cover.1454099596.git.akuster@mvista.com>
 In-Reply-To: <cover.1454099596.git.akuster@mvista.com>
 References: <cover.1454099596.git.akuster@mvista.com>
-Subject: [PATCH 1/6] qemu: Security fix CVE-2015-8504
+Subject: [PATCH 2/6] qemu: Security fix CVE-2015-7504
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,85 +58,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 20:35:27 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 20:35:29 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-8504 Qemu: ui: vnc: avoid floating point exception
+CVE-2015-7504 Qemu: net: pcnet: heap overflow vulnerability in loopback mode
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../recipes-devtools/qemu/qemu/CVE-2015-8504.patch | 51 ++++++++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2015-7504.patch | 56 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.4.0.bb           |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8504.patch
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7504.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2015-8504.patch b/meta/recipes-devtools/qemu/qemu/CVE-2015-8504.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2015-7504.patch b/meta/recipes-devtools/qemu/qemu/CVE-2015-7504.patch
 new file mode 100644
-index 0000000..9e66021
+index 0000000..90a7947
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2015-8504.patch
-@@ -0,0 +1,51 @@
-+From 4c65fed8bdf96780735dbdb92a8bd0d6b6526cc3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2015-7504.patch
+@@ -0,0 +1,56 @@
++From 837f21aacf5a714c23ddaadbbc5212f9b661e3f7 Mon Sep 17 00:00:00 2001
 +From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Thu, 3 Dec 2015 18:54:17 +0530
-+Subject: [PATCH] ui: vnc: avoid floating point exception
++Date: Fri, 20 Nov 2015 11:50:31 +0530
++Subject: [PATCH] net: pcnet: add check to validate receive data
++ size(CVE-2015-7504)
 +
-+While sending 'SetPixelFormat' messages to a VNC server,
-+the client could set the 'red-max', 'green-max' and 'blue-max'
-+values to be zero. This leads to a floating point exception in
-+write_png_palette while doing frame buffer updates.
++In loopback mode, pcnet_receive routine appends CRC code to the
++receive buffer. If the data size given is same as the buffer size,
++the appended CRC code overwrites 4 bytes after s->buffer. Added a
++check to avoid that.
 +
-+Reported-by: Lian Yihan <lianyihan@360.cn>
++Reported by: Qinghao Tang <luodalongde@gmail.com>
++Cc: qemu-stable@nongnu.org
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 +Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
 +
 +Upstream-Status: Backport
 +
-+http://git.qemu.org/?p=qemu.git;a=commitdiff;h=4c65fed8bdf96780735dbdb92a8
++http://git.qemu.org/?p=qemu.git;a=commit;h=837f21aacf5a714c23ddaadbbc5212f9b661e3f7
 +
-+CVE: CVE-2015-8504
++CVE: CVE-2015-7504
 +[Yocto # 9013]
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ ui/vnc.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ hw/net/pcnet.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+Index: qemu-2.4.0/ui/vnc.c
++Index: qemu-2.4.0/hw/net/pcnet.c
 +===================================================================
-+--- qemu-2.4.0.orig/ui/vnc.c
-++++ qemu-2.4.0/ui/vnc.c
-+@@ -2189,15 +2189,15 @@ static void set_pixel_format(VncState *v
-+         return;
-+     }
++--- qemu-2.4.0.orig/hw/net/pcnet.c
+++++ qemu-2.4.0/hw/net/pcnet.c
++@@ -1085,7 +1085,7 @@ ssize_t pcnet_receive(NetClientState *nc
++                 uint32_t fcs = ~0;
++                 uint8_t *p = src;
 + 
-+-    vs->client_pf.rmax = red_max;
-++    vs->client_pf.rmax = red_max ? red_max : 0xFF;
-+     vs->client_pf.rbits = hweight_long(red_max);
-+     vs->client_pf.rshift = red_shift;
-+     vs->client_pf.rmask = red_max << red_shift;
-+-    vs->client_pf.gmax = green_max;
-++    vs->client_pf.gmax = green_max ? green_max : 0xFF;
-+     vs->client_pf.gbits = hweight_long(green_max);
-+     vs->client_pf.gshift = green_shift;
-+     vs->client_pf.gmask = green_max << green_shift;
-+-    vs->client_pf.bmax = blue_max;
-++    vs->client_pf.bmax = blue_max ? blue_max : 0xFF;
-+     vs->client_pf.bbits = hweight_long(blue_max);
-+     vs->client_pf.bshift = blue_shift;
-+     vs->client_pf.bmask = blue_max << blue_shift;
++-                while (p != &src[size-4])
+++                while (p != &src[size])
++                     CRC(fcs, *p++);
++                 crc_err = (*(uint32_t *)p != htonl(fcs));
++             }
++@@ -1234,8 +1234,10 @@ static void pcnet_transmit(PCNetState *s
++         bcnt = 4096 - GET_FIELD(tmd.length, TMDL, BCNT);
++ 
++         /* if multi-tmd packet outsizes s->buffer then skip it silently.
++-           Note: this is not what real hw does */
++-        if (s->xmit_pos + bcnt > sizeof(s->buffer)) {
+++         * Note: this is not what real hw does.
+++         * Last four bytes of s->buffer are used to store CRC FCS code.
+++         */
+++        if (s->xmit_pos + bcnt > sizeof(s->buffer) - 4) {
++             s->xmit_pos = -1;
++             goto txdone;
++         }
 diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-index 1505b80..fec1061 100644
+index fec1061..58ce3b5 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://smc91c111_fix2.patch \
+@@ -11,6 +11,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
              file://smc91c111_fix3.patch \
              file://no-valgrind.patch \
-+            file://CVE-2015-8504.patch \
+             file://CVE-2015-8504.patch \
++            file://CVE-2015-7504.patch \
             "
  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
  SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
