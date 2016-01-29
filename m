@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 59D0C77160
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EAA777160
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 20:35:32 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 65so4245116pfd.1
+	Fri, 29 Jan 2016 20:35:30 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id y7so130749paa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 12:35:33 -0800 (PST)
+	Fri, 29 Jan 2016 12:35:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=pV5ZsBHcqegTYGhwjxMt4NM1SoRzrTE00tXiwgNuNqE=;
-	b=bOb2keIbH9eJvfn7nUqSNBBFR445C31JRUTwH646Y7HDZFZU9DD6W9OTlvY54D72pt
-	hqtkhMbZBdoKa8JJwDP7+6nahfq/y4YLmk97myjbKJEHctgUS19dkazcdb7PpKgjjgBL
-	QLkUqFfdzWCr0EJHppowlzvM8XNKlqBjkCBhjSrFqbHSQrwVnKcOjCckdZ6BmTwpST6r
-	o9SsEFqMwsrVg3BoteZAYmfGhvHYFY5ibn/3IGFB4xgQPsgeBBwhgeEcd7sGXOe8s9Eb
-	WAeOiZDzGw7kFjGxGgeKCeAcJfjGHqyyHwUvjVWIcWWdyOT6j22LCpTw2L03wv+dlGaw
-	ojQw==
+	:references; bh=di/QBtjYgDZDLT1uu02+2DoBq6yzHKWotwQ9+rfrkjs=;
+	b=fYTPOVLipmydY/uRBbdd6gGq7KHdvTCg1F1d18TrQjseT63pOM4zE28jsbBnZFTTi7
+	UW3TxU6rHCNnN/3rAC9dJMLcQHjV9NbkFX5pj5BexpwpFF7opksp+fyYc1IelqpzjmUQ
+	qXUHtwYNf2RBwceGQO6Z4H0yfwHcYipp6tYT5AtoHV1f8XXNRWwca0r5v3Or8wA5pK7f
+	//kBCwrZGTHzLB9qKsE/uOclDPxHN4e6pLMCxxpMaEm9iajCV55OaKyUQf1BJeLgx8BJ
+	05nYD2pg14Db/unaXzGuMehNGmynLzKxhfj7WJhWBg8mTLyK1JubBUsKdVw+DoVKNHbs
+	Dy5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=pV5ZsBHcqegTYGhwjxMt4NM1SoRzrTE00tXiwgNuNqE=;
-	b=cBSDZpq7xtQZCkJC581EQmerGFh3d79r/thPzb1G+35eFnpRAk0TLosEY2YLp4OTt+
-	mw3+Ox7uf080iCojh0/oCK7eLHmkvgHIFPbrPJH3FzqX5ym/yuE/v2b62e23J+GYbVww
-	qHOp1OFaaHgVBPKaxLx2RqdbquXR+aQ6tZ6eHKZSrceZDlF9XcpAPGy57RCdHXgmZsh+
-	Ed2nthYHLmOLDgyJF01h9PeglrUSsbHCQOusW0gUpkhiCyfuY/4mbroPxWRj49CBQFEK
-	yl3XmdmriEo8EgYPx3WWgDcyOkATgMglQOj2dGj1acThph9woLFU6WLSz6zCUFCrqVsv
-	Lkhg==
-X-Gm-Message-State: AG10YOTX/NHSCyuxhmFsKkgecwQyDoASWZHRUUTlJVsXcTIq4Wb8pbFhu+wo8fBHFHxkSA==
-X-Received: by 10.98.79.140 with SMTP id f12mr16627438pfj.102.1454099733564;
-	Fri, 29 Jan 2016 12:35:33 -0800 (PST)
+	bh=di/QBtjYgDZDLT1uu02+2DoBq6yzHKWotwQ9+rfrkjs=;
+	b=DxDhgiZQVyP6J2OgEAds8VzEjz0/Id7AQC2FQ7KfDKtmacKPT9HDlEHsOb19Okgb1j
+	eXoK7854yOjEffb0TG9TI4qZoEWoGUS462HL8Q8jZDjpKUV53GoepHXt7csB7cYcLZE7
+	schmg9wDBzbWA6PWnEkqW8QWcnr3RWTOeXLbS2tJARiPM+rpJbS8bL0fkS4ltHUGtkB6
+	01A/+2l7cF7FiRqWzFbjobsiYseWEn8wE3GE0Fa30MdgsTAvpnvJ570Wy+7meNRgHXSq
+	DrJo/jKFSFI5X1fsSGgNo2KV0qt6UrMxU2ZaQLNEAxutvzwBf6nmArxCFdGJsY7XkL8T
+	8RsA==
+X-Gm-Message-State: AG10YORsmsMZ2NQ00kyO15heWWB1EI2qQbblFgJkISYCyaBvh7XDwByJU9k0BSwahhSZ7w==
+X-Received: by 10.66.100.135 with SMTP id ey7mr16496547pab.108.1454099731888; 
+	Fri, 29 Jan 2016 12:35:31 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id r80sm858016pfi.9.2016.01.29.12.35.32
+	by smtp.gmail.com with ESMTPSA id r80sm858016pfi.9.2016.01.29.12.35.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Jan 2016 12:35:32 -0800 (PST)
+	Fri, 29 Jan 2016 12:35:30 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	liezhi.yang@windriver.com
-Date: Fri, 29 Jan 2016 12:35:19 -0800
-Message-Id: <3b82a3de498b2ea3ab7bb09b4505b705a7f11796.1454099596.git.akuster@mvista.com>
+Date: Fri, 29 Jan 2016 12:35:18 -0800
+Message-Id: <c751a33cac484a58e8925a1af622a971ccd4be64.1454099596.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454099596.git.akuster@mvista.com>
 References: <cover.1454099596.git.akuster@mvista.com>
 In-Reply-To: <cover.1454099596.git.akuster@mvista.com>
 References: <cover.1454099596.git.akuster@mvista.com>
-Subject: [PATCH 4/6] qemu: Security fix CVE-2015-8345
+Subject: [PATCH 3/6] qemu: Security fix CVE-2015-7512
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,103 +62,74 @@ X-List-Received-Date: Fri, 29 Jan 2016 20:35:34 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-8345 Qemu: net: eepro100: infinite loop in processing command block list
+CVE-2015-7512 Qemu: net: pcnet: buffer overflow in non-loopback mod
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../recipes-devtools/qemu/qemu/CVE-2015-8345.patch | 73 ++++++++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2015-7512.patch | 44 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.4.0.bb           |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7512.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch b/meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2015-7512.patch b/meta/recipes-devtools/qemu/qemu/CVE-2015-7512.patch
 new file mode 100644
-index 0000000..310b458
+index 0000000..50b8a6c
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
-@@ -0,0 +1,73 @@
-+From 00837731d254908a841d69298a4f9f077babaf24 Mon Sep 17 00:00:00 2001
-+From: Stefan Weil <sw@weilnetz.de>
-+Date: Fri, 20 Nov 2015 08:42:33 +0100
-+Subject: [PATCH] eepro100: Prevent two endless loops
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2015-7512.patch
+@@ -0,0 +1,44 @@
++From 8b98a2f07175d46c3f7217639bd5e03f2ec56343 Mon Sep 17 00:00:00 2001
++From: Jason Wang <jasowang@redhat.com>
++Date: Mon, 30 Nov 2015 15:00:06 +0800
++Subject: [PATCH] pcnet: fix rx buffer overflow(CVE-2015-7512)
 +
-+http://lists.nongnu.org/archive/html/qemu-devel/2015-11/msg04592.html
-+shows an example how an endless loop in function action_command can
-+be achieved.
++Backends could provide a packet whose length is greater than buffer
++size. Check for this and truncate the packet to avoid rx buffer
++overflow in this case.
 +
-+During my code review, I noticed a 2nd case which can result in an
-+endless loop.
-+
-+Reported-by: Qinghao Tang <luodalongde@gmail.com>
-+Signed-off-by: Stefan Weil <sw@weilnetz.de>
++Cc: Prasad J Pandit <pjp@fedoraproject.org>
++Cc: qemu-stable@nongnu.org
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 +Signed-off-by: Jason Wang <jasowang@redhat.com>
 +
-+Upstream-Status: Backport
++Upsteam_Status: Backport
 +
-+http://git.qemu.org/?p=qemu.git;a=commit;h=00837731d254908a841d69298a4f9f077babaf24
++http://git.qemu.org/?p=qemu.git;a=commit;h=8b98a2f07175d46c3f7217639bd5e03f2ec56343
 +
-+CVE: CVE-2015-8345
++CVE: CVE-2015-7512
 +[Yocto # 9013]
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ hw/net/eepro100.c | 16 ++++++++++++++++
-+ 1 file changed, 16 insertions(+)
++ hw/net/pcnet.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-+index 60333b7..685a478 100644
-+--- a/hw/net/eepro100.c
-++++ b/hw/net/eepro100.c
-+@@ -774,6 +774,11 @@ static void tx_command(EEPRO100State *s)
-+ #if 0
-+         uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev, tbd_address + 6);
-+ #endif
-++        if (tx_buffer_size == 0) {
-++            /* Prevent an endless loop. */
-++            logout("loop in %s:%u\n", __FILE__, __LINE__);
-++            break;
-++        }
-+         tbd_address += 8;
-+         TRACE(RXTX, logout
-+             ("TBD (simplified mode): buffer address 0x%08x, size 0x%04x\n",
-+@@ -855,6 +860,10 @@ static void set_multicast_list(EEPRO100State *s)
++Index: qemu-2.4.0/hw/net/pcnet.c
++===================================================================
++--- qemu-2.4.0.orig/hw/net/pcnet.c
+++++ qemu-2.4.0/hw/net/pcnet.c
++@@ -1065,6 +1065,12 @@ ssize_t pcnet_receive(NetClientState *nc
++             int pktcount = 0;
 + 
-+ static void action_command(EEPRO100State *s)
-+ {
-++    /* The loop below won't stop if it gets special handcrafted data.
-++       Therefore we limit the number of iterations. */
-++    unsigned max_loop_count = 16;
-++
-+     for (;;) {
-+         bool bit_el;
-+         bool bit_s;
-+@@ -870,6 +879,13 @@ static void action_command(EEPRO100State *s)
-+ #if 0
-+         bool bit_sf = ((s->tx.command & COMMAND_SF) != 0);
-+ #endif
-++
-++        if (max_loop_count-- == 0) {
-++            /* Prevent an endless loop. */
-++            logout("loop in %s:%u\n", __FILE__, __LINE__);
-++            break;
-++        }
-++
-+         s->cu_offset = s->tx.link;
-+         TRACE(OTHER,
-+               logout("val=(cu start), status=0x%04x, command=0x%04x, link=0x%08x\n",
-+-- 
-+2.3.5
-+
++             if (!s->looptest) {
+++                if (size > 4092) {
+++#ifdef PCNET_DEBUG_RMD
+++                    fprintf(stderr, "pcnet: truncates rx packet.\n");
+++#endif
+++                    size = 4092;
+++                }
++                 memcpy(src, buf, size);
++                 /* no need to compute the CRC */
++                 src[size] = 0;
 diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-index b5c717c..6c12bee 100644
+index 58ce3b5..b5c717c 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-@@ -13,6 +13,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+@@ -12,6 +12,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://no-valgrind.patch \
              file://CVE-2015-8504.patch \
              file://CVE-2015-7504.patch \
-             file://CVE-2015-7512.patch \
-+            file://CVE-2015-8345.patch \
++            file://CVE-2015-7512.patch \
             "
  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
  SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
