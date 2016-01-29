@@ -1,21 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E61C76DF3
+	by mail.openembedded.org (Postfix) with ESMTP id 768D476DF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 15:04:47 +0000 (UTC)
+	Fri, 29 Jan 2016 15:04:48 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 29 Jan 2016 07:04:32 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 29 Jan 2016 07:04:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,364,1449561600"; d="scan'208";a="891900207"
+X-IronPort-AV: E=Sophos;i="5.22,364,1449561600"; d="scan'208";a="891900228"
 Received: from mshai-mobl1.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.30.5])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jan 2016 07:04:31 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jan 2016 07:04:32 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2016 17:04:28 +0200
-Message-Id: <1454079871-4658-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 29 Jan 2016 17:04:29 +0200
+Message-Id: <1454079871-4658-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/3] correctly clean ${B] when externalsrc and {B}=${S}
+In-Reply-To: <1454079871-4658-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1454079871-4658-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/3] autotools.bbclass: use oe_runmake instead of ${MAKE}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +32,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 29 Jan 2016 15:04:48 -0000
 
-This patchset aims in fixing a build failure when B=S and externalsrc is used.
-The build failure was caused by build artefacts from a previous build not being
-cleaned up when MACHINE was changed.
+Use oe_runmake like in base.bbclass so that EXTRA_OEMAKE will be
+respected.
 
-[YOCTO #8950]
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/classes/autotools.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-The following changes since commit 2a6e061712cfe9cb4738806a0c351a64e0d30144:
-
-  cmake: update to 3.4.2 (2016-01-26 22:48:57 +0000)
-
-are available in the git repository at:
-
-  contrib-git marquiz/externalsrc
-
-for you to fetch changes up to 58bb2b3bd3195af2715e8dd594326dfa73fc72e9:
-
-  externalsrc: use shared CONFIGURESTAMPFILE if B=S (2016-01-29 16:53:19 +0200)
-
-
-Markus Lehtonen (3):
-  autotools.bbclass: use oe_runmake instead of ${MAKE}
-  Make sure that the directory for CONFIGURESTAMPFILE exists
-  externalsrc: use shared CONFIGURESTAMPFILE if B=S
-
- meta/classes/autotools.bbclass   |  4 ++--
- meta/classes/base.bbclass        |  1 +
- meta/classes/externalsrc.bbclass | 11 +++++++++++
- 3 files changed, 14 insertions(+), 2 deletions(-)
-
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 1400b44..7bf510b 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -112,8 +112,7 @@ autotools_preconfigure() {
+ 				# regenerate them even if CFLAGS/LDFLAGS are different
+ 				cd ${S}
+ 				if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
+-					echo "Running \"${MAKE} clean\" in ${S}"
+-					${MAKE} clean
++					oe_runmake clean
+ 				fi
+ 				find ${S} -ignore_readdir_race -name \*.la -delete
+ 			fi
 -- 
 2.1.4
 
