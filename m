@@ -1,29 +1,29 @@
 Return-Path: <stephen.k.jolley@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A465B606D1
+	by mail.openembedded.org (Postfix) with ESMTP id B56D5771D5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 16:28:19 +0000 (UTC)
+	Fri, 29 Jan 2016 16:59:25 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Jan 2016 08:28:20 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jan 2016 08:59:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.22,365,1449561600"; 
-	d="scan'208,217";a="903939563"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2016 08:28:19 -0800
-Received: from fmsmsx115.amr.corp.intel.com (10.18.116.19) by
-	FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 29 Jan 2016 08:28:19 -0800
+	d="scan'208,217";a="903960079"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2016 08:59:22 -0800
+Received: from fmsmsx101.amr.corp.intel.com (10.18.124.199) by
+	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Fri, 29 Jan 2016 08:59:22 -0800
 Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.122]) by
-	fmsmsx115.amr.corp.intel.com ([169.254.4.8]) with mapi id
-	14.03.0248.002; Fri, 29 Jan 2016 08:28:19 -0800
+	fmsmsx101.amr.corp.intel.com ([169.254.1.154]) with mapi id
+	14.03.0248.002; Fri, 29 Jan 2016 08:59:22 -0800
 From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
 To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Thread-Topic: Yocto Project Status WW05
 Thread-Index: AdFarj4sQZvIxI9JR/ueUWZ10oS3Pw==
-Date: Fri, 29 Jan 2016 16:28:18 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E56FB85FA@fmsmsx111.amr.corp.intel.com>
+Date: Fri, 29 Jan 2016 16:59:22 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E56FB86CE@fmsmsx111.amr.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -44,12 +44,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 16:28:19 -0000
+X-List-Received-Date: Fri, 29 Jan 2016 16:59:29 -0000
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB85FAfmsmsx111amrcor_"
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB86CEfmsmsx111amrcor_"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB85FAfmsmsx111amrcor_
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB86CEfmsmsx111amrcor_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -63,7 +63,11 @@ Key Status/Updates:
 
   *   Due to the number of open bugs against Yocto Project 2.0.1, we will d=
 o another rc after M2 comes out of QA and we have closed a few more of the =
-open issues.
+issues.
+  *   Last week has mostly been stabilization for M2. Some key sstate fixes=
+ were included now we're looking at new use cases.
+  *   uninative should be in a state for real world usage and deployment by=
+ distros.
   *   Yocto Project 2.1 M2 is now in QA.
   *   WDD and bug trend continue to rise to new heights. We are simply rece=
 iving more bugs than we have resources to fix/close.
@@ -98,7 +102,7 @@ INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
 * Email:                             stephen.k.jolley@intel.com
 
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB85FAfmsmsx111amrcor_
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB86CEfmsmsx111amrcor_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -206,8 +210,8 @@ div.WordSection1
 	{page:WordSection1;}
 /* List Definitions */
 @list l0
-	{mso-list-id:1129279921;
-	mso-list-template-ids:-1338443304;}
+	{mso-list-id:379018145;
+	mso-list-template-ids:405588694;}
 @list l0:level1
 	{mso-level-number-format:bullet;
 	mso-level-text:\F0B7;
@@ -357,8 +361,8 @@ div.WordSection1
 	mso-ansi-font-size:10.0pt;
 	font-family:Wingdings;}
 @list l2
-	{mso-list-id:2111662395;
-	mso-list-template-ids:1953668226;}
+	{mso-list-id:1452437460;
+	mso-list-template-ids:-1073176148;}
 @list l2:level1
 	{mso-level-number-format:bullet;
 	mso-level-text:\F0B7;
@@ -470,16 +474,25 @@ mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
 rif;color:black">Key Status/Updates:</span><span style=3D"font-size:12.0pt;=
 font-family:&quot;Times New Roman&quot;,serif"><o:p></o:p></span></p>
 <ul style=3D"margin-top:0in" type=3D"disc">
-<li class=3D"MsoNormal" style=3D"color:black;mso-list:l1 level1 lfo4;vertic=
+<li class=3D"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;vertic=
 al-align:baseline">
 <span style=3D"font-family:&quot;Arial&quot;,sans-serif">Due to the number =
 of open bugs against Yocto Project 2.0.1, we will do another rc after M2 co=
-mes out of QA and we have closed a few more of the open issues.<o:p></o:p><=
-/span></li><li class=3D"MsoNormal" style=3D"color:black;mso-list:l1 level1 =
-lfo4;vertical-align:baseline">
+mes out of QA and we have closed a few more of the issues.<o:p></o:p></span=
+></li><li class=3D"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;=
+vertical-align:baseline">
+<span style=3D"font-family:&quot;Arial&quot;,sans-serif">Last week has most=
+ly been stabilization for M2. Some key sstate fixes were included now we&#8=
+217;re looking at new use cases.<o:p></o:p></span></li><li class=3D"MsoNorm=
+al" style=3D"color:black;mso-list:l2 level1 lfo4;vertical-align:baseline">
+<span style=3D"font-family:&quot;Arial&quot;,sans-serif">uninative </span><=
+span style=3D"font-family:&quot;Arial&quot;,sans-serif">should be in a stat=
+e for real world usage and deployment by distros.<o:p></o:p></span></li><li=
+ class=3D"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;vertical-=
+align:baseline">
 <span style=3D"font-family:&quot;Arial&quot;,sans-serif">Yocto Project 2.1 =
 M2 is now in QA.<o:p></o:p></span></li><li class=3D"MsoNormal" style=3D"col=
-or:black;mso-list:l1 level1 lfo4;vertical-align:baseline">
+or:black;mso-list:l2 level1 lfo4;vertical-align:baseline">
 <span style=3D"font-family:&quot;Arial&quot;,sans-serif">WDD and bug trend =
 continue to rise to new heights. We are simply receiving more bugs than we =
 have resources to fix/close.<o:p></o:p></span></li></ul>
@@ -606,4 +619,4 @@ ns-serif"><o:p></o:p></span></p>
 </body>
 </html>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB85FAfmsmsx111amrcor_--
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56FB86CEfmsmsx111amrcor_--
