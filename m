@@ -1,55 +1,46 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id BE8336AC4B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FAFE77042
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 17:48:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 32A412E3D7;
-	Fri, 29 Jan 2016 18:48:36 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id NsuV0if2k+w1; Fri, 29 Jan 2016 18:48:35 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 560E22E39D;
-	Fri, 29 Jan 2016 18:48:35 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 3DAD2140B;
-	Fri, 29 Jan 2016 18:48:35 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 328354AD;
-	Fri, 29 Jan 2016 18:48:35 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 2BBCF3E3EC;
-	Fri, 29 Jan 2016 18:48:35 +0100 (CET)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1104.5;
-	Fri, 29 Jan 2016 18:48:34 +0100
-Received: from XBOX02.axis.com ([fe80::bcea:88d5:e1ff:8e04]) by
-	XBOX02.axis.com ([fe80::bcea:88d5:e1ff:8e04%12]) with mapi id
-	15.00.1104.000; Fri, 29 Jan 2016 18:48:34 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "liezhi.yang@windriver.com"
-	<liezhi.yang@windriver.com>, "raj.khem@gmail.com" <raj.khem@gmail.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 1/5] base/bbclass: use target path as compile
-	dir	in debugging info
-Thread-Index: AQHRWruY3oU+kMjsKUuLvO01v2qAOZ8SxMtg
-Date: Fri, 29 Jan 2016 17:48:34 +0000
-Message-ID: <a17cbe21ef44455c98414ba1a4f1ffdd@XBOX02.axis.com>
-References: <cover.1454088695.git.hongxu.jia@windriver.com>
-	<51387bed968918e5c45820eb32ee898485cc0544.1454088695.git.hongxu.jia@windriver.com>
-In-Reply-To: <51387bed968918e5c45820eb32ee898485cc0544.1454088695.git.hongxu.jia@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.55]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/5] base/bbclass: use target path as compile dir	in debugging info
+	Fri, 29 Jan 2016 20:35:25 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id n128so4224816pfn.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jan 2016 12:35:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=nbhNPlc2ez0g+HgvETH4Am3lCRQ3nI68XQqsXdbDvZY=;
+	b=Xwg+Jt+CGT0zX78vmgDp9XZP2uPA0kkrQETSircPvuT02Ry6JRadeebVV+acETUqHe
+	N3Isv8AqjVDvOzQV4fIS5pdzeqEig3VemiVoJivCENVGsQVKGzqJbVaDZTCuUDrjr2A9
+	hZinbUvoh1CDuW3KJq0/qP/c6PtN6tjyNgdY+yZo3nyt409YVXt+bRtzRZaW7vtn6izy
+	gq6bKetsDqx0co5fEa9i4UICQR+2eQwYZ5B3X/jxkAVXqfE34DSSmuxbsjlCLFVRjHHR
+	plxViVgeGqlbvn7ym1iaOSZ1NOhvu4aVGP9xGJNjFrJUH6sMZ24byfqY669RvwPlbeIn
+	cjjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=nbhNPlc2ez0g+HgvETH4Am3lCRQ3nI68XQqsXdbDvZY=;
+	b=YcQtxsgXWoC+66mswsvc36dOLeKZ2hhnuBjLvq4u2XVad9Tb4UOHaTCQANBuuQJs4G
+	9uute2JFNfmn3fusvXaAl+lNmqioeKdwUgUxYuSZiUSz+7qc1kRQ6QvpNq0H+OE0LkwM
+	/3xTIycvjGv1tr/Wy67V4eru++pPThdPLQhZ9QBddvBS6XET/g0+Z6DA0GF13YdWRhxc
+	4F7MnSbwqtXkGoTts6Cca3JmElLBWABBYMHCz5jwg0e0IVPxK0bweHvU71okyOEWK1rT
+	ex6OJRHvApHAB5v5GwdST865BzJaNMTIjal4nUWP1vEWZtyUukFdZitOR6PHPqYJwJZv
+	JBDg==
+X-Gm-Message-State: AG10YOQTnrfoAPPyItxEZ3xLGvVvdtIvEDQsvqfB6yMHtHCCWr6hcsi7cZXXbvRv+UXg0A==
+X-Received: by 10.98.15.82 with SMTP id x79mr16720722pfi.52.1454099726009;
+	Fri, 29 Jan 2016 12:35:26 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by smtp.gmail.com with ESMTPSA id r80sm858016pfi.9.2016.01.29.12.35.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 29 Jan 2016 12:35:24 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	liezhi.yang@windriver.com
+Date: Fri, 29 Jan 2016 12:35:15 -0800
+Message-Id: <cover.1454099596.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 0/6][Jethro] Jethro-next qemu security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,25 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jan 2016 17:48:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Jan 2016 20:35:25 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Hongxu Jia
-> Sent: den 29 januari 2016 18:36
-> To: openembedded-core@lists.openembedded.org;
-> liezhi.yang@windriver.com; raj.khem@gmail.com;
-> richard.purdie@linuxfoundation.org
-> Subject: [OE-core] [PATCH 1/5] base/bbclass: use target path as compile d=
-ir in debugging info
-                                 ^^^^^^^^^^^^
-Change the prefix to "bitbake.conf" to reflect that you now do the=20
-Change there...
+From: Armin Kuster <akuster@mvista.com>
 
-//Peter
+please consider these changes for the next Jethro update.
+(resend using diff email addr)
+
+The following changes since commit 2fb7ee2628e23d7efc9b041bb9daae7c4a8de541:
+
+  bitbake: toaster: make runbuilds loop (2016-01-25 16:29:16 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akuster/jethro_qemu_sec
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro_qemu_sec
+
+Armin Kuster (6):
+  qemu: Security fix CVE-2015-8504
+  qemu: Security fix CVE-2015-7504
+  qemu: Security fix CVE-2015-7512
+  qemu: Security fix CVE-2015-8345
+  qemu: Security fix CVE-2016-1568
+  qemu: Security fix CVE-2015-7295
+
+ .../qemu/qemu/CVE-2015-7295_1.patch                | 63 +++++++++++++++++++
+ .../qemu/qemu/CVE-2015-7295_2.patch                | 58 +++++++++++++++++
+ .../qemu/qemu/CVE-2015-7295_3.patch                | 52 +++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2015-7504.patch | 56 +++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2015-7512.patch | 44 +++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2015-8345.patch | 73 ++++++++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2015-8504.patch | 51 +++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-1568.patch | 46 ++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.4.0.bb           |  8 +++
+ 9 files changed, 451 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7295_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7295_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7295_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7504.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7512.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8504.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+
+-- 
+2.3.5
 
 
