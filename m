@@ -1,53 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 21D8477182
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EAA7731A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 21:43:53 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id g73so70573690ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2016 13:43:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=QC41/1wdRKuRapE5IlvvLet1XNwDD+Oox5Ge+UvnVo0=;
-	b=r+e81dR8H6DBFoKkzIBktQfZYdueGUI2DzsDwVnu6it5uLZKLIIH+4/ODOg7J7mmKG
-	xFXf2BfKqKJbWSgZ3nqjI88lItndTexM9Q7MWJ3kW2J6XganISS+gKnfbPnINs/wPoLJ
-	mWCuaWVicr7Ez3vuQsa+h6CPSTtsPGURzZosJNvux77+uzVkNDt2T+TX6Ptt8FPblSvq
-	wn26U2WQ/HPxabUvFyRVlomqTeSi0Gb/m73FvQzkpd4DyHoE7ceuFer6OKnIbhhsLwC3
-	aRS0bLxXX0faRegOdQj0dakR3nQ0ghxP8k1hCLngqkypsI7Dy60wkj7eL546DJt9mzUX
-	Iugw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=QC41/1wdRKuRapE5IlvvLet1XNwDD+Oox5Ge+UvnVo0=;
-	b=XXaAllz76BpZFVyQjOes0aZwGoE+3IW7fqhzlQluRB/rGC61I3vYG1GoC8tG8DL7kR
-	ZgYuXa5Dlz2IsGiSwLxnaky4AREH/88vjqW3wYmeLK7SCjtq8zZsH7DqD1fmHjpqhaim
-	2bJ7b6WfZQjypdrYI8M0uJZcQPn2aLK6pLy6g0taUkZzg11lfvB/oeJyRQaqDWbZ4tBr
-	Bwcg4bxlnKvkyYjzCfHxVeC3f7Vt+TtIsxj2t+n6Hup+32XKyvzsdq6i7dsxl8QqsydS
-	qoEtmHvpGRK1TUmnHgWe7jUWm+HSbhNvKutUHOUu1w2D0sLVxDi3hDyaDfaMeijwKciH
-	ZELQ==
-X-Gm-Message-State: AG10YOQ1Z7NPXR5u2NwE3fEbKi5AkOsOztyrS26VqX99ZRhLSDdqjPZmGCOYvb9HWfxMmk/meeuuNyRR+W+sNgO2
-X-Received: by 10.107.135.104 with SMTP id j101mr7174361iod.133.1454017434312; 
-	Thu, 28 Jan 2016 13:43:54 -0800 (PST)
+	Fri, 29 Jan 2016 03:39:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0T3dbqb004155
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Jan 2016 19:39:37 -0800 (PST)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 28 Jan 2016 19:39:36 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1453882496.git.hongxu.jia@windriver.com>
+	<1453889810.10340.5.camel@linuxfoundation.org>
+	<F43BB7C8-5982-46B5-90B1-D11128DEA616@gmail.com>
+	<1453932798.10340.11.camel@linuxfoundation.org>
+	<56A983DE.6030907@windriver.com>
+	<1454000660.10340.52.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56AADEEB.6050106@windriver.com>
+Date: Fri, 29 Jan 2016 11:39:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 28 Jan 2016 13:43:34 -0800 (PST)
-In-Reply-To: <CAD2C2VRqrrOKLixFBBXq-Vxu-nb5DzSXqV8Xrr2yuwb6auds5w@mail.gmail.com>
-References: <CAD2C2VRqrrOKLixFBBXq-Vxu-nb5DzSXqV8Xrr2yuwb6auds5w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Jan 2016 21:43:34 +0000
-Message-ID: <CAJTo0LbUkpF3Oq5FDXgizhUW6ANbwcyiTrrzZATBsZ_7ABsHEg@mail.gmail.com>
-To: Bryan <just4tech83@gmail.com>
-Cc: "Development list for the linux-yocto*.git Linux kernel repositories"
-	<linux-yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Chander.kashyap@gmail.com,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Poky Project <poky@yoctoproject.org>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>
-Subject: Re: [linux-yocto] Plymouth support in yocto
+In-Reply-To: <1454000660.10340.52.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] base/bbclass: use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +39,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jan 2016 21:43:58 -0000
-Content-Type: multipart/alternative; boundary=001a113ebe92ab7b55052a6bd023
+X-List-Received-Date: Fri, 29 Jan 2016 03:39:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113ebe92ab7b55052a6bd023
-Content-Type: text/plain; charset=UTF-8
-
-On 28 January 2016 at 18:01, Bryan <just4tech83@gmail.com> wrote:
-
->    Can  we integrate plymouth package in yocto  so that we can properly
-> display splash screen on different resolution monitors.
+On 01/29/2016 01:04 AM, Richard Purdie wrote:
+> On Thu, 2016-01-28 at 10:58 +0800, Hongxu Jia wrote:
+>> On 01/28/2016 06:13 AM, Richard Purdie wrote:
+>>> On Wed, 2016-01-27 at 14:34 -0500, Khem Raj wrote:
+>>>>> On Jan 27, 2016, at 5:16 AM, Richard Purdie <
+>>>>> richard.purdie@linuxfoundation.org> wrote:
+>>>>>
+>>>>> I like the idea of this a lot, I think it makes sense however
+>>>>> why
+>>>>> not
+>> My original trying was just added them here, but the variable parsing
+>> at here is too early, the ${BPN}, ${B} and {S} was assigned with
+>> 'defaultpkgname' at this time. Which we have:
+>> ...
+>>> -fdebug-prefix-map=/buildarea/raid0/hjia/build-20160127-yocto
+>>> -buildpath-2/
+>> tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname
+>> -1.0=
+>> /usr/src/defaultpkgname
 >
+> I think this is just from your debugging technique. By the time these
+> are used in recipes, they will have the correct value for these
+> variables. Expansion happens late, not when the line is parsed.
+
+For var DEBUG_FLAGS, it indeed has correct value at last, but the CFLAGS
+and TARGET_CFLAGS was expanded when DEBUG_FLAGS has 'defaultpkgname'
+
+The CFLAGS and TARGET_CFLAGS is shell variables (export CFLAGS=), it
+seems shell variable is expanded only once.
+
 >
-http://layers.openembedded.org/layerindex/recipe/39966/
+> Can you be more specific about how you tested this and the problem you
+> saw?
 
-Ross
+1. Modify bitbake.conf
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e80ee18..3ddb9e8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -546,7 +546,14 @@ EXTRA_OEMAKE_prepend_task-install = 
+"${PARALLEL_MAKEINST} "
+  ##################################################################
+  # Optimization flags.
+  ##################################################################
+-DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
++DEBUG_FLAGS ?= "-g \
++    -feliminate-unused-debug-types \
++    -fdebug-prefix-map=${B}=/usr/src/${BPN} \
++    -fdebug-prefix-map=${S}=/usr/src/${BPN} \
++    -gno-record-gcc-switches \
++    -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
++    -fdebug-prefix-map=${STAGING_DIR_HOST}= \
++"
 
---001a113ebe92ab7b55052a6bd023
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+2. Build lib32-glibc, there are still buildpath QA Warnings
+...
+$ bitbake lib32-glibc
+ERROR: QA Issue: File 
+work/core2-32-pokymllib32-linux/lib32-glibc/2.22-r0/packages-split/lib32-glibc-dev/usr/lib/crt1.o 
+in package contained reference to tmpdir
+...
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 January 2016 at 18:01, Bryan <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-just4tech83@gmail.com" target=3D"_blank">just4tech83@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex"><p dir=3D"ltr">=C2=A0=C2=A0 Can=C2=A0 we inte=
-grate plymouth package in yocto=C2=A0 so that we can properly display splas=
-h screen on different resolution monitors. </p>
-<p dir=3D"ltr"></p></blockquote></div><br><a href=3D"http://layers.openembe=
-dded.org/layerindex/recipe/39966/">http://layers.openembedded.org/layerinde=
-x/recipe/39966/</a><br></div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
+3. vim temp/run.do_compile
+...
+export 
+TARGET_CFLAGS="-I/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/lib32-qemux86-64/usr/include 
+-O2 -pipe -g -feliminate-unused-debug-types 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
+-gno-record-gcc-switches 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/x86_64-linux= 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/qemux86-64= 
+"
 
---001a113ebe92ab7b55052a6bd023--
+export 
+CFLAGS="-I/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/lib32-qemux86-64/usr/include 
+-O2 -pipe -g -feliminate-unused-debug-types 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/work/core2-64-poky-linux/defaultpkgname/1.0-r0/defaultpkgname-1.0=/usr/src/defaultpkgname 
+-gno-record-gcc-switches 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/x86_64-linux= 
+-fdebug-prefix-map=/buildarea/raid0/hjia/build-20160128-yocto-buildpath2/tmp/sysroots/qemux86-64= 
+"
+...
+
+>> With searching the manual, I could not find a gcc option to
+>> do the path substitution on switches in debugging information.
+>>
+>> Maybe we could add a patch for gcc to do this. I could try in V2
+>> if there is no side effect.
+> I like that idea.
+
+I have sent a simple modification on gcc in V2, it adds
+a new option to not record  '-fdebug-prefix-map' to gcc
+command line switches in debugging information.
+
+//Hongxu
+
+>> Compile with '-fdebug-prefix-map':
+>> objdump -g packages-split/lib32-glibc-dev/usr/lib/gcrt1.o
+>> ...
+>>> <0><5e>: Abbrev Number: 1 (DW_TAG_compile_unit)
+>>>     <5f>   DW_AT_producer    : (indirect string, offset: 0xbb): GNU
+>>> C99 5.3.0 -m32
+>> -march=core2 -mtune=core2 -msse3 -mfpmath=sse -mpreferred-stack
+>> -boundary=4 -g -O2
+>> -std=gnu99 -fgnu89-inline -fdebug-prefix
+>> -map=/buildarea/raid0/hjia/build-20160119-
+>> yocto-buildpath/tmp/work/core2-32-pokymllib32-linux/lib32-glibc/2.22
+>> -r0/git=/usr/src/glibc
+>> -feliminate-unused-debug-types -fmerge-all-constants -frounding-math
+>> -ftls-model=initial-exec
+>>
+>> When we use '-fdebug-prefix-map', the TMPDIR was added to switches.
+>> Although
+>> remove the switches is to avoid buildpath QA check, the side effect
+>> is
+>> the other
+>> part of compile options have also been removed.
+>>
+>> If we need to leave the switches in, I think we could tweak the
+>> buildpath QA check,
+>> which allows TMPDIR in '-fdebug-prefix-map=' without warning. I think
+>> I
+>> should
+>> send a V2 to do this for discussion.
+>>
+>> Solution1: do some path substitutions on the switches
+>> Solution2: tweak buildpath QA check to allow TMPDIR in '-fdebug
+>> -prefix-map='
+>>
+>> I will try them in V2.
+> Thanks, that part looks good to me.
+>
+> Cheers,
+>
+> Richard
+
+
