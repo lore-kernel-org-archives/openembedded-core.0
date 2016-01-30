@@ -1,48 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AE6F771A3
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4824D77215
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jan 2016 06:28:45 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id 6so82540472qgy.1
+	Sat, 30 Jan 2016 06:31:15 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id cy9so52821636pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 22:28:46 -0800 (PST)
+	Fri, 29 Jan 2016 22:31:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=PmvAh2wYpVsbbio+OqO6n2xhgRkD/RkghPGMSgALd4w=;
-	b=049j33B2HtvBdVHS+9iE7M9nR7KdzYGUUoFydRERTJhx4b2Hf17fT+NQ8+KpOVvdmp
-	p9C/O/I5wPK7QWksZzeayEtIJ2USJyOhlI7sPvnv3OnwOHmf5h9bfzKNEXIy8To/wfYK
-	Tgi5FChCXI4eBnO1K6vWMUHezcqgHdQh8KotoPH+rxtVldgdVXCR20OVAQxB8s7mhs3y
-	iFOy2WBuamhSyQYheUfNWaqUvpYRkSff526F5sKYs7oIfk4V58NIZbWnZ96zHj7AwQEp
-	Tr3D+68ytCP6CTRCxdFfes79lEuDnj80WHmSVSSBSeDoahlDRRmLgzNknKskazXVIpB0
-	7/Zw==
+	h=content-type:mime-version:subject:from:in-reply-to:date:message-id
+	:references:to;
+	bh=z9NX0KqSuJsJztDWdLCVkDyvpFPu1IO8lloMqZYWSO8=;
+	b=bOO0ZDbfznFMSrsm9ZtsopOby0ahOlkOd93sF3Qca5R+6yxOZa6Ra7FgS31olmyqlE
+	Td7DtOBX630G8soU61Vt7LTxW5cpEqD4MQMTOpsE4XQQEFGUqpfKIqBc4sjMNphff+6T
+	7JjT9jj6BtNQ/Zmp2DHbaJX3BZLPts3/DYHhR1CxTt+QPaOX8qpkkZ1VMenUeYQ+nJMj
+	zvfm5W9KRcidD6ZprQ8ALY6uQ6aHqkQUS3+ma3dIFm9B7qGIS+j4VnroBjVhMeSkj71o
+	asXXJLiLMXBybpRQ262T3KdGYr1c3nowKsFZsCW9s53MaSkVmV+D9TL8b8MvWDYtPeLi
+	xNLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=PmvAh2wYpVsbbio+OqO6n2xhgRkD/RkghPGMSgALd4w=;
-	b=OyoW3t0r2NBmewDZpFrzMTut5dg++cIZ2HLp8hIRTp4LVOIlJJbaJ01GSY6DO0Kk5c
-	5KJOBHruFdMBtAvJYE3mIApiZwG5XmbPIsqrMo2MY0RK9aAsdPPrhPkYlABnHC3uslEt
-	60KO/kANxHWDbF7udoXEgl8/ca7sGkYspAxQ2XPg8OQUgkxYFI9vgplPQGYVXOg4buq9
-	+LamvNnwRIkEKjkBhqcyPnlGKw43PL3kSVLUBbB04rfwdxsBaIUsUkx8E/u7I/kVwLq3
-	wEk8QAzEua09MeLzyUJ0zEFRDy/MRDKTdcF1uz5ijJvaQkUNXV9G/FOesZfKHZB8cwAf
-	vXZA==
-X-Gm-Message-State: AG10YOTtdUk+sK/BtHgvHYRHSGS2qjvh3wbucXPrkaW/l/cWUKEDDUyAbXdVl9Vt38s5Ow==
-X-Received: by 10.140.156.212 with SMTP id c203mr7367548qhc.96.1454135326358; 
-	Fri, 29 Jan 2016 22:28:46 -0800 (PST)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id
-	n83sm8289755qhn.20.2016.01.29.22.28.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Jan 2016 22:28:45 -0800 (PST)
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:message-id:references:to;
+	bh=z9NX0KqSuJsJztDWdLCVkDyvpFPu1IO8lloMqZYWSO8=;
+	b=S5kbS9vKkklI0+zkZBy7akFXZ57rrXPkPhKkVJUPFqqYS6/9mvZniOZC4vOb+je8q6
+	WPTyZJuvO5sgBcvWTNPUGsZW63P8V0lsmptV7dbHxCpG0etXTLVqAjRRpVoz3RYkgo1x
+	o0qkjc8KTgryffslbBAkRvWV9ovdkBhvPfON9q8GucBfJYxhnN8PBrC6VeHa+J99K7wR
+	DJSQ3Z+Dm4GQ3f6So9owLw7cnphX1NTXcgbhJ6DmTlDGeke70QkM/kTKP2xEin3QNoYq
+	LIHRBpn9rRubmcKTRZ8mCyjb5PWMKbjVB20shi2wVAS2idQaSBZMUms0e8U6rCwfrFLM
+	cNpg==
+X-Gm-Message-State: AG10YOTyjI5IzkeJC6+2xFmK5NMVvraL1ZtHZuWij8gavKrYniNkPp6NZ/2+w0+F2dF08A==
+X-Received: by 10.66.102.97 with SMTP id fn1mr20028175pab.131.1454135476957;
+	Fri, 29 Jan 2016 22:31:16 -0800 (PST)
+Received: from [192.168.0.4] (c-73-252-206-77.hsd1.ca.comcast.net.
+	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
+	m70sm27627223pfi.90.2016.01.29.22.31.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 29 Jan 2016 22:31:16 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 30 Jan 2016 06:28:37 +0000
-Message-Id: <b92356866c603c832e859c26ea6d4f01a70aba3c.1454135035.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.7.0
 In-Reply-To: <cover.1454135035.git.raj.khem@gmail.com>
+Date: Fri, 29 Jan 2016 22:31:11 -0800
+Message-Id: <7AEC4E63-7141-4250-81CE-69695BFBBC93@gmail.com>
 References: <cover.1454135035.git.raj.khem@gmail.com>
-Subject: [PATCH 1/2] gcc, qemuppc: Explicitly disable forcing SPE flags
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.3112)
+Subject: Re: [PATCH 0/2] binutils 2.26 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,95 +59,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jan 2016 06:28:48 -0000
+X-List-Received-Date: Sat, 30 Jan 2016 06:31:16 -0000
+X-Groupsio-MsgNum: 77119
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_321514F8-A814-4458-99BD-195F31693979";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-G4 does not have SPE, so we make that explicit in the tune files and
-since we emulate G4 when building Qemu, we ensure it for qemuppc as
-well.
-
-GCC config for powerpc-linux is made to include SPE by default which is
-equivalent if the tripet was powerpc-linux*spe, this forces gcc to
-configure assembler to enable -mspe by default, when we do that then the
-kernel fails to compile with binutils 2.26, since newer assembler is
-smart to detect the tlbia instructions are not compatible with SPE and
-hence the kernel build breaks rightly. We configure the kernel for G4 as
-well where it enables tlbia instrucitons rightly so because it thinks
-its being configured for power4. So we keep the options but do not force
--mspe down to assembler as default.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/tune-ppc7400.inc         |  2 +-
- meta/conf/machine/qemuppc.conf                     |  2 ++
- ...AltiVec-generation-on-powepc-linux-target.patch | 24 ++++++++++++++--------
- 3 files changed, 19 insertions(+), 9 deletions(-)
-
-diff --git a/meta/conf/machine/include/tune-ppc7400.inc b/meta/conf/machine/include/tune-ppc7400.inc
-index 8bfda56..425e8bd 100644
---- a/meta/conf/machine/include/tune-ppc7400.inc
-+++ b/meta/conf/machine/include/tune-ppc7400.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "ppc7400"
- require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppc7400] = "Enable ppc7400 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ppc7400', ' -mcpu=7400', '', d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ppc7400', ' -mcpu=7400 -mno-spe', '', d)}"
- 
- AVAILTUNES += "ppc7400"
- TUNE_FEATURES_tune-ppc7400 = "m32 fpu-hard ppc7400 altivec"
-diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
-index 85cbbf7..bf0038d 100644
---- a/meta/conf/machine/qemuppc.conf
-+++ b/meta/conf/machine/qemuppc.conf
-@@ -5,6 +5,8 @@
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-ppc7400.inc
- 
-+TARGET_CC_KERNEL_ARCH = "-mno-spe"
-+
- KERNEL_IMAGETYPE = "vmlinux"
- 
- SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
-index e7ca360..5705187 100644
---- a/meta/recipes-devtools/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
-+++ b/meta/recipes-devtools/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
-@@ -19,11 +19,11 @@ Signed-off-by: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
-  gcc/config.gcc | 9 ++++++++-
-  1 file changed, 8 insertions(+), 1 deletion(-)
- 
--diff --git a/gcc/config.gcc b/gcc/config.gcc
--index dd0739d..3825bd5 100644
----- a/gcc/config.gcc
--+++ b/gcc/config.gcc
--@@ -2343,7 +2343,14 @@ powerpc-*-rtems*)
-+Index: gcc-5.3.0/gcc/config.gcc
-+===================================================================
-+--- gcc-5.3.0.orig/gcc/config.gcc
-++++ gcc-5.3.0/gcc/config.gcc
-+@@ -2346,7 +2346,14 @@ powerpc-*-rtems*)
-  	tmake_file="${tmake_file} rs6000/t-fprules rs6000/t-rtems rs6000/t-ppccomm"
-  	;;
-  powerpc*-*-linux*)
-@@ -39,6 +39,14 @@ index dd0739d..3825bd5 100644
-  	extra_options="${extra_options} rs6000/sysv4.opt"
-  	tmake_file="${tmake_file} rs6000/t-fprules rs6000/t-ppccomm"
-  	extra_objs="$extra_objs rs6000-linux.o"
---- 
--2.6.3
--
-+Index: gcc-5.3.0/gcc/config/rs6000/linuxspe.h
-+===================================================================
-+--- gcc-5.3.0.orig/gcc/config/rs6000/linuxspe.h
-++++ gcc-5.3.0/gcc/config/rs6000/linuxspe.h
-+@@ -27,6 +27,3 @@
-+ #undef	TARGET_DEFAULT
-+ #define TARGET_DEFAULT MASK_STRICT_ALIGN
-+ #endif
-+-
-+-#undef  ASM_DEFAULT_SPEC
-+-#define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
--- 
-2.7.0
+--Apple-Mail=_321514F8-A814-4458-99BD-195F31693979
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Jan 29, 2016, at 10:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> Upgrade binutils to 2.26
+> Fix gcc for ppc to not enforce spe by default to assembler
+> use -mno-spe for 74xx
+>=20
+> Khem Raj (2):
+>  gcc,qemuppc: Explicitly disable forcing SPE flags
+>  binutils: Upgrade to 2.26
+
+also available at
+
+=
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/binuti=
+ls-2.26
+
+>=20
+> meta/conf/distro/include/tcmode-default.inc        |    2 +-
+> meta/conf/machine/include/tune-ppc7400.inc         |    2 +-
+> meta/conf/machine/qemuppc.conf                     |    2 +
+> .../{binutils-2.25.1.inc =3D> binutils-2.26.inc}     |   10 +-
+> ...n_2.25.1.bb =3D> binutils-cross-canadian_2.26.bb} |    0
+> ...tils-cross_2.25.1.bb =3D> binutils-cross_2.26.bb} |    0
+> ...rosssdk_2.25.1.bb =3D> binutils-crosssdk_2.26.bb} |    0
+> .../binutils/0001-Generate-relocatable-SDKs.patch  |   12 +-
+> ...ure-widen-the-regexp-for-SH-architectures.patch |   14 +-
+> .../0003-Point-scripts-location-to-libdir.patch    |   14 +-
+> ...te-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch |   12 +-
+> .../0005-Explicitly-link-with-libm-on-uclibc.patch |   10 +-
+> .../binutils/binutils/0006-Use-libtool-2.4.patch   | 2916 =
+++++++++++++++++----
+> ...7-Add-the-armv5e-architecture-to-binutils.patch |   10 +-
+> ...he-distro-compiler-point-to-the-wrong-ins.patch |   10 +-
+> ...s-of-system-directories-when-cross-linki.patch} |   93 +-
+> ...-rpath-in-libtool-when-sysroot-is-enabled.patch |    6 +-
+> ...Change-default-emulation-for-mips64-linux.patch |   14 +-
+> .../0012-Add-XLP-instructions-support.patch        |  146 +-
+> ...rnal-error-in-do_print_to_mapfile-seen-wi.patch |   35 -
+> ...4-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch |   25 -
+> ...-list-so-that-symbols-not-in-the-list-are.patch |  131 -
+> ...h-adds-IFUNC-support-for-arm-gold-backend.patch | 1004 -------
+> .../binutils/add-thunderx-support-for-gas.patch    |   33 -
+> .../binutils/binutils/binutils-octeon3.patch       |  272 --
+> .../{binutils_2.25.1.bb =3D> binutils_2.26.bb}       |    0
+> ...AltiVec-generation-on-powepc-linux-target.patch |   24 +-
+> 27 files changed, 2606 insertions(+), 2191 deletions(-)
+> rename meta/recipes-devtools/binutils/{binutils-2.25.1.inc =3D> =
+binutils-2.26.inc} (76%)
+> rename =
+meta/recipes-devtools/binutils/{binutils-cross-canadian_2.25.1.bb =3D> =
+binutils-cross-canadian_2.26.bb} (100%)
+> rename meta/recipes-devtools/binutils/{binutils-cross_2.25.1.bb =3D> =
+binutils-cross_2.26.bb} (100%)
+> rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.25.1.bb =3D> =
+binutils-crosssdk_2.26.bb} (100%)
+> rename =
+meta/recipes-devtools/binutils/binutils/{0009-Upstream-Status-Inappropriat=
+e-distribution-codesourc.patch =3D> =
+0009-warn-for-uses-of-system-directories-when-cross-linki.patch} (82%)
+> delete mode 100644 =
+meta/recipes-devtools/binutils/binutils/0013-Fix-an-internal-error-in-do_p=
+rint_to_mapfile-seen-wi.patch
+> delete mode 100644 =
+meta/recipes-devtools/binutils/binutils/0014-gold-arm-Skip-pic-check-for-R=
+_ARM_REL32.patch
+> delete mode 100644 =
+meta/recipes-devtools/binutils/binutils/0015-Fix-dynamic-list-so-that-symb=
+ols-not-in-the-list-are.patch
+> delete mode 100644 =
+meta/recipes-devtools/binutils/binutils/0016-This-patch-adds-IFUNC-support=
+-for-arm-gold-backend.patch
+> delete mode 100644 =
+meta/recipes-devtools/binutils/binutils/add-thunderx-support-for-gas.patch=
+
+> delete mode 100644 =
+meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
+> rename meta/recipes-devtools/binutils/{binutils_2.25.1.bb =3D> =
+binutils_2.26.bb} (100%)
+>=20
+> --
+> 2.7.0
+>=20
+
+
+--Apple-Mail=_321514F8-A814-4458-99BD-195F31693979
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlasWLMACgkQuwUzVZGdMxQv5ACeLW/pOUVtbdivn/mkxsCdSjR7
+OlEAnilX4UPMaQn/ulX7yYLtvsybWMO5
+=Q7sv
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_321514F8-A814-4458-99BD-195F31693979--
