@@ -1,54 +1,44 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 23751771C0
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id CCD90771A3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jan 2016 03:17:16 +0000 (UTC)
-Received: by mail-pf0-f181.google.com with SMTP id o185so47104849pfb.1
+	Sat, 30 Jan 2016 06:28:34 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id 6so82538989qgy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jan 2016 19:17:17 -0800 (PST)
+	Fri, 29 Jan 2016 22:28:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=ECyHIr5lTODuAj/iSTi5bxLVxoyVAvnffVFGR39Onu0=;
-	b=illd+ruyKaxKbVVFWRCu+F7LUIv2BaQbIfv5j4QRRFIpeA5R3QRUWKy7dX2wyryNOD
-	+3t6o9aUxOucRAYXBKcIoah93fJHviQ53wriRiO5FOxOYxwqszZoYyvp1cbu+C9J4Fbl
-	keTxUfGsF/7Esnz+D8hT/Acxxt6/MGHwhcuDhv+vMmbQNqwsVhN0hjAlJgoAKy6TttcG
-	3924qZOY3Hh+Hy7TwfNxtbpoFLuK5a0guTc35hbqS4qiGJxGk84+7I8eZAlSAr78PWMU
-	ERu0iArU97fI8pElRuNQEiClXCbliMEbbDk7imYQavw2jocZh7LlAtbrpVO+NeFsho6q
-	+rSw==
+	h=from:to:cc:subject:date:message-id;
+	bh=su9MEJuogQAjQHTyZzCuCxkteW5l1bGAaY2VBzxlFRI=;
+	b=Mgezr/ya3EtSS889rcYRvjAtv+dKQjMRQl+eCTUWmz2vxfNOHWE4yKJyB+ngt17IPp
+	aBcCEf+6SqgDz3jzzaNixi3PYnifG6QBby82SLXgBYq7LtMMk9jv+Fr6xjpUM/V8Cnxx
+	p4ybhGeuTS79hMhZnj/M8aEOAHO2OuJcbcgzuwMUcFeKs5A8LJgrpHhCGUHThPP9m8gb
+	bxNcQx9QLxrW+snA1UXSTAV/XEkF0GaU543LsCaJPtJtTLVPYXC+Bkp5Cuddyg8qlmKe
+	EtfsL8NXpn4mVstTSEkL55Wk3Evu/e0ddFLX6IdUoCYSsfNh3HwGqD+z3DsdkXKLINCp
+	jl5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=ECyHIr5lTODuAj/iSTi5bxLVxoyVAvnffVFGR39Onu0=;
-	b=KDCS5jALGwEdEVqVSAWXMAD0aHjCcC6Vw67+m3IFRXwYwaqlaZVHx0+PVFzkG/Peck
-	yTpe+EcTYpkM6pKp7orIk4VPUacEq6HzY4sqn2m5ffZkSIoDklp2Uz+0bsNekPLjR1cK
-	gA4u4/rYDKapOCPyRAfzw0TesNOyY396FNtMCWwCgaa57hTbBci/tCjyzbfbE1YHhii2
-	EWYxqcESKlsetYh/Eu5qOVUFXdqUVF50geH6Rpl0N8tDzRQUj1Dg5A0B2RaQ3vd7y4L4
-	I97Mel6XGkfAu12195z8SJ7BaelUB6EqgTlTgJbwgDNqB3CcrXQTrqnK/cz7Sv/vYYcs
-	ks5Q==
-X-Gm-Message-State: AG10YOTxVcI8dlf6Msu40A7VnHMAXv1O676hAZWKehqw8wtZzhJPoGMpKzbDcFb0u0kjXw==
-X-Received: by 10.98.19.215 with SMTP id 84mr17669030pft.22.1454123837321;
-	Fri, 29 Jan 2016 19:17:17 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:b96b:d84e:1097:74b1?
-	([2601:646:8802:5d5c:b96b:d84e:1097:74b1])
-	by smtp.gmail.com with ESMTPSA id
-	e14sm26548907pap.24.2016.01.29.19.17.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 29 Jan 2016 19:17:16 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=su9MEJuogQAjQHTyZzCuCxkteW5l1bGAaY2VBzxlFRI=;
+	b=RK6Uh6TE6Sze34uH54waeNmWJKWAjWBa1zlfiEFxxIuEgkSf3gIqtu+3VZl5FlN7zU
+	yqJUYXj674oNvByyjAZh6d9xQq26uzvictS76amXCnmtFgtvu67Vc2MnF0wBJGvqVcq8
+	8wvcjQX1m7U1taBTMskSojhnUjSWy+28wez65Q6GNSQqEQ6GC9pQJrS3A+qLajY0wSov
+	D77aYFm6is9ETjJ35IY1JWf6RMyBNzuN+2boMK8q9Jyb8E4o8XCsG6gk40HgZsleO4xc
+	vSE1VdEwS13atK8AsHKYywdOywBqhqRybO9oM34K4fzKQQs3ViXh0V4FVVZD3yyYtMx8
+	rvJw==
+X-Gm-Message-State: AG10YOSEGRrHvNxJl8nIKgL/2TWyVD3ICkJMkEHidfaU9l1w8qAf44GHfACsg8cWwMp9vA==
+X-Received: by 10.140.226.8 with SMTP id w8mr16589552qhb.83.1454135315140;
+	Fri, 29 Jan 2016 22:28:35 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id h99sm8615688qge.7.2016.01.29.22.28.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 29 Jan 2016 22:28:34 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1454105329-11302-3-git-send-email-armccurdy@gmail.com>
-Date: Fri, 29 Jan 2016 19:17:12 -0800
-Message-Id: <483C390A-09EF-401B-B772-B10BA4E1A115@gmail.com>
-References: <1454105329-11302-1-git-send-email-armccurdy@gmail.com>
-	<1454105329-11302-3-git-send-email-armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] pango.inc: misc dependency fixes
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 30 Jan 2016 06:28:29 +0000
+Message-Id: <cover.1454135035.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 0/2] binutils 2.26 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,91 +51,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jan 2016 03:17:17 -0000
-X-Groupsio-MsgNum: 77115
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CF526C85-D117-44B7-AFF7-4115C7428B5C";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sat, 30 Jan 2016 06:28:35 -0000
 
---Apple-Mail=_CF526C85-D117-44B7-AFF7-4115C7428B5C
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Upgrade binutils to 2.26
+Fix gcc for ppc to not enforce spe by default to assembler
+use -mno-spe for 74xx
 
+Khem Raj (2):
+  gcc,qemuppc: Explicitly disable forcing SPE flags
+  binutils: Upgrade to 2.26
 
-> On Jan 29, 2016, at 2:08 PM, Andre McCurdy <armccurdy@gmail.com> =
-wrote:
->=20
-> - Add glib-2.0-native dependency for target
-> - Add fontconfig-native and freetype-native dependencies for native
-> - Drop unnecessary dependency on zlib for all
->=20
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
-> meta/recipes-graphics/pango/pango.inc | 10 ++++------
-> 1 file changed, 4 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/pango/pango.inc =
-b/meta/recipes-graphics/pango/pango.inc
-> index 63c7d1e..ffa38d8 100644
-> --- a/meta/recipes-graphics/pango/pango.inc
-> +++ b/meta/recipes-graphics/pango/pango.inc
-> @@ -9,14 +9,10 @@ BUGTRACKER =3D "http://bugzilla.gnome.org"
-> SECTION =3D "libs"
-> LICENSE =3D "LGPLv2.0+"
->=20
-> -X11DEPENDS =3D "virtual/libx11 libxft"
-> -DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo =
-harfbuzz"
-> +DEPENDS =3D "glib-2.0 glib-2.0-native fontconfig freetype =
-virtual/libiconv cairo harfbuzz"
->=20
-> PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', =
-'x11', '', d)}"
-> -PACKAGECONFIG[x11] =3D "--with-xft,--without-xft,${X11DEPENDS}"
-> -
-> -BBCLASSEXTEND =3D "native"
-> -DEPENDS_class-native =3D "glib-2.0-native cairo-native =
-harfbuzz-native"
-> +PACKAGECONFIG[x11] =3D "--with-xft,--without-xft,virtual/libx11 =
-libxft=E2=80=9D
->=20
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ meta/conf/machine/include/tune-ppc7400.inc         |    2 +-
+ meta/conf/machine/qemuppc.conf                     |    2 +
+ .../{binutils-2.25.1.inc => binutils-2.26.inc}     |   10 +-
+ ...n_2.25.1.bb => binutils-cross-canadian_2.26.bb} |    0
+ ...tils-cross_2.25.1.bb => binutils-cross_2.26.bb} |    0
+ ...rosssdk_2.25.1.bb => binutils-crosssdk_2.26.bb} |    0
+ .../binutils/0001-Generate-relocatable-SDKs.patch  |   12 +-
+ ...ure-widen-the-regexp-for-SH-architectures.patch |   14 +-
+ .../0003-Point-scripts-location-to-libdir.patch    |   14 +-
+ ...te-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch |   12 +-
+ .../0005-Explicitly-link-with-libm-on-uclibc.patch |   10 +-
+ .../binutils/binutils/0006-Use-libtool-2.4.patch   | 2916 ++++++++++++++++----
+ ...7-Add-the-armv5e-architecture-to-binutils.patch |   10 +-
+ ...he-distro-compiler-point-to-the-wrong-ins.patch |   10 +-
+ ...s-of-system-directories-when-cross-linki.patch} |   93 +-
+ ...-rpath-in-libtool-when-sysroot-is-enabled.patch |    6 +-
+ ...Change-default-emulation-for-mips64-linux.patch |   14 +-
+ .../0012-Add-XLP-instructions-support.patch        |  146 +-
+ ...rnal-error-in-do_print_to_mapfile-seen-wi.patch |   35 -
+ ...4-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch |   25 -
+ ...-list-so-that-symbols-not-in-the-list-are.patch |  131 -
+ ...h-adds-IFUNC-support-for-arm-gold-backend.patch | 1004 -------
+ .../binutils/add-thunderx-support-for-gas.patch    |   33 -
+ .../binutils/binutils/binutils-octeon3.patch       |  272 --
+ .../{binutils_2.25.1.bb => binutils_2.26.bb}       |    0
+ ...AltiVec-generation-on-powepc-linux-target.patch |   24 +-
+ 27 files changed, 2606 insertions(+), 2191 deletions(-)
+ rename meta/recipes-devtools/binutils/{binutils-2.25.1.inc => binutils-2.26.inc} (76%)
+ rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.25.1.bb => binutils-cross-canadian_2.26.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-cross_2.25.1.bb => binutils-cross_2.26.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.25.1.bb => binutils-crosssdk_2.26.bb} (100%)
+ rename meta/recipes-devtools/binutils/binutils/{0009-Upstream-Status-Inappropriate-distribution-codesourc.patch => 0009-warn-for-uses-of-system-directories-when-cross-linki.patch} (82%)
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0013-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0015-Fix-dynamic-list-so-that-symbols-not-in-the-list-are.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0016-This-patch-adds-IFUNC-support-for-arm-gold-backend.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/add-thunderx-support-for-gas.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
+ rename meta/recipes-devtools/binutils/{binutils_2.25.1.bb => binutils_2.26.bb} (100%)
 
-this is ok.
-
-
-> inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even
->=20
-> @@ -43,3 +39,5 @@ RDEPENDS_${PN}-ptest +=3D "liberation-fonts"
->=20
-> RPROVIDES_${PN} +=3D "pango-modules pango-module-indic-lang \
->                     pango-module-basic-fc pango-module-arabic-lang"
-> +
-> +BBCLASSEXTEND =3D "native"
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+2.7.0
 
 
---Apple-Mail=_CF526C85-D117-44B7-AFF7-4115C7428B5C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlasKzwACgkQuwUzVZGdMxTqlQCdFdGC+YMvD7qCaH3pBta5lF+2
-bVQAn3QOuERWgDTiCFIihIDQiXVpd5XH
-=sQoY
------END PGP SIGNATURE-----
-
---Apple-Mail=_CF526C85-D117-44B7-AFF7-4115C7428B5C--
