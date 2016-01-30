@@ -1,24 +1,33 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id A2E2D77250
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C064F770CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jan 2016 11:43:48 +0000 (UTC)
-Received: from localhost ([127.0.0.1]
-	helo=[IPv6:2001:67c:1810:f051:fa2f:a8ff:feb0:ae33])
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aPTwQ-0007BE-Tu; Sat, 30 Jan 2016 12:43:47 +0100
-Message-ID: <1454154224.7421.7.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Sat, 30 Jan 2016 11:43:44 +0000
-In-Reply-To: <bb6291a740fc7e41120072e45fc2c5d8d93a0b5f.1454088695.git.hongxu.jia@windriver.com>
-References: <cover.1454088695.git.hongxu.jia@windriver.com>
-	<bb6291a740fc7e41120072e45fc2c5d8d93a0b5f.1454088695.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.12.9-1+b1 
+	Sat, 30 Jan 2016 12:06:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0UC6WM9009766; Sat, 30 Jan 2016 12:06:32 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zjFSXmzgTBZR; Sat, 30 Jan 2016 12:06:32 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0UC6T3l009762
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 30 Jan 2016 12:06:30 GMT
+Message-ID: <1454155589.27087.3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, akuster808 <akuster808@gmail.com>
+Date: Sat, 30 Jan 2016 12:06:29 +0000
+In-Reply-To: <CA+chaQcaWoZE_Cru1YZGd+AahFx7y_jBapZFG9rxuKcJrE=aXg@mail.gmail.com>
+References: <cover.1452385571.git.akuster808@gmail.com>
+	<20160121115752.GA2603@jama> <20160127113311.GA2574@jama>
+	<56AC2396.8030707@gmail.com>
+	<CA+chaQcaWoZE_Cru1YZGd+AahFx7y_jBapZFG9rxuKcJrE=aXg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] gcc-5.3.inc/base.bbclass: add gcc option to not record -fdebug-prefix-map to debugging info
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/20] Dizzy-next pull request 2016-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jan 2016 11:43:51 -0000
+X-List-Received-Date: Sat, 30 Jan 2016 12:06:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2016-01-29 at 12:35 -0500, Hongxu Jia wrote:
-> +If option gno-record-debug-prefix-map used, it does not
-> +record -fdebug-prefix-map to gcc command line switches
-> +in DWARF DW_AT_producer.
-> +
-> +Upstream-Status: Inappropriate [oe specific]
+On Sat, 2016-01-30 at 10:08 +0100, Martin Jansa wrote:
+> > that was a patch from the patch queue and affect glibc below 2.21
+> so
+> 
+> glibc/wscanf: CVE-2015-1472
+> 
+> looks like better subject
+> 
+> > Dizzy 1.7.4 is  not planned yet.
+> 
+> I don't care about point releases, I care only about contents of
+> release branch, can it be merged to dizzy branch?
 
-If you consider this to be oe-specific and inappropriate for upstream,
-wouldn't it be better to make the new behaviour default to on and not
-have to add an extra option to the CFLAGS?  (You could still provide a
-switch to restore the old behaviour for those who want it.)
+I was hoping the branch would get corrected so I could then just pull
+the correct commits. I suspect Armin didn't realise I was waiting for
+that.
 
-Alternatively, if the new behaviour defaults to off, there doesn't seem
-any reason that this patch couldn't and shouldn't be sent upstream.
+In the interests of expedience, I've reworded that commit and merged
+the branch.
 
-p.
+There are a couple of tweaks that would make things easier for me to
+take these:
+
+a) Could you in the 00/XX series header in future confirm you've
+checked and that these issues are addressed in the later stable
+branches? I do worry that for example there may be unaddressed issues
+in fido.
+
+b) If you could share an oe-core contrib branch with these in, it does
+make it easier for me to merge them. I can deal with that comparatively
+easily though.
+
+I have merged this to dizzy though.
+
+Cheers,
+
+Richard
+
 
 
 
