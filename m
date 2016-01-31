@@ -1,29 +1,46 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DC8B7770C9
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BDB2771AC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 21:51:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0VLpmTA032489
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 31 Jan 2016 13:51:48 -0800
-Received: from yow-pgortmak-d1 (128.224.56.57) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 31 Jan 2016 13:51:47 -0800
-Received: by yow-pgortmak-d1 (Postfix, from userid 1000)	id 4503C2800B4; Sun,
-	31 Jan 2016 16:51:47 -0500 (EST)
-Date: Sun, 31 Jan 2016 16:51:47 -0500
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20160131215146.GB8889@windriver.com>
-References: <1454270163-5294-1-git-send-email-paul.gortmaker@windriver.com>
-	<1454273105.7421.24.camel@pbcl.net>
-MIME-Version: 1.0
-In-Reply-To: <1454273105.7421.24.camel@pbcl.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xterm: revert FILES_PN change from recent package uprev
+	Sun, 31 Jan 2016 22:34:36 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id x125so72646772pfb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 31 Jan 2016 14:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=Y2tacCLQg0lZ0TPPTInjnTCVxxY4ADUPm+Iw5nwvokk=;
+	b=0QxVmdrvcDiSDqYnlPcp5tYh77yC/nINodNr9whFZc65UM1iKKy8tSn7vW+Zwz+euy
+	VHkWPULOS1ZmVrmSpZqm6jAh5IVWrQjW8RlZEV42ggv5yev5oKLb/0K6FvthkSGz9HGf
+	8XvnP0HPqaV5V+94xvVjf3ZjT7SdHXiML3OcXhjb2uyc4RrzvrEeFjSVEuRp0R/Co3YI
+	+e1EZtbNAQq6tZfD5U98fBIf/XVGvcLkY8wIhnUZ4rHC+rxvuK9zw8ZXtzNb0LL8BfnW
+	WpBjDhiXigehh8UDLG3vZih/croiJrIydNoXsWHczHUQFR6gfS32ozZPpOn8zIyo90Sn
+	s5HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Y2tacCLQg0lZ0TPPTInjnTCVxxY4ADUPm+Iw5nwvokk=;
+	b=EJoDVXno3fmfvrqspgBWLJg0dbj1R9Ehpq4MVRSqNO/bdwfMRb4vteG6bqa1HTbnot
+	h299JKBl8bTW5cwd0WFibE4T0womrbCmSTQvdOpxwMw5RkpjTRThARAUWLprDPggROeI
+	iOXrLQiydSAe7szRuCBjuAMtvh0YVBKaACY6VUYDoF3kQny7FqWnIZJnvYh4YtOw8LaK
+	F2QJtP9dlwEgVUZOrwRr1iQ8LOg8b4QBH9Ofa6LhGR32903LxqnzY9vz6BK1W/928QtK
+	Q/U6Z7OhvW8pDWh47XDWIpE3pqwkxRcc4Sh5PgJ3pSaOc6SdGvaO4uMNM08yONl5TZab
+	uFGw==
+X-Gm-Message-State: AG10YOSC7Sn6omlkY5H+ZUMK4XPjREBcpLWKaCqZ47hlwhvdLniDJVMUnoUIR0kohEagqA==
+X-Received: by 10.98.73.205 with SMTP id r74mr33325545pfi.118.1454279677121;
+	Sun, 31 Jan 2016 14:34:37 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	16sm38097871pfh.48.2016.01.31.14.34.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 31 Jan 2016 14:34:35 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	liezhi.yang@windriver.com
+Date: Sun, 31 Jan 2016 14:34:28 -0800
+Message-Id: <cover.1454279467.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [jethro-next 0/1] Pull request for git fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Jan 2016 21:51:51 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 31 Jan 2016 22:34:36 -0000
 
-[Re: [OE-core] [PATCH] xterm: revert FILES_PN change from recent package uprev] On 31/01/2016 (Sun 20:45) Phil Blundell wrote:
+From: Armin Kuster <akuster@mvista.com>
 
-> On Sun, 2016-01-31 at 14:56 -0500, Paul Gortmaker wrote:
-> > diff --git a/meta-oe/recipes-graphics/xorg-app/xterm_320.bb b/meta-oe/recipes-graphics/xorg-app/xterm_320.bb
-> > index f67d890abcae..10b75fca32db 100644
-> > --- a/meta-oe/recipes-graphics/xorg-app/xterm_320.bb
-> > +++ b/meta-oe/recipes-graphics/xorg-app/xterm_320.bb
-> > @@ -27,4 +27,4 @@ do_configure() {
-> 
-> This file doesn't exist in oe-core.  I think you must have sent this
-> patch (and the inetutils one, to which the same applies) to the wrong
-> mailing list.
+This appears to be more of an issue on the server side.
 
-Of course you are right.  In my defense, in poky, the full path is
-meta-openembedded/meta-oe/<....> and with two references in the path to
-OE, I think I can't be the only one consistently getting confused like
-this.
+The following changes since commit e3b1402971e6aaff7ba3dd864f786f1c32745bf1:
 
-Both the Yocto mailing list summary:
+  glibc-locale: fix QA warning (2016-01-31 11:54:21 -0800)
 
-https://www.yoctoproject.org/tools-resources/community/mailing-lists
+are available in the git repository at:
 
-and the OE list summary:
+  git://git.yoctoproject.org/poky-contrib akuster/jethro_cve_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro_cve_fixes
 
-http://lists.openembedded.org/mailman/listinfo
+Armin Kuster (1):
+  git: Security fix CVE-2015-7545
 
-are lacking path info that would help me out to get the right list.
+ .../git/git-2.5.0/0008-CVE-2015-7545-1.patch       | 446 +++++++++++++++++++++
+ .../git/git-2.5.0/0009-CVE-2015-7545-2.patch       | 112 ++++++
+ .../git/git-2.5.0/0010-CVE-2015-7545-3.patch       | 112 ++++++
+ .../git/git-2.5.0/0011-CVE-2015-7545-4.patch       | 150 +++++++
+ .../git/git-2.5.0/0012-CVE-2015-7545-5.patch       |  69 ++++
+ meta/recipes-devtools/git/git_2.5.0.bb             |   8 +
+ 6 files changed, 897 insertions(+)
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0008-CVE-2015-7545-1.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0009-CVE-2015-7545-2.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0010-CVE-2015-7545-3.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0011-CVE-2015-7545-4.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0012-CVE-2015-7545-5.patch
 
-If i go into poky/meta-openembedded, and crack open .git/config I'll see
-the source git://git.openembedded.org/meta-openembedded listed.  So I
-think at least at that point, I need to look at OE lists and not yocto
-lists.  But looking the 2nd link above I'm still none the wiser where in
-OE the xterm patch needs to be sent to, and OE-core looks right until I
-clone core and find the file simply isn't there.
+-- 
+2.3.5
 
-What is the mailing list decoder secret that I'm missing here?  If I'm
-looking at the web pages and even the .git/config and I still get it
-wrong, then I think I must be missing something obvious.
-
-My best guess at the moment is oe-devel, but that is only because I
-cheated and looked at the archive and found meta-networking patches
-sent there.
-
-Is there a 1:1 mapping between mailing lists <---> git://<server>/<path>
-out there, since I think that would help.  And/or maybe a get_maintainer
-script like the kernel has.
-
-Thanks,
-Paul.
 
