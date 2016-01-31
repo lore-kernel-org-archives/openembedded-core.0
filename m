@@ -1,24 +1,33 @@
-Return-Path: <Guojian.Zhou@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BE25B6FFC8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CDDE65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 08:10:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0V8ATvk025635
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 00:10:29 -0800 (PST)
-Received: from pek-lpgtest4.wrs.com (128.224.153.84) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 31 Jan 2016 00:10:28 -0800
-From: <guojian.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 31 Jan 2016 16:10:27 +0800
-Message-ID: <1454227827-1812-1-git-send-email-guojian.zhou@windriver.com>
-X-Mailer: git-send-email 1.7.12.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1] oe-core: Add the "PACKAGE_VENDOR_REPO" directory for the vendor-proprietary rpm
+	Sun, 31 Jan 2016 08:32:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0V8W9of007327; Sun, 31 Jan 2016 08:32:09 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id fJkEqPMASfgf; Sun, 31 Jan 2016 08:32:09 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u0V8W7Ww007324
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 31 Jan 2016 08:32:08 GMT
+Message-ID: <1454229127.27087.11.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+Date: Sun, 31 Jan 2016 08:32:07 +0000
+In-Reply-To: <CAMKF1spkRPwBzY+6j6pVM_epfB2sVYS37-i+s9rJw4-rTXOMbQ@mail.gmail.com>
+References: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
+	<56AB73C0.8030505@linux.intel.com>
+	<CAMKF1spkRPwBzY+6j6pVM_epfB2sVYS37-i+s9rJw4-rTXOMbQ@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] Glibc 2.23 and binutils 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Jan 2016 08:10:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 31 Jan 2016 08:32:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Guojian Zhou <guojian.zhou@windriver.com>
+On Fri, 2016-01-29 at 06:44 -0800, Khem Raj wrote:
+> On Fri, Jan 29, 2016 at 6:14 AM, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+> > On 01/17/2016 01:54 PM, Khem Raj wrote:
+> > > 
+> > > upstream glibc and binutils release branches have been cut out
+> > > and are
+> > > being made ready for next release
+> > > I have put together update patchset for both of them
+> > > 
+> > > here are the branches
+> > > 
+> > > https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.26
+> > > https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
+> > 
+> > 
+> > Hello Khem,
+> > 
+> > when are you planning to submit these?
+> 
+> binutils exposes a problem for ppc as a result kernel fails to build.
+> The fix is to drop
+> http://git.openembedded.org/openembedded-core/tree/meta/recipes-devto
+> ols/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux
+> -target.patch
+> 
+> that patch makes generic ppc configs to be specific to fsl ppc.
+> but we need context as to why this was done
+> 
+> glibc is still not released.
 
-The vendor proprietary rpms should be packaged into the
-"vendor_proprietary_extensions" directory. Add the "PACKAGE_VENDOR_REPO"
-to allow the recipes select the required packages directory.
+I ran the binutils upgrade in -next on the autobuilder. It looked
+mostly good but with poky-lsb we did see:
 
-Signed-off-by: Guojian Zhou <guojian.zhou@windriver.com>
----
- meta/classes/package_rpm.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
+uilds/635/steps/BuildImages/logs/stdio
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 92ddf7a..cd3784d 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -675,13 +675,17 @@ python do_package_rpm () {
-     targetsys = d.getVar('TARGET_SYS', True)
-     targetvendor = d.getVar('HOST_VENDOR', True)
-     package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
-+    package_vendor_repo = (d.getVar('PACKAGE_VENDOR_REPO', True) or "").replace("-", "_")
-     sdkpkgsuffix = (d.getVar('SDKPKGSUFFIX', True) or "nativesdk").replace("-", "_")
-     if package_arch not in "all any noarch".split() and not package_arch.endswith(sdkpkgsuffix):
-         ml_prefix = (d.getVar('MLPREFIX', True) or "").replace("-", "_")
-         d.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch)
-     else:
-         d.setVar('PACKAGE_ARCH_EXTEND', package_arch)
--    pkgwritedir = d.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}')
-+    if package_vendor_repo:
-+        pkgwritedir = d.expand('${PKGWRITEDIRRPM}/${PACKAGE_VENDOR_REPO}')
-+    else:
-+        pkgwritedir = d.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}')
-     pkgarch = d.expand('${PACKAGE_ARCH_EXTEND}${HOST_VENDOR}-${HOST_OS}')
-     magicfile = d.expand('${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc')
-     bb.utils.mkdirhier(pkgwritedir)
--- 
-1.7.12.4
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
+uilds/635/steps/BuildImages_1/logs/stdio
+
+Cheers,
+
+Richard
 
 
