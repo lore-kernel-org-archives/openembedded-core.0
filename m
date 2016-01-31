@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B6677205
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id D2DCD7725C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 19:53:30 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id gi1so6259719pac.2
+	Sun, 31 Jan 2016 19:53:32 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id uo6so70788596pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 11:53:31 -0800 (PST)
+	Sun, 31 Jan 2016 11:53:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=hGhz2wQzTXlopKxSQzE+lgqSk0o27GACej77C8oqWJ0=;
-	b=hddIEkdYn9MTz7itlOeUZUZZVmxNR8TQ4CgKdTOg7c0XmQ2bVsh3bK8E7KuITqW5F3
-	AiGqjeL2RFhLVDv9dfjWH70iCPFDdGcAZsU67YZMFdShfkSqe5KwwMitlF0640MhdysK
-	ZZlkQ226XrCDmS//MMHIFmr58+E+prrKOuED5J731kdt86eF/Y5jF05z0PWs2DcsQn6O
-	HJmz5VFAQGyQ67DdIHjsYeTf8HfWbDWZJJeYuNLnOK5mjQuQGzdHqMlDHp5zJ91MCefA
-	nhqlhVyjfH8Z2ItdcUBT1NgOskKrHGG8oMr+vjHLYXz87dQqUYXfXBlZ+QrLgjSWMKvq
-	+55A==
+	:references; bh=C9F3NR/sMRkkSPwbKwXbjotVWVMODrAdAYzUrzN51lM=;
+	b=ImpyT6QyU5BlyMhFbBIBAw7XHMsP0mVG6mRGNIuOIk5FfCrsQpL9GT4EUWEh3MfdLA
+	GgB8w83X0megXLAVoI8iq8p6AEDejEbuSPt+Zu+RT11VmBf3yAiAXf8yysGpou7EPaN2
+	DBYmkHFcxF8BmxwQOIUMx+4Sa+hXa6R25bE46hSxy8G1FvbverRzJ4VVXEi8ehmuvyAE
+	XMF17FLKFyuXh7mtSk81SmsAU0LYzeuwo+OJ0SwS5wMSNigJG7TBgG2sJLJfaOB+pzqn
+	rLvGH9oauyN/TTzFNGrV3qodEqGzOhu+BAhXpdUxUo1JuNkCdzPvd8L6DQkcZVlm1QLm
+	ukBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=hGhz2wQzTXlopKxSQzE+lgqSk0o27GACej77C8oqWJ0=;
-	b=Nxp9h7ol62x8nk81hbRsbOBIvqHK/1q5JlAfC9Ap7//h3hKL8LaBBXoSPwsCzq7tQn
-	gx+K/ZLY0t+khjM1LMFDex4XnKfauzBeVJlDYCBL+P6AzrUr4ALrfw2MrpCeXs3x472U
-	hLU/ZncJVaaLmf5iaP2PS7m68+H7FGrGanpQKWtfk668RKEpYgKCSm4tbLKI2+UwU048
-	H0+utEpHhsIUgHcbe25MZcr0O7+mmhQAOl7Evv0GRkoRvKBlgeUUIHBoKt03X1Ct+d75
-	q1+r4hK/TYpRJN0Hs2lBDFTUG76LzG/RKQlsLYeM6Ps5WItRiltchZ25+8G7GpF0xefW
-	g1Kg==
-X-Gm-Message-State: AG10YOSC5JzMg4VkiGjun1Lbz98ELkjFVylwDBo+eBFBgnaq6GSQip2HXkj+d57sLT59IA==
-X-Received: by 10.66.63.104 with SMTP id f8mr32443887pas.41.1454270011256;
-	Sun, 31 Jan 2016 11:53:31 -0800 (PST)
+	bh=C9F3NR/sMRkkSPwbKwXbjotVWVMODrAdAYzUrzN51lM=;
+	b=LkuMiYvVpKdzUzzSJS9oro9kLrEEZp2wTW7diXvvuR3uP0hLk3c9nP9+z1NtOPVslu
+	A9DU+gB2wBOmnmB9LP0MjKD+WsCTw1VZNPqOz3qImmyI0ITQEUkVOsaAT4vJcxoQgKju
+	oQZQTxKcVG06tS+MykOPLo6//LBmxP0K9TUA5MW84WH9VTi6sFBEcx52V2F9A2JlwJjU
+	QrAdGIU8Nx3TVouAeDrI87kbeF6cRvRt0tKvq48MXTRFdwIbn46M1KE81+u5M8P0tX7M
+	Fl9FxvsOlMSOMKhyO+mgyushqTX40qIo0x96/Dgd6vmejsRy+E5Sp8w+/yRyLoWnU4n+
+	7mRA==
+X-Gm-Message-State: AG10YOTANWlPY6ZUk1jbe0nCGkMwI9DTe0LtYfNqjLIgnKmpaxtkCfnB9B4toIsMBcR8bA==
+X-Received: by 10.66.194.230 with SMTP id hz6mr32275416pac.70.1454270013280;
+	Sun, 31 Jan 2016 11:53:33 -0800 (PST)
 Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	q136sm37670536pfq.66.2016.01.31.11.53.29
+	q136sm37670536pfq.66.2016.01.31.11.53.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 31 Jan 2016 11:53:29 -0800 (PST)
+	Sun, 31 Jan 2016 11:53:31 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	liezhi.yang@windriver.com
-Date: Sun, 31 Jan 2016 11:53:10 -0800
-Message-Id: <527d2ad4e30bd97be54b6c9d282282e2f2a94c32.1454255704.git.akuster@mvista.com>
+Date: Sun, 31 Jan 2016 11:53:11 -0800
+Message-Id: <d5724d3a12931fcc8e15d44e701870d2e64e19b2.1454255704.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454255704.git.akuster@mvista.com>
 References: <cover.1454255704.git.akuster@mvista.com>
 In-Reply-To: <cover.1454255704.git.akuster@mvista.com>
 References: <cover.1454255704.git.akuster@mvista.com>
-Subject: [jethro-next 4/8] bind: Security fix CVE-2015-8000
+Subject: [jethro-next 5/8] bind: Security fix CVE-2015-8461
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,312 +58,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Jan 2016 19:53:32 -0000
+X-List-Received-Date: Sun, 31 Jan 2016 19:53:33 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-8000 bind: responses with a malformed class attribute can trigger an assertion failure in db.c
+CVE-2015-8461 bind: race condition when handling socket errors can lead to an assertion failure in resolver.c\
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../bind/bind/CVE-2015-8000.patch                  | 278 +++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   1 +
- 2 files changed, 279 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+ .../bind/bind/CVE-2015-8461.patch                  | 44 ++++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
 new file mode 100644
-index 0000000..e1c8052
+index 0000000..88e9c83
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
-@@ -0,0 +1,278 @@
-+From 8259daad7242ab2af8731681177ef7e948a15ece Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
+@@ -0,0 +1,44 @@
++From adbf81335b67be0cebdcf9f1f4fcb38ef4814f4d Mon Sep 17 00:00:00 2001
 +From: Mark Andrews <marka@isc.org>
-+Date: Mon, 16 Nov 2015 13:12:20 +1100
-+Subject: [PATCH] 4260.   [security]      Insufficient testing when parsing a
-+ message allowed                         records with an incorrect class to be
-+ be accepted,                         triggering a REQUIRE failure when those
-+ records                         were subsequently cached. (CVE-2015-8000) [RT
-+ #4098]
-+
-+(cherry picked from commit c8821d124c532e0a65752b378f924d4259499fd3)
-+(cherry picked from commit 3a4c24c4a52d4a2d21d2decbde3d4e514e27d51c)
-+
++Date: Thu, 25 Jun 2015 18:36:27 +1000
++Subject: [PATCH] 4146.   [bug]           Address reference leak that could
++ prevent a clean                         shutdown. [RT #37125]
 +
 +Upstream-Status: Backport
 +
-+https://source.isc.org/cgi-bin/gitweb.cgi?p=bind9.git;a=commit;h=8259daad7242ab2af8731681177ef7e948a15ece
++https://source.isc.org/cgi-bin/gitweb.cgi?p=bind9.git;a=commit;h=adbf81335b67be0cebdcf9f1f4fcb38ef4814f4d
 +
-+CVE: CVE-2015-8000
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
++CVE: CVE-2015-8461
++Signed-off-by:  Armin Kuster <akuster@mvista.com>
 +---
-+ CHANGES                       |  5 +++++
-+ bin/tests/system/start.pl     |  5 ++++-
-+ doc/arm/notes.xml             |  9 +++++++++
-+ lib/dns/include/dns/message.h | 13 +++++++++++--
-+ lib/dns/message.c             | 45 ++++++++++++++++++++++++++++++++++++++-----
-+ lib/dns/resolver.c            |  9 +++++++++
-+ lib/dns/xfrin.c               |  2 ++
-+ 7 files changed, 80 insertions(+), 8 deletions(-)
++ CHANGES            | 3 +++
++ lib/dns/resolver.c | 5 +++++
++ 2 files changed, 8 insertions(+)
 +
-+Index: bind-9.10.2-P4/bin/tests/system/start.pl
-+===================================================================
-+--- bind-9.10.2-P4.orig/bin/tests/system/start.pl
-++++ bind-9.10.2-P4/bin/tests/system/start.pl
-+@@ -68,6 +68,7 @@ my $NAMED = $ENV{'NAMED'};
-+ my $LWRESD = $ENV{'LWRESD'};
-+ my $DIG = $ENV{'DIG'};
-+ my $PERL = $ENV{'PERL'};
-++my $PYTHON = $ENV{'PYTHON'};
-+ 
-+ # Start the server(s)
-+ 
-+@@ -213,7 +214,9 @@ sub start_server {
-+ 		$pid_file = "lwresd.pid";
-+ 	} elsif ($server =~ /^ans/) {
-+ 		$cleanup_files = "{ans.run}";
-+-                if (-e "$testdir/$server/ans.pl") {
-++                if (-e "$testdir/$server/ans.py") {
-++                        $command = "$PYTHON ans.py 10.53.0.$' 5300";
-++                } elsif (-e "$testdir/$server/ans.pl") {
-+                         $command = "$PERL ans.pl";
-+                 } else {
-+                         $command = "$PERL $topdir/ans.pl 10.53.0.$'";
-+Index: bind-9.10.2-P4/doc/arm/notes.xml
-+===================================================================
-+--- bind-9.10.2-P4.orig/doc/arm/notes.xml
-++++ bind-9.10.2-P4/doc/arm/notes.xml
-+@@ -62,6 +62,15 @@
-+     <itemizedlist>
-+       <listitem>
-+ 	<para>
-++	  Insufficient testing when parsing a message allowed
-++	  records with an incorrect class to be be accepted,
-++	  triggering a REQUIRE failure when those records
-++	  were subsequently cached.  This flaw is disclosed
-++	  in CVE-2015-8000. [RT #4098]
-++	</para>
-++      </listitem>
-++      <listitem>
-++	<para>
-+ 	  An incorrect boundary check in the OPENPGPKEY rdatatype
-+ 	  could trigger an assertion failure. This flaw is disclosed
-+ 	  in CVE-2015-5986. [RT #40286]
-+Index: bind-9.10.2-P4/lib/dns/include/dns/message.h
-+===================================================================
-+--- bind-9.10.2-P4.orig/lib/dns/include/dns/message.h
-++++ bind-9.10.2-P4/lib/dns/include/dns/message.h
-+@@ -15,8 +15,6 @@
-+  * PERFORMANCE OF THIS SOFTWARE.
-+  */
-+ 
-+-/* $Id$ */
-+-
-+ #ifndef DNS_MESSAGE_H
-+ #define DNS_MESSAGE_H 1
-+ 
-+@@ -221,6 +219,8 @@ struct dns_message {
-+ 	unsigned int			free_saved : 1;
-+ 	unsigned int			sitok : 1;
-+ 	unsigned int			sitbad : 1;
-++	unsigned int			tkey : 1;
-++	unsigned int			rdclass_set : 1;
-+ 
-+ 	unsigned int			opt_reserved;
-+ 	unsigned int			sig_reserved;
-+@@ -1400,6 +1400,15 @@ dns_message_buildopt(dns_message_t *msg,
-+  * \li	 other.
-+  */
-+ 
-++void
-++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass);
-++/*%<
-++ * Set the expected class of records in the response.
-++ *
-++ * Requires:
-++ * \li   msg be a valid message with parsing intent.
-++ */
-++
-+ ISC_LANG_ENDDECLS
-+ 
-+ #endif /* DNS_MESSAGE_H */
-+Index: bind-9.10.2-P4/lib/dns/message.c
-+===================================================================
-+--- bind-9.10.2-P4.orig/lib/dns/message.c
-++++ bind-9.10.2-P4/lib/dns/message.c
-+@@ -439,6 +439,8 @@ msginit(dns_message_t *m) {
-+ 	m->free_saved = 0;
-+ 	m->sitok = 0;
-+ 	m->sitbad = 0;
-++	m->tkey = 0;
-++	m->rdclass_set = 0;
-+ 	m->querytsig = NULL;
-+ }
-+ 
-+@@ -1091,13 +1093,19 @@ getquestions(isc_buffer_t *source, dns_m
-+ 		 * If this class is different than the one we already read,
-+ 		 * this is an error.
-+ 		 */
-+-		if (msg->state == DNS_SECTION_ANY) {
-+-			msg->state = DNS_SECTION_QUESTION;
-++		if (msg->rdclass_set == 0) {
-+ 			msg->rdclass = rdclass;
-++			msg->rdclass_set = 1;
-+ 		} else if (msg->rdclass != rdclass)
-+ 			DO_FORMERR;
-+ 
-+ 		/*
-++		 * Is this a TKEY query?
-++		 */
-++		if (rdtype == dns_rdatatype_tkey)
-++			msg->tkey = 1;
-++
-++		/*
-+ 		 * Can't ask the same question twice.
-+ 		 */
-+ 		result = dns_message_find(name, rdclass, rdtype, 0, NULL);
-+@@ -1241,12 +1249,12 @@ getsection(isc_buffer_t *source, dns_mes
-+ 		 * If there was no question section, we may not yet have
-+ 		 * established a class.  Do so now.
-+ 		 */
-+-		if (msg->state == DNS_SECTION_ANY &&
-++		if (msg->rdclass_set == 0 &&
-+ 		    rdtype != dns_rdatatype_opt &&	/* class is UDP SIZE */
-+ 		    rdtype != dns_rdatatype_tsig &&	/* class is ANY */
-+ 		    rdtype != dns_rdatatype_tkey) {	/* class is undefined */
-+ 			msg->rdclass = rdclass;
-+-			msg->state = DNS_SECTION_QUESTION;
-++			msg->rdclass_set = 1;
-+ 		}
-+ 
-+ 		/*
-+@@ -1256,7 +1264,7 @@ getsection(isc_buffer_t *source, dns_mes
-+ 		if (msg->opcode != dns_opcode_update
-+ 		    && rdtype != dns_rdatatype_tsig
-+ 		    && rdtype != dns_rdatatype_opt
-+-		    && rdtype != dns_rdatatype_dnskey /* in a TKEY query */
-++		    && rdtype != dns_rdatatype_key /* in a TKEY query */
-+ 		    && rdtype != dns_rdatatype_sig /* SIG(0) */
-+ 		    && rdtype != dns_rdatatype_tkey /* Win2000 TKEY */
-+ 		    && msg->rdclass != dns_rdataclass_any
-+@@ -1264,6 +1272,16 @@ getsection(isc_buffer_t *source, dns_mes
-+ 			DO_FORMERR;
-+ 
-+ 		/*
-++		 * If this is not a TKEY query/response then the KEY
-++		 * record's class needs to match.
-++		 */
-++		if (msg->opcode != dns_opcode_update && !msg->tkey &&
-++		    rdtype == dns_rdatatype_key &&
-++		    msg->rdclass != dns_rdataclass_any &&
-++		    msg->rdclass != rdclass)
-++			DO_FORMERR;
-++
-++		/*
-+ 		 * Special type handling for TSIG, OPT, and TKEY.
-+ 		 */
-+ 		if (rdtype == dns_rdatatype_tsig) {
-+@@ -1377,6 +1395,10 @@ getsection(isc_buffer_t *source, dns_mes
-+ 				skip_name_search = ISC_TRUE;
-+ 				skip_type_search = ISC_TRUE;
-+ 				issigzero = ISC_TRUE;
-++			} else {
-++				if (msg->rdclass != dns_rdataclass_any &&
-++				    msg->rdclass != rdclass)
-++					DO_FORMERR;
-+ 			}
-+ 		} else
-+ 			covers = 0;
-+@@ -1625,6 +1647,7 @@ dns_message_parse(dns_message_t *msg, is
-+ 	msg->counts[DNS_SECTION_ADDITIONAL] = isc_buffer_getuint16(source);
-+ 
-+ 	msg->header_ok = 1;
-++	msg->state = DNS_SECTION_QUESTION;
-+ 
-+ 	/*
-+ 	 * -1 means no EDNS.
-+@@ -3706,3 +3729,15 @@ dns_message_buildopt(dns_message_t *mess
-+ 		dns_message_puttemprdatalist(message, &rdatalist);
-+ 	return (result);
-+ }
-++
-++void
-++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass) {
-++
-++	REQUIRE(DNS_MESSAGE_VALID(msg));
-++	REQUIRE(msg->from_to_wire == DNS_MESSAGE_INTENTPARSE);
-++	REQUIRE(msg->state == DNS_SECTION_ANY);
-++	REQUIRE(msg->rdclass_set == 0);
-++
-++	msg->rdclass = rdclass;
-++	msg->rdclass_set = 1;
-++}
-+Index: bind-9.10.2-P4/lib/dns/resolver.c
-+===================================================================
-+--- bind-9.10.2-P4.orig/lib/dns/resolver.c
-++++ bind-9.10.2-P4/lib/dns/resolver.c
-+@@ -7309,6 +7309,8 @@ resquery_response(isc_task_t *task, isc_
-+ 			goto done;
-+ 	}
-+ 
-++	dns_message_setclass(message, fctx->res->rdclass);
-++
-+ 	if ((options & DNS_FETCHOPT_TCP) == 0) {
-+ 		if ((options & DNS_FETCHOPT_NOEDNS0) == 0)
-+ 			dns_adb_setudpsize(fctx->adb, query->addrinfo,
-+@@ -7391,6 +7393,13 @@ resquery_response(isc_task_t *task, isc_
-+ 				 &dns_master_style_comment,
-+ 				 ISC_LOG_DEBUG(10),
-+ 				 fctx->res->mctx);
-++
-++	if (message->rdclass != fctx->res->rdclass) {
-++		resend = ISC_TRUE;
-++		FCTXTRACE("bad class");
-++		goto done;
-++	}
-++
-+ 	/*
-+ 	 * Process receive opt record.
-+ 	 */
-+Index: bind-9.10.2-P4/lib/dns/xfrin.c
-+===================================================================
-+--- bind-9.10.2-P4.orig/lib/dns/xfrin.c
-++++ bind-9.10.2-P4/lib/dns/xfrin.c
-+@@ -1225,6 +1225,8 @@ xfrin_recv_done(isc_task_t *task, isc_ev
-+ 	msg->tsigctx = xfr->tsigctx;
-+ 	xfr->tsigctx = NULL;
-+ 
-++	dns_message_setclass(msg, xfr->rdclass);
-++
-+ 	if (xfr->nmsg > 0)
-+ 		msg->tcp_continuation = 1;
-+ 
 +Index: bind-9.10.2-P4/CHANGES
 +===================================================================
 +--- bind-9.10.2-P4.orig/CHANGES
 ++++ bind-9.10.2-P4/CHANGES
-+@@ -1,4 +1,9 @@
-+-	--- 9.10.2-P4 released ---
-++4260.  [security]      Insufficient testing when parsing a message allowed
-++                       records with an incorrect class to be be accepted,
-++                       triggering a REQUIRE failure when those records
-++                       were subsequently cached. (CVE-2015-8000) [RT #4098]
++@@ -1,3 +1,6 @@
+++4146.  [bug]           Address reference leak that could prevent a clean
+++                       shutdown. [RT #37125]
 ++
-++    --- 9.10.2-P4 released ---
++ 4260.  [security]      Insufficient testing when parsing a message allowed
++                        records with an incorrect class to be be accepted,
++                        triggering a REQUIRE failure when those records
++Index: bind-9.10.2-P4/lib/dns/resolver.c
++===================================================================
++--- bind-9.10.2-P4.orig/lib/dns/resolver.c
+++++ bind-9.10.2-P4/lib/dns/resolver.c
++@@ -1649,6 +1649,11 @@ fctx_query(fetchctx_t *fctx, dns_adbaddr
++ 	if (query->dispatch != NULL)
++ 		dns_dispatch_detach(&query->dispatch);
 + 
-+ 4170.	[security]	An incorrect boundary check in the OPENPGPKEY
-+ 			rdatatype could trigger an assertion failure.
+++	LOCK(&res->buckets[fctx->bucketnum].lock);
+++	INSIST(fctx->references > 1);
+++	fctx->references--;
+++	UNLOCK(&res->buckets[fctx->bucketnum].lock);
+++
++  cleanup_query:
++ 	if (query->connects == 0) {
++ 		query->magic = 0;
 diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-index c9a7acd..b22dbf3 100644
+index b22dbf3..19f87d7 100644
 --- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+@@ -24,6 +24,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
             file://CVE-2015-8704.patch \
             file://CVE-2015-8705.patch \
-+           file://CVE-2015-8000.patch \
+            file://CVE-2015-8000.patch \
++           file://CVE-2015-8461.patch \
             "
  
  SRC_URI[md5sum] = "8b1f5064837756c938eadc1537dec5c7"
