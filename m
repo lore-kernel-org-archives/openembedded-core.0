@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA4B6080F
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A9CDD77205
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 19:53:26 +0000 (UTC)
-Received: by mail-pf0-f181.google.com with SMTP id 65so71004426pfd.2
+	Sun, 31 Jan 2016 19:53:28 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id o185so66240045pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 11:53:27 -0800 (PST)
+	Sun, 31 Jan 2016 11:53:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=rKbWLZPE66JPu00HhQIJEyfkat8RlF7/R5VZF9owMqI=;
-	b=Rrol748cbyAuTkip3xdL2xjuzpaP3WDjEbEP9uaO7sCL4t5xLL9O/VKX0KOpXGOxt0
-	mYFqWVPeOQ9uKSOsFP9q1ujMVcLegpiUXcSG5nH2sfMFJutePnut7Knbkf2e2wuCWlsh
-	akepA2ZVyHCQ4eHeIP+vrGDC6UCMO5roNhJ7MmBUKDt+HvIiaskIez46Ca0u+Vyg/uqD
-	Q8RdJQsc3PYaUyPESjWFzVqmLwzcmKoZ6UvHiujlqsvYYNZg//YxQNJwQQsTFeAnrj5a
-	nbQQagyJYKgbkUJrQpwKQ1TT6qzOgBzm3p78lQ9BbZNTNke9DtPUcdA9+1gG598SKK0X
-	BMVQ==
+	:references; bh=TyJr6zW9FVMNv64JgdlllBe/elFFSu3pTK7K4Xo1Iew=;
+	b=jfA6yU/QordlmgeE/CV+XhpDdyezBH/uaVP4S44NZU63VTpZJrDZKTuvayW2gpg/4G
+	+nUFJVbknXqXr/9kY711jBS4F7F5igEDYOl+ayBrX7dGchg5trTBvzN2WZiWWfkOsUP5
+	P+BMMPiBjdwpN5n1JfLsENo5u/z76ZBK1LW0/CqvC25J7ze28eJ8OQCF+ZG99Qpt7FEV
+	y2rFAQfZ9A64jXGInBs5A0dcoTykFQ1tCQMhrrj5ej7pl334KlF/U5RJF7smZJAw/aFB
+	u1OtCFUBkzJc79bKCrx6aoKeXcTLWWbLdJmUh3daDZKZZMeBFmHPOINtqLRaMR+ZkWbT
+	wAMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=rKbWLZPE66JPu00HhQIJEyfkat8RlF7/R5VZF9owMqI=;
-	b=hvzqbUrzWZsZqHWtz6DVAmI0GaRvq/MagtiMaqCvBh6SX6F8IMFK2J+/P1ZLCQ9YJM
-	u9gamut27jvzmAGocrEe1TYGywz8VbQL8aRbGza47sv7QPfztyE0CXFURC6EQrX87iJa
-	O3kkiAR2t2sKtHlSBw5REQYdlLty/y4QN/xa12O3VVB4W9ToGR3q7MToXCuTe6IxLmXs
-	apxzDm9YqrqR95fe/xYsXxF8GujrPU/ZDjm4dVy7KZoxJ7pN5DH6kSqMiuhSrZnGgjVg
-	VxIKtCUnBA1gzxwk6zxl+ePkfkCLgA7yXcpJNL1UoanS7zvb4gAmoAZctQ+UGK5cTIyv
-	T6Cw==
-X-Gm-Message-State: AG10YORRlKnBMj8Y0aMqHmohQz6Ty7A6PRVfyt2oiGZSQ0J6K4qDfFscAEzl4swX7qW7MQ==
-X-Received: by 10.98.75.20 with SMTP id y20mr7297481pfa.32.1454270006979;
-	Sun, 31 Jan 2016 11:53:26 -0800 (PST)
+	bh=TyJr6zW9FVMNv64JgdlllBe/elFFSu3pTK7K4Xo1Iew=;
+	b=HfYOV8wXA7L81GHBRaBKJ5WHDhQUo7KFhitbZnm9gBQGuHJbxDV+wYpBll8dXwKw+S
+	TZ21ptOy7nv41ofzZTb+RgL1ahWvPV8Itnq/QyiooA8LQ/vYPz76kROUQSZ3yvhH+8Um
+	YIDAPJplTYy+A2u9YJ1kqjUxDirU6XV0hMWE24ijv3OufIFW8GCfDzDRU3FBTS991R8b
+	Hlna3secKAy2UG/5BSijK253tGB8QiEhrw7rkTZKmlMoUTHGjix3zlAU5wzxY3/vrUKJ
+	0UgDH3ZRTLV7joVaokfsvRz4i3yCGIVzLaDfc5/a5yAsgWYGGyPdzGkyYjXlPsvo4VYR
+	eDfQ==
+X-Gm-Message-State: AG10YOQludl7dU+RKAHIki3Sd0MUYFRptrZ3xuMPUWMrOy37vdzFOwSLray+y1uVPUpiMw==
+X-Received: by 10.98.65.203 with SMTP id g72mr32570926pfd.44.1454270009028;
+	Sun, 31 Jan 2016 11:53:29 -0800 (PST)
 Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	q136sm37670536pfq.66.2016.01.31.11.53.25
+	q136sm37670536pfq.66.2016.01.31.11.53.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 31 Jan 2016 11:53:25 -0800 (PST)
+	Sun, 31 Jan 2016 11:53:27 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	liezhi.yang@windriver.com
-Date: Sun, 31 Jan 2016 11:53:08 -0800
-Message-Id: <ca181405733aee400ae522deea8b1062b350f3f9.1454255704.git.akuster@mvista.com>
+Date: Sun, 31 Jan 2016 11:53:09 -0800
+Message-Id: <6f678a02279cbef0b0e7d69f50d10fac156a08f1.1454255704.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454255704.git.akuster@mvista.com>
 References: <cover.1454255704.git.akuster@mvista.com>
 In-Reply-To: <cover.1454255704.git.akuster@mvista.com>
 References: <cover.1454255704.git.akuster@mvista.com>
-Subject: [jethro-next 2/8] libxml2: Security fix CVE-2015-8241
+Subject: [jethro-next 3/8] libxml2: Security fix CVE-2015-8710
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,77 +58,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Jan 2016 19:53:28 -0000
+X-List-Received-Date: Sun, 31 Jan 2016 19:53:32 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-8241 libxml2: Buffer overread with XML parser in xmlNextChar
+CVE-2015-8710 libxml2: out-of-bounds memory access when parsing an unclosed HTML comment
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-core/libxml/libxml2.inc               |  1 +
- .../libxml/libxml2/CVE-2015-8241.patch             | 40 ++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
+ .../libxml/libxml2/CVE-2015-8710.patch             | 71 ++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
 
 diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index b9ce0f0..bced950f 100644
+index bced950f..310d5bb 100644
 --- a/meta/recipes-core/libxml/libxml2.inc
 +++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -35,6 +35,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch \
+@@ -36,6 +36,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
             file://0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch \
             file://0001-CVE-2015-5312-Another-entity-expansion-issue.patch \
-+           file://CVE-2015-8241.patch \
+            file://CVE-2015-8241.patch \
++           file://CVE-2015-8710.patch \
            "
  
  BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
 new file mode 100644
-index 0000000..89a46ad
+index 0000000..be06cc2
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
-@@ -0,0 +1,40 @@
-+From ab2b9a93ff19cedde7befbf2fcc48c6e352b6cbe Mon Sep 17 00:00:00 2001
-+From: Hugh Davenport <hugh@allthethings.co.nz>
-+Date: Tue, 3 Nov 2015 20:40:49 +0800
-+Subject: [PATCH] Avoid extra processing of MarkupDecl when EOF
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
+@@ -0,0 +1,71 @@
++From e724879d964d774df9b7969fc846605aa1bac54c Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Fri, 30 Oct 2015 21:14:55 +0800
++Subject: [PATCH] Fix parsing short unclosed comment uninitialized access
 +
-+For https://bugzilla.gnome.org/show_bug.cgi?id=756263
++For https://bugzilla.gnome.org/show_bug.cgi?id=746048
++The HTML parser was too optimistic when processing comments and
++didn't check for the end of the stream on the first 2 characters
 +
-+One place where ctxt->instate == XML_PARSER_EOF whic was set up
-+by entity detection issues doesn't get noticed, and even overrided
++Upstream-Status: Backport
 +
-+Upstream-status: Backport
++https://git.gnome.org/browse/libxml2/commit/?id=e724879d964d774df9b7969fc846605aa1bac54c
 +
-+https://git.gnome.org/browse/libxml2/commit/?id=ab2b9a93ff19cedde7befbf2fcc48c6e352b6cbe
++CVE: CVE-2015-8710
 +
-+CVE: CVE-2015-8241
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ parser.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ HTMLparser.c | 21 ++++++++++++++-------
++ 1 file changed, 14 insertions(+), 7 deletions(-)
 +
-+Index: libxml2-2.9.2/parser.c
++Index: libxml2-2.9.2/HTMLparser.c
 +===================================================================
-+--- libxml2-2.9.2.orig/parser.c
-++++ libxml2-2.9.2/parser.c
-+@@ -6999,6 +6999,14 @@ xmlParseMarkupDecl(xmlParserCtxtPtr ctxt
-+ 	    xmlParsePI(ctxt);
++--- libxml2-2.9.2.orig/HTMLparser.c
+++++ libxml2-2.9.2/HTMLparser.c
++@@ -3245,12 +3245,17 @@ htmlParseComment(htmlParserCtxtPtr ctxt)
++ 	ctxt->instate = state;
++ 	return;
++     }
+++    len = 0;
+++    buf[len] = 0;
++     q = CUR_CHAR(ql);
+++    if (!IS_CHAR(q))
+++        goto unfinished;
++     NEXTL(ql);
++     r = CUR_CHAR(rl);
+++    if (!IS_CHAR(r))
+++        goto unfinished;
++     NEXTL(rl);
++     cur = CUR_CHAR(l);
++-    len = 0;
++     while (IS_CHAR(cur) &&
++            ((cur != '>') ||
++ 	    (r != '-') || (q != '-'))) {
++@@ -3281,18 +3286,20 @@ htmlParseComment(htmlParserCtxtPtr ctxt)
 + 	}
 +     }
++     buf[len] = 0;
++-    if (!IS_CHAR(cur)) {
++-	htmlParseErr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
++-	             "Comment not terminated \n<!--%.50s\n", buf, NULL);
++-	xmlFree(buf);
++-    } else {
+++    if (IS_CHAR(cur)) {
++         NEXT;
++ 	if ((ctxt->sax != NULL) && (ctxt->sax->comment != NULL) &&
++ 	    (!ctxt->disableSAX))
++ 	    ctxt->sax->comment(ctxt->userData, buf);
++ 	xmlFree(buf);
+++	ctxt->instate = state;
+++	return;
++     }
++-    ctxt->instate = state;
 ++
-++    /*
-++     * detect requirement to exit there and act accordingly
-++     * and avoid having instate overriden later on
-++     */
-++    if (ctxt->instate == XML_PARSER_EOF)
-++        return;
-++
-+     /*
-+      * This is only for internal subset. On external entities,
-+      * the replacement is done before parsing stage
+++unfinished:
+++    htmlParseErr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
+++		 "Comment not terminated \n<!--%.50s\n", buf, NULL);
+++    xmlFree(buf);
++ }
++ 
++ /**
 -- 
 2.3.5
 
