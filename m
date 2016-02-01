@@ -1,24 +1,20 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 266D8601D4
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A360B77085
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 22:44:49 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aQNDE-0006Ay-0o; Mon, 01 Feb 2016 23:44:48 +0100
-Message-ID: <1454366681.7421.37.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Mon, 01 Feb 2016 22:44:41 +0000
-In-Reply-To: <56AFDAC5.9000008@windriver.com>
-References: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
-	<1453937316-1311-3-git-send-email-armccurdy@gmail.com>
-	<56AFDAC5.9000008@windriver.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] glib-2.0: drop add-march-i486-into-CFLAGS-automatically.patch
+	Mon,  1 Feb 2016 23:51:54 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Feb 2016 15:51:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,382,1449561600"; d="scan'208";a="874500806"
+Received: from bitbang.jf.intel.com ([10.7.199.151])
+	by orsmga001.jf.intel.com with ESMTP; 01 Feb 2016 15:51:55 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon,  1 Feb 2016 15:51:51 -0800
+Message-Id: <1454370711-19839-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] populate_sdk_ext: Add SSTATE_MIRRORS to config blacklist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,21 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 22:44:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Feb 2016 23:52:00 -0000
 
-On Mon, 2016-02-01 at 17:23 -0500, Randy MacLeod wrote:
-> Do you remember why this patch was needed?
+SSTATE_MIRRORS used by the builder may not be the same as what the
+installer of the sdk will use. Therefore blacklist SSTATE_MIRRORS from
+the builder configuration. Note: the actual SSTATE_MIRRORS for the sdk
+can be added using sdk_extra_conf.
 
-The comments in the patch provide a fairly clear explanation of what
-problem it was trying to solve.  But I agree with Andre that this cure
-is in fact worse than the original disease.
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-In any case, the issue is probably moot because neither glibc nor musl
-support cpus without cmpxchg any more.
-
-p.
-
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index a115127..da7fdfb 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -19,7 +19,12 @@ SDK_EXT = ""
+ SDK_EXT_task-populate-sdk-ext = "-ext"
+ 
+ SDK_LOCAL_CONF_WHITELIST ?= ""
+-SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION BB_NUMBER_THREADS PARALLEL_MAKE PRSERV_HOST"
++SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
++                             BB_NUMBER_THREADS \
++                             PARALLEL_MAKE \
++                             PRSERV_HOST \
++                             SSTATE_MIRRORS \
++                            "
+ SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
+ SDK_UPDATE_URL ?= ""
+ 
+-- 
+2.5.0
 
 
