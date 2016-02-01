@@ -1,26 +1,55 @@
-Return-Path: <preid@electromag.com.au>
-Received: from anchovy.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
-	by mail.openembedded.org (Postfix) with ESMTP id B5D836FF7B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7393F77241
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 06:07:05 +0000 (UTC)
-Received: (qmail 31436 invoked by uid 5089); 1 Feb 2016 06:07:04 -0000
-Received: by simscan 1.2.0 ppid: 31395, pid: 31397, t: 0.0317s
-	scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
-Received: from unknown (HELO ?192.168.0.122?)
-	(preid@electromag.com.au@203.59.230.133)
-	by anchovy1.45ru.net.au with ESMTPA; 1 Feb 2016 06:07:04 -0000
-To: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core@lists.openembedded.org
-References: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
-	<569C9C0B.1080004@topic.nl>
-From: Phil Reid <preid@electromag.com.au>
-Message-ID: <56AEF605.1090806@electromag.com.au>
-Date: Mon, 1 Feb 2016 14:07:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <569C9C0B.1080004@topic.nl>
-Subject: Re: Lots of [host-user-contaminated] warning
+	Mon,  1 Feb 2016 08:14:20 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id t15so29352131igr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Feb 2016 00:14:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:content-type:mime-version:content-transfer-encoding;
+	bh=WcDnoidcjyS/hFC8Lq34fjnxAKu4MKJeqmAXIlVHi4o=;
+	b=Io5BAPrp1rBZ+4k+aj9i6bHjWKwvdzAlXNMNDDYHE8QtE+RlSJm5oInPIEJM80VVQu
+	33fO3OELcep8tX3QEPoKE3rd8JEa5eKaXp2ioh43W70Yi978UWwsI7WrqiY+3P3y50A5
+	x3F+4DkRzep9j8+sJzDl4RoOzG+4ZZBcBsVUheZ3oNcQtPJlmVkpV7WbRB+LxXAumowH
+	04RTDYWX+Y7ITyyTG2bfw27JOcOBCHY2Jbyjs8zNOA6PTiNY51Kk0dF9tAhtmxl+08Gz
+	Rexx1vUCbj00b9UnpwsKSwWaD/by5KH6vlf/y+NSAvoDo+pMg52xHz7pUvMpRcQIhDLJ
+	bcQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=WcDnoidcjyS/hFC8Lq34fjnxAKu4MKJeqmAXIlVHi4o=;
+	b=fWyH+IVuhXwMbLtzY7qObYb4AgKV0lWcy9ipicEsC8ej3C+fzkGvYnDKCEzeuumzOI
+	4kwsjsuKiceuprGlBMgDH001bPh66nqQ9TX3eGMeNiuibz6MMuOTEeWZZPPFiRVxbOxM
+	JTvhXtjUMPUI8Z1HMw5+eGPJhi+AbZW4PFO5cIclREecRV8qdDMmGD1D4+EU1DDgNRx+
+	QNWq2Rgod9NblqR6ZNMSJiSuBPO6k7QQaCQaK53mb779fs900APC1P2UbPRJ3mJX01hZ
+	rjFaW/TX+S3DONpFcCHB4/7G5wWj/H2xe8u6DAt2mj/vW6lY3MY9RSq9b12qkmdiMZBS
+	WNNw==
+X-Gm-Message-State: AG10YOTo4TxA/4QQxqRabzOT36/iuq0cZLz9LUybOBqw62YCjvvzlqo8ONTzjNA1sLAQ9Vez
+X-Received: by 10.50.141.193 with SMTP id rq1mr9174627igb.44.1454314460913;
+	Mon, 01 Feb 2016 00:14:20 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8C9AC.dip0.t-ipconnect.de. [93.232.201.172])
+	by smtp.gmail.com with ESMTPSA id
+	d36sm8978142ioj.18.2016.02.01.00.14.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 01 Feb 2016 00:14:19 -0800 (PST)
+Message-ID: <1454314457.20696.16.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 01 Feb 2016 09:14:17 +0100
+In-Reply-To: <CAJ86T=U6jUg7+nLPVz_=cEodqRNcK=zHvu3yJBOvg+b9V0XXWA@mail.gmail.com>
+References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
+	<CAJ86T=U6jUg7+nLPVz_=cEodqRNcK=zHvu3yJBOvg+b9V0XXWA@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] busybox: Add support for busybox-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +62,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 06:07:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 01 Feb 2016 08:14:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18/01/2016 4:02 PM, Mike Looijmans wrote:
-> On 17-11-15 09:46, Andreas Müller wrote:
->> Hi,
->>
->> this bugs me for a while and I wonder if I am again the only one
->> facing this: I get floods of warnings for sourcecode files as
->>
->> WARNING: QA Issue: qtserialport:
->> /qtserialport-dbg/usr/src/debug/qtserialport/5.5.99+5.6.0-alpha1+gitAUTOINC+2575d33fab-r0/git/src/serialport/qserialport_p.h
->> is owned by uid 1000, which is the same as the user running bitbake.
->> This may be due to host contamination [host-user-contaminated]
->> WARNING: QA Issue: qtx11extras:
->> /qtx11extras-dbg/usr/src/debug/qtx11extras/5.5.99+5.6.0-alpha1+gitAUTOINC+d64ee96f0d-r0/git/src/x11extras/qx11info_x11.cpp
->> is owned by uid 1000, which is the same as the user running bitbake.
->> This may be due to host contamination [host-user-contaminated]
->> WARNING: QA Issue: qtxmlpatterns:
->> /qtxmlpatterns-dbg/usr/src/debug/qtxmlpatterns/5.5.99+5.6.0-alpha1+gitAUTOINC+94136d4280-r0/git/src/xmlpatterns/type/qbuiltintypes.cpp
->> is owned by uid 1000, which is the same as the user running bitbake.
->> This may be due to host contamination [host-user-contaminated]
->>
->> I checked PACKAGE_DEBUG_SPLIT_STYLE is not set globally - few recipes
->> set PACKAGE_DEBUG_SPLIT_STYLE to debug-without-src.
->>
->> Help appreciated
->
-> I got rid of these messages by doing the following replacements in do_install and package install scripts:
->
-> Instead of "cp -r -p ..." use "cp -r --preserve=mode,links ..."
-> Instead of "cp -a ..." use "cp -R --no-dereference --preserve=mode,links ..."
->
-> This fixes these QA warnings in a more structured way than running a blunt "chown root:root ..."
->
->
->
+On Mon, 2016-01-25 at 11:39 -0800, Andre McCurdy wrote:
+> > +        if grep "CONFIG_INIT=y" ${B}/.config; then
+> > +                install -D -m 0777 ${WORKDIR}/rcS
+> ${D}${sysconfdir}/init.d/rcS
+> > +                install -D -m 0777 ${WORKDIR}/rcK
+> ${D}${sysconfdir}/init.d/rcK
+> > +                install -D -m 0755 ${WORKDIR}/runlevel
+> ${D}${base_sbindir}/runlevel
+> > +                if grep "CONFIG_FEATURE_USE_INITTAB=y"
+> ${B}/.config; then
+> > +                        install -D -m 0777 ${WORKDIR}/inittab
+> ${D}${sysconfdir}/inittab
+> > +                        tmp="${SERIAL_CONSOLES}"
+> > +                        for i in $tmp
+> > +                        do
+> > +                                j=`echo ${i} | sed s/\;/\ /g`
+> > +                                label=`echo ${i} | sed -e 's/tty//'
+> -e 's/^.*;//' -e 's/;.*//'`
+> > +                                echo "tty$label::respawn:
+> ${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
+> > +                        done
+> > +                fi
+> > +        fi
 
-G'day Mike,
+SERIAL_CONSOLES is typically set differently for different machines. But
+busybox is not machine-specific, therefore using SERIAL_CONSOLE like
+this prevents sstate/package reuse or worse, causes package versioning
+problems.
 
-Was this on a recipe by recipe basis?
-I've reported the following bug at https://bugzilla.yoctoproject.org/show_bug.cgi?id=8939
-But told we need to update the recipes on a recipe by recipe.
-I'm still learning bitbake, yocto and angstron relationships.
-So far I at a loss on where to look.
-eg: getting a problem with glib-2.22 which I can only find references to in openembedded-core.
-But they suggest problem is in on of my extra layers.
-
-
+This probably was not noticed by the auto-testers because it only causes
+tests to fail when SERIAL_CONSOLES is really set differently. I'm
+wondering whether there should be variable flag for machine-specific
+variables: then using such variables in machine-independent recipes
+could trigger a QA warning.
 
 -- 
-Regards
-Phil Reid
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
