@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 72497771C4
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF167723C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 05:08:35 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id s5so46493908qkd.0
+	Mon,  1 Feb 2016 05:08:34 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id x1so46420294qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 21:08:36 -0800 (PST)
+	Sun, 31 Jan 2016 21:08:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=O/ikN7XL56zevHr5gb09l4GUWUyenHnGtBRDOIt7oaE=;
-	b=h/ugIeJtXZHU0fHKs8LlH9hyRmex26LdJkxgyK4Fdk4kuVHp1j1H2XONiO+21lko+T
-	Fr/QOTut9w9sb5Zz4oaoiKEZr8eQn5Lj5sBhAbNM2NOWTCsiFJd+cbWcmtUcfLyT3z8V
-	BhX6Cs6/4mDQpKY7E0ZwbvY8iZ8IBs8CDCDhkI0/7VD1dQCJJMTtK3IN0EIeGdpQDdQM
-	ZT2h4OQv2d2T/Ufo47uWDWN8jgXSUFS6Ots8YpXKfjnnpdilDLhgAw4/j5XTL07RofxC
-	WTptH5MOd7TZ1wvZ9ITz9TEW11MTZJEG4QSiMEmdM5aKyKh1UY3/y9T7dN+GT/1ckZJI
-	KFCw==
+	bh=vMvN02ggm6/a2iI/Z7UfdegRoC46RjQ82qFTB40zrfI=;
+	b=YwS2sAMIjsu1YWZGM9A4xPidPN7RKXvqb2BGeIFnmDuGN5D8i9j4+nBzYJinrCcHxa
+	+gUBdfgcVP8sJU1e6RQA1Za+BGQj/cGT8JYmOtIn00ovfayiIKSWAhlnxf3ElxZYL7jo
+	91bJ/NTYl2K6qq1cxxVDFD24IyBwULvnYAKbeFXsSZ5UTan6yKys/P2W0Yr8RBgSNbK/
+	dMYqOZexwfD4/OcACMpPSIhd4chYgdVwkbGKs2t53N90eKhfgNQMYB2vWMjUnY5+4Qfl
+	Yt57f47eJAsh3JF6wPJ2DaQlEJom0PiZ9uDgFKlXHcbKt3B+TPJhdaNx5Vixg62Slgb5
+	i1iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=O/ikN7XL56zevHr5gb09l4GUWUyenHnGtBRDOIt7oaE=;
-	b=UnPFuru+AVQvjisGdP0uqju63UDaFkwJayfeB1oQWl4gBLfbzcdyEZKyvK8JP/pLCd
-	Oxv7Ims8Ws84RFwtni87yVo3qj53nX/ge89bsF/UB42I6S7B0M4vBI6MW2VHYzT+O7QU
-	ggUPquq0QAFPPzLUi8Wp39FXB54kXYTK69QnbAy4ndEbSB8QonMxfDKyTLT1omwRq2cf
-	p9d9MMEmqIwY0DtneKeZz99m2wyCjgbjsqnNsyHVWNCWkV5ALxkFSs7B3UxYWzTXCBkE
-	83NixFmdjVQ9HrTZZdDkZYATVLzYs3D5awQQSoTGJhYKtRdM7iBrRMoNC/xo4GAJSnbb
-	lXpA==
-X-Gm-Message-State: AG10YOQlkp9BiMYqaGdLrb4ipW5JYkoDADkSoyX6+7vKniVjyCxbnBg9LVUCUv76ox5kBw==
-X-Received: by 10.55.74.86 with SMTP id x83mr25985397qka.89.1454303315741;
+	bh=vMvN02ggm6/a2iI/Z7UfdegRoC46RjQ82qFTB40zrfI=;
+	b=IKyVaBRpp513kZZ9X3OhqyucnWnICGre0JXo2Zb+R+EgAd/ybtaZHf5wrPYrWBR6D1
+	7hwLh2siKkoeofozELK6S6jwP+gM58g1CVPgIml5JatLAuizEakfnNUkrOYlQwPbBw7f
+	rt+ApJgoEwUlDxVk++lTkhEgpSBfh8ZiuMkVebVowmarcAfNKpCsZeG/3rMI7T47jdd6
+	cWAlry5AkNhj2bx/VKJRPVLVUEjirjzHwSo1EgLZ68J7wOyK3BwLqIVbA1UNVuO580RY
+	6dcbHLLKcFFvjToQhB8WldbT2raxyplrkHvtXw4dy74pm90t+UD+Iuj54NhJSpVkVcfj
+	Iaag==
+X-Gm-Message-State: AG10YOTzBli42LnkVlf5XHVkxWn+BvDOVFnrdlso1V7vzlsLWIVNTV5n2PjCHUQofR/ziQ==
+X-Received: by 10.55.72.12 with SMTP id v12mr26142375qka.28.1454303315115;
 	Sun, 31 Jan 2016 21:08:35 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	b6sm12058940qkh.12.2016.01.31.21.08.35
+	b6sm12058940qkh.12.2016.01.31.21.08.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 31 Jan 2016 21:08:35 -0800 (PST)
+	Sun, 31 Jan 2016 21:08:34 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Feb 2016 05:08:24 +0000
-Message-Id: <17891198365760fe79cd82566cc34a66a2226d54.1454303080.git.raj.khem@gmail.com>
+Date: Mon,  1 Feb 2016 05:08:23 +0000
+Message-Id: <8414fe6c4db39df641533dfaf9d4c9021916517b.1454303080.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
 References: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1454303080.git.raj.khem@gmail.com>
 References: <cover.1454303080.git.raj.khem@gmail.com>
-Subject: [PATCH 3/8] distutils: Consider S != B case
+Subject: [PATCH 2/8] nss-myhostname: Fix build on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,197 +60,87 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 01 Feb 2016 05:08:35 -0000
 
-out of tree builds can break the assumption about setup.py being in the
-current directory, seen especially with devtool when using externalsrc
-many python modules cant build since it cant find setup.py in devtool
-workspace
+provide needed data types if nss.h is not available
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/distutils.bbclass  | 27 +++++++++++++++++----------
- meta/classes/distutils3.bbclass | 26 +++++++++++++++++++-------
- 2 files changed, 36 insertions(+), 17 deletions(-)
+ ...tname-Check-for-nss.h-presense-before-use.patch | 51 ++++++++++++++++++++++
+ .../nss-myhostname/nss-myhostname_0.3.bb           |  4 +-
+ 2 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index cd06713..d9e0086 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -8,44 +8,51 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
-     --install-data=${D}/${datadir}"
- 
- distutils_do_compile() {
--         STAGING_INCDIR=${STAGING_INCDIR} \
--         STAGING_LIBDIR=${STAGING_LIBDIR} \
--         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
--         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
--         bbfatal "${PYTHON_PN} setup.py build execution failed."
-+        cwd=$PWD;cd ${S}
-+        STAGING_INCDIR=${STAGING_INCDIR} \
-+        STAGING_LIBDIR=${STAGING_LIBDIR} \
-+        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py build --build-base=${B} ${DISTUTILS_BUILD_ARGS} || \
-+        bbfatal "${PYTHON_PN} setup.py build execution failed."
-+        cd $cwd
- }
- 
- distutils_stage_headers() {
-+        cwd=$PWD;cd ${S}
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install_headers execution failed."
-+        cd $cwd
- }
- 
- distutils_stage_all() {
-+        cwd=$PWD;cd ${S}
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install (stage) execution failed."
-+        cd $cwd
- }
- 
- distutils_do_install() {
-+        cwd=$PWD;cd ${S}
-         install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install execution failed."
- 
-         # support filenames with *spaces*
-         # only modify file if it contains path  and recompile it
-         find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \; -exec ${STAGING_BINDIR_NATIVE}/python-native/python -mcompileall {} \;
- 
--        if test -e ${D}${bindir} ; then	
-+        if test -e ${D}${bindir} ; then
-             for i in ${D}${bindir}/* ; do \
-                 if [ ${PN} != "${BPN}-native" ]; then
-                 	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
-@@ -65,7 +72,6 @@ distutils_do_install() {
- 
-         rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
-         rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/site.py*
--        
-         #
-         # FIXME: Bandaid against wrong datadir computation
-         #
-@@ -79,6 +85,7 @@ distutils_do_install() {
- 	   rm ${D}${PYTHON_SITEPACKAGES_DIR}/backports/__init__.py;
- 	   rm ${D}${PYTHON_SITEPACKAGES_DIR}/backports/__init__.pyc;
- 	fi
-+        cd $cwd
- }
- 
- EXPORT_FUNCTIONS do_compile do_install
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 443bf3a..47cbf72 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -9,6 +9,8 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
-     --install-data=${D}/${datadir}"
- 
- distutils3_do_compile() {
-+        cwd=$PWD
-+        cd ${S}
-         if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
-                 SYS=${MACHINE}
-         else
-@@ -17,13 +19,16 @@ distutils3_do_compile() {
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
--        build ${DISTUTILS_BUILD_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py \
-+        build -build-base=${B} ${DISTUTILS_BUILD_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py build_ext execution failed."
-+        cd $cwd
- }
- distutils3_do_compile[vardepsexclude] = "MACHINE"
- 
- distutils3_stage_headers() {
-+        cwd=$PWD
-+        cd ${S}
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
-                 SYS=${MACHINE}
-@@ -31,12 +36,15 @@ distutils3_stage_headers() {
-                 SYS=${HOST_SYS}
-         fi
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install_headers execution failed."
-+        cd $cwd
- }
- distutils3_stage_headers[vardepsexclude] = "MACHINE"
- 
- distutils3_stage_all() {
-+        cwd=$PWD
-+        cd ${S}
-         if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
-                 SYS=${MACHINE}
-         else
-@@ -47,12 +55,15 @@ distutils3_stage_all() {
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install (stage) execution failed."
-+        cd $cwd
- }
- distutils3_stage_all[vardepsexclude] = "MACHINE"
- 
- distutils3_do_install() {
-+        cwd=$PWD
-+        cd ${S}
-         install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-         if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
-                 SYS=${MACHINE}
-@@ -63,13 +74,13 @@ distutils3_do_install() {
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install execution failed."
- 
-         # support filenames with *spaces*
-         find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \;
- 
--        if test -e ${D}${bindir} ; then	
-+        if test -e ${D}${bindir} ; then
-             for i in ${D}${bindir}/* ; do \
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${bindir}/env\ ${PYTHON_PN}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-@@ -84,7 +95,7 @@ distutils3_do_install() {
-         fi
- 
-         rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
--        
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+new file mode 100644
+index 0000000..89b06cf
+--- /dev/null
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+@@ -0,0 +1,51 @@
++From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 30 Jan 2016 20:29:06 +0000
++Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
 +
-         #
-         # FIXME: Bandaid against wrong datadir computation
-         #
-@@ -92,6 +103,7 @@ distutils3_do_install() {
-             mv -f ${D}${datadir}/share/* ${D}${datadir}/
-             rmdir ${D}${datadir}/share
-         fi
-+        cd $cwd
- }
- distutils3_do_install[vardepsexclude] = "MACHINE"
++We do not have nss.h on musl e.g. and configury is already checking for
++nss.h presence, use this to define needed data structures if nss.h is
++missing on a given libc implementation on a platform
++
++include stdint.h for uint32_h definition
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ nss-myhostname.c | 20 ++++++++++++++++++++
++ 1 file changed, 20 insertions(+)
++
++diff --git a/nss-myhostname.c b/nss-myhostname.c
++index 293166c..6f287f5 100644
++--- a/nss-myhostname.c
+++++ b/nss-myhostname.c
++@@ -21,7 +21,27 @@
++ ***/
++ 
++ #include <limits.h>
+++#include <stdint.h>
+++#ifdef HAVE_NSS_H
++ #include <nss.h>
+++#else
+++enum nss_status {
+++    NSS_STATUS_TRYAGAIN = -2,
+++    NSS_STATUS_UNAVAIL,
+++    NSS_STATUS_NOTFOUND,
+++    NSS_STATUS_SUCCESS,
+++    NSS_STATUS_RETURN
+++};
+++/* Data structure used for the 'gethostbyname4_r' function.  */
+++struct gaih_addrtuple
+++  {
+++    struct gaih_addrtuple *next;
+++    char *name;
+++    int family;
+++    uint32_t addr[4];
+++    uint32_t scopeid;
+++  };
+++#endif
++ #include <sys/types.h>
++ #include <netdb.h>
++ #include <errno.h>
++-- 
++2.7.0
++
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+index bbce9e9..de5b7cf 100644
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+@@ -6,7 +6,9 @@ HOMEPAGE = "http://0pointer.de/lennart/projects/nss-myhostname/"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
+-SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz"
++SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
++           file://0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch \
++           "
+ 
+ SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
+ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
 -- 
 2.7.0
 
