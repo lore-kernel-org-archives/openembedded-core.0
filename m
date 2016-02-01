@@ -1,25 +1,24 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 35B1477253
+Return-Path: <saul.wold@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC4C7666E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 16:04:27 +0000 (UTC)
-Received: from [82.1.213.155] (HELO elite.brightsign6)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 682178348; Mon, 01 Feb 2016 10:49:28 -0500
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsign6 with esmtp (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1aQGjF-000C0X-W0; Mon, 01 Feb 2016 15:49:25 +0000
-Received: from mac by chuckie with local (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1aQGjF-0002f9-Vb; Mon, 01 Feb 2016 15:49:25 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Feb 2016 15:49:19 +0000
-Message-Id: <1454341759-10198-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [RESEND PATCH] kernel: Permit overriding of KERNEL_IMAGETYPE_FOR_MAKE
+	Mon,  1 Feb 2016 16:44:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Feb 2016 08:44:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,381,1449561600"; d="scan'208";a="645242389"
+Received: from sghosh7-mobl1.amr.corp.intel.com ([10.254.78.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Feb 2016 08:44:59 -0800
+Message-ID: <1454345098.22468.127.camel@intel.com>
+From: Saul Wold <saul.wold@intel.com>
+To: Jianxun Zhang <jianxun.zhang@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 01 Feb 2016 08:44:58 -0800
+In-Reply-To: <56AA8748.40003@linux.intel.com>
+References: <56AA8748.40003@linux.intel.com>
+X-Mailer: Evolution 3.18.1 (3.18.1-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: Backport Request: kernel-yocto: fix checkout bare-cloned kernel repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 16:04:28 -0000
+X-List-Received-Date: Mon, 01 Feb 2016 16:44:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Commit a1690131691507bbf5853540229b3ad775b836bf removed the ability of
-recipes to set KERNEL_IMAGETYPE_FOR_MAKE. This can be fixed by only
-setting KERNEL_IMAGETYPE_FOR_MAKE if it doesn't already have a
-value. This should hopefully be a good enough approximation to the
-behaviour prior to that commit to keep such recipes working.
+On Thu, 2016-01-28 at 13:25 -0800, Jianxun Zhang wrote:
+> Please help to bring this patch to Jethro branch:
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=4487e3a4205
+> 188cf53930147c7e88d98f0d8a8e0
+> 
+As this is against OE-Core, this should really reference the
+git.openembedded.org cgit, not Poky.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/kernel.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Please update the reference.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index f37affc..73ae7ca 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -21,7 +21,8 @@ python __anonymous () {
- 
-     kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
- 
--    d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
-+    if not d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", False):
-+        d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
- 
-     image = d.getVar('INITRAMFS_IMAGE', True)
-     if image:
--- 
-2.1.4
+Sau!
 
+> This fix was from updating kernel labs for Jethro and we think it
+> should 
+> be a good one on Jethro.
+> 
+> Thanks lot!
 
