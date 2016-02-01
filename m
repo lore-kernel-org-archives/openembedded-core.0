@@ -1,51 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D08177261
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD8177026
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 17:02:57 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id 5so16177934igt.0
+	Mon,  1 Feb 2016 17:10:15 +0000 (UTC)
+Received: by mail-ig0-f180.google.com with SMTP id z14so40758538igp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 09:02:58 -0800 (PST)
+	Mon, 01 Feb 2016 09:10:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=HayKLTB2Vsnmp3z7aMyBsQtsrGhOLiwVUH7QhTQIRyw=;
-	b=IEcJRq3In4SoTrlNLBQN830NLPrEYkW2g1ShzDJ88SIlHeO1D0ykLv/AH6E6nL54Pp
-	5jGud3kRf/3Ul+2Gf3BYn3nFN7+XCRwcQVVOYDZNIZd57BwZrV4QsGogaOxMa0x98L15
-	yFpzgsUx/AKW2Y+kcbPXuUHf6606cT6FoxQMqP6yeZdQ2ewAT2I3FCjNeeMZ/gwYOJvR
-	0Op06suPNo05bizxmNHBt035QrD1l5Q1LCibCVvTJUzLXVYa8/JkTqnJnpIWi0n0PP1I
-	I3UOMWdAoBVx4s60pazB/+gusFzkhwwl2ttC72huM+EIsgEilzvsrBMdsGIEMx9u4+TH
-	uoTQ==
+	bh=BzoMUKfsZHd9dmGIJnB5c6a35SPQ4mtuqDnB3JuFUCo=;
+	b=a5eujxV57EGxxZ5NhE90PmuTC5ZfjN4p6PUS044I6sfsVEmgwuEilx9QmQI2L+kSxl
+	oPp8buGe5LrzmGpmloXwlMeO0YuqRAaKD8dl+EFkAyspN8Wg5D9KH0/krBtwdjrmAF6B
+	/kCBYiYyWWfL4sV3MCX1OQ12+piOgc3xla25JITZfH7EycR3HD5XVW3iP9tGNIZAbIKd
+	49PZimyi5jKqQZJonk6jESLK9vTuE1iEwgL6Kci1DZ3V0ZFum75EojXRXz87bQRGRqt5
+	eDCWJ3UTDjL40+s4xbD95neUUraxpJqnvn/L3avYUQOa4hZU9r4EvasV2c+yvFfJpG1W
+	R1mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=HayKLTB2Vsnmp3z7aMyBsQtsrGhOLiwVUH7QhTQIRyw=;
-	b=lwtz3uR/yek0fpKU9r1fXiuVYktgNNJGFB+qVUriWor8WpQNdres7li2XaiATZWwSR
-	oX9ggR1bSwcmQnes7EpmTUzKRhTrlpimB+/IWshnhmeAK7Os/jyyhwKQNxOz8mXuzQen
-	BgOmbgwwIb4ODLbSN8R5PWmzT+fhYFjgPOxJ4dw/t0oV4bhi27Ce27MOWSZ640HxrcuP
-	A9a30gIuwB0HQ9811fp8f+irJ9H3HSFKJJsPn/HmbpFPqgonEuuLKlKEo24O70AwoVGv
-	Yt97WX0c8kPD0b3OawoG4qWq/s5sakdaqvaKHTEYiwch20eOlADQfjGZcRWfd9sL+7Zp
-	MfUA==
-X-Gm-Message-State: AG10YOSuwJZYL3sZC8b8KYwapDtV4bPPSSTDKr+CRvuV+AqjFUsjafEM5g3kLrm4S2/moR/cbuGjY/qsb2b6GQ==
-X-Received: by 10.50.171.200 with SMTP id aw8mr12656779igc.77.1454346178121;
-	Mon, 01 Feb 2016 09:02:58 -0800 (PST)
+	bh=BzoMUKfsZHd9dmGIJnB5c6a35SPQ4mtuqDnB3JuFUCo=;
+	b=RvycsUJO8V40imuKhsN5Tm/hpVDMgDITViZGW2Nj7JyL5a40ylcrXP3HVW/vScT/Pu
+	7jjN/wkRM1cAf63uAFRd6iIVApJ38cdBJkl0eM8vahbFItcGbOc+NcJVb1Js4EKL+V2g
+	2RuFrUcTYY8X6XI540T775p/YYy8z4WLLAbERK4upTRJCKrfuee3TU3Ma8YOSYe23nTm
+	Az7aZgMQerpr3MkZHBrYVSkkmdEfR9WyFoGacWUOyT7pxO1cABzNvP2j6v06YMs4SJKM
+	mAjIbGnJ+irL0T2kER5lSWsS+maA/Ez27NR51TUUEPJOxgbu2RIG28LKXzExLPevxx2T
+	Nj3Q==
+X-Gm-Message-State: AG10YOSPKjezXWr6ToytTVG26KUP05IHxAWmfAJevoq/8rNW9anVNqptiJXGGh6hDVqXAF1FzzXsVubztyD9pw==
+X-Received: by 10.50.33.81 with SMTP id p17mr10802471igi.75.1454346615887;
+	Mon, 01 Feb 2016 09:10:15 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 09:02:28 -0800 (PST)
-In-Reply-To: <1454317955.27087.33.camel@linuxfoundation.org>
-References: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
-	<56AB73C0.8030505@linux.intel.com>
-	<CAMKF1spkRPwBzY+6j6pVM_epfB2sVYS37-i+s9rJw4-rTXOMbQ@mail.gmail.com>
-	<1454229127.27087.11.camel@linuxfoundation.org>
-	<1454317955.27087.33.camel@linuxfoundation.org>
+Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 09:09:46 -0800 (PST)
+In-Reply-To: <CAJTo0LbCHLao9R1UK-J=iUUt+3bD9gLhiNOBu5rjEYknUiNPrA@mail.gmail.com>
+References: <cover.1454303080.git.raj.khem@gmail.com>
+	<be55911f598d8e203b6481011d30086ad79b6bff.1454303080.git.raj.khem@gmail.com>
+	<CAJTo0LYY12dKQF7u3_QxkZhpiqt1=UX=M4iUR568kpvvnuQ+SA@mail.gmail.com>
+	<CAJTo0LbCHLao9R1UK-J=iUUt+3bD9gLhiNOBu5rjEYknUiNPrA@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 1 Feb 2016 09:02:28 -0800
-Message-ID: <CAMKF1sqwScCqKAQy0RF1D8Z4D_3Uk2wp-h_m5U0Z4xqLkzAY2A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] Glibc 2.23 and binutils 2.26
+Date: Mon, 1 Feb 2016 09:09:46 -0800
+Message-ID: <CAMKF1sp8b5xjRFEoodSTGh_C-k=+apJwtvD3JBZb7mQvtcLNGA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/8] pth: Remove dead code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,84 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 17:02:59 -0000
+X-List-Received-Date: Mon, 01 Feb 2016 17:10:15 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 1, 2016 at 1:12 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sun, 2016-01-31 at 08:32 +0000, Richard Purdie wrote:
->> On Fri, 2016-01-29 at 06:44 -0800, Khem Raj wrote:
->> > On Fri, Jan 29, 2016 at 6:14 AM, Alexander Kanavin
->> > <alexander.kanavin@linux.intel.com> wrote:
->> > > On 01/17/2016 01:54 PM, Khem Raj wrote:
->> > > >
->> > > > upstream glibc and binutils release branches have been cut out
->> > > > and are
->> > > > being made ready for next release
->> > > > I have put together update patchset for both of them
->> > > >
->> > > > here are the branches
->> > > >
->> > > > https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.
->> > > > 26
->> > > > https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
->> > >
->> > >
->> > > Hello Khem,
->> > >
->> > > when are you planning to submit these?
->> >
->> > binutils exposes a problem for ppc as a result kernel fails to
->> > build.
->> > The fix is to drop
->> > http://git.openembedded.org/openembedded-core/tree/meta/recipes-dev
->> > to
->> > ols/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux
->> > -target.patch
->> >
->> > that patch makes generic ppc configs to be specific to fsl ppc.
->> > but we need context as to why this was done
->> >
->> > glibc is still not released.
+Ross
+
+On Mon, Feb 1, 2016 at 4:33 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 1 February 2016 at 10:23, Burton, Ross <ross.burton@intel.com> wrote:
 >>
->> I ran the binutils upgrade in -next on the autobuilder. It looked
->> mostly good but with poky-lsb we did see:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb
->> /b
->> uilds/635/steps/BuildImages/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb
->> /b
->> uilds/635/steps/BuildImages_1/logs/stdio
+>> Please update the packagegroups that refer to pth.
 >
-> Good news is I fixed the binutils build issues.
 >
-> There was a window of available time on the autobuilder so I tested
-> glibc 2.23 which failed in ltp with:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/634/steps/BuildImages/logs/stdio
->
-> bdflush01.c:84:25: fatal error: sys/kdaemon.h: No such file or directory
->
-> That made the builds rather red with many failures but was the only
-> error I could spot.
+> Sorry, this was already merged by Richard and he pulled the fixed version
+> that I'd made locally.
 
-yes this is fixed and has been upstreamed as well :) see
-https://github.com/linux-test-project/ltp/commit/739bcd5619250b67f7d4eb28eb3ac68ac05db0f1
+This is patches files left overs. they are not merged yet.
 
-locally I am carrying a bigger set of fixes ( for musl ) so I did not
-propose it yet.
-I was expecting that we will upgrade ltp to latest release (20160126)
-and get the above fix directly from upstream
-before we upgrade to new glibc. If no one is upgrading ltp, I will put
-an upgrade patch in my tree.
+http://git.openembedded.org/openembedded-core/commit/?id=22c0b4c5034f929a1b1145f49b835387856e80b1
 
+did not delete them.
 
 >
-> Cheers,
->
-> Richard
->
->
+> Ross
 
