@@ -1,54 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E4F2771AC
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 12063771C0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 20:54:45 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id 5so21145409igt.0
+	Mon,  1 Feb 2016 20:55:12 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id d63so154859287ioj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 12:54:47 -0800 (PST)
+	Mon, 01 Feb 2016 12:55:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=RFlscvXFrEQivApQVhuM3BMKONfweo5FUayzoqYVlOE=;
-	b=Q4Boqg/DIwdf+6YZ8Dv5NrvH1G79Gy126OLJp33XSFBDGMDyUNVe7TZ21dZH2KCfpX
-	jSH1x0K6U6BVHa1gw0sFSAuUej7S1y6sV5zPoMr1Cyhuoo74B3CylI7VArUn07qNl1bs
-	K9dGINIkYK6aFA3iHTNy3CXKtNsDQyAQa4ZHb5Rh+dDFfYNhVVOE7Pli/UJwmFRY3nzC
-	D7uNAKiroR39Ts8XwtVYO38nZsPia0mxAV0CxcqsS3R1rsXN40R/cxIA5k0s9kBWKwZC
-	PEyMZYyfbIrE0A2BZn8q6AjEgiMo+ep8y6AINC1grzoUaCzblC4LrjOZEyAZaF+n6N+i
-	oOtg==
+	bh=mSVW/miURcM8ZFNprO05Io13tTz11P5qdKLBlAY647k=;
+	b=M95PbVYmxgoJ4QoBdIO3xAIG5QbpCd6Cf2X12l0vZ4R6DzNFimqGvDGt2NFRDDQPxO
+	aomsJHCDhrqgXQl2PMEcOdYS4Y+n09yCf5HSv92f7vRcGSKrvuTrnYnW7fEiBbTv1ggm
+	xSCDMfia2hWiNA7mywaEzxk+xJMdA/yWGJlvRt1muRA2rDfDOrznxqARrq9TEUrdenhp
+	hwrVJyfMAXgaoMsFxwKJs0nI1CQNbN780puZRsSosMXjYgCPoGlPerTKPhhywBzfgkfb
+	YzKEKhnKK1EOwP7BZdfc1k9M/oo/RHNPOBRTDiNHLFDTiNoOxu3NjkXyBvDp87zdkcWz
+	F3eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=RFlscvXFrEQivApQVhuM3BMKONfweo5FUayzoqYVlOE=;
-	b=TNXsebcpOY291zeG9TeapzGwkA+2ntNwLlJoApU4GAMjue9T7g/5O49aUifRsuGEwo
-	vV4gzqENPL8VEvgLIqU1CMehDddTtzaOsZr7JXUNkAa9/0TDyeeodR4LRFZMSxL56HVc
-	tL8VSZQX29lKeQZQGiG225KzkbJZ8KPhh5li+uTqxYC7blmtfhhvyqmqlhrlTINmWibo
-	mqYjs0ywf1FxB/si6T5xkhnUzDqnVaP1Qt/zwbg3oL+IoC58knNV0EnAakNsGtYQS7cl
-	k2b/JVKo+dKKPXrodhK3//ZiB1uvk6F8P+87z8AK3m+1mpfnUB/lSttGtRX9VNMc/vqI
-	bq5Q==
-X-Gm-Message-State: AG10YOSUQf48dj9m2bcDhys0AV7RaibU+oqn2CNY09bBSKLEElN0bjYQE1IonDPeXnPB6x+VvY8ll7d5J4EekIv5
-X-Received: by 10.50.27.37 with SMTP id q5mr9675206igg.64.1454360086670; Mon,
-	01 Feb 2016 12:54:46 -0800 (PST)
+	bh=mSVW/miURcM8ZFNprO05Io13tTz11P5qdKLBlAY647k=;
+	b=ggVsm4GDeHXjAiRyjXs+UXCu9k6ItzGM+xrXMCVO4SqgksX/tDA12oszIWsC+pokMX
+	Sm0WhICAjEM1XGcufOX1fcIq/alxrlu33ruAHN3W4Z0QBQDW5/dtJdWqZbYKHcIlRdr4
+	ubjSjeUKJeXRpKBUMfbGmckLSWHKA0EuEj19SU36vyVZvLiixsLIAtb7UuxLQ14TnSa0
+	qERLXi9q0fz+2BJmYq2+d9qXwGuYJWxLm1HNOe44i6rhF8yS91rqb+IPVl++0EmYBTAu
+	I7j/FYC+88EHWNQqUFhGKcyActc8VN82LEVGLwDyRAG5/pNpigawTKfTH6tmXV1eWHfG
+	oBrw==
+X-Gm-Message-State: AG10YOQwn6GKV6z+2w2FyN9Y50RVVmLz0orOXgb1aSbPK9LQ1Z2LYbdEv8LkpZzgR5uHLDl9FWzYhF70TqvGdoNa
+X-Received: by 10.107.164.15 with SMTP id n15mr8249677ioe.148.1454360113475;
+	Mon, 01 Feb 2016 12:55:13 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 12:54:27 -0800 (PST)
-In-Reply-To: <CAJ86T=WmEHWzm4FTYCtv3d_FK80G02ikx70T5Od4jovjg12=UQ@mail.gmail.com>
-References: <56A22767.7050000@linux.intel.com>
-	<56A24CE8.8010501@opendreambox.org>
-	<CAJTo0LaAY=Bru-JzaNMQe5KNuAH3+A0VW_mQ6sNy4GvDU7nk6w@mail.gmail.com>
-	<56A26F89.8080505@opendreambox.org>
-	<61461.10.252.10.201.1453489831.squirrel@linux.intel.com>
-	<855A5CD7-3AD7-45F7-972F-E25D5F23EEA0@gmail.com>
-	<CAJTo0Lb=CFOCeSkS9DUv-RhYeYHHXFa=CDe5uP2t46pUHH-K6Q@mail.gmail.com>
-	<CAJ86T=WmEHWzm4FTYCtv3d_FK80G02ikx70T5Od4jovjg12=UQ@mail.gmail.com>
+Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 12:54:53 -0800 (PST)
+In-Reply-To: <CAMKF1sozknq8vz-K3U0g-0oH+=d+x2T0KdiwKjWR2_3vP0s_vA@mail.gmail.com>
+References: <1454080041-28576-1-git-send-email-adrian.ratiu@ni.com>
+	<CAJTo0LbQBoWf8krboqY87V4HCQTaPwXeMECo1jHPDu259Y6wHQ@mail.gmail.com>
+	<CAJTo0Lb3ZpOqC4Hik_cNh7PZqCF7-=EvosN82HWfpw6TKLNuig@mail.gmail.com>
+	<CAJTo0LYmqnOfCQPUd26Jo0qn8MHOy=iDJQzYD0-ZH+NHx+kBQQ@mail.gmail.com>
+	<CAMKF1sozknq8vz-K3U0g-0oH+=d+x2T0KdiwKjWR2_3vP0s_vA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Feb 2016 20:54:27 +0000
-Message-ID: <CAJTo0LYphBVE=N6sZeakgMTa+Z0B8fXd9rNt=KkJbpdcNKzGTA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: proposal: remove DirectFB from oe-core in the next release cycle
+Date: Mon, 1 Feb 2016 20:54:53 +0000
+Message-ID: <CAJTo0LZa6U-2jZnHpdgd9EA_qsScBvbFS=KBAwQogftBDZ3tKg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Adam Chappell <adam.chappell@ni.com>,
+	Jacob Champion <jacob.champion@ni.com>
+Subject: Re: [PATCH v3 1/1] apr-util: add ldap crypto and sqlite3 to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 20:54:46 -0000
-Content-Type: multipart/alternative; boundary=047d7b10c837578cfa052abb98d2
+X-List-Received-Date: Mon, 01 Feb 2016 20:55:13 -0000
+Content-Type: multipart/alternative; boundary=001a11377682f091d9052abb9997
 
---047d7b10c837578cfa052abb98d2
+--001a11377682f091d9052abb9997
 Content-Type: text/plain; charset=UTF-8
 
-On 1 February 2016 at 19:13, Andre McCurdy <armccurdy@gmail.com> wrote:
+On 1 February 2016 at 18:50, Khem Raj <raj.khem@gmail.com> wrote:
 
-> Note that building DirectFB directly from git sources adds an extra
-> dependency on the 'flux' tool, for which there's no recipe in oe-core
-> right now.
+> I wonder if we should have a QA check to decipher that if .so is a not
+> a symlink then provide this
+> as an error right away until the recipe takes care of it with
+> FILES_SOLIBS or something like that
 >
 
-Urgh.  I was hoping that if/when the "maintainer" pushes the git repos and
-tags, that he could also upload the tarballs.
-
-For now, I've sent a patch to change the directfb recipes to download
-directly from the source mirror, so that 1) even without our source mirror
-it downloads fine and 2) the automated checkuri can be two recipes closer
-to parsing.
+That's exactly what I'm testing now :)
 
 Ross
 
---047d7b10c837578cfa052abb98d2
+--001a11377682f091d9052abb9997
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 February 2016 at 19:13, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8x" class=3D"a3=
-s" style=3D"overflow:hidden">Note that building DirectFB directly from git =
-sources adds an extra<br>
-dependency on the &#39;flux&#39; tool, for which there&#39;s no recipe in o=
-e-core<br>
-right now.<br></div></blockquote></div><br>Urgh.=C2=A0 I was hoping that if=
-/when the &quot;maintainer&quot; pushes the git repos and tags, that he cou=
-ld also upload the tarballs.</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">For now, I&#39;ve sent a patch to change the directf=
-b recipes to download directly from the source mirror, so that 1) even with=
-out our source mirror it downloads fine and 2) the automated checkuri can b=
-e two recipes closer to parsing.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
+On 1 February 2016 at 18:50, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":9b" class=3D"a3s" styl=
+e=3D"overflow:hidden">I wonder if we should have a QA check to decipher tha=
+t if .so is a not<br>
+a symlink then provide this<br>
+as an error right away until the recipe takes care of it with<br>
+FILES_SOLIBS or something like that</div></blockquote></div><br>That&#39;s =
+exactly what I&#39;m testing now :)</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
---047d7b10c837578cfa052abb98d2--
+--001a11377682f091d9052abb9997--
