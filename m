@@ -1,29 +1,25 @@
 Return-Path: <mcrowe@brightsign.biz>
-X-Greylist: delayed 905 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 01 Feb 2016 16:03:38 UTC
 Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id D97EA7725C
+	by mail.openembedded.org (Postfix) with ESMTP id 412547725C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 16:03:38 +0000 (UTC)
+	Mon,  1 Feb 2016 16:03:41 +0000 (UTC)
 Received: from [82.1.213.155] (HELO elite.brightsign6)
 	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 682177721; Mon, 01 Feb 2016 10:48:34 -0500
+	with ESMTP id 682177682; Mon, 01 Feb 2016 10:48:34 -0500
 Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
 	by elite.brightsign6 with esmtp (Exim 4.84)
 	(envelope-from <mcrowe@brightsign.biz>)
-	id 1aQGiN-000C0O-4B; Mon, 01 Feb 2016 15:48:31 +0000
+	id 1aQGiK-000C0K-90; Mon, 01 Feb 2016 15:48:28 +0000
 Received: from mac by chuckie with local (Exim 4.84)
 	(envelope-from <mcrowe@brightsign.biz>)
-	id 1aQGiN-0002dV-3h; Mon, 01 Feb 2016 15:48:31 +0000
+	id 1aQGiK-0002dP-8P; Mon, 01 Feb 2016 15:48:28 +0000
 From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Feb 2016 15:48:26 +0000
-Message-Id: <1454341706-10089-2-git-send-email-mac@mcrowe.com>
+Date: Mon,  1 Feb 2016 15:48:25 +0000
+Message-Id: <1454341706-10089-1-git-send-email-mac@mcrowe.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1454341706-10089-1-git-send-email-mac@mcrowe.com>
-References: <1454341706-10089-1-git-send-email-mac@mcrowe.com>
 Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [RESEND PATCH 2/2] util-linux: use ALTERNATIVE mechanism to manage 'nologin'
+Subject: [RESEND PATCH 1/2] shadow: use ALTERNATIVE to manage 'nologin'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +34,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 01 Feb 2016 16:03:41 -0000
 
-Both shadow and util-linux provide 'nologin' command, so use the
-ALTERNATIVE mechanism in OE to manage it.
+Both util-linux and shadow provide 'nologin', so use the ALTERNATIVE
+mechanism in OE to manage it.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/shadow/shadow.inc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 Originally submitted by Chen Qi in
-<eec4166509e494d1e0e6e36798eb4f5ebeec312f.1416554582.git.Qi.Chen@windriver.com>
-I've just rebased it and fixed up the conflicts.
+<9c7d48d4e2c931c5cd5873f6fa1dcb0fedfeb790.1416554582.git.Qi.Chen@windriver.com>
+back in 2014. I've just rebased it on master and fixed the conflicts.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index f57284b..7ab8aeb 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -188,7 +188,7 @@ ALTERNATIVE_PRIORITY = "50"
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 4313ffe..a5f1048 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -151,6 +151,9 @@ do_install_append() {
+ 	# Handle link properly after rename, otherwise missing files would
+ 	# lead rpm failed dependencies.
+ 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
++
++	# mv nologin to nologin.${BPN}
++	mv ${D}${base_sbindir}/nologin ${D}${base_sbindir}/nologin.${BPN}
+ }
  
- ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
- ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
--ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject"
-+ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject nologin"
+ PACKAGES =+ "${PN}-base"
+@@ -170,10 +173,12 @@ inherit update-alternatives
  
- ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
- ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
-@@ -199,6 +199,7 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
- ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
- ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
- ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
-+ALTERNATIVE_LINK_NAME[nologin] = "${sbindir}/nologin"
+ ALTERNATIVE_PRIORITY = "200"
  
- ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 reset.1 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3"
+-ALTERNATIVE_${PN} = "passwd chfn chsh chpasswd vipw vigr"
++ALTERNATIVE_${PN} = "passwd chfn chsh chpasswd vipw vigr nologin"
+ ALTERNATIVE_LINK_NAME[chpasswd] = "${sbindir}/chpasswd"
+ ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
+ ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
++ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
++ALTERNATIVE_TARGET[nologin] = "${base_sbindir}/nologin.${BPN}"
  
+ ALTERNATIVE_${PN}-base = "newgrp groups login su"
+ ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
 -- 
 2.1.4
 
