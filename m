@@ -1,49 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 356647715E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EB376771BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 21:22:29 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id f81so172148975iof.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 13:22:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=RhfPNLj2C3pJGk4oiWItnvPS2u6kH0uO0hrwvtv4nMY=;
-	b=Zr8cYJg4jnLb8tLs8ApGe5PWd6O89C7gkvnxCYhMtMvDP0U3NqTieMtm1+qzvw3+0z
-	kQ7roO1XifR4GAFA8QvfCcLePCsRKoN3xrqI6W/M+R60UmepZFA7hFpLDhZa3ucgKnRo
-	+NUUD9hp4fgopoGb+kSQZRrfSWOD6ZVyO12T0RbXyfRK6IRiQshenztkQQ1C6OJ/y5Pc
-	5YCiZzGNhtbJ2dzER+YQ82U1S2IAzgTu1jTmj3+iBDN3Nh17alqLKszN+I38tylEHJvM
-	NziVDKZdLzMAc606pateAFlXImOH8vPl5lM/ae65/w0OQIm76yi+U2206VBvsFUsM8Zu
-	Ho2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RhfPNLj2C3pJGk4oiWItnvPS2u6kH0uO0hrwvtv4nMY=;
-	b=ehg0XsMAL+ywcAFxnsmeBdO0Yv49L7g+Uoom1eJF0hlBhxMjMXWHFzORjNpa+XjI2H
-	7rIP/Fl/JdFUGVq1ASwJQ69H+USMrDkaAKZyX/OAgzICmTE89oL0VLKRc4EeM++y06Ck
-	89ZiDrm3sfGaQ5GOp13QCKpRAafdrg19YblpHQO/HmMATyl38k0AdYGSrDuywLqlVdEZ
-	2kONLMN0yJ2S5N6NW+J3clQ/4bH+ippemWsbGTF0owchSblbisrExT0qNIlJdSlB++OR
-	v7dGBP+kctonXHiFiKWXiP9g2wBocjBTRjYaJ3aaGSAdv4WMv/9j4yFrJnJrpcxwYJ5b
-	w/Bw==
-X-Gm-Message-State: AG10YOQHk37Sb5YZ05rIRV+aNaxeyPCSWf3reedWxEaLu1D9u0DtqVhaUipYHEMyi24yYQLCp1L1LnvQQhpv61tA
-X-Received: by 10.107.10.157 with SMTP id 29mr11131736iok.133.1454361750491;
-	Mon, 01 Feb 2016 13:22:30 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 13:22:11 -0800 (PST)
-In-Reply-To: <CAJ86T=XrU3Rz0OMk7EukArS07PBCifE89U2vhmqKcBDAytZ3xQ@mail.gmail.com>
-References: <20160201143944.GA2639@jama>
-	<CAJ86T=XrU3Rz0OMk7EukArS07PBCifE89U2vhmqKcBDAytZ3xQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Feb 2016 21:22:11 +0000
-Message-ID: <CAJTo0LYG2=+s=+a4ptGFcM4d-XuS5pRCkHLodGK-CY23CbROfw@mail.gmail.com>
-To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world, Failed tasks 2016-01-30
+	Mon,  1 Feb 2016 21:23:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u11LNP2v027127; Mon, 1 Feb 2016 21:23:25 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id yvp9cQInyw0j; Mon,  1 Feb 2016 21:23:24 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u11LNMsN027124
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 1 Feb 2016 21:23:23 GMT
+Message-ID: <1454361802.27087.52.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 01 Feb 2016 21:23:22 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] ltp: Fix for glibc 2.23+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,57 +33,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 21:22:32 -0000
-Content-Type: multipart/alternative; boundary=001a113f8df88361a5052abbfb34
+X-List-Received-Date: Mon, 01 Feb 2016 21:23:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113f8df88361a5052abbfb34
-Content-Type: text/plain; charset=UTF-8
+glibc 2.23 onwards drops support for the bdflush syscall, which doesn't actually
+do anything on 2.6 kernels anyway, its handled by a kernel thread.
 
-On 1 February 2016 at 20:47, Andre McCurdy <armccurdy@gmail.com> wrote:
+Therefore drop the test.
 
-> There seems to be something odd going on with these file-rdeps warning
-> messages. e.g.
->
->   chkconfig-1.3.58: /usr/sbin/ntsysv_chkconfig contained in package
-> chkconfig ...
->
-> Should be:
->
->   chkconfig-1.3.58: /usr/sbin/ntsysv contained in package chkconfig ...
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Yes, insane.bbclass needs to sanitise the string for display.  If the
-filename contains an underscore you get that appearing as @underscore@ too!
-:)
+diff --git a/meta/recipes-extended/ltp/ltp/no_bdflush.patch b/meta/recipes-extended/ltp/ltp/no_bdflush.patch
+new file mode 100644
+index 0000000..02bff79
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/no_bdflush.patch
+@@ -0,0 +1,182 @@
++glibc 2.23 onwards drops support for the bdflush syscall, which doesn't actually
++do anything on 2.6 kernels anyway, its handled by a kernel thread.
++
++Therefore drop the test.
++
++RP
++2016/2/1
++Upstream-Status: Pending
++
++Index: git/runtest/syscalls
++===================================================================
++--- git.orig/runtest/syscalls
+++++ git/runtest/syscalls
++@@ -31,8 +31,6 @@ asyncio02 asyncio02
++ bind01 bind01
++ bind02 bind02
++ 
++-bdflush01 bdflush01
++-
++ brk01 brk01
++ 
++ capget01 capget01
++Index: git/testcases/kernel/syscalls/bdflush/Makefile
++===================================================================
++--- git.orig/testcases/kernel/syscalls/bdflush/Makefile
+++++ /dev/null
++@@ -1,23 +0,0 @@
++-#
++-#  Copyright (c) International Business Machines  Corp., 2009
++-#
++-#  This program is free software;  you can redistribute it and/or modify
++-#  it under the terms of the GNU General Public License as published by
++-#  the Free Software Foundation; either version 2 of the License, or
++-#  (at your option) any later version.
++-#
++-#  This program is distributed in the hope that it will be useful,
++-#  but WITHOUT ANY WARRANTY;  without even the implied warranty of
++-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
++-#  the GNU General Public License for more details.
++-#
++-#  You should have received a copy of the GNU General Public License
++-#  along with this program;  if not, write to the Free Software
++-#  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++-#
++-
++-top_srcdir		?= ../../../..
++-
++-include $(top_srcdir)/include/mk/testcases.mk
++-
++-include $(top_srcdir)/include/mk/generic_leaf_target.mk
++Index: git/testcases/kernel/syscalls/bdflush/bdflush01.c
++===================================================================
++--- git.orig/testcases/kernel/syscalls/bdflush/bdflush01.c
+++++ /dev/null
++@@ -1,127 +0,0 @@
++-/******************************************************************************/
++-/* Copyright (c) Crackerjack Project., 2007				   */
++-/*									    */
++-/* This program is free software;  you can redistribute it and/or modify      */
++-/* it under the terms of the GNU General Public License as published by       */
++-/* the Free Software Foundation; either version 2 of the License, or	  */
++-/* (at your option) any later version.					*/
++-/*									    */
++-/* This program is distributed in the hope that it will be useful,	    */
++-/* but WITHOUT ANY WARRANTY;  without even the implied warranty of	    */
++-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See		  */
++-/* the GNU General Public License for more details.			   */
++-/*									    */
++-/* You should have received a copy of the GNU General Public License	  */
++-/* along with this program;  if not, write to the Free Software	       */
++-/* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    */
++-/*									    */
++-/******************************************************************************/
++-/******************************************************************************/
++-/*									    */
++-/* File:	bdflush01.c					    */
++-/*									    */
++-/* Description: bdflush() starts, flushes, or tunes the buffer-dirty-flush    */
++-/*		daemon. Only a privileged process (one with the CAP_SYS_ADMIN */
++-/*		capability) may call bdflush().				      */
++-/*									      */
++-/*		If func is negative or 0, and no daemon has been started,     */
++-/*		then bdflush() enters the daemon code and never returns.      */
++-/*									      */
++-/*		If func is 1, some dirty buffers are written to disk.	      */
++-/*		If func is 2 or more and is even (low bit is 0), then address */
++-/*		is the address of a long word, and the tuning parameter       */
++-/*		numbered (func-2)/2 is returned to the caller in that address.*/
++-/*									      */
++-/*		If func is 3 or more and is odd (low bit is 1), then data is  */
++-/*		a long word, and the kernel sets tuning parameter numbered    */
++-/*		(func-3)/2 to that value.				      */
++-/*		    							      */
++-/*		The set of parameters, their values, and their legal ranges   */
++-/*		are defined in the kernel source file fs/buffer.c. 	      */
++-/*									      */
++-/*		Return Value:						      */
++-/*		If func is negative or 0 and the daemon successfully starts,  */
++-/*		bdflush() never returns. Otherwise, the return value is 0 on  */
++-/*		success and -1 on failure, with errno set to indicate the     */
++-/*		error.							      */
++-/*									      */
++-/*		Errors:							      */
++-/*			EBUSY						      */
++-/*			    An attempt was made to enter the daemon code after*/
++-/*			    another process has already entered. 	      */
++-/*			EFAULT						      */
++-/*			   address points outside your accessible address     */
++-/*			   space. 					      */
++-/*			EINVAL						      */
++-/*			    An attempt was made to read or write an invalid   */
++-/*			    parameter number, or to write an invalid value to */
++-/*			    a parameter. 				      */
++-/*			EPERM						      */
++-/*			    Caller does not have the CAP_SYS_ADMIN capability.*/
++-/*									      */
++-/* Usage:  <for command-line>						 */
++-/* bdflush01 [-c n] [-e][-i n] [-I x] [-p x] [-t]		      */
++-/*      where,  -c n : Run n copies concurrently.			     */
++-/*	      -e   : Turn on errno logging.				 */
++-/*	      -i n : Execute test n times.				  */
++-/*	      -I x : Execute test for x seconds.			    */
++-/*	      -P x : Pause for x seconds between iterations.		*/
++-/*	      -t   : Turn on syscall timing.				*/
++-/*									    */
++-/* Total Tests: 1							     */
++-/*									    */
++-/* Test Name:   bdflush01					      */
++-/* History:     Porting from Crackerjack to LTP is done by		    */
++-/*	      Manas Kumar Nayak maknayak@in.ibm.com>			*/
++-/******************************************************************************/
++-#include <stdio.h>
++-#include <stdlib.h>
++-#include <sys/wait.h>
++-#include <sys/types.h>
++-#include <unistd.h>
++-#include <errno.h>
++-#include <sys/stat.h>
++-#include <sys/kdaemon.h>
++-
++-#include "test.h"
++-#include "linux_syscall_numbers.h"
++-
++-char *TCID = "bdflush01";
++-int testno;
++-int TST_TOTAL = 1;
++-
++-void cleanup(void)
++-{
++-	tst_rmdir();
++-}
++-
++-void setup(void)
++-{
++-	TEST_PAUSE;
++-	tst_tmpdir();
++-}
++-
++-int main(int ac, char **av)
++-{
++-	long data;
++-
++-	tst_parse_opts(ac, av, NULL, NULL);
++-
++-	setup();
++-
++-	/*
++-	 * TODO (garrcoop): add more functional testcases; there are a ton
++-	 * missing.
++-	 */
++-	data = 0;
++-	tst_count = 1;
++-	for (testno = 0; testno < TST_TOTAL; ++testno) {
++-		TEST(ltp_syscall(__NR_bdflush, 3, data));
++-		if (TEST_RETURN == -1)
++-			tst_brkm(TFAIL | TTERRNO, cleanup, "bdflush failed");
++-		else
++-			tst_resm(TPASS, "bdflush() = %ld", TEST_RETURN);
++-	}
++-	cleanup();
++-	tst_exit();
++-}
+diff --git a/meta/recipes-extended/ltp/ltp_20150903.bb b/meta/recipes-extended/ltp/ltp_20150903.bb
+index f018dae..615d0f8 100644
+--- a/meta/recipes-extended/ltp/ltp_20150903.bb
++++ b/meta/recipes-extended/ltp/ltp_20150903.bb
+@@ -30,6 +30,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://add-knob-for-tirpc.patch \
+     file://0001-ltp-vma03-fix-the-alginment-of-page-size.patch \
+     file://0001-Fix-compilation-for-gcc-5.x.patch \
++    file://no_bdflush.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
 
-(patches welcome)
 
-Ross
 
---001a113f8df88361a5052abbfb34
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 February 2016 at 20:47, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ry" class=3D"a=
-3s" style=3D"overflow:hidden">There seems to be something odd going on with=
- these file-rdeps warning<br>
-messages. e.g.<br>
-<span class=3D""><br>
-=C2=A0 chkconfig-1.3.58: /usr/sbin/ntsysv_chkconfig contained in package<br=
->
-</span>chkconfig ...<br>
-<br>
-Should be:<br>
-<br>
-=C2=A0 chkconfig-1.3.58: /usr/sbin/ntsysv contained in package chkconfig ..=
-.<br></div></blockquote></div><br>Yes, insane.bbclass needs to sanitise the=
- string for display.=C2=A0 If the filename contains an underscore you get t=
-hat appearing as @underscore@ too! :)</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">(patches welcome)</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113f8df88361a5052abbfb34--
