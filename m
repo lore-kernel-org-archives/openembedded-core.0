@@ -1,52 +1,48 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
 	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 73E4470034
+	by mail.openembedded.org (Postfix) with ESMTP id 6D1E1731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 10:21:50 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id ik10so32345130igb.1
+	Mon,  1 Feb 2016 10:23:52 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id ik10so32376874igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 02:21:51 -0800 (PST)
+	Mon, 01 Feb 2016 02:23:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=hCIhiFy+w8DThNyjjYFkJAEDhrGPEDMWmJ+uvFYGgvQ=;
-	b=VBkqd9V+eCAoEpgjYhegOJXJZXhDAnrG24aTafMxgMQkKMakcGpKn5JqfySnyTOtGY
-	LC3FMEQvgyS1RyGfsFrAHKY1d9uADhyeNc/U04yl70ayXOEeGyJ2vicCcmqOVU+WQ+rp
-	MLs5dssQ1Meg2rfgufdgIXGtAffw6E0vCM4lJDdVk1+b/Ik7XKzqx2gp7efCGpkRFGwJ
-	eDYSFQF/5wRV3b3o7a0LodGxhvycJdy6YCSTJN6ztlC3B1NMffOqFt/juy9R/W5vkFgj
-	6E+izFt4IblNNyjNHiauRFtgU5ohc+pF8E9e+PbcEodoXgG+K+sIzNDgQd2vQ8vbY+FI
-	hrkA==
+	bh=u0clIVewul8t0oPne4gPFcAdIeAKZQhgMAr90vUmAyw=;
+	b=Xo8JzbZ1Cd8QBp6nmbwsgzBJOWSq1PTeqYKgUjDeKqHHMrcoNgY0teBC1MepLDahdH
+	DNzSMgJkWS04BSP/2PpVOHkQ8RiLEGE/0A16yZP+QncTEt7JJPEHiVjohHh1a1i/9okB
+	k4wn/DEirRBd/kYPDrpd+drmkKJS3RYNT1j4N+RYHfWC/eDRcF2PcVyNJUH9XhzRyEwO
+	cnbMiNWh+ptn/NdKkW1Wj9YHpVkkAOuN7gpHEHyVVUhPfrrfD07wCl1w7gdE3w+O4YGb
+	+nGC+2Fnw36wiEPJy5bT//3CJ2hZ2KUER853KwqoBQa9/s1H0ZX5aKF1aDdsF/I22oWC
+	2V8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=hCIhiFy+w8DThNyjjYFkJAEDhrGPEDMWmJ+uvFYGgvQ=;
-	b=CFsNrvc8vMNC0oJL8gmyYymw2s364YUpTuHc37CaORDrd22fjVJrG1UdCMPGl87cl6
-	Pw6bxvNQ5O4Wew4um//S6Ybdf65jhNrrXt4d7eg369tg0kBHFtCRE1bxlpmFRSJApvy4
-	ZSfM4HBC5UldkN5TPtBZ0BdLI6VOKcKDaYJk87yQSW8mJDV0HSh7dHDr58TZfzMQ5Jp8
-	4QEsvcNB4spiA2LVcrEBap41ZsaPaj7yIUheaBWmZZQs7HoEblo8xetBTOtSbvOHDnCA
-	4cDvhYiWWmcAyhGoWntFQpn+x0ENlGh/aFGnH24WKRx5//dSC08TK+BEhpExSM2NLu6m
-	cxDQ==
-X-Gm-Message-State: AG10YOQIq56mdOV+1BA53vp5pmb4hOleWzI2gGhJVWSXECCw0lvhOT8+9iT0YI85FQ/VUrdgGr82qGkLKfl+3HGB
-X-Received: by 10.50.23.108 with SMTP id l12mr10572091igf.78.1454322110992;
-	Mon, 01 Feb 2016 02:21:50 -0800 (PST)
+	bh=u0clIVewul8t0oPne4gPFcAdIeAKZQhgMAr90vUmAyw=;
+	b=gXhnPnrYICPgHIrncYXtr6x4Hl7xdNGLeOH7L4tXQfXHnqhHxpDdAFp2zg0hXR8fN+
+	LaM2S6ah/0w9OFdmG8sDcxq1bJQ7g3t8+VybLAjIQfFHQe/ylEtdRTuGi2zB5IscwMzf
+	NjXp7U8YHJlBiNCsiIk7Df4X/AnbcY+et8fktpuFLcbncjYltGmNnwKqrw/Zkhpc6j/z
+	FvIfg0FuxAEBrqRselthp5FDa3lNQQTZ6iy76icZ72wGeSBofOmy9HSj6eXy2OqE20Uh
+	wHTgvd8xPqMsbQDWVnh36TY8biuyPTn7h7HoEwFDSTbLXHDYKeU4WR2U+c3EVyZ74zfX
+	Nprg==
+X-Gm-Message-State: AG10YOQcjbGSYMKMcs4s7HoQFTg8If51xUd/x+NEfSF8E9dI1+t4LsD279hHfQ+3+yYSF2d9hD4CkLsTtupGxuXT
+X-Received: by 10.50.43.133 with SMTP id w5mr9661197igl.52.1454322233393; Mon,
+	01 Feb 2016 02:23:53 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 02:21:31 -0800 (PST)
-In-Reply-To: <855A5CD7-3AD7-45F7-972F-E25D5F23EEA0@gmail.com>
-References: <56A22767.7050000@linux.intel.com>
-	<56A24CE8.8010501@opendreambox.org>
-	<CAJTo0LaAY=Bru-JzaNMQe5KNuAH3+A0VW_mQ6sNy4GvDU7nk6w@mail.gmail.com>
-	<56A26F89.8080505@opendreambox.org>
-	<61461.10.252.10.201.1453489831.squirrel@linux.intel.com>
-	<855A5CD7-3AD7-45F7-972F-E25D5F23EEA0@gmail.com>
+Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 02:23:34 -0800 (PST)
+In-Reply-To: <be55911f598d8e203b6481011d30086ad79b6bff.1454303080.git.raj.khem@gmail.com>
+References: <cover.1454303080.git.raj.khem@gmail.com>
+	<be55911f598d8e203b6481011d30086ad79b6bff.1454303080.git.raj.khem@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Feb 2016 10:21:31 +0000
-Message-ID: <CAJTo0Lb=CFOCeSkS9DUv-RhYeYHHXFa=CDe5uP2t46pUHH-K6Q@mail.gmail.com>
+Date: Mon, 1 Feb 2016 10:23:34 +0000
+Message-ID: <CAJTo0LYY12dKQF7u3_QxkZhpiqt1=UX=M4iUR568kpvvnuQ+SA@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: proposal: remove DirectFB from oe-core in the next release cycle
+Subject: Re: [PATCH 4/8] pth: Remove dead code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 10:21:50 -0000
-Content-Type: multipart/alternative; boundary=089e0149cbe8d0ac95052ab2c010
+X-List-Received-Date: Mon, 01 Feb 2016 10:23:52 -0000
+Content-Type: multipart/alternative; boundary=089e01175f2b1c5d05052ab2c89d
 
---089e0149cbe8d0ac95052ab2c010
+--089e01175f2b1c5d05052ab2c89d
 Content-Type: text/plain; charset=UTF-8
 
-On 22 January 2016 at 18:49, Khem Raj <raj.khem@gmail.com> wrote:
+On 1 February 2016 at 05:08, Khem Raj <raj.khem@gmail.com> wrote:
 
-> Lets just wait and point our recipes to new github repo,
+> recipe is removed, delete remaining cruft
 >
 
-If you can find the sha corresponding to the directfb-1.7.7 tarball then
-we'll certainly update the SRC_URI, separately from the "should it be
-removed from oe-core" discussion.
-
-(https://github.com/deniskropp/DirectFB/issues/2, the bulk of the 1.7
-branch and tags are missing)
+Please update the packagegroups that refer to pth.
 
 Ross
 
---089e0149cbe8d0ac95052ab2c010
+--089e01175f2b1c5d05052ab2c89d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 January 2016 at 18:49, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+On 1 February 2016 at 05:08, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
 to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D":22" class=3D"" style=3D"overflow:hid=
-den">Lets just wait and point our recipes to new github repo,<br></div></bl=
-ockquote></div><br>If you can find the sha corresponding to the directfb-1.=
-7.7 tarball then we&#39;ll certainly update the SRC_URI, separately from th=
-e &quot;should it be removed from oe-core&quot; discussion.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(<a href=3D"https://g=
-ithub.com/deniskropp/DirectFB/issues/2">https://github.com/deniskropp/Direc=
-tFB/issues/2</a>, the bulk of the 1.7 branch and tags are missing)</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":9q" class=3D"a3s" styl=
+e=3D"overflow:hidden">recipe is removed, delete remaining cruft<br></div></=
+blockquote></div><br>Please update the packagegroups that refer to pth.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
 
---089e0149cbe8d0ac95052ab2c010--
+--089e01175f2b1c5d05052ab2c89d--
