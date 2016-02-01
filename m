@@ -1,53 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 12063771C0
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FEFD771B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 20:55:12 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id d63so154859287ioj.2
+	Mon,  1 Feb 2016 21:14:05 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id 9so93694181iom.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 12:55:13 -0800 (PST)
+	Mon, 01 Feb 2016 13:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=mSVW/miURcM8ZFNprO05Io13tTz11P5qdKLBlAY647k=;
-	b=M95PbVYmxgoJ4QoBdIO3xAIG5QbpCd6Cf2X12l0vZ4R6DzNFimqGvDGt2NFRDDQPxO
-	aomsJHCDhrqgXQl2PMEcOdYS4Y+n09yCf5HSv92f7vRcGSKrvuTrnYnW7fEiBbTv1ggm
-	xSCDMfia2hWiNA7mywaEzxk+xJMdA/yWGJlvRt1muRA2rDfDOrznxqARrq9TEUrdenhp
-	hwrVJyfMAXgaoMsFxwKJs0nI1CQNbN780puZRsSosMXjYgCPoGlPerTKPhhywBzfgkfb
-	YzKEKhnKK1EOwP7BZdfc1k9M/oo/RHNPOBRTDiNHLFDTiNoOxu3NjkXyBvDp87zdkcWz
-	F3eQ==
+	bh=MqARKquWsrvi25Ay0SffMFMUvMvBYTfq4ekBwAZEXBo=;
+	b=H0oAr75RLqWXAVCdz1UupBUX/3DmiOj0t/sIvHLMhE/TTLwSSTj5Ch2wn7pOjTAZCA
+	mEAjQeefiMWYC6bfHXdgiUdLvFWDNtw1VX5f7ivFxOfpi9rE5G+3tBVy/BioaDrQW4yR
+	sjCfAFN12hEj4X3Z9qW21HklywxVyoypUKYXC7/hFFHmybKWczxdGCv8ertaZiFCvPMP
+	ywVFaAShSzM72SoKAXzdtYXI5Lmx6nIUclGgZu8tM14BU9JO8bIYJl3orn2lCbEmEZLH
+	Fytt7TfTMW6Pr0P90IgVepOO5nh+vdRZ9N1Qs4FeKadLHwnWFIbzUWeYeoSWmGhvEjrw
+	qBMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=mSVW/miURcM8ZFNprO05Io13tTz11P5qdKLBlAY647k=;
-	b=ggVsm4GDeHXjAiRyjXs+UXCu9k6ItzGM+xrXMCVO4SqgksX/tDA12oszIWsC+pokMX
-	Sm0WhICAjEM1XGcufOX1fcIq/alxrlu33ruAHN3W4Z0QBQDW5/dtJdWqZbYKHcIlRdr4
-	ubjSjeUKJeXRpKBUMfbGmckLSWHKA0EuEj19SU36vyVZvLiixsLIAtb7UuxLQ14TnSa0
-	qERLXi9q0fz+2BJmYq2+d9qXwGuYJWxLm1HNOe44i6rhF8yS91rqb+IPVl++0EmYBTAu
-	I7j/FYC+88EHWNQqUFhGKcyActc8VN82LEVGLwDyRAG5/pNpigawTKfTH6tmXV1eWHfG
-	oBrw==
-X-Gm-Message-State: AG10YOQwn6GKV6z+2w2FyN9Y50RVVmLz0orOXgb1aSbPK9LQ1Z2LYbdEv8LkpZzgR5uHLDl9FWzYhF70TqvGdoNa
-X-Received: by 10.107.164.15 with SMTP id n15mr8249677ioe.148.1454360113475;
-	Mon, 01 Feb 2016 12:55:13 -0800 (PST)
+	bh=MqARKquWsrvi25Ay0SffMFMUvMvBYTfq4ekBwAZEXBo=;
+	b=KmSPmLw0Z+QcTgQ5yDzhFF5fEqBQsgijdvSInUYiff9brHImRywT5SH/cVdHicxJvi
+	IiQFXGKV2qHkuOAMYhjSaNCEkaL5WOL0r7Eq6muipNQyv/KJRl+B+F4344ll3QD48zUA
+	DzJDh3Hwc7SEV9qoMTgkMeEN2rnIy0In94NTJSIOBjAJFHguqLJzMf5VsvC0yDYELUEo
+	LvnQSXf4iNvOidNPytGOA9HkcNn2jTj6NFBssJX+fwoF97G/nz3NGRdkQMndxcQcDMvz
+	w+Hs6wYEaWJ8ctamASTrkk9yV9GxS7gSXDG0+jN/xRWSlApCKwThwCAQY9/Iz+/bviKW
+	LuXw==
+X-Gm-Message-State: AG10YORNPS8lLA1b7xwk/unEyfOHSjc0lji/1be7Slyhc4NvbcZqYxYLM5XNqvjQf0PKt5BHmAnlrDSrmueBsCN5
+X-Received: by 10.107.10.157 with SMTP id 29mr11088711iok.133.1454361245866;
+	Mon, 01 Feb 2016 13:14:05 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 12:54:53 -0800 (PST)
-In-Reply-To: <CAMKF1sozknq8vz-K3U0g-0oH+=d+x2T0KdiwKjWR2_3vP0s_vA@mail.gmail.com>
-References: <1454080041-28576-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LbQBoWf8krboqY87V4HCQTaPwXeMECo1jHPDu259Y6wHQ@mail.gmail.com>
-	<CAJTo0Lb3ZpOqC4Hik_cNh7PZqCF7-=EvosN82HWfpw6TKLNuig@mail.gmail.com>
-	<CAJTo0LYmqnOfCQPUd26Jo0qn8MHOy=iDJQzYD0-ZH+NHx+kBQQ@mail.gmail.com>
-	<CAMKF1sozknq8vz-K3U0g-0oH+=d+x2T0KdiwKjWR2_3vP0s_vA@mail.gmail.com>
+Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 13:13:46 -0800 (PST)
+In-Reply-To: <8414fe6c4db39df641533dfaf9d4c9021916517b.1454303080.git.raj.khem@gmail.com>
+References: <cover.1454303080.git.raj.khem@gmail.com>
+	<8414fe6c4db39df641533dfaf9d4c9021916517b.1454303080.git.raj.khem@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Feb 2016 20:54:53 +0000
-Message-ID: <CAJTo0LZa6U-2jZnHpdgd9EA_qsScBvbFS=KBAwQogftBDZ3tKg@mail.gmail.com>
+Date: Mon, 1 Feb 2016 21:13:46 +0000
+Message-ID: <CAJTo0LaVpNfp0uDxWZM4=Q-_dPyxEDmuWvMBRA4FRNDXUkTP6Q@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adam Chappell <adam.chappell@ni.com>,
-	Jacob Champion <jacob.champion@ni.com>
-Subject: Re: [PATCH v3 1/1] apr-util: add ldap crypto and sqlite3 to PACKAGECONFIG
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/8] nss-myhostname: Fix build on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,39 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 20:55:13 -0000
-Content-Type: multipart/alternative; boundary=001a11377682f091d9052abb9997
+X-List-Received-Date: Mon, 01 Feb 2016 21:14:06 -0000
+Content-Type: multipart/alternative; boundary=001a113f8df86f74cc052abbdd9c
 
---001a11377682f091d9052abb9997
+--001a113f8df86f74cc052abbdd9c
 Content-Type: text/plain; charset=UTF-8
 
-On 1 February 2016 at 18:50, Khem Raj <raj.khem@gmail.com> wrote:
+On 1 February 2016 at 05:08, Khem Raj <raj.khem@gmail.com> wrote:
 
-> I wonder if we should have a QA check to decipher that if .so is a not
-> a symlink then provide this
-> as an error right away until the recipe takes care of it with
-> FILES_SOLIBS or something like that
+> +From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Sat, 30 Jan 2016 20:29:06 +0000
+> +Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
+> +
+> +We do not have nss.h on musl e.g. and configury is already checking for
+> +nss.h presence, use this to define needed data structures if nss.h is
+> +missing on a given libc implementation on a platform
+> +
+> +include stdint.h for uint32_h definition
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 >
 
-That's exactly what I'm testing now :)
+No Upstream-Status.
 
 Ross
 
---001a11377682f091d9052abb9997
+--001a113f8df86f74cc052abbdd9c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 February 2016 at 18:50, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+On 1 February 2016 at 05:08, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
 to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
 wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":9b" class=3D"a3s" styl=
-e=3D"overflow:hidden">I wonder if we should have a QA check to decipher tha=
-t if .so is a not<br>
-a symlink then provide this<br>
-as an error right away until the recipe takes care of it with<br>
-FILES_SOLIBS or something like that</div></blockquote></div><br>That&#39;s =
-exactly what I&#39;m testing now :)</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":5z" class=3D"a3s" styl=
+e=3D"overflow:hidden">+From d1345871b992f9a055c968963967e728da1a7ffb Mon Se=
+p 17 00:00:00 2001<br>
++From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.co=
+m</a>&gt;<br>
++Date: Sat, 30 Jan 2016 20:29:06 +0000<br>
++Subject: [PATCH] nss-myhostname: Check for nss.h presense before use<br>
++<br>
++We do not have nss.h on musl e.g. and configury is already checking for<br=
+>
++nss.h presence, use this to define needed data structures if nss.h is<br>
++missing on a given libc implementation on a platform<br>
++<br>
++include stdint.h for uint32_h definition<br>
++<br>
++Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem=
+@gmail.com</a>&gt;<br></div></blockquote></div><br>No Upstream-Status.</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
 
---001a11377682f091d9052abb9997--
+--001a113f8df86f74cc052abbdd9c--
