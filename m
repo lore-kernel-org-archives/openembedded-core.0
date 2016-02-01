@@ -1,46 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D287F76FFA
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F0677719C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 21:49:49 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id x125so90921462pfb.0
+	Mon,  1 Feb 2016 22:01:29 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id yy13so88644705pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 13:49:50 -0800 (PST)
+	Mon, 01 Feb 2016 14:01:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=6CTPEpIBXzkdkmhQfuc1Yld2LN5bXh1lRJPfGEoecHg=;
-	b=xZ6H1ApoY9LGfAUNOb+J319BRIh35Y002HGiq6i7md62+5WeYn98Sz8n3/ZjlaSP5A
-	eMG0IUUcLZPJR1tb4EXsDRFT/PSiHyLa6H7tflDls1eTaIEJ8NXGELmxU6NbX2esgq4p
-	aNDHGj/3sP0mZs/tYj+1qfTExTNyJN3XkC/n4j8seh58Yo8zTvbOGJG8SXuQWXCovSQu
-	uyWYDaYG3oLfB/I7eq77e77vYmDhvWTxOLBG+NoRpZ5w4wuDv714XiezGffp8o4Trs3A
-	Xe9cUqy1qJQ6vXeqJvM1Rt1AWcPuYpwoAzn4qNROkHXIrRbcHyFP4DPbN5OmoLmudsk3
-	houg==
+	bh=X8i09PV0Lq5jt8cEXKouY6nV63y5VzNobrDIk6FU+a4=;
+	b=BMyRzPhBWCPsrDI2SJVwewOjlX0YSx4CJwdq8ke4XcLM9tK9Nqq7liSGo8ZHNfLWo7
+	32MluNwUF8bwyZxOpDZdBMasgkWLpeYCoO41hswQwDaQcH4IP0wumm8IibZoxQW5xM8L
+	LJP1YZWzDg04/gKqkk0Z50urEyZ+GqfuUoBZeJ5Uf2L9JIxRoYtpGQSls61bUr8dsFzZ
+	Snbj99xh7yN1JgYCwTF46IlmRbsnk1Y3eiDwuA9NN/qY10uVmxSwZFF08jeSam6rS44e
+	25g31oh33uDT1bZjPiWR+GZgI71iskNjR+BHYD0lC+7oyCtXkk1kJ6c2VoPYSBPvgdJC
+	GhAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6CTPEpIBXzkdkmhQfuc1Yld2LN5bXh1lRJPfGEoecHg=;
-	b=K5qJtk3PK6st/0rXfv54NcxGvGTD+VMwFFXKemgSJtKK8ChLwXfbSJzF4vsQ+T6McY
-	oonyrpyLMH6nLq9LonLn6OzC25Ewcx6dDlig6611JCS3qf6tb4qKzd32NmENWFdRNQV9
-	Pym+DFwCcMP/su+vIIwTOyY3HLdELNx0Q4W6k7TVEPQqe8jcBz9F/llXRfi2i4YTU94h
-	XOeH44xMBPH5KX55eJ3YnWCbbBSr/rI5yDlRDmmT2Kbf42brEJs/GjUYRUCtsCM9oUCg
-	jwt7NK9N/HEIZVtYM19Q+9xqAHikLJYrde6mxxseayIJbUIfYLdn4GhdhdShR2avhCw+
-	st9w==
-X-Gm-Message-State: AG10YOTn8H1qEg+QHfY8VkLlUq6PkI7ZGG3teuJHhNb6viMKFZczFWuWKX8tvttMaxGpwA==
-X-Received: by 10.98.17.92 with SMTP id z89mr41903122pfi.16.1454363389969;
-	Mon, 01 Feb 2016 13:49:49 -0800 (PST)
+	bh=X8i09PV0Lq5jt8cEXKouY6nV63y5VzNobrDIk6FU+a4=;
+	b=VdR0mhqH4omraCe9QDqV+g8fmv6vSQCG6X0IqcRq+IOm1br0y9kxSYToeIwsEatq2m
+	t2d4UDSKbQuJrS75Eh/OPOxqoJihTNs/RswhhcFH86fMdgbVx1oq0qAEsyhSQ3dMSCt+
+	krIDFfGcxhfSGSPmPlZY0iKbvAlFYkO5YiD2exV2XryvdAMzUrZ+6nPA7rke6sX6nfrh
+	zvIBdGME+VJuDLGLtIXmm27qvKCfYLr/kKC2YA9u4jrIknqLpgPoh54PId09F7Zn/0m/
+	lFjTGCpnXWIuEy+U69/nbJL8olzftNc2PZ0+hjwgzFfalNga9so10r2XUxgv5UCYItfi
+	3qIg==
+X-Gm-Message-State: AG10YOS2IRA+/IsMAlTytdUol2Lyi+/zxEFgcC9/W2fX0qTK9XAfrGpb97QMKbo2CCcikg==
+X-Received: by 10.66.151.198 with SMTP id us6mr6949812pab.79.1454364090680;
+	Mon, 01 Feb 2016 14:01:30 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	xm10sm21503622pab.12.2016.02.01.13.49.48
+	by smtp.gmail.com with ESMTPSA id 3sm45428545pfb.64.2016.02.01.14.01.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 01 Feb 2016 13:49:48 -0800 (PST)
+	Mon, 01 Feb 2016 14:01:29 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Feb 2016 13:49:42 -0800
-Message-Id: <1454363382-13387-1-git-send-email-armccurdy@gmail.com>
+Date: Mon,  1 Feb 2016 14:01:24 -0800
+Message-Id: <1454364084-13476-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [RFT][PATCH] curl: disable curl-config binconfig file
+Subject: [PATCH] gcc-configure-common.inc: drop --enable-target-optspace from configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,41 +52,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 21:49:49 -0000
+X-List-Received-Date: Mon, 01 Feb 2016 22:01:30 -0000
+
+Configuring gcc with --enable-target-optspace (which causes gcc to
+append "-g -Os" to the default CFLAGS_FOR_TARGET and so force libgcc
+etc target libraries to always be optimised for size) dates back to
+the very first commit in oe-core git in 2005 (for gcc 3.4.3).
+
+Configuring gcc with --enable-target-optspace is not done widely
+elsewhere (it's not used for Ubuntu or Fedora host gcc, the Linaro
+binary toolchain or in Buildroot since early 2015). Sometime around
+gcc 4.5.x it caused problems for powerpc and so was disabled for that
+architecture:
+
+  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43810
+
+This patch removes --enable-target-optspace completely (ie powerpc is
+no longer a special case) and allows optimisation of libgcc etc to be
+controlled directly by the flags present in TARGET_CFLAGS.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
+ meta/recipes-devtools/gcc/gcc-configure-common.inc | 8 --------
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc    | 1 -
+ 2 files changed, 9 deletions(-)
 
-This works OK for me, but probably needs wider testing.
-
- meta/recipes-support/curl/curl_7.47.0.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-support/curl/curl_7.47.0.bb b/meta/recipes-support/curl/curl_7.47.0.bb
-index ab3c7e1..8e6362f 100644
---- a/meta/recipes-support/curl/curl_7.47.0.bb
-+++ b/meta/recipes-support/curl/curl_7.47.0.bb
-@@ -17,7 +17,7 @@ SRC_URI += " file://configure_ac.patch"
- SRC_URI[md5sum] = "85c58a00412476993050cb242a3f365d"
- SRC_URI[sha256sum] = "2b096f9387fb9b2be08d17e518c62b6537b1f4d4bb59111d5b4fa0272f383f66"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 85e69db..f4f76bd 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -14,13 +14,6 @@ JAVA_sh3 ?= ""
+ # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
+ FORTRAN ?= ",f77"
+ LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
+-# disable --enable-target-optspace for powerpc SPE
+-# at -Os libgcc.so.1 creates references into
+-# hidden symbols in libgcc.a which linker complains
+-# when linking shared libraries further in the build like (gnutls)
+-
+-SPECIAL_ARCH_LIST = "powerpc"
+-OPTSPACE = '${@bb.utils.contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}", "", "--enable-target-optspace",d)}'
  
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig-disabled multilib_header
- 
- PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} gnutls zlib"
- PACKAGECONFIG_class-native = "ipv6 ssl zlib"
-@@ -45,10 +45,7 @@ do_install_append() {
- 	oe_multilib_header curl/curlbuild.h
- }
- 
--do_install_append_class-target() {
--	# cleanup buildpaths from curl-config
--	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${bindir}/curl-config
--}
-+BINCONFIG = "${bindir}/curl-config"
- 
- PACKAGES =+ "lib${BPN}"
- 
+ EXTRA_OECONF_BASE ?= ""
+ EXTRA_OECONF_PATHS ?= ""
+@@ -42,7 +35,6 @@ EXTRA_OECONF = "\
+     --enable-libstdcxx-pch \
+     --program-prefix=${TARGET_PREFIX} \
+     --without-local-prefix \
+-    ${OPTSPACE} \
+     ${EXTRA_OECONF_BASE} \
+     ${EXTRA_OECONF_GCC_FLOAT} \
+     ${EXTRA_OECONF_PATHS} \
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index 910f2ef..048b530 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -22,7 +22,6 @@ EXTRA_OECONF = "\
+     --disable-multilib \
+     --disable-__cxa_atexit \
+     --enable-languages=c \
+-    ${OPTSPACE} \
+     --program-prefix=${TARGET_PREFIX} \
+     --with-sysroot=/not/exist \
+     --with-build-sysroot=${GCCCROSS_BUILDSYSROOT} \
 -- 
 1.9.1
 
