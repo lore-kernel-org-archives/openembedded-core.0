@@ -1,50 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B65CA771AF;
-	Mon,  1 Feb 2016 01:01:34 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id f81so140332977iof.0;
-	Sun, 31 Jan 2016 17:01:35 -0800 (PST)
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id DD1C5771C4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Feb 2016 05:08:24 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id b35so109280178qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 31 Jan 2016 21:08:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Zrgq5lTquD83rovnrG4OtBfBY5A2Zy1VOAjzAdlr6wY=;
-	b=gtwqIXLu07nXvpUl+wKUmeo6ti16OSmh5mdZK9pt1Kz5iAIaDQv6mzmZ5ZOJCfrL5P
-	UBdBbfNqLyGT66que8IaMzLNYWzjo44dXOrrNdyyOOxk2B1v3YRSkAILU4BpMiTrtaY0
-	Hcp6jvNYIVzPWz/dVjg1C7JBTitgwg3sHeNiIeoO6lCtz4qIFbAgbwkweX+EW3hs7JDl
-	TbQnP819InAVN2cORerxb9ff8kmoHyBYdyg+dyEXQo/YcqQsmld9mqtMSknQwvqxntWP
-	P5o0wGqyxfO2zqY7khqQrzsk1RdAiuAdsm2rC1y9W8gMK6S2TZw6DAaGIQTgJtN3Nr4M
-	7M5w==
+	h=from:to:cc:subject:date:message-id;
+	bh=sHaZe5bgot/nYAz+caHCASUlqKKoWU4EIBPL2gSqpk4=;
+	b=P8UMG7vl3nYZ2RTauvDQcCe8qKcOJtTpxdWTGOe+520nlnsNfzi3rglZZ78NQGl/Fd
+	4YF0JeOgFXGckxHBchG2XvQiFdZOEk73npeHvJHXZCFzBiqo+ULdA3KnfBgUUlH6ZEqe
+	/YzmCXVUHH4L3RwpEi8Rgu3ClBl6kSs1G8KszuJMw9bYvDc7uiFM6J0y/GanCjmLrOMf
+	2vrjGA43QVCH9ZzUrWSWqVFcvYX9oVQR2nGjYDVyTCwZYdxZUpsuILVrtHtto5+gbqk7
+	I4QVAVca2E4IB+Jo0Y7Cck937a7n8tq+I5G7HwUBFISAcKf6YuMhptdpubkV5IPxHd1m
+	XW/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=Zrgq5lTquD83rovnrG4OtBfBY5A2Zy1VOAjzAdlr6wY=;
-	b=Ywxy1/gb+EvdmwqAa9UG0WyMuTpFI6n7RP9LDgkr7k8+DqgOLVRY8GWEw2LAazWE8F
-	wYsdiheqJ8DU6dE7LqqJ1aAhULRlDnKYqzFQPC1MPA3k/iD/UfzsreQHc2yYt7j2ThMN
-	fDSaKm074mOS3oETdb29yZEgtTeTrnPBYOKJ5mwBhVUTG2bXX3pz5Rttgtn96LNHJP8t
-	wDjoBKZpTgw/iBDASUX5m3c1YhAd1EgUm/DdKTBAr264Mcn82b3IuHsofQgjya/gWzDr
-	cBiStzy6esy64b0BXZfKn0g2JwSi43lKzS0FxVAmNFZlG2EA8OCSVCj2OHGFJuimCvCE
-	oqrQ==
-X-Gm-Message-State: AG10YOTsn1DaNoe2C0g4T2KLaEPpHQDXsGPMflBWaIsq+6Glzlguiy/dWAd4QKeP5Ba8DiDvZ5j7CqLZa95p+w==
-MIME-Version: 1.0
-X-Received: by 10.107.9.211 with SMTP id 80mr13992394ioj.112.1454288495418;
-	Sun, 31 Jan 2016 17:01:35 -0800 (PST)
-Received: by 10.107.46.219 with HTTP; Sun, 31 Jan 2016 17:01:35 -0800 (PST)
-Received: by 10.107.46.219 with HTTP; Sun, 31 Jan 2016 17:01:35 -0800 (PST)
-In-Reply-To: <20160131181823.GI1652@denix.org>
-References: <CAMKF1sriCy0VxkkJHKsHaLy0K1N4Ns2E7o-rE_Lq8wSGXoy8hw@mail.gmail.com>
-	<20160131181823.GI1652@denix.org>
-Date: Sun, 31 Jan 2016 17:01:35 -0800
-Message-ID: <CAMKF1sqeNd4Ujx5nQpL8UNs0dvNjyo78oO-65AZtHfTwCLbAfQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=sHaZe5bgot/nYAz+caHCASUlqKKoWU4EIBPL2gSqpk4=;
+	b=CWeL6sjOu3kjB0L/bB67FfwCa9ZvXzcSdF5kgx0ijO9BLUYF+DITUip+LYIYAmnLdB
+	rYXxJbZ01OqerNafJvNrvCsBD43WPW6hg7C/XGRuMzOlvP7gQL0ThCnIVtLY485hfHtj
+	KpgiSBPhnFU7FwRQraRd1MgWdwNBHeFIOGHvjN0vwPScSw84sdnQjYiX0GXXKwuFecKS
+	9LurAjldIonvB1A6NX0BnM8GKvxxJ/00/wbGV9e5541TG3QJnD4W6PfZD/1ARTNqGl/S
+	CLSF+6MLdq/+3Qb7iJjbYBk5TIw+uD+ybprgja9u8n+JBdqAEooFXzc058bHgHI6AffA
+	L7cA==
+X-Gm-Message-State: AG10YOQ5iKzo+8o6EW9Vm8vbAyH0KNfdPo6LONcsO4K3M7kTC+Cl2xsVMN4b+zqnzR+9sA==
+X-Received: by 10.140.150.131 with SMTP id 125mr27209328qhw.91.1454303304961; 
+	Sun, 31 Jan 2016 21:08:24 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	n83sm12539739qhn.20.2016.01.31.21.08.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 31 Jan 2016 21:08:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: yocto@yoctoproject.org, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Glibc 2.24 _might_ require minimum kernel version 3.2
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Feb 2016 05:08:19 +0000
+Message-Id: <cover.1454303080.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 0/8] Musl related and misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,75 +52,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 01:01:35 -0000
-Content-Type: multipart/alternative; boundary=001a113ecdd42ba343052aaaed1d
+X-List-Received-Date: Mon, 01 Feb 2016 05:08:25 -0000
 
---001a113ecdd42ba343052aaaed1d
-Content-Type: text/plain; charset=UTF-8
+Fix few more recipes to be able to build on musl
+Cleanup cruft left after pth removal
+libtool-cross for PIE link issues
+db to use cross libtool to avoid link errors exposed by clang
+boost VFP issues seen on qemuarm
 
-On Jan 31, 2016 10:18 AM, "Denys Dmytriyenko" <denis@denix.org> wrote:
->
-> On Sun, Jan 31, 2016 at 09:41:17AM -0800, Khem Raj wrote:
-> > Hi
-> >
-> > This is FYI, as I have sent a RFT for glibc 2.24, there might be
-another change
-> > coming which is under discussion on glibc mailing lists which is on
-> > supported minimum
-> > kernel version bump to 3.2 since 2.6.32 will be EOLed this summer [1]
-> >
-> > If anyone is planning on using upcoming yocto/OE release and sticking
-> > to kernels older than  3.2 then please plan for upgrading your kernel.
-> >
-> > Thanks
-> > -Khem
-> >
-> > [1] - https://sourceware.org/ml/libc-alpha/2016-01/msg00885.html
->
-> What about our timeline - is glibc 2.24 planned for the next 2.1 release?
->
+The following changes since commit fd75637d97cc3d669229e59c1d21ce7038fc92d7:
 
-Sorry I meant to say 2.2 yocto/oe release not 2.1
-> --
-> Denys
+  native.bbclass: Set CXXFLAGS from BUILD_CXXFLAGS not BUILD_CFLAGS (2016-01-31 13:29:38 +0000)
 
---001a113ecdd42ba343052aaaed1d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<p dir=3D"ltr"><br>
-On Jan 31, 2016 10:18 AM, &quot;Denys Dmytriyenko&quot; &lt;<a href=3D"mail=
-to:denis@denix.org">denis@denix.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Sun, Jan 31, 2016 at 09:41:17AM -0800, Khem Raj wrote:<br>
-&gt; &gt; Hi<br>
-&gt; &gt;<br>
-&gt; &gt; This is FYI, as I have sent a RFT for glibc 2.24, there might be =
-another change<br>
-&gt; &gt; coming which is under discussion on glibc mailing lists which is =
-on<br>
-&gt; &gt; supported minimum<br>
-&gt; &gt; kernel version bump to 3.2 since 2.6.32 will be EOLed this summer=
- [1]<br>
-&gt; &gt;<br>
-&gt; &gt; If anyone is planning on using upcoming yocto/OE release and stic=
-king<br>
-&gt; &gt; to kernels older than=C2=A0 3.2 then please plan for upgrading yo=
-ur kernel.<br>
-&gt; &gt;<br>
-&gt; &gt; Thanks<br>
-&gt; &gt; -Khem<br>
-&gt; &gt;<br>
-&gt; &gt; [1] - <a href=3D"https://sourceware.org/ml/libc-alpha/2016-01/msg=
-00885.html">https://sourceware.org/ml/libc-alpha/2016-01/msg00885.html</a><=
-br>
-&gt;<br>
-&gt; What about our timeline - is glibc 2.24 planned for the next 2.1 relea=
-se?<br>
-&gt;</p>
-<p dir=3D"ltr">Sorry I meant to say 2.2 yocto/oe release not 2.1<br>
-&gt; --<br>
-&gt; Denys<br>
-</p>
+  git://git.openembedded.org/openembedded-core-contrib kraj/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/pu
 
---001a113ecdd42ba343052aaaed1d--
+Khem Raj (8):
+  libnss-mdns: Check for nss.h before using
+  nss-myhostname: Fix build on musl
+  distutils: Consider S != B case
+  pth: Remove dead code
+  libtool-cross: Unset pre|post dep objects
+  db: Use cross libtool
+  local.conf.sample.extended: Document HOW-TO enable systemd or busbox
+    for init system
+  boost: Fix build on soft-float ABI arm systems
+
+ meta/classes/distutils.bbclass                     |  27 ++++--
+ meta/classes/distutils3.bbclass                    |  26 +++--
+ meta/conf/local.conf.sample                        |  25 +++--
+ meta/conf/local.conf.sample.extended               |  28 +++++-
+ .../libnss-mdns/0001-check-for-nss.h.patch         |  56 +++++++++++
+ .../libnss-mdns/libnss-mdns_0.10.bb                |   4 +-
+ .../libtool/libtool-cross_2.4.6.bb                 |   6 +-
+ .../boost/boost/consider-hardfp.patch              |  19 ++++
+ meta/recipes-support/boost/boost_1.60.0.bb         |   1 +
+ meta/recipes-support/db/db_5.3.28.bb               |   1 +
+ meta/recipes-support/db/db_6.0.30.bb               |   1 +
+ ...tname-Check-for-nss.h-presense-before-use.patch |  51 ++++++++++
+ .../nss-myhostname/nss-myhostname_0.3.bb           |   4 +-
+ .../pth/files/pth-add-pkgconfig-support.patch      | 105 ---------------------
+ .../pth/files/pth-fix-parallel.patch               |  48 ----------
+ 15 files changed, 211 insertions(+), 191 deletions(-)
+ create mode 100644 meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+ create mode 100644 meta/recipes-support/boost/boost/consider-hardfp.patch
+ create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+ delete mode 100644 meta/recipes-support/pth/files/pth-add-pkgconfig-support.patch
+ delete mode 100644 meta/recipes-support/pth/files/pth-fix-parallel.patch
+
+-- 
+2.7.0
+
+
