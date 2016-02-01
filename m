@@ -1,30 +1,20 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C44D77226
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CA9C731FC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 11:14:52 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id CzEq1s0070BmcFC01zEr2j; Mon, 01 Feb 2016 11:14:52 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=jFJIQSaiL_oA:10 a=BkSv4lXCrV1DmqWJtFMA:9 a=VWKo1J5PeS2DiUcm:21
-	a=vmJOQ6Y-xWbsVOxD:21 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1aQCRW-0007Y4-Ot; Mon, 01 Feb 2016 11:14:50 +0000
-Date: Mon, 1 Feb 2016 11:14:50 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160201111450.GA28760@mcrowe.com>
-References: <20160129154748.GB19208@mcrowe.com>
-	<1454089333.10340.80.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1454089333.10340.80.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: package.tgz files not touched in sstate-cache
+	Mon,  1 Feb 2016 11:53:37 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Feb 2016 03:53:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,379,1449561600"; d="scan'208";a="873963201"
+Received: from yctb04.ostc.intel.com ([10.54.69.58])
+	by orsmga001.jf.intel.com with ESMTP; 01 Feb 2016 03:53:37 -0800
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Feb 2016 13:53:15 -0200
+Message-Id: <1454341995-18859-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH] runtime/systemd: Fix for boot time string parse error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,64 +27,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 11:14:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 01 Feb 2016 11:53:37 -0000
 
-On Friday 29 January 2016 at 17:42:13 +0000, Richard Purdie wrote:
-> On Fri, 2016-01-29 at 15:47 +0000, Mike Crowe wrote:
-> > We have a shared sstate-cache that is populated by us building nightly
-> > images for various branches using Jenkins. This cache is pruned
-> > periodically (with special care of the siginfo files since we don't have
-> > 80b3974081c4a8c604e23982a6db8fb32c616058 yet.)
-> > 
-> > Recently we went back to one of those branches that hadn't been changed for
-> > a while and were surprised to find that Bitbake wanted to build loads of
-> > packages from source.
-> > 
-> > It turned out that whilst the populate_sysroot.gz and package_ipk.tgz files
-> > were still in the sstate-cache, the package.tgz tarball was not. This meant
-> > that the whole package was built again in order to satisfy the build
-> > dependencies of other packages that had changed.
-> > 
-> > I'm suspicious that this behaviour was introduced by the optimisation in
-> > a0f584ac3d5a94dec121b684206ecd40c968f7fc so we hadn't seen it on older
-> > branches.
-> > 
-> > Is there a way to cause the package.tgz file to be touched during these
-> > nightly builds too? Or, is there a way to get hold of the complete set of
-> > sstate files so they can be touched all in one go?
-> 
-> The "right" answer here is to figure out what in your builds seems to
-> be needing the package.tgz files.
-> 
-> The only time the system should need to pull the package tgzs from
-> sstate is if package_qa or package_write_* were going to rerun. This
-> doesn't happen often, if ever. I've sometimes wondered if we should in
-> fact generate them. They are useful for switching package backends.
+boot time string can change its format of the output of the amount of time
+it took to boot. It is required to handle graceful fail of the parsing
+errors that it provokes
 
-Indeed. These files are currently taking up over fifty gigabytes in our
-shared sstate-cache!
+[YOCTO #8889]
 
-> So the fact they're not getting touched doesn't surprise me. The more
-> concerning thing is that its actually trying to use them.
-> 
-> We have found a number of bugs in this area in sstate and have some
-> patches merged, I know there are a small number pending too. Whether
-> we've found all the issues remains unknown.
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+---
+ meta/lib/oeqa/runtime/systemd.py | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-The branch we saw this on was using dizzy from about
-e848484989307ae6826ba0f5217f7702322181e3 so it's quite likely that we're
-lacking some more recent fixes.
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index 03c56ef..2b2f10d 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -145,8 +145,7 @@ class SystemdJournalTests(SystemdTest):
+         except AssertionError:
+             self.fail("Error occurred while calling journalctl")
+         if not len(output):
+-            self.fail("Error: unable to obtain the startup time from\
+-                    systemd journal")
++            self.fail("Error, unable to get startup time from systemd journal")
+ 
+         # check for the regular expression items that match the startup time
+         for line in output.split('\n'):
+@@ -156,20 +155,23 @@ class SystemdJournalTests(SystemdTest):
+         if check_match:
+             print "%s" % check_match
+         else:
+-            self.fail("Error while obtaining the boot time from journalctl")
++            self.skipTest("Error at obtaining the boot time from journalctl")
+         boot_time_sec = 0
+ 
+         # get the numeric values from the string and convert them to seconds
+         # same data will be placed in list and string for manipulation
+         l_boot_time = check_match.split(" ")[-2:]
+         s_boot_time = " ".join(l_boot_time)
+-        # Obtain the minutes it took to boot
+-        if l_boot_time[0].endswith('min') and l_boot_time[0][0].isdigit():
+-            boot_time_min = s_boot_time.split("min")[0]
+-            # convert to seconds and accumulate it
+-            boot_time_sec += int(boot_time_min) * 60
+-        # Obtain the seconds it took to boot and accumulate
+-        boot_time_sec += float(l_boot_time[1].split("s")[0])
++        try:
++            # Obtain the minutes it took to boot
++            if l_boot_time[0].endswith('min') and l_boot_time[0][0].isdigit():
++                boot_time_min = s_boot_time.split("min")[0]
++                # convert to seconds and accumulate it
++                boot_time_sec += int(boot_time_min) * 60
++            # Obtain the seconds it took to boot and accumulate
++            boot_time_sec += float(l_boot_time[1].split("s")[0])
++        except ValueError:
++            self.skipTest("Error when parsing time from boot string")
+         #Assert the target boot time against systemd's unit start timeout
+         if boot_time_sec > systemd_TimeoutStartSec:
+             print "Target boot time %s exceeds systemd's TimeoutStartSec %s"\
+-- 
+2.5.1
 
-I've tried to reproduce the problem with the current tip of oe-core and
-cannot so I'll go looking for patches.
-
-> For debugging this, you usually need the task graph info and the -DDDv
-> output of a build, then investigate what was depending on the package
-> sstate file.
-
-Thanks for your help.
-
-Mike.
 
