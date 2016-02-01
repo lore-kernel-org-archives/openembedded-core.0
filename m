@@ -1,47 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 99D36771B6
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 356647715E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 21:16:32 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id z14so45470788igp.1
+	Mon,  1 Feb 2016 21:22:29 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id f81so172148975iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 13:16:33 -0800 (PST)
+	Mon, 01 Feb 2016 13:22:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=kR8DbpR8EsC7NvjWQa2yjiIE5hXRC3lHWKLqHMM/hd8=;
-	b=m6I3OmB0CZxhEk9/P9rZBTNePrtwRLdn88RumqVSSDK63c60EF/UEBCE323Zw4WNwy
-	MYUZABD8FvPJ57hfzVLglDo8Y8ByyCktrUKBPLfQrSR3Dqw6TUq8crLvwMrbEKWXfRIT
-	Xd7JX+qh0F1+9q1F86JR2XoERaeMbjnptx/4Zh+NOyAZcZPSPKgBGLtCqREto0SKDYk2
-	CbQ+Y7e/EQdzeAsIunUQKG9YRxsu9wAaicVj4y1q6AmpNrFaf3cM2tJ930TK4wJCi6Gf
-	vCwU/dt1TJE1XkjExhnwJflPg1wVoMxL3otx0MzSc/erJtN+4I9NdFuvUU9IJt0Mr3lr
-	LWFQ==
+	bh=RhfPNLj2C3pJGk4oiWItnvPS2u6kH0uO0hrwvtv4nMY=;
+	b=Zr8cYJg4jnLb8tLs8ApGe5PWd6O89C7gkvnxCYhMtMvDP0U3NqTieMtm1+qzvw3+0z
+	kQ7roO1XifR4GAFA8QvfCcLePCsRKoN3xrqI6W/M+R60UmepZFA7hFpLDhZa3ucgKnRo
+	+NUUD9hp4fgopoGb+kSQZRrfSWOD6ZVyO12T0RbXyfRK6IRiQshenztkQQ1C6OJ/y5Pc
+	5YCiZzGNhtbJ2dzER+YQ82U1S2IAzgTu1jTmj3+iBDN3Nh17alqLKszN+I38tylEHJvM
+	NziVDKZdLzMAc606pateAFlXImOH8vPl5lM/ae65/w0OQIm76yi+U2206VBvsFUsM8Zu
+	Ho2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=kR8DbpR8EsC7NvjWQa2yjiIE5hXRC3lHWKLqHMM/hd8=;
-	b=VLUXJBZXpG0s8Gpu0+Fly4bGIxlg/HUXzl2zovdRrXm+R6kDL0A2Du9Wh0F1WyWsL7
-	ZiZv+HexDEqvm1kjuXFMUEZdFhSIQZg9ZKBdCOWP8aBOSNEMNjQbPUCyOeQG90Suhyf5
-	G/jmAlLwSSgUagSX+fUSR+PeKB18/ijAuE/MhQjxUerTMAkU+w9vHZ9eftQSyAAKGjiU
-	O0DaptddbNzS8jN3aY+u9a52zzwvC94vUVHz8PcT8hgQ2eJRFQz86CRjYHmciqNeBP6H
-	HItM/C18HW+/Yel6Ubd0q/CJbtQQrGw9LGRXpjzeZwvdhCJWL8EKVuuYqJyDeKiWiEDy
-	xGOA==
-X-Gm-Message-State: AG10YOQRsWF0IGK6lcgkMAOJpbPwSDS8mYKOn4prIDOMD8/wyQufYpPPYW37lWa+9zVdTQFIAzsNJlhVTx1Q4HQy
-X-Received: by 10.50.126.8 with SMTP id mu8mr12499072igb.52.1454361392890;
-	Mon, 01 Feb 2016 13:16:32 -0800 (PST)
+	bh=RhfPNLj2C3pJGk4oiWItnvPS2u6kH0uO0hrwvtv4nMY=;
+	b=ehg0XsMAL+ywcAFxnsmeBdO0Yv49L7g+Uoom1eJF0hlBhxMjMXWHFzORjNpa+XjI2H
+	7rIP/Fl/JdFUGVq1ASwJQ69H+USMrDkaAKZyX/OAgzICmTE89oL0VLKRc4EeM++y06Ck
+	89ZiDrm3sfGaQ5GOp13QCKpRAafdrg19YblpHQO/HmMATyl38k0AdYGSrDuywLqlVdEZ
+	2kONLMN0yJ2S5N6NW+J3clQ/4bH+ippemWsbGTF0owchSblbisrExT0qNIlJdSlB++OR
+	v7dGBP+kctonXHiFiKWXiP9g2wBocjBTRjYaJ3aaGSAdv4WMv/9j4yFrJnJrpcxwYJ5b
+	w/Bw==
+X-Gm-Message-State: AG10YOQHk37Sb5YZ05rIRV+aNaxeyPCSWf3reedWxEaLu1D9u0DtqVhaUipYHEMyi24yYQLCp1L1LnvQQhpv61tA
+X-Received: by 10.107.10.157 with SMTP id 29mr11131736iok.133.1454361750491;
+	Mon, 01 Feb 2016 13:22:30 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 13:16:13 -0800 (PST)
-In-Reply-To: <1454264875-15715-1-git-send-email-paul.gortmaker@windriver.com>
-References: <1454264875-15715-1-git-send-email-paul.gortmaker@windriver.com>
+Received: by 10.107.162.70 with HTTP; Mon, 1 Feb 2016 13:22:11 -0800 (PST)
+In-Reply-To: <CAJ86T=XrU3Rz0OMk7EukArS07PBCifE89U2vhmqKcBDAytZ3xQ@mail.gmail.com>
+References: <20160201143944.GA2639@jama>
+	<CAJ86T=XrU3Rz0OMk7EukArS07PBCifE89U2vhmqKcBDAytZ3xQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Feb 2016 21:16:13 +0000
-Message-ID: <CAJTo0LaEyrNUZGwVOtSbWB4RbbwNAk4rjqm39mBLe4k+Cpwe9w@mail.gmail.com>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] git: add site_perl to packaged files to fix QA install error
+Date: Mon, 1 Feb 2016 21:22:11 +0000
+Message-ID: <CAJTo0LYG2=+s=+a4ptGFcM4d-XuS5pRCkHLodGK-CY23CbROfw@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2016-01-30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 21:16:32 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf32e4b0052abbe6f0
+X-List-Received-Date: Mon, 01 Feb 2016 21:22:32 -0000
+Content-Type: multipart/alternative; boundary=001a113f8df88361a5052abbfb34
 
---047d7b1635bf32e4b0052abbe6f0
+--001a113f8df88361a5052abbfb34
 Content-Type: text/plain; charset=UTF-8
 
-On 31 January 2016 at 18:27, Paul Gortmaker <paul.gortmaker@windriver.com>
-wrote:
+On 1 February 2016 at 20:47, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-> ERROR: QA Issue: git: Files/directories were installed but not shipped in
-> any package:
->   /usr/lib64
->   /usr/lib64/site_perl
->   /usr/lib64/site_perl/5.22.1
->   /usr/lib64/site_perl/5.22.1/Git.pm
->   /usr/lib64/site_perl/5.22.1/Error.pm
+> There seems to be something odd going on with these file-rdeps warning
+> messages. e.g.
+>
+>   chkconfig-1.3.58: /usr/sbin/ntsysv_chkconfig contained in package
+> chkconfig ...
+>
+> Should be:
+>
+>   chkconfig-1.3.58: /usr/sbin/ntsysv contained in package chkconfig ...
 >
 
-Interestingly I'm seeing this:
+Yes, insane.bbclass needs to sanitise the string for display.  If the
+filename contains an underscore you get that appearing as @underscore@ too!
+:)
 
-git-perltools:
-        /usr/bin/git-cvsserver
-        /usr/lib/perl/site_perl/5.22.1/Error.pm
-        /usr/lib/perl/site_perl/5.22.1/Git.pm
-
-So my git is installing into site_perl too, but obviously multilib is
-breaking something.
+(patches welcome)
 
 Ross
 
---047d7b1635bf32e4b0052abbe6f0
+--001a113f8df88361a5052abbfb34
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 31 January 2016 at 18:27, Paul Gortmaker <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:paul.gortmaker@windriver.com" target=3D"_blank">paul.gortmaker@w=
-indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(=
-204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":21l" cla=
-ss=3D"" style=3D"overflow:hidden">ERROR: QA Issue: git: Files/directories w=
-ere installed but not shipped in any package:<br>
-=C2=A0 /usr/lib64<br>
-=C2=A0 /usr/lib64/site_perl<br>
-=C2=A0 /usr/lib64/site_perl/5.22.1<br>
-=C2=A0 /usr/lib64/site_perl/5.22.1/Git.pm<br>
-=C2=A0 /usr/lib64/site_perl/5.22.1/Error.pm</div></blockquote></div><br>Int=
-erestingly I&#39;m seeing this:</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra"><div class=3D"gmail_extra">git-perltools:</div><d=
-iv class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/bin/git-cvsserver=
-</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/perl/=
-site_perl/5.22.1/Error.pm</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 /usr/lib/perl/site_perl/5.22.1/Git.pm</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">So my git is installing into sit=
-e_perl too, but obviously multilib is breaking something.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div=
+On 1 February 2016 at 20:47, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ry" class=3D"a=
+3s" style=3D"overflow:hidden">There seems to be something odd going on with=
+ these file-rdeps warning<br>
+messages. e.g.<br>
+<span class=3D""><br>
+=C2=A0 chkconfig-1.3.58: /usr/sbin/ntsysv_chkconfig contained in package<br=
 >
+</span>chkconfig ...<br>
+<br>
+Should be:<br>
+<br>
+=C2=A0 chkconfig-1.3.58: /usr/sbin/ntsysv contained in package chkconfig ..=
+.<br></div></blockquote></div><br>Yes, insane.bbclass needs to sanitise the=
+ string for display.=C2=A0 If the filename contains an underscore you get t=
+hat appearing as @underscore@ too! :)</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">(patches welcome)</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---047d7b1635bf32e4b0052abbe6f0--
+--001a113f8df88361a5052abbfb34--
