@@ -1,51 +1,29 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C319772A1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 80E077666E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 17:54:33 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id pv5so7497874pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 09:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=6PO6rjGpiQ13S/M5fJwGzXGnXYnjknlHQ5BCvI9YJS8=;
-	b=zPohKPHngDZr6CCTg2kBhaI6Ria4jlZaTh076AsBoysyVd/od0FIW0c/oNHpjWPtLH
-	AxZAltwvaWDI+F9vKgiifcwOJfl7UF5zmkoASnOB8jd8d/2SxepJzbHxe+QI2PauDBli
-	D3ZtO/J1QFMXztnI6L4uLqFWxCYGs/eplLS1NdKQeSMZ9FtP6d4PmuXFPHZ5TQjI10si
-	M2uWk0aWmB3T7fS2PQmvYaA3tPwla+7Y1yZR2jaGoryeJ8mdSt8bxrG5BsFY8wHpsEdK
-	s03eqOvEVBgrMAElWtOLselCo6CqQavakHM3rWgqb6Dj/FYqHKccAGZk/1Qhl+4Mgo3U
-	gSYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=6PO6rjGpiQ13S/M5fJwGzXGnXYnjknlHQ5BCvI9YJS8=;
-	b=MAESiPnFLAJW2joOZejldj/VWeHSDNUViSvHL9mnbqPipjNW8uCqQvzymAk5f2d1WV
-	uDpH6tyt5P0dnjSOL2Y/Rig0KuErvL2HxjcKyieG6h40WpMjMH7EVeaypgrZ5sOMqDjZ
-	ZGNop14zq9zx0Dz36CCcDSAFj8yEr4fdtQ+tzehS8UgHc7Xzy0kdIZNinvbJD7Dio9Us
-	7QJ92BpWllNAcZ1UhzGDsddcDGzOWAy1EGbmZ329bIHGZ2mgENIbDAE3dvV30hQPWzZB
-	15XjI7g9k2IjTDa0RJM66/AE0Ya6CM091Sc0xb03RCYQBjJ/CNrumdfcL0Vn7jD4T2g6
-	zNCQ==
-X-Gm-Message-State: AG10YOS3WajHxqxAMpTB/fOgZ9Z7cnIoqaisTfpGJdFadCJsjjFlhrGH1XKwqT8b5JDpCw==
-X-Received: by 10.66.182.202 with SMTP id eg10mr40468821pac.50.1454349274399; 
-	Mon, 01 Feb 2016 09:54:34 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	85sm30790130pfl.18.2016.02.01.09.54.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 01 Feb 2016 09:54:32 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	liezhi.yang@windriver.com
-Date: Mon,  1 Feb 2016 09:54:22 -0800
-Message-Id: <bc752de2910aed6928d9ff5c9d83b061e05e891f.1454349039.git.akuster@mvista.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <cover.1454349039.git.akuster@mvista.com>
-References: <cover.1454349039.git.akuster@mvista.com>
-In-Reply-To: <cover.1454349039.git.akuster@mvista.com>
-References: <cover.1454349039.git.akuster@mvista.com>
-Subject: [PATCH 2/2] foomatic-filters: Security fixes CVE-2015-8327
+	Mon,  1 Feb 2016 18:02:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u11I27if019211; Mon, 1 Feb 2016 18:02:28 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id aR2n9rTuysEk; Mon,  1 Feb 2016 18:02:28 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u11I2Pew019220
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 1 Feb 2016 18:02:26 GMT
+Message-ID: <1454349745.27087.51.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 01 Feb 2016 18:02:25 +0000
+In-Reply-To: <17891198365760fe79cd82566cc34a66a2226d54.1454303080.git.raj.khem@gmail.com>
+References: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
+	<17891198365760fe79cd82566cc34a66a2226d54.1454303080.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/8] distutils: Consider S != B case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +36,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 17:54:35 -0000
+X-List-Received-Date: Mon, 01 Feb 2016 18:02:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Armin Kuster <akuster@mvista.com>
+On Mon, 2016-02-01 at 05:08 +0000, Khem Raj wrote:
+> out of tree builds can break the assumption about setup.py being in
+> the
+> current directory, seen especially with devtool when using
+> externalsrc
+> many python modules cant build since it cant find setup.py in devtool
+> workspace
 
-CVE-2015-8327 cups-filters: foomatic-rip did not consider the back tick as an illegal shell escape character
+Why do we need to "cd" in all cases, and put full paths to setup.py?
+Shouldn't one or the other suffice? The [dirs] option to the functions
+should alleviate the need to cd in most cases?
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../foomatic-filters-4.0.17/CVE-2015-8327.patch    | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8327.patch
+Cheers,
 
-diff --git a/meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8327.patch b/meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8327.patch
-new file mode 100644
-index 0000000..aaedc88
---- /dev/null
-+++ b/meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8327.patch
-@@ -0,0 +1,23 @@
-+Upstream-Status: Backport
-+
-+
-+http://bzr.linuxfoundation.org/loggerhead/openprinting/cups-filters/revision/7406
-+
-+Hand applied change to util.c. Fix was for cups-filters but also applied to foomatic-filters.
-+
-+CVE: CVE-2015-8327
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+Index: util.c
-+===================================================================
-+--- a/util.c
-++++ b/util.c
-+@@ -31,7 +31,7 @@
-+ #include <assert.h>
-+ 
-+ 
-+-const char* shellescapes = "|;<>&!$\'\"#*?()[]{}";
-++const char* shellescapes = "|;<>&!$\'\"`#*?()[]{}";
-+ 
-+ const char * temp_dir()
-+ {
--- 
-2.3.5
+Richard
 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/distutils.bbclass  | 27 +++++++++++++++++----------
+>  meta/classes/distutils3.bbclass | 26 +++++++++++++++++++-------
+>  2 files changed, 36 insertions(+), 17 deletions(-)
+> 
+> diff --git a/meta/classes/distutils.bbclass
+> b/meta/classes/distutils.bbclass
+> index cd06713..d9e0086 100644
+> --- a/meta/classes/distutils.bbclass
+> +++ b/meta/classes/distutils.bbclass
+> @@ -8,44 +8,51 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix}
+> \
+>      --install-data=${D}/${datadir}"
+>  
+>  distutils_do_compile() {
+> -         STAGING_INCDIR=${STAGING_INCDIR} \
+> -         STAGING_LIBDIR=${STAGING_LIBDIR} \
+> -         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py build ${DISTUTILS_BUILD_ARGS} || \
+> -         bbfatal "${PYTHON_PN} setup.py build execution failed."
+> +        cwd=$PWD;cd ${S}
+> +        STAGING_INCDIR=${STAGING_INCDIR} \
+> +        STAGING_LIBDIR=${STAGING_LIBDIR} \
+> +        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py build --build-base=${B} ${DISTUTILS_BUILD_ARGS} || \
+> +        bbfatal "${PYTHON_PN} setup.py build execution failed."
+> +        cd $cwd
+>  }
+>  
+>  distutils_stage_headers() {
+> +        cwd=$PWD;cd ${S}
+>          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py install_headers execution
+> failed."
+> +        cd $cwd
+>  }
+>  
+>  distutils_stage_all() {
+> +        cwd=$PWD;cd ${S}
+>          STAGING_INCDIR=${STAGING_INCDIR} \
+>          STAGING_LIBDIR=${STAGING_LIBDIR} \
+>          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+>          PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py install (stage) execution
+> failed."
+> +        cd $cwd
+>  }
+>  
+>  distutils_do_install() {
+> +        cwd=$PWD;cd ${S}
+>          install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+>          STAGING_INCDIR=${STAGING_INCDIR} \
+>          STAGING_LIBDIR=${STAGING_LIBDIR} \
+>          PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}
+> ${DISTUTILS_INSTALL_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}
+> ${DISTUTILS_INSTALL_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py install execution failed."
+>  
+>          # support filenames with *spaces*
+>          # only modify file if it contains path  and recompile it
+>          find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i
+> -e s:${D}::g {} \; -exec ${STAGING_BINDIR_NATIVE}/python
+> -native/python -mcompileall {} \;
+>  
+> -        if test -e ${D}${bindir} ; then	
+> +        if test -e ${D}${bindir} ; then
+>              for i in ${D}${bindir}/* ; do \
+>                  if [ ${PN} != "${BPN}-native" ]; then
+>                  	sed -i -e s:${STAGING_BINDIR_NATIVE}/python
+> -native/python:${bindir}/env\ python:g $i
+> @@ -65,7 +72,6 @@ distutils_do_install() {
+>  
+>          rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
+>          rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/site.py*
+> -        
+>          #
+>          # FIXME: Bandaid against wrong datadir computation
+>          #
+> @@ -79,6 +85,7 @@ distutils_do_install() {
+>  	   rm ${D}${PYTHON_SITEPACKAGES_DIR}/backports/__init__.py;
+>  	   rm ${D}${PYTHON_SITEPACKAGES_DIR}/backports/__init__.pyc;
+>  	fi
+> +        cd $cwd
+>  }
+>  
+>  EXPORT_FUNCTIONS do_compile do_install
+> diff --git a/meta/classes/distutils3.bbclass
+> b/meta/classes/distutils3.bbclass
+> index 443bf3a..47cbf72 100644
+> --- a/meta/classes/distutils3.bbclass
+> +++ b/meta/classes/distutils3.bbclass
+> @@ -9,6 +9,8 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
+>      --install-data=${D}/${datadir}"
+>  
+>  distutils3_do_compile() {
+> +        cwd=$PWD
+> +        cd ${S}
+>          if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
+>                  SYS=${MACHINE}
+>          else
+> @@ -17,13 +19,16 @@ distutils3_do_compile() {
+>          STAGING_INCDIR=${STAGING_INCDIR} \
+>          STAGING_LIBDIR=${STAGING_LIBDIR} \
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py \
+> -        build ${DISTUTILS_BUILD_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py \
+> +        build -build-base=${B} ${DISTUTILS_BUILD_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py build_ext execution failed."
+> +        cd $cwd
+>  }
+>  distutils3_do_compile[vardepsexclude] = "MACHINE"
+>  
+>  distutils3_stage_headers() {
+> +        cwd=$PWD
+> +        cd ${S}
+>          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+>          if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
+>                  SYS=${MACHINE}
+> @@ -31,12 +36,15 @@ distutils3_stage_headers() {
+>                  SYS=${HOST_SYS}
+>          fi
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py install_headers execution
+> failed."
+> +        cd $cwd
+>  }
+>  distutils3_stage_headers[vardepsexclude] = "MACHINE"
+>  
+>  distutils3_stage_all() {
+> +        cwd=$PWD
+> +        cd ${S}
+>          if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
+>                  SYS=${MACHINE}
+>          else
+> @@ -47,12 +55,15 @@ distutils3_stage_all() {
+>          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+>          PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py install (stage) execution
+> failed."
+> +        cd $cwd
+>  }
+>  distutils3_stage_all[vardepsexclude] = "MACHINE"
+>  
+>  distutils3_do_install() {
+> +        cwd=$PWD
+> +        cd ${S}
+>          install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+>          if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
+>                  SYS=${MACHINE}
+> @@ -63,13 +74,13 @@ distutils3_do_install() {
+>          STAGING_LIBDIR=${STAGING_LIBDIR} \
+>          PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
+>          BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}
+> ${DISTUTILS_INSTALL_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
+> ${S}/setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}
+> ${DISTUTILS_INSTALL_ARGS} || \
+>          bbfatal "${PYTHON_PN} setup.py install execution failed."
+>  
+>          # support filenames with *spaces*
+>          find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i
+> -e s:${D}::g {} \;
+>  
+> -        if test -e ${D}${bindir} ; then	
+> +        if test -e ${D}${bindir} ; then
+>              for i in ${D}${bindir}/* ; do \
+>                  sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}
+> -native/${PYTHON_PN}:${bindir}/env\ ${PYTHON_PN}:g $i
+>                  sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+> @@ -84,7 +95,7 @@ distutils3_do_install() {
+>          fi
+>  
+>          rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
+> -        
+> +
+>          #
+>          # FIXME: Bandaid against wrong datadir computation
+>          #
+> @@ -92,6 +103,7 @@ distutils3_do_install() {
+>              mv -f ${D}${datadir}/share/* ${D}${datadir}/
+>              rmdir ${D}${datadir}/share
+>          fi
+> +        cd $cwd
+>  }
+>  distutils3_do_install[vardepsexclude] = "MACHINE"
+>  
+> -- 
+> 2.7.0
+> 
 
