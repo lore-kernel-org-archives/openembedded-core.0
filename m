@@ -1,51 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DC64560249
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BB45772A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 18:50:51 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id 9so89099180iom.1
+	Mon,  1 Feb 2016 19:13:50 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id l66so85167145wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 10:50:52 -0800 (PST)
+	Mon, 01 Feb 2016 11:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=2DUFvUM8BRPgWXgXtKyoAEwS9QSYbChrX1FeF5e/puY=;
-	b=Drju2O0lc6T6pqfk4BfFp/ZKQFHfmnOP5Tm3SI/F+TEXt8zfVL4/ce1xFrNdnLEbdk
-	gVOKMi6tK0gS3TYAT+3I3WahU8Fgq4jiREZ+A9sR3RwwwO5lsVMzn+hnqueDY7ZGro8m
-	0YgOTC4RrE8HLYAfb/jQocXcJ2R0Z+dRmrfW8BF5zWyPmW7mFGw5ywiX0tywGG2XJ9rD
-	BP8yCFBILp7R7hwAKU5T+IluCZi0UZRv58CMqI6D+5cIi66T+mL/1UzMBI5yuoQuSoFt
-	qBdCcGsZ7Ow1pZ1MnEZIUT4RQ9b6t7SFq/rjCYrwc34hGzDN2e2QXJDtugrFyVVbibeY
-	V0Eg==
+	bh=mxUursH1E3Hr6iG9JL10QRTqsZAmye0GhcPMKrWFB5s=;
+	b=v5QaETCxsD09jmAnNq27MSahImioVUsrtsVH9DOxKcsDLhxtTlf71HP/5116/OY4Hr
+	fdGAtddCP0myj6dIBgRnWy5rcl2m8aC7WhvjTeZCIn97hqOP/leVyegA4NU2UR0NMu8Q
+	nMtMZgu4e7NzUJTflfNHKFv4Z+mcpfiZchuomwE5MkcBse6dOw2bw3pA+Cp9fI2JzRYc
+	7RTXmG3VCV0SfDoQW+N4cnNbbJuGMYlJQD8ufyS7/TQZcH+MYY/BIVIYtjmj9fdrK+s0
+	vzcsr8WfqA1kQP9/ZI35/KG7EWzzRpDkRW5b0y5KmfBJHMbu6ZpAdThHqSfCUTpZN15p
+	rz9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=2DUFvUM8BRPgWXgXtKyoAEwS9QSYbChrX1FeF5e/puY=;
-	b=lDoX0vf5m50799ImjDXQLQqsUaGSTveX0q+d6Aroft3BjBCTjcxdwDNzEVHipRe6e+
-	ZVKoxlpwyNMOeRt18mMXyN2orU9TWcxfc2tSuwN86yv9FQilZh40t/vxItIN3nps93il
-	mpBZTB994nrfZba+wuKgDc2FKp4IWI4CWqdfsGLuE97n/vh2bjlCL1TWhID11Jih8x3B
-	wVM4VD/uywhVruWvQEdG6YyrQGyj98Xk9PrduK4NnU0pZYWbr5AoGFqBQIo+yMaWQqhw
-	ejPJRva0J8sG1T6rKHv4ahv3ERmZyPrmCMs0WKiPUg7vGWFeMinxJYDKs8lUUWuZ/iQN
-	K66w==
-X-Gm-Message-State: AG10YOSeoyUuAhNtom8ToQwCWxZ7Ou39kLKZed4CeqDH/aWPSR1EjHf8HWZoGO9yf0PI7+tKPQaTOy89p4vouA==
-X-Received: by 10.107.9.211 with SMTP id 80mr17851747ioj.112.1454352652173;
-	Mon, 01 Feb 2016 10:50:52 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=mxUursH1E3Hr6iG9JL10QRTqsZAmye0GhcPMKrWFB5s=;
+	b=bwMBYEt0TxOkHhoYfv2oc35Ful1WRsJYKG1vPK1qDpYaWFMdj0kP1+03wP/Nr4y22o
+	gFu0AM1ZEvG6lWlgmkX7SqcRY2ZIh/3iwEWpqy5+p5AcWnYHdMsYfiF8+xjo17l+QdLr
+	0+XP55QWR1js4nUztrVlzcDdz/MlITgA7iwYjdaKPuLr1bA0s1RYBZxk+9gA+Z7LYVUy
+	BLZuMVNoAxLMUypm7zj6Bq6xlH7VOjkwHm8wKtwxLuqp7n3+sIOsn3BqXTyAZ0vTMXtZ
+	PcKHRxquQC2f279rF8bLuF7FASO1QDy82byk91wjQvyPRByva8e5RlliqUK/HNQ48DOJ
+	5jLg==
+X-Gm-Message-State: AG10YOSlvLzFK6d7siZdDkSUr3+1GoJf8L12CTIccwslzPD1g1j99JxqVFahdDjCUKhsBgN+bc5Hn+iFAbutSQ==
 MIME-Version: 1.0
-Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 10:50:22 -0800 (PST)
-In-Reply-To: <CAJTo0LYmqnOfCQPUd26Jo0qn8MHOy=iDJQzYD0-ZH+NHx+kBQQ@mail.gmail.com>
-References: <1454080041-28576-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LbQBoWf8krboqY87V4HCQTaPwXeMECo1jHPDu259Y6wHQ@mail.gmail.com>
-	<CAJTo0Lb3ZpOqC4Hik_cNh7PZqCF7-=EvosN82HWfpw6TKLNuig@mail.gmail.com>
-	<CAJTo0LYmqnOfCQPUd26Jo0qn8MHOy=iDJQzYD0-ZH+NHx+kBQQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 1 Feb 2016 10:50:22 -0800
-Message-ID: <CAMKF1sozknq8vz-K3U0g-0oH+=d+x2T0KdiwKjWR2_3vP0s_vA@mail.gmail.com>
+X-Received: by 10.194.203.99 with SMTP id kp3mr24291952wjc.3.1454354030739;
+	Mon, 01 Feb 2016 11:13:50 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 1 Feb 2016 11:13:50 -0800 (PST)
+In-Reply-To: <CAJTo0Lb=CFOCeSkS9DUv-RhYeYHHXFa=CDe5uP2t46pUHH-K6Q@mail.gmail.com>
+References: <56A22767.7050000@linux.intel.com>
+	<56A24CE8.8010501@opendreambox.org>
+	<CAJTo0LaAY=Bru-JzaNMQe5KNuAH3+A0VW_mQ6sNy4GvDU7nk6w@mail.gmail.com>
+	<56A26F89.8080505@opendreambox.org>
+	<61461.10.252.10.201.1453489831.squirrel@linux.intel.com>
+	<855A5CD7-3AD7-45F7-972F-E25D5F23EEA0@gmail.com>
+	<CAJTo0Lb=CFOCeSkS9DUv-RhYeYHHXFa=CDe5uP2t46pUHH-K6Q@mail.gmail.com>
+Date: Mon, 1 Feb 2016 11:13:50 -0800
+Message-ID: <CAJ86T=WmEHWzm4FTYCtv3d_FK80G02ikx70T5Od4jovjg12=UQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adam Chappell <adam.chappell@ni.com>,
-	Jacob Champion <jacob.champion@ni.com>
-Subject: Re: [PATCH v3 1/1] apr-util: add ldap crypto and sqlite3 to PACKAGECONFIG
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: proposal: remove DirectFB from oe-core in the next release cycle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,41 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 18:50:54 -0000
+X-List-Received-Date: Mon, 01 Feb 2016 19:13:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 1, 2016 at 5:33 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Mon, Feb 1, 2016 at 2:21 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> On 29 January 2016 at 21:21, Burton, Ross <ross.burton@intel.com> wrote:
+> On 22 January 2016 at 18:49, Khem Raj <raj.khem@gmail.com> wrote:
 >>
->> And for even more fun the resulting package doesn't actually depend on
->> libssl, due to the layout confusing the shlibs code in package.bbclass.
+>> Lets just wait and point our recipes to new github repo,
 >
->
-> Sigh.  Clearly I need a break.  Inserted a load of debugging and then the
-> obvious jumped out at me.
->
-> Using oe-pkg-data to see what files are in what packages:
->
-> apr-util:
->         /usr/lib/libaprutil-1.so.0
->         /usr/lib/libaprutil-1.so.0.5.4
-> ...
-> apr-util-dev:
-> ...
->         /usr/lib/apr-util-1/apr_crypto_openssl-1.so
->         /usr/lib/apr-util-1/apr_crypto_openssl.so
->         /usr/lib/apr-util-1/apr_dbm_gdbm-1.so
->         /usr/lib/apr-util-1/apr_dbm_gdbm.so
->
-> Those .so files are not development links, but library modules.  They should
-> be packaged into FILES_$PN, and no mention of apr-util-1 in FILES_PN-dev.
+> If you can find the sha corresponding to the directfb-1.7.7 tarball then
+> we'll certainly update the SRC_URI, separately from the "should it be
+> removed from oe-core" discussion.
 
-I wonder if we should have a QA check to decipher that if .so is a not
-a symlink then provide this
-as an error right away until the recipe takes care of it with
-FILES_SOLIBS or something like that
+Note that building DirectFB directly from git sources adds an extra
+dependency on the 'flux' tool, for which there's no recipe in oe-core
+right now.
 
+  https://github.com/deniskropp/flux
+
+> (https://github.com/deniskropp/DirectFB/issues/2, the bulk of the 1.7 branch
+> and tags are missing)
 >
 > Ross
 >
