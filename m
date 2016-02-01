@@ -1,26 +1,51 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E70B60621
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D08177261
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 16:59:25 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id D4zR1s0070BmcFC014zSP8; Mon, 01 Feb 2016 16:59:26 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=jFJIQSaiL_oA:10 a=0j6gzRFTzJ4J-9zXneAA:9 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>) id 1aQHoz-0001vV-12
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Feb 2016 16:59:25 +0000
-Date: Mon, 1 Feb 2016 16:59:25 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160201165925.GA6886@mcrowe.com>
+	Mon,  1 Feb 2016 17:02:57 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id 5so16177934igt.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Feb 2016 09:02:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=HayKLTB2Vsnmp3z7aMyBsQtsrGhOLiwVUH7QhTQIRyw=;
+	b=IEcJRq3In4SoTrlNLBQN830NLPrEYkW2g1ShzDJ88SIlHeO1D0ykLv/AH6E6nL54Pp
+	5jGud3kRf/3Ul+2Gf3BYn3nFN7+XCRwcQVVOYDZNIZd57BwZrV4QsGogaOxMa0x98L15
+	yFpzgsUx/AKW2Y+kcbPXuUHf6606cT6FoxQMqP6yeZdQ2ewAT2I3FCjNeeMZ/gwYOJvR
+	0Op06suPNo05bizxmNHBt035QrD1l5Q1LCibCVvTJUzLXVYa8/JkTqnJnpIWi0n0PP1I
+	I3UOMWdAoBVx4s60pazB/+gusFzkhwwl2ttC72huM+EIsgEilzvsrBMdsGIEMx9u4+TH
+	uoTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HayKLTB2Vsnmp3z7aMyBsQtsrGhOLiwVUH7QhTQIRyw=;
+	b=lwtz3uR/yek0fpKU9r1fXiuVYktgNNJGFB+qVUriWor8WpQNdres7li2XaiATZWwSR
+	oX9ggR1bSwcmQnes7EpmTUzKRhTrlpimB+/IWshnhmeAK7Os/jyyhwKQNxOz8mXuzQen
+	BgOmbgwwIb4ODLbSN8R5PWmzT+fhYFjgPOxJ4dw/t0oV4bhi27Ce27MOWSZ640HxrcuP
+	A9a30gIuwB0HQ9811fp8f+irJ9H3HSFKJJsPn/HmbpFPqgonEuuLKlKEo24O70AwoVGv
+	Yt97WX0c8kPD0b3OawoG4qWq/s5sakdaqvaKHTEYiwch20eOlADQfjGZcRWfd9sL+7Zp
+	MfUA==
+X-Gm-Message-State: AG10YOSuwJZYL3sZC8b8KYwapDtV4bPPSSTDKr+CRvuV+AqjFUsjafEM5g3kLrm4S2/moR/cbuGjY/qsb2b6GQ==
+X-Received: by 10.50.171.200 with SMTP id aw8mr12656779igc.77.1454346178121;
+	Mon, 01 Feb 2016 09:02:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: sstate-cache contains many seemingly useless siginfo files
+Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 09:02:28 -0800 (PST)
+In-Reply-To: <1454317955.27087.33.camel@linuxfoundation.org>
+References: <2747032A-1F56-4CA6-860C-484B9292A0B5@gmail.com>
+	<56AB73C0.8030505@linux.intel.com>
+	<CAMKF1spkRPwBzY+6j6pVM_epfB2sVYS37-i+s9rJw4-rTXOMbQ@mail.gmail.com>
+	<1454229127.27087.11.camel@linuxfoundation.org>
+	<1454317955.27087.33.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 1 Feb 2016 09:02:28 -0800
+Message-ID: <CAMKF1sqwScCqKAQy0RF1D8Z4D_3Uk2wp-h_m5U0Z4xqLkzAY2A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] Glibc 2.23 and binutils 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +58,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 16:59:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 01 Feb 2016 17:02:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Our sstate-cache cleanup script was written long before
-80b3974081c4a8c604e23982a6db8fb32c616058, so it only pruned siginfo files
-if the corresponding tgz file had not been accessed recently.
+On Mon, Feb 1, 2016 at 1:12 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sun, 2016-01-31 at 08:32 +0000, Richard Purdie wrote:
+>> On Fri, 2016-01-29 at 06:44 -0800, Khem Raj wrote:
+>> > On Fri, Jan 29, 2016 at 6:14 AM, Alexander Kanavin
+>> > <alexander.kanavin@linux.intel.com> wrote:
+>> > > On 01/17/2016 01:54 PM, Khem Raj wrote:
+>> > > >
+>> > > > upstream glibc and binutils release branches have been cut out
+>> > > > and are
+>> > > > being made ready for next release
+>> > > > I have put together update patchset for both of them
+>> > > >
+>> > > > here are the branches
+>> > > >
+>> > > > https://github.com/kraj/openembedded-core/tree/kraj/binutils-2.
+>> > > > 26
+>> > > > https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
+>> > >
+>> > >
+>> > > Hello Khem,
+>> > >
+>> > > when are you planning to submit these?
+>> >
+>> > binutils exposes a problem for ppc as a result kernel fails to
+>> > build.
+>> > The fix is to drop
+>> > http://git.openembedded.org/openembedded-core/tree/meta/recipes-dev
+>> > to
+>> > ols/gcc/gcc-5.3/0030-Enable-SPE-AltiVec-generation-on-powepc-linux
+>> > -target.patch
+>> >
+>> > that patch makes generic ppc configs to be specific to fsl ppc.
+>> > but we need context as to why this was done
+>> >
+>> > glibc is still not released.
+>>
+>> I ran the binutils upgrade in -next on the autobuilder. It looked
+>> mostly good but with poky-lsb we did see:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb
+>> /b
+>> uilds/635/steps/BuildImages/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb
+>> /b
+>> uilds/635/steps/BuildImages_1/logs/stdio
+>
+> Good news is I fixed the binutils build issues.
+>
+> There was a window of available time on the autobuilder so I tested
+> glibc 2.23 which failed in ltp with:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/634/steps/BuildImages/logs/stdio
+>
+> bdflush01.c:84:25: fatal error: sys/kdaemon.h: No such file or directory
+>
+> That made the builds rather red with many failures but was the only
+> error I could spot.
 
-This worked well until siginfo files started being written for every task -
-even those that didn't also generate a tgz file such as unpack, configure
-and compile.
+yes this is fixed and has been upstreamed as well :) see
+https://github.com/linux-test-project/ltp/commit/739bcd5619250b67f7d4eb28eb3ac68ac05db0f1
 
-I've just cleared up over two million siginfo files from our sstate-cache!
+locally I am carrying a bigger set of fixes ( for musl ) so I did not
+propose it yet.
+I was expecting that we will upgrade ltp to latest release (20160126)
+and get the above fix directly from upstream
+before we upgrade to new glibc. If no one is upgrading ltp, I will put
+an upgrade patch in my tree.
 
-This exercise has left me wondering why these siginfo files are being
-written to the sstate-cache in the first place.
-80b3974081c4a8c604e23982a6db8fb32c616058 suggests that they aren't being
-used by anyone.
 
-If writing the files is necessary, is there any reason not to just delete
-these files periodically or could that confuse a build that is in progress?
-
-Thanks.
-
-Mike.
+>
+> Cheers,
+>
+> Richard
+>
+>
 
