@@ -1,28 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 02A687665F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A590B731D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 17:52:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u11HqFkC018586; Mon, 1 Feb 2016 17:52:33 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 2L0x2wMHjAhq; Mon,  1 Feb 2016 17:52:33 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u11HqVSp018614
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 1 Feb 2016 17:52:32 GMT
-Message-ID: <1454349151.27087.49.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 01 Feb 2016 17:52:31 +0000
-In-Reply-To: <20160201165925.GA6886@mcrowe.com>
-References: <20160201165925.GA6886@mcrowe.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: sstate-cache contains many seemingly useless siginfo files
+	Mon,  1 Feb 2016 17:54:29 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id yy13so7472411pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Feb 2016 09:54:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=pOLmqk84LU573X6x2OAwk4PZkBJnu2cFOg2wpqlVzuE=;
+	b=za1X6Y0gS6J1Pp7iw+UEiTcmADxi7zIlwBTwiimxeSNUv5Y4MeGY1B0jhe0gw4YFxH
+	w2CxvUMZa9kfPBcaMs5XvwQ0w6gCUkIAnn9UgAb+5xMrpRHoh1T9OujkIOHINGwbkFKr
+	sK5/wxd/XT2Irf73hE8RtnF7zN+pTnVYXWX1u3CmqPncTBA/AWlI8wzhh9oKB6rquazQ
+	y5Vax3V3fWSUmHI6yLV5dwZRFJD6Bn5X7ulNsDaOKJTr4zNQYN5OFBYv0YPsU1ReKRUp
+	9g/wzUdBqAIybqA6Va0lKgwXjhzXurgtCl2VodKe3iXxsf3pIzh5hhHij4joMLKaCUo/
+	sGbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pOLmqk84LU573X6x2OAwk4PZkBJnu2cFOg2wpqlVzuE=;
+	b=gWhGjqT5YYiTMTGa5w7TpWYMscvN1W7PxyHLv9Qx8kmnLGD1t4wLQZH5wlt6n3mHyx
+	6T6QDnrC3CK6fjfJsAlaIx7WPqENejPpRtvREuygQsLW2R2e1soSSqhuJLl4SRH4CvhS
+	vAU7BDCENnGQBFdhtcoamX87kjnvQ1Dkl20HmBJ5GKwYZoq0unziWsCVekwVqbyn4eb4
+	Qb/Y+sH9B8ABJ36FZm1xRhjMQVlaawRyWb4Wp7AzDloXaFh9ikOgiHDIKit/jK0S1Mcy
+	2ekw8ij3XEjNoHXfdktlqyWStj3YDl2ALt0u0RP52piy3w5oF1jt80DlYFjPn6JtMyOh
+	xHbw==
+X-Gm-Message-State: AG10YOTXIX1A1PhxmHf+M27R8Y/wW6xJ2pEZGRcJFS9a6NNd8RtAwH+a/8cch5f7dqZsAA==
+X-Received: by 10.66.194.230 with SMTP id hz6mr40182977pac.70.1454349270168;
+	Mon, 01 Feb 2016 09:54:30 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	85sm30790130pfl.18.2016.02.01.09.54.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 01 Feb 2016 09:54:28 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	liezhi.yang@windriver.com
+Date: Mon,  1 Feb 2016 09:54:20 -0800
+Message-Id: <cover.1454349039.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 0/2][jethro] jethro-next Foomatic-filter security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 17:52:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Feb 2016 17:54:29 -0000
 
-On Mon, 2016-02-01 at 16:59 +0000, Mike Crowe wrote:
-> Our sstate-cache cleanup script was written long before
-> 80b3974081c4a8c604e23982a6db8fb32c616058, so it only pruned siginfo
-> files
-> if the corresponding tgz file had not been accessed recently.
-> 
-> This worked well until siginfo files started being written for every
-> task -
-> even those that didn't also generate a tgz file such as unpack,
-> configure
-> and compile.
-> 
-> I've just cleared up over two million siginfo files from our sstate
-> -cache!
-> 
-> This exercise has left me wondering why these siginfo files are being
-> written to the sstate-cache in the first place.
-> 80b3974081c4a8c604e23982a6db8fb32c616058 suggests that they aren't
-> being
-> used by anyone.
+From: Armin Kuster <akuster@mvista.com>
 
-These are used by things like "bitbake -S printdiff" in order to debug
-why things are being rebuilt. Without them, there are gaps in the
-dependency chains and the tools can't figure out how things changed.
+Please consider these for an upcoming release
 
-So they're not used by main builds but are useful for debug.
+The following changes since commit fbfe937ab7effcacd1dae558a667eaa0e0500637:
 
-> If writing the files is necessary, is there any reason not to just
-> delete
-> these files periodically or could that confuse a build that is in
-> progress?
+  git: Security fix CVE-2015-7545 (2016-01-31 14:28:42 -0800)
 
-I doubt it would cause a problem, other than meaning printdiff wouldn't
-work well. Not that it works brilliantly right now, but I do hope to
-fix that at some point.
+are available in the git repository at:
 
-Cheers,
+  git://git.yoctoproject.org/poky-contrib akuster/jethro_cve_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro_cve_fixes
 
-Richard
+Armin Kuster (2):
+  foomatic-filters: Security fix CVE-2015-8560
+  foomatic-filters: Security fixes CVE-2015-8327
+
+ .../foomatic-filters-4.0.17/CVE-2015-8327.patch    | 23 ++++++++++++++++++++++
+ .../foomatic-filters-4.0.17/CVE-2015-8560.patch    | 23 ++++++++++++++++++++++
+ .../foomatic/foomatic-filters_4.0.17.bb            |  3 +++
+ 3 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8327.patch
+ create mode 100644 meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8560.patch
+
+-- 
+2.3.5
+
 
