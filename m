@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AF167723C
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D4197723C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Feb 2016 05:08:34 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id x1so46420294qkc.1
+	Mon,  1 Feb 2016 05:08:36 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id o6so46539951qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Jan 2016 21:08:35 -0800 (PST)
+	Sun, 31 Jan 2016 21:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=vMvN02ggm6/a2iI/Z7UfdegRoC46RjQ82qFTB40zrfI=;
-	b=YwS2sAMIjsu1YWZGM9A4xPidPN7RKXvqb2BGeIFnmDuGN5D8i9j4+nBzYJinrCcHxa
-	+gUBdfgcVP8sJU1e6RQA1Za+BGQj/cGT8JYmOtIn00ovfayiIKSWAhlnxf3ElxZYL7jo
-	91bJ/NTYl2K6qq1cxxVDFD24IyBwULvnYAKbeFXsSZ5UTan6yKys/P2W0Yr8RBgSNbK/
-	dMYqOZexwfD4/OcACMpPSIhd4chYgdVwkbGKs2t53N90eKhfgNQMYB2vWMjUnY5+4Qfl
-	Yt57f47eJAsh3JF6wPJ2DaQlEJom0PiZ9uDgFKlXHcbKt3B+TPJhdaNx5Vixg62Slgb5
-	i1iA==
+	bh=Ew7BykdmYgBH5y/aFs6SiUSXSqnikcekqGQfSl6uQJw=;
+	b=sXDOyGc0r+8pD9mkYB6IrcSGVON7iGCHopIXhMrxbMbRQUcTmfquMH+wGI2ykJkWNF
+	jH56lEcy2xS1XNyAnk8RWI2K5lFM9ffrg0nIFwdIfbmEPVtaG9Tymcj9NwPXg9h9tWmz
+	NjulKjia0WpsJUBYBpCQoJ61pTseVW3PJ//2KXVQ0dsUIwi0+w0P85iQz8R5uDSlcdNk
+	+cZ6rIWam2EAV0BkicTJYAsgCo1glhFJt9IBtoh57qkpXBlntn10OK7COzY2Uk6VboQH
+	SApsdrZq1RQ14c8vl1P5wBEmy+x80wWSV/hrrO+xp8nGy9ikvK3SyNQ6jCEIcluKDhAl
+	Em/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=vMvN02ggm6/a2iI/Z7UfdegRoC46RjQ82qFTB40zrfI=;
-	b=IKyVaBRpp513kZZ9X3OhqyucnWnICGre0JXo2Zb+R+EgAd/ybtaZHf5wrPYrWBR6D1
-	7hwLh2siKkoeofozELK6S6jwP+gM58g1CVPgIml5JatLAuizEakfnNUkrOYlQwPbBw7f
-	rt+ApJgoEwUlDxVk++lTkhEgpSBfh8ZiuMkVebVowmarcAfNKpCsZeG/3rMI7T47jdd6
-	cWAlry5AkNhj2bx/VKJRPVLVUEjirjzHwSo1EgLZ68J7wOyK3BwLqIVbA1UNVuO580RY
-	6dcbHLLKcFFvjToQhB8WldbT2raxyplrkHvtXw4dy74pm90t+UD+Iuj54NhJSpVkVcfj
-	Iaag==
-X-Gm-Message-State: AG10YOTzBli42LnkVlf5XHVkxWn+BvDOVFnrdlso1V7vzlsLWIVNTV5n2PjCHUQofR/ziQ==
-X-Received: by 10.55.72.12 with SMTP id v12mr26142375qka.28.1454303315115;
-	Sun, 31 Jan 2016 21:08:35 -0800 (PST)
+	bh=Ew7BykdmYgBH5y/aFs6SiUSXSqnikcekqGQfSl6uQJw=;
+	b=KN0vtdkGbeJ25vAk4NaFNRmttD4v+25Y7eizaOV7z9mHyRz4P2Fkqj5Gkq2W5+NHN4
+	YGMn2clmmgsyW90sTyv9bltZ/w1mnqzMwVDO0EaBvwzEYkzTCpaxgohn5fuAD0Ki1gzw
+	Ovjkr0Bsn5oiMTgId8R78QvHx11sKCM5OKTUWxETNhipurSu5bYZjgOZeEdDjjGGCJtd
+	zlUCesL64QJ1rPpQgSdfQUxGH7W14KGrUnGdBSj76JswfoDHnGKvm/E5rNSlbF/0PDKw
+	exD22OwlrTsuyu/vOXDdvSalPCQl7k7BT704NhmAPPoWLgROnG9xQ22AWhm2OjCISa5t
+	axqw==
+X-Gm-Message-State: AG10YOReW9MejyQFxHeRnMefWuI+Vo/YLUNJ9cl0eWICuWphybtforv9VvdkeFl8qjBGjg==
+X-Received: by 10.55.74.9 with SMTP id x9mr26353004qka.81.1454303316967;
+	Sun, 31 Jan 2016 21:08:36 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	b6sm12058940qkh.12.2016.01.31.21.08.34
+	b6sm12058940qkh.12.2016.01.31.21.08.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 31 Jan 2016 21:08:34 -0800 (PST)
+	Sun, 31 Jan 2016 21:08:36 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Feb 2016 05:08:23 +0000
-Message-Id: <8414fe6c4db39df641533dfaf9d4c9021916517b.1454303080.git.raj.khem@gmail.com>
+Date: Mon,  1 Feb 2016 05:08:26 +0000
+Message-Id: <daa108339dadf287835946b39af7a149919eed84.1454303080.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
 References: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1454303080.git.raj.khem@gmail.com>
 References: <cover.1454303080.git.raj.khem@gmail.com>
-Subject: [PATCH 2/8] nss-myhostname: Fix build on musl
+Subject: [PATCH 5/8] libtool-cross: Unset pre|post dep objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,89 +58,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 05:08:35 -0000
+X-List-Received-Date: Mon, 01 Feb 2016 05:08:36 -0000
 
-provide needed data types if nss.h is not available
+predep_objects and postdep_objects are specifying the duplicate objects
+which are better computed by gcc/g++ driver, since we want to generate
+PIE, PIC and non-PIC combinations, let gcc decide on this, since it
+knows best about linker options to use in each of these situations.
+When we defer the linker options to driver, we also need to remove
+-nostdlib from linker commandline options.
+
+Remove duplicate directory creation for ${D}${bindir_crossscripts}/
+
+This fixes a frequent problem we see during -fpie links e.g.
+
+|
+/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86-64/usr/include/c++/5.3.0/iostream:74:
+undefined reference to `__dso_handle'
+|
+/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld:
+.libs/cxx_channel.o: relocation R_X86_64_PC32 against undefined hidden
+symbol `__dso_handle' can not be used when making a shared object
+|
+/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld:
+final link failed: Bad value
+
+After this change libtool gets changed as below
+
+ old_archive_from_expsyms_cmds=""
+
+ # Commands used to build a shared archive.
+-archive_cmds="\$CC \$pic_flag -shared -nostdlib \$predep_objects
+\$libobjs \$deplibs \$postdep_objects \$compiler_flags \$wl-soname
+\$wl\$soname -o \$lib"
+-archive_expsym_cmds="\$CC \$pic_flag -shared -nostdlib \$predep_objects
+\$libobjs \$deplibs \$postdep_objects \$compiler_flags \$wl-soname
+\$wl\$soname \$wl-retain-symbols-file \$wl\$export_symbols -o \$lib"
++archive_cmds="\$CC \$pic_flag -shared  \$predep_objects \$libobjs
+\$deplibs \$postdep_objects \$compiler_flags \$wl-soname \$wl\$soname -o
+\$lib"
++archive_expsym_cmds="\$CC \$pic_flag -shared  \$predep_objects
+\$libobjs \$deplibs \$postdep_objects \$compiler_flags \$wl-soname
+\$wl\$soname \$wl-retain-symbols-file \$wl\$export_symbols -o \$lib"
+
+ # Commands used to build a loadable module if different from building
+ # a shared archive.
+@@ -11908,8 +11908,8 @@
+
+ # Dependencies to place before and after the objects being linked to
+ # create a shared library.
+-predep_objects="/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86-64/usr/lib/../lib/Scrt1.o
+/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86-64/usr/lib/../lib/crti.o
+/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86-64/usr/lib/../lib/x86_64-oe-linux/5.3.0/crtbeginS.o"
+-postdep_objects="/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86-64/usr/lib/../lib/x86_64-oe-linux/5.3.0/crtendS.o
+/home/ubuntu/work/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86-64/usr/lib/../lib/crtn.o"
++predep_objects=""
++postdep_objects=""
+ predeps=""
+ postdeps="-lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc"
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...tname-Check-for-nss.h-presense-before-use.patch | 51 ++++++++++++++++++++++
- .../nss-myhostname/nss-myhostname_0.3.bb           |  4 +-
- 2 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+ meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
-new file mode 100644
-index 0000000..89b06cf
---- /dev/null
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
-@@ -0,0 +1,51 @@
-+From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 30 Jan 2016 20:29:06 +0000
-+Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
-+
-+We do not have nss.h on musl e.g. and configury is already checking for
-+nss.h presence, use this to define needed data structures if nss.h is
-+missing on a given libc implementation on a platform
-+
-+include stdint.h for uint32_h definition
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ nss-myhostname.c | 20 ++++++++++++++++++++
-+ 1 file changed, 20 insertions(+)
-+
-+diff --git a/nss-myhostname.c b/nss-myhostname.c
-+index 293166c..6f287f5 100644
-+--- a/nss-myhostname.c
-++++ b/nss-myhostname.c
-+@@ -21,7 +21,27 @@
-+ ***/
-+ 
-+ #include <limits.h>
-++#include <stdint.h>
-++#ifdef HAVE_NSS_H
-+ #include <nss.h>
-++#else
-++enum nss_status {
-++    NSS_STATUS_TRYAGAIN = -2,
-++    NSS_STATUS_UNAVAIL,
-++    NSS_STATUS_NOTFOUND,
-++    NSS_STATUS_SUCCESS,
-++    NSS_STATUS_RETURN
-++};
-++/* Data structure used for the 'gethostbyname4_r' function.  */
-++struct gaih_addrtuple
-++  {
-++    struct gaih_addrtuple *next;
-++    char *name;
-++    int family;
-++    uint32_t addr[4];
-++    uint32_t scopeid;
-++  };
-++#endif
-+ #include <sys/types.h>
-+ #include <netdb.h>
-+ #include <errno.h>
-+-- 
-+2.7.0
-+
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-index bbce9e9..de5b7cf 100644
---- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-@@ -6,7 +6,9 @@ HOMEPAGE = "http://0pointer.de/lennart/projects/nss-myhostname/"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
--SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz"
-+SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
-+           file://0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch \
-+           "
- 
- SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
- SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
+diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+index 8478802..432f010 100644
+--- a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
++++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+@@ -16,7 +16,11 @@ do_configure_prepend () {
+ do_install () {
+ 	install -d ${D}${bindir_crossscripts}/
+ 	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+-	install -d ${D}${bindir_crossscripts}/
++	sed -e 's@^\(predep_objects="\).*@\1"@' \
++	    -e 's@^\(postdep_objects="\).*@\1"@' \
++	    -i ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
++	sed -i '/^archive_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
++	sed -i '@^archive_expsym_cmds=@s@-nostdlib@@g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+ 	GREP='/bin/grep' SED='sed' ${S}/build-aux/inline-source libtoolize > ${D}${bindir_crossscripts}/libtoolize
+ 	chmod 0755 ${D}${bindir_crossscripts}/libtoolize
+ 	install -d ${D}${target_datadir}/libtool/build-aux/
 -- 
 2.7.0
 
