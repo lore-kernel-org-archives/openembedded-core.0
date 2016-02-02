@@ -1,53 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D540D7713F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B4FDE73206
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 14:07:24 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id 128so119840955wmz.1
+	Tue,  2 Feb 2016 14:10:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u12EAmjm004695 for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Feb 2016 14:10:48 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7O_lhbatcJYE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 06:07:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=66CBpi4nToNCVQgNFd+0kvtn7WVSK3hdbtYhVQc4RIQ=;
-	b=Ua+12k9uAX7BTG48OTXWRYse0YJGukJ6E5TAqf643yNXyRFtSnjpZJPkjyEYoTmW7W
-	UGRjsKBtDiaNr40Yln6ju+gD7/Go8pk6EDuY3H84fSGFQQ3oTvIOaJmTQc52VhUy5jtd
-	Kam+o+sb42gcWKIu13gqvqFBJuXSY28ih7O8bAlDvv6HNB4YLu1qwCskrm9TWh+jtWTQ
-	JMMVm7/CXcF+99pGnYthi770auvs3LngkwOgE/xGL3wWu0hYgIx4rU/w00+TrBbtFvDw
-	cCWFg5Ys7CnVIFvu6UmVyvr5XffuYL8nmYJGorLahAe3myM6HF2SxfyF4DOeWZjjW6W5
-	PnVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent;
-	bh=66CBpi4nToNCVQgNFd+0kvtn7WVSK3hdbtYhVQc4RIQ=;
-	b=KUihADejTmQFgFgmvQMyAAuhgMDvMvefEAsO7DPCxgrF7JfjsWvEeE7MMFveaz8brO
-	uNiQPp+6lbmkAZ8YMlGGh/Cwr1pizo7u3pmbDv5jlVZlbS1q8woljfu7bDbydc0vDgnB
-	/Z6NVj2Lbxdr2xOdrFJTqtSlLYaoaYqQJrZuXLc/zZlEPHvTLNeXMDSTi1wAhRbINLsX
-	BnkkESm4rWoDL9yMmkONFL2GsJ8CNsl7psooEY522pv5rAgasHgbgXOUhDw5TRRLtss3
-	0vpMiDTJfYhCS2nCpNSBckRUaBxWHoKkYdD7oqep55K8r/7mXdqK39LgOEE37C8sBzvg
-	CRJw==
-X-Gm-Message-State: AG10YORUrpcJx10qPubaOecaps0cRbGnwCWHBE6r7Ns1lPHA4Zm5aR5H4f1OStQJLd9/TA==
-X-Received: by 10.194.242.67 with SMTP id wo3mr27994349wjc.180.1454422045067; 
-	Tue, 02 Feb 2016 06:07:25 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	f205sm3102605wme.4.2016.02.02.06.07.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Feb 2016 06:07:23 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 2 Feb 2016 15:10:18 +0100
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20160202141018.GB2607@jama>
-References: <1454419635-10822-1-git-send-email-ross.burton@intel.com>
-	<1454419635-10822-4-git-send-email-ross.burton@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1454419635-10822-4-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/5] python3: set INSANE_SKIP as libpython3.so is a trampoline library
+	Tue,  2 Feb 2016 14:10:48 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u12EAk5e004692
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Feb 2016 14:10:47 GMT
+Message-ID: <1454422246.27087.78.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 02 Feb 2016 14:10:46 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] bitbake.conf/base: Improve handling of SRCPV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,67 +37,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 14:07:25 -0000
-X-Groupsio-MsgNum: 77280
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+g7M9IMkV8truYOl"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 02 Feb 2016 14:10:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---+g7M9IMkV8truYOl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If SRCPV is set, it can be expanded when SRC_URI doesn't support it
+leading to errors. Avoid doing this by setting it only when it makes
+sense.
 
-On Tue, Feb 02, 2016 at 01:27:14PM +0000, Ross Burton wrote:
-> (From OE-Core rev: b7059f16fa4eb8795a4bec3f86d4ea309beaf485)
+This patch depends on the bitbake python expansion patch series.
 
-This points to master-next branch and will probably became invalid next
-time master-next is rebased.
+[YCOTO #7772]
 
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/python/python3_3.5.1.bb | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-devtools/python/python3_3.5.1.bb b/meta/recipes=
--devtools/python/python3_3.5.1.bb
-> index 0d9a4cc..54007d3 100644
-> --- a/meta/recipes-devtools/python/python3_3.5.1.bb
-> +++ b/meta/recipes-devtools/python/python3_3.5.1.bb
-> @@ -211,6 +211,7 @@ FILES_${PN}-pyvenv +=3D "${bindir}/pyvenv-${PYTHON_MA=
-JMIN} ${bindir}/pyvenv"
->  PACKAGES =3D+ "libpython3 libpython3-staticdev"
->  FILES_libpython3 =3D "${libdir}/libpython*.so.*"
->  FILES_libpython3-staticdev +=3D "${libdir}/python${PYTHON_MAJMIN}/config=
--${PYTHON_BINABI}/libpython${PYTHON_BINABI}.a"
-> +INSANE_SKIP_${PN}-dev +=3D "dev-elf"
-> =20
->  # catch all the rest (unsorted)
->  PACKAGES +=3D "${PN}-misc"
-> --=20
-> 2.6.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d68ffbe..75c9acc 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -549,20 +549,24 @@ python () {
+                 elif pn in htincompatwl:
+                     bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted for HOSTTOOLS")
+ 
++    needsrcrev = False
+     srcuri = d.getVar('SRC_URI', True)
+     for uri in srcuri.split():
+         (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
+ 
+         # Svn packages should DEPEND on subversion-native
+         if scheme == "svn":
++            needsrcrev = True
+             d.appendVarFlag('do_fetch', 'depends', ' subversion-native:do_populate_sysroot')
+ 
+         # Git packages should DEPEND on git-native
+         elif scheme == "git":
++            needsrcrev = True
+             d.appendVarFlag('do_fetch', 'depends', ' git-native:do_populate_sysroot')
+ 
+         # Mercurial packages should DEPEND on mercurial-native
+         elif scheme == "hg":
++            needsrcrev = True
+             d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do_populate_sysroot')
+ 
+         # OSC packages should DEPEND on osc-native
+@@ -589,6 +593,9 @@ python () {
+         elif path.endswith('.src.rpm'):
+             d.appendVarFlag('do_unpack', 'depends', ' file-native:do_populate_sysroot')
+ 
++    if needsrcrev:
++        d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
++
+     set_packagetriplet(d)
+ 
+     # 'multimachine' handling
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index fbd4c69..361fe32 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -616,7 +616,8 @@ FETCHCMD_hg = "/usr/bin/env hg"
+ SRCDATE = "${DATE}"
+ SRCREV ??= "INVALID"
+ AUTOREV = "${@bb.fetch2.get_autorev(d)}"
+-SRCPV = "${@bb.fetch2.get_srcrev(d)}"
++# Set Dynamically in base.bbclass
++# SRCPV = "${@bb.fetch2.get_srcrev(d)}"
+ SRCPV[vardepvalue] = "${SRCPV}"
+ 
+ SRC_URI = ""
 
---+g7M9IMkV8truYOl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlawuMkACgkQN1Ujt2V2gBx6QACcCiRXDhjk0VgdXXljeBRrG36m
-E6sAoIpLRgs3db+xc1gbu6APwW9UTBbZ
-=qgiQ
------END PGP SIGNATURE-----
-
---+g7M9IMkV8truYOl--
