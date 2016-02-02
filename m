@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B92C772E1
+	by mail.openembedded.org (Postfix) with ESMTP id 3527D772E2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Feb 2016 17:43:37 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2016 09:43:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="875310327"
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="875310344"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 09:43:35 -0800
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 09:43:37 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 52D296A4006
+	by linux.intel.com (Postfix) with ESMTP id 75BE16A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 10:31:27 -0800 (PST)
+	Tue,  2 Feb 2016 10:31:29 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 17:32:50 +0200
-Message-Id: <4d42efe71c0de9b08896e25eaf59a5472de0548d.1454426922.git.ed.bartosh@linux.intel.com>
+Date: Tue,  2 Feb 2016 17:32:52 +0200
+Message-Id: <c0509f4c2cde0c245225f745b75084c7e28f9047.1454426922.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 References: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 References: <cover.1454426922.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 10/14] oe-selftest: add new wic testcase
+Subject: [wic][PATCH v2 12/14] wic-image-minimal: use uuid for root partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +37,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 02 Feb 2016 17:43:37 -0000
 
-Added test_qemu testcase to boot wic-image-minimal and test
-that 2 partitions mentioned in .wks are mounted.
+Used --uuid option to generate PARTUUID for root partion and
+gpt partition type. As this image is used in runtime testing
+under qemu it makes sense to ensure that this way of specifying
+root partition works.
 
-[YOCTO #8499]
+Added dependency to gptfdisk-native to wic-image-minimal recipe to
+be able to create gpt partition table.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta-selftest/recipes-test/images/wic-image-minimal.bb  | 2 +-
+ meta-selftest/recipes-test/images/wic-image-minimal.wks | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index df826ed..f9c85d0 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -30,7 +30,7 @@ from glob import glob
- from shutil import rmtree
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+index ced22c8..9c50ddb 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+@@ -7,7 +7,7 @@ IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
+ IMAGE_FSTYPES = "wic"
+ RM_OLD_IMAGE = "1"
  
- from oeqa.selftest.base import oeSelfTest
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.utils.decorators import testcase
+-DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native"
++DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native gptfdisk-native"
  
+ # core-image-minimal is referenced in .wks, so we need its rootfs
+ # to be ready before our rootfs
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+index 191244b..d55075d 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+@@ -3,8 +3,8 @@
+ # created from core-image-minimal and wic-image-minimal image recipes.
  
-@@ -264,3 +264,13 @@ class Wic(oeSelfTest):
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-+
-+    def test_qemu(self):
-+        """Test wic-image-minimal under qemu"""
-+        self.assertEqual(0, bitbake('wic-image-minimal').status)
-+
-+        with runqemu('wic-image-minimal', ssh=False) as qemu:
-+            command = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
-+            status, output = qemu.run_serial(command)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (command, output))
-+            self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
+ part /boot --source bootimg-pcbios --ondisk vda --label boot --active --align 1024
+-part / --source rootfs --ondisk vda --fstype=ext4 --label platform --align 1024
++part / --source rootfs --ondisk vda --fstype=ext4 --label platform --align 1024 --use-uuid
+ part /mnt --source rootfs --rootfs-dir=core-image-minimal --ondisk vda --fstype=ext4 --label core --align 1024
+ part backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk vda --fstype=ext4 --label backup --align 1024
+ 
+-bootloader --timeout=0  --append="rootwait console=tty0 root=/dev/vda2"
++bootloader --ptable gpt --timeout=0  --append="rootwait console=tty0"
 -- 
 2.1.4
 
