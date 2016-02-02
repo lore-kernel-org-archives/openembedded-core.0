@@ -1,29 +1,30 @@
-Return-Path: <anibal.limon@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4536B77303
+	by mail.openembedded.org (Postfix) with ESMTP id 15C1960745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 22:12:51 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2016 14:12:52 -0800
+	Tue,  2 Feb 2016 22:15:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2016 14:15:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; 
-	d="asc'?scan'208";a="739421772"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.31]) ([10.219.5.31])
-	by orsmga003.jf.intel.com with ESMTP; 02 Feb 2016 14:12:52 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="895043289"
+Received: from kng2-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.178.194])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 14:15:17 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Wed, 03 Feb 2016 11:15:14 +1300
+Message-ID: <2970806.oZjWx8xubM@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.3-303.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <56B129F8.9000402@linux.intel.com>
 References: <cover.1454424743.git.anibal.limon@linux.intel.com>
-	<388d73eeea1fedcf2630488658dc8aa684a24c33.1454424743.git.anibal.limon@linux.intel.com>
-	<3666142.Q8On7yAzEZ@peggleto-mobl.ger.corp.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <56B12A57.5050402@linux.intel.com>
-Date: Tue, 2 Feb 2016 16:14:47 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	<1685931.lfZTPyxPBX@peggleto-mobl.ger.corp.intel.com>
+	<56B129F8.9000402@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <3666142.Q8On7yAzEZ@peggleto-mobl.ger.corp.intel.com>
 Cc: openembedded-core@lists.openembedded.org, benjamin.esquivel@intel.com,
-	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 19/20] oeqa/sdkext: Add devtool basic tests for eSDK.
+	=?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <limon.anibal@gmail.com>
+Subject: Re: [PATCH 18/20] classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,149 +37,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 22:12:52 -0000
-X-Groupsio-MsgNum: 77387
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="eHA7eGtkUOXRMrArkMMWbdGTU2b6GXLCr"
-
---eHA7eGtkUOXRMrArkMMWbdGTU2b6GXLCr
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Tue, 02 Feb 2016 22:15:20 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
+On Tue, 02 Feb 2016 16:13:12 An=EDbal Lim=F3n wrote:
+> On 02/02/2016 04:06 PM, Paul Eggleton wrote:
+> > On Tue, 02 Feb 2016 16:05:06 An=EDbal Lim=F3n wrote:
+> >> On 02/02/2016 03:52 PM, Paul Eggleton wrote:
+> >>> On Tue, 02 Feb 2016 09:14:21 An=EDbal Lim=F3n wrote:
+> >>>> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+> >>>>=20
+> >>>> Extensible SDK needs to point to the correct manifest so add
+> >>>> SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST variables.
+> >>>>=20
+> >>>> oeqa/oetest.py: Fix SDKExtTestContext for load the correct manif=
+ests.
+> >>>>=20
+> >>>> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+> >>>> ---
+> >>>>=20
+> >>>>  meta/classes/populate_sdk_ext.bbclass |  3 +++
+> >>>>  meta/lib/oeqa/oetest.py               | 11 +++++++++--
+> >>>>  2 files changed, 12 insertions(+), 2 deletions(-)
+> >>>>=20
+> >>>> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> >>>> b/meta/classes/populate_sdk_ext.bbclass index fc96a4b..27dc030 1=
+00644
+> >>>> --- a/meta/classes/populate_sdk_ext.bbclass
+> >>>> +++ b/meta/classes/populate_sdk_ext.bbclass
+> >>>> @@ -43,6 +43,9 @@ B_task-populate-sdk-ext =3D "${SDK_DIR}"
+> >>>>=20
+> >>>>  TOOLCHAINEXT_OUTPUTNAME =3D "${SDK_NAME}-toolchain-ext-${SDK_VE=
+RSION}"
+> >>>>  TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext =3D
+> >>>>  "${TOOLCHAINEXT_OUTPUTNAME}"
+> >>>>=20
+> >>>> +SDK_EXT_TARGET_MANIFEST =3D
+> >>>> "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
+> >>>> +SDK_EXT_HOST_MANIFEST =3D
+> >>>> "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest" +
+> >>>>=20
+> >>>>  SDK_TITLE_task-populate-sdk-ext =3D "${@d.getVar('DISTRO_NAME',=
+ True) or
+> >>>>=20
+> >>>> d.getVar('DISTRO', True)} Extensible SDK"
+> >>>>=20
+> >>>>  python copy_buildsystem () {
+> >>>>=20
+> >>>> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+> >>>> index 6beb6c5..c951989 100644
+> >>>> --- a/meta/lib/oeqa/oetest.py
+> >>>> +++ b/meta/lib/oeqa/oetest.py
+> >>>>=20
+> >>>> @@ -382,14 +382,18 @@ class SDKTestContext(TestContext):
+> >>>>          self.sdktestdir =3D sdktestdir
+> >>>>          self.sdkenv =3D sdkenv
+> >>>>=20
+> >>>> +        if not hasattr(self, 'target_manifest_name'):
+> >>>> +            self.target_manifest_name =3D "SDK_TARGET_MANIFEST"=
 
+> >>>>=20
+> >>>>          try:
+> >>>> -            with open(d.getVar("SDK_TARGET_MANIFEST", True)) as=
+ f:
+> >>>>=20
+> >>>> +            with open(d.getVar(self.target_manifest_name, True)=
+) as f:
+> >>>>                   self.pkgmanifest =3D f.read()
+> >>>>         =20
+> >>>>          except IOError as e:
+> >>>>              bb.fatal("No package manifest file found. Did you b=
+uild
+> >>>>              the
+> >>>>              sdk
+> >>>>=20
+> >>>> image?\n%s" % e)
+> >>>>=20
+> >>>> +        if not hasattr(self, 'host_manifest_name'):
+> >>>> +            self.host_manifest_name =3D "SDK_HOST_MANIFEST"
+> >>>>=20
+> >>>>          try:
+> >>>> -            with open(d.getVar("SDK_HOST_MANIFEST", True)) as f=
+:
+> >>>>=20
+> >>>> +            with open(d.getVar(self.host_manifest_name, True)) =
+as f:
+> >>>>                  self.hostpkgmanifest =3D f.read()
+> >>>>         =20
+> >>>>          except IOError as e:
+> >>>>              bb.fatal("No host package manifest file found. Did =
+you
+> >>>>              build
+> >>>>=20
+> >>>> the sdk image?\n%s" % e) @@ -406,6 +410,9 @@ class
+> >>>>=20
+> >>>> SDKTestContext(TestContext):
+> >>>>  class SDKExtTestContext(SDKTestContext):
+> >>>>      def __init__(self, d, sdktestdir, sdkenv):
+> >>>> +        self.target_manifest_name =3D "SDK_EXT_TARGET_MANIFEST"=
 
-On 02/02/2016 04:03 PM, Paul Eggleton wrote:
-> On Tue, 02 Feb 2016 09:14:22 An=EDbal Lim=F3n wrote:
->> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
->>
->> Add simple myapp application is a C app that prints hello world
->> and exit.
->>
->> Add devtool test for that this app to the workspace, build and
->> reset it.
->>
->> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
->> ---
->>  meta/lib/oeqa/sdkext/devtool.py           | 25 ++++++++++++++++++++++=
-+++
->>  meta/lib/oeqa/sdkext/files/myapp/Makefile | 10 ++++++++++
->>  meta/lib/oeqa/sdkext/files/myapp/myapp.c  |  9 +++++++++
->>  3 files changed, 44 insertions(+)
->>  create mode 100644 meta/lib/oeqa/sdkext/devtool.py
->>  create mode 100644 meta/lib/oeqa/sdkext/files/myapp/Makefile
->>  create mode 100644 meta/lib/oeqa/sdkext/files/myapp/myapp.c
->>
->> diff --git a/meta/lib/oeqa/sdkext/devtool.py
->> b/meta/lib/oeqa/sdkext/devtool.py new file mode 100644
->> index 0000000..0262ed3
->> --- /dev/null
->> +++ b/meta/lib/oeqa/sdkext/devtool.py
->> @@ -0,0 +1,25 @@
->> +import shutil
->> +
->> +from oeqa.oetest import oeSDKExtTest
->> +from oeqa.utils.decorators import *
->> +
->> +class DevtoolTest(oeSDKExtTest):
->> +
->> +    @classmethod
->> +    def setUpClass(self):
->> +        self.myapp_src =3D os.path.join(self.tc.sdkextfilesdir, "myap=
-p")
->> +        self.myapp_dst =3D os.path.join(self.tc.sdktestdir, "myapp")
->> +        shutil.copytree(self.myapp_src, self.myapp_dst)
->> +
->> +    def test_devtool_add_reset(self):
->> +        self._run('devtool add myapp %s' % self.myapp_dst)
->> +        self._run('devtool reset myapp')
->> +
->> +    def test_devtool_build(self):
->> +        self._run('devtool add myapp %s' % self.myapp_dst)
->> +        self._run('devtool build myapp')
->> +        self._run('devtool reset myapp')
->> +
->> +    @classmethod
->> +    def tearDownClass(self):
->> +        shutil.rmtree(self.myapp_dst)
->> diff --git a/meta/lib/oeqa/sdkext/files/myapp/Makefile
->> b/meta/lib/oeqa/sdkext/files/myapp/Makefile new file mode 100644
->> index 0000000..abd91be
->> --- /dev/null
->> +++ b/meta/lib/oeqa/sdkext/files/myapp/Makefile
->> @@ -0,0 +1,10 @@
->> +all: myapp
->> +
->> +myapp: myapp.o
->> +	$(CC) $(LDFLAGS) $< -o $@
->> +
->> +myapp.o: myapp.c
->> +	$(CC) $(CFLAGS) -c $< -o $@
->> +
->> +clean:
->> +	rm -rf myapp.o myapp
->> diff --git a/meta/lib/oeqa/sdkext/files/myapp/myapp.c
->> b/meta/lib/oeqa/sdkext/files/myapp/myapp.c new file mode 100644
->> index 0000000..f0b63f0
->> --- /dev/null
->> +++ b/meta/lib/oeqa/sdkext/files/myapp/myapp.c
->> @@ -0,0 +1,9 @@
->> +#include <stdio.h>
->> +
->> +int
->> +main(int argc, char *argv[])
->> +{
->> +	printf("Hello world\n");
->> +
->> +	return 0;
->> +}
+> >>>> +        self.host_manifest_name =3D "SDK_EXT_HOST_MANIFEST"
+> >>>> +
+> >>>>=20
+> >>>>          super(SDKExtTestContext, self).__init__(d, sdktestdir, =
+sdkenv)
+> >>>>         =20
+> >>>>          self.sdkextfilesdir =3D
+> >>>>          os.path.join(os.path.dirname(os.path.abspath(
+> >>>=20
+> >>> I really don't like the idea of passing the variable name here ra=
+ther
+> >>> than
+> >>> values. However, besides that, the manifest is always the SDK nam=
+e plus
+> >>> .host.manifest or .target.manifest - do we even need to pass sepa=
+rate
+> >>> names? All you should need is the name of the SDK i.e. the value =
+of
+> >>> TOOLCHAINEXT_OUTPUTNAME.
+> >>=20
+> >> I prefer to have explicit value and construct them into one place
+> >> instead of have many name constructions like you said to use
+> >> TOOLCHAINEXT_OUTPUTNAME and suppose that always be end with .{host=
+,
+> >> target}.manifest.
+> >=20
+> > When you add a variable to populate_sdk_ext.bbclass, it isn't just =
+defined
+> > for the ext SDK - it's defined for every image recipe. I want to tr=
+y to
+> > avoid defining additional variables and thus expanding the environm=
+ent
+> > where we don't really need to.
 >=20
-> I guess we'll probably want to extend this test so it also looks at the=
-=20
-> binaries produced by the build to see if they're reasonable, but we can=
- do=20
-> that later.
+> I guess two more variable expansions gives you no more/less performan=
+ce
+> and also gives you the possibility to have the thing set in a clean m=
+anner,
+
+OK, if you insist on using those, don't pass the variable name - get th=
+e value=20
+of the variable and then pass the value. For the record I'm still unhap=
+py=20
+about unnecessarily adding variables like this.
+
+> > The naming of the manifest is something we can rely on, because ext=
+ernal
+> > tools need to be able to.
 >=20
-> One thing though - could you add a check to see that the 'devtool' comm=
-and=20
-> we're executing is definitely from the SDK and not the outer build envi=
-ronment=20
-> (or elsewhere)? Presumably you could just do "which devtool" and check =
-the=20
-> output.
+> May be now, :).
 
-Sure good idea... i'll add which devtool and search for path inside the
-eSDK folder.
+If we change that we also break anything that reads those files. We won=
+'t be=20
+changing those any time soon.
 
-	alimon
-
->=20
-> Cheers,
-> Paul
->=20
+Cheers,
+Paul
 
 
---eHA7eGtkUOXRMrArkMMWbdGTU2b6GXLCr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+--=20
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Paul Eggleton
+Intel Open Source Technology Centre
 
-iQIcBAEBAgAGBQJWsSpaAAoJEGJqcE9h3glgjW4QAIZazwZ3PWjj5zC1Fds/SUbQ
-N0xJuJ8rdcfQ0CuwVba/lgPWZW8T7LSYjtfiRyJsrEMBkp1QAYl4JrLd6KTpG9tW
-Ej/d1F4knG6SrVr9C5JISAJDPJxUE8kMfBuJFNAruFl7rYzN7YOKJGQgzh3KYu4b
-98EzCzORrsx6AW7N7wI57rCbKmnDI7JIL5VBXbahOBmtIL4p5GCDGBiywp+VX9lc
-abZNiiAvubLpsegMidWAT6dDCiUeJB/wFDr2t72fBttyIwQQXGgbXO6LnMQcBj3h
-+RKb7xOFWxjm0hPKabGYaz8CF3zHnaEL0cr5iTUTJXWaL8VVG/2/6f2svtqQWDBI
-w8l29OXrlBsAu3XWb201pGij53FvhCG8Me3T7pFM86XBaGL97IGjjQECt+C7oUIJ
-aZIkJhpg2sqaoeCFJzkP9CrJ2S3HAPIzFwmabfTsMhvcBTbIWH5+yPgsYfb/WDOo
-ZIzYbgFFP2D7HEijjc2wu5ycv5U5qgeK7+kKtsQGQ5AFBK6GOjt+w31aKbWnF+YW
-hMBgq01WfQiRMfGNkVTi3YMbI6qfUg/4PVls6YknWqh7c2oPHAbF0UNum3YpMSWq
-rhJ2F475BAUeorUWtd/sTkdLmbj17QHWWPXr0nRb9EWO3dl7CS7ubt1OVJyAZ5vX
-at5Ti02QIZPVlOQ2ujEz
-=mW03
------END PGP SIGNATURE-----
-
---eHA7eGtkUOXRMrArkMMWbdGTU2b6GXLCr--
