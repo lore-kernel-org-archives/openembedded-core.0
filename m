@@ -1,28 +1,42 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B643772A8
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 295DA73175
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 09:38:48 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 01:38:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="40849726"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 01:38:49 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 1EF866A4002
+	Tue,  2 Feb 2016 10:08:58 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id z14so56707577igp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 02:26:41 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 09:28:06 +0200
-Message-Id: <a6452882b13696481455cf0d8560f0f51cc2af86.1454397260.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 14/15] oe-selftest: pylinted wic tests
+	Tue, 02 Feb 2016 02:08:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=QIDPOU+VflROWiHoLiBCg+5822HURNC7oCkOuWCE1fQ=;
+	b=BUlBD4p3aT9UrzwAy0BmVx98dAFGkORwWZBcySAG52FebOrhYCQwcO5YeJInLM4kkJ
+	lNSEQuZZ91JHYRGKRS086sE1RNmVbJxzUeGAHdiBq3zstNuRMnD6G92dSy6mXk4dXSTF
+	Fn07D66rBgV5HWp9bfHNkxwKUOZze8DHaQlJc0jWLcm4yjCBWp1wNtB/zHI4YkHJb2d1
+	VIT6PcFrmB+i2kvtPaTEBd8IR3/8iZpWd6INIGfKhjZH6cHyn/EoHGQWtsfJ9FJ6r1ga
+	FIhMUcL2lO7U0Ou++MXgSmSzYKh/a/krBpVabXbZLCjOdh2USPVK5W9pwSrRbYRua+G2
+	skfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=QIDPOU+VflROWiHoLiBCg+5822HURNC7oCkOuWCE1fQ=;
+	b=nNQrM4PhjRChijBI1bgsHFL0XpxsxOPInBsMd9WlEe5v7mjDsWhTj90qptMOK8NSNi
+	Z4n3kPbD2gBIFxHlzXtCr/Vr6vZSgYS3rPb/j4T9kTh/IpTNglHr7bE6V2ltvZszrzKr
+	IvdGqMHiW29TTagGW3n3X6uWsaQtkwiG1La4MohF45utjborlREs0OTmybSK1jBOqcvp
+	tFt3P7Ur1bHT6KL9vHNte75dgdQPP7JGUd0yQOgHwAMSofPAmoBR7a85Rv69LIbCrdT9
+	UTbvHE9LD7IKEhOjEgIWMNGL0stuV2C2BQ0K9ZrWlZosQMRRHC5nrf80fYR0jYAibGZo
+	jCnQ==
+X-Gm-Message-State: AG10YORBqA6qPr3BdN2MBU9AzlFNW2NJWl8hmnIadbLZwGTW70Sh46GNoOnm7yvt+rSSgk4y6zETR4MRvwSTeg==
+MIME-Version: 1.0
+X-Received: by 10.50.43.131 with SMTP id w3mr15486598igl.70.1454407739230;
+	Tue, 02 Feb 2016 02:08:59 -0800 (PST)
+Received: by 10.107.142.207 with HTTP; Tue, 2 Feb 2016 02:08:59 -0800 (PST)
+Date: Tue, 2 Feb 2016 10:08:59 +0000
+Message-ID: <CADwFkYfpFmA_29cJqSJTD=9ZMkBCWVGbqQm9_-05inkLJEYkbg@mail.gmail.com>
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: can't compile ffmpeg without x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,96 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 09:38:51 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 10:09:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixed the following pylint warnings:
-  C: 45, 0: Line too long (91/80) (line-too-long)
-  C:105, 0: Wrong continued indentation.
-                            ignore_status=True).status)
-                            ^         | (bad-continuation)
-  W: 83, 8: Redefining built-in 'vars' (redefined-builtin)
-  W:175, 8: Redefining built-in 'vars' (redefined-builtin)
-  W: 27, 0: Unused import sys (unused-import)
+HELLO!
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+in ffmpeg.bb:
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 4985714..964b954 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -24,7 +24,6 @@
- """Test cases for wic."""
- 
- import os
--import sys
- 
- from glob import glob
- from shutil import rmtree
-@@ -42,7 +41,8 @@ class Wic(oeSelfTest):
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
--        self.write_config('IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n')
-+        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
-+                          'MACHINE_FEATURES_append = " efi"\n')
- 
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-@@ -80,14 +80,14 @@ class Wic(oeSelfTest):
-     @testcase(1212)
-     def test_build_artifacts(self):
-         """Test wic create directdisk providing all artifacts."""
--        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-+        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-                                     'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-         status = runCmd("wic create directdisk "
-                         "-b %(staging_datadir)s "
-                         "-k %(deploy_dir_image)s "
-                         "-n %(staging_dir_native)s "
--                        "-r %(image_rootfs)s" % vars).status
-+                        "-r %(image_rootfs)s" % bbvars).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-@@ -102,7 +102,7 @@ class Wic(oeSelfTest):
-     def test_unsupported_subcommand(self):
-         """Test unsupported subcommand"""
-         self.assertEqual(1, runCmd('wic unsupported',
--                         ignore_status=True).status)
-+                                   ignore_status=True).status)
- 
-     @testcase(1214)
-     def test_no_command(self):
-@@ -172,20 +172,20 @@ class Wic(oeSelfTest):
-     @testcase(1269)
-     def test_rootfs_artifacts(self):
-         """Test usage of rootfs plugin with rootfs paths"""
--        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-+        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-                                     'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
--        vars['wks'] = "directdisk-multi-rootfs"
-+        bbvars['wks'] = "directdisk-multi-rootfs"
-         status = runCmd("wic create %(wks)s "
-                         "-b %(staging_datadir)s "
-                         "-k %(deploy_dir_image)s "
-                         "-n %(staging_dir_native)s "
-                         "--rootfs-dir rootfs1=%(image_rootfs)s "
-                         "--rootfs-dir rootfs2=%(image_rootfs)s" \
--                        % vars).status
-+                        % bbvars).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + \
--                                     "%(wks)s-*.direct" % vars)))
-+                                     "%(wks)s-*.direct" % bbvars)))
- 
-     @testcase(1346)
-     def test_iso_image(self):
--- 
-2.1.4
+DEPENDS = "alsa-lib zlib libogg yasm-native libxv"
+PACKAGECONFIG ??= "... ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+'x11', '', d)}"
 
+
+the 'DEPENDS' says it need libxv which need x11, so the x11 detection
+in 'PACKAGECONFIG' will not work anymore.
+
+can I use ffmpeg without x11 ? (indeed, I want to use opencv)
+
+the old poky will work with libav, but now libav has been dropped.
+
+
+Yi Qingliang
 
