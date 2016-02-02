@@ -1,28 +1,31 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B63B7728F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BAF07728F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 22:31:34 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2016 14:31:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; 
-	d="asc'?scan'208";a="41319936"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.31]) ([10.219.5.31])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 14:31:34 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1454436558.git.anibal.limon@linux.intel.com>
-	<01b550d016c48dd518dfdcd8ffb4e1c3255abbbb.1454436558.git.anibal.limon@linux.intel.com>
-	<1500430.HvkegzEm32@peggleto-mobl.ger.corp.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <56B12EA2.5040807@linux.intel.com>
-Date: Tue, 2 Feb 2016 16:33:06 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1500430.HvkegzEm32@peggleto-mobl.ger.corp.intel.com>
-Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 21/21] classes/testimage: Fix exportTests function.
+	Tue,  2 Feb 2016 22:41:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u12MfVZx003703; Tue, 2 Feb 2016 22:41:31 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3EsgPn4kUGnh; Tue,  2 Feb 2016 22:41:31 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u12MfP0V003698
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 2 Feb 2016 22:41:26 GMT
+Message-ID: <1454452885.27087.127.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Tue, 02 Feb 2016 22:41:25 +0000
+In-Reply-To: <20160202210411.GA20640@mcrowe.com>
+References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
+	<1454428874.27087.87.camel@linuxfoundation.org>
+	<20160202210411.GA20640@mcrowe.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +38,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 22:31:38 -0000
-X-Groupsio-MsgNum: 77391
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="sKJTUro9em6TrS1OgBO8SanX1xpcrxhWS"
+X-List-Received-Date: Tue, 02 Feb 2016 22:41:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---sKJTUro9em6TrS1OgBO8SanX1xpcrxhWS
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2016-02-02 at 21:04 +0000, Mike Crowe wrote:
+> On Tuesday 02 February 2016 at 16:01:14 +0000, Richard Purdie wrote:
+> > On Tue, 2016-02-02 at 14:49 +0000, Mike Crowe wrote:
+> > > bitbake.conf currently contains:
+> > > 
+> > > EXTRA_OEMAKE = "-e MAKEFLAGS="
+> > > 
+> > > Back in November[1] I submitted a patch that allowed this default
+> > > value to be overridden without affecting anything else that was
+> > > appended to it. I received feedback that the default value was no
+> > > longer useful and that it would be good to get rid of it.
+> > > 
+> > > So, this patch series fixes the two recipes that still appear to
+> > > be
+> > > relying on the previous default and then makes the default
+> > > EXTRA_OEMAKE = "". After these changes core-image-sato builds
+> > > successfully for me (although I have not run it.)
+> > > 
+> > > Mike.
+> > > 
+> > > [1] 
+> > > http://lists.openembedded.org/pipermail/openembedded-core/2015-No
+> > > vember/112393.html
+> > 
+> > This is a pretty major change and we likely need a bit more of an
+> > idea
+> > of impact.
+> 
+> I agree.
+> 
+> > Which architectures did you test? Often, x86 is a bad choice here
+> > and
+> > we'd need something cross (arm/mips/ppc) to ensure it really is
+> > doing
+> > the right things. We also need to assess a bit more than just sato.
+> > We
+> > can run this up on the autobuilder and see what happens.
+> 
+> I've compile-tested qemux86 and qemuarm for core-image-sato. qemumips
+> is
+> building now.
+> 
+> We've been running with the previous version of the patch with our
+> code for
+> a while but now I look more closely that solution didn't have
+> anywhere near
+> as wide an impact so I'll switch us over to using these patches. That
+> will
+> runtime-test a few real mips and arm targets (and even x86 and x86-64
+> to a
+> limited extent) but only with our customised set of packages.
 
+Thanks. Please do mention what tests have passed/failed just so I can
+build some idea of the risk of the patch and decide if/as/when the
+right time to merge it is.
 
+> > A post to the architecture list is probably needed so everyone
+> > knows
+> > this is happening (or at least being considered).
+> 
+> I'll do that once I've finished this round of testing. Would it be
+> best to
+> just post a general overview or the complete patch series?
 
-On 02/02/2016 04:30 PM, Paul Eggleton wrote:
-> On Tue, 02 Feb 2016 12:09:37 An=EDbal Lim=F3n wrote:
->> With new structure of TestContext now holds suite and variable
->> that contains unittest instances,  it can't be exported using
->> JSON causing and exception.
->>
->> Adds the suite variable for avoid export it.
->>
->> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
->> ---
->>  meta/classes/testimage.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.b=
-bclass
->> index 5fafda1..57858e6 100644
->> --- a/meta/classes/testimage.bbclass
->> +++ b/meta/classes/testimage.bbclass
->> @@ -112,7 +112,7 @@ def exportTests(d,tc):
->>      savedata["host_dumper"] =3D {}
->>      for key in tc.__dict__:
->>          # special cases
->> -        if key !=3D "d" and key !=3D "target" and key !=3D "host_dump=
-er":
->> +        if key !=3D "d" and key !=3D "target" and key !=3D "host_dump=
-er" and key
->> !=3D "suite": savedata[key] =3D getattr(tc, key)
->=20
-> Given how long this is getting we might want to change to:
->=20
->   if key not in ['d', 'target', 'host_dumper', 'suite']:
+The general overview and main patch is fine. I will likely merge any
+fixups like the two in this series as they become available since they
+don't have an adverse affect as far as I can tell.
 
-Good one...
+> > I do worry how much of meta-oe may be affected by this.
+> 
+> We don't use meta-oe. I could have a look at trying some builds over
+> the
+> weekend. Luckily any breakage will be easy to fix, but that doesn't
+> really
+> help if hundreds of packages are affected!
 
->=20
-> Cheers,
-> Paul
->=20
+Right, I really just need an idea of whether its going to cause
+problems and a rough idea of scale. I will run this on the Yocto
+Project autobuilder but we're pushed for bandwidth at the moment so it
+may not be until the weekend.
 
+Cheers,
 
---sKJTUro9em6TrS1OgBO8SanX1xpcrxhWS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Richard
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJWsS6+AAoJEGJqcE9h3glgBi0P/2Ik+qxvDuzX8BPAFlnwcqE5
-S881j/xLAOsiRShSXsj3cMItm0/3TRZGoMHjJL235yD8HzzBpgbVJlhZgz5/iSKy
-7H8G30x1HweIr6JupHIurKoGvqMRQc8L8wTN/ho0jFg15kAEqGERGY2eXdVe6KNi
-xYgSuuwUqDKYv4GE2exjL7vmjBp/LWcL/ZI0LlyZoqTv1gW7xs3c3SHGckNIVhxi
-cnuQH4ZEK7IoLHkOZ/QmqUeSdEqL8jEsq3CN9g3Df2pRhmuqBpJmgMrW3Gar4dP3
-kai8ovSPjV8YXxpGn3hCz9Kfl8G9BDKz2GimCjctrDOFbnhdUip0WTYCEmrn2zXc
-2y9rK+7i9P0/QqjlDU+YL7XSndD8lesTWSwqpqGzyy6jVWetFZ5WcDQ9DLbDfoRa
-aJKJXQbPw2iMQORlmEY4OZJPc/+awvQDGbMNYgNMpbNvkwZggn0nFP19TQg1IQMW
-VS0P3LCnR/vcfKHhBjTqlRcMD+12VlBSaNXIXTS8YRAiI3XEW/LTsOLeQI9W+0rl
-m6kWjVkr2PcGQ7Bg5m+X/qvgnh4ZNRb/cH/UI6WJ5hkx2/w1AAnMeuTQzxVQiON5
-lEC0eisd/ahVCuWgWvH5Hf5HLZn51EBViS+0KJQl8bHn2V2cmU5VsOESbBNru4eS
-xEZl1ntjufn0e1aPqZUH
-=erQb
------END PGP SIGNATURE-----
-
---sKJTUro9em6TrS1OgBO8SanX1xpcrxhWS--
