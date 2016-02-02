@@ -1,46 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 642697715A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C38762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 06:02:32 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id t15so53174564igr.0
+	Tue,  2 Feb 2016 07:24:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u127O72A017672
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 22:02:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=EIo6nDm94KviP9YCsvuc+80C03py4/d5OPQuOBpiWio=;
-	b=EGDpij81hxjtbtp/0HO/XyIAEPij9q2EVVAoKiHfu6nNIy1nudii2vhJvrvG5OlPEM
-	uQ8tkxRcl5bw8WFZS2ueCXfxJWr8Fcm/adFop0ZdYKZInDAM+qOBngMSwMb7v4P85Dqj
-	iWGguIFZec6v0GC80VdVisidkq9oc/5cIOM+qZsMBR9/6CR1XZdbfOFJAA7V1yeQ7ONW
-	3+2H/Ir7fnViNZoc2ZYvYTtOMV2/FhN29z/UH1LM80wsCOwxaus1Wu8OUR1RDD/y/FDC
-	xlnP0Ui+wREh2Dc1yvXIW54pDwHUasFRsmMw0FFdgjZccch3PHUX4t3QtYkMLbA/Ra+Q
-	XIqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=EIo6nDm94KviP9YCsvuc+80C03py4/d5OPQuOBpiWio=;
-	b=mwAr5Pd82ACvk+WFKFbY3bUFRIIFHK7Fu0qL1/OaB4hHG7xxJasSxt7IhD8silJkY2
-	VQad2+pJEmLfI8bM4cewD8BpC5Fn0YzG4IAxFPQcd+/HTnUUm9bUmrr6XHg9vpSbbI/e
-	4cR/U41UVgvmqsICBU9EojfiXRuaYsDuwm4x6S+OmoiauVdIO3h/cZPQtH2ouirE19oK
-	X6hLB5k+nr50yG0t1B3qh0ZCQP50yGPp4zVh2+c0UV9fJGeJ6grwI3sz8wMDjBRtvShJ
-	uqkWDTZhDoRPbS4iM8bkzXCOO4JwIyRi0bp4Ckn1Q9v3p7eXCEj8kJ6XWPWhku+0wDft
-	E6fg==
-X-Gm-Message-State: AG10YORQ8MsTwAVcoFcRuWeerap86PzfOFuIiDf28lln5PLBYd3SMCgFne7D9JpV5LS4rH7KzJYH6YNn1xc/tQ==
-X-Received: by 10.50.33.81 with SMTP id p17mr13685171igi.75.1454392953678;
-	Mon, 01 Feb 2016 22:02:33 -0800 (PST)
+	Mon, 1 Feb 2016 23:24:07 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 1 Feb 2016 23:24:06 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Feb 2016 15:24:13 +0800
+Message-ID: <cover.1454397788.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 22:02:04 -0800 (PST)
-In-Reply-To: <1454361802.27087.52.camel@linuxfoundation.org>
-References: <1454361802.27087.52.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 1 Feb 2016 22:02:04 -0800
-Message-ID: <CAMKF1soVmSjX76jw-FRU0ouJHc5gQ-_wMDsQCG+SegZXR7ow0Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: Fix for glibc 2.23+
+Subject: [PATCH 0/1] signing-keys: add sstate task for do_export_public_keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,225 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 06:02:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Feb 2016 07:24:07 -0000
+Content-Type: text/plain
 
-On Mon, Feb 1, 2016 at 1:23 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> glibc 2.23 onwards drops support for the bdflush syscall, which doesn't actually
-> do anything on 2.6 kernels anyway, its handled by a kernel thread.
->
-> Therefore drop the test.
+The following changes since commit cf62c02acfd27caa276c5f4eb2aa7956b16ac1fb:
 
-I have a patch which upgrade to latest release which fixes this issue
-and plus it fixes build issues for LTP for musl
-the patch is here
+  pth: Remove dead code (2016-02-01 17:16:01 +0000)
 
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=1ad922b3abdfe7f3dadb4b16e7fb3a7d10495023
+are available in the git repository at:
 
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/recipes-extended/ltp/ltp/no_bdflush.patch b/meta/recipes-extended/ltp/ltp/no_bdflush.patch
-> new file mode 100644
-> index 0000000..02bff79
-> --- /dev/null
-> +++ b/meta/recipes-extended/ltp/ltp/no_bdflush.patch
-> @@ -0,0 +1,182 @@
-> +glibc 2.23 onwards drops support for the bdflush syscall, which doesn't actually
-> +do anything on 2.6 kernels anyway, its handled by a kernel thread.
-> +
-> +Therefore drop the test.
-> +
-> +RP
-> +2016/2/1
-> +Upstream-Status: Pending
-> +
-> +Index: git/runtest/syscalls
-> +===================================================================
-> +--- git.orig/runtest/syscalls
-> ++++ git/runtest/syscalls
-> +@@ -31,8 +31,6 @@ asyncio02 asyncio02
-> + bind01 bind01
-> + bind02 bind02
-> +
-> +-bdflush01 bdflush01
-> +-
-> + brk01 brk01
-> +
-> + capget01 capget01
-> +Index: git/testcases/kernel/syscalls/bdflush/Makefile
-> +===================================================================
-> +--- git.orig/testcases/kernel/syscalls/bdflush/Makefile
-> ++++ /dev/null
-> +@@ -1,23 +0,0 @@
-> +-#
-> +-#  Copyright (c) International Business Machines  Corp., 2009
-> +-#
-> +-#  This program is free software;  you can redistribute it and/or modify
-> +-#  it under the terms of the GNU General Public License as published by
-> +-#  the Free Software Foundation; either version 2 of the License, or
-> +-#  (at your option) any later version.
-> +-#
-> +-#  This program is distributed in the hope that it will be useful,
-> +-#  but WITHOUT ANY WARRANTY;  without even the implied warranty of
-> +-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
-> +-#  the GNU General Public License for more details.
-> +-#
-> +-#  You should have received a copy of the GNU General Public License
-> +-#  along with this program;  if not, write to the Free Software
-> +-#  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-> +-#
-> +-
-> +-top_srcdir            ?= ../../../..
-> +-
-> +-include $(top_srcdir)/include/mk/testcases.mk
-> +-
-> +-include $(top_srcdir)/include/mk/generic_leaf_target.mk
-> +Index: git/testcases/kernel/syscalls/bdflush/bdflush01.c
-> +===================================================================
-> +--- git.orig/testcases/kernel/syscalls/bdflush/bdflush01.c
-> ++++ /dev/null
-> +@@ -1,127 +0,0 @@
-> +-/******************************************************************************/
-> +-/* Copyright (c) Crackerjack Project., 2007                              */
-> +-/*                                                                        */
-> +-/* This program is free software;  you can redistribute it and/or modify      */
-> +-/* it under the terms of the GNU General Public License as published by       */
-> +-/* the Free Software Foundation; either version 2 of the License, or    */
-> +-/* (at your option) any later version.                                        */
-> +-/*                                                                        */
-> +-/* This program is distributed in the hope that it will be useful,        */
-> +-/* but WITHOUT ANY WARRANTY;  without even the implied warranty of        */
-> +-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See            */
-> +-/* the GNU General Public License for more details.                      */
-> +-/*                                                                        */
-> +-/* You should have received a copy of the GNU General Public License    */
-> +-/* along with this program;  if not, write to the Free Software              */
-> +-/* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    */
-> +-/*                                                                        */
-> +-/******************************************************************************/
-> +-/******************************************************************************/
-> +-/*                                                                        */
-> +-/* File:      bdflush01.c                                         */
-> +-/*                                                                        */
-> +-/* Description: bdflush() starts, flushes, or tunes the buffer-dirty-flush    */
-> +-/*            daemon. Only a privileged process (one with the CAP_SYS_ADMIN */
-> +-/*            capability) may call bdflush().                               */
-> +-/*                                                                          */
-> +-/*            If func is negative or 0, and no daemon has been started,     */
-> +-/*            then bdflush() enters the daemon code and never returns.      */
-> +-/*                                                                          */
-> +-/*            If func is 1, some dirty buffers are written to disk.         */
-> +-/*            If func is 2 or more and is even (low bit is 0), then address */
-> +-/*            is the address of a long word, and the tuning parameter       */
-> +-/*            numbered (func-2)/2 is returned to the caller in that address.*/
-> +-/*                                                                          */
-> +-/*            If func is 3 or more and is odd (low bit is 1), then data is  */
-> +-/*            a long word, and the kernel sets tuning parameter numbered    */
-> +-/*            (func-3)/2 to that value.                                     */
-> +-/*                                                                          */
-> +-/*            The set of parameters, their values, and their legal ranges   */
-> +-/*            are defined in the kernel source file fs/buffer.c.            */
-> +-/*                                                                          */
-> +-/*            Return Value:                                                 */
-> +-/*            If func is negative or 0 and the daemon successfully starts,  */
-> +-/*            bdflush() never returns. Otherwise, the return value is 0 on  */
-> +-/*            success and -1 on failure, with errno set to indicate the     */
-> +-/*            error.                                                        */
-> +-/*                                                                          */
-> +-/*            Errors:                                                       */
-> +-/*                    EBUSY                                                 */
-> +-/*                        An attempt was made to enter the daemon code after*/
-> +-/*                        another process has already entered.              */
-> +-/*                    EFAULT                                                */
-> +-/*                       address points outside your accessible address     */
-> +-/*                       space.                                             */
-> +-/*                    EINVAL                                                */
-> +-/*                        An attempt was made to read or write an invalid   */
-> +-/*                        parameter number, or to write an invalid value to */
-> +-/*                        a parameter.                                      */
-> +-/*                    EPERM                                                 */
-> +-/*                        Caller does not have the CAP_SYS_ADMIN capability.*/
-> +-/*                                                                          */
-> +-/* Usage:  <for command-line>                                          */
-> +-/* bdflush01 [-c n] [-e][-i n] [-I x] [-p x] [-t]                   */
-> +-/*      where,  -c n : Run n copies concurrently.                          */
-> +-/*          -e   : Turn on errno logging.                              */
-> +-/*          -i n : Execute test n times.                                */
-> +-/*          -I x : Execute test for x seconds.                            */
-> +-/*          -P x : Pause for x seconds between iterations.            */
-> +-/*          -t   : Turn on syscall timing.                            */
-> +-/*                                                                        */
-> +-/* Total Tests: 1                                                          */
-> +-/*                                                                        */
-> +-/* Test Name:   bdflush01                                           */
-> +-/* History:     Porting from Crackerjack to LTP is done by                */
-> +-/*          Manas Kumar Nayak maknayak@in.ibm.com>                    */
-> +-/******************************************************************************/
-> +-#include <stdio.h>
-> +-#include <stdlib.h>
-> +-#include <sys/wait.h>
-> +-#include <sys/types.h>
-> +-#include <unistd.h>
-> +-#include <errno.h>
-> +-#include <sys/stat.h>
-> +-#include <sys/kdaemon.h>
-> +-
-> +-#include "test.h"
-> +-#include "linux_syscall_numbers.h"
-> +-
-> +-char *TCID = "bdflush01";
-> +-int testno;
-> +-int TST_TOTAL = 1;
-> +-
-> +-void cleanup(void)
-> +-{
-> +-      tst_rmdir();
-> +-}
-> +-
-> +-void setup(void)
-> +-{
-> +-      TEST_PAUSE;
-> +-      tst_tmpdir();
-> +-}
-> +-
-> +-int main(int ac, char **av)
-> +-{
-> +-      long data;
-> +-
-> +-      tst_parse_opts(ac, av, NULL, NULL);
-> +-
-> +-      setup();
-> +-
-> +-      /*
-> +-       * TODO (garrcoop): add more functional testcases; there are a ton
-> +-       * missing.
-> +-       */
-> +-      data = 0;
-> +-      tst_count = 1;
-> +-      for (testno = 0; testno < TST_TOTAL; ++testno) {
-> +-              TEST(ltp_syscall(__NR_bdflush, 3, data));
-> +-              if (TEST_RETURN == -1)
-> +-                      tst_brkm(TFAIL | TTERRNO, cleanup, "bdflush failed");
-> +-              else
-> +-                      tst_resm(TPASS, "bdflush() = %ld", TEST_RETURN);
-> +-      }
-> +-      cleanup();
-> +-      tst_exit();
-> +-}
-> diff --git a/meta/recipes-extended/ltp/ltp_20150903.bb b/meta/recipes-extended/ltp/ltp_20150903.bb
-> index f018dae..615d0f8 100644
-> --- a/meta/recipes-extended/ltp/ltp_20150903.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20150903.bb
-> @@ -30,6 +30,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
->      file://add-knob-for-tirpc.patch \
->      file://0001-ltp-vma03-fix-the-alginment-of-page-size.patch \
->      file://0001-Fix-compilation-for-gcc-5.x.patch \
-> +    file://no_bdflush.patch \
->  "
->
->  S = "${WORKDIR}/git"
->
->
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/signing-keys
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/signing-keys
+
+Chen Qi (1):
+  signing-keys: add sstate task for do_export_public_keys
+
+ meta/recipes-core/meta/signing-keys.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+-- 
+1.9.1
+
 
