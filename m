@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F3C287715A
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B44FB7715A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 17:43:33 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Feb 2016 09:43:31 -0800
+	Tue,  2 Feb 2016 17:43:34 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2016 09:43:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="904045783"
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="894866588"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 09:43:31 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 09:43:36 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 221DC6A4002
+	by linux.intel.com (Postfix) with ESMTP id 635A76A4087
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 10:31:23 -0800 (PST)
+	Tue,  2 Feb 2016 10:31:28 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 17:32:47 +0200
-Message-Id: <b023768e569e2ce7429db95794102315fb3369d3.1454426922.git.ed.bartosh@linux.intel.com>
+Date: Tue,  2 Feb 2016 17:32:51 +0200
+Message-Id: <8b9430f407aa0d6ccb33f0686ed76219c0fb26bc.1454426922.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 References: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 References: <cover.1454426922.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 07/14] oeqa/targetcontrol: support wic image type
+Subject: [wic][PATCH v2 11/14] wic: fix processing of --use-uuid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 17:43:34 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 17:43:35 -0000
 
-Added 'wic' to the list image types supported by targetcontrol.
-
-This is a preparation for booting and testing wic images
-with oe-selftest.
-
-[YOCTO #8498]
+Processing of this option was lost during recent change of
+wks parsting. It was discovered during the work on booting
+wic images under qemu. Now, when -use-uuid is fixed it's
+possible to specify root partition by partition uuid.
+This will be done in the following commit.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/targetcontrol.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/partition.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index f461651..5422a61 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -113,7 +113,7 @@ class BaseTarget(object):
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 9bb1a0a..55bcfba 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -57,7 +57,10 @@ class Partition(object):
+         self.size = args.size
+         self.source = args.source
+         self.sourceparams = args.sourceparams
++        self.use_uuid = args.use_uuid
+         self.uuid = args.uuid
++        if args.use_uuid and not self.uuid:
++            self.uuid = str(uuid.uuid4())
  
- class QemuTarget(BaseTarget):
- 
--    supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz']
-+    supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
-     def __init__(self, d):
- 
+         self.lineno = lineno
+         self.source_file = ""
 -- 
 2.1.4
 
