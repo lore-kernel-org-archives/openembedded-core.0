@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 88FF377262
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 66CD577241
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 09:38:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 01:38:42 -0800
+	Tue,  2 Feb 2016 09:38:42 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2016 01:38:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="894517868"
+X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="645724421"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 01:38:42 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2016 01:38:43 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id D6D466A4002
+	by linux.intel.com (Postfix) with ESMTP id 56F0E6A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 02:26:34 -0800 (PST)
+	Tue,  2 Feb 2016 02:26:36 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 09:28:01 +0200
-Message-Id: <d7e70758cc57c88187429e76b4c0703d8059063e.1454397260.git.ed.bartosh@linux.intel.com>
+Date: Tue,  2 Feb 2016 09:28:02 +0200
+Message-Id: <70205d91abcc8a8892da744afe03562d7e39c4ca.1454397260.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454397260.git.ed.bartosh@linux.intel.com>
 References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1454397260.git.ed.bartosh@linux.intel.com>
 References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 09/15] wic-image-minimal: change IMAGE_FSTYPES
+Subject: [wic][PATCH 10/15] wic-image-minimal: updated .wks to boot by qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 09:38:41 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 09:38:43 -0000
 
-Replaced wic.bz2 -> wic in IMAGE_FSTYPES.
-
-wic-image-minimal is going to be booted in qemu and tested.
-As runqemu doesn't support compressed images this recipe needs
-to produce raw wic image.
+With below list of changes wic-image-minimal can be boot by qemu:
+    - Changed device name sda -> hda.
+    - Added root=/dev/hda2 to the kernel command line.
+    - Changed mount point for core partition to /mnt to have it
+      mounted on boot time.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-selftest/recipes-test/images/wic-image-minimal.wks | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-index 95c7a9b..ced22c8 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-@@ -4,7 +4,7 @@ SRC_URI = "file://${FILE_DIRNAME}/${BPN}.wks"
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+index 8f9be09..6501a82 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+@@ -2,9 +2,9 @@
+ # long-description: This image contains boot partition and 3 rootfs partitions
+ # created from core-image-minimal and wic-image-minimal image recipes.
  
- IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
+-part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
+-part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
+-part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label backup --align 1024
++part /boot --source bootimg-pcbios --ondisk hda --label boot --active --align 1024
++part / --source rootfs --ondisk hda --fstype=ext4 --label platform --align 1024
++part /mnt --source rootfs --rootfs-dir=core-image-minimal --ondisk hda --fstype=ext4 --label core --align 1024
++part backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk hda --fstype=ext4 --label backup --align 1024
  
--IMAGE_FSTYPES = "wic.bz2"
-+IMAGE_FSTYPES = "wic"
- RM_OLD_IMAGE = "1"
- 
- DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native"
+-bootloader  --timeout=0  --append="rootwait console=tty0"
++bootloader --timeout=0  --append="rootwait console=tty0 root=/dev/hda2"
 -- 
 2.1.4
 
