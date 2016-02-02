@@ -1,22 +1,24 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 880C4771F5
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C52D077166
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 17:07:01 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2001:470:6f:49f:b1a8:b5ad:1702:2017])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128
-	bits)) (No client certificate requested)
-	(Authenticated sender: andrewsh)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D8BF1265C27;
-	Tue,  2 Feb 2016 17:07:01 +0000 (GMT)
-From: Andrew Shadura <andrew.shadura@collabora.co.uk>
-To: OE Core <openembedded-core@lists.openembedded.org>
-Date: Tue,  2 Feb 2016 18:06:57 +0100
-Message-Id: <a13cdfe5a7403e93b6c00ca162b84e5ae5d4fb08.1454429175.git.andrew.shadura@collabora.co.uk>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <5507a5b8c53e9a00c4c1da0f91c2d2c0849dc6a4.1454429175.git.andrew.shadura@collabora.co.uk>
-References: <5507a5b8c53e9a00c4c1da0f91c2d2c0849dc6a4.1454429175.git.andrew.shadura@collabora.co.uk>
-Subject: [PATCH 2/2] dbus: add user sessions support
+	Tue,  2 Feb 2016 17:41:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2016 09:41:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="875309002"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 09:41:58 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 567866A4002
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Feb 2016 10:29:50 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Feb 2016 17:32:07 +0200
+Message-Id: <cover.1454426922.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH v2 00/14] Support for wic images in runqemu and oe-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 17:07:01 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 17:41:58 -0000
 
-Enable the user-sessions support with a PACKAGECONFIG flag.
+Hi,
 
-Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- meta/recipes-core/dbus/dbus_1.10.6.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This patchset contains set of fixes for wic, runqemu and oe-selftest to
+support booting and testing wic images in qemu.
 
-diff --git a/meta/recipes-core/dbus/dbus_1.10.6.bb b/meta/recipes-core/dbus/dbus_1.10.6.bb
-index fec68a4..245798a 100644
---- a/meta/recipes-core/dbus/dbus_1.10.6.bb
-+++ b/meta/recipes-core/dbus/dbus_1.10.6.bb
-@@ -69,7 +69,9 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${datadir}/dbus-1/session.conf \
-                ${datadir}/dbus-1/system.d \
-                ${datadir}/dbus-1/system.conf \
--               ${systemd_system_unitdir}"
-+               ${systemd_system_unitdir} \
-+               ${systemd_user_unitdir} \
-+"
- FILES_${PN}-lib = "${libdir}/lib*.so.*"
- RRECOMMENDS_${PN}-lib = "${PN}"
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool"
-@@ -105,6 +107,7 @@ PACKAGECONFIG_class-nativesdk = ""
- PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
- PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
- PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
-+PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
- 
- do_install() {
- 	autotools_do_install
+This work is based on Cristian's work from poky-contrib:ciorga/wic-testing
+Thank you Cristian!
+
+The patchset also includes bugfix for wic --use-uuid option and a bit of
+code cleanup for wic tests.
+
+[YOCTO #8691]
+[YOCTO #8498]
+[YOCTO #8499]
+
+Changes in v2: Dropped "runqemu: don't use virtio for wic images"
+               as suggested by reviewers.
+
+The following changes since commit 1ba62f9e53f5e2d0da9fe6ee52007562deb77f32:
+
+  pth: Remove dead code (2016-02-01 17:16:05 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/qemuRunner-wic-8498
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/qemuRunner-wic-8498
+
+Ed Bartosh (14):
+  runqemu: add support for wic images
+  runqemu: don't set KERNEL for wic images
+  runqemu: support path/to/<image>-<machine>.wic
+  oe-selftest: remove unused parameter
+  qemurunner: add parameter to method 'start'
+  oeqa/targetcontrol: make ssh control optional
+  oeqa/targetcontrol: support wic image type
+  wic-image-minimal: change IMAGE_FSTYPES
+  wic-image-minimal: update .wks to boot by qemu
+  oe-selftest: add new wic testcase
+  wic: fix processing of --use-uuid
+  wic-image-minimal: use uuid for root partition
+  oe-selftest: pylinted wic tests
+  oe-selftest: don't use specific tasks
+
+ .../recipes-test/images/wic-image-minimal.bb       |  4 +-
+ .../recipes-test/images/wic-image-minimal.wks      | 10 ++---
+ meta/lib/oeqa/selftest/devtool.py                  |  2 +-
+ meta/lib/oeqa/selftest/imagefeatures.py            |  6 +--
+ meta/lib/oeqa/selftest/wic.py                      | 32 +++++++++------
+ meta/lib/oeqa/targetcontrol.py                     | 20 +++++-----
+ meta/lib/oeqa/utils/commands.py                    |  4 +-
+ meta/lib/oeqa/utils/qemurunner.py                  | 45 +++++++++++-----------
+ scripts/lib/wic/partition.py                       |  3 ++
+ scripts/runqemu                                    | 15 +++++---
+ scripts/runqemu-internal                           | 18 ++++-----
+ 11 files changed, 89 insertions(+), 70 deletions(-)
+
 -- 
-2.5.0
+2.1.4
 
 
