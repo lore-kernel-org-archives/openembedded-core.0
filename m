@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C6C88772BF
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E30A7715A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 17:43:32 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2016 09:43:33 -0800
+	Tue,  2 Feb 2016 17:43:33 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2016 09:43:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="41160604"
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="894866510"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 09:43:33 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 09:43:29 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 438216A4006
+	by linux.intel.com (Postfix) with ESMTP id EC4B66A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 10:31:26 -0800 (PST)
+	Tue,  2 Feb 2016 10:31:21 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 17:32:49 +0200
-Message-Id: <34ea5c3e1f5bb80d4fc47ef29d9e4803cf38a90e.1454426922.git.ed.bartosh@linux.intel.com>
+Date: Tue,  2 Feb 2016 17:32:45 +0200
+Message-Id: <daff1506a27277f81b029a78e1f21753af168e3e.1454426922.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 References: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1454426922.git.ed.bartosh@linux.intel.com>
 References: <cover.1454426922.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 09/14] wic-image-minimal: update .wks to boot by qemu
+Subject: [wic][PATCH v2 05/14] qemurunner: add parameter to method 'start'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +37,88 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 02 Feb 2016 17:43:33 -0000
 
-With below list of changes wic-image-minimal can be boot by qemu:
-    - Changed device name sda -> vda.
-    - Added root=/dev/vda2 to the kernel command line.
-    - Changed mount point for core partition to /mnt to have it
-      mounted on boot time.
+QemuRunner requires pair of ip addresses provided through kernel
+commandline for method 'start' to work. These ip addresses are
+used to connect to the image using ssh and run tests there.
+However, this functionality should not be mandatory as testing
+doesn't always require ssh connection. Some tests can be run using
+serial console.
+
+Added new parameter 'get_ip' to QemuRunner.start to make it possible
+to skip getting pair of ip addresses from kernel command line. This
+should allow oe-selftest to test images without modifying kernel
+command line.
+
+[YOCTO #8498]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 45 ++++++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 22 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-index 8f9be09..191244b 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -2,9 +2,9 @@
- # long-description: This image contains boot partition and 3 rootfs partitions
- # created from core-image-minimal and wic-image-minimal image recipes.
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index def8ace..784cf96 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -91,7 +91,7 @@ class QemuRunner:
+                 self._dump_host()
+                 raise SystemExit
  
--part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
--part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
--part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label backup --align 1024
-+part /boot --source bootimg-pcbios --ondisk vda --label boot --active --align 1024
-+part / --source rootfs --ondisk vda --fstype=ext4 --label platform --align 1024
-+part /mnt --source rootfs --rootfs-dir=core-image-minimal --ondisk vda --fstype=ext4 --label core --align 1024
-+part backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk vda --fstype=ext4 --label backup --align 1024
+-    def start(self, qemuparams = None):
++    def start(self, qemuparams = None, get_ip = True):
+         if self.display:
+             os.environ["DISPLAY"] = self.display
+             # Set this flag so that Qemu doesn't do any grabs as SDL grabs
+@@ -178,27 +178,28 @@ class QemuRunner:
  
--bootloader  --timeout=0  --append="rootwait console=tty0"
-+bootloader --timeout=0  --append="rootwait console=tty0 root=/dev/vda2"
+         if self.is_alive():
+             logger.info("qemu started - qemu procces pid is %s" % self.qemupid)
+-            cmdline = ''
+-            with open('/proc/%s/cmdline' % self.qemupid) as p:
+-                cmdline = p.read()
+-                # It is needed to sanitize the data received
+-                # because is possible to have control characters
+-                cmdline = re_control_char.sub('', cmdline)
+-            try:
+-                ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
+-                if not ips or len(ips) != 3:
+-                    raise ValueError
+-                else:
+-                    self.ip = ips[0]
+-                    self.server_ip = ips[1]
+-            except IndexError, ValueError:
+-                logger.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used:\n%s\nand output from runqemu:\n%s" % (cmdline, self.getOutput(output)))
+-                self._dump_host()
+-                self.stop()
+-                return False
+-            logger.info("qemu cmdline used:\n{}".format(cmdline))
+-            logger.info("Target IP: %s" % self.ip)
+-            logger.info("Server IP: %s" % self.server_ip)
++            if get_ip:
++                cmdline = ''
++                with open('/proc/%s/cmdline' % self.qemupid) as p:
++                    cmdline = p.read()
++                    # It is needed to sanitize the data received
++                    # because is possible to have control characters
++                    cmdline = re_control_char.sub('', cmdline)
++                try:
++                    ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
++                    if not ips or len(ips) != 3:
++                        raise ValueError
++                    else:
++                        self.ip = ips[0]
++                        self.server_ip = ips[1]
++                except IndexError, ValueError:
++                    logger.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used:\n%s\nand output from runqemu:\n%s" % (cmdline, self.getOutput(output)))
++                    self._dump_host()
++                    self.stop()
++                    return False
++                logger.info("qemu cmdline used:\n{}".format(cmdline))
++                logger.info("Target IP: %s" % self.ip)
++                logger.info("Server IP: %s" % self.server_ip)
+ 
+             self.thread = LoggingThread(self.log, threadsock, logger)
+             self.thread.start()
 -- 
 2.1.4
 
