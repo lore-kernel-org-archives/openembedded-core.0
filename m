@@ -1,25 +1,30 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 100F57728F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3997D772BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 21:37:59 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Feb 2016 13:37:59 -0800
+	Tue,  2 Feb 2016 21:40:13 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2016 13:40:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="41293408"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 13:37:59 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 21:39:03 +0000
-Message-Id: <b5c03a3d82409d310e81e24763fab19a974de2b5.1454448868.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <17e1f56568a47c6a2f1a0e9893539eabe206a3cf.1454448868.git.alejandro.hernandez@linux.intel.com>
-References: <17e1f56568a47c6a2f1a0e9893539eabe206a3cf.1454448868.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <cover.1454448868.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1454448868.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 3/3] [jethro] linux-yocto: Update SRCREV for qemux86* for 4.1, fixes CVE-2016-0728
+X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="907133363"
+Received: from kng2-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.178.194])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Feb 2016 13:40:11 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Wed, 03 Feb 2016 10:40:09 +1300
+Message-ID: <2000408.dJe5DU85LA@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.3-303.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <56B121D9.6060100@linux.intel.com>
+References: <cover.1454424743.git.anibal.limon@linux.intel.com>
+	<28521140.LlNaPZzQQi@peggleto-mobl.ger.corp.intel.com>
+	<56B121D9.6060100@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, benjamin.esquivel@intel.com,
+	=?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <limon.anibal@gmail.com>
+Subject: Re: [PATCH 15/20] classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +37,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 21:38:00 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 21:40:15 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-This addresses CVE-2016-0728: KEYS: Fix keyring ref leak in join_session_keyring(), and upgrades to LINUX_VERSION 4.1.17
+On Tue, 02 Feb 2016 15:38:33 An=EDbal Lim=F3n wrote:
+> On 02/02/2016 03:31 PM, Paul Eggleton wrote:
+> > On Tue, 02 Feb 2016 15:30:21 An=EDbal Lim=F3n wrote:
+> >> On 02/02/2016 03:25 PM, Paul Eggleton wrote:
+> >>> On Tue, 02 Feb 2016 15:23:54 An=EDbal Lim=F3n wrote:
+> >>>> Paul Eggleton wrote:
+> >>>>> Rather than adding another variable for this why not just redir=
+ect the
+> >>>>> output to /dev/null ?
+> >>>>=20
+> >>>> Because this is disabled when SDK tests (compatibility) ran usin=
+g eSDK
+> >>>> so sometimes needs to SILENT it when automatic process is workin=
+g
+> >>>> another times don't like when user uses it.
+> >>>=20
+> >>> At face value, redirection during automated testing and not when =
+not
+> >>> solves
+> >>> this.
+> >>=20
+> >> We can't only redirect because is a python test that looks for som=
+e
+> >> output in the sdtout, if we redirect to the /dev/null then lose th=
+e
+> >> value.
+> >=20
+> > Well naturally you would need to redirect the output of the SDK
+> > environment
+> > setup script only.
+> >=20
+> >>>> In this case the SDK tests fails because it looks to stdout and =
+found
+> >>>> devtool msg.
+> >>>=20
+> >>> Which test failed and why?
+> >>=20
+> >> Is this test [1], as i said is an SDK test running on eSDK env.
+> >>=20
+> >> [1]
+> >> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/l=
+ib/oeqa
+> >> /sd k/python.py?h=3Dalimon/esdk_testsuite_export#n22
+> >=20
+> > OK, but where is the bit that actually runs the environment setup s=
+cript?
+>=20
+> Here [1] and i set the variable in the testsdkext task [2].
+>=20
+> [1]
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/lib/=
+oeqa/oe
+> test.py?h=3Dalimon/esdk_testsuite#n127 [2]
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/clas=
+ses/tes
+> tsdk.bbclass?h=3Dalimon/esdk_testsuite#n107
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-kernel/linux/linux-yocto_4.1.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Right, so you can trivially redirect the output of the env setup comman=
+d=20
+(before the ';') to /dev/null. It also won't affect the standard SDK te=
+sting so=20
+we should be safe there as well.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index b81458b..1bb7336 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?= "cf760f381c5e1e58d0c3372d66f4dfdc33f0984c"
- SRCREV_machine_qemuarm64 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
- SRCREV_machine_qemumips ?= "aa46295ab927bd5c960930c377855dbc4e57b195"
- SRCREV_machine_qemuppc ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
--SRCREV_machine_qemux86 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
--SRCREV_machine_qemux86-64 ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
-+SRCREV_machine_qemux86 ?= "2e0ac7b6c4e3ada23a84756287e9b7051ace939a"
-+SRCREV_machine_qemux86-64 ?= "2e0ac7b6c4e3ada23a84756287e9b7051ace939a"
- SRCREV_machine_qemumips64 ?= "949c0f2cbb4cf902478d009a7d38b6e4fb29e7c4"
- SRCREV_machine ?= "788dfc9859321c09f1c58696bf8998f90ccb4f51"
- SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
-@@ -25,6 +25,8 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
- 
- LINUX_VERSION ?= "4.1.15"
-+LINUX_VERSION_qemux86 ?= "4.1.17"
-+LINUX_VERSION_qemux86-64 ?= "4.1.17"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-2.6.2
+Cheers,
+Paul
 
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
