@@ -1,20 +1,22 @@
 Return-Path: <elliot.smith@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 229F9771CF
+	by mail.openembedded.org (Postfix) with ESMTP id E57B777202
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 10:25:09 +0000 (UTC)
+	Tue,  2 Feb 2016 10:25:12 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 02:25:10 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 02:25:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="903732232"
+X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="903732257"
 Received: from unknown (HELO lp.ger.corp.intel.com) ([10.252.22.6])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 02:25:09 -0800
+	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 02:25:12 -0800
 From: Elliot Smith <elliot.smith@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 10:25:02 +0000
-Message-Id: <1454408703-27167-1-git-send-email-elliot.smith@intel.com>
+Date: Tue,  2 Feb 2016 10:25:03 +0000
+Message-Id: <1454408703-27167-2-git-send-email-elliot.smith@intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 1/2] toaster.bbclass: attach image file scan postfunc to do_image_complete
+In-Reply-To: <1454408703-27167-1-git-send-email-elliot.smith@intel.com>
+References: <1454408703-27167-1-git-send-email-elliot.smith@intel.com>
+Subject: [PATCH 2/2] toaster.bbclass: reinstate scan for artifacts in the sdk directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,67 +29,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 10:25:10 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 10:25:13 -0000
 
-The postfunc for finding image files after completion of a build
-fails, as the image files we're interested in don't exist at the
-point when the scan is currently done (following do_rootfs).
+During refactoring of the SDK/artifact scan code in toaster.bbclass,
+the code to find other non-image artifacts in the images/ directory
+was incorrectly removed.
 
-Attach the postfunc for scanning for image files to the new
-do_image_complete task, which definitely runs after the image files
-have been created.
+Reinstate that code and clean it up so it's clearer what's happening
+and so that non-image artifacts are correctly reported.
 
 [YOCTO #8956]
 
 Signed-off-by: Elliot Smith <elliot.smith@intel.com>
 ---
- meta/classes/toaster.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/classes/toaster.bbclass | 38 ++++++++++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 14 deletions(-)
 
 diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index fba9067..e307014 100644
+index e307014..51a4c74 100644
 --- a/meta/classes/toaster.bbclass
 +++ b/meta/classes/toaster.bbclass
-@@ -159,7 +159,7 @@ python toaster_image_dumpdata() {
-             except OSError as e:
-                 bb.event.fire(bb.event.MetadataEvent("OSErrorException", e), d)
+@@ -143,23 +143,33 @@ python toaster_image_dumpdata() {
+     image_types.bbclass will spell out IMAGE_CMD_xxx variables that actually
+     have hardcoded ways to create image file names in them.
+     So we look for files starting with the set name.
++
++    We also look for other files in the images/ directory which don't
++    match IMAGE_NAME, such as the kernel bzImage, modules tarball etc.
+     """
  
--    bb.event.fire(bb.event.MetadataEvent("ImageFileSize",image_info_data), d)
-+    bb.event.fire(bb.event.MetadataEvent("ImageFileSize", image_info_data), d)
- }
+-    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE', True);
++    dir_to_walk = d.getVar('DEPLOY_DIR_IMAGE', True);
+     image_name = d.getVar('IMAGE_NAME', True);
+     image_info_data = {}
++    artifact_info_data = {}
  
- python toaster_artifact_dumpdata() {
-@@ -175,14 +175,12 @@ python toaster_artifact_dumpdata() {
-         for fn in filenames:
+-    # collect all images
+-    for dirpath, dirnames, filenames in os.walk(deploy_dir_image):
+-        for fn in filenames:
++    # collect all images and artifacts in the images directory
++    for dirpath, dirnames, filenames in os.walk(dir_to_walk):
++        for filename in filenames:
++            full_path = os.path.join(dirpath, filename)
              try:
-                 artifact_path = os.path.join(dirpath, fn)
--                filestat = os.stat(artifact_path)
-                 if not os.path.islink(artifact_path):
--                    artifact_info_data[artifact_path] = filestat.st_size
-+                    artifact_info_data[artifact_path] = os.stat(artifact_path).st_size
+-                if fn.startswith(image_name):
+-                    image_output = os.path.join(dirpath, fn)
+-                    image_info_data[image_output] = os.stat(image_output).st_size
++                if filename.startswith(image_name):
++                    # image
++                    image_info_data[full_path] = os.stat(full_path).st_size
++                else:
++                    # other non-image artifact
++                    if not os.path.islink(full_path):
++                        artifact_info_data[full_path] = os.stat(full_path).st_size
              except OSError as e:
--                import sys
                  bb.event.fire(bb.event.MetadataEvent("OSErrorException", e), d)
  
--    bb.event.fire(bb.event.MetadataEvent("ArtifactFileSize",artifact_info_data), d)
+     bb.event.fire(bb.event.MetadataEvent("ImageFileSize", image_info_data), d)
 +    bb.event.fire(bb.event.MetadataEvent("ArtifactFileSize", artifact_info_data), d)
  }
  
- # collect list of buildstats files based on fired events; when the build completes, collect all stats and fire an event with collected data
-@@ -357,9 +355,11 @@ toaster_buildhistory_dump[eventmask] = "bb.event.BuildCompleted"
- do_package[postfuncs] += "toaster_package_dumpdata "
- do_package[vardepsexclude] += "toaster_package_dumpdata "
+ python toaster_artifact_dumpdata() {
+@@ -167,16 +177,16 @@ python toaster_artifact_dumpdata() {
+     Dump data about artifacts in the SDK_DEPLOY directory
+     """
  
--do_rootfs[postfuncs] += "toaster_image_dumpdata "
-+do_image_complete[postfuncs] += "toaster_image_dumpdata "
-+do_image_complete[vardepsexclude] += "toaster_image_dumpdata "
-+
- do_rootfs[postfuncs] += "toaster_licensemanifest_dump "
--do_rootfs[vardepsexclude] += "toaster_image_dumpdata toaster_licensemanifest_dump "
-+do_rootfs[vardepsexclude] += "toaster_licensemanifest_dump "
+-    artifact_dir = d.getVar("SDK_DEPLOY", True)
++    dir_to_walk = d.getVar("SDK_DEPLOY", True)
+     artifact_info_data = {}
  
- do_populate_sdk[postfuncs] += "toaster_artifact_dumpdata "
- do_populate_sdk[vardepsexclude] += "toaster_artifact_dumpdata "
+-    # collect all artifacts
+-    for dirpath, dirnames, filenames in os.walk(artifact_dir):
+-        for fn in filenames:
++    # collect all artifacts in the sdk directory
++    for dirpath, dirnames, filenames in os.walk(dir_to_walk):
++        for filename in filenames:
++            full_path = os.path.join(dirpath, filename)
+             try:
+-                artifact_path = os.path.join(dirpath, fn)
+-                if not os.path.islink(artifact_path):
+-                    artifact_info_data[artifact_path] = os.stat(artifact_path).st_size
++                if not os.path.islink(full_path):
++                    artifact_info_data[full_path] = os.stat(full_path).st_size
+             except OSError as e:
+                 bb.event.fire(bb.event.MetadataEvent("OSErrorException", e), d)
+ 
 -- 
 1.9.3
 
