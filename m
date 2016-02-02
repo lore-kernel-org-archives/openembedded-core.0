@@ -1,28 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C05D6FEF5
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C7BE2771B5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 16:01:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u12G1JZv013390; Tue, 2 Feb 2016 16:01:19 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4U2C2HmrCOQe; Tue,  2 Feb 2016 16:01:19 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u12G1EoQ013387
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 2 Feb 2016 16:01:16 GMT
-Message-ID: <1454428874.27087.87.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 02 Feb 2016 16:01:14 +0000
-In-Reply-To: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
+	Tue,  2 Feb 2016 16:06:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 08:06:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="875216827"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 08:06:01 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Feb 2016 16:06:54 +0000
+Message-Id: <1454429214-20792-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH][jethro] linux-yocto: Adds new SRCREVs for qemux86 and qemux86-64 for kernel 3.14 and 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 16:01:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Feb 2016 16:06:00 -0000
 
-On Tue, 2016-02-02 at 14:49 +0000, Mike Crowe wrote:
-> bitbake.conf currently contains:
-> 
-> EXTRA_OEMAKE = "-e MAKEFLAGS="
-> 
-> Back in November[1] I submitted a patch that allowed this default
-> value to be overridden without affecting anything else that was
-> appended to it. I received feedback that the default value was no
-> longer useful and that it would be good to get rid of it.
-> 
-> So, this patch series fixes the two recipes that still appear to be
-> relying on the previous default and then makes the default
-> EXTRA_OEMAKE = "". After these changes core-image-sato builds
-> successfully for me (although I have not run it.)
-> 
-> Mike.
-> 
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2015-No
-> vember/112393.html
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-This is a pretty major change and we likely need a bit more of an idea
-of impact.
-
-Which architectures did you test? Often, x86 is a bad choice here and
-we'd need something cross (arm/mips/ppc) to ensure it really is doing
-the right things. We also need to assess a bit more than just sato. We
-can run this up on the autobuilder and see what happens.
-
-A post to the architecture list is probably needed so everyone knows
-this is happening (or at least being considered).
-
-I do worry how much of meta-oe may be affected by this. 
-
-Martin: Any opinion on this?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index 809789b..e80a80d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?= "4817747912b5c50ce5c31ef25658340ca615e1b4"
+ SRCREV_machine_qemuarm64 ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
+ SRCREV_machine_qemumips ?= "6ed76ec26b120f65f8547c8612b7334bd2745ec9"
+ SRCREV_machine_qemuppc ?= "a86ade84b2e142c0fd7536d96477107b6d07db5c"
+-SRCREV_machine_qemux86 ?= "af1f7f586bd32d39c057f17606991b887eadb389"
+-SRCREV_machine_qemux86-64 ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
++SRCREV_machine_qemux86 ?= "d9bf859dfae6f88b88b157119c20ae4d5e51420a"
++SRCREV_machine_qemux86-64 ?= "93b2b800d85c1565af7d96f3776dc38c85ae1902"
+ SRCREV_machine_qemumips64 ?= "a63d40b860a6d255005a541894d53729090b40ea"
+ SRCREV_machine ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
+ SRCREV_meta ?= "060fa80b7996250001ee90c50a4978c8fdb87fc4"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
+index 753e14d..baa575b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
+@@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?= "857048f10bfe7089ca6007e72431f1c098b07115"
+ SRCREV_machine_qemuarm64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
+ SRCREV_machine_qemumips ?= "cedbbc7b5e72df2e820bb9e7885f12132c5e2fff"
+ SRCREV_machine_qemuppc ?= "23a83386e10986a63e6cef712a045445499d002b"
+-SRCREV_machine_qemux86 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
+-SRCREV_machine_qemux86-64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
++SRCREV_machine_qemux86 ?= "1583bf79b946cd5581d84d8c369b819a5ecb94b4"
++SRCREV_machine_qemux86-64 ?= "1583bf79b946cd5581d84d8c369b819a5ecb94b4"
+ SRCREV_machine_qemumips64 ?= "3eb70cea3532e22ab1b6da9864446621229e6616"
+ SRCREV_machine ?= "151571a39785218a57c3ae3355cd63694890cc8d"
+ SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
+-- 
+2.6.2
 
 
