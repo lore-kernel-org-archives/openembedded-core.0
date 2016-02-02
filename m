@@ -1,48 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id BEC5B7317E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AF496772BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 18:40:04 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id p63so131637934wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 10:40:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=uddWRi8Kr2a8EHLLvLnRl+Vq2elEzUxheNTIy2+I4tQ=;
-	b=Z7STTLVk065rOTZ3QRM2L6D4oqheQ8xu7fkeoqz9Dfmpaxo1fAxAhAz/qkX2z/4ks7
-	KIeXuZKblujEGzmJUkXV+s7RnS/dtKDcwSvmeEf0FIK5HVFHHifDFpzIEyaJt4F50oNR
-	vzvNVoueXR8FOARF0i1S3H8Fgljv6ImSA+/mlanUmxfpcuQyXTFKBE4tno077dCsTDSA
-	0fwBNTltFja+9PEWSqWzBSq1BplNkGcmAvxfKH2BTYLpYsSpQtJDLa8wBI3oOZwE4hh8
-	yCRattFwDqayBVQ4J2qdvQdvaS9AjscA3+cYDZMRGoCf9xIyZQ8TP5e+rJoyCgLsjImM
-	Jxpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=uddWRi8Kr2a8EHLLvLnRl+Vq2elEzUxheNTIy2+I4tQ=;
-	b=KnwbJQ2HLyRWWxFx+U9iq6Drh10z3PLm+YKv/z5N945BeaLNXxGAlXDz+gmy64WAZT
-	d1MlfaN49TRtMPhvX8gH35rgtFkjNfag/Foz6pCuprnFmEsHmLWdtQYCqBJUbkDyBkTY
-	7bxNrzRl+IJdcieL9TYBdre720UM6veWleFXUD4RBrEKuw94k/WIpCb22mHiaLjMotwk
-	n9aT7lawkxj6wcqZwEnLA4KlOY96FYVbWMqkToV0PTcD+2MughNC/vqJ0ieyx45isq6j
-	CR7V+lchyRC8s06gPzzEvWiU4C+ECJXD531nWsBqU40dN5efp95xaUag88tpM0I5X8OX
-	IblA==
-X-Gm-Message-State: AG10YOSYH7znWsgCWVPKuIRH+jQuwUgAwgIdjDBBPMes3NvJDZWaMQL8HCA7bW0N6ebW8XZhIIFZu4BMR6WrlA==
-MIME-Version: 1.0
-X-Received: by 10.28.53.193 with SMTP id c184mr18956015wma.4.1454438404592;
-	Tue, 02 Feb 2016 10:40:04 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Tue, 2 Feb 2016 10:40:04 -0800 (PST)
-In-Reply-To: <CAJTo0LZ5BC4MWpaHL2Zk=ts5iJ-7-U9UQAVetBLwqUzEBLs0Qg@mail.gmail.com>
-References: <1454363382-13387-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LbfKq2CtEj3Y8zBmgQiXPNJF4587R2httpbmsNHgG+mhA@mail.gmail.com>
-	<CAJ86T=XibuPtxUY2c+TQ35_KdBO47wRoCuSehgTbGfaR+tb8_A@mail.gmail.com>
-	<CAJTo0LZ5BC4MWpaHL2Zk=ts5iJ-7-U9UQAVetBLwqUzEBLs0Qg@mail.gmail.com>
-Date: Tue, 2 Feb 2016 10:40:04 -0800
-Message-ID: <CAJ86T=UJL+69b2nvcnEWJyUjA_KYwi91kbUz88hcKOQwPE+ONg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT][PATCH] curl: disable curl-config binconfig file
+	Tue,  2 Feb 2016 18:40:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2016 10:40:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="894909493"
+Received: from sghosh7-mobl1.amr.corp.intel.com ([10.254.78.200])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 10:40:20 -0800
+Message-ID: <1454438419.22468.178.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Alexandru But <alexandru.but@ni.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 02 Feb 2016 10:40:19 -0800
+In-Reply-To: <1454436308-29949-1-git-send-email-alexandru.but@ni.com>
+References: <1454436308-29949-1-git-send-email-alexandru.but@ni.com>
+X-Mailer: Evolution 3.18.1 (3.18.1-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] linux-libc-headers: backport uapi header list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,39 +31,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 18:40:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Feb 2016 18:40:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 2, 2016 at 3:23 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 2 February 2016 at 04:18, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Thanks. Unfortunately I don't see a clean solution for this. The
->> setup.py script uses curl-config to determine which ssl implementation
->> curl has been built against and that information isn't available from
->> pkg-config.
->>
->> It's probably fixable with some surgery, but I'm not sure it's worth
->> the maintenance effort just so we can disable curl binconfig...
->>
->> Please drop my "curl: disable curl-config binconfig file" patch.
->
-> The feature tests?  That's exposed in pkg-config as the supported_features
-> variable.
+On Tue, 2016-02-02 at 20:05 +0200, Alexandru But wrote:
+> nvme uapi header was renamed from nvme.h to nvme_ioctl.h in linux
+> 4.4, but the
+> header list was not updated. This causes efivar (and maybe other)
+> package build
+> to fail. This should fix the build while the commit is backported in
+> the
+> kernel.
+> 
+Would it not make more sense to fix efivar (and maybe others) instead
+of changing the kernel headers, which were clearly changed for a reason
+to start with.
 
-setup.py actually parses the output of curl-config --libs (ie "-lcurl
--lnettle -lgnutls -lz") to decide which ssl implementation curl has
-been built against. There's nothing in curl's pkg-config file which
-gives that same information.
+This patch seems to be pending: 
+https://gitweb.gentoo.org/repo/gentoo.git/tree/sys-libs/efivar/files/0.
+21-nvme_ioctl.h.patch
 
-A second question is why pycurl thinks it needs to know which ssl
-implementation curl is using. I don't think it really does, but fixing
-it and then rewriting setup.py is not a trivial patch.
+And a more appropriate patch to the kernel headers would be backporting
+this already merged patch:
 
-> I wouldn't be surprised if more recipes in meta-oe were using
-> curl-config though, so I do agree with you here: moving away from
-> curl-config would be good but scoping out the damage in a world build
-> including meta-oe needs to be done first.
->
-> Ross
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/
+?id=a9cf8284b45110a4d98aea180a89c857e53bf850
+
+You can request that Bruce (the linux-yocto maintainer) backport this
+patch via the linux-yocto@yoctoproject.org list.
+
+
+Sau!
+ 
+> Signed-off-by: Alexandru But <alexandru.but@ni.com>
+> ---
+>  ...i-update-install-list-after-nvme.h-rename.patch | 34
+> ++++++++++++++++++++++
+>  .../linux-libc-headers/linux-libc-headers_4.4.bb   |  4 +++
+>  2 files changed, 38 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-
+> libc-headers/0001-uapi-update-install-list-after-nvme.h-rename.patch
+> 
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-
+> headers/0001-uapi-update-install-list-after-nvme.h-rename.patch
+> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-
+> uapi-update-install-list-after-nvme.h-rename.patch
+> new file mode 100644
+> index 0000000..4d9f5a1
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-
+> uapi-update-install-list-after-nvme.h-rename.patch
+> @@ -0,0 +1,34 @@
+> +From a9cf8284b45110a4d98aea180a89c857e53bf850 Mon Sep 17 00:00:00
+> 2001
+> +From: Mike Frysinger <vapier@gentoo.org>
+> +Date: Sun, 10 Jan 2016 20:14:11 -0500
+> +Subject: [PATCH] uapi: update install list after nvme.h rename
+> +
+> +Commit 9d99a8dda154 ("nvme: move hardware structures out of the uapi
+> +version of nvme.h") renamed nvme.h to nvme_ioctl.h, but the uapi
+> list
+> +still refers to nvme.h.  People trying to install the headers hit a
+> +failure as the header no longer exists.
+> +
+> +Cc: stable@vger.kernel.org
+> +Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+> +Reviewed-by: Christoph Hellwig <hch@lst.de>
+> +Signed-off-by: Jens Axboe <axboe@fb.com>
+> +---
+> + include/uapi/linux/Kbuild | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/include/uapi/linux/Kbuild b/include/uapi/linux/Kbuild
+> +index 628e6e6..88e1292 100644
+> +--- a/include/uapi/linux/Kbuild
+> ++++ b/include/uapi/linux/Kbuild
+> +@@ -306,7 +306,7 @@ header-y += nfs_mount.h
+> + header-y += nl80211.h
+> + header-y += n_r3964.h
+> + header-y += nubus.h
+> +-header-y += nvme.h
+> ++header-y += nvme_ioctl.h
+> + header-y += nvram.h
+> + header-y += omap3isp.h
+> + header-y += omapfb.h
+> +-- 
+> +2.6.1
+> +
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-
+> headers_4.4.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-
+> headers_4.4.bb
+> index 3763dc0..c8c7a10 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-
+> headers_4.4.bb
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-
+> headers_4.4.bb
+> @@ -5,5 +5,9 @@ SRC_URI_append_libc-musl = "\
+>      file://0002-libc-compat.h-prevent-redefinition-of-struct-
+> ethhdr.patch \
+>      file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
+>     "
+> +SRC_URI_append ="\
+> +    file://0001-uapi-update-install-list-after-nvme.h-rename.patch \
+> +   "
+> +
+>  SRC_URI[md5sum] = "9a78fa2eb6c68ca5a40ed5af08142599"
+>  SRC_URI[sha256sum] =
+> "401d7c8fef594999a460d10c72c5a94e9c2e1022f16795ec51746b0d165418b2"
+> -- 
+> 2.6.1
+> 
 
