@@ -1,29 +1,30 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9283F7714F
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D35B771C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 22:03:50 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 14:03:51 -0800
+	Tue,  2 Feb 2016 22:07:05 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 14:07:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="904214715"
+X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="875530870"
 Received: from kng2-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.178.194])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 14:03:47 -0800
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 14:07:01 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Wed, 03 Feb 2016 11:03:45 +1300
-Message-ID: <3666142.Q8On7yAzEZ@peggleto-mobl.ger.corp.intel.com>
+Date: Wed, 03 Feb 2016 11:06:59 +1300
+Message-ID: <1685931.lfZTPyxPBX@peggleto-mobl.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.10 (Linux/4.3.3-303.fc23.x86_64; KDE/4.14.16; x86_64; ;
 	)
-In-Reply-To: <388d73eeea1fedcf2630488658dc8aa684a24c33.1454424743.git.anibal.limon@linux.intel.com>
+In-Reply-To: <56B12812.70900@linux.intel.com>
 References: <cover.1454424743.git.anibal.limon@linux.intel.com>
-	<388d73eeea1fedcf2630488658dc8aa684a24c33.1454424743.git.anibal.limon@linux.intel.com>
+	<4491582.7184pyYJcq@peggleto-mobl.ger.corp.intel.com>
+	<56B12812.70900@linux.intel.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org, benjamin.esquivel@intel.com,
 	=?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 19/20] oeqa/sdkext: Add devtool basic tests for eSDK.
+Subject: Re: [PATCH 18/20] classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,108 +37,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 22:03:50 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 22:07:05 -0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
 
-On Tue, 02 Feb 2016 09:14:22 An=EDbal Lim=F3n wrote:
-> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
->=20
-> Add simple myapp application is a C app that prints hello world
-> and exit.
->=20
-> Add devtool test for that this app to the workspace, build and
-> reset it.
->=20
-> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
-> ---
->  meta/lib/oeqa/sdkext/devtool.py           | 25 +++++++++++++++++++++=
-++++
->  meta/lib/oeqa/sdkext/files/myapp/Makefile | 10 ++++++++++
->  meta/lib/oeqa/sdkext/files/myapp/myapp.c  |  9 +++++++++
->  3 files changed, 44 insertions(+)
->  create mode 100644 meta/lib/oeqa/sdkext/devtool.py
->  create mode 100644 meta/lib/oeqa/sdkext/files/myapp/Makefile
->  create mode 100644 meta/lib/oeqa/sdkext/files/myapp/myapp.c
->=20
-> diff --git a/meta/lib/oeqa/sdkext/devtool.py
-> b/meta/lib/oeqa/sdkext/devtool.py new file mode 100644
-> index 0000000..0262ed3
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdkext/devtool.py
-> @@ -0,0 +1,25 @@
-> +import shutil
-> +
-> +from oeqa.oetest import oeSDKExtTest
-> +from oeqa.utils.decorators import *
-> +
-> +class DevtoolTest(oeSDKExtTest):
-> +
-> +    @classmethod
-> +    def setUpClass(self):
-> +        self.myapp_src =3D os.path.join(self.tc.sdkextfilesdir, "mya=
-pp")
-> +        self.myapp_dst =3D os.path.join(self.tc.sdktestdir, "myapp")=
+On Tue, 02 Feb 2016 16:05:06 An=EDbal Lim=F3n wrote:
+> On 02/02/2016 03:52 PM, Paul Eggleton wrote:
+> > On Tue, 02 Feb 2016 09:14:21 An=EDbal Lim=F3n wrote:
+> >> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+> >>=20
+> >> Extensible SDK needs to point to the correct manifest so add
+> >> SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST variables.
+> >>=20
+> >> oeqa/oetest.py: Fix SDKExtTestContext for load the correct manifes=
+ts.
+> >>=20
+> >> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+> >> ---
+> >>=20
+> >>  meta/classes/populate_sdk_ext.bbclass |  3 +++
+> >>  meta/lib/oeqa/oetest.py               | 11 +++++++++--
+> >>  2 files changed, 12 insertions(+), 2 deletions(-)
+> >>=20
+> >> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> >> b/meta/classes/populate_sdk_ext.bbclass index fc96a4b..27dc030 100=
+644
+> >> --- a/meta/classes/populate_sdk_ext.bbclass
+> >> +++ b/meta/classes/populate_sdk_ext.bbclass
+> >> @@ -43,6 +43,9 @@ B_task-populate-sdk-ext =3D "${SDK_DIR}"
+> >>=20
+> >>  TOOLCHAINEXT_OUTPUTNAME =3D "${SDK_NAME}-toolchain-ext-${SDK_VERS=
+ION}"
+> >>  TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext =3D
+> >>  "${TOOLCHAINEXT_OUTPUTNAME}"
+> >>=20
+> >> +SDK_EXT_TARGET_MANIFEST =3D
+> >> "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
+> >> +SDK_EXT_HOST_MANIFEST =3D
+> >> "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest" +
+> >>=20
+> >>  SDK_TITLE_task-populate-sdk-ext =3D "${@d.getVar('DISTRO_NAME', T=
+rue) or
+> >>=20
+> >> d.getVar('DISTRO', True)} Extensible SDK"
+> >>=20
+> >>  python copy_buildsystem () {
+> >>=20
+> >> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+> >> index 6beb6c5..c951989 100644
+> >> --- a/meta/lib/oeqa/oetest.py
+> >> +++ b/meta/lib/oeqa/oetest.py
+> >>=20
+> >> @@ -382,14 +382,18 @@ class SDKTestContext(TestContext):
+> >>          self.sdktestdir =3D sdktestdir
+> >>          self.sdkenv =3D sdkenv
+> >>=20
+> >> +        if not hasattr(self, 'target_manifest_name'):
+> >> +            self.target_manifest_name =3D "SDK_TARGET_MANIFEST"
+> >>=20
+> >>          try:
+> >> -            with open(d.getVar("SDK_TARGET_MANIFEST", True)) as f=
+:
+> >>=20
+> >> +            with open(d.getVar(self.target_manifest_name, True)) =
+as f:
+> >>                   self.pkgmanifest =3D f.read()
+> >>         =20
+> >>          except IOError as e:
+> >>              bb.fatal("No package manifest file found. Did you bui=
+ld the
+> >>              sdk
+> >>=20
+> >> image?\n%s" % e)
+> >>=20
+> >> +        if not hasattr(self, 'host_manifest_name'):
+> >> +            self.host_manifest_name =3D "SDK_HOST_MANIFEST"
+> >>=20
+> >>          try:
+> >> -            with open(d.getVar("SDK_HOST_MANIFEST", True)) as f:
+> >>=20
+> >> +            with open(d.getVar(self.host_manifest_name, True)) as=
+ f:
+> >>                  self.hostpkgmanifest =3D f.read()
+> >>         =20
+> >>          except IOError as e:
+> >>              bb.fatal("No host package manifest file found. Did yo=
+u build
+> >>=20
+> >> the sdk image?\n%s" % e) @@ -406,6 +410,9 @@ class
+> >>=20
+> >> SDKTestContext(TestContext):
+> >>  class SDKExtTestContext(SDKTestContext):
+> >>      def __init__(self, d, sdktestdir, sdkenv):
+> >> +        self.target_manifest_name =3D "SDK_EXT_TARGET_MANIFEST"
+> >> +        self.host_manifest_name =3D "SDK_EXT_HOST_MANIFEST"
+> >> +
+> >>=20
+> >>          super(SDKExtTestContext, self).__init__(d, sdktestdir, sd=
+kenv)
+> >>         =20
+> >>          self.sdkextfilesdir =3D
+> >>          os.path.join(os.path.dirname(os.path.abspath(
+> >=20
+> > I really don't like the idea of passing the variable name here rath=
+er than
+> > values. However, besides that, the manifest is always the SDK name =
+plus
+> > .host.manifest or .target.manifest - do we even need to pass separa=
+te
+> > names? All you should need is the name of the SDK i.e. the value of=
 
-> +        shutil.copytree(self.myapp_src, self.myapp_dst)
-> +
-> +    def test_devtool_add_reset(self):
-> +        self._run('devtool add myapp %s' % self.myapp_dst)
-> +        self._run('devtool reset myapp')
-> +
-> +    def test_devtool_build(self):
-> +        self._run('devtool add myapp %s' % self.myapp_dst)
-> +        self._run('devtool build myapp')
-> +        self._run('devtool reset myapp')
-> +
-> +    @classmethod
-> +    def tearDownClass(self):
-> +        shutil.rmtree(self.myapp_dst)
-> diff --git a/meta/lib/oeqa/sdkext/files/myapp/Makefile
-> b/meta/lib/oeqa/sdkext/files/myapp/Makefile new file mode 100644
-> index 0000000..abd91be
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdkext/files/myapp/Makefile
-> @@ -0,0 +1,10 @@
-> +all: myapp
-> +
-> +myapp: myapp.o
-> +=09$(CC) $(LDFLAGS) $< -o $@
-> +
-> +myapp.o: myapp.c
-> +=09$(CC) $(CFLAGS) -c $< -o $@
-> +
-> +clean:
-> +=09rm -rf myapp.o myapp
-> diff --git a/meta/lib/oeqa/sdkext/files/myapp/myapp.c
-> b/meta/lib/oeqa/sdkext/files/myapp/myapp.c new file mode 100644
-> index 0000000..f0b63f0
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdkext/files/myapp/myapp.c
-> @@ -0,0 +1,9 @@
-> +#include <stdio.h>
-> +
-> +int
-> +main(int argc, char *argv[])
-> +{
-> +=09printf("Hello world\n");
-> +
-> +=09return 0;
-> +}
+> > TOOLCHAINEXT_OUTPUTNAME.
+>=20
+> I prefer to have explicit value and construct them into one place
+> instead of have many name constructions like you said to use
+> TOOLCHAINEXT_OUTPUTNAME and suppose that always be end with .{host,
+> target}.manifest.
 
-I guess we'll probably want to extend this test so it also looks at the=
-=20
-binaries produced by the build to see if they're reasonable, but we can=
- do=20
-that later.
+When you add a variable to populate_sdk_ext.bbclass, it isn't just defi=
+ned for=20
+the ext SDK - it's defined for every image recipe. I want to try to avo=
+id=20
+defining additional variables and thus expanding the environment where =
+we don't=20
+really need to.
 
-One thing though - could you add a check to see that the 'devtool' comm=
-and=20
-we're executing is definitely from the SDK and not the outer build envi=
-ronment=20
-(or elsewhere)? Presumably you could just do "which devtool" and check =
-the=20
-output.
+The naming of the manifest is something we can rely on, because externa=
+l tools=20
+need to be able to.
 
 Cheers,
 Paul
