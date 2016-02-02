@@ -1,27 +1,30 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 35E5F772A0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CB257771A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 14:50:08 +0000 (UTC)
-Received: from [82.1.213.155] (HELO elite.brightsign6)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 682781956; Tue, 02 Feb 2016 09:50:09 -0500
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsign6 with esmtp (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1aQcHQ-0003wz-6s; Tue, 02 Feb 2016 14:50:08 +0000
-Received: from mac by chuckie with local (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1aQcHQ-0002ZG-5t; Tue, 02 Feb 2016 14:50:08 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 14:49:47 +0000
-Message-Id: <1454424587-4251-4-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH 3/3] bitbake.conf: Remove unhelpful default value for EXTRA_OEMAKE
+	Tue,  2 Feb 2016 14:50:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u12EoNFZ008003; Tue, 2 Feb 2016 14:50:23 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3fIs0jzLGbwx; Tue,  2 Feb 2016 14:50:23 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u12EoJ3p007979
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 2 Feb 2016 14:50:20 GMT
+Message-ID: <1454424619.27087.80.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 02 Feb 2016 14:50:19 +0000
+In-Reply-To: <4a80d3209aa669db75e6343646ddb6a127ad8fc2.1454397260.git.ed.bartosh@linux.intel.com>
+References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
+	<4a80d3209aa669db75e6343646ddb6a127ad8fc2.1454397260.git.ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [wic][PATCH 02/15] runqemu: don't use virtio for wic images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 14:50:08 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 14:50:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Setting EXTRA_OEMAKE to "-e MAKEFLAGS=" by default is a historical
-accident and many classes (e.g. autotools.bbclass, module.bbclass) and
-recipes have to override this default in order to work with sensible
-build systems.
+On Tue, 2016-02-02 at 09:27 +0200, Ed Bartosh wrote:
+> qemu hands with 'waiting for root device' message during the
+> boot of wic images if '-drive if=virtio' option is used.
+> 
+> Removed if=virtio from qemu command line for wic images. This
+> should fix above mentioned boot issue.
 
-Now that openssl and pciutils have been fixed to set EXTRA_OEMAKE
-explicitly it is possible to set EXTRA_OEMAKE = "".
+Does this not change the command for other image types too? What side
+effects might that have?
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1a2f420..a32d293 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -474,7 +474,7 @@ export BUILD_STRIP = "${BUILD_PREFIX}strip"
- export BUILD_NM = "${BUILD_PREFIX}nm"
- 
- export MAKE = "make"
--EXTRA_OEMAKE = "-e MAKEFLAGS="
-+EXTRA_OEMAKE = ""
- EXTRA_OECONF = ""
- export LC_ALL = "C"
- 
--- 
-2.1.4
+Richard
 
 
