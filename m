@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3391A771E0
+	by mail.openembedded.org (Postfix) with ESMTP id 263CA771E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 15:12:41 +0000 (UTC)
+	Tue,  2 Feb 2016 15:12:42 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 07:12:42 -0800
+	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 07:12:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="645913286"
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="645913295"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2016 07:12:41 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2016 07:12:42 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 09:14:17 -0600
-Message-Id: <04d0a6593a3623636d1a8ca3661e626148e01fd0.1454424743.git.anibal.limon@linux.intel.com>
+Date: Tue,  2 Feb 2016 09:14:18 -0600
+Message-Id: <caa6b2241883567d2453ac7fcc18cdef38bf6c3a.1454424743.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454424743.git.anibal.limon@linux.intel.com>
 References: <cover.1454424743.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1454424743.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCH 14/20] classes/testsdk: Add function run_test_context
+Subject: [PATCH 15/20] classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,103 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 15:12:41 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 15:12:42 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-This helper functions will be serve as well to run extensible
-sdk tests so generalize it to get function context as arg.
+Sometimes we need to load environment without show help information
+only useful when user is interacting with the SDK.
+
+For example: For test extensible SDK.
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/testsdk.bbclass | 62 +++++++++++++++++++++++---------------------
- 1 file changed, 32 insertions(+), 30 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 92d348b..bc7c783 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -5,13 +5,40 @@
- TEST_LOG_DIR ?= "${WORKDIR}/testimage"
- TESTSDKLOCK = "${TMPDIR}/testsdk.lock"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 76308ec..fc96a4b 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -291,7 +291,7 @@ sdk_ext_postinst() {
+ 	# so put it at the end of $PATH.
+ 	echo "export PATH=\$PATH:$target_sdk_dir/sysroots/${SDK_SYS}/${bindir_nativesdk}" >> $env_setup_script
  
-+def run_test_context(CTestContext, d, testdir, tcname, pn):
-+    import glob
-+    import time
-+
-+    targets = glob.glob(d.expand(testdir + "/tc/environment-setup-*"))
-+    for sdkenv in targets:
-+        bb.plain("Testing %s" % sdkenv)
-+        tc = CTestContext(d, testdir, sdkenv)
-+
-+        # this is a dummy load of tests
-+        # we are doing that to find compile errors in the tests themselves
-+        # before booting the image
-+        try:
-+            tc.loadTests()
-+        except Exception as e:
-+            import traceback
-+            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
-+
-+        starttime = time.time()
-+        result = tc.runTests()
-+        stoptime = time.time()
-+        if result.wasSuccessful():
-+            bb.plain("%s SDK(%s):%s - Ran %d test%s in %.3fs" % (pn, os.path.basename(tcname), os.path.basename(sdkenv),result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
-+            msg = "%s - OK - All required tests passed" % pn
-+            skipped = len(result.skipped)
-+            if skipped:
-+                msg += " (skipped=%d)" % skipped
-+            bb.plain(msg)
-+        else:
-+            raise bb.build.FuncFailed("%s - FAILED - check the task log and the commands log" % pn )
-+
- def testsdk_main(d):
--    import unittest
-     import os
--    import glob
--    import oeqa.runtime
-     import oeqa.sdk
--    import time
-     import subprocess
-     from oeqa.oetest import SDKTestContext
+-	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
++	echo "[ -z \$OE_SDK_EXT_SILENT ] && printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
  
-@@ -31,32 +58,7 @@ def testsdk_main(d):
-         bb.fatal("Couldn't install the SDK:\n%s" % e.output)
- 
-     try:
--        targets = glob.glob(d.expand(sdktestdir + "/tc/environment-setup-*"))
--        for sdkenv in targets:
--            bb.plain("Testing %s" % sdkenv)
--            tc = SDKTestContext(d, sdktestdir, sdkenv)
--
--            # this is a dummy load of tests
--            # we are doing that to find compile errors in the tests themselves
--            # before booting the image
--            try:
--                tc.loadTests()
--            except Exception as e:
--                import traceback
--                bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
--
--            starttime = time.time()
--            result = tc.runTests()
--            stoptime = time.time()
--            if result.wasSuccessful():
--                bb.plain("%s SDK(%s):%s - Ran %d test%s in %.3fs" % (pn, os.path.basename(tcname), os.path.basename(sdkenv),result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
--                msg = "%s - OK - All required tests passed" % pn
--                skipped = len(result.skipped)
--                if skipped:
--                    msg += " (skipped=%d)" % skipped
--                bb.plain(msg)
--            else:
--                raise bb.build.FuncFailed("%s - FAILED - check the task log and the commands log" % pn )
-+        run_test_context(SDKTestContext, d, sdktestdir, tcname, pn)
-     finally:
-         bb.utils.remove(sdktestdir, True)
- 
+ 	# Warn if trying to use external bitbake and the ext SDK together
+ 	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $env_setup_script
 -- 
 2.1.4
 
