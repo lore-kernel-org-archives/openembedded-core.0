@@ -1,29 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 666DD77271
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A7BF473175
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 21:25:56 +0000 (UTC)
+	Tue,  2 Feb 2016 21:28:27 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Feb 2016 13:25:57 -0800
+	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 13:28:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="875504595"
-Received: from kng2-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.178.194])
-	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 13:25:54 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Wed, 03 Feb 2016 10:25:52 +1300
-Message-ID: <1693758.K4BiiZTEt9@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.3.3-303.fc23.x86_64; KDE/4.14.16; x86_64; ;
-	)
-In-Reply-To: <b93ea288b5195d2bb5628ee3f820b41d1093f9ac.1454424743.git.anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; 
+	d="asc'?scan'208";a="875505938"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.31]) ([10.219.5.31])
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 13:28:25 -0800
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 References: <cover.1454424743.git.anibal.limon@linux.intel.com>
-	<b93ea288b5195d2bb5628ee3f820b41d1093f9ac.1454424743.git.anibal.limon@linux.intel.com>
+	<35476879.65FcALFN4F@peggleto-mobl.ger.corp.intel.com>
+	<56B11E6A.6080005@linux.intel.com>
+	<3922884.O19QKotbn0@peggleto-mobl.ger.corp.intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <56B11FED.9000709@linux.intel.com>
+Date: Tue, 2 Feb 2016 15:30:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
+In-Reply-To: <3922884.O19QKotbn0@peggleto-mobl.ger.corp.intel.com>
 Cc: openembedded-core@lists.openembedded.org, benjamin.esquivel@intel.com,
-	=?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 13/20] oeqa/oetest.py: Fix missing oeqa.runtime import.
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
+Subject: Re: [PATCH 15/20] classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +37,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 21:25:59 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 21:28:30 -0000
+X-Groupsio-MsgNum: 77364
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="mimAITvHtfr4NB00FSqGiVkt4V0XR750s"
+
+--mimAITvHtfr4NB00FSqGiVkt4V0XR750s
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-On Tue, 02 Feb 2016 09:14:16 An=EDbal Lim=F3n wrote:
-> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+
+
+On 02/02/2016 03:25 PM, Paul Eggleton wrote:
+> On Tue, 02 Feb 2016 15:23:54 An=EDbal Lim=F3n wrote:
+>> Paul Eggleton wrote:
+>>> Rather than adding another variable for this why not just redirect th=
+e
+>>> output to /dev/null ?
+>>
+>> Because this is disabled when SDK tests (compatibility) ran using eSDK=
+
+>> so sometimes needs to SILENT it when automatic process is working
+>> another times don't like when user uses it.
 >=20
-> oeqa.runtime import is used in TestContext to get data fixtures
-> directory.
+> At face value, redirection during automated testing and not when not so=
+lves=20
+> this.
 >=20
-> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
-> ---
->  meta/lib/oeqa/oetest.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+
+We can't only redirect because is a python test that looks for some
+output in the sdtout, if we redirect to the /dev/null then lose the value=
+=2E
+
+>> In this case the SDK tests fails because it looks to stdout and found
+>> devtool msg.
 >=20
-> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-> index 28577ef..16705cc 100644
-> --- a/meta/lib/oeqa/oetest.py
-> +++ b/meta/lib/oeqa/oetest.py
-> @@ -18,7 +18,7 @@ except ImportError:
->      pass
->  import logging
+> Which test failed and why?
+
+Is this test [1], as i said is an SDK test running on eSDK env.
+
+[1]
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/lib/oeqa=
+/sdk/python.py?h=3Dalimon/esdk_testsuite_export#n22
+
 >=20
-> -import oeqa
-> +import oeqa.runtime
->  from oeqa.utils.decorators import LogResults, gettag, getResults
+> Cheers,
+> Paul
 >=20
->  logger =3D logging.getLogger("BitBake")
 
-Are you sure this actually does anything? Importing the parent module s=
-hould=20
-already allow access to child modules, AIUI.
 
-Cheers,
-Paul
+--mimAITvHtfr4NB00FSqGiVkt4V0XR750s
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
---=20
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-Paul Eggleton
-Intel Open Source Technology Centre
+iQIcBAEBAgAGBQJWsR/wAAoJEGJqcE9h3glgSNwP+wcxmS40LSvRUrQUQEwVVZi7
+VnuyzQ5xj/9X7LNVLiLrY1rFYtkGX0H3ayTDafRn4l6EcxZIggS5YPHqDgy2jmxE
+Y101VbrgBFK+502/fD31ZKxs8kcNk0CIRFUxTvq5mQCWsTN57wNFrzRbq7P4GSW0
+Y97h0mc7DeoH3BOvN9PJpoKiIP/s4v4crbNrrIPiRvoncj9eJybQEZ5fmu50MByL
+YVQZOq9KIjW231bb4Z311EZAVlDWskT+1rPB6jst8Rh7TDvkmRjozk3BFylh9HEU
+teTI9Mn1tDUaK/jZOXOkYum4N9i5ywvq/BPf3Emlqn0BHwW7OHmAV2HbvfyJ7rkx
+40SBBG3kemdSh2jJWIfsE6agCBCqJImhI1XXQKAQIDuVKaoeTsYDSpJaSZe6EFqN
+CW02tP3t155IUj8PTmkoOLM02ESdZ45YQ1S1ir9aN4ByOILfzbU+hGYpuKwqnYil
+/HJYTN+6Ze2XDQEEyBfhEyUym9VaA6pEMRbU01EYk/kviQI8jr4aHAPFP+yfjdVN
+rAHJEakYMvcJQSxKA9GTPK+aPXnmGQih8ZoiPen787t1VNLPYahr1sIqIY3L04u2
+BnDbZFoBiAvyyjCwbVCuWgQOAFgBWl4TinWe/m5x/djc8ZpBcnHuOOfbAlUTX0S8
+daKjEMW6kLy1hjrZjgH0
+=IvDP
+-----END PGP SIGNATURE-----
 
+--mimAITvHtfr4NB00FSqGiVkt4V0XR750s--
