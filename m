@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C8E7771D2
+	by mail.openembedded.org (Postfix) with ESMTP id B60AD771D2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Feb 2016 15:12:34 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 07:12:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="645913228"
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="645913235"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2016 07:12:34 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2016 07:12:35 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 09:14:09 -0600
-Message-Id: <a7ba70970f40316e3f60118a5738a261e021156e.1454424743.git.anibal.limon@linux.intel.com>
+Date: Tue,  2 Feb 2016 09:14:10 -0600
+Message-Id: <e5f062fdc35926fdeb8d2e3255b591980cdeee29.1454424743.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454424743.git.anibal.limon@linux.intel.com>
 References: <cover.1454424743.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1454424743.git.anibal.limon@linux.intel.com>
 References: <cover.1454424743.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com
-Subject: [PATCH 06/20] classes/testsdk: Add testsdkext task only install.
+Subject: [PATCH 07/20] bb/fetch2: Move export_proxies function from wget to utils.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +37,77 @@ X-List-Received-Date: Tue, 02 Feb 2016 15:12:34 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add task for test extensible sdk for now only install the SDK.
+In order to use in other modules since is a common function
+when needs to get proxies working.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/testsdk.bbclass | 45 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ bitbake/lib/bb/fetch2/wget.py | 17 +----------------
+ bitbake/lib/bb/utils.py       | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index d81c456..c169742 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -98,3 +98,48 @@ python do_testsdk() {
- addtask testsdk
- do_testsdk[nostamp] = "1"
- do_testsdk[lockfiles] += "${TESTSDKLOCK}"
+diff --git a/bitbake/lib/bb/fetch2/wget.py b/bitbake/lib/bb/fetch2/wget.py
+index 5a31730..fd25c42 100644
+--- a/bitbake/lib/bb/fetch2/wget.py
++++ b/bitbake/lib/bb/fetch2/wget.py
+@@ -37,6 +37,7 @@ from   bb.fetch2 import FetchMethod
+ from   bb.fetch2 import FetchError
+ from   bb.fetch2 import logger
+ from   bb.fetch2 import runfetchcmd
++from   bb.utils import export_proxies
+ from   bs4 import BeautifulSoup
+ from   bs4 import SoupStrainer
+ 
+@@ -219,22 +220,6 @@ class Wget(FetchMethod):
+ 
+                 return resp
+ 
+-        def export_proxies(d):
+-            variables = ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY',
+-                            'ftp_proxy', 'FTP_PROXY', 'no_proxy', 'NO_PROXY']
+-            exported = False
+-
+-            for v in variables:
+-                if v in os.environ.keys():
+-                    exported = True
+-                else:
+-                    v_proxy = d.getVar(v, True)
+-                    if v_proxy is not None:
+-                        os.environ[v] = v_proxy
+-                        exported = True
+-
+-            return exported
+-
+         class HTTPMethodFallback(urllib2.BaseHandler):
+             """
+             Fallback to GET if HEAD is not allowed (405 HTTP error)
+diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
+index ae10213..70b42f3 100644
+--- a/bitbake/lib/bb/utils.py
++++ b/bitbake/lib/bb/utils.py
+@@ -1406,3 +1406,22 @@ def set_process_name(name):
+         libc.prctl(15, byref(buff), 0, 0, 0)
+     except:
+         pass
 +
-+TEST_LOG_SDKEXT_DIR ?= "${WORKDIR}/testsdkext"
-+TESTSDKEXTLOCK = "${TMPDIR}/testsdkext.lock"
-+
-+def testsdkext_main(d):
-+    import unittest
++# export common proxies variables from datastore to environment
++def export_proxies(d):
 +    import os
-+    import glob
-+    import oeqa.sdkext
-+    import time
-+    import subprocess
-+    from oeqa.oetest import loadTests, runTests, get_test_suites, get_tests_list
 +
-+    pn = d.getVar("PN", True)
-+    bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR", True))
++    variables = ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY',
++                    'ftp_proxy', 'FTP_PROXY', 'no_proxy', 'NO_PROXY']
++    exported = False
 +
-+    # tests in TEST_SUITES become required tests
-+    # they won't be skipped even if they aren't suitable.
-+    # testslist is what we'll actually pass to the unittest loader
-+    testslist = get_tests_list(get_test_suites(d, "sdkext"),
-+                    d.getVar("BBPATH", True).split(':'), "sdkext")
-+    testsrequired = [t for t in (d.getVar("TEST_SUITES_SDKEXT", True) or \
-+                    "auto").split() if t != "auto"]
++    for v in variables:
++        if v in os.environ.keys():
++            exported = True
++        else:
++            v_proxy = d.getVar(v, True)
++            if v_proxy is not None:
++                os.environ[v] = v_proxy
++                exported = True
 +
-+    tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-+    if not os.path.exists(tcname):
-+        bb.fatal("The toolchain ext is not built. Build it before running the" \
-+                 " tests: 'bitbake <image> -c populate_sdk_ext' .")
-+
-+    testdir = d.expand("${WORKDIR}/testsdkext/")
-+    bb.utils.remove(testdir, True)
-+    bb.utils.mkdirhier(testdir)
-+    try:
-+        subprocess.check_output("%s -y -d %s" % (tcname, testdir), shell=True)
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal("Couldn't install the SDK EXT:\n%s" % e.output)
-+
-+testsdkext_main[vardepsexclude] =+ "BB_ORIGENV"
-+
-+python do_testsdkext() {
-+    testsdkext_main(d)
-+}
-+addtask testsdkext
-+do_testsdkext[nostamp] = "1"
-+do_testsdkext[lockfiles] += "${TESTSDKEXTLOCK}"
++    return exported
 -- 
 2.1.4
 
