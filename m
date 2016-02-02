@@ -1,29 +1,46 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E5491771DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E2C577199
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 11:01:25 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 03:01:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="894572543"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 03:01:26 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 555886A4002
+	Tue,  2 Feb 2016 11:23:01 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id r129so112814263wmr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 03:49:18 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Tue, 02 Feb 2016 03:23:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=TgRMcU6Jr7wIKj0kYGfSwhjYz7Ql3kdAXL6LpynW+9g=;
+	b=2F5vFXqe+VllPc87k6bIiUsH/PYiW+Bt98JhP2U/2Har23ovNRcWM8SxD9rlkiMxuK
+	cW2bkBsZaNtwKtkqTj3LT/2XMZjCz2ieDgotckoak3XkqVc13xPeFzHcpfYwJigulOl6
+	yYUNyLZlRRX+dqEfu4IOFi/BYCFsAcwy9OCLIYuRbs6k7rY9pqWrS8+bNi5CHOXyqxsT
+	r00Njlk77IkY5jEQn3TMq32sNpJCjWBKSPnXfstb+/E90eoVzZsqYtGyKHxnP434peU8
+	cyaTVNq3KhZma5aqVTuMSNl7B6V1Z/kFy8UuV9+YhSO3YMRkeFye3/7mhPfilnEC47m6
+	LV2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=TgRMcU6Jr7wIKj0kYGfSwhjYz7Ql3kdAXL6LpynW+9g=;
+	b=ZE3hGF+QsaWTXKzuTteEiidH/ATZNtsfVNrn8HOwQsGP3lUw9PP5xi2/YgpagCvdsk
+	3oqzAU6CGVE6m1XcvfXYsr50+QutdNhQD6+GfI3RX7iGuhGyeKWUUDimMoch4EHrwRjE
+	wecySsOAtIN5DHMmEFmCWCQrym6vOOL2or0Elm47huS/226lgIxeSH1qBLBSzSi2AlV7
+	eDM0yOU9LyxDK2qsUxcfnmA5+QvXM1r7K/vIGN2UJ2zxYHR9iUnJaDQdPkFb/0IdalU3
+	VfQ9zIz2TrR9bJeEOh35wK+bDXWMcmTLMrEmrA7DB2L+U0vOmg3ox4i+elrYTsn3OmIp
+	VivQ==
+X-Gm-Message-State: AG10YORivggPL1IL9JKabARo8uzm70wSccUkFIDhVik6X5VsGayC1zMSYd7E+D5bULtvey2w
+X-Received: by 10.194.113.227 with SMTP id jb3mr28572007wjb.49.1454412180751; 
+	Tue, 02 Feb 2016 03:23:00 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	kw1sm1021342wjb.12.2016.02.02.03.22.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 02 Feb 2016 03:23:00 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 13:04:11 +0200
-Message-Id: <1454411051-15095-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1454411051-15095-1-git-send-email-maxin.john@intel.com>
-References: <1454411051-15095-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/3] formfactor: add machconfig for qemumips64 and beaglebone
+Date: Tue,  2 Feb 2016 11:22:58 +0000
+Message-Id: <1454412178-7095-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] python-pycurl: remove unnecessary exports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 11:01:26 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 11:23:01 -0000
 
-We need machconfig file to automatically choose between physical and virtual
-keyboards.
+These variables are exported through distutils.bbclass, so there's no need to do
+it again.
 
-[YOCTO #9027]
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-bsp/formfactor/files/beaglebone/machconfig | 10 ++++++++++
- meta/recipes-bsp/formfactor/files/qemumips64/machconfig | 10 ++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100755 meta/recipes-bsp/formfactor/files/beaglebone/machconfig
- create mode 100755 meta/recipes-bsp/formfactor/files/qemumips64/machconfig
+ meta/recipes-devtools/python/python-pycurl_7.21.5.bb | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/meta/recipes-bsp/formfactor/files/beaglebone/machconfig b/meta/recipes-bsp/formfactor/files/beaglebone/machconfig
-new file mode 100755
-index 0000000..56a2ae2
---- /dev/null
-+++ b/meta/recipes-bsp/formfactor/files/beaglebone/machconfig
-@@ -0,0 +1,10 @@
-+HAVE_TOUCHSCREEN=1
-+HAVE_KEYBOARD=1
-+ 
-+DISPLAY_CAN_ROTATE=0
-+DISPLAY_ORIENTATION=0
-+#DISPLAY_WIDTH_PIXELS=640
-+#DISPLAY_HEIGHT_PIXELS=480
-+#DISPLAY_BPP=16
-+DISPLAY_DPI=150
-+DISPLAY_SUBPIXEL_ORDER=vrgb
-diff --git a/meta/recipes-bsp/formfactor/files/qemumips64/machconfig b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
-new file mode 100755
-index 0000000..56777b6
---- /dev/null
-+++ b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
-@@ -0,0 +1,10 @@
-+HAVE_TOUCHSCREEN=1
-+HAVE_KEYBOARD=1
-+ 
-+DISPLAY_CAN_ROTATE=0
-+DISPLAY_ORIENTATION=0
-+DISPLAY_WIDTH_PIXELS=640
-+DISPLAY_HEIGHT_PIXELS=480
-+DISPLAY_BPP=16
-+DISPLAY_DPI=150
-+#DISPLAY_SUBPIXEL_ORDER=vrgb
+diff --git a/meta/recipes-devtools/python/python-pycurl_7.21.5.bb b/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+index af517a1..7b41f6d 100644
+--- a/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
++++ b/meta/recipes-devtools/python/python-pycurl_7.21.5.bb
+@@ -21,12 +21,6 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+ inherit distutils
+ 
+-# need to export these variables for python-config to work
+-export BUILD_SYS
+-export HOST_SYS
+-export STAGING_INCDIR
+-export STAGING_LIBDIR
+-
+ BBCLASSEXTEND = "native"
+ 
+ # Ensure the docstrings are generated as make clean will remove them
 -- 
-2.4.0
+2.6.4
 
 
