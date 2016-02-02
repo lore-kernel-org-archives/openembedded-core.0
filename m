@@ -1,57 +1,33 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D43157723F
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 54E946E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 15:00:56 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id d63so19832290ioj.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 07:00:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:content-type:mime-version:content-transfer-encoding;
-	bh=2ktVmFoYXJhcCoJI+97zOnall8QodnW9pUs2y9b9vsE=;
-	b=SCEjSCDn9yPxN30K1xgYDV10gk04ElHJ9f1NoE6fHlu/6cdFk5jIUblWTIt0PD7eJK
-	xBq4YeOXu7gu+tGf3TmkDfE1z7L+Y0Ie62AANFo4SI4kw3Iy0j1aB2RODz+WpnQdmMNp
-	GgLIu/seqAN6hF/kEp9Hc6OhNSdw7R+3jKHT6FgsaU+KrL4NNafqWZlpGxjXG+TutWqG
-	edGgSIEzyPdWuZh2F7nRQ78nCPEGOuq1n++087U4gFNlS7BEYkgyZABzJ+CW+jeTJXyF
-	Wxz/lp5w/KBmbphL9IK4qAFsjo7NeqsOTRyUkRCjDlJzaplK8CH4/kKRDueQrzvkkqvn
-	kJlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=2ktVmFoYXJhcCoJI+97zOnall8QodnW9pUs2y9b9vsE=;
-	b=Uw9uftcew0grCIkr8afeS/I8+uTkeCfsfiL07A5aza16v2TYZAjgrm1VZNdUt1xNhi
-	WlTZl2UuxXutB/2uKG5382T0IJ+WWC981z8f8U+HDP6HEdlrFCbbda6lkZdcGZ/5kJs0
-	FLdULfazgc2Ku6zJhWASP8JLdbU6F0uZPfrNLqzA+534KkhKAlnCxv2Og3aZm+kAfw1y
-	PEPf+pazthLPHzjFW3vb54RzGf6Me5hgN5INfR8DoFsnAvre+8eHMvn+ZE+gauO0t9OY
-	2LGO3SX8WG2uKNO0VDk2zBAIWlnMBjO0BgE4wxT3hb8RB0ja2C5woQlhMbhEhzLnNeIA
-	YJ9g==
-X-Gm-Message-State: AG10YOTUjKStptsp15CEqw8gsDCxaJFu+yw8HFvmMGuJ2W95vc3u8rMjG6dMgBVJqp8NYx5G
-X-Received: by 10.107.14.73 with SMTP id 70mr29295676ioo.31.1454425256533;
-	Tue, 02 Feb 2016 07:00:56 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8D4FD.dip0.t-ipconnect.de. [93.232.212.253])
-	by smtp.gmail.com with ESMTPSA id
-	vf11sm6347222igb.20.2016.02.02.07.00.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Feb 2016 07:00:55 -0800 (PST)
-Message-ID: <1454425253.22914.5.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 02 Feb 2016 16:00:53 +0100
-In-Reply-To: <CAMKF1srg=gT+SNznGFoLG2p_gHdwf4FW0UQk_5DqxKTB_A_k4Q@mail.gmail.com>
-References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
-	<CAJ86T=U6jUg7+nLPVz_=cEodqRNcK=zHvu3yJBOvg+b9V0XXWA@mail.gmail.com>
-	<1454314457.20696.16.camel@intel.com>
-	<CAMKF1srg=gT+SNznGFoLG2p_gHdwf4FW0UQk_5DqxKTB_A_k4Q@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] busybox: Add support for busybox-init
+	Tue,  2 Feb 2016 15:05:05 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2016 07:04:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="41046022"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 07:04:46 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id DE9806A4002;
+	Tue,  2 Feb 2016 07:52:38 -0800 (PST)
+Date: Tue, 2 Feb 2016 14:55:11 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160202125511.GA10780@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
+	<4a80d3209aa669db75e6343646ddb6a127ad8fc2.1454397260.git.ed.bartosh@linux.intel.com>
+	<1454424619.27087.80.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1454424619.27087.80.camel@linuxfoundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [wic][PATCH 02/15] runqemu: don't use virtio for wic images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,60 +40,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 15:00:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Feb 2016 15:05:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2016-02-01 at 08:57 -0800, Khem Raj wrote:
-> On Mon, Feb 1, 2016 at 12:14 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > On Mon, 2016-01-25 at 11:39 -0800, Andre McCurdy wrote:
-> >> > +        if grep "CONFIG_INIT=y" ${B}/.config; then
-> >> > +                install -D -m 0777 ${WORKDIR}/rcS
-> >> ${D}${sysconfdir}/init.d/rcS
-> >> > +                install -D -m 0777 ${WORKDIR}/rcK
-> >> ${D}${sysconfdir}/init.d/rcK
-> >> > +                install -D -m 0755 ${WORKDIR}/runlevel
-> >> ${D}${base_sbindir}/runlevel
-> >> > +                if grep "CONFIG_FEATURE_USE_INITTAB=y"
-> >> ${B}/.config; then
-> >> > +                        install -D -m 0777 ${WORKDIR}/inittab
-> >> ${D}${sysconfdir}/inittab
-> >> > +                        tmp="${SERIAL_CONSOLES}"
-> >> > +                        for i in $tmp
-> >> > +                        do
-> >> > +                                j=`echo ${i} | sed s/\;/\ /g`
-> >> > +                                label=`echo ${i} | sed -e 's/tty//'
-> >> -e 's/^.*;//' -e 's/;.*//'`
-> >> > +                                echo "tty$label::respawn:
-> >> ${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-> >> > +                        done
-> >> > +                fi
-> >> > +        fi
-> >
-> > SERIAL_CONSOLES is typically set differently for different machines. But
-> > busybox is not machine-specific, therefore using SERIAL_CONSOLE like
-> > this prevents sstate/package reuse or worse, causes package versioning
-> > problems.
+On Tue, Feb 02, 2016 at 02:50:19PM +0000, Richard Purdie wrote:
+> On Tue, 2016-02-02 at 09:27 +0200, Ed Bartosh wrote:
+> > qemu hands with 'waiting for root device' message during the
+> > boot of wic images if '-drive if=virtio' option is used.
+> > 
+> > Removed if=virtio from qemu command line for wic images. This
+> > should fix above mentioned boot issue.
 > 
-> when busybox is used as init system then it becomes machine specific and we have
-> a choice to do so which is disabled by default.
+> Does this not change the command for other image types too?
+No, it doesn't. This patch changes qemu command line only for wic images.
 
-In my case, busybox is not the init system and the recipe is therefore
-not machine specific. But the code above is active and thus introduces a
-sstate dependency on the machine-specific SERIAL_CONSOLES anyway, even
-though the code is dead (if check never reaches it).
-
-The code would have to be added conditionally, and only when it is okay
-to reference ${SERIAL_CONSOLES}.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+--
+Regards,
+Ed
 
