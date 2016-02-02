@@ -1,30 +1,29 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id F0F8577074
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D2D6B74197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 21:04:13 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id DZ4B1s0090BmcFC01Z4CwH; Tue, 02 Feb 2016 21:04:13 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=jFJIQSaiL_oA:10 a=Q4-j1AaZAAAA:8 a=aW8_UpYnkoB4sUjRx4MA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1aQi7P-0005QK-Tm; Tue, 02 Feb 2016 21:04:11 +0000
-Date: Tue, 2 Feb 2016 21:04:11 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160202210411.GA20640@mcrowe.com>
-References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-	<1454428874.27087.87.camel@linuxfoundation.org>
+	Tue,  2 Feb 2016 21:19:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2016 13:19:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="875500303"
+Received: from kng2-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.178.194])
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 13:19:25 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Wed, 03 Feb 2016 10:19:23 +1300
+Message-ID: <35476879.65FcALFN4F@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.3-303.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <caa6b2241883567d2453ac7fcc18cdef38bf6c3a.1454424743.git.anibal.limon@linux.intel.com>
+References: <cover.1454424743.git.anibal.limon@linux.intel.com>
+	<caa6b2241883567d2453ac7fcc18cdef38bf6c3a.1454424743.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1454428874.27087.87.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
+Cc: openembedded-core@lists.openembedded.org, benjamin.esquivel@intel.com,
+	=?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <limon.anibal@gmail.com>
+Subject: Re: [PATCH 15/20] classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 21:04:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 02 Feb 2016 21:19:29 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Tuesday 02 February 2016 at 16:01:14 +0000, Richard Purdie wrote:
-> On Tue, 2016-02-02 at 14:49 +0000, Mike Crowe wrote:
-> > bitbake.conf currently contains:
-> > 
-> > EXTRA_OEMAKE = "-e MAKEFLAGS="
-> > 
-> > Back in November[1] I submitted a patch that allowed this default
-> > value to be overridden without affecting anything else that was
-> > appended to it. I received feedback that the default value was no
-> > longer useful and that it would be good to get rid of it.
-> > 
-> > So, this patch series fixes the two recipes that still appear to be
-> > relying on the previous default and then makes the default
-> > EXTRA_OEMAKE = "". After these changes core-image-sato builds
-> > successfully for me (although I have not run it.)
-> > 
-> > Mike.
-> > 
-> > [1] http://lists.openembedded.org/pipermail/openembedded-core/2015-No
-> > vember/112393.html
-> 
-> This is a pretty major change and we likely need a bit more of an idea
-> of impact.
+On Tue, 02 Feb 2016 09:14:18 An=EDbal Lim=F3n wrote:
+> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+>=20
+> Sometimes we need to load environment without show help information
+> only useful when user is interacting with the SDK.
+>=20
+> For example: For test extensible SDK.
+>=20
+> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+> ---
+>  meta/classes/populate_sdk_ext.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> b/meta/classes/populate_sdk_ext.bbclass index 76308ec..fc96a4b 100644=
 
-I agree.
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -291,7 +291,7 @@ sdk_ext_postinst() {
+>  =09# so put it at the end of $PATH.
+>  =09echo "export
+> PATH=3D\$PATH:$target_sdk_dir/sysroots/${SDK_SYS}/${bindir_nativesdk}=
+" >>
+> $env_setup_script
+>=20
+> -=09echo "printf 'SDK environment now set up; additionally you may no=
+w run
+> devtool to perform development tasks.\nRun devtool --help for further=
 
-> Which architectures did you test? Often, x86 is a bad choice here and
-> we'd need something cross (arm/mips/ppc) to ensure it really is doing
-> the right things. We also need to assess a bit more than just sato. We
-> can run this up on the autobuilder and see what happens.
+> details.\n'" >> $env_setup_script +=09echo "[ -z \$OE_SDK_EXT_SILENT =
+] &&
+> printf 'SDK environment now set up; additionally you may now run devt=
+ool to
+> perform development tasks.\nRun devtool --help for further details.\n=
+'" >>
+> $env_setup_script
+>=20
+>  =09# Warn if trying to use external bitbake and the ext SDK together=
 
-I've compile-tested qemux86 and qemuarm for core-image-sato. qemumips is
-building now.
+>  =09echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attemptin=
+g to use
+> the extensible SDK in an environment set up to run bitbake - this may=
+ lead
+> to unexpected results. Please source this script in a new shell sessi=
+on
+> instead.') || true" >> $env_setup_script
 
-We've been running with the previous version of the patch with our code for
-a while but now I look more closely that solution didn't have anywhere near
-as wide an impact so I'll switch us over to using these patches. That will
-runtime-test a few real mips and arm targets (and even x86 and x86-64 to a
-limited extent) but only with our customised set of packages.
+Rather than adding another variable for this why not just redirect the =
+output=20
+to /dev/null ?
 
-> A post to the architecture list is probably needed so everyone knows
-> this is happening (or at least being considered).
+Cheers,
+Paul
 
-I'll do that once I've finished this round of testing. Would it be best to
-just post a general overview or the complete patch series?
+--=20
 
-> I do worry how much of meta-oe may be affected by this.
-
-We don't use meta-oe. I could have a look at trying some builds over the
-weekend. Luckily any breakage will be easy to fix, but that doesn't really
-help if hundreds of packages are affected!
-
-Thanks.
-
-Mike.
+Paul Eggleton
+Intel Open Source Technology Centre
 
