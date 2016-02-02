@@ -1,45 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B6C57731DB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B15C960290
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 00:19:12 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id f81so176495360iof.0
+	Tue,  2 Feb 2016 02:21:05 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id l66so1935786wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 16:19:13 -0800 (PST)
+	Mon, 01 Feb 2016 18:21:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=GKaFCoRHJcDKcLEmpeinaIH+UgARqHecv8nClUG6ws0=;
-	b=GaFfMxhw/mZ6yeWx0oCeVxpC1hlWwaA4gLqmdxH4UpU+mkWwsxxLfCLpvbViienW2E
-	uq5jirKBKRmddTTWPL8gs04yGfvz308Q8j6kCByq9QchlbpkGcsswq2GuXFa1xrbvsXR
-	KHqFYyCOmB4WxqcmoAze5CXOXH/fW/Qqi8zkGjhKpMjB47uN39Wx9kkAjdLGPiS1Vxmi
-	1Wd9ZGRkkKDTyF26P4/vYgsd9QCVHZyT1VnxI5o80aPBT2zOznn1TbGLEcHxZ2e90aWf
-	qdyCDyJ+lB3eENnZj6J9jZdfZsKZt71U1I2+qZNi6jZSjyU7bBdIth7POpr4JzxRi+9V
-	NRpw==
+	bh=Q9VBUO8SNaFXr47I8dUYrJLswinB7PqdIGlBTDXstN4=;
+	b=NGzhBBBfGckimzRtBPC1ZoibMiwv/kep/Tc9B/qUlneJ0nUvHTi743SN5VgQjOyYaJ
+	3bDJIz/ryIj5+8cjxxF9w08lGJiohhJEYZpj8ezllMWTJv4TI0kOtLlhucMdiL2q4PCB
+	Kccq0tW3btMIJNb9QWb/o7NKFi1ItGG0YerDAM769Rjvhs4ORxqedBMEhv/CYyBmnM58
+	h9IclUv7VrSbGOIawu1DbaTLaQsQSbErZltohQ1mPk0ALDodOru6jdQ3Cpg4L0WBAVYH
+	hMW6rG2eEJ6jE6zHYUK+wEnQ1hH5gt74+gCMP+/u7Yw38hlD/LHvgljr0/XyHo3CPMNe
+	UpJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=GKaFCoRHJcDKcLEmpeinaIH+UgARqHecv8nClUG6ws0=;
-	b=NsSqXE1PcWLVR3V7+5CXRpIqJX7ELSqzdxc0cQeXqf88YyHQHtNYbsh/f4R5cK8znd
-	3CJALMEIGH9GGYCkF0XZSm5xFsOyoxJAQooyNOH6wp9Gr9X6WPH01U1vqbKDlJ01IdU6
-	b3+1Wg6JCGYqvB2d204suU5FDv8CJcHR6II72HPdKS5JAbouJZE7qRJYihsgTipqVdr6
-	PmmuqQfX6pP/CKILOhaGulmzTWRaOw1u5Bar6EoZCjcDZ4MiMK7XsJEEQoJUNplovzF0
-	uRz+VROhUe5WLLrxOjHKBEEnaeC1+7yvEQ5YQbrcLuMQR+i9E4lbzfQ2NPY18apcs1g4
-	sewA==
-X-Gm-Message-State: AG10YOSWzoXkjqfuNgDjfkzvi6yOkT31ZrWshbzaGbS6yNv5z3CX4vYdt7Toa3QZCX3odUULEMnv4qrrlYZb9A==
+	bh=Q9VBUO8SNaFXr47I8dUYrJLswinB7PqdIGlBTDXstN4=;
+	b=NKJnxOdwPsV6YFMO9O4Fv1OnS1nKBUXxdCnqniVADHWHH+EbALti29hx26qODzH7oj
+	0yJp1DCfkOmbIkzZ6EyFcDCFclLW5ZY1kU71o8yiWUm+g8L753vCA9eyjmM62VLMfMB7
+	17K0/Xx90wplQ1nPzZGkMHcI4/EO6mM+hSbrspz3DHt7dAuYpmF28MWp4jbmoFLPhBSe
+	ZtIsUjo1TKk27YFlVXvmk7PpFGbYRgGKD5Gvnm0LMVyvi7T3ZJO6qaLVZvXHi5UzHS+M
+	Z+xQJYXg8gMnDYdFu5QdGMZqjLXnzAvihfsTHiHrwKIcPNC+f3MzX78Kpu/sdTBa9VOo
+	4X2g==
+X-Gm-Message-State: AG10YORv/5IHXeBw9gAskP6hyFVsPLLVoWbfed6kKbUa+jQv4a+JksWbOa7oaq38n5agPLcWLX8WOBMZgV6dTw==
 MIME-Version: 1.0
-X-Received: by 10.107.34.79 with SMTP id i76mr29987507ioi.195.1454372353157;
-	Mon, 01 Feb 2016 16:19:13 -0800 (PST)
-Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 16:19:13 -0800 (PST)
-Received: by 10.107.46.219 with HTTP; Mon, 1 Feb 2016 16:19:13 -0800 (PST)
-In-Reply-To: <1454364084-13476-1-git-send-email-armccurdy@gmail.com>
+X-Received: by 10.28.182.133 with SMTP id g127mr14358304wmf.61.1454379666052; 
+	Mon, 01 Feb 2016 18:21:06 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 1 Feb 2016 18:21:06 -0800 (PST)
+In-Reply-To: <CAMKF1sqRtdCtm0jtGwMtPWJ3cUYmRB5FYZ9m7xmjq8+0q_pTGQ@mail.gmail.com>
 References: <1454364084-13476-1-git-send-email-armccurdy@gmail.com>
-Date: Mon, 1 Feb 2016 16:19:13 -0800
-Message-ID: <CAMKF1sqRtdCtm0jtGwMtPWJ3cUYmRB5FYZ9m7xmjq8+0q_pTGQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<CAMKF1sqRtdCtm0jtGwMtPWJ3cUYmRB5FYZ9m7xmjq8+0q_pTGQ@mail.gmail.com>
+Date: Mon, 1 Feb 2016 18:21:06 -0800
+Message-ID: <CAJ86T=VMCnwns4grN6rWFg0z2oR7ifeSbo4Pf2o0te1ZOk2fOA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-configure-common.inc: drop --enable-target-optspace from configure
@@ -55,180 +54,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 00:19:13 -0000
-Content-Type: multipart/alternative; boundary=001a114075287b3f0c052abe7395
-
---001a114075287b3f0c052abe7395
+X-List-Received-Date: Tue, 02 Feb 2016 02:21:07 -0000
 Content-Type: text/plain; charset=UTF-8
 
-What is the size increase in gcc runtime when u do this
-On Feb 1, 2016 2:01 PM, "Andre McCurdy" <armccurdy@gmail.com> wrote:
+On Mon, Feb 1, 2016 at 4:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> What is the size increase in gcc runtime when u do this
 
-> Configuring gcc with --enable-target-optspace (which causes gcc to
-> append "-g -Os" to the default CFLAGS_FOR_TARGET and so force libgcc
-> etc target libraries to always be optimised for size) dates back to
-> the very first commit in oe-core git in 2005 (for gcc 3.4.3).
->
-> Configuring gcc with --enable-target-optspace is not done widely
-> elsewhere (it's not used for Ubuntu or Fedora host gcc, the Linaro
-> binary toolchain or in Buildroot since early 2015). Sometime around
-> gcc 4.5.x it caused problems for powerpc and so was disabled for that
-> architecture:
->
->   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43810
->
-> This patch removes --enable-target-optspace completely (ie powerpc is
-> no longer a special case) and allows optimisation of libgcc etc to be
-> controlled directly by the flags present in TARGET_CFLAGS.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-configure-common.inc | 8 --------
->  meta/recipes-devtools/gcc/gcc-cross-initial.inc    | 1 -
->  2 files changed, 9 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> index 85e69db..f4f76bd 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> @@ -14,13 +14,6 @@ JAVA_sh3 ?= ""
->  # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
->  FORTRAN ?= ",f77"
->  LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
-> -# disable --enable-target-optspace for powerpc SPE
-> -# at -Os libgcc.so.1 creates references into
-> -# hidden symbols in libgcc.a which linker complains
-> -# when linking shared libraries further in the build like (gnutls)
-> -
-> -SPECIAL_ARCH_LIST = "powerpc"
-> -OPTSPACE = '${@bb.utils.contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}",
-> "", "--enable-target-optspace",d)}'
->
->  EXTRA_OECONF_BASE ?= ""
->  EXTRA_OECONF_PATHS ?= ""
-> @@ -42,7 +35,6 @@ EXTRA_OECONF = "\
->      --enable-libstdcxx-pch \
->      --program-prefix=${TARGET_PREFIX} \
->      --without-local-prefix \
-> -    ${OPTSPACE} \
->      ${EXTRA_OECONF_BASE} \
->      ${EXTRA_OECONF_GCC_FLOAT} \
->      ${EXTRA_OECONF_PATHS} \
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> index 910f2ef..048b530 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> @@ -22,7 +22,6 @@ EXTRA_OECONF = "\
->      --disable-multilib \
->      --disable-__cxa_atexit \
->      --enable-languages=c \
-> -    ${OPTSPACE} \
->      --program-prefix=${TARGET_PREFIX} \
->      --with-sysroot=/not/exist \
->      --with-build-sysroot=${GCCCROSS_BUILDSYSROOT} \
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+No significant changes.
 
---001a114075287b3f0c052abe7395
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Binaries which link statically with libgcc all grow a little
+(somewhere between 10 and 50 bytes).
 
-<p dir=3D"ltr">What is the size increase in gcc runtime when u do this</p>
-<div class=3D"gmail_quote">On Feb 1, 2016 2:01 PM, &quot;Andre McCurdy&quot=
-; &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wr=
-ote:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Configuring gcc=
- with --enable-target-optspace (which causes gcc to<br>
-append &quot;-g -Os&quot; to the default CFLAGS_FOR_TARGET and so force lib=
-gcc<br>
-etc target libraries to always be optimised for size) dates back to<br>
-the very first commit in oe-core git in 2005 (for gcc 3.4.3).<br>
-<br>
-Configuring gcc with --enable-target-optspace is not done widely<br>
-elsewhere (it&#39;s not used for Ubuntu or Fedora host gcc, the Linaro<br>
-binary toolchain or in Buildroot since early 2015). Sometime around<br>
-gcc 4.5.x it caused problems for powerpc and so was disabled for that<br>
-architecture:<br>
-<br>
-=C2=A0 <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D43810" rel=
-=3D"noreferrer" target=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug.cgi=
-?id=3D43810</a><br>
-<br>
-This patch removes --enable-target-optspace completely (ie powerpc is<br>
-no longer a special case) and allows optimisation of libgcc etc to be<br>
-controlled directly by the flags present in TARGET_CFLAGS.<br>
-<br>
-Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">arm=
-ccurdy@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/gcc/gcc-configure-common.inc | 8 --------<br>
-=C2=A0meta/recipes-devtools/gcc/gcc-cross-initial.inc=C2=A0 =C2=A0 | 1 -<br=
->
-=C2=A02 files changed, 9 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/reci=
-pes-devtools/gcc/gcc-configure-common.inc<br>
-index 85e69db..f4f76bd 100644<br>
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc<br>
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc<br>
-@@ -14,13 +14,6 @@ JAVA_sh3 ?=3D &quot;&quot;<br>
-=C2=A0# gcc 3.x expects &#39;f77&#39;, 4.0 expects &#39;f95&#39;, 4.1 and 4=
-.2 expect &#39;fortran&#39;<br>
-=C2=A0FORTRAN ?=3D &quot;,f77&quot;<br>
-=C2=A0LANGUAGES ?=3D &quot;c,c++${FORTRAN}${JAVA}&quot;<br>
--# disable --enable-target-optspace for powerpc SPE<br>
--# at -Os libgcc.so.1 creates references into<br>
--# hidden symbols in libgcc.a which linker complains<br>
--# when linking shared libraries further in the build like (gnutls)<br>
--<br>
--SPECIAL_ARCH_LIST =3D &quot;powerpc&quot;<br>
--OPTSPACE =3D &#39;${@bb.utils.contains(&quot;SPECIAL_ARCH_LIST&quot;, &quo=
-t;${TARGET_ARCH}&quot;, &quot;&quot;, &quot;--enable-target-optspace&quot;,=
-d)}&#39;<br>
-<br>
-=C2=A0EXTRA_OECONF_BASE ?=3D &quot;&quot;<br>
-=C2=A0EXTRA_OECONF_PATHS ?=3D &quot;&quot;<br>
-@@ -42,7 +35,6 @@ EXTRA_OECONF =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0--enable-libstdcxx-pch \<br>
-=C2=A0 =C2=A0 =C2=A0--program-prefix=3D${TARGET_PREFIX} \<br>
-=C2=A0 =C2=A0 =C2=A0--without-local-prefix \<br>
--=C2=A0 =C2=A0 ${OPTSPACE} \<br>
-=C2=A0 =C2=A0 =C2=A0${EXTRA_OECONF_BASE} \<br>
-=C2=A0 =C2=A0 =C2=A0${EXTRA_OECONF_GCC_FLOAT} \<br>
-=C2=A0 =C2=A0 =C2=A0${EXTRA_OECONF_PATHS} \<br>
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes=
--devtools/gcc/gcc-cross-initial.inc<br>
-index 910f2ef..048b530 100644<br>
---- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc<br>
-+++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc<br>
-@@ -22,7 +22,6 @@ EXTRA_OECONF =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0--disable-multilib \<br>
-=C2=A0 =C2=A0 =C2=A0--disable-__cxa_atexit \<br>
-=C2=A0 =C2=A0 =C2=A0--enable-languages=3Dc \<br>
--=C2=A0 =C2=A0 ${OPTSPACE} \<br>
-=C2=A0 =C2=A0 =C2=A0--program-prefix=3D${TARGET_PREFIX} \<br>
-=C2=A0 =C2=A0 =C2=A0--with-sysroot=3D/not/exist \<br>
-=C2=A0 =C2=A0 =C2=A0--with-build-sysroot=3D${GCCCROSS_BUILDSYSROOT} \<br>
---<br>
-1.9.1<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+libgcc_s.so.1 itself grows by approx 1%:
 
---001a114075287b3f0c052abe7395--
+   text       data        bss        dec        hex    filename
+ 114896        516         56     115468      1c30c    libgcc_s.so.1 (-Os)
+ 116148        516         56     116720      1c7f0    libgcc_s.so.1 (-O2)
+
+libssp, libstdc++, libgomp and libatomic all ignore the
+--enable-target-optspace configure option, so are not affected.
+
+(Results from an armv7ve build).
+
+> On Feb 1, 2016 2:01 PM, "Andre McCurdy" <armccurdy@gmail.com> wrote:
+>>
+>> Configuring gcc with --enable-target-optspace (which causes gcc to
+>> append "-g -Os" to the default CFLAGS_FOR_TARGET and so force libgcc
+>> etc target libraries to always be optimised for size) dates back to
+>> the very first commit in oe-core git in 2005 (for gcc 3.4.3).
+>>
+>> Configuring gcc with --enable-target-optspace is not done widely
+>> elsewhere (it's not used for Ubuntu or Fedora host gcc, the Linaro
+>> binary toolchain or in Buildroot since early 2015). Sometime around
+>> gcc 4.5.x it caused problems for powerpc and so was disabled for that
+>> architecture:
+>>
+>>   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43810
+>>
+>> This patch removes --enable-target-optspace completely (ie powerpc is
+>> no longer a special case) and allows optimisation of libgcc etc to be
+>> controlled directly by the flags present in TARGET_CFLAGS.
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-configure-common.inc | 8 --------
+>>  meta/recipes-devtools/gcc/gcc-cross-initial.inc    | 1 -
+>>  2 files changed, 9 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+>> b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+>> index 85e69db..f4f76bd 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+>> @@ -14,13 +14,6 @@ JAVA_sh3 ?= ""
+>>  # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
+>>  FORTRAN ?= ",f77"
+>>  LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
+>> -# disable --enable-target-optspace for powerpc SPE
+>> -# at -Os libgcc.so.1 creates references into
+>> -# hidden symbols in libgcc.a which linker complains
+>> -# when linking shared libraries further in the build like (gnutls)
+>> -
+>> -SPECIAL_ARCH_LIST = "powerpc"
+>> -OPTSPACE = '${@bb.utils.contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}",
+>> "", "--enable-target-optspace",d)}'
+>>
+>>  EXTRA_OECONF_BASE ?= ""
+>>  EXTRA_OECONF_PATHS ?= ""
+>> @@ -42,7 +35,6 @@ EXTRA_OECONF = "\
+>>      --enable-libstdcxx-pch \
+>>      --program-prefix=${TARGET_PREFIX} \
+>>      --without-local-prefix \
+>> -    ${OPTSPACE} \
+>>      ${EXTRA_OECONF_BASE} \
+>>      ${EXTRA_OECONF_GCC_FLOAT} \
+>>      ${EXTRA_OECONF_PATHS} \
+>> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+>> b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+>> index 910f2ef..048b530 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+>> @@ -22,7 +22,6 @@ EXTRA_OECONF = "\
+>>      --disable-multilib \
+>>      --disable-__cxa_atexit \
+>>      --enable-languages=c \
+>> -    ${OPTSPACE} \
+>>      --program-prefix=${TARGET_PREFIX} \
+>>      --with-sysroot=/not/exist \
+>>      --with-build-sysroot=${GCCCROSS_BUILDSYSROOT} \
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
