@@ -1,33 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E64B2771D4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 77094771D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 15:29:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u12FTl4x011651; Tue, 2 Feb 2016 15:29:47 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id drLo0pXA7_hX; Tue,  2 Feb 2016 15:29:46 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u12FThgX011648
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 2 Feb 2016 15:29:44 GMT
-Message-ID: <1454426983.27087.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>, Khem Raj <raj.khem@gmail.com>
-Date: Tue, 02 Feb 2016 15:29:43 +0000
-In-Reply-To: <1454425253.22914.5.camel@intel.com>
-References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
-	<CAJ86T=U6jUg7+nLPVz_=cEodqRNcK=zHvu3yJBOvg+b9V0XXWA@mail.gmail.com>
-	<1454314457.20696.16.camel@intel.com>
-	<CAMKF1srg=gT+SNznGFoLG2p_gHdwf4FW0UQk_5DqxKTB_A_k4Q@mail.gmail.com>
-	<1454425253.22914.5.camel@intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] busybox: Add support for busybox-init
+	Tue,  2 Feb 2016 15:31:11 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id r129so123450725wmr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Feb 2016 07:31:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=NFOYEZztvWZy0Cdx9PbVSIjsi5+Bu8UVAzFAWpWO0GY=;
+	b=O43yi0pUbpRDONe+hmxJdyVRgAzUCaoJW82Ac6lbzj1SjPzsXbqxuCB985LJmA9aqd
+	RZaM+FpTFldyFWeXC8OC6JGS/AaaVqOK2jk6kjWRr1iIj0q8McGEQgY9TM38/06rOgYJ
+	XSDW0FTXT3+wsOHsqPelEv85RZ27tm8p4NjxOktZdsmJ7BcXQnhSKkXlBAfHEiznuUKo
+	bMA+gGExE2WgcUhBP/MQJ9XDhRFXbWEuL+GOkN735FhL22cTHGg3fMxpXRMN5NViucsD
+	MA7bXtzLFLDqn+EVxx+eAMZ58xwmOcv0JbpxLMH47mvngG+ZcajPzq5trWJRE9rfKTVh
+	pHyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=NFOYEZztvWZy0Cdx9PbVSIjsi5+Bu8UVAzFAWpWO0GY=;
+	b=D3oEi/guYj7E0j5sQMzbHpI4qoEHHnqufQcoyHwn6hFGpI2DFSwFu4BNcs/J5DfrQK
+	e4DuVCwewFfigm3B/Pr2bppzpvPcMF1ZKhpDGi3O4mXTF1EtR67LzMNE+92o7i5uyO6R
+	vw5URjE8KceJfz5fMUf0ubMvTWn2pD+KWG4uIJw0cuFkW7BIbwTpxlQcngnHkUJA0STw
+	NPKPzW1XEEHms718CV9dMhoyuVZXgbPzcLZXqQFeAvegsD9FiLXVQ0iQThX/e7cyXyqE
+	6KjV0SaNH61dc/jnvd1/+iQDFfN1sHXuEAukPKwFsu2B8C0aFhvZ/UzWfGPGRXMxiBC1
+	V8Eg==
+X-Gm-Message-State: AG10YOQZ8rZhYqRkd6whP4JQ6pmp9ElNFvCgk/eQPj0KoVjcxTPFc8FMdjNjJ+0KYiLZjaE8
+X-Received: by 10.194.191.229 with SMTP id hb5mr29022218wjc.164.1454427072248; 
+	Tue, 02 Feb 2016 07:31:12 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	ei9sm1997189wjd.40.2016.02.02.07.31.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 02 Feb 2016 07:31:11 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Feb 2016 15:31:07 +0000
+Message-Id: <1454427067-8939-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH][jethro] busybox: fix build of last applet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,69 +53,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 15:29:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Feb 2016 15:31:13 -0000
 
-On Tue, 2016-02-02 at 16:00 +0100, Patrick Ohly wrote:
-> On Mon, 2016-02-01 at 08:57 -0800, Khem Raj wrote:
-> > On Mon, Feb 1, 2016 at 12:14 AM, Patrick Ohly <
-> > patrick.ohly@intel.com> wrote:
-> > > On Mon, 2016-01-25 at 11:39 -0800, Andre McCurdy wrote:
-> > > > > +        if grep "CONFIG_INIT=y" ${B}/.config; then
-> > > > > +                install -D -m 0777 ${WORKDIR}/rcS
-> > > > ${D}${sysconfdir}/init.d/rcS
-> > > > > +                install -D -m 0777 ${WORKDIR}/rcK
-> > > > ${D}${sysconfdir}/init.d/rcK
-> > > > > +                install -D -m 0755 ${WORKDIR}/runlevel
-> > > > ${D}${base_sbindir}/runlevel
-> > > > > +                if grep "CONFIG_FEATURE_USE_INITTAB=y"
-> > > > ${B}/.config; then
-> > > > > +                        install -D -m 0777
-> > > > > ${WORKDIR}/inittab
-> > > > ${D}${sysconfdir}/inittab
-> > > > > +                        tmp="${SERIAL_CONSOLES}"
-> > > > > +                        for i in $tmp
-> > > > > +                        do
-> > > > > +                                j=`echo ${i} | sed s/\;/\
-> > > > > /g`
-> > > > > +                                label=`echo ${i} | sed -e
-> > > > > 's/tty//'
-> > > > -e 's/^.*;//' -e 's/;.*//'`
-> > > > > +                                echo "tty$label::respawn:
-> > > > ${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-> > > > > +                        done
-> > > > > +                fi
-> > > > > +        fi
-> > > 
-> > > SERIAL_CONSOLES is typically set differently for different
-> > > machines. But
-> > > busybox is not machine-specific, therefore using SERIAL_CONSOLE
-> > > like
-> > > this prevents sstate/package reuse or worse, causes package
-> > > versioning
-> > > problems.
-> > 
-> > when busybox is used as init system then it becomes machine
-> > specific and we have
-> > a choice to do so which is disabled by default.
-> 
-> In my case, busybox is not the init system and the recipe is
-> therefore
-> not machine specific. But the code above is active and thus
-> introduces a
-> sstate dependency on the machine-specific SERIAL_CONSOLES anyway,
-> even
-> though the code is dead (if check never reaches it).
-> 
-> The code would have to be added conditionally, and only when it is
-> okay
-> to reference ${SERIAL_CONSOLES}.
+If CONFIG_FEATURE_LAST_SMALL is enabled the build fails because of a broken
+__UT_NAMESIZE test.
 
-I think we should split this init piece out into a separate recipe,
-which busybox can depend on if/as/when needed.
+[ YOCTO #8869 ]
 
-Cheers,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../busybox/busybox/0001-randconfig-fix.patch      | 33 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-randconfig-fix.patch
 
-Richard
+diff --git a/meta/recipes-core/busybox/busybox/0001-randconfig-fix.patch b/meta/recipes-core/busybox/busybox/0001-randconfig-fix.patch
+new file mode 100644
+index 0000000..415ec34
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-randconfig-fix.patch
+@@ -0,0 +1,33 @@
++If CONFIG_FEATURE_LAST_SMALL is enabled the build fails because of a broken
++__UT_NAMESIZE test.
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 932302666b0354ede63504d1bef8393cab28db8b Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Sun, 11 Oct 2015 16:58:18 +0200
++Subject: [PATCH] randconfig fix
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++---
++ miscutils/last.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/miscutils/last.c b/miscutils/last.c
++index 6d8b584..f8f3437 100644
++--- a/miscutils/last.c
+++++ b/miscutils/last.c
++@@ -34,7 +34,8 @@
++ 	&& ((UT_LINESIZE != 32) || (UT_NAMESIZE != 32) || (UT_HOSTSIZE != 256))
++ #error struct utmpx member char[] size(s) have changed!
++ #elif defined __UT_LINESIZE \
++-	&& ((__UT_LINESIZE != 32) || (__UT_NAMESIZE != 64) || (__UT_HOSTSIZE != 256))
+++	&& ((__UT_LINESIZE != 32) || (__UT_NAMESIZE != 32) || (__UT_HOSTSIZE != 256))
+++/* __UT_NAMESIZE was checked with 64 above, but glibc-2.11 definitely uses 32! */
++ #error struct utmpx member char[] size(s) have changed!
++ #endif
++ 
++-- 
++2.6.4
++
+diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
+index 2559823..7258df0 100644
+--- a/meta/recipes-core/busybox/busybox_1.23.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
+@@ -35,6 +35,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-chown-fix-help-text.patch \
+            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
+            file://0002-Passthrough-r-to-linker.patch \
++           file://0001-randconfig-fix.patch \
+            file://mount-via-label.cfg \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
+-- 
+2.6.4
+
 
