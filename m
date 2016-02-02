@@ -1,50 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BC620771D2
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 676A1771F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 15:12:26 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id t15so62564328igr.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 07:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=WutxAB1C3scnB7mpeFEm+L5xsF1DzeubUEUQ7hd3YQY=;
-	b=FaY7NtRFGL0wnXcTdr6RzCxTgTv6lKHxC1c+2vhpHIprVpQkdsuJDig9ERjhdbbnfD
-	ifsVd6ggY6GZ5I8OhdnnYx3m8q7Py2Lw4gdDpHrl6UeQ6fFjN8mDZ6V8HAQ4C7cBKE4u
-	d6lLi4/WPAJG0yP6lTTiu8bcBFtxvGyWJQQ44Z5Ns2dwUmSO9WQaoYzRvV6ZQLc3CZOH
-	bqgk+dxSSEu9olZVWG7PSK+uccLxRR6vTMfGo0BWrEbFG7hV7GN8kNMV6cecOpPXDVbW
-	JR4pDvFZ9gzXcNoBwRd4CsdSTOEm/sX2zpjh1RYrWzy674c+uBLiVyQ1xeOYTd7T/uz4
-	iwxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=WutxAB1C3scnB7mpeFEm+L5xsF1DzeubUEUQ7hd3YQY=;
-	b=HKfIOlC25BV4RR7JfjGneZ1aFTO5J321IMDCCWnjZzttHzehlNdZp3NOyjQJHoBPYf
-	F4jL3xfm7/4feDHLFQ9XdvlVHUCSFNpHxLtR80bNQriFlUsFrEuMQ//Dcb1JClNf9570
-	sbpIN/oeJaVs854a788a0DOCRO1zIQbpeyBw43LS11DXIa5peIc2NifzyZN2VXW5IjN4
-	qUzaUAst/GXXwQTxG7KdKhmG70k9uD6JKNSCtRxg0Vd+m0RGlaN9op7OJnckxyAA8sHx
-	biwvkUq0V/I9ksmL7Z/fLRSUDntUMov1elGRuXmSVmYMNOYTSbwgrIEqdZ1AMYMwMv7E
-	qcfQ==
-X-Gm-Message-State: AG10YOQHe6nI4wckY1e1SRB79Vn/GVhIzWyeebqSIFI1ajhjbD+EMe/QNUXs32j3EneOvGbNnxt/EYjxH+lTd6/G
-X-Received: by 10.50.43.133 with SMTP id w5mr16832462igl.52.1454425947244;
-	Tue, 02 Feb 2016 07:12:27 -0800 (PST)
+	Tue,  2 Feb 2016 15:12:29 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 07:12:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="645913188"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2016 07:12:29 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Feb 2016 09:14:03 -0600
+Message-Id: <cover.1454424743.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 2 Feb 2016 07:12:07 -0800 (PST)
-In-Reply-To: <20160202125511.GA10780@linux.intel.com>
-References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-	<4a80d3209aa669db75e6343646ddb6a127ad8fc2.1454397260.git.ed.bartosh@linux.intel.com>
-	<1454424619.27087.80.camel@linuxfoundation.org>
-	<20160202125511.GA10780@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Feb 2016 15:12:07 +0000
-Message-ID: <CAJTo0LY9_RAAiZYu5NOjZAr24b+97DTdJ3qQWVC03SpiuyX4QA@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [wic][PATCH 02/15] runqemu: don't use virtio for wic images
+Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com
+Subject: [PATCH 00/20] Add Extensible SDK test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +29,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 15:12:26 -0000
-Content-Type: multipart/alternative; boundary=089e01175f2bf04538052acaeda6
-
---089e01175f2bf04538052acaeda6
+X-List-Received-Date: Tue, 02 Feb 2016 15:12:29 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2 February 2016 at 12:55, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+The eSDK test suite was added now running SDK existing tests and also devtool
+add/reset/build with a simple hello world C application. New task was added for
+run eSDK test suite (testsdkext).
 
-> > > Removed if=virtio from qemu command line for wic images. This
-> > > should fix above mentioned boot issue.
-> >
-> > Does this not change the command for other image types too?
-> No, it doesn't. This patch changes qemu command line only for wic images.
->
+Summary of changes,
 
-Any idea why?  virtio is better, surely?
+	- Add new class called testsdk that now have the tests for SDK and eSDK.
+	- TestContext -> {Image, SDK, SDKExt}: Remove all duplicate code inside
+	  testimage and testsdk class move into oeqa/oetest and create class per
+	  type of Test.
+	- Extensible SDK fixes usage with proxies, when eSDK is configuring it
+	  executes setscene tasks that needs network acces if was build with sstate
+	  mirrors.
 
-Ross
+Testing was made building/running SDK and eSDK for core-image-minimal and core-image-sato,
+also testimage was run in core-image-minimal and core-image-sato with QemuRemote and SimpleRemote
+ to ensure that nothing was break.
 
---089e01175f2bf04538052acaeda6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This patchset DEPENDS on bitbake change to export proxies and NEEDS to be MERGED before, see:
+bb/fetch2: Move export_proxies function from wget to utils.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 February 2016 at 12:55, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""=
->&gt; &gt; Removed if=3Dvirtio from qemu command line for wic images. This<=
-br>
-&gt; &gt; should fix above mentioned boot issue.<br>
-&gt;<br>
-&gt; Does this not change the command for other image types too?<br>
-</span>No, it doesn&#39;t. This patch changes qemu command line only for wi=
-c images.<br></blockquote></div><br>Any idea why? =C2=A0virtio is better, s=
-urely?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
+The following changes since commit ba2fdcddafcd7c0c42eecd740698a722c2d75144:
 
---089e01175f2bf04538052acaeda6--
+  native.bbclass: Set CXXFLAGS from BUILD_CXXFLAGS not BUILD_CFLAGS (2016-01-31 13:29:49 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/esdk_testsuite
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/esdk_testsuite
+
+Aníbal Limón (20):
+  testimage: Modularize helper functions for get test lists.
+  classes/testsdk: Add new class testsdk.
+  classes/testimage: Add defeault inherit for testsdk.
+  populate_sdk_ext: Set TOOLCHAINEXT_OUTPUTNAME.
+  get_test_suites: Add sdkext type for load test suites.
+  classes/testsdk: Add testsdkext task only install.
+  bb/fetch2: Move export_proxies function from wget to utils.
+  classes/testsdk: Add call to export_proxies on testsdkext.
+  toolchain-shar-extract.sh: Add proxy variable to new env.
+  testimage/testsdk: Modularize TestContext.
+  testimage/testsdk: Move get test suites routine inside TestContext.
+  oetest.py/TestContext: Move loadTests and runTests inside it.
+  oeqa/oetest.py: Fix missing oeqa.runtime import.
+  classes/testsdk: Add function run_test_context
+  classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable
+  classes/testsdk: Add compatibility SDK testsuite to eSDK
+  testsdkext: Add skeleton for support Extensible SDK tests.
+  classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and
+    SDK_EXT_HOST_MANIFEST
+  oeqa/sdkext: Add devtool basic tests for eSDK.
+  classes/testsdk: Add help information on how to run tests.
+
+ bitbake/lib/bb/fetch2/wget.py             |  17 +-
+ bitbake/lib/bb/utils.py                   |  19 ++
+ meta/classes/populate_sdk_ext.bbclass     |   8 +-
+ meta/classes/testimage.bbclass            | 217 +----------------
+ meta/classes/testsdk.bbclass              | 146 ++++++++++++
+ meta/files/toolchain-shar-extract.sh      |   4 +-
+ meta/lib/oeqa/oetest.py                   | 379 ++++++++++++++++++++++--------
+ meta/lib/oeqa/sdkext/__init__.py          |   3 +
+ meta/lib/oeqa/sdkext/devtool.py           |  25 ++
+ meta/lib/oeqa/sdkext/files/myapp/Makefile |  10 +
+ meta/lib/oeqa/sdkext/files/myapp/myapp.c  |   9 +
+ 11 files changed, 505 insertions(+), 332 deletions(-)
+ create mode 100644 meta/classes/testsdk.bbclass
+ create mode 100644 meta/lib/oeqa/sdkext/__init__.py
+ create mode 100644 meta/lib/oeqa/sdkext/devtool.py
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/Makefile
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/myapp.c
+
+-- 
+2.1.4
+
+
