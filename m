@@ -1,46 +1,31 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AD0C77180
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B86877059
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 04:18:45 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id l66so98796774wml.0
+	Tue,  2 Feb 2016 04:20:21 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
+   d="scan'208";a="3219686"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Feb 2016 12:20:15 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 01C6A41896E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Feb 2016 20:18:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=/zWP2J9y+H2RGqG5li+eqyTc9PAIff3CcscYnV2b0rw=;
-	b=TvT9lsarMB/K0cKHS9ki3GN7sQdafZhOFZQ6FgcGn0paRBTUG81gL5bO14cExFWeBZ
-	rwDvHwt+BN+5XfWGniGkRP6XfnmbEsfsFcJ48C4RnlW6vVGamjfXFdUPiqeANe1hGbtb
-	SbiiN7I5sG9K1zmNRMLNU8gDTYIcrjs4tLimYikvtxJU/r4S29NxiPolzBEE4hskwrbz
-	ZJS/H0IVR103C9TnlDlhTnldpe+0uhWr+pqa00UzvzKTpOM5oYKLHYeoEbfuCF02zjm2
-	sNq9MBHQrSQ1TWoN4lXhuLIYBDRY3R2rnlhV5pHepDSC9OrbLE6aFBJI050zYk9MpOJq
-	UiYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=/zWP2J9y+H2RGqG5li+eqyTc9PAIff3CcscYnV2b0rw=;
-	b=LphaBqxaV3jbP8WVjjsnGgj45DfptG41UvJ4zJ3w5/AxgBvgyTyCycAQZThOtmcGju
-	zPXW58TBPmoFGUhLIWR1NfBM3UzmfayDw0ydaHz9W4ukrLP9R5f6Pci8/0h1OFBDYALA
-	3BvYSx/1kZ4jLm36LQVGz3F5X4k9SOY5iedeU15fAAbUKwn4MlC8e8lDs+gll1gB8+S0
-	OeRyZdN4hoxLb63qhCB2SfBefn43faOW90t8/b6DIqbnKlElP0WGrkXFhN4MXdlWKA6x
-	vVyD2oHnX6T/iVjDXnWD5iRYJZ4iJC3TWZt3rk4RGxWcjyAPaRomUA9ihX5s3NahL7Nh
-	wYOw==
-X-Gm-Message-State: AG10YOTz3KkCZw1khgPfa/QOIOMkBdnWB3zBOHNvHFrPgd+fBZXpax0Cn6J/7eeK79JGVyeQjk63gHOYP7b9Ag==
+	Tue,  2 Feb 2016 12:19:26 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.72) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Tue, 2 Feb 2016 12:20:13 +0800
+From: Li Xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Feb 2016 07:19:57 +0300
+Message-ID: <1454386797-1807-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.28.98.133 with SMTP id w127mr14849605wmb.4.1454386725771;
-	Mon, 01 Feb 2016 20:18:45 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 1 Feb 2016 20:18:45 -0800 (PST)
-In-Reply-To: <CAJTo0LbfKq2CtEj3Y8zBmgQiXPNJF4587R2httpbmsNHgG+mhA@mail.gmail.com>
-References: <1454363382-13387-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LbfKq2CtEj3Y8zBmgQiXPNJF4587R2httpbmsNHgG+mhA@mail.gmail.com>
-Date: Mon, 1 Feb 2016 20:18:45 -0800
-Message-ID: <CAJ86T=XibuPtxUY2c+TQ35_KdBO47wRoCuSehgTbGfaR+tb8_A@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT][PATCH] curl: disable curl-config binconfig file
+X-Originating-IP: [10.167.226.72]
+X-yoursite-MailScanner-ID: 01C6A41896E9.A0EC9
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] iptables: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +38,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 04:18:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Feb 2016 04:20:23 -0000
+Content-Type: text/plain
 
-On Mon, Feb 1, 2016 at 6:23 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 1 February 2016 at 21:49, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> This works OK for me, but probably needs wider testing.
->
-> python-pycurl fails in oe-core:
->
-> DEBUG: Executing shell function do_compile
-> Traceback (most recent call last):
->   File
-> "/data/poky-master/tmp/work/corei7-64-poky-linux/python-pycurl/7.21.5-r0/pycurl-7.21.5/setup.py",
-> line 743, in <module>
->     ext = get_extension(sys.argv,
-> split_extension_source=split_extension_source)
->   File
-> "/data/poky-master/tmp/work/corei7-64-poky-linux/python-pycurl/7.21.5-r0/pycurl-7.21.5/setup.py",
-> line 497, in get_extension
->     ext_config = ExtensionConfiguration(argv)
->   File
-> "/data/poky-master/tmp/work/corei7-64-poky-linux/python-pycurl/7.21.5-r0/pycurl-7.21.5/setup.py",
-> line 71, in __init__
->     self.configure()
->   File
-> "/data/poky-master/tmp/work/corei7-64-poky-linux/python-pycurl/7.21.5-r0/pycurl-7.21.5/setup.py",
-> line 113, in configure_unix
->     raise ConfigurationError(msg)
-> __main__.ConfigurationError: `curl-config' not found -- please install the
-> libcurl development files or specify --curl-config=/path/to/curl-config:
-> ERROR: /usr/bin/curl-config should not be used, use an alternative such as
-> pkg-config
+Add iptables.service & ip6tables.service to support systemd systems.
 
-Thanks. Unfortunately I don't see a clean solution for this. The
-setup.py script uses curl-config to determine which ssl implementation
-curl has been built against and that information isn't available from
-pkg-config.
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ .../iptables/iptables/ip6tables.service                 | 17 +++++++++++++++++
+ .../recipes-extended/iptables/iptables/iptables.service | 17 +++++++++++++++++
+ meta/recipes-extended/iptables/iptables_1.4.21.bb       | 16 +++++++++++++++-
+ 3 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/iptables/iptables/ip6tables.service
+ create mode 100644 meta/recipes-extended/iptables/iptables/iptables.service
 
-It's probably fixable with some surgery, but I'm not sure it's worth
-the maintenance effort just so we can disable curl binconfig...
+diff --git a/meta/recipes-extended/iptables/iptables/ip6tables.service b/meta/recipes-extended/iptables/iptables/ip6tables.service
+new file mode 100644
+index 0000000..148a1b9
+--- /dev/null
++++ b/meta/recipes-extended/iptables/iptables/ip6tables.service
+@@ -0,0 +1,17 @@
++[Unit]
++Description=IPv6 firewall with ip6tables
++After=syslog.target
++ConditionPathExists=/etc/default/iptables
++
++[Service]
++Type=oneshot
++RemainAfterExit=yes
++ExecStart=/usr/libexec/iptables/ip6tables.init start
++ExecStop=/usr/libexec/iptables/ip6tables.init stop
++Environment=BOOTUP=serial
++Environment=CONSOLETYPE=serial
++StandardOutput=syslog
++StandardError=syslog
++
++[Install]
++WantedBy=basic.target
+diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
+new file mode 100644
+index 0000000..9745c71
+--- /dev/null
++++ b/meta/recipes-extended/iptables/iptables/iptables.service
+@@ -0,0 +1,17 @@
++[Unit]
++Description=IPv4 firewall with iptables
++After=syslog.target
++ConditionPathExists=/etc/default/iptables
++
++[Service]
++Type=oneshot
++RemainAfterExit=yes
++ExecStart=/usr/libexec/iptables/iptables.init start
++ExecStop=/usr/libexec/iptables/iptables.init stop
++Environment=BOOTUP=serial
++Environment=CONSOLETYPE=serial
++StandardOutput=syslog
++StandardError=syslog
++
++[Install]
++WantedBy=basic.target
+diff --git a/meta/recipes-extended/iptables/iptables_1.4.21.bb b/meta/recipes-extended/iptables/iptables_1.4.21.bb
+index deea5e5..84c95ea 100644
+--- a/meta/recipes-extended/iptables/iptables_1.4.21.bb
++++ b/meta/recipes-extended/iptables/iptables_1.4.21.bb
+@@ -24,12 +24,14 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+            file://0001-fix-build-with-musl.patch \
+            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
++           file://iptables.service \
++           file://ip6tables.service \
+           "
+ 
+ SRC_URI[md5sum] = "536d048c8e8eeebcd9757d0863ebb0c0"
+ SRC_URI[sha256sum] = "52004c68021da9a599feed27f65defcfb22128f7da2c0531c0f75de0f479d3e0"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig systemd
+ 
+ EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
+                "
+@@ -46,3 +48,15 @@ do_configure_prepend() {
+ 	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+ 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+ }
++
++do_install_append() {
++    install -d ${D}${systemd_unitdir}/system
++    install -m 0644 ${WORKDIR}/ip6tables.service ${D}${systemd_unitdir}/system/
++    install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_unitdir}/system/
++    sed -i -e "s,/usr/libexec/iptables,${libexecdir},g" \
++               ${D}${systemd_unitdir}/system/iptables.service
++    sed -i -e "s,/usr/libexec/iptables,${libexecdir},g" \
++               ${D}${systemd_unitdir}/system/ip6tables.service
++}
++
++SYSTEMD_SERVICE_${PN} = "iptables.service ip6tables.service"
+-- 
+1.8.4.2
 
-Please drop my "curl: disable curl-config binconfig file" patch.
 
-> Ross
+
 
