@@ -1,21 +1,50 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C7BE2771B5
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D464A76230
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 16:06:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 08:06:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="875216827"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2016 08:06:01 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 16:06:54 +0000
-Message-Id: <1454429214-20792-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-Subject: [PATCH][jethro] linux-yocto: Adds new SRCREVs for qemux86 and qemux86-64 for kernel 3.14 and 3.19
+	Tue,  2 Feb 2016 16:13:10 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id l143so54819706lfe.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Feb 2016 08:13:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=in0NmjD13DVoagVxR/qItfm9BanOMUYFikOcPrUsL7Q=;
+	b=rz2AcegiSpgSbjMbrGXP6GSZhS8NFrT8RMYlUj9nz1jQUKBe3ts2dXiV6dMSTQjLhq
+	mnf0XZB343DLOemnx0K0ny8HbkbgWd45J/NHBs9j9bfhPlzJvU0eaDWYEW48xouOWYOh
+	NblNsBb9sZyB+vYK0GGm5WsYQyQD2ARgI0fz+ljyyKOVS8svskprPfGlUg6nkHAo4e5f
+	DcmTrBBeddcNq4W2Y5BoQKfLJkKhInBx0x8lluS73XqummSuIETX3Hmk1u69WDGajf4T
+	J0/7NiCrEUkHwpREMqXWy8SdIJSURxDHAYVd3eCNF5dXdYwN0Cg74IkEpBKc37+qcTVl
+	d8sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=in0NmjD13DVoagVxR/qItfm9BanOMUYFikOcPrUsL7Q=;
+	b=d+MGKV/FL6NmXAA8FUIrCZBduVQDfQEc1gzZvPu7NFp4Dy3Lk0MD7xilj+lOdzPhNX
+	MzF5kJLkRpLQqB1bnUarcNCePnTWhI3UrjFH2mRcacmUpFF2DMt+XIFYG2x+rPC7lQxT
+	0N7CJFuW/gMUyJWmySJ75dSSvhywdPJZAEvMERziyiaBc+Iw5SAN90+7k0k9bE3AzMbe
+	qeL8SXtojPBxa/MxeXykW7ERSPbsoZbneAnHtaCvBQ8c6OwcSHa1GopWhg1P9eo6mc7R
+	h9+QWlovqfFx6vI37Ja+61VBARF2+GE1IM5WWHdzOXNIDeYYwfW7hDN382T1VnFnU+qo
+	Unog==
+X-Gm-Message-State: AG10YOSqhh9aZIzoKhGqYeOq6NxdSRXyhH4ehs9uIeoYyiAAxrrHAqfPj0SH9POzEPdAAgqLgvdV5U31zmBGiQ==
+X-Received: by 10.25.15.226 with SMTP id 95mr12194080lfp.85.1454429590258;
+	Tue, 02 Feb 2016 08:13:10 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.112.171.168 with HTTP; Tue, 2 Feb 2016 08:12:50 -0800 (PST)
+In-Reply-To: <569EBB4B.7020606@gmail.com>
+References: <CADkTA4PoDAgiJ2kdpT9HBnWLfGG-spLmSnF66BP33z520ig6wA@mail.gmail.com>
+	<1450132548-31177-1-git-send-email-haris.okanovic@ni.com>
+	<569EBB4B.7020606@gmail.com>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Tue, 2 Feb 2016 16:12:50 +0000
+Message-ID: <CAMCfZKFzUu7gRsgbw0rNBQZaRcLm7mbF=dZ9mvUx4DJfmSnynQ@mail.gmail.com>
+To: Haris Okanovic <haris.okanovic@ni.com>
+Cc: Gratian Crisan <gratian.crisan@ni.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel: Add support for multiple kernel packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,45 +57,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 16:06:00 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 16:13:11 -0000
+Content-Type: multipart/alternative; boundary=001a113fb4d4140b1a052acbc7ad
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.19.bb | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+--001a113fb4d4140b1a052acbc7ad
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index 809789b..e80a80d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?= "4817747912b5c50ce5c31ef25658340ca615e1b4"
- SRCREV_machine_qemuarm64 ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
- SRCREV_machine_qemumips ?= "6ed76ec26b120f65f8547c8612b7334bd2745ec9"
- SRCREV_machine_qemuppc ?= "a86ade84b2e142c0fd7536d96477107b6d07db5c"
--SRCREV_machine_qemux86 ?= "af1f7f586bd32d39c057f17606991b887eadb389"
--SRCREV_machine_qemux86-64 ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
-+SRCREV_machine_qemux86 ?= "d9bf859dfae6f88b88b157119c20ae4d5e51420a"
-+SRCREV_machine_qemux86-64 ?= "93b2b800d85c1565af7d96f3776dc38c85ae1902"
- SRCREV_machine_qemumips64 ?= "a63d40b860a6d255005a541894d53729090b40ea"
- SRCREV_machine ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
- SRCREV_meta ?= "060fa80b7996250001ee90c50a4978c8fdb87fc4"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-index 753e14d..baa575b 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-@@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?= "857048f10bfe7089ca6007e72431f1c098b07115"
- SRCREV_machine_qemuarm64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
- SRCREV_machine_qemumips ?= "cedbbc7b5e72df2e820bb9e7885f12132c5e2fff"
- SRCREV_machine_qemuppc ?= "23a83386e10986a63e6cef712a045445499d002b"
--SRCREV_machine_qemux86 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
--SRCREV_machine_qemux86-64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
-+SRCREV_machine_qemux86 ?= "1583bf79b946cd5581d84d8c369b819a5ecb94b4"
-+SRCREV_machine_qemux86-64 ?= "1583bf79b946cd5581d84d8c369b819a5ecb94b4"
- SRCREV_machine_qemumips64 ?= "3eb70cea3532e22ab1b6da9864446621229e6616"
- SRCREV_machine ?= "151571a39785218a57c3ae3355cd63694890cc8d"
- SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
--- 
-2.6.2
+Haris,
 
 
+On 19 January 2016 at 22:40, Haris Okanovic <harisokn@gmail.com> wrote:
+
+> Any concerns pulling this into master as-is?
+>
+> We briefly discussed the possibility of building out-of-tree modules
+> against multiple kernels back in December, right before this thread
+> died. This change certainly doesn't preclude that improvement if someone
+> would like to implement it, nor does it change current behavior.
+> More importantly, it provides a useful function as-is in our opinion --
+> E.g. to provide a debug kernel in a feed for testing/development
+> activities.
+>
+> Thread:
+> http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/72908
+>
+
+
+Could you please give examples how kernel recipes look like?
+
+I'm particularly interested in this feature.
+
+
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
+<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+
+/*long live rock 'n roll*/
+
+--001a113fb4d4140b1a052acbc7ad
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Haris,</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
+>On 19 January 2016 at 22:40, Haris Okanovic <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:harisokn@gmail.com" target=3D"_blank">harisokn@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
+left-style:solid;padding-left:1ex"><div id=3D":j4x" class=3D"" style=3D"ove=
+rflow:hidden">Any concerns pulling this into master as-is?<br>
+<br>
+We briefly discussed the possibility of building out-of-tree modules<br>
+against multiple kernels back in December, right before this thread<br>
+died. This change certainly doesn&#39;t preclude that improvement if someon=
+e<br>
+would like to implement it, nor does it change current behavior.<br>
+More importantly, it provides a useful function as-is in our opinion --<br>
+E.g. to provide a debug kernel in a feed for testing/development activities=
+.<br>
+<br>
+Thread: <a href=3D"http://thread.gmane.org/gmane.comp.handhelds.openembedde=
+d.core/72908" rel=3D"noreferrer" target=3D"_blank">http://thread.gmane.org/=
+gmane.comp.handhelds.openembedded.core/72908</a><br></div></blockquote></di=
+v><br><br>Could you please give examples how kernel recipes look like?<br><=
+br>I&#39;m particularly=C2=A0interested in this feature.<br><br><br clear=
+=3D"all"><div><div class=3D"gmail_signature"><div dir=3D"ltr"><div>Regards,=
+</div><div><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administrador do Emba=
+rcados<br><a href=3D"http://www.embarcados.com.br/?utm_source=3Dassinatura_=
+diego&amp;utm_medium=3De-mail&amp;utm_campaign=3DAssinatura%20Email%20Diego=
+" target=3D"_blank">www.embarcados.com.br</a><br><br>/*long live rock &#39;=
+n roll*/<br></div></div></div>
+</div></div>
+
+--001a113fb4d4140b1a052acbc7ad--
