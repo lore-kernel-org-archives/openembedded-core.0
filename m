@@ -1,24 +1,21 @@
-Return-Path: <pascal.bach@siemens.com>
-X-Greylist: delayed 667 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 02 Feb 2016 15:20:28 UTC
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DCCB772CA
+Return-Path: <maciej.borzecki@open-rnd.pl>
+X-Greylist: delayed 647 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 02 Feb 2016 15:26:48 UTC
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id A3A1C77270
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 15:20:28 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u12F9IUU008439
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Feb 2016 16:09:18 +0100
-Received: from dev.sbt.siemens.com (MD1FZU9C.ww002.siemens.net [139.16.76.217])
-	by mail2.siemens.de (8.15.1/8.15.1) with ESMTP id u12F9Im5027196;
-	Tue, 2 Feb 2016 16:09:18 +0100
-From: Pascal Bach <pascal.bach@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 16:08:40 +0100
-Message-Id: <1454425720-16329-1-git-send-email-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] documentation.conf: align the documentation for DEBUG_OPTIMIZATION and FULL_OPTIMIZATION with bitbake.conf
+	Tue,  2 Feb 2016 15:26:48 +0000 (UTC)
+Received: from comp_016_pc_buildenv.localdomain (unknown [31.182.60.238])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 841152DBE79;
+	Tue,  2 Feb 2016 16:16:00 +0100 (CET)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: openembedded-core@lists.openembedded.org,
+	Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Tue,  2 Feb 2016 16:15:20 +0100
+Message-Id: <1454426120-3135-1-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: git-send-email 2.5.0
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [wic][PATCH] wic: default to empty bootloader config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +28,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 15:20:29 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 15:26:50 -0000
 
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+A kickstart file for non-x86 boards may have no 'bootloader' stanza. It
+is the usual case if bootloader is setup using other mechanism than
+through wic, and is for instance a part of u-boot configuration. In such
+case the 'bootloader' field in the KickStart class will be
+uninitialized. Instead of adding an empty bootloader line in every
+kickstart file call the bootloader parser with empty argument list to
+get defaults namespace.
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 ---
- meta/conf/documentation.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/wic/ksparser.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 1e09b65..00a69da 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -129,7 +129,7 @@ D[doc] = "The destination directory."
- DATE[doc] = "The date the build was started using YMD format."
- DATETIME[doc] = "The date and time the build was started."
- DEBUG_BUILD[doc] = "Specifies to build packages with debugging information. This influences the value of the SELECTED_OPTIMIZATION variable."
--DEBUG_OPTIMIZATION[doc] = "The options to pass in TARGET_CFLAGS and CFLAGS when compiling a system for debugging. This variable defaults to '-O -fno-omit-frame-pointer -g'."
-+DEBUG_OPTIMIZATION[doc] = "The options to pass in TARGET_CFLAGS and CFLAGS when compiling a system for debugging. This variable defaults to '-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe'."
- DEFAULT_PREFERENCE[doc] = "Specifies a weak bias for recipe selection priority."
- DEPENDS[doc] = "Lists a recipe's build-time dependencies (i.e. other recipe files)."
- DEPLOY_DIR[doc] = "Points to the general area that the OpenEmbedded build system uses to place images, packages, SDKs and other output files that are ready to be used outside of the build system."
-@@ -177,7 +177,7 @@ FILESPATH[doc] = "The default set of directories the OpenEmbedded build system u
- FILESYSTEM_PERMS_TABLES[doc] = "Allows you to define your own file permissions settings table as part of your configuration for the packaging process."
- FONT_EXTRA_RDEPENDS[doc] = "When a recipe inherits the fontcache class, this variable specifies runtime dependencies for font packages. This variable defaults to 'fontconfig-utils'."
- FONT_PACKAGES[doc] = "When a recipe inherits the fontcache class, this variable identifies packages containing font files that need to be cached by Fontconfig."
--FULL_OPTIMIZATION[doc]= "The options to pass in TARGET_CFLAGS and CFLAGS when compiling an optimized system. This variable defaults to '-fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2'."
-+FULL_OPTIMIZATION[doc]= "The options to pass in TARGET_CFLAGS and CFLAGS when compiling an optimized system. This variable defaults to '-O2 -pipe ${DEBUG_FLAGS}'."
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index f2a0e047449e122470b84e521a114f52d55bc4a4..2f1e0978db5cd39c88e9ac11c090d20a68573605 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -29,6 +29,7 @@ import os
+ import shlex
+ from argparse import ArgumentParser, ArgumentError, ArgumentTypeError
  
- #G
++from wic import msger
+ from wic.partition import Partition
+ from wic.utils.misc import find_canned
  
+@@ -135,6 +136,9 @@ class KickStart(object):
+         include.add_argument('path', type=cannedpathtype)
+ 
+         self._parse(parser, confpath)
++        if not self.bootloader:
++            msger.warning('bootloader config not specified, using defaults')
++            self.bootloader = bootloader.parse_args([])
+ 
+     def _parse(self, parser, confpath):
+         """
 -- 
-2.1.4
+2.5.0
 
 
