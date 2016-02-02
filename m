@@ -1,29 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B32A67723D
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A16E7718E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 14:47:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u12ElVRK007460; Tue, 2 Feb 2016 14:47:48 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TO5ckVKdYazK; Tue,  2 Feb 2016 14:47:48 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u12ElkBo007708
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 2 Feb 2016 14:47:47 GMT
-Message-ID: <1454424466.27087.79.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Pascal Bach <pascal.bach@siemens.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 02 Feb 2016 14:47:46 +0000
-In-Reply-To: <56B0AE88.3090103@siemens.com>
-References: <56B0AE88.3090103@siemens.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: Default value for FULL_OPTIMIZATION
+	Tue,  2 Feb 2016 14:50:03 +0000 (UTC)
+Received: from [82.1.213.155] (HELO elite.brightsign6)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
+	with ESMTP id 682781866; Tue, 02 Feb 2016 09:50:04 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign6 with esmtp (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1aQcHI-0003we-Jp; Tue, 02 Feb 2016 14:50:00 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1aQcHI-00025g-IG; Tue, 02 Feb 2016 14:50:00 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Feb 2016 14:49:44 +0000
+Message-Id: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +32,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 14:47:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Feb 2016 14:50:04 -0000
 
-On Tue, 2016-02-02 at 14:26 +0100, Pascal Bach wrote:
-> Hi everybody
-> 
-> I noticed an inconsistency in oe-core regarding the variable:
-> FULL_OPTIMIZATION
-> 
-> In bitbake.conf the variable is defined as follows:
-> 
->     FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
-> 
-> But if I look into the documentation.conf it tells me the following:
-> 
->     FULL_OPTIMIZATION[doc]= "The options to pass in TARGET_CFLAGS and
-> CFLAGS when compiling an optimized system. This variable defaults to
-> '-fexpensive-optimizations -fomit-frame-pointer -frename-registers 
-> -O2'."
-> 
-> I'm not sure if the documentation is wrong or if the default set in
-> bitbake.conf is incorrect.
-> Maybe somebody can shed some light on this.
+bitbake.conf currently contains:
 
-I think bitbake.conf is correct and we should update the documentation.
-A patch would be most welcome.
+EXTRA_OEMAKE = "-e MAKEFLAGS="
 
-Cheers,
+Back in November[1] I submitted a patch that allowed this default
+value to be overridden without affecting anything else that was
+appended to it. I received feedback that the default value was no
+longer useful and that it would be good to get rid of it.
 
-Richard
+So, this patch series fixes the two recipes that still appear to be
+relying on the previous default and then makes the default
+EXTRA_OEMAKE = "". After these changes core-image-sato builds
+successfully for me (although I have not run it.)
+
+Mike.
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112393.html
 
