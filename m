@@ -1,24 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 75685731D4
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id BA70777242
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 16:44:37 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 02 Feb 2016 08:44:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,385,1449561600"; d="scan'208";a="41120509"
-Received: from sghosh7-mobl1.amr.corp.intel.com ([10.254.78.200])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 08:44:38 -0800
-Message-ID: <1454431478.22468.169.camel@linux.intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 02 Feb 2016 08:44:38 -0800
-In-Reply-To: <1454429214-20792-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1454429214-20792-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: Evolution 3.18.1 (3.18.1-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [PATCH][jethro] linux-yocto: Adds new SRCREVs for qemux86 and qemux86-64 for kernel 3.14 and 3.19
+	Tue,  2 Feb 2016 17:05:05 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2001:470:6f:49f:b1a8:b5ad:1702:2017])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128
+	bits)) (No client certificate requested)
+	(Authenticated sender: andrewsh)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9AAB7265C27;
+	Tue,  2 Feb 2016 17:05:04 +0000 (GMT)
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Date: Tue,  2 Feb 2016 18:04:51 +0100
+Message-Id: <5507a5b8c53e9a00c4c1da0f91c2d2c0849dc6a4.1454429175.git.andrew.shadura@collabora.co.uk>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 1/2] dbus: use ${systemd_system_unitdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 16:44:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Feb 2016 17:05:08 -0000
 
+Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+---
+ meta/recipes-core/dbus/dbus_1.10.6.bb | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-It would be better to seperate these out to individual patches and
-provide a little more detail about what/why you updated the SRCREV, for
-example newer stable version of LTS kernel, CVE patches should be
-listed when known.
+diff --git a/meta/recipes-core/dbus/dbus_1.10.6.bb b/meta/recipes-core/dbus/dbus_1.10.6.bb
+index 5ba3f21..fec68a4 100644
+--- a/meta/recipes-core/dbus/dbus_1.10.6.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.6.bb
+@@ -69,7 +69,7 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${datadir}/dbus-1/session.conf \
+                ${datadir}/dbus-1/system.d \
+                ${datadir}/dbus-1/system.conf \
+-               ${systemd_unitdir}/system/"
++               ${systemd_system_unitdir}"
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool"
+@@ -102,7 +102,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd',
+ PACKAGECONFIG_class-native = ""
+ PACKAGECONFIG_class-nativesdk = ""
+ 
+-PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_unitdir}/system/,--disable-systemd --without-systemdsystemunitdir,systemd"
++PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
+ PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
+ PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
+ 
+@@ -117,12 +117,12 @@ do_install() {
+ 
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+ 		for i in dbus.target.wants sockets.target.wants multi-user.target.wants; do \
+-			install -d ${D}${systemd_unitdir}/system/$i; done
+-		install -m 0644 ${B}/bus/dbus.service ${B}/bus/dbus.socket ${D}${systemd_unitdir}/system/
+-		cd ${D}${systemd_unitdir}/system/dbus.target.wants/
+-		ln -fs ../dbus.socket ${D}${systemd_unitdir}/system/dbus.target.wants/dbus.socket
+-		ln -fs ../dbus.socket ${D}${systemd_unitdir}/system/sockets.target.wants/dbus.socket
+-		ln -fs ../dbus.service ${D}${systemd_unitdir}/system/multi-user.target.wants/dbus.service
++			install -d ${D}${systemd_system_unitdir}/$i; done
++		install -m 0644 ${B}/bus/dbus.service ${B}/bus/dbus.socket ${D}${systemd_system_unitdir}/
++		cd ${D}${systemd_system_unitdir}/dbus.target.wants/
++		ln -fs ../dbus.socket ${D}${systemd_system_unitdir}/dbus.target.wants/dbus.socket
++		ln -fs ../dbus.socket ${D}${systemd_system_unitdir}/sockets.target.wants/dbus.socket
++		ln -fs ../dbus.service ${D}${systemd_system_unitdir}/multi-user.target.wants/dbus.service
+ 	fi
+ 
+ 	install -d ${D}${sysconfdir}/default/volatiles
+-- 
+2.5.0
 
-A LINUX_VERISON update is needed for the 3.14 SRCREV update also.
-
-Thanks
-  Sau!
-
-
-On Tue, 2016-02-02 at 16:06 +0000, Alejandro Hernandez wrote:
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.c
-> om>
-> ---
->  meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 ++--
->  meta/recipes-kernel/linux/linux-yocto_3.19.bb | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> index 809789b..e80a80d 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> @@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?=
-> "4817747912b5c50ce5c31ef25658340ca615e1b4"
->  SRCREV_machine_qemuarm64 ?=
-> "578602a722dbfb260801f3b37c6eafd2abb2340d"
->  SRCREV_machine_qemumips ?=
-> "6ed76ec26b120f65f8547c8612b7334bd2745ec9"
->  SRCREV_machine_qemuppc ?= "a86ade84b2e142c0fd7536d96477107b6d07db5c"
-> -SRCREV_machine_qemux86 ?= "af1f7f586bd32d39c057f17606991b887eadb389"
-> -SRCREV_machine_qemux86-64 ?=
-> "578602a722dbfb260801f3b37c6eafd2abb2340d"
-> +SRCREV_machine_qemux86 ?= "d9bf859dfae6f88b88b157119c20ae4d5e51420a"
-> +SRCREV_machine_qemux86-64 ?=
-> "93b2b800d85c1565af7d96f3776dc38c85ae1902"
->  SRCREV_machine_qemumips64 ?=
-> "a63d40b860a6d255005a541894d53729090b40ea"
->  SRCREV_machine ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
->  SRCREV_meta ?= "060fa80b7996250001ee90c50a4978c8fdb87fc4"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-> b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-> index 753e14d..baa575b 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-> @@ -15,8 +15,8 @@ SRCREV_machine_qemuarm ?=
-> "857048f10bfe7089ca6007e72431f1c098b07115"
->  SRCREV_machine_qemuarm64 ?=
-> "e152349de59b43b2a75f2c332b44171df461d5a0"
->  SRCREV_machine_qemumips ?=
-> "cedbbc7b5e72df2e820bb9e7885f12132c5e2fff"
->  SRCREV_machine_qemuppc ?= "23a83386e10986a63e6cef712a045445499d002b"
-> -SRCREV_machine_qemux86 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
-> -SRCREV_machine_qemux86-64 ?=
-> "e152349de59b43b2a75f2c332b44171df461d5a0"
-> +SRCREV_machine_qemux86 ?= "1583bf79b946cd5581d84d8c369b819a5ecb94b4"
-> +SRCREV_machine_qemux86-64 ?=
-> "1583bf79b946cd5581d84d8c369b819a5ecb94b4"
->  SRCREV_machine_qemumips64 ?=
-> "3eb70cea3532e22ab1b6da9864446621229e6616"
->  SRCREV_machine ?= "151571a39785218a57c3ae3355cd63694890cc8d"
->  SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
 
