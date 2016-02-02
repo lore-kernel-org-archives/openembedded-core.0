@@ -1,30 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 15C1960745
+Return-Path: <pespin.shar@gmail.com>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 767C4772E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 22:15:19 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2016 14:15:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,386,1449561600"; d="scan'208";a="895043289"
-Received: from kng2-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.178.194])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2016 14:15:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Wed, 03 Feb 2016 11:15:14 +1300
-Message-ID: <2970806.oZjWx8xubM@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.3.3-303.fc23.x86_64; KDE/4.14.16; x86_64; ;
-	)
-In-Reply-To: <56B129F8.9000402@linux.intel.com>
-References: <cover.1454424743.git.anibal.limon@linux.intel.com>
-	<1685931.lfZTPyxPBX@peggleto-mobl.ger.corp.intel.com>
-	<56B129F8.9000402@linux.intel.com>
+	Tue,  2 Feb 2016 22:25:42 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id x4so1626662lbm.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Feb 2016 14:25:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=xxGBL2iRHSt/V2Wo9D2hZB7T8Mdp76j6wGEqSwF3AOo=;
+	b=reJon4LdsTmOr1fORILjv6MGDaiQ0MjF2TSthGso8OozK3B5jfq/gmm0jPU8ISavrm
+	I6g4sPrZWbbvnS/YqBtpgm6JTvNMIRoM/1Qsa8s1mh/Uzd/W5Vyoo/zUs9G4eb5nYc6l
+	Q1WFJMLFY89nFiRg2Bpt5PS4bkWGGf4WaF9+p7ue4bZzJ3Ce338pfTIQE2oKwyFwKgxT
+	HFL1MGzCzgml3pouMKpiaCGIiAZ4ruP6ZsdxqV+0YOD9lC9K37Rqjl8yB0Sx2hEoKy3o
+	YJSalWD8EGnWkQuSRXvGpFNv1h7M7xfprU1VwAUBdAw9E2RuHTkBComeFGuhAn/0wfBy
+	rpqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=xxGBL2iRHSt/V2Wo9D2hZB7T8Mdp76j6wGEqSwF3AOo=;
+	b=PeS5K8xvcidoWk7JPYRf+u+tTMf5T1XuxvmavWMFsbTpIG+QCWnAOgOlpMXu7snX/d
+	pZXGJQ5LQlFAZVz1HScdwLAaWWwmEAj9Oz84/CJVUso+xQfORNcPGMn/r0slnLGhMHFz
+	eaKhUqd8yDbOPt5Oc2rGgYKN59Bo8FNTaSewytzQxcld8A2OK8GSI1Jh9KZ5YSkg1e9Z
+	TeKjZbtr83SGBixTcOZeN+rEQ34I/CkoSfxXcRbyQ3euM91i+fABm3TFP8bjxr23SKID
+	zcJdtZIJkBxtEPTrZcmr8OnB+cnY9lnNzolHMhYA88AuoKykIE4oInenVsJQ+MAnqBm+
+	kviQ==
+X-Gm-Message-State: AG10YOSve2qq2BJ97exLAAcsde2CfXpopbE3PPQNBpIaWQAOe30dhzKLrugUEz1/ZhLseN7F3bWEZ2YhJuArcw==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org, benjamin.esquivel@intel.com,
-	=?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 18/20] classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST
+X-Received: by 10.112.172.2 with SMTP id ay2mr2629539lbc.91.1454451942394;
+	Tue, 02 Feb 2016 14:25:42 -0800 (PST)
+Received: by 10.25.158.193 with HTTP; Tue, 2 Feb 2016 14:25:42 -0800 (PST)
+In-Reply-To: <1453690127-24751-1-git-send-email-rongqing.li@windriver.com>
+References: <1453690127-24751-1-git-send-email-rongqing.li@windriver.com>
+Date: Tue, 2 Feb 2016 23:25:42 +0100
+Message-ID: <CAEGpDua-Aur4Xd6AUJv0_9c39dchPNZQWOzk+vEWny3fy2aZFA@mail.gmail.com>
+From: Pau Espin Pedrol <pespin.shar@gmail.com>
+To: rongqing.li@windriver.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [v2] watchdog: enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,167 +53,284 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Feb 2016 22:15:20 -0000
+X-List-Received-Date: Tue, 02 Feb 2016 22:25:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c3452e5e9642052ad0fbe9
+
+--001a11c3452e5e9642052ad0fbe9
+Content-Type: text/plain; charset=UTF-8
+
+Hi,
+Please could you use ${systemd_system_unitdir} instead of
+${systemd_unitdir}/system ?
+
+Pau Espin Pedrol
+mail/jabber: pespin.shar@gmail.com
+http://blog.espeweb.net
+
+2016-01-25 3:48 GMT+01:00 <rongqing.li@windriver.com>:
+
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> 1. inherit systemd, and add two unit files which are from Fedora 23
+> 2. auto load soft dog kernel module
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>  .../watchdog/watchdog/watchdog-ping.service             | 12 ++++++++++++
+>  .../recipes-extended/watchdog/watchdog/watchdog.service | 12 ++++++++++++
+>  meta/recipes-extended/watchdog/watchdog_5.14.bb         | 17
+> ++++++++++++++++-
+>  3 files changed, 40 insertions(+), 1 deletion(-)
+>  create mode 100644
+> meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+>  create mode 100644
+> meta/recipes-extended/watchdog/watchdog/watchdog.service
+>
+> diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+> b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+> new file mode 100644
+> index 0000000..fce6e12
+> --- /dev/null
+> +++ b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+> @@ -0,0 +1,12 @@
+> +[Unit]
+> +Description=watchdog daemon for use with ping test / network dependency
+> +After=network.target
+> +Conflicts=watchdog.service
+> +
+> +[Service]
+> +Type=forking
+> +ExecStart=@SBINDIR@/watchdog
+> +ControlGroup=cpu:/
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog.service
+> b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+> new file mode 100644
+> index 0000000..f945bc9
+> --- /dev/null
+> +++ b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+> @@ -0,0 +1,12 @@
+> +[Unit]
+> +Description=watchdog daemon
+> +# man systemd.special
+> +# auto added After=basic.target
+> +
+> +[Service]
+> +Type=forking
+> +ExecStart=@SBINDIR@/watchdog
+> +ControlGroup=cpu:/
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb
+> b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+> index fc717bc..9e21075 100644
+> --- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
+> +++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+> @@ -14,6 +14,8 @@ SRC_URI =
+> "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+>            file://watchdog-init.patch \
+>            file://watchdog-conf.patch \
+>
+>  file://0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch \
+> +          file://watchdog-ping.service \
+> +          file://watchdog.service \
+>  "
+>
+>  SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
+> @@ -23,7 +25,7 @@ UPSTREAM_CHECK_URI = "
+> http://sourceforge.net/projects/watchdog/files/watchdog/"
+>  UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+>
+>  inherit autotools
+> -inherit update-rc.d
+> +inherit update-rc.d systemd
+>
+>  DEPENDS_append_libc-musl = " libtirpc "
+>  CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
+> @@ -34,6 +36,19 @@ INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
+>
+>  RRECOMMENDS_${PN} = "kernel-module-softdog"
+>
+> +
+> +SYSTEMD_SERVICE_${PN} = "watchdog.service"
+> +
+>  do_install_append() {
+>         install -D ${S}/redhat/watchdog.init
+> ${D}/${sysconfdir}/init.d/watchdog.sh
+> +       install -d ${D}${systemd_unitdir}/system
+> +       install -m 0644 ${WORKDIR}/watchdog*.service
+> ${D}${systemd_unitdir}/system
+> +
+> +       if
+> ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> +               install -d ${D}${sysconfdir}/modules-load.d
+> +               echo "softdog" >
+> ${D}${sysconfdir}/modules-load.d/softdog.conf
+> +               sed -i -e 's,@SBINDIR@,${sbindir},g'
+> ${D}${systemd_unitdir}/system/*.service
+> +       fi
+>  }
+> +
+> +FILES_${PN} += "${systemd_unitdir}/system/*"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a11c3452e5e9642052ad0fbe9
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-On Tue, 02 Feb 2016 16:13:12 An=EDbal Lim=F3n wrote:
-> On 02/02/2016 04:06 PM, Paul Eggleton wrote:
-> > On Tue, 02 Feb 2016 16:05:06 An=EDbal Lim=F3n wrote:
-> >> On 02/02/2016 03:52 PM, Paul Eggleton wrote:
-> >>> On Tue, 02 Feb 2016 09:14:21 An=EDbal Lim=F3n wrote:
-> >>>> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
-> >>>>=20
-> >>>> Extensible SDK needs to point to the correct manifest so add
-> >>>> SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST variables.
-> >>>>=20
-> >>>> oeqa/oetest.py: Fix SDKExtTestContext for load the correct manif=
-ests.
-> >>>>=20
-> >>>> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
-> >>>> ---
-> >>>>=20
-> >>>>  meta/classes/populate_sdk_ext.bbclass |  3 +++
-> >>>>  meta/lib/oeqa/oetest.py               | 11 +++++++++--
-> >>>>  2 files changed, 12 insertions(+), 2 deletions(-)
-> >>>>=20
-> >>>> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> >>>> b/meta/classes/populate_sdk_ext.bbclass index fc96a4b..27dc030 1=
-00644
-> >>>> --- a/meta/classes/populate_sdk_ext.bbclass
-> >>>> +++ b/meta/classes/populate_sdk_ext.bbclass
-> >>>> @@ -43,6 +43,9 @@ B_task-populate-sdk-ext =3D "${SDK_DIR}"
-> >>>>=20
-> >>>>  TOOLCHAINEXT_OUTPUTNAME =3D "${SDK_NAME}-toolchain-ext-${SDK_VE=
-RSION}"
-> >>>>  TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext =3D
-> >>>>  "${TOOLCHAINEXT_OUTPUTNAME}"
-> >>>>=20
-> >>>> +SDK_EXT_TARGET_MANIFEST =3D
-> >>>> "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
-> >>>> +SDK_EXT_HOST_MANIFEST =3D
-> >>>> "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest" +
-> >>>>=20
-> >>>>  SDK_TITLE_task-populate-sdk-ext =3D "${@d.getVar('DISTRO_NAME',=
- True) or
-> >>>>=20
-> >>>> d.getVar('DISTRO', True)} Extensible SDK"
-> >>>>=20
-> >>>>  python copy_buildsystem () {
-> >>>>=20
-> >>>> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-> >>>> index 6beb6c5..c951989 100644
-> >>>> --- a/meta/lib/oeqa/oetest.py
-> >>>> +++ b/meta/lib/oeqa/oetest.py
-> >>>>=20
-> >>>> @@ -382,14 +382,18 @@ class SDKTestContext(TestContext):
-> >>>>          self.sdktestdir =3D sdktestdir
-> >>>>          self.sdkenv =3D sdkenv
-> >>>>=20
-> >>>> +        if not hasattr(self, 'target_manifest_name'):
-> >>>> +            self.target_manifest_name =3D "SDK_TARGET_MANIFEST"=
+<div dir=3D"ltr"><div>Hi,<br></div>Please could you use ${systemd_system_un=
+itdir} instead of ${systemd_unitdir}/system ?<br></div><div class=3D"gmail_=
+extra"><br clear=3D"all"><div><div class=3D"gmail_signature">Pau Espin Pedr=
+ol<br>mail/jabber: <a href=3D"mailto:pespin.shar@gmail.com" target=3D"_blan=
+k">pespin.shar@gmail.com</a><br><a href=3D"http://blog.espeweb.net" target=
+=3D"_blank">http://blog.espeweb.net</a><br></div></div>
+<br><div class=3D"gmail_quote">2016-01-25 3:48 GMT+01:00  <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:rongqing.li@windriver.com" target=3D"_blank">rongqin=
+g.li@windriver.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: =
+Roy Li &lt;<a href=3D"mailto:rongqing.li@windriver.com">rongqing.li@windriv=
+er.com</a>&gt;<br>
+<br>
+1. inherit systemd, and add two unit files which are from Fedora 23<br>
+2. auto load soft dog kernel module<br>
+<br>
+Signed-off-by: Roy Li &lt;<a href=3D"mailto:rongqing.li@windriver.com">rong=
+qing.li@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../watchdog/watchdog/watchdog-ping.service=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++++++++<br>
+=C2=A0.../recipes-extended/watchdog/watchdog/watchdog.service | 12 ++++++++=
+++++<br>
+=C2=A0meta/recipes-extended/watchdog/<a href=3D"http://watchdog_5.14.bb" re=
+l=3D"noreferrer" target=3D"_blank">watchdog_5.14.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| 17 ++++++++++++++++-<br>
+=C2=A03 files changed, 40 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-p=
+ing.service<br>
+=C2=A0create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog.s=
+ervice<br>
+<br>
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service =
+b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service<br>
+new file mode 100644<br>
+index 0000000..fce6e12<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service<br>
+@@ -0,0 +1,12 @@<br>
++[Unit]<br>
++Description=3Dwatchdog daemon for use with ping test / network dependency<=
+br>
++After=3Dnetwork.target<br>
++Conflicts=3Dwatchdog.service<br>
++<br>
++[Service]<br>
++Type=3Dforking<br>
++ExecStart=3D@SBINDIR@/watchdog<br>
++ControlGroup=3Dcpu:/<br>
++<br>
++[Install]<br>
++WantedBy=3Dmulti-user.target<br>
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog.service b/met=
+a/recipes-extended/watchdog/watchdog/watchdog.service<br>
+new file mode 100644<br>
+index 0000000..f945bc9<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog.service<br>
+@@ -0,0 +1,12 @@<br>
++[Unit]<br>
++Description=3Dwatchdog daemon<br>
++# man systemd.special<br>
++# auto added After=3Dbasic.target<br>
++<br>
++[Service]<br>
++Type=3Dforking<br>
++ExecStart=3D@SBINDIR@/watchdog<br>
++ControlGroup=3Dcpu:/<br>
++<br>
++[Install]<br>
++WantedBy=3Dmulti-user.target<br>
+diff --git a/meta/recipes-extended/watchdog/<a href=3D"http://watchdog_5.14=
+.bb" rel=3D"noreferrer" target=3D"_blank">watchdog_5.14.bb</a> b/meta/recip=
+es-extended/watchdog/<a href=3D"http://watchdog_5.14.bb" rel=3D"noreferrer"=
+ target=3D"_blank">watchdog_5.14.bb</a><br>
+index fc717bc..9e21075 100644<br>
+--- a/meta/recipes-extended/watchdog/<a href=3D"http://watchdog_5.14.bb" re=
+l=3D"noreferrer" target=3D"_blank">watchdog_5.14.bb</a><br>
++++ b/meta/recipes-extended/watchdog/<a href=3D"http://watchdog_5.14.bb" re=
+l=3D"noreferrer" target=3D"_blank">watchdog_5.14.bb</a><br>
+@@ -14,6 +14,8 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/watchdog/watchdog=
+-${PV}.tar.gz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://watchdog-init.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://watchdog-conf.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-build-issues-found=
+-with-non-glibc-C-libraries.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://watchdog-ping.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://watchdog.service \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;5b2dba0c593942f4acc100bca0d560c4&quot;<br>
+@@ -23,7 +25,7 @@ UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://sourceforg=
+e.net/projects/watchdog/files/watchdog/" rel=3D"noreferrer" target=3D"_blan=
+k">http://sourceforge.net/projects/watchdog/files/watchdog/</a>&quot;<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;/watchdog/(?P&lt;pver&gt;(\d+[\.\-_]*)=
++)/&quot;<br>
+<br>
+=C2=A0inherit autotools<br>
+-inherit update-rc.d<br>
++inherit update-rc.d systemd<br>
+<br>
+=C2=A0DEPENDS_append_libc-musl =3D &quot; libtirpc &quot;<br>
+=C2=A0CFLAGS_append_libc-musl =3D &quot; -I${STAGING_INCDIR}/tirpc &quot;<b=
+r>
+@@ -34,6 +36,19 @@ INITSCRIPT_PARAMS =3D &quot;start 15 1 2 3 4 5 . stop 85=
+ 0 6 .&quot;<br>
+<br>
+=C2=A0RRECOMMENDS_${PN} =3D &quot;kernel-module-softdog&quot;<br>
+<br>
++<br>
++SYSTEMD_SERVICE_${PN} =3D &quot;watchdog.service&quot;<br>
++<br>
+=C2=A0do_install_append() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D ${S}/redhat/watchdog.init ${D}/${sys=
+confdir}/init.d/watchdog.sh<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${systemd_unitdir}/system<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/watchdog*.service ${=
+D}${systemd_unitdir}/system<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ${@bb.utils.contains(&#39;DISTRO_FEATURES&#3=
+9;,&#39;systemd&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sy=
+sconfdir}/modules-load.d<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;softdog&=
+quot; &gt; ${D}${sysconfdir}/modules-load.d/softdog.conf<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s,@S=
+BINDIR@,${sbindir},g&#39; ${D}${systemd_unitdir}/system/*.service<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0}<br>
++<br>
++FILES_${PN} +=3D &quot;${systemd_unitdir}/system/*&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
 
-> >>>>=20
-> >>>>          try:
-> >>>> -            with open(d.getVar("SDK_TARGET_MANIFEST", True)) as=
- f:
-> >>>>=20
-> >>>> +            with open(d.getVar(self.target_manifest_name, True)=
-) as f:
-> >>>>                   self.pkgmanifest =3D f.read()
-> >>>>         =20
-> >>>>          except IOError as e:
-> >>>>              bb.fatal("No package manifest file found. Did you b=
-uild
-> >>>>              the
-> >>>>              sdk
-> >>>>=20
-> >>>> image?\n%s" % e)
-> >>>>=20
-> >>>> +        if not hasattr(self, 'host_manifest_name'):
-> >>>> +            self.host_manifest_name =3D "SDK_HOST_MANIFEST"
-> >>>>=20
-> >>>>          try:
-> >>>> -            with open(d.getVar("SDK_HOST_MANIFEST", True)) as f=
-:
-> >>>>=20
-> >>>> +            with open(d.getVar(self.host_manifest_name, True)) =
-as f:
-> >>>>                  self.hostpkgmanifest =3D f.read()
-> >>>>         =20
-> >>>>          except IOError as e:
-> >>>>              bb.fatal("No host package manifest file found. Did =
-you
-> >>>>              build
-> >>>>=20
-> >>>> the sdk image?\n%s" % e) @@ -406,6 +410,9 @@ class
-> >>>>=20
-> >>>> SDKTestContext(TestContext):
-> >>>>  class SDKExtTestContext(SDKTestContext):
-> >>>>      def __init__(self, d, sdktestdir, sdkenv):
-> >>>> +        self.target_manifest_name =3D "SDK_EXT_TARGET_MANIFEST"=
-
-> >>>> +        self.host_manifest_name =3D "SDK_EXT_HOST_MANIFEST"
-> >>>> +
-> >>>>=20
-> >>>>          super(SDKExtTestContext, self).__init__(d, sdktestdir, =
-sdkenv)
-> >>>>         =20
-> >>>>          self.sdkextfilesdir =3D
-> >>>>          os.path.join(os.path.dirname(os.path.abspath(
-> >>>=20
-> >>> I really don't like the idea of passing the variable name here ra=
-ther
-> >>> than
-> >>> values. However, besides that, the manifest is always the SDK nam=
-e plus
-> >>> .host.manifest or .target.manifest - do we even need to pass sepa=
-rate
-> >>> names? All you should need is the name of the SDK i.e. the value =
-of
-> >>> TOOLCHAINEXT_OUTPUTNAME.
-> >>=20
-> >> I prefer to have explicit value and construct them into one place
-> >> instead of have many name constructions like you said to use
-> >> TOOLCHAINEXT_OUTPUTNAME and suppose that always be end with .{host=
-,
-> >> target}.manifest.
-> >=20
-> > When you add a variable to populate_sdk_ext.bbclass, it isn't just =
-defined
-> > for the ext SDK - it's defined for every image recipe. I want to tr=
-y to
-> > avoid defining additional variables and thus expanding the environm=
-ent
-> > where we don't really need to.
->=20
-> I guess two more variable expansions gives you no more/less performan=
-ce
-> and also gives you the possibility to have the thing set in a clean m=
-anner,
-
-OK, if you insist on using those, don't pass the variable name - get th=
-e value=20
-of the variable and then pass the value. For the record I'm still unhap=
-py=20
-about unnecessarily adding variables like this.
-
-> > The naming of the manifest is something we can rely on, because ext=
-ernal
-> > tools need to be able to.
->=20
-> May be now, :).
-
-If we change that we also break anything that reads those files. We won=
-'t be=20
-changing those any time soon.
-
-Cheers,
-Paul
-
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--001a11c3452e5e9642052ad0fbe9--
