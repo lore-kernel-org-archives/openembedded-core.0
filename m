@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 395C8772A9
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B643772A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 09:38:50 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 01:38:51 -0800
+	Tue,  2 Feb 2016 09:38:48 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 02 Feb 2016 01:38:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="738961230"
+X-IronPort-AV: E=Sophos;i="5.22,384,1449561600"; d="scan'208";a="40849726"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 02 Feb 2016 01:38:50 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2016 01:38:49 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 85A096A4002
+	by linux.intel.com (Postfix) with ESMTP id 1EF866A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Feb 2016 02:26:43 -0800 (PST)
+	Tue,  2 Feb 2016 02:26:41 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 09:28:07 +0200
-Message-Id: <faa9babe080b42d11e4397aca629f099d72e9460.1454397260.git.ed.bartosh@linux.intel.com>
+Date: Tue,  2 Feb 2016 09:28:06 +0200
+Message-Id: <a6452882b13696481455cf0d8560f0f51cc2af86.1454397260.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454397260.git.ed.bartosh@linux.intel.com>
 References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1454397260.git.ed.bartosh@linux.intel.com>
 References: <cover.1454397260.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 15/15] oe-selftest: don't use specific tasks
+Subject: [wic][PATCH 14/15] oe-selftest: pylinted wic tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +37,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 02 Feb 2016 09:38:51 -0000
 
-Image should be build usual way, i.e. using bitbake <image>.
-Specifying do_mage_complete and do_rootfs_wicenv tasks should not
-be needed anymore as those tasks should be run by bitbake for
-every image.
-
-Removed specifying do_mage_complete and do_rootfs_wicenv tasks
-from bitbake calls.
+Fixed the following pylint warnings:
+  C: 45, 0: Line too long (91/80) (line-too-long)
+  C:105, 0: Wrong continued indentation.
+                            ignore_status=True).status)
+                            ^         | (bad-continuation)
+  W: 83, 8: Redefining built-in 'vars' (redefined-builtin)
+  W:175, 8: Redefining built-in 'vars' (redefined-builtin)
+  W: 27, 0: Unused import sys (unused-import)
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/wic.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 964b954..f500f1c 100644
+index 4985714..964b954 100644
 --- a/meta/lib/oeqa/selftest/wic.py
 +++ b/meta/lib/oeqa/selftest/wic.py
-@@ -50,7 +50,7 @@ class Wic(oeSelfTest):
-         if not Wic.image_is_ready:
-             bitbake('syslinux syslinux-native parted-native gptfdisk-native '
-                     'dosfstools-native mtools-native')
--            bitbake('core-image-minimal:do_image_complete core-image-minimal:do_rootfs_wicenv')
-+            bitbake('core-image-minimal')
-             Wic.image_is_ready = True
+@@ -24,7 +24,6 @@
+ """Test cases for wic."""
  
-         rmtree(self.resultdir, ignore_errors=True)
+ import os
+-import sys
+ 
+ from glob import glob
+ from shutil import rmtree
+@@ -42,7 +41,8 @@ class Wic(oeSelfTest):
+ 
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+-        self.write_config('IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n')
++        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
++                          'MACHINE_FEATURES_append = " efi"\n')
+ 
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
+@@ -80,14 +80,14 @@ class Wic(oeSelfTest):
+     @testcase(1212)
+     def test_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+-        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
++        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+                                     'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+         status = runCmd("wic create directdisk "
+                         "-b %(staging_datadir)s "
+                         "-k %(deploy_dir_image)s "
+                         "-n %(staging_dir_native)s "
+-                        "-r %(image_rootfs)s" % vars).status
++                        "-r %(image_rootfs)s" % bbvars).status
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+ 
+@@ -102,7 +102,7 @@ class Wic(oeSelfTest):
+     def test_unsupported_subcommand(self):
+         """Test unsupported subcommand"""
+         self.assertEqual(1, runCmd('wic unsupported',
+-                         ignore_status=True).status)
++                                   ignore_status=True).status)
+ 
+     @testcase(1214)
+     def test_no_command(self):
+@@ -172,20 +172,20 @@ class Wic(oeSelfTest):
+     @testcase(1269)
+     def test_rootfs_artifacts(self):
+         """Test usage of rootfs plugin with rootfs paths"""
+-        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
++        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+                                     'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+-        vars['wks'] = "directdisk-multi-rootfs"
++        bbvars['wks'] = "directdisk-multi-rootfs"
+         status = runCmd("wic create %(wks)s "
+                         "-b %(staging_datadir)s "
+                         "-k %(deploy_dir_image)s "
+                         "-n %(staging_dir_native)s "
+                         "--rootfs-dir rootfs1=%(image_rootfs)s "
+                         "--rootfs-dir rootfs2=%(image_rootfs)s" \
+-                        % vars).status
++                        % bbvars).status
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + \
+-                                     "%(wks)s-*.direct" % vars)))
++                                     "%(wks)s-*.direct" % bbvars)))
+ 
+     @testcase(1346)
+     def test_iso_image(self):
 -- 
 2.1.4
 
