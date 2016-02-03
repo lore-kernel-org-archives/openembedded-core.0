@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id F3AE277311
+	by mail.openembedded.org (Postfix) with ESMTP id C469177335
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 00:28:53 +0000 (UTC)
+	Wed,  3 Feb 2016 00:28:54 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 16:28:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,387,1449561600"; d="scan'208";a="904289143"
+X-IronPort-AV: E=Sophos;i="5.22,387,1449561600"; d="scan'208";a="904289152"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 16:28:54 -0800
+	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 16:28:55 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 18:30:23 -0600
-Message-Id: <46516c6079a4c4737d1030f3a4c61cd0ffb47b36.1454459362.git.anibal.limon@linux.intel.com>
+Date: Tue,  2 Feb 2016 18:30:24 -0600
+Message-Id: <03af3029f477233e45c1a5594c35278c44c1bd67.1454459362.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454459362.git.anibal.limon@linux.intel.com>
 References: <cover.1454459362.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1454459362.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCH v2 11/28] testimage/testsdk: Move get test suites routine inside TestContext.
+Subject: [PATCH v2 12/28] oetest.py/TestContext: Move loadTests and runTests inside it.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,337 +34,312 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 00:28:54 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 00:28:55 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-In order to provide better abstraction move functions to get the test
-suite inside the TestContext.
+Method's for loadTests and runTests make sense to define
+inside TestContext because it can be different around
+Image, SDK, SDKExt.
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/testimage.bbclass |  11 +--
- meta/classes/testsdk.bbclass   |  19 +---
- meta/lib/oeqa/oetest.py        | 192 +++++++++++++++++++++++------------------
- 3 files changed, 112 insertions(+), 110 deletions(-)
+ meta/classes/testimage.bbclass |   6 +-
+ meta/classes/testsdk.bbclass   |   6 +-
+ meta/lib/oeqa/oetest.py        | 197 ++++++++++++++++++++---------------------
+ 3 files changed, 103 insertions(+), 106 deletions(-)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 2e5bf44..5ffa8a5 100644
+index 5ffa8a5..5fafda1 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -195,8 +195,7 @@ def testimage_main(d):
+@@ -195,7 +195,7 @@ def testimage_main(d):
      import oeqa.runtime
      import time
      import signal
--    from oeqa.oetest import loadTests, runTests, \
--        get_test_suites, get_tests_list, ImageTestContext
-+    from oeqa.oetest import loadTests, runTests, ImageTestContext
+-    from oeqa.oetest import loadTests, runTests, ImageTestContext
++    from oeqa.oetest import ImageTestContext
      from oeqa.targetcontrol import get_target_controller
      from oeqa.utils.dump import get_host_dumper
  
-@@ -207,12 +206,6 @@ def testimage_main(d):
-         bb.utils.remove(d.getVar("TEST_EXPORT_DIR", True), recurse=True)
-         bb.utils.mkdirhier(d.getVar("TEST_EXPORT_DIR", True))
- 
--    # tests in TEST_SUITES become required tests
--    # they won't be skipped even if they aren't suitable for a image (like xorg for minimal)
--    # testslist is what we'll actually pass to the unittest loader
--    testslist = get_tests_list(get_test_suites(d), d.getVar("BBPATH", True).split(':'))
--    testsrequired = [t for t in d.getVar("TEST_SUITES", True).split() if t != "auto"]
--
-     # we need the host dumper in test context
-     host_dumper = get_host_dumper(d)
- 
-@@ -220,7 +213,7 @@ def testimage_main(d):
-     target = get_target_controller(d)
- 
-     # test context
--    tc = ImageTestContext(d, testslist, testsrequired, target, host_dumper)
-+    tc = ImageTestContext(d, target, host_dumper)
- 
-     # this is a dummy load of tests
+@@ -219,7 +219,7 @@ def testimage_main(d):
      # we are doing that to find compile errors in the tests themselves
+     # before booting the image
+     try:
+-        loadTests(tc)
++        tc.loadTests()
+     except Exception as e:
+         import traceback
+         bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
+@@ -233,7 +233,7 @@ def testimage_main(d):
+         try:
+             target.start()
+             starttime = time.time()
+-            result = runTests(tc)
++            result = tc.runTests()
+             stoptime = time.time()
+             if result.wasSuccessful():
+                 bb.plain("%s - Ran %d test%s in %.3fs" % (pn, result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
 diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 5210811..30238f8 100644
+index 30238f8..92d348b 100644
 --- a/meta/classes/testsdk.bbclass
 +++ b/meta/classes/testsdk.bbclass
-@@ -13,18 +13,11 @@ def testsdk_main(d):
+@@ -13,7 +13,7 @@ def testsdk_main(d):
      import oeqa.sdk
      import time
      import subprocess
--    from oeqa.oetest import loadTests, runTests, \
--        get_test_suites, get_tests_list, SDKTestContext
-+    from oeqa.oetest import loadTests, runTests, SDKTestContext
+-    from oeqa.oetest import loadTests, runTests, SDKTestContext
++    from oeqa.oetest import SDKTestContext
  
      pn = d.getVar("PN", True)
      bb.utils.mkdirhier(d.getVar("TEST_LOG_DIR", True))
- 
--    # tests in TEST_SUITES become required tests
--    # they won't be skipped even if they aren't suitable.
--    # testslist is what we'll actually pass to the unittest loader
--    testslist = get_tests_list(get_test_suites(d, "sdk"), d.getVar("BBPATH", True).split(':'), "sdk")
--    testsrequired = [t for t in (d.getVar("TEST_SUITES_SDK", True) or "auto").split() if t != "auto"]
--
-     tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh")
-     if not os.path.exists(tcname):
-         bb.fatal("The toolchain is not built. Build it before running the tests: 'bitbake <image> -c populate_sdk' .")
-@@ -41,7 +34,7 @@ def testsdk_main(d):
-         targets = glob.glob(d.expand(sdktestdir + "/tc/environment-setup-*"))
-         for sdkenv in targets:
-             bb.plain("Testing %s" % sdkenv)
--            tc = SDKTestContext(d, testslist, testsrequired, sdktestdir, sdkenv)
-+            tc = SDKTestContext(d, sdktestdir, sdkenv)
- 
-             # this is a dummy load of tests
+@@ -40,13 +40,13 @@ def testsdk_main(d):
              # we are doing that to find compile errors in the tests themselves
-@@ -94,14 +87,6 @@ def testsdkext_main(d):
-     pn = d.getVar("PN", True)
-     bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR", True))
+             # before booting the image
+             try:
+-                loadTests(tc, "sdk")
++                tc.loadTests()
+             except Exception as e:
+                 import traceback
+                 bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
  
--    # tests in TEST_SUITES become required tests
--    # they won't be skipped even if they aren't suitable.
--    # testslist is what we'll actually pass to the unittest loader
--    testslist = get_tests_list(get_test_suites(d, "sdkext"),
--                    d.getVar("BBPATH", True).split(':'), "sdkext")
--    testsrequired = [t for t in (d.getVar("TEST_SUITES_SDKEXT", True) or \
--                    "auto").split() if t != "auto"]
--
-     tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-     if not os.path.exists(tcname):
-         bb.fatal("The toolchain ext is not built. Build it before running the" \
+             starttime = time.time()
+-            result = runTests(tc, "sdk")
++            result = tc.runTests()
+             stoptime = time.time()
+             if result.wasSuccessful():
+                 bb.plain("%s SDK(%s):%s - Ran %d test%s in %.3fs" % (pn, os.path.basename(tcname), os.path.basename(sdkenv),result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
 diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 166a1ba..f9e2b4b 100644
+index f9e2b4b..28577ef 100644
 --- a/meta/lib/oeqa/oetest.py
 +++ b/meta/lib/oeqa/oetest.py
-@@ -33,7 +33,6 @@ def getVar(obj):
- def checkTags(tc, tagexp):
-     return eval(tagexp, None, getVar(tc))
+@@ -45,106 +45,6 @@ def filterByTagExp(testsuite, tagexp):
+             caseList.append(filterByTagExp(each, tagexp))
+     return testsuite.__class__(caseList)
  
+-def loadTests(tc, type="runtime"):
+-    if type == "runtime":
+-        # set the context object passed from the test class
+-        setattr(oeTest, "tc", tc)
+-        # set ps command to use
+-        setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeTest.hasPackage("procps") else "ps")
+-        # prepare test suite, loader and runner
+-        suite = unittest.TestSuite()
+-    elif type == "sdk":
+-        # set the context object passed from the test class
+-        setattr(oeTest, "tc", tc)
+-    testloader = unittest.TestLoader()
+-    testloader.sortTestMethodsUsing = None
+-    suites = [testloader.loadTestsFromName(name) for name in tc.testslist]
+-    suites = filterByTagExp(suites, getattr(tc, "tagexp", None))
 -
- def filterByTagExp(testsuite, tagexp):
-     if not tagexp:
-         return testsuite
-@@ -254,96 +253,80 @@ def skipModuleUnless(cond, reason):
+-    def getTests(test):
+-        '''Return all individual tests executed when running the suite.'''
+-        # Unfortunately unittest does not have an API for this, so we have
+-        # to rely on implementation details. This only needs to work
+-        # for TestSuite containing TestCase.
+-        method = getattr(test, '_testMethodName', None)
+-        if method:
+-            # leaf case: a TestCase
+-            yield test
+-        else:
+-            # Look into TestSuite.
+-            tests = getattr(test, '_tests', [])
+-            for t1 in tests:
+-                for t2 in getTests(t1):
+-                    yield t2
+-
+-    # Determine dependencies between suites by looking for @skipUnlessPassed
+-    # method annotations. Suite A depends on suite B if any method in A
+-    # depends on a method on B.
+-    for suite in suites:
+-        suite.dependencies = []
+-        suite.depth = 0
+-        for test in getTests(suite):
+-            methodname = getattr(test, '_testMethodName', None)
+-            if methodname:
+-                method = getattr(test, methodname)
+-                depends_on = getattr(method, '_depends_on', None)
+-                if depends_on:
+-                    for dep_suite in suites:
+-                        if depends_on in [getattr(t, '_testMethodName', None) for t in getTests(dep_suite)]:
+-                            if dep_suite not in suite.dependencies and \
+-                               dep_suite is not suite:
+-                                suite.dependencies.append(dep_suite)
+-                            break
+-                    else:
+-                        logger.warning("Test %s was declared as @skipUnlessPassed('%s') but that test is either not defined or not active. Will run the test anyway." %
+-                                (test, depends_on))
+-    # Use brute-force topological sort to determine ordering. Sort by
+-    # depth (higher depth = must run later), with original ordering to
+-    # break ties.
+-    def set_suite_depth(suite):
+-        for dep in suite.dependencies:
+-            new_depth = set_suite_depth(dep) + 1
+-            if new_depth > suite.depth:
+-                suite.depth = new_depth
+-        return suite.depth
+-    for index, suite in enumerate(suites):
+-        set_suite_depth(suite)
+-        suite.index = index
+-    suites.sort(cmp=lambda a,b: cmp((a.depth, a.index), (b.depth, b.index)))
+-    return testloader.suiteClass(suites)
+-
+-_buffer = ""
+-
+-def custom_verbose(msg, *args, **kwargs):
+-    global _buffer
+-    if msg[-1] != "\n":
+-        _buffer += msg
+-    else:
+-        _buffer += msg
+-        try:
+-            bb.plain(_buffer.rstrip("\n"), *args, **kwargs)
+-        except NameError:
+-            logger.info(_buffer.rstrip("\n"), *args, **kwargs)
+-        _buffer = ""
+-
+-def runTests(tc, type="runtime"):
+-
+-    suite = loadTests(tc, type)
+-    logger.info("Test modules  %s" % tc.testslist)
+-    if hasattr(tc, "tagexp") and tc.tagexp:
+-        logger.info("Filter test cases by tags: %s" % tc.tagexp)
+-    logger.info("Found %s tests" % suite.countTestCases())
+-    runner = unittest.TextTestRunner(verbosity=2)
+-    try:
+-        if bb.msg.loggerDefaultVerbose:
+-            runner.stream.write = custom_verbose
+-    except NameError:
+-        # Not in bb environment?
+-        pass
+-    result = runner.run(suite)
+-
+-    return result
+-
+ @LogResults
+ class oeTest(unittest.TestCase):
+ 
+@@ -253,6 +153,19 @@ def skipModuleUnless(cond, reason):
      if not cond:
          skipModule(reason, 3)
  
--# get testcase list from specified file
--# if path is a relative path, then relative to build/conf/
--def read_testlist(fpath, builddir):
--    if not os.path.isabs(fpath):
--        fpath = os.path.join(builddir, "conf", fpath)
--    if not os.path.exists(fpath):
--        bb.fatal("No such manifest file: ", fpath)
--    tcs = []
--    for line in open(fpath).readlines():
--        line = line.strip()
--        if line and not line.startswith("#"):
--            tcs.append(line)
--    return " ".join(tcs)
--
--# get test suites, returns test suites based on d variables
--def get_test_suites(d, type='runtime'):
--    testsuites = []
--
--    if type == "sdk":
--        testsuites = (d.getVar("TEST_SUITES_SDK", True) or "auto").split()
--    elif type == "sdkext":
--        testsuites = (d.getVar("TEST_SUITES_SDKEXT", True) or "auto").split()
--    else:
--        manifests = (d.getVar("TEST_SUITES_MANIFEST", True) or '').split()
--        if manifests:
--            for manifest in manifests:
--                testsuites.extend(read_testlist(manifest,
--                                    d.getVar("TOPDIR", True)).split())
--
--        else:
--            testsuites = d.getVar("TEST_SUITES", True).split()
--
--    return testsuites
--
--# return test list by type also filter if TEST_SUITES is specified
--def get_tests_list(testsuites, bbpath, type="runtime"):
--    testslist = []
--
--    # This relies on lib/ under each directory in BBPATH being added to sys.path
--    # (as done by default in base.bbclass)
--    for testname in testsuites:
--        if testname != "auto":
--            if testname.startswith("oeqa."):
--                testslist.append(testname)
--                continue
--            found = False
--            for p in bbpath:
--                if os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname + '.py')):
--                    testslist.append("oeqa." + type + "." + testname)
--                    found = True
--                    break
--                elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0] + '.py')):
--                    testslist.append("oeqa." + type + "." + testname)
--                    found = True
--                    break
--            if not found:
--                bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
--
--    if "auto" in testsuites:
--        def add_auto_list(path):
--            if not os.path.exists(os.path.join(path, '__init__.py')):
--                bb.fatal('Tests directory %s exists but is missing __init__.py' % path)
--            files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
--            for f in files:
--                module = 'oeqa.' + type + '.' + f[:-3]
--                if module not in testslist:
--                    testslist.append(module)
--
--        for p in bbpath:
--            testpath = os.path.join(p, 'lib', 'oeqa', type)
--            bb.debug(2, 'Searching for tests in %s' % testpath)
--            if os.path.exists(testpath):
--                add_auto_list(testpath)
--
--    return testslist
--
++_buffer_logger = ""
++def custom_verbose(msg, *args, **kwargs):
++    global _buffer_logger
++    if msg[-1] != "\n":
++        _buffer_logger += msg
++    else:
++        _buffer_logger += msg
++        try:
++            bb.plain(_buffer_logger.rstrip("\n"), *args, **kwargs)
++        except NameError:
++            logger.info(_buffer_logger.rstrip("\n"), *args, **kwargs)
++        _buffer_logger = ""
++
  class TestContext(object):
--    def __init__(self, d, testslist, testsrequired):
-+    def __init__(self, d):
+     def __init__(self, d):
          self.d = d
--        self.testslist = testslist
--        self.testsrequired = testsrequired
-+
-+        self.testsuites = self._get_test_suites()
-+        self.testslist = self._get_tests_list(d.getVar("BBPATH", True).split(':'))
-+        self.testsrequired = self._get_test_suites_required()
+@@ -324,6 +237,86 @@ class TestContext(object):
  
-         self.filesdir = os.path.join(os.path.dirname(os.path.abspath(
-             oeqa.runtime.__file__)), "files")
-         self.imagefeatures = d.getVar("IMAGE_FEATURES", True).split()
-         self.distrofeatures = d.getVar("DISTRO_FEATURES", True).split()
+         return testslist
  
-+    # get testcase list from specified file
-+    # if path is a relative path, then relative to build/conf/
-+    def _read_testlist(self, fpath, builddir):
-+        if not os.path.isabs(fpath):
-+            fpath = os.path.join(builddir, "conf", fpath)
-+        if not os.path.exists(fpath):
-+            bb.fatal("No such manifest file: ", fpath)
-+        tcs = []
-+        for line in open(fpath).readlines():
-+            line = line.strip()
-+            if line and not line.startswith("#"):
-+                tcs.append(line)
-+        return " ".join(tcs)
++    def loadTests(self):
++        setattr(oeTest, "tc", self)
 +
-+    # return test list by type also filter if TEST_SUITES is specified
-+    def _get_tests_list(self, bbpath):
-+        testslist = []
++        testloader = unittest.TestLoader()
++        testloader.sortTestMethodsUsing = None
++        suites = [testloader.loadTestsFromName(name) for name in self.testslist]
++        suites = filterByTagExp(suites, getattr(self, "tagexp", None))
 +
-+        type = self._get_test_namespace()
++        def getTests(test):
++            '''Return all individual tests executed when running the suite.'''
++            # Unfortunately unittest does not have an API for this, so we have
++            # to rely on implementation details. This only needs to work
++            # for TestSuite containing TestCase.
++            method = getattr(test, '_testMethodName', None)
++            if method:
++                # leaf case: a TestCase
++                yield test
++            else:
++                # Look into TestSuite.
++                tests = getattr(test, '_tests', [])
++                for t1 in tests:
++                    for t2 in getTests(t1):
++                        yield t2
 +
-+        # This relies on lib/ under each directory in BBPATH being added to sys.path
-+        # (as done by default in base.bbclass)
-+        for testname in self.testsuites:
-+            if testname != "auto":
-+                if testname.startswith("oeqa."):
-+                    testslist.append(testname)
-+                    continue
-+                found = False
-+                for p in bbpath:
-+                    if os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname + '.py')):
-+                        testslist.append("oeqa." + type + "." + testname)
-+                        found = True
-+                        break
-+                    elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0] + '.py')):
-+                        testslist.append("oeqa." + type + "." + testname)
-+                        found = True
-+                        break
-+                if not found:
-+                    bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
++        # Determine dependencies between suites by looking for @skipUnlessPassed
++        # method annotations. Suite A depends on suite B if any method in A
++        # depends on a method on B.
++        for suite in suites:
++            suite.dependencies = []
++            suite.depth = 0
++            for test in getTests(suite):
++                methodname = getattr(test, '_testMethodName', None)
++                if methodname:
++                    method = getattr(test, methodname)
++                    depends_on = getattr(method, '_depends_on', None)
++                    if depends_on:
++                        for dep_suite in suites:
++                            if depends_on in [getattr(t, '_testMethodName', None) for t in getTests(dep_suite)]:
++                                if dep_suite not in suite.dependencies and \
++                                   dep_suite is not suite:
++                                    suite.dependencies.append(dep_suite)
++                                break
++                        else:
++                            logger.warning("Test %s was declared as @skipUnlessPassed('%s') but that test is either not defined or not active. Will run the test anyway." %
++                                    (test, depends_on))
 +
-+        if "auto" in self.testsuites:
-+            def add_auto_list(path):
-+                if not os.path.exists(os.path.join(path, '__init__.py')):
-+                    bb.fatal('Tests directory %s exists but is missing __init__.py' % path)
-+                files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
-+                for f in files:
-+                    module = 'oeqa.' + type + '.' + f[:-3]
-+                    if module not in testslist:
-+                        testslist.append(module)
++        # Use brute-force topological sort to determine ordering. Sort by
++        # depth (higher depth = must run later), with original ordering to
++        # break ties.
++        def set_suite_depth(suite):
++            for dep in suite.dependencies:
++                new_depth = set_suite_depth(dep) + 1
++                if new_depth > suite.depth:
++                    suite.depth = new_depth
++            return suite.depth
 +
-+            for p in bbpath:
-+                testpath = os.path.join(p, 'lib', 'oeqa', type)
-+                bb.debug(2, 'Searching for tests in %s' % testpath)
-+                if os.path.exists(testpath):
-+                    add_auto_list(testpath)
++        for index, suite in enumerate(suites):
++            set_suite_depth(suite)
++            suite.index = index
++        suites.sort(cmp=lambda a,b: cmp((a.depth, a.index), (b.depth, b.index)))
 +
-+        return testslist
++        self.suite = testloader.suiteClass(suites)
++
++        return self.suite
++
++    def runTests(self):
++        logger.info("Test modules  %s" % self.testslist)
++        if hasattr(self, "tagexp") and self.tagexp:
++            logger.info("Filter test cases by tags: %s" % self.tagexp)
++        logger.info("Found %s tests" % self.suite.countTestCases())
++        runner = unittest.TextTestRunner(verbosity=2)
++        try:
++            if bb.msg.loggerDefaultVerbose:
++                runner.stream.write = custom_verbose
++        except NameError:
++            # Not in bb environment?
++            pass
++
++        return runner.run(self.suite)
 +
  class ImageTestContext(TestContext):
--    def __init__(self, d, testslist, testsrequired, target, host_dumper):
--        super(ImageTestContext, self).__init__(d, testslist, testsrequired)
-+    def __init__(self, d, target, host_dumper):
-+        super(ImageTestContext, self).__init__(d)
+     def __init__(self, d, target, host_dumper):
+         super(ImageTestContext, self).__init__(d)
+@@ -374,6 +367,10 @@ class ImageTestContext(TestContext):
+     def _get_test_suites_required(self):
+         return [t for t in self.d.getVar("TEST_SUITES", True).split() if t != "auto"]
  
-         self.tagexp =  d.getVar("TEST_SUITES_TAGS", True)
- 
-@@ -371,9 +354,29 @@ class ImageTestContext(TestContext):
-         self.sigterm = True
-         self.target.stop()
- 
-+    def _get_test_namespace(self):
-+        return "runtime"
-+
-+    def _get_test_suites(self):
-+        testsuites = []
-+
-+        manifests = (self.d.getVar("TEST_SUITES_MANIFEST", True) or '').split()
-+        if manifests:
-+            for manifest in manifests:
-+                testsuites.extend(self._read_testlist(manifest,
-+                                  self.d.getVar("TOPDIR", True)).split())
-+
-+        else:
-+            testsuites = self.d.getVar("TEST_SUITES", True).split()
-+
-+        return testsuites
-+
-+    def _get_test_suites_required(self):
-+        return [t for t in self.d.getVar("TEST_SUITES", True).split() if t != "auto"]
++    def loadTests(self):
++        super(ImageTestContext, self).loadTests()
++        setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeTest.hasPackage("procps") else "ps")
 +
  class SDKTestContext(TestContext):
--    def __init__(self, d, testslist, testsrequired, sdktestdir, sdkenv):
--        super(SDKTestContext, self).__init__(d, testslist, testsrequired)
-+    def __init__(self, d, sdktestdir, sdkenv):
-+        super(SDKTestContext, self).__init__(d)
- 
-         self.sdktestdir = sdktestdir
-         self.sdkenv = sdkenv
-@@ -389,3 +392,24 @@ class SDKTestContext(TestContext):
-                 self.hostpkgmanifest = f.read()
-         except IOError as e:
-             bb.fatal("No host package manifest file found. Did you build the sdk image?\n%s" % e)
-+
-+    def _get_test_namespace(self):
-+        return "sdk"
-+
-+    def _get_test_suites(self):
-+        return (self.d.getVar("TEST_SUITES_SDK", True) or "auto").split()
-+
-+    def _get_test_suites_required(self):
-+        return [t for t in (self.d.getVar("TEST_SUITES_SDK", True) or \
-+                "auto").split() if t != "auto"]
-+
-+class SDKExtTestContext(TestContext):
-+    def _get_test_namespace(self):
-+        return "sdkext"
-+
-+    def _get_test_suites(self):
-+        return (self.d.getVar("TEST_SUITES_SDK_EXT", True) or "auto").split()
-+
-+    def _get_test_suites_required(self):
-+        return [t for t in (self.d.getVar("TEST_SUITES_SDK_EXT", True) or \
-+                "auto").split() if t != "auto"]
+     def __init__(self, d, sdktestdir, sdkenv):
+         super(SDKTestContext, self).__init__(d)
 -- 
 2.1.4
 
