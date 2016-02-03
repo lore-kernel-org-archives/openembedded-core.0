@@ -1,48 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 496D076FE2
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 311A577358
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 16:18:10 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id f81so60611183iof.0
+	Wed,  3 Feb 2016 16:34:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Feb 2016 08:34:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,391,1449561600"; d="scan'208";a="876169892"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 03 Feb 2016 08:34:12 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 83FF86A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Feb 2016 08:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=YqHE/LHfdmQymeDhYpWmsxr4C7yx4Tp1/HS+Z98qejk=;
-	b=ZGUTMWmCjq0Q2YouwIOuYwMj8LOZwfOlRWPLZoPKZvlrV2FoWoUo7bFYp6viljmbXu
-	VlcllKMAl5CDqYb7ANC3IjeFg7QJ4W8+nMyMlSZA2WwfGXyR++fMVSebRMN4Ow6brlUn
-	SuTyk63FrQJNIEnbHMvbsTx14znn2rbS4+GcOCreqcTU0kRh9/YOjn+lbIgEBhixGlYD
-	uunoE7eom2elPJd5drr/HOZFh1TkZXBUP5Xf2JfjLSRMOo64Q1u6qfHKbb1QUB/uL1dN
-	uiQ2r3rwEocqlXBg6tm2dQ0vjG0XFvGv/7oI2LfYgrnOZHWw+1dbyQlQUhKJdeD8FSTe
-	/qBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YqHE/LHfdmQymeDhYpWmsxr4C7yx4Tp1/HS+Z98qejk=;
-	b=fTYWfahK8eLlg+uA9w3gC/8ZQwLc1ymkgahsOXDB+LSZLFQ9iiIxVxiSQ9pmrUK7+r
-	3weNy8OOl0fpClau+228CXFj77u/aHR1xAIhXLgbscWN/K/klJ9zCSNy0U5nO/SWRiof
-	BT7wG60+U/tVF9Z5UbH3hwpdtU7FPsnT4zb1ZoKh3rJFix0PyQSwODOLQBj7qT3igmsX
-	m7ttn586AKSkjcYQ6aPOtQs2++G/P3ekveAm0s7OumLU78d1XlZlfkPMxfDZLKEFte70
-	5pXmT2KvzcuSXe4bNxKAoLOBOjjo2IgUiGgMUDPemoCRwkw2PYGEtDFeNju18VHoBGII
-	C/0Q==
-X-Gm-Message-State: AG10YOTTs9pQJLknhY4flfwTWfbwvzoQew7o0H2tBWJnp+F/sPXmuEDyVK3UTDLVWJVf4DFzbdiPiL/nDHU8tCRD
-X-Received: by 10.107.10.157 with SMTP id 29mr4750425iok.133.1454516290901;
-	Wed, 03 Feb 2016 08:18:10 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 3 Feb 2016 08:17:51 -0800 (PST)
-In-Reply-To: <cf539a03e3ad82336bf24df078174800e7f2c2a5.1454480571.git.raj.khem@gmail.com>
-References: <cover.1454480571.git.raj.khem@gmail.com>
-	<cf539a03e3ad82336bf24df078174800e7f2c2a5.1454480571.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Feb 2016 16:17:51 +0000
-Message-ID: <CAJTo0LbL72SbPTh22uJbRPq9G8PJRQ8Tf80bKbjYVZGBaY_kVw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] gcc: musl related fixes for unwinding, ppc/secure-plt and gthr
+	Wed,  3 Feb 2016 09:22:04 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Feb 2016 18:37:10 +0200
+Message-Id: <1454517430-22305-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v3] formfactor: add machconfig for qemumips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,70 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 16:18:11 -0000
-Content-Type: multipart/alternative; boundary=001a113f8df8d6ee71052adff6db
+X-List-Received-Date: Wed, 03 Feb 2016 16:34:12 -0000
 
---001a113f8df8d6ee71052adff6db
-Content-Type: text/plain; charset=UTF-8
+We need machconfig file to automatically choose between physical and virtual
+keyboards.
 
-On 3 February 2016 at 06:27, Khem Raj <raj.khem@gmail.com> wrote:
+[YOCTO #9027]
 
-> These issues are fixing building gcc for target, ppc issue
-> helps in fixing discrepency between gcc cmdline and linker cmdline
->
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-bsp/formfactor/files/qemumips64/machconfig | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100755 meta/recipes-bsp/formfactor/files/qemumips64/machconfig
 
-This appears to break glibc builds for me:
+diff --git a/meta/recipes-bsp/formfactor/files/qemumips64/machconfig b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
+new file mode 100755
+index 0000000..56777b6
+--- /dev/null
++++ b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
+@@ -0,0 +1,10 @@
++HAVE_TOUCHSCREEN=1
++HAVE_KEYBOARD=1
++ 
++DISPLAY_CAN_ROTATE=0
++DISPLAY_ORIENTATION=0
++DISPLAY_WIDTH_PIXELS=640
++DISPLAY_HEIGHT_PIXELS=480
++DISPLAY_BPP=16
++DISPLAY_DPI=150
++#DISPLAY_SUBPIXEL_ORDER=vrgb
+-- 
+2.4.0
 
-| checking version of bison... 3.0.4, ok
-| checking for libc-friendly stddef.h... yes
-| checking whether we need to use -P to assemble .S files... no
-| checking for .set assembler directive... no
-| checking for assembler gnu_unique_object symbol type... yes
-| checking for .previous assembler directive... yes
-| checking for .protected and .hidden assembler directive... yes
-| checking whether __attribute__((visibility())) is supported... yes
-| checking linker support for protected data symbol... no
-| checking for broken __attribute__((visibility()))... no
-| checking for broken __attribute__((alias()))... no
-| checking whether to put _rtld_local into .sdata section... no
-| checking for .preinit_array/.init_array/.fini_array support... no
-| configure: error: Need linker with .init_array/.fini_array support.
 
-Ross
-
---001a113f8df8d6ee71052adff6db
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2016 at 06:27, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D":6ky" class=3D"" style=3D"overflow:hi=
-dden">These issues are fixing building <span class=3D"">gcc</span> for targ=
-et, ppc issue<br>
-helps in fixing discrepency between <span class=3D"">gcc</span> cmdline and=
- linker cmdline<br></div></blockquote></div><br>This appears to break glibc=
- builds for me:</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra"><div class=3D"gmail_extra">| checking version of bison... 3.0.4, =
-ok</div><div class=3D"gmail_extra">| checking for libc-friendly stddef.h...=
- yes</div><div class=3D"gmail_extra">| checking whether we need to use -P t=
-o assemble .S files... no</div><div class=3D"gmail_extra">| checking for .s=
-et assembler directive... no</div><div class=3D"gmail_extra">| checking for=
- assembler gnu_unique_object symbol type... yes</div><div class=3D"gmail_ex=
-tra">| checking for .previous assembler directive... yes</div><div class=3D=
-"gmail_extra">| checking for .protected and .hidden assembler directive... =
-yes</div><div class=3D"gmail_extra">| checking whether __attribute__((visib=
-ility())) is supported... yes</div><div class=3D"gmail_extra">| checking li=
-nker support for protected data symbol... no</div><div class=3D"gmail_extra=
-">| checking for broken __attribute__((visibility()))... no</div><div class=
-=3D"gmail_extra">| checking for broken __attribute__((alias()))... no</div>=
-<div class=3D"gmail_extra">| checking whether to put _rtld_local into .sdat=
-a section... no</div><div class=3D"gmail_extra">| checking for .preinit_arr=
-ay/.init_array/.fini_array support... no</div><div class=3D"gmail_extra">| =
-configure: error: Need linker with .init_array/.fini_array support.</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv></div>
-
---001a113f8df8d6ee71052adff6db--
