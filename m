@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4157732F
+	by mail.openembedded.org (Postfix) with ESMTP id 6561A77331
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 00:29:01 +0000 (UTC)
+	Wed,  3 Feb 2016 00:29:03 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 16:29:02 -0800
+	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 16:29:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,387,1449561600"; d="scan'208";a="904289260"
+X-IronPort-AV: E=Sophos;i="5.22,387,1449561600"; d="scan'208";a="904289316"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 16:29:01 -0800
+	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 16:29:03 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 18:30:30 -0600
-Message-Id: <68ccfe06cf5a247b94b861befab9be57154ee005.1454459362.git.anibal.limon@linux.intel.com>
+Date: Tue,  2 Feb 2016 18:30:31 -0600
+Message-Id: <f922e6f7eb7ca9850caab4419cfdab9aa813f972.1454459362.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454459362.git.anibal.limon@linux.intel.com>
 References: <cover.1454459362.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1454459362.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCH v2 18/28] classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST
+Subject: [PATCH v2 19/28] oeqa/sdkext: Add devtool basic tests for eSDK.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +34,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 00:29:02 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 00:29:03 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-Extensible SDK needs to point to the correct manifest so add
-SDK_EXT_TARGET_MANIFEST and SDK_EXT_HOST_MANIFEST variables.
+Add simple myapp application is a C app that prints hello world
+and exit.
 
-oeqa/oetest.py: Fix SDKExtTestContext for load the correct manifests.
+Add devtool test for that this app to the workspace, build and
+reset it.
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/populate_sdk_ext.bbclass |  3 +++
- meta/lib/oeqa/oetest.py               | 11 +++++++++--
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/sdkext/devtool.py           | 25 +++++++++++++++++++++++++
+ meta/lib/oeqa/sdkext/files/myapp/Makefile | 10 ++++++++++
+ meta/lib/oeqa/sdkext/files/myapp/myapp.c  |  9 +++++++++
+ 3 files changed, 44 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdkext/devtool.py
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/Makefile
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/myapp.c
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 7e20ce9..31e8b2a 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -48,6 +48,9 @@ B_task-populate-sdk-ext = "${SDK_DIR}"
- TOOLCHAINEXT_OUTPUTNAME = "${SDK_NAME}-toolchain-ext-${SDK_VERSION}"
- TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext = "${TOOLCHAINEXT_OUTPUTNAME}"
- 
-+SDK_EXT_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
-+SDK_EXT_HOST_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"
+diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
+new file mode 100644
+index 0000000..0262ed3
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/devtool.py
+@@ -0,0 +1,25 @@
++import shutil
 +
- SDK_TITLE_task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME', True) or d.getVar('DISTRO', True)} Extensible SDK"
- 
- python copy_buildsystem () {
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 6beb6c5..c951989 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -382,14 +382,18 @@ class SDKTestContext(TestContext):
-         self.sdktestdir = sdktestdir
-         self.sdkenv = sdkenv
- 
-+        if not hasattr(self, 'target_manifest_name'):
-+            self.target_manifest_name = "SDK_TARGET_MANIFEST"
-         try:
--            with open(d.getVar("SDK_TARGET_MANIFEST", True)) as f:
-+            with open(d.getVar(self.target_manifest_name, True)) as f:
-                  self.pkgmanifest = f.read()
-         except IOError as e:
-             bb.fatal("No package manifest file found. Did you build the sdk image?\n%s" % e)
- 
-+        if not hasattr(self, 'host_manifest_name'):
-+            self.host_manifest_name = "SDK_HOST_MANIFEST"
-         try:
--            with open(d.getVar("SDK_HOST_MANIFEST", True)) as f:
-+            with open(d.getVar(self.host_manifest_name, True)) as f:
-                 self.hostpkgmanifest = f.read()
-         except IOError as e:
-             bb.fatal("No host package manifest file found. Did you build the sdk image?\n%s" % e)
-@@ -406,6 +410,9 @@ class SDKTestContext(TestContext):
- 
- class SDKExtTestContext(SDKTestContext):
-     def __init__(self, d, sdktestdir, sdkenv):
-+        self.target_manifest_name = "SDK_EXT_TARGET_MANIFEST"
-+        self.host_manifest_name = "SDK_EXT_HOST_MANIFEST"
++from oeqa.oetest import oeSDKExtTest
++from oeqa.utils.decorators import *
 +
-         super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv)
- 
-         self.sdkextfilesdir = os.path.join(os.path.dirname(os.path.abspath(
++class DevtoolTest(oeSDKExtTest):
++
++    @classmethod
++    def setUpClass(self):
++        self.myapp_src = os.path.join(self.tc.sdkextfilesdir, "myapp")
++        self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
++        shutil.copytree(self.myapp_src, self.myapp_dst)
++
++    def test_devtool_add_reset(self):
++        self._run('devtool add myapp %s' % self.myapp_dst)
++        self._run('devtool reset myapp')
++
++    def test_devtool_build(self):
++        self._run('devtool add myapp %s' % self.myapp_dst)
++        self._run('devtool build myapp')
++        self._run('devtool reset myapp')
++
++    @classmethod
++    def tearDownClass(self):
++        shutil.rmtree(self.myapp_dst)
+diff --git a/meta/lib/oeqa/sdkext/files/myapp/Makefile b/meta/lib/oeqa/sdkext/files/myapp/Makefile
+new file mode 100644
+index 0000000..abd91be
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/files/myapp/Makefile
+@@ -0,0 +1,10 @@
++all: myapp
++
++myapp: myapp.o
++	$(CC) $(LDFLAGS) $< -o $@
++
++myapp.o: myapp.c
++	$(CC) $(CFLAGS) -c $< -o $@
++
++clean:
++	rm -rf myapp.o myapp
+diff --git a/meta/lib/oeqa/sdkext/files/myapp/myapp.c b/meta/lib/oeqa/sdkext/files/myapp/myapp.c
+new file mode 100644
+index 0000000..f0b63f0
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/files/myapp/myapp.c
+@@ -0,0 +1,9 @@
++#include <stdio.h>
++
++int
++main(int argc, char *argv[])
++{
++	printf("Hello world\n");
++
++	return 0;
++}
 -- 
 2.1.4
 
