@@ -1,27 +1,31 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 809AE7700A
+Return-Path: <mihaly.varga@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B21207713D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 10:27:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Feb 2016 02:27:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,389,1449561600"; d="scan'208";a="875942882"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 03 Feb 2016 02:27:10 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 6C3396A4004
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 03:15:02 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed,  3 Feb 2016 10:35:40 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u13AZfak018322 for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Feb 2016 04:35:41 -0600
+Received: from mihaly-ro-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016020304354124-595696 ;
+	Wed, 3 Feb 2016 04:35:41 -0600 
+From: Mihaly Varga <mihaly.varga@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Feb 2016 12:30:08 +0200
-Message-Id: <1454495408-23334-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] formfactor: add machconfig for qemumips64 and beaglebone
+Date: Wed, 3 Feb 2016 12:35:06 +0200
+Message-Id: <1454495706-32082-1-git-send-email-mihaly.varga@ni.com>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/03/2016 04:35:41 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/03/2016 04:35:41 AM,
+	Serialize complete at 02/03/2016 04:35:41 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-03_04:, , signatures=0
+Cc: Mihaly Varga <mihaly.varga@ni.com>
+Subject: [meta-oe][PATCH] wic: isoimage-isohybrid: check for syslinux-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 10:27:09 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 10:35:40 -0000
 
-We need machconfig file to automatically choose between physical and virtual
-keyboards.
+.iso image creation fails if during the image creation syslinux
+is baked and syslinux-native is not.
 
-[YOCTO #9027]
+Added new check to verify if both syslinux and syslinux-native
+are baked and bake them if these are not installed.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Mihaly Varga <mihaly.varga@ni.com>
 ---
- meta/recipes-bsp/formfactor/files/beaglebone/machconfig |  3 +++
- meta/recipes-bsp/formfactor/files/qemumips64/machconfig | 10 ++++++++++
- 2 files changed, 13 insertions(+)
- create mode 100755 meta/recipes-bsp/formfactor/files/beaglebone/machconfig
- create mode 100755 meta/recipes-bsp/formfactor/files/qemumips64/machconfig
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/formfactor/files/beaglebone/machconfig b/meta/recipes-bsp/formfactor/files/beaglebone/machconfig
-new file mode 100755
-index 0000000..ffce012
---- /dev/null
-+++ b/meta/recipes-bsp/formfactor/files/beaglebone/machconfig
-@@ -0,0 +1,3 @@
-+# Assume a USB mouse and keyboard are connected
-+HAVE_TOUCHSCREEN=0
-+HAVE_KEYBOARD=1
-diff --git a/meta/recipes-bsp/formfactor/files/qemumips64/machconfig b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
-new file mode 100755
-index 0000000..56777b6
---- /dev/null
-+++ b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
-@@ -0,0 +1,10 @@
-+HAVE_TOUCHSCREEN=1
-+HAVE_KEYBOARD=1
-+ 
-+DISPLAY_CAN_ROTATE=0
-+DISPLAY_ORIENTATION=0
-+DISPLAY_WIDTH_PIXELS=640
-+DISPLAY_HEIGHT_PIXELS=480
-+DISPLAY_BPP=16
-+DISPLAY_DPI=150
-+#DISPLAY_SUBPIXEL_ORDER=vrgb
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index c1e2a5d..62385a2 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -208,11 +208,14 @@ class IsoImagePlugin(SourcePlugin):
+         if not os.path.exists("%s/syslinux" % syslinux_dir):
+             msger.info("Building syslinux...\n")
+             exec_cmd("bitbake syslinux")
+-            msger.info("Building syslinux-native...\n")
+-            exec_cmd("bitbake syslinux-native")
+         if not os.path.exists("%s/syslinux" % syslinux_dir):
+             msger.error("Please build syslinux first\n")
+ 
++        # Make sure syslinux is available in native sysroot
++        if not os.path.exists("%s/usr/bin/syslinux" % native_sysroot):
++            msger.info("Building syslinux-native...\n")
++            exec_cmd("bitbake syslinux-native")
++
+         #Make sure mkisofs is available in native sysroot
+         if not os.path.isfile("%s/usr/bin/mkisofs" % native_sysroot):
+             msger.info("Building cdrtools-native...\n")
 -- 
-2.4.0
+1.9.1
 
 
