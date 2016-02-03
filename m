@@ -1,50 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E21C677375
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C5AF7733B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 16:41:02 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id rs20so6367267igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Feb 2016 08:41:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=qZzVR2ZEh9oW8OlQ2eDi4vOYTsCE0xfDOl3yKwDEct0=;
-	b=2T+NZJD4yJHLRKf/sXGlMVQOTywEMNjZa+Rlp/FVKj6PCTG/q2vzvrZg5yxIHu/Nlb
-	BTJGYHBL9QxunSTVKIh2THMHNP/zpIcjd34V5l51Dreo+tOTrjbhcdG0UEJ9Vh9JBrpQ
-	/pt2NdLeczNYz+0uwn8e7sF/3F8I15h8cpew5/qrhTpvFaspEnSsjyjgmF/uqOVXEJim
-	z9QKEOgfBGqV9rkl69Kw7du7PfabJ0P/7LJp2VAqMdUn6jB3A1m1kYMtxKyZqzzB9T3U
-	kFEtM0nZ+tKuuB0TAJzbzMjYCKgT68wT+fw32094FoB0QE/X8bZrjBUYO2ezkxFmd3D2
-	MKVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=qZzVR2ZEh9oW8OlQ2eDi4vOYTsCE0xfDOl3yKwDEct0=;
-	b=mp2OkMSCNiQzDuOu9XysMGR/x0FJqtIh/0AAd6TQkM7jOmW762tgLXfsXgVOqiYCZi
-	b8WJvH7dXR/ZP43i181ceR7/fLz5ls9+nXym4ABDwKBpWm/3x4fDYfG+UDrkfjq+Eqjl
-	ZhjmvRMQmYj1GaZKWZT5wjSpFXBJ3Bp16CN6I3284qvhCoqfCHxW/VdrQGS4Vr2GOitz
-	v9YAs1mAdV0Mua5iGxfxqxiQopDN5Lg8lfWj+s8QtNxMcvXCbnwOG9Q1OnO/w69yvX0u
-	AhIfW0LOk0xtc08KZUqCkbpKLKmr0KQ4525wpNKolHpgfCvG5/tl0CjTzia5GYFOfnFN
-	hYGw==
-X-Gm-Message-State: AG10YOSjVE3ku80j1vsgwG/EATf+QpDf/ZO2dO1DV5xCSms7lAKB+vQrlzeyGgv2/rDMBUVbLvmWsXCqk5lCwc41
-X-Received: by 10.50.111.111 with SMTP id ih15mr25347975igb.78.1454517663201; 
-	Wed, 03 Feb 2016 08:41:03 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 3 Feb 2016 08:40:43 -0800 (PST)
-In-Reply-To: <852326EB-DC9D-4912-AF5D-6BB837745EBE@gmail.com>
-References: <cover.1454480571.git.raj.khem@gmail.com>
-	<cf539a03e3ad82336bf24df078174800e7f2c2a5.1454480571.git.raj.khem@gmail.com>
-	<CAJTo0LbL72SbPTh22uJbRPq9G8PJRQ8Tf80bKbjYVZGBaY_kVw@mail.gmail.com>
-	<852326EB-DC9D-4912-AF5D-6BB837745EBE@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Feb 2016 16:40:43 +0000
-Message-ID: <CAJTo0Lan0p9UUfXibbAt_vJ426YqrEQH98h-dA8Y5bwGriTLxQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] gcc: musl related fixes for unwinding, ppc/secure-plt and gthr
+	Wed,  3 Feb 2016 17:24:48 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 03 Feb 2016 09:24:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,391,1449561600"; d="scan'208";a="739938823"
+Received: from sghosh7-mobl1.amr.corp.intel.com (HELO swold-mobl.jf.intel.com)
+	([10.254.78.200])
+	by orsmga003.jf.intel.com with ESMTP; 03 Feb 2016 09:24:48 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed,  3 Feb 2016 09:24:47 -0800
+Message-Id: <cover.1454519969.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 00/22][Jethro] Jethro Consolidated Patchset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +29,230 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 16:41:05 -0000
-Content-Type: multipart/alternative; boundary=089e0149be34a29ceb052ae0488b
+X-List-Received-Date: Wed, 03 Feb 2016 17:24:48 -0000
 
---089e0149be34a29ceb052ae0488b
-Content-Type: text/plain; charset=UTF-8
+Richard,
 
-On 3 February 2016 at 16:38, Khem Raj <raj.khem@gmail.com> wrote:
+This is the the udpated patch set for 2.0.1 after reviewing
+the open CVEs and Medium+ bugs with available backports.
 
-> is it with security flags enabled or disabled and which arch.
-> my builds all went ok. I will do a clean build without sstate to see
-> if I can reproduce your issue. May be its because I have gold linker
-> enabled
-> I will check that independently here.
->
+This has patches that address the AB failures from the other day
 
-Security flags enabled, x86-64.  No gold.
+There will be a set of patches going to poky for the meta-yocto-bsp
+fixes when they are available and tested.
 
-Ross
+Thanks
+Sau!
 
---089e0149be34a29ceb052ae0488b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2016 at 16:38, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div>is it with security flags ena=
-bled or disabled and which arch.</div><div>my builds all went ok. I will do=
- a clean build without sstate to see</div><div>if I can reproduce your issu=
-e. May be its because I have gold linker enabled</div><div>I will check tha=
-t independently here.</div></blockquote></div><br>Security flags enabled, x=
-86-64.=C2=A0 No gold.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
+The following changes since commit 3e403cc1bdeefd4f39e54bae2269ca56307e8468:
 
---089e0149be34a29ceb052ae0488b--
+  libpcre: bug fixes include security (2016-01-30 12:10:16 +0000)
+
+are available in the git repository at:
+
+  ssh://git@git.openembedded.org/openembedded-core-contrib sgw/jethro
+
+for you to fetch changes up to f070d5fee56a4589a6abf422e6872373c5557c6d:
+
+  linux-yocto: Update SRCREV for qemux86* for 4.1, fixes CVE-2016-0728 (2016-02-02 13:42:38 -0800)
+
+----------------------------------------------------------------
+Alejandro Hernandez (3):
+      linux-yocto: Update SRCREV for qemux86* for 3.14, fixes CVE-2016-0728
+      linux-yocto: Update SRCREV for qemux86* for 3.19, fixes CVE-2016-0728
+      linux-yocto: Update SRCREV for qemux86* for 4.1, fixes CVE-2016-0728
+
+Armin Kuster (12):
+      tzcode: update to 2016a
+      tzdata: update to 2016a
+      dpkg: Security fix CVE-2015-0860
+      libxml2: Security fix CVE-2015-8241
+      libxml2: Security fix CVE-2015-8710
+      bind: Security fix CVE-2015-8000
+      bind: Security fix CVE-2015-8461
+      librsvg: Security fix CVE-2015-7558
+      gdk-pixbuf: Security fix CVE-2015-7674
+      grub: Security fix CVE-2015-8370
+      glibc-locale: fix QA warning
+      git: Security fix CVE-2015-7545
+
+Bogdan-Alexandru Voiculescu (1):
+      uClibc: enable utmp for shadow compatibility
+
+Jianxun Zhang (1):
+      kernel-yocto: fix checkout bare-cloned kernel repositories
+
+Joe Slater (1):
+      ghostscript: add dependency for pnglibconf.h
+
+Jussi Kukkonen (1):
+      gcr: Require x11 DISTRO_FEATURE
+
+Maxin B. John (2):
+      libpng: update URL that no longer exists
+      libpng12: update URL that no longer exists
+
+Ross Burton (1):
+      busybox: fix build of last applet
+
+ meta/classes/kernel-yocto.bbclass                  |  13 +-
+ meta/recipes-bsp/grub/files/CVE-2015-8370.patch    |  59 +++
+ meta/recipes-bsp/grub/grub2.inc                    |   1 +
+ .../bind/bind/CVE-2015-8000.patch                  | 278 +++++++++++++
+ .../bind/bind/CVE-2015-8461.patch                  |  44 ++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   2 +
+ .../busybox/busybox/0001-randconfig-fix.patch      |  33 ++
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
+ meta/recipes-core/glibc/glibc-locale.inc           |   2 +-
+ meta/recipes-core/libxml/libxml2.inc               |   2 +
+ .../libxml/libxml2/CVE-2015-8241.patch             |  40 ++
+ .../libxml/libxml2/CVE-2015-8710.patch             |  71 ++++
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |   2 +
+ .../recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch |  52 +++
+ meta/recipes-devtools/dpkg/dpkg_1.18.2.bb          |   1 +
+ .../git/git-2.5.0/0008-CVE-2015-7545-1.patch       | 446 +++++++++++++++++++++
+ .../git/git-2.5.0/0009-CVE-2015-7545-2.patch       | 112 ++++++
+ .../git/git-2.5.0/0010-CVE-2015-7545-3.patch       | 112 ++++++
+ .../git/git-2.5.0/0011-CVE-2015-7545-4.patch       | 150 +++++++
+ .../git/git-2.5.0/0012-CVE-2015-7545-5.patch       |  69 ++++
+ meta/recipes-devtools/git/git_2.5.0.bb             |   8 +
+ .../ghostscript/ghostscript/png_mak.patch          |  21 +
+ .../ghostscript/ghostscript_9.16.bb                |   1 +
+ .../recipes-extended/tzcode/tzcode-native_2015g.bb |  25 --
+ .../recipes-extended/tzcode/tzcode-native_2016a.bb |  25 ++
+ .../tzdata/{tzdata_2015g.bb => tzdata_2016a.bb}    |  10 +-
+ meta/recipes-gnome/gcr/gcr_3.16.0.bb               |   4 +-
+ .../gdk-pixbuf/gdk-pixbuf/CVE-2015-7674.patch      |  39 ++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |   1 +
+ .../librsvg/librsvg/CVE-2015-7558_1.patch          | 139 +++++++
+ .../librsvg/librsvg/CVE-2015-7558_2.patch          | 230 +++++++++++
+ .../librsvg/librsvg/CVE-2015-7558_3.patch          | 223 +++++++++++
+ meta/recipes-gnome/librsvg/librsvg_2.40.10.bb      |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb      |   4 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |   6 +-
+ meta/recipes-lsb4/libpng/libpng12_1.2.53.bb        |   2 +-
+ meta/recipes-multimedia/libpng/libpng_1.6.17.bb    |   2 +-
+ 38 files changed, 2198 insertions(+), 44 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2015-8370.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-randconfig-fix.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0008-CVE-2015-7545-1.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0009-CVE-2015-7545-2.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0010-CVE-2015-7545-3.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0011-CVE-2015-7545-4.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0012-CVE-2015-7545-5.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
+ delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2015g.bb
+ create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2016a.bb
+ rename meta/recipes-extended/tzdata/{tzdata_2015g.bb => tzdata_2016a.bb} (96%)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2015-7674.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_1.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_2.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_3.patch
+
+Alejandro Hernandez (3):
+  linux-yocto: Update SRCREV for qemux86* for 3.14, fixes CVE-2016-0728
+  linux-yocto: Update SRCREV for qemux86* for 3.19, fixes CVE-2016-0728
+  linux-yocto: Update SRCREV for qemux86* for 4.1, fixes CVE-2016-0728
+
+Armin Kuster (12):
+  tzcode: update to 2016a
+  tzdata: update to 2016a
+  dpkg: Security fix CVE-2015-0860
+  libxml2: Security fix CVE-2015-8241
+  libxml2: Security fix CVE-2015-8710
+  bind: Security fix CVE-2015-8000
+  bind: Security fix CVE-2015-8461
+  librsvg: Security fix CVE-2015-7558
+  gdk-pixbuf: Security fix CVE-2015-7674
+  grub: Security fix CVE-2015-8370
+  glibc-locale: fix QA warning
+  git: Security fix CVE-2015-7545
+
+Bogdan-Alexandru Voiculescu (1):
+  uClibc: enable utmp for shadow compatibility
+
+Jianxun Zhang (1):
+  kernel-yocto: fix checkout bare-cloned kernel repositories
+
+Joe Slater (1):
+  ghostscript: add dependency for pnglibconf.h
+
+Jussi Kukkonen (1):
+  gcr: Require x11 DISTRO_FEATURE
+
+Maxin B. John (2):
+  libpng: update URL that no longer exists
+  libpng12: update URL that no longer exists
+
+Ross Burton (1):
+  busybox: fix build of last applet
+
+ meta/classes/kernel-yocto.bbclass                  |  13 +-
+ meta/recipes-bsp/grub/files/CVE-2015-8370.patch    |  59 +++
+ meta/recipes-bsp/grub/grub2.inc                    |   1 +
+ .../bind/bind/CVE-2015-8000.patch                  | 278 +++++++++++++
+ .../bind/bind/CVE-2015-8461.patch                  |  44 ++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   2 +
+ .../busybox/busybox/0001-randconfig-fix.patch      |  33 ++
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
+ meta/recipes-core/glibc/glibc-locale.inc           |   2 +-
+ meta/recipes-core/libxml/libxml2.inc               |   2 +
+ .../libxml/libxml2/CVE-2015-8241.patch             |  40 ++
+ .../libxml/libxml2/CVE-2015-8710.patch             |  71 ++++
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |   2 +
+ .../recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch |  52 +++
+ meta/recipes-devtools/dpkg/dpkg_1.18.2.bb          |   1 +
+ .../git/git-2.5.0/0008-CVE-2015-7545-1.patch       | 446 +++++++++++++++++++++
+ .../git/git-2.5.0/0009-CVE-2015-7545-2.patch       | 112 ++++++
+ .../git/git-2.5.0/0010-CVE-2015-7545-3.patch       | 112 ++++++
+ .../git/git-2.5.0/0011-CVE-2015-7545-4.patch       | 150 +++++++
+ .../git/git-2.5.0/0012-CVE-2015-7545-5.patch       |  69 ++++
+ meta/recipes-devtools/git/git_2.5.0.bb             |   8 +
+ .../ghostscript/ghostscript/png_mak.patch          |  21 +
+ .../ghostscript/ghostscript_9.16.bb                |   1 +
+ ...code-native_2015g.bb => tzcode-native_2016a.bb} |  16 +-
+ .../tzdata/{tzdata_2015g.bb => tzdata_2016a.bb}    |  10 +-
+ meta/recipes-gnome/gcr/gcr_3.16.0.bb               |   4 +-
+ .../gdk-pixbuf/gdk-pixbuf/CVE-2015-7674.patch      |  39 ++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |   1 +
+ .../librsvg/librsvg/CVE-2015-7558_1.patch          | 139 +++++++
+ .../librsvg/librsvg/CVE-2015-7558_2.patch          | 230 +++++++++++
+ .../librsvg/librsvg/CVE-2015-7558_3.patch          | 223 +++++++++++
+ meta/recipes-gnome/librsvg/librsvg_2.40.10.bb      |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb      |   4 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |   6 +-
+ meta/recipes-lsb4/libpng/libpng12_1.2.53.bb        |   2 +-
+ meta/recipes-multimedia/libpng/libpng_1.6.17.bb    |   2 +-
+ 37 files changed, 2181 insertions(+), 27 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2015-8370.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-randconfig-fix.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0008-CVE-2015-7545-1.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0009-CVE-2015-7545-2.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0010-CVE-2015-7545-3.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0011-CVE-2015-7545-4.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.5.0/0012-CVE-2015-7545-5.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
+ rename meta/recipes-extended/tzcode/{tzcode-native_2015g.bb => tzcode-native_2016a.bb} (40%)
+ rename meta/recipes-extended/tzdata/{tzdata_2015g.bb => tzdata_2016a.bb} (96%)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2015-7674.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_1.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_2.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_3.patch
+
+-- 
+2.5.0
+
+
