@@ -1,28 +1,46 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A18D772C3
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 215226FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 21:08:36 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aR4fE-0004DX-KG; Wed, 03 Feb 2016 22:08:36 +0100
-Message-ID: <1454533708.7421.61.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 03 Feb 2016 21:08:28 +0000
-In-Reply-To: <CAMKF1srGn-maJcvPLQSV6Xz7RgU4N1Jipr+Oc9AH_B1xsj-UQw@mail.gmail.com>
-References: <56B0AE88.3090103@siemens.com> <1454446338.7421.45.camel@pbcl.net>
-	<46DD8494-2C7E-44B8-8793-12228FD56738@gmail.com>
-	<1454532510.7421.54.camel@pbcl.net>
-	<CAMKF1sqevO99mD2V1xxZEa7--LX9vctuFebLc59fOej3xnjkhA@mail.gmail.com>
-	<1454533078.7421.57.camel@pbcl.net>
-	<CAMKF1srGn-maJcvPLQSV6Xz7RgU4N1Jipr+Oc9AH_B1xsj-UQw@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Default value for FULL_OPTIMIZATION
+	Wed,  3 Feb 2016 21:17:16 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id n128so19903009pfn.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Feb 2016 13:17:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=QbG3h6JDvtoswGGNCcq9HlOqNyqM1CMsBGHrMxk9kmU=;
+	b=QAkUV5JxGeKUiynk4XwUTCX4U7I9PZt5vA8DfZXLADDLx/Zllyq2uD6OQ2CtklomUj
+	WIBqyTCprqAkQR0+G8FWD5Ant7i080lgR0H3QuUKEqOEGv3KL2bYv6mEZc5NZC6P0R6C
+	2DfwThTzS1DKaOr1RAXyiDSvXVu/7qsydvElNgyacJQBDblh/F+BBCrqXOZCvEGL7UJa
+	aWqVbrKtUAhrNObBDRWacYmOSjkUWyrDFTehLJ3ozC7S+dmFE2fgQNsc+xWLJ/Mhwe0G
+	6Gx2Jf42xpxf6ZpzjriK27tnpBiXGrBuaGsLa1d0IitAOr4oE5c/mrS9vJgx2wGPwtwC
+	CVLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=QbG3h6JDvtoswGGNCcq9HlOqNyqM1CMsBGHrMxk9kmU=;
+	b=DirMDnnxPKFEH9Hga2NF3G6yq6KcxbpxaBgUCXMuyTbam5fbwbXvydZxIXvKu2q0Or
+	3XWY3NQU+M89odyx0lbnQPz9mP3WuTOxRx/h8xOkP/u6jI/LeETCFQp96YjIOmv/NWoi
+	zUiW6+CthElNJPNHOmLl/S3OJx/FuDFE3RmElrLDKN6ExKTN5tLynxKG5zjb7D83NS0W
+	qzAPPKlopR7E3QF/Sa+bV90fMdC+2reHdDhi0fUxCXFeO+S1CptQp6MQAuZkyGZXTIOM
+	3whwL8mp75XxWoMaPyQ8KBelVpLlcuEjyydBHAxupTKjvDHNvBKSEHX7+FYesnIeKcWd
+	kFXg==
+X-Gm-Message-State: AG10YOQX5qXBdnpaoxfkfS4GcE0c+TITiKzKxPhQIkbwsoFYuevMC0TO2r1QjGgAKgqqWA==
+X-Received: by 10.98.32.5 with SMTP id g5mr5790140pfg.74.1454534237650;
+	Wed, 03 Feb 2016 13:17:17 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	70sm11894896pfc.69.2016.02.03.13.17.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 Feb 2016 13:17:16 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Feb 2016 13:17:11 -0800
+Message-Id: <1454534231-20079-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] gnutls: update 3.4.8 -> 3.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 21:08:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Feb 2016 21:17:20 -0000
 
-On Wed, 2016-02-03 at 12:59 -0800, Khem Raj wrote:
-> in systems of  this age it should be yet.
+This version fixes bugs in the current stable branch.
 
-Sorry, I didn't really understand that comment.
+* Version 3.4.9 (released 2016-02-03)
 
-For what it's worth, as a very quick and fairly unscientific comparison,
-I did "time make -j4" in a glibc tree and got:
+** libgnutls: Corrected ALPN protocol negotiation. Before GnuTLS would
+   negotiate the last commonly supported protocol, rather than the
+   first. Reported by Remi Denis-Courmont (#63).
 
-real	1m38.812s
-user	4m6.420s
-sys	0m23.148s
+** libgnutls: Tolerate empty DN fields in informational output
+   functions.
 
-and then I cleaned the tree and did "time make -j4 CFLAGS='-O2 -g
--pipe'" and got:
+** libgnutls: Corrected regression causes by incorrect fix in
+   gnutls_x509_ext_export_key_usage() at 3.4.8 release.
 
-real	1m37.299s
-user	4m21.420s
-sys	0m27.304s
+** API and ABI modifications:
+No changes since last version.
 
-I'm not sure these results are statistically significant but on this
-very limited evidence it certainly doesn't look like -pipe is providing
-any transformational benefits.  The real time has gone down a tiny bit,
-which suggests that -pipe is giving some extra parallelism, but the
-system and user time have both actually gone up in the second case. 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/gnutls/{gnutls_3.4.8.bb => gnutls_3.4.9.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.4.8.bb => gnutls_3.4.9.bb} (60%)
 
-p.
-
+diff --git a/meta/recipes-support/gnutls/gnutls_3.4.8.bb b/meta/recipes-support/gnutls/gnutls_3.4.9.bb
+similarity index 60%
+rename from meta/recipes-support/gnutls/gnutls_3.4.8.bb
+rename to meta/recipes-support/gnutls/gnutls_3.4.9.bb
+index 41eb91a..b652f6f 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.4.8.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.4.9.bb
+@@ -4,5 +4,5 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+            "
+-SRC_URI[md5sum] = "a26e6dd8d5ad92016e3f068795b89624"
+-SRC_URI[sha256sum] = "e07c05dea525c6bf0dd8017fc5b89d886954f04fedf457ecd1ce488ac3b86ab7"
++SRC_URI[md5sum] = "1b3b6d55d0e2b6d01a54f53129f1da9b"
++SRC_URI[sha256sum] = "48594fadba33d450f796ec69526cf2bce6ff9bc3dc90fbd7bf38dc3601f57c3f"
+-- 
+1.9.1
 
 
