@@ -1,46 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A539F772ED
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 233A8602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 00:36:49 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id r129so142409456wmr.0
+	Wed,  3 Feb 2016 00:42:00 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id cy9so3219734pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 16:36:50 -0800 (PST)
+	Tue, 02 Feb 2016 16:42:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=mOqOG7Su7B1sVphpVxVOht7HivZt4LauFg8yLyxJNyg=;
-	b=v198Y1WJAt6i01UnM8gVg+o/oiaQZyQYHHMVMNazeWtbwltzxocMobweghHJRmixhX
-	VhXF2GrxevWk2UpNSNsKXXnF8ErYW8+qADPum7cJXMednUV4jW2YcA5rIZGBJgQnF7fT
-	f/XSAleP+otZ9DndwUW3OByLK1+Y0bDGY4ty6Bocy6E9WZjltWyQhOobdXV8NxuI2tm8
-	u6+2LPn//9HjF6yBLE6Ok/g2DGk0I4gQ868mssgxPWfG6s/Vf9Od9XJIJTJ4szakLGli
-	onUWasg+MlGp274eWzaIdHizU6lFgcJJzYAcET6gFYi504iGEnSuxiJP3f7r8iW3D0xx
-	p+Yw==
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=TrnEjWww55Gts46UQX5IkvsP5upK6DdY1UDJq42dpq0=;
+	b=ymYQUC7sQqpKoKAHK8YuJONIZDSSG0bzEmUt5yAQpdbrImeUjXTUzHzhGwb30u+Nd6
+	tzfCzGFoTR9jY2/2tDyBTfSNqyraZGo/MU9tTSl3d0s7/uvQxbQudIyXKsQhfav4dpiA
+	Iqi51XgQWyhv8dqkZEXNWqnHtz7D2fXaJE4M8Kd45SHyXwtt7wntNb84/XEzYN+n9aeV
+	DJI2EREqm86BMmM3fAbbAd/EIoMDCmIKzJuxBl00CUD29BJ03/XH59xLxbnqs+49FNXA
+	SUbYc72h4L+enBzT/tohmQBy/Jm4xmQwuHXO9zWDon781nITu4mxLVFu8V/nkUMtX3kH
+	ROCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=mOqOG7Su7B1sVphpVxVOht7HivZt4LauFg8yLyxJNyg=;
-	b=XDRew0JDjgdCH8tBqbVeZtvklBRtYCs/cUtrlaqKsHzJODVcl9PF/36Nr8G2/qYcUW
-	vTHfUGuuCUGIqh+XSGS++GWuwwwgYGotXc02PK2m4O3LeGFgdOxUgiGbT14SYnpbaFey
-	e2mwxu8MocZ3tNP17SKKzfRmGqalw+47Hsoo6WNorc0TQgXT5om1NjQKcxEFoZuVepgD
-	BRSQTiPAH61JTsUKO/yrSp0aXhses5v7UFdydJ7mO5oM3JMZt2wtqw/2q/FXuZBOcRjL
-	D9aidRqtVAh2WMobdTQ8TVMjnw0+/M2BvyUzMmFgmHjQuOwM8iuXvmX+FNOuYIugJMFj
-	s4PA==
-X-Gm-Message-State: AG10YOR5MXPRnXuh6qI5FL0CkAf7PlLkN6TuSKIELpvKcuQXZ8AF9IVwaQ+g3uzqcdKQhPklvImz+rGnHTBGbA==
-MIME-Version: 1.0
-X-Received: by 10.28.54.22 with SMTP id d22mr470044wma.72.1454459809821; Tue,
-	02 Feb 2016 16:36:49 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Tue, 2 Feb 2016 16:36:49 -0800 (PST)
-In-Reply-To: <F583CDF2-1357-463D-AC7F-48C93A9C2436@gmail.com>
+	h=x-gm-message-state:subject:mime-version:content-type:from
+	:in-reply-to:date:cc:message-id:references:to;
+	bh=TrnEjWww55Gts46UQX5IkvsP5upK6DdY1UDJq42dpq0=;
+	b=CSpKq7ogvnO6QwfAp815QstA9SJJgXHzkH5mUEbFA/4d6jfhJCx9WhgHkFBopLTOFK
+	8xb0NR761kkJvmnG20M3bmGqFLD1lQBFqKRz88O4gWmv686jZ15GaRZVz1wzG7BHrEti
+	zbxW+8EBA2OjSkPFcIbUrZ0FaiOIogXuwmM8ysr4oT4LDdolu0b9bl0D+R/dRJWdGNdG
+	e8ACZ6ybbV6frEW3/cnyeMl2iT7XbdwWEc45YvjbEnIlaKf8hOMyBTz5YTcPa2QD/XMR
+	FNiA2/FV6zAgLyU84eFTRYWWvDClpek0B6Lg40gQ6TSjm8Td56GA8tWd0U1u57Ujds85
+	HOwA==
+X-Gm-Message-State: AG10YORPSJ2YOn+1BAdUZG1tljlgRwoJYgfXdEZnnqQ/55x4D08aoQKXhmApoBYuUyZw9w==
+X-Received: by 10.66.124.200 with SMTP id mk8mr51970826pab.43.1454460121259;
+	Tue, 02 Feb 2016 16:42:01 -0800 (PST)
+Received: from [10.235.224.30] ([50.141.32.174])
+	by smtp.gmail.com with ESMTPSA id 3sm5207902pfb.64.2016.02.02.16.41.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Feb 2016 16:41:59 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJ86T=XKG6FNEW5hjtYOkjXhmaRKV2vnjqLW2TgpEVG=XF0ivw@mail.gmail.com>
+Date: Tue, 2 Feb 2016 16:41:54 -0800
+Message-Id: <89461059-B47B-4CBA-BDB9-EC00A6F8B01A@gmail.com>
 References: <1454364084-13476-1-git-send-email-armccurdy@gmail.com>
 	<CAMKF1sqRtdCtm0jtGwMtPWJ3cUYmRB5FYZ9m7xmjq8+0q_pTGQ@mail.gmail.com>
 	<CAJ86T=VMCnwns4grN6rWFg0z2oR7ifeSbo4Pf2o0te1ZOk2fOA@mail.gmail.com>
 	<F583CDF2-1357-463D-AC7F-48C93A9C2436@gmail.com>
-Date: Tue, 2 Feb 2016 16:36:49 -0800
-Message-ID: <CAJ86T=XKG6FNEW5hjtYOkjXhmaRKV2vnjqLW2TgpEVG=XF0ivw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAJ86T=XKG6FNEW5hjtYOkjXhmaRKV2vnjqLW2TgpEVG=XF0ivw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+X-Mailer: Apple Mail (2.3112)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-configure-common.inc: drop --enable-target-optspace from configure
@@ -56,112 +63,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 00:36:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Feb 2016 00:42:02 -0000
+X-Groupsio-MsgNum: 77428
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_EDA734DB-CD24-4089-8DCD-685BE4B1A58D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Mon, Feb 1, 2016 at 6:47 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Feb 1, 2016, at 6:21 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Mon, Feb 1, 2016 at 4:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> What is the size increase in gcc runtime when u do this
->>
->> No significant changes.
->>
->> Binaries which link statically with libgcc all grow a little
->> (somewhere between 10 and 50 bytes).
->>
->> libgcc_s.so.1 itself grows by approx 1%:
->>
->>   text       data        bss        dec        hex    filename
->> 114896        516         56     115468      1c30c    libgcc_s.so.1 (-Os)
->> 116148        516         56     116720      1c7f0    libgcc_s.so.1 (-O2)
->
-> Thanks, I am ok with this change. Can you also report a qemuppc build with this
-> change and make sure it boots ?
+--Apple-Mail=_EDA734DB-CD24-4089-8DCD-685BE4B1A58D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-No issues seen booting qemuppc core-image-minimal built from today's
-poky master branch.
 
->>
->> libssp, libstdc++, libgomp and libatomic all ignore the
->> --enable-target-optspace configure option, so are not affected.
->>
->> (Results from an armv7ve build).
->>
->>> On Feb 1, 2016 2:01 PM, "Andre McCurdy" <armccurdy@gmail.com> wrote:
->>>>
->>>> Configuring gcc with --enable-target-optspace (which causes gcc to
->>>> append "-g -Os" to the default CFLAGS_FOR_TARGET and so force libgcc
->>>> etc target libraries to always be optimised for size) dates back to
->>>> the very first commit in oe-core git in 2005 (for gcc 3.4.3).
->>>>
->>>> Configuring gcc with --enable-target-optspace is not done widely
->>>> elsewhere (it's not used for Ubuntu or Fedora host gcc, the Linaro
->>>> binary toolchain or in Buildroot since early 2015). Sometime around
->>>> gcc 4.5.x it caused problems for powerpc and so was disabled for that
->>>> architecture:
->>>>
->>>>  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43810
->>>>
->>>> This patch removes --enable-target-optspace completely (ie powerpc is
->>>> no longer a special case) and allows optimisation of libgcc etc to be
->>>> controlled directly by the flags present in TARGET_CFLAGS.
->>>>
->>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>>> ---
->>>> meta/recipes-devtools/gcc/gcc-configure-common.inc | 8 --------
->>>> meta/recipes-devtools/gcc/gcc-cross-initial.inc    | 1 -
->>>> 2 files changed, 9 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> b/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> index 85e69db..f4f76bd 100644
->>>> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> @@ -14,13 +14,6 @@ JAVA_sh3 ?= ""
->>>> # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
->>>> FORTRAN ?= ",f77"
->>>> LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
->>>> -# disable --enable-target-optspace for powerpc SPE
->>>> -# at -Os libgcc.so.1 creates references into
->>>> -# hidden symbols in libgcc.a which linker complains
->>>> -# when linking shared libraries further in the build like (gnutls)
->>>> -
->>>> -SPECIAL_ARCH_LIST = "powerpc"
->>>> -OPTSPACE = '${@bb.utils.contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}",
->>>> "", "--enable-target-optspace",d)}'
->>>>
->>>> EXTRA_OECONF_BASE ?= ""
->>>> EXTRA_OECONF_PATHS ?= ""
->>>> @@ -42,7 +35,6 @@ EXTRA_OECONF = "\
->>>>     --enable-libstdcxx-pch \
->>>>     --program-prefix=${TARGET_PREFIX} \
->>>>     --without-local-prefix \
->>>> -    ${OPTSPACE} \
->>>>     ${EXTRA_OECONF_BASE} \
->>>>     ${EXTRA_OECONF_GCC_FLOAT} \
->>>>     ${EXTRA_OECONF_PATHS} \
->>>> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->>>> b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->>>> index 910f2ef..048b530 100644
->>>> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->>>> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->>>> @@ -22,7 +22,6 @@ EXTRA_OECONF = "\
->>>>     --disable-multilib \
->>>>     --disable-__cxa_atexit \
->>>>     --enable-languages=c \
->>>> -    ${OPTSPACE} \
->>>>     --program-prefix=${TARGET_PREFIX} \
->>>>     --with-sysroot=/not/exist \
->>>>     --with-build-sysroot=${GCCCROSS_BUILDSYSROOT} \
->>>> --
->>>> 1.9.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> On Feb 2, 2016, at 4:36 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>=20
+> On Mon, Feb 1, 2016 at 6:47 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>=20
+>>> On Feb 1, 2016, at 6:21 PM, Andre McCurdy <armccurdy@gmail.com> =
+wrote:
+>>>=20
+>>> On Mon, Feb 1, 2016 at 4:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>> What is the size increase in gcc runtime when u do this
+>>>=20
+>>> No significant changes.
+>>>=20
+>>> Binaries which link statically with libgcc all grow a little
+>>> (somewhere between 10 and 50 bytes).
+>>>=20
+>>> libgcc_s.so.1 itself grows by approx 1%:
+>>>=20
+>>>  text       data        bss        dec        hex    filename
+>>> 114896        516         56     115468      1c30c    libgcc_s.so.1 =
+(-Os)
+>>> 116148        516         56     116720      1c7f0    libgcc_s.so.1 =
+(-O2)
+>>=20
+>> Thanks, I am ok with this change. Can you also report a qemuppc build =
+with this
+>> change and make sure it boots ?
+>=20
+> No issues seen booting qemuppc core-image-minimal built from today's
+> poky master branch.
 
+great thanks for following up
+
+
+--Apple-Mail=_EDA734DB-CD24-4089-8DCD-685BE4B1A58D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlaxTNYACgkQuwUzVZGdMxS+FwCaA92Ak+haaxsnzEV1y2eDeWxM
+VtQAnjtfk2VljRY3Yq2Vsa/Qf25MxhCq
+=C4aO
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_EDA734DB-CD24-4089-8DCD-685BE4B1A58D--
