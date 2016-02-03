@@ -1,26 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EB65377306
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E91C7733F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 07:50:15 +0000 (UTC)
+	Wed,  3 Feb 2016 08:07:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u137oFgn011848
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Feb 2016 23:50:16 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 2 Feb 2016 23:50:15 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Feb 2016 15:50:21 +0800
-Message-ID: <e8ffa30199c723eb1fcbb4126c2ac5441e9da1bc.1454485614.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1454485614.git.Qi.Chen@windriver.com>
-References: <cover.1454485614.git.Qi.Chen@windriver.com>
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1387ijg024238
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 3 Feb 2016 00:07:44 -0800
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.97]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0248.002;
+	Wed, 3 Feb 2016 00:07:43 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Phil Blundell <pb@pbcl.net>, "MacLeod, Randy"
+	<Randy.MacLeod@windriver.com>, Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH 2/3] glib-2.0: drop
+	add-march-i486-into-CFLAGS-automatically.patch
+Thread-Index: AQHRXUIuHEVOTz6WokuqUKAmNRgCiZ8Z9Xdg
+Date: Wed, 3 Feb 2016 08:07:43 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA010C7C0BCC@ALA-MBB.corp.ad.wrs.com>
+References: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
+	<1453937316-1311-3-git-send-email-armccurdy@gmail.com>
+	<56AFDAC5.9000008@windriver.com> <1454366681.7421.37.camel@pbcl.net>
+In-Reply-To: <1454366681.7421.37.camel@pbcl.net>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.140]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] copy_buildsystem: add ability to exclude layers
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] glib-2.0: drop add-march-i486-into-CFLAGS-automatically.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 07:50:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Feb 2016 08:07:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-In some cases, we may have some kind of download layers in BBLAYERS, so
-that we can set BB_NO_NETWORK to "1". This results in extremely large
-extensible SDK. And we actually don't need these download layers in the
-SDK.
-
-Add a new variable, SDK_LAYERS_EXCLUDE, to enable users to explicitly
-exclude some layers when generating the extensible SDK.
-
-[YOCTO #8878]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oe/copy_buildsystem.py | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index fb51b51..abee5d9 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -18,6 +18,7 @@ class BuildSystem(object):
-         self.d = d
-         self.context = context
-         self.layerdirs = d.getVar('BBLAYERS', True).split()
-+        self.layers_exclude = (d.getVar('SDK_LAYERS_EXCLUDE', True) or "").split()
- 
-     def copy_bitbake_and_layers(self, destdir):
-         # Copy in all metadata layers + bitbake (as repositories)
-@@ -28,6 +29,11 @@ class BuildSystem(object):
-         corebase = self.d.getVar('COREBASE', True)
-         layers.append(corebase)
- 
-+        # Exclude layers
-+        for layer_exclude in self.layers_exclude:
-+            if layer_exclude in layers:
-+                layers.remove(layer_exclude)
-+
-         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
-         corebase_files = [corebase + '/' +x for x in corebase_files]
-         # Make sure bitbake goes in
--- 
-1.9.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbCBCbHVuZGVsbCBb
+bWFpbHRvOnBiQHBiY2wubmV0XQ0KPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSAwMiwgMjAxNiA2
+OjQ1IEFNDQo+IFRvOiBNYWNMZW9kLCBSYW5keQ0KPiBDYzogQW5kcmUgTWNDdXJkeTsgb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgSHVhbmcsIEppZSAoSmFja2llKQ0K
+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzNdIGdsaWItMi4wOiBkcm9wIGFkZC1t
+YXJjaC1pNDg2LWludG8tQ0ZMQUdTLWF1dG9tYXRpY2FsbHkucGF0Y2gNCj4gDQo+IE9uIE1vbiwg
+MjAxNi0wMi0wMSBhdCAxNzoyMyAtMDUwMCwgUmFuZHkgTWFjTGVvZCB3cm90ZToNCj4gPiBEbyB5
+b3UgcmVtZW1iZXIgd2h5IHRoaXMgcGF0Y2ggd2FzIG5lZWRlZD8NCj4gDQo+IFRoZSBjb21tZW50
+cyBpbiB0aGUgcGF0Y2ggcHJvdmlkZSBhIGZhaXJseSBjbGVhciBleHBsYW5hdGlvbiBvZiB3aGF0
+DQo+IHByb2JsZW0gaXQgd2FzIHRyeWluZyB0byBzb2x2ZS4gIEJ1dCBJIGFncmVlIHdpdGggQW5k
+cmUgdGhhdCB0aGlzIGN1cmUNCj4gaXMgaW4gZmFjdCB3b3JzZSB0aGFuIHRoZSBvcmlnaW5hbCBk
+aXNlYXNlLg0KPiANCj4gSW4gYW55IGNhc2UsIHRoZSBpc3N1ZSBpcyBwcm9iYWJseSBtb290IGJl
+Y2F1c2UgbmVpdGhlciBnbGliYyBub3IgbXVzbA0KPiBzdXBwb3J0IGNwdXMgd2l0aG91dCBjbXB4
+Y2hnIGFueSBtb3JlLg0KDQpJJ20gbm90IHRoZSBhdXRob3Igb2YgdGhhdCBwYXRjaCwganVzdCBo
+ZWxwZWQgZm9yd2FyZGluZyBpdC4NCkl0IHNlZW1zIHJlYXNvbmFibGUgdG8gZHJvcCBpdCBhbmQg
+d2UgbWF5IGdldCBiYWNrIHRvIHRoZSBpc3N1ZQ0KYW5kIHNvbHZlIGl0IHdpdGggYSBtb3JlIHBy
+b3BlciB3YXkuDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiBwLg0KPiANCg0K
 
