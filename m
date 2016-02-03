@@ -1,44 +1,46 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 757ED772FC;
-	Wed,  3 Feb 2016 11:49:47 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id 5so34208575igt.0;
-	Wed, 03 Feb 2016 03:49:48 -0800 (PST)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B78137719B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Feb 2016 12:42:16 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id l66so68420201wml.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Feb 2016 04:42:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=C5YOj552Nbmswz0KIZx4cTPrYaxzhax+xmvEOevdVdc=;
-	b=etgRZdW2cYTJTbU9yusYS5HYeDaLb9VTYD1LjADNm0KrCCh1QkjsBwLr/ajYVjJbB6
-	E5lSyPeKE7Fqc4hqH7Z4PB7DMm2vpR5KFo6NDbreZP4ksMPXkQZ1hAS1/msE/gihwmxg
-	Xgv5akujjfJWrZJ3Hk54KZ5OVkTg/I973EatA0aJ1k26AQACumZWN9IkMYfHBcJlEqOq
-	qJtS393hOZcjfAwpm/seCyVzhOBbd9ZKVoXq39uS/hJ1pWh4kPexuLeFAwd2/BBPmfLf
-	71Wp3WAoe5DaGmd4FGtM9aASumNSQERoVdwyMo9N/5U4Y9jBhHjkrwzEwqZB8e+g19Df
-	lEGQ==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ta0KBRmSYwaDdYDb4T4+sBbvD0wJLOoih2x0+2K2AY4=;
+	b=UCuuXymHdjrHhAPKAhIguCqGqafm/X69b2GDPas4hNokG8zMITPquCgLs/Lfd5cTEB
+	TzBCiu7DYxA6/9DbdU2T/EpZrwHPvgrQtisvv9b7d+IS8UgCEHcOTA1LzE6jkwLG94J/
+	iXSRRTvKUOxqaFTh8crb8XTYtUJhGYi8E5kovdPWybV12RoKtaHm+iKuDQLDIPktYt0t
+	5N+LtTa+OUSthMVYcN+Tibom8OBgOx5TTUc+HGJFZHe4daa3PRFGkopwqFs7yCYsuO3/
+	hM7xV+qM0rY+7m5SX16tKJ6PWS6jKMOmzWQ2nY5X8vexyISyDRnW0dNjJoMjpiiJmXAa
+	VVeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=C5YOj552Nbmswz0KIZx4cTPrYaxzhax+xmvEOevdVdc=;
-	b=VFbqZuxj1d7jnsZU80F5KYJtij0C3BSaTxbFumSu2Vpz2QtxHSTxFsOuNIFAgBDGOe
-	OxI2zrLwfKBkaYcNN7R0VdX+HPKf3S1CUhDg3neX8qqDjARTeMUevel6PtjkwsLoKThW
-	rjLgJSdnoOZ0yChH4/DdyHUpfAwYvvX5AZl9+ut3Kl24RZvXDnRHkDBv3CvYGk4a4yhV
-	o2laFTfd4hdmhaUK3lD1Z6PC6u9uKE00cDSDIIr9c2N4cI7zt1WvNHRO/vZURP8cA4Ma
-	7PEW5jfSNml7RCkAg3pfWyFvca9LIBw3ch3cYDweFzzccv0ZBEgw5q8YqO0sg6KB3/Ck
-	NIrQ==
-X-Gm-Message-State: AG10YOTX5PM883oI/his3ZKcJuBXMar3T9RtxT1leiXIjNxYMVxwOr5FfIUfrM7jmgwxrOGfxexAjO95koRAdg==
-MIME-Version: 1.0
-X-Received: by 10.50.111.111 with SMTP id ih15mr23869475igb.78.1454500188055; 
-	Wed, 03 Feb 2016 03:49:48 -0800 (PST)
-Received: by 10.36.25.81 with HTTP; Wed, 3 Feb 2016 03:49:48 -0800 (PST)
-Date: Wed, 3 Feb 2016 12:49:48 +0100
-Message-ID: <CALbNGRRmD=4QUi=+_fx48M4GDB9VwTX5m5wH12j4ed1OK6SW6Q@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Language settings GTK (glibc?) problem
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ta0KBRmSYwaDdYDb4T4+sBbvD0wJLOoih2x0+2K2AY4=;
+	b=DMs6E0+x8S5Us3c3sAzMP0ZxImTJCux5ZfKu4Dxl0rubWYQ/RSwImNfquBldxr6yZV
+	bONj5WLZaidgouE9Zhe/gAnwvMppYvG3OuD8lfxIZlPW45aAuoOFBhz9ht2p1iQri0c2
+	2+/StaaK74R3gkw0JAKhIr7xvM/gu8qpw5prJ0rnFffbGSQGHQoybUggMshKY/7CPgRI
+	S/IVfEGaBXzswPw4p2RX5hL0Ds3sLkfAdC7g5MIElF00dMYasLaexMGZswICzhYS+IBp
+	5U9U+tNux3ak8I7HYHIs3+mRA6ZcuRYZTik0QDj1sTNfb31t4W543V/YOdP5Hp33RoML
+	cLuA==
+X-Gm-Message-State: AG10YOTcnU5MhVz0lYLfPz5H+bPZbG4fgWY6AW2wlCovOM1V0CzUGtZ8z9oUCvEOqgoYbxdM
+X-Received: by 10.28.30.132 with SMTP id e126mr25543998wme.42.1454503336645;
+	Wed, 03 Feb 2016 04:42:16 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	w80sm21450432wme.17.2016.02.03.04.42.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 Feb 2016 04:42:15 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Feb 2016 12:42:14 +0000
+Message-Id: <1454503334-2424-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] i2c-tools: point SRC_URI at Yocto source mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,49 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 11:49:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Feb 2016 12:42:18 -0000
 
-Hi,
+The ln-sensors.org web site has been down for some time, so point the SRC_URI at
+the Yocto Project source mirror.
 
-while testing libreoffice language packets I found that language
-settings for GTK based apps are broken. Interestingly QT based
-applications (tested with qtcreator and lxqt) and libreoffice are
-working fine.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I did some research and hope for some expert with helping hints. Details are:
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
+index 042695b..4d25542 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
+@@ -3,7 +3,7 @@ SECTION = "base"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${BP}.tar.bz2 \
++SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.bz2 \
+            file://Module.mk \
+ "
+ SRC_URI[md5sum] = "7104a1043d11a5e2c7b131614eb1b962"
+-- 
+2.7.0
 
-* I am testing with jethro environment
-
-* X session is started for an unprivileged user by display manager
-lxdm. That sets the following environment vars for language:
-| LANG="de_DE"
-| LANGUAGE="de_DE"
-| LC_MESSAGES="de_DE"
-
-* starting e.g gedit from console complains:
-| (process:4205): Gtk-WARNING **: Locale not supported by C library.
-|    Using the fallback 'C' locale.
-
-* 'locale -a' says
-| locale: Kann LC_COLLATE nicht auf die Standard-Lokale einstellen:
-Datei oder Verzeichnis nicht | | gefunden
-| C
-| POSIX
-| de_DE
-| en_GB
-| en_US
-| fr_FR
-Translation of error is (when setting en_GB on lxdm):
-| locale: Cannot set LC_COLLATE to default locale: No such file or directory
-
-Debugging the last two cases show that the error is caused for same reason:
-
-* setlocale(LC_ALL, "") returns NULL for GTK apps
-* setlocale (LC_CTYPE, "") returns NULL for 'locale -a'
-
-
-Anybody with ideas what is missing/wrong on my images?
-
-Andreas
 
