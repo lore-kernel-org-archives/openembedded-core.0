@@ -1,52 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 799F477340
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 34FFF771C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 06:17:24 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id uo6so8073337pac.1
+	Wed,  3 Feb 2016 06:27:55 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id y9so4213941qgd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 22:17:25 -0800 (PST)
+	Tue, 02 Feb 2016 22:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=kE+DyHXrE005X+JlPXkj/8kvmPVM6uUus/3qbIh+KcI=;
-	b=MbMYtn+9f1j2cO2hDBOkRh54I1qGDSw1+41HwHQV7kAZD5n7myWwPyMsZ+kLYxbg2+
-	FG7ghVro+/ln7XFaynEHRqkJK9qQTyLzjbNZ2IbP4nTOzCLdv40cmQkwqh7CkICHlDu9
-	iT5Ibey6d0MLqT8GdGtk+LbvZ7BUbTOl6ARUltA6uViiFrP65EO1RUx5tHoGXVnrXJLE
-	E9BTd+UD3E5dPFxkQmU9MeuI9SPnnH9GC7Z+xOLWSJwFtxxoyfWN+08UhEix6rsk6C6X
-	lP8dIsdgxnjHRhbq9Z2LPAqjZWDJx1TWIaoFUBCtqmOsz/JpZzxea1x+wWgpQWmFDDOO
-	4nZg==
+	h=from:to:cc:subject:date:message-id;
+	bh=ufZtQP0lMmK30Ppi8IGlnGhj6CbLBJQa5940C4tX6Aw=;
+	b=LjzWahZAY8dwBdslCfod4UrB5yiUCt83pX4wn8ojORrLZ5cbMSvNfGRh9l0IBPToud
+	+0XHSYpEppG2KSTu77nsCQHQPs7D4zo0E5w+cvg6wu+h37w+5H1NCvsCtQgb6J/25uZY
+	yYXchjtfEgq8oEzaI3YPQEvHgggfi1pA9NGCaroVaaiahbmVv/Qor2eKTeHFE97o0uep
+	7hTI50FUKjh7WAppiuHoMHbqoVwMyzxo90e5LDTgP3tZR9kX0cbDh0DoB3ZSmTRCtHYX
+	ZMw1muMsdfnqVhsfcYVrjfUl7mQtHkt3E1sVKBjaZLjiGj/6Lm35vCvuIqVGFQmVSa6f
+	Wdww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=kE+DyHXrE005X+JlPXkj/8kvmPVM6uUus/3qbIh+KcI=;
-	b=H1/C174FBINmO8qVD1iLqJUTWO28XTf5jPREl4LxTnLZMfQoNVThImsq1OT2xh7a/T
-	DUSrE+e80CnW7mq7KO+Z+OgKP0ZqnO+r5wZZvqC9fCPQxdwmlDzH9lFW/XNnelj3/E/N
-	ysXZ45snS2yORjLbwvqAdAUgVqv2kb7AUy6elPFXFbLQZhUUueuG38s9+Nm4O1DIFfNv
-	+0qs4RzGibXntCL4wBcWOVgQtEkuif47urmY28d1tKdTj9KcN14BOdtE79dNYkmAqMDm
-	vo9jlUCXneY3i0RWlqJgw5I2VsCJp1XXEsuDLYWB+fpIFV0YH3Y0Ikfwrp9dRfGrhs9Z
-	ymLw==
-X-Gm-Message-State: AG10YOR116cCAr66muUokEUQRE7PDgB5DF5PKzeqRGGG4OIQITCeCvQjoau2Lg63SapnUA==
-X-Received: by 10.66.153.11 with SMTP id vc11mr18864312pab.42.1454480245504;
-	Tue, 02 Feb 2016 22:17:25 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:6d69:5a78:5946:6549?
-	([2601:646:8802:5d5c:6d69:5a78:5946:6549])
-	by smtp.gmail.com with ESMTPSA id tv6sm6874647pab.4.2016.02.02.22.17.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 02 Feb 2016 22:17:24 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ufZtQP0lMmK30Ppi8IGlnGhj6CbLBJQa5940C4tX6Aw=;
+	b=lx7DHbitkuqtBovHv9JPBYdVMUhoM57t8jdfG7AhSIDGFQjeZdlQKNcjbWTQKyfUeM
+	48S/Ohppp/vUuNYOL35KzhFFq2VAyLYnpavfyhn1eT5F1DmWe9opYVts86/ZgrVJXOs/
+	UFtvQFtIxqcXj4zApf1y7nPFO3/BET7/UrtSunixaXiKdSpbIb27LI88j7BNM+YXVutk
+	96idshN2uP4IjaOackneBBMG1w2hR1RacFpFNS8M6cPzyZAjlWq2WPEv8JVGrJVTVLIx
+	nYzGbzCbaAba2zZPjBCgKBydURBk8TkbhZ0GCTz67HdiQdSKCWnlMABvNBkhQVZ2qMqb
+	DInw==
+X-Gm-Message-State: AG10YOTamnPruoki2fi4bsgQY3iafN2Xd1Yi+krogri05Uo7elOiixA9bGiusGOIiKCxtw==
+X-Received: by 10.140.20.145 with SMTP id 17mr40268792qgj.45.1454480875896;
+	Tue, 02 Feb 2016 22:27:55 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	t23sm2273320qge.26.2016.02.02.22.27.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 02 Feb 2016 22:27:55 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1454446338.7421.45.camel@pbcl.net>
-Date: Tue, 2 Feb 2016 22:17:20 -0800
-Message-Id: <46DD8494-2C7E-44B8-8793-12228FD56738@gmail.com>
-References: <56B0AE88.3090103@siemens.com> <1454446338.7421.45.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Default value for FULL_OPTIMIZATION
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Feb 2016 06:27:51 +0000
+Message-Id: <cover.1454480571.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 0/6] Fix issues when using security_flags on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,83 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 06:17:25 -0000
-X-Groupsio-MsgNum: 77432
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0D0A5BC5-68FD-4E1D-9EC2-CA6347411EED";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 03 Feb 2016 06:27:56 -0000
 
---Apple-Mail=_0D0A5BC5-68FD-4E1D-9EC2-CA6347411EED
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+security_flags enabled builds revealed several issues when building on musl
+especially compiling gcc runtime libs we should not use fstack-protector
+another change is to replace with -fstack-protector-all with -fstack-protector-strong
+which is available since 4.9 and has best of both worlds (stack size usage and security)
+gcc on musl/ppc was missing patches as a result images werent booting on qemuppc
+that is fixed too. It also revealed some more issues in compiling gcc for musl systems
+was not getting all configs right.
+Addressed the review comments on nss-myhostname
 
+The following changes since commit 2218490b075b077683f17b643ab211c7716d0dfc:
 
-> On Feb 2, 2016, at 12:52 PM, Phil Blundell <pb@pbcl.net> wrote:
->=20
-> On Tue, 2016-02-02 at 14:26 +0100, Pascal Bach wrote:
->> I'm not sure if the documentation is wrong or if the default set in =
-bitbake.conf is incorrect.
->> Maybe somebody can shed some light on this.
->=20
-> FULL_OPTIMIZATION in bitbake.conf did use to match what the
-> documentation says (or at least, was much closer to it).  It was =
-changed
-> to the current value by commit 9cb71137 which apparently omitted to
-> update the documentation.
+  documentation.conf: align the documentation for DEBUG_OPTIMIZATION and FULL_OPTIMIZATION with bitbake.conf (2016-02-02 17:48:00 +0000)
 
-yes thats a gap agreed.
+are available in the git repository at:
 
->=20
-> As an aside, this commit also added "-pipe" to both FULL_OPTIMIZATION
-> and DEBUG_OPTIMIZATION, which seems a bit weird since (a) -pipe =
-doesn't
-> have any effect on the generated code; and (b) if it's going to =
-enabled
-> for both debug and release builds then it might as well go in ${CC} or
-> somewhere.  Also, that commit seems to have deliberately turned down =
-the
-> level of optimisation somewhat in order to facilitate debugging, which
-> is perhaps not what folks who request FULL_OPTIMIZATION would expect.
+  git://git.openembedded.org/openembedded-core-contrib kraj/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/pu
 
--pipe does speed up build time so its an optimization. FULL_OPTIMIZATION =
-is not about
-code generation only. However, I agree to the fact that if we want to =
-use
-it in all combination then it should go into a common global variable =
-which is common
-across target/native/nativesdk recipes.
+Khem Raj (6):
+  nss-myhostname: Fix build on musl
+  gcc: Fix build on musl with -fstack-protector
+  security_flags: Disable fstack-protector for gcc runtime libs
+  security_flags: Replace -fstack-protector-all with
+    -fstack-protector-strong
+  gcc: Assume libssp and dl_iterate_phdr on musl
+  gcc: musl related fixes for unwinding,ppc/secure-plt and gthr
 
->=20
-> But anyway, irrespective of the detailed merits or otherwise of that
-> patch, I think that updating the documentation to match what the code =
-is
-> now doing would be a fine idea.
->=20
-> p.
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ meta/conf/distro/include/security_flags.inc        | 17 +++--
+ meta/recipes-devtools/gcc/gcc-5.3.inc              |  7 +-
+ .../gcc/gcc-5.3/0047-Fix-nios2-musl-build.patch    | 11 ---
+ .../0047-nios2-Define-MUSL_DYNAMIC_LINKER.patch    | 28 ++++++++
+ .../gcc/gcc-5.3/0048-ssp_nonshared.patch           | 29 ++++++++
+ ...-weak-reference-logic-in-gthr.h-for-os-ge.patch | 78 ++++++++++++++++++++++
+ ...050-powerpc-pass-secure-plt-to-the-linker.patch | 66 ++++++++++++++++++
+ .../gcc-5.3/0051-support-unwinding-on-musl.patch   | 34 ++++++++++
+ ...tname-Check-for-nss.h-presense-before-use.patch | 53 +++++++++++++++
+ .../nss-myhostname/nss-myhostname_0.3.bb           |  4 +-
+ 10 files changed, 307 insertions(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0047-Fix-nios2-musl-build.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0047-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0048-ssp_nonshared.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0049-Disable-the-weak-reference-logic-in-gthr.h-for-os-ge.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0050-powerpc-pass-secure-plt-to-the-linker.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0051-support-unwinding-on-musl.patch
+ create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+
+-- 
+2.7.0
 
 
---Apple-Mail=_0D0A5BC5-68FD-4E1D-9EC2-CA6347411EED
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaxm3QACgkQuwUzVZGdMxQKaQCcDEDno/pgyik6yYDxwvQIZ4g4
-qbgAn1H3eBoe6NkBJh2BEj6JavZ+nzYx
-=D98S
------END PGP SIGNATURE-----
-
---Apple-Mail=_0D0A5BC5-68FD-4E1D-9EC2-CA6347411EED--
