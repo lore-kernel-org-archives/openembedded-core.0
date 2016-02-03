@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 173E777305
+	by mail.openembedded.org (Postfix) with ESMTP id 238AF77331
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 00:29:05 +0000 (UTC)
+	Wed,  3 Feb 2016 00:29:06 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 16:29:06 -0800
+	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2016 16:29:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,387,1449561600"; d="scan'208";a="904289345"
+X-IronPort-AV: E=Sophos;i="5.22,387,1449561600"; d="scan'208";a="904289363"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 16:29:05 -0800
+	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2016 16:29:06 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Feb 2016 18:30:33 -0600
-Message-Id: <01b550d016c48dd518dfdcd8ffb4e1c3255abbbb.1454459362.git.anibal.limon@linux.intel.com>
+Date: Tue,  2 Feb 2016 18:30:34 -0600
+Message-Id: <7932348fe9143464803e4ec46d0ee2e2c339c447.1454459362.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454459362.git.anibal.limon@linux.intel.com>
 References: <cover.1454459362.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1454459362.git.anibal.limon@linux.intel.com>
 References: <cover.1454459362.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com
-Subject: [PATCH v2 21/28] classes/testimage: Fix exportTests function.
+Subject: [PATCH v2 22/28] oeqa/sdkext/devtool.py: Add location test to ensure that devtool is the eSDK one.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 00:29:05 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 00:29:06 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-With new structure of TestContext now holds suite and variable
-that contains unittest instances,  it can't be exported using
-JSON causing and exception.
-
-Adds the suite variable for avoid export it.
-
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/testimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/sdkext/devtool.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 5fafda1..57858e6 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -112,7 +112,7 @@ def exportTests(d,tc):
-     savedata["host_dumper"] = {}
-     for key in tc.__dict__:
-         # special cases
--        if key != "d" and key != "target" and key != "host_dumper":
-+        if key != "d" and key != "target" and key != "host_dumper" and key != "suite":
-             savedata[key] = getattr(tc, key)
-     savedata["target"]["ip"] = tc.target.ip or d.getVar("TEST_TARGET_IP", True)
-     savedata["target"]["server_ip"] = tc.target.server_ip or d.getVar("TEST_SERVER_IP", True)
+diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
+index 0262ed3..c5bb310 100644
+--- a/meta/lib/oeqa/sdkext/devtool.py
++++ b/meta/lib/oeqa/sdkext/devtool.py
+@@ -11,10 +11,17 @@ class DevtoolTest(oeSDKExtTest):
+         self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
+         shutil.copytree(self.myapp_src, self.myapp_dst)
+ 
++    def test_devtool_location(self):
++        output = self._run('which devtool')
++        self.assertEqual(output.startswith(self.tc.sdktestdir), True, \
++            msg="Seems that devtool isn't the eSDK one: %s" % output)
++
++    @skipUnlessPassed('test_devtool_location')
+     def test_devtool_add_reset(self):
+         self._run('devtool add myapp %s' % self.myapp_dst)
+         self._run('devtool reset myapp')
+ 
++    @skipUnlessPassed('test_devtool_location')
+     def test_devtool_build(self):
+         self._run('devtool add myapp %s' % self.myapp_dst)
+         self._run('devtool build myapp')
 -- 
 2.1.4
 
