@@ -1,23 +1,23 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 8721D773A7
+	by mail.openembedded.org (Postfix) with ESMTP id AA07477398
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 20:42:58 +0000 (UTC)
+	Wed,  3 Feb 2016 20:48:38 +0000 (UTC)
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
 	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
 	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aR4GQ-00049v-Gx; Wed, 03 Feb 2016 21:42:59 +0100
-Message-ID: <1454532171.7421.52.camel@pbcl.net>
+	id 1aR4Lu-0004Bf-36; Wed, 03 Feb 2016 21:48:38 +0100
+Message-ID: <1454532510.7421.54.camel@pbcl.net>
 From: Phil Blundell <pb@pbcl.net>
 To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 03 Feb 2016 20:42:51 +0000
-In-Reply-To: <e45e550e5d1bdcd4011e9d92c77201596d52ea2b.1454303080.git.raj.khem@gmail.com>
-References: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
-	<e45e550e5d1bdcd4011e9d92c77201596d52ea2b.1454303080.git.raj.khem@gmail.com>
+Date: Wed, 03 Feb 2016 20:48:30 +0000
+In-Reply-To: <46DD8494-2C7E-44B8-8793-12228FD56738@gmail.com>
+References: <56B0AE88.3090103@siemens.com> <1454446338.7421.45.camel@pbcl.net>
+	<46DD8494-2C7E-44B8-8793-12228FD56738@gmail.com>
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/8] boost: Fix build on soft-float ABI arm systems
+Subject: Re: Default value for FULL_OPTIMIZATION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,28 +30,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 20:43:01 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 20:48:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2016-02-01 at 05:08 +0000, Khem Raj wrote:
-> +     BOOST_FPE_ALL       = MCW_EM,
-> +-#elif defined(BOOST_NO_FENV_H) || defined(BOOST_CLANG)
-> ++#elif defined(BOOST_NO_FENV_H) || defined(BOOST_CLANG) \
-> ++    || defined(__ARM_PCS)
-> +     BOOST_FPE_ALL       = 1,
+On Tue, 2016-02-02 at 22:17 -0800, Khem Raj wrote:
+> -pipe does speed up build time so its an optimization. 
 
-This looks a bit bogus.  Whether or not a particular fesetenv() flag is
-available is, or should be, orthogonal to the question of whether you
-are using the soft-float or hard-float ABI.  I think it might be true
-that some libraries don't implement fesetenv() when using softfp (i.e.
-no VFP instructions at all) but that is not necessarily the same thing
-as the soft float ABI.  What was the exact situation where you had a
-problem with this?
-
-Anyway, if what you want to test is the availability of FE_DIVBYZERO,
-you can just use "#ifdef FE_DIVBYZERO" since FE_* are required to be
-macros.
+How much does it really speed it up by?  I seem to recall the effect was
+fairly negligible, but maybe I am remembering that wrong.
 
 p.
 
