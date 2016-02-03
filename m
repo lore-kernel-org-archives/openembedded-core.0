@@ -1,31 +1,46 @@
-Return-Path: <mihaly.varga@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B21207713D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 584E577302
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 10:35:40 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u13AZfak018322 for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Feb 2016 04:35:41 -0600
-Received: from mihaly-ro-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016020304354124-595696 ;
-	Wed, 3 Feb 2016 04:35:41 -0600 
-From: Mihaly Varga <mihaly.varga@ni.com>
+	Wed,  3 Feb 2016 10:35:56 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id l66so63383868wml.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Feb 2016 02:35:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=EKNHXL2oh/3Xk0guMQ0YAl4fT1D5/hTkyE3xJxpNoCg=;
+	b=Esj5JJThxLP4DKZdq1cf8JLzbhA/mviP4eWPSr6Lo6Bcy3aIALzP16k0CNyx9y/IWi
+	EFoedeWZ5V7/DYRrDvWBh/mCsdP5CXFo03H+Wsza/L21AvfPBplrmE1IOPVVO4zIvHX7
+	vtsvE2Dlgaj4+pcaobRhHkJRHd7XG6HJ+UztJkb0bDgJnO19qWPKtj4Blwyi+HvI7985
+	da7vEWta4Wpnll0r65WCnatt42ysxCkP19ugLEFE5VFV3sRXZ9MB8d2YMPxws6FqfStz
+	Ldy0tn7EFPjg5LASwqCNbeFI5G0/9Yx8X3qt1tu7FFm7UOdzH3Y3/LumLQqVT4kU3MaK
+	Ppwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EKNHXL2oh/3Xk0guMQ0YAl4fT1D5/hTkyE3xJxpNoCg=;
+	b=MmM2Ock8QyrNJkMV65T03o4zI4pJ0y4VSfP9kLmVFdTXDvR/Z1iabsVbFB9LCrzgbZ
+	0fKreqrfq+jizL2BFaJOgPl7vXczEdJ7dA3fdaRodPrTv8mRoBWrPgtjSa6LIPPCYPyE
+	AOgUsX8VdOOet19gUNbGk3tedre18+ZHau3wF5OwGxDYV2GuL1T0qdkcZmrx+SSEZ7KK
+	2l4Hz5/1QKf7GC9/gJPl94YvT1uJj3FOPjtf/YWpvsFJ7unIqQfT1EwrG9P/IynxFuuR
+	XR5ZP6blfm/URq092mW2m3/bT3aI7Wa7jHKS1xdUqnEdaotIKCSUSbKO2P0MKo2Yd0zZ
+	xZoA==
+X-Gm-Message-State: AG10YOQWK1gKE4tc/9yZ1jtJdz+NkkqttILqfFB/6CsMgNURz/GRAeYIqgRbxOvHxmYtBJ3z
+X-Received: by 10.194.88.195 with SMTP id bi3mr1031672wjb.34.1454495757126;
+	Wed, 03 Feb 2016 02:35:57 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	t205sm7180029wmt.23.2016.02.03.02.35.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 Feb 2016 02:35:56 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 3 Feb 2016 12:35:06 +0200
-Message-Id: <1454495706-32082-1-git-send-email-mihaly.varga@ni.com>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/03/2016 04:35:41 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/03/2016 04:35:41 AM,
-	Serialize complete at 02/03/2016 04:35:41 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-03_04:, , signatures=0
-Cc: Mihaly Varga <mihaly.varga@ni.com>
-Subject: [meta-oe][PATCH] wic: isoimage-isohybrid: check for syslinux-native
+Date: Wed,  3 Feb 2016 10:35:55 +0000
+Message-Id: <1454495755-6949-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] p11-kit: fix packaging warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 10:35:40 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 10:35:57 -0000
 
-.iso image creation fails if during the image creation syslinux
-is baked and syslinux-native is not.
+This recipe was ignoring the wrong test, so update INSANE_SKIP.
 
-Added new check to verify if both syslinux and syslinux-native
-are baked and bake them if these are not installed.
-
-Signed-off-by: Mihaly Varga <mihaly.varga@ni.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-support/p11-kit/p11-kit_0.22.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index c1e2a5d..62385a2 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -208,11 +208,14 @@ class IsoImagePlugin(SourcePlugin):
-         if not os.path.exists("%s/syslinux" % syslinux_dir):
-             msger.info("Building syslinux...\n")
-             exec_cmd("bitbake syslinux")
--            msger.info("Building syslinux-native...\n")
--            exec_cmd("bitbake syslinux-native")
-         if not os.path.exists("%s/syslinux" % syslinux_dir):
-             msger.error("Please build syslinux first\n")
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+index 798ad37..a4efff1 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+@@ -18,4 +18,4 @@ FILES_${PN} += " \
+     ${libdir}/pkcs11/*.la"
  
-+        # Make sure syslinux is available in native sysroot
-+        if not os.path.exists("%s/usr/bin/syslinux" % native_sysroot):
-+            msger.info("Building syslinux-native...\n")
-+            exec_cmd("bitbake syslinux-native")
-+
-         #Make sure mkisofs is available in native sysroot
-         if not os.path.isfile("%s/usr/bin/mkisofs" % native_sysroot):
-             msger.info("Building cdrtools-native...\n")
+ # PN contains p11-kit-proxy.so, a symlink to a loadable module
+-INSANE_SKIP_${PN} = "dev-elf"
++INSANE_SKIP_${PN} = "dev-so"
 -- 
-1.9.1
+2.7.0
 
 
