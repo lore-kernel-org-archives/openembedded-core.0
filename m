@@ -1,46 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 215226FFCE
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 4408A7720B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 21:17:16 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id n128so19903009pfn.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Feb 2016 13:17:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=QbG3h6JDvtoswGGNCcq9HlOqNyqM1CMsBGHrMxk9kmU=;
-	b=QAkUV5JxGeKUiynk4XwUTCX4U7I9PZt5vA8DfZXLADDLx/Zllyq2uD6OQ2CtklomUj
-	WIBqyTCprqAkQR0+G8FWD5Ant7i080lgR0H3QuUKEqOEGv3KL2bYv6mEZc5NZC6P0R6C
-	2DfwThTzS1DKaOr1RAXyiDSvXVu/7qsydvElNgyacJQBDblh/F+BBCrqXOZCvEGL7UJa
-	aWqVbrKtUAhrNObBDRWacYmOSjkUWyrDFTehLJ3ozC7S+dmFE2fgQNsc+xWLJ/Mhwe0G
-	6Gx2Jf42xpxf6ZpzjriK27tnpBiXGrBuaGsLa1d0IitAOr4oE5c/mrS9vJgx2wGPwtwC
-	CVLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=QbG3h6JDvtoswGGNCcq9HlOqNyqM1CMsBGHrMxk9kmU=;
-	b=DirMDnnxPKFEH9Hga2NF3G6yq6KcxbpxaBgUCXMuyTbam5fbwbXvydZxIXvKu2q0Or
-	3XWY3NQU+M89odyx0lbnQPz9mP3WuTOxRx/h8xOkP/u6jI/LeETCFQp96YjIOmv/NWoi
-	zUiW6+CthElNJPNHOmLl/S3OJx/FuDFE3RmElrLDKN6ExKTN5tLynxKG5zjb7D83NS0W
-	qzAPPKlopR7E3QF/Sa+bV90fMdC+2reHdDhi0fUxCXFeO+S1CptQp6MQAuZkyGZXTIOM
-	3whwL8mp75XxWoMaPyQ8KBelVpLlcuEjyydBHAxupTKjvDHNvBKSEHX7+FYesnIeKcWd
-	kFXg==
-X-Gm-Message-State: AG10YOQX5qXBdnpaoxfkfS4GcE0c+TITiKzKxPhQIkbwsoFYuevMC0TO2r1QjGgAKgqqWA==
-X-Received: by 10.98.32.5 with SMTP id g5mr5790140pfg.74.1454534237650;
-	Wed, 03 Feb 2016 13:17:17 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	70sm11894896pfc.69.2016.02.03.13.17.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 03 Feb 2016 13:17:16 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Feb 2016 13:17:11 -0800
-Message-Id: <1454534231-20079-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gnutls: update 3.4.8 -> 3.4.9
+	Wed,  3 Feb 2016 21:24:59 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1aR4v5-0004EZ-D7; Wed, 03 Feb 2016 22:24:59 +0100
+Message-ID: <1454534691.7421.71.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 03 Feb 2016 21:24:51 +0000
+In-Reply-To: <CAMKF1so4wbS=T6rF-uS5SmgSAA9_QmxtVLm97-mvTKb938p+Dg@mail.gmail.com>
+References: <79e1257a6eb8ed2fa57f92fb34adc8b14ed880fe.1454303080.git.raj.khem@gmail.com>
+	<e45e550e5d1bdcd4011e9d92c77201596d52ea2b.1454303080.git.raj.khem@gmail.com>
+	<1454532171.7421.52.camel@pbcl.net>
+	<CAMKF1so4wbS=T6rF-uS5SmgSAA9_QmxtVLm97-mvTKb938p+Dg@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] boost: Fix build on soft-float ABI arm systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 21:17:20 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 21:25:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This version fixes bugs in the current stable branch.
+On Wed, 2016-02-03 at 12:58 -0800, Khem Raj wrote:
+> On Wed, Feb 3, 2016 at 12:42 PM, Phil Blundell <pb@pbcl.net> wrote:
+>   I think it might be true
+> > that some libraries don't implement fesetenv() when using softfp (i.e.
+> > no VFP instructions at all) but that is not necessarily the same thing
+> > as the soft float ABI.
+> 
+> does glibc implement it correctly using soft-fp ? my tests failed for
+> glibc thats why
+> I used the VFP detection logic
 
-* Version 3.4.9 (released 2016-02-03)
+It depends what you mean by "correctly".  If you don't have a VFP unit
+then fesetenv() will fail (return nonzero) but the symbols will be
+available and there should be no error at build time.  If you do have a
+VFP unit and are using it then, irrespective of your ABI, fesetenv()
+should succeed and subsequent operations ought to behave correctly.
 
-** libgnutls: Corrected ALPN protocol negotiation. Before GnuTLS would
-   negotiate the last commonly supported protocol, rather than the
-   first. Reported by Remi Denis-Courmont (#63).
+I think there is a possible hole in the case where you do have a VFP
+unit available but have compiled your code -msoft-float, have not
+installed a VFP optimized library, and hence are not actually using the
+VFP.  In this situation, yes, I think it's quite conceivable that glibc
+might be doing the wrong thing.  Fortunately I think this scenario is
+rare enough that we probably don't need to worry about it too much.
 
-** libgnutls: Tolerate empty DN fields in informational output
-   functions.
+p.
 
-** libgnutls: Corrected regression causes by incorrect fix in
-   gnutls_x509_ext_export_key_usage() at 3.4.8 release.
-
-** API and ABI modifications:
-No changes since last version.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/gnutls/{gnutls_3.4.8.bb => gnutls_3.4.9.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.4.8.bb => gnutls_3.4.9.bb} (60%)
-
-diff --git a/meta/recipes-support/gnutls/gnutls_3.4.8.bb b/meta/recipes-support/gnutls/gnutls_3.4.9.bb
-similarity index 60%
-rename from meta/recipes-support/gnutls/gnutls_3.4.8.bb
-rename to meta/recipes-support/gnutls/gnutls_3.4.9.bb
-index 41eb91a..b652f6f 100644
---- a/meta/recipes-support/gnutls/gnutls_3.4.8.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.4.9.bb
-@@ -4,5 +4,5 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
-             file://0001-configure.ac-fix-sed-command.patch \
-             file://use-pkg-config-to-locate-zlib.patch \
-            "
--SRC_URI[md5sum] = "a26e6dd8d5ad92016e3f068795b89624"
--SRC_URI[sha256sum] = "e07c05dea525c6bf0dd8017fc5b89d886954f04fedf457ecd1ce488ac3b86ab7"
-+SRC_URI[md5sum] = "1b3b6d55d0e2b6d01a54f53129f1da9b"
-+SRC_URI[sha256sum] = "48594fadba33d450f796ec69526cf2bce6ff9bc3dc90fbd7bf38dc3601f57c3f"
--- 
-1.9.1
 
 
