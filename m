@@ -1,51 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 971B3771C0
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B0D7277367
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 06:28:06 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id b35so9306530qge.0
+	Wed,  3 Feb 2016 06:28:04 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id b35so9306181qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Feb 2016 22:28:07 -0800 (PST)
+	Tue, 02 Feb 2016 22:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=B8Mo6hndMTWUOJmf2lVzfGyBnTRPJqc3uSe+a6vdiFk=;
-	b=Czqq/gnl+z38XawRIGJ4bztavvDj+ILgAyyvqIi9LGkL/pXNaMibKxUNG4T6+Yb2AE
-	NtAREwpmezRfNK7G25C7knSW6/iivdOB7GFH/RFOtI3rwzVoxFuQHhOlK0CfOqG3p0ly
-	ZIA7f4A7mfvvJJ5Gsnjd/0Y7gNUSWFD043oFmNDgRrdfpExD71N4pQ9sgiIrDDGxaISg
-	4rdyepVw1L1pO/sloP1of1y2cLzM0/8Rzd7MwOiJwG+tsjfUhrvtWRmsjdV+DwL6EAmY
-	5yZwTMa74wca4dkOtY3qdXbvSyP/+jRe//COwTV1/MQiE4XHlw4VkDUO3svCYdqpsu7b
-	3MSA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=50xiBY2Qz2qLLyJ4QUwoA6AvE8SbLU76uXil9Ne8X2I=;
+	b=GC1Eyat2tCHrAeMBL3sws0yooHKIN1VpI8gIc94zxvombIKtuhq9HNqre8+mcUV4M3
+	7Hx/k8AvqciLnn1dULEDw38ZpHg0XXfZ33cZNSQK8cSEbq0oBF5R6Mm93nXi4VdX+OcJ
+	qxJBgFv6eHRtl9+oHVTUowXAi295onDa76DQk0h/AMK5M8QhohEn7XerFqbL224vheFD
+	x/vei1CufR/J80mZIFl8vw2xxkXS6fPFWYHGImzpkljE/gkx7aPtj5ToEYzUJrMbMg+Y
+	lJuhUede6dkEydi5RyGH8iBMbrOEV1EqvCaUcptgGBEmVZG+OrzcBOYt7ypMfmCFK4wc
+	SceQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=B8Mo6hndMTWUOJmf2lVzfGyBnTRPJqc3uSe+a6vdiFk=;
-	b=HLKHBwVJGw2qNGz8NCmOnLLxKFo5T7x+PiOJp48/Y5FqJ/KXx8jvYYl/USCVELI9xX
-	UaNIJscYgzOvuoAl4dlwC4B/YINqarkjz5sGHEJyawvr7q9EoL4JhBbrFk18Jf1h8yKe
-	Nj/Z7TgQBMfVTufYrJI+n2thkwhRvY+0QbEHvzWffISCBxg7Boy3mABgECW5n4e1mRTe
-	9RzIkZBzHfzoVEN57KpihODv8x/b9SEh2zvs22tForAcGyXRN12mtR4UArdHtVp6SeNr
-	hzYJk1CaruvV5zUG2bp/UpojEhgevA9skSHy/ignnMqU+4p+ngZu8gU/ia8W/3g5KdNA
-	C4iw==
-X-Gm-Message-State: AG10YOSnQFvw7xqEhTKRqXquZ5AJrfKF6fZ7VmrJovnXiqhcNGQQ6gU7m2JFrnOXQZoZDw==
-X-Received: by 10.140.161.9 with SMTP id h9mr41591673qhh.82.1454480886910;
-	Tue, 02 Feb 2016 22:28:06 -0800 (PST)
+	:references;
+	bh=50xiBY2Qz2qLLyJ4QUwoA6AvE8SbLU76uXil9Ne8X2I=;
+	b=TIVc5l4c8MuBJHpnz7pLclvCc9Afiv/R68ehe50pJoaaZwJCB5XnsdaXgnTJT78qjl
+	klgH1+Rbuy9uxvjoGdPlBtFiVoBj+14c0hav0Jk0+2Dohdkloiat/6LPYackme3b8TaC
+	ZgRALNXBCzrxguGaHkj57Y9sGiEq1/WR5UMgXTH7Ppe7HMh4f/T3zfiLpRVbsm5Zw9cl
+	+0FFuCxzdSTSjphFQ2UhkfB82G2CXQ9C21TKtU7xCRWJzR46l5TGALdnqxnbYU7Ch0qw
+	9UvmRrCk6b7ixcZYyjfSNakub78AcRnkpZtwUapCmcZRD1itvVNS29nk5rBYc9EgGJno
+	UmMQ==
+X-Gm-Message-State: AG10YOTwEW1tTMFRZXfmMgk2dkcswTjV8j6Js84y+hEHkGkZ+BleE0oKzZG3rfvYT/G+nA==
+X-Received: by 10.140.234.129 with SMTP id f123mr39720518qhc.67.1454480884791; 
+	Tue, 02 Feb 2016 22:28:04 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	t187sm2246973qht.39.2016.02.02.22.28.06
+	t187sm2246973qht.39.2016.02.02.22.28.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 02 Feb 2016 22:28:06 -0800 (PST)
+	Tue, 02 Feb 2016 22:28:04 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Feb 2016 06:27:57 +0000
-Message-Id: <9722ea69638d54160ace420c9d35f0b0d9b754b9.1454480571.git.raj.khem@gmail.com>
+Date: Wed,  3 Feb 2016 06:27:54 +0000
+Message-Id: <7ecb4b025bd04be448cf92e45b415451f934ac76.1454480571.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
-In-Reply-To: <7ecb4b025bd04be448cf92e45b415451f934ac76.1454480571.git.raj.khem@gmail.com>
-References: <7ecb4b025bd04be448cf92e45b415451f934ac76.1454480571.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1454480571.git.raj.khem@gmail.com>
 References: <cover.1454480571.git.raj.khem@gmail.com>
-Subject: [PATCH 4/6] security_flags: Replace -fstack-protector-all with -fstack-protector-strong
+Subject: [PATCH 1/6] nss-myhostname: Fix build on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,42 +57,89 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Feb 2016 06:28:06 -0000
 
-since gcc 4.9 this is new option added to gcc which is a better version
-of fstack-protector-all with reduced stack usage and better performance
-yet giving same amount of coverage.
-
-pass fstack-protector-strong to linker flags as well
-so ld is passed flags to link with ssp libraries
-
-https://outflux.net/blog/archives/2014/01/27/fstack-protector-strong/
-
-describes it in usablility terms.
+provide needed data types if nss.h is not available
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/security_flags.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ ...tname-Check-for-nss.h-presense-before-use.patch | 53 ++++++++++++++++++++++
+ .../nss-myhostname/nss-myhostname_0.3.bb           |  4 +-
+ 2 files changed, 56 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 37570a6..79e09d7 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -9,11 +9,11 @@
- # -O0 which then results in a compiler warning.
- lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+new file mode 100644
+index 0000000..82f2574
+--- /dev/null
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+@@ -0,0 +1,53 @@
++From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 30 Jan 2016 20:29:06 +0000
++Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
++
++We do not have nss.h on musl e.g. and configury is already checking for
++nss.h presence, use this to define needed data structures if nss.h is
++missing on a given libc implementation on a platform
++
++include stdint.h for uint32_h definition
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ nss-myhostname.c | 20 ++++++++++++++++++++
++ 1 file changed, 20 insertions(+)
++
++diff --git a/nss-myhostname.c b/nss-myhostname.c
++index 293166c..6f287f5 100644
++--- a/nss-myhostname.c
+++++ b/nss-myhostname.c
++@@ -21,7 +21,27 @@
++ ***/
++ 
++ #include <limits.h>
+++#include <stdint.h>
+++#ifdef HAVE_NSS_H
++ #include <nss.h>
+++#else
+++enum nss_status {
+++    NSS_STATUS_TRYAGAIN = -2,
+++    NSS_STATUS_UNAVAIL,
+++    NSS_STATUS_NOTFOUND,
+++    NSS_STATUS_SUCCESS,
+++    NSS_STATUS_RETURN
+++};
+++/* Data structure used for the 'gethostbyname4_r' function.  */
+++struct gaih_addrtuple
+++  {
+++    struct gaih_addrtuple *next;
+++    char *name;
+++    int family;
+++    uint32_t addr[4];
+++    uint32_t scopeid;
+++  };
+++#endif
++ #include <sys/types.h>
++ #include <netdb.h>
++ #include <errno.h>
++-- 
++2.7.0
++
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+index bbce9e9..de5b7cf 100644
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+@@ -6,7 +6,9 @@ HOMEPAGE = "http://0pointer.de/lennart/projects/nss-myhostname/"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
--SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie ${lcl_maybe_fortify}"
--SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all ${lcl_maybe_fortify}"
-+SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify}"
-+SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify}"
+-SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz"
++SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
++           file://0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch \
++           "
  
--SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
--SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
-+SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
-+SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
- 
- # powerpc does not get on with pie for reasons not looked into as yet
- SECURITY_CFLAGS_powerpc = "-fstack-protector-all ${lcl_maybe_fortify}"
+ SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
+ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
 -- 
 2.7.0
 
