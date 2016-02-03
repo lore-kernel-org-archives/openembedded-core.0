@@ -1,27 +1,46 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 311A577358
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B3B7577339
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 16:34:11 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Feb 2016 08:34:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,391,1449561600"; d="scan'208";a="876169892"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 03 Feb 2016 08:34:12 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 83FF86A4004
+	Wed,  3 Feb 2016 16:37:35 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id 128so174009735wmz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 09:22:04 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed, 03 Feb 2016 08:37:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=9E7ZybwOnLCTfcE4NGXqvWgsxf40/IH17G+TojVfOtA=;
+	b=R1KJn7kdvaXLdyJsKBVTW2aSsgTzeqm0NmOiwWp3YTY7RW/mZZvpjTpNJHTB5lq03P
+	0gGY5jKtfAurQZF+q3pTZBnXRAB4bkSNDaA/KPQg8BGaHbjq8S1gsGw9s118wq2zjvvw
+	wjgpYswt4S/6enlSG6aCi9zXXO1UwkemmIQhJwbokHwPZlq2I6VaqiOQxTf9DuAi6kXp
+	mzHbzKclf47oeiqVLrJmXupbAJb0hNY468UDUb9LDZCS5fGQtLH/3nRJ6zwSQR2Ho91p
+	YzZw+j3woht1L59haaREyOqnFYpt3fIUk4M/dbutJ0k4wm6l3YmBqxv1bRwG4ASPQ0ih
+	qtvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=9E7ZybwOnLCTfcE4NGXqvWgsxf40/IH17G+TojVfOtA=;
+	b=SBoshx2AFCpzHzAmlAUrFJSUAD1XqOJOMouii6xxxrEH212s/WnFudp3/iyNuAdtaY
+	dTjOpS9y76+ujgkhTZfUKpfK6Uaql2QYhU5OvvUzaS+bdtoGb+8vKwGuhk/2B61R15pW
+	6UR9HIkEDHmWtPd5Pr0SNpdq/H3SKtWyU3FueGYX8SHihLl4HOZ7G5YyuLdKMotmPPyJ
+	XejWsCbEjI4npKUip75YhMQckWIaqr94aeJi4phMwp0SWHIOMDrAmGLUIB7ye+vJi1I3
+	pRxLxxEo656U7IVowZlQVFu3rve4mU/i+QopsxHbC98+uv3I51/uHUTVXH7Fj1VcWq4c
+	DrOg==
+X-Gm-Message-State: AG10YOTwzOT1lua/VBmuuDI3KQfXBJoyv2R2GzO40jUz8IMYZgGsSGKvCRh/KQupfymVNHcz
+X-Received: by 10.195.17.198 with SMTP id gg6mr2925092wjd.15.1454517455917;
+	Wed, 03 Feb 2016 08:37:35 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	x186sm22157537wmg.19.2016.02.03.08.37.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 Feb 2016 08:37:35 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Feb 2016 18:37:10 +0200
-Message-Id: <1454517430-22305-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v3] formfactor: add machconfig for qemumips64
+Date: Wed,  3 Feb 2016 16:37:33 +0000
+Message-Id: <1454517453-32480-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] license.bbclass: add LICENSE_CREATE_PACKAGE to perform_packagecopy vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 16:34:12 -0000
+X-List-Received-Date: Wed, 03 Feb 2016 16:37:36 -0000
 
-We need machconfig file to automatically choose between physical and virtual
-keyboards.
+This class has a perform_packagecopy_prepend() that uses LICENSE_CREATE_PACKAGE,
+but the BitBake variable dependency code doesn't know that oe.data.typed_value()
+is a getter.  Until BitBake knows this, add an explicit vardeps.
 
-[YOCTO #9027]
+[ YOCTO #5635 ]
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-bsp/formfactor/files/qemumips64/machconfig | 10 ++++++++++
- 1 file changed, 10 insertions(+)
- create mode 100755 meta/recipes-bsp/formfactor/files/qemumips64/machconfig
+ meta/classes/license.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-bsp/formfactor/files/qemumips64/machconfig b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
-new file mode 100755
-index 0000000..56777b6
---- /dev/null
-+++ b/meta/recipes-bsp/formfactor/files/qemumips64/machconfig
-@@ -0,0 +1,10 @@
-+HAVE_TOUCHSCREEN=1
-+HAVE_KEYBOARD=1
-+ 
-+DISPLAY_CAN_ROTATE=0
-+DISPLAY_ORIENTATION=0
-+DISPLAY_WIDTH_PIXELS=640
-+DISPLAY_HEIGHT_PIXELS=480
-+DISPLAY_BPP=16
-+DISPLAY_DPI=150
-+#DISPLAY_SUBPIXEL_ORDER=vrgb
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index fe38d21..a7f3773 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -312,6 +312,7 @@ python perform_packagecopy_prepend () {
+         copy_license_files(lic_files_paths, destdir)
+         add_package_and_files(d)
+ }
++perform_packagecopy[vardeps] += "LICENSE_CREATE_PACKAGE"
+ 
+ def get_recipe_info(d):
+     info = {}
 -- 
-2.4.0
+2.7.0
 
 
