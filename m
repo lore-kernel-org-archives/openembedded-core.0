@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A426277331
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E9A8E772E5
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Feb 2016 22:55:27 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id o6so27719965qkc.2
+Received: by mail-qk0-f180.google.com with SMTP id o6so27720069qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Feb 2016 14:55:28 -0800 (PST)
+	Thu, 04 Feb 2016 14:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=D4gBuQcQNPQgXdxlqwyjfsOlHr6eMHfKw2ZxUstBkmA=;
-	b=RxcZGT6+YskGOxbv4a9uOf/biAaR6wZmBHZDLzr0wDW0K/RJvHlrx3WM6xcB4Amkez
-	9zeCbeBH6zNYo8yVv9vr6cbOy9HeIUmG6dmabG3HFrX5EVg9z9GszoKLIwrcGK1yZ2Dq
-	Pr+3m4rPvHfuElGKlPsEgqLp9xU2GRPLZJ0aZP2BXZ+n/DlckUVH/An+A595anBMz2qS
-	+T8U9LeWxcP0bAm3GhWcs5l7W/z13t4sx3ONSTNxFLP3RJ4j6m5D/B7sc1iXtDNnfB0Y
-	Kkv5GOQAucZs61UKOQInDhuUALB2uiTVxGUotlsy8LwI4Nqq0AO0ZhwzWj29DKephsic
-	diRg==
+	bh=qBIPORYaEtEbE/zxctz8uKqWsftII74pl+DWn6sY1z0=;
+	b=06MuHfvbMbYKoiTcANRTKCUycZB8Kv4NCFsNFNlfH6Ng/NkaZPAB2OYoEK+R4qXvuf
+	BP+L9ynGNgrFImdCSY+qiFEU1k77+b8aQwpx9trLeH0KeURv7F/yG1lOI6DbbVxHX/Of
+	m1i33uA2h2oJwkHQMf5NJ2nCDSeVcnDWeDzyd2aFFRUY/bThYiN9sTgrloj1XBLM8F4A
+	8cnfrSQk4C+Tz95ZUVOPjqz/iOeRBJwqCt2M8TsdAUx8EO0jFZm007dpstX6EI5pOzrD
+	JpxlIGW2KRITrV49Dzob4lDhoEfumgjB8O3G80i1FVEaCjBxK3QK7YNlg6L1vbeilmnq
+	lqdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=D4gBuQcQNPQgXdxlqwyjfsOlHr6eMHfKw2ZxUstBkmA=;
-	b=Mg7CXiaH4Qte2oLWJL34o3gZpdlLttTPLKZ79cbIu1/EETANzBBqD6h7B7NjDkKrIC
-	wW5h9BQBHlCTfG4vq7beBIlkjK9KA31jhatbTiVDVtdmUms7V68otke6LBnS1apf3akl
-	r9TmKFHy+3WB+mnBMIZMnFr/Za7Sac1lJOz1kuG8BbBI3vZLu678mVCgpBqCi76azYWy
-	gusKIEd1eTOMdMwQVJOLe+V6HFAKFj4ZX6ZpLFwzH7Kleh7c/wc7Lz8sdAxvt0GGoNjW
-	WoE94tdpSElLaj/9krSyvx3asWTrsYB6YklLQbdLai4v1gIu+1yKSc4Vl51BGpAdUonB
-	lLEA==
-X-Gm-Message-State: AG10YOTk3nEH4/Y1d1zj4r4tF+0FH4SMmI2hyct0YnM7/2758LpHHe9SAwX2ynRRUT7S7w==
-X-Received: by 10.55.76.15 with SMTP id z15mr12352240qka.32.1454626528004;
+	bh=qBIPORYaEtEbE/zxctz8uKqWsftII74pl+DWn6sY1z0=;
+	b=VkCBFAk638WG347N3wc25Bn6LFWHV2DB8Ymbt+P6abBvd2vIGgBFpdfm0nlOh3iFZJ
+	61nNtx2TJRnn5b89WROt62/ODx3tjo7IIduBQTTjxOHAgKJls5tM37NzHcclx3YHU4TJ
+	Y8NcXskKSx7St8r3Hn0BC/1A1Sttk15ezZW6kmlS27KklEC9eL6m1U4/s9QXBX41EUhs
+	73CqDYdq/MOJEAqq6/lh+BEOOC2+DFC0WCJe9D5cHEP++UfhyM0zapoGLUkIUfDOLw0Z
+	MB4V0rYK7FYrZEQiEivKvL418/d4cux8htV7tWRXKjkreUovHYmkdU3zN8SskcZuRH+q
+	nWyA==
+X-Gm-Message-State: AG10YOTsn77/0HVZFvTifMbB0xb1lWN13iyn2OA2vRjD6uCixsLXqt/SfHVj/19w1sLgnQ==
+X-Received: by 10.55.76.73 with SMTP id z70mr12337195qka.105.1454626528713;
 	Thu, 04 Feb 2016 14:55:28 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	w16sm6327876qka.35.2016.02.04.14.55.27
+	w16sm6327876qka.35.2016.02.04.14.55.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 04 Feb 2016 14:55:27 -0800 (PST)
+	Thu, 04 Feb 2016 14:55:28 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 22:55:17 +0000
-Message-Id: <50a1e70e953ca2b1d45b1d665f9db554d57f160c.1454626259.git.raj.khem@gmail.com>
+Date: Thu,  4 Feb 2016 22:55:18 +0000
+Message-Id: <921088dcb2be6c435300a4151150d2573ab25045.1454626259.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <5bf2617ddec6ca480122c444b95cf366b3bee378.1454626259.git.raj.khem@gmail.com>
 References: <5bf2617ddec6ca480122c444b95cf366b3bee378.1454626259.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1454626259.git.raj.khem@gmail.com>
 References: <cover.1454626259.git.raj.khem@gmail.com>
-Subject: [PATCH 3/6] security_flags: Disable fstack-protector for gcc runtime libs
+Subject: [PATCH 4/6] security_flags: Replace -fstack-protector-all with -fstack-protector-strong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,52 +58,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 22:55:27 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 22:55:28 -0000
 
-it causes a catch-22 situation where we build libssp in gcc-runtime
-but also pass -fstack-protector flags which require libssp, these
-libraries are special as well.
+since gcc 4.9 this is new option added to gcc which is a better version
+of fstack-protector-all with reduced stack usage and better performance
+yet giving same amount of coverage.
 
-also flush out ldflags for gcc libs and glibc
+pass fstack-protector-strong to linker flags as well
+so ld is passed flags to link with ssp libraries
+
+https://outflux.net/blog/archives/2014/01/27/fstack-protector-strong/
+
+describes it in usablility terms.
+
+Do not use ssp when compiling glibc and gcc libs
+
+ensure that security flags are only used for target packages
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/security_flags.inc | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/security_flags.inc | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index ac4fc65..7f898ee 100644
+index 7f898ee..ff5d940 100644
 --- a/meta/conf/distro/include/security_flags.inc
 +++ b/meta/conf/distro/include/security_flags.inc
-@@ -39,8 +39,8 @@ SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-gcc-runtime = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-gcc-runtime = ""
-+SECURITY_CFLAGS_pn-gcc-sanitizers = ""
- SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -59,7 +59,7 @@ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-iptables = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-libgcc = ""
- SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -90,6 +90,11 @@ SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
- TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
- TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
+@@ -9,11 +9,11 @@
+ # -O0 which then results in a compiler warning.
+ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
  
-+SECURITY_LDFLAGS_pn-gcc-runtime = ""
-+SECURITY_LDFLAGS_pn-gcc-sanitizers = ""
-+SECURITY_LDFLAGS_pn-glibc = ""
-+SECURITY_LDFLAGS_pn-glibc-initial = ""
-+SECURITY_LDFLAGS_pn-libgcc = ""
+-SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie ${lcl_maybe_fortify}"
+-SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all ${lcl_maybe_fortify}"
++SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify}"
++SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify}"
+ 
+-SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
+-SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
++SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ SECURITY_CFLAGS_powerpc = "-fstack-protector-all ${lcl_maybe_fortify}"
+@@ -87,14 +87,14 @@ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+-TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
+-TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
++TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
++TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+ 
+-SECURITY_LDFLAGS_pn-gcc-runtime = ""
+-SECURITY_LDFLAGS_pn-gcc-sanitizers = ""
+-SECURITY_LDFLAGS_pn-glibc = ""
+-SECURITY_LDFLAGS_pn-glibc-initial = ""
+-SECURITY_LDFLAGS_pn-libgcc = ""
++SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
++SECURITY_LDFLAGS_remove_pn-gcc-sanitizers = "-fstack-protector-strong"
++SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
++SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
++SECURITY_LDFLAGS_remove_pn-libgcc = "-fstack-protector-strong"
  SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
  SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
  SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
