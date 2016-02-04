@@ -1,49 +1,47 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C6B916FF91
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CA6256FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 23:04:34 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id w123so57669707pfb.0
+	Thu,  4 Feb 2016 23:07:15 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id 128so48677695wmz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Feb 2016 15:04:35 -0800 (PST)
+	Thu, 04 Feb 2016 15:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=522elBcJ/Zj2bFM51H/02AnrOhinQmNETz43yXqFTX0=;
-	b=vdlyMN3hZqxZgGH5P05mFEmV3Im1qUft6Slq0B5MMdwzgo6AdP6JmNneJa0Uyq1B2N
-	BVISDVyypM53uAthSh7RPH1B/j0bd+GxiA/S8UnkfRXuxv/xN9iqe98BNP8k6Q+Juur1
-	H4fC4HjD1+RfeXATv+fOC0d9IoRuO4+mdZcitFx+V3Xz2qmHADApX/ipmnPZeYgp4nT4
-	v1g9l0Q+JlLmZ43TVWuY26P1sLgRUqTE1rC2Y9PlXIw7Y0IdFXxjwAGGwMBRed5LGDDx
-	aEf1rpPPl8gzFmcswUjHwg09SdRfg6eKHgL/uGLwqUiX/006tJwAz8WFIKg6Ie9Xd59F
-	kvrg==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=gXHXms2ya7NaUpV75dpBLFy3r4kK2bLcUUVD/cb5VPk=;
+	b=KQCw0Y2W31IN8EGRCdzOO8E4xkwpL5GrEmZSgdGuq8mesbisctr7bW3YdKehxOkGVn
+	cWHm4NUXObZQC95kWwEhtu1WMS6mzFWd8P1hlK467uvJ9K3lfwIWepvDbrfqtWD8SmfX
+	oRxMp/UJ/BE3u/PQ/nd/eUQBlWImCYivFz4sHW/9QvGkTu+vQbtrUo3+AQemehmGUIJb
+	PoBOTYVMQWMsXBxDKoh0V+gjJ7cHR+oIlHQtqP5hv98VsF+E1AZaX4Are0BmRpZgp2Fk
+	YWq/VjAwIC6eduvF580jiEk78vLYDuieAxjoHZ0n4M8uU9IvulfJxO7gnG/GXWl/KeWz
+	vA6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=522elBcJ/Zj2bFM51H/02AnrOhinQmNETz43yXqFTX0=;
-	b=kBJuTwr6XVHAHutVkboiXQ2Oxl3CuLXJ4ejjssg8pp1AJF6CfSjTRq3IpKgMuYJN5A
-	oMNigFknaOVYGP14ERKNNVgWgYD87/AEhRnYNsjd68derHkoAeaULV29tcDmkfutMu3/
-	YtVjkQe2Lr22yfAG6yL6jyvs/BsXECtTlYtS3LqxYYPcdmOiLS7ufafObNFTwwXRUwYw
-	g9uWMLRx5XK41GKqN6nfWicaJxNHdu/sn6roC6COtrNniIyW4Ham+yHgNVo1/xYPBroH
-	ViON68Eig1sXwKUp87mbSDSvdZtA0VnCEFQxgFvOT+Iq5Ziuy7pZw8LPQZ6RjYw+kNzl
-	aZig==
-X-Gm-Message-State: AG10YOQDAd3IY746/jhhLHWQ8tKK0kaVksQDpMiW4unkv+q8WppRqZ/GDGK0nGoU7BKwHQ==
-X-Received: by 10.98.71.15 with SMTP id u15mr15166234pfa.161.1454627075878;
-	Thu, 04 Feb 2016 15:04:35 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	76sm19535589pft.44.2016.02.04.15.04.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 04 Feb 2016 15:04:35 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=gXHXms2ya7NaUpV75dpBLFy3r4kK2bLcUUVD/cb5VPk=;
+	b=g7F8ptT2QE7b2VoeU0uM7rbFWlzvO6WMXgXJlmGWQRPgvRtW43edpxAvkiVUqv95S4
+	atuTI0J85iB261SFP3YMhb06C9ZkUo/qIllfNDr5l/BlZ+OwvhBzCUdlv+2T7iZ6/gju
+	4cBhDO5a3F5FiWR4sNZl2KzTjqN/PleVKwbdbWAWiQ8+icFW5zcLSh/w97uW+LYTDtzA
+	Ld/uvUfOXOmyv4kL17+TVa31qMrnMwwnm3np1D1dxMLiqIRv0wQEvslDFbad8ywcYG7L
+	30EpYLretrjZUelpxgfvDjuypGUAy2H4ubIBBnh4y2JSTnu/8utPp3Qg4y5NduBkSfVa
+	j4Yw==
+X-Gm-Message-State: AG10YOQJnkLlqB718v5qwCLlvgzRIuTG3VR56KxqhAw/piafYzsz3tqus1yYYsxcLulB1T0jqNSWU/SUn+oa5Q==
+MIME-Version: 1.0
+X-Received: by 10.194.203.99 with SMTP id kp3mr10776851wjc.3.1454627236013;
+	Thu, 04 Feb 2016 15:07:16 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Thu, 4 Feb 2016 15:07:15 -0800 (PST)
+In-Reply-To: <50a1e70e953ca2b1d45b1d665f9db554d57f160c.1454626259.git.raj.khem@gmail.com>
+References: <cover.1454626259.git.raj.khem@gmail.com>
+	<5bf2617ddec6ca480122c444b95cf366b3bee378.1454626259.git.raj.khem@gmail.com>
+	<50a1e70e953ca2b1d45b1d665f9db554d57f160c.1454626259.git.raj.khem@gmail.com>
+Date: Thu, 4 Feb 2016 15:07:15 -0800
+Message-ID: <CAJ86T=XR+=VtvxikCz3QEnx=WahDbkCe5nHpnORZbOFVzttTXA@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 15:04:18 -0800
-Message-Id: <1454627058-26663-6-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1454627058-26663-1-git-send-email-armccurdy@gmail.com>
-References: <1454627058-26663-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 5/5] gstreamer1.0-plugins-base_git: drop obsolete dependency on freetype
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] security_flags: Disable fstack-protector for gcc runtime libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +54,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 23:04:34 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 23:07:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The dependency on freetype was dropped shortly after the 1.7.1 release
+On Thu, Feb 4, 2016 at 2:55 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> it causes a catch-22 situation where we build libssp in gcc-runtime
+> but also pass -fstack-protector flags which require libssp, these
+> libraries are special as well.
+>
+> also flush out ldflags for gcc libs and glibc
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/distro/include/security_flags.inc | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+> index ac4fc65..7f898ee 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -39,8 +39,8 @@ SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
+> -SECURITY_CFLAGS_pn-gcc-runtime = "${SECURITY_NO_PIE_CFLAGS}"
+> -SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
+> +SECURITY_CFLAGS_pn-gcc-runtime = ""
+> +SECURITY_CFLAGS_pn-gcc-sanitizers = ""
+>  SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
+> @@ -59,7 +59,7 @@ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-iptables = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+> -SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+> +SECURITY_CFLAGS_pn-libgcc = ""
 
-  http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=183610c035dd6955c9b3540b940aec50474af031
+Should libgcc-initial be included here too?
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
-index 956b24a..06afb04 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
-@@ -20,6 +20,11 @@ SRCREV_FORMAT = "base"
- 
- S = "${WORKDIR}/git"
- 
-+# The dependency on freetype was dropped shortly after the 1.7.1 release
-+# http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=183610c035dd6955c9b3540b940aec50474af031
-+DEPENDS_remove = "freetype"
-+EXTRA_OECONF_remove = "--disable-freetypetest"
-+
- do_configure_prepend() {
- 
- 	# Temp solution for git snapshot: relax version checks so we can build against GStreamer 1.7.1
--- 
-1.9.1
-
+>  SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+> @@ -90,6 +90,11 @@ SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+>  TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
+>  TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
+>
+> +SECURITY_LDFLAGS_pn-gcc-runtime = ""
+> +SECURITY_LDFLAGS_pn-gcc-sanitizers = ""
+> +SECURITY_LDFLAGS_pn-glibc = ""
+> +SECURITY_LDFLAGS_pn-glibc-initial = ""
+> +SECURITY_LDFLAGS_pn-libgcc = ""
+>  SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
+>  SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
+>  SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
+> --
+> 2.7.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
