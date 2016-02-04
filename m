@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 21FCB77225
+	by mail.openembedded.org (Postfix) with ESMTP id D0EF7771BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 11:21:38 +0000 (UTC)
+	Thu,  4 Feb 2016 11:32:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u14BLafS015262; Thu, 4 Feb 2016 11:21:36 GMT
+	u14BWRiC016144 for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Feb 2016 11:32:27 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bAgHWFSRGPkz; Thu,  4 Feb 2016 11:21:36 +0000 (GMT)
+	with LMTP id rWPEmgH-5G2x
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Feb 2016 11:32:27 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u14BLWPV015259
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 4 Feb 2016 11:21:33 GMT
-Message-ID: <1454584892.27087.236.camel@linuxfoundation.org>
+	u14BWPoA016141
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Feb 2016 11:32:27 GMT
+Message-ID: <1454585545.27087.237.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Elliot Smith <elliot.smith@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 04 Feb 2016 11:21:32 +0000
-In-Reply-To: <1454582844-11208-1-git-send-email-elliot.smith@intel.com>
-References: <1454582844-11208-1-git-send-email-elliot.smith@intel.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 04 Feb 2016 11:32:25 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] toaster: update the openembedded-core toaster configuration file
+Subject: [PATCH] util-linux: Change ALTERNATIVE_PRIORITY above busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,22 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 11:21:39 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 11:32:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-02-04 at 10:47 +0000, Elliot Smith wrote:
-> From: Belen Barros Pena <belen.barros.pena@intel.com>
-> 
-> It looks like the master branch will no longer build with the Fido
-> release, so remove all references to fido and make sure that the file
-> sets up local, master and jethro releases.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=8de5315bd519c21a114bc88b88c6caff32831c03
 
-Did you mean to remove dizzy too? I suspect the answer is yes but the
-commit message doesn't mention that.
+changed util-linux priority to match busybox (50) which means sometimes
+one and sometimes the other wins in image installs (depending on the 
+installation order which is package manager specific). We want 
+util-linux to win compared to busybox.
 
-Cheers,
+The old level (100) does conflict with other utils so pick 80 as a
+good intermediate value.
 
-Richard
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index f57284b..08ca040 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -184,7 +184,7 @@ do_install_append_class-native () {
+ 	rm -f ${D}${base_sbindir}/nologin
+ }
+ 
+-ALTERNATIVE_PRIORITY = "50"
++ALTERNATIVE_PRIORITY = "80"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
+
 
 
