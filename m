@@ -1,60 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6621273D46
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E39771F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Feb 2016 22:37:57 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id w123so21278989pfb.0
+	Thu,  4 Feb 2016 00:30:41 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id is5so49856422obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Feb 2016 14:37:59 -0800 (PST)
+	Wed, 03 Feb 2016 16:30:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=ivemvtdIOBAH64W1tEHqQm++0FSa4j1NUvmo52cE/lc=;
-	b=pT3Z06OE/RBTH5pZCtYW6oPhD8FPqdYjfEcBnV2FlCIXX6v0U2hLKAiKpz2HTvxfDp
-	yHyEEJBYn+q0SFyTpG0GNIBGXA7VRkOwVMgpbBKdAkzV+3j+ioeYZqgM6B6AcWR5R6gQ
-	Udr3QssHFONcnyPL9uG0UmjNqgMTsgUmpwT1dZLXiiti50gCzWYBiMmDvUYhvUH1ZQm7
-	WJOoQ9FdYjB5H3J2FvtFmkVagQIB7hjvP1OsESelZdJB4ZTx/8dK94mSuaLNa37+oarq
-	7LjPXdvyCspCRpJASWfFm1pq0QJ9Uc2wsnuM9H1FkJb4ZSgbsJ0CZoYALiVwX2qFxycz
-	4Vyg==
+	h=from:to:cc:subject:date:message-id;
+	bh=Ub9ucxGidk9OcsuRSFeo4Z3U2uAB6bGd/+thJ+gWkKg=;
+	b=0yDLEZE4afu35ALvEML4ElwnsfIRr1ZJJvvDfGtSn91FfK0EVHaOwH4PXAGhpaUTRH
+	MTY1FyXFHay4TCYEvg2ZFK3lFp3O3FWrz+tCFM+WfQ1ZHuJ1ecNwK2LPD9IDiHEe0h9c
+	a/FBdc4AkqxhMn8yvTvLucNSz03DCqmJTdI1C3pe7mmjBE4tezcRS25bMknJM716Bb90
+	fftEvEX4aaAwQu7DxIDsQRE4RKZMcyOaNMBI2AJ2DFap3PhhhfqRRou/hExUzvAuCUVp
+	+dOHmL96x+pROr0sfDbIUlwd4/PdRTwk3SwX6SwO4oC5KHCzAArl918pgIFAzRdgDuH6
+	Ifkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=ivemvtdIOBAH64W1tEHqQm++0FSa4j1NUvmo52cE/lc=;
-	b=Cvu7Ec/Q/jeG8Z9cDjEin+2CGn+/9CUDfVMNB1un0OIMUK66nFlYp1r+jSRSfHm+tQ
-	YhO3m4lJ2aFdsvwz2pNZ2wnG0CpzQj6FK/L2HmsBAimS1C+axRr4f3KDpziu5tXJ6jTz
-	BuHBoY1QN50dGanWDMTZ2xj8VRxHS6gsM7YX40EpFjjrmr29c0rhlNCIMwWB41qaUo79
-	h37lYsdGwZThPxkFDL8WMc41YqkYqRpyuueuGxJ66hU6c1EzpiVYceIJ+9HY1fehRxc9
-	O3orIau94j0RuEf1tHT/bIY94IaChxVlIsp7uFDQRAQ+FxLqhgTQD0mPNVhHn2bH4Ikl
-	laOA==
-X-Gm-Message-State: AG10YOSy8EgyM7nSNYTG6cSN8haqDsIKFBRGZb2DkT9TZiakdtOu1NnODio/hMZdzF+E5A==
-X-Received: by 10.66.180.168 with SMTP id dp8mr6188335pac.104.1454539078665;
-	Wed, 03 Feb 2016 14:37:58 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:f4ee:b281:a3a4:822e?
-	([2601:646:8802:5d5c:f4ee:b281:a3a4:822e])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ub9ucxGidk9OcsuRSFeo4Z3U2uAB6bGd/+thJ+gWkKg=;
+	b=K/kiWf9SaTmStStSTSfDVVOIbob3iz9Sqx7jk1hsq+b6aLPSh51MoJ9sSegqixVPx/
+	gEkkHgGUwJwnwkx2nnvym5HPlOCSO4xPezUrFrbH7pKVeBlLEYq6wk9aosZMH9B9WiTK
+	KnhYnvdlQQ+5uAfEFMZWpHqWcyNyPPAVFOt/93tgE4evlvhfQmWQetE3v3i8a0lQcMI0
+	Jb6WP4vdGvdISRzh6zBQFspQxPG267szGrDcIzBYmLfra86pxpMFXHQldnDzPdER8BLp
+	+PABOnu1RSRR54KYnPCROjKR/P3hU+6Bd8UW3JfB+Kw6PUWSxUz4nIpUPqrWVz4ZJC3I
+	FPuw==
+X-Gm-Message-State: AG10YORoSpTLVbZnNqoacc3r5Fmz+BetkAj+ueEnBVub7hPKw9vjHL7haP7FQMHCLnEiJQ==
+X-Received: by 10.182.73.225 with SMTP id o1mr5277744obv.80.1454545842400;
+	Wed, 03 Feb 2016 16:30:42 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	ud8sm5185570pac.11.2016.02.03.14.37.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 03 Feb 2016 14:37:57 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1454533708.7421.61.camel@pbcl.net>
-Date: Wed, 3 Feb 2016 14:37:53 -0800
-Message-Id: <3331DCC0-438E-4B2B-B61C-875F86CA20EE@gmail.com>
-References: <56B0AE88.3090103@siemens.com> <1454446338.7421.45.camel@pbcl.net>
-	<46DD8494-2C7E-44B8-8793-12228FD56738@gmail.com>
-	<1454532510.7421.54.camel@pbcl.net>
-	<CAMKF1sqevO99mD2V1xxZEa7--LX9vctuFebLc59fOej3xnjkhA@mail.gmail.com>
-	<1454533078.7421.57.camel@pbcl.net>
-	<CAMKF1srGn-maJcvPLQSV6Xz7RgU4N1Jipr+Oc9AH_B1xsj-UQw@mail.gmail.com>
-	<1454533708.7421.61.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.3112)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Default value for FULL_OPTIMIZATION
+	q189sm831771oif.15.2016.02.03.16.30.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 Feb 2016 16:30:41 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Feb 2016 16:30:33 -0800
+Message-Id: <1454545833-1237-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] neon: convert to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,73 +53,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Feb 2016 22:37:59 -0000
-X-Groupsio-MsgNum: 77499
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CFCAAE6C-DC2F-4CCE-BD40-BE775ECFF465";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 04 Feb 2016 00:30:43 -0000
 
---Apple-Mail=_CFCAAE6C-DC2F-4CCE-BD40-BE775ECFF465
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Along with the conversion to PACKAGECONFIG, drop unnecessary
+dependencies on time (it's an app, not a library?) and libxml2 (neon
+requires either expat or libxml2 for xml parsing, defaulting to expat
+if both are available).
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/neon/neon_0.30.1.bb | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-support/neon/neon_0.30.1.bb b/meta/recipes-support/neon/neon_0.30.1.bb
+index 0244314..b6cfd50 100644
+--- a/meta/recipes-support/neon/neon_0.30.1.bb
++++ b/meta/recipes-support/neon/neon_0.30.1.bb
+@@ -4,24 +4,35 @@ SECTION = "libs"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://src/COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a \
+                     file://src/ne_utils.h;beginline=1;endline=20;md5=2caca609538eddaa6f6adf120a218037"
+-DEPENDS = "zlib libxml2 expat time gnutls libproxy"
+-DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
+-
+-BBCLASSEXTEND = "native"
+ 
+ SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
+            file://pkgconfig.patch \
+            file://gnutls_4.3_fixup.patch"
++
+ SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
+ SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
+ 
+-BINCONFIG = "${bindir}/neon-config"
+-
+ inherit autotools binconfig-disabled lib_package pkgconfig
+ 
+-EXTRA_OECONF = "--with-ssl=gnutls --with-libxml2 --with-expat --enable-shared"
+-EXTRA_OECONF += "--without-gssapi"
++# Enable gnutls or openssl, not both
++PACKAGECONFIG ?= "expat gnutls libproxy webdav zlib"
++PACKAGECONFIG_class-native = "expat gnutls webdav zlib"
++
++PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat"
++PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
++PACKAGECONFIG[gssapi] = "--with-gssapi,--without-gssapi,krb5"
++PACKAGECONFIG[libproxy] = "--with-libproxy,--without-libproxy,libproxy"
++PACKAGECONFIG[libxml2] = "--with-libxml2,--without-libxml2,libxml2"
++PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
++PACKAGECONFIG[webdav] = "--enable-webdav,--disable-webdav,"
++PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
++
++EXTRA_OECONF += "--enable-shared"
+ 
+ do_compile_append() {
+ 	oe_runmake -C test
+ }
++
++BINCONFIG = "${bindir}/neon-config"
++
++BBCLASSEXTEND = "native"
+-- 
+1.9.1
 
 
-> On Feb 3, 2016, at 1:08 PM, Phil Blundell <pb@pbcl.net> wrote:
->=20
-> On Wed, 2016-02-03 at 12:59 -0800, Khem Raj wrote:
->> in systems of  this age it should be yet.
->=20
-> Sorry, I didn't really understand that comment.
-
-systems of today ( new systems ). read =E2=80=98yet' as 'yes'
-
->=20
-> For what it's worth, as a very quick and fairly unscientific =
-comparison,
-> I did "time make -j4" in a glibc tree and got:
->=20
-> real	1m38.812s
-> user	4m6.420s
-> sys	0m23.148s
->=20
-> and then I cleaned the tree and did "time make -j4 CFLAGS=3D'-O2 -g
-> -pipe'" and got:
->=20
-> real	1m37.299s
-> user	4m21.420s
-> sys	0m27.304s
->=20
-> I'm not sure these results are statistically significant but on this
-> very limited evidence it certainly doesn't look like -pipe is =
-providing
-> any transformational benefits.  The real time has gone down a tiny =
-bit,
-> which suggests that -pipe is giving some extra parallelism, but the
-> system and user time have both actually gone up in the second case.
-
-Some bigger loads like webkit might be a better sample.
-
->=20
-> p.
->=20
->=20
-
-
---Apple-Mail=_CFCAAE6C-DC2F-4CCE-BD40-BE775ECFF465
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaygUQACgkQuwUzVZGdMxS7hACfc+hHOvpn01aCGZAx5j9KXLOQ
-cfkAn3JvbNouTVk8RuVolpCJArJsBoJy
-=g0uu
------END PGP SIGNATURE-----
-
---Apple-Mail=_CFCAAE6C-DC2F-4CCE-BD40-BE775ECFF465--
