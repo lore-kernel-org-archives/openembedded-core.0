@@ -1,28 +1,28 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id CD12777156
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 596A877156
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 20:11:04 +0000 (UTC)
+	Thu,  4 Feb 2016 20:11:21 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Feb 2016 12:11:05 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Feb 2016 12:11:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; 
-	d="asc'?scan'208";a="896563993"
+	d="asc'?scan'208";a="896564078"
 Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.31]) ([10.219.5.31])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2016 12:11:05 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2016 12:11:22 -0800
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
 References: <cover.1454459362.git.anibal.limon@linux.intel.com>
-	<f4fae173e814851f4a14b4c1e47f5de5c497a7b7.1454459362.git.anibal.limon@linux.intel.com>
-	<2637486.2zAlMEmPQJ@peggleto-mobl.ger.corp.intel.com>
+	<bda52d72f2448b404f7973ff4d9425ae4da4067e.1454459362.git.anibal.limon@linux.intel.com>
+	<6962182.mWZCD3Ya9n@peggleto-mobl.ger.corp.intel.com>
 From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <56B3B0CF.1030306@linux.intel.com>
-Date: Thu, 4 Feb 2016 14:13:03 -0600
+Message-ID: <56B3B0E0.6050307@linux.intel.com>
+Date: Thu, 4 Feb 2016 14:13:20 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <2637486.2zAlMEmPQJ@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <6962182.mWZCD3Ya9n@peggleto-mobl.ger.corp.intel.com>
 Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 25/28] oeqa/oetest.py: SDK{Ext, } improve host and target manifest load.
+Subject: Re: [PATCH v2 27/28] classes/testimage: exportTests simple improvment to use list instead of test expresions.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,87 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 20:11:07 -0000
-X-Groupsio-MsgNum: 77534
+X-List-Received-Date: Thu, 04 Feb 2016 20:11:21 -0000
+X-Groupsio-MsgNum: 77535
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="UvskBoEnqamn5E8FeTmCrMUeK9FRwt6Pf"
+	boundary="LXdRkmnGEmxHDUkH2vqr3BKGhvI0PvoD0"
 
---UvskBoEnqamn5E8FeTmCrMUeK9FRwt6Pf
+--LXdRkmnGEmxHDUkH2vqr3BKGhvI0PvoD0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
 Ok agreed.
 
-On 02/04/2016 12:35 PM, Paul Eggleton wrote:
-> On Tue, 02 Feb 2016 18:30:37 An=EDbal Lim=F3n wrote:
->> Don't pass variable name instead of it expands the host and target
->> manifest at init of the classes.
+On 02/04/2016 12:34 PM, Paul Eggleton wrote:
+> On Tue, 02 Feb 2016 18:30:39 An=EDbal Lim=F3n wrote:
+>> It's better to use a list instead if variable isn't match some value.
 >>
 >> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
 >> ---
->>  meta/lib/oeqa/oetest.py | 16 ++++++++--------
->>  1 file changed, 8 insertions(+), 8 deletions(-)
+>>  meta/classes/testimage.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
->> index 6a95c28..80b40b6 100644
->> --- a/meta/lib/oeqa/oetest.py
->> +++ b/meta/lib/oeqa/oetest.py
->> @@ -382,18 +382,18 @@ class SDKTestContext(TestContext):
->>          self.sdktestdir =3D sdktestdir
->>          self.sdkenv =3D sdkenv
->>
->> -        if not hasattr(self, 'target_manifest_name'):
->> -            self.target_manifest_name =3D "SDK_TARGET_MANIFEST"
->> +        if not hasattr(self, 'target_manifest'):
->> +            self.target_manifest =3D d.getVar("SDK_TARGET_MANIFEST", =
-True)
->>          try:
->> -            with open(d.getVar(self.target_manifest_name, True)) as f=
-:
->> +            with open(self.target_manifest) as f:
->>                   self.pkgmanifest =3D f.read()
->>          except IOError as e:
->>              bb.fatal("No package manifest file found. Did you build t=
-he sdk
->> image?\n%s" % e)
->>
->> -        if not hasattr(self, 'host_manifest_name'):
->> -            self.host_manifest_name =3D "SDK_HOST_MANIFEST"
->> +        if not hasattr(self, 'host_manifest'):
->> +            self.host_manifest =3D d.getVar("SDK_HOST_MANIFEST", True=
-)
->>          try:
->> -            with open(d.getVar(self.host_manifest_name, True)) as f:
->> +            with open(self.host_manifest) as f:
->>                  self.hostpkgmanifest =3D f.read()
->>          except IOError as e:
->>              bb.fatal("No host package manifest file found. Did you bu=
-ild
->> the sdk image?\n%s" % e) @@ -410,8 +410,8 @@ class
->> SDKTestContext(TestContext):
->>
->>  class SDKExtTestContext(SDKTestContext):
->>      def __init__(self, d, sdktestdir, sdkenv):
->> -        self.target_manifest_name =3D "SDK_EXT_TARGET_MANIFEST"
->> -        self.host_manifest_name =3D "SDK_EXT_HOST_MANIFEST"
->> +        self.target_manifest =3D d.getVar("SDK_EXT_TARGET_MANIFEST", =
-True)
->> +        self.host_manifest =3D d.getVar("SDK_EXT_HOST_MANIFEST", True=
-)
->>
->>          super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv=
-)
+>> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.b=
+bclass
+>> index 57858e6..7fff29f 100644
+>> --- a/meta/classes/testimage.bbclass
+>> +++ b/meta/classes/testimage.bbclass
+>> @@ -112,7 +112,7 @@ def exportTests(d,tc):
+>>      savedata["host_dumper"] =3D {}
+>>      for key in tc.__dict__:
+>>          # special cases
+>> -        if key !=3D "d" and key !=3D "target" and key !=3D "host_dump=
+er" and key
+>> !=3D "suite": +        if key not in ['d', 'target', 'host_dumper', 's=
+uite']:
+>>              savedata[key] =3D getattr(tc, key)
+>>      savedata["target"]["ip"] =3D tc.target.ip or d.getVar("TEST_TARGE=
+T_IP",
+>> True) savedata["target"]["server_ip"] =3D tc.target.server_ip or
+>> d.getVar("TEST_SERVER_IP", True)
 >=20
-> Please squash this into the earlier commit where the original logic was=
- added.
+> Please squash this into the commit where you're adding the "suite" item=
+=2E
 >=20
-> Thanks,
+> Cheers,
 > Paul
 >=20
 
 
---UvskBoEnqamn5E8FeTmCrMUeK9FRwt6Pf
+--LXdRkmnGEmxHDUkH2vqr3BKGhvI0PvoD0
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -123,19 +91,19 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAEBAgAGBQJWs7DRAAoJEGJqcE9h3glgLHoP+wSgXG+4QcVRcq3fBIvIEChL
-oLC597amL3ByxdhJtVEAp0iJDDOQIjCicTYbYDc0Oo666C2gsns+AFBWGsAXDURT
-+dH+9h5pu9lvuAh2wkzlrtauQDj6wzCW7bRv8rzwwPoTSJr0fMC08hbP6ho2UELu
-r6AJBpdikS86YZD/KEjJhQEgZ6dr9xcjALTOfh0PG7IhhF5rW8MPgOYTMxS+tp3S
-vK9Bewvngn3g+2d+PS/ovOfOy3cl1+CtWEtgxkRqsJ4CjDyroypEN+p+7i208AID
-MKEjwBDIcYmfaU5DNq5deJIRtV5cMwFr4pBQpu9NcfTAhxvsx5itX9HMzIe0EkhJ
-7xtbIqZGeTE+kyOp8CbAhIvAxwSnp81QLwwTZ3/Hjlyd7vncAhrNA0DnMU1jzXBB
-4b5M2u5Xbfei9xtjoW/OfloQcVhq7RAcrxzPprz1Jtx1zBFHkgAdOLvV6WuuVX5I
-hKJj8kwE+v/qaO3UuaDUXVo5zapUxRMELMlK3FRYJS6r7TvPvTVDkUejgPO+iqoU
-O3WcEDTWb/+6+aR3xwhjmZMhNSrslw9osgtfZlp9TS4rPNkrUPKH6K3G8dIQuQaB
-eNG9LwYeKdhikmObMSAYE9orywLH/ETuJ6n6QfjKFyF5sQnhRredNJt5GYPrgpLc
-6AUQcfJ+zSKYZ2yuXQta
-=FT6K
+iQIcBAEBAgAGBQJWs7DiAAoJEGJqcE9h3glgto0P/RV34YM0lR0prwJVVFcRPk4G
+9aPNOpKnLleuJ1DvNQTSR6QOc4uC0o1PBHxqBJwrsBREn8hjy8D9N8vVKkQPILJe
+GSr8JgqIksBGS48jGEK73qLFkDLdz8JoKFl5YFLt3eDco74KSGHRZVmzYybETMTi
+RpLmrDpg8wDLLXHzsz7Qq6phzIy+jgSA7tUhEs6ThPQtDmtn7zfJevaHmQWJ+tq6
+eMf9RiXT9VAwgW3Fwh4y2dIloG60UmwnZj5OBItrFELOGIPoHjiDelPYukPgAuUm
+nvP+42H/zMTsV+c+g7FpMoluiQq5ZqrCKsgm8iag9Z7EyFCo1wKjKhNA8V7ZxH+F
+9ep4GEccP6lazx+LgSTBQp0q4FOwaECV0mPByJXK+eETNOFRFwXynxXjzoDPoOjq
+Xij1EyRGOzUy78eg7UERxHNjO1J3eTgCZ7g4W5b/8DtW0ulaJ8wMF3dgh8IFQHwy
+3dUGNdm3dX8+k4eIFrLkOv1P00vSQTwap45WSIpzcc772zJN+ulXqr3c0mnTJv71
+EoygqKk1stmQClZmIg05g6TJYRbJT61JQ0o8JvrghnYHQ1VJLnCIcMnWmcSbe7CW
+r+7WLSfoITWaLUYl879U5BVKqWLDoM1DJ61PmzTgs2BOyD2Alqecaf622ly8THIG
+NVGz7VFnLP/y31D5vWv0
+=n+JT
 -----END PGP SIGNATURE-----
 
---UvskBoEnqamn5E8FeTmCrMUeK9FRwt6Pf--
+--LXdRkmnGEmxHDUkH2vqr3BKGhvI0PvoD0--
