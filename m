@@ -1,46 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id D3E39771F4
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 219EE77150
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 00:30:41 +0000 (UTC)
-Received: by mail-ob0-f178.google.com with SMTP id is5so49856422obc.0
+	Thu,  4 Feb 2016 01:44:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u141is5w000661
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Feb 2016 16:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Ub9ucxGidk9OcsuRSFeo4Z3U2uAB6bGd/+thJ+gWkKg=;
-	b=0yDLEZE4afu35ALvEML4ElwnsfIRr1ZJJvvDfGtSn91FfK0EVHaOwH4PXAGhpaUTRH
-	MTY1FyXFHay4TCYEvg2ZFK3lFp3O3FWrz+tCFM+WfQ1ZHuJ1ecNwK2LPD9IDiHEe0h9c
-	a/FBdc4AkqxhMn8yvTvLucNSz03DCqmJTdI1C3pe7mmjBE4tezcRS25bMknJM716Bb90
-	fftEvEX4aaAwQu7DxIDsQRE4RKZMcyOaNMBI2AJ2DFap3PhhhfqRRou/hExUzvAuCUVp
-	+dOHmL96x+pROr0sfDbIUlwd4/PdRTwk3SwX6SwO4oC5KHCzAArl918pgIFAzRdgDuH6
-	Ifkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Ub9ucxGidk9OcsuRSFeo4Z3U2uAB6bGd/+thJ+gWkKg=;
-	b=K/kiWf9SaTmStStSTSfDVVOIbob3iz9Sqx7jk1hsq+b6aLPSh51MoJ9sSegqixVPx/
-	gEkkHgGUwJwnwkx2nnvym5HPlOCSO4xPezUrFrbH7pKVeBlLEYq6wk9aosZMH9B9WiTK
-	KnhYnvdlQQ+5uAfEFMZWpHqWcyNyPPAVFOt/93tgE4evlvhfQmWQetE3v3i8a0lQcMI0
-	Jb6WP4vdGvdISRzh6zBQFspQxPG267szGrDcIzBYmLfra86pxpMFXHQldnDzPdER8BLp
-	+PABOnu1RSRR54KYnPCROjKR/P3hU+6Bd8UW3JfB+Kw6PUWSxUz4nIpUPqrWVz4ZJC3I
-	FPuw==
-X-Gm-Message-State: AG10YORoSpTLVbZnNqoacc3r5Fmz+BetkAj+ueEnBVub7hPKw9vjHL7haP7FQMHCLnEiJQ==
-X-Received: by 10.182.73.225 with SMTP id o1mr5277744obv.80.1454545842400;
-	Wed, 03 Feb 2016 16:30:42 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	q189sm831771oif.15.2016.02.03.16.30.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 03 Feb 2016 16:30:41 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Feb 2016 16:30:33 -0800
-Message-Id: <1454545833-1237-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] neon: convert to PACKAGECONFIG
+	Wed, 3 Feb 2016 17:44:54 -0800 (PST)
+Received: from Flora.wrs.com (128.224.163.135) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 3 Feb 2016 17:44:53 -0800
+From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Feb 2016 09:51:32 +0800
+Message-ID: <1454550692-7736-1-git-send-email-Yuanjie.Huang@windriver.com>
+X-Mailer: git-send-email 2.7.0
+MIME-Version: 1.0
+Subject: [PATCH V2] glibc: fix CVE-2015-8777 and CVE-2015-8779
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,66 +31,393 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 00:30:43 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 01:44:55 -0000
+Content-Type: text/plain
 
-Along with the conversion to PACKAGECONFIG, drop unnecessary
-dependencies on time (it's an app, not a library?) and libxml2 (neon
-requires either expat or libxml2 for xml parsing, defaulting to expat
-if both are available).
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+According to http://seclists.org/oss-sec/2016/q1/153
+
+CVE-2015-8777: LD_POINTER_GUARD was an environment variable which controls
+security-related behavior, but was not ignored for privileged binaries (in
+AT_SECURE mode).  This might allow local attackers (who can supply the
+environment variable) to bypass intended security restriction.
+
+[glibc BZ #18928] -- https://sourceware.org/bugzilla/show_bug.cgi?id=18928
+
+(cherry picked from commit a014cecd82b71b70a6a843e250e06b541ad524f7)
+
+CVE-2015-8779: A stack overflow (unbounded alloca) in the catopen function can
+cause applications which pass long strings to the catopen function to crash or,
+potentially execute arbitrary code.
+
+[glibc BZ #17905] -- https://sourceware.org/bugzilla/show_bug.cgi?id=17905
+
+(cherry picked from commit 0f58539030e436449f79189b6edab17d7479796e
+and commit 7565d2a862683a3c26ffb1f32351b8c5ab9f7b31)
+
+Upstream-Status: Backport [2.23]
+CVE: CVE-2015-8777 CVE-2015-8779
+
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 ---
- meta/recipes-support/neon/neon_0.30.1.bb | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ ...able-pointer-guard-BZ-18928-CVE-2015-8777.patch |  87 ++++++++
+ ...-multiple-unbounded-stack-allocations-BZ-.patch | 238 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.22.bb              |   2 +
+ 3 files changed, 327 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0030-Always-enable-pointer-guard-BZ-18928-CVE-2015-8777.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-Fix-catopen-multiple-unbounded-stack-allocations-BZ-.patch
 
-diff --git a/meta/recipes-support/neon/neon_0.30.1.bb b/meta/recipes-support/neon/neon_0.30.1.bb
-index 0244314..b6cfd50 100644
---- a/meta/recipes-support/neon/neon_0.30.1.bb
-+++ b/meta/recipes-support/neon/neon_0.30.1.bb
-@@ -4,24 +4,35 @@ SECTION = "libs"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://src/COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a \
-                     file://src/ne_utils.h;beginline=1;endline=20;md5=2caca609538eddaa6f6adf120a218037"
--DEPENDS = "zlib libxml2 expat time gnutls libproxy"
--DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
--
--BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-core/glibc/glibc/0030-Always-enable-pointer-guard-BZ-18928-CVE-2015-8777.patch b/meta/recipes-core/glibc/glibc/0030-Always-enable-pointer-guard-BZ-18928-CVE-2015-8777.patch
+new file mode 100644
+index 0000000..c3eb70a
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0030-Always-enable-pointer-guard-BZ-18928-CVE-2015-8777.patch
+@@ -0,0 +1,87 @@
++From b81f52160a5d7e08491a58ce5a39fc1f24534313 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Thu, 15 Oct 2015 09:23:07 +0200
++Subject: [PATCH 1/2] Always enable pointer guard [BZ #18928] (CVE-2015-8777)
++
++Honoring the LD_POINTER_GUARD environment variable in AT_SECURE mode
++has security implications.  This commit enables pointer guard
++unconditionally, and the environment variable is now ignored.
++
++        [BZ #18928]
++        * sysdeps/generic/ldsodefs.h (struct rtld_global_ro): Remove
++        _dl_pointer_guard member.
++        * elf/rtld.c (_rtld_global_ro): Remove _dl_pointer_guard
++        initializer.
++        (security_init): Always set up pointer guard.
++        (process_envvars): Do not process LD_POINTER_GUARD.
++
++(cherry picked from commit a014cecd82b71b70a6a843e250e06b541ad524f7)
++
++Upstream-Stratus: Backport [2.23]
++CVE: CVE-2015-8777
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ elf/rtld.c                 | 15 ++++-----------
++ sysdeps/generic/ldsodefs.h |  3 ---
++ 2 files changed, 4 insertions(+), 14 deletions(-)
++
++diff --git a/elf/rtld.c b/elf/rtld.c
++index 8362932..83e4b0e 100644
++--- a/elf/rtld.c
+++++ b/elf/rtld.c
++@@ -163,7 +163,6 @@ struct rtld_global_ro _rtld_global_ro attribute_relro =
++     ._dl_hwcap_mask = HWCAP_IMPORTANT,
++     ._dl_lazy = 1,
++     ._dl_fpu_control = _FPU_DEFAULT,
++-    ._dl_pointer_guard = 1,
++     ._dl_pagesize = EXEC_PAGESIZE,
++     ._dl_inhibit_cache = 0,
++ 
++@@ -710,15 +709,12 @@ security_init (void)
++ #endif
++ 
++   /* Set up the pointer guard as well, if necessary.  */
++-  if (GLRO(dl_pointer_guard))
++-    {
++-      uintptr_t pointer_chk_guard = _dl_setup_pointer_guard (_dl_random,
++-							     stack_chk_guard);
+++  uintptr_t pointer_chk_guard
+++    = _dl_setup_pointer_guard (_dl_random, stack_chk_guard);
++ #ifdef THREAD_SET_POINTER_GUARD
++-      THREAD_SET_POINTER_GUARD (pointer_chk_guard);
+++  THREAD_SET_POINTER_GUARD (pointer_chk_guard);
++ #endif
++-      __pointer_chk_guard_local = pointer_chk_guard;
++-    }
+++  __pointer_chk_guard_local = pointer_chk_guard;
++ 
++   /* We do not need the _dl_random value anymore.  The less
++      information we leave behind, the better, so clear the
++@@ -2478,9 +2474,6 @@ process_envvars (enum mode *modep)
++ 	      GLRO(dl_use_load_bias) = envline[14] == '1' ? -1 : 0;
++ 	      break;
++ 	    }
++-
++-	  if (memcmp (envline, "POINTER_GUARD", 13) == 0)
++-	    GLRO(dl_pointer_guard) = envline[14] != '0';
++ 	  break;
++ 
++ 	case 14:
++diff --git a/sysdeps/generic/ldsodefs.h b/sysdeps/generic/ldsodefs.h
++index a3e2c0a..4668f73 100644
++--- a/sysdeps/generic/ldsodefs.h
+++++ b/sysdeps/generic/ldsodefs.h
++@@ -600,9 +600,6 @@ struct rtld_global_ro
++   /* List of auditing interfaces.  */
++   struct audit_ifaces *_dl_audit;
++   unsigned int _dl_naudit;
++-
++-  /* 0 if internal pointer values should not be guarded, 1 if they should.  */
++-  EXTERN int _dl_pointer_guard;
++ };
++ # define __rtld_global_attribute__
++ # if IS_IN (rtld)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/glibc/glibc/0031-Fix-catopen-multiple-unbounded-stack-allocations-BZ-.patch b/meta/recipes-core/glibc/glibc/0031-Fix-catopen-multiple-unbounded-stack-allocations-BZ-.patch
+new file mode 100644
+index 0000000..24cd217
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0031-Fix-catopen-multiple-unbounded-stack-allocations-BZ-.patch
+@@ -0,0 +1,238 @@
++From a8fd3645b46f7012f1b6607a808dd84cad157e21 Mon Sep 17 00:00:00 2001
++From: Paul Pluzhnikov <ppluzhnikov@google.com>
++Date: Sat, 8 Aug 2015 15:53:03 -0700
++Subject: [PATCH 2/2] Fix catopen() multiple unbounded stack allocations [BZ
++ #17905] (CVE-2015-8779)
++
++A stack overflow (unbounded alloca) in the catopen function can cause
++applications which pass long strings to the catopen function to crash
++or, potentially execute arbitrary code.
++
++(cherry picked from commit 0f58539030e436449f79189b6edab17d7479796e
++and commit 7565d2a862683a3c26ffb1f32351b8c5ab9f7b31)
++
++Upstream-Status: Backport [2.23]
++CVE: CVE-2015-8779
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ catgets/Makefile       |  9 ++++++++-
++ catgets/catgets.c      | 19 ++++++++++++-------
++ catgets/open_catalog.c | 23 ++++++++++++++---------
++ catgets/tst-catgets.c  | 31 +++++++++++++++++++++++++++++++
++ 4 files changed, 65 insertions(+), 17 deletions(-)
++
++diff --git a/catgets/Makefile b/catgets/Makefile
++index 05714fd..7f45fc3 100644
++--- a/catgets/Makefile
+++++ b/catgets/Makefile
++@@ -37,6 +37,7 @@ ifeq (y,$(OPTION_EGLIBC_CATGETS))
++ ifeq ($(run-built-tests),yes)
++ tests-special += $(objpfx)de/libc.cat $(objpfx)test1.cat $(objpfx)test2.cat \
++ 		 $(objpfx)sample.SJIS.cat $(objpfx)test-gencat.out
+++tests-special += $(objpfx)tst-catgets-mem.out
++ endif
++ endif
++ gencat-modules	= xmalloc
++@@ -53,9 +54,11 @@ catgets-CPPFLAGS := -DNLSPATH='"$(msgcatdir)/%L/%N:$(msgcatdir)/%L/LC_MESSAGES/%
++ 
++ generated += de.msg test1.cat test1.h test2.cat test2.h sample.SJIS.cat \
++ 	     test-gencat.h
+++generated += tst-catgets.mtrace tst-catgets-mem.out
+++
++ generated-dirs += de
++ 
++-tst-catgets-ENV = NLSPATH="$(objpfx)%l/%N.cat" LANG=de
+++tst-catgets-ENV = NLSPATH="$(objpfx)%l/%N.cat" LANG=de MALLOC_TRACE=$(objpfx)tst-catgets.mtrace
++ 
++ ifeq ($(run-built-tests),yes)
++ # This test just checks whether the program produces any error or not.
++@@ -89,4 +92,8 @@ $(objpfx)test-gencat.out: test-gencat.sh $(objpfx)test-gencat \
++ $(objpfx)sample.SJIS.cat: sample.SJIS $(objpfx)gencat
++ 	$(built-program-cmd) -H $(objpfx)test-gencat.h < $(word 1,$^) > $@; \
++ 	$(evaluate-test)
+++
+++$(objpfx)tst-catgets-mem.out: $(objpfx)tst-catgets.out
+++	$(common-objpfx)malloc/mtrace $(objpfx)tst-catgets.mtrace > $@; \
+++	$(evaluate-test)
++ endif
++diff --git a/catgets/catgets.c b/catgets/catgets.c
++index cf93d56..4be452d 100644
++--- a/catgets/catgets.c
+++++ b/catgets/catgets.c
++@@ -16,7 +16,6 @@
++    License along with the GNU C Library; if not, see
++    <http://www.gnu.org/licenses/>.  */
++ 
++-#include <alloca.h>
++ #include <errno.h>
++ #include <locale.h>
++ #include <nl_types.h>
++@@ -35,6 +34,7 @@ catopen (const char *cat_name, int flag)
++   __nl_catd result;
++   const char *env_var = NULL;
++   const char *nlspath = NULL;
+++  char *tmp = NULL;
++ 
++   if (strchr (cat_name, '/') == NULL)
++     {
++@@ -54,7 +54,10 @@ catopen (const char *cat_name, int flag)
++ 	{
++ 	  /* Append the system dependent directory.  */
++ 	  size_t len = strlen (nlspath) + 1 + sizeof NLSPATH;
++-	  char *tmp = alloca (len);
+++	  tmp = malloc (len);
+++
+++	  if (__glibc_unlikely (tmp == NULL))
+++	    return (nl_catd) -1;
++ 
++ 	  __stpcpy (__stpcpy (__stpcpy (tmp, nlspath), ":"), NLSPATH);
++ 	  nlspath = tmp;
++@@ -65,16 +68,18 @@ catopen (const char *cat_name, int flag)
++ 
++   result = (__nl_catd) malloc (sizeof (*result));
++   if (result == NULL)
++-    /* We cannot get enough memory.  */
++-    return (nl_catd) -1;
++-
++-  if (__open_catalog (cat_name, nlspath, env_var, result) != 0)
+++    {
+++      /* We cannot get enough memory.  */
+++      result = (nl_catd) -1;
+++    }
+++  else if (__open_catalog (cat_name, nlspath, env_var, result) != 0)
++     {
++       /* Couldn't open the file.  */
++       free ((void *) result);
++-      return (nl_catd) -1;
+++      result = (nl_catd) -1;
++     }
++ 
+++  free (tmp);
++   return (nl_catd) result;
++ }
++ 
++diff --git a/catgets/open_catalog.c b/catgets/open_catalog.c
++index e069416..9f4d776 100644
++--- a/catgets/open_catalog.c
+++++ b/catgets/open_catalog.c
++@@ -47,6 +47,7 @@ __open_catalog (const char *cat_name, const char *nlspath, const char *env_var,
++   size_t tab_size;
++   const char *lastp;
++   int result = -1;
+++  char *buf = NULL;
++ 
++   if (strchr (cat_name, '/') != NULL || nlspath == NULL)
++     fd = open_not_cancel_2 (cat_name, O_RDONLY);
++@@ -57,23 +58,23 @@ __open_catalog (const char *cat_name, const char *nlspath, const char *env_var,
++   if (__glibc_unlikely (bufact + (n) >= bufmax))			      \
++     {									      \
++       char *old_buf = buf;						      \
++-      bufmax += 256 + (n);						      \
++-      buf = (char *) alloca (bufmax);					      \
++-      memcpy (buf, old_buf, bufact);					      \
+++      bufmax += (bufmax < 256 + (n)) ? 256 + (n) : bufmax;		      \
+++      buf = realloc (buf, bufmax);					      \
+++      if (__glibc_unlikely (buf == NULL))				      \
+++	{								      \
+++	  free (old_buf);						      \
+++	  return -1;							      \
+++	}								      \
++     }
++ 
++       /* The RUN_NLSPATH variable contains a colon separated list of
++ 	 descriptions where we expect to find catalogs.  We have to
++ 	 recognize certain % substitutions and stop when we found the
++ 	 first existing file.  */
++-      char *buf;
++       size_t bufact;
++-      size_t bufmax;
+++      size_t bufmax = 0;
++       size_t len;
++ 
++-      buf = NULL;
++-      bufmax = 0;
++-
++       fd = -1;
++       while (*run_nlspath != '\0')
++ 	{
++@@ -188,7 +189,10 @@ __open_catalog (const char *cat_name, const char *nlspath, const char *env_var,
++ 
++   /* Avoid dealing with directories and block devices */
++   if (__builtin_expect (fd, 0) < 0)
++-    return -1;
+++    {
+++      free (buf);
+++      return -1;
+++    }
++ 
++   if (__builtin_expect (__fxstat64 (_STAT_VER, fd, &st), 0) < 0)
++     goto close_unlock_return;
++@@ -325,6 +329,7 @@ __open_catalog (const char *cat_name, const char *nlspath, const char *env_var,
++   /* Release the lock again.  */
++  close_unlock_return:
++   close_not_cancel_no_status (fd);
+++  free (buf);
++ 
++   return result;
++ }
++diff --git a/catgets/tst-catgets.c b/catgets/tst-catgets.c
++index a0a4089..0886938 100644
++--- a/catgets/tst-catgets.c
+++++ b/catgets/tst-catgets.c
++@@ -1,7 +1,10 @@
+++#include <assert.h>
++ #include <mcheck.h>
++ #include <nl_types.h>
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <string.h>
+++#include <sys/resource.h>
++ 
++ 
++ static const char *msgs[] =
++@@ -12,6 +15,33 @@ static const char *msgs[] =
++ };
++ #define nmsgs (sizeof (msgs) / sizeof (msgs[0]))
++ 
+++
+++/* Test for unbounded alloca.  */
+++static int
+++do_bz17905 (void)
+++{
+++  char *buf;
+++  struct rlimit rl;
+++  nl_catd result;
+++
+++  const int sz = 1024 * 1024;
+++
+++  getrlimit (RLIMIT_STACK, &rl);
+++  rl.rlim_cur = sz;
+++  setrlimit (RLIMIT_STACK, &rl);
+++
+++  buf = malloc (sz + 1);
+++  memset (buf, 'A', sz);
+++  buf[sz] = '\0';
+++  setenv ("NLSPATH", buf, 1);
+++
+++  result = catopen (buf, NL_CAT_LOCALE);
+++  assert (result == (nl_catd) -1);
+++
+++  free (buf);
+++  return 0;
+++}
+++
++ #define ROUNDS 5
++ 
++ static int
++@@ -62,6 +92,7 @@ do_test (void)
++ 	}
++     }
++ 
+++  result += do_bz17905 ();
++   return result;
++ }
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
+index eeb9742..eb967a4 100644
+--- a/meta/recipes-core/glibc/glibc_2.22.bb
++++ b/meta/recipes-core/glibc/glibc_2.22.bb
+@@ -43,6 +43,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-Clear-ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch \
+            file://strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch \
+            file://0029-fix-getmntent-empty-lines.patch \
++           file://0030-Always-enable-pointer-guard-BZ-18928-CVE-2015-8777.patch \
++           file://0031-Fix-catopen-multiple-unbounded-stack-allocations-BZ-.patch \
+ "
  
- SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
-            file://pkgconfig.patch \
-            file://gnutls_4.3_fixup.patch"
-+
- SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
- SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
- 
--BINCONFIG = "${bindir}/neon-config"
--
- inherit autotools binconfig-disabled lib_package pkgconfig
- 
--EXTRA_OECONF = "--with-ssl=gnutls --with-libxml2 --with-expat --enable-shared"
--EXTRA_OECONF += "--without-gssapi"
-+# Enable gnutls or openssl, not both
-+PACKAGECONFIG ?= "expat gnutls libproxy webdav zlib"
-+PACKAGECONFIG_class-native = "expat gnutls webdav zlib"
-+
-+PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat"
-+PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
-+PACKAGECONFIG[gssapi] = "--with-gssapi,--without-gssapi,krb5"
-+PACKAGECONFIG[libproxy] = "--with-libproxy,--without-libproxy,libproxy"
-+PACKAGECONFIG[libxml2] = "--with-libxml2,--without-libxml2,libxml2"
-+PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
-+PACKAGECONFIG[webdav] = "--enable-webdav,--disable-webdav,"
-+PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
-+
-+EXTRA_OECONF += "--enable-shared"
- 
- do_compile_append() {
- 	oe_runmake -C test
- }
-+
-+BINCONFIG = "${bindir}/neon-config"
-+
-+BBCLASSEXTEND = "native"
+ SRC_URI += "\
 -- 
 1.9.1
 
