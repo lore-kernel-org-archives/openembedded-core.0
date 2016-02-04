@@ -1,26 +1,27 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 652DE605B3
+	by mail.openembedded.org (Postfix) with ESMTP id 516BF76DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 22:27:58 +0000 (UTC)
+	Thu,  4 Feb 2016 22:27:59 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2016 14:27:59 -0800
+	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2016 14:28:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="647384209"
+X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="647384216"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 14:27:58 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 14:27:59 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 16:29:35 -0600
-Message-Id: <20316408d3b31e887b30371b22d49e8b37cfbb30.1454624835.git.anibal.limon@linux.intel.com>
+Date: Thu,  4 Feb 2016 16:29:36 -0600
+Message-Id: <f63cb5712780243e6b1db55b7d5112e35b3f48f0.1454624835.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454624835.git.anibal.limon@linux.intel.com>
 References: <cover.1454624835.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1454624835.git.anibal.limon@linux.intel.com>
 References: <cover.1454624835.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com
-Subject: [PATCH v3 18/22] oeqa/oetest: Fix compatibility SDK tests using eSDK.
+Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+Subject: [PATCH v3 19/22] oeqa/sdkext: Add devtool basic tests for eSDK.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +34,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 22:27:58 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 22:27:59 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When run SDK tests over eSDK we need to use SDKExtTestContext
-instead of SDKTestContext because if we use SDKTestContext search
-for SDK manifest and depends on the SDK manifest generation so
-populate_sdk needs to be executed.
+From: Aníbal Limón <limon.anibal@gmail.com>
 
-Adds a compatibility mode flag to SDKExtTestContext for search tests
-over sdk module instead of sdkext module and change testsdk calls
-to comply with this new param.
+Add simple myapp application is a C app that prints hello world
+and exit.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Add devtool test for that this app to the workspace, build and
+reset it.
+
+Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/testsdk.bbclass |  6 +++---
- meta/lib/oeqa/oetest.py      | 13 ++++++++++---
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/sdkext/devtool.py           | 25 +++++++++++++++++++++++++
+ meta/lib/oeqa/sdkext/files/myapp/Makefile | 10 ++++++++++
+ meta/lib/oeqa/sdkext/files/myapp/myapp.c  |  9 +++++++++
+ 3 files changed, 44 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdkext/devtool.py
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/Makefile
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/myapp.c
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 417510c..453ce40 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -5,14 +5,14 @@
- TEST_LOG_DIR ?= "${WORKDIR}/testimage"
- TESTSDKLOCK = "${TMPDIR}/testsdk.lock"
- 
--def run_test_context(CTestContext, d, testdir, tcname, pn):
-+def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
-     import glob
-     import time
- 
-     targets = glob.glob(d.expand(testdir + "/tc/environment-setup-*"))
-     for sdkenv in targets:
-         bb.plain("Testing %s" % sdkenv)
--        tc = CTestContext(d, testdir, sdkenv)
-+        tc = CTestContext(d, testdir, sdkenv, args)
- 
-         # this is a dummy load of tests
-         # we are doing that to find compile errors in the tests themselves
-@@ -112,7 +112,7 @@ def testsdkext_main(d):
- 
-     try:
-         bb.plain("Running SDK Compatibility tests ...")
--        run_test_context(SDKTestContext, d, testdir, tcname, pn)
-+        run_test_context(SDKExtTestContext, d, testdir, tcname, pn, True)
-     finally:
-         pass
- 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 80b40b6..3e2ea0f 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -376,7 +376,7 @@ class ImageTestContext(TestContext):
-         setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeTest.hasPackage("procps") else "ps")
- 
- class SDKTestContext(TestContext):
--    def __init__(self, d, sdktestdir, sdkenv):
-+    def __init__(self, d, sdktestdir, sdkenv, *args):
-         super(SDKTestContext, self).__init__(d)
- 
-         self.sdktestdir = sdktestdir
-@@ -409,9 +409,13 @@ class SDKTestContext(TestContext):
-                 "auto").split() if t != "auto"]
- 
- class SDKExtTestContext(SDKTestContext):
--    def __init__(self, d, sdktestdir, sdkenv):
-+    def __init__(self, d, sdktestdir, sdkenv, *args):
-         self.target_manifest = d.getVar("SDK_EXT_TARGET_MANIFEST", True)
-         self.host_manifest = d.getVar("SDK_EXT_HOST_MANIFEST", True)
-+        if args:
-+            self.cm = args[0] # Compatibility mode for run SDK tests
-+        else:
-+            self.cm = False
- 
-         super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv)
- 
-@@ -419,7 +423,10 @@ class SDKExtTestContext(SDKTestContext):
-             oeqa.sdkext.__file__)), "files")
- 
-     def _get_test_namespace(self):
--        return "sdkext"
-+        if self.cm:
-+            return "sdk"
-+        else:
-+            return "sdkext"
- 
-     def _get_test_suites(self):
-         return (self.d.getVar("TEST_SUITES_SDK_EXT", True) or "auto").split()
+diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
+new file mode 100644
+index 0000000..0262ed3
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/devtool.py
+@@ -0,0 +1,25 @@
++import shutil
++
++from oeqa.oetest import oeSDKExtTest
++from oeqa.utils.decorators import *
++
++class DevtoolTest(oeSDKExtTest):
++
++    @classmethod
++    def setUpClass(self):
++        self.myapp_src = os.path.join(self.tc.sdkextfilesdir, "myapp")
++        self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
++        shutil.copytree(self.myapp_src, self.myapp_dst)
++
++    def test_devtool_add_reset(self):
++        self._run('devtool add myapp %s' % self.myapp_dst)
++        self._run('devtool reset myapp')
++
++    def test_devtool_build(self):
++        self._run('devtool add myapp %s' % self.myapp_dst)
++        self._run('devtool build myapp')
++        self._run('devtool reset myapp')
++
++    @classmethod
++    def tearDownClass(self):
++        shutil.rmtree(self.myapp_dst)
+diff --git a/meta/lib/oeqa/sdkext/files/myapp/Makefile b/meta/lib/oeqa/sdkext/files/myapp/Makefile
+new file mode 100644
+index 0000000..abd91be
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/files/myapp/Makefile
+@@ -0,0 +1,10 @@
++all: myapp
++
++myapp: myapp.o
++	$(CC) $(LDFLAGS) $< -o $@
++
++myapp.o: myapp.c
++	$(CC) $(CFLAGS) -c $< -o $@
++
++clean:
++	rm -rf myapp.o myapp
+diff --git a/meta/lib/oeqa/sdkext/files/myapp/myapp.c b/meta/lib/oeqa/sdkext/files/myapp/myapp.c
+new file mode 100644
+index 0000000..f0b63f0
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/files/myapp/myapp.c
+@@ -0,0 +1,9 @@
++#include <stdio.h>
++
++int
++main(int argc, char *argv[])
++{
++	printf("Hello world\n");
++
++	return 0;
++}
 -- 
 2.1.4
 
