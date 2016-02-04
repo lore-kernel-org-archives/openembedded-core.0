@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4999B607A5
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C6B916FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 23:04:33 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id 65so57493774pfd.2
+	Thu,  4 Feb 2016 23:04:34 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id w123so57669707pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Feb 2016 15:04:34 -0800 (PST)
+	Thu, 04 Feb 2016 15:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ix4pnBW8RvP8PZvmQXuiF9BZDG55H/ZR+LpX17swM2w=;
-	b=SKA5U/JSEQSn0/b3uo/c/kiNws6yuj/UbGAKcEV5S64NToZ16EQcHDErKJnEQuqstB
-	e04RWInVQJeBzO6MHLxkfp/VhVx3lBP7Iz9c1qCF89Uk7CI5D9Pvh+bB8L5JHr7iMCS6
-	RNVI6PHzu3cOkyVzc969ensCyOIYNRLmt4SRLk9yKPDqtKCwarFljIGH0P5NlS/OafWk
-	o8zXLZrKoEI3rsVw1gxIo7yfwQUZva9PVI5QUZ/1Kw6RVgSvkjTHCxch3yNAgjTX8L/w
-	dvWHi9gjyj8moVUWRlqBVpxw0/AIqEDewL1ucdHRupZlSZMXzh/WAfLxPShu28Shlvgx
-	NKOg==
+	bh=522elBcJ/Zj2bFM51H/02AnrOhinQmNETz43yXqFTX0=;
+	b=vdlyMN3hZqxZgGH5P05mFEmV3Im1qUft6Slq0B5MMdwzgo6AdP6JmNneJa0Uyq1B2N
+	BVISDVyypM53uAthSh7RPH1B/j0bd+GxiA/S8UnkfRXuxv/xN9iqe98BNP8k6Q+Juur1
+	H4fC4HjD1+RfeXATv+fOC0d9IoRuO4+mdZcitFx+V3Xz2qmHADApX/ipmnPZeYgp4nT4
+	v1g9l0Q+JlLmZ43TVWuY26P1sLgRUqTE1rC2Y9PlXIw7Y0IdFXxjwAGGwMBRed5LGDDx
+	aEf1rpPPl8gzFmcswUjHwg09SdRfg6eKHgL/uGLwqUiX/006tJwAz8WFIKg6Ie9Xd59F
+	kvrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ix4pnBW8RvP8PZvmQXuiF9BZDG55H/ZR+LpX17swM2w=;
-	b=V/R+5Sek+k5O3Rbgq7RiuQXiSZSNrf58kuGBA4xu9wfqbiw2+Zhbt8SCfWUGUjnL9K
-	NA9kD7cCJxE6VvP8O8bLRS2wDPWfogJZosLUhWjfs9AFksyl2hQKKiwsRGX/XSBRCCWf
-	Nsfay5kDNtVLxRGzPCJDdPuuOqkGrNSG/c+pn89fBjhqSA9sx2hqk/gk0HyLVc07xjl9
-	HRiC4lYKwmci4jdd2k1n1PIDw+Jjz6vwiRRymJviCgzbuSQdriByCi+vb1bM9CzDZE/a
-	XshoRLswD0GRa4ZOwB99sXstz0PF8IleeLIvFnYfeN+47VxmyTvoIQ33WpwKcjy+ZMTQ
-	AGbQ==
-X-Gm-Message-State: AG10YOSORrgjh9Qt8ZkrAu4h09yYWjyUAHM2uAtzSF0luP/ykA4SbKJ5XXftWJhulUa1WQ==
-X-Received: by 10.98.14.68 with SMTP id w65mr15260513pfi.146.1454627073986;
-	Thu, 04 Feb 2016 15:04:33 -0800 (PST)
+	bh=522elBcJ/Zj2bFM51H/02AnrOhinQmNETz43yXqFTX0=;
+	b=kBJuTwr6XVHAHutVkboiXQ2Oxl3CuLXJ4ejjssg8pp1AJF6CfSjTRq3IpKgMuYJN5A
+	oMNigFknaOVYGP14ERKNNVgWgYD87/AEhRnYNsjd68derHkoAeaULV29tcDmkfutMu3/
+	YtVjkQe2Lr22yfAG6yL6jyvs/BsXECtTlYtS3LqxYYPcdmOiLS7ufafObNFTwwXRUwYw
+	g9uWMLRx5XK41GKqN6nfWicaJxNHdu/sn6roC6COtrNniIyW4Ham+yHgNVo1/xYPBroH
+	ViON68Eig1sXwKUp87mbSDSvdZtA0VnCEFQxgFvOT+Iq5Ziuy7pZw8LPQZ6RjYw+kNzl
+	aZig==
+X-Gm-Message-State: AG10YOQDAd3IY746/jhhLHWQ8tKK0kaVksQDpMiW4unkv+q8WppRqZ/GDGK0nGoU7BKwHQ==
+X-Received: by 10.98.71.15 with SMTP id u15mr15166234pfa.161.1454627075878;
+	Thu, 04 Feb 2016 15:04:35 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	76sm19535589pft.44.2016.02.04.15.04.32
+	76sm19535589pft.44.2016.02.04.15.04.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 04 Feb 2016 15:04:33 -0800 (PST)
+	Thu, 04 Feb 2016 15:04:35 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 15:04:17 -0800
-Message-Id: <1454627058-26663-5-git-send-email-armccurdy@gmail.com>
+Date: Thu,  4 Feb 2016 15:04:18 -0800
+Message-Id: <1454627058-26663-6-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1454627058-26663-1-git-send-email-armccurdy@gmail.com>
 References: <1454627058-26663-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/5] gstreamer1.0-plugins-base_git: update to git master 1.7.1-79-g6414289
+Subject: [PATCH 5/5] gstreamer1.0-plugins-base_git: drop obsolete dependency on freetype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 23:04:33 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 23:04:34 -0000
 
-Includes an important fix for:
+The dependency on freetype was dropped shortly after the 1.7.1 release
 
-  https://bugzilla.gnome.org/show_bug.cgi?id=760938
-
-The fix is not a simple backport to 1.7.1, so just update to latest
-version from the current git master branch.
+  http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=183610c035dd6955c9b3540b940aec50474af031
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
-index 8ac3a7b..956b24a 100644
+index 956b24a..06afb04 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
-@@ -14,12 +14,16 @@ SRC_URI = " \
- 
- PV = "1.7.1+git${SRCPV}"
- 
--SRCREV_base = "5f98203bd753c32666c8fa7a2fde6d186c2a4247"
-+SRCREV_base = "641428966e09d16b0a46540040f2faf3791eb7c9"
- SRCREV_common = "86e46630ed8af8d94796859db550a9c3d89c9f65"
- SRCREV_FORMAT = "base"
+@@ -20,6 +20,11 @@ SRCREV_FORMAT = "base"
  
  S = "${WORKDIR}/git"
  
++# The dependency on freetype was dropped shortly after the 1.7.1 release
++# http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=183610c035dd6955c9b3540b940aec50474af031
++DEPENDS_remove = "freetype"
++EXTRA_OECONF_remove = "--disable-freetypetest"
++
  do_configure_prepend() {
-+
-+	# Temp solution for git snapshot: relax version checks so we can build against GStreamer 1.7.1
-+	sed 's/^GST_REQ=1\.7\.1\.1/GST_REQ=1.7.1/' -i ${S}/configure.ac
-+
- 	${S}/autogen.sh --noconfigure
- }
+ 
+ 	# Temp solution for git snapshot: relax version checks so we can build against GStreamer 1.7.1
 -- 
 1.9.1
 
