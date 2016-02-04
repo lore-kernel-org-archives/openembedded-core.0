@@ -1,24 +1,24 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D5C6772D1
+	by mail.openembedded.org (Postfix) with ESMTP id 79FC4772D8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Feb 2016 20:31:58 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga104.fm.intel.com with ESMTP; 04 Feb 2016 12:31:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="740710358"
+X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="740710359"
 Received: from bitbang.jf.intel.com ([10.7.199.151])
 	by orsmga003.jf.intel.com with ESMTP; 04 Feb 2016 12:31:58 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 12:31:44 -0800
-Message-Id: <485165c87d3db038510d0b2888704320c4a8cdf5.1454614198.git.randy.e.witt@linux.intel.com>
+Date: Thu,  4 Feb 2016 12:31:45 -0800
+Message-Id: <fcef7183f0ac9ab38715bb0c0a80109696d79b2d.1454614198.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1454614198.git.randy.e.witt@linux.intel.com>
 References: <cover.1454614198.git.randy.e.witt@linux.intel.com>
 In-Reply-To: <cover.1454614198.git.randy.e.witt@linux.intel.com>
 References: <cover.1454614198.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 4/5] populate_sdk_ext: Add support for a "minimal" type
+Subject: [PATCH 5/5] populate_sdk_ext: Make populate_sdk_ext depend on sdk_extra_conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +33,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Feb 2016 20:31:58 -0000
 
-If the user sets the SDK_EXT_TYPE variable to "minimal" then the sdk won't
-contain any sstate. The sstate can come from an sstate mirror and be
-installed on demand as usual.
+If a user changes sdk_extra_conf, it should cause populate_sdk_ext to
+run.
 
 Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index ba30023..caf8b6e 100644
+index caf8b6e..704c003 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -18,6 +18,9 @@ SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
- SDK_EXT = ""
- SDK_EXT_task-populate-sdk-ext = "-ext"
+@@ -361,8 +361,9 @@ do_populate_sdk_ext[depends] = "${@d.getVarFlag('do_populate_sdk', 'depends', Fa
  
-+# Options are full or minimal
-+SDK_EXT_TYPE ?= "full"
-+
- SDK_LOCAL_CONF_WHITELIST ?= ""
- SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-                              BB_NUMBER_THREADS \
-@@ -29,7 +32,7 @@ SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
- SDK_UPDATE_URL ?= ""
+ do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in d.getVar('SDK_TARGETS', True).split()])}"
  
- SDK_TARGETS ?= "${PN}"
--SDK_INSTALL_TARGETS = "${SDK_TARGETS} ${@'meta-world-pkgdata:do_allpackagedata' if d.getVar('SDK_INCLUDE_PKGDATA', True) == '1' else ''}"
-+SDK_INSTALL_TARGETS = "${@SDK_TARGETS if d.getVar('SDK_EXT_TYPE', True) != 'minimal' else ''} ${@'meta-world-pkgdata:do_allpackagedata' if d.getVar('SDK_INCLUDE_PKGDATA', True) == '1' else ''}"
- OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
+-# Make sure codes change in copy_buildsystem can result in rebuilt
+-do_populate_sdk_ext[vardeps] += "copy_buildsystem"
++# Make sure code changes can result in rebuild
++do_populate_sdk_ext[vardeps] += "copy_buildsystem \
++                                 sdk_ext_postinst"
  
- # The files from COREBASE that you want preserved in the COREBASE copied
-@@ -203,10 +206,6 @@ python copy_buildsystem () {
-     bb.utils.remove(sstate_out, True)
-     # uninative.bbclass sets NATIVELSBSTRING to 'universal'
-     fixedlsbstring = 'universal'
--    oe.copy_buildsystem.create_locked_sstate_cache(lockedsigs_pruned,
--                                                   d.getVar('SSTATE_DIR', True),
--                                                   sstate_out, d,
--                                                   fixedlsbstring)
- 
-     # Add packagedata if enabled
-     if d.getVar('SDK_INCLUDE_PKGDATA', True) == '1':
-@@ -218,7 +217,9 @@ python copy_buildsystem () {
-                                              d.getVar('STAGING_DIR_HOST', True) + '/world-pkgdata/locked-sigs-pkgdata.inc',
-                                              lockedsigs_pruned,
-                                              lockedsigs_copy)
--        oe.copy_buildsystem.create_locked_sstate_cache(lockedsigs_copy,
-+
-+    if d.getVar('SDK_EXT_TYPE', True) != 'minimal':
-+        oe.copy_buildsystem.create_locked_sstate_cache(lockedsigs_pruned,
-                                                        d.getVar('SSTATE_DIR', True),
-                                                        sstate_out, d,
-                                                        fixedlsbstring)
-@@ -302,7 +303,7 @@ sdk_ext_postinst() {
- 	# For now this is where uninative.bbclass expects the tarball
- 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
- 
--	if [ "$prepare_buildsystem" != "no" ]; then
-+	if [ "$prepare_buildsystem" != "no" -a -n "${@SDK_INSTALL_TARGETS.strip()}" ]; then
- 		printf "Preparing build system...\n"
- 		# dash which is /bin/sh on Ubuntu will not preserve the
- 		# current working directory when first ran, nor will it set $1 when
+ do_populate_sdk_ext[file-checksums] += "${COREBASE}/meta/files/toolchain-shar-relocate.sh:True \
+                                         ${COREBASE}/meta/files/toolchain-shar-extract.sh:True \
 -- 
 2.5.0
 
