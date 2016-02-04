@@ -1,28 +1,45 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B181A770C5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id BDBD377194
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 22:49:44 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 04 Feb 2016 14:49:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="647391873"
-Received: from rravin1x-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.176.111])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 14:49:40 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 05 Feb 2016 11:49:38 +1300
-Message-ID: <1602570.ZxlQ9Ts2Am@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.3.4-300.fc23.x86_64; KDE/4.14.16; x86_64; ;
-	)
-In-Reply-To: <cover.1454624835.git.anibal.limon@linux.intel.com>
-References: <cover.1454624835.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Cc: benjamin.esquivel@intel.com
-Subject: Re: [PATCH v3 00/22] Add Extensible SDK test suite
+	Thu,  4 Feb 2016 22:54:44 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id b35so54666763qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Feb 2016 14:54:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=MEauISmg37Mh09Xcz1FLVb6UdQaMVrFeSV+SUQsOdaY=;
+	b=1F4p6p1113c7sXIL9zqFzqNkiypN24Ue2Fb+hYpC1U/vvJUa0SzzejquX9IZ3hV+yz
+	hOyBhzliefTwj5P6QhZH9gRUxE+98fbhAaCgZ68x9lFAoFPtizCfwHRKIoxqsyQK1BXy
+	pvs4q80St1tfXufqe0QcI8GnPf62dNAgECCAsLRRwUBN9o6aiAWGxcv4/XIE/YQxyJoX
+	IEAbMCdpHx8yfOSle903JFr8hjjZ8u0Hix87fjwj+aQgOWw3SB/6HydIszeUxR5AI9y5
+	mvWc3ktCgEQYOK2gYitnvoan/UOKga/3moqAveff0oMdDwAyxKudpA4tqz0H704T5RZ/
+	i6Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MEauISmg37Mh09Xcz1FLVb6UdQaMVrFeSV+SUQsOdaY=;
+	b=J3xmDZh/T9bhH7Jb48o6u31arfUAybjNrsy4ADr+qjalttWMIyfKxkKjiPzMjtYveb
+	4zSXOggtBmCubyMO73BoGMQqybUqgSNO/77NUAr5K+FZvy6bO8Q+ZfdIesd3xneU6/3p
+	epJNw3aMTaFrYrgpaVgjfAeVG3YUatPx6f/+q7LCv9akH83d3SpuOVcXXmidjpBUXpzC
+	iJ4+hQog+fbmbrSeeRwh1Lm7OGbeE2NbuhN07XvKqKpnliJBLBmwGdoFcDXoiEZ7Afz0
+	u/JCicL2Cq1u0zZlHgCHen/cRsT8bC1nCnOvAt6j5C/cgNWHco7FJKLYH37KMT9Iew3p
+	yN/g==
+X-Gm-Message-State: AG10YOTnzojhyfqHrwrkfNiROIqnY61iF64pM24EaM2rGQnGyUufEY79Gqb2R9uvk8GzIw==
+X-Received: by 10.140.96.245 with SMTP id k108mr12907282qge.31.1454626485052; 
+	Thu, 04 Feb 2016 14:54:45 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	c107sm4813237qge.45.2016.02.04.14.54.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 04 Feb 2016 14:54:44 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Feb 2016 22:54:37 +0000
+Message-Id: <cover.1454626259.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH V2 0/6] Fix issues when using security_flags on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,94 +52,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 22:49:45 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 04 Feb 2016 22:54:45 -0000
 
-On Thu, 04 Feb 2016 16:29:17 An=EDbal Lim=F3n wrote:
-> Summary of changes,
->=20
-> =09- Add new class called testsdk that now have the tests for SDK and=
- eSDK.
-> =09- TestContext -> {Image, SDK, SDKExt}: Remove all duplicate code i=
-nside
-> =09  testimage and testsdk class move into oeqa/oetest and create cla=
-ss per
-> =09  type of Test.
-> =09- Extensible SDK fixes usage with proxies, when eSDK is configurin=
-g it
-> =09  executes setscene tasks that needs network acces if was build wi=
-th=20
-sstate
-> mirrors.
->=20
-> Testing was made building/running SDK and eSDK for core-image-minimal=
- and
-> core-image-sato, also testimage was run in core-image-minimal and
-> core-image-sato with QemuRemote and SimpleRemote to ensure that nothi=
-ng was
-> break.
->=20
-> This patchset DEPENDS on bitbake change to export proxies and NEEDS t=
-o be
-> MERGED before, see: bb/fetch2: Move export_proxies function from wget=
- to
-> utils.
->=20
-> These v3 is the same of v2 on code only fixes issues of squashing and=
- one
-> for don't make reverts in the patch series.
->=20
-> The following changes since commit b33e440cc6fbd703e8045d94b806790343=
-e72eb6:
->=20
->   libical: Work around hardcoded paths in pkgconfig file (2016-02-04
-> 13:09:56 +0000)
->=20
-> are available in the git repository at:
->=20
->   git://git.yoctoproject.org/poky-contrib alimon/esdk_testsuite_v3
-> =20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dalimon/esd=
-k_testsu
-> ite_v3
->=20
-> An=EDbal Lim=F3n (22):
->   testimage: Modularize helper functions for get test lists.
->   classes/testsdk: Add new class testsdk.
->   classes/testimage: Add defeault inherit for testsdk.
->   populate_sdk_ext: Set TOOLCHAINEXT_OUTPUTNAME.
->   get_test_suites: Add sdkext type for load test suites.
->   classes/testsdk: Add testsdkext task only install.
->   bb/fetch2: Move export_proxies function from wget to utils.
->   classes/testsdk: Add call to export_proxies on testsdkext.
->   toolchain-shar-extract.sh: Add proxy variable to new env.
->   testimage/testsdk: Modularize TestContext.
->   testimage/testsdk: Move get test suites routine inside TestContext.=
+security_flags enabled builds revealed several issues when building on musl
+especially compiling gcc runtime libs we should not use fstack-protector
+another change is to replace with -fstack-protector-all with -fstack-protector-strong
+which is available since 4.9 and has best of both worlds (stack size usage and security)
+gcc on musl/ppc was missing patches as a result images werent booting on qemuppc
+that is fixed too. It also revealed some more issues in compiling gcc for musl systems
+was not getting all configs right.
+Addressed the review comments on nss-myhostname
 
->   oetest.py/TestContext: Move loadTests and runTests inside it.
->   classes/testsdk: Add function run_test_context
->   oeqa/oetest: oeSDKTest when run a command redirect env output to nu=
-ll
->   classes/testsdk: Add compatibility SDK testsuite to eSDK
->   testsdkext: Add skeleton for support Extensible SDK tests.
->   classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and
->     SDK_EXT_HOST_MANIFEST
->   oeqa/oetest: Fix compatibility SDK tests using eSDK.
->   oeqa/sdkext: Add devtool basic tests for eSDK.
->   oeqa/sdkext/devtool.py: Add location test to ensure that devtool is=
+Changes since v1:
+Ignore security flags for non target packages
 
->     the eSDK one.
->   classes/testsdk: Add help information on how to run tests.
->   classes/testimage: Fix exportTests function.
+The following changes since commit 1b2e1eb6f08b6f95cf555d7f6bc6e4de2113aaed:
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+  libical: Work around hardcoded paths in pkgconfig file (2016-02-04 13:09:51 +0000)
 
-Cheers,
-Paul
+are available in the git repository at:
 
---=20
+  git://git.openembedded.org/openembedded-core-contrib kraj/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/pu
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Khem Raj (6):
+  nss-myhostname: Fix build on musl
+  gcc: Fix build on musl with -fstack-protector
+  security_flags: Disable fstack-protector for gcc runtime libs
+  security_flags: Replace -fstack-protector-all with
+    -fstack-protector-strong
+  gcc: Assume libssp and dl_iterate_phdr on musl
+  gcc: musl related fixes for unwinding,ppc/secure-plt and gthr
+
+ meta/conf/distro/include/security_flags.inc        | 23 ++++---
+ meta/recipes-devtools/gcc/gcc-5.3.inc              |  7 +-
+ .../gcc/gcc-5.3/0047-Fix-nios2-musl-build.patch    | 11 ---
+ .../0047-nios2-Define-MUSL_DYNAMIC_LINKER.patch    | 28 ++++++++
+ .../gcc/gcc-5.3/0048-ssp_nonshared.patch           | 29 ++++++++
+ ...-weak-reference-logic-in-gthr.h-for-os-ge.patch | 78 ++++++++++++++++++++++
+ ...050-powerpc-pass-secure-plt-to-the-linker.patch | 66 ++++++++++++++++++
+ .../gcc-5.3/0051-support-unwinding-on-musl.patch   | 34 ++++++++++
+ ...tname-Check-for-nss.h-presense-before-use.patch | 53 +++++++++++++++
+ .../nss-myhostname/nss-myhostname_0.3.bb           |  4 +-
+ 10 files changed, 311 insertions(+), 22 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0047-Fix-nios2-musl-build.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0047-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0048-ssp_nonshared.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0049-Disable-the-weak-reference-logic-in-gthr.h-for-os-ge.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0050-powerpc-pass-secure-plt-to-the-linker.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0051-support-unwinding-on-musl.patch
+ create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+
+-- 
+2.7.0
+
 
