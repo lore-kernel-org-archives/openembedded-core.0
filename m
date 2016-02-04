@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CFA677309
+	by mail.openembedded.org (Postfix) with ESMTP id 5F9FD77331
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 13:07:55 +0000 (UTC)
+	Thu,  4 Feb 2016 13:08:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u14D7ts7021268 for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Feb 2016 13:07:55 GMT
+	u14D8S5i021359 for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Feb 2016 13:08:28 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3CpHwCsRwKdo
+	with LMTP id ob5ClLQa6ntT
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 13:07:55 +0000 (GMT)
+	Thu,  4 Feb 2016 13:08:28 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u14D7rK8021261
+	u14D8Qqh021353
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Feb 2016 13:07:54 GMT
-Message-ID: <1454591273.27087.238.camel@linuxfoundation.org>
+	Thu, 4 Feb 2016 13:08:27 GMT
+Message-ID: <1454591306.27087.239.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 04 Feb 2016 13:07:53 +0000
+Date: Thu, 04 Feb 2016 13:08:26 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] libical: Work around hardcoded paths in pkgconfig file
+Subject: [PATCH] insane: Fix populate_sysroot sanity test path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 13:07:56 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 13:08:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-For now, work around the hardcoded path in the pkgconfig file.
-Issue filed upstream as:
-
-https://github.com/libical/libical/issues/227
-
-This raises questions about whether some sanity tests are running.
-Those issues will be addressed in a separate patch.
+This was correct for native/cross paths but not for target ones which
+meant the tests weren't running in some cases. Fix the path to be
+correct in both cases.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_2.0.0.bb
-index fdbe026..0e5ada9 100644
---- a/meta/recipes-support/libical/libical_2.0.0.bb
-+++ b/meta/recipes-support/libical/libical_2.0.0.bb
-@@ -18,3 +18,10 @@ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
- inherit cmake
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index c70e887..47b441a 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1130,7 +1130,7 @@ addtask do_package_qa_setscene
+ python do_qa_staging() {
+     bb.note("QA checking staging")
  
- FILES_${PN}-dev += "${libdir}/cmake/*"
-+
-+#
-+# Turn specific library paths in the pkgconfig file into standard library entries
-+#
-+do_install_append () {
-+	sed -i -e "s#${STAGING_LIBDIR}/lib\([a-z0-9]*\)\.so#-l\1#g" ${D}${libdir}/pkgconfig/libical.pc
-+}
+-    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}${STAGING_LIBDIR}'), d):
++    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}${libdir}'), d):
+         bb.fatal("QA staging was broken by the package built above")
+ }
+ 
 
 
 
