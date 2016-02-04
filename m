@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F9FD77331
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 37CD97734D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 13:08:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u14D8S5i021359 for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Feb 2016 13:08:28 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ob5ClLQa6ntT
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 13:08:28 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u14D8Qqh021353
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Feb 2016 13:08:27 GMT
-Message-ID: <1454591306.27087.239.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 04 Feb 2016 13:08:26 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] insane: Fix populate_sysroot sanity test path
+	Thu,  4 Feb 2016 14:06:36 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 04 Feb 2016 06:06:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,395,1449561600"; d="scan'208";a="905490096"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga002.jf.intel.com with ESMTP; 04 Feb 2016 06:06:37 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Feb 2016 16:06:34 +0200
+Message-Id: <1454594795-23064-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] ncurses: use closing curly brackets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 13:08:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Feb 2016 14:06:37 -0000
 
-This was correct for native/cross paths but not for target ones which
-meant the tests weren't running in some cases. Fix the path to be
-correct in both cases.
+This patch fixes the usage of curly brackets inside python expression in
+ncurses recipe. This patch should be applied together with
+http://lists.openembedded.org/pipermail/bitbake-devel/2016-February/007007.html
+which changes python expression parsing in bitbake.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+No similar construct was found in any other recipe in git.openembedded.org
+repositories or the layer repositories in git.yoctoproject.org (master
+branches).
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index c70e887..47b441a 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1130,7 +1130,7 @@ addtask do_package_qa_setscene
- python do_qa_staging() {
-     bb.note("QA checking staging")
- 
--    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}${STAGING_LIBDIR}'), d):
-+    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}${libdir}'), d):
-         bb.fatal("QA staging was broken by the package built above")
- }
- 
 
+Markus Lehtonen (1):
+  ncurses: use closing curly brackets in FILES_${PN}-tools variable
+
+ meta/recipes-core/ncurses/ncurses.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.6.2
 
 
