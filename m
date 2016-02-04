@@ -1,22 +1,30 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 951297734D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B2BF60588
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 14:06:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 04 Feb 2016 06:06:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,395,1449561600"; d="scan'208";a="905490111"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 04 Feb 2016 06:06:38 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 16:06:35 +0200
-Message-Id: <1454594795-23064-2-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <1454594795-23064-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1454594795-23064-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH] ncurses: use closing curly brackets in FILES_${PN}-tools variable
+	Thu,  4 Feb 2016 14:49:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u14EntnI028698 for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Feb 2016 14:49:55 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id D4YK_Qnf0fiO
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Feb 2016 14:49:55 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u14EnobU028692
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Feb 2016 14:49:51 GMT
+Message-ID: <1454597390.27087.240.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 04 Feb 2016 14:49:50 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] lttng-tools: Fix ptest installed la files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,36 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 14:06:37 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 14:49:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This patch removes a workaround (needed for bitbake python parser) where
-closing curly brackets were replaced by ascii code '\x7d'.
+The ptest .la files are just getting copied into new directories, we need
+to relocate them and update the paths within.
 
-This commit requires a bitbake version with the
-"data_smart: simple bracket matching inside python expressions" patch
-applied.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/recipes-core/ncurses/ncurses.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+index e68e7f3..2631203 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+@@ -69,6 +69,11 @@ do_install_ptest () {
+ 		  -i $i
+ 	done
+ 
++	# Update libdir references in copied .la files
++	for i in `find ${D}${PTEST_PATH} -type f -name *.la`; do
++		sed -i -e 's#${S}/tests/#${STAGING_DIR}${PTEST_PATH}#g' $i
++	done
++
+ 	sed -e "s:src/bin:bin:g" -e "s:lt-::g" \
+ 	-i ${D}${PTEST_PATH}/tests/utils/utils.sh
+ 	sed -e "s:ini_config:\.libs\/ini_config:" \
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index fbe74d5..35b8b94 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -284,8 +284,8 @@ FILES_${PN}-tools = "\
-   ${bindir}/infotocap \
-   ${bindir}/captoinfo \
-   ${bindir}/infocmp \
--  ${bindir}/clear${@['', '.${BPN\x7d']['${CLASSOVERRIDE}' == 'class-target']} \
--  ${bindir}/reset${@['', '.${BPN\x7d']['${CLASSOVERRIDE}' == 'class-target']} \
-+  ${bindir}/clear${@['', '.${BPN}']['${CLASSOVERRIDE}' == 'class-target']} \
-+  ${bindir}/reset${@['', '.${BPN}']['${CLASSOVERRIDE}' == 'class-target']} \
-   ${bindir}/tack \
-   ${bindir}/tabs \
- "
--- 
-2.6.2
 
 
