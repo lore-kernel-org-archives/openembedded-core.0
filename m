@@ -1,22 +1,29 @@
-Return-Path: <ricardo.neri-calderon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EE2E77298
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A8A0D772AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 20:13:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Feb 2016 12:13:40 -0800
+	Thu,  4 Feb 2016 20:19:21 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 04 Feb 2016 12:19:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="908718120"
-Received: from ranerica-desk01.sc.intel.com ([10.3.52.148])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Feb 2016 12:13:40 -0800
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Saul Wold <sgw@linux.intel.com>
-Date: Thu,  4 Feb 2016 12:12:39 -0800
-Message-Id: <1454616759-20614-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] udev: add runtime dependencies for udev-cache
+X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="896568504"
+Received: from rravin1x-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.176.111])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2016 12:19:19 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Fri, 05 Feb 2016 09:19:16 +1300
+Message-ID: <4933227.rYH5s4XHH6@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.4-300.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <56B3B0B8.3010600@linux.intel.com>
+References: <cover.1454459362.git.anibal.limon@linux.intel.com>
+	<2011452.Q9kTNeH3mx@peggleto-mobl.ger.corp.intel.com>
+	<56B3B0B8.3010600@linux.intel.com>
+MIME-Version: 1.0
+Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 23/28] Revert "classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 20:13:46 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 20:19:21 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-udev-cache uses find and xargs, which are provided by findutils. It also
-uses gzip, which is provided by gzip. These utilities need to be present
-when udev-cache runs. Thus, add them as RDEPENDSs.
+On Thu, 04 Feb 2016 14:12:40 An=EDbal Lim=F3n wrote:
+> On 02/04/2016 12:34 PM, Paul Eggleton wrote:
+> > On Tue, 02 Feb 2016 18:30:35 An=EDbal Lim=F3n wrote:
+> >> This reverts commit 303985d3f402013c7c4a3355f19d48b1cef1c12f.
+> >>=20
+> >> As discussion with Paul Eggleton, he don't want to have env variab=
+les
+> >> to change the behaviour of what the env script needs to print,
+> >> i'll redirect the output in oeSDK.run() method.
+> >>=20
+> >> I didn't agree because it can hides another messages like error on=
+es
+> >> and with the variable you can control what prints or not.
+> >>=20
+> >> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
+> >=20
+> > We don't want to add this and revert it in the same series.
+>=20
+> Ok, then i'll send another series without this commit and this revert=
+ in
+> another commit.
 
-Otherwise, if busybox is not included in the built image, the following
-errors could be observed when booting if such packages are not present:
+If you mean without both the commit and the revert, then yes.
 
-    /etc/rcS.d/S36udev-cache: line 66: xargs: command not found
-    /etc/rcS.d/S36udev-cache: line 65: find: command not found
-    /etc/rcS.d/S36udev-cache: line 67: gzip: command not found
+Cheers,
+Paul
 
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
-Changes since v1:
- * Narrow the dependency only to udev-cache
- * Reword the commit message to mention that the issue is only
-   reproducible if busybox is not included in the image.
----
- meta/recipes-core/udev/udev.inc | 1 +
- 1 file changed, 1 insertion(+)
+--=20
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 93d7369..4e8e758 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -38,6 +38,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
- 
- inherit autotools pkgconfig update-rc.d ptest
- RDEPENDS_${PN}-ptest += "make perl python"
-+RDEPENDS_${PN}-cache += "gzip findutils"
- 
- libexecdir = "${base_libdir}"
- EXTRA_OECONF = "--disable-introspection \
--- 
-1.9.1
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
