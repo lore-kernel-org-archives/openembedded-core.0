@@ -1,55 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A6CC67712D
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DEFF8772C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 21:59:43 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id cy9so22236141pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Feb 2016 13:59:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=37glYSoDQuWuenn8HIWeTj9cyvMyx7s4FQCerdjvgHU=;
-	b=CdgISCC5p1knjBnbyVpC/ecG8jTHWIpFxg2kdYoPpmrl72ZCR+CPWvH+1nPqjxEFKI
-	Eu1+az+4jJ+zAWdOnlG2jcNc8LgxLiWLY423o2YDgt9wn+CWQfqkv7Hb9Yr5LXZ+7Du3
-	ocKk3UWNW/+bkrNDgtxZRNxuIvW2aXUGvV81fRMTP8wmoAMPm7nD/KaYQJYw5AvMtTVd
-	NljOuGB6iXpR+ekBQFUb8aQUCCeyB2Z+qnauTmUdrHPH3fOLyL79B+5MEv8o++gG2NdC
-	F0g0F/eta7XNNR0CpiadQXVBrUZ0EFE4nWRvh81EckJu6s25SpKqcjStaRMYCSyYPDiQ
-	Jk0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=37glYSoDQuWuenn8HIWeTj9cyvMyx7s4FQCerdjvgHU=;
-	b=U5Bthco6h8Z9gSw0l5tsBn26xxewQeP3D3NO8IVT8wzzVUmgy/VkxPydQcW39F6Vtq
-	5O6B8gOYfX5Z0/8DnQH18BoZHV6ozNslfzE6d3NRqcFrRAcpByNTHpEguNCQzP6n9Xsj
-	mK2Hk+FMFNAwhkZA99SHTS3gSAkYjHdGbeUSI5PH5z6X1jxmfUWeugnmQp64TopVYIDa
-	cc9ZWBvINIzbb6jHDAIApQjZ2qw3BEHhb2v6nNOXlhOQbnWSqLhgSwlXWLVEJEDn2pUx
-	SscSvNZ7DKwTQl77unW6AiAYsnLP63nZFc/t8ELzAMrrk+sTtTU2ikkLgvicc5hLLlZb
-	fDDg==
-X-Gm-Message-State: AG10YOTjytMfT3bwssnXzkDaj3n2oW0RU+G3Z1aTLobX0j9EC0DSvSNkdD0llLud6h1viw==
-X-Received: by 10.66.102.97 with SMTP id fn1mr14673676pab.131.1454623183685;
-	Thu, 04 Feb 2016 13:59:43 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:b0b8:de8d:914b:cba1?
-	([2601:646:8802:5d5c:b0b8:de8d:914b:cba1])
-	by smtp.gmail.com with ESMTPSA id
-	xz6sm19284832pab.42.2016.02.04.13.59.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 04 Feb 2016 13:59:42 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1454620237.7421.73.camel@pbcl.net>
-Date: Thu, 4 Feb 2016 13:59:31 -0800
-Message-Id: <27743B88-5BFB-4C95-925B-8CCF91909EEF@gmail.com>
-References: <1454616759-20614-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-	<792F6F91-ECBE-46AD-BC72-ED6A199B696E@gmail.com>
-	<1454620237.7421.73.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] udev: add runtime dependencies for udev-cache
+	Thu,  4 Feb 2016 22:27:44 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2016 14:27:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="647384094"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 14:27:44 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Feb 2016 16:29:17 -0600
+Message-Id: <cover.1454624835.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com
+Subject: [PATCH v3 00/22] Add Extensible SDK test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,57 +29,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 21:59:44 -0000
-X-Groupsio-MsgNum: 77555
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F9364B13-C245-4D1B-91D1-D8791D5C3213";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 04 Feb 2016 22:27:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---Apple-Mail=_F9364B13-C245-4D1B-91D1-D8791D5C3213
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Summary of changes,
+
+	- Add new class called testsdk that now have the tests for SDK and eSDK.
+	- TestContext -> {Image, SDK, SDKExt}: Remove all duplicate code inside
+	  testimage and testsdk class move into oeqa/oetest and create class per
+	  type of Test.
+	- Extensible SDK fixes usage with proxies, when eSDK is configuring it
+	  executes setscene tasks that needs network acces if was build with sstate
+	  mirrors.
+
+Testing was made building/running SDK and eSDK for core-image-minimal and core-image-sato,
+also testimage was run in core-image-minimal and core-image-sato with QemuRemote and SimpleRemote
+ to ensure that nothing was break.
+
+This patchset DEPENDS on bitbake change to export proxies and NEEDS to be MERGED before, see:
+bb/fetch2: Move export_proxies function from wget to utils.
+
+These v3 is the same of v2 on code only fixes issues of squashing and one for don't make reverts
+in the patch series.
+
+The following changes since commit b33e440cc6fbd703e8045d94b806790343e72eb6:
+
+  libical: Work around hardcoded paths in pkgconfig file (2016-02-04 13:09:56 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/esdk_testsuite_v3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/esdk_testsuite_v3
+
+Aníbal Limón (22):
+  testimage: Modularize helper functions for get test lists.
+  classes/testsdk: Add new class testsdk.
+  classes/testimage: Add defeault inherit for testsdk.
+  populate_sdk_ext: Set TOOLCHAINEXT_OUTPUTNAME.
+  get_test_suites: Add sdkext type for load test suites.
+  classes/testsdk: Add testsdkext task only install.
+  bb/fetch2: Move export_proxies function from wget to utils.
+  classes/testsdk: Add call to export_proxies on testsdkext.
+  toolchain-shar-extract.sh: Add proxy variable to new env.
+  testimage/testsdk: Modularize TestContext.
+  testimage/testsdk: Move get test suites routine inside TestContext.
+  oetest.py/TestContext: Move loadTests and runTests inside it.
+  classes/testsdk: Add function run_test_context
+  oeqa/oetest: oeSDKTest when run a command redirect env output to null
+  classes/testsdk: Add compatibility SDK testsuite to eSDK
+  testsdkext: Add skeleton for support Extensible SDK tests.
+  classes/populate_sdk_ext: Add SDK_EXT_TARGET_MANIFEST and
+    SDK_EXT_HOST_MANIFEST
+  oeqa/oetest: Fix compatibility SDK tests using eSDK.
+  oeqa/sdkext: Add devtool basic tests for eSDK.
+  oeqa/sdkext/devtool.py: Add location test to ensure that devtool is
+    the eSDK one.
+  classes/testsdk: Add help information on how to run tests.
+  classes/testimage: Fix exportTests function.
+
+ bitbake/lib/bb/fetch2/wget.py             |  17 +-
+ bitbake/lib/bb/utils.py                   |  19 ++
+ meta/classes/populate_sdk_ext.bbclass     |   6 +-
+ meta/classes/testimage.bbclass            | 219 +----------------
+ meta/classes/testsdk.bbclass              | 144 +++++++++++
+ meta/files/toolchain-shar-extract.sh      |   4 +-
+ meta/lib/oeqa/oetest.py                   | 388 ++++++++++++++++++++++--------
+ meta/lib/oeqa/sdkext/__init__.py          |   3 +
+ meta/lib/oeqa/sdkext/devtool.py           |  32 +++
+ meta/lib/oeqa/sdkext/files/myapp/Makefile |  10 +
+ meta/lib/oeqa/sdkext/files/myapp/myapp.c  |   9 +
+ 11 files changed, 518 insertions(+), 333 deletions(-)
+ create mode 100644 meta/classes/testsdk.bbclass
+ create mode 100644 meta/lib/oeqa/sdkext/__init__.py
+ create mode 100644 meta/lib/oeqa/sdkext/devtool.py
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/Makefile
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp/myapp.c
+
+-- 
+2.1.4
 
 
-> On Feb 4, 2016, at 1:10 PM, Phil Blundell <pb@pbcl.net> wrote:
->=20
-> On Thu, 2016-02-04 at 13:01 -0800, Khem Raj wrote:
->>> On Feb 4, 2016, at 12:12 PM, Ricardo Neri =
-<ricardo.neri-calderon@linux.intel.com> wrote:
->>> inherit autotools pkgconfig update-rc.d ptest
->>> RDEPENDS_${PN}-ptest +=3D "make perl python"
->>> +RDEPENDS_${PN}-cache +=3D "gzip findutils=E2=80=9D
->>=20
->> are they individually packaged ipks even with busybox ?
->> if not then this fix is insufficient
->=20
-> They don't have to be individually packaged, it would suffice for
-> busybox to RPROVIDE them.
-
-yes thats what I was expecting to be ensured.
-
->  (But it doesn't, so I think you are correct
-> that the patch as it stands will break builds with busybox.)
-
-I never said it will break for that matter original patch is fine too =
-its just redundantly bringing in packages
-when a system primarily using busybox for core utilities may be able to =
-use busybox for, what I said was that it is insufficient.
-
---Apple-Mail=_F9364B13-C245-4D1B-91D1-D8791D5C3213
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlazyc4ACgkQuwUzVZGdMxQmUQCfWTJ9GCHCIIe+GiclKFoQ0Uur
-BkkAn0uWhFRG28eztPcduO+kraAdlx8j
-=UHwY
------END PGP SIGNATURE-----
-
---Apple-Mail=_F9364B13-C245-4D1B-91D1-D8791D5C3213--
