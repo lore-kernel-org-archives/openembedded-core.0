@@ -1,23 +1,29 @@
-Return-Path: <cristina-danielax.agurida@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E65F77717D
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 41EB3770DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 12:15:05 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Feb 2016 04:12:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,395,1449561600"; d="scan'208";a="42315440"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 04 Feb 2016 04:12:50 -0800
-Received: from localhost.localdomain (unknown [10.237.112.210])
-	by linux.intel.com (Postfix) with ESMTP id 6EE646A4002;
-	Thu,  4 Feb 2016 05:00:43 -0800 (PST)
-From: Cristina Agurida <cristina-danielax.agurida@intel.com>
+	Thu,  4 Feb 2016 12:33:16 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u14CXFKh006033; Thu, 4 Feb 2016 06:33:15 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016020406331592-646230 ;
+	Thu, 4 Feb 2016 06:33:15 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 14:13:46 +0200
-Message-Id: <1454588030-26081-1-git-send-email-cristina-danielax.agurida@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/parselogs: Updated whitelist
+Date: Thu, 4 Feb 2016 14:32:52 +0200
+Message-Id: <a46be4b91332be16e33749bccf73901f400575f0.1454589019.git.adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/04/2016 06:33:16 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/04/2016 06:33:16 AM,
+	Serialize complete at 02/04/2016 06:33:16 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-04_02:, , signatures=0
+Subject: [PATCH v4 1/2] apr-util: fix loadable module packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,77 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 12:15:07 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 12:33:17 -0000
 
-Moved an error to common, and whitelisted the BAR errors
-and ati module. Also the uvesafb related errors will be
-ignored in LSB images which do not have graphic interface.
+A new QA check was introduced by 47d38d4d86ec6a which catches recipes
+which install loadable modules (*.so) inside -dev packages instead of
+symlinks. Install apr-util's modules into ${PN} and also skip the QA
+check [dev-so] because it is the reverse of the check introduced by
+47d38d4d86ec6a (thus if a recipe passes one it fails the other).
 
-Fix for [YOCTO #8387]
-Fix for [YOCTO #8590]
-Fix for [YOCTO #6820]
-Fix for [YOCTO #7897]
-
-Signed-off-by: Lucian Musat <george.l.musat at intel.com>
-Signed-off-by: Cristina Agurida <cristina-danielax.agurida@intel.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/lib/oeqa/runtime/parselogs.py | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ meta/recipes-support/apr/apr-util_1.5.4.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index 5a2d50f..44834ce 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -38,8 +38,17 @@ common_errors = [
-     'Online check failed for',
-     'netlink init failed',
-     'Fast TSC calibration',
-+    "BAR 0-9",
-+    "Failed to load module \"ati\"",
-+    "controller can't do DEVSLP, turning off",
-+    "stmmac_dvr_probe: warning: cannot get CSR clock",
-+    "error: couldn\'t mount because of unsupported optional features",
-     ]
+diff --git a/meta/recipes-support/apr/apr-util_1.5.4.bb b/meta/recipes-support/apr/apr-util_1.5.4.bb
+index 6856db9..381daad 100644
+--- a/meta/recipes-support/apr/apr-util_1.5.4.bb
++++ b/meta/recipes-support/apr/apr-util_1.5.4.bb
+@@ -66,9 +66,12 @@ do_install_append_class-target() {
+ 	       -e 's,APU_BUILD_DIR=.*,APR_BUILD_DIR=,g' ${D}${bindir}/apu-1-config
+ }
  
-+video_related = [
-+    "uvesafb",
-+]
+-FILES_${PN}     += "${libdir}/apr-util-1/apr_dbm_gdbm-1.so"
+-FILES_${PN}-dev += "${libdir}/aprutil.exp ${libdir}/apr-util-1/apr_dbm_gdbm.so* ${libdir}/apr-util-1/apr_dbm_gdbm.la"
+-FILES_${PN}-staticdev += "${libdir}/apr-util-1/apr_dbm_gdbm.a"
++#files ${libdir}/apr-util-1/*.so are not symlinks but loadable modules thus they are packaged in ${PN}
++FILES_${PN}     += "${libdir}/apr-util-1/apr*${SOLIBS} ${libdir}/apr-util-1/apr*${SOLIBSDEV}"
++FILES_${PN}-dev += "${libdir}/aprutil.exp ${libdir}/apr-util-1/*.la"
++FILES_${PN}-staticdev += "${libdir}/apr-util-1/*.a"
 +
- x86_common = [
-     '[drm:psb_do_init] *ERROR* Debug is',
-     'wrong ELF class',
-@@ -99,11 +108,7 @@ ignore_errors = {
-         '(EE) Failed to load module psbdrv',
-         '(EE) open /dev/fb0: No such file or directory',
-         '(EE) AIGLX: reverting to software rendering',
--        "controller can't do DEVSLP, turning off",
-         ] + x86_common,
--    'intel-corei7-64' : [
--        "controller can't do DEVSLP, turning off",
--        ] + common_errors,
-     'crownbay' : x86_common,
-     'genericx86' : x86_common,
-     'genericx86-64' : x86_common,
-@@ -126,6 +131,10 @@ class ParseLogsTest(oeRuntimeTest):
-         self.ignore_errors = ignore_errors
-         self.log_locations = log_locations
-         self.msg = ""
-+        (is_lsb, location) = oeRuntimeTest.tc.target.run("which LSB_Test.sh")
-+        if is_lsb == 0:
-+            for machine in self.ignore_errors:
-+                self.ignore_errors[machine] = self.ignore_errors[machine] + video_related
++INSANE_SKIP_${PN} += "dev-so"
  
-     def getMachine(self):
-         return oeRuntimeTest.tc.d.getVar("MACHINE", True)
-@@ -200,6 +209,7 @@ class ParseLogsTest(oeRuntimeTest):
-             ignore_error = ignore_error.replace("[", "\[")
-             ignore_error = ignore_error.replace("]", "\]")
-             ignore_error = ignore_error.replace("*", "\*")
-+            ignore_error = ignore_error.replace("0-9", "[0-9]")
-             grepcmd += ignore_error+"|"
-         grepcmd = grepcmd[:-1]
-         grepcmd += "\'"
+ inherit ptest
+ 
 -- 
-2.1.4
+2.7.0
 
 
