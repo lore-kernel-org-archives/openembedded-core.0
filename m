@@ -1,46 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 900276FF5B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B21960746
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 16:32:59 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id g62so12654121wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Feb 2016 08:33:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=bDwJeyxpBWkGAWTFKIP0UFxkfZT0bEcMMsTvsbSPSQE=;
-	b=W+fQhaJoyPYG3HUPjaXMwLGQBmEIB5X6ZruC6LSYvJdbvs82Yv9cA8s95cjWqNN6jS
-	4IXEP0eOIPocyk/jvS3/D+u+bksTKO5mg396PP7Sz9nN0yoRXFHom1H1cffhabn/x6z4
-	fjgRGRXtINBSCDUbWtmldtylAvAqo6H/E9gXWXMSqPQgxFg8KYtv+YFbImPG8wHAzdcC
-	u3bwxE3l5MkPtB5+sZ9vaKlEREVB7h4oJEfYv2FzxRYRh+KTpcSZ0P3NxIJSm1psdGRs
-	n6iPpr9JCHjicfg5bF7Aviturc/w2KHXXQrdPCuU0lNDwOHK6B8uH4viCss68uWLIIa/
-	zMVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bDwJeyxpBWkGAWTFKIP0UFxkfZT0bEcMMsTvsbSPSQE=;
-	b=CwlU7rudhxkjiKm/KY+SulgbIW7crKZ4efPMQeFfjGT6s3Swqf67et21sbyrv19vZl
-	qxOheQsTfbKDdOEN2uDk/VV8gtzYbQzYF48doovoU8HgEqbecMbWXYtnarNY2p/uOy3O
-	Vtr43AEmtYBYTBJn6j1QWH0YOpDpZ22OJz8gz1Xwb4HvFrZKHtcC7ic0I+AM7aMUgh6j
-	Q4KnVNUMdeLWdhX/o8551SmICJwd07l4/hQZSc2ntQfOZBd2dY6Tlo5E6tP86SQtD2ul
-	qVlaJWDq//4EXBHhM4QyRB/cv78YNLsc880ecLec6gggSNqn4qK8pomvnHpTZXe7VXJW
-	xCsA==
-X-Gm-Message-State: AG10YOSAilLj1RzfHygcA3YzSnfO3GJr1Po5Ko7cQboGPmkEdgU6X+42xhFrJlHPSD2t3Q8N
-X-Received: by 10.195.12.45 with SMTP id en13mr8566074wjd.99.1454603580301;
-	Thu, 04 Feb 2016 08:33:00 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	e77sm27016787wma.18.2016.02.04.08.32.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 04 Feb 2016 08:32:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 16:32:57 +0000
-Message-Id: <1454603577-27967-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] pango: unset LDFLAGS when building gen_all_unicode
+	Thu,  4 Feb 2016 18:34:05 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 04 Feb 2016 10:34:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,396,1449561600"; d="scan'208";a="42543873"
+Received: from rravin1x-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.176.111])
+	by fmsmga004.fm.intel.com with ESMTP; 04 Feb 2016 10:34:03 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Fri, 05 Feb 2016 07:34:01 +1300
+Message-ID: <2011452.Q9kTNeH3mx@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.4-300.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <4c3c25336a50cffb7579340eaa5d5bed61dc67ff.1454459362.git.anibal.limon@linux.intel.com>
+References: <cover.1454459362.git.anibal.limon@linux.intel.com>
+	<4c3c25336a50cffb7579340eaa5d5bed61dc67ff.1454459362.git.anibal.limon@linux.intel.com>
+MIME-Version: 1.0
+Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 23/28] Revert "classes/populate_sdk_ext: Add OE_SDK_EXT_SILENT env variable"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 16:33:03 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 18:34:06 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-When building the native gen_all_unicode binary we need to also unset LDFLAGS as
-otherwise the *target* LDFLAGS will be used.  At best the options are harmless
-but if there are options that the host compiler doesn't support then the compile
-will fail.  For example, if the host gcc is version 4.8 but LDFLAGS contains
--fstack-protector-strong which in 4.9 onwards.
+On Tue, 02 Feb 2016 18:30:35 An=EDbal Lim=F3n wrote:
+> This reverts commit 303985d3f402013c7c4a3355f19d48b1cef1c12f.
+>=20
+> As discussion with Paul Eggleton, he don't want to have env variables=
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/pango/pango_1.38.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> to change the behaviour of what the env script needs to print,
+> i'll redirect the output in oeSDK.run() method.
+>=20
+> I didn't agree because it can hides another messages like error ones
+> and with the variable you can control what prints or not.
+>=20
+> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
 
-diff --git a/meta/recipes-graphics/pango/pango_1.38.1.bb b/meta/recipes-graphics/pango/pango_1.38.1.bb
-index d408ef0..3e57dc2 100644
---- a/meta/recipes-graphics/pango/pango_1.38.1.bb
-+++ b/meta/recipes-graphics/pango/pango_1.38.1.bb
-@@ -35,7 +35,7 @@ LIBV = "1.8.0"
- # This binary needs to be compiled for the host architecture.  This isn't pretty!
- do_compile_prepend_class-target () {
- 	if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
--		make CC="${BUILD_CC}" CFLAGS="" AM_CPPFLAGS="$(pkg-config-native --cflags glib-2.0)" gen_all_unicode_LDADD="$(pkg-config-native --libs glib-2.0)" -C ${B}/tests gen-all-unicode
-+		make CC="${BUILD_CC}" CFLAGS="" LDFLAGS="" AM_CPPFLAGS="$(pkg-config-native --cflags glib-2.0)" gen_all_unicode_LDADD="$(pkg-config-native --libs glib-2.0)" -C ${B}/tests gen-all-unicode
- 	fi
- }
- 
--- 
-2.7.0
+We don't want to add this and revert it in the same series.
 
+Cheers,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
