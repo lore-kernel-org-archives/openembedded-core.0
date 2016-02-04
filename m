@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4245677198
+	by mail.openembedded.org (Postfix) with ESMTP id 18A0676DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 22:27:49 +0000 (UTC)
+	Thu,  4 Feb 2016 22:27:50 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2016 14:27:50 -0800
+	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2016 14:27:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="647384130"
+X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="647384137"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 14:27:49 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 14:27:50 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Feb 2016 16:29:24 -0600
-Message-Id: <92627f9b3db27b6db2e9479fe96b0c95861a28e1.1454624835.git.anibal.limon@linux.intel.com>
+Date: Thu,  4 Feb 2016 16:29:25 -0600
+Message-Id: <f11ee0d44e88ad073ad7517ada6a31181c791fa5.1454624835.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1454624835.git.anibal.limon@linux.intel.com>
 References: <cover.1454624835.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1454624835.git.anibal.limon@linux.intel.com>
 References: <cover.1454624835.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com
-Subject: [PATCH v3 07/22] bb/fetch2: Move export_proxies function from wget to utils.
+Subject: [PATCH v3 08/22] classes/testsdk: Add call to export_proxies on testsdkext.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 22:27:49 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 22:27:50 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In order to use in other modules since is a common function
-when needs to get proxies working.
+Extensible SDK needs to use network and some networks requires
+proxies then export it.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- bitbake/lib/bb/fetch2/wget.py | 17 +----------------
- bitbake/lib/bb/utils.py       | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+), 16 deletions(-)
+ meta/classes/testsdk.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/bitbake/lib/bb/fetch2/wget.py b/bitbake/lib/bb/fetch2/wget.py
-index 5a31730..fd25c42 100644
---- a/bitbake/lib/bb/fetch2/wget.py
-+++ b/bitbake/lib/bb/fetch2/wget.py
-@@ -37,6 +37,7 @@ from   bb.fetch2 import FetchMethod
- from   bb.fetch2 import FetchError
- from   bb.fetch2 import logger
- from   bb.fetch2 import runfetchcmd
-+from   bb.utils import export_proxies
- from   bs4 import BeautifulSoup
- from   bs4 import SoupStrainer
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 8fe6d0f..104c7a1 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -110,6 +110,9 @@ def testsdkext_main(d):
+     import time
+     import subprocess
+     from oeqa.oetest import loadTests, runTests, get_test_suites, get_tests_list
++    from bb.utils import export_proxies
++
++    export_proxies(d)
  
-@@ -219,22 +220,6 @@ class Wget(FetchMethod):
- 
-                 return resp
- 
--        def export_proxies(d):
--            variables = ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY',
--                            'ftp_proxy', 'FTP_PROXY', 'no_proxy', 'NO_PROXY']
--            exported = False
--
--            for v in variables:
--                if v in os.environ.keys():
--                    exported = True
--                else:
--                    v_proxy = d.getVar(v, True)
--                    if v_proxy is not None:
--                        os.environ[v] = v_proxy
--                        exported = True
--
--            return exported
--
-         class HTTPMethodFallback(urllib2.BaseHandler):
-             """
-             Fallback to GET if HEAD is not allowed (405 HTTP error)
-diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
-index ae10213..70b42f3 100644
---- a/bitbake/lib/bb/utils.py
-+++ b/bitbake/lib/bb/utils.py
-@@ -1406,3 +1406,22 @@ def set_process_name(name):
-         libc.prctl(15, byref(buff), 0, 0, 0)
-     except:
-         pass
-+
-+# export common proxies variables from datastore to environment
-+def export_proxies(d):
-+    import os
-+
-+    variables = ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY',
-+                    'ftp_proxy', 'FTP_PROXY', 'no_proxy', 'NO_PROXY']
-+    exported = False
-+
-+    for v in variables:
-+        if v in os.environ.keys():
-+            exported = True
-+        else:
-+            v_proxy = d.getVar(v, True)
-+            if v_proxy is not None:
-+                os.environ[v] = v_proxy
-+                exported = True
-+
-+    return exported
+     pn = d.getVar("PN", True)
+     bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR", True))
 -- 
 2.1.4
 
