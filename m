@@ -1,28 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 06C7160746
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B5C4A734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Feb 2016 18:35:30 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 04 Feb 2016 10:35:31 -0800
+	Thu,  4 Feb 2016 20:05:10 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Feb 2016 12:05:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,396,1449561600"; d="scan'208";a="647277357"
-Received: from rravin1x-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.176.111])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2016 10:35:28 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Fri, 05 Feb 2016 07:35:27 +1300
-Message-ID: <2637486.2zAlMEmPQJ@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.3.4-300.fc23.x86_64; KDE/4.14.16; x86_64; ;
-	)
-In-Reply-To: <f4fae173e814851f4a14b4c1e47f5de5c497a7b7.1454459362.git.anibal.limon@linux.intel.com>
-References: <cover.1454459362.git.anibal.limon@linux.intel.com>
-	<f4fae173e814851f4a14b4c1e47f5de5c497a7b7.1454459362.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 25/28] oeqa/oetest.py: SDK{Ext, } improve host and target manifest load.
+X-IronPort-AV: E=Sophos;i="5.22,397,1449561600"; d="scan'208";a="42599427"
+Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.148])
+	([10.3.52.148])
+	by fmsmga004.fm.intel.com with ESMTP; 04 Feb 2016 12:05:04 -0800
+Message-ID: <1454616260.22677.169.camel@ranerica-desk01>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 04 Feb 2016 12:04:20 -0800
+In-Reply-To: <CAJTo0LYodPTLumkFbfksxeNSDdbnq4B3T+vYe53KtmVy8P9BTw@mail.gmail.com>
+References: <1454526437-31265-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+	<CAJTo0LbXnGobVdN6G_2JHx4gm2KCQCuAwFmFHhqKJYC+YCXpVQ@mail.gmail.com>
+	<CAMKF1spEjpwvpZ5SsYPgOpSAiAX9D+_OnOhdytS28_J3KC58HA@mail.gmail.com>
+	<CAJTo0LYodPTLumkFbfksxeNSDdbnq4B3T+vYe53KtmVy8P9BTw@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] udev: add runtime dependencies for udev-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,78 +35,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 18:35:31 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 04 Feb 2016 20:05:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 02 Feb 2016 18:30:37 An=EDbal Lim=F3n wrote:
-> Don't pass variable name instead of it expands the host and target
-> manifest at init of the classes.
->=20
-> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
-> ---
->  meta/lib/oeqa/oetest.py | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-> index 6a95c28..80b40b6 100644
-> --- a/meta/lib/oeqa/oetest.py
-> +++ b/meta/lib/oeqa/oetest.py
-> @@ -382,18 +382,18 @@ class SDKTestContext(TestContext):
->          self.sdktestdir =3D sdktestdir
->          self.sdkenv =3D sdkenv
->=20
-> -        if not hasattr(self, 'target_manifest_name'):
-> -            self.target_manifest_name =3D "SDK_TARGET_MANIFEST"
-> +        if not hasattr(self, 'target_manifest'):
-> +            self.target_manifest =3D d.getVar("SDK_TARGET_MANIFEST",=
- True)
->          try:
-> -            with open(d.getVar(self.target_manifest_name, True)) as =
-f:
-> +            with open(self.target_manifest) as f:
->                   self.pkgmanifest =3D f.read()
->          except IOError as e:
->              bb.fatal("No package manifest file found. Did you build =
-the sdk
-> image?\n%s" % e)
->=20
-> -        if not hasattr(self, 'host_manifest_name'):
-> -            self.host_manifest_name =3D "SDK_HOST_MANIFEST"
-> +        if not hasattr(self, 'host_manifest'):
-> +            self.host_manifest =3D d.getVar("SDK_HOST_MANIFEST", Tru=
-e)
->          try:
-> -            with open(d.getVar(self.host_manifest_name, True)) as f:=
+On Wed, 2016-02-03 at 20:56 +0000, Burton, Ross wrote:
+>         I was wondering if busbox provides these applets then why pull
+>         them in
+>         explicitly like this
+>         
+> 
+> Presumably Ricardo is building images without busybox?
 
-> +            with open(self.host_manifest) as f:
->                  self.hostpkgmanifest =3D f.read()
->          except IOError as e:
->              bb.fatal("No host package manifest file found. Did you b=
-uild
-> the sdk image?\n%s" % e) @@ -410,8 +410,8 @@ class
-> SDKTestContext(TestContext):
->=20
->  class SDKExtTestContext(SDKTestContext):
->      def __init__(self, d, sdktestdir, sdkenv):
-> -        self.target_manifest_name =3D "SDK_EXT_TARGET_MANIFEST"
-> -        self.host_manifest_name =3D "SDK_EXT_HOST_MANIFEST"
-> +        self.target_manifest =3D d.getVar("SDK_EXT_TARGET_MANIFEST",=
- True)
-> +        self.host_manifest =3D d.getVar("SDK_EXT_HOST_MANIFEST", Tru=
-e)
->=20
->          super(SDKExtTestContext, self).__init__(d, sdktestdir, sdken=
-v)
+Indeed, my build does not have busybox.
 
-Please squash this into the earlier commit where the original logic was=
- added.
 
-Thanks,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
