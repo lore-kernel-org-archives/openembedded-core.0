@@ -1,46 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F2E2736B6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 640E676FC4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 23:00:31 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id cy9so41226982pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 15:00:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SqgPklE5BiAHB8g0lvRurxYKyY8Nwhb1w+0g/BMhUNU=;
-	b=t5wqOmqb/LpC2cyVM88Txm850g0mdM17EcHKun6iCXrucTyn45yIHoxRFMMarrLA9E
-	wI0MPExWdbrThRT4k1UPf+7xWXPTkbNeJpPO0lci620hJL10UpuUv3/aBkv9DG6E427D
-	Cv+QcEslyzzYlhDbU4I62Pfg+nPLK8QqgavaimtK4yyfFKs/xxLzBm4Hja5s1QuG65w9
-	HkjlMvPQEZ2glwBgQp5sfIpm2sEQ8bqqyaedh+QLi3l/4enDw6I64QT7EAPvveWX5S5F
-	Px8lvMEg5cPDxZdemRorjmThvwd971ghskwkoi70ylMIjaqUThhnRsevTEj7MjWXdpxD
-	5mnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SqgPklE5BiAHB8g0lvRurxYKyY8Nwhb1w+0g/BMhUNU=;
-	b=kyi07rhoqRmpZAXHvNPXcPqg+F5oZNb8z4RqlJzld0+/3AjHrVwRDSmRoW3bDjj1U/
-	VnnRpaZO/EV10ga9QxtJZTp8VZ9Th+k5LZOlxXnKbMKzg5DC2dTjfPpldhUWZ7xFQnFg
-	37c2jo/FzuvA8vv1IXqQg1sOFbIKZigTa7B2+e9jFGzo9Im+HLRt5sv6Rns1vMmnb+Ut
-	HdHWoa6nmqPi1IdbQ2RIhDepmsG/txJTNBnXTms4rYV1+KfA5CyX+pactOwxyiwgol0c
-	mcK1jdJB+gqE+gb0ArSP56aELI2FmQsToLq5dUtA3tXntFnpL+pdbRJiaytyI/UQTVW1
-	RaAg==
-X-Gm-Message-State: AG10YOQA0q0rngwb5GIwmDB1IBjPcaV4eNUfeDJJH2N+u6SkfDn2qnoIfsUAb55C3/aqEA==
-X-Received: by 10.66.97.39 with SMTP id dx7mr23709972pab.74.1454713232254;
-	Fri, 05 Feb 2016 15:00:32 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	sm8sm26684268pac.43.2016.02.05.15.00.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Feb 2016 15:00:30 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Feb 2016 15:00:21 -0800
-Message-Id: <1454713221-2977-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] openssl.inc: drop obsolete mtx-1 and mtx-2 over-rides
+	Fri,  5 Feb 2016 23:31:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u15NVaru031241; Fri, 5 Feb 2016 23:31:36 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PU9J3kh7s7OF; Fri,  5 Feb 2016 23:31:36 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u15NVXmA031238
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 5 Feb 2016 23:31:35 GMT
+Message-ID: <1454715093.27087.281.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>, Nicolas Dechesne
+	<nicolas.dechesne@linaro.org>
+Date: Fri, 05 Feb 2016 23:31:33 +0000
+In-Reply-To: <CAJTo0La-U-9vT_PCnbrBvXbS__v9MdwV6sUC93vr7k7s=JewPA@mail.gmail.com>
+References: <1454704804-11605-1-git-send-email-nicolas.dechesne@linaro.org>
+	<CAMKF1spmN7Y3bQVFhghUG80sYyuwbGAj6MMMm9oPKehhm-s3Sw@mail.gmail.com>
+	<CAJTo0LZT0UFrabh1U5LOLF9qcuL7QGoVVXGvo0NWYM4Y5H83tg@mail.gmail.com>
+	<CAP71WjxGbyKN5d6+TM35TnhHn9JLksnxuWGgviw+KxCv+3Ka9Q@mail.gmail.com>
+	<CAJTo0La-U-9vT_PCnbrBvXbS__v9MdwV6sUC93vr7k7s=JewPA@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RESEND PATCH] mesa: upgrade 10.6.3 -> 11.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 23:00:33 -0000
+X-List-Received-Date: Fri, 05 Feb 2016 23:31:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Machine specific over-rides for mtx-1 (aka MeshCube) and
-mtx-2 (aka SurfBox 2nd generation) don't belong in oe-core.
+On Fri, 2016-02-05 at 21:04 +0000, Burton, Ross wrote:
+> Hi,
+> 
+> On 5 February 2016 at 20:55, Nicolas Dechesne <
+> nicolas.dechesne@linaro.org> wrote:
+> > > Agreed - some may not want openssl at all and being able to
+> > switch it for
+> > > another alternative would be useful.
+> > 
+> > sure. but, then I have some questions..
+> > 
+> > 1. which one we default to? openssl?
+> > 
+> > 2. which one we support, from configure.ac:
+> > 
+> >         [choose SHA1 implementation])])
+> > case "x$with_sha1" in
+> > x | xlibc | xlibmd | xlibnettle | xlibgcrypt | xlibcrypto |
+> > xlibsha1 |
+> > xCommonCrypto | xCryptoAPI)
+> >   ;;
+> nettle / gcrypt / crypto are all in oe-core.  I presume that's BSD's
+> "throw it all in" libc.
+> 
+> nettle seems nice and low down the stack and modern.
+>   
+> >  3. is there a good way to handle 'multiple choice' with
+> > PACKAGECONFIG?
+> > How can we prevent more than 1 PACKAGECONFIG to be set (nicely)?
+> With a comment saying "pick one of these", and nothing in the
+> disabled case.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 4 ----
- 1 file changed, 4 deletions(-)
+You can always put in a small anonymous python fragment which enforces
+"only X or Y or Z".
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index bc4a2ec..1282115 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -25,10 +25,6 @@ TERMIO ?= "-DTERMIO"
- CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
- 	 ${TERMIO} ${CFLAGS} -Wall -Wa,--noexecstack"
- 
--# -02 does not work on mipsel: ssh hangs when it tries to read /dev/urandom
--CFLAG_mtx-1 := "${@'${CFLAG}'.replace('-O2', '')}"
--CFLAG_mtx-2 := "${@'${CFLAG}'.replace('-O2', '')}"
--
- export DIRS = "crypto ssl apps"
- export EX_LIBS = "-lgcc -ldl"
- export AS = "${CC} -c"
--- 
-1.9.1
+Not exactly neat, but...
+
+Cheers,
+
+Richard
+
 
 
