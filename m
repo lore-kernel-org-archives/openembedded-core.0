@@ -1,30 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E440E71957
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id B29D87729E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 10:51:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u15ApcJm028104 for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Feb 2016 10:51:38 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id m7iaWUz8WGqS
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 10:51:38 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u15ApW1j028101
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Feb 2016 10:51:33 GMT
-Message-ID: <1454669492.27087.275.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 05 Feb 2016 10:51:32 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] nativesdk: Set PKG_CONFIG_SYSTEM_ variables
+	Fri,  5 Feb 2016 10:52:14 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u15AqFtO010297 for <openembedded-core@lists.openembedded.org>;
+	Fri, 5 Feb 2016 04:52:15 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016020504521546-685420 ;
+	Fri, 5 Feb 2016 04:52:15 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 5 Feb 2016 12:51:51 +0200
+Message-Id: <1454669511-6302-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/05/2016 04:52:15 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/05/2016 04:52:15 AM,
+	Serialize complete at 02/05/2016 04:52:15 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-05_04:, , signatures=0
+Subject: [PATCH 1/1] package_manager.py: fix python indentation bug (opkg)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 10:51:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Feb 2016 10:52:16 -0000
 
-When building nativesdk recipes, we noticed paths going into .pc files
-which should have been suppressed since these were standard library
-search paths. pkgconfig-native sets these variables to sane values
-for native recipes, we need it set to values for our specific library
-paths in the nativesdk case.
+This if branch is causing the following error during do_rootfs:
+"Exception: UnboundLocalError: local variable 'cfg_file' referenced
+before assignment". This happends because the cfg_file variable is
+defined at a deeper nesting level (just above the if branch).
 
-Setting these values cleans up the .pc files and suppresses the paths.
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/lib/oe/package_manager.py | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index f74da62..44154d9 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -60,6 +60,8 @@ sbindir = "${bindir}"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 5776952..26f6466 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1507,14 +1507,14 @@ class OpkgPM(PackageManager):
+                                         self.d.getVar('FEED_DEPLOYDIR_BASE_URI', True),
+                                         arch))
  
- export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${libdir}/pkgconfig"
- export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR_HOST}"
-+export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
-+export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
+-            if self.opkg_dir != '/var/lib/opkg':
+-                # There is no command line option for this anymore, we need to add
+-                # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
+-                # the default value of "/var/lib" as defined in opkg:
+-                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      "/var/lib/opkg/info"
+-                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
+-                cfg_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'info'))
+-                cfg_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'status'))
++                        if self.opkg_dir != '/var/lib/opkg':
++                            # There is no command line option for this anymore, we need to add
++                            # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
++                            # the default value of "/var/lib" as defined in opkg:
++                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      "/var/lib/opkg/info"
++                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
++                            cfg_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'info'))
++                            cfg_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'status'))
  
- python nativesdk_virtclass_handler () {
-     pn = e.data.getVar("PN", True)
-
+ 
+     def _create_config(self):
+-- 
+2.7.0
 
 
