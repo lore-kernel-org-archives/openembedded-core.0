@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f196.google.com (mail-ob0-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 73FC877254
+Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id BC0A277142
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 19:56:29 +0000 (UTC)
-Received: by mail-ob0-f196.google.com with SMTP id o4so3747819obb.0
+	Fri,  5 Feb 2016 19:56:37 +0000 (UTC)
+Received: by mail-ob0-f195.google.com with SMTP id il1so1885600obb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 11:56:30 -0800 (PST)
+	Fri, 05 Feb 2016 11:56:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qJkC4TDgsoL+m9git45rTCRHOQskEsi2khFS2D79FvI=;
-	b=ihpWD5Exgq2S7Sqdeybs3+FcHg90n9N37XImL9dNm22YmOQ91YIC5hfq5pW92BQZEb
-	xKiT0cGSs9qiLjswbEGQCh2q1Z+xD3bu5Zy0nEyL9/7U8fiKt6yL5KsKIH1ctkWSllTK
-	H97Ecu73WxM2GsSfOf3e0YhUz/GVEFf6efrPfscR3/3IFWbt1lv5lyktyCBSbNFQcvPr
-	QVTdy7IHslH251VGo+CB7dXwEo5KPYW0TGDMrkdtjBmJnpWoasd9MXPtBpq27tNSRRQD
-	I7TyO0yGCuvjUtqVZS8ckB6Fdj5iyX9RooAjBw6vtFqGrjvwu6MWeVU1ZfXgcKuhFht0
-	Jmxw==
+	bh=4I05Kmg7nzth8MQaPgsXepYhlxv2O8dLDQVXr2bTgtw=;
+	b=RDs7AOfLukW2F3MgyC2JP3XA4yNNbuDuSN/G5laDofxORy+kWcJ7QqQ8Uuas6cJ6Ts
+	Dh/prtuHt/rH/YXsLkAhAucfkc3oSKoMEjROc8kAmLqFbHcbBepNx5D4WByFyXCNsXny
+	0yU+zDEbKnOr9ZPrX9tosnpGfHHwQx0a7eI2BNe8SthAzM69FRf9y109HVYBUa++Cnw8
+	kKBMYn8COXxi2WGYubZgNiCWPthaf8xcQG0MvKSqREEI94OMbiwyuJJ/fu8aZfAhdgJJ
+	ybNPswr0wTFbAeJOiQPiZVFImKPa7h+id89QdSS+rzolPt8Ho9tnficRPQimSFVXC6Zk
+	5mYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=qJkC4TDgsoL+m9git45rTCRHOQskEsi2khFS2D79FvI=;
-	b=NS7cWvng+hZVTNO4iBBWhjuuchdwu+Q2pGXz6Tg9gZ+LUFoaeUUdxu9EQCl2a1a1rj
-	u2r/PW4RkiHPHUytXQAkr0n0xDyL/HgBaoPBK3vSl47iBcAu2McZ9R+WD++HD1eX7tWZ
-	gtKKfkmOce9834Wyi+bZIkCylnTPLqzgbkUJOkJ9rISbZLaQsPYJohP0mAeM+wiSSFj5
-	g8LuUJ82CPdAN/N6fYd74egQEDGDSHmyACKBq1KwQszSpbOu0sHHDo/ovBt+JFRIjASG
-	1+yf+7OLVSyPzSIvG0w7SorBlC5QI0rE01JPh/8j9lHA3F73yafwXKaNUG+WWGFCyTtx
-	ylhg==
-X-Gm-Message-State: AG10YOQFOE+CvEIpFMakC5q4ZB9NkfMEJn6xecn62HDy6ccDkw7fIfaL7mdO87cOcaNiRQ==
-X-Received: by 10.60.232.99 with SMTP id tn3mr13407752oec.8.1454702189932;
-	Fri, 05 Feb 2016 11:56:29 -0800 (PST)
+	bh=4I05Kmg7nzth8MQaPgsXepYhlxv2O8dLDQVXr2bTgtw=;
+	b=bWtja/f/BPrzKNBIwMrOjqDG/QQF5NN9YTinDQmqYtsrYcSfeywY9zTHsKSsbrKmmu
+	Rtk/Q05idBIQ+k2tIKUKFftCafi9XALTzwx7iU5S+g0XyzMZcgSwqWWW8xmpleqzIjWz
+	gw5f78vscPY/Gp7D4HevWRa4KKeyZiWwxFayX+kE5GzgQuShcs4tNGIQ6niuFKWNfq9f
+	MBaUi/GtgORIRQj95ybU1MQ+tBL8nw4O1G6F63v6JDIVWoiMuS2Ii7ZQK28jQWi4beIG
+	5V5frZf3ZukucCDv2WSzwSvjVUJdqqM2+xBqVtHdy2iZWfXYZfYdaHLZzg943nHhfXqM
+	lvPA==
+X-Gm-Message-State: AG10YORlMxpkOvKVmBAhhLwbLkFn4nmP27H+VJLX93ou58F3O8dRFeQdft/qsN8wY+hAAw==
+X-Received: by 10.60.58.6 with SMTP id m6mr13549221oeq.47.1454702198338;
+	Fri, 05 Feb 2016 11:56:38 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	f9sm10046151obw.13.2016.02.05.11.56.28
+	f9sm10046151obw.13.2016.02.05.11.56.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Feb 2016 11:56:29 -0800 (PST)
+	Fri, 05 Feb 2016 11:56:37 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Feb 2016 11:56:16 -0800
-Message-Id: <1454702179-30239-2-git-send-email-armccurdy@gmail.com>
+Date: Fri,  5 Feb 2016 11:56:17 -0800
+Message-Id: <1454702179-30239-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1454702179-30239-1-git-send-email-armccurdy@gmail.com>
 References: <1454702179-30239-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/4] gmp: move SRC_URI out of gmp.inc + minor reformatting
+Subject: [PATCH 2/4] gmp: move BBCLASSEXTEND = "native nativesdk" from gmp.inc into 6.1.0 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,92 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 19:56:29 -0000
+X-List-Received-Date: Fri, 05 Feb 2016 19:56:37 -0000
 
-The base SRC_URI in gmp.inc was wrong for gmp 4.2.1 and was not being
-used by gmp 6.1.0. Remove it and make each recipe responsible for
-defining its own SRC_URI.
+It's unlikely that native builds of gmp 4.2.1 (ie the last LGPLv2
+version) would ever be required (and given that recent versions of gcc
+require gmp >= 4.3.2, native builds of gmp 4.2.1 are unlikely to work
+very well). Restrict native and nativesdk builds to gmp 6.1.0 only.
+
+  https://gcc.gnu.org/install/prerequisites.html
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-support/gmp/gmp.inc      | 11 ++++-------
- meta/recipes-support/gmp/gmp_4.2.1.bb |  7 ++++---
- meta/recipes-support/gmp/gmp_6.1.0.bb |  5 +++--
- 3 files changed, 11 insertions(+), 12 deletions(-)
+ meta/recipes-support/gmp/gmp.inc      | 2 --
+ meta/recipes-support/gmp/gmp_6.1.0.bb | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
-index 6752a39..1e3e2a0 100644
+index 1e3e2a0..2beea26 100644
 --- a/meta/recipes-support/gmp/gmp.inc
 +++ b/meta/recipes-support/gmp/gmp.inc
-@@ -1,16 +1,13 @@
--SECTION = "devel"
- SUMMARY = "GNU multiprecision arithmetic library"
- DESCRIPTION = "GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating point numbers"
- HOMEPAGE = "http://gmplib.org/"
--
--REVISION ?= ""
--SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2"
-+SECTION = "devel"
+@@ -9,5 +9,3 @@ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[readline] = "--with-readline=yes,--with-readline=no,readline"
  
- inherit autotools texinfo
- 
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[readline] = "--with-readline=yes,--with-readline=no,readline"
-+
  ARM_INSTRUCTION_SET = "arm"
- 
- BBCLASSEXTEND = "native nativesdk"
 -
--PACKAGECONFIG ??= ""
--PACKAGECONFIG[readline] = "--with-readline=yes,--with-readline=no,readline"
-diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-index bfc6a38..c25e5ea 100644
---- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
-@@ -7,9 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
-                     file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
-                     file://gmp-h.in;beginline=6;endline=21;md5=e056f74a12c3277d730dbcfb85d2ca34"
- 
--SRC_URI += "file://Use-__gnu_inline__-attribute.patch \
--            file://gmp_fix_for_automake-1.12.patch \
--            "
-+SRC_URI = "https://gmplib.org/download/${BPN}/archive/${BP}.tar.bz2 \
-+           file://Use-__gnu_inline__-attribute.patch \
-+           file://gmp_fix_for_automake-1.12.patch \
-+"
- 
- SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
- SRC_URI[sha256sum] = "d07ffcb37eecec35c5ec72516d10b35fdf6e6fef1fcf1dcd37e30b8cbf8bf941"
+-BBCLASSEXTEND = "native nativesdk"
 diff --git a/meta/recipes-support/gmp/gmp_6.1.0.bb b/meta/recipes-support/gmp/gmp_6.1.0.bb
-index b26b4d5..44bd8a2 100644
+index 44bd8a2..de827f5 100644
 --- a/meta/recipes-support/gmp/gmp_6.1.0.bb
 +++ b/meta/recipes-support/gmp/gmp_6.1.0.bb
-@@ -1,17 +1,19 @@
- require gmp.inc
- 
--LICENSE="GPLv2+ | LGPLv3+"
-+LICENSE = "GPLv2+ | LGPLv3+"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                    file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6 \
-                    file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- "
- 
-+REVISION = ""
- SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://amd64.patch \
-            file://use-includedir.patch \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            "
-+
- SRC_URI[md5sum] = "86ee6e54ebfc4a90b643a65e402c4048"
- SRC_URI[sha256sum] = "498449a994efeba527885c10405993427995d3f86b8768d8cdf8d9dd7c6b73e8"
- 
-@@ -27,4 +29,3 @@ do_install_append_class-target() {
+@@ -29,3 +29,5 @@ do_install_append_class-target() {
  }
  
  SSTATE_SCAN_FILES += "gmp.h"
--
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.9.1
 
