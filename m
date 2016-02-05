@@ -1,48 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6785F77294
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D7DC77081
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 21:35:07 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id 66so5721322pfe.2
+	Fri,  5 Feb 2016 21:35:08 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id 71so664342pfv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 13:35:08 -0800 (PST)
+	Fri, 05 Feb 2016 13:35:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ac+NwecQPhE6Z5fvpcobTAvcAKO1kYSgnjwD73Ktf/s=;
-	b=0KwAYdnMphGgnx+8uJXU1LcB4ox10torXM2qihT4mQ6UXS/IwemBFreC6UOkAvLjhp
-	XHQy2ESzAtLnUX5Wx+LUsXHs9d1Ext8oRmw3Lj4gKwcZd7zP9sk6JAM96Bcc/Gd3Y754
-	63gHqEAhOQf1CoCJUng0bAU2evah4edVD5m5Sy6tnd87V+Cqkm5txKYK/d0+uW2ADDEh
-	6HSrjz34ZbxKfXXgaXgCOkFu2Uo1PI/l6VqsYULRrdt2thgls7UKT7YpEXsX4v0mVx3r
-	bicXjY3FIODjnFctr3KwOfKkE6tpx8o9c74JNy1gRJn6BxCzDk5eGvY4th86dpwrJ2Ak
-	tZvw==
+	bh=VmHpxI7139LrSb24H7Jhrcc+QYe4OZ3ZiiTlL5MCp1g=;
+	b=r5W3yNTicuFktuEDMbNGwSZ3aHRz197g4xysbfKo8xKggKMechhXVhAep+9w5LKBmf
+	gI1HwJvLm8etgF7PSXYPgBRYO+sQUQ6SEvz0DIwGWNyR0E9H5ck9aUS0/GfSzrF79yzF
+	ZLLygp+gMcyiPtr1ttMxi7+RlFJj10uNHNXUipeQtClh72cgkj40P3bMDXyPI3Q5Fx11
+	RC5lE9A5HNDxYovBAIMYi9BbwcVMxjZCQptHIU/IjPrAL1duo8heN3p3Di80MKSg79BP
+	dxDwVU9/e3ACwCFVH7SU9KbYuJ5i9Jc6L6iedGFmZB4Eyx/eshXfv5tKmu6Hcp6yLn3g
+	64hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ac+NwecQPhE6Z5fvpcobTAvcAKO1kYSgnjwD73Ktf/s=;
-	b=MUW7wlS8OfoxeQFM3mFBw53I21bkfc6RPaKB8ohEMuVhXSScNkvAX0tUZ4SWFrNA7w
-	9iIrd0rBnrq+ZbggI+q/R7VIKzqyYLYUpj+PMtvWy/ITJSFUMTzFA10goL6CaUFaYklt
-	oEOJ05JtFWI31y9IdOA7T814ZldtoEA6G/SvrXw1Na4nX074S8AfSdhebqTjTUspaXeC
-	Mx2CCejSlyniNlJYmX6lY/MFpIc/f2ztHsQ5iagV4s/B+K5+8D2l7D6AaVjsRZevGlPj
-	zM7UF95+eMWP+yy7RBk3jnw5dY8RpzPfX4Pro6aKsuf6323GxJ3hnoxPdmGM+beqTKQN
-	R71Q==
-X-Gm-Message-State: AG10YOR18qlcj0CXJPsCzd/7+GoMA+X74eCuCpd6H2pw6W5SJzFmB+Uo6zfskGAT2mqx+A==
-X-Received: by 10.98.68.86 with SMTP id r83mr23413001pfa.12.1454708108264;
-	Fri, 05 Feb 2016 13:35:08 -0800 (PST)
+	bh=VmHpxI7139LrSb24H7Jhrcc+QYe4OZ3ZiiTlL5MCp1g=;
+	b=e4LnbA6QLSw5u/LUK70WNY2i9mPgj87ACib8cLxyYST/aMpHx3Sx9wQEE8svAHvTHi
+	kMe0Yt0kIeay3TkYU8X6bw/GyMC0yjEmFCKj3QvDfjMkyILVsFTT0261icD+3LoEoezv
+	+N2EYj95m3Ktkmi8iVuWUS4zxJ2exDK9pTgBAfp+Mbh56nQ129t+GsAQekiT94LIqaYx
+	M8pFK7uHvSDxIncY/Pjy+PIavjEP56tL1w3pEoLl2JhE1zfO6dwQaZRGVpRQwwUsq62c
+	HHRQcPAU64Fd/Jtg/hV9/LXMO0ZEP3atSa098bfGmMQy/AVkt1qXk9PArxgITZI/P5vN
+	o6Iw==
+X-Gm-Message-State: AG10YOQ6G+Lb7tuObf5i2OgQeTPCYRBC8Uyy+mwzGSFQkJb27CSOpyF7TUyFXYB7nNQQsw==
+X-Received: by 10.98.0.7 with SMTP id 7mr23221011pfa.5.1454708109998;
+	Fri, 05 Feb 2016 13:35:09 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id f4sm13813513pfj.0.2016.02.05.13.35.06
+	by smtp.gmail.com with ESMTPSA id f4sm13813513pfj.0.2016.02.05.13.35.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Feb 2016 13:35:07 -0800 (PST)
+	Fri, 05 Feb 2016 13:35:09 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Feb 2016 13:34:53 -0800
-Message-Id: <1454708096-1570-3-git-send-email-armccurdy@gmail.com>
+Date: Fri,  5 Feb 2016 13:34:54 -0800
+Message-Id: <1454708096-1570-4-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1454708096-1570-1-git-send-email-armccurdy@gmail.com>
 References: <1454708096-1570-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 2/5] gstreamer1.0-plugins-good_git: avoid including <sys/poll.h> directly
+Subject: [PATCH v2 3/5] gstreamer1.0-plugins-bad_git: avoid including <sys/poll.h> directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 21:35:08 -0000
+X-List-Received-Date: Fri, 05 Feb 2016 21:35:09 -0000
 
 musl libc generates warnings if <sys/poll.h> is included directly.
 
@@ -64,20 +64,20 @@ turned off for GStreamer stable releases).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../avoid-including-sys-poll.h-directly.patch      | 44 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-good_git.bb     |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/avoid-including-sys-poll.h-directly.patch
+ .../avoid-including-sys-poll.h-directly.patch      | 30 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_git.bb      |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/avoid-including-sys-poll.h-directly.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/avoid-including-sys-poll.h-directly.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/avoid-including-sys-poll.h-directly.patch
 new file mode 100644
-index 0000000..c7f3630
+index 0000000..357fd78
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/avoid-including-sys-poll.h-directly.patch
-@@ -0,0 +1,44 @@
-+From 4bfe2c8570a4a7080ec662504882969054d8a072 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/avoid-including-sys-poll.h-directly.patch
+@@ -0,0 +1,30 @@
++From 72561a0fca562d03567ace7b4cfc94992cd6525c Mon Sep 17 00:00:00 2001
 +From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Wed, 3 Feb 2016 18:12:38 -0800
++Date: Wed, 3 Feb 2016 18:05:41 -0800
 +Subject: [PATCH] avoid including <sys/poll.h> directly
 +
 +musl libc generates warnings if <sys/poll.h> is included directly.
@@ -86,46 +86,32 @@ index 0000000..c7f3630
 +
 +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 +---
-+ ext/raw1394/gstdv1394src.c  | 2 +-
-+ ext/raw1394/gsthdv1394src.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
++ sys/dvb/gstdvbsrc.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/ext/raw1394/gstdv1394src.c b/ext/raw1394/gstdv1394src.c
-+index dbc7607..3c42b41 100644
-+--- a/ext/raw1394/gstdv1394src.c
-++++ b/ext/raw1394/gstdv1394src.c
-+@@ -37,7 +37,7 @@
-+ #include "config.h"
-+ #endif
-+ #include <unistd.h>
++diff --git a/sys/dvb/gstdvbsrc.c b/sys/dvb/gstdvbsrc.c
++index b93255f..49f145a 100644
++--- a/sys/dvb/gstdvbsrc.c
+++++ b/sys/dvb/gstdvbsrc.c
++@@ -93,7 +93,7 @@
++ #include <gst/gst.h>
++ #include <gst/glib-compat-private.h>
++ #include <sys/ioctl.h>
 +-#include <sys/poll.h>
 ++#include <poll.h>
-+ #include <sys/socket.h>
-+ #include <errno.h>
 + #include <fcntl.h>
-+diff --git a/ext/raw1394/gsthdv1394src.c b/ext/raw1394/gsthdv1394src.c
-+index 0b07a37..9785a15 100644
-+--- a/ext/raw1394/gsthdv1394src.c
-++++ b/ext/raw1394/gsthdv1394src.c
-+@@ -36,7 +36,7 @@
-+ #include "config.h"
-+ #endif
-+ #include <unistd.h>
-+-#include <sys/poll.h>
-++#include <poll.h>
-+ #include <sys/socket.h>
 + #include <errno.h>
-+ #include <fcntl.h>
++ #include <stdio.h>
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb
-index 5f36f49..915be73 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb
-@@ -10,6 +10,7 @@ SRC_URI = " \
-     git://anongit.freedesktop.org/gstreamer/gst-plugins-good;name=base \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+index 99690a3..0ebf622 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+@@ -12,6 +12,7 @@ SRC_URI = " \
      git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
+     file://configure-allow-to-disable-libssh2.patch \
      file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
 +    file://avoid-including-sys-poll.h-directly.patch \
  "
