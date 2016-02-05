@@ -1,49 +1,48 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 69B81772FD
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 05DA07730C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 10:15:21 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id 128so63908675wmz.1
+	Fri,  5 Feb 2016 10:24:51 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id p63so20350478wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 02:15:22 -0800 (PST)
+	Fri, 05 Feb 2016 02:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:subject:date:message-id:to:mime-version;
-	bh=gZh9BB2ugfgOBXj/UhXR8LWs7L+6UYxC6K59b34l4dc=;
-	b=Q5dUQXJOR633kKOtxCFgMWoYpq4O8lGH6A2j8m9ZsOYoS22xPFB3hyugvNileeVHoZ
-	pJ4cfpRSBxodWL5LJNKIr3tXCiQsHtkULa9o/7ozQdeUuHdkIx3yCURSgOLIpiUn3X2p
-	SNgCxu/tMxaIEhtzy21fBJYqOU0X8IaUN/wYsyAkUUmZAiy4EjxxSONQJjKEBxTByrga
-	ufRLKnfoFXPUonakITi3FMBRthlDCCVFl5RHcSStvqokWZWP3994A6qkwO61hdYIae8i
-	wGx+ol604UrLnqwvxgA8xs9wqR2i2NC04zFTTh9+nqNhrCvsp+mB4oEml2bntvOChvjl
-	qcRA==
+	h=from:content-type:subject:date:message-id:cc:to:mime-version;
+	bh=m00vyj1hHRHdtQdeVPDb07TwDLowwCIJ9e8aZoYO8e0=;
+	b=llqAiAuyLOicayW+xTLhPRj24fTvWFiY5laNwk/ku3gSQtb1W1wgV+z/MIQ4NGHgT7
+	owx5s7XnS4JFZnI+FNnKu3844XThsBLK5JZcY41vumB6+DrllqaPypMN/HM+Q5y9l40Z
+	jUupCoYK3IN2R1qU6LkTqd9GsFmCphC+isU72Y7qHl2b7D3152muH3P5JqsPyXw+5geD
+	KElTkGCocmaoOfHyuWB1UdCsqUv/UAK+w0RqOKpb6RaimnFkcgDRF1rY1m4DPMsJmKIk
+	qpYQnpUHYxO30MwQGR/DJtopQKKffogkvG2U6/q2ctw0RA8eVCuISmJ6ruaoHoPMpX6x
+	C4KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:content-type:subject:date:message-id:to
+	h=x-gm-message-state:from:content-type:subject:date:message-id:cc:to
 	:mime-version;
-	bh=gZh9BB2ugfgOBXj/UhXR8LWs7L+6UYxC6K59b34l4dc=;
-	b=buIKcq79nOIFtmCqyH+w7M9Tm6NWUly/Mbf/0k/aOSUr+MCoQgheHj9okJMo/lwFEF
-	57QNbbFovj5AhxFWn0NJX48qeQYgvOM082r3L1tAByrOU9Xys0dA+bW1fCfMFYbMjONt
-	r4LBdTH453jtc2hTCgGVSUDN/ouKbuTsH/focyTqc/SLA21WHNJctVk6aG6VpTPmeM8a
-	+IzuMUBGBj5fhOL4bb34Q/EQYb8e1ksuxONhwFyr0YfA9ARmXZJmhc6sINy3BoLnDr3f
-	jkOnd6CXXIY8lYlnjugXekar7cRIX8Em1KsCqP3g32RuO4hGRD+OXYkotBE+/0Sayjll
-	BP0w==
-X-Gm-Message-State: AG10YOQsEnH9RQSLqEzPzrvI1bGi9VhFPVgxcWC4lQrB9T3glRzdK4/SS2APdqwK7pnLIQ==
-X-Received: by 10.28.97.136 with SMTP id v130mr2470755wmb.20.1454667322357;
-	Fri, 05 Feb 2016 02:15:22 -0800 (PST)
+	bh=m00vyj1hHRHdtQdeVPDb07TwDLowwCIJ9e8aZoYO8e0=;
+	b=azApQM19AZmDDqxI39XYQxQ+9u4v2IP93W8brPB1/UF72KSzIRhTG1aGE9wRHDQ5zd
+	5+0qJYNjftMGrCztDTZsXAsZlt25g5NRsjGdlOCV6fYqJ7nsAL4KKKJGGDyBH3UYzqoz
+	LXTKiDmIlxOy+ag7drevLku36iFyfKSth024aIz8j7jAEMeWRsEbGFH9ZEN4udX5+Mz5
+	5ZabSMe1b76GclvozzcER2TefLSSCpZ+lmoRsxPxn6c2i90KoVEpRKh1E7rwnItFgUHf
+	OjgIVWtZuTtAcJq9kqZrRSpHQF2tUHtm5X0fH9sz0rR+9nht0zODw84EzaulY5Bg3k/X
+	SqBQ==
+X-Gm-Message-State: AG10YOTV8ySaotpc3JOy1Hyf74dqE0pCgNllRCSekKhNFAk/BZHIx+uPiMUFsU0XZCSgVA==
+X-Received: by 10.28.57.68 with SMTP id g65mr21709213wma.56.1454667891949;
+	Fri, 05 Feb 2016 02:24:51 -0800 (PST)
 Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
 	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	t3sm15198495wjz.11.2016.02.05.02.15.21
-	for <openembedded-core@lists.openembedded.org>
+	c185sm30229106wma.5.2016.02.05.02.24.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 05 Feb 2016 02:15:21 -0800 (PST)
+	Fri, 05 Feb 2016 02:24:51 -0800 (PST)
 From: Jens Rehsack <rehsack@gmail.com>
 X-Pgp-Agent: GPGMail 2.6b2
-Date: Fri, 5 Feb 2016 11:15:19 +0100
-Message-Id: <D9580795-089C-4BE0-BB36-0DEE55E9DA95@gmail.com>
+Date: Fri, 5 Feb 2016 11:24:50 +0100
+Message-Id: <4CAACA4A-EFF1-44AF-8074-0B21B2929DA3@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH] linux-firmware: package firmware for Marvell 88W8688
+Subject: [OE][jethro] Backport Perl Upgrade to 5.22.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,95 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 10:15:24 -0000
-X-Groupsio-MsgNum: 77595
+X-List-Received-Date: Fri, 05 Feb 2016 10:24:53 -0000
+X-Groupsio-MsgNum: 77596
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E6E30264-3EF0-4F5F-A3AD-7D462F864C93";
+	boundary="Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F";
 	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---Apple-Mail=_E6E30264-3EF0-4F5F-A3AD-7D462F864C93
+--Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
-According to error messages from guruplug
+Please backport the following from oe-core/master to jethro:
 
-[   35.826441] btmrvl_sdio mmc0:0001:2: Direct firmware load for =
-mrvl/sd8688_helper.bin failed with error -2
-[   35.903291] Bluetooth: request_firmware(helper) failed, error code =3D =
--2
-[   35.909942] Bluetooth: Failed to download helper!
-[   36.052820] Bluetooth: Downloading firmware failed!
-...
-[  764.422739] libertas_sdio: Libertas SDIO driver
-[  764.438213] libertas_sdio: Copyright Pierre Ossman
-[  764.461186] libertas_sdio mmc0:0001:1: Direct firmware load for =
-libertas/sd8688_helper.bin failed with error -2
-[  764.488234] libertas_sdio mmc0:0001:1: Direct firmware load for =
-sd8688_helper.bin failed with error -2
-[  764.507382] libertas_sdio: failed to find firmware (-2)
+55a8df2056024acf714f47c85267c1eba8b7b6be
+perl: Upgrade to 5.22.1
 
-and =
-http://wiki.beyondlogic.org/index.php?title=3DGuruPlug_Libertas_SD8688,
-package the firmware files for Marvell 88W8688, too.
+According to http://search.cpan.org/dist/perl-5.22.1/pod/perldelta.pod =
+no incompatible changes but a lot of serious bugs fixed.
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb =
-b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 0878ab1..682499e 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -164,7 +164,7 @@ do_install() {
-
- PACKAGES =3D+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-radeon-license ${PN}-radeon \
--             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8787 =
-${PN}-sd8797 \
-+             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 =
-${PN}-sd8787 ${PN}-sd8797 \
-              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce =
-${PN}-rtl8192su \
-@@ -232,6 +232,7 @@ RDEPENDS_${PN}-radeon +=3D "${PN}-radeon-license"
-
- # For marvell
- LICENSE_${PN}-sd8686 =3D "Firmware-Marvell"
-+LICENSE_${PN}-sd8688 =3D "Firmware-Marvell"
- LICENSE_${PN}-sd8787 =3D "Firmware-Marvell"
- LICENSE_${PN}-sd8797 =3D "Firmware-Marvell"
-
-@@ -240,6 +241,10 @@ FILES_${PN}-sd8686 =3D " \
-   /lib/firmware/libertas/sd8686_v9* \
-   /lib/firmware/sd8686* \
- "
-+FILES_${PN}-sd8688 =3D " \
-+  /lib/firmware/libertas/sd8688* \
-+  /lib/firmware/mrvl/sd8688* \
-+"
- FILES_${PN}-sd8787 =3D " \
-   /lib/firmware/mrvl/sd8787_uapsta.bin \
- "
-@@ -248,6 +253,7 @@ FILES_${PN}-sd8797 =3D " \
- "
-
- RDEPENDS_${PN}-sd8686 +=3D "${PN}-marvell-license"
-+RDEPENDS_${PN}-sd8688 +=3D "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8787 +=3D "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8797 +=3D "${PN}-marvell-license"
-
---
-1.9.1
-
+Cheers
 --
 Jens Rehsack - rehsack@gmail.com
 
 
---Apple-Mail=_E6E30264-3EF0-4F5F-A3AD-7D462F864C93
+--Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -155,19 +90,19 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iQIcBAEBCgAGBQJWtHY4AAoJEESZlq7c5Qqd1uEP/iSq9BTK4Fq2Ez9Y8YLHTfh1
-N7+peIvZUTtiMGQeFigcU2XauhKnU6PzsYvRjB9SN4wFxd+lQX1xMzBu8FGIq6nZ
-/iOxlbbRB3PLgfebKTwiscmIFZR3SEW3c2Vsn68gp5pfmMFmp2RiQxDASmRYim+L
-MCf+FUk9ElmucV9YM6AT/a5xAdIKzz/bkze2BRGdD2jSXGUkFTCEDuu5IaSl5ham
-XJ63kYDUHo8ludcz5vcdpqwmzPDodQu8rfS0zfl3q1nilpj+1efy47ifx2CA7x7p
-ZD5RiVJlgeByeRSVQUj+gSIvbu0rmNH0i/sCZ/Ue3JbD1fUCb1ugJVEiyNQiQZqC
-CNTYbc229qy/V9j0Q9DIgZlxeqeQ3Bu6bkR/y7tYBe74tOLG4APkHeQJOcxIsGGW
-NCbu82MFedooLWpa4w4L9D3Ky+MOyvvJH9lWt+k5wE7bsACbgceIMDOgovJhH0NG
-NFZj4OzWaB3QRAxwvHXnhRrIVhqD8eE2fgirzElnn5ASsl957A5S8942r0DxF0vb
-41eR6YJf5KQqoYopisV5+qgNJ0ZV5O6RrlRa8weulTlJ6VEvJ1b6rFEX0RWMPY65
-KJtV8XVaxskr24ao/KGBp1U3OX3E+asj19ahK45vZb8k5LZ28jYxlexWoYI4muCf
-D+g4009gjCxjySxOAyOc
-=F/iV
+iQIcBAEBCgAGBQJWtHhyAAoJEESZlq7c5QqdpNQP/0mnUuFZuS6hevzAG0qOkfN5
+uWUj3HSGkxVDOQQdn6F/LJqYHKGbr9ycixkJlX5SDf9c7Fj4r0qiKZKtnMB/uGsL
+++bWfCA6KblpxlcrDE7novfxzwxJPPlYLAiiMXszUMmOJqjePYUQlwIXsgZ6WfmY
+KihcTBDN6nLbkkboyjz/4XPicjHNKHgRpYT4S73QuYYpq2FDGqJZLK+9ZWeyP8uS
+XZAvBIX5SqHyshQbuxAxL4CTaa3WIoM9myQHabAMFcOfNKbxH+yTFjyPu3+kyQDN
+81RUL6n8f4lQubpywLyWLmMXKJtIEZmnmUCu7Hcue5lMLEToeocNPwy88eg8FahW
+iM50nuybNqXiB3gD6kX/v7UlNv0kJhsuozhDHoqtXV+LlD/ZMEZ27k9jf0/h0rB2
+DVmuVRPObzkBPihRexJSRT0CkgowpCV60TiW6gMYULJNXlqXjS1m/hch2WYIPG5e
+1272ji+1D8OuMvimepYSuUoGpX+QZpa9Pr/WBb127PTVP5DcvC89HN+1+hHrzrTb
+kH2Imo4KzmlhMR6vziRJeQfNV5VZu9ysmvkbE0FuzSLvnGXuQQdTtMzYkE85h4d1
+AMONgccok1fmpsBwFltPoi7XHsmUSGCCZGHnEcetFEMzc5qXRNt0kdKZnIyIGmkX
+jAZyt+1P1Uk0t1ZGMzsM
+=BjJ/
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_E6E30264-3EF0-4F5F-A3AD-7D462F864C93--
+--Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F--
