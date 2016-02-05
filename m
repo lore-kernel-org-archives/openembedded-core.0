@@ -1,24 +1,27 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 786F577136
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 6547C77238
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 17:56:23 +0000 (UTC)
-Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
-	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1aRkcJ-00065I-IJ from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Feb 2016 09:56:23 -0800
-Received: from sb-ubuntu-1404-64bit.alm.mentorg.com (147.34.91.1) by
-	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 5 Feb 2016 09:56:22 -0800
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Feb 2016 10:56:20 -0700
-Message-ID: <1454694980-19739-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 2.7.0
-MIME-Version: 1.0
-Subject: [PATCH] image_types.bbclass: Embed IMAGE_NAME in ubinize config file
+	Fri,  5 Feb 2016 18:04:39 +0000 (UTC)
+Received: from [82.1.213.155] (HELO elite.brightsign6)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
+	with ESMTP id 684771764; Fri, 05 Feb 2016 13:04:41 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign6 with esmtp (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1aRkkH-000CXI-6S; Fri, 05 Feb 2016 18:04:37 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1aRkkH-0002Bx-5q; Fri, 05 Feb 2016 18:04:37 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-architecture@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri,  5 Feb 2016 18:04:15 +0000
+Message-Id: <1454695470-8205-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 00/15] Prepare for EXTRA_OEMAKE = "" in bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 17:56:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 05 Feb 2016 18:04:43 -0000
 
-When using the FSTYPE multiubi, make sure that each image build
-has a unique config file.  Without this there is a race condition
-when building multiple images in a single bitbake command which
-results in errors similar to:
+This series (sent only to openembedded-core) fixes various recipes
+that rely on the current default value of
+EXTRA_OEMAKE = "-e MAKEFLAGS=" to explicitly set that value in the
+hope that bitbake.conf can set EXTRA_OEMAKE = "" in the future.
 
-    ERROR: Error: The image creation script
-    'blah/tmp/work/blah/core-image-base/1.0-r0/temp/create_image.multiubi' returned 1:
-    iniparser: cannot open ubinize_normal.cfg
-    ubinize: error!: cannot load the input ini file "ubinize_normal.cfg"
-    mv: cannot stat 'ubinize_normal.cfg': No such file or directory
-    WARNING: blah/tmp/work/blah/core-image-base/1.0-r0/temp/create_image.multiubi:1 exit 1 from
-      mv ubinize${vname}.cfg blahtmp/deploy/images/blah/
+With these patches applied and bitbake.conf setting EXTRA_OEMAKE = "",
+I was able to build "bitbake world" for qemux86, qemuarm, qemuppc and
+qemumips successfully. I plan to do more build testing and some actual
+runtime testing before submitting the change to bitbake.conf.
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- meta/classes/image_types.bbclass | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+It's highly likely that such a change will break recipes in meta-oe
+and other layers too. I hope to do some testing with meta-oe soon.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 5036919..0f7fc24 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -126,18 +126,18 @@ multiubi_mkfs() {
- 		local vname="_$3"
- 	fi
- 
--	echo \[ubifs\] > ubinize${vname}.cfg
--	echo mode=ubi >> ubinize${vname}.cfg
--	echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs >> ubinize${vname}.cfg
--	echo vol_id=0 >> ubinize${vname}.cfg
--	echo vol_type=dynamic >> ubinize${vname}.cfg
--	echo vol_name=${UBI_VOLNAME} >> ubinize${vname}.cfg
--	echo vol_flags=autoresize >> ubinize${vname}.cfg
-+	echo \[ubifs\] > ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo mode=ubi >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo vol_id=0 >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo vol_type=dynamic >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo vol_name=${UBI_VOLNAME} >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo vol_flags=autoresize >> ubinize${vname}-${IMAGE_NAME}.cfg
- 	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs ${mkubifs_args}
--	ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubi ${ubinize_args} ubinize${vname}.cfg
-+	ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubi ${ubinize_args} ubinize${vname}-${IMAGE_NAME}.cfg
- 
- 	# Cleanup cfg file
--	mv ubinize${vname}.cfg ${DEPLOY_DIR_IMAGE}/
-+	mv ubinize${vname}-${IMAGE_NAME}.cfg ${DEPLOY_DIR_IMAGE}/
- 
- 	# Create own symlinks for 'named' volumes
- 	if [ -n "$vname" ]; then
--- 
-2.7.0
+The affected recipes are:
 
+ meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
+ meta/recipes-bsp/libacpi/libacpi_0.2.bb
+ meta/recipes-bsp/pciutils/pciutils_3.4.1.bb
+ meta/recipes-connectivity/openssl/openssl.inc
+ meta/recipes-devtools/dmidecode/dmidecode_3.0.bb
+ meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb
+ meta/recipes-devtools/perl/perl-native_5.22.1.bb
+ meta/recipes-devtools/perl/perl_5.22.1.bb
+ meta/recipes-extended/ed/ed_1.9.bb
+ meta/recipes-extended/iputils/iputils_s20151218.bb
+ meta/recipes-extended/pigz/pigz.inc
+ meta/recipes-extended/stat/stat_3.3.bb
+ meta/recipes-extended/sysklogd/sysklogd.inc
+ meta/recipes-extended/unzip/unzip_6.0.bb
+ meta/recipes-gnome/gtk-theme-torturer/gtk-theme-torturer_git.bb
+ meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+
+Mike.
 
