@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
 	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C19C7739F
+	by mail.openembedded.org (Postfix) with ESMTP id 9FE86773A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 14:53:37 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 66so5341948pfe.2
+	Fri,  5 Feb 2016 14:53:39 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id 71so286928pfv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 06:53:39 -0800 (PST)
+	Fri, 05 Feb 2016 06:53:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=cRBg1sud9pOkFNiSDwCOwZy3orsc/jkHR1ldvVyCZ9c=;
-	b=0fhBCaYG9awpN0FEx1Zc2hizAjO/OqTF6WQv/BqSV5/gs38wo6QA+/0zHWXEtW8gvj
-	5r7/L7NlRY+740IaAhVE+5f74boZEwKjb8+qaFITt2bcXbHsmec2fg2SakYcXNQcvUUo
-	zsiJGWPbv2nD1Ve+71HHfFp8II/AZ5dfQBLcRFomHPNXWOAqOvnycA7Wo36Ovyeoj28h
-	uIZvBBHomgekOpPKG+uUDv6oNIA51E2JI6XVJEhS1GMW/63Zmi86sMWOBHtiHAoLgTbU
-	XhXSKJQ7xpUUg9su3k4J9uYFw0y8rzqfhGWdKlEX0Ze5SoXzccQvtGfJ0/mOZN+YtJsd
-	4Z9Q==
+	:references; bh=BSR9Y6O0oajRUBW7ronJYoKyjZEFZx1drZr0g+fijww=;
+	b=dn6TSOGmi9tkslXRIGGJRSWMWG10tcE0enP5+TESF3Angqye8vVDtmGnKNmdYQxiug
+	VIphcnFTn0lWJfNkeKnxBvmjdiuWMJVlmcjUS84ZOfH1eg1aEe2lK9dj6M2rNjJM+JlO
+	MZ0GEFJXxyuEP4vmXmY0CDNfCnGuDdwykaGv5ksvBKg5IsPokuuALfbIGUVO3Tj0jtMZ
+	WbB1AG/n1ymD8i+6t0rSgD9zVm51UMj1NzFB8eVTSFIOTNTNSgCXNh8JYgUbUFkRKokP
+	zqsBiCi5AdrL5IgZay2x9vSTQ/tghYUzdkglXb5B7sysvwO+kV+ZYwfCEBNULIPALgLA
+	tCjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=cRBg1sud9pOkFNiSDwCOwZy3orsc/jkHR1ldvVyCZ9c=;
-	b=Ech7GgCHt5snpKok6pZhU3i7TFUFKA2Xkhpb0hM5I5FregqFycvddWBABQ5ys8/zNz
-	1XlpsdZG9c3sGSHqQ8D16/QBsBs8C9A8/9hU3lMuvqFu9GG56Axxf04IH1rfUVEM1558
-	Ix3QcPl0aNIUZ4YVYeyacXwpsTctT5lMXY/H2+1EN8hb2XHzQj9IdKsYxSd1nU0iQU7r
-	TI36ALDqoYqL1xqFIkrTgENPEHmw071yUSPXauWpZitMe+wsZLHZ1nQZGSd1976sEFq5
-	AmtCPaR/IFl1nQT28DcjleRuvRkcxEe0FwEqfRaVLD+Vq8WjvAqDoxZI6tjGqcBk8xqO
-	sUeg==
-X-Gm-Message-State: AG10YORBuMdbyUZQEhyUeveixFkYQZzWJM/LX+1mbI5K0tVGVk644TwqMDjno34Cx0mjMw==
-X-Received: by 10.98.14.68 with SMTP id w65mr20650053pfi.146.1454684019042;
-	Fri, 05 Feb 2016 06:53:39 -0800 (PST)
+	bh=BSR9Y6O0oajRUBW7ronJYoKyjZEFZx1drZr0g+fijww=;
+	b=jqoABvHCRpPjxyviWWyDE0SLnFUZSSP3YFXLVbpOEBJCex9se0aml8Q/OWAOWRrf2j
+	CdEzHOvPMss8jw1D6yl0CY7iEbzhVTxz5zgv2WmMtN2xvxPPCtXtHYrNxSbM/3KYk5kc
+	gjhhqQq7k2yyR8N9C0dVDnd2ZvkmnbOz9suNuliW+G1V9lI7zHmxIJ8mzunfVifKYxPS
+	zM6EhDd3ilAKGdPh1MM5vWmfKCLJvb3GFEL+w2JQvOQL4dQK++RVWsdJeItDBnScrM15
+	1BLWmoedwXX1VJzmzVvO9Fu0W/jllNRo/ODm4RKvzvJV6cBi1KGn0pkdIUKzZSAnFLdu
+	5OCg==
+X-Gm-Message-State: AG10YOTTcWD4QI4Wu1IY/p8Ek4XCg4lDGenCPhy4nS3vgaKMx96CrF7H2r4qRvWy5LaFoQ==
+X-Received: by 10.98.34.212 with SMTP id p81mr20257141pfj.23.1454684020656;
+	Fri, 05 Feb 2016 06:53:40 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	o184sm25144290pfo.36.2016.02.05.06.53.37
+	o184sm25144290pfo.36.2016.02.05.06.53.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Feb 2016 06:53:37 -0800 (PST)
+	Fri, 05 Feb 2016 06:53:39 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	liezhi.yang@windriver.com
-Date: Fri,  5 Feb 2016 06:53:22 -0800
-Message-Id: <1005dd78a6a2b6d4b8098ec3cdc3eef1d29e655b.1454683625.git.akuster@mvista.com>
+Date: Fri,  5 Feb 2016 06:53:23 -0800
+Message-Id: <9cfb259d1bfe2d66801e0f15e7bb36a162f757ad.1454683625.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454683625.git.akuster@mvista.com>
 References: <cover.1454683625.git.akuster@mvista.com>
 In-Reply-To: <cover.1454683625.git.akuster@mvista.com>
 References: <cover.1454683625.git.akuster@mvista.com>
-Subject: [PATCH 3/4] libpng: Security fix CVE-2015-8472
+Subject: [PATCH 4/4] socat: Security fix CVE-2016-2217
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +58,413 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 14:53:38 -0000
+X-List-Received-Date: Fri, 05 Feb 2016 14:53:40 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-libpng: Buffer overflow vulnerabilities in png_get_PLTE/png_set_PLTE functions
+this address both
+Socat security advisory 7 and MSVR-1499: "Bad DH p parameter in OpenSSL"
+and Socat security advisory 8: "Stack overflow in arguments parser
 
-this patch fixes an incomplete patch in CVE-2015-8126
+[Yocto # 9024]
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../libpng/libpng-1.6.17/CVE-2015-8472.patch       | 29 ++++++++++++++++++++++
- meta/recipes-multimedia/libpng/libpng_1.6.17.bb    |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.17/CVE-2015-8472.patch
+ .../socat/socat/CVE-2016-2217.patch                | 372 +++++++++++++++++++++
+ meta/recipes-connectivity/socat/socat_1.7.3.0.bb   |   1 +
+ 2 files changed, 373 insertions(+)
+ create mode 100644 meta/recipes-connectivity/socat/socat/CVE-2016-2217.patch
 
-diff --git a/meta/recipes-multimedia/libpng/libpng-1.6.17/CVE-2015-8472.patch b/meta/recipes-multimedia/libpng/libpng-1.6.17/CVE-2015-8472.patch
+diff --git a/meta/recipes-connectivity/socat/socat/CVE-2016-2217.patch b/meta/recipes-connectivity/socat/socat/CVE-2016-2217.patch
 new file mode 100644
-index 0000000..404f012
+index 0000000..0cd4179
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/libpng-1.6.17/CVE-2015-8472.patch
-@@ -0,0 +1,29 @@
-+From 9f2ad4928e47036cf1ac9b8fe45a491f15be2324 Mon Sep 17 00:00:00 2001
-+From: Glenn Randers-Pehrson <glennrp at users.sourceforge.net>
-+Date: Wed, 4 Nov 2015 23:47:42 -0600
-+Subject: [PATCH] [libpng16] Fixed new bug with CRC error after reading an
-+ over-length palette.
-+
++++ b/meta/recipes-connectivity/socat/socat/CVE-2016-2217.patch
+@@ -0,0 +1,372 @@
 +Upstream-Status: Backport
-+CVE: CVE-2015-8472 
 +
-+https://github.com/glennrp/libpng/commit/9f2ad4928e47036cf1ac9b8fe45a491f15be2324
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
++http://www.dest-unreach.org/socat/download/socat-1.7.3.1.patch 
 +
-+---
-+ pngrutil.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++CVE: CVE-2016-2217
++[Yocto # 9024]
++Singed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+Index: libpng-1.6.17/pngrutil.c
++Index: socat-1.7.3.0/CHANGES
 +===================================================================
-+--- libpng-1.6.17.orig/pngrutil.c
-++++ libpng-1.6.17/pngrutil.c
-+@@ -973,7 +973,7 @@ png_handle_PLTE(png_structrp png_ptr, pn
-+    if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
-+ #endif
-+    {
-+-      png_crc_finish(png_ptr, 0);
-++      png_crc_finish(png_ptr, (int) length - num * 3);
++--- socat-1.7.3.0.orig/CHANGES
+++++ socat-1.7.3.0/CHANGES
++@@ -1,8 +1,39 @@
++ 
+++####################### V 1.7.3.1:
+++
+++security:
+++	Socat security advisory 8
+++	A stack overflow in vulnerability was found that can be triggered when
+++	command line arguments (complete address specifications, host names,
+++	file names) are longer than 512 bytes.
+++	Successful exploitation might allow an attacker to execute arbitrary
+++	code with the privileges of the socat process.
+++	This vulnerability can only be exploited when an attacker is able to
+++	inject data into socat's command line.
+++	A vulnerable scenario would be a CGI script that reads data from clients
+++	and uses (parts of) this data as hostname for a Socat invocation.
+++	Test: NESTEDOVFL
+++	Credits to Takumi Akiyama for finding and reporting this issue.
+++
+++	Socat security advisory 7
+++	MSVR-1499
+++	In the OpenSSL address implementation the hard coded 1024 bit DH p
+++	parameter was not prime. The effective cryptographic strength of a key
+++	exchange using these parameters was weaker than the one one could get by
+++	using a prime p. Moreover, since there is no indication of how these
+++	parameters were chosen, the existence of a trapdoor that makes possible
+++	for an eavesdropper to recover the shared secret from a key exchange
+++	that uses them cannot be ruled out.
+++	Futhermore, 1024bit is not considered sufficiently secure.
+++	Fix: generated a new 2048bit prime.
+++	Thanks to Santiago Zanella-Beguelin and Microsoft Vulnerability
+++	Research (MSVR) for finding and reporting this issue.
+++
++ ####################### V 1.7.3.0:
++ 
++ security:
++-	(CVE Id pending)
+++	Socat security advisory 6
+++	CVE-2015-1379: Possible DoS with fork
++ 	Fixed problems with signal handling caused by use of not async signal
++ 	safe functions in signal handlers that could freeze socat, allowing
++ 	denial of service attacks.
++@@ -240,6 +271,7 @@ docu:
++ ####################### V 1.7.2.3:
++ 
++ security:
+++	Socat security advisory 5
++ 	CVE-2014-0019: socats PROXY-CONNECT address was vulnerable to a buffer
++ 	overflow with data from command line (see socat-secadv5.txt)
++ 	Credits to Florian Weimer of the Red Hat Product Security Team
++@@ -247,6 +279,7 @@ security:
++ ####################### V 1.7.2.2:
++ 
++ security:
+++	Socat security advisory 4
++ 	CVE-2013-3571:
++ 	after refusing a client connection due to bad source address or source
++ 	port socat shutdown() the socket but did not close() it, resulting in
++@@ -258,6 +291,7 @@ security:
++ ####################### V 1.7.2.1:
++ 
++ security:
+++	Socat security advisory 3
++ 	CVE-2012-0219:
++ 	fixed a possible heap buffer overflow in the readline address. This bug
++ 	could be exploited when all of the following conditions were met:
++@@ -391,6 +425,7 @@ docu:
++ ####################### V 1.7.1.3:
++ 
++ security:
+++	Socat security advisory 2
++ 	CVE-2010-2799:
++ 	fixed a stack overflow vulnerability that occurred when command
++ 	line arguments (whole addresses, host names, file names) were longer
++@@ -892,6 +927,7 @@ further corrections:
++ ####################### V 1.4.0.3:
++ 
++ security:
+++	Socat security advisory 1
++ 	CVE-2004-1484:
++ 	fix to a syslog() based format string vulnerability that can lead to
++ 	remote code execution. See advisory socat-adv-1.txt
++Index: socat-1.7.3.0/VERSION
++===================================================================
++--- socat-1.7.3.0.orig/VERSION
+++++ socat-1.7.3.0/VERSION
++@@ -1 +1 @@
++-"1.7.3.0"
+++"1.7.3.1"
++Index: socat-1.7.3.0/nestlex.c
++===================================================================
++--- socat-1.7.3.0.orig/nestlex.c
+++++ socat-1.7.3.0/nestlex.c
++@@ -1,5 +1,5 @@
++ /* source: nestlex.c */
++-/* Copyright Gerhard Rieger 2006-2010 */
+++/* Copyright Gerhard Rieger */
++ /* Published under the GNU General Public License V.2, see file COPYING */
++ 
++ /* a function for lexical scanning of nested character patterns */
++@@ -9,6 +9,17 @@
++ 
++ #include "sysincludes.h"
++ 
+++static int _nestlex(const char **addr,
+++		    char **token,
+++		    ptrdiff_t *len,
+++		    const char *ends[],
+++		    const char *hquotes[],
+++		    const char *squotes[],
+++		    const char *nests[],
+++		    bool dropquotes,
+++		    bool c_esc,
+++		    bool html_esc
+++		    );
++ 
++ /* sub: scan a string and copy its value to output string
++    end scanning when an unescaped, unnested string from ends array is found
++@@ -33,6 +44,22 @@ int nestlex(const char **addr,	/* input
++ 	    bool c_esc,		/* solve C char escapes: \n \t \0 etc */
++ 	    bool html_esc	/* solve HTML char escapes: %0d %08 etc */
++ 	    ) {
+++   return
+++      _nestlex(addr, token, (ptrdiff_t *)len, ends, hquotes, squotes, nests,
+++	       dropquotes, c_esc, html_esc);
+++}
+++
+++static int _nestlex(const char **addr,
+++		    char **token,
+++		    ptrdiff_t *len,
+++		    const char *ends[],
+++		    const char *hquotes[],
+++		    const char *squotes[],
+++		    const char *nests[],
+++		    bool dropquotes,
+++		    bool c_esc,
+++		    bool html_esc
+++		    ) {
++    const char *in = *addr;	/* pointer into input string */
++    const char **endx;	/* loops over end patterns */
++    const char **quotx;	/* loops over quote patterns */
++@@ -77,16 +104,18 @@ int nestlex(const char **addr,	/* input
++ 		  if (--*len <= 0) { *addr = in; *token = out; return -1; }
++ 	       }
++ 	    }
++-	    /* we call nestlex recursively */
+++	    /* we call _nestlex recursively */
++ 	    endnest[0] = *quotx;
++ 	    endnest[1] = NULL;
++ 	    result =
++-	       nestlex(&in, &out, len, endnest, NULL/*hquotes*/,
+++	       _nestlex(&in, &out, len, endnest, NULL/*hquotes*/,
++ 		       NULL/*squotes*/, NULL/*nests*/,
++ 		       false, c_esc, html_esc);
++ 	    if (result == 0 && dropquotes) {
++ 	       /* we strip this quote */
++ 	       in += strlen(*quotx);
+++	    } else if (result < 0) {
+++	       *addr = in; *token = out; return result;
++ 	    } else {
++ 	       /* we copy the trailing quote */
++ 	       for (i = strlen(*quotx); i > 0; --i) {
++@@ -110,7 +139,7 @@ int nestlex(const char **addr,	/* input
++ 	 if (!strncmp(in, *quotx, strlen(*quotx))) {
++ 	    /* this quote pattern matches */
++ 	    /* we strip this quote */
++-	    /* we call nestlex recursively */
+++	    /* we call _nestlex recursively */
++ 	    const char *endnest[2];
++ 	    if (dropquotes) {
++ 	       /* we strip this quote */
++@@ -124,13 +153,15 @@ int nestlex(const char **addr,	/* input
++ 	    endnest[0] = *quotx;
++ 	    endnest[1] = NULL;
++ 	    result =
++-	       nestlex(&in, &out, len, endnest, hquotes,
+++	       _nestlex(&in, &out, len, endnest, hquotes,
++ 		       squotes, nests,
++ 		       false, c_esc, html_esc);
++ 
++ 	    if (result == 0 && dropquotes) {
++ 	       /* we strip the trailing quote */
++ 	       in += strlen(*quotx);
+++	    } else if (result < 0) {
+++	       *addr = in; *token = out; return result;
++ 	    } else {
++ 	       /* we copy the trailing quote */
++ 	       for (i = strlen(*quotx); i > 0; --i) {
++@@ -162,7 +193,7 @@ int nestlex(const char **addr,	/* input
++ 	    }
++ 
++ 	    result =
++-	       nestlex(&in, &out, len, endnest, hquotes, squotes, nests,
+++	       _nestlex(&in, &out, len, endnest, hquotes, squotes, nests,
++ 		       false, c_esc, html_esc);
++ 	    if (result == 0) {
++ 	       /* copy endnest */
++@@ -175,6 +206,8 @@ int nestlex(const char **addr,	/* input
++ 		  }
++ 		  --i;
++ 	       }
+++	    } else if (result < 0) {
+++	       *addr = in; *token = out; return result;
++ 	    }
++ 	    break;
++ 	 }
++@@ -211,7 +244,7 @@ int nestlex(const char **addr,	/* input
++ 	 }
++ 	 *out++ = c;
++ 	 --*len;
++-	 if (*len == 0) {
+++	 if (*len <= 0) {
++ 	    *addr = in;
++ 	    *token = out;
++ 	    return -1;	/* output overflow */
++@@ -222,7 +255,7 @@ int nestlex(const char **addr,	/* input
++       /* just a simple char */
++       *out++ = c;
++       --*len;
++-      if (*len == 0) {
+++      if (*len <= 0) {
++ 	 *addr = in;
++ 	 *token = out;
++ 	 return -1;	/* output overflow */
++Index: socat-1.7.3.0/nestlex.h
++===================================================================
++--- socat-1.7.3.0.orig/nestlex.h
+++++ socat-1.7.3.0/nestlex.h
++@@ -1,5 +1,5 @@
++ /* source: nestlex.h */
++-/* Copyright Gerhard Rieger 2006 */
+++/* Copyright Gerhard Rieger */
++ /* Published under the GNU General Public License V.2, see file COPYING */
++ 
++ #ifndef __nestlex_h_included
++Index: socat-1.7.3.0/socat.spec
++===================================================================
++--- socat-1.7.3.0.orig/socat.spec
+++++ socat-1.7.3.0/socat.spec
++@@ -1,6 +1,6 @@
++ 
++ %define majorver 1.7
++-%define minorver 3.0
+++%define minorver 3.1
++ 
++ Summary: socat - multipurpose relay
++ Name: socat
++Index: socat-1.7.3.0/test.sh
++===================================================================
++--- socat-1.7.3.0.orig/test.sh
+++++ socat-1.7.3.0/test.sh
++@@ -2266,8 +2266,8 @@ gentestcert () {
++ gentestdsacert () {
++     local name="$1"
++     if [ -s $name.key -a -s $name.crt -a -s $name.pem ]; then return; fi
++-    openssl dsaparam -out $name-dsa.pem 512 >/dev/null 2>&1
++-    openssl dhparam -dsaparam -out $name-dh.pem 512 >/dev/null 2>&1
+++    openssl dsaparam -out $name-dsa.pem 1024 >/dev/null 2>&1
+++    openssl dhparam -dsaparam -out $name-dh.pem 1024 >/dev/null 2>&1
++     openssl req -newkey dsa:$name-dsa.pem -keyout $name.key -nodes -x509 -config $TESTCERT_CONF -out $name.crt -days 3653 >/dev/null 2>&1
++     cat $name-dsa.pem $name-dh.pem $name.key $name.crt >$name.pem
++ }
++@@ -10973,6 +10973,42 @@ CMD0="$TRACE $SOCAT $opts OPENSSL:localh
++ printf "test $F_n $TEST... " $N
++ $CMD0 </dev/null 1>&0 2>"${te}0"
++ rc0=$?
+++if [ $rc0 -lt 128 ] || [ $rc0 -eq 255 ]; then
+++    $PRINTF "$OK\n"
+++    numOK=$((numOK+1))
+++else
+++    $PRINTF "$FAILED\n"
+++    echo "$CMD0"
+++    cat "${te}0"
+++    numFAIL=$((numFAIL+1))
+++    listFAIL="$listFAIL $N"
+++fi
+++fi # NUMCOND
+++ ;;
+++esac
+++PORT=$((PORT+1))
+++N=$((N+1))
+++
+++# socat up to 1.7.3.0 had a stack overflow vulnerability that occurred when
+++# command line arguments (whole addresses, host names, file names) were longer
+++# than 512 bytes and specially crafted.
+++NAME=NESTEDOVFL
+++case "$TESTS" in
+++*%$N%*|*%functions%*|*%bugs%*|*%security%*|*%exec%*|*%$NAME%*)
+++TEST="$NAME: stack overflow on overly long nested arg"
+++# provide a long host name to TCP-CONNECT and check socats exit code
+++if ! eval $NUMCOND; then :; else
+++tf="$td/test$N.stdout"
+++te="$td/test$N.stderr"
+++tdiff="$td/test$N.diff"
+++da="test$N $(date) $RANDOM"
+++# prepare long data - perl might not be installed
+++rm -f "$td/test$N.dat"
+++i=0; while [ $i -lt 64 ]; do  echo -n "AAAAAAAAAAAAAAAA" >>"$td/test$N.dat"; i=$((i+1)); done
+++CMD0="$TRACE $SOCAT $opts EXEC:[$(cat "$td/test$N.dat")] STDIO"
+++printf "test $F_n $TEST... " $N
+++$CMD0 </dev/null 1>&0 2>"${te}0"
+++rc0=$?
++ if [ $rc0 -lt 128 ] || [ $rc0 -eq 255 ]; then
++     $PRINTF "$OK\n"
++     numOK=$((numOK+1))
++Index: socat-1.7.3.0/xio-openssl.c
++===================================================================
++--- socat-1.7.3.0.orig/xio-openssl.c
+++++ socat-1.7.3.0/xio-openssl.c
++@@ -912,20 +912,27 @@ int
 +    }
 + 
-+ #ifndef PNG_READ_OPT_PLTE_SUPPORTED
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.17.bb b/meta/recipes-multimedia/libpng/libpng_1.6.17.bb
-index 110c43d..cc288c7 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.17.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.17.bb
-@@ -15,6 +15,7 @@ SRC_URI += "\
-             file://CVE-2015-8126_2.patch \
-             file://CVE-2015-8126_3.patch \
-             file://CVE-2015-8126_4.patch \
-+            file://CVE-2015-8472.patch \
-             "
++    {
++-      static unsigned char dh1024_p[] = {
++-	 0xCC,0x17,0xF2,0xDC,0x96,0xDF,0x59,0xA4,0x46,0xC5,0x3E,0x0E,
++-	 0xB8,0x26,0x55,0x0C,0xE3,0x88,0xC1,0xCE,0xA7,0xBC,0xB3,0xBF,
++-	 0x16,0x94,0xD8,0xA9,0x45,0xA2,0xCE,0xA9,0x5B,0x22,0x25,0x5F,
++-	 0x92,0x59,0x94,0x1C,0x22,0xBF,0xCB,0xC8,0xC8,0x57,0xCB,0xBF,
++-	 0xBC,0x0E,0xE8,0x40,0xF9,0x87,0x03,0xBF,0x60,0x9B,0x08,0xC6,
++-	 0x8E,0x99,0xC6,0x05,0xFC,0x00,0xD6,0x6D,0x90,0xA8,0xF5,0xF8,
++-	 0xD3,0x8D,0x43,0xC8,0x8F,0x7A,0xBD,0xBB,0x28,0xAC,0x04,0x69,
++-	 0x4A,0x0B,0x86,0x73,0x37,0xF0,0x6D,0x4F,0x04,0xF6,0xF5,0xAF,
++-	 0xBF,0xAB,0x8E,0xCE,0x75,0x53,0x4D,0x7F,0x7D,0x17,0x78,0x0E,
++-	 0x12,0x46,0x4A,0xAF,0x95,0x99,0xEF,0xBC,0xA6,0xC5,0x41,0x77,
++-	 0x43,0x7A,0xB9,0xEC,0x8E,0x07,0x3C,0x6D,
+++      static unsigned char dh2048_p[] = {
+++	 0x00,0xdc,0x21,0x64,0x56,0xbd,0x9c,0xb2,0xac,0xbe,0xc9,0x98,0xef,0x95,0x3e,
+++	 0x26,0xfa,0xb5,0x57,0xbc,0xd9,0xe6,0x75,0xc0,0x43,0xa2,0x1c,0x7a,0x85,0xdf,
+++	 0x34,0xab,0x57,0xa8,0xf6,0xbc,0xf6,0x84,0x7d,0x05,0x69,0x04,0x83,0x4c,0xd5,
+++	 0x56,0xd3,0x85,0x09,0x0a,0x08,0xff,0xb5,0x37,0xa1,0xa3,0x8a,0x37,0x04,0x46,
+++	 0xd2,0x93,0x31,0x96,0xf4,0xe4,0x0d,0x9f,0xbd,0x3e,0x7f,0x9e,0x4d,0xaf,0x08,
+++	 0xe2,0xe8,0x03,0x94,0x73,0xc4,0xdc,0x06,0x87,0xbb,0x6d,0xae,0x66,0x2d,0x18,
+++	 0x1f,0xd8,0x47,0x06,0x5c,0xcf,0x8a,0xb5,0x00,0x51,0x57,0x9b,0xea,0x1e,0xd8,
+++	 0xdb,0x8e,0x3c,0x1f,0xd3,0x2f,0xba,0x1f,0x5f,0x3d,0x15,0xc1,0x3b,0x2c,0x82,
+++	 0x42,0xc8,0x8c,0x87,0x79,0x5b,0x38,0x86,0x3a,0xeb,0xfd,0x81,0xa9,0xba,0xf7,
+++	 0x26,0x5b,0x93,0xc5,0x3e,0x03,0x30,0x4b,0x00,0x5c,0xb6,0x23,0x3e,0xea,0x94,
+++	 0xc3,0xb4,0x71,0xc7,0x6e,0x64,0x3b,0xf8,0x92,0x65,0xad,0x60,0x6c,0xd4,0x7b,
+++	 0xa9,0x67,0x26,0x04,0xa8,0x0a,0xb2,0x06,0xeb,0xe0,0x7d,0x90,0xdd,0xdd,0xf5,
+++	 0xcf,0xb4,0x11,0x7c,0xab,0xc1,0xa3,0x84,0xbe,0x27,0x77,0xc7,0xde,0x20,0x57,
+++	 0x66,0x47,0xa7,0x35,0xfe,0x0d,0x6a,0x1c,0x52,0xb8,0x58,0xbf,0x26,0x33,0x81,
+++	 0x5e,0xb7,0xa9,0xc0,0xee,0x58,0x11,0x74,0x86,0x19,0x08,0x89,0x1c,0x37,0x0d,
+++	 0x52,0x47,0x70,0x75,0x8b,0xa8,0x8b,0x30,0x11,0x71,0x36,0x62,0xf0,0x73,0x41,
+++	 0xee,0x34,0x9d,0x0a,0x2b,0x67,0x4e,0x6a,0xa3,0xe2,0x99,0x92,0x1b,0xf5,0x32,
+++	 0x73,0x63
++       };
++-      static unsigned char dh1024_g[] = {
+++      static unsigned char dh2048_g[] = {
++ 	 0x02,
++       };
++       DH *dh;
++@@ -938,8 +945,8 @@ int
++ 	 }
++ 	 Error("DH_new() failed");
++       } else {
++-	 dh->p = BN_bin2bn(dh1024_p, sizeof(dh1024_p), NULL);
++-	 dh->g = BN_bin2bn(dh1024_g, sizeof(dh1024_g), NULL);
+++	 dh->p = BN_bin2bn(dh2048_p, sizeof(dh2048_p), NULL);
+++	 dh->g = BN_bin2bn(dh2048_g, sizeof(dh2048_g), NULL);
++ 	 if ((dh->p == NULL) || (dh->g == NULL)) {
++ 	    while (err = ERR_get_error()) {
++ 	       Warn1("BN_bin2bn(): %s",
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.0.bb b/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
+index b58e0a7..6d76d0f 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
+@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
- SRC_URI[md5sum] = "430a9b76b78533235cd4b9b26ce75c7e"
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://Makefile.in-fix-for-parallel-build.patch \
++           file://CVE-2016-2217.patch \
+ "
+ 
+ SRC_URI[md5sum] = "b607edb65bc6c57f4a43f06247504274"
 -- 
 2.3.5
 
