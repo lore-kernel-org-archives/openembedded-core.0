@@ -1,48 +1,48 @@
 Return-Path: <rehsack@gmail.com>
 Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 05DA07730C
+	by mail.openembedded.org (Postfix) with ESMTP id 7493A77323
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 10:24:51 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id p63so20350478wmp.1
+	Fri,  5 Feb 2016 10:25:41 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id p63so20381521wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 02:24:52 -0800 (PST)
+	Fri, 05 Feb 2016 02:25:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:content-type:subject:date:message-id:cc:to:mime-version;
-	bh=m00vyj1hHRHdtQdeVPDb07TwDLowwCIJ9e8aZoYO8e0=;
-	b=llqAiAuyLOicayW+xTLhPRj24fTvWFiY5laNwk/ku3gSQtb1W1wgV+z/MIQ4NGHgT7
-	owx5s7XnS4JFZnI+FNnKu3844XThsBLK5JZcY41vumB6+DrllqaPypMN/HM+Q5y9l40Z
-	jUupCoYK3IN2R1qU6LkTqd9GsFmCphC+isU72Y7qHl2b7D3152muH3P5JqsPyXw+5geD
-	KElTkGCocmaoOfHyuWB1UdCsqUv/UAK+w0RqOKpb6RaimnFkcgDRF1rY1m4DPMsJmKIk
-	qpYQnpUHYxO30MwQGR/DJtopQKKffogkvG2U6/q2ctw0RA8eVCuISmJ6ruaoHoPMpX6x
-	C4KA==
+	bh=0q0Q/k2sO4EQlEfNN1ICs8kGvuChOgmEGEAeOQAb8C4=;
+	b=cH7EwYmkfviYcvNz7hd/uNRW6RdkTlxHJzBghltqDaSV9RoNo7m3BKlbT+YacZ+A7w
+	xOIIbI6b1PM7geAhedAH2Q9eyhmy3kv17yfm9lBT6HOfFRkZ3GKBS1icIrXJILFbMrif
+	3SvPuND9CSb36whm1BT9xOuLAPVidKYSdEhQo7qcwdGKBaQAs6L+GfNN3EmRaZT9I7DA
+	9Un3w5Wd326hl5vHCPALQ+pslcyzl4hOvBXDPwhcTDKyAyVZ2fwSr1QdATPn/z+gD2jf
+	vPPAvy08MCH3sdebvZKRwau5a35RHNcq9rCF/FWFwiDS27Tjp99wOUjanOitYwwrCXjQ
+	7IqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:content-type:subject:date:message-id:cc:to
 	:mime-version;
-	bh=m00vyj1hHRHdtQdeVPDb07TwDLowwCIJ9e8aZoYO8e0=;
-	b=azApQM19AZmDDqxI39XYQxQ+9u4v2IP93W8brPB1/UF72KSzIRhTG1aGE9wRHDQ5zd
-	5+0qJYNjftMGrCztDTZsXAsZlt25g5NRsjGdlOCV6fYqJ7nsAL4KKKJGGDyBH3UYzqoz
-	LXTKiDmIlxOy+ag7drevLku36iFyfKSth024aIz8j7jAEMeWRsEbGFH9ZEN4udX5+Mz5
-	5ZabSMe1b76GclvozzcER2TefLSSCpZ+lmoRsxPxn6c2i90KoVEpRKh1E7rwnItFgUHf
-	OjgIVWtZuTtAcJq9kqZrRSpHQF2tUHtm5X0fH9sz0rR+9nht0zODw84EzaulY5Bg3k/X
-	SqBQ==
-X-Gm-Message-State: AG10YOTV8ySaotpc3JOy1Hyf74dqE0pCgNllRCSekKhNFAk/BZHIx+uPiMUFsU0XZCSgVA==
-X-Received: by 10.28.57.68 with SMTP id g65mr21709213wma.56.1454667891949;
-	Fri, 05 Feb 2016 02:24:51 -0800 (PST)
+	bh=0q0Q/k2sO4EQlEfNN1ICs8kGvuChOgmEGEAeOQAb8C4=;
+	b=bfaIVcZtVA6TUoK5KEH8lQJXZBuHqSX7rRlD6KL3kM804kGt/0s4Sr/uNIwK5gA1If
+	WiYNoAxZg3zSagLf4G4Ft83uZ30lR8cW5bFGztcMbK544MpPd8XoLT8WoufegIHgDAtD
+	a5DH6URy9hGrqJHuK6t4Q/FDtDlCqlhgzrTCLyGbkIAVOhDE+XyPVNxh16PT3AT4ft2Y
+	FvyoAaumX3pcfoKyN6hwG9u99Qjh4gzdnBBuOoXF2mSCP96c5Gb8RFLsCF/9owp+hUIl
+	Xy3tNLbk9SL0sM8UTbEFRO5Z7E10WSsYVYnFrJRxBTp6ZKY/V5QZdgXnAw+JlTZxlQG5
+	/b7Q==
+X-Gm-Message-State: AG10YORGbgZcwp3qeLnx1h/eqidKs/L7AeFru6Bdp+bkjE5SFxhQzPLlVMicKcBiSP6ozw==
+X-Received: by 10.194.174.36 with SMTP id bp4mr12952356wjc.137.1454667942063; 
+	Fri, 05 Feb 2016 02:25:42 -0800 (PST)
 Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
 	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	c185sm30229106wma.5.2016.02.05.02.24.51
+	c185sm30229106wma.5.2016.02.05.02.25.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 05 Feb 2016 02:24:51 -0800 (PST)
+	Fri, 05 Feb 2016 02:25:41 -0800 (PST)
 From: Jens Rehsack <rehsack@gmail.com>
 X-Pgp-Agent: GPGMail 2.6b2
-Date: Fri, 5 Feb 2016 11:24:50 +0100
-Message-Id: <4CAACA4A-EFF1-44AF-8074-0B21B2929DA3@gmail.com>
+Date: Fri, 5 Feb 2016 11:25:40 +0100
+Message-Id: <8C0EB999-664F-45C3-B3AA-14B175F2B475@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Mailer: Apple Mail (2.3112)
-Subject: [OE][jethro] Backport Perl Upgrade to 5.22.1
+Subject: [PATCH][jethro] cross-localedef-native: add ABI breaking glibc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 10:24:53 -0000
-X-Groupsio-MsgNum: 77596
+X-List-Received-Date: Fri, 05 Feb 2016 10:25:41 -0000
+X-Groupsio-MsgNum: 77597
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F";
+	boundary="Apple-Mail=_08C43347-62C1-4683-8AB3-DCBD596F7553";
 	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F
+--Apple-Mail=_08C43347-62C1-4683-8AB3-DCBD596F7553
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
-Please backport the following from oe-core/master to jethro:
 
-55a8df2056024acf714f47c85267c1eba8b7b6be
-perl: Upgrade to 5.22.1
+Add patch from commit 96b1b5c127e9e0e637aaf7948cf3330a94a5cd57 to =
+cross-localedef-native
+to avoid broken images built with ENABLE_BINARY_LOCALE_GENERATION set to =
+1:
 
-According to http://search.cpan.org/dist/perl-5.22.1/pod/perldelta.pod =
-no incompatible changes but a lot of serious bugs fixed.
+    $ sh -c "export LANG=3Dde_DE; ls -la"
+    sh: loadlocale.c:130: _nl_intern_locale_data: Assertion `cnt < =
+(sizeof (_nl_value_type_LC_COLLATE) / sizeof =
+(_nl_value_type_LC_COLLATE[0]))' failed.
+    Aborted
 
-Cheers
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ meta/recipes-core/glibc/cross-localedef-native_2.22.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb =
+b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+index 03be9c0..3aefe74 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+@@ -20,6 +20,7 @@ GLIBC_GIT_URI ?=3D =
+"git://sourceware.org/git/glibc.git"
+ SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
+            =
+git://github.com/kraj/localedef;branch=3Dmaster;name=3Dlocaledef;destsuffi=
+x=3Dgit/localedef \
+            file://fix_for_centos_5.8.patch \
++	   =
+file://strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch \
+            ${EGLIBCPATCHES} \
+ "
+ EGLIBCPATCHES =3D "\
+--
+1.9.1
+
 --
 Jens Rehsack - rehsack@gmail.com
 
 
---Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F
+--Apple-Mail=_08C43347-62C1-4683-8AB3-DCBD596F7553
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -90,19 +118,19 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iQIcBAEBCgAGBQJWtHhyAAoJEESZlq7c5QqdpNQP/0mnUuFZuS6hevzAG0qOkfN5
-uWUj3HSGkxVDOQQdn6F/LJqYHKGbr9ycixkJlX5SDf9c7Fj4r0qiKZKtnMB/uGsL
-++bWfCA6KblpxlcrDE7novfxzwxJPPlYLAiiMXszUMmOJqjePYUQlwIXsgZ6WfmY
-KihcTBDN6nLbkkboyjz/4XPicjHNKHgRpYT4S73QuYYpq2FDGqJZLK+9ZWeyP8uS
-XZAvBIX5SqHyshQbuxAxL4CTaa3WIoM9myQHabAMFcOfNKbxH+yTFjyPu3+kyQDN
-81RUL6n8f4lQubpywLyWLmMXKJtIEZmnmUCu7Hcue5lMLEToeocNPwy88eg8FahW
-iM50nuybNqXiB3gD6kX/v7UlNv0kJhsuozhDHoqtXV+LlD/ZMEZ27k9jf0/h0rB2
-DVmuVRPObzkBPihRexJSRT0CkgowpCV60TiW6gMYULJNXlqXjS1m/hch2WYIPG5e
-1272ji+1D8OuMvimepYSuUoGpX+QZpa9Pr/WBb127PTVP5DcvC89HN+1+hHrzrTb
-kH2Imo4KzmlhMR6vziRJeQfNV5VZu9ysmvkbE0FuzSLvnGXuQQdTtMzYkE85h4d1
-AMONgccok1fmpsBwFltPoi7XHsmUSGCCZGHnEcetFEMzc5qXRNt0kdKZnIyIGmkX
-jAZyt+1P1Uk0t1ZGMzsM
-=BjJ/
+iQIcBAEBCgAGBQJWtHikAAoJEESZlq7c5Qqdz/0P/AiWD0YrbkAPmSzMvv1fv5Bp
+Ce4gwTPLCX1RGavK5qPcXo0bZi1g6FBMsCSzcbU/EDryL+HkAIi2DRn5OMeny8CX
+hAmrkjepfcfp+4rMJg6y9uRAMRfndmzTYt2/Y0jMCVEKGdeiLw0fAioqC1q3znFX
+qxBF3mgPeV1kOE3HhvlkFSDWAuhnHoXYFxPPPG/6+RrffpLYmiFcVfRtiKNoFBE1
+J699wO3jilDSUNXOMf7+WacAO+2UZrFhOOBf+FdKqC6ssRN5ainLjTEITa9RwxQe
+nmHJPl0qqyOYBR3s7GAxAw9Kp3Xv8buVnSAHIw/eedfHQN2Hr7lXW5cEzjn/WA/+
+M/lcmVDb1Z+eDRipMaSroFri6HMBnThTqEQIDEvJroecEaeum52vVT6NNEaSI+qH
+l+ta4dCA7oWlav/TJVKr3QDuSb6DFsG4/YkFbFz5ZCFpbt1ngbsDeh+XkI22dTez
+XdJs8/nayxuvSI5A9FN8hXN0ZllKz0Oo3WRn+vGKDCFdlHQtAsQpBQyHftOYf85x
+H12fiCDlh8AglL/nxYkoni0Lvgg5QmwKsSmKHWYqLXbPgyyh9ebRkq3jJbOVmAJf
+H+FwJy1S2jSHrqSV3869M5BBrJlAYiWtjetrutUnaAc2EpBVqEPYVjze9QuYjGiy
+b0QXpXLjrfDti07mHD/r
+=gPtg
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_E5CD8343-AB83-48E8-9CE7-E60FDA30037F--
+--Apple-Mail=_08C43347-62C1-4683-8AB3-DCBD596F7553--
