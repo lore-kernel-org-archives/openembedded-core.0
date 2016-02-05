@@ -1,47 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B500770E3
+Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 00FB277142
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 19:52:09 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id p63so4444386wmp.1
+	Fri,  5 Feb 2016 19:56:26 +0000 (UTC)
+Received: by mail-ob0-f195.google.com with SMTP id x5so4852292obg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 11:52:10 -0800 (PST)
+	Fri, 05 Feb 2016 11:56:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=tf9huzsX58XH7Rmcus0whPmSoOaqCqfYFZdADIoDBAI=;
-	b=L9Mpg/7d1pgardkFPnI0g0XCCL8oRhJmkBb/Wwl6C6jeSDpcVQ2Qzw0gX085LkpwS5
-	jjGiSZZ4A/Ce32cp2g2mQKn4hENOj6ZJe4TrZfVjjEfYk8eI2H+EiKpivZHnwQn11eWn
-	G9ne6Lecllve/UjgNuc7ko4NT2zM3kYL43G4YoiL1mmtSQbLoklUeamaDIpNYPA2HdHq
-	SPdtxcHRIVX3temObXrBRLK78gJk8u9Mx1Lh6+7h0Q7HUUCBdLB/JIsGmILEyfIXJNQx
-	q8y31Vh2RoGcJTGND1dd3wbvu8+QwFCDf3wsVhau7F9IlmGDxUFTv1L2fjyYQ9sb4ve3
-	bCyw==
+	h=from:to:cc:subject:date:message-id;
+	bh=Zyffg7TQO2VtdM4alOsPijocbFxZVtGQ93g6RdITj3o=;
+	b=DEIqDJ6NqCxbk/qrrJXbORseUXI/4BhD4k98GcMheNOdKzv5KTNJgxSN5C406GnRj0
+	bgmdeqDJuqHq+gGzM+zkSaE/v9jHBG8pu0SzuSd4rfKJUcmtf4fgbd9VVbQXihMNJ3Ic
+	kAM/nc1lqFPevi2tuyy5W8h0xNpswAbRq+JayOezdVK75uhOrl/yQ2bkSCmbAgmBKmwI
+	yVsUEXS1NcpdHk0jCYPkW2n2oRNXed5JCLxkrdEYO1mIQiSuAr/v6xnCCzyrpcOedJQM
+	Cvu92XwPxSE1NJCilRdHuG+190TB3J5q+CtdztAF0Rz6ykPzKphuUkMpbYnwdywuSfmV
+	W2CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=tf9huzsX58XH7Rmcus0whPmSoOaqCqfYFZdADIoDBAI=;
-	b=hgD1mp7nIAYBoi70keFd8yEQYuUL9juL3mZWv95C7hqNIMvrVswaAC1mpBxTKMxRhB
-	YM0327tkOGWo99//UaLAl/wrH6aJ2U2ITtaBj3pSIXYplkcxxSvL5YciAfUu1iPd2ubb
-	aYfF3gMzLaiGTRJwQTXaXOcAQ6dDlW6sDPK4E7dVsQiKUWa605b89opuiu5QLGwpcdl3
-	GaBbxlY18XvoQ9EcYakxjQyM0HwI8vOVqXx04K6xdXlaMyc/fcI/yFpUZcdY8WnThQpT
-	5kHPcEOsZXR/7L3BnFh5iBJj7Avh/HbVx/8yLJ6++oEFAugoJ+me3iQgHAR0pExO/LWe
-	vHMg==
-X-Gm-Message-State: AG10YOSHt2ZFbbCMrcUjnWRsqXgWRr6NTinBMpqn3AFtn8r/qws+BbTu0uQ4iKWQf/DzfLMpwp70rEZN1NJRlA==
-MIME-Version: 1.0
-X-Received: by 10.194.156.199 with SMTP id wg7mr18257605wjb.114.1454701930087; 
-	Fri, 05 Feb 2016 11:52:10 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Fri, 5 Feb 2016 11:52:10 -0800 (PST)
-In-Reply-To: <20160205145545.GD2575@jama>
-References: <1454627058-26663-1-git-send-email-armccurdy@gmail.com>
-	<1454627058-26663-6-git-send-email-armccurdy@gmail.com>
-	<20160205145545.GD2575@jama>
-Date: Fri, 5 Feb 2016 11:52:10 -0800
-Message-ID: <CAJ86T=VXWnusJ3_bEv8QpoXnKDnCqdzTvpCG0w=TZq9u7gSx6g@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Zyffg7TQO2VtdM4alOsPijocbFxZVtGQ93g6RdITj3o=;
+	b=ftEtu7roUSSrXRkAF7HNfsWlPB+xWlzBs2VkazuF+Me30wL5bxkeiSiqTZDR7ILAOi
+	vQm8mfsbrY6c8MrFxhkd+XF+KV+6sj2axwmXZDjxxI3PyScdthdEp3sbsSEOrTDfHsYf
+	msWhdsRv29rO1/JHE4X1CZBKSxIs7ZBYWYXSoeu7w4i7mbYQc3MWDqzSoUuZJpsCZvxP
+	MGYyF6RnFC8ub440L9y+jI1z6xJ/og7f/p3P58vccpxy87F0iQiIjkF1qjqO8lac1L8m
+	e+K8x+l+CXQhZfaisEZQ/S1PAh8tDdFt0IGvQz5DKHcxXNvl4qlSKwjs5bPeaHcNn+9U
+	fe9w==
+X-Gm-Message-State: AG10YOTdoSmuMFykAKsCe/9P2zGlYpGa/t1efoUyKbOsgJ1qYKUgFmv4NjTaQDFtPS4KDA==
+X-Received: by 10.182.120.40 with SMTP id kz8mr13813129obb.24.1454702187019;
+	Fri, 05 Feb 2016 11:56:27 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	f9sm10046151obw.13.2016.02.05.11.56.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Feb 2016 11:56:25 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] gstreamer1.0-plugins-base_git: drop obsolete dependency on freetype
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Feb 2016 11:56:15 -0800
+Message-Id: <1454702179-30239-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/4] gmp: misc reformatting + fix gmp_4.2.1 for MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,55 +53,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 19:52:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Feb 2016 19:56:28 -0000
 
-On Fri, Feb 5, 2016 at 6:55 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Feb 04, 2016 at 03:04:18PM -0800, Andre McCurdy wrote:
->> The dependency on freetype was dropped shortly after the 1.7.1 release
->>
->>   http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=183610c035dd6955c9b3540b940aec50474af031
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
->> index 956b24a..06afb04 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb
->> @@ -20,6 +20,11 @@ SRCREV_FORMAT = "base"
->>
->>  S = "${WORKDIR}/git"
->>
->> +# The dependency on freetype was dropped shortly after the 1.7.1 release
->> +# http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=183610c035dd6955c9b3540b940aec50474af031
->> +DEPENDS_remove = "freetype"
->> +EXTRA_OECONF_remove = "--disable-freetypetest"
->
-> Please remove both in:
-> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> and add them only to 1.6*bb recipe
->
-> If you keep the comment like this, then there is small change that the next
-> time the automated package upgrade will bump the main recipe, someone
-> will notice and remove this.
+Andre McCurdy (4):
+  gmp: move SRC_URI out of gmp.inc + minor reformatting
+  gmp: move BBCLASSEXTEND = "native nativesdk" from gmp.inc into 6.1.0 recipe
+  gmp.inc: limit ARM_INSTRUCTION_SET over-rides to armv4/armv5
+  gmp_4.2.1: fix build for MIPS
 
-Good point. I'll send a v2.
+ .../avoid-h-asm-constraint-for-MIPS.patch          | 57 ++++++++++++++++++++++
+ meta/recipes-support/gmp/gmp.inc                   | 12 ++---
+ meta/recipes-support/gmp/gmp_4.2.1.bb              |  8 +--
+ meta/recipes-support/gmp/gmp_6.1.0.bb              |  5 +-
+ 4 files changed, 70 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/avoid-h-asm-constraint-for-MIPS.patch
 
->>  do_configure_prepend() {
->>
->>       # Temp solution for git snapshot: relax version checks so we can build against GStreamer 1.7.1
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
+1.9.1
+
 
