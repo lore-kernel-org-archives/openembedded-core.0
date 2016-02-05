@@ -1,45 +1,46 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id C426B60088
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 644E5770EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Feb 2016 20:55:44 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id r129so43189200wmr.0
+	Fri,  5 Feb 2016 20:58:48 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id p63so43654869wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Feb 2016 12:55:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=l5sGRiNscPzHyinLfHUjkwBXgWBrEpORSb4xzXjmDPM=;
-	b=Bq18uk+RPBmnMkymYylCTOUvjyoz4Epz9rJSn2U/b25gumuzUC/1wOCvZvYtucnvnk
-	wGNGk1pWv22o49PTpD+ngyJeTL7doVWAMm9Xnibxs5kBsLsaWSK68gBDqhqqw3JSQEHp
-	ze46OAkIL6LPtKa4vHp1jAQTRH1REdy13U71A=
+	Fri, 05 Feb 2016 12:58:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=3j8+wc+GOTWY2mRstkF7cUQTAEkJXKpIyFsNyN2NgzU=;
+	b=RBmZnoa/iqI0QNqrlxlv18Y+gcd6RQ/Mx3gy9MrZnWDAyS2kaCXVv3Hpm4KrS/0RpR
+	3m/Tom17fyxiLQsb9unqFnl/aiFlHqvv8tWi5JWDgMIs7UT3lRGobfrh8965wgUJ1ZzE
+	61ZJMoeuoQlbTQCrMwuB+a0C5WrjGm/hXKsb6edzXh9nB+kGs/xCofBcrAUVvwQy5Lg4
+	zDSsbILy4216GqmG/b6+20PW56GqfROQEvHEVri0c+t16GXc1jbUWmo5/BlXSdPGya/J
+	1hX/f/8RvGyiLZE7uDgPV5oEZg1dcUoGKRpjPA4ebfDc4Lue+zI98IcALoNN3qqmItKW
+	hpzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=l5sGRiNscPzHyinLfHUjkwBXgWBrEpORSb4xzXjmDPM=;
-	b=SKls8YzzS1CJNBDHKUlublbwc22h9vlYbEYg29Ffy/RGiAof8yh/25mef6NZJlfFrf
-	eBoEXHsxVSYfqz2iA5ax9yeymUFIaDKqpAtnLc+0gfZFC8bJS3WHWP7SwScqHzEtbHz+
-	ASb+yKMFLnkM03wIHNI9sfldCZhLkga8J3eNHzFuDhkJk+vBto3/IIVxWV1IiG422jqq
-	yjY1PZ0NduVXSePYW1TQnLH9JREx7/LDRQFBcNmdE2Ip8ssQiBwVg+baYJCBYUn9QhMc
-	8QyW8/wL1ovA2BSwtCTjg/L7gFYaRATY1sXjnOYjwBkkMS6dqjI66DGTqAXyPip2hvc8
-	VuOw==
-X-Gm-Message-State: AG10YOSYwwY0lZ+6ZXYFDjNu4rgvIZAFgHDVcJ2UrFKKQRKDt1MNn/Aleiy2eP2OW0Ld3ulgm9lG12D1xOB+vm24
-X-Received: by 10.194.114.164 with SMTP id jh4mr15845517wjb.153.1454705745395; 
-	Fri, 05 Feb 2016 12:55:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.206.33 with HTTP; Fri, 5 Feb 2016 12:55:25 -0800 (PST)
-In-Reply-To: <CAJTo0LZT0UFrabh1U5LOLF9qcuL7QGoVVXGvo0NWYM4Y5H83tg@mail.gmail.com>
-References: <1454704804-11605-1-git-send-email-nicolas.dechesne@linaro.org>
-	<CAMKF1spmN7Y3bQVFhghUG80sYyuwbGAj6MMMm9oPKehhm-s3Sw@mail.gmail.com>
-	<CAJTo0LZT0UFrabh1U5LOLF9qcuL7QGoVVXGvo0NWYM4Y5H83tg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 5 Feb 2016 21:55:25 +0100
-Message-ID: <CAP71WjxGbyKN5d6+TM35TnhHn9JLksnxuWGgviw+KxCv+3Ka9Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND PATCH] mesa: upgrade 10.6.3 -> 11.1.1
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=3j8+wc+GOTWY2mRstkF7cUQTAEkJXKpIyFsNyN2NgzU=;
+	b=GB/boQQ+Yh7cwonG5gV0zPXf1JbEta73Shwe2svj9poNYruOMw6wknDie6soAjmLyX
+	pMGY95gdvNRySCqXwNQfQRaQYT98y8HlV7i2U8Kr+S7s1b+Uplr2mq6LKdCoq8UTC5i9
+	6Mnzo+k0dt0gQ/5KjhrnMPbAKWmaiMIWm+t7OHW4TfqC8Z+SJwR7du+Br8kRECZDfsbE
+	i8K09Gn62Y1OkbpzMReUusybyA7wujQ0UzfZsdK9Jap8Xu2IhhSs74RHAl66kJ+7X1CM
+	ucF4DxZYLOWWzHOsoFQWKPI3v9KlNd2hs7vwDCkeCRPnZqi37UTKpwVdKJ/f06xvWgUt
+	ViGA==
+X-Gm-Message-State: AG10YOSSlIaEJP7BduJ7Q8o8IV2a+Gu0dcELPwHZF26R3jeiKYzLKugtNtB+ulXsUTflZyms
+X-Received: by 10.28.141.10 with SMTP id p10mr17856085wmd.83.1454705928812;
+	Fri, 05 Feb 2016 12:58:48 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	t195sm343868wme.13.2016.02.05.12.58.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Feb 2016 12:58:48 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Feb 2016 20:58:46 +0000
+Message-Id: <1454705926-24745-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] gnome-mime-data: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +53,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Feb 2016 20:55:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Feb 2016 20:58:49 -0000
 
-On Fri, Feb 5, 2016 at 9:46 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 5 February 2016 at 20:44, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> its added new to this version. May be packageconfig is better place
->> for --with-sha1 stuff
->
->
-> Agreed - some may not want openssl at all and being able to switch it for
-> another alternative would be useful.
+gnome-mime-data is part of the GNOME 2 desktop, and the only dependency on it is
+gnome-vfs which is in meta-gnome where this recipe should live.
 
-sure. but, then I have some questions..
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../gnome/gnome-mime-data/pkgconfig.patch             | 14 --------------
+ meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb    | 19 -------------------
+ 2 files changed, 33 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-mime-data/pkgconfig.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb
 
-1. which one we default to? openssl?
+diff --git a/meta/recipes-gnome/gnome/gnome-mime-data/pkgconfig.patch b/meta/recipes-gnome/gnome/gnome-mime-data/pkgconfig.patch
+deleted file mode 100644
+index 0903425..0000000
+--- a/meta/recipes-gnome/gnome/gnome-mime-data/pkgconfig.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: gnome-mime-data-2.18.0/Makefile.am
+-===================================================================
+---- gnome-mime-data-2.18.0.orig/Makefile.am	2009-06-11 17:27:48.000000000 +0100
+-+++ gnome-mime-data-2.18.0/Makefile.am	2009-06-11 17:27:59.000000000 +0100
+-@@ -1,6 +1,6 @@
+- SUBDIRS = man po
+- 
+--pkgconfigdir = $(datadir)/pkgconfig
+-+pkgconfigdir = $(libdir)/pkgconfig
+- pkgconfig_DATA = gnome-mime-data-2.0.pc
+- 
+- NULL=
+diff --git a/meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb b/meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb
+deleted file mode 100644
+index a31eb55..0000000
+--- a/meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-SUMMARY = "Base MIME and Application database for GNOME"
+-HOMEPAGE = "http://www.gnome.org/"
+-BUGTRACKER = "https://bugzilla.gnome.org/"
+-
+-LICENSE = "GPLv2 & GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-                    file://check-mime.pl;endline=26;md5=a95b63c92c33d4ca1af61a315888f450"
+-
+-inherit gnomebase mime
+-PR = "r4"
+-
+-SRC_URI += "file://pkgconfig.patch"
+-
+-SRC_URI[archive.md5sum] = "541858188f80090d12a33b5a7c34d42c"
+-SRC_URI[archive.sha256sum] = "37196b5b37085bbcd45c338c36e26898fe35dd5975295f69f48028b1e8436fd7"
+-GNOME_COMPRESS_TYPE="bz2"
+-
+-DEPENDS += "shared-mime-info intltool-native"
+-RDEPENDS_${PN} = "shared-mime-info"
+-- 
+2.7.0
 
-2. which one we support, from configure.ac:
-
-        [choose SHA1 implementation])])
-case "x$with_sha1" in
-x | xlibc | xlibmd | xlibnettle | xlibgcrypt | xlibcrypto | xlibsha1 |
-xCommonCrypto | xCryptoAPI)
-  ;;
-
-3. is there a good way to handle 'multiple choice' with PACKAGECONFIG?
-How can we prevent more than 1 PACKAGECONFIG to be set (nicely)?
 
