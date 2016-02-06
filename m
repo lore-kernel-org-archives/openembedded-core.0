@@ -1,46 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CBCD77087
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D2F8E77087
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 23:15:08 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id yy13so4044158pab.1
+	Sat,  6 Feb 2016 23:15:10 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id yy13so4044194pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 15:15:09 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=l0Pz57ve3087m4e/FPzK6Zad6QKbVQddeVdz2uAZfyI=;
-	b=TF0RkU28wJ5X4slwk14KkWDvQrQ4RoZWhcfnpPxDBxZjZOJ8DjjZ9tOpWxB408X/3F
-	cfFLe8Lw+jPYBqjTxrIpmc8Ak5U6xE6nyAAPVWU/NM4fLuVysy7VfLGTvkjrdpqlXe7j
-	fyjDpPSsXDKkvfxCHl7ukqY4xX4s0DIGPL5+dW1Z2xWThj5wHk1M9PtjINmdRHK6P9lK
-	iaQIVD8AR9gL1LnYjQW6ksMxG0wFTdXMNs+zm8hLhk9iAHQrfjpPAXvdxhs+EFHhtFU9
-	yMntB3mDzvkQKT3+ZXnSh0OH6+aiKnnyDb16eckIfVWHBonZCcuwMoDKV1N7/91aLnGK
-	KoLg==
+	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
+	:references; bh=WmmDV9+1dY/LsNtpihjB1GmMNC015AWZw7tJg3jaM4Y=;
+	b=PCS/nTdalZz5G1HIeeagVbYfNu19Tia3djR44m1+kvYUccM0R942PoUnnRYHXsPz+d
+	PaMF4CVOlhWZmALKKIrBYAkXU8rd8EsR6yEAtNNRvI8ESyjoXPhOTcf5yYYHe9SGwbFB
+	P7Gfx4liyBZXiaOnZXgqb1tgMiWP+nubBadSKiiAbKhTD2Jfa5o6vfF9h9yZf2M2CCl1
+	I4Algy9bOztS98L67mrv34SF9xJ4b98BIGL9yz9MRDVgnQDFQv0zHC6vMMwCQhraiOE+
+	cidUw61GIJqz6GrX7xUZstqovhkvd11dojibOCFrHT+VZ6WULav5kjR/xIhZTLA2oMzV
+	uBKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=l0Pz57ve3087m4e/FPzK6Zad6QKbVQddeVdz2uAZfyI=;
-	b=TAbAxraGB/1FAFx0TwoW7hBaoVceBuMzTTGUpX/VI+EFI6iSrJ9NdbOpfNGVoogIjc
-	RxAlJ7epX6LTzinu1c/+3ddhimtVQghdVNPBcD9rbdnAXf7V7l8l2COR5ngHUlZAjb5P
-	Rfim3tUR7xNmjWKQe0bnbENPJ4Niwn29GyeyCTb9lwlOK26SvQ2dOPgtUPtDiy+QQ81u
-	dpHZOTnJPtJEfit+aFF5NHo+VvBWmlEhC8omtDvEe2DxL1E7D/KCiXd448FDMlYtdWJW
-	C7Shuh9HDeao1HBHG73XLEKCErD28wCHrYoxT7TYtAv5W9Q4t6VtgxDb3rsCtDSLEPDj
-	GKPQ==
-X-Gm-Message-State: AG10YOSthUmGl8uNaQzVRrBj9voRRz+P91HuT6lGAPODXsUcRBmD9w+Qw6iI9FAYXi9KxQ==
-X-Received: by 10.66.159.38 with SMTP id wz6mr31028569pab.12.1454800509044;
-	Sat, 06 Feb 2016 15:15:09 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=WmmDV9+1dY/LsNtpihjB1GmMNC015AWZw7tJg3jaM4Y=;
+	b=cNua+qnOFUph/fEGOOwMbFK4o6Q0ryx4YNTJ2YJM2CeUTf+7/l47cUrJSfXiAB8htA
+	boWZYKeedp0/nIEepW5OpWzSDfaUDxSz3CyQ4GlJgjYq8iw45NWDRmkMasKjgbRY77Ij
+	kern+I+5t2aU7rKdCOkwuRvTcpvcGVehmUzXmHYFEi/odYFANR/qfQcBmw0JZHnsiv6A
+	zKRYqDKsO1D4SHKNNmgGHkKfpEQNRecgt9y2jtRkOJ7tK+tvl2iIVERN4h98ysifY6n0
+	jVPi3eLcdRPljN5RHzh+WIqSr4mRM4KHJLUq3G4nYTfa7ml0Lgiw1j+wmCth67L8AdXl
+	EwrQ==
+X-Gm-Message-State: AG10YOSGNnk+AyFNgufrRYN3eUud1b2fQJCunJmkI/fZBWIIAMS8bN/n1DOH7HMmaEcRLg==
+X-Received: by 10.66.164.196 with SMTP id ys4mr30756307pab.119.1454800511824; 
+	Sat, 06 Feb 2016 15:15:11 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.06
+	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 15:15:07 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:09 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
 	akuster808@gmail.com
-Date: Sat,  6 Feb 2016 15:14:41 -0800
-Message-Id: <cover.1454800360.git.akuster@mvista.com>
+Date: Sat,  6 Feb 2016 15:14:42 -0800
+Message-Id: <b375d4c7f508e324f8efa501c7537495b20bf1cf.1454800360.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
-Subject: [PATCH 00/21][Fido v3] pull request
+In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
+References: <cover.1454800360.git.akuster@mvista.com>
+In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
+References: <cover.1454800360.git.akuster@mvista.com>
+Subject: [PATCH 01/21] glibc: CVE-2015-8777
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,109 +58,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 23:15:09 -0000
+X-List-Received-Date: Sat, 06 Feb 2016 23:15:11 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-forgot to append a change to bind recipe.
+The process_envvars function in elf/rtld.c in the GNU C Library (aka glibc or
+libc6) before 2.23 allows local users to bypass a pointer-guarding protection
+mechanism via a zero value of the LD_POINTER_GUARD environment variable.
 
-This includes a miss fire on the glibc request plus many others.
-This supersedes the last tow fido pull request
+(From OE-Core rev: 22570ba08d7c6157aec58764c73b1134405b0252)
 
-The following changes since commit 9845a542a76156adb5aef6fd33ad5bc5777acf64:
-
-  openssh: CVE-2016-077x (2016-01-20 17:08:30 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akuster/fido_cve_fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fido_cve_fixes
-
-Armin Kuster (18):
-  glibc: CVE-2015-8777
-  glibc: CVE-2015-8779
-  glibc: CVE-2015-9761
-  glibc: CVE-2015-8776
-  openssl: Security fix CVE-2015-3197
-  openssl: Security fix CVE-2016-0701
-  qemu: Security fix CVE-2015-8504
-  qemu: Security fix CVE-2015-7504
-  qemu: Security fix CVE-2015-7512
-  qemu: Security fix CVE-2015-8345
-  qemu: Security fix CVE-2016-1568
-  qemu: Security fix CVE-2015-7295
-  tzcode: update to 2016a
-  tzdata: update to 2016a
-  dpkg: Security fix CVE-2015-0860
-  libxml2: Security fix CVE-2015-8241
-  libxml2: Security fix CVE-2015-8710
-  bind: Security fix CVE-2015-8704
-
-Paul Eggleton (1):
-  tzdata: reinstate changes reverted in 2014c upgrade
-
-Wenzong Fan (2):
-  subversion: fix CVE-2015-3184
-  subversion: fix CVE-2015-3187
-
- .../bind/bind/CVE-2015-8704.patch                  |   29 +
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |    1 +
- .../openssl/openssl/CVE-2015-3197.patch            |   63 +
- .../openssl/openssl/CVE-2016-0701_1.patch          |  102 +
- .../openssl/openssl/CVE-2016-0701_2.patch          |  156 ++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |    3 +
- meta/recipes-core/glibc/glibc/CVE-2015-8776.patch  |  155 ++
- meta/recipes-core/glibc/glibc/CVE-2015-8777.patch  |  122 ++
- meta/recipes-core/glibc/glibc/CVE-2015-8779.patch  |  262 +++
- .../recipes-core/glibc/glibc/CVE-2015-9761_1.patch | 1039 ++++++++++
- .../recipes-core/glibc/glibc/CVE-2015-9761_2.patch |  388 ++++
- meta/recipes-core/glibc/glibc_2.21.bb              |    5 +
- meta/recipes-core/libxml/libxml2.inc               |    2 +
- .../libxml/libxml2/CVE-2015-8241.patch             |   40 +
- .../libxml/libxml2/CVE-2015-8710.patch             |   71 +
- .../recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch |   53 +
- meta/recipes-devtools/dpkg/dpkg_1.17.21.bb         |    1 +
- .../qemu/qemu/CVE-2015-7295_1.patch                |   63 +
- .../qemu/qemu/CVE-2015-7295_2.patch                |   58 +
- .../qemu/qemu/CVE-2015-7295_3.patch                |   52 +
- .../recipes-devtools/qemu/qemu/CVE-2015-7504.patch |   56 +
- .../recipes-devtools/qemu/qemu/CVE-2015-7512.patch |   44 +
- .../recipes-devtools/qemu/qemu/CVE-2015-8345.patch |   73 +
- .../recipes-devtools/qemu/qemu/CVE-2015-8504.patch |   51 +
- .../recipes-devtools/qemu/qemu/CVE-2016-1568.patch |   46 +
- meta/recipes-devtools/qemu/qemu_2.2.0.bb           |    8 +
- .../subversion-CVE-2015-3184.patch                 | 2082 ++++++++++++++++++++
- .../subversion-CVE-2015-3187.patch                 |  346 ++++
- .../subversion/subversion_1.8.11.bb                |    2 +
- ...code-native_2015g.bb => tzcode-native_2016a.bb} |   16 +-
- meta/recipes-extended/tzdata/tzdata.inc            |    5 +-
- .../tzdata/{tzdata_2015g.bb => tzdata_2016a.bb}    |   10 +-
- 32 files changed, 5389 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3197.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_1.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_2.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2015-8777.patch | 122 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.21.bb             |   1 +
+ 2 files changed, 123 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7295_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7295_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7295_3.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7504.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-7512.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8504.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.11/subversion-CVE-2015-3184.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.11/subversion-CVE-2015-3187.patch
- rename meta/recipes-extended/tzcode/{tzcode-native_2015g.bb => tzcode-native_2016a.bb} (40%)
- rename meta/recipes-extended/tzdata/{tzdata_2015g.bb => tzdata_2016a.bb} (96%)
 
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-8777.patch b/meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
+new file mode 100644
+index 0000000..9b9ab3b
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
+@@ -0,0 +1,122 @@
++From a014cecd82b71b70a6a843e250e06b541ad524f7 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Thu, 15 Oct 2015 09:23:07 +0200
++Subject: [PATCH] Always enable pointer guard [BZ #18928]
++
++Honoring the LD_POINTER_GUARD environment variable in AT_SECURE mode
++has security implications.  This commit enables pointer guard
++unconditionally, and the environment variable is now ignored.
++
++        [BZ #18928]
++        * sysdeps/generic/ldsodefs.h (struct rtld_global_ro): Remove
++        _dl_pointer_guard member.
++        * elf/rtld.c (_rtld_global_ro): Remove _dl_pointer_guard
++        initializer.
++        (security_init): Always set up pointer guard.
++        (process_envvars): Do not process LD_POINTER_GUARD.
++
++Upstream-Status: Backport
++CVE: CVE-2015-8777
++[Yocto # 8980]
++
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=a014cecd82b71b70a6a843e250e06b541ad524f7
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ ChangeLog                  | 10 ++++++++++
++ NEWS                       | 13 ++++++++-----
++ elf/rtld.c                 | 15 ++++-----------
++ sysdeps/generic/ldsodefs.h |  3 ---
++ 4 files changed, 22 insertions(+), 19 deletions(-)
++
++Index: git/elf/rtld.c
++===================================================================
++--- git.orig/elf/rtld.c
+++++ git/elf/rtld.c
++@@ -163,7 +163,6 @@ struct rtld_global_ro _rtld_global_ro at
++     ._dl_hwcap_mask = HWCAP_IMPORTANT,
++     ._dl_lazy = 1,
++     ._dl_fpu_control = _FPU_DEFAULT,
++-    ._dl_pointer_guard = 1,
++     ._dl_pagesize = EXEC_PAGESIZE,
++     ._dl_inhibit_cache = 0,
++ 
++@@ -710,15 +709,12 @@ security_init (void)
++ #endif
++ 
++   /* Set up the pointer guard as well, if necessary.  */
++-  if (GLRO(dl_pointer_guard))
++-    {
++-      uintptr_t pointer_chk_guard = _dl_setup_pointer_guard (_dl_random,
++-							     stack_chk_guard);
+++  uintptr_t pointer_chk_guard
+++    = _dl_setup_pointer_guard (_dl_random, stack_chk_guard);
++ #ifdef THREAD_SET_POINTER_GUARD
++-      THREAD_SET_POINTER_GUARD (pointer_chk_guard);
+++  THREAD_SET_POINTER_GUARD (pointer_chk_guard);
++ #endif
++-      __pointer_chk_guard_local = pointer_chk_guard;
++-    }
+++  __pointer_chk_guard_local = pointer_chk_guard;
++ 
++   /* We do not need the _dl_random value anymore.  The less
++      information we leave behind, the better, so clear the
++@@ -2478,9 +2474,6 @@ process_envvars (enum mode *modep)
++ 	      GLRO(dl_use_load_bias) = envline[14] == '1' ? -1 : 0;
++ 	      break;
++ 	    }
++-
++-	  if (memcmp (envline, "POINTER_GUARD", 13) == 0)
++-	    GLRO(dl_pointer_guard) = envline[14] != '0';
++ 	  break;
++ 
++ 	case 14:
++Index: git/sysdeps/generic/ldsodefs.h
++===================================================================
++--- git.orig/sysdeps/generic/ldsodefs.h
+++++ git/sysdeps/generic/ldsodefs.h
++@@ -590,9 +590,6 @@ struct rtld_global_ro
++   /* List of auditing interfaces.  */
++   struct audit_ifaces *_dl_audit;
++   unsigned int _dl_naudit;
++-
++-  /* 0 if internal pointer values should not be guarded, 1 if they should.  */
++-  EXTERN int _dl_pointer_guard;
++ };
++ # define __rtld_global_attribute__
++ # if IS_IN (rtld)
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,13 @@
+++2015-10-15  Florian Weimer  <fweimer@redhat.com>
+++
+++   [BZ #18928]
+++   * sysdeps/generic/ldsodefs.h (struct rtld_global_ro): Remove
+++   _dl_pointer_guard member.
+++   * elf/rtld.c (_rtld_global_ro): Remove _dl_pointer_guard
+++   initializer.
+++   (security_init): Always set up pointer guard.
+++   (process_envvars): Do not process LD_POINTER_GUARD.
+++
++ 2015-02-06  Carlos O'Donell  <carlos@systemhalted.org>
++ 
++ 	* version.h (RELEASE): Set to "stable".
++Index: git/NEWS
++===================================================================
++--- git.orig/NEWS
+++++ git/NEWS
++@@ -19,7 +19,10 @@ Version 2.21
++   17722, 17723, 17724, 17725, 17732, 17733, 17744, 17745, 17746, 17747,
++   17748, 17775, 17777, 17780, 17781, 17782, 17791, 17793, 17796, 17797,
++   17801, 17803, 17806, 17834, 17844, 17848, 17868, 17869, 17870, 17885,
++-  17892.
+++  17892, 18928.
+++
+++* The LD_POINTER_GUARD environment variable can no longer be used to
+++  disable the pointer guard feature.  It is always enabled.
++ 
++ * CVE-2015-1472 Under certain conditions wscanf can allocate too little
++   memory for the to-be-scanned arguments and overflow the allocated
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 3bba734..efbcc9c 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -48,6 +48,7 @@ EGLIBCPATCHES = "\
+ #
+ CVEPATCHES = "\
+         file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
++        file://CVE-2015-8777.patch \
+ "
+ 
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
 -- 
 2.3.5
 
