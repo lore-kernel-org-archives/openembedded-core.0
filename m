@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D88B7720F
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 045E677249
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 23:15:21 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 66so6919949pfe.2
+	Sat,  6 Feb 2016 23:15:23 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id 71so1869413pfv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 15:15:22 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=1g22lUZEhgKZX34RYawyUc/dPlaRWlxyKGMjwxPK8YM=;
-	b=ZYM2MPC6F1X2OKt8ixsHhIVp+QHTidcXL8yjNlFpI89NiGdc/Jail6Ka9+gg7d/p3x
-	pcpeLWMRFLr5tgED1O3UoxCDCG3C2YOp3FrjBd9T9hhvZ+YETyudPkxU+lAyxIcnOLbF
-	djEESui6wsGOPu6T/KZiq5P/IZX9gKB8hSgNbylc5UPiVEpAQSz/rcgGsaozu2hdJENy
-	oasUKAuiBhR7et4j0jXG2/Y8j23syzS2YvEK8/KCsUka+Dyize/aOf6C95OeS0wY7mqI
-	B8mmNpbLM5duDPo9KB7rOomP0ONnLrwFUynArK8Eu5vUz//8EGuPAvMhnpXkoQGlF2uk
-	uVHg==
+	:references; bh=s6NXxidTCjjZ3RCHtQygkh2DQko1tz+FtnLu1cEmg4w=;
+	b=yqqr9T83m714NLwKSIZDBQT3O/7OhXRcVV2VjxJ6mAwXvKkjqLXaa29vYdsppO+J4d
+	RNt9DIl99YqgicWWbMqzWkHSCEt2olw1tcDTE2UvY2ZP2NcKcKTjwGXhJLCn+M3IKdKh
+	CCf1YL3litYJS2fUSLeUrOp9tMA5apxZaafV72pr7jqEzgTVny4C4A5kA2M2H4fdgTuw
+	2tpFdOdnVY/m5Zd/EB5AFDSAFBOxhgEmDIZ2/3SA1cH7blupZ+NpRPFmZqb1ZRTKktkG
+	vpHuqSfFuFs2/sa9OiIJricKo8OWKID00D56WeFJilHjk5ZIpWEOWgFOj3ctaXMSSPmZ
+	p9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=1g22lUZEhgKZX34RYawyUc/dPlaRWlxyKGMjwxPK8YM=;
-	b=QLwZEugI4YaV6XYi5NTrfIRthn3uyJnaFJQ1whcEifE56njNMcTb0MX9UCuK6XcJ/4
-	FsfHVAASjlL9OdHpXJ5uyU8kONIxx5dDQ1eAZ9PEjTyugeXufsB1HaobUeBhqyw5Nr0M
-	v6hNzOl5FOKFGXGKuJo/X19YumReGBCL9Nk8d1KX2F9V4xQrhc4L3/8mPfOSU6icpyOi
-	q6vntOomgcb5aeCqFK5vT8m1JJWN4hry1nt24ScW3t2bdeEa4VnTkpr4z50PbZU7cCq1
-	5crzX1MAqMXittS46+wsxuUCACdmx6bJBjN8dSaFh5sZZ7vQj7NzyCnW1ccIe6QHAqBK
-	TdIg==
-X-Gm-Message-State: AG10YORaVU9MmqNHZyLw6aLnz/qQBttrGkbYPeVakWkHsMaliGU4Hu6fJdTvwz6LNlm+2g==
-X-Received: by 10.98.43.73 with SMTP id r70mr30929394pfr.4.1454800522718;
-	Sat, 06 Feb 2016 15:15:22 -0800 (PST)
+	bh=s6NXxidTCjjZ3RCHtQygkh2DQko1tz+FtnLu1cEmg4w=;
+	b=OQUpncsHyqojF9e764soVxrWlJWBr9A/cpmQgsa5G+kge4sXesorlfdAMZGKlK7uHP
+	WLSnzcSrVaIQUHMMRUvOejTO6/FWApVI9DL4RySCkdGqoT+plZ9h28hpyXTpF4Q2Ge/W
+	HDkS9YmwSJD4QJ8j8wy7pZG//4RRG9tXvjvDpY7o5GwKr8AM/1P1bb/ome6U8bZJRNBa
+	s78XrBC6T/fNzzFXQuAm1HXbiA6RmJk3r7Nqb/z49/EDBSPCkGrguZcgTRwcAH+hcjvP
+	ql44UtEinkgca+BuyeRD6NzEKy+K2/hEHbJWUAYnhEcTz3ds0VIyjwe7HMriU+8oVtVs
+	ayJA==
+X-Gm-Message-State: AG10YOTmZWEiCF/tExHXRdUNpfI+e19cOB5wD0+wsZ0R/h70eg8R644cFraWMlwZIaSkNw==
+X-Received: by 10.98.87.80 with SMTP id l77mr31002026pfb.101.1454800524612;
+	Sat, 06 Feb 2016 15:15:24 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.20
+	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 15:15:21 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:23 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
 	akuster808@gmail.com
-Date: Sat,  6 Feb 2016 15:14:47 -0800
-Message-Id: <2c78d5780c0d1529af127d779550dc193ecfbb98.1454800360.git.akuster@mvista.com>
+Date: Sat,  6 Feb 2016 15:14:48 -0800
+Message-Id: <399df1261ab4ddb0e6b9a258167a1db318286411.1454800360.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
-Subject: [PATCH 06/21] openssl: Security fix CVE-2016-0701
+Subject: [PATCH 07/21] subversion: fix CVE-2015-3184
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,306 +58,2134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 23:15:22 -0000
+X-List-Received-Date: Sat, 06 Feb 2016 23:15:24 -0000
 
-CVE-2016-0701 OpenSSL: DH small subgroups
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-(From OE-Core rev: c5868a7cd0a28c5800dfa4be1c9d98d3de08cd12)
+mod_authz_svn in Apache Subversion 1.7.x before 1.7.21 and 1.8.x before
+1.8.14, when using Apache httpd 2.4.x, does not properly restrict
+anonymous access, which allows remote anonymous users to read hidden
+files via the path name.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Patch is from:
+http://subversion.apache.org/security/CVE-2015-3184-advisory.txt
+
+(From OE-Core master rev: 29eb921ed074d86fa8d5b205a313eb3177473a63)
+
+(From OE-Core rev: 7af7a3e692a6cd0d92768024efe32bfa7d83bc8f)
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../openssl/openssl/CVE-2016-0701_1.patch          | 102 ++++++++++++++
- .../openssl/openssl/CVE-2016-0701_2.patch          | 156 +++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   2 +
- 3 files changed, 260 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_1.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_2.patch
+ .../subversion-CVE-2015-3184.patch                 | 2082 ++++++++++++++++++++
+ .../subversion/subversion_1.8.11.bb                |    1 +
+ 2 files changed, 2083 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.11/subversion-CVE-2015-3184.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_1.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_1.patch
+diff --git a/meta/recipes-devtools/subversion/subversion-1.8.11/subversion-CVE-2015-3184.patch b/meta/recipes-devtools/subversion/subversion-1.8.11/subversion-CVE-2015-3184.patch
 new file mode 100644
-index 0000000..cf2d9a7
+index 0000000..2daa7c7
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_1.patch
-@@ -0,0 +1,102 @@
-+From 878e2c5b13010329c203f309ed0c8f2113f85648 Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Mon, 18 Jan 2016 11:31:58 +0000
-+Subject: [PATCH] Prevent small subgroup attacks on DH/DHE
++++ b/meta/recipes-devtools/subversion/subversion-1.8.11/subversion-CVE-2015-3184.patch
+@@ -0,0 +1,2082 @@
++Fix CVE-2015-3184
 +
-+Historically OpenSSL only ever generated DH parameters based on "safe"
-+primes. More recently (in version 1.0.2) support was provided for
-+generating X9.42 style parameter files such as those required for RFC
-+5114 support. The primes used in such files may not be "safe". Where an
-+application is using DH configured with parameters based on primes that
-+are not "safe" then an attacker could use this fact to find a peer's
-+private DH exponent. This attack requires that the attacker complete
-+multiple handshakes in which the peer uses the same DH exponent.
-+
-+A simple mitigation is to ensure that y^q (mod p) == 1
-+
-+CVE-2016-0701 (fix part 1 of 2)
-+
-+Issue reported by Antonio Sanso.
-+
-+Reviewed-by: Viktor Dukhovni <viktor@openssl.org>
++Patch is from:
++http://subversion.apache.org/security/CVE-2015-3184-advisory.txt
 +
 +Upstream-Status: Backport
 +
-+https://github.com/openssl/openssl/commit/878e2c5b13010329c203f309ed0c8f2113f85648
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 +
-+CVE: CVE-2016-0701
-+Signed-of-by: Armin Kuster <akuster@mvisa.com>
-+
-+---
-+ crypto/dh/dh.h       |  1 +
-+ crypto/dh/dh_check.c | 35 +++++++++++++++++++++++++----------
-+ 2 files changed, 26 insertions(+), 10 deletions(-)
-+
-+diff --git a/crypto/dh/dh.h b/crypto/dh/dh.h
-+index b177673..5498a9d 100644
-+--- a/crypto/dh/dh.h
-++++ b/crypto/dh/dh.h
-+@@ -174,6 +174,7 @@ struct dh_st {
-+ /* DH_check_pub_key error codes */
-+ # define DH_CHECK_PUBKEY_TOO_SMALL       0x01
-+ # define DH_CHECK_PUBKEY_TOO_LARGE       0x02
-++# define DH_CHECK_PUBKEY_INVALID         0x03
++Index: subversion-1.8.11/Makefile.in
++===================================================================
++--- subversion-1.8.11.orig/Makefile.in
+++++ subversion-1.8.11/Makefile.in
++@@ -357,6 +357,7 @@ TEST_SHLIB_VAR_SWIG_RB=\
++   fi;
 + 
-+ /*
-+  * primes p where (p-1)/2 is prime too are called "safe"; we define this for
-+diff --git a/crypto/dh/dh_check.c b/crypto/dh/dh_check.c
-+index 347467c..5adedc0 100644
-+--- a/crypto/dh/dh_check.c
-++++ b/crypto/dh/dh_check.c
-+@@ -151,23 +151,38 @@ int DH_check(const DH *dh, int *ret)
-+ int DH_check_pub_key(const DH *dh, const BIGNUM *pub_key, int *ret)
-+ {
-+     int ok = 0;
-+-    BIGNUM *q = NULL;
-++    BIGNUM *tmp = NULL;
-++    BN_CTX *ctx = NULL;
++ APXS = @APXS@
+++HTTPD_VERSION = @HTTPD_VERSION@
 + 
-+     *ret = 0;
-+-    q = BN_new();
-+-    if (q == NULL)
-++    ctx = BN_CTX_new();
-++    if (ctx == NULL)
-+         goto err;
-+-    BN_set_word(q, 1);
-+-    if (BN_cmp(pub_key, q) <= 0)
-++    BN_CTX_start(ctx);
-++    tmp = BN_CTX_get(ctx);
-++    if (tmp == NULL)
-++        goto err;
-++    BN_set_word(tmp, 1);
-++    if (BN_cmp(pub_key, tmp) <= 0)
-+         *ret |= DH_CHECK_PUBKEY_TOO_SMALL;
-+-    BN_copy(q, dh->p);
-+-    BN_sub_word(q, 1);
-+-    if (BN_cmp(pub_key, q) >= 0)
-++    BN_copy(tmp, dh->p);
-++    BN_sub_word(tmp, 1);
-++    if (BN_cmp(pub_key, tmp) >= 0)
-+         *ret |= DH_CHECK_PUBKEY_TOO_LARGE;
++ PYTHON = @PYTHON@
++ PERL = @PERL@
++@@ -509,6 +510,9 @@ check: bin @TRANSFORM_LIBTOOL_SCRIPTS@ $
++ 	  if test "$(HTTP_LIBRARY)" != ""; then                              \
++ 	    flags="--http-library $(HTTP_LIBRARY) $$flags";                  \
++ 	  fi;                                                                \
+++	  if test "$(HTTPD_VERSION)" != ""; then                              \
+++	    flags="--httpd-version $(HTTPD_VERSION) $$flags";                  \
+++	  fi;                                                                \
++ 	  if test "$(SERVER_MINOR_VERSION)" != ""; then                      \
++ 	    flags="--server-minor-version $(SERVER_MINOR_VERSION) $$flags";  \
++ 	  fi;                                                                \
++Index: subversion-1.8.11/build/ac-macros/apache.m4
++===================================================================
++--- subversion-1.8.11.orig/build/ac-macros/apache.m4
+++++ subversion-1.8.11/build/ac-macros/apache.m4
++@@ -160,6 +160,20 @@ if test -n "$APXS" && test "$APXS" != "n
++     BUILD_APACHE_RULE=apache-mod
++     INSTALL_APACHE_RULE=install-mods-shared
++     INSTALL_APACHE_MODS=true
+++    HTTPD="`$APXS -q sbindir`/`$APXS -q PROGNAME`"
+++    if ! test -e $HTTPD ; then
+++      HTTPD="`$APXS -q bindir`/`$APXS -q PROGNAME`"
+++    fi
+++    HTTPD_VERSION=["`$HTTPD -v | $SED -e 's@^.*/\([0-9.]*\)\(.*$\)@\1@ ; 1q'`"]
+++    AC_ARG_ENABLE(broken-httpd-auth,
+++      AS_HELP_STRING([--enable-broken-httpd-auth],
+++                     [Allow building against httpd 2.4 with broken auth]),
+++      [broken_httpd_auth=$enableval],[broken_httpd_auth=no])
+++    if test "$enable_broken_httpd_auth" = "yes"; then
+++      AC_MSG_NOTICE([Building with broken httpd auth])
+++      AC_DEFINE(SVN_ALLOW_BROKEN_HTTPD_AUTH, 1,
+++                [Defined to allow building against httpd 2.4 with broken auth])
+++    fi
 + 
-++    if (dh->q != NULL) {
-++        /* Check pub_key^q == 1 mod p */
-++        if (!BN_mod_exp(tmp, pub_key, dh->q, dh->p, ctx))
-++            goto err;
-++        if (!BN_is_one(tmp))
-++            *ret |= DH_CHECK_PUBKEY_INVALID;
-++    }
++     case $host in
++       *-*-cygwin*)
++@@ -178,6 +192,7 @@ AC_SUBST(APACHE_LDFLAGS)
++ AC_SUBST(APACHE_INCLUDES)
++ AC_SUBST(APACHE_LIBEXECDIR)
++ AC_SUBST(INSTALL_APACHE_MODS)
+++AC_SUBST(HTTPD_VERSION)
++ 
++ # there aren't any flags that interest us ...
++ #if test -n "$APXS" && test "$APXS" != "no"; then
++Index: subversion-1.8.11/build/run_tests.py
++===================================================================
++--- subversion-1.8.11.orig/build/run_tests.py
+++++ subversion-1.8.11/build/run_tests.py
++@@ -29,6 +29,7 @@
++             [--fs-type=<fs-type>] [--fsfs-packing] [--fsfs-sharding=<n>]
++             [--list] [--milestone-filter=<regex>] [--mode-filter=<type>]
++             [--server-minor-version=<version>] [--http-proxy=<host>:<port>]
+++            [--httpd-version=<version>]
++             [--config-file=<file>] [--ssl-cert=<file>]
++             <abs_srcdir> <abs_builddir>
++             <prog ...>
++@@ -125,7 +126,7 @@ class TestHarness:
++                fsfs_sharding=None, fsfs_packing=None,
++                list_tests=None, svn_bin=None, mode_filter=None,
++                milestone_filter=None, set_log_level=None, ssl_cert=None,
++-               http_proxy=None):
+++               http_proxy=None, httpd_version=None):
++     '''Construct a TestHarness instance.
++ 
++     ABS_SRCDIR and ABS_BUILDDIR are the source and build directories.
++@@ -178,6 +179,7 @@ class TestHarness:
++     self.log = None
++     self.ssl_cert = ssl_cert
++     self.http_proxy = http_proxy
+++    self.httpd_version = httpd_version
++     if not sys.stdout.isatty() or sys.platform == 'win32':
++       TextColors.disable()
++ 
++@@ -481,6 +483,8 @@ class TestHarness:
++       svntest.main.options.ssl_cert = self.ssl_cert
++     if self.http_proxy is not None:
++       svntest.main.options.http_proxy = self.http_proxy
+++    if self.httpd_version is not None:
+++      svntest.main.options.httpd_version = self.httpd_version
++ 
++     svntest.main.options.srcdir = self.srcdir
++ 
++@@ -645,7 +649,7 @@ def main():
++                             'enable-sasl', 'parallel', 'config-file=',
++                             'log-to-stdout', 'list', 'milestone-filter=',
++                             'mode-filter=', 'set-log-level=', 'ssl-cert=',
++-                            'http-proxy='])
+++                            'http-proxy=', 'httpd-version='])
++   except getopt.GetoptError:
++     args = []
++ 
++@@ -656,9 +660,9 @@ def main():
++   base_url, fs_type, verbose, cleanup, enable_sasl, http_library, \
++     server_minor_version, fsfs_sharding, fsfs_packing, parallel, \
++     config_file, log_to_stdout, list_tests, mode_filter, milestone_filter, \
++-    set_log_level, ssl_cert, http_proxy = \
+++    set_log_level, ssl_cert, http_proxy, httpd_version = \
++             None, None, None, None, None, None, None, None, None, None, None, \
++-            None, None, None, None, None, None, None
+++            None, None, None, None, None, None, None, None
++   for opt, val in opts:
++     if opt in ['-u', '--url']:
++       base_url = val
++@@ -696,6 +700,8 @@ def main():
++       ssl_cert = val
++     elif opt in ['--http-proxy']:
++       http_proxy = val
+++    elif opt in ['--httpd-version']:
+++      httpd_version = val
++     else:
++       raise getopt.GetoptError
++ 
++@@ -712,7 +718,7 @@ def main():
++                    fsfs_sharding, fsfs_packing, list_tests,
++                    mode_filter=mode_filter, milestone_filter=milestone_filter,
++                    set_log_level=set_log_level, ssl_cert=ssl_cert,
++-                   http_proxy=http_proxy)
+++                   http_proxy=http_proxy, httpd_version=httpd_version)
++ 
++   failed = th.run(args[2:])
++   if failed:
++Index: subversion-1.8.11/subversion/mod_authz_svn/mod_authz_svn.c
++===================================================================
++--- subversion-1.8.11.orig/subversion/mod_authz_svn/mod_authz_svn.c
+++++ subversion-1.8.11/subversion/mod_authz_svn/mod_authz_svn.c
++@@ -48,6 +48,23 @@
++ #include "svn_dirent_uri.h"
++ #include "private/svn_fspath.h"
++ 
+++/* The apache headers define these and they conflict with our definitions. */
+++#ifdef PACKAGE_BUGREPORT
+++#undef PACKAGE_BUGREPORT
+++#endif
+++#ifdef PACKAGE_NAME
+++#undef PACKAGE_NAME
+++#endif
+++#ifdef PACKAGE_STRING
+++#undef PACKAGE_STRING
+++#endif
+++#ifdef PACKAGE_TARNAME
+++#undef PACKAGE_TARNAME
+++#endif
+++#ifdef PACKAGE_VERSION
+++#undef PACKAGE_VERSION
+++#endif
+++#include "svn_private_config.h"
++ 
++ #ifdef APLOG_USE_MODULE
++ APLOG_USE_MODULE(authz_svn);
++@@ -67,6 +84,30 @@ typedef struct authz_svn_config_rec {
++   const char *force_username_case;
++ } authz_svn_config_rec;
++ 
+++#if AP_MODULE_MAGIC_AT_LEAST(20060110,0) /* version where
+++                                            ap_some_auth_required breaks */
+++#  if AP_MODULE_MAGIC_AT_LEAST(20120211,47) /* first version with
+++                                               force_authn hook and
+++                                               ap_some_authn_required() which
+++                                               allows us to work without
+++                                               ap_some_auth_required() */
+++#    define USE_FORCE_AUTHN 1
+++#    define IN_SOME_AUTHN_NOTE "authz_svn-in-some-authn"
+++#    define FORCE_AUTHN_NOTE "authz_svn-force-authn"
+++#  else
+++     /* ap_some_auth_required() is busted and no viable alternative exists */
+++#    ifndef SVN_ALLOW_BROKEN_HTTPD_AUTH
+++#      error This version of httpd has a security hole with mod_authz_svn
+++#    else
+++       /* user wants to build anyway */
+++#      define USE_FORCE_AUTHN 0
+++#    endif
+++#  endif
+++#else
+++   /* old enough that ap_some_auth_required() still works */
+++#  define USE_FORCE_AUTHN 0
+++#endif
 ++
-+     ok = 1;
-+  err:
-+-    if (q != NULL)
-+-        BN_free(q);
-++    if (ctx != NULL) {
-++        BN_CTX_end(ctx);
-++        BN_CTX_free(ctx);
-++    }
-+     return (ok);
++ /*
++  * Configuration
++  */
++@@ -819,7 +860,49 @@ access_checker(request_rec *r)
++                                                     &authz_svn_module);
++   const char *repos_path = NULL;
++   const char *dest_repos_path = NULL;
++-  int status;
+++  int status, authn_required;
+++
+++#if USE_FORCE_AUTHN
+++  /* Use the force_authn() hook available in 2.4.x to work securely
+++   * given that ap_some_auth_required() is no longer functional for our
+++   * purposes in 2.4.x.
+++   */
+++  int authn_configured;
+++
+++  /* We are not configured to run */
+++  if (!conf->anonymous || apr_table_get(r->notes, IN_SOME_AUTHN_NOTE)
+++      || (! (conf->access_file || conf->repo_relative_access_file)))
+++    return DECLINED;
+++
+++  /* Authentication is configured */
+++  authn_configured = ap_auth_type(r) != NULL;
+++  if (authn_configured)
+++    {
+++      /* If the user is trying to authenticate, let him.  It doesn't
+++       * make much sense to grant anonymous access but deny authenticated
+++       * users access, even though you can do that with '$anon' in the
+++       * access file.
+++       */
+++      if (apr_table_get(r->headers_in,
+++                        (PROXYREQ_PROXY == r->proxyreq)
+++                        ? "Proxy-Authorization" : "Authorization"))
+++        {
+++          /* Set the note to force authn regardless of what access_checker_ex
+++             hook requires */
+++          apr_table_setn(r->notes, FORCE_AUTHN_NOTE, (const char*)1);
+++
+++          /* provide the proper return so the access_checker hook doesn't
+++           * prevent the code from continuing on to the other auth hooks */
+++          if (ap_satisfies(r) != SATISFY_ANY)
+++            return OK;
+++          else
+++            return HTTP_FORBIDDEN;
+++        }
+++    }    
+++
+++#else
+++  /* Support for older versions of httpd that have a working
+++   * ap_some_auth_required() */
++ 
++   /* We are not configured to run */
++   if (!conf->anonymous
++@@ -834,9 +917,10 @@ access_checker(request_rec *r)
++       if (ap_satisfies(r) != SATISFY_ANY)
++         return DECLINED;
++ 
++-      /* If the user is trying to authenticate, let him.  If anonymous
++-       * access is allowed, so is authenticated access, by definition
++-       * of the meaning of '*' in the access file.
+++      /* If the user is trying to authenticate, let him.  It doesn't
+++       * make much sense to grant anonymous access but deny authenticated
+++       * users access, even though you can do that with '$anon' in the
+++       * access file.
++        */
++       if (apr_table_get(r->headers_in,
++                         (PROXYREQ_PROXY == r->proxyreq)
++@@ -848,6 +932,7 @@ access_checker(request_rec *r)
++           return HTTP_FORBIDDEN;
++         }
++     }
+++#endif
++ 
++   /* If anon access is allowed, return OK */
++   status = req_check_access(r, conf, &repos_path, &dest_repos_path);
++@@ -856,7 +941,26 @@ access_checker(request_rec *r)
++       if (!conf->authoritative)
++         return DECLINED;
++ 
+++#if USE_FORCE_AUTHN
+++      if (authn_configured) {
+++          /* We have to check to see if authn is required because if so we must
+++           * return UNAUTHORIZED (401) rather than FORBIDDEN (403) since returning
+++           * the 403 leaks information about what paths may exist to
+++           * unauthenticated users.  We must set a note here in order
+++           * to use ap_some_authn_rquired() without triggering an infinite
+++           * loop since the call will trigger this function to be called again. */
+++          apr_table_setn(r->notes, IN_SOME_AUTHN_NOTE, (const char*)1);
+++          authn_required = ap_some_authn_required(r);
+++          apr_table_unset(r->notes, IN_SOME_AUTHN_NOTE);
+++          if (authn_required)
+++            {
+++              ap_note_auth_failure(r);
+++              return HTTP_UNAUTHORIZED;
+++            }
+++      }
+++#else
++       if (!ap_some_auth_required(r))
+++#endif
++         log_access_verdict(APLOG_MARK, r, 0, repos_path, dest_repos_path);
++ 
++       return HTTP_FORBIDDEN;
++@@ -937,6 +1041,17 @@ auth_checker(request_rec *r)
++   return OK;
 + }
-+-- 
-+2.3.5
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_2.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_2.patch
-new file mode 100644
-index 0000000..05caf0a
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_2.patch
-@@ -0,0 +1,156 @@
-+From c5b831f21d0d29d1e517d139d9d101763f60c9a2 Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Thu, 17 Dec 2015 02:57:20 +0000
-+Subject: [PATCH] Always generate DH keys for ephemeral DH cipher suites
-+
-+Modified version of the commit ffaef3f15 in the master branch by Stephen
-+Henson. This makes the SSL_OP_SINGLE_DH_USE option a no-op and always
-+generates a new DH key for every handshake regardless.
-+
-+CVE-2016-0701 (fix part 2 or 2)
-+
-+Issue reported by Antonio Sanso
-+
-+Reviewed-by: Viktor Dukhovni <viktor@openssl.org>
-+
-+Upstream-Status: Backport
-+
-+https://github.com/openssl/openssl/commit/c5b831f21d0d29d1e517d139d9d101763f60c9a2
-+
-+CVE: CVE-2016-0701 #2
-+Signed-of-by: Armin Kuster <akuster@mvisa.com>
-+
-+---
-+ doc/ssl/SSL_CTX_set_tmp_dh_callback.pod | 29 +++++------------------------
-+ ssl/s3_lib.c                            | 14 --------------
-+ ssl/s3_srvr.c                           | 17 +++--------------
-+ ssl/ssl.h                               |  2 +-
-+ 4 files changed, 9 insertions(+), 53 deletions(-)
-+
-+Index: openssl-1.0.2d/doc/ssl/SSL_CTX_set_tmp_dh_callback.pod
++ 
+++#if USE_FORCE_AUTHN
+++static int
+++force_authn(request_rec *r)
+++{
+++  if (apr_table_get(r->notes, FORCE_AUTHN_NOTE))
+++    return OK;
+++
+++  return DECLINED;
+++}
+++#endif
+++
++ /*
++  * Module flesh
++  */
++@@ -953,6 +1068,9 @@ register_hooks(apr_pool_t *p)
++    * give SSLOptions +FakeBasicAuth a chance to work. */
++   ap_hook_check_user_id(check_user_id, mod_ssl, NULL, APR_HOOK_FIRST);
++   ap_hook_auth_checker(auth_checker, NULL, NULL, APR_HOOK_FIRST);
+++#if USE_FORCE_AUTHN
+++  ap_hook_force_authn(force_authn, NULL, NULL, APR_HOOK_FIRST);
+++#endif
++   ap_register_provider(p,
++                        AUTHZ_SVN__SUBREQ_BYPASS_PROV_GRP,
++                        AUTHZ_SVN__SUBREQ_BYPASS_PROV_NAME,
++Index: subversion-1.8.11/subversion/tests/cmdline/README
 +===================================================================
-+--- openssl-1.0.2d.orig/doc/ssl/SSL_CTX_set_tmp_dh_callback.pod
-++++ openssl-1.0.2d/doc/ssl/SSL_CTX_set_tmp_dh_callback.pod
-+@@ -48,25 +48,8 @@ even if he gets hold of the normal (cert
-+ only used for signing.
++--- subversion-1.8.11.orig/subversion/tests/cmdline/README
+++++ subversion-1.8.11/subversion/tests/cmdline/README
++@@ -83,6 +83,133 @@ paths adjusted appropriately:
++      Require valid-user
++    </Location>
 + 
-+ In order to perform a DH key exchange the server must use a DH group
-+-(DH parameters) and generate a DH key.
-+-The server will always generate a new DH key during the negotiation
-+-if either the DH parameters are supplied via callback or the
-+-SSL_OP_SINGLE_DH_USE option of SSL_CTX_set_options(3) is set (or both).
-+-It will  immediately create a DH key if DH parameters are supplied via
-+-SSL_CTX_set_tmp_dh() and SSL_OP_SINGLE_DH_USE is not set.
-+-In this case,
-+-it may happen that a key is generated on initialization without later
-+-being needed, while on the other hand the computer time during the
-+-negotiation is being saved.
-+-
-+-If "strong" primes were used to generate the DH parameters, it is not strictly
-+-necessary to generate a new key for each handshake but it does improve forward
-+-secrecy. If it is not assured that "strong" primes were used,
-+-SSL_OP_SINGLE_DH_USE must be used in order to prevent small subgroup
-+-attacks. Always using SSL_OP_SINGLE_DH_USE has an impact on the
-+-computer time needed during negotiation, but it is not very large, so
-+-application authors/users should consider always enabling this option.
-+-The option is required to implement perfect forward secrecy (PFS).
-++(DH parameters) and generate a DH key. The server will always generate
-++a new DH key during the negotiation.
+++   <Location /authz-test-work/anon>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     # This may seem unnecessary but granting access to everyone here is necessary
+++     # to exercise a bug with httpd 2.3.x+.  The "Require all granted" syntax is
+++     # new to 2.3.x+ which we can detect with the mod_authz_core.c module
+++     # signature.  Use the "Allow from all" syntax with older versions for symmetry.
+++     <IfModule mod_authz_core.c>
+++       Require all granted
+++     </IfModule>
+++     <IfModule !mod_authz_core.c>
+++       Allow from all
+++     </IfMOdule>
+++   </Location>
+++   <Location /authz-test-work/mixed>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     Require           valid-user
+++     Satisfy Any
+++   </Location>
+++   <Location /authz-test-work/mixed-noauthwhenanon>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     Require           valid-user
+++     AuthzSVNNoAuthWhenAnonymousAllowed On
+++   </Location>
+++   <Location /authz-test-work/authn>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     Require           valid-user
+++   </Location>
+++   <Location /authz-test-work/authn-anonoff>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     Require           valid-user
+++     AuthzSVNAnonymous Off
+++   </Location>
+++   <Location /authz-test-work/authn-lcuser>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     Require           valid-user
+++     AuthzForceUsernameCase Lower
+++   </Location>
+++   <Location /authz-test-work/authn-lcuser>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     Require           valid-user
+++     AuthzForceUsernameCase Lower
+++   </Location>
+++   <Location /authz-test-work/authn-group>
+++     DAV               svn
+++     SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++     AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++     SVNListParentPath On
+++     AuthType          Basic
+++     AuthName          "Subversion Repository"
+++     AuthUserFile /usr/local/apache2/conf/users
+++     AuthGroupFile /usr/local/apache2/conf/groups
+++     Require           group random
+++     AuthzSVNAuthoritative Off
+++   </Location>
+++   <IfModule mod_authz_core.c>
+++     <Location /authz-test-work/sallrany>
+++       DAV               svn
+++       SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++       AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++       SVNListParentPath On
+++       AuthType          Basic
+++       AuthName          "Subversion Repository"
+++       AuthUserFile /usr/local/apache2/conf/users
+++       AuthzSendForbiddenOnFailure On
+++       Satisfy All
+++       <RequireAny>
+++         Require valid-user
+++         Require expr req('ALLOW') == '1'
+++       </RequireAny>
+++     </Location>
+++     <Location /authz-test-work/sallrall>
+++       DAV               svn
+++       SVNParentPath /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/local_tmp
+++       AuthzSVNAccessFile /home/yourusernamehere/projects/svn/subversion/tests/cmdline/svn-test-work/authz
+++       SVNListParentPath On
+++       AuthType          Basic
+++       AuthName          "Subversion Repository"
+++       AuthUserFile /usr/local/apache2/conf/users
+++       AuthzSendForbiddenOnFailure On
+++       Satisfy All
+++       <RequireAll>
+++         Require valid-user
+++         Require expr req('ALLOW') == '1'
+++       </RequireAll>
+++     </Location>
+++   </IfModule>
+++
+++
++    RedirectMatch permanent ^/svn-test-work/repositories/REDIRECT-PERM-(.*)$ /svn-test-work/repositories/$1
++    RedirectMatch           ^/svn-test-work/repositories/REDIRECT-TEMP-(.*)$ /svn-test-work/repositories/$1
 + 
-+ As generating DH parameters is extremely time consuming, an application
-+ should not generate the parameters on the fly but supply the parameters.
-+@@ -93,10 +76,9 @@ can supply the DH parameters via a callb
-+ Previous versions of the callback used B<is_export> and B<keylength>
-+ parameters to control parameter generation for export and non-export
-+ cipher suites. Modern servers that do not support export ciphersuites
-+-are advised to either use SSL_CTX_set_tmp_dh() in combination with
-+-SSL_OP_SINGLE_DH_USE, or alternatively, use the callback but ignore
-+-B<keylength> and B<is_export> and simply supply at least 2048-bit
-+-parameters in the callback.
-++are advised to either use SSL_CTX_set_tmp_dh() or alternatively, use
-++the callback but ignore B<keylength> and B<is_export> and simply
-++supply at least 2048-bit parameters in the callback.
++@@ -101,6 +228,15 @@ just drop the following 2-line snippet i
++ ----------------------------
++ jrandom:xCGl35kV9oWCY
++ jconstant:xCGl35kV9oWCY
+++JRANDOM:xCGl35kV9oWCY
+++JCONSTANT:xCGl35kV9oWCY
+++----------------------------
+++
+++and these lines into the
+++/usr/local/apache/conf/groups file:
+++----------------------------
+++random: jrandom
+++constant: jconstant
++ ----------------------------
 + 
-+ =head1 EXAMPLES
++ Now, (re)start Apache and run the tests over mod_dav_svn.
++@@ -138,6 +274,8 @@ Note [1]: It would be quite too much to
++           ----------------------------
++           jrandom:$apr1$3p1.....$FQW6RceW5QhJ2blWDQgKn0
++           jconstant:$apr1$jp1.....$Usrqji1c9H6AbOxOGAzzb0
+++          JRANDOM:$apr1$3p1.....$FQW6RceW5QhJ2blWDQgKn0
+++          JCONSTANT:$apr1$jp1.....$Usrqji1c9H6AbOxOGAzzb0
++           ----------------------------
 + 
-+@@ -128,7 +110,6 @@ partly left out.)
-+  if (SSL_CTX_set_tmp_dh(ctx, dh_2048) != 1) {
-+    /* Error. */
-+  }
-+- SSL_CTX_set_options(ctx, SSL_OP_SINGLE_DH_USE);
-+  ...
 + 
-+ =head1 RETURN VALUES
-+Index: openssl-1.0.2d/ssl/s3_lib.c
++Index: subversion-1.8.11/subversion/tests/cmdline/davautocheck.sh
 +===================================================================
-+--- openssl-1.0.2d.orig/ssl/s3_lib.c
-++++ openssl-1.0.2d/ssl/s3_lib.c
-+@@ -3206,13 +3206,6 @@ long ssl3_ctrl(SSL *s, int cmd, long lar
-+                 SSLerr(SSL_F_SSL3_CTRL, ERR_R_DH_LIB);
-+                 return (ret);
-+             }
-+-            if (!(s->options & SSL_OP_SINGLE_DH_USE)) {
-+-                if (!DH_generate_key(dh)) {
-+-                    DH_free(dh);
-+-                    SSLerr(SSL_F_SSL3_CTRL, ERR_R_DH_LIB);
-+-                    return (ret);
-+-                }
-+-            }
-+             if (s->cert->dh_tmp != NULL)
-+                 DH_free(s->cert->dh_tmp);
-+             s->cert->dh_tmp = dh;
-+@@ -3710,13 +3703,6 @@ long ssl3_ctx_ctrl(SSL_CTX *ctx, int cmd
-+                 SSLerr(SSL_F_SSL3_CTX_CTRL, ERR_R_DH_LIB);
-+                 return 0;
-+             }
-+-            if (!(ctx->options & SSL_OP_SINGLE_DH_USE)) {
-+-                if (!DH_generate_key(new)) {
-+-                    SSLerr(SSL_F_SSL3_CTX_CTRL, ERR_R_DH_LIB);
-+-                    DH_free(new);
-+-                    return 0;
-+-                }
-+-            }
-+             if (cert->dh_tmp != NULL)
-+                 DH_free(cert->dh_tmp);
-+             cert->dh_tmp = new;
-+Index: openssl-1.0.2d/ssl/s3_srvr.c
-+===================================================================
-+--- openssl-1.0.2d.orig/ssl/s3_srvr.c
-++++ openssl-1.0.2d/ssl/s3_srvr.c
-+@@ -1684,20 +1684,9 @@ int ssl3_send_server_key_exchange(SSL *s
-+             }
++--- subversion-1.8.11.orig/subversion/tests/cmdline/davautocheck.sh
+++++ subversion-1.8.11/subversion/tests/cmdline/davautocheck.sh
++@@ -289,8 +289,6 @@ LOAD_MOD_AUTHN_CORE="$(get_loadmodule_co
++     || fail "Authn_Core module not found."
++ LOAD_MOD_AUTHZ_CORE="$(get_loadmodule_config mod_authz_core)" \
++     || fail "Authz_Core module not found."
++-LOAD_MOD_AUTHZ_HOST="$(get_loadmodule_config mod_authz_host)" \
++-    || fail "Authz_Host module not found."
++ LOAD_MOD_UNIXD=$(get_loadmodule_config mod_unixd) \
++     || fail "UnixD module not found"
++ }
++@@ -298,6 +296,10 @@ LOAD_MOD_AUTHN_FILE="$(get_loadmodule_co
++     || fail "Authn_File module not found."
++ LOAD_MOD_AUTHZ_USER="$(get_loadmodule_config mod_authz_user)" \
++     || fail "Authz_User module not found."
+++LOAD_MOD_AUTHZ_GROUPFILE="$(get_loadmodule_config mod_authz_groupfile)" \
+++    || fail "Authz_GroupFile module not found."
+++LOAD_MOD_AUTHZ_HOST="$(get_loadmodule_config mod_authz_host)" \
+++    || fail "Authz_Host module not found."
++ }
++ if [ ${APACHE_MPM:+set} ]; then
++     LOAD_MOD_MPM=$(get_loadmodule_config mod_mpm_$APACHE_MPM) \
++@@ -328,6 +330,7 @@ HTTPD_ERROR_LOG="$HTTPD_ROOT/error_log"
++ HTTPD_MIME_TYPES="$HTTPD_ROOT/mime.types"
++ BASE_URL="http://localhost:$HTTPD_PORT"
++ HTTPD_USERS="$HTTPD_ROOT/users"
+++HTTPD_GROUPS="$HTTPD_ROOT/groups"
 + 
-+             s->s3->tmp.dh = dh;
-+-            if ((dhp->pub_key == NULL ||
-+-                 dhp->priv_key == NULL ||
-+-                 (s->options & SSL_OP_SINGLE_DH_USE))) {
-+-                if (!DH_generate_key(dh)) {
-+-                    SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE, ERR_R_DH_LIB);
-+-                    goto err;
-+-                }
-+-            } else {
-+-                dh->pub_key = BN_dup(dhp->pub_key);
-+-                dh->priv_key = BN_dup(dhp->priv_key);
-+-                if ((dh->pub_key == NULL) || (dh->priv_key == NULL)) {
-+-                    SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE, ERR_R_DH_LIB);
-+-                    goto err;
-+-                }
-++            if (!DH_generate_key(dh)) {
-++                SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE, ERR_R_DH_LIB);
-++                goto err;
-+             }
-+             r[0] = dh->p;
-+             r[1] = dh->g;
-+Index: openssl-1.0.2d/ssl/ssl.h
++ mkdir "$HTTPD_ROOT" \
++   || fail "couldn't create temporary directory '$HTTPD_ROOT'"
++@@ -388,6 +391,14 @@ fi
++ say "Adding users for lock authentication"
++ $HTPASSWD -bc $HTTPD_USERS jrandom   rayjandom
++ $HTPASSWD -b  $HTTPD_USERS jconstant rayjandom
+++$HTPASSWD -b  $HTTPD_USERS JRANDOM   rayjandom
+++$HTPASSWD -b  $HTTPD_USERS JCONSTANT rayjandom
+++ 
+++say "Adding groups for mod_authz_svn tests"
+++cat > "$HTTPD_GROUPS" <<__EOF__
+++random: jrandom
+++constant: jconstant
+++__EOF__
++ 
++ touch $HTTPD_MIME_TYPES
++ 
++@@ -405,7 +416,9 @@ $LOAD_MOD_AUTHN_CORE
++ $LOAD_MOD_AUTHN_FILE
++ $LOAD_MOD_AUTHZ_CORE
++ $LOAD_MOD_AUTHZ_USER
+++$LOAD_MOD_AUTHZ_GROUPFILE
++ $LOAD_MOD_AUTHZ_HOST
+++$LOAD_MOD_ACCESS_COMPAT
++ LoadModule          authz_svn_module "$MOD_AUTHZ_SVN"
++ 
++ __EOF__
++@@ -489,6 +502,161 @@ CustomLog           "$HTTPD_ROOT/ops" "%
++   SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
++   ${SVN_PATH_AUTHZ_LINE}
++ </Location>
+++<Location /authz-test-work/anon>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  # This may seem unnecessary but granting access to everyone here is necessary
+++  # to exercise a bug with httpd 2.3.x+.  The "Require all granted" syntax is
+++  # new to 2.3.x+ which we can detect with the mod_authz_core.c module
+++  # signature.  Use the "Allow from all" syntax with older versions for symmetry.
+++  <IfModule mod_authz_core.c>
+++    Require all granted
+++  </IfModule>
+++  <IfModule !mod_authz_core.c>
+++    Allow from all
+++  </IfMOdule>
+++  ${SVN_PATH_AUTHZ_LINE}
+++</Location>
+++<Location /authz-test-work/mixed>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  Require           valid-user
+++  Satisfy Any
+++  ${SVN_PATH_AUTHZ_LINE}
+++</Location>
+++<Location /authz-test-work/mixed-noauthwhenanon>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  Require           valid-user
+++  AuthzSVNNoAuthWhenAnonymousAllowed On
+++  SVNPathAuthz On
+++</Location>
+++<Location /authz-test-work/authn>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  Require           valid-user
+++  ${SVN_PATH_AUTHZ_LINE}
+++</Location>
+++<Location /authz-test-work/authn-anonoff>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  Require           valid-user
+++  AuthzSVNAnonymous Off
+++  SVNPathAuthz On
+++</Location>
+++<Location /authz-test-work/authn-lcuser>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  Require           valid-user
+++  AuthzForceUsernameCase Lower
+++  ${SVN_PATH_AUTHZ_LINE}
+++</Location>
+++<Location /authz-test-work/authn-lcuser>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  Require           valid-user
+++  AuthzForceUsernameCase Lower
+++  ${SVN_PATH_AUTHZ_LINE}
+++</Location>
+++<Location /authz-test-work/authn-group>
+++  DAV               svn
+++  SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++  AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++  SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++  SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++  SVNListParentPath On
+++  AuthType          Basic
+++  AuthName          "Subversion Repository"
+++  AuthUserFile      $HTTPD_USERS
+++  AuthGroupFile     $HTTPD_GROUPS
+++  Require           group random
+++  AuthzSVNAuthoritative Off
+++  SVNPathAuthz On
+++</Location>
+++<IfModule mod_authz_core.c>
+++  <Location /authz-test-work/sallrany>
+++    DAV               svn
+++    SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++    AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++    SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++    SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++    SVNListParentPath On
+++    AuthType          Basic
+++    AuthName          "Subversion Repository"
+++    AuthUserFile      $HTTPD_USERS
+++    AuthzSendForbiddenOnFailure On
+++    Satisfy All
+++    <RequireAny>
+++      Require valid-user
+++      Require expr req('ALLOW') == '1'
+++    </RequireAny>
+++    ${SVN_PATH_AUTHZ_LINE}
+++  </Location>
+++  <Location /authz-test-work/sallrall>
+++    DAV               svn
+++    SVNParentPath     "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/local_tmp"
+++    AuthzSVNAccessFile "$ABS_BUILDDIR/subversion/tests/cmdline/svn-test-work/authz"
+++    SVNAdvertiseV2Protocol ${ADVERTISE_V2_PROTOCOL}
+++    SVNCacheRevProps  ${CACHE_REVPROPS_SETTING}
+++    SVNListParentPath On
+++    AuthType          Basic
+++    AuthName          "Subversion Repository"
+++    AuthUserFile      $HTTPD_USERS
+++    AuthzSendForbiddenOnFailure On
+++    Satisfy All
+++    <RequireAll>
+++      Require valid-user
+++      Require expr req('ALLOW') == '1'
+++    </RequireAll>
+++    ${SVN_PATH_AUTHZ_LINE}
+++  </Location>
+++</IfModule>
++ RedirectMatch permanent ^/svn-test-work/repositories/REDIRECT-PERM-(.*)\$ /svn-test-work/repositories/\$1
++ RedirectMatch           ^/svn-test-work/repositories/REDIRECT-TEMP-(.*)\$ /svn-test-work/repositories/\$1
++ __EOF__
++Index: subversion-1.8.11/subversion/tests/cmdline/mod_authz_svn_tests.py
 +===================================================================
-+--- openssl-1.0.2d.orig/ssl/ssl.h
-++++ openssl-1.0.2d/ssl/ssl.h
-+@@ -625,7 +625,7 @@ struct ssl_session_st {
-+ # define SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION        0x00040000L
-+ /* If set, always create a new key when using tmp_ecdh parameters */
-+ # define SSL_OP_SINGLE_ECDH_USE                          0x00080000L
-+-/* If set, always create a new key when using tmp_dh parameters */
-++/* Does nothing: retained for compatibility */
-+ # define SSL_OP_SINGLE_DH_USE                            0x00100000L
-+ /* Does nothing: retained for compatibiity */
-+ # define SSL_OP_EPHEMERAL_RSA                            0x0
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index 4a96a44..726896b 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -40,6 +40,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://0001-Add-test-for-CVE-2015-3194.patch \
-             file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
-             file://CVE-2015-3197.patch \
-+            file://CVE-2016-0701_1.patch \
-+            file://CVE-2016-0701_2.patch \
-            "
- 
- SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
++--- /dev/null
+++++ subversion-1.8.11/subversion/tests/cmdline/mod_authz_svn_tests.py
++@@ -0,0 +1,1073 @@
+++#!/usr/bin/env python
+++#
+++#  mod_authz_svn_tests.py:  testing mod_authz_svn
+++#
+++#  Subversion is a tool for revision control.
+++#  See http://subversion.apache.org for more information.
+++#
+++# ====================================================================
+++#    Licensed to the Apache Software Foundation (ASF) under one
+++#    or more contributor license agreements.  See the NOTICE file
+++#    distributed with this work for additional information
+++#    regarding copyright ownership.  The ASF licenses this file
+++#    to you under the Apache License, Version 2.0 (the
+++#    "License"); you may not use this file except in compliance
+++#    with the License.  You may obtain a copy of the License at
+++#
+++#      http://www.apache.org/licenses/LICENSE-2.0
+++#
+++#    Unless required by applicable law or agreed to in writing,
+++#    software distributed under the License is distributed on an
+++#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+++#    KIND, either express or implied.  See the License for the
+++#    specific language governing permissions and limitations
+++#    under the License.
+++######################################################################
+++
+++# General modules
+++import os, re, logging
+++
+++logger = logging.getLogger()
+++
+++# Our testing module
+++import svntest
+++
+++# (abbreviation)
+++Skip = svntest.testcase.Skip_deco
+++SkipUnless = svntest.testcase.SkipUnless_deco
+++XFail = svntest.testcase.XFail_deco
+++Issues = svntest.testcase.Issues_deco
+++Issue = svntest.testcase.Issue_deco
+++Wimp = svntest.testcase.Wimp_deco
+++
+++ls_of_D_no_H = '''<html><head><title>repos - Revision 1: /A/D</title></head>
+++<body>
+++ <h2>repos - Revision 1: /A/D</h2>
+++ <ul>
+++  <li><a href="../">..</a></li>
+++  <li><a href="G/">G/</a></li>
+++  <li><a href="gamma">gamma</a></li>
+++ </ul>
+++</body></html>'''
+++
+++ls_of_D_H = '''<html><head><title>repos - Revision 1: /A/D</title></head>
+++<body>
+++ <h2>repos - Revision 1: /A/D</h2>
+++ <ul>
+++  <li><a href="../">..</a></li>
+++  <li><a href="G/">G/</a></li>
+++  <li><a href="H/">H/</a></li>
+++  <li><a href="gamma">gamma</a></li>
+++ </ul>
+++</body></html>'''
+++
+++ls_of_H = '''<html><head><title>repos - Revision 1: /A/D/H</title></head>
+++<body>
+++ <h2>repos - Revision 1: /A/D/H</h2>
+++ <ul>
+++  <li><a href="../">..</a></li>
+++  <li><a href="chi">chi</a></li>
+++  <li><a href="omega">omega</a></li>
+++  <li><a href="psi">psi</a></li>
+++ </ul>
+++</body></html>'''
+++
+++user1 = svntest.main.wc_author
+++user1_upper = user1.upper()
+++user1_pass = svntest.main.wc_passwd
+++user1_badpass = 'XXX'
+++assert user1_pass != user1_badpass, "Passwords can't match"
+++user2 = svntest.main.wc_author2
+++user2_upper = user2.upper()
+++user2_pass = svntest.main.wc_passwd
+++user2_badpass = 'XXX'
+++assert user2_pass != user2_badpass, "Passwords can't match"
+++
+++def write_authz_file(sbox):
+++    svntest.main.write_authz_file(sbox, {
+++                                          '/':  '$anonymous = r\n' +
+++                                                'jrandom = rw\n' +
+++                                                'jconstant = rw',
+++                                          '/A/D/H': '$anonymous =\n' +
+++                                                    '$authenticated =\n' +
+++                                                    'jrandom = rw'
+++                                        })
+++
+++def write_authz_file_groups(sbox):
+++    authz_name = sbox.authz_name()
+++    svntest.main.write_authz_file(sbox,{
+++                                         '/':  '* =',
+++                                       })
+++
+++def verify_get(test_area_url, path, user, pw,
+++               expected_status, expected_body, headers):
+++  import httplib
+++  from urlparse import urlparse
+++  import base64
+++
+++  req_url = test_area_url + path
+++
+++  loc = urlparse(req_url)
+++
+++  if loc.scheme == 'http':
+++    h = httplib.HTTPConnection(loc.hostname, loc.port)
+++  else:
+++    h = httplib.HTTPSConnection(loc.hostname, loc.port)
+++
+++  if headers is None:
+++    headers = {}
+++
+++  if user and pw:
+++      auth_info = user + ':' + pw
+++      headers['Authorization'] = 'Basic ' + base64.b64encode(auth_info)
+++  else:
+++      auth_info = "anonymous"
+++
+++  h.request('GET', req_url, None, headers)
+++
+++  r = h.getresponse()
+++
+++  actual_status = r.status
+++  if expected_status and expected_status != actual_status:
+++
+++      logger.warn("Expected status '" + str(expected_status) +
+++                  "' but got '" + str(actual_status) +
+++                  "' on url '" + req_url + "' (" +
+++                  auth_info + ").")
+++      raise svntest.Failure
+++
+++  if expected_body:
+++      actual_body = r.read()
+++      if expected_body != actual_body:
+++        logger.warn("Expected body:")
+++        logger.warn(expected_body)
+++        logger.warn("But got:")
+++        logger.warn(actual_body)
+++        logger.warn("on url '" + req_url + "' (" + auth_info + ").")
+++        raise svntest.Failure
+++
+++def verify_gets(test_area_url, tests):
+++  for test in tests:
+++      verify_get(test_area_url, test['path'], test.get('user'), test.get('pw'),
+++                 test['status'], test.get('body'), test.get('headers'))
+++
+++
+++######################################################################
+++# Tests
+++#
+++#   Each test must return on success or raise on failure.
+++
+++
+++#----------------------------------------------------------------------
+++
+++
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++def anon(sbox):
+++  "test anonymous access"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/anon')
+++
+++  write_authz_file(sbox)
+++
+++  anon_tests = ( 
+++                 { 'path': '', 'status': 301 },
+++                 { 'path': '/', 'status': 200 },
+++                 { 'path': '/repos', 'status': 301 },
+++                 { 'path': '/repos/', 'status': 200 },
+++                 { 'path': '/repos/A', 'status': 301 },
+++                 { 'path': '/repos/A/', 'status': 200 },
+++                 { 'path': '/repos/A/D', 'status': 301 },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200 },
+++                 { 'path': '/repos/A/D/H', 'status': 403 },
+++                 { 'path': '/repos/A/D/H/', 'status': 403 },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403 },
+++                 # auth isn't configured so nothing should change when passing
+++                 # authn details
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++               )
+++
+++  verify_gets(test_area_url, anon_tests)
+++
+++
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++def mixed(sbox):
+++  "test mixed anonymous and authenticated access"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/mixed')
+++
+++  write_authz_file(sbox)
+++
+++  mixed_tests = (
+++                 { 'path': '', 'status': 301,  },
+++                 { 'path': '/', 'status': 200,  },
+++                 { 'path': '/repos', 'status': 301,  },
+++                 { 'path': '/repos/', 'status': 200,  },
+++                 { 'path': '/repos/A', 'status': 301,  },
+++                 { 'path': '/repos/A/', 'status': 200,  },
+++                 { 'path': '/repos/A/D', 'status': 301,  },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, },
+++                 { 'path': '/repos/A/D/H', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, },
+++                 # auth is configured and user1 is allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 )
+++
+++  verify_gets(test_area_url, mixed_tests)
+++
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++@XFail(svntest.main.is_httpd_authz_provider_enabled)
+++# uses the AuthzSVNNoAuthWhenAnonymousAllowed On directive
+++# this is broken with httpd 2.3.x+ since it requires the auth system to accept
+++# r->user == NULL and there is a test for this in server/request.c now.  It
+++# was intended as a workaround for the lack of Satisfy Any in 2.3.x+ which
+++# was resolved by httpd with mod_access_compat in 2.3.x+.
+++def mixed_noauthwhenanon(sbox):
+++  "test mixed with noauthwhenanon directive"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/mixed-noauthwhenanon')
+++
+++  write_authz_file(sbox)
+++
+++  noauthwhenanon_tests = (
+++                 { 'path': '', 'status': 301,  },
+++                 { 'path': '/', 'status': 200,  },
+++                 { 'path': '/repos', 'status': 301,  },
+++                 { 'path': '/repos/', 'status': 200,  },
+++                 { 'path': '/repos/A', 'status': 301,  },
+++                 { 'path': '/repos/A/', 'status': 200,  },
+++                 { 'path': '/repos/A/D', 'status': 301,  },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, },
+++                 { 'path': '/repos/A/D/H', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, },
+++                 # auth is configured and user1 is allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 # try with the wrong password for user1
+++                 # note that unlike doing this with Satisfy Any this case
+++                 # actually provides anon access when provided with an invalid
+++                 # password
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 )
+++
+++  verify_gets(test_area_url, noauthwhenanon_tests)
+++
+++
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++def authn(sbox):
+++  "test authenticated only access"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/authn')
+++
+++  write_authz_file(sbox)
+++
+++  authn_tests = (
+++                 { 'path': '', 'status': 401,  },
+++                 { 'path': '/', 'status': 401,  },
+++                 { 'path': '/repos', 'status': 401,  },
+++                 { 'path': '/repos/', 'status': 401,  },
+++                 { 'path': '/repos/A', 'status': 401,  },
+++                 { 'path': '/repos/A/', 'status': 401,  },
+++                 { 'path': '/repos/A/D', 'status': 401,  },
+++                 { 'path': '/repos/A/D/', 'status': 401, },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, },
+++                 { 'path': '/repos/A/D/H', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, },
+++                 # auth is configured and user1 is allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 # try with upper case username for user1
+++                 { 'path': '', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 # try with upper case username for user2
+++                 { 'path': '', 'status': 301, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 )
+++
+++  verify_gets(test_area_url, authn_tests)
+++
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++def authn_anonoff(sbox):
+++  "test authenticated only access with anonoff"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/authn-anonoff')
+++
+++  write_authz_file(sbox)
+++
+++  anonoff_tests = (
+++                 { 'path': '', 'status': 401,  },
+++                 { 'path': '/', 'status': 401,  },
+++                 { 'path': '/repos', 'status': 401,  },
+++                 { 'path': '/repos/', 'status': 401,  },
+++                 { 'path': '/repos/A', 'status': 401,  },
+++                 { 'path': '/repos/A/', 'status': 401,  },
+++                 { 'path': '/repos/A/D', 'status': 401,  },
+++                 { 'path': '/repos/A/D/', 'status': 401, },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, },
+++                 { 'path': '/repos/A/D/H', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, },
+++                 # auth is configured and user1 is allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 # try with upper case username for user1
+++                 { 'path': '', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user1_upper, 'pw': user1_pass},
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 # try with upper case username for user2
+++                 { 'path': '', 'status': 301, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 )
+++
+++  verify_gets(test_area_url, anonoff_tests)
+++
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++def authn_lcuser(sbox):
+++  "test authenticated only access with lcuser"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/authn-lcuser')
+++
+++  write_authz_file(sbox)
+++
+++  lcuser_tests = (
+++                 # try with upper case username for user1 (works due to lcuser option)
+++                 { 'path': '', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1_upper, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1_upper, 'pw': user1_pass},
+++                 # try with upper case username for user2 (works due to lcuser option)
+++                 { 'path': '', 'status': 301, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2_upper, 'pw': user2_pass},
+++                 )
+++
+++  verify_gets(test_area_url, lcuser_tests)
+++
+++# authenticated access only by group - a excuse to use AuthzSVNAuthoritative Off
+++# this is terribly messed up, Require group runs after mod_authz_svn.
+++# so if mod_authz_svn grants the access then it doesn't matter what the group
+++# requirement says.  If we reject the access then you can use the AuthzSVNAuthoritative Off
+++# directive to fall through to the group check.  Overall the behavior of setups like this
+++# is almost guaranteed to not be what users expect.
+++@SkipUnless(svntest.main.is_ra_type_dav)
+++def authn_group(sbox):
+++  "test authenticated only access via groups"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/authn-group')
+++
+++  # Can't use write_authz_file() as most tests because we want to deny all
+++  # access with mod_authz_svn so the tests fall through to the group handling
+++  authz_name = sbox.authz_name()
+++  svntest.main.write_authz_file(sbox, {
+++                                        '/':  '* =',
+++                                      })
+++
+++  group_tests = (
+++                 { 'path': '', 'status': 401, },
+++                 { 'path': '/', 'status': 401, },
+++                 { 'path': '/repos', 'status': 401, },
+++                 { 'path': '/repos/', 'status': 401, },
+++                 { 'path': '/repos/A', 'status': 401, },
+++                 { 'path': '/repos/A/', 'status': 401, },
+++                 { 'path': '/repos/A/D', 'status': 401, },
+++                 { 'path': '/repos/A/D/', 'status': 401, },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, },
+++                 { 'path': '/repos/A/D/H', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, },
+++                 # auth is configured and user1 is allowed access repo including H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 )
+++
+++  verify_gets(test_area_url, group_tests)
+++
+++# This test exists to validate our behavior when used with the new authz
+++# provider system introduced in httpd 2.3.x.  The Satisfy directive
+++# determines how older authz hooks are combined and the RequireA(ll|ny)
+++# blocks handles how new authz providers are combined.  The overall results of
+++# all the authz providers (combined per the Require* blocks) are then
+++# combined with the other authz hooks via the Satisfy directive.
+++# Meaning this test requires that mod_authz_svn says yes and there is
+++# either a valid user or the ALLOW header is 1.  The header may seem
+++# like a silly test but it's easier to excercise than say a host directive
+++# in a repeatable test.
+++@SkipUnless(svntest.main.is_httpd_authz_provider_enabled)
+++def authn_sallrany(sbox):
+++  "test satisfy all require any config"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/sallrany')
+++
+++  write_authz_file(sbox)
+++
+++  allow_header = { 'ALLOW': '1' }
+++
+++  sallrany_tests = (
+++                 #anon access isn't allowed without ALLOW header
+++                 { 'path': '', 'status': 401, },
+++                 { 'path': '/', 'status': 401, },
+++                 { 'path': '/repos', 'status': 401, },
+++                 { 'path': '/repos/', 'status': 401, },
+++                 { 'path': '/repos/A', 'status': 401, },
+++                 { 'path': '/repos/A/', 'status': 401, },
+++                 { 'path': '/repos/A/D', 'status': 401, },
+++                 { 'path': '/repos/A/D/', 'status': 401, },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, },
+++                 { 'path': '/repos/A/D/H', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, },
+++                 # auth is configured and user1 is allowed access repo including H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass},
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass},
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass},
+++                 # anon is allowed with the ALLOW header
+++                 { 'path': '', 'status': 301, 'headers': allow_header },
+++                 { 'path': '/', 'status': 200, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 301, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 200, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 301, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 200, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 301, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'headers': allow_header },
+++                 # these 3 tests return 403 instead of 401 becasue the config allows
+++                 # the anon user with the ALLOW header without any auth and the old hook
+++                 # system has no way of knowing it should return 401 since authentication is
+++                 # configured and can change the behavior.  It could decide to return 401 just on
+++                 # the basis of authentication being configured but then that leaks info in other
+++                 # cases so it's better for this case to be "broken".
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'headers': allow_header },
+++                 # auth is configured and user1 is allowed access repo including H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++
+++                 )
+++
+++  verify_gets(test_area_url, sallrany_tests)
+++
+++# See comments on authn_sallrany test for some background on the interaction
+++# of Satisfy Any and the newer Require blocks.
+++@SkipUnless(svntest.main.is_httpd_authz_provider_enabled)
+++def authn_sallrall(sbox):
+++  "test satisfy all require all config"
+++  sbox.build(read_only = True, create_wc = False)
+++
+++  test_area_url = sbox.repo_url.replace('/svn-test-work/local_tmp/repos',
+++                                        '/authz-test-work/sallrall')
+++
+++  write_authz_file(sbox)
+++
+++  allow_header = { 'ALLOW': '1' }
+++
+++  sallrall_tests = (
+++                 #anon access isn't allowed without ALLOW header
+++                 { 'path': '', 'status': 403, },
+++                 { 'path': '/', 'status': 403, },
+++                 { 'path': '/repos', 'status': 403, },
+++                 { 'path': '/repos/', 'status': 403, },
+++                 { 'path': '/repos/A', 'status': 403, },
+++                 { 'path': '/repos/A/', 'status': 403, },
+++                 { 'path': '/repos/A/D', 'status': 403, },
+++                 { 'path': '/repos/A/D/', 'status': 403, },
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, },
+++                 { 'path': '/repos/A/D/H', 'status': 403, },
+++                 { 'path': '/repos/A/D/H/', 'status': 403, },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, },
+++                 # auth is configured but no access is allowed without the ALLOW header
+++                 { 'path': '', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user1, 'pw': user1_pass},
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user1, 'pw': user1_badpass},
+++                 # auth is configured but no access is allowed without the ALLOW header
+++                 { 'path': '', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass},
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/gamma', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_badpass},
+++                 # anon is not allowed even with ALLOW header
+++                 { 'path': '', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'headers': allow_header },
+++                 # auth is configured and user1 is allowed access repo including H
+++                 { 'path': '', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_H,
+++                   'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 301, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 200, 'body': ls_of_H, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 200, 'user': user1, 'pw': user1_pass, 'headers': allow_header },
+++                 # try with the wrong password for user1
+++                 { 'path': '', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user1, 'pw': user1_badpass, 'headers': allow_header },
+++                 # auth is configured and user2 is not allowed access to H
+++                 { 'path': '', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 301, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 200, 'body': ls_of_D_no_H,
+++                   'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 200, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 403, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 403, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 403, 'user': user2, 'pw': user2_pass, 'headers': allow_header },
+++                 # try with the wrong password for user2
+++                 { 'path': '', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/gamma', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++                 { 'path': '/repos/A/D/H/chi', 'status': 401, 'user': user2, 'pw': user2_badpass, 'headers': allow_header },
+++
+++                 )
+++
+++  verify_gets(test_area_url, sallrall_tests)
+++
+++
+++########################################################################
+++# Run the tests
+++
+++
+++# list all tests here, starting with None:
+++test_list = [ None,
+++              anon,
+++              mixed,
+++              mixed_noauthwhenanon,
+++              authn,
+++              authn_anonoff,
+++              authn_lcuser,
+++              authn_group,
+++              authn_sallrany,
+++              authn_sallrall,
+++             ]
+++serial_only = True
+++
+++if __name__ == '__main__':
+++  svntest.main.run_tests(test_list)
+++  # NOTREACHED
+++
+++
+++### End of file.
++Index: subversion-1.8.11/subversion/tests/cmdline/svntest/main.py
++===================================================================
++--- subversion-1.8.11.orig/subversion/tests/cmdline/svntest/main.py
+++++ subversion-1.8.11/subversion/tests/cmdline/svntest/main.py
++@@ -1368,6 +1368,30 @@ def is_plaintext_password_storage_disabl
++     return False
++   return True
++ 
+++
+++# https://issues.apache.org/bugzilla/show_bug.cgi?id=56480
+++# https://issues.apache.org/bugzilla/show_bug.cgi?id=55397
+++__mod_dav_url_quoting_broken_versions = frozenset([
+++    '2.2.27',
+++    '2.2.26',
+++    '2.2.25',
+++    '2.4.9',
+++    '2.4.8',
+++    '2.4.7',
+++    '2.4.6',
+++    '2.4.5',
+++])
+++def is_mod_dav_url_quoting_broken():
+++    if is_ra_type_dav():
+++        return (options.httpd_version in __mod_dav_url_quoting_broken_versions)
+++    return None
+++
+++def is_httpd_authz_provider_enabled():
+++    if is_ra_type_dav():
+++      v = options.httpd_version.split('.')
+++      return (v[0] == '2' and int(v[1]) >= 3) or int(v[0]) > 2
+++    return None
+++
++ ######################################################################
++ 
++ 
++@@ -1425,6 +1449,8 @@ class TestSpawningThread(threading.Threa
++       args.append('--ssl-cert=' + options.ssl_cert)
++     if options.http_proxy:
++       args.append('--http-proxy=' + options.http_proxy)
+++    if options.httpd_version:
+++      args.append('--httpd-version=' + options.httpd_version)
++ 
++     result, stdout_lines, stderr_lines = spawn_process(command, 0, False, None,
++                                                        *args)
++@@ -1590,6 +1616,12 @@ class TestRunner:
++       sandbox.cleanup_test_paths()
++     return exit_code
++ 
+++def is_httpd_authz_provider_enabled():
+++    if is_ra_type_dav():
+++      v = options.httpd_version.split('.')
+++      return (v[0] == '2' and int(v[1]) >= 3) or int(v[0]) > 2
+++    return None
+++
++ ######################################################################
++ # Main testing functions
++ 
++@@ -1770,6 +1802,8 @@ def _create_parser():
++                     help='Path to SSL server certificate.')
++   parser.add_option('--http-proxy', action='store',
++                     help='Use the HTTP Proxy at hostname:port.')
+++  parser.add_option('--httpd-version', action='store',
+++                    help='Assume HTTPD is this version.')
++   parser.add_option('--tools-bin', action='store', dest='tools_bin',
++                     help='Use the svn tools installed in this path')
++ 
++Index: subversion-1.8.11/win-tests.py
++===================================================================
++--- subversion-1.8.11.orig/win-tests.py
+++++ subversion-1.8.11/win-tests.py
++@@ -481,6 +481,7 @@ class Httpd:
++     self.httpd_config = os.path.join(self.root, 'httpd.conf')
++     self.httpd_users = os.path.join(self.root, 'users')
++     self.httpd_mime_types = os.path.join(self.root, 'mime.types')
+++    self.httpd_groups = os.path.join(self.root, 'groups')
++     self.abs_builddir = abs_builddir
++     self.abs_objdir = abs_objdir
++     self.service_name = 'svn-test-httpd-' + str(httpd_port)
++@@ -494,6 +495,7 @@ class Httpd:
++     create_target_dir(self.root_dir)
++ 
++     self._create_users_file()
+++    self._create_groups_file()
++     self._create_mime_types_file()
++     self._create_dontdothat_file()
++ 
++@@ -540,6 +542,8 @@ class Httpd:
++     if self.httpd_ver >= 2.2:
++       fp.write(self._sys_module('auth_basic_module', 'mod_auth_basic.so'))
++       fp.write(self._sys_module('authn_file_module', 'mod_authn_file.so'))
+++      fp.write(self._sys_module('authz_groupfile_module', 'mod_authz_groupfile.so'))
+++      fp.write(self._sys_module('authz_host_module', 'mod_authz_host.so'))
++     else:
++       fp.write(self._sys_module('auth_module', 'mod_auth.so'))
++     fp.write(self._sys_module('alias_module', 'mod_alias.so'))
++@@ -562,6 +566,7 @@ class Httpd:
++     # Define two locations for repositories
++     fp.write(self._svn_repo('repositories'))
++     fp.write(self._svn_repo('local_tmp'))
+++    fp.write(self._svn_authz_repo())
++ 
++     # And two redirects for the redirect tests
++     fp.write('RedirectMatch permanent ^/svn-test-work/repositories/'
++@@ -592,6 +597,17 @@ class Httpd:
++                                     'jrandom', 'rayjandom'])
++     os.spawnv(os.P_WAIT, htpasswd, ['htpasswd.exe', '-bp',  self.httpd_users,
++                                     'jconstant', 'rayjandom'])
+++    os.spawnv(os.P_WAIT, htpasswd, ['htpasswd.exe', '-bp',  self.httpd_users,
+++                                    'JRANDOM', 'rayjandom'])
+++    os.spawnv(os.P_WAIT, htpasswd, ['htpasswd.exe', '-bp',  self.httpd_users,
+++                                    'JCONSTANT', 'rayjandom'])
+++
+++  def _create_groups_file(self):
+++    "Create groups for mod_authz_svn tests"
+++    fp = open(self.httpd_groups, 'w')
+++    fp.write('random: jrandom\n')
+++    fp.write('constant: jconstant\n')
+++    fp.close()
++ 
++   def _create_mime_types_file(self):
++     "Create empty mime.types file"
++@@ -652,6 +668,153 @@ class Httpd:
++       '  DontDoThatConfigFile ' + self._quote(self.dontdothat_file) + '\n' \
++       '</Location>\n'
++ 
+++  def _svn_authz_repo(self):
+++    local_tmp = os.path.join(self.abs_builddir,
+++                             CMDLINE_TEST_SCRIPT_NATIVE_PATH,
+++                             'svn-test-work', 'local_tmp')
+++    return \
+++      '<Location /authz-test-work/anon>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  <IfModule mod_authz_core.c>' + '\n' \
+++      '    Require all granted' + '\n' \
+++      '  </IfModule>' + '\n' \
+++      '  <IfModule !mod_authz_core.c>' + '\n' \
+++      '    Allow from all' + '\n' \
+++      '  </IfModule>' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/mixed>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  Require           valid-user' + '\n' \
+++      '  Satisfy Any' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/mixed-noauthwhenanon>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  Require           valid-user' + '\n' \
+++      '  AuthzSVNNoAuthWhenAnonymousAllowed On' + '\n' \
+++      '  SVNPathAuthz On' + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/authn>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  Require           valid-user' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/authn-anonoff>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  Require           valid-user' + '\n' \
+++      '  AuthzSVNAnonymous Off' + '\n' \
+++      '  SVNPathAuthz On' + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/authn-lcuser>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  Require           valid-user' + '\n' \
+++      '  AuthzForceUsernameCase Lower' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/authn-lcuser>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  Require           valid-user' + '\n' \
+++      '  AuthzForceUsernameCase Lower' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/authn-group>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  AuthGroupFile    ' + self._quote(self.httpd_groups) + '\n' \
+++      '  Require           group random' + '\n' \
+++      '  AuthzSVNAuthoritative Off' + '\n' \
+++      '  SVNPathAuthz On' + '\n' \
+++      '</Location>' + '\n' \
+++      '<IfModule mod_authz_core.c>' + '\n' \
+++      '<Location /authz-test-work/sallrany>' + '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  AuthzSendForbiddenOnFailure On' + '\n' \
+++      '  Satisfy All' + '\n' \
+++      '  <RequireAny>' + '\n' \
+++      '    Require valid-user' + '\n' \
+++      '    Require expr req(\'ALLOW\') == \'1\'' + '\n' \
+++      '  </RequireAny>' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '<Location /authz-test-work/sallrall>'+ '\n' \
+++      '  DAV               svn' + '\n' \
+++      '  SVNParentPath     ' + local_tmp + '\n' \
+++      '  AuthzSVNAccessFile ' + self._quote(self.authz_file) + '\n' \
+++      '  SVNAdvertiseV2Protocol ' + self.httpv2_option + '\n' \
+++      '  SVNListParentPath On' + '\n' \
+++      '  AuthType          Basic' + '\n' \
+++      '  AuthName          "Subversion Repository"' + '\n' \
+++      '  AuthUserFile    ' + self._quote(self.httpd_users) + '\n' \
+++      '  AuthzSendForbiddenOnFailure On' + '\n' \
+++      '  Satisfy All' + '\n' \
+++      '  <RequireAll>' + '\n' \
+++      '    Require valid-user' + '\n' \
+++      '    Require expr req(\'ALLOW\') == \'1\'' + '\n' \
+++      '  </RequireAll>' + '\n' \
+++      '  SVNPathAuthz ' + self.path_authz_option + '\n' \
+++      '</Location>' + '\n' \
+++      '</IfModule>' + '\n' \
+++
++   def start(self):
++     if self.service:
++       self._start_service()
++@@ -786,6 +949,10 @@ if not test_javahl:
++     log_file = os.path.join(abs_builddir, log)
++     fail_log_file = os.path.join(abs_builddir, faillog)
++ 
+++  if run_httpd:
+++    httpd_version = "%.1f" % daemon.httpd_ver
+++  else:
+++    httpd_version = None
++   th = run_tests.TestHarness(abs_srcdir, abs_builddir,
++                              log_file,
++                              fail_log_file,
++@@ -795,6 +962,7 @@ if not test_javahl:
++                              fsfs_sharding, fsfs_packing,
++                              list_tests, svn_bin, mode_filter,
++                              milestone_filter,
+++                             httpd_version=httpd_version,
++                              set_log_level=log_level, ssl_cert=ssl_cert)
++   old_cwd = os.getcwd()
++   try:
+diff --git a/meta/recipes-devtools/subversion/subversion_1.8.11.bb b/meta/recipes-devtools/subversion/subversion_1.8.11.bb
+index a5a5761..7893929 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.8.11.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.8.11.bb
+@@ -12,6 +12,7 @@ inherit gettext pythonnative
+ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libtool2.patch \
+            file://disable_macos.patch \
++           file://subversion-CVE-2015-3184.patch \
+ "
+ SRC_URI[md5sum] = "766a89bbbb388f8eb76166672d3b9e49"
+ SRC_URI[sha256sum] = "10b056420e1f194c12840368f6bf58842e6200f9cb8cc5ebbf9be2e89e56e4d9"
 -- 
 2.3.5
 
