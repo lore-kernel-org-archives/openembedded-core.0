@@ -1,54 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E740A7722B
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E8172772E6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 23:15:46 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id c10so6527954pfc.0
+	Sat,  6 Feb 2016 23:15:48 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id pv5so4055005pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 15:15:48 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:in-reply-to:references:content-type:content-transfer-encoding;
-	bh=o8PWTyYFIvOO3TgfIYyx9KiYGIVxatIxSKZrDr8+S6Y=;
-	b=G8ZI2mNER59aPI2GaNI+HKBLZq1mIA1RtAV2xIl5gOlTNxLSKWV6BfpPy/9EL7OFVU
-	+G27n+stxj+Co/AkPGf2pCrHJg6HBacB+Vef739h/019nzV7/94NQjuZhGasnNg26ww6
-	P2RfCHJeXRUr+3/kfGGanAxiNeumR9Kd8MxxSoqrjcDxJJtXL525TK3l6Eo1mP/e4BHH
-	7pdhdyztNTGjmQS8WHzrMIthmoOUrWwp638JZb+Tp8T91orwtqzZ/ZPRhzY4o8gLa7Sf
-	erOz1SVv/5C4oSa7sa5jvmWY6HNGGXJG8MyiwRMr/RknVeptWsKp4t3vi+C5pxTsF9ig
-	Dj5Q==
+	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
+	:references; bh=XqTZVOkaJxeTSgOfHXSUQ/ouBOGTas2EO+b8tlTmsWQ=;
+	b=BCmtHX70HibqrvIAz0mAmZBtISiBvBhFH/Vfz4SYci4su6Rf0RMKCYIbdqBiKsolM8
+	rx5qdHhWehZcfqY94bw7BlzYvqFGybSNdwIVsHzPMiju8JTjPRx92Jol/oAqvIZK80iN
+	tLYXzbmI80S2sB2EeiNaMr1b0gRWCuuqCYXVjO3GAHI1zisnPsnTfjIxPBK6yorN/01u
+	3P43TdLJV1A2C41qAn/g+cdxo7dAY8Uqbhn9C8o64J45teKFW3bVzMrepcFob6fhxvBX
+	tLpAWVWVNZJ/LZSE4Le8gWtf08u/m1+PY+xKWUMDZ9cys3jL12QMad3DCOU4Q+64R/Tx
+	2XyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:in-reply-to:references:content-type
-	:content-transfer-encoding;
-	bh=o8PWTyYFIvOO3TgfIYyx9KiYGIVxatIxSKZrDr8+S6Y=;
-	b=f51/n+aCT57pK0nfU1ClRWYSpuqzYuM7AMJ9RD0d2K9XuTDABhVfDMkQiUI7pATGUW
-	BtyidX8Xq4Y47SjLIE0bl3qZUIaMpTIqJzMZrkOJVXgON5JEtaBdyD29RpxVUqJ90IRR
-	RnPNNRYO68U5NeUwPbg+QonDvFdgoJ5oHgV2mLImii0sbR47CLBlpRW3xDyHKCNCekYw
-	jvQ1eRoMDeVDxtgWEtnrvUtsNgZKNbo/YEatt9zSlMDZUhFJagQbaWjUb/IcGmDQiKy5
-	qTKTyzDJLdElr3Ccy7vxVmikXPqLRQ12eh7D09FZz5INf+9dAw6psXiaRo/HPLMJsyz6
-	vBBg==
-X-Gm-Message-State: AG10YOQUz4UKRY9BW/F+rIdqWXEKhy662BJ4rfTbKKa1QuN7Hsp3Hz87cyjNI6JU9kS8Ww==
-X-Received: by 10.98.64.132 with SMTP id f4mr30835387pfd.159.1454800548005;
-	Sat, 06 Feb 2016 15:15:48 -0800 (PST)
+	:references:in-reply-to:references;
+	bh=XqTZVOkaJxeTSgOfHXSUQ/ouBOGTas2EO+b8tlTmsWQ=;
+	b=UnzsHBVAlobFdhH+kNYioqsUqjpIJlLm9HUSCFEHn8oK2k2agIOi5clHiUcFBxXq5O
+	wdkKG2RHD4Icj2H2hjf86L+kK0kST+03BeZEAu1thGj86LYJVIowb7AqFvGjQu7oUvjP
+	YoOAvxfP938k/V5KI6tEi2f/Aw71jAwBW4uSven0V3oBsUx7zwZOZ/GDX8vQ8529+n43
+	fvYbRBy9sZ4hekHPdYZRbMImtu+UONECAgTa8QUjL6C1jwrEmqvSFSps5jA3ePl/jq14
+	YZjj8C5ip89ODYogXwpCZ5VEkEW02IgG7GltA/PM4DiMvIQPUk/fSQKPt5wpmqvJ+KWJ
+	j4HA==
+X-Gm-Message-State: AG10YOS8X8kolex9MF2a5xMn6eBAYrLzud+z9sOenmqi6ZqP4eKqdv+I63p0LU3fVlnuTg==
+X-Received: by 10.66.141.229 with SMTP id rr5mr31271405pab.123.1454800549997; 
+	Sat, 06 Feb 2016 15:15:49 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.46
+	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 15:15:46 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:48 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
 	akuster808@gmail.com
-Date: Sat,  6 Feb 2016 15:14:59 -0800
-Message-Id: <43057ce802d2be7a964f8483339796a39ef8faed.1454800360.git.akuster@mvista.com>
+Date: Sat,  6 Feb 2016 15:15:00 -0800
+Message-Id: <71dcdf54f830b00b7e9ec7463eaeddb9166f8c7b.1454800360.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
-MIME-Version: 1.0
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
-Subject: [PATCH 18/21] dpkg: Security fix CVE-2015-0860
+Subject: [PATCH 19/21] libxml2: Security fix CVE-2015-8241
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,96 +58,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 23:15:47 -0000
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 06 Feb 2016 23:15:49 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-0860 dpkg: stack overflows and out of bounds read
+CVE-2015-8241 libxml2: Buffer overread with XML parser in xmlNextChar
 
-(From OE-Core rev: 5aaec01acc9e5a19374a566307a425d43c887f4b)
+(From OE-Core rev: f3c19a39cdec435f26a7f46a3432231ba4daa19c)
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch | 53 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.21.bb         |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch
+ meta/recipes-core/libxml/libxml2.inc               |  1 +
+ .../libxml/libxml2/CVE-2015-8241.patch             | 40 ++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch b/meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 4f2034e..01d6bbe 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -37,6 +37,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch \
+            file://0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch \
+            file://0001-CVE-2015-5312-Another-entity-expansion-issue.patch \
++           file://CVE-2015-8241.patch \
+           "
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
 new file mode 100644
-index 0000000..2008d89
+index 0000000..89a46ad
 --- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/CVE-2015-0860.patch
-@@ -0,0 +1,53 @@
-+From f1aac7d933819569bf6f347c3c0d5a64a90bbce0 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Hanno=20B=C3=B6ck?= <hanno@hboeck.de>
-+Date: Thu, 19 Nov 2015 20:03:10 +0100
-+Subject: [PATCH] dpkg-deb: Fix off-by-one write access on ctrllenbuf variable
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8241.patch
+@@ -0,0 +1,40 @@
++From ab2b9a93ff19cedde7befbf2fcc48c6e352b6cbe Mon Sep 17 00:00:00 2001
++From: Hugh Davenport <hugh@allthethings.co.nz>
++Date: Tue, 3 Nov 2015 20:40:49 +0800
++Subject: [PATCH] Avoid extra processing of MarkupDecl when EOF
 +
-+This affects old format .deb packages.
++For https://bugzilla.gnome.org/show_bug.cgi?id=756263
 +
-+Fixes: CVE-2015-0860
-+Warned-by: afl
-+Signed-off-by: Guillem Jover <guillem@debian.org>
++One place where ctxt->instate == XML_PARSER_EOF whic was set up
++by entity detection issues doesn't get noticed, and even overrided
 +
-+Upstream-Status: Backport
++Upstream-status: Backport
 +
-+https://anonscm.debian.org/cgit/dpkg/dpkg.git/commit/?h=wheezy&id=f1aac7d933819569bf6f347c3c0d5a64a90bbce0
++https://git.gnome.org/browse/libxml2/commit/?id=ab2b9a93ff19cedde7befbf2fcc48c6e352b6cbe
 +
-+CVE: CVE-2015-0860
-+
-+hand merge Changelog
-+
++CVE: CVE-2015-8241
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ debian/changelog   | 3 +++
-+ dpkg-deb/extract.c | 2 +-
-+ 2 files changed, 4 insertions(+), 1 deletion(-)
++ parser.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+Index: dpkg-1.17.21/dpkg-deb/extract.c
++Index: libxml2-2.9.2/parser.c
 +===================================================================
-+--- dpkg-1.17.21.orig/dpkg-deb/extract.c
-++++ dpkg-1.17.21/dpkg-deb/extract.c
-+@@ -245,7 +245,7 @@ extracthalf(const char *debar, const cha
-+     if (errstr)
-+       ohshit(_("archive has invalid format version: %s"), errstr);
-+ 
-+-    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
-++    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
-+     if (r < 0)
-+       read_fail(r, debar, _("archive control member size"));
-+     if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
-+Index: dpkg-1.17.21/ChangeLog
-+===================================================================
-+--- dpkg-1.17.21.orig/ChangeLog
-++++ dpkg-1.17.21/ChangeLog
-+@@ -1,3 +1,9 @@
-++[ Guillem Jover ]
-++  * Fix an off-by-one write access in dpkg-deb when parsing the old format
-++    .deb control member size. Thanks to Hanno Böck <hanno@hboeck.de>.
-++    Fixes CVE-2015-0860.
++--- libxml2-2.9.2.orig/parser.c
+++++ libxml2-2.9.2/parser.c
++@@ -6999,6 +6999,14 @@ xmlParseMarkupDecl(xmlParserCtxtPtr ctxt
++ 	    xmlParsePI(ctxt);
++ 	}
++     }
 ++
+++    /*
+++     * detect requirement to exit there and act accordingly
+++     * and avoid having instate overriden later on
+++     */
+++    if (ctxt->instate == XML_PARSER_EOF)
+++        return;
 ++
-+ commit 6fc9e281551e0d851e38249679688bbabbad5c5f
-+ Author: Guillem Jover <guillem@debian.org>
-+ Date:   Sat Oct 25 02:24:41 2014 +0200
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-index 7adb2b2..9133d91 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-@@ -14,6 +14,7 @@ SRC_URI += "file://noman.patch \
-             file://no-vla-warning.patch \
-             file://add_armeb_triplet_entry.patch \
-             file://tarfix.patch \
-+            file://CVE-2015-0860.patch \
-            "
- 
- SRC_URI[md5sum] = "765a96fd0180196613bbfa3c4aef0775"
++     /*
++      * This is only for internal subset. On external entities,
++      * the replacement is done before parsing stage
 -- 
 2.3.5
 
