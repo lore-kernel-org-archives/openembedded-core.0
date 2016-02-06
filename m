@@ -1,46 +1,46 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E542771C0
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 82E206FF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 15:46:26 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id w123so85626193pfb.0
+	Sat,  6 Feb 2016 15:54:50 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id yy13so3767007pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 07:46:27 -0800 (PST)
+	Sat, 06 Feb 2016 07:54:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id;
-	bh=dl0rJGILc7+z/w1hCzYfslPNiNOUYHX1CLOwF4igzHI=;
-	b=ml7ZLZ1Zq40oAIAkLRA2Db1D0u35eq1mzrrOmhjboHrH8IYKw9F+R+aW7GhgZQpT1x
-	p66O+irl6xp8GpZE+5KTwKmWKksvJ6qbI+Jnw6EqqusZhvyhVt0oeNap483b0vIkMzvn
-	agSduK8vy/XGvQKAJjXWBqE0RV4QuQSeEVzQp9zS4cSND9LMIS2+40FxzFb7gsTtgeF2
-	QWmLUjLNAE86ruupbW2wMIb3Pg/DNjnQCZgXSLza0EFO+6mdUqF6FEJPCFp4kkJKDrSj
-	cDHbA6la/xdHoJu5ToqGFZGay7BpbCeB+5rpDO8mWKf1AbS/ytiO7RHr/9XCBdjZbutz
-	4qKA==
+	bh=93VLYY08x7XNqZqRxsZGUBOIhf73DRyliDT6o10Om1g=;
+	b=ipeRF+Bz8zirNraW6stPwQs/wlIVpINq1Jf/OmvzTnNFxSdEbU5RAYHuvFpGk6O1u3
+	0O/pSgOpZgt5aRJx+58ytabggby4LgoYnZ4pHT5qUmUuIE0XFeB9o0SvVS2xhgL11kAq
+	5AKMU4WJAXBobpI3IcWpsaIaOxrpiJTjfRw/KHP4LE1qTzP4Z+7r07/U4aA9HBR61gwm
+	Ik22ayaRnGElm4ah8sej3fAP1c1UBMgBEVM18NIgULOWY0HjpkNqusebKET22l+KSumh
+	zGxP9PNI7P6O83nQAyOht/DH7wISytBRKexBFt/BBeAQja9DdBgWnvjeGTaQJZgWcc7H
+	Oc3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dl0rJGILc7+z/w1hCzYfslPNiNOUYHX1CLOwF4igzHI=;
-	b=LjY7SQJpLXgj6icD1AloWQ6HsRQvqtxrKMzd4epZ9BJ20GyzeytCQPAqXfgIcs3/bf
-	+oIw/w810HzaQ30bSxL8RYXbR0M5byXpmA5e17/+1+ST6q5e22kIlMWptm+hQzCpyQ4E
-	BOGeNynIz9nA4qe+jiE26He0hhUab33OqirX4yJ1BC58lp2dbHFdV6+7whHBmBn11VeY
-	ScGi1mlxDuUo/m1nodSZS2zlComPzHVRX3Jlg4JXNxCl+q/Eb4p3efi4snLzJ22V/3lu
-	bihWsUTQE8GABtyxpmn/1uH+qnYvodJm4xt4doyqKyxa7JxLjnIa0n4q/v1RgPzAlEF0
-	JGZA==
-X-Gm-Message-State: AG10YOT9+5WfByKZLE3S+aAwlWnw6mjsw38NzNSOvy64pkLO15pcrky8fXzHpoQOIWMGUA==
-X-Received: by 10.98.65.148 with SMTP id g20mr28604367pfd.21.1454773587059;
-	Sat, 06 Feb 2016 07:46:27 -0800 (PST)
+	bh=93VLYY08x7XNqZqRxsZGUBOIhf73DRyliDT6o10Om1g=;
+	b=MsTcpE7uQRhKjHMPY17xmewCDx8SNG2rRy5ouERQ3VHSHjglGzPWX6n5GICRLyqZm5
+	cUWv4zbY5ySJEoNbEzH08u6XXkdtGurjF5E7lp1cgMEaaep+IVChgfdeS9ZKG5Rikqqa
+	hHD6kq4yKYWKKoTZx7XArqd+EolKcMCJeItSjedCnHBAyjyy2/dQECy3ciS5sxXaqCsn
+	eeAAP5jct3PM662nTjxHap5T6kYfEYAjnzAnUnfFbhs5uM6631DJqRWRixF1/tnNnZrF
+	3sORRT1TU87OCjblPLu09ctCc7Tof7smlnUMcD7Dl/pSHb2LMAqXbbWPsxz/bspNpJ4C
+	fkuw==
+X-Gm-Message-State: AG10YOSUa/bJZD+f5cp6bg7F9bHwqjXdSnplMZSyR/lRNHTfz+Ihzbj/2snntqTZvg/zbA==
+X-Received: by 10.66.142.168 with SMTP id rx8mr28453449pab.16.1454774091015;
+	Sat, 06 Feb 2016 07:54:51 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	s197sm32055878pfs.62.2016.02.06.07.46.25
-	for <openembedded-core@lists.openembedded.org>
+	ey2sm32233096pab.2.2016.02.06.07.54.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 07:46:26 -0800 (PST)
+	Sat, 06 Feb 2016 07:54:49 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Feb 2016 07:46:13 -0800
-Message-Id: <1454773573-6990-1-git-send-email-akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	joshua.g.lock@intel.com
+Date: Sat,  6 Feb 2016 07:54:32 -0800
+Message-Id: <cover.1454773801.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
-Subject: [PATCH] lsscsi: Add new package
+Subject: [PATCH 0/4][fido] Fido security pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 15:46:26 -0000
+X-List-Received-Date: Sat, 06 Feb 2016 15:54:50 -0000
 
-The lsscsi command lists information about SCSI devices in Linux
+From: Armin Kuster <akuster@mvista.com>
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-bsp/lsscsi/lsscsi_0.28.bb | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
- create mode 100644 meta/recipes-bsp/lsscsi/lsscsi_0.28.bb
+please consider these changes for the next fido update
+The following changes since commit 9845a542a76156adb5aef6fd33ad5bc5777acf64:
 
-diff --git a/meta/recipes-bsp/lsscsi/lsscsi_0.28.bb b/meta/recipes-bsp/lsscsi/lsscsi_0.28.bb
-new file mode 100644
-index 0000000..4b8cbaf
---- /dev/null
-+++ b/meta/recipes-bsp/lsscsi/lsscsi_0.28.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "The lsscsi command lists information about SCSI devices in Linux"
-+HOMEPAGE = "http://sg.danny.cz/scsi/lsscsi.html"
-+LICENSE = "GPLv2"
-+SECTION = "base"
-+LIC_FILES_CHKSUM="file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
-+
-+SRC_URI = "http://sg.danny.cz/scsi/${BP}.tgz"
-+
-+SRC_URI[md5sum] = "4a39e3b09cd422e2cae3edbaf56b3176"
-+SRC_URI[sha256sum] = "025d009a1af42bc5b2fca664c44c9ecdfd754356e4a44f5c6aced2420afadd50"
-+
-+inherit autotools
+  openssh: CVE-2016-077x (2016-01-20 17:08:30 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akuster/fido_cve_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fido_cve_fixes
+
+Armin Kuster (4):
+  glibc: CVE-2015-8777
+  glibc: CVE-2015-8779
+  glibc: CVE-2015-9761
+  glibc: CVE-2015-8776
+
+ meta/recipes-core/glibc/glibc/CVE-2015-8776.patch  |  155 +++
+ meta/recipes-core/glibc/glibc/CVE-2015-8777.patch  |  122 +++
+ meta/recipes-core/glibc/glibc/CVE-2015-8779.patch  |  262 +++++
+ .../recipes-core/glibc/glibc/CVE-2015-9761_1.patch | 1039 ++++++++++++++++++++
+ .../recipes-core/glibc/glibc/CVE-2015-9761_2.patch |  388 ++++++++
+ meta/recipes-core/glibc/glibc_2.21.bb              |    5 +
+ 6 files changed, 1971 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
+
 -- 
 2.3.5
 
