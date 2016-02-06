@@ -1,52 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F3356057B
+Return-Path: <mac@mcrowe.com>
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id E6DD0731C3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 17:44:07 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id b67so4082174qgb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 09:44:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=yszR5Fu3+2r/xJm2YbKGFGCR6GWXiFNJSP+sMg280Ho=;
-	b=INZSHfjsXCLPOwb+a4U34DZINvIvHEs7J8kbrGydpUrUStrh/f/WeJaL9WAET5gWUR
-	7AYsOxEuRwSdsAaH4gwKnE4QTTOlOjW8AbV/LVVbL21XRAhKXfMrTAI6HEvQiqkinQlU
-	SfmZSDw4tuN8lIkn4ii2t+ONBNdyhfHHdUQgvBj1qW1NXAjDj+Hq6GjX+qxxtZiS6DBX
-	/ETeRG22LyH7T0NFolsV+0hSw2G9XsFP4riqipG75lLIx+9hEHGyTJFYukQIW9hiNUby
-	BkPdFTkdoZDChiAu7x0KnT80wvJ90sLhHBu3Ke67K8ECXj+XqsdRoDaz67K6OpEi6R2v
-	VeIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=yszR5Fu3+2r/xJm2YbKGFGCR6GWXiFNJSP+sMg280Ho=;
-	b=k7ZMBUsbZZFnghkoWBC49x/exDeqWM7PRiXPnjFeAstL8eOQY+7d4YVk7+qBjNgbfs
-	I3f6Mr4RvOQ+ykuq/uKbZYOqbwNveNEQ8E4zn8V+IqitPqYapgrWdYAKNLEvwvHlyEN/
-	i9J6u58b8tdKj5o4pHj3JVprhHEY5rnD9/S56XFIWXUMBAj3FYAAGwzgxh7IH6qMzWKR
-	4z6aSUt0Wdxau8Cb8kG9iOYrQius4I3Nz+nizBJ9HR4JAQ/pidLV51Y3R5+Vx/GY8cFR
-	BgWhdP8I20IqFGwePiuwoQ2TcvpsaWozhysZ56N5KX2eDjIVlv3HHU16YddzKGPcGZYw
-	Fniw==
-X-Gm-Message-State: AG10YOTEgFjQ3X2qQQv2x2dQ2DR0fuOPyLrXPvL1XpfKYSvblqvWS8x26P/0AYNBstEYpnLnZKNB9CIEugLPhA==
-X-Received: by 10.140.108.181 with SMTP id j50mr22956735qgf.104.1454780647572; 
-	Sat, 06 Feb 2016 09:44:07 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Sat, 6 Feb 2016 09:43:38 -0800 (PST)
-In-Reply-To: <1454697094.27087.280.camel@linuxfoundation.org>
+	Sat,  6 Feb 2016 20:41:12 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id F8hA1s0040BmcFC018hBra; Sat, 06 Feb 2016 20:41:12 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
+	a=jFJIQSaiL_oA:10 a=89xGLPYzVUEAh91_EyYA:9 a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.84)
+	(envelope-from <mac@mcrowe.com>)
+	id 1aS9fK-0006Ng-Db; Sat, 06 Feb 2016 20:41:10 +0000
+Date: Sat, 6 Feb 2016 20:41:10 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20160206204110.GA21969@mcrowe.com>
 References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
 	<1454428874.27087.87.camel@linuxfoundation.org>
-	<20160202210411.GA20640@mcrowe.com>
-	<1454452885.27087.127.camel@linuxfoundation.org>
-	<20160205173256.GA7728@mcrowe.com>
-	<CAMKF1srahWOS2zu2G6JEXZiwcX9sgqXQ9LOb4z6n0te73H=RDg@mail.gmail.com>
-	<1454697094.27087.280.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 6 Feb 2016 09:43:38 -0800
-Message-ID: <CAMKF1srnmT=tec4VEk+ji3DjOsq0kVhOBh25e9DceiZNbX85Sw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Mike Crowe <mac@mcrowe.com>,
-	Patches and discussions about the oe-core layer
+	<20160202161726.GC2607@jama>
+	<CA+chaQdGzUm96SViWvLW8xinxSLrjZbZxi843A282geN+T5Ffw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CA+chaQdGzUm96SViWvLW8xinxSLrjZbZxi843A282geN+T5Ffw@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,64 +39,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 17:44:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 06 Feb 2016 20:41:13 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Feb 5, 2016 at 10:31 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2016-02-05 at 10:22 -0800, Khem Raj wrote:
->> On Fri, Feb 5, 2016 at 9:32 AM, Mike Crowe <mac@mcrowe.com> wrote:
->> > On Tue, 2016-02-02 at 14:49 +0000, Mike Crowe wrote:
->> > On Tue, 2016-02-02 at 21:04 +0000, Mike Crowe wrote:
->> > > > I've compile-tested qemux86 and qemuarm for core-image-sato.
->> > > > qemumips
->> > > > is building now.
->> >
->> > Since then I've collected enough patches to make "bitbake world"
->> > build
->> > successfully for qemux86, qemuarm, qemuppc and qemumips. qemux86-64
->> > is
->> > building now. The recipes that needed fixing to explicitly set
->> > EXTRA_OEMAKE = "-e MAKEFLAGS=" were:
->> >
->> >   meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
->> >   meta/recipes-bsp/libacpi/libacpi_0.2.bb
->> >   meta/recipes-bsp/pciutils/pciutils_3.4.1.bb
->> >   meta/recipes-connectivity/openssl/openssl.inc
->> >   meta/recipes-devtools/dmidecode/dmidecode_3.0.bb
->> >   meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb
->> >   meta/recipes-devtools/perl/perl-native_5.22.1.bb
->> >   meta/recipes-devtools/perl/perl_5.22.1.bb
->> >   meta/recipes-extended/ed/ed_1.9.bb
->> >   meta/recipes-extended/iputils/iputils_s20151218.bb
->> >   meta/recipes-extended/pigz/pigz.inc
->> >   meta/recipes-extended/stat/stat_3.3.bb
->> >   meta/recipes-extended/sysklogd/sysklogd.inc
->> >   meta/recipes-extended/unzip/unzip_6.0.bb
->> >   meta/recipes-gnome/gtk-theme-torturer/gtk-theme-torturer_git.bb
->> >   meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
->> >
->> > I will submit patches for these shortly.
->>
->> then there are other layers besides OE-Core where this will be
->> needed.
->> so phase it right so it doesnt cause land slide work for other layers
->
-> How do we do that?
+On Saturday 06 February 2016 at 18:32:18 +0100, Martin Jansa wrote:
+> Last world build with this change included (not the other fixes for
+> oe-core sent later) shows:
 
-announce it to cross lists ahead of time so they can test out the features
-ofcourse an argument is to be made that they should already be
-watching OE-Core changes, however a heads up can only help.
+Thanks for testing. I've been testing some of meta-oe myself today too.
 
->
-> Obviously I can merge the above into OE-Core and then there is just the
-> final bitbake.conf patch. How long do we need to wait for other layers
-> to sort this out though?
->
-> I'm facing this dilemma with a few patches atm...
->
-> Cheers,
->
-> Richard
->
+> Summary: 30 tasks failed:
+[result reordered to simplify the comments]
+
+> virtual:native:/home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/pigz/pigz_2.3.3.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-devtools/dmidecode/dmidecode_3.0.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/stat/stat_3.3.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/ed/ed_1.9.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/pigz/pigz_2.3.3.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb,
+> /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb,
+
+Patches sent on Friday 5th for all of the above.
+
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-core/llvm/llvm3.3_3.3.bb,
+
+I've not seen a failure on that one in my testing. It built for qemuarm64 successfully
+
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/pngcheck/pngcheck_2.3.0.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/mg/mg_20110905.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-devtools/iptraf/iptraf_3.0.0.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-devtools/serialcheck/serialcheck_1.0.0.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-multimedia/v4l2apps/yavta_git.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extended/rarpd/rarpd_ss981107.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/ckermit/ckermit_302.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-benchmark/nbench-byte/nbench-byte_2.2.3.bb,
+
+I found these and have patches ready to submit. Presumably I should send
+them to openembedded-devel?
+
+I also found the following failures which appear to be fixed by using the
+old value of EXTRA_OEMAKE but they may just be non-deterministic recipes:
+
+ wmiconfig
+ system-setup-keyboard
+
+I also ran into a number of other build failures that weren't fixed by
+changing EXTRA_OEMAKE, but I suspect that at least some of them were
+because I was foolish enough to test with qemuarm64. :)
+ 
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0.4.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-multimedia/recipes-mkv/libebml/libebml_1.3.0.bb,
+> /home/jenkins/oe/world/shr-core/meta-smartphone/meta-android/recipes-support/invensense/invensense_git.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/soci/soci_3.2.2.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-extended/iscsitarget/iscsitarget_1.4.20.3+svn502.bb,
+> virtual:native:/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extended/libwmf/libwmf_0.2.8.4.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-connectivity/vlan/vlan_1.9.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-protocols/pptp-linux/pptp-linux_1.7.2.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-support/pimd/pimd_2.1.8.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-irc/znc/znc_git.bb,
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/libtinyxml2/libtinyxml2_git.bb,
+
+I haven't reproduced these because I didn't have those layers enabled. I've
+now enabled them all and I'll set another build going.
+
+Thanks!
+
+Mike.
 
