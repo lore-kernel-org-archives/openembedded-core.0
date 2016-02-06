@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
 	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E09B77280
+	by mail.openembedded.org (Postfix) with ESMTP id 447317723E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 23:15:34 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 71so1869537pfv.1
+	Sat,  6 Feb 2016 23:15:36 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id 71so1869568pfv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 15:15:35 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=QuBFcvlreci0MfqmWkUKIdHJm10FZIIlbiT/kmBFJXY=;
-	b=bDXXPk3HVTQC/U8HXvjUK6l1s7TMe+oTS2oB7C0zFPGiiQ3J8v7uA17zM/QT/7d3c+
-	4w8s/uKNv4afaTUpgRsZNbCk8ajUmTHCnsIqxqAmF+Y9uNoRxYhZLNk9F9XhXKAOwKLN
-	sIYqVTicA4nJSv/bQlTedYxMnJkXboQyEko7aUyqy+OU+JdlFzlVFe5fOXVCZKZAmQI5
-	lETag5Y/Y8a6/ggMzXKEzF3cQ59p6U9fKOFHmacruBjIEjXD7eN8sS1BbCMBh5Lzqomd
-	vlRC7YFbgsAg1KIa4nKZ8RPB5P1LcAbdGhXtthWfmuHUeBJasyfrkVtjUIPvtoHIWK1e
-	NY6A==
+	:references; bh=PrCTdUvjbP+P4IYyD601KgfswGHP6NGH3xuXoQZC9Ik=;
+	b=rfLtNlvRyje/25bGMAygljM4xSWNzX1BpCn5ytxsxvsBCSzCuFqXiST3qRcH61wxBM
+	VuXqs6jYcBZLnl8UAV3clLVTjqnWOpVKKJOECPIKGKATMPBR1hb6iod8uzyuC1h+iqEl
+	dkrg0jcNP2KsrHx70ZqJuuRJolWdVrBOOYhUYNdJUrMSURGv8JeIlaFlFu/FEmW0m6yA
+	3b5wMy78W64o5s9YsqBfyVg4FQbZbeHIMpW4CT2cUwcWNimx9sEG59woNU1pRWAxaw4A
+	wz8Rsxax49I8k1ZsJVKheYSzRB8IDeznHRMiB2lahV/ADhpq0z3rZEIHr25i5QfOQV5k
+	DR2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=QuBFcvlreci0MfqmWkUKIdHJm10FZIIlbiT/kmBFJXY=;
-	b=gojeu6W/ghFeZsIhXtFH2Tt5t3/JNLB6xsGQrN73LDg4YlX6O9kAAmG4wwgF60XvJL
-	gip21cn/+V0SrVYFy0fFW1XpfwPSuKag7WtiM7kY6GR488B+ePUJBmIAkAUo4BDGftSK
-	Yo5r1xjOaFMzI29RLRF7X2Ht1LQ0rPhBFAcaZJJwkqQRVH54v/NfgVAKu4kzfMmBLaV6
-	2jWuBFTYe75a+qeQLAyb13gxZSF4qyfTz2Tk7ZKXGmR30vzTzUSt7SAEBDfZnb34kTcv
-	SWKvVai2ys6875ioQ16bk9KtgqeqtWXEs85SjmzfD2Bdy+fSN9wzVT+wYEh1b56bLHgc
-	jjpA==
-X-Gm-Message-State: AG10YOTDhYpXlR2orpOr6BBrMAlMWfFrBIOeJz9WELdE9LFHL/IRLSvK8Hl1ex5DcUJgVw==
-X-Received: by 10.98.89.4 with SMTP id n4mr30385422pfb.81.1454800535111;
-	Sat, 06 Feb 2016 15:15:35 -0800 (PST)
+	bh=PrCTdUvjbP+P4IYyD601KgfswGHP6NGH3xuXoQZC9Ik=;
+	b=BfYs24uVt8K7DukWB5B9aDjenmiA8xxjlQiwfNuHoet+c9LWqGAEfhmlYea9Y0EVu7
+	6s7Aw+E4TTicH8K7XyTXtq5MLW/vVqgiu3EsKjDGM1Yu57OylE35iZRGDvPTQaonhxo9
+	U2Aot/vlPuWWdvRf5LpYqvhlcDj5Ai+uZNBzjcue7Qob7x7pEQb+J25kBqStfqWKee44
+	IPlek2TQrnrnL6TA/nePGewfyBhee6Luy2QebcBeP0SFFsWpSYq87IXHpCmNumDbSlrM
+	dW7Vz2qXZoGWITzQ43zUbzrOmjCPFS+Sd6cobYs+fFpP0T3NaXUDhNzK4u6x1d6CA0qt
+	6YDA==
+X-Gm-Message-State: AG10YORRYRJEP49PMnOTuGWQO5+ZsLfo/Y7bA5vMQwz0O0dK8KedFjqG/ZIbwqtmpL7qlw==
+X-Received: by 10.98.0.7 with SMTP id 7mr31138605pfa.5.1454800537338;
+	Sat, 06 Feb 2016 15:15:37 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.33
+	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 15:15:33 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:35 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
 	akuster808@gmail.com
-Date: Sat,  6 Feb 2016 15:14:53 -0800
-Message-Id: <cb9c6d727df7a313294540b13458c4abfba188de.1454800360.git.akuster@mvista.com>
+Date: Sat,  6 Feb 2016 15:14:54 -0800
+Message-Id: <48af65a1676c496c6dcdb27c45ff0fef27e63b3b.1454800360.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
-Subject: [PATCH 12/21] qemu: Security fix CVE-2015-8345
+Subject: [PATCH 13/21] qemu: Security fix CVE-2016-1568
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,111 +58,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 23:15:34 -0000
+X-List-Received-Date: Sat, 06 Feb 2016 23:15:36 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-8345 Qemu: net: eepro100: infinite loop in processing command block list
+CVE-2016-1568 Qemu: ide: ahci use-after-free vulnerability in aio port commands
 
-(From OE-Core rev: 99ffcd66895e4ba064542a1797057e45ec4d3220)
+(From OE-Core rev: 166c19df8be28da255cc68032e2d11afc59d4197)
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../recipes-devtools/qemu/qemu/CVE-2015-8345.patch | 73 ++++++++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-1568.patch | 46 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.2.0.bb           |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch b/meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
 new file mode 100644
-index 0000000..310b458
+index 0000000..319ae24
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2015-8345.patch
-@@ -0,0 +1,73 @@
-+From 00837731d254908a841d69298a4f9f077babaf24 Mon Sep 17 00:00:00 2001
-+From: Stefan Weil <sw@weilnetz.de>
-+Date: Fri, 20 Nov 2015 08:42:33 +0100
-+Subject: [PATCH] eepro100: Prevent two endless loops
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+@@ -0,0 +1,46 @@
++From 4ab0359a8ae182a7ac5c99609667273167703fab Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Mon, 11 Jan 2016 14:10:42 -0500
++Subject: [PATCH] ide: ahci: reset ncq object to unused on error
 +
-+http://lists.nongnu.org/archive/html/qemu-devel/2015-11/msg04592.html
-+shows an example how an endless loop in function action_command can
-+be achieved.
++When processing NCQ commands, AHCI device emulation prepares a
++NCQ transfer object; To which an aio control block(aiocb) object
++is assigned in 'execute_ncq_command'. In case, when the NCQ
++command is invalid, the 'aiocb' object is not assigned, and NCQ
++transfer object is left as 'used'. This leads to a use after
++free kind of error in 'bdrv_aio_cancel_async' via 'ahci_reset_port'.
++Reset NCQ transfer object to 'unused' to avoid it.
 +
-+During my code review, I noticed a 2nd case which can result in an
-+endless loop.
++[Maintainer edit: s/ACHI/AHCI/ in the commit message. --js]
 +
 +Reported-by: Qinghao Tang <luodalongde@gmail.com>
-+Signed-off-by: Stefan Weil <sw@weilnetz.de>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Reviewed-by: John Snow <jsnow@redhat.com>
++Message-id: 1452282511-4116-1-git-send-email-ppandit@redhat.com
++Signed-off-by: John Snow <jsnow@redhat.com>
 +
 +Upstream-Status: Backport
 +
-+http://git.qemu.org/?p=qemu.git;a=commit;h=00837731d254908a841d69298a4f9f077babaf24
++http://git.qemu.org/?p=qemu.git;a=commit;h=4ab0359a8ae182a7ac5c99609667273167703fab
 +
-+CVE: CVE-2015-8345
++CVE: CVE-2016-1568
 +[Yocto # 9013]
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ hw/net/eepro100.c | 16 ++++++++++++++++
-+ 1 file changed, 16 insertions(+)
++ hw/ide/ahci.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-+index 60333b7..685a478 100644
-+--- a/hw/net/eepro100.c
-++++ b/hw/net/eepro100.c
-+@@ -774,6 +774,11 @@ static void tx_command(EEPRO100State *s)
-+ #if 0
-+         uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev, tbd_address + 6);
-+ #endif
-++        if (tx_buffer_size == 0) {
-++            /* Prevent an endless loop. */
-++            logout("loop in %s:%u\n", __FILE__, __LINE__);
-++            break;
-++        }
-+         tbd_address += 8;
-+         TRACE(RXTX, logout
-+             ("TBD (simplified mode): buffer address 0x%08x, size 0x%04x\n",
-+@@ -855,6 +860,10 @@ static void set_multicast_list(EEPRO100State *s)
-+ 
-+ static void action_command(EEPRO100State *s)
-+ {
-++    /* The loop below won't stop if it gets special handcrafted data.
-++       Therefore we limit the number of iterations. */
-++    unsigned max_loop_count = 16;
-++
-+     for (;;) {
-+         bool bit_el;
-+         bool bit_s;
-+@@ -870,6 +879,13 @@ static void action_command(EEPRO100State *s)
-+ #if 0
-+         bool bit_sf = ((s->tx.command & COMMAND_SF) != 0);
-+ #endif
-++
-++        if (max_loop_count-- == 0) {
-++            /* Prevent an endless loop. */
-++            logout("loop in %s:%u\n", __FILE__, __LINE__);
-++            break;
-++        }
-++
-+         s->cu_offset = s->tx.link;
-+         TRACE(OTHER,
-+               logout("val=(cu start), status=0x%04x, command=0x%04x, link=0x%08x\n",
-+-- 
-+2.3.5
-+
++Index: qemu-2.2.0/hw/ide/ahci.c
++===================================================================
++--- qemu-2.2.0.orig/hw/ide/ahci.c
+++++ qemu-2.2.0/hw/ide/ahci.c
++@@ -838,6 +838,7 @@ static void ncq_cb(void *opaque, int ret
++         ide_state->error = ABRT_ERR;
++         ide_state->status = READY_STAT | ERR_STAT;
++         ncq_tfs->drive->port_regs.scr_err |= (1 << ncq_tfs->tag);
+++        ncq_tfs->used = 0;
++     } else {
++         ide_state->status = READY_STAT | SEEK_STAT;
++     }
 diff --git a/meta/recipes-devtools/qemu/qemu_2.2.0.bb b/meta/recipes-devtools/qemu/qemu_2.2.0.bb
-index 950917e..72fda62 100644
+index 72fda62..66e928f 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.2.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.2.0.bb
-@@ -23,6 +23,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://CVE-2015-8504.patch \
+@@ -24,6 +24,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
              file://CVE-2015-7504.patch \
              file://CVE-2015-7512.patch \
-+            file://CVE-2015-8345.patch \
+             file://CVE-2015-8345.patch \
++            file://CVE-2016-1568.patch \
             "
  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
  SRC_URI[md5sum] = "f7a5e2da22d057eb838a91da7aff43c8"
