@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C910772A7
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A57D772E6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 23:15:51 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 66so6920287pfe.2
+	Sat,  6 Feb 2016 23:15:53 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id n128so6925994pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 15:15:52 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=6g628O8BPlqMeTqfs9adDmrufQJkPmS3YRF+ehNZT2I=;
-	b=viPN66A8DE6Ko290ojONgCGfHFHKWwCuuoWuocJI769MS/c+7fNH8fV3+YGvQoXRdV
-	d1bFfiPDEHVZZuRW79X7SsUgq3v5lHzJRBjYLVMM+MCZdxyFiwCciOVD7+0XxAQcNizq
-	W7pvWvkS0aTO8aspzyFqJZqN2jbX/X/hl5MpazvbT4EfNNfpccL5Lg6tEzUyrmS7P7Qh
-	4j6v5Miuz3cJweuRJ4P0Ej9ecZFzb4k8EpPIqhTINmuk9HT1D1qdo65GSKCK04LhJR42
-	3I6deF7IOlMNXGZk0yYsDBGvx3IUdjtoygXtFptaj3L08cFjFcTxUG1OGyH+wzsGrPoT
-	K1zg==
+	:references; bh=/7i/WspSOXlKSRUTVh5lnxLy3gsxivpYPhKtnp0XdAw=;
+	b=Y+s9sRPh3wYF7Gg7uu9kxNKUKJ0d7zN3R8l5+CSF89lRhH8Poo24IWOrQWZb/GYiMA
+	Gz6BzEMegA461DsQtehM0PkBo7u/Zpm2ICrDXtFEQf5GY0qIZtrCW6NgEUHQcoeUD39q
+	pOpashtDeSj5W+TLLIYwldj4kEth0sBUrZ+PE/9r+PGS7CY0hbSPFrrMOjdTQBqLwRdo
+	ZgOk1xwdssiVLKMVLgy9/8R9VsfGLwM/vmFU/e6xS/uRtqvvNHMHVwaPaha0x39jyqZf
+	zZzk7LzquDTbk2I6PkYSpZbf2mgn9dkOV2jDgPVTrnmb6LNrPikKv+R5zYQuE2/dusDc
+	iD0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=6g628O8BPlqMeTqfs9adDmrufQJkPmS3YRF+ehNZT2I=;
-	b=KVvZ6g3UTyfpbtvXHiHyD0oYky4wUkCDSN6gMTpt96XmYlYSRou5R0RWh1OxuiiGaH
-	6M8rf6ZNixl7F7D/jsw8oT8wg8wun65ltiskErh6Zzogu9Dpf+juOt868G8uzCFGQGXM
-	EfUoA5xmCH4h0ljDu3nGtgNC1Z7jNvelI5eiKOa5B/WZntt/1R49g97TqsY2l2f7X90k
-	JR9NAySUftHCOGNdNVL7iqKDUsC25AyYoiBT5qifuwoNpREkqKYqYI2+du3JgVOZdHAu
-	Jyrd7YojU0h2/P0Aq+iHfoN5IlHZ35qtkBFzMG5WeuI2/+p/B06qkrN5NqrcxslAwX1i
-	nPIg==
-X-Gm-Message-State: AG10YORM32rNAdxuWgSScyQ1ZqxrTXUjmeX6P7P0u7MEBST174LFJOhrXRcTcPC2EFbV3g==
-X-Received: by 10.98.0.135 with SMTP id 129mr30907215pfa.156.1454800552146;
-	Sat, 06 Feb 2016 15:15:52 -0800 (PST)
+	bh=/7i/WspSOXlKSRUTVh5lnxLy3gsxivpYPhKtnp0XdAw=;
+	b=Wyg5Y6feZ102W1tXIq03xp5rj4o4BY2YA8YM3ZJefXqGK/a4vAqolM0hTyiIjRru51
+	QCaC1qzMwr9m/fSp8ghao0l8hdiu6j/TVsm4gd9Rqtw4iQ5E9CME6sLTEDq0Q87GSj3G
+	UTRNlBtrnbRvhv7B8uUT+Y/vyIL6HgqMjPGRll5y8/EGzYO1Xk0ZKJf9PMUM5kbxXILG
+	W4ZWz6jkjNIexoPDI1Gcp72jv/e+zvZubw46wV5XSVUVyvnVhROzxM2/kkw0lruBBdX1
+	yXy7vTu+AkDTlqB+D4nP1xdbAKpN5ryPIiRM0ROtnB6Zwrw2H2lSWhdVnlcOdPcPbuSA
+	KH8g==
+X-Gm-Message-State: AG10YORgDE/kGDcoPOSH2aYum82fizoqhpeZ8G0pCJcDuVbYPyxlGHSAsogG7Tvg35DNzw==
+X-Received: by 10.98.68.212 with SMTP id m81mr30732527pfi.135.1454800554207;
+	Sat, 06 Feb 2016 15:15:54 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.50
+	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 15:15:50 -0800 (PST)
+	Sat, 06 Feb 2016 15:15:52 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
 	akuster808@gmail.com
-Date: Sat,  6 Feb 2016 15:15:01 -0800
-Message-Id: <4bee82881d9e4907ffc8d9613b150708e71bd773.1454800360.git.akuster@mvista.com>
+Date: Sat,  6 Feb 2016 15:15:02 -0800
+Message-Id: <2efbdc8489e5270b9b300dac1b60424c4a393efb.1454800360.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
 In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
 References: <cover.1454800360.git.akuster@mvista.com>
-Subject: [PATCH 20/21] libxml2: Security fix CVE-2015-8710
+Subject: [PATCH 21/21] bind: Security fix CVE-2015-8704
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,112 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 23:15:51 -0000
+X-List-Received-Date: Sat, 06 Feb 2016 23:15:53 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-8710 libxml2: out-of-bounds memory access when parsing an unclosed HTML comment
-
-(From OE-Core rev: 03d481070ebc6f9af799aec5d038871f9c73901c)
+CVE-2015-8704 bind: specific APL data could trigger an INSIST in apl_42.c
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |  1 +
- .../libxml/libxml2/CVE-2015-8710.patch             | 71 ++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
+ .../bind/bind/CVE-2015-8704.patch                  | 29 ++++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 01d6bbe..2748b4f 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -38,6 +38,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch \
-            file://0001-CVE-2015-5312-Another-entity-expansion-issue.patch \
-            file://CVE-2015-8241.patch \
-+           file://CVE-2015-8710.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
 new file mode 100644
-index 0000000..be06cc2
+index 0000000..7f28e44
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8710.patch
-@@ -0,0 +1,71 @@
-+From e724879d964d774df9b7969fc846605aa1bac54c Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Fri, 30 Oct 2015 21:14:55 +0800
-+Subject: [PATCH] Fix parsing short unclosed comment uninitialized access
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=746048
-+The HTML parser was too optimistic when processing comments and
-+didn't check for the end of the stream on the first 2 characters
-+
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
+@@ -0,0 +1,29 @@
 +Upstream-Status: Backport
 +
-+https://git.gnome.org/browse/libxml2/commit/?id=e724879d964d774df9b7969fc846605aa1bac54c
++https://bugzilla.redhat.com/attachment.cgi?id=1115781
 +
-+CVE: CVE-2015-8710
-+
++CVE: CVE-2015-8704
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+---
-+ HTMLparser.c | 21 ++++++++++++++-------
-+ 1 file changed, 14 insertions(+), 7 deletions(-)
-+
-+Index: libxml2-2.9.2/HTMLparser.c
++Index: bind-9.9.5/lib/dns/rdata/in_1/apl_42.c
 +===================================================================
-+--- libxml2-2.9.2.orig/HTMLparser.c
-++++ libxml2-2.9.2/HTMLparser.c
-+@@ -3245,12 +3245,17 @@ htmlParseComment(htmlParserCtxtPtr ctxt)
-+ 	ctxt->instate = state;
-+ 	return;
-+     }
-++    len = 0;
-++    buf[len] = 0;
-+     q = CUR_CHAR(ql);
-++    if (!IS_CHAR(q))
-++        goto unfinished;
-+     NEXTL(ql);
-+     r = CUR_CHAR(rl);
-++    if (!IS_CHAR(r))
-++        goto unfinished;
-+     NEXTL(rl);
-+     cur = CUR_CHAR(l);
-+-    len = 0;
-+     while (IS_CHAR(cur) &&
-+            ((cur != '>') ||
-+ 	    (r != '-') || (q != '-'))) {
-+@@ -3281,18 +3286,20 @@ htmlParseComment(htmlParserCtxtPtr ctxt)
-+ 	}
-+     }
-+     buf[len] = 0;
-+-    if (!IS_CHAR(cur)) {
-+-	htmlParseErr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
-+-	             "Comment not terminated \n<!--%.50s\n", buf, NULL);
-+-	xmlFree(buf);
-+-    } else {
-++    if (IS_CHAR(cur)) {
-+         NEXT;
-+ 	if ((ctxt->sax != NULL) && (ctxt->sax->comment != NULL) &&
-+ 	    (!ctxt->disableSAX))
-+ 	    ctxt->sax->comment(ctxt->userData, buf);
-+ 	xmlFree(buf);
-++	ctxt->instate = state;
-++	return;
-+     }
-+-    ctxt->instate = state;
-++
-++unfinished:
-++    htmlParseErr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
-++		 "Comment not terminated \n<!--%.50s\n", buf, NULL);
-++    xmlFree(buf);
-+ }
++--- bind-9.9.5.orig/lib/dns/rdata/in_1/apl_42.c
+++++ bind-9.9.5/lib/dns/rdata/in_1/apl_42.c
++@@ -116,7 +116,7 @@ totext_in_apl(ARGS_TOTEXT) {
++ 	isc_uint8_t len;
++ 	isc_boolean_t neg;
++ 	unsigned char buf[16];
++-	char txt[sizeof(" !64000")];
+++	char txt[sizeof(" !64000:")];
++ 	const char *sep = "";
++ 	int n;
 + 
-+ /**
++@@ -140,7 +140,7 @@ totext_in_apl(ARGS_TOTEXT) {
++ 		isc_region_consume(&sr, 1);
++ 		INSIST(len <= sr.length);
++ 		n = snprintf(txt, sizeof(txt), "%s%s%u:", sep,
++-			     neg ? "!": "", afi);
+++			     neg ? "!" : "", afi);
++ 		INSIST(n < (int)sizeof(txt));
++ 		RETERR(str_totext(txt, target));
++ 		switch (afi) {
+diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+index 79b0397..a904d6e 100644
+--- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+@@ -26,6 +26,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://CVE-2015-4620.patch \
+            file://CVE-2015-5722.patch \
+            file://CVE-2015-8000.patch \
++           file://CVE-2015-8704.patch \
+ 	   "
+ 
+ SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
 -- 
 2.3.5
 
