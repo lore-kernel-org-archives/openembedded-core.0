@@ -1,33 +1,31 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 3130E60291
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Feb 2016 22:07:42 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id Fa7h1s0020BmcFC01a7i1B; Sun, 07 Feb 2016 22:07:42 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=jFJIQSaiL_oA:10 a=Z9Q0CMfSg_PPwYXyIUwA:9 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1aSXUb-0007pJ-8y; Sun, 07 Feb 2016 22:07:41 +0000
-Date: Sun, 7 Feb 2016 22:07:41 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20160207220741.GA12339@mcrowe.com>
-References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-	<1454428874.27087.87.camel@linuxfoundation.org>
-	<20160202161726.GC2607@jama>
-	<CA+chaQdGzUm96SViWvLW8xinxSLrjZbZxi843A282geN+T5Ffw@mail.gmail.com>
-	<20160206204110.GA21969@mcrowe.com>
-MIME-Version: 1.0
-In-Reply-To: <20160206204110.GA21969@mcrowe.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 361087326E;
+	Sun,  7 Feb 2016 22:43:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u17MhS1I009615; Sun, 7 Feb 2016 22:43:28 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id jGAkcs0lZh9l; Sun,  7 Feb 2016 22:43:28 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u17MhNg1009612
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 7 Feb 2016 22:43:24 GMT
+Message-ID: <1454885003.27087.344.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org, liezhi.yang@windriver.com,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Date: Sun, 07 Feb 2016 22:43:23 +0000
+In-Reply-To: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
+References: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: Stable branch rules [Was: Re: [PATCH][jethro] glibc-locale: fix QA warning]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Feb 2016 22:07:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 07 Feb 2016 22:43:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Further to my previous response, I've tried another build with qemuarm this
-time and more layers enabled.
+On Sun, 2016-01-31 at 11:55 -0800, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+> 
+> WARNING: QA Issue: glibc-locale: /glibc-binary-localedata-sd
+> -in/usr/lib/locale/sd_IN/LC_CTYPE is owned by uid 1000, which is the
+> same as the user running bitbake. This may be due to host
+> contamination [host-user-contaminated]
+> 
+> fix type
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  meta/recipes-core/glibc/glibc-locale.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Saturday 06 February 2016 at 18:32:18 +0100, Martin Jansa wrote:
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-multimedia/recipes-mkv/libebml/libebml_1.3.0.bb,
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-connectivity/vlan/vlan_1.9.bb,
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-protocols/pptp-linux/pptp-linux_1.7.2.bb,
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-support/pimd/pimd_2.1.8.bb,
+Enough is enough.
 
-These recipes all appear to require EXTRA_OEMAKE = "-e MAKEFLAGS=". I have
-patches ready to post.
+I cannot tell whether these patches are in master or not or whether
+master needs them or not. Master needs this one, its not in master, its
+only being proposed for jethro. Its a mess.
 
-I also saw similar failures with vsftpd and vpnc which you didn't see for
-some reason. I have patches ready for those too.
+I am therefore not taking any more stable branch patches at all until
+we amend the stable branch rules to state that pull requests and
+patches clearly state which branches need a fix, or clearly state why
+they don't.
 
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0.4.bb,
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/soci/soci_3.2.2.bb,
-> > virtual:native:/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extended/libwmf/libwmf_0.2.8.4.bb,
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb,
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-irc/znc/znc_git.bb,
+Cheers,
 
-These recipes all compiled successfully for me with EXTRA_OEMAKE = "".
-Perhaps they are non-deterministic or they failed for you for other reasons?
+Richard
 
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-support/libtinyxml2/libtinyxml2_git.bb,
 
-This recipe doesn't appear to call oe_runmake. It failed to compile for me
-even after explicitly setting EXTRA_OEMAKE back to "-e MAKEFLAGS=".
-
-> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-networking/recipes-extended/iscsitarget/iscsitarget_1.4.20.3+svn502.bb,
-
-This recipe fails to compile for me too but it doesn't seem to be related
-to EXTRA_OEMAKE. I think it can't find the kernel headers it needs which
-may be due to an error in my configuration.
-
-> > /home/jenkins/oe/world/shr-core/meta-smartphone/meta-android/recipes-support/invensense/invensense_git.bb,
-
-I haven't yet tried meta-android.
-
-Thanks.
-
-Mike.
 
