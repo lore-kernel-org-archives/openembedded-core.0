@@ -1,37 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 81B7160797
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 218A6760AD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Feb 2016 16:17:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u17GHmSB016663
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 7 Feb 2016 08:17:48 -0800 (PST)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 7 Feb 2016 08:17:47 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
-	<raj.khem@gmail.com>
-References: <cover.1454088695.git.hongxu.jia@windriver.com>
-	<bb6291a740fc7e41120072e45fc2c5d8d93a0b5f.1454088695.git.hongxu.jia@windriver.com>
-	<718c652c42b84c58a04e9c33261b30ba@XBOX02.axis.com>
-	<56AC1101.70209@windriver.com>
-	<B88596E1-A5F6-4199-89D8-194E48A06742@gmail.com>
-	<1454151423.10340.84.camel@linuxfoundation.org>
-	<56AF6538.9010000@windriver.com>
-	<1454335791.27087.35.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56B76E12.70301@windriver.com>
-Date: Mon, 8 Feb 2016 00:17:22 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1454335791.27087.35.camel@linuxfoundation.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] gcc-5.3.inc/base.bbclass: add gcc option to not record -fdebug-prefix-map to debugging info
+	Sun,  7 Feb 2016 17:08:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u17H8fFM000341 for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Feb 2016 17:08:41 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Kw-RSF-sz0qN
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  7 Feb 2016 17:08:41 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u17H8dDb000331
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Feb 2016 17:08:40 GMT
+Message-ID: <1454864919.27087.317.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 07 Feb 2016 17:08:39 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] base: Make do_cleansstate nostamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Feb 2016 16:17:55 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Sun, 07 Feb 2016 17:08:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 02/01/2016 10:09 PM, Richard Purdie wrote:
->> Got it, I will do it in V4.
-> I think we should try and see if the the gcc patch would be accepted
-> upstream. Meanwhile, if we default to turning this on in our compilers,
-> much of this issue goes away as Phil mentions.
+We always want the cleansstate task to run so it should be
+'nostamp' like the other clean tasks.
 
-Got it, I will file a entry  on gcc bugzilla and send the patch to upsteam.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Sorry for replying late, because of Chinese new year :)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 82ec0c9..8ce9dd4 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -651,8 +651,9 @@ addtask cleansstate after do_clean
+ python do_cleansstate() {
+         sstate_clean_cachefiles(d)
+ }
+-
+ addtask cleanall after do_cleansstate
++do_cleansstate[nostamp] = "1"
++
+ python do_cleanall() {
+     src_uri = (d.getVar('SRC_URI', True) or "").split()
+     if len(src_uri) == 0:
 
-//Hongxu
-
-
-> Cheers,
->
-> Richard
->
->
->
 
 
