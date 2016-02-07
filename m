@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E8C3477112
+	by mail.openembedded.org (Postfix) with ESMTP id 16B877653B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Feb 2016 17:09:13 +0000 (UTC)
+	Sun,  7 Feb 2016 17:09:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u17H9DBa000370 for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Feb 2016 17:09:13 GMT
+	u17H9k54000391 for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Feb 2016 17:09:46 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id obL23yKF9mET
+	with LMTP id BF3aLxEFCb1a
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Feb 2016 17:09:13 +0000 (GMT)
+	Sun,  7 Feb 2016 17:09:46 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u17H98Ow000367
+	u17H9ffX000388
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Feb 2016 17:09:09 GMT
-Message-ID: <1454864948.27087.318.camel@linuxfoundation.org>
+	Sun, 7 Feb 2016 17:09:42 GMT
+Message-ID: <1454864981.27087.319.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 07 Feb 2016 17:09:08 +0000
+Date: Sun, 07 Feb 2016 17:09:41 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] package_deb: Ensure allarch deb packages aren't target specific
+Subject: [PATCH] sstate: Ensure populate_lic sstate objects are cleaned
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Feb 2016 17:09:14 -0000
+X-List-Received-Date: Sun, 07 Feb 2016 17:09:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The use of TUNE_FEATURES was making do_package_write_deb of allarch
-packages target specific.
-
-To avoid this, only use the end value of DPKG_ARCH for its checksum,
-not intermediate values or variables.
+do_cleansstate wasn't cleaning do_populate_lic sstate objects in the
+native/cross case since the wildcard path entry wasn't being cleared
+at the same time as the path extra prefix. Fix by clearing it at the
+same time.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 25218d0..b3cf07a 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -7,6 +7,7 @@ inherit package
- IMAGE_PKGTYPE ?= "deb"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index d606c02..7c7e024 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -124,6 +124,7 @@ def sstate_state_fromvars(d, task = None):
+     if task == "populate_lic":
+         d.setVar("SSTATE_PKGSPEC", "${SSTATE_SWSPEC}")
+         d.setVar("SSTATE_EXTRAPATH", "")
++        d.setVar('SSTATE_EXTRAPATHWILDCARD', "")
  
- DPKG_ARCH ?= "${@debian_arch_map(d.getVar('TARGET_ARCH', True), d.getVar('TUNE_FEATURES', True))}"
-+DPKG_ARCH[vardepvalue] = "${DPKG_ARCH}"
- 
- PKGWRITEDIRDEB = "${WORKDIR}/deploy-debs"
- 
+     ss = sstate_init(task, d)
+     for i in range(len(inputs)):
 
 
 
