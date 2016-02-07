@@ -1,51 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A57D772E6
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D23560123
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Feb 2016 23:15:53 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id n128so6925994pfn.3
+	Sun,  7 Feb 2016 00:20:21 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id cy9so54093006pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 15:15:54 -0800 (PST)
+	Sat, 06 Feb 2016 16:20:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=/7i/WspSOXlKSRUTVh5lnxLy3gsxivpYPhKtnp0XdAw=;
-	b=Y+s9sRPh3wYF7Gg7uu9kxNKUKJ0d7zN3R8l5+CSF89lRhH8Poo24IWOrQWZb/GYiMA
-	Gz6BzEMegA461DsQtehM0PkBo7u/Zpm2ICrDXtFEQf5GY0qIZtrCW6NgEUHQcoeUD39q
-	pOpashtDeSj5W+TLLIYwldj4kEth0sBUrZ+PE/9r+PGS7CY0hbSPFrrMOjdTQBqLwRdo
-	ZgOk1xwdssiVLKMVLgy9/8R9VsfGLwM/vmFU/e6xS/uRtqvvNHMHVwaPaha0x39jyqZf
-	zZzk7LzquDTbk2I6PkYSpZbf2mgn9dkOV2jDgPVTrnmb6LNrPikKv+R5zYQuE2/dusDc
-	iD0Q==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=pQl4pC2YTQ73Nm2jNR8ilW4a+v8pWhODnof81Cq0S+w=;
+	b=pOCiQHsaOIJi4tdjm1FpyDZPNgQ4BtE8sHk6JQUnmuDfRPIe4N9Txs6b1MvD1IRNtS
+	Le43vgpCuyzJuJA+mR8BLQ844Zk+CjRb7D5OWOTbOt/ArF7RnC068MC0ayRgJnhFv28N
+	GGFk7l0kkypmid/YO0T+uZzS7zpQC5eWNNdUMPW5lflSC/dEI+Q7QGraqgOLRq/z1q50
+	QjZqu/sEHTuCMnDSCOAj+x39ObcRhk8ulanPj0cOHAY5KAgUxk49xlBuewG77Dnm93NP
+	5+p9pvsrUIzDqjwxn3Gu3qdyHgfiw1E75yk0MMLQyd+LQNsCcWVvWl8xYG3DRnS7uqw0
+	saKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=/7i/WspSOXlKSRUTVh5lnxLy3gsxivpYPhKtnp0XdAw=;
-	b=Wyg5Y6feZ102W1tXIq03xp5rj4o4BY2YA8YM3ZJefXqGK/a4vAqolM0hTyiIjRru51
-	QCaC1qzMwr9m/fSp8ghao0l8hdiu6j/TVsm4gd9Rqtw4iQ5E9CME6sLTEDq0Q87GSj3G
-	UTRNlBtrnbRvhv7B8uUT+Y/vyIL6HgqMjPGRll5y8/EGzYO1Xk0ZKJf9PMUM5kbxXILG
-	W4ZWz6jkjNIexoPDI1Gcp72jv/e+zvZubw46wV5XSVUVyvnVhROzxM2/kkw0lruBBdX1
-	yXy7vTu+AkDTlqB+D4nP1xdbAKpN5ryPIiRM0ROtnB6Zwrw2H2lSWhdVnlcOdPcPbuSA
-	KH8g==
-X-Gm-Message-State: AG10YORgDE/kGDcoPOSH2aYum82fizoqhpeZ8G0pCJcDuVbYPyxlGHSAsogG7Tvg35DNzw==
-X-Received: by 10.98.68.212 with SMTP id m81mr30732527pfi.135.1454800554207;
-	Sat, 06 Feb 2016 15:15:54 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id y15sm757050pfi.16.2016.02.06.15.15.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 06 Feb 2016 15:15:52 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
-	akuster808@gmail.com
-Date: Sat,  6 Feb 2016 15:15:02 -0800
-Message-Id: <2efbdc8489e5270b9b300dac1b60424c4a393efb.1454800360.git.akuster@mvista.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
-References: <cover.1454800360.git.akuster@mvista.com>
-In-Reply-To: <cover.1454800360.git.akuster@mvista.com>
-References: <cover.1454800360.git.akuster@mvista.com>
-Subject: [PATCH 21/21] bind: Security fix CVE-2015-8704
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=pQl4pC2YTQ73Nm2jNR8ilW4a+v8pWhODnof81Cq0S+w=;
+	b=I+qWh0jXb0I4BYkbVjygD5XYTxWQrqWtV3t79O2i8AkMlSRP2ZdtCKS5LZSJMGflJJ
+	Nwi/1t8xrMySD0TW8o/rsItxpACzIeIMkCfuBZckOjfmhhiXPP6zrFxk6TxaRgC1ACbs
+	ctNmo40Lie/YFN64/LOwnrbTuAEk8HetvUrbDdlNa5nu2V5jmaLb6YwiziH40//V29q4
+	Ru7S3ditBoRib2TwhlmtBK7yesSRXZcg+BwtLpjQxlqGSBaSuoYij/eswJxjnx1tfzUm
+	q4EkYABcpHe0DwXPFOwf9KUbWqEp/nD0qUiOO0x9/zrYyZywCU0BGo6XJszgS9b6rc3H
+	2Lyg==
+X-Gm-Message-State: AG10YORq8ALD0Ab0xCq1gNt256oLuvSiRvlrAmVOyE1loEL6mlnA63xTbhh96O1mNBcp2w==
+X-Received: by 10.66.102.70 with SMTP id fm6mr31221468pab.80.1454804422247;
+	Sat, 06 Feb 2016 16:20:22 -0800 (PST)
+Received: from Akusters-laptop.local ([2601:202:4000:1239:16d:a571:890e:3ae5])
+	by smtp.googlemail.com with ESMTPSA id
+	s90sm28045192pfa.49.2016.02.06.16.20.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 06 Feb 2016 16:20:21 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1454773573-6990-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0LaGPJ-11B_008M+BXqs4UBvt6nd_Mhtt3wf2oeSYqssxA@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <56B68DC2.8070800@gmail.com>
+Date: Sat, 6 Feb 2016 16:20:18 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaGPJ-11B_008M+BXqs4UBvt6nd_Mhtt3wf2oeSYqssxA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lsscsi: Add new package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,67 +61,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Feb 2016 23:15:53 -0000
+X-List-Received-Date: Sun, 07 Feb 2016 00:20:22 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-From: Armin Kuster <akuster@mvista.com>
+On 2/6/16 12:50 PM, Burton, Ross wrote:
+>
+> On 6 February 2016 at 15:46, Armin Kuster <akuster808@gmail.com
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     The lsscsi command lists information about SCSI devices in Linux
+>
+>
+> And this should be in oe-core because?
 
-CVE-2015-8704 bind: specific APL data could trigger an INSIST in apl_42.c
+The other sub-system utils appear to be in oe-core like pciutils,
+usbutls and pcmciautils so it seemed like a reasonable assumption.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../bind/bind/CVE-2015-8704.patch                  | 29 ++++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
+I can handle no as the answer. send it to meta-oe.
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
-new file mode 100644
-index 0000000..7f28e44
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8704.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Backport
-+
-+https://bugzilla.redhat.com/attachment.cgi?id=1115781
-+
-+CVE: CVE-2015-8704
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+Index: bind-9.9.5/lib/dns/rdata/in_1/apl_42.c
-+===================================================================
-+--- bind-9.9.5.orig/lib/dns/rdata/in_1/apl_42.c
-++++ bind-9.9.5/lib/dns/rdata/in_1/apl_42.c
-+@@ -116,7 +116,7 @@ totext_in_apl(ARGS_TOTEXT) {
-+ 	isc_uint8_t len;
-+ 	isc_boolean_t neg;
-+ 	unsigned char buf[16];
-+-	char txt[sizeof(" !64000")];
-++	char txt[sizeof(" !64000:")];
-+ 	const char *sep = "";
-+ 	int n;
-+ 
-+@@ -140,7 +140,7 @@ totext_in_apl(ARGS_TOTEXT) {
-+ 		isc_region_consume(&sr, 1);
-+ 		INSIST(len <= sr.length);
-+ 		n = snprintf(txt, sizeof(txt), "%s%s%u:", sep,
-+-			     neg ? "!": "", afi);
-++			     neg ? "!" : "", afi);
-+ 		INSIST(n < (int)sizeof(txt));
-+ 		RETERR(str_totext(txt, target));
-+ 		switch (afi) {
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index 79b0397..a904d6e 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -26,6 +26,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://CVE-2015-4620.patch \
-            file://CVE-2015-5722.patch \
-            file://CVE-2015-8000.patch \
-+           file://CVE-2015-8704.patch \
- 	   "
- 
- SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
--- 
-2.3.5
+- armin
+
+>
+> Ross
 
 
