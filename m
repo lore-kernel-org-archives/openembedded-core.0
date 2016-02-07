@@ -1,54 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D23560123
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 81B7160797
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Feb 2016 00:20:21 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id cy9so54093006pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Feb 2016 16:20:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=pQl4pC2YTQ73Nm2jNR8ilW4a+v8pWhODnof81Cq0S+w=;
-	b=pOCiQHsaOIJi4tdjm1FpyDZPNgQ4BtE8sHk6JQUnmuDfRPIe4N9Txs6b1MvD1IRNtS
-	Le43vgpCuyzJuJA+mR8BLQ844Zk+CjRb7D5OWOTbOt/ArF7RnC068MC0ayRgJnhFv28N
-	GGFk7l0kkypmid/YO0T+uZzS7zpQC5eWNNdUMPW5lflSC/dEI+Q7QGraqgOLRq/z1q50
-	QjZqu/sEHTuCMnDSCOAj+x39ObcRhk8ulanPj0cOHAY5KAgUxk49xlBuewG77Dnm93NP
-	5+p9pvsrUIzDqjwxn3Gu3qdyHgfiw1E75yk0MMLQyd+LQNsCcWVvWl8xYG3DRnS7uqw0
-	saKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=pQl4pC2YTQ73Nm2jNR8ilW4a+v8pWhODnof81Cq0S+w=;
-	b=I+qWh0jXb0I4BYkbVjygD5XYTxWQrqWtV3t79O2i8AkMlSRP2ZdtCKS5LZSJMGflJJ
-	Nwi/1t8xrMySD0TW8o/rsItxpACzIeIMkCfuBZckOjfmhhiXPP6zrFxk6TxaRgC1ACbs
-	ctNmo40Lie/YFN64/LOwnrbTuAEk8HetvUrbDdlNa5nu2V5jmaLb6YwiziH40//V29q4
-	Ru7S3ditBoRib2TwhlmtBK7yesSRXZcg+BwtLpjQxlqGSBaSuoYij/eswJxjnx1tfzUm
-	q4EkYABcpHe0DwXPFOwf9KUbWqEp/nD0qUiOO0x9/zrYyZywCU0BGo6XJszgS9b6rc3H
-	2Lyg==
-X-Gm-Message-State: AG10YORq8ALD0Ab0xCq1gNt256oLuvSiRvlrAmVOyE1loEL6mlnA63xTbhh96O1mNBcp2w==
-X-Received: by 10.66.102.70 with SMTP id fm6mr31221468pab.80.1454804422247;
-	Sat, 06 Feb 2016 16:20:22 -0800 (PST)
-Received: from Akusters-laptop.local ([2601:202:4000:1239:16d:a571:890e:3ae5])
-	by smtp.googlemail.com with ESMTPSA id
-	s90sm28045192pfa.49.2016.02.06.16.20.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 06 Feb 2016 16:20:21 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1454773573-6990-1-git-send-email-akuster808@gmail.com>
-	<CAJTo0LaGPJ-11B_008M+BXqs4UBvt6nd_Mhtt3wf2oeSYqssxA@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56B68DC2.8070800@gmail.com>
-Date: Sat, 6 Feb 2016 16:20:18 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.1
+	Sun,  7 Feb 2016 16:17:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u17GHmSB016663
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 7 Feb 2016 08:17:48 -0800 (PST)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 7 Feb 2016 08:17:47 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>
+References: <cover.1454088695.git.hongxu.jia@windriver.com>
+	<bb6291a740fc7e41120072e45fc2c5d8d93a0b5f.1454088695.git.hongxu.jia@windriver.com>
+	<718c652c42b84c58a04e9c33261b30ba@XBOX02.axis.com>
+	<56AC1101.70209@windriver.com>
+	<B88596E1-A5F6-4199-89D8-194E48A06742@gmail.com>
+	<1454151423.10340.84.camel@linuxfoundation.org>
+	<56AF6538.9010000@windriver.com>
+	<1454335791.27087.35.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56B76E12.70301@windriver.com>
+Date: Mon, 8 Feb 2016 00:17:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaGPJ-11B_008M+BXqs4UBvt6nd_Mhtt3wf2oeSYqssxA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lsscsi: Add new package
+In-Reply-To: <1454335791.27087.35.camel@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] gcc-5.3.inc/base.bbclass: add gcc option to not record -fdebug-prefix-map to debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,28 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Feb 2016 00:20:22 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Sun, 07 Feb 2016 16:17:55 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/6/16 12:50 PM, Burton, Ross wrote:
->
-> On 6 February 2016 at 15:46, Armin Kuster <akuster808@gmail.com
-> <mailto:akuster808@gmail.com>> wrote:
->
->     The lsscsi command lists information about SCSI devices in Linux
->
->
-> And this should be in oe-core because?
+On 02/01/2016 10:09 PM, Richard Purdie wrote:
+>> Got it, I will do it in V4.
+> I think we should try and see if the the gcc patch would be accepted
+> upstream. Meanwhile, if we default to turning this on in our compilers,
+> much of this issue goes away as Phil mentions.
 
-The other sub-system utils appear to be in oe-core like pciutils,
-usbutls and pcmciautils so it seemed like a reasonable assumption.
+Got it, I will file a entry  on gcc bugzilla and send the patch to upsteam.
 
-I can handle no as the answer. send it to meta-oe.
+Sorry for replying late, because of Chinese new year :)
 
-- armin
+//Hongxu
 
+
+> Cheers,
 >
-> Ross
+> Richard
+>
+>
+>
 
 
