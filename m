@@ -1,45 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 922606011F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 11:49:34 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id 5so56043272igt.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 03:49:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=poqHDgYeb51cUcSCJKNz7Ot8A0ozNMFqIT5n0UEsPXU=;
-	b=RBDk3l9LLTvDblvT+CBJa0JL0bRSw/IImzpoUzFcBRJfqm7SZTGg9G2wmGURchHVPM
-	SomRfa43Mhv8Zo8ebiZ5vsbGNmv4+uBeArMdPjf1x1ik3i6RsUu4rpb4yv2m/DaXr1KR
-	m1GyuIGMOIXHcQCoSQE4jmKeG+6wpKYbjTSjF1HztLGKRGvR5ln9SROQ8Yof8qkh/Nyr
-	OBfc0Fc5qRR5UB50Dz5E/zypka0B3t9WF/o5CRGOp7v4tCbU60Z0nngaY0/pwe2QZ9kf
-	qhh7RHudLmTNq55cAhLmyvxRjX7FdiKJktmCDDe4H6IjFiW8RJoHpikdf431EgNZjjIW
-	XKYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=poqHDgYeb51cUcSCJKNz7Ot8A0ozNMFqIT5n0UEsPXU=;
-	b=RmUYkq9I8yymVCxcG2/quzAwJ5NcGmZOfbDg7U3HQeh4qCtnFVmoxOAxfTYvqlCoA8
-	xrQaxptU+4puygQy9PddQ0DcopzSj9DUfLNYRgKGo7SiBEo8P0ycVWXXIeHEFbgHxbEP
-	YpEM5K7J0I5XMYWXO+P2pZ7D2cyctJxWcyIjOPU11Da9WYdUJ9atkzMe9oT/2WLVFdxb
-	9cxz/qrp0OK/kCPCJq9l8c2C7zHF2Gr5Q9bRkZEQXpiMCz1Mee8nH+89b1cuebczmvK9
-	HpbK/2I5gThatSrRFSgh9ztfGaGZUd2FuxXQQuTY0M5Bgyb4+bHVM7JolyU/STA5YYQQ
-	SiEQ==
-X-Gm-Message-State: AG10YOQf89FttAbA3RfLuJQuH13xAIFw2KznoIsigk994JbSEvSx2j0Rjx98Dl6XJ3QIS5IcF0UJ5ybxniEAsBoC
-X-Received: by 10.50.111.111 with SMTP id ih15mr23835775igb.78.1454932174568; 
-	Mon, 08 Feb 2016 03:49:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 8 Feb 2016 03:49:15 -0800 (PST)
-In-Reply-To: <1454695470-8205-1-git-send-email-mac@mcrowe.com>
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 206657422C;
+	Mon,  8 Feb 2016 12:08:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 95407180D8;
+	Mon,  8 Feb 2016 13:08:41 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id GAslyPxa3Us8; Mon,  8 Feb 2016 13:08:40 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id AC82C180D2;
+	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 687691584;
+	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 5D372B1;
+	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id 582D13E3A6;
+	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
+	Mon, 8 Feb 2016 13:08:40 +0100
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 138B39C075; 
+	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
+Date: Mon, 8 Feb 2016 13:08:40 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160208120839.GL31212@axis.com>
 References: <1454695470-8205-1-git-send-email-mac@mcrowe.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Feb 2016 11:49:15 +0000
-Message-ID: <CAJTo0LbrD3JrzKM--emSMxDyERK4qstMVsMQ4VXisMpc6AvqqA@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
+	<CAJTo0LbrD3JrzKM--emSMxDyERK4qstMVsMQ4VXisMpc6AvqqA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbrD3JrzKM--emSMxDyERK4qstMVsMQ4VXisMpc6AvqqA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-architecture
 	<openembedded-architecture@lists.openembedded.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -56,49 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 11:49:35 -0000
-Content-Type: multipart/alternative; boundary=089e0149be34701921052b40cb42
+X-List-Received-Date: Mon, 08 Feb 2016 12:08:42 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
---089e0149be34701921052b40cb42
-Content-Type: text/plain; charset=UTF-8
+On 16-02-08 11:49 +0000, Burton, Ross wrote:
+> On 5 February 2016 at 18:04, Mike Crowe <mac@mcrowe.com> wrote:
+> 
+> > This series (sent only to openembedded-core) fixes various recipes
+> > that rely on the current default value of
+> > EXTRA_OEMAKE = "-e MAKEFLAGS=" to explicitly set that value in the
+> > hope that bitbake.conf can set EXTRA_OEMAKE = "" in the future.
+> >
+> 
+> We need to also vet all instances of EXTRA_OEMAKE in recipes.  I did a
+> build with the EXTRA_OEMAKE change in bitbake.conf and hdparm failed to
+> pass QA because the binary was already stripped, as the recipe does
+> EXTRA_OEMAKE += "STRIP=echo".  That assignment isn't getting through to the
+> makefiles without -e.
 
-On 5 February 2016 at 18:04, Mike Crowe <mac@mcrowe.com> wrote:
+It should though, since all -e does is to make the environment
+variables take precedence over make assignments. But in case of
+assignments in EXTRA_OEMAKE, they are make assignments, so they
+shouldn't be affected:
 
-> This series (sent only to openembedded-core) fixes various recipes
-> that rely on the current default value of
-> EXTRA_OEMAKE = "-e MAKEFLAGS=" to explicitly set that value in the
-> hope that bitbake.conf can set EXTRA_OEMAKE = "" in the future.
->
+$ cat Makefile
+FOO = bar
 
-We need to also vet all instances of EXTRA_OEMAKE in recipes.  I did a
-build with the EXTRA_OEMAKE change in bitbake.conf and hdparm failed to
-pass QA because the binary was already stripped, as the recipe does
-EXTRA_OEMAKE += "STRIP=echo".  That assignment isn't getting through to the
-makefiles without -e.
+all:
+        echo $(FOO)
 
-Ross
+.PHONY: all
 
---089e0149be34701921052b40cb42
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 February 2016 at 18:04, Mike Crowe <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><div id=3D":x9" class=3D"a3s" style=3D"o=
-verflow:hidden">This series (sent only to openembedded-core) fixes various =
-recipes<br>
-that rely on the current default value of<br>
-<span class=3D"il">EXTRA_OEMAKE</span> =3D &quot;-e MAKEFLAGS=3D&quot; to e=
-xplicitly set that value in the<br>
-hope that bitbake.conf can set <span class=3D"il">EXTRA_OEMAKE</span> =3D &=
-quot;&quot; in the future.</div></blockquote></div><br>We need to also vet =
-all instances of EXTRA_OEMAKE in recipes.=C2=A0 I did a build with the EXTR=
-A_OEMAKE change in bitbake.conf and hdparm failed to pass QA because the bi=
-nary was already stripped, as the recipe does EXTRA_OEMAKE +=3D &quot;STRIP=
-=3Decho&quot;.=C2=A0 That assignment isn&#39;t getting through to the makef=
-iles without -e.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
+$ make FOO=qux
+echo qux
+qux
+$ make -e FOO=qux
+echo qux
+qux
+$ FOO=qux make
+echo bar
+bar
+$ FOO=qux make -e
+echo qux
+qux
 
---089e0149be34701921052b40cb42--
+
+-- 
+olofjn
+
