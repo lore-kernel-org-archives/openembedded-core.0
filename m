@@ -1,46 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A0D560043
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 1162F6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 20:36:44 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id c200so33185910wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 12:36:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=x+I4i2Q4ZYHsYNDSTEoF8zFAhNG2yIMPNoV3sQvMjCY=;
-	b=EDV0kN9UOXDq+CLlkITBp7J1rkrn1mtc8aQT+M7vppldqRJNQNxeV61dPy8Pv7vs9l
-	qWCODOi4aWVIUj2wRwIjkWOZUcY3/V+PfDr/tC0n1XxjD9VRd5KAeAHuyfXI3U0ce3GP
-	yv0HF4G5LD0/h613B5vYgo0y7KbvB2aXKFFItI/STuAGJcWaODhsLWtMA8sIpg12Ktrt
-	EC1pnzmZU9MrTsxBkZGxe01WnhnSHAno6mghJLmt58py5jMoJ2XoLnw/XAnxs5mKvJ/W
-	Eyu9sMYvEESQINhiswKrIIe1Db4EiXbTICNWtVDATZhjWBEm+OtxJLlPB32R71zzP+wf
-	QnHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=x+I4i2Q4ZYHsYNDSTEoF8zFAhNG2yIMPNoV3sQvMjCY=;
-	b=YrKsbU5nBh4F9SKpubJEcDGMVg1mAKJYTgPxiGBu0wgtAa+zYvvTqXcgMCQZz2BJfZ
-	2F/9Qq7UCxMQUomfA3IrJG/s4w3NUXSn1KTugJ0Na/O5fIY5HXDQau+2YtftVvwrj4kD
-	p8nVJL1MSLyS13Cv68KTxkeTcqw+8pBkQni8jY7BekYfIzDy6fPsTUBeL8SjyTlnV6cB
-	AkhdhwHJVsvRAtE4svyK0sSzsfN6st5sk9jmn4a/xDR8wvYevm9BJUK7YNEXMWPdDWug
-	NLu1KfYkuEr81aYg2oLyF3r0pqZ38odN0CZM8+vPoK31jYp1sCaTEuMxVuZNPzbvvQmq
-	Kvfg==
-X-Gm-Message-State: AG10YORXEJg6zsBzaQ5nSdFZntxrDYceLDSLdEFD07jV/vl0+oVtEuS57UT2mwoyL83MRnY9
-X-Received: by 10.194.112.41 with SMTP id in9mr29657688wjb.139.1454963805421; 
-	Mon, 08 Feb 2016 12:36:45 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	ka4sm31423049wjc.47.2016.02.08.12.36.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Feb 2016 12:36:44 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon,  8 Feb 2016 21:29:16 +0000 (UTC)
+Received: from [82.1.213.155] (HELO elite.brightsign6)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
+	with ESMTP id 686040974; Mon, 08 Feb 2016 16:29:18 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign6 with esmtp (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1aStMw-0003ZB-5X; Mon, 08 Feb 2016 21:29:14 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1aStMw-0004E6-4Q; Mon, 08 Feb 2016 21:29:14 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 20:36:43 +0000
-Message-Id: <1454963803-23136-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] lib/oe/qa: check that a path is a file before opening it
+Date: Mon,  8 Feb 2016 21:29:10 +0000
+Message-Id: <1454966950-16208-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] hdparm: Explicitly set EXTRA_OEMAKE as required
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 20:36:45 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 21:29:17 -0000
 
-Check that a filename points to a normal file before attempting to open it, as
-if the file turns out to be something more exotic like a FIFO it could hang
-forever.
+This recipe currently relies on EXTRA_OEMAKE having been to set to
+"-e MAKEFLAGS=" in bitbake.conf to operate. It is necessary to make
+this explicit so that the default in bitbake.conf can be changed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Unlike the other recipes that I've fixed recently, this one manifests
+itself in a more subtle way by failing a QA check.
+
+Reported-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/lib/oe/qa.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-extended/hdparm/hdparm_9.48.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
-index d5cdaa0..4cb5b98 100644
---- a/meta/lib/oe/qa.py
-+++ b/meta/lib/oe/qa.py
-@@ -31,6 +31,10 @@ class ELFFile:
-         self.objdump_output = {}
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.48.bb b/meta/recipes-extended/hdparm/hdparm_9.48.bb
+index 8267fd9..ec3d26f 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.48.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.48.bb
+@@ -21,7 +21,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz "
+ SRC_URI[md5sum] = "213efdbe7471fad3408198918e164354"
+ SRC_URI[sha256sum] = "ce97b4a71cb04146f54cf6f69787e7f97ddfda9836dc803b459d3b3df3a4fbee"
  
-     def open(self):
-+        import os.path
-+        if not os.path.isfile(self.name):
-+            raise Exception("File is not a normal file")
-+
-         self.file = file(self.name, "r")
-         self.data = self.file.read(ELFFile.EI_NIDENT+4)
+-EXTRA_OEMAKE += 'STRIP="echo"'
++EXTRA_OEMAKE = '-e MAKEFLAGS= STRIP="echo"'
+ 
+ inherit update-alternatives
  
 -- 
-2.7.0
+2.1.4
 
 
