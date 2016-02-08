@@ -1,50 +1,27 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C2EB7731D2
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 864E97325A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 10:23:08 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id c200so8272446wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 02:23:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=IqFUIDMqPbDX9gqUK0NexMLUaGlJKFD+2f9PdD/7paY=;
-	b=TvhysGwVMZNm3Wlu6iDBB2PoRePDng8sh1foeEBkoMZIwVXYHep2o7e/U6q4S1jf5N
-	I52ZwcRBzI2FPBQhN0ht2SYTmj0+89v6UbHJ9Vt8PtJcPwuMvsoIPG0GNP8m5+IqPbjM
-	1UIvqGBzSLIwL4rKy3AhlaR+DQUNjjS26NrMQrunTHEv3qlN+VWzoVgFL3h1HYPC6A8f
-	O6swmHNICg0jmx5/bHg3aZ8gBPosjCoagZ3BYAEVIcTpxG1z7Ek+0mfFTofV3RiYI+wo
-	vYc/fMbbGH/2bFnBFdDoc6bVKkVS+d+MirgjM+sxTsieZSCUQcJdA2g5vwjvzgTy+t/H
-	LdAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-type:content-transfer-encoding;
-	bh=IqFUIDMqPbDX9gqUK0NexMLUaGlJKFD+2f9PdD/7paY=;
-	b=V8M93lOb2QjLeslAHrWfJejpQtabg6ttbzK1FjnkI35oOjcLK4adXhRjFsS7d/J7OE
-	yLnP87AaLHPz7etUtlS1uPN2gtQgC/PD8E7WMwGqM+LRZGPdqPyxLpQXgyQmHPAubdOi
-	EcploUIpgOv5pvvTklNm8RRdSLb2Fe9n7p7hIz+u+FrZNw8ur5sqmto9+hx4Agv4X65l
-	iKGrn3HaOhftPVtLWRhsR+OnKnByPk86nD6iVZXPqq7/nconFPlKqm2tR49H082kmBP9
-	88DYnCCrkLJpKskBvtzYPmsOhOFMjubrGkadQ4PlsCEWDPCgXxXOFapdRkHbIEigdaDv
-	Hb8g==
-X-Gm-Message-State: AG10YOQcWoa5C94C9iwiqapVHv+yDsHH3c/4veGjujFNFJGAwRUxATiaeDKF2PYDUaz6Rw==
-X-Received: by 10.28.86.10 with SMTP id k10mr10639659wmb.28.1454926988669;
-	Mon, 08 Feb 2016 02:23:08 -0800 (PST)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by smtp.googlemail.com with ESMTPSA id
-	u191sm11935241wmd.4.2016.02.08.02.23.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 08 Feb 2016 02:23:07 -0800 (PST)
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-From: Steffen Sledz <sledz@dresearch-fe.de>
-X-Enigmail-Draft-Status: N1210
-Message-ID: <56B86C8A.9020304@dresearch-fe.de>
-Date: Mon, 8 Feb 2016 11:23:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
-MIME-Version: 1.0
-Subject: kernel not booting if build with gcc-5.2.0
+	Mon,  8 Feb 2016 10:33:59 +0000 (UTC)
+Received: from comp-006-thk (unknown [31.182.60.238])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 51B1D2D637D;
+	Mon,  8 Feb 2016 11:33:59 +0100 (CET)
+Message-ID: <1454927639.3938.5.camel@open-rnd.pl>
+From: Maciek Borzecki <maciej.borzecki@open-rnd.pl>
+Reply-To: maciej.borzecki@open-rnd.pl
+To: Tanu Kaskinen <tanuk@iki.fi>, openembedded-core@lists.openembedded.org, 
+	Enrico Jorns <ejo@pengutronix.de>, Roy Li <rongqing.li@windriver.com>, Khem
+	Raj <raj.khem@gmail.com>, Christopher Larson <chris_larson@mentor.com>, 
+	Ross Burton <ross.burton@intel.com>
+Date: Mon, 08 Feb 2016 11:33:59 +0100
+In-Reply-To: <1454926849.4283.6.camel@iki.fi>
+References: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1454926183-22439-2-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1454926849.4283.6.camel@iki.fi>
+Organization: Open-RnD sp. z o.o.
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/6] systemd: move bash completion into separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 10:23:09 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Mon, 08 Feb 2016 10:34:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+On pon, 2016-02-08 at 12:20 +0200, Tanu Kaskinen wrote:
+> On Mon, 2016-02-08 at 11:09 +0100, Maciej Borzecki wrote:
+> > Add systemd-bash package that ships bash completion files
+> > 
+> > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> > ---
+> >  meta/recipes-core/systemd/systemd_228.bb | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-
+> > core/systemd/systemd_228.bb
+> > index
+> > a110f0cdeaac7e46b5691a89aea237974e4114b3..8e3cb6047588b286df728ff28423e469d0b0745d
+> > 100644
+> > --- a/meta/recipes-core/systemd/systemd_228.bb
+> > +++ b/meta/recipes-core/systemd/systemd_228.bb
+> > @@ -238,7 +238,7 @@ python populate_packages_prepend (){
+> >  PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
+> >  
+> >  PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-
+> > kernel-install \
+> > -             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh ${PN}-xorg-xinitrc"
+> > +             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-bash ${PN}-zsh ${PN}-xorg-
+> > xinitrc"
+> >  
+> >  SYSTEMD_PACKAGES = "${PN}-binfmt"
+> >  SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+> > @@ -271,6 +271,11 @@ FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
+> >  
+> >  FILES_${PN}-xorg-xinitrc = "${sysconfdir}/X11/xinit/xinitrc.d/*"
+> >  
+> > +FILES_${PN}-bash = " \
+> > +                    ${datadir}/bash-completion \
+> > +                    ${sysconfdir}/bash_completion.d/ \
+> > +                    "
+> 
+> Note that we have the bash-completion class. It can be used to take
+> care of packaging the bash completion files. It doesn't take files from
+> sysconfdir, though. Does systemd really install bash completion files
+> under sysconfdir, or is that just unnecessary cruft originating from
+> older systemd versions?
+> 
 
-While switching from fido to jethro we hit the next problem. :(
+Thanks for the tip. Now that I've looked at it inherit bash-completion looks like the most
+sensible way. I guess it also makes sense to have an equivalent zsh completion class.
 
-For one of our machines (based on Marvell Kirkwood, very similar to OpenRD) the kernel build with the preferred gcc-5.2.0 does not boot. Immediately after the kernel is started from u-boot the system freezes. The last output on the console is "Starting kernel ...".
+-- 
+Maciej Borzęcki
+Senior Software Developer at Open-RnD Sp. z o.o., Poland
+www.open-rnd.pl
+mobile: +48 889 117 365, fax: +48 42 657 9079
 
-If we build with the also available gcc-4.9.3 the kernel boots fine.
+Niniejsza wiadomość wraz z załącznikami może zawierać chronione prawem
+lub poufne informacje i została wysłana wyłącznie do wiadomości i
+użytku osób, do których została zaadresowana. Jeśli wiadomość została
+otrzymana przypadkowo zabrania się jej kopiowania lub rozsyłania do
+osób trzecich. W takim przypadku uprasza się o natychmiastowe
+zniszczenie wiadomości oraz poinformowanie nadawcy o zaistniałej
+sytuacji za pomocą wiadomości zwrotnej. Dziękujemy.
 
-The kernel version is the one siggested by jethro:
+This message, including any attachments hereto, may contain privileged
+or confidential information and is sent solely for the attention and
+use of the intended addressee(s). If you are not an intended addressee,
+you may neither use this message nor copy or deliver it to anyone. In
+such case, you should immediately destroy this message and kindly notify
+the sender by reply email. Thank you.
 
- SRC_URI = " git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine \
- ...
- LINUX_VERSION ?= "4.2"
- LINUX_VERSION_EXTENSION_append = "-hikirk"
- ...
- SRCREV_machine="64291f7db5bd8150a74ad2036f1037e6a0428df2"
 
-Any suggestions?
 
-Regards,
-Steffen
-
-- -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJWuGyJAAoJEIz5slJ1krPh1pUP/RtqrOY8EIjpksnpOuF4hecR
-fyigic5MN4D+/n4meRUOXYOGZHvBSWIQXLYvfooCTAMYaQS+J96B+2ZCVkv52AI6
-NyGGdUJ065+yPt3obgOBP2/yJXsvJWPmlIa6SZDawwXnsr2hJZE2wrCpDWeVXvyy
-LnhykrkCcblTvHH2nWkK+Tym1uOAfNrU8bqptm66jrSKg/9gysSicwamzyAeofrU
-K+gizGKa4mj54QeINvGKwVWOzSWPNBuAszfnnDwcg9Cpc1GZpjc511oUBMO2xCqH
-Sub8D0yBtGreokfYDl5FDlT+7n1qtpliZ7ZFZH0TZqWazA021u0nZ/UWHQe3UtOI
-uaswhTdRQqL+okqKqrIAvcTuFcCZxBVd8orz7wEm/3huTAWIWQplyPWSOXjeK9es
-MbkO/daNLsRzF/PJgX+zF5mk1F06o/zYwXRzWboNMPeir3ehet2N1CUKLJVbKMW3
-cDvYXEtvYwXe8JtYPxQUN4ceruxqvrLVdZMhViIiVOXqGmRsXPsPKQIE9qXIa4gY
-GTY/n7FSHThf1q3j3cTu+p2AWpGgYzaaZ/i4mFK72Sn0FHZZGPEtB6/QvvFEORLn
-7Dfm3YThf4od6V1T1JVDQKwRIXeGjXRNb27bWyWIOhkLx+mfh3Y9HaCXfIeXsyk+
-5AkiQRfKR/O29IePx0a0
-=J9ka
------END PGP SIGNATURE-----
 
