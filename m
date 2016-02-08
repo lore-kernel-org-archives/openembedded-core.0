@@ -1,46 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id EDD1073175
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0368C731A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 22:49:24 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id o185so116630907pfb.1
+	Mon,  8 Feb 2016 22:56:47 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id g73so308958ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 14:49:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=W4ZZlksWJ1+k1GzDtTHxxdPi0BtseVJS6aH2V9nsZR8=;
-	b=p+pMQdSJ4QKzuYDYNHMY/qyjjqLGkfLty7FLf3//71QDRhcu0x1Mp4FnpS3AoV1zt8
-	mrFXKRQKWCL7i8q+B/MEB44ET0gZnGaPE2Qqz5a9cJA4CDCAzhq1Ks+09rT2qNZZdB7p
-	/hnhvW55lxoYjMyO0TYwecSlU3BuKk4ibJlJJBab56wi5JQoo3CE6RdHLrsgvHgs8TSC
-	ZSIxqstEYHuV//uMCqkkKnUGCaaYcW60C7zQjFZiOptWTGgOtCt9OWWu1f7jx2X0EU0C
-	hlCyx9XR70cRwO6rLbhdeANOAx4voGkyN/1TJ8A1mhzQOVLmTJpDHUmHB12d/ZeROzXo
-	u0Hg==
+	Mon, 08 Feb 2016 14:56:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=mGlgH0cwuoYuDMnqSr9qE3oYL874yCf6Wbq5z2Dm0Bc=;
+	b=Is2PVRNxHm/wXltFaQfcqzO3JSHsDequdWe3IAokDAKcHOp8lniJJy1bn/oh/ZL44U
+	42SknQEWsZMujTTdnIT+4Jlu7ZM+b7fVjs3KyO9gPlvgd3y5ZYe/8mPVNPRpOOhaSSSS
+	Atf64dhoJUfeNwHR0SB7Rn6rbNp+grfFowPbxVs3iEMvM3HbZus5fv0UxUzAgrO3T7+g
+	7tQ/qd3kjtqN4dkObVFn4RjtGGuI3by9p5okbRjCzu1jUazsdYuhKrgRai8dmFT8mSk0
+	+FJyDbJLK5891vmyy3dvlWxGWcEiYTfFg5lFDyFpinyCL62ak1MmQgXI+V36IduaBtnq
+	fLeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=W4ZZlksWJ1+k1GzDtTHxxdPi0BtseVJS6aH2V9nsZR8=;
-	b=cu1qEQgIncf/kMpLegyVw+Mg/YZGwCXeLE5OH5TNoxjjMrzY+BGICXn2U988rLjum3
-	CwSQ0UV1dv3wSleAfJoYhnwWkHKcGs/C0/Ih44UYt+e3VT9XboKI+0RKuQfpyMg+Y0Cp
-	8cyDWs7JeKVz6lIQugvtmQc8iAKbMx5emrwODfr62/kcZ6BisInLm3XCCDtZLoQ3s/A+
-	3pO3cXscVppNp2mPu51gg+r7UeKdBG0rrLkO47wQ8VVmeHD4AZFDhFLWy5iUPdpQSyD3
-	8jKWAK5a0d6updwx0nE3bY/ZmQtm+DDmhoum6hZ/2nmYR1kcuEZrqpjYd7y50awerySW
-	LJjg==
-X-Gm-Message-State: AG10YOTkNcT5suL48xb4M9skkyr/Zowm48/HKa/dixbATXPT0ohaE6Tg581ICxW78a+RlA==
-X-Received: by 10.98.12.8 with SMTP id u8mr16816661pfi.36.1454971764917;
-	Mon, 08 Feb 2016 14:49:24 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	dg12sm45666485pac.47.2016.02.08.14.49.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Feb 2016 14:49:23 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 14:49:18 -0800
-Message-Id: <1454971758-28544-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] curl: update 7.47.0 -> 7.47.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mGlgH0cwuoYuDMnqSr9qE3oYL874yCf6Wbq5z2Dm0Bc=;
+	b=F7jlZvLGekIexnQEcEp9g7z2FN8Sw5T58IeO1ei5ztIkH8lhEGjR3mlVHAXQAihCZd
+	FUUTvJ6jVz+CvnjqezuMPXR93Uwu36cd6Q5lUpmtO135edfWxHJWV3pjn3qNp5wynfGt
+	HW1PenMBdV5LEXijW9d/thHWVyb3n185ZHZ6khUC6cR64y7QOTZeCzgcTwThj3E+WraR
+	iLMyP7BmIPmDvF5KWKEsPl1R9ZGBbwOy0W1YmAFxdDGgoNJdhlQGNWUWaMQuajhmd0CP
+	ghc/j+QeuLiTZb4xPPnPQ4YXY5M+Ff1yJGXlMVfCKZuHPBGJklm2IPPvcOxiKgrEgF1x
+	QutA==
+X-Gm-Message-State: AG10YOQG+87E14HbDhjBA70SxicbyxPuXX++PKEiq0zoq8wyDfGSP18xolePd2px664WHin/TeDXzit9nRBPGiU5
+X-Received: by 10.107.137.92 with SMTP id l89mr18866560iod.133.1454972208332; 
+	Mon, 08 Feb 2016 14:56:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 8 Feb 2016 14:56:29 -0800 (PST)
+In-Reply-To: <1454963681-18756-2-git-send-email-armccurdy@gmail.com>
+References: <1454963681-18756-1-git-send-email-armccurdy@gmail.com>
+	<1454963681-18756-2-git-send-email-armccurdy@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Feb 2016 22:56:29 +0000
+Message-ID: <CAJTo0LaCMqE5kQR5SApPdBw-LYbdyxwtaFK+DpAfhbhU7LFScQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libproxy: replace PACKAGECONFIG equivalent with the real thing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 22:49:25 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 22:56:48 -0000
+Content-Type: multipart/alternative; boundary=001a113ebdb4a2df1b052b4a1d29
 
-Adjust LIC_FILES_CHKSUM beginline due to changes to the Copyright to
-acknowledge additional contributors. No change to the license text.
+--001a113ebdb4a2df1b052b4a1d29
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/curl/{curl_7.47.0.bb => curl_7.47.1.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/curl/{curl_7.47.0.bb => curl_7.47.1.bb} (90%)
+On 8 February 2016 at 20:34, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-diff --git a/meta/recipes-support/curl/curl_7.47.0.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-similarity index 90%
-rename from meta/recipes-support/curl/curl_7.47.0.bb
-rename to meta/recipes-support/curl/curl_7.47.1.bb
-index ab3c7e1..f2fa37c 100644
---- a/meta/recipes-support/curl/curl_7.47.0.bb
-+++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://curl.haxx.se/"
- BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
- SECTION = "console/network"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
-+LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e664ac"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://pkgconfig_fix.patch \
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "85c58a00412476993050cb242a3f365d"
--SRC_URI[sha256sum] = "2b096f9387fb9b2be08d17e518c62b6537b1f4d4bb59111d5b4fa0272f383f66"
-+SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
-+SRC_URI[sha256sum] = "ddc643ab9382e24bbe4747d43df189a0a6ce38fcb33df041b9cb0b3cd47ae98f"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--- 
-1.9.1
+> '' if incompatible_license_contains('GPLv3', 'x', '', d) == 'x' or
+> bb.utils.contains('DISTRO_FEATURES', 'x11', 'x', '', d) == '' else 'gnome'
+> } \
+>
 
+Instead of returning 'x' or '' and then doing string comparisons, why not
+just return True or False and let if/or/else do the right thing?
 
+Ross
+
+--001a113ebdb4a2df1b052b4a1d29
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 February 2016 at 20:34, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2q2" class=3D"a=
+3s" style=3D"overflow:hidden"> &#39;&#39; if incompatible_license_contains(=
+&#39;GPLv3&#39;, &#39;x&#39;, &#39;&#39;, d) =3D=3D &#39;x&#39; or bb.utils=
+.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;x&#39;, &#39;&#39;=
+, d) =3D=3D &#39;&#39; else &#39;gnome&#39; } \</div></blockquote></div><br=
+>Instead of returning &#39;x&#39; or &#39;&#39; and then doing string compa=
+risons, why not just return True or False and let if/or/else do the right t=
+hing?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
+
+--001a113ebdb4a2df1b052b4a1d29--
