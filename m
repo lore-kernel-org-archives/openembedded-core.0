@@ -1,46 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 9324065CBB
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 49DA460043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 20:03:01 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id p63so131321744wmp.1
+	Mon,  8 Feb 2016 20:35:16 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id fl4so450041pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 12:03:02 -0800 (PST)
+	Mon, 08 Feb 2016 12:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=QU/EO3aIvn5qkKJXsaxM9k9wKo/YsMXeJznnCJM0/Jc=;
-	b=AJd1wwg1QXPt5Beq1qCNQPScsgvtNdLhDjAVOhYf3pKiaj8HT9aUZYYZI5SkfdzIBx
-	jkhcm2mloxfiHBH1x0xRugMX24JdHN/1DXZFMwqZUEl3S5FgUQgeczExxpZeoT6iscVX
-	n/sswzAADMHDL/xzNfUkwjhZnfZzgrMuVpitoVFrynreeLlxllNf/6peclEgKwZSlp6P
-	+fgrjCgHniWXbs+WlzALRk7TGM2mBs0Y8iAINOfWwATEp2YqVOxiw5lKWSCNIA9fAQiy
-	dL5AnRDf0TxEQou2kTqEMdMtqyL8IcFsJg0FEU4GNvBL06Pd89dRw3qtnxQjq8QSBBiP
-	0bFA==
+	h=from:to:cc:subject:date:message-id;
+	bh=cu0UVvJZqPspuuFo9iBpCT99/Zpfvxttbchsl1Q5K8g=;
+	b=ZfK4MPF2fARY78My7NhUPdKHoOlPr+RDswcbk6cekN/FEhqhYAYq5LoSPjgpAl5yNz
+	+D8x+AWqZYykoWWoqbPTQ9HVbbx59AIedRXB/CwoRiPg1c0xIdll7FI9yFqqtw2IZHa2
+	aHhzxsb4iH196qu0UIn9R2V8L3fBCdnxQgysLRfcgEEgC71ffMxh+tdSoX7r/jXqzmvS
+	3TjvxU2vQuJh5PB92EzFFZOvr+9pWTWH1aFi7Otgw+FqIz1JrFJgA2SvwbJ+XncN0zRJ
+	H8cmn2aFNtAJMbP3CeIjX/fYV8wbLmVf16ThnoBadFxH0w62qcn1YdYX2ie185Q/hGU7
+	QsBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=QU/EO3aIvn5qkKJXsaxM9k9wKo/YsMXeJznnCJM0/Jc=;
-	b=RY+W1eXqFJrEusXB8AyGWsHf6qH36d+8R3K9RULZAe0VYOf3UGtdbBG15re6hvM7q6
-	KFoA0N2ib5lu4u9FXF7srzGvQYH4iHv1P1fZqnQ0tKK9MFIlEhkcixX46YUYex8C64//
-	GS0QduYmB94vVb3ok976NMPOaV0/koUv36Rme6jW6HXHibYjKaME0KPQV2NGK+uEQshf
-	donblxm42iUkJQNbadSh0UMvQa9UZI6PZHx/vE8Z0loTk/GzC4CiEovM1BxxGS05ldGQ
-	xrQbqDWyeNNFtH6Evl16yP9PDNlTChg3M04J9sYLKiN62CRemZ+jCkSllD1ZyIwvcmjJ
-	VaGg==
-X-Gm-Message-State: AG10YOQfYk0uv9hSVZM5uklAIVRMgLW+3H1jTO0fhB6R2ZJ3GHEuJhNMmAqT859kjQwfNQR1HrGLiLYe1LooLw==
-MIME-Version: 1.0
-X-Received: by 10.28.220.134 with SMTP id t128mr562924wmg.61.1454961781853;
-	Mon, 08 Feb 2016 12:03:01 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 8 Feb 2016 12:03:01 -0800 (PST)
-In-Reply-To: <CAMKF1sqdRHprniyiaiUNrghVwZ4tY=hn7gEHwf1g2fxi3SWEtA@mail.gmail.com>
-References: <CAJ86T=UvphArYq85qN1yNsCeCtbr_AaapGoZmhprS7cCU3FM0Q@mail.gmail.com>
-	<CAMKF1sqdRHprniyiaiUNrghVwZ4tY=hn7gEHwf1g2fxi3SWEtA@mail.gmail.com>
-Date: Mon, 8 Feb 2016 12:03:01 -0800
-Message-ID: <CAJ86T=UjJMJ_44ws-Esuak2nGC8ML-_-=vPAGHXJS0=0rU0fEQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cu0UVvJZqPspuuFo9iBpCT99/Zpfvxttbchsl1Q5K8g=;
+	b=PVB18eRdBjPzE2t3ktZYdf1rQ9u4cOpzVfHb5XE0kqukqlwGI/mbgZg1V5Ia7rMFYB
+	bTTEPtEwjgytCO9dWGyGjyzEs/L6d1hHf7LqSyRWVSXnnPFky8W8MjWKRrWyOV+0bgkm
+	6jwLvQsAeDKkgQVV6QmT8210PbZNqEQena1+n2yiqqlTloFx9cW3oHDRnIZPue8Kp1KK
+	uJEqkC0lPK5RrMahW2ut+ln6UgNdVuX+gmjPlpJhkKdLgJKe4qONLSWPdxFG2wh4F/6J
+	TFrzcXyGrOBHKoaC1EA//wCp6Oo159SKrOfeNwiE+EJc04w59ZAPWiu8SphQnHXj2Q27
+	ZYgA==
+X-Gm-Message-State: AG10YOStq3nFkOiAgZbMgYv6qJ10mG/1gArFxGlBEs6BIpmBDaoeP0cVnhBWw03fxAeHZA==
+X-Received: by 10.66.148.99 with SMTP id tr3mr45366311pab.19.1454963717465;
+	Mon, 08 Feb 2016 12:35:17 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	u90sm45313301pfa.60.2016.02.08.12.35.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Feb 2016 12:35:16 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: TARGET_CFLAGS for non-target builds
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Feb 2016 12:34:39 -0800
+Message-Id: <1454963681-18756-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/2] libproxy: PACKAGECONFIGisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +53,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 20:03:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Feb 2016 20:35:17 -0000
 
-On Mon, Feb 8, 2016 at 11:57 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Feb 8, 2016 at 11:52 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> Although I don't see it on the mailing list, oe-core master now
->> contains the following patch:
->>
->>   http://git.openembedded.org/openembedded-core/commit/?id=ff2c8af73046f55aa733ce8289b6236c88300290
->>
->> Is this necessary? Aren't TARGET_CFLAGS by definition only used for the target?
->
-> when doing native class TARGET_FLAGS are mutated to represent build
-> flags but it still is TARGET_FLAGS
-> and when you append to it then the flags go into your
-> native/cross/nativesdk builds as well. Not something you
-> are looking for.
+Andre McCurdy (2):
+  libproxy: replace PACKAGECONFIG equivalent with the real thing
+  libproxy: add PACKAGECONFIG control for gnome3
 
-Can you give an example? Looking at native.bbclass it seems to replace
-TARGET_CFLAGS with BUILD_CFLAGS, not manipulate it.
+ meta/recipes-support/libproxy/libproxy_0.4.11.bb | 31 ++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-(I've had -fstack-protector-strong in SECURITY_CFLAGS in my own distro
-for a long time and all the build failures it caused for native
-packages have turned out to be bugs in the packages or the recipes).
+-- 
+1.9.1
 
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
