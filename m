@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E9E73CF7
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id B3AF4734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 08:52:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u188qcnc029257; Mon, 8 Feb 2016 08:52:38 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7tk1QXGs3Q16; Mon,  8 Feb 2016 08:52:38 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u188qXZB029253
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 8 Feb 2016 08:52:34 GMT
-Message-ID: <1454921553.16142.42.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 08 Feb 2016 08:52:33 +0000
-In-Reply-To: <1454914617-2042-1-git-send-email-patrick.ohly@intel.com>
-References: <1454914617-2042-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: paul.eggleton@intel.com
-Subject: Re: [PATCH] buildhistory.bbclass: remove out-dated information on request
+	Mon,  8 Feb 2016 10:10:03 +0000 (UTC)
+Received: from comp_016_pc_buildenv.localdomain (unknown [31.182.60.238])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 797563FD357;
+	Mon,  8 Feb 2016 11:10:03 +0100 (CET)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: openembedded-core@lists.openembedded.org,
+	Enrico Jorns <ejo@pengutronix.de>, Roy Li <rongqing.li@windriver.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Christopher Larson <chris_larson@mentor.com>,
+	Ross Burton <ross.burton@intel.com>
+Date: Mon,  8 Feb 2016 11:09:41 +0100
+Message-Id: <1454926183-22439-5-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+References: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH 4/6] systemd: use sysusers for setting up required users/groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 08:52:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Feb 2016 10:10:06 -0000
 
-On Mon, 2016-02-08 at 07:56 +0100, Patrick Ohly wrote:
-> buildhistory.bbclass by design is incremental: each build adds or
-> updates information. Information is never removed.
-> 
-> Sometimes it can be useful to reduce the information only to those
-> recipes that were build during a specific bitbake invocation, for
-> example when the invocation does a full world build.
-> 
-> This is now possible by invoking bitbake with:
->    BB_ENV_EXTRAWHITE=BUILDHISTORY_REMOVE_OLD
-> BUILDHISTORY_REMOVE_OLD=1 bitbake
-> 
-> In this mode, buildhistory.bbclass first moves all existing
-> information into a temporary directory called "old" inside the build
-> history directory. There the information is used for the "version
-> going backwards QA check". Then when the build is complete and before
-> (potentially) committing to git, the temporary directory gets
-> deleted.
-> 
-> Because information that has not changed during the build will be
-> reconstructed, a git log will then only show real updates, additions
-> and removals.
-> 
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Use sysusers functionality of systemd allows setting up necessary user
+accounts during startup. This functionality is already partially used
+for journald and networkd (as we ship the default systemd.conf). The
+patch removes useradd class in favor of the native systemd mechanism.
 
-The implicit assumption here is that you'd only every build large
-targets like "world". A "bitbake bash" isn't really going to do what
-you'd expect/want.
+Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+---
+ meta/recipes-core/systemd/systemd_228.bb | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-I think we need to make that clearer in the comments and that this is
-only useful on automated infrastructure.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+index f4cab27ba590901230f30229d54636d019f541d6..74abe39761bfb22eb9ed442b26c0233394503453 100644
+--- a/meta/recipes-core/systemd/systemd_228.bb
++++ b/meta/recipes-core/systemd/systemd_228.bb
+@@ -22,7 +22,7 @@ DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl rea
+ 
+ SECTION = "base/shell"
+ 
+-inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
++inherit pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
+ 
+ SRCREV = "dd050decb6ad131ebdeabb71c4f9ecb4733269c0"
+ 
+@@ -244,6 +244,14 @@ do_install() {
+ 		echo 'f /run/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+ 	fi
+ 	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
++	if ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', 'true', 'false', d)}; then
++		echo 'u systemd-journal-gateway - -' >> ${D}${libdir}/sysusers.d/systemd.conf
++	fi
++
++	if ${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', 'true', 'false', d)}; then
++		echo 'u systemd-timesync - -' >> ${D}${libdir}/sysusers.d/systemd.conf
++	fi
++	echo 'g lock - -' >> ${D}${libdir}/sysusers.d/systemd.conf
+ }
+ 
+ do_install_ptest () {
+@@ -285,10 +293,6 @@ PACKAGES =+ "\
+ SYSTEMD_PACKAGES = "${PN}-binfmt"
+ SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+ 
+-USERADD_PACKAGES = "${PN}"
+-USERADD_PARAM_${PN} += "--system systemd-journal-gateway; --system systemd-timesync"
+-GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+-
+ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ 
+ FILES_${PN}-initramfs = "/init"
+-- 
+2.5.0
 
 
