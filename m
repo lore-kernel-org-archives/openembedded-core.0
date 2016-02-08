@@ -1,47 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A77065CC2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B5C0B65CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 19:50:10 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id s5so62760460qkd.0
+	Mon,  8 Feb 2016 19:52:11 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id 128so169627755wmz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 11:50:11 -0800 (PST)
+	Mon, 08 Feb 2016 11:52:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Dkk5qZ2YIsBrTI7vNAcXpNoAYuvbu16AxR4qZ0qSQR0=;
-	b=LImkNkX4KY6rSI1BXihUcn5xbhPFoxBxmdJ+OBkxSl2lXEvgAIxp9XAruXu2TGvMEK
-	wlo9A6cjm+AeFbwiyjTZmHXjM4ah1EgRu3MVg/Alr2xGEImcgNe9q9gxF9CIGnPVx03c
-	cqBnvAIf5jkRSNz9aiUUmfROglujakHsEYzmXpIXYFVbjgWEmbn40NoqrPLVBBD31LVa
-	2Lo1P3DzCO7EQvZZSl3ATAex9BVWCV5iQiTlzD5ghKHCERh56DZubQNZAJDpUgjSc8nc
-	HDlQZVjj0wPK0RMcjsAbl9nkHnRwSrIgmigpsqlayk1DVZWqwYfdclgXxCdGacexC3cx
-	raRQ==
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=YjyjPDl9cgJi9SJow7x96mIuJ7hyxptTkPPHK4TJd5A=;
+	b=UWBS/f9eDHG20/n/B9EAvzMqwlXZ4V+4c68riGEFdzSMU5MwGVKaO7gBIKTCOOBwXP
+	yfjNuhizFqQXiVcA4FM7+358ttdyR23/cMzbvyNfEfJG8FkXWryzABVmUNCAQAOZYz84
+	H8wWNVzdJ9YHi5IODrLeMbyr2sOFo9htoHZBG+qzd6hX+hK3yCL+abHc+nqEq6Qth3jv
+	t2hUmX4oc8seBqMt5S9VL/pWhiBEs0HxBj1rZ0Dgo+h85a2QGyQxck61PmaxTkVgqEWA
+	+bXps68YNBCrKwm8Y5RyLAV/2+LYnY8WiCsVm5ax0NjxfU8uEvpZDR/N0rxXsQv/eLml
+	1Lfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Dkk5qZ2YIsBrTI7vNAcXpNoAYuvbu16AxR4qZ0qSQR0=;
-	b=lwgPo5eyEdCbVm7lz0Pec2hb2JU+4v5O0bLyO5V3Bt3lSMrTNxMHluRandPX3w5Yod
-	UxdDZ2vN4ThqVNCHl8pPzxS5hsjXkyFKwZZ195gncxttUY0rv2/C94p0Xf5mVhv/cSTl
-	hOz4/TF6vbNa6Ttp3UagfeL+8PH2Tw6lzer+DgFaTAsu69ag+o8uXt63ZdzMa9RsojaU
-	IXNKb6twCCUsVGPj5dhJ6N39UJ5oYVNkPY76b3M/o7dQqKTPre9iWWXLl7LfvLSpbE8q
-	UI/QhNYj4PMRm6TgyB+veBnDos/9rCFBdF1599uZesgDYH5NSivMlD1IB8Im15ZslYeh
-	Nlmw==
-X-Gm-Message-State: AG10YOQxMAXlesOImT3q0vHKKDtW/3L8qY24dQqQ9pr3y3u45hL5z5J7S1e5isuyBPah5/KNJb5vSA+948uXrg==
-X-Received: by 10.55.75.203 with SMTP id y194mr37139861qka.2.1454961010893;
-	Mon, 08 Feb 2016 11:50:10 -0800 (PST)
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=YjyjPDl9cgJi9SJow7x96mIuJ7hyxptTkPPHK4TJd5A=;
+	b=IaugeI85QFP7pCqPOv8MQ5qATWyMSzRDPpj3iqgfOTFQTI+DGarBNBQX0FwvJREhGm
+	BJFoG1FHZWOXbQE4p291uNyUgFubcm7TWsnV4QZVtAwalGZ4iDhfxxM+kR6aSDbfNnhi
+	Manquit08R/ugUYultn2zhpjbI+6VteQsRdbSvmRPGvmShO6X6EkX1SRdPPbTCwYjat/
+	IBVC8OyqDHrKrzYibpTPAG8fb60i5v9+oF/Ll6rCs3DhZ8m/dn5ULTOTbpsR2wKMAJv7
+	6prvYmiH4+2U7LULCi/6iVxwI8JUnO6zQs8H2gPT82uP1gqy/LlJtw0nBxxp/z12ah3N
+	InkQ==
+X-Gm-Message-State: AG10YOT1M78GafzzrhUF/UMVJYK2j79KCu0HrHp9+XThytYqjNQmRFvj5ICEWDwrDgPAImWiHRcaovUaFOqCQQ==
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Mon, 8 Feb 2016 11:49:41 -0800 (PST)
-In-Reply-To: <1454960141-18350-1-git-send-email-armccurdy@gmail.com>
-References: <1454960141-18350-1-git-send-email-armccurdy@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 8 Feb 2016 11:49:41 -0800
-Message-ID: <CAMKF1sp6Xnti2YnV==4Hx36LghOcUYC5=XKChj0FRR4_Zprohg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] gdb: MIPS plus musl build fix + minor cleanup
+X-Received: by 10.28.146.8 with SMTP id u8mr562272wmd.72.1454961131788; Mon,
+	08 Feb 2016 11:52:11 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 8 Feb 2016 11:52:11 -0800 (PST)
+Date: Mon, 8 Feb 2016 11:52:11 -0800
+Message-ID: <CAJ86T=UvphArYq85qN1yNsCeCtbr_AaapGoZmhprS7cCU3FM0Q@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: TARGET_CFLAGS for non-target builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +48,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 19:50:10 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 19:52:11 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 8, 2016 at 11:35 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Andre McCurdy (2):
->   gdb: build fix for MIPS + musl libc
->   gdb: drop unnecessary CC_FOR_BUILD etc exports
->
+Although I don't see it on the mailing list, oe-core master now
+contains the following patch:
 
-looks ok conditionally I have pulled it into my tree.
-https://github.com/kraj/openembedded-core/tree/kraj/master
+  http://git.openembedded.org/openembedded-core/commit/?id=ff2c8af73046f55aa733ce8289b6236c88300290
 
->  meta/recipes-devtools/gdb/gdb-common.inc           |  7 +----
->  meta/recipes-devtools/gdb/gdb.inc                  |  1 +
->  .../gdb/gdb/0001-use-asm-sgidefs.h.patch           | 35 ++++++++++++++++++++++
->  3 files changed, 37 insertions(+), 6 deletions(-)
->  create mode 100644 meta/recipes-devtools/gdb/gdb/0001-use-asm-sgidefs.h.patch
->
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Is this necessary? Aren't TARGET_CFLAGS by definition only used for the target?
 
