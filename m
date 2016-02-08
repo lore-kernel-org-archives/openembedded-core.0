@@ -1,45 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 57C236E667
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 92AEA60119
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 19:27:08 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id g62so146684672wme.0
+	Mon,  8 Feb 2016 19:32:43 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id s4so1990106oif.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 11:27:09 -0800 (PST)
+	Mon, 08 Feb 2016 11:32:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=i/aE4olBH0iJDj39+kynAQgPee76mBlRUzC4nfrxb/U=;
-	b=A0yjL9KGL56i0NaRRkY+OWrlE1fxT981coxiSAgYfvQ/e6Cqejv3xk5twm3ksKnHLq
-	UeykTmXKjeUJhG5dGiZWOOjHii4Bq48EQhgHQSSGegI0HMWPlvmxeUAm+cu4FtYpBl/b
-	AmuanjPmGEGyR1bIJKHluO435diz+L4AEkxC5vjuSldZ5VHGQlMaCzKkZoqXxbEWri8G
-	n8lekB6mRZviJM1nZQ9d6nEqwPceTKZJmPyxqyaxdMbWMsoqppfMDGcWl0HYKg8ZtoEa
-	HfiQA0VNsCDhsdfSg1TTzHYoD2ODCBVKemTNRjLuSGv5DK7ThF4uPCj94aXcFEQg7fyU
-	etRQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=GVlwhyoTFRZAMTsqG4rBtsaHICWJve5fJOyPuptUEYo=;
+	b=hkNeMHniMz7B2y3/zL8QeOl2kvAezVVzt7XPSD9mxyLtOnr7sEfFJ08L/GIUJU/bCU
+	pPE7RT6dpApF6f7cPsnPeuYr5kjOYn4KRk50ylgV0ujmKcDkQUc7WlJI+JNJNeV0KVcW
+	b/UojfcXikKvQRk6UjnJBMs3uFLy2rgtmAIeLQHhsUKx77P292TAMprW9n9ydwnTTp5n
+	jRy+m4hSVILbiP4C4/CxPJ3TUhjS2W9CaIlP+resYIGGelwANuMaa0sUZOOTHcLcjiPc
+	xNA1J9FvDMNWADwXIHxz7ywzTT3KEkPGbhnn4djVggUKOUhujh9bkDKjNzQ6vAovrww7
+	wJWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=i/aE4olBH0iJDj39+kynAQgPee76mBlRUzC4nfrxb/U=;
-	b=eFMuhH7/2Apea+9xqNklX9TOGd9Txr2K4CYFVRGDCU6bSdZj/h4KyzY3Vsr4/V9t6+
-	EOr8AnnW4VLuqnkmVUtXvLW0oH5pmzHoq6xLY1ucJ7g57fpzODpso21DzucML/0kVwZd
-	fdRKqYTO8Ep7ud0WHi9tXqiRViqNjwVKgQXnjJe7GY8DDMYypuHKT2ktH0avCaYaXmtr
-	8fw3oi9UKGkuENFX/wpX/RJIu+EYAHWZSwd89dswaoGfXwC3iwyByIvsSluOrcRXT1YN
-	U+LTTvSOY/OtZWCoXbtnXUJtNyd1Q5ZCkRPtD4iFmg5vM6Y/6GAhppiO1TFyVBJ8YVOf
-	LN7A==
-X-Gm-Message-State: AG10YORaYzt0okApix2LBSnuqTYdzvfNcYNLpg6gbmc/PvtmtaWh61ySdq82hIEPcWcDOu69Xz59whgO+5aeeg==
-MIME-Version: 1.0
-X-Received: by 10.28.53.193 with SMTP id c184mr503922wma.4.1454959629361; Mon,
-	08 Feb 2016 11:27:09 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 8 Feb 2016 11:27:09 -0800 (PST)
-In-Reply-To: <1454944563-30448-1-git-send-email-ross.burton@intel.com>
-References: <1454944563-30448-1-git-send-email-ross.burton@intel.com>
-Date: Mon, 8 Feb 2016 11:27:09 -0800
-Message-ID: <CAJ86T=WxJLfU0rObHB3oZ-4DzharyiWxQfFzxkuTQ6VDAX9FjQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=GVlwhyoTFRZAMTsqG4rBtsaHICWJve5fJOyPuptUEYo=;
+	b=C7F7UqRJ0eLDKzLNzwhV4OIcIY2I18AklAF4nQ+lU0EH4PsKxDxlEKgobiCggFWjfr
+	0O7EJQQn6djfCv9Ksf/NyBy9tDmWgfh6HLpY28wL3eQC9M20I6Rv4oNxTFK5XJBjPpc2
+	4DE6AFoxjuHM0WG1nNj0wfmERCXdK/5hzCA6/9Bu/VJOdvwBZgCmRkEvQQEe0Ln5vfGQ
+	xXj+CTnwqM2WcAw0tl0DT6OIT8El52BzFMmmuEelbL+OZJ3KxY2DIp1LeKfjhhTeZcys
+	qlkrn9Rt9iH6A3ZgZaYTn0THHHMbDvd4gXcWFCAHNBd+0cvfeYCUStf3ggGKKrHkbw5N
+	r0Eg==
+X-Gm-Message-State: AG10YOSMAHDZcKb5qyU8KpIHl2Vox8WFulbUUn7JV8CX3bWjOVbc859Gag8SoEt0n5gAeA==
+X-Received: by 10.202.91.135 with SMTP id p129mr422378oib.23.1454959963748;
+	Mon, 08 Feb 2016 11:32:43 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	ur2sm18319086obc.11.2016.02.08.11.32.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Feb 2016 11:32:42 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tune-corei7.inc: tell qemu to emulate a matching processor
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Feb 2016 11:32:37 -0800
+Message-Id: <1454959957-18277-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] strace: build fix for MIPS + musl libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,48 +53,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 19:27:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Feb 2016 19:32:43 -0000
 
-On Mon, Feb 8, 2016 at 7:16 AM, Ross Burton <ross.burton@intel.com> wrote:
-> If tune-corei7 is in use then the target binaries may contain instructions that
-> qemu-x86-64 can't execute by default, resulting in errors on rootfs construction:
->
-> NOTE: Running intercept scripts:
-> NOTE: > Executing update_font_cache intercept ...
-> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
->
-> In this case the instruction is popcnt, part of SSE4.2, so tell Qemu to emulate
-> the CPU that the tune targets (in this case, Nehalem).
->
-> [ YOCTO #8888 ]
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/machine/include/tune-corei7.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/conf/machine/include/tune-corei7.inc b/meta/conf/machine/include/tune-corei7.inc
-> index d245d9f..197558f 100644
-> --- a/meta/conf/machine/include/tune-corei7.inc
-> +++ b/meta/conf/machine/include/tune-corei7.inc
-> @@ -11,6 +11,8 @@ DEFAULTTUNE ?= "corei7-64"
->  # Pull in the previous tune in to pull in PACKAGE_EXTRA_ARCHS
->  require conf/machine/include/tune-core2.inc
->
-> +QEMU_EXTRAOPTIONS_corei7-64 = " -cpu Nehalem,check=false"
+The MIPS specific header <sgidefs.h> is provided by glibc and uclibc
+but not by musl. Regardless of the libc, the kernel headers provide
+<asm/sgidefs.h> which provides the same definitions, so use that
+instead.
 
-What about corei7-32 and corei7-64-x32 ?
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../strace/strace/use-asm-sgidefs.h.patch          | 51 ++++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.11.bb        |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/use-asm-sgidefs.h.patch
 
->  # Extra tune features
->  TUNEVALID[corei7] = "Enable corei7 specific processor optimizations"
->  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'corei7', ' -march=corei7 -mtune=corei7 -mfpmath=sse -msse4.2', '', d)}"
-> --
-> 2.7.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/strace/strace/use-asm-sgidefs.h.patch b/meta/recipes-devtools/strace/strace/use-asm-sgidefs.h.patch
+new file mode 100644
+index 0000000..db83d11
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/use-asm-sgidefs.h.patch
+@@ -0,0 +1,51 @@
++From 2995245d7e3f46e8b3995002995ebd28beca7d55 Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Fri, 5 Feb 2016 14:00:00 -0800
++Subject: [PATCH] use <asm/sgidefs.h>
++
++Build fix for MIPS with musl libc.
++
++The MIPS specific header <sgidefs.h> is provided by glibc and uclibc
++but not by musl. Regardless of the libc, the kernel headers provide
++<asm/sgidefs.h> which provides the same definitions, so use that
++instead.
++
++Upstream-Status: Pending
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ configure.ac | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 1524b9b..287e03d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -196,20 +196,20 @@ AC_SUBST(arch_mx32)
++ if test "$arch" = mips; then
++ 	AC_CACHE_CHECK([for _MIPS_SIM], [st_cv__MIPS_SIM],
++ 		       [AC_COMPUTE_INT([st_cv__MIPS_SIM], [_MIPS_SIM],
++-				       [#include <sgidefs.h>],
+++				       [#include <asm/sgidefs.h>],
++ 				       [AC_MSG_ERROR([_MIPS_SIM cannot be determined])])])
++ 
++ 	AC_CACHE_CHECK([for MIPS ABI], [st_cv_mips_abi],
++ 		[AC_COMPILE_IFELSE(
++-			[AC_LANG_PROGRAM([[#include <sgidefs.h>]],
+++			[AC_LANG_PROGRAM([[#include <asm/sgidefs.h>]],
++ 					 [[int i[_MIPS_SIM == _MIPS_SIM_ABI32 ? 1 : - 1];]])],
++ 			[st_cv_mips_abi=o32],
++ 		[AC_COMPILE_IFELSE(
++-			[AC_LANG_PROGRAM([[#include <sgidefs.h>]],
+++			[AC_LANG_PROGRAM([[#include <asm/sgidefs.h>]],
++ 					 [[int i[_MIPS_SIM == _MIPS_SIM_NABI32 ? 1 : - 1];]])],
++ 			[st_cv_mips_abi=n32],
++ 		[AC_COMPILE_IFELSE(
++-			[AC_LANG_PROGRAM([[#include <sgidefs.h>]],
+++			[AC_LANG_PROGRAM([[#include <asm/sgidefs.h>]],
++ 					 [[int i[_MIPS_SIM == _MIPS_SIM_ABI64 ? 1 : - 1];]])],
++ 			[st_cv_mips_abi=n64],
++ 			[st_cv_mips_abi=unknown])])])])
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/strace/strace_4.11.bb b/meta/recipes-devtools/strace/strace_4.11.bb
+index a72a1f9..95d13e6 100644
+--- a/meta/recipes-devtools/strace/strace_4.11.bb
++++ b/meta/recipes-devtools/strace/strace_4.11.bb
+@@ -8,6 +8,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://disable-git-version-gen.patch \
+            file://more-robust-test-for-m32-mx32-compile-support.patch \
+            file://update-gawk-paths.patch \
++           file://use-asm-sgidefs.h.patch \
+            file://Makefile-ptest.patch \
+            file://run-ptest \
+           "
+-- 
+1.9.1
+
 
