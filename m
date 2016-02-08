@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C92F86E268
+	by mail.openembedded.org (Postfix) with ESMTP id E326D73218
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 15:20:06 +0000 (UTC)
+	Mon,  8 Feb 2016 15:20:07 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Feb 2016 07:20:07 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 08 Feb 2016 07:20:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,416,1449561600"; d="scan'208";a="649015124"
+X-IronPort-AV: E=Sophos;i="5.22,416,1449561600"; d="scan'208";a="649015128"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2016 07:20:07 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2016 07:20:08 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 17:20:04 +0200
-Message-Id: <1454944806-27252-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Mon,  8 Feb 2016 17:20:05 +0200
+Message-Id: <1454944806-27252-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH 0/2] Bugfixes to package signing
+In-Reply-To: <1454944806-27252-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1454944806-27252-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/2] oe/gpg_sign: fix incorrect variable name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,17 +31,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 08 Feb 2016 15:20:08 -0000
 
-This patchset contains two small bugfixes to rpm package and package feed
-signing.
+Prevents crash in signing if GPG_PATH is defined.
 
-Markus Lehtonen (2):
-  oe/gpg_sign: fix incorrect variable name
-  sign_package_feed.bbclass: fix task dependencies
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oe/gpg_sign.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/classes/sign_package_feed.bbclass | 1 +
- meta/lib/oe/gpg_sign.py                | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index 55abad8..821787e 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -58,7 +58,7 @@ class LocalSigner(object):
+                   "--passphrase-file '%s' -u '%s' " % \
+                   (self.gpg_bin, self.passphrase_file, self.keyid)
+         if self.gpg_path:
+-            gpg_cmd += "--homedir %s " % self.gpg_path
++            cmd += "--homedir %s " % self.gpg_path
+         cmd += input_file
+         status, output = oe.utils.getstatusoutput(cmd)
+         if status:
 -- 
 2.6.2
 
