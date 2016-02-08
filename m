@@ -1,45 +1,55 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 206657422C;
-	Mon,  8 Feb 2016 12:08:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 95407180D8;
-	Mon,  8 Feb 2016 13:08:41 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id GAslyPxa3Us8; Mon,  8 Feb 2016 13:08:40 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id AC82C180D2;
-	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 687691584;
-	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 5D372B1;
-	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 582D13E3A6;
-	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
-	Mon, 8 Feb 2016 13:08:40 +0100
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 138B39C075; 
-	Mon,  8 Feb 2016 13:08:40 +0100 (CET)
-Date: Mon, 8 Feb 2016 13:08:40 +0100
-From: Olof Johansson <olof.johansson@axis.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160208120839.GL31212@axis.com>
-References: <1454695470-8205-1-git-send-email-mac@mcrowe.com>
-	<CAJTo0LbrD3JrzKM--emSMxDyERK4qstMVsMQ4VXisMpc6AvqqA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbrD3JrzKM--emSMxDyERK4qstMVsMQ4VXisMpc6AvqqA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/15] Prepare for EXTRA_OEMAKE = "" in bitbake.conf
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 70F2D6FF78
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Feb 2016 12:35:23 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id d63so192917659ioj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Feb 2016 04:35:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:content-type:mime-version:content-transfer-encoding;
+	bh=s78mKqTzpYzpOhBt9/5iqPTvJ3S/qY2WliVKUTQ12bg=;
+	b=asb+74o4WF1gzk+kGSexjkk11DyMHwRPNciZK1NlJMxoKhRiTrHsqJssEkL4TEKIbz
+	rTwlmA2bJu43ZbcnQpK2zkArTshZquUzxUH/19VxpBy/C0TKxduWHxto2OgNQu7hF5ic
+	IP4N2UOfCcxJ3zk7X1L1GL4LOTwFTLvu6T0IPz6OyvMrp9BJnU96yoSGytzFcxe3V6ga
+	q/byXEpgqBz/EncQkNRlK/DmHhHRvZex5IwUtUNtuFmDhSa/aRD9XUPNZ4kQ8j5nJqTN
+	Tbg6tfGXEfJEAYbOqgCTgPEebAkpXywpswWhsFPdLBuGydRsmjTzKVojzzIU/thRtBNM
+	A+sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=s78mKqTzpYzpOhBt9/5iqPTvJ3S/qY2WliVKUTQ12bg=;
+	b=Bq8Jep4bJfYOGvyQA25i9es7cbPyMcwoLF2M6QH9/f4zJ9aBy1kzazJj9/Z+BDhUDJ
+	tsG+i0vfHcFfC6HtnRec4N/qLWmnJjoedJrpyQAQhUlPdVYfA/4P9pEXTLk1N2rEai0y
+	DDBX0jaHEf+JM2eagjASzRTJG6v0w6yN40dkcsLi9r3XfpC67rGp286z4qQV3Pu0qeFd
+	I7rtH8ZdNmCSm/MPhFoHkLy8rBzQZ1UsOKXW15384xk9PWugXP3u8m4vwoQ/Rdn/z6Jo
+	U4+R6o2EuE++24oFAwml91uQnIF/AAjq5l4TElfSV1yPB2BiVGzNQx60pPizmYAqXSVu
+	DqBw==
+X-Gm-Message-State: AG10YOQYrvW2bfyCl1PbOaaALDq9zx8R4qQwNXovZ5l1TIgQ1FkhP7dhQ5bTiWjEJnsC5B/g
+X-Received: by 10.107.132.214 with SMTP id o83mr28659873ioi.32.1454934924096; 
+	Mon, 08 Feb 2016 04:35:24 -0800 (PST)
+Received: from pohly-mobl1 (p57A57FB6.dip0.t-ipconnect.de. [87.165.127.182])
+	by smtp.gmail.com with ESMTPSA id
+	w191sm12430492iod.30.2016.02.08.04.35.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Feb 2016 04:35:23 -0800 (PST)
+Message-ID: <1454934920.8641.4.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 08 Feb 2016 13:35:20 +0100
+In-Reply-To: <1454921553.16142.42.camel@linuxfoundation.org>
+References: <1454914617-2042-1-git-send-email-patrick.ohly@intel.com>
+	<1454921553.16142.42.camel@linuxfoundation.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: paul.eggleton@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildhistory.bbclass: remove out-dated information on request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,53 +62,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 12:08:42 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 08 Feb 2016 12:35:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16-02-08 11:49 +0000, Burton, Ross wrote:
-> On 5 February 2016 at 18:04, Mike Crowe <mac@mcrowe.com> wrote:
+On Mon, 2016-02-08 at 08:52 +0000, Richard Purdie wrote:
+> On Mon, 2016-02-08 at 07:56 +0100, Patrick Ohly wrote:
+> > buildhistory.bbclass by design is incremental: each build adds or
+> > updates information. Information is never removed.
+> > 
+> > Sometimes it can be useful to reduce the information only to those
+> > recipes that were build during a specific bitbake invocation, for
+> > example when the invocation does a full world build.
+> > 
+> > This is now possible by invoking bitbake with:
+> >    BB_ENV_EXTRAWHITE=BUILDHISTORY_REMOVE_OLD
+> > BUILDHISTORY_REMOVE_OLD=1 bitbake
+> > 
+> > In this mode, buildhistory.bbclass first moves all existing
+> > information into a temporary directory called "old" inside the build
+> > history directory. There the information is used for the "version
+> > going backwards QA check". Then when the build is complete and before
+> > (potentially) committing to git, the temporary directory gets
+> > deleted.
+> > 
+> > Because information that has not changed during the build will be
+> > reconstructed, a git log will then only show real updates, additions
+> > and removals.
+> > 
+> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 > 
-> > This series (sent only to openembedded-core) fixes various recipes
-> > that rely on the current default value of
-> > EXTRA_OEMAKE = "-e MAKEFLAGS=" to explicitly set that value in the
-> > hope that bitbake.conf can set EXTRA_OEMAKE = "" in the future.
-> >
-> 
-> We need to also vet all instances of EXTRA_OEMAKE in recipes.  I did a
-> build with the EXTRA_OEMAKE change in bitbake.conf and hdparm failed to
-> pass QA because the binary was already stripped, as the recipe does
-> EXTRA_OEMAKE += "STRIP=echo".  That assignment isn't getting through to the
-> makefiles without -e.
+> The implicit assumption here is that you'd only every build large
+> targets like "world". A "bitbake bash" isn't really going to do what
+> you'd expect/want.
 
-It should though, since all -e does is to make the environment
-variables take precedence over make assignments. But in case of
-assignments in EXTRA_OEMAKE, they are make assignments, so they
-shouldn't be affected:
+Yes, I know. I think the "reduce the information only to those recipes
+that were built during a specific bitbake invocation" is a bit clearer
+about that than the last paragraph, which assumes a full build.
 
-$ cat Makefile
-FOO = bar
+> I think we need to make that clearer in the comments and that this is
+> only useful on automated infrastructure.
 
-all:
-        echo $(FOO)
+I wouldn't say that. One could do "BUILDHISTORY_REMOVE_OLD=1 bitbake
+<something> && bitbake <something else> && bitbake <even more>", and
+that would work fine also when doing manual builds. The drawback in that
+case is that the version-going-backwards check does not work for
+<something else> and <even more>.
 
-.PHONY: all
-
-
-$ make FOO=qux
-echo qux
-qux
-$ make -e FOO=qux
-echo qux
-qux
-$ FOO=qux make
-echo bar
-bar
-$ FOO=qux make -e
-echo qux
-qux
-
+Perhaps it would be more appropriate to replace BUILDHISTORY_REMOVE_OLD
+with "BUILDHISTORY_RESET"?
 
 -- 
-olofjn
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
