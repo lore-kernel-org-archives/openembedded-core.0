@@ -1,49 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D30636FF5B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A0D560043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 20:35:21 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id e127so1529127pfe.3
+	Mon,  8 Feb 2016 20:36:44 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id c200so33185910wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 12:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=JCcdugQtbOV4egG2yDx+I+OK3mMNl2emd7HvqCoVhcg=;
-	b=Uon4LMusOMZnlGj5WMCQUY2CD32ZhIoPlsvL6RMQzY4XvQb01suV9V5khUYeukn9wV
-	WIJgYjx6B03TESm017Yj1VzrEdBl60+JLc+VRt/UOUVGzr8vl0xyQA1hJyD3cfYvDjjl
-	IskTl/UimexZG1fCEU3PxO6UEWGTG0R2b3xg/FWQKIDK5X3GCNaNFZC6pJBnQRiXLwIi
-	5Uvflf1R23XygVIZIjSt0xAupU2kphnJZGqlChTzL5uUX1Q0B/+xzQPYOnHUu3SM1REQ
-	n3VuMiIDOFyhv23o6P0wTvaAs8MZN7E/UDNVLd3A+KDP8ioHuW3Vdj57MT4grYUj31UE
-	3W3Q==
+	Mon, 08 Feb 2016 12:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=x+I4i2Q4ZYHsYNDSTEoF8zFAhNG2yIMPNoV3sQvMjCY=;
+	b=EDV0kN9UOXDq+CLlkITBp7J1rkrn1mtc8aQT+M7vppldqRJNQNxeV61dPy8Pv7vs9l
+	qWCODOi4aWVIUj2wRwIjkWOZUcY3/V+PfDr/tC0n1XxjD9VRd5KAeAHuyfXI3U0ce3GP
+	yv0HF4G5LD0/h613B5vYgo0y7KbvB2aXKFFItI/STuAGJcWaODhsLWtMA8sIpg12Ktrt
+	EC1pnzmZU9MrTsxBkZGxe01WnhnSHAno6mghJLmt58py5jMoJ2XoLnw/XAnxs5mKvJ/W
+	Eyu9sMYvEESQINhiswKrIIe1Db4EiXbTICNWtVDATZhjWBEm+OtxJLlPB32R71zzP+wf
+	QnHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=JCcdugQtbOV4egG2yDx+I+OK3mMNl2emd7HvqCoVhcg=;
-	b=Cp7d7Kd7gnFs3LRVsh1x8dWzlj57fbyZlpQUphz5GWZ91KeQMiGf2miFyalOtzPPrP
-	PiUrjduBiJFyyDix6AIT7C2NLSPsoZIfzbEY9Q8UIF2nErb/sB2ry1Y162u+xHa2FnRH
-	eIqFKMjmiWylraXmT2E5b5fMKc1CThqxBrOjK9v4ue7qdyP+4CdABf1CwbqfRWZbRtHR
-	XMZXrMYeTux562NrL7LSP8TWDGURvhu5+eX7uLN4wUEPN5Sjb3JQBXQypu6oKp/0ikcJ
-	+Yg69z+m3gCTmgbmNVXoaFsuewZuqOu2cgiv8WrnbowbxKGAhFr66/wnXSQQHfnGhUTV
-	wCSQ==
-X-Gm-Message-State: AG10YOSyjXJ4l1u4SkL2a/4g94CzE/ovlTwuLojJnhdWvVVE91OXecMhvpkoMPZzMcWTuw==
-X-Received: by 10.98.74.144 with SMTP id c16mr19706557pfj.129.1454963722373;
-	Mon, 08 Feb 2016 12:35:22 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=x+I4i2Q4ZYHsYNDSTEoF8zFAhNG2yIMPNoV3sQvMjCY=;
+	b=YrKsbU5nBh4F9SKpubJEcDGMVg1mAKJYTgPxiGBu0wgtAa+zYvvTqXcgMCQZz2BJfZ
+	2F/9Qq7UCxMQUomfA3IrJG/s4w3NUXSn1KTugJ0Na/O5fIY5HXDQau+2YtftVvwrj4kD
+	p8nVJL1MSLyS13Cv68KTxkeTcqw+8pBkQni8jY7BekYfIzDy6fPsTUBeL8SjyTlnV6cB
+	AkhdhwHJVsvRAtE4svyK0sSzsfN6st5sk9jmn4a/xDR8wvYevm9BJUK7YNEXMWPdDWug
+	NLu1KfYkuEr81aYg2oLyF3r0pqZ38odN0CZM8+vPoK31jYp1sCaTEuMxVuZNPzbvvQmq
+	Kvfg==
+X-Gm-Message-State: AG10YORXEJg6zsBzaQ5nSdFZntxrDYceLDSLdEFD07jV/vl0+oVtEuS57UT2mwoyL83MRnY9
+X-Received: by 10.194.112.41 with SMTP id in9mr29657688wjb.139.1454963805421; 
+	Mon, 08 Feb 2016 12:36:45 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	u90sm45313301pfa.60.2016.02.08.12.35.21
+	ka4sm31423049wjc.47.2016.02.08.12.36.44
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Feb 2016 12:35:21 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Mon, 08 Feb 2016 12:36:44 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 12:34:41 -0800
-Message-Id: <1454963681-18756-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1454963681-18756-1-git-send-email-armccurdy@gmail.com>
-References: <1454963681-18756-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/2] libproxy: add PACKAGECONFIG control for gnome3
+Date: Mon,  8 Feb 2016 20:36:43 +0000
+Message-Id: <1454963803-23136-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] lib/oe/qa: check that a path is a file before opening it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 20:35:21 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 20:36:45 -0000
 
-The gnome3 module was previously enabled by default, so enable the
-gnome3 PACKAGECONFIG option by default too.
+Check that a filename points to a normal file before attempting to open it, as
+if the file turns out to be something more exotic like a FIFO it could hang
+forever.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.11.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oe/qa.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.11.bb b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-index a523857..11a23b1 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-@@ -19,9 +19,11 @@ inherit cmake pkgconfig
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index d5cdaa0..4cb5b98 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -31,6 +31,10 @@ class ELFFile:
+         self.objdump_output = {}
  
- PACKAGECONFIG ?= " \
-     ${@ '' if incompatible_license_contains('GPLv3', 'x', '', d) == 'x' or bb.utils.contains('DISTRO_FEATURES', 'x11', 'x', '', d) == '' else 'gnome' } \
-+    gnome3 \
- "
+     def open(self):
++        import os.path
++        if not os.path.isfile(self.name):
++            raise Exception("File is not a normal file")
++
+         self.file = file(self.name, "r")
+         self.data = self.file.read(ELFFile.EI_NIDENT+4)
  
- PACKAGECONFIG[gnome] = "-DWITH_GNOME=yes,-DWITH_GNOME=no,gconf"
-+PACKAGECONFIG[gnome3] = "-DWITH_GNOME3=yes,-DWITH_GNOME3=no"
- 
- EXTRA_OECMAKE += " \
-     -DWITH_KDE4=no \
 -- 
-1.9.1
+2.7.0
 
 
