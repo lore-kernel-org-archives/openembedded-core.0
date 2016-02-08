@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
 Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
 	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 746CA7327E
+	by mail.openembedded.org (Postfix) with ESMTP id 23DDB7327E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 19:35:50 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id y7so172978paa.2
+	Mon,  8 Feb 2016 19:35:52 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id fl4so401654pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 11:35:51 -0800 (PST)
+	Mon, 08 Feb 2016 11:35:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/rcrgunk5fWzQpIbTTxI0nviVOXtlJ2m0hgTqZYdjhc=;
-	b=YTh+hhuYsfaCKhSp6atwd/U0Oiq+7t7ZILHHETNsKg7ZtagQLC4c7/isctwAqPNdT6
-	ylIB+vhkn77k8+XmVxmRtxKxl454UPT6dJ+aFGr+ZBEhyPdjuwohF+wYTOzYj8lyB2bS
-	iPDw6YIC5Fprv96Uby/9YcqU5Kmqwvl936it+fYv3D+3PNjMmMhpgaKELB5UAP2YGKZK
-	oAMABNroMc/mhWfwUFG6ixNNuaQbrofbda4a59QdHdm35cmo5wIkETgYBaVBQ7xWyyZq
-	exhqEEkjdHVm/c57w7URuGFbHJn3KZTuMyQAwiQgeWTDeFN8O36Cs+/cqkRIkRNh9owa
-	iARg==
+	bh=4lgPTnuxlikLBeGjmSNj2M2FLnt421gXWhvbBooutQU=;
+	b=kYmyou63FcWnvAViHTibVbeC/xY8K3GNGEm8N8+zlhP3eTRKYsV0AztErFfeam3gx9
+	VWVTNPSojw1XaTFSO9irfaFIImHsZdx++9+R1yd/UtRwAvwDmIwScTIjiOI665wrB6js
+	KJ112q1SEU/RcQe0RkGaUXnyoqL0gU0BUgKWxjfKOy9m1L7R+2jzNDpUPQsdzOa5KcDi
+	fQ3/mvnTG5AXovapWusYACnCwDPUv883BVUIzRCrskivfYyx1RRkkPiZSJ0eUmxBEFwF
+	rrqw1COlQ4oEyTzTMittaeyuoCkrOVrmoJqhqUOXlv3UGz4PJW1+u6pK9hhrHsuW8zc7
+	jb8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=/rcrgunk5fWzQpIbTTxI0nviVOXtlJ2m0hgTqZYdjhc=;
-	b=lfF53owKV+BF0nyAvdfZ8s5ni3610t0ZPF04h0FVcLfzs2HtdUF8ruhBqYSF+oFvKJ
-	xo0JyHiHt05Kj96bUnEI/RnUF7Kvb2P58meNy9MkqfWYgfUhR9UhICvAIrTPTtuOd4zi
-	QH1JtZX4fwMo7CZBfFgUApDy30Rm6GtvFiNeCV3HJO+dlUV/c3gxQJBBDyGrpBOrtp4v
-	hP/UGAmYorJpDJqQ2btKVGoF0xqi+HJt6OjA0v0AXMFwLohoWwjetSb+i7WNm1vS1dwg
-	vHxr+h3YzCettui17q1clrXOssBTEOl6ncNVFQuZtK4dgEMnre9+TtS5yvRwYRrSudPk
-	+Wwg==
-X-Gm-Message-State: AG10YOTJ8zoNSnZAygi/hmqf3zkG5LCrpto3eDAO+AAKghlvoYE3KZMaxODtrCu81oRG/w==
-X-Received: by 10.66.232.202 with SMTP id tq10mr44718102pac.14.1454960151510; 
-	Mon, 08 Feb 2016 11:35:51 -0800 (PST)
+	bh=4lgPTnuxlikLBeGjmSNj2M2FLnt421gXWhvbBooutQU=;
+	b=i1Noexd9q7D8MV4oDd1zdE8IBKt+r3yrL4phjxpbdkROds1SXxLugLw3pYzj2dk9+d
+	gskon4R1H0a/r0p7nr9Y+t1Q8kuwfQNZNgurEHlGFNxw/28b+F7LghvXQrIfgbY0CNtS
+	ICI/8RrewesOrktoUo3WBewR4nwLGAWxnfg/OtaWc/83mQuk0/jbvujq6qOV+MI4l+9e
+	XhPTiDDi4q9myeTQ+7EcYZg9/R+k0MKuNbRhG1vrArPrK+wvCU/WYQ7FRC+VUiw/gAcA
+	/Qaz0yHUhAvVq3z3CgTyPU+n7vKM+kkldhGeJNh5U46p0+2d+OeBw/IR/wCmIh+pbmaG
+	WXJw==
+X-Gm-Message-State: AG10YOR+vqLoGLEN+exT/NYBV9bIi8IAQAGcO9R1+ZKrEk5d6MOeeS6qvO/YU13MyPW7kg==
+X-Received: by 10.66.252.163 with SMTP id zt3mr43184883pac.127.1454960153225; 
+	Mon, 08 Feb 2016 11:35:53 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	70sm32085872pfs.78.2016.02.08.11.35.49
+	70sm32085872pfs.78.2016.02.08.11.35.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Feb 2016 11:35:49 -0800 (PST)
+	Mon, 08 Feb 2016 11:35:52 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 11:35:40 -0800
-Message-Id: <1454960141-18350-2-git-send-email-armccurdy@gmail.com>
+Date: Mon,  8 Feb 2016 11:35:41 -0800
+Message-Id: <1454960141-18350-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1454960141-18350-1-git-send-email-armccurdy@gmail.com>
 References: <1454960141-18350-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/2] gdb: build fix for MIPS + musl libc
+Subject: [PATCH 2/2] gdb: drop unnecessary CC_FOR_BUILD etc exports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,73 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 19:35:51 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 19:35:52 -0000
 
-The MIPS specific header <sgidefs.h> is provided by glibc and uclibc
-but not by musl. Regardless of the libc, the kernel headers provide
-<asm/sgidefs.h> which provides the same definitions, so use that
-instead.
+These exports are all provided by autotool.bbclass
+
+  http://git.openembedded.org/openembedded-core/commit/?id=edf30561184ec42e5692a55fdf93304fac0fdb1b
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc                  |  1 +
- .../gdb/gdb/0001-use-asm-sgidefs.h.patch           | 35 ++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-use-asm-sgidefs.h.patch
+ meta/recipes-devtools/gdb/gdb-common.inc | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 4ea14c1..1dd6551 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -6,6 +6,7 @@ SRC_URI += "file://0002-Change-order-of-CFLAGS.patch \
-             file://0003-Add-support-for-Renesas-SH-sh4-architecture.patch \
-             file://0001-Use-exported-definitions-of-SIGRTMIN.patch \
-             file://0001-include-sys-types.h-for-mode_t.patch \
-+            file://0001-use-asm-sgidefs.h.patch \
-            "
- #LDFLAGS_append = " -s"
- #export CFLAGS_append=" -L${STAGING_LIBDIR}"
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-use-asm-sgidefs.h.patch b/meta/recipes-devtools/gdb/gdb/0001-use-asm-sgidefs.h.patch
-new file mode 100644
-index 0000000..eaec390
---- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/0001-use-asm-sgidefs.h.patch
-@@ -0,0 +1,35 @@
-+From 677b5b56135141c0d259e370aacd0e11c810aa15 Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Fri, 5 Feb 2016 14:00:00 -0800
-+Subject: [PATCH] use <asm/sgidefs.h>
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 6baeb0b..06272a9 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -22,16 +22,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
+ 		file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+ 		file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
 +
-+Build fix for MIPS with musl libc
-+
-+The MIPS specific header <sgidefs.h> is provided by glibc and uclibc
-+but not by musl. Regardless of the libc, the kernel headers provide
-+<asm/sgidefs.h> which provides the same definitions, so use that
-+instead.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+---
-+ gdb/mips-linux-nat.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
-+index a36bb63..fd5c705 100644
-+--- a/gdb/mips-linux-nat.c
-++++ b/gdb/mips-linux-nat.c
-+@@ -31,7 +31,7 @@
-+ #include "gdb_proc_service.h"
-+ #include "gregset.h"
-+ 
-+-#include <sgidefs.h>
-++#include <asm/sgidefs.h>
-+ #include <sys/ptrace.h>
-+ #include <asm/ptrace.h>
-+ 
-+-- 
-+1.9.1
-+
+ inherit autotools texinfo
+ 
+ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.gz \
+           "
+-export CC_FOR_BUILD = "${BUILD_CC}"
+-export CXX_FOR_BUILD = "${BUILD_CXX}"
+-export CPP_FOR_BUILD = "${BUILD_CPP}"
+-export CFLAGS_FOR_BUILD = "${BUILD_CFLAGS}"
+-export CXXFLAGS_FOR_BUILD = "${BUILD_CXXFLAGS}"
+-export CPPFLAGS_FOR_BUILD = "${BUILD_CPPFLAGS}"
+ 
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
 -- 
 1.9.1
 
