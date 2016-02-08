@@ -1,22 +1,24 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DB57F6E268
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 64D7D6E660
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 15:20:08 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Feb 2016 07:20:09 -0800
+	Mon,  8 Feb 2016 15:22:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Feb 2016 07:22:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,416,1449561600"; d="scan'208";a="649015137"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2016 07:20:09 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,416,1449561600"; d="scan'208";a="907856687"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.31.93])
+	by orsmga002.jf.intel.com with ESMTP; 08 Feb 2016 07:22:52 -0800
+Message-ID: <1454944971.3396.8.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 17:20:06 +0200
-Message-Id: <1454944806-27252-3-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <1454944806-27252-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1454944806-27252-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/2] sign_package_feed.bbclass: fix task dependencies
+Date: Mon, 08 Feb 2016 15:22:51 +0000
+In-Reply-To: <1454885003.27087.344.camel@linuxfoundation.org>
+References: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
+	<1454885003.27087.344.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: Stable branch rules [Was: Re: [PATCH][jethro] glibc-locale: fix QA warning]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,27 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 15:20:09 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 15:22:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This dependency was already added to sign_rpm.bbclass. However, the same dep needs to be
-added to sign_package_feed.bbclass, too, to cover the case where rpm
-signing is disabled but package feed signing is enabled.
+On Sun, 2016-02-07 at 22:43 +0000, Richard Purdie wrote:
+> On Sun, 2016-01-31 at 11:55 -0800, Armin Kuster wrote:
+> > From: Armin Kuster <akuster@mvista.com>
+> > 
+> > WARNING: QA Issue: glibc-locale: /glibc-binary-localedata-sd
+> > -in/usr/lib/locale/sd_IN/LC_CTYPE is owned by uid 1000, which is
+> > the
+> > same as the user running bitbake. This may be due to host
+> > contamination [host-user-contaminated]
+> > 
+> > fix type
+> > Signed-off-by: Armin Kuster <akuster@mvista.com>
+> > ---
+> >  meta/recipes-core/glibc/glibc-locale.inc | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Enough is enough.
+> 
+> I cannot tell whether these patches are in master or not or whether
+> master needs them or not. Master needs this one, its not in master,
+> its
+> only being proposed for jethro. Its a mess.
+> 
+> I am therefore not taking any more stable branch patches at all until
+> we amend the stable branch rules to state that pull requests and
+> patches clearly state which branches need a fix, or clearly state why
+> they don't.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/sign_package_feed.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+I made an attempt at starting to documenting that requirement:
+https://wiki.yoctoproject.org/wiki/index.php?title=Stable_branch_mainte
+nance&diff=17480&oldid=17028
 
-diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
-index d5df8af..63ca02f 100644
---- a/meta/classes/sign_package_feed.bbclass
-+++ b/meta/classes/sign_package_feed.bbclass
-@@ -35,3 +35,4 @@ python () {
- }
- 
- do_package_index[depends] += "signing-keys:do_export_public_keys"
-+do_rootfs[depends] += "signing-keys:do_export_public_keys"
--- 
-2.6.2
+'Patches' welcome.
 
+Regards,
+
+Joshua
 
