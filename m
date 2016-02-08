@@ -1,61 +1,53 @@
-Return-Path: <urs.fassler@bbv.ch>
-X-Greylist: delayed 915 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 08 Feb 2016 12:47:37 UTC
-Received: from emea01-am1-obe.outbound.protection.outlook.com
-	(mail-am1on0062.outbound.protection.outlook.com [157.56.112.62])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F226FFDA
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8887473D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Feb 2016 12:47:37 +0000 (UTC)
+	Mon,  8 Feb 2016 13:11:15 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id d63so193801400ioj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Feb 2016 05:11:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bbvSoftwareServices.onmicrosoft.com; s=selector1-bbv-ch;
-	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=aTM7pFCrqAn8l8MqHFaFqPWie2uye+VDLBFZFx/u+hs=;
-	b=Qa90bSuAfIZEQ2pVHN3EEn+T1+rcWX2C9jxUtal7bYrk7kBAfqLloKoBchij4HwxfhLjLFPrJq8iwLnslxCy+dItY68bux6B5z1e8fhZLN8tnl6DpI0K1f46k33OwJVjU5j+UKVf+sslhvzNx0OhuYzyuwPIdBGi7m1i7sQCOCg=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
-	header.d=none; lists.openembedded.org;
-	dmarc=none action=none header.from=bbv.ch;
-Received: from talon.bbv.intern (46.140.25.6) by
-	AMSPR03MB017.eurprd03.prod.outlook.com (10.242.79.145) with Microsoft
-	SMTP Server (TLS) id 15.1.396.15; Mon, 8 Feb 2016 12:32:21 +0000
-From: =?UTF-8?q?Urs=20F=C3=A4ssler?= <urs.fassler@bbv.ch>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Feb 2016 13:31:58 +0100
-Message-ID: <1454934718-9034-1-git-send-email-urs.fassler@bbv.ch>
-X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-X-Originating-IP: [46.140.25.6]
-X-ClientProxiedBy: DB5PR03CA0026.eurprd03.prod.outlook.com (25.162.150.36) To
-	AMSPR03MB017.eurprd03.prod.outlook.com (10.242.79.145)
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR03MB017;
-	2:fKqYyyAtwo7WvvLYHtTSvNcZdPxL6BwxAeiOPnOT1uILu5jcbvTKgZRJkmO5InTDtfqOcdZkU61JaSRdjWKs81DoZWtBWh+ASdBgtiLjrBK5WIxk3M6b3a7hZzcTQEiZn0GDjqww1Y9FJRRhzQWeqw==;
-	3:5J5hJuJ5WV5YeyZDPm5/EoLrHe6RQ8oDFGMkxgZdKBjLG5EL92qzG92iFGY40pGOXauuwICmCCdwyA/Kv5sowF3WL8V1uYd7mT0IxbemQfsMgqESUIn8VC6RFK4bsXX3;
-	25:/svYMUMncpHqhH314b4HLJCOcsqi9HWVd0NqDsTVR0zBoUtZZcyApavWeNwyx5Z+GCVzVHgUX+TDjabs5HuFQZp/tVg1oPjDWQREHiFnsPpXZYwO44c25GG3GQWCr0zW1PRfToY5zGzbXs65uPZ7vignEg+setlq8lgF/XayGuYQV0WA/sp5AjOa8ChD1JuLJQ37Vu/RnFrO0VCs4EDbZfeTOI7mCq9J2UmB+zWPkfECYj3KQs3R3eT1uOavp/oog2PhDteomk+ZDl00b8Q63/EwNiJzLjayMR/HkqoCMyJ+MnPxajcpVnIB6fE/ATW6
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR03MB017;
-X-MS-Office365-Filtering-Correlation-Id: 6d71ebd5-868a-4d1f-f135-08d33083e421
-X-Microsoft-Antispam-PRVS: <AMSPR03MB017649B77E602B07AA8DB138FD50@AMSPR03MB017.eurprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001);
-	SRVR:AMSPR03MB017; BCL:0; PCL:0; RULEID:; SRVR:AMSPR03MB017; 
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR03MB017;
-	4:H0NH1u2kH6b1ei6b8Uomw0U8xjdwrqkmd5Sqo+dJpInN9lZj6ksjuYKYkPwDc+7wXOOsyQwgpugZC5rphXQ/QFNMIGOGJayCqrFhs5o2vTx8/Yd5QXLPDG5oeoD372URq2ooS3vKR2yE7WNiZnMPetb+R6wl2DQMRKpMRR7q5dxrdxG9FAA1bXjlqdzCFX0hp7chp/m9sEVB3xeXm+IsTCwW1nAssU1qkA/+3pV7N3avk+jIkF53zx5WjslHv2NquDsTTxPMlsZxIwS6+URhnbyTUGIRlA/TxJH+ghJXn20HEqDQAElBq58yD/V/fBr6dtpKESDfZtbL6PHVBpoImlFOw5ZTwWs37RciGR8NCLjyTpK+LcqZIaTazMxkvGHs
-X-Forefront-PRVS: 084674B2CF
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(6009001)(2906002)(50986999)(19580405001)(42186005)(229853001)(92566002)(86362001)(40100003)(19580395003)(87976001)(2351001)(50226001)(5004730100002)(50466002)(33646002)(3846002)(6116002)(450100001)(66066001)(77096005)(4326007)(586003)(1096002)(5008740100001)(5001960100002)(110136002)(36756003)(23676002)(189998001)(122386002)(5820100001)(47776003)(74482002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AMSPR03MB017; H:talon.bbv.intern;
-	FPR:; SPF:None; MLV:sfv; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR03MB017;
-	23:DE47IipplLgrsec73wAn5ROs9NARSKOFlkvRZxMYKf86HbjAzR3OOjKffnzI4XWkeN4M/AU40IHAtfBnqCVDqkeF/ANB++icVhcY43b3ryVNR/kpPfDE5NP6VdlIFIjot/id9BqCBCDYxy4BJLcxQ+qf6/+0WQyeSHE9j98mnsiYUjD9PLWzxSuWd/0jmKIU2zFJcmxdttHVQr7rnLl/krKDkYHJ+LmCYzjkIZWYZw2Voc+9E+QKRAYlDR0NJW7uy5tGwsQvO6ZXc1w3r/4B+aWMkbxJMFxEPJkssLegE3k2ue2ZFpFEwPbd70ePWd9BySFXY5+AFGEzffL7jAFFCAakYbVNxw0bRdLVhKss2tDHnkIqJ5kMTVQEbAQG1I/Xgpnn7zdE0d19+SXFg59r0m7G7qSdLDqH/0s97GD7pVWr4DYo8s7nXSHA+Z9X8IjeYEXnLGuK2H1k62b22P2Onch5Mrr5oSgiScmkLlPknidNPwsuQslBEKR6HxAb4IaUaY6HJh8vxvlvr6BCTGVIAT+gB4rMRawX0OzoSUlSaxsm4VtAoha47ku9eXp4Oo62NeMNW2z4AL/HzaWMCNU0Kvc5LsHcRF4VmmxAaexJAMMYkPLrGBbDcWG7TWgswmwc0/4YZhO7RxbxqSLOnu6DEBh8DFuBwLwWlDljxWjdXzzE18HhZvUznp8/VKdJ+2mK4px2BVDDZrxKixa/rxI1aQbvSbfQu08Ba9G8MvKDGdThXIRWH/hR0v1FhrPaTEVrEaVeA+CmBoXBZ005cebN52nshSze/sJgRO+Zo/A+GjSszrI1D+Hh/RoTb3yXIsFC3rbz2AFK00TRpb+ajK2zNKEPcV7ZxJ84r/J4z9+W2OtbkmiQ7zV6JU+9yx9CBo+mJVT2u/3hxqdvlAHvPPkfRu6D/PuXhgl8+DSs7gCWSi4=
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR03MB017;
-	5:gfa8allzlwLCT+KfSC5hfH4+Oe/xVE93Kwn7m5dGDY/kbiB4RWpzOczDqmpEjvq4o2dxYB5yCpVGXk9eXk7po0cq2iy6HbIAONhgFjKtHpAtQHeddolKXKLL+iuAdnzvRDRA5DxrLWuRmmSMHcIfww==;
-	24:roLTxseXe3eqpXPC2A18dyz89yRcYMTO9qd1DMVMrLlZeYOUNwZ4j3NcfRR2GtwN1ScimJ1K31pgNqvj2LP4zcjJzMF+CCEsZHCA3gMPbjE=
-SpamDiagnosticOutput: 1:23
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: bbv.ch
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2016 12:32:21.3154 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR03MB017
-Subject: [PATCH] initrdscripts: fix mmc device as install target
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:content-type:mime-version:content-transfer-encoding;
+	bh=ctbonIx7JD3b+rVovReZDBQcTZaMUOyu6QA0QBR/NZ0=;
+	b=IEGOSKW38YfXHn3aRv9whh8EYOk+s8FY1iEeeivHA13I7B6SfCCJVeAmilt324KWC3
+	05EuYJyIMM7dytW881ACp85zahTKr7XyXitZ6oNHoiPo+SLQ+hi0GcKLGSNX/pK4fTB6
+	b77lkvXRCDRHXDFtI9KzR+QEPLomX1s9tt8iC35QiwthPHA5ISiIIKmJ5LTHfiYW7c8P
+	Nu3J0BN+0HxY7izcscvtOnn9SzgamYRApfELdBr0S7jtf5KiQuJ/LkyBQzRv/1I1o4P6
+	GvyxmKFil+Cak5XfYu2TWSRFgE5Fr2Z541CI057H/IkU6tZI2S4exIx8Go7PblAskVeR
+	Hj/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=ctbonIx7JD3b+rVovReZDBQcTZaMUOyu6QA0QBR/NZ0=;
+	b=iXAUYdCixEpfVE5PhOZrs/NumvMS0yVSpkTezaw216AtUo7hiJpd0u1Gmh+UT36WlB
+	dMYDui+RxFJMZRdulp1OSgI7DAo1NFFzc3fpHfw1uYlYZecYq3wFmiRYlAqFEY2OvMq0
+	rxJAJ71xeF1x7IhsEBpiYdVN/yzo3K3tRHWADn3vvfWw0YpVNSu8kKVPRpvvnTBevFbe
+	tHirKp9B+YFg6F09ULoBbqk6EaoWpihj1TBqONjonQPA8YM6LX0tAyMtPslWCc3k8iAt
+	kfdYSz8/jybFP6CJHO2aW0C0PnV1hxYfCCj65mJRDZ2exts4AniueuWrc2ucCByuigLU
+	cRiQ==
+X-Gm-Message-State: AG10YOTA7U86QyCC9SP5E3fvndJolbD3G7nkCtGAZJ4+L4oAqrdiYNs3gopJGNz8SQm5ht/U
+X-Received: by 10.107.184.135 with SMTP id i129mr21857434iof.4.1454937076586; 
+	Mon, 08 Feb 2016 05:11:16 -0800 (PST)
+Received: from pohly-mobl1 ([87.165.127.182]) by smtp.gmail.com with ESMTPSA id
+	77sm12362510ioh.21.2016.02.08.05.11.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Feb 2016 05:11:16 -0800 (PST)
+Message-ID: <1454937068.8641.7.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 08 Feb 2016 14:11:08 +0100
+In-Reply-To: <cover.1454135035.git.raj.khem@gmail.com>
+References: <cover.1454135035.git.raj.khem@gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] binutils 2.26 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,60 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Feb 2016 12:47:38 -0000
+X-List-Received-Date: Mon, 08 Feb 2016 13:11:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Installing from USB to an internal SD Card did not work with Linux 4.4 in Yocto jethro. With this patch, consistent names are used for the paritions.
+On Sat, 2016-01-30 at 06:28 +0000, Khem Raj wrote:
+> Upgrade binutils to 2.26
 
-Signed-off-by: Urs Fässler <urs.fassler@bbv.ch>
----
- meta/recipes-core/initrdscripts/files/init-install.sh | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Has anyone besides us encountered issues when compiling u-boot with the
+new binutils? It builds, but then fails at runtime. Bug filed at
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=9057
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index f9e9768..1925d90 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -141,7 +141,7 @@ swap_start=$((rootfs_end))
- # 2) they are detected asynchronously (need rootwait)
- rootwait=""
- part_prefix=""
--if [ ! "${device#mmcblk}" = "${device}" ]; then
-+if [ ! "${device#/dev/mmcblk}" = "${device}" ]; then
-     part_prefix="p"
-     rootwait="rootwait"
- fi
-@@ -211,13 +211,13 @@ echo "Copying rootfs files..."
- cp -a /src_root/* /tgt_root
- if [ -d /tgt_root/etc/ ] ; then
-     if [ $grub_version -ne 0 ] ; then
--        boot_uuid=$(blkid -o value -s UUID ${device}2)
--        swap_part_uuid=$(blkid -o value -s PARTUUID ${device}4)
-+        boot_uuid=$(blkid -o value -s UUID ${bootfs})
-+        swap_part_uuid=$(blkid -o value -s PARTUUID ${swap})
-         bootdev="UUID=$boot_uuid"
-         swapdev=/dev/disk/by-partuuid/$swap_part_uuid
-     else
--        bootdev=${device}2
--        swapdev=${device}4
-+        bootdev=${bootfs}
-+        swapdev=${swap}
-     fi
-     echo "$swapdev                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
-     echo "$bootdev              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
-@@ -234,8 +234,8 @@ mount $bootfs /boot
- echo "Preparing boot partition..."
- if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
-     echo "Preparing custom grub2 menu..."
--    root_part_uuid=$(blkid -o value -s PARTUUID ${device}3)
--    boot_uuid=$(blkid -o value -s UUID ${device}2)
-+    root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
-+    boot_uuid=$(blkid -o value -s UUID ${bootfs})
-     GRUBCFG="/boot/grub/grub.cfg"
-     mkdir -p $(dirname $GRUBCFG)
-     cat >$GRUBCFG <<_EOF
+So far it is not clear what exactly the problem is, only that reverting
+the binutils upgrade avoids it.
+
 -- 
-2.1.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
