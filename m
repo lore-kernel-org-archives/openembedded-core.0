@@ -1,22 +1,24 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id B4944738AE
+	by mail.openembedded.org (Postfix) with ESMTP id B03C1731FE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  8 Feb 2016 10:10:03 +0000 (UTC)
 Received: from comp_016_pc_buildenv.localdomain (unknown [31.182.60.238])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 2A9383FD017;
-	Mon,  8 Feb 2016 11:10:02 +0100 (CET)
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 26BC33FD459;
+	Mon,  8 Feb 2016 11:10:03 +0100 (CET)
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 To: openembedded-core@lists.openembedded.org,
 	Enrico Jorns <ejo@pengutronix.de>, Roy Li <rongqing.li@windriver.com>,
 	Khem Raj <raj.khem@gmail.com>,
 	Christopher Larson <chris_larson@mentor.com>,
 	Ross Burton <ross.burton@intel.com>
-Date: Mon,  8 Feb 2016 11:09:37 +0100
-Message-Id: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+Date: Mon,  8 Feb 2016 11:09:40 +0100
+Message-Id: <1454926183-22439-4-git-send-email-maciej.borzecki@open-rnd.pl>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+References: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
 Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH 0/6] systemd cleanup & package split
+Subject: [PATCH 3/6] systemd: extend PACKAGECONFIG flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +33,103 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 08 Feb 2016 10:10:06 -0000
 
-A couple of patches that allow us to build a slimmer variant of
-systemd. As of now, systemd is configured with most options enabled. The
-resulting package is large, roughly 14359kB (for x86 builds) and is a
-bit of concern if one is trying to build smaller images. This patch
-series attempts to address the problem, while trying to remain
-compatible with current way of doing things.
+We currently ship a rather full-blown setup of system. Very few
+configuration knobs are actually exposed through PACKAGECONFIG
+flags. This patch adds new PACKAGECONFIG flags for some finer tuning of
+systemd's functionality. By default most of functionality is disabled,
+with exeception of:
 
-After applying patches, leaving default PACKAGECONFIG flags and skipping
-systemd-extra-utils, the systemd takes ~4000kB in the image. It should
-be possible to strip it even further just leaving systemd and systemctl
-in the target image, but figuring out which units are necessary yet
-failed to work might be a bit of a pain.
+- sysusers - systemd needs to setup some of required users
+- binfmt - so that package systemd-binfmt can be built
+- randomseed
+- rfkill (only if wifi is enabled in DISTRO_FEATURES)
+- efi (only if efi is present in MACHINE_FEATURES)
 
-The first patch follows the approach of zsh completion files and splits
-bash completion handlers into separate package - systemd-bash.
+Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+---
+ meta/recipes-core/systemd/systemd_228.bb | 43 +++++++++++++++++++++++++++-----
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
-The second patch is just a small cosmetic change that allows for cleaner
-diffs when adding/removing packages.
-
-The third patch adds a number of PACKAGECONFIG flags to systemd. By
-default only a handful of these is enabled, plus a couple of features
-that stem from DISTRO or MACHINE features. Flag 'binfmt' is enabled as
-we're building systemd-binfmt package. Flag 'sysusers' is enabled as
-well, as this enabled cleanups in patch 4. Flag 'randomseed' is enabled
-as it just made sense to have systemd-random-seed run during
-boot. Almost every --enable-feature configure switch has been exposed as
-PACKAGECONFIG flag, so it's fairly easy to opt-in for particular
-functionality if needed.
-
-Patch 4 uses sysusers for creating users. The user accounts created by
-systemd are by default slightly more restricted than ones brought up by
-useradd class. Namely the shell is set to /bin/nologin and no home
-directory is created.
-
-Patch 5 splits all/most of nonessential binaries into a separate
-systemd-extra-utils package. The package is listed in RRECOMMENDS so
-that it gets included by default in images. Binaries that get created as
-a result of PACKAGECONFIG flags will be included in the main 'systemd'
-package to avoid the effect when use has set a flag but the desired
-binary is not in the target system.
-
-Patch 6 removes chown on /var/lib/journal that may no longer be
-necessary.
-
-Maciej Borzecki (6):
-  systemd: move bash completion into separate package
-  systemd: realign packages list
-  systemd: extend PACKAGECONFIG flags
-  systemd: use sysusers for setting up required users/groups
-  systemd: move some tools into systemd-extra-utils package
-  systemd: remove unnecessary code
-
- meta/recipes-core/systemd/systemd_228.bb | 128 +++++++++++++++++++++++++++----
- 1 file changed, 112 insertions(+), 16 deletions(-)
-
---
+diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+index 2be77deefeb265259b1c269b81e015738f780475..f4cab27ba590901230f30229d54636d019f541d6 100644
+--- a/meta/recipes-core/systemd/systemd_228.bb
++++ b/meta/recipes-core/systemd/systemd_228.bb
+@@ -64,6 +64,11 @@ PACKAGECONFIG ??= "compat xz ldconfig \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
++                   ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'efi', '', d)} \
++                   sysusers \
++                   binfmt \
++                   randomseed \
+                   "
+ PACKAGECONFIG[journal-upload] = "--enable-libcurl,--disable-libcurl,curl"
+ # Sign the journal for anti-tampering
+@@ -76,12 +81,35 @@ PACKAGECONFIG[microhttpd] = "--enable-microhttpd,--disable-microhttpd,libmicroht
+ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
+ PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+ PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
++PACKAGECONFIG[machined] = "--enable-machined,--disable-machined"
++PACKAGECONFIG[backlight] = "--enable-backlight,--disable-backlight"
++PACKAGECONFIG[quotacheck] = "--enable-quotacheck,--disable-quotacheck"
++PACKAGECONFIG[bootchart] = "--enable-bootchart,--disable-bootchart"
++PACKAGECONFIG[hostnamed] = "--enable-hostnamed,--disable-hostnamed"
++PACKAGECONFIG[myhostname] = "--enable-myhostname,--disable-myhostname"
++PACKAGECONFIG[rfkill] = "--enable-rfkill,--disable-rfkill"
++PACKAGECONFIG[hibernate] = "--enable-hibernate,--disable-hibernate"
++PACKAGECONFIG[timedated] = "--enable-timedated,--disable-timedated"
++PACKAGECONFIG[timesyncd] = "--enable-timesyncd,--disable-timesyncd"
++PACKAGECONFIG[localed] = "--enable-localed,--disable-localed"
++PACKAGECONFIG[efi] = "--enable-efi,--disable-efi"
++PACKAGECONFIG[kdbus] = "--enable-kdbus,--disable-kdbus"
++PACKAGECONFIG[ima] = "--enable-ima,--disable-ima"
++PACKAGECONFIG[smack] = "--enable-smack,--disable-smack"
++PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
++PACKAGECONFIG[logind] = "--enable-logind,--disable-logind"
++PACKAGECONFIG[sysusers] = "--enable-sysusers,--disable-sysusers"
++PACKAGECONFIG[firstboot] = "--enable-firstboot,--disable-firstboot"
++PACKAGECONFIG[randomseed] = "--enable-randomseed,--disable-randomseed"
++PACKAGECONFIG[binfmt] = "--enable-binfmt,--disable-binfmt"
++PACKAGECONFIG[utmp] = "--enable-utmp,--disable-utmp"
+ # importd requires curl/xz/zlib/bzip2/gcrypt
+ PACKAGECONFIG[importd] = "--enable-importd,--disable-importd"
+ PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
+ PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
+ PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
++PACKAGECONFIG[polkit] = "--enable-polkit,--disable-polkit"
+ # Verify keymaps on locale change
+ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ # Update NAT firewall rules
+@@ -186,17 +214,20 @@ do_install() {
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
+ 
+-	# Create symlinks for systemd-update-utmp-runlevel.service
+ 	install -d ${D}${systemd_unitdir}/system/graphical.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/poweroff.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/reboot.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/rescue.target.wants
+-	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/graphical.target.wants/systemd-update-utmp-runlevel.service
+-	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/multi-user.target.wants/systemd-update-utmp-runlevel.service
+-	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/poweroff.target.wants/systemd-update-utmp-runlevel.service
+-	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/reboot.target.wants/systemd-update-utmp-runlevel.service
+-	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/rescue.target.wants/systemd-update-utmp-runlevel.service
++
++	# Create symlinks for systemd-update-utmp-runlevel.service
++	if ${@bb.utils.contains('PACKAGECONFIG', 'utmp', 'true', 'false', d)}; then
++		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/graphical.target.wants/systemd-update-utmp-runlevel.service
++		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/multi-user.target.wants/systemd-update-utmp-runlevel.service
++		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/poweroff.target.wants/systemd-update-utmp-runlevel.service
++		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/reboot.target.wants/systemd-update-utmp-runlevel.service
++		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/rescue.target.wants/systemd-update-utmp-runlevel.service
++	fi
+ 
+ 	# Enable journal to forward message to syslog daemon
+ 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
+-- 
 2.5.0
 
 
