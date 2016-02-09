@@ -1,46 +1,51 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-yk0-f193.google.com (mail-yk0-f193.google.com
 	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0367671951
+	by mail.openembedded.org (Postfix) with ESMTP id 88C2771633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 01:29:46 +0000 (UTC)
-Received: by mail-yk0-f193.google.com with SMTP id r207so4472233ykd.0
+	Tue,  9 Feb 2016 01:29:48 +0000 (UTC)
+Received: by mail-yk0-f193.google.com with SMTP id r207so4472251ykd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 17:29:47 -0800 (PST)
+	Mon, 08 Feb 2016 17:29:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=0P1CXRE9iroaH+yPOYi13c18FNXGMfUKbgwIhxrD5Yo=;
-	b=u8rPG1XqUN9BeiFsxGJbPGOVk+8y27J76fsiWXkJ/sH1j8c9V1iijfr1mZd68h+Rrk
-	LXgV2vavzqdmTwI0+1P2jU5NfMhFvbIYbDi0/eWDfKYzpSSar5yIpxMUnoRwvlfLTvNb
-	Y7mzv9Sx8Lrbr5JfcIh9jXOiuRVM8axnE5O6A40ugflQoUXhQy3YxopEt2hSHs5417FW
-	EAMyq7rogVEJsVU+xp9oact81GyIBMkPDHYk3U4S9aT+t3EsC+Kzj8+EulyFdp3R4ujF
-	3O2KIM5v2gbn4ECsLjEfS/ppFWMmjpclsgXiEGCzsQEFWzAoPhUZznlTQfFYtPQPz+pp
-	BreQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=VC56No81RHUJyFwWD6J75MezhDffajZf/iy5EvH7prU=;
+	b=FEMrUZ7cvQpvmh1suKL3EGCbE02awL9HIha1tapQxtza7ICz1wdoZjdCOP6faHvJZe
+	lhWHmBP7aYbJAtLKr65yBsO2MY71e3DA6dt1l9QRG+GBZmq0S7QCvdwJI/HAQaGWiqpV
+	BNCbeMnJk8P6+WKIUL6PQraNa4rLl55z0KJlvbnKRpPGu6iPSVk/cR1TNkQwRdjZWUJ8
+	z8uXfdzPo2UvHESEv9dts1mfVkopCsqj0QZF6jbqzPsi5HDiSCirHbs3F48Q7PJjml2K
+	OZmPuo1V863oKSlgR+Qa+sl42Zb4uevMr0gtvUh0Bh/MsVtkf/cXHX03GvcWFzNIo/j0
+	TFmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0P1CXRE9iroaH+yPOYi13c18FNXGMfUKbgwIhxrD5Yo=;
-	b=gkv1KJq+qqmzy/i/zaDE4Wj83DCvzsTzpwgSCikc4IG8mprvtlkg4kHIVWCGDpxko9
-	gQJ0ilTtHXTsWfDxUA9/0AHmZtSdq8juVwldVYyGW2XWLw/6Voxr2EvnGSlb7x9ureLm
-	HjaKuGdWddyI03Y3codFrNII/lp84vmFL3QOVNvqXQIJgjJLZfji6Y9yzMoaqPlk/anb
-	WzXZx4TMpjZxHwPnrO2m1eyvtnXEJmjc6muQeYIQYpwS6vumLtWLOzPvDN15dNespXL2
-	Dbuh1tkMIxtl9lCqTFwjxJIblfZewDhqt/As5f6sMkebUXcn5NafiNov2rfOaG5nnQeH
-	IlDQ==
-X-Gm-Message-State: AG10YOQGQZ72PzYz64ItUklzH+8Pak1QvcGXznnNmxHMUohHwa6lBrSycT+xspsSSvp0AA==
-X-Received: by 10.37.83.7 with SMTP id h7mr16484282ybb.55.1454981387203;
-	Mon, 08 Feb 2016 17:29:47 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-type:content-transfer-encoding;
+	bh=VC56No81RHUJyFwWD6J75MezhDffajZf/iy5EvH7prU=;
+	b=U7NctkSbCMBBlrP7RPwjUDbGPZWlkFeaBf7joBtsuN93z+UNtZmoBw8XrFoP7hZHjl
+	IctvbhwNdMimqo0dP3QYxo4TDSiauxrR/WOGSXbhIMjtP4nYy4HQCyOqAr2/v5OmLmvv
+	yq616k9kNPNA0fQr/rr5S/0Y3dlN5FPKhin7fpOmHkg256H6ytOmQfmvwcQKjPHx2b5c
+	iCqRCzS/D9EsJc4wiSQBpZN0AObUkzNyOyeuWyzDe6oaVVHpE8bLYe+8W3epKeYugM95
+	qZ4Y9narSXKrNrcTOukSn20ICfaS0uE+v8j6xUcIXE9cJNghuZ8lPaf1qk055qYoS8dk
+	LChg==
+X-Gm-Message-State: AG10YOT+c148Pjz2lA/yY/CyPiZ8aLIYABKFycvOJel+xGzejj42o2WIKgGa1S+zSX7bdg==
+X-Received: by 10.37.14.213 with SMTP id 204mr16575724ybo.70.1454981389189;
+	Mon, 08 Feb 2016 17:29:49 -0800 (PST)
 Received: from Pahoa2.mvista.com ([64.2.3.194])
 	by smtp.gmail.com with ESMTPSA id
-	e132sm5813430ywa.18.2016.02.08.17.29.45
+	e132sm5813430ywa.18.2016.02.08.17.29.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Feb 2016 17:29:45 -0800 (PST)
+	Mon, 08 Feb 2016 17:29:47 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Feb 2016 17:29:41 -0800
-Message-Id: <1454981383-15843-1-git-send-email-akuster808@gmail.com>
+Date: Mon,  8 Feb 2016 17:29:42 -0800
+Message-Id: <1454981383-15843-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
+In-Reply-To: <1454981383-15843-1-git-send-email-akuster808@gmail.com>
+References: <1454981383-15843-1-git-send-email-akuster808@gmail.com>
+MIME-Version: 1.0
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 1/3] qemu: Security fix CVE-2016-1568
+Subject: [PATCH 2/3] nettle: Security fix CVE-2015-8803 and CVE-2015-8805
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,83 +58,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 01:29:47 -0000
+X-List-Received-Date: Tue, 09 Feb 2016 01:29:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2016-1568 Qemu: ide: ahci use-after-free vulnerability in aio port commands
-
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../recipes-devtools/qemu/qemu/CVE-2016-1568.patch | 46 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.5.0.bb           |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+ .../nettle/nettle-3.1.1/CVE-2015-8803_8805.patch   | 71 ++++++++++++++++++++++
+ meta/recipes-support/nettle/nettle_3.1.1.bb        |  4 ++
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-support/nettle/nettle-3.1.1/CVE-2015-8803_8805.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+diff --git a/meta/recipes-support/nettle/nettle-3.1.1/CVE-2015-8803_8805.patch b/meta/recipes-support/nettle/nettle-3.1.1/CVE-2015-8803_8805.patch
 new file mode 100644
-index 0000000..56fd346
+index 0000000..b4ff228
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
-@@ -0,0 +1,46 @@
-+From 4ab0359a8ae182a7ac5c99609667273167703fab Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Mon, 11 Jan 2016 14:10:42 -0500
-+Subject: [PATCH] ide: ahci: reset ncq object to unused on error
-+
-+When processing NCQ commands, AHCI device emulation prepares a
-+NCQ transfer object; To which an aio control block(aiocb) object
-+is assigned in 'execute_ncq_command'. In case, when the NCQ
-+command is invalid, the 'aiocb' object is not assigned, and NCQ
-+transfer object is left as 'used'. This leads to a use after
-+free kind of error in 'bdrv_aio_cancel_async' via 'ahci_reset_port'.
-+Reset NCQ transfer object to 'unused' to avoid it.
-+
-+[Maintainer edit: s/ACHI/AHCI/ in the commit message. --js]
-+
-+Reported-by: Qinghao Tang <luodalongde@gmail.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: John Snow <jsnow@redhat.com>
-+Message-id: 1452282511-4116-1-git-send-email-ppandit@redhat.com
-+Signed-off-by: John Snow <jsnow@redhat.com>
-+
++++ b/meta/recipes-support/nettle/nettle-3.1.1/CVE-2015-8803_8805.patch
+@@ -0,0 +1,71 @@
 +Upstream-Status: Backport
++https://git.lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4d
 +
-+http://git.qemu.org/?p=qemu.git;a=commit;h=4ab0359a8ae182a7ac5c99609667273167703fab
++CVE: CVE-2015-8803
++CVE: CVE-2015-8805
 +
-+CVE: CVE-2016-1568
-+[Yocto # 9013]
++Same fix for both.
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+---
-+ hw/ide/ahci.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+Index: qemu-2.5.0/hw/ide/ahci.c
++Index: nettle-3.1.1/ecc-256.c
 +===================================================================
-+--- qemu-2.5.0.orig/hw/ide/ahci.c
-++++ qemu-2.5.0/hw/ide/ahci.c
-+@@ -910,6 +910,7 @@ static void ncq_err(NCQTransferState *nc
-+     ide_state->error = ABRT_ERR;
-+     ide_state->status = READY_STAT | ERR_STAT;
-+     ncq_tfs->drive->port_regs.scr_err |= (1 << ncq_tfs->tag);
-++    ncq_tfs->used = 0;
-+ }
++--- nettle-3.1.1.orig/ecc-256.c
+++++ nettle-3.1.1/ecc-256.c
++@@ -113,8 +113,19 @@ ecc_256_modp (const struct ecc_modulo *p
 + 
-+ static void ncq_finish(NCQTransferState *ncq_tfs)
-diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-index 6ad7bbb..e51ec16 100644
---- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://qemu-enlarge-env-entry-size.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-             file://no-valgrind.patch \
-+            file://CVE-2016-1568.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
++       assert (q2 < 2);
++ 
++-      /* We multiply by two low limbs of p, 2^96 - 1, so we could use
++-	 shifts rather than mul. */
+++      /*
+++	 n-1 n-2 n-3 n-4
+++        +---+---+---+---+
+++        | u1| u0| u low |
+++        +---+---+---+---+
+++          - | q1(2^96-1)|
+++            +-------+---+
+++            |q2(2^.)|
+++            +-------+
+++
+++	 We multiply by two low limbs of p, 2^96 - 1, so we could use
+++	 shifts rather than mul.
+++      */
++       t = mpn_submul_1 (rp + n - 4, p->m, 2, q1);
++       t += cnd_sub_n (q2, rp + n - 3, p->m, 1);
++       t += (-q2) & 0xffffffff;
++@@ -124,7 +135,10 @@ ecc_256_modp (const struct ecc_modulo *p
++       u0 -= t;
++       t = (u1 < cy);
++       u1 -= cy;
++-      u1 += cnd_add_n (t, rp + n - 4, p->m, 3);
+++
+++      cy = cnd_add_n (t, rp + n - 4, p->m, 2);
+++      u0 += cy;
+++      u1 += (u0 < cy);
++       u1 -= (-t) & 0xffffffff;
++     }
++   rp[2] = u0;
++@@ -211,7 +225,7 @@ ecc_256_modq (const struct ecc_modulo *q
++ 
++       /* Conditional add of p */
++       u1 += t;
++-      u2 += (t<<32) + (u0 < t);
+++      u2 += (t<<32) + (u1 < t);
++ 
++       t = cnd_add_n (t, rp + n - 4, q->m, 2);
++       u1 += t;
++Index: nettle-3.1.1/ChangeLog
++===================================================================
++--- nettle-3.1.1.orig/ChangeLog
+++++ nettle-3.1.1/ChangeLog
++@@ -1,3 +1,9 @@
+++2015-12-10  Niels Möller  <nisse@lysator.liu.se>
+++
+++   * ecc-256.c (ecc_256_modp): Fixed carry propagation bug. Problem
+++   reported by Hanno Böck.
+++   (ecc_256_modq): Fixed another carry propagation bug.
+++
++ 2015-04-24  Niels Möller  <nisse@lysator.liu.se>
++ 
++ 	* Released nettle-3.1.1.
+diff --git a/meta/recipes-support/nettle/nettle_3.1.1.bb b/meta/recipes-support/nettle/nettle_3.1.1.bb
+index 7d7134f..1fe3461 100644
+--- a/meta/recipes-support/nettle/nettle_3.1.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.1.1.bb
+@@ -7,5 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6
+                     file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e \
+                     file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e"
+ 
++SRC_URI += "\
++            file://CVE-2015-8803_8805.patch \
++            "
++
+ SRC_URI[md5sum] = "b40fa88dc32f37a182b6b42092ebb144"
+ SRC_URI[sha256sum] = "5fd4d25d64d8ddcb85d0d897572af73b05b4d163c6cc49438a5bfbb8ff293d4c"
 -- 
 2.3.5
 
