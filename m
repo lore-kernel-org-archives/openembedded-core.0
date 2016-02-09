@@ -1,57 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BFD460119
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id EBAC96FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 17:54:47 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id ho8so94693722pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 09:54:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=zAV2OH0BATW+4PjwsqjBZB0UxACPnoDEFj3HUQP87nA=;
-	b=Ovn9dhr1DDcJ8ftTGiznv0qeabfwmi7KDpeiQNZ5/ScvmiOWPN8Aoa1EjF2aUc9ixB
-	fTfotcgWtmEJNi7IOMZC/OumSD8fP4jHJzKG1PmnkvcVDnA3Cmm+bhdLDdkTsfKiGpIN
-	5trwXIgG73JDFbKQnkgwrhzA1Rt7v47EzSPFM2nhnDm52wYSNGZRr7O8lzE7OZ6f5qg2
-	imApOC+qFPcShE1LcJ3D8REgtiiMR1Dpc5SLbcTEayPWAlyVQNcu6ybLyywI3UXPQbNu
-	tc+x8klzF19czEkQJntErGb5wvLopZZygKgC/Ulcy/sMZ7Q51rMSSGTkDHKzzf3Qrb6D
-	2ARw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=zAV2OH0BATW+4PjwsqjBZB0UxACPnoDEFj3HUQP87nA=;
-	b=d+ag+E0NIhWOkBn01BvPKTEI+ubBPNc7t4rYB7bKpv4J/IcpdZttrcpCFNgZlz/Y+Y
-	VntQKhQD7A8+FG3N199ksX0wwHSKvBeEYMKxw/s3IwhnmmzWtGWn6Qta6aMyaVvOAuZR
-	+JjgESuTNglw8P9yFqje0LJi+K72Ebeo/KYJIdZvI4IH3UP+LxgEJqpbw6xreIqm4Oun
-	0X8mB00wyrON4dXoEOe/Z1wdWD6FQC3oavVe1wEeOuBejmKLAb3S29ibbBQa0YxgACd/
-	J1iVon5MMpdXTaMTJO4zYkic6Ar9OMP/Co5Tn15R/rPs6SdDn8eG9pRP3nq+11q+WyZY
-	9MNQ==
-X-Gm-Message-State: AG10YOTkx+fqgNSmTT/OmU85kKS42AioCEew532VFXb23X+AYZYaY4pzSLUI36sig3CBwg==
-X-Received: by 10.66.148.167 with SMTP id tt7mr53019199pab.62.1455040488184;
-	Tue, 09 Feb 2016 09:54:48 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:b9ee:5c31:ac9c:2c66?
-	([2601:646:8802:5d5c:b9ee:5c31:ac9c:2c66])
-	by smtp.gmail.com with ESMTPSA id
-	tp3sm52155007pac.16.2016.02.09.09.54.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 09 Feb 2016 09:54:47 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAP71WjxybQ+N3N-+pOzLo7jQdJ=F0TVwVEoFihAn_96TG-q=7g@mail.gmail.com>
-Date: Tue, 9 Feb 2016 09:54:46 -0800
-Message-Id: <4DE97B9F-591B-4298-9F48-48B09D1B4B79@gmail.com>
-References: <cover.1455008560.git.jussi.kukkonen@intel.com>
-	<aae55470a8d782e166fc6135ceb03631e1346429.1455008560.git.jussi.kukkonen@intel.com>
-	<b4d964e733159d37952d2f1f6f4d9bbdbad24979.1455008560.git.jussi.kukkonen@intel.com>
-	<CAP71WjxybQ+N3N-+pOzLo7jQdJ=F0TVwVEoFihAn_96TG-q=7g@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-X-Mailer: Apple Mail (2.3112)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] xserver-xorg: Add PACKAGECONFIG for crypto libraries
+	Tue,  9 Feb 2016 17:56:11 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0BjQ40w9z3hjjh;
+	Tue,  9 Feb 2016 18:56:10 +0100 (CET)
+X-Auth-Info: v6tmwLVTOHKHE2JJw1Z/98W/JNng2GtzaBqn9ERZ/U0=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3q0BjQ2qTqzvdWV; 
+	Tue,  9 Feb 2016 18:56:10 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 9 Feb 2016 18:56:09 +0100
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1455017471-6682-1-git-send-email-marex@denx.de>
+	<201602091307.54737.marex@denx.de>
+	<DAAB901F-8B5F-4D66-A0EE-5961DE7C6FA4@gmail.com>
+In-Reply-To: <DAAB901F-8B5F-4D66-A0EE-5961DE7C6FA4@gmail.com>
+MIME-Version: 1.0
+Message-Id: <201602091856.09909.marex@denx.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] liburcu: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,59 +36,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 17:54:48 -0000
-X-Groupsio-MsgNum: 77874
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6EADD375-DFD2-4571-B2AD-31B58D93FD80";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_6EADD375-DFD2-4571-B2AD-31B58D93FD80
+X-List-Received-Date: Tue, 09 Feb 2016 17:56:12 -0000
+Content-Type: Text/Plain;
+  charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-
-> On Feb 9, 2016, at 1:39 AM, Nicolas Dechesne =
-<nicolas.dechesne@linaro.org> wrote:
+On Tuesday, February 09, 2016 at 06:52:12 PM, Khem Raj wrote:
+> > On Feb 9, 2016, at 4:07 AM, Marek Vasut <marex@denx.de> wrote:
+> >=20
+> > On Tuesday, February 09, 2016 at 12:53:01 PM, Burton, Ross wrote:
+> >> On 9 February 2016 at 11:31, Marek Vasut <marex@denx.de> wrote:
+> >>> -LIC_FILES_CHKSUM =3D
+> >>> "file://LICENSE;md5=3D0f060c30a27922ce9c0d557a639b4fa3 \
+> >>> +LIC_FILES_CHKSUM =3D
+> >>> "file://LICENSE;md5=3De548d28737289d75a8f1e01ba2fd7825 \
+> >>=20
+> >> Why did the license checksum change?
+> >=20
+> > Because the LICENSE file now contains one more entry for nios2, which
+> > changed the checksum of the whole file. Maybe we should trim the
+> > checksum to use only the header in the LICENSE file and not the whole
+> > file to prevent this ?
+> >=20
+> > This is the change which triggered the change of the checksum:
+> >=20
+> > +diff --git a/LICENSE b/LICENSE
+> > +index 3147094..a06fdcc 100644
+> > +--- a/LICENSE
+> > ++++ b/LICENSE
+> > +@@ -45,6 +45,7 @@ compiler.h
+> > + arch/s390.h
+> > + uatomic/alpha.h
+> > + uatomic/mips.h
+> > ++uatomic/nios2.h
 >=20
-> On Tue, Feb 9, 2016 at 10:24 AM, Jussi Kukkonen
-> <jussi.kukkonen@intel.com> wrote:
->> Default to libcrypto (openssl) as before.
->>=20
->> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->=20
-> Looks good to me. this is the same implementation I used in the mesa
-> patch.. so we need to make sure that any review feedback is applied to
-> both before merging the too,
+> I don=E2=80=99t know how the LICENSE file looks like but including file n=
+ames in
+> license file is probably worth ignoring in checksums.
 
-since its spans multiple recipes would it be better to control it with
-a global knob instead of packageconfig.
+See below:
 
-> should we get any review feedback.. but
-> in any case:
->=20
-> Reviewed-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Userspace RCU library licensing
+Mathieu Desnoyers
+September 3, 2012
+
+                                                                           =
+                                                                      =20
+* LGPLv2.1                                                                 =
+                                                                      =20
+                                                                           =
+                                                                      =20
+The library part is distributed under LGPLv2.1 or later. See lgpl-2.1.txt f=
+or                                                                    =20
+license details. Refer to the individual file headers for details.         =
+                                                                      =20
+                                                                           =
+                                                                      =20
+LGPL-compatible source code can statically use the library header using :  =
+                                                                      =20
+                                                                           =
+                                                                      =20
+#define _LGPL_SOURCE
+#include <urcu.h>
+
+Dynamic-only linking with the LGPL library is used if _LGPL_SOURCE is not
+defined. It permits relinking with newer versions of the library, which is
+required by the LGPL license.
+
+See lgpl-relicensing.txt for details.
 
 
---Apple-Mail=_6EADD375-DFD2-4571-B2AD-31B58D93FD80
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+* MIT-style license :
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+xchg() primitive has been rewritten from scratch starting from atomic_ops 1=
+=2E2
+which has a MIT-style license that is intended to allow use in both free and
+proprietary software:
+        http://www.hpl.hp.com/research/linux/atomic_ops/LICENSING.txt
+        http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/
 
-iEYEARECAAYFAla6J+YACgkQuwUzVZGdMxTJuwCfeL5TAu2Ll8l02WDk/tJYEiD4
-aeAAn3iLAFFUUrm0DapzcXuQ6+kMs4OZ
-=0DOy
------END PGP SIGNATURE-----
+This MIT-style license (BSD like) apply to:
 
---Apple-Mail=_6EADD375-DFD2-4571-B2AD-31B58D93FD80--
+uatomic/gcc.h
+uatomic/unknown.h
+uatomic/generic.h
+uatomic/sparc64.h
+uatomic/arm.h
+uatomic/ppc.h
+uatomic/x86.h
+uatomic.h
+
+MIT/X11 (BSD like) license apply to:
+
+compiler.h
+arch/s390.h
+uatomic/alpha.h
+uatomic/mips.h
+uatomic/nios2.h
+uatomic/s390.h
+system.h
+
+
+* GPLv2
+
+Library test code is distributed under the GPLv2 license. See gpl-2.0.txt f=
+or
+license details. See headers of individual files under tests/ for details.
+
+
+* GPLv3 (or later)
+
+The following build-related macro is under GPLv3 (or later):
+
+m4/ax_tls.m4
+
