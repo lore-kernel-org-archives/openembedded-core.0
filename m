@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 63AB86010D
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B106073180
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:51:38 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id y8so51137199igp.0
+	Tue,  9 Feb 2016 11:53:19 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id l127so6918905iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 03:51:39 -0800 (PST)
+	Tue, 09 Feb 2016 03:53:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=VKbvglVB1ruxwbo6/rphYi7PQkGTrOOEnWILtWAFv1s=;
-	b=jCyzchyxPCYZXJDVq5A1kSWPrj1G75eIEBspngOiY7iVz2DPO8+YX2kEA0Uy/oldxG
-	uIJ56Z0nNpwIYDfpF/rmql4rfEAXGczniZALeUlLOyi3MtFHJjrU54SfPtPpU+UzN7lC
-	Mih5aygctRqO553HghsOl5M+fsFxYoTccu1/49WFv/g9pSaHt0n8Yrz1ZfhUjJylkHgB
-	ouHHydUECyI0MJJEu04OdYMbdJXTfHpg9GI+AkWuftG6B/X0FeYOQbaVFnsena4kPSiA
-	Htt19y0q4Xmy1MQYZ/H6iumbuXRROlR56D+NM23K2oFO5Q4MFWRXsDGV+hbyzLHYLiMl
-	BVKg==
+	bh=UjEHQ+D+5Yi2wi6WDq9QrDfRU4tRgugs+Gbb3TcufYM=;
+	b=1kMJm99WhJFeGV6PWWal4IHJf5P8tFUGU+chafxz2CfsJYbJO0OVggVEAfjXgYnTa0
+	OkhNfOkRLvsDz08gcFAP/eFuy02z9E/wUvqSMZFbqjDWDx8K1Cyj84OI4BCNvi1Ev14N
+	iOGqtuAtYUGcVbHJF318xLwJfYJvSpHdI82e11eVEN3pmG6in0X93I25HCS8VbhD0GNu
+	GA7AavfCdJYLwSPXr1Z0iJU1m5uW0tdd2VSkFD2W5/rk7O6/Om0FWwOwWE0XQ0p2abeX
+	4pjI9G7GP6+tY8F4wwKFt3lFxGSDVnRGUl2Jp90lUjR9Prh6nr4hwaqfAXL/FvFtTy29
+	VRMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=VKbvglVB1ruxwbo6/rphYi7PQkGTrOOEnWILtWAFv1s=;
-	b=PwGFRtArfieG8jmoqrF7RrlnlF2duH3/HwED6fY1Q8UcOMnh00xzYldVs+s7w3+V1X
-	tSjEQkllGUtCw8xjzj/ZAHN6uh1Aq4J+AyncPE3ABQ1ruL36OQWTMDqlUYQN24eXzdNk
-	4+x83Smet2Uu061EfZPqE18cUJC9LLiWnXE8qeXaj8TruEfwhRN77WHbKsIEcaM1KrQu
-	FpYsrShAVyg/6BMy4CSw6M48CxswlrR/WfiGzUbP5cEGR8L4ikcXiqTdeen5L5xsXO3b
-	BHBMmxc5MWvBXFoff0bXR5wm3MXXEOkvx5fM4VgjalphXs8n+agQq02la6VjyCsJMDvI
-	IXww==
-X-Gm-Message-State: AG10YORdkjR9L6ypiVVTJ4SfqhTEg7Gx82+k8WoMYC0FEwVaUmwOdcpTuQXfhxKSPNBBW09V3meZ23ov644RPTlf
-X-Received: by 10.50.111.111 with SMTP id ih15mr4101351igb.78.1455018699219;
-	Tue, 09 Feb 2016 03:51:39 -0800 (PST)
+	bh=UjEHQ+D+5Yi2wi6WDq9QrDfRU4tRgugs+Gbb3TcufYM=;
+	b=JOJArvCeSVTARrKeiWKf9yHsbGHLprcJFfmlgrpLNA0MbgCPoSz7L4uJIhz230t5kb
+	S+98fBXVXAA86cDQ1018a3gqZ1Jv0zFD4TeQDFIgMu8F5HI2qvGF2R9UbJKpeovqhhJH
+	BP0aj5YiEOp/twQELU8uax8mBwPolV08Xmaym9oc7FuJkTbyCJFaSlf6yZrpTrLHv281
+	QD7Dzd43yvvmEwSlKjOitS//2xFW7sHstFuUBdEl8ssWJNigJkKZ0XOKinkXfESSi9b0
+	/Nb1RIfuaCWwtDG0IyRRN2SknFUOkK7XHdwa8Dae31wzVvWTg7zZS32cVjHAt6AdWJQS
+	SKtA==
+X-Gm-Message-State: AG10YOQ+Ra4hrLyaU9pm32gDXXUukFsjSI8RwRyaZOP8aoJF7OEPCJSt7N8E85DWky09fGqsyc4VwhLyBi8Rog4A
+X-Received: by 10.107.137.92 with SMTP id l89mr21692881iod.133.1455018800579; 
+	Tue, 09 Feb 2016 03:53:20 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 03:51:19 -0800 (PST)
-In-Reply-To: <1455017471-6682-1-git-send-email-marex@denx.de>
+Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 03:53:01 -0800 (PST)
+In-Reply-To: <1455017471-6682-6-git-send-email-marex@denx.de>
 References: <1455017471-6682-1-git-send-email-marex@denx.de>
+	<1455017471-6682-6-git-send-email-marex@denx.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Feb 2016 11:51:19 +0000
-Message-ID: <CAJTo0LYBm6L==cxBAJv4Dz6EKBa26YeHuzT58X2KCxMd+PwPqQ@mail.gmail.com>
+Date: Tue, 9 Feb 2016 11:53:01 +0000
+Message-ID: <CAJTo0LZ7fpKqnuyzWmQ02dw5DnKS4+XBbAEx=nNmZDi-Fq6+ZA@mail.gmail.com>
 To: Marek Vasut <marex@denx.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] strace: Fix build for arc, metag, nios2, or1k, tile
+Subject: Re: [PATCH 6/7] liburcu: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 11:51:40 -0000
-Content-Type: multipart/alternative; boundary=089e0149be34b58098052b54f034
+X-List-Received-Date: Tue, 09 Feb 2016 11:53:22 -0000
+Content-Type: multipart/alternative; boundary=001a113ebdb4c01be3052b54f673
 
---089e0149be34b58098052b54f034
+--001a113ebdb4c01be3052b54f673
 Content-Type: text/plain; charset=UTF-8
 
 On 9 February 2016 at 11:31, Marek Vasut <marex@denx.de> wrote:
 
-> +From dd1a80c8d213eed95fe55b7ebcb07ee165dd8e4b Mon Sep 17 00:00:00 2001
-> +From: "Dmitry V. Levin" <ldv@altlinux.org>
-> +Date: Thu, 24 Dec 2015 15:40:55 +0000
-> +Subject: [PATCH] arc, metag, nios2, or1k, tile: fix build
-> +
-> +Fix build regression introduced by commit
-> +34683e3926d8c2daa368afb805da422ee7043396.
-> +
-> +* linux/32/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap.
-> +* linux/arc/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap_pgoff.
-> +* linux/nios2/syscallent.h: Likewise.
-> +* linux/or1k/syscallent.h: Likewise.
-> +* linux/tile/syscallent1.h: Add sys_ prefix to ARCH_mmap and
-> sys_mmap_4koff.
-> +* pathtrace.c (pathtrace_match): Handle SEN_ARCH_mmap.
-> +* NEWS: Mention this build fix.
-> +
-> +Reported-by: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-> +Upstream-Status: Backport
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
 >
 
-This needs your signed-off-by tag too.
+Why did the license checksum change?
 
 Ross
 
---089e0149be34b58098052b54f034
+--001a113ebdb4c01be3052b54f673
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -95,30 +79,12 @@ Content-Transfer-Encoding: quoted-printable
 On 9 February 2016 at 11:31, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"m=
 ailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<=
 br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div id=3D":ep" class=3D"a3s" style=3D"ov=
-erflow:hidden">+From dd1a80c8d213eed95fe55b7ebcb07ee165dd8e4b Mon Sep 17 00=
-:00:00 2001<br>
-+From: &quot;Dmitry V. Levin&quot; &lt;<a href=3D"mailto:ldv@altlinux.org">=
-ldv@altlinux.org</a>&gt;<br>
-+Date: Thu, 24 Dec 2015 15:40:55 +0000<br>
-+Subject: [PATCH] arc, metag, nios2, or1k, tile: fix build<br>
-+<br>
-+Fix build regression introduced by commit<br>
-+34683e3926d8c2daa368afb805da422ee7043396.<br>
-+<br>
-+* linux/32/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap.<br>
-+* linux/arc/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap_pgoff.<br>
-+* linux/nios2/syscallent.h: Likewise.<br>
-+* linux/or1k/syscallent.h: Likewise.<br>
-+* linux/tile/syscallent1.h: Add sys_ prefix to ARCH_mmap and sys_mmap_4kof=
-f.<br>
-+* pathtrace.c (pathtrace_match): Handle SEN_ARCH_mmap.<br>
-+* NEWS: Mention this build fix.<br>
-+<br>
-+Reported-by: Alexey Brodkin &lt;<a href=3D"mailto:Alexey.Brodkin@synopsys.=
-com">Alexey.Brodkin@synopsys.com</a>&gt;<br>
-+Upstream-Status: Backport</div></blockquote></div><br>This needs your sign=
-ed-off-by tag too.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
+:1px #ccc solid;padding-left:1ex"><div id=3D":eu" class=3D"a3s" style=3D"ov=
+erflow:hidden">-LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D0f060c30a27=
+922ce9c0d557a639b4fa3 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3De548d28737289d75a8f1e01ba2=
+fd7825 \</div></blockquote></div><br>Why did the license checksum change?</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
 
---089e0149be34b58098052b54f034--
+--001a113ebdb4c01be3052b54f673--
