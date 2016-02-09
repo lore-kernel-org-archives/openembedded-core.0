@@ -1,22 +1,51 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id EAC1E73197
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 989DF7318C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 10:52:19 +0000 (UTC)
-Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id BBB962AB18
+	Tue,  9 Feb 2016 11:03:41 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id d63so13843178ioj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:52:19 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
-References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <56B9C4E3.6040006@pseudoterminal.org>
-Date: Tue, 9 Feb 2016 11:52:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
-Subject: Re: gobject introspection to oe-core
+	Tue, 09 Feb 2016 03:03:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:organization:content-type
+	:mime-version:content-transfer-encoding;
+	bh=tlnxESG4SJ4KVIQ/amsXtpY0GrRfEn3K+KC/C2f8wrw=;
+	b=iPpIpdevbs7X4qhJcijgTu0cutAxMIbS24E19RPQBdiLx/k868VlSEBhgnlDHfuehp
+	1oaOBgPhy1GDKR5Hi8n+rAGkhl+oanFoWMWo+aaLnSHBy4H5jxNTql+QNJQhip5pu9KO
+	4xJ+PmFx+xpJhlQU44NnScD9ALp5d+5S48EwgG36Bio7bmX6ammcB53qK/XX7owtDNHR
+	NqSJit/AIv8F0gJpRVadousGGYdRhtT/jlgAR6ugjS/79LxUT7TwUvS6+mfUHWBqt4su
+	9egrOzHfHEOZfCOIZM2nd6d2peyaCc0igyDu7Givi43hyd/zxD5qfOqa9OY4WbkhO8o7
+	Zosw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:content-type:mime-version:content-transfer-encoding;
+	bh=tlnxESG4SJ4KVIQ/amsXtpY0GrRfEn3K+KC/C2f8wrw=;
+	b=RuMmDhDkg06PbyNokb1HM4r48gAstmLlMzJnG4nvWaUs/eBuKo/U8Rf5voCZF19TvO
+	oEBg2cVs/Jex3dYiCt9ugA+U2YvZvUkoamcGj9pYV/4a+PWIsPGyI99hMpqpLFpBdyet
+	rKJ9+rwirT+nmPE+CTUX3kkmsn3IPPcL+vMpKeggWxug1+AIZIuAOMLp8uIrW7OBUUE+
+	UJcdaODd43FDcj/9hKn4AJlV+B3PMeqjqM/aWLz2Cg+pVTPxQ4+thZ6JB32k1zddGV/Z
+	033mc5giqTVFcEzx1ukegh3r5gUjhbyu8i0njKJLHEfvoJzYBEUlGAM7Yhd1EsnwFupL
+	HjLw==
+X-Gm-Message-State: AG10YOTGRZr5jkTBVzkAK4k4qN9IndFtatqqYYEO6ba1cLpWYvGBGAXFgYN73YBEwer4K2lS
+X-Received: by 10.107.10.101 with SMTP id u98mr16099327ioi.60.1455015821467;
+	Tue, 09 Feb 2016 03:03:41 -0800 (PST)
+Received: from pohly-mobl1 (p57A57CC2.dip0.t-ipconnect.de. [87.165.124.194])
+	by smtp.gmail.com with ESMTPSA id
+	l91sm14506843ioi.3.2016.02.09.03.03.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 09 Feb 2016 03:03:41 -0800 (PST)
+Message-ID: <1455015819.17004.21.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Tue, 09 Feb 2016 12:03:39 +0100
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: update-alternatives + absolute links
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,151 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 10:52:20 -0000
-Content-Type: multipart/alternative;
-	boundary="------------000403060904070906080706"
-
---------------000403060904070906080706
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 09 Feb 2016 11:03:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This is very interesting. Once gobject introspection is in place, vala 
-based software like Rygel can finally be compiled directly from the vala 
-source, which makes it much easier to apply patches against it.
-Also, I think the GStreamer 1.0 Python bindings need GIR. This recipe 
-could then be reintroduced (it was there, but got removed).
+Hello!
 
-On 2015-12-17 10:16, Chris Trobridge wrote:
-> Hi,
->
-> I have done some testing of Alex's branch 
-> "akanavin/gobject-introspection-experimental", originally 
-> http://patchwork.openembedded.org/patch/107089/ 
-> <http://patchwork.openembedded.org/patch/107089/%0A><http://patchwork.openembedded.org/patch/107089/%0A>
->
-> I have built this successfully for x86 and x64 targets on an x64 build 
-> machine:
->
-> meta
-> meta-yocto
-> meta-yocto-bsp    = 
-> "akanavin/gobject-introspection-experimental:04c7746ce90abc14604dec3328b9472c53cccf98"
-> meta-networking
-> meta-oe
-> meta-python       = "master:47f7d287a09329734629cb9d194ef4e077117d79"
-> meta-haswell-wc
-> meta-intel        = "master:6e91701dcf68f9351db8bb0b92eb2d26af1b8f7f"
-> meta-systemd      = "master:47f7d287a09329734629cb9d194ef4e077117d79"
->
-> Specifically, it built for the qemux86, qemux86-64 and hasell-wc machines.
->
-> I have successfully run my own python3 service, which uses python3 
-> dbus and GObject from gi.repository.
->
-> I have also inherited gobject-introspection into modemmanager_1.4.2.bb 
-> from meta-oe, which fixed the recipe building and I have checked that 
-> the target executable runs but not tested its dbus interface yet.
->
-> Regards,
-> Chris
->
->
->
+I noticed that toybox's switch_root has problems handling /sbin/init
+-> /lib/systemd/systemd. Apparently it tries to check permissions with
+stat() before switching the root, and at that point resolving the
+symlink fails.
+
+Are there reasons for preferring absolute paths as link target? Using
+relative paths would avoid the problem, and also make it easier to
+investigate the content of the rootfs on the build host.
+
+Is that something that would have to be fixed in the different
+virtual/update-alternatives providers? I'm using opkg-utils at the
+moment.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
---------------000403060904070906080706
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    This is very interesting. Once gobject introspection is in place,
-    vala based software like Rygel can finally be compiled directly from
-    the vala source, which makes it much easier to apply patches against
-    it.<br>
-    Also, I think the GStreamer 1.0 Python bindings need GIR. This
-    recipe could then be reintroduced (it was there, but got removed).<br>
-    <br>
-    <div class="moz-cite-prefix">On 2015-12-17 10:16, Chris Trobridge
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl"
-      type="cite">
-      <style><!--
-.hmmessage P
-{
-margin:0px;
-padding:0px
-}
-body.hmmessage
-{
-font-size: 12pt;
-font-family:Calibri
-}
---></style>
-      <div dir="ltr">Hi,
-        <div><br>
-        </div>
-        <div>I have done some testing of Alex's branch
-          "akanavin/gobject-introspection-experimental", originally <a
-            moz-do-not-send="true"
-            href="http://patchwork.openembedded.org/patch/107089/%0A"
-            target="_blank" style="font-size: 12pt;"><a class="moz-txt-link-freetext" href="http://patchwork.openembedded.org/patch/107089/">http://patchwork.openembedded.org/patch/107089/</a></a><a
-            moz-do-not-send="true"
-            href="http://patchwork.openembedded.org/patch/107089/%0A"
-            target="_blank" style="font-size: 12pt;"> </a></div>
-        <div><br>
-        </div>
-        <div>I have built this successfully for x86 and x64 targets on
-          an x64 build machine:</div>
-        <div><br>
-        </div>
-        <div>
-          <div>meta              </div>
-          <div>meta-yocto        </div>
-          <div>meta-yocto-bsp    =
-"akanavin/gobject-introspection-experimental:04c7746ce90abc14604dec3328b9472c53cccf98"</div>
-          <div>meta-networking   </div>
-          <div>meta-oe           </div>
-          <div>meta-python       =
-            "master:47f7d287a09329734629cb9d194ef4e077117d79"</div>
-          <div><span style="font-size: 12pt;">meta-haswell-wc   </span></div>
-          <div>meta-intel        =
-            "master:6e91701dcf68f9351db8bb0b92eb2d26af1b8f7f"</div>
-          <div>meta-systemd      =
-            "master:47f7d287a09329734629cb9d194ef4e077117d79"</div>
-        </div>
-        <div><br>
-        </div>
-        <div>Specifically, it built for the qemux86, qemux86-64 and
-          hasell-wc machines.</div>
-        <div><br>
-        </div>
-        <div>I have successfully run my own python3 service, which uses
-          python3 dbus and GObject from gi.repository.</div>
-        <div><br>
-        </div>
-        <div>I have also inherited gobject-introspection
-          into modemmanager_1.4.2.bb from meta-oe, which fixed the
-          recipe building and I have checked that the target executable
-          runs but not tested its dbus interface yet.</div>
-        <div><br>
-        </div>
-        <div>Regards,</div>
-        <div>Chris</div>
-        <div><br>
-        </div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
 
---------------000403060904070906080706--
