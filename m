@@ -1,24 +1,24 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id DAE636FFA1
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 5355A6FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:31:26 +0000 (UTC)
+	Tue,  9 Feb 2016 11:31:27 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q029W37F1z3hjlS;
-	Tue,  9 Feb 2016 12:31:27 +0100 (CET)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q029X1D7Qz3hjPM;
+	Tue,  9 Feb 2016 12:31:28 +0100 (CET)
 X-Auth-Info: fYP65kNoQpjseBSXLgER8Lz9ZjTUyyuhh1/wlZTlppA=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029W1fbRzvdWV;
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029W6mXwzvdWV;
 	Tue,  9 Feb 2016 12:31:27 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Feb 2016 12:31:09 +0100
-Message-Id: <1455017471-6682-5-git-send-email-marex@denx.de>
+Date: Tue,  9 Feb 2016 12:31:10 +0100
+Message-Id: <1455017471-6682-6-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1455017471-6682-1-git-send-email-marex@denx.de>
 References: <1455017471-6682-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 5/7] nspr: Add nios2 support
+Subject: [PATCH 6/7] liburcu: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,139 +33,188 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 09 Feb 2016 11:31:28 -0000
 
-Add small patch to support nios2 in NSPR.
+Add support for the nios2 into the liburcu.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../nspr/nspr/0002-Add-nios2-support.patch         | 105 +++++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.11.bb             |   1 +
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
+ .../0001-Support-for-NIOS2-architecture.patch      | 144 +++++++++++++++++++++
+ meta/recipes-support/liburcu/liburcu_0.9.1.bb      |   8 +-
+ 2 files changed, 149 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/liburcu/liburcu/0001-Support-for-NIOS2-architecture.patch
 
-diff --git a/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch b/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
+diff --git a/meta/recipes-support/liburcu/liburcu/0001-Support-for-NIOS2-architecture.patch b/meta/recipes-support/liburcu/liburcu/0001-Support-for-NIOS2-architecture.patch
 new file mode 100644
-index 0000000..2322806
+index 0000000..20957fd
 --- /dev/null
-+++ b/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
-@@ -0,0 +1,105 @@
-+From 95bda64fb4cf1825fea745e918cfe8202843f0ba Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/liburcu/liburcu/0001-Support-for-NIOS2-architecture.patch
+@@ -0,0 +1,144 @@
++From add566b913e1b5cd4974a2167157dc08d8245ab0 Mon Sep 17 00:00:00 2001
 +From: Marek Vasut <marex@denx.de>
-+Date: Sat, 30 Jan 2016 07:18:02 +0100
-+Subject: [PATCH] Add nios2 support
++Date: Tue, 9 Feb 2016 01:52:26 +0100
++Subject: [PATCH] Support for NIOS2 architecture
 +
-+Add support for the nios2 CPU.
++Add support for the Altera NIOS2 CPU archirecture. The atomic operations
++are handled by the GCC. The memory barriers on this systems are entirely
++trivial too, since the CPU does not support SMP at all.
 +
 +Signed-off-by: Marek Vasut <marex@denx.de>
-+Upstream-Status: Submitted [ https://bugzilla.mozilla.org/show_bug.cgi?id=1244421 ]
++Upstream-Status: Pending
 +---
-+ nspr/pr/include/md/_linux.cfg | 45 +++++++++++++++++++++++++++++++++++++++++++
-+ nspr/pr/include/md/_linux.h   | 14 ++++++++++++++
-+ 2 files changed, 59 insertions(+)
++ LICENSE              |  1 +
++ README.md            |  1 +
++ configure.ac         |  1 +
++ urcu/arch/nios2.h    | 40 ++++++++++++++++++++++++++++++++++++++++
++ urcu/uatomic/nios2.h | 32 ++++++++++++++++++++++++++++++++
++ 5 files changed, 75 insertions(+)
++ create mode 100644 urcu/arch/nios2.h
++ create mode 100644 urcu/uatomic/nios2.h
 +
-+diff --git a/pr/include/md/_linux.cfg b/nspr/pr/include/md/_linux.cfg
-+index 8cbf0cb..150676b 100644
-+--- a/pr/include/md/_linux.cfg
-++++ b/pr/include/md/_linux.cfg
-+@@ -972,6 +972,51 @@
-+ #define PR_BYTES_PER_WORD_LOG2   2
-+ #define PR_BYTES_PER_DWORD_LOG2  3
++diff --git a/LICENSE b/LICENSE
++index 3147094..a06fdcc 100644
++--- a/LICENSE
+++++ b/LICENSE
++@@ -45,6 +45,7 @@ compiler.h
++ arch/s390.h
++ uatomic/alpha.h
++ uatomic/mips.h
+++uatomic/nios2.h
++ uatomic/s390.h
++ system.h
 + 
-++#elif defined(__nios2__)
++diff --git a/README.md b/README.md
++index f6b290f..6fe9c1e 100644
++--- a/README.md
+++++ b/README.md
++@@ -43,6 +43,7 @@ Currently, the following architectures are supported:
++   - S390, S390x
++   - ARM 32/64
++   - MIPS
+++  - NIOS2
++   - Alpha
++   - ia64
++   - Sparcv9 32/64
++diff --git a/configure.ac b/configure.ac
++index 39a7777..71a7d71 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -124,6 +124,7 @@ AS_CASE([$host_cpu],
++ 	[arm*], [ARCHTYPE="arm"],
++ 	[aarch64], [ARCHTYPE="aarch64"],
++ 	[mips*], [ARCHTYPE="mips"],
+++	[nios2*], [ARCHTYPE="nios2"],
++ 	[tile*], [ARCHTYPE="tile"],
++ 	[hppa*], [ARCHTYPE="hppa"],
++ 	[ARCHTYPE="unknown"]
++diff --git a/urcu/arch/nios2.h b/urcu/arch/nios2.h
++new file mode 100644
++index 0000000..030d1bc
++--- /dev/null
+++++ b/urcu/arch/nios2.h
++@@ -0,0 +1,40 @@
+++#ifndef _URCU_ARCH_NIOS2_H
+++#define _URCU_ARCH_NIOS2_H
 ++
-++#define IS_LITTLE_ENDIAN    1
-++#undef  IS_BIG_ENDIAN
+++/*
+++ * arch_mips.h: trivial definitions for the NIOS2 architecture.
+++ *
+++ * Copyright (c) 2016 Marek Vasut <marex@denx.de>
+++ *
+++ * This library is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public
+++ * License as published by the Free Software Foundation; either
+++ * version 2.1 of the License, or (at your option) any later version.
+++ *
+++ * This library is distributed in the hope that it will be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public
+++ * License along with this library; if not, write to the Free Software
+++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+++ */
 ++
-++#define PR_BYTES_PER_BYTE   1
-++#define PR_BYTES_PER_SHORT  2
-++#define PR_BYTES_PER_INT    4
-++#define PR_BYTES_PER_INT64  8
-++#define PR_BYTES_PER_LONG   4
-++#define PR_BYTES_PER_FLOAT  4
-++#define PR_BYTES_PER_DOUBLE 8
-++#define PR_BYTES_PER_WORD   4
-++#define PR_BYTES_PER_DWORD  8
+++#include <urcu/compiler.h>
+++#include <urcu/config.h>
+++#include <urcu/syscall-compat.h>
 ++
-++#define PR_BITS_PER_BYTE    8
-++#define PR_BITS_PER_SHORT   16
-++#define PR_BITS_PER_INT     32
-++#define PR_BITS_PER_INT64   64
-++#define PR_BITS_PER_LONG    32
-++#define PR_BITS_PER_FLOAT   32
-++#define PR_BITS_PER_DOUBLE  64
-++#define PR_BITS_PER_WORD    32
-++
-++#define PR_BITS_PER_BYTE_LOG2   3
-++#define PR_BITS_PER_SHORT_LOG2  4
-++#define PR_BITS_PER_INT_LOG2    5
-++#define PR_BITS_PER_INT64_LOG2  6
-++#define PR_BITS_PER_LONG_LOG2   5
-++#define PR_BITS_PER_FLOAT_LOG2  5
-++#define PR_BITS_PER_DOUBLE_LOG2 6
-++#define PR_BITS_PER_WORD_LOG2   5
-++
-++#define PR_ALIGN_OF_SHORT   2
-++#define PR_ALIGN_OF_INT     4
-++#define PR_ALIGN_OF_LONG    4
-++#define PR_ALIGN_OF_INT64   4
-++#define PR_ALIGN_OF_FLOAT   4
-++#define PR_ALIGN_OF_DOUBLE  4
-++#define PR_ALIGN_OF_POINTER 4
-++#define PR_ALIGN_OF_WORD    4
-++
-++#define PR_BYTES_PER_WORD_LOG2   2
-++#define PR_BYTES_PER_DWORD_LOG2  3
-++
-+ #elif defined(__or1k__)
-+ 
-+ #undef  IS_LITTLE_ENDIAN
-+diff --git a/pr/include/md/_linux.h b/nspr/pr/include/md/_linux.h
-+index d378db5..18260be 100644
-+--- a/pr/include/md/_linux.h
-++++ b/pr/include/md/_linux.h
-+@@ -55,6 +55,8 @@
-+ #define _PR_SI_ARCHITECTURE "avr32"
-+ #elif defined(__m32r__)
-+ #define _PR_SI_ARCHITECTURE "m32r"
-++#elif defined(__nios2__)
-++#define _PR_SI_ARCHITECTURE "nios2"
-+ #elif defined(__or1k__)
-+ #define _PR_SI_ARCHITECTURE "or1k"
-+ #else
-+@@ -125,6 +127,18 @@ extern PRInt32 _PR_x86_64_AtomicSet(PRInt32 *val, PRInt32 newval);
-+ #define _MD_ATOMIC_SET                _PR_x86_64_AtomicSet
-+ #endif
-+ 
-++#if defined(__nios2__)
-++#if defined(__GNUC__)
-++/* Use GCC built-in functions */
-++#define _PR_HAVE_ATOMIC_OPS
-++#define _MD_INIT_ATOMIC()
-++#define _MD_ATOMIC_INCREMENT(ptr) __sync_add_and_fetch(ptr, 1)
-++#define _MD_ATOMIC_DECREMENT(ptr) __sync_sub_and_fetch(ptr, 1)
-++#define _MD_ATOMIC_ADD(ptr, i) __sync_add_and_fetch(ptr, i)
-++#define _MD_ATOMIC_SET(ptr, nv) __sync_lock_test_and_set(ptr, nv)
-++#endif
+++#ifdef __cplusplus
+++extern "C" {
 ++#endif
 ++
-+ #if defined(__or1k__)
-+ #if defined(__GNUC__)
-+ /* Use GCC built-in functions */
+++#define cmm_mb()	__asm__ __volatile__ ("":::"memory")
+++
+++#ifdef __cplusplus
+++}
+++#endif
+++
+++#include <urcu/arch/generic.h>
+++
+++#endif /* _URCU_ARCH_NIOS2_H */
++diff --git a/urcu/uatomic/nios2.h b/urcu/uatomic/nios2.h
++new file mode 100644
++index 0000000..5b3c303
++--- /dev/null
+++++ b/urcu/uatomic/nios2.h
++@@ -0,0 +1,32 @@
+++#ifndef _URCU_UATOMIC_ARCH_NIOS2_H
+++#define _URCU_UATOMIC_ARCH_NIOS2_H
+++
+++/*
+++ * Atomic exchange operations for the NIOS2 architecture. Let GCC do it.
+++ *
+++ * Copyright (c) 2016 Marek Vasut <marex@denx.de>
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining a copy
+++ * of this software and associated documentation files (the "Software"), to
+++ * deal in the Software without restriction, including without limitation the
+++ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+++ * sell copies of the Software, and to permit persons to whom the Software is
+++ * furnished to do so, subject to the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be included in
+++ * all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+++ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+++ * IN THE SOFTWARE.
+++ */
+++
+++#include <urcu/compiler.h>
+++#include <urcu/system.h>
+++#include <urcu/uatomic/generic.h>
+++
+++#endif /* _URCU_UATOMIC_ARCH_NIOS2_H */
 +-- 
-+2.7.0.rc3
++2.7.0
 +
-diff --git a/meta/recipes-support/nspr/nspr_4.11.bb b/meta/recipes-support/nspr/nspr_4.11.bb
-index 3dabcb6..a38e20c 100644
---- a/meta/recipes-support/nspr/nspr_4.11.bb
-+++ b/meta/recipes-support/nspr/nspr_4.11.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://remove-rpath-from-tests.patch \
-            file://fix-build-on-x86_64.patch \
-            file://remove-srcdir-from-configure-in.patch \
-+	   file://0002-Add-nios2-support.patch \
-           "
+diff --git a/meta/recipes-support/liburcu/liburcu_0.9.1.bb b/meta/recipes-support/liburcu/liburcu_0.9.1.bb
+index 39348d7..dccc05c 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.9.1.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.9.1.bb
+@@ -3,12 +3,14 @@ HOMEPAGE = "http://lttng.org/urcu"
+ BUGTRACKER = "http://lttng.org/project/issues"
  
- SRC_URI += "file://nspr.pc.in"
+ LICENSE = "LGPLv2.1+ & MIT-style"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
+                     file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=58e50bbd8a2f073bb5500e6554af0d0b"
+ 
+-SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
+-          "
++SRC_URI = " \
++	http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
++	file://0001-Support-for-NIOS2-architecture.patch \
++	"
+ 
+ SRC_URI[md5sum] = "124eaeea06863271c0bdf2a0cc1d8e4b"
+ SRC_URI[sha256sum] = "f8d278e9d95bec97c9ba954fc4c3fb584936bc0010713a8fe358b916bafd8715"
 -- 
 2.1.4
 
