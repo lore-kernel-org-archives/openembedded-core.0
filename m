@@ -1,53 +1,54 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id EBFBD607A4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F0F8607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 03:03:04 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id 9so5083463iom.1
+	Tue,  9 Feb 2016 03:05:39 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id kp3so381788pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 19:03:05 -0800 (PST)
+	Mon, 08 Feb 2016 19:05:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:references:to:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=upKr03NpYMmbk7lP5HpvkvdHJM6WWA3Iyh5b0AlDbc4=;
-	b=o1tjaC0vNun5SXYntHteEW858dQcCSmW7W3ky6CZf9ECyuFefrWg+5okFNrZeV88mT
-	jrauWGgEjEac6jmn6NnS8trGeLrBXQAmYMQXY9IIE6xSM9wB2pV/sdtlPU3ydTbrrw5Y
-	fUs0pATS4ketA3cZe2NReNZ7yTlEcdaM2DxD9cUJW8tccq/9Thv3asnffuT7hsjGQdug
-	XLXeQoIQMzDN239RV3gAU/wUv6xFEnHwnfReuStt1lmQXETzpSdMsqjLc7ifmcvenME/
-	WRad8tM7SDahZkGMeM2zrwDmaBYCE/RtyMphn4YOKsKBaVjxK0NXi8IP+33VeeUy6AUc
-	290w==
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=zsEzdXrvzzUNRFl3p7d0OuiuDgGizqtuuxZCQULB6Ac=;
+	b=zfI2Hoy+xprSPJW/1viOeF8G4LdwTLevKUZ1b9ZtCmZDI/nr1I5eZFXndVlFa0fzZb
+	XDAtKn5Dhq8XfzjShX0Vgsv1BL8MAYJHzpnH2dW0HF93KSCLEH3kosfDT2/I1a2IPZlU
+	fPASPZNTayGz1uJspL9IprS6qNZ05qYAvUmerOd1/382UbPmX4UD0qeHzOEZ4DHXkF+6
+	bQYok0UIYanY536Xdsdps20Ybdk/hqbWqfslkn8/cE9LJDNb4EOcg99CPzJvxlnLP/2p
+	cZsOhuf8Yj2eA0HL9lxzDaT2+jCXM0Zk+mFPU9iYC5hLqIJQfzzGvvBMmNV/aR9qHD8V
+	ToeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:references:to:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=upKr03NpYMmbk7lP5HpvkvdHJM6WWA3Iyh5b0AlDbc4=;
-	b=OnmIO8KMJskwQAILotpI/u4udlqUBYIrvc5UlyrBi3itnQLR27Qq4p6fDUba3tAggP
-	BVq7FUMMTQVQRKQoewuAcm6uRG1Ef4gtbFx4n/IVrBnUQkgKHAYogvRx/yCXSPiA5Tut
-	sjOrt8ELxGY5Iuyw5RsxiHSDP21iJrEgR2wq/eorg2P1DwqoQQfof3wuIzD6rByAhedu
-	LVdc57k8OePIx7tlyb7fCZlVIXW2rytZMEzDBndjFXVoy9hZZzRsljMqNJgDriH/gQ3f
-	H6CrOziFLFrMVovsdruGfaMHr8mlQfoxv3+B+FUiUNgFh4ddnEHD40publ2DyG0LmSU3
-	i1zA==
-X-Gm-Message-State: AG10YOS8bwSDUvEVQL3u0xMGbimL5sKqT4aQV3lN9gZ1p7cVj0xTS5hN4+7EAMgxShp28Q==
-X-Received: by 10.107.132.142 with SMTP id o14mr30403919ioi.75.1454986985309; 
-	Mon, 08 Feb 2016 19:03:05 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	h=x-gm-message-state:subject:mime-version:content-type:from
+	:in-reply-to:date:cc:message-id:references:to;
+	bh=zsEzdXrvzzUNRFl3p7d0OuiuDgGizqtuuxZCQULB6Ac=;
+	b=hWwgEqDEWFa1kG+BUKy4NldpzZ1ehnmB79N8Sq/j3+xO0VdC22nqUNj4B70BFdmHDj
+	39qllbwp8/hp6QNdajVjiRo9CJmLJIzmF/SnuB12l1gzYIhvW7xGi+sBktwO1TbQnubL
+	040cJBVX9QIYb4HfPxDMDvJMIb3ps69+EP73BGQYfrc7kM89XC0oHTjzDgGZAsEsBMOe
+	lzddiIvbyMaZqXfzq6XpxmD8BSLpGjgWMuzkeG4I8ZfUdrlB0nf0onQ1IBSYKfUFwXrK
+	eqlXJ3R/VA0hReaByQ+tymx+gMetZVjlUtnpJu8akNdhPHe8FlJJEi3anrI9M7TrZkQJ
+	qqhQ==
+X-Gm-Message-State: AG10YOQnPgCDG5LeGHLF1+lLZ/cN1q2bYKlspEP264MdEN9XyNnsULCE97061EnVXOSELw==
+X-Received: by 10.67.6.168 with SMTP id cv8mr47292101pad.47.1454987140417;
+	Mon, 08 Feb 2016 19:05:40 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:70f6:cb1c:ddf8:1d8b?
+	([2601:646:8802:5d5c:70f6:cb1c:ddf8:1d8b])
 	by smtp.gmail.com with ESMTPSA id
-	s38sm10521885ioe.33.2016.02.08.19.03.04
-	for <openembedded-core@lists.openembedded.org>
+	q16sm46239707pfi.80.2016.02.08.19.05.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 08 Feb 2016 19:03:04 -0800 (PST)
+	Mon, 08 Feb 2016 19:05:38 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <56B956EA.9000404@gmail.com>
+Date: Mon, 8 Feb 2016 19:05:34 -0800
+Message-Id: <AE5900C5-2F39-47A5-AEE8-67CB832D453E@gmail.com>
 References: <56B922B3.9070604@gmail.com>
 	<CAMKF1soeyQwt+jDkiLWxgh+7BqnbABHa7f=iFyEmZf8O-BBBYw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56B956EA.9000404@gmail.com>
-Date: Mon, 8 Feb 2016 22:03:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1soeyQwt+jDkiLWxgh+7BqnbABHa7f=iFyEmZf8O-BBBYw@mail.gmail.com>
+	<56B956EA.9000404@gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+X-Mailer: Apple Mail (2.3112)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: noticeably longer build (link?) times with binutils 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,30 +62,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 03:03:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 03:05:40 -0000
+X-Groupsio-MsgNum: 77802
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_6E5E4771-0B07-4681-B374-84B74A7A2364";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On 02/08/16 21:25, Khem Raj wrote:
-> On Mon, Feb 8, 2016 at 3:20 PM, Trevor Woerner <twoerner@gmail.com> wrote:
->> This is more of a "FYI", but I've noticed that the build time of my chromium
->> recipe has gone from ~45 minutes to ~2h15m when the only thing that changes
->> is to move openembedded-core from the commit just before upgrading binutils
->> to version 2.26 ([fd75637] native.bbclass: Set CXXFLAGS from BUILD_CXXFLAGS
->> not BUILD_CFLAGS) to the one immediately after ([86ade2c] binutils: Upgrade
->> to 2.26).
-> Is it using gold linker ? if not can you try both bfd and gold
+--Apple-Mail=_6E5E4771-0B07-4681-B374-84B74A7A2364
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-A week or so ago, as part of something else (but before the binutils 
-update to 2.26), I tried performing a clean build using the gold linker. 
+
+> On Feb 8, 2016, at 7:03 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+>=20
+> On 02/08/16 21:25, Khem Raj wrote:
+>> On Mon, Feb 8, 2016 at 3:20 PM, Trevor Woerner <twoerner@gmail.com> =
+wrote:
+>>> This is more of a "FYI", but I've noticed that the build time of my =
+chromium
+>>> recipe has gone from ~45 minutes to ~2h15m when the only thing that =
+changes
+>>> is to move openembedded-core from the commit just before upgrading =
+binutils
+>>> to version 2.26 ([fd75637] native.bbclass: Set CXXFLAGS from =
+BUILD_CXXFLAGS
+>>> not BUILD_CFLAGS) to the one immediately after ([86ade2c] binutils: =
+Upgrade
+>>> to 2.26).
+>> Is it using gold linker ? if not can you try both bfd and gold
+>=20
+> A week or so ago, as part of something else (but before the binutils =
+update to 2.26), I tried performing a clean build using the gold linker. =
 Unfortunately that image was not able to boot:
+>=20
+> =
+https://lists.yoctoproject.org/pipermail/meta-intel/2016-January/003697.ht=
+ml
+> (but there were no replies)
 
-https://lists.yoctoproject.org/pipermail/meta-intel/2016-January/003697.html
-(but there were no replies)
+it might fix both issues for you in best case.
 
-It dies somewhere between the EFI bootloader and grub2 (or perhaps just 
-after grub starts). There's no grub output.
-
-I'll try doing the build with the gold linker, but the results of that 
+>=20
+> It dies somewhere between the EFI bootloader and grub2 (or perhaps =
+just after grub starts). There's no grub output.
+>=20
+> I'll try doing the build with the gold linker, but the results of that =
 build might not be useful to me.
 
+Thats ok. Its for narrowing ld issues which is build time right now.
+
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_6E5E4771-0B07-4681-B374-84B74A7A2364
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAla5V4EACgkQuwUzVZGdMxTG3QCfXQ1wNL68ym41zzpdrj+ZAmyE
+lYcAn0Gu0HaUuRsVMbBsbCplk/zi1jak
+=r+5v
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_6E5E4771-0B07-4681-B374-84B74A7A2364--
