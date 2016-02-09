@@ -1,23 +1,53 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D250E6012A
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B53D6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 13:26:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Feb 2016 05:26:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,420,1449561600"; d="scan'208";a="743024140"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 09 Feb 2016 05:26:21 -0800
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 18DAE6A4004;
-	Tue,  9 Feb 2016 06:14:12 -0800 (PST)
-From: Costin Constantin <costin.c.constantin@intel.com>
+	Tue,  9 Feb 2016 13:49:49 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id hb3so77636427igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Feb 2016 05:49:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:content-type:mime-version:content-transfer-encoding;
+	bh=FD+bVmW1VUCj0gdsaJgn/rVD9FC8NjBwaGVlmRCgkhA=;
+	b=vGiF2ygbvHf5Rmn6NyJ9aNZqjbJEJPAETHMPoZfhYJHAm8bTgt4Ic1sxPxH0BAH5+j
+	avc6eU7mXmnUTCt+uWpVVqOdat3rjC2e/kE2epdsj9VUeiQQVSg/CnDHfZel2eYP7Uj4
+	1HbGVEthOt4u1H116/AnQJ+iQb0AL9N3NZa68nhNbmlKJFFhP+6eYqQeTZgXwBlA5tDZ
+	hGZJG+BSVAYCvEVfRvHTllmBKR3ui1RQfduCsD0bkq+HDUY2Y5UP3lpju/4hgo/FC2JK
+	O+JDkmU3GqSXc6pENzl+06dqCqlcf42TqluBVqzrhVIVWX27TWI0/wUKIii21GzwNalM
+	0CSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=FD+bVmW1VUCj0gdsaJgn/rVD9FC8NjBwaGVlmRCgkhA=;
+	b=j9cMcDb/aqCxgJNfECUxDtAucXGlhRp0ywRxFzjqbQdFRZBxXSL3ukhtQusnRVX1c2
+	0SwL0DfvbRm+QfE5YJrp5LuUxy9eGR0XpagO89zVclxmDIBi1Nr0TFh+0iolP7TXNouv
+	TxjgLEy19dmzA+qAtg2HG0WSB0uhxfR5DJb1a6/jHLc4hM3mAHlFPobzKiFXho0AWXe+
+	GTu1hoG0H6+Uh49IMgAKEY3cpg0vlNC8fCizM///v5VsuKOhs3waJ1JnLJoanW4yaC18
+	A6Ha+0l8ugb1mS5QFTT2HZNi0IYs0IUZ5KSYVD1D/afr/tdC5K+diyUCAMyMdzKhwAgh
+	htng==
+X-Gm-Message-State: AG10YOQqi8YNjgr0JxkNLMY6LB58C7AG7I6sgq5w2JEVOBPERtbGIHsRCOQ9u68wTqXZbwCR
+X-Received: by 10.50.78.1 with SMTP id x1mr4512543igw.66.1455025790538;
+	Tue, 09 Feb 2016 05:49:50 -0800 (PST)
+Received: from pohly-mobl1 (p57A57CC2.dip0.t-ipconnect.de. [87.165.124.194])
+	by smtp.gmail.com with ESMTPSA id a8sm2387899ioj.14.2016.02.09.05.49.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 09 Feb 2016 05:49:49 -0800 (PST)
+Message-ID: <1455025787.32190.12.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Feb 2016 15:39:36 +0200
-Message-Id: <1455025176-14175-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] oe-selftest: Add support for lib/oeqa/selftest subdirectories
+Date: Tue, 09 Feb 2016 14:49:47 +0100
+In-Reply-To: <1455009772.17004.4.camel@intel.com>
+References: <1454944449-11435-1-git-send-email-patrick.ohly@intel.com>
+	<1455009772.17004.4.camel@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] meta/conf/layer.conf: adapt to more flexible initramfs-framework RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,106 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 13:26:22 -0000
+X-List-Received-Date: Tue, 09 Feb 2016 13:49:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This patch adds functionality to allow creating subdirectories inside
-lib/oeqa/selftest for all layers present in BBLAYERS. Like this, test
-cases can be grouped into organized directories.
+On Tue, 2016-02-09 at 10:22 +0100, Patrick Ohly wrote:
+> On Mon, 2016-02-08 at 16:14 +0100, Patrick Ohly wrote:
+> > initramfs-framework now RDEPENDS on ${VIRTUAL-RUNTIME_base-utils},
+> > which can be busybox or some alternative like toybox. Making the
+> > SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS exception flexible, too, ensures that
+> > distros using toybox still pass the selftests.
+> > 
+> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> > ---
+> >  meta/conf/layer.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> > index 7100ed7..baa4fd4 100644
+> > --- a/meta/conf/layer.conf
+> > +++ b/meta/conf/layer.conf
+> > @@ -46,7 +46,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+> >    ppp-dialin->ppp \
+> >    resolvconf->bash \
+> >    docbook-xsl-stylesheets->perl \
+> > -  initramfs-framework->busybox \
+> > +  initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
+> >    initramfs-framework->systemd \
+> >    initramfs-framework->udev \
+> >    liberation-fonts->fontconfig \
+> 
+> Was VIRTUAL-RUNTIME_base-utils meant to be a single word?
 
-Addresses [YOCTO #7865]
+Apparently it was, for the sake of consistency with other
+VIRTUAL-RUNTIME variables.
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- scripts/oe-selftest | 55 +++++++++++++++++++++++++++++------------------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
+> I just noticed that toybox does not provide a /bin/sh out-of-the-box,
+> and even when enabled the resulting sh is not complete enough to execute
+> initramfs-framework scripts.
+> 
+> That means that VIRTUAL-RUNTIME_base-utils = "toybox" leads to an
+> unusable initramfs when replacing "busybox" with
+> ${VIRTUAL-RUNTIME_base-utils} in initramfs-framwork.
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 4eb404b..6a3181c 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -159,19 +159,35 @@ def remove_inc_files():
-         except:
-             pass
- 
-+
-+def get_tests_modules(include_hidden=False):
-+    modules_list = list()
-+    for modules_path in oeqa.selftest.__path__:
-+        for (p, d, f) in os.walk(modules_path):
-+            files = sorted([f for f in os.listdir(p) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
-+            for f in files:
-+                submodules = p.split("selftest")[-1]
-+                module = ""
-+                if submodules:
-+                    module = 'oeqa.selftest' + submodules.replace("/",".") + "." + f.rstrip('.py')
-+                else:
-+                    module = 'oeqa.selftest.' + f.rstrip('.py')
-+                if module not in modules_list:
-+                    modules_list.append(module)
-+
-+    return modules_list
-+
-+
-+
- def get_tests(exclusive_modules=[], include_hidden=False):
--    testslist = []
-+    test_modules = list()
-     for x in exclusive_modules:
--        testslist.append('oeqa.selftest.' + x)
--    if not testslist:
--        for testpath in oeqa.selftest.__path__:
--            files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
--            for f in files:
--                module = 'oeqa.selftest.' + f[:-3]
--                if module not in testslist:
--                    testslist.append(module)
-+        test_modules.append('oeqa.selftest.' + x)
-+    if not test_modules:
-+        inc_hidden = include_hidden
-+        test_modules = get_tests_modules(inc_hidden)
- 
--    return testslist
-+    return test_modules
- 
- 
- class Tc:
-@@ -218,23 +234,12 @@ def get_tests_from_module(tmod):
- 
- 
- def get_all_tests():
--    tmodules = set()
--    testlist = []
--    prefix = 'oeqa.selftest.'
--
-     # Get all the test modules (except the hidden ones)
--    for tpath in oeqa.selftest.__path__:
--        files = sorted([f for f in os.listdir(tpath) if f.endswith('.py') and not
--                        f.startswith(('_', '__')) and f != 'base.py'])
--        for f in files:
--            tmodules.add(prefix + f.rstrip('.py'))
--
-+    testlist = []
-+    tests_modules = get_tests_modules()
-     # Get all the tests from modules
--    tmodules = sorted(list(tmodules))
--
--    for tmod in tmodules:
-+    for tmod in sorted(tests_modules):
-         testlist += get_tests_from_module(tmod)
--
-     return testlist
- 
- 
-@@ -463,7 +468,7 @@ def main():
-         log.info('Listing all available test modules:')
-         testslist = get_tests(include_hidden=True)
-         for test in testslist:
--            module = test.split('.')[-1]
-+            module = test.split('oeqa.selftest.')[-1]
-             info = ''
-             if module.startswith('_'):
-                 info = ' (hidden)'
+A better fix is probably to make toybox a full replacement (eventually)
+or make it RDEPEND on the missing pieces (current solution, for those
+who want it as busybox replacement).
+
+> This could be fixed by setting
+>   VIRTUAL-RUNTIME_base-utils = "toybox dash"
+> but then the patch above needs to be fixed.
+
+No, let's keep the patch as it is.
+
 -- 
-2.5.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
