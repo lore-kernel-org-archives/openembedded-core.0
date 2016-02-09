@@ -1,28 +1,28 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A8C165CB5
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id C722273163
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 16:25:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u19GPGMZ014739
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Feb 2016 08:25:16 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 9 Feb 2016 08:25:15 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1455032462-124215-1-git-send-email-mark.hatle@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56BA12EA.20104@windriver.com>
-Date: Tue, 9 Feb 2016 10:25:14 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.1
+	Tue,  9 Feb 2016 16:52:06 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q09HT4SVzz3hjdJ;
+	Tue,  9 Feb 2016 17:52:05 +0100 (CET)
+X-Auth-Info: Qx4I8Svek1MJlu4iLbLI2S0kOeDlFVyOfFXMHAa2Mqk=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3q09HT2J3yzvdWV; 
+	Tue,  9 Feb 2016 17:52:05 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Tue, 9 Feb 2016 17:52:04 +0100
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1455017471-6682-2-git-send-email-marex@denx.de>
+	<201602091529.17418.marex@denx.de> <56BA0D0B.60104@windriver.com>
+In-Reply-To: <56BA0D0B.60104@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1455032462-124215-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [RFC][PATCH] Resolve an issue when using pipes to process data
+Message-Id: <201602091752.04599.marex@denx.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 2/7] binutils: Repair nios2 PLT and GP handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 16:25:16 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Tue, 09 Feb 2016 16:52:07 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-(Had someone ask me where the patch is..)
+On Tuesday, February 09, 2016 at 05:00:11 PM, Randy MacLeod wrote:
+> On 2016-02-09 09:29 AM, Marek Vasut wrote:
+> > On Tuesday, February 09, 2016 at 03:21:17 PM, Burton, Ross wrote:
+> >> On 9 February 2016 at 13:08, Marek Vasut <marex@denx.de> wrote:
+> >>> Repair corner cases in nios2 PLT and GP handling. See the patches
+> >>> themselves for extensive detailed explanation.
+> 
+> This sentence doesn't really add much value since many patches
+> contain additional description and the logs here are mostly a
+> few lines from the ChangeLog which doesn't count as an extensive
+> detailed explanation in my books. :)
 
-Our wonderful corporate mail server sucks.. so the thread didn't get attached
-with the patch.
+It's not from changelog, it's from the commit message. The real answer
+is that it fixes incorrect computation of the GOT/PLT offsets in case
+these tables grow too large. Then there's some sort of off-by-four error
+in the computation, which causes linking to fail. It happens in one or
+two packages in yocto. I had these patches in my tree for a bit, so my
+memory is a little unclear on the gruesome details already.
 
-This is the cover letter, the patch has the subject:
-[RFC][PATCH] buildhistory.bbclass: Break up the find to catch failures
+> I expect that you're familiar with this but take a look at:
+> http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Comm
+> itting_your_patch
+> 
+>      Commit with a concise and descriptive message -
+>      one that explains your changes in a way others get
+>      a short overview without looking at the code.
 
---Mark
+Yes, I hope it's there.
 
-On 2/9/16 9:41 AM, Mark Hatle wrote:
-> I'm sending this as an RFC.  I know the patch works, but I think it highlights
-> a potentially larger issue in the system.
+> >>> The patches don't contain the ChangeLog entries, since the changelog
+> >>> entries often cause trouble when applying the patch.
 > 
-> If we're processing data using shell pipes, the return code of a failed
-> process may end up being lost -- avoiding the regular error capture when
-> bitbake runs a task.
-> 
-> In this particular case, while working to fix a bug in pseudo we made an
-> error condition fatal (triggered an abort()), but buildhistory kept on
-> processing ignoring any issues had occurred.
-> 
-> Breaking up the processing into steps, things that 'could fail', and later
-> processing steps that shouldn't fail will give us more of an opportunity to
-> identify failures in the future and deal with them in a quicker manner,
-> then having to investigate log files for messages.
-> 
-> I'm suspecting we should run a janitor exercise against oe-core looking for
-> similar situations where we might be piping the data and potentially losing
-> return codes in the process.
-> 
-> Comments?
-> 
-> Mark Hatle (1):
->   buildhistory.bbclass: Break up the find to catch failures
-> 
->  meta/classes/buildhistory.bbclass | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
+> I'd prefer to see the ChangeLog snippets duplicated in the git log
+> so that it's easier to see what happened.
 
+You actually want to avoid that, since it'd make it really hard to apply
+these patches onto subsequent versions of binutils if this was necessary.
+I hope this won't be necessary and will be dropped once the next version
+of binutils arrives. The change which happened is in the patch's commit
+message, but it seems like some of the binutils guys are not very fond of 
+writing extensive explanation.
+
+> If you do a v2, please also mention that the patches are backports
+> since that's important to people when they consider whether the patch
+> should be accepted.
+
+This is a V2 ;-)
+
+There is "Upstream-Status: Backport" for each of the patches, it's actually
+needed to track the status.
+
+Best regards,
+Marek Vasut
 
