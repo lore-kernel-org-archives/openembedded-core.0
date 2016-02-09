@@ -1,24 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C5976FF69
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 2653C607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 15:41:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u19Ff5AF014152
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Feb 2016 07:41:05 -0800 (PST)
-Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 9 Feb 2016 07:41:05 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Feb 2016 09:41:02 -0600
-Message-ID: <1455032462-124215-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Subject: [RFC][PATCH] Resolve an issue when using pipes to process data
+	Tue,  9 Feb 2016 15:50:02 +0000 (UTC)
+Received: from comp-006-thk (unknown [31.182.60.238])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id F08182D6030;
+	Tue,  9 Feb 2016 16:50:00 +0100 (CET)
+Message-ID: <1455033000.3663.5.camel@open-rnd.pl>
+From: Maciek Borzecki <maciej.borzecki@open-rnd.pl>
+Reply-To: maciej.borzecki@open-rnd.pl
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 09 Feb 2016 16:50:00 +0100
+In-Reply-To: <CAMKF1spPPJYxpF4mNpqXT=_aQdCR9meet=NRQqqjDzwGuoFdGg@mail.gmail.com>
+References: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1454926183-22439-7-git-send-email-maciej.borzecki@open-rnd.pl>
+	<CAMKF1spPPJYxpF4mNpqXT=_aQdCR9meet=NRQqqjDzwGuoFdGg@mail.gmail.com>
+Organization: Open-RnD sp. z o.o.
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] systemd: remove unnecessary code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 15:41:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Feb 2016 15:50:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I'm sending this as an RFC.  I know the patch works, but I think it highlights
-a potentially larger issue in the system.
+On wto, 2016-02-09 at 07:19 -0800, Khem Raj wrote:
+> On Mon, Feb 8, 2016 at 2:09 AM, Maciej Borzecki
+> <maciej.borzecki@open-rnd.pl> wrote:
+> > Remove unnecessary chown on journal file.
+> > 
+> > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> > ---
+> >  meta/recipes-core/systemd/systemd_228.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-
+> > core/systemd/systemd_228.bb
+> > index
+> > 40ed81a37e78c67bae13f7ee7018d85efa2f6b7d..03434ff9d5ff19fe043332b0b53a4fa96ab2b120
+> > 100644
+> > --- a/meta/recipes-core/systemd/systemd_228.bb
+> > +++ b/meta/recipes-core/systemd/systemd_228.bb
+> > @@ -209,7 +209,7 @@ do_install() {
+> >                 sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd%
+> > ${D}${sysconfdir}/init.d/systemd-udevd
+> >         fi
+> > 
+> > -       chown root:systemd-journal ${D}/${localstatedir}/log/journal
+> > +        # chown root:systemd-journal ${D}/${localstatedir}/log/journal
+> > 
+> 
+> journald requires these perms on this directory. Can you describe the
+> issue it fixes ?
+> 
 
-If we're processing data using shell pipes, the return code of a failed
-process may end up being lost -- avoiding the regular error capture when
-bitbake runs a task.
+I should use non-root user a bit more often. Apparently journalctl becomes useless without
+systemd-journal chown on /var/log/journal. I'll revise this and the other useradd/sysusers
+patch. Thanks for catching this.
 
-In this particular case, while working to fix a bug in pseudo we made an
-error condition fatal (triggered an abort()), but buildhistory kept on
-processing ignoring any issues had occurred.
+ 
+-- 
+Maciej Borzęcki
+Open-RnD Sp. z o.o., Poland
+www.open-rnd.pl
 
-Breaking up the processing into steps, things that 'could fail', and later
-processing steps that shouldn't fail will give us more of an opportunity to
-identify failures in the future and deal with them in a quicker manner,
-then having to investigate log files for messages.
-
-I'm suspecting we should run a janitor exercise against oe-core looking for
-similar situations where we might be piping the data and potentially losing
-return codes in the process.
-
-Comments?
-
-Mark Hatle (1):
-  buildhistory.bbclass: Break up the find to catch failures
-
- meta/classes/buildhistory.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
--- 
-2.5.0
 
 
