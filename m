@@ -1,24 +1,26 @@
 Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C3F460111
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ABAC0608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 02:46:57 +0000 (UTC)
+	Tue,  9 Feb 2016 02:46:58 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u192kvEW009930
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u192kwK6006961
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Feb 2016 18:46:57 -0800 (PST)
+	Mon, 8 Feb 2016 18:46:58 -0800 (PST)
 Received: from fidler.wrs.com (172.25.44.9) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 8 Feb 2016 18:46:56 -0800
+	Mon, 8 Feb 2016 18:46:57 -0800
 From: Randy MacLeod <Randy.MacLeod@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Feb 2016 21:46:50 -0500
-Message-ID: <1454986011-17895-1-git-send-email-Randy.MacLeod@windriver.com>
+Date: Mon, 8 Feb 2016 21:46:51 -0500
+Message-ID: <1454986011-17895-2-git-send-email-Randy.MacLeod@windriver.com>
 X-Mailer: git-send-email 2.4.2
+In-Reply-To: <1454986011-17895-1-git-send-email-Randy.MacLeod@windriver.com>
+References: <1454986011-17895-1-git-send-email-Randy.MacLeod@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] Remove obsolete references to exmap
+Subject: [PATCH 2/2] buildstats.bbclass: remove dead URL from comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +36,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 09 Feb 2016 02:46:58 -0000
 Content-Type: text/plain
 
-Exmap was a useful tool but it appears to be unsupported.
-Remove it from the sample local.conf and remove the
-commented lines from the profile tools packagegroup.
-
 Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- meta/conf/local.conf.sample                                        | 2 +-
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 3 ---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ meta/classes/buildstats.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 11449e8..38ee656 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -108,7 +108,7 @@ PACKAGE_CLASSES ?= "package_ipk"
- #  "tools-sdk"      - add development tools (gcc, make, pkgconfig etc.)
- #  "tools-debug"    - add debugging tools (gdb, strace)
- #  "eclipse-debug"  - add Eclipse remote debugging support
--#  "tools-profile"  - add profiling tools (oprofile, exmap, lttng, valgrind)
-+#  "tools-profile"  - add profiling tools (oprofile, lttng, valgrind)
- #  "tools-testapps" - add useful testing tools (ts_print, aplay, arecord etc.)
- #  "debug-tweaks"   - make an image suitable for development
- #                     e.g. ssh root access has a blank password
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 80f5933..59d930b 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -67,9 +67,6 @@ VALGRIND_mips64n32 = ""
- VALGRIND_arm = ""
- VALGRIND_aarch64 = ""
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index daf0b86..e58d37b 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -4,8 +4,7 @@ BUILDSTATS_BASE = "${TMPDIR}/buildstats/"
+ # Build statistics gathering.
+ #
+ # The CPU and Time gathering/tracking functions and bbevent inspiration
+-# were written by Christopher Larson and can be seen here:
+-# http://kergoth.pastey.net/142813
++# were written by Christopher Larson.
+ #
+ ################################################################################
  
--#    exmap-console
--#    exmap-server
--
- RDEPENDS_${PN} = "\
-     ${PROFILETOOLS} \
-     ${LTTNGUST} \
 -- 
 2.4.2
 
