@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B106073180
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EDAE960667
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:53:19 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id l127so6918905iof.3
+	Tue,  9 Feb 2016 11:57:34 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id hb3so75956924igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 03:53:20 -0800 (PST)
+	Tue, 09 Feb 2016 03:57:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=UjEHQ+D+5Yi2wi6WDq9QrDfRU4tRgugs+Gbb3TcufYM=;
-	b=1kMJm99WhJFeGV6PWWal4IHJf5P8tFUGU+chafxz2CfsJYbJO0OVggVEAfjXgYnTa0
-	OkhNfOkRLvsDz08gcFAP/eFuy02z9E/wUvqSMZFbqjDWDx8K1Cyj84OI4BCNvi1Ev14N
-	iOGqtuAtYUGcVbHJF318xLwJfYJvSpHdI82e11eVEN3pmG6in0X93I25HCS8VbhD0GNu
-	GA7AavfCdJYLwSPXr1Z0iJU1m5uW0tdd2VSkFD2W5/rk7O6/Om0FWwOwWE0XQ0p2abeX
-	4pjI9G7GP6+tY8F4wwKFt3lFxGSDVnRGUl2Jp90lUjR9Prh6nr4hwaqfAXL/FvFtTy29
-	VRMQ==
+	bh=k8oGhOcoDwbNKC/JoPaJOToKKhmhzmMhcBSxb5dDY7I=;
+	b=UDuxjknF7WD9Zk7YXI3wKNeMkPyZ0Zp7EOxf356jppzvstzN8pRFT4UsiTTW11cJ0N
+	CUmVqdGoTZYlR4nr5CE14mV5jTojvB9pPByQaOzf4VVNbZ45J1eSoQYFYrvjpXUt692O
+	5wkazkmEgiPjPEFqwLmX60Yl+O3PgzZiGz/uEQXSC23ldPB0GMlLswKE/JUVNB/Zus4i
+	gK+VtwVU8gBQhbexTf7Y+iP0Hshi2VpWuaOXI85mx76+FVgThmw4DAF0iQ3u5JI6BLwN
+	5C/Y0Pyl+ly7rCkqXMGJJooVApXtTRQ3Dx++9cFI3BGC+DQ6gwjvlRSkjbJ+b3vdRhEa
+	TqmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=UjEHQ+D+5Yi2wi6WDq9QrDfRU4tRgugs+Gbb3TcufYM=;
-	b=JOJArvCeSVTARrKeiWKf9yHsbGHLprcJFfmlgrpLNA0MbgCPoSz7L4uJIhz230t5kb
-	S+98fBXVXAA86cDQ1018a3gqZ1Jv0zFD4TeQDFIgMu8F5HI2qvGF2R9UbJKpeovqhhJH
-	BP0aj5YiEOp/twQELU8uax8mBwPolV08Xmaym9oc7FuJkTbyCJFaSlf6yZrpTrLHv281
-	QD7Dzd43yvvmEwSlKjOitS//2xFW7sHstFuUBdEl8ssWJNigJkKZ0XOKinkXfESSi9b0
-	/Nb1RIfuaCWwtDG0IyRRN2SknFUOkK7XHdwa8Dae31wzVvWTg7zZS32cVjHAt6AdWJQS
-	SKtA==
-X-Gm-Message-State: AG10YOQ+Ra4hrLyaU9pm32gDXXUukFsjSI8RwRyaZOP8aoJF7OEPCJSt7N8E85DWky09fGqsyc4VwhLyBi8Rog4A
-X-Received: by 10.107.137.92 with SMTP id l89mr21692881iod.133.1455018800579; 
-	Tue, 09 Feb 2016 03:53:20 -0800 (PST)
+	bh=k8oGhOcoDwbNKC/JoPaJOToKKhmhzmMhcBSxb5dDY7I=;
+	b=ZjI3rOHcskXk1kVK8rw5WmQvxb+faSp5/GNf8/f8MoMrtHj3G61M4FrQ10jNCAnn4O
+	tGUQkqbZUDgVCbETs0rpYR10/+srGZlKezY6Qv4RTdEbxw0+R6G+TfYmyk+0cuigwJyt
+	yOcQrxLQL0Yupv96SWiv2yLFvVhxUTI7UR1a7O0dqhK6KvF5bUPvq7TuwKmeUkYQv50B
+	pR+S4rlvsH3Dk4GDYOXSzkZPzwWlnVANJv3AYDJirgS/xb43toIH4VA8oCi/yY72UhuE
+	D2sszzcTIA1ACe06n1QC3lsyoa1pErYo1T+4zQAYv1AOrPeSu/RLrLDfVIAeu8x9rC1S
+	R81g==
+X-Gm-Message-State: AG10YOTmkaof8TkGTLM/VTaFUsXU7VAqm/cl4IDNv9GMD1wEUtfL8K1fCJSVY6bD/NtKLyxQrTx4zaiaiNbZUvL1
+X-Received: by 10.50.160.7 with SMTP id xg7mr3746484igb.64.1455019055775; Tue,
+	09 Feb 2016 03:57:35 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 03:53:01 -0800 (PST)
-In-Reply-To: <1455017471-6682-6-git-send-email-marex@denx.de>
+Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 03:57:16 -0800 (PST)
+In-Reply-To: <1455017471-6682-2-git-send-email-marex@denx.de>
 References: <1455017471-6682-1-git-send-email-marex@denx.de>
-	<1455017471-6682-6-git-send-email-marex@denx.de>
+	<1455017471-6682-2-git-send-email-marex@denx.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Feb 2016 11:53:01 +0000
-Message-ID: <CAJTo0LZ7fpKqnuyzWmQ02dw5DnKS4+XBbAEx=nNmZDi-Fq6+ZA@mail.gmail.com>
+Date: Tue, 9 Feb 2016 11:57:16 +0000
+Message-ID: <CAJTo0LaVKp15F13EpAvBa47qmJoWcZ+P6kip45jgy-6xSWxsFA@mail.gmail.com>
 To: Marek Vasut <marex@denx.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] liburcu: Add nios2 support
+Subject: Re: [PATCH 2/7] binutils: Repair nios2 PLT and GP handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 11:53:22 -0000
-Content-Type: multipart/alternative; boundary=001a113ebdb4c01be3052b54f673
+X-List-Received-Date: Tue, 09 Feb 2016 11:57:39 -0000
+Content-Type: multipart/alternative; boundary=001a11339de8f61d14052b550512
 
---001a113ebdb4c01be3052b54f673
+--001a11339de8f61d14052b550512
 Content-Type: text/plain; charset=UTF-8
 
 On 9 February 2016 at 11:31, Marek Vasut <marex@denx.de> wrote:
 
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
+> +From 33d4099fc891760ea1f080746dee4dcfc36c757c Mon Sep 17 00:00:00 2001
+> +From: Sandra Loosemore <sandra@codesourcery.com>
+> +Date: Wed, 9 Dec 2015 16:13:58 -0800
+> +Subject: [PATCH] Fix GOT address computations in initial PLT entries for
+> + nios2.
+> +
+> +2015-12-09  Sandra Loosemore  <sandra@codesourcery.com>
+> +
+> +       bfd/
+> +       * elf32-nios2.c (nios2_elf32_finish_dynamic_sections): Correct
+> +       %hiadj/%lo computations for _GLOBAL_OFFSET_TABLE_ in initial
+> +       PLT entries.  Assert alignment requirements.
+> +
+> +Upstream-Status: Backport
 >
 
-Why did the license checksum change?
+These patches need your Signed-off-by.
 
 Ross
 
---001a113ebdb4c01be3052b54f673
+--001a11339de8f61d14052b550512
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -79,12 +91,29 @@ Content-Transfer-Encoding: quoted-printable
 On 9 February 2016 at 11:31, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"m=
 ailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<=
 br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div id=3D":eu" class=3D"a3s" style=3D"ov=
-erflow:hidden">-LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D0f060c30a27=
-922ce9c0d557a639b4fa3 \<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3De548d28737289d75a8f1e01ba2=
-fd7825 \</div></blockquote></div><br>Why did the license checksum change?</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
+:1px #ccc solid;padding-left:1ex"><div id=3D":cp" class=3D"a3s" style=3D"ov=
+erflow:hidden">+From 33d4099fc891760ea1f080746dee4dcfc36c757c Mon Sep 17 00=
+:00:00 2001<br>
++From: Sandra Loosemore &lt;<a href=3D"mailto:sandra@codesourcery.com">sand=
+ra@codesourcery.com</a>&gt;<br>
++Date: Wed, 9 Dec 2015 16:13:58 -0800<br>
++Subject: [PATCH] Fix GOT address computations in initial PLT entries for<b=
+r>
++ nios2.<br>
++<br>
++2015-12-09=C2=A0 Sandra Loosemore=C2=A0 &lt;<a href=3D"mailto:sandra@codes=
+ourcery.com">sandra@codesourcery.com</a>&gt;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0bfd/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0* elf32-nios2.c (nios2_elf32_finish_dynamic_sec=
+tions): Correct<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0%hiadj/%lo computations for _GLOBAL_OFFSET_TABL=
+E_ in initial<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0PLT entries.=C2=A0 Assert alignment requirement=
+s.<br>
++<br>
++Upstream-Status: Backport</div></blockquote></div><br>These patches need y=
+our Signed-off-by.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
 
---001a113ebdb4c01be3052b54f673--
+--001a11339de8f61d14052b550512--
