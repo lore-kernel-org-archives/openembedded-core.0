@@ -1,31 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F7D662133
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C8B036FFC8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 21:30:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u19LUt3o007342; Tue, 9 Feb 2016 21:30:55 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mHQLopBohQqL; Tue,  9 Feb 2016 21:30:55 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u19LUpGQ007337
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 9 Feb 2016 21:30:53 GMT
-Message-ID: <1455053451.16142.84.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Seebach <peter.seebach@windriver.com>, Mark Hatle
-	<mark.hatle@windriver.com>
-Date: Tue, 09 Feb 2016 21:30:51 +0000
-In-Reply-To: <20160209151635.6327ebb0@seebs-worktop>
+	Tue,  9 Feb 2016 21:52:53 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id f81so141666iof.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Feb 2016 13:52:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=dYrh8HAYTPQUTWDkjqLVsyE9JD6ZnKEv2u85bVAvoUk=;
+	b=N4BVLp/vzjyRGMQ9krKTUvxAeNGvnFCx/HNNbkKngg8rGw3F6vMGzxqNBu5PhAi55I
+	L0J1Qara36d/ukAT1j47qh0eQtFaKpdVCAmhM9nEYuKYlxq9HYROpG8Ta0c3oCAC6MRr
+	6iVQmU4aQ9LEOenPzofZhvm0xLSr8QzYdOPVrhRoA5XBQbeGbCZMRhx3EyAurZ/f6vRp
+	IC1qhjsYDPreVysoKjVtumFQXc9Slf7ara5hSq7CIvxHMBQGgHcRjshyRZUGQHnNc4Cz
+	ExnMmqwdlR/k9HWi+POcMjPuuQd5Kcdnu1fVOZaaMFxaikfYgYlEUKLHJDAsYfu7ag5f
+	kCxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=dYrh8HAYTPQUTWDkjqLVsyE9JD6ZnKEv2u85bVAvoUk=;
+	b=fYedu7AxRZiV73tb6WGJhBZuexvDk6MckzkPu4lMVxBbVFYxx2LQNaM9GBmbpgG+6b
+	3Qvwfnh1vT5APu4HOAr57W28jyscRDkRa8eVzYukiDmAzWaKPC4dzxAj9td1g08fhKuh
+	IWirQx4awbqNUkFSTf1dOzfqJrjmEyWVWyBlIIRhyhgYiZ2z4BehpwknhY4WDSDswjzG
+	8xmUbmUeFoSfEj9spzTB0YCnsJVclvJ/smqRNbmawrDztj9SmvVW2rhlMec778UM0LM/
+	xjNN43wjzUwBefsI25SYWKBipiO15hXTv8R6lgK1Gixe4vAkMZZmaciv2sqzb12/Cbd9
+	9GrA==
+X-Gm-Message-State: AG10YOS9Ei18dL/AMU2FRrzNGxu3RIJcw4I7ID1Ytyj9yGCzwLLvtqZXXPA0MAYrBEOmtoU8LRRoesC4Ck9FhQ==
+MIME-Version: 1.0
+X-Received: by 10.107.164.15 with SMTP id n15mr32416732ioe.148.1455054774004; 
+	Tue, 09 Feb 2016 13:52:54 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Tue, 9 Feb 2016 13:52:53 -0800 (PST)
+In-Reply-To: <56BA47DD.6020007@windriver.com>
 References: <cover.1455047631.git.peter.seebach@windriver.com>
 	<56BA47DD.6020007@windriver.com>
-	<20160209151635.6327ebb0@seebs-worktop>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 9 Feb 2016 22:52:53 +0100
+Message-ID: <CALbNGRQfNy=M5Y-zQXgXb-nQcbNKe5G_3D816HnK37w2Lag1SA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/1] pseudo 1.7.5 [jethro][fido]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,38 +56,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 21:30:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 21:52:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2016-02-09 at 15:16 -0600, Peter Seebach wrote:
-> On Tue, 9 Feb 2016 14:11:09 -0600
-> Mark Hatle <mark.hatle@windriver.com> wrote:
-> 
-> > Everything remains compatible, but it does fix a subtle race
-> > condition that can
-> > lead to files under pseudo control inheriting their host system
-> > permissions.
-> > 
-> > See bug 9031 for more details.
-> 
-> For reference, the thing which exposed the circumstance where this
-> was
-> actually remotely likely to come up was added in f1d4744, back in
-> 2014,
-> and somehow the actual change isn't mentioned in ChangeLog.txt, but
-> in
-> practice it's been there since 1.6.1. But it would only (probably)
-> show
-> up if you ran some commands with "pseudo <cmd>" *while* running other
-> things using a pseudo server normally.
+On Tue, Feb 9, 2016 at 9:11 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> Once the corresponding tarball is available, this should likely be
+> backported/merged to Jethro and Fido as well.
+>
+> Everything remains compatible, but it does fix a subtle race condition that can
+> lead to files under pseudo control inheriting their host system permissions.
+Are user IDs affected? If yes there would be a chance to reduce loads
+of host contamination warnings..
 
-Which we do as standard if you enable buildhistory.
-
-(for full disclosure of the issue)
-
-Cheers,
-
-Richard
-
+Andreas
 
