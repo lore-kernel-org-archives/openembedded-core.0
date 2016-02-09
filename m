@@ -1,29 +1,49 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 50DF073198
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D600965CB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 14:29:19 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q066l3DjTz3hhwX;
-	Tue,  9 Feb 2016 15:29:18 +0100 (CET)
-X-Auth-Info: Cohn1KQxQU1h+uQn7iF4oeKapG5gjVw4b+JK8XxmhYE=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3q066k04ZZzvdWV; 
-	Tue,  9 Feb 2016 15:29:17 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Feb 2016 15:29:17 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1455017471-6682-2-git-send-email-marex@denx.de>
-	<1455023303-8137-1-git-send-email-marex@denx.de>
-	<CAJTo0LbuO5c=Hv7LUHMpuOYtLG48YFN7t+ZpeTR+cjdHrpdXNg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbuO5c=Hv7LUHMpuOYtLG48YFN7t+ZpeTR+cjdHrpdXNg@mail.gmail.com>
+	Tue,  9 Feb 2016 14:30:27 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id d63so18848591ioj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Feb 2016 06:30:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=0oTYNEAHvcVXOLu6e/FRY9/QebPLi7ux/kzqxXHXEBo=;
+	b=RHzxAbUfoibzFNYqnUJ+QxCH86VZuSjTrcCSj1w1IuZmQNzjCJfMudHO4rwK+Skk+e
+	1ibQKTsv7peqO4emTTv25jiAnTWUGjAKhN3hkT38PFfK1HlqDtHdtZvV3GeU7pVsK8TA
+	FhICgfluUhNQXfY8mPOvFBOSTH5YBzWOGLckJRmKmOSDh/m+eyF/Py+SO5ygPrfWGFIX
+	Gc6rDpYDSJ+F8097eDVBvzYAzHmsZxEOBRA6lUPJsrdg2WSj3xc5+e+Alcc8ncXMk/5/
+	sbj39gMc4WvSldy6Uh8A44FxeeIOvdGNJbLeDZDK9c9IQV8+3ASildQfVSaRIBgrE7Pi
+	Rdmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0oTYNEAHvcVXOLu6e/FRY9/QebPLi7ux/kzqxXHXEBo=;
+	b=kZQq6Hk2eoHHXtt/T9VUW/iDcWHV6frEdTQpO108affukqVDJ7bU6khcZZijzQ63Ua
+	usA1mm9irtHI10L9D8x0yuKW1juLDq+b2smQyoS0lzyjKVi2vqwnXnXkdXcU8XNRpiDp
+	M2RHlPusW4xjNth92lIQsJx31tUAK/sQbrZJFR/8WJ9V1yisB966bFGxshBrzKo+H3As
+	gdFB8ANg5GVPKI9wLybgoQLOzmC85Y2s9GAXWLN06IE3KlUQvnelOWH1VXlJ5KNhZGjC
+	kFAWQKN83y4yMfOLrwUlnbtndBL+eilnJGil56A8zQlaieZcQj/uchce6CzOseKNnfoY
+	/Ydw==
+X-Gm-Message-State: AG10YOSkSXBbQTh1JnB/gNvCbFEuHCYm7b7R/MIHskCkyAl8WRiDj40oxH5Lzg4F/Z3AuU0VFJE95P8YTyOOedFc
+X-Received: by 10.107.164.15 with SMTP id n15mr30649220ioe.148.1455028228059; 
+	Tue, 09 Feb 2016 06:30:28 -0800 (PST)
 MIME-Version: 1.0
-Message-Id: <201602091529.17418.marex@denx.de>
+Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 06:30:08 -0800 (PST)
+In-Reply-To: <56B9C07D.1070807@linux.intel.com>
+References: <1454981383-15843-1-git-send-email-akuster808@gmail.com>
+	<1454981383-15843-3-git-send-email-akuster808@gmail.com>
+	<56B9C07D.1070807@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Feb 2016 14:30:08 +0000
+Message-ID: <CAJTo0LZAYt2vBGkD2mdwP4tVhV+D7GzZF7Eyk1hj1ZJ9tWJZGg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 2/7] binutils: Repair nios2 PLT and GP handling
+Subject: Re: [PATCH 3/3] nettle: Security fix CVE-2015-8804
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 14:29:20 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 14:30:28 -0000
+Content-Type: multipart/alternative; boundary=001a11377682ac0c48052b5728bb
 
-On Tuesday, February 09, 2016 at 03:21:17 PM, Burton, Ross wrote:
-> On 9 February 2016 at 13:08, Marek Vasut <marex@denx.de> wrote:
-> > Repair corner cases in nios2 PLT and GP handling. See the patches
-> > themselves for extensive detailed explanation.
-> > 
-> > The patches don't contain the ChangeLog entries, since the changelog
-> > entries often cause trouble when applying the patch.
-> > 
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> 
-> We've got binutils 2.26 in master now, can you rebase and retest this?
+--001a11377682ac0c48052b5728bb
+Content-Type: text/plain; charset=UTF-8
 
-I rebased yesterday, well, let's try :-)
+On 9 February 2016 at 10:33, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-Best regards,
-Marek Vasut
+> On 02/09/2016 03:29 AM, Armin Kuster wrote:
+>
+>> From: Armin Kuster <akuster@mvista.com>
+>>
+>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>> ---
+>>   .../nettle/nettle-3.1.1/CVE-2015-8804.patch        | 281
+>> +++++++++++++++++++++
+>>   meta/recipes-support/nettle/nettle_3.1.1.bb        |   1 +
+>>
+>
+> Why not update to latest upstream (3.2) instead?
 
+
+Yes, if both of these CVEs are fixed in 3.2 then master should upgrade
+(with stable branches getting the patches if deemed severe enough).
+
+Ross
+
+--001a11377682ac0c48052b5728bb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 February 2016 at 10:33, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
+kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><span class=3D"">On 02/09/2016 03:29 AM, Armin Kuster wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+From: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com" target=3D"_bla=
+nk">akuster@mvista.com</a>&gt;<br>
+<br>
+Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com" targe=
+t=3D"_blank">akuster@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0 .../nettle/nettle-3.1.1/CVE-2015-8804.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 281 +++++++++++++++++++++<br>
+=C2=A0 meta/recipes-support/nettle/<a href=3D"http://nettle_3.1.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">nettle_3.1.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A01 +<br>
+</blockquote>
+<br></span>
+Why not update to latest upstream (3.2) instead?</blockquote></div><br>Yes,=
+ if both of these CVEs are fixed in 3.2 then master should upgrade (with st=
+able branches getting the patches if deemed severe enough).</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11377682ac0c48052b5728bb--
