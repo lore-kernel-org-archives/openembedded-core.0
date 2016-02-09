@@ -1,49 +1,26 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E3E37318D
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FFAE7318C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 19:41:36 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id g62so188409137wme.0
+	Tue,  9 Feb 2016 19:57:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u19Jw0f5016854
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 11:41:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Rn9yjjQAOoFXlu7VKRhm/j/6f4Cuxrmv+BFxhAM55sM=;
-	b=WfPCqFLT1UUL+F3u28x9t3Pmh8abL4+Kp7aM7UIyyUsyVAmIXkuHRycz1z8RhU0OIm
-	LMirFLoGkRFyy3D+YITePU7tmxDJr2yAXRuGZer3yQ9kZjZqPoijhG284IN0pRtAqEbm
-	Ct7Qeda8NovtssQO/MgdIY6gWYqSXqqmC/1P0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Rn9yjjQAOoFXlu7VKRhm/j/6f4Cuxrmv+BFxhAM55sM=;
-	b=VpjDtWbMHNjjkVL9z9ZoSNoyBuXcmTQR2vji6sieaQJu94lSggJ+avHHP9Nm1F1HWc
-	/VFf4zlWjHDA3DRikg9bJpaRyAB7F0JAHhj9Jy2R9fFMqErpmqAlqrmKGz7DCrMB1YLN
-	3r0pKN97vy4yQOpESqHX4mwDcc9Mbg/nqesD97c3FAsG3hm7TVhYg2qqavsHpqBLzlAU
-	B2vlmJUcmy0myg8MXNUnuh7IZZ7hWGhfj/4Uunv+3o1h7pkK4sjdxn6J5mTBo3DgGi9G
-	fkr8b4ZmbPF6ubxSZ7bDcMJ1HFcbj20vfPu09qs6uefLwDkk9z5SfzCtaHxjflUO5za4
-	/q1g==
-X-Gm-Message-State: AG10YOSBXpL36t5d1mFu5UWBpBK3/L53FhE0J7CUdSsidUWWv0UQPI5cT0DxdpWLjHNacMRCgTNTgsFaEW77++mm
-X-Received: by 10.28.10.7 with SMTP id 7mr6512855wmk.57.1455046896978; Tue, 09
-	Feb 2016 11:41:36 -0800 (PST)
+	Tue, 9 Feb 2016 11:58:00 -0800 (PST)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 9 Feb 2016 11:57:59 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Feb 2016 13:57:58 -0600
+Message-ID: <cc80da8c5df9570348d5318b783197759f5deed3.1455047631.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 2.3.1
+In-Reply-To: <cover.1455047631.git.peter.seebach@windriver.com>
+References: <cover.1455047631.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Received: by 10.194.206.33 with HTTP; Tue, 9 Feb 2016 11:41:17 -0800 (PST)
-In-Reply-To: <CAMKF1srP19D1Vg1Nvg5nbcqGp_xGLw=m8XFRiF6x659ixKZJBg@mail.gmail.com>
-References: <cover.1455008560.git.jussi.kukkonen@intel.com>
-	<aae55470a8d782e166fc6135ceb03631e1346429.1455008560.git.jussi.kukkonen@intel.com>
-	<b4d964e733159d37952d2f1f6f4d9bbdbad24979.1455008560.git.jussi.kukkonen@intel.com>
-	<CAP71WjxybQ+N3N-+pOzLo7jQdJ=F0TVwVEoFihAn_96TG-q=7g@mail.gmail.com>
-	<4DE97B9F-591B-4298-9F48-48B09D1B4B79@gmail.com>
-	<CAJTo0LaLWz6=kt2D7B4q_9B5atfBEoTt7Og+_HqBoB98ax+RFA@mail.gmail.com>
-	<CAMKF1srP19D1Vg1Nvg5nbcqGp_xGLw=m8XFRiF6x659ixKZJBg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 9 Feb 2016 20:41:17 +0100
-Message-ID: <CAP71Wjx4UGYsRTCC+PDWrPMeLP8cO+yayvTS3g9p=VBWvtUQJg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] xserver-xorg: Add PACKAGECONFIG for crypto libraries
+Subject: [PATCH 1/1] pseudo: uprev to 1.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,17 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 19:41:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Feb 2016 19:58:01 -0000
+Content-Type: text/plain
 
-On Tue, Feb 9, 2016 at 8:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Think of crypto policy point of view
+This uprev adds various improvements with regards to the server
+spawn logic, and also sorts xattrs to work around a bug in one of
+the mkfs utilities.
 
-why not. this is probably a good thing. But I don't think we should
-block the current patches as they are. If we want to add a
-DISTRO_FEATURES the patches we did in mesa and xserver are needed
-anyways. Once every possible 'crypto' config are available as
-PACKAGECONFIG we simply need to add one line to pick the one we need
-based on DISTRO_FEATURE content. So I think we should merge them, and
-discuss/plan how to add crypto as a distro policy.
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+---
+ meta/recipes-devtools/pseudo/{pseudo_1.7.4.bb => pseudo_1.7.5.bb} | 4 ++--
+ meta/recipes-devtools/pseudo/pseudo_git.bb                        | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/pseudo/{pseudo_1.7.4.bb => pseudo_1.7.5.bb} (77%)
+
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.4.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+similarity index 77%
+rename from meta/recipes-devtools/pseudo/pseudo_1.7.4.bb
+rename to meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+index d68e0af..195a508 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.7.4.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+@@ -6,8 +6,8 @@ SRC_URI = " \
+     file://fallback-group \
+ "
+ 
+-SRC_URI[md5sum] = "6e4b59a346d08d4a29133c335ea12052"
+-SRC_URI[sha256sum] = "f33ff84da328f943155f22cfd49030ef4ad85ad35fc2d9419a203521b65c384c"
++SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
++SRC_URI[sha256sum] = "fd89cadec984d3b8202aca465898b1bb4350e0d63ba9aa9ac899f6f50270e688"
+ 
+ PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
+ 
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index eb666c0..abff1cf 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,7 +1,7 @@
+ require pseudo.inc
+ 
+-SRCREV = "3bc3909fa70535c2ef876009dc58e577b10a7e0e"
+-PV = "1.7.4+git${SRCPV}"
++SRCREV = "786c6d3813622d18e12d36c4aa722af6a417c8fa"
++PV = "1.7.5+git${SRCPV}"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
+-- 
+2.3.1
+
 
