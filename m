@@ -1,28 +1,23 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id C722273163
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 74FB271951
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 16:52:06 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q09HT4SVzz3hjdJ;
-	Tue,  9 Feb 2016 17:52:05 +0100 (CET)
-X-Auth-Info: Qx4I8Svek1MJlu4iLbLI2S0kOeDlFVyOfFXMHAa2Mqk=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3q09HT2J3yzvdWV; 
-	Tue,  9 Feb 2016 17:52:05 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Tue, 9 Feb 2016 17:52:04 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1455017471-6682-2-git-send-email-marex@denx.de>
-	<201602091529.17418.marex@denx.de> <56BA0D0B.60104@windriver.com>
-In-Reply-To: <56BA0D0B.60104@windriver.com>
-MIME-Version: 1.0
-Message-Id: <201602091752.04599.marex@denx.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 2/7] binutils: Repair nios2 PLT and GP handling
+	Tue,  9 Feb 2016 17:04:38 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 09 Feb 2016 09:04:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,421,1449561600"; d="scan'208";a="45061843"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.26.146])
+	by fmsmga004.fm.intel.com with ESMTP; 09 Feb 2016 09:04:17 -0800
+Message-ID: <1455037451.6918.18.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 09 Feb 2016 17:04:11 +0000
+In-Reply-To: <1455029653-4207-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1455029653-4207-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [PATCH][fido] tzdata: remove 2015d version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 16:52:07 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 17:04:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, February 09, 2016 at 05:00:11 PM, Randy MacLeod wrote:
-> On 2016-02-09 09:29 AM, Marek Vasut wrote:
-> > On Tuesday, February 09, 2016 at 03:21:17 PM, Burton, Ross wrote:
-> >> On 9 February 2016 at 13:08, Marek Vasut <marex@denx.de> wrote:
-> >>> Repair corner cases in nios2 PLT and GP handling. See the patches
-> >>> themselves for extensive detailed explanation.
+On Tue, 2016-02-09 at 15:54 +0100, Martin Jansa wrote:
+> * this is left-over from upgrade to 2016a
 > 
-> This sentence doesn't really add much value since many patches
-> contain additional description and the logs here are mostly a
-> few lines from the ChangeLog which doesn't count as an extensive
-> detailed explanation in my books. :)
-
-It's not from changelog, it's from the commit message. The real answer
-is that it fixes incorrect computation of the GOT/PLT offsets in case
-these tables grow too large. Then there's some sort of off-by-four error
-in the computation, which causes linking to fail. It happens in one or
-two packages in yocto. I had these patches in my tree for a bit, so my
-memory is a little unclear on the gruesome details already.
-
-> I expect that you're familiar with this but take a look at:
-> http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Comm
-> itting_your_patch
+> * it's safer to remove so that .bbappends in other layers really
+> apply to version
+>   used in build (currently we have bbappend for 2015d and build will
+> use 2016a
+>   without any warning
 > 
->      Commit with a concise and descriptive message -
->      one that explains your changes in a way others get
->      a short overview without looking at the code.
+> * the same problem was reported with 2015f upgrade:
+>   http://lists.openembedded.org/pipermail/openembedded-core/2015-
+> August/109708.html
 
-Yes, I hope it's there.
+Thanks, I've pushed this change to my joshuagl/fido-next branch.
 
-> >>> The patches don't contain the ChangeLog entries, since the changelog
-> >>> entries often cause trouble when applying the patch.
+http://cgit.openembedded.org/openembedded-core-
+contrib/log/?h=joshuagl/fido-next
+
+Regards,
+
+Joshua
+
 > 
-> I'd prefer to see the ChangeLog snippets duplicated in the git log
-> so that it's easier to see what happened.
-
-You actually want to avoid that, since it'd make it really hard to apply
-these patches onto subsequent versions of binutils if this was necessary.
-I hope this won't be necessary and will be dropped once the next version
-of binutils arrives. The change which happened is in the patch's commit
-message, but it seems like some of the binutils guys are not very fond of 
-writing extensive explanation.
-
-> If you do a v2, please also mention that the patches are backports
-> since that's important to people when they consider whether the patch
-> should be accepted.
-
-This is a V2 ;-)
-
-There is "Upstream-Status: Backport" for each of the patches, it's actually
-needed to track the status.
-
-Best regards,
-Marek Vasut
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-extended/tzdata/tzdata_2015d.bb | 6 ------
+>  1 file changed, 6 deletions(-)
+>  delete mode 100644 meta/recipes-extended/tzdata/tzdata_2015d.bb
+> 
+> diff --git a/meta/recipes-extended/tzdata/tzdata_2015d.bb
+> b/meta/recipes-extended/tzdata/tzdata_2015d.bb
+> deleted file mode 100644
+> index d8e5f24..0000000
+> --- a/meta/recipes-extended/tzdata/tzdata_2015d.bb
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tz
+> data"
+> -
+> -SRC_URI[tzdata.md5sum] = "b595bdc4474b8fc1a15cffc67c66025b"
+> -SRC_URI[tzdata.sha256sum] =
+> "8b9f5008277f09e251e97dba7813f56168d691115bda90ade4638d72f296d531"
+> -
+> -require tzdata.inc
+> -- 
+> 2.7.0
+> 
 
