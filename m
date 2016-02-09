@@ -1,25 +1,23 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A0072731C2
+	by mail.openembedded.org (Postfix) with ESMTP id 9FCF5731A6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 15:22:28 +0000 (UTC)
+	Tue,  9 Feb 2016 15:22:27 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2016 07:22:29 -0800
+	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2016 07:22:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,421,1449561600"; d="scan'208";a="880455543"
+X-IronPort-AV: E=Sophos;i="5.22,421,1449561600"; d="scan'208";a="880455538"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2016 07:22:29 -0800
+	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2016 07:22:27 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	rongqing.li@windriver.com
-Date: Tue,  9 Feb 2016 17:27:29 +0200
-Message-Id: <d4042df474fbeac812259a223d1ae5ef165adffe.1455031114.git.jussi.kukkonen@intel.com>
+Date: Tue,  9 Feb 2016 17:27:28 +0200
+Message-Id: <3a3e85c9b61e21014b680607f722ba2a884349e8.1455031114.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <3a3e85c9b61e21014b680607f722ba2a884349e8.1455031114.git.jussi.kukkonen@intel.com>
-References: <3a3e85c9b61e21014b680607f722ba2a884349e8.1455031114.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1455031114.git.jussi.kukkonen@intel.com>
 References: <cover.1455031114.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/2] openssh: Properly skip ptrace test if tools are missing
+Subject: [PATCH 1/2] openssh: Fix regex that sets sftp-server path for tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +32,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 09 Feb 2016 15:22:29 -0000
 
-Without the exit there will be a SKIP and a FAIL for the same test.
-Also fix typo in a message.
+[YOCTO #9049]
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-connectivity/openssh/openssh/run-ptest | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/openssh/openssh_7.1p2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
-index 769162e..36a3d2a 100755
---- a/meta/recipes-connectivity/openssh/openssh/run-ptest
-+++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
-@@ -7,12 +7,12 @@ sed -i "/\t\tagent-ptrace /d" Makefile
- make -k .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
-         | sed -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.1p2.bb b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
+index 9c62d78..3b5e28a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
+@@ -125,7 +125,7 @@ do_install_append () {
+ }
  
--
- SSHAGENT=`which ssh-agent`
- GDB=`which gdb`
+ do_install_ptest () {
+-	sed -i -e "s|^SFTPSERVER=.*|SFTPSERVER=${libdir}/${PN}/sftp-server|" regress/test-exec.sh
++	sed -i -e "s|^SFTPSERVER=.*|SFTPSERVER=${libexecdir}/sftp-server|" regress/test-exec.sh
+ 	cp -r regress ${D}${PTEST_PATH}
+ }
  
- if [ -z "${SSHAGENT}" -o -z "${GDB}" ]; then
-        echo "SKIP: agent-ptrace"
-+       exit
- fi
- 
- useradd openssh-test
-@@ -33,9 +33,9 @@ EOF
- 	r=$?
- 	rm -f /tmp/gdb.out
- 	if [ $r -ne 0 ]; then
--		echo "FAIL: ptrace agant"
-+		echo "FAIL: ptrace agent"
- 	else
--		echo "PASS: ptrace agant"
-+		echo "PASS: ptrace agent"
- 	fi
- 
- 	${SSHAGENT} -k > /dev/null
 -- 
 2.1.4
 
