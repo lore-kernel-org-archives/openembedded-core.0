@@ -1,26 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5937B6FFA6
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CCD46FF69
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 15:34:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u19FYidO014120
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Feb 2016 07:34:44 -0800 (PST)
-Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 9 Feb 2016 07:34:44 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Feb 2016 09:34:41 -0600
-Message-ID: <1455032081-212934-2-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1455032081-212934-1-git-send-email-mark.hatle@windriver.com>
-References: <1455032081-212934-1-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [RFC][PATCH] buildhistory.bbclass: Break up the find to catch failures
+	Tue,  9 Feb 2016 15:40:55 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Feb 2016 07:40:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,421,1449561600"; d="scan'208";a="45009684"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.26.146])
+	by fmsmga004.fm.intel.com with ESMTP; 09 Feb 2016 07:40:52 -0800
+Message-ID: <1455032452.6918.13.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: Philip Balister <philip@balister.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 09 Feb 2016 15:40:52 +0000
+In-Reply-To: <56B9FCA8.7010303@balister.org>
+References: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
+	<1454885003.27087.344.camel@linuxfoundation.org>
+	<1454944971.3396.8.camel@linux.intel.com>
+	<56B9FCA8.7010303@balister.org>
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: Stable branch rules [Was: Re: [PATCH][jethro] glibc-locale: fix QA warning]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 15:34:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Feb 2016 15:40:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-If for some reason the 'find' operation were to fail, the buildhistory would
-not fail, but instead store invalid history!
+On Tue, 2016-02-09 at 09:50 -0500, Philip Balister wrote:
+> On 02/08/2016 10:22 AM, Joshua G Lock wrote:
+> > On Sun, 2016-02-07 at 22:43 +0000, Richard Purdie wrote:
+> > > On Sun, 2016-01-31 at 11:55 -0800, Armin Kuster wrote:
+> > > > From: Armin Kuster <akuster@mvista.com>
+> > > > 
+> > > > WARNING: QA Issue: glibc-locale: /glibc-binary-localedata-sd
+> > > > -in/usr/lib/locale/sd_IN/LC_CTYPE is owned by uid 1000, which
+> > > > is
+> > > > the
+> > > > same as the user running bitbake. This may be due to host
+> > > > contamination [host-user-contaminated]
+> > > > 
+> > > > fix type
+> > > > Signed-off-by: Armin Kuster <akuster@mvista.com>
+> > > > ---
+> > > >  meta/recipes-core/glibc/glibc-locale.inc | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > Enough is enough.
+> > > 
+> > > I cannot tell whether these patches are in master or not or
+> > > whether
+> > > master needs them or not. Master needs this one, its not in
+> > > master,
+> > > its
+> > > only being proposed for jethro. Its a mess.
+> > > 
+> > > I am therefore not taking any more stable branch patches at all
+> > > until
+> > > we amend the stable branch rules to state that pull requests and
+> > > patches clearly state which branches need a fix, or clearly state
+> > > why
+> > > they don't.
+> > 
+> > I made an attempt at starting to documenting that requirement:
+> > https://wiki.yoctoproject.org/wiki/index.php?title=Stable_branch_ma
+> > inte
+> > nance&diff=17480&oldid=17028
+> > 
+> > 'Patches' welcome.
+> 
+> Does this belong on the Yocto Project or OpenEmbedded wikis? Hunting
+> both is getting annoying.
 
-[YOCTO #9031]
+I edited the guidelines where they currently exist. I'll be more than
+happy to move this to the OE wiki, but I'd rather do that once we have
+something that people can agree.
 
-Note this fixes the symptom, but not the cause of 9031.  That is a separate
-issue, see the defect for more details on the work being done to resolve the
-cause of the failure.
+Regards,
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/buildhistory.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 5e2581f..189881e 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -439,10 +439,12 @@ buildhistory_list_files() {
- 	# List the files in the specified directory, but exclude date/time etc.
- 	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
- 	if [ "$3" = "fakeroot" ] ; then
--		( cd $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
-+		( cd $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" > $2.tmp )
- 	else
--		( cd $1 && find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
-+		( cd $1 && find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" > $2.tmp )
- 	fi
-+	cat $2.tmp | sort -k5 | sed 's/ * -> $//' > $2
-+	rm $2.tmp
- }
- 
- buildhistory_list_pkg_files() {
--- 
-2.5.0
-
+Joshua
 
