@@ -1,26 +1,53 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ABAC0608B7
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CDE960232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 02:46:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u192kwK6006961
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Feb 2016 02:56:51 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id 9so4971014iom.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Feb 2016 18:46:58 -0800 (PST)
-Received: from fidler.wrs.com (172.25.44.9) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 8 Feb 2016 18:46:57 -0800
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Feb 2016 21:46:51 -0500
-Message-ID: <1454986011-17895-2-git-send-email-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.4.2
-In-Reply-To: <1454986011-17895-1-git-send-email-Randy.MacLeod@windriver.com>
-References: <1454986011-17895-1-git-send-email-Randy.MacLeod@windriver.com>
+	Mon, 08 Feb 2016 18:56:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=HESU/qNBvg5HacbpsF1rH4JyErddJdRjNEDHeQzBL+o=;
+	b=fxLw772qlD8+VeUASZj+DgsIbe2JvAAHlHauuWVS5yWTMNnhL8C9Rzun1EQrGTRX58
+	RY3u3vT6Bzean5+Q2eV8BZLZT2yuF86KvnimDptIU/BPFb+DXbVhftLhbF8SFtt5flp7
+	YlKzM157Yk8SeXHr6GX7xYTA+yxWse5g0Yy+/H5dTx/wrmDc59U/mWFpHQdhRLwUm5da
+	Ocsr/yiEBtKkn3we3T3fVr/NU+aw3gq/INxOGHj2L0F9QDrQb06AP/fL6C6Ks5qcof30
+	NJbt4b+ID7RDFNEBhkYyUJ7+As5kc9C9HFtc+lUJLCyvINOnRYgAj8+ZB9wPP++JEyVQ
+	kjLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=HESU/qNBvg5HacbpsF1rH4JyErddJdRjNEDHeQzBL+o=;
+	b=LKLEghHQDNgG5tpG7LsWCLxoIUAth8TieNoKyP1j8emogs8wM69w1lBJ+e0RV1ZYqr
+	kVXRPJ4p73HMU9KjBZWzChuxD9DIYNQl5sa0bSzcVcnX5JzDrlYQsHvPV2WuTjzbOmrL
+	IQ8nRPgJyny7kc5Q+1StaEhhjbX1X97mzDKf8T7fr3aaDDVcYoMP8gBA7qQsj5wwRyOQ
+	I/ixBeuEQEIDbkZ+EkOLTerwPh+HxCE1c30FkK8K3e8X49fUclSaYSuZgVUYkpZ3sUvy
+	gmsmIeIM7plcmwyJewBBgp4c2CFMTyJd69cwKu5dk5HI9wqI38CXyaBR2m8QABiuwIxV
+	OUJA==
+X-Gm-Message-State: AG10YOSGJ49h/w+a1u3PqMgZjQauZJ5cNqOGWiS6jIlBElpsAcJXTLIy//EvdX5lJrdRQA==
+X-Received: by 10.107.12.14 with SMTP id w14mr37264959ioi.8.1454986612743;
+	Mon, 08 Feb 2016 18:56:52 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	j136sm13762625ioj.32.2016.02.08.18.56.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 08 Feb 2016 18:56:51 -0800 (PST)
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <56B922B3.9070604@gmail.com> <56B931EA.6060107@windriver.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56B95575.7030505@gmail.com>
+Date: Mon, 8 Feb 2016 21:56:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] buildstats.bbclass: remove dead URL from comment
+In-Reply-To: <56B931EA.6060107@windriver.com>
+Subject: Re: noticeably longer build (link?) times with binutils 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 02:46:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Feb 2016 02:56:52 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- meta/classes/buildstats.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 02/08/16 19:25, Mark Hatle wrote:
+> Which arch/tune are you targeting?
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index daf0b86..e58d37b 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -4,8 +4,7 @@ BUILDSTATS_BASE = "${TMPDIR}/buildstats/"
- # Build statistics gathering.
- #
- # The CPU and Time gathering/tracking functions and bbevent inspiration
--# were written by Christopher Larson and can be seen here:
--# http://kergoth.pastey.net/142813
-+# were written by Christopher Larson.
- #
- ################################################################################
- 
--- 
-2.4.2
+Build Configuration:
+BB_VERSION        = "1.28.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "openSUSE-project-13.2"
+TARGET_SYS        = "x86_64-poky-linux"
+MACHINE           = "qemux86-64"
+DISTRO            = "poky"
+DISTRO_VERSION    = "2.0+snapshot-20160208"
+TUNE_FEATURES     = "m64 core2"
+TARGET_FPU        = ""
 
+
+Essentially: minnowboard max (turbot, specifically)
+
+> It's possible you hit one of those cases, or it may simply be that much slower
+> for some reason.  But worse then double the time is really terrible.
+
+Yes, I had started to assume Jenkins had gone "off the deep end" ;-)
 
