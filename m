@@ -1,28 +1,50 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B49471957
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D45A731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 13:08:50 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q04Kr2mVVz3hjGp;
-	Tue,  9 Feb 2016 14:08:48 +0100 (CET)
-X-Auth-Info: XaNVJT1lwQwZ0YguFYy0DUsYNNrt7m8tFAwbn0ZqiKc=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3q04Kq4QhkzvhTZ; 
-	Tue,  9 Feb 2016 14:08:47 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Feb 2016 14:06:19 +0100
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1455017471-6682-1-git-send-email-marex@denx.de>
-	<CAJTo0LYBm6L==cxBAJv4Dz6EKBa26YeHuzT58X2KCxMd+PwPqQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYBm6L==cxBAJv4Dz6EKBa26YeHuzT58X2KCxMd+PwPqQ@mail.gmail.com>
+	Tue,  9 Feb 2016 13:24:29 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id d63so16992108ioj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Feb 2016 05:24:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=m3jGRMm7jHE/LGBnzoH/3qGEmyKk8mfRAj7IeRVI878=;
+	b=XT8bTmANVvmkz+6FRKUN/Q8TIC4JvoQKNc3B2pGQowLQK8BKZIv6vDWgvyVsS9vi2H
+	eeeAaF29YFwT1BvkvJB1q8WB+79oj0+R9zcm64kYu32r/uezakiPP/Qr5fNyIhNVN+AY
+	WG+xSnU74ZqFCqd7H6oVszHAuP8XPf8mkZzCnVJWmeX625OOq1m5jEJMKuSOowPBi14W
+	RM1Xoxo5UEC/q1fPHpau+7i+Fce//eRMq/S7Y3tjra4/dTyQs1Kft28jOXqHxNDnLLi7
+	YYGRZlvUYiKasHei0k7BX0nWi6it/Zg3EbRqAO+X35P33taXHpHUJP5KnI17PEGr/YB6
+	4Oaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=m3jGRMm7jHE/LGBnzoH/3qGEmyKk8mfRAj7IeRVI878=;
+	b=Cq4xjU7Ies9awd3yPK9qlWMXra6hwLMse/x3pfy09mG5iISXK7Kkzv7oH1xRIlJfmD
+	4JFjkMMXJhk7AoQ+GVf5K/XbP+4HdvPi+UDz1uYDFuZU0C76UZsN655YgkP8tBCDBiS+
+	BawZmV6q9PR6b8/+CfMzY4inR3MjQnYRRAtkN7D4060KsRg90ofobp1Nz+pra0SZ3HEw
+	HUnaCti4NIM5xnMh9GV30jEhOUy8g6Ndj8tIC6i30mow4kEexCCvVc+7fiyZsSwO+kFN
+	VUPwOijD36bfodVVQdUdNI5aQZoqzCSUj7PmvXap8VGgkQpB9Y76lSW5oef+qCzazWy2
+	DrUg==
+X-Gm-Message-State: AG10YOTsXa4fh4B4J8TJOzRCQAOKv1Rk26kWVGEi36WkJ5U8jOHsp9NY0+8KtNatTYP7dLPjy43MQ6X1Yt8xlgu0
+X-Received: by 10.107.164.15 with SMTP id n15mr30376832ioe.148.1455024270725; 
+	Tue, 09 Feb 2016 05:24:30 -0800 (PST)
 MIME-Version: 1.0
-Message-Id: <201602091406.19222.marex@denx.de>
+Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 05:24:11 -0800 (PST)
+In-Reply-To: <201602091307.54737.marex@denx.de>
+References: <1455017471-6682-1-git-send-email-marex@denx.de>
+	<1455017471-6682-6-git-send-email-marex@denx.de>
+	<CAJTo0LZ7fpKqnuyzWmQ02dw5DnKS4+XBbAEx=nNmZDi-Fq6+ZA@mail.gmail.com>
+	<201602091307.54737.marex@denx.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Feb 2016 13:24:11 +0000
+Message-ID: <CAJTo0Lbx2Cc=hAWE+WoLZuAfg-PFC1CY84iRB0mk9iu7fZgFag@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] strace: Fix build for arc, metag, nios2, or1k, tile
+Subject: Re: [PATCH 6/7] liburcu: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 13:08:50 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 13:24:30 -0000
+Content-Type: multipart/alternative; boundary=001a11377682cc0cf6052b563cc9
 
-On Tuesday, February 09, 2016 at 12:51:19 PM, Burton, Ross wrote:
-> On 9 February 2016 at 11:31, Marek Vasut <marex@denx.de> wrote:
-> > +From dd1a80c8d213eed95fe55b7ebcb07ee165dd8e4b Mon Sep 17 00:00:00 2001
-> > +From: "Dmitry V. Levin" <ldv@altlinux.org>
-> > +Date: Thu, 24 Dec 2015 15:40:55 +0000
-> > +Subject: [PATCH] arc, metag, nios2, or1k, tile: fix build
-> > +
-> > +Fix build regression introduced by commit
-> > +34683e3926d8c2daa368afb805da422ee7043396.
-> > +
-> > +* linux/32/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap.
-> > +* linux/arc/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap_pgoff.
-> > +* linux/nios2/syscallent.h: Likewise.
-> > +* linux/or1k/syscallent.h: Likewise.
-> > +* linux/tile/syscallent1.h: Add sys_ prefix to ARCH_mmap and
-> > sys_mmap_4koff.
-> > +* pathtrace.c (pathtrace_match): Handle SEN_ARCH_mmap.
-> > +* NEWS: Mention this build fix.
-> > +
-> > +Reported-by: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-> > +Upstream-Status: Backport
-> 
-> This needs your signed-off-by tag too.
+--001a11377682cc0cf6052b563cc9
+Content-Type: text/plain; charset=UTF-8
 
-Oops, thanks for the reminder. Let me just repost this.
+On 9 February 2016 at 12:07, Marek Vasut <marex@denx.de> wrote:
 
-Best regards,
-Marek Vasut
+> > Why did the license checksum change?
+>
+> Because the LICENSE file now contains one more entry for nios2, which
+> changed
+> the checksum of the whole file. Maybe we should trim the checksum to use
+> only
+> the header in the LICENSE file and not the whole file to prevent this ?
+>
+> This is the change which triggered the change of the checksum:
 
+
+Oh yes, right.  Thanks!
+
+Ross
+
+--001a11377682cc0cf6052b563cc9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 February 2016 at 12:07, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; Why did the license=
+ checksum change?<br>
+<br>
+</span>Because the LICENSE file now contains one more entry for nios2, whic=
+h changed<br>
+the checksum of the whole file. Maybe we should trim the checksum to use on=
+ly<br>
+the header in the LICENSE file and not the whole file to prevent this ?<br>
+<br>
+This is the change which triggered the change of the checksum:</blockquote>=
+</div><br>Oh yes, right.=C2=A0 Thanks!</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11377682cc0cf6052b563cc9--
