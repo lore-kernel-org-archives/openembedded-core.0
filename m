@@ -1,24 +1,24 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id CDC2C6067D
+	by mail.openembedded.org (Postfix) with ESMTP id 353FC73212
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:31:25 +0000 (UTC)
+	Tue,  9 Feb 2016 11:31:26 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q029V0Wmhz3hjl7;
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q029V5j9vz3hjlD;
 	Tue,  9 Feb 2016 12:31:26 +0100 (CET)
-X-Auth-Info: aSZ9dMAKLk7f5pDz15sIqkI7w3xGJAZPNbRrlrFf9b0=
+X-Auth-Info: nig+uG8PQX96E296yUifKGKxq5focxnsqahqj8tVgIc=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029T5bnJzvdWV;
-	Tue,  9 Feb 2016 12:31:25 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029V3c8kzvdWV;
+	Tue,  9 Feb 2016 12:31:26 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Feb 2016 12:31:07 +0100
-Message-Id: <1455017471-6682-3-git-send-email-marex@denx.de>
+Date: Tue,  9 Feb 2016 12:31:08 +0100
+Message-Id: <1455017471-6682-4-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1455017471-6682-1-git-send-email-marex@denx.de>
 References: <1455017471-6682-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 3/7] dpkg: Update to 1.18.4
+Subject: [PATCH 4/7] guile: Fix nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +33,70 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 09 Feb 2016 11:31:26 -0000
 
-Update dpkg version to 1.18.4 . This adds nios2 architecture support
-among other fixes. One patch was updated so it would apply again.
+Add minor patch to recognize nios2 build target.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...g-do_package_write_deb-we-have-trees-of-h.patch | 52 +++++++++++++---------
- .../dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb}        |  4 +-
- 2 files changed, 32 insertions(+), 24 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb} (84%)
+ ...002-Recognize-nios2-as-compilation-target.patch | 36 ++++++++++++++++++++++
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-index 6967ef4..49ef853 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-@@ -1,7 +1,7 @@
--From d14ffd786993da60ca84c4812da8a6594a8c764e Mon Sep 17 00:00:00 2001
-+From e391bdba238d1371fc5b67cdae08b06eb5ada5c2 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 15:48:13 +0300
--Subject: [PATCH 1/5] When running do_package_write_deb, we have trees of
-+Subject: [PATCH] When running do_package_write_deb, we have trees of
-  hardlinked files such as the dbg source files in ${PN}-dbg. If something
-  makes another copy of one of those files (or deletes one), the number of
-  links a file has changes and tar can notice this, e.g.:
-@@ -19,23 +19,43 @@ place to avoid that kind of issue).
- Upstream-Status: Inappropriate
- RP 2015/3/27
- ---
-- dpkg-deb/build.c | 11 ++++++++---
-- 1 file changed, 8 insertions(+), 3 deletions(-)
-+ dpkg-deb/build.c | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
- 
- diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
--index ea3d861..1589927 100644
-+index 2ddeec6..af363f0 100644
- --- a/dpkg-deb/build.c
- +++ b/dpkg-deb/build.c
--@@ -458,7 +458,7 @@ do_build(const char *const *argv)
-+@@ -452,7 +452,7 @@ static void
-+ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+              struct compress_params *tar_compress_params, int fd_out)
-+ {
-+-  int pipe_filenames[2], pipe_tarball[2];
-++  int pipe_filenames[2], pipe_tarball[2], rc;
-+   pid_t pid_tar, pid_comp;
+diff --git a/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+new file mode 100644
+index 0000000..519585b
+--- /dev/null
++++ b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+@@ -0,0 +1,36 @@
++From 76155065c70b5ab65c6c805423183b360141db84 Mon Sep 17 00:00:00 2001
++From: Marek Vasut <marex@denx.de>
++Date: Thu, 28 Jan 2016 04:46:23 +0100
++Subject: [PATCH] Recognize nios2 as compilation target
++
++Signed-off-by: Marek Vasut <marex@denx.de>
++Upstream-Status: Submitted [ http://debbugs.gnu.org/cgi/bugreport.cgi?bug=22480 ]
++---
++ module/system/base/target.scm | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/module/system/base/target.scm b/module/system/base/target.scm
++index d60a8e0..d1f6cff 100644
++--- a/module/system/base/target.scm
+++++ b/module/system/base/target.scm
++@@ -65,7 +65,7 @@
++       (cond ((string-match "^i[0-9]86$" cpu)
++              (endianness little))
++             ((member cpu '("x86_64" "ia64"
++-                           "powerpcle" "powerpc64le" "mipsel" "mips64el"))
+++                           "powerpcle" "powerpc64le" "mipsel" "mips64el" "nios2"))
++              (endianness little))
++             ((member cpu '("sparc" "sparc64" "powerpc" "powerpc64" "spu"
++                            "mips" "mips64"))
++@@ -100,7 +100,7 @@
 + 
-+   /* Fork off a tar. We will feed it a list of filenames on stdin later. */
-+@@ -493,7 +493,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+   /* All done, clean up wait for tar and <compress> to finish their job. */
-+   close(pipe_filenames[1]);
-+   subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
-+-  subproc_reap(pid_tar, "tar -cf", 0);
-++  rc = subproc_reap(pid_tar, "tar -cf", SUBPROC_RETERROR);
-++  if (rc && rc != 1)
-++    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
-+ }
++           ((string-match "64$" cpu) 8)
++           ((string-match "64[lbe][lbe]$" cpu) 8)
++-          ((member cpu '("sparc" "powerpc" "mips" "mipsel")) 4)
+++          ((member cpu '("sparc" "powerpc" "mips" "mipsel" "nios2")) 4)
++           ((string-match "^arm.*" cpu) 4)
++           (else (error "unknown CPU word size" cpu)))))
 + 
-+ /**
-+@@ -509,7 +511,7 @@ do_build(const char *const *argv)
-    char *debar;
-    char *tfbuf;
-    int arfd;
---  int p1[2], p2[2], gzfd;
--+  int p1[2], p2[2], gzfd, rc;
-+-  int p1[2], gzfd;
-++  int p1[2], gzfd, rc;
-    pid_t c1, c2;
-  
-    /* Decode our arguments. */
--@@ -538,7 +538,9 @@ do_build(const char *const *argv)
-+@@ -590,7 +592,9 @@ do_build(const char *const *argv)
-    }
-    close(p1[0]);
-    subproc_reap(c2, _("<compress> from tar -cf"), 0);
-@@ -46,18 +66,6 @@ index ea3d861..1589927 100644
-  
-    if (lseek(gzfd, 0, SEEK_SET))
-      ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
--@@ -626,7 +628,10 @@ do_build(const char *const *argv)
--   /* All done, clean up wait for tar and <compress> to finish their job. */
--   close(p1[1]);
--   subproc_reap(c2, _("<compress> from tar -cf"), 0);
---  subproc_reap(c1, "tar -cf", 0);
--+  rc = subproc_reap(c1, "tar -cf", SUBPROC_RETERROR);
--+  if (rc && rc != 1)
--+    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
--+
--   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
--   if (deb_format.major == 2) {
--     char datamember[16 + 1];
- -- 
--2.1.4
-+2.7.0
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-similarity index 84%
-rename from meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-index dd1109b..7876944 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-@@ -15,6 +15,6 @@ SRC_URI += "file://noman.patch \
- 	    file://0006-add-musleabi-to-known-target-tripets.patch \
++-- 
++2.7.0.rc3
++
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index 6815e25..6cefe66 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            file://libguile-VM-ASM_MUL-for-ARM-Add-earlyclobber.patch \
+            file://remove_strcase_l_funcs.patch \
+            file://0001-libguile-Check-for-strtol_l-during-configure.patch \
++           file://0002-Recognize-nios2-as-compilation-target.patch \
             "
  
--SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
--SRC_URI[sha256sum] = "11484f2a73d027d696e720a60380db71978bb5c06cd88fe30c291e069ac457a4"
-+SRC_URI[md5sum] = "e95b513c89693f6ec3ab53b6b1c3defd"
-+SRC_URI[sha256sum] = "fe89243868888ce715bf45861f26264f767d4e4dbd0d6f1a26ce60bbbbf106da"
- 
+ #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
 -- 
 2.1.4
 
