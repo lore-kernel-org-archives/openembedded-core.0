@@ -1,46 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CEB7731A6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D78407017B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 19:02:12 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id wb13so196150018obb.1
+	Tue,  9 Feb 2016 19:04:42 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id y89so73644032qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 11:02:13 -0800 (PST)
+	Tue, 09 Feb 2016 11:04:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ulf0RrasKDgQZc7X/TJSu+9TG4qT2mcVvEZ7m3C1lRk=;
-	b=nCKeoCoLs5nP1mgH7DZ6SYSEhJ6533IW7QmIp/nRtVNoFfk/NrCC/QyFZ6x14zbper
-	/+Sd2E8UHNRJVBrWrFE23eyjccwtJnpQSLFzOznCgCb34IYu4XmVc9PduZ2trQWuco+N
-	Xc5QbKy25TPPJ7LvROhtEvqYXDuPrOXZl0Fu21blokGpjXDZIoN4NE7OEmcfTNI6G0tn
-	c3do8MHN1cVGKKUoeXNHYIgUtSpj2dqXRl2YlrYY3+oELJNatlUvVKVzkIrOhkMK4xha
-	oFnU96f/W5MW2FaoB2iErLGIS88QBFTM4qf6aD0YjSmlATXR45oZtCNzmKoMC+iT7T7B
-	2zGQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=RB95QbjzFmU47dRLESjD/Sz7A9zqRaeaRe5BosFWr/I=;
+	b=q7L8B/TgJHus06emdmAOF0PNzQyq8VZyw7IOTx8l0IyDmvk90YK7sPp4rV/PIQIMI4
+	12Nth2kkDGk07+4LZpmKrDvddVlmNhiotK/duD6kufl2iAqsZ+TBUvFkjrT1OZ08n/Aa
+	cuphYc9NZDLqUq2ZLMWVhKy+whQfvs+NUX5ySZL1E+aXCWITaRAedbczixrxfML+UmuD
+	Yq6WSri5MmqS+r6pVHXF9GCY8Uy5S0SqlJviiNDdYo3PBfN2OBPQ41Bpfi3iQgPHl1wO
+	DON3bPTs723IW9O686eQuUu8Twfx9IBTt/IFG8g81PkzdeW3h091/OcjSBCeISU8jvHZ
+	OzzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ulf0RrasKDgQZc7X/TJSu+9TG4qT2mcVvEZ7m3C1lRk=;
-	b=iiozPBgFzo2xBL0WRWN1mGib/fR7bYiRFioS4Wfxz8mX+dYs1OyalxOY23tlO5XIlS
-	qZvk/SdjMx6CKgGSHmfslgurVT4pnf+NigSKZZGZWUO6H2JhWkoDS1UxMCAJ8VhA7KBA
-	QD51bMWpO/Qws1FORcJbe0vKsTo9ifWN3pFge9Q2TzUTN/N2LbawtAiRG7mGwnvK6ztG
-	tO6D5PZpKk41f5l7ZouaMD7EfCRDk7+AQKBoQKExpfYmTAlTlKII+GJHhQEFH2j6YiLt
-	WP5Tw+kbtiOlmf6GjzR7w/MwwvTTjZ8aFuViCwIt7bVZhrhlBpv8V9afc+WNd+mQ75h6
-	IQRw==
-X-Gm-Message-State: AG10YOT/rdE6euqku6GRGL4dY6KkaHbZlutUQ2i7INiPTyzPxZbp/4BIqOJBMtwMseS3AA==
-X-Received: by 10.60.81.103 with SMTP id z7mr32315438oex.59.1455044532794;
-	Tue, 09 Feb 2016 11:02:12 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	u81sm2523088oia.23.2016.02.09.11.02.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Feb 2016 11:02:11 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Feb 2016 11:02:06 -0800
-Message-Id: <1455044526-14680-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] curl: drop obsolete pkgconfig_fix.patch
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=RB95QbjzFmU47dRLESjD/Sz7A9zqRaeaRe5BosFWr/I=;
+	b=LUJ+Lx7AwLCHZPsBzj0Y5efbSEKhqo/WX4gjEp8Q/satb2b7t7rbnGtE7Iq+NfTT0p
+	utOW5Xa4tVhiYxERxnATLJRZaW28hXsZO2wThRW8+pPLl6xPxoeZ+b9lf28hdQxNggPj
+	y2FP94KnnS/rQ2Kk2aq1A4MQJBg7lWIZDsesM2SXpYtRdX24PujuG4X6340Ur01BcPYV
+	KQ4AdENpWg34JjKhyrKr2Jhcfe0h2oqTmAro9Otc6NRyHNFU0VCu/h5IhyH8aMof8RXb
+	C/sG8h6HLfpWalsfx3+aBpiGVuT7tqei3nhHJ5RwSipKoiDp4PRQoHpPu28/o4LuX6EP
+	8KeA==
+X-Gm-Message-State: AG10YOSA3hLV81TDivIKZ9u7C+8oejDhOqU5saf6FXN3mkNYyug9t1x9Y//zZExHbA1Yyrb+ZE4rcNs40YCGPw==
+MIME-Version: 1.0
+X-Received: by 10.140.167.86 with SMTP id n83mr45027877qhn.41.1455044683014;
+	Tue, 09 Feb 2016 11:04:43 -0800 (PST)
+Received: by 10.55.130.196 with HTTP; Tue, 9 Feb 2016 11:04:42 -0800 (PST)
+Received: by 10.55.130.196 with HTTP; Tue, 9 Feb 2016 11:04:42 -0800 (PST)
+In-Reply-To: <CAJTo0LaLWz6=kt2D7B4q_9B5atfBEoTt7Og+_HqBoB98ax+RFA@mail.gmail.com>
+References: <cover.1455008560.git.jussi.kukkonen@intel.com>
+	<aae55470a8d782e166fc6135ceb03631e1346429.1455008560.git.jussi.kukkonen@intel.com>
+	<b4d964e733159d37952d2f1f6f4d9bbdbad24979.1455008560.git.jussi.kukkonen@intel.com>
+	<CAP71WjxybQ+N3N-+pOzLo7jQdJ=F0TVwVEoFihAn_96TG-q=7g@mail.gmail.com>
+	<4DE97B9F-591B-4298-9F48-48B09D1B4B79@gmail.com>
+	<CAJTo0LaLWz6=kt2D7B4q_9B5atfBEoTt7Og+_HqBoB98ax+RFA@mail.gmail.com>
+Date: Tue, 9 Feb 2016 11:04:42 -0800
+Message-ID: <CAMKF1srP19D1Vg1Nvg5nbcqGp_xGLw=m8XFRiF6x659ixKZJBg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] xserver-xorg: Add PACKAGECONFIG for crypto libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,73 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 19:02:12 -0000
+X-List-Received-Date: Tue, 09 Feb 2016 19:04:45 -0000
+Content-Type: multipart/alternative; boundary=001a113a64dc76a91f052b5afd15
 
-This patch has been carried around in oe-core for a long time.
-It contains two unrelated changes and neither seem to be required
-any more. Drop the patch.
+--001a113a64dc76a91f052b5afd15
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/curl/curl/pkgconfig_fix.patch | 32 ----------------------
- meta/recipes-support/curl/curl_7.47.1.bb           |  4 +--
- 2 files changed, 1 insertion(+), 35 deletions(-)
- delete mode 100644 meta/recipes-support/curl/curl/pkgconfig_fix.patch
+On Feb 9, 2016 9:58 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+>
+> On 9 February 2016 at 17:54, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> > Looks good to me. this is the same implementation I used in the mesa
+>> > patch.. so we need to make sure that any review feedback is applied to
+>> > both before merging the too,
+>>
+>> since its spans multiple recipes would it be better to control it with
+>> a global knob instead of packageconfig.
+>
+>
+> Personally I'm not convinced that two recipes currently sharing a small
+piece of configure code warrants a global configuration.
 
-diff --git a/meta/recipes-support/curl/curl/pkgconfig_fix.patch b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
-deleted file mode 100644
-index 5d8769d..0000000
---- a/meta/recipes-support/curl/curl/pkgconfig_fix.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--Upstream-Status: Inappropriate [packaging]
--
--diff -Nurd curl-7.29.0/configure.ac curl-7.29.0/configure.ac
----- curl-7.29.0/configure.ac	2013-02-06 11:47:19.000000000 +0200
--+++ curl-7.29.0/configure.ac	2013-02-16 12:32:22.132327764 +0200
--@@ -1883,6 +1883,7 @@
--        AC_SUBST(USE_GNUTLS, [1])
--        GNUTLS_ENABLED=1
--        USE_GNUTLS="yes"
--+       GNUTLS_REQUIRED="gnutls"
--        curl_ssl_msg="enabled (GnuTLS)"
--        ],
--        [
--@@ -1953,6 +1954,8 @@
--    ])
-- fi
-- 
--+AC_SUBST(GNUTLS_REQUIRED)
--+
-- dnl ----------------------------------------------------
-- dnl check for PolarSSL
-- dnl ----------------------------------------------------
--diff -Nurd curl-7.29.0/libcurl.pc.in curl-7.29.0/libcurl.pc.in
----- curl-7.29.0/libcurl.pc.in	2012-12-12 00:32:22.000000000 +0200
--+++ curl-7.29.0/libcurl.pc.in	2013-02-16 12:33:27.063844337 +0200
--@@ -35,5 +35,5 @@
-- Description: Library to transfer files with ftp, http, etc.
-- Version: @CURLVERSION@
-- Libs: -L${libdir} -lcurl
---Libs.private: @LIBCURL_LIBS@
--+Libs.private: -ldl -lz
-- Cflags: -I${includedir} @CPPFLAG_CURL_STATICLIB@
-diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index f2fa37c..210147c 100644
---- a/meta/recipes-support/curl/curl_7.47.1.bb
-+++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -5,9 +5,7 @@ SECTION = "console/network"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e664ac"
- 
--SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
--           file://pkgconfig_fix.patch \
--          "
-+SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2"
- 
- # curl likes to set -g0 in CFLAGS, so we stop it
- # from mucking around with debug options
--- 
-1.9.1
+Think of crypto policy point of view
+>
+> Ross
 
+--001a113a64dc76a91f052b5afd15
+Content-Type: text/html; charset=UTF-8
 
+<p dir="ltr"><br>
+On Feb 9, 2016 9:58 AM, &quot;Burton, Ross&quot; &lt;<a href="mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On 9 February 2016 at 17:54, Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; Looks good to me. this is the same implementation I used in the mesa<br>
+&gt;&gt; &gt; patch.. so we need to make sure that any review feedback is applied to<br>
+&gt;&gt; &gt; both before merging the too,<br>
+&gt;&gt;<br>
+&gt;&gt; since its spans multiple recipes would it be better to control it with<br>
+&gt;&gt; a global knob instead of packageconfig.<br>
+&gt;<br>
+&gt;<br>
+&gt; Personally I&#39;m not convinced that two recipes currently sharing a small piece of configure code warrants a global configuration.</p>
+<p dir="ltr">Think of crypto policy point of view<br>
+&gt;<br>
+&gt; Ross</p>
+
+--001a113a64dc76a91f052b5afd15--
