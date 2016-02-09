@@ -1,51 +1,26 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 989DF7318C
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 58832607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:03:41 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id d63so13843178ioj.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 03:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:organization:content-type
-	:mime-version:content-transfer-encoding;
-	bh=tlnxESG4SJ4KVIQ/amsXtpY0GrRfEn3K+KC/C2f8wrw=;
-	b=iPpIpdevbs7X4qhJcijgTu0cutAxMIbS24E19RPQBdiLx/k868VlSEBhgnlDHfuehp
-	1oaOBgPhy1GDKR5Hi8n+rAGkhl+oanFoWMWo+aaLnSHBy4H5jxNTql+QNJQhip5pu9KO
-	4xJ+PmFx+xpJhlQU44NnScD9ALp5d+5S48EwgG36Bio7bmX6ammcB53qK/XX7owtDNHR
-	NqSJit/AIv8F0gJpRVadousGGYdRhtT/jlgAR6ugjS/79LxUT7TwUvS6+mfUHWBqt4su
-	9egrOzHfHEOZfCOIZM2nd6d2peyaCc0igyDu7Givi43hyd/zxD5qfOqa9OY4WbkhO8o7
-	Zosw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:organization
-	:content-type:mime-version:content-transfer-encoding;
-	bh=tlnxESG4SJ4KVIQ/amsXtpY0GrRfEn3K+KC/C2f8wrw=;
-	b=RuMmDhDkg06PbyNokb1HM4r48gAstmLlMzJnG4nvWaUs/eBuKo/U8Rf5voCZF19TvO
-	oEBg2cVs/Jex3dYiCt9ugA+U2YvZvUkoamcGj9pYV/4a+PWIsPGyI99hMpqpLFpBdyet
-	rKJ9+rwirT+nmPE+CTUX3kkmsn3IPPcL+vMpKeggWxug1+AIZIuAOMLp8uIrW7OBUUE+
-	UJcdaODd43FDcj/9hKn4AJlV+B3PMeqjqM/aWLz2Cg+pVTPxQ4+thZ6JB32k1zddGV/Z
-	033mc5giqTVFcEzx1ukegh3r5gUjhbyu8i0njKJLHEfvoJzYBEUlGAM7Yhd1EsnwFupL
-	HjLw==
-X-Gm-Message-State: AG10YOTGRZr5jkTBVzkAK4k4qN9IndFtatqqYYEO6ba1cLpWYvGBGAXFgYN73YBEwer4K2lS
-X-Received: by 10.107.10.101 with SMTP id u98mr16099327ioi.60.1455015821467;
-	Tue, 09 Feb 2016 03:03:41 -0800 (PST)
-Received: from pohly-mobl1 (p57A57CC2.dip0.t-ipconnect.de. [87.165.124.194])
-	by smtp.gmail.com with ESMTPSA id
-	l91sm14506843ioi.3.2016.02.09.03.03.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Feb 2016 03:03:41 -0800 (PST)
-Message-ID: <1455015819.17004.21.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 Feb 2016 12:03:39 +0100
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: update-alternatives + absolute links
+	Tue,  9 Feb 2016 11:17:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Feb 2016 03:17:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,420,1449561600"; d="scan'208";a="880304673"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2016 03:11:05 -0800
+To: openembedded-core@lists.openembedded.org
+References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
+	<56B9C4E3.6040006@pseudoterminal.org>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <56B9C893.1050705@linux.intel.com>
+Date: Tue, 9 Feb 2016 13:08:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <56B9C4E3.6040006@pseudoterminal.org>
+Subject: Re: gobject introspection to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 11:03:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 09 Feb 2016 11:17:08 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello!
+On 02/09/2016 12:52 PM, Carlos Rafael Giani wrote:
+> This is very interesting. Once gobject introspection is in place, vala
+> based software like Rygel can finally be compiled directly from the vala
+> source, which makes it much easier to apply patches against it.
+> Also, I think the GStreamer 1.0 Python bindings need GIR. This recipe
+> could then be reintroduced (it was there, but got removed).
 
-I noticed that toybox's switch_root has problems handling /sbin/init
--> /lib/systemd/systemd. Apparently it tries to check permissions with
-stat() before switching the root, and at that point resolving the
-symlink fails.
+Gstreamer Python bindings are not real bindings as such - they are a few 
+tweaks and overrides on top of standard Python's support for 
+introspection (which provided by pygobject), and they also add support 
+for writing gstreamer elements in python.
 
-Are there reasons for preferring absolute paths as link target? Using
-relative paths would avoid the problem, and also make it easier to
-investigate the content of the rootfs on the build host.
+Generally, nowadays any support for GLib-based software in language 
+environments other than C or C++ is provided only through introspection.
 
-Is that something that would have to be fixed in the different
-virtual/update-alternatives providers? I'm using opkg-utils at the
-moment.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+If you want to write your software in anything else than C or C++, and 
+you want to use gstreamer, webkit, gtk, glib's dbus support, etc., you 
+have to have introspection working:
+https://wiki.gnome.org/Projects/GObjectIntrospection/Users
 
 
-
+Alex
 
