@@ -1,53 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 81B206FF56
+Return-Path: <akuster808@gmail.com>
+Received: from mail-yk0-f193.google.com (mail-yk0-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0367671951
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 00:32:03 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id g62so154739187wme.0
+	Tue,  9 Feb 2016 01:29:46 +0000 (UTC)
+Received: by mail-yk0-f193.google.com with SMTP id r207so4472233ykd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Feb 2016 16:32:04 -0800 (PST)
+	Mon, 08 Feb 2016 17:29:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=4ioJmjwthG0nsiGgm8Yj+fF+4CsrAf4JkpqnBOfIVTk=;
-	b=AzQVOv4yfxARwxE9rIVC+0iqayEo7DzY/TivQ/ZtYoSgyno64Khy0vN6r9sncDY1VB
-	YaT4unDKGeci866v4uVGmht7cI6eiZ9bT1SKriIa5jYAACySzJZ6TzU9Z2LOYfUtcFk9
-	HDvlQ85lXOjdGNZVeYRckjqBxVx54ElvDFHwVaIbd39PEe+naERbVRtg1t7+AJAmSBFa
-	xixtqB5/skn36qwmL+lit/noCZknTRa5nAlkuvi0BWptZHdaRLiQeT3Qk4VkqQj14zIh
-	RC6U9bP+eru3idoLWb2Vy2RescAH4lp+o5fedEt4kdjCIjuCIfjpbXZH6F1SLLN4RS+t
-	cVMQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=0P1CXRE9iroaH+yPOYi13c18FNXGMfUKbgwIhxrD5Yo=;
+	b=u8rPG1XqUN9BeiFsxGJbPGOVk+8y27J76fsiWXkJ/sH1j8c9V1iijfr1mZd68h+Rrk
+	LXgV2vavzqdmTwI0+1P2jU5NfMhFvbIYbDi0/eWDfKYzpSSar5yIpxMUnoRwvlfLTvNb
+	Y7mzv9Sx8Lrbr5JfcIh9jXOiuRVM8axnE5O6A40ugflQoUXhQy3YxopEt2hSHs5417FW
+	EAMyq7rogVEJsVU+xp9oact81GyIBMkPDHYk3U4S9aT+t3EsC+Kzj8+EulyFdp3R4ujF
+	3O2KIM5v2gbn4ECsLjEfS/ppFWMmjpclsgXiEGCzsQEFWzAoPhUZznlTQfFYtPQPz+pp
+	BreQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=4ioJmjwthG0nsiGgm8Yj+fF+4CsrAf4JkpqnBOfIVTk=;
-	b=jw2arkfdjZo3gScKNO3uPOfNig5plvyJSihS5BGuXw6ZW77bAWCrGnrVCq75EwP53P
-	huUFET4POzGOZpVEiwyxIMBhg4ynXVwj/qYMCmBT4sxXpLtZ+T6qjEu/WqvZTYzJRilU
-	IewbqG4biIag1daVMwLdU/VILCRXEWyQn2xVCdj7hcsoyBPkev2sI44ZgBjKHq5FSMlX
-	bxeopVytMXsJ7RhJu/md0nJvySYWJZD7Z9R6cIIa1H1jCbD+VIcIbzFPDzaQauKH19R6
-	WqHj2UzXo8VCsQRg1l+32zG0F5OejqbkhgwNzqqafO6BFhRPzOGI6lkahCnCaSEtAfGi
-	76Tg==
-X-Gm-Message-State: AG10YOQFxf0WR/QZJr8/471CA4GpJbYHNXCfkOOYRNeHxyyJXYlQuSngTtDh87kvt8uPwxuSaqyBh7kd93g+ug==
-MIME-Version: 1.0
-X-Received: by 10.194.116.197 with SMTP id jy5mr29861671wjb.43.1454977923684; 
-	Mon, 08 Feb 2016 16:32:03 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 8 Feb 2016 16:32:03 -0800 (PST)
-In-Reply-To: <CAJ86T=XVXo-2OLqQxejMF+1=vru9e9htaKE5LOzB0zLpwhn4TQ@mail.gmail.com>
-References: <CAJ86T=UvphArYq85qN1yNsCeCtbr_AaapGoZmhprS7cCU3FM0Q@mail.gmail.com>
-	<CAMKF1sqdRHprniyiaiUNrghVwZ4tY=hn7gEHwf1g2fxi3SWEtA@mail.gmail.com>
-	<CAJ86T=UjJMJ_44ws-Esuak2nGC8ML-_-=vPAGHXJS0=0rU0fEQ@mail.gmail.com>
-	<CAJTo0LayxZ-T_cw0H5ndoxHkUHXwcqRdfu7oYjUevX+QzR4CTw@mail.gmail.com>
-	<CAJ86T=VqhcakK1zhS2CdaD0-ZwdeBufLH1b06DZqrOraLiZFkw@mail.gmail.com>
-	<56B92C4D.2070507@windriver.com>
-	<CAJ86T=WSV2Rpm2zjNmaJEd67=BogP4KHNTuHipOJnqPi9_csdA@mail.gmail.com>
-	<CABcZANnKBabF-wg0zEWYSpbg5KUQEfpRWBvu4_VOkboqMPprcg@mail.gmail.com>
-	<CAJ86T=XVXo-2OLqQxejMF+1=vru9e9htaKE5LOzB0zLpwhn4TQ@mail.gmail.com>
-Date: Mon, 8 Feb 2016 16:32:03 -0800
-Message-ID: <CAJ86T=VegzFvDi+yDuhuqu8f3yB-mRdU6gE7jhEmovSg7j3K8A@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: TARGET_CFLAGS for non-target builds
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0P1CXRE9iroaH+yPOYi13c18FNXGMfUKbgwIhxrD5Yo=;
+	b=gkv1KJq+qqmzy/i/zaDE4Wj83DCvzsTzpwgSCikc4IG8mprvtlkg4kHIVWCGDpxko9
+	gQJ0ilTtHXTsWfDxUA9/0AHmZtSdq8juVwldVYyGW2XWLw/6Voxr2EvnGSlb7x9ureLm
+	HjaKuGdWddyI03Y3codFrNII/lp84vmFL3QOVNvqXQIJgjJLZfji6Y9yzMoaqPlk/anb
+	WzXZx4TMpjZxHwPnrO2m1eyvtnXEJmjc6muQeYIQYpwS6vumLtWLOzPvDN15dNespXL2
+	Dbuh1tkMIxtl9lCqTFwjxJIblfZewDhqt/As5f6sMkebUXcn5NafiNov2rfOaG5nnQeH
+	IlDQ==
+X-Gm-Message-State: AG10YOQGQZ72PzYz64ItUklzH+8Pak1QvcGXznnNmxHMUohHwa6lBrSycT+xspsSSvp0AA==
+X-Received: by 10.37.83.7 with SMTP id h7mr16484282ybb.55.1454981387203;
+	Mon, 08 Feb 2016 17:29:47 -0800 (PST)
+Received: from Pahoa2.mvista.com ([64.2.3.194])
+	by smtp.gmail.com with ESMTPSA id
+	e132sm5813430ywa.18.2016.02.08.17.29.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Feb 2016 17:29:45 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Feb 2016 17:29:41 -0800
+Message-Id: <1454981383-15843-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH 1/3] qemu: Security fix CVE-2016-1568
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,95 +53,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 00:32:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Feb 2016 01:29:47 -0000
 
-On Mon, Feb 8, 2016 at 4:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Mon, Feb 8, 2016 at 4:13 PM, Christopher Larson <clarson@kergoth.com> wrote:
->> Target_cflags is an exported variable. It affects the checksums of every
->> task. Not ideal, but that's how it is today.
->
-> So why wouldn't we just set TARGET_CFLAGS etc to "" in native.bbclass?
+From: Armin Kuster <akuster@mvista.com>
 
-... with an appropriate over-ride for SECURITY_CFLAGS too.
+CVE-2016-1568 Qemu: ide: ahci use-after-free vulnerability in aio port commands
 
->
->
->> On Mon, Feb 8, 2016 at 5:10 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->>>
->>> On Mon, Feb 8, 2016 at 4:01 PM, Mark Hatle <mark.hatle@windriver.com>
->>> wrote:
->>> > On 2/8/16 5:43 PM, Andre McCurdy wrote:
->>> >> On Mon, Feb 8, 2016 at 3:00 PM, Burton, Ross <ross.burton@intel.com>
->>> >> wrote:
->>> >>>
->>> >>> On 8 February 2016 at 20:03, Andre McCurdy <armccurdy@gmail.com>
->>> >>> wrote:
->>> >>>>
->>> >>>> Can you give an example? Looking at native.bbclass it seems to
->>> >>>> replace
->>> >>>> TARGET_CFLAGS with BUILD_CFLAGS, not manipulate it.
->>> >>>
->>> >>> Sure, so in doing a native build TARGET_CFLAGS is used.  But as
->>> >>> security_flags.inc was using TARGET_CFLAGS_append, the end result was
->>> >>> BUILD_CFLAGS appended with the security flags.
->>> >>
->>> >> Yes, for native, TARGET_CFLAGS will end up being "${BUILD_CFLAGS}
->>> >> ${SECURITY_CFLAGS}".
->>> >>
->>> >> However it shouldn't matter - native.bbclass sets CFLAGS to
->>> >> BUILD_CFLAGS, not TARGET_CFLAGS.
->>> >>
->>> >> Do you have an example where host gcc can legitimately be invoked with
->>> >> TARGET_CFLAGS?
->>> >
->>> > You have to remember the order of the operators.  _append says to make
->>> > the
->>> > append, AFTER everything else has been evaluated (and before _remove).
->>> > This
->>> > includes override behaviors.
->>> >
->>> > So if you do:
->>> >
->>> > TARGET_CFLAGS = "-deadbeef"
->>> > BUILD_CFLAGS = "-badc0ffee"
->>> > TARGET_CFLAGS_append = " -foobar"
->>> > TARGET_CFLAGS = "${BUILD_CFLAGS}"
->>> >
->>> > The final value of TARGET_CFLAGS is "-badc0ffee -foobar"
->>> >
->>> > Thus by changing the append to:
->>> >
->>> > TARGET_CFLAGS_append_class-target = " -foobar"
->>> > TARGET_CFLAGS_class-native = "${BUILD_CFLAGS}"
->>> >
->>> > In the case where the 'class-target' is the override you will get:
->>> >
->>> > TARGET_CFLAGS = "-deadbeef -foobar"
->>> >
->>> > In the case where the 'class-native' is the override you will get:
->>> >
->>> > TARGET_CFLAGS = "-badc0ffee"
->>>
->>> I'm not disputing that TARGET_CFLAGS can contain something bogus for a
->>> class-native build.
->>>
->>> I'm asking why does it matter?
->>>
->>> Setting TARGET_CFLAGS at all in native.bbclass is fairly recent and
->>> seems to be a workaround to avoid churning sstate:
->>>
->>>
->>> http://git.openembedded.org/openembedded-core/commit/?id=05a70ac30b37cab0952f1b9df501993a9dec70da
->>>
->>> Is that perhaps still the real reason to avoid modifying TARGET_CFLAGS
->>> for a native build?
->>>
->>>
->>> > --Mark
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../recipes-devtools/qemu/qemu/CVE-2016-1568.patch | 46 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.5.0.bb           |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+new file mode 100644
+index 0000000..56fd346
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-1568.patch
+@@ -0,0 +1,46 @@
++From 4ab0359a8ae182a7ac5c99609667273167703fab Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Mon, 11 Jan 2016 14:10:42 -0500
++Subject: [PATCH] ide: ahci: reset ncq object to unused on error
++
++When processing NCQ commands, AHCI device emulation prepares a
++NCQ transfer object; To which an aio control block(aiocb) object
++is assigned in 'execute_ncq_command'. In case, when the NCQ
++command is invalid, the 'aiocb' object is not assigned, and NCQ
++transfer object is left as 'used'. This leads to a use after
++free kind of error in 'bdrv_aio_cancel_async' via 'ahci_reset_port'.
++Reset NCQ transfer object to 'unused' to avoid it.
++
++[Maintainer edit: s/ACHI/AHCI/ in the commit message. --js]
++
++Reported-by: Qinghao Tang <luodalongde@gmail.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Reviewed-by: John Snow <jsnow@redhat.com>
++Message-id: 1452282511-4116-1-git-send-email-ppandit@redhat.com
++Signed-off-by: John Snow <jsnow@redhat.com>
++
++Upstream-Status: Backport
++
++http://git.qemu.org/?p=qemu.git;a=commit;h=4ab0359a8ae182a7ac5c99609667273167703fab
++
++CVE: CVE-2016-1568
++[Yocto # 9013]
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/ide/ahci.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++Index: qemu-2.5.0/hw/ide/ahci.c
++===================================================================
++--- qemu-2.5.0.orig/hw/ide/ahci.c
+++++ qemu-2.5.0/hw/ide/ahci.c
++@@ -910,6 +910,7 @@ static void ncq_err(NCQTransferState *nc
++     ide_state->error = ABRT_ERR;
++     ide_state->status = READY_STAT | ERR_STAT;
++     ncq_tfs->drive->port_regs.scr_err |= (1 << ncq_tfs->tag);
+++    ncq_tfs->used = 0;
++ }
++ 
++ static void ncq_finish(NCQTransferState *ncq_tfs)
+diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+index 6ad7bbb..e51ec16 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             file://no-valgrind.patch \
++            file://CVE-2016-1568.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
+-- 
+2.3.5
+
 
