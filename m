@@ -1,55 +1,26 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id AEBB360118
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5937B6FFA6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 15:34:43 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id y8so55210085igp.0
+	Tue,  9 Feb 2016 15:34:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u19FYidO014120
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 07:34:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=1/n43bIlSXMhPgCJRiRIzuGmnZoOkhsimdsagBg68LA=;
-	b=NpgmaekXpVMHjTVf4gW/fhkj28G1GjJVMvF0RDdJ7dvvEV5SJR9hQQzNN7TYqS00u2
-	VkL1BWt80jgf/zpaq3yNLLO8czanckTPjNqJbA11qdXsihFV3biVnaHtR/v7cLxHSHNT
-	43BmeWNRJmGSzeLg+LGf0v0qkrRKLYzcCoFqXCmR3hFTySt9yw1bpO4eduKIRGa+uOBD
-	KwnJHfbQCSLFN53NEl+VKyAO9nvOZvXw+NyrjHjka7r5F06qJJgCi5qqhMddqGe4tUoN
-	bQBnl+PP8Npw0UPYVd6CNv/mQTd7lBPYxjmylpAq44swRVc0PDjhhrG7CrGEFqjPoiNb
-	bIOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=1/n43bIlSXMhPgCJRiRIzuGmnZoOkhsimdsagBg68LA=;
-	b=gSvHOXq/uWvDCeBt2uPYIDiGLT6mOGLt2Ib1yPjfcAsxu+xWTD8WMwKU2XctW1ECc+
-	QVz6SQtiGeZqOcckA6enkmHvQ6x6i3uxUSmfPthkGKNK5QH83rh7aN3dxKlOzXFuXyVH
-	OyE/Rn5OY1O93MTjPboAvc1al448Usc3unMLqTBYiQgnFp73RTArIicDcDPxBf63L679
-	vGLIweYaj34m8GUnyLkSu+G4CGaXDtGdphTF38SMCV47jV2YEJjw6V5PmnGlsDVu3C5K
-	fzizBSu9OFv3LuMGr0kJJU+7qHTWrJCjaW51FHForAtQGPAfTOM3WYZEPxo1aT8SQGx3
-	94cg==
-X-Gm-Message-State: AG10YORHkal94rofqGuHEcUqyR/fKY2Q0F1WTlRz+aUcaF4yoOXzagWauBcSgac/VvLGFg==
-X-Received: by 10.50.33.80 with SMTP id p16mr4809304igi.23.1455032084102;
-	Tue, 09 Feb 2016 07:34:44 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	t16sm4703395ioe.36.2016.02.09.07.34.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 09 Feb 2016 07:34:43 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <56B922B3.9070604@gmail.com> <56B931EA.6060107@windriver.com>
-	<56B95575.7030505@gmail.com>
-	<CAJTo0LYQx1cZT=bwmXhJqHtFvujqMNH7qNR=05Ciw_+SCekwKg@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56BA0710.8060207@gmail.com>
-Date: Tue, 9 Feb 2016 10:34:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Tue, 9 Feb 2016 07:34:44 -0800 (PST)
+Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 9 Feb 2016 07:34:44 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Feb 2016 09:34:41 -0600
+Message-ID: <1455032081-212934-2-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1455032081-212934-1-git-send-email-mark.hatle@windriver.com>
+References: <1455032081-212934-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYQx1cZT=bwmXhJqHtFvujqMNH7qNR=05Ciw_+SCekwKg@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: noticeably longer build (link?) times with binutils 2.26
+Subject: [RFC][PATCH] buildhistory.bbclass: Break up the find to catch failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,34 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 15:34:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 15:34:49 -0000
+Content-Type: text/plain
 
-On 02/09/16 05:00, Burton, Ross wrote:
->
-> On 9 February 2016 at 02:56, Trevor Woerner <twoerner@gmail.com 
-> <mailto:twoerner@gmail.com>> wrote:
->
->     MACHINE          = "qemux86-64"
->
->     Essentially: minnowboard max (turbot, specifically)
->
->
-> As an aside, if you're actually building for the MinnowMax then the 
-> meta-intel BSP will be a lot better.
->
+If for some reason the 'find' operation were to fail, the buildhistory would
+not fail, but instead store invalid history!
 
-The images I build for my actual board do use the meta-intel BSP and set 
-MACHINE to "intel-corei7-64".
+[YOCTO #9031]
 
-This massive explosion in build time for chromium coincided with me 
-adding a new disk to my build machine and moving my Jenkins builds over 
-to the new disk. At first I assumed the problem might be related to the 
-new disk so I was performing build speed tests on both the old and new 
-disks. For this I setup 2 new builds (one on each disk) and set MACHINE 
-to qemux86-64 by default and had forgot about it. But you bring up a 
-good point, I should be using the same MACHINE (although my Jenkins 
-instance is still using the correct MACHINE as is seeing the huge 
-increase in build times too).
+Note this fixes the symptom, but not the cause of 9031.  That is a separate
+issue, see the defect for more details on the work being done to resolve the
+cause of the failure.
+
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/buildhistory.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 5e2581f..189881e 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -439,10 +439,12 @@ buildhistory_list_files() {
+ 	# List the files in the specified directory, but exclude date/time etc.
+ 	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
+ 	if [ "$3" = "fakeroot" ] ; then
+-		( cd $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
++		( cd $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" > $2.tmp )
+ 	else
+-		( cd $1 && find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
++		( cd $1 && find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" > $2.tmp )
+ 	fi
++	cat $2.tmp | sort -k5 | sed 's/ * -> $//' > $2
++	rm $2.tmp
+ }
+ 
+ buildhistory_list_pkg_files() {
+-- 
+2.5.0
+
 
