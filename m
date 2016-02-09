@@ -1,26 +1,21 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A60BE60588
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id EAC1E73197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 10:40:09 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 09 Feb 2016 02:40:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,420,1449561600"; d="scan'208";a="742956942"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 09 Feb 2016 02:40:09 -0800
+	Tue,  9 Feb 2016 10:52:19 +0000 (UTC)
+Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id BBB962AB18
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  9 Feb 2016 11:52:19 +0100 (CET)
 To: openembedded-core@lists.openembedded.org
 References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
-	<CAJTo0LYW=LbsM8kaaqUnukH_p7U1i-EpXcPsekjbjwFooxXW9g@mail.gmail.com>
-	<DUB130-W6784E5708A3084D22AA513DAD60@phx.gbl>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <56B9C154.2030002@linux.intel.com>
-Date: Tue, 9 Feb 2016 12:37:08 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <56B9C4E3.6040006@pseudoterminal.org>
+Date: Tue, 9 Feb 2016 11:52:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.5.0
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <DUB130-W6784E5708A3084D22AA513DAD60@phx.gbl>
+In-Reply-To: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
 Subject: Re: gobject introspection to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,31 +29,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 10:40:09 -0000
+X-List-Received-Date: Tue, 09 Feb 2016 10:52:20 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000403060904070906080706"
+
+--------------000403060904070906080706
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/09/2016 12:30 PM, Chris Trobridge wrote:
-> One thing I failed to mention when I reported on this previously is that
-> I needed to patch polkit_0.113.bb:
+This is very interesting. Once gobject introspection is in place, vala 
+based software like Rygel can finally be compiled directly from the vala 
+source, which makes it much easier to apply patches against it.
+Also, I think the GStreamer 1.0 Python bindings need GIR. This recipe 
+could then be reintroduced (it was there, but got removed).
+
+On 2015-12-17 10:16, Chris Trobridge wrote:
+> Hi,
 >
-> -DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub mozjs"
-> +DEPENDS = "expat glib-2.0 intltool-native gobject-introspection mozjs"
+> I have done some testing of Alex's branch 
+> "akanavin/gobject-introspection-experimental", originally 
+> http://patchwork.openembedded.org/patch/107089/ 
+> <http://patchwork.openembedded.org/patch/107089/%0A><http://patchwork.openembedded.org/patch/107089/%0A>
 >
-> This seems quite obvious, so I am sure you're aware of it.  That was all
-> I needed but there are other references to gobject-introspection-stub in:
+> I have built this successfully for x86 and x64 targets on an x64 build 
+> machine:
 >
-> meta-gnome/recipes-gnome/libwnck/libwnck_2.31.0.bb
-> meta-multimedia/recipes-connectivity/gupnp/gupnp-igd_0.2.2.bb
-> meta-oe/recipes-devtools/libgee/libgee_0.16.1.bb
-> meta-oe/recipes-gnome/gtkextra/gtkextra_3.0.5.bb
-> meta-oe/recipes-support/upower/upower_0.9.14.bb
+> meta
+> meta-yocto
+> meta-yocto-bsp    = 
+> "akanavin/gobject-introspection-experimental:04c7746ce90abc14604dec3328b9472c53cccf98"
+> meta-networking
+> meta-oe
+> meta-python       = "master:47f7d287a09329734629cb9d194ef4e077117d79"
+> meta-haswell-wc
+> meta-intel        = "master:6e91701dcf68f9351db8bb0b92eb2d26af1b8f7f"
+> meta-systemd      = "master:47f7d287a09329734629cb9d194ef4e077117d79"
+>
+> Specifically, it built for the qemux86, qemux86-64 and hasell-wc machines.
+>
+> I have successfully run my own python3 service, which uses python3 
+> dbus and GObject from gi.repository.
+>
+> I have also inherited gobject-introspection into modemmanager_1.4.2.bb 
+> from meta-oe, which fixed the recipe building and I have checked that 
+> the target executable runs but not tested its dbus interface yet.
+>
+> Regards,
+> Chris
+>
+>
+>
 
-Those recipes are all in meta-oe - fixing them is not in scope at the 
-moment. For now the introspection patchset is strictly for oe-core.
 
-You are welcome to develop and maintain a companion meta-oe patchset though.
+--------------000403060904070906080706
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Alex
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    This is very interesting. Once gobject introspection is in place,
+    vala based software like Rygel can finally be compiled directly from
+    the vala source, which makes it much easier to apply patches against
+    it.<br>
+    Also, I think the GStreamer 1.0 Python bindings need GIR. This
+    recipe could then be reintroduced (it was there, but got removed).<br>
+    <br>
+    <div class="moz-cite-prefix">On 2015-12-17 10:16, Chris Trobridge
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl"
+      type="cite">
+      <style><!--
+.hmmessage P
+{
+margin:0px;
+padding:0px
+}
+body.hmmessage
+{
+font-size: 12pt;
+font-family:Calibri
+}
+--></style>
+      <div dir="ltr">Hi,
+        <div><br>
+        </div>
+        <div>I have done some testing of Alex's branch
+          "akanavin/gobject-introspection-experimental", originally <a
+            moz-do-not-send="true"
+            href="http://patchwork.openembedded.org/patch/107089/%0A"
+            target="_blank" style="font-size: 12pt;"><a class="moz-txt-link-freetext" href="http://patchwork.openembedded.org/patch/107089/">http://patchwork.openembedded.org/patch/107089/</a></a><a
+            moz-do-not-send="true"
+            href="http://patchwork.openembedded.org/patch/107089/%0A"
+            target="_blank" style="font-size: 12pt;"> </a></div>
+        <div><br>
+        </div>
+        <div>I have built this successfully for x86 and x64 targets on
+          an x64 build machine:</div>
+        <div><br>
+        </div>
+        <div>
+          <div>meta              </div>
+          <div>meta-yocto        </div>
+          <div>meta-yocto-bsp    =
+"akanavin/gobject-introspection-experimental:04c7746ce90abc14604dec3328b9472c53cccf98"</div>
+          <div>meta-networking   </div>
+          <div>meta-oe           </div>
+          <div>meta-python       =
+            "master:47f7d287a09329734629cb9d194ef4e077117d79"</div>
+          <div><span style="font-size: 12pt;">meta-haswell-wc   </span></div>
+          <div>meta-intel        =
+            "master:6e91701dcf68f9351db8bb0b92eb2d26af1b8f7f"</div>
+          <div>meta-systemd      =
+            "master:47f7d287a09329734629cb9d194ef4e077117d79"</div>
+        </div>
+        <div><br>
+        </div>
+        <div>Specifically, it built for the qemux86, qemux86-64 and
+          hasell-wc machines.</div>
+        <div><br>
+        </div>
+        <div>I have successfully run my own python3 service, which uses
+          python3 dbus and GObject from gi.repository.</div>
+        <div><br>
+        </div>
+        <div>I have also inherited gobject-introspection
+          into modemmanager_1.4.2.bb from meta-oe, which fixed the
+          recipe building and I have checked that the target executable
+          runs but not tested its dbus interface yet.</div>
+        <div><br>
+        </div>
+        <div>Regards,</div>
+        <div>Chris</div>
+        <div><br>
+        </div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-
+--------------000403060904070906080706--
