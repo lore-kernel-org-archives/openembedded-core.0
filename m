@@ -1,26 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 58832607A4
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 197FB6067D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 11:17:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Feb 2016 03:17:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,420,1449561600"; d="scan'208";a="880304673"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2016 03:11:05 -0800
+	Tue,  9 Feb 2016 11:31:20 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q029M3Wclz3hjlD;
+	Tue,  9 Feb 2016 12:31:19 +0100 (CET)
+X-Auth-Info: sqbQCIYVeJkvYY9p3WL0YkWjcZWfM4b4zGxoe3MqUiE=
+Received: from chi.lan (unknown [195.140.253.167])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029M1C03zvdWV;
+	Tue,  9 Feb 2016 12:31:19 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
-	<56B9C4E3.6040006@pseudoterminal.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <56B9C893.1050705@linux.intel.com>
-Date: Tue, 9 Feb 2016 13:08:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.5.0
-MIME-Version: 1.0
-In-Reply-To: <56B9C4E3.6040006@pseudoterminal.org>
-Subject: Re: gobject introspection to oe-core
+Date: Tue,  9 Feb 2016 12:31:05 +0100
+Message-Id: <1455017471-6682-1-git-send-email-marex@denx.de>
+X-Mailer: git-send-email 2.1.4
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 1/7] strace: Fix build for arc, metag, nios2, or1k, tile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +29,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 11:17:08 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Feb 2016 11:31:22 -0000
 
-On 02/09/2016 12:52 PM, Carlos Rafael Giani wrote:
-> This is very interesting. Once gobject introspection is in place, vala
-> based software like Rygel can finally be compiled directly from the vala
-> source, which makes it much easier to apply patches against it.
-> Also, I think the GStreamer 1.0 Python bindings need GIR. This recipe
-> could then be reintroduced (it was there, but got removed).
+Upstream strace 4.11 does not build for arc, metag, nios2, or1k, tile.
+Backport patch from strace git master to fix the build issue.
 
-Gstreamer Python bindings are not real bindings as such - they are a few 
-tweaks and overrides on top of standard Python's support for 
-introspection (which provided by pygobject), and they also add support 
-for writing gstreamer elements in python.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Robert Yang <liezhi.yang@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../0001-arc-metag-nios2-or1k-tile-fix-build.patch | 116 +++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.11.bb        |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
 
-Generally, nowadays any support for GLib-based software in language 
-environments other than C or C++ is provided only through introspection.
+diff --git a/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch b/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
+new file mode 100644
+index 0000000..8a2d178
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
+@@ -0,0 +1,116 @@
++From dd1a80c8d213eed95fe55b7ebcb07ee165dd8e4b Mon Sep 17 00:00:00 2001
++From: "Dmitry V. Levin" <ldv@altlinux.org>
++Date: Thu, 24 Dec 2015 15:40:55 +0000
++Subject: [PATCH] arc, metag, nios2, or1k, tile: fix build
++
++Fix build regression introduced by commit
++34683e3926d8c2daa368afb805da422ee7043396.
++
++* linux/32/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap.
++* linux/arc/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap_pgoff.
++* linux/nios2/syscallent.h: Likewise.
++* linux/or1k/syscallent.h: Likewise.
++* linux/tile/syscallent1.h: Add sys_ prefix to ARCH_mmap and sys_mmap_4koff.
++* pathtrace.c (pathtrace_match): Handle SEN_ARCH_mmap.
++* NEWS: Mention this build fix.
++
++Reported-by: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
++Upstream-Status: Backport
++---
++ NEWS                     | 3 +++
++ linux/32/syscallent.h    | 6 +++---
++ linux/arc/syscallent.h   | 2 +-
++ linux/nios2/syscallent.h | 2 +-
++ linux/or1k/syscallent.h  | 2 +-
++ linux/tile/syscallent1.h | 2 +-
++ pathtrace.c              | 1 +
++ 7 files changed, 11 insertions(+), 7 deletions(-)
++
++diff --git a/NEWS b/NEWS
++index fe40ca4..09263eb 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,3 +1,9 @@
+++Noteworthy changes in release ?.?? (????-??-??)
+++===============================================
+++
+++* Bug fixes
+++  * Fixed build on arc, metag, nios2, or1k, and tile architectures.
+++
++ Noteworthy changes in release 4.11 (2015-12-21)
++ ===============================================
++ 
++diff --git a/linux/32/syscallent.h b/linux/32/syscallent.h
++index 5f997e7..e6f895c 100644
++--- a/linux/32/syscallent.h
+++++ b/linux/32/syscallent.h
++@@ -1,5 +1,5 @@
++-#ifndef ARCH_mmap
++-# define ARCH_mmap mmap
+++#ifndef sys_ARCH_mmap
+++# define sys_ARCH_mmap sys_mmap
++ #endif
++ [  0] = { 2,	0,		SEN(io_setup),			"io_setup"		},
++ [  1] = { 1,	0,		SEN(io_destroy),		"io_destroy"		},
++@@ -276,5 +276,5 @@
++ [283] = { 2,	0,		SEN(membarrier),		"membarrier",		},
++ [284] = { 3,	TM,		SEN(mlock2),			"mlock2"		},
++ 
++-#undef ARCH_mmap
+++#undef sys_ARCH_mmap
++ #undef ARCH_WANT_SYNC_FILE_RANGE2
++diff --git a/linux/arc/syscallent.h b/linux/arc/syscallent.h
++index 5847dc4..1100008 100644
++--- a/linux/arc/syscallent.h
+++++ b/linux/arc/syscallent.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_pgoff
+++#define sys_ARCH_mmap sys_mmap_pgoff
++ #include "32/syscallent.h"
++ [244] = { 3,	0,	SEN(printargs),	"arc_cacheflush"},
++ [245] = { 1,	0,	SEN(printargs),	"arc_settls"	},
++diff --git a/linux/nios2/syscallent.h b/linux/nios2/syscallent.h
++index 8a4b70e..01efe3a 100644
++--- a/linux/nios2/syscallent.h
+++++ b/linux/nios2/syscallent.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_pgoff
+++#define sys_ARCH_mmap sys_mmap_pgoff
++ #include "32/syscallent.h"
++ [244] = {4,    0,	SEN(cacheflush), "cacheflush"},
++ [245 ... 259] = { },
++diff --git a/linux/or1k/syscallent.h b/linux/or1k/syscallent.h
++index ed84b3b..351fe25 100644
++--- a/linux/or1k/syscallent.h
+++++ b/linux/or1k/syscallent.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_pgoff
+++#define sys_ARCH_mmap sys_mmap_pgoff
++ #include "32/syscallent.h"
++ [244] = { 3,	NF,	SEN(or1k_atomic),	"or1k_atomic"	},
++ [245 ... 259] = { },
++diff --git a/linux/tile/syscallent1.h b/linux/tile/syscallent1.h
++index c86f059..28dbab4 100644
++--- a/linux/tile/syscallent1.h
+++++ b/linux/tile/syscallent1.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_4koff
+++#define sys_ARCH_mmap sys_mmap_4koff
++ #define ARCH_WANT_SYNC_FILE_RANGE2 1
++ #include "32/syscallent.h"
++ [244] = { 1,	0,	SEN(printargs),	"cmpxchg_badaddr"	},
++diff --git a/pathtrace.c b/pathtrace.c
++index d530ec2..e72cdf7 100644
++--- a/pathtrace.c
+++++ b/pathtrace.c
++@@ -216,6 +216,7 @@ pathtrace_match(struct tcb *tcp)
++ 	case SEN_mmap:
++ 	case SEN_mmap_4koff:
++ 	case SEN_mmap_pgoff:
+++	case SEN_ARCH_mmap:
++ 		/* x, x, x, x, fd */
++ 		return fdmatch(tcp, tcp->u_arg[4]);
++ 
++-- 
++2.6.4
++
+diff --git a/meta/recipes-devtools/strace/strace_4.11.bb b/meta/recipes-devtools/strace/strace_4.11.bb
+index a72a1f9..6b889de 100644
+--- a/meta/recipes-devtools/strace/strace_4.11.bb
++++ b/meta/recipes-devtools/strace/strace_4.11.bb
+@@ -8,6 +8,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://disable-git-version-gen.patch \
+            file://more-robust-test-for-m32-mx32-compile-support.patch \
+            file://update-gawk-paths.patch \
++           file://0001-arc-metag-nios2-or1k-tile-fix-build.patch \
+            file://Makefile-ptest.patch \
+            file://run-ptest \
+           "
+-- 
+2.1.4
 
-If you want to write your software in anything else than C or C++, and 
-you want to use gstreamer, webkit, gtk, glib's dbus support, etc., you 
-have to have introspection working:
-https://wiki.gnome.org/Projects/GObjectIntrospection/Users
-
-
-Alex
 
