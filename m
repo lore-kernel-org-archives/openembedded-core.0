@@ -1,50 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D45A731C7
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D250E6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 13:24:29 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id d63so16992108ioj.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 05:24:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=m3jGRMm7jHE/LGBnzoH/3qGEmyKk8mfRAj7IeRVI878=;
-	b=XT8bTmANVvmkz+6FRKUN/Q8TIC4JvoQKNc3B2pGQowLQK8BKZIv6vDWgvyVsS9vi2H
-	eeeAaF29YFwT1BvkvJB1q8WB+79oj0+R9zcm64kYu32r/uezakiPP/Qr5fNyIhNVN+AY
-	WG+xSnU74ZqFCqd7H6oVszHAuP8XPf8mkZzCnVJWmeX625OOq1m5jEJMKuSOowPBi14W
-	RM1Xoxo5UEC/q1fPHpau+7i+Fce//eRMq/S7Y3tjra4/dTyQs1Kft28jOXqHxNDnLLi7
-	YYGRZlvUYiKasHei0k7BX0nWi6it/Zg3EbRqAO+X35P33taXHpHUJP5KnI17PEGr/YB6
-	4Oaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=m3jGRMm7jHE/LGBnzoH/3qGEmyKk8mfRAj7IeRVI878=;
-	b=Cq4xjU7Ies9awd3yPK9qlWMXra6hwLMse/x3pfy09mG5iISXK7Kkzv7oH1xRIlJfmD
-	4JFjkMMXJhk7AoQ+GVf5K/XbP+4HdvPi+UDz1uYDFuZU0C76UZsN655YgkP8tBCDBiS+
-	BawZmV6q9PR6b8/+CfMzY4inR3MjQnYRRAtkN7D4060KsRg90ofobp1Nz+pra0SZ3HEw
-	HUnaCti4NIM5xnMh9GV30jEhOUy8g6Ndj8tIC6i30mow4kEexCCvVc+7fiyZsSwO+kFN
-	VUPwOijD36bfodVVQdUdNI5aQZoqzCSUj7PmvXap8VGgkQpB9Y76lSW5oef+qCzazWy2
-	DrUg==
-X-Gm-Message-State: AG10YOTsXa4fh4B4J8TJOzRCQAOKv1Rk26kWVGEi36WkJ5U8jOHsp9NY0+8KtNatTYP7dLPjy43MQ6X1Yt8xlgu0
-X-Received: by 10.107.164.15 with SMTP id n15mr30376832ioe.148.1455024270725; 
-	Tue, 09 Feb 2016 05:24:30 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 9 Feb 2016 05:24:11 -0800 (PST)
-In-Reply-To: <201602091307.54737.marex@denx.de>
-References: <1455017471-6682-1-git-send-email-marex@denx.de>
-	<1455017471-6682-6-git-send-email-marex@denx.de>
-	<CAJTo0LZ7fpKqnuyzWmQ02dw5DnKS4+XBbAEx=nNmZDi-Fq6+ZA@mail.gmail.com>
-	<201602091307.54737.marex@denx.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Feb 2016 13:24:11 +0000
-Message-ID: <CAJTo0Lbx2Cc=hAWE+WoLZuAfg-PFC1CY84iRB0mk9iu7fZgFag@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] liburcu: Add nios2 support
+	Tue,  9 Feb 2016 13:26:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Feb 2016 05:26:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,420,1449561600"; d="scan'208";a="743024140"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 09 Feb 2016 05:26:21 -0800
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 18DAE6A4004;
+	Tue,  9 Feb 2016 06:14:12 -0800 (PST)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Feb 2016 15:39:36 +0200
+Message-Id: <1455025176-14175-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] oe-selftest: Add support for lib/oeqa/selftest subdirectories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +30,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 13:24:30 -0000
-Content-Type: multipart/alternative; boundary=001a11377682cc0cf6052b563cc9
+X-List-Received-Date: Tue, 09 Feb 2016 13:26:22 -0000
 
---001a11377682cc0cf6052b563cc9
-Content-Type: text/plain; charset=UTF-8
+This patch adds functionality to allow creating subdirectories inside
+lib/oeqa/selftest for all layers present in BBLAYERS. Like this, test
+cases can be grouped into organized directories.
 
-On 9 February 2016 at 12:07, Marek Vasut <marex@denx.de> wrote:
+Addresses [YOCTO #7865]
 
-> > Why did the license checksum change?
->
-> Because the LICENSE file now contains one more entry for nios2, which
-> changed
-> the checksum of the whole file. Maybe we should trim the checksum to use
-> only
-> the header in the LICENSE file and not the whole file to prevent this ?
->
-> This is the change which triggered the change of the checksum:
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ scripts/oe-selftest | 55 +++++++++++++++++++++++++++++------------------------
+ 1 file changed, 30 insertions(+), 25 deletions(-)
+
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 4eb404b..6a3181c 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -159,19 +159,35 @@ def remove_inc_files():
+         except:
+             pass
+ 
++
++def get_tests_modules(include_hidden=False):
++    modules_list = list()
++    for modules_path in oeqa.selftest.__path__:
++        for (p, d, f) in os.walk(modules_path):
++            files = sorted([f for f in os.listdir(p) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
++            for f in files:
++                submodules = p.split("selftest")[-1]
++                module = ""
++                if submodules:
++                    module = 'oeqa.selftest' + submodules.replace("/",".") + "." + f.rstrip('.py')
++                else:
++                    module = 'oeqa.selftest.' + f.rstrip('.py')
++                if module not in modules_list:
++                    modules_list.append(module)
++
++    return modules_list
++
++
++
+ def get_tests(exclusive_modules=[], include_hidden=False):
+-    testslist = []
++    test_modules = list()
+     for x in exclusive_modules:
+-        testslist.append('oeqa.selftest.' + x)
+-    if not testslist:
+-        for testpath in oeqa.selftest.__path__:
+-            files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
+-            for f in files:
+-                module = 'oeqa.selftest.' + f[:-3]
+-                if module not in testslist:
+-                    testslist.append(module)
++        test_modules.append('oeqa.selftest.' + x)
++    if not test_modules:
++        inc_hidden = include_hidden
++        test_modules = get_tests_modules(inc_hidden)
+ 
+-    return testslist
++    return test_modules
+ 
+ 
+ class Tc:
+@@ -218,23 +234,12 @@ def get_tests_from_module(tmod):
+ 
+ 
+ def get_all_tests():
+-    tmodules = set()
+-    testlist = []
+-    prefix = 'oeqa.selftest.'
+-
+     # Get all the test modules (except the hidden ones)
+-    for tpath in oeqa.selftest.__path__:
+-        files = sorted([f for f in os.listdir(tpath) if f.endswith('.py') and not
+-                        f.startswith(('_', '__')) and f != 'base.py'])
+-        for f in files:
+-            tmodules.add(prefix + f.rstrip('.py'))
+-
++    testlist = []
++    tests_modules = get_tests_modules()
+     # Get all the tests from modules
+-    tmodules = sorted(list(tmodules))
+-
+-    for tmod in tmodules:
++    for tmod in sorted(tests_modules):
+         testlist += get_tests_from_module(tmod)
+-
+     return testlist
+ 
+ 
+@@ -463,7 +468,7 @@ def main():
+         log.info('Listing all available test modules:')
+         testslist = get_tests(include_hidden=True)
+         for test in testslist:
+-            module = test.split('.')[-1]
++            module = test.split('oeqa.selftest.')[-1]
+             info = ''
+             if module.startswith('_'):
+                 info = ' (hidden)'
+-- 
+2.5.0
 
 
-Oh yes, right.  Thanks!
-
-Ross
-
---001a11377682cc0cf6052b563cc9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 February 2016 at 12:07, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; Why did the license=
- checksum change?<br>
-<br>
-</span>Because the LICENSE file now contains one more entry for nios2, whic=
-h changed<br>
-the checksum of the whole file. Maybe we should trim the checksum to use on=
-ly<br>
-the header in the LICENSE file and not the whole file to prevent this ?<br>
-<br>
-This is the change which triggered the change of the checksum:</blockquote>=
-</div><br>Oh yes, right.=C2=A0 Thanks!</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11377682cc0cf6052b563cc9--
