@@ -1,40 +1,50 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
-	by mail.openembedded.org (Postfix) with ESMTP id 061BC731BA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BA7F731C2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 15:16:46 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout03 with smtp
-	id GFGk1s0030BmcFC01FGlbw; Tue, 09 Feb 2016 15:16:45 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=X8+vUzne c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=jFJIQSaiL_oA:10 a=-An2I_7KAAAA:8 a=sKD8B3dNVUIQrssZlxEA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1aTA1z-00088z-9o; Tue, 09 Feb 2016 15:16:43 +0000
-Date: Tue, 9 Feb 2016 15:16:43 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Andrea Adami <andrea.adami@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160209151643.GA30669@mcrowe.com>
-References: <1454424587-4251-1-git-send-email-mac@mcrowe.com>
-	<1454428874.27087.87.camel@linuxfoundation.org>
-	<20160202161726.GC2607@jama>
-	<CA+chaQdGzUm96SViWvLW8xinxSLrjZbZxi843A282geN+T5Ffw@mail.gmail.com>
-	<20160206204110.GA21969@mcrowe.com>
-	<20160207220741.GA12339@mcrowe.com>
-	<CA+chaQeGfQQ5r=Z+MEzuv1rX93ZLgrVDWzbwx6fXrkaftZ-w-g@mail.gmail.com>
-	<CA+chaQfVbnjSV5Casif1b5_vxp4ysThnJLCShGAp89PCXd1tTw@mail.gmail.com>
-	<20160209123026.GA22354@mcrowe.com>
-	<CAAQYJAsYUc=eZSa7yt4-bpCVRtFOvendDYjaBr5sMGPrK5h2pQ@mail.gmail.com>
+	Tue,  9 Feb 2016 15:19:52 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id s68so71155267qkh.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Feb 2016 07:19:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=QZxJwFQ6qxKtfUsvHMWRUJtn9tmbAoIjJraI0Q7yUdk=;
+	b=S6k+o/Kz6NqEVDV/llL6dk7LvDMkWBQA26enRqxICc6mt5WWSr4TkINYFv9Ux4RqQA
+	uhiz5tM1gZt6DM7RxjwMNMy12xGnNr6OKqmm0uWvtVLeYOHGsL1BGrbvPU0kAu/VlW7f
+	T/6vuKHgVbx96FNa6ltmySEE7xCCU3ZGcpnh4Yv67xiy80GTDoZnpjmsxcWQlEdJnsPJ
+	MHU/WS/R1qePGKUoyvws7tU6Dej+bpjh9PRnC3Z/IQJrcpgZnceqQrGO09QdfAqk0lM9
+	kGpQzITxpSeTE8z+nsGkEBvZZbd2Oi7tKUl8yVttIZeyokPFxTrIaWgGPhXuWtr8xzUv
+	yEdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QZxJwFQ6qxKtfUsvHMWRUJtn9tmbAoIjJraI0Q7yUdk=;
+	b=IFFD+sgpeM7r7snoPW3O8vKTZXZPf4CA0YVsQ4UQ0hOnjvoboc68O6ijl8QDBS9Xtc
+	CC2f2qkcYOJ/NZEHcVw4/W6pym+MuyEONjXRBdcynvyTAAesvrCBwhDYfak51y9NR+Gi
+	W5XhwM7Z3RPj00aHN1JuuIKg/R5XVlULKSZNXbEgkvyF97KggiXaUkXM2fky6TKTEB1F
+	dnK50axt80U8OpjJ+DhClhMMest+oSgoJmiD+QSzWhiNMgFDtbc6C9K00XOJ/p+VaHP6
+	DGr4eon9cCxzFrHGLbFGmue3qLA1aVi4Q5JJeufB3Z0lR2ggw3PaMDWzQH7ENf7buURW
+	i/nA==
+X-Gm-Message-State: AG10YORWYF6uvWm65CwTJBArcu20mRecJecZKMhGnDI/gBpAeCL/2sCVSb5g5w7cC83pdS9FEcLaiJFJ0Jez4A==
+X-Received: by 10.55.75.203 with SMTP id y194mr42483356qka.2.1455031193330;
+	Tue, 09 Feb 2016 07:19:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAAQYJAsYUc=eZSa7yt4-bpCVRtFOvendDYjaBr5sMGPrK5h2pQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Mike Crowe <mac@mcrowe.com>
-Subject: Re: [PATCH 0/3] Remove unhelpful default value of EXTRA_OEMAKE
+Received: by 10.55.130.196 with HTTP; Tue, 9 Feb 2016 07:19:23 -0800 (PST)
+In-Reply-To: <1454926183-22439-7-git-send-email-maciej.borzecki@open-rnd.pl>
+References: <1454926183-22439-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1454926183-22439-7-git-send-email-maciej.borzecki@open-rnd.pl>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 9 Feb 2016 07:19:23 -0800
+Message-ID: <CAMKF1spPPJYxpF4mNpqXT=_aQdCR9meet=NRQqqjDzwGuoFdGg@mail.gmail.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: Re: [PATCH 6/6] systemd: remove unnecessary code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 15:16:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 09 Feb 2016 15:19:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 09 February 2016 at 13:51:20 +0100, Andrea Adami wrote:
-> On Tue, Feb 9, 2016 at 1:30 PM, Mike Crowe <mac@mcrowe.com> wrote:
-> > On Tuesday 09 February 2016 at 11:39:17 +0100, Martin Jansa wrote:
-> >>   /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.5.bb,
-> >> do_compile
-> >
-> > That one builds successfully for me for qemuarm. Strange.
-> >
-> >>   /home/jenkins/oe/world/shr-core/meta-smartphone/meta-android/recipes-support/invensense/invensense_git.bb,
-> >> do_package_qa
-> >
-> > That one seems to be using cmake so I can't immediately see how it could be
-> > affected by changing EXTRA_OEMAKE.
-> >
-> 
-> It is unrelated...
-> About the do_package_qa, some of them like klibc and invensense come
-> after commit 47d38d4d86ec6a "insane: add test for -dev packaging
-> containing real libraries" introducing [dev-elf] fatal error.
+On Mon, Feb 8, 2016 at 2:09 AM, Maciej Borzecki
+<maciej.borzecki@open-rnd.pl> wrote:
+> Remove unnecessary chown on journal file.
+>
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> ---
+>  meta/recipes-core/systemd/systemd_228.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+> index 40ed81a37e78c67bae13f7ee7018d85efa2f6b7d..03434ff9d5ff19fe043332b0b53a4fa96ab2b120 100644
+> --- a/meta/recipes-core/systemd/systemd_228.bb
+> +++ b/meta/recipes-core/systemd/systemd_228.bb
+> @@ -209,7 +209,7 @@ do_install() {
+>                 sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
+>         fi
+>
+> -       chown root:systemd-journal ${D}/${localstatedir}/log/journal
+> +        # chown root:systemd-journal ${D}/${localstatedir}/log/journal
+>
 
-Thanks. If I revert that commit then I can compile klibc, dovecot,
-fakeroot, llvm3.3 and invensense. The build got a bit further which has let
-me fix libmatroska, system-setup-keyboard and wmiconfig.
+journald requires these perms on this directory. Can you describe the
+issue it fixes ?
 
-There's still lots of breakage though that isn't fixed by simply
-reinstating the old value of EXTRA_OEMAKE in the affected recipes. :(
-
-So, I think that oe-core is in pretty good shape with EXTRA_OEMAKE="". I've
-mainly been building qemuarm recently but I did get clean builds for many
-of the other default MACHINEs in bitbake.conf. The only problem I found
-since then was the QA warning on hdparm. There weren't any other QA
-warnings like that on a completely clean qemuarm build.
-
-meta-oe is in less good shape. I'm going to rebase everything on the latest
-master and try again.
-
-Mike.
+>          # Delete journal README, as log can be symlinked inside volatile.
+>          rm -f ${D}/${localstatedir}/log/README
+> --
+> 2.5.0
+>
 
