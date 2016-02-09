@@ -1,47 +1,21 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 85381731E6
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E595F700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 08:05:14 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g62so1859934wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 00:05:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ojjzYGiseIlXcA56rSwCEoD1NjQWaWNaFqUE/t8J5N0=;
-	b=tbgyx1oGo+sl7GMTer9s6VCJ5h0Hjdcfxo2badjeYqFWsRAmS0KxL3xUcBVkMpSKSF
-	b1piO2FUumkyZoVtcVsBIxHl8uMUN35OBJ3K+6ChlSayf13GrqLSX60dP2eOzSeCH5pn
-	qJ/b0MF+8wz4TDeyyT+fDaGm+6mIR6uuc5fosK6jN5rssf4cGCoW/zqSfPlXRMQBHXvy
-	HF3+/6L45OLUzCef5x06yDCC4YoDAtLYBcyg6eLZYedTj7uv6DRWgoHlfzmh/m3VtYNJ
-	umnOZQFApwAa8z8ilX8ayA/jY0MPUM4t9E5pkASNnntgQN7/YP1zL5x0PgxJpiSZkq8y
-	ozAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=ojjzYGiseIlXcA56rSwCEoD1NjQWaWNaFqUE/t8J5N0=;
-	b=aT8Hon2rA2x80XBhrokWOcHX8jxr5jBTesfZ7AX+BQ6Og5C2jqZgKC/gahCUff+rz8
-	lRPLACknolWlot89IGXtbbqN8Zuh+c4dS82cJINI34l37GMqvd2GBejc2wBNCjA5EryQ
-	qhoQCH+quSyr8gGqSEZ5yH3nD4oOuXyi5z1MRId5qBe4Jp0W3JYsA8eMo/Opnh+ywD3Z
-	vvjuEm99DIo+8LKbB9nU5H3pc8/I+hOAP3+5nGZGosLA8OnfOpjae7VR4DvMHS+9zlRH
-	QsR0yRl5MmMp7Zos278Rx3/L5MPm8+m0Ea3l7zhLrM9A7BwlYq52+Hi7ecHuSnjDPViJ
-	ZWcw==
-X-Gm-Message-State: AG10YOSeZJbjFLYpBqGMQSOINp/VL+a97SKMkVwcF0AX5zwVHJSlRC56fqzYXHzwCahljOrroK6rPIHpZwh1Bg==
-MIME-Version: 1.0
-X-Received: by 10.194.156.199 with SMTP id wg7mr37648672wjb.114.1455005115101; 
-	Tue, 09 Feb 2016 00:05:15 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Tue, 9 Feb 2016 00:05:15 -0800 (PST)
-In-Reply-To: <CAJTo0LaCMqE5kQR5SApPdBw-LYbdyxwtaFK+DpAfhbhU7LFScQ@mail.gmail.com>
-References: <1454963681-18756-1-git-send-email-armccurdy@gmail.com>
-	<1454963681-18756-2-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LaCMqE5kQR5SApPdBw-LYbdyxwtaFK+DpAfhbhU7LFScQ@mail.gmail.com>
-Date: Tue, 9 Feb 2016 00:05:15 -0800
-Message-ID: <CAJ86T=X3yr5YNmT+8UM5z2P8HVrWBgrvEo6=ZVqaSBtsFrFzHw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libproxy: replace PACKAGECONFIG equivalent with the real thing
+	Tue,  9 Feb 2016 09:08:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 09 Feb 2016 01:08:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,420,1449561600"; d="scan'208";a="908386097"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga002.jf.intel.com with ESMTP; 09 Feb 2016 01:08:30 -0800
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	nicolas.dechesne@linaro.org
+Date: Tue,  9 Feb 2016 11:13:33 +0200
+Message-Id: <cover.1455008560.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Crypto dependency fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,26 +28,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 08:05:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Feb 2016 09:08:31 -0000
 
-On Mon, Feb 8, 2016 at 2:56 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 8 February 2016 at 20:34, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> '' if incompatible_license_contains('GPLv3', 'x', '', d) == 'x' or
->> bb.utils.contains('DISTRO_FEATURES', 'x11', 'x', '', d) == '' else 'gnome' }
->> \
->
-> Instead of returning 'x' or '' and then doing string comparisons, why not
-> just return True or False and let if/or/else do the right thing?
+This is a followup to (but does not strictly depend on) Nicholas'
+"[PATCH v2] mesa: upgrade 10.6.3 -> 11.1.1" patch.
 
-Just trying to preserve the original logic to make it clearer that no
-functionality is being changed.
+It adds packageconfig for xorg-xserver SHA1 implementation, and removes
+some unnecessary crypto dependencies.
 
-The logic can be traced back to Paul Eggleton's original version here:
+ - Jussi
 
-  http://git.openembedded.org/openembedded-core/commit/?id=973351cf2e338f07c11395d494193e9c62857f2d
 
-> Ross
+The following changes since commit 7d5d8d0cd985edf507c8d00e2e162d1b9fff3589:
+
+  scripts/lib/bsp/engine: trailing whitespace cleanup (2016-02-08 10:54:56 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/crypto
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/crypto
+
+Jussi Kukkonen (4):
+  systemd: Don't depend on gcrypt unnecessarily
+  wpa-supplicant: Only depend on libgcrypt when needed
+  libsoup-2.4: Remove unnecessary gnutls dependency
+  xserver-xorg: Add PACKAGECONFIG for crypto libraries
+
+ .../wpa-supplicant/wpa-supplicant_2.5.bb                     |  4 ++--
+ meta/recipes-core/systemd/systemd_228.bb                     |  3 ---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc          | 12 +++++++++---
+ meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb           |  2 +-
+ 4 files changed, 12 insertions(+), 9 deletions(-)
+
+-- 
+2.1.4
+
 
