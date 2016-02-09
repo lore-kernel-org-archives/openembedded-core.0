@@ -1,24 +1,24 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 353FC73212
+	by mail.openembedded.org (Postfix) with ESMTP id DAE636FFA1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  9 Feb 2016 11:31:26 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q029V5j9vz3hjlD;
-	Tue,  9 Feb 2016 12:31:26 +0100 (CET)
-X-Auth-Info: nig+uG8PQX96E296yUifKGKxq5focxnsqahqj8tVgIc=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q029W37F1z3hjlS;
+	Tue,  9 Feb 2016 12:31:27 +0100 (CET)
+X-Auth-Info: fYP65kNoQpjseBSXLgER8Lz9ZjTUyyuhh1/wlZTlppA=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029V3c8kzvdWV;
-	Tue,  9 Feb 2016 12:31:26 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q029W1fbRzvdWV;
+	Tue,  9 Feb 2016 12:31:27 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Feb 2016 12:31:08 +0100
-Message-Id: <1455017471-6682-4-git-send-email-marex@denx.de>
+Date: Tue,  9 Feb 2016 12:31:09 +0100
+Message-Id: <1455017471-6682-5-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1455017471-6682-1-git-send-email-marex@denx.de>
 References: <1455017471-6682-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 4/7] guile: Fix nios2 support
+Subject: [PATCH 5/7] nspr: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +31,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 11:31:26 -0000
+X-List-Received-Date: Tue, 09 Feb 2016 11:31:28 -0000
 
-Add minor patch to recognize nios2 build target.
+Add small patch to support nios2 in NSPR.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...002-Recognize-nios2-as-compilation-target.patch | 36 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+ .../nspr/nspr/0002-Add-nios2-support.patch         | 105 +++++++++++++++++++++
+ meta/recipes-support/nspr/nspr_4.11.bb             |   1 +
+ 2 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
 
-diff --git a/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+diff --git a/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch b/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
 new file mode 100644
-index 0000000..519585b
+index 0000000..2322806
 --- /dev/null
-+++ b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
-@@ -0,0 +1,36 @@
-+From 76155065c70b5ab65c6c805423183b360141db84 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
+@@ -0,0 +1,105 @@
++From 95bda64fb4cf1825fea745e918cfe8202843f0ba Mon Sep 17 00:00:00 2001
 +From: Marek Vasut <marex@denx.de>
-+Date: Thu, 28 Jan 2016 04:46:23 +0100
-+Subject: [PATCH] Recognize nios2 as compilation target
++Date: Sat, 30 Jan 2016 07:18:02 +0100
++Subject: [PATCH] Add nios2 support
++
++Add support for the nios2 CPU.
 +
 +Signed-off-by: Marek Vasut <marex@denx.de>
-+Upstream-Status: Submitted [ http://debbugs.gnu.org/cgi/bugreport.cgi?bug=22480 ]
++Upstream-Status: Submitted [ https://bugzilla.mozilla.org/show_bug.cgi?id=1244421 ]
 +---
-+ module/system/base/target.scm | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ nspr/pr/include/md/_linux.cfg | 45 +++++++++++++++++++++++++++++++++++++++++++
++ nspr/pr/include/md/_linux.h   | 14 ++++++++++++++
++ 2 files changed, 59 insertions(+)
 +
-+diff --git a/module/system/base/target.scm b/module/system/base/target.scm
-+index d60a8e0..d1f6cff 100644
-+--- a/module/system/base/target.scm
-++++ b/module/system/base/target.scm
-+@@ -65,7 +65,7 @@
-+       (cond ((string-match "^i[0-9]86$" cpu)
-+              (endianness little))
-+             ((member cpu '("x86_64" "ia64"
-+-                           "powerpcle" "powerpc64le" "mipsel" "mips64el"))
-++                           "powerpcle" "powerpc64le" "mipsel" "mips64el" "nios2"))
-+              (endianness little))
-+             ((member cpu '("sparc" "sparc64" "powerpc" "powerpc64" "spu"
-+                            "mips" "mips64"))
-+@@ -100,7 +100,7 @@
++diff --git a/pr/include/md/_linux.cfg b/nspr/pr/include/md/_linux.cfg
++index 8cbf0cb..150676b 100644
++--- a/pr/include/md/_linux.cfg
+++++ b/pr/include/md/_linux.cfg
++@@ -972,6 +972,51 @@
++ #define PR_BYTES_PER_WORD_LOG2   2
++ #define PR_BYTES_PER_DWORD_LOG2  3
 + 
-+           ((string-match "64$" cpu) 8)
-+           ((string-match "64[lbe][lbe]$" cpu) 8)
-+-          ((member cpu '("sparc" "powerpc" "mips" "mipsel")) 4)
-++          ((member cpu '("sparc" "powerpc" "mips" "mipsel" "nios2")) 4)
-+           ((string-match "^arm.*" cpu) 4)
-+           (else (error "unknown CPU word size" cpu)))))
+++#elif defined(__nios2__)
+++
+++#define IS_LITTLE_ENDIAN    1
+++#undef  IS_BIG_ENDIAN
+++
+++#define PR_BYTES_PER_BYTE   1
+++#define PR_BYTES_PER_SHORT  2
+++#define PR_BYTES_PER_INT    4
+++#define PR_BYTES_PER_INT64  8
+++#define PR_BYTES_PER_LONG   4
+++#define PR_BYTES_PER_FLOAT  4
+++#define PR_BYTES_PER_DOUBLE 8
+++#define PR_BYTES_PER_WORD   4
+++#define PR_BYTES_PER_DWORD  8
+++
+++#define PR_BITS_PER_BYTE    8
+++#define PR_BITS_PER_SHORT   16
+++#define PR_BITS_PER_INT     32
+++#define PR_BITS_PER_INT64   64
+++#define PR_BITS_PER_LONG    32
+++#define PR_BITS_PER_FLOAT   32
+++#define PR_BITS_PER_DOUBLE  64
+++#define PR_BITS_PER_WORD    32
+++
+++#define PR_BITS_PER_BYTE_LOG2   3
+++#define PR_BITS_PER_SHORT_LOG2  4
+++#define PR_BITS_PER_INT_LOG2    5
+++#define PR_BITS_PER_INT64_LOG2  6
+++#define PR_BITS_PER_LONG_LOG2   5
+++#define PR_BITS_PER_FLOAT_LOG2  5
+++#define PR_BITS_PER_DOUBLE_LOG2 6
+++#define PR_BITS_PER_WORD_LOG2   5
+++
+++#define PR_ALIGN_OF_SHORT   2
+++#define PR_ALIGN_OF_INT     4
+++#define PR_ALIGN_OF_LONG    4
+++#define PR_ALIGN_OF_INT64   4
+++#define PR_ALIGN_OF_FLOAT   4
+++#define PR_ALIGN_OF_DOUBLE  4
+++#define PR_ALIGN_OF_POINTER 4
+++#define PR_ALIGN_OF_WORD    4
+++
+++#define PR_BYTES_PER_WORD_LOG2   2
+++#define PR_BYTES_PER_DWORD_LOG2  3
+++
++ #elif defined(__or1k__)
 + 
++ #undef  IS_LITTLE_ENDIAN
++diff --git a/pr/include/md/_linux.h b/nspr/pr/include/md/_linux.h
++index d378db5..18260be 100644
++--- a/pr/include/md/_linux.h
+++++ b/pr/include/md/_linux.h
++@@ -55,6 +55,8 @@
++ #define _PR_SI_ARCHITECTURE "avr32"
++ #elif defined(__m32r__)
++ #define _PR_SI_ARCHITECTURE "m32r"
+++#elif defined(__nios2__)
+++#define _PR_SI_ARCHITECTURE "nios2"
++ #elif defined(__or1k__)
++ #define _PR_SI_ARCHITECTURE "or1k"
++ #else
++@@ -125,6 +127,18 @@ extern PRInt32 _PR_x86_64_AtomicSet(PRInt32 *val, PRInt32 newval);
++ #define _MD_ATOMIC_SET                _PR_x86_64_AtomicSet
++ #endif
++ 
+++#if defined(__nios2__)
+++#if defined(__GNUC__)
+++/* Use GCC built-in functions */
+++#define _PR_HAVE_ATOMIC_OPS
+++#define _MD_INIT_ATOMIC()
+++#define _MD_ATOMIC_INCREMENT(ptr) __sync_add_and_fetch(ptr, 1)
+++#define _MD_ATOMIC_DECREMENT(ptr) __sync_sub_and_fetch(ptr, 1)
+++#define _MD_ATOMIC_ADD(ptr, i) __sync_add_and_fetch(ptr, i)
+++#define _MD_ATOMIC_SET(ptr, nv) __sync_lock_test_and_set(ptr, nv)
+++#endif
+++#endif
+++
++ #if defined(__or1k__)
++ #if defined(__GNUC__)
++ /* Use GCC built-in functions */
 +-- 
 +2.7.0.rc3
 +
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index 6815e25..6cefe66 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://libguile-VM-ASM_MUL-for-ARM-Add-earlyclobber.patch \
-            file://remove_strcase_l_funcs.patch \
-            file://0001-libguile-Check-for-strtol_l-during-configure.patch \
-+           file://0002-Recognize-nios2-as-compilation-target.patch \
-            "
+diff --git a/meta/recipes-support/nspr/nspr_4.11.bb b/meta/recipes-support/nspr/nspr_4.11.bb
+index 3dabcb6..a38e20c 100644
+--- a/meta/recipes-support/nspr/nspr_4.11.bb
++++ b/meta/recipes-support/nspr/nspr_4.11.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
+            file://remove-rpath-from-tests.patch \
+            file://fix-build-on-x86_64.patch \
+            file://remove-srcdir-from-configure-in.patch \
++	   file://0002-Add-nios2-support.patch \
+           "
  
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+ SRC_URI += "file://nspr.pc.in"
 -- 
 2.1.4
 
