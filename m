@@ -1,24 +1,24 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DC1C731CE
+	by mail.openembedded.org (Postfix) with ESMTP id 8DB51731CC
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Feb 2016 00:04:20 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt75RpRz3hjFG;
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt70n7dz3hjF8;
 	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
-X-Auth-Info: wdFfy6djryBc5KN6s6dI5mVE4qgVj8kDsw4VESGFyc0=
+X-Auth-Info: H0UloRaHh+GTb3etTjzFrGneKrYjm2duhNlsV5l3e/k=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt73XQTzvhTk;
-	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt65JvpzvhTZ;
+	Wed, 10 Feb 2016 01:04:14 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 01:04:04 +0100
-Message-Id: <1455062646-12311-5-git-send-email-marex@denx.de>
+Date: Wed, 10 Feb 2016 01:04:02 +0100
+Message-Id: <1455062646-12311-3-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1455062646-12311-1-git-send-email-marex@denx.de>
 References: <1455062646-12311-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 5/7] nspr: Add nios2 support
+Subject: [PATCH 3/7] dpkg: Update to 1.18.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,140 +33,120 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 Feb 2016 00:04:21 -0000
 
-Add small patch to support nios2 in NSPR.
+Update dpkg version to 1.18.4 . This adds nios2 architecture support
+among other fixes. One patch was updated so it would apply to 1.18.4.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Ross Burton <ross.burton@intel.com>
 ---
- .../nspr/nspr/0002-Add-nios2-support.patch         | 105 +++++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.11.bb             |   1 +
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
+ ...g-do_package_write_deb-we-have-trees-of-h.patch | 52 +++++++++++++---------
+ .../dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb}        |  4 +-
+ 2 files changed, 32 insertions(+), 24 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb} (85%)
 
-diff --git a/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch b/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
-new file mode 100644
-index 0000000..2322806
---- /dev/null
-+++ b/meta/recipes-support/nspr/nspr/0002-Add-nios2-support.patch
-@@ -0,0 +1,105 @@
-+From 95bda64fb4cf1825fea745e918cfe8202843f0ba Mon Sep 17 00:00:00 2001
-+From: Marek Vasut <marex@denx.de>
-+Date: Sat, 30 Jan 2016 07:18:02 +0100
-+Subject: [PATCH] Add nios2 support
-+
-+Add support for the nios2 CPU.
-+
-+Signed-off-by: Marek Vasut <marex@denx.de>
-+Upstream-Status: Submitted [ https://bugzilla.mozilla.org/show_bug.cgi?id=1244421 ]
-+---
-+ nspr/pr/include/md/_linux.cfg | 45 +++++++++++++++++++++++++++++++++++++++++++
-+ nspr/pr/include/md/_linux.h   | 14 ++++++++++++++
-+ 2 files changed, 59 insertions(+)
-+
-+diff --git a/pr/include/md/_linux.cfg b/nspr/pr/include/md/_linux.cfg
-+index 8cbf0cb..150676b 100644
-+--- a/pr/include/md/_linux.cfg
-++++ b/pr/include/md/_linux.cfg
-+@@ -972,6 +972,51 @@
-+ #define PR_BYTES_PER_WORD_LOG2   2
-+ #define PR_BYTES_PER_DWORD_LOG2  3
-+ 
-++#elif defined(__nios2__)
-++
-++#define IS_LITTLE_ENDIAN    1
-++#undef  IS_BIG_ENDIAN
-++
-++#define PR_BYTES_PER_BYTE   1
-++#define PR_BYTES_PER_SHORT  2
-++#define PR_BYTES_PER_INT    4
-++#define PR_BYTES_PER_INT64  8
-++#define PR_BYTES_PER_LONG   4
-++#define PR_BYTES_PER_FLOAT  4
-++#define PR_BYTES_PER_DOUBLE 8
-++#define PR_BYTES_PER_WORD   4
-++#define PR_BYTES_PER_DWORD  8
-++
-++#define PR_BITS_PER_BYTE    8
-++#define PR_BITS_PER_SHORT   16
-++#define PR_BITS_PER_INT     32
-++#define PR_BITS_PER_INT64   64
-++#define PR_BITS_PER_LONG    32
-++#define PR_BITS_PER_FLOAT   32
-++#define PR_BITS_PER_DOUBLE  64
-++#define PR_BITS_PER_WORD    32
-++
-++#define PR_BITS_PER_BYTE_LOG2   3
-++#define PR_BITS_PER_SHORT_LOG2  4
-++#define PR_BITS_PER_INT_LOG2    5
-++#define PR_BITS_PER_INT64_LOG2  6
-++#define PR_BITS_PER_LONG_LOG2   5
-++#define PR_BITS_PER_FLOAT_LOG2  5
-++#define PR_BITS_PER_DOUBLE_LOG2 6
-++#define PR_BITS_PER_WORD_LOG2   5
-++
-++#define PR_ALIGN_OF_SHORT   2
-++#define PR_ALIGN_OF_INT     4
-++#define PR_ALIGN_OF_LONG    4
-++#define PR_ALIGN_OF_INT64   4
-++#define PR_ALIGN_OF_FLOAT   4
-++#define PR_ALIGN_OF_DOUBLE  4
-++#define PR_ALIGN_OF_POINTER 4
-++#define PR_ALIGN_OF_WORD    4
-++
-++#define PR_BYTES_PER_WORD_LOG2   2
-++#define PR_BYTES_PER_DWORD_LOG2  3
-++
-+ #elif defined(__or1k__)
-+ 
-+ #undef  IS_LITTLE_ENDIAN
-+diff --git a/pr/include/md/_linux.h b/nspr/pr/include/md/_linux.h
-+index d378db5..18260be 100644
-+--- a/pr/include/md/_linux.h
-++++ b/pr/include/md/_linux.h
-+@@ -55,6 +55,8 @@
-+ #define _PR_SI_ARCHITECTURE "avr32"
-+ #elif defined(__m32r__)
-+ #define _PR_SI_ARCHITECTURE "m32r"
-++#elif defined(__nios2__)
-++#define _PR_SI_ARCHITECTURE "nios2"
-+ #elif defined(__or1k__)
-+ #define _PR_SI_ARCHITECTURE "or1k"
-+ #else
-+@@ -125,6 +127,18 @@ extern PRInt32 _PR_x86_64_AtomicSet(PRInt32 *val, PRInt32 newval);
-+ #define _MD_ATOMIC_SET                _PR_x86_64_AtomicSet
-+ #endif
-+ 
-++#if defined(__nios2__)
-++#if defined(__GNUC__)
-++/* Use GCC built-in functions */
-++#define _PR_HAVE_ATOMIC_OPS
-++#define _MD_INIT_ATOMIC()
-++#define _MD_ATOMIC_INCREMENT(ptr) __sync_add_and_fetch(ptr, 1)
-++#define _MD_ATOMIC_DECREMENT(ptr) __sync_sub_and_fetch(ptr, 1)
-++#define _MD_ATOMIC_ADD(ptr, i) __sync_add_and_fetch(ptr, i)
-++#define _MD_ATOMIC_SET(ptr, nv) __sync_lock_test_and_set(ptr, nv)
-++#endif
-++#endif
-++
-+ #if defined(__or1k__)
-+ #if defined(__GNUC__)
-+ /* Use GCC built-in functions */
-+-- 
-+2.7.0.rc3
-+
-diff --git a/meta/recipes-support/nspr/nspr_4.11.bb b/meta/recipes-support/nspr/nspr_4.11.bb
-index 3dabcb6..a38e20c 100644
---- a/meta/recipes-support/nspr/nspr_4.11.bb
-+++ b/meta/recipes-support/nspr/nspr_4.11.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://remove-rpath-from-tests.patch \
-            file://fix-build-on-x86_64.patch \
-            file://remove-srcdir-from-configure-in.patch \
-+	   file://0002-Add-nios2-support.patch \
-           "
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
+index 6967ef4..49ef853 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
+@@ -1,7 +1,7 @@
+-From d14ffd786993da60ca84c4812da8a6594a8c764e Mon Sep 17 00:00:00 2001
++From e391bdba238d1371fc5b67cdae08b06eb5ada5c2 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 26 Aug 2015 15:48:13 +0300
+-Subject: [PATCH 1/5] When running do_package_write_deb, we have trees of
++Subject: [PATCH] When running do_package_write_deb, we have trees of
+  hardlinked files such as the dbg source files in ${PN}-dbg. If something
+  makes another copy of one of those files (or deletes one), the number of
+  links a file has changes and tar can notice this, e.g.:
+@@ -19,23 +19,43 @@ place to avoid that kind of issue).
+ Upstream-Status: Inappropriate
+ RP 2015/3/27
+ ---
+- dpkg-deb/build.c | 11 ++++++++---
+- 1 file changed, 8 insertions(+), 3 deletions(-)
++ dpkg-deb/build.c | 12 ++++++++----
++ 1 file changed, 8 insertions(+), 4 deletions(-)
  
- SRC_URI += "file://nspr.pc.in"
+ diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
+-index ea3d861..1589927 100644
++index 2ddeec6..af363f0 100644
+ --- a/dpkg-deb/build.c
+ +++ b/dpkg-deb/build.c
+-@@ -458,7 +458,7 @@ do_build(const char *const *argv)
++@@ -452,7 +452,7 @@ static void
++ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
++              struct compress_params *tar_compress_params, int fd_out)
++ {
++-  int pipe_filenames[2], pipe_tarball[2];
+++  int pipe_filenames[2], pipe_tarball[2], rc;
++   pid_t pid_tar, pid_comp;
++ 
++   /* Fork off a tar. We will feed it a list of filenames on stdin later. */
++@@ -493,7 +493,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
++   /* All done, clean up wait for tar and <compress> to finish their job. */
++   close(pipe_filenames[1]);
++   subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
++-  subproc_reap(pid_tar, "tar -cf", 0);
+++  rc = subproc_reap(pid_tar, "tar -cf", SUBPROC_RETERROR);
+++  if (rc && rc != 1)
+++    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
++ }
++ 
++ /**
++@@ -509,7 +511,7 @@ do_build(const char *const *argv)
+    char *debar;
+    char *tfbuf;
+    int arfd;
+--  int p1[2], p2[2], gzfd;
+-+  int p1[2], p2[2], gzfd, rc;
++-  int p1[2], gzfd;
+++  int p1[2], gzfd, rc;
+    pid_t c1, c2;
+  
+    /* Decode our arguments. */
+-@@ -538,7 +538,9 @@ do_build(const char *const *argv)
++@@ -590,7 +592,9 @@ do_build(const char *const *argv)
+    }
+    close(p1[0]);
+    subproc_reap(c2, _("<compress> from tar -cf"), 0);
+@@ -46,18 +66,6 @@ index ea3d861..1589927 100644
+  
+    if (lseek(gzfd, 0, SEEK_SET))
+      ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
+-@@ -626,7 +628,10 @@ do_build(const char *const *argv)
+-   /* All done, clean up wait for tar and <compress> to finish their job. */
+-   close(p1[1]);
+-   subproc_reap(c2, _("<compress> from tar -cf"), 0);
+--  subproc_reap(c1, "tar -cf", 0);
+-+  rc = subproc_reap(c1, "tar -cf", SUBPROC_RETERROR);
+-+  if (rc && rc != 1)
+-+    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
+-+
+-   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
+-   if (deb_format.major == 2) {
+-     char datamember[16 + 1];
+ -- 
+-2.1.4
++2.7.0
+ 
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
+similarity index 85%
+rename from meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
+rename to meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
+index eab896c..76fb2d1 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
+@@ -16,6 +16,6 @@ SRC_URI += "file://noman.patch \
+ 	    file://dpkg-CVE-2015-0860.patch \
+            "
+ 
+-SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
+-SRC_URI[sha256sum] = "11484f2a73d027d696e720a60380db71978bb5c06cd88fe30c291e069ac457a4"
++SRC_URI[md5sum] = "e95b513c89693f6ec3ab53b6b1c3defd"
++SRC_URI[sha256sum] = "fe89243868888ce715bf45861f26264f767d4e4dbd0d6f1a26ce60bbbbf106da"
+ 
 -- 
 2.1.4
 
