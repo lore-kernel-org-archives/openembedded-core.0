@@ -1,32 +1,46 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FD2D73197
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id E9B9162137
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 02:47:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1A2lbFd019916
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Feb 2016 18:47:37 -0800 (PST)
-Received: from [172.25.44.9] (172.25.44.9) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 9 Feb 2016 18:47:36 -0800
-To: "Maxin B. John" <maxin.john@intel.com>
-References: <1448885472-24350-1-git-send-email-maxin.john@intel.com>
-	<20151201092706.GA15462@ad.chargestorm.se>
-	<CAMKF1srkTNBtULap+gz=S=NXWbjd_6MbYsKHSYtY0ygXY7_9RQ@mail.gmail.com>
-	<20151201055826.GA11022@mbabyjoh-mobl.fi.intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <56BAA4C7.6080006@windriver.com>
-Date: Tue, 9 Feb 2016 21:47:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <20151201055826.GA11022@mbabyjoh-mobl.fi.intel.com>
-X-Originating-IP: [172.25.44.9]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] iproute2: enable previously unselected utilities
+	Wed, 10 Feb 2016 04:15:14 +0000 (UTC)
+Received: by mail-ob0-f174.google.com with SMTP id ba1so11313453obb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Feb 2016 20:15:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=I86yDl1e8/bRwbZqWfoQH0rCZfjeSxzgxnTpSnWv7JQ=;
+	b=JRFwoP2Nid/iaI68Mg+P07BRBAA3G9nsXehtxeR7sdQKBhnY48tmKKY/7gK9WZNAzN
+	gP5RRVgPK+jG+bCvpQiXRWKtcHDWuySS5bbcDn2crsJYIe/6p19G8d8/4f3RsDee9Okp
+	/urIlcxtmY98auKePFAoFcmD9u1wHOQpQqjOqY/hXxL32zxEczAwlxLuXblJpk1sbsZH
+	zcaZlk7mXSz/CpTzq4XtrV3lsSYtLTjcmzCs2Ol9qvnc7xCmd1wbBBBaF0gHqdHPrUvd
+	LzVsrCB7hlzggKd2fTlDIclnG1Q1e1lB9RW5wpy9qzC0/1YOp+UkSjyVOUa7pC80R4bL
+	JP6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=I86yDl1e8/bRwbZqWfoQH0rCZfjeSxzgxnTpSnWv7JQ=;
+	b=XMQ1DscITUnhFoBdPhI0YwVj4Z0Aa8Yt2JjeQySF0mtQNGkjGR6dKdxS/nRkRSYhUL
+	BfKPgw0mQiTJe86tl52RbwNHRyrIzRC18zF9v9ftkjI8MpBQGPQ+NS7TZgJJ8LRIvfk9
+	jDtXmRuhurfL1b3RlZvynxLaK1ZFyrDKBKtclGH3GWCeRTHs4frXt9c6EjgnTNkNIs9R
+	2y9e/uax5+oBU3cOmv5mU7ZRUS5urO+xu49lHDpGjEf85DNg5XlojL1X+3ofj7HEwWun
+	Pu/BABip48B2y/7mC8rru2CK4ijvPij33Z7JSoSUX/eYIwEHNPLCPsKmmtjRxRKHVXfj
+	hElg==
+X-Gm-Message-State: AG10YOTK1jLgwvBYYe/95RZeLAYk70L7NRUaZX42mY8JLoiaYMaFg/3MJFgegSiCp3cFuQ==
+X-Received: by 10.60.73.170 with SMTP id m10mr35723318oev.51.1455077715192;
+	Tue, 09 Feb 2016 20:15:15 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	e129sm750888oih.17.2016.02.09.20.15.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Feb 2016 20:15:14 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Feb 2016 20:15:09 -0800
+Message-Id: <1455077709-2745-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] alsa-lib: avoid including <sys/poll.h> directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,92 +53,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 02:47:37 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Feb 2016 04:15:15 -0000
 
-On 2015-12-01 12:58 AM, Maxin B. John wrote:
-> Hi,
->
-> On Tue, Dec 01, 2015 at 01:29:43AM -0800, Khem Raj wrote:
->> On Tue, Dec 1, 2015 at 1:27 AM, Anders Darander <anders@chargestorm.se> wrote:
->>> Hi,
->>>
->>> Just a couple of questions.
->>>
->>> * Maxin B. John <maxin.john@intel.com> [151130 17:59]:
->>>> Include below listed utilities that are not yet enabled/packaged
->>>> in the iproute2 recipe:
->>>
->>>> lnstat
->>>> ifstat
->>>> genl
->>>> rtacct
->>>> nstat
->>>> ss
->>>
->>> When you enable those, how much does the size ofthe iproute2 package
->>> increase?
->>>
->
-> The increase in size is around 268K.
->
-> $ du -sh iproute2
-> 476K    iproute2
->
-> $ du -sh iproute2-new
-> 744K    iproute2-new
->
->>> Perhaps those extra tools should be placed in e.g. ${PN}-tools, or
->>> some package like that?
->>
->> I think its better to package each one in separate package of its own.
->>
->
-> Ok. I will split these binaries in separate packages.
+musl libc generates warnings if <sys/poll.h> is included directly.
 
-Maxin,
+Although alsa-lib does not build with -Werror enabled, other packages
+which include the alsa-lib public header files (ie libasound.h) might.
 
-Will you be able to do this as part of the 4.4 upgrade that
-you have just sent or would you like Robert to find someone
-to do it when he is back from holiday next week?
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../avoid-including-sys-poll.h-directly.patch      | 183 +++++++++++++++++++++
+ meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb     |   1 +
+ 2 files changed, 184 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch
 
-../Randy
->
->>>
->>> Cheers,
->>> Anders
->>>
->>>> Signed-off-by: Maxin B. John <maxin.john@intel.com>
->>>> ---
->>>>   meta/recipes-connectivity/iproute2/iproute2.inc | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>>> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
->>>> index 29f9062..abaff3f 100644
->>>> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
->>>> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
->>>> @@ -13,7 +13,7 @@ DEPENDS = "flex-native bison-native iptables elfutils"
->>>
->>>>   inherit update-alternatives
->>>
->>>> -EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
->>>> +EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip misc genl' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
->>>
->>>>   do_configure_append () {
->>>>       sh configure ${STAGING_INCDIR}
->>> --
->>> Anders Darander, Senior System Architect
->>> ChargeStorm AB / eStorm AB
->>> --
->
-> Best Regards,
-> Maxin
->
-
-
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch
+new file mode 100644
+index 0000000..161619b
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch
+@@ -0,0 +1,183 @@
++From 7dcf46969e85c881c901df4b49309e9091cad16a Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Tue, 9 Feb 2016 14:01:18 -0800
++Subject: [PATCH] avoid including <sys/poll.h> directly
++
++Fixes compiler warnings when building with musl libc.
++
++Upstream-Status: Pending
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ aserver/aserver.c         | 2 +-
++ include/asoundlib-head.h  | 2 +-
++ include/asoundlib.h       | 2 +-
++ include/local.h           | 2 +-
++ src/control/control.c     | 2 +-
++ src/control/control_shm.c | 2 +-
++ src/pcm/pcm_direct.c      | 2 +-
++ src/pcm/pcm_mmap.c        | 2 +-
++ src/pcm/pcm_share.c       | 2 +-
++ src/pcm/pcm_shm.c         | 2 +-
++ src/seq/seq.c             | 2 +-
++ src/shmarea.c             | 2 +-
++ 12 files changed, 12 insertions(+), 12 deletions(-)
++
++diff --git a/aserver/aserver.c b/aserver/aserver.c
++index 1579da7..ef64248 100644
++--- a/aserver/aserver.c
+++++ b/aserver/aserver.c
++@@ -20,7 +20,7 @@
++ 
++ #include <sys/shm.h>
++ #include <sys/socket.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/un.h>
++ #include <sys/uio.h>
++ #include <stdio.h>
++diff --git a/include/asoundlib-head.h b/include/asoundlib-head.h
++index 1ec611e..21e32c6 100644
++--- a/include/asoundlib-head.h
+++++ b/include/asoundlib-head.h
++@@ -35,6 +35,6 @@
++ #include <string.h>
++ #include <fcntl.h>
++ #include <assert.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <errno.h>
++ #include <stdarg.h>
++diff --git a/include/asoundlib.h b/include/asoundlib.h
++index 3c2766e..a546194 100644
++--- a/include/asoundlib.h
+++++ b/include/asoundlib.h
++@@ -35,7 +35,7 @@
++ #include <string.h>
++ #include <fcntl.h>
++ #include <assert.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <errno.h>
++ #include <stdarg.h>
++ #include <endian.h>
++diff --git a/include/local.h b/include/local.h
++index b429f5d..e05898f 100644
++--- a/include/local.h
+++++ b/include/local.h
++@@ -47,7 +47,7 @@
++ #error Header defining endianness not defined
++ #endif
++ #include <stdarg.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/types.h>
++ #include <errno.h>
++ #include <linux/types.h>
++diff --git a/src/control/control.c b/src/control/control.c
++index 4a28cf6..071c5db 100644
++--- a/src/control/control.c
+++++ b/src/control/control.c
++@@ -48,7 +48,7 @@ and IEC958 structure.
++ #include <string.h>
++ #include <fcntl.h>
++ #include <signal.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include "control_local.h"
++ 
++ /**
++diff --git a/src/control/control_shm.c b/src/control/control_shm.c
++index bd07d4a..9a2e268 100644
++--- a/src/control/control_shm.c
+++++ b/src/control/control_shm.c
++@@ -27,7 +27,7 @@
++ #include <fcntl.h>
++ #include <sys/shm.h>
++ #include <sys/socket.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/un.h>
++ #include <sys/uio.h>
++ #include <sys/mman.h>
++diff --git a/src/pcm/pcm_direct.c b/src/pcm/pcm_direct.c
++index fd3877c..52ac093 100644
++--- a/src/pcm/pcm_direct.c
+++++ b/src/pcm/pcm_direct.c
++@@ -30,7 +30,7 @@
++ #include <grp.h>
++ #include <sys/ioctl.h>
++ #include <sys/mman.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/shm.h>
++ #include <sys/sem.h>
++ #include <sys/wait.h>
++diff --git a/src/pcm/pcm_mmap.c b/src/pcm/pcm_mmap.c
++index 5c4fbe1..2cfa7db 100644
++--- a/src/pcm/pcm_mmap.c
+++++ b/src/pcm/pcm_mmap.c
++@@ -22,7 +22,7 @@
++ #include <stdio.h>
++ #include <malloc.h>
++ #include <string.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/mman.h>
++ #ifdef HAVE_SYS_SHM_H
++ #include <sys/shm.h>
++diff --git a/src/pcm/pcm_share.c b/src/pcm/pcm_share.c
++index 5d8aaf2..21a57fc 100644
++--- a/src/pcm/pcm_share.c
+++++ b/src/pcm/pcm_share.c
++@@ -34,7 +34,7 @@
++ #include <signal.h>
++ #include <math.h>
++ #include <sys/socket.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <pthread.h>
++ #include "pcm_local.h"
++ 
++diff --git a/src/pcm/pcm_shm.c b/src/pcm/pcm_shm.c
++index a815ac6..4ee958c 100644
++--- a/src/pcm/pcm_shm.c
+++++ b/src/pcm/pcm_shm.c
++@@ -36,7 +36,7 @@
++ #include <sys/ioctl.h>
++ #include <sys/shm.h>
++ #include <sys/socket.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/un.h>
++ #include <sys/mman.h>
++ #include <netinet/in.h>
++diff --git a/src/seq/seq.c b/src/seq/seq.c
++index 620ca3f..681cef1 100644
++--- a/src/seq/seq.c
+++++ b/src/seq/seq.c
++@@ -777,7 +777,7 @@ void event_filter(snd_seq_t *seq, snd_seq_event_t *ev)
++ 
++ */
++ 
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include "seq_local.h"
++ 
++ /****************************************************************************
++diff --git a/src/shmarea.c b/src/shmarea.c
++index 9843aa8..eaa71f0 100644
++--- a/src/shmarea.c
+++++ b/src/shmarea.c
++@@ -27,7 +27,7 @@
++ #include <malloc.h>
++ #include <string.h>
++ #include <errno.h>
++-#include <sys/poll.h>
+++#include <poll.h>
++ #include <sys/mman.h>
++ #include <sys/shm.h>
++ #include "list.h"
++-- 
++1.9.1
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
+index d62c1fc..c0bf9ac 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
+@@ -16,6 +16,7 @@ ARM_INSTRUCTION_SET = "arm"
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
+            file://Check-if-wordexp-function-is-supported.patch \
++           file://avoid-including-sys-poll.h-directly.patch \
+ "
+ SRC_URI[md5sum] = "69515ca73c3c4a212ef45160dea846c1"
+ SRC_URI[sha256sum] = "dfde65d11e82b68f82e562ab6228c1fb7c78854345d3c57e2c68a9dd3dae1f15"
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+1.9.1
+
 
