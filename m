@@ -1,46 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A646FF4E
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ADF573199
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Feb 2016 23:12:26 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id ho8so1318277pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Feb 2016 15:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=DZd2n+DHtsj/bX6dGHNiqdV+T9poFT0PKyWFBJl1yyM=;
-	b=VABqd9zG3uNmWVORoji+dOyZJpBaA4wFC0uzDBItBMKLqM3Kxwah4NuFJkUMY3uq5s
-	u5+WA38LzU228IA8RMlH0FJV6FKkd3LG7EA1WRYsLCbfLxc0eI3IbVtsA4Eiyok3X/7J
-	sqzhrrfLNiYeAwfWU/mVHXF69JgYz38/H450OAeh125GlkBVOJ/aWcWfncHbJShba4yd
-	W7ZhFYlDOCVOFhBtZVdtpDom9Q0/kzLW0igTquVg0QQEa+Zmm8/wjbuu2/8p6Ev2dobd
-	/SoWeKvebU4K1Dqjr+KSZQEacg1T7imJnCAJ+ddFIZZpACkAnKbda8283kt2YpBn85IF
-	Vg5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=DZd2n+DHtsj/bX6dGHNiqdV+T9poFT0PKyWFBJl1yyM=;
-	b=d9wFUJLs/nNUxP/9tQoQ1Qp7rlgdBntXD3NhlabhLrmznEmi/LIUlqhF3QKxj1gJxX
-	k7RE5/DNV32HibLHd95gTrN4dx9MCSQLzzgLc7y8628ST7r9GI+lxx20BYmRTLeKjr1W
-	N0klG+/H6/D5d7Md3gPJ8oFyNbf0C7z1HH36s1dUmuwDoly5chXLHRlZsz9PxpUnAIrD
-	nZgsN1OTnd6F/bNjpuCgquV18sTF7FuqNZ4fOYM12JPvPUcaPNpIvJaqJ2VJLA5ckLH4
-	hjx4Dyrt7wV6wiTjF8DTrPj3sr06653mCRIRxqPwtbRsJaFvojwlQg2ZSMVf/zQOXpfW
-	if+w==
-X-Gm-Message-State: AG10YOTuyVgSxTrNNJ7daVD7j7PjTviV5BXhKse3kuz22DPdN3IiLyQ0dxQr6SBj6Zn7pw==
-X-Received: by 10.66.234.200 with SMTP id ug8mr54321693pac.129.1455059547454; 
-	Tue, 09 Feb 2016 15:12:27 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	lt14sm209889pab.39.2016.02.09.15.12.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Feb 2016 15:12:26 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
+	Wed, 10 Feb 2016 00:04:16 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt73HTWz3hjc5;
+	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
+X-Auth-Info: wdFfy6djryBc5KN6s6dI5mVE4qgVj8kDsw4VESGFyc0=
+Received: from chi.lan (unknown [195.140.253.167])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt711YmzvhTg;
+	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Feb 2016 16:12:06 -0700
-Message-Id: <1455059526-23665-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] recipetool.newappend: add -e/--edit argument
+Date: Wed, 10 Feb 2016 01:04:03 +0100
+Message-Id: <1455062646-12311-4-git-send-email-marex@denx.de>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1455062646-12311-1-git-send-email-marex@denx.de>
+References: <1455062646-12311-1-git-send-email-marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 4/7] guile: Fix nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 23:12:28 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 00:04:19 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+Add minor patch to recognize nios2 build target.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross.burton@intel.com>
 ---
- scripts/lib/recipetool/newappend.py | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ ...002-Recognize-nios2-as-compilation-target.patch | 36 ++++++++++++++++++++++
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
 
-diff --git a/scripts/lib/recipetool/newappend.py b/scripts/lib/recipetool/newappend.py
-index f9b8d85..5625a8e 100644
---- a/scripts/lib/recipetool/newappend.py
-+++ b/scripts/lib/recipetool/newappend.py
-@@ -25,6 +25,7 @@ import errno
- import logging
- import os
- import re
-+import subprocess
- import sys
+diff --git a/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+new file mode 100644
+index 0000000..519585b
+--- /dev/null
++++ b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+@@ -0,0 +1,36 @@
++From 76155065c70b5ab65c6c805423183b360141db84 Mon Sep 17 00:00:00 2001
++From: Marek Vasut <marex@denx.de>
++Date: Thu, 28 Jan 2016 04:46:23 +0100
++Subject: [PATCH] Recognize nios2 as compilation target
++
++Signed-off-by: Marek Vasut <marex@denx.de>
++Upstream-Status: Submitted [ http://debbugs.gnu.org/cgi/bugreport.cgi?bug=22480 ]
++---
++ module/system/base/target.scm | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/module/system/base/target.scm b/module/system/base/target.scm
++index d60a8e0..d1f6cff 100644
++--- a/module/system/base/target.scm
+++++ b/module/system/base/target.scm
++@@ -65,7 +65,7 @@
++       (cond ((string-match "^i[0-9]86$" cpu)
++              (endianness little))
++             ((member cpu '("x86_64" "ia64"
++-                           "powerpcle" "powerpc64le" "mipsel" "mips64el"))
+++                           "powerpcle" "powerpc64le" "mipsel" "mips64el" "nios2"))
++              (endianness little))
++             ((member cpu '("sparc" "sparc64" "powerpc" "powerpc64" "spu"
++                            "mips" "mips64"))
++@@ -100,7 +100,7 @@
++ 
++           ((string-match "64$" cpu) 8)
++           ((string-match "64[lbe][lbe]$" cpu) 8)
++-          ((member cpu '("sparc" "powerpc" "mips" "mipsel")) 4)
+++          ((member cpu '("sparc" "powerpc" "mips" "mipsel" "nios2")) 4)
++           ((string-match "^arm.*" cpu) 4)
++           (else (error "unknown CPU word size" cpu)))))
++ 
++-- 
++2.7.0.rc3
++
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index 6815e25..6cefe66 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            file://libguile-VM-ASM_MUL-for-ARM-Add-earlyclobber.patch \
+            file://remove_strcase_l_funcs.patch \
+            file://0001-libguile-Check-for-strtol_l-during-configure.patch \
++           file://0002-Recognize-nios2-as-compilation-target.patch \
+            "
  
- 
-@@ -89,17 +90,26 @@ def newappend(args):
-         bb.utils.mkdirhier(os.path.dirname(append_path))
- 
-         try:
--            open(append_path, 'a')
-+            open(append_path, 'a').close()
-         except (OSError, IOError) as exc:
-             logger.critical(str(exc))
-             return 1
- 
--    print(append_path)
-+    if args.edit:
-+        editor = os.getenv('VISUAL', os.getenv('EDITOR', 'vi'))
-+        try:
-+            return subprocess.check_call([editor, append_path, recipe_path])
-+        except OSError as exc:
-+            logger.error("Execution of editor '%s' failed: %s", editor, exc)
-+            return 1
-+    else:
-+        print(append_path)
- 
- 
- def register_commands(subparsers):
-     parser = subparsers.add_parser('newappend',
-                                    help='Create a bbappend for the specified target in the specified layer')
-+    parser.add_argument('-e', '--edit', help='Edit the new append. This obeys $VISUAL if set, otherwise $EDITOR, otherwise vi.', action='store_true')
-     parser.add_argument('-w', '--wildcard-version', help='Use wildcard to make the bbappend apply to any recipe version', action='store_true')
-     parser.add_argument('destlayer', help='Base directory of the destination layer to write the bbappend to', type=layer)
-     parser.add_argument('target', help='Target recipe/provide to append')
+ #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
 -- 
-2.2.1
+2.1.4
 
 
