@@ -1,50 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EEA76E630
+Return-Path: <oliver.graute@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 13E5E60111
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 16:00:41 +0000 (UTC)
-Received: by mail-ig0-f176.google.com with SMTP id ik10so17479071igb.1
+	Wed, 10 Feb 2016 16:26:03 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id c200so36586688wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 08:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=zaxQdRmKVlr9rgQluXke0Qr+rGZYDFoqORizJjJDel4=;
-	b=i8F780ISlV+Q+enWUp+h0L3YAm+ObPR4z+SaVHJjbcEjPBYQcqYkVUnguFyLNMb4dd
-	gsEMYuyAg8xdevz03G7AVo4i/lzmOKorznB2D9BTJ3R/ncq68Ppa8mZ/vufKedPIhflO
-	uF88MQyqpswoPArZJT7mpZuLzgBfYzjvI65/cT+fbhfghb64F85Ch5ZHJnI7Q3JuzBWf
-	+gL/sRshkqJQaVcQuPpNEcoOrzLsdnOJcWi5M884TImhu4E7O2lnehFteIUbrqXbCyp0
-	aHRVjtaASEPogUh3iSJRHDJ5b4i/J1/pAU8HzbvNHwvkdvWDWbAHOXcK4pOWAxqP/KrI
-	Lk7A==
+	Wed, 10 Feb 2016 08:26:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=tcxNQANO4hxAzyZNQZxOP0oEfM4VXOZg11eisOGvhBs=;
+	b=xAZh9vqOvNkYd1OOKKyv/vfNL9+5lX8AkfInW22XdS9wWbAoFsg8QpkH2JWjqoNLnT
+	+cTbD4PbQv1wfuczG3XKo2D8movI7ziQ7BVzT1aYqk6l7sjyr9uDXGcLJNeZTzOw1CL2
+	8sw69xXBfi8BiSKeM/LDJyxoIuuvBW3K8bJyRmpL/KJ7u3OVC+Foy4q0chKTOLIgsn7H
+	Px0yiJPw35viTF/HHXe/A7nefbN9RMKax4stAXEPmTji260t2m5K3t5giRp7tUuEgWl0
+	uhAulcB9Xcn/l5Bruo6PFXgPr/+QemXJvy3KkL2KV0069ODOIK8qVMEmvXGDjVx1xxdw
+	T3gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zaxQdRmKVlr9rgQluXke0Qr+rGZYDFoqORizJjJDel4=;
-	b=GNeJGS692U2Odt/HlzcEQ7RwSVuXreSoTQuo8fkL2EO65ZQrgbDXPra8npFH74XvoG
-	f/b/ewSGOSSbhKj5k+Xakag8I/n/oR0kB5xl1z7PpCzg1qrma8RSs1O9IQl3eDde+VVx
-	Kd29cpNbLK6lcgSAZ0Eynx6odOJqCMayE7Q2lq8utQ7saCVoLX0t6JeEqRQBWAuaitNE
-	VswvRjozIWiheWw5z7NLJ28FWqLD6IRk2ldwhsoMhzsw1Vm34XiF0+DaEJkvysy1su90
-	DhpZgZNf5xiRsJaHvc6JfGXwAgVbHlGWhVmiPu+wAUKJOiq2TkjkKVqbqvA2vYyeHU5F
-	lm2A==
-X-Gm-Message-State: AG10YORhb8FIjwMdGrkNI0vYf3fsBQLzniJzszw9+JV9OhY0iVJFlWfqSyI5mpqgxKqr3hUaNJNraf0gSkDNj2yL
-X-Received: by 10.50.160.7 with SMTP id xg7mr10144869igb.64.1455120041811;
-	Wed, 10 Feb 2016 08:00:41 -0800 (PST)
+	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+	:content-type:content-disposition:user-agent;
+	bh=tcxNQANO4hxAzyZNQZxOP0oEfM4VXOZg11eisOGvhBs=;
+	b=ICMhG+w6DcHTpUAAZd6n9H3++eALH/ypTL3X7LcDmkah/t7P5LLvUcu+uEev/H2AJN
+	bk4z9JkyIQz+CAX5caRMxmg5j8Zg64pt+rKQZzKKUGLXsCl0panlR3VyqfRJtN5ASXET
+	SQE/BLhJu8+/QV6ulNbCkXu47ZqUMkK5Ndq0uLeqB47QTzG7g7/aKyVgPiu5tq0PiEPZ
+	Lerf6m0oushBuAmIwD9AUiBAwCBIkJIvLmc6+urSB/mUvTXYVBZ1arILPkEyegR8j0XH
+	kDfwoKCjBHs26oSxo92qErqEhLXi993IFZrwXrJ01dERfavBbNrVI+4UQ14I5p0XS7uq
+	fOWQ==
+X-Gm-Message-State: AG10YOTRVpHxTEUWavdqoydcG0B31hhh44EbJoizhrtKT4pl748DRmWCVZiY/gW8I2/uJA==
+X-Received: by 10.28.175.193 with SMTP id y184mr12944522wme.62.1455121563605; 
+	Wed, 10 Feb 2016 08:26:03 -0800 (PST)
+Received: from localhost (x55b1eae5.dyn.telefonica.de. [85.177.234.229])
+	by smtp.gmail.com with ESMTPSA id i2sm3629187wjx.42.2016.02.10.08.26.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 10 Feb 2016 08:26:02 -0800 (PST)
+Date: Wed, 10 Feb 2016 17:14:58 +0100
+From: Oliver Graute <oliver.graute@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160210161458.GB27824@graute-opti>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 10 Feb 2016 08:00:22 -0800 (PST)
-In-Reply-To: <CAHiDW_FsnjAnXJrjAdow+kfT7Bk12+W5ZE4_TB0V3ui2Oc-csQ@mail.gmail.com>
-References: <cover.1448455166.git.jussi.kukkonen@intel.com>
-	<b23c413682080d988bd163c6df0f439cd41ae7ad.1448455166.git.jussi.kukkonen@intel.com>
-	<CAHiDW_FsnjAnXJrjAdow+kfT7Bk12+W5ZE4_TB0V3ui2Oc-csQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Feb 2016 16:00:22 +0000
-Message-ID: <CAJTo0LZ=a3-1gUS5-32jbqVvKfWYhAt7ziNhDaM-_=7N4beT7Q@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] connman-gnome: rrecommend connman, don't rdepend
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: create_image.wic is missing u-boot SPL file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 16:00:41 -0000
-Content-Type: multipart/alternative; boundary=001a11339de832c217052b6c8904
+X-List-Received-Date: Wed, 10 Feb 2016 16:26:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a11339de832c217052b6c8904
-Content-Type: text/plain; charset=UTF-8
+Hello list,
 
-On 10 February 2016 at 12:31, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
+I observe a problem with the create_image.wic script after second execution of
 
-> Ping? Please let me know if this was not actually a good idea.
->
+bitbake fsl-image
 
-Entirely my fault for the patch falling off page 1 of my mailbox.  Staged
-locally, thanks.
+NOTE: recipe fsl-image-1.0-r0: task do_rootfs: Started
+2016-02-10T03:21:41.323Z: ERROR: Error: The image creation script '/home/dnt/build-imx6ulevk/tmp/work/imx6ulevk-poky-linux-gnueabi/fsl-image/1.0-r0/temp/create_image.wic' returned 1:
+2016-02-10T03:21:41.323Z: Error: exec_cmd: du -Lbks /home/dnt/build-imx6ulevk/tmp/deploy/images/imx6ulevk/SPL returned '1' instead of 0
+2016-02-10T03:21:41.323Z: Checking basic build environment...
+2016-02-10T03:21:41.323Z: Done.
+2016-02-10T03:21:41.324Z:
+2016-02-10T03:21:41.324Z: Creating image(s)...
+2016-02-10T03:21:41.324Z:
+2016-02-10T03:21:41.324Z: WARNING: exit code 1 from a shell command.
+2016-02-10T03:21:41.324Z:
+2016-02-10T03:21:41.324Z: ERROR: Function failed: do_rootfs
+2016-02-10T03:21:41.371Z: ERROR: Logfile of failure stored in: /home/dnt/build-imx6ulevk/tmp/work/imx6ulevk-poky-linux-gnueabi/fsl-image/1.0-r0/temp/log.do_rootfs.27900
 
-Ross
 
---001a11339de832c217052b6c8904
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Somewhere the SPL symbolic link and the SPL files itself are deleted from my
+deploy image folder during the wic run.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 February 2016 at 12:31, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"=
-gmail_extra">Ping? Please let me know if this was not actually a good idea.=
-</div><span class=3D"HOEnZb"><font color=3D"#888888"><div class=3D"gmail_ex=
-tra"></div></font></span></blockquote></div><br>Entirely my fault for the p=
-atch falling off page 1 of my mailbox.=C2=A0 Staged locally, thanks.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
+If i execute
 
---001a11339de832c217052b6c8904--
+bitbake -c cleansstate  u-boot fsl-image
+bitbake u-boot fsl-image
+
+everything works fine, until I run next time bitbake fsl_image again
+(without u-boot before)
+
+Some ideas how to fix this?
+
+Best regards,
+
+Oliver
+
