@@ -1,22 +1,45 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 57E666FFF7
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f193.google.com (mail-ob0-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B9665CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 23:17:46 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2016 15:17:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,427,1449561600"; d="scan'208";a="743942598"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.155])
-	by orsmga003.jf.intel.com with ESMTP; 10 Feb 2016 15:17:47 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Wed, 10 Feb 2016 23:19:44 +0000 (UTC)
+Received: by mail-ob0-f193.google.com with SMTP id o4so3719483obb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Feb 2016 15:19:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=REnmRnkpnjMfZyCKRMy5pvfc/zjNR/HAGF7mSBWmzek=;
+	b=eIO0mcMAm1Wej2SvnmYY64TejbHAb1GgLIm2eLQdn8Hnr1UPJ5LzX5ZaJLqjZH2mKV
+	t9VpXNoDf5VXJPG4SamAXzICBeD0F4GwelH5v0U6oY611z2iQ0Lrrs6+O51nbndgrw3w
+	XNBAJCUmG6lcUui6CCgRzZiKbiDMyZv6+/3HC1mi8Wjv3SpJKybcy9js/0otPqWPF+8n
+	T6V4holZlWU4zsyYVGNoGiWP8Dt8mBx6bPJuXxBbBHaQt+z1gkI7/1lex5Fh+6QdYnBt
+	ANq0RZiNXdVWMM/8x57cim+K5gYpDSlEiZOaSKF0ybjY1isurHefJnNNlE4VSO7xTy6t
+	uT0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=REnmRnkpnjMfZyCKRMy5pvfc/zjNR/HAGF7mSBWmzek=;
+	b=LQDZD08Y7Aag/HpjiY9OmwzW2uEQsj0B+sVGEq5FyL2EblJNSAyQUXebEY9G2i2yN/
+	Oprlfe+aaCVyMEuXGhxE5p+ByakrveZvA4YmWa/deQiGgTNxeZfWsb6bOuDs9qUkAiX1
+	f2MhfgrRUHNr/RsdXPsTmP8T7BVWtRlmoiLBrSdcqlQaN8gcCXrdxZsEMgpsjEH9WdpJ
+	6T194miqYyV6yshdYeruL1LDBZzSWGRmQjO92fXovP3pQrwDfnknoMKshKWVVJ/lXkKi
+	NOylo8WFz1r6KYzEpuPWClBuOc4n9sIueU2jRgo3t1jDbXBzQZ/LgvhGC332+UdxEydD
+	8MPQ==
+X-Gm-Message-State: AG10YOTWCTOxYkuKokTv9WidMMCteipy5ZRE3VNImfPcr4r6caLeOVyncntQYfSLuP2rXg==
+X-Received: by 10.60.162.102 with SMTP id xz6mr29917605oeb.62.1455146385177;
+	Wed, 10 Feb 2016 15:19:45 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id q10sm2873000obg.1.2016.02.10.15.19.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 10 Feb 2016 15:19:43 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 17:19:53 -0600
-Message-Id: <1455146393-4580-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, randy.e.witt@intel.com
-Subject: [PATCH] classes/sanity: check_perl_modules provide output when fail
+Date: Wed, 10 Feb 2016 15:19:36 -0800
+Message-Id: <1455146378-29690-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/2] freetype: formatting tweaks + update 2.6.2 -> 2.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +52,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 23:17:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 10 Feb 2016 23:19:45 -0000
 
-When check_perl_modules fail is a good idea to print perl
-interpeter output for debug purposes.
+Andre McCurdy (2):
+  freetype: minor formatting improvements
+  freetype: update 2.6.2 -> 2.6.3
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/sanity.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../{freetype_2.6.2.bb => freetype_2.6.3.bb}       | 26 ++++++++++++----------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.6.2.bb => freetype_2.6.3.bb} (84%)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 9f35558..466eb49 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -452,12 +452,14 @@ def check_git_version(sanity_data):
- def check_perl_modules(sanity_data):
-     ret = ""
-     modules = ( "Text::ParseWords", "Thread::Queue", "Data::Dumper" )
-+    errresult = ''
-     for m in modules:
--        status, result = oe.utils.getstatusoutput("perl -e 'use %s' 2> /dev/null" % m)
-+        status, result = oe.utils.getstatusoutput("perl -e 'use %s'" % m)
-         if status != 0:
-+            errresult += result
-             ret += "%s " % m
-     if ret:
--        return "Required perl module(s) not found: %s\n" % ret
-+        return "Required perl module(s) not found: %s\n\n%s\n" % (ret, errresult)
-     return None
- 
- def sanity_check_conffiles(status, d):
 -- 
-2.1.4
+1.9.1
 
 
