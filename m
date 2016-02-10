@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C42E1731C8
+	by mail.openembedded.org (Postfix) with ESMTP id EB9B3731CC
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Feb 2016 14:16:04 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2016 06:16:02 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2016 06:16:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,426,1449561600"; d="scan'208";a="650101494"
+X-IronPort-AV: E=Sophos;i="5.22,426,1449561600"; d="scan'208";a="650101514"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2016 06:16:00 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2016 06:16:01 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 16:15:54 +0200
-Message-Id: <1455113759-3692-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Wed, 10 Feb 2016 16:15:55 +0200
+Message-Id: <1455113759-3692-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH 0/5] sstate: use oe.gpg_sign for signing/verifying
+In-Reply-To: <1455113759-3692-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1455113759-3692-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/5] oe/gpg_sign: add verify() method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,41 +31,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 Feb 2016 14:16:05 -0000
 
-This patchset modifies sstate.bbclass to utilize the recently added oe.gpg_sign
-library module. This unifies the code as now all gpg signing operations during
-the build are done with the help of this module. The first four patches add new
-features and refactor oe.gpg_sign in order to make it usable for sstate
-signing/verification. The fifth patch finally changes sstate.bbclass to use it.
+A new method for verifying detached signatures.
 
 [YOCTO #9006]
 
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oe/gpg_sign.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-The following changes since commit cbdf4abde6d80b6123c7546d2b4c9c2a7f359ec7:
-
-  sign_package_feed.bbclass: fix task dependencies (2016-02-08 17:16:12 +0200)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/sstate
-
-for you to fetch changes up to 10ac62ab77a862a4efdcf68d20dd7331bfbc6f7a:
-
-  sstate.bbclass: use oe.gpg_sign for gpg signing (2016-02-10 16:02:18 +0200)
-
-Markus Lehtonen (5):
-  oe/gpg_sign: add verify() method
-  oe/gpg_sign: add 'armor' argument to detach_sign()
-  sign_rpm.bbclass: do not store key details in signer instance
-  oe/gpg_sign: add 'passphrase' argument to detach_sign method
-  sstate.bbclass: use oe.gpg_sign for gpg signing
-
- meta/classes/sign_rpm.bbclass          |  9 +++--
- meta/classes/sstate.bbclass            | 38 ++++++++++-----------
- meta/lib/oe/gpg_sign.py                | 60 ++++++++++++++++++++++------------
- meta/lib/oe/package_manager.py         |  9 +++--
- meta/recipes-core/meta/signing-keys.bb | 16 ++++-----
- 5 files changed, 71 insertions(+), 61 deletions(-)
-
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index 821787e..a4f310e 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -65,6 +65,16 @@ class LocalSigner(object):
+             raise bb.build.FuncFailed("Failed to create signature for '%s': %s" %
+                                       (input_file, output))
+ 
++    def verify(self, sig_file):
++        """Verify signature"""
++        cmd = self.gpg_bin + " --verify "
++        if self.gpg_path:
++            cmd += "--homedir %s " % self.gpg_path
++        cmd += sig_file
++        status, _ = oe.utils.getstatusoutput(cmd)
++        ret = False if status else True
++        return ret
++
+ 
+ def get_signer(d, backend, keyid, passphrase_file):
+     """Get signer object for the specified backend"""
 -- 
 2.6.2
 
