@@ -1,45 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D596E687
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 57E666FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 22:56:38 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id p63so50257197wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 14:56:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=/xqf1OkqbbujGG/pk6G6ExkeL93NWI2NKQuE7Hx0FBY=;
-	b=rnetrId/5bvmbqu7cRehqQFpxjuQKul9rht7nnii1OvO5BbIOnl2QUh0XyuaENIdvt
-	zQkuySsyFq3ijT++4qMivt2cStlORIah9YPTFTxvD/lDB6gf/2RgVc59CzC60jLopsQ4
-	MHMbxqOIdAFRGU0HhYXzdMtNkOalZV5nRKvhHIpy0yvgrxnLdBCVi3i6uVSIExjZQJCv
-	g09ilvhDPkuGzQwVnqw/MwJsawoyyXd2wyLwUjp/pBs/VRWJ5W4cxfHPu3qOCZeNr9au
-	2LH+g/TXR9q7ieog0csXhuxPNHuk+gDuCIVbFdjWzDy0ztiGo0SQfH/DYAFHfqVHqGdv
-	N8yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=/xqf1OkqbbujGG/pk6G6ExkeL93NWI2NKQuE7Hx0FBY=;
-	b=MhzoedJKu08zXJX3qyDI419If4kfsIW109Uo+uYOqnW78r8ifPyTpKY71XEjCxSlFe
-	0O7YGMtSi7N9lE9Gi/fvgc1NK8rDskfIfeNvdMJ8F9xd0teu/Vjn/8jszZo/yij2/6fM
-	k50Vwd3wrvomiR19VYygJTPD56QSgoewMU/bI/aSwexcXq1MEZTBq2dqxWOBoxkiURlP
-	LJorvqzhMiqjYNHVryr60pa40PqLeG50P9i4ulPITFPVrio324y2Lk/0AfTpeXmhXFpD
-	sdYKjok9jTB57t2pI3wG3r+etUJedhZlhVS97EfjFD/ZAVLqxxjN3yyRWrgYpNnqHZwT
-	X99Q==
-X-Gm-Message-State: AG10YOTbfHOsKkp1xi7/jfjHJ5AakwxlYUyRtu1V9g7jNERao2chHStMHM1bbN3J6iIL3oh3
-X-Received: by 10.28.1.196 with SMTP id 187mr13547839wmb.68.1455144998135;
-	Wed, 10 Feb 2016 14:56:38 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id i2sm4863784wjx.42.2016.02.10.14.56.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Feb 2016 14:56:37 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 10 Feb 2016 23:17:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2016 15:17:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,427,1449561600"; d="scan'208";a="743942598"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.155])
+	by orsmga003.jf.intel.com with ESMTP; 10 Feb 2016 15:17:47 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 22:56:35 +0000
-Message-Id: <1455144995-15559-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] piglit: upgrade SRCREV
+Date: Wed, 10 Feb 2016 17:19:53 -0600
+Message-Id: <1455146393-4580-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, randy.e.witt@intel.com
+Subject: [PATCH] classes/sanity: check_perl_modules provide output when fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,33 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 22:56:39 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 23:17:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Upgrade the SRVREV to a slightly more up-to-date revision, this time from
-2015-02-19.  This commit in particular was chosen as it's the one before Piglit
-gained a hard dependnecy on python-six, which isn't yet in oe-core.
+When check_perl_modules fail is a good idea to print perl
+interpeter output for debug purposes.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sanity.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 82912fd..607f236 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
- SRC_URI = "git://anongit.freedesktop.org/piglit \
-            file://0001-tests-Fix-missing-include-of-Xutil.h.patch"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 9f35558..466eb49 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -452,12 +452,14 @@ def check_git_version(sanity_data):
+ def check_perl_modules(sanity_data):
+     ret = ""
+     modules = ( "Text::ParseWords", "Thread::Queue", "Data::Dumper" )
++    errresult = ''
+     for m in modules:
+-        status, result = oe.utils.getstatusoutput("perl -e 'use %s' 2> /dev/null" % m)
++        status, result = oe.utils.getstatusoutput("perl -e 'use %s'" % m)
+         if status != 0:
++            errresult += result
+             ret += "%s " % m
+     if ret:
+-        return "Required perl module(s) not found: %s\n" % ret
++        return "Required perl module(s) not found: %s\n\n%s\n" % (ret, errresult)
+     return None
  
--# From 2014/12/04
--SRCREV = "126c7d049b8f32e541625d5a35fbc5f5e4e7fbf8"
-+# From 2015-02-19
-+SRCREV = "c4585427913e4cb28994b4bfb11d49778273aa2c"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
- 
+ def sanity_check_conffiles(status, d):
 -- 
-2.7.0
+2.1.4
 
 
