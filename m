@@ -1,11 +1,11 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 927B6731C1
+	by mail.openembedded.org (Postfix) with ESMTP id 92894731E7
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Feb 2016 12:33:15 +0000 (UTC)
 Received: from comp_016_pc_buildenv.localdomain (unknown [31.182.60.238])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 4A6DB1AA3E7;
-	Wed, 10 Feb 2016 13:33:15 +0100 (CET)
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id D78941AA0AF;
+	Wed, 10 Feb 2016 13:33:14 +0100 (CET)
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 To: openembedded-core@lists.openembedded.org,
 	Enrico Jorns <ejo@pengutronix.de>, Roy Li <rongqing.li@windriver.com>,
@@ -14,13 +14,13 @@ To: openembedded-core@lists.openembedded.org,
 	Ross Burton <ross.burton@intel.com>,
 	=?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>,
 	Randy MacLeod <randy.macleod@windriver.com>, Tanu Kaskinen <tanuk@iki.fi>
-Date: Wed, 10 Feb 2016 13:32:55 +0100
-Message-Id: <1455107576-8931-7-git-send-email-maciej.borzecki@open-rnd.pl>
+Date: Wed, 10 Feb 2016 13:32:54 +0100
+Message-Id: <1455107576-8931-6-git-send-email-maciej.borzecki@open-rnd.pl>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1455107576-8931-1-git-send-email-maciej.borzecki@open-rnd.pl>
 References: <1455107576-8931-1-git-send-email-maciej.borzecki@open-rnd.pl>
 Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v2 6/7] systemd: tighten timesyncd and journal-gateway user accounts
+Subject: [PATCH v2 5/7] systemd: move some tools into systemd-extra-utils package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 12:33:15 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 12:33:16 -0000
 
-Make sure that systemd-timesync and systemd-journal-gateway are created
-without dedicated home directories, home set to / and /bin/nologin as
-shell. This makes us in sync with what systemd-sysusers sets when
-adding users during startup.
+This patch attempts to split some of the extra functionality delivered
+by systemd utilities from the main package into a separate package. This
+allows for trimming the size of a default systemd installation down to
+~7MB with all configuration features disabled. The new
+systemd-extra-utils package is added to RRECOMMENDS so that by default
+it will get installed into the target image.
 
 Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 ---
- meta/recipes-core/systemd/systemd_228.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd_228.bb | 47 ++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
-index 4788d8680329d4a43cf8c6749f89422419f20901..72c7e0db122cf8fca370c76801a80fd6c188f613 100644
+index 97fc9f4c1333e246f79bc53f61439f5e4cf78352..4788d8680329d4a43cf8c6749f89422419f20901 100644
 --- a/meta/recipes-core/systemd/systemd_228.bb
 +++ b/meta/recipes-core/systemd/systemd_228.bb
-@@ -304,8 +304,8 @@ SYSTEMD_PACKAGES = "${PN}-binfmt"
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+@@ -297,6 +297,7 @@ PACKAGES =+ "\
+     ${PN}-pam \
+     ${PN}-zsh \
+     ${PN}-xorg-xinitrc \
++    ${PN}-extra-utils \
+ "
  
- USERADD_PACKAGES = "${PN}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system systemd-journal-gateway;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system systemd-timesync;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+ SYSTEMD_PACKAGES = "${PN}-binfmt"
+@@ -342,6 +343,51 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
  
- FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
+ 
++FILES_${PN}-extra-utils = "\
++                        ${base_bindir}/systemd-escape \
++                        ${base_bindir}/systemd-inhibit \
++                        ${bindir}/systemd-detect-virt \
++                        ${bindir}/systemd-path \
++                        ${bindir}/systemd-run \
++                        ${bindir}/systemd-cat \
++                        ${bindir}/systemd-delta \
++                        ${bindir}/systemd-cgls \
++                        ${bindir}/systemd-cgtop \
++                        ${bindir}/systemd-stdio-bridge \
++                        ${base_bindir}/systemd-ask-password \
++                        ${base_bindir}/systemd-tty-ask-password-agent \
++                        ${systemd_unitdir}/system/systemd-ask-password-console.path \
++                        ${systemd_unitdir}/system/systemd-ask-password-console.service \
++                        ${systemd_unitdir}/system/systemd-ask-password-wall.path \
++                        ${systemd_unitdir}/system/systemd-ask-password-wall.service \
++                        ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path \
++                        ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-wall.path \
++                        ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path \
++                        ${rootlibexecdir}/systemd/systemd-resolve-host \
++                        ${rootlibexecdir}/systemd/systemd-ac-power \
++                        ${rootlibexecdir}/systemd/systemd-activate \
++                        ${bindir}/systemd-nspawn \
++                        ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
++                        ${systemd_unitdir}/system/systemd-nspawn@.service \
++                        ${rootlibexecdir}/systemd/systemd-bus-proxyd \
++                        ${systemd_unitdir}/system/systemd-bus-proxyd.service \
++                        ${systemd_unitdir}/system/systemd-bus-proxyd.socket \
++                        ${rootlibexecdir}/systemd/systemd-socket-proxyd \
++                        ${rootlibexecdir}/systemd/systemd-reply-password \
++                        ${rootlibexecdir}/systemd/systemd-sleep \
++                        ${rootlibexecdir}/systemd/system-sleep \
++                        ${systemd_unitdir}/system/systemd-hibernate.service \
++                        ${systemd_unitdir}/system/systemd-hybrid-sleep.service \
++                        ${systemd_unitdir}/system/systemd-suspend.service \
++                        ${systemd_unitdir}/system/sleep.target \
++                        ${rootlibexecdir}/systemd/systemd-initctl \
++                        ${systemd_unitdir}/system/systemd-initctl.service \
++                        ${systemd_unitdir}/system/systemd-initctl.socket \
++                        ${systemd_unitdir}/system/sockets.target.wants/systemd-initctl.socket \
++                        ${rootlibexecdir}/systemd/system-generators/systemd-gpt-auto-generator \
++                        ${rootlibexecdir}/systemd/systemd-cgroups-agent \
++"
++
+ CONFFILES_${PN} = "${sysconfdir}/machine-id \
+                 ${sysconfdir}/systemd/coredump.conf \
+                 ${sysconfdir}/systemd/journald.conf \
+@@ -396,6 +442,7 @@ RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+ RDEPENDS_${PN} += "volatile-binds update-rc.d"
+ 
+ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-vconsole-setup \
++                      systemd-extra-utils \
+                       systemd-compat-units udev-hwdb \
+                       util-linux-agetty  util-linux-fsck e2fsprogs-e2fsck \
+                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
 -- 
 2.5.0
 
