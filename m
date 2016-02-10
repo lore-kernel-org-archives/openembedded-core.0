@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8250573219
+Received: from mail-qg0-f66.google.com (mail-qg0-f66.google.com
+	[209.85.192.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 033FA731C3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Feb 2016 17:43:44 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id s5so890747qkd.2
+Received: by mail-qg0-f66.google.com with SMTP id b35so1746379qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 09:43:45 -0800 (PST)
+	Wed, 10 Feb 2016 09:43:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Xt6za3NtqgmB0Q5xAW+x33aKwY7cqo+sg04YXpwX0b0=;
-	b=DVYZJHAvuNewURJfvMmY1d8jtNVYc31qp5shw9710EGRdVRKDXWqs7FHA9N0rNOe4w
-	57iTPMxXFKRYbn5M9354eAiyZa5/6tpMqHN4WdbQhXCbswOI6/Hy30tAMntORC+YmpEw
-	Whr/Hkz7UnIvLmeGSEVagYBxo7pRjxoEUk0kh7g9gg3OWfsmgdu0skYMveuF9j9z7nAJ
-	JDhuyr0cot9m/NyY6TlMq77mHPKzBL9788UiDg8UmuwWkHOPYwC47fLqtYbGQR+J24w+
-	2G1auYzF4kEqJPBM+mJKvQjXa/ffWyYR3O0GjxiWpOfT7kmorr8LVMhzja8dKWkWbZtM
-	t/4w==
+	bh=HS88LeE91kZ/qYR3r6g83Q7Jmkdv2x0VPoXUpqRuqR8=;
+	b=hZuX/YFU8g4izmy1OtboiP38v4kWsjhYI5BJYfiB/WBoSaojxKND6gTInxivedsuzm
+	FiwXVq0bWQtGWdddIMjZnxSsMpy2vcQ8veGD4TpqHqpg/S9TdtE3uVg4jEjaoTYHtKyH
+	VJB9zdIzrW9Jb56mnGwQZLvn3v6Eh6SZHjjM3iuRcIMimLj2dG6vHEZCb545m1EZmY6d
+	WzaZdFm6vVrRb1lRwKLlyiNr3Q8PsJ6hm7PryTcEPeSUics+hM9jPPa+0GREFf4iQ5rA
+	9rPGbzymyh6fDWGMgpaSlvJXEKuiiRT2fZWuNVKuPkl7V4zC279DjFdgGt9MGZZ+CDOi
+	Js9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=Xt6za3NtqgmB0Q5xAW+x33aKwY7cqo+sg04YXpwX0b0=;
-	b=Ae2Wk6GdPX0/JTAB4BKzizwJnMPlBtclE7wCXKIcLNWyH2mv0qR5QlazNeIFgB3urB
-	HClB3/1hjMbEV6cTm4Ex18G0DU+9hDhLfXc9+OduULenoIXse+KSN0dcoPGgT03Z9UO0
-	0JtLcQWbFNkf2oIiaU4VAwruWDVx+4kgeAoo+oTVhKZwtqHCSLrzKdEebSR01PN4pIGB
-	NX9n5eX7r4tqYdB1DHZ7sILytfsvexWiM+7BOPHXCANgUpDcr2D1+C8mAk++4mInWSlf
-	/xOt1dlqteIdBsKDacgAEuPpSeL3i4wGbFpIypcFMy4xLviPD0K9773Pzj0EyiTCFhLu
-	3v8w==
-X-Gm-Message-State: AG10YORAjXCerqLdX385B70SwFl7ufrQDgxODoqKPOaa04zLEVghji78ajICjO3ScyUgJA==
-X-Received: by 10.55.75.131 with SMTP id y125mr49649356qka.61.1455126224936;
-	Wed, 10 Feb 2016 09:43:44 -0800 (PST)
+	bh=HS88LeE91kZ/qYR3r6g83Q7Jmkdv2x0VPoXUpqRuqR8=;
+	b=Hs9/gWclEVPRyjY5hg/BKgPIYslP3t+kE15NCY1tgUNcMsZGPyic9KY7AdUWyaroao
+	BaPcdjRtmhv2LpM7LuVFTzHpUvVzNvVSYDFoUyMmOO72+svRu/GvFz9NIl30Hev9eJmN
+	7fXZiacyUsIHV+oG17A64v6f5x/Eb5ec+yw0kGsob4t65jwvuZR6iOjKkcxB0X3YafaL
+	5ZaxN3+291+8RLBnqnoT/Nqo8kgfgGqDfvy2gLAhtATn4iw7uhwbpHiNxkrXxa3Hz9I0
+	VTpXdIpsvwMPrQ69fujeHsgv6nyQDDnGgkviz+nj5IpalvNOf1vAkdiXUh8U/RIs+cZ1
+	y1JQ==
+X-Gm-Message-State: AG10YORy2UIpXp0K/hyxrhZ5xuCvWUE5Xe891ewVbgpD3gsXvnG6eP7AW/cewwSVOPW08w==
+X-Received: by 10.140.92.181 with SMTP id b50mr42950277qge.44.1455126225675;
+	Wed, 10 Feb 2016 09:43:45 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	a66sm1724349qkb.20.2016.02.10.09.43.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Feb 2016 09:43:44 -0800 (PST)
+	Wed, 10 Feb 2016 09:43:45 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 17:43:35 +0000
-Message-Id: <cda896f43f7f79126c1d5733734e727b26918eaa.1455126045.git.raj.khem@gmail.com>
+Date: Wed, 10 Feb 2016 17:43:36 +0000
+Message-Id: <560761eaf2192aa517529410a976a57a0db3e8e9.1455126045.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <d7fb520732892e8f08f7817b7abd127b98fa6c1d.1455126045.git.raj.khem@gmail.com>
 References: <d7fb520732892e8f08f7817b7abd127b98fa6c1d.1455126045.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1455126045.git.raj.khem@gmail.com>
 References: <cover.1455126045.git.raj.khem@gmail.com>
-Subject: [PATCH 8/9] gdb: drop unnecessary CC_FOR_BUILD etc exports
+Subject: [PATCH 9/9] nettle.inc: drop duplicate LIC_FILES_CHKSUM and SRC_URI hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 17:43:44 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 17:43:45 -0000
 
 From: Andre McCurdy <armccurdy@gmail.com>
 
-These exports are all provided by autotool.bbclass
-
-  http://git.openembedded.org/openembedded-core/commit/?id=edf30561184ec42e5692a55fdf93304fac0fdb1b
+LIC_FILES_CHKSUM and the SRC_URI hashes are both set from within
+the recipe files, so should not be duplicated in nettle.inc.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gdb/gdb-common.inc | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ meta/recipes-support/nettle/nettle.inc | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index 6baeb0b..06272a9 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -22,16 +22,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
- 		file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
- 		file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+diff --git a/meta/recipes-support/nettle/nettle.inc b/meta/recipes-support/nettle/nettle.inc
+index ba97ddb..af51fb6 100644
+--- a/meta/recipes-support/nettle/nettle.inc
++++ b/meta/recipes-support/nettle/nettle.inc
+@@ -2,10 +2,6 @@ SUMMARY = "A low level cryptographic library"
+ HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+ SECTION = "libs"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
+-                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
+-
+ DEPENDS += "gmp"
+ 
+ SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz \
+@@ -13,15 +9,12 @@ SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
+-SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
+-
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-EXTRA_OECONF = "--disable-openssl"
+-
+ inherit autotools ptest
+ 
++EXTRA_OECONF = "--disable-openssl"
 +
- inherit autotools texinfo
+ do_configure_prepend() {
+        if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
+                cp ${S}/aclocal.m4 ${S}/acinclude.m4
+@@ -41,5 +34,4 @@ do_install_ptest() {
+         install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
+ }
  
- SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.gz \
-           "
--export CC_FOR_BUILD = "${BUILD_CC}"
--export CXX_FOR_BUILD = "${BUILD_CXX}"
--export CPP_FOR_BUILD = "${BUILD_CPP}"
--export CFLAGS_FOR_BUILD = "${BUILD_CFLAGS}"
--export CXXFLAGS_FOR_BUILD = "${BUILD_CXXFLAGS}"
--export CPPFLAGS_FOR_BUILD = "${BUILD_CPPFLAGS}"
- 
- B = "${WORKDIR}/build-${TARGET_SYS}"
- 
+-
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.7.1
 
