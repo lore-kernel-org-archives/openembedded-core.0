@@ -1,24 +1,24 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DB51731CC
+	by mail.openembedded.org (Postfix) with ESMTP id 3DF3C731CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 00:04:20 +0000 (UTC)
+	Wed, 10 Feb 2016 00:04:21 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt70n7dz3hjF8;
-	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
-X-Auth-Info: H0UloRaHh+GTb3etTjzFrGneKrYjm2duhNlsV5l3e/k=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt83M2jz3hjHS;
+	Wed, 10 Feb 2016 01:04:16 +0100 (CET)
+X-Auth-Info: l/VQjOqnEYWaIOnrnaIL8pwpEgaPuvmwrkWDtY0qmWM=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt65JvpzvhTZ;
-	Wed, 10 Feb 2016 01:04:14 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt81SzpzvdWt;
+	Wed, 10 Feb 2016 01:04:16 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 01:04:02 +0100
-Message-Id: <1455062646-12311-3-git-send-email-marex@denx.de>
+Date: Wed, 10 Feb 2016 01:04:06 +0100
+Message-Id: <1455062646-12311-7-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1455062646-12311-1-git-send-email-marex@denx.de>
 References: <1455062646-12311-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 3/7] dpkg: Update to 1.18.4
+Subject: [PATCH V2 7/7] oprofile: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,120 +33,69 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 Feb 2016 00:04:21 -0000
 
-Update dpkg version to 1.18.4 . This adds nios2 architecture support
-among other fixes. One patch was updated so it would apply to 1.18.4.
+Add support for the nios2 architecture.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Ross Burton <ross.burton@intel.com>
 ---
- ...g-do_package_write_deb-we-have-trees-of-h.patch | 52 +++++++++++++---------
- .../dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb}        |  4 +-
- 2 files changed, 32 insertions(+), 24 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb} (85%)
+V2: Patch is now Submitted
+---
+ meta/recipes-kernel/oprofile/oprofile.inc          |  3 ++-
+ ...Add-rmb-definition-for-NIOS2-architecture.patch | 30 ++++++++++++++++++++++
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-index 6967ef4..49ef853 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-@@ -1,7 +1,7 @@
--From d14ffd786993da60ca84c4812da8a6594a8c764e Mon Sep 17 00:00:00 2001
-+From e391bdba238d1371fc5b67cdae08b06eb5ada5c2 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 15:48:13 +0300
--Subject: [PATCH 1/5] When running do_package_write_deb, we have trees of
-+Subject: [PATCH] When running do_package_write_deb, we have trees of
-  hardlinked files such as the dbg source files in ${PN}-dbg. If something
-  makes another copy of one of those files (or deletes one), the number of
-  links a file has changes and tar can notice this, e.g.:
-@@ -19,23 +19,43 @@ place to avoid that kind of issue).
- Upstream-Status: Inappropriate
- RP 2015/3/27
- ---
-- dpkg-deb/build.c | 11 ++++++++---
-- 1 file changed, 8 insertions(+), 3 deletions(-)
-+ dpkg-deb/build.c | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
+diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
+index faf0e53..cf3ad43 100644
+--- a/meta/recipes-kernel/oprofile/oprofile.inc
++++ b/meta/recipes-kernel/oprofile/oprofile.inc
+@@ -23,7 +23,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://automake-foreign.patch \
+            file://oprofile-cross-compile-tests.patch \
+            file://run-ptest \
+-           file://root-home-dir.patch"
++           file://root-home-dir.patch \
++           file://0001-Add-rmb-definition-for-NIOS2-architecture.patch"
  
- diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
--index ea3d861..1589927 100644
-+index 2ddeec6..af363f0 100644
- --- a/dpkg-deb/build.c
- +++ b/dpkg-deb/build.c
--@@ -458,7 +458,7 @@ do_build(const char *const *argv)
-+@@ -452,7 +452,7 @@ static void
-+ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+              struct compress_params *tar_compress_params, int fd_out)
-+ {
-+-  int pipe_filenames[2], pipe_tarball[2];
-++  int pipe_filenames[2], pipe_tarball[2], rc;
-+   pid_t pid_tar, pid_comp;
+ SRC_URI_append_libc-musl = " file://musl.patch"
+ 
+diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch b/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch
+new file mode 100644
+index 0000000..ae8562a
+--- /dev/null
++++ b/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch
+@@ -0,0 +1,30 @@
++From 34b0d9b1a32fb404a30327a7ae8931c7c75583bf Mon Sep 17 00:00:00 2001
++From: Marek Vasut <marex@denx.de>
++Date: Tue, 9 Feb 2016 02:00:29 +0100
++Subject: [PATCH] Add rmb() definition for NIOS2 architecture
++
++Signed-off-by: Marek Vasut <marex@denx.de>
++Upstream-Status: Submitted [ http://marc.info/?l=oprofile-list&m=145501915931874&w=2 ]
++---
++ libperf_events/operf_utils.h | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/libperf_events/operf_utils.h b/libperf_events/operf_utils.h
++index 32954cc..8270e53 100644
++--- a/libperf_events/operf_utils.h
+++++ b/libperf_events/operf_utils.h
++@@ -178,6 +178,11 @@ void op_release_resources(void);
++ #define cpu_relax()	asm volatile("" ::: "memory")
++ #endif
 + 
-+   /* Fork off a tar. We will feed it a list of filenames on stdin later. */
-+@@ -493,7 +493,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+   /* All done, clean up wait for tar and <compress> to finish their job. */
-+   close(pipe_filenames[1]);
-+   subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
-+-  subproc_reap(pid_tar, "tar -cf", 0);
-++  rc = subproc_reap(pid_tar, "tar -cf", SUBPROC_RETERROR);
-++  if (rc && rc != 1)
-++    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
-+ }
-+ 
-+ /**
-+@@ -509,7 +511,7 @@ do_build(const char *const *argv)
-    char *debar;
-    char *tfbuf;
-    int arfd;
---  int p1[2], p2[2], gzfd;
--+  int p1[2], p2[2], gzfd, rc;
-+-  int p1[2], gzfd;
-++  int p1[2], gzfd, rc;
-    pid_t c1, c2;
-  
-    /* Decode our arguments. */
--@@ -538,7 +538,9 @@ do_build(const char *const *argv)
-+@@ -590,7 +592,9 @@ do_build(const char *const *argv)
-    }
-    close(p1[0]);
-    subproc_reap(c2, _("<compress> from tar -cf"), 0);
-@@ -46,18 +66,6 @@ index ea3d861..1589927 100644
-  
-    if (lseek(gzfd, 0, SEEK_SET))
-      ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
--@@ -626,7 +628,10 @@ do_build(const char *const *argv)
--   /* All done, clean up wait for tar and <compress> to finish their job. */
--   close(p1[1]);
--   subproc_reap(c2, _("<compress> from tar -cf"), 0);
---  subproc_reap(c1, "tar -cf", 0);
--+  rc = subproc_reap(c1, "tar -cf", SUBPROC_RETERROR);
--+  if (rc && rc != 1)
--+    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
--+
--   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
--   if (deb_format.major == 2) {
--     char datamember[16 + 1];
- -- 
--2.1.4
+++#ifdef __nios2__
+++#define rmb()		asm volatile("" ::: "memory")
+++#define cpu_relax()	asm volatile("" ::: "memory")
+++#endif
+++
++ #ifdef __tile__
++ #include <asm/unistd.h>
++ #define rmb()		__insn_mf()
++-- 
 +2.7.0
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-similarity index 85%
-rename from meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-index eab896c..76fb2d1 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-@@ -16,6 +16,6 @@ SRC_URI += "file://noman.patch \
- 	    file://dpkg-CVE-2015-0860.patch \
-            "
- 
--SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
--SRC_URI[sha256sum] = "11484f2a73d027d696e720a60380db71978bb5c06cd88fe30c291e069ac457a4"
-+SRC_URI[md5sum] = "e95b513c89693f6ec3ab53b6b1c3defd"
-+SRC_URI[sha256sum] = "fe89243868888ce715bf45861f26264f767d4e4dbd0d6f1a26ce60bbbbf106da"
- 
++
 -- 
 2.1.4
 
