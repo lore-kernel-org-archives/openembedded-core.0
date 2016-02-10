@@ -1,22 +1,24 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 493A07318C
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F49E731A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 00:04:16 +0000 (UTC)
+	Wed, 10 Feb 2016 00:04:15 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt62Lycz3hjc3;
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt64nrVz3hjBH;
 	Wed, 10 Feb 2016 01:04:14 +0100 (CET)
-X-Auth-Info: 74+7T/99t0DjHUnhbYj63MBwLY7nSgR44/nsgIuJEeY=
+X-Auth-Info: H0UloRaHh+GTb3etTjzFrGneKrYjm2duhNlsV5l3e/k=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt56vQVzvdWS;
-	Wed, 10 Feb 2016 01:04:13 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt62rv5zvdWt;
+	Wed, 10 Feb 2016 01:04:14 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 01:04:00 +0100
-Message-Id: <1455062646-12311-1-git-send-email-marex@denx.de>
+Date: Wed, 10 Feb 2016 01:04:01 +0100
+Message-Id: <1455062646-12311-2-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1455062646-12311-1-git-send-email-marex@denx.de>
+References: <1455062646-12311-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH V2 1/7] strace: Fix build for arc, metag, nios2, or1k, tile
+Subject: [PATCH V2 2/7] binutils: Repair nios2 PLT and GP handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,156 +33,229 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 Feb 2016 00:04:19 -0000
 
-Upstream strace 4.11 does not build for arc, metag, nios2, or1k, tile.
-Backport patch from strace git master to fix the build issue.
+Repair corner cases in nios2 PLT and GP handling. See the patches
+themselves for extensive detailed explanation.
+
+The patches don't contain the ChangeLog entries, since the changelog
+entries often cause trouble when applying the patch.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Robert Yang <liezhi.yang@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Ross Burton <ross.burton@intel.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-V2: Add SoB line to the backported patch
+V2: Add SoB lines to the backported patches
+    Update to binutils 2.26
 ---
- .../0001-arc-metag-nios2-or1k-tile-fix-build.patch | 117 +++++++++++++++++++++
- meta/recipes-devtools/strace/strace_4.11.bb        |   1 +
- 2 files changed, 118 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
+ meta/recipes-devtools/binutils/binutils-2.26.inc   |   2 +
+ ...ress-computations-in-initial-PLT-entries-.patch |  72 ++++++++++++++
+ ...014-Correct-nios2-_gp-address-computation.patch | 106 +++++++++++++++++++++
+ 3 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0014-Correct-nios2-_gp-address-computation.patch
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch b/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.26.inc b/meta/recipes-devtools/binutils/binutils-2.26.inc
+index c955471..dd5c8ca 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.26.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.26.inc
+@@ -32,6 +32,8 @@ SRC_URI = "\
+      file://0010-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
+      file://0011-Change-default-emulation-for-mips64-linux.patch \
+      file://0012-Add-XLP-instructions-support.patch \
++     file://0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch \
++     file://0014-Correct-nios2-_gp-address-computation.patch \
+      "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch b/meta/recipes-devtools/binutils/binutils/0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch
 new file mode 100644
-index 0000000..a9d3203
+index 0000000..a62b519
 --- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
-@@ -0,0 +1,117 @@
-+From dd1a80c8d213eed95fe55b7ebcb07ee165dd8e4b Mon Sep 17 00:00:00 2001
-+From: "Dmitry V. Levin" <ldv@altlinux.org>
-+Date: Thu, 24 Dec 2015 15:40:55 +0000
-+Subject: [PATCH] arc, metag, nios2, or1k, tile: fix build
++++ b/meta/recipes-devtools/binutils/binutils/0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch
+@@ -0,0 +1,72 @@
++From 45490ccc18bbb518550209c38b2278b04703c183 Mon Sep 17 00:00:00 2001
++From: Sandra Loosemore <sandra@codesourcery.com>
++Date: Wed, 9 Dec 2015 16:13:58 -0800
++Subject: [PATCH 1/2] Fix GOT address computations in initial PLT entries for
++ nios2.
 +
-+Fix build regression introduced by commit
-+34683e3926d8c2daa368afb805da422ee7043396.
++2015-12-09  Sandra Loosemore  <sandra@codesourcery.com>
 +
-+* linux/32/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap.
-+* linux/arc/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap_pgoff.
-+* linux/nios2/syscallent.h: Likewise.
-+* linux/or1k/syscallent.h: Likewise.
-+* linux/tile/syscallent1.h: Add sys_ prefix to ARCH_mmap and sys_mmap_4koff.
-+* pathtrace.c (pathtrace_match): Handle SEN_ARCH_mmap.
-+* NEWS: Mention this build fix.
++	bfd/
++	* elf32-nios2.c (nios2_elf32_finish_dynamic_sections): Correct
++	%hiadj/%lo computations for _GLOBAL_OFFSET_TABLE_ in initial
++	PLT entries.  Assert alignment requirements.
 +
-+Reported-by: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 +Signed-off-by: Marek Vasut <marex@denx.de>
 +Upstream-Status: Backport
 +---
-+ NEWS                     | 3 +++
-+ linux/32/syscallent.h    | 6 +++---
-+ linux/arc/syscallent.h   | 2 +-
-+ linux/nios2/syscallent.h | 2 +-
-+ linux/or1k/syscallent.h  | 2 +-
-+ linux/tile/syscallent1.h | 2 +-
-+ pathtrace.c              | 1 +
-+ 7 files changed, 11 insertions(+), 7 deletions(-)
++ bfd/elf32-nios2.c | 23 ++++++++++++++++-------
++ 1 file changed, 16 insertions(+), 7 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index fe40ca4..09263eb 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,3 +1,9 @@
-++Noteworthy changes in release ?.?? (????-??-??)
-++===============================================
++diff --git a/bfd/elf32-nios2.c b/bfd/elf32-nios2.c
++index 6b29d8b..1c54320 100644
++--- a/bfd/elf32-nios2.c
+++++ b/bfd/elf32-nios2.c
++@@ -5383,12 +5383,17 @@ nios2_elf32_finish_dynamic_sections (bfd *output_bfd,
++ 				 + sgotplt->output_offset);
++ 	  if (bfd_link_pic (info))
++ 	    {
++-	      bfd_vma corrected = got_address - (splt->output_section->vma
++-						 + splt->output_offset + 4);
+++	      bfd_vma got_pcrel = got_address - (splt->output_section->vma
+++						 + splt->output_offset);
+++	      /* Both GOT and PLT must be aligned to a 16-byte boundary
+++		 for the two loads to share the %hiadj part.  The 4-byte
+++		 offset for nextpc is accounted for in the %lo offsets
+++		 on the loads.  */
+++	      BFD_ASSERT ((got_pcrel & 0xf) == 0);
++ 	      nios2_elf32_install_data (splt, nios2_so_plt0_entry, 0, 6);
++-	      nios2_elf32_install_imm16 (splt, 4, hiadj (corrected));
++-	      nios2_elf32_install_imm16 (splt, 12, (corrected & 0xffff) + 4);
++-	      nios2_elf32_install_imm16 (splt, 16, (corrected & 0xffff) + 8);
+++	      nios2_elf32_install_imm16 (splt, 4, hiadj (got_pcrel));
+++	      nios2_elf32_install_imm16 (splt, 12, got_pcrel & 0xffff);
+++	      nios2_elf32_install_imm16 (splt, 16, (got_pcrel + 4) & 0xffff);
++ 	    }
++ 	  else
++ 	    {
++@@ -5404,6 +5409,10 @@ nios2_elf32_finish_dynamic_sections (bfd *output_bfd,
++ 			    6 | ((res_size - (res_offset + 4)) << 6),
++ 			    splt->contents + res_offset);
++ 
+++	      /* The GOT must be aligned to a 16-byte boundary for the
+++		 two loads to share the same %hiadj part.  */
+++	      BFD_ASSERT ((got_address & 0xf) == 0);
 ++
-++* Bug fixes
-++  * Fixed build on arc, metag, nios2, or1k, and tile architectures.
-++
-+ Noteworthy changes in release 4.11 (2015-12-21)
-+ ===============================================
-+ 
-+diff --git a/linux/32/syscallent.h b/linux/32/syscallent.h
-+index 5f997e7..e6f895c 100644
-+--- a/linux/32/syscallent.h
-++++ b/linux/32/syscallent.h
-+@@ -1,5 +1,5 @@
-+-#ifndef ARCH_mmap
-+-# define ARCH_mmap mmap
-++#ifndef sys_ARCH_mmap
-++# define sys_ARCH_mmap sys_mmap
-+ #endif
-+ [  0] = { 2,	0,		SEN(io_setup),			"io_setup"		},
-+ [  1] = { 1,	0,		SEN(io_destroy),		"io_destroy"		},
-+@@ -276,5 +276,5 @@
-+ [283] = { 2,	0,		SEN(membarrier),		"membarrier",		},
-+ [284] = { 3,	TM,		SEN(mlock2),			"mlock2"		},
-+ 
-+-#undef ARCH_mmap
-++#undef sys_ARCH_mmap
-+ #undef ARCH_WANT_SYNC_FILE_RANGE2
-+diff --git a/linux/arc/syscallent.h b/linux/arc/syscallent.h
-+index 5847dc4..1100008 100644
-+--- a/linux/arc/syscallent.h
-++++ b/linux/arc/syscallent.h
-+@@ -1,4 +1,4 @@
-+-#define ARCH_mmap mmap_pgoff
-++#define sys_ARCH_mmap sys_mmap_pgoff
-+ #include "32/syscallent.h"
-+ [244] = { 3,	0,	SEN(printargs),	"arc_cacheflush"},
-+ [245] = { 1,	0,	SEN(printargs),	"arc_settls"	},
-+diff --git a/linux/nios2/syscallent.h b/linux/nios2/syscallent.h
-+index 8a4b70e..01efe3a 100644
-+--- a/linux/nios2/syscallent.h
-++++ b/linux/nios2/syscallent.h
-+@@ -1,4 +1,4 @@
-+-#define ARCH_mmap mmap_pgoff
-++#define sys_ARCH_mmap sys_mmap_pgoff
-+ #include "32/syscallent.h"
-+ [244] = {4,    0,	SEN(cacheflush), "cacheflush"},
-+ [245 ... 259] = { },
-+diff --git a/linux/or1k/syscallent.h b/linux/or1k/syscallent.h
-+index ed84b3b..351fe25 100644
-+--- a/linux/or1k/syscallent.h
-++++ b/linux/or1k/syscallent.h
-+@@ -1,4 +1,4 @@
-+-#define ARCH_mmap mmap_pgoff
-++#define sys_ARCH_mmap sys_mmap_pgoff
-+ #include "32/syscallent.h"
-+ [244] = { 3,	NF,	SEN(or1k_atomic),	"or1k_atomic"	},
-+ [245 ... 259] = { },
-+diff --git a/linux/tile/syscallent1.h b/linux/tile/syscallent1.h
-+index c86f059..28dbab4 100644
-+--- a/linux/tile/syscallent1.h
-++++ b/linux/tile/syscallent1.h
-+@@ -1,4 +1,4 @@
-+-#define ARCH_mmap mmap_4koff
-++#define sys_ARCH_mmap sys_mmap_4koff
-+ #define ARCH_WANT_SYNC_FILE_RANGE2 1
-+ #include "32/syscallent.h"
-+ [244] = { 1,	0,	SEN(printargs),	"cmpxchg_badaddr"	},
-+diff --git a/pathtrace.c b/pathtrace.c
-+index d530ec2..e72cdf7 100644
-+--- a/pathtrace.c
-++++ b/pathtrace.c
-+@@ -216,6 +216,7 @@ pathtrace_match(struct tcb *tcp)
-+ 	case SEN_mmap:
-+ 	case SEN_mmap_4koff:
-+ 	case SEN_mmap_pgoff:
-++	case SEN_ARCH_mmap:
-+ 		/* x, x, x, x, fd */
-+ 		return fdmatch(tcp, tcp->u_arg[4]);
-+ 
++ 	      nios2_elf32_install_data (splt, nios2_plt0_entry, res_size, 7);
++ 	      nios2_elf32_install_imm16 (splt, res_size, hiadj (res_start));
++ 	      nios2_elf32_install_imm16 (splt, res_size + 4,
++@@ -5411,9 +5420,9 @@ nios2_elf32_finish_dynamic_sections (bfd *output_bfd,
++ 	      nios2_elf32_install_imm16 (splt, res_size + 12,
++ 					 hiadj (got_address));
++ 	      nios2_elf32_install_imm16 (splt, res_size + 16,
++-					 (got_address & 0xffff) + 4);
+++					 (got_address + 4) & 0xffff);
++ 	      nios2_elf32_install_imm16 (splt, res_size + 20,
++-					 (got_address & 0xffff) + 8);
+++					 (got_address + 8) & 0xffff);
++ 	    }
++ 	}
++     }
 +-- 
-+2.6.4
++2.7.0
 +
-diff --git a/meta/recipes-devtools/strace/strace_4.11.bb b/meta/recipes-devtools/strace/strace_4.11.bb
-index a72a1f9..6b889de 100644
---- a/meta/recipes-devtools/strace/strace_4.11.bb
-+++ b/meta/recipes-devtools/strace/strace_4.11.bb
-@@ -8,6 +8,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-            file://disable-git-version-gen.patch \
-            file://more-robust-test-for-m32-mx32-compile-support.patch \
-            file://update-gawk-paths.patch \
-+           file://0001-arc-metag-nios2-or1k-tile-fix-build.patch \
-            file://Makefile-ptest.patch \
-            file://run-ptest \
-           "
+diff --git a/meta/recipes-devtools/binutils/binutils/0014-Correct-nios2-_gp-address-computation.patch b/meta/recipes-devtools/binutils/binutils/0014-Correct-nios2-_gp-address-computation.patch
+new file mode 100644
+index 0000000..7a4c1db
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0014-Correct-nios2-_gp-address-computation.patch
+@@ -0,0 +1,106 @@
++From fcf984ae68c89e5495e65fe6456650cc014b5ea7 Mon Sep 17 00:00:00 2001
++From: Sandra Loosemore <sandra@codesourcery.com>
++Date: Sun, 27 Dec 2015 12:30:26 -0800
++Subject: [PATCH 2/2] Correct nios2 _gp address computation.
++
++2015-12-27  Sandra Loosemore  <sandra@codesourcery.com>
++
++	bfd/
++	* elf32-nios2.c (nios2_elf_assign_gp): Correct computation of _gp
++	address.
++	(nios2_elf32_relocate_section): Tidy code for R_NIOS2_GPREL error
++	messages.
++
++Signed-off-by: Marek Vasut <marex@denx.de>
++Upstream-Status: Backport
++---
++ bfd/elf32-nios2.c | 31 +++++++++++++++++++++----------
++ 1 file changed, 21 insertions(+), 10 deletions(-)
++
++diff --git a/bfd/elf32-nios2.c b/bfd/elf32-nios2.c
++index 1c54320..babecf3 100644
++--- a/bfd/elf32-nios2.c
+++++ b/bfd/elf32-nios2.c
++@@ -3086,7 +3086,15 @@ lookup:
++ 	case bfd_link_hash_defined:
++ 	case bfd_link_hash_defweak:
++ 	  gp_found = TRUE;
++-	  *pgp = lh->u.def.value;
+++	  {
+++	    asection *sym_sec = lh->u.def.section;
+++	    bfd_vma sym_value = lh->u.def.value;
+++
+++	    if (sym_sec->output_section)
+++	      sym_value = (sym_value + sym_sec->output_offset
+++			   + sym_sec->output_section->vma);
+++	    *pgp = sym_value;
+++	  }
++ 	  break;
++ 	case bfd_link_hash_indirect:
++ 	case bfd_link_hash_warning:
++@@ -3719,7 +3727,6 @@ nios2_elf32_relocate_section (bfd *output_bfd,
++       struct elf32_nios2_link_hash_entry *eh;
++       bfd_vma relocation;
++       bfd_vma gp;
++-      bfd_vma reloc_address;
++       bfd_reloc_status_type r = bfd_reloc_ok;
++       const char *name = NULL;
++       int r_type;
++@@ -3762,12 +3769,6 @@ nios2_elf32_relocate_section (bfd *output_bfd,
++       if (bfd_link_relocatable (info))
++ 	continue;
++ 
++-      if (sec && sec->output_section)
++-	reloc_address = (sec->output_section->vma + sec->output_offset
++-			 + rel->r_offset);
++-      else
++-	reloc_address = 0;
++-
++       if (howto)
++ 	{
++ 	  switch (howto->type)
++@@ -3816,6 +3817,15 @@ nios2_elf32_relocate_section (bfd *output_bfd,
++ 	      /* Turns an absolute address into a gp-relative address.  */
++ 	      if (!nios2_elf_assign_gp (output_bfd, &gp, info))
++ 		{
+++		  bfd_vma reloc_address;
+++
+++		  if (sec && sec->output_section)
+++		    reloc_address = (sec->output_section->vma
+++				     + sec->output_offset
+++				     + rel->r_offset);
+++		  else
+++		    reloc_address = 0;
+++
++ 		  format = _("global pointer relative relocation at address "
++ 			     "0x%08x when _gp not defined\n");
++ 		  sprintf (msgbuf, format, reloc_address);
++@@ -3825,7 +3835,7 @@ nios2_elf32_relocate_section (bfd *output_bfd,
++ 	      else
++ 		{
++ 		  bfd_vma symbol_address = rel->r_addend + relocation;
++-		  relocation = relocation + rel->r_addend - gp;
+++		  relocation = symbol_address - gp;
++ 		  rel->r_addend = 0;
++ 		  if (((signed) relocation < -32768
++ 		       || (signed) relocation > 32767)
++@@ -3833,6 +3843,8 @@ nios2_elf32_relocate_section (bfd *output_bfd,
++ 			  || h->root.type == bfd_link_hash_defined
++ 			  || h->root.type == bfd_link_hash_defweak))
++ 		    {
+++		      if (h)
+++			name = h->root.root.string;
++ 		      format = _("Unable to reach %s (at 0x%08x) from the "
++ 				 "global pointer (at 0x%08x) because the "
++ 				 "offset (%d) is out of the allowed range, "
++@@ -3848,7 +3860,6 @@ nios2_elf32_relocate_section (bfd *output_bfd,
++ 						  rel->r_offset, relocation,
++ 						  rel->r_addend);
++ 		}
++-
++ 	      break;
++ 	    case R_NIOS2_UJMP:
++ 	      r = nios2_elf32_do_ujmp_relocate (input_bfd, howto,
++-- 
++2.7.0
++
 -- 
 2.1.4
 
