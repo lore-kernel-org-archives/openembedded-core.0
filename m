@@ -1,26 +1,27 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 92894731E7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B3B5B731D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 12:33:15 +0000 (UTC)
-Received: from comp_016_pc_buildenv.localdomain (unknown [31.182.60.238])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id D78941AA0AF;
-	Wed, 10 Feb 2016 13:33:14 +0100 (CET)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org,
-	Enrico Jorns <ejo@pengutronix.de>, Roy Li <rongqing.li@windriver.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Christopher Larson <chris_larson@mentor.com>,
-	Ross Burton <ross.burton@intel.com>,
-	=?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>, Tanu Kaskinen <tanuk@iki.fi>
-Date: Wed, 10 Feb 2016 13:32:54 +0100
-Message-Id: <1455107576-8931-6-git-send-email-maciej.borzecki@open-rnd.pl>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1455107576-8931-1-git-send-email-maciej.borzecki@open-rnd.pl>
-References: <1455107576-8931-1-git-send-email-maciej.borzecki@open-rnd.pl>
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v2 5/7] systemd: move some tools into systemd-extra-utils package
+	Wed, 10 Feb 2016 12:39:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 10 Feb 2016 04:39:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,425,1449561600"; d="scan'208";a="912272441"
+Received: from klim22-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.179.126])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Feb 2016 04:39:03 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Feb 2016 01:39:02 +1300
+Message-ID: <3179458.vhSGDUP26M@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.4-300.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <1455032081-212934-2-git-send-email-mark.hatle@windriver.com>
+References: <1455032081-212934-1-git-send-email-mark.hatle@windriver.com>
+	<1455032081-212934-2-git-send-email-mark.hatle@windriver.com>
+MIME-Version: 1.0
+Subject: Re: [RFC][PATCH] buildhistory.bbclass: Break up the find to catch failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 12:33:16 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 12:39:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This patch attempts to split some of the extra functionality delivered
-by systemd utilities from the main package into a separate package. This
-allows for trimming the size of a default systemd installation down to
-~7MB with all configuration features disabled. The new
-systemd-extra-utils package is added to RRECOMMENDS so that by default
-it will get installed into the target image.
+On Tue, 09 Feb 2016 09:34:41 Mark Hatle wrote:
+> If for some reason the 'find' operation were to fail, the buildhistory would
+> not fail, but instead store invalid history!
+> 
+> [YOCTO #9031]
+> 
+> Note this fixes the symptom, but not the cause of 9031.  That is a separate
+> issue, see the defect for more details on the work being done to resolve the
+> cause of the failure.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/classes/buildhistory.bbclass | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass
+> b/meta/classes/buildhistory.bbclass index 5e2581f..189881e 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -439,10 +439,12 @@ buildhistory_list_files() {
+>  	# List the files in the specified directory, but exclude date/time etc.
+>  	# This awk script is somewhat messy, but handles where the size is not
+> printed for device files under pseudo if [ "$3" = "fakeroot" ] ; then
+> -		( cd $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M
+> %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 ) +		( 
+cd
+> $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M %-10u
+> %-10g %10s %p -> %l\n" > $2.tmp ) else
+> -		( cd $1 && find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" 
+|
+> sort -k5 | sed 's/ * -> $//' > $2 ) +		( cd $1 && find . ! -path . -
+printf
+> "%M %-10u %-10g %10s %p -> %l\n" > $2.tmp ) fi
+> +	cat $2.tmp | sort -k5 | sed 's/ * -> $//' > $2
+> +	rm $2.tmp
+>  }
+> 
+>  buildhistory_list_pkg_files() {
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
----
- meta/recipes-core/systemd/systemd_228.bb | 47 ++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+Would that such contortions weren't necessary, but silently getting bad data 
+is worse.
 
-diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
-index 97fc9f4c1333e246f79bc53f61439f5e4cf78352..4788d8680329d4a43cf8c6749f89422419f20901 100644
---- a/meta/recipes-core/systemd/systemd_228.bb
-+++ b/meta/recipes-core/systemd/systemd_228.bb
-@@ -297,6 +297,7 @@ PACKAGES =+ "\
-     ${PN}-pam \
-     ${PN}-zsh \
-     ${PN}-xorg-xinitrc \
-+    ${PN}-extra-utils \
- "
- 
- SYSTEMD_PACKAGES = "${PN}-binfmt"
-@@ -342,6 +343,51 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
- 
- RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
- 
-+FILES_${PN}-extra-utils = "\
-+                        ${base_bindir}/systemd-escape \
-+                        ${base_bindir}/systemd-inhibit \
-+                        ${bindir}/systemd-detect-virt \
-+                        ${bindir}/systemd-path \
-+                        ${bindir}/systemd-run \
-+                        ${bindir}/systemd-cat \
-+                        ${bindir}/systemd-delta \
-+                        ${bindir}/systemd-cgls \
-+                        ${bindir}/systemd-cgtop \
-+                        ${bindir}/systemd-stdio-bridge \
-+                        ${base_bindir}/systemd-ask-password \
-+                        ${base_bindir}/systemd-tty-ask-password-agent \
-+                        ${systemd_unitdir}/system/systemd-ask-password-console.path \
-+                        ${systemd_unitdir}/system/systemd-ask-password-console.service \
-+                        ${systemd_unitdir}/system/systemd-ask-password-wall.path \
-+                        ${systemd_unitdir}/system/systemd-ask-password-wall.service \
-+                        ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path \
-+                        ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-wall.path \
-+                        ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path \
-+                        ${rootlibexecdir}/systemd/systemd-resolve-host \
-+                        ${rootlibexecdir}/systemd/systemd-ac-power \
-+                        ${rootlibexecdir}/systemd/systemd-activate \
-+                        ${bindir}/systemd-nspawn \
-+                        ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
-+                        ${systemd_unitdir}/system/systemd-nspawn@.service \
-+                        ${rootlibexecdir}/systemd/systemd-bus-proxyd \
-+                        ${systemd_unitdir}/system/systemd-bus-proxyd.service \
-+                        ${systemd_unitdir}/system/systemd-bus-proxyd.socket \
-+                        ${rootlibexecdir}/systemd/systemd-socket-proxyd \
-+                        ${rootlibexecdir}/systemd/systemd-reply-password \
-+                        ${rootlibexecdir}/systemd/systemd-sleep \
-+                        ${rootlibexecdir}/systemd/system-sleep \
-+                        ${systemd_unitdir}/system/systemd-hibernate.service \
-+                        ${systemd_unitdir}/system/systemd-hybrid-sleep.service \
-+                        ${systemd_unitdir}/system/systemd-suspend.service \
-+                        ${systemd_unitdir}/system/sleep.target \
-+                        ${rootlibexecdir}/systemd/systemd-initctl \
-+                        ${systemd_unitdir}/system/systemd-initctl.service \
-+                        ${systemd_unitdir}/system/systemd-initctl.socket \
-+                        ${systemd_unitdir}/system/sockets.target.wants/systemd-initctl.socket \
-+                        ${rootlibexecdir}/systemd/system-generators/systemd-gpt-auto-generator \
-+                        ${rootlibexecdir}/systemd/systemd-cgroups-agent \
-+"
-+
- CONFFILES_${PN} = "${sysconfdir}/machine-id \
-                 ${sysconfdir}/systemd/coredump.conf \
-                 ${sysconfdir}/systemd/journald.conf \
-@@ -396,6 +442,7 @@ RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
- RDEPENDS_${PN} += "volatile-binds update-rc.d"
- 
- RRECOMMENDS_${PN} += "systemd-serialgetty systemd-vconsole-setup \
-+                      systemd-extra-utils \
-                       systemd-compat-units udev-hwdb \
-                       util-linux-agetty  util-linux-fsck e2fsprogs-e2fsck \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Cheers,
+Paul
+
 -- 
-2.5.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
