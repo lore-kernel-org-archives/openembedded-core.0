@@ -1,24 +1,22 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ADF573199
+	by mail.openembedded.org (Postfix) with ESMTP id 493A07318C
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Feb 2016 00:04:16 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt73HTWz3hjc5;
-	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
-X-Auth-Info: wdFfy6djryBc5KN6s6dI5mVE4qgVj8kDsw4VESGFyc0=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0Lt62Lycz3hjc3;
+	Wed, 10 Feb 2016 01:04:14 +0100 (CET)
+X-Auth-Info: 74+7T/99t0DjHUnhbYj63MBwLY7nSgR44/nsgIuJEeY=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt711YmzvhTg;
-	Wed, 10 Feb 2016 01:04:15 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q0Lt56vQVzvdWS;
+	Wed, 10 Feb 2016 01:04:13 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 01:04:03 +0100
-Message-Id: <1455062646-12311-4-git-send-email-marex@denx.de>
+Date: Wed, 10 Feb 2016 01:04:00 +0100
+Message-Id: <1455062646-12311-1-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1455062646-12311-1-git-send-email-marex@denx.de>
-References: <1455062646-12311-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 4/7] guile: Fix nios2 support
+Subject: [PATCH V2 1/7] strace: Fix build for arc, metag, nios2, or1k, tile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +31,156 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 Feb 2016 00:04:19 -0000
 
-Add minor patch to recognize nios2 build target.
+Upstream strace 4.11 does not build for arc, metag, nios2, or1k, tile.
+Backport patch from strace git master to fix the build issue.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Robert Yang <liezhi.yang@windriver.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Ross Burton <ross.burton@intel.com>
 ---
- ...002-Recognize-nios2-as-compilation-target.patch | 36 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+V2: Add SoB line to the backported patch
+---
+ .../0001-arc-metag-nios2-or1k-tile-fix-build.patch | 117 +++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.11.bb        |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
 
-diff --git a/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+diff --git a/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch b/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
 new file mode 100644
-index 0000000..519585b
+index 0000000..a9d3203
 --- /dev/null
-+++ b/meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
-@@ -0,0 +1,36 @@
-+From 76155065c70b5ab65c6c805423183b360141db84 Mon Sep 17 00:00:00 2001
-+From: Marek Vasut <marex@denx.de>
-+Date: Thu, 28 Jan 2016 04:46:23 +0100
-+Subject: [PATCH] Recognize nios2 as compilation target
++++ b/meta/recipes-devtools/strace/strace/0001-arc-metag-nios2-or1k-tile-fix-build.patch
+@@ -0,0 +1,117 @@
++From dd1a80c8d213eed95fe55b7ebcb07ee165dd8e4b Mon Sep 17 00:00:00 2001
++From: "Dmitry V. Levin" <ldv@altlinux.org>
++Date: Thu, 24 Dec 2015 15:40:55 +0000
++Subject: [PATCH] arc, metag, nios2, or1k, tile: fix build
 +
++Fix build regression introduced by commit
++34683e3926d8c2daa368afb805da422ee7043396.
++
++* linux/32/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap.
++* linux/arc/syscallent.h: Add sys_ prefix to ARCH_mmap and mmap_pgoff.
++* linux/nios2/syscallent.h: Likewise.
++* linux/or1k/syscallent.h: Likewise.
++* linux/tile/syscallent1.h: Add sys_ prefix to ARCH_mmap and sys_mmap_4koff.
++* pathtrace.c (pathtrace_match): Handle SEN_ARCH_mmap.
++* NEWS: Mention this build fix.
++
++Reported-by: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 +Signed-off-by: Marek Vasut <marex@denx.de>
-+Upstream-Status: Submitted [ http://debbugs.gnu.org/cgi/bugreport.cgi?bug=22480 ]
++Upstream-Status: Backport
 +---
-+ module/system/base/target.scm | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ NEWS                     | 3 +++
++ linux/32/syscallent.h    | 6 +++---
++ linux/arc/syscallent.h   | 2 +-
++ linux/nios2/syscallent.h | 2 +-
++ linux/or1k/syscallent.h  | 2 +-
++ linux/tile/syscallent1.h | 2 +-
++ pathtrace.c              | 1 +
++ 7 files changed, 11 insertions(+), 7 deletions(-)
 +
-+diff --git a/module/system/base/target.scm b/module/system/base/target.scm
-+index d60a8e0..d1f6cff 100644
-+--- a/module/system/base/target.scm
-++++ b/module/system/base/target.scm
-+@@ -65,7 +65,7 @@
-+       (cond ((string-match "^i[0-9]86$" cpu)
-+              (endianness little))
-+             ((member cpu '("x86_64" "ia64"
-+-                           "powerpcle" "powerpc64le" "mipsel" "mips64el"))
-++                           "powerpcle" "powerpc64le" "mipsel" "mips64el" "nios2"))
-+              (endianness little))
-+             ((member cpu '("sparc" "sparc64" "powerpc" "powerpc64" "spu"
-+                            "mips" "mips64"))
-+@@ -100,7 +100,7 @@
++diff --git a/NEWS b/NEWS
++index fe40ca4..09263eb 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,3 +1,9 @@
+++Noteworthy changes in release ?.?? (????-??-??)
+++===============================================
+++
+++* Bug fixes
+++  * Fixed build on arc, metag, nios2, or1k, and tile architectures.
+++
++ Noteworthy changes in release 4.11 (2015-12-21)
++ ===============================================
 + 
-+           ((string-match "64$" cpu) 8)
-+           ((string-match "64[lbe][lbe]$" cpu) 8)
-+-          ((member cpu '("sparc" "powerpc" "mips" "mipsel")) 4)
-++          ((member cpu '("sparc" "powerpc" "mips" "mipsel" "nios2")) 4)
-+           ((string-match "^arm.*" cpu) 4)
-+           (else (error "unknown CPU word size" cpu)))))
++diff --git a/linux/32/syscallent.h b/linux/32/syscallent.h
++index 5f997e7..e6f895c 100644
++--- a/linux/32/syscallent.h
+++++ b/linux/32/syscallent.h
++@@ -1,5 +1,5 @@
++-#ifndef ARCH_mmap
++-# define ARCH_mmap mmap
+++#ifndef sys_ARCH_mmap
+++# define sys_ARCH_mmap sys_mmap
++ #endif
++ [  0] = { 2,	0,		SEN(io_setup),			"io_setup"		},
++ [  1] = { 1,	0,		SEN(io_destroy),		"io_destroy"		},
++@@ -276,5 +276,5 @@
++ [283] = { 2,	0,		SEN(membarrier),		"membarrier",		},
++ [284] = { 3,	TM,		SEN(mlock2),			"mlock2"		},
++ 
++-#undef ARCH_mmap
+++#undef sys_ARCH_mmap
++ #undef ARCH_WANT_SYNC_FILE_RANGE2
++diff --git a/linux/arc/syscallent.h b/linux/arc/syscallent.h
++index 5847dc4..1100008 100644
++--- a/linux/arc/syscallent.h
+++++ b/linux/arc/syscallent.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_pgoff
+++#define sys_ARCH_mmap sys_mmap_pgoff
++ #include "32/syscallent.h"
++ [244] = { 3,	0,	SEN(printargs),	"arc_cacheflush"},
++ [245] = { 1,	0,	SEN(printargs),	"arc_settls"	},
++diff --git a/linux/nios2/syscallent.h b/linux/nios2/syscallent.h
++index 8a4b70e..01efe3a 100644
++--- a/linux/nios2/syscallent.h
+++++ b/linux/nios2/syscallent.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_pgoff
+++#define sys_ARCH_mmap sys_mmap_pgoff
++ #include "32/syscallent.h"
++ [244] = {4,    0,	SEN(cacheflush), "cacheflush"},
++ [245 ... 259] = { },
++diff --git a/linux/or1k/syscallent.h b/linux/or1k/syscallent.h
++index ed84b3b..351fe25 100644
++--- a/linux/or1k/syscallent.h
+++++ b/linux/or1k/syscallent.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_pgoff
+++#define sys_ARCH_mmap sys_mmap_pgoff
++ #include "32/syscallent.h"
++ [244] = { 3,	NF,	SEN(or1k_atomic),	"or1k_atomic"	},
++ [245 ... 259] = { },
++diff --git a/linux/tile/syscallent1.h b/linux/tile/syscallent1.h
++index c86f059..28dbab4 100644
++--- a/linux/tile/syscallent1.h
+++++ b/linux/tile/syscallent1.h
++@@ -1,4 +1,4 @@
++-#define ARCH_mmap mmap_4koff
+++#define sys_ARCH_mmap sys_mmap_4koff
++ #define ARCH_WANT_SYNC_FILE_RANGE2 1
++ #include "32/syscallent.h"
++ [244] = { 1,	0,	SEN(printargs),	"cmpxchg_badaddr"	},
++diff --git a/pathtrace.c b/pathtrace.c
++index d530ec2..e72cdf7 100644
++--- a/pathtrace.c
+++++ b/pathtrace.c
++@@ -216,6 +216,7 @@ pathtrace_match(struct tcb *tcp)
++ 	case SEN_mmap:
++ 	case SEN_mmap_4koff:
++ 	case SEN_mmap_pgoff:
+++	case SEN_ARCH_mmap:
++ 		/* x, x, x, x, fd */
++ 		return fdmatch(tcp, tcp->u_arg[4]);
 + 
 +-- 
-+2.7.0.rc3
++2.6.4
 +
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index 6815e25..6cefe66 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://libguile-VM-ASM_MUL-for-ARM-Add-earlyclobber.patch \
-            file://remove_strcase_l_funcs.patch \
-            file://0001-libguile-Check-for-strtol_l-during-configure.patch \
-+           file://0002-Recognize-nios2-as-compilation-target.patch \
-            "
- 
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+diff --git a/meta/recipes-devtools/strace/strace_4.11.bb b/meta/recipes-devtools/strace/strace_4.11.bb
+index a72a1f9..6b889de 100644
+--- a/meta/recipes-devtools/strace/strace_4.11.bb
++++ b/meta/recipes-devtools/strace/strace_4.11.bb
+@@ -8,6 +8,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://disable-git-version-gen.patch \
+            file://more-robust-test-for-m32-mx32-compile-support.patch \
+            file://update-gawk-paths.patch \
++           file://0001-arc-metag-nios2-or1k-tile-fix-build.patch \
+            file://Makefile-ptest.patch \
+            file://run-ptest \
+           "
 -- 
 2.1.4
 
