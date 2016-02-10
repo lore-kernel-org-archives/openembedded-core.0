@@ -1,11 +1,11 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 73D85731F6
+	by mail.openembedded.org (Postfix) with ESMTP id 72EF1731EF
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Feb 2016 12:33:14 +0000 (UTC)
 Received: from comp_016_pc_buildenv.localdomain (unknown [31.182.60.238])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 24E8B1A7B99;
-	Wed, 10 Feb 2016 13:33:14 +0100 (CET)
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 35AA31AA33B;
+	Wed, 10 Feb 2016 13:33:13 +0100 (CET)
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 To: openembedded-core@lists.openembedded.org,
 	Enrico Jorns <ejo@pengutronix.de>, Roy Li <rongqing.li@windriver.com>,
@@ -14,13 +14,13 @@ To: openembedded-core@lists.openembedded.org,
 	Ross Burton <ross.burton@intel.com>,
 	=?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>,
 	Randy MacLeod <randy.macleod@windriver.com>, Tanu Kaskinen <tanuk@iki.fi>
-Date: Wed, 10 Feb 2016 13:32:52 +0100
-Message-Id: <1455107576-8931-4-git-send-email-maciej.borzecki@open-rnd.pl>
+Date: Wed, 10 Feb 2016 13:32:50 +0100
+Message-Id: <1455107576-8931-2-git-send-email-maciej.borzecki@open-rnd.pl>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1455107576-8931-1-git-send-email-maciej.borzecki@open-rnd.pl>
 References: <1455107576-8931-1-git-send-email-maciej.borzecki@open-rnd.pl>
 Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v2 3/7] classes/useradd: handle whitespace only USERADD/GROUPADD/GROUPMEMS
+Subject: [PATCH v2 1/7] systemd: move bash completion into separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 12:33:14 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 12:33:15 -0000
 
-Useradd attempts to add users/groups even when
-{USERADD,GROUPADD,GROUPMEMS}_PARAM is whitespace only. This scenario is
-possible when variables and modified using one of +=, =+ operator, yet
-the content being added is conditional (i.e. may depend on PACKAGECONFIG
-flags).
+Inherit bash-completion for automatic systemd-bash-completion package.
 
 Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 ---
- meta/classes/useradd.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/systemd/systemd_228.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 4577e56f5a17940929c555b3f5d18d75e92f1476..c960656f02b3d11e5bb08dca259df3946f96aeaf 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -50,7 +50,7 @@ fi
+diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+index a110f0cdeaac7e46b5691a89aea237974e4114b3..cd793d7cba802dbba60a77df49e9d9695c8cf7b7 100644
+--- a/meta/recipes-core/systemd/systemd_228.bb
++++ b/meta/recipes-core/systemd/systemd_228.bb
+@@ -22,7 +22,7 @@ DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl rea
  
- # Perform group additions first, since user additions may depend
- # on these groups existing
--if test "x$GROUPADD_PARAM" != "x"; then
-+if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" != "x"; then
- 	echo "Running groupadd commands..."
- 	# Invoke multiple instances of groupadd for parameter lists
- 	# separated by ';'
-@@ -66,7 +66,7 @@ if test "x$GROUPADD_PARAM" != "x"; then
- 	done
- fi 
+ SECTION = "base/shell"
  
--if test "x$USERADD_PARAM" != "x"; then
-+if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" != "x"; then
- 	echo "Running useradd commands..."
- 	# Invoke multiple instances of useradd for parameter lists
- 	# separated by ';'
-@@ -82,7 +82,7 @@ if test "x$USERADD_PARAM" != "x"; then
- 	done
- fi
+-inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
++inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext bash-completion
  
--if test "x$GROUPMEMS_PARAM" != "x"; then
-+if test "x`echo $GROUPMEMS_PARAM | tr -d '[:space:]'`" != "x"; then
- 	echo "Running groupmems commands..."
- 	# Invoke multiple instances of groupmems for parameter lists
- 	# separated by ';'
+ SRCREV = "dd050decb6ad131ebdeabb71c4f9ecb4733269c0"
+ 
+@@ -290,13 +290,11 @@ CONFFILES_${PN} = "${sysconfdir}/machine-id \
+                 ${sysconfdir}/systemd/user.conf"
+ 
+ FILES_${PN} = " ${base_bindir}/* \
+-                ${datadir}/bash-completion \
+                 ${datadir}/dbus-1/services \
+                 ${datadir}/dbus-1/system-services \
+                 ${datadir}/polkit-1 \
+                 ${datadir}/${BPN} \
+                 ${datadir}/factory \
+-                ${sysconfdir}/bash_completion.d/ \
+                 ${sysconfdir}/dbus-1/ \
+                 ${sysconfdir}/machine-id \
+                 ${sysconfdir}/modules-load.d/ \
 -- 
 2.5.0
 
