@@ -1,46 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EB32D73179
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E6D596E687
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 22:18:26 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id fl4so6574336pad.0
+	Wed, 10 Feb 2016 22:56:38 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id p63so50257197wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 14:18:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Wed, 10 Feb 2016 14:56:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=lGtuRpiADfvSXfO0/FgP0u70FFg/ybYmSSrwI8Cr26c=;
-	b=hyb18831nAd4F/KfYiCjZUrz7YZcySjRsiLN6Auh59TaUzQk/aKSDg30/f07actZkx
-	omJI98Emb8pJSnJMn3W8E6ajOQQov3pyY8esaQHBHsOsEecO+5zEa1hYaEAqxA6Fi83n
-	t+XzyK9cMtA3oH+Z5DCnXjm8v6NCd8JqQq3ecPFuLHfuVDv48I9Og4YDjJHPQbvX1IZH
-	PcYoTLUDE5HHMproGJYBsZSGz/USiDDEuYPUSEGP1htJ/zM9swNnBHLmLsgyHevSFyv4
-	ZahooA7V3fZYkXxmhdLn4aHte1u/7lK14jsO8FFNkzfFMV7n+QjHAj38j3Oc4mrQurLO
-	j0lw==
+	bh=/xqf1OkqbbujGG/pk6G6ExkeL93NWI2NKQuE7Hx0FBY=;
+	b=rnetrId/5bvmbqu7cRehqQFpxjuQKul9rht7nnii1OvO5BbIOnl2QUh0XyuaENIdvt
+	zQkuySsyFq3ijT++4qMivt2cStlORIah9YPTFTxvD/lDB6gf/2RgVc59CzC60jLopsQ4
+	MHMbxqOIdAFRGU0HhYXzdMtNkOalZV5nRKvhHIpy0yvgrxnLdBCVi3i6uVSIExjZQJCv
+	g09ilvhDPkuGzQwVnqw/MwJsawoyyXd2wyLwUjp/pBs/VRWJ5W4cxfHPu3qOCZeNr9au
+	2LH+g/TXR9q7ieog0csXhuxPNHuk+gDuCIVbFdjWzDy0ztiGo0SQfH/DYAFHfqVHqGdv
+	N8yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lGtuRpiADfvSXfO0/FgP0u70FFg/ybYmSSrwI8Cr26c=;
-	b=ACkNtQjApjC/QliuU3h+lNSrJY+JLp4fzQk63szFEM5ScF/ydPAFXmf8OvfYlFHWB9
-	UOMhXzFqvKjCcOaE40m4J1reRgu7/a7fSMz40dhqiRUA1o9q3fTUHFzCq2joeLnM4By+
-	SgYUk2WfyxTe7f7IlNiiXRFAjhkq+hc0STTB96CTfS5dWGZ1KylMsjnik4wSONJtYHuv
-	+kPRt4xHuCidX8d6Zi20t1Pj+gS45jdoXAcAZbzSX/4b1Zu7tFVfqbBYtIVcpslf2QiW
-	XbOeiXr6rLJWHlBpZ4v/lyxhoCCitIoTE3rGr0D7ursRlBls3PjW45HKcfuVrxrts/gC
-	EGwg==
-X-Gm-Message-State: AG10YOS0WoxY7Tai4tkaS9qcnxs4uoRUVCns4fR48f8WsCM2PxxNlWU99Lr3z3PD2cdaqg==
-X-Received: by 10.66.102.40 with SMTP id fl8mr61678957pab.136.1455142707564;
-	Wed, 10 Feb 2016 14:18:27 -0800 (PST)
-Received: from Pahoa2.mvista.com ([64.2.3.194])
-	by smtp.gmail.com with ESMTPSA id
-	144sm7395057pfa.83.2016.02.10.14.18.25
+	bh=/xqf1OkqbbujGG/pk6G6ExkeL93NWI2NKQuE7Hx0FBY=;
+	b=MhzoedJKu08zXJX3qyDI419If4kfsIW109Uo+uYOqnW78r8ifPyTpKY71XEjCxSlFe
+	0O7YGMtSi7N9lE9Gi/fvgc1NK8rDskfIfeNvdMJ8F9xd0teu/Vjn/8jszZo/yij2/6fM
+	k50Vwd3wrvomiR19VYygJTPD56QSgoewMU/bI/aSwexcXq1MEZTBq2dqxWOBoxkiURlP
+	LJorvqzhMiqjYNHVryr60pa40PqLeG50P9i4ulPITFPVrio324y2Lk/0AfTpeXmhXFpD
+	sdYKjok9jTB57t2pI3wG3r+etUJedhZlhVS97EfjFD/ZAVLqxxjN3yyRWrgYpNnqHZwT
+	X99Q==
+X-Gm-Message-State: AG10YOTbfHOsKkp1xi7/jfjHJ5AakwxlYUyRtu1V9g7jNERao2chHStMHM1bbN3J6iIL3oh3
+X-Received: by 10.28.1.196 with SMTP id 187mr13547839wmb.68.1455144998135;
+	Wed, 10 Feb 2016 14:56:38 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id i2sm4863784wjx.42.2016.02.10.14.56.37
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Feb 2016 14:18:25 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 14:18:24 -0800
-Message-Id: <1455142704-24229-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [master][PATCH] libbsd: Security fix and update 0.8.2
+	Wed, 10 Feb 2016 14:56:37 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Feb 2016 22:56:35 +0000
+Message-Id: <1455144995-15559-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] piglit: upgrade SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 22:18:28 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 22:56:39 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+Upgrade the SRVREV to a slightly more up-to-date revision, this time from
+2015-02-19.  This commit in particular was chosen as it's the one before Piglit
+gained a hard dependnecy on python-six, which isn't yet in oe-core.
 
-This update includes:
-CVE-2016-2090 Heap buffer overflow in fgetwln function of libbsd
-
-libbsd 0.8.1 and earlier contains a buffer overflow in the function
-fgetwln(). An if checks if it is necessary to reallocate memory in the
-target buffer. However this check is off by one, therefore an out of
-bounds write happens.
-
-Upstream has released version 0.8.2 to fix this.
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/libbsd/{libbsd_0.8.1.bb => libbsd_0.8.2.bb} | 4 ++--
+ meta/recipes-graphics/piglit/piglit_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libbsd/{libbsd_0.8.1.bb => libbsd_0.8.2.bb} (91%)
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.8.1.bb b/meta/recipes-support/libbsd/libbsd_0.8.2.bb
-similarity index 91%
-rename from meta/recipes-support/libbsd/libbsd_0.8.1.bb
-rename to meta/recipes-support/libbsd/libbsd_0.8.2.bb
-index 45420d5..3335386 100644
---- a/meta/recipes-support/libbsd/libbsd_0.8.1.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.8.2.bb
-@@ -37,7 +37,7 @@ SRC_URI = " \
-     http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
- "
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 82912fd..607f236 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-tests-Fix-missing-include-of-Xutil.h.patch"
  
--SRC_URI[md5sum] = "f3daff0283af6e30f25d68be2deac4ef"
--SRC_URI[sha256sum] = "adbc8781ad720bce939b689f38a9f0247732a36792147a7c28027c393c2af9b0"
-+SRC_URI[md5sum] = "cdee252ccff978b50ad2336278c506c9"
-+SRC_URI[sha256sum] = "b2f644cae94a6e2fe109449c20ad79a0f6ee4faec2205b07eefa0020565e250a"
+-# From 2014/12/04
+-SRCREV = "126c7d049b8f32e541625d5a35fbc5f5e4e7fbf8"
++# From 2015-02-19
++SRCREV = "c4585427913e4cb28994b4bfb11d49778273aa2c"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
  
- inherit autotools pkgconfig
 -- 
-2.3.5
+2.7.0
 
 
