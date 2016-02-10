@@ -1,49 +1,30 @@
-Return-Path: <dfldashgkv@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 537966FF5D
+Return-Path: <arnold.csorvasi@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B09F60112
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 09:24:08 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g62so2919251wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 01:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7LEHLKFcw+rB0uB16eJIp0BlNMKvFjYS3LXn1Kxpj8E=;
-	b=ADkrqONhJO87x8N60PqlJ2ehUdm4z72s0t5FUiwMDcliyRWOY2OBz38gLFLEQIxUGk
-	sHq12BoNeHUiW4Jm72DG7JG176nT8kdqDVVprR2ilxo/rqxsO233i6u+hy1O9W60UNTj
-	PWexuBSxZHtVFMtR8jnQUMge5Pdpn6FkiXM0XCQ/i5a2UxTTBPD+Fd3kt56QPBJL6eTU
-	783M2ZTLNUSHo9JLBj2WPBk2wTMY7LYV9QZUloqldOzsg801b+2+LfMWf8UMGIrFQ4Fm
-	CWb6Q7Z4ZsHhRBDLHmtUb55B3q2TESnUMtLJHxdRkgqZnQjiMf3mb+q9/Vy4vdnC+ts7
-	lTtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references;
-	bh=7LEHLKFcw+rB0uB16eJIp0BlNMKvFjYS3LXn1Kxpj8E=;
-	b=b3L5DmA1FTTCBYGbZSo3maUC+QyC4vhuLGGk14Q3tm9dOIB2zXBnxNTjcihutYhQ/R
-	lbLaFv2LFQHKz9W/zXiM+djheto338calqMLAxk5WsASNOlG2J48OxzXPEXeJ1KKJD0q
-	pKld7U3HBp37eYdhYsi0big9/cE81uhyUpqQ9AyGPmI05sULcxSXKjdgYfyt5AtSjc8s
-	Uu10mRzxcZgmE2AuFXHq70KC1JnVUtWk3uSaeLuGr2nyBTZwXCeAfQXunJxeutQV1QAj
-	RaPT8fCQlODbxU6526qH0lfhuw2rESgn1u+kYAHEBjX910euC53fMqaR/2sagEkRCjmo
-	FsvA==
-X-Gm-Message-State: AG10YOTB/6IZvK6uol6bBLV9sxgPSjIXeON+HIzFSmjAIlG75rAoTVivsBium23yzRG4Gw==
-X-Received: by 10.195.13.129 with SMTP id ey1mr37756425wjd.132.1455096248855; 
-	Wed, 10 Feb 2016 01:24:08 -0800 (PST)
-Received: from localhost.localdomain (remote.biotector.com. [31.193.219.90])
-	by smtp.gmail.com with ESMTPSA id w8sm2031040wjx.21.2016.02.10.01.24.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Feb 2016 01:24:08 -0800 (PST)
-Sender: "Mark O'Donovan" <dfldashgkv@gmail.com>
-From: "Mark O'Donovan" <shiftee@eircom.net>
-X-Google-Original-From: Mark O'Donovan <modonovan@biotector.com>
+	Wed, 10 Feb 2016 09:44:52 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u1A9irk8012195 for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Feb 2016 03:44:53 -0600
+Received: from arnold-ro-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016021003445380-824392 ;
+	Wed, 10 Feb 2016 03:44:53 -0600 
+From: Arnold Csorvasi <arnold.csorvasi@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 09:23:53 +0000
-Message-Id: <1455096233-22707-1-git-send-email-modonovan@biotector.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1455026305.6918.5.camel@linux.intel.com>
-References: <1455026305.6918.5.camel@linux.intel.com>
-Cc: Mark O'Donovan <modonovan@biotector.com>
-Subject: [PATCH v2] udhcpc: specify full path for ip command calls
+Date: Wed, 10 Feb 2016 11:44:52 +0200
+Message-Id: <1455097492-17771-1-git-send-email-arnold.csorvasi@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/10/2016 03:44:53 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/10/2016 03:44:54 AM,
+	Serialize complete at 02/10/2016 03:44:54 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-10_06:, , signatures=0
+Subject: [PATCH 1/1] image_types_uboot: add cpio.gz.uboot to supported IMAGE_TYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,109 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 09:24:09 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 09:44:55 -0000
 
-Signed-off-by: Mark O'Donovan <modonovan@biotector.com>
+U-Boot needs the U-Boot header in a ramdisk image to boot it.
+Add this header to the cpio.gz image, so that it can be booted
+with U-Boot.
+
+Signed-off-by: Arnold Csorvasi <arnold.csorvasi@ni.com>
 ---
- meta/recipes-core/busybox/busybox.inc         |  3 ++-
- meta/recipes-core/busybox/files/simple.script | 28 +++++++++++++--------------
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ meta/classes/image_types_uboot.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index f74d1a4..4827d08 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -258,7 +258,8 @@ do_install () {
- 	if grep "CONFIG_UDHCPC=y" ${B}/.config; then
- 		install -d ${D}${sysconfdir}/udhcpc.d
- 		install -d ${D}${datadir}/udhcpc
--                install -m 0755 ${WORKDIR}/simple.script ${D}${sysconfdir}/udhcpc.d/50default
-+		install -m 0755 ${WORKDIR}/simple.script ${D}${sysconfdir}/udhcpc.d/50default
-+		sed -i "s:/SBIN_DIR/:${base_sbindir}/:" ${D}${sysconfdir}/udhcpc.d/50default
- 		install -m 0755 ${WORKDIR}/default.script ${D}${datadir}/udhcpc/default.script
- 	fi
- 	if grep "CONFIG_INETD=y" ${B}/.config; then
-diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
-index 22168b0..6ed0293 100644
---- a/meta/recipes-core/busybox/files/simple.script
-+++ b/meta/recipes-core/busybox/files/simple.script
-@@ -14,7 +14,7 @@ root_is_nfs() {
- }
+diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
+index 081bca2..19e4aa2 100644
+--- a/meta/classes/image_types_uboot.bbclass
++++ b/meta/classes/image_types_uboot.bbclass
+@@ -22,5 +22,5 @@ COMPRESS_CMD_bz2.u-boot      = "${COMPRESS_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.ro
+ COMPRESS_DEPENDS_lzma.u-boot = "u-boot-mkimage-native"
+ COMPRESS_CMD_lzma.u-boot      = "${COMPRESS_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma clean"
  
- have_bin_ip=0
--if [ -x /sbin/ip ]; then
-+if [ -x /SBIN_DIR/ip ]; then
-   have_bin_ip=1
-   BROADCAST="broadcast +"
- fi
-@@ -23,34 +23,34 @@ fi
+-IMAGE_TYPES += "ext2.u-boot ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot"
++IMAGE_TYPES += "ext2.u-boot ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot cpio.gz.u-boot"
  
- case "$1" in
- 	deconfig)
--		if [ -x /sbin/resolvconf ]; then
--			/sbin/resolvconf -d "${interface}.udhcpc"
-+		if [ -x /SBIN_DIR/resolvconf ]; then
-+			/SBIN_DIR/resolvconf -d "${interface}.udhcpc"
- 		fi
- 		if ! root_is_nfs ; then
-                         if [ $have_bin_ip -eq 1 ]; then
--                                ip addr flush dev $interface
--                                ip link set dev $interface up
-+                                /SBIN_DIR/ip addr flush dev $interface
-+                                /SBIN_DIR/ip link set dev $interface up
-                         else
--                                /sbin/ifconfig $interface 0.0.0.0
-+                                /SBIN_DIR/ifconfig $interface 0.0.0.0
-                         fi
- 		fi
- 		;;
- 
- 	renew|bound)
-                 if [ $have_bin_ip -eq 1 ]; then
--                        ip addr add dev $interface local $ip/$mask $BROADCAST
-+                        /SBIN_DIR/ip addr add dev $interface local $ip/$mask $BROADCAST
-                 else
--                        /sbin/ifconfig $interface $ip $BROADCAST $NETMASK
-+                        /SBIN_DIR/ifconfig $interface $ip $BROADCAST $NETMASK
-                 fi
- 
- 		if [ -n "$router" ] ; then
- 			if ! root_is_nfs ; then
-                                 if [ $have_bin_ip -eq 1 ]; then
--                                        while ip route del default dev $interface 2>/dev/null ; do
-+                                        while /SBIN_DIR/ip route del default dev $interface 2>/dev/null ; do
-                                                 :
-                                         done
-                                 else
--                                        while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
-+                                        while /SBIN_DIR/route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
-                                                 :
-                                         done
-                                 fi
-@@ -59,9 +59,9 @@ case "$1" in
- 			metric=10
- 			for i in $router ; do
-                                 if [ $have_bin_ip -eq 1 ]; then
--                                        ip route add default via $i metric $metric
-+                                        /SBIN_DIR/ip route add default via $i metric $metric
-                                 else
--                                        route add default gw $i dev $interface metric $metric 2>/dev/null
-+                                        /SBIN_DIR/route add default gw $i dev $interface metric $metric 2>/dev/null
-                                 fi
-                                 metric=$(($metric + 1))
- 			done
-@@ -77,8 +77,8 @@ case "$1" in
- "
- 		done
- 
--		if [ -x /sbin/resolvconf ]; then
--			echo -n "$R" | /sbin/resolvconf -a "${interface}.udhcpc"
-+		if [ -x /SBIN_DIR/resolvconf ]; then
-+			echo -n "$R" | /SBIN_DIR/resolvconf -a "${interface}.udhcpc"
- 		else
- 			echo -n "$R" > "$RESOLV_CONF"
- 		fi
 -- 
-1.9.1
+2.1.4
 
 
