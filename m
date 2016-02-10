@@ -1,54 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B6316072C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C1E327318C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 21:52:46 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 71so1555040pfv.1
+	Wed, 10 Feb 2016 22:05:43 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id f81so2822037iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 13:52:48 -0800 (PST)
+	Wed, 10 Feb 2016 14:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=BFX4l6pG5VSLRyMtjdBqV8wvt+6XcB7IW7a4YKd8jdM=;
-	b=b5MYJ8D6bflPB0RFhyXAz0+qpXyMs0UxtBBf0mlzMN+EMak358Ij+OWFiyjml86eWk
-	VTyXKJBu4neAtERTQC0ti2F7c/nzlY8100GC4DpD3GqrW3tSiguvCTODta9MfSxQhbx3
-	mTvCNCjK24TatgT+P7UKilkbORe2ebUgDZ8dxmqKfufuWJxYcOHCkZxGByqpLKF0SZ3y
-	+Kc/z8xLSx+vrVF8RcIDUHoY/iINeQolgZjlG5fZzJ/PEQqoNJW7s/WCFFWkmDkK7PZ9
-	6xQF34VnYrp/KCZYGBpTecRR7TdsGojhCzR+lr6PogelV9GzdmwXA93+kcSgRHJ7/Ro8
-	llCA==
+	h=from:to:cc:subject:date:message-id;
+	bh=znixZATMugEEV+ty2nlnj0v8+xKQtPYiI38bNDQT+l0=;
+	b=sWOhB6eagh4gyLyH4fYc36wunSCsW9Nwy9dW3GMH8bKmpetIK0mFFU0wFVdHVEPjUr
+	y6E8TKvPvoJA0HJFk+J27iyZNhJLlc51GoQEPrHgZNWat/ug6pu/uoksbCdVohPNNUlN
+	2ToBizkwQoYRC4YLioO4POVnX90+e9ZLbnIJEGRKEwhBLScASCZ8f5JyWHdOMRXs+P53
+	LMWFMHUXmVOavvC5d7HAYhGOz7bHHMvRYMR0bUV9X7oGJqPFJpifisMO0CtSPyd84NRM
+	XSxAqChZP7NzTr4O73lyoFDAej236fKBVv+Sm9GFtfZhbsWsq7qe3euXBnIn4l6xsakq
+	FfgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=BFX4l6pG5VSLRyMtjdBqV8wvt+6XcB7IW7a4YKd8jdM=;
-	b=KgqRU9olSHpV4TIOFqXNuEgQc+D7zLWPLNH2O/6C4WHPkqkrtFG/lazHAc3tq3GJyD
-	Bg8LmDsIFMk9/iJo2p+vVfrKvUZ2qrPlc3N7uRCtdBDKZ4+z6JO0NxioCuaEfjsHyzOM
-	iAoCKqCjbWzhgkdJt5ZhtgdWUBKOtFLa1bicoQwgQQSBanuAfAw01UGNkwQDGeHDz7t3
-	gzrJ3MduQ8qr40RQfhwPjH6lbWFEjWfH/6z+AkhfYj2R6ZvQ7Xm4i3RGV/JQJC+YIk1R
-	+bMcx0SElgKbZ2XxUPDz6Xc+PfPhMReetZKR+dnZSAqz6P6+bfzb08wJNoxRKVlE0Nge
-	zqBA==
-X-Gm-Message-State: AG10YOQT4NLKe1eROitODuj7u2mtlb8WZhD/dH5jwPSwkAukZvayzqazhr1wzdeNwuVftQ==
-X-Received: by 10.98.34.198 with SMTP id p67mr61619181pfj.93.1455141167876;
-	Wed, 10 Feb 2016 13:52:47 -0800 (PST)
-Received: from [10.43.100.29] ([64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	wh9sm7376681pab.8.2016.02.10.13.52.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 10 Feb 2016 13:52:46 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=znixZATMugEEV+ty2nlnj0v8+xKQtPYiI38bNDQT+l0=;
+	b=CuobLeEr5RJ9xfD+UfFSyLr2V561RBAuqzv0zmKDf5hTDLRZ+tCu03tZnjs0A/B1V4
+	FqPn/0E5x3LS2Mn+8RpZf6cQUXSqCaSjQ4c4DnIolgiwTHv/dE378t104FsLLbtH5Zuw
+	Jbg8NbthPJGENPpCtItzK54RWVbrFj/SryEk3ZrWsqdlEYgVV6ctoIn58PaIIvTRLwWI
+	/ZRYvUMmkdv858SABnloFuAI8QMFa3a9RD51vIzzHeRhZR5FBa5tYlpdibB+Q8fNEerh
+	/9Ms0fAaHbMwfxCvEpkYg70gloV4RzPtLfSTYRLy78sgfIXobs1guCll/1KCzWBCIepc
+	6blw==
+X-Gm-Message-State: AG10YOR8w9yKR73M9VVzYMBwvltw6u3gyJ06yUKd6EuJnoyI62X2h9qu+HVYnPkMDK7e9A==
+X-Received: by 10.107.47.162 with SMTP id v34mr38051407iov.19.1455141944296;
+	Wed, 10 Feb 2016 14:05:44 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id l78sm895235oib.21.2016.02.10.14.05.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 10 Feb 2016 14:05:42 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <d7fb520732892e8f08f7817b7abd127b98fa6c1d.1455126045.git.raj.khem@gmail.com>
-	<850e86b808fa51352203ff92c894eebbb045902a.1455126045.git.raj.khem@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56BBB12C.3070701@gmail.com>
-Date: Wed, 10 Feb 2016 13:52:44 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <850e86b808fa51352203ff92c894eebbb045902a.1455126045.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 4/9] uclibc-ng: Bump up to 1.0.12 release
+Date: Wed, 10 Feb 2016 14:05:35 -0800
+Message-Id: <1455141937-23225-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/2] git gst-plugins compiler warning fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,56 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 21:52:47 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Feb 2016 22:05:44 -0000
 
-This update includes CVE-2016-2224 and CVE-2016-2225
+Andre McCurdy (2):
+  gstreamer1.0-plugins-good_git: fix gst_structure_get() compiler warning
+  gstreamer1.0-plugins-bad_git: fix gst_structure_get() etc compiler warnings
 
-- armin
+ ...valid-sentinels-for-gst_structure_get-etc.patch | 67 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_git.bb      |  1 +
+ ...sure-valid-sentinel-for-gst_structure_get.patch | 40 +++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-good_git.bb     |  1 +
+ 4 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/ensure-valid-sentinels-for-gst_structure_get-etc.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/ensure-valid-sentinel-for-gst_structure_get.patch
 
-On 02/10/2016 09:43 AM, Khem Raj wrote:
-> Here are changes between 1.0.11 and 1.0.12
-> 
-> release 1.0.12 - Chimay Brune
-> 
-> Leonid Lisovskiy (5):
->      libdl: dlopen() mustn't forget RTLD_NODELETE flag
->      tests: Extend OMIT LDFLAGS logic to test binaries too
->      Provide __adjtimex() alias, like glibc.
->      ldso: Fix fail of $ORIGIN expansion in case of RTLD_NOLOAD
->      ldso: Use single rtld_flags interpretation through all the calls
-> 
-> Waldemar Brodkorb (11):
->      Suppress warning "_GNU_SOURCE" redefined
->      hppa: unbreak toolchain building
->      test: disable tests requiring math headers
->      nios2: allow to build toolchain
->      add exp10() from glibc
->      Do not follow compressed items forever. <<<<---- CVE-2016-2224
->      Make sure to always terminate decoded string <<<<---- CVE-2016-2225
->      add $ORIGIN test-case
->      mips64: fix memcpy, patch from glibc
->      mips: fix clashing symbols
->      bump version for release
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/uclibc/uclibc-git.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-> index 490dfcb..0509a6c 100644
-> --- a/meta/recipes-core/uclibc/uclibc-git.inc
-> +++ b/meta/recipes-core/uclibc/uclibc-git.inc
-> @@ -1,6 +1,6 @@
-> -SRCREV = "94493929f674f4410c2743fa3dd82fd37b70c58f"
-> +SRCREV = "003b266cbeb370a8eae91dc256197f00798c6f93"
->  
-> -PV = "1.0.11+git${SRCPV}"
-> +PV = "1.0.12+git${SRCPV}"
->  
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
->  
-> 
+-- 
+1.9.1
+
 
