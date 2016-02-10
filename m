@@ -1,23 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E4A16FF72
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id D9D43731D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 10:19:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 10 Feb 2016 02:19:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,425,1449561600"; d="scan'208";a="881111472"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 10 Feb 2016 02:19:13 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id E444B6A4002;
-	Wed, 10 Feb 2016 03:07:04 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 10:09:37 +0200
-Message-Id: <1455091777-19181-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa: setup bitbake logger after tinfoil.shutdown
+	Wed, 10 Feb 2016 11:58:12 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q0fjw67XKz3hjFG;
+	Wed, 10 Feb 2016 12:58:12 +0100 (CET)
+X-Auth-Info: l/9bfsm7VDozki4aKMwSNFnzkiWOLsK55UrKslQi4QM=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3q0fjw4ZxszvdWV; 
+	Wed, 10 Feb 2016 12:58:12 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Wed, 10 Feb 2016 12:58:04 +0100
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1455017471-6682-1-git-send-email-marex@denx.de>
+	<201602091856.09909.marex@denx.de>
+	<2564154.XB0jvojI47@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2564154.XB0jvojI47@peggleto-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+Message-Id: <201602101258.04846.marex@denx.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/7] liburcu: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +36,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Feb 2016 10:19:13 -0000
+X-List-Received-Date: Wed, 10 Feb 2016 11:58:16 -0000
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bitbake logger stops working after tinfoil.shutdown removes console
-handler from it. This makes bb.{error,warn,note,critical} messages
-disappear from the console. Adding console handler to bitbake logger
-again should fix this issue.
+On Wednesday, February 10, 2016 at 10:05:52 AM, Paul Eggleton wrote:
+> On Tue, 09 Feb 2016 18:56:09 Marek Vasut wrote:
+> > On Tuesday, February 09, 2016 at 06:52:12 PM, Khem Raj wrote:
+> > > > On Feb 9, 2016, at 4:07 AM, Marek Vasut <marex@denx.de> wrote:
+> > > >=20
+> > > > On Tuesday, February 09, 2016 at 12:53:01 PM, Burton, Ross wrote:
+> > > >> On 9 February 2016 at 11:31, Marek Vasut <marex@denx.de> wrote:
+> > > >>> -LIC_FILES_CHKSUM =3D
+> > > >>> "file://LICENSE;md5=3D0f060c30a27922ce9c0d557a639b4fa3 \
+> > > >>> +LIC_FILES_CHKSUM =3D
+> > > >>> "file://LICENSE;md5=3De548d28737289d75a8f1e01ba2fd7825 \
+> > > >>=20
+> > > >> Why did the license checksum change?
+> > > >=20
+> > > > Because the LICENSE file now contains one more entry for nios2, whi=
+ch
+> > > > changed the checksum of the whole file. Maybe we should trim the
+> > > > checksum to use only the header in the LICENSE file and not the who=
+le
+> > > > file to prevent this ?
+> > > >=20
+> > > > This is the change which triggered the change of the checksum:
+> > > >=20
+> > > > +diff --git a/LICENSE b/LICENSE
+> > > > +index 3147094..a06fdcc 100644
+> > > > +--- a/LICENSE
+> > > > ++++ b/LICENSE
+> > > > +@@ -45,6 +45,7 @@ compiler.h
+> > > > + arch/s390.h
+> > > > + uatomic/alpha.h
+> > > > + uatomic/mips.h
+> > > > ++uatomic/nios2.h
+> > >=20
+> > > I don=E2=80=99t know how the LICENSE file looks like but including fi=
+le names
+> > > in license file is probably worth ignoring in checksums.
+> >=20
+> > See below:
+> >=20
+> > Userspace RCU library licensing
+> > Mathieu Desnoyers
+> > September 3, 2012
+> >=20
+> >=20
+> > * LGPLv2.1
+> >=20
+> > The library part is distributed under LGPLv2.1 or later. See lgpl-2.1.t=
+xt
+> > for license details. Refer to the individual file headers for details.
+> >=20
+> > LGPL-compatible source code can statically use the library header using=
+ :
+> >=20
+> > #define _LGPL_SOURCE
+> > #include <urcu.h>
+> >=20
+> > Dynamic-only linking with the LGPL library is used if _LGPL_SOURCE is n=
+ot
+> > defined. It permits relinking with newer versions of the library, which
+> > is required by the LGPL license.
+> >=20
+> > See lgpl-relicensing.txt for details.
+> >=20
+> >=20
+> > * MIT-style license :
+> >=20
+> > xchg() primitive has been rewritten from scratch starting from atomic_o=
+ps
+> > 1.2 which has a MIT-style license that is intended to allow use in both
+> >=20
+> > free and proprietary software:
+> >         http://www.hpl.hp.com/research/linux/atomic_ops/LICENSING.txt
+> >         http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/
+> >=20
+> > This MIT-style license (BSD like) apply to:
+> >=20
+> > uatomic/gcc.h
+> > uatomic/unknown.h
+> > uatomic/generic.h
+> > uatomic/sparc64.h
+> > uatomic/arm.h
+> > uatomic/ppc.h
+> > uatomic/x86.h
+> > uatomic.h
+> >=20
+> > MIT/X11 (BSD like) license apply to:
+> >=20
+> > compiler.h
+> > arch/s390.h
+> > uatomic/alpha.h
+> > uatomic/mips.h
+> > uatomic/nios2.h
+> > uatomic/s390.h
+> > system.h
+> >=20
+> >=20
+> > * GPLv2
+> >=20
+> > Library test code is distributed under the GPLv2 license. See gpl-2.0.t=
+xt
+> > for license details. See headers of individual files under tests/ for
+> > details.
+> >=20
+> >=20
+> > * GPLv3 (or later)
+> >=20
+> > The following build-related macro is under GPLv3 (or later):
+> >=20
+> > m4/ax_tls.m4
+>=20
+> If you only point to part of this file you are risking missing the additi=
+on
+> of just about any license to the end of the list on a future upgrade. That
+> doesn't sound like a good idea to me.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/utils/commands.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 08e2cbb..dfb6c21 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -18,6 +18,7 @@ from oeqa.utils import CommandError
- from oeqa.utils import ftools
- import re
- import contextlib
-+import bb
- 
- class Command(object):
-     def __init__(self, command, bg=False, timeout=None, data=None, **options):
-@@ -208,6 +209,16 @@ def runqemu(pn, test):
-         # Luckily QemuTarget doesn't need it after the constructor.
-         tinfoil.shutdown()
- 
-+    # Setup bitbake logger as console handler is removed by tinfoil.shutdown
-+    bblogger = logging.getLogger('BitBake')
-+    bblogger.setLevel(logging.INFO)
-+    console = logging.StreamHandler(sys.stdout)
-+    bbformat = bb.msg.BBLogFormatter("%(levelname)s: %(message)s")
-+    if sys.stdout.isatty():
-+        bbformat.enable_color()
-+    console.setFormatter(bbformat)
-+    bblogger.addHandler(console)
-+
-     try:
-         qemu.deploy()
-         try:
--- 
-2.1.4
-
+Hm, ouch. In that case, I guess we should stick with the current situation =
+and
+update the license file checksum if needed ?
 
