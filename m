@@ -1,27 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CE24B73178
+	by mail.openembedded.org (Postfix) with ESMTP id ACE066FF6B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 12:12:05 +0000 (UTC)
+	Thu, 11 Feb 2016 12:12:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1BCC6wc025394; Thu, 11 Feb 2016 12:12:06 GMT
+	u1BCCjvb025474; Thu, 11 Feb 2016 12:12:45 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id kUihprpJmvb0; Thu, 11 Feb 2016 12:12:05 +0000 (GMT)
+	with LMTP id 3QP3kpdpDwge; Thu, 11 Feb 2016 12:12:45 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1BCC2vT025389
+	u1BCCfpv025467
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 11 Feb 2016 12:12:03 GMT
-Message-ID: <1455192722.16142.256.camel@linuxfoundation.org>
+	Thu, 11 Feb 2016 12:12:42 GMT
+Message-ID: <1455192761.16142.257.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Feb 2016 12:12:02 +0000
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Feb 2016 12:12:41 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] ptest-runner2: Explicitly set EXTRA_OEMAKE as required
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] cdrtools-native: Explicitly set EXTRA_OEMAKE as required
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 12:12:07 -0000
+X-List-Received-Date: Thu, 11 Feb 2016 12:12:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -44,19 +44,19 @@ explicit so that the default in bitbake.conf can be change
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb b/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
-index 97c640c..8f9a170 100644
---- a/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
-+++ b/meta/recipes-support/ptest-runner2/ptest-runner2_0.1.bb
-@@ -15,6 +15,8 @@ FILES_${PN} = "${bindir}/ptest-runner"
- 
- RCONFLICTS_${PN} = "ptest-runner"
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+index 72ac741..ff4d5ac 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+@@ -12,6 +12,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/cdrtools-${REALPV}.tar.bz2"
+ SRC_URI[md5sum] = "7d45c5b7e1f78d85d1583b361aee6e8b"
+ SRC_URI[sha256sum] = "ed282eb6276c4154ce6a0b5dee0bdb81940d0cbbfc7d03f769c4735ef5f5860f"
  
 +EXTRA_OEMAKE = "-e MAKEFLAGS="
 +
- do_compile () {
- 	oe_runmake
- }
+ inherit native
+ 
+ PV = "3.01a31+really3.01"
 
 
 
