@@ -1,46 +1,31 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id F173270101
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CAB8A62136
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 06:59:59 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id xg9so29644899igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 23:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=cI1HCS7A5EkThl/f9/CYMF6P3KH32u3OXRf9pcwdgiY=;
-	b=m7Cmf5tf8m4sO+gd2X6Rxw+Ittz8nlimIDqogYoVTBln/5D/0SmKKUb/3+9KsmNuSi
-	FykcGw1r8DP9BhgR227VC63n3t0dxYl/LqZjbgDwtLYasW8IeGqzuZpws0DEVclGSc07
-	e5xx+BNFi832HhKu7dmm3T2aSmFdXFi3bwKJWDcXg2nqPsOj2MCPjixQBuobtN3rjGDQ
-	loun5u2Um0eqSMkd/RdqVimi0x71ie0kd1koi2MmosQTrrOSe7LZruoQ3y6GAXQiQCjL
-	Q2ixcU4nOvacsYk8iLGCR/SkpZOlX0FCAuKY2p9Is3XUBbhV9mrfzuiw3MpaOSNWg/63
-	d90Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cI1HCS7A5EkThl/f9/CYMF6P3KH32u3OXRf9pcwdgiY=;
-	b=HC6zoaXW5qlCmQEapUTx4FBwxsE22Hl50L81XM8R72IfMGPcSM+AFepLb5yfz3b6X2
-	mRYcwaVyScsM3YylmFnAIiohsQrxZij3SPsvDyIEvkHa0EhvzTqQRP4KYqE8uzi2WHlk
-	ORUfe8GRjE/zs6Cr8+xOggckJI1EZZj2b5OlaBgjWp4FsIcvgAHujEIQwYMLTFZ4fvir
-	BW3bQZlBJhTMBjCQ3f2sxMtNaHwd7sjTwencRCXz9D0CQdiLH715fXHrwP+m+QuNLYzL
-	Mf2YG2bcahBazG2C9mMBJF/zsftwLR9pFZYv8BKA1Q5RRcqcItnvxk2wt2flxOVkPzG5
-	uWmA==
-X-Gm-Message-State: AG10YOShul5/3IKgBp1+k5iJZhWEokIqaE3wfRAhAyNCbXcqXaG4Onor4OHAitn7mrIPOxwx
-X-Received: by 10.50.50.201 with SMTP id e9mr15328482igo.10.1455174000057;
-	Wed, 10 Feb 2016 23:00:00 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p5DE8D2D2.dip0.t-ipconnect.de.
-	[93.232.210.210])
-	by smtp.gmail.com with ESMTPSA id a5sm11488385iga.7.2016.02.10.22.59.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Feb 2016 22:59:59 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 07:59:42 +0100
-Message-Id: <1455173982-4362-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] uninative.bbclass: capture stdout/err from patchelf-uninative
+	Thu, 11 Feb 2016 08:47:56 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 11 Feb 2016 00:47:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,430,1449561600"; d="scan'208";a="900652499"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2016 00:47:57 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 5DA096A4002;
+	Thu, 11 Feb 2016 01:35:47 -0800 (PST)
+Date: Thu, 11 Feb 2016 08:38:21 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Oliver Graute <oliver.graute@gmail.com>
+Message-ID: <20160211063821.GB4868@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <20160210161458.GB27824@graute-opti>
+MIME-Version: 1.0
+In-Reply-To: <20160210161458.GB27824@graute-opti>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: create_image.wic is missing u-boot SPL file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 07:00:01 -0000
+X-List-Received-Date: Thu, 11 Feb 2016 08:47:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When patchelf-uninative fails, reporting only the exit code
-as done by subprocess.check_call() is not enough to understand
-the problem. We also need to capture and report the output
-of the command.
+Hi Oliver,
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/uninative.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+This looks like a bug in wic code to me. I remember something similar
+was fixed recently. Please, create a bug in for me in bugzilla.
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 580917b..0448cf6 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -84,5 +84,11 @@ python uninative_changeinterp () {
-                 continue
- 
-             #bb.warn("patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f))
--            subprocess.check_call("patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f), shell=True)
-+            cmd = "patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f)
-+            p = subprocess.Popen(cmd, shell=True,
-+                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-+            stdout, stderr = p.communicate()
-+            if p.returncode:
-+                bb.fatal("'%s' failed with exit code %d and the following output:\n%s" %
-+                         (cmd, p.returncode, stdout))
- }
--- 
-2.1.4
+On Wed, Feb 10, 2016 at 05:14:58PM +0100, Oliver Graute wrote:
+> Hello list,
+> 
+> I observe a problem with the create_image.wic script after second execution of
+> 
+> bitbake fsl-image
+> 
+> NOTE: recipe fsl-image-1.0-r0: task do_rootfs: Started
+> 2016-02-10T03:21:41.323Z: ERROR: Error: The image creation script '/home/dnt/build-imx6ulevk/tmp/work/imx6ulevk-poky-linux-gnueabi/fsl-image/1.0-r0/temp/create_image.wic' returned 1:
+> 2016-02-10T03:21:41.323Z: Error: exec_cmd: du -Lbks /home/dnt/build-imx6ulevk/tmp/deploy/images/imx6ulevk/SPL returned '1' instead of 0
+> 2016-02-10T03:21:41.323Z: Checking basic build environment...
+> 2016-02-10T03:21:41.323Z: Done.
+> 2016-02-10T03:21:41.324Z:
+> 2016-02-10T03:21:41.324Z: Creating image(s)...
+> 2016-02-10T03:21:41.324Z:
+> 2016-02-10T03:21:41.324Z: WARNING: exit code 1 from a shell command.
+> 2016-02-10T03:21:41.324Z:
+> 2016-02-10T03:21:41.324Z: ERROR: Function failed: do_rootfs
+> 2016-02-10T03:21:41.371Z: ERROR: Logfile of failure stored in: /home/dnt/build-imx6ulevk/tmp/work/imx6ulevk-poky-linux-gnueabi/fsl-image/1.0-r0/temp/log.do_rootfs.27900
+> 
+> 
+> Somewhere the SPL symbolic link and the SPL files itself are deleted from my
+> deploy image folder during the wic run.
+> 
+> If i execute
+> 
+> bitbake -c cleansstate  u-boot fsl-image
+> bitbake u-boot fsl-image
+> 
+> everything works fine, until I run next time bitbake fsl_image again
+> (without u-boot before)
+> 
+> Some ideas how to fix this?
+> 
+> Best regards,
+> 
+> Oliver
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--
+Regards,
+Ed
 
