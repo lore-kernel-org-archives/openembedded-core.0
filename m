@@ -1,53 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B06CF7317C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B981A731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 19:16:21 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id g62so82522380wme.0
+	Thu, 11 Feb 2016 21:07:08 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id p63so85462937wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 11:16:22 -0800 (PST)
+	Thu, 11 Feb 2016 13:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=GOgg2p0zjNALT2GWemBjR1WjIGnQ6YD02ZX5s3adOpE=;
-	b=zbr+k7du2nkcooJv+k5h8PZpgWUg3gAJncdfsaL7TTY0N0SbNdVMrWIl5w5VgJCxxc
-	UQWLQ6/11Z772qSbHwFy/VtCGNp7wuEwZfmdP9Z9d50nUIg7zG4IiOeSN3M7ubA3FiiV
-	e+aZi22hOhm5RKF6lvTzveGvSOOk6ZsWqM+b3qAngkm/O1yXhSTWeQTNSSLnh+KDpM6J
-	ksCEIMIUNL8sO+/9L0BlmLA6l4dctbvxLbfbTcwV0ZgsAtBKRuHxRr335AmynFGQ98ab
-	NWyx16kSjOG16SH/RC3gNkQNPaWSLGaM/KjR0yBLeHVlOdgfRHat0upxoeOFHfo4TUqU
-	+pVA==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=Glbvl9kmPuLZtimJTUfNqqA7oX5Di+XB00TOOuzSsEE=;
+	b=CShUna49oP7U/W4v+Q00DWqUnC+7O0mh95O6aiSjOsq3R97xeAmjMUGOrzRC7ieI1o
+	++rQRbt6KxRLDZ/nDfBm4QuofgDTf4VNZddFn355F5yERo0vdFeiuqJCzW2IUkBnOaLv
+	sXp5FC9FukYqYHkQqn0GdBF9dXevEQ+eORG31+KXA6SWaysqN0IAfUQSMclYhymsYIf6
+	n+/3aNI73EaHlcy7os1yMJfRIFgTT5MWET2Z99xbfX7sNBav6fcmEdNXk7vYbj27WOjD
+	SR/lGzkbocY0Xd0knnBl4XiiG406KrvJs8p46gHlgvStouvtRmZWdm8BFad2BYOyR0CR
+	fsOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent;
-	bh=GOgg2p0zjNALT2GWemBjR1WjIGnQ6YD02ZX5s3adOpE=;
-	b=AVt6PsRKq5wArJDJJSwp9ivD4d2v/OT5w0HfCp0LcQtQFrRxE96bnvHbmUjkZ9JMUS
-	ToueT6fpy9cf9iJubdCSBn0HuQAm+/+SIluOQnvrW5EcGZ+ybYb/vRPulNm1W/+/heHt
-	e/lDbbsju9txLf2V3+Qf7bTsXUtUvIdOaUSt7rdS1mvnhojtYzXQKb/b4MZ72WeWeNtN
-	fX6yWJbSW25ysBxc/hAre7asrpEMw18L/iN1jneNcLk4hx4H4gTsRNYCeb/wf75VKFX6
-	WyQ2RJq3J2YMSGUCMOLUiRcv7i2DSQIi/w4S20uCOfXdz1asR8ZFQ0USJr3RHkz6RB9m
-	AwMA==
-X-Gm-Message-State: AG10YOTVfBJwYkC0otabDSkwUIsZOTJIH0oRyVGJ1fkEVWNAgFpPxRqVFK+JMcLvUL+2nA==
-X-Received: by 10.194.175.198 with SMTP id cc6mr48462076wjc.24.1455218182043; 
-	Thu, 11 Feb 2016 11:16:22 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id s8sm8834727wje.35.2016.02.11.11.16.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 11 Feb 2016 11:16:20 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 11 Feb 2016 20:20:24 +0100
-To: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <20160211192024.GD2595@jama>
-References: <56B922B3.9070604@gmail.com> <56BAB9F8.4000106@gmail.com>
-	<A7F6AE58-0DBC-4180-B232-4876DD5E20E6@gmail.com>
-	<56BCC3F8.9000908@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=Glbvl9kmPuLZtimJTUfNqqA7oX5Di+XB00TOOuzSsEE=;
+	b=k1CVYkD//7Qmpz59FcdSsBfWwsnqJBSrckhaiZm9/xQJn92kHspyypBSwVONvO0tRG
+	4mxR0mPAmizw9HpJMR2E1/WDbCd6yoEeoIm1YCL3TS9wLaZQJqv4YZ+nsT1WXNIaDmrg
+	hCsqRYnXsDVHxvmYed5Ac/LT5L0Dw5yorztEps6Bb9eOTpvABOu/FpOPXmO9H5jDznN+
+	rOXPKAYau8McG+N29Dt/s2zE1fi63+NGROAph3NJeW5puukc9hSDiskT7a4GlLOp57X5
+	pjCV1475dMEkhLCd+WF0OU+UJZPq5hungIuo/1MRbh/H+LDG4XPNTRruDOyXZpTHHjEI
+	WVhA==
+X-Gm-Message-State: AG10YORHSJaRSqwHsjVC/MHRXeGfQIGCIXVZm4eEEWXBDpdRwYAIKBNx/wiLY0EKQgrFiFjuYhzbcRHwQQkRzQ==
 MIME-Version: 1.0
-In-Reply-To: <56BCC3F8.9000908@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Received: by 10.194.158.100 with SMTP id wt4mr13769539wjb.43.1455224828637; 
+	Thu, 11 Feb 2016 13:07:08 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Thu, 11 Feb 2016 13:07:08 -0800 (PST)
+In-Reply-To: <1B0E749C-F6AB-4D7A-9A0C-C4D3E349794A@nathan.to>
+References: <1B0E749C-F6AB-4D7A-9A0C-C4D3E349794A@nathan.to>
+Date: Thu, 11 Feb 2016 13:07:08 -0800
+Message-ID: <CAJ86T=VoQM1-b+UJWWd4grjuyiJEtjRQa12FVJru6R=MGsnxZQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Nathan Sowatskey <nathan@nathan.to>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: noticeably longer build (link?) times with binutils 2.26
+Subject: Re: util-linux_2.26.2.bb, do_patch failed with exit code '1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,80 +53,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 19:16:22 -0000
-X-Groupsio-MsgNum: 78020
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MAH+hnPXVZWQ5cD/"
-Content-Disposition: inline
-
---MAH+hnPXVZWQ5cD/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 11 Feb 2016 21:07:08 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2016 at 12:25:12PM -0500, Trevor Woerner wrote:
-> On 02/09/16 23:37, Khem Raj wrote:
-> > IIRC gold has its own notions to enable gold
-> > so you need to enable that
-> >
-> >> On Feb 9, 2016, at 8:18 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> >>
-> >> I've tried every combination I can think of and no matter what I try, =
-if gold is the linker the chromium build always errors out with:
-> >>
-> >>     collect2: fatal error: cannot find 'ld'
->=20
-> Building with gold does cut the build time of the chromium component=20
-> back down.
->=20
-> binutils 2.25, bfd:  00:47:51, 00:44:24, 00:44:25
-> binutils 2.26, bfd:  02:07:45, 02:09:31, 02:02:42
->=20
-> binutils 2.26, gold: 00:43:49, 00:45:18, 00:42:51
->=20
->=20
-> But the only way I could get it to work was to manually perform the=20
-> following steps:
-> $ cd <oe tmp dir>/sysroots/<native sysroot>/usr/bin
-> $ ln -s <cross toolchain prefix>/<cross toolchain prefix>ld.gold ld.gold
->=20
-> where:
->    <native sysroot> =3D x86_64-linux
->    <cross toolchain prefix> =3D x86_64-poky-linux
->=20
-> to give:
-> $ cd <oe-tmp-dir>/sysroots/x86_64-linux
-> $ ln -s x86_64-poky-linux/x86_64-poky-linux-ld.gold ld.gold
->=20
-> Maybe I can play with the recipe a bit more to get this to work=20
-> "automatically"; maybe by setting the LD environment variable=20
-> differently or something.
+On Thu, Feb 11, 2016 at 8:29 AM, Nathan Sowatskey <nathan@nathan.to> wrote:
+> Hi
+>
+> I am using the Jethro branch of oe-core, and my build is failing with the=
+ error below.
+>
+> This has started happening in the last few days. This build worked as exp=
+ected last week.
+>
+> Has anyone else seen anything like this please?
 
-Did you add ld-is-gold to DISTRO_FEATURES?
+There's no patch named "nsenter-to-be-more-flexible.patch" in oe-core.
 
->=20
-> But, as I said before, the last time I tried booting a gold-linked image=
-=20
-> on the minnow grub2 refused to work :-(
-> --=20
+Running "bitbake -e util-linux > env.txt" will show you how SRC_URI is
+derived and where the patch is actually coming from.
+
+> I have removed the contents of the tmp, downloads and caches a few times =
+to test.
+>
+> Many thanks
+>
+> Nathan
+>
+> ERROR: Command Error: exit status: 1  Output:
+> Applying patch nsenter-to-be-more-flexible.patch
+> patching file sys-utils/nsenter.c
+> Hunk #1 succeeded at 28 with fuzz 1.
+> Hunk #2 succeeded at 38 (offset -4 lines).
+> Hunk #3 succeeded at 72 (offset -4 lines).
+> Hunk #4 FAILED at 94.
+> Hunk #5 succeeded at 96 (offset -7 lines).
+> Hunk #6 succeeded at 106 (offset -7 lines).
+> Hunk #7 succeeded at 196 (offset -10 lines).
+> Hunk #8 FAILED at 214.
+> Hunk #9 succeeded at 217 (offset -13 lines).
+> Hunk #10 FAILED at 309.
+> Hunk #11 succeeded at 374 (offset -32 lines).
+> 3 out of 11 hunks FAILED -- rejects in file sys-utils/nsenter.c
+> Patch nsenter-to-be-more-flexible.patch does not apply (enforce with -f)
+> ERROR: Function failed: patch_do_patch
+> ERROR: Logfile of failure stored in: /home/builder/git/iox-yocto-build/tm=
+p/work/core2-64-poky-linux/util-linux/2.26.2-r0/temp/log.do_patch.116544
+> ERROR: Task 2897 (/home/builder/git/oe-core/meta/recipes-core/util-linux/=
+util-linux_2.26.2.bb, do_patch) failed with exit code '1'
+>
+> =E2=80=94
+> Nathan John Sowatskey
+> Consulting Engineer - Programmable Infrastructure, DevOps, IoT and SDN
+> nathan@nathan.to
+> www.linkedin.com/in/nathandevops
+> XMPP: nathandotto@im.koderoot.net
+> Google: nathanjohnsowatskey@gmail.com
+> Skype: nathan_sowatskey
+> Twitter: NathanDotTo
+> GitHub: https://github.com/DevOps4Networks
+> http://www.kipling.org.uk/poems_if.htm
+>
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---MAH+hnPXVZWQ5cD/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAla83vcACgkQN1Ujt2V2gBxuVQCgkKBfFvSPl0zLYaE/Qb5REwyj
-zYUAnioTy9jFMAHRw+I425VpqKMsur7Q
-=SoNp
------END PGP SIGNATURE-----
-
---MAH+hnPXVZWQ5cD/--
