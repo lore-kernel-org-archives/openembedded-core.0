@@ -1,21 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B0A36731D4
+	by mail.openembedded.org (Postfix) with ESMTP id EF73D731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 21:47:48 +0000 (UTC)
+	Thu, 11 Feb 2016 21:47:49 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga104.fm.intel.com with ESMTP; 11 Feb 2016 13:42:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,433,1449561600"; d="scan'208";a="744539665"
+X-IronPort-AV: E=Sophos;i="5.22,433,1449561600"; d="scan'208";a="744539669"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.155])
-	by orsmga003.jf.intel.com with ESMTP; 11 Feb 2016 13:42:55 -0800
+	by orsmga003.jf.intel.com with ESMTP; 11 Feb 2016 13:42:56 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 15:45:01 -0600
-Message-Id: <1455227102-19832-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Thu, 11 Feb 2016 15:45:02 -0600
+Message-Id: <1455227102-19832-2-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1455227102-19832-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1455227102-19832-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] classes/testsdk: do_testsdkext avoid STAGING_DIR/BASE_WORKDIR in PATH
+Subject: [PATCH 2/2] nativesdk-buildtools-perl-dummy.bb: Fix variable expansion in python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,43 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 21:47:49 -0000
+X-List-Received-Date: Thu, 11 Feb 2016 21:47:50 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The inclusion of STAGING_DIR/BASE_WORKDIR in PATH is contaminating
-the environment, i.e. when try to sanity check perl (check_perl_modules)
-it takes perl from STAGING_DIR causing eSDK install to fail.
+Since python expansion of bb data variables is disable in order to
+provide a standard interface usage for expand variables this variables
+aren't expanded now so change to call d.expand('${VAR}').
+
+This API expansion change was causing to install perl in nativesdk.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/testsdk.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 487f40c..a56ad5e 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -97,9 +97,18 @@ def testsdkext_main(d):
-     # extensible sdk shows a warning if found bitbake in the path
-     # because can cause problems so clean it
-     new_path = ''
-+    paths_to_avoid = ['bitbake/bin', 'poky/scripts',
-+                       d.getVar('STAGING_DIR', True),
-+                       d.getVar('BASE_WORKDIR', True)]
-     for p in os.environ['PATH'].split(':'):
--       if 'bitbake/bin' in p or 'poky/scripts' in p:
-+       avoid = False
-+       for pa in paths_to_avoid:
-+           if pa in p:
-+              avoid = True
-+              break
-+       if avoid:
-            continue
-+
-        new_path = new_path + p + ':'
-     new_path = new_path[:-1]
-     os.environ['PATH'] = new_path
+diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+index 9041734..9058dad 100644
+--- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+@@ -20,7 +20,7 @@ PERLPACKAGES = "nativesdk-perl \
+ ALLOW_EMPTY_${PN} = "1"
+ 
+ python populate_packages_prepend() {
+-    d.appendVar('RPROVIDES_${PN}', '${PERLPACKAGES}')
+-    d.appendVar('RCONFLICTS_${PN}', '${PERLPACKAGES}')
++    d.appendVar(d.expand('RPROVIDES_${PN}'), d.expand('${PERLPACKAGES}'))
++    d.appendVar(d.expand('RCONFLICTS_${PN}'), d.expand('${PERLPACKAGES}'))
+ }
+ 
 -- 
 2.1.4
 
