@@ -1,54 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 80B316FFC8
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DC4427317E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 17:29:52 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id ho8so32056150pac.2
+	Thu, 11 Feb 2016 19:05:44 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id fl4so2780075pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 09:29:53 -0800 (PST)
+	Thu, 11 Feb 2016 11:05:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=MklQloN3zANlaBRkKcGlUKptaLzPgqYppOVtcsJe6ng=;
-	b=JaHytpSeFDNnwvYuJGejUm108wYKijtJ/7HaeN9fQfSG0GhV45U1tvw8Xmfx46hQBM
-	VKmxvygfM29dT8+sZn6HAZKQ0+mXq+3xgJRLrQ1cxhzA8zG1u3iZA1Lqt8ucyQv//Plt
-	eO3EXDO2YuxmBxoOGJCw7BVOeqJ1sfIrfhHfMKdABRcUn67t/Lh0VLcbdDR2FC3NwUhB
-	9EThYBOv7OW4YRU50K8joHp4nEHD55ixWr6i3OamHXjVmQS7uYdEJ2S3vPmUiGTR/a0F
-	Y5FtCwkpFvEZFFLZ5T/aUdxKjqNxXAGg0NsqFJBObXom69ApEN9Jx1sN/QOogupN6dJl
-	lFWw==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=MfnZkzqvGv+OzAMdW3lx7Bh5fWdymKcUN+x7C0VCQng=;
+	b=DFs6REsKBoW7ml1paLkNL/kDnBPnYam7APLfcLTroyHzule0fBzRz5xTQ0M8ReTETt
+	23S7HIw4wVNP6JxCpvyQDDCo8NaGjZd7UxjqsENrG3A0s8HDNX7G3R7+yRK1PNhzXr/G
+	3P6CCB/l+X1+MJHxp30E77nxzJBOLX3KidUsoYED2UeMQ2rWW+TACW76xB02dHhkYABB
+	VkaZ5TaF+dDiROP9PDD/Elq+T8SIVsU9/bvgpVtOEnv6MkPRqxnyJDVcVV0FLfA6fArJ
+	8XkzXZUweLs/XjvGUocXRrSS7ZEHGf5UCLqdpkzlf9UCp3q+szNj0HRg/dtvW/I6GYKx
+	0IYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:content-type:from
-	:in-reply-to:date:cc:message-id:references:to;
-	bh=MklQloN3zANlaBRkKcGlUKptaLzPgqYppOVtcsJe6ng=;
-	b=mATfxML/0lCw5hyCRheySxTifRi9JR+fu4bpsEDhUo840Rez6OXPmKGKntyhnkZebh
-	onEspcDJGd493HpXM6pkRwHpWB2r5CgS87z3ShWurq/Ac+NNCuleB3uYDDC2G1f3Azs4
-	kDrcWg6kuBFJDc3oABDZAAZYauW4YA4UZ8BAZj/H8FrLBBWH3Hq8Ov901U0hjmJ9jkzO
-	4O3QiNRkt575sSsQ3/Udn18Cbj5huOHuHLflXIZepn3AViqaCMel29XCMutFi+dNPAM+
-	031Gwz7z/53ZtSoh36SvevWYLr7HyS6BwThZcu1pXpOAo45SP2fpQukS5xE37LWeMDFr
-	INXA==
-X-Gm-Message-State: AG10YOQvLjnCww01zlVWtTueRxPcSmZif7B/7BUWknXwgQ8eFs/2VSs7gKdO91oVJKoGiQ==
-X-Received: by 10.66.220.230 with SMTP id pz6mr23077650pac.91.1455211793074;
-	Thu, 11 Feb 2016 09:29:53 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:a190:ab95:2b5:eacb?
-	([2601:646:8802:5d5c:a190:ab95:2b5:eacb])
-	by smtp.gmail.com with ESMTPSA id 9sm13650431pfc.69.2016.02.11.09.29.51
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=MfnZkzqvGv+OzAMdW3lx7Bh5fWdymKcUN+x7C0VCQng=;
+	b=dguLDtMcSZS1FryGMrc6iv/tfYpGiuXLz5+9w+KUj4x52o0Dos7CfPrTxaP5Mw7GOQ
+	zBlSoA2gu7f5A4t2GdtjA6Uaps0Tuh1UxEv1yXO4Rz7sDE8v6dEbqnzbPbRrWiV6Sob5
+	ZBUulKQvTNYLWf+eVcohQQGXiigRguO39pLgFh7MVvKxkcG9+iQ3TlbikUASzDGq+SdG
+	ZeE8qge4GIMQ6h3Yl9U64UWhqsQ/nKEo+7Eq7ZOl/BF9m4pQ7Tpy4N0Ru3JoMVwNZBZy
+	3EyQfbRx8oAj01XLzB6ahpI40MGptHD/YiO6Gr6g8gCeZnI0XcWegG+ZedapubDIYY8Z
+	W4xA==
+X-Gm-Message-State: AG10YOTTghyGQddbT5+uKZVcKHcY7lJV7d6GIxBCyk1K2ChKQrQvpVi0LpTkK1WYGqlHKA==
+X-Received: by 10.66.122.36 with SMTP id lp4mr69552215pab.31.1455217545530;
+	Thu, 11 Feb 2016 11:05:45 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1239:2cc3:4239:40ed:fb52?
+	([2601:202:4000:1239:2cc3:4239:40ed:fb52])
+	by smtp.googlemail.com with ESMTPSA id
+	ah10sm14025445pad.23.2016.02.11.11.05.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Feb 2016 09:29:51 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <56BCC3F8.9000908@gmail.com>
-Date: Thu, 11 Feb 2016 09:29:45 -0800
-Message-Id: <3D3D10B0-D1B4-47BE-9D3D-B5FF7A6B77A9@gmail.com>
-References: <56B922B3.9070604@gmail.com> <56BAB9F8.4000106@gmail.com>
-	<A7F6AE58-0DBC-4180-B232-4876DD5E20E6@gmail.com>
-	<56BCC3F8.9000908@gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: noticeably longer build (link?) times with binutils 2.26
+	Thu, 11 Feb 2016 11:05:44 -0800 (PST)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1455107972.git.alexander.kanavin@linux.intel.com>
+	<665b18beb51e5fbcfb033bdda22d7ba85b50f903.1455107972.git.alexander.kanavin@linux.intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <56BCDB81.5010208@gmail.com>
+Date: Thu, 11 Feb 2016 11:05:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <665b18beb51e5fbcfb033bdda22d7ba85b50f903.1455107972.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 1/7] ffmpeg: update to 2.8.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,90 +62,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 17:29:52 -0000
-X-Groupsio-MsgNum: 78017
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_9FFBC4EB-E117-4678-B10D-A852CCD4BF2F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_9FFBC4EB-E117-4678-B10D-A852CCD4BF2F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On Feb 11, 2016, at 9:25 AM, Trevor Woerner <twoerner@gmail.com> =
-wrote:
->=20
-> On 02/09/16 23:37, Khem Raj wrote:
->> IIRC gold has its own notions to enable gold
->> so you need to enable that
->>=20
->>> On Feb 9, 2016, at 8:18 PM, Trevor Woerner <twoerner@gmail.com> =
-wrote:
->>>=20
->>> I've tried every combination I can think of and no matter what I =
-try, if gold is the linker the chromium build always errors out with:
->>>=20
->>>    collect2: fatal error: cannot find 'ld'
->=20
-> Building with gold does cut the build time of the chromium component =
-back down.
->=20
-> binutils 2.25, bfd:  00:47:51, 00:44:24, 00:44:25
-> binutils 2.26, bfd:  02:07:45, 02:09:31, 02:02:42
->=20
-> binutils 2.26, gold: 00:43:49, 00:45:18, 00:42:51
->=20
->=20
-> But the only way I could get it to work was to manually perform the =
-following steps:
-> $ cd <oe tmp dir>/sysroots/<native sysroot>/usr/bin
-> $ ln -s <cross toolchain prefix>/<cross toolchain prefix>ld.gold =
-ld.gold
->=20
-> where:
->  <native sysroot> =3D x86_64-linux
->  <cross toolchain prefix> =3D x86_64-poky-linux
->=20
-> to give:
-> $ cd <oe-tmp-dir>/sysroots/x86_64-linux
-> $ ln -s x86_64-poky-linux/x86_64-poky-linux-ld.gold ld.gold
->=20
-> Maybe I can play with the recipe a bit more to get this to work =
-"automatically"; maybe by setting the LD environment variable =
-differently or something.
-
-
-you can always pass -fuse-ld=3Dgold to LDFLAGS
-secondly if you can tar up all needed objects and let
-others reproduce it would help.
-
-
->=20
-> But, as I said before, the last time I tried booting a gold-linked =
-image on the minnow grub2 refused to work :-(
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_9FFBC4EB-E117-4678-B10D-A852CCD4BF2F
+X-List-Received-Date: Thu, 11 Feb 2016 19:05:49 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+This update includes  CVE-2016-2213
 
-iEYEARECAAYFAla8xQ4ACgkQuwUzVZGdMxRWWgCeLJMtODHxpFX10lwelk4u9+tr
-8dEAnRx2b/VQyn3Zw0NQ9bP3wEJLANVv
-=OW3o
------END PGP SIGNATURE-----
+Fixes out of array read
+http://git.videolan.org/?p=ffmpeg.git;a=commit;h=0aada30510d809bccfd539a90ea37b61188f2cb4
 
---Apple-Mail=_9FFBC4EB-E117-4678-B10D-A852CCD4BF2F--
+
+On 02/10/2016 04:42 AM, Alexander Kanavin wrote:
+> Add libxv dependency only when libavdevice is enabled (as nothing else needs it).
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  .../ffmpeg/{ffmpeg_2.8.5.bb => ffmpeg_2.8.6.bb}                   | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_2.8.5.bb => ffmpeg_2.8.6.bb} (94%)
+> 
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.5.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+> similarity index 94%
+> rename from meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.5.bb
+> rename to meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+> index 7107803..72393b3 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.5.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+> @@ -15,19 +15,19 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>  
+>  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
+>  
+> -SRC_URI[md5sum] = "b34164bd181f4f81c21da3dd131d919d"
+> -SRC_URI[sha256sum] = "76fb83a267d2d1cb332742dadf28ad8b58af7958165f51bb1a2c226a122f0ac7"
+> +SRC_URI[md5sum] = "0cff5dae51375f0a31a651f986ed1534"
+> +SRC_URI[sha256sum] = "25bcedbdafadac3d09c325c1d46a51f53d858b26a260d5aed6b4f17fea6e07fa"
+>  
+>  # Should be API compatible with libav (which was a fork of ffmpeg)
+>  # libpostproc was previously packaged from a separate recipe
+>  PROVIDES = "libav libpostproc"
+>  
+> -DEPENDS = "alsa-lib zlib libogg yasm-native libxv"
+> +DEPENDS = "alsa-lib zlib libogg yasm-native"
+>  
+>  inherit autotools pkgconfig
+>  
+>  PACKAGECONFIG ??= "avdevice avfilter gpl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+> -PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
+> +PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice, libxv"
+>  PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
+>  PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
+>  PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
+> 
+
