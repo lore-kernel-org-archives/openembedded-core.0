@@ -1,55 +1,53 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EF9D373212
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B06CF7317C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 19:08:03 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id c10so2915578pfc.0
+	Thu, 11 Feb 2016 19:16:21 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id g62so82522380wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 11:08:04 -0800 (PST)
+	Thu, 11 Feb 2016 11:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=oul1HGMnucU9rX3BmlxqLx+xEWromXs7jljIFlGpdRk=;
-	b=FvXQ+fBY+WRhk8uYzEXcPSqneFzgnQ9/Z77xaFc+5CmaQcFRNvW9CdXIOkhJiSchXv
-	t336Eh2UJLOig4Hhz7kkQvgeefGH2S0a1hJB9GSpIj3vxFx9kXOEHbPd9lSTJG7HACxy
-	/3fWvrfa3TfakqPBWDCc/6+MJqihQjQoUmgSgj6viDrrRF6fEZQMepBGunlLHWkO6982
-	XW9+jjnvi7/tntqESAA3fTyvFwwM9KjTZy3zA3NpM6mZ9NnaWJFoKX/EFT4qkiJMbgrk
-	0X1x9TfTmA8sFIMWfgMMpYrr7YznO3dtEQdtF8oQHgBFpYc3zdQnbQ+YvxdTXS98EI9H
-	OQKg==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=GOgg2p0zjNALT2GWemBjR1WjIGnQ6YD02ZX5s3adOpE=;
+	b=zbr+k7du2nkcooJv+k5h8PZpgWUg3gAJncdfsaL7TTY0N0SbNdVMrWIl5w5VgJCxxc
+	UQWLQ6/11Z772qSbHwFy/VtCGNp7wuEwZfmdP9Z9d50nUIg7zG4IiOeSN3M7ubA3FiiV
+	e+aZi22hOhm5RKF6lvTzveGvSOOk6ZsWqM+b3qAngkm/O1yXhSTWeQTNSSLnh+KDpM6J
+	ksCEIMIUNL8sO+/9L0BlmLA6l4dctbvxLbfbTcwV0ZgsAtBKRuHxRr335AmynFGQ98ab
+	NWyx16kSjOG16SH/RC3gNkQNPaWSLGaM/KjR0yBLeHVlOdgfRHat0upxoeOFHfo4TUqU
+	+pVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=oul1HGMnucU9rX3BmlxqLx+xEWromXs7jljIFlGpdRk=;
-	b=VRZu5kay5gcaNEMCdBw4yqnfyrb48QbvCqnaHQPswQYhfb4Kt3xU4bLRF1tyuaWUUq
-	UkC9Fj6d48CmezN04hP5M90jAcexNkVFgAZotJwijzlH95hYvmm5Yep5JLeB0I4g8Vy7
-	JAZFzpFJVaY1zcGb1mw44G9MEdL5kts+qE6HQZhnkz8MjrMJnsKyAmXrjO8knXOlStP9
-	aFXKzhz4zKLZeo1GxfvYnS5X4Rmv8TWRrVNfrYcVX47znOhvdrGX4emcHHS/xi4NGMt7
-	C7k6qUVcR0IL+4bd2CYxN9JN0JIWTsaQefo712mBqM7q+WIwr3uQdmek7UohFAG/Xh9d
-	rVdg==
-X-Gm-Message-State: AG10YOQUIZ2YZ7BGKSGrpdM0TZvUDmCigpGL/az/mVPY0cwnqVN4t+zeVnC0Mg4emAXvWQ==
-X-Received: by 10.98.89.215 with SMTP id k84mr69257382pfj.66.1455217684326;
-	Thu, 11 Feb 2016 11:08:04 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:2cc3:4239:40ed:fb52?
-	([2601:202:4000:1239:2cc3:4239:40ed:fb52])
-	by smtp.googlemail.com with ESMTPSA id
-	t87sm14033893pfa.14.2016.02.11.11.08.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Feb 2016 11:08:02 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <cover.1455107972.git.alexander.kanavin@linux.intel.com>
-	<6ebf64ba55b2abcb17cfaf487d412a7072d9034b.1455107972.git.alexander.kanavin@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56BCDC10.8050901@gmail.com>
-Date: Thu, 11 Feb 2016 11:08:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=GOgg2p0zjNALT2GWemBjR1WjIGnQ6YD02ZX5s3adOpE=;
+	b=AVt6PsRKq5wArJDJJSwp9ivD4d2v/OT5w0HfCp0LcQtQFrRxE96bnvHbmUjkZ9JMUS
+	ToueT6fpy9cf9iJubdCSBn0HuQAm+/+SIluOQnvrW5EcGZ+ybYb/vRPulNm1W/+/heHt
+	e/lDbbsju9txLf2V3+Qf7bTsXUtUvIdOaUSt7rdS1mvnhojtYzXQKb/b4MZ72WeWeNtN
+	fX6yWJbSW25ysBxc/hAre7asrpEMw18L/iN1jneNcLk4hx4H4gTsRNYCeb/wf75VKFX6
+	WyQ2RJq3J2YMSGUCMOLUiRcv7i2DSQIi/w4S20uCOfXdz1asR8ZFQ0USJr3RHkz6RB9m
+	AwMA==
+X-Gm-Message-State: AG10YOTVfBJwYkC0otabDSkwUIsZOTJIH0oRyVGJ1fkEVWNAgFpPxRqVFK+JMcLvUL+2nA==
+X-Received: by 10.194.175.198 with SMTP id cc6mr48462076wjc.24.1455218182043; 
+	Thu, 11 Feb 2016 11:16:22 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id s8sm8834727wje.35.2016.02.11.11.16.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Feb 2016 11:16:20 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 11 Feb 2016 20:20:24 +0100
+To: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <20160211192024.GD2595@jama>
+References: <56B922B3.9070604@gmail.com> <56BAB9F8.4000106@gmail.com>
+	<A7F6AE58-0DBC-4180-B232-4876DD5E20E6@gmail.com>
+	<56BCC3F8.9000908@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6ebf64ba55b2abcb17cfaf487d412a7072d9034b.1455107972.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 6/7] webkitgtk: update to 2.10.7
+In-Reply-To: <56BCC3F8.9000908@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: noticeably longer build (link?) times with binutils 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,47 +60,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 19:08:04 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Feb 2016 19:16:22 -0000
+X-Groupsio-MsgNum: 78020
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="MAH+hnPXVZWQ5cD/"
+Content-Disposition: inline
 
-this update includes:
+--MAH+hnPXVZWQ5cD/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Feb 11, 2016 at 12:25:12PM -0500, Trevor Woerner wrote:
+> On 02/09/16 23:37, Khem Raj wrote:
+> > IIRC gold has its own notions to enable gold
+> > so you need to enable that
+> >
+> >> On Feb 9, 2016, at 8:18 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+> >>
+> >> I've tried every combination I can think of and no matter what I try, =
+if gold is the linker the chromium build always errors out with:
+> >>
+> >>     collect2: fatal error: cannot find 'ld'
+>=20
+> Building with gold does cut the build time of the chromium component=20
+> back down.
+>=20
+> binutils 2.25, bfd:  00:47:51, 00:44:24, 00:44:25
+> binutils 2.26, bfd:  02:07:45, 02:09:31, 02:02:42
+>=20
+> binutils 2.26, gold: 00:43:49, 00:45:18, 00:42:51
+>=20
+>=20
+> But the only way I could get it to work was to manually perform the=20
+> following steps:
+> $ cd <oe tmp dir>/sysroots/<native sysroot>/usr/bin
+> $ ln -s <cross toolchain prefix>/<cross toolchain prefix>ld.gold ld.gold
+>=20
+> where:
+>    <native sysroot> =3D x86_64-linux
+>    <cross toolchain prefix> =3D x86_64-poky-linux
+>=20
+> to give:
+> $ cd <oe-tmp-dir>/sysroots/x86_64-linux
+> $ ln -s x86_64-poky-linux/x86_64-poky-linux-ld.gold ld.gold
+>=20
+> Maybe I can play with the recipe a bit more to get this to work=20
+> "automatically"; maybe by setting the LD environment variable=20
+> differently or something.
 
-CVE-2015-7096
-    Versions affected: WebKitGTK+ before 2.10.5.
+Did you add ld-is-gold to DISTRO_FEATURES?
 
-CVE-2015-7098
-    Versions affected: WebKitGTK+ before 2.10.5.
+>=20
+> But, as I said before, the last time I tried booting a gold-linked image=
+=20
+> on the minnow grub2 refused to work :-(
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-http://webkitgtk.org/security.html
+--MAH+hnPXVZWQ5cD/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-On 02/10/2016 04:42 AM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-sato/webkit/{webkitgtk_2.10.5.bb => webkitgtk_2.10.7.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-sato/webkit/{webkitgtk_2.10.5.bb => webkitgtk_2.10.7.bb} (96%)
-> 
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-> similarity index 96%
-> rename from meta/recipes-sato/webkit/webkitgtk_2.10.5.bb
-> rename to meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-> index fba3108..8812967 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.10.5.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-> @@ -16,8 +16,8 @@ SRC_URI = "\
->    file://0001-Enable-backtrace-on-linux-when-using-glibc.patch \
->    file://0001-Fix-build-with-non-glibc-libraries-on-linux.patch \
->    "
-> -SRC_URI[md5sum] = "bb3bd727960630bb4cbaddf8b1632d18"
-> -SRC_URI[sha256sum] = "785d5e98eaf07be15fb8891b7d5b13a2df7072c609b3ee631ca07d5dea1d79fa"
-> +SRC_URI[md5sum] = "84832b9d8329413b4f1d87df5f7e8efe"
-> +SRC_URI[sha256sum] = "990d62c82ed6dede31a6ff0a82d847f16b812842ff3e1093d17113627652864e"
->  
->  inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check upstream-version-is-even
->  
-> 
+iEYEARECAAYFAla83vcACgkQN1Ujt2V2gBxuVQCgkKBfFvSPl0zLYaE/Qb5REwyj
+zYUAnioTy9jFMAHRw+I425VpqKMsur7Q
+=SoNp
+-----END PGP SIGNATURE-----
 
+--MAH+hnPXVZWQ5cD/--
