@@ -1,25 +1,45 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CD6E9731C6
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 066F0731A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 01:15:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2016 17:15:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,428,1449561600"; d="scan'208";a="900462111"
-Received: from pngang-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.182.110])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2016 17:15:32 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 14:13:36 +1300
-Message-Id: <3d74ee1f0c87909b0ea0e599466495eded1551fe.1455151881.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1455151881.git.paul.eggleton@linux.intel.com>
-References: <cover.1455151881.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1455151881.git.paul.eggleton@linux.intel.com>
-References: <cover.1455151881.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 11/11] oe-selftest: devtool: add another devtool add test
+	Thu, 11 Feb 2016 02:59:28 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id zv9so255048pab.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Feb 2016 18:59:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=UA8RLUUngbmDB/o4O6tVGHZaHHTl2E3Tjd55ltIf6Ss=;
+	b=F4JSaH3npVxyZd1yzdDIAKQu3KR+XwJaWV0t1bc3BETgUTnML1e91htvFMyZQSLGzW
+	9MesTfDrYZ8g8nS8CN2wHdwg4nbYux6QUHp62vcY+VdwnfIUPLXdzFVlT5oqhhul2npM
+	MfsP3TLktQF5rUYwOAzX0CCPTcG682n15XBe21SgNW2XBxHQ0ZcssZ1b0+BbFesPLrs4
+	DCJVEzoVcBlNFQf2pQTayPJUrQGQddmkf7g9HWKRcESLcvV7vuMVPgFvpevt9ZYsO1Ps
+	/TMs+rkt/Kj/iyKCatwakrFqkhSuyI3F4O54Z2/rzH1ZruIfyo4qs7UYwHJBKNZDff0F
+	qvhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UA8RLUUngbmDB/o4O6tVGHZaHHTl2E3Tjd55ltIf6Ss=;
+	b=K4LZw2FepyqMPLCM0ogieT9rYdshHNSSjeVfbEkFE1m9NAG1wMuxEarnDpO7yc9imY
+	Jtoau28qLoTLGdkvjRRgI/tpztubZrhdGWlaPc1566adgxayGVzEBrMAwJWHjMR2HXwC
+	h1TnK6r/Lt0BWf0YwuIu15Oo6HgO/v5Vq9FySKFKXs7KbYZFBJquTNpXu4GdkewxaoVH
+	aq6Z0r6+6L2UFSq4egE5i45B1oGKs2MRarrW/Cq6jGBjOet/XVoFySaIFWW7YlQj6NiR
+	lNZKNKmT8kvEBAxjR3VVZ+1XkJtz9W61PaQAfj7mGJ81g3CBz2Y00Gvs8b8a5bpo06QS
+	WPHA==
+X-Gm-Message-State: AG10YOT86WSBqwgMRaGb8JMmGhDeBjBLD6dlCGhUyXj+iEd4eCOZYUxV9Hb4QZcmTYOgSw==
+X-Received: by 10.66.227.133 with SMTP id sa5mr63232700pac.36.1455159569858;
+	Wed, 10 Feb 2016 18:59:29 -0800 (PST)
+Received: from Pahoa2.mvista.com ([64.2.3.194])
+	by smtp.gmail.com with ESMTPSA id 69sm8134166pfj.20.2016.02.10.18.59.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 10 Feb 2016 18:59:28 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 10 Feb 2016 18:59:25 -0800
+Message-Id: <1455159566-903-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [Jethro][PATCH 1/2] uclibc: Security fix CVE-2016-2224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +52,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 01:15:32 -0000
+X-List-Received-Date: Thu, 11 Feb 2016 02:59:30 -0000
 
-Add a test so we validate the following recently implemented/fixed
-aspects of "devtool add":
+From: Armin Kuster <akuster@mvista.com>
 
-* Adding from a local directory with no name specified
-* Auto-detecting the name and version from autoconf files
-* Setting SRC_URI and S from the local git repo
-* Showing the recipe file path in "devtool status" if it has been
-  created within the workspace
+CVE-2016-2224 Do not follow compressed items forever.
 
-Incidentally also tests:
+This change is being provide to comply to Yocto compatiblity.
 
-* LICENSE and LIC_FILES_CHKSUM detection (though just for this piece of
-  software)
-* Extracting a dependency from autoconf (though just for this narrow
-  case since there's only one)
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/lib/oeqa/selftest/devtool.py | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ meta/recipes-core/uclibc/uclibc-git.inc            |  1 +
+ .../uclibc/uclibc-git/CVE-2016-2224.patch          | 49 ++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/CVE-2016-2224.patch
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 345cabb..e5a2134 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -201,6 +201,43 @@ class DevtoolTests(DevtoolBase):
-             bindir = bindir[1:]
-         self.assertTrue(os.path.isfile(os.path.join(installdir, bindir, 'pv')), 'pv binary not found in D')
- 
-+    def test_devtool_add_git_local(self):
-+        # Fetch source from a remote URL, but do it outside of devtool
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        pn = 'dbus-wait'
-+        # We choose an https:// git URL here to check rewriting the URL works
-+        url = 'https://git.yoctoproject.org/git/dbus-wait'
-+        # Force fetching to "noname" subdir so we verify we're picking up the name from autoconf
-+        # instead of the directory name
-+        result = runCmd('git clone %s noname' % url, cwd=tempdir)
-+        srcdir = os.path.join(tempdir, 'noname')
-+        self.assertTrue(os.path.isfile(os.path.join(srcdir, 'configure.ac')), 'Unable to find configure script in source directory')
-+        # Test devtool add
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        # Don't specify a name since we should be able to auto-detect it
-+        result = runCmd('devtool add %s' % srcdir)
-+        self.assertTrue(os.path.exists(os.path.join(self.workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created')
-+        # Check the recipe name is correct
-+        recipefile = get_bb_var('FILE', pn)
-+        self.assertIn('%s_git.bb' % pn, recipefile, 'Recipe file incorrectly named')
-+        self.assertIn(recipefile, result.output)
-+        # Test devtool status
-+        result = runCmd('devtool status')
-+        self.assertIn(pn, result.output)
-+        self.assertIn(srcdir, result.output)
-+        self.assertIn(recipefile, result.output)
-+        checkvars = {}
-+        checkvars['LICENSE'] = 'GPLv2'
-+        checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'
-+        checkvars['S'] = '${WORKDIR}/git'
-+        checkvars['PV'] = '0.1+git${SRCPV}'
-+        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https'
-+        checkvars['SRCREV'] = '${AUTOREV}'
-+        checkvars['DEPENDS'] = set(['dbus'])
-+        self._test_recipe_contents(recipefile, checkvars, [])
+diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
+index dcb616d..d3fb2a8 100644
+--- a/meta/recipes-core/uclibc/uclibc-git.inc
++++ b/meta/recipes-core/uclibc/uclibc-git.inc
+@@ -19,5 +19,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
+         file://0001-gcc5-optimizes-away-the-write-only-static-functions-.patch \
+         file://0001-fcntl-Add-AT_EMPTY_PATH-for-all-and-O_PATH-for-arm.patch \
+         file://0001-wire-in-syncfs.patch \
++        file://CVE-2016-2224.patch \
+ "
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/uclibc/uclibc-git/CVE-2016-2224.patch b/meta/recipes-core/uclibc/uclibc-git/CVE-2016-2224.patch
+new file mode 100644
+index 0000000..218b60a
+--- /dev/null
++++ b/meta/recipes-core/uclibc/uclibc-git/CVE-2016-2224.patch
+@@ -0,0 +1,49 @@
++From 16719c1a7078421928e6d31dd1dec574825ef515 Mon Sep 17 00:00:00 2001
++From: Waldemar Brodkorb <wbx@openadk.org>
++Date: Sun, 17 Jan 2016 15:47:22 +0100
++Subject: [PATCH] Do not follow compressed items forever.
 +
-     @testcase(1162)
-     def test_devtool_add_library(self):
-         # We don't have the ability to pick up this dependency automatically yet...
++It is possible to get stuck in an infinite loop when receiving a
++specially crafted DNS reply. Exit the loop after a number of iteration
++and consider the packet invalid.
++
++Signed-off-by: Daniel Fahlgren <daniel@fahlgren.se>
++Signed-off-by: Waldemar Brodkorb <wbx@uclibc-ng.org>
++
++Upstream-status: Backport
++http://repo.or.cz/uclibc-ng.git/commit/16719c1a7078421928e6d31dd1dec574825ef515
++
++CVE: CVE-2016-2224
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ libc/inet/resolv.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++Index: git/libc/inet/resolv.c
++===================================================================
++--- git.orig/libc/inet/resolv.c
+++++ git/libc/inet/resolv.c
++@@ -666,11 +666,12 @@ int __decode_dotted(const unsigned char
++ 	bool measure = 1;
++ 	unsigned total = 0;
++ 	unsigned used = 0;
+++	unsigned maxiter = 256;
++ 
++ 	if (!packet)
++ 		return -1;
++ 
++-	while (1) {
+++	while (--maxiter) {
++ 		if (offset >= packet_len)
++ 			return -1;
++ 		b = packet[offset++];
++@@ -707,6 +708,8 @@ int __decode_dotted(const unsigned char
++ 		else
++ 			dest[used++] = '\0';
++ 	}
+++	if (!maxiter)
+++		return -1;
++ 
++ 	/* The null byte must be counted too */
++ 	if (measure)
 -- 
-2.5.0
+2.3.5
 
 
