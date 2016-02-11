@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 65E576612D
+	by mail.openembedded.org (Postfix) with ESMTP id 5ADCC6612D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 01:15:21 +0000 (UTC)
+	Thu, 11 Feb 2016 01:15:23 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2016 17:15:22 -0800
+	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2016 17:15:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,428,1449561600"; d="scan'208";a="900462031"
+X-IronPort-AV: E=Sophos;i="5.22,428,1449561600"; d="scan'208";a="900462042"
 Received: from pngang-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.182.110])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2016 17:15:20 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2016 17:15:22 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 14:13:30 +1300
-Message-Id: <9eef6fc54eeef4dfbec86c19c0851fd5d61a0ace.1455151881.git.paul.eggleton@linux.intel.com>
+Date: Thu, 11 Feb 2016 14:13:31 +1300
+Message-Id: <98d5fda526adb77759ccce110f1d556b37b060df.1455151881.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1455151881.git.paul.eggleton@linux.intel.com>
 References: <cover.1455151881.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1455151881.git.paul.eggleton@linux.intel.com>
 References: <cover.1455151881.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 05/11] recipetool: create: determine name/version from github/bitbucket URLs
+Subject: [PATCH 06/11] devtool: modify: make -x the default behaviour
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,82 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 01:15:21 -0000
+X-List-Received-Date: Thu, 11 Feb 2016 01:15:23 -0000
 
-Both BitBucket and GitHub provide "release" downloads that unfortunately
-don't include the actual project name. For recipetool this means we have
-to have special handling for these URLs or else the current code assumes
-the name of the project is something like "v0.9.1". Borrow and adapt
-some code from autospec to do this, and put it in its own function for
-clarity.
+It's going to be more common for users not to have the prepared source
+tree for a recipe already, so the default behaviour ought to be to
+extract it for them from the recipe. Change the default to extract
+(effectively making the -x option a no-op) and add a --no-extract/-n
+option to disable it. Later we can look at trying to be smart and
+reusing an existing source tree instead of erroring out if it exists;
+for now this is just the default reversal.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 44 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/selftest/devtool.py |  3 ++-
+ scripts/lib/devtool/standard.py   | 14 ++++++++------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 5f90b10..ee27f8d 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -247,6 +247,35 @@ def determine_from_filename(srcfile):
-         pv = None
-     return (pn, pv)
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index d95cb08..345cabb 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -570,7 +570,8 @@ class DevtoolTests(DevtoolBase):
+         self.track_for_cleanup(self.workspacedir)
+         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+         # (don't bother with cleaning the recipe on teardown, we won't be building it)
+-        result = runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
++        # We don't use -x here so that we test the behaviour of devtool modify without it
++        result = runCmd('devtool modify %s %s' % (testrecipe, tempdir))
+         # Check git repo
+         self._check_src_repo(tempdir)
+         # Add a couple of commits
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 262ba09..f1b2e12 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -685,11 +685,11 @@ def modify(args, config, basepath, workspace):
+     else:
+         srctree = get_default_srctree(config, args.recipename)
  
-+def determine_from_url(srcuri):
-+    """Determine name and version from a URL"""
-+    pn = None
-+    pv = None
-+    parseres = urlparse.urlparse(srcuri.lower())
-+    if parseres.path:
-+        if 'github.com' in parseres.netloc:
-+            res = re.search(r'.*/(.*?)/archive/(.*)-final\.(tar|zip)', parseres.path)
-+            if res:
-+                pn = res.group(1).strip().replace('_', '-')
-+                pv = res.group(2).strip().replace('_', '.')
-+            else:
-+                res = re.search(r'.*/(.*?)/archive/v?(.*)\.(tar|zip)', parseres.path)
-+                if res:
-+                    pn = res.group(1).strip().replace('_', '-')
-+                    pv = res.group(2).strip().replace('_', '.')
-+        elif 'bitbucket.org' in parseres.netloc:
-+            res = re.search(r'.*/(.*?)/get/[a-zA-Z_-]*([0-9][0-9a-zA-Z_.]*)\.(tar|zip)', parseres.path)
-+            if res:
-+                pn = res.group(1).strip().replace('_', '-')
-+                pv = res.group(2).strip().replace('_', '.')
-+
-+        if not pn and not pv:
-+            srcfile = os.path.basename(parseres.path.rstrip('/'))
-+            pn, pv = determine_from_filename(srcfile)
-+
-+    logger.debug('Determined from source URL: name = "%s", version = "%s"' % (pn, pv))
-+    return (pn, pv)
-+
- def supports_srcrev(uri):
-     localdata = bb.data.createCopy(tinfoil.config_data)
-     # This is a bit sad, but if you don't have this set there can be some
-@@ -430,15 +459,12 @@ def create_recipe(args):
-         realpv = None
+-    if not args.extract and not os.path.isdir(srctree):
+-        raise DevtoolError("directory %s does not exist or not a directory "
+-                           "(specify -x to extract source from recipe)" %
++    if args.no_extract and not os.path.isdir(srctree):
++        raise DevtoolError("--no-extract specified and source path %s does "
++                           "not exist or is not a directory" %
+                            srctree)
+-    if args.extract:
++    if not args.no_extract:
+         tinfoil = _prep_extract_operation(config, basepath, args.recipename)
+         if not tinfoil:
+             # Error already shown
+@@ -720,7 +720,7 @@ def modify(args, config, basepath, workspace):
  
-     if srcuri and not realpv or not pn:
--        parseres = urlparse.urlparse(srcuri)
--        if parseres.path:
--            srcfile = os.path.basename(parseres.path.rstrip('/'))
--            name_pn, name_pv = determine_from_filename(srcfile)
--            logger.debug('Determined from filename: name = "%s", version = "%s"' % (name_pn, name_pv))
--            if name_pn and not pn:
--                pn = name_pn
--            if name_pv and not realpv:
--                realpv = name_pv
-+        name_pn, name_pv = determine_from_url(srcuri)
-+        if name_pn and not pn:
-+            pn = name_pn
-+        if name_pv and not realpv:
-+            realpv = name_pv
-+
- 
-     if not srcuri:
-         lines_before.append('# No information for SRC_URI yet (only an external source tree was specified)')
+     initial_rev = None
+     commits = []
+-    if args.extract:
++    if not args.no_extract:
+         initial_rev = _extract_source(srctree, False, args.branch, False, rd)
+         if not initial_rev:
+             return 1
+@@ -1319,7 +1319,9 @@ def register_commands(subparsers, context):
+     parser_modify.add_argument('recipename', help='Name of existing recipe to edit (just name - no version, path or extension)')
+     parser_modify.add_argument('srctree', nargs='?', help='Path to external source tree. If not specified, a subdirectory of %s will be used.' % defsrctree)
+     parser_modify.add_argument('--wildcard', '-w', action="store_true", help='Use wildcard for unversioned bbappend')
+-    parser_modify.add_argument('--extract', '-x', action="store_true", help='Extract source as well')
++    group = parser_modify.add_mutually_exclusive_group()
++    group.add_argument('--extract', '-x', action="store_true", help='Extract source for recipe (default)')
++    group.add_argument('--no-extract', '-n', action="store_true", help='Do not extract source, expect it to exist')
+     group = parser_modify.add_mutually_exclusive_group()
+     group.add_argument('--same-dir', '-s', help='Build in same directory as source', action="store_true")
+     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
 -- 
 2.5.0
 
