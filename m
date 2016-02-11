@@ -1,29 +1,24 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D5C87318D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3045C731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 14:59:36 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id H2zb1s0030BmcFC012zcNw; Thu, 11 Feb 2016 14:59:36 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=jFJIQSaiL_oA:10 a=j2zaV1Xxb_IL2lTBodIA:9 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1aTsiU-0002fD-Ef; Thu, 11 Feb 2016 14:59:34 +0000
-Date: Thu, 11 Feb 2016 14:59:34 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160211145934.GA10092@mcrowe.com>
-References: <1455192761.16142.257.camel@linuxfoundation.org>
+	Thu, 11 Feb 2016 15:08:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1BF8HLH015504
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Feb 2016 07:08:17 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 11 Feb 2016 07:08:17 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 11 Feb 2016 10:08:13 -0500
+Message-ID: <cover.1455203165.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-In-Reply-To: <1455192761.16142.257.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Mike Crowe <mac@mcrowe.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cdrtools-native: Explicitly set EXTRA_OEMAKE as required
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/3] linux-yocto: -stable and BSP updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,23 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 14:59:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 11 Feb 2016 15:08:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thursday 11 February 2016 at 12:12:41 +0000, Richard Purdie wrote:
-> This recipe currently relies on EXTRA_OEMAKE having been set to
-> "-e MAKEFLAGS=" in bitbake.conf to operate. It is necessary to make this
-> explicit so that the default in bitbake.conf can be change
+Hi all,
 
-Minor typo at the end of the log message.
+Here are the pending updates to the 4.1 and 4.4 kerne to integrate -stable updates
+and to backport the mainline galileo support patches.
 
-Good catch. It appears that such -native packages aren't included in world
-so my testing didn't find it. :(
+I've built and booted these on qemu* and Saul has provided the galileo support.
 
-I've not found anything more over the last few days of test builds.
+Cheers,
 
-Thanks.
+Bruce
 
-Mike.
+The following changes since commit 738a9b7cc322f3dca94681bffab80c6eff892cfb:
+
+  classes/sanity: check_perl_modules provide output when fail (2016-02-11 12:34:29 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/4.4: update to v4.4.1
+  linux-yocto/4.1: update to v4.1.17
+  linux-yocto/4.1: galileo backports and support
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 20 ++++++++++----------
+ 6 files changed, 32 insertions(+), 32 deletions(-)
+
+-- 
+2.1.0
+
 
