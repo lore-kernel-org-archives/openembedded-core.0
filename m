@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 451DB6612D
+	by mail.openembedded.org (Postfix) with ESMTP id 78DE97317E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 01:15:12 +0000 (UTC)
+	Thu, 11 Feb 2016 01:15:13 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2016 17:15:12 -0800
+	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2016 17:15:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,428,1449561600"; d="scan'208";a="900461975"
+X-IronPort-AV: E=Sophos;i="5.22,428,1449561600"; d="scan'208";a="900461988"
 Received: from pngang-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.182.110])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2016 17:15:11 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2016 17:15:13 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 14:13:25 +1300
-Message-Id: <cover.1455151881.git.paul.eggleton@linux.intel.com>
+Date: Thu, 11 Feb 2016 14:13:26 +1300
+Message-Id: <9444e8777509b323273abfcb72699a500cd72003.1455151881.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
-Subject: [PATCH 00/11] Fixes/enhancements for devtool/recipetool/externalsrc
+In-Reply-To: <cover.1455151881.git.paul.eggleton@linux.intel.com>
+References: <cover.1455151881.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1455151881.git.paul.eggleton@linux.intel.com>
+References: <cover.1455151881.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 01/11] classes/externalsrc: disable rm_work when active
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 11 Feb 2016 01:15:13 -0000
 
-Note in particular patch 6/11 which changes the behaviour of devtool
-modify without -x to extract by default which is a bit more logical (I'd
-been thinking about this for a while, but Khem suggested it most
-recently).
+If you're using externalsrc, it's very likely that you're going to want
+to examine the intermediate build results even if the recipe builds
+successfully; therefore you won't want rm_work to delete those.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/externalsrc.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The following changes since commit 4bd658f7dae76ae8790fd1dfdd89fa58a456a0a4:
-
-  pseudo: uprev to 1.7.5 (2016-02-10 17:37:36 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool13
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool13
-
-Paul Eggleton (11):
-  classes/externalsrc: disable rm_work when active
-  classes/externalsrc: create symlinks for workdir and logs
-  devtool: commit for extra tasks that modify source when extracting
-  recipetool: create: support cmake find_library directive
-  recipetool: create: determine name/version from github/bitbucket URLs
-  devtool: modify: make -x the default behaviour
-  devtool: add: fix adding from a local source directory
-  recipetool: create: ensure URL parameters don't make it into the name
-  recipetool: create: convert http git URLs that don't end in .git but contain /git/
-  recipetool: create: set S when we set SRC_URI from local git repo
-  oe-selftest: devtool: add another devtool add test
-
- meta/classes/externalsrc.bbclass          | 23 +++++++++++
- meta/lib/oe/patch.py                      |  3 ++
- meta/lib/oeqa/selftest/devtool.py         | 40 ++++++++++++++++++-
- scripts/lib/devtool/standard.py           | 64 +++++++++++++++++++++----------
- scripts/lib/recipetool/create.py          | 55 +++++++++++++++++++-------
- scripts/lib/recipetool/create_buildsys.py | 10 +++++
- 6 files changed, 161 insertions(+), 34 deletions(-)
-
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 607861f..9d7ab00 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -86,6 +86,9 @@ python () {
+         # Ensure compilation happens every time
+         d.setVarFlag('do_compile', 'nostamp', '1')
+ 
++        # We don't want the workdir to go away
++        d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN', True))
++
+         # If B=S the same builddir is used even for different architectures.
+         # Thus, use a shared CONFIGURESTAMPFILE so that change of do_configure
+         # task hash is correctly detected if e.g. MACHINE changes. In addition,
 -- 
 2.5.0
 
