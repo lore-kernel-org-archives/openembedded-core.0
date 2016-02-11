@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A94A7318C
+Return-Path: <nathan@nathan.to>
+Received: from sasl.smtp.pobox.com (pb-smtp0.int.icgroup.com [208.72.237.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F1D7731FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 16:57:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1BGthv0010346; Thu, 11 Feb 2016 16:57:34 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 226ktaRQFvdn; Thu, 11 Feb 2016 16:57:34 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1BGvU3v010400
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 11 Feb 2016 16:57:31 GMT
-Message-ID: <1455209850.16142.261.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 16:57:30 +0000
-In-Reply-To: <1455032462-124215-1-git-send-email-mark.hatle@windriver.com>
-References: <1455032462-124215-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [RFC][PATCH] Resolve an issue when using pipes to process data
+	Thu, 11 Feb 2016 17:23:09 +0000 (UTC)
+Received: from sasl.smtp.pobox.com (unknown [127.0.0.1])
+	by pb-smtp0.pobox.com (Postfix) with ESMTP id 8131A3EA5B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Feb 2016 12:23:08 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=from
+	:content-type:content-transfer-encoding:subject:message-id:date
+	:to:mime-version; s=sasl; bh=eQ33yde4fS/5E7LlqSEyohCRS/U=; b=WKk
+	My624JhbVyMr8Mu1gCbLtsz0qJjupMC5SQFyLHvTcIzmFiOQvv9R9lY89lbk8cxI
+	5PQj+7I4d6pnkxW85bsXwxbnug2HWghqBtXtmFthh94386H9Nda4m8AHbX19vI5U
+	pxMucHmspOTqVVy25V4PL6ffZm0lrhpIQmloceYo=
+Received: from pb-smtp0.int.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp0.pobox.com (Postfix) with ESMTP id 792F53EA5A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Feb 2016 12:23:08 -0500 (EST)
+Received: from [10.41.136.109] (unknown [79.153.217.219])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by pb-smtp0.pobox.com (Postfix) with ESMTPSA id EE8373EA59
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Feb 2016 12:23:06 -0500 (EST)
+From: Nathan Sowatskey <nathan@nathan.to>
+Message-Id: <1B0E749C-F6AB-4D7A-9A0C-C4D3E349794A@nathan.to>
+Date: Thu, 11 Feb 2016 17:29:48 +0100
+To: openembedded-core@lists.openembedded.org
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3120\))
+X-Mailer: Apple Mail (2.3120)
+X-Pobox-Relay-ID: 1E1C638E-D0E4-11E5-AB74-79226BB36C07-96844961!pb-smtp0.pobox.com
+Subject: util-linux_2.26.2.bb, do_patch failed with exit code '1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 16:57:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Feb 2016 17:23:10 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2016-02-09 at 09:41 -0600, Mark Hatle wrote:
-> I'm sending this as an RFC.  I know the patch works, but I think it
-> highlights
-> a potentially larger issue in the system.
-> 
-> If we're processing data using shell pipes, the return code of a
-> failed
-> process may end up being lost -- avoiding the regular error capture
-> when
-> bitbake runs a task.
-> 
-> In this particular case, while working to fix a bug in pseudo we made
-> an
-> error condition fatal (triggered an abort()), but buildhistory kept
-> on
-> processing ignoring any issues had occurred.
-> 
-> Breaking up the processing into steps, things that 'could fail', and
-> later
-> processing steps that shouldn't fail will give us more of an
-> opportunity to
-> identify failures in the future and deal with them in a quicker
-> manner,
-> then having to investigate log files for messages.
-> 
-> I'm suspecting we should run a janitor exercise against oe-core
-> looking for
-> similar situations where we might be piping the data and potentially
-> losing
-> return codes in the process.
+Hi
 
-We do also have a problem with this specific patch since it causes
-setscene failures for certain "restore from sstate" secnarios where
-pseudo-native might not be available yet it could try and execute it.
+I am using the Jethro branch of oe-core, and my build is failing with =
+the error below.=20
 
-Currently it silently fails, which is obviously bad, but breaking the
-builds completely is worse.
+This has started happening in the last few days. This build worked as =
+expected last week.
 
-I've not looked into the details yet but I can't take the patch as is.
+Has anyone else seen anything like this please?
 
-Cheers,
+I have removed the contents of the tmp, downloads and caches a few times =
+to test.
 
-Richard
+Many thanks
 
+Nathan
+
+ERROR: Command Error: exit status: 1  Output:
+Applying patch nsenter-to-be-more-flexible.patch
+patching file sys-utils/nsenter.c
+Hunk #1 succeeded at 28 with fuzz 1.
+Hunk #2 succeeded at 38 (offset -4 lines).
+Hunk #3 succeeded at 72 (offset -4 lines).
+Hunk #4 FAILED at 94.
+Hunk #5 succeeded at 96 (offset -7 lines).
+Hunk #6 succeeded at 106 (offset -7 lines).
+Hunk #7 succeeded at 196 (offset -10 lines).
+Hunk #8 FAILED at 214.
+Hunk #9 succeeded at 217 (offset -13 lines).
+Hunk #10 FAILED at 309.
+Hunk #11 succeeded at 374 (offset -32 lines).
+3 out of 11 hunks FAILED -- rejects in file sys-utils/nsenter.c
+Patch nsenter-to-be-more-flexible.patch does not apply (enforce with -f)
+ERROR: Function failed: patch_do_patch
+ERROR: Logfile of failure stored in: =
+/home/builder/git/iox-yocto-build/tmp/work/core2-64-poky-linux/util-linux/=
+2.26.2-r0/temp/log.do_patch.116544
+ERROR: Task 2897 =
+(/home/builder/git/oe-core/meta/recipes-core/util-linux/util-linux_2.26.2.=
+bb, do_patch) failed with exit code '1'
+
+=E2=80=94
+Nathan John Sowatskey
+Consulting Engineer - Programmable Infrastructure, DevOps, IoT and SDN
+nathan@nathan.to
+www.linkedin.com/in/nathandevops
+XMPP: nathandotto@im.koderoot.net
+Google: nathanjohnsowatskey@gmail.com
+Skype: nathan_sowatskey
+Twitter: NathanDotTo
+GitHub: https://github.com/DevOps4Networks
+http://www.kipling.org.uk/poems_if.htm
 
 
