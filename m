@@ -1,45 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 10C37601B8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id F173270101
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 05:10:58 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id e127so23619071pfe.3
+	Thu, 11 Feb 2016 06:59:59 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id xg9so29644899igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Feb 2016 21:10:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Wed, 10 Feb 2016 23:00:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=KhpwGdRJC4iI2v2tUj3XmcsWSFv22+5s/jlwCBFNWfk=;
-	b=luqmaia0m92/1J9IqpWpi77Gwt0bo3297UdZk3Zrw5emvnEgCfXRULsIbQ9dnFZyZG
-	OeHkbxhnoG0DKvhxWBfiV7eIAMwgsyA9Epdf3i4DsU14IeYtW+KHFzogU01N6Si+LJMH
-	qtVP+JpcuzVyciKRqohscXIUx2FVjsbJnYsHRvlRujdEC9l4XSm9jdPVPDsiCGfPdsZ+
-	f1+2RwljzIF6N9Dzh1RjcrX7xJdAfWehjekJxiZEydtjqbM8CPMn8sMANzV1K1Lk+EHs
-	4JmwYqRFX0WXHyg8sLgEbUdp2C6RpoA2/SPOgxOcsVGVGGTD4yUNsHmmd9yCFtOturax
-	AhIA==
+	bh=cI1HCS7A5EkThl/f9/CYMF6P3KH32u3OXRf9pcwdgiY=;
+	b=m7Cmf5tf8m4sO+gd2X6Rxw+Ittz8nlimIDqogYoVTBln/5D/0SmKKUb/3+9KsmNuSi
+	FykcGw1r8DP9BhgR227VC63n3t0dxYl/LqZjbgDwtLYasW8IeGqzuZpws0DEVclGSc07
+	e5xx+BNFi832HhKu7dmm3T2aSmFdXFi3bwKJWDcXg2nqPsOj2MCPjixQBuobtN3rjGDQ
+	loun5u2Um0eqSMkd/RdqVimi0x71ie0kd1koi2MmosQTrrOSe7LZruoQ3y6GAXQiQCjL
+	Q2ixcU4nOvacsYk8iLGCR/SkpZOlX0FCAuKY2p9Is3XUBbhV9mrfzuiw3MpaOSNWg/63
+	d90Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=KhpwGdRJC4iI2v2tUj3XmcsWSFv22+5s/jlwCBFNWfk=;
-	b=mgfkwvEEgtib3TzMxBZSEfWcPvKQhlCFCEN0aqdp5aoV/SqUjKAyiVm5XZmEWQjX9t
-	Sd+riSur73WLT8w+YdzRtdjO4hSfP62a/eQarpJyUnIQvHHQZs11grSqoYQhHLl5mJm9
-	h7mtGbepggu/afSbOjJblpGPwOkatJPxQfgA56lhIu6IQlcns059YSlPQGptndP/ggZp
-	9Kl/Bs7twZYm4VsRVOPsglFAg8VUPB7WFlUOQlas37HT7QbJV1ipgqz8Z9RCLKdJjHmw
-	CKbsDHYMRLfew3svzNEg33r8JmMEfwgxtBuVk41cP+NDqeP4618eNlNRzPBhF/nVn3Dn
-	LFsA==
-X-Gm-Message-State: AG10YOQ5yb8KqbL5te7mmw6ppACSMBPTtJTNx1RCQw35GZPHzO0ASyjaGe6nIEM4wgZbPA==
-X-Received: by 10.98.89.215 with SMTP id k84mr64228349pfj.66.1455167459143;
-	Wed, 10 Feb 2016 21:10:59 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id z5sm8768198pas.29.2016.02.10.21.10.57
+	bh=cI1HCS7A5EkThl/f9/CYMF6P3KH32u3OXRf9pcwdgiY=;
+	b=HC6zoaXW5qlCmQEapUTx4FBwxsE22Hl50L81XM8R72IfMGPcSM+AFepLb5yfz3b6X2
+	mRYcwaVyScsM3YylmFnAIiohsQrxZij3SPsvDyIEvkHa0EhvzTqQRP4KYqE8uzi2WHlk
+	ORUfe8GRjE/zs6Cr8+xOggckJI1EZZj2b5OlaBgjWp4FsIcvgAHujEIQwYMLTFZ4fvir
+	BW3bQZlBJhTMBjCQ3f2sxMtNaHwd7sjTwencRCXz9D0CQdiLH715fXHrwP+m+QuNLYzL
+	Mf2YG2bcahBazG2C9mMBJF/zsftwLR9pFZYv8BKA1Q5RRcqcItnvxk2wt2flxOVkPzG5
+	uWmA==
+X-Gm-Message-State: AG10YOShul5/3IKgBp1+k5iJZhWEokIqaE3wfRAhAyNCbXcqXaG4Onor4OHAitn7mrIPOxwx
+X-Received: by 10.50.50.201 with SMTP id e9mr15328482igo.10.1455174000057;
+	Wed, 10 Feb 2016 23:00:00 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8D2D2.dip0.t-ipconnect.de.
+	[93.232.210.210])
+	by smtp.gmail.com with ESMTPSA id a5sm11488385iga.7.2016.02.10.22.59.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Feb 2016 21:10:57 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Wed, 10 Feb 2016 22:59:59 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Feb 2016 21:10:52 -0800
-Message-Id: <1455167452-4244-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] db: update HOMEPAGE
+Date: Thu, 11 Feb 2016 07:59:42 +0100
+Message-Id: <1455173982-4362-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] uninative.bbclass: capture stdout/err from patchelf-uninative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,43 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 05:10:59 -0000
+X-List-Received-Date: Thu, 11 Feb 2016 07:00:01 -0000
 
-The previous HOMEPAGE is no longer available.
+When patchelf-uninative fails, reporting only the exit code
+as done by subprocess.check_call() is not enough to understand
+the problem. We also need to capture and report the output
+of the command.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-support/db/db_5.3.28.bb | 2 +-
- meta/recipes-support/db/db_6.0.30.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/uninative.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index 3dc1da5..c724f04 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -10,7 +10,7 @@
- # same system at the same time if really necessary.
- SECTION = "libs"
- SUMMARY = "Berkeley Database v5"
--HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
-+HOMEPAGE = "http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html"
- LICENSE = "Sleepycat"
- VIRTUAL_NAME ?= "virtual/db"
- RCONFLICTS_${PN} = "db3"
-diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
-index eac84b8..9505def 100644
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -10,7 +10,7 @@
- # same system at the same time if really necessary.
- SECTION = "libs"
- SUMMARY = "Berkeley Database v6"
--HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
-+HOMEPAGE = "http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html"
- LICENSE = "AGPL-3.0"
- VIRTUAL_NAME ?= "virtual/db"
- RCONFLICTS_${PN} = "db3"
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 580917b..0448cf6 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -84,5 +84,11 @@ python uninative_changeinterp () {
+                 continue
+ 
+             #bb.warn("patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f))
+-            subprocess.check_call("patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f), shell=True)
++            cmd = "patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f)
++            p = subprocess.Popen(cmd, shell=True,
++                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++            stdout, stderr = p.communicate()
++            if p.returncode:
++                bb.fatal("'%s' failed with exit code %d and the following output:\n%s" %
++                         (cmd, p.returncode, stdout))
+ }
 -- 
-1.9.1
+2.1.4
 
 
