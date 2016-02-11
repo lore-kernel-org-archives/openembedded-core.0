@@ -1,23 +1,55 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D3B4731A8
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CC1FA731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 22:06:01 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 11 Feb 2016 14:06:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,433,1449561600"; d="scan'208";a="910324567"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.155])
-	by orsmga002.jf.intel.com with ESMTP; 11 Feb 2016 14:06:00 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 16:08:06 -0600
-Message-Id: <1455228486-15517-2-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1455228486-15517-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1455228486-15517-1-git-send-email-anibal.limon@linux.intel.com>
+	Thu, 11 Feb 2016 22:14:16 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id g203so45816675iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Feb 2016 14:14:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:references:cc:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=/86736Yj7w1gMzzgbvumGePucelzjInxEk1G7w8I9lo=;
+	b=jxMsyL4vOfkTLvSgan7JWHW1x0Sfk6f+ioIkI8yqluWu8xCOGFe5aOfBR3AkOKK7iu
+	lpFY8+yT09qbsWEEqsTcX/yF6cZgxJWgz6VM0aPzfh4yF+dnhVI2tV8vNrLnF8tbzGu4
+	0Zigehq8Zw/tfcbUdPOlWlidf2WxD136pQhKBgkJjO3EB5a31wrbXRm4rLkku2TjFNXB
+	cbRErbbN9mo/hZHJ93DenFnzf/Uk8i3/ymWSg4ko844kKzCL97Z8IBx7fCc32e/qXzbk
+	wG58wHhKumpEH5INY618x7XbWKdLSnLRFJc11YegQcpQ2uk9u2zjoru3Gfb/fniKvYin
+	6S+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=/86736Yj7w1gMzzgbvumGePucelzjInxEk1G7w8I9lo=;
+	b=afKLaf2B43FY97LKa+BlXCN9NjNXi4FLZpEck1Jw9WrA8RMiXrdN73l7I8dQhwclZM
+	T7ozL/thZ7wioosQjIqku0oYJrgbpwl4uHmeuxYZCrC1lA3cZICOTB3zM+ZlyknN3XIX
+	Daru/WCjEM8nD/3+yiICzquVo6ujSQaebhVd0uC8LyXrg5RHqpuhaLFe1btTv0MTAm3m
+	i2EQ+AVsrTWV1pUYVCUIjhtSqVHVQZkuDDKvQD9zkRAvWmhClcj42x9G6r+cwJjfz1Ez
+	vo93UBwLKuHxnSXjZaukBlkw1Usb6OD7Fkv095jU/MiAEKsJOY8hIbVXgqBCq64+54x2
+	hiWQ==
+X-Gm-Message-State: AG10YOQO91KDAMlFQXVuqyGP4syaxQtLoelzOrKDVhzUva05b3l+uoECiICTk5r4c3qIAg==
+X-Received: by 10.107.156.14 with SMTP id f14mr56232549ioe.0.1455228856830;
+	Thu, 11 Feb 2016 14:14:16 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	vf11sm12882221igb.20.2016.02.11.14.14.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 11 Feb 2016 14:14:16 -0800 (PST)
+References: <56B922B3.9070604@gmail.com> <56BAB9F8.4000106@gmail.com>
+	<A7F6AE58-0DBC-4180-B232-4876DD5E20E6@gmail.com>
+	<56BCC3F8.9000908@gmail.com> <20160211192024.GD2595@jama>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56BD07C2.8090601@gmail.com>
+Date: Thu, 11 Feb 2016 17:14:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-Subject: [[PATCHv2] 2/2] nativesdk-buildtools-perl-dummy.bb: Fix variable expansion in python code
+In-Reply-To: <20160211192024.GD2595@jama>
+Subject: Re: noticeably longer build (link?) times with binutils 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +62,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 22:06:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 11 Feb 2016 22:14:17 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Since python expansion of bb data variables is disable in order to
-provide a standard interface usage for expand variables this variables
-aren't expanded now so change to call d.expand('${VAR}').
+On 02/11/16 14:20, Martin Jansa wrote:
+> Did you add ld-is-gold to DISTRO_FEATURES?
 
-This API expansion change was causing to install perl in nativesdk.
+Yes, it's the only way I know of to build an image with gold instead of 
+bfd. And no other thing that gets built has any problems finding and 
+running the linker.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-index 9041734..90784a9 100644
---- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-+++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-@@ -20,7 +20,7 @@ PERLPACKAGES = "nativesdk-perl \
- ALLOW_EMPTY_${PN} = "1"
- 
- python populate_packages_prepend() {
--    d.appendVar('RPROVIDES_${PN}', '${PERLPACKAGES}')
--    d.appendVar('RCONFLICTS_${PN}', '${PERLPACKAGES}')
-+    d.appendVar(d.expand('RPROVIDES_${PN}'), '${PERLPACKAGES}')
-+    d.appendVar(d.expand('RCONFLICTS_${PN}'), '${PERLPACKAGES}')
- }
- 
--- 
-2.1.4
-
+I'll post my chromium recipe shortly, although it's not that much 
+different from the upstream version 40 (other than having stripped out 
+all the wayland-specific stuff).
 
