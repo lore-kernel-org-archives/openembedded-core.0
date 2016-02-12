@@ -1,28 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 776E66057B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0060B6FF93
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 18:00:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CHvvN7005422; Fri, 12 Feb 2016 18:00:04 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id B6nlM7y09-GV; Fri, 12 Feb 2016 18:00:04 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CI00WH005472
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 12 Feb 2016 18:00:01 GMT
-Message-ID: <1455300000.16142.331.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Feb 2016 18:00:00 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
-	"saul.wold" <saul.wold@intel.com>
-Subject: [PATCH] scripts/runqemu-internal: Work around qemux86 PAT bugs in linux 4.4.1
+	Fri, 12 Feb 2016 18:55:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 12 Feb 2016 10:55:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,436,1449561600"; d="scan'208";a="910925101"
+Received: from vagarw3-mobl1.amr.corp.intel.com (HELO swold-mobl.jf.intel.com)
+	([10.252.133.144])
+	by orsmga002.jf.intel.com with ESMTP; 12 Feb 2016 10:55:38 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Fri, 12 Feb 2016 10:55:37 -0800
+Message-Id: <1455303337-2957-2-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1455303337-2957-1-git-send-email-sgw@linux.intel.com>
+References: <1455303337-2957-1-git-send-email-sgw@linux.intel.com>
+Subject: [PATCH 2/2] qemu.inc: Add rng-tools to qemu images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 18:00:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Feb 2016 18:55:54 -0000
 
-Since the upgrade of qemux86 to 4.4.1 we're seeing PAT issues when
-starting the X server. We need to fix the problem but the failing
-sanity tests mask out other issues and we need a workaround.
+This patch adds rng-tools to MACHINE_EXTRA_RRECOMMENDS so that can be
+used to provide the additional entropy to prevent hangs in getrandom()
+for qemu images
 
-Merge this for now until we can figure out the full issue. This is
-better than changing the kernel defconfig or reverting to old
-kernel versions.
+[YOCTO #8681]
+[YOCTO #8816]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/machine/include/qemu.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index ebed2bd..ad854d1 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -434,7 +434,7 @@ if [ "$MACHINE" = "qemux86" ]; then
-     fi
-     # Currently oprofile's event based interrupt mode doesn't work(Bug #828) in
-     # qemux86 and qemux86-64. We can use timer interrupt mode for now.
--    KERNCMDLINE="$KERNCMDLINE oprofile.timer=1"
-+    KERNCMDLINE="$KERNCMDLINE oprofile.timer=1 nopat"
- fi
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 16e9469..f44dbe6 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
  
- if [ "$MACHINE" = "qemux86-64" ]; then
-
+ # Provide the nfs server kernel module for all qemu images
+ KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
++
++MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
+-- 
+2.5.0
 
 
