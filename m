@@ -1,45 +1,25 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B294731E1
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4346C731C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 22:17:36 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id c200so39656438wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 14:17:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=UamCUZRDtEAIyetP8c/sFzbbmDPXZrsrBJwksu/xfIo=;
-	b=BTgJCGFWph1tNrMJl8VCLS4zLhGtYVKzzv9HwW4/VS0htZ5j+gHNgYbBhSVGm7OAph
-	TVN7nY8sc4+UrZ+5IJlsLefmSYXZ2afgKmW7KDmZORFD6GlBkPWG2k7DF1K2G2JStJ/s
-	rRKJK0YG5mI4zNWuh+NyUFSdiSWWpAh8BO3iLHfBFAzhwcwbOKrJpkSW9SCaWp2sttKz
-	smAW+W9OEDBk/Drqv3pIgGQJP7eRaWea9R1F0lGqVXeqBaWuHyygkP6lpRXibeLvppyb
-	WJzGn0qi1A+/uFyjVxrrJRtLnBkK+LqBJ1GS4yWogvrwA2E84oAPFeyxtIOE3NMheGnf
-	6lUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=UamCUZRDtEAIyetP8c/sFzbbmDPXZrsrBJwksu/xfIo=;
-	b=jxLgZNUglldGszjwJXLlXD7nkhYAoX/ShJhowDLFnPtNDysvNVUDvmB1wyq7FlU/he
-	fseyNwvDUSzGjKKWbE+aaxw4Mh84oeXVSmnfyABynefdfr+uc7cANE+H08P+eyA7fgXT
-	fBoX4XVfMnIfzcIkm/PhFZMtYthwS+ZRIoEYBxv7txL6bByy53ZguWmsd+7WzwB/6mxz
-	BnjlWLk4kueVCQSMAynhN9rVLoM4vL6Rj2xu4WT8DVdnE+MtgojSqxtQc4VFHdikzFZg
-	umkKDveSkFjCuU8tCsT2p4g71Ovb9tjmNARMn1bH0KWlMQ7bf3GW+0t9O2dRg7F74dw0
-	sddA==
-X-Gm-Message-State: AG10YOTwz3cyHwQEXxR+BsFUK7iSt00XOV+1bJKrTXwD5Qc89T6Sq2wUZMKUum+00DFCf3toL4k2KTPhtTz8RA==
-MIME-Version: 1.0
-X-Received: by 10.28.146.8 with SMTP id u8mr140349wmd.72.1455315457378; Fri,
-	12 Feb 2016 14:17:37 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Fri, 12 Feb 2016 14:17:37 -0800 (PST)
-In-Reply-To: <1455278061.16142.278.camel@linuxfoundation.org>
-References: <1455278061.16142.278.camel@linuxfoundation.org>
-Date: Fri, 12 Feb 2016 14:17:37 -0800
-Message-ID: <CAJ86T=U=e5qD67vCCVJRXQonHbv5qHx6SOTw5dLD=uFc0MAdWA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-meta-base: Don't use COMBINED_FEATURES
+	Fri, 12 Feb 2016 22:18:40 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Feb 2016 14:18:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,437,1449561600"; d="scan'208";a="651471285"
+Received: from dmcerlea-mobl1.ger.corp.intel.com (HELO
+	jlock-mobl1.gar.corp.intel.com) ([10.252.13.227])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Feb 2016 14:18:40 -0800
+Message-ID: <1455315518.3546.39.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Feb 2016 22:18:38 +0000
+In-Reply-To: <1455244878-7901-2-git-send-email-akuster808@gmail.com>
+References: <1455244878-7901-1-git-send-email-akuster808@gmail.com>
+	<1455244878-7901-2-git-send-email-akuster808@gmail.com>
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [fido][PATCH] libpcre: Security fixes and package update.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,52 +32,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 22:17:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 12 Feb 2016 22:18:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 12, 2016 at 3:54 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> http://git.openembedded.org/openembedded-core/commit/?id=948165dce7475b815a344fd3c3d58165e6865d48
-> makes gstreamer1.0-plugins-base-alsa depend on COMBINED_FEATURES.
->
-> This is an allarch recipe so this only works if all your machines
-> have the same MACHINE_FEATURES and not all do.
+On Thu, 2016-02-11 at 18:41 -0800, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+> 
+> this is related to [Yocto # 9008]
 
-Good point. The recipe should set PACKAGE_ARCH = "${MACHINE_ARCH}" (as
-packagegroup-base.bb does).
+Thanks, queued in joshuagl/fido next with the addition of the below
+comment to the commit message:
 
-> Instead make this an unconditional RRECOMMEND, its a PACKAGES_DYNAMIC so
-> this should all work out for everyone's use cases.
+"Jethro and master don't require this patch as they have newer libpcre
+which contains these fixes."
 
-I have some machines which need the alsa plug-in and some machines
-where it must not be installed. The alsa DISTRO feature alone is not
-fine grained enough to handle that.
+Regards,
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> index ecfd082..9d1b9dc 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> @@ -26,7 +26,6 @@ RDEPENDS_gstreamer1.0-meta-base = "\
->      gstreamer1.0 \
->      gstreamer1.0-plugins-base-playback \
->      gstreamer1.0-plugins-base-gio \
-> -    ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'gstreamer1.0-plugins-base-alsa', '',d)} \
->      gstreamer1.0-plugins-base-volume \
->      gstreamer1.0-plugins-base-audioconvert \
->      gstreamer1.0-plugins-base-audioresample \
-> @@ -36,6 +35,10 @@ RDEPENDS_gstreamer1.0-meta-base = "\
->      gstreamer1.0-plugins-good-autodetect \
->      gstreamer1.0-plugins-good-souphttpsrc"
->
-> +RRECOMMENDS_gstreamer1.0-meta-base = "\
-> +    gstreamer1.0-plugins-base-alsa \
-> +"
-> +
->  RRECOMMENDS_gstreamer1.0-meta-x11-base = "\
->      gstreamer1.0-plugins-base-ximagesink \
->      gstreamer1.0-plugins-base-xvimagesink"
->
->
+Joshua
+
+> 
+> 8.38:
+> The following security fixes are included:
+> CVE-2015-3210 pcre: heap buffer overflow in
+> pcre_compile2()  compile_regex()
+> CVE-2015-3217 pcre: stack overflow in match()
+> CVE-2015-5073 CVE-2015-8388 pcre: Buffer overflow caused by certain
+> patterns with an unmatched closing parenthesis
+> CVE-2015-8380 pcre: Heap-based buffer overflow in pcre_exec
+> CVE-2015-8381 pcre: Heap Overflow in compile_regex()
+> CVE-2015-8383 pcre: Buffer overflow caused by repeated conditional
+> group
+> CVE-2015-8384 pcre: Buffer overflow caused by recursive back
+> reference by name within certain group
+> CVE-2015-8385 pcre: Buffer overflow caused by forward reference by
+> name to certain group
+> CVE-2015-8386 pcre: Buffer overflow caused by lookbehind assertion
+> CVE-2015-8387 pcre: Integer overflow in subroutine calls
+> CVE-2015-8389 pcre: Infinite recursion in JIT compiler when
+> processing certain patterns
+> CVE-2015-8390 pcre: Reading from uninitialized memory when processing
+> certain patterns
+> CVE-2015-8392 pcre: Buffer overflow caused by certain patterns with
+> duplicated named groups
+> CVE-2015-8393 pcre: Information leak when running pcgrep -q on
+> crafted binary
+> CVE-2015-8394 pcre: Integer overflow caused by missing check for
+> certain conditions
+> CVE-2015-8395 pcre: Buffer overflow caused by certain references
+> CVE-2016-1283 pcre: Heap buffer overflow in pcre_compile2 causes DoS
+> 
+> 8.37:
+> The following security fixes are included:
+> CVE-2014-8964 pcre: incorrect handling of zero-repeat assertion
+> conditions
+> CVE-2015-2325 pcre: heap buffer overflow in compile_branch()
+> CVE-2015-2326 pcre: heap buffer overflow in pcre_compile2()
+> 
+> LICENSE file changed do to Copyright date updates.
+> 
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  meta/recipes-support/libpcre/{libpcre_8.36.bb => libpcre_8.38.bb} |
+> 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>  rename meta/recipes-support/libpcre/{libpcre_8.36.bb =>
+> libpcre_8.38.bb} (91%)
+> 
+> diff --git a/meta/recipes-support/libpcre/libpcre_8.36.bb
+> b/meta/recipes-support/libpcre/libpcre_8.38.bb
+> similarity index 91%
+> rename from meta/recipes-support/libpcre/libpcre_8.36.bb
+> rename to meta/recipes-support/libpcre/libpcre_8.38.bb
+> index a4b7f6d..6ef5d70 100644
+> --- a/meta/recipes-support/libpcre/libpcre_8.36.bb
+> +++ b/meta/recipes-support/libpcre/libpcre_8.38.bb
+> @@ -6,16 +6,15 @@ SUMMARY = "Perl Compatible Regular Expressions"
+>  HOMEPAGE = "http://www.pcre.org"
+>  SECTION = "devel"
+>  LICENSE = "BSD"
+> -LIC_FILES_CHKSUM =
+> "file://LICENCE;md5=ded617e975f28e15952dc68b84a7ac1a"
+> +LIC_FILES_CHKSUM =
+> "file://LICENCE;md5=7e4937814aee14758c1c95b59c80c44d"
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-
+> ${PV}.tar.bz2 \
+>             file://pcre-cross.patch \
+>             file://fix-pcre-name-collision.patch \
+>             file://run-ptest \
+>             file://Makefile \
+>  "
+> -
+> -SRC_URI[md5sum] = "b767bc9af0c20bc9c1fe403b0d41ad97"
+> -SRC_URI[sha256sum] =
+> "ef833457de0c40e82f573e34528f43a751ff20257ad0e86d272ed5637eb845bb"
+> +SRC_URI[md5sum] = "00aabbfe56d5a48b270f999b508c5ad2"
+> +SRC_URI[sha256sum] =
+> "b9e02d36e23024d6c02a2e5b25204b3a4fa6ade43e0a5f869f254f49535079df"
+>  
+>  S = "${WORKDIR}/pcre-${PV}"
+>  
+> -- 
+> 2.3.5
+> 
 
