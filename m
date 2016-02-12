@@ -1,33 +1,27 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 910086AC3C
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E98273289
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 13:59:18 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1CDxIfA002760; Fri, 12 Feb 2016 07:59:18 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016021207591846-934693 ;
-	Fri, 12 Feb 2016 07:59:18 -0600 
-Date: Fri, 12 Feb 2016 15:58:57 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20160212155857.759685c6@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <20160211164154.GB2595@jama>
-References: <1455203936-28150-1-git-send-email-adrian.ratiu@ni.com>
-	<20160211164154.GB2595@jama>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/12/2016 07:59:18 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/12/2016 07:59:18 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-12_06:, , signatures=0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] tune-cortexa9.inc: add vfpv3 tunes
+	Fri, 12 Feb 2016 14:02:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Feb 2016 06:02:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,436,1449561600"; d="scan'208";a="910745429"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 12 Feb 2016 06:02:07 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 1EC1D6A4002
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Feb 2016 06:49:56 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Feb 2016 16:05:20 +0200
+Message-Id: <1455285920-6920-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] mmc-utils: upgrade to latest git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,100 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 13:59:19 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Feb 2016 14:02:06 -0000
 
-Hello
+Removed 0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
 
-On Thu, 11 Feb 2016 17:41:54 +0100
-Martin Jansa <martin.jansa@gmail.com> wrote:
+Instead of that patch, define __SANE_USERSPACE_TYPES__ to avoid
+compile errors due to conflicting types for '__u64' in MIPS64/PPC64
 
-> On Thu, Feb 11, 2016 at 05:18:56PM +0200, Ioan-Adrian Ratiu wrote:
-> > From: Richard Tollerton <rich.tollerton@ni.com>
-> >=20
-> > Define tunnings to enable 32 register VFPv3 for cortexa9 processor core=
-s =20
->=20
-> Can you execute the test from:
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/tune=
-2-test
-> just to verify that all these new combinations work ok and to update the
-> test results for next person modifying the tune files?
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...mc.h-don-t-include-asm-generic-int-ll64.h.patch | 28 ----------------------
+ meta/recipes-devtools/mmc/mmc-utils_git.bb         | 11 ++++-----
+ 2 files changed, 5 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
 
- I've tested with that script and everything looks ok (it took a while for =
-all those openssl builds to run the first time).
-
-I also had to modify that hardcoded path to the openembedded-core location =
-in the script. I asume this test script was created for the poky layout?
-(also I've done a  grep "\(-vfpv3\)" on the AVAILTUNES var, but I don't thi=
-nk it matters that much though, run the test without it also)
-
-There is also a discrepancy between the value of TUNE=5FPKGARCH =3D=3D armv=
-7athf and the file name from the env.fake-cortexa9.armv7athf-vfpv3. I belie=
-ve there may be a typo in one of the tunes, ommited the "t" for thumb.
-
->=20
-> Thanks
->=20
-> > More details: http://www.arm.com/products/processors/technologies/vecto=
-r-floating-point.php
-> >=20
-> > Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> > ---
-> >  meta/conf/machine/include/tune-cortexa9.inc | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >=20
-> > diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/ma=
-chine/include/tune-cortexa9.inc
-> > index 965f2d9..3d8dc1d 100644
-> > --- a/meta/conf/machine/include/tune-cortexa9.inc
-> > +++ b/meta/conf/machine/include/tune-cortexa9.inc
-> > @@ -34,3 +34,18 @@ PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9hf           =
-  =3D "${PACKAGE=5FEXTRA=5FARCHS=5Ftune-ar
-> >  PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9thf            =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7athf} cortexa9hf-vfp cortexa9t2hf-vfp"
-> >  PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9hf-neon        =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7ahf-neon}  cortexa9hf-vfp cortexa9hf-neon"
-> >  PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9thf-neon       =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7athf-neon} cortexa9hf-vfp cortexa9hf-neon cort=
-exa9t2hf-vfp cortexa9t2hf-neon"
-> > +
-> > +# VFPv3 Tunes
-> > +AVAILTUNES +=3D "cortexa9-vfpv3 cortexa9t-vfpv3 cortexa9hf-vfpv3 corte=
-xa9thf-vfpv3"
-> > +ARMPKGARCH=5Ftune-cortexa9-vfpv3          =3D "cortexa9"
-> > +ARMPKGARCH=5Ftune-cortexa9t-vfpv3         =3D "cortexa9"
-> > +ARMPKGARCH=5Ftune-cortexa9hf-vfpv3        =3D "cortexa9"
-> > +ARMPKGARCH=5Ftune-cortexa9thf-vfpv3       =3D "cortexa9"
-> > +TUNE=5FFEATURES=5Ftune-cortexa9-vfpv3           =3D "${TUNE=5FFEATURES=
-=5Ftune-armv7a-vfpv3}          cortexa9"
-> > +TUNE=5FFEATURES=5Ftune-cortexa9t-vfpv3          =3D "${TUNE=5FFEATURES=
-=5Ftune-armv7at-vfpv3}         cortexa9"
-> > +TUNE=5FFEATURES=5Ftune-cortexa9hf-vfpv3         =3D "${TUNE=5FFEATURES=
-=5Ftune-armv7ahf-vfpv3}        cortexa9"
-> > +TUNE=5FFEATURES=5Ftune-cortexa9thf-vfpv3        =3D "${TUNE=5FFEATURES=
-=5Ftune-armv7athf-vfpv3}       cortexa9"
-> > +PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9-vfpv3           =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7a-vfpv3}  cortexa9-vfp cortexa9-vfpv3"
-> > +PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9t-vfpv3          =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7at-vfpv3} cortexa9-vfp cortexa9-vfpv3 cortexa9=
-t2-vfp cortexa9t2-vfpv3"
-> > +PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9hf-vfpv3         =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7ahf-vfpv3}  cortexa9hf-vfp cortexa9hf-vfpv3"
-> > +PACKAGE=5FEXTRA=5FARCHS=5Ftune-cortexa9thf-vfpv3        =3D "${PACKAGE=
-=5FEXTRA=5FARCHS=5Ftune-armv7athf-vfpv3} cortexa9hf-vfp cortexa9hf-vfpv3 co=
-rtexa9t2hf-vfp cortexa9t2hf-vfpv3"
-> > --=20
-> > 2.7.0
-> >=20
-> > --=20
-> > =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core =20
->=20
+diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
+deleted file mode 100644
+index 1724de5..0000000
+--- a/meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Upstream-Status: Pending
+-
+-mmc.h: don't include <asm-generic/int-ll64.h>
+-
+-Including this file causes a compile failure for qemumips64.
+-This file is not needed to be explicitly included, because it will be
+-included by the <linux/mmc/ioctl.h> file if _MIPS_SZLONG is not 64.
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- mmc.h |    1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/mmc.h b/mmc.h
+-index 9871d62..3df2cdf 100644
+---- a/mmc.h
+-+++ b/mmc.h
+-@@ -14,7 +14,6 @@
+-  * Boston, MA 021110-1307, USA.
+-  */
+- 
+--#include <asm-generic/int-ll64.h>
+- #include <linux/mmc/ioctl.h>
+- #include <stdio.h>
+- 
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index c50ba54..64b8910 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -4,18 +4,17 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=17;md5=d7747fc87f1eb22b946ef819969503f0"
+ 
+ SRCBRANCH ?= "master"
+-SRCREV = "f4eb241519f8d500ce6068a70d2389be39ac5189"
++SRCREV = "44f94b925894577f9ffcf2c418dd013a5e582648"
+ 
+ PV = "0.1"
+ 
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
+-           file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH}"
+ 
+ S = "${WORKDIR}/git"
+ 
+-do_configure_prepend() {
+-    sed -i "s:-Werror::g" ${S}/Makefile
+-}
++CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
++CFLAGS_append_mips64 = " -D__SANE_USERSPACE_TYPES__"
++CFLAGS_append_mips64n32 = " -D__SANE_USERSPACE_TYPES__"
+ 
+ do_install() {
+     install -d ${D}${bindir}
+-- 
+2.4.0
 
 
