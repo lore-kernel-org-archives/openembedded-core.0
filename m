@@ -1,33 +1,48 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E8E86E660
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D86A475D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:11:52 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 4138068A01C; Fri, 12 Feb 2016 11:11:53 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id A0B7E68A019;
-	Fri, 12 Feb 2016 11:11:52 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 62B4D67400F0;
-	Fri, 12 Feb 2016 12:11:52 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
+	Fri, 12 Feb 2016 11:15:52 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id 9so88506311iom.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Feb 2016 03:15:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=F6JaDcdPiYkdEEfGfG/L0G4NVG32avkobWV02vrS6E0=;
+	b=vNITKJ+OuB5+yuP+rruVHXLBpKuezTZ4wrMHvWCyHmkTzpLhzCtOmY28cosf7blw0S
+	z7KO1cxNdT67svKnkYt+iKbh4x0jsYtTSR+wbsivPW70O4pV3SsLe6KYEhGIudtUz8z7
+	iEY+K++vtWQn6C6KdSUPArqkM7XT6fT9TTuYfnwB1HsMR6VhdDxhQ+cxdRLEQNvI/dR0
+	G1V54Yn190Q+QgBp7ClG69YldxZYLQ82qEweAiwdKyjnm3fgEYy18PSJRs5lwLnfUSVP
+	9c+YET7gyBmxZThC3i7EP5pelbBF7MfFZ6ScMR9irqiKcRIXh4hm7CWOl1l+O+jgZnS2
+	9gJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=F6JaDcdPiYkdEEfGfG/L0G4NVG32avkobWV02vrS6E0=;
+	b=Ce/TcH1kQhm0SuzbUJGTyVIni6VC9WhFrzb7dSx/w0tlOI9OWYJ7D/8Y9nxFvEmk/h
+	4ZIUqUTUiNCkR3dxjHOEA8x1hWTrEyhc4EBNyMi/QmRieRN7fnKNCFvFNFaQGlFszcDz
+	AmAN+RK6UGhUyVtlKS+4rwwxU7yY4YwuTj0fkBEzdknP5Hay5qihQV8d5YN9nqUpZgqO
+	izVzC1qTnCdK26J/YfBNqKG7XPeMH9N4tRKnRbt2RtS3ouqg3QIyIEKfCva+8m/L5LV6
+	f+V5lm2h7bthMjnUzZ6SqBcE/vqL/eD671EuHXV1Zfw4VxwJj8GqGhWu0qQG+2iF+viX
+	LCdA==
+X-Gm-Message-State: AG10YOTup72FdLrlouyeNBCsAkcON6wgBs5kHKRxg9NjQPENV/zocjlC24MgtYYTsMPAK7Lsc/b9tdUew0s4coLT
+X-Received: by 10.107.3.220 with SMTP id e89mr2119388ioi.99.1455275753158;
+	Fri, 12 Feb 2016 03:15:53 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 12 Feb 2016 03:15:33 -0800 (PST)
+In-Reply-To: <56BDBDF8.8020605@mlbassoc.com>
 References: <1455249507-30989-1-git-send-email-gary@mlbassoc.com>
 	<CAJTo0LaveuPmPrhLf9bc4H0PkyEz-cVGfiH+fjxqk=ynxJkhew@mail.gmail.com>
-	<56BDBC07.3060907@mlbassoc.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56BDBDF8.8020605@mlbassoc.com>
-Date: Fri, 12 Feb 2016 12:11:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <56BDBC07.3060907@mlbassoc.com>
+	<56BDBC07.3060907@mlbassoc.com> <56BDBDF8.8020605@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 12 Feb 2016 11:15:33 +0000
+Message-ID: <CAJTo0LYnyFbwdF_8u5Fnx=ejU62huTnDYa7fDrS76LdJKJvYNg@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ffmpeg: Add -dbg packages for all libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,66 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 11:11:53 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Feb 2016 11:15:54 -0000
+Content-Type: multipart/alternative; boundary=001a113f0e7c514d02052b90ca9a
 
-On 2016-02-12 12:03, Gary Thomas wrote:
-> On 2016-02-12 11:49, Burton, Ross wrote:
->>
->> On 12 February 2016 at 03:58, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->>
->>     Improve the packaging of the libraries built by this recipe.  These
->>     are created using special code in the recipe and the debug (-dbg)
->>     packages were not being created.  Adding these packages allow the
->>     libraries in question to be debugged using GDB.
->>
->>
->> oe-pkgdata-utils says:
->>
->> ffmpeg-dbg:
->>          /usr/bin/.debug/ffmpeg
->>          /usr/bin/.debug/ffprobe
->>          /usr/bin/.debug/ffserver
->>          /usr/lib/.debug/libavcodec.so.56.60.100
->>          /usr/lib/.debug/libavdevice.so.56.4.100
->>          /usr/lib/.debug/libavfilter.so.5.40.101
->>          /usr/lib/.debug/libavformat.so.56.40.101
->>          /usr/lib/.debug/libavutil.so.54.31.100
->>          /usr/lib/.debug/libpostproc.so.53.3.100
->>          /usr/lib/.debug/libswresample.so.1.2.101
->>          /usr/lib/.debug/libswscale.so.3.1.101
->>
->> So I'm not sure why this would be needed.
->>
+--001a113f0e7c514d02052b90ca9a
+Content-Type: text/plain; charset=UTF-8
+
+On 12 February 2016 at 11:11, Gary Thomas <gary@mlbassoc.com> wrote:
+
+> # opkg install mplayer2-dbg
+> Installing mplayer2-dbg (2.0+gitr0+2c378c71a4-r13.1) on root.
+> mplayer2-dbg: unsatisfied recommendation for libavformat-dbg
+> mplayer2-dbg: unsatisfied recommendation for libavutil-dbg
+> mplayer2-dbg: unsatisfied recommendation for libfaad-dbg
+> mplayer2-dbg: unsatisfied recommendation for libasound-dbg
+> mplayer2-dbg: unsatisfied recommendation for libavcodec-dbg
+> mplayer2-dbg: unsatisfied recommendation for libswresample-dbg
+> mplayer2-dbg: unsatisfied recommendation for libpostproc-dbg
+> mplayer2-dbg: unsatisfied recommendation for ncurses-libtinfo-dbg
+> mplayer2-dbg: unsatisfied recommendation for libswscale-dbg
+> ...
 >
-> I'll check again, maybe it's as simple as ffmpeg-dbg wasn't
-> brought in as an automatic dependency of mplayer2-dbg although
-> a bunch of others were.
+> So, how should this have worked, or is it a little broken?
 >
 
-That's definitely it.  When I install mplayer2-dbg which was has
-ffmpeg in DEPENDS, the library debug info was not found and ffmpeg-dbg
-was not installed:
+Well it *should* have worked, but clearly isn't!  Can you file a bug?
 
-# opkg install mplayer2-dbg
-Installing mplayer2-dbg (2.0+gitr0+2c378c71a4-r13.1) on root.
-mplayer2-dbg: unsatisfied recommendation for libavformat-dbg
-mplayer2-dbg: unsatisfied recommendation for libavutil-dbg
-mplayer2-dbg: unsatisfied recommendation for libfaad-dbg
-mplayer2-dbg: unsatisfied recommendation for libasound-dbg
-mplayer2-dbg: unsatisfied recommendation for libavcodec-dbg
-mplayer2-dbg: unsatisfied recommendation for libswresample-dbg
-mplayer2-dbg: unsatisfied recommendation for libpostproc-dbg
-mplayer2-dbg: unsatisfied recommendation for ncurses-libtinfo-dbg
-mplayer2-dbg: unsatisfied recommendation for libswscale-dbg
-...
+Ross
 
-So, how should this have worked, or is it a little broken?
+--001a113f0e7c514d02052b90ca9a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 February 2016 at 11:11, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":s4" class=3D"a3s" st=
+yle=3D"overflow:hidden"># opkg install mplayer2-dbg<br>
+Installing mplayer2-dbg (2.0+gitr0+2c378c71a4-r13.1) on root.<br>
+mplayer2-dbg: unsatisfied recommendation for libavformat-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libavutil-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libfaad-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libasound-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libavcodec-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libswresample-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libpostproc-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for ncurses-libtinfo-dbg<br>
+mplayer2-dbg: unsatisfied recommendation for libswscale-dbg<br>
+...<br>
+<br>
+So, how should this have worked, or is it a little broken?</div></blockquot=
+e></div><br></div><div class=3D"gmail_extra">Well it *should* have worked, =
+but clearly isn&#39;t!=C2=A0 Can you file a bug?</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a113f0e7c514d02052b90ca9a--
