@@ -1,25 +1,28 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D1176FEFE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 776E66057B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 17:14:07 +0000 (UTC)
-Received: from poczta.nazwa.pl (unknown [10.252.0.11])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id B4C641B27B1;
-	Fri, 12 Feb 2016 18:14:06 +0100 (CET)
-Date: Fri, 12 Feb 2016 18:14:06 +0100 (CET)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Reply-To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org, 
-	Dmitry Rozhkov <dmitry.rozhkov@intel.com>
-Message-ID: <548649854.435770.1455297246525.JavaMail.open-xchange@ox1.netart.com.pl>
-In-Reply-To: <1455279342-5458-1-git-send-email-dmitry.rozhkov@intel.com>
-References: <1455279342-5458-1-git-send-email-dmitry.rozhkov@intel.com>
-MIME-Version: 1.0
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.6.2-Rev33
-X-Originating-Client: com.openexchange.ox.gui.dhtml
-Subject: Re: [PATCH] os-release: remove double-quotes around VERSION_ID value
+	Fri, 12 Feb 2016 18:00:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1CHvvN7005422; Fri, 12 Feb 2016 18:00:04 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id B6nlM7y09-GV; Fri, 12 Feb 2016 18:00:04 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1CI00WH005472
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 12 Feb 2016 18:00:01 GMT
+Message-ID: <1455300000.16142.331.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Feb 2016 18:00:00 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
+	"saul.wold" <saul.wold@intel.com>
+Subject: [PATCH] scripts/runqemu-internal: Work around qemux86 PAT bugs in linux 4.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 17:14:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Feb 2016 18:00:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> Dnia 12 luty 2016 o 13:15 Dmitry Rozhkov <dmitry.rozhkov@intel.com>
-> napisa=C5=82(a):
->
->
-> man 5 os-release states that VERSION_ID is
->
-> "
-> a lower-case string (mostly numeric, no spaces or other
-> characters outside of 0-9, a-z, ".", "_" and "-")
-> identifying the operating system version
-> "
->
-> This becomes crucial when ClearLinux's software
-> update mechanism is integrated into builds, because
-> its client side ignores VERSION_ID's value if it
-> doesn't conform the definition.
+Since the upgrade of qemux86 to 4.4.1 we're seeing PAT issues when
+starting the X server. We need to fix the problem but the failing
+sanity tests mask out other issues and we need a workaround.
 
-Is this integration work already published somewhere? I'm interested
-in trying out swupdate with Yocto, but the lack of publicly available
-repo is kind of holding this back (yes, I'm ware of SRPMs).
+Merge this for now until we can figure out the full issue. This is
+better than changing the kernel defconfig or reverting to old
+kernel versions.
 
-When I was asking on the mailing list about Yocto and ClearLinux back
-in January[1][2] Arjan responded that there was a mismatch between the
-development models used by Clear and Yocto and that there was a number
-of reasons for not using Yocto tooling in Clear. Now, I'm still
-interested in getting swupdate to work outside of Clear, so I took
-some time to go through the source code to figure out the update
-mechanism[3]. IMO making it work with Yocto should not be a
-significant effort, even in embedded applications.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Do you mind sharing the some details if there is a larger plan for
-getting Clear closer to Yocto/OE?
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index ebed2bd..ad854d1 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -434,7 +434,7 @@ if [ "$MACHINE" = "qemux86" ]; then
+     fi
+     # Currently oprofile's event based interrupt mode doesn't work(Bug #828) in
+     # qemux86 and qemux86-64. We can use timer interrupt mode for now.
+-    KERNCMDLINE="$KERNCMDLINE oprofile.timer=1"
++    KERNCMDLINE="$KERNCMDLINE oprofile.timer=1 nopat"
+ fi
+ 
+ if [ "$MACHINE" = "qemux86-64" ]; then
 
-[1]. https://lists.clearlinux.org/pipermail/dev/2016-January/000150.html
-[2]. https://lists.clearlinux.org/pipermail/dev/2016-January/000151.html
-[3]. https://lists.clearlinux.org/pipermail/dev/2016-January/000159.html
 
---
-Maciej Borz=C4=99cki
-Senior Software Engineer at Open-RnD Sp. z o.o.
-www.open-rnd.pl, Facebook, Twitter
 
