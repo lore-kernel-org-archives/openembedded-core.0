@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D869E73204
+	by mail.openembedded.org (Postfix) with ESMTP id 73BF973204
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:35:47 +0000 (UTC)
+	Fri, 12 Feb 2016 11:36:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CBZBwM017091 for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:35:48 GMT
+	u1CBaFrj017163 for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Feb 2016 11:36:15 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id f-trL3Jeyls7
+	with LMTP id QOn62-nABmLd
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:35:48 +0000 (GMT)
+	Fri, 12 Feb 2016 11:36:15 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CBZgFk017139
+	u1CBaDCd017159
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:35:43 GMT
-Message-ID: <1455276942.16142.275.camel@linuxfoundation.org>
+	Fri, 12 Feb 2016 11:36:14 GMT
+Message-ID: <1455276973.16142.276.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Feb 2016 11:35:42 +0000
+Date: Fri, 12 Feb 2016 11:36:13 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] debian: Fix superfluous setting for RPROVIDES
+Subject: [PATCH] buildhistory: Fix regex to handle versions without spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 11:35:48 -0000
+X-List-Received-Date: Fri, 12 Feb 2016 11:36:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-PKG_ can be set to something like ${MLPREFIX}<name> and the lack of expansion here
-means the case where MLPREFIX is empty leads to a bogus RPROVIDES.
-
-Use expansion of the variable to avoid this.
+Its valid to have dependencies like XXX (=2.1) without spaces, as injected
+by debian.bbclass. The code was breaking these into separate components
+and destroying them so improve the regex to handle them.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-index 1b6979a..be7cacc 100644
---- a/meta/classes/debian.bbclass
-+++ b/meta/classes/debian.bbclass
-@@ -53,7 +53,7 @@ python debian_package_name_hook () {
-         return (s[stat.ST_MODE] & stat.S_IEXEC)
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 32e096b..52a5f31 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -145,7 +145,7 @@ python buildhistory_emit_pkghistory() {
+             return None
  
-     def add_rprovides(pkg, d):
--        newpkg = d.getVar('PKG_' + pkg, False)
-+        newpkg = d.getVar('PKG_' + pkg, True)
-         if newpkg and newpkg != pkg:
-             provs = (d.getVar('RPROVIDES_' + pkg, True) or "").split()
-             if pkg not in provs:
+     def sortpkglist(string):
+-        pkgiter = re.finditer(r'[a-zA-Z0-9.+-]+( \([><=]+ [^ )]+\))?', string, 0)
++        pkgiter = re.finditer(r'[a-zA-Z0-9.+-]+( \([><=]+[^)]+\))?', string, 0)
+         pkglist = [p.group(0) for p in pkgiter]
+         pkglist.sort()
+         return ' '.join(pkglist)
 
 
 
