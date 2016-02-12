@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3684160107
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C11616FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 23:40:02 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id c200so95697725wme.0
+	Fri, 12 Feb 2016 00:20:37 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id q63so37712112pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Feb 2016 15:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=L9hyAc7ieQ6n/TS3jtOv5KR+mM5ssW/5SydjCy4eo+g=;
-	b=vGi1FhmyAXxpWzqYtnHOFdj4WOFG/4CmxXvn6XNfCiFWhv1WFLtejO7Nxj82/KG0hX
-	QX9hI3Mh7W79oepPPYIqn6KABDEcFeypmCjybR55h7EzZrO/bImJ4xAbNaij9c83YNem
-	LRzJvViHE/7cDlmBWRH+NQh8v2iQVZU2DKpUE+MyGUjJdx3Nf9US26KQP6NNjbu9KPYN
-	/IuiHnJY5YX9jNmTlxNTURMiuzkqFfK/0ZWSvcqHco4LKI8EFLvs9cuCAZKgTbjxFqve
-	0k2/f2SuN/H4OEQ3CZJ9JA3mFPCRtkpAPnNpfMD97ggpwDZr+vcAspnOUEV+u0PWhdFv
-	3M8Q==
+	Thu, 11 Feb 2016 16:20:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=52FaekVeEACvxSRuohlP1VXPSTcS5OldfpBFVUiwT3M=;
+	b=Vz37/z1ScRCHbtiVUH09cBO/+iUQREuoO/EPcnb3mY08B9yIIJ0H+7JH2H30NyJUUW
+	CFyd8obYlh14aCYh3PXUhAQxu+N52X2deFsmQQj2d/pljcoDIagBcsi2E0Mm1EB7uwSb
+	6AbBzclpLuGbvJoUEnWR2dLxoC8v4D4jGUoAXVt4672CcI0y2IalIHym8XO918ETQrhw
+	ZO3hJTJJFfg7qR5jB2z/6t/U5L0voTP8FXNOb6Hnnjai5513iKTlSoPcCp3JC+ZUAkPN
+	FEk04huQEGEI17aavOr5+BwQCLVrlxPinbA7HApAoTOxoIv3nmlKoyRRTCNf6zaRucWl
+	1SZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-type:content-transfer-encoding;
-	bh=L9hyAc7ieQ6n/TS3jtOv5KR+mM5ssW/5SydjCy4eo+g=;
-	b=E0BzqFxSrpRh0V8XQ3IPkVtuCrrWv3Fx0udX9ccNgh+2IYXHeKsXqe0+BbS5k8KZaN
-	/pcTuradVTKha96+kg6uVxGPx4TeiJkRPbShSv5AVA/o/GkGF1IVaIizdUrUOQ4Lvf16
-	SirNqdIoVTvMPyFOOm3M8UtRvNhzeK6j0XKvKtsFNhR7RlCxvy7u4YACRhURtNLDmLaA
-	SEDcqWI5DCHzbRN1+NHmuK4zFRaJwohYQE4Eh+RVsDyXkkn3a1Jl1Qeo6I1PjZVlG5XP
-	hHC9oKKixZBMJdsELNaNybtXZE03CGp8fljt8rQKAYH3qV/OXlBHPqyilC7e/Pv03occ
-	CEEQ==
-X-Gm-Message-State: AG10YORv8wTXlQdVGMAbspkkyA5rFpZKL2sCA4vcaKjwlnftg5WTuIeoM4J7TvvvblqYkhQp
-X-Received: by 10.28.182.136 with SMTP id g130mr1165671wmf.10.1455234002990;
-	Thu, 11 Feb 2016 15:40:02 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	xx3sm9590056wjc.32.2016.02.11.15.40.02
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=52FaekVeEACvxSRuohlP1VXPSTcS5OldfpBFVUiwT3M=;
+	b=PvaCuKQsThaeOgCb11Ed8ny5XIAgroskFCGmg7lrpuSvde5R0axyrxANMc9VJBec78
+	chC2lB0LEqMKylr1QXG0yjWkK7uBjpla/kwVIVHjTwo7XJCDbaZjUnAXccDaw5u0KpmK
+	pVBRO10SQIxKKV/xoNX3pZNArEP7IepwS3PYWT0/gYsk3Kkqy6Q9eHIb9EGHK4fe7BXi
+	Qfhi/D5YHu3wzMz/qBdQS4D0+jES2Fb68HwmIprHzYhSjuTQM6P+5xZ6dMEcR0syNKD0
+	H+wtkpl/wpz0r/8NdMMNBSELwEve2MftkrVuf5iID/LII/d97I8WFtr3VpDBePzRiMmo
+	T8+w==
+X-Gm-Message-State: AG10YORVD2NDOh/lUQAhKDa1cie9UbENqKFWUxTVHezpchrEHsi+yDHtMGAHTuj//jfEVw==
+X-Received: by 10.98.42.85 with SMTP id q82mr27542245pfq.18.1455236438144;
+	Thu, 11 Feb 2016 16:20:38 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	vy6sm14791721pac.38.2016.02.11.16.20.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 11 Feb 2016 15:40:02 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2016 23:39:54 +0000
-Message-Id: <1455233994-12069-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-MIME-Version: 1.0
-Subject: [PATCH] libdrm: don't detect components that have been disabled
+	Thu, 11 Feb 2016 16:20:37 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 11 Feb 2016 16:20:34 -0800
+Message-Id: <1455236434-31029-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [jethro][fido] libbsd: Secuirty fix CVE-2016-2090
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,99 +53,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Feb 2016 23:40:04 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 12 Feb 2016 00:20:37 -0000
 
-We pass --disable-cairo-tests but if cairo is in the sysroot it is detected and
-used, which causes problems in mass builds as cairo could be removed whilst
-libdrm is being built.
+From: Armin Kuster <akuster@mvista.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+CVE-2016-2090 Heap buffer overflow in fgetwln function of libbsd
+
+affects libbsd <= 0.8.1
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-graphics/drm/libdrm/detect.patch | 59 +++++++++++++++++++++++++++
- meta/recipes-graphics/drm/libdrm_2.4.66.bb    |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-graphics/drm/libdrm/detect.patch
+ .../libbsd/files/CVE-2016-2090.patch               | 50 ++++++++++++++++++++++
+ meta/recipes-support/libbsd/libbsd_0.7.0.bb        |  4 +-
+ 2 files changed, 53 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libbsd/files/CVE-2016-2090.patch
 
-diff --git a/meta/recipes-graphics/drm/libdrm/detect.patch b/meta/recipes-graphics/drm/libdrm/detect.patch
+diff --git a/meta/recipes-support/libbsd/files/CVE-2016-2090.patch b/meta/recipes-support/libbsd/files/CVE-2016-2090.patch
 new file mode 100644
-index 0000000..6397a59
+index 0000000..2eaae13
 --- /dev/null
-+++ b/meta/recipes-graphics/drm/libdrm/detect.patch
-@@ -0,0 +1,59 @@
++++ b/meta/recipes-support/libbsd/files/CVE-2016-2090.patch
+@@ -0,0 +1,50 @@
++From c8f0723d2b4520bdd6b9eb7c3e7976de726d7ff7 Mon Sep 17 00:00:00 2001
++From: Hanno Boeck <hanno@hboeck.de>
++Date: Wed, 27 Jan 2016 15:10:11 +0100
++Subject: [PATCH] Fix heap buffer overflow in fgetwln()
++
++In the function fgetwln() there's a 4 byte heap overflow.
++
++There is a while loop that has this check to see whether there's still
++enough space in the buffer:
++
++		if (!fb->len || wused > fb->len) {
++
++If this is true more memory gets allocated. However this test won't be
++true if wused == fb->len, but at that point wused already points out
++of the buffer. Some lines later there's a write to the buffer:
++
++		fb->wbuf[wused++] = wc;
++
++This bug was found with the help of address sanitizer.
++
++Warned-by: ASAN
++Fixes: https://bugs.freedesktop.org/show_bug.cgi?id=93881
++Signed-off-by: Guillem Jover <guillem@hadrons.org>
++
 +Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++http://cgit.freedesktop.org/libbsd/commit/?id=c8f0723d2b4520bdd6b9eb7c3e7976de726d7ff7
 +
-+commit 798022b61c58d945f9027c823a188dcedecd3d06
-+Author: Marcin Ślusarz <marcin.slusarz@gmail.com>
-+Date:   Sun Jan 24 13:17:34 2016 +0100
++CVE: CVE-2016-2090
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+    configure.ac: don't detect disabled options dependencies
-+    
-+    Currently with --disable-amdgpu --disable-valgrind --disable-cairo-tests
-+    cunit, valgrind and cairo are still detected.
-+    
-+    Signed-off-by: Marcin Ślusarz <marcin.slusarz@gmail.com>
-+    Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
++---
++ src/fgetwln.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 057a846..a09be61 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -363,12 +363,14 @@ fi
-+-# Detect cunit library
-+-PKG_CHECK_MODULES([CUNIT], [cunit >= 2.1], [have_cunit=yes], [have_cunit=no])
-+-# If pkg-config does not find cunit, check it using AC_CHECK_LIB.  We
-+-# do this because Debian (Ubuntu) lacks pkg-config file for cunit.
-+-# fixed in 2.1-2.dfsg-3: http://anonscm.debian.org/cgit/collab-maint/cunit.git/commit/?h=debian
-+-if test "x${have_cunit}" = "xno"; then
-+-	AC_CHECK_LIB([cunit], [CU_initialize_registry], [have_cunit=yes], [have_cunit=no])
-+-	if test "x${have_cunit}" = "xyes"; then
-+-		CUNIT_LIBS="-lcunit"
-+-		CUNIT_CFLAGS=""
-+-		AC_SUBST([CUNIT_LIBS])
-+-		AC_SUBST([CUNIT_CFLAGS])
-++if test "x$AMDGPU" != xno; then
-++	# Detect cunit library
-++	PKG_CHECK_MODULES([CUNIT], [cunit >= 2.1], [have_cunit=yes], [have_cunit=no])
-++	# If pkg-config does not find cunit, check it using AC_CHECK_LIB.  We
-++	# do this because Debian (Ubuntu) lacks pkg-config file for cunit.
-++	# fixed in 2.1-2.dfsg-3: http://anonscm.debian.org/cgit/collab-maint/cunit.git/commit/?h=debian
-++	if test "x${have_cunit}" = "xno"; then
-++		AC_CHECK_LIB([cunit], [CU_initialize_registry], [have_cunit=yes], [have_cunit=no])
-++		if test "x${have_cunit}" = "xyes"; then
-++			CUNIT_LIBS="-lcunit"
-++			CUNIT_CFLAGS=""
-++			AC_SUBST([CUNIT_LIBS])
-++			AC_SUBST([CUNIT_CFLAGS])
-++		fi
-+@@ -375,0 +378,2 @@ if test "x${have_cunit}" = "xno"; then
-++else
-++	have_cunit=no
-+@@ -404 +408,3 @@ AC_ARG_ENABLE([cairo-tests],
-+-PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=yes], [HAVE_CAIRO=no])
-++if test "x$CAIRO" != xno; then
-++	PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=yes], [HAVE_CAIRO=no])
-++fi
-+@@ -449 +455,3 @@ AC_ARG_ENABLE(valgrind,
-+-PKG_CHECK_MODULES(VALGRIND, [valgrind], [have_valgrind=yes], [have_valgrind=no])
-++if test "x$VALGRIND" != xno; then
-++	PKG_CHECK_MODULES(VALGRIND, [valgrind], [have_valgrind=yes], [have_valgrind=no])
-++fi
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.66.bb b/meta/recipes-graphics/drm/libdrm_2.4.66.bb
-index 028db4a..3280920 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.66.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.66.bb
-@@ -13,6 +13,7 @@ DEPENDS = "libpthread-stubs udev libpciaccess"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://installtests.patch \
-            file://0001-tests-kms-steal-crtc-Include-sys-select.h.patch \
-+           file://detect.patch \
-           "
++diff --git a/src/fgetwln.c b/src/fgetwln.c
++index 9ee0776..aa3f927 100644
++--- a/src/fgetwln.c
+++++ b/src/fgetwln.c
++@@ -60,7 +60,7 @@ fgetwln(FILE *stream, size_t *lenp)
++ 	fb->fp = stream;
++ 
++ 	while ((wc = fgetwc(stream)) != WEOF) {
++-		if (!fb->len || wused > fb->len) {
+++		if (!fb->len || wused >= fb->len) {
++ 			wchar_t *wp;
++ 
++ 			if (fb->len)
++-- 
++2.3.5
++
+diff --git a/meta/recipes-support/libbsd/libbsd_0.7.0.bb b/meta/recipes-support/libbsd/libbsd_0.7.0.bb
+index 902666d..8d9a708 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.7.0.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.7.0.bb
+@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f1530ea92aeaa1c5e2547cfd43905d8c"
+ SECTION = "libs"
+ DEPENDS = ""
  
- SRC_URI[md5sum] = "c6809c48538d6e5999588832045ff014"
+-SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
++SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
++           file://CVE-2016-2090.patch \
++           "
+ 
+ SRC_URI[md5sum] = "fcceb4e66fd448ca4ed42ba22a8babb0"
+ SRC_URI[sha256sum] = "0f3b0e17e5c34c038126e0a04351b11e23c6101a7d0ce3beeab29bb6415c10bb"
 -- 
-2.7.0
+2.3.5
 
 
