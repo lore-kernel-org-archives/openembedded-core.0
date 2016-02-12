@@ -1,27 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AB2D76A51
+Return-Path: <dmitry.rozhkov@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3115E731F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:54:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CBsNu8017983; Fri, 12 Feb 2016 11:54:23 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id f_1HMTF84vZw; Fri, 12 Feb 2016 11:54:23 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CBsLin017977
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 12 Feb 2016 11:54:22 GMT
-Message-ID: <1455278061.16142.278.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Feb 2016 11:54:21 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] gstreamer1.0-meta-base: Don't use COMBINED_FEATURES
+	Fri, 12 Feb 2016 12:09:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Feb 2016 04:09:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,435,1449561600"; d="scan'208";a="882805237"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.185])
+	by orsmga001.jf.intel.com with ESMTP; 12 Feb 2016 04:09:33 -0800
+From: Dmitry Rozhkov <dmitry.rozhkov@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Feb 2016 14:15:42 +0200
+Message-Id: <1455279342-5458-1-git-send-email-dmitry.rozhkov@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] os-release: remove double-quotes around VERSION_ID value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 11:54:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Feb 2016 12:09:34 -0000
 
-http://git.openembedded.org/openembedded-core/commit/?id=948165dce7475b815a344fd3c3d58165e6865d48
-makes gstreamer1.0-plugins-base-alsa depend on COMBINED_FEATURES.
+man 5 os-release states that VERSION_ID is
 
-This is an allarch recipe so this only works if all your machines
-have the same MACHINE_FEATURES and not all do.
+"
+a lower-case string (mostly numeric, no spaces or other
+characters outside of 0-9, a-z, ".", "_" and "-")
+identifying the operating system version
+"
 
-Instead make this an unconditional RRECOMMEND, its a PACKAGES_DYNAMIC so
-this should all work out for everyone's use cases.
+This becomes crucial when ClearLinux's software
+update mechanism is integrated into builds, because
+its client side ignores VERSION_ID's value if it
+doesn't conform the definition.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@intel.com>
+---
+ meta/recipes-core/os-release/os-release.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-index ecfd082..9d1b9dc 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-@@ -26,7 +26,6 @@ RDEPENDS_gstreamer1.0-meta-base = "\
-     gstreamer1.0 \
-     gstreamer1.0-plugins-base-playback \
-     gstreamer1.0-plugins-base-gio \
--    ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'gstreamer1.0-plugins-base-alsa', '',d)} \
-     gstreamer1.0-plugins-base-volume \
-     gstreamer1.0-plugins-base-audioconvert \
-     gstreamer1.0-plugins-base-audioresample \
-@@ -36,6 +35,10 @@ RDEPENDS_gstreamer1.0-meta-base = "\
-     gstreamer1.0-plugins-good-autodetect \
-     gstreamer1.0-plugins-good-souphttpsrc"
- 
-+RRECOMMENDS_gstreamer1.0-meta-base = "\
-+    gstreamer1.0-plugins-base-alsa \
-+"
-+
- RRECOMMENDS_gstreamer1.0-meta-x11-base = "\
-     gstreamer1.0-plugins-base-ximagesink \
-     gstreamer1.0-plugins-base-xvimagesink"
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+index df19ca2..1f0df9e 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -29,7 +29,11 @@ python do_compile () {
+         for field in d.getVar('OS_RELEASE_FIELDS', True).split():
+             value = d.getVar(field, True)
+             if value:
+-                f.write('{0}="{1}"\n'.format(field, value))
++                if field == "VERSION_ID":
++                    format_str = '{0}={1}\n'
++                else:
++                    format_str = '{0}="{1}"\n'
++                f.write(format_str.format(field, value))
+     if d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+         rpm_gpg_pubkey = d.getVar('RPM_GPG_PUBKEY', True)
+         bb.utils.mkdirhier('${B}/rpm-gpg')
+-- 
+2.5.0
 
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
