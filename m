@@ -1,46 +1,31 @@
-Return-Path: <eu@felipetonello.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 51D9A7318C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BC7575D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:25:43 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id p63so16046544wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 03:25:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=felipetonello-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=k9VX02K2HKAE3TTW6WAZTtm70XIo2eBdrOPbIPGDkgI=;
-	b=tE+wAEU/b36r/kHf/SuWd7Y/yIgcbXLGWqZqrlRnQWtwlkgjEL+7CIgZ1q+U7x8o0d
-	Y2kj2KivoTXRA83V7WhQa+sAnmsNgunJOwIDprdjcntLo6KqM3bc6KrmdsQ9UyvCbldE
-	MHLrOZwiVuqUWkR94sRQGykiOwfdCRH8xegVG8L/qh6foN4FDNq5Z0UIqJW/Zru51mvX
-	LpM+vkvIQvuIn9gsioi6tyxPF1y/N8gbFVJZBnvOQxWXxLQ+GRJ+DxgDIPGXsJVVTuOC
-	dCI935TBKGuJJRY8UByttelQMCdWmRyIlsWolf2twrW2JyfHEv2txpyhnvKSN26pz0ks
-	yWCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=k9VX02K2HKAE3TTW6WAZTtm70XIo2eBdrOPbIPGDkgI=;
-	b=Q8btTuDGwfkOLzUUEqW5htkCJhitQHS6Rlenl9ZOmQrzEWGCk0ZYgGv5vnvn4XkfIY
-	c8WLjYzhVRVb2AQa/FHrSHC2KiDnV2YujewaCNnCUozGT+e8ji7N6WPS0CES7QGwR55W
-	9BxNjO6ZROoZtYubby2e7BPWOaX/BLsHqpFpUO3oD4VP5UhNf/hYOJ/s5vRF6Usln5u7
-	128PrnLts+LlcnEG5NKA06DMFxIYNgzeEaCfx5znjgWFkSdhzJu3/FsiAt8BVluzck2z
-	ihkQKNtzKBpGxpLyx/BaLrmNv5gHqdx70bTe5Wsi+zLYvFUBUV+CO9PbFORB6qH1Idg7
-	A6tA==
-X-Gm-Message-State: AG10YOTTI2ACvJCwhazUO+LR3WXccv9qBjINYMPFoGlD882MsQOFr/P4pFz44AasJZxfvg==
-X-Received: by 10.194.216.2 with SMTP id om2mr1153526wjc.164.1455276344344;
-	Fri, 12 Feb 2016 03:25:44 -0800 (PST)
-Received: from felipe-arch.localdomain ([81.145.202.106])
-	by smtp.gmail.com with ESMTPSA id
-	di1sm11604870wjc.3.2016.02.12.03.25.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 Feb 2016 03:25:43 -0800 (PST)
-From: "Felipe F. Tonello" <eu@felipetonello.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Feb 2016 11:26:58 +0000
-Message-Id: <1455276418-4134-1-git-send-email-eu@felipetonello.com>
-X-Mailer: git-send-email 2.7.1
-Subject: [PATCH] packagegroup-core-tools-profile: Enable valgrind on ARM
+	Fri, 12 Feb 2016 11:28:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1CBSP8V016783; Fri, 12 Feb 2016 11:28:25 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zqsEM7-lZ4pk; Fri, 12 Feb 2016 11:28:25 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1CBSMiu016779
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 12 Feb 2016 11:28:23 GMT
+Message-ID: <1455276502.16142.272.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alexander.kanavin@linux.intel.com, Bruce Ashfield
+	<bruce.ashfield@windriver.com>
+Date: Fri, 12 Feb 2016 11:28:22 +0000
+In-Reply-To: <61992.10.252.9.169.1455277045.squirrel@linux.intel.com>
+References: <cover.1455203165.git.bruce.ashfield@windriver.com>
+	<61992.10.252.9.169.1455277045.squirrel@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] linux-yocto: -stable and BSP updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,28 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 11:25:44 -0000
+X-List-Received-Date: Fri, 12 Feb 2016 11:28:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-fixes af1ddab5c('task-core-tools-profile: fix valgrind for arm and systemtap for')
+On Fri, 2016-02-12 at 13:37 +0200, alexander.kanavin@linux.intel.com
+wrote:
+> > Here are the pending updates to the 4.1 and 4.4 kerne to integrate 
+> > -stable
+> > updates
+> > and to backport the mainline galileo support patches.
+> > Bruce Ashfield (3):
+> >   linux-yocto/4.4: update to v4.4.1
+> >   linux-yocto/4.1: update to v4.1.17
+> >   linux-yocto/4.1: galileo backports and support
+> 
+> Shouldn't linux-libc-headers be updated to 4.4.1 at the same time?
 
-Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
----
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 -
- 1 file changed, 1 deletion(-)
+We tend to only change linux-libc-headers if there is a need to outside
+major version bumps. We have had cases where there have been fixes in
+point releases we've needed but they should be rare.
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 59d930bc7b72..52e17c59bcea 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -64,7 +64,6 @@ VALGRIND_libc-uclibc = ""
- VALGRIND_mips = ""
- VALGRIND_mips64 = ""
- VALGRIND_mips64n32 = ""
--VALGRIND_arm = ""
- VALGRIND_aarch64 = ""
- 
- RDEPENDS_${PN} = "\
--- 
-2.7.1
+Cheers,
 
+Richard
 
