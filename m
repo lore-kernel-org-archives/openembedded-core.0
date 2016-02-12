@@ -1,30 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 26D7F7609A
+Return-Path: <tanuk@iki.fi>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id 547CC766E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:34:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CBYAvf017033 for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:34:10 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1Ml55b4Xh_vs
+	Fri, 12 Feb 2016 11:34:24 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.nyi.internal (Postfix) with ESMTP id 892A420435
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:34:09 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1CBY7xE017030
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 11:34:08 GMT
-Message-ID: <1455276847.16142.273.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Feb 2016 11:34:07 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+	Fri, 12 Feb 2016 06:34:23 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+	by compute2.internal (MEProxy); Fri, 12 Feb 2016 06:34:23 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=lVwgSrw1CveEmJ2
+	QoZkcz3hxspI=; b=ObNlrB62BcmmGoBYApwdT5pAGx0sr3LNKEs3HV/of2qfW4m
+	JHCuWsbXQlhN7TzRKbHkdHLb8E/lEV0yH15I6WoXaxlo+nQ1OGyJ0sJtQATxcCeY
+	dea3zzhcXeJaNSoSYLohFFqKCHDCbfhuGLMyMmyz9sVXAA6zkOO+c2v+hRn0=
+X-Sasl-enc: oY1bRkxDMqcmFfwnKcqr4lDB1eqziBFf+wl8Zira/VX4 1455276863
+Received: from laptop (a88-114-110-232.elisa-laajakaista.fi [88.114.110.232])
+	by mail.messagingengine.com (Postfix) with ESMTPA id E2E71C0001A;
+	Fri, 12 Feb 2016 06:34:22 -0500 (EST)
+Message-ID: <1455276861.1450.7.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: alexander.kanavin@linux.intel.com
+Date: Fri, 12 Feb 2016 13:34:21 +0200
+In-Reply-To: <62334.10.252.9.169.1455279065.squirrel@linux.intel.com>
+References: <1452754378-2096-1-git-send-email-tanuk@iki.fi>
+	<5697824A.8040503@linux.intel.com> <1452774089.11077.100.camel@iki.fi>
+	<62334.10.252.9.169.1455279065.squirrel@linux.intel.com>
+X-Mailer: Evolution 3.18.3-1 
 Mime-Version: 1.0
-Subject: [PATCH] autotools: Correct dependency search logic error
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] alsa-lib: 1.0.29 -> 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 11:34:10 -0000
+X-List-Received-Date: Fri, 12 Feb 2016 11:34:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-We go to the effort of finding the value of start, we should then use it
-rather than relying on the value of dep being preserved from the previous
-loop. Took me far too long to notice this issue when changing the code.
+On Fri, 2016-02-12 at 14:11 +0200, alexander.kanavin@linux.intel.com wrote:
+> > > > Changelog: http://alsa-project.org/main/index.php/Changes_v1.0.29_v
+> > > > 1.1.0
+> > > 
+> > > What about all the other alsa-* recipes?
+> > 
+> > They are coming.
+> 
+> 
+> The window for version updates is closing at the end of February, so you
+> should hurry up. Also, pulseaudio is now two major releases behind.
 
-Also drop an unused variable.
+It's closing so soon? Hmm, I didn't realize that. Luckily the patches
+are at this point only lacking build testing on all archs. PulseAudio
+update is included.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index abbc782..a5f2bff 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -160,8 +160,8 @@ python autotools_copy_aclocals () {
-     # We need to find configure tasks which are either from <target> -> <target>
-     # or <native> -> <native> but not <target> -> <native> unless they're direct
-     # dependencies. This mirrors what would get restored from sstate.
--    done = [dep]
--    next = [dep]
-+    done = [start]
-+    next = [start]
-     while next:
-         new = []
-         for dep in next:
-@@ -188,7 +188,6 @@ python autotools_copy_aclocals () {
-     #bb.warn(str(configuredeps2))
- 
-     cp = []
--    siteconf = []    
-     for c in configuredeps:
-         if c.endswith("-native"):
-             manifest = d.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}-%s.populate_sysroot" % c)
-
-
+-- 
+Tanu
 
