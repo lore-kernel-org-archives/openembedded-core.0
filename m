@@ -1,25 +1,23 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4346C731C3
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 549306AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 22:18:40 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Feb 2016 14:18:41 -0800
+	Fri, 12 Feb 2016 22:19:57 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Feb 2016 14:19:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,437,1449561600"; d="scan'208";a="651471285"
-Received: from dmcerlea-mobl1.ger.corp.intel.com (HELO
-	jlock-mobl1.gar.corp.intel.com) ([10.252.13.227])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Feb 2016 14:18:40 -0800
-Message-ID: <1455315518.3546.39.camel@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,437,1449561600"; d="scan'208";a="745172732"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.13.227])
+	by orsmga003.jf.intel.com with ESMTP; 12 Feb 2016 14:19:57 -0800
+Message-ID: <1455315595.3546.41.camel@linux.intel.com>
 From: Joshua G Lock <joshua.g.lock@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Feb 2016 22:18:38 +0000
-In-Reply-To: <1455244878-7901-2-git-send-email-akuster808@gmail.com>
-References: <1455244878-7901-1-git-send-email-akuster808@gmail.com>
-	<1455244878-7901-2-git-send-email-akuster808@gmail.com>
+Date: Fri, 12 Feb 2016 22:19:55 +0000
+In-Reply-To: <1455236434-31029-1-git-send-email-akuster808@gmail.com>
+References: <1455236434-31029-1-git-send-email-akuster808@gmail.com>
 X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
 Mime-Version: 1.0
-Subject: Re: [fido][PATCH] libpcre: Security fixes and package update.
+Subject: Re: [jethro][fido] libbsd: Secuirty fix CVE-2016-2090
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,106 +30,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Feb 2016 22:18:41 -0000
+X-List-Received-Date: Fri, 12 Feb 2016 22:19:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2016-02-11 at 18:41 -0800, Armin Kuster wrote:
+On Thu, 2016-02-11 at 16:20 -0800, Armin Kuster wrote:
 > From: Armin Kuster <akuster@mvista.com>
 > 
-> this is related to [Yocto # 9008]
+> CVE-2016-2090 Heap buffer overflow in fgetwln function of libbsd
+> 
+> affects libbsd <= 0.8.1
 
-Thanks, queued in joshuagl/fido next with the addition of the below
-comment to the commit message:
+and this not needed in master which has 0.8.2.
 
-"Jethro and master don't require this patch as they have newer libpcre
-which contains these fixes."
+I plan to take this in fido once it's merged to jethro.
 
 Regards,
 
 Joshua
 
 > 
-> 8.38:
-> The following security fixes are included:
-> CVE-2015-3210 pcre: heap buffer overflow in
-> pcre_compile2()  compile_regex()
-> CVE-2015-3217 pcre: stack overflow in match()
-> CVE-2015-5073 CVE-2015-8388 pcre: Buffer overflow caused by certain
-> patterns with an unmatched closing parenthesis
-> CVE-2015-8380 pcre: Heap-based buffer overflow in pcre_exec
-> CVE-2015-8381 pcre: Heap Overflow in compile_regex()
-> CVE-2015-8383 pcre: Buffer overflow caused by repeated conditional
-> group
-> CVE-2015-8384 pcre: Buffer overflow caused by recursive back
-> reference by name within certain group
-> CVE-2015-8385 pcre: Buffer overflow caused by forward reference by
-> name to certain group
-> CVE-2015-8386 pcre: Buffer overflow caused by lookbehind assertion
-> CVE-2015-8387 pcre: Integer overflow in subroutine calls
-> CVE-2015-8389 pcre: Infinite recursion in JIT compiler when
-> processing certain patterns
-> CVE-2015-8390 pcre: Reading from uninitialized memory when processing
-> certain patterns
-> CVE-2015-8392 pcre: Buffer overflow caused by certain patterns with
-> duplicated named groups
-> CVE-2015-8393 pcre: Information leak when running pcgrep -q on
-> crafted binary
-> CVE-2015-8394 pcre: Integer overflow caused by missing check for
-> certain conditions
-> CVE-2015-8395 pcre: Buffer overflow caused by certain references
-> CVE-2016-1283 pcre: Heap buffer overflow in pcre_compile2 causes DoS
-> 
-> 8.37:
-> The following security fixes are included:
-> CVE-2014-8964 pcre: incorrect handling of zero-repeat assertion
-> conditions
-> CVE-2015-2325 pcre: heap buffer overflow in compile_branch()
-> CVE-2015-2326 pcre: heap buffer overflow in pcre_compile2()
-> 
-> LICENSE file changed do to Copyright date updates.
-> 
 > Signed-off-by: Armin Kuster <akuster@mvista.com>
 > ---
->  meta/recipes-support/libpcre/{libpcre_8.36.bb => libpcre_8.38.bb} |
-> 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->  rename meta/recipes-support/libpcre/{libpcre_8.36.bb =>
-> libpcre_8.38.bb} (91%)
+>  .../libbsd/files/CVE-2016-2090.patch               | 50
+> ++++++++++++++++++++++
+>  meta/recipes-support/libbsd/libbsd_0.7.0.bb        |  4 +-
+>  2 files changed, 53 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/libbsd/files/CVE-2016-
+> 2090.patch
 > 
-> diff --git a/meta/recipes-support/libpcre/libpcre_8.36.bb
-> b/meta/recipes-support/libpcre/libpcre_8.38.bb
-> similarity index 91%
-> rename from meta/recipes-support/libpcre/libpcre_8.36.bb
-> rename to meta/recipes-support/libpcre/libpcre_8.38.bb
-> index a4b7f6d..6ef5d70 100644
-> --- a/meta/recipes-support/libpcre/libpcre_8.36.bb
-> +++ b/meta/recipes-support/libpcre/libpcre_8.38.bb
-> @@ -6,16 +6,15 @@ SUMMARY = "Perl Compatible Regular Expressions"
->  HOMEPAGE = "http://www.pcre.org"
->  SECTION = "devel"
->  LICENSE = "BSD"
-> -LIC_FILES_CHKSUM =
-> "file://LICENCE;md5=ded617e975f28e15952dc68b84a7ac1a"
-> +LIC_FILES_CHKSUM =
-> "file://LICENCE;md5=7e4937814aee14758c1c95b59c80c44d"
->  SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-
-> ${PV}.tar.bz2 \
->             file://pcre-cross.patch \
->             file://fix-pcre-name-collision.patch \
->             file://run-ptest \
->             file://Makefile \
->  "
-> -
-> -SRC_URI[md5sum] = "b767bc9af0c20bc9c1fe403b0d41ad97"
-> -SRC_URI[sha256sum] =
-> "ef833457de0c40e82f573e34528f43a751ff20257ad0e86d272ed5637eb845bb"
-> +SRC_URI[md5sum] = "00aabbfe56d5a48b270f999b508c5ad2"
-> +SRC_URI[sha256sum] =
-> "b9e02d36e23024d6c02a2e5b25204b3a4fa6ade43e0a5f869f254f49535079df"
+> diff --git a/meta/recipes-support/libbsd/files/CVE-2016-2090.patch
+> b/meta/recipes-support/libbsd/files/CVE-2016-2090.patch
+> new file mode 100644
+> index 0000000..2eaae13
+> --- /dev/null
+> +++ b/meta/recipes-support/libbsd/files/CVE-2016-2090.patch
+> @@ -0,0 +1,50 @@
+> +From c8f0723d2b4520bdd6b9eb7c3e7976de726d7ff7 Mon Sep 17 00:00:00
+> 2001
+> +From: Hanno Boeck <hanno@hboeck.de>
+> +Date: Wed, 27 Jan 2016 15:10:11 +0100
+> +Subject: [PATCH] Fix heap buffer overflow in fgetwln()
+> +
+> +In the function fgetwln() there's a 4 byte heap overflow.
+> +
+> +There is a while loop that has this check to see whether there's
+> still
+> +enough space in the buffer:
+> +
+> +		if (!fb->len || wused > fb->len) {
+> +
+> +If this is true more memory gets allocated. However this test won't
+> be
+> +true if wused == fb->len, but at that point wused already points out
+> +of the buffer. Some lines later there's a write to the buffer:
+> +
+> +		fb->wbuf[wused++] = wc;
+> +
+> +This bug was found with the help of address sanitizer.
+> +
+> +Warned-by: ASAN
+> +Fixes: https://bugs.freedesktop.org/show_bug.cgi?id=93881
+> +Signed-off-by: Guillem Jover <guillem@hadrons.org>
+> +
+> +Upstream-Status: Backport
+> +http://cgit.freedesktop.org/libbsd/commit/?id=c8f0723d2b4520bdd6b9eb
+> 7c3e7976de726d7ff7
+> +
+> +CVE: CVE-2016-2090
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + src/fgetwln.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/fgetwln.c b/src/fgetwln.c
+> +index 9ee0776..aa3f927 100644
+> +--- a/src/fgetwln.c
+> ++++ b/src/fgetwln.c
+> +@@ -60,7 +60,7 @@ fgetwln(FILE *stream, size_t *lenp)
+> + 	fb->fp = stream;
+> + 
+> + 	while ((wc = fgetwc(stream)) != WEOF) {
+> +-		if (!fb->len || wused > fb->len) {
+> ++		if (!fb->len || wused >= fb->len) {
+> + 			wchar_t *wp;
+> + 
+> + 			if (fb->len)
+> +-- 
+> +2.3.5
+> +
+> diff --git a/meta/recipes-support/libbsd/libbsd_0.7.0.bb
+> b/meta/recipes-support/libbsd/libbsd_0.7.0.bb
+> index 902666d..8d9a708 100644
+> --- a/meta/recipes-support/libbsd/libbsd_0.7.0.bb
+> +++ b/meta/recipes-support/libbsd/libbsd_0.7.0.bb
+> @@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f1530ea92aea
+> a1c5e2547cfd43905d8c"
+>  SECTION = "libs"
+>  DEPENDS = ""
 >  
->  S = "${WORKDIR}/pcre-${PV}"
+> -SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.x
+> z"
+> +SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.x
+> z \
+> +           file://CVE-2016-2090.patch \
+> +           "
 >  
+>  SRC_URI[md5sum] = "fcceb4e66fd448ca4ed42ba22a8babb0"
+>  SRC_URI[sha256sum] =
+> "0f3b0e17e5c34c038126e0a04351b11e23c6101a7d0ce3beeab29bb6415c10bb"
 > -- 
 > 2.3.5
 > 
