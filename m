@@ -1,27 +1,24 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 49116734B8
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 97FA16FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 10:01:38 +0000 (UTC)
-Received: from poczta.nazwa.pl (unknown [10.252.0.18])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 04CB72D7D54;
-	Sat, 13 Feb 2016 11:01:36 +0100 (CET)
-Date: Sat, 13 Feb 2016 11:01:36 +0100 (CET)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Reply-To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org, 
-	Joshua G Lock <joshua.g.lock@linux.intel.com>
-Message-ID: <1932407995.429489.1455357696984.JavaMail.open-xchange@ox8.netart.com.pl>
-In-Reply-To: <1455313743.3546.23.camel@linux.intel.com>
-References: <1455279342-5458-1-git-send-email-dmitry.rozhkov@intel.com>
-	<548649854.435770.1455297246525.JavaMail.open-xchange@ox1.netart.com.pl>
-	<1455313743.3546.23.camel@linux.intel.com>
-MIME-Version: 1.0
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.6.2-Rev33
-X-Originating-Client: com.openexchange.ox.gui.dhtml
-Subject: Re: [PATCH] os-release: remove double-quotes around VERSION_ID value
+	Sat, 13 Feb 2016 11:11:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 13 Feb 2016 03:11:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="883635254"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 13 Feb 2016 03:11:57 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id E10B06A4004
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Feb 2016 03:59:47 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Feb 2016 11:02:07 +0200
+Message-Id: <cover.1455353103.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH v3 00/14] Support for wic images in runqemu and oe-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 10:01:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 13 Feb 2016 11:11:58 -0000
 
-> Dnia 12 luty 2016 o 22:49 Joshua G Lock <joshua.g.lock@linux.intel.com>
-> napisa=C5=82(a):
->
->
-> On Fri, 2016-02-12 at 18:14 +0100, Maciej Borzecki wrote:
-> > > Dnia 12 luty 2016 o 13:15 Dmitry Rozhkov <dmitry.rozhkov@intel.com>
-> > > napisa=C5=82(a):
-> > >=20
-> > > This becomes crucial when ClearLinux's software
-> > > update mechanism is integrated into builds, because
-> > > its client side ignores VERSION_ID's value if it
-> > > doesn't conform the definition.
-> >
-> > Is this integration work already published somewhere? I'm interested
-> > in trying out swupdate with Yocto, but the lack of publicly available
-> > repo is kind of holding this back (yes, I'm ware of SRPMs).
->
-> I'm working on integrating swupd into OE-Core, it's a work in progress
-> and so far nothing has been published (the work is not yet in a
-> functional state).
->
-> The recipes we are currently using for swupd-server and swupd-client
-> use the src.rpm's from clearlinux.org
->
-> > Do you mind sharing the some details if there is a larger plan for
-> > getting Clear closer to Yocto/OE?
->
-> We have a couple of tickets in the Yocto Project bugzilla[1][2] which
-> give an overview of the approach I'm taking for this initial
-> implementation.
->
-> The approach is fairly conservative in an attempt to get something
-> usable integrated that lets us work with the swupd developers to iron
-> out issues with utilising swupd from within OE.
->
+Hi,
 
-Thanks for taking the time to respond. I'll keep an eye on both BZ issues.
+This patchset contains set of fixes for wic, runqemu and oe-selftest to
+support booting and testing wic images in qemu.
+
+This work is based on Cristian's work from poky-contrib:ciorga/wic-testing
+Thank you Cristian!
+
+The patchset also includes bugfix for wic --use-uuid option and a bit of
+code cleanup for wic tests.
+
+[YOCTO #8691]
+[YOCTO #8498]
+[YOCTO #8499]
+
+Changes in v2: Dropped "runqemu: don't use virtio for wic images"
+               as suggested by reviewers.
+
+Changes in v3: Fixed test_wic_image_type test case
+
+The following changes since commit 971fafba6a04531acc73ed348f04a6315be6d0ef:
+
+  maintainers.inc: include libjpeg-turbo and mmc-utils (2016-02-12 18:03:47 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/qemuRunner-wic-8498
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/qemuRunner-wic-8498
+
+Ed Bartosh (14):
+  runqemu: add support for wic images
+  runqemu: don't set KERNEL for wic images
+  runqemu: support path/to/<image>-<machine>.wic
+  oe-selftest: remove unused parameter
+  qemurunner: add parameter to method 'start'
+  oeqa/targetcontrol: make ssh control optional
+  oeqa/targetcontrol: support wic image type
+  wic-image-minimal: change IMAGE_FSTYPES
+  wic-image-minimal: update .wks to boot by qemu
+  oe-selftest: add new wic testcase
+  wic: fix processing of --use-uuid
+  wic-image-minimal: use uuid for root partition
+  oe-selftest: pylinted wic tests
+  oe-selftest: don't use specific tasks
+
+ .../recipes-test/images/wic-image-minimal.bb       |  4 +-
+ .../recipes-test/images/wic-image-minimal.wks      | 10 ++---
+ meta/lib/oeqa/selftest/devtool.py                  |  2 +-
+ meta/lib/oeqa/selftest/imagefeatures.py            |  6 +--
+ meta/lib/oeqa/selftest/wic.py                      | 34 ++++++++++------
+ meta/lib/oeqa/targetcontrol.py                     | 20 +++++-----
+ meta/lib/oeqa/utils/commands.py                    |  4 +-
+ meta/lib/oeqa/utils/qemurunner.py                  | 45 +++++++++++-----------
+ scripts/lib/wic/partition.py                       |  3 ++
+ scripts/runqemu                                    | 15 +++++---
+ scripts/runqemu-internal                           | 18 ++++-----
+ 11 files changed, 90 insertions(+), 71 deletions(-)
 
 --
-Maciej Borz=C4=99cki
-Senior Software Engineer at Open-RnD Sp. z o.o.
-www.open-rnd.pl, Facebook, Twitter
+Regards,
+Ed
+
 
