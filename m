@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A4F175E2D
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A0F7F766B2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 11:12:35 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 13 Feb 2016 03:12:36 -0800
+	Sat, 13 Feb 2016 11:12:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Feb 2016 03:12:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="47336522"
+X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="914432026"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 13 Feb 2016 03:12:35 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2016 03:12:36 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 8B9A16A4004
+	by linux.intel.com (Postfix) with ESMTP id AABF86A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 04:00:26 -0800 (PST)
+	Sat, 13 Feb 2016 04:00:27 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Feb 2016 11:02:13 +0200
-Message-Id: <5dad0aa3cdf3970ab5be405f58235868962bfad7.1455353103.git.ed.bartosh@linux.intel.com>
+Date: Sat, 13 Feb 2016 11:02:14 +0200
+Message-Id: <00f35a6ff4168cfaab7490a5cb1086cfb3ba280f.1455353103.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v3 06/14] oeqa/targetcontrol: make ssh control optional
+Subject: [wic][PATCH v3 07/14] oeqa/targetcontrol: support wic image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,86 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 11:12:35 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 11:12:36 -0000
 
-Added new parameter 'ssh' to targetcontrol 'start' method
-to be able to test images without running ssh server.
+Added 'wic' to the list image types supported by targetcontrol.
+
+This is a preparation for booting and testing wic images
+with oe-selftest.
 
 [YOCTO #8498]
 
-(From OE-Core rev: 1c3c66aadd43092bc19242b0651ee810cc31fe7c)
+(From OE-Core rev: 7dda053fbd1ea1354b7720cfa691470ba88ef5b9)
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/targetcontrol.py  | 18 ++++++++++--------
- meta/lib/oeqa/utils/commands.py |  4 ++--
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ meta/lib/oeqa/targetcontrol.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index edc0d01..f461651 100644
+index f461651..5422a61 100644
 --- a/meta/lib/oeqa/targetcontrol.py
 +++ b/meta/lib/oeqa/targetcontrol.py
-@@ -68,7 +68,7 @@ class BaseTarget(object):
-         bb.note("SSH log file: %s" %  self.sshlog)
+@@ -113,7 +113,7 @@ class BaseTarget(object):
  
-     @abstractmethod
--    def start(self, params=None):
-+    def start(self, params=None, ssh=True):
-         pass
+ class QemuTarget(BaseTarget):
  
-     @abstractmethod
-@@ -176,11 +176,12 @@ class QemuTarget(BaseTarget):
-         bb.note("Qemu log file: %s" % self.qemulog)
-         super(QemuTarget, self).deploy()
+-    supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz']
++    supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
  
--    def start(self, params=None):
--        if self.runner.start(params):
--            self.ip = self.runner.ip
--            self.server_ip = self.runner.server_ip
--            self.connection = SSHControl(ip=self.ip, logfile=self.sshlog)
-+    def start(self, params=None, ssh=True):
-+        if self.runner.start(params, get_ip=ssh):
-+            if ssh:
-+                self.ip = self.runner.ip
-+                self.server_ip = self.runner.server_ip
-+                self.connection = SSHControl(ip=self.ip, logfile=self.sshlog)
-         else:
-             self.stop()
-             if os.path.exists(self.qemulog):
-@@ -231,8 +232,9 @@ class SimpleRemoteTarget(BaseTarget):
-     def deploy(self):
-         super(SimpleRemoteTarget, self).deploy()
- 
--    def start(self, params=None):
--        self.connection = SSHControl(self.ip, logfile=self.sshlog, port=self.port)
-+    def start(self, params=None, ssh=True):
-+        if ssh:
-+            self.connection = SSHControl(self.ip, logfile=self.sshlog, port=self.port)
- 
-     def stop(self):
-         self.connection = None
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 93a0e48..32e001c 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -178,7 +178,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
- 
- 
- @contextlib.contextmanager
--def runqemu(pn):
-+def runqemu(pn, ssh=True):
- 
-     import bb.tinfoil
-     import bb.build
-@@ -222,7 +222,7 @@ def runqemu(pn):
-     try:
-         qemu.deploy()
-         try:
--            qemu.start()
-+            qemu.start(ssh=ssh)
-         except bb.build.FuncFailed:
-             raise Exception('Failed to start QEMU - see the logs in %s' % logdir)
+     def __init__(self, d):
  
 -- 
 2.1.4
