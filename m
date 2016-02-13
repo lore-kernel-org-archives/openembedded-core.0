@@ -1,24 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 97FA16FFF7
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 824D873D46
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 11:11:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Feb 2016 03:11:58 -0800
+	Sat, 13 Feb 2016 11:12:17 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Feb 2016 03:12:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="883635254"
+X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="651707031"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 13 Feb 2016 03:11:57 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Feb 2016 03:12:17 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id E10B06A4004
+	by linux.intel.com (Postfix) with ESMTP id C2E1A6A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 03:59:47 -0800 (PST)
+	Sat, 13 Feb 2016 04:00:07 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Feb 2016 11:02:07 +0200
-Message-Id: <cover.1455353103.git.ed.bartosh@linux.intel.com>
+Date: Sat, 13 Feb 2016 11:02:08 +0200
+Message-Id: <aa166b9e29f3090d322a797e26160c670148d10a.1455353103.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH v3 00/14] Support for wic images in runqemu and oe-selftest
+In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
+References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
+References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
+Subject: [wic][PATCH v3 01/14] runqemu: add support for wic images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +35,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 11:11:58 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 11:12:19 -0000
 
-Hi,
+Quemu should be able to run wic images this way:
+    runqemu <machine> <image recipe> wic
 
-This patchset contains set of fixes for wic, runqemu and oe-selftest to
-support booting and testing wic images in qemu.
+Tested with 'runqemu qemux86-64 wic-image-minimal wic'
 
-This work is based on Cristian's work from poky-contrib:ciorga/wic-testing
-Thank you Cristian!
+(From OE-Core rev: 8716be799949cb8bde7fa49cbea61312a3a93bb7)
 
-The patchset also includes bugfix for wic --use-uuid option and a bit of
-code cleanup for wic tests.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/runqemu          |  3 ++-
+ scripts/runqemu-internal | 16 ++++++++--------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-[YOCTO #8691]
-[YOCTO #8498]
-[YOCTO #8499]
-
-Changes in v2: Dropped "runqemu: don't use virtio for wic images"
-               as suggested by reviewers.
-
-Changes in v3: Fixed test_wic_image_type test case
-
-The following changes since commit 971fafba6a04531acc73ed348f04a6315be6d0ef:
-
-  maintainers.inc: include libjpeg-turbo and mmc-utils (2016-02-12 18:03:47 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/oe-core/qemuRunner-wic-8498
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/qemuRunner-wic-8498
-
-Ed Bartosh (14):
-  runqemu: add support for wic images
-  runqemu: don't set KERNEL for wic images
-  runqemu: support path/to/<image>-<machine>.wic
-  oe-selftest: remove unused parameter
-  qemurunner: add parameter to method 'start'
-  oeqa/targetcontrol: make ssh control optional
-  oeqa/targetcontrol: support wic image type
-  wic-image-minimal: change IMAGE_FSTYPES
-  wic-image-minimal: update .wks to boot by qemu
-  oe-selftest: add new wic testcase
-  wic: fix processing of --use-uuid
-  wic-image-minimal: use uuid for root partition
-  oe-selftest: pylinted wic tests
-  oe-selftest: don't use specific tasks
-
- .../recipes-test/images/wic-image-minimal.bb       |  4 +-
- .../recipes-test/images/wic-image-minimal.wks      | 10 ++---
- meta/lib/oeqa/selftest/devtool.py                  |  2 +-
- meta/lib/oeqa/selftest/imagefeatures.py            |  6 +--
- meta/lib/oeqa/selftest/wic.py                      | 34 ++++++++++------
- meta/lib/oeqa/targetcontrol.py                     | 20 +++++-----
- meta/lib/oeqa/utils/commands.py                    |  4 +-
- meta/lib/oeqa/utils/qemurunner.py                  | 45 +++++++++++-----------
- scripts/lib/wic/partition.py                       |  3 ++
- scripts/runqemu                                    | 15 +++++---
- scripts/runqemu-internal                           | 18 ++++-----
- 11 files changed, 90 insertions(+), 71 deletions(-)
-
---
-Regards,
-Ed
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 46918e2..4bb3bb6 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -40,6 +40,7 @@ usage() {
+     echo "Examples:"
+     echo "  $MYNAME qemuarm"
+     echo "  $MYNAME qemux86-64 core-image-sato ext4"
++    echo "  $MYNAME qemux86-64 wic-image-minimal wic"
+     echo "  $MYNAME path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial"
+     echo "  $MYNAME qemux86 ramfs"
+     echo "  $MYNAME qemux86 iso"
+@@ -116,7 +117,7 @@ while true; do
+             [ -z "$MACHINE" -o "$MACHINE" = "$arg" ] && MACHINE=$arg || \
+                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
+             ;;
+-        "ext2" | "ext3" | "ext4" | "jffs2" | "nfs" | "btrfs" | "hddimg" | "hdddirect" )
++        "ext2" | "ext3" | "ext4" | "jffs2" | "nfs" | "btrfs" | "hddimg" | "hdddirect" | "wic" )
+             [ -z "$FSTYPE" -o "$FSTYPE" = "$arg" ] && FSTYPE=$arg || \
+                 error "conflicting FSTYPE types [$FSTYPE] and [$arg]"
+             ;;
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index fb98a6e..2926024 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -349,7 +349,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
+     export QEMU_AUDIO_DRV="none"
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
+     fi
+@@ -383,7 +383,7 @@ if [ "$MACHINE" = "qemuarm64" ]; then
+     else
+         QEMU_UI_OPTIONS=""
+     fi
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         KERNCMDLINE="root=$DROOT rw console=ttyAMA0,38400 mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
+         # qemu-system-aarch64 only support '-machine virt -cpu cortex-a57' for now
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu cortex-a57 $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
+@@ -411,7 +411,7 @@ if [ "$MACHINE" = "qemux86" ]; then
+     else
+         QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
+     fi
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
+     fi
+@@ -449,7 +449,7 @@ if [ "$MACHINE" = "qemux86-64" ]; then
+     else
+         QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
+     fi
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
+     fi
+@@ -495,7 +495,7 @@ if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemum
+     esac
+     MACHINE_SUBTYPE=malta
+     QEMU_UI_OPTIONS="-vga cirrus $QEMU_UI_OPTIONS"
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         KERNCMDLINE="root=$DROOT rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
+@@ -521,7 +521,7 @@ if [ "$MACHINE" = "qemuppc" ]; then
+     else
+         QEMU_NETWORK_CMD="-net nic,model=pcnet $QEMU_TAP_CMD"
+     fi
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         KERNCMDLINE="root=$DROOT rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
+     fi
+@@ -540,7 +540,7 @@ if [ "$MACHINE" = "qemush4" ]; then
+     QEMU=qemu-system-sh4
+     MACHINE_SUBTYPE=r2d
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+-    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         KERNCMDLINE="root=/dev/hda rw console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
+@@ -726,7 +726,7 @@ echo "Running $QEMU..."
+ if [ "$FSTYPE" = "vmdk" -o "$FSTYPE" = "hddimg" -o "$FSTYPE" = "hdddirect" ]; then
+     echo $QEMUBIN $VM $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
+     LD_PRELOAD="$GL_LD_PRELOAD" $QEMUBIN $VM $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
+-elif [ "$FSTYPE" = "iso" ]; then
++elif [ "$FSTYPE" = "iso" -o "$FSTYPE" = "wic" ]; then
+     echo $QEMUBIN $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
+     LD_PRELOAD="$GL_LD_PRELOAD" $QEMUBIN $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
+ else
+-- 
+2.1.4
 
 
