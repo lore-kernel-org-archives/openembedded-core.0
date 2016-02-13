@@ -1,46 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E40F71633
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 099E560119
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 01:04:24 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id xk3so144790916obc.2
+	Sat, 13 Feb 2016 04:31:52 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id b205so4985009wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 17:04:25 -0800 (PST)
+	Fri, 12 Feb 2016 20:31:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=kx0AtxWrHE7eXoF/4J8mYX3ZtdDBurZNvIqy1PYwQxM=;
-	b=VmPgnyuzQvx/jiDtXmaJxnkfS1uosF3FhmCVJMzZuGqf5/GwdZAnEPNDqpY8Zhi6o4
-	0GNfc71pjh2TyxX1nhKJS9x6y6Mx6O3q5Y8UPEgd9/wAYeunEsX9QTMUBVGYhuz4RraS
-	eGCZ3mKRVPvchUBXgyT9B9q8Ms/CX/1FKJhYkJw7C2QbXlcXJCnSZiDpUMUFvaN8IOPq
-	NU6+5wIsv/urYMs0QYJN6RbE6i1SK6cKwKtEkhtVTt0dF8ax9mjp16tiEPP4KZKXzotX
-	Ri5B8BdnDjMypbtS++9m9TwZrKrnwgRjevDUfHMrTHGPjtmi4VlkMBAD/HcWSDNM1uHg
-	HtxA==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=vRGcba0LS2mvuW+sR5QNk1voQGaEufW0MGdvzLilWms=;
+	b=g5gO4Ck2nEulOnVyEU3t6lz4C5Lns5P7ZvlvCRYGacFBrm/mOQK3qrN9SNDgvULbI1
+	8+gyrERsEqEXL/0jh8Qna0WG5Vgt2tv73xdDJEvjeM4gCyuBpuRBCuFD0tfNKV5Fl9Me
+	FpmDc3Z+bogTms/EL2CvcCO/FVUxTzLvSwQQBk160LwAVYnrdhpxdirSIB8am6YdMpmq
+	yDyx8YNNKGSmxaRFcBgwvc+7nbYiutPGCDiJXlWKemlldkV3hVCxoND1HxtSkXjcpLj5
+	wisTXJFltVI5CLms9ydzmhLNF6jn7WLXd6pi2kpZtIB2Sj3U0iqMjwYDrUi/iHDeBn7U
+	mlTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kx0AtxWrHE7eXoF/4J8mYX3ZtdDBurZNvIqy1PYwQxM=;
-	b=VufL5kyL4jCzhR4NpYJTt669SC1ZCsaJyfU1pVb3n3x4+ipxRI9lvKZdCZ8K7pQVeq
-	Yr0dcdukJsyXUzxyuHnXr3XAdeRPY3MnwIyvK68rPsUwLNEyHl92Kk/NFe47zCovR4qE
-	8HrMH3ANw0OpEpcTKzt8olrIEBvaHH1njt4A2pkdfSa62MYLnRmKSimfxvx6AZz4uKEH
-	VjgzTeMnFI0ix+NQ/94fKcBxfmmTVxx/5mCF6cWEzVoOWkeDoeUVv7EVb9/sBDwudDX3
-	6+crL6t0vc2GB7gC73A5vzw4x1/vsbaLRt1NJdsjKAteccHAKOF+WM3J8EGwNYtW705I
-	jLyw==
-X-Gm-Message-State: AG10YOQMU6QC770FlanNHQJhG0ncTvfVRhXEP9JCR5L1WDzQrDJ/PyaY3lL1h54JUhHGXw==
-X-Received: by 10.60.141.193 with SMTP id rq1mr3966197oeb.19.1455325464812;
-	Fri, 12 Feb 2016 17:04:24 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	x144sm3163852oif.23.2016.02.12.17.04.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 Feb 2016 17:04:23 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=vRGcba0LS2mvuW+sR5QNk1voQGaEufW0MGdvzLilWms=;
+	b=gDMD3iu9pVLYz77G8u/Ro2amKTs9PJaH4g/LMPkCMvWfZkWCznTh9+rDOgZeoBmjX/
+	Pp7yHgWWD71q6bpwmg9VLpy/xP35MvPQieQ/mms+Q7sQmUGQfxVoz3nCXYyMiv7XQyj/
+	Wa5TI1ahlFZA/+VK9SOq+vgPd7eCH1uwGA8yR69qzOB5dyZx4rlQfAHU5YtqUvAdxcHF
+	1uankSDQK+uc+t13e/cAON8lB2seoCbHvfZK0v/y122SlEPKCRJZv2WBIzofSxnd5g+L
+	RfCO/VhyX1eWuJCGbMAmKCCUupGYGfaVboV6/IoEScte/Th4D0JaWJv7FaJ1SREbf7n8
+	cOhQ==
+X-Gm-Message-State: AG10YOSZAEHr+JS2sP+Dd5QuIUH4yQQiTC3vE3q13jfDHWbCdWVhcDzc7LDRv8Y0HXME7px1Wx+7JNxgQhwXUw==
+MIME-Version: 1.0
+X-Received: by 10.28.54.22 with SMTP id d22mr1213832wma.72.1455337911910; Fri,
+	12 Feb 2016 20:31:51 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Fri, 12 Feb 2016 20:31:51 -0800 (PST)
+In-Reply-To: <1455276418-4134-1-git-send-email-eu@felipetonello.com>
+References: <1455276418-4134-1-git-send-email-eu@felipetonello.com>
+Date: Fri, 12 Feb 2016 20:31:51 -0800
+Message-ID: <CAJ86T=WQApsnZLTAGsRv9BiitVxiKnmDd=5qEsQrogSaQu22hQ@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Feb 2016 17:04:10 -0800
-Message-Id: <1455325450-22774-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] musl: Upgrade to tip of tree
+To: "Felipe F. Tonello" <eu@felipetonello.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagegroup-core-tools-profile: Enable valgrind on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +52,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 01:04:26 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 04:31:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Includes misc minor bugs fixes:
+On Fri, Feb 12, 2016 at 3:26 AM, Felipe F. Tonello <eu@felipetonello.com> wrote:
+> fixes af1ddab5c('task-core-tools-profile: fix valgrind for arm and systemtap for')
 
-  0ed932f do not define static_assert macro for pre-C11 compilers
-  692b16d add declarations for utmpname/utmpxname to appropriate headers
-  500c688 fix return value for fread/fwrite when size argument is 0
-  416d1c7 fix line-buffered flush omission for odd usage of putc-family functions
-  5a6e8d0 fix failed write reporting by fwrite in line-buffered mode
-  869a9df remove workaround for broken mips assemblers
+$ cd openembedded-core
+$ git show af1ddab5c
+fatal: ambiguous argument 'af1ddab5c': unknown revision or path not in
+the working tree.
 
-The addition of utmpname/utmpxname prototypes fixes a change
-introduced in the previous git snapshot version which broke lxc.
+>
+> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+> ---
+>  meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> index 59d930bc7b72..52e17c59bcea 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> @@ -64,7 +64,6 @@ VALGRIND_libc-uclibc = ""
+>  VALGRIND_mips = ""
+>  VALGRIND_mips64 = ""
+>  VALGRIND_mips64n32 = ""
+> -VALGRIND_arm = ""
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Valgrind only supports armv7a and above, so should still be excluded
+for armv4, armv5 and armv6.
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index d4413f5..8c54db8 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
- 
- require musl.inc
- 
--SRCREV = "756c8af8589265e99e454fe3adcda1d0bc5e1963"
-+SRCREV = "0ed932f34f11663e6b3ddfa866b1798a5938a3dc"
- 
- PV = "1.1.12+git${SRCPV}"
- 
--- 
-1.9.1
-
+>  VALGRIND_aarch64 = ""
+>
+>  RDEPENDS_${PN} = "\
+> --
+> 2.7.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
