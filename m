@@ -1,46 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE34601A5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FE607328A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 06:12:59 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id wb13so151438958obb.1
+	Sat, 13 Feb 2016 07:17:55 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id y89so78827687qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Feb 2016 22:13:00 -0800 (PST)
+	Fri, 12 Feb 2016 23:17:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ITcmwyDz/A63FLLO0EDYjW4WMAgj8H+zBdrW5x9pPk8=;
-	b=h3y1Q8rOIX4dRHloiylxfCRuyKRcZUz6h06HWmgqncSxF9EWSs066XqczvPRTMm0FU
-	BpeYhqOzTs36lcz2ePFfL3GqrOzeSR3VKOD4/eljUZclFvMi+7UVP7+fRE3m6sS2H/Jm
-	ZG3XqHMUwlv3fVErNTSfmRZpZPSrz1+l5ShQK5SDYLRo33fNJuktUgNVCEeU+T4YWamh
-	DfqKF2L/LWeSgSckJXhAPR6clq9JiPiFAJf6OVCpVMkvprAxswV6yYSo4nc8hbR2JZvE
-	vkOOjdj9UBs9IDbOl40oLlAb/Yacw3GD1RbDdYgQZcdD3RZXXWvKxvRwfxd6SwlgFaOU
-	nSaw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=368ZSIA8PZDO/dgjvk5XpFK8ZnNcnam/31HPr1xP/S4=;
+	b=g7hRLDmLuM4YmtJYftfIcippgm6mdGqjOKC2SQBytjh1/F+a6HrTRU23wTVW6H8hRD
+	kPBPlvrQ1XKVncY3BbSdaRoAi3T+CVYFco760sUU9Fp1hjX1EMq+2W7QCZDGxgqHwYoo
+	m6sk4IZ1bnkPIlUtgpCRkZrcDm/qAePprAx4QbZ9FdBWVvlFHiXokxeTEpTrp3sDSI0f
+	IPFOP7YS694WLERhnjTR3WbuGic4YIM/QjDKssLXdjrBVsTGmKpoUo8sUhPAtEXx0TiY
+	b/Nwwuw3/xuNEmw/gBglIoWVp+RbGbSUBXP4LnWW54wPQCpApT9h3YWQtA9rsF+I+d4F
+	gWzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ITcmwyDz/A63FLLO0EDYjW4WMAgj8H+zBdrW5x9pPk8=;
-	b=FF7p9Rjva2gdq0BYcwagw7kI6agWCzegltME/TJucrQwtSpnM6XxERLWr73gojw9bt
-	aILLW+E2/DfeQHwTOXYjMUOLwP6AoKMW0J9IXkHT1gCdhXqLCRP3iAj7y7pkGQK14VHE
-	nyGqzL4iwVviXWeAHkpHH/w+YgGh1hxvCbAp3VXvI86DEpohnXXm2CdrrI3M5/I3VprV
-	PEI3Y5fz9D4r9jv7QsTN7jRraGp7PNF8+QFPbeHVoHfG2o4XskdFdLqPsMWahk4+nmsZ
-	d9ZzbK3KwXM4xLGRCWXcyAG3FQfjyeM3SDytFRC9+7aU1vLk30pxicHIafwRL58NhKTp
-	xsrQ==
-X-Gm-Message-State: AG10YORt+iTUhIDuHJaGC5Qvumfc70X706tGA1R4HU+Fkt/w6hfaEJR4v8xPPHKtLqz7qw==
-X-Received: by 10.202.243.193 with SMTP id r184mr4421593oih.24.1455343980079; 
-	Fri, 12 Feb 2016 22:13:00 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	wh4sm10543206obc.10.2016.02.12.22.12.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 Feb 2016 22:12:58 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Feb 2016 22:12:53 -0800
-Message-Id: <1455343973-26176-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] libgcrypt: update 1.6.4 -> 1.6.5
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=368ZSIA8PZDO/dgjvk5XpFK8ZnNcnam/31HPr1xP/S4=;
+	b=dPuNWCGGXx9nf+JxlchhydaDTmz/1MILp8LYwCYFbCAAqMASXyKJyMtQ7wPhCVqnEc
+	R53dcrkRpFwuFHCCQcUuOgcwMUJbJbQBkQdlHF3ovit+ReKnHCr3Ro3GTc3cPdlHLth9
+	KaMnijHyGf1TNDsw/tn2aew+jGX7/PaOrRRgKtaUPfyj8f1fEWgyWCCKx/zwfDw8acSl
+	5l+gyx0JX1M5tPm8pKvHWevPoS/j3GTHRsrdTzgsqvyuxvtK2PPuD8MvVazX1hylFxWi
+	RkT5hrUbZuPpxXoBcejCbqW/rBJD/+CRepHwM2ILUZYchqGuLKrB0j6P4Icql/pphvvI
+	PqwQ==
+X-Gm-Message-State: AG10YOT314SWlkLfG/cI73fgIil/IFGZ8Py9ymeDoZ6w9v//yK6FzZL0NsF3lIT9NPTGhytyeJIVFGGfZnH+0w==
+X-Received: by 10.140.167.86 with SMTP id n83mr7280183qhn.41.1455347876255;
+	Fri, 12 Feb 2016 23:17:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.55.130.196 with HTTP; Fri, 12 Feb 2016 23:17:26 -0800 (PST)
+In-Reply-To: <1455325450-22774-1-git-send-email-armccurdy@gmail.com>
+References: <1455325450-22774-1-git-send-email-armccurdy@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 12 Feb 2016 23:17:26 -0800
+Message-ID: <CAMKF1spD-gNkrmEP+_UyS8iNdscHD4GK1PjjHJuCQwF3s=68Zg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] musl: Upgrade to tip of tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,60 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 06:13:02 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 07:17:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Noteworthy changes in version 1.6.5 (2016-02-09) [C20/A0/R5]
-------------------------------------------------
+On Fri, Feb 12, 2016 at 5:04 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Includes misc minor bugs fixes:
+>
+>   0ed932f do not define static_assert macro for pre-C11 compilers
+>   692b16d add declarations for utmpname/utmpxname to appropriate headers
+>   500c688 fix return value for fread/fwrite when size argument is 0
+>   416d1c7 fix line-buffered flush omission for odd usage of putc-family functions
+>   5a6e8d0 fix failed write reporting by fwrite in line-buffered mode
+>   869a9df remove workaround for broken mips assemblers
+>
+> The addition of utmpname/utmpxname prototypes fixes a change
+> introduced in the previous git snapshot version which broke lxc.
+>
 
- * Mitigate side-channel attack on ECDH with Weierstrass curves
-   [CVE-2015-7511].  See http://www.cs.tau.ac.IL/~tromer/ecdh/ for
-   details.
+I will merge this into my tree and test it out. I had a upgrade patch
+but your documentation is better
 
- * Fix build problem on Solaris.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/libgcrypt/libgcrypt.inc      | 2 --
- meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb | 4 ----
- meta/recipes-support/libgcrypt/libgcrypt_1.6.5.bb | 4 ++++
- 3 files changed, 4 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.5.bb
-
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
-index 683be78..5478253 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt.inc
-+++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
-@@ -22,8 +22,6 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
- 
- BINCONFIG = "${bindir}/libgcrypt-config"
- 
--PR = "r1"
--
- inherit autotools texinfo binconfig-disabled pkgconfig
- 
- EXTRA_OECONF = "--disable-asm --with-capabilities"
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb
-deleted file mode 100644
-index 1ed4291..0000000
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.6.4.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require libgcrypt.inc
--
--SRC_URI[md5sum] = "7dc7d51cdbf56ad75e95c4166f90e985"
--SRC_URI[sha256sum] = "5c2076212961712e4774abf32c85cb58537d544d6016a2464fb32783653d1b6d"
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.5.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.5.bb
-new file mode 100644
-index 0000000..717a23f
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.6.5.bb
-@@ -0,0 +1,4 @@
-+require libgcrypt.inc
-+
-+SRC_URI[md5sum] = "f24fcb684932d4b5ed85f2f05cb1d9f8"
-+SRC_URI[sha256sum] = "202bf109ccf2d614565c849f3e5687b94cde972167b35261e094252367627bc6"
--- 
-1.9.1
-
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index d4413f5..8c54db8 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -3,7 +3,7 @@
+>
+>  require musl.inc
+>
+> -SRCREV = "756c8af8589265e99e454fe3adcda1d0bc5e1963"
+> +SRCREV = "0ed932f34f11663e6b3ddfa866b1798a5938a3dc"
+>
+>  PV = "1.1.12+git${SRCPV}"
+>
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
