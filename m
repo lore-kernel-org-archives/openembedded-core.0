@@ -1,49 +1,53 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 686D2738AE
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C6CC731F9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 18:10:39 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id fl4so51336357pad.0
+	Sat, 13 Feb 2016 18:19:42 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id e185so6054613vkb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 10:10:40 -0800 (PST)
+	Sat, 13 Feb 2016 10:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=MlG9Ll5ZnHSx4OnEa2/tbh64KNDgj7naiN9dbJvCy7Y=;
-	b=grAEEh6jYRAqNhji+emsXxnEXq9lbmd3kDVCCxaf0D8YeadT+D6bMV9IyzXyNUzeyN
-	PRnWs5d8F+n5br7UQyCBSnP4vqtawcabwpaNKHiLqDO3rsRUtVHhVxvRC1U1ONQ2Qu5k
-	ubEcXzI1LDd+FAg6xrektGVoAMwgHLnYPK1IrP/Fa8Y9g/Ex5Tsl7o+KE9TOmZP3zMqy
-	GZYB4OCKaovcIKlW9AAHTjhVZpTv1m8WoZfNB78miUoCMIVD5Bcii45JNTO1WWOD3Oye
-	9+ymAZJrZTkkktXHywwpJqKZY/0VKU4igHTQXH1Ya83UpopYqYTvb/L5qbitmFzD8TYd
-	7rJw==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=OwEzDuhqea3eqb8hzNF/WnxNyGGzx74B3njMI+Sjh38=;
+	b=bcpyPg37P/XnPanh/TgPryjnJwaan6seY+3o07ekQjJ4oz2sTaVb251aDIHyZBecHT
+	jeuwFTSmhkB7xhrajIz06bhJUnmTq+jgis+5DhClQbKnEJX/lKaX/vx4HUfaC1MbqFiM
+	lE6VceuFieRe9fZdgdM6oF10FFq0WX98i+2gYBLwK3WdRJJLrJepGiCjk9/AhpnrgB/S
+	+Cn9eRa48pLzn/SX/aETdb1cHb71m70eKQuqCi7hvR38f4HgnvvJkU1hvnXpII4J2Ury
+	SfKvYHtvb6qArXYgPf7SneTo8gNbZLvVmlaWiU4n3yL6SNs5BCTZBew5NbICa/lpVEhH
+	hiwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-type:content-transfer-encoding;
-	bh=MlG9Ll5ZnHSx4OnEa2/tbh64KNDgj7naiN9dbJvCy7Y=;
-	b=gpYy6MXIelXbClqmhyGovQbrBbChQTgwLHzO5cVrV9o7TgGS9PR4WQIoIoDgck/E04
-	Q2gAAYBknlG8a7RVkE6u0D3JPAlOwGXdlneR1B4+0prJVFOi1hxVou0Ab5bYM8fHxIw8
-	WBqsjXaPji7aOk+O0XTUGAmprxUw81Td6GANQgadhfrwz1WTw+vU2GqpPcUdQyZdw/NL
-	BszeEm/h8gTldKo6K7dhM7WKJYy6z9qWLRz9gr1ypGgapBVfJ5XfvcdVb90xACtgacnA
-	GeIstHgDeXr7pT5u4a1mT9GbUiMtTAxn4/iH53z84R03cxzvD44Y/6bg43akdLi6x/gn
-	jBSA==
-X-Gm-Message-State: AG10YOSXPo2Sp+kmvPnj6Fgy7t2RqYf9yyNKf5V0lbn0Xk/MUo/yxfkgCCYDoRbWbA3JJA==
-X-Received: by 10.66.248.198 with SMTP id yo6mr11291698pac.54.1455387040410;
-	Sat, 13 Feb 2016 10:10:40 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	h66sm27586647pfd.91.2016.02.13.10.10.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 13 Feb 2016 10:10:38 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 13 Feb 2016 10:10:25 -0800
-Message-Id: <1455387025-25341-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=OwEzDuhqea3eqb8hzNF/WnxNyGGzx74B3njMI+Sjh38=;
+	b=b1cDxD5JE62t0dmioi1CujMS5p5zSpJyWUX6LVw39zQxcqT+wvWV4SYs4Fj9Jl45/z
+	z+V62iqZMMLqkCJsORcVPYiMt+V57YYRx5MVhepOzBy5HOSPGovr9Lx81PMCXNKuVeNx
+	pRyIYZc5QOK7bn2uH0sakm4PSyZtAd6RTLciqN9kDe8ATLPB2zJhaH/yJX4ve3TCHTOM
+	w3DWu7spr0bG1qv8pY/eSp2TsRDijQeeLQyNTbPh6YI5kay8RAjYahQO0QK1M7n2VKGN
+	Lm4ETHE9K1YxcPzRNw2cybPW3ISgmzr8cXdPxz4hSzgs5aGnAUo00HU24sNaYTtxOi02
+	BEGQ==
+X-Gm-Message-State: AG10YOSgOV2cYz8oBShlCZWTqzYsiQK6Uhu+vla7m1JpoKBoXZyN+bawRwtBzzs1Oy1Qnybb2hHA9I0qE2Nmdg==
 MIME-Version: 1.0
-Subject: [jethro][PATCH] libgcrypt: Security fix CVE-2015-7511
+X-Received: by 10.31.141.194 with SMTP id p185mr5892682vkd.57.1455387582738;
+	Sat, 13 Feb 2016 10:19:42 -0800 (PST)
+Received: by 10.176.0.50 with HTTP; Sat, 13 Feb 2016 10:19:42 -0800 (PST)
+In-Reply-To: <1455383832.16142.365.camel@linuxfoundation.org>
+References: <cover.1455203562.git.bruce.ashfield@windriver.com>
+	<2e6d2b75837731be983d888eaa82a9cfcf660e85.1455203562.git.bruce.ashfield@windriver.com>
+	<1455287765.16142.321.camel@linuxfoundation.org>
+	<1455291157.16142.323.camel@linuxfoundation.org>
+	<1455352317.16142.344.camel@linuxfoundation.org>
+	<1455383832.16142.365.camel@linuxfoundation.org>
+Date: Sat, 13 Feb 2016 13:19:42 -0500
+Message-ID: <CADkTA4NoFv8LvOrANvMWrg_6h9Js5GqFbS6QBDBioNbeKHcEig@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "Hart, Darren" <darren.hart@intel.com>, "saul.wold" <saul.wold@intel.com>,
+	"poky@yoctoproject.org" <poky@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] [PATCH 1/1] poky: update qemu* to prefer 4.4 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,354 +60,302 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 18:10:40 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 18:19:42 -0000
+Content-Type: multipart/alternative; boundary=001a11426214e13884052baad340
+
+--001a11426214e13884052baad340
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+On Sat, Feb 13, 2016 at 12:17 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-CVE-2015-7511 libgcrypt: side-channel attack on ECDH with Weierstrass curves
+> I'm moving the discussion to OE-Core and pulling in some kernel people.
+> I think I understand what is wrong and how to fix it but I could use
+> someone who actually knows this code.
+>
+> To summarise the story so far, on qemux86, X doesn't start and there is
+> a backtrace in the logs:
+>
+> x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus for [mem
+> 0xfd000000-0xfdffffff], got write-combining
+> ------------[ cut here ]------------
+> WARNING: CPU: 0 PID: 705 at
+> /media/build1/poky/build/tmp/work-shared/qemux86/kernel-source/arch/x86/mm/pat.c:985
+> untrack_pfn+0xaf/0xc0()
+> Modules linked in: uvesafb
+> CPU: 0 PID: 705 Comm: Xorg Not tainted 4.4.1-yocto-standard #1
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+> rel-1.8.2-0-g33fbe13 by qemu-project.org 04/01/2014
+>  00000000 00000000 cf14dd78 c1397ab2 00000000 cf14dda8 c1051477 c1aa4f6c
+>  00000000 000002c1 c1a9fa4c 000003d9 c104b98f c104b98f cf244000 b6355000
+>  00000000 cf14ddb8 c1051552 00000009 00000000 cf14dde0 c104b98f cf14ddd0
+> Call Trace:
+>  [<c1397ab2>] dump_stack+0x4b/0x79
+>  [<c1051477>] warn_slowpath_common+0x87/0xc0
+>  [<c104b98f>] ? untrack_pfn+0xaf/0xc0
+>  [<c104b98f>] ? untrack_pfn+0xaf/0xc0
+>  [<c1051552>] warn_slowpath_null+0x22/0x30
+>  [<c104b98f>] untrack_pfn+0xaf/0xc0
+>  [<c104d54c>] ? kmap_atomic_prot+0x3c/0xf0
+>  [<c114e17f>] unmap_single_vma+0x4ef/0x500
+>  [<c114f007>] unmap_vmas+0x37/0x50
+>  [<c1154f8f>] exit_mmap+0x5f/0xf0
+>  [<c104eedd>] mmput+0x2d/0xb0
+>  [<c105009c>] copy_process+0xd2c/0x13c0
+>  [<c1050892>] _do_fork+0x82/0x340
+>  [<c105f2d1>] ? SyS_rt_sigaction+0x51/0xa0
+>  [<c1050c3c>] SyS_clone+0x2c/0x30
+>  [<c1001a03>] do_syscall_32_irqs_on+0x53/0xb0
+>  [<c189a94a>] entry_INT80_32+0x2a/0x2a
+> ---[ end trace be3e0a61097feddc ]---
+> x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus for [mem
+> 0xfd000000-0xfdffffff], got write-combining
+>
+> The entry in question is setup by uvesafb which in its
+> uvesafb_ioremap() function calls ioremap_wc().
+>
+> It appears that Xorg mmaps this from userspace, then later does a
+> fork() to execute a utility. At this point, when creating the vmas for
+> the new process, the pat code says "eeek!" as the protection mode for
+> the new vmas don't match the old one, returns -EINVAL, the process dies
+> and X goes with it.
+>
+> There are a few hammers we can hit this with, we can boot with "nopat"
+> option which makes the problem go away, or turn off CONFIG_X86_PAT. No
+> surprises there. Changing uvesafb to use mtrr=0 doesn't help since the
+> ioremap_wc call still happens.
+>
+> The real issue is the "expected mapping type uncached-minus for got
+> write-combining" message, it all goes wrong from there.
+>
+> Upon looking at the code and scratching my head for a long while, I
+> notice that there are two ways of representing the protection mode
+> data, "enum page_cache_mode" and "pgprot_t & _PAGE_CACHE_MASK".
+>
+> The exact meaning of pgprot_t depends on which CPU you're running,
+> older CPUs have errata meaning only a small number of bits can be used.
+> The exact mapping table is determined by __cachemode2pte_tbl and is
+> updated at boot by calls from update_cache_mode_entry().
+>
+> The result of this if you map enum -> pgprot_t, then try to do pgprot_t
+> -> enum, you can get different values since its not a 1:1 mapping.
+>
+> This means the comparison in reserve_pfn_range() where it does "pcm !=
+> want_pcm" isn't correct and can trigger even in cases where there isn't
+> a problem.
+>
+> This can be "fixed" by doing cachemode2protval(pcm) !=
+> cachemode2protval(want_pcm) and checking whether the protection bits
+> match, rather than the enum values, since in reality this is what we
+> really care about.
+>
+> I can confirm that if I make that change, X boots up just fine.
+>
+> The problem is I really have no idea what I'm doing :).
+>
+> Could someone who understands this code have a look and see whether the
+> above makes sense and if it does, perhaps open a discussion with
+> upstream about how to fix this properly (assuming my change isn't
+> actually the correct fix)?
+>
 
-affects libgcrypt < 1.6.5
+I'm not familiar with this code either, but I'll start doing some bisects
+to see if
+we can isolate the commit that introduced the behaviour change. This is the
+sort of thing that is very rare, and really isn't supposed to happen. So
+until
+I read the commit log where the change was triggered, I'd lean to it being
+a bug
+and something to report and fix upstream.
 
-Patch 1 is a dependancy patch. simple macro name change.
-Patch 2 is the cve fix.
+I know that I booted sato with the 4.4 update, do we have any other
+confirmations
+that this worked, or was I the only one doing 4.4 boot tests until I sent
+the
+patch to bump the preferred version ?
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../libgcrypt/files/CVE-2015-7511_1.patch          | 245 +++++++++++++++++++++
- .../libgcrypt/files/CVE-2015-7511_2.patch          |  55 +++++
- meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb  |   4 +
- 3 files changed, 304 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2015-7511_1.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2015-7511_2.patch
 
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2015-7511_1.patch b/meta/recipes-support/libgcrypt/files/CVE-2015-7511_1.patch
-new file mode 100644
-index 0000000..14c25b9
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2015-7511_1.patch
-@@ -0,0 +1,245 @@
-+From 2ef48ba59c32bfa1a9265d5eea8ab225a658903a Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Thu, 9 Jan 2014 19:14:09 +0100
-+Subject: [PATCH] ecc: Make a macro shorter.
-+
-+* src/mpi.h (MPI_EC_TWISTEDEDWARDS): Rename to MPI_EC_EDWARDS.  CHnage
-+all users.
-+* cipher/ecc-curves.c (domain_parms): Add parameters for Curve3617 as
-+comment.
-+* mpi/ec.c (dup_point_twistededwards): Rename to dup_point_edwards.
-+(add_points_twistededwards): Rename to add_points_edwards.
-+
-+Signed-off-by: Werner Koch <wk@gnupg.org>
-+
-+Upstream-Status: Backport
-+2ef48ba59c32bfa1a9265d5eea8ab225a658903a
-+
-+CVE: CVE-2015-7511 depend patch
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ cipher/ecc-curves.c | 22 +++++++++++++++++++---
-+ cipher/ecc-misc.c   |  4 ++--
-+ cipher/ecc.c        |  8 ++++----
-+ mpi/ec.c            | 22 +++++++++++-----------
-+ src/mpi.h           | 11 ++++++++---
-+ 5 files changed, 44 insertions(+), 23 deletions(-)
-+
-+Index: libgcrypt-1.6.3/cipher/ecc-curves.c
-+===================================================================
-+--- libgcrypt-1.6.3.orig/cipher/ecc-curves.c
-++++ libgcrypt-1.6.3/cipher/ecc-curves.c
-+@@ -105,7 +105,7 @@ static const ecc_domain_parms_t domain_p
-+     {
-+       /* (-x^2 + y^2 = 1 + dx^2y^2) */
-+       "Ed25519", 256, 0,
-+-      MPI_EC_TWISTEDEDWARDS, ECC_DIALECT_ED25519,
-++      MPI_EC_EDWARDS, ECC_DIALECT_ED25519,
-+       "0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFED",
-+       "-0x01",
-+       "-0x2DFC9311D490018C7338BF8688861767FF8FF5B2BEBE27548A14B235ECA6874A",
-+@@ -113,6 +113,22 @@ static const ecc_domain_parms_t domain_p
-+       "0x216936D3CD6E53FEC0A4E231FDD6DC5C692CC7609525A7B2C9562D608F25D51A",
-+       "0x6666666666666666666666666666666666666666666666666666666666666658"
-+     },
-++#if 0 /* No real specs yet found.  */
-++    {
-++      /* x^2 + y^2 = 1 + 3617x^2y^2 mod 2^414 - 17 */
-++      "Curve3617",
-++      "0x3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
-++      "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEF",
-++      MPI_EC_EDWARDS, 0,
-++      "0x01",
-++      "0x0e21",
-++      "0x07FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEB3CC92414CF"
-++      "706022B36F1C0338AD63CF181B0E71A5E106AF79",
-++      "0x1A334905141443300218C0631C326E5FCD46369F44C03EC7F57FF35498A4AB4D"
-++      "6D6BA111301A73FAA8537C64C4FD3812F3CBC595",
-++      "0x22"
-++    },
-++#endif /*0*/
-+     {
-+       "NIST P-192", 192, 1,
-+       MPI_EC_WEIERSTRASS, ECC_DIALECT_STANDARD,
-+@@ -404,7 +420,7 @@ _gcry_ecc_fill_in_curve (unsigned int nb
-+   switch (domain_parms[idx].model)
-+     {
-+     case MPI_EC_WEIERSTRASS:
-+-    case MPI_EC_TWISTEDEDWARDS:
-++    case MPI_EC_EDWARDS:
-+       break;
-+     case MPI_EC_MONTGOMERY:
-+       return GPG_ERR_NOT_SUPPORTED;
-+@@ -1039,7 +1055,7 @@ _gcry_ecc_get_mpi (const char *name, mpi
-+       if (name[1] != '@')
-+         return _gcry_mpi_ec_ec2os (ec->Q, ec);
-+ 
-+-      if (!strcmp (name+2, "eddsa") && ec->model == MPI_EC_TWISTEDEDWARDS)
-++      if (!strcmp (name+2, "eddsa") && ec->model == MPI_EC_EDWARDS)
-+         {
-+           unsigned char *encpk;
-+           unsigned int encpklen;
-+Index: libgcrypt-1.6.3/cipher/ecc-misc.c
-+===================================================================
-+--- libgcrypt-1.6.3.orig/cipher/ecc-misc.c
-++++ libgcrypt-1.6.3/cipher/ecc-misc.c
-+@@ -79,7 +79,7 @@ _gcry_ecc_model2str (enum gcry_mpi_ec_mo
-+     {
-+     case MPI_EC_WEIERSTRASS:    str = "Weierstrass"; break;
-+     case MPI_EC_MONTGOMERY:     str = "Montgomery";  break;
-+-    case MPI_EC_TWISTEDEDWARDS: str = "Twisted Edwards"; break;
-++    case MPI_EC_EDWARDS:        str = "Edwards"; break;
-+     }
-+   return str;
-+ }
-+@@ -252,7 +252,7 @@ _gcry_ecc_compute_public (mpi_point_t Q,
-+ 
-+   if (!d || !G || !ec->p || !ec->a)
-+     return NULL;
-+-  if (ec->model == MPI_EC_TWISTEDEDWARDS && !ec->b)
-++  if (ec->model == MPI_EC_EDWARDS && !ec->b)
-+     return NULL;
-+ 
-+   if (ec->dialect == ECC_DIALECT_ED25519
-+Index: libgcrypt-1.6.3/cipher/ecc.c
-+===================================================================
-+--- libgcrypt-1.6.3.orig/cipher/ecc.c
-++++ libgcrypt-1.6.3/cipher/ecc.c
-+@@ -642,7 +642,7 @@ ecc_check_secret_key (gcry_sexp_t keypar
-+   if (!curvename)
-+     {
-+       sk.E.model = ((flags & PUBKEY_FLAG_EDDSA)
-+-               ? MPI_EC_TWISTEDEDWARDS
-++               ? MPI_EC_EDWARDS
-+                : MPI_EC_WEIERSTRASS);
-+       sk.E.dialect = ((flags & PUBKEY_FLAG_EDDSA)
-+                       ? ECC_DIALECT_ED25519
-+@@ -774,7 +774,7 @@ ecc_sign (gcry_sexp_t *r_sig, gcry_sexp_
-+   if (!curvename)
-+     {
-+       sk.E.model = ((ctx.flags & PUBKEY_FLAG_EDDSA)
-+-                    ? MPI_EC_TWISTEDEDWARDS
-++                    ? MPI_EC_EDWARDS
-+                     : MPI_EC_WEIERSTRASS);
-+       sk.E.dialect = ((ctx.flags & PUBKEY_FLAG_EDDSA)
-+                       ? ECC_DIALECT_ED25519
-+@@ -938,7 +938,7 @@ ecc_verify (gcry_sexp_t s_sig, gcry_sexp
-+   if (!curvename)
-+     {
-+       pk.E.model = ((sigflags & PUBKEY_FLAG_EDDSA)
-+-                    ? MPI_EC_TWISTEDEDWARDS
-++                    ? MPI_EC_EDWARDS
-+                     : MPI_EC_WEIERSTRASS);
-+       pk.E.dialect = ((sigflags & PUBKEY_FLAG_EDDSA)
-+                       ? ECC_DIALECT_ED25519
-+@@ -1528,7 +1528,7 @@ compute_keygrip (gcry_md_hd_t md, gcry_s
-+   if (!curvename)
-+     {
-+       model = ((flags & PUBKEY_FLAG_EDDSA)
-+-               ? MPI_EC_TWISTEDEDWARDS
-++               ? MPI_EC_EDWARDS
-+                : MPI_EC_WEIERSTRASS);
-+       dialect = ((flags & PUBKEY_FLAG_EDDSA)
-+                  ? ECC_DIALECT_ED25519
-+Index: libgcrypt-1.6.3/mpi/ec.c
-+===================================================================
-+--- libgcrypt-1.6.3.orig/mpi/ec.c
-++++ libgcrypt-1.6.3/mpi/ec.c
-+@@ -605,7 +605,7 @@ _gcry_mpi_ec_get_affine (gcry_mpi_t x, g
-+       }
-+       return -1;
-+ 
-+-    case MPI_EC_TWISTEDEDWARDS:
-++    case MPI_EC_EDWARDS:
-+       {
-+         gcry_mpi_t z;
-+ 
-+@@ -725,7 +725,7 @@ dup_point_montgomery (mpi_point_t result
-+ 
-+ /*  RESULT = 2 * POINT  (Twisted Edwards version). */
-+ static void
-+-dup_point_twistededwards (mpi_point_t result, mpi_point_t point, mpi_ec_t ctx)
-++dup_point_edwards (mpi_point_t result, mpi_point_t point, mpi_ec_t ctx)
-+ {
-+ #define X1 (point->x)
-+ #define Y1 (point->y)
-+@@ -811,8 +811,8 @@ _gcry_mpi_ec_dup_point (mpi_point_t resu
-+     case MPI_EC_MONTGOMERY:
-+       dup_point_montgomery (result, point, ctx);
-+       break;
-+-    case MPI_EC_TWISTEDEDWARDS:
-+-      dup_point_twistededwards (result, point, ctx);
-++    case MPI_EC_EDWARDS:
-++      dup_point_edwards (result, point, ctx);
-+       break;
-+     }
-+ }
-+@@ -977,9 +977,9 @@ add_points_montgomery (mpi_point_t resul
-+ 
-+ /* RESULT = P1 + P2  (Twisted Edwards version).*/
-+ static void
-+-add_points_twistededwards (mpi_point_t result,
-+-                           mpi_point_t p1, mpi_point_t p2,
-+-                           mpi_ec_t ctx)
-++add_points_edwards (mpi_point_t result,
-++                    mpi_point_t p1, mpi_point_t p2,
-++                    mpi_ec_t ctx)
-+ {
-+ #define X1 (p1->x)
-+ #define Y1 (p1->y)
-+@@ -1087,8 +1087,8 @@ _gcry_mpi_ec_add_points (mpi_point_t res
-+     case MPI_EC_MONTGOMERY:
-+       add_points_montgomery (result, p1, p2, ctx);
-+       break;
-+-    case MPI_EC_TWISTEDEDWARDS:
-+-      add_points_twistededwards (result, p1, p2, ctx);
-++    case MPI_EC_EDWARDS:
-++      add_points_edwards (result, p1, p2, ctx);
-+       break;
-+     }
-+ }
-+@@ -1106,7 +1106,7 @@ _gcry_mpi_ec_mul_point (mpi_point_t resu
-+   unsigned int i, loops;
-+   mpi_point_struct p1, p2, p1inv;
-+ 
-+-  if (ctx->model == MPI_EC_TWISTEDEDWARDS)
-++  if (ctx->model == MPI_EC_EDWARDS)
-+     {
-+       /* Simple left to right binary method.  GECC Algorithm 3.27 */
-+       unsigned int nbits;
-+@@ -1269,7 +1269,7 @@ _gcry_mpi_ec_curve_point (gcry_mpi_point
-+       log_fatal ("%s: %s not yet supported\n",
-+                  "_gcry_mpi_ec_curve_point", "Montgomery");
-+       break;
-+-    case MPI_EC_TWISTEDEDWARDS:
-++    case MPI_EC_EDWARDS:
-+       {
-+         /* a · x^2 + y^2 - 1 - b · x^2 · y^2 == 0 */
-+         ec_pow2 (x, x, ctx);
-+Index: libgcrypt-1.6.3/src/mpi.h
-+===================================================================
-+--- libgcrypt-1.6.3.orig/src/mpi.h
-++++ libgcrypt-1.6.3/src/mpi.h
-+@@ -245,13 +245,18 @@ void _gcry_mpi_snatch_point (gcry_mpi_t
-+ /* Models describing an elliptic curve.  */
-+ enum gcry_mpi_ec_models
-+   {
-+-
-++    /* The Short Weierstrass equation is
-++          y^2 = x^3 + ax + b
-++     */
-+     MPI_EC_WEIERSTRASS = 0,
-++    /* The Montgomery equation is
-++          by^2 = x^3 + ax^2 + x
-++     */
-+     MPI_EC_MONTGOMERY,
-+-    MPI_EC_TWISTEDEDWARDS
-+-    /* The equation for Twisted Edwards curves is
-++    /* The Twisted Edwards equation is
-+           ax^2 + y^2 = 1 + bx^2y^2
-+        Note that we use 'b' instead of the commonly used 'd'.  */
-++    MPI_EC_EDWARDS
-+   };
-+ 
-+ /* Dialects used with elliptic curves.  It is easier to keep the
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2015-7511_2.patch b/meta/recipes-support/libgcrypt/files/CVE-2015-7511_2.patch
-new file mode 100644
-index 0000000..8093a18
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2015-7511_2.patch
-@@ -0,0 +1,55 @@
-+From 88e1358962e902ff1cbec8d53ba3eee46407851a Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 25 Nov 2015 12:46:19 +0900
-+Subject: [PATCH] ecc: Constant-time multiplication for Weierstrass curve.
-+
-+* mpi/ec.c (_gcry_mpi_ec_mul_point): Use simple left-to-right binary
-+method for Weierstrass curve when SCALAR is secure.
-+
-+Upstream-Status: Backport
-+
-+http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=88e1358962e902ff1cbec8d53ba3eee46407851a
-+
-+CVE: CVE-2015-7511 fix
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ mpi/ec.c | 19 +++++++++++++++----
-+ 1 file changed, 15 insertions(+), 4 deletions(-)
-+
-+Index: libgcrypt-1.6.3/mpi/ec.c
-+===================================================================
-+--- libgcrypt-1.6.3.orig/mpi/ec.c
-++++ libgcrypt-1.6.3/mpi/ec.c
-+@@ -1106,16 +1106,27 @@ _gcry_mpi_ec_mul_point (mpi_point_t resu
-+   unsigned int i, loops;
-+   mpi_point_struct p1, p2, p1inv;
-+ 
-+-  if (ctx->model == MPI_EC_EDWARDS)
-++  if (ctx->model == MPI_EC_EDWARDS
-++      || (ctx->model == MPI_EC_WEIERSTRASS
-++          && mpi_is_secure (scalar)))
-+     {
-+       /* Simple left to right binary method.  GECC Algorithm 3.27 */
-+       unsigned int nbits;
-+       int j;
-+ 
-+       nbits = mpi_get_nbits (scalar);
-+-      mpi_set_ui (result->x, 0);
-+-      mpi_set_ui (result->y, 1);
-+-      mpi_set_ui (result->z, 1);
-++      if (ctx->model == MPI_EC_WEIERSTRASS)
-++        {
-++          mpi_set_ui (result->x, 1);
-++          mpi_set_ui (result->y, 1);
-++          mpi_set_ui (result->z, 0);
-++        }
-++      else
-++        {
-++          mpi_set_ui (result->x, 0);
-++          mpi_set_ui (result->y, 1);
-++          mpi_set_ui (result->z, 1);
-++        }
-+ 
-+       if (mpi_is_secure (scalar))
-+         {
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb
-index cd06ce7..db89faf 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.6.3.bb
-@@ -1,4 +1,8 @@
- require libgcrypt.inc
- 
-+SRC_URI += "\
-+        file://CVE-2015-7511_1.patch \
-+        file://CVE-2015-7511_2.patch \
-+        "
- SRC_URI[md5sum] = "de03b867d02fdf115a1bac8bb8b5c3a3"
- SRC_URI[sha256sum] = "69e94e1a7084d94e1a6ca26d436068cb74862d10a7353cfae579a2d88674ff09"
+>
+> We don't see this on qemux86-64 since that has more PAT bits working
+> and hence the values map correctly.
+>
+> Bruce: Would you accept a patch doing the above for now?
+>
+
+I would. I'd rather not paper over this by changing the config fragments,
+since
+once we throw that switch, it'll most likely sit there .. covered up.
+
+Bruce
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+> --
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
+>
+
+
+
 -- 
-2.3.5
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a11426214e13884052baad340
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Sat, Feb 13, 2016 at 12:17 PM, Richard Purdie <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">ric=
+hard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">I&#39;m moving the discussion to OE-Core and pulling in some =
+kernel people.<br>
+I think I understand what is wrong and how to fix it but I could use<br>
+someone who actually knows this code.<br>
+<br>
+To summarise the story so far, on qemux86, X doesn&#39;t start and there is=
+<br>
+a backtrace in the logs:<br>
+<div><div class=3D"h5"><br>
+x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus for [mem 0xf=
+d000000-0xfdffffff], got write-combining<br>
+------------[ cut here ]------------<br>
+WARNING: CPU: 0 PID: 705 at /media/build1/poky/build/tmp/work-shared/qemux8=
+6/kernel-source/arch/x86/mm/pat.c:985 untrack_pfn+0xaf/0xc0()<br>
+Modules linked in: uvesafb<br>
+CPU: 0 PID: 705 Comm: Xorg Not tainted 4.4.1-yocto-standard #1<br>
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.8.2-0-g33=
+fbe13 by <a href=3D"http://qemu-project.org" rel=3D"noreferrer" target=3D"_=
+blank">qemu-project.org</a> 04/01/2014<br>
+=C2=A000000000 00000000 cf14dd78 c1397ab2 00000000 cf14dda8 c1051477 c1aa4f=
+6c<br>
+=C2=A000000000 000002c1 c1a9fa4c 000003d9 c104b98f c104b98f cf244000 b63550=
+00<br>
+=C2=A000000000 cf14ddb8 c1051552 00000009 00000000 cf14dde0 c104b98f cf14dd=
+d0<br>
+Call Trace:<br>
+=C2=A0[&lt;c1397ab2&gt;] dump_stack+0x4b/0x79<br>
+=C2=A0[&lt;c1051477&gt;] warn_slowpath_common+0x87/0xc0<br>
+=C2=A0[&lt;c104b98f&gt;] ? untrack_pfn+0xaf/0xc0<br>
+=C2=A0[&lt;c104b98f&gt;] ? untrack_pfn+0xaf/0xc0<br>
+=C2=A0[&lt;c1051552&gt;] warn_slowpath_null+0x22/0x30<br>
+=C2=A0[&lt;c104b98f&gt;] untrack_pfn+0xaf/0xc0<br>
+=C2=A0[&lt;c104d54c&gt;] ? kmap_atomic_prot+0x3c/0xf0<br>
+=C2=A0[&lt;c114e17f&gt;] unmap_single_vma+0x4ef/0x500<br>
+=C2=A0[&lt;c114f007&gt;] unmap_vmas+0x37/0x50<br>
+=C2=A0[&lt;c1154f8f&gt;] exit_mmap+0x5f/0xf0<br>
+=C2=A0[&lt;c104eedd&gt;] mmput+0x2d/0xb0<br>
+=C2=A0[&lt;c105009c&gt;] copy_process+0xd2c/0x13c0<br>
+=C2=A0[&lt;c1050892&gt;] _do_fork+0x82/0x340<br>
+=C2=A0[&lt;c105f2d1&gt;] ? SyS_rt_sigaction+0x51/0xa0<br>
+=C2=A0[&lt;c1050c3c&gt;] SyS_clone+0x2c/0x30<br>
+=C2=A0[&lt;c1001a03&gt;] do_syscall_32_irqs_on+0x53/0xb0<br>
+=C2=A0[&lt;c189a94a&gt;] entry_INT80_32+0x2a/0x2a<br>
+---[ end trace be3e0a61097feddc ]---<br>
+x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus for [mem 0xf=
+d000000-0xfdffffff], got write-combining<br>
+<br>
+</div></div>The entry in question is setup by uvesafb which in its<br>
+uvesafb_ioremap() function calls ioremap_wc().<br>
+<br>
+It appears that Xorg mmaps this from userspace, then later does a<br>
+fork() to execute a utility. At this point, when creating the vmas for<br>
+the new process, the pat code says &quot;eeek!&quot; as the protection mode=
+ for<br>
+the new vmas don&#39;t match the old one, returns -EINVAL, the process dies=
+<br>
+and X goes with it.<br>
+<br>
+There are a few hammers we can hit this with, we can boot with &quot;nopat&=
+quot;<br>
+option which makes the problem go away, or turn off CONFIG_X86_PAT. No<br>
+surprises there. Changing uvesafb to use mtrr=3D0 doesn&#39;t help since th=
+e<br>
+ioremap_wc call still happens.<br>
+<br>
+The real issue is the &quot;expected mapping type uncached-minus for got<br=
+>
+write-combining&quot; message, it all goes wrong from there.<br>
+<br>
+Upon looking at the code and scratching my head for a long while, I<br>
+notice that there are two ways of representing the protection mode<br>
+data, &quot;enum page_cache_mode&quot; and &quot;pgprot_t &amp; _PAGE_CACHE=
+_MASK&quot;.<br>
+<br>
+The exact meaning of pgprot_t depends on which CPU you&#39;re running,<br>
+older CPUs have errata meaning only a small number of bits can be used.<br>
+The exact mapping table is determined by __cachemode2pte_tbl and is<br>
+updated at boot by calls from update_cache_mode_entry().<br>
+<br>
+The result of this if you map enum -&gt; pgprot_t, then try to do pgprot_t<=
+br>
+-&gt; enum, you can get different values since its not a 1:1 mapping.<br>
+<br>
+This means the comparison in reserve_pfn_range() where it does &quot;pcm !=
+=3D<br>
+want_pcm&quot; isn&#39;t correct and can trigger even in cases where there =
+isn&#39;t<br>
+a problem.<br>
+<br>
+This can be &quot;fixed&quot; by doing cachemode2protval(pcm) !=3D<br>
+cachemode2protval(want_pcm) and checking whether the protection bits<br>
+match, rather than the enum values, since in reality this is what we<br>
+really care about.<br>
+<br>
+I can confirm that if I make that change, X boots up just fine.<br>
+<br>
+The problem is I really have no idea what I&#39;m doing :).<br>
+<br>
+Could someone who understands this code have a look and see whether the<br>
+above makes sense and if it does, perhaps open a discussion with<br>
+upstream about how to fix this properly (assuming my change isn&#39;t<br>
+actually the correct fix)?<br></blockquote><div><br></div><div>I&#39;m not =
+familiar with this code either, but I&#39;ll start doing some bisects to se=
+e if</div><div>we can isolate the commit that introduced the behaviour chan=
+ge. This is the</div><div>sort of thing that is very rare, and really isn&#=
+39;t supposed to happen. So until</div><div>I read the commit log where the=
+ change was triggered, I&#39;d lean to it being a bug</div><div>and somethi=
+ng to report and fix upstream.</div><div><br></div><div>I know that I boote=
+d sato with the 4.4 update, do we have any other confirmations</div><div>th=
+at this worked, or was I the only one doing 4.4 boot tests until I sent the=
+</div><div>patch to bump the preferred version ?</div><div>=C2=A0<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+We don&#39;t see this on qemux86-64 since that has more PAT bits working<br=
+>
+and hence the values map correctly.<br>
+<br>
+Bruce: Would you accept a patch doing the above for now?<br></blockquote><d=
+iv><br></div><div>I would. I&#39;d rather not paper over this by changing t=
+he config fragments, since</div><div>once we throw that switch, it&#39;ll m=
+ost likely sit there .. covered up.</div><div><br></div><div>Bruce</div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+--<br>
+_______________________________________________<br>
+poky mailing list<br>
+<a href=3D"mailto:poky@yoctoproject.org">poky@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/poky" rel=3D"noreferrer"=
+ target=3D"_blank">https://lists.yoctoproject.org/listinfo/poky</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
+, for chaos and madness await thee at its end&quot;</div>
+</div></div>
+
+--001a11426214e13884052baad340--
