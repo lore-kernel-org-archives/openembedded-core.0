@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A0F7F766B2
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BAD67680A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 11:12:36 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Feb 2016 03:12:37 -0800
+	Sat, 13 Feb 2016 11:12:38 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP; 13 Feb 2016 03:12:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="914432026"
+X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="47336525"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2016 03:12:36 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 13 Feb 2016 03:12:37 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id AABF86A4004
+	by linux.intel.com (Postfix) with ESMTP id BF8A86A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 04:00:27 -0800 (PST)
+	Sat, 13 Feb 2016 04:00:28 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Feb 2016 11:02:14 +0200
-Message-Id: <00f35a6ff4168cfaab7490a5cb1086cfb3ba280f.1455353103.git.ed.bartosh@linux.intel.com>
+Date: Sat, 13 Feb 2016 11:02:15 +0200
+Message-Id: <79aff77d30926de3710482a704bd56ffa2515962.1455353103.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v3 07/14] oeqa/targetcontrol: support wic image type
+Subject: [wic][PATCH v3 08/14] wic-image-minimal: change IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 11:12:36 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 11:12:38 -0000
 
-Added 'wic' to the list image types supported by targetcontrol.
+Replaced wic.bz2 -> wic in the recipe.
+Replaced wic.bz2 -> wic in oe-selftest test case.
 
-This is a preparation for booting and testing wic images
-with oe-selftest.
+wic-image-minimal is going to be booted in qemu and tested.
+As runqemu doesn't support compressed images this recipe needs
+to produce raw wic image.
 
-[YOCTO #8498]
-
-(From OE-Core rev: 7dda053fbd1ea1354b7720cfa691470ba88ef5b9)
+(From OE-Core rev: 3ce91db94f4b921566dce0dc6f91a422009be06b)
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/targetcontrol.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 +-
+ meta/lib/oeqa/selftest/wic.py                          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index f461651..5422a61 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -113,7 +113,7 @@ class BaseTarget(object):
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+index 95c7a9b..ced22c8 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+@@ -4,7 +4,7 @@ SRC_URI = "file://${FILE_DIRNAME}/${BPN}.wks"
  
- class QemuTarget(BaseTarget):
+ IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
  
--    supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz']
-+    supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+-IMAGE_FSTYPES = "wic.bz2"
++IMAGE_FSTYPES = "wic"
+ RM_OLD_IMAGE = "1"
  
-     def __init__(self, d):
- 
+ DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index df826ed..a739f69 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -228,7 +228,7 @@ class Wic(oeSelfTest):
+         prefix = os.path.join(deploy_dir, 'wic-image-minimal-%s.' % machine)
+         # check if we have result image and manifests symlinks
+         # pointing to existing files
+-        for suffix in ('wic.bz2', 'manifest'):
++        for suffix in ('wic', 'manifest'):
+             path = prefix + suffix
+             self.assertTrue(os.path.islink(path))
+             self.assertTrue(os.path.isfile(os.path.realpath(path)))
 -- 
 2.1.4
 
