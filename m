@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0544973D46
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F47376BD7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 11:12:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Feb 2016 03:12:43 -0800
+	Sat, 13 Feb 2016 11:12:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 13 Feb 2016 03:12:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="902097483"
+X-IronPort-AV: E=Sophos;i="5.22,440,1449561600"; d="scan'208";a="911322681"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Feb 2016 03:12:42 -0800
+	by orsmga002.jf.intel.com with ESMTP; 13 Feb 2016 03:12:43 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 2B0AC6A4004
+	by linux.intel.com (Postfix) with ESMTP id 4B8E46A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Feb 2016 04:00:32 -0800 (PST)
+	Sat, 13 Feb 2016 04:00:34 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Feb 2016 11:02:19 +0200
-Message-Id: <9bc0808d55bd5ba315c55e998ca2d24b288ab4c9.1455353103.git.ed.bartosh@linux.intel.com>
+Date: Sat, 13 Feb 2016 11:02:20 +0200
+Message-Id: <6787f14e1dccaab7e75383aadd2c0967427f3015.1455353103.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1455353103.git.ed.bartosh@linux.intel.com>
 References: <cover.1455353103.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v3 12/14] wic-image-minimal: use uuid for root partition
+Subject: [wic][PATCH v3 13/14] oe-selftest: pylinted wic tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +35,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Feb 2016 11:12:42 -0000
+X-List-Received-Date: Sat, 13 Feb 2016 11:12:43 -0000
 
-Used --uuid option to generate PARTUUID for root partion and
-gpt partition type. As this image is used in runtime testing
-under qemu it makes sense to ensure that this way of specifying
-root partition works.
+Fixed the following pylint warnings:
+  C: 45, 0: Line too long (91/80) (line-too-long)
+  C:105, 0: Wrong continued indentation.
+                            ignore_status=True).status)
+                            ^         | (bad-continuation)
+  W: 83, 8: Redefining built-in 'vars' (redefined-builtin)
+  W:175, 8: Redefining built-in 'vars' (redefined-builtin)
+  W: 27, 0: Unused import sys (unused-import)
 
-Added dependency to gptfdisk-native to wic-image-minimal recipe to
-be able to create gpt partition table.
-
-(From OE-Core rev: ba82867bfda54e86e1de5dc4a6ad7246254cf5c3)
+(From OE-Core rev: ecb5320e766d0fa031c269d6d9b2a24c81c7aa7e)
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.bb  | 2 +-
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-index ced22c8..9c50ddb 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-@@ -7,7 +7,7 @@ IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
- IMAGE_FSTYPES = "wic"
- RM_OLD_IMAGE = "1"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 7b173e4..ed03018 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -24,7 +24,6 @@
+ """Test cases for wic."""
  
--DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native"
-+DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native gptfdisk-native"
+ import os
+-import sys
  
- # core-image-minimal is referenced in .wks, so we need its rootfs
- # to be ready before our rootfs
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-index 191244b..d55075d 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -3,8 +3,8 @@
- # created from core-image-minimal and wic-image-minimal image recipes.
+ from glob import glob
+ from shutil import rmtree
+@@ -42,7 +41,8 @@ class Wic(oeSelfTest):
  
- part /boot --source bootimg-pcbios --ondisk vda --label boot --active --align 1024
--part / --source rootfs --ondisk vda --fstype=ext4 --label platform --align 1024
-+part / --source rootfs --ondisk vda --fstype=ext4 --label platform --align 1024 --use-uuid
- part /mnt --source rootfs --rootfs-dir=core-image-minimal --ondisk vda --fstype=ext4 --label core --align 1024
- part backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk vda --fstype=ext4 --label backup --align 1024
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+-        self.write_config('IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n')
++        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
++                          'MACHINE_FEATURES_append = " efi"\n')
  
--bootloader --timeout=0  --append="rootwait console=tty0 root=/dev/vda2"
-+bootloader --ptable gpt --timeout=0  --append="rootwait console=tty0"
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
+@@ -80,14 +80,14 @@ class Wic(oeSelfTest):
+     @testcase(1212)
+     def test_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+-        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
++        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+                                     'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+         status = runCmd("wic create directdisk "
+                         "-b %(staging_datadir)s "
+                         "-k %(deploy_dir_image)s "
+                         "-n %(staging_dir_native)s "
+-                        "-r %(image_rootfs)s" % vars).status
++                        "-r %(image_rootfs)s" % bbvars).status
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+ 
+@@ -102,7 +102,7 @@ class Wic(oeSelfTest):
+     def test_unsupported_subcommand(self):
+         """Test unsupported subcommand"""
+         self.assertEqual(1, runCmd('wic unsupported',
+-                         ignore_status=True).status)
++                                   ignore_status=True).status)
+ 
+     @testcase(1214)
+     def test_no_command(self):
+@@ -172,20 +172,20 @@ class Wic(oeSelfTest):
+     @testcase(1269)
+     def test_rootfs_artifacts(self):
+         """Test usage of rootfs plugin with rootfs paths"""
+-        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
++        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+                                     'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+-        vars['wks'] = "directdisk-multi-rootfs"
++        bbvars['wks'] = "directdisk-multi-rootfs"
+         status = runCmd("wic create %(wks)s "
+                         "-b %(staging_datadir)s "
+                         "-k %(deploy_dir_image)s "
+                         "-n %(staging_dir_native)s "
+                         "--rootfs-dir rootfs1=%(image_rootfs)s "
+                         "--rootfs-dir rootfs2=%(image_rootfs)s" \
+-                        % vars).status
++                        % bbvars).status
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + \
+-                                     "%(wks)s-*.direct" % vars)))
++                                     "%(wks)s-*.direct" % bbvars)))
+ 
+     @testcase(1346)
+     def test_iso_image(self):
 -- 
 2.1.4
 
