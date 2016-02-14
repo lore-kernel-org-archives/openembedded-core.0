@@ -1,46 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 09467731E9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AF5CA731A6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Feb 2016 21:03:42 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id s68so49594764qkh.3
+	Sun, 14 Feb 2016 23:03:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1EN3b4M004221 for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Feb 2016 23:03:37 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rzEZewmRN6ZV
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Feb 2016 13:03:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=os5iwWWiNGyfBVKb/xNgA0HsiQP4uP7dwxwNSAkY/ik=;
-	b=fBx/BAMyWQD+s/3e0BulASE9tq5IKcpVt+h7pFE1xIkjmFUMGkKoCCwongF9XgNlJo
-	PFoj+lkNPimvwloUavIEpSfMPC0CY28b9/X6RP/B5/zfRnslwlTSOwNmRmIfK4MIaVwB
-	3qQb3hTYc9JRC4/oSPVmHrvVmwylOGLxDvTffi414H0yOtDmHfv7HHxVJ9LZNKsj0BY7
-	hopoo9UwQkepBkToa5h0+F1mNUoViNB0L5GJx4FStpzvt/ePLKOLI2A7U5MzkyG9WaQI
-	3QqDeV723Zx0FFspDhDMciAad5e0EHMic1bgEVVBcCE0paI87mRVJHYya7lfTpifAjlD
-	iBIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=os5iwWWiNGyfBVKb/xNgA0HsiQP4uP7dwxwNSAkY/ik=;
-	b=CmDQRZ6XUnIvJErqsu0DXOn8hs1Jx9tQGPoasBLcX5EUcW7RfOvhkr+yDKWztlUD2d
-	iWzbTTMAYIkg7m3x5kajVhao7wVz4/6ijrHqzLHwikIVIqrr74+8rZVUG9rd0xlRGLG8
-	+1CFDD3V8tuP7Y17gLQD4E65JfIuGn/PjnjkNtxbzWm58NqKDZ/vd/58mH37EA1xn1x5
-	ltgYukAJaaPyoQVxDs+6zZHVsKG0SrwSReutuavwQ1bsdRvoX4j+FiEWCYCKUKJYjAJh
-	MHSSJq26gzbf3tcEmK3OOm6sZJhmvTFM1wptFYhvDrgF7KBIoWe40DbgpKj0Io+nsujn
-	UODg==
-X-Gm-Message-State: AG10YOSsPj9Oav1NC0sOEpmfsrnqj2I3HjrII9S4MaBtWKaWMD+5IjUu3fJ96ibYdwdtJ8VtIvGEHNq4GDbhMQ==
-X-Received: by 10.55.75.203 with SMTP id y194mr16693492qka.2.1455483823039;
-	Sun, 14 Feb 2016 13:03:43 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Sun, 14 Feb 2016 13:03:13 -0800 (PST)
-In-Reply-To: <1455460128.16142.400.camel@linuxfoundation.org>
-References: <1455460128.16142.400.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 14 Feb 2016 13:03:13 -0800
-Message-ID: <CAMKF1soLuNtRH+bCWJcaQoRhc4kBe3gjRFES073M9Fkg8h3VMA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] conf/distro/include: Add no-static-libs.inc
+	Sun, 14 Feb 2016 23:03:36 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1EN3XWv004217
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Feb 2016 23:03:34 GMT
+Message-ID: <1455491013.16142.413.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 14 Feb 2016 23:03:33 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] gstreamer1.0-meta-base: Mark as machine specific due to COMBINED_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,70 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Feb 2016 21:03:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 14 Feb 2016 23:03:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Feb 14, 2016 at 6:28 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Static libraries are old technology. We've left them around since in
-> previous tests, they only added around 5% to the overall build time.
->
-> With new and interesting uses of OE, they're becoming more problematic.
-> For example, sstate becomes much larger with static libs enabled which
-> increases the size of eSDK and increases the time taken for sstate
-> operations. Since the static libs contain all the debugging symbols,
-> they're also pretty huge.
->
-> This patch adds a common include file which allows the user or distro
-> to disable the static libraries in the majority of cases.
->
-> There are some libs where we do need the static lib, a good example
-> being pseudo-native which uses sqlite3-native static libs. These are
-> left enabled by the include file, as are recipes where --disable-static
-> doesn't work, or isn't supported. This list can likely be reduced over
-> time as individual corner cases are addressed.
->
-> Maintaining this list in a common location is more desireable than
-> everyone doing it themselves. Poky will switch to using this, OE-Core
-> will need to discuss that as its default.
+http://git.openembedded.org/openembedded-core/commit/?id=948165dce7475b815a344fd3c3d58165e6865d48
+makes gstreamer1.0-plugins-base-alsa depend on COMBINED_FEATURES.
 
-IMO this is a good change and should become default. It also helps
-a bit with the questions about static linking vs dynamic linking from
-legal perspective.
+This is an allarch recipe so this only works if all your machines
+have the same MACHINE_FEATURES.
 
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-> new file mode 100644
-> index 0000000..b085601
-> --- /dev/null
-> +++ b/meta/conf/distro/include/no-static-libs.inc
-> @@ -0,0 +1,19 @@
-> +DISABLE_STATIC = " --disable-static"
-> +DISABLE_STATIC_pn-qemu = ""
-> +DISABLE_STATIC_pn-qemu-native = ""
-> +DISABLE_STATIC_pn-qemu-nativesdk = ""
-> +DISABLE_STATIC_pn-pciutils = ""
-> +DISABLE_STATIC_pn-libcap = ""
-> +DISABLE_STATIC_pn-libpcap = ""
-> +# needed by gdb
-> +DISABLE_STATIC_pn-readline = ""
-> +# needed by pseudo
-> +DISABLE_STATIC_pn-sqlite3 = ""
-> +DISABLE_STATIC_pn-sqlite3-native = ""
-> +#EXTRA_OECONF += "${DISABLE_STATIC}"
-> +DISABLE_STATIC_pn-sgml-common-native = ""
-> +DISABLE_STATIC_pn-openjade-native = ""
-> +DISABLE_STATIC_pn-openssl = ""
-> +DISABLE_STATIC_pn-openssl-native = ""
-> +DISABLE_STATIC_pn-nativesdk-openssl = ""
-> +EXTRA_OECONF_append = "${DISABLE_STATIC}"
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The recipe therefore needs to become machine specific.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+index ecfd082..c542b13 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+@@ -1,6 +1,9 @@
+ SUMMARY = "Gstreamer1.0 package groups"
+ LICENSE = "MIT"
+ 
++# Due to use of COMBINED_FEATURES
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
+ inherit packagegroup
+ 
+ COMMERCIAL_PLUGINS = "${COMMERCIAL_AUDIO_PLUGINS} ${COMMERCIAL_VIDEO_PLUGINS}"
+
+
 
