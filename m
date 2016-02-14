@@ -1,44 +1,27 @@
-Return-Path: <jajomojo@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CA226E630
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B54E731F3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Feb 2016 08:28:58 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id g62so18951937wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Feb 2016 00:29:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=S5kXRS8vbAwtgu61CKnbI2kYCk+3HufcYIKT2/EGGAM=;
-	b=Vf1ARzCESfxsh1l7aBdJNI81sFbXMCIROJPHav0neX0WPVeE9M2yO4k3WLGEhhhb2A
-	vKg+Xc9kaLCWEIAuesqceMU6b+tiUZtSPUDlKQ7GvyqQFKacPwIQxKu71zYlRJnPfn16
-	vzIgWEmjJ89ukXqsYl72tVmCzQYhbwMWkIPCssxWesxpZTJdcoEmSc6BLJX8DhnfVxTe
-	V91chdmhUClApJnPLxRpZcZyzrb2+zAFCi+fmvvhi3vQeSnHQ6cn0XnvUuZcTHB18L6d
-	cPK/f0OdVdZ1Le2Vv/LRgQUXDk41PneiEM4BZ6TvJDTW0KoJ8HtKxSI6i8qSUJwNoALf
-	1IGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=S5kXRS8vbAwtgu61CKnbI2kYCk+3HufcYIKT2/EGGAM=;
-	b=GGwbZK3Sr4K/AQWmvv59prxoBoFueoUgVi7PfGQyoRSproEO5N1iUcusZSbzyuKyDk
-	/CSs4JeBNIfC/VB8D+1JEnl+7XrWUZseylfGKeyZtGhRCBTHgohrQn25Xs2B0BBRaLdg
-	2u0onB+XXysva06llzOt29cOje6cTLgifBk40zm8/Ya+meFN2pQXNkN7r3UbMxr7QMY6
-	omUWJa2cLMTxlE5qRzba8I0vEi+1LX19PBId6Ine7/LZ5/kBfmBE1UETj6AKvUYVOtCx
-	ZJEs6ruM7W+uF92rhQZMyB83+kyYBzMsQgD8SUj+yY64qzOEHSnQR7+9XYXCDQm4rWFZ
-	Gk0Q==
-X-Gm-Message-State: AG10YOTNta/9je7VWHkx5JHdEMLtrJSC9EzWLzPoV39PiMDa6QT0igx/KvP41C+yZQwGuA==
-X-Received: by 10.28.57.131 with SMTP id g125mr6067915wma.17.1455438539369;
-	Sun, 14 Feb 2016 00:28:59 -0800 (PST)
-Received: from arjadnek.ysoft.local ([89.24.100.190])
-	by smtp.gmail.com with ESMTPSA id
-	p125sm9517534wmd.16.2016.02.14.00.28.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 14 Feb 2016 00:28:58 -0800 (PST)
-From: Jan Sarenik <jajomojo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 14 Feb 2016 09:28:49 +0100
-Message-Id: <1455438529-15853-1-git-send-email-jajomojo@gmail.com>
-X-Mailer: git-send-email 2.7.1
-Subject: [PATCH] scripts/sstate-cache-management.sh: Change wording
+	Sun, 14 Feb 2016 09:25:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1E9Pd3x012580; Sun, 14 Feb 2016 09:25:39 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qbX7KF5ccgFM; Sun, 14 Feb 2016 09:25:39 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1E9PYmU012577
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 14 Feb 2016 09:25:35 GMT
+Message-ID: <1455441934.16142.376.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 14 Feb 2016 09:25:34 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>
+Subject: [PATCH] linux-yocto: Work around PAT issue on qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,38 +34,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Feb 2016 08:28:59 -0000
+X-List-Received-Date: Sun, 14 Feb 2016 09:25:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use "out of" rather than "from" in the output.
+We have an issue with PAT handling on older processes with limited PAT bits,
+see the patch description for the full problem. This replaces the runqemu
+workaround with a kernel patch until we can get the kernel trees sorted
+out and discuss a proper fix with upstream. It should be safe everywhere
+so is applied unconditionally.
 
-Signed-off-by: Jan Sarenik <jajomojo@gmail.com>
----
- scripts/sstate-cache-management.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index 2286765..2ab450a 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -101,7 +101,7 @@ do_nothing () {
+diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-Fix-qemux86-pat-issue.patch b/meta/recipes-kernel/linux/linux-yocto/0001-Fix-qemux86-pat-issue.patch
+new file mode 100644
+index 0000000..367d9b4a
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto/0001-Fix-qemux86-pat-issue.patch
+@@ -0,0 +1,100 @@
++From 9bfb2c711f66fc8eb6482f5ca6ea33c2ec1d792f Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Sat, 13 Feb 2016 17:36:23 +0000
++Subject: [PATCH] Fix qemux86 pat issue
++
++on qemux86, X doesn't start and there is
++a backtrace in the logs:
++
++x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus for [mem 0xfd000000-0xfdffffff], got write-combining
++------------[ cut here ]------------
++WARNING: CPU: 0 PID: 705 at /media/build1/poky/build/tmp/work-shared/qemux86/kernel-source/arch/x86/mm/pat.c:985 untrack_pfn+0xaf/0xc0()
++Modules linked in: uvesafb
++CPU: 0 PID: 705 Comm: Xorg Not tainted 4.4.1-yocto-standard #1
++Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.8.2-0-g33fbe13 by qemu-project.org 04/01/2014
++ 00000000 00000000 cf14dd78 c1397ab2 00000000 cf14dda8 c1051477 c1aa4f6c
++ 00000000 000002c1 c1a9fa4c 000003d9 c104b98f c104b98f cf244000 b6355000
++ 00000000 cf14ddb8 c1051552 00000009 00000000 cf14dde0 c104b98f cf14ddd0
++Call Trace:
++ [<c1397ab2>] dump_stack+0x4b/0x79
++ [<c1051477>] warn_slowpath_common+0x87/0xc0
++ [<c104b98f>] ? untrack_pfn+0xaf/0xc0
++ [<c104b98f>] ? untrack_pfn+0xaf/0xc0
++ [<c1051552>] warn_slowpath_null+0x22/0x30
++ [<c104b98f>] untrack_pfn+0xaf/0xc0
++ [<c104d54c>] ? kmap_atomic_prot+0x3c/0xf0
++ [<c114e17f>] unmap_single_vma+0x4ef/0x500
++ [<c114f007>] unmap_vmas+0x37/0x50
++ [<c1154f8f>] exit_mmap+0x5f/0xf0
++ [<c104eedd>] mmput+0x2d/0xb0
++ [<c105009c>] copy_process+0xd2c/0x13c0
++ [<c1050892>] _do_fork+0x82/0x340
++ [<c105f2d1>] ? SyS_rt_sigaction+0x51/0xa0
++ [<c1050c3c>] SyS_clone+0x2c/0x30
++ [<c1001a03>] do_syscall_32_irqs_on+0x53/0xb0
++ [<c189a94a>] entry_INT80_32+0x2a/0x2a
++---[ end trace be3e0a61097feddc ]---
++x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus for [mem 0xfd000000-0xfdffffff], got write-combining
++
++The entry in question is setup by uvesafb which in its
++uvesafb_ioremap() function calls ioremap_wc().
++
++It appears that Xorg mmaps this from userspace, then later does a
++fork() to execute a utility. At this point, when creating the vmas for
++the new process, the pat code says "eeek!" as the protection mode for
++the new vmas don't match the old one, returns -EINVAL, the process dies
++and X goes with it.
++
++There are a few hammers we can hit this with, we can boot with "nopat"
++option which makes the problem go away, or turn off CONFIG_X86_PAT. No
++surprises there. Changing uvesafb to use mtrr=0 doesn't help since the
++ioremap_wc call still happens.
++
++The real issue is the "expected mapping type uncached-minus for got
++write-combining" message, it all goes wrong from there.
++
++Upon looking at the code and scratching my head for a long while, I
++notice that there are two ways of representing the protection mode
++data, "enum page_cache_mode" and "pgprot_t & _PAGE_CACHE_MASK".
++
++The exact meaning of pgprot_t depends on which CPU you're running,
++older CPUs have errata meaning only a small number of bits can be used.
++The exact mapping table is determined by __cachemode2pte_tbl and is
++updated at boot by calls from update_cache_mode_entry().
++
++The result of this if you map enum -> pgprot_t, then try to do pgprot_t
++-> enum, you can get different values since its not a 1:1 mapping.
++
++This means the comparison in reserve_pfn_range() where it does "pcm !=
++want_pcm" isn't correct and can trigger even in cases where there isn't
++a problem.
++
++This can be "fixed" by doing cachemode2protval(pcm) !=
++cachemode2protval(want_pcm) and checking whether the protection bits
++match, rather than the enum values, since in reality this is what we
++really care about. With that change, X boots up just fine.
++
++We don't see this on qemux86-64 since that has more PAT bits working
++and hence the values map correctly.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++---
++ arch/x86/mm/pat.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/arch/x86/mm/pat.c b/arch/x86/mm/pat.c
++index 031782e..11064fb 100644
++--- a/arch/x86/mm/pat.c
+++++ b/arch/x86/mm/pat.c
++@@ -833,7 +833,7 @@ static int reserve_pfn_range(u64 paddr, unsigned long size, pgprot_t *vma_prot,
++ 	if (ret)
++ 		return ret;
++ 
++-	if (pcm != want_pcm) {
+++	if (cachemode2protval(pcm) != cachemode2protval(want_pcm)) {
++ 		if (strict_prot ||
++ 		    !is_new_memtype_allowed(paddr, size, want_pcm, pcm)) {
++ 			free_memtype(paddr, paddr + size);
++-- 
++2.5.0
++
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index 1beeea6..c0edcf1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -40,3 +40,5 @@ KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
++
++SRC_URI_append = " file://0001-Fix-qemux86-pat-issue.patch"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index ad854d1..ebed2bd 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -434,7 +434,7 @@ if [ "$MACHINE" = "qemux86" ]; then
+     fi
+     # Currently oprofile's event based interrupt mode doesn't work(Bug #828) in
+     # qemux86 and qemux86-64. We can use timer interrupt mode for now.
+-    KERNCMDLINE="$KERNCMDLINE oprofile.timer=1 nopat"
++    KERNCMDLINE="$KERNCMDLINE oprofile.timer=1"
+ fi
  
- # Read the input "y"
- read_confirm () {
--  echo "$total_deleted from $total_files files will be removed! "
-+  echo "$total_deleted out of $total_files files will be removed! "
-   if [ "$confirm" != "y" ]; then
-       echo "Do you want to continue (y/n)? "
-       while read confirm; do
-@@ -282,7 +282,7 @@ remove_duplicated () {
-       deleted_tgz=`cat $rm_list.* 2>/dev/null | grep ".tgz$" | wc -l`
-       deleted_files=`cat $rm_list.* 2>/dev/null | wc -l`
-       [ "$deleted_files" -gt 0 -a $debug -gt 0 ] && cat $rm_list.*
--      echo "($deleted_tgz from $total_tgz_suffix .tgz files for $suffix suffix will be removed or $deleted_files from $total_files_suffix when counting also .siginfo and .done files)"
-+      echo "($deleted_tgz out of $total_tgz_suffix .tgz files for $suffix suffix will be removed or $deleted_files out of $total_files_suffix when counting also .siginfo and .done files)"
-       let total_deleted=$total_deleted+$deleted_files
-   done
-   deleted_tgz=0
--- 
-2.7.1
+ if [ "$MACHINE" = "qemux86-64" ]; then
+
 
 
