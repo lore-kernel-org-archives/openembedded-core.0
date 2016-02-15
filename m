@@ -1,30 +1,46 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 939F76011F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 254EE760A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 11:20:04 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1FBK5rZ003124 for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 05:20:05 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016021505200573-990694 ;
-	Mon, 15 Feb 2016 05:20:05 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Mon, 15 Feb 2016 12:24:22 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id b205so65329842wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Feb 2016 04:24:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=0pYd61QOnQ7bCMSFq+ZhT//VZULgHiDcW+y+SGBTscI=;
+	b=PcVErEfd+w0dyahI9Of9YWrKHLQ+8cKEpwTBpD1G1suAhW4WwpihGW+HHuy7lD4xUq
+	BDspHrIQQiz5H1Z3+vhFI8zC+eQsmn9wKZk34G38NNj/kYTnUqT6I/3mcGlvNo/MFFER
+	3SLMf4hMSrnxZR5V7UHygO+ufzK2I4edBBH2h5nTkAlTdUUjZy1vd0vP4TqsOolRZfgf
+	LZlvmGcTtDX6jNXtj4M++NNqtijTtqTUVwC5RjtB1Be+AB9WHBOR6IZxFn71UD79F6fz
+	JMvMpUPN+wzSL0HIntzgz7YOLaw7uTRA6zBO1lwiA6/xbGYs/SOOUMQ977sH5YbhixcK
+	t1hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0pYd61QOnQ7bCMSFq+ZhT//VZULgHiDcW+y+SGBTscI=;
+	b=BQW8D6WRsKSMNJrK7AKb99wKJHeSukDFaBkAQRSq7gP3RPQzqmMRgNmzYl+v2B6zgv
+	qWtNshQNuH5+K6jOaKdi1uYkvZekfhAH8JzjxpAYjivkbJqjFKssUaCnsIw4YmfwQXbp
+	ATR39wOd9d9xbhH8A4UhXCXE9lOf3U61E2ZeT9rCCF6FF2Gz5tViT2/uv4ekj0HX1711
+	/d2ktWzvjy1Co9+IjsWfU9rQnpXfgt/ZrTArkyWfVVtotpDeV3OA2E3n75RpnyYEycQQ
+	BMc8hJt2Ua1HnvV/GvyRK82lETx2lmE0a82j4wQV845nvXzQ6QMUziO4SFG9+Br3EVWE
+	RuFw==
+X-Gm-Message-State: AG10YOTao2JM7LsBiZ16SQxJnNzoFNPVz0ys/4I3pQzTFYCAfC3Xrsreh7hY3o1hS+nQsVzH
+X-Received: by 10.194.78.83 with SMTP id z19mr15468883wjw.5.1455539063053;
+	Mon, 15 Feb 2016 04:24:23 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	jc7sm25198553wjb.33.2016.02.15.04.24.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 15 Feb 2016 04:24:22 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Feb 2016 13:19:43 +0200
-Message-Id: <1455535183-7985-1-git-send-email-adrian.ratiu@ni.com>
+Date: Mon, 15 Feb 2016 12:24:19 +0000
+Message-Id: <1455539060-15714-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.7.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/15/2016 05:20:05 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/15/2016 05:20:05 AM,
-	Serialize complete at 02/15/2016 05:20:05 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-15_06:, , signatures=0
-Subject: [PATCH 1/1] Revert "lsbinitscripts: fix the path for mountpoint"
+Subject: [PATCH 1/2] package: check inherit instead of PN to decide if a recipe is a packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 11:20:05 -0000
+X-List-Received-Date: Mon, 15 Feb 2016 12:24:23 -0000
 
-From: Richard Tollerton <rich.tollerton@ni.com>
-
-This reverts commit e1a3c6e218779e2237c494e58209c06b871c47c4.
-
-util-linux upstream, busybox, and sysvinit all install mountpoint by
-default to /bin. Arch Linux, Debian, and Ubuntu (at least) all appear to
-install mountpount to /bin. AFAIK only Fedora and possibly other Red Hat
-derived distributions install it to /usr/bin.
-
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Reviewed-by: Ken Sharp <ken.sharp@ni.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/lsb/lsbinitscripts_9.64.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/package.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.64.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.64.bb
-index 150f6f2..7273050 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.64.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.64.bb
-@@ -30,5 +30,4 @@ do_compile[noexec] = "1"
- do_install(){
- 	install -d ${D}${sysconfdir}/init.d/
- 	install -m 0644 ${S}/rc.d/init.d/functions ${D}${sysconfdir}/init.d/functions
--	sed -i 's,${base_bindir}/mountpoint,${bindir}/mountpoint,g' ${D}${sysconfdir}/init.d/functions
- }
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 93b275c..ef80e50 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1911,8 +1911,7 @@ python package_depchains() {
+         for pkg in pkglibdeps:
+             for k in pkglibdeps[pkg]:
+                 add_dep(pkglibdeplist, k)
+-        # FIXME this should not look at PN once all task recipes inherit from task.bbclass
+-        dbgdefaultdeps = ((d.getVar('DEPCHAIN_DBGDEFAULTDEPS', True) == '1') or (d.getVar('PN', True) or '').startswith('packagegroup-'))
++        dbgdefaultdeps = ((d.getVar('DEPCHAIN_DBGDEFAULTDEPS', True) == '1') or (bb.data.inherits_class('packagegroup', d)))
+ 
+     for suffix in pkgs:
+         for pkg in pkgs[suffix]:
 -- 
 2.7.0
 
