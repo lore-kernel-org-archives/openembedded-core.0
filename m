@@ -1,48 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 272F3731DD
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4884C6E687
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 12:38:05 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id z135so87553337iof.0
+	Mon, 15 Feb 2016 13:44:05 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id yy13so86186700pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 04:38:06 -0800 (PST)
+	Mon, 15 Feb 2016 05:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
 	:cc:content-type;
-	bh=8CCMyc/UbqU4IDMtzlSygzy9RjYkrwujNUP/vBmUJf4=;
-	b=u83VSquojyu1UZJfQC/seqohMX9fz0F/9HICoqTfuZphcW2aZSY+do3uoWkfIxd4mM
-	BnLOIpJNBCs3ZWJavJCZSRYS56npQyQNA8d4PT1D678HT4M/GmCekh5Nge98MT2ntlgi
-	s9UbRmG71TY8cUd58DlCbPxpBibYFI4g9KAywr5OOb7CmvSYX2yopvvxLw1L+i42e2bV
-	gkq1Ku3XA9tOlAlM/IsxHGAS0zjGyN0MLKJUs+QYRfQqB5t6iDQBRm7n1cVVGYfCdWA5
-	S1YG4YPTn09s31bwBouMuFerrVPsi1qfMBEpwdZSFWh6yS/89S7xRaR+2Tx2rA+PnBY4
-	aFQA==
+	bh=5KpecV4CP9Kn6BcQAVTNoAttJoQzJ5J4Uh1yJZfeBMU=;
+	b=p1nMiuSk1allcWNIN/bFexoMxBFHzR34uRYAB9fA1DoLFio6hzU5ALPYsYlj+xke2p
+	Q7CuVAR7PSROwidO+CSdx4TDVnu2iHYDeTEVF3V+N0YrPUATyYe4roL1Crgk0TUp1mQ5
+	Agx0mDwucLvZnnu6uR2jrJ/w99Q4bfky47qPB48FcBjEBQdh9Wmx5RBVPFke73ZqJNUq
+	keRijBQr/kJRWIjahFffaOXK5gyPpSIIDN2Su8vTCg8gQx71cJ/5rjRE4lOQnQM85I0W
+	4cXw9EqROWQjOAKBO3E3aGRvuACOo04r1B4ecc35I1xE8o7K9ZxHt0V3uSUfBviUCLRF
+	BVjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=8CCMyc/UbqU4IDMtzlSygzy9RjYkrwujNUP/vBmUJf4=;
-	b=PAFiyWZ4EmoHtjdMjPQsNRHef+xaMAPq7GCw58I+xD3SXwUETelPoxbkPCuVahrMl3
-	LM5g2Ug5d5yoA6UQfPfQUvkU+6yNp4ZpPTWUOXD6bvTQf8UGyaR5heAxuDsgLmuPvjYW
-	MbQzqD+YkHyqnyAMl177ImB0l5vkKyVZgJI+KN1qTvXPjJouSHMRAc96NSMuSqIFX2v/
-	CajHOFL9bmg6UWvCQqK0Hick1xbPvmPS8v0ru4iaH7ABxkhMxTXrumB46tcXVGf2Mr8H
-	UlPDC9QShqVLq/Albl5kHHo32qEntUy15ZrdXjgCGDTaI8Ulg4Q0DF08lnpEAsV/R1QV
-	gOJw==
-X-Gm-Message-State: AG10YOS9kjzyMVvMMRrM0U3gFyGVkPO5mXbW50vIP5yekRX9p+0cvbtoQd2KPeOj4Yd8+yKvd1hQqkQBXRyjbwkI
-X-Received: by 10.107.164.15 with SMTP id n15mr15484724ioe.148.1455539885730; 
-	Mon, 15 Feb 2016 04:38:05 -0800 (PST)
+	bh=5KpecV4CP9Kn6BcQAVTNoAttJoQzJ5J4Uh1yJZfeBMU=;
+	b=kXv6Rmh6t+t6rPYYzDSUY53vovqpR3+ErjsKsO5PeqqOD3ULo5ixBvxz+4xPZMFRoF
+	asNcMgFoUPutndAvoBW+LqJOiCG8LNmCLbruC10lGO3a6Z69jCUZ7jDVDG+kFLHw9uQF
+	4HULgh84V8aDysuinfffyXYy+0H/oWIze3K3Mxo0W5Bum/IkC4hGhqEi+FE8KPgPCHtD
+	AKYKB/N1y/G4cYEcPQcLgXOzFOEL2L/4mv8YM/yVYH8kE1LRmlFa0TALIlq7R9ZadpGJ
+	sfSea2rqGdkOsFTMgLiRZFHxpfV7ZoROgrnE7FV93GOaVQFQiGYlB+i2V7Vms7ZfxVgg
+	ZOVQ==
+X-Gm-Message-State: AG10YOTIt2viiD4elVLhPCyFUJzFBU/ciCFxCYLTnBgjiDRwjNVYzM5FCLuZ0DBtOSo7YA==
+X-Received: by 10.66.150.133 with SMTP id ui5mr20111839pab.85.1455543846532;
+	Mon, 15 Feb 2016 05:44:06 -0800 (PST)
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com.
+	[209.85.220.42]) by smtp.gmail.com with ESMTPSA id
+	li13sm16686602pab.6.2016.02.15.05.44.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 Feb 2016 05:44:04 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f42.google.com with SMTP id fy10so46827055pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Feb 2016 05:44:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 15 Feb 2016 04:37:46 -0800 (PST)
-In-Reply-To: <CAJ86T=WQApsnZLTAGsRv9BiitVxiKnmDd=5qEsQrogSaQu22hQ@mail.gmail.com>
-References: <1455276418-4134-1-git-send-email-eu@felipetonello.com>
-	<CAJ86T=WQApsnZLTAGsRv9BiitVxiKnmDd=5qEsQrogSaQu22hQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Feb 2016 12:37:46 +0000
-Message-ID: <CAJTo0LaCr2LbeiKupbXzYxMWSg-MssPqwZ51zCusXKZkArweFQ@mail.gmail.com>
-To: "Felipe F. Tonello" <eu@felipetonello.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagegroup-core-tools-profile: Enable valgrind on ARM
+X-Received: by 10.66.151.177 with SMTP id ur17mr23265521pab.68.1455543843964; 
+	Mon, 15 Feb 2016 05:44:03 -0800 (PST)
+Received: by 10.66.80.194 with HTTP; Mon, 15 Feb 2016 05:44:03 -0800 (PST)
+In-Reply-To: <1455460128.16142.400.camel@linuxfoundation.org>
+References: <1455460128.16142.400.camel@linuxfoundation.org>
+Date: Mon, 15 Feb 2016 11:44:03 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKryst11Tr3QpuCA87pDYdsezEjTwxpb2HOwcVvi32f+pg@mail.gmail.com>
+Message-ID: <CAP9ODKryst11Tr3QpuCA87pDYdsezEjTwxpb2HOwcVvi32f+pg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] conf/distro/include: Add no-static-libs.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +67,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 12:38:06 -0000
-Content-Type: multipart/alternative; boundary=001a11377682d881ea052bce49e1
-
---001a11377682d881ea052bce49e1
+X-List-Received-Date: Mon, 15 Feb 2016 13:44:07 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 February 2016 at 04:31, Andre McCurdy <armccurdy@gmail.com> wrote:
+On Sun, Feb 14, 2016 at 12:28 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Maintaining this list in a common location is more desireable than
+> everyone doing it themselves. Poky will switch to using this, OE-Core
+> will need to discuss that as its default.
 
-> $ cd openembedded-core
-> $ git show af1ddab5c
-> fatal: ambiguous argument 'af1ddab5c': unknown revision or path not in
-> the working tree.
->
+I support this being enabled by default on OE-Core as well.
 
-That was a poky reference, the correct oe-core ref was e5f41c22.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-But yes, what Andre said.  Felipe, can you revise the patch?
-
-Ross
-
---001a11377682d881ea052bce49e1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 13 February 2016 at 04:31, A=
-ndre McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" t=
-arget=3D"_blank">armccurdy@gmail.com</a>&gt;</span> wrote:<br><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
--style:solid;padding-left:1ex"><div id=3D":1ts" class=3D"" style=3D"overflo=
-w:hidden">$ cd openembedded-core<br>
-$ git show af1ddab5c<br>
-fatal: ambiguous argument &#39;af1ddab5c&#39;: unknown revision or path not=
- in<br>
-the working tree.</div></blockquote></div><br>That was a poky reference, th=
-e correct oe-core ref was=C2=A0e5f41c22.</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">But yes, what Andre said.=C2=A0 Felipe, =
-can you revise the patch?</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div>
-
---001a11377682d881ea052bce49e1--
