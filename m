@@ -1,20 +1,33 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA9773175
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CF7E6057B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 15:02:20 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 15 Feb 2016 07:01:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,450,1449561600"; d="scan'208";a="915355679"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Feb 2016 07:01:51 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Feb 2016 17:01:49 +0200
-Message-Id: <1455548509-14576-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-Subject: [PATCH v2] nss: define RPATH variable for nss-native
+	Mon, 15 Feb 2016 15:27:49 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u1FFRnPo009716; Mon, 15 Feb 2016 09:27:49 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016021509274948-998790 ;
+	Mon, 15 Feb 2016 09:27:49 -0600 
+Date: Mon, 15 Feb 2016 17:27:25 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160215172725.31722fde@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <CAJTo0Lb0_2aArdo6BQ+ouGKzcsqqa+foaPHZsNDED1X3OUUcCA@mail.gmail.com>
+References: <1455544180-29872-1-git-send-email-adrian.ratiu@ni.com>
+	<CAJTo0Lb0_2aArdo6BQ+ouGKzcsqqa+foaPHZsNDED1X3OUUcCA@mail.gmail.com>
+Organization: National Instruments
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/15/2016 09:27:49 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/15/2016 09:27:49 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-15_07:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ruby: break out ri-docs and rdoc into separate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,52 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 15:02:21 -0000
+X-List-Received-Date: Mon, 15 Feb 2016 15:27:50 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Otherwise the nss libs do not get any RPATH/RUNPATH. Consequently, the
-.so dependencies of nss libs are always searched from the base lib
-directories of the host (i.e. /lib/ and /usr/lib). This causes problems
-with nss-native where the .so's should be searched from the base lib
-directories of the sysroot instead of the host file system.
+On Mon, 15 Feb 2016 14:19:43 +0000
+"Burton, Ross" <ross.burton@intel.com> wrote:
 
-This particular problem has probably been unnoticed as most users are
-likely to have nss libraries installed on their host system. In this
-case everything most likely work as expected.
+> On 15 February 2016 at 13:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wro=
+te:
+>=20
+> > +SUMMARY=5F${PN}-rdoc =3D "RDoc documentation generator from Ruby sourc=
+e"
+> > +RDEPENDS=5F${PN}-rdoc =3D "${PN}"
+> > +FILES=5F${PN}-rdoc +=3D "${libdir}/ruby/rdoc"
+> >
+>=20
+> Did you mean $libdir/ruby/*/rdoc/?  This package doesn't get created.
 
-[YOCTO #9041]
+Yes, sorry. It was a mistype on my part, I'll resubmit.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/recipes-support/nss/nss_3.21.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
-index 552fd6c..d2e2411 100644
---- a/meta/recipes-support/nss/nss_3.21.bb
-+++ b/meta/recipes-support/nss/nss_3.21.bb
-@@ -55,6 +55,11 @@ do_compile_prepend_class-nativesdk() {
-     export LDFLAGS=""
- }
- 
-+do_compile_prepend_class-native() {
-+    # Need to set RPATH so that chrpath will do its job correctly
-+    RPATH="-Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE}"
-+}
-+
- do_compile() {
-     export CROSS_COMPILE=1
-     export NATIVE_CC="gcc"
-@@ -96,7 +101,8 @@ do_compile() {
-     #
-     export CC="${CC} -g"
-     make -C ./nss CCC="${CXX} -g" \
--        OS_TEST=${OS_TEST}
-+        OS_TEST=${OS_TEST} \
-+        RPATH="${RPATH}"
- }
- 
- 
--- 
-2.6.2
+>=20
+> Ross
 
 
