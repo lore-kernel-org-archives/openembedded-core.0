@@ -1,28 +1,46 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AECB73196
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D261C60017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 17:32:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Feb 2016 09:32:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,451,1449561600"; d="scan'208";a="912844029"
-Received: from besquive-mobl2.zpn.intel.com ([10.219.128.114])
-	by orsmga002.jf.intel.com with ESMTP; 15 Feb 2016 09:32:02 -0800
-Message-ID: <1455557537.3118.7.camel@linux.intel.com>
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Reply-To: benjamin.esquivel@linux.intel.com
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAMKF1sok60noEfj_ZywoN+2Z4QkcMfZrzXbRdrQharg-ZYSX7w@mail.gmail.com>
-References: <1454341995-18859-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<CAMKF1sok60noEfj_ZywoN+2Z4QkcMfZrzXbRdrQharg-ZYSX7w@mail.gmail.com>
-Organization: Intel Corporation
-Date: Mon, 15 Feb 2016 11:32:17 -0600
-Mime-Version: 1.0
-X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runtime/systemd: Fix for boot time string parse error
+	Mon, 15 Feb 2016 17:50:35 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id b205so77466470wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Feb 2016 09:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=t09UE26G76GC2cLUBKYKpYoCJYBuNPtXw3bLVwO4hpg=;
+	b=yr5wj1kiBwdadvHx4OIiAHvIi6vhDYMFnhYMGYAkXHwMUIk36S79hKn24dl7Jv8CcT
+	LjIFSJBn1M4xU/FYlRQPTgVsd119IGnauuZTSMcN13bc19QZYwA9jNO/fVczZHduemsg
+	sjjA0vmJA/8SZPxWAWn3moFlayl6TrkDIjS3WfNgJFLqscO+FPSUJ6NG6ChpIC8Pv/H5
+	IyCOVbtD9ELwEhqO6oUeVOHcOMRF7qn3QMdCMCJ5IjVQyKDuZ2OheRycQAylvsaSmow5
+	rlHktByN7cPdynGLnH8uaE9gdwPwv40v2WT+/tkcCyG7bd830KPnHapGeBzaIY/4kem/
+	zjbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=t09UE26G76GC2cLUBKYKpYoCJYBuNPtXw3bLVwO4hpg=;
+	b=bth0nB+emhTENzBQM7DtFQRZa40IuENb2foQCjxGg2Lwmvko3wivIZ7aVSMnRsSCQB
+	b7KhHFTkgrF3qaNQE8WWClTET8clkjmy9PEa+0W1A98lNaNOQC9yFdo3R2NcDv13XPMm
+	bLQRhxBUzw1Gc+gEi+WJfEvVEFItnq9vLBDirhKaejCTbDzVm4XzeXz/V2ivwxvbgPvx
+	wLIg+qupFw9q3vkbiHvy38ztVDbIbM1nKwX9/76ngOnqL3XoPRC9MMY1k8kvMS/Iksd1
+	8Ai4Wd6DsXfvTMnrSzDSloHDc/4c1NVAHoI9dLzg3S39rzmedN2X+8Yjh9qfd3KfTs7D
+	/FWQ==
+X-Gm-Message-State: AG10YORljufqbLYaeQCuyUMYkakPISAUIe0TJAf3v3fGME9eTZsbRbfCZJfII7u/Vk0UtHsV
+X-Received: by 10.28.23.75 with SMTP id 72mr14674387wmx.50.1455558635287;
+	Mon, 15 Feb 2016 09:50:35 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	xx3sm26403941wjc.32.2016.02.15.09.50.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 15 Feb 2016 09:50:34 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Feb 2016 17:50:32 +0000
+Message-Id: <1455558632-1397-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] lib/qa.py: raise ValueError if file isn't an ELF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,99 +53,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 17:32:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Feb 2016 17:50:36 -0000
 
-On Mon, 2016-02-01 at 10:48 -0800, Khem Raj wrote:
-> On Mon, Feb 1, 2016 at 7:53 AM, Benjamin Esquivel
-> <benjamin.esquivel@linux.intel.com> wrote:
-> > boot time string can change its format of the output of the amount
-> > of time
-> > it took to boot. It is required to handle graceful fail of the
-> > parsing
-> > errors that it provokes
-> > 
-> > [YOCTO #8889]
-> > 
-> > Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com
-> > >
-> > ---
-> >  meta/lib/oeqa/runtime/systemd.py | 22 ++++++++++++----------
-> >  1 file changed, 12 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/meta/lib/oeqa/runtime/systemd.py
-> > b/meta/lib/oeqa/runtime/systemd.py
-> > index 03c56ef..2b2f10d 100644
-> > --- a/meta/lib/oeqa/runtime/systemd.py
-> > +++ b/meta/lib/oeqa/runtime/systemd.py
-> > @@ -145,8 +145,7 @@ class SystemdJournalTests(SystemdTest):
-> >          except AssertionError:
-> >              self.fail("Error occurred while calling journalctl")
-> >          if not len(output):
-> > -            self.fail("Error: unable to obtain the startup time
-> > from\
-> > -                    systemd journal")
-> > +            self.fail("Error, unable to get startup time from
-> > systemd journal")
-> > 
-> >          # check for the regular expression items that match the
-> > startup time
-> >          for line in output.split('\n'):
-> > @@ -156,20 +155,23 @@ class SystemdJournalTests(SystemdTest):
-> >          if check_match:
-> >              print "%s" % check_match
-> >          else:
-> > -            self.fail("Error while obtaining the boot time from
-> > journalctl")
-> > +            self.skipTest("Error at obtaining the boot time from
-> > journalctl")
-> >          boot_time_sec = 0
-> > 
-> >          # get the numeric values from the string and convert them
-> > to seconds
-> >          # same data will be placed in list and string for
-> > manipulation
-> >          l_boot_time = check_match.split(" ")[-2:]
-> >          s_boot_time = " ".join(l_boot_time)
-> > -        # Obtain the minutes it took to boot
-> > -        if l_boot_time[0].endswith('min') and
-> > l_boot_time[0][0].isdigit():
-> > -            boot_time_min = s_boot_time.split("min")[0]
-> > -            # convert to seconds and accumulate it
-> > -            boot_time_sec += int(boot_time_min) * 60
-> > -        # Obtain the seconds it took to boot and accumulate
-> > -        boot_time_sec += float(l_boot_time[1].split("s")[0])
-> > +        try:
-> > +            # Obtain the minutes it took to boot
-> > +            if l_boot_time[0].endswith('min') and
-> > l_boot_time[0][0].isdigit():
-> > +                boot_time_min = s_boot_time.split("min")[0]
-> > +                # convert to seconds and accumulate it
-> > +                boot_time_sec += int(boot_time_min) * 60
-> > +            # Obtain the seconds it took to boot and accumulate
-> > +            boot_time_sec += float(l_boot_time[1].split("s")[0])
-> 
-> is float right to use here I wonder,
-float is what the seconds are expressed in at the journal, like in:
+Instead of raising a generic Exception that can't be handled specifically, raise
+a ValueError.  Also update the callers so any unexpected exceptions are not
+ignored.
 
-systemd[1]: Startup finished in 1.616s (kernel) + 13.561s (initrd) +
-3.195s (userspace) = 26.632s
+Also, rename isBigEngian() to isBigEndian().
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/insane.bbclass    |  2 +-
+ meta/classes/uninative.bbclass |  2 +-
+ meta/lib/oe/qa.py              | 14 +++++++-------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 530e711..a76f8dd 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -792,7 +792,7 @@ def package_qa_walk(warnfuncs, errorfuncs, skip, package, d):
+             elf = oe.qa.ELFFile(path)
+             try:
+                 elf.open()
+-            except:
++            except ValueError:
+                 elf = None
+             for func in warnfuncs:
+                 func(path, package, d, elf, warnings)
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 0448cf6..b14cec0 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -80,7 +80,7 @@ python uninative_changeinterp () {
+             elf = oe.qa.ELFFile(f)
+             try:
+                 elf.open()
+-            except:
++            except ValueError:
+                 continue
  
-> > +        except ValueError:
-> > +            self.skipTest("Error when parsing time from boot
-> > string")
-> >          #Assert the target boot time against systemd's unit start
-> > timeout
-> >          if boot_time_sec > systemd_TimeoutStartSec:
-> >              print "Target boot time %s exceeds systemd's
-> > TimeoutStartSec %s"\
-> > --
-> > 2.5.1
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+             #bb.warn("patchelf-uninative --set-interpreter %s %s" % (d.getVar("UNINATIVE_LOADER", True), f))
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index 21fb997..2ad6c63 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -23,7 +23,7 @@ class ELFFile:
+     def my_assert(self, expectation, result):
+         if not expectation == result:
+             #print "'%x','%x' %s" % (ord(expectation), ord(result), self.name)
+-            raise Exception("This does not work as expected")
++            raise ValueError("%s is not an ELF" % self.name)
+ 
+     def __init__(self, name, bits = 0):
+         self.name = name
+@@ -32,7 +32,7 @@ class ELFFile:
+ 
+     def open(self):
+         if not os.path.isfile(self.name):
+-            raise Exception("File is not a normal file")
++            raise ValueError("%s is not a normal file" % self.name)
+ 
+         self.file = file(self.name, "r")
+         self.data = self.file.read(ELFFile.EI_NIDENT+4)
+@@ -49,24 +49,24 @@ class ELFFile:
+                 self.bits = 64
+             else:
+                 # Not 32-bit or 64.. lets assert
+-                raise Exception("ELF but not 32 or 64 bit.")
++                raise ValueError("ELF but not 32 or 64 bit.")
+         elif self.bits == 32:
+             self.my_assert(self.data[ELFFile.EI_CLASS], chr(ELFFile.ELFCLASS32))
+         elif self.bits == 64:
+             self.my_assert(self.data[ELFFile.EI_CLASS], chr(ELFFile.ELFCLASS64))
+         else:
+-            raise Exception("Must specify unknown, 32 or 64 bit size.")
++            raise ValueError("Must specify unknown, 32 or 64 bit size.")
+         self.my_assert(self.data[ELFFile.EI_VERSION], chr(ELFFile.EV_CURRENT) )
+ 
+         self.sex = self.data[ELFFile.EI_DATA]
+         if self.sex == chr(ELFFile.ELFDATANONE):
+-            raise Exception("self.sex == ELFDATANONE")
++            raise ValueError("self.sex == ELFDATANONE")
+         elif self.sex == chr(ELFFile.ELFDATA2LSB):
+             self.sex = "<"
+         elif self.sex == chr(ELFFile.ELFDATA2MSB):
+             self.sex = ">"
+         else:
+-            raise Exception("Unknown self.sex")
++            raise ValueError("Unknown self.sex")
+ 
+     def osAbi(self):
+         return ord(self.data[ELFFile.EI_OSABI])
+@@ -80,7 +80,7 @@ class ELFFile:
+     def isLittleEndian(self):
+         return self.sex == "<"
+ 
+-    def isBigEngian(self):
++    def isBigEndian(self):
+         return self.sex == ">"
+ 
+     def machine(self):
+-- 
+2.7.0
+
 
