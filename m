@@ -1,49 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 922D76FEE0
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FCA36FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 19:53:43 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id b67so118051716qgb.1
+	Mon, 15 Feb 2016 20:09:24 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id y89so118443654qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 11:53:44 -0800 (PST)
+	Mon, 15 Feb 2016 12:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=mpWEgvOYUMf0Cu4s3ZABots8Ykui3AMXQ6VaYhunMYw=;
-	b=ITej7affbz2N7VC9LOb+8rNEV3XBSNrhG+GmGPlg9mA0M21DsC7CzV0tLjCU9e8/O/
-	5SFj81DpBWoIWYCBoJxWwYCJkNybujW2VHpyRaHILU3sZ6CmXhgky1H/w+2fBEaWpANp
-	zMvIAEz2Wk3wygOeWSrqohCHxKDULhPdUWL51nFU5Gbxpx16pzlzmX1Gfe2HXdG52hJ2
-	dqlZbmD+Oh1nBlCSbxfla10EWvFwafBGwkNZFeIYvRl6FcYhTnJjWdMYJ1xnKoKJ15R3
-	UuI1v1UZlHCw9xbxJYIFMruKktHfQ/AZ4C5CtHQRVHE9/alP/SlFCLZ69nJIzW8MBmNw
-	+pDw==
+	h=from:to:cc:subject:date:message-id;
+	bh=7ewosw03VGUxR5Mc9VzMXiu49kZkZ/xrU3TDKKWsrp4=;
+	b=r2fFp0TyrFJW496r5ckNx6M1EC5YvNOX/QA9EKmUuW7c6uusPUDpLLqtBqiOcpvN2i
+	BF5koY/yKhQ3Dq1/2NZNQQexxqemoP0MDeR1XTh3WNTz/Mf//HlLk+VSUBa+5eY6nn2A
+	2K62VDMkeICNBw9ge2K7eYt1fz9mVrcyRBR7XFQsqr5XMq6HtFlTS40poUuu28cCtVpr
+	hJGnVEAxwnyTIDqw6oRlG14qY6Ibnzme5aQUkKb+RFj2S0CYgdqqMH0mLOqa/gEFRDKr
+	PyqT5n/U4RsroT4xqPykmHrx8OPM3F0aFRkJ+ISbMSig9wmR+Ywrsy/rJbXMDaWopvxI
+	ds8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mpWEgvOYUMf0Cu4s3ZABots8Ykui3AMXQ6VaYhunMYw=;
-	b=GDN51dQN8EpTtgfapBha0HcLmI1U1BgmTCQJpHp2ZRW7hwySh5iKV3miGudf7g4kA6
-	XYTRUvRLI0ERQa+iHiWy/bzcE3oZXvjVY5JMO5EnMts8Cj5KlcJ/A/tYDbLtecZGx2ge
-	fF+wWLm/EuScYxlVC8C9E/kUwpc4DGiUv9W/nMgO89/m84SGxwxvB+U6BOCK9TjYkbkV
-	3xxttA6dM6XxDFNOfSQsju/8us15y1sSYVcMELT8kfnuP4qVOKX26Hfhm8GQRywAZ8Bq
-	CvKEp2yDKYCn/BmIpwC/EHjqb7zrlASbHAWyRMs0XvUNhpKlML+zByyIV5ua6c1VlFtb
-	sP0w==
-X-Gm-Message-State: AG10YORuGpRbd6udSbuORqd5pvgnMAxGx1Qo2uptFqHem/mwroQCntNJxvDk1ERO8annf0MMdRshOT4qcF5AXA==
-X-Received: by 10.140.108.181 with SMTP id j50mr22367797qgf.104.1455566024455; 
-	Mon, 15 Feb 2016 11:53:44 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Mon, 15 Feb 2016 11:53:15 -0800 (PST)
-In-Reply-To: <1455557537.3118.7.camel@linux.intel.com>
-References: <1454341995-18859-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<CAMKF1sok60noEfj_ZywoN+2Z4QkcMfZrzXbRdrQharg-ZYSX7w@mail.gmail.com>
-	<1455557537.3118.7.camel@linux.intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7ewosw03VGUxR5Mc9VzMXiu49kZkZ/xrU3TDKKWsrp4=;
+	b=WZHk/MFwTjTu6AXr2S8yLTYcppFDqw2wUQduZIJlj+uwZ3AFDIg/yLnRfCbU9OxV5h
+	UnCt2ibe9eUT2KXJY6FQSqjId2aYUlWc4lOcqXRlk+vx0vMfJtdmUAeDNrQNMp+JvkAn
+	3EbhJmnXGu6WsiLGoGW1yMMqijVw6XCRDJXNqmHejukfoavh7RvRk6Zm1ZyDCdF45YHF
+	hXIuzVgIXhRZUzepMHm+uqceRIPQfORnaUklwFm9vBtCiXRm6lHpKe9rH6w0DtL2fFz4
+	EVYhJgr9Im9GizKnaYCnh4vjgcyLIPIPdVOsx3G7Cq1f1FhaqI6p/9emmjWQDYRBYB4P
+	OYjg==
+X-Gm-Message-State: AG10YOS9qGbQR1q6G6XfeE9FS79Qs4Wv6ohriLsn2wXiw0pDbmzVIWtg99uCxP87AFPEig==
+X-Received: by 10.140.106.97 with SMTP id d88mr22847922qgf.84.1455566965219;
+	Mon, 15 Feb 2016 12:09:25 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	r6sm11600944qhr.28.2016.02.15.12.09.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 15 Feb 2016 12:09:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Feb 2016 11:53:15 -0800
-Message-ID: <CAMKF1srf3kCLZkPWVh=mZ2mv+F5GdaAvHyguZvHhiRrZUtqkDQ@mail.gmail.com>
-To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runtime/systemd: Fix for boot time string parse error
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Feb 2016 20:09:18 +0000
+Message-Id: <1455566958-103827-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.1
+Subject: [PATCH] binutils: Fix useless rpaths QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,103 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 19:53:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Feb 2016 20:09:26 -0000
 
-On Mon, Feb 15, 2016 at 9:32 AM, Benjamin Esquivel
-<benjamin.esquivel@linux.intel.com> wrote:
-> On Mon, 2016-02-01 at 10:48 -0800, Khem Raj wrote:
->> On Mon, Feb 1, 2016 at 7:53 AM, Benjamin Esquivel
->> <benjamin.esquivel@linux.intel.com> wrote:
->> > boot time string can change its format of the output of the amount
->> > of time
->> > it took to boot. It is required to handle graceful fail of the
->> > parsing
->> > errors that it provokes
->> >
->> > [YOCTO #8889]
->> >
->> > Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com
->> > >
->> > ---
->> >  meta/lib/oeqa/runtime/systemd.py | 22 ++++++++++++----------
->> >  1 file changed, 12 insertions(+), 10 deletions(-)
->> >
->> > diff --git a/meta/lib/oeqa/runtime/systemd.py
->> > b/meta/lib/oeqa/runtime/systemd.py
->> > index 03c56ef..2b2f10d 100644
->> > --- a/meta/lib/oeqa/runtime/systemd.py
->> > +++ b/meta/lib/oeqa/runtime/systemd.py
->> > @@ -145,8 +145,7 @@ class SystemdJournalTests(SystemdTest):
->> >          except AssertionError:
->> >              self.fail("Error occurred while calling journalctl")
->> >          if not len(output):
->> > -            self.fail("Error: unable to obtain the startup time
->> > from\
->> > -                    systemd journal")
->> > +            self.fail("Error, unable to get startup time from
->> > systemd journal")
->> >
->> >          # check for the regular expression items that match the
->> > startup time
->> >          for line in output.split('\n'):
->> > @@ -156,20 +155,23 @@ class SystemdJournalTests(SystemdTest):
->> >          if check_match:
->> >              print "%s" % check_match
->> >          else:
->> > -            self.fail("Error while obtaining the boot time from
->> > journalctl")
->> > +            self.skipTest("Error at obtaining the boot time from
->> > journalctl")
->> >          boot_time_sec = 0
->> >
->> >          # get the numeric values from the string and convert them
->> > to seconds
->> >          # same data will be placed in list and string for
->> > manipulation
->> >          l_boot_time = check_match.split(" ")[-2:]
->> >          s_boot_time = " ".join(l_boot_time)
->> > -        # Obtain the minutes it took to boot
->> > -        if l_boot_time[0].endswith('min') and
->> > l_boot_time[0][0].isdigit():
->> > -            boot_time_min = s_boot_time.split("min")[0]
->> > -            # convert to seconds and accumulate it
->> > -            boot_time_sec += int(boot_time_min) * 60
->> > -        # Obtain the seconds it took to boot and accumulate
->> > -        boot_time_sec += float(l_boot_time[1].split("s")[0])
->> > +        try:
->> > +            # Obtain the minutes it took to boot
->> > +            if l_boot_time[0].endswith('min') and
->> > l_boot_time[0][0].isdigit():
->> > +                boot_time_min = s_boot_time.split("min")[0]
->> > +                # convert to seconds and accumulate it
->> > +                boot_time_sec += int(boot_time_min) * 60
->> > +            # Obtain the seconds it took to boot and accumulate
->> > +            boot_time_sec += float(l_boot_time[1].split("s")[0])
->>
->> is float right to use here I wonder,
-> float is what the seconds are expressed in at the journal, like in:
->
-> systemd[1]: Startup finished in 1.616s (kernel) + 13.561s (initrd) +
-> 3.195s (userspace) = 26.632s
->
+elfedit and readelf contains /usr/lib in elf header
+this patch deletes them from binaries, ideally it
+should be fixed in libtool and Makery of binutils
 
-so its in 100th thats ok,.
+mips target binutils dont build gold so remove
+them from ALTERNATIVES list
 
->> > +        except ValueError:
->> > +            self.skipTest("Error when parsing time from boot
->> > string")
->> >          #Assert the target boot time against systemd's unit start
->> > timeout
->> >          if boot_time_sec > systemd_TimeoutStartSec:
->> >              print "Target boot time %s exceeds systemd's
->> > TimeoutStartSec %s"\
->> > --
->> > 2.5.1
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 79e2a12..7a5b4cc 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -51,6 +51,7 @@ USE_ALTERNATIVES_FOR = " \
+ 	strings \
+ 	strip \
+ "
++USE_ALTERNATIVES_FOR_remove_mips = "ld.gold dwp"
+ 
+ python do_package_prepend() {
+     make_alts = d.getVar("USE_ALTERNATIVES_FOR", True) or ""
+@@ -111,6 +112,10 @@ do_configure () {
+ 	done
+ }
+ 
++do_compile_append_class-target() {
++	chrpath -d ${B}/binutils/elfedit
++	chrpath -d ${B}/binutils/readelf
++}
+ do_install () {
+ 	autotools_do_install
+ 
+-- 
+2.7.1
+
 
