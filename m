@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id ED7B960291
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 272F3731DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 12:31:21 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id 5so54684368igt.0
+	Mon, 15 Feb 2016 12:38:05 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id z135so87553337iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 04:31:22 -0800 (PST)
+	Mon, 15 Feb 2016 04:38:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=tYPZ3/3Wq6YbDPA2dsfoXIpwtsqZrewEvAnTG8RoxUY=;
-	b=wYq72o+wz8DVc/gXb5FfF0kcyDvk7MNKZBoj2BfzoYN99/L5Jb1MbbyVw93Ksisu82
-	DEW36dN7zdUzjb/l2oLrUkVD9WMpEuxw11gIfxWdAwrqww6Y2Wh3hrYBatSv2WNqT8OQ
-	zvEBObgcOKBHZuuC0A3NQ7UoR9MlvY9C3wp3jLk03JnKrCD1pMdjkEK0MKAqWlTo+wm7
-	I4AJmyDaITTUuXsYZ6ZlqYRG1fQcy78bgi61dy/ySUIBnmEfHzWvo47YoncF9F614EMg
-	LLN02p5TM2jjSjQhwjLcYzkjVWFl/0k1hH2H6UkgyeFfLCJMbn5/MFGLPwWwSV8H4ePV
-	/n3w==
+	bh=8CCMyc/UbqU4IDMtzlSygzy9RjYkrwujNUP/vBmUJf4=;
+	b=u83VSquojyu1UZJfQC/seqohMX9fz0F/9HICoqTfuZphcW2aZSY+do3uoWkfIxd4mM
+	BnLOIpJNBCs3ZWJavJCZSRYS56npQyQNA8d4PT1D678HT4M/GmCekh5Nge98MT2ntlgi
+	s9UbRmG71TY8cUd58DlCbPxpBibYFI4g9KAywr5OOb7CmvSYX2yopvvxLw1L+i42e2bV
+	gkq1Ku3XA9tOlAlM/IsxHGAS0zjGyN0MLKJUs+QYRfQqB5t6iDQBRm7n1cVVGYfCdWA5
+	S1YG4YPTn09s31bwBouMuFerrVPsi1qfMBEpwdZSFWh6yS/89S7xRaR+2Tx2rA+PnBY4
+	aFQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=tYPZ3/3Wq6YbDPA2dsfoXIpwtsqZrewEvAnTG8RoxUY=;
-	b=aUI7vz5xyqDMxztZSeMIr8XHSv1YfWZUtUyri59rCy6jZRPVbOx0o+aaaToq9w0ujj
-	gB6l8vsuGk3pJuq20OnRqu05564NLPIZrBwlWyrUl/gJ7CWEG7jWlpyRMiJ9XBVXTNmf
-	ydk3/J1fqNW4yU+kk+qDrrWEvMnyVka3jDDBXoFlDjrYDRD9ynVgq/O0QBg9w1Nz93PF
-	6JHuy8eEjCSBFddA7rWW7+ddHbr2wyK0OGNVCdcM32J2+XQss2mePGo1jry9XsI6F8ZJ
-	q519FYvPUPnVGcJPHdMNBg7Yk4lp9nKGgn97WrZn7YVPUW7NooYWlEE2QvLCuxU3ySnM
-	6Czw==
-X-Gm-Message-State: AG10YOQSjNSySNLnk7T0sYtCkjlkk5kR3t2IKMunh7MW/G5KEEbPaEpXV7Ir0J4UqErdVXD8oxpvCO0b77WfTCmu
-X-Received: by 10.50.78.227 with SMTP id e3mr11428132igx.64.1455539482179;
-	Mon, 15 Feb 2016 04:31:22 -0800 (PST)
+	bh=8CCMyc/UbqU4IDMtzlSygzy9RjYkrwujNUP/vBmUJf4=;
+	b=PAFiyWZ4EmoHtjdMjPQsNRHef+xaMAPq7GCw58I+xD3SXwUETelPoxbkPCuVahrMl3
+	LM5g2Ug5d5yoA6UQfPfQUvkU+6yNp4ZpPTWUOXD6bvTQf8UGyaR5heAxuDsgLmuPvjYW
+	MbQzqD+YkHyqnyAMl177ImB0l5vkKyVZgJI+KN1qTvXPjJouSHMRAc96NSMuSqIFX2v/
+	CajHOFL9bmg6UWvCQqK0Hick1xbPvmPS8v0ru4iaH7ABxkhMxTXrumB46tcXVGf2Mr8H
+	UlPDC9QShqVLq/Albl5kHHo32qEntUy15ZrdXjgCGDTaI8Ulg4Q0DF08lnpEAsV/R1QV
+	gOJw==
+X-Gm-Message-State: AG10YOS9kjzyMVvMMRrM0U3gFyGVkPO5mXbW50vIP5yekRX9p+0cvbtoQd2KPeOj4Yd8+yKvd1hQqkQBXRyjbwkI
+X-Received: by 10.107.164.15 with SMTP id n15mr15484724ioe.148.1455539885730; 
+	Mon, 15 Feb 2016 04:38:05 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 15 Feb 2016 04:31:02 -0800 (PST)
-In-Reply-To: <eea9c9c9b686194c87e06b478b4e3a8e3447d358.1455501148.git.kai.kang@windriver.com>
-References: <cover.1455501148.git.kai.kang@windriver.com>
-	<eea9c9c9b686194c87e06b478b4e3a8e3447d358.1455501148.git.kai.kang@windriver.com>
+Received: by 10.107.162.70 with HTTP; Mon, 15 Feb 2016 04:37:46 -0800 (PST)
+In-Reply-To: <CAJ86T=WQApsnZLTAGsRv9BiitVxiKnmDd=5qEsQrogSaQu22hQ@mail.gmail.com>
+References: <1455276418-4134-1-git-send-email-eu@felipetonello.com>
+	<CAJ86T=WQApsnZLTAGsRv9BiitVxiKnmDd=5qEsQrogSaQu22hQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Feb 2016 12:31:02 +0000
-Message-ID: <CAJTo0LaQ-viF19UDx0XAVFiEi=7a+rf6maPfjr-6QSLhVwRSSQ@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
+Date: Mon, 15 Feb 2016 12:37:46 +0000
+Message-ID: <CAJTo0LaCr2LbeiKupbXzYxMWSg-MssPqwZ51zCusXKZkArweFQ@mail.gmail.com>
+To: "Felipe F. Tonello" <eu@felipetonello.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagegroup-core-tools-profile: Enable valgrind on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,39 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 12:31:22 -0000
-Content-Type: multipart/alternative; boundary=089e0111b734cad664052bce3179
+X-List-Received-Date: Mon, 15 Feb 2016 12:38:06 -0000
+Content-Type: multipart/alternative; boundary=001a11377682d881ea052bce49e1
 
---089e0111b734cad664052bce3179
+--001a11377682d881ea052bce49e1
 Content-Type: text/plain; charset=UTF-8
 
-On 15 February 2016 at 01:59, <kai.kang@windriver.com> wrote:
+On 13 February 2016 at 04:31, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-> +               eval flock -x -w 100 $rootdir/tmp/user-and-group-ops.flock
-> -c  \'$PSEUDO useradd $opts\' || true
+> $ cd openembedded-core
+> $ git show af1ddab5c
+> fatal: ambiguous argument 'af1ddab5c': unknown revision or path not in
+> the working tree.
 >
 
-This is a great patch, but why not just flock $rootdir/etc instead of new
-file in tmp?    Surely images end up being created with
-/tmp/user-and-group-ops.flock in them?
+That was a poky reference, the correct oe-core ref was e5f41c22.
+
+But yes, what Andre said.  Felipe, can you revise the patch?
 
 Ross
 
---089e0111b734cad664052bce3179
+--001a11377682d881ea052bce49e1
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 February 2016 at 01:59,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.=
-kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":2u7" class=3D"a3s" st=
-yle=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0eval flock -x -w 100 $rootdir/tmp/user-and-group-ops.flock -c=C2=A0 \=
-&#39;$PSEUDO useradd $opts\&#39; || true<br></div></blockquote></div><br>Th=
-is is a great patch, but why not just flock $rootdir/etc instead of new fil=
-e in tmp? =C2=A0 =C2=A0Surely images end up being created with /tmp/user-an=
-d-group-ops.flock in them?</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 13 February 2016 at 04:31, A=
+ndre McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" t=
+arget=3D"_blank">armccurdy@gmail.com</a>&gt;</span> wrote:<br><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D":1ts" class=3D"" style=3D"overflo=
+w:hidden">$ cd openembedded-core<br>
+$ git show af1ddab5c<br>
+fatal: ambiguous argument &#39;af1ddab5c&#39;: unknown revision or path not=
+ in<br>
+the working tree.</div></blockquote></div><br>That was a poky reference, th=
+e correct oe-core ref was=C2=A0e5f41c22.</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">But yes, what Andre said.=C2=A0 Felipe, =
+can you revise the patch?</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
 
---089e0111b734cad664052bce3179--
+--001a11377682d881ea052bce49e1--
