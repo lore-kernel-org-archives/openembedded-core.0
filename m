@@ -1,23 +1,31 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 080E2731F1
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D78260053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 13:44:22 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Feb 2016 05:44:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,450,1449561600"; d="scan'208";a="652404927"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Feb 2016 05:44:23 -0800
-Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id B59E86A4004;
-	Mon, 15 Feb 2016 06:32:12 -0800 (PST)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+	Mon, 15 Feb 2016 13:50:02 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u1FDo21w007696 for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Feb 2016 07:50:02 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016021507500315-994418 ;
+	Mon, 15 Feb 2016 07:50:03 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Feb 2016 15:48:01 +0200
-Message-Id: <1455544081-1761-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] oeqa/selftest/signing: Added test for locked signatures
+Date: Mon, 15 Feb 2016 15:49:40 +0200
+Message-Id: <1455544180-29872-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/15/2016 07:50:03 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/15/2016 07:50:03 AM,
+	Serialize complete at 02/15/2016 07:50:03 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-15_07:, , signatures=0
+Cc: Ben Shelton <ben.shelton@ni.com>
+Subject: [PATCH 1/1] ruby: break out ri-docs and rdoc into separate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,79 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 13:44:26 -0000
+X-List-Received-Date: Mon, 15 Feb 2016 13:50:03 -0000
 
-fix for [YOCTO #8706]
+The ri (Ruby Interactive) documentation for the Ruby standard library
+consumes a significant amount of space on disk. It is useful to
+developers, but is usually not necessary for users who just want to run
+applications written in Ruby.  Break it out into a separate package so
+Ruby can be installed without it.
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+Also break out the rdoc documentation generator in its own package.
+
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/lib/oeqa/selftest/signing.py | 48 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ meta/recipes-devtools/ruby/ruby_2.2.2.bb | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
-index c402e37..1e710e3 100644
---- a/meta/lib/oeqa/selftest/signing.py
-+++ b/meta/lib/oeqa/selftest/signing.py
-@@ -6,6 +6,7 @@ import re
- import shutil
- import tempfile
- from oeqa.utils.decorators import testcase
-+from oeqa.utils.ftools import write_file
+diff --git a/meta/recipes-devtools/ruby/ruby_2.2.2.bb b/meta/recipes-devtools/ruby/ruby_2.2.2.bb
+index 9b807a7..50a0638 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.2.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.2.2.bb
+@@ -31,7 +31,16 @@ do_install() {
+     oe_runmake 'DESTDIR=${D}' install
+ }
  
+-FILES_${PN} += "${datadir}/rubygems \
+-                ${datadir}/ri"
++PACKAGES =+ "${PN}-ri-docs ${PN}-rdoc"
++
++SUMMARY_${PN}-ri-docs = "ri (Ruby Interactive) documentation for the Ruby standard library"
++RDEPENDS_${PN}-ri-docs = "${PN}"
++FILES_${PN}-ri-docs += "${datadir}/ri"
++
++SUMMARY_${PN}-rdoc = "RDoc documentation generator from Ruby source"
++RDEPENDS_${PN}-rdoc = "${PN}"
++FILES_${PN}-rdoc += "${libdir}/ruby/rdoc"
++
++FILES_${PN} += "${datadir}/rubygems"
  
- class Signing(oeSelfTest):
-@@ -130,3 +131,50 @@ class Signing(oeSelfTest):
-         # gpg: Good signature from "testuser (nocomment) <testuser@email.com>"
-         self.assertIn('gpg: Good signature from', ret.output, 'Package signed incorrectly.')
- 
-+
-+class LockedSignatures(oeSelfTest):
-+
-+    @testcase(1420)
-+    def test_locked_signatures(self):
-+        """
-+        Summary:     Test locked signature mechanism
-+        Expected:    Locked signatures will prevent task to run
-+        Product:     oe-core
-+        Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        test_recipe = 'ed'
-+        locked_sigs_file = 'locked-sigs.inc'
-+
-+        self.add_command_to_tearDown('rm -f %s' % os.path.join(self.builddir, locked_sigs_file))
-+
-+        bitbake(test_recipe)
-+        # Generate locked sigs include file
-+        bitbake('-S none %s' % test_recipe)
-+
-+        feature = 'require %s\n' % locked_sigs_file
-+        feature += 'SIGGEN_LOCKEDSIGS_CHECK_LEVEL = "warn"\n'
-+        self.write_config(feature)
-+
-+        # Build a locked recipe
-+        bitbake(test_recipe)
-+
-+        # Make a change that should cause the locked task signature to change
-+        recipe_append_file = test_recipe + '_' + get_bb_var('PV', test_recipe) + '.bbappend'
-+        recipe_append_path = os.path.join(self.testlayer_path, 'recipes-test', test_recipe, recipe_append_file)
-+        feature = 'SUMMARY += "test locked signature"\n'
-+
-+        os.mkdir(os.path.join(self.testlayer_path, 'recipes-test', test_recipe))
-+        write_file(recipe_append_path, feature)
-+
-+        self.add_command_to_tearDown('rm -rf %s' % os.path.join(self.testlayer_path, 'recipes-test', test_recipe))
-+
-+        # Build the recipe again
-+        ret = bitbake(test_recipe)
-+
-+        # Verify you get the warning and that the real task *isn't* run (i.e. the locked signature has worked)
-+        patt = r'WARNING: The %s:do_package sig \S+ changed, use locked sig \S+ to instead' % test_recipe
-+        found_warn = re.search(patt, ret.output)
-+
-+        self.assertIsNotNone(found_warn, "Didn't find the expected warning message. Output: %s" % ret.output)
+ BBCLASSEXTEND = "native"
 -- 
-2.1.0
+2.7.0
 
 
