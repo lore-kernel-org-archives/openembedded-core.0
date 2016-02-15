@@ -1,29 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 414C7700F3
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A90476FF86
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 14:30:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1FEUsas011474; Mon, 15 Feb 2016 14:30:54 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WYcUiETK8aEh; Mon, 15 Feb 2016 14:30:54 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1FEUnBL011471
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 15 Feb 2016 14:30:50 GMT
-Message-ID: <1455546649.16142.419.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 15 Feb 2016 14:30:49 +0000
-In-Reply-To: <1455483171-66851-5-git-send-email-raj.khem@gmail.com>
-References: <1455483171-66851-1-git-send-email-raj.khem@gmail.com>
-	<1455483171-66851-5-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+	Mon, 15 Feb 2016 14:57:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 15 Feb 2016 06:57:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,450,1449561600"; 
+	d="scan'208,217";a="915353210"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Feb 2016 06:57:46 -0800
+Message-ID: <1455548264.3889.8.camel@linux.intel.com>
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Christopher Larson <clarson@kergoth.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 15 Feb 2016 16:57:44 +0200
+In-Reply-To: <CABcZAN=cNeb1pkE5tzc-0UB0Dgc9z1BH6Xb0qJiPPm6P+O33QA@mail.gmail.com>
+References: <1455303960-7173-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<CABcZAN=cNeb1pkE5tzc-0UB0Dgc9z1BH6Xb0qJiPPm6P+O33QA@mail.gmail.com>
+X-Mailer: Evolution 3.16.5 
 Mime-Version: 1.0
-Subject: Re: [PATCH 5/5] binutils: Use tip of 2.26 branch
+Subject: Re: [PATCH] nss: define RPATH variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 14:30:57 -0000
+X-List-Received-Date: Mon, 15 Feb 2016 14:57:46 -0000
+Content-Type: multipart/alternative; boundary="=-WbAdAM+KCpOy9wk6CP5M"
+
+--=-WbAdAM+KCpOy9wk6CP5M
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2016-02-14 at 20:52 +0000, Khem Raj wrote:
-> Until 2.26.1 is released there are few fixes which are needed
-> especially
-> when using -fpie, here are changes that are part of this version bump
-> 
-> H.J. Lu (7):
->       Add a testcase for PR ld/18591
->       Store estimated distances in compressed_size
->       Remove duplicated marker for 2.26 in gas/NEWS
->       Add -mrelax-relocations= to x86 assembler
->       Mask off the least significant bit in GOT offset
->       Enable -Bsymbolic and -Bsymbolic-functions to PIE
->       Fix a typo in objcopy manual
-> 
-> John David Anglin (1):
->       Fix /usr/bin/ld: final link failed: File truncated error on
-> hppa
+On Sat, 2016-02-13 at 05:12 +0000, Christopher Larson wrote:
+> On Fri, Feb 12, 2016 at 12:06 PM Markus Lehtonen <
+> markus.lehtonen@linux.intel.com> wrote:
+> > Otherwise the nss libs do not get any RPATH/RUNPATH. Consequently,
+> > the
+> > .so dependencies of nss libs are always searched from the base lib
+> > directories of the host (i.e. /lib/ and /usr/lib). This causes
+> > problems
+> > with nss-native where the .so's should be searched from the base
+> > lib
+> > directories of the sysroot instead of the host file system.
+> > 
+> > This particular problem has probably been unnoticed as nss-native
+> > is
+> > seldom used and/or most users are likely to have nss libraries
+> > installed
+> > on their host system. In this case everything most likely work as
+> > expected.
+> > 
+> > [YOCTO #9041]
+> > 
+> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> > ---
+> >  meta/recipes-support/nss/nss_3.21.bb | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes
+> > -support/nss/nss_3.21.bb
+> > index 552fd6c..8b9fb71 100644
+> > --- a/meta/recipes-support/nss/nss_3.21.bb
+> > +++ b/meta/recipes-support/nss/nss_3.21.bb
+> > @@ -91,12 +91,16 @@ do_compile() {
+> > 
+> >      export NSS_DISABLE_GTESTS=1
+> > 
+> > +    # Need to set RPATH so that chrpath will do its job correctly
+> > +    RPATH="-Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath
+> > -link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,
+> > -rpath,${STAGING_LIBDIR_NATIVE} -Wl,
+> > -rpath,${STAGING_BASE_LIBDIR_NATIVE}"
+> Why are you adding native paths to rpath in a target recipe? If this
+> change is native-only, this should use the class-native override.,
+> no?
+Very good point. There's no point setting RPATH for target environment
+(even if it shouldn't break anything). I was too tired when writing the
+final version of the patch, I guess ;) I'll send a new version, soon.
+Thanks,
+  Markus
 
-I think this is resulting in:
+--=-WbAdAM+KCpOy9wk6CP5M
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/buil
-ds/625/steps/BuildImages_1/logs/stdio
+<html><head></head><body><div>On Sat, 2016-02-13 at 05:12 +0000, Christopher Larson wrote:</div><blockquote type="cite"><div dir="ltr"><div class="gmail_quote"><div dir="ltr">On Fri, Feb 12, 2016 at 12:06 PM Markus Lehtonen &lt;<a href="mailto:markus.lehtonen@linux.intel.com">markus.lehtonen@linux.intel.com</a>&gt; wrote:<br></div><blockquote type="cite">Otherwise the nss libs do not get any RPATH/RUNPATH. Consequently, the<br>
+.so dependencies of nss libs are always searched from the base lib<br>
+directories of the host (i.e. /lib/ and /usr/lib). This causes problems<br>
+with nss-native where the .so's should be searched from the base lib<br>
+directories of the sysroot instead of the host file system.<br>
+<br>
+This particular problem has probably been unnoticed as nss-native is<br>
+seldom used and/or most users are likely to have nss libraries installed<br>
+on their host system. In this case everything most likely work as<br>
+expected.<br>
+<br>
+[YOCTO #9041]<br>
+<br>
+Signed-off-by: Markus Lehtonen &lt;<a href="mailto:markus.lehtonen@linux.intel.com" target="_blank">markus.lehtonen@linux.intel.com</a>&gt;<br>
+---<br>
+&nbsp;meta/recipes-support/nss/<a href="http://nss_3.21.bb" rel="noreferrer" target="_blank">nss_3.21.bb</a> | 6 +++++-<br>
+&nbsp;1 file changed, 5 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/nss/<a href="http://nss_3.21.bb" rel="noreferrer" target="_blank">nss_3.21.bb</a> b/meta/recipes-support/nss/<a href="http://nss_3.21.bb" rel="noreferrer" target="_blank">nss_3.21.bb</a><br>
+index 552fd6c..8b9fb71 100644<br>
+--- a/meta/recipes-support/nss/<a href="http://nss_3.21.bb" rel="noreferrer" target="_blank">nss_3.21.bb</a><br>
++++ b/meta/recipes-support/nss/<a href="http://nss_3.21.bb" rel="noreferrer" target="_blank">nss_3.21.bb</a><br>
+@@ -91,12 +91,16 @@ do_compile() {<br>
+<br>
+&nbsp; &nbsp; &nbsp;export NSS_DISABLE_GTESTS=1<br>
+<br>
++&nbsp; &nbsp; # Need to set RPATH so that chrpath will do its job correctly<br>
++&nbsp; &nbsp; RPATH="-Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE}"<br></blockquote><div><br></div><div>Why are you adding native paths to rpath in a target recipe? If this change is native-only, this should use the class-native override., no?</div></div></div>
+</blockquote><div><br></div><div>Very good point. There's no point setting RPATH for target environment (even if it shouldn't break anything). I was too tired when writing the final version of the patch, I guess ;) I'll send a new version, soon.</div><div><br></div><div>Thanks,</div><div>&nbsp; Markus</div></body></html>
 
-and
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-arm-lsb/
-builds/638/steps/BuildImages_1/logs/stdio
-
-where config.log in one case says:
-
-configure:4407: checking for C compiler default output file name
-configure:4429: arm-poky-linux-gnueabi-gcc  -fstack-protector-strong -pie -fpie -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types --sysroot=/home/pokybuild/yoc
-to-autobuilder/yocto-worker/nightly-arm-lsb/build/build/tmp/sysroots/beaglebone  -O2 -pipe -g -feliminate-unused-debug-types -fstack-protector-strong -pie -fpie -D_FORTIFY_S
-OURCE=2  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now conftest.c  >&5
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/5.3.0/ld: 
-error: a.out uses VFP register arguments, /tmp/ccbzGaSi.o does not
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/build/tmp/sysroots/x86_64-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/5.3.0/ld: failed to merge target specific data of file /tmp/ccbzGaSi.o
-collect2: error: ld returned 1 exit status
-
-Cheers,
-
-Richard
-
+--=-WbAdAM+KCpOy9wk6CP5M--
