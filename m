@@ -1,31 +1,28 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A9BB6FF22
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8525462135
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 01:14:06 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="3576208"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Feb 2016 09:14:00 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id B27C741B721D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 09:12:23 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.72) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Tue, 16 Feb 2016 09:13:55 +0800
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Feb 2016 04:13:39 +0300
-Message-ID: <1455585219-1874-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 16 Feb 2016 02:00:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1G20DvH020786
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 15 Feb 2016 18:00:13 -0800
+Received: from [128.224.162.139] (128.224.162.139) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 15 Feb 2016 18:00:12 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1455522477-32256-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0Lb5CtPQtRcOF0Bg6sd883Ah_SKFPL2Mimc82-OiyaKuLg@mail.gmail.com>
+From: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <56C282AA.9010707@windriver.com>
+Date: Tue, 16 Feb 2016 10:00:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.72]
-X-yoursite-MailScanner-ID: B27C741B721D.AF2A0
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] busybox: enable httpd su install init
+In-Reply-To: <CAJTo0Lb5CtPQtRcOF0Bg6sd883Ah_SKFPL2Mimc82-OiyaKuLg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd-serialgetty: fix a typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,112 +35,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Feb 2016 01:14:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Feb 2016 02:00:16 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-If you use busybox to create a small image,init and su are needed.
-So enable it.
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-core/busybox/busybox/defconfig | 51 +++++++++++++++--------------
- 1 file changed, 26 insertions(+), 25 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 4f5df9e..228c05b 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -235,8 +235,8 @@ CONFIG_FALSE=y
- # CONFIG_FSYNC is not set
- CONFIG_HEAD=y
- # CONFIG_FEATURE_FANCY_HEAD is not set
--# CONFIG_INSTALL is not set
--# CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set
-+CONFIG_INSTALL=y
-+CONFIG_FEATURE_INSTALL_LONG_OPTIONS=y
- CONFIG_LN=y
- CONFIG_LOGNAME=y
- CONFIG_LS=y
-@@ -450,15 +450,15 @@ CONFIG_FEATURE_XARGS_SUPPORT_REPL_STR=y
- CONFIG_HALT=y
- # CONFIG_FEATURE_CALL_TELINIT is not set
- CONFIG_TELINIT_PATH=""
--# CONFIG_INIT is not set
--# CONFIG_FEATURE_USE_INITTAB is not set
--# CONFIG_FEATURE_KILL_REMOVED is not set
-+CONFIG_INIT=y
-+CONFIG_FEATURE_USE_INITTAB=y
-+CONFIG_FEATURE_KILL_REMOVED=y
- CONFIG_FEATURE_KILL_DELAY=0
--# CONFIG_FEATURE_INIT_SCTTY is not set
-+CONFIG_FEATURE_INIT_SCTTY=y
- # CONFIG_FEATURE_INIT_SYSLOG is not set
--# CONFIG_FEATURE_EXTRA_QUIET is not set
--# CONFIG_FEATURE_INIT_COREDUMPS is not set
--# CONFIG_FEATURE_INITRD is not set
-+CONFIG_FEATURE_EXTRA_QUIET=y
-+CONFIG_FEATURE_INIT_COREDUMPS=y
-+CONFIG_FEATURE_INITRD=y
- CONFIG_INIT_TERMINAL_TYPE=""
- CONFIG_MESG=y
- # CONFIG_FEATURE_MESG_ENABLE_ONLY_GROUP is not set
-@@ -496,7 +496,7 @@ CONFIG_LAST_SYSTEM_ID=999
- # CONFIG_CRYPTPW is not set
- # CONFIG_CHPASSWD is not set
- CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
--# CONFIG_SU is not set
-+CONFIG_SU=y
- # CONFIG_FEATURE_SU_SYSLOG is not set
- # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
- # CONFIG_SULOGIN is not set
-@@ -779,18 +779,19 @@ CONFIG_FEATURE_PREFER_IPV4_ADDRESS=y
- # CONFIG_FTPPUT is not set
- # CONFIG_FEATURE_FTPGETPUT_LONG_OPTIONS is not set
- CONFIG_HOSTNAME=y
--# CONFIG_HTTPD is not set
--# CONFIG_FEATURE_HTTPD_RANGES is not set
--# CONFIG_FEATURE_HTTPD_SETUID is not set
--# CONFIG_FEATURE_HTTPD_BASIC_AUTH is not set
--# CONFIG_FEATURE_HTTPD_AUTH_MD5 is not set
--# CONFIG_FEATURE_HTTPD_CGI is not set
--# CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR is not set
--# CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV is not set
--# CONFIG_FEATURE_HTTPD_ENCODE_URL_STR is not set
--# CONFIG_FEATURE_HTTPD_ERROR_PAGES is not set
--# CONFIG_FEATURE_HTTPD_PROXY is not set
--# CONFIG_FEATURE_HTTPD_GZIP is not set
-+CONFIG_HTTPD=y
-+CONFIG_FEATURE_HTTPD_RANGES=y
-+CONFIG_FEATURE_HTTPD_USE_SENDFILE=y
-+CONFIG_FEATURE_HTTPD_SETUID=y
-+CONFIG_FEATURE_HTTPD_BASIC_AUTH=y
-+CONFIG_FEATURE_HTTPD_AUTH_MD5=y
-+CONFIG_FEATURE_HTTPD_CGI=y
-+CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR=y
-+CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV=y
-+CONFIG_FEATURE_HTTPD_ENCODE_URL_STR=y
-+CONFIG_FEATURE_HTTPD_ERROR_PAGES=y
-+CONFIG_FEATURE_HTTPD_PROXY=y
-+CONFIG_FEATURE_HTTPD_GZIP=y
- CONFIG_IFCONFIG=y
- CONFIG_FEATURE_IFCONFIG_STATUS=y
- # CONFIG_FEATURE_IFCONFIG_SLIP is not set
-@@ -828,9 +829,9 @@ CONFIG_FEATURE_IP_TUNNEL=y
- # CONFIG_IPROUTE is not set
- # CONFIG_IPTUNNEL is not set
- # CONFIG_IPRULE is not set
--# CONFIG_IPCALC is not set
--# CONFIG_FEATURE_IPCALC_FANCY is not set
--# CONFIG_FEATURE_IPCALC_LONG_OPTIONS is not set
-+CONFIG_IPCALC=y
-+CONFIG_FEATURE_IPCALC_FANCY=y
-+CONFIG_FEATURE_IPCALC_LONG_OPTIONS=y
- CONFIG_NETSTAT=y
- # CONFIG_FEATURE_NETSTAT_WIDE is not set
- # CONFIG_FEATURE_NETSTAT_PRG is not set
+On 2016年02月15日 18:30, Burton, Ross wrote:
+>
+> On 15 February 2016 at 07:47, <rongqing.li@windriver.com
+> <mailto:rongqing.li@windriver.com>> wrote:
+>
+>     -SERIAL_CONSOLE ?= "115200 ttyS0"
+>     +SERIAL_CONSOLES ?= "115200 ttyS0"
+>
+>
+> bitbake.conf says:
+>
+> SERIAL_CONSOLES ??= "${@d.getVar('SERIAL_CONSOLE', True).replace(' ', ';')}"
+>
+> And the relevant commit introducing _CONSOLES says:
+>
+>      Just define additional serial consoles like so:
+>      SERIAL_CONSOLES="115200;ttyS0 115200;ttyS1 ... 115200;ttySN"
+>
+> So moving from CONSOLE to CONSOLES is more than just adding an S.
+
+sorry, I am wrong
+
+>
+> Anyway, surely the machine should be setting this if required?  Why does
+> systemd-serialgetty think that ttyS0 should be a serial console if the
+> machine doesn't say so?
+>
+
+This is a issue, like qemux86, ttyS0 and ttyS1 will be used as console,
+but ttyS1 is not a true device when execute "runqemu qemux86", and lead
+to the blow error.
+
+
+root@qemu0:~# systemctl status serial-getty@ttyS1
+● serial-getty@ttyS1.service - Serial Getty on ttyS1
+    Loaded: loaded (/lib/systemd/system/serial-getty@.service; enabled; 
+vendor preset: enabled)
+    Active: active (running) since Sat 2016-02-06 03:33:26 UTC; 1s ago
+      Docs: man:agetty(8)
+            man:systemd-getty-generator(8)
+            http://0pointer.de/blog/projects/serial-console.html
+  Main PID: 902 (agetty)
+    CGroup: 
+/system.slice/system-serial\x2dgetty.slice/serial-getty@ttyS1.service
+            └─902 /sbin/agetty -8 -L --keep-baud ttyS1 115200 xterm
+
+Feb 06 03:33:26 qemu0 systemd[1]: Started Serial Getty on ttyS1.
+Feb 06 03:33:26 qemu0 agetty[902]: /dev/ttyS1: not a tty
+
+
+
+
+the below commit sets ttyS1 as console, but runqemu has only ttyS0 device.
+
+
+commit 2da3fee6b6d9f4dd4c4cb529f4ba393c20aa0f13
+Author: Randy Witt <randy.e.witt@linux.intel.com>
+Date:   Thu Aug 20 13:01:25 2015 -0700
+
+     qemurunner: Use two serial ports and log console with a thread
+
+     qemu can freeze and stop responding if the socket buffer connected 
+to a tcp
+     serial connection fills up. This happens of course when the reader of
+     the serial data doesn't actually read it.
+
+     This happened in the qemurunner code, because after checking for the
+     "login:" sentinel, data was never again read from the serial 
+connection.
+
+     This patch solves the potential freeze by adding a thread to 
+continuously
+     read the data from the console and log it. So it also will give a 
+full log
+     of the console, rather than just up to the login prompt.
+
+     To simplify this patch, another serial port was also added to use 
+for the
+     sole purpose of watching for the sentinel as well as being the 
+interactive
+     serial port. This will also prevent the possibility of lots of debug
+     data on the console preventing the sentinel value from being seen 
+due to
+     interleaved text.
+
+     Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+     Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+
+
+
+
+
+-Roy
+
+
+
+
+> Ross
 -- 
-1.8.4.2
-
-
-
+Best Reagrds,
+Roy | RongQing Li
 
