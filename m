@@ -1,48 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FED1612E5
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D299A73178
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 12:10:02 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id z135so119680364iof.0
+	Tue, 16 Feb 2016 12:24:05 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id 9so191289651iom.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 04:10:03 -0800 (PST)
+	Tue, 16 Feb 2016 04:24:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=KzhM58BJpUPWQysLR3LXY1s0YkIGSa6n3/L2DRIPH34=;
-	b=uMrPR1adLLI3gI5dELgzJyunFrgoKfKPFkDilvm7+e/FbDDecbn+i0j1wAPoGYwqcM
-	wdw9BwtJN+1bwFqYRgRW3bOr6kUyiRlA/Ju5YGx8Tptl4mC44cgASyewioBfeQG4B+qL
-	8w0IV4KIJ8HDDGZtYjKbi/7JM2jJWOD4Jh3bt2j96V+h56m2z0dJL7F8bNLydmgYZaC6
-	dqiBqf2BAMNzmGaPf3c3DHomqf3QZgOeJ8RxcB0GLPtlfIxDSobdjqSwPSZAmFX5X2jh
-	VZkKbKFK5Twf6dfe8KHwth5IZChV/xQcQLico1FrbnMdBNfOQZNi6F4gf8LXVPgb5LqH
-	GRdw==
+	bh=WEdZtEN2ECRnWxdM6uLClbm47Jlod6y+Hz6rZL+IGxg=;
+	b=dd6ZuQ9fLGSxYBSyfHr0Xj3KvqYelLafykqZepGx+N6yYjx4eB6lRYZJZKOXf3GPuR
+	7GBZ19mle5nxA6ipxVY6WdFdNGNgY72UUtFbq6RsF13WDgDLJrMAk+4e/9LCwQLxQvcW
+	qgognFlSc9e6LYdxr9dp48p4iLgh9Gd1akQanWtjQSVgNkdhWr9oNG9mLYvioUlfDLUg
+	R88dA4uAc0ekQn+XqNIebX6nlFJnAASC5u3XvCDk9GR+MU2LuV5QSjDJpdH012RdxHaf
+	+vlrftcVfEBSfY7+dufwhtPpldNWzLmCbf5vP8GEPE4BkSUTqa4H10pkjl62/TRd2d/Q
+	m1Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=KzhM58BJpUPWQysLR3LXY1s0YkIGSa6n3/L2DRIPH34=;
-	b=QuMu/ZOP6400/LNB0BTc3T8ampiBuHbQZy58wBbvnfebtnkoNTCbSeRGG554kMnR3S
-	b1izGEU5iry7BYLib5UUvaXbzr5x0usWCPuhjA1z/JQRC6TsFnNK89QdLDUTIs0HFOAV
-	e5usXZLbq70s68maeBebUg2vlshPJckKbvywrFjzBODrfJTBrOjs08TtHC5v6U2oV2yk
-	KuPz1i0Ia8DFYOyXPrOfvxOIClTke38RiAvmfPQbBNFjgGc9q7uZXIa6uxotGbcfZgDc
-	1e38HPr8tzmn8GPhz2zw4IE83FCe3pHg2AFx1ytwUi21PX0pB1/arFw/G3wRDAvkX3oQ
-	7tcw==
-X-Gm-Message-State: AG10YOSBbEP8hO05/V02dGRJqWmsvqk9CRxAsOfoyKV9UJM3frL/ca+qMmWkGwzJEtqcPldLu1dSf83+1YpoJ1HI
-X-Received: by 10.107.137.92 with SMTP id l89mr24618520iod.133.1455624602771; 
-	Tue, 16 Feb 2016 04:10:02 -0800 (PST)
+	bh=WEdZtEN2ECRnWxdM6uLClbm47Jlod6y+Hz6rZL+IGxg=;
+	b=mCafVK3de6kUiXFQLWm6b4e0WRCwCZCG/B7ws0PGO3GYIhWnMMQ6KxUhmW78XvLzoO
+	pQqH73GGdPo8WLk4mQkgGpTWV35tZOxL6uca45iAQ7Na0/TsKumxOSQCPrZkbx9Scvr5
+	1bVhFS1fYbcHnEWCFYyRMTRmXAZ6/gynVnBWAHo2+ObMc20BvD6k/0OtIrU523oEcouu
+	z9BY5SbfD7No5YFSh1CHGeRXHSpO9HiTqrEAqVrT3wDmDf4MjwzPbx5McwDPLYa16Gsg
+	Evh9rLxbEalgpLtekW0iTUOrC+uonsMIwaFqKJdJlGd9UwcpNpexcAvJwK07DbR0YXZN
+	HIWw==
+X-Gm-Message-State: AG10YORKh1DrKM888rJVTezGnD/LMztodS0JCs+wXOT7ZzrqvqP0qteq8eqIaTnE68iXRgwp9QpNL2xIwz3QFUcY
+X-Received: by 10.107.3.220 with SMTP id e89mr21144300ioi.99.1455625446397;
+	Tue, 16 Feb 2016 04:24:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 16 Feb 2016 04:09:43 -0800 (PST)
-In-Reply-To: <edb161a868336c0688a6e03343ee7920b34222f5.1455606710.git.kai.kang@windriver.com>
-References: <cover.1455606710.git.kai.kang@windriver.com>
-	<edb161a868336c0688a6e03343ee7920b34222f5.1455606710.git.kai.kang@windriver.com>
+Received: by 10.107.162.70 with HTTP; Tue, 16 Feb 2016 04:23:46 -0800 (PST)
+In-Reply-To: <1455585219-1874-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1455585219-1874-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Feb 2016 12:09:43 +0000
-Message-ID: <CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
+Date: Tue, 16 Feb 2016 12:23:46 +0000
+Message-ID: <CAJTo0LaiKYJ3hnRJgP_abrKTRnWy97vXOkFGPm04b2LkRVw8zA@mail.gmail.com>
+To: Li Xin <lixin.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
+Subject: Re: [PATCH] busybox: enable httpd su install init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Feb 2016 12:10:04 -0000
-Content-Type: multipart/alternative; boundary=001a113ebdb45ff7d9052be20386
+X-List-Received-Date: Tue, 16 Feb 2016 12:24:07 -0000
+Content-Type: multipart/alternative; boundary=001a113f0e7ca8b997052be2352d
 
---001a113ebdb45ff7d9052be20386
+--001a113f0e7ca8b997052be2352d
 Content-Type: text/plain; charset=UTF-8
 
-On 16 February 2016 at 07:14, <kai.kang@windriver.com> wrote:
+On 16 February 2016 at 01:13, Li Xin <lixin.fnst@cn.fujitsu.com> wrote:
 
-> +FLOCK_FILE=$SYSROOT/etc
+> If you use busybox to create a small image,init and su are needed.
+> So enable it.
 >
 
-useradd_base is also used by extrausers.bbclass, so it would be best if
-useradd_base decided where to use as a lock ($rootdir/${sysconfdir} sounds
-sensible) instead of expecting that the caller sets FLOCK_FILE and
-mysteriously failing if it wasn't set.
-
-Also if we're locking and waiting properly instead of using timeouts and
-loops, can we remove the "does it exist?" check before the operation (eg
-groupadd -f will exit 0 if the group exists) and after (with proper locking
-that shouldn't be happening).
+Apart from this defconfig change doing *far* more than your commit message
+says, and enabling HTTPD isn't something that we really need in core, the
+login-utilties.cfg config fragment sets CONFIG_SU=yes.
 
 Ross
 
---001a113ebdb45ff7d9052be20386
+--001a113f0e7ca8b997052be2352d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 February 2016 at 07:14,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.=
-kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":4lc" class=3D"a3s" st=
-yle=3D"overflow:hidden">+FLOCK_FILE=3D$SYSROOT/etc<br></div></blockquote></=
-div><br>useradd_base is also used by extrausers.bbclass, so it would be bes=
-t if useradd_base decided where to use as a lock ($rootdir/${sysconfdir} so=
-unds sensible) instead of expecting that the caller sets FLOCK_FILE and mys=
-teriously failing if it wasn&#39;t set.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Also if we&#39;re locking and waiting pro=
-perly instead of using timeouts and loops, can we remove the &quot;does it =
-exist?&quot; check before the operation (eg groupadd -f will exit 0 if the =
-group exists) and after (with proper locking that shouldn&#39;t be happenin=
-g).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div>
+On 16 February 2016 at 01:13, Li Xin <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:lixin.fnst@cn.fujitsu.com" target=3D"_blank">lixin.fnst@cn.fujitsu.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4xi" clas=
+s=3D"a3s" style=3D"overflow:hidden">If you use busybox to create a small im=
+age,init and su are needed.<br>
+So enable it.<br></div></blockquote></div><br>Apart from this defconfig cha=
+nge doing *far* more than your commit message says, and enabling HTTPD isn&=
+#39;t something that we really need in core, the login-utilties.cfg config =
+fragment sets CONFIG_SU=3Dyes.</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">Ross</div></div>
 
---001a113ebdb45ff7d9052be20386--
+--001a113f0e7ca8b997052be2352d--
