@@ -1,22 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FB2573178
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A9BB6FF22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 23:30:55 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aVSbX-0002Xr-BS; Tue, 16 Feb 2016 00:30:55 +0100
-Message-ID: <1455579049.2039.22.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 15 Feb 2016 23:30:49 +0000
-In-Reply-To: <1455558632-1397-1-git-send-email-ross.burton@intel.com>
-References: <1455558632-1397-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lib/qa.py: raise ValueError if file isn't an ELF
+	Tue, 16 Feb 2016 01:14:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
+   d="scan'208";a="3576208"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Feb 2016 09:14:00 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id B27C741B721D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Feb 2016 09:12:23 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.72) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Tue, 16 Feb 2016 09:13:55 +0800
+From: Li Xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Feb 2016 04:13:39 +0300
+Message-ID: <1455585219-1874-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.72]
+X-yoursite-MailScanner-ID: B27C741B721D.AF2A0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] busybox: enable httpd su install init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,20 +38,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Feb 2016 23:30:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Feb 2016 01:14:08 -0000
+Content-Type: text/plain
 
-On Mon, 2016-02-15 at 17:50 +0000, Ross Burton wrote:
-> Instead of raising a generic Exception that can't be handled specifically, raise
-> a ValueError.
+If you use busybox to create a small image,init and su are needed.
+So enable it.
 
-If what you want is an exception to mean "this file isn't actually ELF",
-how about defining a new exception class InvalidElfError or something
-and raising that?  ValueError still seems a bit vague for what you are
-trying to do.
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ meta/recipes-core/busybox/busybox/defconfig | 51 +++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 25 deletions(-)
 
-p.
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 4f5df9e..228c05b 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -235,8 +235,8 @@ CONFIG_FALSE=y
+ # CONFIG_FSYNC is not set
+ CONFIG_HEAD=y
+ # CONFIG_FEATURE_FANCY_HEAD is not set
+-# CONFIG_INSTALL is not set
+-# CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set
++CONFIG_INSTALL=y
++CONFIG_FEATURE_INSTALL_LONG_OPTIONS=y
+ CONFIG_LN=y
+ CONFIG_LOGNAME=y
+ CONFIG_LS=y
+@@ -450,15 +450,15 @@ CONFIG_FEATURE_XARGS_SUPPORT_REPL_STR=y
+ CONFIG_HALT=y
+ # CONFIG_FEATURE_CALL_TELINIT is not set
+ CONFIG_TELINIT_PATH=""
+-# CONFIG_INIT is not set
+-# CONFIG_FEATURE_USE_INITTAB is not set
+-# CONFIG_FEATURE_KILL_REMOVED is not set
++CONFIG_INIT=y
++CONFIG_FEATURE_USE_INITTAB=y
++CONFIG_FEATURE_KILL_REMOVED=y
+ CONFIG_FEATURE_KILL_DELAY=0
+-# CONFIG_FEATURE_INIT_SCTTY is not set
++CONFIG_FEATURE_INIT_SCTTY=y
+ # CONFIG_FEATURE_INIT_SYSLOG is not set
+-# CONFIG_FEATURE_EXTRA_QUIET is not set
+-# CONFIG_FEATURE_INIT_COREDUMPS is not set
+-# CONFIG_FEATURE_INITRD is not set
++CONFIG_FEATURE_EXTRA_QUIET=y
++CONFIG_FEATURE_INIT_COREDUMPS=y
++CONFIG_FEATURE_INITRD=y
+ CONFIG_INIT_TERMINAL_TYPE=""
+ CONFIG_MESG=y
+ # CONFIG_FEATURE_MESG_ENABLE_ONLY_GROUP is not set
+@@ -496,7 +496,7 @@ CONFIG_LAST_SYSTEM_ID=999
+ # CONFIG_CRYPTPW is not set
+ # CONFIG_CHPASSWD is not set
+ CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
+-# CONFIG_SU is not set
++CONFIG_SU=y
+ # CONFIG_FEATURE_SU_SYSLOG is not set
+ # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
+ # CONFIG_SULOGIN is not set
+@@ -779,18 +779,19 @@ CONFIG_FEATURE_PREFER_IPV4_ADDRESS=y
+ # CONFIG_FTPPUT is not set
+ # CONFIG_FEATURE_FTPGETPUT_LONG_OPTIONS is not set
+ CONFIG_HOSTNAME=y
+-# CONFIG_HTTPD is not set
+-# CONFIG_FEATURE_HTTPD_RANGES is not set
+-# CONFIG_FEATURE_HTTPD_SETUID is not set
+-# CONFIG_FEATURE_HTTPD_BASIC_AUTH is not set
+-# CONFIG_FEATURE_HTTPD_AUTH_MD5 is not set
+-# CONFIG_FEATURE_HTTPD_CGI is not set
+-# CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR is not set
+-# CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV is not set
+-# CONFIG_FEATURE_HTTPD_ENCODE_URL_STR is not set
+-# CONFIG_FEATURE_HTTPD_ERROR_PAGES is not set
+-# CONFIG_FEATURE_HTTPD_PROXY is not set
+-# CONFIG_FEATURE_HTTPD_GZIP is not set
++CONFIG_HTTPD=y
++CONFIG_FEATURE_HTTPD_RANGES=y
++CONFIG_FEATURE_HTTPD_USE_SENDFILE=y
++CONFIG_FEATURE_HTTPD_SETUID=y
++CONFIG_FEATURE_HTTPD_BASIC_AUTH=y
++CONFIG_FEATURE_HTTPD_AUTH_MD5=y
++CONFIG_FEATURE_HTTPD_CGI=y
++CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR=y
++CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV=y
++CONFIG_FEATURE_HTTPD_ENCODE_URL_STR=y
++CONFIG_FEATURE_HTTPD_ERROR_PAGES=y
++CONFIG_FEATURE_HTTPD_PROXY=y
++CONFIG_FEATURE_HTTPD_GZIP=y
+ CONFIG_IFCONFIG=y
+ CONFIG_FEATURE_IFCONFIG_STATUS=y
+ # CONFIG_FEATURE_IFCONFIG_SLIP is not set
+@@ -828,9 +829,9 @@ CONFIG_FEATURE_IP_TUNNEL=y
+ # CONFIG_IPROUTE is not set
+ # CONFIG_IPTUNNEL is not set
+ # CONFIG_IPRULE is not set
+-# CONFIG_IPCALC is not set
+-# CONFIG_FEATURE_IPCALC_FANCY is not set
+-# CONFIG_FEATURE_IPCALC_LONG_OPTIONS is not set
++CONFIG_IPCALC=y
++CONFIG_FEATURE_IPCALC_FANCY=y
++CONFIG_FEATURE_IPCALC_LONG_OPTIONS=y
+ CONFIG_NETSTAT=y
+ # CONFIG_FEATURE_NETSTAT_WIDE is not set
+ # CONFIG_FEATURE_NETSTAT_PRG is not set
+-- 
+1.8.4.2
+
 
 
 
