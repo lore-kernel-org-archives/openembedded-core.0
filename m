@@ -1,45 +1,29 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F3216E665
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6541C7017B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 03:07:38 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id g62so172518656wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Feb 2016 19:07:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=q1jELCR+JAsRbUOu2643QxVUCASyUFlEdYoDGFuyQdo=;
-	b=s18MuhJvXHR5UpkQq40F1jMBcy3BONthVFXsEZilu112gi+1d87eLp/aYMyjYBTIRv
-	+0PPb7nTg2VM5QYlnq/lluWK3MleDGLTrOV2Xjo1QDqNjUrwdOL+Z4YXnqBz8sMH+DSa
-	O4msecdjYzh0zNVHMrHUTR83Ljol4jfWA+vtSlC/iAjdRcta+3DT88wp3Xj4miNlfTZD
-	1lA5rkdfQlgygjfytXlhfHLGLaxhKCgwAVmTYojCR/ThQ3sedNSG8kRIhFdzmNOhosuQ
-	9A5YPEH69rqbwtztUoMQdfYFP8Mz68XV6MQsjvaDQmYwOriiqxTrXn3+rGljBKrcleAm
-	hRQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=q1jELCR+JAsRbUOu2643QxVUCASyUFlEdYoDGFuyQdo=;
-	b=BBtQ/bbaRLB7/boz6VYWTKLfkfUePUwwJ+cN8ENUvL7VlTg8cJPeHiut6zV7b/90j/
-	VH50P2pNSSN0ukcZI/QrLXWoaIPSFXHy+kYEFi+zYkg8oBLuRe0kuwV9TbAHnk6iY6FV
-	XEqhgbRJBpDdhaSEssSqoiEb0Std5DCMVq1IVu0oup7cZGxbrR7E5N/Lj+dg3ULwLfa0
-	9WSZwprdidPfwpnbnfHxVlTC11gMKwlmcR7HzXxIVdM/UwJatKgywfKE/FBaJc/Xv9Vk
-	yz9eoXgFsR7VLpcRLyaM97FcwpQkx7D1G1rQoddA6QfqDlePiKsqoZEQGqZqp2RhRnio
-	8qMg==
-X-Gm-Message-State: AG10YOTQcjQRbELQ/wUw0XtQDBNY0oQFr/8pVGuWfh6L9+MEtIKcLh0BkInktgmaDzVXMA==
-X-Received: by 10.28.146.145 with SMTP id u139mr15437575wmd.81.1455592058406; 
-	Mon, 15 Feb 2016 19:07:38 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	198sm18411892wml.22.2016.02.15.19.07.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Feb 2016 19:07:36 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Feb 2016 20:07:26 -0700
-Message-Id: <1455592046-7926-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] rng-tools: fix the build with musl
+	Tue, 16 Feb 2016 06:04:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1G64PPi026469
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 15 Feb 2016 22:04:25 -0800
+Received: from [128.224.162.139] (128.224.162.139) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 15 Feb 2016 22:04:23 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1455522477-32256-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0Lb5CtPQtRcOF0Bg6sd883Ah_SKFPL2Mimc82-OiyaKuLg@mail.gmail.com>
+	<56C282AA.9010707@windriver.com>
+From: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <56C2BBE6.20209@windriver.com>
+Date: Tue, 16 Feb 2016 14:04:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <56C282AA.9010707@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd-serialgetty: fix a typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,219 +36,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Feb 2016 03:07:38 -0000
+X-List-Received-Date: Tue, 16 Feb 2016 06:04:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Christopher Larson <chris_larson@mentor.com>
 
-musl doesn't provide argp, so we need argp-standalone, as we do for uclibc.
-Rather than passing in -largp via the recipe, patch the configure script to
-provide an argument for the libargp usage and check for it when needed, and
-use PACKAGECONFIG. The initial patch to check for libargp and use it if
-available came from Gentoo. The patches are kept separate despite the second
-modifying what the first does, in order to keep the history/origin clear.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- ...1-If-the-libc-is-lacking-argp-use-libargp.patch | 60 ++++++++++++++
- ...rgument-to-control-the-libargp-dependency.patch | 92 ++++++++++++++++++++++
- meta/recipes-support/rng-tools/rng-tools_5.bb      |  8 +-
- 3 files changed, 159 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch
+On 2016年02月16日 10:00, Rongqing Li wrote:
+>
+>
+> On 2016年02月15日 18:30, Burton, Ross wrote:
+>>
+>> On 15 February 2016 at 07:47, <rongqing.li@windriver.com
+>> <mailto:rongqing.li@windriver.com>> wrote:
+>>
+>>     -SERIAL_CONSOLE ?= "115200 ttyS0"
+>>     +SERIAL_CONSOLES ?= "115200 ttyS0"
+>>
+>>
+>> bitbake.conf says:
+>>
+>> SERIAL_CONSOLES ??= "${@d.getVar('SERIAL_CONSOLE', True).replace(' ',
+>> ';')}"
+>>
+>> And the relevant commit introducing _CONSOLES says:
+>>
+>>      Just define additional serial consoles like so:
+>>      SERIAL_CONSOLES="115200;ttyS0 115200;ttyS1 ... 115200;ttySN"
+>>
+>> So moving from CONSOLE to CONSOLES is more than just adding an S.
+>
+> sorry, I am wrong
+>
+>>
+>> Anyway, surely the machine should be setting this if required?  Why does
+>> systemd-serialgetty think that ttyS0 should be a serial console if the
+>> machine doesn't say so?
+>>
+>
+> This is a issue, like qemux86, ttyS0 and ttyS1 will be used as console,
+> but ttyS1 is not a true device when execute "runqemu qemux86", and lead
+> to the blow error.
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch b/meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch
-new file mode 100644
-index 0000000..4bd9d31
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch
-@@ -0,0 +1,60 @@
-+From 99679fda405e535a282f04a4decc2381154a749f Mon Sep 17 00:00:00 2001
-+From: Christopher Larson <chris_larson@mentor.com>
-+Date: Mon, 15 Feb 2016 15:59:58 -0700
-+Subject: [PATCH 1/2] If the libc is lacking argp, use libargp
-+
-+Patch pulled from Gentoo:
-+
-+    On glibc systems, argp is provided by libc.  However, on
-+    uclibc and other systems which lack argp in their C library,
-+    argp might be provided by a stand alone library, libargp.
-+    This patch adds tests to the build system to find who provides
-+    argp.
-+
-+    X-Gentoo-Bug: 292191
-+    X-Gentoo-Bug-URL: https://bugs.gentoo.org/show_bug.cgi?id=292191
-+    Reported-by: Ed Wildgoose <gentoo@wildgooses.com>
-+    Signed-off-by: Anthony G. Basile <blueness@gentoo.org>
-+
-+Upstream-Status: Pending
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+---
-+ configure.ac | 22 ++++++++++++++++++++++
-+ 1 file changed, 22 insertions(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 27a2dba..04fcd25 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -82,6 +82,28 @@ AS_IF(
-+ 	]
-+ )
-+ 
-++dnl First check if we have argp available from libc
-++AC_LINK_IFELSE(
-++	[AC_LANG_PROGRAM(
-++		[#include <argp.h>],
-++		[int argc=1; char *argv[]={"test"}; argp_parse(0,argc,argv,0,0,0); return 0;]
-++		)],
-++	[libc_has_argp="true"],
-++	[libc_has_argp="false"]
-++)
-++
-++dnl If libc doesn't provide argp, then test for libargp
-++if test "$libc_has_argp" = "false" ; then
-++	AC_MSG_WARN("libc does not have argp")
-++	AC_CHECK_LIB([argp], [argp_parse], [have_argp="true"], [have_argp="false"])
-++
-++	if test "$have_argp" = "false"; then
-++		AC_MSG_ERROR("no libargp found")
-++	else
-++		LIBS+=" -largp"
-++	fi
-++fi
-++
-+ dnl -----------------
-+ dnl Configure options
-+ dnl -----------------
-+-- 
-+2.2.1
-+
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch b/meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch
-new file mode 100644
-index 0000000..1c8a79c
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch
-@@ -0,0 +1,92 @@
-+From afc8712a9e6c72fbd03c36f84ecf8703e5d22a8c Mon Sep 17 00:00:00 2001
-+From: Christopher Larson <chris_larson@mentor.com>
-+Date: Mon, 15 Feb 2016 16:11:32 -0700
-+Subject: [PATCH 2/2] Add argument to control the libargp dependency
-+
-+This ensures that the builds are always deterministic. If the argument isn't
-+passed, the default behavior is to use libargp if the libc doesn't have argp.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+---
-+ configure.ac | 55 ++++++++++++++++++++++++++++++++++++-------------------
-+ 1 file changed, 36 insertions(+), 19 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 04fcd25..11a5321 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -32,6 +32,13 @@ AC_ARG_WITH([libgcrypt],
-+ 	[with_libgcrypt=check]
-+ )
-+ 
-++AC_ARG_WITH([libargp],
-++	AS_HELP_STRING([--without-libargp],
-++		[Disable libargp support. Systems whose libc lacks argp can use libargp instead. (Default: check if libc lacks argp)]),
-++	[with_libargp=$withval],
-++	[with_libargp=check]
-++)
-++
-+ dnl Make sure anyone changing configure.ac/Makefile.am has a clue
-+ AM_MAINTAINER_MODE
-+ 
-+@@ -82,27 +89,37 @@ AS_IF(
-+ 	]
-+ )
-+ 
-+-dnl First check if we have argp available from libc
-+-AC_LINK_IFELSE(
-+-	[AC_LANG_PROGRAM(
-+-		[#include <argp.h>],
-+-		[int argc=1; char *argv[]={"test"}; argp_parse(0,argc,argv,0,0,0); return 0;]
-+-		)],
-+-	[libc_has_argp="true"],
-+-	[libc_has_argp="false"]
-++dnl Determine if we need libargp: either user requested, or libc has no argp
-++AS_IF(
-++	[test "x$with_libargp" != "xyes"],
-++	[
-++		AC_LINK_IFELSE(
-++			[AC_LANG_PROGRAM(
-++				[#include <argp.h>],
-++				[int argc=1; char *argv[]={"test"}; argp_parse(0,argc,argv,0,0,0); return 0;]
-++				)],
-++			[need_libargp=no],
-++			[need_libargp=yes
-++			 if test "x$with_libargp" = "xno"; then
-++				AC_MSG_FAILURE([libargp disabled and libc does not have argp])
-++			 fi]
-++		)
-++	],
-++	[need_libargp=yes],
-+ )
-+ 
-+-dnl If libc doesn't provide argp, then test for libargp
-+-if test "$libc_has_argp" = "false" ; then
-+-	AC_MSG_WARN("libc does not have argp")
-+-	AC_CHECK_LIB([argp], [argp_parse], [have_argp="true"], [have_argp="false"])
-+-
-+-	if test "$have_argp" = "false"; then
-+-		AC_MSG_ERROR("no libargp found")
-+-	else
-+-		LIBS+=" -largp"
-+-	fi
-+-fi
-++dnl Check for libargp
-++AS_IF(
-++	[test "x$need_libargp" = "xyes"],
-++	[
-++		AC_CHECK_LIB(
-++			[argp],
-++			[argp_parse],
-++			[LIBS="$LIBS -largp"],
-++			[AC_MSG_FAILURE([libargp not found])]
-++		)
-++	]
-++)
-+ 
-+ dnl -----------------
-+ dnl Configure options
-+-- 
-+2.2.1
-+
-diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
-index 67f53f2..9a19d1c 100644
---- a/meta/recipes-support/rng-tools/rng-tools_5.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
-@@ -1,9 +1,10 @@
- SUMMARY = "Random number generator daemon"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0b6f033afe6db235e559456585dc8cdc"
--DEPENDS_append_libc-uclibc = " argp-standalone"
- 
- SRC_URI = "http://heanet.dl.sourceforge.net/sourceforge/gkernel/${BP}.tar.gz \
-+           file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
-+           file://0002-Add-argument-to-control-the-libargp-dependency.patch \
-            file://init \
-            file://default"
- 
-@@ -19,6 +20,11 @@ python () {
- 
- inherit autotools update-rc.d
- 
-+PACKAGECONFIG = ""
-+PACKAGECONFIG_libc-musl = "libargp"
-+PACKAGECONFIG_libc-uclibc = "libargp"
-+PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
-+
- RDEPENDS_${PN} = "libgcrypt"
- 
- do_install_append() {
+this is not issue, since it is fixed by
+
+commit 6f2047a0e278d29876451b5af8b8de156db33ed0
+Author: Randy Witt <randy.e.witt@linux.intel.com>
+Date:   Mon Sep 28 15:38:23 2015 -0700
+
+     runqemu-internal: Make sure two serial ports always exist
+
+     Since inittab for qemu images now always tries to start getty on a
+     second serial device, make sure that device exists.
+
+     Otherwise the following message will be spammed:
+         INIT: Id "S1" respawning too fast: disabled for 5 minutes
+
+     [YOCTO #8374]
+
+     (From OE-Core rev: 988369afed85281f3ed9b2f3eeb30f5408498bb9)
+
+     Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+
+-Roy
+
+>
+>
+> root@qemu0:~# systemctl status serial-getty@ttyS1
+> ● serial-getty@ttyS1.service - Serial Getty on ttyS1
+>     Loaded: loaded (/lib/systemd/system/serial-getty@.service; enabled;
+> vendor preset: enabled)
+>     Active: active (running) since Sat 2016-02-06 03:33:26 UTC; 1s ago
+>       Docs: man:agetty(8)
+>             man:systemd-getty-generator(8)
+>             http://0pointer.de/blog/projects/serial-console.html
+>   Main PID: 902 (agetty)
+>     CGroup:
+> /system.slice/system-serial\x2dgetty.slice/serial-getty@ttyS1.service
+>             └─902 /sbin/agetty -8 -L --keep-baud ttyS1 115200 xterm
+>
+> Feb 06 03:33:26 qemu0 systemd[1]: Started Serial Getty on ttyS1.
+> Feb 06 03:33:26 qemu0 agetty[902]: /dev/ttyS1: not a tty
+>
+>
+>
+>
+> the below commit sets ttyS1 as console, but runqemu has only ttyS0 device.
+>
+>
+> commit 2da3fee6b6d9f4dd4c4cb529f4ba393c20aa0f13
+> Author: Randy Witt <randy.e.witt@linux.intel.com>
+> Date:   Thu Aug 20 13:01:25 2015 -0700
+>
+>      qemurunner: Use two serial ports and log console with a thread
+>
+>      qemu can freeze and stop responding if the socket buffer connected
+> to a tcp
+>      serial connection fills up. This happens of course when the reader of
+>      the serial data doesn't actually read it.
+>
+>      This happened in the qemurunner code, because after checking for the
+>      "login:" sentinel, data was never again read from the serial
+> connection.
+>
+>      This patch solves the potential freeze by adding a thread to
+> continuously
+>      read the data from the console and log it. So it also will give a
+> full log
+>      of the console, rather than just up to the login prompt.
+>
+>      To simplify this patch, another serial port was also added to use
+> for the
+>      sole purpose of watching for the sentinel as well as being the
+> interactive
+>      serial port. This will also prevent the possibility of lots of debug
+>      data on the console preventing the sentinel value from being seen
+> due to
+>      interleaved text.
+>
+>      Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+>      Signed-off-by: Ross Burton <ross.burton@intel.com>
+>
+>
+>
+>
+>
+>
+> -Roy
+>
+>
+>
+>
+>> Ross
+
 -- 
-2.2.1
-
+Best Reagrds,
+Roy | RongQing Li
 
