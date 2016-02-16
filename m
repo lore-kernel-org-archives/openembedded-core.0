@@ -1,22 +1,22 @@
 Return-Path: <humberto.ibarra.lopez@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7647D731A3
+	by mail.openembedded.org (Postfix) with ESMTP id B65D4731A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 20:08:39 +0000 (UTC)
+	Tue, 16 Feb 2016 20:08:40 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Feb 2016 12:08:35 -0800
+	by orsmga101.jf.intel.com with ESMTP; 16 Feb 2016 12:08:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,456,1449561600"; d="scan'208";a="886325563"
+X-IronPort-AV: E=Sophos;i="5.22,456,1449561600"; d="scan'208";a="886325621"
 Received: from humberto-desktop.zpn.intel.com ([10.219.5.53])
-	by orsmga001.jf.intel.com with ESMTP; 16 Feb 2016 12:08:35 -0800
+	by orsmga001.jf.intel.com with ESMTP; 16 Feb 2016 12:08:37 -0800
 From: humberto.ibarra.lopez@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Feb 2016 14:05:29 -0600
-Message-Id: <1455653130-4388-2-git-send-email-humberto.ibarra.lopez@intel.com>
+Date: Tue, 16 Feb 2016 14:05:30 -0600
+Message-Id: <1455653130-4388-3-git-send-email-humberto.ibarra.lopez@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1455653130-4388-1-git-send-email-humberto.ibarra.lopez@intel.com>
 References: <1455653130-4388-1-git-send-email-humberto.ibarra.lopez@intel.com>
-Subject: [PATCH 1/2] scripts/oe-selftest: Add filtering to the coverage data gathered by oe-selftest
+Subject: [PATCH 2/2] scripts/oe-selftest: Use site.USER_SITE to run coverage configuration code for sub-process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,111 +33,99 @@ X-List-Received-Date: Tue, 16 Feb 2016 20:08:40 -0000
 
 From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
 
-When --coverage is used, oe-selftest gathers coverage data from the testcases
-executed. The command lacks a way of filtering which files to gather coverage
-data from.
+Coverage in oe-selftest currently requires to create or modify
+a sitecustomize.py file according the coverage tool setup instructions
+(http://coverage.readthedocs.org/). This file has to be located in
+the system's python folder, which is not a good solution since this
+folder is not accesible to non-privileged users.
 
-This patch adds three options to specify which files should be considered.
-The --coverage-source option specifies folders, while --coverage-include and
---coverage-omit specify patterns to have an extra level of filtering.
+The best solution so far is to create this file in the home directory.
+This is implemented by creating the temporal file in the user site
+default folder.
 
-Some examples:
-
-1. oe-selftest --run-all-tests --coverage
-
-Gathers coverage data from the default poky folders
-
-2. oe-selftest --run-all-tests --coverage --coverage-include /home/me/poky/scripts/*
-
-Gathers coverage data only for the files located under '/home/me/poky/scripts'
-
-3. oe-selftest --run-all-tests -coverage --coverage-omit /home/me/poky/meta*
-
-Gathers coverage data. Files inside all the folders starting with 'meta' under
-'/home/me/poky' are omited
-
-4. oe-selftest --run-all-tests --coverage --coverage-source /home/me/poky/bitbake
-
-Gathers coverage data only from files inside the folder: '/home/me/poky/bitbake'
-
-[Yocto #8920]
+[Yocto #8930]
 
 Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
 ---
- scripts/oe-selftest | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+ scripts/oe-selftest | 41 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
 diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 4eb404b..f3865e4 100755
+index f3865e4..3159d22 100755
 --- a/scripts/oe-selftest
 +++ b/scripts/oe-selftest
-@@ -78,6 +78,9 @@ def get_args_parser():
-     group.add_argument('--list-modules', required=False, action="store_true", dest="list_modules", default=False, help='List all available test modules.')
-     group.add_argument('--list-classes', required=False, action="store_true", dest="list_allclasses", default=False, help='List all available test classes.')
-     parser.add_argument('--coverage', action="store_true", help="Run code coverage when testing")
-+    parser.add_argument('--coverage-source', dest="coverage_source", nargs="+", help="Specifiy the directories to take coverage from")
-+    parser.add_argument('--coverage-include', dest="coverage_include", nargs="+", help="Specify extra patterns to include into the coverage measurement")
-+    parser.add_argument('--coverage-omit', dest="coverage_omit", nargs="+", help="Specify with extra patterns to exclude from the coverage measurement")
-     group.add_argument('--run-tests-by', required=False, dest='run_tests_by', default=False, nargs='*',
-                        help='run-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
-     group.add_argument('--list-tests-by', required=False, dest='list_tests_by', default=False, nargs='*',
-@@ -369,7 +372,7 @@ def list_tags():
+@@ -553,6 +553,7 @@ def main():
  
-     print 'Tags:\t%s' % ', '.join(str(x) for x in tags)
+ def buildResultClass(args):
+     """Build a Result Class to use in the testcase execution"""
++    import site
  
--def coverage_setup(run_tests, run_all_tests):
-+def coverage_setup(run_tests, run_all_tests, coverage_source, coverage_include, coverage_omit):
-     """ Set up the coverage measurement for the testcases to be run """
-     builddir = os.environ.get("BUILDDIR")
-     coveragerc = "%s/.coveragerc" % builddir
-@@ -384,10 +387,25 @@ def coverage_setup(run_tests, run_all_tests):
-         cps.write("branch = True\n")
-         # Measure just BBLAYERS, scripts and bitbake folders
-         cps.write("source = \n")
--        for layer in get_bb_var('BBLAYERS').split():
--            cps.write("    %s\n" % layer)
--        cps.write("    %s\n" % os.path.dirname(os.path.realpath(__file__)))
--        cps.write("    %s\n" % os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'bitbake'))
-+        if coverage_source:
-+            for directory in coverage_source:
-+                if not os.path.isdir(directory):
-+                    log.warn("Directory %s is not valid.", directory)
-+                cps.write("    %s\n" % directory)
-+        else:
-+            for layer in get_bb_var('BBLAYERS').split():
-+                cps.write("    %s\n" % layer)
-+            cps.write("    %s\n" % os.path.dirname(os.path.realpath(__file__)))
-+            cps.write("    %s\n" % os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'bitbake'))
-+
-+        if coverage_include:
-+            cps.write("include = \n")
-+            for pattern in coverage_include:
-+                cps.write("    %s\n" % pattern)
-+        if coverage_omit:
-+            cps.write("omit = \n")
-+            for pattern in coverage_omit:
-+                cps.write("    %s\n" % pattern)
- 
-         return coveragerc
- 
-@@ -550,7 +568,7 @@ def buildResultClass(args):
+     class StampedResult(unittest.TextTestResult):
+         """
+@@ -568,26 +569,41 @@ def buildResultClass(args):
  
          def startTestRun(self):
              """ Setup coverage before running any testcase """
--            if args.coverage:
-+            if args.coverage or args.coverage_source or args.coverage_include or args.coverage_omit:
++
++            # variable holding the coverage configuration file allowing subprocess to be measured
++            self.coveragepth = None
++
++            # indicates the system if coverage is currently installed
++            self.coverage_installed = True
++
+             if args.coverage or args.coverage_source or args.coverage_include or args.coverage_omit:
                  try:
                      # check if user can do coverage
                      import coverage
-@@ -561,7 +579,7 @@ def buildResultClass(args):
-                     # value indicates where the coverage configuration file resides
-                     # More info on https://pypi.python.org/pypi/coverage
-                     if not os.environ.get('COVERAGE_PROCESS_START'):
--                        os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests)
-+                        os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
- 
-                     self.coverage_installed = True
+-                    log.info("Coverage is enabled")
+-
+-                    # In case the user has not set the variable COVERAGE_PROCESS_START,
+-                    # create a default one and export it. The COVERAGE_PROCESS_START
+-                    # value indicates where the coverage configuration file resides
+-                    # More info on https://pypi.python.org/pypi/coverage
+-                    if not os.environ.get('COVERAGE_PROCESS_START'):
+-                        os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
+-
+-                    self.coverage_installed = True
                  except:
+                     log.warn('\n'.join(["python coverage is not installed",
+                         "Make sure your coverage takes into account sub-process",
+                         "More info on https://pypi.python.org/pypi/coverage"]))
+                     self.coverage_installed = False
+ 
++                if self.coverage_installed:
++                    log.info("Coverage is enabled")
++
++                # In case the user has not set the variable COVERAGE_PROCESS_START,
++                # create a default one and export it. The COVERAGE_PROCESS_START
++                # value indicates where the coverage configuration file resides
++                # More info on https://pypi.python.org/pypi/coverage
++                if not os.environ.get('COVERAGE_PROCESS_START'):
++                    os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
++
++                # Use default site.USER_SITE and write corresponding config file
++                site.ENABLE_USER_SITE = True
++                if not os.path.exists(site.USER_SITE):
++                    os.makedirs(site.USER_SITE)
++                self.coveragepth = os.path.join(site.USER_SITE, "coverage.pth")
++                with open(self.coveragepth, 'w') as cps:
++                    cps.write('import sys,site; sys.path.extend(site.getsitepackages()); import coverage; coverage.process_startup();')
++
+         def stopTestRun(self):
+             """ Report coverage data after the testcases are run """
+ 
+@@ -601,6 +617,11 @@ def buildResultClass(args):
+                 log.info("===============")
+ 
+                 coverage_report()
++                # remove the pth file
++                try:
++                    os.remove(self.coveragepth)
++                except OSError:
++                    pass
+ 
+     return StampedResult
+ 
 -- 
 1.9.1
 
