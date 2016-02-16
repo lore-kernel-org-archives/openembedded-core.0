@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 47F6B6011A
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id C6E786011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 21:14:16 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id s5so72188178qkd.0
+	Tue, 16 Feb 2016 21:14:17 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id o6so72128010qkc.2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 16 Feb 2016 13:14:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=gzFyCV5TW5JbVEf+T0U78Pullns1q6bkjUWoPw8Vj0U=;
-	b=VXPjdukDzmay7RCAbPBGzQwVZxQDdmSi9LaMrCTe4mC2ufGqNelQZ+aR1MlntMaxOU
-	3MjPJW5GrrptxZx9GltcwpZNMZ+uqjH0Fl86JKai01T6aHhpwgNMg9li4lCKMECtIXpd
-	HUT2JZlFUMniysdOSxlwRgOfhlzA4Z15uMeirWr4MJI20gST8Pg/wMgm7YCteic+Z5mv
-	Ie+ZOX8cUihwLuB+0ryZzHje+UzDo860wLZJ7REwQ2skAYqcQCbl71VvxwruLJpWGhos
-	k19baZiCps+iISI6M++yXTYT0RUWvweLIiHQcy0vLq19Qfh/oUoNdCdw76JjhyG1Gz2X
-	pwWA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=U22UD6KX1i2x4GuhswFnEDQVr8hha36qKyqHxaXQsa0=;
+	b=ddtTcy9HH2AtY6v5P2vQMAMipxEmt17fg80m6Ov5LZSzKAgXGDpqAQxUXVEmVeCi1t
+	sfgztCG4TyfQFpO0revGXndvPxne3Fsm6AfVEXBKx0pmo72FF0nyb6jl+oZi3c5g8mnH
+	4sJ/nTeQ6VkONr3N+oo14Iur79svS8iVs04sCAgL3Vu5fp82tzjhD7DRDx0jmNxwMDEG
+	Po+uD2DsTon9CRlmxQMoc8tCAT9l2rlR2mV7yZBKnKRjjXMyvzmJMpnWn2Bq24Tdov9h
+	/fO/oRgZaYLvgQDrfIdH8C43X2I+URRBMXkSV7luhwsaQDPidycpTDVooERn43Cpl+bv
+	Z7gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=gzFyCV5TW5JbVEf+T0U78Pullns1q6bkjUWoPw8Vj0U=;
-	b=YUlsSxA8vRN+/jD+5s36tdozf/viPGgapYSLtkwNQYo8Rxpum9K5wopWDodjMcg++U
-	4OoQ9HCwSpPUkgLTtIIWSEcaLBf3GYtVFMKEV7zwcxem3H60cx6hfFVNCUUK4YYsuxcb
-	39XiIGd/N7KYJbULm6Dexi52t7mLQ0Cpu+aqHdNSV7wMsjDYIh2LNwHY9Izqyh4hMJMb
-	ag1x3p89N7suX8MKtY7hOCkBvmJGI05qanktuQwDr7DBh0WknUP9gL7WK2c2nGHQyEXY
-	KnP44ff4us368Oqf2hBJU021TdvVzL86JkKGqGP/egYBJELMQ5i1damv9Uz/xDLQ9NgW
-	0+TA==
-X-Gm-Message-State: AG10YOSBFZC9ZhEXw/nSMgXN3hGXsStOXuL+x8P1F0tzqGLEtc0S8QpH/UQGOnA9hkfBKA==
-X-Received: by 10.55.78.198 with SMTP id c189mr30592374qkb.95.1455657257602;
-	Tue, 16 Feb 2016 13:14:17 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=U22UD6KX1i2x4GuhswFnEDQVr8hha36qKyqHxaXQsa0=;
+	b=P0ZcDZSOyqxVjYnn4Z7CWp/rjUZv2xeqHgz0NpI7Ck69tfAkLnJotUu99h1AAP3SZ9
+	NO0MCyMft43kand3J2VyXIyOzBCK7Lpwu39D2w4/CGjeVnUgkmy/nRgkNTxTgS0m9UO0
+	BYgJ/3MUW8Dy+WDRyy31NMP19vEa/Gf+2NRk6tmflCYppWvBaZ5uFJgv7GGs4v8uHfG6
+	um+5d4+aGfAVSx1s/M3EIkflPvOwsHaBtl2MoMAj9Yxobdd1QUT6+EKJe+3NbdHAlGDQ
+	SEpsenZugZZXcjFO/1s5n6eec0hOe/ZzcpG5Im3OdoNcWYLOIV7LFmAiXHZiJJwXJYyM
+	1aVw==
+X-Gm-Message-State: AG10YORyhMrnPFgSwkzH6gYslaI+KjjuFVlUojqxFwDzPWep/VgWQ8Q+q8ICVenzmWo4+Q==
+X-Received: by 10.55.79.86 with SMTP id d83mr30405847qkb.22.1455657258122;
+	Tue, 16 Feb 2016 13:14:18 -0800 (PST)
 Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
 	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
-	z93sm13528477qge.18.2016.02.16.13.14.16
+	z93sm13528477qge.18.2016.02.16.13.14.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Tue, 16 Feb 2016 13:14:17 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Feb 2016 21:14:09 +0000
-Message-Id: <1455657250-10214-1-git-send-email-raj.khem@gmail.com>
+Date: Tue, 16 Feb 2016 21:14:10 +0000
+Message-Id: <1455657250-10214-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH V2 1/2] binutils: Fix useless rpaths QA warning
+In-Reply-To: <1455657250-10214-1-git-send-email-raj.khem@gmail.com>
+References: <1455657250-10214-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/2] socat: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +57,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 Feb 2016 21:14:17 -0000
 
-elfedit and readelf contains /usr/lib in elf header
-this patch deletes them from binaries, ideally it
-should be fixed in libtool and Makery of binutils
-
-mips target binutils dont build gold so remove
-them from ALTERNATIVES list
-
-depend on own version of chrpath native, so builds on
-build OS like Centos can work, the verison of chrpath
-on centos is old enough to not support dealing with
-multi-arch ELF files.
+NETDB_INTERNAL is a glibc define
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ ...fine-NETDB_INTERNAL-to-1-if-not-available.patch | 32 ++++++++++++++++++++++
+ meta/recipes-connectivity/socat/socat_1.7.3.1.bb   |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 79e2a12..43e2aa2 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -13,6 +13,12 @@ LICENSE = "GPLv3"
- 
- DEPENDS = "flex-native bison-native zlib-native gnu-config-native autoconf-native"
- 
-+#
-+# we need chrpath > 0.14 and some distros like centos 7 still have older chrpath
-+#
-+DEPENDS_append_class-target = " chrpath-replacement-native"
-+EXTRANATIVEPATH_append_class-target = " chrpath-native"
+diff --git a/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch b/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
+new file mode 100644
+index 0000000..4bbd367
+--- /dev/null
++++ b/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
+@@ -0,0 +1,32 @@
++From e6a7d96fa3675bdd3f4d7a3d7682381789eef22f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 15 Feb 2016 20:25:34 +0000
++Subject: [PATCH] define NETDB_INTERNAL to -1 if not available
 +
- inherit autotools gettext multilib_header texinfo
++helps build with musl
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ compat.h | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/compat.h b/compat.h
++index c8bee4d..bfb013a 100644
++--- a/compat.h
+++++ b/compat.h
++@@ -666,6 +666,10 @@ typedef int sig_atomic_t;
++ #  define NETDB_INTERNAL h_NETDB_INTERNAL
++ #endif
++ 
+++#if !defined(NETDB_INTERNAL)
+++#  define NETDB_INTERNAL (-1)
+++#endif
+++
++ #ifndef INET_ADDRSTRLEN
++ #  define INET_ADDRSTRLEN sizeof(struct sockaddr_in)
++ #endif
++-- 
++2.7.1
++
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.1.bb b/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
+index c215e04..b9a8a2f 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
+@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
- FILES_${PN} = " \
-@@ -51,6 +57,7 @@ USE_ALTERNATIVES_FOR = " \
- 	strings \
- 	strip \
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://Makefile.in-fix-for-parallel-build.patch \
++           file://0001-define-NETDB_INTERNAL-to-1-if-not-available.patch \
  "
-+USE_ALTERNATIVES_FOR_remove_mips = "ld.gold dwp"
  
- python do_package_prepend() {
-     make_alts = d.getVar("USE_ALTERNATIVES_FOR", True) or ""
-@@ -111,6 +118,10 @@ do_configure () {
- 	done
- }
- 
-+do_compile_append_class-target() {
-+	chrpath -d ${B}/binutils/elfedit
-+	chrpath -d ${B}/binutils/readelf
-+}
- do_install () {
- 	autotools_do_install
- 
+ SRC_URI[md5sum] = "334e46924f2b386299c9db2ac22bcd36"
 -- 
 1.8.3.1
 
