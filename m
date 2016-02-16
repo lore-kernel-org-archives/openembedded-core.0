@@ -1,47 +1,61 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C07B0731A2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B9445731A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 16:49:22 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id b67so137538861qgb.1
+	Tue, 16 Feb 2016 16:49:23 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id g62so161448833wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 08:49:23 -0800 (PST)
+	Tue, 16 Feb 2016 08:49:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=grIXnRgbzOsSB/AiXl3GQxOw4PkWoBDPXL3j2YWhOHM=;
-	b=kxpFeCKfXmj4uwgHB6TJ5jUWpoRKplwpb6idEKTJBgaE692+9WNgiAJiJa/tqsbTJo
-	3GFZoNmlstl3qGLgJ6YOJz6CZtlh0blQIM/xfYRXCxjmB5Bp/ZxEU/w1UmZElbzmOkR4
-	tWAPDAkT72x7bSAXpfSJu51ulwjDp+FJ2dmGAgKXg53plc6HmBZTsw8DzMV+IbONXT9Q
-	zTRLzIpdtw1epcQm5A0mamKT1zBnR+ou68IEQbH2eyYdHzIgreeUMny8W4h6DXu40SE3
-	6yIObDPt45du1QlpBrajbKoQzKjuGoMQQR5hDEL47xQrJqmiISlm54kPOC6DDYMLHNvU
-	Ij+w==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=HRFKTU0AQZMGkGbuzlcjsDTjK4zj/z3oCbETdk82J6w=;
+	b=VTjabSyt1xkKNJByIQ7r78AFL2jm5NX2uucePkqJPFOaW/XT07YRinrFwANVdcGQzo
+	l7J+iUgsE1KSLtZtjLAj0Ho1aLwI49k3baovBn4tanp3SlAtlFJgmppmt1wV4rHDzPDv
+	eey5epWnRhiW9wGJZfei9PQ4LbfECADREi13aexrL7ScsPdRYp0aCZOSFGIKG0VbW0F1
+	k6gCOsr3iPZjb8N30aDSZuu5nnT+Tnk0qpsBtUBwasATvqo4YbmGXXrt7CubcfcaWQQW
+	PRDIRDpaGlFknb0TaTcCXdScfPELOmxcrW2qwL4h9/WOzzSIkzRC/9DUJVAY19L+luDJ
+	+TOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=grIXnRgbzOsSB/AiXl3GQxOw4PkWoBDPXL3j2YWhOHM=;
-	b=gzQmbG9NkiaCKDdshrXygdMYiTbopW4tzItwNHzds56Fx80ne205nAhc4pzt4z1JHa
-	c6vo4gbB0wMfHAZJx/HW8Dtxiv4OlqtKCDKiBGh0bMJ8luKtavTKJ+r/q76t1vCRqoTn
-	zS4VHYSv40nImQ06HmTwLvPc6gBCwBTyN3klKpGY2MKRSxkp7FIYZm5huzKq2faO1+bu
-	CEKmb+sBHV8LWLE8va4SYOU0RvFDqaFpwtoysAJakWi0Dfy7ghlC8Bkg9NmvyHw/xK8a
-	LBdqPsXNGLS8FDgk1b6D8JZEbFeJ3ZEAnxmBd+qRPeXfPB+FCg8QxNn3Qc02kVYPb3nN
-	OBTA==
-X-Gm-Message-State: AG10YOTuKASi84BUNeODT+xV+A1Kikl1S+3++KoRohZXLgzTQWatM3AmVpdn0qFShTq519Rdv1ewliCJMSSwCA==
-X-Received: by 10.140.100.244 with SMTP id s107mr27940033qge.19.1455641362925; 
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=HRFKTU0AQZMGkGbuzlcjsDTjK4zj/z3oCbETdk82J6w=;
+	b=mX+D26V7o7lmCP4KCqZLm8xnCOVeyrHlDIZI7j/GuoZn/1/o/y/paQOx6TNbIkrULc
+	7dZpb6SGrmTtCta7mIe6jAqc6eP6KYnGTzasNFDaPa/q8jmcRl+MeqkJJChX0JktHHHg
+	KiIpoHQCo3x1Jyc2pAFhCHAOAx1wB1B5OatN6yWAslb8FrdzONzaEFIf7X3jVLTJ1S2J
+	E+1it+IHTew+RH4pTWiNqhwV3IYt6Thgp0NrQleSwCImT/uD/G3eKzEt7XyotArar3pA
+	pn8OnO+8NZwoq+B9V6Bp48LBa69FV2I7AdmaaYHT64dEZv7889yEHfypaij5zEgcyhrL
+	/cGA==
+X-Gm-Message-State: AG10YOS6M+w6H/FOT9OJha+sCskQiY9/iKaHFJMVH26uM6eZrt0jZyEjegPAXp7pzVQWuQ==
+X-Received: by 10.28.188.138 with SMTP id m132mr20504218wmf.29.1455641363898; 
+	Tue, 16 Feb 2016 08:49:23 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	az10sm31057429wjc.28.2016.02.16.08.49.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Tue, 16 Feb 2016 08:49:22 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 16 Feb 2016 17:53:44 +0100
+To: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <20160216165344.GC2581@jama>
+References: <056F5AC5-DD52-4BF7-B88D-4312C40DFA2A@gmail.com>
+	<564658A0.60609@yoctoproject.org>
+	<DC4D8315-D63D-495C-B3AF-2932584B319C@gmail.com>
+	<564659EF.8070606@yoctoproject.org>
+	<447B01D9-C528-4B24-9B45-812CA1C6685D@gmail.com>
+	<56465E1B.8040900@yoctoproject.org> <20151116205235.GB2240@jama>
+	<CA+f-kVLqbm=TpPiG5WyxmQuLbg1qgD8dSSdPsmPT-dcOwRG4Yg@mail.gmail.com>
+	<5659F2A0.7070003@gmail.com>
+	<CAHUNapQyuQ9zSVdMsSnvempu4edsHTgih5QcwjjjTv55fhWB3A@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Tue, 16 Feb 2016 08:48:53 -0800 (PST)
-In-Reply-To: <cover.1455612645.git.hongxu.jia@windriver.com>
-References: <cover.1455612645.git.hongxu.jia@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 Feb 2016 08:48:53 -0800
-Message-ID: <CAMKF1spadaYvAUVuXjtkGs9zQs_VJUXgvTq6roX1NfCbQP5jEA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <CAHUNapQyuQ9zSVdMsSnvempu4edsHTgih5QcwjjjTv55fhWB3A@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4 0/2] use target path to replace build ones in debugging info
+Subject: Re: oecommit ml
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +68,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Feb 2016 16:49:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Feb 2016 16:49:24 -0000
+X-Groupsio-MsgNum: 78234
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="oJ71EGRlYNjSvfq7"
+Content-Disposition: inline
 
-On Tue, Feb 16, 2016 at 1:14 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> Changed in V4:
-> *) Discuss with upstream maintainer, backport from GCC 6 to ignore
->    '-fdebug-prefix-map' in producer string rather than add a new
->    option. (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69821)
-> *) Also backport to gcc 4.9
->
+--oJ71EGRlYNjSvfq7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This looks ok now.
+On Tue, Feb 16, 2016 at 11:40:52AM -0500, Trevor Woerner wrote:
+> It's great to see the OE Commit mailing list is being updated again, than=
+ks! :-)
 
+but only from meta-openembedded repo :/
 
-> Changed in V3:
-> *) Move entry from base.bbclass to bitbake.conf
->
-> //Hongxu
->
-> The following changes since commit da13f0bce5d1b3c52f5716ae8d104372a820e5f9:
->
->   buildhistory.bbclass: remove out-dated information on request (2016-02-15 17:47:08 +0000)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
->
-> Hongxu Jia (2):
->   gcc-4.9/5.3: Ignore -fdebug-prefix-map in producer string
->   bitbake.conf: use target path as compile dir in debugging info
->
->  meta/conf/bitbake.conf                             |  8 +++++-
->  meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
->  ...ug-prefix-map-in-producer-string-by-Danie.patch | 31 ++++++++++++++++++++++
->  meta/recipes-devtools/gcc/gcc-5.3.inc              |  1 +
->  ...ug-prefix-map-in-producer-string-by-Danie.patch | 31 ++++++++++++++++++++++
->  5 files changed, 71 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0071-Ignore-fdebug-prefix-map-in-producer-string-by-Danie.patch
->  create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0051-Ignore-fdebug-prefix-map-in-producer-string-by-Danie.patch
->
-> --
-> 1.9.1
->
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--oJ71EGRlYNjSvfq7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlbDVAcACgkQN1Ujt2V2gBzkgQCfVyyiAHzX98M4oH/R+ft3rQ5C
+dIYAoKAMDo8V4/T3MFPnUvgzHdgzM8ir
+=QNhP
+-----END PGP SIGNATURE-----
+
+--oJ71EGRlYNjSvfq7--
