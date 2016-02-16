@@ -1,24 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D1FD731B0
+	by mail.openembedded.org (Postfix) with ESMTP id B7D82606D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Feb 2016 07:14:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1G7ENX5020000
+	Tue, 16 Feb 2016 09:14:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1G9EwAR009301
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Feb 2016 23:14:23 -0800 (PST)
-Received: from k-desktop.wrs.com (128.224.162.231) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 15 Feb 2016 23:14:22 -0800
-From: <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Tue, 16 Feb 2016 15:14:12 +0800
-Message-ID: <cover.1455606710.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.7.0
+	Tue, 16 Feb 2016 01:14:58 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 16 Feb 2016 01:14:57 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
+	<raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>
+Date: Tue, 16 Feb 2016 04:14:53 -0500
+Message-ID: <cover.1455612645.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] V2: Replace retry logic in useradd with flock
+Subject: [PATCH V4 0/2] use target path to replace build ones in debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,14 +31,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Feb 2016 07:14:26 -0000
+X-List-Received-Date: Tue, 16 Feb 2016 09:15:02 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+Changed in V4:
+*) Discuss with upstream maintainer, backport from GCC 6 to ignore
+   '-fdebug-prefix-map' in producer string rather than add a new
+   option. (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69821)
+*) Also backport to gcc 4.9
 
-V2:
+Changed in V3:
+*) Move entry from base.bbclass to bitbake.conf
 
-* Use $SYSROOT/etc as flock file
+//Hongxu
 
 The following changes since commit da13f0bce5d1b3c52f5716ae8d104372a820e5f9:
 
@@ -46,17 +51,23 @@ The following changes since commit da13f0bce5d1b3c52f5716ae8d104372a820e5f9:
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib kangkai/flock
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/flock
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
 
-Kai Kang (1):
-  useradd_base.bbclass: fix simultaneous with flock
+Hongxu Jia (2):
+  gcc-4.9/5.3: Ignore -fdebug-prefix-map in producer string
+  bitbake.conf: use target path as compile dir in debugging info
 
- meta/classes/useradd.bbclass      |   8 +-
- meta/classes/useradd_base.bbclass | 165 ++++++++++----------------------------
- 2 files changed, 48 insertions(+), 125 deletions(-)
+ meta/conf/bitbake.conf                             |  8 +++++-
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ ...ug-prefix-map-in-producer-string-by-Danie.patch | 31 ++++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-5.3.inc              |  1 +
+ ...ug-prefix-map-in-producer-string-by-Danie.patch | 31 ++++++++++++++++++++++
+ 5 files changed, 71 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0071-Ignore-fdebug-prefix-map-in-producer-string-by-Danie.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0051-Ignore-fdebug-prefix-map-in-producer-string-by-Danie.patch
 
 -- 
-2.7.0
+1.9.1
 
 
