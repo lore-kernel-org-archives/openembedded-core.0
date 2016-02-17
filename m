@@ -1,29 +1,45 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ED396057B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 26FB8731A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 05:40:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1H5eSxj016260
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Feb 2016 21:40:29 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 16 Feb 2016 21:40:28 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1455606710.git.kai.kang@windriver.com>
-	<edb161a868336c0688a6e03343ee7920b34222f5.1455606710.git.kai.kang@windriver.com>
-	<CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <56C407CB.4060100@windriver.com>
-Date: Wed, 17 Feb 2016 13:40:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
+	Wed, 17 Feb 2016 08:36:13 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id y89so6628878qge.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 00:36:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=AAtZz05wr/8CbGQkRVsWWlfNdSLOIy5Zv2FTCm5PwMY=;
+	b=DKeXF9S3jzndiLUoHok0A/ZOEsmOCE32sNdFDDzq0FxH6FJlKzCMG0Li0OEZsaMffV
+	gg2ZdyB3VtiZJ8Zv6JcgPXGYlrwBMFOKQUBjpn9sB9do8CyCL3hTbvylYxnpMCGsJfHB
+	XtF8k/XDeZl2yioPY4ir+SsR2LEZseE6vmNSSMhfttiMLbCiDH4j1e2jVK1voF5uAeV9
+	8DTWNEOSNDetHkUdGf6gxrhRN6kEDgGSTzPeun/ga7WgqMtesOIp9qqnHtdh03dMWw6O
+	UZ4QU6x/usqjfOyqBQ/Cgt9q8tW80hkhkjI4VQC667XwPMwnKDydNtRGVD36mxzFBnaI
+	LFWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AAtZz05wr/8CbGQkRVsWWlfNdSLOIy5Zv2FTCm5PwMY=;
+	b=EGoOb4jKFkGLzj8LosQzMD7NWzAFUh3c62ROe6FD5qwWzonemvPpk/5cseHS96Unbs
+	ZcEyWmwa2qG3YsoAbdpYmlyxqVWEEPCKRj/NoCwte6NMzxnmeyHlEH+MV1OJmmV6Abx9
+	nYGXPw/hTRUBiQjKfle573snxjqoIbOlUE2qdFI+QfZ8+PnseSFeEK6kEzdTyKnh8yxd
+	ScyM9aEqVAsEkMPPIUTyfSiEnHfDFrpz+rtCSa3cDPZPjIn6hEr6EVtYeNvBnofIFZZS
+	r/UrtzAWHyuIqvWoX2+uI5dPtaJFfv/G4F4ARkt6qD0/DAb72O5HNODa1HgJCD8sXMD2
+	ltew==
+X-Gm-Message-State: AG10YOR0e6tVXu+OUIKNUPhSi+3VE0eme6HyqkLURICb5rHLMinoDLxYTP/x4mD/nPjjXA==
+X-Received: by 10.140.105.198 with SMTP id c64mr336129qgf.94.1455698174362;
+	Wed, 17 Feb 2016 00:36:14 -0800 (PST)
+Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
+	[96.118.179.135])
+	by smtp.gmail.com with ESMTPSA id y129sm84720qka.33.2016.02.17.00.36.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Feb 2016 00:36:13 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Feb 2016 08:36:06 +0000
+Message-Id: <1455698167-7581-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 1/2] pseudo: Fix build when security flags are enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,126 +52,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 05:40:29 -0000
-Content-Type: multipart/alternative;
-	boundary="------------090904020105080700040102"
+X-List-Received-Date: Wed, 17 Feb 2016 08:36:14 -0000
 
---------------090904020105080700040102
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+filter out PIE options
 
-On 2016年02月16日 20:09, Burton, Ross wrote:
->
-> On 16 February 2016 at 07:14, <kai.kang@windriver.com 
-> <mailto:kai.kang@windriver.com>> wrote:
->
->     +FLOCK_FILE=$SYSROOT/etc
->
->
-> useradd_base is also used by extrausers.bbclass, so it would be best 
-> if useradd_base decided where to use as a lock ($rootdir/${sysconfdir} 
-> sounds sensible) instead of expecting that the caller sets FLOCK_FILE 
-> and mysteriously failing if it wasn't set.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../files/0001-configure-Prune-PIE-flags.patch     | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
 
-OK. Sounds good.
-
->
-> Also if we're locking and waiting properly instead of using timeouts 
-> and loops, can we remove the "does it exist?" check before the 
-> operation (eg groupadd -f will exit 0 if the group exists) and after 
-> (with proper locking that shouldn't be happening).
-
-I prefer to keep such check. There is more than one case that causes 
-operation error such as pass wrong parameters. The messages are helpful 
-for developers.
-
-Thanks,
-Kai
-
->
-> Ross
-
-
+diff --git a/meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch b/meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
+new file mode 100644
+index 0000000..43504ea
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
+@@ -0,0 +1,44 @@
++From b5545c08e6c674c49aef14b47a56a3e92df4d2a7 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 17 Feb 2016 07:36:34 +0000
++Subject: [pseudo][PATCH] configure: Prune PIE flags
++
++LDFLAGS are not taken from environment and CFLAGS is used for LDFLAGS
++however when using security options -fpie and -pie options are coming
++as part of ARCH_FLAGS and they get into LDFLAGS of shared objects as
++well so we end up with conflicting options -shared -pie, which gold
++rejects outright and bfd linker lets the one appearning last in cmdline
++take effect. This create quite a unpleasant situation in OE when
++security flags are enabled and gold or not-gold options are used
++it errors out but errors are not same.
++
++Anyway, with this patch we filter pie options from ARCH_FLAGS
++ouright and take control of generating PIC objects
++
++Helps with errors like
++
++| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: pseudo_client.o: relocation R_X86_64_PC32 against symbol `pseudo_util_debug_flags' can not be used when making a shared object; recompile with -fPIC
++| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: final link failed: Bad value
++| collect2: error: ld returned 1 exit status
++| make: *** [lib/pseudo/lib64/libpseudo.so] Error 1
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ configure | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/configure b/configure
++index e5ef9ce..83b0890 100755
++--- a/configure
+++++ b/configure
++@@ -339,3 +339,5 @@ sed -e '
++   s,@ARCH@,'"$opt_arch"',g
++   s,@BITS@,'"$opt_bits"',g
++ ' < Makefile.in > Makefile
+++
+++sed -i -e 's/\-[f]*pie//g' Makefile
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+index 195a508..88bd1f5 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+@@ -2,6 +2,7 @@ require pseudo.inc
+ 
+ SRC_URI = " \
+     http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz2 \
++    file://0001-configure-Prune-PIE-flags.patch \
+     file://fallback-passwd \
+     file://fallback-group \
+ "
 -- 
-Regards,
-Neil | Kai Kang
+1.8.3.1
 
 
---------------090904020105080700040102
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2016年02月16日 20:09, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 16 February 2016 at 07:14, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":4lc" class="a3s" style="overflow:hidden">+FLOCK_FILE=$SYSROOT/etc<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          useradd_base is also used by extrausers.bbclass, so it would
-          be best if useradd_base decided where to use as a lock
-          ($rootdir/${sysconfdir} sounds sensible) instead of expecting
-          that the caller sets FLOCK_FILE and mysteriously failing if it
-          wasn't set.</div>
-      </div>
-    </blockquote>
-    <br>
-    OK. Sounds good.<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Also if we're locking and waiting
-          properly instead of using timeouts and loops, can we remove
-          the "does it exist?" check before the operation (eg groupadd
-          -f will exit 0 if the group exists) and after (with proper
-          locking that shouldn't be happening).</div>
-      </div>
-    </blockquote>
-    <br>
-    I prefer to keep such check. There is more than one case that causes
-    operation error such as pass wrong parameters. The messages are 
-    helpful for developers.<br>
-    <br>
-    Thanks,<br>
-    Kai<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------090904020105080700040102--
