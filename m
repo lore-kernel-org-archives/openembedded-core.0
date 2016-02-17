@@ -1,22 +1,22 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id B4E2560053
+	by mail.openembedded.org (Postfix) with ESMTP id 6688B731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 00:29:06 +0000 (UTC)
+	Wed, 17 Feb 2016 00:29:37 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3q4g5W5x3Nz3hjZx;
-	Wed, 17 Feb 2016 01:29:03 +0100 (CET)
-X-Auth-Info: CVY2bCcuG2uOGuZWZ1ut6L85RUDrTR/yZo4+MlhhRi8=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3q4g694SS8z3hjZx;
+	Wed, 17 Feb 2016 01:29:37 +0100 (CET)
+X-Auth-Info: dLFSSZVggp0lX7LwS8aJ4gucXVFRldEujfKKPg6xl8U=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q4g5W38zZzvdWS;
-	Wed, 17 Feb 2016 01:29:03 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3q4g693W3rzvdWS;
+	Wed, 17 Feb 2016 01:29:37 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Feb 2016 01:29:02 +0100
-Message-Id: <1455668942-11433-1-git-send-email-marex@denx.de>
+Date: Wed, 17 Feb 2016 01:29:36 +0100
+Message-Id: <1455668976-11493-1-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH V2] dpkg: Update to 1.18.4
+Subject: [PATCH] gcc: Backport nios2 r31 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,170 +29,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 00:29:09 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 00:29:37 -0000
 
-Update dpkg version to 1.18.4 . This adds nios2 architecture support
-among other fixes. One patch was updated so it would apply to 1.18.4.
+Backport a fix from GCC mainline, which fixes libpcre 8.38 and expat 2.1.0
+build on nios2. The example of the fixed error follows:
+
+| ./nios2-poky-linux-libtool --silent --mode=compile nios2-poky-linux-gcc  -mel -mhw-div  -mhw-mul  --sysroot=/mnt/work/Yocto/build-nios2/tmp/sysroots/10m50 -I../expat-2.1.0/lib -I. -O2 -pipe -g -feliminate-unused-debug-types -Wall -Wmissing-prototypes -Wstrict-prototypes -fexceptions  -DHAVE_EXPAT_CONFIG_H -o lib/xmltok.lo -c ../expat-2.1.0/lib/xmltok.c
+| {standard input}: Assembler messages:
+| {standard input}:4988: Error: r31 cannot be used with jmp; use ret instead
+| {standard input}:9703: Error: r31 cannot be used with jmp; use ret instead
+| {standard input}:20068: Error: r31 cannot be used with jmp; use ret instead
+| {standard input}:24020: Error: r31 cannot be used with jmp; use ret instead
+| Makefile:196: recipe for target 'lib/xmltok.lo' failed
+| make: *** [lib/xmltok.lo] Error 1
+| WARNING: exit code 1 from a shell command.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross.burton@intel.com>
 ---
-V2: Drop the CVE fix, since it is part of 1.18.4
----
- ...g-do_package_write_deb-we-have-trees-of-h.patch | 52 +++++++++++++---------
- .../dpkg/dpkg/dpkg-CVE-2015-0860.patch             | 35 ---------------
- .../dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb}        |  5 +--
- 3 files changed, 32 insertions(+), 60 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
- rename meta/recipes-devtools/dpkg/{dpkg_1.18.2.bb => dpkg_1.18.4.bb} (81%)
+ meta/recipes-devtools/gcc/gcc-5.3.inc              |   1 +
+ .../gcc/gcc-5.3/0051-nios2-use-ret-with-r31.patch  | 103 +++++++++++++++++++++
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0051-nios2-use-ret-with-r31.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-index 6967ef4..49ef853 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-When-running-do_package_write_deb-we-have-trees-of-h.patch
-@@ -1,7 +1,7 @@
--From d14ffd786993da60ca84c4812da8a6594a8c764e Mon Sep 17 00:00:00 2001
-+From e391bdba238d1371fc5b67cdae08b06eb5ada5c2 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 15:48:13 +0300
--Subject: [PATCH 1/5] When running do_package_write_deb, we have trees of
-+Subject: [PATCH] When running do_package_write_deb, we have trees of
-  hardlinked files such as the dbg source files in ${PN}-dbg. If something
-  makes another copy of one of those files (or deletes one), the number of
-  links a file has changes and tar can notice this, e.g.:
-@@ -19,23 +19,43 @@ place to avoid that kind of issue).
- Upstream-Status: Inappropriate
- RP 2015/3/27
- ---
-- dpkg-deb/build.c | 11 ++++++++---
-- 1 file changed, 8 insertions(+), 3 deletions(-)
-+ dpkg-deb/build.c | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+index 214af10..0bcb7d2 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+@@ -80,6 +80,7 @@ SRC_URI = "\
+            file://0048-ssp_nonshared.patch \
+            file://0049-Disable-the-weak-reference-logic-in-gthr.h-for-os-ge.patch \
+            file://0050-powerpc-pass-secure-plt-to-the-linker.patch \
++           file://0051-nios2-use-ret-with-r31.patch \
+           "
  
- diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
--index ea3d861..1589927 100644
-+index 2ddeec6..af363f0 100644
- --- a/dpkg-deb/build.c
- +++ b/dpkg-deb/build.c
--@@ -458,7 +458,7 @@ do_build(const char *const *argv)
-+@@ -452,7 +452,7 @@ static void
-+ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+              struct compress_params *tar_compress_params, int fd_out)
+ BACKPORTS = ""
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0051-nios2-use-ret-with-r31.patch b/meta/recipes-devtools/gcc/gcc-5.3/0051-nios2-use-ret-with-r31.patch
+new file mode 100644
+index 0000000..f3cb47f
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.3/0051-nios2-use-ret-with-r31.patch
+@@ -0,0 +1,103 @@
++From 1d67120d95c2c6e0ed4f7357d1cc62887eaba463 Mon Sep 17 00:00:00 2001
++From: sandra <sandra@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Tue, 12 May 2015 15:57:22 +0000
++Subject: [PATCH] 2015-05-12  Chung-Lin Tang  <cltang@codesourcery.com>
++ Sandra Loosemore <sandra@codesourcery.com>
++
++	gcc/
++	* config/nios2/nios2.h (enum reg_class): Add IJMP_REGS enum
++	value.
++	(REG_CLASS_NAMES): Add "IJMP_REGS".
++	(REG_CLASS_CONTENTS): Add new entry for IJMP_REGS.
++	* config/nios2/nios2.md (indirect_jump,*tablejump): Adjust to
++	use new "c" register constraint.
++	* config/nios2/constraint.md (c): New register constraint
++	corresponding to IJMP_REGS.
++
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@223082 138bc75d-0d04-0410-961f-82ee72b054a4
++Signed-off-by: Marek Vasut <marex@denx.de>
++Upstream-Status: Backport [ git://gcc.gnu.org/git/gcc.git 1d67120d95c2c6e0ed4f7357d1cc62887eaba463 ]
++---
++ gcc/ChangeLog                   | 12 ++++++++++++
++ gcc/config/nios2/constraints.md |  3 +++
++ gcc/config/nios2/nios2.h        | 11 +++++++----
++ gcc/config/nios2/nios2.md       |  4 ++--
++ 4 files changed, 24 insertions(+), 6 deletions(-)
++
++diff --git a/gcc/config/nios2/constraints.md b/gcc/config/nios2/constraints.md
++index f4bd9f7..735f892 100644
++--- a/gcc/config/nios2/constraints.md
+++++ b/gcc/config/nios2/constraints.md
++@@ -39,6 +39,9 @@
++ 
++ ;; Register constraints
++ 
+++(define_register_constraint "c" "IJMP_REGS"
+++  "A register suitable for an indirect jump.")
+++
++ (define_register_constraint "j" "SIB_REGS"
++   "A register suitable for an indirect sibcall.")
++ 
++diff --git a/gcc/config/nios2/nios2.h b/gcc/config/nios2/nios2.h
++index 510ab5f..ac33978 100644
++--- a/gcc/config/nios2/nios2.h
+++++ b/gcc/config/nios2/nios2.h
++@@ -173,6 +173,7 @@ enum reg_class
 + {
-+-  int pipe_filenames[2], pipe_tarball[2];
-++  int pipe_filenames[2], pipe_tarball[2], rc;
-+   pid_t pid_tar, pid_comp;
++   NO_REGS,
++   SIB_REGS,
+++  IJMP_REGS,
++   GP_REGS,
++   ALL_REGS,
++   LIM_REG_CLASSES
++@@ -183,6 +184,7 @@ enum reg_class
++ #define REG_CLASS_NAMES   \
++   {  "NO_REGS",		  \
++      "SIB_REGS",	  \
+++     "IJMP_REGS",	  \
++      "GP_REGS",           \
++      "ALL_REGS" }
 + 
-+   /* Fork off a tar. We will feed it a list of filenames on stdin later. */
-+@@ -493,7 +493,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+   /* All done, clean up wait for tar and <compress> to finish their job. */
-+   close(pipe_filenames[1]);
-+   subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
-+-  subproc_reap(pid_tar, "tar -cf", 0);
-++  rc = subproc_reap(pid_tar, "tar -cf", SUBPROC_RETERROR);
-++  if (rc && rc != 1)
-++    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
-+ }
++@@ -190,10 +192,11 @@ enum reg_class
 + 
-+ /**
-+@@ -509,7 +511,7 @@ do_build(const char *const *argv)
-    char *debar;
-    char *tfbuf;
-    int arfd;
---  int p1[2], p2[2], gzfd;
--+  int p1[2], p2[2], gzfd, rc;
-+-  int p1[2], gzfd;
-++  int p1[2], gzfd, rc;
-    pid_t c1, c2;
-  
-    /* Decode our arguments. */
--@@ -538,7 +538,9 @@ do_build(const char *const *argv)
-+@@ -590,7 +592,9 @@ do_build(const char *const *argv)
-    }
-    close(p1[0]);
-    subproc_reap(c2, _("<compress> from tar -cf"), 0);
-@@ -46,18 +66,6 @@ index ea3d861..1589927 100644
-  
-    if (lseek(gzfd, 0, SEEK_SET))
-      ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
--@@ -626,7 +628,10 @@ do_build(const char *const *argv)
--   /* All done, clean up wait for tar and <compress> to finish their job. */
--   close(p1[1]);
--   subproc_reap(c2, _("<compress> from tar -cf"), 0);
---  subproc_reap(c1, "tar -cf", 0);
--+  rc = subproc_reap(c1, "tar -cf", SUBPROC_RETERROR);
--+  if (rc && rc != 1)
--+    ohshite(_("subprocess %s returned error exit status %d"), "tar -cf", rc);
--+
--   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
--   if (deb_format.major == 2) {
--     char datamember[16 + 1];
- -- 
--2.1.4
++ #define REG_CLASS_CONTENTS			\
++   {						\
++-    /* NO_REGS  */ { 0, 0},			\
++-    /* SIB_REGS */ { 0xfe0c, 0},		\
++-    /* GP_REGS  */ {~0, 0},			\
++-    /* ALL_REGS */ {~0,~0}			\
+++    /* NO_REGS    */ { 0, 0},			\
+++    /* SIB_REGS   */ { 0xfe0c, 0},		\
+++    /* IJMP_REGS  */ { 0x7fffffff, 0},		\
+++    /* GP_REGS    */ {~0, 0},			\
+++    /* ALL_REGS   */ {~0,~0}			\
++   }
++ 
++ 
++diff --git a/gcc/config/nios2/nios2.md b/gcc/config/nios2/nios2.md
++index 7b35d269..36ef101 100644
++--- a/gcc/config/nios2/nios2.md
+++++ b/gcc/config/nios2/nios2.md
++@@ -697,7 +697,7 @@
++ ; check or adjust for overflow.
++ 
++ (define_insn "indirect_jump"
++-  [(set (pc) (match_operand:SI 0 "register_operand" "r"))]
+++  [(set (pc) (match_operand:SI 0 "register_operand" "c"))]
++   ""
++   "jmp\\t%0"
++   [(set_attr "type" "control")])
++@@ -811,7 +811,7 @@
++ 
++ (define_insn "*tablejump"
++   [(set (pc)
++-        (match_operand:SI 0 "register_operand" "r"))
+++        (match_operand:SI 0 "register_operand" "c"))
++    (use (label_ref (match_operand 1 "" "")))]
++   ""
++   "jmp\\t%0"
++-- 
 +2.7.0
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
-deleted file mode 100644
-index 2fd3c3b..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-CVE-2015-0860.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 708e60ea4e16afb1d85da60dd73cb374a987653d Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Hanno=20B=C3=B6ck?= <hanno@hboeck.de>
--Date: Thu, 19 Nov 2015 20:03:10 +0100
--Subject: [PATCH 1/1] dpkg-deb: Fix off-by-one write access on ctrllenbuf
-- variable
--
--This affects old format .deb packages.
--
--CVE: CVE-2015-0860
--Warned-by: afl
--Signed-off-by: Guillem Jover <guillem@debian.org>
--
--Upstream-Status: Backport
--
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-----
-- dpkg-deb/extract.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/dpkg-deb/extract.c b/dpkg-deb/extract.c
--index 5a9587a..e39fb35 100644
----- a/dpkg-deb/extract.c
--+++ b/dpkg-deb/extract.c
--@@ -247,7 +247,7 @@ extracthalf(const char *debar, const char *dir,
--     if (errstr)
--       ohshit(_("archive has invalid format version: %s"), errstr);
-- 
---    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
--+    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
--     if (r < 0)
--       read_fail(r, debar, _("archive control member size"));
--     if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-similarity index 81%
-rename from meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-index eab896c..7876944 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.2.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.4.bb
-@@ -13,9 +13,8 @@ SRC_URI += "file://noman.patch \
- 	    file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
- 	    file://0005-dpkg-compiler.m4-remove-Wvla.patch \
- 	    file://0006-add-musleabi-to-known-target-tripets.patch \
--	    file://dpkg-CVE-2015-0860.patch \
-            "
- 
--SRC_URI[md5sum] = "63b9d869081ec49adeef6c5ff62d6576"
--SRC_URI[sha256sum] = "11484f2a73d027d696e720a60380db71978bb5c06cd88fe30c291e069ac457a4"
-+SRC_URI[md5sum] = "e95b513c89693f6ec3ab53b6b1c3defd"
-+SRC_URI[sha256sum] = "fe89243868888ce715bf45861f26264f767d4e4dbd0d6f1a26ce60bbbbf106da"
- 
++
 -- 
 2.1.4
 
