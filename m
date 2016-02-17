@@ -1,48 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 90F43731A8
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 316A47002B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 08:36:14 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id y89so6628996qge.2
+	Wed, 17 Feb 2016 08:45:19 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id b67so6764761qgb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 00:36:15 -0800 (PST)
+	Wed, 17 Feb 2016 00:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HGJUewHPrC+PEzXHhFM+nXTMJU0Jp6m23Kd12egKzc4=;
-	b=rus6UPMVRFhLXLtCeRhDvIMlDEcH3TljbiSJFdrzZr0O2s8AyhKbB8v4/VTXa0JzGU
-	T2snbSuMd/SuFT+mrq80iWtI7BuJWeEnRhL4vSsJdhKunuDcF/113AFGgutTyS3npbNZ
-	w+keX8qGcFNsiPzYzxULHoHmRNNA500uY5M9FSywIZebw/iHShrhGB2bp3wNV2GDwszV
-	Ty3l8exs8Gk4dtL7lc8yW2GUI3aygSwPFSdnbpGnNJU0uwdHth2rYYcPMY9112joRhbd
-	f5RbrmXvlE8xDAoNk63CQw8aBjNTgPA56lq/LRJk83alM8AtgwpHIse0Mabvkt/Lk4Gb
-	UYYg==
+	h=from:to:cc:subject:date:message-id;
+	bh=8GtOF5+7aa02zBI1h7rJjIYgrKVGYXR2JmNYz9H4ERk=;
+	b=YQw6wNUd/rVnW53oHwnI7ZatWM3kt9AiiSWwMcVxGn3ZdMJhPEKxWEUfc4r6P2N2+k
+	UgtWKcI8AGVRLgZZELCzEZ68MTi84NOG2VFqPVuSdxQviD+4TC4a0DvE1B3ZUrJMLlsD
+	yj6I30PDvE9OP+ELSNakRRZ8gzHCg6yjtFq6CrIBMoPfhkc+jG/HEjrfxICu1huYZd1f
+	HGtu2EXzNecOcw4aF5181F1F9hCPmWmSx2oH63x6Hj/UjyJGo0BCcanvdIJooqGPQobb
+	0GwSr3hrIvE0m6X2ASlvBIeEGcgGnkL/3OoP6UtkNdSKYzcre5WoFD2B502LG80ef8Lz
+	TdLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=HGJUewHPrC+PEzXHhFM+nXTMJU0Jp6m23Kd12egKzc4=;
-	b=DFspZJTmHSrGjRLf20DJnj9Vs6FQbrobVDjWwjYo4b4stthWF4isUiQw39FYAdSGN5
-	V5y3SHTOVqM5nAIVvhlanFmqDTgVTOUmc95l8LeaqtLFE97jPWPxrg9SF9UJtfRJ/TTU
-	AT71mF76W6vGm/9gRAsDcbQcHwOkoQwy0IOKJ5jRSuvWLORuzhWzAX3/LoPqf9LMr/W/
-	KqtehvKQkhXPc9mrypkiprNhGZ9NkEL+RGp9ghpDaSoTKI2I8aH2GDXO1ogvcPXlhSUt
-	4/sKebbENFpYgXN5NbNxiilbidPuGMEQN3YkZEpX9UCgIobvRPj43S3hzg8QDwc/eipD
-	sOAw==
-X-Gm-Message-State: AG10YOT2aYr+izs70xnUCBE05PsJiTYYb68WB+OSppxSJxobNdG2C5ULi26Rqx093PuqlA==
-X-Received: by 10.140.93.247 with SMTP id d110mr350748qge.28.1455698175010;
-	Wed, 17 Feb 2016 00:36:15 -0800 (PST)
-Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
-	[96.118.179.135])
-	by smtp.gmail.com with ESMTPSA id y129sm84720qka.33.2016.02.17.00.36.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Feb 2016 00:36:14 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8GtOF5+7aa02zBI1h7rJjIYgrKVGYXR2JmNYz9H4ERk=;
+	b=egU76RslHxASBLqE4Z5SXR/7qwnqzputuxyv0i+Bo9KvOXrKXAF03Iy3bq8hHK7FRL
+	W/a8VI6b5q8K9Vf8enXAxgzQodOH0O+q24oQzJrw9/lor+MxYnOBM8PrLjQis4DEddLc
+	B9oPldgDP9Az6nBLlwaWkipVsLDYJtKU1Gf+5qiLxaj+R8UGBdBmBZjZTE2+MLpN0D/d
+	aajcRRo3816hXE0WCiAu/QTZ170KQq/Vx0+bSSDu6H3qxmQ+E/5B0JBvSEO4KsQqFPmU
+	BQ1w4rFojc0X+Sz1yQc357B1dYQPcEJDX0F1fVi7gSDFhVsRmXG3zXz8yCQt6MgLeG4l
+	aCuA==
+X-Gm-Message-State: AG10YOQLPrcDR8NDG3pUfeka+DXDNPyJMxb8Fbs8avC8o+nde2oHKrRGKoWb+aylzUClFw==
+X-Received: by 10.140.85.36 with SMTP id m33mr333881qgd.91.1455698720176;
+	Wed, 17 Feb 2016 00:45:20 -0800 (PST)
+Received: from dvm-wcdcc-khem-001.sys.comcast.net
+	(a-96-118-179-133.sys.comcast.net. [96.118.179.133])
+	by smtp.gmail.com with ESMTPSA id
+	47sm14944867qgj.11.2016.02.17.00.45.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 17 Feb 2016 00:45:19 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Feb 2016 08:36:07 +0000
-Message-Id: <1455698167-7581-2-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1455698167-7581-1-git-send-email-raj.khem@gmail.com>
-References: <1455698167-7581-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/2] libnewt: Fix build with PIE flags
+Date: Wed, 17 Feb 2016 08:45:15 +0000
+Message-Id: <1455698715-10436-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] musl: Upgrade to 1.1.13+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,82 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 08:36:14 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 08:45:20 -0000
 
-security flags add -pie -fpie to CFLAGS which is not
-right options for compiling .so files, they are only
-useful for compiling executables
+Rich Felker (3):
+      fix assumption in fputs that fwrite returning 0 implies an error
+      fix unlikely corner cases in getopt's message printing
+      in crypt-sha*, reject excessive rounds as error rather than clamping
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/newt/files/pie-flags.patch | 36 ++++++++++++++++++++++++
- meta/recipes-extended/newt/libnewt_0.52.18.bb    |  2 ++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-extended/newt/files/pie-flags.patch
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/newt/files/pie-flags.patch b/meta/recipes-extended/newt/files/pie-flags.patch
-new file mode 100644
-index 0000000..8883e26
---- /dev/null
-+++ b/meta/recipes-extended/newt/files/pie-flags.patch
-@@ -0,0 +1,36 @@
-+specify -fPIC after CFLAGS so it can override the CFLAGS containing -pie and -fpie
-+this makes sure the objects that go into shared objects are compiled with -fPIC
-+and not with -fpie. We can not use -fpie on objects which will go into .so files
-+Fixes errors like
-+
-+| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: shared/newt.o: relocation R_X86_64_PC32 against undefined symbol `SLtt_Screen_Rows@@SLANG2' can not be used when making a shared object; recompile with -fPIC
-+| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: final link failed: Bad value
-+| collect2: error: ld returned 1 exit status
-+| make: *** [libnewt.so.0.52.18] Error 1
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+Index: newt-0.52.18/Makefile.in
-+===================================================================
-+--- newt-0.52.18.orig/Makefile.in
-++++ newt-0.52.18/Makefile.in
-+@@ -96,8 +96,8 @@ _snack.$(SOEXT):   snack.c $(LIBNEWTSH)
-+ 		PIFLAGS=`$$pyconfig --includes`; \
-+ 		PLDFLAGS=`$$pyconfig --ldflags`; \
-+ 		PLFLAGS=`$$pyconfig --libs`; \
-+-		echo $(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-+-		$(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-++		echo $(CC) $(CPPFLAGS) $(SHCFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-++		$(CC) $(CPPFLAGS) $(SHCFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-+ 		echo $(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
-+ 		$(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
-+ 	done || :
-+@@ -135,7 +135,7 @@ $(LIBNEWTSH): $(SHAREDOBJS)
-+ 	ln -fs $(LIBNEWTSH) $(LIBNEWTSONAME)
-+ 
-+ $(SHAREDDIR)/%.o : %.c $(SHAREDDIR)
-+-	$(CC) $(SHCFLAGS) -c $(CFLAGS) $(CPPFLAGS) -o $@ $<
-++	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(SHCFLAGS) -o $@ $<
-+ 
-+ install: $(LIBNEWT) install-sh whiptail
-+ 	[ -d $(instroot)/$(bindir) ] || install -m 755 -d $(instroot)/$(bindir)
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.18.bb b/meta/recipes-extended/newt/libnewt_0.52.18.bb
-index 293c1a8..9a2964b 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.18.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.18.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-            file://fix_SHAREDDIR.patch \
-            file://cross_ar.patch \
-            file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch \
-+           file://pie-flags.patch \
- "
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 8c54db8..4151308 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,9 +3,9 @@
  
- SRC_URI[md5sum] = "685721bee1a318570704b19dcf31d268"
-@@ -37,6 +38,7 @@ CLEANBROKEN = "1"
+ require musl.inc
  
- export STAGING_INCDIR
- export STAGING_LIBDIR
-+export CPPFLAGS
+-SRCREV = "0ed932f34f11663e6b3ddfa866b1798a5938a3dc"
++SRCREV = "cf115059ba0ecd611008c89c78c37b62f8e6d6af"
  
- export BUILD_SYS
- export HOST_SYS
+-PV = "1.1.12+git${SRCPV}"
++PV = "1.1.13+git${SRCPV}"
+ 
+ # mirror is at git://github.com/kraj/musl.git
+ 
 -- 
-1.8.3.1
+1.9.1
 
 
