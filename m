@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E7D5D731A4
+	by mail.openembedded.org (Postfix) with ESMTP id 0E11C731F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:12:56 +0000 (UTC)
+	Wed, 17 Feb 2016 10:22:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1HACNJt007197 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:12:56 GMT
+	u1HAMP3D007866 for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 10:22:25 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hufOAiY2Q8q5
+	with LMTP id 30IymsphUOWM
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:12:56 +0000 (GMT)
+	Wed, 17 Feb 2016 10:22:25 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1HACpAD007216
+	u1HAMLV0007862
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:12:53 GMT
-Message-ID: <1455703971.28376.39.camel@linuxfoundation.org>
+	Wed, 17 Feb 2016 10:22:22 GMT
+Message-ID: <1455704541.28376.40.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Feb 2016 10:12:51 +0000
+Date: Wed, 17 Feb 2016 10:22:21 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] debianutils: Upgrade 4.5.1 -> 4.7
+Subject: [PATCH] pcmciautils: Update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 10:13:01 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 10:22:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Tarball now uses the standard ${BPN}-${PV} so drop custom S setting.
+Switch to use KERNELORG_MIRROR.
+Use .xz tarball instead of bz2 as not all kernel mirrors carry .bz2 now.
+
+This resolves various checkuri issues on the autobuilder infrastructure.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../debianutils/{debianutils_4.5.1.bb => debianutils_4.7.bb}      | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-support/debianutils/{debianutils_4.5.1.bb => debianutils_4.7.bb} (85%)
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.5.1.bb b/meta/recipes-support/debianutils/debianutils_4.7.bb
-similarity index 85%
-rename from meta/recipes-support/debianutils/debianutils_4.5.1.bb
-rename to meta/recipes-support/debianutils/debianutils_4.7.bb
-index 884d4bd..6a1d5bf 100644
---- a/meta/recipes-support/debianutils/debianutils_4.5.1.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.7.bb
-@@ -3,15 +3,13 @@ SECTION = "base"
- LICENSE = "GPLv2 & SMAIL_GPL"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+index 9d1c55b..581bff4 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ DEPENDS = "udev sysfsutils flex-native"
+ RDEPENDS_${PN} = "udev module-init-tools"
  
--SRC_URI = "http://snapshot.debian.org/archive/debian/20151006T155028Z//pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20160204T040501Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
- # the package is taken from snapshots.debian.org; that source is static and goes stale
- # so we check the latest upstream from a directory that does get updated
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+-SRC_URI = "http://mirror.linux.org.au/linux/utils/kernel/pcmcia/${BP}.tar.bz2"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/pcmcia/${BP}.tar.xz"
  
--SRC_URI[md5sum] = "487524518cd5833a6a4f7007b5d1bd5b"
--SRC_URI[sha256sum] = "a531c23e0105fe01cfa928457a8343a1e947e2621b3cd4d05f4e9656020c63b7"
--
--S = "${WORKDIR}/${BPN}"
-+SRC_URI[md5sum] = "00186f527b35e2cecd4db593c6d512d0"
-+SRC_URI[sha256sum] = "a269cacd40f52f2fa5d5636357714a49e8538459c16d77772efaa23711fe53d9"
+ S = "${WORKDIR}/pcmciautils-${PV}"
  
- inherit autotools update-alternatives
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+index d3dde7e..3556a45 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+@@ -5,8 +5,8 @@ SRC_URI += "file://makefile_fix.patch \
+             file://lex_sys_types.patch \
+ "
  
+-SRC_URI[md5sum] = "5d85669b3440baa4532363da6caaf1b4"
+-SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0dc8ed5"
++SRC_URI[md5sum] = "885431c3cefb76ffdad8cb985134e996"
++SRC_URI[sha256sum] = "57c27be8f04ef4d535bcfa988567316cc57659fe69068327486dab53791e6558"
+ 
+ PR = "r1"
+ 
+
 
 
