@@ -1,31 +1,33 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A5E6FEF5
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF8B6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 15:42:04 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1HFg5I0006729; Wed, 17 Feb 2016 09:42:05 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016021709420523-1082889 ;
-	Wed, 17 Feb 2016 09:42:05 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Wed, 17 Feb 2016 16:56:24 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 30007216DE
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 11:56:24 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+	by compute3.internal (MEProxy); Wed, 17 Feb 2016 11:56:24 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=7V3EsKyBfZqFjW2OVDJX4OV7R2
+	0=; b=Jzbb7Uyyr3M6oTQcE0KqA2h3CftZUAYKEyIGH47oD+SFy7oo18PxqH+8xy
+	2E4q6RXNGYW2+zKhrS0mGNu/kf2j/t2syfx7M4MWYK3NhIYVrysi/b2u8qyktf/V
+	jfJ2Qm8YQmUi/PFvnRXdnJWnze+HQ8wclE4LRXd7UkppfLo3Q=
+X-Sasl-enc: DCdoDMV5ZgdR8WHO4BjB6l4LlbouiXhG9H3vMCAzY1NJ 1455728183
+Received: from laptop.tanuk.dy.fi (a88-114-110-232.elisa-laajakaista.fi
+	[88.114.110.232])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 42ACCC0001B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 11:56:23 -0500 (EST)
+From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Feb 2016 17:41:36 +0200
-Message-Id: <fc3da90179939d1bc898d5c32b4a375f69faf97c.1455721437.git.adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.7.1
-In-Reply-To: <cover.1455721437.git.adrian.ratiu@ni.com>
-References: <cover.1455721437.git.adrian.ratiu@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/17/2016 09:42:05 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/17/2016 09:42:05 AM,
-	Serialize complete at 02/17/2016 09:42:05 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-17_09:, , signatures=0
-Subject: [PATCH v5 3/3] package_manager: sign IPK package feeds
+Date: Wed, 17 Feb 2016 18:56:12 +0200
+Message-Id: <cover.1455727967.git.tanuk@iki.fi>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 0/4] Audio recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,100 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 15:42:05 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 16:56:25 -0000
 
-Create gpg signed ipk package feeds using the gpg backend if configured.
+The following changes since commit 31af4a37c429bb1db8bfc64242b2963220f9a0e1:
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/classes/sign_package_feed.bbclass | 10 +++++++++-
- meta/lib/oe/package_manager.py         | 17 +++++++++++++++--
- 2 files changed, 24 insertions(+), 3 deletions(-)
+  oeqa/parselogs: Whitelist dmi firmware failure message in 4.4 kernels (2016-02-16 23:53:43 +0000)
 
-diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
-index 63ca02f..2b0548a 100644
---- a/meta/classes/sign_package_feed.bbclass
-+++ b/meta/classes/sign_package_feed.bbclass
-@@ -10,6 +10,10 @@
- #           Optional variable for specifying the backend to use for signing.
- #           Currently the only available option is 'local', i.e. local signing
- #           on the build host.
-+# PACKAGE_FEED_GPG_SIGNATURE_TYPE
-+#           Optional variable for specifying the type of gpg signature, can be:
-+#               1. Ascii armored (ASC), default if not set
-+#               2. Binary (BIN)
- # GPG_BIN
- #           Optional variable for specifying the gpg binary/wrapper to use for
- #           signing.
-@@ -20,7 +24,7 @@ inherit sanity
- 
- PACKAGE_FEED_SIGN = '1'
- PACKAGE_FEED_GPG_BACKEND ?= 'local'
--
-+PACKAGE_FEED_GPG_SIGNATURE_TYPE ?= 'ASC'
- 
- python () {
-     # Check sanity of configuration
-@@ -28,6 +32,10 @@ python () {
-         if not d.getVar(var, True):
-             raise_sanity_error("You need to define %s in the config" % var, d)
- 
-+    sigtype = d.getVar("PACKAGE_FEED_GPG_SIGNATURE_TYPE", True)
-+    if sigtype.upper() != "ASC" and sigtype.upper() != "BIN":
-+        raise_sanity_error("Bad value for PACKAGE_FEED_GPG_SIGNATURE_TYPE (%s), use either ASC or BIN" % sigtype)
-+
-     # Set expected location of the public key
-     d.setVar('PACKAGE_FEED_GPG_PUBKEY',
-              os.path.join(d.getVar('STAGING_ETCDIR_NATIVE', False),
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index b30a4da..606ba24 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -163,11 +163,16 @@ class OpkgIndexer(Indexer):
-                      "MULTILIB_ARCHS"]
- 
-         opkg_index_cmd = bb.utils.which(os.getenv('PATH'), "opkg-make-index")
-+        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-+            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
-+        else:
-+            signer = None
- 
-         if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
-             open(os.path.join(self.deploy_dir, "Packages"), "w").close()
- 
-         index_cmds = []
-+        index_sign_files = []
-         for arch_var in arch_vars:
-             archs = self.d.getVar(arch_var, True)
-             if archs is None:
-@@ -186,6 +191,8 @@ class OpkgIndexer(Indexer):
-                 index_cmds.append('%s -r %s -p %s -m %s' %
-                                   (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
- 
-+                index_sign_files.append(pkgs_file)
-+
-         if len(index_cmds) == 0:
-             bb.note("There are no packages in %s!" % self.deploy_dir)
-             return
-@@ -193,9 +200,15 @@ class OpkgIndexer(Indexer):
-         result = oe.utils.multiprocess_exec(index_cmds, create_index)
-         if result:
-             bb.fatal('%s' % ('\n'.join(result)))
--        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
--            raise NotImplementedError('Package feed signing not implementd for ipk')
- 
-+        if signer:
-+            feed_sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE', True)
-+            is_ascii_sig = (feed_sig_type.upper() != "BIN")
-+            for f in index_sign_files:
-+                signer.detach_sign(f,
-+                                   self.d.getVar('PACKAGE_FEED_GPG_NAME', True),
-+                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True),
-+                                   armor=is_ascii_sig)
- 
- 
- class DpkgIndexer(Indexer):
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/updates
+
+Tanu Kaskinen (4):
+  alsa-tools: 1.0.29 -> 1.1.0
+  alsa-utils: 1.0.29 -> 1.1.0
+  alsa-plugins: 1.0.29 -> 1.1.0
+  pulseaudio: 6.0 -> 8.0
+
+ ...nclude-sys-select.h-for-fd_set-definition.patch |  31 ---
+ ...nclude-speexdsp_types.h-not-speex_types.h.patch |  71 ------
+ ...ph-include-config.h-from-rate_speexrate.c.patch |  35 +++
+ ...lsa-plugins_1.0.29.bb => alsa-plugins_1.1.0.bb} |  16 +-
+ .../alsa/alsa-tools/autotools.patch                |   2 +-
+ .../alsa/alsa-tools/makefile_no_gtk.patch          |   2 +-
+ .../{alsa-tools_1.0.29.bb => alsa-tools_1.1.0.bb}  |   4 +-
+ ...ripts_1.0.29.bb => alsa-utils-scripts_1.1.0.bb} |   0
+ ...1-alsabat-rename-to-avoid-naming-conflict.patch | 153 ++++++++++++
+ ...-t-let-systemd-unit-restore-the-volume-wh.patch |  20 +-
+ ...lsa-utils-aplay-interrupt-signal-handling.patch |  48 ----
+ ...oring-is-success-if-not-sound-card-device.patch |  34 ---
+ .../{alsa-utils_1.0.29.bb => alsa-utils_1.1.0.bb}  |  15 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   8 +-
+ ...le-switch-on-port-available-Route-to-pref.patch | 268 +++++++++++++++++++++
+ .../0001-card-add-pa_card_profile.ports.patch      | 101 +++-----
+ ...-client-conf-Add-allow-autospawn-for-root.patch |   7 +-
+ ...onf-parser-add-support-for-.d-directories.patch | 196 ---------------
+ ...oth-fail-if-user-requested-profile-doesn-.patch |   7 +-
+ ...-move-profile-selection-after-pa_card_new.patch | 131 +++++-----
+ ...vailability-for-some-unavailable-profiles.patch |  32 ++-
+ .../pulseaudio/fix-git-version-gen.patch           |  24 --
+ .../{pulseaudio_6.0.bb => pulseaudio_8.0.bb}       |   7 +-
+ 23 files changed, 636 insertions(+), 576 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-arcam-av-Include-sys-select.h-for-fd_set-definition.patch
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-include-speexdsp_types.h-not-speex_types.h.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-pph-include-config.h-from-rate_speexrate.c.patch
+ rename meta/recipes-multimedia/alsa/{alsa-plugins_1.0.29.bb => alsa-plugins_1.1.0.bb} (87%)
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.29.bb => alsa-tools_1.1.0.bb} (91%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.0.29.bb => alsa-utils-scripts_1.1.0.bb} (100%)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsabat-rename-to-avoid-naming-conflict.patch
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/assume-storing-is-success-if-not-sound-card-device.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.29.bb => alsa-utils_1.1.0.bb} (85%)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-Revert-module-switch-on-port-available-Route-to-pref.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/fix-git-version-gen.patch
+ rename meta/recipes-multimedia/pulseaudio/{pulseaudio_6.0.bb => pulseaudio_8.0.bb} (72%)
+
 -- 
-2.7.1
+2.7.0
 
 
