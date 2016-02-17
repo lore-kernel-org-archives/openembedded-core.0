@@ -1,21 +1,30 @@
-Return-Path: <erkka.kaaria@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 53B546067C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F69573206
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 11:53:17 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2016 03:53:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,460,1449561600"; d="scan'208";a="916809164"
-Received: from ekaaria-xps-8300.fi.intel.com ([10.237.68.35])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2016 03:53:18 -0800
-From: =?UTF-8?q?Erkka=20K=C3=A4=C3=A4ri=C3=A4?= <erkka.kaaria@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Feb 2016 13:54:34 +0200
-Message-Id: <1455710074-17625-1-git-send-email-erkka.kaaria@intel.com>
-X-Mailer: git-send-email 2.7.0
-MIME-Version: 1.0
-Subject: [PATCH] uboot-inc: Backport patch to fix Beaglebone Black bootloader
+	Wed, 17 Feb 2016 13:33:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1HDXidr017823 for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 13:33:44 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2W-mRnUM3oX9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 13:33:44 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1HDXeMW017820
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 13:33:41 GMT
+Message-ID: <1455716020.28376.42.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Feb 2016 13:33:40 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] libsdl2: Fix build with static libraries disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,60 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 11:53:19 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 17 Feb 2016 13:33:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-QmVhZ2xlYm9uZSBCbGFjayBib290IHN0YXJ0ZWQgZmFpbGluZyBhZnRlciB1cHN0cmVhbSBwYXRj
-aCA3NTUzMjRjNDMyZiwgYW5kIHdhcwpmaXhlZCBpbiA3MjA1NDQyZTYuIFVuZm9ydHVuYXRlbHks
-IHRoZSB1LWJvb3QgdXBncmFkZSBmcm9tIDIwMTUuMTAgdG8gMjAxNi4wMQpvbmx5IGluY2x1ZGVz
-IHRoZSBmb3JtZXIgcGF0Y2guIFRoZSBsYXR0ZXIgcGF0Y2ggaXMgYmFja3BvcnRlZCB0byBmaXgg
-dGhpcy4KClNpZ25lZC1vZmYtYnk6IEVya2thIEvDpMOkcmnDpCA8ZXJra2Eua2FhcmlhQGludGVs
-LmNvbT4KLS0tCiBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jICAgICAgICAgICAg
-ICAgICB8ICAzICstCiAuLi4vMDAwMS1hbTMzNXhfZXZtLmgtdW5zZWQtQ09ORklHX0JPT1RERUxB
-WS5wYXRjaCB8IDM0ICsrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMzYg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
-aXBlcy1ic3AvdS1ib290L3UtYm9vdC8wMDAxLWFtMzM1eF9ldm0uaC11bnNlZC1DT05GSUdfQk9P
-VERFTEFZLnBhdGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290
-LmluYyBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMKaW5kZXggNDFlYjIwNS4u
-YWM4ZjMzOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYwor
-KysgYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jCkBAIC02LDcgKzYsOCBAQCBQ
-Uk9WSURFUyA9ICJ2aXJ0dWFsL2Jvb3Rsb2FkZXIiCiBMSUNFTlNFID0gIkdQTHYyKyIKIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0xpY2Vuc2VzL1JFQURNRTttZDU9MDUwN2NkN2RhOGU3YWQ2
-ZDY3MDE5MjZlYzliODRjOTUiCiAKLVNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LmRlbnguZGUvdS1ib290
-LmdpdDticmFuY2g9bWFzdGVyIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXQuZGVueC5kZS91LWJvb3Qu
-Z2l0O2JyYW5jaD1tYXN0ZXIgXAorICAgICAgICAgICBmaWxlOi8vMDAwMS1hbTMzNXhfZXZtLmgt
-dW5zZWQtQ09ORklHX0JPT1RERUxBWS5wYXRjaCIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIApk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LzAwMDEtYW0zMzV4X2V2
-bS5oLXVuc2VkLUNPTkZJR19CT09UREVMQVkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9v
-dC91LWJvb3QvMDAwMS1hbTMzNXhfZXZtLmgtdW5zZWQtQ09ORklHX0JPT1RERUxBWS5wYXRjaApu
-ZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwLi43MGM4N2M0Ci0tLSAvZGV2L251bGwK
-KysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LzAwMDEtYW0zMzV4X2V2bS5oLXVu
-c2VkLUNPTkZJR19CT09UREVMQVkucGF0Y2gKQEAgLTAsMCArMSwzNCBAQAorRnJvbSA3MjA1NDQy
-ZTYyMWRiNTRlYTA2YzNiY2EyZDc5M2UxYWUyMjE0ZjljIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbTogVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KK0RhdGU6IFRodSwgMTAgRGVj
-IDIwMTUgMTY6NDY6MDEgLTA1MDAKK1N1YmplY3Q6IFtQQVRDSF0gYW0zMzV4X2V2bS5oOiB1bnNl
-ZCBDT05GSUdfQk9PVERFTEFZCisKK05vdyB0aGF0IHRpX2FybXY3X2NvbW1vbi5oIHVzZXMgY29u
-ZmlnX2Rpc3Ryb19kZWZhdWx0cy5oIHdlIGRvbid0IG5lZWQKK3RvIGluY2x1ZGUgaXQgYWdhaW4g
-YW5kIHRoZW4gdW5kZWYgQ09ORklHX0JPT1RERUxBWQorCitTaWduZWQtb2ZmLWJ5OiBUb20gUmlu
-aSA8dHJpbmlAa29uc3Vsa28uY29tPgorCitVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0CisKKy0t
-LQorIGluY2x1ZGUvY29uZmlncy9hbTMzNXhfZXZtLmggfCA0IC0tLS0KKyAxIGZpbGUgY2hhbmdl
-ZCwgNCBkZWxldGlvbnMoLSkKKworZGlmZiAtLWdpdCBhL2luY2x1ZGUvY29uZmlncy9hbTMzNXhf
-ZXZtLmggYi9pbmNsdWRlL2NvbmZpZ3MvYW0zMzV4X2V2bS5oCitpbmRleCBjNTFkYjhjLi5jZjZh
-NjA2IDEwMDY0NAorLS0tIGEvaW5jbHVkZS9jb25maWdzL2FtMzM1eF9ldm0uaAorKysrIGIvaW5j
-bHVkZS9jb25maWdzL2FtMzM1eF9ldm0uaAorQEAgLTE4LDEwICsxOCw2IEBACisKKyAjaW5jbHVk
-ZSA8Y29uZmlncy90aV9hbTMzNXhfY29tbW9uLmg+CisKKy0vKiBEb24ndCBvdmVycmlkZSB0aGUg
-ZGlzdHJvIGRlZmF1bHQgYm9vdGRlbGF5ICovCistI3VuZGVmIENPTkZJR19CT09UREVMQVkKKy0j
-aW5jbHVkZSA8Y29uZmlnX2Rpc3Ryb19kZWZhdWx0cy5oPgorLQorICNpZm5kZWYgQ09ORklHX1NQ
-TF9CVUlMRAorICNpZm5kZWYgQ09ORklHX0ZJVAorICMgZGVmaW5lIENPTkZJR19GSVQKKy0tCisy
-LjcuMAorCi0tIAoyLjcuMAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIEZpbmxhbmQgT3kKUmVnaXN0ZXJl
-ZCBBZGRyZXNzOiBQTCAyODEsIDAwMTgxIEhlbHNpbmtpIApCdXNpbmVzcyBJZGVudGl0eSBDb2Rl
-OiAwMzU3NjA2IC0gNCAKRG9taWNpbGVkIGluIEhlbHNpbmtpIAoKVGhpcyBlLW1haWwgYW5kIGFu
-eSBhdHRhY2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwgZm9yCnRoZSBz
-b2xlIHVzZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3Ry
-aWJ1dGlvbgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3Qg
-dGhlIGludGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhlIHNlbmRlciBhbmQgZGVs
-ZXRlIGFsbCBjb3BpZXMuCg==
+libsdl2 was using foo.o in Makefile dependencies but if libtool is
+being used then those are the statically linked intermediate files. 
+ When static libraries are globally disabled they won't be generated by
+libtool so the build fails.
+
+Instead, use the libtool intermediate wrapper .lo files so the build
+succeeds.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/linkage.patch b/meta/recipes-graphics/libsdl2/libsdl2/linkage.patch
+new file mode 100644
+index 0000000..08315e7
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/linkage.patch
+@@ -0,0 +1,46 @@
++When building use the libtool intermediate .lo files instead of explicitly using
++the .o files. Under libtool foo.lo is the libtool intermediate wrapper, foo.o is
++a static build, and .libs/foo.o is a shared build.
++
++If static libraries have been disabled globally then libtool won't generate them
++and explicit references to foo.o won't be satisfied.
++
++Upstream-Status: Pending
++RP
++2016/1/16
++
++
++Index: SDL2-2.0.3/configure.in
++===================================================================
++--- SDL2-2.0.3.orig/configure.in
+++++ SDL2-2.0.3/configure.in
++@@ -3136,23 +3136,23 @@ done
++ 
++ VERSION_OBJECTS=`echo $VERSION_SOURCES`
++ VERSION_DEPENDS=`echo $VERSION_SOURCES`
++-VERSION_OBJECTS=`echo "$VERSION_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.rc,$(objects)/\1.o,g'`
+++VERSION_OBJECTS=`echo "$VERSION_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.rc,$(objects)/\1.lo,g'`
++ VERSION_DEPENDS=`echo "$VERSION_DEPENDS" | sed "s,\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.rc,\\\\
++-\\$(objects)/\\2.o: \\1/\\2.rc\\\\
+++\\$(objects)/\\2.lo: \\1/\\2.rc\\\\
++ 	\\$(WINDRES) \\$< \\$@,g"`
++ 
++ SDLMAIN_OBJECTS=`echo $SDLMAIN_SOURCES`
++ SDLMAIN_DEPENDS=`echo $SDLMAIN_SOURCES`
++-SDLMAIN_OBJECTS=`echo "$SDLMAIN_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.c,$(objects)/\1.o,g'`
+++SDLMAIN_OBJECTS=`echo "$SDLMAIN_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.c,$(objects)/\1.lo,g'`
++ SDLMAIN_DEPENDS=`echo "$SDLMAIN_DEPENDS" | sed "s,\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.c,\\\\
++-\\$(objects)/\\2.o: \\1/\\2.c\\\\
+++\\$(objects)/\\2.lo: \\1/\\2.c\\\\
++ 	\\$(LIBTOOL) --mode=compile \\$(CC) \\$(CFLAGS) \\$(EXTRA_CFLAGS) $DEPENDENCY_TRACKING_OPTIONS -c \\$< -o \\$@,g"`
++ 
++ SDLTEST_OBJECTS=`echo $SDLTEST_SOURCES`
++ SDLTEST_DEPENDS=`echo $SDLTEST_SOURCES`
++-SDLTEST_OBJECTS=`echo "$SDLTEST_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.c,$(objects)/\1.o,g'`
+++SDLTEST_OBJECTS=`echo "$SDLTEST_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.c,$(objects)/\1.lo,g'`
++ SDLTEST_DEPENDS=`echo "$SDLTEST_DEPENDS" | sed "s,\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.c,\\\\
++-\\$(objects)/\\2.o: \\1/\\2.c\\\\
+++\\$(objects)/\\2.lo: \\1/\\2.c\\\\
++ 	\\$(LIBTOOL) --mode=compile \\$(CC) \\$(CFLAGS) \\$(EXTRA_CFLAGS) $DEPENDENCY_TRACKING_OPTIONS -c \\$< -o \\$@,g"`
++ 
++ # Set runtime shared library paths as needed
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+index 61d9c1e..0dc1a85 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+@@ -14,7 +14,8 @@ PROVIDES = "virtual/libsdl2"
+ 
+ DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+ 
+-SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
++SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
++           file://linkage.patch"
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+ 
+
+
 
 
