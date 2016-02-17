@@ -1,27 +1,21 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 692FF601B8
+Return-Path: <erkka.kaaria@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 53B546067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:57:50 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 17 Feb 2016 02:57:52 -0800
+	Wed, 17 Feb 2016 11:53:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2016 03:53:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,459,1449561600"; d="scan'208";a="747881980"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 17 Feb 2016 02:57:49 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 287B16A4004
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 03:45:38 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,460,1449561600"; d="scan'208";a="916809164"
+Received: from ekaaria-xps-8300.fi.intel.com ([10.237.68.35])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2016 03:53:18 -0800
+From: =?UTF-8?q?Erkka=20K=C3=A4=C3=A4ri=C3=A4?= <erkka.kaaria@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Feb 2016 13:01:11 +0200
-Message-Id: <1455706871-26812-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] busybox: drop patches that are not valid anymore
+Date: Wed, 17 Feb 2016 13:54:34 +0200
+Message-Id: <1455710074-17625-1-git-send-email-erkka.kaaria@intel.com>
+X-Mailer: git-send-email 2.7.0
+MIME-Version: 1.0
+Subject: [PATCH] uboot-inc: Backport patch to fix Beaglebone Black bootloader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,136 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 10:57:53 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 11:53:19 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-1. Removed following patches
-        a) busybox-appletlib-dependency.patch
-         - Kbuild rules handles that dependency
-        b) get_header_tar.patch
-         - tar applet uses a different code path to handle that scenario now.
-
-2. Updated the upstream-status of fail_on_no_media.patch as Denied.
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../busybox/busybox-appletlib-dependency.patch     | 37 ----------------------
- .../busybox/busybox/fail_on_no_media.patch         |  3 +-
- .../busybox/busybox/get_header_tar.patch           | 22 -------------
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  2 --
- meta/recipes-core/busybox/busybox_git.bb           |  2 --
- 5 files changed, 2 insertions(+), 64 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/busybox-appletlib-dependency.patch
- delete mode 100644 meta/recipes-core/busybox/busybox/get_header_tar.patch
-
-diff --git a/meta/recipes-core/busybox/busybox/busybox-appletlib-dependency.patch b/meta/recipes-core/busybox/busybox/busybox-appletlib-dependency.patch
-deleted file mode 100644
-index de2dbcc..0000000
---- a/meta/recipes-core/busybox/busybox/busybox-appletlib-dependency.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Upstream-Status: Pending
--
--# copy commit message from OE as the patch comment:
--#    commit 98c24291aa165f53423c27ae033831ce0b3bb676
--#    Author: Roman I Khimov <khimov@altell.ru>
--#    Date:   Thu Mar 26 23:03:58 2009 +0000
--#
--#    busybox: update appletlib dependency patch
--#    
--#    Previous version still failed from time to time on clean-start builds
--#    with 4 bitbake threads and '-j16'. Building busybox as sole target worked
--#    well.
--#    
--#    The reason is that previous version introduced a race between applets make
--#    processes spawned from top-level Makefile and from libbb Makefile.
--#    
--#    Fix it with high-level dependency that doesn't create races.
--#    
--#    Signed-off-by: Koen Kooi <koen@openembedded.org>
--#
--# above comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
--
--Index: busybox-1.13.2/Makefile
--===================================================================
----- busybox-1.13.2.orig/Makefile	2009-03-19 15:44:37.419270265 +0300
--+++ busybox-1.13.2/Makefile	2009-03-19 15:45:57.737521296 +0300
--@@ -471,6 +471,10 @@
-- 		util-linux/ \
-- 		util-linux/volume_id/ \
-- 
--+# Lib interdeps
--+# libbb uses headers generated in applets
--+libbb: applets
--+
-- endif # KBUILD_EXTMOD
-- 
-- ifeq ($(dot-config),1)
-diff --git a/meta/recipes-core/busybox/busybox/fail_on_no_media.patch b/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
-index 6745f16..820acc2 100644
---- a/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
-+++ b/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
-@@ -1,4 +1,5 @@
--Upstream-Status: Pending
-+Upstream-Status: Denied
-+[https://www.mail-archive.com/busybox@busybox.net/msg22354.html]
- 
- The current behaviour of busybox is to try all fstype when automounting
- even when no media exists.  The util-linux mount command bails when no
-diff --git a/meta/recipes-core/busybox/busybox/get_header_tar.patch b/meta/recipes-core/busybox/busybox/get_header_tar.patch
-deleted file mode 100644
-index 0e528ff..0000000
---- a/meta/recipes-core/busybox/busybox/get_header_tar.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Upstream-Status: Pending
--
--# copy commit message from OE as the patch comment:
--#    commit 5a0e1d473ca7aca5ffefffe9a2ec44ae7a1f35bc
--#    Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
--#    Date:   Wed Feb 11 22:40:21 2009 +0100
--#
--#    busybox: fix tar problem with filenames that are exactly 100 bytes
--#
--# above comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
--
----- busybox-1.13.2/archival/libarchive/get_header_tar.c.orig	2008-11-09 18:28:02.000000000 +0100
--+++ busybox-1.13.2/archival/libarchive/get_header_tar.c	2009-02-11 22:34:52.000000000 +0100
--@@ -252,6 +252,8 @@
-- 			file_header->name = concat_path_file(tar.prefix, tar.name);
-- 		} else
-- 			file_header->name = xstrdup(tar.name);
--+		if (strlen(file_header->name) > 100) 
--+			file_header->name[100] = 0;
-- 	}
-- 
-- 	/* Set bits 12-15 of the files mode */
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index 72c5c79..174ca47 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -1,8 +1,6 @@
- require busybox.inc
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
--           file://get_header_tar.patch \
--           file://busybox-appletlib-dependency.patch \
-            file://busybox-udhcpc-no_deconfig.patch \
-            file://find-touchscreen.sh \
-            file://busybox-cron \
-diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index e590543..ae16b59 100644
---- a/meta/recipes-core/busybox/busybox_git.bb
-+++ b/meta/recipes-core/busybox/busybox_git.bb
-@@ -7,8 +7,6 @@ PV = "1.25.0+git${SRCPV}"
- S = "${WORKDIR}/git"
- 
- SRC_URI = "git://busybox.net/busybox.git \
--           file://get_header_tar.patch \
--           file://busybox-appletlib-dependency.patch \
-            file://busybox-udhcpc-no_deconfig.patch \
-            file://find-touchscreen.sh \
-            file://busybox-cron \
--- 
-2.4.0
+QmVhZ2xlYm9uZSBCbGFjayBib290IHN0YXJ0ZWQgZmFpbGluZyBhZnRlciB1cHN0cmVhbSBwYXRj
+aCA3NTUzMjRjNDMyZiwgYW5kIHdhcwpmaXhlZCBpbiA3MjA1NDQyZTYuIFVuZm9ydHVuYXRlbHks
+IHRoZSB1LWJvb3QgdXBncmFkZSBmcm9tIDIwMTUuMTAgdG8gMjAxNi4wMQpvbmx5IGluY2x1ZGVz
+IHRoZSBmb3JtZXIgcGF0Y2guIFRoZSBsYXR0ZXIgcGF0Y2ggaXMgYmFja3BvcnRlZCB0byBmaXgg
+dGhpcy4KClNpZ25lZC1vZmYtYnk6IEVya2thIEvDpMOkcmnDpCA8ZXJra2Eua2FhcmlhQGludGVs
+LmNvbT4KLS0tCiBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jICAgICAgICAgICAg
+ICAgICB8ICAzICstCiAuLi4vMDAwMS1hbTMzNXhfZXZtLmgtdW5zZWQtQ09ORklHX0JPT1RERUxB
+WS5wYXRjaCB8IDM0ICsrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMzYg
+aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
+aXBlcy1ic3AvdS1ib290L3UtYm9vdC8wMDAxLWFtMzM1eF9ldm0uaC11bnNlZC1DT05GSUdfQk9P
+VERFTEFZLnBhdGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290
+LmluYyBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMKaW5kZXggNDFlYjIwNS4u
+YWM4ZjMzOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYwor
+KysgYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jCkBAIC02LDcgKzYsOCBAQCBQ
+Uk9WSURFUyA9ICJ2aXJ0dWFsL2Jvb3Rsb2FkZXIiCiBMSUNFTlNFID0gIkdQTHYyKyIKIExJQ19G
+SUxFU19DSEtTVU0gPSAiZmlsZTovL0xpY2Vuc2VzL1JFQURNRTttZDU9MDUwN2NkN2RhOGU3YWQ2
+ZDY3MDE5MjZlYzliODRjOTUiCiAKLVNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LmRlbnguZGUvdS1ib290
+LmdpdDticmFuY2g9bWFzdGVyIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXQuZGVueC5kZS91LWJvb3Qu
+Z2l0O2JyYW5jaD1tYXN0ZXIgXAorICAgICAgICAgICBmaWxlOi8vMDAwMS1hbTMzNXhfZXZtLmgt
+dW5zZWQtQ09ORklHX0JPT1RERUxBWS5wYXRjaCIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIApk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LzAwMDEtYW0zMzV4X2V2
+bS5oLXVuc2VkLUNPTkZJR19CT09UREVMQVkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9v
+dC91LWJvb3QvMDAwMS1hbTMzNXhfZXZtLmgtdW5zZWQtQ09ORklHX0JPT1RERUxBWS5wYXRjaApu
+ZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwLi43MGM4N2M0Ci0tLSAvZGV2L251bGwK
+KysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LzAwMDEtYW0zMzV4X2V2bS5oLXVu
+c2VkLUNPTkZJR19CT09UREVMQVkucGF0Y2gKQEAgLTAsMCArMSwzNCBAQAorRnJvbSA3MjA1NDQy
+ZTYyMWRiNTRlYTA2YzNiY2EyZDc5M2UxYWUyMjE0ZjljIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbTogVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KK0RhdGU6IFRodSwgMTAgRGVj
+IDIwMTUgMTY6NDY6MDEgLTA1MDAKK1N1YmplY3Q6IFtQQVRDSF0gYW0zMzV4X2V2bS5oOiB1bnNl
+ZCBDT05GSUdfQk9PVERFTEFZCisKK05vdyB0aGF0IHRpX2FybXY3X2NvbW1vbi5oIHVzZXMgY29u
+ZmlnX2Rpc3Ryb19kZWZhdWx0cy5oIHdlIGRvbid0IG5lZWQKK3RvIGluY2x1ZGUgaXQgYWdhaW4g
+YW5kIHRoZW4gdW5kZWYgQ09ORklHX0JPT1RERUxBWQorCitTaWduZWQtb2ZmLWJ5OiBUb20gUmlu
+aSA8dHJpbmlAa29uc3Vsa28uY29tPgorCitVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0CisKKy0t
+LQorIGluY2x1ZGUvY29uZmlncy9hbTMzNXhfZXZtLmggfCA0IC0tLS0KKyAxIGZpbGUgY2hhbmdl
+ZCwgNCBkZWxldGlvbnMoLSkKKworZGlmZiAtLWdpdCBhL2luY2x1ZGUvY29uZmlncy9hbTMzNXhf
+ZXZtLmggYi9pbmNsdWRlL2NvbmZpZ3MvYW0zMzV4X2V2bS5oCitpbmRleCBjNTFkYjhjLi5jZjZh
+NjA2IDEwMDY0NAorLS0tIGEvaW5jbHVkZS9jb25maWdzL2FtMzM1eF9ldm0uaAorKysrIGIvaW5j
+bHVkZS9jb25maWdzL2FtMzM1eF9ldm0uaAorQEAgLTE4LDEwICsxOCw2IEBACisKKyAjaW5jbHVk
+ZSA8Y29uZmlncy90aV9hbTMzNXhfY29tbW9uLmg+CisKKy0vKiBEb24ndCBvdmVycmlkZSB0aGUg
+ZGlzdHJvIGRlZmF1bHQgYm9vdGRlbGF5ICovCistI3VuZGVmIENPTkZJR19CT09UREVMQVkKKy0j
+aW5jbHVkZSA8Y29uZmlnX2Rpc3Ryb19kZWZhdWx0cy5oPgorLQorICNpZm5kZWYgQ09ORklHX1NQ
+TF9CVUlMRAorICNpZm5kZWYgQ09ORklHX0ZJVAorICMgZGVmaW5lIENPTkZJR19GSVQKKy0tCisy
+LjcuMAorCi0tIAoyLjcuMAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIEZpbmxhbmQgT3kKUmVnaXN0ZXJl
+ZCBBZGRyZXNzOiBQTCAyODEsIDAwMTgxIEhlbHNpbmtpIApCdXNpbmVzcyBJZGVudGl0eSBDb2Rl
+OiAwMzU3NjA2IC0gNCAKRG9taWNpbGVkIGluIEhlbHNpbmtpIAoKVGhpcyBlLW1haWwgYW5kIGFu
+eSBhdHRhY2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwgZm9yCnRoZSBz
+b2xlIHVzZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3Ry
+aWJ1dGlvbgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3Qg
+dGhlIGludGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhlIHNlbmRlciBhbmQgZGVs
+ZXRlIGFsbCBjb3BpZXMuCg==
 
 
