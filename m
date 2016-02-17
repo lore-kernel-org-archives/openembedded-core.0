@@ -1,29 +1,31 @@
 Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 56EA1612E5
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1867F612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 15:42:01 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1HFg1VD010631; Wed, 17 Feb 2016 09:42:01 -0600
+	Wed, 17 Feb 2016 15:42:02 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u1HFg2Jc006719; Wed, 17 Feb 2016 09:42:02 -0600
 Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016021709420152-1082884 ;
-	Wed, 17 Feb 2016 09:42:01 -0600 
+	HF1218) with ESMTP id 2016021709420258-1082885 ;
+	Wed, 17 Feb 2016 09:42:02 -0600 
 From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Feb 2016 17:41:33 +0200
-Message-Id: <cover.1455721437.git.adrian.ratiu@ni.com>
+Date: Wed, 17 Feb 2016 17:41:34 +0200
+Message-Id: <4f6d1557ea54d7fb7453684b79bf458547f3035f.1455721437.git.adrian.ratiu@ni.com>
 X-Mailer: git-send-email 2.7.1
+In-Reply-To: <cover.1455721437.git.adrian.ratiu@ni.com>
+References: <cover.1455721437.git.adrian.ratiu@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/17/2016 09:42:01 AM,
+	8.5.3FP6 HF1218|December 12, 2014) at 02/17/2016 09:42:02 AM,
 	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/17/2016 09:42:01 AM,
-	Serialize complete at 02/17/2016 09:42:01 AM
+	HF1218|December 12, 2014) at 02/17/2016 09:42:03 AM,
+	Serialize complete at 02/17/2016 09:42:03 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2016-02-17_09:, , signatures=0
-Subject: [PATCH v5 0/3] IPK signing for the gpg_sign module
+Subject: [PATCH v5 1/3] gpg_sign: add local ipk package signing functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +38,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 15:42:02 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 15:42:03 -0000
 
-This patch series extends the gpg_sign module to support ipk signing.
+Implement local ipk signing logic inside the gpg backend and add a new
+bbclass which configures signing similar to how rpm does it.
 
-v5 is a rebase on top of Markus' refactoring of the gpg_sign module.
-Most notably signature types have been reworked to function parameters
-with default values in accordance with the refactoring.
+The ipk signing process is a bit different from rpm:
+    - Signatures are stored outside ipk files; opkg connects to a feed
+server and downloads them to verify a package.
+    - Signatures are of two types (both supported by opkg): binary or
+ascii armoured. By default we sign using ascii armoured.
+    - Public keys are stored on targets to verify ipks using the
+opkg-keyrings recipe.
 
-Ioan-Adrian Ratiu (3):
-  gpg_sign: add local ipk package signing functionality
-  gpg_sign: detached_sign: add signature type support
-  package_manager: sign IPK package feeds
-
- meta/classes/package_ipk.bbclass       |  6 ++++
- meta/classes/sign_ipk.bbclass          | 55 ++++++++++++++++++++++++++++++++++
- meta/classes/sign_package_feed.bbclass | 10 ++++++-
- meta/lib/oe/gpg_sign.py                | 45 ++++++++++++++++++++++++++--
- meta/lib/oe/package_manager.py         | 17 +++++++++--
- 5 files changed, 128 insertions(+), 5 deletions(-)
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/classes/package_ipk.bbclass |  6 +++++
+ meta/classes/sign_ipk.bbclass    | 55 ++++++++++++++++++++++++++++++++++++++++
+ meta/lib/oe/gpg_sign.py          | 39 ++++++++++++++++++++++++++++
+ 3 files changed, 100 insertions(+)
  create mode 100644 meta/classes/sign_ipk.bbclass
 
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 51bee28..4f5bbd0 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -246,6 +246,12 @@ python do_package_ipk () {
+             bb.utils.unlockfile(lf)
+             raise bb.build.FuncFailed("opkg-build execution failed")
+ 
++        if d.getVar('IPK_SIGN_PACKAGES', True) == '1':
++            ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
++            ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH', True))
++            d.setVar('IPK_TO_SIGN', ipk_to_sign)
++            bb.build.exec_func("sign_ipk", d)
++
+         cleanupcontrol(root)
+         bb.utils.unlockfile(lf)
+ 
+diff --git a/meta/classes/sign_ipk.bbclass b/meta/classes/sign_ipk.bbclass
+new file mode 100644
+index 0000000..cb22bb4
+--- /dev/null
++++ b/meta/classes/sign_ipk.bbclass
+@@ -0,0 +1,55 @@
++# Class for generating signed IPK packages.
++#
++# Configuration variables used by this class:
++# IPK_GPG_PASSPHRASE_FILE
++#           Path to a file containing the passphrase of the signing key.
++# IPK_GPG_NAME
++#           Name of the key to sign with.
++# IPK_GPG_BACKEND
++#           Optional variable for specifying the backend to use for signing.
++#           Currently the only available option is 'local', i.e. local signing
++#           on the build host.
++# IPK_GPG_SIGNATURE_TYPE
++#           Optional variable for specifying the type of gpg signatures, can be:
++#                     1. Ascii armored (ASC), default if not set
++#                     2. Binary (BIN)
++# GPG_BIN
++#           Optional variable for specifying the gpg binary/wrapper to use for
++#           signing.
++# GPG_PATH
++#           Optional variable for specifying the gnupg "home" directory:
++#
++
++inherit sanity
++
++IPK_SIGN_PACKAGES = '1'
++IPK_GPG_BACKEND ?= 'local'
++IPK_GPG_SIGNATURE_TYPE ?= 'ASC'
++
++python () {
++    # Check configuration
++    for var in ('IPK_GPG_NAME', 'IPK_GPG_PASSPHRASE_FILE'):
++        if not d.getVar(var, True):
++            raise_sanity_error("You need to define %s in the config" % var, d)
++
++    sigtype = d.getVar("IPK_GPG_SIGNATURE_TYPE", True)
++    if sigtype.upper() != "ASC" and sigtype.upper() != "BIN":
++        raise_sanity_error("Bad value for IPK_GPG_SIGNATURE_TYPE (%s), use either ASC or BIN" % sigtype)
++}
++
++python sign_ipk () {
++    from oe.gpg_sign import get_signer
++
++    ipk_file = d.getVar('IPK_TO_SIGN')
++    bb.debug(1, 'Signing ipk: %s' % ipk_file)
++
++    signer = get_signer(d, d.getVar('IPK_GPG_BACKEND', True))
++
++    sig_type = d.getVar('IPK_GPG_SIGNATURE_TYPE', True)
++    is_ascii_sig = (sig_type.upper() != "BIN")
++
++    signer.sign_ipk(ipk_file,
++                    d.getVar('IPK_GPG_NAME', True),
++                    d.getVar('IPK_GPG_PASSPHRASE_FILE', True),
++                    is_ascii_sig)
++}
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index ada1b2f..138499b 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -1,5 +1,6 @@
+ """Helper module for GPG signing"""
+ import os
++import sys
+ 
+ import bb
+ import oe.utils
+@@ -50,6 +51,44 @@ class LocalSigner(object):
+             bb.error('rpmsign failed: %s' % proc.before.strip())
+             raise bb.build.FuncFailed("Failed to sign RPM packages")
+ 
++    def sign_ipk(self, ipkfile, keyid, passphrase_file, armor=True):
++        """Sign IPK files"""
++        import subprocess
++        from subprocess import Popen
++
++        cmd = [self.gpg_bin, "-q", "--batch", "--yes", "-b", "-u", keyid]
++        if self.gpg_path:
++            cmd += ["--homedir", self.gpg_path]
++        if armor:
++            cmd += ["--armor"]
++
++        try:
++            keypipe = os.pipe()
++
++            # Need to add '\n' in case the passfile does not have it
++            with open(passphrase_file) as fobj:
++                os.write(keypipe[1], fobj.readline() + '\n')
++
++            cmd += ["--passphrase-fd",  str(keypipe[0])]
++            cmd += [ipkfile]
++
++            gpg_proc = Popen(cmd, stdin=subprocess.PIPE)
++            gpg_proc.wait()
++
++            os.close(keypipe[1]);
++            os.close(keypipe[0]);
++
++        except IOError as e:
++            bb.error("IO error ({0}): {1}".format(e.errno, e.strerror))
++            raise bb.build.FuncFailed("Failed to sign IPK packages")
++        except OSError as e:
++            bb.error("OS error ({0}): {1}".format(e.errno, e.strerror))
++            raise bb.build.FuncFailed("Failed to sign IPK packages")
++        except:
++            bb.error("Unexpected error: {1}".format(sys.exc_info()[0]))
++            raise bb.build.FuncFailed("Failed to sign IPK packages")
++
++
+     def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
+         """Create a detached signature of a file"""
+         import subprocess
 -- 
 2.7.1
 
