@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E5058731B0
+	by mail.openembedded.org (Postfix) with ESMTP id E7D5D731A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:09:36 +0000 (UTC)
+	Wed, 17 Feb 2016 10:12:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1HA9aW8007056 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:09:36 GMT
+	u1HACNJt007197 for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 10:12:56 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jprFSL27_RTR
+	with LMTP id hufOAiY2Q8q5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:09:36 +0000 (GMT)
+	Wed, 17 Feb 2016 10:12:56 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1HA9UqU007052
+	u1HACpAD007216
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 10:09:32 GMT
-Message-ID: <1455703770.28376.38.camel@linuxfoundation.org>
+	Wed, 17 Feb 2016 10:12:53 GMT
+Message-ID: <1455703971.28376.39.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Feb 2016 10:09:30 +0000
+Date: Wed, 17 Feb 2016 10:12:51 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] debianutils: Fix SRC_URI to use debian snapshot
+Subject: [PATCH] debianutils: Upgrade 4.5.1 -> 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Feb 2016 10:09:37 -0000
+X-List-Received-Date: Wed, 17 Feb 2016 10:13:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This allows checkuri to pass since the old version is no longer in the 
-debian pool.
+Tarball now uses the standard ${BPN}-${PV} so drop custom S setting.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../debianutils/{debianutils_4.5.1.bb => debianutils_4.7.bb}      | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/debianutils/{debianutils_4.5.1.bb => debianutils_4.7.bb} (85%)
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.5.1.bb b/meta/recipes-support/debianutils/debianutils_4.5.1.bb
-index 77ab6da..884d4bd 100644
+diff --git a/meta/recipes-support/debianutils/debianutils_4.5.1.bb b/meta/recipes-support/debianutils/debianutils_4.7.bb
+similarity index 85%
+rename from meta/recipes-support/debianutils/debianutils_4.5.1.bb
+rename to meta/recipes-support/debianutils/debianutils_4.7.bb
+index 884d4bd..6a1d5bf 100644
 --- a/meta/recipes-support/debianutils/debianutils_4.5.1.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.5.1.bb
-@@ -3,7 +3,10 @@ SECTION = "base"
++++ b/meta/recipes-support/debianutils/debianutils_4.7.bb
+@@ -3,15 +3,13 @@ SECTION = "base"
  LICENSE = "GPLv2 & SMAIL_GPL"
  LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
  
--SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20151006T155028Z//pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-+# the package is taken from snapshots.debian.org; that source is static and goes stale
-+# so we check the latest upstream from a directory that does get updated
-+UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20151006T155028Z//pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "http://snapshot.debian.org/archive/debian/20160204T040501Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
  
- SRC_URI[md5sum] = "487524518cd5833a6a4f7007b5d1bd5b"
- SRC_URI[sha256sum] = "a531c23e0105fe01cfa928457a8343a1e947e2621b3cd4d05f4e9656020c63b7"
-
+-SRC_URI[md5sum] = "487524518cd5833a6a4f7007b5d1bd5b"
+-SRC_URI[sha256sum] = "a531c23e0105fe01cfa928457a8343a1e947e2621b3cd4d05f4e9656020c63b7"
+-
+-S = "${WORKDIR}/${BPN}"
++SRC_URI[md5sum] = "00186f527b35e2cecd4db593c6d512d0"
++SRC_URI[sha256sum] = "a269cacd40f52f2fa5d5636357714a49e8538459c16d77772efaa23711fe53d9"
+ 
+ inherit autotools update-alternatives
+ 
 
 
