@@ -1,26 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 27FEA75C51
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 36E1A6FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 05:28:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1I5SdqO013555
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Feb 2016 21:28:39 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 17 Feb 2016 21:28:38 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Feb 2016 13:29:04 +0800
-Message-ID: <2771d0bb9cb36f31c9b7737bf83bcf919cb31e9d.1455772181.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1455772181.git.Qi.Chen@windriver.com>
-References: <cover.1455772181.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 5/5] cups: upgrade to 2.1.3
+	Thu, 18 Feb 2016 06:46:40 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Feb 2016 22:46:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,464,1449561600"; d="scan'208";a="915547015"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2016 22:46:40 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Feb 2016 08:46:39 +0200
+Message-Id: <1455777999-14641-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] cml1.bbclass: fix do_menuconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 05:28:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Feb 2016 06:46:41 -0000
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+The functionality got broken after bitbake commit
+8bf33a8e92c0e188fa392030025756196c96fcbb
+which disabled the (bitbake) variable expansion inside python functions.
+
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-extended/cups/cups.inc                         | 2 +-
- meta/recipes-extended/cups/{cups_2.0.4.bb => cups_2.1.3.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/cups/{cups_2.0.4.bb => cups_2.1.3.bb} (40%)
+ meta/classes/cml1.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 3f81e2c..4b2d214 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -3,7 +3,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2"
- DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb"
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 95cf584..4067dc0 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -26,7 +26,8 @@ python do_menuconfig() {
+     except OSError:
+         mtime = 0
  
--SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
-+SRC_URI = "https://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
-            file://use_echo_only_in_init.patch \
-            file://0001-don-t-try-to-run-generated-binaries.patch \
-            file://cups_serverbin.patch \
-diff --git a/meta/recipes-extended/cups/cups_2.0.4.bb b/meta/recipes-extended/cups/cups_2.1.3.bb
-similarity index 40%
-rename from meta/recipes-extended/cups/cups_2.0.4.bb
-rename to meta/recipes-extended/cups/cups_2.1.3.bb
-index bad73b3..aef211d 100644
---- a/meta/recipes-extended/cups/cups_2.0.4.bb
-+++ b/meta/recipes-extended/cups/cups_2.1.3.bb
-@@ -2,5 +2,5 @@ require cups.inc
+-    oe_terminal("${SHELL} -c \"make ${KCONFIG_CONFIG_COMMAND}; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
++    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
++                d.getVar('PN', True ) + ' Configuration', d)
  
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6c5a350596fba02754bd96eb6df3afd0"
- 
--SRC_URI[md5sum] = "f5c847d9a4fac6c4c66fb0526a7afaae"
--SRC_URI[sha256sum] = "e1d5e68d9f24faca317aeaebc164c34102813bc0f1d69c00b3a59b49c49f4abd"
-+SRC_URI[md5sum] = "62b8fafd590e75f72316915790b0850a"
-+SRC_URI[sha256sum] = "36a70d43584aea2617da914b9331e23341c3501a8254c4d2eae9c11ec01fd4d3"
+     # FIXME this check can be removed when the minimum bitbake version has been bumped
+     if hasattr(bb.build, 'write_taint'):
 -- 
-1.9.1
+2.6.2
 
 
