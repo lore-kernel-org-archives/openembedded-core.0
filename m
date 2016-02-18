@@ -1,26 +1,34 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF71F731A9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EC28B763A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 21:56:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1ILuOA7026525
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Feb 2016 13:56:24 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 18 Feb 2016 13:56:24 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Feb 2016 16:56:23 -0500
-Message-ID: <5c474443530545e9527c4dde835cbb5da59cd192.1455832352.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1455832352.git.bruce.ashfield@windriver.com>
-References: <cover.1455832352.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto/4.1: capabilities backports
+	Thu, 18 Feb 2016 22:54:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1IMsDeM011066; Thu, 18 Feb 2016 22:54:13 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nUBicbauCgUV; Thu, 18 Feb 2016 22:54:13 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1IMs9Qq011063
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 18 Feb 2016 22:54:10 GMT
+Message-ID: <1455836049.28376.99.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+Date: Thu, 18 Feb 2016 22:54:09 +0000
+In-Reply-To: <CAJ86T=WUd+Zi5feRe4iVShnkj5qdFHTPM42NCthbZc5-RrjcXg@mail.gmail.com>
+References: <1455823285-32028-1-git-send-email-armccurdy@gmail.com>
+	<1455823285-32028-3-git-send-email-armccurdy@gmail.com>
+	<CA+chaQcvFnZAjNKCsc3xvPq36zPWXK5xrmi+goTonnu-i4j7sQ@mail.gmail.com>
+	<2046956.ogQECgGtmI@peggleto-mobl.ger.corp.intel.com>
+	<CAJ86T=WUd+Zi5feRe4iVShnkj5qdFHTPM42NCthbZc5-RrjcXg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libsoup-2.4: disable libsoup-gnome by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 21:56:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Feb 2016 22:54:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Backporting the following upstream commits to the 4.1 yocto tree:
+On Thu, 2016-02-18 at 13:33 -0800, Andre McCurdy wrote:
+> Aside from automated detection of such problems, what's the best fix
+> in this particular case?
+> 
+>   1) Use LEAD_SONAME to force renaming, even in the case when the
+> libsoup-2.4 package contains both shared libs.
+> 
+>   2) Split libsoup-gnome-2.4 into it's own package, so that both
+> libsoup-2.4 and libsoup-gnome-2.4 get renamed.
+> 
+>   3) Use DEBIAN_NOAUTONAME to prevent renaming, even when the
+> libsoup-2.4 package only contains one shared lib.
 
-   bdf4565e5dcc capabilities: add a securebit to disable PR_CAP_AMBIENT_RAISE
-   2483c95caedc selftests/capabilities: Add tests for capability evolution
-   4c274aa74e5d capabilities: ambient capabilities
+Probably 3) IMO, its what several other packages do.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+>   4) Drop the gnome PACKAGECONFIG option so that people can't mess
+> with it (in combination with one of the above).
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 52a8a7f33542..3dd8959895df 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -2,7 +2,7 @@ KBRANCH ?= "standard/preempt-rt/base"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "c0e9b50e9f871ae73a3efafebf2fe1ceb0adbe85"
-+SRCREV_machine ?= "132d72a980837eccc082d5dfb9c5eb5596611b0b"
- SRCREV_meta ?= "79dbb64d9e179718369a7a5c7b364fda9936571f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index d0970cb4c86d..4fde066eebbc 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.17"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "a5327464dad92042f79dd5fb12523d16780980fb"
-+SRCREV_machine ?= "bdf4565e5dcc1ad65e26cebdff7bf427289f1d61"
- SRCREV_meta ?= "79dbb64d9e179718369a7a5c7b364fda9936571f"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 12e1b82029ed..9f3ad5c66381 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "5f2bc8d122ac2247d5a01025f73d09ae723efb21"
--SRCREV_machine_qemuarm64 ?= "a5327464dad92042f79dd5fb12523d16780980fb"
--SRCREV_machine_qemumips ?= "6e4bc756e0289b9f1869bfb5d84f033df2437d0b"
--SRCREV_machine_qemuppc ?= "a5327464dad92042f79dd5fb12523d16780980fb"
--SRCREV_machine_qemux86 ?= "a5327464dad92042f79dd5fb12523d16780980fb"
--SRCREV_machine_qemux86-64 ?= "a5327464dad92042f79dd5fb12523d16780980fb"
--SRCREV_machine_qemumips64 ?= "e83d6e6fcfc04591109e470e55532d25a2a1bef1"
--SRCREV_machine ?= "a5327464dad92042f79dd5fb12523d16780980fb"
-+SRCREV_machine_qemuarm ?= "fc38bc54e15ab2943507b63e740c576f5537fbc0"
-+SRCREV_machine_qemuarm64 ?= "bdf4565e5dcc1ad65e26cebdff7bf427289f1d61"
-+SRCREV_machine_qemumips ?= "d7d76bf246979d635990a05961886292ddcb5600"
-+SRCREV_machine_qemuppc ?= "bdf4565e5dcc1ad65e26cebdff7bf427289f1d61"
-+SRCREV_machine_qemux86 ?= "bdf4565e5dcc1ad65e26cebdff7bf427289f1d61"
-+SRCREV_machine_qemux86-64 ?= "bdf4565e5dcc1ad65e26cebdff7bf427289f1d61"
-+SRCREV_machine_qemumips64 ?= "84dd3ffed15ebb59e6d396343ced2450f0f10379"
-+SRCREV_machine ?= "bdf4565e5dcc1ad65e26cebdff7bf427289f1d61"
- SRCREV_meta ?= "79dbb64d9e179718369a7a5c7b364fda9936571f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
--- 
-2.5.0
+Cheers,
 
+Richard
 
