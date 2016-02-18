@@ -1,34 +1,47 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C5BF6FFEA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D7816FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 09:29:26 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1I9TQQS024225; Thu, 18 Feb 2016 03:29:26 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016021803292626-1111300 ;
-	Thu, 18 Feb 2016 03:29:26 -0600 
-Date: Thu, 18 Feb 2016 11:28:58 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Message-ID: <20160218112858.34a11b02@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <288A0A62-7C71-4386-A4EA-FC03B4D6A05B@linux.intel.com>
-References: <cover.1455721437.git.adrian.ratiu@ni.com>
-	<4f6d1557ea54d7fb7453684b79bf458547f3035f.1455721437.git.adrian.ratiu@ni.com>
-	<288A0A62-7C71-4386-A4EA-FC03B4D6A05B@linux.intel.com>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/18/2016 03:29:26 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/18/2016 03:29:26 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-18_04:, , signatures=0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 1/3] gpg_sign: add local ipk package signing functionality
+	Thu, 18 Feb 2016 09:40:57 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id c200so17449568wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Feb 2016 01:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=4FFjkuGhDZbufbSgVRJ406fnojAtGFyo2wqcdiIK8jU=;
+	b=N2Cz7SIhjSdcJ95Xa65o6BjFiNHTxPsqUo/Ju7R416bm8R+bRpLUPmHbcpiUeBCN0R
+	W6X0fhQMNSP1P6lx0ZliRjuRi1z8vJIq32x5BBx9jLtlrNw3Gg4xzkSgWkS/nwT0Qa3r
+	tO+k6R1F8pU+WgX0MmBx+opViypRTFj6kxxw49B+S8lICW+YP6EXjri7NojP3yBUqjvx
+	ZGv5FErT+yEiSjrWbSiFDIbFdOPGvIb2eavChvIc+KytPCPL3RxWYEakeLoFQjk5OytC
+	mkkURgZcFFO3LY0d/mns5EnxX9BnN3mwpCB4GOlQr+ZMiO92v5r7pSuoxj5N8F1uDaH0
+	rBxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=4FFjkuGhDZbufbSgVRJ406fnojAtGFyo2wqcdiIK8jU=;
+	b=edOSwWiBgtZr+fO4SIzLiQhF0hGO44nSsoh9ZiHB4Jfqrli+akTZ6+5I8Jnhv43hYT
+	j2NwG+Ld3I7sq9O1xzgUnS/zxcmyJUFdQTejUKFerP1sZL70wRAAKm1rWQ7c6lPRzC3Y
+	FAdxmK7us8TZi3Q5XDa4vMMKTBBErhz51XC5wbCubKzwQ1IYfUVZIQiknqUc0hqTei2B
+	5YhkYy8NrVjw88dmPlY5PsXMz8/LGNN3aY99HZ7Ddq5grSdnmkqtbv0LSBQinoslA1ML
+	s99mNUgYpWc5vscxHNiVaf6N/T4JgDVT6x0kAfN0ZAyjQzjXrbkhs7egPGTykAQQnkVl
+	Dmzg==
+X-Gm-Message-State: AG10YORjkO60z7nrZc5Js01nB2JozjkLbz1fme6TtaPwJhj/9R7rl4ZKAJxpuh617yEUKg==
+X-Received: by 10.28.126.205 with SMTP id z196mr2203387wmc.44.1455788457714;
+	Thu, 18 Feb 2016 01:40:57 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id l7sm5688769wjx.14.2016.02.18.01.40.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Feb 2016 01:40:56 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Feb 2016 10:41:14 +0100
+Message-Id: <1455788474-13361-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.7.1
+In-Reply-To: <1454511382-8312-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1454511382-8312-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH][RESEND] gcc-5.3: backport fix for PR-target-65358
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,229 +54,343 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 09:29:27 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Feb 2016 09:40:58 -0000
 
-Hello
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-5.3.inc              |   3 +-
+ ...arget-65358-Avoid-clobbering-partial-argu.patch | 307 +++++++++++++++++++++
+ 2 files changed, 309 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch
 
-On Thu, 18 Feb 2016 11:04:22 +0200
-Markus Lehtonen <markus.lehtonen@linux.intel.com> wrote:
-
-> Hi,
->=20
->=20
->=20
-> On 17/02/16 17:41, "Ioan-Adrian Ratiu" <openembedded-core-bounces@lists.o=
-penembedded.org on behalf of adrian.ratiu@ni.com> wrote:
->=20
-> >Implement local ipk signing logic inside the gpg backend and add a new
-> >bbclass which configures signing similar to how rpm does it.
-> >
-> >The ipk signing process is a bit different from rpm:
-> >    - Signatures are stored outside ipk files; opkg connects to a feed
-> >server and downloads them to verify a package.
-> >    - Signatures are of two types (both supported by opkg): binary or
-> >ascii armoured. By default we sign using ascii armoured.
-> >    - Public keys are stored on targets to verify ipks using the
-> >opkg-keyrings recipe.
-> >
-> >Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> >---
-> > meta/classes/package=5Fipk.bbclass |  6 +++++
-> > meta/classes/sign=5Fipk.bbclass    | 55 +++++++++++++++++++++++++++++++=
-+++++++++
-> > meta/lib/oe/gpg=5Fsign.py          | 39 ++++++++++++++++++++++++++++
-> > 3 files changed, 100 insertions(+)
-> > create mode 100644 meta/classes/sign=5Fipk.bbclass
-> >
-> >diff --git a/meta/classes/package=5Fipk.bbclass b/meta/classes/package=
-=5Fipk.bbclass
-> >index 51bee28..4f5bbd0 100644
-> >--- a/meta/classes/package=5Fipk.bbclass
-> >+++ b/meta/classes/package=5Fipk.bbclass
-> >@@ -246,6 +246,12 @@ python do=5Fpackage=5Fipk () {
-> >             bb.utils.unlockfile(lf)
-> >             raise bb.build.FuncFailed("opkg-build execution failed")
-> >=20
-> >+        if d.getVar('IPK=5FSIGN=5FPACKAGES', True) =3D=3D '1':
-> >+            ipkver =3D "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
-> >+            ipk=5Fto=5Fsign =3D "%s/%s=5F%s=5F%s.ipk" % (pkgoutdir, pkg=
-name, ipkver, d.getVar('PACKAGE=5FARCH', True))
-> >+            d.setVar('IPK=5FTO=5FSIGN', ipk=5Fto=5Fsign)
-> >+            bb.build.exec=5Ffunc("sign=5Fipk", d)
-> >+
-> >         cleanupcontrol(root)
-> >         bb.utils.unlockfile(lf)
-> >=20
-> >diff --git a/meta/classes/sign=5Fipk.bbclass b/meta/classes/sign=5Fipk.b=
-bclass
-> >new file mode 100644
-> >index 0000000..cb22bb4
-> >--- /dev/null
-> >+++ b/meta/classes/sign=5Fipk.bbclass
-> >@@ -0,0 +1,55 @@
-> >+# Class for generating signed IPK packages.
-> >+#
-> >+# Configuration variables used by this class:
-> >+# IPK=5FGPG=5FPASSPHRASE=5FFILE
-> >+#           Path to a file containing the passphrase of the signing key.
-> >+# IPK=5FGPG=5FNAME
-> >+#           Name of the key to sign with.
-> >+# IPK=5FGPG=5FBACKEND
-> >+#           Optional variable for specifying the backend to use for sig=
-ning.
-> >+#           Currently the only available option is 'local', i.e. local =
-signing
-> >+#           on the build host.
-> >+# IPK=5FGPG=5FSIGNATURE=5FTYPE
-> >+#           Optional variable for specifying the type of gpg signatures=
-, can be:
-> >+#                     1. Ascii armored (ASC), default if not set
-> >+#                     2. Binary (BIN)
-> >+# GPG=5FBIN
-> >+#           Optional variable for specifying the gpg binary/wrapper to =
-use for
-> >+#           signing.
-> >+# GPG=5FPATH
-> >+#           Optional variable for specifying the gnupg "home" directory:
-> >+#
-> >+
-> >+inherit sanity
-> >+
-> >+IPK=5FSIGN=5FPACKAGES =3D '1'
-> >+IPK=5FGPG=5FBACKEND ?=3D 'local'
-> >+IPK=5FGPG=5FSIGNATURE=5FTYPE ?=3D 'ASC'
-> >+
-> >+python () {
-> >+    # Check configuration
-> >+    for var in ('IPK=5FGPG=5FNAME', 'IPK=5FGPG=5FPASSPHRASE=5FFILE'):
-> >+        if not d.getVar(var, True):
-> >+            raise=5Fsanity=5Ferror("You need to define %s in the config=
-" % var, d)
-> >+
-> >+    sigtype =3D d.getVar("IPK=5FGPG=5FSIGNATURE=5FTYPE", True)
-> >+    if sigtype.upper() !=3D "ASC" and sigtype.upper() !=3D "BIN":
-> >+        raise=5Fsanity=5Ferror("Bad value for IPK=5FGPG=5FSIGNATURE=5FT=
-YPE (%s), use either ASC or BIN" % sigtype)
-> >+}
-> >+
-> >+python sign=5Fipk () {
-> >+    from oe.gpg=5Fsign import get=5Fsigner
-> >+
-> >+    ipk=5Ffile =3D d.getVar('IPK=5FTO=5FSIGN')
-> >+    bb.debug(1, 'Signing ipk: %s' % ipk=5Ffile)
-> >+
-> >+    signer =3D get=5Fsigner(d, d.getVar('IPK=5FGPG=5FBACKEND', True))
-> >+
-> >+    sig=5Ftype =3D d.getVar('IPK=5FGPG=5FSIGNATURE=5FTYPE', True)
-> >+    is=5Fascii=5Fsig =3D (sig=5Ftype.upper() !=3D "BIN")
-> >+
-> >+    signer.sign=5Fipk(ipk=5Ffile,
-> >+                    d.getVar('IPK=5FGPG=5FNAME', True),
-> >+                    d.getVar('IPK=5FGPG=5FPASSPHRASE=5FFILE', True),
-> >+                    is=5Fascii=5Fsig)
-> >+} =20
->=20
-> To me, it would be seem more straightforward to not circulate ipk=5Fto=5F=
-sign through 'd'. Just define a regular python function like
-> def sign=5Fipk(d, ipk=5Fto=5Fsign):
->     ...
->=20
-> And then in package=5Fipk.bbclass just do "sign=5Fipk(d, ipk=5Fto=5Fsign)=
-" instead of bb.build.exec=5Ffunc("sign=5Fipk", d)"
->=20
->=20
->=20
->=20
-> >diff --git a/meta/lib/oe/gpg=5Fsign.py b/meta/lib/oe/gpg=5Fsign.py
-> >index ada1b2f..138499b 100644
-> >--- a/meta/lib/oe/gpg=5Fsign.py
-> >+++ b/meta/lib/oe/gpg=5Fsign.py
-> >@@ -1,5 +1,6 @@
-> > """Helper module for GPG signing"""
-> > import os
-> >+import sys
-> >=20
-> > import bb
-> > import oe.utils
-> >@@ -50,6 +51,44 @@ class LocalSigner(object):
-> >             bb.error('rpmsign failed: %s' % proc.before.strip())
-> >             raise bb.build.FuncFailed("Failed to sign RPM packages")
-> >=20
-> >+    def sign=5Fipk(self, ipkfile, keyid, passphrase=5Ffile, armor=3DTru=
-e):
-> >+        """Sign IPK files"""
-> >+        import subprocess
-> >+        from subprocess import Popen
-> >+
-> >+        cmd =3D [self.gpg=5Fbin, "-q", "--batch", "--yes", "-b", "-u", =
-keyid]
-> >+        if self.gpg=5Fpath:
-> >+            cmd +=3D ["--homedir", self.gpg=5Fpath]
-> >+        if armor:
-> >+            cmd +=3D ["--armor"]
-> >+
-> >+        try:
-> >+            keypipe =3D os.pipe()
-> >+
-> >+            # Need to add '\n' in case the passfile does not have it
-> >+            with open(passphrase=5Ffile) as fobj:
-> >+                os.write(keypipe[1], fobj.readline() + '\n')
-> >+
-> >+            cmd +=3D ["--passphrase-fd",  str(keypipe[0])]
-> >+            cmd +=3D [ipkfile]
-> >+
-> >+            gpg=5Fproc =3D Popen(cmd, stdin=3Dsubprocess.PIPE)
-> >+            gpg=5Fproc.wait()
-> >+
-> >+            os.close(keypipe[1]);
-> >+            os.close(keypipe[0]);
-> >+
-> >+        except IOError as e:
-> >+            bb.error("IO error ({0}): {1}".format(e.errno, e.strerror))
-> >+            raise bb.build.FuncFailed("Failed to sign IPK packages")
-> >+        except OSError as e:
-> >+            bb.error("OS error ({0}): {1}".format(e.errno, e.strerror))
-> >+            raise bb.build.FuncFailed("Failed to sign IPK packages")
-> >+        except:
-> >+            bb.error("Unexpected error: {1}".format(sys.exc=5Finfo()[0]=
-))
-> >+            raise bb.build.FuncFailed("Failed to sign IPK packages")
-> >+
-> >+
-> >     def detach=5Fsign(self, input=5Ffile, keyid, passphrase=5Ffile, pas=
-sphrase=3DNone, armor=3DTrue):
-> >         """Create a detached signature of a file"""
-> >         import subprocess =20
->=20
-> Couldn't you just use detach=5Fsign() instead of introducing sign=5Fipk()=
-. To me the functionality seems identical.
-
-The functionality is almost identical, yes, and consolidating it into one f=
-unction is a very good idea. I'll do it but I  have one question.
-
-The only diference between them is the usage in detach-sign of gpg's "--wit=
-h-passphrase" arg, and that arg seems to cause some errors on my system:
-"gpg: signing failed: Inappropriate ioctl for device"
-
-I have not managed to reliably reproduce and find the cause of this issue. =
-However, if we always open the file in python and read directly in a pipe w=
-hich
-we always pass to gpg using "--passphrase-fd", the error goes away.
-
-Is using something like the following in detach=5Fsign() ok with you?
-
-with open(passphrase=5Ffile) as fobj:
-             os.write(keypipe[1], fobj.readline() + '\n')
-
-cmd +=3D ["--passphrase-fd",  str(keypipe[0])]
-
->=20
->=20
-> Thanks,
->   Markus
->=20
->=20
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+index a522bc4..a2e347a 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+@@ -82,7 +82,8 @@ SRC_URI = "\
+            file://0050-powerpc-pass-secure-plt-to-the-linker.patch \
+            file://0051-Ignore-fdebug-prefix-map-in-producer-string-by-Danie.patch \
+            file://0052-nios2-use-ret-with-r31.patch \
+-          "
++           file://0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch \
++"
+ 
+ BACKPORTS = ""
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch b/meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch
+new file mode 100644
+index 0000000..c18f40e
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch
+@@ -0,0 +1,307 @@
++From 536b8318974495cde2b42c3c2742748e2b271be0 Mon Sep 17 00:00:00 2001
++From: ktkachov <ktkachov@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Wed, 27 May 2015 13:25:01 +0000
++Subject: [PATCH] PR target/65358 Avoid clobbering partial argument during
++ sibcall
++
++	PR target/65358
++	* expr.c (memory_load_overlap): New function.
++	(emit_push_insn): When pushing partial args to the stack would
++	clobber the register part load the overlapping part into a pseudo
++	and put it into the hard reg after pushing.  Change return type
++	to bool.  Add bool argument.
++	* expr.h (emit_push_insn): Change return type to bool.
++	Add bool argument.
++	* calls.c (expand_call): Cancel sibcall optimization when encountering
++	partial argument on targets with ARGS_GROW_DOWNWARD and
++	!STACK_GROWS_DOWNWARD.
++	(emit_library_call_value_1): Update callsite of emit_push_insn.
++	(store_one_arg): Likewise.
++
++	PR target/65358
++	* gcc.dg/pr65358.c: New test.
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@223753 138bc75d-0d04-0410-961f-82ee72b054a4
++
++Upstream-Status: Backport from 6.0
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ gcc/calls.c                    | 17 ++++++--
++ gcc/expr.c                     | 90 +++++++++++++++++++++++++++++++++++++-----
++ gcc/expr.h                     |  4 +-
++ gcc/testsuite/gcc.dg/pr65358.c | 33 ++++++++++++++++
++ 4 files changed, 129 insertions(+), 15 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.dg/pr65358.c
++
++diff --git a/gcc/calls.c b/gcc/calls.c
++index ee8ea5f..2334381 100644
++--- a/gcc/calls.c
+++++ b/gcc/calls.c
++@@ -3236,6 +3236,14 @@ expand_call (tree exp, rtx target, int ignore)
++ 	    {
++ 	      rtx_insn *before_arg = get_last_insn ();
++ 
+++	     /* On targets with weird calling conventions (e.g. PA) it's
+++		hard to ensure that all cases of argument overlap between
+++		stack and registers work.  Play it safe and bail out.  */
+++#if defined(ARGS_GROW_DOWNWARD) && !defined(STACK_GROWS_DOWNWARD)
+++		  sibcall_failure = 1;
+++		  break;
+++#endif
+++
++ 	      if (store_one_arg (&args[i], argblock, flags,
++ 				 adjusted_args_size.var != 0,
++ 				 reg_parm_stack_space)
++@@ -4279,7 +4287,7 @@ emit_library_call_value_1 (int retval, rtx orgfun, rtx value,
++ 			  partial, reg, 0, argblock,
++ 			  GEN_INT (argvec[argnum].locate.offset.constant),
++ 			  reg_parm_stack_space,
++-			  ARGS_SIZE_RTX (argvec[argnum].locate.alignment_pad));
+++			  ARGS_SIZE_RTX (argvec[argnum].locate.alignment_pad), false);
++ 
++ 	  /* Now mark the segment we just used.  */
++ 	  if (ACCUMULATE_OUTGOING_ARGS)
++@@ -4886,10 +4894,11 @@ store_one_arg (struct arg_data *arg, rtx argblock, int flags,
++ 
++       /* This isn't already where we want it on the stack, so put it there.
++ 	 This can either be done with push or copy insns.  */
++-      emit_push_insn (arg->value, arg->mode, TREE_TYPE (pval), NULL_RTX,
+++      if (!emit_push_insn (arg->value, arg->mode, TREE_TYPE (pval), NULL_RTX,
++ 		      parm_align, partial, reg, used - size, argblock,
++ 		      ARGS_SIZE_RTX (arg->locate.offset), reg_parm_stack_space,
++-		      ARGS_SIZE_RTX (arg->locate.alignment_pad));
+++		      ARGS_SIZE_RTX (arg->locate.alignment_pad), true))
+++	sibcall_failure = 1;
++ 
++       /* Unless this is a partially-in-register argument, the argument is now
++ 	 in the stack.  */
++@@ -5001,7 +5010,7 @@ store_one_arg (struct arg_data *arg, rtx argblock, int flags,
++       emit_push_insn (arg->value, arg->mode, TREE_TYPE (pval), size_rtx,
++ 		      parm_align, partial, reg, excess, argblock,
++ 		      ARGS_SIZE_RTX (arg->locate.offset), reg_parm_stack_space,
++-		      ARGS_SIZE_RTX (arg->locate.alignment_pad));
+++		      ARGS_SIZE_RTX (arg->locate.alignment_pad), false);
++ 
++       /* Unless this is a partially-in-register argument, the argument is now
++ 	 in the stack.
++diff --git a/gcc/expr.c b/gcc/expr.c
++index 5c09550..24a6293 100644
++--- a/gcc/expr.c
+++++ b/gcc/expr.c
++@@ -4121,12 +4121,35 @@ emit_single_push_insn (machine_mode mode, rtx x, tree type)
++ }
++ #endif
++ 
+++/* If reading SIZE bytes from X will end up reading from
+++   Y return the number of bytes that overlap.  Return -1
+++   if there is no overlap or -2 if we can't determine
+++   (for example when X and Y have different base registers).  */
+++
+++static int
+++memory_load_overlap (rtx x, rtx y, HOST_WIDE_INT size)
+++{
+++  rtx tmp = plus_constant (Pmode, x, size);
+++  rtx sub = simplify_gen_binary (MINUS, Pmode, tmp, y);
+++
+++  if (!CONST_INT_P (sub))
+++    return -2;
+++
+++  HOST_WIDE_INT val = INTVAL (sub);
+++
+++  return IN_RANGE (val, 1, size) ? val : -1;
+++}
+++
++ /* Generate code to push X onto the stack, assuming it has mode MODE and
++    type TYPE.
++    MODE is redundant except when X is a CONST_INT (since they don't
++    carry mode info).
++    SIZE is an rtx for the size of data to be copied (in bytes),
++    needed only if X is BLKmode.
+++   Return true if successful.  May return false if asked to push a
+++   partial argument during a sibcall optimization (as specified by
+++   SIBCALL_P) and the incoming and outgoing pointers cannot be shown
+++   to not overlap.
++ 
++    ALIGN (in bits) is maximum alignment we can assume.
++ 
++@@ -4152,11 +4175,11 @@ emit_single_push_insn (machine_mode mode, rtx x, tree type)
++    for arguments passed in registers.  If nonzero, it will be the number
++    of bytes required.  */
++ 
++-void
+++bool
++ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++ 		unsigned int align, int partial, rtx reg, int extra,
++ 		rtx args_addr, rtx args_so_far, int reg_parm_stack_space,
++-		rtx alignment_pad)
+++		rtx alignment_pad, bool sibcall_p)
++ {
++   rtx xinner;
++   enum direction stack_direction
++@@ -4179,6 +4202,10 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++ 
++   xinner = x;
++ 
+++  int nregs = partial / UNITS_PER_WORD;
+++  rtx *tmp_regs = NULL;
+++  int overlapping = 0;
+++
++   if (mode == BLKmode
++       || (STRICT_ALIGNMENT && align < GET_MODE_ALIGNMENT (mode)))
++     {
++@@ -4309,6 +4336,43 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++ 	     PARM_BOUNDARY.  Assume the caller isn't lying.  */
++ 	  set_mem_align (target, align);
++ 
+++	  /* If part should go in registers and pushing to that part would
+++	     overwrite some of the values that need to go into regs, load the
+++	     overlapping values into temporary pseudos to be moved into the hard
+++	     regs at the end after the stack pushing has completed.
+++	     We cannot load them directly into the hard regs here because
+++	     they can be clobbered by the block move expansions.
+++	     See PR 65358.  */
+++
+++	  if (partial > 0 && reg != 0 && mode == BLKmode
+++	      && GET_CODE (reg) != PARALLEL)
+++	    {
+++	      overlapping = memory_load_overlap (XEXP (x, 0), temp, partial);
+++	      if (overlapping > 0)
+++	        {
+++		  gcc_assert (overlapping % UNITS_PER_WORD == 0);
+++		  overlapping /= UNITS_PER_WORD;
+++
+++		  tmp_regs = XALLOCAVEC (rtx, overlapping);
+++
+++		  for (int i = 0; i < overlapping; i++)
+++		    tmp_regs[i] = gen_reg_rtx (word_mode);
+++
+++		  for (int i = 0; i < overlapping; i++)
+++		    emit_move_insn (tmp_regs[i],
+++				    operand_subword_force (target, i, mode));
+++	        }
+++	      else if (overlapping == -1)
+++		overlapping = 0;
+++	      /* Could not determine whether there is overlap.
+++	         Fail the sibcall.  */
+++	      else
+++		{
+++		  overlapping = 0;
+++		  if (sibcall_p)
+++		    return false;
+++		}
+++	    }
++ 	  emit_block_move (target, xinner, size, BLOCK_OP_CALL_PARM);
++ 	}
++     }
++@@ -4363,12 +4427,13 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++ 	 has a size a multiple of a word.  */
++       for (i = size - 1; i >= not_stack; i--)
++ 	if (i >= not_stack + offset)
++-	  emit_push_insn (operand_subword_force (x, i, mode),
+++	  if (!emit_push_insn (operand_subword_force (x, i, mode),
++ 			  word_mode, NULL_TREE, NULL_RTX, align, 0, NULL_RTX,
++ 			  0, args_addr,
++ 			  GEN_INT (args_offset + ((i - not_stack + skip)
++ 						  * UNITS_PER_WORD)),
++-			  reg_parm_stack_space, alignment_pad);
+++			  reg_parm_stack_space, alignment_pad, sibcall_p))
+++	    return false;
++     }
++   else
++     {
++@@ -4411,9 +4476,8 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++ 	}
++     }
++ 
++-  /* If part should go in registers, copy that part
++-     into the appropriate registers.  Do this now, at the end,
++-     since mem-to-mem copies above may do function calls.  */
+++  /* Move the partial arguments into the registers and any overlapping
+++     values that we moved into the pseudos in tmp_regs.  */
++   if (partial > 0 && reg != 0)
++     {
++       /* Handle calls that pass values in multiple non-contiguous locations.
++@@ -4421,9 +4485,15 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++       if (GET_CODE (reg) == PARALLEL)
++ 	emit_group_load (reg, x, type, -1);
++       else
++-	{
+++        {
++ 	  gcc_assert (partial % UNITS_PER_WORD == 0);
++-	  move_block_to_reg (REGNO (reg), x, partial / UNITS_PER_WORD, mode);
+++	  move_block_to_reg (REGNO (reg), x, nregs - overlapping, mode);
+++
+++	  for (int i = 0; i < overlapping; i++)
+++	    emit_move_insn (gen_rtx_REG (word_mode, REGNO (reg)
+++						    + nregs - overlapping + i),
+++			    tmp_regs[i]);
+++
++ 	}
++     }
++ 
++@@ -4432,6 +4502,8 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
++ 
++   if (alignment_pad && args_addr == 0)
++     anti_adjust_stack (alignment_pad);
+++
+++  return true;
++ }
++ 
++ /* Return X if X can be used as a subtarget in a sequence of arithmetic
++diff --git a/gcc/expr.h b/gcc/expr.h
++index 867852e..5fcc13f 100644
++--- a/gcc/expr.h
+++++ b/gcc/expr.h
++@@ -218,8 +218,8 @@ extern rtx emit_move_resolve_push (machine_mode, rtx);
++ extern rtx push_block (rtx, int, int);
++ 
++ /* Generate code to push something onto the stack, given its mode and type.  */
++-extern void emit_push_insn (rtx, machine_mode, tree, rtx, unsigned int,
++-			    int, rtx, int, rtx, rtx, int, rtx);
+++extern bool emit_push_insn (rtx, machine_mode, tree, rtx, unsigned int,
+++			    int, rtx, int, rtx, rtx, int, rtx, bool);
++ 
++ /* Expand an assignment that stores the value of FROM into TO.  */
++ extern void expand_assignment (tree, tree, bool);
++diff --git a/gcc/testsuite/gcc.dg/pr65358.c b/gcc/testsuite/gcc.dg/pr65358.c
++new file mode 100644
++index 0000000..ba89fd4
++--- /dev/null
+++++ b/gcc/testsuite/gcc.dg/pr65358.c
++@@ -0,0 +1,33 @@
+++/* { dg-do run } */
+++/* { dg-options "-O2" } */
+++
+++struct pack
+++{
+++  int fine;
+++  int victim;
+++  int killer;
+++};
+++
+++int __attribute__ ((__noinline__, __noclone__))
+++bar (int a, int b, struct pack p)
+++{
+++  if (a != 20 || b != 30)
+++    __builtin_abort ();
+++  if (p.fine != 40 || p.victim != 50 || p.killer != 60)
+++    __builtin_abort ();
+++  return 0;
+++}
+++
+++int __attribute__ ((__noinline__, __noclone__))
+++foo (int arg1, int arg2, int arg3, struct pack p)
+++{
+++  return bar (arg2, arg3, p);
+++}
+++
+++int main (void)
+++{
+++  struct pack p = { 40, 50, 60 };
+++
+++  (void) foo (10, 20, 30, p);
+++  return 0;
+++}
++-- 
++2.7.0
++
+-- 
+2.7.1
 
 
