@@ -1,23 +1,47 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id DA43E6FFCC
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 92B1F6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 09:56:48 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Feb 2016 01:56:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,464,1449561600"; d="scan'208";a="888527018"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2016 01:56:27 -0800
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 7E9386A4004;
-	Thu, 18 Feb 2016 02:44:17 -0800 (PST)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 12:09:49 +0200
-Message-Id: <1455790189-6464-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] oeqa/utils/commands.py: eliminate import bb error [YP#9136] added bitbake/lib to sys.path
+	Thu, 18 Feb 2016 10:05:08 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id y8so10063910igp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Feb 2016 02:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=ug31ShB5lZDd5Fe1Hbm1ViYLFJiA+ObJaw39Cu99Y3A=;
+	b=cuKdRRPRuDZicOJPvy52tghrGAYEwoG0eNmFan1Ag2jW6ID7swgMFjrlEpqUcKcrjH
+	kTb9ndOWUKV8H+LZ+vfWzGOEmp638/BY9TEDQYHV2hPuDsssQONlnAcnt+tYyCatVkDY
+	+GdlM1st1rIpfhUWBbvWQ4QFYC1M6jMyCZTeVaLMxRjnZ0/SY5776ey0g9w7L+2ROzrX
+	4N0VCgyqTvx8Lm9S1+2i4dDC4vt+x9BemfRy9NEE8XCWF32783i+x7246iOHhXPvHDYz
+	IIOLelTnQ6FJiJiVkMcGmpDK2fB26BHQgElERJ8TqO20e1u5sAseEOvWkqrS5gopn17j
+	E+SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=ug31ShB5lZDd5Fe1Hbm1ViYLFJiA+ObJaw39Cu99Y3A=;
+	b=a1GZvNyz8vD1ai5crmFj3HnJ6pTWq1v5V7FBtbgOumW8oNiRZIFG8y5Sy0IMK9gqTB
+	IPqD6Gtu3dImEGp2r+RY8MXb75lOK3uHebavqG6VGXzV+YNHZjFRWLhjbBkuSXS/j3G9
+	PHUxUULvF4O9NStQksZfEUIe72wzhGL4y5wu9AxdVoWjCg0PIQG6GprnADjsmXKcs4pA
+	9VEM+WmjAGQJ2mfK9B6XOsDyf1gYZHgLvoJRW8ZnfmxoYdZqCGRgkhss/311/EXhJYza
+	FftctCMvmuAZ/2YiD2gLpnr4v+r4eiBPCk9r580z31r55L71Acs2OSxh4Ct227ekig1A
+	CA0g==
+X-Gm-Message-State: AG10YOTq2WEixwgLOlDT0x8kxxFkPf320puDPXkkYSizU8Vwni6DX18QmET4sqCSIAbUIUAw241BMhlRcxrgOw==
+MIME-Version: 1.0
+X-Received: by 10.50.78.227 with SMTP id e3mr2241154igx.64.1455789909901; Thu,
+	18 Feb 2016 02:05:09 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Thu, 18 Feb 2016 02:05:09 -0800 (PST)
+In-Reply-To: <CAP9ODKryst11Tr3QpuCA87pDYdsezEjTwxpb2HOwcVvi32f+pg@mail.gmail.com>
+References: <1455460128.16142.400.camel@linuxfoundation.org>
+	<CAP9ODKryst11Tr3QpuCA87pDYdsezEjTwxpb2HOwcVvi32f+pg@mail.gmail.com>
+Date: Thu, 18 Feb 2016 11:05:09 +0100
+Message-ID: <CALbNGRTcuFWpTEpwu1V=m6U2cz+3RiQNFmyXtaV1sg8wxx91Kg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] conf/distro/include: Add no-static-libs.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +54,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 09:56:51 -0000
+X-List-Received-Date: Thu, 18 Feb 2016 10:05:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- meta/lib/oeqa/utils/commands.py | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Feb 15, 2016 at 2:44 PM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> On Sun, Feb 14, 2016 at 12:28 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> Maintaining this list in a common location is more desireable than
+>> everyone doing it themselves. Poky will switch to using this, OE-Core
+>> will need to discuss that as its default.
+>
+> I support this being enabled by default on OE-Core as well.
+>
+Does 'support' mean you are taking care for recipes this is will break
+throughout our layers?
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 32e001c..8220169 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -18,6 +18,7 @@ from oeqa.utils import CommandError
- from oeqa.utils import ftools
- import re
- import contextlib
-+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..', 'bitbake/lib')))
- import bb
- 
- class Command(object):
--- 
-2.5.0
-
+Andreas
 
