@@ -1,47 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D7816FEE0
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C1D8E6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 09:40:57 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id c200so17449568wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 01:40:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4FFjkuGhDZbufbSgVRJ406fnojAtGFyo2wqcdiIK8jU=;
-	b=N2Cz7SIhjSdcJ95Xa65o6BjFiNHTxPsqUo/Ju7R416bm8R+bRpLUPmHbcpiUeBCN0R
-	W6X0fhQMNSP1P6lx0ZliRjuRi1z8vJIq32x5BBx9jLtlrNw3Gg4xzkSgWkS/nwT0Qa3r
-	tO+k6R1F8pU+WgX0MmBx+opViypRTFj6kxxw49B+S8lICW+YP6EXjri7NojP3yBUqjvx
-	ZGv5FErT+yEiSjrWbSiFDIbFdOPGvIb2eavChvIc+KytPCPL3RxWYEakeLoFQjk5OytC
-	mkkURgZcFFO3LY0d/mns5EnxX9BnN3mwpCB4GOlQr+ZMiO92v5r7pSuoxj5N8F1uDaH0
-	rBxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=4FFjkuGhDZbufbSgVRJ406fnojAtGFyo2wqcdiIK8jU=;
-	b=edOSwWiBgtZr+fO4SIzLiQhF0hGO44nSsoh9ZiHB4Jfqrli+akTZ6+5I8Jnhv43hYT
-	j2NwG+Ld3I7sq9O1xzgUnS/zxcmyJUFdQTejUKFerP1sZL70wRAAKm1rWQ7c6lPRzC3Y
-	FAdxmK7us8TZi3Q5XDa4vMMKTBBErhz51XC5wbCubKzwQ1IYfUVZIQiknqUc0hqTei2B
-	5YhkYy8NrVjw88dmPlY5PsXMz8/LGNN3aY99HZ7Ddq5grSdnmkqtbv0LSBQinoslA1ML
-	s99mNUgYpWc5vscxHNiVaf6N/T4JgDVT6x0kAfN0ZAyjQzjXrbkhs7egPGTykAQQnkVl
-	Dmzg==
-X-Gm-Message-State: AG10YORjkO60z7nrZc5Js01nB2JozjkLbz1fme6TtaPwJhj/9R7rl4ZKAJxpuh617yEUKg==
-X-Received: by 10.28.126.205 with SMTP id z196mr2203387wmc.44.1455788457714;
-	Thu, 18 Feb 2016 01:40:57 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id l7sm5688769wjx.14.2016.02.18.01.40.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Feb 2016 01:40:56 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 10:41:14 +0100
-Message-Id: <1455788474-13361-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.7.1
-In-Reply-To: <1454511382-8312-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1454511382-8312-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH][RESEND] gcc-5.3: backport fix for PR-target-65358
+	Thu, 18 Feb 2016 09:49:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1I9nFvU002049
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Feb 2016 01:49:15 -0800 (PST)
+Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Thu, 18 Feb 2016 01:49:14 -0800
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1455702479.git.zhe.he@windriver.com>
+	<d36ac8034f8914c57c27a514b9a692c3c1377f42.1455702479.git.zhe.he@windriver.com>
+	<CAJ86T=VjXe3ocpzQ7n7ZQLbYRiihtG9Yu49cti2vRTpKFDSFqw@mail.gmail.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <56C59392.80406@windriver.com>
+Date: Thu, 18 Feb 2016 17:49:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=VjXe3ocpzQ7n7ZQLbYRiihtG9Yu49cti2vRTpKFDSFqw@mail.gmail.com>
+X-Originating-IP: [128.224.162.175]
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,343 +37,644 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 09:40:58 -0000
+X-List-Received-Date: Thu, 18 Feb 2016 09:49:15 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-5.3.inc              |   3 +-
- ...arget-65358-Avoid-clobbering-partial-argu.patch | 307 +++++++++++++++++++++
- 2 files changed, 309 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
-index a522bc4..a2e347a 100644
---- a/meta/recipes-devtools/gcc/gcc-5.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
-@@ -82,7 +82,8 @@ SRC_URI = "\
-            file://0050-powerpc-pass-secure-plt-to-the-linker.patch \
-            file://0051-Ignore-fdebug-prefix-map-in-producer-string-by-Danie.patch \
-            file://0052-nios2-use-ret-with-r31.patch \
--          "
-+           file://0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch \
-+"
- 
- BACKPORTS = ""
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch b/meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch
-new file mode 100644
-index 0000000..c18f40e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-5.3/0053-expr.c-PR-target-65358-Avoid-clobbering-partial-argu.patch
-@@ -0,0 +1,307 @@
-+From 536b8318974495cde2b42c3c2742748e2b271be0 Mon Sep 17 00:00:00 2001
-+From: ktkachov <ktkachov@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Wed, 27 May 2015 13:25:01 +0000
-+Subject: [PATCH] PR target/65358 Avoid clobbering partial argument during
-+ sibcall
-+
-+	PR target/65358
-+	* expr.c (memory_load_overlap): New function.
-+	(emit_push_insn): When pushing partial args to the stack would
-+	clobber the register part load the overlapping part into a pseudo
-+	and put it into the hard reg after pushing.  Change return type
-+	to bool.  Add bool argument.
-+	* expr.h (emit_push_insn): Change return type to bool.
-+	Add bool argument.
-+	* calls.c (expand_call): Cancel sibcall optimization when encountering
-+	partial argument on targets with ARGS_GROW_DOWNWARD and
-+	!STACK_GROWS_DOWNWARD.
-+	(emit_library_call_value_1): Update callsite of emit_push_insn.
-+	(store_one_arg): Likewise.
-+
-+	PR target/65358
-+	* gcc.dg/pr65358.c: New test.
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@223753 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport from 6.0
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ gcc/calls.c                    | 17 ++++++--
-+ gcc/expr.c                     | 90 +++++++++++++++++++++++++++++++++++++-----
-+ gcc/expr.h                     |  4 +-
-+ gcc/testsuite/gcc.dg/pr65358.c | 33 ++++++++++++++++
-+ 4 files changed, 129 insertions(+), 15 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.dg/pr65358.c
-+
-+diff --git a/gcc/calls.c b/gcc/calls.c
-+index ee8ea5f..2334381 100644
-+--- a/gcc/calls.c
-++++ b/gcc/calls.c
-+@@ -3236,6 +3236,14 @@ expand_call (tree exp, rtx target, int ignore)
-+ 	    {
-+ 	      rtx_insn *before_arg = get_last_insn ();
-+ 
-++	     /* On targets with weird calling conventions (e.g. PA) it's
-++		hard to ensure that all cases of argument overlap between
-++		stack and registers work.  Play it safe and bail out.  */
-++#if defined(ARGS_GROW_DOWNWARD) && !defined(STACK_GROWS_DOWNWARD)
-++		  sibcall_failure = 1;
-++		  break;
-++#endif
-++
-+ 	      if (store_one_arg (&args[i], argblock, flags,
-+ 				 adjusted_args_size.var != 0,
-+ 				 reg_parm_stack_space)
-+@@ -4279,7 +4287,7 @@ emit_library_call_value_1 (int retval, rtx orgfun, rtx value,
-+ 			  partial, reg, 0, argblock,
-+ 			  GEN_INT (argvec[argnum].locate.offset.constant),
-+ 			  reg_parm_stack_space,
-+-			  ARGS_SIZE_RTX (argvec[argnum].locate.alignment_pad));
-++			  ARGS_SIZE_RTX (argvec[argnum].locate.alignment_pad), false);
-+ 
-+ 	  /* Now mark the segment we just used.  */
-+ 	  if (ACCUMULATE_OUTGOING_ARGS)
-+@@ -4886,10 +4894,11 @@ store_one_arg (struct arg_data *arg, rtx argblock, int flags,
-+ 
-+       /* This isn't already where we want it on the stack, so put it there.
-+ 	 This can either be done with push or copy insns.  */
-+-      emit_push_insn (arg->value, arg->mode, TREE_TYPE (pval), NULL_RTX,
-++      if (!emit_push_insn (arg->value, arg->mode, TREE_TYPE (pval), NULL_RTX,
-+ 		      parm_align, partial, reg, used - size, argblock,
-+ 		      ARGS_SIZE_RTX (arg->locate.offset), reg_parm_stack_space,
-+-		      ARGS_SIZE_RTX (arg->locate.alignment_pad));
-++		      ARGS_SIZE_RTX (arg->locate.alignment_pad), true))
-++	sibcall_failure = 1;
-+ 
-+       /* Unless this is a partially-in-register argument, the argument is now
-+ 	 in the stack.  */
-+@@ -5001,7 +5010,7 @@ store_one_arg (struct arg_data *arg, rtx argblock, int flags,
-+       emit_push_insn (arg->value, arg->mode, TREE_TYPE (pval), size_rtx,
-+ 		      parm_align, partial, reg, excess, argblock,
-+ 		      ARGS_SIZE_RTX (arg->locate.offset), reg_parm_stack_space,
-+-		      ARGS_SIZE_RTX (arg->locate.alignment_pad));
-++		      ARGS_SIZE_RTX (arg->locate.alignment_pad), false);
-+ 
-+       /* Unless this is a partially-in-register argument, the argument is now
-+ 	 in the stack.
-+diff --git a/gcc/expr.c b/gcc/expr.c
-+index 5c09550..24a6293 100644
-+--- a/gcc/expr.c
-++++ b/gcc/expr.c
-+@@ -4121,12 +4121,35 @@ emit_single_push_insn (machine_mode mode, rtx x, tree type)
-+ }
-+ #endif
-+ 
-++/* If reading SIZE bytes from X will end up reading from
-++   Y return the number of bytes that overlap.  Return -1
-++   if there is no overlap or -2 if we can't determine
-++   (for example when X and Y have different base registers).  */
-++
-++static int
-++memory_load_overlap (rtx x, rtx y, HOST_WIDE_INT size)
-++{
-++  rtx tmp = plus_constant (Pmode, x, size);
-++  rtx sub = simplify_gen_binary (MINUS, Pmode, tmp, y);
-++
-++  if (!CONST_INT_P (sub))
-++    return -2;
-++
-++  HOST_WIDE_INT val = INTVAL (sub);
-++
-++  return IN_RANGE (val, 1, size) ? val : -1;
-++}
-++
-+ /* Generate code to push X onto the stack, assuming it has mode MODE and
-+    type TYPE.
-+    MODE is redundant except when X is a CONST_INT (since they don't
-+    carry mode info).
-+    SIZE is an rtx for the size of data to be copied (in bytes),
-+    needed only if X is BLKmode.
-++   Return true if successful.  May return false if asked to push a
-++   partial argument during a sibcall optimization (as specified by
-++   SIBCALL_P) and the incoming and outgoing pointers cannot be shown
-++   to not overlap.
-+ 
-+    ALIGN (in bits) is maximum alignment we can assume.
-+ 
-+@@ -4152,11 +4175,11 @@ emit_single_push_insn (machine_mode mode, rtx x, tree type)
-+    for arguments passed in registers.  If nonzero, it will be the number
-+    of bytes required.  */
-+ 
-+-void
-++bool
-+ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+ 		unsigned int align, int partial, rtx reg, int extra,
-+ 		rtx args_addr, rtx args_so_far, int reg_parm_stack_space,
-+-		rtx alignment_pad)
-++		rtx alignment_pad, bool sibcall_p)
-+ {
-+   rtx xinner;
-+   enum direction stack_direction
-+@@ -4179,6 +4202,10 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+ 
-+   xinner = x;
-+ 
-++  int nregs = partial / UNITS_PER_WORD;
-++  rtx *tmp_regs = NULL;
-++  int overlapping = 0;
-++
-+   if (mode == BLKmode
-+       || (STRICT_ALIGNMENT && align < GET_MODE_ALIGNMENT (mode)))
-+     {
-+@@ -4309,6 +4336,43 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+ 	     PARM_BOUNDARY.  Assume the caller isn't lying.  */
-+ 	  set_mem_align (target, align);
-+ 
-++	  /* If part should go in registers and pushing to that part would
-++	     overwrite some of the values that need to go into regs, load the
-++	     overlapping values into temporary pseudos to be moved into the hard
-++	     regs at the end after the stack pushing has completed.
-++	     We cannot load them directly into the hard regs here because
-++	     they can be clobbered by the block move expansions.
-++	     See PR 65358.  */
-++
-++	  if (partial > 0 && reg != 0 && mode == BLKmode
-++	      && GET_CODE (reg) != PARALLEL)
-++	    {
-++	      overlapping = memory_load_overlap (XEXP (x, 0), temp, partial);
-++	      if (overlapping > 0)
-++	        {
-++		  gcc_assert (overlapping % UNITS_PER_WORD == 0);
-++		  overlapping /= UNITS_PER_WORD;
-++
-++		  tmp_regs = XALLOCAVEC (rtx, overlapping);
-++
-++		  for (int i = 0; i < overlapping; i++)
-++		    tmp_regs[i] = gen_reg_rtx (word_mode);
-++
-++		  for (int i = 0; i < overlapping; i++)
-++		    emit_move_insn (tmp_regs[i],
-++				    operand_subword_force (target, i, mode));
-++	        }
-++	      else if (overlapping == -1)
-++		overlapping = 0;
-++	      /* Could not determine whether there is overlap.
-++	         Fail the sibcall.  */
-++	      else
-++		{
-++		  overlapping = 0;
-++		  if (sibcall_p)
-++		    return false;
-++		}
-++	    }
-+ 	  emit_block_move (target, xinner, size, BLOCK_OP_CALL_PARM);
-+ 	}
-+     }
-+@@ -4363,12 +4427,13 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+ 	 has a size a multiple of a word.  */
-+       for (i = size - 1; i >= not_stack; i--)
-+ 	if (i >= not_stack + offset)
-+-	  emit_push_insn (operand_subword_force (x, i, mode),
-++	  if (!emit_push_insn (operand_subword_force (x, i, mode),
-+ 			  word_mode, NULL_TREE, NULL_RTX, align, 0, NULL_RTX,
-+ 			  0, args_addr,
-+ 			  GEN_INT (args_offset + ((i - not_stack + skip)
-+ 						  * UNITS_PER_WORD)),
-+-			  reg_parm_stack_space, alignment_pad);
-++			  reg_parm_stack_space, alignment_pad, sibcall_p))
-++	    return false;
-+     }
-+   else
-+     {
-+@@ -4411,9 +4476,8 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+ 	}
-+     }
-+ 
-+-  /* If part should go in registers, copy that part
-+-     into the appropriate registers.  Do this now, at the end,
-+-     since mem-to-mem copies above may do function calls.  */
-++  /* Move the partial arguments into the registers and any overlapping
-++     values that we moved into the pseudos in tmp_regs.  */
-+   if (partial > 0 && reg != 0)
-+     {
-+       /* Handle calls that pass values in multiple non-contiguous locations.
-+@@ -4421,9 +4485,15 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+       if (GET_CODE (reg) == PARALLEL)
-+ 	emit_group_load (reg, x, type, -1);
-+       else
-+-	{
-++        {
-+ 	  gcc_assert (partial % UNITS_PER_WORD == 0);
-+-	  move_block_to_reg (REGNO (reg), x, partial / UNITS_PER_WORD, mode);
-++	  move_block_to_reg (REGNO (reg), x, nregs - overlapping, mode);
-++
-++	  for (int i = 0; i < overlapping; i++)
-++	    emit_move_insn (gen_rtx_REG (word_mode, REGNO (reg)
-++						    + nregs - overlapping + i),
-++			    tmp_regs[i]);
-++
-+ 	}
-+     }
-+ 
-+@@ -4432,6 +4502,8 @@ emit_push_insn (rtx x, machine_mode mode, tree type, rtx size,
-+ 
-+   if (alignment_pad && args_addr == 0)
-+     anti_adjust_stack (alignment_pad);
-++
-++  return true;
-+ }
-+ 
-+ /* Return X if X can be used as a subtarget in a sequence of arithmetic
-+diff --git a/gcc/expr.h b/gcc/expr.h
-+index 867852e..5fcc13f 100644
-+--- a/gcc/expr.h
-++++ b/gcc/expr.h
-+@@ -218,8 +218,8 @@ extern rtx emit_move_resolve_push (machine_mode, rtx);
-+ extern rtx push_block (rtx, int, int);
-+ 
-+ /* Generate code to push something onto the stack, given its mode and type.  */
-+-extern void emit_push_insn (rtx, machine_mode, tree, rtx, unsigned int,
-+-			    int, rtx, int, rtx, rtx, int, rtx);
-++extern bool emit_push_insn (rtx, machine_mode, tree, rtx, unsigned int,
-++			    int, rtx, int, rtx, rtx, int, rtx, bool);
-+ 
-+ /* Expand an assignment that stores the value of FROM into TO.  */
-+ extern void expand_assignment (tree, tree, bool);
-+diff --git a/gcc/testsuite/gcc.dg/pr65358.c b/gcc/testsuite/gcc.dg/pr65358.c
-+new file mode 100644
-+index 0000000..ba89fd4
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/pr65358.c
-+@@ -0,0 +1,33 @@
-++/* { dg-do run } */
-++/* { dg-options "-O2" } */
-++
-++struct pack
-++{
-++  int fine;
-++  int victim;
-++  int killer;
-++};
-++
-++int __attribute__ ((__noinline__, __noclone__))
-++bar (int a, int b, struct pack p)
-++{
-++  if (a != 20 || b != 30)
-++    __builtin_abort ();
-++  if (p.fine != 40 || p.victim != 50 || p.killer != 60)
-++    __builtin_abort ();
-++  return 0;
-++}
-++
-++int __attribute__ ((__noinline__, __noclone__))
-++foo (int arg1, int arg2, int arg3, struct pack p)
-++{
-++  return bar (arg2, arg3, p);
-++}
-++
-++int main (void)
-++{
-++  struct pack p = { 40, 50, 60 };
-++
-++  (void) foo (10, 20, 30, p);
-++  return 0;
-++}
-+-- 
-+2.7.0
-+
--- 
-2.7.1
+
+On 02/18/2016 11:37 AM, Andre McCurdy wrote:
+> On Wed, Feb 17, 2016 at 2:01 AM,  <zhe.he@windriver.com> wrote:
+>> From: He Zhe <zhe.he@windriver.com>
+>>
+>> Add KERNEL_IMAGETYPES to support building packaging and installing
+>> multi types of kernel images, such as zImage uImage, at one time.
+>> KERNEL_IMAGETYPE works as before.
+>>
+>> Fixes [YOCTO #6945].
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>>  meta/classes/kernel-fitimage.bbclass    |  20 ++--
+>>  meta/classes/kernel-grub.bbclass        |  44 ++++++---
+>>  meta/classes/kernel-uimage.bbclass      |  22 +++--
+>>  meta/classes/kernel.bbclass             | 169 ++++++++++++++++++++++----------
+>>  meta/conf/documentation.conf            |   1 +
+>>  meta/recipes-kernel/linux/linux-dtb.inc |  49 +++++----
+>>  6 files changed, 202 insertions(+), 103 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+>> index f1b409c..51df19d 100644
+>> --- a/meta/classes/kernel-fitimage.bbclass
+>> +++ b/meta/classes/kernel-fitimage.bbclass
+>> @@ -1,8 +1,8 @@
+>>  inherit kernel-uboot
+>>
+>>  python __anonymous () {
+>> -    kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>> -    if kerneltype == 'fitImage':
+>> +    kerneltypes = d.getVar('KERNEL_IMAGETYPES', True) or ""
+>> +    if 'fitImage' in kerneltypes.split():
+>>          depends = d.getVar("DEPENDS", True)
+>>          depends = "%s u-boot-mkimage-native dtc-native" % depends
+>>          d.setVar("DEPENDS", depends)
+>> @@ -10,7 +10,9 @@ python __anonymous () {
+>>         # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>>         # to kernel.bbclass . We have to override it, since we pack zImage
+>>         # (at least for now) into the fitImage .
+>> -        d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
+>> +        typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", True) or ""
+>> +        if 'fitImage' in typeformake.split():
+>> +            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', 'zImage'))
+>>
+>>          image = d.getVar('INITRAMFS_IMAGE', True)
+>>          if image:
+>> @@ -154,7 +156,7 @@ EOF
+>>  }
+>>
+>>  do_assemble_fitimage() {
+>> -       if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+>> +       if echo ${KERNEL_IMAGETYPES} | grep -Pq "\bfitImage\b"; then
+>>                 kernelcount=1
+>>                 dtbcount=""
+>>                 rm -f fit-image.its
+>> @@ -217,14 +219,14 @@ addtask assemble_fitimage before do_install after do_compile
+>>
+>>  kernel_do_deploy_append() {
+>>         # Update deploy directory
+>> -       if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+>> +       if echo ${KERNEL_IMAGETYPES} | grep -Pq "\bfitImage\b"; then
+>>                 cd ${B}
+>>                 echo "Copying fit-image.its source file..."
+>> -               its_base_name="${KERNEL_IMAGETYPE}-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>> -               its_symlink_name=${KERNEL_IMAGETYPE}-its-${MACHINE}
+>> +               its_base_name="fitImage-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>> +               its_symlink_name=fitImage-its-${MACHINE}
+>>                 install -m 0644 fit-image.its ${DEPLOYDIR}/${its_base_name}.its
+>> -               linux_bin_base_name="${KERNEL_IMAGETYPE}-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>> -               linux_bin_symlink_name=${KERNEL_IMAGETYPE}-linux.bin-${MACHINE}
+>> +               linux_bin_base_name="fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>> +               linux_bin_symlink_name=fitImage-linux.bin-${MACHINE}
+>>                 install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
+>>
+>>                 cd ${DEPLOYDIR}
+>> diff --git a/meta/classes/kernel-grub.bbclass b/meta/classes/kernel-grub.bbclass
+>> index a63f482..f7dcc07 100644
+>> --- a/meta/classes/kernel-grub.bbclass
+>> +++ b/meta/classes/kernel-grub.bbclass
+>> @@ -10,41 +10,44 @@
+>>  #   updates the new kernel as the boot priority.
+>>  #
+>>
+>> -pkg_preinst_kernel-image_append () {
+>> +python __anonymous () {
+>> +    import re
+>> +
+>> +    preinst = '''
+>>         # Parsing confliction
+>>         [ -f "$D/boot/grub/menu.list" ] && grubcfg="$D/boot/grub/menu.list"
+>>         [ -f "$D/boot/grub/grub.cfg" ] && grubcfg="$D/boot/grub/grub.cfg"
+>>         if [ -n "$grubcfg" ]; then
+>>                 # Dereference symlink to avoid confliction with new kernel name.
+>> -               if grep -q "/${KERNEL_IMAGETYPE} \+root=" $grubcfg; then
+>> -                       if [ -L "$D/boot/${KERNEL_IMAGETYPE}" ]; then
+>> -                               kimage=`realpath $D/boot/${KERNEL_IMAGETYPE} 2>/dev/null`
+>> +               if grep -q "/KERNEL_IMAGETYPE \+root=" $grubcfg; then
+>> +                       if [ -L "$D/boot/KERNEL_IMAGETYPE" ]; then
+>> +                               kimage=`realpath $D/boot/KERNEL_IMAGETYPE 2>/dev/null`
+>>                                 if [ -f "$D$kimage" ]; then
+>> -                                       sed -i "s:${KERNEL_IMAGETYPE} \+root=:${kimage##*/} root=:" $grubcfg
+>> +                                       sed -i "s:KERNEL_IMAGETYPE \+root=:${kimage##*/} root=:" $grubcfg
+>>                                 fi
+>>                         fi
+>>                 fi
+>>
+>>                 # Rename old kernel if it conflicts with new kernel name.
+>> -               if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} \+root=" $grubcfg; then
+>> -                       if [ -f "$D/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}" ]; then
+>> +               if grep -q "/KERNEL_IMAGETYPE-${KERNEL_VERSION} \+root=" $grubcfg; then
+>> +                       if [ -f "$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}" ]; then
+>>                                 timestamp=`date +%s`
+>> -                               kimage="$D/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back"
+>> -                               sed -i "s:${KERNEL_IMAGETYPE}-${KERNEL_VERSION} \+root=:${kimage##*/} root=:" $grubcfg
+>> -                               mv "$D/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}" "$kimage"
+>> +                               kimage="$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}-$timestamp-back"
+>> +                               sed -i "s:KERNEL_IMAGETYPE-${KERNEL_VERSION} \+root=:${kimage##*/} root=:" $grubcfg
+>> +                               mv "$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}" "$kimage"
+>>                         fi
+>>                 fi
+>>         fi
+>> -}
+>> +'''
+>>
+>> -pkg_postinst_kernel-image_prepend () {
+>> +    postinst = '''
+>>         get_new_grub_cfg() {
+>>                 grubcfg="$1"
+>>                 old_image="$2"
+>> -               title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
+>> +               title="Update KERNEL_IMAGETYPE-${KERNEL_VERSION}-${PV}"
+>>                 if [ "${grubcfg##*/}" = "grub.cfg" ]; then
+>>                         rootfs=`grep " *linux \+[^ ]\+ \+root=" $grubcfg -m 1 | \
+>> -                                sed "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
+>> +                                sed "s#${old_image}#${old_image%/*}/KERNEL_IMAGETYPE-${KERNEL_VERSION}#"`
+>>
+>>                         echo "menuentry \"$title\" {"
+>>                         echo "    set root=(hd0,1)"
+>> @@ -52,7 +55,7 @@ pkg_postinst_kernel-image_prepend () {
+>>                         echo "}"
+>>                 elif [ "${grubcfg##*/}" = "menu.list" ]; then
+>>                         rootfs=`grep "kernel \+[^ ]\+ \+root=" $grubcfg -m 1 | \
+>> -                                sed "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
+>> +                                sed "s#${old_image}#${old_image%/*}/KERNEL_IMAGETYPE-${KERNEL_VERSION}#"`
+>>
+>>                         echo "default 0"
+>>                         echo "timeout 30"
+>> @@ -87,5 +90,16 @@ pkg_postinst_kernel-image_prepend () {
+>>                 mv $grubcfgtmp $grubcfg
+>>                 echo "Caution! Update kernel may affect kernel-module!"
+>>         fi
+>> +'''
+>> +
+>> +    imagetypes = d.getVar('KERNEL_IMAGETYPES', True)
+>> +    imagetypes = re.sub(r'\.gz$', '', imagetypes)
+>> +
+>> +    for type in imagetypes.split():
+>> +        typelower = type.lower()
+>> +        preinst_append = preinst.replace('KERNEL_IMAGETYPE', type)
+>> +        postinst_prepend = postinst.replace('KERNEL_IMAGETYPE', type)
+>> +        d.setVar('pkg_preinst_kernel-image-' + typelower + '_append', preinst_append)
+>> +        d.setVar('pkg_postinst_kernel-image-' + typelower + '_prepend', postinst_prepend)
+>>  }
+>>
+>> diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+>> index f73965b..a238ce4 100644
+>> --- a/meta/classes/kernel-uimage.bbclass
+>> +++ b/meta/classes/kernel-uimage.bbclass
+>> @@ -1,23 +1,25 @@
+>>  inherit kernel-uboot
+>>
+>>  python __anonymous () {
+>> -    kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>> -    if kerneltype == 'uImage':
+>> +    if "uImage" in (d.getVar('KERNEL_IMAGETYPES', True) or "").split():
+>>          depends = d.getVar("DEPENDS", True)
+>>          depends = "%s u-boot-mkimage-native" % depends
+>>          d.setVar("DEPENDS", depends)
+>>
+>> -       # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>> -       # to kernel.bbclass . We override the variable here, since we need
+>> -       # to build uImage using the kernel build system if and only if
+>> -       # KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+>> -       # the uImage .
+>> -       if d.getVar("KEEPUIMAGE", True) != 'yes':
+>> -            d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
+>> +        # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>> +        # to kernel.bbclass . We override the variable here, since we need
+>> +        # to build uImage using the kernel build system if and only if
+>> +        # KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+>> +        # the uImage .
+>> +        if d.getVar("KEEPUIMAGE", True) != 'yes':
+>> +            typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", True) or ""
+>> +            if "uImage" in typeformake.split():
+>> +                typeformake.replace('uImage', 'zImage')
+>> +            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+>>  }
+>>
+>>  do_uboot_mkimage() {
+>> -       if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
+>> +       if echo "${KERNEL_IMAGETYPES}" | grep -Pq "\buImage\b"; then
+>>                 if test "x${KEEPUIMAGE}" != "xyes" ; then
+>>                         uboot_prep_kimage
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index c3eab50..7f0e292 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -16,12 +16,48 @@ INITRAMFS_IMAGE ?= ""
+>>  INITRAMFS_TASK ?= ""
+>>  INITRAMFS_IMAGE_BUNDLE ?= ""
+>>
+>> +# KERNEL_VERSION is extracted from source code. It is evaluated as
+>> +# None for the first parsing, since the code has not been fetched.
+>> +# After the code is fetched, it will be evaluated as real version
+>> +# number and cause kernel to be rebuilt. To avoid this, make
+>> +# KERNEL_VERSION_NAME and KERNEL_VERSION_PKG_NAME depend on
+>> +# LINUX_VERSION which is a constant.
+>> +KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION', True) or ""}"
+>> +KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
+>> +KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION', True))}"
+>> +KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+>> +
+>>  python __anonymous () {
+>>      import re
+>>
+>> -    kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>> +    type = d.getVar('KERNEL_IMAGETYPE', True) or ""
+>> +    types = d.getVar('KERNEL_IMAGETYPES', True) or ""
+>> +    if type not in types.split():
+>> +        types = (type + ' ' + types).strip()
+>> +        d.setVar('KERNEL_IMAGETYPES', types)
+>> +    typeformake = re.sub(r'\.gz', '', types)
+>> +    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+>> +
+>> +    for type in typeformake.split():
+>> +        typelower = type.lower()
+>> +
+>> +        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+>> +
+>> +        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '*')
+>> +
+>> +        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
+>> +
+>> +        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
+>> +
+>> +        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
+>>
+>> -    d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
+>> +        imagedest = d.getVar('KERNEL_IMAGEDEST', True)
+>> +        priority = d.getVar('KERNEL_PRIORITY', True)
+>> +        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+>> +        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
+>> +
+>> +        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+>> +        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
+>>
+>>      image = d.getVar('INITRAMFS_IMAGE', True)
+>>      if image:
+>> @@ -93,7 +129,7 @@ KERNEL_PRIORITY ?= "${@int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.
+>>  KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+>>
+>>  # Where built kernel lies in the kernel tree
+>> -KERNEL_OUTPUT ?= "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
+>> +KERNEL_OUTPUT ?= "arch/${ARCH}/boot"
+> Have you considered the typical case for MIPS when KERNEL_IMAGETYPE is
+> vmlinux and the image gets created in the top level of the kernel
+> build directory (instead of arch/${ARCH}/boot/) ? There are two ways
+> in which that's normally handled - either by enabling the
+> do_kernel_link_vmlinux() task (as kernels based on linux-yocto.inc do)
+> or by over-riding the default value of KERNEL_OUTPUT to set it to
+> "vmlinux" (as I've seen some out of tree kernel recipes based directly
+> on kernel.bbclass do).
+>
+> It looks like the "over-ride KERNEL_OUTPUT" method is going to stop
+> working as a result of this commit, so maybe change the assignment of
+> KERNEL_OUTPUT from ?'=' to '=' to make that clear. Perhaps rename the
+> variable to KERNEL_OUTPUT_DIR and update the comment too.
+
+Thank you for your reminding.
+
+Yes, "over-ride KERNEL_OUTPUT" will not work after this. For those who have
+worked directly based on kernel.bbclass, they can simply use
+"addtask kernel_link_vmlinux after do_compile before do_install" just like
+linux-yocto.inc does, as the implementation of kernel_link_vmlinux is in
+kernel.bbclass.
+
+I'll change '?=' to '=' and comment on this in the next version.
+
+>
+>>  KERNEL_IMAGEDEST = "boot"
+>>
+>>  #
+>> @@ -119,8 +155,6 @@ KERNEL_EXTRA_ARGS ?= ""
+>>  # We don't want to override kernel Makefile variables from the environment
+>>  EXTRA_OEMAKE = ""
+>>
+>> -KERNEL_ALT_IMAGETYPE ??= ""
+> Do the qemumips and qemumips64 machines need fixing if support for
+> KERNEL_ALT_IMAGETYPE is removed?
+
+Yes, I'll replace KERNEL_ALT_IMAGETYPE wherever used withKERNEL_IMAGETYPES
+in the next version.
+
+Also, I'll update documentation/ref-manual/ref-variables.xml and the
+machine configurations under scripts/lib/bsp/substrate/target/
+
+Thanks,
+Zhe
+
+>> -
+>>  # Define where the kernel headers are installed on the target as well as where
+>>  # they are staged.
+>>  KERNEL_SRC_PATH = "/usr/src/kernel"
+>> @@ -166,23 +200,48 @@ copy_initramfs() {
+>>         echo "Finished copy of initramfs into ./usr"
+>>  }
+>>
+>> -INITRAMFS_BASE_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>> +INITRAMFS_BASE_NAME = "initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>>  INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
+>>  do_bundle_initramfs () {
+>>         if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+>>                 echo "Creating a kernel image with a bundled initramfs..."
+>>                 copy_initramfs
+>> -               if [ -e ${KERNEL_OUTPUT} ] ; then
+>> -                       mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
+>> -               fi
+>> +               # Backuping kernel image relies on its type(regular file or symbolic link)
+>> +               tmp_path=""
+>> +               for type in ${KERNEL_IMAGETYPES} ; do
+>> +                       if [ -h ${KERNEL_OUTPUT}/$type ] ; then
+>> +                               linkpath=`readlink -n ${KERNEL_OUTPUT}/$type`
+>> +                               realpath=`readlink -fn ${KERNEL_OUTPUT}/$type`
+>> +                               mv -f $realpath $realpath.bak
+>> +                               tmp_path=$tmp_path" "$type"#"$linkpath"#"$realpath
+>> +                       elif [ -f ${KERNEL_OUTPUT}/$type ]; then
+>> +                               mv -f ${KERNEL_OUTPUT}/$type ${KERNEL_OUTPUT}/$type.bak
+>> +                               tmp_path=$tmp_path" "$type"##"
+>> +                       fi
+>> +               done
+>>                 use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>>                 kernel_do_compile
+>> -               mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+>> -               mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+>> +               # Restoring kernel image
+>> +               for tp in $tmp_path ; do
+>> +                       type=`echo $tp|cut -d "#" -f 1`
+>> +                       linkpath=`echo $tp|cut -d "#" -f 2`
+>> +                       realpath=`echo $tp|cut -d "#" -f 3`
+>> +                       if [ -n "$realpath" ]; then
+>> +                               mv -f $realpath $realpath.initramfs
+>> +                               mv -f $realpath.bak $realpath
+>> +                               cd ${B}/$(dirname ${KERNEL_OUTPUT}/$type)
+>> +                               ln -sf $linkpath.initramfs
+>> +                       else
+>> +                               mv -f ${KERNEL_OUTPUT}/$type ${KERNEL_OUTPUT}/$type.initramfs
+>> +                               mv -f ${KERNEL_OUTPUT}/$type.bak ${KERNEL_OUTPUT}/$type
+>> +                       fi
+>> +               done
+>>                 # Update install area
+>> -               echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+>> -               install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+>> -               echo "${B}/${KERNEL_OUTPUT}.initramfs"
+>> +               for type in ${KERNEL_IMAGETYPES} ; do
+>> +                       echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}/$type.initramfs"
+>> +                       install -m 0644 ${B}/${KERNEL_OUTPUT}/$type.initramfs ${D}/boot/$type-initramfs-${MACHINE}.bin
+>> +                       echo "${B}/${KERNEL_OUTPUT}/$type.initramfs"
+>> +               done
+>>         fi
+>>  }
+>>
+>> @@ -207,10 +266,15 @@ kernel_do_compile() {
+>>                 copy_initramfs
+>>                 use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>>         fi
+>> -       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>> -       if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>> -               gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>> -       fi
+>> +       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>> +       for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+>> +               for type in ${KERNEL_IMAGETYPES} ; do
+>> +                       if test "${typeformake}.gz" = "${type}"; then
+>> +                               gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT}/${type}"
+>> +                               break;
+>> +                       fi
+>> +               done
+>> +       done
+>>  }
+>>
+>>  do_compile_kernelmodules() {
+>> @@ -251,7 +315,9 @@ kernel_do_install() {
+>>         #
+>>         install -d ${D}/${KERNEL_IMAGEDEST}
+>>         install -d ${D}/boot
+>> -       install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+>> +       for type in ${KERNEL_IMAGETYPES} ; do
+>> +               install -m 0644 ${KERNEL_OUTPUT}/${type} ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
+>> +       done
+>>         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+>>         install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+>>         install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+>> @@ -365,12 +431,12 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>>  PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
+>>  FILES_${PN} = ""
+>>  FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+>> -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+>> +FILES_kernel-image = ""
+>>  FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
+>>  FILES_kernel-vmlinux = "/boot/vmlinux*"
+>>  FILES_kernel-modules = ""
+>>  RDEPENDS_kernel = "kernel-base"
+>> -# Allow machines to override this dependency if kernel image files are
+>> +# Allow machines to override this dependency if kernel image files are
+>>  # not wanted in images as standard
+>>  RDEPENDS_kernel-base ?= "kernel-image"
+>>  PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>> @@ -394,14 +460,6 @@ pkg_postinst_kernel-base () {
+>>         fi
+>>  }
+>>
+>> -pkg_postinst_kernel-image () {
+>> -       update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+>> -}
+>> -
+>> -pkg_postrm_kernel-image () {
+>> -       update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+>> -}
+>> -
+>>  PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+>>
+>>  python split_kernel_packages () {
+>> @@ -422,13 +480,13 @@ do_kernel_link_vmlinux() {
+>>
+>>  do_strip() {
+>>         if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
+>> -               if [ "${KERNEL_IMAGETYPE}" != "vmlinux" ]; then
+>> -                       bbwarn "image type will not be stripped (not supported): ${KERNEL_IMAGETYPE}"
+>> +               if ! (echo "${KERNEL_IMAGETYPES}" | grep -q "vmlinux"); then
+>> +                       bbwarn "image type(s) will not be stripped (not supported): ${KERNEL_IMAGETYPES}"
+>>                         return
+>>                 fi
+>>
+>>                 cd ${B}
+>> -               headers=`"$CROSS_COMPILE"readelf -S ${KERNEL_OUTPUT} | \
+>> +               headers=`"$CROSS_COMPILE"readelf -S ${KERNEL_OUTPUT}/vmlinux | \
+>>                           grep "^ \{1,\}\[[0-9 ]\{1,\}\] [^ ]" | \
+>>                           sed "s/^ \{1,\}\[[0-9 ]\{1,\}\] //" | \
+>>                           gawk '{print $1}'`
+>> @@ -438,7 +496,7 @@ do_strip() {
+>>                                 bbwarn "Section not found: $str";
+>>                         fi
+>>
+>> -                       "$CROSS_COMPILE"strip -s -R $str ${KERNEL_OUTPUT}
+>> +                       "$CROSS_COMPILE"strip -s -R $str ${KERNEL_OUTPUT}/vmlinux
+>>                 }; done
+>>
+>>                 bbnote "KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is set, stripping sections:" \
+>> @@ -457,20 +515,22 @@ do_sizecheck() {
+>>                 if [ -n "$invalid" ]; then
+>>                         die "Invalid KERNEL_IMAGE_MAXSIZE: ${KERNEL_IMAGE_MAXSIZE}, should be an integerx (The unit is Kbytes)"
+>>                 fi
+>> -               size=`du -ks ${B}/${KERNEL_OUTPUT} | awk '{ print $1}'`
+>> -               if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
+>> -                       die "This kernel (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device. Please reduce the size of the kernel by making more of it modular."
+>> -               fi
+>> +               for type in ${KERNEL_IMAGETYPES} ; do
+>> +                       size=`du -ks ${B}/${KERNEL_OUTPUT}/$type | awk '{print $1}'`
+>> +                       if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
+>> +                               die "This kernel $type (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device. Please reduce the size of the kernel by making more of it modular."
+>> +                       fi
+>> +               done
+>>         fi
+>>  }
+>>  do_sizecheck[dirs] = "${B}"
+>>
+>>  addtask sizecheck before do_install after do_strip
+>>
+>> -KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+>> +KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+>>  # Don't include the DATETIME variable in the sstate package signatures
+>>  KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+>> -KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+>> +KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
+>>  MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+>>  MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+>>  MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+>> @@ -479,28 +539,37 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+>>  MODULE_TARBALL_DEPLOY ?= "1"
+>>
+>>  kernel_do_deploy() {
+>> -       install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+>> +       for type in ${KERNEL_IMAGETYPES} ; do
+>> +               base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+>> +               install -m 0644 ${KERNEL_OUTPUT}/${type} ${DEPLOYDIR}/${base_name}.bin
+>> +       done
+>>         if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+>>                 mkdir -p ${D}/lib
+>>                 tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+>>                 ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
+>>         fi
+>>
+>> -       ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
+>> -       ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
+>> +       for type in ${KERNEL_IMAGETYPES} ; do
+>> +               base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+>> +               symlink_name=${type}-${KERNEL_IMAGE_SYMLINK_NAME}
+>> +               ln -sf ${base_name}.bin ${DEPLOYDIR}/${symlink_name}.bin
+>> +               ln -sf ${base_name}.bin ${DEPLOYDIR}/${type}
+>> +       done
+>>
+>>         cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+>>
+>>         cd ${B}
+>>         # Update deploy directory
+>> -       if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
+>> -               echo "Copying deploy kernel-initramfs image and setting up links..."
+>> -               initramfs_base_name=${INITRAMFS_BASE_NAME}
+>> -               initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
+>> -               install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+>> -               cd ${DEPLOYDIR}
+>> -               ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
+>> -       fi
+>> +       for type in ${KERNEL_IMAGETYPES} ; do
+>> +               if [ -e "${KERNEL_OUTPUT}/${type}.initramfs" ]; then
+>> +                       echo "Copying deploy ${type} kernel-initramfs image and setting up links..."
+>> +                       initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
+>> +                       initramfs_symlink_name=${type}-initramfs-${MACHINE}
+>> +                       install -m 0644 ${KERNEL_OUTPUT}/${type}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+>> +                       cd ${DEPLOYDIR}
+>> +                       ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
+>> +               fi
+>> +       done
+>>  }
+>>  do_deploy[cleandirs] = "${DEPLOYDIR}"
+>>  do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+>> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+>> index 00a69da..b3969b0 100644
+>> --- a/meta/conf/documentation.conf
+>> +++ b/meta/conf/documentation.conf
+>> @@ -246,6 +246,7 @@ KERNEL_CLASSES[doc] = "A list of classes defining kernel image types that kernel
+>>  KERNEL_EXTRA_ARGS[doc] = "Specifies additional make command-line arguments the OpenEmbedded build system passes on when compiling the kernel."
+>>  KERNEL_FEATURES[doc] = "Includes additional metadata from the Yocto Project kernel Git repository. The metadata you add through this variable includes config fragments and features descriptions."
+>>  KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set by the machine configuration files and defaults to 'zImage'."
+>> +KERNEL_IMAGETYPES[doc] = "The list of types of kernel to build for a device, usually set by the machine configuration files and defaults to KERNEL_IMAGETYPE."
+>>  KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be auto-loaded during boot"
+>>  KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build system expects to find module_conf_* values that specify configuration for each of the modules"
+>>  KERNEL_PATH[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
+>> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+>> index 651a19e..74f5ef8 100644
+>> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+>> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+>> @@ -34,9 +34,12 @@ do_install_append() {
+>>         for DTB in ${KERNEL_DEVICETREE}; do
+>>                 DTB=`normalize_dtb "${DTB}"`
+>>                 DTB_BASE_NAME=`basename ${DTB} .dtb`
+>> -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> -               DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>> -               install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+>> +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>> +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>> +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> +                       DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>> +                       install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+>> +               done
+>>         done
+>>  }
+>>
+>> @@ -44,31 +47,39 @@ do_deploy_append() {
+>>         for DTB in ${KERNEL_DEVICETREE}; do
+>>                 DTB=`normalize_dtb "${DTB}"`
+>>                 DTB_BASE_NAME=`basename ${DTB} .dtb`
+>> -               DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> -               DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>> -               install -d ${DEPLOYDIR}
+>> -               install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
+>> -               ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
+>> +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>> +                       base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+>> +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>> +                       DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> +                       DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>> +                       install -d ${DEPLOYDIR}
+>> +                       install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
+>> +                       ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
+>> +               done
+>>         done
+>>  }
+>>
+>>  pkg_postinst_kernel-devicetree () {
+>>         cd /${KERNEL_IMAGEDEST}
+>> -       for DTB in ${KERNEL_DEVICETREE}
+>> -       do
+>> -               DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>> -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> -               update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>> +       for DTB in ${KERNEL_DEVICETREE}; do
+>> +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>> +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>> +                       DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>> +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> +                       update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>> +               done
+>>         done
+>>  }
+>>
+>>  pkg_postrm_kernel-devicetree () {
+>>         cd /${KERNEL_IMAGEDEST}
+>> -       for DTB in ${KERNEL_DEVICETREE}
+>> -       do
+>> -               DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>> -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> -               update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>> +       for DTB in ${KERNEL_DEVICETREE}; do
+>> +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>> +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>> +                       DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>> +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>> +                       update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>> +               done
+>>         done
+>>  }
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
