@@ -1,46 +1,30 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id AB3486067D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A57036FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 15:20:12 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id g203so76548585iof.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 07:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:content-type; bh=pEp4DZEaVrQxtBr/bzaQifjBmwsbTrFN3vaBKOe135M=;
-	b=eFzffL70nS3XYYMyzR30HJMBctYaqcp4RIF9TNR4WBq5yDzi8L5fkP//K85GQlIETm
-	zsjUR6gSPusLd3rkdyJ32oga2D0t/arJQ1+GdFERzQEhhJ/bgeh/J4GsgJh/kl7gGvdW
-	X/ZOt23FRS4GzjZxWIprjpENuGilENyKj3xWxokEKjw/intoE15LKZLSZDZdPwl/fqxz
-	NpRR3/ei9Jw8EDoXjBJYL0nhI2Dd4CysIcTVIMtB3pvNhbUluLd5/aVEiBp9xPlFaJ7E
-	PnBSQ4dJGAKH/TRmRn/HcRmtHspK9gAjyq7FuIPrQybQ/Dg1po0dpx81ESri68a2g9Mr
-	36QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:content-type;
-	bh=pEp4DZEaVrQxtBr/bzaQifjBmwsbTrFN3vaBKOe135M=;
-	b=KMEuuw2VwgFbQ+7w29mFRkMwwmlWnVFLqLq51aM7z6kx79AIUPhSjXfDp5u8fJIqn0
-	cU2pZdgbqo3k5W7D8kmQv2gmdcqq7OWITTVHhynJ1QRJhHa87lxe2QPPKzIs0LbTaliK
-	ONSZbkdD+rkTCi4l8RJ1j7dz47HWz6x9BsU+29GU0qhdcl26KfcT/LMh3iSK8SosJovC
-	coTC2f98jYCHabMMqOBhw5/iCVAm6JEY6ExcJ5rRWhGMGo0Dx/21+naJNc0IGfB9UmBQ
-	BewLCBKGcfkO/Uei/9f2nZT8vPimblhZEm1ILxohHxL/lJzMffl92JQpJs0edYtPTYQM
-	QtEg==
-X-Gm-Message-State: AG10YOQbvlCQQjQc0JrVKX8pd5aewKRhXB+owRq5+XyRxHftmbHgcleYBSaQRLGYJYY+2bb7Xvh90DirJtHA1A==
-X-Received: by 10.107.14.66 with SMTP id 63mr10062609ioo.150.1455808786653;
-	Thu, 18 Feb 2016 07:19:46 -0800 (PST)
-MIME-Version: 1.0
-References: <1455805135-20814-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1455805135-20814-3-git-send-email-markus.lehtonen@linux.intel.com>
-In-Reply-To: <1455805135-20814-3-git-send-email-markus.lehtonen@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 18 Feb 2016 15:19:37 +0000
-Message-ID: <CABcZANmsXr=_Tim1MNpBcDxSJOu34THuzMejVo_bYm5e3XGOiA@mail.gmail.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] devtool: update-recipe: create config fragment
+	Thu, 18 Feb 2016 15:26:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 18 Feb 2016 07:26:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,465,1449561600"; d="scan'208";a="748731876"
+Received: from kgbrenna-mobl2.ger.corp.intel.com (HELO [10.252.31.197])
+	([10.252.31.197])
+	by orsmga003.jf.intel.com with ESMTP; 18 Feb 2016 07:26:43 -0800
+User-Agent: Microsoft-MacOutlook/0.0.0.150701
+Date: Thu, 18 Feb 2016 17:26:42 +0200
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Message-ID: <B0DA8A7E-CC38-4DD8-9A2F-5DC157404517@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v5 1/3] gpg_sign: add local ipk package signing
+	functionality
+References: <cover.1455721437.git.adrian.ratiu@ni.com>
+	<4f6d1557ea54d7fb7453684b79bf458547f3035f.1455721437.git.adrian.ratiu@ni.com>
+	<288A0A62-7C71-4386-A4EA-FC03B4D6A05B@linux.intel.com>
+	<20160218112858.34a11b02@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <20160218112858.34a11b02@adi-pc-linux.emea.corp.natinst.com>
+Mime-version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v5 1/3] gpg_sign: add local ipk package signing functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,72 +37,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 15:20:12 -0000
-Content-Type: multipart/alternative; boundary=001a113fe1be990f6e052c0ce545
+X-List-Received-Date: Thu, 18 Feb 2016 15:26:45 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
---001a113fe1be990f6e052c0ce545
-Content-Type: text/plain; charset=UTF-8
+On 18/02/16 11:28, "Ioan-Adrian Ratiu" <adrian.ratiu@ni.com> wrote:
 
-On Thu, Feb 18, 2016 at 7:19 AM Markus Lehtonen <
-markus.lehtonen@linux.intel.com> wrote:
 
-> Create config fragment if the user makes modifications to kernel config.
-> User may change .config e.g. by directly editing it or by running the
-> 'do_menuconfig' bitbake task. Devtool generates one monolithic fragment
-> by simply doing a diff between .config and .config.baseline files in the
-> source directory.  If either of these files is missing, the config
-> fragment is not gerenrated or updated. The output is a file,
-> 'devtool-fragment.cfg' that gets added to SRC_URI in the recipe (as well
-> as copied into the 'oe-local-files' directory if that is present in the
-> source tree).
+>Hello
 >
-> ${S}/.config will be a symlink to ${B}/.config. We need to do this as
-> devtool is not able to access ${B} because ${B} is set in a .bbappend in
-> the workspace layer which is not parsed by devtool itself.
+>On Thu, 18 Feb 2016 11:04:22 +0200
+>Markus Lehtonen <markus.lehtonen@linux.intel.com> wrote:
 >
-> [YOCTO #8999]
+>> Hi,
+>> 
+>> 
+>> 
+>> On 17/02/16 17:41, "Ioan-Adrian Ratiu" <openembedded-core-bounces@lists.openembedded.org on behalf of adrian.ratiu@ni.com> wrote:
+>> 
+>> >Implement local ipk signing logic inside the gpg backend and add a new
+>> >bbclass which configures signing similar to how rpm does it.
+>> >
+>> >The ipk signing process is a bit different from rpm:
+>> >    - Signatures are stored outside ipk files; opkg connects to a feed
+>> >server and downloads them to verify a package.
+>> >    - Signatures are of two types (both supported by opkg): binary or
+>> >ascii armoured. By default we sign using ascii armoured.
+>> >    - Public keys are stored on targets to verify ipks using the
+>> >opkg-keyrings recipe.
+>> >
+>> >Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>> >---
+>> > meta/classes/package_ipk.bbclass |  6 +++++
+>> > meta/classes/sign_ipk.bbclass    | 55 ++++++++++++++++++++++++++++++++++++++++
+>> > meta/lib/oe/gpg_sign.py          | 39 ++++++++++++++++++++++++++++
+>> > 3 files changed, 100 insertions(+)
+>> > create mode 100644 meta/classes/sign_ipk.bbclass
+>> >
+>> >diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+>> >index 51bee28..4f5bbd0 100644
+>> >--- a/meta/classes/package_ipk.bbclass
+>> >+++ b/meta/classes/package_ipk.bbclass
+>> >@@ -246,6 +246,12 @@ python do_package_ipk () {
+>> >             bb.utils.unlockfile(lf)
+>> >             raise bb.build.FuncFailed("opkg-build execution failed")
+>> > 
+>> >+        if d.getVar('IPK_SIGN_PACKAGES', True) == '1':
+>> >+            ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
+>> >+            ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH', True))
+>> >+            d.setVar('IPK_TO_SIGN', ipk_to_sign)
+>> >+            bb.build.exec_func("sign_ipk", d)
+>> >+
+>> >         cleanupcontrol(root)
+>> >         bb.utils.unlockfile(lf)
+>> > 
+>> >diff --git a/meta/classes/sign_ipk.bbclass b/meta/classes/sign_ipk.bbclass
+>> >new file mode 100644
+>> >index 0000000..cb22bb4
+>> >--- /dev/null
+>> >+++ b/meta/classes/sign_ipk.bbclass
+>> >@@ -0,0 +1,55 @@
+>> >+# Class for generating signed IPK packages.
+>> >+#
+>> >+# Configuration variables used by this class:
+>> >+# IPK_GPG_PASSPHRASE_FILE
+>> >+#           Path to a file containing the passphrase of the signing key.
+>> >+# IPK_GPG_NAME
+>> >+#           Name of the key to sign with.
+>> >+# IPK_GPG_BACKEND
+>> >+#           Optional variable for specifying the backend to use for signing.
+>> >+#           Currently the only available option is 'local', i.e. local signing
+>> >+#           on the build host.
+>> >+# IPK_GPG_SIGNATURE_TYPE
+>> >+#           Optional variable for specifying the type of gpg signatures, can be:
+>> >+#                     1. Ascii armored (ASC), default if not set
+>> >+#                     2. Binary (BIN)
+>> >+# GPG_BIN
+>> >+#           Optional variable for specifying the gpg binary/wrapper to use for
+>> >+#           signing.
+>> >+# GPG_PATH
+>> >+#           Optional variable for specifying the gnupg "home" directory:
+>> >+#
+>> >+
+>> >+inherit sanity
+>> >+
+>> >+IPK_SIGN_PACKAGES = '1'
+>> >+IPK_GPG_BACKEND ?= 'local'
+>> >+IPK_GPG_SIGNATURE_TYPE ?= 'ASC'
+>> >+
+>> >+python () {
+>> >+    # Check configuration
+>> >+    for var in ('IPK_GPG_NAME', 'IPK_GPG_PASSPHRASE_FILE'):
+>> >+        if not d.getVar(var, True):
+>> >+            raise_sanity_error("You need to define %s in the config" % var, d)
+>> >+
+>> >+    sigtype = d.getVar("IPK_GPG_SIGNATURE_TYPE", True)
+>> >+    if sigtype.upper() != "ASC" and sigtype.upper() != "BIN":
+>> >+        raise_sanity_error("Bad value for IPK_GPG_SIGNATURE_TYPE (%s), use either ASC or BIN" % sigtype)
+>> >+}
+>> >+
+>> >+python sign_ipk () {
+>> >+    from oe.gpg_sign import get_signer
+>> >+
+>> >+    ipk_file = d.getVar('IPK_TO_SIGN')
+>> >+    bb.debug(1, 'Signing ipk: %s' % ipk_file)
+>> >+
+>> >+    signer = get_signer(d, d.getVar('IPK_GPG_BACKEND', True))
+>> >+
+>> >+    sig_type = d.getVar('IPK_GPG_SIGNATURE_TYPE', True)
+>> >+    is_ascii_sig = (sig_type.upper() != "BIN")
+>> >+
+>> >+    signer.sign_ipk(ipk_file,
+>> >+                    d.getVar('IPK_GPG_NAME', True),
+>> >+                    d.getVar('IPK_GPG_PASSPHRASE_FILE', True),
+>> >+                    is_ascii_sig)
+>> >+}  
+>> 
+>> To me, it would be seem more straightforward to not circulate ipk_to_sign through 'd'. Just define a regular python function like
+>> def sign_ipk(d, ipk_to_sign):
+>>     ...
+>> 
+>> And then in package_ipk.bbclass just do "sign_ipk(d, ipk_to_sign)" instead of bb.build.exec_func("sign_ipk", d)"
+>> 
+>> 
+>> 
+>> 
+>> >diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+>> >index ada1b2f..138499b 100644
+>> >--- a/meta/lib/oe/gpg_sign.py
+>> >+++ b/meta/lib/oe/gpg_sign.py
+>> >@@ -1,5 +1,6 @@
+>> > """Helper module for GPG signing"""
+>> > import os
+>> >+import sys
+>> > 
+>> > import bb
+>> > import oe.utils
+>> >@@ -50,6 +51,44 @@ class LocalSigner(object):
+>> >             bb.error('rpmsign failed: %s' % proc.before.strip())
+>> >             raise bb.build.FuncFailed("Failed to sign RPM packages")
+>> > 
+>> >+    def sign_ipk(self, ipkfile, keyid, passphrase_file, armor=True):
+>> >+        """Sign IPK files"""
+>> >+        import subprocess
+>> >+        from subprocess import Popen
+>> >+
+>> >+        cmd = [self.gpg_bin, "-q", "--batch", "--yes", "-b", "-u", keyid]
+>> >+        if self.gpg_path:
+>> >+            cmd += ["--homedir", self.gpg_path]
+>> >+        if armor:
+>> >+            cmd += ["--armor"]
+>> >+
+>> >+        try:
+>> >+            keypipe = os.pipe()
+>> >+
+>> >+            # Need to add '\n' in case the passfile does not have it
+>> >+            with open(passphrase_file) as fobj:
+>> >+                os.write(keypipe[1], fobj.readline() + '\n')
+>> >+
+>> >+            cmd += ["--passphrase-fd",  str(keypipe[0])]
+>> >+            cmd += [ipkfile]
+>> >+
+>> >+            gpg_proc = Popen(cmd, stdin=subprocess.PIPE)
+>> >+            gpg_proc.wait()
+>> >+
+>> >+            os.close(keypipe[1]);
+>> >+            os.close(keypipe[0]);
+>> >+
+>> >+        except IOError as e:
+>> >+            bb.error("IO error ({0}): {1}".format(e.errno, e.strerror))
+>> >+            raise bb.build.FuncFailed("Failed to sign IPK packages")
+>> >+        except OSError as e:
+>> >+            bb.error("OS error ({0}): {1}".format(e.errno, e.strerror))
+>> >+            raise bb.build.FuncFailed("Failed to sign IPK packages")
+>> >+        except:
+>> >+            bb.error("Unexpected error: {1}".format(sys.exc_info()[0]))
+>> >+            raise bb.build.FuncFailed("Failed to sign IPK packages")
+>> >+
+>> >+
+>> >     def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
+>> >         """Create a detached signature of a file"""
+>> >         import subprocess  
+>> 
+>> Couldn't you just use detach_sign() instead of introducing sign_ipk(). To me the functionality seems identical.
 >
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+>The functionality is almost identical, yes, and consolidating it into one function is a very good idea. I'll do it but I  have one question.
 >
+>The only diference between them is the usage in detach-sign of gpg's "--with-passphrase" arg, and that arg seems to cause some errors on my system:
+>"gpg: signing failed: Inappropriate ioctl for device"
 
-If the devtool-fragment.cfg already exists, what's the behavior? Will it
-update it with both the old and new changes, or will it create a second
-fragment?
+You mean the "--passphrase-file" option? I don't see any "--with-passphrase" option anywhere.
 
---001a113fe1be990f6e052c0ce545
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The problem sounds really strange. What host OS and gpg version do you have? I'd like to understand what is happening there.
 
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu=
-, Feb 18, 2016 at 7:19 AM Markus Lehtonen &lt;<a href=3D"mailto:markus.leht=
-onen@linux.intel.com">markus.lehtonen@linux.intel.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">Create config fragment if the user makes =
-modifications to kernel config.<br>
-User may change .config e.g. by directly editing it or by running the<br>
-&#39;do_menuconfig&#39; bitbake task. Devtool generates one monolithic frag=
-ment<br>
-by simply doing a diff between .config and .config.baseline files in the<br=
+
+>I have not managed to reliably reproduce and find the cause of this issue. However, if we always open the file in python and read directly in a pipe which
+>we always pass to gpg using "--passphrase-fd", the error goes away.
 >
-source directory.=C2=A0 If either of these files is missing, the config<br>
-fragment is not gerenrated or updated. The output is a file,<br>
-&#39;devtool-fragment.cfg&#39; that gets added to SRC_URI in the recipe (as=
- well<br>
-as copied into the &#39;oe-local-files&#39; directory if that is present in=
- the<br>
-source tree).<br>
-<br>
-${S}/.config will be a symlink to ${B}/.config. We need to do this as<br>
-devtool is not able to access ${B} because ${B} is set in a .bbappend in<br=
+>Is using something like the following in detach_sign() ok with you?
 >
-the workspace layer which is not parsed by devtool itself.<br>
-<br>
-[YOCTO #8999]<br>
-<br>
-Signed-off-by: Markus Lehtonen &lt;<a href=3D"mailto:markus.lehtonen@linux.=
-intel.com" target=3D"_blank">markus.lehtonen@linux.intel.com</a>&gt;<br></b=
-lockquote><div><br></div><div>If the devtool-fragment.cfg already exists, w=
-hat&#39;s the behavior? Will it update it with both the old and new changes=
-, or will it create a second fragment?</div></div></div>
+>with open(passphrase_file) as fobj:
+>             os.write(keypipe[1], fobj.readline() + '\n')
+>
+>cmd += ["--passphrase-fd",  str(keypipe[0])]
 
---001a113fe1be990f6e052c0ce545--
+If we need to do this, why do you want to use pipes? Why not just something like
+with open(passphrase_file) as fobj:
+
+    job.communicate(fobj.readline() + '\n')
+
+
+Thanks,
+   Markus
+
+
+
+
