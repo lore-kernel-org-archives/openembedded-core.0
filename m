@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 15A2F6080F
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F5B73179
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 10:59:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1IAwbe1000797 for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 10:59:20 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qfyXG-4jyr5d
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 10:59:20 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1IAxIOh000821
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 10:59:19 GMT
-Message-ID: <1455793158.28376.76.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Feb 2016 10:59:18 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+	Thu, 18 Feb 2016 11:04:41 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Feb 2016 03:04:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,464,1449561600"; d="scan'208";a="905926908"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.17.186])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Feb 2016 03:04:42 -0800
+Message-ID: <1455793479.3642.2.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Feb 2016 11:04:39 +0000
+In-Reply-To: <cover.1455631402.git.joshua.g.lock@intel.com>
+References: <cover.1455631402.git.joshua.g.lock@intel.com>
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
 Mime-Version: 1.0
-Subject: [PATCH] epiphany: Add libxml2-native to DEPENDS
+Subject: Re: [PATCH 0/4] Fido pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 10:59:21 -0000
+X-List-Received-Date: Thu, 18 Feb 2016 11:04:44 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-configure needs xmllint and there was no direct dependency.
+On Tue, 2016-02-16 at 14:30 +0000, Joshua Lock wrote:
+> Please consider the following fixes for inclusion in the Fido branch.
+> 
+> - libpcre security fix not required in jethro or master because the
+> newer
+>   version they carry isn't affected
+> - backport a fix for some memory leaks in rpmresolve
+> - backport a fix for kernel.bbclass which already exists in jethro &
+> master
+> - remove a stray tzdata file, this change isn't required for jethro
+> or master as
+>   the file isn't present in those branches
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+I've added two more changes to the branch since Tuesday:
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.18.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.18.3.bb
-index e822d3b..73fcd93 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.18.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.18.3.bb
-@@ -3,7 +3,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
- DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr libwnck3 \
--	   gsettings-desktop-schemas gnome-desktop3"
-+	   gsettings-desktop-schemas gnome-desktop3 libxml2-native"
- 
- inherit gnomebase gsettings distro_features_check upstream-version-is-even
- # libwnck3 is x11 only
+  - libbsd fix for CVE-2016-2090 backported from Jethro
+  - glibc fix for CVE-2015-7547 based on the change in Jethro and
+master only with the patch from the 2.21 branch of glibc
 
+Regards,
 
+Joshua
 
