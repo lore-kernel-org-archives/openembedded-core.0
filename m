@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id AC49F731DA
+	by mail.openembedded.org (Postfix) with ESMTP id DA2C0731DD
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 18 Feb 2016 14:18:56 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Feb 2016 06:18:56 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 18 Feb 2016 06:18:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,465,1449561600"; d="scan'208";a="918493631"
+X-IronPort-AV: E=Sophos;i="5.22,465,1449561600"; d="scan'208";a="918493632"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Feb 2016 06:18:56 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 18 Feb 2016 06:18:57 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 16:18:53 +0200
-Message-Id: <1455805135-20814-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu, 18 Feb 2016 16:18:54 +0200
+Message-Id: <1455805135-20814-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH v2 0/2] devtool: create kernel config fragment
+In-Reply-To: <1455805135-20814-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1455805135-20814-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH v2 1/2] devtool: sync: update kernel config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,38 +29,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 14:18:56 -0000
+X-List-Received-Date: Thu, 18 Feb 2016 14:18:57 -0000
 
-Second iteration of rudimentary support for creating kernel config fragments
-with devtool.  When doing 'update-recipe' devtool diffs .config.baseline and
-.config (under ${S}) and creates/upates a config fragment which is added to
-SRC_URI of the recipe. Unlike the in the first version of this patchset,
-${S}/.config is now just a symlink to ${B}/.config. This way we only maintain
-one copy of the config but it also means that the config is lost if ${B} is
-cleaned.
+Copy kernel config is copied to the source directory at a later phase in
+_extract_source() so that it gets copied when devtool sync is done, too.
 
-[YOCTO #8999]
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-The following changes since commit 10351d2e7ab27d0f0311c491b70d0f0056a8f76b:
-
-  pulseaudio: 6.0 -> 8.0 (2016-02-18 07:39:23 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/devtool/kernel
-
-for you to fetch changes up to 08dcad8878e8715f29ff9b63c65f3e9c177117a4:
-
-  devtool: update-recipe: create config fragment (2016-02-18 15:53:07 +0200)
-
-
-Markus Lehtonen (2):
-  devtool: sync: update kernel config
-  devtool: update-recipe: create config fragment
-
- scripts/lib/devtool/standard.py | 62 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 2 deletions(-)
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d12cc2e..a540a9b 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -577,12 +577,12 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
+ 
+         bb.process.run('git tag -f devtool-patched', cwd=srcsubdir)
+ 
++        kconfig = None
+         if bb.data.inherits_class('kernel-yocto', d):
+             # Store generate and store kernel config
+             logger.info('Generating kernel config')
+             task_executor.exec_func('do_configure', False)
+             kconfig = os.path.join(crd.getVar('B', True), '.config')
+-            shutil.copy2(kconfig, srcsubdir)
+ 
+ 
+         tempdir_localdir = os.path.join(tempdir, 'oe-local-files')
+@@ -614,6 +614,10 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
+ 
+             shutil.move(srcsubdir, srctree)
+ 
++        if kconfig:
++            logger.info('Copying kernel config to srctree')
++            shutil.copy2(kconfig, srctree)
++
+     finally:
+         bb.logger.setLevel(origlevel)
+ 
 -- 
 2.6.2
 
