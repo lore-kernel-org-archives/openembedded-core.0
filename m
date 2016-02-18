@@ -1,27 +1,46 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 70E6A600B3
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC396E630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 18:21:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 18 Feb 2016 10:21:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,466,1449561600"; d="scan'208";a="918688466"
-Received: from afshjern.zpn.intel.com (HELO [10.219.5.147]) ([10.219.5.147])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Feb 2016 10:21:42 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1455702940-5840-1-git-send-email-alejandro.franco@linux.intel.com>
-	<1455806750.28376.85.camel@linuxfoundation.org>
-From: Alex Franco <alejandro.franco@linux.intel.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56C60C00.7010606@linux.intel.com>
-Date: Thu, 18 Feb 2016 12:22:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1455806750.28376.85.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/2] testimage: add/modify DEFAULT_TEST_SUITES
+	Thu, 18 Feb 2016 19:21:32 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id jq7so82361140obb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Feb 2016 11:21:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=QzxdNbz66ywYCL7RCYU642LJcD39c/zFMW+UXzJJimA=;
+	b=qFFLc/SjPcUMjAHmVNh8ik8q+KM+uQgd7iDzhE4Kb7moM3qzexEFsTYEKZpPjluxB5
+	Qoq8rYjYkkxFmN9fUWUOco1Vp2Q9XhX12WWrF1vlGwuunL3CHcIoheZ04+hf4i/GwXks
+	RelBM9jifXp5adDuCyjctDL736sNyhyvZl2j+CRlkgLg3Z+n/NWhB8KH/rzRloVguU1n
+	oMvdhv5ixolZGkvp9muG5ssipiAg2tkRgjiF3kntW0i3+FR586B50/0QeP7XCLRd9/i2
+	Rfpt9r00DYRjy905NkeOUIAtpDR5YUlGHN0zHStBXHfazk6EizSEKkg72JzTYuvizQRL
+	FMXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=QzxdNbz66ywYCL7RCYU642LJcD39c/zFMW+UXzJJimA=;
+	b=FCQaotTXDisjbM1ZUocP7+pkBsQK2ALd0ph/RhmVpCCcHw7ShPUsUfAthr70Co1pPE
+	jdpN+pbrQp4U76W2neB0Cvd3bCXmCDzZ/Dhz/KVEGY45T4mms/dW2xjyJjYrzTIAxj0M
+	4AMaPKV6PnqH21/00KSD8xcBnLrY6RDupZtUQ2xpVtSkQ5gnOTW7bkRbUx/moK/Ui/Mc
+	xHZm03ji61xWTY6YUfnPJ988NsqoBFfvOmhGDWtn91MiZZgKYFNwBQ0Mi4cwmq4TjzQR
+	FCpNWhpu1Vxf88myu95RMfp6UXRnxh1Vb236Hv8QCBWgIRERMi+qbNKTFTBAhL0iwlL5
+	Yu4Q==
+X-Gm-Message-State: AG10YOTbVhNwPBUEKq5dGCNBYDAqvtA/xF5zSyZ83VvczGst/Av5pEoX4xJcGtPNUXYzFA==
+X-Received: by 10.182.241.134 with SMTP id wi6mr7860162obc.81.1455823293180;
+	Thu, 18 Feb 2016 11:21:33 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	w127sm4626409oiw.17.2016.02.18.11.21.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 18 Feb 2016 11:21:32 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Feb 2016 11:21:23 -0800
+Message-Id: <1455823285-32028-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/2] libsoup-2.4: cleanup + disable libsoup-gnome by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +53,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 18:21:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Feb 2016 19:21:33 -0000
 
-So I'm currently running a couple lsb builds, but even though they
-aren't finished, I think this patch may be the culprit, since I am
-defining DEFAULT_TEST_SUITES_pn-core-image-lsb with exactly the tests
-that are failing, so I'll most likely be sending an update soon.
+Andre McCurdy (2):
+  libsoup-2.4: minor formatting improvements
+  libsoup-2.4: disable libsoup-gnome by default
 
-Alex Franco
+ meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-On 02/18/2016 08:45 AM, Richard Purdie wrote:
-> On Wed, 2016-02-17 at 09:55 +0000, Alex Franco wrote:
->> - Add generic variables to reuse values in default test suites
->> - Add more default test suites variables
->> - Modify existing test suites to use generic vars when possible
->>
->> [YOCTO #8410]
->>
->> Alex Franco (2):
->>   testimage: add DEFAULT_TEST_SUITES for more images
->>   testimage: reuse generic test suites
-> Results in failures on the autobuilder, e.g.:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b=
-uilds/667/steps/Running%20Sanity%20Tests/logs/stdio
->
-> (I'm guessing it was from these patches)
->
-> Cheers,
->
-> Richard
-
+-- 
+1.9.1
 
 
