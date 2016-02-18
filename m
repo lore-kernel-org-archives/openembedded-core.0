@@ -1,20 +1,27 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 36E1A6FF91
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BAB266E681
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 06:46:40 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Feb 2016 22:46:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,464,1449561600"; d="scan'208";a="915547015"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2016 22:46:40 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 08:46:39 +0200
-Message-Id: <1455777999-14641-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] cml1.bbclass: fix do_menuconfig
+	Thu, 18 Feb 2016 07:00:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1I70uB0014338
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Feb 2016 23:00:57 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 17 Feb 2016 23:00:56 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1453363017.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56C56C27.8000002@windriver.com>
+Date: Thu, 18 Feb 2016 15:00:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <cover.1453363017.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] insane.bbclass: print more info for build-deps and file-rdeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 06:46:41 -0000
+X-List-Received-Date: Thu, 18 Feb 2016 07:00:57 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The functionality got broken after bitbake commit
-8bf33a8e92c0e188fa392030025756196c96fcbb
-which disabled the (bitbake) variable expansion inside python functions.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/cml1.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ping.
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index 95cf584..4067dc0 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -26,7 +26,8 @@ python do_menuconfig() {
-     except OSError:
-         mtime = 0
- 
--    oe_terminal("${SHELL} -c \"make ${KCONFIG_CONFIG_COMMAND}; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
-+    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-+                d.getVar('PN', True ) + ' Configuration', d)
- 
-     # FIXME this check can be removed when the minimum bitbake version has been bumped
-     if hasattr(bb.build, 'write_taint'):
--- 
-2.6.2
+// Robert
 
+On 01/21/2016 03:57 PM, Robert Yang wrote:
+> The following changes since commit 8084c185c43cb7e7f5e29d31939dfd308f8a0f93:
+>
+>    udev: Add 2 patches to support 4.4 kernel (2016-01-20 09:20:06 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/insane
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/insane
+>
+> Robert Yang (1):
+>    insane.bbclass: print more info for build-deps and file-rdeps
+>
+>   meta/classes/insane.bbclass |    9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+>
 
