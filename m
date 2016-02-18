@@ -1,29 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AF4D601A5
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id AB3486067D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 14:45:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1IEjtcr014096; Thu, 18 Feb 2016 14:45:55 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DlOQMRZqcgqo; Thu, 18 Feb 2016 14:45:55 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1IEjo2B014092
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 18 Feb 2016 14:45:51 GMT
-Message-ID: <1455806750.28376.85.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex Franco <alejandro.franco@linux.intel.com>,
+	Thu, 18 Feb 2016 15:20:12 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id g203so76548585iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Feb 2016 07:20:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:content-type; bh=pEp4DZEaVrQxtBr/bzaQifjBmwsbTrFN3vaBKOe135M=;
+	b=eFzffL70nS3XYYMyzR30HJMBctYaqcp4RIF9TNR4WBq5yDzi8L5fkP//K85GQlIETm
+	zsjUR6gSPusLd3rkdyJ32oga2D0t/arJQ1+GdFERzQEhhJ/bgeh/J4GsgJh/kl7gGvdW
+	X/ZOt23FRS4GzjZxWIprjpENuGilENyKj3xWxokEKjw/intoE15LKZLSZDZdPwl/fqxz
+	NpRR3/ei9Jw8EDoXjBJYL0nhI2Dd4CysIcTVIMtB3pvNhbUluLd5/aVEiBp9xPlFaJ7E
+	PnBSQ4dJGAKH/TRmRn/HcRmtHspK9gAjyq7FuIPrQybQ/Dg1po0dpx81ESri68a2g9Mr
+	36QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-type;
+	bh=pEp4DZEaVrQxtBr/bzaQifjBmwsbTrFN3vaBKOe135M=;
+	b=KMEuuw2VwgFbQ+7w29mFRkMwwmlWnVFLqLq51aM7z6kx79AIUPhSjXfDp5u8fJIqn0
+	cU2pZdgbqo3k5W7D8kmQv2gmdcqq7OWITTVHhynJ1QRJhHa87lxe2QPPKzIs0LbTaliK
+	ONSZbkdD+rkTCi4l8RJ1j7dz47HWz6x9BsU+29GU0qhdcl26KfcT/LMh3iSK8SosJovC
+	coTC2f98jYCHabMMqOBhw5/iCVAm6JEY6ExcJ5rRWhGMGo0Dx/21+naJNc0IGfB9UmBQ
+	BewLCBKGcfkO/Uei/9f2nZT8vPimblhZEm1ILxohHxL/lJzMffl92JQpJs0edYtPTYQM
+	QtEg==
+X-Gm-Message-State: AG10YOQbvlCQQjQc0JrVKX8pd5aewKRhXB+owRq5+XyRxHftmbHgcleYBSaQRLGYJYY+2bb7Xvh90DirJtHA1A==
+X-Received: by 10.107.14.66 with SMTP id 63mr10062609ioo.150.1455808786653;
+	Thu, 18 Feb 2016 07:19:46 -0800 (PST)
+MIME-Version: 1.0
+References: <1455805135-20814-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1455805135-20814-3-git-send-email-markus.lehtonen@linux.intel.com>
+In-Reply-To: <1455805135-20814-3-git-send-email-markus.lehtonen@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 18 Feb 2016 15:19:37 +0000
+Message-ID: <CABcZANmsXr=_Tim1MNpBcDxSJOu34THuzMejVo_bYm5e3XGOiA@mail.gmail.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 14:45:50 +0000
-In-Reply-To: <1455702940-5840-1-git-send-email-alejandro.franco@linux.intel.com>
-References: <1455702940-5840-1-git-send-email-alejandro.franco@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/2] testimage: add/modify DEFAULT_TEST_SUITES
+Subject: Re: [PATCH v2 2/2] devtool: update-recipe: create config fragment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +53,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 14:45:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Feb 2016 15:20:12 -0000
+Content-Type: multipart/alternative; boundary=001a113fe1be990f6e052c0ce545
 
-On Wed, 2016-02-17 at 09:55 +0000, Alex Franco wrote:
-> - Add generic variables to reuse values in default test suites
-> - Add more default test suites variables
-> - Modify existing test suites to use generic vars when possible
-> 
-> [YOCTO #8410]
-> 
-> Alex Franco (2):
->   testimage: add DEFAULT_TEST_SUITES for more images
->   testimage: reuse generic test suites
+--001a113fe1be990f6e052c0ce545
+Content-Type: text/plain; charset=UTF-8
 
-Results in failures on the autobuilder, e.g.:
+On Thu, Feb 18, 2016 at 7:19 AM Markus Lehtonen <
+markus.lehtonen@linux.intel.com> wrote:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/builds/667/steps/Running%20Sanity%20Tests/logs/stdio
+> Create config fragment if the user makes modifications to kernel config.
+> User may change .config e.g. by directly editing it or by running the
+> 'do_menuconfig' bitbake task. Devtool generates one monolithic fragment
+> by simply doing a diff between .config and .config.baseline files in the
+> source directory.  If either of these files is missing, the config
+> fragment is not gerenrated or updated. The output is a file,
+> 'devtool-fragment.cfg' that gets added to SRC_URI in the recipe (as well
+> as copied into the 'oe-local-files' directory if that is present in the
+> source tree).
+>
+> ${S}/.config will be a symlink to ${B}/.config. We need to do this as
+> devtool is not able to access ${B} because ${B} is set in a .bbappend in
+> the workspace layer which is not parsed by devtool itself.
+>
+> [YOCTO #8999]
+>
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+>
 
-(I'm guessing it was from these patches)
+If the devtool-fragment.cfg already exists, what's the behavior? Will it
+update it with both the old and new changes, or will it create a second
+fragment?
 
-Cheers,
+--001a113fe1be990f6e052c0ce545
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu=
+, Feb 18, 2016 at 7:19 AM Markus Lehtonen &lt;<a href=3D"mailto:markus.leht=
+onen@linux.intel.com">markus.lehtonen@linux.intel.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">Create config fragment if the user makes =
+modifications to kernel config.<br>
+User may change .config e.g. by directly editing it or by running the<br>
+&#39;do_menuconfig&#39; bitbake task. Devtool generates one monolithic frag=
+ment<br>
+by simply doing a diff between .config and .config.baseline files in the<br=
+>
+source directory.=C2=A0 If either of these files is missing, the config<br>
+fragment is not gerenrated or updated. The output is a file,<br>
+&#39;devtool-fragment.cfg&#39; that gets added to SRC_URI in the recipe (as=
+ well<br>
+as copied into the &#39;oe-local-files&#39; directory if that is present in=
+ the<br>
+source tree).<br>
+<br>
+${S}/.config will be a symlink to ${B}/.config. We need to do this as<br>
+devtool is not able to access ${B} because ${B} is set in a .bbappend in<br=
+>
+the workspace layer which is not parsed by devtool itself.<br>
+<br>
+[YOCTO #8999]<br>
+<br>
+Signed-off-by: Markus Lehtonen &lt;<a href=3D"mailto:markus.lehtonen@linux.=
+intel.com" target=3D"_blank">markus.lehtonen@linux.intel.com</a>&gt;<br></b=
+lockquote><div><br></div><div>If the devtool-fragment.cfg already exists, w=
+hat&#39;s the behavior? Will it update it with both the old and new changes=
+, or will it create a second fragment?</div></div></div>
 
+--001a113fe1be990f6e052c0ce545--
