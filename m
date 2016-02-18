@@ -1,43 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DDFC6FFA6
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B244C731E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 19:39:07 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id b205so39875619wmb.1
+	Thu, 18 Feb 2016 20:12:15 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id g62so45917032wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 11:39:09 -0800 (PST)
+	Thu, 18 Feb 2016 12:12:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=IS3X8p/tN6dhRGX/i/oJPA6uW8eJfTYj1XsBScROTzQ=;
-	b=uoXDRnPwx9Jd5BTsgHQs79eFRJEzVhBPv3EIBMQROoNbIcViYLdlEjH7EPpzqzIp60
-	q/vrs+U30GqS5/gHyNrNyXdqJqseispMyxtfogp+t0qMQ4T0VS0B1yjgAmvugf0OS4hw
-	qZQ46yWkxkyr40UmBxP8t7lJfIwdZJyY1Y6FjogCyeiKrgN8DJYYvoN4NMkIDHSBpcBD
-	xDhVEOW7tLnpNmO8htQJplaqHzBssqf/Qo774VXVy5XOpKv36sdtcd5Vj1EC1OArAQ9P
-	h026XX4m5YSKd/XmvJV2GxyXkuFMwRYcrhpe6ziTkZunFh8UTxPG3nXNj32d2M7OxGid
-	3EFg==
+	:cc:content-type;
+	bh=VtberK0n7jPEMFSSGJSOPUvw7digLe9RCW9ejMGGGjo=;
+	b=WgJjEVRw15kWf2OQCG/HtSqYzfEATjV2oRAw2Cr0TZ/6HORKB6hYzOiQ9duyTfAlcv
+	vluj3bLvoSspQe7BM1ENJW3rbrH96ZXR/rvC7qOFwyg+KVObd9yo5wTstgyTkLPBIFQf
+	tBSajarg3lmd8XkSJaHL16qsJ43Y6aLV8QesgF8VHPhpwB5Krl+BBsBpxtMrsf6VVDxi
+	UztoVSs8AyR7pjfDYFWIU0BlVJ/r5EhZrSJYe30z8l41GHLKTvSv26UYYdN79HfxRnpg
+	K9UYfhuST3ARzjgLE1wON4d1V1rK9P6WZO7mQ4EygIh7bHNUfaFRKeXwsfWnag5+0Zam
+	VLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=IS3X8p/tN6dhRGX/i/oJPA6uW8eJfTYj1XsBScROTzQ=;
-	b=GQgEZNRI3fFIGjs7bfcfEr0mGD/JRF1EMnoHTCGtjHlAOKlCiH5DhbRGAIk19CDJen
-	u71TPRNYLB8EXNX33N4YBnE2bPnF1a8e2zqVvoOTiMDDT3nlp7QPn7n23jAnJgAUp4Li
-	n9eYEdZopfKK/ViVkV5zG8Xfkoq1zC/dKp8UAHfkXB2k59kSBffwlEKuqCCgxquKfj8J
-	11dFMx2EN6CBylwXVAkIjE0HYRfRCKJotcRu/XVWopI9P3HsjLlNO2wViHkFa/JYbeT+
-	QKCOZP79+u1Zaqi+mFypAXu1pVHvPg86QbiSmIAM0cfxff5U3K1VBDKvv+X+fGuGy33/
-	nixw==
-X-Gm-Message-State: AG10YORZRHDg5NJt/JQ2E8CQOxvXLBrDwaBkH0O+xVx90OW4gtxiG7pASLBEUQdivJI88U8DBR22xI7di5KGgg==
+	:message-id:subject:from:to:cc:content-type;
+	bh=VtberK0n7jPEMFSSGJSOPUvw7digLe9RCW9ejMGGGjo=;
+	b=bLxy0PCFT/EX6+UZAtJTLykXw7sP/BbLF1Bo0Nty+8GjOL38N2UKm2p6F1ZOBNyq9t
+	pKopbKEX+4WF7YvV7WqG1q/n5ungy60aiy46L1BpkEMHd3mckCmIl3a/2/oBlXfKIQGj
+	qbEs8fGzM3sPeEUI0gKOHgcNLGtiffpz0BcqzfcudaJ4niaQyXFb/w69k44lVX9Y6tHZ
+	HCC4x05GLvL6LfC/v9e/jaKr/CcS9amPgOluaizA+tUlvSdMAcXNLmU3Ny83uoIq+3ip
+	KOJbi/myVIGSSixcOSgjSE1PZ4ckJ/kTm1TViRVYNDv0JL1U97I/PWDemB+Lkcsi5qAm
+	P5Qw==
+X-Gm-Message-State: AG10YOTwsps8lC+9lVxcozuKXLOFE04lU4kD423PrcdAKtcMs7bkKELNgGnATaHgpFqFjELsvF/Vy1cCdPqocQ==
 MIME-Version: 1.0
-X-Received: by 10.28.60.84 with SMTP id j81mr5224783wma.91.1455824348324; Thu,
-	18 Feb 2016 11:39:08 -0800 (PST)
-Received: by 10.194.58.176 with HTTP; Thu, 18 Feb 2016 11:39:08 -0800 (PST)
-In-Reply-To: <1455823285-32028-3-git-send-email-armccurdy@gmail.com>
+X-Received: by 10.194.63.242 with SMTP id j18mr10819264wjs.114.1455826335819; 
+	Thu, 18 Feb 2016 12:12:15 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Thu, 18 Feb 2016 12:12:15 -0800 (PST)
+In-Reply-To: <CA+chaQcvFnZAjNKCsc3xvPq36zPWXK5xrmi+goTonnu-i4j7sQ@mail.gmail.com>
 References: <1455823285-32028-1-git-send-email-armccurdy@gmail.com>
 	<1455823285-32028-3-git-send-email-armccurdy@gmail.com>
-Date: Thu, 18 Feb 2016 20:39:08 +0100
-Message-ID: <CA+chaQcvFnZAjNKCsc3xvPq36zPWXK5xrmi+goTonnu-i4j7sQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<CA+chaQcvFnZAjNKCsc3xvPq36zPWXK5xrmi+goTonnu-i4j7sQ@mail.gmail.com>
+Date: Thu, 18 Feb 2016 12:12:15 -0800
+Message-ID: <CAJ86T=Wby3W7ZakvBJN_rO2VDXfen1_2fPOU-MygPHg4=4Yv1Q@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] libsoup-2.4: disable libsoup-gnome by default
@@ -53,115 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Feb 2016 19:39:08 -0000
-Content-Type: multipart/alternative; boundary=001a1148e18c232dbe052c1085f1
-
---001a1148e18c232dbe052c1085f1
+X-List-Received-Date: Thu, 18 Feb 2016 20:12:15 -0000
 Content-Type: text/plain; charset=UTF-8
 
-IIRC this will rename the resulting package (because there will be only one
-shared library now).
+On Thu, Feb 18, 2016 at 11:39 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> IIRC this will rename the resulting package (because there will be only one
+> shared library now).
 
-that will probably break on device upgrade-path
+Yes, you're right. Previously "libsoup-2.4" and becomes
+"libsoup-2.4-1" when the "gnome" PACKAGECONFIG is removed.
 
-I'm not sure if someone still cares about upgrade-paths.. there are too
-many issues going in unnoticed.
+> that will probably break on device upgrade-path
+>
+> I'm not sure if someone still cares about upgrade-paths.. there are too many
+> issues going in unnoticed.
+>
+> On Thu, Feb 18, 2016 at 8:21 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> libsoup-gnome is entirely deprecated and has just been stubs since 2.42.
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb | 5 ++---
+>>  1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
+>> b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
+>> index 865c1d7..a12f869 100644
+>> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
+>> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
+>> @@ -18,9 +18,8 @@ S = "${WORKDIR}/libsoup-${PV}"
+>>
+>>  inherit autotools gettext pkgconfig upstream-version-is-even
+>>
+>> -# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.
+>> Enable
+>> -# by default but let it be easily disabled.
+>> -PACKAGECONFIG ??= "gnome"
+>> +# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.
+>> Disable by default.
+>> +PACKAGECONFIG ??= ""
+>>  PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
+>>
+>>  EXTRA_OECONF = "--disable-vala"
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
-On Thu, Feb 18, 2016 at 8:21 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> libsoup-gnome is entirely deprecated and has just been stubs since 2.42.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-> b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-> index 865c1d7..a12f869 100644
-> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-> @@ -18,9 +18,8 @@ S = "${WORKDIR}/libsoup-${PV}"
->
->  inherit autotools gettext pkgconfig upstream-version-is-even
->
-> -# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.
-> Enable
-> -# by default but let it be easily disabled.
-> -PACKAGECONFIG ??= "gnome"
-> +# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.
-> Disable by default.
-> +PACKAGECONFIG ??= ""
->  PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
->
->  EXTRA_OECONF = "--disable-vala"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a1148e18c232dbe052c1085f1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">IIRC this will rename the resulting package (because there=
- will be only one shared library now).<div><br></div><div>that will probabl=
-y break on device upgrade-path</div><div><br></div><div>I&#39;m not sure if=
- someone still cares about upgrade-paths.. there are too many issues going =
-in unnoticed.</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail=
-_quote">On Thu, Feb 18, 2016 at 8:21 PM, Andre McCurdy <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">libsoup-gnome i=
-s entirely deprecated and has just been stubs since 2.42.<br>
-<br>
-Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">arm=
-ccurdy@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/libsoup/<a href=3D"http://libsoup-2.4_2.52.2.bb"=
- rel=3D"noreferrer" target=3D"_blank">libsoup-2.4_2.52.2.bb</a> | 5 ++---<b=
-r>
-=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-support/libsoup/<a href=3D"http://libsoup-2.4_2.5=
-2.2.bb" rel=3D"noreferrer" target=3D"_blank">libsoup-2.4_2.52.2.bb</a> b/me=
-ta/recipes-support/libsoup/<a href=3D"http://libsoup-2.4_2.52.2.bb" rel=3D"=
-noreferrer" target=3D"_blank">libsoup-2.4_2.52.2.bb</a><br>
-index 865c1d7..a12f869 100644<br>
---- a/meta/recipes-support/libsoup/<a href=3D"http://libsoup-2.4_2.52.2.bb"=
- rel=3D"noreferrer" target=3D"_blank">libsoup-2.4_2.52.2.bb</a><br>
-+++ b/meta/recipes-support/libsoup/<a href=3D"http://libsoup-2.4_2.52.2.bb"=
- rel=3D"noreferrer" target=3D"_blank">libsoup-2.4_2.52.2.bb</a><br>
-@@ -18,9 +18,8 @@ S =3D &quot;${WORKDIR}/libsoup-${PV}&quot;<br>
-<br>
-=C2=A0inherit autotools gettext pkgconfig upstream-version-is-even<br>
-<br>
--# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.=C2=
-=A0 Enable<br>
--# by default but let it be easily disabled.<br>
--PACKAGECONFIG ??=3D &quot;gnome&quot;<br>
-+# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Dis=
-able by default.<br>
-+PACKAGECONFIG ??=3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG[gnome] =3D &quot;--with-gnome,--without-gnome&quot;<br>
-<br>
-=C2=A0EXTRA_OECONF =3D &quot;--disable-vala&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.1<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a1148e18c232dbe052c1085f1--
