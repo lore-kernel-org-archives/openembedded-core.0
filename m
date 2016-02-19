@@ -1,22 +1,24 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 66CC5605FF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F25EB7705C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 04:42:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Feb 2016 20:42:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,469,1449561600"; d="scan'208";a="889270596"
-Received: from bitbang.jf.intel.com ([10.7.199.151])
-	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2016 20:42:07 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 20:42:03 -0800
-Message-Id: <1455856923-12528-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <941d876fe835bc1aa26039d0edec9573d482bca3.1455815778.git.randy.e.witt@linux.intel.com>
-References: <941d876fe835bc1aa26039d0edec9573d482bca3.1455815778.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH v2 3/3] populate_sdk_ext.bbclass: Add SDK_RECRDEP_TASKS variable
+	Fri, 19 Feb 2016 05:54:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J5slVN027220
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Feb 2016 21:54:47 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 18 Feb 2016 21:54:46 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
+	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
+Date: Fri, 19 Feb 2016 00:54:38 -0500
+Message-ID: <cover.1455860789.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/6] fix buildpath QA Issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,47 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 04:42:07 -0000
+X-List-Received-Date: Fri, 19 Feb 2016 05:54:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Currently there isn't a way for the extensible sdk to know all the tasks
-that will need sstate for an image. This is because a layer can add it's
-on custom tasks that are required for an image to be generated.
+Also fix btrfs-tools and git which were found by workd build
 
-The extensible sdk solved this for poky by using recrdeptask and
-specifying the tasks known to be required for the image as well as for
-building new recipes.
+Other buildpath fixes is still on the way.
 
-So the SDK_RECRDEP_TASKS variable allows a user to specify additional
-tasks that need to be pulled in.
+//Hongxu
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/classes/populate_sdk_ext.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The following changes since commit ed20c6ca446a8788615e497bd4452195537deab5:
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 7c95301..1c1bb47 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -21,6 +21,8 @@ SDK_EXT_task-populate-sdk-ext = "-ext"
- # Options are full or minimal
- SDK_EXT_TYPE ?= "full"
- 
-+SDK_RECRDEP_TASKS ?= ""
-+
- SDK_LOCAL_CONF_WHITELIST ?= ""
- SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-                              BB_NUMBER_THREADS \
-@@ -359,7 +361,7 @@ addtask sdk_depends
- do_sdk_depends[dirs] = "${WORKDIR}"
- do_sdk_depends[depends] = "${@get_ext_sdk_depends(d)}"
- do_sdk_depends[recrdeptask] = "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
--do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy"
-+do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy ${SDK_RECRDEP_TASKS}"
- do_sdk_depends[rdepends] = "${@get_sdk_ext_rdepends(d)}"
- 
- def get_sdk_ext_rdepends(d):
+  epiphany: Add libxml2-native to DEPENDS (2016-02-19 01:01:26 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+
+Hongxu Jia (6):
+  depmodwrapper-cross: nopackages to avoid QA [buildpaths] issue
+  gcc: use relative path for configure script
+  bison/gettext: add --with-bisonlocaledir to assign BISON_LOCALEDIR
+  openssl: substitute buildpath in source code
+  btrfs-tools: fix symlink creation multiple times
+  git: fix installed-vs-shipped QA Issue
+
+ meta/recipes-connectivity/openssl/openssl.inc      |  2 +-
+ .../substitute-buildpath-in-source-code.patch      | 41 +++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2f.bb |  1 +
+ .../gettext-0.19.6/add-with-bisonlocaledir.patch   | 58 ++++++++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.19.6.bb        |  4 ++
+ .../bison/bison/add-with-bisonlocaledir.patch      | 58 ++++++++++++++++++++++
+ meta/recipes-devtools/bison/bison_3.0.4.bb         |  1 +
+ .../fix-symlink-creation-multiple-times.patch      | 46 +++++++++++++++++
+ .../btrfs-tools/btrfs-tools_4.4.bb                 |  1 +
+ meta/recipes-devtools/gcc/gcc-runtime.inc          |  3 +-
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc       |  3 +-
+ meta/recipes-devtools/gcc/libgcc-common.inc        |  3 +-
+ meta/recipes-devtools/gcc/libgfortran.inc          |  3 +-
+ meta/recipes-devtools/git/git.inc                  |  2 +
+ .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  2 +
+ 15 files changed, 223 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/substitute-buildpath-in-source-code.patch
+ create mode 100644 meta/recipes-core/gettext/gettext-0.19.6/add-with-bisonlocaledir.patch
+ create mode 100644 meta/recipes-devtools/bison/bison/add-with-bisonlocaledir.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-symlink-creation-multiple-times.patch
+
 -- 
-2.5.0
+1.9.1
 
 
