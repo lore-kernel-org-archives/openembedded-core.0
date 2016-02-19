@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F25EB7705C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32FA77705C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 05:54:49 +0000 (UTC)
+	Fri, 19 Feb 2016 05:54:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J5slVN027220
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Feb 2016 21:54:47 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1J5snfr023354
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 18 Feb 2016 21:54:50 -0800
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 18 Feb 2016 21:54:46 -0800
+	Thu, 18 Feb 2016 21:54:49 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Fri, 19 Feb 2016 00:54:38 -0500
-Message-ID: <cover.1455860789.git.hongxu.jia@windriver.com>
+Date: Fri, 19 Feb 2016 00:54:39 -0500
+Message-ID: <59895a9a4f96154330f126e4a9c432613f70a08c.1455860789.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1455860789.git.hongxu.jia@windriver.com>
+References: <cover.1455860789.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] fix buildpath QA Issue
+Subject: [PATCH 1/6] depmodwrapper-cross: nopackages to avoid QA [buildpaths] issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +34,30 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 19 Feb 2016 05:54:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Also fix btrfs-tools and git which were found by workd build
+This depmodwrapper is a wrapper script to support install-corss,
+which is invoked at do_rootfs time. So the depmodwrapper-cross
+should not generate packages. The fix could avoids QA buildpaths
+issue.
 
-Other buildpath fixes is still on the way.
+[YOCTO #7058]
 
-//Hongxu
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The following changes since commit ed20c6ca446a8788615e497bd4452195537deab5:
-
-  epiphany: Add libxml2-native to DEPENDS (2016-02-19 01:01:26 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
-
-Hongxu Jia (6):
-  depmodwrapper-cross: nopackages to avoid QA [buildpaths] issue
-  gcc: use relative path for configure script
-  bison/gettext: add --with-bisonlocaledir to assign BISON_LOCALEDIR
-  openssl: substitute buildpath in source code
-  btrfs-tools: fix symlink creation multiple times
-  git: fix installed-vs-shipped QA Issue
-
- meta/recipes-connectivity/openssl/openssl.inc      |  2 +-
- .../substitute-buildpath-in-source-code.patch      | 41 +++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2f.bb |  1 +
- .../gettext-0.19.6/add-with-bisonlocaledir.patch   | 58 ++++++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.19.6.bb        |  4 ++
- .../bison/bison/add-with-bisonlocaledir.patch      | 58 ++++++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.0.4.bb         |  1 +
- .../fix-symlink-creation-multiple-times.patch      | 46 +++++++++++++++++
- .../btrfs-tools/btrfs-tools_4.4.bb                 |  1 +
- meta/recipes-devtools/gcc/gcc-runtime.inc          |  3 +-
- meta/recipes-devtools/gcc/gcc-sanitizers.inc       |  3 +-
- meta/recipes-devtools/gcc/libgcc-common.inc        |  3 +-
- meta/recipes-devtools/gcc/libgfortran.inc          |  3 +-
- meta/recipes-devtools/git/git.inc                  |  2 +
- .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  2 +
- 15 files changed, 223 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/substitute-buildpath-in-source-code.patch
- create mode 100644 meta/recipes-core/gettext/gettext-0.19.6/add-with-bisonlocaledir.patch
- create mode 100644 meta/recipes-devtools/bison/bison/add-with-bisonlocaledir.patch
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-symlink-creation-multiple-times.patch
-
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index 8acb3a8..c2c2589 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -46,3 +46,5 @@ SYSROOT_PREPROCESS_FUNCS += "depmodwrapper_sysroot_preprocess"
+ depmodwrapper_sysroot_preprocess () {
+ 	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+ }
++
++inherit nopackages
 -- 
 1.9.1
 
