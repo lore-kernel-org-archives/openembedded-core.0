@@ -1,26 +1,21 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 82CC37713D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BA7EB77173
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 09:21:08 +0000 (UTC)
+	Fri, 19 Feb 2016 09:39:33 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 19 Feb 2016 01:21:10 -0800
+	by orsmga103.jf.intel.com with ESMTP; 19 Feb 2016 01:39:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,469,1449561600"; d="scan'208,217";a="50765805"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 01:21:08 -0800
-Message-ID: <1455873667.2298.0.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Christopher Larson <clarson@kergoth.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 19 Feb 2016 11:21:07 +0200
-In-Reply-To: <CABcZANmsXr=_Tim1MNpBcDxSJOu34THuzMejVo_bYm5e3XGOiA@mail.gmail.com>
-References: <1455805135-20814-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1455805135-20814-3-git-send-email-markus.lehtonen@linux.intel.com>
-	<CABcZANmsXr=_Tim1MNpBcDxSJOu34THuzMejVo_bYm5e3XGOiA@mail.gmail.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 2/2] devtool: update-recipe: create config fragment
+X-IronPort-AV: E=Sophos;i="5.22,469,1449561600"; d="scan'208";a="50773644"
+Received: from eyeoh10-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.132.216])
+	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 01:39:32 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Feb 2016 22:38:48 +1300
+Message-Id: <cover.1455874585.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 00/14] devtool / recipetool improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +28,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 09:21:09 -0000
-Content-Type: multipart/alternative; boundary="=-XQF7o4yrFkt2NYEZ5/VK"
+X-List-Received-Date: Fri, 19 Feb 2016 09:39:34 -0000
 
---=-XQF7o4yrFkt2NYEZ5/VK
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+More devtool / recipetool work - some improvements to the help output,
+behaviour of (un)deploy-target, extensibility of autoconf/cmake
+handling, and improvements to cmake dependency extraction, plus one
+or two other minor fixes.
 
-On Thu, 2016-02-18 at 15:19 +0000, Christopher Larson wrote:
-> 
-> 
-> On Thu, Feb 18, 2016 at 7:19 AM Markus Lehtonen <
-> markus.lehtonen@linux.intel.com> wrote:
-> > Create config fragment if the user makes modifications to kernel
-> > config.
-> > User may change .config e.g. by directly editing it or by running
-> > the
-> > 'do_menuconfig' bitbake task. Devtool generates one monolithic
-> > fragment
-> > by simply doing a diff between .config and .config.baseline files
-> > in the
-> > source directory.  If either of these files is missing, the config
-> > fragment is not gerenrated or updated. The output is a file,
-> > 'devtool-fragment.cfg' that gets added to SRC_URI in the recipe (as
-> > well
-> > as copied into the 'oe-local-files' directory if that is present in
-> > the
-> > source tree).
-> > 
-> > ${S}/.config will be a symlink to ${B}/.config. We need to do this
-> > as
-> > devtool is not able to access ${B} because ${B} is set in a
-> > .bbappend in
-> > the workspace layer which is not parsed by devtool itself.
-> > 
-> > [YOCTO #8999]
-> > 
-> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> If the devtool-fragment.cfg already exists, what's the behavior? Will
-> it update it with both the old and new changes, or will it create a
-> second fragment?
-Currently, it will update the existing fragment.
-   - Markus
 
---=-XQF7o4yrFkt2NYEZ5/VK
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+The following changes since commit 58b45240739da210ef2fecea931c8b8daa9a4c07:
 
-<html><head></head><body><div>On Thu, 2016-02-18 at 15:19 +0000, Christopher Larson wrote:</div><blockquote type="cite"><div dir="ltr"><br><br><div class="gmail_quote"><div dir="ltr">On Thu, Feb 18, 2016 at 7:19 AM Markus Lehtonen &lt;<a href="mailto:markus.lehtonen@linux.intel.com">markus.lehtonen@linux.intel.com</a>&gt; wrote:<br></div><blockquote type="cite">Create config fragment if the user makes modifications to kernel config.<br>
-User may change .config e.g. by directly editing it or by running the<br>
-'do_menuconfig' bitbake task. Devtool generates one monolithic fragment<br>
-by simply doing a diff between .config and .config.baseline files in the<br>
-source directory.&nbsp; If either of these files is missing, the config<br>
-fragment is not gerenrated or updated. The output is a file,<br>
-'devtool-fragment.cfg' that gets added to SRC_URI in the recipe (as well<br>
-as copied into the 'oe-local-files' directory if that is present in the<br>
-source tree).<br>
-<br>
-${S}/.config will be a symlink to ${B}/.config. We need to do this as<br>
-devtool is not able to access ${B} because ${B} is set in a .bbappend in<br>
-the workspace layer which is not parsed by devtool itself.<br>
-<br>
-[YOCTO #8999]<br>
-<br>
-Signed-off-by: Markus Lehtonen &lt;<a href="mailto:markus.lehtonen@linux.intel.com" target="_blank">markus.lehtonen@linux.intel.com</a>&gt;<br></blockquote><div><br></div><div>If the devtool-fragment.cfg already exists, what's the behavior? Will it update it with both the old and new changes, or will it create a second fragment?</div></div></div>
-</blockquote><div><br></div><div>Currently, it will update the existing fragment.</div><div>&nbsp; &nbsp;- Markus</div><div><br></div></body></html>
+  epiphany: Add libxml2-native to DEPENDS (2016-02-18 22:55:12 +0000)
 
---=-XQF7o4yrFkt2NYEZ5/VK--
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool14-oe
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool14-oe
+
+Paul Eggleton (14):
+  devtool: minor fix for error message
+  devtool / recipetool: use common code for launching editor
+  devtool: reset: fix preserving patches/other files next to recipes
+  devtool: update-recipe: don't show workspace recipe warning if no update
+  devtool: categorise and order subcommands in help output
+  scripts/lib/argparse_oe: tweak title above options
+  devtool: (un)deploy-target: add help descriptions
+  devtool: sdk-update: tweak command-line handling of updateserver
+  devtool: deploy-target: write deployed files list to target
+  devtool: undeploy-target: support undeploying all recipes
+  devtool: deploy-target: preserve existing files
+  devtool: modify: tweak help description for behaviour change
+  recipetool: create: add additional extension mechanisms
+  recipetool: create: improve CMake package mapping
+
+ scripts/devtool                                  |  10 +-
+ scripts/lib/argparse_oe.py                       |  63 ++++++
+ scripts/lib/devtool/build-image.py               |   3 +-
+ scripts/lib/devtool/build.py                     |   3 +-
+ scripts/lib/devtool/deploy.py                    | 248 ++++++++++++++++++-----
+ scripts/lib/devtool/package.py                   |   5 +-
+ scripts/lib/devtool/runqemu.py                   |   3 +-
+ scripts/lib/devtool/sdk.py                       |  19 +-
+ scripts/lib/devtool/search.py                    |   3 +-
+ scripts/lib/devtool/standard.py                  |  47 +++--
+ scripts/lib/devtool/upgrade.py                   |   3 +-
+ scripts/lib/devtool/utilcmds.py                  |  19 +-
+ scripts/lib/recipetool/create.py                 |  15 +-
+ scripts/lib/recipetool/create_buildsys.py        | 154 ++++++++++++--
+ scripts/lib/recipetool/create_buildsys_python.py |   2 +-
+ scripts/lib/recipetool/newappend.py              |   8 +-
+ scripts/lib/scriptutils.py                       |  15 ++
+ 17 files changed, 505 insertions(+), 115 deletions(-)
+
+-- 
+2.5.0
+
+
