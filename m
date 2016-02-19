@@ -1,30 +1,24 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id D33A1770CA
+Return-Path: <Jun.Zhang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AFDF60588
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 06:37:50 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 78D0968A01C; Fri, 19 Feb 2016 06:37:49 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id BC47568A019;
-	Fri, 19 Feb 2016 06:37:48 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 6D5F36740B17;
-	Fri, 19 Feb 2016 07:37:48 +0100 (CET)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56C6B83C.3040103@mlbassoc.com>
-Date: Fri, 19 Feb 2016 07:37:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Fri, 19 Feb 2016 08:00:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J80mVX028703
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Feb 2016 00:00:48 -0800 (PST)
+Received: from pek-lpd-ccm1.wrs.com (128.224.179.178) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 19 Feb 2016 00:00:47 -0800
+From: Jun Zhang <jun.zhang@windriver.com>
+To: <jun.zhang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Feb 2016 16:00:43 +0800
+Message-ID: <1455868843-27119-1-git-send-email-jun.zhang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Recovering GCC 4.8
+Subject: [PATCH] toolchain-scripts.bbclass: add three other path to PATH in env.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 06:37:51 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Feb 2016 08:00:49 -0000
+Content-Type: text/plain
 
-I have a need for GCC 4.8 which was recently dropped from OE-core.
+in sdk,there are some utils in sysroot/host-os/bin, sysroot/host-os/sbin/,sysroot/host-os/usr/bin need to use, so add these three paths to PATH in env.sh.
 
-commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Wed Nov 11 08:50:02 2015 -0800
+Signed-off-by: Jun Zhang <jun.zhang@windriver.com>
+---
+ meta/classes/toolchain-scripts.bbclass | 5 ++++-
+ meta/conf/bitbake.conf                 | 3 +++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-     gcc: Drop 4.8
-
-     We have 5.2 and 4.9, we don't really need 4.8 now and it can be moved
-     out to other layers if anyone still wants/needs it.
-
-     (From OE-Core rev: 6f98c39418c60b7c0b25b30983d2e5257158a6a4)
-
-I tried to recover this by merging from the parent revision
-(poky 2cb1aee04) all of the files mentioned in this change
-into my local layer.  Sadly, it does not build, but fails
-rather early on (I'm building for Freescale LS1 cortexa7hf)
-
-| checking for arm-amltd-linux-gnueabi-gcc... arm-amltd-linux-gnueabi-gcc  -march=armv7ve -mfpu=neon  -mfloat-abi=hard 
--mcpu=cortex-a7 --sysroot=/local/p0381_2016-02-19/tmp/sysroots/teton-p0381
-| checking for suffix of object files... configure: error: in 
-`/local/p0381_2016-02-19/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libgcc-initial/4.8.4-r0/gcc-4.8.4/build.arm-amltd-linux-gnueabi.arm-amltd-linux-gnueabi/libgcc':
-| configure: error: cannot compute suffix of object files: cannot compile
-| See `config.log' for more details.
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_configure (log file is located at 
-/local/p0381_2016-02-19/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libgcc-initial/4.8.4-r0/temp/log.do_configure.9193)
-ERROR: Task 1484 (/local/poky-cutting-edge/meta-amltd/recipes-devtools/gcc/libgcc-initial_4.8.bb, do_configure) failed 
-with exit code '1'
-
-Any ideas how I can get this to build?  I looked for some other
-layer to which this might have been moved, but did not find any.
-
-Thanks
-
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 835422f..33fb4e3 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -9,6 +9,9 @@ TARGET_CC_ARCH_append_libc-musl = " -mmusl"
+ # This function creates an environment-setup-script for use in a deployable SDK
+ toolchain_create_sdk_env_script () {
+ 	# Create environment setup script
++	base_sbindir=${10:-${base_sbindir_nativesdk}}
++	base_bindir=${9:-${base_bindir_nativesdk}}
++	sbindir=${8:-${sbindir_nativesdk}}
+ 	sdkpathnative=${7:-${SDKPATHNATIVE}}
+ 	prefix=${6:-${prefix_nativesdk}}
+ 	bindir=${5:-${bindir_nativesdk}}
+@@ -23,7 +26,7 @@ toolchain_create_sdk_env_script () {
+ 	for i in ${CANADIANEXTRAOS}; do
+ 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+ 	done
+-	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
++	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
+ 	echo "export CCACHE_PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$CCACHE_PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2b81be1..6b18ae8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -62,6 +62,9 @@ bindir_cross = "/bin"
+ bindir_crossscripts = "${bindir}/crossscripts"
+ prefix_nativesdk = "/usr"
+ bindir_nativesdk = "${prefix_nativesdk}/bin"
++sbindir_nativesdk = "${prefix_nativesdk}/sbin"
++base_bindir_nativesdk = "/bin"
++base_sbindir_nativesdk = "/sbin"
+ includedir_nativesdk = "${prefix_nativesdk}/include"
+ libdir_nativesdk = "${prefix_nativesdk}/lib"
+ base_libdir_nativesdk = "/lib"
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.9.1
+
 
