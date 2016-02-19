@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CDBC877156
+	by mail.openembedded.org (Postfix) with ESMTP id 6378977156
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 09:39:40 +0000 (UTC)
+	Fri, 19 Feb 2016 09:39:43 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 19 Feb 2016 01:39:41 -0800
+	by orsmga103.jf.intel.com with ESMTP; 19 Feb 2016 01:39:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,469,1449561600"; d="scan'208";a="50773716"
+X-IronPort-AV: E=Sophos;i="5.22,469,1449561600"; d="scan'208";a="50773739"
 Received: from eyeoh10-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.132.216])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 01:39:40 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 01:39:42 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Feb 2016 22:38:51 +1300
-Message-Id: <89a6e9052be8f05fc4ce9a55455bba7aff35d441.1455874585.git.paul.eggleton@linux.intel.com>
+Date: Fri, 19 Feb 2016 22:38:52 +1300
+Message-Id: <1f0070081bdeeb24b633243bf31d25a9e5adf815.1455874585.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1455874585.git.paul.eggleton@linux.intel.com>
 References: <cover.1455874585.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1455874585.git.paul.eggleton@linux.intel.com>
 References: <cover.1455874585.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 03/14] devtool: reset: fix preserving patches/other files next to recipes
+Subject: [PATCH 04/14] devtool: update-recipe: don't show workspace recipe warning if no update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 09:39:40 -0000
+X-List-Received-Date: Fri, 19 Feb 2016 09:39:43 -0000
 
-If files had been created next to the recipe (for example devtool add,
-edit the source and commit and then devtool update-recipe), running
-devtool reset failed to preserve those files and gave an error due
-to trying to rmdir the directory containing them which wasn't empty.
-Fix the preservation of files in the "attic" directory properly so
-we catch anything under the directory for the recipe, and replicate
-the same structure in the attic directory rather than slightly
-flattening it as we were before.
+If we didn't make any changes to the file then there's no point warning
+the user that we have done.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/lib/devtool/standard.py | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 590dfef..bbbe426 100644
+index bbbe426..804c127 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -190,7 +190,7 @@ def add(args, config, basepath, workspace):
-             shutil.move(recipes[0], recipefile)
-         else:
-             raise DevtoolError('Command \'%s\' did not create any recipe file:\n%s' % (e.command, e.stdout))
--        attic_recipe = os.path.join(config.workspace_path, 'attic', os.path.basename(recipefile))
-+        attic_recipe = os.path.join(config.workspace_path, 'attic', recipename, os.path.basename(recipefile))
-         if os.path.exists(attic_recipe):
-             logger.warn('A modified recipe from a previous invocation exists in %s - you may wish to move this over the top of the new recipe if you had changes in it that you want to continue with' % attic_recipe)
+@@ -1034,6 +1034,7 @@ def _update_recipe_srcrev(args, srctree, rd, config_data):
+                     'changes')
+ 
+     _remove_source_files(args, remove_files, destpath)
++    return True
+ 
+ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
+     """Implement the 'patch' mode of update-recipe"""
+@@ -1135,10 +1136,12 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
+             elif not updatefiles:
+                 # Neither patches nor recipe were updated
+                 logger.info('No patches or files need updating')
++                return False
      finally:
-@@ -645,7 +645,7 @@ def _check_preserve(config, recipename):
-     import bb.utils
-     origfile = os.path.join(config.workspace_path, '.devtool_md5')
-     newfile = os.path.join(config.workspace_path, '.devtool_md5_new')
--    preservepath = os.path.join(config.workspace_path, 'attic')
-+    preservepath = os.path.join(config.workspace_path, 'attic', recipename)
-     with open(origfile, 'r') as f:
-         with open(newfile, 'w') as tf:
-             for line in f.readlines():
-@@ -1256,7 +1256,7 @@ def reset(args, config, basepath, workspace):
-     for pn in recipes:
-         _check_preserve(config, pn)
+         shutil.rmtree(tempdir)
  
--        preservepath = os.path.join(config.workspace_path, 'attic', pn)
-+        preservepath = os.path.join(config.workspace_path, 'attic', pn, pn)
-         def preservedir(origdir):
-             if os.path.exists(origdir):
-                 for root, dirs, files in os.walk(origdir):
-@@ -1265,7 +1265,7 @@ def reset(args, config, basepath, workspace):
-                         _move_file(os.path.join(origdir, fn),
-                                    os.path.join(preservepath, fn))
-                     for dn in dirs:
--                        os.rmdir(os.path.join(root, dn))
-+                        preservedir(os.path.join(root, dn))
-                 os.rmdir(origdir)
+     _remove_source_files(args, remove_files, destpath)
++    return True
  
-         preservedir(os.path.join(config.workspace_path, 'recipes', pn))
+ def _guess_recipe_update_mode(srctree, rdata):
+     """Guess the recipe update mode to use"""
+@@ -1187,15 +1190,16 @@ def update_recipe(args, config, basepath, workspace):
+         mode = args.mode
+ 
+     if mode == 'srcrev':
+-        _update_recipe_srcrev(args, srctree, rd, tinfoil.config_data)
++        updated = _update_recipe_srcrev(args, srctree, rd, tinfoil.config_data)
+     elif mode == 'patch':
+-        _update_recipe_patch(args, config, workspace, srctree, rd, tinfoil.config_data)
++        updated = _update_recipe_patch(args, config, workspace, srctree, rd, tinfoil.config_data)
+     else:
+         raise DevtoolError('update_recipe: invalid mode %s' % mode)
+ 
+-    rf = rd.getVar('FILE', True)
+-    if rf.startswith(config.workspace_path):
+-        logger.warn('Recipe file %s has been updated but is inside the workspace - you will need to move it (and any associated files next to it) out to the desired layer before using "devtool reset" in order to keep any changes' % rf)
++    if updated:
++        rf = rd.getVar('FILE', True)
++        if rf.startswith(config.workspace_path):
++            logger.warn('Recipe file %s has been updated but is inside the workspace - you will need to move it (and any associated files next to it) out to the desired layer before using "devtool reset" in order to keep any changes' % rf)
+ 
+     return 0
+ 
 -- 
 2.5.0
 
