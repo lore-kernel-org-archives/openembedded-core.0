@@ -1,26 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D8F81738AE
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0867E771D1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 09:57:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J9v4gK028769
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 01:57:04 -0800 (PST)
-Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.175) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 19 Feb 2016 01:57:03 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Feb 2016 17:56:52 +0800
-Message-ID: <5ddb8ef58e1cd3c4b95de6439894510641f2e70a.1455874404.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1455874404.git.zhe.he@windriver.com>
-References: <cover.1455874404.git.zhe.he@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2 2/2] kernel: Make symbol link to vmlinuz in boot directory
+	Fri, 19 Feb 2016 10:14:12 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 19 Feb 2016 02:14:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,470,1449561600"; d="scan'208";a="906715706"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2016 02:14:13 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 7017D6A4002;
+	Fri, 19 Feb 2016 03:02:02 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Feb 2016 12:17:54 +0200
+Message-Id: <1455877074-27544-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oeqa/selftest/bbtests: Test bbappend order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,107 +30,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 09:57:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Feb 2016 10:14:13 -0000
 
-From: He Zhe <zhe.he@windriver.com>
+BitBake should append to recipe in a predictable order.
 
-Rename do_kernel_link_vmlinux to do_kernel_link_images and make a
-symbol link to vmlinuz(if exists) for reference in arch/$arch/boot
-directory.
+fix for [YOCTO #9145]
+test for [YOCTO #9138]
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- documentation/ref-manual/ref-tasks.xml    |  8 ++++----
- meta/classes/kernel.bbclass               | 13 ++++++++-----
- meta/conf/documentation.conf              |  2 +-
- meta/recipes-kernel/linux/linux-yocto.inc |  2 +-
- 4 files changed, 14 insertions(+), 11 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/documentation/ref-manual/ref-tasks.xml b/documentation/ref-manual/ref-tasks.xml
-index 8ac37a0..517663b 100644
---- a/documentation/ref-manual/ref-tasks.xml
-+++ b/documentation/ref-manual/ref-tasks.xml
-@@ -663,13 +663,13 @@
-         </para>
-     </section>
- 
--    <section id='ref-tasks-kernel_link_vmlinux'>
--        <title><filename>do_kernel_link_vmlinux</filename></title>
-+    <section id='ref-tasks-kernel_link_images'>
-+        <title><filename>do_kernel_link_images</filename></title>
- 
-         <para>
-             Creates a symbolic link in
--            <filename>arch/$arch/boot</filename> for vmlinux kernel
--            images.
-+            <filename>arch/$arch/boot</filename> for vmlinux and vmlinuz
-+            kernel images.
-         </para>
-     </section>
- 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6db2e2e..19b5132 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -467,15 +467,18 @@ python split_kernel_packages () {
- }
- 
- # Many scripts want to look in arch/$arch/boot for the bootable
--# image. This poses a problem for vmlinux based booting. This 
--# task arranges to have vmlinux appear in the normalized directory
--# location.
--do_kernel_link_vmlinux() {
-+# image. This poses a problem for vmlinux and vmlinuz based
-+# booting. This task arranges to have vmlinux and vmlinuz appear
-+# in the normalized directory location.
-+do_kernel_link_images() {
- 	if [ ! -d "${B}/arch/${ARCH}/boot" ]; then
- 		mkdir ${B}/arch/${ARCH}/boot
- 	fi
- 	cd ${B}/arch/${ARCH}/boot
- 	ln -sf ../../../vmlinux
-+	if [ -f ../../../vmlinuz ]; then
-+		ln -sf ../../../vmlinuz
-+	fi
- }
- 
- do_strip() {
-@@ -505,7 +508,7 @@ do_strip() {
- }
- do_strip[dirs] = "${B}"
- 
--addtask do_strip before do_sizecheck after do_kernel_link_vmlinux
-+addtask do_strip before do_sizecheck after do_kernel_link_images
- 
- # Support checking the kernel size since some kernels need to reside in partitions
- # with a fixed length or there is a limit in transferring the kernel to memory
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index b3969b0..f0c2399 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -28,7 +28,7 @@ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compi
- do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
- do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
- do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
--do_kernel_link_vmlinux[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux kernel images"
-+do_kernel_link_images[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux and vmlinuz kernel images"
- do_listtasks[doc] = "Lists all defined tasks for a target"
- do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
- do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 6b161fc..fd68786 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -52,6 +52,6 @@ do_install_append(){
- }
- 
- # extra tasks
--addtask kernel_link_vmlinux after do_compile before do_install
-+addtask kernel_link_images after do_compile before do_install
- addtask validate_branches before do_patch after do_kernel_checkout
- addtask kernel_configcheck after do_configure before do_compile
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 70e5b29..26728a4 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -247,3 +247,26 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         for task in tasks:
+             self.assertIn('_setscene', task, 'A task different from _setscene ran: %s.\n'
+                                              'Executed tasks were: %s' % (task, str(tasks)))
++
++    @testcase(1425)
++    def test_bbappend_order(self):
++        """ Bitbake should bbappend to recipe in a predictable order """
++        test_recipe = 'ed'
++        test_recipe_summary_before = get_bb_var('SUMMARY', test_recipe)
++        test_recipe_pv = get_bb_var('PV', test_recipe)
++        recipe_append_file = test_recipe + '_' + test_recipe_pv + '.bbappend'
++        expected_recipe_summary = test_recipe_summary_before
++
++        for i in range(5):
++            recipe_append_dir = test_recipe + '_test_' + str(i)
++            recipe_append_path = os.path.join(self.testlayer_path, 'recipes-test', recipe_append_dir, recipe_append_file)
++            os.mkdir(os.path.join(self.testlayer_path, 'recipes-test', recipe_append_dir))
++            feature = 'SUMMARY += "%s"\n' % i
++            ftools.write_file(recipe_append_path, feature)
++            expected_recipe_summary += ' %s' % i
++
++        self.add_command_to_tearDown('rm -rf %s' % os.path.join(self.testlayer_path, 'recipes-test',
++                                                               test_recipe + '_test_*'))
++
++        test_recipe_summary_after = get_bb_var('SUMMARY', test_recipe)
++        self.assertEqual(expected_recipe_summary, test_recipe_summary_after)
 -- 
-1.9.1
+2.1.0
 
 
