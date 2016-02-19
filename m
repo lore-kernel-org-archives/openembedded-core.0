@@ -1,24 +1,26 @@
 Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C0F177270
+	by mail.openembedded.org (Postfix) with ESMTP id 4E04B77271
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 22:05:56 +0000 (UTC)
+	Fri, 19 Feb 2016 22:05:57 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga103.fm.intel.com with ESMTP; 19 Feb 2016 14:05:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,472,1449561600"; d="scan'208";a="51153516"
+X-IronPort-AV: E=Sophos;i="5.22,472,1449561600"; d="scan'208";a="51153523"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 14:05:56 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 14:05:57 -0800
 Received: from fjpedraz.zpn.intel.com (fjpedraz.zpn.intel.com [10.219.24.19])
-	by linux.intel.com (Postfix) with ESMTP id AABFB6A4004;
-	Fri, 19 Feb 2016 14:53:46 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 50D4C6A4004;
+	Fri, 19 Feb 2016 14:53:47 -0800 (PST)
 From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Feb 2016 16:05:41 -0600
-Message-Id: <1455919542-28863-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+Date: Fri, 19 Feb 2016 16:05:42 -0600
+Message-Id: <1455919542-28863-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1455919542-28863-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+References: <1455919542-28863-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
 Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCHv2 1/2] oeqa/utils: added new networke module
+Subject: [PATCHv2 2/2] oeqa/selftest/prservice: Added new TC: check pr-server starts and stop correctly on localhost.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +35,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 19 Feb 2016 22:05:57 -0000
 
-A network module was added, and will contain network utility funcions for now.
-with get_free_port that returns availabe network port in the system.
+This test case validates if prservice start and stop properly the server.
+Using bitbake commands also validates the exit status.
+
+[YOCTO #8258]
 
 Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 ---
- meta/lib/oeqa/utils/network.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 meta/lib/oeqa/utils/network.py
+ meta/lib/oeqa/selftest/prservice.py | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/network.py b/meta/lib/oeqa/utils/network.py
-new file mode 100644
-index 0000000..2768f6c
---- /dev/null
-+++ b/meta/lib/oeqa/utils/network.py
-@@ -0,0 +1,8 @@
-+import socket
+diff --git a/meta/lib/oeqa/selftest/prservice.py b/meta/lib/oeqa/selftest/prservice.py
+index f22288e..66638de 100644
+--- a/meta/lib/oeqa/selftest/prservice.py
++++ b/meta/lib/oeqa/selftest/prservice.py
+@@ -9,9 +9,10 @@ import oeqa.utils.ftools as ftools
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+ from oeqa.utils.decorators import testcase
++from oeqa.utils.network import get_free_port
+ 
+ class BitbakePrTests(oeSelfTest):
+-
++ 
+     def get_pr_version(self, package_name):
+         pkgdata_dir = get_bb_var('PKGDATA_DIR')
+         package_data_file = os.path.join(pkgdata_dir, 'runtime', package_name)
+@@ -119,3 +120,13 @@ class BitbakePrTests(oeSelfTest):
+     @testcase(936)
+     def test_pr_service_ipk_arch_indep(self):
+         self.run_test_pr_service('xcursor-transparent-theme', 'ipk', 'do_package')
 +
-+def get_free_port():
-+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-+    s.bind(('', 0))
-+    addr = s.getsockname()
-+    s.close()
-+    return addr[1]
++    @testcase(1419)
++    def test_stopping_prservice_message(self):
++        port = get_free_port()
++
++        runCmd('bitbake-prserv --host localhost --port %s --loglevel=DEBUG --start' % port)
++        ret = runCmd('bitbake-prserv --host localhost --port %s --loglevel=DEBUG --stop' % port)
++
++        self.assertEqual(ret.status, 0)
++
 -- 
 2.5.0
 
