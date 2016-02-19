@@ -1,34 +1,22 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 49C187708E
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CC63775D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 16:24:07 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 19 Feb 2016 08:24:08 -0800
+	Fri, 19 Feb 2016 16:45:33 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 19 Feb 2016 08:45:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,471,1449561600"; d="scan'208,217";a="50968032"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 08:24:08 -0800
-Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
-	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 19 Feb 2016 08:24:07 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.21]) by
-	fmsmsx156.amr.corp.intel.com ([169.254.13.27]) with mapi id
-	14.03.0248.002; Fri, 19 Feb 2016 08:24:07 -0800
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Status WW08
-Thread-Index: AdFrMSlGMs92w92/TWaT9Xv9WAJvCA==
-Date: Fri, 19 Feb 2016 16:24:06 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E57033B62@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.108]
-MIME-Version: 1.0
-Subject: Yocto Project Status WW08
+X-IronPort-AV: E=Sophos;i="5.22,471,1449561600"; d="scan'208";a="749474477"
+Received: from bitbang.jf.intel.com ([10.7.199.151])
+	by orsmga003.jf.intel.com with ESMTP; 19 Feb 2016 08:45:34 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Feb 2016 08:45:25 -0800
+Message-Id: <1455900325-26957-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1455809929-37425-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1455809929-37425-1-git-send-email-randy.e.witt@linux.intel.com>
+Subject: [PATCH v2] signing-keys: Make signing keys the only publisher of keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,482 +29,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 16:24:08 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57033B62fmsmsx111amrcor_"
+X-List-Received-Date: Fri, 19 Feb 2016 16:45:34 -0000
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57033B62fmsmsx111amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Previously the keys were put into the os-release package. The package
+indexing code was also deploying the keys rather than only using the keys.
 
-Current Dev Position: YP 2.1 M3
+This change makes signing-keys.bb the only publisher of the keys and also
+uses standard tasks that already have sstate.
 
-Next Deadline: YP 2.1 M2 Target release date is February 12, 2016 (Will sli=
-p a few weeks.)
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/classes/sign_package_feed.bbclass     |  9 +----
+ meta/classes/sign_rpm.bbclass              | 11 ++++--
+ meta/lib/oe/package_manager.py             | 10 -----
+ meta/recipes-core/meta/signing-keys.bb     | 61 +++++++++++++++++++++---------
+ meta/recipes-core/os-release/os-release.bb | 11 ------
+ 5 files changed, 52 insertions(+), 50 deletions(-)
+
+diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+index 63ca02f..e1ec82e 100644
+--- a/meta/classes/sign_package_feed.bbclass
++++ b/meta/classes/sign_package_feed.bbclass
+@@ -27,12 +27,7 @@ python () {
+     for var in ('PACKAGE_FEED_GPG_NAME', 'PACKAGE_FEED_GPG_PASSPHRASE_FILE'):
+         if not d.getVar(var, True):
+             raise_sanity_error("You need to define %s in the config" % var, d)
+-
+-    # Set expected location of the public key
+-    d.setVar('PACKAGE_FEED_GPG_PUBKEY',
+-             os.path.join(d.getVar('STAGING_ETCDIR_NATIVE', False),
+-                                   'PACKAGE-FEED-GPG-PUBKEY'))
+ }
+ 
+-do_package_index[depends] += "signing-keys:do_export_public_keys"
+-do_rootfs[depends] += "signing-keys:do_export_public_keys"
++do_package_index[depends] += "signing-keys:do_deploy"
++do_rootfs[depends] += "signing-keys:do_populate_sysroot"
+diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
+index 8b59bac..c21e3f0 100644
+--- a/meta/classes/sign_rpm.bbclass
++++ b/meta/classes/sign_rpm.bbclass
+@@ -28,8 +28,11 @@ python () {
+             raise_sanity_error("You need to define %s in the config" % var, d)
+ 
+     # Set the expected location of the public key
+-    d.setVar('RPM_GPG_PUBKEY', os.path.join(d.getVar('STAGING_ETCDIR_NATIVE', False),
+-                                            'RPM-GPG-PUBKEY'))
++    d.setVar('RPM_GPG_PUBKEY', os.path.join(d.getVar('STAGING_DIR_TARGET', False),
++                                            d.getVar('sysconfdir', False),
++                                            'pki',
++                                            'rpm-gpg',
++                                            'RPM-GPG-KEY-${DISTRO_VERSION}'))
+ }
+ 
+ python sign_rpm () {
+@@ -44,5 +47,5 @@ python sign_rpm () {
+                      d.getVar('RPM_GPG_PASSPHRASE_FILE', True))
+ }
+ 
+-do_package_index[depends] += "signing-keys:do_export_public_keys"
+-do_rootfs[depends] += "signing-keys:do_export_public_keys"
++do_package_index[depends] += "signing-keys:do_deploy"
++do_rootfs[depends] += "signing-keys:do_populate_sysroot"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b30a4da..5cd43e9 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -144,16 +144,6 @@ class RpmIndexer(Indexer):
+                 signer.detach_sign(repomd,
+                                    self.d.getVar('PACKAGE_FEED_GPG_NAME', True),
+                                    self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True))
+-        # Copy pubkey(s) to repo
+-        distro_version = self.d.getVar('DISTRO_VERSION', True) or "oe.0"
+-        if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+-            shutil.copy2(self.d.getVar('RPM_GPG_PUBKEY', True),
+-                         os.path.join(self.deploy_dir,
+-                                      'RPM-GPG-KEY-%s' % distro_version))
+-        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
+-            shutil.copy2(self.d.getVar('PACKAGE_FEED_GPG_PUBKEY', True),
+-                         os.path.join(self.deploy_dir,
+-                                      'REPODATA-GPG-KEY-%s' % distro_version))
+ 
+ 
+ class OpkgIndexer(Indexer):
+diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
+index d7763c6..1d0e834 100644
+--- a/meta/recipes-core/meta/signing-keys.bb
++++ b/meta/recipes-core/meta/signing-keys.bb
+@@ -3,37 +3,62 @@
+ 
+ DESCRIPTION = "Make public keys of the signing keys available"
+ LICENSE = "MIT"
+-PACKAGES = ""
+-
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-do_install[noexec] = "1"
+-do_package[noexec] = "1"
+-do_packagedata[noexec] = "1"
+-do_package_write_ipk[noexec] = "1"
+-do_package_write_rpm[noexec] = "1"
+-do_package_write_deb[noexec] = "1"
+-do_populate_sysroot[noexec] = "1"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++
++inherit allarch deploy
+ 
+ EXCLUDE_FROM_WORLD = "1"
++INHIBIT_DEFAULT_DEPS = "1"
++
++PACKAGES =+ "${PN}-rpm ${PN}-packagefeed"
+ 
++FILES_${PN}-rpm = "${sysconfdir}/pki/rpm-gpg"
++FILES_${PN}-packagefeed = "${sysconfdir}/pki/packagefeed-gpg"
+ 
+-python do_export_public_keys () {
++python do_get_public_keys () {
+     from oe.gpg_sign import get_signer
+ 
+     if d.getVar("RPM_SIGN_PACKAGES", True):
+         # Export public key of the rpm signing key
+         signer = get_signer(d, d.getVar('RPM_GPG_BACKEND', True))
+-        signer.export_pubkey(d.getVar('RPM_GPG_PUBKEY', True),
++        signer.export_pubkey(os.path.join(d.expand('${B}'), 'rpm-key'),
+                              d.getVar('RPM_GPG_NAME', True))
+ 
+     if d.getVar('PACKAGE_FEED_SIGN', True) == '1':
+         # Export public key of the feed signing key
+         signer = get_signer(d, d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
+-        signer.export_pubkey(d.getVar('PACKAGE_FEED_GPG_PUBKEY', True),
++        signer.export_pubkey(os.path.join(d.expand('${B}'), 'pf-key'),
+                              d.getVar('PACKAGE_FEED_GPG_NAME', True))
+ }
+-addtask do_export_public_keys before do_build
++do_get_public_keys[cleandirs] = "${B}"
++addtask get_public_keys before do_install
++
++do_install () {
++    if [ -f "${B}/rpm-key" ]; then
++        install -D -m 0644 "${B}/rpm-key" "${D}${sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-${DISTRO_VERSION}"
++    fi
++    if [ -f "${B}/pf-key" ]; then
++        install -D -m 0644 "${B}/pf-key" "${D}${sysconfdir}/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-${DISTRO_VERSION}"
++    fi
++}
++
++sysroot_stage_all_append () {
++    sysroot_stage_dir ${D}${sysconfdir}/pki ${SYSROOT_DESTDIR}${sysconfdir}/pki
++}
++
++do_deploy () {
++    if [ -f "${B}/rpm-key" ]; then
++        install -D -m 0644 "${B}/rpm-key" "${DEPLOYDIR}/RPM-GPG-KEY-${DISTRO_VERSION}"
++    fi
++    if [ -f "${B}/pf-key" ]; then
++        install -D -m 0644 "${B}/pf-key" "${DEPLOYDIR}/PACKAGEFEED-GPG-KEY-${DISTRO_VERSION}"
++    fi
++}
++do_deploy[sstate-outputdirs] = "${DEPLOY_DIR_RPM}"
++# cleandirs should possibly be in deploy.bbclass but we need it
++do_deploy[cleandirs] = "${DEPLOYDIR}"
++# clear stamp-extra-info since MACHINE is normally put there by deploy.bbclass
++do_deploy[stamp-extra-info] = ""
++addtask deploy after do_get_public_keys
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+index df19ca2..58364ea 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -30,21 +30,10 @@ python do_compile () {
+             value = d.getVar(field, True)
+             if value:
+                 f.write('{0}="{1}"\n'.format(field, value))
+-    if d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+-        rpm_gpg_pubkey = d.getVar('RPM_GPG_PUBKEY', True)
+-        bb.utils.mkdirhier('${B}/rpm-gpg')
+-        distro_version = d.getVar('DISTRO_VERSION', True) or "oe.0"
+-        shutil.copy2(rpm_gpg_pubkey, d.expand('${B}/rpm-gpg/RPM-GPG-KEY-%s' % distro_version))
+ }
+ do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
+-do_compile[depends] += "signing-keys:do_export_public_keys"
+ 
+ do_install () {
+     install -d ${D}${sysconfdir}
+     install -m 0644 os-release ${D}${sysconfdir}/
+-
+-    if [ -d "rpm-gpg" ]; then
+-        install -d "${D}${sysconfdir}/pki"
+-        cp -r "rpm-gpg" "${D}${sysconfdir}/pki/"
+-    fi
+ }
+-- 
+2.5.0
 
 
-SWAT team rotation: Anibal -> Tracy
-
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-
-
-Key Status/Updates:
-
-*        A build for M2-rc3 was passed to QA after successful tests on the =
-autobuilder. Unfortunately there appears to be an X11/sato runtime issue, s=
-eemingly on some 32 bit platforms which may mean another rebuild is needed =
-once we identify the regression.
-
-*        The pseudo connection retry fixes have highlighted some issues. We=
- have debugging patches in master-next which we're trying to use to identif=
-y the remaining race/client/server connection issues.
-
-*        The expansion parameter to getVar and getVarFlag has become mandat=
-ory.
-
-*        The default make parameters have been changed thanks to some great=
- work by Mike Crowe. The original default in hindsight was suboptimal so th=
-is is something we've wanted to do for a long time.
-
-*        M3 is fast closing upon us and is the feature freeze for 2.1. Plea=
-se get all enhancement work and package upgrades in before the end of the m=
-onth. The number of items targeting M3 is a concern as we may have a stampe=
-ding herd of patches at the deadline.
-
-*        We are trying to merge various "invasive" changes before the deadl=
-ine to allow time for those changes to soak test in isolation.
-
-*        Recipe upgrade status is continuing at a high of 86%
-
-*        A key glibc vulnerability was exposed this week. We have fixes for=
- this in master, jethro and fido, all users are strongly recommended to upg=
-rade.
-
-
-Key YP 2.1 Dates:
-
-YP 2.1 M2 Target release date is February 12, 2016 (Will slip a few weeks.)
-
-YP 2.1 M3 Cutoff (Feature Freeze) date is February 29, 2016 noon GMT
-
-YP 2.1 M3 Target release date is March 18, 2016
-
-YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - Stabilization only mile=
-stone.
-
-YP 2.1 Final Release Target: April 29, 2016
-
-
-Key Status Links for YP:
-
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.1_Status
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.1_Schedule
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.1_Features
-
-
-Tracking Metrics:
-
-            WDD 2585 (last week 2663)
-
-(https://wiki.yoctoproject.org/charts/combo.html)
-
-
-[If anyone has suggestions for other information you'd like to see on this =
-weekly status update, let us know!]
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*   Work Telephone:        (503) 712-0534
-*    Cell:               (208) 244-4460
-* Email:                            stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57033B62fmsmsx111amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:2129690442;
-	mso-list-template-ids:784236514;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
-on: YP 2.1 M3</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
-2.1 M2 Target release date is February 12, 2016 (Will slip a few weeks.)</s=
-pan><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
-: Anibal -&gt; Tracy</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
-.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
-/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
-:</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">A build for M2-rc3 was passed to =
-QA after successful tests on the autobuilder. Unfortunately there appears t=
-o be an X11/sato runtime issue, seemingly on
- some 32 bit platforms which may mean another rebuild is needed once we ide=
-ntify the regression.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The pseudo connection retry fixes=
- have highlighted some issues. We have debugging patches in master-next whi=
-ch we&#8217;re trying to use to identify the remaining
- race/client/server connection issues.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The expansion parameter to getVar=
- and getVarFlag has become mandatory.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The default make parameters have =
-been changed thanks to some great work by Mike Crowe. The original default =
-in hindsight was suboptimal so this is something
- we&#8217;ve wanted to do for a long time.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">M3 is fast closing upon us and is=
- the feature freeze for 2.1. Please get all enhancement work and package up=
-grades in before the end of the month. The number
- of items targeting M3 is a concern as we may have a stampeding herd of pat=
-ches at the deadline.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">We are trying to merge various &#=
-8220;invasive&#8221; changes before the deadline to allow time for those ch=
-anges to soak test in isolation.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">Recipe upgrade status is continui=
-ng at a high of 86%<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">A key glibc vulnerability was exp=
-osed this week. We have fixes for this in master, jethro and fido, all user=
-s are strongly recommended to upgrade.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.1 Dates:<=
-/span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt">
-<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
-lor:black">YP 2.1 M2 Target release date is February 12, 2016 (Will slip a =
-few weeks.)</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt">
-<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
-lor:black">YP 2.1 M3 Cutoff (Feature Freeze) date is February 29, 2016 noon=
- GMT</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt">
-<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
-lor:black">YP 2.1 M3 Target release date is March 18, 2016</span><o:p></o:p=
-></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt">
-<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
-lor:black">YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - Stabilizatio=
-n only milestone.</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt">
-<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
-lor:black">YP 2.1 Final Release Target: April 29, 2016</span><o:p></o:p></p=
->
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
-or YP:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Project_v2.1_Status"><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
-to_Project_v2.1_Status</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.1_Schedule"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.1_=
-Schedule</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.1_Features"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.1_=
-Features</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
-/span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
-"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;
-</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
-,sans-serif;color:black">WDD 2585 (last week 2663)</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
-=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
-ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
-.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
-octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:black">)</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
-gestions for other information you&#8217;d like to see on this weekly statu=
-s update, let us know!]</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;,serif;color:teal=
-">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-,serif;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;fon=
-t-family:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><sp=
-an style=3D"font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,serif">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;,serif;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,serif">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:</span><span =
-lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;,=
-serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57033B62fmsmsx111amrcor_--
