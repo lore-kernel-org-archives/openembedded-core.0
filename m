@@ -1,26 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 469307705C
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id D33A1770CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 05:55:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J5t3KS027229
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Feb 2016 21:55:03 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 18 Feb 2016 21:55:02 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
-	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Fri, 19 Feb 2016 00:54:44 -0500
-Message-ID: <efdeb9f6a0156843d4dee12d7c2e9c293ff55141.1455860789.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1455860789.git.hongxu.jia@windriver.com>
-References: <cover.1455860789.git.hongxu.jia@windriver.com>
+	Fri, 19 Feb 2016 06:37:50 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 78D0968A01C; Fri, 19 Feb 2016 06:37:49 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id BC47568A019;
+	Fri, 19 Feb 2016 06:37:48 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 6D5F36740B17;
+	Fri, 19 Feb 2016 07:37:48 +0100 (CET)
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <56C6B83C.3040103@mlbassoc.com>
+Date: Fri, 19 Feb 2016 07:37:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-Subject: [PATCH 6/6] git: fix installed-vs-shipped QA Issue
+Subject: Recovering GCC 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 05:55:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Feb 2016 06:37:51 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Since commit set default libexecdir to $prefix/libexec
-...
-commit f35b2e29d9bfa817e64b83df11ebbbfe0f4e8e5c
-Author: Ross Burton <ross.burton@intel.com>
-Date:   Tue Apr 30 20:35:54 2013 +0100
+I have a need for GCC 4.8 which was recently dropped from OE-core.
 
-    bitbake: set default libexecdir to $prefix/libexec
-...
+commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Wed Nov 11 08:50:02 2015 -0800
 
-It casued '${D}${libdir}' does not exist, and the following
-move operation incorrect which triggered QA Issue:
-...
-ERROR: git-2.7.0-r0 do_package: QA Issue: git: Files/directories were installed but not shipped in any package:
-  /usr/lib64
-  /usr/lib64/site_perl
-  /usr/lib64/site_perl/5.22.1
-...
+     gcc: Drop 4.8
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/git/git.inc | 2 ++
- 1 file changed, 2 insertions(+)
+     We have 5.2 and 4.9, we don't really need 4.8 now and it can be moved
+     out to other layers if anyone still wants/needs it.
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index c19e0d4..a1d0300 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -50,6 +50,8 @@ perl_native_fixup () {
- 
- 	# ${libdir} is not applicable here, perl-native files are always
- 	# installed to /usr/lib on both 32/64 bits targets.
-+
-+	mkdir -p ${D}${libdir}
- 	mv ${D}${exec_prefix}/lib/perl-native/perl ${D}${libdir}
- 	rmdir -p ${D}${exec_prefix}/lib/perl-native || true
- }
+     (From OE-Core rev: 6f98c39418c60b7c0b25b30983d2e5257158a6a4)
+
+I tried to recover this by merging from the parent revision
+(poky 2cb1aee04) all of the files mentioned in this change
+into my local layer.  Sadly, it does not build, but fails
+rather early on (I'm building for Freescale LS1 cortexa7hf)
+
+| checking for arm-amltd-linux-gnueabi-gcc... arm-amltd-linux-gnueabi-gcc  -march=armv7ve -mfpu=neon  -mfloat-abi=hard 
+-mcpu=cortex-a7 --sysroot=/local/p0381_2016-02-19/tmp/sysroots/teton-p0381
+| checking for suffix of object files... configure: error: in 
+`/local/p0381_2016-02-19/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libgcc-initial/4.8.4-r0/gcc-4.8.4/build.arm-amltd-linux-gnueabi.arm-amltd-linux-gnueabi/libgcc':
+| configure: error: cannot compute suffix of object files: cannot compile
+| See `config.log' for more details.
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_configure (log file is located at 
+/local/p0381_2016-02-19/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libgcc-initial/4.8.4-r0/temp/log.do_configure.9193)
+ERROR: Task 1484 (/local/poky-cutting-edge/meta-amltd/recipes-devtools/gcc/libgcc-initial_4.8.bb, do_configure) failed 
+with exit code '1'
+
+Any ideas how I can get this to build?  I looked for some other
+layer to which this might have been moved, but did not find any.
+
+Thanks
+
 -- 
-1.9.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
