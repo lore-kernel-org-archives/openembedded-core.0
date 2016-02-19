@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BDCB076230
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 10FBB73179
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 08:48:54 +0000 (UTC)
+	Fri, 19 Feb 2016 08:48:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J8mtuG028141
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1J8mspg027409
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 00:48:55 -0800 (PST)
+	Fri, 19 Feb 2016 00:48:54 -0800
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 19 Feb 2016 00:48:54 -0800
+	Fri, 19 Feb 2016 00:48:53 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Feb 2016 00:48:36 -0800
-Message-ID: <edff15c4e11f0e17c34431a766616538f0a3df03.1455871674.git.liezhi.yang@windriver.com>
+Date: Fri, 19 Feb 2016 00:48:34 -0800
+Message-ID: <2ecb3112ab8116ba8ff2ef0c493ded66356573e7.1455871674.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1455871674.git.liezhi.yang@windriver.com>
 References: <cover.1455871674.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] terminal.bbclass: import oe.terminal for oe.terminal.prioritized()
+Subject: [PATCH 1/4] image.bbclass: fix circular dependency when IMAGE_FSTYPES append hddimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +37,52 @@ X-List-Received-Date: Fri, 19 Feb 2016 08:48:55 -0000
 Content-Type: text/plain
 
 Fixed:
-INHERIT += "typecheck"
-$ bitbake -p
-ERROR: Failure expanding expression auto none ${@" ".join(o.name for o in oe.terminal.prioritized())}
-which triggered exception AttributeError: 'module' object has no attribute 'terminal'
+IMAGE_FSTYPES_append = " hddimg"
+
+$ bitbake -g core-image-minimal-initramfs
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing RunQueue
+ERROR: Task /path/to/core-image-minimal-initramfs.bb (do_bootimg) has circular dependency on /path/to/core-image-minimal-initramfs.bb (do_image_complete)
+ERROR: Command execution failed: Exited with 1
+
+This is because IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}", and if
+IMAGE_FSTYPES append hddimg, then core-image-minimal-initramfs.bb would
+be circular dependency:
+do_bootimg -> do_image_complete -> do_bootimg.
+
+Now we check and error out.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/terminal.bbclass |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/image-live.bbclass |   11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index fd87cfe..9f4c24e 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -1,8 +1,7 @@
- OE_TERMINAL ?= 'auto'
- OE_TERMINAL[type] = 'choice'
- OE_TERMINAL[choices] = 'auto none \
--                        ${@" ".join(o.name \
--                                    for o in oe.terminal.prioritized())}'
-+                        ${@oe_terminal_prioritized()}'
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index aafa7d5..d2314aa 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -9,7 +9,6 @@ LABELS_append = " ${SYSLINUX_LABELS} "
  
- OE_TERMINAL_EXPORTS += 'EXTRA_OEMAKE'
- OE_TERMINAL_EXPORTS[type] = 'list'
-@@ -10,6 +9,9 @@ OE_TERMINAL_EXPORTS[type] = 'list'
- XAUTHORITY ?= "${HOME}/.Xauthority"
- SHELL ?= "bash"
+ ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4"
  
-+def oe_terminal_prioritized():
-+    import oe.terminal
-+    return " ".join(o.name for o in oe.terminal.prioritized())
+-do_bootimg[depends] += "${INITRD_IMAGE}:do_image_complete"
+ do_bootimg[depends] += "${PN}:do_image_ext4"
  
- def emit_terminal_func(command, envdata, d):
-     cmd_func = 'do_terminal'
+ inherit bootimg
+@@ -18,3 +17,13 @@ IMAGE_TYPEDEP_live = "ext4"
+ IMAGE_TYPEDEP_iso = "ext4"
+ IMAGE_TYPEDEP_hddimg = "ext4"
+ IMAGE_TYPES_MASKED += "live hddimg iso"
++
++python() {
++    image_b = d.getVar('IMAGE_BASENAME', True)
++    initrd_i = d.getVar('INITRD_IMAGE', True)
++    if image_b == initrd_i:
++        bb.error('INITRD_IMAGE %s cannot use image live, hddimg or iso.' % initrd_i)
++        bb.fatal('Check IMAGE_FSTYPES and INITRAMFS_FSTYPES settings.')
++    else:
++        d.appendVarFlag('do_bootimg', 'depends', ' %s:do_image_complete' % initrd_i)
++}
 -- 
 1.7.9.5
 
