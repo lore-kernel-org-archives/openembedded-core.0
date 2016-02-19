@@ -1,24 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 54D7277011
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1103E766EB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 02:38:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J2c51j026156
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 18:38:05 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 18 Feb 2016 18:38:04 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Feb 2016 10:38:38 +0800
-Message-ID: <cover.1455849409.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Fri, 19 Feb 2016 04:34:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 18 Feb 2016 20:34:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,468,1449561600"; d="scan'208";a="889267541"
+Received: from bitbang.jf.intel.com (HELO [10.7.199.151]) ([10.7.199.151])
+	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2016 20:34:52 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1455815778.git.randy.e.witt@linux.intel.com>
+	<941d876fe835bc1aa26039d0edec9573d482bca3.1455815778.git.randy.e.witt@linux.intel.com>
+	<1455836234.28376.100.camel@linuxfoundation.org>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <56C69B6C.6010606@linux.intel.com>
+Date: Thu, 18 Feb 2016 20:34:52 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] insane.bbclass: make the checking stricter for unsafe references in scripts
+In-Reply-To: <1455836234.28376.100.camel@linuxfoundation.org>
+Subject: Re: [PATCH 3/3] populate_sdk_ext.bbclass: Add SDK_RECRDEP_TASKS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 02:38:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Feb 2016 04:34:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 31af4a37c429bb1db8bfc64242b2963220f9a0e1:
+On 02/18/2016 02:57 PM, Richard Purdie wrote:
+> On Thu, 2016-02-18 at 09:17 -0800, Randy Witt wrote:
+>> Currently there isn't a way for the extensible sdk to know all the
+>> tasks
+>> that will need sstate for an image. This is because a layer can add
+>> it's
+>> on custom tasks that are required for an image to be generated.
+>>
+>> The extensible sdk solved this for poky by using recrdeptask and
+>> specifying the tasks known to be required for the image as well as
+>> for
+>> building new recipes.
+>>
+>> So the SDK_RECRDEP_TASKS variable allows a user to specify additional
+>> tasks that need to be pulled in.
+>>
+>> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+>> ---
+>>   meta/classes/populate_sdk_ext.bbclass | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/populate_sdk_ext.bbclass
+>> b/meta/classes/populate_sdk_ext.bbclass
+>> index 7c95301..5f90aea 100644
+>> --- a/meta/classes/populate_sdk_ext.bbclass
+>> +++ b/meta/classes/populate_sdk_ext.bbclass
+>> @@ -359,7 +359,7 @@ addtask sdk_depends
+>>   do_sdk_depends[dirs] = "${WORKDIR}"
+>>   do_sdk_depends[depends] = "${@get_ext_sdk_depends(d)}"
+>>   do_sdk_depends[recrdeptask] = "${@d.getVarFlag('do_populate_sdk',
+>> 'recrdeptask', False)}"
+>> -do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa
+>> do_populate_sysroot do_deploy"
+>> +do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa
+>> do_populate_sysroot do_deploy ${SDK_RECRDEP_TASKS}"
+>>   do_sdk_depends[rdepends] = "${@get_sdk_ext_rdepends(d)}"
+>>
+>>   def get_sdk_ext_rdepends(d):
+>
+> Doesn't this need a default value or it will throw parse failures?
 
-  oeqa/parselogs: Whitelist dmi firmware failure message in 4.4 kernels (2016-02-16 23:53:43 +0000)
+Actually, it didn't generate parse errors. My guess is it just didn't expand it 
+and put a bogus task in the list. So I'll send a v2.
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/qa-unsafe
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/qa-unsafe
-
-Chen Qi (1):
-  insane.bbclass: make the checking stricter for unsafe references in
-    scripts
-
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-1.9.1
+>
+> Cheers,
+>
+> Richard
+>
 
 
