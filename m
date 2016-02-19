@@ -1,22 +1,24 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 23E697723F
+Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C0F177270
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 21:32:39 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 19 Feb 2016 13:32:39 -0800
+	Fri, 19 Feb 2016 22:05:56 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 19 Feb 2016 14:05:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,472,1449561600"; d="scan'208";a="907094781"
-Received: from humberto-desktop.zpn.intel.com ([10.219.5.34])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2016 13:32:39 -0800
-From: humberto.ibarra.lopez@intel.com
+X-IronPort-AV: E=Sophos;i="5.22,472,1449561600"; d="scan'208";a="51153516"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2016 14:05:56 -0800
+Received: from fjpedraz.zpn.intel.com (fjpedraz.zpn.intel.com [10.219.24.19])
+	by linux.intel.com (Postfix) with ESMTP id AABFB6A4004;
+	Fri, 19 Feb 2016 14:53:46 -0800 (PST)
+From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Feb 2016 15:29:32 -0600
-Message-Id: <1455917372-10008-3-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1455917372-10008-1-git-send-email-humberto.ibarra.lopez@intel.com>
-References: <1455917372-10008-1-git-send-email-humberto.ibarra.lopez@intel.com>
-Subject: [PATCH v3 2/2] scripts/oe-selftest: Use site.USER_SITE to run coverage configuration code for sub-process
+Date: Fri, 19 Feb 2016 16:05:41 -0600
+Message-Id: <1455919542-28863-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+X-Mailer: git-send-email 2.5.0
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Subject: [PATCHv2 1/2] oeqa/utils: added new networke module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,109 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 21:32:39 -0000
+X-List-Received-Date: Fri, 19 Feb 2016 22:05:57 -0000
 
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+A network module was added, and will contain network utility funcions for now.
+with get_free_port that returns availabe network port in the system.
 
-Coverage in oe-selftest currently requires to create or modify
-a sitecustomize.py file according the coverage tool setup instructions
-(http://coverage.readthedocs.org/). This file has to be located in
-the system's python folder, which is not a good solution since this
-folder is not accesible to non-privileged users.
-
-The best solution so far is to create this file in the home directory.
-This is implemented by creating the temporal file in the user site
-default folder.
-
-[Yocto #8930]
-
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 ---
- scripts/oe-selftest | 46 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 12 deletions(-)
+ meta/lib/oeqa/utils/network.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/network.py
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index f3865e4..bd9cbe0 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -553,6 +553,7 @@ def main():
- 
- def buildResultClass(args):
-     """Build a Result Class to use in the testcase execution"""
-+    import site
- 
-     class StampedResult(unittest.TextTestResult):
-         """
-@@ -568,26 +569,41 @@ def buildResultClass(args):
- 
-         def startTestRun(self):
-             """ Setup coverage before running any testcase """
+diff --git a/meta/lib/oeqa/utils/network.py b/meta/lib/oeqa/utils/network.py
+new file mode 100644
+index 0000000..2768f6c
+--- /dev/null
++++ b/meta/lib/oeqa/utils/network.py
+@@ -0,0 +1,8 @@
++import socket
 +
-+            # variable holding the coverage configuration file allowing subprocess to be measured
-+            self.coveragepth = None
-+
-+            # indicates the system if coverage is currently installed
-+            self.coverage_installed = True
-+
-             if args.coverage or args.coverage_source or args.coverage_include or args.coverage_omit:
-                 try:
-                     # check if user can do coverage
-                     import coverage
--                    log.info("Coverage is enabled")
--
--                    # In case the user has not set the variable COVERAGE_PROCESS_START,
--                    # create a default one and export it. The COVERAGE_PROCESS_START
--                    # value indicates where the coverage configuration file resides
--                    # More info on https://pypi.python.org/pypi/coverage
--                    if not os.environ.get('COVERAGE_PROCESS_START'):
--                        os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
--
--                    self.coverage_installed = True
-                 except:
-                     log.warn('\n'.join(["python coverage is not installed",
-                         "Make sure your coverage takes into account sub-process",
-                         "More info on https://pypi.python.org/pypi/coverage"]))
-                     self.coverage_installed = False
- 
-+                if self.coverage_installed:
-+                    log.info("Coverage is enabled")
-+
-+                # In case the user has not set the variable COVERAGE_PROCESS_START,
-+                # create a default one and export it. The COVERAGE_PROCESS_START
-+                # value indicates where the coverage configuration file resides
-+                # More info on https://pypi.python.org/pypi/coverage
-+                if not os.environ.get('COVERAGE_PROCESS_START'):
-+                    os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
-+
-+                # Use default site.USER_SITE and write corresponding config file
-+                site.ENABLE_USER_SITE = True
-+                if not os.path.exists(site.USER_SITE):
-+                    os.makedirs(site.USER_SITE)
-+                self.coveragepth = os.path.join(site.USER_SITE, "coverage.pth")
-+                with open(self.coveragepth, 'w') as cps:
-+                    cps.write('import sys,site; sys.path.extend(site.getsitepackages()); import coverage; coverage.process_startup();')
-+
-         def stopTestRun(self):
-             """ Report coverage data after the testcases are run """
- 
-@@ -599,8 +615,14 @@ def buildResultClass(args):
- 
-                 log.info("Coverage Report")
-                 log.info("===============")
--
--                coverage_report()
-+                try:
-+                    coverage_report()
-+                    # remove the pth file
-+                finally:
-+                    try:
-+                        os.remove(self.coveragepth)
-+                    except OSError:
-+                        log.warn("Expected temporal file from coverage is missing, ignoring removal.")
- 
-     return StampedResult
- 
++def get_free_port():
++    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++    s.bind(('', 0))
++    addr = s.getsockname()
++    s.close()
++    return addr[1]
 -- 
-1.9.1
+2.5.0
 
 
