@@ -1,48 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ABA077059
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD8536E681
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 01:31:05 +0000 (UTC)
-Received: by mail-ob0-f182.google.com with SMTP id kf7so10695681obb.1
+	Fri, 19 Feb 2016 02:38:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1J2c6Qi019093
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Feb 2016 17:31:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6KKByLgy6L3v8ACR471t0XKvrRWya8VgHzLVx3fOuvw=;
-	b=fdHXr4MeOaNlkwikzm7sc5+9Ld8G7C5PwqcSpDEJua2QbdofaCcC9ZhxQMuKaGXhMZ
-	tzXPzuc/kHqLKCzKQEoAkgUTU/vTSagAGNkt5lNWqTmbndtIS/ZBCi5KQ4z+VQMy2MjJ
-	gR5JcVaSC1+CKUtS7BN0ND80XAmrX/61tCAyzvL2CdhHGYDT5FZBXhYwZuBefye367wq
-	8kzY8L1HYKmX0TBAS+FbDK/fnkK0dOzLDcoPT0Jhk7NRQlNklbXm6jtbaxb2/ZdEVVAP
-	sNzRkBx5jJjVmBYtkDRI8Kvz8dHyrr9X/cZn5/f3TDKyupgWyKsb96NzrX9cbWtEvRbU
-	ZAJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=6KKByLgy6L3v8ACR471t0XKvrRWya8VgHzLVx3fOuvw=;
-	b=IduYxYy7hNCBZmqVYoCiOkTRNpXIKpl8PDGoIRZIXfYPT8Dci3O1EX9H7IUtEpPb/2
-	3Xok6axHY3eu3hVO8NCUv28Hc9a+b8dQ/mTFUh2hg+VI1GpooNUCOvgxxZ7E2gOCrYXA
-	nTDjVkZ0WTauHIQIVcocrpz2BHpbDW5zlyvpC5l5JW+9P8f4D9jZm6GeDtikMxstgA+M
-	ad+zfpSJuXSPdl47vkbcTE5885T4IhgQaXX5hp8AcZzJtl8JqSO/f9VJlGhWyEzoapHZ
-	lqJkox+6ZLqsn1qpjhwzlgFhre7wPXKHa/7OM7tEd7zgLmw03kx1u1YUoSTxnywECFk0
-	7rHA==
-X-Gm-Message-State: AG10YOT+SLt+LcUi1lOLTtDmcDgeas/bZaJOQiFPi6Z1NHLhlpYY8sW4jOQaD3+9xZ5PUQ==
-X-Received: by 10.60.162.102 with SMTP id xz6mr9443495oeb.62.1455845466013;
-	Thu, 18 Feb 2016 17:31:06 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id wa8sm5566371obc.7.2016.02.18.17.31.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 18 Feb 2016 17:31:04 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2016 17:30:51 -0800
-Message-Id: <1455845451-25185-4-git-send-email-armccurdy@gmail.com>
+	Thu, 18 Feb 2016 18:38:07 -0800
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 18 Feb 2016 18:38:06 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Feb 2016 10:38:39 +0800
+Message-ID: <e74382b4ce479b57ebfd9e68bd75bef1c75eeb78.1455849409.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1455845451-25185-1-git-send-email-armccurdy@gmail.com>
-References: <1455845451-25185-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 3/3] libsoup-2.4: disable libsoup-gnome by default
+In-Reply-To: <cover.1455849409.git.Qi.Chen@windriver.com>
+References: <cover.1455849409.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] insane.bbclass: make the checking stricter for unsafe references in scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 01:31:05 -0000
+X-List-Received-Date: Fri, 19 Feb 2016 02:38:08 -0000
+Content-Type: text/plain
 
-libsoup-gnome is entirely deprecated and has just been stubs since 2.42.
+From: Chen Qi <qi.chen@windriver.com>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Previously, the checking for unsafe references is not strict enough. It
+only checks whether '/usr/' is in the script. As a result, any script
+containing statements like below will match this check.
+
+	   PATH="/bin:/sbin:/usr/bin:/usr/sbin"
+
+However, as we can see, this is actually not an unsafe reference. What
+we really want to check is something like '/usr/bin/tail', so we should
+make the checking stricter.
+
+This patch solves the QA warning in gzip and nfs-utils.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-index a9d8050..13ff685 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-@@ -18,9 +18,8 @@ S = "${WORKDIR}/libsoup-${PV}"
- 
- inherit autotools gettext pkgconfig upstream-version-is-even
- 
--# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
--# by default but let it be easily disabled.
--PACKAGECONFIG ??= "gnome"
-+# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Disable by default.
-+PACKAGECONFIG ??= ""
- PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
- 
- EXTRA_OECONF = "--disable-vala"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index aef08fe..96851a3 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -428,7 +428,7 @@ def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
+         if bool(statinfo.st_mode & stat.S_IXUSR):
+             # grep shell scripts for possible references to /exec_prefix/
+             exec_prefix = d.getVar('exec_prefix', True)
+-            statement = "grep -e '%s/' %s > /dev/null" % (exec_prefix, path)
++            statement = "grep -e '%s/[^ :]\{1,\}/[^ :]\{1,\}' %s > /dev/null" % (exec_prefix, path)
+             if subprocess.call(statement, shell=True) == 0:
+                 error_msg = pn + ": Found a reference to %s/ in %s" % (exec_prefix, path)
+                 package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
 -- 
 1.9.1
 
