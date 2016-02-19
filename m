@@ -1,33 +1,24 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F5FB606BF
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BC7F773179
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Feb 2016 08:34:10 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 4A9FA68A01A; Fri, 19 Feb 2016 08:34:11 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id CE0D568A019;
-	Fri, 19 Feb 2016 08:34:10 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 759286741E0B;
-	Fri, 19 Feb 2016 09:34:10 +0100 (CET)
-To: Phil Blundell <pb@pbcl.net>
-References: <56C6B83C.3040103@mlbassoc.com> <1455868969.2039.44.camel@pbcl.net>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56C6D382.9090900@mlbassoc.com>
-Date: Fri, 19 Feb 2016 09:34:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Fri, 19 Feb 2016 08:48:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1J8mXLE028136
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Feb 2016 00:48:53 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 19 Feb 2016 00:48:37 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Feb 2016 00:48:33 -0800
+Message-ID: <cover.1455871674.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <1455868969.2039.44.camel@pbcl.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Recovering GCC 4.8
+Subject: [PATCH 0/4] meta: 4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Feb 2016 08:34:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Feb 2016 08:48:54 -0000
+Content-Type: text/plain
 
-On 2016-02-19 09:02, Phil Blundell wrote:
-> On Fri, 2016-02-19 at 07:37 +0100, Gary Thomas wrote:
->> | checking for suffix of object files... configure: error: in
->> `/local/p0381_2016-02-19/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libgcc-initial/4.8.4-r0/gcc-4.8.4/build.arm-amltd-linux-gnueabi.arm-amltd-linux-gnueabi/libgcc':
->> | configure: error: cannot compute suffix of object files: cannot compile
->> | See `config.log' for more details.
->
-> I suspect you probably have some or other option set in CC or CFLAGS
-> that gcc-4.8 doesn't support.  What does it say in config.log?
+The following changes since commit 58b45240739da210ef2fecea931c8b8daa9a4c07:
 
-It's complaining about an illegal -march=armv7ve, which seems to have
-been added since I last built for this machine with GCC 4.8:
+  epiphany: Add libxml2-native to DEPENDS (2016-02-18 22:55:12 +0000)
 
-commit c6a19917ec5350cdfc4053d14462609782613bbc
-Author: Martin Jansa <Martin.Jansa@gmail.com>
-Date:   Tue Oct 6 17:08:59 2015 +0200
+are available in the git repository at:
 
-     arch-armv7ve: add tune include for armv7ve and use it from cortexa7 and cortexa15
+  git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
 
-I'll see what I can do with this.  Duh, I should have looked at
-the config.log before raising flags!
+Robert Yang (4):
+  image.bbclass: fix circular dependency when IMAGE_FSTYPES append
+    hddimg
+  recipe_sanity.bbclass: skip DataSmart in recipe_sanity_eh()
+  terminal.bbclass: import oe.terminal for oe.terminal.prioritized()
+  staging.bbclass: remove trail slash from SYSROOT_DESTDIR
+
+ meta/classes/image-live.bbclass    |   11 ++++++++++-
+ meta/classes/recipe_sanity.bbclass |    5 ++---
+ meta/classes/staging.bbclass       |    2 +-
+ meta/classes/terminal.bbclass      |    6 ++++--
+ 4 files changed, 17 insertions(+), 7 deletions(-)
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.7.9.5
+
 
