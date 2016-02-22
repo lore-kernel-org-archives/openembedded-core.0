@@ -1,23 +1,47 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id BFBA97725D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 3957E77245
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 23:30:02 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 15:30:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,486,1449561600"; d="scan'208";a="657423261"
-Received: from jrwood-mobl1.amr.corp.intel.com ([10.252.197.13])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 15:30:01 -0800
-Message-ID: <1456183794.19577.5.camel@intel.com>
-From: Saul Wold <saul.wold@intel.com>
-To: Cristina Agurida <cristina-danielax.agurida@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 15:29:54 -0800
-In-Reply-To: <1454588030-26081-1-git-send-email-cristina-danielax.agurida@intel.com>
+	Mon, 22 Feb 2016 23:34:57 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id g203so195271746iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Feb 2016 15:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=KU5wqWa8bqzMFk5NNWceSFFauca6hb8W9H4T6AWoosI=;
+	b=aJQdLiAR7dLWmkGuABvW975p8RE1eDmRYZQgejZv1kWKGn6FvdcOHFYFuT8b+MZzqy
+	h7yZCoz65ngHp3OAtu32sNOP3CM3YwbGyoxCovUG4hX+B68eGie9iiPSlCKBaBXJ+Q2E
+	lTlvK33ZflR3jhrff008nxOsW0qfcMZFmQxVMRuLCQhlCtuWkdfjHEog3CCLvkPBaFWx
+	5mEgdyNMgwbdjN1U/eajBnVjFteudR7WTkVPgq6VqJMQ828xCIPPW+K6RIBMvuaZn0oO
+	79V4RfWy9SZhzPW57qS13twlMG2ZLqAVRRAm/oQmRpTEoj2HvupHW9PlH0ZC7qXClzCu
+	mJqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=KU5wqWa8bqzMFk5NNWceSFFauca6hb8W9H4T6AWoosI=;
+	b=OL9dxuEOwMWpPvsr2smrWWu1/vkutUSMOaVHOU4goUGoebwEeA3Bu4KIyQm6ZjTzju
+	Sef2cOy87hpLRxgcjcdcnEinzcaTtpEJEGmdLq/RwBe3beQsyC0OFlGV/AykrRrUEoZ6
+	7p7bp9AX1OyB8O2KiiwXo3jBKvQ3NwW+kvLJWvsP0Mxm4iCtUtAf7dBcq6IfS9HZ8b48
+	h5q/k17bhDwvbq4fRMn1mTBsSp7v2vjcfRdcMsqkbo8vbB/JrbpKowHWJPWvb4Dy8I4c
+	yW/lhcikgbXGVV3PBu/IeTOX90vZXCxkH/ZaID3L9g3To1HirXbqMXKhcXbJTstzQ8De
+	nz+w==
+X-Gm-Message-State: AG10YOTYmZR/1yPCG/SfVXM9biNQqlU6FoAJK211K2grNT15ENLCdWcYwi5mQB20bWBFMWsFhlOx0PuC08pHGGG8
+X-Received: by 10.107.164.15 with SMTP id n15mr28348213ioe.148.1456184098493; 
+	Mon, 22 Feb 2016 15:34:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 22 Feb 2016 15:34:39 -0800 (PST)
+In-Reply-To: <1456183794.19577.5.camel@intel.com>
 References: <1454588030-26081-1-git-send-email-cristina-danielax.agurida@intel.com>
-X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
-Mime-Version: 1.0
+	<1456183794.19577.5.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Feb 2016 23:34:39 +0000
+Message-ID: <CAJTo0LYFqPjSTVAYPT=afX4o1Qp8cp4wPNjC7DAHfp6=NR0g+A@mail.gmail.com>
+To: Saul Wold <saul.wold@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] oeqa/parselogs: Updated whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -31,89 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 23:30:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Feb 2016 23:34:59 -0000
+Content-Type: multipart/alternative; boundary=001a11377682eb3dc5052c6447c1
 
+--001a11377682eb3dc5052c6447c1
+Content-Type: text/plain; charset=UTF-8
 
-Ping, this does not appear to be in -next or ross/mut, any issues?
+On 22 February 2016 at 23:29, Saul Wold <saul.wold@intel.com> wrote:
 
-Sau!
+> Ping, this does not appear to be in -next or ross/mut, any issues?
+>
 
-On Thu, 2016-02-04 at 14:13 +0200, Cristina Agurida wrote:
-> Moved an error to common, and whitelisted the BAR errors
-> and ati module. Also the uvesafb related errors will be
-> ignored in LSB images which do not have graphic interface.
-> 
-> Fix for [YOCTO #8387]
-> Fix for [YOCTO #8590]
-> Fix for [YOCTO #6820]
-> Fix for [YOCTO #7897]
-> 
-> Signed-off-by: Lucian Musat <george.l.musat at intel.com>
-> Signed-off-by: Cristina Agurida <cristina-danielax.agurida@intel.com>
-> ---
->  meta/lib/oeqa/runtime/parselogs.py | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/runtime/parselogs.py
-> b/meta/lib/oeqa/runtime/parselogs.py
-> index 5a2d50f..44834ce 100644
-> --- a/meta/lib/oeqa/runtime/parselogs.py
-> +++ b/meta/lib/oeqa/runtime/parselogs.py
-> @@ -38,8 +38,17 @@ common_errors = [
->      'Online check failed for',
->      'netlink init failed',
->      'Fast TSC calibration',
-> +    "BAR 0-9",
-> +    "Failed to load module \"ati\"",
-> +    "controller can't do DEVSLP, turning off",
-> +    "stmmac_dvr_probe: warning: cannot get CSR clock",
-> +    "error: couldn\'t mount because of unsupported optional
-> features",
->      ]
->  
-> +video_related = [
-> +    "uvesafb",
-> +]
-> +
->  x86_common = [
->      '[drm:psb_do_init] *ERROR* Debug is',
->      'wrong ELF class',
-> @@ -99,11 +108,7 @@ ignore_errors = {
->          '(EE) Failed to load module psbdrv',
->          '(EE) open /dev/fb0: No such file or directory',
->          '(EE) AIGLX: reverting to software rendering',
-> -        "controller can't do DEVSLP, turning off",
->          ] + x86_common,
-> -    'intel-corei7-64' : [
-> -        "controller can't do DEVSLP, turning off",
-> -        ] + common_errors,
->      'crownbay' : x86_common,
->      'genericx86' : x86_common,
->      'genericx86-64' : x86_common,
-> @@ -126,6 +131,10 @@ class ParseLogsTest(oeRuntimeTest):
->          self.ignore_errors = ignore_errors
->          self.log_locations = log_locations
->          self.msg = ""
-> +        (is_lsb, location) = oeRuntimeTest.tc.target.run("which
-> LSB_Test.sh")
-> +        if is_lsb == 0:
-> +            for machine in self.ignore_errors:
-> +                self.ignore_errors[machine] =
-> self.ignore_errors[machine] + video_related
->  
->      def getMachine(self):
->          return oeRuntimeTest.tc.d.getVar("MACHINE", True)
-> @@ -200,6 +209,7 @@ class ParseLogsTest(oeRuntimeTest):
->              ignore_error = ignore_error.replace("[", "\[")
->              ignore_error = ignore_error.replace("]", "\]")
->              ignore_error = ignore_error.replace("*", "\*")
-> +            ignore_error = ignore_error.replace("0-9", "[0-9]")
->              grepcmd += ignore_error+"|"
->          grepcmd = grepcmd[:-1]
->          grepcmd += "\'"
-> -- 
-> 2.1.4
-> 
+I meant to reply about how the grep code is insanely overcomplicated, but
+that can be fixed later.  Marked to merge to mut now.
 
+Ross
+
+--001a11377682eb3dc5052c6447c1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 February 2016 at 23:29, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:saul.wold@intel.com" target=3D"_blank">saul.wold@intel.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":b5e" class=3D"a3s"=
+ style=3D"overflow:hidden">Ping, this does not appear to be in -next or ros=
+s/mut, any issues?<br></div></blockquote></div><br>I meant to reply about h=
+ow the grep code is insanely overcomplicated, but that can be fixed later.=
+=C2=A0 Marked to merge to mut now.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11377682eb3dc5052c6447c1--
