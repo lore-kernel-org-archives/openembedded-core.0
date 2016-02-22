@@ -1,58 +1,30 @@
-Return-Path: <winiston@futuraautomation.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D1876DBC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C059876A51
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 03:51:33 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id fy10so83599571pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Feb 2016 19:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=futuraautomation-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:from:to:cc:references:in-reply-to:subject:date
-	:mime-version:content-type:content-transfer-encoding:importance
-	:disposition-notification-to;
-	bh=SJDQGdAHFBFSq5dmzm58xSGa4v4HU7OJNW36SRx+jWQ=;
-	b=U5zD0t6yyoDVj2wrkBtCtkdTtEOxc+En4sHh8X0MHk29Hyyr983GEPw/4a6kvFlYzM
-	2xyY7mJweCHFUgSCFyBBqv3WOccVF97Im2tGuW+AtQ6cOzplFET1UZi6uOHz3rRjiLc5
-	/noqJrmbOFm9nFGsu7gqQ1IQarEZDuXrYAmBF5PrO/UAjRwzSwZxO+NJoV0Nat8JmwwH
-	Ls4TGsachYtNAlCIzyz0b2hY0eXK8U58Xr53gM9En/x5DwW7V36m1Mw/7Df+Edxw7T4f
-	umiDfHfGRlU5E171CWC9YlJ0j37FhSwzRrj6y12BI8KZlw6TYxVMtECAfMdh1CRCNOzs
-	ZY3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:from:to:cc:references:in-reply-to
-	:subject:date:mime-version:content-type:content-transfer-encoding
-	:importance:disposition-notification-to;
-	bh=SJDQGdAHFBFSq5dmzm58xSGa4v4HU7OJNW36SRx+jWQ=;
-	b=FzNa8pKEbDjL0pwSF8UjQrahI3f1czu2UaWMwTrTF6OKaCnKxtf2DegrGsclmCWZ9y
-	bUpv187OzFLD3selAV1QfOcUz3nTfIGR3ihdW0g7JLaeSIcnIKDFXNJustk/8S3huIEi
-	sGVe9no/c7qG9olyfWJ/HSiAC+SoLDy2aLKe1hKCkz9L4fT+Z/3RkoyvZBcTYObs3WGE
-	4zYruZLEBdDobIvW1/MXTKFUXti3I7inz4jkaF2IWpZev2JAWz2cwi8n/q9/qgEGX7oK
-	9CBTk22wepEhWWvAlBGvFPlS+Djj01eDDUlKhLtNJ+BhHkzialtclTx2TqX1mGfSpW4l
-	PKrg==
-X-Gm-Message-State: AG10YOQ/OMWLEpDJ4jC/ytCYkqnfZLLBuMK7zPBhHmQPM89ruSk4KoErbP2B3aATT/+J6A==
-X-Received: by 10.66.252.73 with SMTP id zq9mr35028504pac.16.1456113094578;
-	Sun, 21 Feb 2016 19:51:34 -0800 (PST)
-Received: from RD3 ([59.99.236.185]) by smtp.gmail.com with ESMTPSA id
-	q85sm32648721pfq.81.2016.02.21.19.51.28
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Feb 2016 19:51:33 -0800 (PST)
-Message-ID: <6C4376326F0F421EA23035B83CCA8B9F@RD3>
-From: <winiston@futuraautomation.com>
-To: "Khem Raj" <raj.khem@gmail.com>
-References: <5174C2003D56485DACF46FA90CEFE553@RD3>
-	<CAMKF1srxScqs8C6xDyKSiU06WN00g_BJuijOz3SA3ugqNE1i_A@mail.gmail.com>
-In-Reply-To: <CAMKF1srxScqs8C6xDyKSiU06WN00g_BJuijOz3SA3ugqNE1i_A@mail.gmail.com>
-Date: Mon, 22 Feb 2016 09:25:17 +0530
+	Mon, 22 Feb 2016 04:15:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 21 Feb 2016 20:15:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,483,1449561600"; d="scan'208";a="908325536"
+Received: from jngau-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.137.140])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2016 20:15:43 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	Joshua Lock <joshua.g.lock@linux.intel.com>
+Date: Mon, 22 Feb 2016 17:15:41 +1300
+Message-ID: <7548678.UPkFnu4iOC@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.5-300.fc23.x86_64; KDE/4.14.16; x86_64; ;
+	)
+In-Reply-To: <5645D501.6020802@windriver.com>
+References: <cover.1447412835.git.hongxu.jia@windriver.com>
+	<CAHiDW_HddeP2fLOCBWSG7=cfS0Zuaoh0gnW3nBpLTtjH62huRA@mail.gmail.com>
+	<5645D501.6020802@windriver.com>
 MIME-Version: 1.0
-X-Priority: 1
-X-MSMail-Priority: High
-Importance: High
-X-Mailer: Microsoft Windows Live Mail 15.4.3555.308
-X-MimeOLE: Produced By Microsoft MimeOLE V15.4.3555.308
-Cc: OpenEmbedded core <openembedded-core@lists.openembedded.org>
-Subject: Re: Error building core-image-sato
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] wpa-supplicant: Fix CVE-2015-8041
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,108 +37,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 03:51:34 -0000
-Content-Type: text/plain; format=flowed; charset="utf-8"; reply-type=original
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Feb 2016 04:15:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dear,
+Hi Robert,
 
-Yes, I added meta-ti layer in the bblayers.conf  which is reside in 
-/home/winiston/meta-ti  and I used hob to create the image.  My 
-bblayers.conf contents as given below.
+I just noticed this never got merged into jethro. Could you take care of that? 
+The original patch is here:
 
-# LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
-# changes incompatibly
-LCONF_VERSION = "6"
+http://patchwork.openembedded.org/patch/107625/
 
-BBPATH = "${TOPDIR}"
-BBFILES ?= ""
+Joshua, looks like we could use this one in fido as well.
 
-#BBLAYERS ?= " \
-#  /home/winiston/poky/meta \
-#  /home/winiston/poky/meta-yocto \
-#  /home/winiston/meta-ti \
-#  "
-BBLAYERS_NON_REMOVABLE ?= " \
-  /home/winiston/poky/meta \
-  /home/winiston/poky/meta-yocto \
-  "
-#added by hob
-BBFILES += "${TOPDIR}/recipes/images/custom/*.bb"
-#added by hob
-BBFILES += "${TOPDIR}/recipes/images/*.bb"
+Thanks,
+Paul
 
-#added by hob
-BBLAYERS = "/home/winiston/poky/meta /home/winiston/poky/meta-yocto 
-/home/winiston/meta-ti"
-
-
-What could be the problem?
-
-Regards,
-Winiston.P
-Futura Automation Pvt Ltd.
-
-Ph :91-80-28375290 / 28375295
-Fax :91-80-28375291
------Original Message----- 
-From: Khem Raj
-Sent: Monday, February 22, 2016 7:38 AM
-To: winiston@futuraautomation.com
-Cc: OpenEmbedded core
-Subject: Re: [OE-core] Error building core-image-sato
-
-On Wed, Feb 17, 2016 at 9:02 PM,  <winiston@futuraautomation.com> wrote:
-> Dear,
->
-> I tried to build core-image-sato. It spits out the following error.
->
-> winiston@winiston-VirtualBox:~/poky/build$ bitbake core-image-sato
-> Parsing recipes: 100% |###############################| ETA:  00:00:00
-> Parsing of 1060 .bb files complete (0 cached, 1060 parsed). 1496 targets,
-> 138 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing RPROVIDES 'xf86-input-tslib' (but
-> /home/winiston/poky/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-> RDEPENDS on or otherwise requires it)
-> NOTE: Runtime target 'xf86-input-tslib' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['xf86-input-tslib']
-> NOTE: Runtime target 'packagegroup-core-x11-xserver' is unbuildable,
-> removing...
-> Missing or unbuildable dependency chain was:
-> ['packagegroup-core-x11-xserver', 'xf86-input-tslib']
-> NOTE: Runtime target 'packagegroup-core-x11-base' is unbuildable,
-> removing...
-> Missing or unbuildable dependency chain was: 
-> ['packagegroup-core-x11-base',
-> 'packagegroup-core-x11-xserver', 'xf86-input-tslib']
-> ERROR: Required build target 'core-image-sato' has no buildable providers.
-> Missing or unbuildable dependency chain was: ['core-image-sato',
-> 'packagegroup-core-x11-base', 'packagegroup-core-x11-xserver',
-> 'xf86-input-tslib']
->
-> Summary: There were 2 ERROR messages shown, returning a non-zero exit 
-> code.
-> winiston@winiston-VirtualBox:~/poky/build$
->
-> How do I resolve this error?
-
-whats the content of your bblayers.conf, do you have some
-modifications to default configuration ?
-
->
-> Regards,
-> Winiston.P
-> Futura Automation Pvt Ltd.
->
-> Ph :91-80-28375290 / 28375295
-> Fax :91-80-28375291
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On Fri, 13 Nov 2015 20:18:09 Hongxu Jia wrote:
+> On 11/13/2015 08:11 PM, Jussi Kukkonen wrote:
+> > On 13 November 2015 at 13:08, Hongxu Jia <hongxu.jia@windriver.com
+> > 
+> > <mailto:hongxu.jia@windriver.com>> wrote:
+> >     Backport patch from http://w1.fi/security/2015-5/
+> >     and rebase for wpa-supplicant 2.4
+> > 
+> > There's a thread about upgrading master to 2.5 (which should fix this)
+> > already.
+> > The patch probably still makes sense for jethro though.
 > 
+> Yes, you are right, the 2.5 don't need this, it makes sense for jethro.
+> 
+> //Hongxu
+> 
+> >  - Jussi
+> >  
+> >     Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
+> >     <mailto:hongxu.jia@windriver.com>>
+> >     ---
+> >     
+> >      ...load-length-validation-in-NDEF-record-par.patch | 64
+> >     
+> >     ++++++++++++++++++++++
+> >     
+> >      .../wpa-supplicant/wpa-supplicant_2.4.bb
+> >     
+> >     <http://wpa-supplicant_2.4.bb>           | 1 +
+> >     
+> >      2 files changed, 65 insertions(+)
+> >      create mode 100644
+> >     
+> >     meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix-p
+> >     ayload-length-validation-in-NDEF-record-par.patch
+> >     
+> >     diff --git
+> >     a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix
+> >     -payload-length-validation-in-NDEF-record-par.patch
+> >     b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fi
+> >     x-payload-length-validation-in-NDEF-record-par.patch new file mode
+> >     100644
+> >     index 0000000..bc1d1e5
+> >     --- /dev/null
+> >     +++
+> >     b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix
+> >     -payload-length-validation-in-NDEF-record-par.patch @@ -0,0 +1,64 @@
+> >     +From c13401c723a039971bcd91b3856d76c6041b15f2 Mon Sep 17 00:00:00
+> >     2001
+> >     +From: Jouni Malinen <j@w1.fi <mailto:j@w1.fi>>
+> >     +Date: Fri, 13 Nov 2015 05:54:18 -0500
+> >     +Subject: [PATCH] NFC: Fix payload length validation in NDEF
+> >     record parser
+> >     +
+> >     +It was possible for the 32-bit record->total_length value to end up
+> >     +wrapping around due to integer overflow if the longer form of payload
+> >     +length field is used and record->payload_length gets a value close to
+> >     +2^32. This could result in ndef_parse_record() accepting a too large
+> >     +payload length value and the record type filter reading up to
+> >     about 20
+> >     +bytes beyond the end of the buffer and potentially killing the
+> >     process.
+> >     +This could also result in an attempt to allocate close to 2^32
+> >     bytes of
+> >     +heap memory and if that were to succeed, a buffer read overflow
+> >     of the
+> >     +same length which would most likely result in the process
+> >     termination.
+> >     +In case of record->total_length ending up getting the value 0, there
+> >     +would be no buffer read overflow, but record parsing would result
+> >     in an
+> >     +infinite loop in ndef_parse_records().
+> >     +
+> >     +Any of these error cases could potentially be used for denial of
+> >     service
+> >     +attacks over NFC by using a malformed NDEF record on an NFC Tag or
+> >     +sending them during NFC connection handover if the application
+> >     providing
+> >     +the NDEF message to hostapd/wpa_supplicant did no validation of the
+> >     +received records. While such validation is likely done in the NFC
+> >     stack
+> >     +that needs to parse the NFC messages before further processing,
+> >     +hostapd/wpa_supplicant better be prepared for any data being included
+> >     +here.
+> >     +
+> >     +Fix this by validating record->payload_length value in a way that
+> >     +detects integer overflow. (CID 122668)
+> >     +
+> >     +Signed-off-by: Jouni Malinen <j@w1.fi <mailto:j@w1.fi>>
+> >     +
+> >     +Upstream-Status: Backport [from http://w1.fi/security/2015-5/]
+> >     +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
+> >     <mailto:hongxu.jia@windriver.com>>
+> >     +---
+> >     + src/wps/ndef.c | 5 ++++-
+> >     + 1 file changed, 4 insertions(+), 1 deletion(-)
+> >     +
+> >     +diff --git a/src/wps/ndef.c b/src/wps/ndef.c
+> >     +index d45dfc8..f7f729b 100644
+> >     +--- a/src/wps/ndef.c
+> >     ++++ b/src/wps/ndef.c
+> >     +@@ -48,6 +48,8 @@ static int ndef_parse_record(const u8 *data,
+> >     u32 size,
+> >     +               if (size < 6)
+> >     +                       return -1;
+> >     +               record->payload_length = ntohl(*(u32 *)pos);
+> >     ++                if (record->payload_length > size - 6)
+> >     ++                       return -1;
+> >     +               pos += sizeof(u32);
+> >     +       }
+> >     +
+> >     +@@ -68,7 +70,8 @@ static int ndef_parse_record(const u8 *data,
+> >     u32 size,
+> >     +       pos += record->payload_length;
+> >     +
+> >     +       record->total_length = pos - data;
+> >     +-      if (record->total_length > size)
+> >     ++      if (record->total_length > size ||
+> >     ++          record->total_length < record->payload_length)
+> >     +               return -1;
+> >     +       return 0;
+> >     + }
+> >     +--
+> >     +1.9.1
+> >     +
+> >     diff --git
+> >     a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+> >     <http://wpa-supplicant_2.4.bb>
+> >     b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+> >     <http://wpa-supplicant_2.4.bb>
+> >     index a124cf2..6e4d028 100644
+> >     ---
+> >     a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+> >     <http://wpa-supplicant_2.4.bb>
+> >     +++
+> >     b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+> >     <http://wpa-supplicant_2.4.bb>
+> >     @@ -32,6 +32,7 @@ SRC_URI =
+> >     "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz
+> >     <http://hostap.epitest.fi/releases/wpa_supplicant-$%7BPV%7D.tar.gz> \
+> >     file://0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch
+> >     \
+> >     file://0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch
+> >     \
+> >     file://0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch \
+> >     +
+> >     
+> >      file://0001-NFC-Fix-payload-length-validation-in-NDEF-record-par.patc
+> >      h
+> >     
+> >     \
+> >     
+> >                "
+> >      
+> >      SRC_URI[md5sum] = "f0037dbe03897dcaf2ad2722e659095d"
+> >      SRC_URI[sha256sum] =
+> >     
+> >     "058dc832c096139a059e6df814080f50251a8d313c21b13364c54a1e70109122"
+> >     --
+> >     1.9.1
+> >     
+> >     --
+> >     _______________________________________________
+> >     Openembedded-core mailing list
+> >     Openembedded-core@lists.openembedded.org
+> >     <mailto:Openembedded-core@lists.openembedded.org>
+> >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
