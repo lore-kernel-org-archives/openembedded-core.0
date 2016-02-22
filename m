@@ -1,45 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 85E7F770F9
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 765BF75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 07:06:58 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id y89so105001434qge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Feb 2016 23:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=9IWQiAOXOHlzDHktmabgSP3b/JRgf+B75E97qTlKc8w=;
-	b=qinKzZXHf1bHsVJhXwz8aWX4hzc1R2OVwdiJAe6oie3Vb9UIO80oVxTgzSqM5A+zf5
-	kFVcgpoL0O2BDjUpPDWE9xo9QaMUvnNEzbitOwW/oa/iQIxNzSXE3RLhjeewfy1ZKXtU
-	WqFjtEhx0sRtPPV9/BKXCVvdWI/UAXD6Co5XkVk4q2ZPUrJv1aO6OwitZFf1H17Zod77
-	ykTvuaVSv1UUesyiHMmYYkuPkvLxA7Bhnt2A6AzUmiZKTY24QvbihKkXpqk4TzAWtYDz
-	gvlF4qHZCBu9R2Zh1W0F2hunDm8EqC9TY/j73zo07ho+nkvSzLIDQQ9fWSUPf9bhW65N
-	WqaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9IWQiAOXOHlzDHktmabgSP3b/JRgf+B75E97qTlKc8w=;
-	b=N15HBRow5OB1DR8tkkhdXcJix7K7VOerJazrcCHRwqaIM/mc3GSs93dItWlna859Kv
-	weGsQx4e9YeMrpbKl+/bCpFVvW0LmPaGX3ugd87CGF6xrC3bm21OMUegdRVios/6vc4b
-	RxicZGdWeSIcao223H9ZqLoAuA1sXl6xu01ZbZBjMfZdS93To2dPWF/Lq+tovBFIWIJd
-	XQWWp061AjGnIwEhYiqSpEW+qGtj0waMdkYHw45hJfP2BLhBEx+jYWYlau8DnV3V9vEq
-	8re0PSRFM/mrDiXwwL574RwZNwq9nY5almWpSLZlYynAJU6sCnFBu3FwRD/01nHssPjk
-	ssHQ==
-X-Gm-Message-State: AG10YOSR3TWjHNKKgQAohFdHZ3OLuBL/9unicAu96WgasdjSTMQwOQ5cosXzE3c7QN922A==
-X-Received: by 10.140.93.87 with SMTP id c81mr33049974qge.46.1456124819613;
-	Sun, 21 Feb 2016 23:06:59 -0800 (PST)
-Received: from nyx.sys.comcast.net (a-96-118-179-135.sys.comcast.net.
-	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
-	j67sm6096567qgj.35.2016.02.21.23.06.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 21 Feb 2016 23:06:58 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 07:06:54 +0000
-Message-Id: <1456124814-14011-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] musl: Upgrade to 1.1.14
+	Mon, 22 Feb 2016 08:41:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1M8fF7i027398
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Feb 2016 00:41:15 -0800 (PST)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 22 Feb 2016 00:41:15 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1455606710.git.kai.kang@windriver.com>
+	<edb161a868336c0688a6e03343ee7920b34222f5.1455606710.git.kai.kang@windriver.com>
+	<CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com>
+	<56C407CB.4060100@windriver.com>
+	<CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <56CAC9A9.7070906@windriver.com>
+Date: Mon, 22 Feb 2016 16:41:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +38,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 07:06:59 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 08:41:16 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050603080901040509080001"
 
-There has been regressions seen in 1.1.13 hence
-a quick 1.1.14 release is made
+--------------050603080901040509080001
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-here is the list of all changes between 1.1.13 and 1.1.14
+On 2016年02月18日 07:49, Burton, Ross wrote:
+>
+> On 17 February 2016 at 05:40, Kang Kai <Kai.Kang@windriver.com 
+> <mailto:Kai.Kang@windriver.com>> wrote:
+>
+>     I prefer to keep such check. There is more than one case that
+>     causes operation error such as pass wrong parameters. The messages
+>     are  helpful for developers.
+>
+>
+> In that case the groupadd will return an error code.  What situations 
+> with proper locking will result in groupadd running successfully but 
+> the group not being added?
 
-http://git.musl-libc.org/cgit/musl/log/?qt=range&q=v1.1.13..v1.1.14
+Sorry for late reply.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I think I understand your meanings. V3 will be sent.
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 4151308..250f837 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,9 +3,9 @@
- 
- require musl.inc
- 
--SRCREV = "cf115059ba0ecd611008c89c78c37b62f8e6d6af"
-+SRCREV = "074e6b3fe3f2ad89b991f3d8ab0932035b312a62"
- 
--PV = "1.1.13+git${SRCPV}"
-+PV = "1.1.14+git${SRCPV}"
- 
- # mirror is at git://github.com/kraj/musl.git
- 
+--Kai
+
+
+>
+> Ross
+
+
 -- 
-1.8.3.1
+Regards,
+Neil | Kai Kang
 
 
+--------------050603080901040509080001
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2016年02月18日 07:49, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 17 February 2016 at 05:40, Kang
+            Kai <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Kai.Kang@windriver.com" target="_blank">Kai.Kang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div text="#000000" bgcolor="#FFFFFF">I prefer to keep
+                such check. There is more than one case that causes
+                operation error such as pass wrong parameters. The
+                messages are  helpful for developers.<br>
+              </div>
+            </blockquote>
+            <div> </div>
+          </div>
+          <br>
+          In that case the groupadd will return an error code.  What
+          situations with proper locking will result in groupadd running
+          successfully but the group not being added?</div>
+      </div>
+    </blockquote>
+    <br>
+    Sorry for late reply.<br>
+    <br>
+    I think I understand your meanings. V3 will be sent.<br>
+    <br>
+    --Kai<br>
+    <br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------050603080901040509080001--
