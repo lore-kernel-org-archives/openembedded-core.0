@@ -1,27 +1,49 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E6BD677196
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B8BB777196
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 13:53:24 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Feb 2016 05:53:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,484,1449561600"; d="scan'208";a="657136086"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 05:53:25 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 6782E6A4002
+	Mon, 22 Feb 2016 14:27:44 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id z135so178709573iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 06:41:14 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 15:56:56 +0200
-Message-Id: <1456149416-3871-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] harfbuzz: update to version 1.2.0
+	Mon, 22 Feb 2016 06:27:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=4Qa8IKMq5KCUL7oqeCifW7iMFGASd/on5nQpEIaxyuk=;
+	b=WZuLlSsAWxsKh1GKoCJLSUN0+B1onJXy9lbYe+o/HniMpRZ8uJLkf1dDA/0DaFzJMr
+	fS5yeR9D1c5lP2iU1kJKnl4cbRuDTb4No1ZPWTmaN7fhJWB4fLtChtR3cjqlaAWnUddi
+	plO83lBCaRt95hlWIupeH1+xFkZf38RodUXoZDo0w9lzpOhYVt88/ZP/7MPpu9vEIDA9
+	mPX+AVDn6DPnHgProTCDCR93zrPgT1H6r14PE2WY74vWcv2/pOcGxNGNnE6HoJCRlvNY
+	pF33afLo0gHdgWjCQ4p/dn3qZriPWdDms1tJVE1QIKoo3s1are6+hf9U4zdwrFTtcLCV
+	Z+qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=4Qa8IKMq5KCUL7oqeCifW7iMFGASd/on5nQpEIaxyuk=;
+	b=Uwa5+DR4CmgnXkTZR0FX7109+oJvAhG59vaKmJb2L44+rZ6M5krTp4PRZ1CM2C9pMa
+	kWpKURceuA6s/g2yH/wKQuK5q22iTXI524p3jCHoCkYrMPHfhptulkJYpRQd7KdBbfMB
+	EExzNo4MXOzLXUeSVr7H84bef4YJ7i4UDKDq0tid3KVZjFmEaojkHK9//xt++jGj5k82
+	GPSD+9ewG+/5MzSjVPQ6hxqoULRr5lFalvamcwl+mQK2frvGyjESgiI+LhXWy+hhBXnF
+	0qEY7qULLmlXD6UIDYqOEGEIQCF7tHUs9CVzf4yh+vt0QW2WsMJdz8mwFUwqSUVbB1Qe
+	YOOQ==
+X-Gm-Message-State: AG10YOSFuk0ubfwjCpgLRgujTho4/QFRNDt4X3uMXtTZnTmhJVNhkYx48Kdbm1h6NzcT1FHRZ04M5J9CMokLhA==
+MIME-Version: 1.0
+X-Received: by 10.107.137.92 with SMTP id l89mr31349493iod.133.1456151264992; 
+	Mon, 22 Feb 2016 06:27:44 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Mon, 22 Feb 2016 06:27:44 -0800 (PST)
+In-Reply-To: <1447858828-17286-1-git-send-email-jussi.kukkonen@intel.com>
+References: <25d92033bc37e480de35f031f12e0515fc942068.1447847724.git.jussi.kukkonen@intel.com>
+	<1447858828-17286-1-git-send-email-jussi.kukkonen@intel.com>
+Date: Mon, 22 Feb 2016 15:27:44 +0100
+Message-ID: <CALbNGRT1HfMsy19Q55GgbauJjG3uqBMdAUV7bhr-CFr3gG_6ug@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] mesa: Make gl libraries RRECOMMEND mesa-megadriver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 13:53:25 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 14:27:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-1.1.3 -> 1.2.0
+On Wed, Nov 18, 2015 at 4:00 PM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> This makes e.g. core-image-weston actually work out-of-the-box
+> on hardware that uses megadriver drivers.
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>
+> Ross pointed out that the part about mesa-gl was not actually true,
+> especially with regards to swrast: e.g. RPi still probably want it.
+> So I've removed the conditional bit: all mesa gl libraries now
+> RRECOMMEND megadriver.
+>
+> This is force pushed to branch 'jku/weston'.
+>
+>  meta/recipes-graphics/mesa/mesa.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 13a8b9d..424e8b7 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -114,7 +114,9 @@ python __anonymous() {
+>          d.appendVar("RREPLACES_" + fullp, pkgs)
+>          d.appendVar("RPROVIDES_" + fullp, pkgs)
+>          d.appendVar("RCONFLICTS_" + fullp, pkgs)
+> -
+> +
+> +        d.appendVar("RRECOMMENDS_" + fullp, "mesa-megadriver")
+> +
+I leading space is required " mesa-megadriver" - otherwise this fails
+if RRECOMMENDS is not empty.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../harfbuzz/{harfbuzz_1.1.3.bb => harfbuzz_1.2.0.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.1.3.bb => harfbuzz_1.2.0.bb} (87%)
-
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.3.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.0.bb
-similarity index 87%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.1.3.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.2.0.bb
-index ead355f..2ef7d4d 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.3.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.0.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo freetype"
- 
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
- 
--SRC_URI[md5sum] = "671daf05153d57258e5cb992aa28c64a"
--SRC_URI[sha256sum] = "d93d7cb7979c32672e902fdfa884599e63f07f2fa5b06c66147d20c516d4b8f7"
-+SRC_URI[md5sum] = "59e3464e78a9864dff09f608a6befdca"
-+SRC_URI[sha256sum] = "79ff5305153d15931fbdda80c9612783b0283dee44f4c2af71aa37353daaa685"
- 
- inherit autotools pkgconfig lib_package
- 
--- 
-2.4.0
-
+Andreas
 
