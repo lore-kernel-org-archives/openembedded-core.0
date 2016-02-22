@@ -1,47 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DFBCC731D6
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F6996FFCC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 16:48:30 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id hb3so80750295igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 08:48:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GYTSzTcARF9dHj2aRtRl8CHgrGTNEd1vTVnbfAOTUgA=;
-	b=Oz+ZA45p4lfj4fbfRlfK4csnVH+qNkwuNsqqslTA/iZUokr+coRJEC5aw1XgPkgsRw
-	2LVe2byk4hpZ0W/H+F1q83TIsYZDOFqTmodX3ANfvKvef7nr7vJ5RWpnnKBLS0hPjNXa
-	zxIL8SLIC4KPL1KWCxazvopOGxy67f/OWn/SFoMqzpD257NfIoa45Hws7MZ7Uyyi8h/N
-	z+5X41XtQbDvGv9AKx2D4iuGudNrIxAw4Wqi10Xh1lGUqJs30EZuYGn9RtNVfO+q4CTk
-	SMe8ITQIX38ZvGJqHszJyTqmmzJ8uVYXUKeUR0XkZ51HPNKtbd12CynbG5YqnDk4ytCi
-	dsfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GYTSzTcARF9dHj2aRtRl8CHgrGTNEd1vTVnbfAOTUgA=;
-	b=R8gLR3+vtpcXOztpuXpIY1ES16lRSHu2N3AjSAPjKC9bSVs8Gl3VR2uimy5wZZhf3t
-	4nY9YmAQ+qOwh6sxkNO9D/bFa7EsPuNXnPxRMIwN5en+B3RzjEYnTvG4BxijOUbaX3W9
-	wYqKqwfQH7ttBG3YWSwMglxdVFz+1EWG1yZaA49qZsXfDoegk2+vF3ECePpPOddQvxJx
-	H2p1rq7zSDJ1ERCrZHB8srRN3P8VJykR/RL1bc2hy8Q/lATYLSmFfNRADOKJJa+xy46O
-	ag3/8TbTHxy3gN1ydfKEkJBfM29d3HbXczscLuk8SaEb9lBUR5mTIBufe2nReo5eU9x4
-	tysg==
-X-Gm-Message-State: AG10YORHOhDSfQKkxBTMlQEGy1naas3FMAaUYic7VQL/u4gsFzxkHpuVXJ3sg+bhoDrNqAfuMSf3BU4rTCfvlK5U
-X-Received: by 10.50.66.238 with SMTP id i14mr10196635igt.52.1456159711133;
-	Mon, 22 Feb 2016 08:48:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 22 Feb 2016 08:48:11 -0800 (PST)
-In-Reply-To: <56CB3949.5030804@linux.intel.com>
+	Mon, 22 Feb 2016 17:02:54 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 09:02:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; 
+	d="asc'?scan'208";a="52561156"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.35]) ([10.219.5.35])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Feb 2016 09:02:47 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1456153260.git.anibal.limon@linux.intel.com>
 	<99d32b8b8e7d0422dfa5f89a30e86668d88ef77f.1456153260.git.anibal.limon@linux.intel.com>
 	<56CB2F1D.4050605@linux.intel.com> <56CB32C1.9040308@linux.intel.com>
 	<56CB35E8.6060301@linux.intel.com> <56CB3949.5030804@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Feb 2016 16:48:11 +0000
-Message-ID: <CAJTo0LZ+onCXJXw74VJSJkaOGdYi=qwBeXCnBtz0jvkpdrybJQ@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+	<CAJTo0LZ+onCXJXw74VJSJkaOGdYi=qwBeXCnBtz0jvkpdrybJQ@mail.gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <56CB3FBE.50906@linux.intel.com>
+Date: Mon, 22 Feb 2016 11:05:02 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZ+onCXJXw74VJSJkaOGdYi=qwBeXCnBtz0jvkpdrybJQ@mail.gmail.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -58,60 +39,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 16:48:31 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc109c519ed6052c5e9a69
+X-List-Received-Date: Mon, 22 Feb 2016 17:02:54 -0000
+X-Groupsio-MsgNum: 78487
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="4s5rpXle5IbKWa4rC9kk69HAgtECbMEaI"
 
---047d7bdc109c519ed6052c5e9a69
-Content-Type: text/plain; charset=UTF-8
+--4s5rpXle5IbKWa4rC9kk69HAgtECbMEaI
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 22 February 2016 at 16:37, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.in=
-tel.com>
-wrote:
 
-> I agree with you to modify avoid_paths_in_environ for return the new
-> PATH variable is better than only modify it internally but for
-> simplicity i will maintain the os.environ['PATH'] set/restore instead of
-> generate the environment line.
->
 
-Totally agree with Randy here for what it's worth.  The environment-munging
-code in avoid_paths... should return the strings instead of manipulating
-the current environment so the caller has the choice whether to modify the
-current environment or pass a new environment to subprocess.  And in
-general I'd say that passing modified environments to subprocess is a
-cleaner solution as it means that there's no way cleanup can fail to
-happen.  Whilst that's just a try/except now, the code could get copied and
-extended and end up with codepaths that don't hit the right cleanup.  By
-having an explicit environment passed in, this isn't possible.
+On 02/22/2016 10:48 AM, Burton, Ross wrote:
+> On 22 February 2016 at 16:37, An=C3=ADbal Lim=C3=B3n <anibal.limon@linu=
+x.intel.com>
+> wrote:
+>=20
+>> I agree with you to modify avoid_paths_in_environ for return the new
+>> PATH variable is better than only modify it internally but for
+>> simplicity i will maintain the os.environ['PATH'] set/restore instead =
+of
+>> generate the environment line.
+>>
+>=20
+> Totally agree with Randy here for what it's worth.  The environment-mun=
+ging
+> code in avoid_paths... should return the strings instead of manipulatin=
+g
+> the current environment so the caller has the choice whether to modify =
+the
+> current environment or pass a new environment to subprocess.  And in
+> general I'd say that passing modified environments to subprocess is a
+> cleaner solution as it means that there's no way cleanup can fail to
+> happen.  Whilst that's just a try/except now, the code could get copied=
+ and
+> extended and end up with codepaths that don't hit the right cleanup.  B=
+y
+> having an explicit environment passed in, this isn't possible.
 
-Ross
+Agree, now modified at,
 
---047d7bdc109c519ed6052c5e9a69
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dalimon=
+/esdk_update_v2&id=3D3143bf09130c52cd71e3f2f9795208e17152005d
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 February 2016 at 16:37, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.li=
-mon@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div style=3D"overflow:hidden">I agree with you to modify avoid_paths_in_e=
-nviron for return the new<br>
-PATH variable is better than only modify it internally but for<br>
-simplicity i will maintain the os.environ[&#39;PATH&#39;] set/restore inste=
-ad of<br>
-generate the environment line.<br>
-<div></div></div></blockquote></div><br>Totally agree with Randy here for w=
-hat it&#39;s worth.=C2=A0 The environment-munging code in avoid_paths... sh=
-ould return the strings instead of manipulating the current environment so =
-the caller has the choice whether to modify the current environment or pass=
- a new environment to subprocess.=C2=A0 And in general I&#39;d say that pas=
-sing modified environments to subprocess is a cleaner solution as it means =
-that there&#39;s no way cleanup can fail to happen.=C2=A0 Whilst that&#39;s=
- just a try/except now, the code could get copied and extended and end up w=
-ith codepaths that don&#39;t hit the right cleanup.=C2=A0 By having an expl=
-icit environment passed in, this isn&#39;t possible.</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Cheers,
+	alimon
 
---047d7bdc109c519ed6052c5e9a69--
+>=20
+> Ross
+>=20
+
+
+--4s5rpXle5IbKWa4rC9kk69HAgtECbMEaI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJWyz/BAAoJEGJqcE9h3glgN2MP+QH8plSp5MpQBttcZgILsF4O
+SuVRg8uUPY66bdvTCeAZmkmEysiU2ACKzFcNgtqBHlhhM+hHrAdLqa+mhrNVw/ci
+yZDmNzkL09VQJmafK1D0IY32iyOlVBtiKfE1DVFIpjrhCXpyjpVs61miOwefMSYa
+cm/1RvBYlGb2Jv0wMRgRJLtLTiJH1JVYRnYkCuY86pHpzB1suqBySTc8PZXThV/8
+oFy07LbAzv2xSZTtCd1mPPFNCPz4+4Z4Gs9mZG8V9xPjqXCgnur99UhKKjZ3FJ/z
+U4OVG1RBAsBfKNegWoU1H7jfl8vOBL6j+2LPhb+bx70WUTxLAS7xea562QcOY7Yh
+uEm2l/SGXAisxX2kqHk6mxIdjbrOAyEO/koCKNc0sa8cG79YJCZSH3wQHia2Vklv
+jIFDxML7JAEtRfgTm+BsfXs/P2CkU+JbbU5OBYvJCCjjdqKRTOg0Aa6Tst0Kmupl
+tf+GFae/Xqz+4828op0xpTux+mapMu11bfPetku3XqdYolHk12PTcNIDn6VtpchR
+LubLz5ZDaU1OgmHC0AOlONg7M+zs9P16El7EWX1o38rLtq3GGyLe8jTN/LHhrmzq
+wym+f+vHV3uJtJtE5S0/45ihLzLKva1l/BdrENMueNb+PpSSB8w9LSGuXQVzWmPv
+i1wTMvDhF1urw4iTHhhx
+=zdod
+-----END PGP SIGNATURE-----
+
+--4s5rpXle5IbKWa4rC9kk69HAgtECbMEaI--
