@@ -1,31 +1,29 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 604AB771CB
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F3CE771CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 16:35:15 +0000 (UTC)
+	Mon, 22 Feb 2016 16:36:40 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Feb 2016 08:35:15 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 08:36:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; 
-	d="asc'?scan'208";a="891846304"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.35]) ([10.219.5.35])
-	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2016 08:35:13 -0800
-To: Randy Witt <randy.e.witt@linux.intel.com>,
+X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="891847121"
+Received: from bitbang.jf.intel.com (HELO [10.7.199.163]) ([10.7.199.163])
+	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2016 08:36:41 -0800
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
 References: <cover.1456153260.git.anibal.limon@linux.intel.com>
-	<99d32b8b8e7d0422dfa5f89a30e86668d88ef77f.1456153260.git.anibal.limon@linux.intel.com>
-	<56CB2F1D.4050605@linux.intel.com> <56CB32C1.9040308@linux.intel.com>
-	<56CB35E8.6060301@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <56CB3949.5030804@linux.intel.com>
-Date: Mon, 22 Feb 2016 10:37:29 -0600
+	<64384d8bd09f15c666f133893c3beb96e66af51d.1456153260.git.anibal.limon@linux.intel.com>
+	<56CB34E8.6060203@linux.intel.com> <56CB36C3.2080609@linux.intel.com>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <56CB3918.7060503@linux.intel.com>
+Date: Mon, 22 Feb 2016 08:36:40 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thunderbird/38.5.0
 MIME-Version: 1.0
-In-Reply-To: <56CB35E8.6060301@linux.intel.com>
+In-Reply-To: <56CB36C3.2080609@linux.intel.com>
 Cc: paul.eggleton@linux.intel.com,
 	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 2/4] classes/testsdk: Move the removal of bitbake PATH to eSDK context only
+Subject: Re: [PATCH 4/4] oeqa/sdkext: Add sdk_update.SDKUpdateTest class.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,152 +36,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 16:35:18 -0000
-X-Groupsio-MsgNum: 78483
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="uf392J11VfJqtCA0H9VMDLIShw52Dmt0g"
+X-List-Received-Date: Mon, 22 Feb 2016 16:36:43 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---uf392J11VfJqtCA0H9VMDLIShw52Dmt0g
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-
-
-On 02/22/2016 10:23 AM, Randy Witt wrote:
-> On 02/22/2016 08:09 AM, An=C3=ADbal Lim=C3=B3n wrote:
->>
->>
->> On 02/22/2016 09:54 AM, Randy Witt wrote:
->>> On 02/22/2016 07:03 AM, An=C3=ADbal Lim=C3=B3n wrote:
->>>> From: An=C3=ADbal Lim=C3=B3n <limon.anibal@gmail.com>
->>>>
->>>> The removal of bitbake and scripts PATH is only needed by eSDK tests=
-
->>>> so move to eSDK context only.
->>>>
->>>> This also it's a support for eSDK update test because it needs to
->>>> execute oe-publish-sdk from scripts.
->>>>
->>>> Signed-off-by: An=C3=ADbal Lim=C3=B3n <limon.anibal@gmail.com>
->>>> ---
->>>>    meta/classes/testsdk.bbclass |  9 ++++-----
->>>>    meta/lib/oeqa/oetest.py      | 22 +++++++++++++++++++++-
->>>>    2 files changed, 25 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/meta/classes/testsdk.bbclass
->>>> b/meta/classes/testsdk.bbclass
->>>> index 7e245e9..01d37c4 100644
->>>> --- a/meta/classes/testsdk.bbclass
->>>> +++ b/meta/classes/testsdk.bbclass
->>>> @@ -96,11 +96,10 @@ def testsdkext_main(d):
->>>>        # extensible sdk use network
->>>>        export_proxies(d)
->>>>
->>>> -    # extensible sdk shows a warning if found bitbake in the path
->>>> -    # because can cause problems so clean it
->>>> -    paths_to_avoid =3D ['bitbake/bin', 'poky/scripts',
->>>> -                       d.getVar('STAGING_DIR', True),
->>>> -                       d.getVar('BASE_WORKDIR', True)]
->>>> +    # extensible sdk can be contaminated if native programs are
->>>> +    # in PATH, i.e. use perl-native instead of eSDK one.
->>>> +    paths_to_avoid =3D [d.getVar('STAGING_DIR', True),
->>>> +                      d.getVar('BASE_WORKDIR', True)]
->>>>        avoid_paths_in_environ(paths_to_avoid)
->>>>
->>>>        pn =3D d.getVar("PN", True)
->>>> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
->>>> index 3e2ea0f..cd1e7e0 100644
->>>> --- a/meta/lib/oeqa/oetest.py
->>>> +++ b/meta/lib/oeqa/oetest.py
->>>> @@ -21,6 +21,7 @@ import logging
->>>>    import oeqa.runtime
->>>>    import oeqa.sdkext
->>>>    from oeqa.utils.decorators import LogResults, gettag, getResults
->>>> +from oeqa.utils import avoid_paths_in_environ
->>>>
->>>>    logger =3D logging.getLogger("BitBake")
->>>>
->>>> @@ -128,7 +129,26 @@ class oeSDKTest(oeTest):
->>>>            return subprocess.check_output(". %s > /dev/null; %s;" %
->>>> (self.tc.sdkenv, cmd), shell=3DTrue)
->>>>
->>>>    class oeSDKExtTest(oeSDKTest):
->>>> -    pass
->>>> +    def _run(self, cmd):
->>>> +        output =3D None
->>>> +
->>>> +        paths =3D os.environ['PATH']
->>>> +
->>>> +        # extensible sdk shows a warning if found bitbake in the pa=
-th
->>>> +        # because can cause contamination, i.e. use devtool from
->>>> +        # poky/scripts instead of eSDK one.
->>>> +        paths_to_avoid =3D ['bitbake/bin', 'poky/scripts']
->>>> +        avoid_paths_in_environ(paths_to_avoid)
->>>> +
->>>> +        try:
->>>> +            output =3D subprocess.check_output(". %s > /dev/null;
->>>> %s;" % \
->>>> +                (self.tc.sdkenv, cmd), shell=3DTrue)
+On 02/22/2016 08:26 AM, Aníbal Limón wrote:
+>
+>
+> On 02/22/2016 10:18 AM, Randy Witt wrote:
+>> On 02/22/2016 07:03 AM, Aníbal Limón wrote:
+>>> From: Aníbal Limón <limon.anibal@gmail.com>
 >>>
->>> Just pass env to the check_output call, then you won't have to worry
->>> about resetting the parent process' env back to the original value.
->>
->> Could be but then we need the code for generate the env line so for
->> practically the result is the same.
->=20
-> Modify avoid_paths_in_environ() to instead return the environment rathe=
-r
-> than modify it as a side effect. Then the code reads more easily and
-> prevents future bugs where someone uses avoid_paths_in_environ, but
-> forgets to reset the os.environ.
-
-I agree with you to modify avoid_paths_in_environ for return the new
-PATH variable is better than only modify it internally but for
-simplicity i will maintain the os.environ['PATH'] set/restore instead of
-generate the environment line.
-
-
->=20
->>
+>>> The SDKUpdateTest class test devtool sdk-update mechanism inside
+>>> eSDK.
 >>>
->>>> +        except:
->>>> +            os.environ['PATH'] =3D paths
->>>> +            raise
->>>> +
->>>> +        os.environ['PATH'] =3D paths
->>>> +        return output
->>>>
->>>>    def getmodule(pos=3D2):
->>>>        # stack returns a list of tuples containg frame information
->>>>
+>>> The SDKUpdateTest class search for new sdk if not found uses
+>>> the main one then it publish the eSDK into known folder
+>>> inside work and it starts a web server for serve the eSDK.
+>>>
+>>> Finally it executes sdk-update over http, the local test is
+>>> commented due to bug [1].
+>>>
+>>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9043
+>>>
+>>> [YOCTO #9089]
+>>>
+>>> Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
+>>> ---
+>>>    meta/lib/oeqa/sdkext/sdk_update.py | 39
+>>> ++++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 39 insertions(+)
+>>>    create mode 100644 meta/lib/oeqa/sdkext/sdk_update.py
+>>>
+>>> diff --git a/meta/lib/oeqa/sdkext/sdk_update.py
+>>> b/meta/lib/oeqa/sdkext/sdk_update.py
+>>> new file mode 100644
+>>> index 0000000..16f5b10
+>>> --- /dev/null
+>>> +++ b/meta/lib/oeqa/sdkext/sdk_update.py
+>>> @@ -0,0 +1,39 @@
+>>> +import os
+>>> +import shutil
+>>> +import subprocess
+>>> +
+>>> +from oeqa.oetest import oeSDKExtTest
+>>> +from oeqa.utils.httpserver import HTTPService
+>>> +
+>>> +class SdkUpdateTest(oeSDKExtTest):
+>>> +
+>>> +    @classmethod
+>>> +    def setUpClass(self):
+>>> +        self.publish_dir = os.path.join(self.tc.sdktestdir,
+>>> 'esdk_publish')
+>>> +        if os.path.exists(self.publish_dir):
+>>> +            shutil.rmtree(self.publish_dir)
+>>> +        os.mkdir(self.publish_dir)
+>>> +
+>>> +        tcname_new = self.tc.d.expand(
+>>> +            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
+>>> +        if not os.path.exists(tcname_new):
+>>> +            tcname_new = self.tc.tcname
+>>> +
+>>> +        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
+>>> +        subprocess.check_output(cmd, shell=True)
+>>> +
+>>> +        self.http_service = HTTPService(self.publish_dir)
+>>> +        self.http_service.start()
+>>
+>> I think Paul and I briefly mentioned it, but SimpleHTTPServer fails as
+>> an sstate mirror if enough fetchers run. We think it was because of a
+>> limit on the number of simultaneous connections. So I would expect this
+>> to fail for instance if all packages were updated.
+>
+> I tested running an update and didn't fail this implementation of
+> oeqa.utils open another process with multiprocessing for serve http only.
+
+My suspicion is because nothing actually updated. And even if something updated, 
+unless you hit the max connection limit when pulling from sstate_mirror it would 
+be fine.
+
+>>
+>> But really we shouldn't care too much about the sstate updating part,
+>> and more about the layer updating etc. Ideally this test would check to
+>> make sure the local sdk now matches the remote.
+>
+> I could add a test for the output that i saw displays "Already updated"
+> or what you mean about match?
+
+devtool sdk-update will check the remote conf/sdk-conf-manifest to see if any 
+configuration changed. So for instance the creator of the sdk could add new 
+configuration variables, or even items to bblayers.conf.
+
+If the sdk-conf-manifest is changed, the updater should pull down the new layer 
+by pulling(cloning if that fails) layers/.git on the remote and moving the 
+layers to the appropriate local location. It should also update the local 
+configuration to match what is on the remote.
+
+So if you get "Already up-to-date" nothing changed and nothing was updated. To 
+test the updating, we need to make sure the configuration actually changes, and 
+potentially even add another layer, then update, and then make sure the local 
+sdk matches what we think it should based on the remote sdk we published.
+
+>
+>>
+>>> +        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
+>>> +
+>>> +    def test_sdk_update_http(self):
+>>> +        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
+>>> +
+>>> +#    def test_sdk_update_local(self):
+>>> +#        output = self._run("devtool sdk-update \"%s\"" %
+>>> self.publish_dir)
+>>> +
+>>> +    @classmethod
+>>> +    def tearDownClass(self):
+>>> +        self.http_service.stop()
+>>> +        shutil.rmtree(self.publish_dir)
 >>>
 >>
->=20
+>
 
 
---uf392J11VfJqtCA0H9VMDLIShw52Dmt0g
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJWyzlLAAoJEGJqcE9h3glgxCkP/AxthnXPSLf92JKnV9kYJZ4L
-oaYLp9zFskd24mgZQJ10vzGxrZDHBMr1MTBhw2AOdQ0dl77FGyr035U8aYiUtiB5
-NMjitLYsEpQKXbXPxdeHFcg8UR8GWakt6KU2VeB4TQ0BX4pa/2mLoAHj3IJ60Bu2
-/TkAIJUT00/i0zWhZ2b0krUzklNJ6ArWZxXk1yUKUgY9QULO9L8zBXJiFD3wwPT+
-i8ODTKw2WGPQTdBDO5iotZuWvIHSpLVEM5oRL8Ddtor6+sR1xfLuTUwts41K0xWL
-53Zcs6eDxm9AaRyRWV/ArvabZ9VbArsbTPtYoDfvI/05A20i8F2Vsn8T00zJqGBy
-YCkfI+QBzL0RNN5BjXNvwjeaukbtGXmiMgKQLy8zh7tEHOPLiaVXND+77Vk7z4Ux
-c+pQ4NLEZsgClr54vFQ4EeVXbqmgyKgSY6R79obHsSLAVQ/dUTORRHPWi7j+SdvH
-MZdalLv4kjf1x6UbtetrE3Wfa5QwymesCKQP4m1Jj/cM8YZfsu+lHOZeEyw8GJM3
-hUaeoTBMeWD/wd+XcSEtLnYLU9kOn1X95qhDbQukm0hsqRjTolHbjICx+xT+E/up
-lB05xKvEI4jvCFYP+MewsALSZaQ+azl8VvmIm4kaE1UmJawDl+2Hgac6KYyem0Gj
-6FxQWi0GmIydTxqFry8Y
-=3zBx
------END PGP SIGNATURE-----
-
---uf392J11VfJqtCA0H9VMDLIShw52Dmt0g--
