@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DFF8B771C0
+	by mail.openembedded.org (Postfix) with ESMTP id EBAD7771CB
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 22 Feb 2016 18:29:28 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 10:29:19 -0800
+	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 10:29:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="657283085"
+X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="657283090"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.35])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 10:29:18 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 10:29:19 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 12:31:30 -0600
-Message-Id: <f53a21ec43ddcbe464e6bc7c83f33eea76d884d6.1456165797.git.anibal.limon@linux.intel.com>
+Date: Mon, 22 Feb 2016 12:31:32 -0600
+Message-Id: <0dbfbcb65189d2195b1010834f193d268db6a752.1456165797.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1456165797.git.anibal.limon@linux.intel.com>
 References: <cover.1456165797.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1456165797.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCHv2 1/4] classes/testsdk: Move code for avoid PATHs to oeqa.utils
+Subject: [PATCHv2 3/4] classes/testsdk: Pass tcname to SDK and SDKExt contexts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,84 +40,64 @@ Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-Due to the neeed to use in other modules.
+tcname is needed for eSDK update testcase will be used for
+ publish it and then try to update
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/testsdk.bbclass    | 18 ++++--------------
- meta/lib/oeqa/utils/__init__.py | 23 +++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 14 deletions(-)
+ meta/classes/testsdk.bbclass | 2 +-
+ meta/lib/oeqa/oetest.py      | 7 ++++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index a56ad5e..41e03d6 100644
+index 157077e..f4dc2c3 100644
 --- a/meta/classes/testsdk.bbclass
 +++ b/meta/classes/testsdk.bbclass
-@@ -88,30 +88,20 @@ def testsdkext_main(d):
-     import os
-     import oeqa.sdkext
-     import subprocess
--    from oeqa.oetest import SDKTestContext, SDKExtTestContext
-     from bb.utils import export_proxies
-+    from oeqa.oetest import SDKTestContext, SDKExtTestContext
-+    from oeqa.utils import avoid_paths_in_environ
-+
+@@ -22,7 +22,7 @@ def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
+     targets = glob.glob(d.expand(testdir + "/tc/environment-setup-*"))
+     for sdkenv in targets:
+         bb.plain("Testing %s" % sdkenv)
+-        tc = CTestContext(d, testdir, sdkenv, args)
++        tc = CTestContext(d, testdir, sdkenv, tcname, args)
  
-     # extensible sdk use network
-     export_proxies(d)
+         # this is a dummy load of tests
+         # we are doing that to find compile errors in the tests themselves
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 3809ed7..fc1e8b5 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -386,11 +386,12 @@ class ImageTestContext(TestContext):
+         setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeTest.hasPackage("procps") else "ps")
  
-     # extensible sdk shows a warning if found bitbake in the path
-     # because can cause problems so clean it
--    new_path = ''
-     paths_to_avoid = ['bitbake/bin', 'poky/scripts',
-                        d.getVar('STAGING_DIR', True),
-                        d.getVar('BASE_WORKDIR', True)]
--    for p in os.environ['PATH'].split(':'):
--       avoid = False
--       for pa in paths_to_avoid:
--           if pa in p:
--              avoid = True
--              break
--       if avoid:
--           continue
--
--       new_path = new_path + p + ':'
--    new_path = new_path[:-1]
--    os.environ['PATH'] = new_path
-+    os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
+ class SDKTestContext(TestContext):
+-    def __init__(self, d, sdktestdir, sdkenv, *args):
++    def __init__(self, d, sdktestdir, sdkenv, tcname, *args):
+         super(SDKTestContext, self).__init__(d)
  
-     pn = d.getVar("PN", True)
-     bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR", True))
-diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
-index 2260046..8f706f3 100644
---- a/meta/lib/oeqa/utils/__init__.py
-+++ b/meta/lib/oeqa/utils/__init__.py
-@@ -13,3 +13,26 @@ class CommandError(Exception):
-     def __str__(self):
-         return "Command '%s' returned non-zero exit status %d with output: %s" % (self.cmd, self.retcode, self.output)
+         self.sdktestdir = sdktestdir
+         self.sdkenv = sdkenv
++        self.tcname = tcname
  
-+def avoid_paths_in_environ(paths):
-+    """
-+        Searches for every path in os.environ['PATH']
-+        if found remove it.
-+
-+        Returns new PATH without avoided PATHs.
-+    """
-+    import os
-+
-+    new_path = ''
-+    for p in os.environ['PATH'].split(':'):
-+       avoid = False
-+       for pa in paths:
-+           if pa in p:
-+              avoid = True
-+              break
-+       if avoid:
-+           continue
-+
-+       new_path = new_path + p + ':'
-+
-+    new_path = new_path[:-1]
-+    return new_path
+         if not hasattr(self, 'target_manifest'):
+             self.target_manifest = d.getVar("SDK_TARGET_MANIFEST", True)
+@@ -419,7 +420,7 @@ class SDKTestContext(TestContext):
+                 "auto").split() if t != "auto"]
+ 
+ class SDKExtTestContext(SDKTestContext):
+-    def __init__(self, d, sdktestdir, sdkenv, *args):
++    def __init__(self, d, sdktestdir, sdkenv, tcname, *args):
+         self.target_manifest = d.getVar("SDK_EXT_TARGET_MANIFEST", True)
+         self.host_manifest = d.getVar("SDK_EXT_HOST_MANIFEST", True)
+         if args:
+@@ -427,7 +428,7 @@ class SDKExtTestContext(SDKTestContext):
+         else:
+             self.cm = False
+ 
+-        super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv)
++        super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv, tcname)
+ 
+         self.sdkextfilesdir = os.path.join(os.path.dirname(os.path.abspath(
+             oeqa.sdkext.__file__)), "files")
 -- 
 2.1.4
 
