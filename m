@@ -1,46 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 005487316B
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9175176230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 02:08:59 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id y89so101947522qge.2
+	Mon, 22 Feb 2016 02:10:30 +0000 (UTC)
+Received: by mail-qk0-f177.google.com with SMTP id o6so51271325qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Feb 2016 18:09:00 -0800 (PST)
+	Sun, 21 Feb 2016 18:10:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=YVfpmR5sSPzLJplxw8YEDYAqheawXioY5+FHiCJW4Og=;
-	b=lWz9YR9P7w4sPIIAhplS8wXaQ71eRmFGzt/TzkyOlOGuzUcFgUq9bt+5gsMMOONeog
-	9nKswW5k+yz8Ct9WPCMeCrz+rDfoDQXP7Xb/gWzFMk8E2vZpCisc09Oj73AGbYWfa5x8
-	8bDbH7hwyqd0Md1s0TFy164Oc6Vvt0iCAYGM+xplocer5dyx6ewFgo2M0ofs/iE4B4Kj
-	4ucz82Sv83pCvMXeQVieBWMoykPEcM+TG+KfVjCIunsyB8cLaijQFUUk27Hdn96EZJhL
-	MBmgTWCARoE5EMnLwzX2qdKj1qYOI72vfwdRvXl7rC/vYeDWJhmzj/JUV00DHKfM7xOo
-	AvBQ==
+	:cc:content-type:content-transfer-encoding;
+	bh=sHWGD1QMA2FMMzPCxZMsm+4hUgZ83/Pmbl28EoWELTk=;
+	b=rrXsr6+YaAFUG7qnUYcciJyD6w1LDOAXcEZOfuSlh2GXu5FxGnWjaG+Lrs4HkuNm1v
+	Ge09FR1hxLKdwdJJj/nCRAbF22BDTniqxmqC9ZZdhKgxmFUDv8eegTfNoASpYZ9O0BGS
+	+81xO8M+1Pw8RcLdeFdc+7EddepYzINzD2jq5mnB2iN/KYdKZdSx6oGrDzBHc2phP00u
+	hzMWE4AIhq0es0Gp4ENVc52sS39OuzOl2i+gzASe8QGTGb5m7Y80d7HrNyb8RjzYiRyO
+	34dFjnSN0MWRVjTwJc6vFrggXQVRc9CYzrM0eMkYuzjxoAu7+V3e34cKpYW0xmG7+4qf
+	rKMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YVfpmR5sSPzLJplxw8YEDYAqheawXioY5+FHiCJW4Og=;
-	b=AviHzqMUG/yA4kdjYsyDzy6MCMAPJmxppwlCz9DAYI9pNcEWJ7QsDknMJm5zayg2UB
-	YKWzaFv9VXOQyU2i+31ZQNGCLo1bDvAPYIzz8TAXzrXtIysH3/0A9Mmm/9timtrE7GjN
-	x6tXhN+CCAPMlTrMoKi0B0JD87FYrHZ9HQeZn1gkGXoiArGUfd7FQebUHueiz3lRU4lx
-	9BNK0MIvC/WT1qh1y87YYOPVjVBXbwgxlfdjFi97KLgRUlnwNcp5TInK2WFauHjTKPSk
-	xNtjuIzSjwelSHWpnDABzm4xxvDjvG+Z0swxFPsmA9nHzrRnpbliRp12PQp7IKC1naZA
-	eSlQ==
-X-Gm-Message-State: AG10YORCaNiw/8mxUoCQjJFY5h0kJzv2TXbNpgy+9Aa3n2mPK46Mq9Io48fiau+0P3zN+UokTuQGx6Wq6Wk4MA==
-X-Received: by 10.140.254.9 with SMTP id z9mr32884585qhc.5.1456106940143; Sun,
-	21 Feb 2016 18:09:00 -0800 (PST)
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=sHWGD1QMA2FMMzPCxZMsm+4hUgZ83/Pmbl28EoWELTk=;
+	b=Z2klj8ClgPn3SjsfUO/BTPQyo4TdOCOLJriGbBXjWBw+TFtJ0dtXrSq1Xm2lj9R+hA
+	6fR91ruD2MVXi+WF7zOgzFPKwe5OKrs6RSlh9UW2s0CNGrkXJ4RxgvnOdzJpTGxAFD+J
+	nnbinaPymPamHhIvkLZJ8xj29OgNclqgr0c1mBxlI9Ilylj+0/pJ5iVFfCUO7lEs1EhU
+	RI1mJAUz+Xt71JhvFeBjyfve/XqhoP4kXi5gi16p0WGo4ZXisTFLVCo6iAV33+GQhAnf
+	wg4x8MQiy1bvcKs6Bqv2seLjB1twDynj9QHrytZcQ14Idiid9JcC2kJou3aU7Qufx2Bq
+	dWIg==
+X-Gm-Message-State: AG10YORs4TbQnWmAEf9BZDBQbg5XdVVX2Psa+i/jU4qxf1ryK1bb/1H5hDZZHoz1/ZsR+EVFABhaBJDJBlfXIw==
+X-Received: by 10.55.73.199 with SMTP id w190mr31124199qka.77.1456107031407;
+	Sun, 21 Feb 2016 18:10:31 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Sun, 21 Feb 2016 18:08:30 -0800 (PST)
-In-Reply-To: <5174C2003D56485DACF46FA90CEFE553@RD3>
-References: <5174C2003D56485DACF46FA90CEFE553@RD3>
+Received: by 10.55.130.196 with HTTP; Sun, 21 Feb 2016 18:10:02 -0800 (PST)
+In-Reply-To: <CALbNGRTcuFWpTEpwu1V=m6U2cz+3RiQNFmyXtaV1sg8wxx91Kg@mail.gmail.com>
+References: <1455460128.16142.400.camel@linuxfoundation.org>
+	<CAP9ODKryst11Tr3QpuCA87pDYdsezEjTwxpb2HOwcVvi32f+pg@mail.gmail.com>
+	<CALbNGRTcuFWpTEpwu1V=m6U2cz+3RiQNFmyXtaV1sg8wxx91Kg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 21 Feb 2016 18:08:30 -0800
-Message-ID: <CAMKF1srxScqs8C6xDyKSiU06WN00g_BJuijOz3SA3ugqNE1i_A@mail.gmail.com>
-To: winiston@futuraautomation.com
-Cc: OpenEmbedded core <openembedded-core@lists.openembedded.org>
-Subject: Re: Error building core-image-sato
+Date: Sun, 21 Feb 2016 18:10:02 -0800
+Message-ID: <CAMKF1sp+xLsACBHv9NPYhOp8MEo3HcYT6Qw6ey5KEGH8b8-zOA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] conf/distro/include: Add no-static-libs.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 02:09:00 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 02:10:34 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 17, 2016 at 9:02 PM,  <winiston@futuraautomation.com> wrote:
-> Dear,
->
-> I tried to build core-image-sato. It spits out the following error.
->
-> winiston@winiston-VirtualBox:~/poky/build$ bitbake core-image-sato
-> Parsing recipes: 100% |###############################| ETA:  00:00:00
-> Parsing of 1060 .bb files complete (0 cached, 1060 parsed). 1496 targets,
-> 138 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing RPROVIDES 'xf86-input-tslib' (but
-> /home/winiston/poky/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-> RDEPENDS on or otherwise requires it)
-> NOTE: Runtime target 'xf86-input-tslib' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['xf86-input-tslib']
-> NOTE: Runtime target 'packagegroup-core-x11-xserver' is unbuildable,
-> removing...
-> Missing or unbuildable dependency chain was:
-> ['packagegroup-core-x11-xserver', 'xf86-input-tslib']
-> NOTE: Runtime target 'packagegroup-core-x11-base' is unbuildable,
-> removing...
-> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-base',
-> 'packagegroup-core-x11-xserver', 'xf86-input-tslib']
-> ERROR: Required build target 'core-image-sato' has no buildable providers.
-> Missing or unbuildable dependency chain was: ['core-image-sato',
-> 'packagegroup-core-x11-base', 'packagegroup-core-x11-xserver',
-> 'xf86-input-tslib']
->
-> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-> winiston@winiston-VirtualBox:~/poky/build$
->
-> How do I resolve this error?
+On Thu, Feb 18, 2016 at 2:05 AM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Mon, Feb 15, 2016 at 2:44 PM, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>> On Sun, Feb 14, 2016 at 12:28 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>> Maintaining this list in a common location is more desireable than
+>>> everyone doing it themselves. Poky will switch to using this, OE-Core
+>>> will need to discuss that as its default.
+>>
+>> I support this being enabled by default on OE-Core as well.
+>>
+> Does 'support' mean you are taking care for recipes this is will break
+> throughout our layers?
 
-whats the content of your bblayers.conf, do you have some
-modifications to default configuration ?
-
->
-> Regards,
-> Winiston.P
-> Futura Automation Pvt Ltd.
->
-> Ph :91-80-28375290 / 28375295
-> Fax :91-80-28375291
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+The ones that fall into distros I care, I will help, however such changes
+require many hands.
 
