@@ -1,20 +1,43 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 955EF6FFD4
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CB6E75894
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 19:48:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 11:48:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="892002284"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2016 11:48:03 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 11:35:25 -0800
-Message-Id: <1456169725-12908-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] buildstats.bbclass: Don't assume /proc/<pid>/io present
+	Mon, 22 Feb 2016 21:06:09 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id hb3so86007180igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Feb 2016 13:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to;
+	bh=s8a2FdmKMEeirOrz7mg2JTo305a0CydrkfrWSbAs+Nk=;
+	b=e/22AuqwbRG315hPUBvWXGuwYaJa+3NYzzW9t1pMr7yx25KD1/0tmhFcSAJqOBJaGh
+	4N3/fQi3qgw8E3n4YE7l9IlC7wyTtQD1+N3YJpCMLEl8XNdF7hTAWvY+SFip0hdCtcNB
+	1+mrM36Ogy7LvaVqqvTwzH8M3NHbwujygPvfw8SzQ8raD6dloVLm6aW5e02ifqjyo3Kc
+	Z3IWgQOCqcCai+CyMDNYBdO6LvFdDtpfS+LqiNmE0M6Nu30qt26wOqkE2ZDfYEl+S/9i
+	hmS2gsRmKIpbimn+OiXKdFeOWLYWU4+NyGUB/J0EAUuARdakX9+kfVDV7175aBzKAqPo
+	TByQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+	bh=s8a2FdmKMEeirOrz7mg2JTo305a0CydrkfrWSbAs+Nk=;
+	b=aVyH3Y5/nh+C/lJee7pZZnWcelUMmazHlmL28bDtwCl3OPcxQC2L2yNv1Vf17a7StX
+	cnUNQJgQKtNuSUPROAUPhYahB47F+eb6CbAfKjWsRzqR4aRy/IRb5p9rLW3WdkBTz5sQ
+	aieT8fi7kvvqtuv2yPxatUGPfNMPV+QtyT1m28Oi/RimlX1TJ98Yo0ah7Bpkze4K5FZs
+	uudhBWz8Ypc7x/TrF7OSZBO4qIZQ5yqTgWstdY4Lb3O74IKFdWDGIjJBF9vEvBEjmzSY
+	GDELdZ9S6/5JAV0TbMFEvrR4Tga7wceImghRdWKC0OD9J5M1yGOqPE+J8QMNL6jQJeLh
+	WAZw==
+X-Gm-Message-State: AG10YOSyMieXAYxg4a4QDyxPsPmg9zTytYOMNWT70mg8OhTgvtBVosIzVUSPALrBQYJttzBV6YDxxv0I7niwAA==
+MIME-Version: 1.0
+X-Received: by 10.50.43.226 with SMTP id z2mr14014707igl.78.1456175170550;
+	Mon, 22 Feb 2016 13:06:10 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Mon, 22 Feb 2016 13:06:10 -0800 (PST)
+Date: Mon, 22 Feb 2016 22:06:10 +0100
+Message-ID: <CALbNGRTeReXBitXWMQJ=ZbY-C2wayOaJJdDA4KSxQcRv8Kpnkw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Fetcher broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,63 +50,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 19:48:02 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 21:06:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-It is not guaranteed Linux kernel was configured with process I/O
-statistics enabled. If process I/O statistcs are not present, issue
-a one time warning and do not attempt to read the non-existing stats
-counters.
+Hi,
 
-[YOCTO#9025]
+after all these scary changes in master oe-core I wanted to see what's
+left over working since jethro for my images.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/classes/buildstats.bbclass | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+On thing noticed immediately: I see
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index e58d37b..2d63589 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -25,13 +25,14 @@ def get_process_cputime(pid):
-         'cstime' : fields[16],  
-     }
-     iostats = {}
--    with open("/proc/%d/io" % pid, "r") as f:
--        while True:
--            i = f.readline().strip()
--            if not i:
--                break
--            i = i.split(": ")
--            iostats[i[0]] = i[1]
-+    if os.path.isfile("/proc/%d/io" % pid):
-+        with open("/proc/%d/io" % pid, "r") as f:
-+            while True:
-+                i = f.readline().strip()
-+                if not i:
-+                    break
-+                i = i.split(": ")
-+                iostats[i[0]] = i[1]
-     resources = resource.getrusage(resource.RUSAGE_SELF)
-     childres = resource.getrusage(resource.RUSAGE_CHILDREN)
-     return stats, iostats, resources, childres
-@@ -111,7 +112,14 @@ python run_buildstats () {
- 
-     if isinstance(e, bb.event.BuildStarted):
-         ########################################################################
--        # at first pass make the buildstats heriarchy and then
-+        # If the kernel was not configured to provide I/O statistics, issue
-+        # a one time warning.
-+        ########################################################################
-+        if not os.path.isfile("/proc/%d/io" % os.getpid()):
-+            bb.warn("The Linux kernel on your build host was not configured to provide process I/O statistics. (CONFIG_TASK_IO_ACCOUNTING is not set)")
-+
-+        ########################################################################
-+        # at first pass make the buildstats hierarchy and then
-         # set the buildname
-         ########################################################################
-         bb.utils.mkdirhier(bsdir)
--- 
-1.9.1
+WARNING: flex-native-2.6.0-r0 do_fetch: Checksum failure encountered
+with download of
+http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2 - will
+attempt other sources if available
+WARNING: flex-native-2.6.0-r0 do_fetch: Renaming
+/home/superandy/data/download/flex-2.6.0.tar.bz2 to
+/home/superandy/data/download/flex-2.6.0.tar.bz2_bad-checksum_0103b909e19ca9c6497a7ae696c16480
 
+but flex-native is build happily. Same for freetype-2.6.3. Are the
+messages wrong positives or does oe build sources with wrong
+checksums?
+
+Andreas
 
