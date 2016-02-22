@@ -1,29 +1,46 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F00377195
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 207207719D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 16:23:05 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 08:23:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="891838149"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.163]) ([10.7.199.163])
-	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2016 08:23:05 -0800
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1456153260.git.anibal.limon@linux.intel.com>
-	<99d32b8b8e7d0422dfa5f89a30e86668d88ef77f.1456153260.git.anibal.limon@linux.intel.com>
-	<56CB2F1D.4050605@linux.intel.com> <56CB32C1.9040308@linux.intel.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <56CB35E8.6060301@linux.intel.com>
-Date: Mon, 22 Feb 2016 08:23:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
-MIME-Version: 1.0
-In-Reply-To: <56CB32C1.9040308@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com,
-	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 2/4] classes/testsdk: Move the removal of bitbake PATH to eSDK context only
+	Mon, 22 Feb 2016 16:23:56 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id b205so162954986wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Feb 2016 08:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=7vEMpWK9r5Bp89/B0DEYjfMtoeV2SWcrz5XyDdMa+JQ=;
+	b=QBpIzCiN+LQ8qixwyBUJbxSd/o9C1Kzv6jtXf/ce92j4dCxP8G7aqrRCvOwg3KPpsD
+	C/+ceo5R7fSaBwa43P6FneaK6MreLdBC3SIBEQCQvCmbgJXezz/XBt72WA6DRm9Hzrtx
+	hv34a8qxNGUnBFfVWe/SBK1zRQX1nyLsn99YFn5y98cthRjUErGc2g8NuaocNq+It/fH
+	8/VDr6PNI6zd753/h0GVfvVAeil5UlvO2CE/nmOHMNWQOmOg0ET8BAAZX66RISDQZut1
+	mALq17lf4OxgsdxwTqJfsvY32CqzHy6Zfx6eUc5ur9V3d5JYpaoKpaJc/cD2jYfi6PwS
+	JnOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7vEMpWK9r5Bp89/B0DEYjfMtoeV2SWcrz5XyDdMa+JQ=;
+	b=Ab0wDN3vEYD3EMZZR3vb08GKxc8n3H+iCLMDGkA0zeoSr8hhZh9W/RuAQ9jDPy7WrA
+	twH5xgxIsVw+AR68a9u4clNNOxJTD8OqWs2epR2Ss4iC4yuoNYhW5KRBtiscWzfWOBWJ
+	G2QMifTh0Yp5k1ACQoYpC/SqtBkn2WU4r1/EDH+jbjt6KoA29obsEri6r53hpPkSc2WI
+	sF2WrlJnzcT1Z6Bo0posswlNVtVKztwK+C0K7osdo51neBsCgLXsTILYBDAo9ZfEtV6Z
+	YGFk9RD1/kvbSWk/kFXENG1rKm5U7eWY8+ZO+tTDKJlxR5xokPkddYCrH/T3QspeeMKL
+	0RwQ==
+X-Gm-Message-State: AG10YOTwWkvWZMWvaxtq0Og2xmhSmfwftdVNakdNRg5Aga5g4b7fvahjnWcgq0F6z+IbK5N1
+X-Received: by 10.28.238.144 with SMTP id j16mr12698399wmi.43.1456158236737;
+	Mon, 22 Feb 2016 08:23:56 -0800 (PST)
+Received: from flashheart.burtonini.com (94.197.121.248.threembb.co.uk.
+	[94.197.121.248]) by smtp.gmail.com with ESMTPSA id
+	i10sm21799039wmf.14.2016.02.22.08.23.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 22 Feb 2016 08:23:56 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Feb 2016 16:23:49 +0000
+Message-Id: <1456158229-13886-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] bitbake.conf: add findutils-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,105 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 16:23:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Feb 2016 16:23:58 -0000
 
-On 02/22/2016 08:09 AM, Aníbal Limón wrote:
->
->
-> On 02/22/2016 09:54 AM, Randy Witt wrote:
->> On 02/22/2016 07:03 AM, Aníbal Limón wrote:
->>> From: Aníbal Limón <limon.anibal@gmail.com>
->>>
->>> The removal of bitbake and scripts PATH is only needed by eSDK tests
->>> so move to eSDK context only.
->>>
->>> This also it's a support for eSDK update test because it needs to
->>> execute oe-publish-sdk from scripts.
->>>
->>> Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
->>> ---
->>>    meta/classes/testsdk.bbclass |  9 ++++-----
->>>    meta/lib/oeqa/oetest.py      | 22 +++++++++++++++++++++-
->>>    2 files changed, 25 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
->>> index 7e245e9..01d37c4 100644
->>> --- a/meta/classes/testsdk.bbclass
->>> +++ b/meta/classes/testsdk.bbclass
->>> @@ -96,11 +96,10 @@ def testsdkext_main(d):
->>>        # extensible sdk use network
->>>        export_proxies(d)
->>>
->>> -    # extensible sdk shows a warning if found bitbake in the path
->>> -    # because can cause problems so clean it
->>> -    paths_to_avoid = ['bitbake/bin', 'poky/scripts',
->>> -                       d.getVar('STAGING_DIR', True),
->>> -                       d.getVar('BASE_WORKDIR', True)]
->>> +    # extensible sdk can be contaminated if native programs are
->>> +    # in PATH, i.e. use perl-native instead of eSDK one.
->>> +    paths_to_avoid = [d.getVar('STAGING_DIR', True),
->>> +                      d.getVar('BASE_WORKDIR', True)]
->>>        avoid_paths_in_environ(paths_to_avoid)
->>>
->>>        pn = d.getVar("PN", True)
->>> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
->>> index 3e2ea0f..cd1e7e0 100644
->>> --- a/meta/lib/oeqa/oetest.py
->>> +++ b/meta/lib/oeqa/oetest.py
->>> @@ -21,6 +21,7 @@ import logging
->>>    import oeqa.runtime
->>>    import oeqa.sdkext
->>>    from oeqa.utils.decorators import LogResults, gettag, getResults
->>> +from oeqa.utils import avoid_paths_in_environ
->>>
->>>    logger = logging.getLogger("BitBake")
->>>
->>> @@ -128,7 +129,26 @@ class oeSDKTest(oeTest):
->>>            return subprocess.check_output(". %s > /dev/null; %s;" %
->>> (self.tc.sdkenv, cmd), shell=True)
->>>
->>>    class oeSDKExtTest(oeSDKTest):
->>> -    pass
->>> +    def _run(self, cmd):
->>> +        output = None
->>> +
->>> +        paths = os.environ['PATH']
->>> +
->>> +        # extensible sdk shows a warning if found bitbake in the path
->>> +        # because can cause contamination, i.e. use devtool from
->>> +        # poky/scripts instead of eSDK one.
->>> +        paths_to_avoid = ['bitbake/bin', 'poky/scripts']
->>> +        avoid_paths_in_environ(paths_to_avoid)
->>> +
->>> +        try:
->>> +            output = subprocess.check_output(". %s > /dev/null; %s;" % \
->>> +                (self.tc.sdkenv, cmd), shell=True)
->>
->> Just pass env to the check_output call, then you won't have to worry
->> about resetting the parent process' env back to the original value.
->
-> Could be but then we need the code for generate the env line so for
-> practically the result is the same.
+It's possible for findutils-native to get built.  There's no point in this as
+this is part of the expected host platform but this can introduce races or even
+bugs (4.5.19 appears to have a leaking fd bug, resulting in asserts) so add it
+to ASSUME_PROVIDED so it definitely won't get built.
 
-Modify avoid_paths_in_environ() to instead return the environment rather than 
-modify it as a side effect. Then the code reads more easily and prevents future 
-bugs where someone uses avoid_paths_in_environ, but forgets to reset the os.environ.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
->
->>
->>> +        except:
->>> +            os.environ['PATH'] = paths
->>> +            raise
->>> +
->>> +        os.environ['PATH'] = paths
->>> +        return output
->>>
->>>    def getmodule(pos=2):
->>>        # stack returns a list of tuples containg frame information
->>>
->>
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index ac93702..9a4cbdc 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -170,6 +170,7 @@ ASSUME_PROVIDED = "\
+     bzip2-native \
+     chrpath-native \
+     file-native \
++    findutils-native \
+     git-native \
+     grep-native \
+     diffstat-native \
+-- 
+2.7.0
 
 
