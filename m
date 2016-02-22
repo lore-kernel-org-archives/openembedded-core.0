@@ -1,31 +1,31 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 765BF75E2D
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 50E1D65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 08:41:16 +0000 (UTC)
+	Mon, 22 Feb 2016 08:43:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1M8fF7i027398
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Feb 2016 00:41:15 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 22 Feb 2016 00:41:15 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1455606710.git.kai.kang@windriver.com>
-	<edb161a868336c0688a6e03343ee7920b34222f5.1455606710.git.kai.kang@windriver.com>
-	<CAJTo0LYOpP40zsTFKahoMzU1caXH+=qTUwgAAy1aV--pK_-E_g@mail.gmail.com>
-	<56C407CB.4060100@windriver.com>
-	<CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <56CAC9A9.7070906@windriver.com>
-Date: Mon, 22 Feb 2016 16:41:13 +0800
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1M8hpTD025949
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 22 Feb 2016 00:43:51 -0800
+Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Mon, 22 Feb 2016 00:43:50 -0800
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1455874404.git.zhe.he@windriver.com>
+	<6690be7ba721ca84deeaea05f6cad6636cf8385d.1455874404.git.zhe.he@windriver.com>
+	<CADkTA4PmdqDX3kWhavQ_rXOi=2w1Xt=2HEx3RC_e_ACacOsvJA@mail.gmail.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <56CACA39.5060201@windriver.com>
+Date: Mon, 22 Feb 2016 16:43:37 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
+In-Reply-To: <CADkTA4PmdqDX3kWhavQ_rXOi=2w1Xt=2HEx3RC_e_ACacOsvJA@mail.gmail.com>
+X-Originating-IP: [128.224.162.175]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,105 +38,931 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 08:41:16 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050603080901040509080001"
+X-List-Received-Date: Mon, 22 Feb 2016 08:43:54 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---------------050603080901040509080001
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 2016年02月18日 07:49, Burton, Ross wrote:
->
-> On 17 February 2016 at 05:40, Kang Kai <Kai.Kang@windriver.com 
-> <mailto:Kai.Kang@windriver.com>> wrote:
->
->     I prefer to keep such check. There is more than one case that
->     causes operation error such as pass wrong parameters. The messages
->     are  helpful for developers.
+
+On 02/19/2016 11:46 PM, Bruce Ashfield wrote:
 >
 >
-> In that case the groupadd will return an error code.  What situations 
-> with proper locking will result in groupadd running successfully but 
-> the group not being added?
+> On Fri, Feb 19, 2016 at 4:56 AM, <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>wrote:
+>
+>     From: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
+>
+>     Add KERNEL_IMAGETYPES to support building packaging and installing
+>     multi types of kernel images, such as zImage uImage, at one time.
+>
+>     KERNEL_IMAGETYPE works as before. All KERNEL_ALT_IMAGETYPEs are
+>     replaced by KERNEL_IMAGETYPES.
+>
+>
+>  
+> I see that you have updated layers/configs with the new variable, but obviously you can't see all the 
+> layers that may be using that old variable.
+>
+> Isn't it possible to have a python routine that detects the old ALT_IMAGETYPE variable and
+> assigns it to the new one (if it isn't already set) ? Sort of like how distro features/features backfill
+> work ?
+>
 
-Sorry for late reply.
+Thanks for careful review.
 
-I think I understand your meanings. V3 will be sent.
-
---Kai
-
+OK. I'll try to add such function.
 
 >
-> Ross
+>     Fixes [YOCTO #6945].
+>
+>     Signed-off-by: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
+>     ---
+>      documentation/ref-manual/ref-variables.xml         |  10 +-
+>      meta-yocto-bsp/conf/machine/edgerouter.conf        |   2 +-
+>      meta/classes/kernel-fitimage.bbclass               |  20 +--
+>      meta/classes/kernel-grub.bbclass                   |  44 ++++--
+>      meta/classes/kernel-uimage.bbclass                 |  22 +--
+>      meta/classes/kernel.bbclass                        | 171 +++++++++++++++------
+>      meta/conf/documentation.conf                       |   1 +
+>      meta/conf/machine/qemumips.conf                    |   2 +-
+>      meta/conf/machine/qemumips64.conf                  |   2 +-
+>      meta/recipes-kernel/linux/linux-dtb.inc            |  49 +++---
+>      .../target/arch/mips/conf/machine/machine.conf     |   2 +-
+>      .../target/arch/mips64/conf/machine/machine.conf   |   2 +-
+>      .../target/arch/qemu/conf/machine/machine.conf     |   2 +-
+>      13 files changed, 214 insertions(+), 115 deletions(-)
+>
+>     diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+>     index a76a8c2..a8e4fd8 100644
+>     --- a/documentation/ref-manual/ref-variables.xml
+>     +++ b/documentation/ref-manual/ref-variables.xml
+>     @@ -6417,14 +6417,14 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
+>                  </glossdef>
+>              </glossentry>
+>
+>     -        <glossentry id='var-KERNEL_ALT_IMAGETYPE'><glossterm>KERNEL_ALT_IMAGETYPE</glossterm>
+>     +        <glossentry id='var-KERNEL_IMAGETYPES'><glossterm>KERNEL_IMAGETYPES</glossterm>
+>                  <info>
+>     -                KERNEL_ALT_IMAGETYPE[doc] = "Specifies an alternate kernel image type for creation."
+>     +                KERNEL_IMAGETYPES[doc] = "Specifies alternate kernel image types for creation."
+>                  </info>
+>                  <glossdef>
+>                      <para role="glossdeffirst">
+>      <!--                <para role="glossdeffirst"><imagedata fileref="figures/define-generic.png" /> -->
+>     -                    Specifies an alternate kernel image type for creation in
+>     +                    Specifies alternate kernel image types for creation in
+>                          addition to the kernel image type specified using the
+>                          <link linkend='var-KERNEL_IMAGETYPE'><filename>KERNEL_IMAGETYPE</filename></link>
+>                          variable.
+>     @@ -6612,8 +6612,8 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
+>                      </para>
+>
+>                      <para>
+>     -                    If you want to build an alternate kernel image type, use the
+>     -                    <link linkend='var-KERNEL_ALT_IMAGETYPE'><filename>KERNEL_ALT_IMAGETYPE</filename></link>
+>     +                    If you want to build alternate kernel image types, use the
+>     +                    <link linkend='var-KERNEL_IMAGETYPES'><filename>KERNEL_IMAGETYPES</filename></link>
+>                          variable.
+>                      </para>
+>                  </glossdef>
+>     diff --git a/meta-yocto-bsp/conf/machine/edgerouter.conf b/meta-yocto-bsp/conf/machine/edgerouter.conf
+>     index 476e690..affd568 100644
+>     --- a/meta-yocto-bsp/conf/machine/edgerouter.conf
+>     +++ b/meta-yocto-bsp/conf/machine/edgerouter.conf
+>     @@ -7,7 +7,7 @@ require conf/machine/include/tune-mips64.inc
+>      MACHINE_FEATURES = "pci ext2 ext3 serial"
+>
+>      KERNEL_IMAGETYPE = "vmlinux"
+>     -KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>     +KERNEL_IMAGETYPES = "vmlinux.bin"
+>
+>
+> This now reads a bit ... odd (for back of a better description). I'm concerned that it will cause
+> confusion, there are two variables:
+>
+> KERNEL_IMAGETYPE and KERNEL_IMAGETYPES ..
+>
+> They are very close in name, and just reading the variable doesn't really tell us why
+> we'd set one and not the other. The old "ALT" made it more obvious.
+>
+
+But changing original KERNEL_ALT_IMAGETYPE to a list or using KERNEL_ALT_IMAGETYPES
+in addition to KERNEL_ALT_IMAGETYPE also seems not very clear. Below is the previous
+talk with Richard Purdie and Christopher Larson.
+
+>>>>> Question, why not add KERNEL_IMAGETYPES, and make KERNEL_IMAGETYPE equal to your new KERNEL_IMAGETYPE_0?(Christopher)
+>>>> Adding a new KERNEL_IMAGETYPES will also work. But it should be better(me)
+>>>> not to change the name of KERNEL_IMAGETYPE, so that those who have
+>>>> used it don't have to change their code.
+>>>>
+>>>> Thank you for reviewing.
+>>> I have to agree with Chris here, keeping KERNEL_IMAGETYPE as used today(Richard)
+>>> and equivalent to KERNEL_IMAGETYPE_0 and adding KERNEL_IMAGETYPES does
+>>> seem like a cleaner way to implement this.
+>>
+>> But it might mean we are going to check both KERNEL_IMAGETYPE and KERNEL_IMAGETYPES(me)
+>> to generate final image type list. Is that OK?
+>
+>Well, in some places you will use one and in some places you'll use the(Richard)
+>other, that is unavoidable.
+>
+>I much prefer "KERNEL_IMAGETYPE and KERNEL_IMAGETYPES" to
+>"KERNEL_IMAGETYPE_0 and KERNEL_IMAGETYPE" as variable names though.
+>
+>Cheers,
+
+> But from the patch, KERNEL_IMAGETYPE isn't used, so does it have to be set at
+> all in these .conf files ? .. or maybe I missed where it is still used other than for
+> compatibility.
+>  
+
+Not every KERNEL_IMAGETYPE should be replaced by KERNEL_IMAGETYPES. Only one
+type of kernel image is necessary for below cases.Right?
+
+Yes, more explanations should be added to commit message and code comments.
+
+1) boot fs image
+meta/classes/bootimg.bbclass:50:KERNEL_IMAGETYPE ??= "bzImage"
+meta/classes/bootimg.bbclass:72:        install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} ${DEST}/vmlinuz
+meta/classes/image_types.bbclass:109:ELF_KERNEL ?= "${STAGING_DIR_HOST}/usr/src/kernel/${KERNEL_IMAGETYPE}"
+
+2) test fs image
+meta/lib/oeqa/controllers/masterimage.py:55:        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
+meta/lib/oeqa/targetcontrol.py:126:        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
 
 
--- 
-Regards,
-Neil | Kai Kang
+>      KERNEL_IMAGE_STRIP_EXTRA_SECTIONS  = ".comment"
+>
+>      PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+>     diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+>     index f1b409c..51df19d 100644
+>     --- a/meta/classes/kernel-fitimage.bbclass
+>     +++ b/meta/classes/kernel-fitimage.bbclass
+>     @@ -1,8 +1,8 @@
+>      inherit kernel-uboot
+>
+>      python __anonymous () {
+>     -    kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>     -    if kerneltype == 'fitImage':
+>     +    kerneltypes = d.getVar('KERNEL_IMAGETYPES', True) or ""
+>     +    if 'fitImage' in kerneltypes.split():
+>              depends = d.getVar("DEPENDS", True)
+>              depends = "%s u-boot-mkimage-native dtc-native" % depends
+>              d.setVar("DEPENDS", depends)
+>     @@ -10,7 +10,9 @@ python __anonymous () {
+>             # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>             # to kernel.bbclass . We have to override it, since we pack zImage
+>             # (at least for now) into the fitImage .
+>     -        d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
+>     +        typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", True) or ""
+>     +        if 'fitImage' in typeformake.split():
+>     +            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', 'zImage'))
+>
+>              image = d.getVar('INITRAMFS_IMAGE', True)
+>              if image:
+>     @@ -154,7 +156,7 @@ EOF
+>      }
+>
+>      do_assemble_fitimage() {
+>     -       if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+>     +       if echo ${KERNEL_IMAGETYPES} | grep -Pq "\bfitImage\b"; then
+>
+>
+> Not that it really matters, but grep -w would work here as well, and might read bit simpler.
+
+OK. I'll replace it with "-w"
+
+>  
+>
+>                     kernelcount=1
+>                     dtbcount=""
+>                     rm -f fit-image.its
+>     @@ -217,14 +219,14 @@ addtask assemble_fitimage before do_install after do_compile
+>
+>      kernel_do_deploy_append() {
+>             # Update deploy directory
+>     -       if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+>     +       if echo ${KERNEL_IMAGETYPES} | grep -Pq "\bfitImage\b"; then
+>                     cd ${B}
+>                     echo "Copying fit-image.its source file..."
+>     -               its_base_name="${KERNEL_IMAGETYPE}-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>     -               its_symlink_name=${KERNEL_IMAGETYPE}-its-${MACHINE}
+>     +               its_base_name="fitImage-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>     +               its_symlink_name=fitImage-its-${MACHINE}
+>                     install -m 0644 fit-image.its ${DEPLOYDIR}/${its_base_name}.its
+>     -               linux_bin_base_name="${KERNEL_IMAGETYPE}-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>     -               linux_bin_symlink_name=${KERNEL_IMAGETYPE}-linux.bin-${MACHINE}
+>     +               linux_bin_base_name="fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>     +               linux_bin_symlink_name=fitImage-linux.bin-${MACHINE}
+>                     install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
+>
+>                     cd ${DEPLOYDIR}
+>     diff --git a/meta/classes/kernel-grub.bbclass b/meta/classes/kernel-grub.bbclass
+>     index a63f482..f7dcc07 100644
+>     --- a/meta/classes/kernel-grub.bbclass
+>     +++ b/meta/classes/kernel-grub.bbclass
+>     @@ -10,41 +10,44 @@
+>      #   updates the new kernel as the boot priority.
+>      #
+>
+>     -pkg_preinst_kernel-image_append () {
+>     +python __anonymous () {
+>
+>
+> Maybe it is just the patch context making me misread this, but can you elaborate on
+> what is changing here ?
+>
+
+Here I change the two variables, pkg_preinst_kernel-image_append and
+pkg_postinst_kernel-image_prepend to two strings, and change all "${KERNEL_IMAGETYPE}"
+in the strings to "KERNEL_IMAGETYPE" to avoid being expanded in parsing time. So that I can
+replace KERNEL_IMAGETYPEs to every single image type in the following loops, in which the
+two original variables' name are constructed and their values are set.
+
+According to bitbake user manual, __anonymous functions are executed during parsing. It
+should be OK for the following references. I've verified this by building an image with
+kernel-grub.bbclass.
+
+> Is it the old preinst is being replaced by anonymous python that generates the preinst as
+> a string, and that this injected into the package via the python ? Are we guaranteed
+> to run the anonymous python at the right time ? .. I've been burned by that before, so
+> I wanted to check that it has been considered.
+>  
+>
+>     +    import re
+>     +
+>     +    preinst = '''
+>             # Parsing confliction
+>             [ -f "$D/boot/grub/menu.list" ] && grubcfg="$D/boot/grub/menu.list"
+>             [ -f "$D/boot/grub/grub.cfg" ] && grubcfg="$D/boot/grub/grub.cfg"
+>             if [ -n "$grubcfg" ]; then
+>                     # Dereference symlink to avoid confliction with new kernel name.
+>     -               if grep -q "/${KERNEL_IMAGETYPE} \+root=" $grubcfg; then
+>     -                       if [ -L "$D/boot/${KERNEL_IMAGETYPE}" ]; then
+>     -                               kimage=`realpath $D/boot/${KERNEL_IMAGETYPE} 2>/dev/null`
+>     +               if grep -q "/KERNEL_IMAGETYPE \+root=" $grubcfg; then
+>
+>
+> It's lines like these that made me ask my question above. This looks like its checking the
+> grubcfg on disk. Is that same grep going to work in this anonymous python .. or maybe this
+> isn't being run now, and only when the package is being installed ? I'm most likely missing
+> something.
+
+No, it's not running, it's in the middle of the string.
+
+>  
+>
+>     +                       if [ -L "$D/boot/KERNEL_IMAGETYPE" ]; then
+>     +                               kimage=`realpath $D/boot/KERNEL_IMAGETYPE 2>/dev/null`
+>                                     if [ -f "$D$kimage" ]; then
+>     -                                       sed -i "s:${KERNEL_IMAGETYPE} \+root=:${kimage##*/} root=:" $grubcfg
+>     +                                       sed -i "s:KERNEL_IMAGETYPE \+root=:${kimage##*/} root=:" $grubcfg
+>                                     fi
+>                             fi
+>                     fi
+>
+>                     # Rename old kernel if it conflicts with new kernel name.
+>     -               if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} \+root=" $grubcfg; then
+>     -                       if [ -f "$D/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}" ]; then
+>     +               if grep -q "/KERNEL_IMAGETYPE-${KERNEL_VERSION} \+root=" $grubcfg; then
+>     +                       if [ -f "$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}" ]; then
+>                                     timestamp=`date +%s`
+>     -                               kimage="$D/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back"
+>     -                               sed -i "s:${KERNEL_IMAGETYPE}-${KERNEL_VERSION} \+root=:${kimage##*/} root=:" $grubcfg
+>     -                               mv "$D/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}" "$kimage"
+>     +                               kimage="$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}-$timestamp-back"
+>     +                               sed -i "s:KERNEL_IMAGETYPE-${KERNEL_VERSION} \+root=:${kimage##*/} root=:" $grubcfg
+>     +                               mv "$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}" "$kimage"
+>                             fi
+>                     fi
+>             fi
+>     -}
+>     +'''
+>
+>     -pkg_postinst_kernel-image_prepend () {
+>     +    postinst = '''
+>             get_new_grub_cfg() {
+>                     grubcfg="$1"
+>                     old_image="$2"
+>     -               title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
+>     +               title="Update KERNEL_IMAGETYPE-${KERNEL_VERSION}-${PV}"
+>                     if [ "${grubcfg##*/}" = "grub.cfg" ]; then
+>                             rootfs=`grep " *linux \+[^ ]\+ \+root=" $grubcfg -m 1 | \
+>     -                                sed "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
+>     +                                sed "s#${old_image}#${old_image%/*}/KERNEL_IMAGETYPE-${KERNEL_VERSION}#"`
+>
+>                             echo "menuentry \"$title\" {"
+>                             echo "    set root=(hd0,1)"
+>     @@ -52,7 +55,7 @@ pkg_postinst_kernel-image_prepend () {
+>                             echo "}"
+>                     elif [ "${grubcfg##*/}" = "menu.list" ]; then
+>                             rootfs=`grep "kernel \+[^ ]\+ \+root=" $grubcfg -m 1 | \
+>     -                                sed "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
+>     +                                sed "s#${old_image}#${old_image%/*}/KERNEL_IMAGETYPE-${KERNEL_VERSION}#"`
+>
+>                             echo "default 0"
+>                             echo "timeout 30"
+>     @@ -87,5 +90,16 @@ pkg_postinst_kernel-image_prepend () {
+>                     mv $grubcfgtmp $grubcfg
+>                     echo "Caution! Update kernel may affect kernel-module!"
+>             fi
+>     +'''
+>     +
+>     +    imagetypes = d.getVar('KERNEL_IMAGETYPES', True)
+>     +    imagetypes = re.sub(r'\.gz$', '', imagetypes)
+>     +
+>     +    for type in imagetypes.split():
+>     +        typelower = type.lower()
+>     +        preinst_append = preinst.replace('KERNEL_IMAGETYPE', type)
+>     +        postinst_prepend = postinst.replace('KERNEL_IMAGETYPE', type)
+>     +        d.setVar('pkg_preinst_kernel-image-' + typelower + '_append', preinst_append)
+>     +        d.setVar('pkg_postinst_kernel-image-' + typelower + '_prepend', postinst_prepend)
+>      }
+>
+>     diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+>     index f73965b..a238ce4 100644
+>     --- a/meta/classes/kernel-uimage.bbclass
+>     +++ b/meta/classes/kernel-uimage.bbclass
+>     @@ -1,23 +1,25 @@
+>      inherit kernel-uboot
+>
+>      python __anonymous () {
+>     -    kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>     -    if kerneltype == 'uImage':
+>     +    if "uImage" in (d.getVar('KERNEL_IMAGETYPES', True) or "").split():
+>              depends = d.getVar("DEPENDS", True)
+>              depends = "%s u-boot-mkimage-native" % depends
+>              d.setVar("DEPENDS", depends)
+>
+>     -       # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>     -       # to kernel.bbclass . We override the variable here, since we need
+>     -       # to build uImage using the kernel build system if and only if
+>     -       # KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+>     -       # the uImage .
+>     -       if d.getVar("KEEPUIMAGE", True) != 'yes':
+>     -            d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
+>     +        # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+>     +        # to kernel.bbclass . We override the variable here, since we need
+>     +        # to build uImage using the kernel build system if and only if
+>     +        # KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+>     +        # the uImage .
+>     +        if d.getVar("KEEPUIMAGE", True) != 'yes':
+>     +            typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", True) or ""
+>     +            if "uImage" in typeformake.split():
+>     +                typeformake.replace('uImage', 'zImage')
+>     +            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+>      }
+>
+>      do_uboot_mkimage() {
+>     -       if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
+>     +       if echo "${KERNEL_IMAGETYPES}" | grep -Pq "\buImage\b"; then
+>                     if test "x${KEEPUIMAGE}" != "xyes" ; then
+>                             uboot_prep_kimage
+>
+>     diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>     index c3eab50..6db2e2e 100644
+>     --- a/meta/classes/kernel.bbclass
+>     +++ b/meta/classes/kernel.bbclass
+>     @@ -16,12 +16,48 @@ INITRAMFS_IMAGE ?= ""
+>      INITRAMFS_TASK ?= ""
+>      INITRAMFS_IMAGE_BUNDLE ?= ""
+>
+>     +# KERNEL_VERSION is extracted from source code. It is evaluated as
+>     +# None for the first parsing, since the code has not been fetched.
+>     +# After the code is fetched, it will be evaluated as real version
+>     +# number and cause kernel to be rebuilt. To avoid this, make
+>     +# KERNEL_VERSION_NAME and KERNEL_VERSION_PKG_NAME depend on
+>     +# LINUX_VERSION which is a constant.
+>     +KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION', True) or ""}"
+>     +KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
+>     +KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION', True))}"
+>     +KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+>     +
+>      python __anonymous () {
+>          import re
+>
+>     -    kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>     +    type = d.getVar('KERNEL_IMAGETYPE', True) or ""
+>
+>
+> Aha. Here is that use of KERNEL_IMAGETYPE. Like I mentioned for the alt image type, can't
+> this existing variable be checked, and then added to KERNEL_IMAGE_TYPES in some
+> python code ? That would simplify the code here, and also not require the two variables to 
+> be kept around.
+
+See above for explanation for KERNEL_IMAGETYPES.
+
+>  
+>
+>     +    types = d.getVar('KERNEL_IMAGETYPES', True) or ""
+>     +    if type not in types.split():
+>     +        types = (type + ' ' + types).strip()
+>     +        d.setVar('KERNEL_IMAGETYPES', types)
+>     +    typeformake = re.sub(r'\.gz', '', types)
+>     +    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+>     +
+>     +    for type in typeformake.split():
+>     +        typelower = type.lower()
+>     +
+>     +        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+>     +
+>     +        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '*')
+>     +
+>     +        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
+>     +
+>     +        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
+>     +
+>     +        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
+>
+>     -    d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
+>     +        imagedest = d.getVar('KERNEL_IMAGEDEST', True)
+>     +        priority = d.getVar('KERNEL_PRIORITY', True)
+>     +        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+>     +        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
+>     +
+>     +        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+>     +        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
+>
+>          image = d.getVar('INITRAMFS_IMAGE', True)
+>          if image:
+>     @@ -92,8 +128,8 @@ KERNEL_PRIORITY ?= "${@int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.
+>
+>      KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+>
+>     -# Where built kernel lies in the kernel tree
+>     -KERNEL_OUTPUT ?= "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
+>     +# The directory where built kernel lies in the kernel tree
+>     +KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
+>      KERNEL_IMAGEDEST = "boot"
+>
+>      #
+>     @@ -119,8 +155,6 @@ KERNEL_EXTRA_ARGS ?= ""
+>      # We don't want to override kernel Makefile variables from the environment
+>      EXTRA_OEMAKE = ""
+>
+>     -KERNEL_ALT_IMAGETYPE ??= ""
+>     -
+>      # Define where the kernel headers are installed on the target as well as where
+>      # they are staged.
+>      KERNEL_SRC_PATH = "/usr/src/kernel"
+>     @@ -166,23 +200,48 @@ copy_initramfs() {
+>             echo "Finished copy of initramfs into ./usr"
+>      }
+>
+>     -INITRAMFS_BASE_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>     +INITRAMFS_BASE_NAME = "initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>
+>      INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
+>      do_bundle_initramfs () {
+>             if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+>                     echo "Creating a kernel image with a bundled initramfs..."
+>                     copy_initramfs
+>     -               if [ -e ${KERNEL_OUTPUT} ] ; then
+>     -                       mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
+>     -               fi
+>     +               # Backuping kernel image relies on its type(regular file or symbolic link)
+>
+>
+> s/Backuping/Backing up/
+
+I'll correct it.
+
+>  
+>
+>     +               tmp_path=""
+>     +               for type in ${KERNEL_IMAGETYPES} ; do
+>     +                       if [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
+>     +                               linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$type`
+>     +                               realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$type`
+>     +                               mv -f $realpath $realpath.bak
+>     +                               tmp_path=$tmp_path" "$type"#"$linkpath"#"$realpath
+>     +                       elif [ -f ${KERNEL_OUTPUT_DIR}/$type ]; then
+>     +                               mv -f ${KERNEL_OUTPUT_DIR}/$type ${KERNEL_OUTPUT_DIR}/$type.bak
+>     +                               tmp_path=$tmp_path" "$type"##"
+>     +                       fi
+>     +               done
+>                     use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>                     kernel_do_compile
+>     -               mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+>     -               mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+>     +               # Restoring kernel image
+>     +               for tp in $tmp_path ; do
+>     +                       type=`echo $tp|cut -d "#" -f 1`
+>     +                       linkpath=`echo $tp|cut -d "#" -f 2`
+>     +                       realpath=`echo $tp|cut -d "#" -f 3`
+>     +                       if [ -n "$realpath" ]; then
+>     +                               mv -f $realpath $realpath.initramfs
+>     +                               mv -f $realpath.bak $realpath
+>     +                               cd ${B}/${KERNEL_OUTPUT_DIR}
+>     +                               ln -sf $linkpath.initramfs
+>     +                       else
+>     +                               mv -f ${KERNEL_OUTPUT_DIR}/$type ${KERNEL_OUTPUT_DIR}/$type.initramfs
+>     +                               mv -f ${KERNEL_OUTPUT_DIR}/$type.bak ${KERNEL_OUTPUT_DIR}/$type
+>     +                       fi
+>     +               done
+>                     # Update install area
+>     -               echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+>     -               install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+>     -               echo "${B}/${KERNEL_OUTPUT}.initramfs"
+>     +               for type in ${KERNEL_IMAGETYPES} ; do
+>     +                       echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT_DIR}/$type.initramfs"
+>     +                       install -m 0644 ${B}/${KERNEL_OUTPUT_DIR}/$type.initramfs ${D}/boot/$type-initramfs-${MACHINE}.bin
+>     +                       echo "${B}/${KERNEL_OUTPUT_DIR}/$type.initramfs"
+>     +               done
+>             fi
+>      }
+>
+>     @@ -207,10 +266,15 @@ kernel_do_compile() {
+>                     copy_initramfs
+>                     use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>             fi
+>     -       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>     -       if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>     -               gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>     -       fi
+>     +       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>
+>
+>
+> This is probably something that is worth mentioning in the top of the commit message. You are
+> building multiple kernel image types, but they are all currently using the same configuration.
+>
+> If the make invokations were split into separate calls per image type, we could conceivably
+> extend this to generate and use a separate config int he future.
+>  
+
+OK. Let me test if there is any side effect after putting this make in a type loop.
+
+>     +       for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+>     +               for type in ${KERNEL_IMAGETYPES} ; do
+>     +                       if test "${typeformake}.gz" = "${type}"; then
+>     +                               gzip -9c < "${typeformake}" > "${KERNEL_OUTPUT_DIR}/${type}"
+>     +                               break;
+>     +                       fi
+>     +               done
+>     +       done
+>      }
+>
+>      do_compile_kernelmodules() {
+>     @@ -251,7 +315,9 @@ kernel_do_install() {
+>             #
+>             install -d ${D}/${KERNEL_IMAGEDEST}
+>             install -d ${D}/boot
+>     -       install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+>     +       for type in ${KERNEL_IMAGETYPES} ; do
+>     +               install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
+>     +       done
+>             install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+>             install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+>             install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+>     @@ -365,12 +431,12 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>      PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
+>      FILES_${PN} = ""
+>      FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+>     -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+>     +FILES_kernel-image = ""
+>      FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
+>      FILES_kernel-vmlinux = "/boot/vmlinux*"
+>      FILES_kernel-modules = ""
+>      RDEPENDS_kernel = "kernel-base"
+>     -# Allow machines to override this dependency if kernel image files are
+>     +# Allow machines to override this dependency if kernel image files are
+>      # not wanted in images as standard
+>      RDEPENDS_kernel-base ?= "kernel-image"
+>      PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>     @@ -394,14 +460,6 @@ pkg_postinst_kernel-base () {
+>             fi
+>      }
+>
+>     -pkg_postinst_kernel-image () {
+>     -       update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+>     -}
+>     -
+>     -pkg_postrm_kernel-image () {
+>     -       update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+>     -}
+>     -
+>      PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+>
+>      python split_kernel_packages () {
+>     @@ -422,13 +480,13 @@ do_kernel_link_vmlinux() {
+>
+>      do_strip() {
+>             if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
+>     -               if [ "${KERNEL_IMAGETYPE}" != "vmlinux" ]; then
+>     -                       bbwarn "image type will not be stripped (not supported): ${KERNEL_IMAGETYPE}"
+>     +               if ! (echo "${KERNEL_IMAGETYPES}" | grep -q "vmlinux"); then
+>
+>
+> You had used the \bfitImage\b, but here you don't .. grep -w could work for them all.
+
+I'll correct it.
+
+>  
+>
+>     +                       bbwarn "image type(s) will not be stripped (not supported): ${KERNEL_IMAGETYPES}"
+>
+>
+>
+> But on another note. Is it really right to say that none of the images will be stripped if you
+> find vmlinux anywhere in the image type list ?
+>  
+
+Not clear what you mean here.
+
+>                             return
+>                     fi
+>
+>                     cd ${B}
+>     -               headers=`"$CROSS_COMPILE"readelf -S ${KERNEL_OUTPUT} | \
+>     +               headers=`"$CROSS_COMPILE"readelf -S ${KERNEL_OUTPUT_DIR}/vmlinux | \
+>                               grep "^ \{1,\}\[[0-9 ]\{1,\}\] [^ ]" | \
+>                               sed "s/^ \{1,\}\[[0-9 ]\{1,\}\] //" | \
+>                               gawk '{print $1}'`
+>     @@ -438,7 +496,7 @@ do_strip() {
+>                                     bbwarn "Section not found: $str";
+>                             fi
+>
+>     -                       "$CROSS_COMPILE"strip -s -R $str ${KERNEL_OUTPUT}
+>     +                       "$CROSS_COMPILE"strip -s -R $str ${KERNEL_OUTPUT_DIR}/vmlinux
+>                     }; done
+>
+>                     bbnote "KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is set, stripping sections:" \
+>     @@ -457,20 +515,22 @@ do_sizecheck() {
+>                     if [ -n "$invalid" ]; then
+>                             die "Invalid KERNEL_IMAGE_MAXSIZE: ${KERNEL_IMAGE_MAXSIZE}, should be an integerx (The unit is Kbytes)"
+>                     fi
+>     -               size=`du -ks ${B}/${KERNEL_OUTPUT} | awk '{ print $1}'`
+>     -               if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
+>     -                       die "This kernel (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device. Please reduce the size of the kernel by making more of it modular."
+>     -               fi
+>     +               for type in ${KERNEL_IMAGETYPES} ; do
+>     +                       size=`du -ks ${B}/${KERNEL_OUTPUT_DIR}/$type | awk '{print $1}'`
+>     +                       if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
+>     +                               die "This kernel $type (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device. Please reduce the size of the kernel by making more of it modular."
+>
+>
+> Hmm. Again here. Multiple image types are being built. If one of them is too large for the device,
+> who's to say that that's the one that is going to be used ? Maybe this should be a warn, instead
+> of a die ?
+>  
+
+Fair point. A warn is OK.
+
+>     +                       fi
+>     +               done
+>             fi
+>      }
+>      do_sizecheck[dirs] = "${B}"
+>
+>      addtask sizecheck before do_install after do_strip
+>
+>     -KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+>     +KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+>      # Don't include the DATETIME variable in the sstate package signatures
+>      KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+>     -KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+>     +KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
+>      MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+>      MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+>      MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+>     @@ -479,28 +539,37 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+>      MODULE_TARBALL_DEPLOY ?= "1"
+>
+>      kernel_do_deploy() {
+>     -       install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+>     +       for type in ${KERNEL_IMAGETYPES} ; do
+>     +               base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+>     +               install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} ${DEPLOYDIR}/${base_name}.bin
+>     +       done
+>             if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+>                     mkdir -p ${D}/lib
+>                     tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+>                     ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
+>             fi
+>
+>     -       ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
+>     -       ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
+>     +       for type in ${KERNEL_IMAGETYPES} ; do
+>     +               base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+>     +               symlink_name=${type}-${KERNEL_IMAGE_SYMLINK_NAME}
+>     +               ln -sf ${base_name}.bin ${DEPLOYDIR}/${symlink_name}.bin
+>     +               ln -sf ${base_name}.bin ${DEPLOYDIR}/${type}
+>     +       done
+>
+>             cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+>
+>             cd ${B}
+>             # Update deploy directory
+>     -       if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
+>     -               echo "Copying deploy kernel-initramfs image and setting up links..."
+>     -               initramfs_base_name=${INITRAMFS_BASE_NAME}
+>     -               initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
+>     -               install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+>     -               cd ${DEPLOYDIR}
+>     -               ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
+>     -       fi
+>     +       for type in ${KERNEL_IMAGETYPES} ; do
+>     +               if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
+>     +                       echo "Copying deploy ${type} kernel-initramfs image and setting up links..."
+>     +                       initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
+>     +                       initramfs_symlink_name=${type}-initramfs-${MACHINE}
+>     +                       install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+>     +                       cd ${DEPLOYDIR}
+>     +                       ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
+>     +               fi
+>     +       done
+>      }
+>      do_deploy[cleandirs] = "${DEPLOYDIR}"
+>      do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+>     diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+>     index 00a69da..b3969b0 100644
+>     --- a/meta/conf/documentation.conf
+>     +++ b/meta/conf/documentation.conf
+>     @@ -246,6 +246,7 @@ KERNEL_CLASSES[doc] = "A list of classes defining kernel image types that kernel
+>      KERNEL_EXTRA_ARGS[doc] = "Specifies additional make command-line arguments the OpenEmbedded build system passes on when compiling the kernel."
+>      KERNEL_FEATURES[doc] = "Includes additional metadata from the Yocto Project kernel Git repository. The metadata you add through this variable includes config fragments and features descriptions."
+>      KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set by the machine configuration files and defaults to 'zImage'."
+>     +KERNEL_IMAGETYPES[doc] = "The list of types of kernel to build for a device, usually set by the machine configuration files and defaults to KERNEL_IMAGETYPE."
+>      KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be auto-loaded during boot"
+>      KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build system expects to find module_conf_* values that specify configuration for each of the modules"
+>      KERNEL_PATH[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
+>     diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+>     index fbf8137..67ce161 100644
+>     --- a/meta/conf/machine/qemumips.conf
+>     +++ b/meta/conf/machine/qemumips.conf
+>     @@ -6,7 +6,7 @@ require conf/machine/include/qemu.inc
+>      require conf/machine/include/tune-mips32r2.inc
+>
+>      KERNEL_IMAGETYPE = "vmlinux"
+>     -KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>     +KERNEL_IMAGETYPES = "vmlinux.bin"
+>
+>      SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
+>
+>     diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
+>     index 8c3f1fe..393212e 100644
+>     --- a/meta/conf/machine/qemumips64.conf
+>     +++ b/meta/conf/machine/qemumips64.conf
+>     @@ -6,7 +6,7 @@ require conf/machine/include/qemu.inc
+>      require conf/machine/include/tune-mips64.inc
+>
+>      KERNEL_IMAGETYPE = "vmlinux"
+>     -KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>     +KERNEL_IMAGETYPES = "vmlinux.bin"
+>
+>      SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
+>
+>     diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+>     index 651a19e..74f5ef8 100644
+>     --- a/meta/recipes-kernel/linux/linux-dtb.inc
+>     +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+>     @@ -34,9 +34,12 @@ do_install_append() {
+>             for DTB in ${KERNEL_DEVICETREE}; do
+>                     DTB=`normalize_dtb "${DTB}"`
+>                     DTB_BASE_NAME=`basename ${DTB} .dtb`
+>     -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     -               DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>     -               install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+>     +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>     +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>
+>
+> If there are multiple image types being built, is this valid for them all ?
+
+Add these links for convenience. If we give different configurations to
+different types of images in the future, as you pointed above, we might
+also need different dtb.
+
+>  
+>
+>     +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     +                       DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>     +                       install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+>     +               done
+>             done
+>      }
+>
+>     @@ -44,31 +47,39 @@ do_deploy_append() {
+>             for DTB in ${KERNEL_DEVICETREE}; do
+>                     DTB=`normalize_dtb "${DTB}"`
+>                     DTB_BASE_NAME=`basename ${DTB} .dtb`
+>     -               DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     -               DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>     -               install -d ${DEPLOYDIR}
+>     -               install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
+>     -               ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
+>     +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>     +                       base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+>     +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>     +                       DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     +                       DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>     +                       install -d ${DEPLOYDIR}
+>     +                       install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
+>     +                       ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
+>     +               done
+>             done
+>      }
+>
+>      pkg_postinst_kernel-devicetree () {
+>             cd /${KERNEL_IMAGEDEST}
+>     -       for DTB in ${KERNEL_DEVICETREE}
+>     -       do
+>     -               DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>     -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     -               update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>     +       for DTB in ${KERNEL_DEVICETREE}; do
+>     +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>     +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>     +                       DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>     +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     +                       update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>     +               done
+>             done
+>      }
+>
+>      pkg_postrm_kernel-devicetree () {
+>             cd /${KERNEL_IMAGEDEST}
+>     -       for DTB in ${KERNEL_DEVICETREE}
+>     -       do
+>     -               DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>     -               DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     -               update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>     +       for DTB in ${KERNEL_DEVICETREE}; do
+>     +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>     +                       symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>     +                       DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>     +                       DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>     +                       update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>     +               done
+>             done
+>      }
+>     diff --git a/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/machine.conf b/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/machine.conf
+>     index b319d62..e4a6f30 100644
+>     --- a/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/machine.conf
+>     +++ b/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/machine.conf
+>     @@ -9,7 +9,7 @@ require conf/machine/include/tune-mips32.inc
+>      MACHINE_FEATURES = "screen keyboard pci usbhost ext2 ext3 serial"
+>
+>      KERNEL_IMAGETYPE = "vmlinux"
+>     -KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>     +KERNEL_IMAGETYPES = "vmlinux.bin"
+>      KERNEL_IMAGE_STRIP_EXTRA_SECTIONS  = ".comment"
+>
+>      {{ if kernel_choice == "custom": preferred_kernel = "linux-yocto-custom" }}
+>     diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/conf/machine/machine.conf b/scripts/lib/bsp/substrate/target/arch/mips64/conf/machine/machine.conf
+>     index 3afc5e0..2c2d8af 100644
+>     --- a/scripts/lib/bsp/substrate/target/arch/mips64/conf/machine/machine.conf
+>     +++ b/scripts/lib/bsp/substrate/target/arch/mips64/conf/machine/machine.conf
+>     @@ -9,7 +9,7 @@ require conf/machine/include/tune-mips64.inc
+>      MACHINE_FEATURES = "pci ext2 ext3 serial"
+>
+>      KERNEL_IMAGETYPE = "vmlinux"
+>     -KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>     +KERNEL_IMAGETYPES = "vmlinux.bin"
+>
+>
+>
+> Again, why can't vmlinux just bein in KERNEL_IMAGETYPES ?
+>
+
+Discussed above.
+
+Thanks,
+Zhe
+
+> Bruce
+>  
+>
+>      KERNEL_IMAGE_STRIP_EXTRA_SECTIONS  = ".comment"
+>
+>      {{ if kernel_choice == "custom": preferred_kernel = "linux-yocto-custom" }}
+>     diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/conf/machine/machine.conf b/scripts/lib/bsp/substrate/target/arch/qemu/conf/machine/machine.conf
+>     index 67e1cbd..7a0a4d3 100644
+>     --- a/scripts/lib/bsp/substrate/target/arch/qemu/conf/machine/machine.conf
+>     +++ b/scripts/lib/bsp/substrate/target/arch/qemu/conf/machine/machine.conf
+>     @@ -69,6 +69,6 @@ SERIAL_CONSOLE = "115200 ttyS0"
+>
+>      {{ if qemuarch == "mips" or qemuarch == "mips64": }}
+>      KERNEL_IMAGETYPE = "vmlinux"
+>     -KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>     +KERNEL_IMAGETYPES = "vmlinux.bin"
+>      SERIAL_CONSOLE = "115200 ttyS0"
+>      MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+>     --
+>     1.9.1
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+>
+> -- 
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end"
 
 
---------------050603080901040509080001
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2016年02月18日 07:49, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 17 February 2016 at 05:40, Kang
-            Kai <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Kai.Kang@windriver.com" target="_blank">Kai.Kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF">I prefer to keep
-                such check. There is more than one case that causes
-                operation error such as pass wrong parameters. The
-                messages are  helpful for developers.<br>
-              </div>
-            </blockquote>
-            <div> </div>
-          </div>
-          <br>
-          In that case the groupadd will return an error code.  What
-          situations with proper locking will result in groupadd running
-          successfully but the group not being added?</div>
-      </div>
-    </blockquote>
-    <br>
-    Sorry for late reply.<br>
-    <br>
-    I think I understand your meanings. V3 will be sent.<br>
-    <br>
-    --Kai<br>
-    <br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LY2DFyOqFU5AtrmtDFHZroGWgoeCRvychC-c1Ed-qHmnQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------050603080901040509080001--
