@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EFEB67718E
+	by mail.openembedded.org (Postfix) with ESMTP id 0A1CF7719F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 15:01:36 +0000 (UTC)
+	Mon, 22 Feb 2016 15:01:37 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 07:01:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,484,1449561600"; d="scan'208";a="657171973"
+X-IronPort-AV: E=Sophos;i="5.22,484,1449561600"; d="scan'208";a="657171981"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.35])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 07:01:12 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 07:01:13 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 09:03:26 -0600
-Message-Id: <75c56decd6a173c298ef989a57f2ea4e682e04e0.1456153260.git.anibal.limon@linux.intel.com>
+Date: Mon, 22 Feb 2016 09:03:27 -0600
+Message-Id: <99d32b8b8e7d0422dfa5f89a30e86668d88ef77f.1456153260.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1456153260.git.anibal.limon@linux.intel.com>
 References: <cover.1456153260.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1456153260.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCH 1/4] classes/testsdk: Move code for avoid PATHs to oeqa.utils
+Subject: [PATCH 2/4] classes/testsdk: Move the removal of bitbake PATH to eSDK context only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,78 +40,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-Due to the neeed to use in other modules.
+The removal of bitbake and scripts PATH is only needed by eSDK tests
+so move to eSDK context only.
+
+This also it's a support for eSDK update test because it needs to
+execute oe-publish-sdk from scripts.
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/testsdk.bbclass    | 18 ++++--------------
- meta/lib/oeqa/utils/__init__.py | 17 +++++++++++++++++
- 2 files changed, 21 insertions(+), 14 deletions(-)
+ meta/classes/testsdk.bbclass |  9 ++++-----
+ meta/lib/oeqa/oetest.py      | 22 +++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 6 deletions(-)
 
 diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index a56ad5e..7e245e9 100644
+index 7e245e9..01d37c4 100644
 --- a/meta/classes/testsdk.bbclass
 +++ b/meta/classes/testsdk.bbclass
-@@ -88,30 +88,20 @@ def testsdkext_main(d):
-     import os
-     import oeqa.sdkext
-     import subprocess
--    from oeqa.oetest import SDKTestContext, SDKExtTestContext
-     from bb.utils import export_proxies
-+    from oeqa.oetest import SDKTestContext, SDKExtTestContext
-+    from oeqa.utils import avoid_paths_in_environ
-+
- 
+@@ -96,11 +96,10 @@ def testsdkext_main(d):
      # extensible sdk use network
      export_proxies(d)
  
-     # extensible sdk shows a warning if found bitbake in the path
-     # because can cause problems so clean it
--    new_path = ''
-     paths_to_avoid = ['bitbake/bin', 'poky/scripts',
-                        d.getVar('STAGING_DIR', True),
-                        d.getVar('BASE_WORKDIR', True)]
--    for p in os.environ['PATH'].split(':'):
--       avoid = False
--       for pa in paths_to_avoid:
--           if pa in p:
--              avoid = True
--              break
--       if avoid:
--           continue
--
--       new_path = new_path + p + ':'
--    new_path = new_path[:-1]
--    os.environ['PATH'] = new_path
-+    avoid_paths_in_environ(paths_to_avoid)
+-    # extensible sdk shows a warning if found bitbake in the path
+-    # because can cause problems so clean it
+-    paths_to_avoid = ['bitbake/bin', 'poky/scripts',
+-                       d.getVar('STAGING_DIR', True),
+-                       d.getVar('BASE_WORKDIR', True)]
++    # extensible sdk can be contaminated if native programs are
++    # in PATH, i.e. use perl-native instead of eSDK one.
++    paths_to_avoid = [d.getVar('STAGING_DIR', True),
++                      d.getVar('BASE_WORKDIR', True)]
+     avoid_paths_in_environ(paths_to_avoid)
  
      pn = d.getVar("PN", True)
-     bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR", True))
-diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
-index 2260046..b246c69 100644
---- a/meta/lib/oeqa/utils/__init__.py
-+++ b/meta/lib/oeqa/utils/__init__.py
-@@ -13,3 +13,20 @@ class CommandError(Exception):
-     def __str__(self):
-         return "Command '%s' returned non-zero exit status %d with output: %s" % (self.cmd, self.retcode, self.output)
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 3e2ea0f..cd1e7e0 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -21,6 +21,7 @@ import logging
+ import oeqa.runtime
+ import oeqa.sdkext
+ from oeqa.utils.decorators import LogResults, gettag, getResults
++from oeqa.utils import avoid_paths_in_environ
  
-+def avoid_paths_in_environ(paths_to_avoid):
-+    import os
+ logger = logging.getLogger("BitBake")
+ 
+@@ -128,7 +129,26 @@ class oeSDKTest(oeTest):
+         return subprocess.check_output(". %s > /dev/null; %s;" % (self.tc.sdkenv, cmd), shell=True)
+ 
+ class oeSDKExtTest(oeSDKTest):
+-    pass
++    def _run(self, cmd):
++        output = None
 +
-+    new_path = ''
-+    for p in os.environ['PATH'].split(':'):
-+       avoid = False
-+       for pa in paths_to_avoid:
-+           if pa in p:
-+              avoid = True
-+              break
-+       if avoid:
-+           continue
++        paths = os.environ['PATH']
 +
-+       new_path = new_path + p + ':'
++        # extensible sdk shows a warning if found bitbake in the path
++        # because can cause contamination, i.e. use devtool from
++        # poky/scripts instead of eSDK one.
++        paths_to_avoid = ['bitbake/bin', 'poky/scripts']
++        avoid_paths_in_environ(paths_to_avoid)
 +
-+    new_path = new_path[:-1]
-+    os.environ['PATH'] = new_path
++        try:
++            output = subprocess.check_output(". %s > /dev/null; %s;" % \
++                (self.tc.sdkenv, cmd), shell=True)
++        except:
++            os.environ['PATH'] = paths
++            raise
++
++        os.environ['PATH'] = paths
++        return output
+ 
+ def getmodule(pos=2):
+     # stack returns a list of tuples containg frame information
 -- 
 2.1.4
 
