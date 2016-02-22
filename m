@@ -1,45 +1,45 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id F04F873218
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A4895771E7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 21:19:50 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id 9so193640734iom.1
+	Mon, 22 Feb 2016 21:25:42 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id xg9so86281551igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 13:19:51 -0800 (PST)
+	Mon, 22 Feb 2016 13:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type:content-transfer-encoding;
-	bh=8n4tYNzCbE4JBrrxqlq/ux2tv7sH8jYegMcpWL7Bi4A=;
-	b=FB039F6darQTfb1IX+v7jiIUuwS3wfcX9puSoxOMtloi0U+3fZdYEt08DIAY9Nh6L1
-	+uypMTFxgZwysnwdn3hHZmP/Qn33dse4p/e4MRP4VsmsqIPGNCbRjGSxzQky+BnMCwK4
-	7ITZ13CSjdydQspmTi6GspyvfGeFe6LXMcnBDD8lCnPVtXWNWNKCThJVn/3DU/7AwRbe
-	daeMy36+wJAeZZfWaYyaSrymC3bGP30SMVklcBqBG9mKtK0iUr182cFv4he4Lw8asm7i
-	60ZNpKFLckgrPuf/iQWWq1lQu1hgTzH+glWPN//yDyjxHcvsmm8nW2Q7cgRXNbenizab
-	22HQ==
+	bh=5VqdX8EAkfFPVWTkNxgMEcupw1ptclF/6iYIrx2KJS4=;
+	b=GjigjVGNTrmW+7VdB+BI8f2x8noypxZbLD05eXVctGEWBLHe85Eyq5YgI4w3TksZ6r
+	mdaEH/M0SZNYeqic7zNk0zZVSaBJpJWTPr71CcOu3/Q8du8Mj7Jdrz57OGcW79co68mz
+	d2UM1KvVsBNQs5Vbj784fgYoblZozWoOsG81YVlw50AG/sYcgUq/JHrOdVWJczrqS6HE
+	ENzhJpQtqwRCB3TBV3EVqkcAn17Jw4Fu/v2RQASDtGUJptBB8FcKD7Hid2epFnVLiaK8
+	c4ILC6chfGvK77Pc6+8y0AAXk1hNm6zovQcTwLav3nhjSzzhxHyzFPr0Q51yu9hfJQh9
+	FNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type
 	:content-transfer-encoding;
-	bh=8n4tYNzCbE4JBrrxqlq/ux2tv7sH8jYegMcpWL7Bi4A=;
-	b=kQLtO3wYpEdPmBHn1HKQyRxiH7oE6PdlorTbX2oDIZn5eOl3wXODu186NWSTIJjGLp
-	fUMbY5nDctT3dAKqcvheu12/nnfabRd6unl4LkNsCeuQ5OQfJC6wGvnw8dr13lPDa7ku
-	c5SxNShDTSqBpxsbmlHHnmmnqAo9rT+I0dYIE6kbjZMxdNz3jHhQvfqQ2sZo86sch5T2
-	ric1qczo2gLIPRiS13pYOF/pwR1swCatKF/De61FJImuYmleUY6Ux6GV0HaIsojeTwbC
-	WxmN8VUoJZN2fO+tUH8n9toMjnzzR+mfjZELkM27Y+mS38ayBKC7PNfgHb0Rl8V/SIze
-	0lVA==
-X-Gm-Message-State: AG10YOQXNAt+PBaV5wLXnH2iOz6sOOddPFxWXvk3vWYPzl/gWwJxIr5lOUMg9M3a2Kq85asJMbNbGyuUIiETrQ==
+	bh=5VqdX8EAkfFPVWTkNxgMEcupw1ptclF/6iYIrx2KJS4=;
+	b=gx8HC2QM/4gDV53F7nYx4uPf4U3p8Vi2sRZnVYmeGTH+Di9a7LEgjcmlH7eVw1SRJs
+	otTcnqqPS3qxDBuQ8vB00bwU6fmHn/aOzhVHPq1yiyLTTkhkfSojOPZ+huJvIU3HR63b
+	ZSdTl8292PriJlyKy5uIFEu9Dt4vWwLHsV3NkZDi8uooU/qp9B3iLLl1yVWJPmt9+WpT
+	pPYHXJo7h0/mk6BUvv3DU30qhTlyO8lAO1y2X36mDuqyeqVCS7L1/7rXxOjxWwvwARkd
+	/2XF9DlhXayIaVrJ98wsMdFp9PX2XqXCzKmVx/EWQ6xQCiaZHYwgU0EMdaHbyw/P/vyL
+	WXqQ==
+X-Gm-Message-State: AG10YOS1RLD6J4Z37Pfa1aCaSjyUEM5lTDVbfdvy+1oSdvt+rboirKQw0XvU49abbWclYnW3k64qGca7yKlXrg==
 MIME-Version: 1.0
-X-Received: by 10.107.3.220 with SMTP id e89mr28587054ioi.99.1456175991499;
-	Mon, 22 Feb 2016 13:19:51 -0800 (PST)
-Received: by 10.36.25.81 with HTTP; Mon, 22 Feb 2016 13:19:51 -0800 (PST)
+X-Received: by 10.50.160.7 with SMTP id xg7mr12727677igb.64.1456176343552;
+	Mon, 22 Feb 2016 13:25:43 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Mon, 22 Feb 2016 13:25:43 -0800 (PST)
 In-Reply-To: <20160222211740.GG6329@jama>
 References: <CALbNGRTeReXBitXWMQJ=ZbY-C2wayOaJJdDA4KSxQcRv8Kpnkw@mail.gmail.com>
 	<20160222211740.GG6329@jama>
-Date: Mon, 22 Feb 2016 22:19:51 +0100
-Message-ID: <CALbNGRQSdagG5HZ7c5uxGLo5z64SrA4RRKW6gu62ypXuAxHXSA@mail.gmail.com>
+Date: Mon, 22 Feb 2016 22:25:43 +0100
+Message-ID: <CALbNGRR61E+cW7osn=5bfYVuZ90vah5sqK1A-=93AZ7SKMDC6Q@mail.gmail.com>
 From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
@@ -57,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 21:19:51 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 21:25:43 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -89,7 +89,7 @@ te:
 > e.g. incomplete flex-2.6.0.tar.bz2 tarball laying around in downloads
 > directory.
 >
-I did a -ccleanall and repeated -> same behaviour
+I don't see the SRC_URI hints with new checksums anymore.
 
 Andreas
 
