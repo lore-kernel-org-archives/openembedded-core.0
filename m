@@ -1,49 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A7D43771EE
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A08EA73218
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 21:16:48 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id g62so193349350wme.1
+	Mon, 22 Feb 2016 21:18:55 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id g203so191913393iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 13:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=XJjIpY7XV5hyBSyV77U88YL0HcQg3sEiFj9D23dubxs=;
-	b=bxlvFro4c1C4tsYn+VoC2tLQ3vuNoNOYZvGWkyJ3nDqyKcGVAAsKABGQ7VBOlKSB96
-	tnaRNxs+7FkRkzopxze1YfWsewT+chiwVzVC0lOgGXJi3jAfUObXiOOQYb1Ca2mLaH2r
-	M40FwT3QxO4mjJxL5/8fT67HV7Q6wg+Eq/mtMhrhscjqQPB/Sm/sjzrTv9LcCixA+Wkw
-	elu2tDqpPdxdFEq+i0dSzqoE6uRKw5cpDQRZfHpBnzoOlyqKjbFbEMq1jrt8LdPdT6MN
-	KEgEOampsUurzlbOCQtYvY38WJLEe9KSoWawz86c5rgqLoOOcKBSV1iqPkygLbmMboHK
-	i62g==
+	Mon, 22 Feb 2016 13:18:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=hwLW8KBj/UV4l+kPu0nUQGJWnjw6+cisR3lS9rZVFwk=;
+	b=YKVxd+P40bcU2MF6wAdj00tLqv0PXyEWnLlGPCjbBgMiJC2yQTKwcoTgwCtE0BSf1o
+	fdm0Tgukz0J83ivI01haBUI2CT7RtllytKypwbgyahDlgBKVTXjvEEGudrQGg4doVeZu
+	vauRRfjxs9SJzv2MxnYH4vHd8KyhGzBR6Uo2JqzCViSgXOWkCtVStkgoTA4QiohZ5Ko7
+	3Rfa4aiQ6Vq8Xjw3x9x1OUALYLxmoUNoAmdyjb5m6dG+0SS0qvok5Y3kVE7AdBnquULU
+	/FEvTtnPAwtiYj/hl8CEOBlUOSm729HHcABsieAXgxyVS9qAbhvg+mhZ0YpitpaAEXcA
+	xx0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=XJjIpY7XV5hyBSyV77U88YL0HcQg3sEiFj9D23dubxs=;
-	b=cMT8wmAW3G5VlJwpnwFn6a+UEHNnIHGaH3zuy3R8Ocr1G5DOfnxdJHluB9RmARhl1C
-	1uwUxYUyoytKAJDKQwV4HJjdMtzm72SOzwLckvM0XoiOFPTKb7HcUgbLmdggOL52/kU0
-	cCL5ipAnaDVQ7BQCJFpKxGolzmVjAL/9IH0t0R2mMI+9yYre7JsdIccDhZ7LxQKVtLvw
-	VZgSng6AyWkIjve7PUBf01GiY4CB7feSQUIRGlSdBCrPBWM4OQhcNX12FVHf7HM6J9uk
-	3tZ6cYZdMpH3eCclGI4ID/IzpHothUaNN+S2AawBUBWPHi+DRIaGPr1KmpzWmu/PPEzY
-	z95A==
-X-Gm-Message-State: AG10YOS8NlhNLa3HerF02nur/zx0ATCiVMC/ioAqEniYaV63lkL7NXT3IfncGljw9wEfhg==
-X-Received: by 10.28.218.145 with SMTP id r139mr15848464wmg.52.1456175808760; 
-	Mon, 22 Feb 2016 13:16:48 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	cb2sm26488845wjc.16.2016.02.22.13.16.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Feb 2016 13:16:47 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 22 Feb 2016 22:17:40 +0100
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-ID: <20160222211740.GG6329@jama>
-References: <CALbNGRTeReXBitXWMQJ=ZbY-C2wayOaJJdDA4KSxQcRv8Kpnkw@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=hwLW8KBj/UV4l+kPu0nUQGJWnjw6+cisR3lS9rZVFwk=;
+	b=jPo8OY/1LrqwQJZDzyh/VU0BalunhF/nN0hcSOdoVj0nuPTWqU9UtMTo1rsBWJ5VQT
+	O3FKD7J0T59Hit6lYYiDimNb2gvKBnQjp3ZIKz0MP11t8/MLZ6eGlJeQzES1v2g3OpxY
+	6t7j8s0JxzdFjUZ1IOP25wXt6WOIXAKVN4FvhXtxXjdzE9B+FYpRz09VLm+aLD02JGGE
+	+DDwcwINOcw/TiYAqK10hDiz29Zd/P1Dp4sYz4OhGgxJpzc9wR/Nhg/uDShBeR/7Df5C
+	5UA13oBuGivdu53X3AAwElohyNhb5aycmTiZrP1Lenao1OpNT9rgYkAB/BwZ9Q5Xrwls
+	5z0g==
+X-Gm-Message-State: AG10YOTEVeaUEHZTVKcqrEiAF30IgJRezKgcy1aL5A3GiWu/vYrt1M0KE0biByslYujD6W9Xro98veYY3Xx0nw==
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRTeReXBitXWMQJ=ZbY-C2wayOaJJdDA4KSxQcRv8Kpnkw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Received: by 10.107.164.15 with SMTP id n15mr27832099ioe.148.1456175936391; 
+	Mon, 22 Feb 2016 13:18:56 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Mon, 22 Feb 2016 13:18:56 -0800 (PST)
+In-Reply-To: <CAJTo0LaZajepL6zERZe792uJZzV2O=RO4J7X2WOAUhPDOASXgQ@mail.gmail.com>
+References: <CALbNGRTeReXBitXWMQJ=ZbY-C2wayOaJJdDA4KSxQcRv8Kpnkw@mail.gmail.com>
+	<CAJTo0LaZajepL6zERZe792uJZzV2O=RO4J7X2WOAUhPDOASXgQ@mail.gmail.com>
+Date: Mon, 22 Feb 2016 22:18:56 +0100
+Message-ID: <CALbNGRSqfZdWsUYwDeoyFv020ppDpMnatT9AcT8jHYU8K7_kjA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Fetcher broken?
@@ -59,56 +57,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 21:16:49 -0000
-X-Groupsio-MsgNum: 78502
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2NLGdgz3UMHa/lqP"
-Content-Disposition: inline
-
---2NLGdgz3UMHa/lqP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 Feb 2016 21:18:56 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 22, 2016 at 10:06:10PM +0100, Andreas M=FCller wrote:
-> Hi,
->=20
-> after all these scary changes in master oe-core I wanted to see what's
-> left over working since jethro for my images.
->=20
-> On thing noticed immediately: I see
->=20
-> WARNING: flex-native-2.6.0-r0 do_fetch: Checksum failure encountered
-> with download of
-> http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2 - will
-> attempt other sources if available
-> WARNING: flex-native-2.6.0-r0 do_fetch: Renaming
-> /home/superandy/data/download/flex-2.6.0.tar.bz2 to
-> /home/superandy/data/download/flex-2.6.0.tar.bz2_bad-checksum_0103b909e19=
-ca9c6497a7ae696c16480
->=20
-> but flex-native is build happily. Same for freetype-2.6.3. Are the
-> messages wrong positives or does oe build sources with wrong
-> checksums?
+On Mon, Feb 22, 2016 at 10:13 PM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
+>
+> On 22 February 2016 at 21:06, Andreas M=C3=BCller <schnitzeltony@googlema=
+il.com>
+> wrote:
+>>
+>> after all these scary changes in master oe-core I wanted to see what's
+>> left over working since jethro for my images.
+>>
+>> On thing noticed immediately: I see
+>>
+>> WARNING: flex-native-2.6.0-r0 do_fetch: Checksum failure encountered
+>> with download of
+>> http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2 - will
+>> attempt other sources if available
+>> WARNING: flex-native-2.6.0-r0 do_fetch: Renaming
+>> /home/superandy/data/download/flex-2.6.0.tar.bz2 to
+>>
+>> /home/superandy/data/download/flex-2.6.0.tar.bz2_bad-checksum_0103b909e1=
+9ca9c6497a7ae696c16480
+>
+>
+> Well jethro only has flex 2.5.39, so where is this flex-2.6.0 recipe comi=
+ng
+> from?
+>
+Sorry - I was unprecise: I set all layers/bitbake (except meta-qt5) to
+master to give it a try.
 
-Did the following re-try download it with different (correct)
-checksum? Then it would be correct behavior if you had some
-e.g. incomplete flex-2.6.0.tar.bz2 tarball laying around in downloads
-directory.
+Andreas
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---2NLGdgz3UMHa/lqP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlbLevQACgkQN1Ujt2V2gBwtCQCfUyVIcaJWyYwOiNvGgqDy2fAI
-ciQAoI4gJ4eMLgiRc8Zs/RkVFCD0em1q
-=pmRy
------END PGP SIGNATURE-----
-
---2NLGdgz3UMHa/lqP--
