@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 03213771CE
+	by mail.openembedded.org (Postfix) with ESMTP id 9AD0B771CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 18:29:29 +0000 (UTC)
+	Mon, 22 Feb 2016 18:29:28 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 10:29:21 -0800
+	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 10:29:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="657283093"
+X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="657283088"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.35])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 10:29:20 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 10:29:18 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 12:31:33 -0600
-Message-Id: <d796f5aefb56881a5d27585ff83474d4656c5581.1456165797.git.anibal.limon@linux.intel.com>
+Date: Mon, 22 Feb 2016 12:31:31 -0600
+Message-Id: <c13d78521086cbc445617508eaabdc01de8f25d5.1456165797.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1456165797.git.anibal.limon@linux.intel.com>
 References: <cover.1456165797.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1456165797.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCHv2 4/4] oeqa/sdkext: Add sdk_update.SDKUpdateTest class.
+Subject: [PATCHv2 2/4] classes/testsdk: Move the removal of bitbake PATH to eSDK context only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,71 +40,68 @@ Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-The SDKUpdateTest class test devtool sdk-update mechanism inside
-eSDK.
+The removal of bitbake and scripts PATH is only needed by eSDK tests
+so move to eSDK context only.
 
-The SDKUpdateTest class search for new sdk if not found uses
-the main one then it publish the eSDK into known folder
-inside work and it starts a web server for serve the eSDK.
-
-Finally it executes sdk-update over http, the local test is
-commented due to bug [1].
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9043
-
-[YOCTO #9089]
+This also it's a support for eSDK update test because it needs to
+execute oe-publish-sdk from scripts.
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/lib/oeqa/sdkext/sdk_update.py | 39 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 meta/lib/oeqa/sdkext/sdk_update.py
+ meta/classes/testsdk.bbclass |  9 ++++-----
+ meta/lib/oeqa/oetest.py      | 12 +++++++++++-
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdkext/sdk_update.py b/meta/lib/oeqa/sdkext/sdk_update.py
-new file mode 100644
-index 0000000..16f5b10
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/sdk_update.py
-@@ -0,0 +1,39 @@
-+import os
-+import shutil
-+import subprocess
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 41e03d6..157077e 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -96,11 +96,10 @@ def testsdkext_main(d):
+     # extensible sdk use network
+     export_proxies(d)
+ 
+-    # extensible sdk shows a warning if found bitbake in the path
+-    # because can cause problems so clean it
+-    paths_to_avoid = ['bitbake/bin', 'poky/scripts',
+-                       d.getVar('STAGING_DIR', True),
+-                       d.getVar('BASE_WORKDIR', True)]
++    # extensible sdk can be contaminated if native programs are
++    # in PATH, i.e. use perl-native instead of eSDK one.
++    paths_to_avoid = [d.getVar('STAGING_DIR', True),
++                      d.getVar('BASE_WORKDIR', True)]
+     os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
+ 
+     pn = d.getVar("PN", True)
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 3e2ea0f..3809ed7 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -21,6 +21,7 @@ import logging
+ import oeqa.runtime
+ import oeqa.sdkext
+ from oeqa.utils.decorators import LogResults, gettag, getResults
++from oeqa.utils import avoid_paths_in_environ
+ 
+ logger = logging.getLogger("BitBake")
+ 
+@@ -128,7 +129,16 @@ class oeSDKTest(oeTest):
+         return subprocess.check_output(". %s > /dev/null; %s;" % (self.tc.sdkenv, cmd), shell=True)
+ 
+ class oeSDKExtTest(oeSDKTest):
+-    pass
++    def _run(self, cmd):
++        # extensible sdk shows a warning if found bitbake in the path
++        # because can cause contamination, i.e. use devtool from
++        # poky/scripts instead of eSDK one.
++        env = os.environ.copy()
++        paths_to_avoid = ['bitbake/bin', 'poky/scripts']
++        env['PATH'] = avoid_paths_in_environ(paths_to_avoid)
 +
-+from oeqa.oetest import oeSDKExtTest
-+from oeqa.utils.httpserver import HTTPService
-+
-+class SdkUpdateTest(oeSDKExtTest):
-+
-+    @classmethod
-+    def setUpClass(self):
-+        self.publish_dir = os.path.join(self.tc.sdktestdir, 'esdk_publish')
-+        if os.path.exists(self.publish_dir):
-+            shutil.rmtree(self.publish_dir)
-+        os.mkdir(self.publish_dir)
-+
-+        tcname_new = self.tc.d.expand(
-+            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
-+        if not os.path.exists(tcname_new):
-+            tcname_new = self.tc.tcname
-+
-+        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
-+        subprocess.check_output(cmd, shell=True)
-+
-+        self.http_service = HTTPService(self.publish_dir)
-+        self.http_service.start()
-+
-+        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
-+
-+    def test_sdk_update_http(self):
-+        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
-+
-+#    def test_sdk_update_local(self):
-+#        output = self._run("devtool sdk-update \"%s\"" % self.publish_dir)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        self.http_service.stop()
-+        shutil.rmtree(self.publish_dir)
++        return subprocess.check_output(". %s > /dev/null;"\
++            " %s;" % (self.tc.sdkenv, cmd), shell=True, env=env)
+ 
+ def getmodule(pos=2):
+     # stack returns a list of tuples containg frame information
 -- 
 2.1.4
 
