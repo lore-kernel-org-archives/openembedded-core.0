@@ -1,29 +1,55 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3CE771CB
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB93771CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 16:36:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 08:36:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="891847121"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.163]) ([10.7.199.163])
-	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2016 08:36:41 -0800
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1456153260.git.anibal.limon@linux.intel.com>
-	<64384d8bd09f15c666f133893c3beb96e66af51d.1456153260.git.anibal.limon@linux.intel.com>
-	<56CB34E8.6060203@linux.intel.com> <56CB36C3.2080609@linux.intel.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <56CB3918.7060503@linux.intel.com>
-Date: Mon, 22 Feb 2016 08:36:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
+	Mon, 22 Feb 2016 16:37:08 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id b205so163519783wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Feb 2016 08:37:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=KBj18jf/vnFeTz5MuAPOMkKaxohZSiuPWhcrr9HcGfI=;
+	b=bgaGhvCWlF/+yTBwuGoisu3a65EnNAiD2/+nfJUzplLcoHXGhvCWOVMqOjjdpQsgk5
+	1Mq4kBlmExiPTB3yEm+dQe6Iw4sMSvgWHGwSit+rnQXiDp+GQ4/MsF5GLC4oTVK3BK8u
+	jhvJ5nmJVhxLBpSeZGKI9ayHY9Bi7b9QoddDwRDDSzskICDbM6i6GfxCoC5MxU+a/S/Y
+	XpiO0Ln9vQpmib6U9qYjHAUqeUthtyt4yJLP4uTEHOv+fZJAPOpv4WlW+++soYsuev6v
+	MV9BCAWaj/07U4uG4R9J2/ebCdQFpofr47P7/IZMUILywtHugngibGih61wlU2BVZqSc
+	0bNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=KBj18jf/vnFeTz5MuAPOMkKaxohZSiuPWhcrr9HcGfI=;
+	b=k/7/v1meizkm/p1nLcYrDG0SyZZ8Hbhvsdr843EkEf/o/t+XYD2pp5XZk9H8y8nq4x
+	345PnBiOSRptsoBxisKI88NWuiZX4nWQy8CYVx2xXmhtNS8K2OP/XjbtYufX7o9535k8
+	ptoeZRrv/4GgIBsJYHvQF6onWvIQnZx+IYLPuywlH7O3lljDmvRRp3CA3Uvy7OwldsCj
+	KuVfVTWlvTpl87/ZCXl42QiBQ/nnVTskR4uIfcBL2kMmkAWdqJVQxujbPn9XEa6yJCal
+	sI+uiuS5aPyOWA3X58D3ur4/rGQaJ9O+0m2o9eYGHAjFJzQkXzlb4ldQsHGmjwvC66YV
+	I48w==
+X-Gm-Message-State: AG10YOSeLsJ02dL/gjYHU8Jqqk9MkvWMbvy9Jmrk2Ov48rffBvhfBUj2uZVI8ObmCUQrIw==
+X-Received: by 10.28.23.75 with SMTP id 72mr13977993wmx.50.1456159029452;
+	Mon, 22 Feb 2016 08:37:09 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	v2sm21896127wmd.24.2016.02.22.08.37.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 22 Feb 2016 08:37:08 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 22 Feb 2016 17:38:01 +0100
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20160222163801.GF6329@jama>
+References: <cover.1455955403.git.raj.khem@gmail.com>
+	<f444175f17a8fd5aea09aad8674c7b26d2ee6fd5.1455955403.git.raj.khem@gmail.com>
+	<20160222154912.GD6329@jama>
+	<CAMKF1srkT1+nYhnjdtC15DyfWN-RRrjNbd0k1_gu578kg0XA1g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <56CB36C3.2080609@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com,
-	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 4/4] oeqa/sdkext: Add sdk_update.SDKUpdateTest class.
+In-Reply-To: <CAMKF1srkT1+nYhnjdtC15DyfWN-RRrjNbd0k1_gu578kg0XA1g@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: Upgrade to 2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,124 +62,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 16:36:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Feb 2016 16:37:09 -0000
+X-Groupsio-MsgNum: 78485
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WlEyl6ow+jlIgNUh"
+Content-Disposition: inline
 
-On 02/22/2016 08:26 AM, Aníbal Limón wrote:
->
->
-> On 02/22/2016 10:18 AM, Randy Witt wrote:
->> On 02/22/2016 07:03 AM, Aníbal Limón wrote:
->>> From: Aníbal Limón <limon.anibal@gmail.com>
->>>
->>> The SDKUpdateTest class test devtool sdk-update mechanism inside
->>> eSDK.
->>>
->>> The SDKUpdateTest class search for new sdk if not found uses
->>> the main one then it publish the eSDK into known folder
->>> inside work and it starts a web server for serve the eSDK.
->>>
->>> Finally it executes sdk-update over http, the local test is
->>> commented due to bug [1].
->>>
->>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9043
->>>
->>> [YOCTO #9089]
->>>
->>> Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
->>> ---
->>>    meta/lib/oeqa/sdkext/sdk_update.py | 39
->>> ++++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 39 insertions(+)
->>>    create mode 100644 meta/lib/oeqa/sdkext/sdk_update.py
->>>
->>> diff --git a/meta/lib/oeqa/sdkext/sdk_update.py
->>> b/meta/lib/oeqa/sdkext/sdk_update.py
->>> new file mode 100644
->>> index 0000000..16f5b10
->>> --- /dev/null
->>> +++ b/meta/lib/oeqa/sdkext/sdk_update.py
->>> @@ -0,0 +1,39 @@
->>> +import os
->>> +import shutil
->>> +import subprocess
->>> +
->>> +from oeqa.oetest import oeSDKExtTest
->>> +from oeqa.utils.httpserver import HTTPService
->>> +
->>> +class SdkUpdateTest(oeSDKExtTest):
->>> +
->>> +    @classmethod
->>> +    def setUpClass(self):
->>> +        self.publish_dir = os.path.join(self.tc.sdktestdir,
->>> 'esdk_publish')
->>> +        if os.path.exists(self.publish_dir):
->>> +            shutil.rmtree(self.publish_dir)
->>> +        os.mkdir(self.publish_dir)
->>> +
->>> +        tcname_new = self.tc.d.expand(
->>> +            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
->>> +        if not os.path.exists(tcname_new):
->>> +            tcname_new = self.tc.tcname
->>> +
->>> +        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
->>> +        subprocess.check_output(cmd, shell=True)
->>> +
->>> +        self.http_service = HTTPService(self.publish_dir)
->>> +        self.http_service.start()
->>
->> I think Paul and I briefly mentioned it, but SimpleHTTPServer fails as
->> an sstate mirror if enough fetchers run. We think it was because of a
->> limit on the number of simultaneous connections. So I would expect this
->> to fail for instance if all packages were updated.
->
-> I tested running an update and didn't fail this implementation of
-> oeqa.utils open another process with multiprocessing for serve http only.
+--WlEyl6ow+jlIgNUh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My suspicion is because nothing actually updated. And even if something updated, 
-unless you hit the max connection limit when pulling from sstate_mirror it would 
-be fine.
+On Mon, Feb 22, 2016 at 08:19:08AM -0800, Khem Raj wrote:
+> Can you clone it outside oe
 
->>
->> But really we shouldn't care too much about the sstate updating part,
->> and more about the layer updating etc. Ideally this test would check to
->> make sure the local sdk now matches the remote.
->
-> I could add a test for the output that i saw displays "Already updated"
-> or what you mean about match?
+Yes, (at least now)
 
-devtool sdk-update will check the remote conf/sdk-conf-manifest to see if any 
-configuration changed. So for instance the creator of the sdk could add new 
-configuration variables, or even items to bblayers.conf.
+> On Feb 22, 2016 7:48 AM, "Martin Jansa" <martin.jansa@gmail.com> wrote:
+>=20
+> > On Sat, Feb 20, 2016 at 08:07:25AM +0000, Khem Raj wrote:
+> > > Drop kconfig and options-group support
+> > > Forward port cross-localedef support
+> > > Assume ssp support in libc when building gcc-initial
+> >
+> > Unfortunately sourceware git doesn't like us, glibc is failing to fetch=
+ :/
+> >
+> > ERROR: glibc-initial-2.23-r0 do_fetch: Fetcher failure: Fetch command
+> > failed with exit code 128, output:
+> > fatal: read error: Connection reset by peer
+> >
+> > ERROR: glibc-initial-2.23-r0 do_fetch: Function failed: Fetcher failure
+> > for URL:
+> > 'git://sourceware.org/git/glibc.git;branch=3Drelease/2.23/master;name=
+=3Dglibc
+> > '.
+> > Unable to fetch URL from any source.
+> > ERROR: Logfile of failure stored in:
+> >
+> > /home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5e-oe-linux-gnueabi/=
+glibc-initial/2.23-r0/temp/log.do_fetch.31233
+> > NOTE: recipe glibc-initial-2.23-r0: task do_fetch: Failed
+> >
 
-If the sdk-conf-manifest is changed, the updater should pull down the new layer 
-by pulling(cloning if that fails) layers/.git on the remote and moving the 
-layers to the appropriate local location. It should also update the local 
-configuration to match what is on the remote.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-So if you get "Already up-to-date" nothing changed and nothing was updated. To 
-test the updating, we need to make sure the configuration actually changes, and 
-potentially even add another layer, then update, and then make sure the local 
-sdk matches what we think it should based on the remote sdk we published.
+--WlEyl6ow+jlIgNUh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->
->>
->>> +        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
->>> +
->>> +    def test_sdk_update_http(self):
->>> +        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
->>> +
->>> +#    def test_sdk_update_local(self):
->>> +#        output = self._run("devtool sdk-update \"%s\"" %
->>> self.publish_dir)
->>> +
->>> +    @classmethod
->>> +    def tearDownClass(self):
->>> +        self.http_service.stop()
->>> +        shutil.rmtree(self.publish_dir)
->>>
->>
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlbLOWgACgkQN1Ujt2V2gBxAwQCglG/Zg4nKA1Iw/jBbpttGgBtz
+zPMAoK5w3uY50bKZ5rzAciXg48KK7/Ja
+=AEPM
+-----END PGP SIGNATURE-----
 
+--WlEyl6ow+jlIgNUh--
