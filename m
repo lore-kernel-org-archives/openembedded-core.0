@@ -1,31 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 798D8770DE
+	by mail.openembedded.org (Postfix) with ESMTP id 0B39675D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 05:43:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1M5hk1e026206
+	Mon, 22 Feb 2016 06:44:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1M6ioa7026607
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 21 Feb 2016 21:43:46 -0800 (PST)
-Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 21 Feb 2016 21:43:45 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Joshua Lock
-	<joshua.g.lock@linux.intel.com>
-References: <cover.1447412835.git.hongxu.jia@windriver.com>
-	<CAHiDW_HddeP2fLOCBWSG7=cfS0Zuaoh0gnW3nBpLTtjH62huRA@mail.gmail.com>
-	<5645D501.6020802@windriver.com>
-	<7548678.UPkFnu4iOC@peggleto-mobl.ger.corp.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <56CAA00F.6040902@windriver.com>
-Date: Mon, 22 Feb 2016 13:43:43 +0800
+	Sun, 21 Feb 2016 22:44:50 -0800 (PST)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 21 Feb 2016 22:44:49 -0800
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1454088695.git.hongxu.jia@windriver.com>
+	<bb6291a740fc7e41120072e45fc2c5d8d93a0b5f.1454088695.git.hongxu.jia@windriver.com>
+	<20160220130014.GA2589@jama>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56CAAE59.5030905@windriver.com>
+Date: Mon, 22 Feb 2016 14:44:41 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <7548678.UPkFnu4iOC@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <20160220130014.GA2589@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] wpa-supplicant: Fix CVE-2015-8041
+Subject: Re: [PATCH 2/5] gcc-5.3.inc/base.bbclass: add gcc option to not record -fdebug-prefix-map to debugging info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,195 +36,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 05:43:52 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 06:44:52 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 02/20/2016 09:00 PM, Martin Jansa wrote:
+> On Fri, Jan 29, 2016 at 12:35:55PM -0500, Hongxu Jia wrote:
+>> Add option '-gno-record-debug-prefix-map' and '-grecord-debug-prefix-map'
+>> for gcc. If '-gno-record-debug-prefix-map' is used, it does not record
+>> '-fdebug-prefix-map' to gcc command line switches in DWARF DW_AT_producer.
+> Did you check sstate signatures with these debug-prefix-map changes? It seems to cause
+> everything to be MACHINE specific:
 
-On 02/22/2016 12:15 PM, Paul Eggleton wrote:
-> Hi Robert,
->
-> I just noticed this never got merged into jethro. Could you take care of that?
-> The original patch is here:
+Hi Martin,
 
-Got it, thanks.
+Could you explain your test details?
 
-// Robert
+ From your log, it seems the MACHINE was changed from "qemux86" to 
+"qemux86copy".
+So I run test 'oe-selftest --run-tests 
+sstatetests.SStateTests.test_sstate_sametune_samesigs'
+and it is OK.
 
+Here is the merged patch:
+...
+-DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
++DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types \
++                -fdebug-prefix-map=${B}=/usr/src/${BPN} \
++                -fdebug-prefix-map=${S}=/usr/src/${BPN} \
++                -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
++                -fdebug-prefix-map=${STAGING_DIR_HOST}= \
++"
+...
+
+//Hongxu
+
+
+> ERROR: libgcc-initial different signature for task do_populate_sysroot.sigdata between qemux86 and qemux86copy
+> basehash changed from 03ccc547064deba9b8e2e290a6be9480 to 6f7eff2e90f301e995298fee2c47b844
+> Variable FULL_OPTIMIZATION value changed from '-O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=TOPDIR/work/i586-webos-linux/libgcc-initial/5.3.0-r0/gcc-5.3.0/build.i586-webos-linux.i586-webos-linux=/usr/src/libgcc> -fdebug-prefix-map=TOPDIR/work-shared/gcc-5.3.0-r0/gcc-5.3.0=/usr/src/libgcc> -fdebug-prefix-map=TOPDIR/sysroots/x86_64-linux=> -fdebug-prefix-map=TOPDIR/sysroots/qemux86=> ' to '-O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=TOPDIR/work/i586-webos-linux/libgcc-initial/5.3.0-r0/gcc-5.3.0/build.i586-webos-linux.i586-webos-linux=/usr/src/libgcc> -fdebug-prefix-map=TOPDIR/work-shared/gcc-5.3.0-r0/gcc-5.3.0=/usr/src/libgcc> -fdebug-prefix-map=TOPDIR/sysroots/x86_64-linux=> -fdebug-prefix-map=TOPDIR/sysroots/qemux86copy=> '
+> runtaskdeps changed from ['gcclibgcc-initial_5.3.bb.do_extra_symlinks', 'gcclibgcc-initial_5.3.bb.do_install', 'gcclibgcc-initial_5.3.bb.do_multilib_install'] to ['gcclibgcc-initial_5.3.bb.do_extra_symlinks', 'gcclibgcc-initial_5.3.bb.do_install', 'gcclibgcc-initial_5.3.bb.do_multilib_install']
+> oe-core/meta/recipes-devtools/gcc/libgcc-initial_5.3.bb.do_extra_symlinks> with hash 0bdaebf5e23c90af7cea65f28a12c789
+>   changed to
+> oe-core/meta/recipes-devtools/gcc/libgcc-initial_5.3.bb.do_extra_symlinks> with hash 2d1b031bbd46bc8c7401d37bd1edb7cc
+> oe-core/meta/recipes-devtools/gcc/libgcc-initial_5.3.bb.do_install> with hash b6f705a4bd3535b606e8214c5640933a
+>   changed to
+> oe-core/meta/recipes-devtools/gcc/libgcc-initial_5.3.bb.do_install> with hash da4e294376b70f951ca4af508fdc6a60
+> oe-core/meta/recipes-devtools/gcc/libgcc-initial_5.3.bb.do_multilib_install> with hash 8473bfa83cba1ee93191182b9fd239d7
+>   changed to
+> oe-core/meta/recipes-devtools/gcc/libgcc-initial_5.3.bb.do_multilib_install> with hash fcad4f5f4d7da576b7c2add3eb24fcc8
+> Hash for dependent task gcclibgcc-initial_5.3.bb.do_extra_symlinks changed from 0bdaebf5e23c90af7cea65f28a12c789 to 2d1b031bbd46bc8c7401d37bd1edb7cc
+> Hash for dependent task gcclibgcc-initial_5.3.bb.do_install changed from b6f705a4bd3535b606e8214c5640933a to da4e294376b70f951ca4af508fdc6a60
+> Hash for dependent task gcclibgcc-initial_5.3.bb.do_multilib_install changed from 8473bfa83cba1ee93191182b9fd239d7 to fcad4f5f4d7da576b7c2add3eb24fcc8
 >
-> http://patchwork.openembedded.org/patch/107625/
+> Regards,
 >
-> Joshua, looks like we could use this one in fido as well.
 >
-> Thanks,
-> Paul
->
-> On Fri, 13 Nov 2015 20:18:09 Hongxu Jia wrote:
->> On 11/13/2015 08:11 PM, Jussi Kukkonen wrote:
->>> On 13 November 2015 at 13:08, Hongxu Jia <hongxu.jia@windriver.com
->>>
->>> <mailto:hongxu.jia@windriver.com>> wrote:
->>>      Backport patch from http://w1.fi/security/2015-5/
->>>      and rebase for wpa-supplicant 2.4
->>>
->>> There's a thread about upgrading master to 2.5 (which should fix this)
->>> already.
->>> The patch probably still makes sense for jethro though.
+>> The patch could make sure the debugging informaion does not has TMPDIR
+>> and also leaves gcc switches in.
 >>
->> Yes, you are right, the 2.5 don't need this, it makes sense for jethro.
+>> Compile without this fix:
+>> objdump -g packages-split/lib32-glibc-dev/usr/lib/gcrt1.o
+>> ...
+>> |    <5f>   DW_AT_producer    : (indirect string, offset: 0x1b): GNU C99 5.3.0
+>> -m32-march=core2 -mtune=core2 -msse3 -mfpmath=sse -mpreferred-stack-boundary=4
+>> -g -O2 -std=gnu99 -fgnu89-inline -fdebug-prefix-map=/buildarea/raid0/hjia/buil
+>> d-20160127-yocto-buildpath-2/tmp/sysroots/lib32-qemux86-64=
+>> -feliminate-unused-debug-types -fmerge-all-constants -frounding-math
+>> -ftls-model=initial-exec
+>> ...
 >>
->> //Hongxu
+>> Compile with this fix:
+>> objdump -g packages-split/lib32-glibc-dev/usr/lib/gcrt1.o
+>> ...
+>> |    <5f>   DW_AT_producer    : (indirect string, offset: 0xa1): GNU C99 5.3.0
+>> -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -mpreferred-stack-boundary=4
+>> -g -O2 -std=gnu99 -fgnu89-inline -feliminate-unused-debug-types -fmerge-all-constants
+>> -frounding-math -ftls-model=initial-exec
+>> ...
 >>
->>>   - Jussi
->>>
->>>      Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
->>>      <mailto:hongxu.jia@windriver.com>>
->>>      ---
->>>
->>>       ...load-length-validation-in-NDEF-record-par.patch | 64
->>>
->>>      ++++++++++++++++++++++
->>>
->>>       .../wpa-supplicant/wpa-supplicant_2.4.bb
->>>
->>>      <http://wpa-supplicant_2.4.bb>           | 1 +
->>>
->>>       2 files changed, 65 insertions(+)
->>>       create mode 100644
->>>
->>>      meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix-p
->>>      ayload-length-validation-in-NDEF-record-par.patch
->>>
->>>      diff --git
->>>      a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix
->>>      -payload-length-validation-in-NDEF-record-par.patch
->>>      b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fi
->>>      x-payload-length-validation-in-NDEF-record-par.patch new file mode
->>>      100644
->>>      index 0000000..bc1d1e5
->>>      --- /dev/null
->>>      +++
->>>      b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix
->>>      -payload-length-validation-in-NDEF-record-par.patch @@ -0,0 +1,64 @@
->>>      +From c13401c723a039971bcd91b3856d76c6041b15f2 Mon Sep 17 00:00:00
->>>      2001
->>>      +From: Jouni Malinen <j@w1.fi <mailto:j@w1.fi>>
->>>      +Date: Fri, 13 Nov 2015 05:54:18 -0500
->>>      +Subject: [PATCH] NFC: Fix payload length validation in NDEF
->>>      record parser
->>>      +
->>>      +It was possible for the 32-bit record->total_length value to end up
->>>      +wrapping around due to integer overflow if the longer form of payload
->>>      +length field is used and record->payload_length gets a value close to
->>>      +2^32. This could result in ndef_parse_record() accepting a too large
->>>      +payload length value and the record type filter reading up to
->>>      about 20
->>>      +bytes beyond the end of the buffer and potentially killing the
->>>      process.
->>>      +This could also result in an attempt to allocate close to 2^32
->>>      bytes of
->>>      +heap memory and if that were to succeed, a buffer read overflow
->>>      of the
->>>      +same length which would most likely result in the process
->>>      termination.
->>>      +In case of record->total_length ending up getting the value 0, there
->>>      +would be no buffer read overflow, but record parsing would result
->>>      in an
->>>      +infinite loop in ndef_parse_records().
->>>      +
->>>      +Any of these error cases could potentially be used for denial of
->>>      service
->>>      +attacks over NFC by using a malformed NDEF record on an NFC Tag or
->>>      +sending them during NFC connection handover if the application
->>>      providing
->>>      +the NDEF message to hostapd/wpa_supplicant did no validation of the
->>>      +received records. While such validation is likely done in the NFC
->>>      stack
->>>      +that needs to parse the NFC messages before further processing,
->>>      +hostapd/wpa_supplicant better be prepared for any data being included
->>>      +here.
->>>      +
->>>      +Fix this by validating record->payload_length value in a way that
->>>      +detects integer overflow. (CID 122668)
->>>      +
->>>      +Signed-off-by: Jouni Malinen <j@w1.fi <mailto:j@w1.fi>>
->>>      +
->>>      +Upstream-Status: Backport [from http://w1.fi/security/2015-5/]
->>>      +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
->>>      <mailto:hongxu.jia@windriver.com>>
->>>      +---
->>>      + src/wps/ndef.c | 5 ++++-
->>>      + 1 file changed, 4 insertions(+), 1 deletion(-)
->>>      +
->>>      +diff --git a/src/wps/ndef.c b/src/wps/ndef.c
->>>      +index d45dfc8..f7f729b 100644
->>>      +--- a/src/wps/ndef.c
->>>      ++++ b/src/wps/ndef.c
->>>      +@@ -48,6 +48,8 @@ static int ndef_parse_record(const u8 *data,
->>>      u32 size,
->>>      +               if (size < 6)
->>>      +                       return -1;
->>>      +               record->payload_length = ntohl(*(u32 *)pos);
->>>      ++                if (record->payload_length > size - 6)
->>>      ++                       return -1;
->>>      +               pos += sizeof(u32);
->>>      +       }
->>>      +
->>>      +@@ -68,7 +70,8 @@ static int ndef_parse_record(const u8 *data,
->>>      u32 size,
->>>      +       pos += record->payload_length;
->>>      +
->>>      +       record->total_length = pos - data;
->>>      +-      if (record->total_length > size)
->>>      ++      if (record->total_length > size ||
->>>      ++          record->total_length < record->payload_length)
->>>      +               return -1;
->>>      +       return 0;
->>>      + }
->>>      +--
->>>      +1.9.1
->>>      +
->>>      diff --git
->>>      a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
->>>      <http://wpa-supplicant_2.4.bb>
->>>      b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
->>>      <http://wpa-supplicant_2.4.bb>
->>>      index a124cf2..6e4d028 100644
->>>      ---
->>>      a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
->>>      <http://wpa-supplicant_2.4.bb>
->>>      +++
->>>      b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
->>>      <http://wpa-supplicant_2.4.bb>
->>>      @@ -32,6 +32,7 @@ SRC_URI =
->>>      "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz
->>>      <http://hostap.epitest.fi/releases/wpa_supplicant-$%7BPV%7D.tar.gz> \
->>>      file://0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch
->>>      \
->>>      file://0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch
->>>      \
->>>      file://0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch \
->>>      +
->>>
->>>       file://0001-NFC-Fix-payload-length-validation-in-NDEF-record-par.patc
->>>       h
->>>
->>>      \
->>>
->>>                 "
->>>
->>>       SRC_URI[md5sum] = "f0037dbe03897dcaf2ad2722e659095d"
->>>       SRC_URI[sha256sum] =
->>>
->>>      "058dc832c096139a059e6df814080f50251a8d313c21b13364c54a1e70109122"
->>>      --
->>>      1.9.1
->>>
->>>      --
->>>      _______________________________________________
->>>      Openembedded-core mailing list
->>>      Openembedded-core@lists.openembedded.org
->>>      <mailto:Openembedded-core@lists.openembedded.org>
->>>      http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>> [YOCTO #7058]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/conf/bitbake.conf                             |  1 +
+>>   meta/recipes-devtools/gcc/gcc-5.3.inc              |  3 +-
+>>   ...48-add-option-gno-record-debug-prefix-map.patch | 65 ++++++++++++++++++++++
+>>   3 files changed, 68 insertions(+), 1 deletion(-)
+>>   create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0048-add-option-gno-record-debug-prefix-map.patch
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index bebaaf4..e2e55e8 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -552,6 +552,7 @@ DEBUG_FLAGS ?= "-g \
+>>       -fdebug-prefix-map=${S}=/usr/src/${BPN} \
+>>       -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+>>       -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+>> +    -gno-record-debug-prefix-map \
+>>   "
+>>   
+>>   # Disabled until the option works properly -feliminate-dwarf2-dups
+>> diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+>> index 80999c1..3a36e50 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-5.3.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+>> @@ -76,7 +76,8 @@ SRC_URI = "\
+>>              file://0044-Adding-mmusl-as-a-musl-libc-specifier-and-the-necess.patch \
+>>              file://0045-Support-for-arm-linux-musl.patch \
+>>              file://0046-Get-rid-of-ever-broken-fixincludes-on-musl.patch \
+>> -	   file://0047-Fix-nios2-musl-build.patch \
+>> +           file://0047-Fix-nios2-musl-build.patch \
+>> +           file://0048-add-option-gno-record-debug-prefix-map.patch \
+>>             "
+>>   
+>>   BACKPORTS = ""
+>> diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0048-add-option-gno-record-debug-prefix-map.patch b/meta/recipes-devtools/gcc/gcc-5.3/0048-add-option-gno-record-debug-prefix-map.patch
+>> new file mode 100644
+>> index 0000000..e1efaeb
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/gcc/gcc-5.3/0048-add-option-gno-record-debug-prefix-map.patch
+>> @@ -0,0 +1,65 @@
+>> +From f1c5f8e9b568122c9a5afd323fd6d76250b83c94 Mon Sep 17 00:00:00 2001
+>> +From: Hongxu Jia <hongxu.jia@windriver.com>
+>> +Date: Thu, 28 Jan 2016 15:25:23 +0800
+>> +Subject: [PATCH] add option gno-record-debug-prefix-map
+>> +
+>> +If option gno-record-debug-prefix-map used, it does not
+>> +record -fdebug-prefix-map to gcc command line switches
+>> +in DWARF DW_AT_producer.
+>> +
+>> +Upstream-Status: Inappropriate [oe specific]
+>> +
+>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> +---
+>> + gcc/common.opt  | 8 ++++++++
+>> + gcc/dwarf2out.c | 8 ++++++++
+>> + 2 files changed, 16 insertions(+)
+>> +
+>> +diff --git a/gcc/common.opt b/gcc/common.opt
+>> +index 0c4f86b..e4c6bd6 100644
+>> +--- a/gcc/common.opt
+>> ++++ b/gcc/common.opt
+>> +@@ -2516,6 +2516,14 @@ grecord-gcc-switches
+>> + Common RejectNegative Var(dwarf_record_gcc_switches,1)
+>> + Record gcc command line switches in DWARF DW_AT_producer.
+>> +
+>> ++gno-record-debug-prefix-map
+>> ++Common RejectNegative Var(dwarf_record_debug_prefix_map,0) Init(1)
+>> ++Don't record -fdebug-prefix-map in gcc command line switches in DWARF DW_AT_producer.
+>> ++
+>> ++grecord-debug-prefix-map
+>> ++Common RejectNegative Var(dwarf_record_debug_prefix_map,1)
+>> ++Record -fdebug-prefix-map in gcc command line switches in DWARF DW_AT_producer.
+>> ++
+>> + gno-split-dwarf
+>> + Common Driver RejectNegative Var(dwarf_split_debug_info,0) Init(0)
+>> + Don't generate debug information in separate .dwo files
+>> +diff --git a/gcc/dwarf2out.c b/gcc/dwarf2out.c
+>> +index f90329b..646a706 100644
+>> +--- a/gcc/dwarf2out.c
+>> ++++ b/gcc/dwarf2out.c
+>> +@@ -19383,6 +19383,8 @@ gen_producer_string (void)
+>> +       case OPT_SPECIAL_input_file:
+>> +       case OPT_grecord_gcc_switches:
+>> +       case OPT_gno_record_gcc_switches:
+>> ++      case OPT_grecord_debug_prefix_map:
+>> ++      case OPT_gno_record_debug_prefix_map:
+>> +       case OPT__output_pch_:
+>> +       case OPT_fdiagnostics_show_location_:
+>> +       case OPT_fdiagnostics_show_option:
+>> +@@ -19415,6 +19417,12 @@ gen_producer_string (void)
+>> + 	  default:
+>> + 	    break;
+>> + 	  }
+>> ++
+>> ++	/* Don't record -fdebug-prefix-map in gcc command line
+>> ++	   switches in DWARF DW_AT_producer */
+>> ++	if (save_decoded_options[j].opt_index==OPT_fdebug_prefix_map_ &&
+>> ++	    !dwarf_record_debug_prefix_map)
+>> ++	  continue;
+>> + 	switches.safe_push (save_decoded_options[j].orig_option_with_args_text);
+>> + 	len += strlen (save_decoded_options[j].orig_option_with_args_text) + 1;
+>> + 	break;
+>> +--
+>> +1.9.1
+>> +
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
