@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 367767718B
+	by mail.openembedded.org (Postfix) with ESMTP id A64897718B
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 22 Feb 2016 15:01:37 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 07:01:14 -0800
+	by orsmga102.jf.intel.com with ESMTP; 22 Feb 2016 07:01:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,484,1449561600"; d="scan'208";a="657171982"
+X-IronPort-AV: E=Sophos;i="5.22,484,1449561600"; d="scan'208";a="657171991"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.35])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 07:01:13 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2016 07:01:14 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Feb 2016 09:03:28 -0600
-Message-Id: <86c52987e84ec241d14a3381a6539b8e34a3f0fc.1456153260.git.anibal.limon@linux.intel.com>
+Date: Mon, 22 Feb 2016 09:03:29 -0600
+Message-Id: <64384d8bd09f15c666f133893c3beb96e66af51d.1456153260.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1456153260.git.anibal.limon@linux.intel.com>
 References: <cover.1456153260.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ References: <cover.1456153260.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
-Subject: [PATCH 3/4] classes/testsdk: Pass tcname to SDK and SDKExt contexts
+Subject: [PATCH 4/4] oeqa/sdkext: Add sdk_update.SDKUpdateTest class.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,64 +40,71 @@ Content-Transfer-Encoding: 8bit
 
 From: Aníbal Limón <limon.anibal@gmail.com>
 
-tcname is needed for eSDK update testcase will be used for
- publish it and then try to update
+The SDKUpdateTest class test devtool sdk-update mechanism inside
+eSDK.
+
+The SDKUpdateTest class search for new sdk if not found uses
+the main one then it publish the eSDK into known folder
+inside work and it starts a web server for serve the eSDK.
+
+Finally it executes sdk-update over http, the local test is
+commented due to bug [1].
+
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9043
+
+[YOCTO #9089]
 
 Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
 ---
- meta/classes/testsdk.bbclass | 2 +-
- meta/lib/oeqa/oetest.py      | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/sdkext/sdk_update.py | 39 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdkext/sdk_update.py
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 01d37c4..bcb506d 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -22,7 +22,7 @@ def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
-     targets = glob.glob(d.expand(testdir + "/tc/environment-setup-*"))
-     for sdkenv in targets:
-         bb.plain("Testing %s" % sdkenv)
--        tc = CTestContext(d, testdir, sdkenv, args)
-+        tc = CTestContext(d, testdir, sdkenv, tcname, args)
- 
-         # this is a dummy load of tests
-         # we are doing that to find compile errors in the tests themselves
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index cd1e7e0..6bfd6e3 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -396,11 +396,12 @@ class ImageTestContext(TestContext):
-         setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeTest.hasPackage("procps") else "ps")
- 
- class SDKTestContext(TestContext):
--    def __init__(self, d, sdktestdir, sdkenv, *args):
-+    def __init__(self, d, sdktestdir, sdkenv, tcname, *args):
-         super(SDKTestContext, self).__init__(d)
- 
-         self.sdktestdir = sdktestdir
-         self.sdkenv = sdkenv
-+        self.tcname = tcname
- 
-         if not hasattr(self, 'target_manifest'):
-             self.target_manifest = d.getVar("SDK_TARGET_MANIFEST", True)
-@@ -429,7 +430,7 @@ class SDKTestContext(TestContext):
-                 "auto").split() if t != "auto"]
- 
- class SDKExtTestContext(SDKTestContext):
--    def __init__(self, d, sdktestdir, sdkenv, *args):
-+    def __init__(self, d, sdktestdir, sdkenv, tcname, *args):
-         self.target_manifest = d.getVar("SDK_EXT_TARGET_MANIFEST", True)
-         self.host_manifest = d.getVar("SDK_EXT_HOST_MANIFEST", True)
-         if args:
-@@ -437,7 +438,7 @@ class SDKExtTestContext(SDKTestContext):
-         else:
-             self.cm = False
- 
--        super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv)
-+        super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv, tcname)
- 
-         self.sdkextfilesdir = os.path.join(os.path.dirname(os.path.abspath(
-             oeqa.sdkext.__file__)), "files")
+diff --git a/meta/lib/oeqa/sdkext/sdk_update.py b/meta/lib/oeqa/sdkext/sdk_update.py
+new file mode 100644
+index 0000000..16f5b10
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/sdk_update.py
+@@ -0,0 +1,39 @@
++import os
++import shutil
++import subprocess
++
++from oeqa.oetest import oeSDKExtTest
++from oeqa.utils.httpserver import HTTPService
++
++class SdkUpdateTest(oeSDKExtTest):
++
++    @classmethod
++    def setUpClass(self):
++        self.publish_dir = os.path.join(self.tc.sdktestdir, 'esdk_publish')
++        if os.path.exists(self.publish_dir):
++            shutil.rmtree(self.publish_dir)
++        os.mkdir(self.publish_dir)
++
++        tcname_new = self.tc.d.expand(
++            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
++        if not os.path.exists(tcname_new):
++            tcname_new = self.tc.tcname
++
++        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
++        subprocess.check_output(cmd, shell=True)
++
++        self.http_service = HTTPService(self.publish_dir)
++        self.http_service.start()
++
++        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
++
++    def test_sdk_update_http(self):
++        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
++
++#    def test_sdk_update_local(self):
++#        output = self._run("devtool sdk-update \"%s\"" % self.publish_dir)
++
++    @classmethod
++    def tearDownClass(self):
++        self.http_service.stop()
++        shutil.rmtree(self.publish_dir)
 -- 
 2.1.4
 
