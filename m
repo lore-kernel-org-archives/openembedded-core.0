@@ -1,28 +1,50 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EF1987706E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 12E18771B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 16:18:48 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Feb 2016 08:18:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="918550010"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.163]) ([10.7.199.163])
-	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2016 08:18:49 -0800
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1456153260.git.anibal.limon@linux.intel.com>
-	<64384d8bd09f15c666f133893c3beb96e66af51d.1456153260.git.anibal.limon@linux.intel.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <56CB34E8.6060203@linux.intel.com>
-Date: Mon, 22 Feb 2016 08:18:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
+	Mon, 22 Feb 2016 16:19:08 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id b35so114375724qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Feb 2016 08:19:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=BmglikRfsc0MyJasNb1GfEXSj9rsmRQdlKTVQkj2B6M=;
+	b=00RZNKHSZ0hrM9u/SaoS8QTrvWMBFFLYy3xnp6gy3fwQL1Qj5JILP28DX0of3903Nj
+	C+r3a0JDAccdzx37CFTwG1ujuaGWVQhrQsynzHtXFt86m1HEKTe2Jdk42tLbGjf2M5fd
+	H0LX8XI9FfbEPJ26XY+OfARaKgPK5tH/C1AMoe8pDPFFBpNXmm9A9gNvafq58lXq7gjx
+	TV+Y3lnj4AmlC2pLGEH6oyCY+Ia2GdLUiKqoAv5Oqshic7HD/040hSEjQ+zcFdVozX0a
+	l0ISmQV6mN/BlfpHldlStmblHgXrliLG1ju2fg0qUJq+t28nGAsztyKQJ+hXekUQL6s1
+	IQNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=BmglikRfsc0MyJasNb1GfEXSj9rsmRQdlKTVQkj2B6M=;
+	b=MwYf/Uqe0xOElLrBz3Eo6tfRl5B4lWrHvaqgSjQ3ThTx7totNs/DPsr0WlvS8jzFbB
+	aJZ11zxW7+UO5tS7v2Mmz+YqVUqIu3aYgVyO2cYzRHQp0Bv3Bx2tie6tinjl1+LFpg7+
+	JwYXYSFEY+mWFvy0N3dWylft3LYOSR9H165xWnL6RtmVtlEaWygSReNeTDaNJ6I/2cfb
+	Hb7PtudlwqiYhm8+b8cQLFRrUW48F2rq1J5qVUxwlWKdhcv7hGfJQKq2JepznmauuhpT
+	eBKz/+Ou0e3DRXp4PVGlLDl/HPsVrY7d7K9XepNuP8qD0CijRun5JEpCQvO1VwAoADAp
+	IDIQ==
+X-Gm-Message-State: AG10YORflw8TjMASZvwm7E0ygDPUQme/TGIc6F3l2NvJmBl2v9SxP42rZayy0C/U/hWSMHF1lsOPcXUTtQ3ZRw==
 MIME-Version: 1.0
-In-Reply-To: <64384d8bd09f15c666f133893c3beb96e66af51d.1456153260.git.anibal.limon@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com,
-	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
-Subject: Re: [PATCH 4/4] oeqa/sdkext: Add sdk_update.SDKUpdateTest class.
+X-Received: by 10.140.238.8 with SMTP id j8mr37571197qhc.76.1456157949571;
+	Mon, 22 Feb 2016 08:19:09 -0800 (PST)
+Received: by 10.55.130.196 with HTTP; Mon, 22 Feb 2016 08:19:08 -0800 (PST)
+Received: by 10.55.130.196 with HTTP; Mon, 22 Feb 2016 08:19:08 -0800 (PST)
+In-Reply-To: <20160222154912.GD6329@jama>
+References: <cover.1455955403.git.raj.khem@gmail.com>
+	<f444175f17a8fd5aea09aad8674c7b26d2ee6fd5.1455955403.git.raj.khem@gmail.com>
+	<20160222154912.GD6329@jama>
+Date: Mon, 22 Feb 2016 08:19:08 -0800
+Message-ID: <CAMKF1srkT1+nYhnjdtC15DyfWN-RRrjNbd0k1_gu578kg0XA1g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: Upgrade to 2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,87 +57,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 16:18:49 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Feb 2016 16:19:09 -0000
+Content-Type: multipart/alternative; boundary=001a1135a2e852382c052c5e315c
 
-On 02/22/2016 07:03 AM, Aníbal Limón wrote:
-> From: Aníbal Limón <limon.anibal@gmail.com>
->
-> The SDKUpdateTest class test devtool sdk-update mechanism inside
-> eSDK.
->
-> The SDKUpdateTest class search for new sdk if not found uses
-> the main one then it publish the eSDK into known folder
-> inside work and it starts a web server for serve the eSDK.
->
-> Finally it executes sdk-update over http, the local test is
-> commented due to bug [1].
->
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=9043
->
-> [YOCTO #9089]
->
-> Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
-> ---
->   meta/lib/oeqa/sdkext/sdk_update.py | 39 ++++++++++++++++++++++++++++++++++++++
->   1 file changed, 39 insertions(+)
->   create mode 100644 meta/lib/oeqa/sdkext/sdk_update.py
->
-> diff --git a/meta/lib/oeqa/sdkext/sdk_update.py b/meta/lib/oeqa/sdkext/sdk_update.py
-> new file mode 100644
-> index 0000000..16f5b10
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdkext/sdk_update.py
-> @@ -0,0 +1,39 @@
-> +import os
-> +import shutil
-> +import subprocess
-> +
-> +from oeqa.oetest import oeSDKExtTest
-> +from oeqa.utils.httpserver import HTTPService
-> +
-> +class SdkUpdateTest(oeSDKExtTest):
-> +
-> +    @classmethod
-> +    def setUpClass(self):
-> +        self.publish_dir = os.path.join(self.tc.sdktestdir, 'esdk_publish')
-> +        if os.path.exists(self.publish_dir):
-> +            shutil.rmtree(self.publish_dir)
-> +        os.mkdir(self.publish_dir)
-> +
-> +        tcname_new = self.tc.d.expand(
-> +            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
-> +        if not os.path.exists(tcname_new):
-> +            tcname_new = self.tc.tcname
-> +
-> +        cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
-> +        subprocess.check_output(cmd, shell=True)
-> +
-> +        self.http_service = HTTPService(self.publish_dir)
-> +        self.http_service.start()
+--001a1135a2e852382c052c5e315c
+Content-Type: text/plain; charset=UTF-8
 
-I think Paul and I briefly mentioned it, but SimpleHTTPServer fails as an sstate 
-mirror if enough fetchers run. We think it was because of a limit on the number 
-of simultaneous connections. So I would expect this to fail for instance if all 
-packages were updated.
+Can you clone it outside oe
+On Feb 22, 2016 7:48 AM, "Martin Jansa" <martin.jansa@gmail.com> wrote:
 
-But really we shouldn't care too much about the sstate updating part, and more 
-about the layer updating etc. Ideally this test would check to make sure the 
-local sdk now matches the remote.
-
-> +        self.http_url = "http://127.0.0.1:%d" % self.http_service.port
-> +
-> +    def test_sdk_update_http(self):
-> +        output = self._run("devtool sdk-update \"%s\"" % self.http_url)
-> +
-> +#    def test_sdk_update_local(self):
-> +#        output = self._run("devtool sdk-update \"%s\"" % self.publish_dir)
-> +
-> +    @classmethod
-> +    def tearDownClass(self):
-> +        self.http_service.stop()
-> +        shutil.rmtree(self.publish_dir)
+> On Sat, Feb 20, 2016 at 08:07:25AM +0000, Khem Raj wrote:
+> > Drop kconfig and options-group support
+> > Forward port cross-localedef support
+> > Assume ssp support in libc when building gcc-initial
+>
+> Unfortunately sourceware git doesn't like us, glibc is failing to fetch :/
+>
+> ERROR: glibc-initial-2.23-r0 do_fetch: Fetcher failure: Fetch command
+> failed with exit code 128, output:
+> fatal: read error: Connection reset by peer
+>
+> ERROR: glibc-initial-2.23-r0 do_fetch: Function failed: Fetcher failure
+> for URL:
+> 'git://sourceware.org/git/glibc.git;branch=release/2.23/master;name=glibc
+> '.
+> Unable to fetch URL from any source.
+> ERROR: Logfile of failure stored in:
+>
+> /home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5e-oe-linux-gnueabi/glibc-initial/2.23-r0/temp/log.do_fetch.31233
+> NOTE: recipe glibc-initial-2.23-r0: task do_fetch: Failed
 >
 
+--001a1135a2e852382c052c5e315c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr">Can you clone it outside oe</p>
+<div class=3D"gmail_quote">On Feb 22, 2016 7:48 AM, &quot;Martin Jansa&quot=
+; &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&=
+gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sat, =
+Feb 20, 2016 at 08:07:25AM +0000, Khem Raj wrote:<br>
+&gt; Drop kconfig and options-group support<br>
+&gt; Forward port cross-localedef support<br>
+&gt; Assume ssp support in libc when building gcc-initial<br>
+<br>
+Unfortunately sourceware git doesn&#39;t like us, glibc is failing to fetch=
+ :/<br>
+<br>
+ERROR: glibc-initial-2.23-r0 do_fetch: Fetcher failure: Fetch command<br>
+failed with exit code 128, output:<br>
+fatal: read error: Connection reset by peer<br>
+<br>
+ERROR: glibc-initial-2.23-r0 do_fetch: Function failed: Fetcher failure<br>
+for URL:<br>
+&#39;git://<a href=3D"http://sourceware.org/git/glibc.git;branch=3Drelease/=
+2.23/master;name=3Dglibc" rel=3D"noreferrer" target=3D"_blank">sourceware.o=
+rg/git/glibc.git;branch=3Drelease/2.23/master;name=3Dglibc</a>&#39;.<br>
+Unable to fetch URL from any source.<br>
+ERROR: Logfile of failure stored in:<br>
+/home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5e-oe-linux-gnueabi/glib=
+c-initial/2.23-r0/temp/log.do_fetch.31233<br>
+NOTE: recipe glibc-initial-2.23-r0: task do_fetch: Failed<br>
+</blockquote></div>
+
+--001a1135a2e852382c052c5e315c--
