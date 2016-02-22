@@ -1,52 +1,45 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 191CB771CD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D6BC377245
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 22:12:35 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id 9so195092675iom.1
+	Mon, 22 Feb 2016 22:31:13 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id b205so175772747wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 14:12:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+	Mon, 22 Feb 2016 14:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=glduWdTuHoNUMFlOnICcYaEGKVk5niSdDcq3s3mTQgw=;
-	b=yw8JSeyWPcR24DkrtXj2Tm89AKtqxwhPT1sRM+a43FE97KOstESNiVuI9mlDt4yonr
-	jsK6Ujxzjn+Ma0sl+Z6GYeiQrYTqvjkXcPTOsOd+LDCOZVDTfoiyjOnsoYdCIV6cZMEG
-	bs45YqXXiQtWnD4gwr5JRklyJpuMvuDCyXL4EiY2NuIkjAJtlShwdi6mhtUmZikrXmkQ
-	QP1Ke1GrVcoiZWZvO18muy5nNKlL4pq8iJ+59wl96fI6ShDQmiTBuraDN3xPifJw1CfK
-	w+ltZ9+eMolmjfXrAcHzYFMaDwK0V3QrtIbLuMHGEon36X4HzjXugwTaC7wpXCR2Uuwx
-	ItbQ==
+	:cc; bh=SYkuem+CmumySJKovzqyxkeVM5Ax578aFQoweuWFrrk=;
+	b=YBSZ+OFpeiwjep4NLF/IJjac44rEYzw3E/xOQ3bLZb3Cu5ZVcUUpgQhtVoiwQtdsKe
+	b6nALeGFWe2JJ/WHl/iNg6jytD0Q8BZ6zkSwCrSQnAVGeoCesGYTn+hRObCOpHmxL2rn
+	dxS7bTtNLfVK6fYswMNZihuJP8JjhXnN8eafDze82rp2PZPq1YAil+cdoem9dILat6rT
+	MIKWeY2jt2FYx/yOtKCV8p2eCwwkzTMf9ZJ4jCpG2PjkLBP7XfrqYlr2pN70FOdF8gS8
+	XdC3rmI3cND/geR1/svcGz/E0VK8OhVywcE41mGEBqauq55XZ1GldVTiyX7XwrK+dIcL
+	kPRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=glduWdTuHoNUMFlOnICcYaEGKVk5niSdDcq3s3mTQgw=;
-	b=PiZghhFkLp/Dwx+XbF9DB8SifLpefvUlpOYvp8GHXMfdId/4QUrMATJhJSI5yvILRN
-	JllQXxLRYZbDjLyEviQAQuOzLLFBtfBqOaJxApGNqEGo5l4jUgCzTZIfqHnF4KEn7UtL
-	DXZp2FMYSlHKuaW1c8lzRQBiDpgk3/yCoIb/Crk2z8Xrvr6mWDnYvJA8EgT2ypmFKWze
-	SZoyO89/1FVUoJQKiZdQBkr5o1Sf56HxP71/SVd+j5WijJF1hdG9ub2M+eguzeoARA5y
-	1jO9sQiSrlKyL2YqSBhr5huoHlGv0RQvS2YJc9z7mB/En2TQBkkxQrG1vaSHYmjxWZJO
-	1pSg==
-X-Gm-Message-State: AG10YORpnMb6QZ3t4+71hn6bgeO1FPD2YraLKF/4Ow3Hx5LPlPexYFK/4P0XWRiTnCVuKz1iVQX9Yl1/dtC3JQ==
+	:message-id:subject:from:to:cc;
+	bh=SYkuem+CmumySJKovzqyxkeVM5Ax578aFQoweuWFrrk=;
+	b=LJf/z9imo2EKbEvsX+Idf5D2NmgSCb3d6p/hzQe/iQIQb8sHA5sopKf2oDeZQy2ksb
+	BLclcKmVtB7TkC4w6TgNOgWsMNzYhY19Mglv1nIRYtMPfY/B3B1KYchPa5yqz8P1jW/L
+	RC8NYZXi9E2j1aLq405teKDYSF7Z03ZNx0Fwl8Nb6d52dtqjB/F0W4xeuWA6Wiit8ntZ
+	rI9EB8XNGIjMqxkA25rvfPPgsR7YF0yXDItklieHpuWP+Q0WIkzd0nSPzCc7wJpM4aJB
+	Peq77ny6riYRv7TaAq19jt2PQ/FW4JR2TupzC2vg38ofhELJOZSr7lBjZLMrJ63hTfwH
+	qL6A==
+X-Gm-Message-State: AG10YOReEST2rFglLO0XEgJnE/dVGNY1R7siKBYXBpNPN/OHYfwRReag+U3/mOrxBkb39d0TnFy5JzirWqgfOw==
 MIME-Version: 1.0
-X-Received: by 10.107.164.15 with SMTP id n15mr28050519ioe.148.1456179156213; 
-	Mon, 22 Feb 2016 14:12:36 -0800 (PST)
-Received: by 10.36.25.81 with HTTP; Mon, 22 Feb 2016 14:12:36 -0800 (PST)
-In-Reply-To: <CAJTo0LYvmBojBtx=57ktQ5ej-FRhMoAGhDPOqJtMS+2he-e6uQ@mail.gmail.com>
-References: <CALbNGRTeReXBitXWMQJ=ZbY-C2wayOaJJdDA4KSxQcRv8Kpnkw@mail.gmail.com>
-	<20160222211740.GG6329@jama>
-	<CALbNGRQSdagG5HZ7c5uxGLo5z64SrA4RRKW6gu62ypXuAxHXSA@mail.gmail.com>
-	<CAJTo0LYvmBojBtx=57ktQ5ej-FRhMoAGhDPOqJtMS+2he-e6uQ@mail.gmail.com>
-Date: Mon, 22 Feb 2016 23:12:36 +0100
-Message-ID: <CALbNGRSnVzcePkgjpd6Ao7Tm5Jx+L=tqs_6B1KFrfYAyoYRH2A@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Fetcher broken?
+X-Received: by 10.28.50.133 with SMTP id y127mr14447140wmy.4.1456180273566;
+	Mon, 22 Feb 2016 14:31:13 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 22 Feb 2016 14:31:13 -0800 (PST)
+In-Reply-To: <f444175f17a8fd5aea09aad8674c7b26d2ee6fd5.1455955403.git.raj.khem@gmail.com>
+References: <cover.1455955403.git.raj.khem@gmail.com>
+	<f444175f17a8fd5aea09aad8674c7b26d2ee6fd5.1455955403.git.raj.khem@gmail.com>
+Date: Mon, 22 Feb 2016 14:31:13 -0800
+Message-ID: <CAJ86T=VoDWL_Os8yAFHKpTfWTv8Q-uTpu8TEtwQc-7+-dWKFuA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: Upgrade to 2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,124 +52,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 22:12:36 -0000
+X-List-Received-Date: Mon, 22 Feb 2016 22:31:16 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 22, 2016 at 10:35 PM, Burton, Ross <ross.burton@intel.com> wrot=
-e:
->
-> On 22 February 2016 at 21:19, Andreas M=C3=BCller <schnitzeltony@googlema=
-il.com>
-> wrote:
->>
->> > Did the following re-try download it with different (correct)
->> > checksum? Then it would be correct behavior if you had some
->> > e.g. incomplete flex-2.6.0.tar.bz2 tarball laying around in downloads
->> > directory.
->> >
->> I did a -ccleanall and repeated -> same behaviour
->
->
-> Can you download the tarball manually and see what happens?
->
-> $ wget http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2
-> --2016-02-22 21:27:27--
-> http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2
-> Resolving downloads.sourceforge.net... 216.34.181.59
-> Connecting to downloads.sourceforge.net|216.34.181.59|:80... connected.
-> HTTP request sent, awaiting response... 302 Found
-> Location:
-> http://netcologne.dl.sourceforge.net/project/flex/flex-2.6.0.tar.bz2
-> [following]
-> --2016-02-22 21:27:28--
-> http://netcologne.dl.sourceforge.net/project/flex/flex-2.6.0.tar.bz2
-> Resolving netcologne.dl.sourceforge.net... 78.35.24.46, 2001:4dd0:1234:6:=
-:5f
-> Connecting to netcologne.dl.sourceforge.net|78.35.24.46|:80... connected.
-> HTTP request sent, awaiting response... 200 OK
-> Length: 1634276 (1.6M) [application/octet-stream]
-> Saving to: 'flex-2.6.0.tar.bz2'
->
-> flex-2.6.0.tar.bz2                 59%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>
-> ] 942.21K  66.6KB/s    eta 7s     5flex-2.6.0.tar.bz2
-> 59%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>                         ] 954.15K
-> 64.2KB/s    eta 7s     fflex-2.6.0.tar.bz2
-> 60%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>                        ] 972.44K
-> 66.1KB/s    eta 6s
-> flex-2.6.0.tar.bz2
-> 100%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>]   1.56M
-> 31.5KB/s    in 24s
->
-> 2016-02-22 21:27:53 (65.8 KB/s) - 'flex-2.6.0.tar.bz2' saved
-> [1634276/1634276]
->
-> ~
-> $ md5 flex-2.6.0.tar.bz2
-> MD5 (flex-2.6.0.tar.bz2) =3D 266270f13c48ed043d95648075084d59
->
-> (don't laugh at my download speed, it's not fun working on 3G)
->
-> So that md5 matches what the recipe says (26627... and 24e611... for md5 =
-and
-> sha) and I've just verified that it builds fine after a cleanall.    You
-> definitely need to compare what you're downloading with everyone else.
->
-[superandy@localhost openembedded-core]$ wget
-http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2
---2016-02-22 22:45:44--
-http://downloads.sourceforge.net/flex/flex-2.6.0.tar.bz2
-Resolving downloads.sourceforge.net (downloads.sourceforge.net)... 216.34.1=
-81.59
-Connecting to downloads.sourceforge.net
-(downloads.sourceforge.net)|216.34.181.59|:80... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: http://netix.dl.sourceforge.net/project/flex/flex-2.6.0.tar.bz2
-[following]
---2016-02-22 22:45:45--
-http://netix.dl.sourceforge.net/project/flex/flex-2.6.0.tar.bz2
-Resolving netix.dl.sourceforge.net (netix.dl.sourceforge.net)... 87.121.121=
-.2
-Connecting to netix.dl.sourceforge.net
-(netix.dl.sourceforge.net)|87.121.121.2|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1634276 (1.6M) [application/octet-stream]
-Saving to: =E2=80=98flex-2.6.0.tar.bz2=E2=80=99
+On Sat, Feb 20, 2016 at 12:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> Drop kconfig and options-group support
+> Forward port cross-localedef support
+> Assume ssp support in libc when building gcc-initial
 
-flex-2.6.0.tar.bz2
-100%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>]
-  1.56M  1.55MB/s    in 1.0s
+Breaks for me when building for x86 with -Os (building with
+-O1/-O2/-O3 are all OK):
 
-2016-02-22 22:45:47 (1.55 MB/s) - =E2=80=98flex-2.6.0.tar.bz2=E2=80=99 save=
-d [1634276/1634276]
-
-[superandy@localhost openembedded-core]$ md5sum flex-2.6.0.tar.bz2
-266270f13c48ed043d95648075084d59  flex-2.6.0.tar.bz2
-
-So download seems fine.
-
-I also checked in oe download dir and get
-
-[superandy@localhost download]$ md5sum flex-2.6.0.tar.bz2
-266270f13c48ed043d95648075084d59  flex-2.6.0.tar.bz2
-
-Also fine.
-
-So I did again: -ccleanall / rebuild -> error is gone
-
-Seems there was an automatic (re)download when I saw the first
-warnings. With older sources of bitbake I have not seen such thing: In
-case a checksum error was detected, the build was aborted and the new
-checksums were logged to insert in the recipe. So I would now consider
-this as solved and I saw a new feature in action - thanks for support.
-
-Andreas
+i686-rdk-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+--sysroot=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32-tcbootstrap
+../sysdeps/unix/sysv/linux/posix_fallocate.c -c -std=gnu11
+-fgnu89-inline  -Os -Wall -Werror -Wno-error -Wundef -Wwrite-strings
+-fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32=
+-fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/x86_64-linux=
+-fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux=/usr/src/glibc
+-fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/git=/usr/src/glibc
+-feliminate-unused-debug-types -fmerge-all-constants -frounding-math
+-g -pipe -Wstrict-prototypes -Wold-style-definition   -Wa,-mtune=i686
+-fexceptions  -ftls-model=initial-exec      -I../include
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io
+ -I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux
+ -I../sysdeps/unix/sysv/linux/i386/i686  -I../sysdeps/i386/i686/nptl
+-I../sysdeps/unix/sysv/linux/i386  -I../sysdeps/unix/sysv/linux/x86
+-I../sysdeps/i386/nptl  -I../sysdeps/unix/sysv/linux/include
+-I../sysdeps/unix/sysv/linux  -I../sysdeps/nptl  -I../sysdeps/pthread
+-I../sysdeps/gnu  -I../sysdeps/unix/inet  -I../sysdeps/unix/sysv
+-I../sysdeps/unix/i386  -I../sysdeps/unix  -I../sysdeps/posix
+-I../sysdeps/i386/i686/fpu/multiarch  -I../sysdeps/i386/i686/fpu
+-I../sysdeps/i386/i686/multiarch  -I../sysdeps/i386/i686
+-I../sysdeps/i386/fpu  -I../sysdeps/x86/fpu/include
+-I../sysdeps/x86/fpu  -I../sysdeps/i386  -I../sysdeps/x86
+-I../sysdeps/wordsize-32  -I../sysdeps/ieee754/ldbl-96
+-I../sysdeps/ieee754/dbl-64  -I../sysdeps/ieee754/flt-32
+-I../sysdeps/ieee754  -I../sysdeps/generic  -I.. -I../libio -I.
+-nostdinc -isystem
+/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/x86_64-linux/usr/bin/i686-rdk-linux.gcc-cross-initial-i686/../../lib/i686-rdk-linux.gcc-cross-initial-i686/gcc/i686-rdk-linux/5.3.0/include
+-isystem /home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/x86_64-linux/usr/bin/i686-rdk-linux.gcc-cross-initial-i686/../../lib/i686-rdk-linux.gcc-cross-initial-i686/gcc/i686-rdk-linux/5.3.0/include-fixed
+-isystem /home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32/usr/include
+ -D_LIBC_REENTRANT -include
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/libc-modules.h
+-DMODULE_NAME=libc -include ../include/libc-symbols.h       -o
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io/posix_fallocate.o
+-MD -MP -MF /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io/posix_fallocate.o.dt
+-MT /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io/posix_fallocate.o
+../sysdeps/unix/sysv/linux/posix_fallocate.c: In function 'posix_fallocate':
+../sysdeps/unix/sysv/linux/posix_fallocate.c:39:1: error: bp cannot be
+used in asm here
+ }
+ ^
+../sysdeps/unix/sysv/linux/posix_fallocate.c:39:1: error: bp cannot be
+used in asm here
 
