@@ -1,38 +1,27 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 18563770A0
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D81C173206
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 09:24:33 +0000 (UTC)
+	Mon, 22 Feb 2016 10:34:37 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 22 Feb 2016 01:24:34 -0800
+	by orsmga101.jf.intel.com with ESMTP; 22 Feb 2016 02:34:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,483,1449561600"; d="scan'208";a="52339288"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga004.fm.intel.com with ESMTP; 22 Feb 2016 01:24:32 -0800
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.97]) by
-	IRSMSX104.ger.corp.intel.com ([163.33.3.159]) with mapi id
-	14.03.0248.002; Mon, 22 Feb 2016 09:24:09 +0000
-From: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
-To: "Pedraza Gonzalez, Francisco J" <francisco.j.pedraza.gonzalez@intel.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCHv2 2/2] oeqa/selftest/prservice: Added new TC:
-	check pr-server starts and stop correctly on localhost.
-Thread-Index: AQHRa2HY9X06bhEnhUyA+ThEi0imY583y7Cg
-Date: Mon, 22 Feb 2016 09:24:08 +0000
-Message-ID: <174AD7CFE5F468498ACCFE3FEE0EF1EB14310440@IRSMSX102.ger.corp.intel.com>
-References: <1455919542-28863-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-	<1455919542-28863-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-In-Reply-To: <1455919542-28863-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiM2M5NmM0YWYtZDY4OS00MWViLTkyZjEtOGJjODEzMjcyYmUzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IkxxVnUzMU80ZWhiUGhGbUlnT2FnTW55SFwvWVBnTEZYcVlKTWlLczFpXC81UT0ifQ==
-x-ctpclassification: CTP_IC
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
-Cc: "Pedraza Gonzalez, Francisco J" <francisco.j.pedraza.gonzalez@intel.com>
-Subject: Re: [PATCHv2 2/2] oeqa/selftest/prservice: Added new TC:	check pr-server starts and stop correctly on localhost.
+X-IronPort-AV: E=Sophos;i="5.22,483,1449561600"; d="scan'208";a="52368914"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Feb 2016 02:34:32 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 8BD486A4004
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Feb 2016 03:22:21 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Feb 2016 12:37:27 +0200
+Message-Id: <1456137447-22103-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] alsa-lib: topology: Add missing include sys/stat.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,84 +34,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 09:24:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 22 Feb 2016 10:34:39 -0000
 
-Hi Francisco,
+Fixes this build error with uclibc:
 
-There is no need to check the ret.status of runCmd.
-If ret.status is other than 0 runCmd will throw an error.
-If you want to catch the ret.status of runCmd when you expect the command t=
-o fail you should use runCmd('cmd', ignore_status=3DTrue).
+alsa-lib-1.1.0/src/topology/parser.c: In function 'snd_tplg_build_file':
+alsa-lib-1.1.0/src/topology/parser.c:262:35: error: 'S_IRUSR' undeclared
+(first use in this function)
+open(outfile, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 
-Please make sure you pay close attention to what you are testing here. Leon=
-ardo pointed out in the bug that "It is important to notice that the server=
- was CORRECTLY stopped, just the extra message is wrong."
-So the server is stopped correctly, you should check only that the extra me=
-ssage is not displayed or the correct message is displayed instead.
-
---Daniel
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Francisco Pedraza
-Sent: Saturday, February 20, 2016 00:06
-To: openembedded-core@lists.openembedded.org
-Cc: Pedraza Gonzalez, Francisco J <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [OE-core] [PATCHv2 2/2] oeqa/selftest/prservice: Added new TC: che=
-ck pr-server starts and stop correctly on localhost.
-
-This test case validates if prservice start and stop properly the server.
-Using bitbake commands also validates the exit status.
-
-[YOCTO #8258]
-
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/lib/oeqa/selftest/prservice.py | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ ...1-topology-Add-missing-include-sys-stat.h.patch | 35 ++++++++++++++++++++++
+ meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb     |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
 
-diff --git a/meta/lib/oeqa/selftest/prservice.py b/meta/lib/oeqa/selftest/p=
-rservice.py
-index f22288e..66638de 100644
---- a/meta/lib/oeqa/selftest/prservice.py
-+++ b/meta/lib/oeqa/selftest/prservice.py
-@@ -9,9 +9,10 @@ import oeqa.utils.ftools as ftools  from oeqa.selftest.bas=
-e import oeSelfTest  from oeqa.utils.commands import runCmd, bitbake, get_b=
-b_var  from oeqa.utils.decorators import testcase
-+from oeqa.utils.network import get_free_port
-=20
- class BitbakePrTests(oeSelfTest):
--
-+=20
-     def get_pr_version(self, package_name):
-         pkgdata_dir =3D get_bb_var('PKGDATA_DIR')
-         package_data_file =3D os.path.join(pkgdata_dir, 'runtime', package=
-_name) @@ -119,3 +120,13 @@ class BitbakePrTests(oeSelfTest):
-     @testcase(936)
-     def test_pr_service_ipk_arch_indep(self):
-         self.run_test_pr_service('xcursor-transparent-theme', 'ipk', 'do_p=
-ackage')
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
+new file mode 100644
+index 0000000..0ead0cd
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
+@@ -0,0 +1,35 @@
++From 3f1dba9a821b53b42001605f9a126a958804884f Mon Sep 17 00:00:00 2001
++From: Takashi Iwai <tiwai@suse.de>
++Date: Mon, 9 Nov 2015 13:37:26 +0100
++Subject: [PATCH] topology: Add missing include sys/stat.h
 +
-+    @testcase(1419)
-+    def test_stopping_prservice_message(self):
-+        port =3D get_free_port()
++Necessary for proper definitions of S_IRUSR & co. Otherwise it
++results in compile errors with old glibc and uclibc:
++  parser.c: In function 'snd_tplg_build_file':
++  parser.c:262: error: 'S_IRUSR' undeclared (first use in this function)
++  parser.c:262: error: (Each undeclared identifier is reported only once
++  parser.c:262: error: for each function it appears in.)
 +
-+        runCmd('bitbake-prserv --host localhost --port %s --loglevel=3DDEB=
-UG --start' % port)
-+        ret =3D runCmd('bitbake-prserv --host localhost --port %s=20
-+ --loglevel=3DDEBUG --stop' % port)
++Upstream-Status: Backport
 +
-+        self.assertEqual(ret.status, 0)
++Signed-off-by: Takashi Iwai <tiwai@suse.de>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ src/topology/parser.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
---
-2.5.0
++diff --git a/src/topology/parser.c b/src/topology/parser.c
++index 80a0ae0..18bb9c7 100644
++--- a/src/topology/parser.c
+++++ b/src/topology/parser.c
++@@ -16,6 +16,7 @@
++            Liam Girdwood <liam.r.girdwood@linux.intel.com>
++ */
++ 
+++#include <sys/stat.h>
++ #include "list.h"
++ #include "tplg_local.h"
++ 
++-- 
++2.4.0
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
+index c0bf9ac..a73da28 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
+@@ -17,6 +17,7 @@ ARM_INSTRUCTION_SET = "arm"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
+            file://Check-if-wordexp-function-is-supported.patch \
+            file://avoid-including-sys-poll.h-directly.patch \
++           file://0001-topology-Add-missing-include-sys-stat.h.patch \
+ "
+ SRC_URI[md5sum] = "69515ca73c3c4a212ef45160dea846c1"
+ SRC_URI[sha256sum] = "dfde65d11e82b68f82e562ab6228c1fb7c78854345d3c57e2c68a9dd3dae1f15"
+-- 
+2.4.0
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
