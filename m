@@ -1,50 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E18771B1
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F00377195
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 16:19:08 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id b35so114375724qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 08:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=BmglikRfsc0MyJasNb1GfEXSj9rsmRQdlKTVQkj2B6M=;
-	b=00RZNKHSZ0hrM9u/SaoS8QTrvWMBFFLYy3xnp6gy3fwQL1Qj5JILP28DX0of3903Nj
-	C+r3a0JDAccdzx37CFTwG1ujuaGWVQhrQsynzHtXFt86m1HEKTe2Jdk42tLbGjf2M5fd
-	H0LX8XI9FfbEPJ26XY+OfARaKgPK5tH/C1AMoe8pDPFFBpNXmm9A9gNvafq58lXq7gjx
-	TV+Y3lnj4AmlC2pLGEH6oyCY+Ia2GdLUiKqoAv5Oqshic7HD/040hSEjQ+zcFdVozX0a
-	l0ISmQV6mN/BlfpHldlStmblHgXrliLG1ju2fg0qUJq+t28nGAsztyKQJ+hXekUQL6s1
-	IQNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=BmglikRfsc0MyJasNb1GfEXSj9rsmRQdlKTVQkj2B6M=;
-	b=MwYf/Uqe0xOElLrBz3Eo6tfRl5B4lWrHvaqgSjQ3ThTx7totNs/DPsr0WlvS8jzFbB
-	aJZ11zxW7+UO5tS7v2Mmz+YqVUqIu3aYgVyO2cYzRHQp0Bv3Bx2tie6tinjl1+LFpg7+
-	JwYXYSFEY+mWFvy0N3dWylft3LYOSR9H165xWnL6RtmVtlEaWygSReNeTDaNJ6I/2cfb
-	Hb7PtudlwqiYhm8+b8cQLFRrUW48F2rq1J5qVUxwlWKdhcv7hGfJQKq2JepznmauuhpT
-	eBKz/+Ou0e3DRXp4PVGlLDl/HPsVrY7d7K9XepNuP8qD0CijRun5JEpCQvO1VwAoADAp
-	IDIQ==
-X-Gm-Message-State: AG10YORflw8TjMASZvwm7E0ygDPUQme/TGIc6F3l2NvJmBl2v9SxP42rZayy0C/U/hWSMHF1lsOPcXUTtQ3ZRw==
+	Mon, 22 Feb 2016 16:23:05 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Feb 2016 08:23:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,485,1449561600"; d="scan'208";a="891838149"
+Received: from bitbang.jf.intel.com (HELO [10.7.199.163]) ([10.7.199.163])
+	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2016 08:23:05 -0800
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1456153260.git.anibal.limon@linux.intel.com>
+	<99d32b8b8e7d0422dfa5f89a30e86668d88ef77f.1456153260.git.anibal.limon@linux.intel.com>
+	<56CB2F1D.4050605@linux.intel.com> <56CB32C1.9040308@linux.intel.com>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <56CB35E8.6060301@linux.intel.com>
+Date: Mon, 22 Feb 2016 08:23:04 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.0
 MIME-Version: 1.0
-X-Received: by 10.140.238.8 with SMTP id j8mr37571197qhc.76.1456157949571;
-	Mon, 22 Feb 2016 08:19:09 -0800 (PST)
-Received: by 10.55.130.196 with HTTP; Mon, 22 Feb 2016 08:19:08 -0800 (PST)
-Received: by 10.55.130.196 with HTTP; Mon, 22 Feb 2016 08:19:08 -0800 (PST)
-In-Reply-To: <20160222154912.GD6329@jama>
-References: <cover.1455955403.git.raj.khem@gmail.com>
-	<f444175f17a8fd5aea09aad8674c7b26d2ee6fd5.1455955403.git.raj.khem@gmail.com>
-	<20160222154912.GD6329@jama>
-Date: Mon, 22 Feb 2016 08:19:08 -0800
-Message-ID: <CAMKF1srkT1+nYhnjdtC15DyfWN-RRrjNbd0k1_gu578kg0XA1g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] glibc: Upgrade to 2.23
+In-Reply-To: <56CB32C1.9040308@linux.intel.com>
+Cc: paul.eggleton@linux.intel.com,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
+Subject: Re: [PATCH 2/4] classes/testsdk: Move the removal of bitbake PATH to eSDK context only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,68 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 16:19:09 -0000
-Content-Type: multipart/alternative; boundary=001a1135a2e852382c052c5e315c
+X-List-Received-Date: Mon, 22 Feb 2016 16:23:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---001a1135a2e852382c052c5e315c
-Content-Type: text/plain; charset=UTF-8
-
-Can you clone it outside oe
-On Feb 22, 2016 7:48 AM, "Martin Jansa" <martin.jansa@gmail.com> wrote:
-
-> On Sat, Feb 20, 2016 at 08:07:25AM +0000, Khem Raj wrote:
-> > Drop kconfig and options-group support
-> > Forward port cross-localedef support
-> > Assume ssp support in libc when building gcc-initial
+On 02/22/2016 08:09 AM, Aníbal Limón wrote:
 >
-> Unfortunately sourceware git doesn't like us, glibc is failing to fetch :/
 >
-> ERROR: glibc-initial-2.23-r0 do_fetch: Fetcher failure: Fetch command
-> failed with exit code 128, output:
-> fatal: read error: Connection reset by peer
+> On 02/22/2016 09:54 AM, Randy Witt wrote:
+>> On 02/22/2016 07:03 AM, Aníbal Limón wrote:
+>>> From: Aníbal Limón <limon.anibal@gmail.com>
+>>>
+>>> The removal of bitbake and scripts PATH is only needed by eSDK tests
+>>> so move to eSDK context only.
+>>>
+>>> This also it's a support for eSDK update test because it needs to
+>>> execute oe-publish-sdk from scripts.
+>>>
+>>> Signed-off-by: Aníbal Limón <limon.anibal@gmail.com>
+>>> ---
+>>>    meta/classes/testsdk.bbclass |  9 ++++-----
+>>>    meta/lib/oeqa/oetest.py      | 22 +++++++++++++++++++++-
+>>>    2 files changed, 25 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+>>> index 7e245e9..01d37c4 100644
+>>> --- a/meta/classes/testsdk.bbclass
+>>> +++ b/meta/classes/testsdk.bbclass
+>>> @@ -96,11 +96,10 @@ def testsdkext_main(d):
+>>>        # extensible sdk use network
+>>>        export_proxies(d)
+>>>
+>>> -    # extensible sdk shows a warning if found bitbake in the path
+>>> -    # because can cause problems so clean it
+>>> -    paths_to_avoid = ['bitbake/bin', 'poky/scripts',
+>>> -                       d.getVar('STAGING_DIR', True),
+>>> -                       d.getVar('BASE_WORKDIR', True)]
+>>> +    # extensible sdk can be contaminated if native programs are
+>>> +    # in PATH, i.e. use perl-native instead of eSDK one.
+>>> +    paths_to_avoid = [d.getVar('STAGING_DIR', True),
+>>> +                      d.getVar('BASE_WORKDIR', True)]
+>>>        avoid_paths_in_environ(paths_to_avoid)
+>>>
+>>>        pn = d.getVar("PN", True)
+>>> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+>>> index 3e2ea0f..cd1e7e0 100644
+>>> --- a/meta/lib/oeqa/oetest.py
+>>> +++ b/meta/lib/oeqa/oetest.py
+>>> @@ -21,6 +21,7 @@ import logging
+>>>    import oeqa.runtime
+>>>    import oeqa.sdkext
+>>>    from oeqa.utils.decorators import LogResults, gettag, getResults
+>>> +from oeqa.utils import avoid_paths_in_environ
+>>>
+>>>    logger = logging.getLogger("BitBake")
+>>>
+>>> @@ -128,7 +129,26 @@ class oeSDKTest(oeTest):
+>>>            return subprocess.check_output(". %s > /dev/null; %s;" %
+>>> (self.tc.sdkenv, cmd), shell=True)
+>>>
+>>>    class oeSDKExtTest(oeSDKTest):
+>>> -    pass
+>>> +    def _run(self, cmd):
+>>> +        output = None
+>>> +
+>>> +        paths = os.environ['PATH']
+>>> +
+>>> +        # extensible sdk shows a warning if found bitbake in the path
+>>> +        # because can cause contamination, i.e. use devtool from
+>>> +        # poky/scripts instead of eSDK one.
+>>> +        paths_to_avoid = ['bitbake/bin', 'poky/scripts']
+>>> +        avoid_paths_in_environ(paths_to_avoid)
+>>> +
+>>> +        try:
+>>> +            output = subprocess.check_output(". %s > /dev/null; %s;" % \
+>>> +                (self.tc.sdkenv, cmd), shell=True)
+>>
+>> Just pass env to the check_output call, then you won't have to worry
+>> about resetting the parent process' env back to the original value.
 >
-> ERROR: glibc-initial-2.23-r0 do_fetch: Function failed: Fetcher failure
-> for URL:
-> 'git://sourceware.org/git/glibc.git;branch=release/2.23/master;name=glibc
-> '.
-> Unable to fetch URL from any source.
-> ERROR: Logfile of failure stored in:
+> Could be but then we need the code for generate the env line so for
+> practically the result is the same.
+
+Modify avoid_paths_in_environ() to instead return the environment rather than 
+modify it as a side effect. Then the code reads more easily and prevents future 
+bugs where someone uses avoid_paths_in_environ, but forgets to reset the os.environ.
+
 >
-> /home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5e-oe-linux-gnueabi/glibc-initial/2.23-r0/temp/log.do_fetch.31233
-> NOTE: recipe glibc-initial-2.23-r0: task do_fetch: Failed
+>>
+>>> +        except:
+>>> +            os.environ['PATH'] = paths
+>>> +            raise
+>>> +
+>>> +        os.environ['PATH'] = paths
+>>> +        return output
+>>>
+>>>    def getmodule(pos=2):
+>>>        # stack returns a list of tuples containg frame information
+>>>
+>>
 >
 
---001a1135a2e852382c052c5e315c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">Can you clone it outside oe</p>
-<div class=3D"gmail_quote">On Feb 22, 2016 7:48 AM, &quot;Martin Jansa&quot=
-; &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&=
-gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sat, =
-Feb 20, 2016 at 08:07:25AM +0000, Khem Raj wrote:<br>
-&gt; Drop kconfig and options-group support<br>
-&gt; Forward port cross-localedef support<br>
-&gt; Assume ssp support in libc when building gcc-initial<br>
-<br>
-Unfortunately sourceware git doesn&#39;t like us, glibc is failing to fetch=
- :/<br>
-<br>
-ERROR: glibc-initial-2.23-r0 do_fetch: Fetcher failure: Fetch command<br>
-failed with exit code 128, output:<br>
-fatal: read error: Connection reset by peer<br>
-<br>
-ERROR: glibc-initial-2.23-r0 do_fetch: Function failed: Fetcher failure<br>
-for URL:<br>
-&#39;git://<a href=3D"http://sourceware.org/git/glibc.git;branch=3Drelease/=
-2.23/master;name=3Dglibc" rel=3D"noreferrer" target=3D"_blank">sourceware.o=
-rg/git/glibc.git;branch=3Drelease/2.23/master;name=3Dglibc</a>&#39;.<br>
-Unable to fetch URL from any source.<br>
-ERROR: Logfile of failure stored in:<br>
-/home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5e-oe-linux-gnueabi/glib=
-c-initial/2.23-r0/temp/log.do_fetch.31233<br>
-NOTE: recipe glibc-initial-2.23-r0: task do_fetch: Failed<br>
-</blockquote></div>
-
---001a1135a2e852382c052c5e315c--
