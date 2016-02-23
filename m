@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F6307727F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D52AA7727F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 12:20:39 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id hb3so97687028igb.0
+	Tue, 23 Feb 2016 12:22:28 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id b67so134436473qgb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 04:20:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1W4XK9PHJkS9KKPwmOE6O0hkBGRZxP04jNd2zICac0w=;
-	b=pzzKaxfLl8CPNZ9+bDy5OASmWVhZOPezevkIw1TR9SPMJ/lkshKQ/dBmex9NlOJcBR
-	prCf/J+OxipFp73u9pmmcZA0/5dMlK3UD678G6YmRh6jn2qkSfyD8Su271xnfg9N+JfD
-	u6hyKXxE8IRQWaLWOEB5YlIfxX9tSfNGEBmh6YuRCyvBQrsqr4LbcbXgteWyUzLdBRTX
-	N3qQxlMxRa7ENtOqSI+e2/fxWMSPzue3WGMx3oNTPEF9q/5i+5Ug1a+HS39Y/fohgRZG
-	rHkqNV2f8TICzius//8JWpImK6c/MqWjbmgTdYWFG+N/RHm+UIw4PHe6jx1KGM4fpTvu
-	TmNg==
+	Tue, 23 Feb 2016 04:22:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=4NFX5IsNGBSsOnNnK5GhX5TAzzvW99Hmu8VJEObIVcs=;
+	b=iXm5JCtlzvPqlYgQbapfhbiDPXkwAg9pLSaEKes9O44c/uONfR9KTdAQWyGj7hBpaf
+	BYrGvSXiTAtbaijd8sUitpkSygiMfQBRfoADHueUm5GG7wpvUAPr47aJbtCb1bcRwTrM
+	UC3Zr2+J7CL1NOk4G2a3wRDbGGSb7xuZhhg+mbHAEk8jl9gNJbcPDuS+nGz4TmHw2qnY
+	VqBlG/4T0eLm4kfVFV3RI6EFzi9Se1gfIpWvDBMfc+CVaefs2mh/mfvkn/OSZwVXCTKp
+	nxFWrOwejfyXF/7Zp1fWUgmCHX6FozPly4AwHEFFwMR3mHIUVSEfDL6a+qY5ETKoljLj
+	vXAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1W4XK9PHJkS9KKPwmOE6O0hkBGRZxP04jNd2zICac0w=;
-	b=Ib6gBEaTlBdXDhn3pbheayGIIgF3Z+9pWXa0vh1l2mMn3IG985izb+L8p8dPVLaiKG
-	4eAdAGsb/hduhFqY4GihbbLCyOZ23CFxsQSdQ4i3BPjLLy1hEVAfB81+D7OJ8Zx3NtQM
-	QiRDZskDQLfaArJ28jOLtVNgoeRFOhUbqVWSuq9uJraneY1s+24snGB6b8Ym8NPFApwr
-	ad3W74RNLeho3eq2OqukqO/odv7CD48E8/z60gXQFeUp/bTWkciecSc3k2zOCIBTN/jr
-	WlWIeb8S3h/xFp3RjnZfdo0HPrfHVmhTOubqg7WqbXcORLxt9QwnAOogDVSEIDMjFRYd
-	+4+g==
-X-Gm-Message-State: AG10YORERKorpSx+GnukdMmk30ZKnv9PJksMxpFZqe/FRyEhGI8ErwkHm54tQiPIrZxvv2Xw/s7FbnpP4o0MrgUM
-X-Received: by 10.50.78.227 with SMTP id e3mr15618702igx.64.1456230040618;
-	Tue, 23 Feb 2016 04:20:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 23 Feb 2016 04:20:21 -0800 (PST)
-In-Reply-To: <1456228061-17206-2-git-send-email-guojian.zhou@windriver.com>
-References: <1456228061-17206-1-git-send-email-guojian.zhou@windriver.com>
-	<1456228061-17206-2-git-send-email-guojian.zhou@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Feb 2016 12:20:21 +0000
-Message-ID: <CAJTo0LZFXvE2t-3azEnjLDvFm8J1osmLDygTyPYtzRGAvX476w@mail.gmail.com>
-To: guojian.zhou@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oe-core: Update alternatives of info pages
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4NFX5IsNGBSsOnNnK5GhX5TAzzvW99Hmu8VJEObIVcs=;
+	b=A/jBsP2+vNnRUwnCBOhdA5cIB7jMWo74MTv6PQgvu89LFx/3Hyw1B0gO3XdBG+sFdn
+	1vJwGik+dfKSrSOMf+CPOaDFb4cVckVZTHMpUbq/Pi8A7t21lPFN5Hvnv3HJ97hxiR/C
+	h2LKgdcqfjzOMgetud3iMaEMtaoS+Wl7xgscaQvLM2N3xsG2LU26utnq+fQeAVQg6ccJ
+	5ZPYgEY9OtjXVjeefgVrDek4hZdXqiP0Be2SZn5FqPLnDxC1VrAryhdIPz9nNe6AYQGG
+	c0zC1z5wXVnH0nXn8SO2VDRUz2J3Ovxfaxrl/M00YF9Ti1b49mv5D4mMGWahJhjFC1iX
+	Vp/Q==
+X-Gm-Message-State: AG10YOQtvrqRCX+zIzAQHMCWgADhjOLUxlMe6bKfjrxS+utSmeNUR1ZX2hDAWqZb3H0L8w==
+X-Received: by 10.140.102.14 with SMTP id v14mr40389527qge.48.1456230149250;
+	Tue, 23 Feb 2016 04:22:29 -0800 (PST)
+Received: from nyx.sys.comcast.net (a-96-118-179-135.sys.comcast.net.
+	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
+	b34sm8299354qgb.31.2016.02.23.04.22.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Feb 2016 04:22:28 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org 
+Date: Tue, 23 Feb 2016 12:22:22 +0000
+Message-Id: <1456230142-18061-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH V2] musl: Upgrade to 1.1.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +52,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 12:20:40 -0000
-Content-Type: multipart/alternative; boundary=089e0111b73448695d052c6efa7a
+X-List-Received-Date: Tue, 23 Feb 2016 12:22:30 -0000
 
---089e0111b73448695d052c6efa7a
-Content-Type: text/plain; charset=UTF-8
+There has been regressions seen in 1.1.13 hence
+a quick 1.1.14 release is made
 
-On 23 February 2016 at 11:47, <guojian.zhou@windriver.com> wrote:
+license checksum changed due to updates to authors/contributors list
 
-> From: Guojian Zhou <guojian.zhou@windriver.com>
->
-> Update alternatives of info pages in several packages.
->
-> Signed-off-by: Guojian Zhou <guojian.zhou@windriver.com>
->
+here is the list of all changes between 1.1.13 and 1.1.14
 
-Presumably these files are all identical, so would it be simpler to delete
-the conflicting files in gdb and autoconf, leaving binutils (which will
-generally be installed if gdb or autoconf is) to ship the documentation?
+http://git.musl-libc.org/cgit/musl/log/?qt=range&q=v1.1.13..v1.1.14
 
-Ross
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Changed sincd v1:
+- Update LIC_FILES_CHKSUM due to change in authors list
 
---089e0111b73448695d052c6efa7a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ meta/recipes-core/musl/musl.inc    | 2 +-
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 February 2016 at 11:47,  <span dir=3D"ltr">&lt;<a href=3D"mailto:guoj=
-ian.zhou@windriver.com" target=3D"_blank">guojian.zhou@windriver.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":xf" class=3D"=
-a3s" style=3D"overflow:hidden">From: Guojian Zhou &lt;<a href=3D"mailto:guo=
-jian.zhou@windriver.com">guojian.zhou@windriver.com</a>&gt;<br>
-<br>
-Update alternatives of info pages in several packages.<br>
-<br>
-Signed-off-by: Guojian Zhou &lt;<a href=3D"mailto:guojian.zhou@windriver.co=
-m">guojian.zhou@windriver.com</a>&gt;</div></blockquote></div><br>Presumabl=
-y these files are all identical, so would it be simpler to delete the confl=
-icting files in gdb and autoconf, leaving binutils (which will generally be=
- installed if gdb or autoconf is) to ship the documentation?</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+index c3fd5c8..3ad31b5 100644
+--- a/meta/recipes-core/musl/musl.inc
++++ b/meta/recipes-core/musl/musl.inc
+@@ -9,7 +9,7 @@ standards-conformance and safety."
+ HOMEPAGE = "http://www.musl-libc.org/"
+ LICENSE = "MIT"
+ SECTION = "libs"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bccdfe36b123d1b0757d8025278d86ba"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=617ba6560e800d47ec31dc88deb63101"
+ 
+ PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 4151308..250f837 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,9 +3,9 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "cf115059ba0ecd611008c89c78c37b62f8e6d6af"
++SRCREV = "074e6b3fe3f2ad89b991f3d8ab0932035b312a62"
+ 
+-PV = "1.1.13+git${SRCPV}"
++PV = "1.1.14+git${SRCPV}"
+ 
+ # mirror is at git://github.com/kraj/musl.git
+ 
+-- 
+1.8.3.1
 
---089e0111b73448695d052c6efa7a--
+
