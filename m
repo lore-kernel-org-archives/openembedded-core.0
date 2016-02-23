@@ -1,48 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3957E77245
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BF1117704E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 23:34:57 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id g203so195271746iof.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Feb 2016 15:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=KU5wqWa8bqzMFk5NNWceSFFauca6hb8W9H4T6AWoosI=;
-	b=aJQdLiAR7dLWmkGuABvW975p8RE1eDmRYZQgejZv1kWKGn6FvdcOHFYFuT8b+MZzqy
-	h7yZCoz65ngHp3OAtu32sNOP3CM3YwbGyoxCovUG4hX+B68eGie9iiPSlCKBaBXJ+Q2E
-	lTlvK33ZflR3jhrff008nxOsW0qfcMZFmQxVMRuLCQhlCtuWkdfjHEog3CCLvkPBaFWx
-	5mEgdyNMgwbdjN1U/eajBnVjFteudR7WTkVPgq6VqJMQ828xCIPPW+K6RIBMvuaZn0oO
-	79V4RfWy9SZhzPW57qS13twlMG2ZLqAVRRAm/oQmRpTEoj2HvupHW9PlH0ZC7qXClzCu
-	mJqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KU5wqWa8bqzMFk5NNWceSFFauca6hb8W9H4T6AWoosI=;
-	b=OL9dxuEOwMWpPvsr2smrWWu1/vkutUSMOaVHOU4goUGoebwEeA3Bu4KIyQm6ZjTzju
-	Sef2cOy87hpLRxgcjcdcnEinzcaTtpEJEGmdLq/RwBe3beQsyC0OFlGV/AykrRrUEoZ6
-	7p7bp9AX1OyB8O2KiiwXo3jBKvQ3NwW+kvLJWvsP0Mxm4iCtUtAf7dBcq6IfS9HZ8b48
-	h5q/k17bhDwvbq4fRMn1mTBsSp7v2vjcfRdcMsqkbo8vbB/JrbpKowHWJPWvb4Dy8I4c
-	yW/lhcikgbXGVV3PBu/IeTOX90vZXCxkH/ZaID3L9g3To1HirXbqMXKhcXbJTstzQ8De
-	nz+w==
-X-Gm-Message-State: AG10YOTYmZR/1yPCG/SfVXM9biNQqlU6FoAJK211K2grNT15ENLCdWcYwi5mQB20bWBFMWsFhlOx0PuC08pHGGG8
-X-Received: by 10.107.164.15 with SMTP id n15mr28348213ioe.148.1456184098493; 
-	Mon, 22 Feb 2016 15:34:58 -0800 (PST)
+	Tue, 23 Feb 2016 02:49:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1N2n9uM020409
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Feb 2016 18:49:09 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 22 Feb 2016 18:49:08 -0800
+From: <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Tue, 23 Feb 2016 10:45:56 +0800
+Message-ID: <cover.1456195451.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.1
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 22 Feb 2016 15:34:39 -0800 (PST)
-In-Reply-To: <1456183794.19577.5.camel@intel.com>
-References: <1454588030-26081-1-git-send-email-cristina-danielax.agurida@intel.com>
-	<1456183794.19577.5.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Feb 2016 23:34:39 +0000
-Message-ID: <CAJTo0LYFqPjSTVAYPT=afX4o1Qp8cp4wPNjC7DAHfp6=NR0g+A@mail.gmail.com>
-To: Saul Wold <saul.wold@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/parselogs: Updated whitelist
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] V3: Replace retry logic in useradd with flock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Feb 2016 23:34:59 -0000
-Content-Type: multipart/alternative; boundary=001a11377682eb3dc5052c6447c1
+X-List-Received-Date: Tue, 23 Feb 2016 02:49:11 -0000
+Content-Type: text/plain
 
---001a11377682eb3dc5052c6447c1
-Content-Type: text/plain; charset=UTF-8
+From: Kai Kang <kai.kang@windriver.com>
 
-On 22 February 2016 at 23:29, Saul Wold <saul.wold@intel.com> wrote:
+V3:
 
-> Ping, this does not appear to be in -next or ross/mut, any issues?
->
+* remove checks before operations such as useradd/userdel etc.
 
-I meant to reply about how the grep code is insanely overcomplicated, but
-that can be fixed later.  Marked to merge to mut now.
+The following changes since commit ea8c34e976c11757ed9869c51b48f39050e25708:
 
-Ross
+  libnewt: Fix build with PIE flags (2016-02-21 09:32:43 +0000)
 
---001a11377682eb3dc5052c6447c1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 February 2016 at 23:29, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:saul.wold@intel.com" target=3D"_blank">saul.wold@intel.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":b5e" class=3D"a3s"=
- style=3D"overflow:hidden">Ping, this does not appear to be in -next or ros=
-s/mut, any issues?<br></div></blockquote></div><br>I meant to reply about h=
-ow the grep code is insanely overcomplicated, but that can be fixed later.=
-=C2=A0 Marked to merge to mut now.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+  git://git.pokylinux.org/poky-contrib kangkai/flockv3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/flockv3
 
---001a11377682eb3dc5052c6447c1--
+Kai Kang (1):
+  useradd_base.bbclass: fix simultaneous with flock
+
+ meta/classes/useradd.bbclass      |   6 +-
+ meta/classes/useradd_base.bbclass | 186 ++++++++------------------------------
+ 2 files changed, 40 insertions(+), 152 deletions(-)
+
+-- 
+2.6.1
+
+
