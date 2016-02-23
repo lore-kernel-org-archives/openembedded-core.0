@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6383477331
+	by mail.openembedded.org (Postfix) with ESMTP id 7D61077333
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 11:36:33 +0000 (UTC)
+	Tue, 23 Feb 2016 11:36:34 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2016 03:36:27 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2016 03:36:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,489,1449561600"; d="scan'208";a="892595214"
+X-IronPort-AV: E=Sophos;i="5.22,489,1449561600"; d="scan'208";a="892595220"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2016 03:36:24 -0800
+	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2016 03:36:25 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Feb 2016 13:36:22 +0200
-Message-Id: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Tue, 23 Feb 2016 13:36:23 +0200
+Message-Id: <1456227383-9212-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] Wipe ${S} before unpacking sources
+In-Reply-To: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH] base.bbclass wipe ${S} before unpacking source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,24 +31,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 23 Feb 2016 11:36:34 -0000
 
-It would seem reasonable that do_unpack() always results in a pristine source
-tree. This patch causes ${S} to be removed before unpacking sources.
-
-I didn't quite understand what kind of "investigation" the following code
-comment in do_unpack() was referring to:
-  # TODO: Investigate if we can remove
-  # the entire ${S} in this case.
-What kind of special cases might we have? At least qemux86 core-image-sato
-builds fine for me.
+Make sure that we have a pristine source tree after do_unpack.
 
 [YOCTO #9064]
 
-Markus Lehtonen (1):
-  base.bbclass wipe ${S} before unpacking source
-
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
  meta/classes/base.bbclass | 8 +++-----
  1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 1372f38..717a01e 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -140,12 +140,10 @@ python base_do_unpack() {
+ 
+     rootdir = d.getVar('WORKDIR', True)
+ 
+-    # Ensure that we cleanup ${S}/patches
+-    # TODO: Investigate if we can remove
+-    # the entire ${S} in this case.
++    # Cleanup ${S}
+     s_dir = d.getVar('S', True)
+-    p_dir = os.path.join(s_dir, 'patches')
+-    bb.utils.remove(p_dir, True)
++    if s_dir != rootdir and not d.getVar("EXTERNALSRC", True):
++        bb.utils.remove(s_dir, True)
+ 
+     try:
+         fetcher = bb.fetch2.Fetch(src_uri, d)
 -- 
 2.6.2
 
