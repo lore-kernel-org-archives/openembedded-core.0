@@ -1,46 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 11F13772C8
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B689772C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 18:54:36 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id c10so120618635pfc.2
+	Tue, 23 Feb 2016 18:54:41 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id fy10so114561398pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 10:54:37 -0800 (PST)
+	Tue, 23 Feb 2016 10:54:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=NvMQ+lrvMk0fr6dINOYp6jOATHKnYF8tSjAeSgmWlr8=;
-	b=xSgugjMD1PJl0OUdbiIm/90I29cHkULIID+CM1GRsyw4w6r3JrV6F9SvoXJo5IIQU3
-	6MpKj9w+4albDLaM7OWuZMqNDZulY0L7p+5WzjeFgpladYG6JTU1YoevunwK+4IKYqZJ
-	kgkpZ5rF3UFLSE5ugU8Fxm1+cU9dAjlD1BFIT9LSPNp9k3hViANzSlioHv5wmPejeqR9
-	vTxp+JCHgh8Gg9omk5GnNmeyWoCm9rL/AEJ/IgrN8XG9/05afSr0LFH/2BqQrR0pEdh0
-	zHkms82xvce+FPlwL1Vj3vVrlp1gEdFqY7AvTkccojWWYD5enPEfnpVJcB//qLCVWEqu
-	ox7A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ZZQeRrdyeYRTNDMZ83EhWu5ozCYTdu2tYFyfan+dGb0=;
+	b=Epb9LhToL1/EIMr18gBjQmBqFCjPqYJiOyQCtJ7NWTCKR1Uwg181tim4YUsD0B6Bgs
+	fKpQbLWue0/fOizbHVBat+7AUWEQvbwQyRghnu90K0L6uC8EgJqT4+ZSZ7FZRKOwutzD
+	/dfzSg6TlZgnKSqdp2v2cMJ0TG95+Eus480YrXcbWbkAod4Rs7h5c2ECEMG3in5GUpVk
+	7ABPJGQvDMyfrtJH/YdcM59uUh9Xh50tb2I5oytKV3eqXjpU4/KsxGOUPnCFp0DB16Ac
+	M8FzBTxSAjy3RSTGt3w0XVIrrYRKZzr0SMS+hNSYaNdOoCDasqFXdcd2JnJpxqOKymnz
+	yLMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NvMQ+lrvMk0fr6dINOYp6jOATHKnYF8tSjAeSgmWlr8=;
-	b=g6LmqX5qiaQYHDhHrVhemNzca6zjiXZbjhlPoNsZoef6HPbls4ZW7r8/AicYsC8aL+
-	JYdj2bD4DDFwFNVY6twUlgp4bWjBb8XrTj6wXe5OEIkbY4HKNjc9dQN0pAjbeD/hAw3V
-	9j9RnztKwNYTNeftKOoN1A1VQosye1nbew76H0SKa2vQgd9vxgI4brpO1KSnFi1m8zlw
-	em1NeGmNlC4csWSBp3l3gQLTqC9d2A+FW7PI6GJSZnE1oBFwjI27HOjWriZAR/vIV0Nk
-	rchDJG+Bw/XLZhOeJz3djOzz1NP6/QjT75wYp56vRKbU4KpUsneooh89+SJ+Jj0Xxt02
-	CGPw==
-X-Gm-Message-State: AG10YOSFi1OEZQph6AI7SAhv8hCPWDojiODlOK+xgne+IROo2VlLojqXlJZt7N4Qmx/W4A==
-X-Received: by 10.98.68.73 with SMTP id r70mr49157902pfa.136.1456253677411;
-	Tue, 23 Feb 2016 10:54:37 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=ZZQeRrdyeYRTNDMZ83EhWu5ozCYTdu2tYFyfan+dGb0=;
+	b=QVjRUdiEpqosGOHJBkBNO/EIYlpTtzx2PL3h4jTY2+7RxI5GAW32YyzJsZ14yDkBmZ
+	HL4/umng7pLuZoF7j3o1Wm/QUE4FEx3hEOUzpLi56DFR1lepxso4GHXsatwmtkmu/Qi9
+	OwTw4+UuFnUt4ntRMKf9qkpaw6jewl1PnFMp2ViP7fq2Vpir70kaIMnEGRyEen0D02yF
+	Uhfv2OCDStWSGuyOvwKhF40B4hQUmrcqivMdINT1Aawahm/nbn/L2+gREvh1r+ekAfhj
+	0g9zBqcZaBoasVe2ukZcQZWaKAyl3/nVlcQ/R2XPcxufJky4pSJ6KJbBTxpvSd+stUKc
+	ll9Q==
+X-Gm-Message-State: AG10YOQAV5pXyF+LX71wD8AlXpQsNz1PaodCv/x/ariNhnKIus3kv5k6Vpl46vEqZOmFAA==
+X-Received: by 10.66.62.229 with SMTP id b5mr49342572pas.114.1456253682830;
+	Tue, 23 Feb 2016 10:54:42 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	ll7sm40535922pab.6.2016.02.23.10.54.30
+	ll7sm40535922pab.6.2016.02.23.10.54.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 23 Feb 2016 10:54:31 -0800 (PST)
+	Tue, 23 Feb 2016 10:54:39 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Feb 2016 10:54:24 -0800
-Message-Id: <1456253665-2420-1-git-send-email-armccurdy@gmail.com>
+Date: Tue, 23 Feb 2016 10:54:25 -0800
+Message-Id: <1456253665-2420-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/2] harfbuzz: update 1.2.0 -> 1.2.1
+In-Reply-To: <1456253665-2420-1-git-send-email-armccurdy@gmail.com>
+References: <1456253665-2420-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 2/2] harfbuzz: add explicit dependency on fontconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 18:54:37 -0000
+X-List-Received-Date: Tue, 23 Feb 2016 18:54:42 -0000
 
-Overview of changes leading to 1.2.1
-Friday, February 23, 2016
-====================================
-
-- CoreText: Fix bug with wrong scale if font scale was changed later.
-  https://github.com/libass/libass/issues/212
-- CoreText: Drastically speed up font initialization.
-- CoreText: Fix tiny leak.
-- Group ZWJ/ZWNJ with previous syllable under cluster-level=0.
-  https://github.com/behdad/harfbuzz/issues/217
-- Add test/shaping/README.md about how to add tests to the suite.
+The fontconfig dependency was previously met indirectly (via cairo).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../harfbuzz/{harfbuzz_1.2.0.bb => harfbuzz_1.2.1.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.2.0.bb => harfbuzz_1.2.1.bb} (87%)
+ meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
-similarity index 87%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.2.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
-index 2ef7d4d..f88e634 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.0.bb
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
+index f88e634..fead2d3 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
 +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo freetype"
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+                     file://src/hb-ucdn/COPYING;md5=994ba0f1295f15b4bda4999a5bbeddef \
+ "
+ 
+-DEPENDS = "glib-2.0 cairo freetype"
++DEPENDS = "glib-2.0 cairo fontconfig freetype"
  
  SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
  
--SRC_URI[md5sum] = "59e3464e78a9864dff09f608a6befdca"
--SRC_URI[sha256sum] = "79ff5305153d15931fbdda80c9612783b0283dee44f4c2af71aa37353daaa685"
-+SRC_URI[md5sum] = "c50034739e4b5ea85d46199bf7859ea6"
-+SRC_URI[sha256sum] = "0c189aa386c5ea8d7c315adf273f56f48f412081a367b3f92abc2d0855fa2226"
+@@ -20,7 +20,13 @@ inherit autotools pkgconfig lib_package
+ PACKAGECONFIG ??= "icu"
+ PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
  
- inherit autotools pkgconfig lib_package
+-EXTRA_OECONF = "--with-glib --with-freetype --with-cairo --without-graphite2"
++EXTRA_OECONF = " \
++    --with-cairo \
++    --with-fontconfig \
++    --with-freetype \
++    --with-glib \
++    --without-graphite2 \
++"
+ 
+ PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
  
 -- 
 1.9.1
