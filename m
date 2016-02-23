@@ -1,24 +1,20 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F4E5772B1
+	by mail.openembedded.org (Postfix) with ESMTP id 6383477331
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 10:28:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2016 02:28:41 -0800
+	Tue, 23 Feb 2016 11:36:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2016 03:36:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,488,1449561600"; d="scan'208";a="909306448"
+X-IronPort-AV: E=Sophos;i="5.22,489,1449561600"; d="scan'208";a="892595214"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2016 02:28:39 -0800
-Message-ID: <1456223318.2298.43.camel@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2016 03:36:24 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 23 Feb 2016 12:28:38 +0200
-In-Reply-To: <cover.1455895912.git.adrian.ratiu@ni.com>
-References: <cover.1455895912.git.adrian.ratiu@ni.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: [PATCH v6 0/4] IPK signing for the gpg_sign module
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Feb 2016 13:36:22 +0200
+Message-Id: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] Wipe ${S} before unpacking sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 10:28:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Feb 2016 11:36:34 -0000
 
-Hi,
-Resending as my I got a strange "Only members may post to the list."
-error yesterday...
+It would seem reasonable that do_unpack() always results in a pristine source
+tree. This patch causes ${S} to be removed before unpacking sources.
 
-On Fri, 2016-02-19 at 17:45 +0200, Ioan-Adrian Ratiu wrote:
-> This patch series extends the gpg_sign module to support ipk signing.
-> 
-> v6 implements Markus' feedback. The most notable change is the
-> sign_ipk
-> and detach_sign merger, as they were almost identical in
-> functionality.
-> This also meant a refactoring for detach_sign and a bug fix for the
-> STDIN file descriptor introduced in gpg > 2.1.
-> 
-> Technically that STDIN bug is a feature (meh) of gpg >2.1 which
-> breaks
-> existing behaviour so we have to work around it i.e. check the gpg
-> version and use the loopback interface. This means that gpg-agent to
-> which gpg >2.1 always connects needs to be running permanently.
-> 
-> Ioan-Adrian Ratiu (4):
->   gpg_sign: add local ipk package signing functionality
->   gpg_sign: detach_sign: fix gpg > 2.1 STDIN file descriptor
->   gpg_sign: export_pubkey: add signature type support
->   package_manager: sign IPK package feeds
-> 
->  meta/classes/package_ipk.bbclass       |  5 +++
->  meta/classes/sign_ipk.bbclass          | 52 ++++++++++++++++++++++++
->  meta/classes/sign_package_feed.bbclass | 12 +++++-
->  meta/lib/oe/gpg_sign.py                | 74
-> +++++++++++++++++++++++++++-------
->  meta/lib/oe/package_manager.py         | 17 +++++++-
->  5 files changed, 143 insertions(+), 17 deletions(-)
->  create mode 100644 meta/classes/sign_ipk.bbclass
+I didn't quite understand what kind of "investigation" the following code
+comment in do_unpack() was referring to:
+  # TODO: Investigate if we can remove
+  # the entire ${S} in this case.
+What kind of special cases might we have? At least qemux86 core-image-sato
+builds fine for me.
 
-I just realized that it would be good to add the ipk signing key to the
-signing_keys.bb recipe.
+[YOCTO #9064]
 
-However, it'd probably be good to write it on top of Randy Witt's
-rework:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-February
-/117791.html
+Markus Lehtonen (1):
+  base.bbclass wipe ${S} before unpacking source
 
+ meta/classes/base.bbclass | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Thanks,
- Markus
+-- 
+2.6.2
+
 
