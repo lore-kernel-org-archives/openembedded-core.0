@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 790EF77246
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id AAC71731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 21:05:08 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id l127so1868866iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 13:05:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Ku5x5xb1ahs6+48RpPul7fgVF6sRKClizvlKwvcL/50=;
-	b=dxNmqbxfeBirwzlk/1ng42enZplJBhvbkuk/M1GFSHqvaQt6vVqBZ5fiTj68/8P+3Q
-	koE+hZEFfto+h0/OzwvL8frdiXafcCoj1i/dZQuO87+qf8X/kek4Q8TZyShrWwKb+MC0
-	oB+daGg/2ZJ6Aj0FJ8QkXPZXSKATmJaKAv1GfhFPJG2WB/xiXdciIS75Xh2Pei2L7f8m
-	TWN70qBX1dnvyeJlDBfR/yUvIjCd0hZLIf6jQY2UqucI4xSD9FlKx4hON5Z7HCt8J7wM
-	RXJBNJS1OBWXJp45Cyay5hSCmyE87VNq8Su6mdOml/c5xDviM4btu7GqGqP6xJBIjEtM
-	MTtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Ku5x5xb1ahs6+48RpPul7fgVF6sRKClizvlKwvcL/50=;
-	b=EkNGYlvHVJGYX9qtPIyIS2Vy9PgTo14zd8t7sTvdoD60TazAjvoWeov/NtVTxU+RSD
-	+IuLjHfLMQpMrKTa8YOd5IEyJKGM8gktosuMONYzKbWqdF0UeSkwO6n6I8lxp8VnsJoV
-	pL022Cp883geN4jQvS6hZyNAI+Xp2dc80A26J/Vus+HyfDsueUqtZQ7WeGLRT7Vf3gXi
-	vDMv400/z4fGvco1GvyYCi1NEgyAVQKwLQ4fplOa6FI9K5sMuFa2Sh3LFyOk6TOOFpxY
-	A6Z2wUn2z748g/fp4SoUpsAvLnJ1HWT0Zjvn+U/2RrRfuhrSFZ3itREDcboECBReULCa
-	rU5A==
-X-Gm-Message-State: AG10YOTPfnqW6ljJJOdVBWPM+SJr8GTTtTXviTYTpxCXdD3M2G+GWPHpQBkl/7+4yOECexhzJUdaOGU5UuiJPysE
-X-Received: by 10.107.3.220 with SMTP id e89mr33630005ioi.99.1456261509120;
-	Tue, 23 Feb 2016 13:05:09 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 23 Feb 2016 13:04:49 -0800 (PST)
-In-Reply-To: <1456228061-17206-1-git-send-email-guojian.zhou@windriver.com>
-References: <1456228061-17206-1-git-send-email-guojian.zhou@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Feb 2016 21:04:49 +0000
-Message-ID: <CAJTo0La=5Wo4hseZi-_PjZg0eanh-Qf=1aGpK71iqvTT_OyPmQ@mail.gmail.com>
-To: guojian.zhou@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] oe-core: Update alternatives of man pages
+	Tue, 23 Feb 2016 21:20:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2016 13:20:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,491,1449561600"; d="scan'208";a="658091551"
+Received: from ardilla-nuc.zpn.intel.com ([10.219.128.114])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 13:20:20 -0800
+Message-ID: <1456262420.13465.101.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Reply-To: benjamin.esquivel@linux.intel.com
+To: Alex Franco <alejandro.franco@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+In-Reply-To: <1456218868-36139-3-git-send-email-alejandro.franco@linux.intel.com>
+References: <1456218868-36139-1-git-send-email-alejandro.franco@linux.intel.com>
+	<1456218868-36139-3-git-send-email-alejandro.franco@linux.intel.com>
+Organization: Intel Corporation
+Date: Tue, 23 Feb 2016 15:20:20 -0600
+Mime-Version: 1.0
+X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
+Subject: Re: [PATCHv2 2/2] testimage.bbclass: reuse generic test suites
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 21:05:08 -0000
-Content-Type: multipart/alternative; boundary=001a113f0e7cf3be3a052c764d11
+X-List-Received-Date: Tue, 23 Feb 2016 21:20:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113f0e7cf3be3a052c764d11
-Content-Type: text/plain; charset=UTF-8
+Hi Franco, how did you test this? what is the behavior you get with
+these defaults instead of how's behaving now?
 
-On 23 February 2016 at 11:47, <guojian.zhou@windriver.com> wrote:
+See comments below.
 
-> +ALTERNATIVE_${PN}-doc += "eject.1 su.1"
->
+On Tue, 2016-02-23 at 09:14 +0000, Alex Franco wrote:
+> Modify existing default test suites to reuse the new
+> generic test suites.
+> 
+> Related to [YOCTO #8410]
+> 
+> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+> ---
+>  meta/classes/testimage.bbclass | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/testimage.bbclass
+> b/meta/classes/testimage.bbclass
+> index 791cce3..e77bb11 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -37,17 +37,19 @@ MINTESTSUITE = "ping"
+>  NETTESTSUITE = "${MINTESTSUITE} ssh df date scp syslog"
+>  DEVTESTSUITE = "gcc kernelmodule ldd"
+>  
+> -DEFAULT_TEST_SUITES = "ping auto"
+> -DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+> +DEFAULT_TEST_SUITES = "${MINTESTSUITE} auto"
+> +DEFAULT_TEST_SUITES_pn-core-image-minimal = "${MINTESTSUITE}"
+>  DEFAULT_TEST_SUITES_pn-core-image-minimal-dev = "${MINTESTSUITE}"
+>  DEFAULT_TEST_SUITES_pn-core-image-full-cmdline = "${NETTESTSUITE}
+> perl python logrotate"
+>  DEFAULT_TEST_SUITES_pn-core-image-x11 = "${MINTESTSUITE}"
+>  DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam
+> parselogs ${RPMTESTSUITE}"
+> -DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog
+> xorg scp date parselogs ${RPMTESTSUITE} \
+> +DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman
+> xorg parselogs ${RPMTESTSUITE} \
+>      ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman
+> syslog xorg scp date perl ldd gcc kernelmodule python parselogs
+> ${RPMTESTSUITE}"
+> +DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE}
+> connman xorg perl python \
+> +    ${DEVTESTSUITE} parselogs ${RPMTESTSUITE}"
+>  DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam
+> perl python parselogs ${RPMTESTSUITE}"
+> -DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "ping buildcvs
+> buildiptables buildsudoku connman date df gcc kernelmodule ldd pam
+> parselogs perl python scp ${RPMTESTSUITE} ssh syslog logrotate"
+> +DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE}
+> buildcvs buildiptables buildsudoku \
+> +    connman ${DEVTESTSUITE} pam perl python parselogs
 
-WARNING: util-linux-2.27.1-r0 do_package: util-linux: alternative target
-(/usr/share/man/man1/su.1 or /usr/share/man/man1/su.1.util-linux) does not
-exist, skipping...
-WARNING: util-linux-2.27.1-r0 do_package: util-linux: NOT adding
-alternative provide /usr/share/man/man1/su.1:
-/usr/share/man/man1/su.1.util-linux does not exist
-WARNING: util-linux-2.27.1-r0 do_package: util-linux: alt_link ==
-alt_target: /usr/share/man/man1/su.1 == /usr/share/man/man1/su.1
+These lots of declarations seem to be suited for a .inc file instead of
+living in the bbclass.
+> ${RPMTESTSUITE}"
+>  DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+>  
+>  # aarch64 has no graphics
+> -- 
+> 2.6.2
+> 
 
-Looks like the generation of the documentation isn't deterministic, can you
-fix that first?
-
-Ross
-
---001a113f0e7cf3be3a052c764d11
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 February 2016 at 11:47,  <span dir=3D"ltr">&lt;<a href=3D"mailto:guoj=
-ian.zhou@windriver.com" target=3D"_blank">guojian.zhou@windriver.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div id=3D":c0b" class=3D"" style=3D"ov=
-erflow:hidden">+ALTERNATIVE_${PN}-doc +=3D &quot;eject.1 su.1&quot;<br></di=
-v></blockquote></div><br><div class=3D"gmail_extra">WARNING: util-linux-2.2=
-7.1-r0 do_package: util-linux: alternative target (/usr/share/man/man1/su.1=
- or /usr/share/man/man1/su.1.util-linux) does not exist, skipping...</div><=
-div class=3D"gmail_extra">WARNING: util-linux-2.27.1-r0 do_package: util-li=
-nux: NOT adding alternative provide /usr/share/man/man1/su.1: /usr/share/ma=
-n/man1/su.1.util-linux does not exist<br></div><div class=3D"gmail_extra">W=
-ARNING: util-linux-2.27.1-r0 do_package: util-linux: alt_link =3D=3D alt_ta=
-rget: /usr/share/man/man1/su.1 =3D=3D /usr/share/man/man1/su.1</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Looks like the gen=
-eration of the documentation isn&#39;t deterministic, can you fix that firs=
-t?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div></div>
-
---001a113f0e7cf3be3a052c764d11--
