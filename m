@@ -1,48 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C609772EE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 13:54:42 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id 9so215108737iom.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 05:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=u+OAEouQiQy9ZTmh57fsiL2tyJFE88Pf+u4LIhVz2bQ=;
-	b=I/X5dBC+C5rf7cyIS1GFLfPMXNNNhrRYYhP7GH2s47kDMSECdtOb2+v89kfSNfTVfS
-	YYNX102D3XACUVr+aSiKi8IO57vlmxTjyLz8BKAgPsgNYDv2fQPIRNCyjDVldU+KI7M7
-	cLsGu7WpADm0qmoEX+VcPuO8C9FhCB6WAkf7T5YYRrLreOGLgQDubwHDyGoV6xMk/xbE
-	ogK0LgQlYK0LAMcwh4bUpR9WrRe5e8OPGiCZFTDd2H0e/5AssXtWb+aOjR66Xvm1zA8U
-	IVpaD/g1N231kCTXGro4O2dLgjQS/V23u1GNmoyuNd4AFGs9gApm/upzXeGWtkpuZrI5
-	R08g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=u+OAEouQiQy9ZTmh57fsiL2tyJFE88Pf+u4LIhVz2bQ=;
-	b=dk4AqkI/imvaH6bHXSa63o2LGXxNEYR7PjAYb+9GizR+LsPjGGnYQ1aBpVZsaZ90k6
-	YirLoDqYv4LHdDiTXLe7JuiEKnGjrc3dJzDxUm+TWhy4ZXHIzmJAP6YGerBKLJIUlu0w
-	S+Ph5SB7UwglIYk7NIo0ljbplQpUzVUDM+j+ocND754kvP1xp3zjjUwH/AY5QO03T8bq
-	Y6i1W6K6EUS1WS9G1FRL0X7njNi5D+yY0jcJYaYd9BfKuh/CpYeoAM+wgf8U0xCaC+KQ
-	59FcAFK6vlT1tbPP4eMT8IMQ67GMYxyM30BtWJej/UeDGqLqDwQ1jjBHfpSD5336ojc0
-	IBsw==
-X-Gm-Message-State: AG10YOQkK+aPg4IWvD7ibvIB9RKkaC+LhHQmj1nuLLNg2QCkYkA9iXr14f3a0eBtZn/mPsZTDf/GKXMMMicSOQ2L
-X-Received: by 10.107.3.220 with SMTP id e89mr31857136ioi.99.1456235683027;
-	Tue, 23 Feb 2016 05:54:43 -0800 (PST)
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E7BC36FF5D;
+	Tue, 23 Feb 2016 14:03:57 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 23 Feb 2016 06:03:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,489,1449561600"; d="scan'208";a="922083963"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2016 06:03:48 -0800
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 43FBF6A4006; Tue, 23 Feb 2016 06:51:37 -0800 (PST)
+Received: from 10.252.15.38 (SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Tue, 23 Feb 2016 16:51:37 +0200 (EET)
+Message-ID: <64589.10.252.15.38.1456239097.squirrel@linux.intel.com>
+Date: Tue, 23 Feb 2016 16:51:37 +0200 (EET)
+From: alexander.kanavin@linux.intel.com
+To: openembedded-devel@lists.openembedded.org
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 23 Feb 2016 05:54:23 -0800 (PST)
-In-Reply-To: <1456227383-9212-2-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1456227383-9212-2-git-send-email-markus.lehtonen@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Feb 2016 13:54:23 +0000
-Message-ID: <CAJTo0LZdtxNJa3FPAthW02iS2n+-xvntVrGU1MwA5vWvh1FnXg@mail.gmail.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass wipe ${S} before unpacking source
+X-Priority: 3 (Normal)
+Importance: Normal
+References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>   
+	<CAJTo0LYW=LbsM8kaaqUnukH_p7U1i-EpXcPsekjbjwFooxXW9g@mail.gmail.com> 
+	<DUB130-W6784E5708A3084D22AA513DAD60@phx.gbl>   
+	<56B9C154.2030002@linux.intel.com>
+In-Reply-To: <56B9C154.2030002@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: gobject introspection to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +39,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 13:54:43 -0000
-Content-Type: multipart/alternative; boundary=001a113f0e7c98b36c052c704a1f
+X-List-Received-Date: Tue, 23 Feb 2016 14:03:58 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
---001a113f0e7c98b36c052c704a1f
-Content-Type: text/plain; charset=UTF-8
-
-On 23 February 2016 at 11:36, Markus Lehtonen <
-markus.lehtonen@linux.intel.com> wrote:
-
-> Make sure that we have a pristine source tree after do_unpack.
+>> meta-gnome/recipes-gnome/libwnck/libwnck_2.31.0.bb
+>> meta-multimedia/recipes-connectivity/gupnp/gupnp-igd_0.2.2.bb
+>> meta-oe/recipes-devtools/libgee/libgee_0.16.1.bb
+>> meta-oe/recipes-gnome/gtkextra/gtkextra_3.0.5.bb
+>> meta-oe/recipes-support/upower/upower_0.9.14.bb
 >
+> Those recipes are all in meta-oe - fixing them is not in scope at the
+moment. For now the introspection patchset is strictly for oe-core.
+>
+> You are welcome to develop and maintain a companion meta-oe patchset
+though.
 
-Interestingly this fails on db-native rebuild for me, as db is playing
-games with S (it's not the top of the tarball).  I had a look at the db
-recipe, screamed a bit, and am testing a patch to make it more idiomatic.
-Let's throw this at the autobuilder and see what happens...
+Actually, scratch that. I realized that I'm probably the most qualified to
+do this, and if I don't, there will be maintainer fury when introspection
+lands in oe-core and dozens of recipes in meta-oe break. So without
+further ado, here's the initial introspection patchset for meta-oe, which
+you are welcome to try and test:
+http://git.openembedded.org/meta-openembedded-contrib/log/?h=akanavin/gobject-introspection-fixes
 
-Ross
+Cheers,
+Alex
 
---001a113f0e7c98b36c052c704a1f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 February 2016 at 11:36, Markus Lehtonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:markus.lehtonen@linux.intel.com" target=3D"_blank">markus.lehton=
-en@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":2po" class=3D"a3s" style=3D"overflow:hidden">Make sure that we =
-have a pristine source tree after do_unpack.<br></div></blockquote></div><b=
-r>Interestingly this fails on db-native rebuild for me, as db is playing ga=
-mes with S (it&#39;s not the top of the tarball).=C2=A0 I had a look at the=
- db recipe, screamed a bit, and am testing a patch to make it more idiomati=
-c.=C2=A0 Let&#39;s throw this at the autobuilder and see what happens...</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a113f0e7c98b36c052c704a1f--
