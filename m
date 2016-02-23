@@ -1,32 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E7BC36FF5D;
-	Tue, 23 Feb 2016 14:03:57 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 23 Feb 2016 06:03:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,489,1449561600"; d="scan'208";a="922083963"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2016 06:03:48 -0800
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 43FBF6A4006; Tue, 23 Feb 2016 06:51:37 -0800 (PST)
-Received: from 10.252.15.38 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Tue, 23 Feb 2016 16:51:37 +0200 (EET)
-Message-ID: <64589.10.252.15.38.1456239097.squirrel@linux.intel.com>
-Date: Tue, 23 Feb 2016 16:51:37 +0200 (EET)
-From: alexander.kanavin@linux.intel.com
-To: openembedded-devel@lists.openembedded.org
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+Return-Path: <pascal.bach@siemens.com>
+Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DD677732F
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Feb 2016 14:09:56 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id u1NE9sEp025163
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Feb 2016 15:09:54 +0100
+Received: from [139.16.79.204] (MD1FZU9C.ww002.siemens.net [139.16.79.204])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id u1NE9sTl009288
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Feb 2016 15:09:54 +0100
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+From: Pascal Bach <pascal.bach@siemens.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <56CC6832.90506@siemens.com>
+Date: Tue, 23 Feb 2016 15:09:54 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>   
-	<CAJTo0LYW=LbsM8kaaqUnukH_p7U1i-EpXcPsekjbjwFooxXW9g@mail.gmail.com> 
-	<DUB130-W6784E5708A3084D22AA513DAD60@phx.gbl>   
-	<56B9C154.2030002@linux.intel.com>
-In-Reply-To: <56B9C154.2030002@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: gobject introspection to oe-core
+Subject: Debugging using sysroots and GDB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,29 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 14:03:58 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 23 Feb 2016 14:09:57 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
->> meta-gnome/recipes-gnome/libwnck/libwnck_2.31.0.bb
->> meta-multimedia/recipes-connectivity/gupnp/gupnp-igd_0.2.2.bb
->> meta-oe/recipes-devtools/libgee/libgee_0.16.1.bb
->> meta-oe/recipes-gnome/gtkextra/gtkextra_3.0.5.bb
->> meta-oe/recipes-support/upower/upower_0.9.14.bb
->
-> Those recipes are all in meta-oe - fixing them is not in scope at the
-moment. For now the introspection patchset is strictly for oe-core.
->
-> You are welcome to develop and maintain a companion meta-oe patchset
-though.
+Hi Everybody
 
-Actually, scratch that. I realized that I'm probably the most qualified to
-do this, and if I don't, there will be maintainer fury when introspection
-lands in oe-core and dozens of recipes in meta-oe break. So without
-further ado, here's the initial introspection patchset for meta-oe, which
-you are welcome to try and test:
-http://git.openembedded.org/meta-openembedded-contrib/log/?h=akanavin/gobject-introspection-fixes
+Currently debugging using sysroots seems to work as long as the work folder containing the original source is available.
+Once this work dir is gone the debugger is no longer able to find the source code. This is especially confusing if some packages are taken from sstate and others are built in the current projects, because for some libraries the sources can be found and for others not. It is hard at first to figure out the reason why one works and the other not.
 
-Cheers,
-Alex
+In order to make it easier to debug using sysroots I propose to modify the how the sysroots is built to do somethins similar to rootfs:
+
+1. Changing the source reference in the debug symbols to point to the source under /usr/src/debug
+2. Copy the sources into /usr/src/debug under sysroots similar to how it is done for a debug rootfs.
+3. Document that the user needs to add the following to the .gdbinit to make it work:
+    ```
+    set sysroot /project/oe/build/tmp/sysroots/<target_sysrtoot>
+    set substitute-path /usr/src/debug /project/oe/build/tmp/sysroots/<target_sysrtoot>/usr/src/debug
+    ```
+
+This would also allow the sysroot to be relocatable as it is kind of standalone and everything required to debug is included.
+
+What do you think? Does this proposal make sense, or did I miss something and this is completly unnecessary and there is an easier way already working?
+
+Regards
+Pascal
 
