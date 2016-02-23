@@ -1,50 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F0E77737B
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CCD0771CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 17:10:35 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id xg9so103278306igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 09:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=UT5qkSVo85oZPI72IPLsgM4IkQB2JZvvLUFjaULPysU=;
-	b=dEYdWwtCodwdgvW2L37a4dkCotXRuRyM5huhSvQQStSGGeUfLAWs2fLio9oh8lTQWV
-	iL/EfBRDtQd/q1qEWET+UzOW8Wrwumt6KCHZYIXC772/ovPiAvY0GNIdQ9769sCxKvrV
-	UC/OgCrG2cLuZ9VnGFVskNhe6RYgH2dlVpFqtRQg1HonflM3mX4Icl/LfPUhacke6Ad6
-	3xU8ZI0JN1kh+oWQZbBzxbMIgBX7FNkstFGM8cHSWuf0je2PgBj3SkB8ok+XJjLa8nxG
-	vpxyVPUtTBDwucUvyvxBeNsAN2glTWPVOtibmdzozdObNTIjGxAEzLkxNWTTkiS5al1g
-	8mrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UT5qkSVo85oZPI72IPLsgM4IkQB2JZvvLUFjaULPysU=;
-	b=PBFKE7+uyC4i/5P4pbXeJVKufWr/38TXaeswijeaW4ZB/yIneMBgVaCx4VgAhfGcUf
-	XW2e9gG+us14VV5o5PUbUMwPWPp73/RXpwulAdWGqFkSrp49rZwKrp3U8lMBhHI7uWL/
-	S7KBfTj0zDlgZbGk9GWPwq/Hjh0mg5j0E7ZQLZ7KIHlfK7U5ijxdwvZcqfHk/APa8Jm/
-	491xbhv43hOZ2JKpRIqytyIx+HIq/yPBW9j4tlKDGPPkd0FDbThGDWWBjy0w6MsXO/9e
-	U+ge8oQCAAjP7zxerlFD09/+K5dJyUKIjiiIB3416BJF09NJidSWEk3kwiW8TGwM51zh
-	ysmQ==
-X-Gm-Message-State: AG10YOQwI0AuxyefjcmanJGhon9z6c0hLJzlLTpE58JVjHPB/478ZTaFBIxUUvg+iNPX7rXIrc4rF8z1fM1mlBLG
-X-Received: by 10.50.126.8 with SMTP id mu8mr17461624igb.52.1456247435947;
-	Tue, 23 Feb 2016 09:10:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 23 Feb 2016 09:10:16 -0800 (PST)
-In-Reply-To: <CAJTo0LbCLQDSEHi+MHz-+=RoHmkvFinEPTZWEdA0GzWQOp03Zw@mail.gmail.com>
-References: <cover.1456195451.git.kai.kang@windriver.com>
-	<72d89d471771ecffc8eecc923581d3dcdcfdfa5e.1456195451.git.kai.kang@windriver.com>
-	<CAJTo0LZStmCCA_ibNnxWO66CR+G3k51+bYVX2PrujJ2XD6mk2w@mail.gmail.com>
-	<CAJTo0LbCLQDSEHi+MHz-+=RoHmkvFinEPTZWEdA0GzWQOp03Zw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Feb 2016 17:10:16 +0000
-Message-ID: <CAJTo0Lbs50h0=46rp2ZV6cv=OgcyBCpfPJh6nvhEFB8HpMQzsA@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
+	Tue, 23 Feb 2016 17:17:48 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 09:17:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,490,1449561600"; d="scan'208";a="657971332"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 09:17:30 -0800
+From: Alex Franco <alejandro.franco@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Feb 2016 09:14:26 +0000
+Message-Id: <1456218868-36139-1-git-send-email-alejandro.franco@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCHv2 0/2] testimage: add/modify DEFAULT_TEST_SUITES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +27,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 17:10:36 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf200c19052c730711
+X-List-Received-Date: Tue, 23 Feb 2016 17:17:49 -0000
 
---047d7b1635bf200c19052c730711
-Content-Type: text/plain; charset=UTF-8
+- Add generic variables to reuse values in default test suites
+- Add more default test suites variables
+- Modify existing test suites to use generic vars when possible
 
-On 23 February 2016 at 17:01, Burton, Ross <ross.burton@intel.com> wrote:
+[YOCTO #8410]
 
-> The *amazing* BB_VERBOSE_LOGS option (set to 1 in local.conf to get all
-> shell scripts to do set -x) tells me this is due to missing quotes around
-> the opts assignment:
->
+Alex Franco (2):
+  testimage.bbclass: add generic, image test suites
+  testimage.bbclass: reuse generic test suites
 
-Why do some of the opts assignments just do opts=$2, and others do a sed?
+ meta/classes/testimage.bbclass | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-Ross
+-- 
+2.6.2
 
---047d7b1635bf200c19052c730711
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 February 2016 at 17:01, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_ext=
-ra">The *amazing* BB_VERBOSE_LOGS option (set to 1 in local.conf to get all=
- shell scripts to do set -x) tells me this is due to missing quotes around =
-the opts assignment:</div><div class=3D"gmail_extra"></div></blockquote></d=
-iv><br>Why do some of the opts assignments just do opts=3D$2, and others do=
- a sed?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
-
---047d7b1635bf200c19052c730711--
