@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 58F0977397
+	by mail.openembedded.org (Postfix) with ESMTP id 464107734B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 05:09:15 +0000 (UTC)
+	Wed, 24 Feb 2016 05:09:17 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:16 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305650"
+X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305658"
 Received: from sloi-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.141.175])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:14 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:16 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 18:07:27 +1300
-Message-Id: <a63d8c16da4dfe5128c20dc38a83851ce311df61.1456290353.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Feb 2016 18:07:28 +1300
+Message-Id: <7990b2da72454e7390373a48169642addd617723.1456290353.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 07/14] devtool: upgrade: fix renaming of recipe if PV is not in name
+Subject: [PATCH 08/14] devtool: upgrade: fix constructing new branch from tarball releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 05:09:16 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 05:09:17 -0000
 
-If the actual value of PV isn't in the name of the recipe (for example,
-a git or svn recipe) there's no point trying to rename it. Additionally,
-we already have the original filename, there's no need to guess it -
-just pass it in.
+When we do an upgrade from one tarball version to another we want to:
+
+1) Check out the old version as a new branch
+2) Record the changes between the old and new versions as a commit
+3) Check out the old version with patches applied
+4) Rebase that onto the new branch
+
+Where we went wrong was step #1 where instead we checked out the old
+version with patches applied as the new branch, which meant the rebase
+didn't do anything and any changes made by the patches to files still in
+the new version were wiped out.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/upgrade.py | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ scripts/lib/devtool/upgrade.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index f2a93b7..9a308b1 100644
+index 9a308b1..fab7b15 100644
 --- a/scripts/lib/devtool/upgrade.py
 +++ b/scripts/lib/devtool/upgrade.py
-@@ -83,21 +83,19 @@ def _rename_recipe_dirs(oldpv, newpv, path):
-                 if olddir != newdir:
-                     shutil.move(os.path.join(path, olddir), os.path.join(path, newdir))
- 
--def _rename_recipe_file(bpn, oldpv, newpv, path):
--    oldrecipe = "%s_%s.bb" % (bpn, oldpv)
--    newrecipe = "%s_%s.bb" % (bpn, newpv)
--    if os.path.isfile(os.path.join(path, oldrecipe)):
-+def _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path):
-+    oldrecipe = os.path.basename(oldrecipe)
-+    if oldrecipe.endswith('_%s.bb' % oldpv):
-+        newrecipe = '%s_%s.bb' % (bpn, newpv)
-         if oldrecipe != newrecipe:
--            _run('mv %s %s' % (oldrecipe, newrecipe), cwd=path)
-+            shutil.move(os.path.join(path, oldrecipe), os.path.join(path, newrecipe))
+@@ -179,7 +179,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
+         md5 = None
+         sha256 = None
      else:
--        recipe = "%s_git.bb" % bpn
--        if os.path.isfile(os.path.join(path, recipe)):
--            newrecipe = recipe
-+        newrecipe = oldrecipe
-     return os.path.join(path, newrecipe)
+-        __run('git checkout -b devtool-%s' % newpv)
++        __run('git checkout devtool-base -b devtool-%s' % newpv)
  
--def _rename_recipe_files(bpn, oldpv, newpv, path):
-+def _rename_recipe_files(oldrecipe, bpn, oldpv, newpv, path):
-     _rename_recipe_dirs(oldpv, newpv, path)
--    return _rename_recipe_file(bpn, oldpv, newpv, path)
-+    return _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path)
- 
- def _write_append(rc, srctree, same_dir, no_same_dir, rev, workspace, d):
-     """Writes an append file"""
-@@ -243,7 +241,9 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, workspace, tinfoil
-     oldpv = crd.getVar('PV', True)
-     if not newpv:
-         newpv = oldpv
--    fullpath = _rename_recipe_files(bpn, oldpv, newpv, path)
-+    origpath = rd.getVar('FILE', True)
-+    fullpath = _rename_recipe_files(origpath, bpn, oldpv, newpv, path)
-+    logger.debug('Upgraded %s => %s' % (origpath, fullpath))
- 
-     newvalues = {}
-     if _recipe_contains(rd, 'PV') and newpv != oldpv:
+         tmpdir = tempfile.mkdtemp(prefix='devtool')
+         try:
 -- 
 2.5.0
 
