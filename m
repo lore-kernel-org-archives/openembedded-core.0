@@ -1,52 +1,24 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B9BA5771D9
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C735B73175
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 16:06:59 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id l127so48370451iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 08:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=079W8Fv8jiLk3t2R5Csl6W1WkZIZbX+rc6XS7VTxS9s=;
-	b=bSTEJNo/wkONeepSpSVCXeO+966aT/GoGx9g5XYVvo1Ktx7lPBc5uF5mchMRoQ3Rq1
-	iQ9L8aXRBCk1oi3V+I4wNpN/VHeb5r+qV7qw5tuAy8f2sKFqwQfXlBPZoLxd8DPBbW7O
-	73kwZy0eh3Vr3/L0TLbK4U8YoEn1xtbLlLrGyaEY9k/WEPEMjV/Z/3xNlVAvBLjiNDzq
-	w+fL3pDKNQfnS89+9RLctEsoMSfQylSCHGypc2NrVQB0/hpTIjq1c88dWNcjNhjjhmLf
-	/zIMN+7GoS5wMNR3ASL6bMoa4/hKfj6wv+C9LLBg3/oH3qiFPy3dzl0y1scBAj19O/nO
-	18Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=079W8Fv8jiLk3t2R5Csl6W1WkZIZbX+rc6XS7VTxS9s=;
-	b=B69reyxzyKaCkt2DmEyddFym1nVH88vvrw3Jr877KZDReZZBQN8Cn2cvv+bI8P+k5/
-	kyqMFWSqsMJCmuIbBCXiDrCL5BoSJTaGhemIoKGaLvbzAVATZKkSwCrilPdtfBzWpl17
-	53wSep5cllj0jAUD+uWE3tfdnSgkYDbhhHGg+GsNE3gZjmfPaKGM5OejrP/TO0969Bfo
-	moJTcyoI05PwdrZP+HrIMjkQIS6p9FqdoiZGs/7dMzDSAQFVDAIw89VsamODaY+0lshJ
-	ogJ1pofgISzLRys9OOMyDNahXBRanjfFpTuG6rjLYjFe4bcjAQj629NNvi40Jt3ZP0vE
-	hPng==
-X-Gm-Message-State: AG10YOR4w8C0VgSh8MTdnqPC8k3sLJlAcEFuv5VR+3fJOW7krk2HUuZle1Aw7CEXPvFdBQ==
-X-Received: by 10.107.9.193 with SMTP id 62mr14274763ioj.27.1456330009828;
-	Wed, 24 Feb 2016 08:06:49 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	ee9sm1509417igb.7.2016.02.24.08.06.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 24 Feb 2016 08:06:49 -0800 (PST)
-To: Joshua Lock <joshua.g.lock@intel.com>,
-	openembedded-core@lists.openembedded.org
+	Wed, 24 Feb 2016 16:15:01 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 24 Feb 2016 08:14:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,494,1449561600"; d="scan'208";a="910352162"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.7.109])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2016 08:14:31 -0800
+Message-ID: <1456330468.5333.16.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Wed, 24 Feb 2016 16:14:28 +0000
+In-Reply-To: <1456328275.30039.49.camel@intel.com>
 References: <cover.1456325292.git.joshua.g.lock@intel.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56CDD519.9050109@gmail.com>
-Date: Wed, 24 Feb 2016 11:06:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
+	<1456328275.30039.49.camel@intel.com>
+X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/10] Integrate swupd software updater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,15 +32,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 16:07:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Feb 2016 16:15:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Ideally the work done here and the work done on meta-swupdate[1] would 
-be somehow merged so people creating images/distros would only have to 
-learn and integrate one software update solution, instead of having to 
-evaluate and choose between the two (or more?).
+On Wed, 2016-02-24 at 16:37 +0100, Patrick Ohly wrote:
+> Hello!
+> 
+> I haven't had a chance to play with the actual code yet and I don't
+> know
+> yet when I'll be able to. Let me ask for some clarifications about
+> the
+> approach first anyway.
+> 
+> On Wed, 2016-02-24 at 14:52 +0000, Joshua Lock wrote:
+> > 
+> > Approach:
+> > An image that inherits the swupd-image bbclass will automatically
+> > have bundle
+> > 'chroots' created which contain the filesystem contents of the
+> > specified
+> > bundles, with the contents of the inheriting image forming the
+> > default os-core
+> > bundle.
+> > 
+> > The mechanism to achieve this is that several virtual image recipes
+> > are created
+> > using the swupdbundle class, one for each defined bundle plus a
+> > 'mega' image
+> > recipe. The 'mega' image contains the base image plus the contents
+> > of all of the
+> > bundles, whilst bundle images contain only the base image plus the
+> > contents of a
+> > single bundle.
+> Just to be sure, the actual "content" (a term that is a bit too
+> overloaded to be used precisely in all cases) of a file and its meta
+> attributes will come from the mega image, and the virtual image
+> recipes,
+> including the base image, are merely used to generate file lists?
 
+That's not currently true, no — the file contents for a bundle come
+from the bundle image and the file contents for os-core come from the
+base image. It shouldn't be too difficult a change to make, I'll take a
+look now.
 
-[1] https://github.com/sbabic/meta-swupdate
+> What is the content of the actual image that gets created? It has to
+> match the content (= file content and meta information) of the mega
+> image and not of the base image, otherwise there can be
+> inconsistencies
+> between the actual running image and the core os bundle. I suppose
+> swupd
+> will be able to fix that, but I'm not sure.
+> 
+> It sounds like this bundle creation is completely separated from the
+> regular image creation; if so, then I suspect that this may have to
+> change.
+
+Right, currently bundle creation happens after image creation and as
+above bundles are populated from the rootfs of the bundle images.
+
+You're right, of course, we'll need to construct the running image from
+the bundle contents for more complex images.
+
+> > 
+> > We took the approach of building images, rather than populating the
+> > chroot-like
+> > bundle directories with a package manager, because various layers
+> > and recipes
+> > make changes to the rootfs contents outside of the package manager,
+> > particularly
+> > with IMAGE_POSTPROCESS_COMMAND, etc.
+> Makes sense to me.
+> 
+> Have you considered generating the file lists more efficiently? I can
+> think of some alternatives, but all have downsides.
+> 
+
+I did consider a couple of other approaches but with a goal of
+submitting this for M3 this approach felt like the surest route within
+the time available. I'd certainly like to find a more efficient method
+and if you have any suggestions I'd be happy to hear them.
+
+Regards,
+
+Joshua
 
