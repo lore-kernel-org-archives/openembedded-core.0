@@ -1,25 +1,46 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D23D4773A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EE4AA77060
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 23:31:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2016 15:31:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,495,1449561600"; d="scan'208";a="894058265"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 15:31:29 -0800
-From: mariano.lopez@linux.intel.com
+	Wed, 24 Feb 2016 23:59:05 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id a4so5296148wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Feb 2016 15:59:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=JXMJGK9Zae3FJbQ30QAssF3q+OM/ZltTTQMr9fjnSSI=;
+	b=vzTyxHrEHMU3jRzg++1k7fGvcsujvnOWKN73NZNE/1idpZlxoJLN5sfO/kkQX9p6Mo
+	RZPJoaLik9cpXl0JSXfPvSKSVTeEV17MYKUOOEp+x908AgU/WnnUNVCgYKTeDvpGdeoV
+	8pmF+GMYgdgzDPiRZPiGAq70OE2l6crnOKIdcxKjqddBlDefoQYAJ+EjeINmj+UB0cUK
+	AmbK4gSwiVM7GC5P7ansAiH8UB6hl1sAQjMyDpOlH7cN2TEFxRSMJhT+yAQCbL97cLeW
+	Xrm4WWDZYcj3EnejH1EvKsyKu4DLhL26RbhEkwAG/YO4e0a7ss5ZG2sKMf4lfpC0POX7
+	Jmjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JXMJGK9Zae3FJbQ30QAssF3q+OM/ZltTTQMr9fjnSSI=;
+	b=falFOQnHyqp5F6RHX/hjQn2tEtdzX/cj+CcnwtxT080gpT5gscKSpr5YpuaGVd7sjV
+	2UtK22jIV3bKfO+l/tvSp0g/SSAjir81qDwKi3QrsJSF/SRFANccS9qo2bojidz+dMDf
+	kkwotGE0gcg2ndL3sjech5sPwSCADRyWiqb72SdeT7RT4Qr8kDos73+HxuHo+3VobEyv
+	jbGmSeZwbaR1ok2kWUGOyUEeh79KF7kR2t5kczRVDEbmGEv/eE/pRPaIjMw29NbHgm4W
+	8AUkCYNGfyIQv+9RR5Gt2iXpkcgzxzabh7GxTCTc3T2+iIMo9YtCnSXTLuPRTd5pSwtc
+	at2g==
+X-Gm-Message-State: AG10YOTvjFO8rLwpANeF0MmgMCMr8lhbJ3ZsBV3h5d/3zjqB1e7M5ngSx1np33x8fqMqueby
+X-Received: by 10.28.53.4 with SMTP id c4mr252052wma.34.1456358345886;
+	Wed, 24 Feb 2016 15:59:05 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	lh1sm5185356wjb.20.2016.02.24.15.59.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Feb 2016 15:59:05 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 15:27:08 +0000
-Message-Id: <5648c9e910e63de9aa29e1625ddab5e3804f179e.1456327117.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 3/3] cve-check.bbclass: Add class
+Date: Wed, 24 Feb 2016 23:59:00 +0000
+Message-Id: <1456358340-11041-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] db: use S/B more idiomatically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,267 +53,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 23:31:29 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 23:59:08 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Instead of setting S to a directory inside the tarball and B to another
+directory inside the tarball, use the default value of S and set
+AUTOTOOLS_SCRIPT_PATH to the right path to find configure.
 
-This class adds a new task for all the recipes to use
-cve-check-tool in order to look for public CVEs affecting
-the packages generated.
+Rebase two patches to reflect the change of patch root.
 
-It is possible to use this class when building an image,
-building a recipe, or using the "world" or "universe" cases.
-
-In order to use this class it must be inherited at some
-point and it will add the task automatically to every recipe.
-
-[YOCTO #7515]
-
-Co-authored by Ross Burton & Mariano Lopez
+For some reason doing this results in the libtool binary appearing at the wrong
+place, so always point LIBTOOL at the one in the sysroot and remove the sed
+which doesn't seem to have a reason (added in a484b3 without explanation in
+2013).
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/cve-check.bbclass | 229 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 229 insertions(+)
- create mode 100644 meta/classes/cve-check.bbclass
+ ...akefile-let-libso_target-depend-on-bt_rec.patch |  4 +-
+ .../recipes-support/db/db/fix-parallel-build.patch |  4 +-
+ meta/recipes-support/db/db_6.0.30.bb               | 52 +++++++++-------------
+ 3 files changed, 25 insertions(+), 35 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-new file mode 100644
-index 0000000..69d90f3
---- /dev/null
-+++ b/meta/classes/cve-check.bbclass
-@@ -0,0 +1,229 @@
-+#
-+CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd.db"
+diff --git a/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch b/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch
+index 329bff5..9ec117a 100644
+--- a/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch
++++ b/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch
+@@ -17,8 +17,8 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ 
+ diff --git a/Makefile.in b/Makefile.in
+ index e451f70..0a42375 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
++--- db/dist/Makefile.in
+++++ db/dist/Makefile.in
+ @@ -863,7 +863,7 @@ $(libdb_version): $(C_OBJS)
+  	$(LN) -s $(libdb_version) $(libdb)
+  
+diff --git a/meta/recipes-support/db/db/fix-parallel-build.patch b/meta/recipes-support/db/db/fix-parallel-build.patch
+index 2c7f1e1..88bc6b3 100644
+--- a/meta/recipes-support/db/db/fix-parallel-build.patch
++++ b/meta/recipes-support/db/db/fix-parallel-build.patch
+@@ -6,8 +6,8 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ 
+---- dist.orig/Makefile.in	2012-05-11 19:57:48.000000000 +0200
+-+++ dist/Makefile.in	2013-10-31 18:17:11.875532522 +0100
++--- db/dist.orig/Makefile.in	2012-05-11 19:57:48.000000000 +0200
+++++ db/dist/Makefile.in	2013-10-31 18:17:11.875532522 +0100
+ @@ -1034,7 +1034,7 @@
+  	    db_recover@o@ util_sig@o@ $(DEF_LIB) $(LIBS)
+  	$(POSTLINK) $@
+diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
+index 9505def..9475e82 100644
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.0.30.bb
+@@ -17,11 +17,11 @@ RCONFLICTS_${PN} = "db3"
+ 
+ RECIPE_NO_UPDATE_REASON = "Updating to 6.1.x requires also updating rpm to 5.4.15"
+ 
+-SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+-SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
+-            file://fix-parallel-build.patch \
+-            file://Makefile-let-libso_target-depend-on-bt_rec.patch \
+-            file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch;patchdir=.. \
++SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz \
++           file://arm-thumb-mutex_db5.patch \
++           file://fix-parallel-build.patch \
++           file://Makefile-let-libso_target-depend-on-bt_rec.patch \
++           file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch \
+            "
+ 
+ SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
+@@ -31,9 +31,7 @@ SRC_URI[sha256sum] = "608e4b1cf390e9bf54c0ef00c5bd9ca76d36e2261b9f4d33d54516f3f6
+ UPSTREAM_CHECK_REGEX = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
+ UPSTREAM_CHECK_URI = "http://www.oracle.com/technetwork/products/berkeleydb/downloads/index-082944.html"
+ 
+-LIC_FILES_CHKSUM = "file://../LICENSE;md5=1ec8b0b17cc31513fe35ab10716f8490"
+-
+-inherit autotools
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1ec8b0b17cc31513fe35ab10716f8490"
+ 
+ # Put virtual/db in any appropriate provider of a
+ # relational database, use it as a dependency in
+@@ -44,13 +42,7 @@ inherit autotools
+ # to select the correct db in the build (distro) .conf
+ PROVIDES += "${VIRTUAL_NAME}"
+ 
+-# bitbake isn't quite clever enough to deal with sleepycat,
+-# the distribution sits in the expected directory, but all
+-# the builds must occur from a sub-directory.  The following
+-# persuades bitbake to go to the right place
+-S = "${WORKDIR}/db-${PV}/dist"
+-B = "${WORKDIR}/db-${PV}/build_unix"
+-SPDX_S = "${WORKDIR}/db-${PV}"
++inherit autotools
+ 
+ # The executables go in a separate package - typically there
+ # is no need to install these unless doing real database
+@@ -60,7 +52,6 @@ inherit lib_package
+ PACKAGES =+ "${PN}-cxx"
+ FILES_${PN}-cxx = "${libdir}/*cxx*so"
+ 
+-
+ # The dev package has the .so link (as in db3) and the .a's -
+ # it is therefore incompatible (cannot be installed at the
+ # same time) as the db3 package
+@@ -74,6 +65,17 @@ DB6_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disabl
+ 
+ EXTRA_OECONF = "${DB6_CONFIG} --enable-shared --enable-cxx --with-sysroot"
+ 
++# Cancel the site stuff - it's set for db3 and destroys the configure.
++CONFIG_SITE = ""
 +
-+CVE_CHECK_LOCAL_DIR ?= "${WORKDIR}/cve"
-+CVE_CHECK_LOCAL_FILE ?= "${CVE_CHECK_LOCAL_DIR}/cve.log"
-+CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
++AUTOTOOLS_SCRIPT_PATH = "${S}/dist"
 +
-+CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
-+CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cve"
-+CVE_CHECK_COPY_FILES ??= "1"
-+CVE_CHECK_CREATE_MANIFEST ??= "1"
-+
-+# Whitelist for packages (PN)
-+cve_check_pn_whitelist () {
-+    glibc-locale
++do_configure() {
++	cd ${B}
++	gnu-configize --force ${AUTOTOOLS_SCRIPT_PATH}
++	oe_runconf
 +}
 +
-+# Whitelist for CVE and version of package
-+python cve_check_cve_whitelist () {
-+    {"CVE-2014-2524": ("6.3",), \
-+    }
-+}
-+
-+python do_cve_check () {
-+    """
-+    Check recipe for patched and unpatched CVEs
-+    """
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
-+        patched_cves = get_patches_cves(d)
-+        patched, unpatched = check_cves(d, patched_cves)
-+        if patched or unpatched:
-+            cve_data = get_cve_info(d, patched + unpatched)
-+            cve_write_data(d, patched, unpatched, cve_data)
-+    else:
-+        bb.note("Failed to update CVE database, skipping CVE check")
-+}
-+
-+addtask cve_check before do_build
-+do_cve_check[depends] = "cve-check-tool-native:do_populate_cve_db"
-+do_cve_check[nostamp] = "1"
-+
-+python cve_check_cleanup () {
-+    """
-+    Delete the file used to gather all the CVE information.
-+    """
-+    import bb.utils
-+
-+    tmp_file = e.data.getVar("CVE_CHECK_TMP_FILE", True)
-+    bb.utils.remove(tmp_file)
-+}
-+
-+addhandler cve_check_cleanup
-+cve_check_cleanup[eventmask] = "bb.cooker.CookerExit"
-+
-+python cve_check_write_rootfs_manifest () {
-+    """
-+    Create CVE manifest when building an image
-+    """
-+
-+    import shutil
-+    from bb.utils import mkdirhier
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)) and \
-+            d.getVar("CVE_CHECK_CREATE_MANIFEST", True) == "1":
-+        bb.note("Writing rootfs CVE manifest")
-+        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE", True)
-+        link_name = d.getVar("IMAGE_LINK_NAME", True)
-+        manifest_name = d.getVar("CVE_CHECK_MANIFEST", True)
-+        cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE", True)
-+
-+        shutil.copyfile(cve_tmp_file, manifest_name)
-+
-+        if manifest_name is not None and os.path.exists(manifest_name):
-+            manifest_link = os.path.join(deploy_dir, "%s.cve" % link_name)
-+            if os.path.exists(manifest_link):
-+                if d.getVar('RM_OLD_IMAGE', True) == "1" and \
-+                        os.path.exists(os.path.realpath(manifest_link)):
-+                    os.remove(os.path.realpath(manifest_link))
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
-+            bb.plain("Image CVE report stored in: %s" % manifest_name)
-+}
-+
-+ROOTFS_POSTPROCESS_COMMAND_prepend = "cve_check_write_rootfs_manifest; "
-+
-+
-+def get_patches_cves(d):
-+    """
-+    Get patches that solve CVEs using the "CVE: " tag.
-+    """
-+
-+    import re
-+
-+    pn = d.getVar("PN", True)
-+    cve_match = re.compile("CVE:( CVE\-\d+\-\d+)+")
-+    patched_cves = set()
-+    for url in src_patches(d):
-+        patch_file = bb.fetch.decodeurl(url)[2]
-+        with open(patch_file, "r") as f:
-+            patch_text = f.read()
-+
-+        # Search for the "CVE: " line
-+        match = cve_match.search(patch_text)
-+        if match:
-+            # Get only the CVEs without the "CVE: " tag
-+            cves = patch_text[match.start()+5:match.end()]
-+            for cve in cves.split():
-+                patched_cves.add(cve)
-+
-+    return patched_cves
-+
-+def check_cves(d, patched_cves):
-+    """
-+    Run cve-check-tool looking for patched and unpatched CVEs.
-+    """
-+
-+    from bb.utils import export_proxies
-+    import ast, csv, tempfile, subprocess, StringIO
-+
-+    cves_patched = []
-+    cves_unpatched = []
-+    bpn = d.getVar("BPN", True)
-+    pv = d.getVar("PV", True)
-+    cves = " ".join(patched_cves)
-+    cve_dir = d.getVar("CVE_CHECK_DB_DIR", True)
-+    cve_whitelist = ast.literal_eval(d.getVar("cve_check_cve_whitelist", True).strip())
-+    cmd = "cve-check-tool --no-html --csv --not-affected -t faux -d %s" % cve_dir
-+
-+    # If the recipe has been whitlisted we return empty lists
-+    if d.getVar("PN", True) in d.getVar("cve_check_pn_whitelist", True).split():
-+        return ([], [])
-+
-+    # It is needed to export the proxies to download the database using HTTP
-+    export_proxies(d)
-+    # Write the faux CSV file to be used with cve-check-tool
-+    fd, faux = tempfile.mkstemp(prefix="cve-faux-")
-+    with os.fdopen(fd, "w") as f:
-+        f.write("%s,%s,%s," % (bpn, pv, cves))
-+
-+    cmd += " %s" % faux
-+    try:
-+        popen = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+        output, error = popen.communicate()
-+    except:
-+        bb.warn("Couldn't check CVEs %s" % str(sys.exc_info()))
-+    finally:
-+        os.remove(faux)
-+
-+    for row in csv.reader(StringIO.StringIO(output)):
-+        if row[2]:
-+            for cve in row[2].split():
-+                # Skip if the CVE has been whitlisted for the current version
-+                if pv not in cve_whitelist.get(cve,[]):
-+                    cves_unpatched.append(cve)
-+        if row[3]:
-+            for cve in row[3].split():
-+                cves_patched.append(cve)
-+
-+    return (cves_patched, cves_unpatched)
-+
-+def get_cve_info(d, cves):
-+    """
-+    Get CVE information from the database used by cve-check-tool.
-+    """
-+
-+    try:
-+        import sqlite3
-+    except ImportError:
-+        from pysqlite2 import dbapi2 as sqlite3
-+
-+    cve_data = {}
-+    db_file = d.getVar("CVE_CHECK_DB_FILE", True)
-+    placeholder = ",".join("?" * len(cves))
-+    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholder
-+    conn = sqlite3.connect(db_file)
-+    cur = conn.cursor()
-+    for row in cur.execute(query, tuple(cves)):
-+        cve_data[row[0]] = {}
-+        cve_data[row[0]]["summary"] = row[1]
-+        cve_data[row[0]]["score"] = row[2]
-+        cve_data[row[0]]["modified"] = row[3]
-+        cve_data[row[0]]["vector"] = row[4]
-+    conn.close()
-+
-+    return cve_data
-+
-+def cve_write_data(d, patched, unpatched, cve_data):
-+    """
-+    Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-+    CVE manifest if enabled.
-+    """
-+
-+    from bb.utils import mkdirhier
-+
-+    cve_file = d.getVar("CVE_CHECK_LOCAL_FILE", True)
-+    nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
-+    write_string = ""
-+    mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR", True))
-+
-+    for cve in sorted(cve_data):
-+        write_string += "PACKAGE NAME: %s\n" % d.getVar("PN", True)
-+        write_string += "PACKAGE VERSION: %s\n" % d.getVar("PV", True)
-+        write_string += "CVE: %s\n" % cve
-+        if cve in patched:
-+            write_string += "CVE STATUS: Patched\n"
-+        else:
-+            write_string += "CVE STATUS: Unpatched\n"
-+            bb.warn("Found unpatched CVE, for more information check %s" % cve_file)
-+        write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-+        write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["score"]
-+        write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
-+        write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
-+
-+    with open(cve_file, "w") as f:
-+        f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_COPY_FILES", True) == "1":
-+        cve_dir = d.getVar("CVE_CHECK_DIR", True)
-+        mkdirhier(cve_dir)
-+        deploy_file = os.path.join(cve_dir, d.getVar("PN", True))
-+        with open(deploy_file, "w") as f:
-+            f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_CREATE_MANIFEST", True) == "1":
-+        with open(d.getVar("CVE_CHECK_TMP_FILE", True), "a") as f:
-+            f.write("%s" % write_string)
-+
+ # Override the MUTEX setting here, the POSIX library is
+ # the default - "POSIX/pthreads/library".
+ # Don't ignore the nice SWP instruction on the ARM:
+@@ -83,21 +85,7 @@ MUTEX = ""
+ MUTEX_arm = "${ARM_MUTEX}"
+ MUTEX_armeb = "${ARM_MUTEX}"
+ EXTRA_OECONF += "${MUTEX}"
+-EXTRA_OEMAKE_class-target = "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
+-
+-# Cancel the site stuff - it's set for db3 and destroys the
+-# configure.
+-CONFIG_SITE = ""
+-do_configure() {
+-	gnu-configize --force ${S}
+-	export STRIP="true"
+-	oe_runconf
+-}
+-
+-do_compile_prepend() {
+-	sed -i -e 's|hardcode_into_libs=yes|hardcode_into_libs=no|' \
+-		${B}/libtool
+-}
++EXTRA_OEMAKE += "STRIP=true LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
+ 
+ do_install_append() {
+ 	mkdir -p ${D}/${includedir}/db60
+@@ -117,6 +105,8 @@ do_install_append() {
+ 	chown -R root:root ${D}
+ }
+ 
++# libdb isn't versioned in the typical manner (libdb-6.0.so is the full library
++# name) so skip these checks.
+ INSANE_SKIP_${PN} = "dev-so"
+ INSANE_SKIP_${PN}-cxx = "dev-so"
+ 
 -- 
-2.6.2
+2.7.0
 
 
