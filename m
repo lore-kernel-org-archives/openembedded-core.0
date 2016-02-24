@@ -1,36 +1,20 @@
-Return-Path: <radzy@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9283177243
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E23297739D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 23:11:48 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1ONBlOJ002966
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Feb 2016 15:11:47 -0800 (PST)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.108]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
-	Wed, 24 Feb 2016 15:11:47 -0800
-From: "Radzykewycz, T (Radzy)" <radzy@windriver.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] what is the priority of wildcarded .bbappend files?
-Thread-Index: AQHRb0No7IllwdGp9kSZ1B/C/B6NAJ88MGUAgAANEwCAABY3gP//exJygACHrwD//3sfgA==
-Date: Wed, 24 Feb 2016 23:11:47 +0000
-Message-ID: <33006C99F5A5194A9B7A7715DFA3E383EB81CFBF@ALA-MBB.corp.ad.wrs.com>
-References: <20160224152850.164043qmdvkuzbeo@astoria.ccjclearline.com>
-	<1629258.jkM8Gdqopn@peggleto-mobl.ger.corp.intel.com>
-	<33006C99F5A5194A9B7A7715DFA3E383EB81CFA2@ALA-MBB.corp.ad.wrs.com>,
-	<1797799.y7uMzTcXlY@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <1797799.y7uMzTcXlY@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.89]
-MIME-Version: 1.0
-Cc: Christopher Larson <clarson@kergoth.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: what is the priority of wildcarded .bbappend files?
+	Wed, 24 Feb 2016 23:27:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 24 Feb 2016 15:27:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,495,1449561600"; d="scan'208";a="894055329"
+Received: from bitbang.jf.intel.com ([10.7.199.90])
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 15:27:44 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Feb 2016 15:27:42 -0800
+Message-Id: <1456356462-9073-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] populate_sdk_ext: Add images to SDK_INSTALL_TARGETS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +27,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 23:11:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 24 Feb 2016 23:27:48 -0000
 
+When running ext-sdk-prepare.py during sdk installation a check is done to
+make sure no tasks would run that aren't provided by the "leaf" recipes
+specified in SDK_INSTALL_TARGETS.
 
-________________________________________
-On Wednesday, February 24, 2016 3:02 PM, Paul Eggleton said:
-> On Wed, 24 Feb 2016 22:59:13 Radzykewycz, T wrote:
-> > On Wednesday, February 24, 2016 2:52 PM, Paul Eggleton said:
-> > > On Wed, 24 Feb 2016 16:33:04 Robert P. J. Day wrote:
-> > > > Quoting Christopher Larson <clarson@kergoth.com>:
-> > > > > All appends that apply to a given recipe will be applied to that
-> > > > > recipe.
-> > > > > Order is determined solely by layer priority.
-> > > > >
-> > > >    wait ... so *all* bbappend files that match a recipe will be app=
-lied?
-> > > >
-> > > > i'm embarrassed that i didn't know that, is that mentioned in the
-> > > > documentation somewhere?
-> > >
-> > > Surprisingly we don't currently state this explicitly, though it's
-> > > implied. We should work this into the relevant part of the bitbake ma=
-nual
-> > > and the "Using .bbappend Files" section of the dev manual. Scott coul=
-d
-> > > you add that to your todo list?
-> >
-> > If there is any way to determine the order that the bbappend files
-> > are included, that would be helpful.  As well as determining what
-> > order patches will be applied (which is, I suspect, determined
-> > in part by what order the bbappend files are included)..
->=20
-> bitbake-layers show-appends will give you the former. Patches get applied
-> strictly in the order they appear in SRC_URI, if you have bbappends that
-> append or prepend that variable that will of course influence that, but t=
-he
-> final value and hence the order should be visible through bitbake -e reci=
-pename
-> | less and then search for ^SRC_URI (along with history of how the value =
-came
-> to be).
+However sometimes an image recipe can cause other images to be created
+such as an initramfs. So make sure those additional images are
+recognized by ext-sdk-prepare.py and don't flag an error.
 
-I suggest this might be put into the SRC_URI section at
-https://www.yoctoproject.org/docs/1.6/bitbake-user-manual/bitbake-user-manu=
-al.html#var-SECTION
-and worded something like this (at the end):
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-    The order of patch application follows the order that
-    the patch files are included in the final SRC_URI value.
-    So patches in prepended SRC_URI additions are put before
-    other patches that might be contained in the base bb file or
-    in other bbappend files, and must not generate differences
-    that prevent subsequent patches from applying.
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index a6badb8..9e2fc61 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -40,12 +40,17 @@ def get_sdk_install_targets(d):
+     if d.getVar('SDK_EXT_TYPE', True) != 'minimal':
+         sdk_install_targets = d.getVar('SDK_TARGETS', True)
+ 
++        depd = d.getVar('BB_TASKDEPDATA', False)
++        for v in depd.itervalues():
++            if v[1] == 'do_image_complete':
++                if v[0] not in sdk_install_targets:
++                    sdk_install_targets += ' {}'.format(v[0])
++
+     if d.getVar('SDK_INCLUDE_PKGDATA', True) == '1':
+         sdk_install_targets += ' meta-world-pkgdata:do_allpackagedata'
+ 
+     return sdk_install_targets
+ 
+-SDK_INSTALL_TARGETS = "${@get_sdk_install_targets(d)}"
+ OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
+ 
+ # The files from COREBASE that you want preserved in the COREBASE copied
+@@ -344,12 +349,15 @@ SDK_POST_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_postinst}"
+ 
+ SDK_POSTPROCESS_COMMAND_prepend_task-populate-sdk-ext = "copy_buildsystem; install_tools; "
+ 
++SDK_INSTALL_TARGETS = ""
+ fakeroot python do_populate_sdk_ext() {
+     # FIXME hopefully we can remove this restriction at some point, but uninative
+     # currently forces this upon us
+     if d.getVar('SDK_ARCH', True) != d.getVar('BUILD_ARCH', True):
+         bb.fatal('The extensible SDK can currently only be built for the same architecture as the machine being built on - SDK_ARCH is set to %s (likely via setting SDKMACHINE) which is different from the architecture of the build machine (%s). Unable to continue.' % (d.getVar('SDK_ARCH', True), d.getVar('BUILD_ARCH', True)))
+ 
++    d.setVar('SDK_INSTALL_TARGETS', get_sdk_install_targets(d))
++
+     bb.build.exec_func("do_populate_sdk", d)
+ }
+ 
+-- 
+2.5.0
 
-I'm not tied to any particular location in the docs, though,
-so if it should go elsewhere, that's fine with me.
-
-Enjoy!
-
-				-- radzy
 
