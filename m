@@ -1,25 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 748A877382
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B1AB2771EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 05:09:31 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305730"
-Received: from sloi-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.141.175])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:30 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 18:07:34 +1300
-Message-Id: <66191bd6679c5ba794e344022fd3843b1b408c0e.1456290353.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 14/14] oe-selftest: devtool: add an additional test for devtool upgrade
+	Wed, 24 Feb 2016 08:51:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1O8pFtp023385
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Feb 2016 00:51:15 -0800 (PST)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 24 Feb 2016 00:51:14 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1456195451.git.kai.kang@windriver.com>
+	<72d89d471771ecffc8eecc923581d3dcdcfdfa5e.1456195451.git.kai.kang@windriver.com>
+	<CAJTo0LZStmCCA_ibNnxWO66CR+G3k51+bYVX2PrujJ2XD6mk2w@mail.gmail.com>
+	<CAJTo0LbCLQDSEHi+MHz-+=RoHmkvFinEPTZWEdA0GzWQOp03Zw@mail.gmail.com>
+	<CAJTo0Lbs50h0=46rp2ZV6cv=OgcyBCpfPJh6nvhEFB8HpMQzsA@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <56CD6F00.3060402@windriver.com>
+Date: Wed, 24 Feb 2016 16:51:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lbs50h0=46rp2ZV6cv=OgcyBCpfPJh6nvhEFB8HpMQzsA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] useradd_base.bbclass: fix simultaneous with flock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,115 +38,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 05:09:31 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 08:51:23 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040603000701030908010108"
 
-Add a test for devtool upgrade with a recipe pointing to a git
-repository, since this uses several different code paths.
+--------------040603000701030908010108
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../devtool/devtool-upgrade-test2_git.bb           | 18 +++++++++++
- .../devtool/devtool-upgrade-test2_git.bb.upgraded  | 17 ++++++++++
- meta/lib/oeqa/selftest/devtool.py                  | 36 ++++++++++++++++++++++
- 3 files changed, 71 insertions(+)
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
+On 2016年02月24日 01:10, Burton, Ross wrote:
+>
+> On 23 February 2016 at 17:01, Burton, Ross <ross.burton@intel.com 
+> <mailto:ross.burton@intel.com>> wrote:
+>
+>     The *amazing* BB_VERBOSE_LOGS option (set to 1 in local.conf to
+>     get all shell scripts to do set -x) tells me this is due to
+>     missing quotes around the opts assignment:
+>
+>
+> Why do some of the opts assignments just do opts=$2, and others do a sed?
 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
-new file mode 100644
-index 0000000..9bfce0a
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "A simple tool to wait for a specific signal over DBus"
-+HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/dbus-wait"
-+SECTION = "base"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+DEPENDS = "dbus"
-+
-+# Note: this is intentionally not the latest version in the original .bb
-+SRCREV = "1a3e1343761b30750bed70e0fd688f6d3c7b3717"
-+PV = "0.1+git${SRCPV}"
-+PR = "r2"
-+
-+SRC_URI = "git://git.yoctoproject.org/dbus-wait"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools pkgconfig
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
-new file mode 100644
-index 0000000..9b947ed
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.upgraded
-@@ -0,0 +1,17 @@
-+SUMMARY = "A simple tool to wait for a specific signal over DBus"
-+HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/dbus-wait"
-+SECTION = "base"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+DEPENDS = "dbus"
-+
-+# Note: this is intentionally not the latest version in the original .bb
-+SRCREV = "6cc6077a36fe2648a5f993fe7c16c9632f946517"
-+PV = "0.1+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/dbus-wait"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools pkgconfig
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 4d280bb..d41af2f 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -1136,6 +1136,42 @@ class DevtoolTests(DevtoolBase):
-         self.assertNotIn(recipe, result.output)
-         self.assertFalse(os.path.exists(os.path.join(self.workspacedir, 'recipes', recipe)), 'Recipe directory should not exist after resetting')
- 
-+    def test_devtool_upgrade_git(self):
-+        # Check preconditions
-+        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        recipe = 'devtool-upgrade-test2'
-+        commit = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
-+        oldrecipefile = get_bb_var('FILE', recipe)
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        # Check that recipe is not already under devtool control
-+        result = runCmd('devtool status')
-+        self.assertNotIn(recipe, result.output)
-+        # Check upgrade
-+        result = runCmd('devtool upgrade %s %s -S %s' % (recipe, tempdir, commit))
-+        # Check if srctree at least is populated
-+        self.assertTrue(len(os.listdir(tempdir)) > 0, 'srctree (%s) should be populated with new (%s) source code' % (tempdir, commit))
-+        # Check new recipe file is present
-+        newrecipefile = os.path.join(self.workspacedir, 'recipes', recipe, os.path.basename(oldrecipefile))
-+        self.assertTrue(os.path.exists(newrecipefile), 'Recipe file should exist after upgrade')
-+        # Check devtool status and make sure recipe is present
-+        result = runCmd('devtool status')
-+        self.assertIn(recipe, result.output)
-+        self.assertIn(tempdir, result.output)
-+        # Check recipe got changed as expected
-+        with open(oldrecipefile + '.upgraded', 'r') as f:
-+            desiredlines = f.readlines()
-+        with open(newrecipefile, 'r') as f:
-+            newlines = f.readlines()
-+        self.assertEqual(desiredlines, newlines)
-+        # Check devtool reset recipe
-+        result = runCmd('devtool reset %s -n' % recipe)
-+        result = runCmd('devtool status')
-+        self.assertNotIn(recipe, result.output)
-+        self.assertFalse(os.path.exists(os.path.join(self.workspacedir, 'recipes', recipe)), 'Recipe directory should not exist after resetting')
-+
-     @testcase(1352)
-     def test_devtool_layer_plugins(self):
-         """Test that devtool can use plugins from other layers.
+In the previous version, there are:
+
+local opts="$2"
+...
+
+opts=`echo $opts | sed s/\'/\"/g`
+
+And I want to refactor them but lost the double quotes.
+
+Only do sed operations for useradd and groupadd that they may be passed in "opts" with space but others didn't.
+
+I'll restore to previous version.
+
+Sorry for inconvenience that I built pass on Ubuntu 14.04 so didn't find 
+this error.
+
+--Kai
+
+>
+> Ross
+
+
 -- 
-2.5.0
+Regards,
+Neil | Kai Kang
 
 
+--------------040603000701030908010108
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2016年02月24日 01:10, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0Lbs50h0=46rp2ZV6cv=OgcyBCpfPJh6nvhEFB8HpMQzsA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 23 February 2016 at 17:01, Burton,
+            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div class="gmail_extra">The *amazing* BB_VERBOSE_LOGS
+                option (set to 1 in local.conf to get all shell scripts
+                to do set -x) tells me this is due to missing quotes
+                around the opts assignment:</div>
+            </blockquote>
+          </div>
+          <br>
+          Why do some of the opts assignments just do opts=$2, and
+          others do a sed?</div>
+      </div>
+    </blockquote>
+    <br>
+    In the previous version, there are:<br>
+    <br>
+    local opts="$2"<br>
+    ...<br>
+    <pre wrap="">opts=`echo $opts | sed s/\'/\"/g`
+
+And I want to refactor them but lost the double quotes.
+
+Only do sed operations for useradd and groupadd that they may be passed in "opts" with space but others didn't.
+
+I'll restore to previous version.
+</pre>
+    Sorry for inconvenience that I built pass on Ubuntu 14.04 so didn't
+    find this error.<br>
+    <br>
+    --Kai<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0Lbs50h0=46rp2ZV6cv=OgcyBCpfPJh6nvhEFB8HpMQzsA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------040603000701030908010108--
