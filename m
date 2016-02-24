@@ -1,52 +1,52 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D9B277303
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B9BA5771D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 15:37:58 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id z135so46824129iof.0
+	Wed, 24 Feb 2016 16:06:59 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id l127so48370451iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 07:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=vb03jQqM5cLuid1+HM/osWiWwWru/WlnQ+RgEHsf7eY=;
-	b=LNkBGhPpasVJCGIJI4IufunOv9HK38W8WZenl2h0V0BBaTaFL/yJsal5qar6e7HzoE
-	d1la8ZSwDtixyymmktD0W87OFDtPBipjeUfgNej0gIHy+/KPxDlVSPI7Q1jIpQC6DmyV
-	mnjDHVr045ALT/zxOj0zBU5V0ZMhyVn/+JWZCvQu8KQzciIxvUc2EMlNsXJ0cx4p9mBD
-	vt8NEDqKUN4cty5DUAs3uFY0MWuWT5sITkuJahJpuEUlDBzCyMWyPO3qEers0wWpPw24
-	mbEKk6rf0FIzoJ/NngyKZB9IcMu8W85Hp3npJ0jYaWQGS7NNiNkZhzhOBOznJh2Yortg
-	KE/A==
+	Wed, 24 Feb 2016 08:07:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=079W8Fv8jiLk3t2R5Csl6W1WkZIZbX+rc6XS7VTxS9s=;
+	b=bSTEJNo/wkONeepSpSVCXeO+966aT/GoGx9g5XYVvo1Ktx7lPBc5uF5mchMRoQ3Rq1
+	iQ9L8aXRBCk1oi3V+I4wNpN/VHeb5r+qV7qw5tuAy8f2sKFqwQfXlBPZoLxd8DPBbW7O
+	73kwZy0eh3Vr3/L0TLbK4U8YoEn1xtbLlLrGyaEY9k/WEPEMjV/Z/3xNlVAvBLjiNDzq
+	w+fL3pDKNQfnS89+9RLctEsoMSfQylSCHGypc2NrVQB0/hpTIjq1c88dWNcjNhjjhmLf
+	/zIMN+7GoS5wMNR3ASL6bMoa4/hKfj6wv+C9LLBg3/oH3qiFPy3dzl0y1scBAj19O/nO
+	18Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=vb03jQqM5cLuid1+HM/osWiWwWru/WlnQ+RgEHsf7eY=;
-	b=VCHGkyKEn91EBvo024wvDCulNT5TlDt9LOz6hTTBA7QPxvobfZeFhibn8q/llAAiM9
-	l73NEqu5AX8eV7mSNmpQLgC4MCnJG0HWilpOtkuFhwh4nTSyjSI/helmI7MmwkczYcNz
-	8CoqLvYPo/UICueyQMIw48mI3H0jn6O5ewNX1h7ZvfsymlDHA/rJRPH5N/hbJt6ZqsyJ
-	OSclEzDhe4ANBDUJ9tXpfgzB2yvhYVRCbRvxhUCP5fuBbIxqqOE320maTWBUTxIYUDLD
-	FZp6Z21vlSv5Z9kx9VXG3HzSfN7vir0TqsD/lFsdD1t49CuHPbW2jl6rrTLRpTeAQZKb
-	4Htw==
-X-Gm-Message-State: AG10YOQtgk4SalUHX/G5Xz2TzsydC23WP6qYH5gDnBKX7NoSfpo+U64Qqid+W2M7vAHL4jI3
-X-Received: by 10.50.132.74 with SMTP id os10mr23487607igb.91.1456328278839;
-	Wed, 24 Feb 2016 07:37:58 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8D62C.dip0.t-ipconnect.de. [93.232.214.44])
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=079W8Fv8jiLk3t2R5Csl6W1WkZIZbX+rc6XS7VTxS9s=;
+	b=B69reyxzyKaCkt2DmEyddFym1nVH88vvrw3Jr877KZDReZZBQN8Cn2cvv+bI8P+k5/
+	kyqMFWSqsMJCmuIbBCXiDrCL5BoSJTaGhemIoKGaLvbzAVATZKkSwCrilPdtfBzWpl17
+	53wSep5cllj0jAUD+uWE3tfdnSgkYDbhhHGg+GsNE3gZjmfPaKGM5OejrP/TO0969Bfo
+	moJTcyoI05PwdrZP+HrIMjkQIS6p9FqdoiZGs/7dMzDSAQFVDAIw89VsamODaY+0lshJ
+	ogJ1pofgISzLRys9OOMyDNahXBRanjfFpTuG6rjLYjFe4bcjAQj629NNvi40Jt3ZP0vE
+	hPng==
+X-Gm-Message-State: AG10YOR4w8C0VgSh8MTdnqPC8k3sLJlAcEFuv5VR+3fJOW7krk2HUuZle1Aw7CEXPvFdBQ==
+X-Received: by 10.107.9.193 with SMTP id 62mr14274763ioj.27.1456330009828;
+	Wed, 24 Feb 2016 08:06:49 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
 	by smtp.gmail.com with ESMTPSA id
-	b101sm1454808iod.43.2016.02.24.07.37.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Feb 2016 07:37:58 -0800 (PST)
-Message-ID: <1456328275.30039.49.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Joshua Lock <joshua.g.lock@intel.com>
-Date: Wed, 24 Feb 2016 16:37:55 +0100
-In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
+	ee9sm1509417igb.7.2016.02.24.08.06.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 24 Feb 2016 08:06:49 -0800 (PST)
+To: Joshua Lock <joshua.g.lock@intel.com>,
+	openembedded-core@lists.openembedded.org
 References: <cover.1456325292.git.joshua.g.lock@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56CDD519.9050109@gmail.com>
+Date: Wed, 24 Feb 2016 11:06:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
 Subject: Re: [PATCH 00/10] Integrate swupd software updater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,62 +60,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 15:37:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Feb 2016 16:07:01 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello!
-
-I haven't had a chance to play with the actual code yet and I don't know
-yet when I'll be able to. Let me ask for some clarifications about the
-approach first anyway.
-
-On Wed, 2016-02-24 at 14:52 +0000, Joshua Lock wrote:
-> Approach:
-> An image that inherits the swupd-image bbclass will automatically have bundle
-> 'chroots' created which contain the filesystem contents of the specified
-> bundles, with the contents of the inheriting image forming the default os-core
-> bundle.
-> 
-> The mechanism to achieve this is that several virtual image recipes are created
-> using the swupdbundle class, one for each defined bundle plus a 'mega' image
-> recipe. The 'mega' image contains the base image plus the contents of all of the
-> bundles, whilst bundle images contain only the base image plus the contents of a
-> single bundle.
-
-Just to be sure, the actual "content" (a term that is a bit too
-overloaded to be used precisely in all cases) of a file and its meta
-attributes will come from the mega image, and the virtual image recipes,
-including the base image, are merely used to generate file lists?
-
-What is the content of the actual image that gets created? It has to
-match the content (= file content and meta information) of the mega
-image and not of the base image, otherwise there can be inconsistencies
-between the actual running image and the core os bundle. I suppose swupd
-will be able to fix that, but I'm not sure.
-
-It sounds like this bundle creation is completely separated from the
-regular image creation; if so, then I suspect that this may have to
-change.
-
-> We took the approach of building images, rather than populating the chroot-like
-> bundle directories with a package manager, because various layers and recipes
-> make changes to the rootfs contents outside of the package manager, particularly
-> with IMAGE_POSTPROCESS_COMMAND, etc.
-
-Makes sense to me.
-
-Have you considered generating the file lists more efficiently? I can
-think of some alternatives, but all have downsides.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Ideally the work done here and the work done on meta-swupdate[1] would 
+be somehow merged so people creating images/distros would only have to 
+learn and integrate one software update solution, instead of having to 
+evaluate and choose between the two (or more?).
 
 
-
+[1] https://github.com/sbabic/meta-swupdate
 
