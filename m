@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B0C477296
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C68607731B
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 24 Feb 2016 09:24:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1O9O0Mv010740
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1O9O1ag032566
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 01:24:00 -0800 (PST)
+	Wed, 24 Feb 2016 01:24:01 -0800
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Feb 2016 01:24:00 -0800
+	Wed, 24 Feb 2016 01:24:01 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Feb 2016 01:23:57 -0800
-Message-ID: <78cf7d00ef861d0053070a2e9ea154e055e0fbd9.1456304688.git.liezhi.yang@windriver.com>
+Date: Wed, 24 Feb 2016 01:23:59 -0800
+Message-ID: <ab4466085aaa486a832e18626be7fda1939e949e.1456304688.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1456304688.git.liezhi.yang@windriver.com>
 References: <cover.1456304688.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] boot-directdisk.bbclass: drop IS_VM chechking
+Subject: [PATCH 4/4] sanity.bbclass: remove conflict checking for image vm and live
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 09:24:00 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 09:24:01 -0000
 Content-Type: text/plain
 
-The IS_VM was used for making menus for vmdk, vdi and qcow2, except
-hddimg, there is no reason to not make menus for hddimg, so drop it.
+[YOCTO #9161]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/boot-directdisk.bbclass |   12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ meta/classes/sanity.bbclass |   12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index ce637b8..89007e3 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -62,8 +62,6 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
- SYSLINUX_ROOT ?= "root=/dev/sda2"
- SYSLINUX_TIMEOUT ?= "10"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 466eb49..edf49da 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -843,18 +843,6 @@ def check_sanity_everybuild(status, d):
+         with open(checkfile, "w") as f:
+             f.write(tmpdir)
  
--IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "true", "false", d)}'
+-    # Check vmdk and live can't be built together.
+-    if 'vmdk' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+-        status.addresult("Error, IMAGE_FSTYPES vmdk and live can't be built together\n")
 -
- boot_direct_populate() {
- 	dest=$1
- 	install -d $dest
-@@ -102,12 +100,10 @@ build_boot_dd() {
- 		efi_hddimg_populate $HDDDIR
- 	fi
- 
--	if [ "${IS_VM}" = "true" ]; then
--		if [ "x${AUTO_SYSLINUXMENU}" = "x1" ] ; then
--			install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 $HDDDIR/${SYSLINUXDIR}/
--			if [ "x${SYSLINUX_SPLASH}" != "x" ] ; then
--				install -m 0644 ${SYSLINUX_SPLASH} $HDDDIR/${SYSLINUXDIR}/splash.lss
--			fi
-+	if [ "x${AUTO_SYSLINUXMENU}" = "x1" ] ; then
-+		install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 $HDDDIR/${SYSLINUXDIR}/
-+		if [ "x${SYSLINUX_SPLASH}" != "x" ] ; then
-+			install -m 0644 ${SYSLINUX_SPLASH} $HDDDIR/${SYSLINUXDIR}/splash.lss
- 		fi
- 	fi
- 
+-    # Check vdi and live can't be built together.
+-    if 'vdi' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+-        status.addresult("Error, IMAGE_FSTYPES vdi and live can't be built together\n")
+-
+-    # Check qcow2 and live can't be built together.
+-    if 'qcow2' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+-        status.addresult("Error, IMAGE_FSTYPES qcow2 and live can't be built together\n")
+-
+     # Check /bin/sh links to dash or bash
+     real_sh = os.path.realpath('/bin/sh')
+     if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
 -- 
 1.7.9.5
 
