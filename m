@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 464107734B
+	by mail.openembedded.org (Postfix) with ESMTP id 6BDF077397
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 05:09:17 +0000 (UTC)
+	Wed, 24 Feb 2016 05:09:19 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:18 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305658"
+X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305662"
 Received: from sloi-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.141.175])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:16 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:18 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 18:07:28 +1300
-Message-Id: <7990b2da72454e7390373a48169642addd617723.1456290353.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Feb 2016 18:07:29 +1300
+Message-Id: <c12b6e0b8ef5e8ee2809dd5d9a17190bcf7b262d.1456290353.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 08/14] devtool: upgrade: fix constructing new branch from tarball releases
+Subject: [PATCH 09/14] devtool: upgrade: fix several issues with extraction of new source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 05:09:17 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 05:09:19 -0000
 
-When we do an upgrade from one tarball version to another we want to:
+Fix several issues when extracting the new version source over the top
+of the old one (when the recipe is not fetching from a git repo):
 
-1) Check out the old version as a new branch
-2) Record the changes between the old and new versions as a commit
-3) Check out the old version with patches applied
-4) Rebase that onto the new branch
-
-Where we went wrong was step #1 where instead we checked out the old
-version with patches applied as the new branch, which meant the rebase
-didn't do anything and any changes made by the patches to files still in
-the new version were wiped out.
+* Delete the old source first so we ensure files deleted in the new
+  version are deleted. This also has the side-effect of fixing any
+  issues where files aren't marked writeable in the old source and thus
+  overwriting them failed (harfbuzz 1.1.3 contains such files).
+* Fix incorrect variable name in abspath statement that made it a no-op
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/upgrade.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/devtool/upgrade.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 9a308b1..fab7b15 100644
+index fab7b15..fae20ef 100644
 --- a/scripts/lib/devtool/upgrade.py
 +++ b/scripts/lib/devtool/upgrade.py
-@@ -179,7 +179,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
-         md5 = None
-         sha256 = None
-     else:
--        __run('git checkout -b devtool-%s' % newpv)
-+        __run('git checkout devtool-base -b devtool-%s' % newpv)
+@@ -188,9 +188,19 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
+             raise DevtoolError(e)
  
-         tmpdir = tempfile.mkdtemp(prefix='devtool')
-         try:
+         tmpsrctree = _get_srctree(tmpdir)
++        srctree = os.path.abspath(srctree)
++
++        # Delete all sources so we ensure no stray files are left over
++        for item in os.listdir(srctree):
++            if item in ['.git', 'oe-local-files']:
++                continue
++            itempath = os.path.join(srctree, item)
++            if os.path.isdir(itempath):
++                shutil.rmtree(itempath)
++            else:
++                os.remove(itempath)
+ 
+-        scrtree = os.path.abspath(srctree)
+-
++        # Copy in new ones
+         _copy_source_code(tmpsrctree, srctree)
+ 
+         (stdout,_) = __run('git ls-files --modified --others --exclude-standard')
 -- 
 2.5.0
 
