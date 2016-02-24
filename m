@@ -1,47 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 70EFE76312
+Return-Path: <jpetri@izotope.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id ACD7E7719C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 21:00:28 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id l127so66306766iof.3
+	Wed, 24 Feb 2016 21:04:03 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id of3so17750841lbc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 13:00:29 -0800 (PST)
+	Wed, 24 Feb 2016 13:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RA+8A0gtAthGROk0L2/RKMjFSAVSvLJPHZg3X5RKrZM=;
-	b=kw2EHt3WdvMcgQZoTHFf0T61YblJMtLFmnJH1yS2CYIdKoCNTKOdmP50let1sVHkOH
-	XD1c0djKF0/4qtL2gXGOCA6SMfxlzLtIntd92Jrh6viaLDg4Noog7PhkvIsGlvzc0ERQ
-	GwF2gtLRnQYC6LgfC7Fpp6qGn8RGJ2TewaRpxFL4620q47/l28TQExcl0aKEkQnrzCqm
-	sFxP0hv9HxODvlQXwtlzNEGRqpLGQJ4LiYlOHdaCXXH5uLdLHARC12EC2MEZvwZdGc2v
-	0d0fQVsmt9jIuV8e4i0DjpEwukFsr5RCy8Y4MnJ6Sem5wiwLl7T2CHhDACZBLab29FJ/
-	InBA==
+	d=izotope-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=8rxnETGO8hD6jbahtskyxA27KNQu/uJKP3IEs+wPuak=;
+	b=csCaN/gvR9ux8toRjx4SVfyYkEgTxN9bsT674h3oXLeYK/ajEg/w1ccyCX/xq6H/+X
+	QYQcLiwGZ6HX3gsbekmjCZOuCkwHa/UQ+gEJq3foQ+PxQHsdB47Kyep1+Zvks+CwK47G
+	52a1A0p48O2BTNGk56AVOrqy6g70EWYV/INcacfvs9EDOFBqCI47Z7Q7xUydFw0118vB
+	+8+U5hk+ogDu87P9hTZ+YKLc2A7ZATjLVxSG2uJg3a7Ws9Tq2A4HhHY+EFo/P0OCYxOg
+	eLNBEODu7eiKqz5SEAGO22TXFkBkwGoDoOjkP7XbDosIfkltJ12UcpuQGoHqeSVX3JR6
+	fYKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=RA+8A0gtAthGROk0L2/RKMjFSAVSvLJPHZg3X5RKrZM=;
-	b=H/dno4OB69Qa5odzqELsqhIvZKmImYorZepLYEe+dDUAgORRsyDmRNUOQwHhDifgbd
-	C0/it94MvFcXT65RREhwUeQ/0VOxXB+ZP+6UVVbGkPqyZhRcvafTuxy/TK2PoggyeSbS
-	ETWnHe0pwEoFB1a12rDw8GQzb3eMfPvuAeLAbfRpfGdwN79KDHsYA/alOcCJU1fuBKLo
-	rtaQO+kFtxDSsXtgadSsIu3N6oxeGVtQARzHkEoEabhI761EwcSuYGKMOV2tHLsdMpeT
-	WSEk6cG+ksC09gUaBY4Ry5RqbyLNarB5KYt/2X4s6/+dYtUFvVjJKJRmAiTD94wWyGQW
-	NIlQ==
-X-Gm-Message-State: AG10YOQfi3AWb4ufEgJTrlloWAQomJ0L19309S2rRcSq4ng9YJSQ4NhqAGfunFup3CG39MRINGciI7rBFsaIw7Es
-X-Received: by 10.50.43.226 with SMTP id z2mr24567513igl.78.1456347629448;
-	Wed, 24 Feb 2016 13:00:29 -0800 (PST)
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=8rxnETGO8hD6jbahtskyxA27KNQu/uJKP3IEs+wPuak=;
+	b=IqZT73iramqgCFdhaQa3o7IL4NWg5vjW9oscdMOkkpDksAPPyMTxQtsCUcRBx/xRiH
+	ZedRJ6gLI0oIfDEcpNroy7l0Fpl7gcXuff4sQd2pR9yNG3L+a1pfcRoIkkh2Nb/lQ5cU
+	CDQ2opmqAWJCXpPeLG3laOa92qyl7OVejfen4u2BmXY+2ShDoUleZDAOEESx9WGkKc+2
+	D8NfrCSk1+tHaJsz3yXRTcK5wmyxHXnaXhzoAMeI8Sdik+/q/5+SdSL6y2QtmQJKpATp
+	oUPjjBfvPr9T1djnRJvZzFQbU1NurfOK1PAQF6BxpmWOP9djyW9uMMZUhiesscAG7/iv
+	hRdA==
+X-Gm-Message-State: AG10YOQhAPr+tRC/hHOpgbYG3fT2/hOiH5dIAAiwLgojo4qRP9qkLpkcwHu5OcjLoF3lrYE6Kp3stDpYyXRESmHf
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 24 Feb 2016 13:00:10 -0800 (PST)
-In-Reply-To: <4df77b79cf9ded923721b47de270b2c43c21cc18.1456325292.git.joshua.g.lock@intel.com>
-References: <cover.1456325292.git.joshua.g.lock@intel.com>
-	<4df77b79cf9ded923721b47de270b2c43c21cc18.1456325292.git.joshua.g.lock@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Feb 2016 21:00:10 +0000
-Message-ID: <CAJTo0LZXUGQN7TrgTXJ3f=qoZLSo_VT7hJ=BdBye561_Tq6+Gg@mail.gmail.com>
-To: Joshua Lock <joshua.g.lock@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/10] hardlink: add new recipe
+X-Received: by 10.112.160.3 with SMTP id xg3mr15247794lbb.67.1456347843366;
+	Wed, 24 Feb 2016 13:04:03 -0800 (PST)
+Received: by 10.114.58.40 with HTTP; Wed, 24 Feb 2016 13:04:03 -0800 (PST)
+Date: Wed, 24 Feb 2016 16:04:03 -0500
+Message-ID: <CAJOrw7xxK8Z24WcHZN0OrK3u25h4XRo+YozgbDomBu2D0r0MeQ@mail.gmail.com>
+From: Jonah Petri <jpetri@izotope.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Enabling tab completion on host gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +50,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 21:00:29 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f41f90ed052c8a5be9
+X-List-Received-Date: Wed, 24 Feb 2016 21:04:05 -0000
+Content-Type: multipart/alternative; boundary=001a11c331e6df9798052c8a6719
 
---047d7bfea0f41f90ed052c8a5be9
+--001a11c331e6df9798052c8a6719
 Content-Type: text/plain; charset=UTF-8
 
-On 24 February 2016 at 14:52, Joshua Lock <joshua.g.lock@intel.com> wrote:
+Hello!
+Does anyone know why host gdb (as built into a yocto sdk) does not have
+working tab completion?
 
-> +do_compile () {
-> +       oe_runmake 'DESTDIR=${D}' 'PREFIX=${prefix}' BINDIR='${bindir}'
-> +}
-> +
-> +do_install () {
-> +       oe_runmake install 'DESTDIR=${D}' 'PREFIX=${prefix}'
-> BINDIR='${bindir}'
-> +}
->
+If I type "break wr" and then press tab, it does nothing.  However, if I
+type:
+(gdb) complete b wr
+b write
+b write@got.plt
+b write@plt
+b writer.h
 
-EXTRA_OEMAKE will make this neater.
+So, the completions are there, but something is not hooked up properly.
+We're using pretty close to stock poky 1.8, and the package is specifically:
+x86_64-nativesdk-pokysdk-linux/gdb-cross-canadian-arm/7.8.1-r0/
 
-Ross
+I never realized how much I depend on tab completion for productivity while
+debugging, so any help would be much appreciated!
 
---047d7bfea0f41f90ed052c8a5be9
+Thanks!
+Jonah
+
+--001a11c331e6df9798052c8a6719
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2016 at 14:52, Joshua Lock <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:joshua.g.lock@intel.com" target=3D"_blank">joshua.g.lock@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":e4v" cla=
-ss=3D"a3s" style=3D"overflow:hidden">+do_compile () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake &#39;DESTDIR=3D${D}&#39; &#39;PREFIX=
-=3D${prefix}&#39; BINDIR=3D&#39;${bindir}&#39;<br>
-+}<br>
-+<br>
-+do_install () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake install &#39;DESTDIR=3D${D}&#39; &#3=
-9;PREFIX=3D${prefix}&#39; BINDIR=3D&#39;${bindir}&#39;<br>
-+}</div></blockquote></div><br>EXTRA_OEMAKE will make this neater.</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
+<div dir=3D"ltr"><div><div><div><div><div><div>Hello!<br></div>Does anyone =
+know why host gdb (as built into a yocto sdk) does not have working tab com=
+pletion?<br><br></div>If I type &quot;break wr&quot; and then press tab, it=
+ does nothing.=C2=A0 However, if I type:<br>(gdb) complete b wr<br>b write<=
+br>b write@got.plt<br>b write@plt<br>b writer.h<br><br></div>So,
+ the completions are there, but something is not hooked up properly.=C2=A0=
+=20
+We&#39;re using pretty close to stock poky 1.8, and the package is=20
+specifically:<br>x86_64-nativesdk-pokysdk-linux/gdb-cross-canadian-arm/7.8.=
+1-r0/<br><br></div>I never realized how much I depend on tab completion for=
+ productivity while debugging, so any help would be much appreciated!<br><b=
+r></div>Thanks!<br></div>Jonah<br></div>
 
---047d7bfea0f41f90ed052c8a5be9--
+--001a11c331e6df9798052c8a6719--
