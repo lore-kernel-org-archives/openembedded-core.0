@@ -1,32 +1,27 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 639 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 24 Feb 2016 20:38:19 UTC
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A5C677184
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 59FC977330
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 20:38:19 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160224202739986_0684
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 20:27:39 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [127.0.0.1] (port=53012 helo=localhost)
-	by astoria.ccjclearline.com with esmtpa (Exim 4.80)
-	(envelope-from <rpjday@crashcourse.ca>) id 1aYg3H-0005U6-Ry
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Feb 2016 15:28:51 -0500
-Received: from 99.240.204.5 ([99.240.204.5]) by astoria.ccjclearline.com
-	(Horde Framework) with HTTP; Wed, 24 Feb 2016 15:28:50 -0500
-Message-ID: <20160224152850.164043qmdvkuzbeo@astoria.ccjclearline.com>
-Date: Wed, 24 Feb 2016 15:28:50 -0500
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: openembedded-core@lists.openembedded.org
+	Wed, 24 Feb 2016 20:40:35 +0000 (UTC)
+Received: (qmail 4470 invoked by uid 1003); 24 Feb 2016 20:40:36 -0000
+Received: from unknown (HELO ?192.168.11.140?)
+	(philip@opensdr.com@71.171.13.83)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	24 Feb 2016 20:40:36 -0000
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1456325292.git.joshua.g.lock@intel.com>
+	<56CDD519.9050109@gmail.com> <56CDDBCD.6090303@balister.org>
+	<2791977.VXU03QmIbh@peggleto-mobl.ger.corp.intel.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <56CE1543.7050703@balister.org>
+Date: Wed, 24 Feb 2016 15:40:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-User-Agent: Internet Messaging Program (IMP) H3 (4.3.11)
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: what is the priority of wildcarded .bbappend files?
+In-Reply-To: <2791977.VXU03QmIbh@peggleto-mobl.ger.corp.intel.com>
+Cc: Joshua Lock <joshua.g.lock@intel.com>
+Subject: Re: [PATCH 00/10] Integrate swupd software updater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 20:38:22 -0000
-Content-Type: text/plain;
- charset=ISO-8859-1;
- DelSp="Yes";
- format="flowed"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 24 Feb 2016 20:40:36 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-   didn't immediately see this in the documentation anywhere, so what would
-happen in the following situation? say i have a layer that has three
-different versions of a recipe:
+On 02/24/2016 02:51 PM, Paul Eggleton wrote:
+> On Wed, 24 Feb 2016 11:35:25 Philip Balister wrote:
+>> On 02/24/2016 11:06 AM, Trevor Woerner wrote:
+>>> Ideally the work done here and the work done on meta-swupdate[1] would
+>>> be somehow merged so people creating images/distros would only have to
+>>> learn and integrate one software update solution, instead of having to
+>>> evaluate and choose between the two (or more?).
+>>>
+>>> [1] https://github.com/sbabic/meta-swupdate
+>>
+>> Amen. I had the same thoughts reading the patch set intro.
+> 
+> I think it would be hard to integrate these two, since they operate quite 
+> differently to eachother.
+>  
+>> Maybe the swupd should go in a seperate layer so we can see which
+>> project works best for oe users before moving something directly into
+>> oe-core?
+> 
+> This makes sense to me too though FWIW. The os-release patch should probably 
+> go straight in, but everything else looks like it could comfortably live in a 
+> separate layer without making things too difficult.
 
-* recipe-1.0.bb
-* recipe-1.1.bb
-* recipe-1.2.bb
+It also makes it easier to update as problems in swupd are resolved
+since you do not need to go through the entire oe-core testing cycle.
 
-   if i want, i can extend each one with a .bbappend file:
-
-* recipe-1.0.bbappend
-* recipe-1.1.bbappend
-* recipe-1.2.bbappend
-
-   or if the same .bbappend file applies to all of them, i can just create
-the wildcard file "recipe-1.%.bbappend". but can i do this?
-
-* recipe-1.1.bbappend
-* recipe-1.%.bbappend
-
-such that the more specific match takes precedence, so that the 1.1 bbappend
-file is used for that version, and the wildcard version is used for  
-all others?
-is this written down somewhere that i just missed it?
-
-rday
+Philip
 
 
+> 
+> Cheers,
+> Paul
+> 
 
