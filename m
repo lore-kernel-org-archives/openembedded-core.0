@@ -1,45 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE87772E9
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D15F7736F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 19:05:58 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id b205so2366893wmb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 11:05:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=DY9VFp/9JHQ0YtJURa3ALZCjDw185VrtUeDUdaqtH1M=;
-	b=wMorq8ILt47Z/fV8qytH+yoeGKXlsFXcdXoWPkJOl3/8Zk5QhWt7w9l+03yjVcQE1o
-	dEYPBkpcXBO17h5bxr3DReYHbKNXB/GO7qlWWbvB8d4pMIxV1ryWq+V/KHNRzCCwn00N
-	3Sw4fqCuCF6YY1Rt0FzYIhp/6bWpt4ZsKgzP3LdwYw/dkv5mAWX/cuFIUEIk/T+UUh4x
-	2pW8LOswSW07zq5P91cEmcp6yy4lqTXefBuFEdMf5WYB3r8DQuoIejfq0ovFYTcGSPdT
-	i9pRvlJr62NgiUcTar5PTTRJogCGS18EaiS4tZV1MrJEy8bp4+iZOfLcSmZVeUTmoWrd
-	1e9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=DY9VFp/9JHQ0YtJURa3ALZCjDw185VrtUeDUdaqtH1M=;
-	b=el47L3OAF3LxhY/c+YHRsyBvqJU+5+puuyDehmyMkaZA4Buci4OffXiXJ2wwyvMkj7
-	AUG2ZWB7AZiCNLNe5ZKW2Ri6py1k9RiavH6KDy5ixbU6Tr/aTMts+j9bmvEt6pi0KdsU
-	EWcYocSUehg6NJxNeSWsoP2cK/akxyIgY67IfiscK2MtVj+gIcAge/by0EgYgmw8ZcPz
-	vTmnzoRkYV68lCZGc/7h7oqNkD++R5mTNkRw/0/0pmlnah26MzPPdoS2RodaoM9xC1OM
-	5FtUZObm2pDG+w5JE2nsmtztMNooUasXyzOtRGfwb685FRdaVLBz9DBfx0g/RAW4WVik
-	jvnw==
-X-Gm-Message-State: AG10YOQWtDeexI2lyidV+xvSdYTrALuGbIZKnJc7RfZTDgyXPp5CujfOFeuRQHy0/s5y17HkoXIQ99GcLxVSqw==
+	Wed, 24 Feb 2016 19:51:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2016 11:51:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,494,1449561600"; d="scan'208";a="752617799"
+Received: from mmsaini-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.138.207])
+	by orsmga003.jf.intel.com with ESMTP; 24 Feb 2016 11:51:21 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Feb 2016 08:51:19 +1300
+Message-ID: <2791977.VXU03QmIbh@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.3.5-300.fc23.x86_64; KDE/4.14.17; x86_64; ;
+	)
+In-Reply-To: <56CDDBCD.6090303@balister.org>
+References: <cover.1456325292.git.joshua.g.lock@intel.com>
+	<56CDD519.9050109@gmail.com> <56CDDBCD.6090303@balister.org>
 MIME-Version: 1.0
-X-Received: by 10.28.50.133 with SMTP id y127mr25051764wmy.4.1456340758873;
-	Wed, 24 Feb 2016 11:05:58 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Wed, 24 Feb 2016 11:05:58 -0800 (PST)
-In-Reply-To: <20160224125133.GA7560@jama>
-References: <1455823285-32028-1-git-send-email-armccurdy@gmail.com>
-	<20160224125133.GA7560@jama>
-Date: Wed, 24 Feb 2016 11:05:58 -0800
-Message-ID: <CAJ86T=UD=F4Bic8N6m4ii_DVSF_X-0K0uf0dTGbw-3t7UoTcWA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] libsoup-2.4: cleanup + disable libsoup-gnome by default
+Cc: Joshua Lock <joshua.g.lock@intel.com>
+Subject: Re: [PATCH 00/10] Integrate swupd software updater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 19:06:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Feb 2016 19:51:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Feb 24, 2016 at 4:51 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Feb 18, 2016 at 11:21:23AM -0800, Andre McCurdy wrote:
->> Andre McCurdy (2):
->>   libsoup-2.4: minor formatting improvements
->>   libsoup-2.4: disable libsoup-gnome by default
->>
->>  meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb | 20 +++++++++-----------
->>  1 file changed, 9 insertions(+), 11 deletions(-)
->
-> It looks like this was merged without suggested fix for upgrade-path.
->
-> Will you please send follow-up patch?
+On Wed, 24 Feb 2016 11:35:25 Philip Balister wrote:
+> On 02/24/2016 11:06 AM, Trevor Woerner wrote:
+> > Ideally the work done here and the work done on meta-swupdate[1] would
+> > be somehow merged so people creating images/distros would only have to
+> > learn and integrate one software update solution, instead of having to
+> > evaluate and choose between the two (or more?).
+> > 
+> > [1] https://github.com/sbabic/meta-swupdate
+> 
+> Amen. I had the same thoughts reading the patch set intro.
 
-I think the v2 series was merged OK. Here's the commit which tries to
-prevent renaming when the gnome PACKAGECONFIG is disabled:
+I think it would be hard to integrate these two, since they operate quite 
+differently to eachother.
+ 
+> Maybe the swupd should go in a seperate layer so we can see which
+> project works best for oe users before moving something directly into
+> oe-core?
 
-  http://git.openembedded.org/openembedded-core/commit/?id=f5f95f501c8aacb3d624e683b4b5b8403115ba5d
+This makes sense to me too though FWIW. The os-release patch should probably 
+go straight in, but everything else looks like it could comfortably live in a 
+separate layer without making things too difficult.
 
-> It also most likely breaks libgdata in meta-oe (for complete log see bitbake world
-> reports or errors.yoctoproject.org)
->
->   | configure: error: Package requirements (libsoup-gnome-2.4) were not met:
->   |
->   | No package 'libsoup-gnome-2.4' found
->
-> Maybe it will be resolved by libgdata upgrade sent in
-> gobject-introspective set, so this is just FYI.
+Cheers,
+Paul
 
-OK. I'll look into this one.
+-- 
 
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Paul Eggleton
+Intel Open Source Technology Centre
 
