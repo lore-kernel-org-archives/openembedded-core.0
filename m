@@ -1,33 +1,31 @@
 Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 384 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 24 Feb 2016 18:18:49 UTC
 Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
-	[216.82.243.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E1D1677197
+	[216.82.243.194])
+	by mail.openembedded.org (Postfix) with ESMTP id C2D07772E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 18:18:49 +0000 (UTC)
-Received: from [216.82.242.37] by server-4.bemta-8.messagelabs.com id
-	19/D3-03483-A82FDC65; Wed, 24 Feb 2016 18:12:26 +0000
+	Wed, 24 Feb 2016 18:21:24 +0000 (UTC)
+Received: from [216.82.242.37] by server-2.bemta-8.messagelabs.com id
+	C6/EF-03292-913FDC65; Wed, 24 Feb 2016 18:14:49 +0000
 X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-10.tower-99.messagelabs.com!1456337539!12394018!8
+X-Msg-Ref: server-10.tower-99.messagelabs.com!1456337688!12394310!1
 X-Originating-IP: [192.109.95.98]
 X-StarScan-Received: 
 X-StarScan-Version: 7.35.1; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 3454 invoked from network); 24 Feb 2016 18:12:26 -0000
+Received: (qmail 9889 invoked from network); 24 Feb 2016 18:14:49 -0000
 Received: from unknown (HELO DOR-VMS-XCH01.digi.com) (192.109.95.98)
 	by server-10.tower-99.messagelabs.com with SMTP;
-	24 Feb 2016 18:12:26 -0000
+	24 Feb 2016 18:14:49 -0000
 Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by DOR-VMS-XCH01.digi.com
 	(10.49.8.98) with Microsoft SMTP Server (TLS) id 14.3.266.1;
-	Wed, 24 Feb 2016 19:12:25 +0100
+	Wed, 24 Feb 2016 19:14:43 +0100
 Received: from log-cln-jviguera.digi.com (10.101.2.54) by
 	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
-	14.3.266.1; Wed, 24 Feb 2016 19:12:25 +0100
+	14.3.266.1; Wed, 24 Feb 2016 19:14:42 +0100
 From: Javier Viguera <javier.viguera@digi.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Feb 2016 19:12:21 +0100
-Message-ID: <1456337541-4269-1-git-send-email-javier.viguera@digi.com>
+Date: Wed, 24 Feb 2016 19:14:39 +0100
+Message-ID: <1456337679-4602-1-git-send-email-javier.viguera@digi.com>
 X-Mailer: git-send-email 2.7.1
 MIME-Version: 1.0
 X-Originating-IP: [10.101.2.54]
@@ -35,7 +33,7 @@ X-KSE-AntiSpam-Interceptor-Info: protection disabled
 X-KSE-Antivirus-Interceptor-Info: scan successful
 X-KSE-Antivirus-Info: Clean
 X-KSE-AntiSpam-Interceptor-Info: protection disabled
-Subject: [PATCH] bluez5: allow D-Bus to spawn obexd in systems without systemd
+Subject: [jethro][PATCH] bluez5: allow D-Bus to spawn obexd in systems without systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,7 +46,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 18:18:50 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 18:21:25 -0000
 Content-Type: text/plain
 
 This includes a proper D-Bus service file for obexd in systems that do
@@ -62,13 +60,13 @@ Signed-off-by: Javier Viguera <javier.viguera@digi.com>
  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index ff2bdcba62a4..f38eaa503598 100644
+index df42c88b9da3..d1af31ea45cd 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -19,6 +19,7 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+@@ -18,6 +18,7 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+ 
  SRC_URI = "\
      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-     file://init \
 +    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
  "
  S = "${WORKDIR}/bluez-${PV}"
