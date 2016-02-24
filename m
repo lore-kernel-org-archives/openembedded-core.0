@@ -1,24 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A4D9577328
+	by mail.openembedded.org (Postfix) with ESMTP id 13FC6772BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 14:52:43 +0000 (UTC)
+	Wed, 24 Feb 2016 14:52:45 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 24 Feb 2016 06:52:45 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 24 Feb 2016 06:52:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,494,1449561600"; d="scan'208";a="893686061"
+X-IronPort-AV: E=Sophos;i="5.22,494,1449561600"; d="scan'208";a="893686077"
 Received: from jlock-mobl1.gar.corp.intel.com ([10.252.7.109])
-	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 06:52:43 -0800
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 06:52:44 -0800
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 14:52:12 +0000
-Message-Id: <1d60b6f6be736474d1fe13a9974b1b27967e78cc.1456325292.git.joshua.g.lock@intel.com>
+Date: Wed, 24 Feb 2016 14:52:13 +0000
+Message-Id: <607c8368d4749d2ca6fd6b2a1c663f3d1064937a.1456325292.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
 References: <cover.1456325292.git.joshua.g.lock@intel.com>
 In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
 References: <cover.1456325292.git.joshua.g.lock@intel.com>
-Subject: [PATCH 08/10] swupd-client: RDEPENDS on oe-swupd-helpers
+Subject: [PATCH 09/10] swupd-client: enable native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 14:52:43 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 14:52:45 -0000
 
-The oe-swupd-helpers package provides scripts and units that swupd-client
-calls before, during and after the update process.
+This is useful for debugging swupd generated artefacts on the build
+host i.e. `swupd hashdump`
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/recipes-devtools/swupd/swupd-client_2.87.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-devtools/swupd/swupd-client_2.87.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/swupd/swupd-client_2.87.bb b/meta/recipes-devtools/swupd/swupd-client_2.87.bb
-index a5afdd6..73bfeb1 100644
+index 73bfeb1..8226624 100644
 --- a/meta/recipes-devtools/swupd/swupd-client_2.87.bb
 +++ b/meta/recipes-devtools/swupd/swupd-client_2.87.bb
-@@ -16,9 +16,7 @@ SRC_URI[sha256sum] = "45df259a7dc2fed985ee9961e112120fc46670dd75476c3262fc6804b1
- 
- DEPENDS = "glib-2.0 curl zlib bzip2 xz openssl"
+@@ -18,7 +18,7 @@ DEPENDS = "glib-2.0 curl zlib bzip2 xz openssl"
  RDEPENDS_${PN} = "gzip bzip2 tar xz"
--# swupd requires at least an update-triggers target, should it be part of the
--# swupd-client package?
--RDEPENDS_${PN} = "swupd-units"
-+RDEPENDS_${PN}_class-target = "oe-swupd-helpers"
+ RDEPENDS_${PN}_class-target = "oe-swupd-helpers"
  # We check /etc/os-release for the current OS version number
- RRECOMMENDS_${PN} = "os-release"
+-RRECOMMENDS_${PN} = "os-release"
++RRECOMMENDS_${PN}_class-target = "os-release"
  
+ inherit pkgconfig autotools-brokensep systemd
+ 
+@@ -45,3 +45,5 @@ FILES_${PN} += "\
+ 
+ SYSTEMD_SERVICE_${PN} = "check-update.timer check-update.service"
+ SYSTEMD_AUTO_ENABLE_${PN} = "disable"
++
++BBCLASSEXTEND = "native"
 -- 
 2.5.0
 
