@@ -1,26 +1,29 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 474097725F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 89A1277277
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 12:20:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1OCKJFh004560
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 04:20:19 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Feb 2016 04:20:18 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Feb 2016 07:20:10 -0500
-Message-ID: <dc52a1efbb8248ea274a1cd0cca5734290b3025f.1456315809.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1456315808.git.zhe.he@windriver.com>
-References: <cover.1456315808.git.zhe.he@windriver.com>
+	Wed, 24 Feb 2016 12:37:22 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Feb 2016 04:37:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,493,1449561600"; d="scan'208";a="658505636"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Feb 2016 04:37:16 -0800
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1455107972.git.alexander.kanavin@linux.intel.com>
+	<665b18beb51e5fbcfb033bdda22d7ba85b50f903.1455107972.git.alexander.kanavin@linux.intel.com>
+	<CA+chaQe460XR_hNRMS3MyUh5KGMWjykiQKnVOh58FAg2zk0WVQ@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <56CDA358.8070108@linux.intel.com>
+Date: Wed, 24 Feb 2016 14:34:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.5.0
 MIME-Version: 1.0
-Subject: [PATCH v3 2/2] kernel: Make symbol link to vmlinuz in boot directory
+In-Reply-To: <CA+chaQe460XR_hNRMS3MyUh5KGMWjykiQKnVOh58FAg2zk0WVQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] ffmpeg: update to 2.8.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 12:20:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Feb 2016 12:37:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: He Zhe <zhe.he@windriver.com>
+On 02/24/2016 03:55 AM, Martin Jansa wrote:
+> Fails to build for qemuarm when thumb is enabled.
+>
+> Why was:
+> ARM_INSTRUCTION_SET = "arm"
+>
+> removed in
+> http://git.openembedded.org/openembedded-core/commit/?id=77dbf07293df15cd5473422abd678930d6277bb0
+>
+> without checking if it works?
 
-Rename do_kernel_link_vmlinux to do_kernel_link_images and make a
-symbol link to vmlinuz(if exists) for reference in arch/$arch/boot
-directory.
+That line has no explanation of its intent and dates back to before 
+2009. I had also checked that ffmpeg builds fine with default qemuarm 
+configuration (and just checked that it still does), so it was dropped 
+as old cruft.
 
-Signen-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/classes/kernel.bbclass               | 13 ++++++++-----
- meta/conf/documentation.conf              |  2 +-
- meta/recipes-kernel/linux/linux-yocto.inc |  2 +-
- 3 files changed, 10 insertions(+), 7 deletions(-)
+I see that 'thumb' is in TUNE_FEATURES for qemuarm, but not sure if that 
+is same as 'thumb is enabled'. How do I make it break?
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3f92fdc..8cc944c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -474,15 +474,18 @@ python split_kernel_packages () {
- }
- 
- # Many scripts want to look in arch/$arch/boot for the bootable
--# image. This poses a problem for vmlinux based booting. This 
--# task arranges to have vmlinux appear in the normalized directory
--# location.
--do_kernel_link_vmlinux() {
-+# image. This poses a problem for vmlinux and vmlinuz based
-+# booting. This task arranges to have vmlinux and vmlinuz appear
-+# in the normalized directory location.
-+do_kernel_link_images() {
- 	if [ ! -d "${B}/arch/${ARCH}/boot" ]; then
- 		mkdir ${B}/arch/${ARCH}/boot
- 	fi
- 	cd ${B}/arch/${ARCH}/boot
- 	ln -sf ../../../vmlinux
-+	if [ -f ../../../vmlinuz ]; then
-+		ln -sf ../../../vmlinuz
-+	fi
- }
- 
- do_strip() {
-@@ -512,7 +515,7 @@ do_strip() {
- }
- do_strip[dirs] = "${B}"
- 
--addtask do_strip before do_sizecheck after do_kernel_link_vmlinux
-+addtask do_strip before do_sizecheck after do_kernel_link_images
- 
- # Support checking the kernel size since some kernels need to reside in partitions
- # with a fixed length or there is a limit in transferring the kernel to memory
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index b3969b0..f0c2399 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -28,7 +28,7 @@ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compi
- do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
- do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
- do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
--do_kernel_link_vmlinux[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux kernel images"
-+do_kernel_link_images[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux and vmlinuz kernel images"
- do_listtasks[doc] = "Lists all defined tasks for a target"
- do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
- do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 6b161fc..fd68786 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -52,6 +52,6 @@ do_install_append(){
- }
- 
- # extra tasks
--addtask kernel_link_vmlinux after do_compile before do_install
-+addtask kernel_link_images after do_compile before do_install
- addtask validate_branches before do_patch after do_kernel_checkout
- addtask kernel_configcheck after do_configure before do_compile
--- 
-1.9.1
+Alex
+
 
 
