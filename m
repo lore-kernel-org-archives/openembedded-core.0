@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E5BEA77196
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C26077180
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 23:59:23 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id g62so5361600wme.0
+	Wed, 24 Feb 2016 23:59:41 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id g62so5511164wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 15:59:24 -0800 (PST)
+	Wed, 24 Feb 2016 15:59:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=7kL1/1F5fP1OmnZw1Gw0t532OqOyelhVdg8ocAistZU=;
-	b=UuOIeCWx0fd4MH7yo6hWZPl4EbetxkG0QzXfUZqfRw3xK85pojkLeN3MH251oo2GAA
-	Kr+3JtD6ItH0KR9aHo0i9/a5O2YbJx57swJyazY91M3p5HRzBgfs/TsPIWPJXGE5YgYk
-	WL3oOvok91/2nF01CP/UzrYGon+BbFTpAzgFusgWtaUvpiA1CrjySr6NlwEzYOnYbFTY
-	kLdsYa92EiQ3FmQt5ZA5MRXdSR64oA6OQtLRYFmgkQH5C2J/RPT6Gza46sVCo8BRMb4A
-	jFh4xUcPcBFuFSN76HrgcyHebnRF0RIK09m0FGYIlKZCvsQKyIuB+w3JI8RAKodt4NrM
-	ZdYg==
+	bh=0pYd61QOnQ7bCMSFq+ZhT//VZULgHiDcW+y+SGBTscI=;
+	b=Gk1FrHsHwa1OOC1u0Ngiflmz9D+3tFKTZz/bXHrGxHO32WaTcqdvjMJKscRqvSQuWD
+	zDPsOIthaqo3F3QkAujH/qxppWkKxVVGHN6+GvW1fuTGfz61I9EzHRi/5pxTtseVLqmb
+	dpgqMs+nib2LPYUl3gz3qQ0WgHrMIHA4J8kJ3HA7NqslbaZXYY3G+UZMc7uBC9LcJggh
+	r6n1HWtr0w4mCuga4bFXhFZ/C4EsC6GHqfPJTpexoRDUt9WCLBQYOXrHY5X2hM2ulb56
+	o0Tc7rJuO5SMkyiww+5ZvkrYlTjPxJVH51vFkPvph4BL016p5qHU0NqjcfTTql+7MdT3
+	kq5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=7kL1/1F5fP1OmnZw1Gw0t532OqOyelhVdg8ocAistZU=;
-	b=e0iB23CPnzjcUNddN95okN7gEb0AT+9ulQEs/DDNUqTywcig3qi7i9t1MSJ77UUd5L
-	Nv8gBVa425T6k2KzvxPT7dU6mxiOcVGHf2xQK1ezpAywtHKd9HJuX1gGnhDQlOwjJmOq
-	++YVprlu0ro9GB6VMJR2UBF8knQ+CVn/YpKHjWFToOaqMfVVuBLcsRAW1q0dEC6UGkqk
-	+Vnz2HZErmqdeQIdnoPKkUMrQ/ThxKn4QHAGVFFm7aH19hLMS80edk4ygLC2Vxx39V3k
-	g4eu9mnumRzgOC9yB12LHghgHR2WYZfaAGALEH+umsPUDY7q0kK1sK5/m2QsenpvYCXU
-	siqw==
-X-Gm-Message-State: AG10YOTA7byNJYEh3N+7xWrNetKVORQAQoH88qgWYkyfX+i0ViFsMZqsqphxTle2AHHpkzxd
-X-Received: by 10.194.120.229 with SMTP id lf5mr46812853wjb.151.1456358364160; 
-	Wed, 24 Feb 2016 15:59:24 -0800 (PST)
+	bh=0pYd61QOnQ7bCMSFq+ZhT//VZULgHiDcW+y+SGBTscI=;
+	b=RuWhtL/ICXvt3EIuyHEDPnGoHeA7al7D1R21C2N4HB0mWSqbSIIUcCJyLWExedHW2o
+	qQAzbBRfk8ZtKOx408QKP9REQF9NhUZIf76DiCzhErXJggNhgHMq/z+gmrsnmXyChpJh
+	D5dYiBBp+kd1vfaBilop5YHpgQSNFGRjCbNa3+CcXyZtbIuwpz7k5lLQVAAbYVSidtrn
+	xRjlb2Xqo9h2iZ7kRC+5mBNzyYkGKUgYolmyAQg2hBY0Aecly0K/zSP/OLWoGvcPVZlM
+	PqStfg0yRR0YtYjwikleu0xXaar0C9AVwIx9fZdVyQ+FeLhN7ZqYXhdDAwfO+qlvxSlC
+	iYNA==
+X-Gm-Message-State: AG10YOTctnH+9/JykCjiuNOF0ttdj/YlMyrLHzfDZrRn8UWdF9tqFgQjwd5GkKDYJiDUwjph
+X-Received: by 10.28.49.69 with SMTP id x66mr338975wmx.11.1456358381670;
+	Wed, 24 Feb 2016 15:59:41 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id l132sm495307wmf.7.2016.02.24.15.59.23
+	by smtp.gmail.com with ESMTPSA id
+	u201sm486219wmu.11.2016.02.24.15.59.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 24 Feb 2016 15:59:23 -0800 (PST)
+	Wed, 24 Feb 2016 15:59:41 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 23:59:21 +0000
-Message-Id: <1456358361-21167-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 24 Feb 2016 23:59:35 +0000
+Message-Id: <1456358375-25624-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] uninative.bbclass: if the loader can't be found disable instead of failing
+Subject: [PATCH] package: check inherit instead of PN to decide if a recipe is a packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,113 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 23:59:24 -0000
+X-List-Received-Date: Wed, 24 Feb 2016 23:59:41 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/uninative.bbclass | 64 +++++++++++++++++++++++++-----------------
- 1 file changed, 38 insertions(+), 26 deletions(-)
+ meta/classes/package.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 270c1b0..0ca59d0 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -1,5 +1,3 @@
--NATIVELSBSTRING = "universal"
--
- UNINATIVE_LOADER ?= "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/${@bb.utils.contains('BUILD_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 93b275c..ef80e50 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1911,8 +1911,7 @@ python package_depchains() {
+         for pkg in pkglibdeps:
+             for k in pkglibdeps[pkg]:
+                 add_dep(pkglibdeplist, k)
+-        # FIXME this should not look at PN once all task recipes inherit from task.bbclass
+-        dbgdefaultdeps = ((d.getVar('DEPCHAIN_DBGDEFAULTDEPS', True) == '1') or (d.getVar('PN', True) or '').startswith('packagegroup-'))
++        dbgdefaultdeps = ((d.getVar('DEPCHAIN_DBGDEFAULTDEPS', True) == '1') or (bb.data.inherits_class('packagegroup', d)))
  
- UNINATIVE_URL ?= "unset"
-@@ -13,19 +11,16 @@ addhandler uninative_eventhandler
- uninative_eventhandler[eventmask] = "bb.event.BuildStarted"
- 
- python uninative_eventhandler() {
--    loader = e.data.getVar("UNINATIVE_LOADER", True)
-+    enabled = True
-+
-+    loader = d.getVar("UNINATIVE_LOADER", True)
-     tarball = d.getVar("UNINATIVE_TARBALL", True)
-     tarballdir = d.getVar("UNINATIVE_DLDIR", True)
-     tarballpath = os.path.join(tarballdir, tarball)
- 
-     if not os.path.exists(loader):
--        import subprocess
--
--        olddir = os.getcwd()
-+        # If the tarball doesn't exist, try to fetch it.
-         if not os.path.exists(tarballpath):
--            # Copy the data object and override DL_DIR and SRC_URI
--            localdata = bb.data.createCopy(d)
--
-             if d.getVar("UNINATIVE_URL", True) == "unset":
-                 bb.fatal("Uninative selected but not configured, please set UNINATIVE_URL")
- 
-@@ -33,31 +28,48 @@ python uninative_eventhandler() {
-             if not chksum:
-                 bb.fatal("Uninative selected but not configured correctly, please set UNINATIVE_CHECKSUM[%s]" % d.getVar("BUILD_ARCH", True))
- 
--            srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};md5sum=%s" % chksum)
--            localdata.setVar('FILESPATH', tarballdir)
--            localdata.setVar('DL_DIR', tarballdir)
--            bb.note("Fetching uninative binary shim from %s" % srcuri)
--            fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-             try:
-+                # Save and restore cwd as Fetch.download() does a chdir()
-+                olddir = os.getcwd()
-+
-+                localdata = bb.data.createCopy(d)
-+                localdata.setVar('FILESPATH', "")
-+                localdata.setVar('DL_DIR', tarballdir)
-+
-+                srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};md5sum=%s" % chksum)
-+                bb.note("Fetching uninative binary shim from %s" % srcuri)
-+
-+                fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-                 fetcher.download()
-                 localpath = fetcher.localpath(srcuri)
-                 if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
-                     os.symlink(localpath, tarballpath)
-             except Exception as exc:
--                bb.fatal("Unable to download uninative tarball: %s" % str(exc))
--
--        cmd = e.data.expand("mkdir -p ${STAGING_DIR}-uninative; cd ${STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/${UNINATIVE_TARBALL}; ${STAGING_DIR}-uninative/relocate_sdk.py ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative")
--        try:
--            subprocess.check_call(cmd, shell=True)
--        except subprocess.CalledProcessError as exc:
--            bb.fatal("Unable to install uninative tarball: %s" % str(exc))
--        os.chdir(olddir)
-+                bb.warn("Unable to download uninative tarball: %s" % str(exc))
-+                enabled = False
-+            finally:
-+                os.chdir(olddir)
-+
-+        # If we're still enabled then the fetch didn't fail, so unpack the tarball
-+        if enabled:
-+            import subprocess
-+            try:
-+                cmd = d.expand("mkdir -p ${STAGING_DIR}-uninative; cd ${STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/${UNINATIVE_TARBALL}; ${STAGING_DIR}-uninative/relocate_sdk.py ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative")
-+                subprocess.check_call(cmd, shell=True)
-+            except subprocess.CalledProcessError as exc:
-+                bb.warn("Unable to install uninative tarball: %s" % str(exc))
-+                enabled = False
-+
-+    if enabled:
-+        bb.note("Enabling uninative")
-+        d.setVar("NATIVELSBSTRING", "universal")
-+        d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
-+        d.prependVar("PATH", "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
-+    else:
-+        bb.warn("Uninative selected but the loader isn't present and can't be downloaded.  Disabling uninative.\n"
-+                "To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.")
- }
- 
--SSTATEPOSTUNPACKFUNCS_append = " uninative_changeinterp"
--
--PATH_prepend = "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:"
--
- python uninative_changeinterp () {
-     import subprocess
-     import stat
+     for suffix in pkgs:
+         for pkg in pkgs[suffix]:
 -- 
 2.7.0
 
