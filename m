@@ -1,39 +1,27 @@
-Return-Path: <Javier.Viguera@digi.com>
-Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
-	[216.82.243.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C2D07772E2
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 0405D772E8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 18:21:24 +0000 (UTC)
-Received: from [216.82.242.37] by server-2.bemta-8.messagelabs.com id
-	C6/EF-03292-913FDC65; Wed, 24 Feb 2016 18:14:49 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-10.tower-99.messagelabs.com!1456337688!12394310!1
-X-Originating-IP: [192.109.95.98]
-X-StarScan-Received: 
-X-StarScan-Version: 7.35.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 9889 invoked from network); 24 Feb 2016 18:14:49 -0000
-Received: from unknown (HELO DOR-VMS-XCH01.digi.com) (192.109.95.98)
-	by server-10.tower-99.messagelabs.com with SMTP;
-	24 Feb 2016 18:14:49 -0000
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by DOR-VMS-XCH01.digi.com
-	(10.49.8.98) with Microsoft SMTP Server (TLS) id 14.3.266.1;
-	Wed, 24 Feb 2016 19:14:43 +0100
-Received: from log-cln-jviguera.digi.com (10.101.2.54) by
-	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
-	14.3.266.1; Wed, 24 Feb 2016 19:14:42 +0100
-From: Javier Viguera <javier.viguera@digi.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Feb 2016 19:14:39 +0100
-Message-ID: <1456337679-4602-1-git-send-email-javier.viguera@digi.com>
-X-Mailer: git-send-email 2.7.1
+	Wed, 24 Feb 2016 18:36:14 +0000 (UTC)
+Received: from poczta.nazwa.pl (unknown [10.252.0.18])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 2FC222DA112;
+	Wed, 24 Feb 2016 19:36:13 +0100 (CET)
+Date: Wed, 24 Feb 2016 19:36:13 +0100 (CET)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: Trevor Woerner <twoerner@gmail.com>, 
+	Philip Balister <philip@balister.org>, 
+	openembedded-core@lists.openembedded.org, 
+	Joshua Lock <joshua.g.lock@intel.com>
+Message-ID: <2004047530.280482.ea828785-f98d-49f8-b462-023ff7545478.open-xchange@poczta.nazwa.pl>
+In-Reply-To: <56CDDBCD.6090303@balister.org>
+References: <cover.1456325292.git.joshua.g.lock@intel.com>
+	<56CDD519.9050109@gmail.com> <56CDDBCD.6090303@balister.org>
 MIME-Version: 1.0
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-Subject: [jethro][PATCH] bluez5: allow D-Bus to spawn obexd in systems without systemd
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.0-Rev20
+X-Originating-Client: com.openexchange.ox.gui.dhtml
+Subject: Re: [PATCH 00/10] Integrate swupd software updater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,98 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 18:21:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Feb 2016 18:36:15 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This includes a proper D-Bus service file for obexd in systems that do
-not support systemd.
+> Dnia 24 luty 2016 o 17:35 Philip Balister <philip@balister.org> napisa=C5=
+=82(a):
+>
+>
+> On 02/24/2016 11:06 AM, Trevor Woerner wrote:
+> > Ideally the work done here and the work done on meta-swupdate[1] would
+> > be somehow merged so people creating images/distros would only have to
+> > learn and integrate one software update solution, instead of having to
+> > evaluate and choose between the two (or more?).
+> >
+> >
+> > [1] https://github.com/sbabic/meta-swupdate
+>
+> Amen. I had the same thoughts reading the patch set intro.
+>
+> Maybe the swupd should go in a seperate layer so we can see which
+> project works best for oe users before moving something directly into
+> oe-core?
+>
 
-Signed-off-by: Javier Viguera <javier.viguera@digi.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
- ...-obexd-without-systemd-in-the-user-sessio.patch | 63 ++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+Frankly, swupdate is more embedded oriented. If I was to choose which
+one fits better into OE, I would say that swupdate does. However, in the
+end, both projects have their uses.
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index df42c88b9da3..d1af31ea45cd 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -18,6 +18,7 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
- 
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
- "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-new file mode 100644
-index 000000000000..2fde7bc06923
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-@@ -0,0 +1,63 @@
-+From: Giovanni Campagna <gcampagna-cNUdlRotFMnNLxjTenLetw@public.gmane.org>
-+Date: Sat, 12 Oct 2013 17:45:25 +0200
-+Subject: [PATCH] Allow using obexd without systemd in the user session
-+
-+Not all sessions run systemd --user (actually, the majority
-+doesn't), so the dbus daemon must be able to spawn obexd
-+directly, and to do so it needs the full path of the daemon.
-+
-+Upstream-Status: Denied
-+
-+Not accepted by upstream maintainer for being a distro specific
-+configuration. See thread:
-+
-+http://thread.gmane.org/gmane.linux.bluez.kernel/38725/focus=38843
-+
-+Signed-off-by: Javier Viguera <javier.viguera@digi.com>
-+---
-+ Makefile.obexd                      | 4 ++--
-+ obexd/src/org.bluez.obex.service    | 4 ----
-+ obexd/src/org.bluez.obex.service.in | 4 ++++
-+ 3 files changed, 6 insertions(+), 6 deletions(-)
-+ delete mode 100644 obexd/src/org.bluez.obex.service
-+ create mode 100644 obexd/src/org.bluez.obex.service.in
-+
-+diff --git a/Makefile.obexd b/Makefile.obexd
-+index 2e33cbc72f2b..d5d858c857b4 100644
-+--- a/Makefile.obexd
-++++ b/Makefile.obexd
-+@@ -2,12 +2,12 @@
-+ if SYSTEMD
-+ systemduserunitdir = @SYSTEMD_USERUNITDIR@
-+ systemduserunit_DATA = obexd/src/obex.service
-++endif
-+ 
-+ dbussessionbusdir = @DBUS_SESSIONBUSDIR@
-+ dbussessionbus_DATA = obexd/src/org.bluez.obex.service
-+-endif
-+ 
-+-EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service
-++EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service.in
-+ 
-+ obex_plugindir = $(libdir)/obex/plugins
-+ 
-+diff --git a/obexd/src/org.bluez.obex.service b/obexd/src/org.bluez.obex.service
-+deleted file mode 100644
-+index a53808884554..000000000000
-+--- a/obexd/src/org.bluez.obex.service
-++++ /dev/null
-+@@ -1,4 +0,0 @@
-+-[D-BUS Service]
-+-Name=org.bluez.obex
-+-Exec=/bin/false
-+-SystemdService=dbus-org.bluez.obex.service
-+diff --git a/obexd/src/org.bluez.obex.service.in b/obexd/src/org.bluez.obex.service.in
-+new file mode 100644
-+index 000000000000..9c815f246b77
-+--- /dev/null
-++++ b/obexd/src/org.bluez.obex.service.in
-+@@ -0,0 +1,4 @@
-++[D-BUS Service]
-++Name=org.bluez.obex
-++Exec=@libexecdir@/obexd
-++SystemdService=dbus-org.bluez.obex.service
+`swupd` is a new thing and I'm not aware of it being used in any other
+project than ClearLinux.  From what I've seen[1] there are some nice
+concepts that might prove useful in embedded (maybe even automotive
+applications?), but I have not tried it personally.
+
+`swupdate` on the other hand is very much embedded oriented. It's aware
+of u-boot, ubifs volumes, MTD, and is capable of updating firmware. I've
+used it, even contributed some code, and so far I've had a rather
+positive experience using it. There are some quirks in meta-swupdate
+that might need fixing, for ex. the actual process of building of update
+images is a bit convoluted, lack of systemd awareness, and certain
+assumptions about the update method that I don't agree with. I have some
+patches queued up, but they're more like shameful hacks than something
+worth upstreaming at this point.
+
+[1]. https://lists.clearlinux.org/pipermail/dev/2016-January/000159.html
+
+--
+Maciej Borz=C4=99cki
+Senior Software Engineer at Open-RnD Sp. z o.o.
+www.open-rnd.pl, Facebook, Twitter
 
