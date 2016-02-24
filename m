@@ -1,28 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 02F7877168
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 095AD6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 11:58:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Feb 2016 03:57:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,493,1449561600"; d="scan'208";a="893570599"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 03:57:55 -0800
-To: openembedded-core@lists.openembedded.org
-References: <cover.1455107972.git.alexander.kanavin@linux.intel.com>
-	<6ebf64ba55b2abcb17cfaf487d412a7072d9034b.1455107972.git.alexander.kanavin@linux.intel.com>
-	<56BCDC10.8050901@gmail.com> <56C33375.4040200@linux.intel.com>
-	<56C3465B.7020702@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <56CD9A1F.2060101@linux.intel.com>
-Date: Wed, 24 Feb 2016 13:55:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.5.0
+	Wed, 24 Feb 2016 12:20:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1OCKCCr008951
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Feb 2016 04:20:12 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 24 Feb 2016 04:20:12 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Feb 2016 07:20:08 -0500
+Message-ID: <cover.1456315808.git.zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <56C3465B.7020702@gmail.com>
-Subject: Re: [PATCH 6/7] webkitgtk: update to 2.10.7
+Subject: [PATCH v3 0/2] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 11:58:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Feb 2016 12:20:14 -0000
+Content-Type: text/plain
 
-On 02/16/2016 05:55 PM, akuster808 wrote:
+From: He Zhe <zhe.he@windriver.com>
 
->> Yes, which means that jethro (which has 2.8.5) needs the same update.
->
-> there is a bug open for that 8877. there are a huge number of CVE's that
-> need fixing.
+v1 to v2:
+ - Change KERNEL_OUTPUT to KERNEL_OUTPUT_DIR and update comments
+ - Update related doc files
+ - Replace all KERNEL_ALT_IMAGETYPEs with KERNEL_IMAGETYPES
+ - Link built vmlinuz to boot directory for reference
 
-I wrote a comment in that bug, but I think it bears repeating here:
+v2 to v3:
+ - Merge existing KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES in order that users can still use the old variables.
+ - Run oe_rummake in a loop for every types so that we can add different configurations to them easily in the future.
+ - Warn, intead of die, users if one of the types are over the size limit.
+ - Remove the replacement of KERNEL_ALT_IMAGETYPE in v2.
+ - Remove the doc parts. They will be submitted yocto-docs later.
+ - Change some grep usage to make it more clear.
+ - Correct a typo.
 
-Please read this, it's a bit long, but worth it:
+The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
 
-https://blogs.gnome.org/mcatanzaro/2016/02/01/on-webkit-security-updates/
+  uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
 
-Summary: the upstream will not backport CVE fixes, and they will not be 
-making point releases in old branches with any kind of lifecycle 
-guarantee. Providing ongoing updates to the latest stable release of 
-webkit is the only way to stay secure.
+are available in the git repository at:
 
-So I believe that you indeed have to update webkit to 2.10.7, or 
-whatever is the latest stable release, and keep doing this for as long 
-as a yocto release needs to be supported.
+  git://git.yoctoproject.org/poky-contrib zhe/yocto-bug-6945
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=zhe/yocto-bug-6945
 
-Regards,
-Alex
+for you to fetch changes up to dc52a1efbb8248ea274a1cd0cca5734290b3025f:
+
+  kernel: Make symbol link to vmlinuz in boot directory (2016-02-24 07:08:16 -0500)
+
+----------------------------------------------------------------
+He Zhe (2):
+      kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
+      kernel: Make symbol link to vmlinuz in boot directory
+
+ meta/classes/kernel-fitimage.bbclass      |  20 ++++++++-------
+ meta/classes/kernel-grub.bbclass          |  44 +++++++++++++++++++++-----------
+ meta/classes/kernel-uimage.bbclass        |  22 ++++++++--------
+ meta/classes/kernel.bbclass               | 187 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------
+ meta/conf/documentation.conf              |   3 ++-
+ meta/recipes-kernel/linux/linux-dtb.inc   |  49 ++++++++++++++++++++++--------------
+ meta/recipes-kernel/linux/linux-yocto.inc |   2 +-
+ 7 files changed, 218 insertions(+), 109 deletions(-)
+
+He Zhe (2):
+  kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
+  kernel: Make symbol link to vmlinuz in boot directory
+
+ meta/classes/kernel-fitimage.bbclass      |  20 ++--
+ meta/classes/kernel-grub.bbclass          |  44 ++++---
+ meta/classes/kernel-uimage.bbclass        |  22 ++--
+ meta/classes/kernel.bbclass               | 187 +++++++++++++++++++++---------
+ meta/conf/documentation.conf              |   3 +-
+ meta/recipes-kernel/linux/linux-dtb.inc   |  49 +++++---
+ meta/recipes-kernel/linux/linux-yocto.inc |   2 +-
+ 7 files changed, 218 insertions(+), 109 deletions(-)
+
+-- 
+1.9.1
 
 
