@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 366A6773A4
+	by mail.openembedded.org (Postfix) with ESMTP id 3F66277389
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 24 Feb 2016 05:09:15 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:08 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 23 Feb 2016 21:09:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305598"
+X-IronPort-AV: E=Sophos;i="5.22,492,1449561600"; d="scan'208";a="658305614"
 Received: from sloi-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.141.175])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:06 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2016 21:09:09 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 18:07:24 +1300
-Message-Id: <bb12032cc51a8564ca9abfe6ce7d34e826ad0fdb.1456290353.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Feb 2016 18:07:25 +1300
+Message-Id: <de58208e892e6b7207dfa0693b4fa3df6b217a02.1456290353.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1456290353.git.paul.eggleton@linux.intel.com>
 References: <cover.1456290353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 04/14] devtool: upgrade: drop superfluous call to validate_pn
+Subject: [PATCH 05/14] devtool: upgrade: fix version argument checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +34,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 24 Feb 2016 05:09:15 -0000
 
-The recipename argument to devtool upgrade specifies an existing recipe,
-so by definition the name will be valid (or it won't exist) - we don't
-need to validate it ourselves, that's only needed for situations like in
-devtool add where we're creating a new recipe.
+For recipes that specify SRCREV, the code here wasn't quite doing the
+right thing. If the recipe has a SRCREV then that needs changing on
+upgrade, so ensure that the user specifies it. If it doesn't, then it'll
+be "INVALID" not None since the former is the actual default, so handle
+that properly as well. Additionally an unset variable was being
+erroneously passed when raising the error about the version being the
+same leading to a traceback, so fix that as well.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/upgrade.py | 5 -----
- 1 file changed, 5 deletions(-)
+ scripts/lib/devtool/upgrade.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index a446c55..279a65f 100644
+index 279a65f..77b48f4 100644
 --- a/scripts/lib/devtool/upgrade.py
 +++ b/scripts/lib/devtool/upgrade.py
-@@ -297,12 +297,7 @@ def upgrade(args, config, basepath, workspace):
-     if args.srcbranch and not args.srcrev:
-         raise DevtoolError("If you specify --srcbranch/-B then you must use --srcrev/-S to specify the revision" % args.recipename)
+@@ -314,8 +314,13 @@ def upgrade(args, config, basepath, workspace):
+         srctree = standard.get_default_srctree(config, pn)
  
--    reason = oe.recipeutils.validate_pn(args.recipename)
--    if reason:
--        raise DevtoolError(reason)
--
-     tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
--
-     rd = parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
-         return 1
+     standard._check_compatible_recipe(pn, rd)
+-    if rd.getVar('PV', True) == args.version and rd.getVar('SRCREV', True) == args.srcrev:
+-        raise DevtoolError("Current and upgrade versions are the same version" % version)
++    old_srcrev = rd.getVar('SRCREV', True)
++    if old_srcrev == 'INVALID':
++        old_srcrev = None
++    if old_srcrev and not args.srcrev:
++        raise DevtoolError("Recipe specifies a SRCREV value; you must specify a new one when upgrading")
++    if rd.getVar('PV', True) == args.version and old_srcrev == args.srcrev:
++        raise DevtoolError("Current and upgrade versions are the same version")
+ 
+     rf = None
+     try:
 -- 
 2.5.0
 
