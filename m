@@ -1,29 +1,54 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 89A1277277
+Return-Path: <winiston@futuraautomation.com>
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A4D6F77262
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 12:37:22 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Feb 2016 04:37:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,493,1449561600"; d="scan'208";a="658505636"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Feb 2016 04:37:16 -0800
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1455107972.git.alexander.kanavin@linux.intel.com>
-	<665b18beb51e5fbcfb033bdda22d7ba85b50f903.1455107972.git.alexander.kanavin@linux.intel.com>
-	<CA+chaQe460XR_hNRMS3MyUh5KGMWjykiQKnVOh58FAg2zk0WVQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <56CDA358.8070108@linux.intel.com>
-Date: Wed, 24 Feb 2016 14:34:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.5.0
+	Wed, 24 Feb 2016 12:46:30 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id e127so12530625pfe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Feb 2016 04:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=futuraautomation-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:from:to:cc:subject:date:mime-version:content-type
+	:importance:disposition-notification-to;
+	bh=16CbCtHUNmwptaLvZmf07zP4SbHx1kYq0GfzU3XNx8c=;
+	b=R5ez7/4TL2y4NIi53u9aN3Xcb2BwHXJjlI3GmuLbyWemyiZmRslPenXDnAk/lT/+W5
+	lZWfpNXyd/Sr97ncIPqC0o/fbzEwYkVL1Gxd2F+eD2lSdPkjSrKGHn6cQbSLrIwZI7ve
+	WE4VGGBq9EsBNOBtc+P4AfLBx/ole1tGGGL+v2FexWkqiEW3mbQOBkXisf5tEI/kB5g5
+	mhf8P+hqdnqqFaiUDv2zxb6lzauuuohwnKOS5ip6WQtrZKLChP5o1yea9QIvyX0TGps5
+	BzUTLrKgx7jBaJL3YyJ3w1yl41uZWpJAamhTA2wts5ZhXmV/zhtV1pxseLK2Pb9pgUIs
+	RSFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:from:to:cc:subject:date:mime-version
+	:content-type:importance:disposition-notification-to;
+	bh=16CbCtHUNmwptaLvZmf07zP4SbHx1kYq0GfzU3XNx8c=;
+	b=dF22G2Roi3euUSvnQbpOyV8Tdq+nAuXb3lavbzAlSYjZQIZ73FnsKK8/pJw8h7APXX
+	TcRQ3JXYvnAr5yRiqebOJRPPXSCvgtHKx9gbEQDbYZ56Bo49bOhvDMVBtZbPPH7KLmHb
+	Gs+YewnhK0ZtKuRdJ1KG/H8ZSktTWjf7crWGQtakj9RpOEq8wrRuxI3fhWZ8rV+xw3hl
+	ZnBjcR0OqY+dvqS+rj4fKV9PfvK7Gnc89wkuWdt+kH8W61INX0utRtVY6gIvThqSzn3u
+	pG2hyojURZ+VoQnubCHi8gZkuK6ybCIuKaaqhbAK9PYw1q4/rfXJg4EPM0WDP61q5zUx
+	trMQ==
+X-Gm-Message-State: AG10YOSae1SApL534dBUsVYg036Bb4YTn9B805rVqGDUjbiPh510QRu7K3CgWzMqGTPTPA==
+X-Received: by 10.98.40.4 with SMTP id o4mr7925696pfo.76.1456317991071;
+	Wed, 24 Feb 2016 04:46:31 -0800 (PST)
+Received: from RD3 ([59.99.236.185]) by smtp.gmail.com with ESMTPSA id
+	b63sm4978943pfj.25.2016.02.24.04.46.27
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Feb 2016 04:46:29 -0800 (PST)
+Message-ID: <AB28D54196164B23BA942EBCF3204741@RD3>
+From: <winiston@futuraautomation.com>
+To: "OpenEmbedded core" <openembedded-core@lists.openembedded.org>,
+	"Yocto layer" <linux-yocto@yoctoproject.org>
+Date: Wed, 24 Feb 2016 18:20:14 +0530
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQe460XR_hNRMS3MyUh5KGMWjykiQKnVOh58FAg2zk0WVQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] ffmpeg: update to 2.8.6
+X-Priority: 1
+X-MSMail-Priority: High
+Importance: High
+X-Mailer: Microsoft Windows Live Mail 15.4.3555.308
+X-MimeOLE: Produced By Microsoft MimeOLE V15.4.3555.308
+Cc: yocto texas <meta-ti@yoctoproject.org>
+Subject: How to integrate third party application software to yocto image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +61,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 12:37:25 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Feb 2016 12:46:31 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_00D3_01D16F30.01A774C0"
 
-On 02/24/2016 03:55 AM, Martin Jansa wrote:
-> Fails to build for qemuarm when thumb is enabled.
->
-> Why was:
-> ARM_INSTRUCTION_SET = "arm"
->
-> removed in
-> http://git.openembedded.org/openembedded-core/commit/?id=77dbf07293df15cd5473422abd678930d6277bb0
->
-> without checking if it works?
+------=_NextPart_000_00D3_01D16F30.01A774C0
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-That line has no explanation of its intent and dates back to before 
-2009. I had also checked that ffmpeg builds fine with default qemuarm 
-configuration (and just checked that it still does), so it was dropped 
-as old cruft.
+Hi,
 
-I see that 'thumb' is in TUNE_FEATURES for qemuarm, but not sure if that 
-is same as 'thumb is enabled'. How do I make it break?
+I can build yocto image for arm based product like AM437x-evm using =
+yocto project. I want to add third party software(Navit) to my image.
 
-Alex
+How can I add the third party software to my image ?. Can you provide me =
+the steps to integrate third party software with yocto image ?
+
+Note: Navit is a navigation software and it supports arm based product =
+like AM437x.=20
+
+Host system: Ubuntu 14.04
+Target system : AM437x-evm
 
 
+Regards,
+Winiston.P
+Futura Automation Pvt Ltd.
 
+Ph :91-80-28375290 / 28375295
+Fax :91-80-28375291
+
+------=_NextPart_000_00D3_01D16F30.01A774C0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<HTML><HEAD></HEAD>
+<BODY dir=3Dltr>
+<DIV dir=3Dltr>
+<DIV style=3D"FONT-SIZE: 12pt; FONT-FAMILY: 'Calibri'; COLOR: #000000">
+<DIV>Hi,</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>I can build yocto image for arm based product like AM437x-evm using =
+yocto=20
+project. I want to add third party software(Navit) to my image.</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><FONT color=3D#0000ff>How can I add the third party software to my =
+image ?.=20
+Can you provide me the steps to integrate third party software with =
+yocto image=20
+?</FONT></DIV>
+<DIV><FONT color=3D#0000ff></FONT>&nbsp;</DIV>
+<DIV><FONT color=3D#0000ff>Note: Navit is a navigation software and it =
+supports=20
+arm based product like AM437x.</FONT>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>Host system: Ubuntu 14.04</DIV>
+<DIV>Target system : AM437x-evm</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV=20
+style=3D"FONT-SIZE: 12pt; FONT-FAMILY: 'Calibri'; COLOR: =
+#000000">Regards,<BR>Winiston.P<BR>Futura=20
+Automation Pvt Ltd.<BR><BR>Ph :91-80-28375290 / 28375295<BR>Fax=20
+:91-80-28375291<BR></DIV></DIV></DIV></BODY></HTML>
+
+------=_NextPart_000_00D3_01D16F30.01A774C0--
