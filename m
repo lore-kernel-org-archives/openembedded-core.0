@@ -1,26 +1,46 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 87A85772E9
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C64397653B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Feb 2016 22:17:04 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 23 Feb 2016 14:17:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,491,1449561600"; d="scan'208";a="909751239"
-Received: from afshjern.zpn.intel.com (HELO [10.219.5.147]) ([10.219.5.147])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2016 14:17:01 -0800
-To: benjamin.esquivel@linux.intel.com, openembedded-core@lists.openembedded.org
-References: <1456218868-36139-1-git-send-email-alejandro.franco@linux.intel.com>
-	<1456218868-36139-3-git-send-email-alejandro.franco@linux.intel.com>
-	<1456262420.13465.101.camel@linux.intel.com>
-From: Alex Franco <alejandro.franco@linux.intel.com>
-Message-ID: <56CCDAAF.6080303@linux.intel.com>
-Date: Tue, 23 Feb 2016 16:18:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1456262420.13465.101.camel@linux.intel.com>
-Subject: Re: [PATCHv2 2/2] testimage.bbclass: reuse generic test suites
+	Wed, 24 Feb 2016 01:48:38 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id ho8so2959948pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Feb 2016 17:48:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=AAuZ7Qgaer70ILcwZf6NUxlnyJYsA/8Q8x37hrdrwts=;
+	b=uN5zbqL/+lOENf993XJBTD46InxLgH6cw2HvefcGFYW1iKfPNDtFEIlKWeU7hYFTED
+	LakNm0KFocK6PufuNbBkUGxJay3uC2RraM7PjN3BJ9cTs/Q/uG0pzssjqPiNgOIjXWm6
+	ulk2vmztOMTo1XepXcHhYrO2OihoH40H7ns422Bax2JFnmEguva/9wFbl2J/E96WUmjX
+	pUGKmsEr8COrMEPmUtzkZD36KPEKhhugaxl8F62mu+kj/f6uo/sZEOESn9aSkFY8JBz5
+	I3dAFcSDb3CYNvZFo50lek/KFAGD4RbTkzwZSbWijdZ4GfwflRy5UR6NufyKoBjBw0x1
+	ix1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=AAuZ7Qgaer70ILcwZf6NUxlnyJYsA/8Q8x37hrdrwts=;
+	b=k6OZi5fxLsENChtVPovgjqOz81LL9W+HPNsunWLxeXBQlpjm23kUHq55DlCS/s1WhM
+	DLXFii96rsoOJa8I886lvalhOVlWmlrYGVJqKa+4LGzI2ut9eGjIbMmCz+jNdD0zDC6E
+	8ClMo4S/k1XAS7Cf+hNQskd8SUrWEXckWMYpqu/UsURX1LCFryqSqRaNFb0V6G0e00K+
+	08egmyOAkdiXAtF1ekpcJjHoZZdiIGtpLazVQv4vW30qg+qBUc8ka2E8jSpFuj52kIYM
+	YypLhMCC4VTXVAnDsKPAsKCI1abddSgMJrDBTR716ljnZraqLN4A59Lx+TS+ehBJHWK4
+	y6vQ==
+X-Gm-Message-State: AG10YOQmlWvf5spvGxZeL9twpw4yMBQ05h8HIvGccRknEIdViVmgXbWj5aKd9AL1ZMDVUg==
+X-Received: by 10.66.141.71 with SMTP id rm7mr50921774pab.106.1456278519022;
+	Tue, 23 Feb 2016 17:48:39 -0800 (PST)
+Received: from Pahoa2.mvista.com ([64.2.3.194])
+	by smtp.gmail.com with ESMTPSA id
+	s197sm443852pfs.62.2016.02.23.17.48.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 23 Feb 2016 17:48:37 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org, joshua.g.lock@intel.com,
+	akuster@mvista.com
+Date: Tue, 23 Feb 2016 17:48:23 -0800
+Message-Id: <cover.1456278327.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [fido][PATCH 00/11] Fido Security fixes #2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +53,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Feb 2016 22:17:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Feb 2016 01:48:39 -0000
 
+From: Armin Kuster <akuster@mvista.com>
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+please consider these changes for the next fido update.
 
-I tested this with builds in my workstation and (local, internal)
-autobuilder, where TEST_SUITES is *not* specified in local.conf, so the
-TEST_SUITES are taken from the DEFAULT_TEST_SUITES variable for each
-image, which makes the tests work for the variables defined.
+This is to meet our obligation for Yocto compatibility
 
-If TEST_SUITES includes "auto", then the testimage task for some images
-will still fail, but that's why I opened a new bug # 9129
+The following changes since commit 9037f2c7c797367c2d09b87f344ecf749d28cb41:
 
-- - Alex Franco
+  gdk-pixbuf: Security fix CVE-2015-7674 (2016-02-22 19:08:53 -0800)
 
-On 02/23/2016 03:20 PM, Benjamin Esquivel wrote:
-> Hi Franco, how did you test this? what is the behavior you get with
-> these defaults instead of how's behaving now?
->
-> See comments below.
->
-> On Tue, 2016-02-23 at 09:14 +0000, Alex Franco wrote:
->> Modify existing default test suites to reuse the new
->> generic test suites.
->>
->> Related to [YOCTO #8410]
->>
->> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
->> ---
->>  meta/classes/testimage.bbclass | 12 +++++++-----
->>  1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/classes/testimage.bbclass
->> b/meta/classes/testimage.bbclass
->> index 791cce3..e77bb11 100644
->> --- a/meta/classes/testimage.bbclass
->> +++ b/meta/classes/testimage.bbclass
->> @@ -37,17 +37,19 @@ MINTESTSUITE = "ping"
->>  NETTESTSUITE = "${MINTESTSUITE} ssh df date scp syslog"
->>  DEVTESTSUITE = "gcc kernelmodule ldd"
->> 
->> -DEFAULT_TEST_SUITES = "ping auto"
->> -DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
->> +DEFAULT_TEST_SUITES = "${MINTESTSUITE} auto"
->> +DEFAULT_TEST_SUITES_pn-core-image-minimal = "${MINTESTSUITE}"
->>  DEFAULT_TEST_SUITES_pn-core-image-minimal-dev = "${MINTESTSUITE}"
->>  DEFAULT_TEST_SUITES_pn-core-image-full-cmdline = "${NETTESTSUITE}
->> perl python logrotate"
->>  DEFAULT_TEST_SUITES_pn-core-image-x11 = "${MINTESTSUITE}"
->>  DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam
->> parselogs ${RPMTESTSUITE}"
->> -DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog
->> xorg scp date parselogs ${RPMTESTSUITE} \
->> +DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman
->> xorg parselogs ${RPMTESTSUITE} \
->>      ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
->> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman
->> syslog xorg scp date perl ldd gcc kernelmodule python parselogs
->> ${RPMTESTSUITE}"
->> +DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE}
->> connman xorg perl python \
->> +    ${DEVTESTSUITE} parselogs ${RPMTESTSUITE}"
->>  DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam
->> perl python parselogs ${RPMTESTSUITE}"
->> -DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "ping buildcvs
->> buildiptables buildsudoku connman date df gcc kernelmodule ldd pam
->> parselogs perl python scp ${RPMTESTSUITE} ssh syslog logrotate"
->> +DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE}
->> buildcvs buildiptables buildsudoku \
->> +    connman ${DEVTESTSUITE} pam perl python parselogs
->
-> These lots of declarations seem to be suited for a .inc file instead of
-> living in the bbclass.
->> ${RPMTESTSUITE}"
->>  DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
->> 
->>  # aarch64 has no graphics
->> --
->> 2.6.2
->>
+are available in the git repository at:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+  git://git.yoctoproject.org/poky-contrib akuster/fido_cve_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fido_cve_fixes
 
-iQEcBAEBAgAGBQJWzNqsAAoJEPR9uwMY2lTL9ecH/RQag7augvPCsjKCIdDVAV/C
-+PW1JgLwLz1ox9TU7fbVICrXPpBLu/a1tGawstqcvLW2mrlzDy7wJ3Vd1pIhkXTV
-zqby90ziqPL9eyeYBnCSv5vyttbB4D8WqY7bf+yC7WAhCB0iXiWjHpjsGFwCyolc
-V4gaJGUI1Uv6h7DBQTLoVxTENHFLiLmGqrf3dn6O26EGs9wJlH5rKDnKD6sctCrH
-A0w7EWMsBNVPlRFFstBreTX/0SEStU9HsaAUo0bQrwe6ZRZ0Ku0zT9fj9YVdRXxL
-BXcVMbv6v/TSut7Ah41LWCCcwmjT6XhJZStuiq7zTRwHufAYQNBPVAPMGdW55YM=
-=2lA5
------END PGP SIGNATURE-----
+Armin Kuster (10):
+  busybox: Security fix CVE-2011-5325
+  libpng: Security fix CVE-2015-8126
+  libpng: Security fix CVE-2015-8472
+  libgcrypt: Security fix CVE-2015-7511
+  curl: Security fix CVE-2016-0754
+  curl: Secuirty fix CVE-2016-0755
+  bind: Security fix CVE-2015-8461
+  nettle: Security fix CVE-2015-8803 and CVE-2015-8805
+  nettle: Security fix CVE-2015-8804
+  git: Security fixes CVE-2015-7545
+
+Li Zhou (1):
+  rpcbind: Security Advisory - rpcbind - CVE-2015-7236
+
+ .../bind/bind/CVE-2015-8461.patch                  |  45 +++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   3 +-
+ .../busybox/busybox/CVE-2011-5325.patch            |  48 +++
+ meta/recipes-core/busybox/busybox_1.23.1.bb        |   1 +
+ .../git/git-2.3.0/CVE-2015-7545_1.patch            | 445 +++++++++++++++++++++
+ .../git/git-2.3.0/CVE-2015-7545_2.patch            | 113 ++++++
+ .../git/git-2.3.0/CVE-2015-7545_3.patch            | 110 +++++
+ .../git/git-2.3.0/CVE-2015-7545_4.patch            | 146 +++++++
+ .../git/git-2.3.0/CVE-2015-7545_5.patch            |  67 ++++
+ meta/recipes-devtools/git/git_2.3.0.bb             |   7 +
+ .../rpcbind/rpcbind/cve-2015-7236.patch            |  83 ++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb     |   1 +
+ .../libpng/libpng-1.6.16/CVE-2015-8126_1.patch     |  91 +++++
+ .../libpng/libpng-1.6.16/CVE-2015-8126_2.patch     | 134 +++++++
+ .../libpng/libpng-1.6.16/CVE-2015-8126_3.patch     |  79 ++++
+ .../libpng/libpng-1.6.16/CVE-2015-8126_4.patch     |  48 +++
+ .../libpng/libpng-1.6.16/CVE-2015-8472.patch       |  29 ++
+ meta/recipes-multimedia/libpng/libpng_1.6.16.bb    |   7 +
+ meta/recipes-support/curl/curl/CVE-2016-0754.patch | 384 ++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2016-0755.patch | 133 ++++++
+ meta/recipes-support/curl/curl_7.40.0.bb           |   4 +-
+ .../libgcrypt/files/CVE-2015-7511_1.patch          | 245 ++++++++++++
+ .../libgcrypt/files/CVE-2015-7511_2.patch          |  55 +++
+ meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb  |   5 +
+ .../nettle/nettle-2.7.1/CVE-2015-8803_8805.patch   |  71 ++++
+ .../nettle/nettle-2.7.1/CVE-2015-8804.patch        | 272 +++++++++++++
+ meta/recipes-support/nettle/nettle_2.7.1.bb        |   5 +
+ 27 files changed, 2629 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2011-5325.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_1.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_2.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_3.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_4.patch
+ create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_5.patch
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_1.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_2.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_3.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_4.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8472.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-0754.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-0755.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2015-7511_1.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2015-7511_2.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8804.patch
+
+-- 
+2.3.5
 
 
