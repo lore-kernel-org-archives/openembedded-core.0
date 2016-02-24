@@ -1,25 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 50267772FE
+	by mail.openembedded.org (Postfix) with ESMTP id 6F3C7771F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 14:52:41 +0000 (UTC)
+	Wed, 24 Feb 2016 14:52:42 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 24 Feb 2016 06:52:42 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 24 Feb 2016 06:52:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,494,1449561600"; d="scan'208";a="893686032"
+X-IronPort-AV: E=Sophos;i="5.22,494,1449561600"; d="scan'208";a="893686045"
 Received: from jlock-mobl1.gar.corp.intel.com ([10.252.7.109])
-	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 06:52:40 -0800
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2016 06:52:42 -0800
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2016 14:52:10 +0000
-Message-Id: <dd2fef22e8a48a0c568fa9bc92312b77c879a5c6.1456325292.git.joshua.g.lock@intel.com>
+Date: Wed, 24 Feb 2016 14:52:11 +0000
+Message-Id: <89790e8f16e467e2e8bd931a00cd152dbf2b626f.1456325292.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
 References: <cover.1456325292.git.joshua.g.lock@intel.com>
-MIME-Version: 1.0
 In-Reply-To: <cover.1456325292.git.joshua.g.lock@intel.com>
 References: <cover.1456325292.git.joshua.g.lock@intel.com>
-Subject: [PATCH 06/10] swupd-image.bbclass: initial class to support swupd updater
+Subject: [PATCH 07/10] oe-swupd-helpers: provide swupd-client required helper scripts and units
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,404 +31,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 14:52:41 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Feb 2016 14:52:42 -0000
 
-This class takes care of generating appropriate inputs for the swupd-server
-to process, specifically the separate 'chroot'-like directory structures that
-swupd-server expects to represent bundles.
+swup-client tries to call out to certain helper scripts during an update:
+* before the update clr_pre_update.sh is called
+* after the update systemdboot_updater.sh and kernel_updater.sh are called
+* the systemd update-triggers.target is restarted once the update is complete
 
-It will then use swupd-server to process these 'chroot'-like directories into
-update artefacts that are generated in a child of ${DEPLOYDIR}.
+Clear Linux, the incubation OS for swupd, provides Clear specific
+implementations of the systemd units in clr-systemd-units and the helper
+scripts in clr-specialized-helpers.
 
-Co-authored by Joshua Lock & Mariano Lopez
+This patch introduces a recipe which provides minimal, stub,
+implementations of the required helper scripts and units. These will
+need overriding by a product and will in future be improved to be generically
+useful for OE-Core images.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/classes/swupd-image.bbclass | 372 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 372 insertions(+)
- create mode 100644 meta/classes/swupd-image.bbclass
+ meta/recipes-devtools/swupd/oe-swupd-helpers.bb    | 39 ++++++++++++++++++++++
+ .../swupd/oe-swupd-helpers/catalog-trigger.service |  8 +++++
+ .../swupd/oe-swupd-helpers/clr_pre_update.sh       | 16 +++++++++
+ .../swupd/oe-swupd-helpers/kernel_updater.sh       |  9 +++++
+ .../oe-swupd-helpers/ldconfig-trigger.service      |  8 +++++
+ .../swupd/oe-swupd-helpers/systemdboot_updater.sh  | 10 ++++++
+ .../oe-swupd-helpers/tmpfiles-trigger.service      |  8 +++++
+ .../swupd/oe-swupd-helpers/update-triggers.target  |  5 +++
+ 8 files changed, 103 insertions(+)
+ create mode 100644 meta/recipes-devtools/swupd/oe-swupd-helpers.bb
+ create mode 100644 meta/recipes-devtools/swupd/oe-swupd-helpers/catalog-trigger.service
+ create mode 100755 meta/recipes-devtools/swupd/oe-swupd-helpers/clr_pre_update.sh
+ create mode 100755 meta/recipes-devtools/swupd/oe-swupd-helpers/kernel_updater.sh
+ create mode 100644 meta/recipes-devtools/swupd/oe-swupd-helpers/ldconfig-trigger.service
+ create mode 100755 meta/recipes-devtools/swupd/oe-swupd-helpers/systemdboot_updater.sh
+ create mode 100644 meta/recipes-devtools/swupd/oe-swupd-helpers/tmpfiles-trigger.service
+ create mode 100644 meta/recipes-devtools/swupd/oe-swupd-helpers/update-triggers.target
 
-diff --git a/meta/classes/swupd-image.bbclass b/meta/classes/swupd-image.bbclass
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers.bb b/meta/recipes-devtools/swupd/oe-swupd-helpers.bb
 new file mode 100644
-index 0000000..27d5f41
+index 0000000..4690f21
 --- /dev/null
-+++ b/meta/classes/swupd-image.bbclass
-@@ -0,0 +1,372 @@
-+# Class for swupd integration -- generates input artefacts for consumption by
-+# swupd-server and calls swupd-server to process the inputs into update
-+# artefacts for consumption by swupd-client.
-+#
-+# Limitations:
-+# * Machine specific: generated swupd update artefacts are for a single MACHINE
-+#   only as reflected in the DEPLOY_DIR directories.
-+#
-+# Usage:
-+# * inherit this class in your core OS image. swupd-based OS's use bundles, the
-+#   primary one of which, os-core, is defined as the contents of this image.
-+# * Assign a list of names for bundles you wish to generate to the
-+#   SWUPD_BUNDLES variable i.e. SWUPD_BUNDLES = "feature_one feature_two"
-+# * Assign a list of packages for which their content should be included in
-+#   a bundle to a varflag of BUNDLE_CONTENTS which matches the bundle name
-+#   i.e. BUNDLE_CONTENTS[feature_one] = "package_one package_three package_six"
-+# * Ensure the OS_VERSION variable is assigned an integer value and increased
-+#   before each image build which should generate swupd update artefacts.
-+#
-+# An image that inherits this class will automatically have bundle 'chroots'
-+# created which contain the filesystem contents of the specified bundles.
-+# The mechanism to achieve this is that several virtual image recipes are
-+# created, one for each defined bundle plus a 'mega' image recipe.
-+# The 'mega' image contains the base image plus all of the bundles, whilst
-+# bundle images contain only the base image plus the contents of a single
-+# bundle.
-+#
-+# We build the mega image first, then the base image (the one which inherits
-+# this class)and finally all of the bundle images  . Each non-mega image
-+# has a manifest generated that lists all of the file contents of the image.
-+#
-+# Once the images and their manifests have been created each bundle image
-+# manifest is compared to the base image manifest in order to generate a delta
-+# list of files in the bundle image which don't exist in the base image.
-+# Files in this list are then preserved in the bundle directory for processing
-+# by swupd-server in order to generate update artefacts.
-+#
-+# Note: the reason for generating the mega image is to ensure that all files
-+# which are staged from the shared sysroot, i.e. passwd and groups, are
-+# fully populated.
-+# This is not an ideal compromise and requires further thought.
-+#
-+# TODO: we're copying a lot of potentially duplicate files into
-+# DEPLOY_DIR_SWUPD consider using hardlink to de-duplicate the files and save
-+# some disk space.
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers.bb
+@@ -0,0 +1,39 @@
++SUMMARY = "OE swupd helper files"
++DESCRIPTION = "swupd-client assumes the presence of various helpers, this is a minimal OE \
++implementation of the required scripts and systemd units. \
++Scripts are modified versions of those in clr-specialized-updaters and units are modified \
++versions of those in clr-systemd-config"
++LICENSE = "GPL-2.0"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 +
-+DEPLOY_DIR_SWUPDBASE = "${DEPLOY_DIR}/swupd/${MACHINE}"
-+SWUPD_ROOTFS_MANIFEST = "${IMAGE_BASENAME}-files-in-image.txt"
++SRC_URI = "file://update-triggers.target \
++           file://catalog-trigger.service \
++           file://ldconfig-trigger.service \
++           file://tmpfiles-trigger.service \
++           file://clr_pre_update.sh \
++           file://kernel_updater.sh \
++           file://systemdboot_updater.sh \
++           "
 +
-+# User configurable variables to disable all swupd processing or deltapack
-+# generation.
-+SWUPD_GENERATE ??= "1"
-+SWUPD_DELTAPACKS ??= "1"
-+# Create delta packs for N versions back — default 2
-+SWUPD_N_DELTAPACK ??= "2"
-+# Amount the OS_VERSION should be increased by for each release, used by the
-+# delta pack looping to generate delta packs going back up toSWUPD_N_DELTAPACK
-+# releases
-+SWUPD_VERSION_STEP ??= "10"
++inherit allarch distro_features_check systemd
 +
-+# This version number *must* map to VERSION_ID in /etc/os-release and *must* be
-+# a non-negative integer that fits in an int.
-+OS_VERSION ??= "${DISTRO_VERSION}"
-+
-+IMAGE_INSTALL_append = " swupd-client os-release"
-+# We need full-fat versions of these for swupd (at least as of 2.87)
-+IMAGE_INSTALL_append = " gzip bzip2 tar xz"
-+
-+inherit distro_features_check
 +REQUIRED_DISTRO_FEATURES = "systemd"
 +
-+python () {
-+    if d.getVar('VIRTUAL-RUNTIME_init_manager', True) != 'systemd':
-+        bb.error('swupd integration requires the systemd init manager')
-+
-+    ver = d.getVar('OS_VERSION', True) or 'invalid'
-+    try:
-+        int(ver)
-+    except ValueError:
-+        bb.fatal("Invalid value for OS_VERSION (%s), must be a non-negative integer value." % ver)
-+
-+    pn_base = d.getVar('PN_BASE', True)
-+    if pn_base is not None:
-+        # We want all virtual images from this recipe to deploy to the same
-+        # directory
-+        deploy_dir = d.getVar('DEPLOY_DIR_SWUPDBASE')
-+        deploy_dir = os.path.join(deploy_dir, pn_base)
-+        d.setVar('DEPLOY_DIR_SWUPD', deploy_dir)
-+
-+        # We need all virtual images from this recipe to share the same pseudo
-+        # database so that permissions are correctly set in the copied bundle
-+        # directories when swupd post-processing happens
-+        pseudo_state = d.expand('${TMPDIR}/work-shared/${PN_BASE}/pseudo')
-+        d.setVar('PSEUDO_LOCALSTATEDIR', pseudo_state)
-+
-+        # Non-base (bundle) images which aren't the mega image must depend on
-+        # the base image having been built and its contents staged in
-+        # DEPLOY_DIR_SWUPD so that those contents can be compared against in
-+        # the do_prune_bundle task
-+        if (d.getVar('BUNDLE_NAME') or "") == 'mega':
-+            return
-+        base_copy = (' %s:do_copy_bundle_contents' % pn_base)
-+        d.appendVarFlag('do_prune_bundle', 'depends', base_copy)
-+        return
-+
-+    # We use a shared Pseudo database in order to ensure that all tasks have
-+    # full awareness of the files created for the base image recipe and each
-+    # of its virtual recipes.
-+    # However, we must be careful with the pseudo database and managing
-+    # database lifecycles in order to avoid confusion should inode numbers be
-+    # reused when files are deleted outside of pseudo's awareness.
-+    #
-+    # TODO: Figure out database lifecycles. When can we be sure that deleting
-+    # the database is appropriate? We need it to live for the generation of
-+    # an image and all of its virtual images.
-+    pseudo_state = d.expand('${TMPDIR}/work-shared/${IMAGE_BASENAME}/pseudo')
-+    d.setVar('PSEUDO_LOCALSTATEDIR', pseudo_state)
-+
-+    deploy_dir = d.expand('${DEPLOY_DIR_SWUPDBASE}/${IMAGE_BASENAME}')
-+    d.setVar('DEPLOY_DIR_SWUPD', deploy_dir)
-+    varflags = '%s/image %s/empty %s/www %s' % (deploy_dir, deploy_dir, deploy_dir, deploy_dir)
-+    d.setVarFlag('do_swupd_update', 'dirs', varflags)
-+
-+    # For the base image only, set the BUNDLE_NAME to os-core and generate the
-+    # virtual images for each bundle and the mega image
-+    d.setVar('BUNDLE_NAME', 'os-core')
-+
-+    bundles = (d.getVar('SWUPD_BUNDLES', True) or "").split()
-+    extended = (d.getVar('BBCLASSEXTEND', True) or "").split()
-+
-+    # Generate virtual images for each of the bundles, the base image + the
-+    # bundle contents. Add each virtual image's do_prune_bundle task as a
-+    # dependency of the base image as we can't generate the update until all
-+    # dependent images are done with their build, 'chroot' populate and pruning
-+    pn = d.getVar('PN', True)
-+    for bndl in bundles:
-+        extended.append('swupdbundle:%s' % bndl)
-+        dep = ' %s-%s:do_prune_bundle' % (pn, bndl)
-+        d.appendVarFlag ('do_swupd_update', 'depends', dep)
-+    extended.append('swupdbundle:mega')
-+    d.setVar('BBCLASSEXTEND', ' '.join(extended))
-+
-+    # The base image should depend on the mega-image having been populated
-+    # to ensure that we're staging the same shared files from the sysroot as
-+    # the bundle images.
-+    mega_name = (' %s-mega:do_rootfs' % d.getVar('PN', True))
-+    d.appendVarFlag('do_rootfs', 'depends', mega_name)
-+}
-+
-+fakeroot do_rootfs_append () {
-+    bndl = d.getVar('BUNDLE_NAME', True)
-+    if (bndl == 'mega'):
-+        return
-+
-+    # swupd-client expects a bundle subscription to exist for each
-+    # installed bundle. This is simply an empty file named for the
-+    # bundle in /usr/share/clear/bundles
-+    bundledir = d.expand('${IMAGE_ROOTFS}/usr/share/clear/bundles')
-+    bb.utils.mkdirhier(bundledir)
-+    open(os.path.join(bundledir, bndl), 'w+b').close()
-+}
-+
-+# Stage the contents of the generated image rootfs, and a manifest listing all
-+# of the files in the image, for further processing.
-+fakeroot do_copy_bundle_contents () {
-+    bbdebug 2 "Considering copying bundle contents for ${PN}"
-+    if [ "${BUNDLE_NAME}" != "mega" ] ; then
-+        bbdebug 2 "Copying ${BUNDLE_NAME} contents"
-+        outfile="${DEPLOY_DIR_SWUPD}/image/${OS_VERSION}/${SWUPD_ROOTFS_MANIFEST}"
-+        bundledir="${DEPLOY_DIR_SWUPD}/image/${OS_VERSION}/${BUNDLE_NAME}/"
-+        rootfs="${IMAGE_ROOTFS}"
-+        mkdir -p $bundledir
-+        # Generate a manifest of the bundle contents for pruning
-+        cd $rootfs && find . ! -path . > $outfile
-+        # Copy the rootfs tree preserving the files and all of their attributes
-+        cp -a $rootfs/* $bundledir
-+    fi
-+}
-+# Needs to run after do_image_complete so that IMAGE_POSTPROCESS commands have run
-+addtask copy_bundle_contents after do_image_complete before do_prune_bundle
-+
-+# Generate a list of files which exist in the bundle image, but not the base
-+# image.
-+def delta_contents(difflist):
-+    # '- ' - line unique to lhs
-+    # '+ ' - line unique to rhs
-+    # '  ' - line common
-+    # '? ' - line not present in either
-+    #
-+    # difflist should be a list containing the output of difflib.Differ.compare
-+    #       where the lhs (left-hand-side) was the base image and the rhs
-+    #       (right-hand-side) was base image + extras (the bundle image).
-+    #
-+    # returns a list containing the items which are unique in the rhs
-+    cont = []
-+    for ln in difflist:
-+        if ln[0] == '+':
-+            cont.append(ln[3:])
-+    return cont
-+
-+# Compare the bundle image manifest to the base image manifest and return
-+# a list of files unique to the bundle image.
-+def unique_contents(base_manifest_fn, image_manifest_fn):
-+    import difflib
-+    differ = difflib.Differ()
-+
-+    base_manifest_list = []
-+    with open(base_manifest_fn) as base:
-+        base_manifest_list = base.read().splitlines()
-+
-+    image_manifest_list = []
-+    with open(image_manifest_fn) as image:
-+        image_manifest_list = image.read().splitlines()
-+
-+    delta = list(differ.compare(base_manifest_list, image_manifest_list))
-+
-+    return delta_contents(delta)
-+
-+fakeroot python do_prune_bundle () {
-+    bundle = d.getVar('BUNDLE_NAME', True) or ''
-+    if not bundle:
-+        bb.warn('Trying to prune bundle of a non-bundle image: ' % d.getVar('PN', True))
-+        return
-+
-+    if bundle == 'mega' or bundle == 'os-core':
-+        bb.debug(2, 'Skipping bundle pruning for %s image' % bundle)
-+        return
-+
-+    # Get a list of files in the bundle which aren't in the base image
-+    pn_base = d.getVar("PN_BASE", True)
-+    image_manifest = d.expand("${DEPLOY_DIR_SWUPD}/image/${OS_VERSION}/${SWUPD_ROOTFS_MANIFEST}")
-+    base_manifest = image_manifest.replace('-%s' % bundle, '')
-+    bb.debug(1, "Comparing manifest %s to %s" % (base_manifest, image_manifest))
-+    bundle_file_contents = unique_contents(base_manifest, image_manifest)
-+    bb.debug(1, '%s has %s unique contents' % (d.getVar('PN', True), len(bundle_file_contents)))
-+
-+    # now we have a list of bundle files we can go ahead and delete files in
-+    # the bundle directory which aren't in this list.
-+    bundledir = d.expand('${DEPLOY_DIR_SWUPD}/image/${OS_VERSION}/${BUNDLE_NAME}/')
-+    bb.debug(1, "Creating and pruning %s bundle dir (%s)" % (bundle, bundledir))
-+    for root, dirs, files in os.walk(bundledir):
-+        relroot = root.replace(bundledir, '/')
-+        for f in files:
-+            fpath = os.path.join(relroot, f)
-+            if fpath not in bundle_file_contents:
-+                bb.debug(3, 'Pruning %s from the bundle\n\t%s' % (fpath, os.path.join(root, f)))
-+                os.remove(os.path.join(root, f))
-+
-+    # Now need to clean up empty directories
-+    for dir, _, _ in os.walk(bundledir, topdown=False):
-+        try:
-+            os.rmdir(dir)
-+        except OSError as err:
-+            bb.debug(2, 'Not removing %s, reason: %s' % (dir, err.strerror))
-+    bb.debug(1, "Done pruning %s bundle dir (%s)" % (bundle, bundledir))
-+}
-+addtask prune_bundle after do_copy_bundle_contents before do_swupd_update
-+
-+fakeroot do_swupd_update() {
-+    if [ ! -z "${PN_BASE}" ]; then
-+        bbwarn 'We only generate swupd updates for the base image, skipping ${PN}'
-+        exit
-+    fi
-+
-+    if [ ! "${SWUPD_GENERATE}" -eq 1 ]; then
-+        bbnote 'Update generation disabled, skipping.'
-+        exit
-+    fi
-+
-+    export SWUPD_CERTS_DIR="${STAGING_ETCDIR_NATIVE}/swupd-certs"
-+    export LEAF_KEY="leaf.key.pem"
-+    export LEAF_CERT="leaf.cert.pem"
-+    export CA_CHAIN_CERT="ca-chain.cert.pem"
-+    export PASSPHRASE="${SWUPD_CERTS_DIR}/passphrase"
-+
-+    export XZ_DEFAULTS="--threads 0"
-+
-+    bbdebug 1 "New OS_VERSION is ${OS_VERSION}"
-+    # If the swupd directory already exists don't trample over it, but let
-+    # the user know we're not doing any update generation.
-+    if [ -e ${DEPLOY_DIR_SWUPD}/www/${OS_VERSION} ]; then
-+        bbwarn 'swupd image directory exists for OS_VERSION=${OS_VERSION}, not generating updates.'
-+        bbwarn 'Ensure OS_VERSION is incremented if you want to generate updates.'
-+        exit
-+    fi
-+
-+    mkdir -p ${DEPLOY_DIR_SWUPD}/image/${OS_VERSION}/os-core
-+    cp -ar ${IMAGE_ROOTFS}/* ${DEPLOY_DIR_SWUPD}/image/${OS_VERSION}/os-core/
-+
-+    # Generate swupd-server configuration
-+    bbdebug 1 "Writing ${DEPLOY_DIR_SWUPD}/server.ini"
-+    if [ -e "${DEPLOY_DIR_SWUPD}/server.ini" ]; then
-+       rm ${DEPLOY_DIR_SWUPD}/server.ini
-+    fi
-+    cat << END > ${DEPLOY_DIR_SWUPD}/server.ini
-+[Server]
-+imagebase=${DEPLOY_DIR_SWUPD}/image/
-+outputdir=${DEPLOY_DIR_SWUPD}/www/
-+emptydir=${DEPLOY_DIR_SWUPD}/empty/
-+END
-+
-+    if [ -e ${DEPLOY_DIR_SWUPD}/image/latest.version ]; then
-+        PREVREL=`cat ${DEPLOY_DIR_SWUPD}/image/latest.version`
-+    else
-+        bbdebug 1 "Stubbing out empty latest.version file"
-+        touch ${DEPLOY_DIR_SWUPD}/image/latest.version
-+        PREVREL="0"
-+    fi
-+
-+    GROUPS_INI="${DEPLOY_DIR_SWUPD}/groups.ini"
-+    bbdebug 1 "Writing ${GROUPS_INI}"
-+    if [ -e "${DEPLOY_DIR_SWUPD}/groups.ini" ]; then
-+       rm ${DEPLOY_DIR_SWUPD}/groups.ini
-+    fi
-+    for bndl in ${SWUPD_BUNDLES}; do
-+        echo "[$bndl]" >> ${GROUPS_INI}
-+        echo "group=$bndl" >> ${GROUPS_INI}
-+        echo "" >> ${GROUPS_INI}
++do_install () {
++    install -d ${D}${systemd_system_unitdir}
++    for svc in `find ${WORKDIR} -maxdepth 1 -name *.target -o -name *.service`; do
++        install -m 0644 $svc ${D}${systemd_system_unitdir}/
++        sed -i -e s#/bin#${base_bindir}# ${D}${systemd_system_unitdir}/`basename $svc`
++        sed -i -e s#/sbin#${base_sbindir}# ${D}${systemd_system_unitdir}/`basename $svc`
++        sed -i -e s#/lib#${base_libdir}# ${D}${systemd_system_unitdir}/`basename $svc`
 +    done
 +
-+    bbdebug 1 "Generating update from PREVREL to ${OS_VERSION}"
-+    ${STAGING_BINDIR_NATIVE}/swupd_create_update -S ${DEPLOY_DIR_SWUPD} --osversion ${OS_VERSION}
-+
-+    bbdebug 1 "Generating fullfiles for ${OS_VERSION}"
-+    ${STAGING_BINDIR_NATIVE}/swupd_make_fullfiles -S ${DEPLOY_DIR_SWUPD} ${OS_VERSION}
-+
-+    bbdebug 1 "Generating zero packs, this can take some time."
-+    ${STAGING_BINDIR_NATIVE}/swupd_make_pack -S ${DEPLOY_DIR_SWUPD} 0 ${OS_VERSION} os-core
-+    for bndl in ${SWUPD_BUNDLES}; do
-+        bbdebug 2 "Generating zero pack for $bndl"
-+        ${STAGING_BINDIR_NATIVE}/swupd_make_pack -S ${DEPLOY_DIR_SWUPD} 0 ${OS_VERSION} $bndl
++    # NOTE: swupd-client hard-codes /usr/bin
++    install -d ${D}/usr/bin
++    for helper in `find ${WORKDIR} -maxdepth 1 -name *.sh`; do
++        install $helper ${D}/usr/bin/
 +    done
-+
-+    # Generate delta-packs going back SWUPD_N_DELTAPACK versions
-+    if [ ${SWUPD_DELTAPACKS} -eq 1 -a ${SWUPD_N_DELTAPACK} -gt 0 -a $PREVREL -gt 0 ]; then
-+        bbdebug 1 "Generating delta pack with previous release $PREVREL"
-+        bundles="os-core ${SWUPD_BUNDLES}"
-+        for bndl in $bundles; do
-+            bndlcnt=0
-+            prevver=$PREVREL
-+            while [ $bndlcnt -lt ${SWUPD_N_DELTAPACK} -a $prevver -gt 0 ]; do
-+                if [ -e ${DEPLOY_DIR_SWUPD}/image/$prevver/$bndl ]; then
-+                    bbdebug 2 "Generating delta pack from $prevver to ${OS_VERSION} for $bndl"
-+                    ${STAGING_BINDIR_NATIVE}/swupd_make_pack -S ${DEPLOY_DIR_SWUPD} $prevver ${OS_VERSION} $bndl
-+                    bndlcnt=`expr $bndlcnt + 1`
-+                fi
-+                # Both let and expr return 1 if the expression evaluates to 0,
-+                # bitbake catches the non-zero exit code from a shell command
-+                # end exits with an error - special case to work around this.
-+                if [ $prevver -eq ${SWUPD_VERSION_STEP} ]; then
-+                    prevver=0
-+                else
-+                    prevver=`expr $prevver - ${SWUPD_VERSION_STEP}`
-+                fi
-+            done
-+        done
-+    fi
-+
-+    # Write version to www/version/format3/latest and image/latest.version
-+    bbdebug 2 "Writing latest file"
-+    mkdir -p ${DEPLOY_DIR_SWUPD}/www/version/format3
-+    echo ${OS_VERSION} > ${DEPLOY_DIR_SWUPD}/www/version/format3/latest
-+    echo ${OS_VERSION} > ${DEPLOY_DIR_SWUPD}/image/latest.version
 +}
 +
-+SWUPDDEPENDS = "\
-+    virtual/fakeroot-native:do_populate_sysroot \
-+    rsync-native:do_populate_sysroot \
-+    swupd-server-native:do_populate_sysroot \
-+"
-+addtask swupd_update after do_image_complete after do_copy_bundle_contents after do_prune_bundle before do_build
-+do_swupd_update[depends] = "${SWUPDDEPENDS}"
++RDEPENDS_${PN} += "bash"
++FILES_${PN} += "${systemd_system_unitdir}"
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/catalog-trigger.service b/meta/recipes-devtools/swupd/oe-swupd-helpers/catalog-trigger.service
+new file mode 100644
+index 0000000..8266174
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/catalog-trigger.service
+@@ -0,0 +1,8 @@
++[Unit]
++Description=Rebuild journal catalog
++Documentation=man:journalctl(1)
++BindsTo=update-triggers.target
++
++[Service]
++Type=oneshot
++ExecStart=/bin/journalctl --update-catalog
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/clr_pre_update.sh b/meta/recipes-devtools/swupd/oe-swupd-helpers/clr_pre_update.sh
+new file mode 100755
+index 0000000..6302090
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/clr_pre_update.sh
+@@ -0,0 +1,16 @@
++#!/bin/bash
++set -u
++
++#######################################
++# Clear Linux General Purpose Pre-update helper script
++#  This is a script meant to update state information external to what swupd updates.
++#  The specific content of this script will vary over time, according to the state
++#  change needed
++#######################################
++
++UPDATE_NAME="Pre-update"
++VERSION="3.60"
++
++### Enter your script here
++echo "Running script '$UPDATE_NAME'"
++exit 0
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/kernel_updater.sh b/meta/recipes-devtools/swupd/oe-swupd-helpers/kernel_updater.sh
+new file mode 100755
+index 0000000..b0d5335
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/kernel_updater.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++
++#######################################
++# This script will be called after an updated kernel has been installed
++#######################################
++
++### Enter your script here
++echo "Running script 'kernel_updater.sh'"
++exit 0
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/ldconfig-trigger.service b/meta/recipes-devtools/swupd/oe-swupd-helpers/ldconfig-trigger.service
+new file mode 100644
+index 0000000..224ac7a
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/ldconfig-trigger.service
+@@ -0,0 +1,8 @@
++[Unit]
++Description=Rebuild Dynamic Linker Cache
++Documentation=man:ldconfig(8)
++BindsTo=update-triggers.target
++
++[Service]
++Type=oneshot
++ExecStart=/sbin/ldconfig -X
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/systemdboot_updater.sh b/meta/recipes-devtools/swupd/oe-swupd-helpers/systemdboot_updater.sh
+new file mode 100755
+index 0000000..470cd6e
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/systemdboot_updater.sh
+@@ -0,0 +1,10 @@
++#!/bin/bash
++
++#######################################
++# systemd bootloader installer
++# This script will be called after an updated bootloader has been installed
++#######################################
++
++### Enter your script here
++echo "Running script 'systemdboot_updater.sh'"
++exit 0
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/tmpfiles-trigger.service b/meta/recipes-devtools/swupd/oe-swupd-helpers/tmpfiles-trigger.service
+new file mode 100644
+index 0000000..71009fe
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/tmpfiles-trigger.service
+@@ -0,0 +1,8 @@
++[Unit]
++Description=Create tmpfiles
++Documentation=man:systemd-tmpfiles(8)
++BindsTo=update-triggers.target
++
++[Service]
++Type=oneshot
++ExecStart=/bin/systemd-tmpfiles --create
+diff --git a/meta/recipes-devtools/swupd/oe-swupd-helpers/update-triggers.target b/meta/recipes-devtools/swupd/oe-swupd-helpers/update-triggers.target
+new file mode 100644
+index 0000000..d104b00
+--- /dev/null
++++ b/meta/recipes-devtools/swupd/oe-swupd-helpers/update-triggers.target
+@@ -0,0 +1,5 @@
++[Unit]
++Description=Post system update triggers
++Wants=ldconfig-trigger.service
++Wants=catalog-trigger.service
++Wants=tmpfiles-trigger.service
 -- 
 2.5.0
 
