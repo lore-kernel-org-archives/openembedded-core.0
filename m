@@ -1,35 +1,47 @@
-Return-Path: <prvs=8563a89e7=Mikko.Rapeli@bmw.de>
-Received: from esa7.bmw.c3s2.iphmx.com (esa7.bmw.c3s2.iphmx.com
-	[68.232.133.109])
-	by mail.openembedded.org (Postfix) with ESMTP id A660D772A1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DB29772E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 13:27:51 +0000 (UTC)
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa7.bmw.c3s2.iphmx.com with ESMTP/TLS; 25 Feb 2016 14:27:51 +0100
-Received: from unknown (HELO esabb3.muc) ([160.50.100.30]) by esagw2.muc with
-	ESMTP/TLS; 25 Feb 2016 14:27:51 +0100
-Received: from smuch56b.muc (HELO SMUCH56B.europe.bmw.corp) ([160.46.137.110])
-	by esabb3.muc with ESMTP/TLS; 25 Feb 2016 14:27:51 +0100
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH56B.europe.bmw.corp ([160.46.137.110]) with mapi id 14.03.0248.002;
-	Thu, 25 Feb 2016 14:27:50 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <mariano.lopez@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 0/3] Add initial capability to check CVEs for
-	recipes
-Thread-Index: AQHRb8YPTPKRB7zS1kqsvPG9SjQg2J88n/SAgAAQYIA=
-Date: Thu, 25 Feb 2016 13:27:48 +0000
-Message-ID: <20160225132748.GD6210@loska>
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-	<20160225121421.GB6210@loska> <20160225122912.GC6210@loska>
-In-Reply-To: <20160225122912.GC6210@loska>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.99]
+	Thu, 25 Feb 2016 13:34:13 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id xg9so12937231igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Feb 2016 05:34:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7alzawkOc51HKvXbW96obLXOhkw8iaJtIIt8TX/A6J0=;
+	b=VFR7tU+Ng+G9aTDVWhciqJ/NRFJgZah9NEcK/w5OD7VRuy3tPZQIw+2wUisDdryfg0
+	kZZ5W6PCvEIxcNdHd5dwXoclS+t2Evp/wAze8ZDpnfV3Xf6uqe/dgPvu0y+Gb63g7fWM
+	Ctmq+WgmM5acX8+XRyrpj4Fj2g3xxBvqK3djGOlG95IMMBx1ROySMMjCm+1ryT+BKC8H
+	jzerMf1mhCzpF77DPvzxq0sNn/H6LxUDQXUET1OznT7FuNLtk3NrKDMCzN8vFUArOtJl
+	gSMmTxg7AHPkGiXhdm1IbZx+Nl05CXitQBMTbVlXTMTEi3u1fF9bXpqzzpkx+6/+DyNQ
+	assw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7alzawkOc51HKvXbW96obLXOhkw8iaJtIIt8TX/A6J0=;
+	b=gzIaiRSn6A5IQJnSQeBiwtc4KzV9X3Xl3J5GEC3rmXwLrMzKWq9x0yFaKVKC1chErC
+	P2hzgN0V/PVkHfas/XiEw2kWZ+SmLy1WR2tHpBG/l0mBJUswks9PJVt3RsZMyM7WI8z+
+	ZwtXRfn0vnde0X4A5UUoTmisna0JHbyoFMZkeyPV+5mqRpAuKwYVLZlsvARzF+mf9qRu
+	QD3TKp19Mf+tfZ26fHTzRNFLzYc0iqqk0K4/CweyAW4PMShfHdSPxzXe9JbpnuE/CbgX
+	poku9+R7i69UO1Iy5hIUnj5rXUao4svNK04HT8+I7H4s+sTxxToZa2HgiGg1aI1Yk5bB
+	X/oQ==
+X-Gm-Message-State: AG10YOSumSa+QXJBi6oM8soODDrXFP21MPDlQEdfv8ZJYXF78YVXHzo+3nPn2naj6Hm+qZ+Jx9xdWKnJWdxzd632
+X-Received: by 10.50.160.7 with SMTP id xg7mr2875923igb.64.1456407253741; Thu,
+	25 Feb 2016 05:34:13 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Add initial capability to check CVEs for recipes
+Received: by 10.107.162.70 with HTTP; Thu, 25 Feb 2016 05:33:54 -0800 (PST)
+In-Reply-To: <ae976c56455701eb7b7f0d9a95f80baaa388b705.1456327117.git.mariano.lopez@linux.intel.com>
+References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
+	<ae976c56455701eb7b7f0d9a95f80baaa388b705.1456327117.git.mariano.lopez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Feb 2016 13:33:54 +0000
+Message-ID: <CAJTo0LZLmox=jXp9Js62qXYEm=H3PRtN8pDmYKri8_U75rijcg@mail.gmail.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] cve-check-tool patch to allow select dir for the db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,94 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 13:27:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E30F72B474C77C4CBD98D566A7CF9A89@bmwmail.corp>
+X-List-Received-Date: Thu, 25 Feb 2016 13:34:16 -0000
+Content-Type: multipart/alternative; boundary=001a11339de802243a052c983d82
+
+--001a11339de802243a052c983d82
+Content-Type: text/plain; charset=UTF-8
+
+On 24 February 2016 at 15:27, <mariano.lopez@linux.intel.com> wrote:
+
+> This patch allows to select the directory for the
+> database used by cve-check-tool.
+>
+
+Squash this into 1/3.
+
+Ross
+
+--001a11339de802243a052c983d82
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 25, 2016 at 01:29:13PM +0100, Mikko Rapeli wrote:
-> On Thu, Feb 25, 2016 at 01:14:21PM +0100, Mikko Rapeli wrote:
-> > On Wed, Feb 24, 2016 at 03:27:05PM +0000, mariano.lopez@linux.intel.com=
- wrote:
-> > > From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> > >=20
-> > > This series add the cve-check-tool recipe, a tool used to identify
-> > > potentially vulnerable software through version matching. It will
-> > > check if a vulnerability has been addressed by a patch.
-> > >=20
-> > > Also add the new cve-check class that will add a task for all recipes
-> > > to check for CVEs using cve-check-tool. This tool can be used by reci=
-pe,
-> > > image (will generate an image report in deploy dir), and with "world"
-> > > and "universe"
-> > >=20
-> > > To run it just inherit the class and enter:
-> > >=20
-> > > bitbake -c cve_check <recipe>
-> >=20
-> > I tried these on yocto/dizzy but:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 February 2016 at 15:27,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mari=
+ano.lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":dv8" cl=
+ass=3D"a3s" style=3D"overflow:hidden">This patch allows to select the direc=
+tory for the<br>
+database used by cve-check-tool.</div></blockquote></div><br>Squash this in=
+to 1/3.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
 
-Full changes needed in dizzy are:
-
-diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
-index 670e592..f24a584 100644
---- a/bitbake/lib/bb/utils.py
-+++ b/bitbake/lib/bb/utils.py
-@@ -893,3 +893,21 @@ def multiprocessingpool(*args, **kwargs):
-=20
-     return multiprocessing.Pool(*args, **kwargs)
-=20
-+# export common proxies variables from datastore to environment
-+def export_proxies(d):
-+    import os
-+
-+    variables =3D ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY=
-',
-+                    'ftp_proxy', 'FTP_PROXY', 'no_proxy', 'NO_PROXY']
-+    exported =3D False
-+
-+    for v in variables:
-+        if v in os.environ.keys():
-+            exported =3D True
-+        else:
-+            v_proxy =3D d.getVar(v, True)
-+            if v_proxy is not None:
-+                os.environ[v] =3D v_proxy
-+                exported =3D True
-+
-+    return exported
-diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.=
-bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb
-index 9df81cb..b98d991 100644
---- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb
-+++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb
-@@ -21,3 +21,5 @@ FILES_${PN} +=3D "${datadir}/icons"
- do_install_append () {
- 	install -m 0644 ${WORKDIR}/index.theme ${D}/${datadir}/icons/hicolor
- }
-+
-+BBCLASSEXTEND =3D "native"
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.0.0.bb b/meta/recipes=
--gnome/json-glib/json-glib_1.0.0.bb
-index ce00709..26f8f7f 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.0.0.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.0.0.bb
-@@ -18,3 +18,5 @@ SRC_URI[archive.sha256sum] =3D "dbf558d2da989ab84a27e4e13=
-daa51ceaa97eb959c2c2f8097
- inherit gnome gettext lib_package
-=20
- EXTRA_OECONF =3D "--disable-introspection"
-+
-+BBCLASSEXTEND =3D "native"
-
-And with this I get nice reports with "bitbake -c cve_check openssl" to
-tmp/deploy/cve/openssl.
-
-I'll try with a full image build next, but I really, really like this stuff=
-.
-
-Thanks!
-
--Mikko=
-
+--001a11339de802243a052c983d82--
