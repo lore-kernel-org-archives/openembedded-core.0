@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B4AE77310
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B475F7736F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 00:44:52 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id z135so72935398iof.0
+	Thu, 25 Feb 2016 00:48:50 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id yy13so21851563pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 16:44:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=65EqEZSh+TPo/rt22Jp7Soa92hyw45Wgt9VmWbE58wI=;
-	b=yD6bo594zYytnBJdBUw2H2ikFBr3ongmPL3cgXI+EE3UMxLTkfO+/Q9p6DORgLLo7a
-	ulKAlnPXuVmrDPYZ6EweEkZ/jeDb2fWTQrdxSO9NBhcvqkffTZIUfDRrxbwqe83eAMzq
-	/5ql2fW4Eoc5GSvZdtWdqe2O16z92nYZ9oruNCBDfjbWGkg1bqghUODTA5PWpTJdxsWg
-	iYyAkc4TWtjLs9iGKgcinv0nMasJyWs1/p5C1eSuIB7HCjNB6yyqMiXsZB2uF0aT3tFC
-	EfQvO5awOs57hneQJ/sLABnal1pjb3sa3gSg9wrGYEK+ilBnLztlutbsPTI19zVbsAmz
-	9mOA==
+	Wed, 24 Feb 2016 16:48:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=abcxmhkcHWeYsAQih/BfMABDn9WKcdToiEgZfsdSO0A=;
+	b=TyUaXVyDpXpN/2WpRn6/znENB0ZdwM5yyY+zmYs/DUvFNsasirpZD303+yvFIA5XsC
+	mH06+Y1FGiZ8trFogCTFv5mBuTykA6klqrl/g/FcshVy1TS5kYsPSxSH2CIdwd3MJlEL
+	huBgvqX0tU5rpq84dotj62KQjYvEbi8m96kR0yYYuUWgXNgMzXAl1OntSiYcdu3bEqqN
+	SJQeYjWUnCeZ4059J9zShKnPgvUE6Q+ARnJrMLYia5gMdIuQWTZFze1aOGV+dNBiZ0QV
+	16YKsdev7lh7XMKg0YUDvWHtcu/m7GYwPnvKSF24B0Z9KaI1vXqLaWpAPQXkQ21vgAji
+	eLhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=65EqEZSh+TPo/rt22Jp7Soa92hyw45Wgt9VmWbE58wI=;
-	b=JEJScyt+SUMlFlLIAluQwTMsrERCgyZdTAy9F/FdlWaC6O7IGzrxPnuLnbrMlxIUG2
-	x18p0+d0U3sMS6AVExQNdqiC1FMhnPZZe/Wv/3+p7OXSSwtoMsrQGCFk4scpgiBcxkuT
-	POUirDVfM73BnTuh7m/SXRNwuTHPUQ3qUWxPmtKkOIOys6nVDGVN8CgFROv6J+CgH6xD
-	DwUBEiEwDRsFZkj9B1pwVdaVbHtjoA+zZFpbFFGs45v5JqGXBGEfzgtdeZOKs28HwIfj
-	ShhwZvIvjClFIzgzKqETGybwlKR1CI8NiGAXsOiHckIDHfsgjpYRO62exb263HfezW8t
-	Hikg==
-X-Gm-Message-State: AG10YORG2Kzu6VTT/5pP65oIS4nItCSr7WZWG5mBEMoNmuGkY2PiCvGWDL+wscEtIUPe8UGbzJ+5vn9lZHX4J/3F
-X-Received: by 10.107.164.15 with SMTP id n15mr352605ioe.148.1456361093462;
-	Wed, 24 Feb 2016 16:44:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 24 Feb 2016 16:44:34 -0800 (PST)
-In-Reply-To: <d027b2178315a8b1832aeaf042e211b2974063f2.1456327117.git.mariano.lopez@linux.intel.com>
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-	<d027b2178315a8b1832aeaf042e211b2974063f2.1456327117.git.mariano.lopez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Feb 2016 00:44:34 +0000
-Message-ID: <CAJTo0LbGNmcreguSsX+1m_9cQRnbZHTYtq5-MbDQHK4qA_jLMA@mail.gmail.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] cve-check-tool: Add recipe
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=abcxmhkcHWeYsAQih/BfMABDn9WKcdToiEgZfsdSO0A=;
+	b=TR0NS9jt2rhoAjoCq7gk8dA0JLFGPsdF1MZ8cczd5a0QLRhKYZ29toY8v+7T2ZnOTO
+	f757Z9R3yZ0owOTrVVCYwULhL8mcszkl99cRZH/DmHYFfiQdufb+jRXvmx1tqZKikGcO
+	IOWwDeNh0kfdgWEzVbTdoZQQIJXd+1Evc2YbO0BqiIpdkxsaAyAug7xGj4RHB2oFEgqi
+	Ra4FXESmD2DqbVHWEiQUn/oNm/FW+r3wkow/mvp1/N8e+Z4fxORuCOldNIvpwO14AEzN
+	EODu96CcDffa3P5L3LSBwll0ZSH2F+wDqxc0Di53xjLEbqqd0L6ZcIBgtRUzZIPBnEj/
+	hBPQ==
+X-Gm-Message-State: AG10YOR8Xqagc4rAL0V6DRCczcn1IhL9Dk5Z9FCy2XSpdJkkjEjPXV2tDVxVGGtxgWvUtA==
+X-Received: by 10.66.146.196 with SMTP id te4mr58923212pab.125.1456361331624; 
+	Wed, 24 Feb 2016 16:48:51 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id z5sm7590873pas.29.2016.02.24.16.48.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Feb 2016 16:48:50 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Feb 2016 16:48:45 -0800
+Message-Id: <1456361325-19298-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] boost.inc: limit ARM_INSTRUCTION_SET over-rides to armv4/armv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +52,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 00:44:53 -0000
-Content-Type: multipart/alternative; boundary=001a11377682a410a7052c8d7dbb
+X-List-Received-Date: Thu, 25 Feb 2016 00:48:53 -0000
 
---001a11377682a410a7052c8d7dbb
-Content-Type: text/plain; charset=UTF-8
+The original over-ride dates back to 2009:
 
-On 24 February 2016 at 15:27, <mariano.lopez@linux.intel.com> wrote:
+  http://git.openembedded.org/openembedded-core/commit/?id=43e94412c45b4b79485a64010c76d89b245bb235
 
-> +python () {
-> +    # If the cve-check class is inherited it is needed to populate the
-> +    # CVE database before checking the CVEs for all recipes.
-> +    pn = d.getVar("PN", True)
-> +    if pn.endswith("-native") and bb.data.inherits_class('cve-check', d):
-> +        bb.build.addtask("do_populate_cve_db", "do_build",
-> "do_populate_sysroot", d)
-> +}
->
+There are no obvious issues seen now when building boost in thumb2
+for Cortex A15.
 
-Wouldn't this be better done as an explicit dependency of the class task?
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/boost/boost.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 981e6ee..79c4e63 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -2,7 +2,8 @@ SUMMARY = "Free peer-reviewed portable C++ source libraries"
+ SECTION = "libs"
+ DEPENDS = "bjam-native zlib bzip2"
+ 
+-ARM_INSTRUCTION_SET = "arm"
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+ 
+ BOOST_LIBS = "\
+ 	atomic \
+-- 
+1.9.1
 
---001a11377682a410a7052c8d7dbb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2016 at 15:27,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mari=
-ano.lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ecv" cl=
-ass=3D"a3s" style=3D"overflow:hidden">+python () {<br>
-+=C2=A0 =C2=A0 # If the cve-check class is inherited it is needed to popula=
-te the<br>
-+=C2=A0 =C2=A0 # CVE database before checking the CVEs for all recipes.<br>
-+=C2=A0 =C2=A0 pn =3D d.getVar(&quot;PN&quot;, True)<br>
-+=C2=A0 =C2=A0 if pn.endswith(&quot;-native&quot;) and bb.data.inherits_cla=
-ss(&#39;cve-check&#39;, d):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.addtask(&quot;do_populate_cve_db&quot=
-;, &quot;do_build&quot;, &quot;do_populate_sysroot&quot;, d)<br>
-+}</div></blockquote></div><br>Wouldn&#39;t this be better done as an expli=
-cit dependency of the class task?</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
-
---001a11377682a410a7052c8d7dbb--
