@@ -1,50 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FB6F76651
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 429D77731D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 02:19:53 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id y8so4386858igp.1
+	Thu, 25 Feb 2016 02:30:28 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id gc3so36253928obb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Feb 2016 18:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HlII4BsXHqDhQtj4fDcrLpkFQgkEeTLxKUeJfm+7IVc=;
-	b=Fc5GdcjmBcK4TZA2Hq0C24/qsGiqgq97BW80TCXfdMptmkzIQpP7zqZ/dZUPph605l
-	KcLmKyHD3O18mPjR5FDiYnlosX5LQnvdvkSQZhURzV2Z3jVTtNjvFdF40XxurADch8rB
-	LCvX55Kt0ZSn62de4fBk6Nq2k6nKPrShW+RvrOQY+QVlyxRlRQi9zrnYyibYUogKHHZR
-	vcMSE33z4VVZhhESqZdfaRy71dXy9DEMxTH7WTkzIG7mIv1JZC1XU+yZqyNu9j+73auJ
-	usXUUG0JUQqj8r2rQBAMAk/PVU5z1zj14rGyhWCkP0nL3/z8tCzTzpHgRIrbf037B54Z
-	VATg==
+	Wed, 24 Feb 2016 18:30:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=UcUdCkFPcu4ePu5rEQ90r/v1sILUGRfGJNfyYTv+xQ0=;
+	b=O8ZzL4/X9dLPqHH9UTVqF2yZPFp0NZStHd3xKa/mejfENtg12SNqPAB2BjYXzMuJTW
+	7EE7IczbkIdyO7fVbR3TEuEMLF/Dyxff3vVMdpOaBw2XNv8ijsR/0LDVTwOy5YepdLF9
+	l8P7YyHlE+PxBBBqpupHXPwEngWAGr6KGuSmjMjqRfijn26USPPpJ09SEuh5GOaEJluX
+	H+7kz9xYi15mJoCoYVqWBSaC/3SxCJeTzOstmCb8UbQfPS9gjtbCaHf0KpQ9T/kgihb1
+	FBlDgHSInPP6cvpbAuW+4Cv7yo0+W+AP9exOUDgJZMm0ERcO4HQxUDfsW2UJk+Mqf0hF
+	peRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HlII4BsXHqDhQtj4fDcrLpkFQgkEeTLxKUeJfm+7IVc=;
-	b=cENumA9VeRhLsmKHD4uHdZlkVJeEHFjTu3Dc6WrTwf9ub51qk3TLDMtO1aHY5Bkms1
-	OC1FJoNPvFiq/TAdlgMS4l31LVQGTR4fEh3sRRs4EmKtDE+A/yRg9duWwwJlYQdHURjH
-	0gHvotg+7RM1iJzpHghRClXhMeN6aq0kEfSkWiJvpr9x0XMg90CI49lJ3FmYb9NQFJeZ
-	G80of89Okio+Y5f5FqKA+YfEWqC+28i7n9pS9J73+nQR5M09WxVmrU6jtT1ETOejerKX
-	24wbgGcwWY/e/9Rg8a2tOKKP6n84MrOKf1WhNlBP/0FEagZfMebN4qYtYO6WTy6lUgds
-	We4g==
-X-Gm-Message-State: AG10YOS0hnv01PZTKLSOmhKafxsQAtNSYXc9WhdzRqp5W2kryDlrmYMjgvoc03sBJ1rZ2mfl0YIax7SUyI1KVte0
-X-Received: by 10.50.97.71 with SMTP id dy7mr748299igb.78.1456366794605; Wed,
-	24 Feb 2016 18:19:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 24 Feb 2016 18:19:35 -0800 (PST)
-In-Reply-To: <20160224162044.GF2560@jama>
-References: <1456148105-9644-1-git-send-email-derek@asterius.io>
-	<1456148105-9644-8-git-send-email-derek@asterius.io>
-	<20160224130413.GD7560@jama> <20160224162044.GF2560@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Feb 2016 02:19:35 +0000
-Message-ID: <CAJTo0LbATKddvyLZNh2d+AHOnyPn2q8dmBQJebowa5CejxuXdQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Derek Straka <derek@asterius.io>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: python-setuptools fetch issues Was: [oe] [meta-python][PATCH 08/11] python-mock: update to 1.3.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=UcUdCkFPcu4ePu5rEQ90r/v1sILUGRfGJNfyYTv+xQ0=;
+	b=c8y5d9REXByaygGHBhI/zU+WUQzEiN3s3ykdIZQkVp6K56M7XWtpKMKA6DimhL8wY4
+	GPfT+WxQGF7qgC1YbccgiZTPFBgV7VlLia5p0rxX6ZMBjS2o/CwncdGo5jBqXbOFH147
+	HSb9awGjEJLiCPRLaRc3QX1VKLBk1N5Kf7xeCYFlDO2u3Y9bHFvFhRHfkmUL9fKP6Uyd
+	Xg7OfifFHvMfuKcZumNrupNDGTZMmRdt+kOYvM4u7AjuB8wioB3wtE4bZG5Arn4AOIxi
+	LPjmT48e19si/C53yVl4kuZNePcv0oM6mrKnjdYypQ/B74i8TTUUvZ+3s9Nqxf4yXIQ0
+	xZOg==
+X-Gm-Message-State: AG10YOT8XDiCUORFcifdhXO5H/hKqq0odLVbTRnYtkoXoBKGQyBwgLfQYoweAjRKziXlJg==
+X-Received: by 10.60.232.163 with SMTP id tp3mr36195443oec.42.1456367429574;
+	Wed, 24 Feb 2016 18:30:29 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	w127sm3811312oiw.17.2016.02.24.18.30.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Feb 2016 18:30:28 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Feb 2016 18:30:21 -0800
+Message-Id: <1456367421-7634-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] boost.inc: enable more verbose build logs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 02:19:55 -0000
-Content-Type: multipart/alternative; boundary=047d7b10cfc174a5aa052c8ed134
+X-List-Received-Date: Thu, 25 Feb 2016 02:30:29 -0000
 
---047d7b10cfc174a5aa052c8ed134
-Content-Type: text/plain; charset=UTF-8
+The default build output is very terse. Add -d+2 (ie "Show commands
+as they are executed") to BJAM_OPTS to make the do_compile logs more
+informative.
 
-On 24 February 2016 at 16:20, Martin Jansa <martin.jansa@gmail.com> wrote:
+Also add -q (ie "Stop at first error") to BJAM_OPTS and fix typo in
+comments.
 
-> distutils.errors.DistutilsError: Could not find suitable distribution for
-> Requirement.parse('pbr>=1.3')
->
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/boost/boost.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Missing DEPENDS?
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 79c4e63..c55221f 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -115,7 +115,7 @@ BJAM_TOOLS   = "--ignore-site-config \
+ 		'--layout=system' \
+ 		"
+ 
+-# use PARALLEL_MAKE to speed up the build, but limit it by -j 64, greater paralelism causes bjam to segfault or to ignore -j
++# use PARALLEL_MAKE to speed up the build, but limit it by -j 64, greater parallelism causes bjam to segfault or to ignore -j
+ # https://svn.boost.org/trac/boost/ticket/7634
+ def get_boost_parallel_make(d):
+     pm = d.getVar('PARALLEL_MAKE', True)
+@@ -140,7 +140,7 @@ def get_boost_parallel_make(d):
+     return ""
+ 
+ BOOST_PARALLEL_MAKE = "${@get_boost_parallel_make(d)}"
+-BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} \
++BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} -d+2 -q \
+ 		${BJAM_TOOLS} \
+ 		-sBOOST_BUILD_USER_CONFIG=${S}/tools/build/example/user-config.jam \
+ 		--builddir=${S}/${TARGET_SYS} \
+-- 
+1.9.1
 
-Ross
 
---047d7b10cfc174a5aa052c8ed134
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2016 at 16:20, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":e84" clas=
-s=3D"a3s" style=3D"overflow:hidden">distutils.errors.DistutilsError: Could =
-not find suitable distribution for Requirement.parse(&#39;pbr&gt;=3D1.3&#39=
-;)<br></div></blockquote></div><br>Missing DEPENDS?</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---047d7b10cfc174a5aa052c8ed134--
