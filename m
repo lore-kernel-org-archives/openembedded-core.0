@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DA986E268
+	by mail.openembedded.org (Postfix) with ESMTP id 09D92773B0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 16:03:03 +0000 (UTC)
+	Thu, 25 Feb 2016 16:03:05 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2016 08:02:25 -0800
+	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2016 08:02:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="659220004"
+X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="659220053"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2016 08:02:23 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2016 08:02:25 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Feb 2016 17:59:19 +0200
-Message-Id: <d1b71c5e23a62b880456fc4ac3d9d21e083a0f4f.1456415870.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 25 Feb 2016 17:59:21 +0200
+Message-Id: <549d5d18a9fe89af398559b3f8df60bb66643392.1456415870.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
 References: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
 References: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 02/19] libfm: update to 1.2.4
+Subject: [PATCH 04/19] nspr: update to 4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 16:03:03 -0000
-
-LICENSE checksum change due to formatting changes, and 'how to apply those
-terms' section dropped from the GPL text.
+X-List-Received-Date: Thu, 25 Feb 2016 16:03:05 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../libfm/{libfm-extra_1.2.3.bb => libfm-extra_1.2.4.bb}          | 6 ++----
- meta/recipes-support/libfm/{libfm_1.2.3.bb => libfm_1.2.4.bb}     | 8 +++-----
- 2 files changed, 5 insertions(+), 9 deletions(-)
- rename meta/recipes-support/libfm/{libfm-extra_1.2.3.bb => libfm-extra_1.2.4.bb} (79%)
- rename meta/recipes-support/libfm/{libfm_1.2.3.bb => libfm_1.2.4.bb} (84%)
+ meta/recipes-support/nspr/{nspr_4.11.bb => nspr_4.12.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nspr/{nspr_4.11.bb => nspr_4.12.bb} (96%)
 
-diff --git a/meta/recipes-support/libfm/libfm-extra_1.2.3.bb b/meta/recipes-support/libfm/libfm-extra_1.2.4.bb
-similarity index 79%
-rename from meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-rename to meta/recipes-support/libfm/libfm-extra_1.2.4.bb
-index 3675269..f204968 100644
---- a/meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-+++ b/meta/recipes-support/libfm/libfm-extra_1.2.4.bb
-@@ -11,15 +11,13 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
-            file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
-           "
+diff --git a/meta/recipes-support/nspr/nspr_4.11.bb b/meta/recipes-support/nspr/nspr_4.12.bb
+similarity index 96%
+rename from meta/recipes-support/nspr/nspr_4.11.bb
+rename to meta/recipes-support/nspr/nspr_4.12.bb
+index a38e20c..2fd801f 100644
+--- a/meta/recipes-support/nspr/nspr_4.11.bb
++++ b/meta/recipes-support/nspr/nspr_4.12.bb
+@@ -26,8 +26,8 @@ SRC_URI_append_libc-musl = "\
+ UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
+ UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
  
--SRC_URI[md5sum] = "3ff38200701658f7e80e25ed395d92dd"
--SRC_URI[sha256sum] = "c692f1624a4cbc8d1dd55f3b3f3369fbf5d26f63a916e2c295230b2344e1fbf9"
-+SRC_URI[md5sum] = "74997d75e7e87dc73398746fd373bf52"
-+SRC_URI[sha256sum] = "7804f6f28cb3d1bc8ffb3151ab7ff0c063b27c5f9b06c682eb903e01cf25502f"
+-SRC_URI[md5sum] = "4f24b2fb88ca03b5d6d6931d6a67ef9a"
+-SRC_URI[sha256sum] = "cb320a9eee7028275ac0fce7adc39dee36f14f02fd8432fce1b7e1aa5e3685c2"
++SRC_URI[md5sum] = "0de760c1e00a92e180e611cf06ce9589"
++SRC_URI[sha256sum] = "e0b10a1e569153668ff8bdea6c7e491b389fab69c2f18285a1ebf7c2ea4269de"
  
- S = "${WORKDIR}/libfm-${PV}"
+ S = "${WORKDIR}/nspr-${PV}/nspr"
  
- EXTRA_OECONF = "--with-extra-only --with-gtk=no"
- 
--PR = "r1"
--
- inherit autotools pkgconfig gtk-doc
- 
- do_configure[dirs] =+ "${S}/m4"
-diff --git a/meta/recipes-support/libfm/libfm_1.2.3.bb b/meta/recipes-support/libfm/libfm_1.2.4.bb
-similarity index 84%
-rename from meta/recipes-support/libfm/libfm_1.2.3.bb
-rename to meta/recipes-support/libfm/libfm_1.2.4.bb
-index cf2f0f9..866b11a 100644
---- a/meta/recipes-support/libfm/libfm_1.2.3.bb
-+++ b/meta/recipes-support/libfm/libfm_1.2.4.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Library for file management"
- HOMEPAGE = "http://pcmanfm.sourceforge.net/"
- 
- LICENSE = "GPLv2+ & LGPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b \
-                     file://src/fm.h;beginline=8;endline=21;md5=ef1f84da64b3c01cca447212f7ef6007 \
-                     file://src/base/fm-config.h;beginline=10;endline=23;md5=ef1f84da64b3c01cca447212f7ef6007 \
-                     file://src/fm-gtk.h;beginline=6;endline=19;md5=646baa4955c04fe768f2ca27b92ac8dd"
-@@ -13,10 +13,8 @@ DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif libfm-extra ge
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "3ff38200701658f7e80e25ed395d92dd"
--SRC_URI[sha256sum] = "c692f1624a4cbc8d1dd55f3b3f3369fbf5d26f63a916e2c295230b2344e1fbf9"
--
--PR = "r1"
-+SRC_URI[md5sum] = "74997d75e7e87dc73398746fd373bf52"
-+SRC_URI[sha256sum] = "7804f6f28cb3d1bc8ffb3151ab7ff0c063b27c5f9b06c682eb903e01cf25502f"
- 
- inherit autotools pkgconfig gtk-doc distro_features_check
- ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
 -- 
 2.7.0
 
