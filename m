@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CE0F5773AA
+	by mail.openembedded.org (Postfix) with ESMTP id AFF3077346
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 16:03:27 +0000 (UTC)
+	Thu, 25 Feb 2016 16:03:29 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2016 08:02:37 -0800
+	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2016 08:02:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="659220210"
+X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="659220216"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2016 08:02:35 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2016 08:02:36 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Feb 2016 17:59:31 +0200
-Message-Id: <9e18173d0b841417f6d54380eb390a1055c0b727.1456415870.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 25 Feb 2016 17:59:32 +0200
+Message-Id: <748bd24581a4656a2cd562126ea447f7d4d78ba8.1456415870.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
 References: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
 References: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/19] ncurses: update to revision 20160213
+Subject: [PATCH 15/19] nettle: update to 3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 16:03:28 -0000
-
-Also, put the revision into PV, so that a meaningful upstream version
-check can be performed.
+X-List-Received-Date: Thu, 25 Feb 2016 16:03:29 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/ncurses/{ncurses-6.0 => files}/config.cache       | 0
- meta/recipes-core/ncurses/{ncurses-6.0 => files}/tic-hang.patch     | 0
- .../ncurses/{ncurses_6.0.bb => ncurses_6.0+20160213.bb}             | 6 ++----
- 3 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-core/ncurses/{ncurses-6.0 => files}/config.cache (100%)
- rename meta/recipes-core/ncurses/{ncurses-6.0 => files}/tic-hang.patch (100%)
- rename meta/recipes-core/ncurses/{ncurses_6.0.bb => ncurses_6.0+20160213.bb} (62%)
+ meta/recipes-support/nettle/{nettle_3.1.1.bb => nettle_3.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nettle/{nettle_3.1.1.bb => nettle_3.2.bb} (75%)
 
-diff --git a/meta/recipes-core/ncurses/ncurses-6.0/config.cache b/meta/recipes-core/ncurses/files/config.cache
-similarity index 100%
-rename from meta/recipes-core/ncurses/ncurses-6.0/config.cache
-rename to meta/recipes-core/ncurses/files/config.cache
-diff --git a/meta/recipes-core/ncurses/ncurses-6.0/tic-hang.patch b/meta/recipes-core/ncurses/files/tic-hang.patch
-similarity index 100%
-rename from meta/recipes-core/ncurses/ncurses-6.0/tic-hang.patch
-rename to meta/recipes-core/ncurses/files/tic-hang.patch
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0.bb b/meta/recipes-core/ncurses/ncurses_6.0+20160213.bb
-similarity index 62%
-rename from meta/recipes-core/ncurses/ncurses_6.0.bb
-rename to meta/recipes-core/ncurses/ncurses_6.0+20160213.bb
-index e877d67..0d56481 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20160213.bb
-@@ -1,12 +1,10 @@
- require ncurses.inc
+diff --git a/meta/recipes-support/nettle/nettle_3.1.1.bb b/meta/recipes-support/nettle/nettle_3.2.bb
+similarity index 75%
+rename from meta/recipes-support/nettle/nettle_3.1.1.bb
+rename to meta/recipes-support/nettle/nettle_3.2.bb
+index 7d7134f..2b79779 100644
+--- a/meta/recipes-support/nettle/nettle_3.1.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.2.bb
+@@ -7,5 +7,5 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6
+                     file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e \
+                     file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e"
  
--REVISION = "20151024"
--
- SRC_URI += "file://tic-hang.patch \
-             file://config.cache \
- "
--# commit id corresponds to the above listed REVISION
--SRCREV = "c6b034b4d69f8c9092c2a1b5d5bb718282b2a522"
-+# commit id corresponds to the revision in package version
-+SRCREV = "a25949ff653ac5ae7a204381a3ebfd800feeaa01"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+-SRC_URI[md5sum] = "b40fa88dc32f37a182b6b42092ebb144"
+-SRC_URI[sha256sum] = "5fd4d25d64d8ddcb85d0d897572af73b05b4d163c6cc49438a5bfbb8ff293d4c"
++SRC_URI[md5sum] = "afb15b4764ebf1b4e6d06c62bd4d29e4"
++SRC_URI[sha256sum] = "ea4283def236413edab5a4cf9cf32adf540c8df1b9b67641cfc2302fca849d97"
 -- 
 2.7.0
 
