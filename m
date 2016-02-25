@@ -1,54 +1,45 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A697F7719C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 998BA7317F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 17:06:21 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id g203so94852449iof.2
+	Thu, 25 Feb 2016 17:09:12 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id g62so37016360wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 09:06:22 -0800 (PST)
+	Thu, 25 Feb 2016 09:09:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=PmDI6IxojLz7MpB5Wbq+KdeDP1GGudQ9SkvPxcwvDKE=;
-	b=zc6HHTpuxTKu/s2RaRy1FjAo1rQ53KUTT8XTNQ8smADuimT3QDp8ZHgCNjIbycJqJ4
-	4AerPXMEUgqqIvlwoLMzs+woL1DDvDmWJs4MB6DtMVRdI6TXrW6XpFzEZFyy3b/SCE8Q
-	V4p+NsO4mx3F+b52MSwV9JSA082V7UG9L5TVB+dbmR/+8hItkIu6Qf112ZiYGCB2NKZi
-	TME+WWn8+CoV8zhwMfCNAW5oevCik1lSZNKnkSjn8kT5lItBHUEk0RXMdo/GaZrHJQmq
-	pW+N4CibQ5ueOFJ5S+1o5FDu4uCv5Yz6sL/m5XLC3Z4HxtCFxvBauun77HCL/owdDKdD
-	rwWw==
+	h=from:to:subject:date:message-id;
+	bh=VtGkZs1pvCvEp041EzrLAJwYMrlC7b6x/W0Do4fH2PA=;
+	b=Pbi77hWV8rs03S5wZ1WS1noHCDPoKXRM2xLjzp4xoUfim41QcKQ2LnNy546aVKRMdo
+	P7cQL2d0fhSCHdLHTQ7/WiKy86y9nL/s8rac9caligKSnVXQQiY58tCNTQ7nMd+oPaaU
+	+w0GBe/iFvLkwkLVDzV0KYG/sd8ADWFyTUr/riAFTMsw+LYzfd4MbdyqA/t/XjSgqwZ9
+	htJ0qzGY/et5pArMoprf4HJj1LO+f6ZsOcSdgkj5MVag8Bhs8shQ8Kji0FMe05AwDfy1
+	Alw94BrEGl32p3L6QLg5BJgHEZ9U9al38fzSajaDUL5oUqMdicN7spqJ1UREDSAKjtyg
+	SJcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=PmDI6IxojLz7MpB5Wbq+KdeDP1GGudQ9SkvPxcwvDKE=;
-	b=QPKMjjph4GNKno1sOzN3DlTTpm7bs3RN7A9qDMMaHluK27tSbaH6AOXu0zhzVnyFB3
-	uostxW9OsPyLpoLGaZdmqtyu5pnRL59uUiT5cjVJ+oJvlrtccmc07YTQliBTw1Gj+vYZ
-	kwm6r1ysdVel+3Ykm17Ou6MAWIXSZX4isPvria5oVUTRsMqx8PJ/PNTy7W/L/yqiAoP3
-	16ODrcCxFs2fUnHjfEYN3D+dSqn9yiVEsS5udA1mvF9fid5/VPdBf2oZuyuB4oY/hBJH
-	D562oRVHwmD2YnC9MH3z+SLzhVnRva+Ij3/fju4g3M4tQxWa7vDIuyZtlixo5xofgWvx
-	2gLg==
-X-Gm-Message-State: AG10YOSXDXGq/Rhu9+Y4Yq5YIC5D5oDgE9QbtrSxCTOcMH+w9GXxKwJuh0ZrsAFy2WQ5W6gV
-X-Received: by 10.107.135.150 with SMTP id r22mr3805016ioi.92.1456419982376;
-	Thu, 25 Feb 2016 09:06:22 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8F03B.dip0.t-ipconnect.de. [93.232.240.59])
-	by smtp.gmail.com with ESMTPSA id
-	f70sm3565433ioj.37.2016.02.25.09.06.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Feb 2016 09:06:21 -0800 (PST)
-Message-ID: <1456419979.30039.67.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Joshua Lock <joshua.g.lock@intel.com>
-Date: Thu, 25 Feb 2016 18:06:19 +0100
-In-Reply-To: <6372957b8304964030e874ad8e5b05b1727d7be8.1456325292.git.joshua.g.lock@intel.com>
-References: <cover.1456325292.git.joshua.g.lock@intel.com>
-	<6372957b8304964030e874ad8e5b05b1727d7be8.1456325292.git.joshua.g.lock@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 05/10] swupdbundle: new class to generate virtual images for swupd-image
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VtGkZs1pvCvEp041EzrLAJwYMrlC7b6x/W0Do4fH2PA=;
+	b=HZ0frpJIdSMP7orNM1mxgk96/kpKzEYhMBdIrEOXT2bTuC8cCSki7OlmgCXyY3Yi+N
+	emai5uYDONNTmlsKG5cmzqCFg33TdZpn7KZ++rxRRNTuU+ZmDQ49nhOCMr9T3/V/J83L
+	olhSge9sF9vz62Y1aUR5lE0CXSytdjSgK3+20CSiqUMde0E4v81cSxANQzFkVx2cVh5A
+	V10MMH5mm88r81GNvU7w+ThQiAh3tM84voWtZoqdwKalFu2tNx81Z9KzYexF3B9jxbbq
+	WbwkgHaxMENIwaH9kkL1dom6h+RCnXpjAOcPTD0Vp0MtHbGkHwMIjrZmvqyH708kQgRE
+	1Fsg==
+X-Gm-Message-State: AG10YOR8qBJHWMsVWFhL/G3FRAR+gov+yhM5ufmcKvNCnTAFr+PTAaHuv9L23zLip6Vcy+WY
+X-Received: by 10.28.98.138 with SMTP id w132mr4422299wmb.45.1456420153254;
+	Thu, 25 Feb 2016 09:09:13 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id up6sm8820080wjc.6.2016.02.25.09.09.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 25 Feb 2016 09:09:12 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Feb 2016 17:09:09 +0000
+Message-Id: <1456420149-22638-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] uninative-tarball: respect SDKMACHINE when building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,38 +52,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 17:06:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Feb 2016 17:09:15 -0000
 
-On Wed, 2016-02-24 at 14:52 +0000, Joshua Lock wrote:
-> Our initial strategy to generate bundles for consumption by swupd
-> is to generate images which contain the base image (os-core) plus
-> the additional contents of the bundle, then prune out the core
-> contents. By generating images in this manner we hope to accomodate
-> packages which modify the rootfs outside of installing files, i.e.
-> with postinsts.
-> 
-> To that end this class, to be used via BBCLASSEXTEND, will generate
-> virtual image recipes that add extra packages to the extended
-> image.
+So that a single machine can build multiple architectures for the
+uninative-tarball respect SDK_ARCH instead of BUILD_ARCH.
 
-Can this be combined with an image recipe which itself uses
-BBCLASSEXTEND to generate virtual image recipes, i.e. create a virtual
-recipes based on a virtual recipe?
+This means a x86-64 host can build a i686 uninative-tarball by setting
+SDKMACHINE=i686.
 
-I don't remember whether I ever posted the class here; what it does is
-add or remove image features in the virtual image variants based on
-BBCLASSEXTEND parameters.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/meta/uninative-tarball.bb | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index 21f3bd9..ab1015f 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -13,7 +13,7 @@ TOOLCHAIN_HOST_TASK = "\
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-TOOLCHAIN_OUTPUTNAME ?= "${BUILD_ARCH}-nativesdk-libc"
++TOOLCHAIN_OUTPUTNAME ?= "${SDK_ARCH}-nativesdk-libc"
+ 
+ RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
+ 
+@@ -43,9 +43,11 @@ fakeroot create_sdk_files() {
+ fakeroot tar_sdk() {
+ 	mkdir -p ${SDK_DEPLOY}
+ 	cd ${SDK_OUTPUT}/${SDKPATH}
+-	mv sysroots/${SDK_SYS} ./${BUILD_SYS}
++
++	DEST="./${SDK_ARCH}-${SDK_OS}"
++	mv sysroots/${SDK_SYS} $DEST
+ 	rm sysroots -rf
+-	patchelf --set-interpreter ${@''.join('a' for n in xrange(1024))} ./${BUILD_SYS}/usr/bin/patchelf
+-	mv ./${BUILD_SYS}/usr/bin/patchelf ./${BUILD_SYS}/usr/bin/patchelf-uninative
++	patchelf --set-interpreter ${@''.join('a' for n in xrange(1024))} $DEST/usr/bin/patchelf
++	mv $DEST/usr/bin/patchelf $DEST/usr/bin/patchelf-uninative
+ 	tar ${SDKTAROPTS} -c -j --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+ }
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.7.0
 
 
