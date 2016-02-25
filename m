@@ -1,25 +1,25 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EC029773A8
+	by mail.openembedded.org (Postfix) with ESMTP id 08B7E773C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 23:34:13 +0000 (UTC)
+	Thu, 25 Feb 2016 23:34:14 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 25 Feb 2016 15:34:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="924096248"
+X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="924096263"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2016 15:34:03 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2016 15:34:04 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Feb 2016 23:34:13 +0000
-Message-Id: <956798fec62f91aae543680732d239f96da0fe6f.1456442768.git.alejandro.hernandez@linux.intel.com>
+Date: Thu, 25 Feb 2016 23:34:14 +0000
+Message-Id: <172fa27a9b3d481c9aac850c273e83827afb7b77.1456442768.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 3/4] usbutils: Fix for new eudev implementation
+Subject: [PATCH 4/4] maintainers.inc: Add new eudev package and change maintainership for udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,176 +34,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 25 Feb 2016 23:34:15 -0000
 
-usbutils was only compatible with systemds udev, since we now
-provide a udev alternative compatible with upstream systemds udev,
-we can now use the newer version of usbutils along with it too.
-
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-bsp/usbutils/usbutils-008/iconv.patch | 41 ----------------------
- meta/recipes-bsp/usbutils/usbutils/iconv.patch     | 29 +++++++--------
- meta/recipes-bsp/usbutils/usbutils_007.bb          | 31 ----------------
- meta/recipes-bsp/usbutils/usbutils_008.bb          |  5 +--
- 4 files changed, 16 insertions(+), 90 deletions(-)
- delete mode 100644 meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
- delete mode 100644 meta/recipes-bsp/usbutils/usbutils_007.bb
+ meta-yocto/conf/distro/include/maintainers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils-008/iconv.patch b/meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
-deleted file mode 100644
-index 6455567..0000000
---- a/meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--This patch adds support for detecting iconv support using autotools
--uclibc does not have iconv implementation inside libc like glibc, therefore
--the existing checks were not sufficient, it worked for glibc but not for
--uclibc. The new patch portably detects the iconv support and adds the
--libiconv to linker cmdline
--
--This patch should be submitted upstream too
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: usbutils-008/configure.ac
--===================================================================
----- usbutils-008.orig/configure.ac
--+++ usbutils-008/configure.ac
--@@ -10,7 +10,9 @@ AC_USE_SYSTEM_EXTENSIONS
-- AC_SYS_LARGEFILE
-- 
-- AC_CHECK_HEADERS([byteswap.h])
---AC_CHECK_FUNCS([nl_langinfo iconv])
--+
--+AM_GNU_GETTEXT
--+AM_ICONV
-- 
-- PKG_CHECK_MODULES(LIBUSB, libusb-1.0 >= 1.0.0)
-- 
--Index: usbutils-008/Makefile.am
--===================================================================
----- usbutils-008.orig/Makefile.am
--+++ usbutils-008/Makefile.am
--@@ -29,7 +29,8 @@ lsusb_CPPFLAGS = \
-- 
-- lsusb_LDADD = \
-- 	$(LIBUSB_LIBS) \
---	$(UDEV_LIBS)
--+	$(UDEV_LIBS) \
--+	$(LIBICONV)
-- 
-- man_MANS = \
-- 	lsusb.8	\
-diff --git a/meta/recipes-bsp/usbutils/usbutils/iconv.patch b/meta/recipes-bsp/usbutils/usbutils/iconv.patch
-index c557334..6455567 100644
---- a/meta/recipes-bsp/usbutils/usbutils/iconv.patch
-+++ b/meta/recipes-bsp/usbutils/usbutils/iconv.patch
-@@ -10,10 +10,10 @@ Upstream-Status: Pending
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
--Index: usbutils-007/configure.ac
-+Index: usbutils-008/configure.ac
- ===================================================================
----- usbutils-007.orig/configure.ac
--+++ usbutils-007/configure.ac
-+--- usbutils-008.orig/configure.ac
-++++ usbutils-008/configure.ac
- @@ -10,7 +10,9 @@ AC_USE_SYSTEM_EXTENSIONS
-  AC_SYS_LARGEFILE
-  
-@@ -23,18 +23,19 @@ Index: usbutils-007/configure.ac
- +AM_GNU_GETTEXT
- +AM_ICONV
-  
-- AC_ARG_ENABLE(zlib,
-- 	AS_HELP_STRING(--disable-zlib,disable support for zlib))
--Index: usbutils-007/Makefile.am
-+ PKG_CHECK_MODULES(LIBUSB, libusb-1.0 >= 1.0.0)
-+ 
-+Index: usbutils-008/Makefile.am
- ===================================================================
----- usbutils-007.orig/Makefile.am
--+++ usbutils-007/Makefile.am
--@@ -27,7 +27,7 @@ lsusb_CPPFLAGS = \
-- 	-DDATADIR=\"$(datadir)\"
-+--- usbutils-008.orig/Makefile.am
-++++ usbutils-008/Makefile.am
-+@@ -29,7 +29,8 @@ lsusb_CPPFLAGS = \
-  
-  lsusb_LDADD = \
---	$(LIBUSB_LIBS)
--+	$(LIBUSB_LIBS) $(LIBICONV)
-+ 	$(LIBUSB_LIBS) \
-+-	$(UDEV_LIBS)
-++	$(UDEV_LIBS) \
-++	$(LIBICONV)
-  
-- if HAVE_ZLIB
-- lsusb_CPPFLAGS += -DHAVE_LIBZ
-+ man_MANS = \
-+ 	lsusb.8	\
-diff --git a/meta/recipes-bsp/usbutils/usbutils_007.bb b/meta/recipes-bsp/usbutils/usbutils_007.bb
-deleted file mode 100644
-index b93b2bd..0000000
---- a/meta/recipes-bsp/usbutils/usbutils_007.bb
-+++ /dev/null
-@@ -1,31 +0,0 @@
--SUMMARY = "Host side USB console utilities"
--DESCRIPTION = "Contains the lsusb utility for inspecting the devices connected to the USB bus."
--HOMEPAGE = "http://www.linux-usb.org"
--SECTION = "base"
--
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--
--DEPENDS = "libusb zlib virtual/libiconv"
--
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
--           file://usb-devices-avoid-dependency-on-bash.patch \
--           file://Fix-NULL-pointer-crash.patch \
--           file://iconv.patch \
--          "
--
--SRC_URI[md5sum] = "be6c42294be5c940f208190d3479d50c"
--SRC_URI[sha256sum] = "e65c234cadf7c81b6b1567c440e3b9b31b44f51c27df3e45741b88848d8b37d3"
--
--inherit autotools gettext pkgconfig
--
--do_install_append() {
--	# We only need the compressed copy, remove the uncompressed version
--	rm -f ${D}${datadir}/usb.ids
--}
--
--PACKAGES += "${PN}-ids"
--FILES_${PN}-dev += "${datadir}/pkgconfig"
--FILES_${PN}-ids = "${datadir}/usb*"
--
--RDEPENDS_${PN} = "${PN}-ids"
-diff --git a/meta/recipes-bsp/usbutils/usbutils_008.bb b/meta/recipes-bsp/usbutils/usbutils_008.bb
-index 0f2d8d4..75312c3 100644
---- a/meta/recipes-bsp/usbutils/usbutils_008.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_008.bb
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--DEPENDS = "libusb zlib virtual/libiconv systemd"
-+DEPENDS = "libusb zlib virtual/libiconv udev"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
-            file://usb-devices-avoid-dependency-on-bash.patch \
-@@ -18,9 +18,6 @@ SRC_URI[md5sum] = "cb20148c2e784577e924a7b4c560c8fb"
- SRC_URI[sha256sum] = "6d5f16c2961df37e22e492c736a3e162a8fde24480f23a40d85f79af80d3fe95"
- 
- inherit autotools gettext pkgconfig distro_features_check
--# This version of usbutils relies on the udev from systemd, so unless 
--# we can decouple udev from system, we require systemd for now.
--REQUIRED_DISTRO_FEATURES = "systemd"
- 
- FILES_${PN}-dev += "${datadir}/pkgconfig"
- 
+diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
+index 8fe87c8..a474b1f 100644
+--- a/meta-yocto/conf/distro/include/maintainers.inc
++++ b/meta-yocto/conf/distro/include/maintainers.inc
+@@ -160,6 +160,7 @@ RECIPE_MAINTAINER_pn-enchant = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-encodings = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-ethtool = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-eudev = "Alejandro Hernandez <alejandro.hernandez@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-expat = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-file = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
+@@ -663,7 +664,6 @@ RECIPE_MAINTAINER_pn-u-boot-fw-utils = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER_pn-u-boot-mkimage = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER_pn-ubootchart = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-uclibc = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER_pn-udev = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-udev-extraconf = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-unfs3 = "Randy Witt <randy.e.witt@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@intel.com>"
 -- 
 2.6.2
 
