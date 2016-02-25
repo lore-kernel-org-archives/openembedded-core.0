@@ -1,63 +1,29 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A04772CB
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D05A077349
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 21:09:26 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id x65so39063114pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 13:09:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=zPE4VUuWgh3mCU3QFFxw/s8ebtt/o2xVjga/KJt/Mbo=;
-	b=J4UuZsumMiqJdNH2rAYWl7JwyGHzCtc1Oqpq+n/xUlrVcSZkblHuHaDrz7H/faRais
-	EdQZSvMByperI22ab6Uox6Koq/BIixkqLdLRLOEAxFXhMxPJ0trv+zp1pDeiuB0zdV0O
-	FN2a0J3wINmX//vNPhalvP1GvinNkM1pQyWGrH+J+wySNxT+1ghOQVIKg/mY7ToRIVam
-	WYQBHUs2nQV/lNP61ZTPC+gBFvGr81ZcqvBivon5vNY+YY7JdQ5LNWTbz5zCGtmtWDw1
-	zPauiduSlL5ksVJxxremabrDgePLjU8Nor+P7cIRyGK5gFpk1rqMEJFmlsfA6jCVS+g1
-	bQhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=zPE4VUuWgh3mCU3QFFxw/s8ebtt/o2xVjga/KJt/Mbo=;
-	b=Fub/bkz0XMr3LyJYE/X5Z2P0CgWf1BRLguUk22LtwzovE9H+YLMROf7Ah4UKas2Ydg
-	qnLV0zlQEFwmEwKo1fmCWThZGwz8MK2qwuulnCwLIUz0D1QpgWtZ+hbWq9MEVln+T2OS
-	VdPzkC2U1+m0r+5zGzpJlKkTxpZikamQgStZqEqjrJq4AvfIyt6ESiOP83cnITuu5Bh2
-	2Syl1M8nwcGJNTlriNMYlhKOTdACpo0ibHogPSlDcRPmh5pByWEIZGWuVUnjPiHiGXSx
-	Dc3RxxLnlLvJfHUSGZGK5374iufdGiUQ5e483wLG60ArNLrbKLl4+Bn3EmWuws9Dj3Rb
-	Jbyw==
-X-Gm-Message-State: AG10YOSUeJXLJKs+uYlat8AYb+SbmMO8MDdSa4fHBOHwyRGLHEKacLEyIjbOEByrpM17iw==
-X-Received: by 10.98.7.146 with SMTP id 18mr66178958pfh.47.1456434567445;
-	Thu, 25 Feb 2016 13:09:27 -0800 (PST)
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com.
-	[209.85.220.45]) by smtp.gmail.com with ESMTPSA id
-	k14sm14261356pfj.0.2016.02.25.13.09.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Feb 2016 13:09:25 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f45.google.com with SMTP id ho8so39341610pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 13:09:25 -0800 (PST)
+	Thu, 25 Feb 2016 21:38:18 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 25 Feb 2016 13:38:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; 
+	d="asc'?scan'208";a="659368945"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.35]) ([10.219.5.35])
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2016 13:38:18 -0800
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1456165797.git.anibal.limon@linux.intel.com>
+	<d796f5aefb56881a5d27585ff83474d4656c5581.1456165797.git.anibal.limon@linux.intel.com>
+	<3087554.BNl70PJfo3@peggleto-mobl.ger.corp.intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <56CF7448.9080701@linux.intel.com>
+Date: Thu, 25 Feb 2016 15:38:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-Received: by 10.66.151.177 with SMTP id ur17mr65396776pab.68.1456434565233; 
-	Thu, 25 Feb 2016 13:09:25 -0800 (PST)
-Received: by 10.67.3.163 with HTTP; Thu, 25 Feb 2016 13:09:25 -0800 (PST)
-In-Reply-To: <CAP9ODKqsktPQLesFdNbg7it-b81rANpx+16iNjEfqKaRMLzwZA@mail.gmail.com>
-References: <CAP9ODKqeD1qZe+Gf-LQoVbmAZrkGVgGDYFgQFGkniaiwTh25sQ@mail.gmail.com>
-	<CAJ86T=UvGuB4ndSvJc9FPkEw56HK4NUw2A9iGJotBqk7FfoJOg@mail.gmail.com>
-	<CAP9ODKqsktPQLesFdNbg7it-b81rANpx+16iNjEfqKaRMLzwZA@mail.gmail.com>
-Date: Thu, 25 Feb 2016 18:09:25 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqjO+Ykazs4SYPMDK3K+Z0WXana8QtmGBOYbzjQYCY5gw@mail.gmail.com>
-Message-ID: <CAP9ODKqjO+Ykazs4SYPMDK3K+Z0WXana8QtmGBOYbzjQYCY5gw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: busybox not buildable when using armv7ahfb-neon tune
+In-Reply-To: <3087554.BNl70PJfo3@peggleto-mobl.ger.corp.intel.com>
+Cc: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 4/4] oeqa/sdkext: Add sdk_update.SDKUpdateTest class.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,44 +36,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 21:09:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Feb 2016 21:38:20 -0000
+X-Groupsio-MsgNum: 78724
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="KkBgdU37VotkuBTe0lKNeg7PTutIIrFKl"
 
-Hello Andre,
+--KkBgdU37VotkuBTe0lKNeg7PTutIIrFKl
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-(Adding Khem on Cc)
 
-On Thu, Feb 25, 2016 at 5:09 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> On Thu, Feb 25, 2016 at 5:07 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Thu, Feb 25, 2016 at 11:59 AM, Otavio Salvador
->> <otavio.salvador@ossystems.com.br> wrote:
->>> Hello folks,
->>>
->>> When building a target, with Big Endian enabled, busybox is failing to build.
->>>
->>> I reproduced the error with Jethro and master.
->>>
->>> Here goes a simplified log:
->>>
->>> http://termbin.com/1c8p
->>>
->>> Could someone shed a light on this?
+
+On 02/24/2016 06:22 PM, Paul Eggleton wrote:
+> Hi An=EDbal,
+>=20
+> On Mon, 22 Feb 2016 12:31:33 An=EDbal Lim=F3n wrote:
+>> From: An=EDbal Lim=F3n <limon.anibal@gmail.com>
 >>
->> I don't see any errors in the log?
->
-> Oh my, I need another coffee. Here it goes:
->
-> http://termbin.com/28dx
+>> The SDKUpdateTest class test devtool sdk-update mechanism inside
+>> eSDK.
+>>
+>> The SDKUpdateTest class search for new sdk if not found uses
+>> the main one then it publish the eSDK into known folder
+>> inside work and it starts a web server for serve the eSDK.
+>>
+>> Finally it executes sdk-update over http, the local test is
+>> commented due to bug [1].
+>>
+>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9043
+>>
+>> [YOCTO #9089]
+>>
+>> Signed-off-by: An=EDbal Lim=F3n <limon.anibal@gmail.com>
+>> ---
+>>  meta/lib/oeqa/sdkext/sdk_update.py | 39
+>> ++++++++++++++++++++++++++++++++++++++ 1 file changed, 39 insertions(+=
+)
+>>  create mode 100644 meta/lib/oeqa/sdkext/sdk_update.py
+>>
+>> diff --git a/meta/lib/oeqa/sdkext/sdk_update.py
+>> b/meta/lib/oeqa/sdkext/sdk_update.py new file mode 100644
+>> index 0000000..16f5b10
+>> --- /dev/null
+>> +++ b/meta/lib/oeqa/sdkext/sdk_update.py
+>> @@ -0,0 +1,39 @@
+>> +import os
+>> +import shutil
+>> +import subprocess
+>> +
+>> +from oeqa.oetest import oeSDKExtTest
+>> +from oeqa.utils.httpserver import HTTPService
+>> +
+>> +class SdkUpdateTest(oeSDKExtTest):
+>> +
+>> +    @classmethod
+>> +    def setUpClass(self):
+>> +        self.publish_dir =3D os.path.join(self.tc.sdktestdir, 'esdk_p=
+ublish')
+>> +        if os.path.exists(self.publish_dir):
+>> +            shutil.rmtree(self.publish_dir)
+>> +        os.mkdir(self.publish_dir)
+>> +
+>> +        tcname_new =3D self.tc.d.expand(
+>> +            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
+>> +        if not os.path.exists(tcname_new):
+>> +            tcname_new =3D self.tc.tcname
+>> +
+>> +        cmd =3D 'oe-publish-sdk %s %s' % (tcname_new, self.publish_di=
+r)
+>> +        subprocess.check_output(cmd, shell=3DTrue)
+>> +
+>> +        self.http_service =3D HTTPService(self.publish_dir)
+>> +        self.http_service.start()
+>> +
+>> +        self.http_url =3D "http://127.0.0.1:%d" % self.http_service.p=
+ort
+>> +
+>> +    def test_sdk_update_http(self):
+>> +        output =3D self._run("devtool sdk-update \"%s\"" % self.http_=
+url)
+>> +
+>> +#    def test_sdk_update_local(self):
+>> +#        output =3D self._run("devtool sdk-update \"%s\"" % self.publ=
+ish_dir)
+>> +
+>> +    @classmethod
+>> +    def tearDownClass(self):
+>> +        self.http_service.stop()
+>> +        shutil.rmtree(self.publish_dir)
+>=20
+> You're testing invocation of the sdk-update command, but nothing much b=
+eyond=20
+> that - the update isn't going to be doing anything here since nothing w=
+ill=20
+> have changed. However since this would involve modifying the metadata t=
+hough I=20
+> guess that may have to be done as an oe-selftest test.
 
-Khem was kindly to spot the culprit. Reverting
-117282486b68e4da468c21795ea87bfc85625885 (busybox: Use CC instead of
-bare LD to be the Linker) I was capable of succeed in building it.
+Yes Paul is only testing the exeution of sdk update command but if you
+read the commit comment (may be i'm not too clear) the test search for a
+new sdk with -new suffix the AB or selftest  could easily modify the
+meta data and then generate new eSDK.
 
-Any idea what would be the real fix for it?
+	alimon
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>=20
+> Cheers,
+> Paul
+>=20
 
+
+--KkBgdU37VotkuBTe0lKNeg7PTutIIrFKl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJWz3RLAAoJEGJqcE9h3glgmSkP/ipexe+/Tysy9P6NwLjzRIds
+oiUTbaN1adjRlFMxaDxnNQajIcKPlLzNeDPCe4/Q19rwLNq2sPY3SXTNllFbKkFT
+Sa/YOGWkhbPPjd7itrxF4elX7Cc/O1CBfe8n2xgA/00ZF29nIEbt1AKo4xQbGrbu
+aC0YACPsIGUObvNLy0Jyr8teJYzVyC5cwBa+kYpfDVBaM11tGYuJ+S2bsWHJpV0E
+Ts8fsko13v8YMc8W31gWMNKNcrxguH7zvtbgHly1/O4FjftAzus01pdAB1Me/uHN
+1PB6uB6GoEDdHpuGp3zfahDpIx7XdTTvGUMjD1HFle8Nb/2ED4kSDwRoW5A/N9MX
+rP0O72kr/N2HcIdxKZw5UOgrePeVfyqdzvU2fCSImaiuC8C2NxyU7bSH8o9gUn9S
+6m7R41sim4HsSDHUn+q46rODvEl+T5+oPsITOv+8H5AI5tGI3/TGkaR/19imeFMM
+LKcaeV25r1we62qLOFQaSkT4DXZXCBtsGgavC5X0or8aeONOkJs8s52fTwZuGNL7
+VNxTok0sq9OTOOfBXKZNSfoyE87ko+8PJm+mYUBPOeWTmFra69eCWIOaNn+/qP7l
+0AOVNIRSWO1WoI9184idWDs8YjFbLIEry2VLRHZ2YUFu7P0JVE75PnuKdkNPA+ga
+RkLe7HT22ctbfwPpF5u7
+=LIMe
+-----END PGP SIGNATURE-----
+
+--KkBgdU37VotkuBTe0lKNeg7PTutIIrFKl--
