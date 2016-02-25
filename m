@@ -1,23 +1,20 @@
-Return-Path: <martin.borg@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 44625772B8
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FE9177330
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 15:08:15 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.266.1;
-	Thu, 25 Feb 2016 16:08:13 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 2547)	id 5960528BA23;
-	Thu, 25 Feb 2016 16:08:13 +0100 (CET)
-From: Martin Borg <martin.borg@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Feb 2016 16:08:04 +0100
-Message-ID: <1456412884-13834-1-git-send-email-martin.borg@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: martin.borg@enea.com does not
-	designate permitted sender hosts)
-Cc: Martin Borg <martin.borg@enea.com>
-Subject: [PATCH] automake: set test-driver path relative to top_builddir
+	Thu, 25 Feb 2016 16:02:59 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2016 08:02:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="659219984"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2016 08:02:21 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Feb 2016 17:59:17 +0200
+Message-Id: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 00/19] Recipe version updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,88 +27,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 15:08:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Feb 2016 16:03:00 -0000
 
-automake offers auxiliary tools and is capable to install and prepare the setup for those.
-test-driver, a log driver used by parallel testsuite harness in ptests, is one of those tools.
-By default it looks that automake prepare environment for testing relative $top_srcdir.
-But in Yocto following changed:
- - build folder was separated
- - $top_srcdir is not anymore defined as relative path, now can be relative or absolute
+The deadline for version updates is in a few days, so I thought I'd push
+one last batch of 'easy' updates (that don't require rebasing patches
+or extensive testing).
 
-So now in Yocto the Makefile from src/tests contains absolute path of $top_srcdir for test-driver
-which is an unexisting path at runtime.
+The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
 
-We need to have relative path for test-driver in Makefile to work on target. $top_builddir
-can guarantee this path.
+  uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
 
-Originally submitted by Adrian Calianu <adrian.calianu@enea.com>
+are available in the git repository at:
 
-Signed-off-by: Martin Borg <martin.borg@enea.com>
----
- .../automake/new_rt_path_for_test-driver.patch     | 36 ++++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.15.bb    |  3 +-
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
 
-diff --git a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
-new file mode 100644
-index 0000000..2c6594f
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
-@@ -0,0 +1,36 @@
-+Set relative to top_builddir path in Makefile to access test-driver
-+
-+Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
-+Upstream-Status: Pending
-+Bug-Report: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=19042
-+
-+--- a/bin/automake.in
-++++ b/bin/automake.in
-+@@ -272,6 +272,9 @@
-+ # $AM_CONFIG_AUX_DIR is prefixed with $(top_srcdir), so it can be used
-+ # in Makefiles.
-+ my $am_config_aux_dir = '';
-++# Directory used at runtime like running test-driver that should not
-++# depend on $(top_srcdir)
-++my $am_config_rt_aux_dir = '';
-+
-+ # Directory to search for AC_LIBSOURCE files, as set by AC_CONFIG_LIBOBJ_DIR
-+ # in configure.ac.
-+@@ -4700,7 +4703,7 @@
-+     {
-+       require_conf_file ("parallel-tests", FOREIGN, 'test-driver');
-+       define_variable ("${pfx}LOG_DRIVER",
-+-                       "\$(SHELL) $am_config_aux_dir/test-driver",
-++                       "\$(SHELL) $am_config_rt_aux_dir/test-driver",
-+                        INTERNAL);
-+     }
-+   my $driver = '$(' . $pfx . 'LOG_DRIVER)';
-+@@ -7284,6 +7287,10 @@
-+   $am_config_aux_dir =
-+     '$(top_srcdir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
-+   $am_config_aux_dir =~ s,/*$,,;
-++
-++  $am_config_rt_aux_dir =
-++    '$(top_builddir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
-++  $am_config_rt_aux_dir =~ s,/*$,,;
-+ }
-diff --git a/meta/recipes-devtools/automake/automake_1.15.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-index e3cb85b..85494b4 100644
---- a/meta/recipes-devtools/automake/automake_1.15.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -21,7 +21,8 @@ RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
- SRC_URI += " file://python-libdir.patch \
-             file://py-compile-compile-only-optimized-byte-code.patch \
-             file://buildtest.patch \
--            file://performance.patch"
-+            file://performance.patch \
-+            file://new_rt_path_for_test-driver.patch"
- 
- SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
- SRC_URI[sha256sum] = "7946e945a96e28152ba5a6beb0625ca715c6e32ac55f2e353ef54def0c8ed924"
+Alexander Kanavin (19):
+  epiphany: update to 3.18.4
+  libfm: update to 1.2.4
+  pcmanfm: update to 1.2.4
+  nspr: update to 4.12
+  ffmpeg: update to 3.0
+  libsolv: update to 0.6.19
+  ccache: update to 3.2.4
+  clutter-gst-3.0: update to 3.0.16
+  gnupg: update to 2.1.11
+  git: update to 2.7.2
+  gtk-icon-utils-native: update to 3.18.8
+  gtk+3: update to 3.18.8
+  libdrm: update to 2.4.67
+  ncurses: update to revision 20160213
+  nettle: update to 3.2
+  pax-utils: update to 1.1.5
+  python-git: update to 1.0.2
+  vala: update to 0.30.1
+  shared-mime-info: update to 1.6
+
+ .../ncurses/{ncurses-6.0 => files}/config.cache    |   0
+ .../ncurses/{ncurses-6.0 => files}/tic-hang.patch  |   0
+ .../{ncurses_6.0.bb => ncurses_6.0+20160213.bb}    |   6 +-
+ .../ccache/{ccache_3.2.3.bb => ccache_3.2.4.bb}    |   4 +-
+ ...ion-in-recent-change-related-to-zlib-in-n.patch |  73 -----------
+ meta/recipes-devtools/git/git_2.7.0.bb             |  11 --
+ meta/recipes-devtools/git/git_2.7.2.bb             |  11 ++
+ .../pax-utils/files/fix-configure-failure.patch    | 146 ---------------------
+ .../{pax-utils_1.1.4.bb => pax-utils_1.1.5.bb}     |   7 +-
+ .../{python-git_1.0.1.bb => python-git_1.0.2.bb}   |   4 +-
+ .../vala/{vala_0.30.0.bb => vala_0.30.1.bb}        |   4 +-
+ meta/recipes-extended/libsolv/libsolv_git.bb       |   4 +-
+ .../{epiphany_3.18.3.bb => epiphany_3.18.4.bb}     |   4 +-
+ .../gtk+/{gtk+3_3.18.6.bb => gtk+3_3.18.8.bb}      |   4 +-
+ ...e_3.18.6.bb => gtk-icon-utils-native_3.18.8.bb} |   4 +-
+ ...gst-3.0_3.0.14.bb => clutter-gst-3.0_3.0.16.bb} |   4 +-
+ ...tests-kms-steal-crtc-Include-sys-select.h.patch |  96 --------------
+ meta/recipes-graphics/drm/libdrm/detect.patch      |  59 ---------
+ .../drm/{libdrm_2.4.66.bb => libdrm_2.4.67.bb}     |   6 +-
+ .../ffmpeg/{ffmpeg_2.8.6.bb => ffmpeg_3.0.bb}      |   7 +-
+ meta/recipes-sato/pcmanfm/files/no-desktop.patch   |   2 +-
+ .../pcmanfm/{pcmanfm_1.2.3.bb => pcmanfm_1.2.4.bb} |   4 +-
+ .../gnupg/{gnupg_2.1.10.bb => gnupg_2.1.11.bb}     |   4 +-
+ .../{libfm-extra_1.2.3.bb => libfm-extra_1.2.4.bb} |   6 +-
+ .../libfm/{libfm_1.2.3.bb => libfm_1.2.4.bb}       |   8 +-
+ .../nettle/{nettle_3.1.1.bb => nettle_3.2.bb}      |   4 +-
+ .../nspr/{nspr_4.11.bb => nspr_4.12.bb}            |   4 +-
+ ...ed-mime-info_1.5.bb => shared-mime-info_1.6.bb} |   4 +-
+ 28 files changed, 55 insertions(+), 435 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses-6.0 => files}/config.cache (100%)
+ rename meta/recipes-core/ncurses/{ncurses-6.0 => files}/tic-hang.patch (100%)
+ rename meta/recipes-core/ncurses/{ncurses_6.0.bb => ncurses_6.0+20160213.bb} (62%)
+ rename meta/recipes-devtools/ccache/{ccache_3.2.3.bb => ccache_3.2.4.bb} (57%)
+ delete mode 100644 meta/recipes-devtools/ccache/files/0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch
+ delete mode 100644 meta/recipes-devtools/git/git_2.7.0.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.7.2.bb
+ delete mode 100644 meta/recipes-devtools/pax-utils/files/fix-configure-failure.patch
+ rename meta/recipes-devtools/pax-utils/{pax-utils_1.1.4.bb => pax-utils_1.1.5.bb} (82%)
+ rename meta/recipes-devtools/python/{python-git_1.0.1.bb => python-git_1.0.2.bb} (87%)
+ rename meta/recipes-devtools/vala/{vala_0.30.0.bb => vala_0.30.1.bb} (42%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.18.3.bb => epiphany_3.18.4.bb} (84%)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.18.6.bb => gtk+3_3.18.8.bb} (83%)
+ rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.18.6.bb => gtk-icon-utils-native_3.18.8.bb} (93%)
+ rename meta/recipes-graphics/clutter/{clutter-gst-3.0_3.0.14.bb => clutter-gst-3.0_3.0.16.bb} (58%)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/0001-tests-kms-steal-crtc-Include-sys-select.h.patch
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/detect.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.66.bb => libdrm_2.4.67.bb} (87%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_2.8.6.bb => ffmpeg_3.0.bb} (94%)
+ rename meta/recipes-sato/pcmanfm/{pcmanfm_1.2.3.bb => pcmanfm_1.2.4.bb} (90%)
+ rename meta/recipes-support/gnupg/{gnupg_2.1.10.bb => gnupg_2.1.11.bb} (90%)
+ rename meta/recipes-support/libfm/{libfm-extra_1.2.3.bb => libfm-extra_1.2.4.bb} (79%)
+ rename meta/recipes-support/libfm/{libfm_1.2.3.bb => libfm_1.2.4.bb} (84%)
+ rename meta/recipes-support/nettle/{nettle_3.1.1.bb => nettle_3.2.bb} (75%)
+ rename meta/recipes-support/nspr/{nspr_4.11.bb => nspr_4.12.bb} (96%)
+ rename meta/recipes-support/shared-mime-info/{shared-mime-info_1.5.bb => shared-mime-info_1.6.bb} (43%)
+
 -- 
-1.9.1
+2.7.0
 
 
