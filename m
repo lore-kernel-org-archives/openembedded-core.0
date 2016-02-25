@@ -1,46 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A08560110
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C4C74772EF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 17:21:53 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id fl4so35357146pad.0
+	Thu, 25 Feb 2016 18:18:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1PII7RK013221
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 09:21:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=cOmqB+XHn8V5Y/0Yon2baC7FdYeeJMBZQitK4suqQDg=;
-	b=Jr+2ah2bde7vpeJ1YWl+HUFe07/QtA82agi6AiOAdVdAu99WuHB3z7lwi6kP1gdobQ
-	ARtk6w+lVUz8IgiNT/SD88Dn7un94SYYuvg8blDuY1xGGyRuG0JAS/UfzoCFgSWynXl5
-	ahgWLxcA6TTXvzDeg5GkaGrXUeTYxef5aeh1QEflwx0FMPFt36h4y/62Pnx72h3NTyah
-	rknW64LPDdQbcpVeX4EP45rj/ncSfz7jbYAVC9grfN+yxeizyO7yLfmv9V2ltm5XUeLg
-	AHuRrp4MeHzlmGvXt9jzStBxB4V3NEYsHWJL9f82i+DgRz88hXtYwHcxc0Yk6SuBpnQL
-	r/gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cOmqB+XHn8V5Y/0Yon2baC7FdYeeJMBZQitK4suqQDg=;
-	b=aZoWUMCY2iTajNPNqluIa+9/TRSyCGi9730tufljMxEWYAduqd7hk/YFiOwrCYPqcF
-	YZN+RwKrbz5kitFvkMIgV2NE2z5jPorUU5Rvcm5v+mqzk8vkISM6cjE4ghLd9KGcZKAz
-	BdLNEHTCoAn+XnzO5E5vTJFbNI+agMrWrQhplNbA0Kec9Kenq6KHUL2id2rq3Htn6kcu
-	B/vaKI6EALPwEHoFXf/Cm5yfF/U5Goy39ZeK5S9WnLJVZADrG2Eq2RcxDPX9n9zYcbxk
-	hDewXOYs8RP2217V8OxUg/1gEFwFV/NnsaEkQ6dH5NJdxOk0J44KXkR6Vyjek76Xy+eJ
-	XVrg==
-X-Gm-Message-State: AG10YORaIO38z//eI3h6y+Qujf/kKimXtFLT4Povg5nKHC6GHhUV2eJ1ZGRLXyBX5gsWRg==
-X-Received: by 10.66.252.100 with SMTP id zr4mr63390488pac.111.1456420914504; 
-	Thu, 25 Feb 2016 09:21:54 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	by3sm13588663pab.39.2016.02.25.09.21.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Feb 2016 09:21:53 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Feb 2016 10:21:49 -0700
-Message-Id: <1456420909-9926-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] wic: don't throw away our created swap partition
+	Thu, 25 Feb 2016 10:18:07 -0800 (PST)
+Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 25 Feb 2016 10:18:07 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Feb 2016 12:18:02 -0600
+Message-ID: <cover.1456423924.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Subject: [PATCH 0/3] Upgrade RPM 5 to 5.4.16 (CVS HEAD)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +31,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 17:21:54 -0000
+X-List-Received-Date: Thu, 25 Feb 2016 18:18:07 -0000
+Content-Type: text/plain
 
-From: Christopher Larson <chris_larson@mentor.com>
+There is not yet an official RPM 5.4.16 release, however one will be coming
+soon.  Until then, 4 distinct patches are used to upgrade RPM 5.4.15 to
+5.4.16.  These patches are part of the commit (compressed w/ .xz).  However
+I am not sending them as part of the email as it's not very interesting
+to review base64.  :P
 
-We were creating the partition, mkswap'ing it, and then not dd'ing it into
-place in the final image, as source_file wasn't being set for swap partitions.
-This would result in a swap partition that couldn't be enabled on target until
-mkswap was run.
+Many of the OE patches have been sent to the RPM 5 maintainer, and may be
+part of the official 5.4.16 release.  When that release happens I expect a
+simple rebase to remove the unnecessary patches.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- scripts/lib/wic/kickstart/custom_commands/partition.py | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit 205b446f3fc4a9885179a66a8dab9d81bcc63dca:
 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index eee25a4..a0e74aa 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -173,6 +173,7 @@ class Wic_PartData(FC4_PartData):
-             if self.fstype and self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-                                             native_sysroot)
-+                self.source_file = "%s/fs.%s" % (cr_workdir, self.fstype)
-             elif self.fstype:
-                 rootfs = "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
-                                              self.lineno, self.fstype)
+  uclibc: Do not use immediate expansion operator (2016-02-22 20:42:34 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib mhatle/rpm-5.4.16
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=mhatle/rpm-5.4.16
+
+  git://git.openembedded.org/poky-contrib mgh/rpm-5.4.16
+  http://cgit.openembedded.org/cgit.cgi/poky-contrib/log/?h=mgh/rpm-5.4.16
+
+Mark Hatle (3):
+  rpm: Uprev to rpm-5.4.16 (pre) and rpm-5.4+cvs to current CVS head
+  rpm: Enable specific crypto and digest settings via variables
+  rpm: A number of the patches have been submitted upstream
+
+ meta/lib/oe/package_manager.py                     |   14 +-
+ .../rpm/rpm/0001-define-EM_AARCH64.patch           |    2 +-
+ ...arseArgvString-to-parse-the-_gpg_check_pa.patch |    2 +-
+ .../rpm/rpm/beecrypt-5.4.15-to-5.4.16.patch.xz     |  Bin 0 -> 26668 bytes
+ meta/recipes-devtools/rpm/rpm/debugedit-segv.patch |   48 +-
+ ...debugedit-valid-file-to-fix-segment-fault.patch |    2 +-
+ .../rpm/rpm/fstack-protector-configure-check.patch |   21 -
+ .../rpm/rpm/header-include-fix.patch               |   12 +-
+ .../rpm/rpm/lua-5.4.15-to-5.4.16.patch.xz          |  Bin 0 -> 212864 bytes
+ .../rpm/rpm/makefile-am-exec-hook.patch            |    2 +-
+ .../rpm/rpm/python-rpm-rpmsense.patch              |   32 +-
+ .../rpm/rpm/rpm-5.4.15-to-5.4.16.patch.xz          |  Bin 0 -> 1316188 bytes
+ meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch |   39 +-
+ meta/recipes-devtools/rpm/rpm/rpm-db60.patch       |   56 +
+ .../rpm/rpm/rpm-disable-Wno-override-init.patch    |   32 -
+ .../rpm/rpm/rpm-disable-auto-stack-protector.patch |   32 +
+ .../rpm/rpm/rpm-fix-logio-cp.patch                 |    2 +-
+ .../rpm/rpm/rpm-fix-parseEmbedded.patch            |   27 +
+ .../rpm/rpm/rpm-hardlink-segfault-fix.patch        |    2 +-
+ ...ction.c-fix-file-conflicts-for-mips64-N32.patch |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch |    2 +-
+ .../rpm/rpm/rpm-lsb-compatibility.patch            |    2 +-
+ .../rpm/rpm/rpm-lua-fix-print.patch                |  104 --
+ ...rpm-macros.in-disable-external-key-server.patch |   16 +-
+ .../rpm/rpm/rpm-mongodb-sasl.patch                 |   69 ++
+ meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |    2 +-
+ ...b-before-verifyscript-to-avoid-null-point.patch |    2 +-
+ .../rpm/rpm/rpm-packageorigin.patch                |    2 +-
+ .../rpm/rpm/rpm-payload-use-hashed-inode.patch     |   22 +-
+ .../rpm/rpm/rpm-pkgconfigdeps.patch                |   10 +-
+ .../rpm/rpm/rpm-platform-file-fix.patch            |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |    4 +-
+ meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   16 +-
+ .../rpm/rpm/rpm-python-restore-origin.patch        |   49 +
+ .../rpm/rpm/rpm-remove-sykcparse-decl.patch        |   14 -
+ meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |    2 +-
+ .../rpm/rpm/rpm-rpmdb-grammar.patch                |  124 +++
+ .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |    2 +-
+ .../rpm/rpm/rpm-rpmio-headers.patch                |   19 +
+ meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch |   67 --
+ .../rpm/rpm/rpm-scriptletexechelper.patch          |   29 +-
+ .../rpm/rpm/rpm-syck-fix-gram.patch                | 1081 ++++++++++++++++++++
+ .../rpm-tag-generate-endian-conversion-fix.patch   |    2 +-
+ .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpmatch.patch        |   32 +-
+ .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   27 +-
+ .../rpm/rpm/syck-5.4.15-to-5.4.16.patch.xz         |  Bin 0 -> 4524 bytes
+ meta/recipes-devtools/rpm/rpm/uclibc-support.patch |   38 +-
+ ...broken-logic-for-ghost-avoidance-Mark-Hat.patch |   38 -
+ meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |  283 ++++-
+ .../rpm/{rpm_5.4.14.bb => rpm_5.4.16.bb}           |  178 +++-
+ 53 files changed, 2010 insertions(+), 561 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/beecrypt-5.4.15-to-5.4.16.patch.xz
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/lua-5.4.15-to-5.4.16.patch.xz
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-5.4.15-to-5.4.16.patch.xz
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db60.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-Wno-override-init.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua-fix-print.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-remove-sykcparse-decl.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/syck-5.4.15-to-5.4.16.patch.xz
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch
+ rename meta/recipes-devtools/rpm/{rpm_5.4.14.bb => rpm_5.4.16.bb} (83%)
+
 -- 
-2.2.1
+2.5.0
 
 
