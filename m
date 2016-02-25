@@ -1,61 +1,63 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id ABBE677207
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A04772CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 20:29:29 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id q63so38505973pfb.0
+	Thu, 25 Feb 2016 21:09:26 +0000 (UTC)
+Received: by mail-pf0-f170.google.com with SMTP id x65so39063114pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 12:29:30 -0800 (PST)
+	Thu, 25 Feb 2016 13:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
 	:cc:content-type;
-	bh=PX1gk+f4wRXhjL8gRUIalnlFcsc43UL8gF5j2Z+pB8s=;
-	b=Y6VelEhzFlsGc4BSybDMlayypkiqClNaXaI3udXVyGDpNfkBHLs7DosxLff+kOrOc9
-	AU9b2P+K1FKb4uHvTNGQv83keClTVNA2KQq34c6yp2CDbO+xK8v5QN/FZyOBBn6shWOM
-	KCeUkKaLRXaujgkBx1pWmaL/MA8Mv55wlhLhU5HVrDJYGaWnp6RHoh4QT44yVrouc1sU
-	BDr3Nzskoh95Ud/z3eXvC+5wlpeNmDA9xeoiNiG4xPtlDMoaYtBxEjb602ARWsKiPhu/
-	EqSv/2uIRLkBxE5SgNSxxVe5/AVZ4ACMSF84M4oIR0FU835tGZTp8R6z7dVFNfOdVraV
-	Uh7w==
+	bh=zPE4VUuWgh3mCU3QFFxw/s8ebtt/o2xVjga/KJt/Mbo=;
+	b=J4UuZsumMiqJdNH2rAYWl7JwyGHzCtc1Oqpq+n/xUlrVcSZkblHuHaDrz7H/faRais
+	EdQZSvMByperI22ab6Uox6Koq/BIixkqLdLRLOEAxFXhMxPJ0trv+zp1pDeiuB0zdV0O
+	FN2a0J3wINmX//vNPhalvP1GvinNkM1pQyWGrH+J+wySNxT+1ghOQVIKg/mY7ToRIVam
+	WYQBHUs2nQV/lNP61ZTPC+gBFvGr81ZcqvBivon5vNY+YY7JdQ5LNWTbz5zCGtmtWDw1
+	zPauiduSlL5ksVJxxremabrDgePLjU8Nor+P7cIRyGK5gFpk1rqMEJFmlsfA6jCVS+g1
+	bQhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=PX1gk+f4wRXhjL8gRUIalnlFcsc43UL8gF5j2Z+pB8s=;
-	b=T2uQeQNFGQkLUyxzfEGkgRr/Egg83Szk9ySeFbslaGeqbGLD7vIm7w6m6MF1BvmnG/
-	3xcqvIq2ktor4Vda1XE6XwMOxv8arPGbC1OYbAojAyNn4PMVSWnBzYvG/BQZEnvVB1kq
-	0ervMBM2myqHtzP9DtEgnn4PXhnj8jKpwDYwTeT0BPv2FHHDPEr+amz75RQdb+JSvNhv
-	iNoPKDSvY33bLaYEMFiGA6crDpYVPJpa/Q+IZLa6Ok9V+MO72ADWg099nkBluZe9dt7y
-	L+Dymdb1x/xPrXtf2qwvWKv/rpvBkHruFQFBJK8SCX0H0H6h8BibBeMFNxIn2B4/3QzF
-	dutw==
-X-Gm-Message-State: AG10YOQrrnSdSICU+zDueQSYfxXkqaNBBKzgTG+rDDuYGUfew6NWxhQRDOTUJV+2etAofQ==
-X-Received: by 10.98.70.28 with SMTP id t28mr65567497pfa.110.1456432170557;
-	Thu, 25 Feb 2016 12:29:30 -0800 (PST)
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com.
-	[209.85.220.47]) by smtp.gmail.com with ESMTPSA id
-	a21sm14149710pfj.40.2016.02.25.12.29.28
+	bh=zPE4VUuWgh3mCU3QFFxw/s8ebtt/o2xVjga/KJt/Mbo=;
+	b=Fub/bkz0XMr3LyJYE/X5Z2P0CgWf1BRLguUk22LtwzovE9H+YLMROf7Ah4UKas2Ydg
+	qnLV0zlQEFwmEwKo1fmCWThZGwz8MK2qwuulnCwLIUz0D1QpgWtZ+hbWq9MEVln+T2OS
+	VdPzkC2U1+m0r+5zGzpJlKkTxpZikamQgStZqEqjrJq4AvfIyt6ESiOP83cnITuu5Bh2
+	2Syl1M8nwcGJNTlriNMYlhKOTdACpo0ibHogPSlDcRPmh5pByWEIZGWuVUnjPiHiGXSx
+	Dc3RxxLnlLvJfHUSGZGK5374iufdGiUQ5e483wLG60ArNLrbKLl4+Bn3EmWuws9Dj3Rb
+	Jbyw==
+X-Gm-Message-State: AG10YOSUeJXLJKs+uYlat8AYb+SbmMO8MDdSa4fHBOHwyRGLHEKacLEyIjbOEByrpM17iw==
+X-Received: by 10.98.7.146 with SMTP id 18mr66178958pfh.47.1456434567445;
+	Thu, 25 Feb 2016 13:09:27 -0800 (PST)
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com.
+	[209.85.220.45]) by smtp.gmail.com with ESMTPSA id
+	k14sm14261356pfj.0.2016.02.25.13.09.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Feb 2016 12:29:29 -0800 (PST)
+	Thu, 25 Feb 2016 13:09:25 -0800 (PST)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f47.google.com with SMTP id ho8so38837538pac.2
+Received: by mail-pa0-f45.google.com with SMTP id ho8so39341610pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Feb 2016 12:29:28 -0800 (PST)
+	Thu, 25 Feb 2016 13:09:25 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.66.228.201 with SMTP id sk9mr65587801pac.1.1456432168669;
-	Thu, 25 Feb 2016 12:29:28 -0800 (PST)
-Received: by 10.67.3.163 with HTTP; Thu, 25 Feb 2016 12:29:28 -0800 (PST)
-In-Reply-To: <1456430535-11781-1-git-send-email-armccurdy@gmail.com>
-References: <1456430535-11781-1-git-send-email-armccurdy@gmail.com>
-Date: Thu, 25 Feb 2016 17:29:28 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrr+b8a-de8+kU967tcqQTgYh3OF6Rq+yJqUuBu7HT_xQ@mail.gmail.com>
-Message-ID: <CAP9ODKrr+b8a-de8+kU967tcqQTgYh3OF6Rq+yJqUuBu7HT_xQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+X-Received: by 10.66.151.177 with SMTP id ur17mr65396776pab.68.1456434565233; 
+	Thu, 25 Feb 2016 13:09:25 -0800 (PST)
+Received: by 10.67.3.163 with HTTP; Thu, 25 Feb 2016 13:09:25 -0800 (PST)
+In-Reply-To: <CAP9ODKqsktPQLesFdNbg7it-b81rANpx+16iNjEfqKaRMLzwZA@mail.gmail.com>
+References: <CAP9ODKqeD1qZe+Gf-LQoVbmAZrkGVgGDYFgQFGkniaiwTh25sQ@mail.gmail.com>
+	<CAJ86T=UvGuB4ndSvJc9FPkEw56HK4NUw2A9iGJotBqk7FfoJOg@mail.gmail.com>
+	<CAP9ODKqsktPQLesFdNbg7it-b81rANpx+16iNjEfqKaRMLzwZA@mail.gmail.com>
+Date: Thu, 25 Feb 2016 18:09:25 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqjO+Ykazs4SYPMDK3K+Z0WXana8QtmGBOYbzjQYCY5gw@mail.gmail.com>
+Message-ID: <CAP9ODKqjO+Ykazs4SYPMDK3K+Z0WXana8QtmGBOYbzjQYCY5gw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-XXX: control orc PACKAGECONFIG via GSTREAMER_ORC
+Subject: Re: busybox not buildable when using armv7ahfb-neon tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,22 +70,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Feb 2016 20:29:32 -0000
+X-List-Received-Date: Thu, 25 Feb 2016 21:09:27 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Feb 25, 2016 at 5:02 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Orc enables runtime JIT compilation of data processing routines from
-> Orc bytecode to SIMD instructions for various architectures (currently
-> SSE, MMX, MIPS, Altivec and NEON are supported).
->
->   https://cgit.freedesktop.org/gstreamer/orc/tree/README
->
-> Provide a convenient way to globally control the orc PACKAGECONFIG
-> option for all four gstreamer-1.0-plugins-XXX recipes.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Hello Andre,
 
-Cool! :-)
+(Adding Khem on Cc)
+
+On Thu, Feb 25, 2016 at 5:09 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Thu, Feb 25, 2016 at 5:07 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> On Thu, Feb 25, 2016 at 11:59 AM, Otavio Salvador
+>> <otavio.salvador@ossystems.com.br> wrote:
+>>> Hello folks,
+>>>
+>>> When building a target, with Big Endian enabled, busybox is failing to build.
+>>>
+>>> I reproduced the error with Jethro and master.
+>>>
+>>> Here goes a simplified log:
+>>>
+>>> http://termbin.com/1c8p
+>>>
+>>> Could someone shed a light on this?
+>>
+>> I don't see any errors in the log?
+>
+> Oh my, I need another coffee. Here it goes:
+>
+> http://termbin.com/28dx
+
+Khem was kindly to spot the culprit. Reverting
+117282486b68e4da468c21795ea87bfc85625885 (busybox: Use CC instead of
+bare LD to be the Linker) I was capable of succeed in building it.
+
+Any idea what would be the real fix for it?
 
 -- 
 Otavio Salvador                             O.S. Systems
