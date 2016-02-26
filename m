@@ -1,36 +1,44 @@
-Return-Path: <prvs=85754256d=Mikko.Rapeli@bmw.de>
-Received: from esa7.bmw.c3s2.iphmx.com (esa7.bmw.c3s2.iphmx.com
-	[68.232.133.109])
-	by mail.openembedded.org (Postfix) with ESMTP id C343A77376
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F70D770A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 08:15:09 +0000 (UTC)
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa7.bmw.c3s2.iphmx.com with ESMTP/TLS; 26 Feb 2016 09:14:57 +0100
-Received: from unknown (HELO esabb5.muc) ([160.50.100.47]) by esagw6.muc with
-	ESMTP/TLS; 26 Feb 2016 09:14:57 +0100
-Received: from smuch51a.muc (HELO SMUCH51A.europe.bmw.corp) ([160.46.137.115])
-	by esabb5.muc with ESMTP/TLS; 26 Feb 2016 09:14:56 +0100
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH51A.europe.bmw.corp ([160.46.137.115]) with mapi id 14.03.0248.002;
-	Fri, 26 Feb 2016 09:14:55 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <mariano.lopez@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 0/3] Add initial capability to check CVEs for
-	recipes
-Thread-Index: AQHRb8YPTPKRB7zS1kqsvPG9SjQg2J88n/SAgAAQYICAAAu0AIABLzSA
-Date: Fri, 26 Feb 2016 08:14:55 +0000
-Message-ID: <20160226081455.GH6210@loska>
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-	<20160225121421.GB6210@loska> <20160225122912.GC6210@loska>
-	<20160225132748.GD6210@loska> <20160225140942.GE6210@loska>
-In-Reply-To: <20160225140942.GE6210@loska>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.99]
+	Fri, 26 Feb 2016 08:24:14 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id a4so7776801wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Feb 2016 00:24:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=FsuZJ9jzc19BUg5eysCSRg8U7UoDRtAltFI3RADBLKg=;
+	b=tmzZqNLXxZtsgy3tl00eNPBsYukRj3jqs6YSVrTu2FOGA0lFW/QDFkH85S4dumj9ZE
+	1pSWfWyv2XlBCtAMDYWzepbYiBJ/fXm7MH5nVSQvf9WdrN0UgUedDrB/PnXefFUbQr8k
+	5+s4u+K7KrE7f8AEBXdNHH7PHBqr9p9ZdrPfVaeGVoSfrvtIAm5GNBVkFF3ZVsp1YfvW
+	VPCZEk7+p5hsznmtt6kRAuwOsxp7jbJ1TlFVqQdejoPT/SYET9hbg2a6le3DFkZWqRtC
+	pI1Cnjpt787JZbgV2K6ZurVfrSCVn04xXtAemgSqi4+T7Peq7KGY+Z+zmYZmWYkWRLRP
+	nWeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=FsuZJ9jzc19BUg5eysCSRg8U7UoDRtAltFI3RADBLKg=;
+	b=MSZhPHTnBLeVRR3uJZBQ/rO54QbBd8jb0dDVGrW+ICwhEgM/rh3i33TeSnv962egP1
+	jZhFhZkkoCvIstmgEAloo+ETHZXhh68fRpC0ztKNfGNK6AL8sXTrwwzoVT28wuttuWZS
+	KFK1cizP3cJhGLtq2RXCKTpchHoAM8UpX3hihIvOqRa7cYPf0HrMY++WCDj2YNhjPhvU
+	8GWSasVb2QxLLpnsolkgjNk1MdE7lh8xthX5X+TM+y1BX1PaEOm+kKg/nDBx5XfWPama
+	OO62vsIKNTXorjCE30u4Bf9s7Vef3zhyqEnRXAzsqiklco3fP060yHo7UvH3pgaU5Osx
+	Iz7g==
+X-Gm-Message-State: AD7BkJKuFPBLzs2F2qiDiOpHhboSjKnZcilCrpRIp9ldBR7Sy+N6I1pmJe06QJCz4sA3DO78Txw/5rO+hx7avg==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Add initial capability to check CVEs for recipes
+X-Received: by 10.194.7.195 with SMTP id l3mr296723wja.43.1456475055060; Fri,
+	26 Feb 2016 00:24:15 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Fri, 26 Feb 2016 00:24:15 -0800 (PST)
+In-Reply-To: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
+Date: Fri, 26 Feb 2016 00:24:15 -0800
+Message-ID: <CAJ86T=WM=9YKka3w9qQtRDRnJFDXc+uSS213NFN2aNUEwTdF8A@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Replaces udev with eudev for compatibility when using sysvinit on newer kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,65 +51,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 08:15:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <00905FD84BA9F649B6D0D3081D15CAAC@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Feb 2016 08:24:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On Thu, Feb 25, 2016 at 3:34 PM, Alejandro Hernandez
+<alejandro.hernandez@linux.intel.com> wrote:
+> udev has started to fail on new kernels (4.4), due to being deprecated in favor
+> of systemd's udev implementation. To maintain a sysvinit alternative we also
+> need to provide an alternative to udev. Eudev is a fork of systemds udev,
+> this new eudev recipe provides upstream udev 220 funcitonality.
 
-On my developer machine the cve-check ran ok for dizzy but on build server
-with sstate-cache and rmwork enabled it failed with what looks like a race
-condition when scanning the patch files:
+Builds OK but results in the network no longer being started
+automatically at boot up - due to "eth0" now becoming "enp0s3".
 
-17:45:36 ERROR: Error executing a python function in /home/builder/src/base=
-/poky/meta/recipes-extended/mailx/mailx_12.5.bb:
-17:45:36=20
-17:45:36 The stack trace of python calls that resulted in this exception/fa=
-ilure was:
-17:45:36 File: 'do_cve_check', lineno: 17, function: <module>
-17:45:36      0013:    else:
-17:45:36      0014:        bb.note("Failed to update CVE database, skipping=
- CVE check")
-17:45:36      0015:
-17:45:36      0016:
-17:45:36  *** 0017:do_cve_check(d)
-17:45:36      0018:
-17:45:37 File: 'do_cve_check', lineno: 8, function: do_cve_check
-17:45:37      0004:    Check recipe for patched and unpatched CVEs
-17:45:37      0005:    """
-17:45:37      0006:
-17:45:37      0007:    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", Tru=
-e)):
-17:45:37  *** 0008:        patched_cves =3D get_patches_cves(d)
-17:45:37      0009:        patched, unpatched =3D check_cves(d, patched_cve=
-s)
-17:45:37      0010:        if patched or unpatched:
-17:45:37      0011:            cve_data =3D get_cve_info(d, patched + unpat=
-ched)
-17:45:37      0012:            cve_write_data(d, patched, unpatched, cve_da=
-ta)
-17:45:37 File: 'cve-check.bbclass', lineno: 13, function: get_patches_cves
-17:45:37      0009:    cve_match =3D re.compile("CVE:( CVE\-\d+\-\d+)+")
-17:45:37      0010:    patched_cves =3D set()
-17:45:37      0011:    for url in src_patches(d):
-17:45:37      0012:        patch_file =3D bb.fetch.decodeurl(url)[2]
-17:45:37  *** 0013:        with open(patch_file, "r") as f:
-17:45:37      0014:            patch_text =3D f.read()
-17:45:37      0015:
-17:45:37      0016:        # Search for the "CVE: " line
-17:45:37      0017:        match =3D cve_match.search(patch_text)
-17:45:37 Exception: IOError: [Errno 2] No such file or directory: '/home/bu=
-ilder/src/base/build/tmp/work/corei7-64-linux/mailx/12.5-r2/heirloom-mailx_=
-12.5-1.diff'
-17:45:37=20
-17:45:37 ERROR: Function failed: do_cve_check
+Adding an entry for enp0s3 to the init-ifupdown interfaces file is a
+solution. Running "touch /etc/udev/rules.d/80-net-name-slot.rules" as
+suggested by the eudev Wiki (to force the interface name back eth0)
+seems to work too.
 
-So could this be caused by cve-check changes or is this just a side effect
-of some other recipe problems?
+  https://wiki.gentoo.org/wiki/Eudev
 
-I could not see that kind of fixes in master.
+Is there a recommended migration path so that the primary ethernet
+interface is brought up automatically, as it was before?
 
--Mikko=
+> - libgudev is not provided by eudev as it was with udev before
+> - We can now drop usbutils_007 since usbutils_008 is now compatible
+>   also with eudev, and not only with systemd's udev
+> - Adds new eudev package to maintainers.inc
+>
+> The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
+>
+>   uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib hsalejandro/eudev
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/eudev
+>
+> Alejandro Hernandez (4):
+>   eudev: Replaces udev with eudev for compatibility when sysvinit on
+>     newer kernels
+>   libgudev: Fix for new eudev implementation
+>   usbutils: Fix for new eudev implementation
+>   maintainers.inc: Add new eudev package and change maintainership fore
+>     udev
+>
+>  meta-yocto/conf/distro/include/maintainers.inc     |   2 +-
+>  meta/conf/distro/include/default-providers.inc     |   2 +-
+>  meta/recipes-bsp/usbutils/usbutils-008/iconv.patch |  41 --------
+>  meta/recipes-bsp/usbutils/usbutils/iconv.patch     |  29 +++---
+>  meta/recipes-bsp/usbutils/usbutils_007.bb          |  31 ------
+>  meta/recipes-bsp/usbutils/usbutils_008.bb          |   5 +-
+>  .../udev/{udev => eudev}/devfs-udev.rules          |   0
+>  meta/recipes-core/udev/{udev => eudev}/init        |   0
+>  meta/recipes-core/udev/{udev => eudev}/links.conf  |   0
+>  meta/recipes-core/udev/{udev => eudev}/local.rules |   0
+>  .../udev/{udev => eudev}/permissions.rules         |   0
+>  meta/recipes-core/udev/{udev => eudev}/run.rules   |   0
+>  meta/recipes-core/udev/{udev => eudev}/udev-cache  |   0
+>  .../udev/{udev => eudev}/udev-cache.default        |   0
+>  meta/recipes-core/udev/{udev => eudev}/udev.rules  |   0
+>  meta/recipes-core/udev/eudev_3.1.5.bb              |  83 +++++++++++++++
+>  meta/recipes-core/udev/udev.inc                    | 112 ---------------------
+>  ...yboard_force_release.sh-shell-script-path.patch |  35 -------
+>  ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch |  29 ------
+>  ...c-Makefile.am-Check-for-input.h-and-input.patch |  52 ----------
+>  .../recipes-core/udev/udev/add-install-ptest.patch |  86 ----------------
+>  .../udev/udev/avoid-mouse-autosuspend.patch        |  25 -----
+>  .../udev/udev/fix_rule-syntax-regex-ptest.patch    |  58 -----------
+>  meta/recipes-core/udev/udev/run-ptest              |   5 -
+>  meta/recipes-core/udev/udev_182.bb                 |   9 --
+>  meta/recipes-gnome/libgudev/libgudev_230.bb        |   3 +-
+>  26 files changed, 102 insertions(+), 505 deletions(-)
+>  delete mode 100644 meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
+>  delete mode 100644 meta/recipes-bsp/usbutils/usbutils_007.bb
+>  rename meta/recipes-core/udev/{udev => eudev}/devfs-udev.rules (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/init (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/links.conf (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/local.rules (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/permissions.rules (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/run.rules (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/udev-cache (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/udev-cache.default (100%)
+>  rename meta/recipes-core/udev/{udev => eudev}/udev.rules (100%)
+>  create mode 100644 meta/recipes-core/udev/eudev_3.1.5.bb
+>  delete mode 100644 meta/recipes-core/udev/udev.inc
+>  delete mode 100644 meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
+>  delete mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
+>  delete mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
+>  delete mode 100644 meta/recipes-core/udev/udev/add-install-ptest.patch
+>  delete mode 100644 meta/recipes-core/udev/udev/avoid-mouse-autosuspend.patch
+>  delete mode 100644 meta/recipes-core/udev/udev/fix_rule-syntax-regex-ptest.patch
+>  delete mode 100644 meta/recipes-core/udev/udev/run-ptest
+>  delete mode 100644 meta/recipes-core/udev/udev_182.bb
+>
+> --
+> 2.6.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
