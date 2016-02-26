@@ -1,30 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 708277742C
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 301B37744C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 17:54:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1QHrRnW009167 for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 17:54:20 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id md_MvE8M4IFB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 17:54:20 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1QHsFL2009187
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 17:54:16 GMT
-Message-ID: <1456509255.11498.104.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Feb 2016 17:54:15 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: mirrors/own-mirrors/sanity: Updates after npm fetcher addition
+	Fri, 26 Feb 2016 18:45:10 +0000 (UTC)
+Received: (qmail 4340 invoked by uid 1003); 26 Feb 2016 18:45:11 -0000
+Received: from unknown (HELO ?192.168.11.140?)
+	(philip@opensdr.com@71.171.15.136)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	26 Feb 2016 18:45:10 -0000
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1456508168.11498.95.camel@linuxfoundation.org>
+From: Philip Balister <philip@balister.org>
+Message-ID: <56D09D35.8040002@balister.org>
+Date: Fri, 26 Feb 2016 13:45:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <1456508168.11498.95.camel@linuxfoundation.org>
+Subject: Re: Yocto Project Status WW09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 17:54:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Feb 2016 18:45:11 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Update the classes after the addition of the npm fetcher to
-match the other fetcher additions.
+On 02/26/2016 12:36 PM, Richard Purdie wrote:
+> Current Dev Position: YP 2.1 M3
+> Next Deadline: YP 2.1 M3 Cutoff (Feature Freeze) February 29, 2016
+>  
+> SWAT team rotation: Tracy -> Alejandero
+> https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+>  
+> Key Status/Updates:
+> * 2.1 Feature Freeze is upon us. If there is any feature you want to 
+>   see in 2.1 which isn't going to make the deadline, talk to RP.
+> * We plan to release 2.1 M2 despite the sato glib issue, granting an
+>   exception for the high bug and then  concentrate on 2.1 M3.
+> * 2.1 M3 build won't happen until sato glib issue resolved.
+> * Also planning to merge the gobject-introspection changes 
+> * Pseudo connection issue appears to be addressed with increased retry 
+>   numbers. Tests ongoing.
+> * We're about to try and transition meta-yocto within meta-yocto to 
+>   meta-poky. The amount of pain this is causing is horrible :(.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thanks for doing this. Can you summarize the pain? Are there any
+important lessons here?
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 488b86d..9e6d483 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -54,6 +54,7 @@ p4://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \n \
- osc://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- https?$://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \n \
- ftp://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
-+npm://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- cvs://.*/.*     http://sources.openembedded.org/ \n \
- svn://.*/.*     http://sources.openembedded.org/ \n \
- git://.*/.*     http://sources.openembedded.org/ \n \
-@@ -63,6 +64,7 @@ p4://.*/.*      http://sources.openembedded.org/ \n \
- osc://.*/.*     http://sources.openembedded.org/ \n \
- https?$://.*/.* http://sources.openembedded.org/ \n \
- ftp://.*/.*     http://sources.openembedded.org/ \n \
-+npm://.*/.*     http://sources.openembedded.org/ \n \
- ${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
- ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
- "
-diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
-index e235227..12b4267 100644
---- a/meta/classes/own-mirrors.bbclass
-+++ b/meta/classes/own-mirrors.bbclass
-@@ -9,4 +9,5 @@ p4://.*/.*      ${SOURCE_MIRROR_URL}
- osc://.*/.*     ${SOURCE_MIRROR_URL}
- https?$://.*/.* ${SOURCE_MIRROR_URL}
- ftp://.*/.*     ${SOURCE_MIRROR_URL}
-+npm://.*/.*     ${SOURCE_MIRROR_URL}
- }
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 31f01ca..a0553ee 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -841,7 +841,7 @@ def check_sanity_everybuild(status, d):
-     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
-     protocols = ['http', 'ftp', 'file', 'https', \
-                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
--                 'bzr', 'cvs']
-+                 'bzr', 'cvs', 'npm']
-     for mirror_var in mirror_vars:
-         mirrors = (d.getVar(mirror_var, True) or '').replace('\\n', '\n').split('\n')
-         for mirror_entry in mirrors:
+Philip
 
-
+> * We're considering a bump in the minimum git version requirements 
+>   due to the requirements of various pieces of project tooling.
+> * We're rebuilding jethro 2.0.1 due to the glibc security issue, now 
+>   at -rc7.
+>  
+> Key YP 2.1 Dates:
+> YP 2.1 M2 Target release date is February 12, 2016 (Will slip a few
+> weeks.)
+> YP 2.1 M3 Cutoff (Feature Freeze) date is February 29, 2016 noon GMT
+> YP 2.1 M3 Target release date is March 18, 2016
+> YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - Stabilization only
+> milestone.
+> YP 2.1 Final Release Target: April 29, 2016
+>  
+> Key Status Links for YP:
+> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.1_Status
+> https://wiki.yoctoproject.org/wiki/Yocto_2.1_Schedule
+> https://wiki.yoctoproject.org/wiki/Yocto_2.1_Features
+>  
+> Tracking Metrics:
+>             WDD 2565 (last week 2585)
+> (https://wiki.yoctoproject.org/charts/combo.html)
+>  
+> [If anyone has suggestions for other information you’d like to see on
+> this weekly status update, let us know!]
+>  
+> Thanks,
+>  
+> Richard
+> 
+> 
+> 
+> 
+> 
 
