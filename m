@@ -1,44 +1,46 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 91B8B77417
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A1F987665F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 11:17:11 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id x65so50789234pfb.1
+	Fri, 26 Feb 2016 12:33:48 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id 9so115657272iom.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 03:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=jlzbPsH2KGbvfXSHBZ8O1FyrAu74qqJ5Jxyz+HvP4SY=;
-	b=s7ARKMIMvZ+v1K4QxSMtBJBUOxibmMkjI6N7qiXQd6GD/1khFhUgtZU9ejB1THisgD
-	z3lwGOmAMKdM7pk6oPLCHpn824kltd+GUX6fyfm0GLFmr5TeLZJyxZHZKMzWT5QnHlf+
-	apkoANyLpBAHRgVhUyaEDM2E7HpszaLM7U1PfpOfEU8cCaY1fLRuy/GNQzae4a9p00FF
-	cpLHOhvcQSa4y3GokhGyOy9GSjk5HJjG8Aynx62B090qk9aahxHyog4MlzXAve1puMRG
-	LwQfq3p1VadknCeJCIfG3afpzGezul23ILGlfVR4wxYj0NTiI2gTtTeUQrtweETIfrtt
-	dGVA==
+	Fri, 26 Feb 2016 04:33:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JuqC0tSF01jWqp43vy9+t0AlEjTGf+TtGXWOZvCOzDE=;
+	b=N1568PSjnpiHZ90daI5yy+zdQjRM6MreZWG5cgfv8yiIcCYfh79t2WhEQFx0+5CKUZ
+	viLRhYXy9+QTicwhkKXfoa3WYyerYs83bvatwQSLFJIOiW/ZSx2q1AEpOK3/kvYgI71d
+	2RfJMijF/0otlTU8negMwfu5fvV7W947eRhHVFQIdNcfTY3UnxEpQDyRZCtNNRE7GJ12
+	1TyvrZSVl8ffoWnhYj/2KjpkCTfwYv3g+BqpCdXT7aqkUuwOFOB7UA3tlo2futzJI3h7
+	7Fj2QzpOiVhqXy+RoaI4B15OEe7FJoFwcE++BGNC6+HtF2b0Nu/SBCFniK671PH/IvNm
+	TdUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=jlzbPsH2KGbvfXSHBZ8O1FyrAu74qqJ5Jxyz+HvP4SY=;
-	b=kwruiHtHL9dwOvGNqxcG1spp/+w+uZp4gwB1AVvtTRlxtKkMS47lEa9uYrWhreaWcL
-	4viYuGZ3zV+ziTsj1zUC6vaHu+rVKYPYac9fvCKpHDVYQ4Zg7QwKGRCDAU9uqBYenzyv
-	n2OZuSK2OSt+t1bVe2F6OkwjAGWbwABHC5yeSpJ3IbOkvuLNYCUOqIgd5rWGhWBtZago
-	qwrbIP6SaRVsMxZaV+OPuq5hXjfX74CL2+57gsbGOET+MbGpgHjV5QjmyoyT3PRSpmwf
-	KP554BMrvgt8e706weZPFrtZACeczLfyzZKNOVbIHL2J5cKYvXrlT5tkvvjthvSw9oCn
-	g6BQ==
-X-Gm-Message-State: AD7BkJJ9ewXj3ELYw569usrLJbwzYMtJ0C/addYPYc8uv3p44sO45J+Jpulf2LS8EQd/WP8h2xFqNS2A9HaLQw==
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JuqC0tSF01jWqp43vy9+t0AlEjTGf+TtGXWOZvCOzDE=;
+	b=NIGxzUvPm2eJDBimalALu6r04muLv8JLat5AqULEKBSVvVZnPCKcrv4tIDr3wuCh9j
+	uHu46V0yNTsS/C0bnwKGYdxe/KGBeG2YnGvk4zCwF0d1JO0w8wp8yLdYcrYr/axUTKLO
+	7yH1SyXMzvRx6WIaDoP5T3m98+D9HZB0E3tN5D2MCRVxg+6mA3ZxtRVIgZ+XMxio+QoD
+	P8zzFKYJEzbHIJ7WgNFo9Gie70OZe1jsZISwAkyFhnFkuWCIZ9+BvV57Pgluyfp835bq
+	Lg9MS4nU33kgSstO4SIKBTN1JJ/UkPTngp99KzmmIr0B1iHpo67WCZUQTqfLLNB9CyCy
+	G+/w==
+X-Gm-Message-State: AG10YOT1rJcoALuuBnHOuuotfaORD0jiAuA/S1AX59L9mthM8GUKoJxUWqFplUNmy4z+412ZylHUpUcnBBWBlj69
+X-Received: by 10.107.3.220 with SMTP id e89mr7452015ioi.99.1456490029017;
+	Fri, 26 Feb 2016 04:33:49 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.98.72.193 with SMTP id q62mr1212256pfi.117.1456485431999;
-	Fri, 26 Feb 2016 03:17:11 -0800 (PST)
-Received: by 10.66.155.201 with HTTP; Fri, 26 Feb 2016 03:17:11 -0800 (PST)
-In-Reply-To: <20160226110428.GA2557@jama>
+Received: by 10.107.162.70 with HTTP; Fri, 26 Feb 2016 04:33:29 -0800 (PST)
+In-Reply-To: <CANwerB0bs=0b0r_mj+VJ+rgYz56jKUuSiUgs7kdK+tD9f=Ot8A@mail.gmail.com>
 References: <1456483945-16340-1-git-send-email-net147@gmail.com>
 	<20160226110428.GA2557@jama>
-Date: Fri, 26 Feb 2016 22:17:11 +1100
-Message-ID: <CANwerB0bs=0b0r_mj+VJ+rgYz56jKUuSiUgs7kdK+tD9f=Ot8A@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CANwerB0bs=0b0r_mj+VJ+rgYz56jKUuSiUgs7kdK+tD9f=Ot8A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 Feb 2016 12:33:29 +0000
+Message-ID: <CAJTo0LYS-u77Lg+Q4OWT9syYvQVP-631RQ+N9GRRoBKg+6r3Tw@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ffmpeg: fix build when DISTRO_FEATURES doesn't contain x11
@@ -54,65 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 11:17:12 -0000
+X-List-Received-Date: Fri, 26 Feb 2016 12:33:49 -0000
+Content-Type: multipart/alternative; boundary=001a113f0e7ccc8111052cab828b
+
+--001a113f0e7ccc8111052cab828b
 Content-Type: text/plain; charset=UTF-8
 
-Hi Martin,
+On 26 February 2016 at 11:17, Jonathan Liu <net147@gmail.com> wrote:
 
-It doesn't work in PACKAGECONFIG..... that is the first thing I tried.
+> It doesn't work in PACKAGECONFIG..... that is the first thing I tried.
+>
 
-Regards,
-Jonathan
+I'd call that a bug, and should be simple to resolve (pass expand=True when
+fetching getVarFlags in the PACKAGECONFIG handling code).
 
-On 26 February 2016 at 22:04, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Fri, Feb 26, 2016 at 09:52:25PM +1100, Jonathan Liu wrote:
->> If avdevice is enabled, libxv is used if it is detected by configure
->> for the XV outdev. However, we can't depend on libxv for avdevice when
->> DISTRO_FEATURES doesn't contain x11 as this will result in an error.
->>
->> Fix this by adding a libxv dependency only when the avdevice
->> PACKAGECONFIG is enabled and DISTRO_FEATURES contains x11. XV outdev
->> is only one of many that are supported by avdevice so it is still
->> useful to enable avdevice even if libxv is not available.
->>
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->>  meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
->> index 72393b3..f29c05e 100644
->> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
->> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
->> @@ -23,11 +23,12 @@ SRC_URI[sha256sum] = "25bcedbdafadac3d09c325c1d46a51f53d858b26a260d5aed6b4f17fea
->>  PROVIDES = "libav libpostproc"
->>
->>  DEPENDS = "alsa-lib zlib libogg yasm-native"
->> +DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'avdevice', bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxv', '', d), '', d)}"
->>
->>  inherit autotools pkgconfig
->>
->>  PACKAGECONFIG ??= "avdevice avfilter gpl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
->> -PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice, libxv"
->> +PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
->
-> bb.utils.contains didn't work in PACKAGECONFIG?
->
-> Why not
-> PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice, ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxv', '', d)"
->
->>  PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
->>  PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
->>  PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
->> --
->> 2.7.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Ross
 
+--001a113f0e7ccc8111052cab828b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 February 2016 at 11:17, Jonathan Liu <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:net147@gmail.com" target=3D"_blank">net147@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":ent" class=3D"a3s" st=
+yle=3D"overflow:hidden">It doesn&#39;t work in PACKAGECONFIG..... that is t=
+he first thing I tried.<br></div></blockquote></div><br>I&#39;d call that a=
+ bug, and should be simple to resolve (pass expand=3DTrue when fetching get=
+VarFlags in the PACKAGECONFIG handling code).</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113f0e7ccc8111052cab828b--
