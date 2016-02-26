@@ -1,30 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C6F7477439
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F8C977443
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 14:24:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Feb 2016 06:24:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,498,1449561600"; d="scan'208";a="895488259"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2016 06:24:14 -0800
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 808D76A4004; Fri, 26 Feb 2016 07:12:03 -0800 (PST)
-Received: from 10.252.8.77 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Fri, 26 Feb 2016 17:12:03 +0200 (EET)
-Message-ID: <56013.10.252.8.77.1456499523.squirrel@linux.intel.com>
-In-Reply-To: <1456496056-31812-1-git-send-email-net147@gmail.com>
-References: <1456496056-31812-1-git-send-email-net147@gmail.com>
-Date: Fri, 26 Feb 2016 17:12:03 +0200 (EET)
-From: alexander.kanavin@linux.intel.com
-To: "Jonathan Liu" <net147@gmail.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+	Fri, 26 Feb 2016 14:26:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1QEQpva018347
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 26 Feb 2016 06:26:51 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 26 Feb 2016 06:26:51 -0800
+To: <alexander.kanavin@linux.intel.com>
+References: <cover.1456456877.git.mark.hatle@windriver.com>
+	<39dcc8978920aeaf0eeb206b7292f32af4b775f7.1456456877.git.mark.hatle@windriver.com>
+	<55970.10.252.8.77.1456498907.squirrel@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56D060AA.6020100@windriver.com>
+Date: Fri, 26 Feb 2016 08:26:50 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.6.0
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
+In-Reply-To: <55970.10.252.8.77.1456498907.squirrel@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ffmpeg: add bzlib, lzma and xv PACKAGECONFIGs
+Subject: Re: [PATCH 1/3 v2] rpm: Uprev to rpm-5.4.16 (pre) and rpm-5.4+cvs to current CVS head
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,13 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 14:24:14 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Feb 2016 14:26:51 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-> +PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
+On 2/26/16 9:01 AM, alexander.kanavin@linux.intel.com wrote:
+>> +Set the DB 6 version to match oe-core db 6.0.30
+>> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> +-    [db-6.1], [db_create], [db.h],
+>> ++    [db-6.0], [db_create], [db.h],
+> 
+> Why not update the oe-core recipe of db to 6.1 instead? Rpm is the only
+> thing that is holding it back.
 
-Ah, ffmpeg already had a way to do it :) This patch is fine.
+Because today is feature freeze, and I'm not going to introduce a new BerkleyDB
+version on the day of feature freeze.  The only thing I can test on is RPM --
+and there may be other users.
 
-Alex
+The patch was done as a single unit specifically so when DB-6.1 is introduced,
+it's VERY simple to remove.
+
+> Note that last time I tried, it broke completely when trying to create an
+> image, but maybe the problem has been fixed in the rpm upstream meanwhile:
+> http://lists.openembedded.org/pipermail/openembedded-core/2015-August/109187.html
+
+There were two issues affecting image generation.  One was an upgrade of the rpm
+python module broke the PACKAGEORIGIN support we rely on.  The other was a
+processing issue in the package_manager.py.  It was splitting on '|', and if any
+of the lines came back as warnings (say from BerkleyDB) it would fall over.
+
+Both of the issues were addressed in this set.
+
+--Mark
+
+> Alex
+> 
+> 
+> 
+
 
