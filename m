@@ -1,44 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F70D770A6
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BAF0F77389
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 08:24:14 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id a4so7776801wme.3
+	Fri, 26 Feb 2016 09:12:13 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id x65so49143983pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 00:24:15 -0800 (PST)
+	Fri, 26 Feb 2016 01:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=FsuZJ9jzc19BUg5eysCSRg8U7UoDRtAltFI3RADBLKg=;
-	b=tmzZqNLXxZtsgy3tl00eNPBsYukRj3jqs6YSVrTu2FOGA0lFW/QDFkH85S4dumj9ZE
-	1pSWfWyv2XlBCtAMDYWzepbYiBJ/fXm7MH5nVSQvf9WdrN0UgUedDrB/PnXefFUbQr8k
-	5+s4u+K7KrE7f8AEBXdNHH7PHBqr9p9ZdrPfVaeGVoSfrvtIAm5GNBVkFF3ZVsp1YfvW
-	VPCZEk7+p5hsznmtt6kRAuwOsxp7jbJ1TlFVqQdejoPT/SYET9hbg2a6le3DFkZWqRtC
-	pI1Cnjpt787JZbgV2K6ZurVfrSCVn04xXtAemgSqi4+T7Peq7KGY+Z+zmYZmWYkWRLRP
-	nWeQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=5fuKNcfiP6DSFpEradGUItnFH+IXHjWQJ3QgrNpPU7c=;
+	b=p8ThnksW1jiH0b1a6M9ID4f/47Bx5CUIcxPxC8/HUqRFAgg9uH/HJb4atFFrbpQZk0
+	zWTEelSi+9Absqop48Me2vuDrrhiZUjqEHlER4VsqlNaKnQSopwCrkRCVJ+q0pQVoiJN
+	ZlKpNzGXTvKHnFzhjLkUfh0ROUN3um+3nBvxkQxzWcIRgqyUBdjEran3HW0rbM6+CR9c
+	51MdepGJ9dVKBaupfVKjkX7O6s/96dU3822DKfJ/RRbVeKkjlr1muojktkq0U7j1fWD6
+	Ed0fKUN93Dhamrm0HlJjn0Eo6RCvveYXj7Ouojcv8zGu8Ivn8+tU3iWf21kAn9XBMtxK
+	RIOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=FsuZJ9jzc19BUg5eysCSRg8U7UoDRtAltFI3RADBLKg=;
-	b=MSZhPHTnBLeVRR3uJZBQ/rO54QbBd8jb0dDVGrW+ICwhEgM/rh3i33TeSnv962egP1
-	jZhFhZkkoCvIstmgEAloo+ETHZXhh68fRpC0ztKNfGNK6AL8sXTrwwzoVT28wuttuWZS
-	KFK1cizP3cJhGLtq2RXCKTpchHoAM8UpX3hihIvOqRa7cYPf0HrMY++WCDj2YNhjPhvU
-	8GWSasVb2QxLLpnsolkgjNk1MdE7lh8xthX5X+TM+y1BX1PaEOm+kKg/nDBx5XfWPama
-	OO62vsIKNTXorjCE30u4Bf9s7Vef3zhyqEnRXAzsqiklco3fP060yHo7UvH3pgaU5Osx
-	Iz7g==
-X-Gm-Message-State: AD7BkJKuFPBLzs2F2qiDiOpHhboSjKnZcilCrpRIp9ldBR7Sy+N6I1pmJe06QJCz4sA3DO78Txw/5rO+hx7avg==
-MIME-Version: 1.0
-X-Received: by 10.194.7.195 with SMTP id l3mr296723wja.43.1456475055060; Fri,
-	26 Feb 2016 00:24:15 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Fri, 26 Feb 2016 00:24:15 -0800 (PST)
-In-Reply-To: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
-Date: Fri, 26 Feb 2016 00:24:15 -0800
-Message-ID: <CAJ86T=WM=9YKka3w9qQtRDRnJFDXc+uSS213NFN2aNUEwTdF8A@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Replaces udev with eudev for compatibility when using sysvinit on newer kernels
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=5fuKNcfiP6DSFpEradGUItnFH+IXHjWQJ3QgrNpPU7c=;
+	b=GNxidKmTL+RAoLJGM5PjOVej72NjNigIIGaLc7wCXkQ/jZuy84sZWOgAQAvkApNzVO
+	zg/LW6ABMGyQc+Uk7KLGR6U8db52pB3ymmacTr6c+LQUFHlI48cuxFZQffwBsk30mXPw
+	6jrTKZQPXSSPOii/G66nqaSzdKXWUMILRL99dysDLR4S1KIACYUa3B+IMokZPqeOAIGc
+	yn7C6Fq4/ODZEHqQdnkxFKHqy0yKKw4aL7/DtRpRluzSsGQAWjNQyco+o7Gou9wKs/ni
+	3BUj+LehoKiE06vqfwLsmubnQTYioPmZwn/q1d/F5YaT+0NjTcDkkXPD96chQZM5AcOb
+	/m1A==
+X-Gm-Message-State: AD7BkJL3fG/8QMSHlRjxymQyKAg4Twr/84peWRfB9ve3OLHCbCzwCmEELiin+y3yje4ZiA==
+X-Received: by 10.98.74.144 with SMTP id c16mr536342pfj.129.1456477933973;
+	Fri, 26 Feb 2016 01:12:13 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	i13sm17695968pfi.95.2016.02.26.01.12.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Feb 2016 01:12:13 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Feb 2016 20:12:21 +1100
+Message-Id: <1456477941-27719-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.7.1
+Subject: [PATCH] rootfs-postcommands: fix ssh_allow_empty_password checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,106 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 08:24:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Feb 2016 09:12:13 -0000
 
-On Thu, Feb 25, 2016 at 3:34 PM, Alejandro Hernandez
-<alejandro.hernandez@linux.intel.com> wrote:
-> udev has started to fail on new kernels (4.4), due to being deprecated in favor
-> of systemd's udev implementation. To maintain a sysvinit alternative we also
-> need to provide an alternative to udev. Eudev is a fork of systemds udev,
-> this new eudev recipe provides upstream udev 220 funcitonality.
+The ssh_allow_empty_password function doesn't check if
+sshd_config_readonly exists before running sed which can result in an
+error if sshd_config exists but sshd_config_readonly doesn't.
 
-Builds OK but results in the network no longer being started
-automatically at boot up - due to "eth0" now becoming "enp0s3".
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Adding an entry for enp0s3 to the init-ifupdown interfaces file is a
-solution. Running "touch /etc/udev/rules.d/80-net-name-slot.rules" as
-suggested by the eudev Wiki (to force the interface name back eth0)
-seems to work too.
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index f5d6147..e184667 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -112,10 +112,12 @@ zap_empty_root_password () {
+ # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
+ #
+ ssh_allow_empty_password () {
+-	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config_readonly
+-		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config_readonly
+-	fi
++	for config in sshd_config sshd_config_readonly; do
++		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
++			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
++			sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
++		fi
++	done
+ 
+ 	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+ 		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
+-- 
+2.7.1
 
-  https://wiki.gentoo.org/wiki/Eudev
-
-Is there a recommended migration path so that the primary ethernet
-interface is brought up automatically, as it was before?
-
-> - libgudev is not provided by eudev as it was with udev before
-> - We can now drop usbutils_007 since usbutils_008 is now compatible
->   also with eudev, and not only with systemd's udev
-> - Adds new eudev package to maintainers.inc
->
-> The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
->
->   uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
->
-> are available in the git repository at:
->
->   git://git.yoctoproject.org/poky-contrib hsalejandro/eudev
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/eudev
->
-> Alejandro Hernandez (4):
->   eudev: Replaces udev with eudev for compatibility when sysvinit on
->     newer kernels
->   libgudev: Fix for new eudev implementation
->   usbutils: Fix for new eudev implementation
->   maintainers.inc: Add new eudev package and change maintainership fore
->     udev
->
->  meta-yocto/conf/distro/include/maintainers.inc     |   2 +-
->  meta/conf/distro/include/default-providers.inc     |   2 +-
->  meta/recipes-bsp/usbutils/usbutils-008/iconv.patch |  41 --------
->  meta/recipes-bsp/usbutils/usbutils/iconv.patch     |  29 +++---
->  meta/recipes-bsp/usbutils/usbutils_007.bb          |  31 ------
->  meta/recipes-bsp/usbutils/usbutils_008.bb          |   5 +-
->  .../udev/{udev => eudev}/devfs-udev.rules          |   0
->  meta/recipes-core/udev/{udev => eudev}/init        |   0
->  meta/recipes-core/udev/{udev => eudev}/links.conf  |   0
->  meta/recipes-core/udev/{udev => eudev}/local.rules |   0
->  .../udev/{udev => eudev}/permissions.rules         |   0
->  meta/recipes-core/udev/{udev => eudev}/run.rules   |   0
->  meta/recipes-core/udev/{udev => eudev}/udev-cache  |   0
->  .../udev/{udev => eudev}/udev-cache.default        |   0
->  meta/recipes-core/udev/{udev => eudev}/udev.rules  |   0
->  meta/recipes-core/udev/eudev_3.1.5.bb              |  83 +++++++++++++++
->  meta/recipes-core/udev/udev.inc                    | 112 ---------------------
->  ...yboard_force_release.sh-shell-script-path.patch |  35 -------
->  ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch |  29 ------
->  ...c-Makefile.am-Check-for-input.h-and-input.patch |  52 ----------
->  .../recipes-core/udev/udev/add-install-ptest.patch |  86 ----------------
->  .../udev/udev/avoid-mouse-autosuspend.patch        |  25 -----
->  .../udev/udev/fix_rule-syntax-regex-ptest.patch    |  58 -----------
->  meta/recipes-core/udev/udev/run-ptest              |   5 -
->  meta/recipes-core/udev/udev_182.bb                 |   9 --
->  meta/recipes-gnome/libgudev/libgudev_230.bb        |   3 +-
->  26 files changed, 102 insertions(+), 505 deletions(-)
->  delete mode 100644 meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
->  delete mode 100644 meta/recipes-bsp/usbutils/usbutils_007.bb
->  rename meta/recipes-core/udev/{udev => eudev}/devfs-udev.rules (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/init (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/links.conf (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/local.rules (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/permissions.rules (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/run.rules (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/udev-cache (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/udev-cache.default (100%)
->  rename meta/recipes-core/udev/{udev => eudev}/udev.rules (100%)
->  create mode 100644 meta/recipes-core/udev/eudev_3.1.5.bb
->  delete mode 100644 meta/recipes-core/udev/udev.inc
->  delete mode 100644 meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
->  delete mode 100644 meta/recipes-core/udev/udev/0001-mtd_probe.h-Add-stdint.h-as-it-was-removed-from-mtd-.patch
->  delete mode 100644 meta/recipes-core/udev/udev/0002-configure.ac-Makefile.am-Check-for-input.h-and-input.patch
->  delete mode 100644 meta/recipes-core/udev/udev/add-install-ptest.patch
->  delete mode 100644 meta/recipes-core/udev/udev/avoid-mouse-autosuspend.patch
->  delete mode 100644 meta/recipes-core/udev/udev/fix_rule-syntax-regex-ptest.patch
->  delete mode 100644 meta/recipes-core/udev/udev/run-ptest
->  delete mode 100644 meta/recipes-core/udev/udev_182.bb
->
-> --
-> 2.6.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
