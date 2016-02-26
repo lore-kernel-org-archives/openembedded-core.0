@@ -1,25 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E961F77337
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 358C877353
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 01:45:06 +0000 (UTC)
+	Fri, 26 Feb 2016 01:45:08 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1Q1j5rj010959
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1Q1j8Nq016728
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Feb 2016 17:45:05 -0800 (PST)
+	Thu, 25 Feb 2016 17:45:08 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 25 Feb 2016 17:45:05 -0800
+	Thu, 25 Feb 2016 17:45:07 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<ross.burton@intel.com>, <alejandro.hernandez@linux.intel.com>,
 	<richard.purdie@linuxfoundation.org>
-Date: Thu, 25 Feb 2016 20:44:53 -0500
-Message-ID: <cover.1456449257.git.hongxu.jia@windriver.com>
+Date: Thu, 25 Feb 2016 20:44:54 -0500
+Message-ID: <91b6f37e1908f6222c590b68c53ccc70e041e08e.1456449257.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1456449257.git.hongxu.jia@windriver.com>
+References: <cover.1456449257.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/15] fix python buildpaths QA issue
+Subject: [PATCH 07/15] insane:add buildpaths QA ignore pattern
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,107 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 01:45:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Feb 2016 01:45:09 -0000
+Content-Type: text/plain
 
-- Patch 01-06 has be sent in previous pull request.
+Add variable QA_BUILDPATHS_SKIP_PATTERN to ignore buildpaths QA
+while filename (do not include directory) matches patterns,
+the patterns are Unix shell style and separated by space.
 
-- add buildpaths QA ignore pattern, and ignore Makefile by default
+[YOCTO #9169]
+[YOCTO #7058]
 
-- fix .pyc/.pyo buildpath QA issue
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/insane.bbclass | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-- fix python related buildpath QA issue
-
-Test Steps:
-
-vim local.conf
-...
-MACHINE ?= "qemux86-64"
-WARN_QA += "buildpaths"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
-...
-
-bitbake -k world
-
-In oe-core, these patches fixed 40+ recipes' buildpath QA issue,
-and fixed all python related buildpath QA issue.
-
-There are still 55 recipes left that has buildpath QA issue.
-
-//Hongxu
-
-The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
-
-  uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
-
-Hongxu Jia (15):
-  depmodwrapper-cross: nopackages to avoid QA [buildpaths] issue
-  gcc: use relative path for configure script
-  bison/gettext: add --with-bisonlocaledir to assign BISON_LOCALEDIR
-  openssl: substitute buildpath in source code
-  btrfs-tools: fix symlink creation multiple times
-  git: fix installed-vs-shipped QA Issue
-  insane:add buildpaths QA ignore pattern
-  python2/3: fix buildpath QA issue
-  bbclass distutils/distutils3: fix .pyc/.pyo buildpath
-  python-setuptools/python3-setuptools: use old-style install
-  python3-pip: use old-style install
-  bbclass distutils/distutils3/setuptools/setuptools3: clean up
-    DISTUTILS_INSTALL_ARGS
-  python-pygobject: fix buildpath QA issue
-  python-numpy: fix buildpaths QA issue
-  python-pycairo: fix buildpath QA issue
-
- meta/classes/distutils.bbclass                     |  8 +--
- meta/classes/distutils3.bbclass                    |  8 +--
- meta/classes/insane.bbclass                        | 13 +++++
- meta/classes/setuptools.bbclass                    |  5 --
- meta/classes/setuptools3.bbclass                   |  5 --
- meta/recipes-connectivity/openssl/openssl.inc      |  2 +-
- .../substitute-buildpath-in-source-code.patch      | 41 ++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2f.bb |  1 +
- .../gettext-0.19.6/add-with-bisonlocaledir.patch   | 58 ++++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.19.6.bb        |  4 ++
- .../bison/bison/add-with-bisonlocaledir.patch      | 58 ++++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.0.4.bb         |  1 +
- .../fix-symlink-creation-multiple-times.patch      | 46 ++++++++++++++++
- .../btrfs-tools/btrfs-tools_4.4.bb                 |  1 +
- meta/recipes-devtools/gcc/gcc-runtime.inc          |  3 +-
- meta/recipes-devtools/gcc/gcc-sanitizers.inc       |  3 +-
- meta/recipes-devtools/gcc/libgcc-common.inc        |  3 +-
- meta/recipes-devtools/gcc/libgfortran.inc          |  3 +-
- meta/recipes-devtools/git/git.inc                  |  2 +
- .../remove-build-path-in-comments.patch            | 30 +++++++++++
- .../recipes-devtools/python/python-numpy_1.10.4.bb |  1 +
- ...trip-off-build-path-in-purported-filename.patch | 62 ++++++++++++++++++++++
- .../python/python-pycairo_1.10.0.bb                | 22 ++++----
- .../python/python-pygobject_2.28.3.bb              |  5 ++
- .../python/python-setuptools_19.4.bb               |  2 -
- .../use-relative-path-to-compile-source-file.patch | 31 +++++++++++
- meta/recipes-devtools/python/python3-pip_8.0.0.bb  | 12 -----
- .../python/python3-setuptools_19.4.bb              |  8 +--
- .../use-relative-path-to-compile-source-file.patch | 31 +++++++++++
- meta/recipes-devtools/python/python3_3.5.1.bb      | 10 +++-
- meta/recipes-devtools/python/python_2.7.11.bb      |  8 +++
- .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  2 +
- 32 files changed, 438 insertions(+), 51 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/substitute-buildpath-in-source-code.patch
- create mode 100644 meta/recipes-core/gettext/gettext-0.19.6/add-with-bisonlocaledir.patch
- create mode 100644 meta/recipes-devtools/bison/bison/add-with-bisonlocaledir.patch
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-symlink-creation-multiple-times.patch
- create mode 100644 meta/recipes-devtools/python/python-numpy/remove-build-path-in-comments.patch
- create mode 100644 meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
- create mode 100644 meta/recipes-devtools/python/python/use-relative-path-to-compile-source-file.patch
- create mode 100644 meta/recipes-devtools/python/python3/use-relative-path-to-compile-source-file.patch
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 61936e1..57a3e42 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -592,11 +592,16 @@ def package_qa_hash_style(path, name, d, elf, messages):
+         package_qa_add_message(messages, "ldflags", "No GNU_HASH in the elf binary: '%s'" % path)
+ 
+ 
++# Ignore buildpaths QA while filename (do not include directory)
++# matches patterns, patterns are Unix shell style and separated by space
++QA_BUILDPATHS_SKIP_PATTERN ??= "Makefile"
+ QAPATHTEST[buildpaths] = "package_qa_check_buildpaths"
+ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     """
+     Check for build paths inside target files and error if not found in the whitelist
+     """
++    from fnmatch import fnmatch
++
+     # Ignore .debug files, not interesting
+     if path.find(".debug") != -1:
+         return
+@@ -609,6 +614,14 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     if path.find(name + "/CONTROL/") != -1 or path.find(name + "/DEBIAN/") != -1:
+         return
+ 
++    # Ignore matched pattern file
++    ignores = d.getVar('QA_BUILDPATHS_SKIP_PATTERN', True).split()
++    file = os.path.basename(path)
++    for ignore in ignores:
++        if fnmatch(file, ignore):
++            bb.note("Package %s skipping buildpaths QA: %s" % (name, path))
++            return
++
+     tmpdir = d.getVar('TMPDIR', True)
+     with open(path) as f:
+         file_content = f.read()
 -- 
 1.9.1
 
