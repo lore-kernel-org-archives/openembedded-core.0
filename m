@@ -1,46 +1,51 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EC438773C9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F1C00773E9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 11:01:40 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id c200so8436993wme.0
+	Fri, 26 Feb 2016 11:03:08 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id g62so65309833wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 03:01:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=VfAF+ULUgTZbR5j0P351+pozm4N80q4dkqDFczYodMY=;
-	b=D3He10nkhKidk6eh/bbwXremj67R81g8XfLmKVVhlfuj1Jru6uqekL3/QNvwtJGyBw
-	XkRmG/TJlhFAm7hpSh+EcZwEzkqMWtZzY9C5mbh1LEAi8vPvJlSzQ88Iz9E774kz2gZa
-	BYABqBam8wSmLxKWkNUWNwIH7dipV1fiFkO+JyRLpcxS3Xo0TxdpV1eTyBl3hsV+krd4
-	CbnV6Edo7s/Qabw6aSydwLHbdyKh4UEIOG2gbyuLG2m0veTJ18BoqhnyS2l1q+YyJfK9
-	cyZDuvrEVj73w1DikdOR5hB0lFJ9vjla3mBEvKbWc+NN5kiXN27U7suK+r27yQrTN3P+
-	TXcA==
+	Fri, 26 Feb 2016 03:03:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=jJtJLojdLHsL4uCVE3AU7qoEjxgSS3KHyMHq3CxxYf4=;
+	b=ZeAuxRkFpfZYZM2vsog1jaXrpLYg2Kh8kXN7NSK1kptBzUSpuBr5yJy3x3SbEzWFFQ
+	MoFp/28H4FA4G07hnJmDKYukvEPuYoqCVfjL4mAImNUCMgZN3HjRX3CW1U5Q8qnpiWCo
+	AftpJPSxuo2rnwYG0frpSqKIER0GyMNR6HVHZqob51Cy/mB7ptyGmMi7CIkD+c/KUg+i
+	c3iy8Vcz3BCZxw2R2DzVBwLu29bIvo9QJEINpQPSmtNL2Pi/jMuNA9HCLakYcaIcjzRL
+	ieIBCi+d6ww2nGTudXG+rbveElAL4T+92bNe9TzAkiEx9YibNVgzAOnMK8nFr2jSaFOt
+	eFBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VfAF+ULUgTZbR5j0P351+pozm4N80q4dkqDFczYodMY=;
-	b=VfcdNIr7IyD2TKYnqxLpchd26CfRDDnutgIDiM2adA1i9CjwkvcaVcGMSp7ZxrtBHu
-	x8IR4KFB0bnjcwcotBjEnA7ykFawaSFsQ6d8ybaxU/q0NnXtwOXOCzDMsUk21Ps4i10t
-	ZBhp3Oo2jkBQdhl8T8iYvpK0Ds1ub8uOPLcr7Tuk30GQDLCZI52TANWTwaBBD7PBjlss
-	SYrhFnq2wANA47OH2kJL1xGxUxUc9ORzqAHO4bzjSRWE+a95lHb99bqNwlIJnQAaLc/X
-	XYoC0d6USJeqSgrTaboy/AEc4ftknfT2I1d1am6ceAAzj2mXu99oZFryTCpg1x+Pk0ih
-	3i4w==
-X-Gm-Message-State: AD7BkJJ44vlYGacga+kaM92+1Tn0+bLq3NYECPm3H8nuNYJgHCY649SZZJTQI2DJg7lauA==
-X-Received: by 10.195.13.76 with SMTP id ew12mr1232959wjd.68.1456484500678;
-	Fri, 26 Feb 2016 03:01:40 -0800 (PST)
-Received: from localhost (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=jJtJLojdLHsL4uCVE3AU7qoEjxgSS3KHyMHq3CxxYf4=;
+	b=VZSceE48b3m7VUxABRutzBacAQ2o6tBtRbt660P4YahOmL41EofSD723nz/77F106g
+	J2vXszWCCd6TQDcvRkfPlpUqt9FltqhI6fIwLGs2Jz2Wzwks7Vr47AsuNoGj42UDYhT6
+	hj+seRhVqAqCbciEHG8ZYWFZsf7CankN64vgu+lPMZm+KkOhkRj2nE6KRF5eKLc6R2YT
+	owWwqzvibs81bnPHABjDtd1annYQtF3nSW/559oJ+1X4rFFLGvXK0zy3GmC2V97DuNes
+	Cj3gjJ45Xh0s6LuzsiFucePpT4+kCm6+SpBRR51k9ft7y4HXxX6CU4JR7ctaNuf5pU94
+	XG7w==
+X-Gm-Message-State: AD7BkJIwvbxvzv8Jjk8fRKjhNb4RZD0Lc2JYbZOCtMlc4gmL/0iN/lwI1xsGW7hi+f4lNg==
+X-Received: by 10.194.61.19 with SMTP id l19mr1046091wjr.148.1456484589270;
+	Fri, 26 Feb 2016 03:03:09 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	e14sm2381959wmi.21.2016.02.26.03.01.39
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Fri, 26 Feb 2016 03:01:39 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Feb 2016 12:01:28 +0100
-Message-Id: <1456484488-24905-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 2.0.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [dizzy][PATCH] glibc 2.20: Security fix CVE-2015-7547
+	a128sm2398027wmh.6.2016.02.26.03.03.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Feb 2016 03:03:08 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 26 Feb 2016 12:04:28 +0100
+To: Jonathan Liu <net147@gmail.com>
+Message-ID: <20160226110428.GA2557@jama>
+References: <1456483945-16340-1-git-send-email-net147@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1456483945-16340-1-git-send-email-net147@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] ffmpeg: fix build when DISTRO_FEATURES doesn't contain x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,619 +58,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 11:01:41 -0000
+X-List-Received-Date: Fri, 26 Feb 2016 11:03:10 -0000
+X-Groupsio-MsgNum: 78770
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
 
-CVE-2015-7547: getaddrinfo() stack-based buffer overflow
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-core/glibc/glibc/CVE-2015-7547.patch | 583 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.20.bb             |   1 +
- 2 files changed, 584 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-7547.patch
+On Fri, Feb 26, 2016 at 09:52:25PM +1100, Jonathan Liu wrote:
+> If avdevice is enabled, libxv is used if it is detected by configure
+> for the XV outdev. However, we can't depend on libxv for avdevice when
+> DISTRO_FEATURES doesn't contain x11 as this will result in an error.
+>=20
+> Fix this by adding a libxv dependency only when the avdevice
+> PACKAGECONFIG is enabled and DISTRO_FEATURES contains x11. XV outdev
+> is only one of many that are supported by avdevice so it is still
+> useful to enable avdevice even if libxv is not available.
+>=20
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb b/meta/recipe=
+s-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+> index 72393b3..f29c05e 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+> @@ -23,11 +23,12 @@ SRC_URI[sha256sum] =3D "25bcedbdafadac3d09c325c1d46a5=
+1f53d858b26a260d5aed6b4f17fea
+>  PROVIDES =3D "libav libpostproc"
+> =20
+>  DEPENDS =3D "alsa-lib zlib libogg yasm-native"
+> +DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'avdevice', bb.utils=
+=2Econtains('DISTRO_FEATURES', 'x11', 'libxv', '', d), '', d)}"
+> =20
+>  inherit autotools pkgconfig
+> =20
+>  PACKAGECONFIG ??=3D "avdevice avfilter gpl theora x264 ${@bb.utils.conta=
+ins('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+> -PACKAGECONFIG[avdevice] =3D "--enable-avdevice,--disable-avdevice, libxv"
+> +PACKAGECONFIG[avdevice] =3D "--enable-avdevice,--disable-avdevice"
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-7547.patch b/meta/recipes-core/glibc/glibc/CVE-2015-7547.patch
-new file mode 100644
-index 0000000..d877408
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2015-7547.patch
-@@ -0,0 +1,583 @@
-+From e9db92d3acfe1822d56d11abcea5bfc4c41cf6ca Mon Sep 17 00:00:00 2001
-+From: Carlos O'Donell <carlos@systemhalted.org>
-+Date: Tue, 16 Feb 2016 21:26:37 -0500
-+Subject: [PATCH] CVE-2015-7547: getaddrinfo() stack-based buffer overflow (Bug
-+ 18665).
-+
-+* A stack-based buffer overflow was found in libresolv when invoked from
-+  libnss_dns, allowing specially crafted DNS responses to seize control
-+  of execution flow in the DNS client.  The buffer overflow occurs in
-+  the functions send_dg (send datagram) and send_vc (send TCP) for the
-+  NSS module libnss_dns.so.2 when calling getaddrinfo with AF_UNSPEC
-+  family.  The use of AF_UNSPEC triggers the low-level resolver code to
-+  send out two parallel queries for A and AAAA.  A mismanagement of the
-+  buffers used for those queries could result in the response of a query
-+  writing beyond the alloca allocated buffer created by
-+  _nss_dns_gethostbyname4_r.  Buffer management is simplified to remove
-+  the overflow.  Thanks to the Google Security Team and Red Hat for
-+  reporting the security impact of this issue, and Robert Holiday of
-+  Ciena for reporting the related bug 18665. (CVE-2015-7547)
-+
-+See also:
-+https://sourceware.org/ml/libc-alpha/2016-02/msg00416.html
-+https://sourceware.org/ml/libc-alpha/2016-02/msg00418.html
-+
-+Upstream-Status: Backport
-+CVE: CVE-2015-7547
-+
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=e9db92d3acfe1822d56d11abcea5bfc4c41cf6ca
-+minor tweaking to remove Changelog and NEWS
-+
-+---
-+ resolv/nss_dns/dns-host.c | 111 +++++++++++++++++++-
-+ resolv/res_query.c        |   3 +
-+ resolv/res_send.c         | 260 +++++++++++++++++++++++++++++++++++-----------
-+ 3 files changed, 339 insertions(+), 66 deletions(-)
-+
-+diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
-+index 3258e70..755832e 100644
-+--- a/resolv/nss_dns/dns-host.c
-++++ b/resolv/nss_dns/dns-host.c
-+@@ -1031,7 +1031,10 @@ gaih_getanswer_slice (const querybuf *answer, int anslen, const char *qname,
-+   int h_namelen = 0;
-+ 
-+   if (ancount == 0)
-+-    return NSS_STATUS_NOTFOUND;
-++    {
-++      *h_errnop = HOST_NOT_FOUND;
-++      return NSS_STATUS_NOTFOUND;
-++    }
-+ 
-+   while (ancount-- > 0 && cp < end_of_message && had_error == 0)
-+     {
-+@@ -1208,7 +1211,14 @@ gaih_getanswer_slice (const querybuf *answer, int anslen, const char *qname,
-+   /* Special case here: if the resolver sent a result but it only
-+      contains a CNAME while we are looking for a T_A or T_AAAA record,
-+      we fail with NOTFOUND instead of TRYAGAIN.  */
-+-  return canon == NULL ? NSS_STATUS_TRYAGAIN : NSS_STATUS_NOTFOUND;
-++  if (canon != NULL)
-++    {
-++      *h_errnop = HOST_NOT_FOUND;
-++      return NSS_STATUS_NOTFOUND;
-++    }
-++
-++  *h_errnop = NETDB_INTERNAL;
-++  return NSS_STATUS_TRYAGAIN;
-+ }
-+ 
-+ 
-+@@ -1222,11 +1232,101 @@ gaih_getanswer (const querybuf *answer1, int anslen1, const querybuf *answer2,
-+ 
-+   enum nss_status status = NSS_STATUS_NOTFOUND;
-+ 
-++  /* Combining the NSS status of two distinct queries requires some
-++     compromise and attention to symmetry (A or AAAA queries can be
-++     returned in any order).  What follows is a breakdown of how this
-++     code is expected to work and why. We discuss only SUCCESS,
-++     TRYAGAIN, NOTFOUND and UNAVAIL, since they are the only returns
-++     that apply (though RETURN and MERGE exist).  We make a distinction
-++     between TRYAGAIN (recoverable) and TRYAGAIN' (not-recoverable).
-++     A recoverable TRYAGAIN is almost always due to buffer size issues
-++     and returns ERANGE in errno and the caller is expected to retry
-++     with a larger buffer.
-++
-++     Lastly, you may be tempted to make significant changes to the
-++     conditions in this code to bring about symmetry between responses.
-++     Please don't change anything without due consideration for
-++     expected application behaviour.  Some of the synthesized responses
-++     aren't very well thought out and sometimes appear to imply that
-++     IPv4 responses are always answer 1, and IPv6 responses are always
-++     answer 2, but that's not true (see the implementation of send_dg
-++     and send_vc to see response can arrive in any order, particularly
-++     for UDP). However, we expect it holds roughly enough of the time
-++     that this code works, but certainly needs to be fixed to make this
-++     a more robust implementation.
-++
-++     ----------------------------------------------
-++     | Answer 1 Status /   | Synthesized | Reason |
-++     | Answer 2 Status     | Status      |        |
-++     |--------------------------------------------|
-++     | SUCCESS/SUCCESS     | SUCCESS     | [1]    |
-++     | SUCCESS/TRYAGAIN    | TRYAGAIN    | [5]    |
-++     | SUCCESS/TRYAGAIN'   | SUCCESS     | [1]    |
-++     | SUCCESS/NOTFOUND    | SUCCESS     | [1]    |
-++     | SUCCESS/UNAVAIL     | SUCCESS     | [1]    |
-++     | TRYAGAIN/SUCCESS    | TRYAGAIN    | [2]    |
-++     | TRYAGAIN/TRYAGAIN   | TRYAGAIN    | [2]    |
-++     | TRYAGAIN/TRYAGAIN'  | TRYAGAIN    | [2]    |
-++     | TRYAGAIN/NOTFOUND   | TRYAGAIN    | [2]    |
-++     | TRYAGAIN/UNAVAIL    | TRYAGAIN    | [2]    |
-++     | TRYAGAIN'/SUCCESS   | SUCCESS     | [3]    |
-++     | TRYAGAIN'/TRYAGAIN  | TRYAGAIN    | [3]    |
-++     | TRYAGAIN'/TRYAGAIN' | TRYAGAIN'   | [3]    |
-++     | TRYAGAIN'/NOTFOUND  | TRYAGAIN'   | [3]    |
-++     | TRYAGAIN'/UNAVAIL   | UNAVAIL     | [3]    |
-++     | NOTFOUND/SUCCESS    | SUCCESS     | [3]    |
-++     | NOTFOUND/TRYAGAIN   | TRYAGAIN    | [3]    |
-++     | NOTFOUND/TRYAGAIN'  | TRYAGAIN'   | [3]    |
-++     | NOTFOUND/NOTFOUND   | NOTFOUND    | [3]    |
-++     | NOTFOUND/UNAVAIL    | UNAVAIL     | [3]    |
-++     | UNAVAIL/SUCCESS     | UNAVAIL     | [4]    |
-++     | UNAVAIL/TRYAGAIN    | UNAVAIL     | [4]    |
-++     | UNAVAIL/TRYAGAIN'   | UNAVAIL     | [4]    |
-++     | UNAVAIL/NOTFOUND    | UNAVAIL     | [4]    |
-++     | UNAVAIL/UNAVAIL     | UNAVAIL     | [4]    |
-++     ----------------------------------------------
-++
-++     [1] If the first response is a success we return success.
-++	 This ignores the state of the second answer and in fact
-++	 incorrectly sets errno and h_errno to that of the second
-++	 answer.  However because the response is a success we ignore
-++	 *errnop and *h_errnop (though that means you touched errno on
-++	 success).  We are being conservative here and returning the
-++	 likely IPv4 response in the first answer as a success.
-++
-++     [2] If the first response is a recoverable TRYAGAIN we return
-++	 that instead of looking at the second response.  The
-++	 expectation here is that we have failed to get an IPv4 response
-++	 and should retry both queries.
-++
-++     [3] If the first response was not a SUCCESS and the second
-++	 response is not NOTFOUND (had a SUCCESS, need to TRYAGAIN,
-++	 or failed entirely e.g. TRYAGAIN' and UNAVAIL) then use the
-++	 result from the second response, otherwise the first responses
-++	 status is used.  Again we have some odd side-effects when the
-++	 second response is NOTFOUND because we overwrite *errnop and
-++	 *h_errnop that means that a first answer of NOTFOUND might see
-++	 its *errnop and *h_errnop values altered.  Whether it matters
-++	 in practice that a first response NOTFOUND has the wrong
-++	 *errnop and *h_errnop is undecided.
-++
-++     [4] If the first response is UNAVAIL we return that instead of
-++	 looking at the second response.  The expectation here is that
-++	 it will have failed similarly e.g. configuration failure.
-++
-++     [5] Testing this code is complicated by the fact that truncated
-++	 second response buffers might be returned as SUCCESS if the
-++	 first answer is a SUCCESS.  To fix this we add symmetry to
-++	 TRYAGAIN with the second response.  If the second response
-++	 is a recoverable error we now return TRYAGIN even if the first
-++	 response was SUCCESS.  */
-++
-+   if (anslen1 > 0)
-+     status = gaih_getanswer_slice(answer1, anslen1, qname,
-+ 				  &pat, &buffer, &buflen,
-+ 				  errnop, h_errnop, ttlp,
-+ 				  &first);
-++
-+   if ((status == NSS_STATUS_SUCCESS || status == NSS_STATUS_NOTFOUND
-+        || (status == NSS_STATUS_TRYAGAIN
-+ 	   /* We want to look at the second answer in case of an
-+@@ -1242,8 +1342,15 @@ gaih_getanswer (const querybuf *answer1, int anslen1, const querybuf *answer2,
-+ 						     &pat, &buffer, &buflen,
-+ 						     errnop, h_errnop, ttlp,
-+ 						     &first);
-++      /* Use the second response status in some cases.  */
-+       if (status != NSS_STATUS_SUCCESS && status2 != NSS_STATUS_NOTFOUND)
-+ 	status = status2;
-++      /* Do not return a truncated second response (unless it was
-++	 unavoidable e.g. unrecoverable TRYAGAIN).  */
-++      if (status == NSS_STATUS_SUCCESS
-++	  && (status2 == NSS_STATUS_TRYAGAIN
-++	      && *errnop == ERANGE && *h_errnop != NO_RECOVERY))
-++	status = NSS_STATUS_TRYAGAIN;
-+     }
-+ 
-+   return status;
-+diff --git a/resolv/res_query.c b/resolv/res_query.c
-+index e4ee2a6..616fd57 100644
-+--- a/resolv/res_query.c
-++++ b/resolv/res_query.c
-+@@ -396,6 +396,7 @@ __libc_res_nsearch(res_state statp,
-+ 		  {
-+ 		    free (*answerp2);
-+ 		    *answerp2 = NULL;
-++		    *nanswerp2 = 0;
-+ 		    *answerp2_malloced = 0;
-+ 		  }
-+ 	}
-+@@ -436,6 +437,7 @@ __libc_res_nsearch(res_state statp,
-+ 			  {
-+ 			    free (*answerp2);
-+ 			    *answerp2 = NULL;
-++			    *nanswerp2 = 0;
-+ 			    *answerp2_malloced = 0;
-+ 			  }
-+ 
-+@@ -510,6 +512,7 @@ __libc_res_nsearch(res_state statp,
-+ 	  {
-+ 	    free (*answerp2);
-+ 	    *answerp2 = NULL;
-++	    *nanswerp2 = 0;
-+ 	    *answerp2_malloced = 0;
-+ 	  }
-+ 	if (saved_herrno != -1)
-+diff --git a/resolv/res_send.c b/resolv/res_send.c
-+index af42b8a..5f9f0e7 100644
-+--- a/resolv/res_send.c
-++++ b/resolv/res_send.c
-+@@ -1,3 +1,20 @@
-++/* Copyright (C) 2016 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-+ /*
-+  * Copyright (c) 1985, 1989, 1993
-+  *    The Regents of the University of California.  All rights reserved.
-+@@ -360,6 +377,8 @@ __libc_res_nsend(res_state statp, const u_char *buf, int buflen,
-+ #ifdef USE_HOOKS
-+ 	if (__glibc_unlikely (statp->qhook || statp->rhook))       {
-+ 		if (anssiz < MAXPACKET && ansp) {
-++			/* Always allocate MAXPACKET, callers expect
-++			   this specific size.  */
-+ 			u_char *buf = malloc (MAXPACKET);
-+ 			if (buf == NULL)
-+ 				return (-1);
-+@@ -653,6 +672,77 @@ libresolv_hidden_def (res_nsend)
-+ 
-+ /* Private */
-+ 
-++/* The send_vc function is responsible for sending a DNS query over TCP
-++   to the nameserver numbered NS from the res_state STATP i.e.
-++   EXT(statp).nssocks[ns].  The function supports sending both IPv4 and
-++   IPv6 queries at the same serially on the same socket.
-++
-++   Please note that for TCP there is no way to disable sending both
-++   queries, unlike UDP, which honours RES_SNGLKUP and RES_SNGLKUPREOP
-++   and sends the queries serially and waits for the result after each
-++   sent query.  This implemetnation should be corrected to honour these
-++   options.
-++
-++   Please also note that for TCP we send both queries over the same
-++   socket one after another.  This technically violates best practice
-++   since the server is allowed to read the first query, respond, and
-++   then close the socket (to service another client).  If the server
-++   does this, then the remaining second query in the socket data buffer
-++   will cause the server to send the client an RST which will arrive
-++   asynchronously and the client's OS will likely tear down the socket
-++   receive buffer resulting in a potentially short read and lost
-++   response data.  This will force the client to retry the query again,
-++   and this process may repeat until all servers and connection resets
-++   are exhausted and then the query will fail.  It's not known if this
-++   happens with any frequency in real DNS server implementations.  This
-++   implementation should be corrected to use two sockets by default for
-++   parallel queries.
-++
-++   The query stored in BUF of BUFLEN length is sent first followed by
-++   the query stored in BUF2 of BUFLEN2 length.  Queries are sent
-++   serially on the same socket.
-++
-++   Answers to the query are stored firstly in *ANSP up to a max of
-++   *ANSSIZP bytes.  If more than *ANSSIZP bytes are needed and ANSCP
-++   is non-NULL (to indicate that modifying the answer buffer is allowed)
-++   then malloc is used to allocate a new response buffer and ANSCP and
-++   ANSP will both point to the new buffer.  If more than *ANSSIZP bytes
-++   are needed but ANSCP is NULL, then as much of the response as
-++   possible is read into the buffer, but the results will be truncated.
-++   When truncation happens because of a small answer buffer the DNS
-++   packets header field TC will bet set to 1, indicating a truncated
-++   message and the rest of the socket data will be read and discarded.
-++
-++   Answers to the query are stored secondly in *ANSP2 up to a max of
-++   *ANSSIZP2 bytes, with the actual response length stored in
-++   *RESPLEN2.  If more than *ANSSIZP bytes are needed and ANSP2
-++   is non-NULL (required for a second query) then malloc is used to
-++   allocate a new response buffer, *ANSSIZP2 is set to the new buffer
-++   size and *ANSP2_MALLOCED is set to 1.
-++
-++   The ANSP2_MALLOCED argument will eventually be removed as the
-++   change in buffer pointer can be used to detect the buffer has
-++   changed and that the caller should use free on the new buffer.
-++
-++   Note that the answers may arrive in any order from the server and
-++   therefore the first and second answer buffers may not correspond to
-++   the first and second queries.
-++
-++   It is not supported to call this function with a non-NULL ANSP2
-++   but a NULL ANSCP.  Put another way, you can call send_vc with a
-++   single unmodifiable buffer or two modifiable buffers, but no other
-++   combination is supported.
-++
-++   It is the caller's responsibility to free the malloc allocated
-++   buffers by detecting that the pointers have changed from their
-++   original values i.e. *ANSCP or *ANSP2 has changed.
-++
-++   If errors are encountered then *TERRNO is set to an appropriate
-++   errno value and a zero result is returned for a recoverable error,
-++   and a less-than zero result is returned for a non-recoverable error.
-++
-++   If no errors are encountered then *TERRNO is left unmodified and
-++   a the length of the first response in bytes is returned.  */
-+ static int
-+ send_vc(res_state statp,
-+ 	const u_char *buf, int buflen, const u_char *buf2, int buflen2,
-+@@ -662,11 +752,7 @@ send_vc(res_state statp,
-+ {
-+ 	const HEADER *hp = (HEADER *) buf;
-+ 	const HEADER *hp2 = (HEADER *) buf2;
-+-	u_char *ans = *ansp;
-+-	int orig_anssizp = *anssizp;
-+-	// XXX REMOVE
-+-	// int anssiz = *anssizp;
-+-	HEADER *anhp = (HEADER *) ans;
-++	HEADER *anhp = (HEADER *) *ansp;
-+ 	struct sockaddr_in6 *nsap = EXT(statp).nsaddrs[ns];
-+ 	int truncating, connreset, resplen, n;
-+ 	struct iovec iov[4];
-+@@ -742,6 +828,8 @@ send_vc(res_state statp,
-+ 	 * Receive length & response
-+ 	 */
-+ 	int recvresp1 = 0;
-++	/* Skip the second response if there is no second query.
-++	   To do that we mark the second response as received.  */
-+ 	int recvresp2 = buf2 == NULL;
-+ 	uint16_t rlen16;
-+  read_len:
-+@@ -778,33 +866,14 @@ send_vc(res_state statp,
-+ 	u_char **thisansp;
-+ 	int *thisresplenp;
-+ 	if ((recvresp1 | recvresp2) == 0 || buf2 == NULL) {
-++		/* We have not received any responses
-++		   yet or we only have one response to
-++		   receive.  */
-+ 		thisanssizp = anssizp;
-+ 		thisansp = anscp ?: ansp;
-+ 		assert (anscp != NULL || ansp2 == NULL);
-+ 		thisresplenp = &resplen;
-+ 	} else {
-+-		if (*anssizp != MAXPACKET) {
-+-			/* No buffer allocated for the first
-+-			   reply.  We can try to use the rest
-+-			   of the user-provided buffer.  */
-+-#if _STRING_ARCH_unaligned
-+-			*anssizp2 = orig_anssizp - resplen;
-+-			*ansp2 = *ansp + resplen;
-+-#else
-+-			int aligned_resplen
-+-			  = ((resplen + __alignof__ (HEADER) - 1)
-+-			     & ~(__alignof__ (HEADER) - 1));
-+-			*anssizp2 = orig_anssizp - aligned_resplen;
-+-			*ansp2 = *ansp + aligned_resplen;
-+-#endif
-+-		} else {
-+-			/* The first reply did not fit into the
-+-			   user-provided buffer.  Maybe the second
-+-			   answer will.  */
-+-			*anssizp2 = orig_anssizp;
-+-			*ansp2 = *ansp;
-+-		}
-+-
-+ 		thisanssizp = anssizp2;
-+ 		thisansp = ansp2;
-+ 		thisresplenp = resplen2;
-+@@ -812,10 +881,14 @@ send_vc(res_state statp,
-+ 	anhp = (HEADER *) *thisansp;
-+ 
-+ 	*thisresplenp = rlen;
-+-	if (rlen > *thisanssizp) {
-+-		/* Yes, we test ANSCP here.  If we have two buffers
-+-		   both will be allocatable.  */
-+-		if (__glibc_likely (anscp != NULL))       {
-++	/* Is the answer buffer too small?  */
-++	if (*thisanssizp < rlen) {
-++		/* If the current buffer is not the the static
-++		   user-supplied buffer then we can reallocate
-++		   it.  */
-++		if (thisansp != NULL && thisansp != ansp) {
-++			/* Always allocate MAXPACKET, callers expect
-++			   this specific size.  */
-+ 			u_char *newp = malloc (MAXPACKET);
-+ 			if (newp == NULL) {
-+ 				*terrno = ENOMEM;
-+@@ -827,6 +900,9 @@ send_vc(res_state statp,
-+ 			if (thisansp == ansp2)
-+ 			  *ansp2_malloced = 1;
-+ 			anhp = (HEADER *) newp;
-++			/* A uint16_t can't be larger than MAXPACKET
-++			   thus it's safe to allocate MAXPACKET but
-++			   read RLEN bytes instead.  */
-+ 			len = rlen;
-+ 		} else {
-+ 			Dprint(statp->options & RES_DEBUG,
-+@@ -990,6 +1066,66 @@ reopen (res_state statp, int *terrno, int ns)
-+ 	return 1;
-+ }
-+ 
-++/* The send_dg function is responsible for sending a DNS query over UDP
-++   to the nameserver numbered NS from the res_state STATP i.e.
-++   EXT(statp).nssocks[ns].  The function supports IPv4 and IPv6 queries
-++   along with the ability to send the query in parallel for both stacks
-++   (default) or serially (RES_SINGLKUP).  It also supports serial lookup
-++   with a close and reopen of the socket used to talk to the server
-++   (RES_SNGLKUPREOP) to work around broken name servers.
-++
-++   The query stored in BUF of BUFLEN length is sent first followed by
-++   the query stored in BUF2 of BUFLEN2 length.  Queries are sent
-++   in parallel (default) or serially (RES_SINGLKUP or RES_SNGLKUPREOP).
-++
-++   Answers to the query are stored firstly in *ANSP up to a max of
-++   *ANSSIZP bytes.  If more than *ANSSIZP bytes are needed and ANSCP
-++   is non-NULL (to indicate that modifying the answer buffer is allowed)
-++   then malloc is used to allocate a new response buffer and ANSCP and
-++   ANSP will both point to the new buffer.  If more than *ANSSIZP bytes
-++   are needed but ANSCP is NULL, then as much of the response as
-++   possible is read into the buffer, but the results will be truncated.
-++   When truncation happens because of a small answer buffer the DNS
-++   packets header field TC will bet set to 1, indicating a truncated
-++   message, while the rest of the UDP packet is discarded.
-++
-++   Answers to the query are stored secondly in *ANSP2 up to a max of
-++   *ANSSIZP2 bytes, with the actual response length stored in
-++   *RESPLEN2.  If more than *ANSSIZP bytes are needed and ANSP2
-++   is non-NULL (required for a second query) then malloc is used to
-++   allocate a new response buffer, *ANSSIZP2 is set to the new buffer
-++   size and *ANSP2_MALLOCED is set to 1.
-++
-++   The ANSP2_MALLOCED argument will eventually be removed as the
-++   change in buffer pointer can be used to detect the buffer has
-++   changed and that the caller should use free on the new buffer.
-++
-++   Note that the answers may arrive in any order from the server and
-++   therefore the first and second answer buffers may not correspond to
-++   the first and second queries.
-++
-++   It is not supported to call this function with a non-NULL ANSP2
-++   but a NULL ANSCP.  Put another way, you can call send_vc with a
-++   single unmodifiable buffer or two modifiable buffers, but no other
-++   combination is supported.
-++
-++   It is the caller's responsibility to free the malloc allocated
-++   buffers by detecting that the pointers have changed from their
-++   original values i.e. *ANSCP or *ANSP2 has changed.
-++
-++   If an answer is truncated because of UDP datagram DNS limits then
-++   *V_CIRCUIT is set to 1 and the return value non-zero to indicate to
-++   the caller to retry with TCP.  The value *GOTSOMEWHERE is set to 1
-++   if any progress was made reading a response from the nameserver and
-++   is used by the caller to distinguish between ECONNREFUSED and
-++   ETIMEDOUT (the latter if *GOTSOMEWHERE is 1).
-++
-++   If errors are encountered then *TERRNO is set to an appropriate
-++   errno value and a zero result is returned for a recoverable error,
-++   and a less-than zero result is returned for a non-recoverable error.
-++
-++   If no errors are encountered then *TERRNO is left unmodified and
-++   a the length of the first response in bytes is returned.  */
-+ static int
-+ send_dg(res_state statp,
-+ 	const u_char *buf, int buflen, const u_char *buf2, int buflen2,
-+@@ -999,8 +1135,6 @@ send_dg(res_state statp,
-+ {
-+ 	const HEADER *hp = (HEADER *) buf;
-+ 	const HEADER *hp2 = (HEADER *) buf2;
-+-	u_char *ans = *ansp;
-+-	int orig_anssizp = *anssizp;
-+ 	struct timespec now, timeout, finish;
-+ 	struct pollfd pfd[1];
-+ 	int ptimeout;
-+@@ -1033,6 +1167,8 @@ send_dg(res_state statp,
-+ 	int need_recompute = 0;
-+ 	int nwritten = 0;
-+ 	int recvresp1 = 0;
-++	/* Skip the second response if there is no second query.
-++	   To do that we mark the second response as received.  */
-+ 	int recvresp2 = buf2 == NULL;
-+ 	pfd[0].fd = EXT(statp).nssocks[ns];
-+ 	pfd[0].events = POLLOUT;
-+@@ -1196,55 +1332,56 @@ send_dg(res_state statp,
-+ 		int *thisresplenp;
-+ 
-+ 		if ((recvresp1 | recvresp2) == 0 || buf2 == NULL) {
-++			/* We have not received any responses
-++			   yet or we only have one response to
-++			   receive.  */
-+ 			thisanssizp = anssizp;
-+ 			thisansp = anscp ?: ansp;
-+ 			assert (anscp != NULL || ansp2 == NULL);
-+ 			thisresplenp = &resplen;
-+ 		} else {
-+-			if (*anssizp != MAXPACKET) {
-+-				/* No buffer allocated for the first
-+-				   reply.  We can try to use the rest
-+-				   of the user-provided buffer.  */
-+-#if _STRING_ARCH_unaligned
-+-				*anssizp2 = orig_anssizp - resplen;
-+-				*ansp2 = *ansp + resplen;
-+-#else
-+-				int aligned_resplen
-+-				  = ((resplen + __alignof__ (HEADER) - 1)
-+-				     & ~(__alignof__ (HEADER) - 1));
-+-				*anssizp2 = orig_anssizp - aligned_resplen;
-+-				*ansp2 = *ansp + aligned_resplen;
-+-#endif
-+-			} else {
-+-				/* The first reply did not fit into the
-+-				   user-provided buffer.  Maybe the second
-+-				   answer will.  */
-+-				*anssizp2 = orig_anssizp;
-+-				*ansp2 = *ansp;
-+-			}
-+-
-+ 			thisanssizp = anssizp2;
-+ 			thisansp = ansp2;
-+ 			thisresplenp = resplen2;
-+ 		}
-+ 
-+ 		if (*thisanssizp < MAXPACKET
-+-		    /* Yes, we test ANSCP here.  If we have two buffers
-+-		       both will be allocatable.  */
-+-		    && anscp
-++		    /* If the current buffer is not the the static
-++		       user-supplied buffer then we can reallocate
-++		       it.  */
-++		    && (thisansp != NULL && thisansp != ansp)
-+ #ifdef FIONREAD
-++		    /* Is the size too small?  */
-+ 		    && (ioctl (pfd[0].fd, FIONREAD, thisresplenp) < 0
-+ 			|| *thisanssizp < *thisresplenp)
-+ #endif
-+                     ) {
-++			/* Always allocate MAXPACKET, callers expect
-++			   this specific size.  */
-+ 			u_char *newp = malloc (MAXPACKET);
-+ 			if (newp != NULL) {
-+-				*anssizp = MAXPACKET;
-+-				*thisansp = ans = newp;
-++				*thisanssizp = MAXPACKET;
-++				*thisansp = newp;
-+ 				if (thisansp == ansp2)
-+ 				  *ansp2_malloced = 1;
-+ 			}
-+ 		}
-++		/* We could end up with truncation if anscp was NULL
-++		   (not allowed to change caller's buffer) and the
-++		   response buffer size is too small.  This isn't a
-++		   reliable way to detect truncation because the ioctl
-++		   may be an inaccurate report of the UDP message size.
-++		   Therefore we use this only to issue debug output.
-++		   To do truncation accurately with UDP we need
-++		   MSG_TRUNC which is only available on Linux.  We
-++		   can abstract out the Linux-specific feature in the
-++		   future to detect truncation.  */
-++		if (__glibc_unlikely (*thisanssizp < *thisresplenp)) {
-++			Dprint(statp->options & RES_DEBUG,
-++			       (stdout, ";; response may be truncated (UDP)\n")
-++			);
-++		}
-++
-+ 		HEADER *anhp = (HEADER *) *thisansp;
-+ 		socklen_t fromlen = sizeof(struct sockaddr_in6);
-+ 		assert (sizeof(from) <= fromlen);
-diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index bfd8c64..a928293 100644
---- a/meta/recipes-core/glibc/glibc_2.20.bb
-+++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -47,6 +47,7 @@ CVEPATCHES = "\
-         file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
-         file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
- 	file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch \
-+        file://CVE-2015-7547.patch \
-     "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
-       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--- 
-2.0.1
+bb.utils.contains didn't work in PACKAGECONFIG?
 
+Why not
+PACKAGECONFIG[avdevice] =3D "--enable-avdevice,--disable-avdevice, ${@bb.ut=
+ils.contains('DISTRO_FEATURES', 'x11', 'libxv', '', d)"
 
+>  PACKAGECONFIG[avfilter] =3D "--enable-avfilter,--disable-avfilter"
+>  PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
+>  PACKAGECONFIG[gpl] =3D "--enable-gpl,--disable-gpl"
+> --=20
+> 2.7.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlbQMTUACgkQN1Ujt2V2gBwBkgCgtYZ4C3UscF6tjLTsShh0FgbS
+XQkAnjkwYFFdFo/GA7XdUaY898x92u9S
+=RTW3
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
