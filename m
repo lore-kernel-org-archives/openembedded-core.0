@@ -1,45 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A954772F6
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CAEF77422
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 12:57:08 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id hb3so33871797igb.0
+	Fri, 26 Feb 2016 13:29:03 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id q63so52240216pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 04:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=Nj2/TI/kDNSOyK6CMb5wj9towWWPXEAZmeEU3RyitZM=;
-	b=E9SF2fLGqmGdgLaTiFdTju59dMYA7TO0buUOvXJqTArzpiO++B8JOAahKiXM9FjGCt
-	A/DiIkdDJr/iFGFdiHKZM8nolei/7tlBTKQorDiyuIp67HQWjmhZXNZijrkxsmlJiIrI
-	Cf66BWvdjvniXxlDk57ihdarvXI4I0pMLaokOVR8FslvI1+/cmzUT+Nr7RFB/5kIDpjM
-	rzL4xw50eR/CYX0go4hdaPxrWBt7GCqa0A5hAO9+vFp6ovVV/YRMO1ah0O+ow6ejYyqu
-	GSWLxoUmf7DBm2Go8bASi7Za5rNDRGIqsBmF5ICzDZWxrVc1514pEalxgUU4FrFdP0Qi
-	7sMg==
+	Fri, 26 Feb 2016 05:29:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=wNt2CVbFji8WJt+CcF+mtrcpl3xwf7zPezxYI8Tpi9o=;
+	b=pmqIWruXQejhjM+UaD5406lVCwqkx/RK5OiHBC2JJctGLBVp3P594+ah56ZSJIYD5C
+	Aun125Wim2fCfQjveaE9m0UXHnykIpaNgIx7Zk7TWlCjdY6W7Z5LB/q2WxY5pKzjvnJi
+	/U80pTorw7Zb10/aox9zu2fIn4xAFp8K8rojdxQfMJlOnA0sR/fbs8bbL6Gwi0Af2UZB
+	UpwvcEzI+0jQOD6Qgpb1btKwo5La4JkMDOFS6+Vt+CdFNa+NXEEG+ZrGBtijw/IIBADN
+	8S2977WpIm13NcQFO3viHkDUlv7DT3JfdbXs/usbPQROICYF2fxW2tW+93/41JYEE8PC
+	schA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=Nj2/TI/kDNSOyK6CMb5wj9towWWPXEAZmeEU3RyitZM=;
-	b=fnpxRuHuqlRMLqhA+52g6O/EN+xGNLPn0nJIBg/v/h1u3Yo+BEO5oFF5O6Nb7htrjS
-	JuhKBQlBHOykJHNS13MQ+sO6JhDZ+n9+S/zi5Lm4vuqtAg7HojvtTHSKJaFK4WXWg3vd
-	x8iQRf0t6FNQ+FYc/zmcpUfAosnuFwsGNExlnhCwXAq/BikXzJva0y3+knFBFF2q2wxR
-	mZXMDay+f8IX2YIimkrc2PeRkk/H4V0BN5+CrGdEkDLan7obyTaz68W4OUXkXYeSg7XB
-	U7/JDLiBZ+fdgpP6ChT+8NfjH8CgXjUoN2t8GkGG2doXycIm8iA+iq54VvZEzLpzxe8q
-	JOtg==
-X-Gm-Message-State: AD7BkJJYshe4oL/IZwRsdwfHvHuNQ5vBCwOPLnuVZ5AvxoDkLVuX4dZyZ2T7ByVjRrleZFEkJo4gP0VqjQTOZ4Rm
-X-Received: by 10.50.43.226 with SMTP id z2mr2712213igl.78.1456491428988; Fri,
-	26 Feb 2016 04:57:08 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=wNt2CVbFji8WJt+CcF+mtrcpl3xwf7zPezxYI8Tpi9o=;
+	b=CvtcrohX7SUHYgKm0ecBQ4mgg21uAvPkfKumCWdaXfE+vZ9s8Hrza78paDPOL4Ircz
+	DNfCsz6yQWWlqPeJZraTiojWm/3n08rVPXpnXhizE1EBGD6a/jeHKmbB34OmqsnS2JSq
+	ug3fBIMezQ+l97R1wocnChW/+UGkXsttfycrLpzblUaPO3xPdviYaNzmXNeBkmZfiy/9
+	/RqnkTDNmACvKj6slQt3Ef8az4h3nIgHkHjF3Z0BCIOWm4nr4yz6YI3XQbzYp7xkg2Os
+	pyX4S/k6gmb2aFWWNOitZ7OwtqgvrH3ymrWazg1oaAWr7efQzosgXwhWH1hgr1uV1n4w
+	ymAA==
+X-Gm-Message-State: AD7BkJLmlgUYBBqegMQOzR6jgt3F8iEC7BY1iuzewl7RlxWoK9gJkZHPIo3tWYu+g+erLINwkPgDDwh6eEDRRQ==
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 26 Feb 2016 04:56:49 -0800 (PST)
-In-Reply-To: <1456437568-391-1-git-send-email-ross.burton@intel.com>
-References: <1456437568-391-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Feb 2016 12:56:49 +0000
-Message-ID: <CAJTo0LY7OP7rTE-5qMU58H53Oyp9eQGT4GECLEyQaziw4r6D0g@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rsync: enable native builds for rsync 2.6.9
+X-Received: by 10.98.16.198 with SMTP id 67mr2060858pfq.21.1456493344515; Fri,
+	26 Feb 2016 05:29:04 -0800 (PST)
+Received: by 10.66.155.201 with HTTP; Fri, 26 Feb 2016 05:29:04 -0800 (PST)
+In-Reply-To: <CAJTo0LYS-u77Lg+Q4OWT9syYvQVP-631RQ+N9GRRoBKg+6r3Tw@mail.gmail.com>
+References: <1456483945-16340-1-git-send-email-net147@gmail.com>
+	<20160226110428.GA2557@jama>
+	<CANwerB0bs=0b0r_mj+VJ+rgYz56jKUuSiUgs7kdK+tD9f=Ot8A@mail.gmail.com>
+	<CAJTo0LYS-u77Lg+Q4OWT9syYvQVP-631RQ+N9GRRoBKg+6r3Tw@mail.gmail.com>
+Date: Sat, 27 Feb 2016 00:29:04 +1100
+Message-ID: <CANwerB2gBZKqfkXoaFH_dhkQAfDvN7TLeBceyOxsdVJzaxDgGQ@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ffmpeg: fix build when DISTRO_FEATURES doesn't contain x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,75 +56,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 12:57:10 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f43e6350052cabd6a9
-
---047d7bfea0f43e6350052cabd6a9
+X-List-Received-Date: Fri, 26 Feb 2016 13:29:06 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Retracting this - for native builds GPLv3 is acceptable.
-
-Ross
-
-On 25 February 2016 at 21:59, Ross Burton <ross.burton@intel.com> wrote:
-
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/rsync/rsync_2.6.9.bb | 2 ++
->  1 file changed, 2 insertions(+)
+On 26 February 2016 at 23:33, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> diff --git a/meta/recipes-devtools/rsync/rsync_2.6.9.bb
-> b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
-> index 6854c77..d37cda7 100644
-> --- a/meta/recipes-devtools/rsync/rsync_2.6.9.bb
-> +++ b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
-> @@ -26,3 +26,5 @@ LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=6d5a9d4c4d3af25cd68fd83e8a8cb09c"
->
->  PR = "r4"
-> +
-> +BBCLASSEXTEND = "native"
-> --
-> 2.7.0
+> On 26 February 2016 at 11:17, Jonathan Liu <net147@gmail.com> wrote:
+>>
+>> It doesn't work in PACKAGECONFIG..... that is the first thing I tried.
 >
 >
+> I'd call that a bug, and should be simple to resolve (pass expand=True when
+> fetching getVarFlags in the PACKAGECONFIG handling code).
+>
+> Ross
 
---047d7bfea0f43e6350052cabd6a9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Feel free to submit a patch to handle the PACKAGECONFIG expansion and
+then I can update the fix.
 
-<div dir=3D"ltr">Retracting this - for native builds GPLv3 is acceptable.<d=
-iv><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On 25 February 2016 at 21:59, Ross Burton <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burto=
-n@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-=
-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burto=
-n@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/rsync/<a href=3D"http://rsync_2.6.9.bb" rel=3D"=
-noreferrer" target=3D"_blank">rsync_2.6.9.bb</a> | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/rsync/<a href=3D"http://rsync_2.6.9.bb" =
-rel=3D"noreferrer" target=3D"_blank">rsync_2.6.9.bb</a> b/meta/recipes-devt=
-ools/rsync/<a href=3D"http://rsync_2.6.9.bb" rel=3D"noreferrer" target=3D"_=
-blank">rsync_2.6.9.bb</a><br>
-index 6854c77..d37cda7 100644<br>
---- a/meta/recipes-devtools/rsync/<a href=3D"http://rsync_2.6.9.bb" rel=3D"=
-noreferrer" target=3D"_blank">rsync_2.6.9.bb</a><br>
-+++ b/meta/recipes-devtools/rsync/<a href=3D"http://rsync_2.6.9.bb" rel=3D"=
-noreferrer" target=3D"_blank">rsync_2.6.9.bb</a><br>
-@@ -26,3 +26,5 @@ LICENSE =3D &quot;GPLv2+&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6d5a9d4c4d3af25cd68fd=
-83e8a8cb09c&quot;<br>
-<br>
-=C2=A0PR =3D &quot;r4&quot;<br>
-+<br>
-+BBCLASSEXTEND =3D &quot;native&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.0<br>
-<br>
-</font></span></blockquote></div><br></div>
+Regards,
+Jonathan
 
---047d7bfea0f43e6350052cabd6a9--
