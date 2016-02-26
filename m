@@ -1,52 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 80117731DC
+Return-Path: <prvs=85754256d=Mikko.Rapeli@bmw.de>
+Received: from esa7.bmw.c3s2.iphmx.com (esa7.bmw.c3s2.iphmx.com
+	[68.232.133.109])
+	by mail.openembedded.org (Postfix) with ESMTP id C343A77376
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 08:01:48 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id x65so48130263pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 00:01:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=JXTI9U+tRvf2d83Vc2tE1YHI3EmqPujldN2hhG74Ak4=;
-	b=cplD9pP7wr1oLUB8gpHYgwTHvzAzBr+VM5jUQMqgh2fodQokoH/dyeaAimacsXpNZp
-	V0ENxQUOTYkcXYccSYgoGM1B+2g8eETf6yz9l6N+woI/eyPVoQpYt3Y0DxXzGcke/9GQ
-	lDI/wByGaXJcAeRKoaI5rFa193cHvwk8rdPPsaZSltUXyDmcz8W3dNw5BeVCNcAjJuFy
-	aMMF2SWDuBFnkAxYb6ae7UUPF5v4JmPDlXoNWZi4jXCCOKzooKhmO2CBNi98DOUboDLl
-	k0X63lCIn708P/AQEZnnJUDwchbGmE64OKTCNDiy21BtZFYcLB64+bJf9pxHmPeOAlgs
-	XAcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=JXTI9U+tRvf2d83Vc2tE1YHI3EmqPujldN2hhG74Ak4=;
-	b=F6k/+aKh6LXzpV6gxO4udHADc/T3x+vMvvAPriRt2CNN2sqAUA+k06a2x4thQNn15D
-	bAT7kquyXhWykBL1Jc/Az939MQ/tFjq+y0Py05pwHvvrn9fIMMo+cHEM3HHR3OUEUkxr
-	r9PLJdz++9AUCcbe1wCrjuLkpReU0s6nvZE7hF5Z23rCI4zrxHkglfaVoABySaUhhF+Z
-	F0Xt7ZEgHweHjuajZEDsXD35Z5iSjS9jKHmZZHHm1uRjX9ckfM5XPiwlRYjGgDWV4xxu
-	TYk3flmXuHhE8GtlSx/8155/qFinXkXK5aTouLsegR69C16Bkaj+5zbtWajZPj8iGh6z
-	EJ0A==
-X-Gm-Message-State: AD7BkJIz42U/DUiFmBy7wyYTUeZgA0fngLA5WwdzTbJ7COzMqkkzzx1pLNTxCFO5tCXw9g==
-X-Received: by 10.98.18.207 with SMTP id 76mr220810pfs.53.1456473709836;
-	Fri, 26 Feb 2016 00:01:49 -0800 (PST)
-Received: from ?IPv6:2601:646:8800:5a9a:4537:747c:ca81:76b7?
-	([2601:646:8800:5a9a:4537:747c:ca81:76b7])
-	by smtp.gmail.com with ESMTPSA id
-	ud10sm17187783pab.27.2016.02.26.00.01.48
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Feb 2016 00:01:49 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1456396226-14410-1-git-send-email-maxin.john@intel.com>
-Date: Fri, 26 Feb 2016 00:01:48 -0800
-Message-Id: <48F26C84-39D2-48FE-9891-DEDA70775368@gmail.com>
-References: <1456396226-14410-1-git-send-email-maxin.john@intel.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-X-Mailer: Apple Mail (2.3112)
+	Fri, 26 Feb 2016 08:15:09 +0000 (UTC)
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+	esa7.bmw.c3s2.iphmx.com with ESMTP/TLS; 26 Feb 2016 09:14:57 +0100
+Received: from unknown (HELO esabb5.muc) ([160.50.100.47]) by esagw6.muc with
+	ESMTP/TLS; 26 Feb 2016 09:14:57 +0100
+Received: from smuch51a.muc (HELO SMUCH51A.europe.bmw.corp) ([160.46.137.115])
+	by esabb5.muc with ESMTP/TLS; 26 Feb 2016 09:14:56 +0100
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH51A.europe.bmw.corp ([160.46.137.115]) with mapi id 14.03.0248.002;
+	Fri, 26 Feb 2016 09:14:55 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <mariano.lopez@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 0/3] Add initial capability to check CVEs for
+	recipes
+Thread-Index: AQHRb8YPTPKRB7zS1kqsvPG9SjQg2J88n/SAgAAQYICAAAu0AIABLzSA
+Date: Fri, 26 Feb 2016 08:14:55 +0000
+Message-ID: <20160226081455.GH6210@loska>
+References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
+	<20160225121421.GB6210@loska> <20160225122912.GC6210@loska>
+	<20160225132748.GD6210@loska> <20160225140942.GE6210@loska>
+In-Reply-To: <20160225140942.GE6210@loska>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.99]
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] uclibc support for rng-tools
+Subject: Re: [PATCH 0/3] Add initial capability to check CVEs for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,168 +43,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 08:01:49 -0000
-X-Groupsio-MsgNum: 78763
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7FD0EE39-230B-4E3E-A90D-8D2CEA73776D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_7FD0EE39-230B-4E3E-A90D-8D2CEA73776D
+X-List-Received-Date: Fri, 26 Feb 2016 08:15:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <00905FD84BA9F649B6D0D3081D15CAAC@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-its better fix
+Hi,
 
-> On Feb 25, 2016, at 2:30 AM, Maxin B. John <maxin.john@intel.com> =
-wrote:
->=20
-> Uclibc has its own argp implemented as libuargp. So, we add a new
-> option --enable-uclibc to select it.
->=20
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
-> .../rng-tools/uclibc-libuargp-configure.patch      | 63 =
-++++++++++++++++++++++
-> meta/recipes-support/rng-tools/rng-tools_5.bb      |  4 +-
-> 2 files changed, 66 insertions(+), 1 deletion(-)
-> create mode 100644 =
-meta/recipes-support/rng-tools/rng-tools/uclibc-libuargp-configure.patch
->=20
-> diff --git =
-a/meta/recipes-support/rng-tools/rng-tools/uclibc-libuargp-configure.patch=
- =
-b/meta/recipes-support/rng-tools/rng-tools/uclibc-libuargp-configure.patch=
+On my developer machine the cve-check ran ok for dizzy but on build server
+with sstate-cache and rmwork enabled it failed with what looks like a race
+condition when scanning the patch files:
 
-> new file mode 100644
-> index 0000000..e691315
-> --- /dev/null
-> +++ =
-b/meta/recipes-support/rng-tools/rng-tools/uclibc-libuargp-configure.patch=
+17:45:36 ERROR: Error executing a python function in /home/builder/src/base=
+/poky/meta/recipes-extended/mailx/mailx_12.5.bb:
+17:45:36=20
+17:45:36 The stack trace of python calls that resulted in this exception/fa=
+ilure was:
+17:45:36 File: 'do_cve_check', lineno: 17, function: <module>
+17:45:36      0013:    else:
+17:45:36      0014:        bb.note("Failed to update CVE database, skipping=
+ CVE check")
+17:45:36      0015:
+17:45:36      0016:
+17:45:36  *** 0017:do_cve_check(d)
+17:45:36      0018:
+17:45:37 File: 'do_cve_check', lineno: 8, function: do_cve_check
+17:45:37      0004:    Check recipe for patched and unpatched CVEs
+17:45:37      0005:    """
+17:45:37      0006:
+17:45:37      0007:    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", Tru=
+e)):
+17:45:37  *** 0008:        patched_cves =3D get_patches_cves(d)
+17:45:37      0009:        patched, unpatched =3D check_cves(d, patched_cve=
+s)
+17:45:37      0010:        if patched or unpatched:
+17:45:37      0011:            cve_data =3D get_cve_info(d, patched + unpat=
+ched)
+17:45:37      0012:            cve_write_data(d, patched, unpatched, cve_da=
+ta)
+17:45:37 File: 'cve-check.bbclass', lineno: 13, function: get_patches_cves
+17:45:37      0009:    cve_match =3D re.compile("CVE:( CVE\-\d+\-\d+)+")
+17:45:37      0010:    patched_cves =3D set()
+17:45:37      0011:    for url in src_patches(d):
+17:45:37      0012:        patch_file =3D bb.fetch.decodeurl(url)[2]
+17:45:37  *** 0013:        with open(patch_file, "r") as f:
+17:45:37      0014:            patch_text =3D f.read()
+17:45:37      0015:
+17:45:37      0016:        # Search for the "CVE: " line
+17:45:37      0017:        match =3D cve_match.search(patch_text)
+17:45:37 Exception: IOError: [Errno 2] No such file or directory: '/home/bu=
+ilder/src/base/build/tmp/work/corei7-64-linux/mailx/12.5-r2/heirloom-mailx_=
+12.5-1.diff'
+17:45:37=20
+17:45:37 ERROR: Function failed: do_cve_check
 
-> @@ -0,0 +1,63 @@
-> +In case of uclibc, use libuargp
-> +
-> +If we use uclibc for system libraries, select libuargp
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> +---
-> +diff -Naur rng-tools-5-orig/configure.ac rng-tools-5/configure.ac
-> +--- rng-tools-5-orig/configure.ac	2016-02-24 18:11:24.023690235 =
-+0200
-> ++++ rng-tools-5/configure.ac	2016-02-24 18:14:49.763118138 +0200
-> +@@ -39,6 +39,13 @@
-> + 	[with_libargp=3Dcheck]
-> + )
-> +
-> ++AC_ARG_ENABLE([uclibc],
-> ++    AS_HELP_STRING([--enable-uclibc], [Use uclibc for system =
-libraries]),
-> ++        use_uclibc=3Dyes, use_uclibc=3Dno)
-> ++AM_CONDITIONAL(USE_UCLIBC, test "x$use_uclibc" =3D "xyes")
-> ++AS_IF([test "x$use_uclibc" =3D "xyes"], [AC_DEFINE(USE_UCLIBC)])
-> ++AH_TEMPLATE([USE_UCLIBC], [Defined if uclibc libraries are used.])
-> ++
-> + dnl Make sure anyone changing configure.ac/Makefile.am has a clue
-> + AM_MAINTAINER_MODE
-> +
-> +@@ -101,7 +108,7 @@
-> + 			[need_libargp=3Dno],
-> + 			[need_libargp=3Dyes
-> + 			 if test "x$with_libargp" =3D "xno"; then
-> +-				AC_MSG_FAILURE([libargp disabled and =
-libc does not have argp])
-> ++				AC_MSG_WARN([libargp disabled and libc =
-does not have argp])
-> + 			 fi]
-> + 		)
-> + 	],
-> +@@ -110,7 +117,7 @@
-> +
-> + dnl Check for libargp
-> + AS_IF(
-> +-	[test "x$need_libargp" =3D "xyes"],
-> ++	[test "x$need_libargp" =3D "xyes" -a "x$use_uclibc" =3D "xno"],
-> + 	[
-> + 		AC_CHECK_LIB(
-> + 			[argp],
-> +@@ -120,6 +127,19 @@
-> + 		)
-> + 	]
-> + )
-> ++
-> ++dnl Check for libuargp
-> ++AS_IF(
-> ++	[test "x$use_uclibc" =3D "xyes"],
-> ++	[
-> ++		AC_CHECK_LIB(
-> ++			[uargp],
-> ++			[argp_parse],
-> ++			[LIBS=3D"$LIBS -luargp"],
-> ++			[AC_MSG_FAILURE([libuargp not found])]
-> ++		)
-> ++	]
-> ++)
-> +
-> + dnl -----------------
-> + dnl Configure options
-> diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb =
-b/meta/recipes-support/rng-tools/rng-tools_5.bb
-> index bc67990..53d2d61 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools_5.bb
-> +++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
-> @@ -6,6 +6,7 @@ SRC_URI =3D =
-"http://heanet.dl.sourceforge.net/sourceforge/gkernel/${BP}.tar.gz \
->            file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
->            =
-file://0002-Add-argument-to-control-the-libargp-dependency.patch \
->            file://underquote.patch \
-> +           file://uclibc-libuargp-configure.patch \
+So could this be caused by cve-check changes or is this just a side effect
+of some other recipe problems?
 
-is there tab and space mix here ?
+I could not see that kind of fixes in master.
 
->            file://init \
->            file://default"
->=20
-> @@ -23,8 +24,9 @@ inherit autotools update-rc.d
->=20
-> PACKAGECONFIG =3D "libgcrypt"
-> PACKAGECONFIG_libc-musl =3D "libargp"
-> -PACKAGECONFIG_libc-uclibc =3D "libargp"
-> +PACKAGECONFIG_libc-uclibc =3D "libuargp"
-> PACKAGECONFIG[libargp] =3D =
-"--with-libargp,--without-libargp,argp-standalone,"
-> +PACKAGECONFIG[libuargp] =3D "--enable-uclibc,,,"
-> PACKAGECONFIG[libgcrypt] =3D =
-"--with-libgcrypt,--without-libgcrypt,libgcrypt,"
->=20
-> do_install_append() {
-> --
-> 2.4.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-Mikko=
 
-
---Apple-Mail=_7FD0EE39-230B-4E3E-A90D-8D2CEA73776D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlbQBmwACgkQuwUzVZGdMxSOUwCgi6YguW0L/UNIfIgsgiG7JBuf
-MQ4An0dKTB+agaUJwOkPCghCGcrzkTEh
-=hyIl
------END PGP SIGNATURE-----
-
---Apple-Mail=_7FD0EE39-230B-4E3E-A90D-8D2CEA73776D--
