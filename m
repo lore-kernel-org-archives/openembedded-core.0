@@ -1,45 +1,47 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 65F0D7017D
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B12E77421
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 14:06:48 +0000 (UTC)
-Received: by mail-pf0-f179.google.com with SMTP id q63so52674168pfb.0
+	Fri, 26 Feb 2016 14:14:12 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id w128so5169395pfb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 06:06:49 -0800 (PST)
+	Fri, 26 Feb 2016 06:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=bAjSk1ZNdHWFjf/9cJLX9EHyL4aspv2w/HAE5ukzpBM=;
-	b=Advemh8KrLsgmWax9TQ06bBRgFqjOe72xdjE26HxKRiaTlrpvdvvwaqcr2baQ7kSld
-	ncshib4dRciiL6udvl6Og5maPSD+9OJeHcEG8K0v8y0ZbCD4gVAVIRDzpH+MVN9zv9bh
-	yE8Sb1sxaozOrgVU7ED0cQTD6rziBSb4HP+ld1T8PiptJzNV+rLcV4pSOSz4+XBWk6Cz
-	Pkbq96vG07cRD02xah7W/kpTJbwSqGXmxAKRIDMi+qy0+M8KNq6gnp240RwXBKpXJSzS
-	lalTVa9j+wXlcOsuA7VPALIQjBENqtq3GfJBczYGxFUn5/QPNp5g7eO6JZv6yV/g0ITJ
-	RqaA==
+	h=from:to:cc:subject:date:message-id;
+	bh=t5RvojV7ZfAsfo0ALZR5Ql3+Vav2JDzqar6MTuZnljg=;
+	b=yGDt2s/YSLZCkLIDpILqcdOFm6wMMxeVboZFAjItZYHOqgQtJxO8+Jn9gar6MOPMvM
+	t2VgesUaCf2bCOu1CzaWGp25S5lv4cyB6yRnBAbIWSygpMIPjE5Sly0MVve/qYuiazq6
+	jLCZwxu2RkwVJ7aHNWBN2Eb4pUKKwMjskYe+01/yewGxp78+qBFa1GH1w2Yq18YhsZS0
+	9Q0hYlkA6R5koD4fguR+dMpZLeieA7ow6N+VomhJQlxPTpyhorxXyU/vPZM0kQGNFS48
+	BgsN2WiNxgqwtPThEzlev5Uto/s8WgAQu4UtACGpbHbx9nxZyWcHLcLC7MYVoNAmoAwt
+	d52g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=bAjSk1ZNdHWFjf/9cJLX9EHyL4aspv2w/HAE5ukzpBM=;
-	b=dolWN6lpWhD1tV/mrMWMEhCT7N97382bb5aVkJqp10cuy2Bm7AomnNa9YKw2gEpvkJ
-	R55JHSzluDRczpniqNUgdL/GhJ9KkSwNi9riCQA+IIIpOyM8t6XzUAjkOsqcxtGGKAbY
-	HUMgDrrHyQ2Ygll6qjyxxaOBwIGkBTE0Z0351xSl1oBX2Mlqx8i4OB81u+uDFFA88A6j
-	16kAyZzPmCWvNHLvCmX5W+ETLbcO5CFpL6yDbl0GScydsDUD31igq4EicnvowHACsOk0
-	la7FkDOkERsUjcADJjlpI9Dmub67rjFHE+Z5BQcSGX5vzrt9MaZjRXS/F5vOIycjaH0e
-	hR8w==
-X-Gm-Message-State: AD7BkJIhmO1hqkidkNwtNMFkTlfJSUWR683tvJU7AHR3sLHjkrT06AdMQRUgUPEa9l3zULqG2LcpfKnKqcVfyA==
-MIME-Version: 1.0
-X-Received: by 10.98.72.193 with SMTP id q62mr2316634pfi.117.1456495609452;
-	Fri, 26 Feb 2016 06:06:49 -0800 (PST)
-Received: by 10.66.155.201 with HTTP; Fri, 26 Feb 2016 06:06:49 -0800 (PST)
-In-Reply-To: <1456485390-1390-1-git-send-email-net147@gmail.com>
-References: <1456485390-1390-1-git-send-email-net147@gmail.com>
-Date: Sat, 27 Feb 2016 01:06:49 +1100
-Message-ID: <CANwerB1SUCBUN7ppby7u7LnD_TOme=PL+6k8u2oxkPm58jZEyQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=t5RvojV7ZfAsfo0ALZR5Ql3+Vav2JDzqar6MTuZnljg=;
+	b=fhxFjTsDsvoLJxEPy4i7UnpcpoW3mNbN0ap+hi9sQ1wwG5xeCWasGzbRJACgpZdfqF
+	pXb5WSELlEWeKo7G7lvv3a8cDTnRaMarfBlRWEUsPw6Oo/2vM05I1jyMXr0qv2gcLkeC
+	5fP7NO7o+OrKUXhM+k4cR0nyQu6Ze9P036lx+egpsJkdBMjA+D0qTBWkPIsZzNJdbzmn
+	sb/0CLD3h8Y30nI/huhsv05+hsGn/uo9YcqAweE6Kww63mROy3lAY0vSU8MRpUEsnijh
+	vdSLNm7bJ3Jc2pzQxXyHQhTM9ixNWnXU7g8FjDKS9CK3556cG67iZO9YGp0+3Ydb6NYP
+	M9YQ==
+X-Gm-Message-State: AD7BkJIpgTsWEXsHo7CsvTCx1lOJ8kOpFGVlzX/BfmFFZ72IA+9Bmd5VzerfGfnpvhk6UA==
+X-Received: by 10.98.66.157 with SMTP id h29mr2368359pfd.91.1456496053763;
+	Fri, 26 Feb 2016 06:14:13 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	fc8sm19847544pab.21.2016.02.26.06.14.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Feb 2016 06:14:12 -0800 (PST)
 From: Jonathan Liu <net147@gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ffmpeg: add bzlib and lzma PACKAGECONFIGs
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Sat, 27 Feb 2016 01:14:16 +1100
+Message-Id: <1456496056-31812-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.7.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] ffmpeg: add bzlib, lzma and xv PACKAGECONFIGs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 14:06:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Feb 2016 14:14:13 -0000
 
-On 26 February 2016 at 22:16, Jonathan Liu <net147@gmail.com> wrote:
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
-> index e7b20fa..53156ed 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
-> @@ -30,14 +30,16 @@ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'avdevice', bb.utils.contains(
->
->  inherit autotools pkgconfig
->
-> -PACKAGECONFIG ??= "avdevice avfilter gpl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-> +PACKAGECONFIG ??= "avdevice avfilter bzlib gpl lzma theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
->  PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
->  PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
-> +PACKAGECONFIG[bzlib] = "--enable-bzlib,--disable-bzlib,bzip2"
->  PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
->  PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
->  PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
->  PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
->  PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
-> +PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
->  PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
->  PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
->  PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
-> --
-> 2.7.1
->
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Please disregard this patch. I will rework it to include a
-PACKAGECONFIG for xv as well.
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
+index 3f0cbf8..036d4f1 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
+@@ -29,14 +29,16 @@ DEPENDS = "alsa-lib zlib libogg yasm-native"
+ 
+ inherit autotools pkgconfig
+ 
+-PACKAGECONFIG ??= "avdevice avfilter gpl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice, libxv"
++PACKAGECONFIG ??= "avdevice avfilter bzlib gpl lzma theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
++PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
+ PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
++PACKAGECONFIG[bzlib] = "--enable-bzlib,--disable-bzlib,bzip2"
+ PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
+ PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
+ PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
+ PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
+ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
++PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
+ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
+@@ -46,6 +48,7 @@ PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
+ PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
+ PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
+ PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
++PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
+ 
+ # Check codecs that require --enable-nonfree
+ USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes', '', d)}"
+-- 
+2.7.1
 
-Regards,
-Jonathan
 
