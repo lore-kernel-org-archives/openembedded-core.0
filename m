@@ -1,46 +1,56 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C28A177468
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 8129E77476
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 21:12:23 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id m82so70378601oif.1
+	Fri, 26 Feb 2016 21:43:27 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id fy10so57056034pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 13:12:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=1TZGUNcPqcbl9IVxog8T4AmTYmIp29/kSnepG8S2Kwc=;
-	b=CqgxRf786T2CqANJnr91j1a3VH0apZ4/NNwglZOnt7r4MQHg8npp4jNOeZ20HZQRXM
-	PWsLN9L5q5ho708Z2j2NdvnyqWcYLKBKOK0jh90OsQVAQrHSbHvSrUfVgT99BCecdHfB
-	XhfBpjd+z1RIdNsD8/Dlo/fL++uN1vhzLVjJYYnpL6ythkbGQ0P1KUerIQEJ5/KOPw7k
-	3wxyIl0uWyv8cUH4tqCUABKQ9BKLUJv1INscA5/XZyWq/c6+yCdOQjmVb+Yti5I7RpH+
-	CczW7CLbc5a2cjJpC2znjscjnLcNnBeQMdK9Jt5MHD5MCqO4ULTwuR7rJVEKh/x1eDCR
-	ZD5w==
+	Fri, 26 Feb 2016 13:43:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:date:message-id:subject:to:cc;
+	bh=1Vyz/BypgoJC9NE35HjqmJe7Ec+jwdMCYDkJAELtPtE=;
+	b=PaPk3ZM3zozjOcoT7YFb7Tg9L5rklGt423ulYF5erVfVFHoa/oldAvY9kGOgSDbwbX
+	bjqKKD7zFbooULrEM4o9zKivTBN3oVpQ8FqXUDAyhgZNIDFYzyeNAJPu0ctl+dW/fXp1
+	nBU6KpiHJ1CQC9ACuAp63mSEDULO9t288xlqezTPvjSY8q2YTTrv+X5y/5EVzNOQmwsG
+	daJFXPSIvdD17aXuAq41qvxsmsk8xXSWtoKIax/E9OHG9RuiJ4UWVccmtNNm3w/avThb
+	fjr+J++GRJaXIPVeoI9vJUshXnqHGdV2DjPjN6lZ47Tv9vrkEfmyt7cZPhS6cSeRMVRm
+	mEJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1TZGUNcPqcbl9IVxog8T4AmTYmIp29/kSnepG8S2Kwc=;
-	b=htfLUx/PMP5jmM1x0pvzo/PGqO8AUUilRBbCe0SblfVkHFRZrPnEk/mdi7Aj60kFxy
-	LNb/+WwY6/pWUmVzdz3IC/odBnpyRy9YEwXMymUVvlYzACQt2+akxcgLP5q0XoyB9fth
-	pGltU3aWKxG4DqciQ1wD6jzKC/OsRh28CizXb6KsvTEMs4C06XRhOj3iuf4urg4lCOkl
-	aTbzJ/FsjprbijXSPqHMXRVnDqMY0a8t7SecawH04PKlz86P6asdFU9DAsgcc65hepVY
-	ylvfhqzFp0+aAQ51GerUHwjmLUl4ClV8uNFOczqlAge9iGV99ax7yXJu7yFwbF+5nlVc
-	AydQ==
-X-Gm-Message-State: AD7BkJJUOzR8u12GiF5gujcOfG0dcv6P6qHfSAUWUPZIzb0xX8OBYQpfkz5oTzKfYP86Mw==
-X-Received: by 10.202.107.18 with SMTP id g18mr2832624oic.125.1456521144685;
-	Fri, 26 Feb 2016 13:12:24 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	n84sm9883785oig.14.2016.02.26.13.12.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Feb 2016 13:12:23 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Feb 2016 13:12:18 -0800
-Message-Id: <1456521138-23570-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] harfbuzz: update 1.2.1 -> 1.2.3
+	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
+	bh=1Vyz/BypgoJC9NE35HjqmJe7Ec+jwdMCYDkJAELtPtE=;
+	b=CQOVD7eZsntg6NHXycsU4Bw/tY1joKm4EGMtnIBhMpwh3PmNQNBKnjWpZpjewSoIwS
+	zLL41Pj8Sm1c8Xo4NmgDYynx+MwQWWsgS7iTbHAUbCcmwFgk6Euivh/rbVH8BAeAnm36
+	bxh2zb9ayCIuRAGed+BRDK1YvJhpirf/Uwfj/l5jHec/IBM7vS96W2n4Ir2OcsLOHt6H
+	MWqecMr687rbnzsIZFZm46FR1PZnSrtn7AOW2EVTaRoPcF5kOMKeKuxTVFw0sfcodHym
+	Yg8Jl6Z+moI83Q6kgGxeIkWTC7D9bcRcBhNGodGceQnNvVmWKv6dlF8ucNB5/e37Itxc
+	ctWA==
+X-Gm-Message-State: AD7BkJIjdp4k3PTTuuzK2K1E0eoa95Z63WLVLen6ciOckssxH+noS+h1iHf6t1UOlokpRQ==
+X-Received: by 10.66.120.202 with SMTP id le10mr5165865pab.155.1456523008578; 
+	Fri, 26 Feb 2016 13:43:28 -0800 (PST)
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com.
+	[209.85.220.44]) by smtp.gmail.com with ESMTPSA id
+	u24sm21405273pfa.94.2016.02.26.13.43.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Feb 2016 13:43:27 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f44.google.com with SMTP id fy10so57055596pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Feb 2016 13:43:26 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.67.6.10 with SMTP id cq10mr5277262pad.120.1456523006153;
+	Fri, 26 Feb 2016 13:43:26 -0800 (PST)
+Received: by 10.67.3.163 with HTTP; Fri, 26 Feb 2016 13:43:26 -0800 (PST)
+Date: Fri, 26 Feb 2016 18:43:26 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqj5hDBi9_cz1qvb3A=QZ-SLipYX=OqjVw+Q5zJx2L7Wg@mail.gmail.com>
+Message-ID: <CAP9ODKqj5hDBi9_cz1qvb3A=QZ-SLipYX=OqjVw+Q5zJx2L7Wg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [jethro] 'wic' image support critical fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,85 +63,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 21:12:25 -0000
+X-List-Received-Date: Fri, 26 Feb 2016 21:43:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Overview of changes leading to 1.2.3
-Thursday, February 25, 2016
-====================================
+Hello folks,
 
-- Blacklist GDEF table of certain versions of Times New Roman (Bold) Italic,
-  due to bug in glyph class of ASCII double-quote character.  This should
-  address "regression" introduced in 1.2.0 when we switched mark zeroing
-  in most shapers from BY_UNICODE_LATE to BY_GDEF_LATE.
-  This fourth release in a week should finally stablize things...
+[Cced Robert Yang]
 
-- hb-ot-font's get_glyph() implementation saw some optimizations.  Though,
-  might be really hard to measure in real-world situations.
+I would like to propuse the backport of following changes:
 
-- Also, two rather small API changes:
+Author: Mariano Lopez <mariano.lopez@linux.intel.com>
+Date:   Wed Dec 30 06:52:54 2015 +0000
 
-We now disable some time-consuming internal bookkeeping if built with NDEBUG
-defined.  This is a first time that we use NDEBUG to disable debug code.  If
-there exist production systems that do NOT want to enable NDEBUG, please let
-me know and I'll add HB_NDEBUG.
+    image_types.bbclass: Rebuild when WICVARS change
 
-Added get_nominal_glyph() and get_variation_glyph() instead of get_glyph()
+    The procces to do a wic image is to save a file with
+    variables required by wic and then call wic using this
+    file. Because this is external to bitbake if the vars
+    change, the image won't be rebuild; an example of such
+    is IMAGE_BOOT_FILES.
 
-New API:
-- hb_font_get_nominal_glyph_func_t
-- hb_font_get_variation_glyph_func_t
-- hb_font_funcs_set_nominal_glyph_func()
-- hb_font_funcs_set_variation_glyph_func()
-- hb_font_get_nominal_glyph()
-- hb_font_get_variation_glyph()
+    This patch adds these variables to vardeps of do_rootfs
+    when a wic image is build. This will rebuild the image
+    if a variable needed by wic changes.
 
-Deprecated API:
-- hb_font_get_glyph_func_t
-- hb_font_funcs_set_glyph_func()
+    [YOCTO #8693]
 
-Clients that implement their own font-funcs are encouraged to replace
-their get_glyph() implementation with a get_nominal_glyph() and
-get_variation_glyph() pair.  The variation version can assume that
-variation_selector argument is not zero.  Old (deprecated) functions
-will continue working indefinitely using internal gymnastics; it is
-just more efficient to use the new functions.
+    Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    (cherry picked from commit 12c54d50ed4c321dc272beb3c6cb770965c979f1)
 
-Overview of changes leading to 1.2.2
-Wednesday, February 24, 2016
-====================================
+Author: Christopher Larson <chris_larson@mentor.com>
+Date:   Tue Nov 10 14:18:20 2015 -0700
 
-- Fix regression with mark positioning with fonts that have
-  non-zero mark advances.  This was introduced in 1.2.0 while
-  trying to make mark and cursive attachments to work together.
-  I have partially reverted that, so this version is much more
-  like what we had before.  All clients who updated to 1.2.0
-  should update to this version.
+    image_types: improve wks path specification
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- .../harfbuzz/{harfbuzz_1.2.1.bb => harfbuzz_1.2.3.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.2.1.bb => harfbuzz_1.2.3.bb} (88%)
+    Hardcoding a full input path with zero flexibility goes against
+everything the
+    Yocto Project is about. Rework it to let the user specify the wks base
+    filename with WKS_FILE and it'll search the layers for the wks file and use
+    it.
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.3.bb
-similarity index 88%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.2.3.bb
-index fead2d3..cfe885f 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.3.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
- 
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
- 
--SRC_URI[md5sum] = "c50034739e4b5ea85d46199bf7859ea6"
--SRC_URI[sha256sum] = "0c189aa386c5ea8d7c315adf273f56f48f412081a367b3f92abc2d0855fa2226"
-+SRC_URI[md5sum] = "da8d97e262e6ef8288e1ae76369421bd"
-+SRC_URI[sha256sum] = "8216d2404aaab7fde87be0365a90d64aa6c55928e104557cfcb37b54a096cb8c"
- 
- inherit autotools pkgconfig lib_package
- 
+    Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    (cherry picked from commit 8cc7f5229f5447c2183ac319dd52c7ed737ec89b)
+
+Author: Noor Ahsan <noor_ahsan@mentor.com>
+Date:   Wed Dec 23 15:50:35 2015 +0200
+
+    wic: rawcopy: Copy source file to build folder
+
+    When a file is given using --sourceparams then wic directly use that file
+    instead of copying them to build folder. At time of assembling it os.rename
+    is called which renames all the files to name. In that process the original
+    file is renamed. When image recipe is rebuilt then wic complains about
+    missing file which was renamed in previous build.
+
+    [YOCTO #8854]
+
+    Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    (cherry picked from commit 33c52b1f2d39feb641465bf42e8b16d0ab22a316)
+
+Those improve the 'wic' image support on Jethro and are merged into
+master for a while. Could those be backported?
+
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
