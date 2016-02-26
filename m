@@ -1,56 +1,23 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 8129E77476
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 85CC677290
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 21:43:27 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id fy10so57056034pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 13:43:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to:cc;
-	bh=1Vyz/BypgoJC9NE35HjqmJe7Ec+jwdMCYDkJAELtPtE=;
-	b=PaPk3ZM3zozjOcoT7YFb7Tg9L5rklGt423ulYF5erVfVFHoa/oldAvY9kGOgSDbwbX
-	bjqKKD7zFbooULrEM4o9zKivTBN3oVpQ8FqXUDAyhgZNIDFYzyeNAJPu0ctl+dW/fXp1
-	nBU6KpiHJ1CQC9ACuAp63mSEDULO9t288xlqezTPvjSY8q2YTTrv+X5y/5EVzNOQmwsG
-	daJFXPSIvdD17aXuAq41qvxsmsk8xXSWtoKIax/E9OHG9RuiJ4UWVccmtNNm3w/avThb
-	fjr+J++GRJaXIPVeoI9vJUshXnqHGdV2DjPjN6lZ47Tv9vrkEfmyt7cZPhS6cSeRMVRm
-	mEJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
-	bh=1Vyz/BypgoJC9NE35HjqmJe7Ec+jwdMCYDkJAELtPtE=;
-	b=CQOVD7eZsntg6NHXycsU4Bw/tY1joKm4EGMtnIBhMpwh3PmNQNBKnjWpZpjewSoIwS
-	zLL41Pj8Sm1c8Xo4NmgDYynx+MwQWWsgS7iTbHAUbCcmwFgk6Euivh/rbVH8BAeAnm36
-	bxh2zb9ayCIuRAGed+BRDK1YvJhpirf/Uwfj/l5jHec/IBM7vS96W2n4Ir2OcsLOHt6H
-	MWqecMr687rbnzsIZFZm46FR1PZnSrtn7AOW2EVTaRoPcF5kOMKeKuxTVFw0sfcodHym
-	Yg8Jl6Z+moI83Q6kgGxeIkWTC7D9bcRcBhNGodGceQnNvVmWKv6dlF8ucNB5/e37Itxc
-	ctWA==
-X-Gm-Message-State: AD7BkJIjdp4k3PTTuuzK2K1E0eoa95Z63WLVLen6ciOckssxH+noS+h1iHf6t1UOlokpRQ==
-X-Received: by 10.66.120.202 with SMTP id le10mr5165865pab.155.1456523008578; 
-	Fri, 26 Feb 2016 13:43:28 -0800 (PST)
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com.
-	[209.85.220.44]) by smtp.gmail.com with ESMTPSA id
-	u24sm21405273pfa.94.2016.02.26.13.43.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 Feb 2016 13:43:27 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f44.google.com with SMTP id fy10so57055596pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 13:43:26 -0800 (PST)
-MIME-Version: 1.0
-X-Received: by 10.67.6.10 with SMTP id cq10mr5277262pad.120.1456523006153;
-	Fri, 26 Feb 2016 13:43:26 -0800 (PST)
-Received: by 10.67.3.163 with HTTP; Fri, 26 Feb 2016 13:43:26 -0800 (PST)
-Date: Fri, 26 Feb 2016 18:43:26 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqj5hDBi9_cz1qvb3A=QZ-SLipYX=OqjVw+Q5zJx2L7Wg@mail.gmail.com>
-Message-ID: <CAP9ODKqj5hDBi9_cz1qvb3A=QZ-SLipYX=OqjVw+Q5zJx2L7Wg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [jethro] 'wic' image support critical fixes
+	Fri, 26 Feb 2016 22:38:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Feb 2016 14:38:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,505,1449561600"; d="scan'208";a="924791957"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Feb 2016 14:38:40 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Feb 2016 14:34:17 +0000
+Message-Id: <64382dbfc824db93729e324f33f2a2519b9a15c6.1456497209.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+In-Reply-To: <cover.1456497209.git.mariano.lopez@linux.intel.com>
+References: <cover.1456497209.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] dhcp: CVE-2015-8605
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,73 +30,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 21:43:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Feb 2016 22:38:40 -0000
 
-Hello folks,
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-[Cced Robert Yang]
+ISC DHCP allows remote attackers to cause a denial of
+service (application crash) via an invalid length field
+in a UDP IPv4 packet.
 
-I would like to propuse the backport of following changes:
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ .../dhcp/dhcp/CVE-2015-8605.patch                  | 99 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb       |  1 +
+ 2 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
 
-Author: Mariano Lopez <mariano.lopez@linux.intel.com>
-Date:   Wed Dec 30 06:52:54 2015 +0000
-
-    image_types.bbclass: Rebuild when WICVARS change
-
-    The procces to do a wic image is to save a file with
-    variables required by wic and then call wic using this
-    file. Because this is external to bitbake if the vars
-    change, the image won't be rebuild; an example of such
-    is IMAGE_BOOT_FILES.
-
-    This patch adds these variables to vardeps of do_rootfs
-    when a wic image is build. This will rebuild the image
-    if a variable needed by wic changes.
-
-    [YOCTO #8693]
-
-    Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-    (cherry picked from commit 12c54d50ed4c321dc272beb3c6cb770965c979f1)
-
-Author: Christopher Larson <chris_larson@mentor.com>
-Date:   Tue Nov 10 14:18:20 2015 -0700
-
-    image_types: improve wks path specification
-
-    Hardcoding a full input path with zero flexibility goes against
-everything the
-    Yocto Project is about. Rework it to let the user specify the wks base
-    filename with WKS_FILE and it'll search the layers for the wks file and use
-    it.
-
-    Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-    (cherry picked from commit 8cc7f5229f5447c2183ac319dd52c7ed737ec89b)
-
-Author: Noor Ahsan <noor_ahsan@mentor.com>
-Date:   Wed Dec 23 15:50:35 2015 +0200
-
-    wic: rawcopy: Copy source file to build folder
-
-    When a file is given using --sourceparams then wic directly use that file
-    instead of copying them to build folder. At time of assembling it os.rename
-    is called which renames all the files to name. In that process the original
-    file is renamed. When image recipe is rebuilt then wic complains about
-    missing file which was renamed in previous build.
-
-    [YOCTO #8854]
-
-    Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-    (cherry picked from commit 33c52b1f2d39feb641465bf42e8b16d0ab22a316)
-
-Those improve the 'wic' image support on Jethro and are merged into
-master for a while. Could those be backported?
-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+new file mode 100644
+index 0000000..923d5d5
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+@@ -0,0 +1,99 @@
++Solves CVE-2015-8605 that caused DoS when an invalid lenght field in IPv4 UDP
++was recived by the server.
++
++Upstream-Status: Backport
++CVE: CVE-2015-8605
++
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
++
++=======================================================================
++diff --git a/common/packet.c b/common/packet.c
++index b530432..e600e37 100644
++--- a/common/packet.c
+++++ b/common/packet.c
++@@ -220,7 +220,28 @@ ssize_t decode_hw_header (interface, buf, bufix, from)
++ 	}
++ }
++ 
++-/* UDP header and IP header decoded together for convenience. */
+++/*!
+++ *
+++ * \brief UDP header and IP header decoded together for convenience.
+++ *
+++ * Attempt to decode the UDP and IP headers and, if necessary, checksum
+++ * the packet.
+++ *
+++ * \param inteface - the interface on which the packet was recevied
+++ * \param buf - a pointer to the buffer for the received packet
+++ * \param bufix - where to start processing the buffer, previous
+++ *                routines may have processed parts of the buffer already
+++ * \param from - space to return the address of the packet sender
+++ * \param buflen - remaining length of the buffer, this will have been
+++ *                 decremented by bufix by the caller
+++ * \param rbuflen - space to return the length of the payload from the udp
+++ *                  header
+++ * \param csum_ready - indication if the checksum is valid for use
+++ *                     non-zero indicates the checksum should be validated
+++ *
+++ * \return - the index to the first byte of the udp payload (that is the
+++ *           start of the DHCP packet
+++ */
++ 
++ ssize_t
++ decode_udp_ip_header(struct interface_info *interface,
++@@ -231,7 +252,7 @@ decode_udp_ip_header(struct interface_info *interface,
++   unsigned char *data;
++   struct ip ip;
++   struct udphdr udp;
++-  unsigned char *upp, *endbuf;
+++  unsigned char *upp;
++   u_int32_t ip_len, ulen, pkt_len;
++   static unsigned int ip_packets_seen = 0;
++   static unsigned int ip_packets_bad_checksum = 0;
++@@ -241,11 +262,8 @@ decode_udp_ip_header(struct interface_info *interface,
++   static unsigned int udp_packets_length_overflow = 0;
++   unsigned len;
++ 
++-  /* Designate the end of the input buffer for bounds checks. */
++-  endbuf = buf + bufix + buflen;
++-
++   /* Assure there is at least an IP header there. */
++-  if ((buf + bufix + sizeof(ip)) > endbuf)
+++  if (sizeof(ip) > buflen)
++ 	  return -1;
++ 
++   /* Copy the IP header into a stack aligned structure for inspection.
++@@ -257,13 +275,17 @@ decode_udp_ip_header(struct interface_info *interface,
++   ip_len = (*upp & 0x0f) << 2;
++   upp += ip_len;
++ 
++-  /* Check the IP packet length. */
+++  /* Check packet lengths are within the buffer:
+++   * first the ip header (ip_len)
+++   * then the packet length from the ip header (pkt_len)
+++   * then the udp header (ip_len + sizeof(udp)
+++   * We are liberal in what we accept, the udp payload should fit within
+++   * pkt_len, but we only check against the full buffer size.
+++   */
++   pkt_len = ntohs(ip.ip_len);
++-  if (pkt_len > buflen)
++-	return -1;
++-
++-  /* Assure after ip_len bytes that there is enough room for a UDP header. */
++-  if ((upp + sizeof(udp)) > endbuf)
+++  if ((ip_len > buflen) ||
+++      (pkt_len > buflen) ||
+++      ((ip_len + sizeof(udp)) > buflen))
++ 	  return -1;
++ 
++   /* Copy the UDP header into a stack aligned structure for inspection. */
++@@ -284,7 +306,8 @@ decode_udp_ip_header(struct interface_info *interface,
++ 	return -1;
++ 
++   udp_packets_length_checked++;
++-  if ((upp + ulen) > endbuf) {
+++  /* verify that the payload length from the udp packet fits in the buffer */
+++  if ((ip_len + ulen) > buflen) {
++ 	udp_packets_length_overflow++;
++ 	if (((udp_packets_length_checked > 4) &&
++ 	     (udp_packets_length_overflow != 0)) &&
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
+index 6fcdddc..ee1e082 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://fixsepbuild.patch \
+             file://dhclient-script-drop-resolv.conf.dhclient.patch \
+             file://replace-ifconfig-route.patch \
++            file://CVE-2015-8605.patch \
+            "
+ 
+ SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.6.2
+
 
