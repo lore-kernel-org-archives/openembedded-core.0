@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E37FF7744E
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 21BA17745D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 16:09:02 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id y8so40827560igp.0
+	Fri, 26 Feb 2016 16:18:20 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id l127so126653688iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 08:09:03 -0800 (PST)
+	Fri, 26 Feb 2016 08:18:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QWNUi6BneTZHVVWUv3Um1Gy0VWPs2RB48DhMNgXJerU=;
-	b=JnRSiPPgPEwlL1jx942/9qll7DWcDtiPxXSBEGgRteHofH6hIXSHR1uLwzlcRh+f5a
-	wY4M1iSgKJScPDjn4h0APYF6yaVA12XnmOId5NUHoWfewXTBaO/vk7uXWeTMyBIC6uiC
-	lIfmYewF4SDD+selWxMri/zK8UVgX+zEKgwlcl0sskPhGBFaTMxQpOzUwrpmHEkymukp
-	TNiBcgsYdhxPaEa8jftwagK7mjHIWFgesrSxr2ClsURAI2leKRpJSfxuqMccKa+2Qd7m
-	TFtEqi5cFqqM7saX5XN9ZDC5+27uPtVK59ysLECOi5U3V+ua8pF5jF+hKkLdVRQrh6jN
-	5IKA==
+	:cc; bh=Y5Sgv6QQR+dVLDpsZyMMIzSgMET5bGMA9cwTPw4TizM=;
+	b=K1brSQ/I9IOwOeKdJEs9Fw3+ZeFNXMbnRjnTWzonw9/fA36fz02kIM4Oi+v7zNdexN
+	aN/X9CFwLW3oGubP3Mv2oXkBmv+A4K0MJVoO0HxJFQjtWjt2RGNnksmoWq8yn0+kNjDD
+	MZryNlGbksUsbaMe+D1LarEc9b+1h0VVHZlpdBLOQIrnWi+34XEOn/4XYtIeBEg92F9t
+	YuUk3PxwvQ5Ywvq7IVP1GLHudQ7aGSQ6JdjflJDNQf6DMOO17AnLFnowaFTliZmYTgIF
+	10JkB1uzJniWrpSfy9GkpQrA+d/sxRXspJDo9BUL6oLnlZpZvvnDD+WOcPkz9cuGGAem
+	jECw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=QWNUi6BneTZHVVWUv3Um1Gy0VWPs2RB48DhMNgXJerU=;
-	b=XNhV6xrSUYRyhH/wN1VqOseBFXVXMkfEnP23e8fPC1k0XKYHDOuotTYG8nYu2uWRB3
-	NzXVmCZjnQaL0IV0RdNIc1K5GS3KqniMbri4pyJcDyFOgAsMLnP6HCoz9SacLOyevW1p
-	O/4Hpnkn1ZhF7rmJNAnYWNExROsMYztEgJdDFt2Ujx/88g49shvdpBNsaxZPCAYPOKdf
-	uz+CHVJVSRXuTFI4sC6UDcQOxXCl8t+pmVTZvHo3u2tTzKDrPhWkFnxrbBB2HZAdH23p
-	HsYqBNj6f+upHW3twUAXOn24sZ/Ji2Cy7qxvFa3BZiLwabBM7kpW5fsdE1Ac0zFriDcB
-	XZ6Q==
-X-Gm-Message-State: AD7BkJIGdNEoqxb8ielahlaEL8RIzjHCVV9u7Iaju9n+vm86Fo45FQ2Prez0LVb56hyWsC5lMcLgHl2zK72xt1HD
-X-Received: by 10.50.66.238 with SMTP id i14mr3387587igt.52.1456502943151;
-	Fri, 26 Feb 2016 08:09:03 -0800 (PST)
+	bh=Y5Sgv6QQR+dVLDpsZyMMIzSgMET5bGMA9cwTPw4TizM=;
+	b=nIdSrxnVKUyhQcxmQSsBG/x5uLTS5za5Ie/lpMqyjDQz83BORgB+fZjI5j8zMsowi2
+	UvyIqPKmNASJDJLCk13iX2ITlvDUZhm6OG+E8h9z7orDnq9jowCUtAVGQ2z9/HcT9NEO
+	YLVn5zWEychUyru0yKSo0N86W1+BiJseyNkn/MxJsqbnklmwFGV4qxtCmsolhs1gWvbi
+	nKbR4wVL2DbRILknmcU39I702vNaKEUytZM1iOhInLtXanBfqyUJAwBV9lhMkEgE92jn
+	iSlKBoWM46cGvNMnlpa2ZJD/I/6GpeQa7nZ4XPRaI45QHD7U2P0cYfu1p9imsj0sOmje
+	cB/A==
+X-Gm-Message-State: AG10YOS/SyzJ4HqwziKowvmJGWvOdfl10183vSft7lGn9aWE7ZjT8Ms39FALaBrHJ2V0wngHfD86qphp7SoNdyW1
+X-Received: by 10.107.137.92 with SMTP id l89mr9936555iod.133.1456503501345;
+	Fri, 26 Feb 2016 08:18:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 26 Feb 2016 08:08:43 -0800 (PST)
-In-Reply-To: <1455554962-6301-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-References: <1455554962-6301-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Received: by 10.107.162.70 with HTTP; Fri, 26 Feb 2016 08:18:01 -0800 (PST)
+In-Reply-To: <f45b931dcb786d3afbfc6aa9dcacc9a9b74c317e.1448547850.git.alexander.kanavin@linux.intel.com>
+References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
+	<f45b931dcb786d3afbfc6aa9dcacc9a9b74c317e.1448547850.git.alexander.kanavin@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Feb 2016 16:08:43 +0000
-Message-ID: <CAJTo0LYHT_ac564ZQySik5kMcnzc4U_YD7eCP7ORfkWjpzEG3Q@mail.gmail.com>
-To: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+Date: Fri, 26 Feb 2016 16:18:01 +0000
+Message-ID: <CAJTo0LYw=jLVQhFJuEYxObFPGC_ShEgpRiL+BJVBu6em=MrFKA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/selftest/buildoptions: Test build does not fail without git rev
+Subject: Re: [PATCH 01/29] qemu.bbclass: add qemu_wrapper_cmdline()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 16:09:03 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc109c8a9e1f052cae84bb
+X-List-Received-Date: Fri, 26 Feb 2016 16:18:21 -0000
+Content-Type: multipart/alternative; boundary=001a113ebdb4d02bae052caea5ba
 
---047d7bdc109c8a9e1f052cae84bb
+--001a113ebdb4d02bae052caea5ba
 Content-Type: text/plain; charset=UTF-8
 
-On 15 February 2016 at 16:49, Daniel Istrate <
-daniel.alexandrux.istrate@intel.com> wrote:
+On 26 November 2015 at 14:26, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-> +        shutil.move(git_dir, git_dir_tmp)
+> +    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L "
+> + rootfs_path\
+> +            + " -E LD_LIBRARY_PATH=" + string.join(library_paths, ":") +
+> " "
 >
 
-This is a bit scary.  I think the test should use yocto-layers to create an
-empty layer.
+It's idiomatic to use ":".join and Python 3 has removed string.join
+entirely, so can you use ":".join please.
 
 Ross
 
---047d7bdc109c8a9e1f052cae84bb
+--001a113ebdb4d02bae052caea5ba
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 February 2016 at 16:49, Daniel Istrate <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:daniel.alexandrux.istrate@intel.com" target=3D"_blank">daniel.al=
-exandrux.istrate@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><div id=3D":1ly" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 shutil.move(git_dir, git_dir_tmp)<br></div></blockquot=
-e></div><br></div><div class=3D"gmail_extra">This is a bit scary.=C2=A0 I t=
-hink the test should use yocto-layers to create an empty layer.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 26 November 2015 at 14:26, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
+.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
+t-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
+=3D":lo" class=3D"" style=3D"overflow:hidden">+=C2=A0 =C2=A0 return &quot;P=
+SEUDO_UNLOAD=3D1 &quot; + qemu_binary + &quot; &quot; + qemu_options + &quo=
+t; -L &quot; + rootfs_path\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 + &quot; -E LD_LIBRARY_PATH=3D&q=
+uot; + string.join(library_paths, &quot;:&quot;) + &quot; &quot;</div></blo=
+ckquote></div><br>It&#39;s idiomatic to use &quot;:&quot;.join and Python 3=
+ has removed string.join entirely, so can you use &quot;:&quot;.join please=
+.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
 
---047d7bdc109c8a9e1f052cae84bb--
+--001a113ebdb4d02bae052caea5ba--
