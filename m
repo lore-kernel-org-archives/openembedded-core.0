@@ -1,52 +1,25 @@
-Return-Path: <rudolf.streif@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 17ACD6013D
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 28C40731CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 19:52:05 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id yy13so55836453pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 11:52:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=4YM8osP17iT8FkNM12c5m1iUhK1JTv7dO7qBcMPt2fI=;
-	b=gDTyWnE5/nSLd1D5s3Yn4zI9fXaS3QxbYnIRC3bavbsTz+ag7jr2LytlEnX8i/HsXN
-	vW1x+7edfwcV7i8aATEnHb6xv9g3HSPtgWYO1EJ/G/yfOIdI+MTZpL4VSL23i9V48Zy6
-	+ZMbni3FmR3Scddieet2bKSjn/aEpF2PplPSsiaSV6Q3Cb4Vvt4jFu/Y8XPN41u5Gva1
-	7pUEdK1nN9uH7iZgkLZNL+n8mI0ykezKawz5KxVFG1qq06P5I4XAQzbv2ycWP+Enc1sX
-	v3mOdzsIre/6IjbzidSFX+inNYKlfFCCNcLYrZx9ezccbMzPcPpcNwi0Tu3Zqm4Jbx3A
-	fHcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=4YM8osP17iT8FkNM12c5m1iUhK1JTv7dO7qBcMPt2fI=;
-	b=QuMpZ4p1EKnRze9plBmATsnrgpTKjKVz5kkiMv6LU0Ynb8yOmCHUchRibvRHAzoIiX
-	IFvg2vFpo9v7KiP6MuozYz/3U4pRg860xUbk95FYeWWYSPANULEu75RMR+kqwVLeIhjl
-	4x035N9jRImhHKSQ8hX8+suJy5syjw9srW6ABVLyn+CIIBOsw3FhBtc6UfIrEY/vDZHj
-	gCJ54OfqIV+ctqnpELv1CIWfAXcGjwA73yEm0AGbyYn0ZYeTUZUMzSLfbEIdQ9LGGjvp
-	x6mf3jO1WMP5BuZlBgHJ4IjTZzfCZo68+fZFhrvxByEJeOHyU6xU9vLwYfEJJBll/4RX
-	UZUQ==
-X-Gm-Message-State: AD7BkJJ4ZwSV5gd0Gx6FzN3d7jdHpu9aMor9Nxdp61Xum2YWVF9gOf1dfk/jSrdCK9vZDg==
-X-Received: by 10.66.190.131 with SMTP id gq3mr4548189pac.42.1456516325974;
-	Fri, 26 Feb 2016 11:52:05 -0800 (PST)
-Received: from rjs-zotac.streifs.net (ip68-7-48-20.sd.sd.cox.net. [68.7.48.20])
-	by smtp.gmail.com with ESMTPSA id
-	v29sm21174614pfa.31.2016.02.26.11.52.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Feb 2016 11:52:04 -0800 (PST)
-From: Rudolf J Streif <rudolf.streif@gmail.com>
-To: yocto@yoctoproject.org
-Date: Fri, 26 Feb 2016 11:52:03 -0800
-Message-ID: <2042150.gN3rpHrprf@rjs-zotac.streifs.net>
-User-Agent: KMail/4.14.10 (Linux/4.3.5-200.fc22.x86_64+debug; KDE/4.14.14;
-	x86_64; ; )
-In-Reply-To: <1456512644.11498.108.camel@linuxfoundation.org>
+	Fri, 26 Feb 2016 20:16:24 +0000 (UTC)
+Received: (qmail 18462 invoked by uid 1003); 26 Feb 2016 20:16:25 -0000
+Received: from unknown (HELO ?192.168.11.140?)
+	(philip@opensdr.com@71.171.15.136)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	26 Feb 2016 20:16:25 -0000
+To: Rudolf J Streif <rudolf.streif@gmail.com>, yocto@yoctoproject.org
 References: <1456508168.11498.95.camel@linuxfoundation.org>
 	<56D09D35.8040002@balister.org>
 	<1456512644.11498.108.camel@linuxfoundation.org>
+	<2042150.gN3rpHrprf@rjs-zotac.streifs.net>
+From: Philip Balister <philip@balister.org>
+Message-ID: <56D0B298.9050108@balister.org>
+Date: Fri, 26 Feb 2016 15:16:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
+In-Reply-To: <2042150.gN3rpHrprf@rjs-zotac.streifs.net>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [yocto] Yocto Project Status WW09
@@ -62,38 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 19:52:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 26 Feb 2016 20:16:25 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-> > > 
-> > > * We're about to try and transition meta-yocto within meta-yocto to
-> > > 
-> > >   meta-poky. The amount of pain this is causing is horrible :(.
-> > 
-> > Thanks for doing this. Can you summarize the pain? Are there any
-> > important lessons here?
+On 02/26/2016 02:52 PM, Rudolf J Streif wrote:
+>>>>
+>>>> * We're about to try and transition meta-yocto within meta-yocto to
+>>>>
+>>>>   meta-poky. The amount of pain this is causing is horrible :(.
+>>>
+>>> Thanks for doing this. Can you summarize the pain? Are there any
+>>> important lessons here?
+>>
+>> The key lesson is our current "migration" code in OE-Core sucks and I
+>> have some patches in progress which rewrite pieces of it in a way that
+>> makes it more useful. I'm therefore trying to make some positives from
+>> it.
+>>
+>> That said, I haven't found a way to make this work without leaving a
+>> dummy layer.conf in the old location since a missing layer.conf file is
+>> fatal to bitbake very early on before any migration code triggers.
+>>
+>> More should become clear when I post the patches, I've been holding off
+>> that until I actually manage a patch set that works on the
+>> autobuilder...
+>>
+>> Patches should be out over the weekend (in time for the freeze).
 > 
-> The key lesson is our current "migration" code in OE-Core sucks and I
-> have some patches in progress which rewrite pieces of it in a way that
-> makes it more useful. I'm therefore trying to make some positives from
-> it.
-> 
-> That said, I haven't found a way to make this work without leaving a
-> dummy layer.conf in the old location since a missing layer.conf file is
-> fatal to bitbake very early on before any migration code triggers.
-> 
-> More should become clear when I post the patches, I've been holding off
-> that until I actually manage a patch set that works on the
-> autobuilder...
-> 
-> Patches should be out over the weekend (in time for the freeze).
+> Sounds like a lot of work and potential for breaking things with little added 
+> value other than a more consistent naming. What was the rationale for making 
+> the change, if I may ask?
 
-Sounds like a lot of work and potential for breaking things with little added 
-value other than a more consistent naming. What was the rationale for making 
-the change, if I may ask?
+Consistent naming :) It does it make it much easier to explain what the
+meta-yocto layer is for. This has been one source of a great deal of
+confusion about how all the pieces come together.
 
-Thanks,
-:rjs
+I must admit, I'm surprised this is tricky. I look forward to seeing
+what needs doing. Hopefully, it shows me things I can avoid in my work.
 
+Philip
+
+> 
+> Thanks,
+> :rjs
+> 
+> 
 
