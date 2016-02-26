@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A65A0773E5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C7F17773D1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 01:45:21 +0000 (UTC)
+	Fri, 26 Feb 2016 01:45:23 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1Q1jLF4011038
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1Q1jNJH016734
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Feb 2016 17:45:21 -0800 (PST)
+	Thu, 25 Feb 2016 17:45:23 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 25 Feb 2016 17:45:20 -0800
+	Thu, 25 Feb 2016 17:45:22 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<ross.burton@intel.com>, <alejandro.hernandez@linux.intel.com>,
 	<richard.purdie@linuxfoundation.org>
-Date: Thu, 25 Feb 2016 20:44:59 -0500
-Message-ID: <fc8b66dace39547c69bc85119fda78c765d2355a.1456449257.git.hongxu.jia@windriver.com>
+Date: Thu, 25 Feb 2016 20:45:00 -0500
+Message-ID: <05c06ed8ffad83ab3bf492ef793f33f2a5d346e3.1456449257.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1456449257.git.hongxu.jia@windriver.com>
 References: <cover.1456449257.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/15] bbclass distutils/distutils3/setuptools/setuptools3: clean up DISTUTILS_INSTALL_ARGS
+Subject: [PATCH 13/15] python-pygobject: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,93 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 01:45:21 -0000
+X-List-Received-Date: Fri, 26 Feb 2016 01:45:24 -0000
 Content-Type: text/plain
 
-Since fix .pyc/.pyo buildpaths issue, we have the same
-DISTUTILS_INSTALL_ARGS in these bbclass files, so clean
-up the duplicate.
+The variable PYTHON is assigned with native python.
+But for target, it caused pygobject-codegen has
+build path.
 
-[YOCTO #8446]
+vim ${S}/codegen/pygobject-codegen-2.0.in
+[snip]...
+exec @PYTHON@ $codegendir/codegen.py "$@"
+[snip]...
 
+So we replace it by invoking "which python".
+
+[YOCTO #7058]
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/distutils.bbclass   | 4 +++-
- meta/classes/distutils3.bbclass  | 4 +++-
- meta/classes/setuptools.bbclass  | 5 -----
- meta/classes/setuptools3.bbclass | 5 -----
- 4 files changed, 6 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/python/python-pygobject_2.28.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index f054006..18cfb17 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -5,6 +5,8 @@ DISTUTILS_STAGE_HEADERS_ARGS ?= "--install-dir=${STAGING_INCDIR}/${PYTHON_DIR}"
- DISTUTILS_STAGE_ALL_ARGS ?= "--prefix=${STAGING_DIR_HOST}${prefix} \
-     --install-data=${STAGING_DATADIR}"
- DISTUTILS_INSTALL_ARGS ?= "--prefix=${prefix} \
-+    --root=${D} \
-+    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
+diff --git a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+index 81d37b4..6082d35 100644
+--- a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
++++ b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+@@ -51,3 +51,8 @@ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ FILES_${PN}-dev += "${bindir} ${datadir}"
  
- distutils_do_compile() {
-@@ -38,7 +40,7 @@ distutils_do_install() {
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --root=${D} --install-lib=${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install execution failed."
- 
-         # support filenames with *spaces*
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 7962d40..1e2924a 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -6,6 +6,8 @@ DISTUTILS_STAGE_HEADERS_ARGS ?= "--install-dir=${STAGING_INCDIR}/${PYTHON_DIR}"
- DISTUTILS_STAGE_ALL_ARGS ?= "--prefix=${STAGING_DIR_HOST}${prefix} \
-     --install-data=${STAGING_DATADIR}"
- DISTUTILS_INSTALL_ARGS ?= "--prefix=${prefix} \
-+    --root=${D} \
-+    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
- 
- distutils3_do_compile() {
-@@ -63,7 +65,7 @@ distutils3_do_install() {
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --root=${D} --install-lib=${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal "${PYTHON_PN} setup.py install execution failed."
- 
-         # support filenames with *spaces*
-diff --git a/meta/classes/setuptools.bbclass b/meta/classes/setuptools.bbclass
-index 56343b1..0a3f0f9 100644
---- a/meta/classes/setuptools.bbclass
-+++ b/meta/classes/setuptools.bbclass
-@@ -1,8 +1,3 @@
- inherit distutils
- 
- DEPENDS += "python-distribute-native"
--
--DISTUTILS_INSTALL_ARGS = "--root=${D} \
--    --prefix=${prefix} \
--    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
--    --install-data=${datadir}"
-diff --git a/meta/classes/setuptools3.bbclass b/meta/classes/setuptools3.bbclass
-index de6dd94..38e175a 100644
---- a/meta/classes/setuptools3.bbclass
-+++ b/meta/classes/setuptools3.bbclass
-@@ -1,8 +1,3 @@
- inherit distutils3
- 
- DEPENDS += "python3-setuptools-native"
--
--DISTUTILS_INSTALL_ARGS = "--root=${D} \
--    --prefix=${prefix} \
--    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
--    --install-data=${datadir}"
+ BBCLASSEXTEND = "native"
++
++do_install_append_class-target() {
++	sed -i -e "s:${PYTHON}:\`which python\`:g" \
++	    ${D}${bindir}/pygobject-codegen-2.0
++}
 -- 
 1.9.1
 
