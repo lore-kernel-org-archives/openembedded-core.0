@@ -1,67 +1,46 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 42448771BF
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AFDF6FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 09:33:22 +0000 (UTC)
-Received: by mail-lf0-f49.google.com with SMTP id m1so49916106lfg.0
+	Fri, 26 Feb 2016 10:52:59 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id e127so50579094pfe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 01:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:organization:user-agent;
-	bh=djPo04z31o1YzEpQlyU81ARTGnhMKDU9iKRi5dlV5K8=;
-	b=xSYKtsQbPXMCjTRDXhoaYKaW1GUb9XfLD0wE19MmKYJTHCJIQFoIFt4pdJatytRjUm
-	tKUHN28pP30WpBxh9YrM9VluPeur967/vpbp6nIWibEuS66FnGcqZ+iWQrkd6Jq4NbsZ
-	NpbrRid6wMXeXCF/hHe3X9BzyrMff++CLHJ3CY2LenLgnYoknfvp6vgJ5A7YTlg0HWVO
-	tgenNrHiEvjnFZl8WNHFnAd2LRXjvUWmRg3PQuzVSCjVk0aqlBS4pMnXPXg7zjfTTZTK
-	Q3THxrTq8yRR9lzNl2bWjWGwFcoCzEM6lWlqnXsEemOu09zsbcB2aOL45Bw2jpw5ZaVX
-	TJDg==
+	Fri, 26 Feb 2016 02:53:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=FzHT8YPHCERt3eZnGb5QfXaWhWcsQMVmqKai/2NbNhk=;
+	b=AJz7WgMSLIAgjYpwJ1G7eZpqpIbzXNGTk7yJ+8jSqgTADIpCI5xKeTM2eBqE2e/lqv
+	ktXFtrxYsnaM5xdZPU7OJBVChKP6gygGzhc7ttKTzaoYH7tsn2XqnK5fCJSD+oBGEwnL
+	hAje75vznAjBikdtLMcN0n/daaiw5l+v2KfuZJ1eza7IdWlXG70EVOmPOnmpLNURwjkK
+	RAHPlUjwy9XpIHjm9MTfL61vcfUGa9cKQqINrvmbamhyLqMbHjG3ctZ850qj0ilLfnnO
+	cwfgA9T/lcc4gB6lRZyx+AOY2gYoedPd7naFG30nTSCg+esjyoVHfz0c9Eurf9VfXQff
+	/eig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition
-	:content-transfer-encoding:in-reply-to:organization:user-agent;
-	bh=djPo04z31o1YzEpQlyU81ARTGnhMKDU9iKRi5dlV5K8=;
-	b=bCY3BIk38NHLCyulHwPIx9NOiTmG1iWGSYdEpjpOk488gct0A095ROtDnwzwD2/cXb
-	3JVYU+hxaB8KQ66tYMgRYapWkNqY5DcRWX1kzlLRSr82s5pHuJWAj3cdNweGuYxk83T6
-	yt3d+ulCDVEI3IJ33UoHWByGLfq/nXbygqIqJsyZHkeGCyyZwod4tJ88TZqtgC1ui/vR
-	nrcHrx4dYogXO0PvJpMBlNQ1xrXiI7Vbp+YlwfzGIpG4f63t/vqvxAstnRYLpdYMrnr5
-	nCS7L4GxqXxizhSy/Vr1+20XHdMZ4quEJ9BtMLAHGGiDMmMY0kICohp132BrFjbijjog
-	vJ1w==
-X-Gm-Message-State: AD7BkJLKF2WqXC9mNOHvNnJYE9zdXt13nCJqnhR79AV7WXsRgJoCMVN8rw2r92xCtU4gxA==
-X-Received: by 10.25.157.79 with SMTP id g76mr240084lfe.93.1456479202132;
-	Fri, 26 Feb 2016 01:33:22 -0800 (PST)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
-	f196sm1715799lfb.49.2016.02.26.01.33.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Feb 2016 01:33:21 -0800 (PST)
-Date: Fri, 26 Feb 2016 10:33:19 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org,
-	yocto texas <meta-ti@yoctoproject.org>,
-	Yocto layer <linux-yocto@yoctoproject.org>
-Message-ID: <20160226093319.GA4329@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org,
-	yocto texas <meta-ti@yoctoproject.org>,
-	Yocto layer <linux-yocto@yoctoproject.org>
-References: <AB28D54196164B23BA942EBCF3204741@RD3>
-	<20160224141143.GB2892@mbabyjoh-mobl.fi.intel.com>
-	<2CD39F82881F465AAD78DBB61BCA369E@RD3>
-	<CAJTo0LYMO4C9+rd1NG7mMmn4YfU6vRhuOYni4vvPAugoru=uwA@mail.gmail.com>
-	<E744C7D53BB7428AB0FD15C117627D11@RD3>
-MIME-Version: 1.0
-In-Reply-To: <E744C7D53BB7428AB0FD15C117627D11@RD3>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: How to integrate third party application software to yocto image
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FzHT8YPHCERt3eZnGb5QfXaWhWcsQMVmqKai/2NbNhk=;
+	b=Kl/KjuUl9RPQZPj2Vl08ESz1FtcoUHAOdjuzkZNUqu+sr8d3DQ4Ce50lIPk4SxMjvU
+	6DyS71RTlxXngmV2blsJBjMJC3z8P2RoylA2EYK0i7jqJqkoO8I4iwmN5Qot/IW2wjF/
+	giVdFpS364CvDk5PfpVg4oueyAWlNk1jtC2b9BY/1JtT3uxTcNfwQH/i3B7A2CnFf7qb
+	XklLBcT8AngDHNmQwjOVpR1/qvx7zKBLUBxPGdsYglKqlmYP4p3j0TRZZ0ib/ETOrfVt
+	VizWW9QouCwjezPXZmJbbO0VVRvudU1NQw2+amxG/ftNyN52wwUP0r2OZsYlZf+LZMDU
+	Eq7w==
+X-Gm-Message-State: AD7BkJJjhi9u24YyFBy6ipiLoMb+sJKRz4OjziKeeHfXUOlIns+5c9Z0Ys1cltgNAU/UnA==
+X-Received: by 10.98.7.219 with SMTP id 88mr1082315pfh.49.1456483980626;
+	Fri, 26 Feb 2016 02:53:00 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	x13sm18494852pfa.72.2016.02.26.02.52.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Feb 2016 02:52:59 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Feb 2016 21:52:25 +1100
+Message-Id: <1456483945-16340-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.7.1
+Subject: [PATCH] ffmpeg: fix build when DISTRO_FEATURES doesn't contain x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,60 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 09:33:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Feb 2016 10:53:00 -0000
 
-Hi,
+If avdevice is enabled, libxv is used if it is detected by configure
+for the XV outdev. However, we can't depend on libxv for avdevice when
+DISTRO_FEATURES doesn't contain x11 as this will result in an error.
 
-Please, don't top post.
+Fix this by adding a libxv dependency only when the avdevice
+PACKAGECONFIG is enabled and DISTRO_FEATURES contains x11. XV outdev
+is only one of many that are supported by avdevice so it is still
+useful to enable avdevice even if libxv is not available.
 
-* winiston@futuraautomation.com <winiston@futuraautomation.com> [160226 06:=
-41]:
-> I copied "recipes-navigation" folder from meta-oe (Open embedded build tr=
-ee) to "/poky/meta "
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> I have appended  in =E2=80=9Cconf/local.conf=E2=80=9D  as given below
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+index 72393b3..f29c05e 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_2.8.6.bb
+@@ -23,11 +23,12 @@ SRC_URI[sha256sum] = "25bcedbdafadac3d09c325c1d46a51f53d858b26a260d5aed6b4f17fea
+ PROVIDES = "libav libpostproc"
+ 
+ DEPENDS = "alsa-lib zlib libogg yasm-native"
++DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'avdevice', bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxv', '', d), '', d)}"
+ 
+ inherit autotools pkgconfig
+ 
+ PACKAGECONFIG ??= "avdevice avfilter gpl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice, libxv"
++PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
+ PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
+ PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
+ PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
+-- 
+2.7.1
 
-> IMAGE_INSTALL_append =3D " navit"
-
-> While creating the image, it spits out the following error,
-
-> winiston@winiston-VirtualBox:~/poky/build$ bitbake qt4e-demo-image
-> Loading cache: 100% |##########################| ETA:  00:00:00
-> Loaded 1510 entries from dependency cache.
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing RPROVIDES 'navit' (but /home/winiston/poky/meta/recipes-qt=
-/images/qt4e-demo-image.bb RDEPENDS on or otherwise requires it)
-> ERROR: navit was skipped: Recipe is blacklisted: bluez5 conflicts with bl=
-uez4 and bluez5 is selected in DISTRO_FEATURES
-
-This is the error. You have bluez5 in your DITRO_FEATURES, and I assume
-that navit requires bluez4? Anywya, it's blacklisted.
-
-> NOTE: Runtime target 'navit' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['navit']
-> ERROR: Required build target 'qt4e-demo-image' has no buildable providers.
-> Missing or unbuildable dependency chain was: ['qt4e-demo-image', 'navit']
-
-> Summary: There were 2 ERROR messages shown, returning a non-zero exit cod=
-e.
-> winiston@winiston-VirtualBox:~/poky/build$=20
-
-> Should I make any other setting to add the =E2=80=9Cnavit=E2=80=9D recipe=
- to my image?
-> Is this the correct method of copying  "recipes-navigation" folder  to
-> "/poky/meta "  ?=20
-
-Well, it works. If you don't mind the rest of meta-oe, I'd rather add
-that layer to conf/bblayers.conf. That would make it easier to get
-updates to e.g. navit.
-
-Cheers,
-Anders
-
---=20
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
 
