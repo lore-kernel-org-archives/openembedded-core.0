@@ -1,47 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 58DEF7729D
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BCB0771EE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 23:18:53 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id l127so154504395iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 15:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0K8KxLF0lCqvs/qDpAaXf99lbl+IaTmTMmlfN8uk7Cw=;
-	b=dFM2G4jboaT2cVbDrr5DsWIBVuO+/3mwRyo60/yXq7i3UcpJztSKse3rqPKqZrBQSg
-	bRa5U73Tl1CmIMHlvnNWUNs2BDZBTJZHiaWdJdG5PJjJ/8cTZQbtGVF9QeSLjknizty9
-	ZwpvIyysC6fXQZOOQ7ViKMe//kIuVjqlF+wNKeLYG3rc9g/35RhObOSdkOUkT9GMX2/A
-	flsyt6fv7b6hSxPecjjFSLdiqAagOIs2IVK8uHTD1XTlPQobOLrzZDm8iARmsRjV+wK8
-	ucUbs825XnAMEqyLvS+2qL7ivHQHPoHqkUSn1DdwJBUGpAx4l0z77bqNHC5+Tzy5JR6d
-	shPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0K8KxLF0lCqvs/qDpAaXf99lbl+IaTmTMmlfN8uk7Cw=;
-	b=mAyI6bInX0ZwZPIfNwfv3ko6hBOLaEdeHYM0XqxvVNpqFu+B9DE7AsDu87TpQYApvQ
-	Bee3thNiXplwlLjhDxfoel9L+ugermSFIjri6oqCVoODN7FErUxp77XdYsPMFvwq48j/
-	+CT7txGrFxvvFlZ/1wK0uSKiuNL4NclUYcB9rdocdQCUmtRA29Sl3hl0aJAzK66KSDa7
-	0B1vINVfotczYp8Ahz9GU8yC1dzRD5hV4U84ENjUsHeLLe1bxxHcb8ErV/TBvSvgSwwk
-	2j8ZGa4Ir4IYbuq85oTZVa7vd7BLw2JJP1oRPfDZO8iZ+/JoKqIkrZns8A73hBnEUAin
-	C4LA==
-X-Gm-Message-State: AG10YOQ0itxedgOMTB1/749+1OftQr/LXIoEo0Au0u0J4pBpLjQEWHr/cLJBkVhAl/alQjF6k/VZbjIF4v1rgFFD
-X-Received: by 10.107.164.15 with SMTP id n15mr12683454ioe.148.1456615133942; 
-	Sat, 27 Feb 2016 15:18:53 -0800 (PST)
+	Sat, 27 Feb 2016 23:26:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u1RNQDrg017051
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 27 Feb 2016 15:26:13 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sat, 27 Feb 2016 15:26:13 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1456456877.git.mark.hatle@windriver.com>
+	<CAJTo0LYDSo_oEMQEhHUWZEO2AGZ516JFevNH7oZ-yTKP_S8_sw@mail.gmail.com>
+	<56D12579.9020705@windriver.com>
+	<CAJTo0LYdiFyyU0Mn8eEq8eQfmcmKekkXxg1Dzqv+apA9RfA1hQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56D23094.20207@windriver.com>
+Date: Sat, 27 Feb 2016 17:26:12 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.6.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Sat, 27 Feb 2016 15:18:34 -0800 (PST)
-In-Reply-To: <1456562074.11498.125.camel@linuxfoundation.org>
-References: <1456441355-13599-1-git-send-email-joseph.lutz@novatechweb.com>
-	<1456562074.11498.125.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 27 Feb 2016 23:18:34 +0000
-Message-ID: <CAJTo0Lbjf1LRSZf1DnKg-iiTu5Yc=rn7kO8nzZvL5Tdbgmvtdw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <CAJTo0LYdiFyyU0Mn8eEq8eQfmcmKekkXxg1Dzqv+apA9RfA1hQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] automake: remove patch
+Subject: Re: [PATCH 0/3 v2] Upgrade RPM 5 to 5.4.16 (CVS HEAD)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Feb 2016 23:18:53 -0000
-Content-Type: multipart/alternative; boundary=001a11377682a22915052cc8a3a7
+X-List-Received-Date: Sat, 27 Feb 2016 23:26:14 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a11377682a22915052cc8a3a7
-Content-Type: text/plain; charset=UTF-8
+On 2/27/16 4:47 PM, Burton, Ross wrote:
+> 
+> On 27 February 2016 at 04:26, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+> 
+>     I am not getting this error on qemux86.
+> 
+>     My build configuration:
+> 
+>     BB_VERSION        = "1.29.0"
+>     BUILD_SYS         = "x86_64-linux"
+>     NATIVELSBSTRING   = "Fedora-23"
+>     TARGET_SYS        = "i586-oe-linux"
+>     MACHINE           = "qemux86"
+>     DISTRO            = "nodistro"
+>     DISTRO_VERSION    = "nodistro.0"
+>     TUNE_FEATURES     = "m32 i586"
+>     TARGET_FPU        = ""
+>     meta              = "mhatle/rpm-5.4.16:004efb3aaa973dba030847c1c8218238f0cc68c5"
+> 
+>     The local.conf is the stock one with buildhistory and package_rpm enabled.
+> 
+>     Which compiler do you have enabled?  I'm building with the default 5.3.0
+>     compiler.
+> 
+>     Since I'm not reproducing the problem, I'd like to know what the difference in
+>     configurations is.
+> 
+> 
+> This was on the autobuilder and happened twice in rpm-native:
+> 
+> http://errors.yoctoproject.org/Errors/Details/38006/ (Debian 8.3)
+> http://errors.yoctoproject.org/Errors/Details/38000/ (Ubuntu 14.04)
+> 
+> I guess the -native bit is important there.
 
-On 27 February 2016 at 08:34, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Ok.. so that is different.  It means the host compiler is too old and doesn't
+support atomic transactions.
 
-> This breaks the builds:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/bui
-> lds/652/steps/BuildImages/logs/stdio
->
+> Also, another failure happened more globally:
+> 
+> gcc: error: tblake2bp.o: No such file or directory
+> 
+> Several times in rpm for target:
+> http://errors.yoctoproject.org/Errors/Details/37991/
+> http://errors.yoctoproject.org/Errors/Details/38001/
+> http://errors.yoctoproject.org/Errors/Details/38007/
+> http://errors.yoctoproject.org/Errors/Details/38004/
 
-I've just sent a small patch to allow *.pyc to get packaged into cracklib
-so this should be resolved.  I'll test again when mut next runs.
+Ok. I'll investigate this one as well.  Likely this is a parallel build issue,
+hopefully I can spot the fault.
 
-Ross
+--Mark
 
---001a11377682a22915052cc8a3a7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> And once in rpm-native:
+> http://errors.yoctoproject.org/Errors/Details/37995/
+> 
+> Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 February 2016 at 08:34, Richard Purdie <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
-rdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":22z" class=3D"a3s" style=3D"overflow:hidden">This breaks =
-the builds:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-mips-=
-lsb/bui
-lds/652/steps/BuildImages/logs/stdio" rel=3D"noreferrer" target=3D"_blank">=
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/bui<br>
-lds/652/steps/BuildImages/logs/stdio</a></div></blockquote></div><br>I&#39;=
-ve just sent a small patch to allow *.pyc to get packaged into cracklib so =
-this should be resolved.=C2=A0 I&#39;ll test again when mut next runs.</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
 
---001a11377682a22915052cc8a3a7--
