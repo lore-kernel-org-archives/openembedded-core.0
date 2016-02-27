@@ -1,29 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BE327318D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 819497722D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 04:26:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1R4QY02029645
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Feb 2016 20:26:35 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 26 Feb 2016 20:26:34 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1456456877.git.mark.hatle@windriver.com>
-	<CAJTo0LYDSo_oEMQEhHUWZEO2AGZ516JFevNH7oZ-yTKP_S8_sw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56D12579.9020705@windriver.com>
-Date: Fri, 26 Feb 2016 22:26:33 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYDSo_oEMQEhHUWZEO2AGZ516JFevNH7oZ-yTKP_S8_sw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3 v2] Upgrade RPM 5 to 5.4.16 (CVS HEAD)
+	Sat, 27 Feb 2016 05:53:13 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id j125so5415680oih.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Feb 2016 21:53:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=hU2pxcrEo12mzl3G5E4aUjOlwAdtgZKEzwL9NoPYKWk=;
+	b=wZ1A32GIuwqyEZbCN+yevGswV+346VQ1knP1bY/ds2xa0ntAqHZ3j+5nFMWTtUEGFk
+	tCoy2HqmB7YCx4LUq1w6GqI+QXzFGDRec1ZdyeusPoz10zPcIzSVn0CrLVH2Ii6FE++X
+	NwCZhuRkFTzOTosOVXXOeJuktvHa+sorn0rnpboQb4m/MIxN6VZFQ6CPecaNjq9t1rue
+	TXKUH5tmZZ7/dGe0NPyU4Ng/MiposxP1mNLgiHepxstEjJtcIseibNQ7X3PjpR0ZwE3i
+	Vl9W90zEn9d/gueijsSU9CzWQfsFecfkiUJjxBpWoQgRuAxvU0MSlMdJvAMDuowdJJZ6
+	OlGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hU2pxcrEo12mzl3G5E4aUjOlwAdtgZKEzwL9NoPYKWk=;
+	b=aUM0VxJilW1oGMU+k6GG2IxaP4585v+CYLdAAuxg9vDhU3Id6Lxcnu8LoyDZ80ppoR
+	3Wmo9EFOH4xJSoe6UPGclciw8wOJj5BT9WBC1gKFfxZimJ72NAkuqUgufLacaiobpwKD
+	7Miu8+I72udXSf6O4gVocEnJiv548mU5pOLBKzLWyiNKPh+6wEvt1rqk12jGv0xeN+X7
+	PVchH02SB/ZRLKtmIiEX1xRfnTZr7O41oDe8BbqUM4Du2mGvppmr46K5LB8et8tiBGi+
+	yPgkyNZqvyV4XUifIiqno+2OjpsJmUFY1IOXQk3WAPlbhFOUUpV60pUe/RK+Za1y61HS
+	kYbw==
+X-Gm-Message-State: AD7BkJIBE6LGqMNoCA67iuRBad8f99jjyhhVIFP4qGqalSGexV0lEG+qujzemAo9dB8w9Q==
+X-Received: by 10.202.204.129 with SMTP id c123mr3923171oig.112.1456552393660; 
+	Fri, 26 Feb 2016 21:53:13 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	cd5sm10867528oec.15.2016.02.26.21.53.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Feb 2016 21:53:12 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Feb 2016 21:53:03 -0800
+Message-Id: <1456552387-10564-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/4] poison TARGET_CFLAGS etc for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,205 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Feb 2016 04:26:38 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 27 Feb 2016 05:53:13 -0000
 
-On 2/26/16 5:11 PM, Burton, Ross wrote:
-> Sorry Mark...
-> 
-> | In file included from ../../rpm-5.4.15/rpmio/rpmiotypes.h:8:0,
-> |                  from ../../rpm-5.4.15/rpmio/rpmsq.c:14:
-> | ../../rpm-5.4.15/rpmio/rpmsq.c: In function '_rpm_insque':
-> | ../../rpm-5.4.15/rpmio/rpmutil.h:115:30: error: '__transaction_atomic' without
-> transactional memory support enabled
-> |  #  define RPM_GNUC_TM_ATOMIC __transaction_atomic /* XXX [[outer]] */
-> |                               ^
-> | ../../rpm-5.4.15/rpmio/rpmsq.c:70:3: note: in expansion of macro
-> 'RPM_GNUC_TM_ATOMIC'
-> |    RPM_GNUC_TM_ATOMIC {
-> |    ^
-> | ../../rpm-5.4.15/rpmio/rpmsq.c: In function '_rpm_remque':
-> | ../../rpm-5.4.15/rpmio/rpmutil.h:115:30: error: '__transaction_atomic' without
-> transactional memory support enabled
-> |  #  define RPM_GNUC_TM_ATOMIC __transaction_atomic /* XXX [[outer]] */
-> |                               ^
-> | ../../rpm-5.4.15/rpmio/rpmsq.c:81:3: note: in expansion of macro
-> 'RPM_GNUC_TM_ATOMIC'
-> |    RPM_GNUC_TM_ATOMIC {
-> |    ^
-> | Makefile:2167: recipe for target 'rpmsq.lo' failed
-> 
-> on qemux86.
+The first patch fixes known problems with grub-efi-native
+incorrectly leaking target flags into the native build.
 
-I am not getting this error on qemux86.
+The second and third patches fix related grub2.inc issues.
 
-My build configuration:
+The final patch is the important change. It doesn't highlight
+and new problems (ie apart from grub-efi-native) for my typical
+builds, but needs wider testing.
 
-BB_VERSION        = "1.29.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Fedora-23"
-TARGET_SYS        = "i586-oe-linux"
-MACHINE           = "qemux86"
-DISTRO            = "nodistro"
-DISTRO_VERSION    = "nodistro.0"
-TUNE_FEATURES     = "m32 i586"
-TARGET_FPU        = ""
-meta              = "mhatle/rpm-5.4.16:004efb3aaa973dba030847c1c8218238f0cc68c5"
+Andre McCurdy (4):
+  grub2.inc: dont export TARGET_CFLAGS etc to grub2 configure
+  grub2.inc: avoid passing -isystem to native builds
+  grub2.inc: drop bogus dependency on xz
+  native.bbclass: poison TARGET_CFLAGS etc for native builds
 
-The local.conf is the stock one with buildhistory and package_rpm enabled.
+ meta/classes/native.bbclass     | 16 ++++++++++++----
+ meta/recipes-bsp/grub/grub2.inc | 19 +++++++++++++++++--
+ 2 files changed, 29 insertions(+), 6 deletions(-)
 
-Which compiler do you have enabled?  I'm building with the default 5.3.0 compiler.
-
-Since I'm not reproducing the problem, I'd like to know what the difference in
-configurations is.
-
---Mark
-
-> Ross
-> 
-> On 26 February 2016 at 03:28, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
-> 
->     V2:
->     Fixed three issues
->     - Added Apache 2.0 license for specific mongodb code
-> 
->     - Switch SSE usage dynamically in rpmio/keccak.c
->       See rpm-keccak-sse-intrin.patch
-> 
->     - Add support for architectures that do not support sync_add_and_fetch_8
->       See rpm-atomic-ops.patch
-> 
->     All of those changes are made in patch 1/3.
-> 
->     This has been built for all of the qemu* BSPs.
-> 
->     V1:
->     There is not yet an official RPM 5.4.16 release, however one will be coming
->     soon.  Until then, 4 distinct patches are used to upgrade RPM 5.4.15 to
->     5.4.16.  These patches are part of the commit (compressed w/ .xz).  However
->     I am not sending them as part of the email as it's not very interesting
->     to review base64.  :P
-> 
->     Many of the OE patches have been sent to the RPM 5 maintainer, and may be
->     part of the official 5.4.16 release.  When that release happens I expect a
->     simple rebase to remove the unnecessary patches.
-> 
->     The following changes since commit 205b446f3fc4a9885179a66a8dab9d81bcc63dca:
-> 
->       uclibc: Do not use immediate expansion operator (2016-02-22 20:42:34 +0000)
-> 
->     are available in the git repository at:
-> 
->       git://git.openembedded.org/openembedded-core-contrib
->     <http://git.openembedded.org/openembedded-core-contrib> mhatle/rpm-5.4.16
->      
->     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=mhatle/rpm-5.4.16
-> 
->     Mark Hatle (3):
->       rpm: Uprev to rpm-5.4.16 (pre) and rpm-5.4+cvs to current CVS head
->       rpm: Enable specific crypto and digest settings via variables
->       rpm: A number of the patches have been submitted upstream
-> 
->      meta/lib/oe/package_manager.py                     |   14 +-
->      .../rpm/rpm/0001-define-EM_AARCH64.patch           |    2 +-
->      ...arseArgvString-to-parse-the-_gpg_check_pa.patch |    2 +-
->      .../rpm/rpm/beecrypt-5.4.15-to-5.4.16.patch.gz     |  Bin 0 -> 42815 bytes
->      meta/recipes-devtools/rpm/rpm/debugedit-segv.patch |   48 +-
->      ...debugedit-valid-file-to-fix-segment-fault.patch |    2 +-
->      .../rpm/rpm/fstack-protector-configure-check.patch |   21 -
->      .../rpm/rpm/header-include-fix.patch               |   12 +-
->      .../rpm/rpm/lua-5.4.15-to-5.4.16.patch.gz          |  Bin 0 -> 269940 bytes
->      .../rpm/rpm/makefile-am-exec-hook.patch            |    2 +-
->      .../rpm/rpm/python-rpm-rpmsense.patch              |   32 +-
->      .../rpm/rpm/rpm-5.4.15-to-5.4.16.patch.gz          |  Bin 0 -> 2239384 bytes
->      meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch |   73 ++
->      meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |    2 +-
->      meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch |   39 +-
->      meta/recipes-devtools/rpm/rpm/rpm-db60.patch       |   56 +
->      .../rpm/rpm/rpm-disable-Wno-override-init.patch    |   32 -
->      .../rpm/rpm/rpm-disable-auto-stack-protector.patch |   32 +
->      .../rpm/rpm/rpm-fix-logio-cp.patch                 |    2 +-
->      .../rpm/rpm/rpm-fix-parseEmbedded.patch            |   27 +
->      .../rpm/rpm/rpm-hardlink-segfault-fix.patch        |    2 +-
->      .../rpm/rpm/rpm-keccak-sse-intrin.patch            |   27 +
->      ...ction.c-fix-file-conflicts-for-mips64-N32.patch |    2 +-
->      meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch |    2 +-
->      .../rpm/rpm/rpm-lsb-compatibility.patch            |    2 +-
->      .../rpm/rpm/rpm-lua-fix-print.patch                |  104 --
->      ...rpm-macros.in-disable-external-key-server.patch |   16 +-
->      .../rpm/rpm/rpm-mongodb-sasl.patch                 |   69 ++
->      meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |    2 +-
->      ...b-before-verifyscript-to-avoid-null-point.patch |    2 +-
->      .../rpm/rpm/rpm-packageorigin.patch                |    2 +-
->      .../rpm/rpm/rpm-payload-use-hashed-inode.patch     |   22 +-
->      .../rpm/rpm/rpm-pkgconfigdeps.patch                |   10 +-
->      .../rpm/rpm/rpm-platform-file-fix.patch            |    2 +-
->      meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |    2 +-
->      meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |    4 +-
->      meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   16 +-
->      .../rpm/rpm/rpm-python-restore-origin.patch        |   49 +
->      .../rpm/rpm/rpm-remove-sykcparse-decl.patch        |   14 -
->      meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |    2 +-
->      .../rpm/rpm/rpm-rpmdb-grammar.patch                |  124 +++
->      .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |    2 +-
->      .../rpm/rpm/rpm-rpmio-headers.patch                |   19 +
->      meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch |   67 --
->      .../rpm/rpm/rpm-scriptletexechelper.patch          |   29 +-
->      .../rpm/rpm/rpm-syck-fix-gram.patch                | 1081 ++++++++++++++++++++
->      .../rpm-tag-generate-endian-conversion-fix.patch   |    2 +-
->      .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |    2 +-
->      meta/recipes-devtools/rpm/rpm/rpmatch.patch        |   32 +-
->      .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   27 +-
->      .../rpm/rpm/syck-5.4.15-to-5.4.16.patch.gz         |  Bin 0 -> 4837 bytes
->      meta/recipes-devtools/rpm/rpm/uclibc-support.patch |   38 +-
->      ...broken-logic-for-ghost-avoidance-Mark-Hat.patch |   38 -
->      meta/recipes-devtools/rpm/rpm_5.4+cvs.bb <http://cvs.bb>           |  290
->     +++++-
->      .../rpm/{rpm_5.4.14.bb <http://rpm_5.4.14.bb> => rpm_5.4.16.bb
->     <http://rpm_5.4.16.bb>}           |  185 +++-
->      55 files changed, 2120 insertions(+), 565 deletions(-)
->      create mode 100644
->     meta/recipes-devtools/rpm/rpm/beecrypt-5.4.15-to-5.4.16.patch.gz
->      delete mode 100644
->     meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/lua-5.4.15-to-5.4.16.patch.gz
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-5.4.15-to-5.4.16.patch.gz
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db60.patch
->      delete mode 100644
->     meta/recipes-devtools/rpm/rpm/rpm-disable-Wno-override-init.patch
->      create mode 100644
->     meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-keccak-sse-intrin.patch
->      delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua-fix-print.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch
->      create mode 100644
->     meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch
->      delete mode 100644
->     meta/recipes-devtools/rpm/rpm/rpm-remove-sykcparse-decl.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch
->      delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch
->      create mode 100644 meta/recipes-devtools/rpm/rpm/syck-5.4.15-to-5.4.16.patch.gz
->      delete mode 100644
->     meta/recipes-devtools/rpm/rpm/verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch
->      rename meta/recipes-devtools/rpm/{rpm_5.4.14.bb <http://rpm_5.4.14.bb> =>
->     rpm_5.4.16.bb <http://rpm_5.4.16.bb>} (83%)
-> 
->     --
->     2.5.0
-> 
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+-- 
+1.9.1
 
 
