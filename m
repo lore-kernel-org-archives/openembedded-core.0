@@ -1,25 +1,27 @@
 Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AAD8777140
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AE10777179
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 12:45:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1RCj5bj012636
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sat, 27 Feb 2016 04:45:05 -0800
-Received: from otp-ddragomi-d1.corp.ad.wrs.com (128.224.124.174) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sat, 27 Feb 2016 04:45:04 -0800
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
+	Sat, 27 Feb 2016 13:15:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1RDFCdZ004483
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 27 Feb 2016 05:15:12 -0800 (PST)
+Received: from [128.224.124.174] (128.224.124.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Sat, 27 Feb 2016 05:15:11 -0800
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 27 Feb 2016 14:44:43 +0200
-Message-ID: <1456577083-19366-2-git-send-email-daniel.dragomir@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1456577083-19366-1-git-send-email-daniel.dragomir@windriver.com>
 References: <1456577083-19366-1-git-send-email-daniel.dragomir@windriver.com>
+From: Dragomir Daniel <daniel.dragomir@windriver.com>
+Message-ID: <56D1A14B.1090100@windriver.com>
+Date: Sat, 27 Feb 2016 15:14:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCHv2] Add tune for 32-bit ARMv8-a
+In-Reply-To: <1456577083-19366-1-git-send-email-daniel.dragomir@windriver.com>
+X-Originating-IP: [128.224.124.174]
+Subject: Re: [PATCHv2] ARMv8 32-bit compiler tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,120 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Feb 2016 12:45:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 27 Feb 2016 13:15:12 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch adds tunes for 32-bit armv8 platforms. The user can select
-the vector floating-point instruction set: vfpv3, vfpv4 or fp-armv8
-and the Neon, crc and crypto extensions.
 
-Also, fix some parsing failures for armv7a*-neon-vfpv4 tunes.
 
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-Signed-off-by: Cristian Bercaru <cristian.bercaru at windriver.com>
----
- meta/conf/machine/include/arm/arch-armv7a.inc |  4 +-
- meta/conf/machine/include/arm/arch-armv8a.inc | 75 +++++++++++++++++++++++++++
- 2 files changed, 77 insertions(+), 2 deletions(-)
- create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+On 02/27/2016 02:44 PM, Daniel Dragomir wrote:
+> Hello!
+>
+> This is a second version for the patch:
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-February/117603.html
+>
+> I remove the python method from feature-arm-vfp and I added the TUNE_CCARGS appends for CRC, CRYPTO and fp-armv8 only in armv8a tune file.
+> I fix some parsing failures for armv7a*-neon-vfpv4 tunes.
+> Also, I reworked the tunes to eliminate multiple parsing failures that I got running Martin's script.
+>
+> @Martin, I ran again the script and the results are better. I pushed the results in a personal repo:
+> Tune results without the patch - clean open-embedded:
+> https://github.com/ddragomi/tune_test/tree/14861fd72be9aebaaa209d9990d72745c90b43eb/tune
 
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index d3b6f64..ff6bc29 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -65,8 +65,8 @@ PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-v
- PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16} armv7ahf-vfp-vfpv3d16-vfpv3 armv7at2hf-vfp-vfpv3d16-vfpv3"
- PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} armv7ahf-vfp-neon"
- PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7ahf-vfp-neon armv7at2hf-vfp-neon"
--PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-neon-vfpv4"
--PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-neon-vfpv4 armv7at2hf-vfp-neon-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-vfpv4-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-vfpv4-neon armv7at2hf-vfp-neon-vfpv4"
- 
- # Big Endian
- AVAILTUNES += "armv7ab armv7atb armv7ab-vfpv3d16 armv7atb-vfpv3d16 armv7ab-vfpv3 armv7atb-vfpv3 armv7ab-neon armv7atb-neon"
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-new file mode 100644
-index 0000000..2d8dd73
---- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -0,0 +1,75 @@
-+DEFAULTTUNE ?= "armv8a"
-+
-+TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
-+TUNECONFLICTS[armv8a] = "armv4 armv5 armv6 armv7 armv7a"
-+
-+TUNEVALID[crc] = "Enable CRC instrucitons for ARMv8-a"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crc", "-crc", "", d)}"
-+
-+TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crypto", "-crypto", "", d)}"
-+
-+TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", "-fp-armv8", "", d)}"
-+
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "armv8a", bb.utils.contains("TUNE_FEATURES", "crc", " -march=armv8-a+crc", " -march=armv8-a", d), "", d)}"
-+
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", bb.utils.contains("TUNE_FEATURES", "neon", bb.utils.contains("TUNE_FEATURES", "crypto", " -mfpu=crypto-neon-fp-armv8", " -mfpu=neon-fp-armv8", d), " -mfpu=fp-armv8", d), "", d)}"
-+
-+MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "armv8a", "armv8a:", "" ,d)}"
-+
-+require conf/machine/include/arm/arch-armv7a.inc
-+
-+# Little Endian base configs
-+AVAILTUNES += "armv8a armv8a-vfpv3 armv8a-neon armv8a-vfpv4 armv8a-vfpv4-neon armv8a-fp-armv8 armv8a-fp-armv8-neon armv8a-crypto-fp-armv8-neon"
-+ARMPKGARCH_tune-armv8a ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-vfpv3 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-neon ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-vfpv4 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-vfpv4-neon ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-fp-armv8 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-fp-armv8-neon ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crypto-fp-armv8-neon ?= "armv8a"
-+TUNE_FEATURES_tune-armv8a ?= "arm armv8a vfp"
-+TUNE_FEATURES_tune-armv8a-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a} vfpv3"
-+TUNE_FEATURES_tune-armv8a-neon ?= "${TUNE_FEATURES_tune-armv8a} neon"
-+TUNE_FEATURES_tune-armv8a-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a} vfpv4"
-+TUNE_FEATURES_tune-armv8a-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a} neon vfpv4"
-+TUNE_FEATURES_tune-armv8a-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a} fp-armv8"
-+TUNE_FEATURES_tune-armv8a-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} neon fp-armv8"
-+TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} crypto neon fp-armv8"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv8a armv8a-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-vfp-vfpv3"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4} armv8a-vfp-neon armv8a-vfp-vfpv4-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-fp-armv8-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8} armv8a-vfp-neon armv8a-fp-armv8-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon} armv8a-crypto-fp-armv8-vfp-neon"
-+
-+# CRC configs
-+AVAILTUNES += "armv8a-crc armv8a-crc-vfpv3 armv8a-crc-neon armv8a-crc-vfpv4 armv8a-crc-vfpv4-neon armv8a-crc-fp-armv8 armv8a-crc-fp-armv8-neon armv8a-crc-crypto-fp-armv8-neon"
-+ARMPKGARCH_tune-armv8a-crc ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-vfpv3 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-neon ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-vfpv4 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-vfpv4-neon ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-fp-armv8 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-fp-armv8-neon ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-crypto-fp-armv8-neon ?= "armv8a"
-+TUNE_FEATURES_tune-armv8a-crc ?= "${TUNE_FEATURES_tune-armv8a} crc"
-+TUNE_FEATURES_tune-armv8a-crc-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a-vfpv3} crc"
-+TUNE_FEATURES_tune-armv8a-crc-neon ?= "${TUNE_FEATURES_tune-armv8a-neon} crc"
-+TUNE_FEATURES_tune-armv8a-crc-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a-vfpv4} crc"
-+TUNE_FEATURES_tune-armv8a-crc-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a-vfpv4-neon} crc"
-+TUNE_FEATURES_tune-armv8a-crc-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8} crc"
-+TUNE_FEATURES_tune-armv8a-crc-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8-neon} crc"
-+TUNE_FEATURES_tune-armv8a-crc-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon} crc"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crc-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-vfpv3 armv8a-crc-vfp-vfpv3"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-neon armv8a-crc-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-vfpv4 armv8a-crc-vfp-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4} armv8a-vfp-neon armv8a-crc-vfp-neon armv8a-vfp-vfpv4-neon armv8a-crc-vfp-vfpv4-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-fp-armv8 armv8a-crc-fp-armv8-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8} armv8a-vfp-neon armv8a-vfp-neon-fp-armv8 armv8a-crc-fp-armv8-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon} armv8a-vfp-crypto-neon-fp-armv8 armv8a-crc-crypto-fp-armv8-vfp-neon"
--- 
-1.9.1
+Sorry, the correct link is:
+https://github.com/ddragomi/tune_test/tree/c71174fad88c88257cc7d567327181cb57eb2185/tune
+
+>
+> Tune results with this patch (VERSION 2):
+> https://github.com/ddragomi/tune_test/tree/master/tune
+>
+> And a diff between those here (I fix some parsing failures for armv7a*-neon-vfpv4 tunes):
+> https://github.com/ddragomi/tune_test/commit/06fbd558bf7e5d91d312628a023b8c0495e8f37a
+
+Sorry, the correct link is:
+https://github.com/ddragomi/tune_test/commit/8575dbd9ea39e69908a6adaffa494f7a7198b243
+
+>
+> NOTE: I also added a new fake-machine (axxiaarm) that require arch-arm8a.inc
+> to test/parse armv8a tunes:
+> DEFAULTTUNE ?= "armv8a-neon"
+> require conf/machine/include/arm/arch-armv8a.inc
+>
+> Previous message:
+> Starting with linux-yocto-4.1, Intel provides kernel support for its
+> ARM v8 Axxia platforms, both on 32-bit and 64-bit.
+> Poky already contains arm 64-bit compiler tunings, so I added 32-bit
+> tunings based on those for armv7.
+>
+> The patch that I send you is a draft. Please review it and if it's ok
+> I will return with thumb and big-endian tunings.
+>
+> Best regards,
+> Daniel Dragomir (1):
+>    Add tune for 32-bit ARMv8-a
+>
+>   meta/conf/machine/include/arm/arch-armv7a.inc |  4 +-
+>   meta/conf/machine/include/arm/arch-armv8a.inc | 75 +++++++++++++++++++++++++++
+>   2 files changed, 77 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+>
 
 
