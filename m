@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A144E7748E
+Received: from mail-ob0-f196.google.com (mail-ob0-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D7B27722D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 05:53:18 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id x143so549456oix.1
+	Sat, 27 Feb 2016 05:53:21 +0000 (UTC)
+Received: by mail-ob0-f196.google.com with SMTP id wz1so6781585obc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Feb 2016 21:53:19 -0800 (PST)
+	Fri, 26 Feb 2016 21:53:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mESVmyP5jrT72xtoxNE3ilcfFt2SxerqHSRyy+FJcCI=;
-	b=XwEZQ43/0j8AcW3TUiJJJcYrsWHXr+VhkoIrbNXyUjNqXt01aq2ppPu7QMgwF7b0B7
-	tdkd6PdE3unQs5TYEwYWrzUzwNvUjcFGE2y7WY8Hmywg6DQeLtSS0atHUCGVQLhtKAjb
-	Y6vKFwaON20sdu9keeJB2tmvTes9Gj+rCYi9XSVVpxxYNeCRifJ3wg8ux3nBJzkxzSER
-	eZ2fD97URJNb9z7lLxmf5I5KaiWH8gxiywRHSjLpsjtePjtzUK46vIc0bUyeROkP+fbz
-	c2UuV7LMuRictIHhsC4LSGALN0vS+VbL3EVSNQEnkyLENTZKXpNs5yWQ6FuVsr+jq0DF
-	kEJQ==
+	bh=+SyowSyHMC/Ozit5I5Hj7lXjUyNdxpm71iXl7ssvXAY=;
+	b=T5Kc6WU+FKdCh8r7CkFr8KKd/onYmzh1NwMCgOcpf74DazW5laSIquPJznFp98ABND
+	xvG0T9E43RhnFhkKa8jCBlSAiMm27yVcXylrQXlagLy4t28wv5BIis3yvtDeandzhia8
+	QTcJXFtrMR91+HbX+HlK6vfKTAr2zs8yFIPhBcC8otA8EVXFy+crLyFdasHf174kXLvD
+	gB410b7dMgNTR7PDaqJkyqklb5GHtDb9gcEbgfIQSYDeHSV4T/Bq9jrVfim8QgYP+WO8
+	6gvWnMw2tqGhp3wSE0jXokWslwpo/XYw4Rf5b42matyTa99tjHlLUVzvsVjGibRZTaP1
+	vC8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=mESVmyP5jrT72xtoxNE3ilcfFt2SxerqHSRyy+FJcCI=;
-	b=XIWjBJpoEZVC5+qg02BFr0jFeMqAxzHVJ2RbaAvACcl2/vmSD8H6q44kC/v27SGUhE
-	d0SiSbZgVLK5gAdH+jRrGp1ukpkK+Z5l4nspOWGerkHGl4qN2ab0MrxA+FmyEfFvK2UK
-	mkcPUcslw3uG3acazJpn12agCd2Yg2bYPM/qTmSB8768pa3IqRUz5po0mgvtpYy/BHPu
-	tqdTWOjxYJ8jn0t0OkpAFf3UwTNCVxQsdSJchbTIs25f/tPK1elSUmpCYp6VQQcbyE5H
-	R+mVzfiQsIG5raQISrJzpMcG91CXr7iN0yo9E1sVbJq3gr2XuLCvwd++ond7wuHwyMll
-	NIjA==
-X-Gm-Message-State: AD7BkJI57XMA25jBjdleXgf1x8tQuqMDZAOmWTNVo0/9COoYe0vsvkM5l6K0q7zvFJNacA==
-X-Received: by 10.202.77.11 with SMTP id a11mr3905773oib.23.1456552399467;
-	Fri, 26 Feb 2016 21:53:19 -0800 (PST)
+	bh=+SyowSyHMC/Ozit5I5Hj7lXjUyNdxpm71iXl7ssvXAY=;
+	b=jAdJdH+UOBpcNJuPzSNwVSTG6viL4ALzQEwOhAp3cVSdFjP8pE1lqBdVpHHU1SR7o0
+	2TFgykqu37vwMqzKNFwesjzmjDt/VZHiBqxHIrmLLc4EDVGYVCn6VmDZTvbJQShzBeLZ
+	uxuyoPNMzPY4NtoiU6maYRbr9dayPdf7SE3FV5THJF5b+b6QK+r2XWeUcMroLcPGd44s
+	zVL+X1zWCcNWq6r/yIb/nUWEdWgFc0OfZoDxQpGhXSCIlZiunhOFX34trYXUeeeofGFS
+	1vGmJG1ASt3wniqHohp9hatbOHpYKL5i4dky3uoihkfbjSpVK7jiurENaEB+BmhqI6wc
+	+tVg==
+X-Gm-Message-State: AD7BkJKVu40g/KIlwiI+91/Pw/iJNcb3J/XPvLa9FO+dt1iUGx1mTrI1oGi5+0CTDWOe6Q==
+X-Received: by 10.182.105.131 with SMTP id gm3mr4316771obb.23.1456552401913;
+	Fri, 26 Feb 2016 21:53:21 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	cd5sm10867528oec.15.2016.02.26.21.53.18
+	cd5sm10867528oec.15.2016.02.26.21.53.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Feb 2016 21:53:18 -0800 (PST)
+	Fri, 26 Feb 2016 21:53:21 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Feb 2016 21:53:05 -0800
-Message-Id: <1456552387-10564-3-git-send-email-armccurdy@gmail.com>
+Date: Fri, 26 Feb 2016 21:53:06 -0800
+Message-Id: <1456552387-10564-4-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1456552387-10564-1-git-send-email-armccurdy@gmail.com>
 References: <1456552387-10564-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/4] grub2.inc: avoid passing -isystem to native builds
+Subject: [PATCH 3/4] grub2.inc: drop bogus dependency on xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Feb 2016 05:53:18 -0000
+X-List-Received-Date: Sat, 27 Feb 2016 05:53:22 -0000
 
-grub2 creates its own set of -nostdinc / -isystem / -ffreestanding
-CFLAGS and OE's default BUILD_CFLAGS (assigned to CFLAGS for native
-builds) etc, conflict with that.
+grub contains it's own internal lzma library. Attempting to build grub against
+the system liblzma shared library or header files is not likely to end well.
+
+This change does not cause a floating dependency since all grub2.inc based
+recipes pass "--enable-liblzma=no" to configure.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-bsp/grub/grub2.inc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-bsp/grub/grub2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 5a12563..0fdafd5 100644
+index 0fdafd5..12cff4f 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -44,6 +44,15 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
- PACKAGECONFIG[device-mapper] = "--enable-device-mapper,--disable-device-mapper,lvm2"
+@@ -31,7 +31,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://0001-Remove-direct-_llseek-code-and-require-long-filesyst.patch \
+             "
  
-+# grub2 creates its own set of -nostdinc / -isystem / -ffreestanding CFLAGS and
-+# OE's default BUILD_CFLAGS (assigned to CFLAGS for native builds) etc, conflict
-+# with that. Note that since BUILD_CFLAGS etc are not used by grub2 target
-+# builds, it's safe to clear them unconditionally for both target and native.
-+BUILD_CPPFLAGS = ""
-+BUILD_CFLAGS = ""
-+BUILD_CXXFLAGS = ""
-+BUILD_LDFLAGS = ""
-+
- do_configure_prepend() {
- 	# The grub2 configure script uses variables such as TARGET_CFLAGS etc
- 	# for its own purposes. Remove the OE versions from the environment to
+-DEPENDS = "flex-native bison-native xz"
++DEPENDS = "flex-native bison-native"
+ 
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+ SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
 -- 
 1.9.1
 
