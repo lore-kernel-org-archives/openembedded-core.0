@@ -1,44 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 24A6177298
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B739770A1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 22:08:22 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id l68so14929771wml.1
+	Sat, 27 Feb 2016 22:48:12 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id g203so154412624iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 14:08:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=mXc5IlnQ538V6q0y8Yz6R0P0gIhxd/Cy2f6cPl98rFU=;
-	b=YdEqrlFj3pQBLnpGCbtyFFet7m0vnUMA0Szll3+ViH/SPwD0qD6N8EFpgyawXh+Jny
-	94CLgGDA1VE1uycO6CvQCr+FpjDyOmwLSNzfn7Kfo+lDXy0ILgAmvVECtGyFVqX7HEZF
-	iOUDNbhzoGRp1Du2vkR9bst5MuA3jx4mUo5XUvJT/7FVr/gHxMApWLy5wKZSwjMH4EGL
-	lp4NrNvfp7HW0dsvgcZ0qGQE2RHRiVgqFwHRKGQdhpz0MIxfUqyMi8aa5ezeiJkJQkQf
-	GESglmgZZOVvZKfIkKADtQxmSKRosaTFMlq4NL4vsozn6TwixomeW5t1nKLXOpOpnoqA
-	fHLg==
+	Sat, 27 Feb 2016 14:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Myn6BILYS89Orw81a2MUtZixYirOXxUwlDEyikbrfX8=;
+	b=HrZMvyG3Nvy1b3YtjO/GCgjFiE+4OfbCeGG5YsaOP3qcxw+baHy2PQ2DCxk8t+rKC7
+	C5VeB+Tmrm0CksY3u7fjQD2tiLHyoh3ag7oir4zY6dZ/L3rANQhR/9kpCBy6ff4qQSjB
+	eRPpfh1PtSVOUwfn/sSmt/gXTNKb6Fr2qzsDdagYSUOLAtk5cBhQnNCFFoqjaUj4IhSa
+	4f9oWNViW3iHAz8xzY3BjfuE1HnZaM7A3x/s+eeG6oTsVGQ+w76OVrjEx765c1SrOX+W
+	xeXs/DNvkehQxfdcKSfY6WErCmCc2QXyAoWROr5Xf9jBda9ny51X4wlalw5Veozsc97Y
+	Ouhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mXc5IlnQ538V6q0y8Yz6R0P0gIhxd/Cy2f6cPl98rFU=;
-	b=m74BrrvadPQqlKT2eHxgZ/JxT/V7SUUmSgivNnjfgARbnn19hkkiEOfVbMimdAx799
-	Td52ow1s+/D7+xVg4S80ujmVI7LOn81LvGS1qr8DB4TBjofdC+iEjeIN9+ddo5esa0+c
-	aOY+tH3ujNYFRDlydBEFLXI2CQ/0U/QRhZ8FzATtpA+nLuNM+SQL1wkg1NZ/POZhJEBR
-	RgkfOTykBffiapwH9DmmBTFtR75/PAQ715OGuPL8rWODhkkC15qFvUw+Q3RlMnBg0s0D
-	LmvLEOOIPlJSrAbl0oYDLAWoW71frSq5zq84DBccLRGOWhnuQcYYZjciARX9AR8pNVN5
-	7Ogg==
-X-Gm-Message-State: AD7BkJIQ5jDUA1q6Oa4NJHXJ4Jv4C/dCvstZ8yUUMiYbonB+iQjDy+yZH3PjDAL/I3Pzrw==
-X-Received: by 10.28.53.4 with SMTP id c4mr4470256wma.34.1456610903296;
-	Sat, 27 Feb 2016 14:08:23 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id 63sm7783731wms.1.2016.02.27.14.08.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 27 Feb 2016 14:08:22 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Feb 2016 23:09:47 +0100
-Message-Id: <1456610987-17836-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.7.1
-Subject: [PATCH][RFC] base.bbclass: Introduce EXTRA_CONF_PACKAGECONFIG variable
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Myn6BILYS89Orw81a2MUtZixYirOXxUwlDEyikbrfX8=;
+	b=eQLIcBZt/yB1PAU/hmJAULUOzmiAIrcx4IQ08GDuxia8r8CyfMHfjKyqLdvpKyeI9G
+	MpDQ91y8h22r7q9zkjXAjzi5Z7EBYSWlI7ZQ2ZIeMXrgKmcnJjBUWpAzImcFShhnFHxu
+	Otu1IwDuie6O35g3lJemArwm8XA0TXkb/WHAMmE/lV0c6hE4Og7w7ar+NWLal15DES39
+	xlunxaKLOhWibw9okCpWMv4QMaNnJBH+TRHNHC8a2OvMM0/RVJt1v4MK9uSdy9QN4urV
+	q0JPPWKV2wSBIxSoVvwwhGD+eQ6vnM+2XspfhRoLGsz7ItTI2LtijqX6Gou0N0FFlgvp
+	OI7g==
+X-Gm-Message-State: AG10YOSnC4tSlOYsh/HwMTcE9nYQUOulFhLvcfMW81xxFwWFW5GDsH5ariGXM1atEviruNtK3sHRWaDfEMtU6Gwh
+X-Received: by 10.107.164.15 with SMTP id n15mr12638483ioe.148.1456613292828; 
+	Sat, 27 Feb 2016 14:48:12 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Sat, 27 Feb 2016 14:47:53 -0800 (PST)
+In-Reply-To: <56D12579.9020705@windriver.com>
+References: <cover.1456456877.git.mark.hatle@windriver.com>
+	<CAJTo0LYDSo_oEMQEhHUWZEO2AGZ516JFevNH7oZ-yTKP_S8_sw@mail.gmail.com>
+	<56D12579.9020705@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 27 Feb 2016 22:47:53 +0000
+Message-ID: <CAJTo0LYdiFyyU0Mn8eEq8eQfmcmKekkXxg1Dzqv+apA9RfA1hQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3 v2] Upgrade RPM 5 to 5.4.16 (CVS HEAD)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +55,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Feb 2016 22:08:25 -0000
+X-List-Received-Date: Sat, 27 Feb 2016 22:48:13 -0000
+Content-Type: multipart/alternative; boundary=001a11377682e51976052cc835f1
 
-* add separate variable for configuration options generated from
-  PACKAGECONFIG setting, this helps other bbclasses and recipes
-  to take advantage of PACKAGECONFIG mechanism, without including
-  other options from EXTRA_OECONF
-* e.g. meta-qt5 recipes are abusing EXTRA_OECONF to get options
-  from PACKAGECONFIG:
-  EXTRA_QMAKEVARS_PRE +=
-  but with
-  conf/distro/include/no-static-libs.inc
-  it means getting --disable-static as invalid option inside
-  EXTRA_QMAKEVARS_PRE as reported by Alexandre Belloni who tried
-  to use poky with meta-qt5.
-* once we migrate all bbclasses and recipes to EXTRA_CONF_PACKAGECONFIG
-  we should also restrict EXTRA_OECONF append only to autotools.bbclass
-  like I did for cmake.bbclass
+--001a11377682e51976052cc835f1
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/base.bbclass  | 9 ++++++---
- meta/classes/cmake.bbclass | 2 ++
- 2 files changed, 8 insertions(+), 3 deletions(-)
+On 27 February 2016 at 04:26, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 1372f38..6e94995 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -428,9 +428,12 @@ python () {
-                     extraconf.append(items[1])
-         appendVar('DEPENDS', extradeps)
-         appendVar('RDEPENDS_${PN}', extrardeps)
--        if bb.data.inherits_class('cmake', d):
--            appendVar('EXTRA_OECMAKE', extraconf)
--        else:
-+        appendVar('EXTRA_CONF_PACKAGECONFIG', extraconf)
-+
-+        # TODO once are all recipes/bbclass abusign EXTRA_OECONF
-+        # to get PACKAGECONFIG options fixed to use EXTRA_CONF_PACKAGECONFIG
-+        # move this append to autotools.bbclass
-+        if not bb.data.inherits_class('cmake', d):
-             appendVar('EXTRA_OECONF', extraconf)
- 
-     pn = d.getVar('PN', True)
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 22cd61e..122718e 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -27,6 +27,8 @@ OECMAKE_EXTRA_ROOT_PATH ?= ""
- OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
- OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
- 
-+EXTRA_OECMAKE_append = " ${EXTRA_CONF_PACKAGECONFIG}"
-+
- # CMake expects target architectures in the format of uname(2),
- # which do not always match TARGET_ARCH, so all the necessary
- # conversions should happen here.
--- 
-2.7.1
+> I am not getting this error on qemux86.
+>
+> My build configuration:
+>
+> BB_VERSION        = "1.29.0"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "Fedora-23"
+> TARGET_SYS        = "i586-oe-linux"
+> MACHINE           = "qemux86"
+> DISTRO            = "nodistro"
+> DISTRO_VERSION    = "nodistro.0"
+> TUNE_FEATURES     = "m32 i586"
+> TARGET_FPU        = ""
+> meta              =
+> "mhatle/rpm-5.4.16:004efb3aaa973dba030847c1c8218238f0cc68c5"
+>
+> The local.conf is the stock one with buildhistory and package_rpm enabled.
+>
+> Which compiler do you have enabled?  I'm building with the default 5.3.0
+> compiler.
+>
+> Since I'm not reproducing the problem, I'd like to know what the
+> difference in
+> configurations is.
+>
 
+This was on the autobuilder and happened twice in rpm-native:
 
+http://errors.yoctoproject.org/Errors/Details/38006/ (Debian 8.3)
+http://errors.yoctoproject.org/Errors/Details/38000/ (Ubuntu 14.04)
+
+I guess the -native bit is important there.
+
+Also, another failure happened more globally:
+
+gcc: error: tblake2bp.o: No such file or directory
+
+Several times in rpm for target:
+http://errors.yoctoproject.org/Errors/Details/37991/
+http://errors.yoctoproject.org/Errors/Details/38001/
+http://errors.yoctoproject.org/Errors/Details/38007/
+http://errors.yoctoproject.org/Errors/Details/38004/
+
+And once in rpm-native:
+http://errors.yoctoproject.org/Errors/Details/37995/
+
+Ross
+
+--001a11377682e51976052cc835f1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 February 2016 at 04:26, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);=
+border-left-style:solid;padding-left:1ex"><div id=3D":28m" class=3D"" style=
+=3D"overflow:hidden">I am not getting this error on qemux86.<br>
+<br>
+My build configuration:<br>
+<br>
+BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;1.29.0&quot;<br>
+BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64-linux&quot;<br>
+NATIVELSBSTRING=C2=A0 =C2=A0=3D &quot;Fedora-23&quot;<br>
+TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;i586-oe-linux&quot;<br>
+MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;qemux86&quot;<br>
+DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;nodistro&quot;<br=
+>
+DISTRO_VERSION=C2=A0 =C2=A0 =3D &quot;nodistro.0&quot;<br>
+TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0=3D &quot;m32 i586&quot;<br>
+TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;&quot;<br>
+meta=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;mhatle/rpm-5=
+.4.16:004efb3aaa973dba030847c1c8218238f0cc68c5&quot;<br>
+<br>
+The local.conf is the stock one with buildhistory and package_rpm enabled.<=
+br>
+<br>
+Which compiler do you have enabled?=C2=A0 I&#39;m building with the default=
+ 5.3.0 compiler.<br>
+<br>
+Since I&#39;m not reproducing the problem, I&#39;d like to know what the di=
+fference in<br>
+configurations is.</div></blockquote></div><br>This was on the autobuilder =
+and happened twice in rpm-native:</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra"><a href=3D"http://errors.yoctoproject.org/Error=
+s/Details/38006/">http://errors.yoctoproject.org/Errors/Details/38006/</a> =
+(Debian 8.3)</div><div class=3D"gmail_extra"><a href=3D"http://errors.yocto=
+project.org/Errors/Details/38000/">http://errors.yoctoproject.org/Errors/De=
+tails/38000/</a> (Ubuntu 14.04)</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">I guess the -native bit is important there.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also, anoth=
+er failure happened more globally:<br><br>gcc: error: tblake2bp.o: No such =
+file or directory</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">Several times in rpm for target:</div><div class=3D"gmail_extra=
+"><a href=3D"http://errors.yoctoproject.org/Errors/Details/37991/">http://e=
+rrors.yoctoproject.org/Errors/Details/37991/</a><br></div><div class=3D"gma=
+il_extra"><a href=3D"http://errors.yoctoproject.org/Errors/Details/38001/">=
+http://errors.yoctoproject.org/Errors/Details/38001/</a></div><div class=3D=
+"gmail_extra"><a href=3D"http://errors.yoctoproject.org/Errors/Details/3800=
+7/">http://errors.yoctoproject.org/Errors/Details/38007/</a></div><div clas=
+s=3D"gmail_extra"><a href=3D"http://errors.yoctoproject.org/Errors/Details/=
+38004/">http://errors.yoctoproject.org/Errors/Details/38004/</a></div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">And once in rpm-=
+native:</div><div class=3D"gmail_extra"><a href=3D"http://errors.yoctoproje=
+ct.org/Errors/Details/37995/">http://errors.yoctoproject.org/Errors/Details=
+/37995/</a></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
+
+--001a11377682e51976052cc835f1--
