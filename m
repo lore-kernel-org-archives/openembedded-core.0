@@ -1,52 +1,32 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4902B771BF
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
+	by mail.openembedded.org (Postfix) with ESMTP id 650B977210
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 00:53:24 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id z135so156417214iof.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Feb 2016 16:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=1cQRBvCorMZNIMxQx5NTPWgqxpFGd2kcgRu71wfkUAs=;
-	b=uc8cPOfX4vt9KkA/5lx/N5XpX9ElrHEIEi1s8/WgXVidaho8b1etdrQ6wRP2eUC1NA
-	Le+u4uKGI7Q065IArgobnfcqM0kJ5SoJgkQemHwnSwutHcmSAwhD9UZn6GHXVwkH1qMN
-	TlM1OrFZCfUmas6KAaCX0Qexm20bovjpyIOeTl/ZbHxa+XL9ePHYGpjVjT7NEFrjDms9
-	BwUkSGm/K++4UR7+HwNLIKLFeg/3t5bci+bhl5kMnLcdaxyULXRzRt8dpwsm949ulZiI
-	4O+QOmDMG19xhIKWFBtei3o8hpZzkQP/ZSgYXEjA+KkpzlZNOqva2zcr06saKrROZ8nV
-	QYDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=1cQRBvCorMZNIMxQx5NTPWgqxpFGd2kcgRu71wfkUAs=;
-	b=JPHN6JpI/988Uyn8GRm/hzzzNMPzg4/3QIjybg+CCvkCJM7Vs31T5ag5xVH0KRWuJD
-	LGWPSz/SVsgL64rrhk2j5FkXjh32Ndl7nekb8Lil/UGoTy7qcKtUHi5yzG/YxlNZglqJ
-	ony9XoomqLIQ6NDUgfVeIva44b2mDvyKS+JU9vICbZv3iHfCdpkxCsxEm/PY9WjY/K1L
-	09npJ0CzuDV5juCDn16qhoVnZhAMB2dHOOQF/I4M1WAtujpcOHtXAd2tlJujSHH8Sl7Z
-	IUzlcY2caBnmArmcbZ+sYUtMn+EqNqk0wF6wOgZJNPwqW4ujVuvCnaDa3DvMAcBqumNQ
-	IlzA==
-X-Gm-Message-State: AG10YOR18Sv4KrDNuet7TeGvNzBPXqiplnezGoCuxYzUNP1+v/H1v0dFDJy2fVVQboXwNA==
-X-Received: by 10.107.138.90 with SMTP id m87mr15342243iod.127.1456620804815; 
-	Sat, 27 Feb 2016 16:53:24 -0800 (PST)
-Received: from [192.168.141.106] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.googlemail.com with ESMTPSA id
-	m32sm8188341ioi.41.2016.02.27.16.53.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 27 Feb 2016 16:53:24 -0800 (PST)
-To: brendan.le.foll@intel.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1456412817-12106-1-git-send-email-brendan.le.foll@intel.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56D24503.9010803@gmail.com>
-Date: Sat, 27 Feb 2016 19:53:23 -0500
+	Sun, 28 Feb 2016 02:33:00 +0000 (UTC)
+Received: from c-50-185-54-102.hsd1.ca.comcast.net ([50.185.54.102]
+	helo=[10.79.148.125])
+	by smtp.twobit.us with esmtpsa (TLSv1.2:DHE-RSA-AES128-SHA:128)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1aZr9g-0003GS-QO; Sun, 28 Feb 2016 02:32:21 +0000
+To: Saul Wold <sgw@linux.intel.com>
+References: <1455990959-5896-1-git-send-email-flihp@twobit.us>
+From: Philip Tricca <flihp@twobit.us>
+Message-ID: <56D25C65.4040707@twobit.us>
+Date: Sat, 27 Feb 2016 18:33:09 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Icedove/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <1456412817-12106-1-git-send-email-brendan.le.foll@intel.com>
-Subject: Re: [PATCH] npm.bbclass: Add npm class to match fetcher
+In-Reply-To: <1455990959-5896-1-git-send-email-flihp@twobit.us>
+X-SA-Exim-Connect-IP: 50.185.54.102
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sysvinit-inittab: Move start_getty scrip to base_bindir.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,14 +39,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Feb 2016 00:53:25 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Sun, 28 Feb 2016 02:33:01 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On 02/25/16 10:06, brendan.le.foll@intel.com wrote:
-> npm class supports the npm fetcher, helping doing the basic compile/install
-> stages of an npm package
+Ping. Any thoughts on this Saul?
 
-Any chance you might have an npm recipe example? Maybe something like 
-express?
+Thanks,
+Philip
+
+On 02/20/2016 09:55 AM, Philip Tricca wrote:
+> When this file is in ${sysconfdir}/init.d, SELinux labels it as a generic
+> init script (initrc_t). This causes problms at runtime because SELinux
+> doesn't let the login process execute generic init script. Moving this
+> helper script to base_bindir results in it being labeled as a generic
+> binary (bin_t). Nearly every SELinux domain is allowed to execute
+> generic binaries and the login process is one of them.
+> 
+> Signed-off-by: Philip Tricca <flihp@twobit.us>
+> ---
+>  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> index f539da8..c5b8cdc 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -17,9 +17,9 @@ do_compile() {
+>  
+>  do_install() {
+>      install -d ${D}${sysconfdir}
+> -    install -d ${D}${sysconfdir}/init.d
+>      install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+> -    install -m 0755 ${WORKDIR}/start_getty ${D}${sysconfdir}/init.d/start_getty
+> +    install -d ${D}${base_bindir}
+> +    install -m 0755 ${WORKDIR}/start_getty ${D}${base_bindir}/start_getty
+>  
+>      set -x
+>      tmp="${SERIAL_CONSOLES}"
+> @@ -27,7 +27,7 @@ do_install() {
+>      do
+>  	j=`echo ${i} | sed s/\;/\ /g`
+>  	label=`echo ${i} | sed -e 's/tty//' -e 's/^.*;//' -e 's/;.*//'`
+> -	echo "$label:12345:respawn:${sysconfdir}/init.d/start_getty ${j}" >> ${D}${sysconfdir}/inittab
+> +	echo "$label:12345:respawn:${base_bindir}/start_getty ${j}" >> ${D}${sysconfdir}/inittab
+>      done
+>  
+>      if [ "${USE_VT}" = "1" ]; then
+> @@ -76,7 +76,7 @@ fi
+>  # Set PACKAGE_ARCH appropriately.
+>  PACKAGE_ARCH = "${MACHINE_ARCH}"
+>  
+> -FILES_${PN} = "${sysconfdir}/inittab ${sysconfdir}/init.d/start_getty"
+> +FILES_${PN} = "${sysconfdir}/inittab ${base_bindir}/start_getty"
+>  CONFFILES_${PN} = "${sysconfdir}/inittab"
+>  
+>  USE_VT ?= "1"
+> 
+
 
