@@ -1,48 +1,48 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1852D6FFE2
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D469577298
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 11:39:26 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id n186so13155949wmn.1
+	Sun, 28 Feb 2016 11:42:59 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id p65so35430079wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 03:39:28 -0800 (PST)
+	Sun, 28 Feb 2016 03:43:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:subject:date:message-id:to:mime-version;
-	bh=hhACmnHuckNY8vhKH2vNBFBl5Ke7pVYlMNDAo0i+Pz4=;
-	b=O39eNBxoJQxfVSm1/Dc3w0DGPZUGJB99TQt8uz/cf90iLR822O6jEDvlsEEQb5C93U
-	dNQnleoVPzAZaHtyE8wpoDS+aUowz/LWuQCdb3xuvoS8igzntQ9H7/jM8Z7sHs63EDvY
-	544MA31g2Te5CcBc2W8oTyuAldxD1N25jI4PItw1GAtY2p/NHiGVPJTDBlN/YIoROpaU
-	AMs/x+fZN72GEBt+Ms0KNxsmHj8Z1mCyCTMWVqgvhWeyEZI/xLjoXAD6G8tZA0nMuDJ+
-	GG0b01IGARmyYLQusHfDw8iorKXoglbQEyi8yoDGcCZ7sGI1S6BOYZCe4CvzF/X54Q+5
-	nEnA==
+	bh=chEQf0i8A5pJzhZYs18jHOhNleLxaRddeyYMEz094kw=;
+	b=bGXD8ibg8pTk57fK1MC3rIopkEQKe6zPnrRBp6q41nYVgExT5vjR4FXQvRSTNe1li0
+	odBFswNysNmCXPDrsZnb1L+PJ8/1YbB+4mhXAKCon076jc7QX4bx173uNrjB/lfNseaN
+	/MIn0mXX3wwMr3pCwBJv9cWky/H15PVj1jzTuArfy6F6JnD2vdtJE6NMbW1+LJtE+lHi
+	XojaVIBsNuWdQ1WbmhC6Uc7vc/jejYlAtk8HpohYiDu6N0HuJIIl9X+/Fh9P/dQXPV6K
+	eoBGp/Es4/hQlfvSNgScAp7DVazw6HDsPeLfL2BOD+ola523MHiYq7e9+El/MzYjw3SN
+	Fimw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:subject:date:message-id:to:mime-version;
-	bh=hhACmnHuckNY8vhKH2vNBFBl5Ke7pVYlMNDAo0i+Pz4=;
-	b=eafPONMryFoH9J1qM8tTfpogK6TBOeTl+jO8Or4EvGOy6UTirFzn5kl4vaA/l4oDHm
-	rDj89sCX9afbktKPsuuiyDbbNFs74ioOCtAUBSZT8LHzNrXUbH0DIqfJutIfIeOrVs/V
-	P7mVoFj+BlfzqCJIXooCK5MjIrwNZZC53B00TL4OGdskaXGAJsuw7n7I/NZG/pq6h4xz
-	i4eoR+Ocy5BjGvyVhVfGHc3EEEh8bm7UH7uA306OgQ80+ojQmfgJkAVggCAsKkHt7nq6
-	lG7Scew98F6xt46qNr+blTtyvxjtIxhPFiLi+/D8oI5xEIfyUvmPj/tftskkkcHp3lW/
-	fcAw==
-X-Gm-Message-State: AD7BkJKBCuJvuIwkF96uuOZLrXH38S0Ipg3Y3pwyHqbig+3+nW781XqlJXMbDpMjz2oM+g==
-X-Received: by 10.194.91.233 with SMTP id ch9mr9933396wjb.121.1456659567494;
-	Sun, 28 Feb 2016 03:39:27 -0800 (PST)
+	bh=chEQf0i8A5pJzhZYs18jHOhNleLxaRddeyYMEz094kw=;
+	b=Cc+bF2106spHhllgb7IKzGaD0KX9f2eoVI1M0LyVF3nI1LFobrEstun8ZZGwkKZ4BX
+	/UMfgZr6+rtjnLAn1GMIvPN5KZVfRwDWKHQSGM3EfOwEapkSKgdxk5OJjsZMRMbd7Uva
+	oKC82fp0bEO95E1ZCJwgWEYa2E2YQTiHfoZxqcwm0XvC6iDiD/tScCbQN3+OtmKuolsR
+	W7yb3Yj8RGd9LObZrGLO4YG7BfoHHofTul/gKxXpDOSy/BbMgH8Eowe/5KipA0gZ6/lj
+	xcAAlWbpvNuLhJZAEl42W3STNnEwqeThMg9UYOuYHs9lTaKMgTRC2o9n0MbNmG/YvgEc
+	RIHg==
+X-Gm-Message-State: AD7BkJJfBm8GtyZ/ch7NdkqIxii/eb6uQPGfB1u3AKRYqiSEEOIxLIb8/1TkOaFeZnDHIg==
+X-Received: by 10.28.135.4 with SMTP id j4mr6779965wmd.80.1456659779668;
+	Sun, 28 Feb 2016 03:42:59 -0800 (PST)
 Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
 	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	n131sm11223835wmf.9.2016.02.28.03.39.26
+	hx10sm13126755wjb.25.2016.02.28.03.42.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 28 Feb 2016 03:39:26 -0800 (PST)
+	Sun, 28 Feb 2016 03:42:58 -0800 (PST)
 From: Jens Rehsack <rehsack@gmail.com>
 X-Pgp-Agent: GPGMail 2.6b2
-Date: Sun, 28 Feb 2016 12:39:26 +0100
-Message-Id: <898F5FB0-0062-4647-8A7A-1DE402384A75@gmail.com>
+Date: Sun, 28 Feb 2016 12:42:57 +0100
+Message-Id: <DB806593-8DFF-46B8-8CF5-6069E4A6EE88@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH 6/7] avahi: make dbus optional but default
+Subject: [PATCH 7/7] scripts/bashrc: add more user-friendly oe-setup utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +55,590 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Feb 2016 11:39:27 -0000
-X-Groupsio-MsgNum: 78850
+X-List-Received-Date: Sun, 28 Feb 2016 11:43:01 -0000
+X-Groupsio-MsgNum: 78851
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F49451F1-AD74-4934-BCBB-6CE4D6509361";
+	boundary="Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB";
 	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---Apple-Mail=_F49451F1-AD74-4934-BCBB-6CE4D6509361
+--Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
-Since do_install fails when dbus is removed by .bbappend, add =
-packageconfig
-to allow users to get rid of desktop ipc helper dbus.
+Move scripts/bashrc from meta-jens/scripts to oe-core to share =
+user-friendly
+oe builddir management with community.
+
+Add few missed features as list contained repositories, used layers or =
+other
+builddir (in this BSP).
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/recipes-connectivity/avahi/avahi.inc | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ scripts/oe-init-bashrc | 494 =
++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 494 insertions(+)
+ create mode 100644 scripts/oe-init-bashrc
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc =
-b/meta/recipes-connectivity/avahi/avahi.inc
-index faa8ee8..435fbc5 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,7 +14,7 @@ SECTION =3D "network"
- # python scripts are under GPLv2+
- LICENSE =3D "GPLv2+ & LGPLv2.1+"
-
--DEPENDS =3D "expat libcap libdaemon dbus glib-2.0"
-+DEPENDS =3D "expat libcap libdaemon glib-2.0"
-
- SRC_URI =3D =
-"https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar=
-.gz \
-           file://00avahi-autoipd \
-@@ -23,6 +23,9 @@ SRC_URI =3D =
-"https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}
-           "
- UPSTREAM_CHECK_URI =3D "https://github.com/lathiat/avahi/releases/"
-
-+PACKAGECONFIG ??=3D "dbus"
-+PACKAGECONFIG[dbus] =3D ",--disable-dbus,dbus"
+diff --git a/scripts/oe-init-bashrc b/scripts/oe-init-bashrc
+new file mode 100644
+index 0000000..f012e24
+--- /dev/null
++++ b/scripts/oe-init-bashrc
+@@ -0,0 +1,494 @@
++OECONF_BASHRC_VERSION=3D"0.1"
++#!/bin/sh
 +
- USERADD_PACKAGES =3D "avahi-daemon avahi-autoipd"
- USERADD_PARAM_avahi-daemon =3D "--system --home /var/run/avahi-daemon \
-                               --no-create-home --shell /bin/false \
-@@ -124,8 +127,8 @@ do_install() {
- 	# if /var/run become non-empty in the future, need to install it =
-via volatile
- 	rm -rf ${D}${localstatedir}/run
- 	rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
--	rm -rf ${D}${datadir}/dbus-1/interfaces
--	rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
-+	${@bb.utils.contains('PACKAGECONFIG','dbus','rm -rf =
-${D}${datadir}/dbus-1/interfaces','',d)}
-+	${@bb.utils.contains('PACKAGECONFIG','dbus','rmdir =
---ignore-fail-on-non-empty ${D}${datadir}/dbus-1','',d)}
- 	rm -rf ${D}${libdir}/avahi
-
- 	install -d ${D}${sysconfdir}/udhcpc.d
++# OE Build Environment Setup Script
++#
++# Copyright (C) 2006-2011 Linux Foundation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  =
+USA
++
++#
++# Normally this is called as '. ./oe-init-bashrc'
++#
++# This works in most shells (not dash), but not all of them pass arg1 =
+when
++# being sourced.   To workaround the shell limitation use "set arg1" =
+prior
++# to sourcing this script.
++#
++
++__oe_guess_oeroot() {
++    if [ -n "$BASH_SOURCE" ]; then
++       OEROOT=3D"`dirname $BASH_SOURCE`"
++    elif [ -n "$ZSH_NAME" ]; then
++       OEROOT=3D"`dirname $0`"
++    else
++       OEROOT=3D"`pwd`"
++    fi
++
++    while [ ! $(echo $OEROOT | egrep 'poky$') ]
++    do
++        test -d ${OEROOT}/poky && OEROOT=3D"${OEROOT}/poky" && break
++        OEROOT=3D`dirname "$OEROOT"`
++    done
++
++    OEROOT=3D`readlink -f "$OEROOT"`
++    export OEROOT
++}
++
++__oe_guess_bbdir() {
++    BITBAKEDIR=3D"$OEROOT/bitbake$BBEXTRA/"
++    BITBAKEDIR=3D`readlink -f "$BITBAKEDIR"`
++}
++
++#
++# Nice path functions with slight modifications from:
++#
++#   =
+http://stackoverflow.com/questions/370047/what-is-the-most-elegant-way-to-=
+remove-a-path-from-the-path-variable-in-bash
++#
++__oe_append_path()  { NEW=3D${1/%\//}; test -d $NEW || return; =
+__oe_remove_path $NEW; export PATH=3D"$PATH:$NEW"; }
++__oe_prepend_path() { NEW=3D${1/%\//}; test -d $NEW || return; =
+__oe_remove_path $NEW; export PATH=3D"$NEW:$PATH"; }
++__oe_remove_path()  {
++    # New format not supported by some old versions of awk
++    # PATH=3D`echo -n "$PATH" | awk -v RS=3D: -v ORS=3D: '$0 !=3D =
+"'$1'"'`
++    PATH=3D`echo -n "$PATH" | awk  'BEGIN { RS=3D":"; ORS=3D":" } $0 !=3D=
+ "'$1'" '`
++    export PATH=3D${PATH/%:/}
++}
++
++__oe_append_extrawhite() { NEW=3D${1/%\//}; __oe_remove_extrawhite =
+$NEW; export BB_ENV_EXTRAWHITE=3D"$BB_ENV_EXTRAWHITE $NEW"; }
++__oe_prepend_extrawhite() { NEW=3D${1/%\//}; __oe_remove_extrawhite =
+$NEW; export BB_ENV_EXTRAWHITE=3D"$NEW $BB_ENV_EXTRAWHITE"; }
++__oe_remove_extrawhite()  {
++    # New format not supported by some old versions of awk
++    BB_ENV_EXTRAWHITE=3D`echo -n "$BB_ENV_EXTRAWHITE" | awk  'BEGIN { =
+RS=3D" "; ORS=3D" " } $0 !=3D "'$1'" '`
++    export BB_ENV_EXTRAWHITE=3D${BB_ENV_EXTRAWHITE/%:/}
++}
++
++__oe_guess_bspdir () {
++    if [ -r "$BUILDDIR/conf/bblayers.conf" ]; then
++        BSPDIR=3D$(readlink -f `grep -e 'BSPDIR.*=3D' =
+"$BUILDDIR/conf/bblayers.conf" | sed -e 's,^.*{@,,' -e 's,)}.*$,,' \
++            -e "s:os.path.abspath(os.path.dirname(d.getVar('FILE', =
+True)) + :$BUILDDIR/conf:" \
++            -e "s,',,g"`)
++        export BSPDIR
++    fi
++}
++
++declare -a _OE_BBLAYERS
++
++__oe_guess_layers () {
++    if [ -r "$BUILDDIR/conf/bblayers.conf" ]; then
++        _OE_BBLAYERS=3D()
++        test -z "$BSPDIR" && __oe_guess_bspdir
++        for layer in `sed -e 's/#.*//g' $BUILDDIR/conf/bblayers.conf | =
+fgrep '${BSPDIR}' | sed -e 's,BBLAYERS[^\$]*,,g' -e 's, ["\\],,'`; do
++            layer=3D`echo ${layer} | sed -e =
+"s,\\\${BSPDIR},${BSPDIR},"`
++            _OE_BBLAYERS[${#_OE_BBLAYERS[*]}]=3D"$layer"
++            export _OE_BBLAYERS
++        done
++    fi
++}
++
++declare -a _OE_GITREPOS
++
++__oe_guess_repos () {
++    test ${#_OE_BBLAYERS[*]} -eq 0 && __oe_guess_layers
++    for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
++        layer=3D"${_OE_BBLAYERS[$_li]}"
++        while [ "${layer}" !=3D "${BSPDIR}" ]; do
++            if [ -d "${layer}/.git" ]; then
++                if ! $(echo "${_OE_GITREPOS[*]}" | grep -q "$layer"); =
+then
++                    _OE_GITREPOS[${#_OE_GITREPOS[*]}]=3D"$layer"
++                fi
++                break # while
++            fi
++            layer=3D`dirname "$layer"`
++        done
++    done
++
++    if [ -n "${BUILDDIR}" -a -d "${BUILDDIR}/.git" ]; then
++        if ! $(echo "${_OE_GITREPOS[*]}" | grep -q "${BUILDDIR}"); then
++            _OE_GITREPOS[${#_OE_GITREPOS[*]}]=3D"${BUILDDIR}"
++        fi
++    fi
++
++    if [ -n "${BSPDIR}" -a -d "${BSPDIR}/.git" ]; then
++        if ! $(echo "${_OE_GITREPOS[*]}" | grep -q "${BSPDIR}"); then
++            _OE_GITREPOS[${#_OE_GITREPOS[*]}]=3D"${BSPDIR}"
++        fi
++    fi
++
++    export _OE_GITREPOS
++}
++
++__oe_init () {
++    if [ ! -n "$OE_BUILDDIR_SKIP_INIT" ]; then
++        __oe_guess_layers
++        for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
++            if [ -f "${_OE_BBLAYERS[$_li]}/.oe-init" ]; then
++                . "${_OE_BBLAYERS[$_li]}/.oe-init"
++            fi
++        done
++        if [ -f "$OE_BUILDDIR_HOME/init" ]; then
++            . "$OE_BUILDDIR_HOME/init"
++        fi
++    fi
++
++    if [ -z "$OE_SKIP_SDK_CHECK" -a ! -z "$OECORE_SDK_VERSION" ]; then
++        echo >&2 "Error: The OE SDK/ADT was detected as already being =
+present in this shell environment."
++        echo >&2 "Please use a clean shell when using this environment =
+script."
++        return 1
++    fi
++
++    __oe_check_py || return 1
++
++    __oe_prepend_path "${OEROOT}/scripts"
++    __oe_prepend_path "$BITBAKEDIR/bin"
++}
++
++__oe_check_py () {
++    # Make sure we're not using python v3.x. This check can't go into
++    # sanity.bbclass because bitbake's source code doesn't even pass
++    # parsing stage when used with python v3, so we catch it here so we
++    # can offer a meaningful error message.
++    py_v3_check=3D`/usr/bin/env python --version 2>&1 | grep "Python =
+3"`
++    if [ "$py_v3_check" !=3D "" ]; then
++        echo >&2 "Bitbake is not compatible with python v3"
++        echo >&2 "Please set up python v2 as your default python =
+interpreter"
++        return 1
++    fi
++
++    # Similarly, we now have code that doesn't parse correctly with =
+older
++    # versions of Python, and rather than fixing that and being =
+eternally
++    # vigilant for any other new feature use, just check the version =
+here.
++    py_v273_check=3D`python -c 'import sys; print sys.version_info >=3D =
+(2,7,3)'`
++    if [ "$py_v273_check" !=3D "True" ]; then
++        echo >&2 "BitBake requires Python 2.7.3 or later"
++        return 1
++    fi
++}
++
++__oe_setup_builddir () {
++    if [ -z "$BUILDDIR" ]; then
++        echo >&2 "Error: The build directory (BUILDDIR) must be set!"
++        return 1
++    fi
++
++    mkdir -p "$BUILDDIR/conf"
++
++    if [ ! -d "$BUILDDIR" ]; then
++        echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
++        return 1
++    fi
++
++    if [ ! -w "$BUILDDIR" ]; then
++        echo >&2 "Error: Cannot write to $BUILDDIR, perhaps try using a =
+writable path? i.e. . oe_builddir use ~/bsp/my_build"
++        return 1
++    fi
++
++    # Attempting removal of sticky,setuid bits from BUILDDIR, =
+BUILDDIR/conf
++    chmod -st "$BUILDDIR" 2>/dev/null || echo "WARNING: unable to chmod =
+$BUILDDIR"
++    chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to =
+chmod $BUILDDIR/conf"
++
++    cd "$BUILDDIR"
++
++    if [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
++        TEMPLATECONF=3D$(cat "$BUILDDIR/conf/templateconf.cfg")
++    fi
++
++    . $OEROOT/.templateconf
++
++    if [ ! -f "$BUILDDIR/conf/templateconf.cfg" ]; then
++        echo "$TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
++    fi
++
++    #
++    # $TEMPLATECONF can point to a directory for the template =
+local.conf & bblayers.conf
++    #
++    if [ -n "$TEMPLATECONF" ]; then
++        if [ ! -d "$TEMPLATECONF" ]; then
++            # Allow TEMPLATECONF=3Dmeta-xyz/conf as a shortcut
++            if [ -d "$OEROOT/$TEMPLATECONF" ]; then
++                TEMPLATECONF=3D"$OEROOT/$TEMPLATECONF"
++            fi
++            if [ ! -d "$TEMPLATECONF" ]; then
++                echo >&2 "Error: '$TEMPLATECONF' must be a directory =
+containing local.conf & bblayers.conf"
++                return 1
++            fi
++        fi
++        OECORELAYERCONF=3D"$TEMPLATECONF/bblayers.conf.sample"
++        OECORELOCALCONF=3D"$TEMPLATECONF/local.conf.sample"
++        OECORENOTESCONF=3D"$TEMPLATECONF/conf-notes.txt"
++    fi
++
++    unset SHOWYPDOC
++    if [ -z "$OECORELOCALCONF" ]; then
++        OECORELOCALCONF=3D"$OEROOT/meta/conf/local.conf.sample"
++    fi
++    if [ ! -r "$BUILDDIR/conf/local.conf" ]; then
++    cat <<EOM
++You had no conf/local.conf file. This configuration file has therefore =
+been
++created for you with some default values. You may wish to edit it to =
+use a
++different MACHINE (target hardware) or enable parallel build options to =
+take
++advantage of multiple cores for example. See the file for more =
+information as
++common configuration options are commented.
++
++EOM
++        cp -f $OECORELOCALCONF "$BUILDDIR/conf/local.conf"
++        SHOWYPDOC=3Dyes
++    fi
++
++    if [ -z "$OECORELAYERCONF" ]; then
++        OECORELAYERCONF=3D"$OEROOT/meta/conf/bblayers.conf.sample"
++    fi
++    if [ ! -r "$BUILDDIR/conf/bblayers.conf" ]; then
++        cat <<EOM
++You had no conf/bblayers.conf file. The configuration file has been =
+created for
++you with some default values. To add additional metadata layers into =
+your
++configuration please add entries to this file.
++
++EOM
++
++        # Put the abosolute path to the layers in bblayers.conf so we =
+can run
++        # bitbake without the init script after the first run
++        # ##COREBASE## is deprecated as it's meaning was inconsistent, =
+but continue
++        # to replace it for compatibility.
++        sed -e "s|##OEROOT##|$OEROOT|g" \
++            -e "s|##COREBASE##|$OEROOT|g" \
++            $OECORELAYERCONF > "$BUILDDIR/conf/bblayers.conf"
++        SHOWYPDOC=3Dyes
++    fi
++
++    # Prevent disturbing a new GIT clone in same console
++    unset OECORELOCALCONF
++    unset OECORELAYERCONF
++
++    # Ending the first-time run message. Show the YP Documentation =
+banner.
++    if [ ! -z "$SHOWYPDOC" ]; then
++        cat <<EOM
++The Yocto Project has extensive documentation about OE including a =
+reference
++manual which can be found at:
++    http://yoctoproject.org/documentation
++
++For more information about OpenEmbedded see their website:
++    http://www.openembedded.org/
++
++EOM
++#    unset SHOWYPDOC
++    fi
++
++    cat <<EOM
++
++### Shell environment set up for builds. ###
++
++You can now run 'bitbake <target>'
++
++EOM
++
++    if [ -z "$OECORENOTESCONF" ]; then
++        OECORENOTESCONF=3D"$OEROOT/meta/conf/conf-notes.txt"
++    fi
++    [ ! -r "$OECORENOTESCONF" ] || cat "$OECORENOTESCONF"
++    unset OECORENOTESCONF
++}
++
++__oe_activate() {
++    BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY =
+http_proxy \
++HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy =
+ALL_PROXY \
++all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK =
+BB_SRCREV_POLICY \
++SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE =
+GIT_PROXY_COMMAND \
++SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
++    export BB_ENV_EXTRAWHITE
++
++    test -d "${BUILDDIR}/conf" || __oe_setup_builddir
++    export BUILDDIR
++    __oe_init
++
++    cd "${BUILDDIR}"
++}
++
++__oe_deactivate() {
++    # Shutdown any bitbake server if the BBSERVER variable is not set
++    if [ -z "$BBSERVER" ] && [ -f ${BUILDDIR}/bitbake.lock ] ; then
++        grep ":" ${BUILDDIR}/bitbake.lock > /dev/null && BBSERVER=3D`cat =
+bitbake.lock` bitbake --status-only
++        if [ $? =3D 0 ] ; then
++            echo "Shutting down bitbake memory resident server with =
+bitbake -m"
++            BBSERVER=3D`cat ${BUILDDIR}/bitbake.lock` bitbake -m
++        fi
++    fi
++
++    if [ -n "$BBSERVER" ]; then
++       unset BBSERVER
++    fi
++
++    if [ -n "$BB_ENV_EXTRAWHITE" ]; then
++       unset BB_ENV_EXTRAWHITE
++    fi
++
++    for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
++        if [ -f "${_OE_BBLAYERS[$_li]}/.oe-down" ]; then
++            . "${_OE_BBLAYERS[$_li]}/.oe-down"
++        fi
++    done
++    if [ ! -n "$OE_BUILDDIR_SKIP_DOWN" ]; then
++        if [ -f "$OE_BUILDDIR_HOME/down" ]; then
++            . "$OE_BUILDDIR_HOME/down"
++        fi
++    fi
++
++    unset BSPDIR
++    unset _OE_BBLAYERS
++
++    __oe_remove_path "${OEROOT}/scripts"
++    __oe_remove_path "$BITBAKEDIR/bin"
++}
++
++oe_builddir () {
++    local exit_status
++    local short_option
++    export SHELL
++
++    test -z "$BITBAKEDIR" && __oe_guess_bbdir
++
++    if [[ $1 =3D=3D -* ]]; then
++        short_option=3D$1
++        shift
++    else
++        short_option=3D""
++    fi
++
++    case $1 in
++        (use)
++            if [ -z "$2" ] ; then
++                echo "oe_builddir use <path>" >&2
++                exit_status=3D1
++            else
++                BUILDDIR=3D"$2"
++                __oe_deactivate
++                __oe_activate
++            fi
++            ;;
++
++        (useres)
++            if [ -z "$2" ] ; then
++                echo "oe_builddir useres <path>" >&2
++                exit_status=3D1
++            else
++                BUILDDIR=3D"$2"
++                test -z "$OE_BBSERVER_PORT" && OE_BBSERVER_PORT=3D"-1"
++
++                __oe_deactivate
++                __oe_activate
++
++                res=3D1
++                if [ -e ${BUILDDIR}/bitbake.lock ] && grep : =
+${BUILDDIR}/bitbake.lock > /dev/null ; then
++                    BBSERVER=3D`cat ${BUILDDIR}/bitbake.lock` bitbake =
+--status-only
++                    res=3D$?
++                fi
++
++                if [ $res !=3D 0 ] ; then
++                    bitbake --server-only -t xmlrpc -B =
+localhost:$OE_BBSERVER_PORT
++                fi
++
++                if [ $OE_BBSERVER_PORT =3D -1 ] ; then
++                    export BBSERVER=3Dlocalhost:-1
++                    echo "Bitbake server started on demand as needed, =
+use bitbake -m to shut it down"
++                else
++                    export BBSERVER=3D`cat ${BUILDDIR}/bitbake.lock`
++
++                    if [ $res =3D 0 ] ; then
++                        echo "Using existing bitbake server at: =
+$BBSERVER, use bitbake -m to shut it down"
++                    else
++                        echo "Bitbake server started at: $BBSERVER, use =
+bitbake -m to shut it down"
++                    fi
++                    unset res
++                fi
++            fi
++            ;;
++
++        (setup)
++            if [ -z "$2" ] ; then
++                echo "oe_builddir <path>" >&2
++                exit_status=3D1
++            else
++                BUILDDIR=3D"$2"
++                __oe_setup_builddir
++            fi
++            ;;
++
++        (avail)
++            # XXX maybe start $(dirname $(dirname $OEROOT)) when no =
+BSPDIR is there ...
++            if [ -n "$BSPDIR" ]; then
++                local d
++                for d in "${BSPDIR}"/*/conf/local.conf; do
++                    echo $(dirname $(dirname $d))
++                done
++            fi
++            ;;
++
++        (layers)
++            test "${#_OE_BBLAYERS[*]}" -gt 0 || __oe_guess_layers
++            for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
++                echo "${_OE_BBLAYERS[$_li]}"
++            done
++            ;;
++
++        (repos)
++            test "${#_OE_GITREPOS[*]}" -gt 0 || __oe_guess_repos
++            for _li in `seq 0 $(expr ${#_OE_GITREPOS[*]} - 1)`; do
++                echo "${_OE_GITREPOS[$_li]}"
++            done
++            ;;
++
++        (prune)
++            test -z "$BUILDDIR" -a -n "$2" && oe_builddir use "$2"
++            if [ -z "$BUILDDIR" ] ; then
++                echo "oe_builddir use <path>; oe_builddir prune" >&2
++                echo "oe_builddir prune <path>" >&2
++                exit_status=3D1
++            else
++                rm -f package-depends.dot pn-buildlist pn-depends.dot =
+task-depends.dot
++                for build_result in cache sstate-cache tmp buildhistory
++                do
++                    test -d ${BUILDDIR}/${build_result} || continue
++                    mv ${BUILDDIR}/${build_result} =
+${BUILDDIR}/${build_result}.old
++                    rm -rf ${BUILDDIR}/${build_result}.old &
++                done
++
++                echo "${BUILDDIR} is ready for fresh build"
++            fi
++            ;;
++
++        (off)
++            __oe_deactivate
++            unset BBPATH
++            unset BBSERVER
++            unset BB_ENV_EXTRAWHITE
++            ;;
++
++        (*)
++        cat <<EOM
++oe_builddir <command> [argument]
++Available commands:
++    use                use specified build-dir, setup when local.conf =
+and/or bblayers.conf are missing
++    setup        create default builddir
++    prune        prune old builds
++    off                remove all settings from oe from shell =
+environment
++EOM
++            exit_status=3D1
++            ;;
++
++    esac
++    hash -r
++    return ${exit_status:-0}
++}
++
++test -z "$OE_BUILDDIR_HOME" && export OE_BUILDDIR_HOME=3D"$HOME/.oe"
++test -z "$OEROOT" && __oe_guess_oeroot
 --
 2.6.3
 
@@ -124,7 +647,7 @@ ${D}${datadir}/dbus-1/interfaces','',d)}
 Jens Rehsack - rehsack@gmail.com
 
 
---Apple-Mail=_F49451F1-AD74-4934-BCBB-6CE4D6509361
+--Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -135,19 +658,19 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iQIcBAEBCgAGBQJW0txuAAoJEESZlq7c5Qqder4P/iKz+hutnCAzTbvo9a3SVMX0
-KvI7mI88Tje4Q6ZyAeNf3BTeXr50CldwFN+eKAEO6IXjFk6UlGgkYwr8uz2QLEM+
-P+q3XReirY5S+07sGWn314JiUq2O9nYjD0Lzw2mwWgMvOrE/hW/9t4An2gXoXu1o
-Mdp6GX3dqwg9LbTM3YpVBRk2Fw7YlrMFT9lk9r/bUmEwiBlvcELOpS1z15Lf6nr7
-3DzT0n/qv1vv8bvtGHzXHcssDoJ0pGIsU4Xkz2Xaw+T3W/Ay+hNh8B0K7suE/9p7
-5DmNvx5UkV28aAS+66gNEczx31osaLPBL2y9VME6aPJAMkYQXezv+eKJDKn+SB2g
-9Puv8miq39/f3nVjzUcdAmFGOxoAIpMWB4OfYZsNe2SVd0S8ue0tM/IZT0Ii+ML1
-ja/yyrSvCMpxrqG4gwhZV8Vo0bO6a55zYTUaDLCI64biExu3ViOOoevNKFYdQj9s
-Txy4CQZlvX9H1MerZKwHdnaalo0e/6RHk+9G5ll3TThO91DmMp310nF2IED6OwE6
-fmtWsYQ05Sino3l9IshlMmMQCvyf4NYN8Z+zJWN6MMZn6eR6hpEtv0VE6uz7GrgU
-x/Qa0GQLdf1DkzMlB258Y1B5NDqFPOx467lpHOWSEc3XfcSXx6yd8Wycn6iJz62E
-QaaY1ur1X+Jir0IjOyUJ
-=Wyv5
+iQIcBAEBCgAGBQJW0t1CAAoJEESZlq7c5QqdM44QAIpAR2tiQV3P3/Ij/9jSFS1L
+L8wVmNydRs1bLmjs9LhwNoV7q8yyXuwB36mQruuu2PkydkXytqpgSRlFoOgY4xVH
+gNJN3TXoJvISNfE5eBF/db/r014n3j6gYih5AUiHc/5CnPR7816hk/bst1dNRhYm
+f4hzlAs9RphpOr+bh+qk4wgExia5ztRJ+KM9OO7HiIEDXXZ0BBfd6CgdajdM3xp+
+Ng1D50s9gQlWM2DQyFZ9BKdtj+Ir7n0Gkz0imsu9PVkJDP9jsc3xpLbZx4aJfVEA
++r2aXy8zN7Dp7I1RZNl9JG676USuzyJQCIQ9j1BreElMI1p51eeSpncrKN1KkvoO
+V3edPvcuWNKqKl+dc2K8hreQJd+vmppqkOCHE2s9Hvqu6OTOaHay8njS3Slh/3MV
+OOjwcHcnHYZ9sWZ3mdBd3VPQOW744KvCKwexd0YycmmkHx7fHJ7krNAHADGuW/y3
+/hQIu2wxmSDAwEbgpsvWLqVZYFwuBbIViFlfXqOz4wqXX9c43BDu8sopaY0owMPk
+zoLftszdpoOigBKPJBRZT9tRs7egwqQiIp71E4eyNLBvoYQYg8QZFA1k+Pe1qx5E
+3XtZadbDS8TwQwFnieq+QlMcm/7iUNq6FGg3T4DlzlEs/+1vtgR41u2DE5sOH4c7
+pm26u4HKrZRYYfQjQEmI
+=3M+o
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_F49451F1-AD74-4934-BCBB-6CE4D6509361--
+--Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB--
