@@ -1,48 +1,46 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D469577298
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 55419771C5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 11:42:59 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id p65so35430079wmp.1
+	Sun, 28 Feb 2016 12:20:16 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id 9so157908284iom.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 03:43:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:subject:date:message-id:to:mime-version;
-	bh=chEQf0i8A5pJzhZYs18jHOhNleLxaRddeyYMEz094kw=;
-	b=bGXD8ibg8pTk57fK1MC3rIopkEQKe6zPnrRBp6q41nYVgExT5vjR4FXQvRSTNe1li0
-	odBFswNysNmCXPDrsZnb1L+PJ8/1YbB+4mhXAKCon076jc7QX4bx173uNrjB/lfNseaN
-	/MIn0mXX3wwMr3pCwBJv9cWky/H15PVj1jzTuArfy6F6JnD2vdtJE6NMbW1+LJtE+lHi
-	XojaVIBsNuWdQ1WbmhC6Uc7vc/jejYlAtk8HpohYiDu6N0HuJIIl9X+/Fh9P/dQXPV6K
-	eoBGp/Es4/hQlfvSNgScAp7DVazw6HDsPeLfL2BOD+ola523MHiYq7e9+El/MzYjw3SN
-	Fimw==
+	Sun, 28 Feb 2016 04:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=uqdzBtOW40B/sfy+QqoSca25iSwLdt6oJZJnhB8TGfk=;
+	b=v+J5SqgzWMgN+NRNgv0u+DaF9HFY9ZFwHc2D15g0QVZigH05wf9kZro75DWCa50KIr
+	nhnV7VlC6zDm3n+CY5vWzkw5W2QPj20YY37IZNrlTwuw7P5I4brAljRQt50BgTx0bru2
+	lqPbJGCg0Z4SicCjJnfWso5wNETFwbkjlxDzGeYb3mLABsUygmeQEeRpw37N2yof/BSD
+	VzUX+8TzqNogUQ0Qb2x7W2pWnNArNG6bcIM1+GUcgC8ZJ7qXEgRZ22LyNez2OJxKBan0
+	leXrfjz1DCAJtGG9wW0SBDmvybeoy2ewI68TpQqDwBos2+2uu+kVL3b7d9araKf4ce2V
+	Fflg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:subject:date:message-id:to:mime-version;
-	bh=chEQf0i8A5pJzhZYs18jHOhNleLxaRddeyYMEz094kw=;
-	b=Cc+bF2106spHhllgb7IKzGaD0KX9f2eoVI1M0LyVF3nI1LFobrEstun8ZZGwkKZ4BX
-	/UMfgZr6+rtjnLAn1GMIvPN5KZVfRwDWKHQSGM3EfOwEapkSKgdxk5OJjsZMRMbd7Uva
-	oKC82fp0bEO95E1ZCJwgWEYa2E2YQTiHfoZxqcwm0XvC6iDiD/tScCbQN3+OtmKuolsR
-	W7yb3Yj8RGd9LObZrGLO4YG7BfoHHofTul/gKxXpDOSy/BbMgH8Eowe/5KipA0gZ6/lj
-	xcAAlWbpvNuLhJZAEl42W3STNnEwqeThMg9UYOuYHs9lTaKMgTRC2o9n0MbNmG/YvgEc
-	RIHg==
-X-Gm-Message-State: AD7BkJJfBm8GtyZ/ch7NdkqIxii/eb6uQPGfB1u3AKRYqiSEEOIxLIb8/1TkOaFeZnDHIg==
-X-Received: by 10.28.135.4 with SMTP id j4mr6779965wmd.80.1456659779668;
-	Sun, 28 Feb 2016 03:42:59 -0800 (PST)
-Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	hx10sm13126755wjb.25.2016.02.28.03.42.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 28 Feb 2016 03:42:58 -0800 (PST)
-From: Jens Rehsack <rehsack@gmail.com>
-X-Pgp-Agent: GPGMail 2.6b2
-Date: Sun, 28 Feb 2016 12:42:57 +0100
-Message-Id: <DB806593-8DFF-46B8-8CF5-6069E4A6EE88@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH 7/7] scripts/bashrc: add more user-friendly oe-setup utility
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=uqdzBtOW40B/sfy+QqoSca25iSwLdt6oJZJnhB8TGfk=;
+	b=gg7yPg6F1+88lVclxP/8lBLkHbKbVRenrCvVtWmjI9MWO4HmJBnOvBbfUpATyd84DU
+	im1ShFxkGqMktE1Z4+Sz4EgeAHEf9MXMhvXJ7lDXKzfVGMv8of4jgv91kbUn0gBg5a3l
+	Ko9uZbM5C0DFcTnYYdUSj8gA8+93MVX9bb5PHzz05qdOMq6uAiD6t1FxSX+Wd5xU5g90
+	A/7prHd7aegBy9XA04NW8wohzlAy6QwJUPNK3jNP+h0gaRiKgfG/IOMwEdIsyHl1Zm5X
+	G3nVLbzHrTwCZaQWCatk/D+dP8fMiZJrYSwg8JFoAOx1xAkEnA3psQ1XT0odJ+eumW0P
+	wQ+w==
+X-Gm-Message-State: AG10YOSFnCIg83RTDkr/srQtBT1qM/VK0YuUofiW/U2fb003SnGTuDSj3NFSIfsigI0Oyl+unQyacNyohO6tsA==
+MIME-Version: 1.0
+X-Received: by 10.107.137.92 with SMTP id l89mr17083940iod.133.1456662016867; 
+	Sun, 28 Feb 2016 04:20:16 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Sun, 28 Feb 2016 04:20:16 -0800 (PST)
+In-Reply-To: <1456656801.11498.158.camel@linuxfoundation.org>
+References: <1456656801.11498.158.camel@linuxfoundation.org>
+Date: Sun, 28 Feb 2016 13:20:16 +0100
+Message-ID: <CALbNGRTTAz=UfaXLEOjzdc5K_v7R3=OL8abzQQXq=97YkcofUA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity: Improve configuration upgrade capabilities (support meta-yocto -> poky transition)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,622 +53,257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Feb 2016 11:43:01 -0000
-X-Groupsio-MsgNum: 78851
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Sun, 28 Feb 2016 12:20:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Sun, Feb 28, 2016 at 11:53 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Right now, only one configuration file can be processed (conf/bblayers.conf)
+> and it can only have one version number. This is a cause of immense friction
+> between OE-Core and Poky since if one needs a version change, it shouldn't
+> be forced on the other.
+>
+> We'd like to rename the meta-yocto layer (within the meta-yocto repository)
+> to meta-poky. To do this, we need to correct the bblayers.conf file and that
+> means changing the sanity version. After the pain this caused the last time,
+> Paul made me promise never to have them out of sync between OE-Core and Poky,
+> equally, having every distro changing config update OE-Core isn't scalable
+> either.
+>
+> This patch changes the sanity upgrade method to list a more generic format:
+>
+> <config file>:<current version variable name>:<required version variable name>:<upgrade function>
+>
+> This in theory allows us to support upgrades to any of the core
+> configuration files, and allow layers to extend them as needed. Files
+> with the same name can be handled in different layers by setting a unique
+> version name variable in the file itself. The upgrade code is only called
+> if the version variable is set.
+>
+> To allow us to make the poky name change and use a new configuration file
+> name, one last version bump is included for poky to handle the transition.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 49693e7..a0553ee 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
 
-Move scripts/bashrc from meta-jens/scripts to oe-core to share =
-user-friendly
-oe builddir management with community.
+I think this breaks parsing. Have reverted it and can build again. I got
+[superandy@localhost oe-core]$ bitbake -k xfce4-games-image
+ERROR: Error executing a python function in exec_python_func() autogenerated:
 
-Add few missed features as list contained repositories, used layers or =
-other
-builddir (in this BSP).
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:oecore_update_bblayers(d)
+     0003:
+File: '/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass',
+lineno: 151, function: oecore_update_bblayers
+     0147:            with open(bblayers_fn, "w") as f:
+     0148:                f.write(''.join(lines))
+     0149:            return
+     0150:
+ *** 0151:        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', "7")
+     0152:        return
+     0153:
+     0154:    raise NotImplementedError(failmsg)
+     0155:}
+File: '/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass',
+lineno: 24, function: sanity_conf_update
+     0020:        if re.search(pattern, line)), (None, None))
+     0021:
+     0022:def sanity_conf_update(fn, lines, version_var_name, new_version):
+     0023:    index, line = sanity_conf_find_line(version_var_name, lines)
+ *** 0024:    lines[index] = '%s = "%d"\n' % (version_var_name, new_version)
+     0025:    with open(fn, "w") as f:
+     0026:        f.write(''.join(lines))
+     0027:
+     0028:# Functions added to this variable MUST throw a
+NotImplementedError exception unless
+Exception: TypeError: %d format: a number is required, not str
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- scripts/oe-init-bashrc | 494 =
-+++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 494 insertions(+)
- create mode 100644 scripts/oe-init-bashrc
+ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+Traceback (most recent call last):
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 954, in check_sanity(sanity_data=<bb.data_smart.DataSmart object
+at 0x7f932aa55890>):
 
-diff --git a/scripts/oe-init-bashrc b/scripts/oe-init-bashrc
-new file mode 100644
-index 0000000..f012e24
---- /dev/null
-+++ b/scripts/oe-init-bashrc
-@@ -0,0 +1,494 @@
-+OECONF_BASHRC_VERSION=3D"0.1"
-+#!/bin/sh
-+
-+# OE Build Environment Setup Script
-+#
-+# Copyright (C) 2006-2011 Linux Foundation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  =
-USA
-+
-+#
-+# Normally this is called as '. ./oe-init-bashrc'
-+#
-+# This works in most shells (not dash), but not all of them pass arg1 =
-when
-+# being sourced.   To workaround the shell limitation use "set arg1" =
-prior
-+# to sourcing this script.
-+#
-+
-+__oe_guess_oeroot() {
-+    if [ -n "$BASH_SOURCE" ]; then
-+       OEROOT=3D"`dirname $BASH_SOURCE`"
-+    elif [ -n "$ZSH_NAME" ]; then
-+       OEROOT=3D"`dirname $0`"
-+    else
-+       OEROOT=3D"`pwd`"
-+    fi
-+
-+    while [ ! $(echo $OEROOT | egrep 'poky$') ]
-+    do
-+        test -d ${OEROOT}/poky && OEROOT=3D"${OEROOT}/poky" && break
-+        OEROOT=3D`dirname "$OEROOT"`
-+    done
-+
-+    OEROOT=3D`readlink -f "$OEROOT"`
-+    export OEROOT
-+}
-+
-+__oe_guess_bbdir() {
-+    BITBAKEDIR=3D"$OEROOT/bitbake$BBEXTRA/"
-+    BITBAKEDIR=3D`readlink -f "$BITBAKEDIR"`
-+}
-+
-+#
-+# Nice path functions with slight modifications from:
-+#
-+#   =
-http://stackoverflow.com/questions/370047/what-is-the-most-elegant-way-to-=
-remove-a-path-from-the-path-variable-in-bash
-+#
-+__oe_append_path()  { NEW=3D${1/%\//}; test -d $NEW || return; =
-__oe_remove_path $NEW; export PATH=3D"$PATH:$NEW"; }
-+__oe_prepend_path() { NEW=3D${1/%\//}; test -d $NEW || return; =
-__oe_remove_path $NEW; export PATH=3D"$NEW:$PATH"; }
-+__oe_remove_path()  {
-+    # New format not supported by some old versions of awk
-+    # PATH=3D`echo -n "$PATH" | awk -v RS=3D: -v ORS=3D: '$0 !=3D =
-"'$1'"'`
-+    PATH=3D`echo -n "$PATH" | awk  'BEGIN { RS=3D":"; ORS=3D":" } $0 !=3D=
- "'$1'" '`
-+    export PATH=3D${PATH/%:/}
-+}
-+
-+__oe_append_extrawhite() { NEW=3D${1/%\//}; __oe_remove_extrawhite =
-$NEW; export BB_ENV_EXTRAWHITE=3D"$BB_ENV_EXTRAWHITE $NEW"; }
-+__oe_prepend_extrawhite() { NEW=3D${1/%\//}; __oe_remove_extrawhite =
-$NEW; export BB_ENV_EXTRAWHITE=3D"$NEW $BB_ENV_EXTRAWHITE"; }
-+__oe_remove_extrawhite()  {
-+    # New format not supported by some old versions of awk
-+    BB_ENV_EXTRAWHITE=3D`echo -n "$BB_ENV_EXTRAWHITE" | awk  'BEGIN { =
-RS=3D" "; ORS=3D" " } $0 !=3D "'$1'" '`
-+    export BB_ENV_EXTRAWHITE=3D${BB_ENV_EXTRAWHITE/%:/}
-+}
-+
-+__oe_guess_bspdir () {
-+    if [ -r "$BUILDDIR/conf/bblayers.conf" ]; then
-+        BSPDIR=3D$(readlink -f `grep -e 'BSPDIR.*=3D' =
-"$BUILDDIR/conf/bblayers.conf" | sed -e 's,^.*{@,,' -e 's,)}.*$,,' \
-+            -e "s:os.path.abspath(os.path.dirname(d.getVar('FILE', =
-True)) + :$BUILDDIR/conf:" \
-+            -e "s,',,g"`)
-+        export BSPDIR
-+    fi
-+}
-+
-+declare -a _OE_BBLAYERS
-+
-+__oe_guess_layers () {
-+    if [ -r "$BUILDDIR/conf/bblayers.conf" ]; then
-+        _OE_BBLAYERS=3D()
-+        test -z "$BSPDIR" && __oe_guess_bspdir
-+        for layer in `sed -e 's/#.*//g' $BUILDDIR/conf/bblayers.conf | =
-fgrep '${BSPDIR}' | sed -e 's,BBLAYERS[^\$]*,,g' -e 's, ["\\],,'`; do
-+            layer=3D`echo ${layer} | sed -e =
-"s,\\\${BSPDIR},${BSPDIR},"`
-+            _OE_BBLAYERS[${#_OE_BBLAYERS[*]}]=3D"$layer"
-+            export _OE_BBLAYERS
-+        done
-+    fi
-+}
-+
-+declare -a _OE_GITREPOS
-+
-+__oe_guess_repos () {
-+    test ${#_OE_BBLAYERS[*]} -eq 0 && __oe_guess_layers
-+    for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
-+        layer=3D"${_OE_BBLAYERS[$_li]}"
-+        while [ "${layer}" !=3D "${BSPDIR}" ]; do
-+            if [ -d "${layer}/.git" ]; then
-+                if ! $(echo "${_OE_GITREPOS[*]}" | grep -q "$layer"); =
-then
-+                    _OE_GITREPOS[${#_OE_GITREPOS[*]}]=3D"$layer"
-+                fi
-+                break # while
-+            fi
-+            layer=3D`dirname "$layer"`
-+        done
-+    done
-+
-+    if [ -n "${BUILDDIR}" -a -d "${BUILDDIR}/.git" ]; then
-+        if ! $(echo "${_OE_GITREPOS[*]}" | grep -q "${BUILDDIR}"); then
-+            _OE_GITREPOS[${#_OE_GITREPOS[*]}]=3D"${BUILDDIR}"
-+        fi
-+    fi
-+
-+    if [ -n "${BSPDIR}" -a -d "${BSPDIR}/.git" ]; then
-+        if ! $(echo "${_OE_GITREPOS[*]}" | grep -q "${BSPDIR}"); then
-+            _OE_GITREPOS[${#_OE_GITREPOS[*]}]=3D"${BSPDIR}"
-+        fi
-+    fi
-+
-+    export _OE_GITREPOS
-+}
-+
-+__oe_init () {
-+    if [ ! -n "$OE_BUILDDIR_SKIP_INIT" ]; then
-+        __oe_guess_layers
-+        for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
-+            if [ -f "${_OE_BBLAYERS[$_li]}/.oe-init" ]; then
-+                . "${_OE_BBLAYERS[$_li]}/.oe-init"
-+            fi
-+        done
-+        if [ -f "$OE_BUILDDIR_HOME/init" ]; then
-+            . "$OE_BUILDDIR_HOME/init"
-+        fi
-+    fi
-+
-+    if [ -z "$OE_SKIP_SDK_CHECK" -a ! -z "$OECORE_SDK_VERSION" ]; then
-+        echo >&2 "Error: The OE SDK/ADT was detected as already being =
-present in this shell environment."
-+        echo >&2 "Please use a clean shell when using this environment =
-script."
-+        return 1
-+    fi
-+
-+    __oe_check_py || return 1
-+
-+    __oe_prepend_path "${OEROOT}/scripts"
-+    __oe_prepend_path "$BITBAKEDIR/bin"
-+}
-+
-+__oe_check_py () {
-+    # Make sure we're not using python v3.x. This check can't go into
-+    # sanity.bbclass because bitbake's source code doesn't even pass
-+    # parsing stage when used with python v3, so we catch it here so we
-+    # can offer a meaningful error message.
-+    py_v3_check=3D`/usr/bin/env python --version 2>&1 | grep "Python =
-3"`
-+    if [ "$py_v3_check" !=3D "" ]; then
-+        echo >&2 "Bitbake is not compatible with python v3"
-+        echo >&2 "Please set up python v2 as your default python =
-interpreter"
-+        return 1
-+    fi
-+
-+    # Similarly, we now have code that doesn't parse correctly with =
-older
-+    # versions of Python, and rather than fixing that and being =
-eternally
-+    # vigilant for any other new feature use, just check the version =
-here.
-+    py_v273_check=3D`python -c 'import sys; print sys.version_info >=3D =
-(2,7,3)'`
-+    if [ "$py_v273_check" !=3D "True" ]; then
-+        echo >&2 "BitBake requires Python 2.7.3 or later"
-+        return 1
-+    fi
-+}
-+
-+__oe_setup_builddir () {
-+    if [ -z "$BUILDDIR" ]; then
-+        echo >&2 "Error: The build directory (BUILDDIR) must be set!"
-+        return 1
-+    fi
-+
-+    mkdir -p "$BUILDDIR/conf"
-+
-+    if [ ! -d "$BUILDDIR" ]; then
-+        echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
-+        return 1
-+    fi
-+
-+    if [ ! -w "$BUILDDIR" ]; then
-+        echo >&2 "Error: Cannot write to $BUILDDIR, perhaps try using a =
-writable path? i.e. . oe_builddir use ~/bsp/my_build"
-+        return 1
-+    fi
-+
-+    # Attempting removal of sticky,setuid bits from BUILDDIR, =
-BUILDDIR/conf
-+    chmod -st "$BUILDDIR" 2>/dev/null || echo "WARNING: unable to chmod =
-$BUILDDIR"
-+    chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to =
-chmod $BUILDDIR/conf"
-+
-+    cd "$BUILDDIR"
-+
-+    if [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
-+        TEMPLATECONF=3D$(cat "$BUILDDIR/conf/templateconf.cfg")
-+    fi
-+
-+    . $OEROOT/.templateconf
-+
-+    if [ ! -f "$BUILDDIR/conf/templateconf.cfg" ]; then
-+        echo "$TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
-+    fi
-+
-+    #
-+    # $TEMPLATECONF can point to a directory for the template =
-local.conf & bblayers.conf
-+    #
-+    if [ -n "$TEMPLATECONF" ]; then
-+        if [ ! -d "$TEMPLATECONF" ]; then
-+            # Allow TEMPLATECONF=3Dmeta-xyz/conf as a shortcut
-+            if [ -d "$OEROOT/$TEMPLATECONF" ]; then
-+                TEMPLATECONF=3D"$OEROOT/$TEMPLATECONF"
-+            fi
-+            if [ ! -d "$TEMPLATECONF" ]; then
-+                echo >&2 "Error: '$TEMPLATECONF' must be a directory =
-containing local.conf & bblayers.conf"
-+                return 1
-+            fi
-+        fi
-+        OECORELAYERCONF=3D"$TEMPLATECONF/bblayers.conf.sample"
-+        OECORELOCALCONF=3D"$TEMPLATECONF/local.conf.sample"
-+        OECORENOTESCONF=3D"$TEMPLATECONF/conf-notes.txt"
-+    fi
-+
-+    unset SHOWYPDOC
-+    if [ -z "$OECORELOCALCONF" ]; then
-+        OECORELOCALCONF=3D"$OEROOT/meta/conf/local.conf.sample"
-+    fi
-+    if [ ! -r "$BUILDDIR/conf/local.conf" ]; then
-+    cat <<EOM
-+You had no conf/local.conf file. This configuration file has therefore =
-been
-+created for you with some default values. You may wish to edit it to =
-use a
-+different MACHINE (target hardware) or enable parallel build options to =
-take
-+advantage of multiple cores for example. See the file for more =
-information as
-+common configuration options are commented.
-+
-+EOM
-+        cp -f $OECORELOCALCONF "$BUILDDIR/conf/local.conf"
-+        SHOWYPDOC=3Dyes
-+    fi
-+
-+    if [ -z "$OECORELAYERCONF" ]; then
-+        OECORELAYERCONF=3D"$OEROOT/meta/conf/bblayers.conf.sample"
-+    fi
-+    if [ ! -r "$BUILDDIR/conf/bblayers.conf" ]; then
-+        cat <<EOM
-+You had no conf/bblayers.conf file. The configuration file has been =
-created for
-+you with some default values. To add additional metadata layers into =
-your
-+configuration please add entries to this file.
-+
-+EOM
-+
-+        # Put the abosolute path to the layers in bblayers.conf so we =
-can run
-+        # bitbake without the init script after the first run
-+        # ##COREBASE## is deprecated as it's meaning was inconsistent, =
-but continue
-+        # to replace it for compatibility.
-+        sed -e "s|##OEROOT##|$OEROOT|g" \
-+            -e "s|##COREBASE##|$OEROOT|g" \
-+            $OECORELAYERCONF > "$BUILDDIR/conf/bblayers.conf"
-+        SHOWYPDOC=3Dyes
-+    fi
-+
-+    # Prevent disturbing a new GIT clone in same console
-+    unset OECORELOCALCONF
-+    unset OECORELAYERCONF
-+
-+    # Ending the first-time run message. Show the YP Documentation =
-banner.
-+    if [ ! -z "$SHOWYPDOC" ]; then
-+        cat <<EOM
-+The Yocto Project has extensive documentation about OE including a =
-reference
-+manual which can be found at:
-+    http://yoctoproject.org/documentation
-+
-+For more information about OpenEmbedded see their website:
-+    http://www.openembedded.org/
-+
-+EOM
-+#    unset SHOWYPDOC
-+    fi
-+
-+    cat <<EOM
-+
-+### Shell environment set up for builds. ###
-+
-+You can now run 'bitbake <target>'
-+
-+EOM
-+
-+    if [ -z "$OECORENOTESCONF" ]; then
-+        OECORENOTESCONF=3D"$OEROOT/meta/conf/conf-notes.txt"
-+    fi
-+    [ ! -r "$OECORENOTESCONF" ] || cat "$OECORENOTESCONF"
-+    unset OECORENOTESCONF
-+}
-+
-+__oe_activate() {
-+    BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY =
-http_proxy \
-+HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy =
-ALL_PROXY \
-+all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK =
-BB_SRCREV_POLICY \
-+SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE =
-GIT_PROXY_COMMAND \
-+SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
-+    export BB_ENV_EXTRAWHITE
-+
-+    test -d "${BUILDDIR}/conf" || __oe_setup_builddir
-+    export BUILDDIR
-+    __oe_init
-+
-+    cd "${BUILDDIR}"
-+}
-+
-+__oe_deactivate() {
-+    # Shutdown any bitbake server if the BBSERVER variable is not set
-+    if [ -z "$BBSERVER" ] && [ -f ${BUILDDIR}/bitbake.lock ] ; then
-+        grep ":" ${BUILDDIR}/bitbake.lock > /dev/null && BBSERVER=3D`cat =
-bitbake.lock` bitbake --status-only
-+        if [ $? =3D 0 ] ; then
-+            echo "Shutting down bitbake memory resident server with =
-bitbake -m"
-+            BBSERVER=3D`cat ${BUILDDIR}/bitbake.lock` bitbake -m
-+        fi
-+    fi
-+
-+    if [ -n "$BBSERVER" ]; then
-+       unset BBSERVER
-+    fi
-+
-+    if [ -n "$BB_ENV_EXTRAWHITE" ]; then
-+       unset BB_ENV_EXTRAWHITE
-+    fi
-+
-+    for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
-+        if [ -f "${_OE_BBLAYERS[$_li]}/.oe-down" ]; then
-+            . "${_OE_BBLAYERS[$_li]}/.oe-down"
-+        fi
-+    done
-+    if [ ! -n "$OE_BUILDDIR_SKIP_DOWN" ]; then
-+        if [ -f "$OE_BUILDDIR_HOME/down" ]; then
-+            . "$OE_BUILDDIR_HOME/down"
-+        fi
-+    fi
-+
-+    unset BSPDIR
-+    unset _OE_BBLAYERS
-+
-+    __oe_remove_path "${OEROOT}/scripts"
-+    __oe_remove_path "$BITBAKEDIR/bin"
-+}
-+
-+oe_builddir () {
-+    local exit_status
-+    local short_option
-+    export SHELL
-+
-+    test -z "$BITBAKEDIR" && __oe_guess_bbdir
-+
-+    if [[ $1 =3D=3D -* ]]; then
-+        short_option=3D$1
-+        shift
-+    else
-+        short_option=3D""
-+    fi
-+
-+    case $1 in
-+        (use)
-+            if [ -z "$2" ] ; then
-+                echo "oe_builddir use <path>" >&2
-+                exit_status=3D1
-+            else
-+                BUILDDIR=3D"$2"
-+                __oe_deactivate
-+                __oe_activate
-+            fi
-+            ;;
-+
-+        (useres)
-+            if [ -z "$2" ] ; then
-+                echo "oe_builddir useres <path>" >&2
-+                exit_status=3D1
-+            else
-+                BUILDDIR=3D"$2"
-+                test -z "$OE_BBSERVER_PORT" && OE_BBSERVER_PORT=3D"-1"
-+
-+                __oe_deactivate
-+                __oe_activate
-+
-+                res=3D1
-+                if [ -e ${BUILDDIR}/bitbake.lock ] && grep : =
-${BUILDDIR}/bitbake.lock > /dev/null ; then
-+                    BBSERVER=3D`cat ${BUILDDIR}/bitbake.lock` bitbake =
---status-only
-+                    res=3D$?
-+                fi
-+
-+                if [ $res !=3D 0 ] ; then
-+                    bitbake --server-only -t xmlrpc -B =
-localhost:$OE_BBSERVER_PORT
-+                fi
-+
-+                if [ $OE_BBSERVER_PORT =3D -1 ] ; then
-+                    export BBSERVER=3Dlocalhost:-1
-+                    echo "Bitbake server started on demand as needed, =
-use bitbake -m to shut it down"
-+                else
-+                    export BBSERVER=3D`cat ${BUILDDIR}/bitbake.lock`
-+
-+                    if [ $res =3D 0 ] ; then
-+                        echo "Using existing bitbake server at: =
-$BBSERVER, use bitbake -m to shut it down"
-+                    else
-+                        echo "Bitbake server started at: $BBSERVER, use =
-bitbake -m to shut it down"
-+                    fi
-+                    unset res
-+                fi
-+            fi
-+            ;;
-+
-+        (setup)
-+            if [ -z "$2" ] ; then
-+                echo "oe_builddir <path>" >&2
-+                exit_status=3D1
-+            else
-+                BUILDDIR=3D"$2"
-+                __oe_setup_builddir
-+            fi
-+            ;;
-+
-+        (avail)
-+            # XXX maybe start $(dirname $(dirname $OEROOT)) when no =
-BSPDIR is there ...
-+            if [ -n "$BSPDIR" ]; then
-+                local d
-+                for d in "${BSPDIR}"/*/conf/local.conf; do
-+                    echo $(dirname $(dirname $d))
-+                done
-+            fi
-+            ;;
-+
-+        (layers)
-+            test "${#_OE_BBLAYERS[*]}" -gt 0 || __oe_guess_layers
-+            for _li in `seq 0 $(expr ${#_OE_BBLAYERS[*]} - 1)`; do
-+                echo "${_OE_BBLAYERS[$_li]}"
-+            done
-+            ;;
-+
-+        (repos)
-+            test "${#_OE_GITREPOS[*]}" -gt 0 || __oe_guess_repos
-+            for _li in `seq 0 $(expr ${#_OE_GITREPOS[*]} - 1)`; do
-+                echo "${_OE_GITREPOS[$_li]}"
-+            done
-+            ;;
-+
-+        (prune)
-+            test -z "$BUILDDIR" -a -n "$2" && oe_builddir use "$2"
-+            if [ -z "$BUILDDIR" ] ; then
-+                echo "oe_builddir use <path>; oe_builddir prune" >&2
-+                echo "oe_builddir prune <path>" >&2
-+                exit_status=3D1
-+            else
-+                rm -f package-depends.dot pn-buildlist pn-depends.dot =
-task-depends.dot
-+                for build_result in cache sstate-cache tmp buildhistory
-+                do
-+                    test -d ${BUILDDIR}/${build_result} || continue
-+                    mv ${BUILDDIR}/${build_result} =
-${BUILDDIR}/${build_result}.old
-+                    rm -rf ${BUILDDIR}/${build_result}.old &
-+                done
-+
-+                echo "${BUILDDIR} is ready for fresh build"
-+            fi
-+            ;;
-+
-+        (off)
-+            __oe_deactivate
-+            unset BBPATH
-+            unset BBSERVER
-+            unset BB_ENV_EXTRAWHITE
-+            ;;
-+
-+        (*)
-+        cat <<EOM
-+oe_builddir <command> [argument]
-+Available commands:
-+    use                use specified build-dir, setup when local.conf =
-and/or bblayers.conf are missing
-+    setup        create default builddir
-+    prune        prune old builds
-+    off                remove all settings from oe from shell =
-environment
-+EOM
-+            exit_status=3D1
-+            ;;
-+
-+    esac
-+    hash -r
-+    return ${exit_status:-0}
-+}
-+
-+test -z "$OE_BUILDDIR_HOME" && export OE_BUILDDIR_HOME=3D"$HOME/.oe"
-+test -z "$OEROOT" && __oe_guess_oeroot
---
-2.6.3
+    >    check_sanity_everybuild(status, sanity_data)
+
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 768, in check_sanity_everybuild(status=<SanityStatus object at
+0x7f932aca3810>, d=<bb.data_smart.DataSmart object at
+0x7f932aa55890>):
+
+    >    sanity_check_conffiles(status, d)
+
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 548, in sanity_check_conffiles(status=<SanityStatus object at
+0x7f932aca3810>, d=<bb.data_smart.DataSmart object at
+0x7f932aa55890>):
+                 try:
+    >                bb.build.exec_func(func, d)
+                 except NotImplementedError as e:
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 227, in exec_func(func='oecore_update_bblayers',
+d=<bb.data_smart.DataSmart object at 0x7f932aa55890>, dirs=None):
+             if ispython:
+    >            exec_func_python(func, d, runfile, cwd=adir)
+             else:
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 263, in exec_func_python(func='oecore_update_bblayers',
+d=<bb.data_smart.DataSmart object at 0x7f932aa55890>,
+runfile='/home/superandy/tmp/oe-core-glibc/work/cortexa7t2hf-neon-vfpv4-angstrom-linux-gnueabi/defaultpkgname/1.0-r0/temp/run.oecore_update_bblayers.4316',
+cwd='/home/superandy/tmp/oe-core-glibc/work/cortexa7t2hf-neon-vfpv4-angstrom-linux-gnueabi/defaultpkgname/1.0-r0/defaultpkgname-1.0'):
+         except:
+    >        raise FuncFailed(func, None)
+         finally:
+FuncFailed: Function failed: oecore_update_bblayers
+
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/command.py",
+line 101, in runAsyncCommand
+    self.cooker.updateCache()
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/cooker.py",
+line 1538, in updateCache
+    bb.event.fire(bb.event.SanityCheck(False), self.data)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/event.py",
+line 171, in fire
+    fire_class_handlers(event, d)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/event.py",
+line 110, in fire_class_handlers
+    execute_handler(name, handler, event, d)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/event.py",
+line 82, in execute_handler
+    ret = handler(event)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 991, in check_sanity_eventhandler
+    reparse = check_sanity(sanity_data)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 954, in check_sanity
+    check_sanity_everybuild(status, sanity_data)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 768, in check_sanity_everybuild
+    sanity_check_conffiles(status, d)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 548, in sanity_check_conffiles
+    bb.build.exec_func(func, d)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 227, in exec_func
+    exec_func_python(func, d, runfile, cwd=adir)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 263, in exec_func_python
+    raise FuncFailed(func, None)
+FuncFailed: Function failed: oecore_update_bblayers
 
 
---
-Jens Rehsack - rehsack@gmail.com
+Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
+[superandy@localhost oe-core]$ bitbake -k xfce4-games-image
+ERROR: Error executing a python function in exec_python_func() autogenerated:
 
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:oecore_update_bblayers(d)
+     0003:
+File: '/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass',
+lineno: 151, function: oecore_update_bblayers
+     0147:            with open(bblayers_fn, "w") as f:
+     0148:                f.write(''.join(lines))
+     0149:            return
+     0150:
+ *** 0151:        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', "7")
+     0152:        return
+     0153:
+     0154:    raise NotImplementedError(failmsg)
+     0155:}
+File: '/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass',
+lineno: 24, function: sanity_conf_update
+     0020:        if re.search(pattern, line)), (None, None))
+     0021:
+     0022:def sanity_conf_update(fn, lines, version_var_name, new_version):
+     0023:    index, line = sanity_conf_find_line(version_var_name, lines)
+ *** 0024:    lines[index] = '%s = "%d"\n' % (version_var_name, new_version)
+     0025:    with open(fn, "w") as f:
+     0026:        f.write(''.join(lines))
+     0027:
+     0028:# Functions added to this variable MUST throw a
+NotImplementedError exception unless
+Exception: TypeError: %d format: a number is required, not str
 
---Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+Traceback (most recent call last):
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 954, in check_sanity(sanity_data=<bb.data_smart.DataSmart object
+at 0x7f2bb26f3cd0>):
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+    >    check_sanity_everybuild(status, sanity_data)
 
-iQIcBAEBCgAGBQJW0t1CAAoJEESZlq7c5QqdM44QAIpAR2tiQV3P3/Ij/9jSFS1L
-L8wVmNydRs1bLmjs9LhwNoV7q8yyXuwB36mQruuu2PkydkXytqpgSRlFoOgY4xVH
-gNJN3TXoJvISNfE5eBF/db/r014n3j6gYih5AUiHc/5CnPR7816hk/bst1dNRhYm
-f4hzlAs9RphpOr+bh+qk4wgExia5ztRJ+KM9OO7HiIEDXXZ0BBfd6CgdajdM3xp+
-Ng1D50s9gQlWM2DQyFZ9BKdtj+Ir7n0Gkz0imsu9PVkJDP9jsc3xpLbZx4aJfVEA
-+r2aXy8zN7Dp7I1RZNl9JG676USuzyJQCIQ9j1BreElMI1p51eeSpncrKN1KkvoO
-V3edPvcuWNKqKl+dc2K8hreQJd+vmppqkOCHE2s9Hvqu6OTOaHay8njS3Slh/3MV
-OOjwcHcnHYZ9sWZ3mdBd3VPQOW744KvCKwexd0YycmmkHx7fHJ7krNAHADGuW/y3
-/hQIu2wxmSDAwEbgpsvWLqVZYFwuBbIViFlfXqOz4wqXX9c43BDu8sopaY0owMPk
-zoLftszdpoOigBKPJBRZT9tRs7egwqQiIp71E4eyNLBvoYQYg8QZFA1k+Pe1qx5E
-3XtZadbDS8TwQwFnieq+QlMcm/7iUNq6FGg3T4DlzlEs/+1vtgR41u2DE5sOH4c7
-pm26u4HKrZRYYfQjQEmI
-=3M+o
------END PGP SIGNATURE-----
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 768, in check_sanity_everybuild(status=<SanityStatus object at
+0x7f2bb26f31d0>, d=<bb.data_smart.DataSmart object at
+0x7f2bb26f3cd0>):
 
---Apple-Mail=_05DBA441-1A3C-49CB-9187-9E4011210FBB--
+    >    sanity_check_conffiles(status, d)
+
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 548, in sanity_check_conffiles(status=<SanityStatus object at
+0x7f2bb26f31d0>, d=<bb.data_smart.DataSmart object at
+0x7f2bb26f3cd0>):
+                 try:
+    >                bb.build.exec_func(func, d)
+                 except NotImplementedError as e:
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 227, in exec_func(func='oecore_update_bblayers',
+d=<bb.data_smart.DataSmart object at 0x7f2bb26f3cd0>, dirs=None):
+             if ispython:
+    >            exec_func_python(func, d, runfile, cwd=adir)
+             else:
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 263, in exec_func_python(func='oecore_update_bblayers',
+d=<bb.data_smart.DataSmart object at 0x7f2bb26f3cd0>,
+runfile='/home/superandy/tmp/oe-core-glibc/work/cortexa7t2hf-neon-vfpv4-angstrom-linux-gnueabi/defaultpkgname/1.0-r0/temp/run.oecore_update_bblayers.4459',
+cwd='/home/superandy/tmp/oe-core-glibc/work/cortexa7t2hf-neon-vfpv4-angstrom-linux-gnueabi/defaultpkgname/1.0-r0/defaultpkgname-1.0'):
+         except:
+    >        raise FuncFailed(func, None)
+         finally:
+FuncFailed: Function failed: oecore_update_bblayers
+
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/command.py",
+line 101, in runAsyncCommand
+    self.cooker.updateCache()
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/cooker.py",
+line 1538, in updateCache
+    bb.event.fire(bb.event.SanityCheck(False), self.data)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/event.py",
+line 171, in fire
+    fire_class_handlers(event, d)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/event.py",
+line 110, in fire_class_handlers
+    execute_handler(name, handler, event, d)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/event.py",
+line 82, in execute_handler
+    ret = handler(event)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 991, in check_sanity_eventhandler
+    reparse = check_sanity(sanity_data)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 954, in check_sanity
+    check_sanity_everybuild(status, sanity_data)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 768, in check_sanity_everybuild
+    sanity_check_conffiles(status, d)
+  File "/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/sanity.bbclass",
+line 548, in sanity_check_conffiles
+    bb.build.exec_func(func, d)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 227, in exec_func
+    exec_func_python(func, d, runfile, cwd=adir)
+  File "/home/superandy/data/oe-core/sources/bitbake/lib/bb/build.py",
+line 263, in exec_func_python
+    raise FuncFailed(func, None)
+FuncFailed: Function failed: oecore_update_bblayers
+
