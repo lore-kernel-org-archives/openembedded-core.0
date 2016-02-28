@@ -1,49 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id EF009771DF
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 99B80771F0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 18:53:44 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id w128so7710386pfb.2
+	Sun, 28 Feb 2016 18:53:47 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id fl4so7393470pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 10:53:45 -0800 (PST)
+	Sun, 28 Feb 2016 10:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=R0sFfTq2Ek8DS3qAH1ugGKJkpWESuYitTWNxs7SV0Uc=;
-	b=eF1WQ7H1xqftyJ55O7Z+M9yFTflw61YCKJEY3m5KTm3VxlwEZm7a/nKeP1hZ7Iz7bw
-	4967FwUqapIxG4i0WY5IBfzH7PC8Xmhj6IRdxOT2jSwSI59BsiBIwEmNdZHDjqOn/aSq
-	MwuibNFPOSZErhTHhovnNj7nDc5Nq3Je/jUyiYjCGMXEr6m6hNYJWW9rZqFlnpCPnYPA
-	TbjvFfQsHCe9OkcNZrdS5HTslQGf8hTXj193l5QJTXK++WlBu2CWPsbc+hMKKzIkw8Bd
-	LL+LtvVTTKa1dqpcLOVroWuasWpJvWQZhrwwYrLWVjQngf9HnXAS0DAMPgi+qGo9QvA8
-	ogNg==
+	bh=QaBsO1nqbrop7+RBpj4uhGR59Drr4dEfzmKCqwx8H3Q=;
+	b=gjSPj0wSdQCZMAP2T1+EACHXyqyyVdbVMgCWElQwG49D67oK7gPvdpCnBj/JBE/3h0
+	ihGf6bANa19gwFbGCYz6YgLPbqhALTELJ0YqIsaIADF4bTPRY3mmuhSnRmARz29uNvR2
+	7dVR8Mrw4hTNj4a+1O/kAD6+uXB82tAZTNqMGdWWHh+gC7sS2O8jlv78xaYX2Eg1T7RZ
+	5K//HT3QCmosuwomTk7SStgshHK1pH5a+sqIsT70qKmoT4pE0rCBA/qAE3owVOwDTJ8z
+	OEnXki9ht+kLUfsOcvepCgUHr9QCZFGYmjaX5nl6IWyLveQYSOokBiPIH5HbQW3iuVCB
+	83cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=R0sFfTq2Ek8DS3qAH1ugGKJkpWESuYitTWNxs7SV0Uc=;
-	b=i1v17xJcH9DI1eB/p5vHskpiYw29j7BthQzs5EJ6+Xu0wXpKIYSPm5S1gZAxfFZEiN
-	Y2K6yaDyus5OD9rZdd1VuUkPVRuIjTRzESLWE5E1PpR/m059uf0POhpOczlPa9M7HMOk
-	JItQXlLFUbfXjZjLXeMZlKJSu2wynPwOvBb7j+omg8U+ucggsGnUseqjG+41C9Ik4Y7n
-	N381mN7ZwmMm0HzBtXXWMoWx+XrpzpsqdQ1HDs7YUWkw+P6JBqkQPuGG9CEse5A+o71z
-	WPuM8/qFuLemIcMbI7nzTCcAqg0/219pDdvHr0WnUkCsy/wcZJvSowRv5715/0cjqM5y
-	ZbAQ==
-X-Gm-Message-State: AD7BkJL01R9CX4Ns8fFCJnocCfZQKE3pcwpn2/bp2uAw5uk9Jx6wi+qYy/orhnjqkhQG7g==
-X-Received: by 10.98.0.84 with SMTP id 81mr16838047pfa.67.1456685625377;
-	Sun, 28 Feb 2016 10:53:45 -0800 (PST)
+	bh=QaBsO1nqbrop7+RBpj4uhGR59Drr4dEfzmKCqwx8H3Q=;
+	b=H1+o+Yz8n0frK5vg0RhvInLN49CSMI0edjTAOhPu41maJZVZgBqm4sLiBKjnZmb+ol
+	a/nm/d+scYaAruFLCtVYaVCaoTJzJup+u1W5vwm5Gt2ruAASLoGADVwW0N7GzHeQ8dRe
+	xRHgFuJRuNKGcBn28hrS/Gy0iAt4ESfOS18VQ20agBvjWiHP5Wj7SZdAo4yQfFKTSqcJ
+	rGjcbVSH73lrB+gbskn/6EWxgc3ygGWXS9FJ8JxLIVMzJC3K4SZZQKcfEql5OIThsbkZ
+	OsDw4ZMf7QlDxORS06exTnUZfzhZuel19Sm8+LDxEvEYzYeiJEwiUVwYHh/fzjkoDj1L
+	L7IA==
+X-Gm-Message-State: AD7BkJJyyOAJeYVqwrdxUKolSvi1ltjh/fudcXJZjTpTx3mTJ6v0DvG1R30Eva2Pj2l6FQ==
+X-Received: by 10.67.21.205 with SMTP id hm13mr17248898pad.56.1456685628073;
+	Sun, 28 Feb 2016 10:53:48 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id r6sm8071829pfi.9.2016.02.28.10.53.42
+	by smtp.gmail.com with ESMTPSA id r6sm8071829pfi.9.2016.02.28.10.53.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 28 Feb 2016 10:53:44 -0800 (PST)
+	Sun, 28 Feb 2016 10:53:46 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 28 Feb 2016 10:53:33 -0800
-Message-Id: <1456685615-901-2-git-send-email-akuster808@gmail.com>
+Date: Sun, 28 Feb 2016 10:53:34 -0800
+Message-Id: <1456685615-901-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <1456685615-901-1-git-send-email-akuster808@gmail.com>
 References: <1456685615-901-1-git-send-email-akuster808@gmail.com>
-Subject: [dizzy][PATCH 2/4] glibc: CVE-2015-8779
+Subject: [dizzy][PATCH 3/4] glibc: CVE-2015-9761
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +56,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Feb 2016 18:53:45 -0000
+X-List-Received-Date: Sun, 28 Feb 2016 18:53:47 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-A stack overflow vulnerability in the catopen function was found, causing
-applications which pass long strings to the catopen function to crash or,
-potentially execute arbitrary code.
+A stack overflow vulnerability was found in nan* functions that could cause
+applications which process long strings with the nan function to crash or,
+potentially, execute arbitrary code.
 
-(From OE-Core rev: af20e323932caba8883c91dac610e1ba2b3d4ab5)
+(From OE-Core rev: fd3da8178c8c06b549dbc19ecec40e98ab934d49)
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
@@ -73,287 +73,1462 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2015-8779.patch | 261 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.20.bb             |   1 +
- 2 files changed, 262 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
+ .../recipes-core/glibc/glibc/CVE-2015-9761_1.patch | 1039 ++++++++++++++++++++
+ .../recipes-core/glibc/glibc/CVE-2015-9761_2.patch |  388 ++++++++
+ meta/recipes-core/glibc/glibc_2.20.bb              |    2 +
+ 3 files changed, 1429 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-8779.patch b/meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch b/meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
 new file mode 100644
-index 0000000..50e7f5b
+index 0000000..3aca913
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
-@@ -0,0 +1,261 @@
-+From 0f58539030e436449f79189b6edab17d7479796e Mon Sep 17 00:00:00 2001
-+From: Paul Pluzhnikov <ppluzhnikov@google.com>
-+Date: Sat, 8 Aug 2015 15:53:03 -0700
-+Subject: [PATCH] Fix BZ #17905
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
+@@ -0,0 +1,1039 @@
++From e02cabecf0d025ec4f4ddee290bdf7aadb873bb3 Mon Sep 17 00:00:00 2001
++From: Joseph Myers <joseph@codesourcery.com>
++Date: Tue, 24 Nov 2015 22:24:52 +0000
++Subject: [PATCH] Refactor strtod parsing of NaN payloads.
++
++The nan* functions handle their string argument by constructing a
++NAN(...) string on the stack as a VLA and passing it to strtod
++functions.
++
++This approach has problems discussed in bug 16961 and bug 16962: the
++stack usage is unbounded, and it gives incorrect results in certain
++cases where the argument is not a valid n-char-sequence.
++
++The natural fix for both issues is to refactor the NaN payload parsing
++out of strtod into a separate function that the nan* functions can
++call directly, so that no temporary string needs constructing on the
++stack at all.  This patch does that refactoring in preparation for
++fixing those bugs (but without actually using the new functions from
++nan* - which will also require exporting them from libc at version
++GLIBC_PRIVATE).  This patch is not intended to change any user-visible
++behavior, so no tests are added (fixes for the above bugs will of
++course add tests for them).
++
++This patch builds on my recent fixes for strtol and strtod issues in
++Turkish locales.  Given those fixes, the parsing of NaN payloads is
++locale-independent; thus, the new functions do not need to take a
++locale_t argument.
++
++Tested for x86_64, x86, mips64 and powerpc.
++
++	* stdlib/strtod_nan.c: New file.
++	* stdlib/strtod_nan_double.h: Likewise.
++	* stdlib/strtod_nan_float.h: Likewise.
++	* stdlib/strtod_nan_main.c: Likewise.
++	* stdlib/strtod_nan_narrow.h: Likewise.
++	* stdlib/strtod_nan_wide.h: Likewise.
++	* stdlib/strtof_nan.c: Likewise.
++	* stdlib/strtold_nan.c: Likewise.
++	* sysdeps/ieee754/ldbl-128/strtod_nan_ldouble.h: Likewise.
++	* sysdeps/ieee754/ldbl-128ibm/strtod_nan_ldouble.h: Likewise.
++	* sysdeps/ieee754/ldbl-96/strtod_nan_ldouble.h: Likewise.
++	* wcsmbs/wcstod_nan.c: Likewise.
++	* wcsmbs/wcstof_nan.c: Likewise.
++	* wcsmbs/wcstold_nan.c: Likewise.
++	* stdlib/Makefile (routines): Add strtof_nan, strtod_nan and
++	strtold_nan.
++	* wcsmbs/Makefile (routines): Add wcstod_nan, wcstold_nan and
++	wcstof_nan.
++	* include/stdlib.h (__strtof_nan): Declare and use
++	libc_hidden_proto.
++	(__strtod_nan): Likewise.
++	(__strtold_nan): Likewise.
++	(__wcstof_nan): Likewise.
++	(__wcstod_nan): Likewise.
++	(__wcstold_nan): Likewise.
++	* include/wchar.h (____wcstoull_l_internal): Declare.
++	* stdlib/strtod_l.c: Do not include <ieee754.h>.
++	(____strtoull_l_internal): Remove declaration.
++	(STRTOF_NAN): Define macro.
++	(SET_MANTISSA): Remove macro.
++	(STRTOULL): Likewise.
++	(____STRTOF_INTERNAL): Use STRTOF_NAN to parse NaN payload.
++	* stdlib/strtof_l.c (____strtoull_l_internal): Remove declaration.
++	(STRTOF_NAN): Define macro.
++	(SET_MANTISSA): Remove macro.
++	* sysdeps/ieee754/ldbl-128/strtold_l.c (STRTOF_NAN): Define macro.
++	(SET_MANTISSA): Remove macro.
++	* sysdeps/ieee754/ldbl-128ibm/strtold_l.c (STRTOF_NAN): Define
++	macro.
++	(SET_MANTISSA): Remove macro.
++	* sysdeps/ieee754/ldbl-64-128/strtold_l.c (STRTOF_NAN): Define
++	macro.
++	(SET_MANTISSA): Remove macro.
++	* sysdeps/ieee754/ldbl-96/strtold_l.c (STRTOF_NAN): Define macro.
++	(SET_MANTISSA): Remove macro.
++	* wcsmbs/wcstod_l.c (____wcstoull_l_internal): Remove declaration.
++	* wcsmbs/wcstof_l.c (____wcstoull_l_internal): Likewise.
++	* wcsmbs/wcstold_l.c (____wcstoull_l_internal): Likewise.
 +
 +Upstream-Status: Backport
-+CVE: CVE-2015-8779
++CVE: CVE-2015-9761 patch #1
 +[Yocto # 8980]
 +
-+https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=0f58539030e436449f79189b6edab17d7479796e
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=e02cabecf0d025ec4f4ddee290bdf7aadb873bb3
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ ChangeLog              |  8 ++++++++
-+ NEWS                   |  2 +-
-+ catgets/Makefile       |  9 ++++++++-
-+ catgets/catgets.c      | 19 ++++++++++++-------
-+ catgets/open_catalog.c | 23 ++++++++++++++---------
-+ catgets/tst-catgets.c  | 31 +++++++++++++++++++++++++++++++
-+ 6 files changed, 74 insertions(+), 18 deletions(-)
++ ChangeLog                                        | 49 ++++++++++++++++++
++ include/stdlib.h                                 | 18 +++++++
++ include/wchar.h                                  |  3 ++
++ stdlib/Makefile                                  |  1 +
++ stdlib/strtod_l.c                                | 48 ++++--------------
++ stdlib/strtod_nan.c                              | 24 +++++++++
++ stdlib/strtod_nan_double.h                       | 30 +++++++++++
++ stdlib/strtod_nan_float.h                        | 29 +++++++++++
++ stdlib/strtod_nan_main.c                         | 63 ++++++++++++++++++++++++
++ stdlib/strtod_nan_narrow.h                       | 22 +++++++++
++ stdlib/strtod_nan_wide.h                         | 22 +++++++++
++ stdlib/strtof_l.c                                | 11 +----
++ stdlib/strtof_nan.c                              | 24 +++++++++
++ stdlib/strtold_nan.c                             | 30 +++++++++++
++ sysdeps/ieee754/ldbl-128/strtod_nan_ldouble.h    | 33 +++++++++++++
++ sysdeps/ieee754/ldbl-128/strtold_l.c             | 13 +----
++ sysdeps/ieee754/ldbl-128ibm/strtod_nan_ldouble.h | 30 +++++++++++
++ sysdeps/ieee754/ldbl-128ibm/strtold_l.c          | 10 +---
++ sysdeps/ieee754/ldbl-64-128/strtold_l.c          | 13 +----
++ sysdeps/ieee754/ldbl-96/strtod_nan_ldouble.h     | 30 +++++++++++
++ sysdeps/ieee754/ldbl-96/strtold_l.c              | 10 +---
++ wcsmbs/Makefile                                  |  1 +
++ wcsmbs/wcstod_l.c                                |  3 --
++ wcsmbs/wcstod_nan.c                              | 23 +++++++++
++ wcsmbs/wcstof_l.c                                |  3 --
++ wcsmbs/wcstof_nan.c                              | 23 +++++++++
++ wcsmbs/wcstold_l.c                               |  3 --
++ wcsmbs/wcstold_nan.c                             | 30 +++++++++++
++ 28 files changed, 504 insertions(+), 95 deletions(-)
++ create mode 100644 stdlib/strtod_nan.c
++ create mode 100644 stdlib/strtod_nan_double.h
++ create mode 100644 stdlib/strtod_nan_float.h
++ create mode 100644 stdlib/strtod_nan_main.c
++ create mode 100644 stdlib/strtod_nan_narrow.h
++ create mode 100644 stdlib/strtod_nan_wide.h
++ create mode 100644 stdlib/strtof_nan.c
++ create mode 100644 stdlib/strtold_nan.c
++ create mode 100644 sysdeps/ieee754/ldbl-128/strtod_nan_ldouble.h
++ create mode 100644 sysdeps/ieee754/ldbl-128ibm/strtod_nan_ldouble.h
++ create mode 100644 sysdeps/ieee754/ldbl-96/strtod_nan_ldouble.h
++ create mode 100644 wcsmbs/wcstod_nan.c
++ create mode 100644 wcsmbs/wcstof_nan.c
++ create mode 100644 wcsmbs/wcstold_nan.c
 +
-+Index: git/catgets/Makefile
++Index: git/include/stdlib.h
 +===================================================================
-+--- git.orig/catgets/Makefile
-++++ git/catgets/Makefile
-+@@ -37,6 +37,7 @@ ifeq (y,$(OPTION_EGLIBC_CATGETS))
-+ ifeq ($(run-built-tests),yes)
-+ tests-special += $(objpfx)de/libc.cat $(objpfx)test1.cat $(objpfx)test2.cat \
-+ 		 $(objpfx)sample.SJIS.cat $(objpfx)test-gencat.out
-++tests-special += $(objpfx)tst-catgets-mem.out
-+ endif
-+ endif
-+ gencat-modules	= xmalloc
-+@@ -53,9 +54,11 @@ catgets-CPPFLAGS := -DNLSPATH='"$(msgcat
++--- git.orig/include/stdlib.h
+++++ git/include/stdlib.h
++@@ -203,6 +203,24 @@ libc_hidden_proto (strtoll)
++ libc_hidden_proto (strtoul)
++ libc_hidden_proto (strtoull)
 + 
-+ generated += de.msg test1.cat test1.h test2.cat test2.h sample.SJIS.cat \
-+ 	     test-gencat.h
-++generated += tst-catgets.mtrace tst-catgets-mem.out
+++extern float __strtof_nan (const char *, char **, char) internal_function;
+++extern double __strtod_nan (const char *, char **, char) internal_function;
+++extern long double __strtold_nan (const char *, char **, char)
+++     internal_function;
+++extern float __wcstof_nan (const wchar_t *, wchar_t **, wchar_t)
+++     internal_function;
+++extern double __wcstod_nan (const wchar_t *, wchar_t **, wchar_t)
+++     internal_function;
+++extern long double __wcstold_nan (const wchar_t *, wchar_t **, wchar_t)
+++     internal_function;
 ++
-+ generated-dirs += de
-+ 
-+-tst-catgets-ENV = NLSPATH="$(objpfx)%l/%N.cat" LANG=de
-++tst-catgets-ENV = NLSPATH="$(objpfx)%l/%N.cat" LANG=de MALLOC_TRACE=$(objpfx)tst-catgets.mtrace
-+ 
-+ ifeq ($(run-built-tests),yes)
-+ # This test just checks whether the program produces any error or not.
-+@@ -89,4 +92,8 @@ $(objpfx)test-gencat.out: test-gencat.sh
-+ $(objpfx)sample.SJIS.cat: sample.SJIS $(objpfx)gencat
-+ 	$(built-program-cmd) -H $(objpfx)test-gencat.h < $(word 1,$^) > $@; \
-+ 	$(evaluate-test)
+++libc_hidden_proto (__strtof_nan)
+++libc_hidden_proto (__strtod_nan)
+++libc_hidden_proto (__strtold_nan)
+++libc_hidden_proto (__wcstof_nan)
+++libc_hidden_proto (__wcstod_nan)
+++libc_hidden_proto (__wcstold_nan)
 ++
-++$(objpfx)tst-catgets-mem.out: $(objpfx)tst-catgets.out
-++	$(common-objpfx)malloc/mtrace $(objpfx)tst-catgets.mtrace > $@; \
-++	$(evaluate-test)
-+ endif
-+Index: git/catgets/catgets.c
++ extern char *__ecvt (double __value, int __ndigit, int *__restrict __decpt,
++ 		     int *__restrict __sign);
++ extern char *__fcvt (double __value, int __ndigit, int *__restrict __decpt,
++Index: git/include/wchar.h
 +===================================================================
-+--- git.orig/catgets/catgets.c
-++++ git/catgets/catgets.c
-+@@ -16,7 +16,6 @@
-+    License along with the GNU C Library; if not, see
-+    <http://www.gnu.org/licenses/>.  */
++--- git.orig/include/wchar.h
+++++ git/include/wchar.h
++@@ -52,6 +52,9 @@ extern unsigned long long int __wcstoull
++ 						   __restrict __endptr,
++ 						   int __base,
++ 						   int __group) __THROW;
+++extern unsigned long long int ____wcstoull_l_internal (const wchar_t *,
+++						       wchar_t **, int, int,
+++						       __locale_t);
++ libc_hidden_proto (__wcstof_internal)
++ libc_hidden_proto (__wcstod_internal)
++ libc_hidden_proto (__wcstold_internal)
++Index: git/stdlib/Makefile
++===================================================================
++--- git.orig/stdlib/Makefile
+++++ git/stdlib/Makefile
++@@ -51,6 +51,7 @@ routines-y	:=							      \
++ 	strtol_l strtoul_l strtoll_l strtoull_l				      \
++ 	strtof strtod strtold						      \
++ 	strtof_l strtod_l strtold_l					      \
+++	strtof_nan strtod_nan strtold_nan				      \
++ 	system canonicalize						      \
++ 	a64l l64a							      \
++ 	getsubopt xpg_basename						      \
++Index: git/stdlib/strtod_l.c
++===================================================================
++--- git.orig/stdlib/strtod_l.c
+++++ git/stdlib/strtod_l.c
++@@ -21,8 +21,6 @@
++ #include <xlocale.h>
 + 
-+-#include <alloca.h>
++ extern double ____strtod_l_internal (const char *, char **, int, __locale_t);
++-extern unsigned long long int ____strtoull_l_internal (const char *, char **,
++-						       int, int, __locale_t);
++ 
++ /* Configuration part.  These macros are defined by `strtold.c',
++    `strtof.c', `wcstod.c', `wcstold.c', and `wcstof.c' to produce the
++@@ -34,27 +32,20 @@ extern unsigned long long int ____strtou
++ # ifdef USE_WIDE_CHAR
++ #  define STRTOF	wcstod_l
++ #  define __STRTOF	__wcstod_l
+++#  define STRTOF_NAN	__wcstod_nan
++ # else
++ #  define STRTOF	strtod_l
++ #  define __STRTOF	__strtod_l
+++#  define STRTOF_NAN	__strtod_nan
++ # endif
++ # define MPN2FLOAT	__mpn_construct_double
++ # define FLOAT_HUGE_VAL	HUGE_VAL
++-# define SET_MANTISSA(flt, mant) \
++-  do { union ieee754_double u;						      \
++-       u.d = (flt);							      \
++-       u.ieee_nan.mantissa0 = (mant) >> 32;				      \
++-       u.ieee_nan.mantissa1 = (mant);					      \
++-       if ((u.ieee.mantissa0 | u.ieee.mantissa1) != 0)			      \
++-	 (flt) = u.d;							      \
++-  } while (0)
++ #endif
++ /* End of configuration part.  */
++ 
++ #include <ctype.h>
 + #include <errno.h>
++ #include <float.h>
++-#include <ieee754.h>
++ #include "../locale/localeinfo.h"
 + #include <locale.h>
-+ #include <nl_types.h>
-+@@ -35,6 +34,7 @@ catopen (const char *cat_name, int flag)
-+   __nl_catd result;
-+   const char *env_var = NULL;
-+   const char *nlspath = NULL;
-++  char *tmp = NULL;
++ #include <math.h>
++@@ -105,7 +96,6 @@ extern unsigned long long int ____strtou
++ # define TOLOWER_C(Ch) __towlower_l ((Ch), _nl_C_locobj_ptr)
++ # define STRNCASECMP(S1, S2, N) \
++   __wcsncasecmp_l ((S1), (S2), (N), _nl_C_locobj_ptr)
++-# define STRTOULL(S, E, B) ____wcstoull_l_internal ((S), (E), (B), 0, loc)
++ #else
++ # define STRING_TYPE char
++ # define CHAR_TYPE char
++@@ -117,7 +107,6 @@ extern unsigned long long int ____strtou
++ # define TOLOWER_C(Ch) __tolower_l ((Ch), _nl_C_locobj_ptr)
++ # define STRNCASECMP(S1, S2, N) \
++   __strncasecmp_l ((S1), (S2), (N), _nl_C_locobj_ptr)
++-# define STRTOULL(S, E, B) ____strtoull_l_internal ((S), (E), (B), 0, loc)
++ #endif
 + 
-+   if (strchr (cat_name, '/') == NULL)
-+     {
-+@@ -54,7 +54,10 @@ catopen (const char *cat_name, int flag)
-+ 	{
-+ 	  /* Append the system dependent directory.  */
-+ 	  size_t len = strlen (nlspath) + 1 + sizeof NLSPATH;
-+-	  char *tmp = alloca (len);
-++	  tmp = malloc (len);
++ 
++@@ -668,33 +657,14 @@ ____STRTOF_INTERNAL (nptr, endptr, group
++ 	  if (*cp == L_('('))
++ 	    {
++ 	      const STRING_TYPE *startp = cp;
++-	      do
++-		++cp;
++-	      while ((*cp >= L_('0') && *cp <= L_('9'))
++-		     || ({ CHAR_TYPE lo = TOLOWER (*cp);
++-			   lo >= L_('a') && lo <= L_('z'); })
++-		     || *cp == L_('_'));
++-
++-	      if (*cp != L_(')'))
++-		/* The closing brace is missing.  Only match the NAN
++-		   part.  */
++-		cp = startp;
+++          STRING_TYPE *endp;
+++          retval = STRTOF_NAN (cp + 1, &endp, L_(')'));
+++          if (*endp == L_(')'))
+++            /* Consume the closing parenthesis.  */
+++            cp = endp + 1;
++ 	      else
++-		{
++-		  /* This is a system-dependent way to specify the
++-		     bitmask used for the NaN.  We expect it to be
++-		     a number which is put in the mantissa of the
++-		     number.  */
++-		  STRING_TYPE *endp;
++-		  unsigned long long int mant;
++-
++-		  mant = STRTOULL (startp + 1, &endp, 0);
++-		  if (endp == cp)
++-		    SET_MANTISSA (retval, mant);
++-
++-		  /* Consume the closing brace.  */
++-		  ++cp;
++-		}
+++               /* Only match the NAN part.  */
+++               cp = startp;
++ 	    }
++ 
++ 	  if (endptr != NULL)
++Index: git/stdlib/strtod_nan.c
++===================================================================
++--- /dev/null
+++++ git/stdlib/strtod_nan.c
++@@ -0,0 +1,24 @@
+++/* Convert string for NaN payload to corresponding NaN.  Narrow
+++   strings, double.
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
 ++
-++	  if (__glibc_unlikely (tmp == NULL))
-++	    return (nl_catd) -1;
-+ 
-+ 	  __stpcpy (__stpcpy (__stpcpy (tmp, nlspath), ":"), NLSPATH);
-+ 	  nlspath = tmp;
-+@@ -65,16 +68,18 @@ catopen (const char *cat_name, int flag)
-+ 
-+   result = (__nl_catd) malloc (sizeof (*result));
-+   if (result == NULL)
-+-    /* We cannot get enough memory.  */
-+-    return (nl_catd) -1;
-+-
-+-  if (__open_catalog (cat_name, nlspath, env_var, result) != 0)
-++    {
-++      /* We cannot get enough memory.  */
-++      result = (nl_catd) -1;
-++    }
-++  else if (__open_catalog (cat_name, nlspath, env_var, result) != 0)
-+     {
-+       /* Couldn't open the file.  */
-+       free ((void *) result);
-+-      return (nl_catd) -1;
-++      result = (nl_catd) -1;
-+     }
-+ 
-++  free (tmp);
-+   return (nl_catd) result;
-+ }
-+ 
-+Index: git/catgets/open_catalog.c
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <strtod_nan_narrow.h>
+++#include <strtod_nan_double.h>
+++
+++#define STRTOD_NAN __strtod_nan
+++#include <strtod_nan_main.c>
++Index: git/stdlib/strtod_nan_double.h
 +===================================================================
-+--- git.orig/catgets/open_catalog.c
-++++ git/catgets/open_catalog.c
-+@@ -47,6 +47,7 @@ __open_catalog (const char *cat_name, co
-+   size_t tab_size;
-+   const char *lastp;
-+   int result = -1;
-++  char *buf = NULL;
-+ 
-+   if (strchr (cat_name, '/') != NULL || nlspath == NULL)
-+     fd = open_not_cancel_2 (cat_name, O_RDONLY);
-+@@ -57,23 +58,23 @@ __open_catalog (const char *cat_name, co
-+   if (__glibc_unlikely (bufact + (n) >= bufmax))			      \
-+     {									      \
-+       char *old_buf = buf;						      \
-+-      bufmax += 256 + (n);						      \
-+-      buf = (char *) alloca (bufmax);					      \
-+-      memcpy (buf, old_buf, bufact);					      \
-++      bufmax += (bufmax < 256 + (n)) ? 256 + (n) : bufmax;		      \
-++      buf = realloc (buf, bufmax);					      \
-++      if (__glibc_unlikely (buf == NULL))				      \
-++	{								      \
-++	  free (old_buf);						      \
-++	  return -1;							      \
-++	}								      \
-+     }
-+ 
-+       /* The RUN_NLSPATH variable contains a colon separated list of
-+ 	 descriptions where we expect to find catalogs.  We have to
-+ 	 recognize certain % substitutions and stop when we found the
-+ 	 first existing file.  */
-+-      char *buf;
-+       size_t bufact;
-+-      size_t bufmax;
-++      size_t bufmax = 0;
-+       size_t len;
-+ 
-+-      buf = NULL;
-+-      bufmax = 0;
-+-
-+       fd = -1;
-+       while (*run_nlspath != '\0')
-+ 	{
-+@@ -188,7 +189,10 @@ __open_catalog (const char *cat_name, co
-+ 
-+   /* Avoid dealing with directories and block devices */
-+   if (__builtin_expect (fd, 0) < 0)
-+-    return -1;
-++    {
-++      free (buf);
-++      return -1;
-++    }
-+ 
-+   if (__builtin_expect (__fxstat64 (_STAT_VER, fd, &st), 0) < 0)
-+     goto close_unlock_return;
-+@@ -325,6 +329,7 @@ __open_catalog (const char *cat_name, co
-+   /* Release the lock again.  */
-+  close_unlock_return:
-+   close_not_cancel_no_status (fd);
-++  free (buf);
-+ 
-+   return result;
-+ }
-+Index: git/catgets/tst-catgets.c
++--- /dev/null
+++++ git/stdlib/strtod_nan_double.h
++@@ -0,0 +1,30 @@
+++/* Convert string for NaN payload to corresponding NaN.  For double.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define FLOAT		double
+++#define SET_MANTISSA(flt, mant)				\
+++  do							\
+++    {							\
+++      union ieee754_double u;				\
+++      u.d = (flt);					\
+++      u.ieee_nan.mantissa0 = (mant) >> 32;		\
+++      u.ieee_nan.mantissa1 = (mant);			\
+++      if ((u.ieee.mantissa0 | u.ieee.mantissa1) != 0)	\
+++	(flt) = u.d;					\
+++    }							\
+++  while (0)
++Index: git/stdlib/strtod_nan_float.h
 +===================================================================
-+--- git.orig/catgets/tst-catgets.c
-++++ git/catgets/tst-catgets.c
-+@@ -1,7 +1,10 @@
-++#include <assert.h>
-+ #include <mcheck.h>
-+ #include <nl_types.h>
-+ #include <stdio.h>
++--- /dev/null
+++++ git/stdlib/strtod_nan_float.h
++@@ -0,0 +1,29 @@
+++/* Convert string for NaN payload to corresponding NaN.  For float.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define	FLOAT		float
+++#define SET_MANTISSA(flt, mant)			\
+++  do						\
+++    {						\
+++      union ieee754_float u;			\
+++      u.f = (flt);				\
+++      u.ieee_nan.mantissa = (mant);		\
+++      if (u.ieee.mantissa != 0)			\
+++	(flt) = u.f;				\
+++    }						\
+++  while (0)
++Index: git/stdlib/strtod_nan_main.c
++===================================================================
++--- /dev/null
+++++ git/stdlib/strtod_nan_main.c
++@@ -0,0 +1,63 @@
+++/* Convert string for NaN payload to corresponding NaN.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <ieee754.h>
+++#include <locale.h>
+++#include <math.h>
 ++#include <stdlib.h>
-+ #include <string.h>
-++#include <sys/resource.h>
-+ 
-+ 
-+ static const char *msgs[] =
-+@@ -12,6 +15,33 @@ static const char *msgs[] =
-+ };
-+ #define nmsgs (sizeof (msgs) / sizeof (msgs[0]))
-+ 
+++#include <wchar.h>
 ++
-++/* Test for unbounded alloca.  */
-++static int
-++do_bz17905 (void)
+++
+++/* If STR starts with an optional n-char-sequence as defined by ISO C
+++   (a sequence of ASCII letters, digits and underscores), followed by
+++   ENDC, return a NaN whose payload is set based on STR.  Otherwise,
+++   return a default NAN.  If ENDPTR is not NULL, set *ENDPTR to point
+++   to the character after the initial n-char-sequence.  */
+++
+++internal_function
+++FLOAT
+++STRTOD_NAN (const STRING_TYPE *str, STRING_TYPE **endptr, STRING_TYPE endc)
 ++{
-++  char *buf;
-++  struct rlimit rl;
-++  nl_catd result;
+++  const STRING_TYPE *cp = str;
 ++
-++  const int sz = 1024 * 1024;
+++  while ((*cp >= L_('0') && *cp <= L_('9'))
+++	 || (*cp >= L_('A') && *cp <= L_('Z'))
+++	 || (*cp >= L_('a') && *cp <= L_('z'))
+++	 || *cp == L_('_'))
+++    ++cp;
 ++
-++  getrlimit (RLIMIT_STACK, &rl);
-++  rl.rlim_cur = sz;
-++  setrlimit (RLIMIT_STACK, &rl);
+++  FLOAT retval = NAN;
+++  if (*cp != endc)
+++    goto out;
 ++
-++  buf = malloc (sz + 1); 
-++  memset (buf, 'A', sz);
-++  buf[sz] = '\0';
-++  setenv ("NLSPATH", buf, 1);
+++  /* This is a system-dependent way to specify the bitmask used for
+++     the NaN.  We expect it to be a number which is put in the
+++     mantissa of the number.  */
+++  STRING_TYPE *endp;
+++  unsigned long long int mant;
 ++
-++  result = catopen (buf, NL_CAT_LOCALE);
-++  assert (result == (nl_catd) -1);
+++  mant = STRTOULL (str, &endp, 0);
+++  if (endp == cp)
+++    SET_MANTISSA (retval, mant);
 ++
-++  free (buf);
-++  return 0;
+++ out:
+++  if (endptr != NULL)
+++    *endptr = (STRING_TYPE *) cp;
+++  return retval;
 ++}
+++libc_hidden_def (STRTOD_NAN)
++Index: git/stdlib/strtod_nan_narrow.h
++===================================================================
++--- /dev/null
+++++ git/stdlib/strtod_nan_narrow.h
++@@ -0,0 +1,22 @@
+++/* Convert string for NaN payload to corresponding NaN.  Narrow strings.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
 ++
-+ #define ROUNDS 5
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define STRING_TYPE char
+++#define L_(Ch) Ch
+++#define STRTOULL(S, E, B) ____strtoull_l_internal ((S), (E), (B), 0,	\
+++						   _nl_C_locobj_ptr)
++Index: git/stdlib/strtod_nan_wide.h
++===================================================================
++--- /dev/null
+++++ git/stdlib/strtod_nan_wide.h
++@@ -0,0 +1,22 @@
+++/* Convert string for NaN payload to corresponding NaN.  Wide strings.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define STRING_TYPE wchar_t
+++#define L_(Ch) L##Ch
+++#define STRTOULL(S, E, B) ____wcstoull_l_internal ((S), (E), (B), 0,	\
+++						   _nl_C_locobj_ptr)
++Index: git/stdlib/strtof_l.c
++===================================================================
++--- git.orig/stdlib/strtof_l.c
+++++ git/stdlib/strtof_l.c
++@@ -20,26 +20,19 @@
++ #include <xlocale.h>
 + 
-+ int
-+@@ -62,5 +92,6 @@ main (void)
-+ 	}
-+     }
++ extern float ____strtof_l_internal (const char *, char **, int, __locale_t);
++-extern unsigned long long int ____strtoull_l_internal (const char *, char **,
++-						       int, int, __locale_t);
 + 
-++  result += do_bz17905 ();
-+   return result;
-+ }
++ #define	FLOAT		float
++ #define	FLT		FLT
++ #ifdef USE_WIDE_CHAR
++ # define STRTOF		wcstof_l
++ # define __STRTOF	__wcstof_l
+++# define STRTOF_NAN	__wcstof_nan
++ #else
++ # define STRTOF		strtof_l
++ # define __STRTOF	__strtof_l
+++# define STRTOF_NAN	__strtof_nan
++ #endif
++ #define	MPN2FLOAT	__mpn_construct_float
++ #define	FLOAT_HUGE_VAL	HUGE_VALF
++-#define SET_MANTISSA(flt, mant) \
++-  do { union ieee754_float u;						      \
++-       u.f = (flt);							      \
++-       u.ieee_nan.mantissa = (mant);					      \
++-       if (u.ieee.mantissa != 0)					      \
++-	 (flt) = u.f;							      \
++-  } while (0)
++ 
++ #include "strtod_l.c"
++Index: git/stdlib/strtof_nan.c
++===================================================================
++--- /dev/null
+++++ git/stdlib/strtof_nan.c
++@@ -0,0 +1,24 @@
+++/* Convert string for NaN payload to corresponding NaN.  Narrow
+++   strings, float.
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <strtod_nan_narrow.h>
+++#include <strtod_nan_float.h>
+++
+++#define STRTOD_NAN __strtof_nan
+++#include <strtod_nan_main.c>
++Index: git/stdlib/strtold_nan.c
++===================================================================
++--- /dev/null
+++++ git/stdlib/strtold_nan.c
++@@ -0,0 +1,30 @@
+++/* Convert string for NaN payload to corresponding NaN.  Narrow
+++   strings, long double.
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <math.h>
+++
+++/* This function is unused if long double and double have the same
+++   representation.  */
+++#ifndef __NO_LONG_DOUBLE_MATH
+++# include <strtod_nan_narrow.h>
+++# include <strtod_nan_ldouble.h>
+++
+++# define STRTOD_NAN __strtold_nan
+++# include <strtod_nan_main.c>
+++#endif
++Index: git/sysdeps/ieee754/ldbl-128/strtod_nan_ldouble.h
++===================================================================
++--- /dev/null
+++++ git/sysdeps/ieee754/ldbl-128/strtod_nan_ldouble.h
++@@ -0,0 +1,33 @@
+++/* Convert string for NaN payload to corresponding NaN.  For ldbl-128.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define FLOAT		long double
+++#define SET_MANTISSA(flt, mant)				\
+++  do							\
+++    {							\
+++      union ieee854_long_double u;			\
+++      u.d = (flt);					\
+++      u.ieee_nan.mantissa0 = 0;				\
+++      u.ieee_nan.mantissa1 = 0;				\
+++      u.ieee_nan.mantissa2 = (mant) >> 32;		\
+++      u.ieee_nan.mantissa3 = (mant);			\
+++      if ((u.ieee.mantissa0 | u.ieee.mantissa1		\
+++	   | u.ieee.mantissa2 | u.ieee.mantissa3) != 0)	\
+++	(flt) = u.d;					\
+++    }							\
+++  while (0)
++Index: git/sysdeps/ieee754/ldbl-128/strtold_l.c
++===================================================================
++--- git.orig/sysdeps/ieee754/ldbl-128/strtold_l.c
+++++ git/sysdeps/ieee754/ldbl-128/strtold_l.c
++@@ -25,22 +25,13 @@
++ #ifdef USE_WIDE_CHAR
++ # define STRTOF		wcstold_l
++ # define __STRTOF	__wcstold_l
+++# define STRTOF_NAN	__wcstold_nan
++ #else
++ # define STRTOF		strtold_l
++ # define __STRTOF	__strtold_l
+++# define STRTOF_NAN	__strtold_nan
++ #endif
++ #define MPN2FLOAT	__mpn_construct_long_double
++ #define FLOAT_HUGE_VAL	HUGE_VALL
++-#define SET_MANTISSA(flt, mant) \
++-  do { union ieee854_long_double u;					      \
++-       u.d = (flt);							      \
++-       u.ieee_nan.mantissa0 = 0;					      \
++-       u.ieee_nan.mantissa1 = 0;					      \
++-       u.ieee_nan.mantissa2 = (mant) >> 32;				      \
++-       u.ieee_nan.mantissa3 = (mant);					      \
++-       if ((u.ieee.mantissa0 | u.ieee.mantissa1				      \
++-	    | u.ieee.mantissa2 | u.ieee.mantissa3) != 0)		      \
++-	 (flt) = u.d;							      \
++-  } while (0)
++ 
++ #include <strtod_l.c>
++Index: git/sysdeps/ieee754/ldbl-128ibm/strtod_nan_ldouble.h
++===================================================================
++--- /dev/null
+++++ git/sysdeps/ieee754/ldbl-128ibm/strtod_nan_ldouble.h
++@@ -0,0 +1,30 @@
+++/* Convert string for NaN payload to corresponding NaN.  For ldbl-128ibm.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define FLOAT		long double
+++#define SET_MANTISSA(flt, mant)					\
+++  do								\
+++    {								\
+++      union ibm_extended_long_double u;				\
+++      u.ld = (flt);						\
+++      u.d[0].ieee_nan.mantissa0 = (mant) >> 32;			\
+++      u.d[0].ieee_nan.mantissa1 = (mant);			\
+++      if ((u.d[0].ieee.mantissa0 | u.d[0].ieee.mantissa1) != 0)	\
+++	(flt) = u.ld;						\
+++    }								\
+++  while (0)
++Index: git/sysdeps/ieee754/ldbl-128ibm/strtold_l.c
++===================================================================
++--- git.orig/sysdeps/ieee754/ldbl-128ibm/strtold_l.c
+++++ git/sysdeps/ieee754/ldbl-128ibm/strtold_l.c
++@@ -30,25 +30,19 @@ extern long double ____new_wcstold_l (co
++ # define STRTOF		__new_wcstold_l
++ # define __STRTOF	____new_wcstold_l
++ # define ____STRTOF_INTERNAL ____wcstold_l_internal
+++# define STRTOF_NAN	__wcstold_nan
++ #else
++ extern long double ____new_strtold_l (const char *, char **, __locale_t);
++ # define STRTOF		__new_strtold_l
++ # define __STRTOF	____new_strtold_l
++ # define ____STRTOF_INTERNAL ____strtold_l_internal
+++# define STRTOF_NAN	__strtold_nan
++ #endif
++ extern __typeof (__STRTOF) STRTOF;
++ libc_hidden_proto (__STRTOF)
++ libc_hidden_proto (STRTOF)
++ #define MPN2FLOAT	__mpn_construct_long_double
++ #define FLOAT_HUGE_VAL	HUGE_VALL
++-# define SET_MANTISSA(flt, mant) \
++-  do { union ibm_extended_long_double u;				      \
++-       u.ld = (flt);							      \
++-       u.d[0].ieee_nan.mantissa0 = (mant) >> 32;			      \
++-       u.d[0].ieee_nan.mantissa1 = (mant);				      \
++-       if ((u.d[0].ieee.mantissa0 | u.d[0].ieee.mantissa1) != 0)	      \
++-	 (flt) = u.ld;							      \
++-  } while (0)
++ 
++ #include <strtod_l.c>
++ 
++Index: git/sysdeps/ieee754/ldbl-64-128/strtold_l.c
++===================================================================
++--- git.orig/sysdeps/ieee754/ldbl-64-128/strtold_l.c
+++++ git/sysdeps/ieee754/ldbl-64-128/strtold_l.c
++@@ -30,28 +30,19 @@ extern long double ____new_wcstold_l (co
++ # define STRTOF		__new_wcstold_l
++ # define __STRTOF	____new_wcstold_l
++ # define ____STRTOF_INTERNAL ____wcstold_l_internal
+++# define STRTOF_NAN	__wcstold_nan
++ #else
++ extern long double ____new_strtold_l (const char *, char **, __locale_t);
++ # define STRTOF		__new_strtold_l
++ # define __STRTOF	____new_strtold_l
++ # define ____STRTOF_INTERNAL ____strtold_l_internal
+++# define STRTOF_NAN	__strtold_nan
++ #endif
++ extern __typeof (__STRTOF) STRTOF;
++ libc_hidden_proto (__STRTOF)
++ libc_hidden_proto (STRTOF)
++ #define MPN2FLOAT	__mpn_construct_long_double
++ #define FLOAT_HUGE_VAL	HUGE_VALL
++-#define SET_MANTISSA(flt, mant) \
++-  do { union ieee854_long_double u;					      \
++-       u.d = (flt);							      \
++-       u.ieee_nan.mantissa0 = 0;					      \
++-       u.ieee_nan.mantissa1 = 0;					      \
++-       u.ieee_nan.mantissa2 = (mant) >> 32;				      \
++-       u.ieee_nan.mantissa3 = (mant);					      \
++-       if ((u.ieee.mantissa0 | u.ieee.mantissa1				      \
++-	    | u.ieee.mantissa2 | u.ieee.mantissa3) != 0)		      \
++-	 (flt) = u.d;							      \
++-  } while (0)
++ 
++ #include <strtod_l.c>
++ 
++Index: git/sysdeps/ieee754/ldbl-96/strtod_nan_ldouble.h
++===================================================================
++--- /dev/null
+++++ git/sysdeps/ieee754/ldbl-96/strtod_nan_ldouble.h
++@@ -0,0 +1,30 @@
+++/* Convert string for NaN payload to corresponding NaN.  For ldbl-96.
+++   Copyright (C) 1997-2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define FLOAT		long double
+++#define SET_MANTISSA(flt, mant)				\
+++  do							\
+++    {							\
+++      union ieee854_long_double u;			\
+++      u.d = (flt);					\
+++      u.ieee_nan.mantissa0 = (mant) >> 32;		\
+++      u.ieee_nan.mantissa1 = (mant);			\
+++      if ((u.ieee.mantissa0 | u.ieee.mantissa1) != 0)	\
+++	(flt) = u.d;					\
+++    }							\
+++  while (0)
++Index: git/sysdeps/ieee754/ldbl-96/strtold_l.c
++===================================================================
++--- git.orig/sysdeps/ieee754/ldbl-96/strtold_l.c
+++++ git/sysdeps/ieee754/ldbl-96/strtold_l.c
++@@ -25,19 +25,13 @@
++ #ifdef USE_WIDE_CHAR
++ # define STRTOF		wcstold_l
++ # define __STRTOF	__wcstold_l
+++# define STRTOF_NAN	__wcstold_nan
++ #else
++ # define STRTOF		strtold_l
++ # define __STRTOF	__strtold_l
+++# define STRTOF_NAN	__strtold_nan
++ #endif
++ #define MPN2FLOAT	__mpn_construct_long_double
++ #define FLOAT_HUGE_VAL	HUGE_VALL
++-#define SET_MANTISSA(flt, mant) \
++-  do { union ieee854_long_double u;					      \
++-       u.d = (flt);							      \
++-       u.ieee_nan.mantissa0 = (mant) >> 32;				      \
++-       u.ieee_nan.mantissa1 = (mant);					      \
++-       if ((u.ieee.mantissa0 | u.ieee.mantissa1) != 0)			      \
++-	 (flt) = u.d;							      \
++-  } while (0)
++ 
++ #include <stdlib/strtod_l.c>
++Index: git/wcsmbs/Makefile
++===================================================================
++--- git.orig/wcsmbs/Makefile
+++++ git/wcsmbs/Makefile
++@@ -39,6 +39,7 @@ routines-$(OPTION_POSIX_C_LANG_WIDE_CHAR
++ 	    wcstol wcstoul wcstoll wcstoull wcstod wcstold wcstof \
++ 	    wcstol_l wcstoul_l wcstoll_l wcstoull_l \
++ 	    wcstod_l wcstold_l wcstof_l \
+++	    wcstod_nan wcstold_nan wcstof_nan \
++ 	    wcscoll wcsxfrm \
++ 	    wcwidth wcswidth \
++ 	    wcscoll_l wcsxfrm_l \
++Index: git/wcsmbs/wcstod_l.c
++===================================================================
++--- git.orig/wcsmbs/wcstod_l.c
+++++ git/wcsmbs/wcstod_l.c
++@@ -23,9 +23,6 @@
++ 
++ extern double ____wcstod_l_internal (const wchar_t *, wchar_t **, int,
++ 				     __locale_t);
++-extern unsigned long long int ____wcstoull_l_internal (const wchar_t *,
++-						       wchar_t **, int, int,
++-						       __locale_t);
++ 
++ #define	USE_WIDE_CHAR	1
++ 
++Index: git/wcsmbs/wcstod_nan.c
++===================================================================
++--- /dev/null
+++++ git/wcsmbs/wcstod_nan.c
++@@ -0,0 +1,23 @@
+++/* Convert string for NaN payload to corresponding NaN.  Wide strings, double.
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include "../stdlib/strtod_nan_wide.h"
+++#include "../stdlib/strtod_nan_double.h"
+++
+++#define STRTOD_NAN __wcstod_nan
+++#include "../stdlib/strtod_nan_main.c"
++Index: git/wcsmbs/wcstof_l.c
++===================================================================
++--- git.orig/wcsmbs/wcstof_l.c
+++++ git/wcsmbs/wcstof_l.c
++@@ -25,8 +25,5 @@
++ 
++ extern float ____wcstof_l_internal (const wchar_t *, wchar_t **, int,
++ 				    __locale_t);
++-extern unsigned long long int ____wcstoull_l_internal (const wchar_t *,
++-						       wchar_t **, int, int,
++-						       __locale_t);
++ 
++ #include <stdlib/strtof_l.c>
++Index: git/wcsmbs/wcstof_nan.c
++===================================================================
++--- /dev/null
+++++ git/wcsmbs/wcstof_nan.c
++@@ -0,0 +1,23 @@
+++/* Convert string for NaN payload to corresponding NaN.  Wide strings, float.
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include "../stdlib/strtod_nan_wide.h"
+++#include "../stdlib/strtod_nan_float.h"
+++
+++#define STRTOD_NAN __wcstof_nan
+++#include "../stdlib/strtod_nan_main.c"
++Index: git/wcsmbs/wcstold_l.c
++===================================================================
++--- git.orig/wcsmbs/wcstold_l.c
+++++ git/wcsmbs/wcstold_l.c
++@@ -24,8 +24,5 @@
++ 
++ extern long double ____wcstold_l_internal (const wchar_t *, wchar_t **, int,
++ 					   __locale_t);
++-extern unsigned long long int ____wcstoull_l_internal (const wchar_t *,
++-						       wchar_t **, int, int,
++-						       __locale_t);
++ 
++ #include <strtold_l.c>
++Index: git/wcsmbs/wcstold_nan.c
++===================================================================
++--- /dev/null
+++++ git/wcsmbs/wcstold_nan.c
++@@ -0,0 +1,30 @@
+++/* Convert string for NaN payload to corresponding NaN.  Wide strings,
+++   long double.
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <math.h>
+++
+++/* This function is unused if long double and double have the same
+++   representation.  */
+++#ifndef __NO_LONG_DOUBLE_MATH
+++# include "../stdlib/strtod_nan_wide.h"
+++# include <strtod_nan_ldouble.h>
+++
+++# define STRTOD_NAN __wcstold_nan
+++# include "../stdlib/strtod_nan_main.c"
+++#endif
 +Index: git/ChangeLog
 +===================================================================
 +--- git.orig/ChangeLog
 ++++ git/ChangeLog
-+@@ -1,3 +1,11 @@
-++2015-08-08  Paul Pluzhnikov  <ppluzhnikov@google.com>
++@@ -1,3 +1,57 @@
+++2015-11-24  Joseph Myers  <joseph@codesourcery.com>
+++ 
+++	* stdlib/strtod_nan.c: New file.
+++	* stdlib/strtod_nan_double.h: Likewise.
+++	* stdlib/strtod_nan_float.h: Likewise.
+++	* stdlib/strtod_nan_main.c: Likewise.
+++	* stdlib/strtod_nan_narrow.h: Likewise.
+++	* stdlib/strtod_nan_wide.h: Likewise.
+++	* stdlib/strtof_nan.c: Likewise.
+++	* stdlib/strtold_nan.c: Likewise.
+++	* sysdeps/ieee754/ldbl-128/strtod_nan_ldouble.h: Likewise.
+++	* sysdeps/ieee754/ldbl-128ibm/strtod_nan_ldouble.h: Likewise.
+++	* sysdeps/ieee754/ldbl-96/strtod_nan_ldouble.h: Likewise.
+++	* wcsmbs/wcstod_nan.c: Likewise.
+++	* wcsmbs/wcstof_nan.c: Likewise.
+++	* wcsmbs/wcstold_nan.c: Likewise.
+++	* stdlib/Makefile (routines): Add strtof_nan, strtod_nan and
+++	strtold_nan.
+++	* wcsmbs/Makefile (routines): Add wcstod_nan, wcstold_nan and
+++	wcstof_nan.
+++	* include/stdlib.h (__strtof_nan): Declare and use
+++	libc_hidden_proto.
+++	(__strtod_nan): Likewise.
+++	(__strtold_nan): Likewise.
+++	(__wcstof_nan): Likewise.
+++	(__wcstod_nan): Likewise.
+++	(__wcstold_nan): Likewise.
+++	* include/wchar.h (____wcstoull_l_internal): Declare.
+++	* stdlib/strtod_l.c: Do not include <ieee754.h>.
+++	(____strtoull_l_internal): Remove declaration.
+++	(STRTOF_NAN): Define macro.
+++	(SET_MANTISSA): Remove macro.
+++	(STRTOULL): Likewise.
+++	(____STRTOF_INTERNAL): Use STRTOF_NAN to parse NaN payload.
+++	* stdlib/strtof_l.c (____strtoull_l_internal): Remove declaration.
+++	(STRTOF_NAN): Define macro.
+++	(SET_MANTISSA): Remove macro.
+++	* sysdeps/ieee754/ldbl-128/strtold_l.c (STRTOF_NAN): Define macro.
+++	(SET_MANTISSA): Remove macro.
+++	* sysdeps/ieee754/ldbl-128ibm/strtold_l.c (STRTOF_NAN): Define
+++	macro.
+++	(SET_MANTISSA): Remove macro.
+++	* sysdeps/ieee754/ldbl-64-128/strtold_l.c (STRTOF_NAN): Define
+++	macro.
+++	(SET_MANTISSA): Remove macro.
+++	* sysdeps/ieee754/ldbl-96/strtold_l.c (STRTOF_NAN): Define macro.
+++	(SET_MANTISSA): Remove macro.
+++	* wcsmbs/wcstod_l.c (____wcstoull_l_internal): Remove declaration.
+++	* wcsmbs/wcstof_l.c (____wcstoull_l_internal): Likewise.
+++	* wcsmbs/wcstold_l.c (____wcstoull_l_internal): Likewise.
 ++
-++   [BZ #17905]
-++   * catgets/Makefile (tst-catgets-mem): New test.
-++   * catgets/catgets.c (catopen): Don't use unbounded alloca.
-++   * catgets/open_catalog.c (__open_catalog): Likewise.
-++   * catgets/tst-catgets.c (do_bz17905): Test unbounded alloca.
-++
-+ 2015-10-15  Florian Weimer  <fweimer@redhat.com>
+++ 	[BZ #19266]
+++ 	* stdlib/strtod_l.c (____STRTOF_INTERNAL): Check directly for
+++ 	upper case and lower case letters inside NAN(), not using TOLOWER.
++ 2015-08-08  Paul Pluzhnikov  <ppluzhnikov@google.com>
 + 
-+    [BZ #18928]
++    [BZ #17905]
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch b/meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
+new file mode 100644
+index 0000000..0df5e50
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
+@@ -0,0 +1,388 @@
++From 8f5e8b01a1da2a207228f2072c934fa5918554b8 Mon Sep 17 00:00:00 2001
++From: Joseph Myers <joseph@codesourcery.com>
++Date: Fri, 4 Dec 2015 20:36:28 +0000
++Subject: [PATCH] Fix nan functions handling of payload strings (bug 16961, bug
++ 16962).
++
++The nan, nanf and nanl functions handle payload strings by doing e.g.:
++
++  if (tagp[0] != '\0')
++    {
++      char buf[6 + strlen (tagp)];
++      sprintf (buf, "NAN(%s)", tagp);
++      return strtod (buf, NULL);
++    }
++
++This is an unbounded stack allocation based on the length of the
++argument.  Furthermore, if the argument starts with an n-char-sequence
++followed by ')', that n-char-sequence is wrongly treated as
++significant for determining the payload of the resulting NaN, when ISO
++C says the call should be equivalent to strtod ("NAN", NULL), without
++being affected by that initial n-char-sequence.  This patch fixes both
++those problems by using the __strtod_nan etc. functions recently
++factored out of strtod etc. for that purpose, with those functions
++being exported from libc at version GLIBC_PRIVATE.
++
++Tested for x86_64, x86, mips64 and powerpc.
++
++	[BZ #16961]
++	[BZ #16962]
++	* math/s_nan.c (__nan): Use __strtod_nan instead of constructing a
++	string on the stack for strtod.
++	* math/s_nanf.c (__nanf): Use __strtof_nan instead of constructing
++	a string on the stack for strtof.
++	* math/s_nanl.c (__nanl): Use __strtold_nan instead of
++	constructing a string on the stack for strtold.
++	* stdlib/Versions (libc): Add __strtof_nan, __strtod_nan and
++	__strtold_nan to GLIBC_PRIVATE.
++	* math/test-nan-overflow.c: New file.
++	* math/test-nan-payload.c: Likewise.
++	* math/Makefile (tests): Add test-nan-overflow and
++	test-nan-payload.
++
++Upstream-Status: Backport
++CVE: CVE-2015-9761 patch #2
++[Yocto # 8980]
++
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=8f5e8b01a1da2a207228f2072c934fa5918554b8
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ ChangeLog                |  17 +++++++
++ NEWS                     |   6 +++
++ math/Makefile            |   3 +-
++ math/s_nan.c             |   9 +---
++ math/s_nanf.c            |   9 +---
++ math/s_nanl.c            |   9 +---
++ math/test-nan-overflow.c |  66 +++++++++++++++++++++++++
++ math/test-nan-payload.c  | 122 +++++++++++++++++++++++++++++++++++++++++++++++
++ stdlib/Versions          |   1 +
++ 9 files changed, 217 insertions(+), 25 deletions(-)
++ create mode 100644 math/test-nan-overflow.c
++ create mode 100644 math/test-nan-payload.c
++
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,20 @@
+++2015-12-04  Joseph Myers  <joseph@codesourcery.com>
+++
+++	[BZ #16961]
+++	[BZ #16962]
+++	* math/s_nan.c (__nan): Use __strtod_nan instead of constructing a
+++	string on the stack for strtod.
+++	* math/s_nanf.c (__nanf): Use __strtof_nan instead of constructing
+++	a string on the stack for strtof.
+++	* math/s_nanl.c (__nanl): Use __strtold_nan instead of
+++	constructing a string on the stack for strtold.
+++	* stdlib/Versions (libc): Add __strtof_nan, __strtod_nan and
+++	__strtold_nan to GLIBC_PRIVATE.
+++	* math/test-nan-overflow.c: New file.
+++	* math/test-nan-payload.c: Likewise.
+++	* math/Makefile (tests): Add test-nan-overflow and
+++	test-nan-payload.
+++
++ 2015-11-24  Joseph Myers  <joseph@codesourcery.com>
++  
++ 	* stdlib/strtod_nan.c: New file.
 +Index: git/NEWS
 +===================================================================
 +--- git.orig/NEWS
 ++++ git/NEWS
-+@@ -24,7 +24,7 @@ Version 2.20
-+   17031, 17042, 17048, 17050, 17058, 17061, 17062, 17069, 17075, 17078,
-+   17079, 17084, 17086, 17088, 17092, 17097, 17125, 17135, 17137, 17150,
-+   17153, 17187, 17213, 17259, 17261, 17262, 17263, 17319, 17325, 17354,
-+-  17625, 17630, 18928.
-++  17625, 17630, 18928, 17905.
++@@ -7,6 +7,12 @@ using `glibc' in the "product" field.
++ 
++ Version 2.21
 + 
-+ * The LD_POINTER_GUARD environment variable can no longer be used to
-+   disable the pointer guard feature.  It is always enabled.
+++Security related changes:
+++
+++* The nan, nanf and nanl functions no longer have unbounded stack usage
+++  depending on the length of the string passed as an argument to the
+++  functions.  Reported by Joseph Myers.
+++
++ * The following bugs are resolved with this release:
++ 
++   6652, 10672, 12674, 12847, 12926, 13862, 14132, 14138, 14171, 14498,
++Index: git/math/s_nan.c
++===================================================================
++--- git.orig/math/s_nan.c
+++++ git/math/s_nan.c
++@@ -28,14 +28,7 @@
++ double
++ __nan (const char *tagp)
++ {
++-  if (tagp[0] != '\0')
++-    {
++-      char buf[6 + strlen (tagp)];
++-      sprintf (buf, "NAN(%s)", tagp);
++-      return strtod (buf, NULL);
++-    }
++-
++-  return NAN;
+++  return __strtod_nan (tagp, NULL, 0);
++ }
++ weak_alias (__nan, nan)
++ #ifdef NO_LONG_DOUBLE
++Index: git/math/s_nanf.c
++===================================================================
++--- git.orig/math/s_nanf.c
+++++ git/math/s_nanf.c
++@@ -28,13 +28,6 @@
++ float
++ __nanf (const char *tagp)
++ {
++-  if (tagp[0] != '\0')
++-    {
++-      char buf[6 + strlen (tagp)];
++-      sprintf (buf, "NAN(%s)", tagp);
++-      return strtof (buf, NULL);
++-    }
++-
++-  return NAN;
+++  return __strtof_nan (tagp, NULL, 0);
++ }
++ weak_alias (__nanf, nanf)
++Index: git/math/s_nanl.c
++===================================================================
++--- git.orig/math/s_nanl.c
+++++ git/math/s_nanl.c
++@@ -28,13 +28,6 @@
++ long double
++ __nanl (const char *tagp)
++ {
++-  if (tagp[0] != '\0')
++-    {
++-      char buf[6 + strlen (tagp)];
++-      sprintf (buf, "NAN(%s)", tagp);
++-      return strtold (buf, NULL);
++-    }
++-
++-  return NAN;
+++  return __strtold_nan (tagp, NULL, 0);
++ }
++ weak_alias (__nanl, nanl)
++Index: git/math/test-nan-overflow.c
++===================================================================
++--- /dev/null
+++++ git/math/test-nan-overflow.c
++@@ -0,0 +1,66 @@
+++/* Test nan functions stack overflow (bug 16962).
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <math.h>
+++#include <stdio.h>
+++#include <string.h>
+++#include <sys/resource.h>
+++
+++#define STACK_LIM 1048576
+++#define STRING_SIZE (2 * STACK_LIM)
+++
+++static int
+++do_test (void)
+++{
+++  int result = 0;
+++  struct rlimit lim;
+++  getrlimit (RLIMIT_STACK, &lim);
+++  lim.rlim_cur = STACK_LIM;
+++  setrlimit (RLIMIT_STACK, &lim);
+++  char *nanstr = malloc (STRING_SIZE);
+++  if (nanstr == NULL)
+++    {
+++      puts ("malloc failed, cannot test");
+++      return 77;
+++    }
+++  memset (nanstr, '0', STRING_SIZE - 1);
+++  nanstr[STRING_SIZE - 1] = 0;
+++#define NAN_TEST(TYPE, FUNC)			\
+++  do						\
+++    {						\
+++      char *volatile p = nanstr;		\
+++      volatile TYPE v = FUNC (p);		\
+++      if (isnan (v))				\
+++	puts ("PASS: " #FUNC);			\
+++      else					\
+++	{					\
+++	  puts ("FAIL: " #FUNC);		\
+++	  result = 1;				\
+++	}					\
+++    }						\
+++  while (0)
+++  NAN_TEST (float, nanf);
+++  NAN_TEST (double, nan);
+++#ifndef NO_LONG_DOUBLE
+++  NAN_TEST (long double, nanl);
+++#endif
+++  return result;
+++}
+++
+++#define TEST_FUNCTION do_test ()
+++#include "../test-skeleton.c"
++Index: git/math/test-nan-payload.c
++===================================================================
++--- /dev/null
+++++ git/math/test-nan-payload.c
++@@ -0,0 +1,122 @@
+++/* Test nan functions payload handling (bug 16961).
+++   Copyright (C) 2015 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <float.h>
+++#include <math.h>
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <string.h>
+++
+++/* Avoid built-in functions.  */
+++#define WRAP_NAN(FUNC, STR) \
+++  ({ const char *volatile wns = (STR); FUNC (wns); })
+++#define WRAP_STRTO(FUNC, STR) \
+++  ({ const char *volatile wss = (STR); FUNC (wss, NULL); })
+++
+++#define CHECK_IS_NAN(TYPE, A)			\
+++  do						\
+++    {						\
+++      if (isnan (A))				\
+++	puts ("PASS: " #TYPE " " #A);		\
+++      else					\
+++	{					\
+++	  puts ("FAIL: " #TYPE " " #A);		\
+++	  result = 1;				\
+++	}					\
+++    }						\
+++  while (0)
+++
+++#define CHECK_SAME_NAN(TYPE, A, B)			\
+++  do							\
+++    {							\
+++      if (memcmp (&(A), &(B), sizeof (A)) == 0)		\
+++	puts ("PASS: " #TYPE " " #A " = " #B);		\
+++      else						\
+++	{						\
+++	  puts ("FAIL: " #TYPE " " #A " = " #B);	\
+++	  result = 1;					\
+++	}						\
+++    }							\
+++  while (0)
+++
+++#define CHECK_DIFF_NAN(TYPE, A, B)			\
+++  do							\
+++    {							\
+++      if (memcmp (&(A), &(B), sizeof (A)) != 0)		\
+++	puts ("PASS: " #TYPE " " #A " != " #B);		\
+++      else						\
+++	{						\
+++	  puts ("FAIL: " #TYPE " " #A " != " #B);	\
+++	  result = 1;					\
+++	}						\
+++    }							\
+++  while (0)
+++
+++/* Cannot test payloads by memcmp for formats where NaNs have padding
+++   bits.  */
+++#define CAN_TEST_EQ(MANT_DIG) ((MANT_DIG) != 64 && (MANT_DIG) != 106)
+++
+++#define RUN_TESTS(TYPE, SFUNC, FUNC, MANT_DIG)		\
+++  do							\
+++    {							\
+++     TYPE n123 = WRAP_NAN (FUNC, "123");		\
+++     CHECK_IS_NAN (TYPE, n123);				\
+++     TYPE s123 = WRAP_STRTO (SFUNC, "NAN(123)");	\
+++     CHECK_IS_NAN (TYPE, s123);				\
+++     TYPE n456 = WRAP_NAN (FUNC, "456");		\
+++     CHECK_IS_NAN (TYPE, n456);				\
+++     TYPE s456 = WRAP_STRTO (SFUNC, "NAN(456)");	\
+++     CHECK_IS_NAN (TYPE, s456);				\
+++     TYPE n123x = WRAP_NAN (FUNC, "123)");		\
+++     CHECK_IS_NAN (TYPE, n123x);			\
+++     TYPE nemp = WRAP_NAN (FUNC, "");			\
+++     CHECK_IS_NAN (TYPE, nemp);				\
+++     TYPE semp = WRAP_STRTO (SFUNC, "NAN()");		\
+++     CHECK_IS_NAN (TYPE, semp);				\
+++     TYPE sx = WRAP_STRTO (SFUNC, "NAN");		\
+++     CHECK_IS_NAN (TYPE, sx);				\
+++     if (CAN_TEST_EQ (MANT_DIG))			\
+++       CHECK_SAME_NAN (TYPE, n123, s123);		\
+++     if (CAN_TEST_EQ (MANT_DIG))			\
+++       CHECK_SAME_NAN (TYPE, n456, s456);		\
+++     if (CAN_TEST_EQ (MANT_DIG))			\
+++       CHECK_SAME_NAN (TYPE, nemp, semp);		\
+++     if (CAN_TEST_EQ (MANT_DIG))			\
+++       CHECK_SAME_NAN (TYPE, n123x, sx);		\
+++     CHECK_DIFF_NAN (TYPE, n123, n456);			\
+++     CHECK_DIFF_NAN (TYPE, n123, nemp);			\
+++     CHECK_DIFF_NAN (TYPE, n123, n123x);		\
+++     CHECK_DIFF_NAN (TYPE, n456, nemp);			\
+++     CHECK_DIFF_NAN (TYPE, n456, n123x);		\
+++    }							\
+++  while (0)
+++
+++static int
+++do_test (void)
+++{
+++  int result = 0;
+++  RUN_TESTS (float, strtof, nanf, FLT_MANT_DIG);
+++  RUN_TESTS (double, strtod, nan, DBL_MANT_DIG);
+++#ifndef NO_LONG_DOUBLE
+++  RUN_TESTS (long double, strtold, nanl, LDBL_MANT_DIG);
+++#endif
+++  return result;
+++}
+++
+++#define TEST_FUNCTION do_test ()
+++#include "../test-skeleton.c"
++Index: git/stdlib/Versions
++===================================================================
++--- git.orig/stdlib/Versions
+++++ git/stdlib/Versions
++@@ -118,5 +118,6 @@ libc {
++     # Used from other libraries
++     __libc_secure_getenv;
++     __call_tls_dtors;
+++    __strtof_nan; __strtod_nan; __strtold_nan;
++   }
++ }
++Index: git/math/Makefile
++===================================================================
++--- git.orig/math/Makefile
+++++ git/math/Makefile
++@@ -92,7 +92,9 @@ tests = test-matherr test-fenv atest-exp
++ 	test-misc test-fpucw test-fpucw-ieee tst-definitions test-tgmath \
++ 	test-tgmath-ret bug-nextafter bug-nexttoward bug-tgmath1 \
++ 	test-tgmath-int test-tgmath2 test-powl tst-CMPLX tst-CMPLX2 test-snan \
++-	test-fenv-tls test-fenv-preserve test-fenv-return $(tests-static)
+++	test-fenv-tls test-fenv-preserve test-fenv-return \
+++    test-nan-overflow test-nan-payload \
+++    $(tests-static)
++ tests-static = test-fpucw-static test-fpucw-ieee-static
++ # We do the `long double' tests only if this data type is available and
++ # distinct from `double'.
 diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index 5e03570..af568d9 100644
+index af568d9..d099d5d 100644
 --- a/meta/recipes-core/glibc/glibc_2.20.bb
 +++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -49,6 +49,7 @@ CVEPATCHES = "\
- 	file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch \
+@@ -50,6 +50,8 @@ CVEPATCHES = "\
          file://CVE-2015-7547.patch \
          file://CVE-2015-8777.patch \
-+        file://CVE-2015-8779.patch \
+         file://CVE-2015-8779.patch \
++        file://CVE-2015-9761_1.patch \
++        file://CVE-2015-9761_2.patch \
  "
  
  LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
