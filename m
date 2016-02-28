@@ -1,30 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 78F5C7725C
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DED47741E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 10:53:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1SArOs7032553 for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 10:53:24 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VQsvIEEqirc8
+	Sun, 28 Feb 2016 11:35:43 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id n186so13092314wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 10:53:24 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1SArLdu032548
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Feb 2016 10:53:22 GMT
-Message-ID: <1456656801.11498.158.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 28 Feb 2016 10:53:21 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] sanity: Improve configuration upgrade capabilities (support meta-yocto -> poky transition)
+	Sun, 28 Feb 2016 03:35:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:subject:date:message-id:to:mime-version;
+	bh=2WVymByeBszW+E5Dz0drJRhooTLnO0HbVDMzGI4DPkI=;
+	b=MG7s+QslB7Dig+G/VEkmVoqNqlsHfyEf6OEr7aaObuIR4fa+2syjJ5DFZoJv/50odn
+	M+Os2nC7go2fSpgRkEyioNI0JUVesH+BUbCxQqvA44vb7qLudQcPD2f7UW0DQosXYqWv
+	WLp8hrbZuM4jN/Nw9RPxMMCusBdLAGb2z5CzhK27g0YsmNhVuymTg4CJ+aTADa8j8pia
+	9Tgabfbnq/XE0S/ZVEFWHD18skzAm069HWfVGw90IBE6Aylu+JoU3F4NVeQzjXNoIN/2
+	3X1pYdkp4JUzfWt8Ga+Y+lNbfWvi5L4nu/Vm8Rv8KlPdtVXzv5mmeoVxmxjhbroIthgP
+	HyGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:subject:date:message-id:to:mime-version;
+	bh=2WVymByeBszW+E5Dz0drJRhooTLnO0HbVDMzGI4DPkI=;
+	b=kIK/MRCjdNzMq8iCHdHE3X8Xy/ecwtcGSgOtja4jx9JoqiaAKcSzjt304pdHe3hwV6
+	DR9O94HvEJMqr1h4YG40lhLZ16NZIVW6WnPO3MCsxonhxA4teJT44LiH8gJLeVlaJV1p
+	FlctTwBNbS30lnpuALlVc92d3DiOqAuB71hEF84GjdcYYHkvT6RIIo5r2BCou9SO6uS/
+	07/eFF3Je96UgdoSHtqIOm01DNGmdsATH8fky1UIC6eLUQ1HGktI9Z4D51YZEGceWYX0
+	UGWdUC64v0JQHfcPGyMA6iZ5F3d8qlvfWftiQntX+eLxVl3mNheWFc+bX1Gugc+pLDHN
+	Uzeg==
+X-Gm-Message-State: AD7BkJKZ+s9A463W9F21LL7Bynhm781Hpvo8lCLlUgtPcUSaSlBhDe6L6MaA9A83wqXwRA==
+X-Received: by 10.28.158.198 with SMTP id h189mr6396977wme.74.1456659344215;
+	Sun, 28 Feb 2016 03:35:44 -0800 (PST)
+Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	d9sm20711234wjf.43.2016.02.28.03.35.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 28 Feb 2016 03:35:43 -0800 (PST)
+From: Jens Rehsack <rehsack@gmail.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Sun, 28 Feb 2016 12:35:41 +0100
+Message-Id: <8BA17D11-B15F-46F1-A406-F403836BFD88@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+Subject: [PATCH RESEND 1/7] udev: Don't introduce usb or pci dependencies without usb or pci being featured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,227 +55,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Feb 2016 10:53:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 28 Feb 2016 11:35:44 -0000
+X-Groupsio-MsgNum: 78845
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_86870B8E-CD09-420D-B41A-17A78307B658";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
+
+--Apple-Mail=_86870B8E-CD09-420D-B41A-17A78307B658
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Fixes that udev always requires PCI or USB, idenpendently from =
+DISTRO_FEATURES
+or PACKAGECONFIG.
+
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ meta/recipes-core/udev/udev.inc | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/udev/udev.inc =
+b/meta/recipes-core/udev/udev.inc
+index 93d7369..df41f11 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -12,7 +12,14 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+
+ LDFLAGS +=3D "-lrt"
+
+-DEPENDS =3D "glib-2.0 libusb usbutils pciutils glib-2.0-native =
+gperf-native libxslt-native util-linux"
++PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'usbhost', =
+'usb', '', d)} \
++  ${@base_contains('DISTRO_FEATURES', 'pci', 'pci', '', d)}"
++
++DEPENDS =3D "glib-2.0 glib-2.0-native gperf-native libxslt-native =
+util-linux"
++
++PACKAGECONFIG[usb] =3D =
+"--with-usb-ids-path=3D${datadir}/usb.ids,--without-usb-ids-path,libusb =
+usbutils"
++PACKAGECONFIG[pci] =3D "--with-pci-ids-path=3D${datadir}/pci.ids =
+ac_cv_file__usr_share_pci_ids=3Dno =
+ac_cv_file__usr_share_hwdata_pci_ids=3Dno =
+ac_cv_file__usr_share_misc_pci_ids=3Dyes,--without-pci-ids-path,pciutils"
++
+ RPROVIDES_${PN} =3D "hotplug"
+
+ PROVIDES =3D "libgudev"
+@@ -42,10 +49,6 @@ RDEPENDS_${PN}-ptest +=3D "make perl python"
+ libexecdir =3D "${base_libdir}"
+ EXTRA_OECONF =3D "--disable-introspection \
+                 --with-rootlibdir=3D${base_libdir} \
+-                --with-pci-ids-path=3D${datadir}/pci.ids \
+-                ac_cv_file__usr_share_pci_ids=3Dno \
+-                ac_cv_file__usr_share_hwdata_pci_ids=3Dno \
+-                ac_cv_file__usr_share_misc_pci_ids=3Dyes \
+                 --sbindir=3D${base_sbindir} \
+                 --libexecdir=3D${nonarch_base_libdir} \
+                 --with-rootlibdir=3D${base_libdir} \
+--
+2.6.3
+
+
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_86870B8E-CD09-420D-B41A-17A78307B658
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-Right now, only one configuration file can be processed (conf/bblayers.conf)
-and it can only have one version number. This is a cause of immense friction
-between OE-Core and Poky since if one needs a version change, it shouldn't 
-be forced on the other.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-We'd like to rename the meta-yocto layer (within the meta-yocto repository)
-to meta-poky. To do this, we need to correct the bblayers.conf file and that
-means changing the sanity version. After the pain this caused the last time,
-Paul made me promise never to have them out of sync between OE-Core and Poky,
-equally, having every distro changing config update OE-Core isn't scalable
-either.
+iQIcBAEBCgAGBQJW0tuOAAoJEESZlq7c5Qqd+AYP/1/B09zx58n1S/q/JFsAFwzS
+JHZBBZwgL89lRP4xk1Lu2sZ22i0tkuxCFMXvj/t68kr4P5eauvsFwaJREK2KbUXG
+k0E1Ez+WLtIbIF11pJC9mVmjL2tjIqThvY7jKjnojGKqj7NKmA58wh7XWfIPRzwu
+6tiNoPX1hPK7yPsXD0fISerlBEbItGLDu6fXER+A4tc1R7V9sxwEzxCP7ptEBIOE
+6osIjYKpUJXc1KyKmkVBwG57FxGIlolhhy4Ch0Xe67vS15+PaRrlt5X+gmphcswO
+aDD5Qkj34SctR69dgQHOqnusoVO8C0vAHcx4rZu+0RTexRJTVRZnVV1kicwGRt4U
+K+N3iie9pEgFQPPJO99BTzbTv+2/qBf+vHHlCviVroL8U3sxWF9a37eW+Dz0YBJZ
+ocIJddUd0OEMACFNI3GGe92Uze8u0OMIFq2uTsokh2gKkf1eDaX36k8hhHBmUa7Y
+y7z4oltaF/EI8oCWv6/96O9l0oP8e3cxcYDLNtsCcac2OdOWIF6m6W3JaXQnkOrD
+BHEMdK2XSdl6v+uq+XBS6iAqyNNsfKfgZt2XFf539Xow5QGJO5DWpiTdAU/V8K2u
+XsQCdG0nH3d88lNEB72TmfCc0NPB889QwKoEISVHF9f1NGnzTg3QOyLwCm2nAHpz
+Vstgi1VvWJREfE+KGpvr
+=FLtp
+-----END PGP SIGNATURE-----
 
-This patch changes the sanity upgrade method to list a more generic format:
-
-<config file>:<current version variable name>:<required version variable name>:<upgrade function>
-
-This in theory allows us to support upgrades to any of the core
-configuration files, and allow layers to extend them as needed. Files
-with the same name can be handled in different layers by setting a unique
-version name variable in the file itself. The upgrade code is only called
-if the version variable is set.
-
-To allow us to make the poky name change and use a new configuration file
-name, one last version bump is included for poky to handle the transition.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 49693e7..a0553ee 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -25,21 +25,70 @@ def sanity_conf_update(fn, lines, version_var_name, new_version):
-     with open(fn, "w") as f:
-         f.write(''.join(lines))
- 
--# Functions added to this variable MUST throw an exception (or sys.exit()) unless they
--# successfully changed LCONF_VERSION in bblayers.conf
--BBLAYERS_CONF_UPDATE_FUNCS += "oecore_update_bblayers"
-+# Functions added to this variable MUST throw a NotImplementedError exception unless 
-+# they successfully changed the config version in the config file. Exceptions
-+# are used since exec_func doesn't handle return values.
-+BBLAYERS_CONF_UPDATE_FUNCS += " \
-+    conf/bblayers.conf:LCONF_VERSION:LAYER_CONF_VERSION:oecore_update_bblayers \
-+    conf/local.conf:CONF_VERSION:LOCALCONF_VERSION:oecore_update_localconf \
-+    conf/site.conf:SCONF_VERSION:SITE_CONF_VERSION:oecore_update_siteconf \
-+"
-+
-+python oecore_update_localconf() {
-+    # Check we are using a valid local.conf
-+    current_conf  = d.getVar('CONF_VERSION', True)
-+    conf_version =  d.getVar('LOCALCONF_VERSION', True)
-+
-+    failmsg = "Your version of local.conf was generated from an older/newer version of 
-+local.conf.sample and there have been updates made to this file. Please compare the two 
-+files and merge any changes before continuing.
-+
-+Matching the version numbers will remove this message.
-+
-+\"meld conf/local.conf ${COREBASE}/meta*/conf/local.conf.sample\" 
-+
-+is a good way to visualise the changes."
-+
-+    raise NotImplementedError(failmsg)
-+}
-+
-+python oecore_update_siteconf() {
-+    # If we have a site.conf, check it's valid
-+    current_sconf = d.getVar('SCONF_VERSION', True)
-+    sconf_version = d.getVar('SITE_CONF_VERSION', True)
-+
-+    failmsg = "Your version of site.conf was generated from an older version of 
-+site.conf.sample and there have been updates made to this file. Please compare the two 
-+files and merge any changes before continuing.
-+
-+Matching the version numbers will remove this message.
-+
-+\"meld conf/site.conf ${COREBASE}/meta*/conf/site.conf.sample\" 
-+
-+is a good way to visualise the changes."
-+
-+    raise NotImplementedError(failmsg)
-+}
- 
- python oecore_update_bblayers() {
-     # bblayers.conf is out of date, so see if we can resolve that
- 
-     current_lconf = int(d.getVar('LCONF_VERSION', True))
--    if not current_lconf:
--        sys.exit()
-     lconf_version = int(d.getVar('LAYER_CONF_VERSION', True))
-+
-+    failmsg = """Your version of bblayers.conf has the wrong LCONF_VERSION (has %s, expecting %s).
-+Please compare the your file against bblayers.conf.sample and merge any changes before continuing.
-+"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample" 
-+
-+is a good way to visualise the changes.""" % (current_lconf, lconf_version)
-+
-+    if not current_lconf:
-+        raise NotImplementedError(failmsg)
-+
-     lines = []
- 
-     if current_lconf < 4:
--        sys.exit()
-+        raise NotImplementedError(failmsg)
- 
-     bblayers_fn = bblayers_conf_file(d)
-     lines = sanity_conf_read(bblayers_fn)
-@@ -58,13 +107,13 @@ python oecore_update_bblayers() {
-                         lines[index] = (bbpath_line[:start + 1] +
-                                     topdir_var + ':' + bbpath_line[start + 1:])
-             else:
--                sys.exit()
-+                raise NotImplementedError(failmsg)
-         else:
-             index, bbfiles_line = sanity_conf_find_line('BBFILES', lines)
-             if bbfiles_line:
-                 lines.insert(index, 'BBPATH = "' + topdir_var + '"\n')
-             else:
--                sys.exit()
-+                raise NotImplementedError(failmsg)
- 
-         current_lconf += 1
-         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
-@@ -76,7 +125,33 @@ python oecore_update_bblayers() {
-         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
-         return
- 
--    sys.exit()
-+        if not status.reparse:
-+            status.addresult()
-+
-+    elif current_lconf == 6 and lconf_version > 6:
-+        # Handle rename of meta-yocto -> meta-poky
-+        # This marks the start of separate version numbers but code is needed in OE-Core
-+        # for the migration, one last time.
-+        layers = d.getVar('BBLAYERS', True)
-+        if 'meta-yocto' in layers:
-+            index, meta_yocto_line = sanity_conf_find_line('.*meta-yocto.*\n', lines)
-+            if meta_yocto_line:
-+                lines[index] = meta_yocto_line.replace('meta-yocto', 'meta-poky')
-+            else:
-+                raise NotImplementedError(failmsg)
-+            index, meta_yocto_line = sanity_conf_find_line('LCONF_VERSION.*\n', lines)
-+            if meta_yocto_line:
-+                lines[index] = 'POKY_BBLAYERS_CONF_VERSION = "1"\n'
-+            else:
-+                raise NotImplementedError(failmsg)
-+            with open(bblayers_fn, "w") as f:
-+                f.write(''.join(lines))
-+            return
-+
-+        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', "7")
-+        return
-+
-+    raise NotImplementedError(failmsg)
- }
- 
- def raise_sanity_error(msg, d, network_error=False):
-@@ -463,37 +538,20 @@ def check_perl_modules(sanity_data):
-     return None
- 
- def sanity_check_conffiles(status, d):
--    # Check we are using a valid local.conf
--    current_conf  = d.getVar('CONF_VERSION', True)
--    conf_version =  d.getVar('LOCALCONF_VERSION', True)
--
--    if current_conf != conf_version:
--        status.addresult("Your version of local.conf was generated from an older/newer version of local.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/local.conf ${COREBASE}/meta*/conf/local.conf.sample\" is a good way to visualise the changes.\n")
--
--    # Check bblayers.conf is valid
--    current_lconf = d.getVar('LCONF_VERSION', True)
--    lconf_version = d.getVar('LAYER_CONF_VERSION', True)
--    if current_lconf != lconf_version:
--        funcs = d.getVar('BBLAYERS_CONF_UPDATE_FUNCS', True).split()
--        for func in funcs:
-+    funcs = d.getVar('BBLAYERS_CONF_UPDATE_FUNCS', True).split()
-+    for func in funcs:
-+        conffile, current_version, required_version, func = func.split(":")
-+        if check_conf_exists(conffile, d) and d.getVar(current_version, True) is not None and \
-+                d.getVar(current_version, True) != d.getVar(required_version, True):
-             success = True
-             try:
-                 bb.build.exec_func(func, d)
--            except Exception:
-+            except NotImplementedError as e:
-                 success = False
-+                status.addresult(e.msg)
-             if success:
-                 bb.note("Your conf/bblayers.conf has been automatically updated.")
-                 status.reparse = True
--        if not status.reparse:
--            status.addresult("Your version of bblayers.conf has the wrong LCONF_VERSION (has %s, expecting %s).\nPlease compare the your file against bblayers.conf.sample and merge any changes before continuing.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n" % (current_lconf, lconf_version))
--
--    # If we have a site.conf, check it's valid
--    if check_conf_exists("conf/site.conf", d):
--        current_sconf = d.getVar('SCONF_VERSION', True)
--        sconf_version = d.getVar('SITE_CONF_VERSION', True)
--        if current_sconf != sconf_version:
--            status.addresult("Your version of site.conf was generated from an older version of site.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/site.conf ${COREBASE}/meta*/conf/site.conf.sample\" is a good way to visualise the changes.\n")
--
- 
- def sanity_handle_abichanges(status, d):
-     #
-diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
-index 0f852d1..0d20c99 100644
---- a/meta/conf/sanity.conf
-+++ b/meta/conf/sanity.conf
-@@ -9,7 +9,7 @@ SANITY_ABIFILE = "${TMPDIR}/abi_version"
- 
- SANITY_VERSION ?= "1"
- LOCALCONF_VERSION  ?= "1"
--LAYER_CONF_VERSION ?= "6"
-+LAYER_CONF_VERSION ?= "7"
- SITE_CONF_VERSION  ?= "1"
- 
- INHERIT += "sanity"
-
-
-
+--Apple-Mail=_86870B8E-CD09-420D-B41A-17A78307B658--
