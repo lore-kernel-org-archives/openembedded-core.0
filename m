@@ -1,54 +1,41 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3719177026
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C30C7713B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 10:13:29 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id n186so9236998wmn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 02:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=WgS4iodx4qXysk/GM2QfF4bwrzgyu8kIAddvrbqMCaE=;
-	b=AEhgfaM1eKOOra1aFnlejxeO3jnIwlW7Dt/QdioBrNph+qyj5Zpmjq5IZh2pzbFdCZ
-	P3m46d22TYW6v9PK8EfnlnPsfnJfwhSXmuFhq9v/w1IVltig8HoIbfO3rAwhseUXMZ8v
-	NZ6mKtnqkC8Y5zKi9/+wXiIS4FwG33zbSRwWBz4taZM67SZpDPRYU7dKldw2dn3JXm8t
-	84BV+kKwVVv8II3wInMK/QsmCWKZ0HrxZgDWgbYz18afg0Rx2gO35IVBnVaplpcFgiQj
-	+yFKj2vm+fbzA6csuGto334RUzorZ4HlHgePxLag97LQaVE5AsomkMIy7jFoIPv+eDc8
-	xk/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=WgS4iodx4qXysk/GM2QfF4bwrzgyu8kIAddvrbqMCaE=;
-	b=SlkCe1RJ/QuSE82fQGhtacY/9uOd5OVwOysnLfbTopf+qEksxkdwNoVPN4VICotTlT
-	un9p8t7aynnTk881H7QVYvBGqcvF3Z/1kjQce9hjBraM07X8scD8wua7dcMCZXquU0+0
-	TTA58bi7RCKPjjMiq6waM+UCXKxjlU7VZz1RbcqyIldFOdcXXglnyL+VIwAZNeTlVlZe
-	gclzNrcJo1zAsa5ynvvwvflPUZ6+72EWjgsEbpGbsSDBU4x9lbm3ARftQxKmnUpX1GbZ
-	VMZfJ735sTLChbC/4v8R98P+AfS1t39BK+BFNNz9Y0/HbQpmjPqM8UdJAeIXWYvE0PlY
-	c/xQ==
-X-Gm-Message-State: AD7BkJLurkBD6P7Q/n7FAfljbo6RKaWWkLjDl6oyqhBcLbEncS/y4PfWV1QWkbwiYuS97A==
-X-Received: by 10.28.188.138 with SMTP id m132mr10893071wmf.29.1456740810067; 
-	Mon, 29 Feb 2016 02:13:30 -0800 (PST)
-Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
-	by smtp.gmail.com with ESMTPSA id
-	et11sm25137985wjc.30.2016.02.29.02.13.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 29 Feb 2016 02:13:29 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <CAJTo0LbmQi76WuT7A7hmmJfPFGmsQDgK2_yNiX72Ap=YQcTvPw@mail.gmail.com>
-Date: Mon, 29 Feb 2016 11:13:27 +0100
-Message-Id: <D8CD8A4C-FD2D-4B1B-8094-EBFB7615AD5A@gmail.com>
-References: <898F5FB0-0062-4647-8A7A-1DE402384A75@gmail.com>
-	<CAJTo0LYt_SVFavOCtZmdcXcgZBarR+RMArwA_MJn7Amiy4iZuw@mail.gmail.com>
-	<062AD77D-2CDB-4D36-89AA-7F8072A8283A@gmail.com>
-	<CAJTo0LbmQi76WuT7A7hmmJfPFGmsQDgK2_yNiX72Ap=YQcTvPw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: Patches and discussions about the oe-core layer
+	Mon, 29 Feb 2016 10:16:00 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 29 Feb 2016 02:16:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="926078963"
+Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 02:16:00 -0800
+Received: from irsmsx156.ger.corp.intel.com (10.108.20.68) by
+	IRSMSX153.ger.corp.intel.com (163.33.192.75) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Mon, 29 Feb 2016 10:15:42 +0000
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.157]) by
+	IRSMSX156.ger.corp.intel.com ([169.254.3.132]) with mapi id
+	14.03.0248.002; Mon, 29 Feb 2016 10:15:42 +0000
+From: "Constantin, Costin C" <costin.c.constantin@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] oeqa/selftest/kernel.py: Add new file
+	destined for kernel related tests [YP#7202]: Test for linux-dummy The
+	new
+	kernel.py file is intended for kernel related test cases. The test for
+	linux-dummy will ensure it is in good shape and...
+Thread-Index: AQHRbOgjxIuYPiRBMEakxz/Ar6I9vZ9C2b8A
+Date: Mon, 29 Feb 2016 10:15:42 +0000
+Message-ID: <2B8B4B6BB45F5242AFEC714E022A4B4A46CB099C@IRSMSX101.ger.corp.intel.com>
+References: <1456047951-28027-1-git-send-email-costin.c.constantin@intel.com>
+	<5437205.k9xUkGe2xD@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <5437205.k9xUkGe2xD@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] avahi: make dbus optional but default
+Subject: Re: [PATCH] oeqa/selftest/kernel.py: Add new file destined for kernel related tests [YP#7202]: Test for linux-dummy The new kernel.py file is intended for kernel related test cases. The test for linux-dummy will ensure it is in good shape and...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,60 +48,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 10:13:31 -0000
-X-Groupsio-MsgNum: 78872
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_184BF77B-F2E5-45ED-A0ED-00E165B9B0E4";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
-
---Apple-Mail=_184BF77B-F2E5-45ED-A0ED-00E165B9B0E4
+X-List-Received-Date: Mon, 29 Feb 2016 10:16:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+Thanks Paul. Something happened to the commit message. I sent it previously=
+ to my e-mail and looked fine, but I guess I did something wrong in the  en=
+d.
+I'll check as per your recommendations.
 
-> Am 29.02.2016 um 11:06 schrieb Burton, Ross <ross.burton@intel.com>:
+Cheers,
+
+Costin=20
+
+-----Original Message-----
+From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Sent: Sunday, February 21, 2016 10:41 PM
+To: Constantin, Costin C <costin.c.constantin@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/kernel.py: Add new file destin=
+ed for kernel related tests [YP#7202]: Test for linux-dummy The new kernel.=
+py file is intended for kernel related test cases. The test for linux-dummy=
+ will ensure it is in good shape and...
+
+Hi Costin,
+
+On Sun, 21 Feb 2016 11:45:51 Costin Constantin wrote:
+> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+
+Commit messages should start with a "shortlog" (one line description of the
+change) and then the commit message should be separated from that by a blan=
+k line so that it's not all crammed into the subject.
+
+> ---
+>  meta/lib/oeqa/selftest/kernel.py | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/kernel.py
 >=20
->=20
-> On 29 February 2016 at 08:00, Jens Rehsack <rehsack@gmail.com> wrote:
-> Especially that one fails when no dbus support is added. So, nope - it =
-should not always executed.
->=20
-> Just testing the existance with shell logic is more bulletproof.
+> diff --git a/meta/lib/oeqa/selftest/kernel.py
+> b/meta/lib/oeqa/selftest/kernel.py new file mode 100644 index=20
+> 0000000..3fe3517
+> --- /dev/null
+> +++ b/meta/lib/oeqa/selftest/kernel.py
+> @@ -0,0 +1,29 @@
+> +import os
+> +import oeqa.utils.ftools as ftools
+> +from oeqa.selftest.base import oeSelfTest from oeqa.utils.commands=20
+> +import runCmd, bitbake, get_bb_var from oeqa.utils.decorators import=20
+> +testcase
+> +
+> +class KernelTests(oeSelfTest):
+> +    def  test_dummy_kernel(self):
+> +        """
+> +        [YP#7202]
+> +        - test that linux-dummy target can be used as kernel provider=20
+> +for
+> an image +        - check no "multiple providers are available for" messa=
+ge
+> is received while building the image +        """
+> +        config_param =3D 'PREFERRED_PROVIDER_virtual/kernel =3D "linux-d=
+ummy"'
+> +        self.append_config(config_param)
 
-So you suggest to do "test -d ${D}${datadir}/dbus-1 && rmdir =
---ignore-fail-on-non-empty ${D}${datadir}/dbus-1" instead of running it =
-conditionally when dbus support is enabled?
+Having set this, I would suggest verifying that it's actually taken effect,=
+ since it's common for this to be set within the distro/machine configurati=
+on.
 
-Cheers
---
-Jens Rehsack - rehsack@gmail.com
+Cheers,
+Paul
 
+--=20
 
---Apple-Mail=_184BF77B-F2E5-45ED-A0ED-00E165B9B0E4
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iQIcBAEBCgAGBQJW1BnIAAoJEESZlq7c5QqdWfIP/292llZ3r6W5RuhBaAnW8ik7
-uiMyP5ajQ3Tod1k5QSb5+9YlKKelVoflpY7aP3NQ742iNPy1E+ofog6FfjEyZKUP
-R9qTJNwHdfL8xDjfB3y8YHYBaaxxuSSPD3SiNhjBIu9frCxhMxMaOLzNeFrgnMqV
-Uq1IV1Q+b+P17cPJvRgxAh+0zCTA80n4cepPOAuE4dLvtxuSqlZakh8dC1lttQOJ
-vZJlOKUNvhpzyJXwGMJ2Fmy0ZqWu5pT1QMKgBMFVxK3TIQTYSgSuxoEXnpwAU4GS
-1nPaI2stzs174egEkNRvjSzYL+3pC2MxKnscvQvqtylwi00ck7qh84ituURoZGht
-S9R16+KGAcbYvg2xqRH02ObYIDlIRW6NNJQtsrbnOa9DlvXLweZEu5hCU+Om5itj
-NznKbGeOQgfmnEi7vg7P1nmZz1GUvQyH+pWS/5Wq1najkJVTq5CQPxwNYBpiWt2H
-MJaQbSh/CGh37VENscmql5w+OBasrGrgYYTkPwjoJJgHajstuvzMgdUXADgvJVlU
-Ousu7yAdyA/nGE/7eS1ai6cXxzR6NNSgCLHO8GwRLf4aEJF4+W5Drf+3kc6tD/F1
-2n8cOnFzIqNBweDvfQuwxY+WJIOekGSbMEKh4EisoQcCqfFVaZsuVRJWuZJHLuuf
-Emp/fR1PdGfkDE4BSA3/
-=g2eR
------END PGP SIGNATURE-----
-
---Apple-Mail=_184BF77B-F2E5-45ED-A0ED-00E165B9B0E4--
