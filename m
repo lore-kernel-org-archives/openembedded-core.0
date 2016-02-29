@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C6090772C8
+	by mail.openembedded.org (Postfix) with ESMTP id 63EFB7728D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 11:49:11 +0000 (UTC)
+	Mon, 29 Feb 2016 11:49:14 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Feb 2016 03:49:12 -0800
+	by orsmga101.jf.intel.com with ESMTP; 29 Feb 2016 03:49:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="897369260"
+X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="897369274"
 Received: from gtan23-mobl3.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.165.53])
-	by orsmga001.jf.intel.com with ESMTP; 29 Feb 2016 03:49:11 -0800
+	by orsmga001.jf.intel.com with ESMTP; 29 Feb 2016 03:49:13 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Mar 2016 00:48:25 +1300
-Message-Id: <5a4a208aecca25de2c902da035a37ba8b4ff369c.1456746435.git.paul.eggleton@linux.intel.com>
+Date: Tue,  1 Mar 2016 00:48:26 +1300
+Message-Id: <3ea2ed54332075568452b3c86e4bd1a7cff3bf5b.1456746435.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1456746435.git.paul.eggleton@linux.intel.com>
 References: <cover.1456746435.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1456746435.git.paul.eggleton@linux.intel.com>
 References: <cover.1456746435.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/4] recipetool: create: add basic support for generating linux kernel recipes
+Subject: [PATCH 4/4] recipetool: create: add basic support for new npm fetcher/class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 11:49:12 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 11:49:14 -0000
 
-Add support for detecting a Linux kernel source tree and generating a
-basic kernel recipe using meta-skeleton's linux-yocto-custom recipe as a
-base.
+Add detection for npm modules and support for extracting the name and
+version from package.json as is usually part of an npm module contents.
 
-Implements [YOCTO #8981].
+Note: this will likely only produce a buildable recipe if you use an
+npm:// URL; simply pointing to a node.js source repository isn't going
+to fetch the module's dependencies. It also doesn't set up the
+shrinkwrap/lockdown automatically, so there is some room for improvement
+later.
+
+Implements [YOCTO #8690].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create_kernel.py | 99 +++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
- create mode 100644 scripts/lib/recipetool/create_kernel.py
+ scripts/lib/recipetool/create_npm.py | 48 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 scripts/lib/recipetool/create_npm.py
 
-diff --git a/scripts/lib/recipetool/create_kernel.py b/scripts/lib/recipetool/create_kernel.py
+diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
 new file mode 100644
-index 0000000..c6e86bd
+index 0000000..0e33cc9
 --- /dev/null
-+++ b/scripts/lib/recipetool/create_kernel.py
-@@ -0,0 +1,99 @@
-+# Recipe creation tool - kernel support plugin
++++ b/scripts/lib/recipetool/create_npm.py
+@@ -0,0 +1,48 @@
++# Recipe creation tool - node.js NPM module support plugin
 +#
 +# Copyright (C) 2016 Intel Corporation
 +#
@@ -69,88 +74,37 @@ index 0000000..c6e86bd
 +# with this program; if not, write to the Free Software Foundation, Inc.,
 +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +
-+import re
 +import logging
-+from recipetool.create import RecipeHandler, read_pkgconfig_provides, validate_pv
++import json
++from recipetool.create import RecipeHandler
 +
 +logger = logging.getLogger('recipetool')
 +
-+tinfoil = None
 +
-+def tinfoil_init(instance):
-+    global tinfoil
-+    tinfoil = instance
-+
-+
-+class KernelRecipeHandler(RecipeHandler):
++class NpmRecipeHandler(RecipeHandler):
 +    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
-+        import bb.process
 +        if 'buildsystem' in handled:
 +            return False
 +
-+        for tell in ['arch', 'firmware', 'Kbuild', 'Kconfig']:
-+            if not os.path.exists(os.path.join(srctree, tell)):
-+                return False
++        files = RecipeHandler.checkfiles(srctree, ['package.json'])
++        if files:
++            with open(files[0], 'r') as f:
++                data = json.loads(f.read())
++            if 'name' in data and 'version' in data:
++                extravalues['PN'] = data['name']
++                extravalues['PV'] = data['version']
++                classes.append('npm')
++                handled.append('buildsystem')
++                if 'description' in data:
++                    lines_before.append('SUMMARY = "%s"' % data['description'])
++                if 'homepage' in data:
++                    lines_before.append('HOMEPAGE = "%s"' % data['homepage'])
++                return True
 +
-+        handled.append('buildsystem')
-+        del lines_after[:]
-+        del classes[:]
-+        template = os.path.join(tinfoil.config_data.getVar('COREBASE', True), 'meta-skeleton', 'recipes-kernel', 'linux', 'linux-yocto-custom.bb')
-+        def handle_var(varname, origvalue, op, newlines):
-+            if varname in ['SRCREV', 'SRCREV_machine']:
-+                while newlines[-1].startswith('#'):
-+                    del newlines[-1]
-+                try:
-+                    stdout, _ = bb.process.run('git rev-parse HEAD', cwd=srctree, shell=True)
-+                except bb.process.ExecutionError as e:
-+                    stdout = None
-+                if stdout:
-+                    return stdout.strip(), op, 0, True
-+            elif varname == 'LINUX_VERSION':
-+                makefile = os.path.join(srctree, 'Makefile')
-+                if os.path.exists(makefile):
-+                    kversion = -1
-+                    kpatchlevel = -1
-+                    ksublevel = -1
-+                    kextraversion = ''
-+                    with open(makefile, 'r') as f:
-+                        for i, line in enumerate(f):
-+                            if i > 10:
-+                                break
-+                            if line.startswith('VERSION ='):
-+                                kversion = int(line.split('=')[1].strip())
-+                            elif line.startswith('PATCHLEVEL ='):
-+                                kpatchlevel = int(line.split('=')[1].strip())
-+                            elif line.startswith('SUBLEVEL ='):
-+                                ksublevel = int(line.split('=')[1].strip())
-+                            elif line.startswith('EXTRAVERSION ='):
-+                                kextraversion = line.split('=')[1].strip()
-+                    version = ''
-+                    if kversion > -1 and kpatchlevel > -1:
-+                        version = '%d.%d' % (kversion, kpatchlevel)
-+                        if ksublevel > -1:
-+                            version += '.%d' % ksublevel
-+                        version += kextraversion
-+                    if version:
-+                        return version, op, 0, True
-+            elif varname == 'SRC_URI':
-+                while newlines[-1].startswith('#'):
-+                    del newlines[-1]
-+            elif varname == 'COMPATIBLE_MACHINE':
-+                while newlines[-1].startswith('#'):
-+                    del newlines[-1]
-+                machine = tinfoil.config_data.getVar('MACHINE', True)
-+                return machine, op, 0, True
-+            return origvalue, op, 0, True
-+        with open(template, 'r') as f:
-+            varlist = ['SRCREV', 'SRCREV_machine', 'SRC_URI', 'LINUX_VERSION', 'COMPATIBLE_MACHINE']
-+            (_, newlines) = bb.utils.edit_metadata(f, varlist, handle_var)
-+        lines_before[:] = [line.rstrip('\n') for line in newlines]
-+
-+        return True
++        return False
 +
 +def register_recipe_handlers(handlers):
-+    handlers.append((KernelRecipeHandler(), 100))
++    handlers.append((NpmRecipeHandler(), 60))
 -- 
 2.5.0
 
