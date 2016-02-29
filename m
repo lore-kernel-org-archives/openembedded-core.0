@@ -1,33 +1,28 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5354F771E9
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 582E477158
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 14:05:09 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1TE58HA032431; Mon, 29 Feb 2016 08:05:08 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016022908050924-824288 ;
-	Mon, 29 Feb 2016 08:05:09 -0600 
-Date: Mon, 29 Feb 2016 16:04:41 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Mon, 29 Feb 2016 14:11:00 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 29 Feb 2016 06:11:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="755228088"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 29 Feb 2016 06:11:02 -0800
 To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160229160441.05fbb19c@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
-References: <1456753354-7448-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
-Organization: National Instruments
+References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
+	<ee2f85dff95a4baf789aec41cd5407c0df5c836e.1448547850.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0LZ1ten9Z6uuCDpPd-mCVn76QgxTMO-U5Qirfsr5tQNo_w@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <56D45096.1080402@linux.intel.com>
+Date: Mon, 29 Feb 2016 16:07:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.6.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/29/2016 08:05:09 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/29/2016 08:05:09 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-29_04:, , signatures=0
+In-Reply-To: <CAJTo0LZ1ten9Z6uuCDpPd-mCVn76QgxTMO-U5Qirfsr5tQNo_w@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v1] site: enable pthread support for x86_64 APR builds
+Subject: Re: [PATCH 02/29] gobject-introspection: add the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +35,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 14:05:09 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Feb 2016 14:11:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 29 Feb 2016 13:50:54 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+On 02/26/2016 06:35 PM, Burton, Ross wrote:
+>     +# No idea why these sources are installed by upstream and how they
+>     are meant to be used
+>     +FILES_${PN}-dev_append = "
+>     ${datadir}/gobject-introspection-1.0/tests/*.c \
+>     +                   ${datadir}/gobject-introspection-1.0/tests/*.h"
+>
+>
+> Presumably some test suite.  We certainly don't want them in the -dev
+> package, so until we have ptest for this lets just delete them.
 
-> On 29 February 2016 at 13:42, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wro=
-te:
->=20
-> >   apr=5Fcv=5Fprocess=5Fshared=5Fworks=3Dno: several platforms already s=
-et this
-> >   option, which conservatively disables support for PROCESS=5FSHARED
-> >   mutexes.
-> >
->=20
-> Which is interesting as building apr-native (so the site files don't get
-> used) for x86-64 gives:
->=20
-> apr=5Fcv=5Fprocess=5Fshared=5Fworks=3Dyes
->=20
-> Can we not go around disabling stuff when it actually does work?
+Actually, no, these sources are used by dependent packages (for example, 
+pygobject) to build *their* test suites. So this has to go to -dev, and 
+I'll fix the comment which I forgot to do.
 
-Yes, of course. It was just sloppy patch editing on my part. Sorry.
-I'll remove that and resubmit v2.
 
->=20
-> Ross
-
+Alex
 
