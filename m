@@ -1,47 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B67C175CC2
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B4DE160796
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 21:30:17 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id l68so9614928wml.0
+	Mon, 29 Feb 2016 22:04:24 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id l68so1054190wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 13:30:18 -0800 (PST)
+	Mon, 29 Feb 2016 14:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=oUgkZSxyHUPb/qLW9M78jQwHj6aqI/JJL9swSApeV94=;
-	b=GS2NGVjV2abhLAeQYiZPAQjEFPb6VJS2vYoOs1pWX1RVGniU4EeMUpnhYUS64nJ9gc
-	+5ZU43LJaOQ1ngtGkiy4T2JAL/J2UQ0vHFFwwxqowqfgudGwIADJ+BXBm72Y5oiFMG5Q
-	/im3Ylo11KJHdOYPvTixfJyDGMaKHR4xaUU6Bd7H75kG76CqYKlXEFjy1oT5QkP3Eilq
-	6mbpFbOUv7Q4omJeqkEfsHP8w7nUFvhss98qMpMTzZTtrv6bKVB8emFz7Y/+d1TOg+4g
-	gZbuOsZFu3mWi22D8216JPqHdtuILX9Ygn1+FDuT2B4gfEi7rmwoI87wPYwYJQPkUo9F
-	rU2Q==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=mRBxqu9MJJarS38TF+cus90niFNCJDAzEzL0+bnZrtE=;
+	b=ue5HQ9uVAo0ZIT9Za5EM75T9v9Poxc3QDWLda6ktbRDwynzq0bHOT69dZ/lKzB5Wdw
+	ZRJwH+YCS0o2Yu2vegwogW4IrrZPkwhITVLyJd+6jOOusULCBWKCcwzRilJAlHVjDiLg
+	dsd3iT61d5e2lu5rS2DFXUlcxoUU8JA4PqcOm1tGNFJWRngbZvB5HaMpP/0cz8nqtz1B
+	sKhjABCS09+WuM9QmRC/I8WoolvrAchb+hPTjonaAhousiK4dYPGXEtY26/le0k9TEWI
+	7uen8qxMebhkp98L6wxfUjXOgROysc+Gzt6JsFoD1eLPY9tJiKh4r/Llm32T4LoZh1l9
+	XQ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=oUgkZSxyHUPb/qLW9M78jQwHj6aqI/JJL9swSApeV94=;
-	b=QSp+2uYS/frdr2vStSCSxSkblZl31WzjK9Xa/oXfe12xz3DQNIwO3k3KuSWNFEB54e
-	RPM/CP3abla1V3LCeKdRCiMxlHDVEtuor2vPqnJQdJoCBCEebyXVCa+bBKy96xAXUKdN
-	V5x8iJDtzzd8m/SumWydOhU8c1aGi4gEZSFueTWxVNrZDKsbOyq3wNegg5v+VF3S4CMd
-	79aY8l6GcH1Lhb1Mnk+16SmNdvrXX4v4/XMx+rILw4Uf5ncw3obu33m+PH8fxClqJwFs
-	oHlm3gwXTEKQUO2hRsPOFibbuWgkr/0m+FK4+oarqJTifgzM3Xn3oFA2hB2Sv8ctRwiA
-	mozA==
-X-Gm-Message-State: AD7BkJJsmc7LYLKfhkYF4IEQizw3h0pls2EVY9Ux9NZe5S6pfdAzLleusbiDCUucrZBTarOql9UFIPj/UUeLMQ==
-MIME-Version: 1.0
-X-Received: by 10.28.176.200 with SMTP id z191mr87262wme.91.1456781417578;
-	Mon, 29 Feb 2016 13:30:17 -0800 (PST)
-Received: by 10.194.58.176 with HTTP; Mon, 29 Feb 2016 13:30:17 -0800 (PST)
-In-Reply-To: <CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
-References: <1456773039-5178-1-git-send-email-Martin.Jansa@gmail.com>
-	<1456778449.11498.183.camel@linuxfoundation.org>
-	<CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
-	<CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
-Date: Mon, 29 Feb 2016 22:30:17 +0100
-Message-ID: <CA+chaQfHZPKviheG2NY7miXe9YZir0pszp8qCQbb1kgzPABPDQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] no-static-libs.inc: add gdb
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=mRBxqu9MJJarS38TF+cus90niFNCJDAzEzL0+bnZrtE=;
+	b=eSZFnImOniWqr9SR2bFQtYxzWqvVEwB4bUAywaHa3YQIfM5uWrKrXNYE2j9IHmrivF
+	TQ86vLu9xP4QkJZddZ0xqPJ4Z1K33MtlnfYofhcVthabLSEXVJsyLFqSgjo9ELQR3RjP
+	1UwrwqFIGWpfPD+JDLQTRfmFyo09A1KoOeUT/52yJIOJnOHOEDAYM3dQjbVps/GXX30+
+	5q9tCbpwv5hCiMe6wgf6QBTEtC/Y7WM0kSVo+6Hf1m3NxhNGwaX/ecOPl+hnrYnc2dk6
+	+7dopNt6nC72BLhyI5zzaw5qoQx7/1U3VAxgsi3enblWqfr2Nba+DZL8QcddBOwgnlng
+	GKGQ==
+X-Gm-Message-State: AD7BkJLDhr1c7VoVlX3y/Neocvp/JF/LFguDw9s0TuoWlDx9lgVL1XVzUkFj+LPRB6NFYA==
+X-Received: by 10.194.238.34 with SMTP id vh2mr20099543wjc.157.1456783464691; 
+	Mon, 29 Feb 2016 14:04:24 -0800 (PST)
+Received: from [172.22.0.143] (ip-95-223-195-210.hsi16.unitymediagroup.de.
+	[95.223.195.210]) by smtp.gmail.com with ESMTPSA id
+	az8sm21751595wjc.17.2016.02.29.14.04.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 29 Feb 2016 14:04:23 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <CAJTo0LYuo4czMifRzRyTD4vcX+YxD0R6cmeGBAAKxL+xJgzz2Q@mail.gmail.com>
+Date: Mon, 29 Feb 2016 23:04:22 +0100
+Message-Id: <A5D76107-A7F2-48ED-A4A8-A452F1976547@gmail.com>
+References: <C902FB1D-2399-4CFF-B128-B239DDBF9539@gmail.com>
+	<CAJTo0LYuo4czMifRzRyTD4vcX+YxD0R6cmeGBAAKxL+xJgzz2Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3112)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] avahi: make dbus optional but default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,116 +59,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 21:30:17 -0000
-Content-Type: multipart/alternative; boundary=001a11412ba0e9090f052cef5a58
+X-List-Received-Date: Mon, 29 Feb 2016 22:04:25 -0000
+X-Groupsio-MsgNum: 78934
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_ED38F375-4D84-4096-BE02-46F86609303F";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---001a11412ba0e9090f052cef5a58
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_ED38F375-4D84-4096-BE02-46F86609303F
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
-No special configuration IIRC (will check tomorrow and send whole
-config.log).
 
-But it failed the same in my minimal chroot env with just oe-core and on
-Ubuntu jenkins slave doing bitbake world with many layers, here is full log:
-http://errors.yoctoproject.org/Errors/Details/38149/
+> Am 29.02.2016 um 21:39 schrieb Burton, Ross <ross.burton@intel.com>:
+> 
+> 
+> On 29 February 2016 at 20:19, Jens Rehsack <rehsack@gmail.com> wrote:
+> +PACKAGECONFIG[dbus] = ",--disable-dbus,dbus"
+> 
+> With --enable-dbus for clarity?
 
-and it shows --without-system-readline parameter.
+Ah, not cherry-picked from test-branch. Send new one tomorrow :/
 
-On Mon, Feb 29, 2016 at 9:50 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+n8 :)
+--
+Jens Rehsack - rehsack@gmail.com
 
-> On Mon, Feb 29, 2016 at 12:43 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> >
-> > On 29 February 2016 at 20:40, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> >>
-> >> I'm a bit puzzled as our autobuilders build this all the time and we
-> >> don't see failures. Any idea what the configuration difference might
-> >> be?
-> >
-> > Since oe-core 94e1b917078bedf73830e54278af77f742c93581 gdb has a
-> > packageconfig for system readline, which is enabled by default (and has
-> been
-> > enabled explicitly for a long time).  Do you have some local patches
-> adding
-> > more PACKAGECONFIG options but not enabling readline?
->
-> gdb 7.10.1 depends on readline features which are not present in
-> readline 5.2 (ie the GPLv2 version). Using the gdb internal readline
-> is a workaround for people who don't want to switch to the GPLv3
-> version of readline.
->
-> (Although gdb is itself GPLv3, it's self contained and easy to exclude
-> from release builds).
->
-> > Ross
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
->
 
---001a11412ba0e9090f052cef5a58
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--Apple-Mail=_ED38F375-4D84-4096-BE02-46F86609303F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-<div dir=3D"ltr">No special configuration IIRC (will check tomorrow and sen=
-d whole config.log).<div><br></div><div>But it failed the same in my minima=
-l chroot env with just oe-core and on Ubuntu jenkins slave doing bitbake wo=
-rld with many layers, here is full log:</div><div><a href=3D"http://errors.=
-yoctoproject.org/Errors/Details/38149/">http://errors.yoctoproject.org/Erro=
-rs/Details/38149/</a><br></div><div><br></div><div>and it shows=C2=A0<span =
-style=3D"color:rgb(51,51,51);font-family:Monaco,Menlo,Consolas,&#39;Courier=
- New&#39;,monospace;font-size:13px;line-height:20px;white-space:pre-wrap;ba=
-ckground-color:rgb(245,245,245)">--without-system-readline parameter.</span=
-></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On M=
-on, Feb 29, 2016 at 9:50 PM, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Mon, Fe=
-b 29, 2016 at 12:43 PM, Burton, Ross &lt;<a href=3D"mailto:ross.burton@inte=
-l.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 29 February 2016 at 20:40, Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purd=
-ie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;m a bit puzzled as our autobuilders build this all the time =
-and we<br>
-&gt;&gt; don&#39;t see failures. Any idea what the configuration difference=
- might<br>
-&gt;&gt; be?<br>
-&gt;<br>
-&gt; Since oe-core 94e1b917078bedf73830e54278af77f742c93581 gdb has a<br>
-&gt; packageconfig for system readline, which is enabled by default (and ha=
-s been<br>
-&gt; enabled explicitly for a long time).=C2=A0 Do you have some local patc=
-hes adding<br>
-&gt; more PACKAGECONFIG options but not enabling readline?<br>
-<br>
-</span>gdb 7.10.1 depends on readline features which are not present in<br>
-readline 5.2 (ie the GPLv2 version). Using the gdb internal readline<br>
-is a workaround for people who don&#39;t want to switch to the GPLv3<br>
-version of readline.<br>
-<br>
-(Although gdb is itself GPLv3, it&#39;s self contained and easy to exclude<=
-br>
-from release builds).<br>
-<br>
-&gt; Ross<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-&gt;<br>
-</font></span></blockquote></div><br></div>
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
---001a11412ba0e9090f052cef5a58--
+iQIcBAEBCgAGBQJW1MBmAAoJEESZlq7c5QqdlisP/3472ueC5MxBxJdtGlR9Hesn
+dPB1Jpd6CB/JQYYto1AdK2OwxSN4wnffnVx71S6+mO6fASJyhzGFl05dBVyN9QfA
+mNk71Gf5uIwbM66FwliOkdXd4D1Av2Yuz88jze9JsQ9KcjiWrMQKVEKydW++pb/r
+4FTQ5DWt17rlAPN7fEaKsHmYCA4By2SYFlaThza0hO7V6qfGlhCaBpERUxK61B4I
+17YVSG0ZeWE6zLHHKmmOaOncd00VUy0Cr4RiTVsDI1jqBlUqVKmnPeBZeNvjXhCr
+N/cRZDlQ9xhYSNmZWtRZcdAiYy/Ha0gSt9PXgqu2wkAuJTTYAwL8NJDO9NMTH7Ul
+n6SRVRYmOATIlejaBqR1Lr7PCCPXj10go5t85p8l1dHj7pa2wbPtSPmHZN5aRA92
+v4GjvoiV7JqlKnbmALu+AWcMpoQnGuxqHoX5a7XaEWVjrFt9FsVCUynepFjBk2xu
+CiuqDBnvdRON66SmDJvI1fDRgSBiNg93zCDLrbn+gVwFhoke2TIdRv+tYY8FgzEJ
+x3qgs03KkGj9VHxVDvR222eocEW3Li6LwGd8zEJkkYBbfzY5rhKO4vV1SqgAjL12
+5Nfkrct5ioPqbiuWl2OUUssgML51TpZvlBtSGGP5PGM3P9ZsoMaw5rSOUwz+f7W0
+SI5RG9e/mt9R8j4DHEDF
+=yQpA
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_ED38F375-4D84-4096-BE02-46F86609303F--
