@@ -1,30 +1,30 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9427177196
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1443377071
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 14:53:26 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u1TErQbZ009154 for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 08:53:26 -0600
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016022908532717-834961 ;
-	Mon, 29 Feb 2016 08:53:27 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Feb 2016 16:53:00 +0200
-Message-Id: <1456757580-31669-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.7.1
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 02/29/2016 08:53:27 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 02/29/2016 08:53:27 AM,
-	Serialize complete at 02/29/2016 08:53:27 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-02-29_04:, , signatures=0
-Subject: [PATCH v2] site: enable pthread support for x86_64 APR builds
+	Mon, 29 Feb 2016 15:07:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1TF7haa013780 for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Feb 2016 15:07:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id jsdr5nIChqTt
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Feb 2016 15:07:43 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u1TF7clv013776
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Feb 2016 15:07:39 GMT
+Message-ID: <1456758458.11498.176.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Feb 2016 15:07:38 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] layer.conf: Whitelist cantarell-fonts fontconfig dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 14:53:28 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 15:07:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The apache2 package is missing key pieces of pthread support (notably
-pthread_kill) on x86_64 platforms. Fix this by setting cached variable
-apr_cv_pthreads_cflags=-pthread which will trickle down into apache2 as
-well. powerpc32-linux currently sets this option.
+fontconfig is a stable API dependency and allarch fonts are desirable.
+This matches the other fonts.
 
-Suggested-by: Jacob Champion <jacob.champion@ni.com>
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/site/x86_64-linux | 1 +
+ meta/conf/layer.conf | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index 573a907..5b37211 100644
---- a/meta/site/x86_64-linux
-+++ b/meta/site/x86_64-linux
-@@ -104,6 +104,7 @@ nfsd_cv_func_statfs=${nfsd_cv_func_statfs=statfs2_bsize}
- nfsd_cv_bsd_signals=${nfsd_cv_bsd_signals=yes}
- 
- #apr
-+apr_cv_pthreads_cflags=${apr_cv_pthreads_cflags=-pthread}
- apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
- 
- # lftp
--- 
-2.7.1
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 8ee61aa..90d71d2 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -51,6 +51,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   initramfs-framework->systemd \
+   initramfs-framework->udev \
+   liberation-fonts->fontconfig \
++  cantarell-fonts->fontconfig \
+   gnome-icon-theme->librsvg \
+   font-alias->font-util \
+   weston-init->weston \
 
 
