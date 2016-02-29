@@ -1,41 +1,23 @@
 Return-Path: <costin.c.constantin@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C30C7713B
+	by mail.openembedded.org (Postfix) with ESMTP id 9F2D077026
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 10:16:00 +0000 (UTC)
+	Mon, 29 Feb 2016 10:24:35 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 29 Feb 2016 02:16:01 -0800
+	by orsmga103.jf.intel.com with ESMTP; 29 Feb 2016 02:24:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="926078963"
-Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 02:16:00 -0800
-Received: from irsmsx156.ger.corp.intel.com (10.108.20.68) by
-	IRSMSX153.ger.corp.intel.com (163.33.192.75) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 29 Feb 2016 10:15:42 +0000
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.157]) by
-	IRSMSX156.ger.corp.intel.com ([169.254.3.132]) with mapi id
-	14.03.0248.002; Mon, 29 Feb 2016 10:15:42 +0000
-From: "Constantin, Costin C" <costin.c.constantin@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] oeqa/selftest/kernel.py: Add new file
-	destined for kernel related tests [YP#7202]: Test for linux-dummy The
-	new
-	kernel.py file is intended for kernel related test cases. The test for
-	linux-dummy will ensure it is in good shape and...
-Thread-Index: AQHRbOgjxIuYPiRBMEakxz/Ar6I9vZ9C2b8A
-Date: Mon, 29 Feb 2016 10:15:42 +0000
-Message-ID: <2B8B4B6BB45F5242AFEC714E022A4B4A46CB099C@IRSMSX101.ger.corp.intel.com>
-References: <1456047951-28027-1-git-send-email-costin.c.constantin@intel.com>
-	<5437205.k9xUkGe2xD@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <5437205.k9xUkGe2xD@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/selftest/kernel.py: Add new file destined for kernel related tests [YP#7202]: Test for linux-dummy The new kernel.py file is intended for kernel related test cases. The test for linux-dummy will ensure it is in good shape and...
+X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="926083310"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 02:24:36 -0800
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id BB0DB6A4002;
+	Mon, 29 Feb 2016 03:12:23 -0800 (PST)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Feb 2016 12:38:02 +0200
+Message-Id: <1456742282-11595-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH v2] oeqa/selftest/kernel.py: Add new file destined for kernel related tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,78 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 10:16:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Feb 2016 10:24:36 -0000
 
-Thanks Paul. Something happened to the commit message. I sent it previously=
- to my e-mail and looked fine, but I guess I did something wrong in the  en=
-d.
-I'll check as per your recommendations.
+[YP#7202]:  Test for linux-dummy
+The new kernel.py file is intended for kernel related test cases.
+The test for linux-dummy will ensure it is in good shape and can
+be used as a kernel replacement at build time. To do this, the
+test will first clean sstate for linux-dummy target, ensuring no
+file is present in the stamps directory. After, core-image-minimal
+is built, ensuring linux-dummy can be used as a kernel substitute.
 
-Cheers,
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/kernel.py | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/kernel.py
 
-Costin=20
+diff --git a/meta/lib/oeqa/selftest/kernel.py b/meta/lib/oeqa/selftest/kernel.py
+new file mode 100644
+index 0000000..3fe3517
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/kernel.py
+@@ -0,0 +1,29 @@
++import os
++import oeqa.utils.ftools as ftools
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.decorators import testcase
++
++class KernelTests(oeSelfTest):
++    def  test_dummy_kernel(self):
++        """
++        [YP#7202]
++        - test that linux-dummy target can be used as kernel provider for an image
++        - check no "multiple providers are available for" message is received while building the image
++        """
++        config_param = 'PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"'
++        self.append_config(config_param)
++        arch_dir = get_bb_var('MULTIMACH_TARGET_SYS', target='linux-dummy')
++        stamps_dir = os.path.join(os.getenv('BUILDDIR'), "tmp/stamps")
++        lnx_dmy_stamps_dir = os.path.join(stamps_dir, arch_dir, 'linux-dummy')
++        res = bitbake("linux-dummy -ccleansstate") # ensure we have nothing related to linux-dummy in stamps dir.
++        self.assertFalse(os.listdir(lnx_dmy_stamps_dir), msg='linux-dummy stamps dir. should have been cleaned. Something \
++                         happened with bitbake linux-dummy -ccleansstate')
++        res = bitbake("core-image-minimal")# testing linux-dummy is both buildable and usable within an image
++        self.remove_config(config_param)
++        self.assertEqual(res.status, 0, msg="core-image-minimal failed to build. Please check logs. ")
++        self.assertNotIn("multiple providers are available for", res.output, msg="'multiple providers are available for\
++                        linux-dummy' message received during buildtime.")
++        self.assertTrue(os.listdir(lnx_dmy_stamps_dir), msg="linux-dummy didn't build correctly. No stamp present in stamps \
++                        dir. %s" % lnx_dmy_stamps_dir)
++         
+-- 
+2.5.0
 
------Original Message-----
-From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
-Sent: Sunday, February 21, 2016 10:41 PM
-To: Constantin, Costin C <costin.c.constantin@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/kernel.py: Add new file destin=
-ed for kernel related tests [YP#7202]: Test for linux-dummy The new kernel.=
-py file is intended for kernel related test cases. The test for linux-dummy=
- will ensure it is in good shape and...
-
-Hi Costin,
-
-On Sun, 21 Feb 2016 11:45:51 Costin Constantin wrote:
-> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
-
-Commit messages should start with a "shortlog" (one line description of the
-change) and then the commit message should be separated from that by a blan=
-k line so that it's not all crammed into the subject.
-
-> ---
->  meta/lib/oeqa/selftest/kernel.py | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 meta/lib/oeqa/selftest/kernel.py
->=20
-> diff --git a/meta/lib/oeqa/selftest/kernel.py
-> b/meta/lib/oeqa/selftest/kernel.py new file mode 100644 index=20
-> 0000000..3fe3517
-> --- /dev/null
-> +++ b/meta/lib/oeqa/selftest/kernel.py
-> @@ -0,0 +1,29 @@
-> +import os
-> +import oeqa.utils.ftools as ftools
-> +from oeqa.selftest.base import oeSelfTest from oeqa.utils.commands=20
-> +import runCmd, bitbake, get_bb_var from oeqa.utils.decorators import=20
-> +testcase
-> +
-> +class KernelTests(oeSelfTest):
-> +    def  test_dummy_kernel(self):
-> +        """
-> +        [YP#7202]
-> +        - test that linux-dummy target can be used as kernel provider=20
-> +for
-> an image +        - check no "multiple providers are available for" messa=
-ge
-> is received while building the image +        """
-> +        config_param =3D 'PREFERRED_PROVIDER_virtual/kernel =3D "linux-d=
-ummy"'
-> +        self.append_config(config_param)
-
-Having set this, I would suggest verifying that it's actually taken effect,=
- since it's common for this to be set within the distro/machine configurati=
-on.
-
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
