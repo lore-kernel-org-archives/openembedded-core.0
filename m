@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 535C97722F
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C11AB771C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 15:08:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1TF8mDx013822 for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 15:08:48 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9s7_dNduAzuB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 15:08:48 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u1TF8iOj013809
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 15:08:46 GMT
-Message-ID: <1456758524.11498.177.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Feb 2016 15:08:44 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+	Mon, 29 Feb 2016 15:16:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 29 Feb 2016 07:16:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,521,1449561600"; d="scan'208";a="923472426"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.11.10])
+	by orsmga002.jf.intel.com with ESMTP; 29 Feb 2016 07:16:41 -0800
+Message-ID: <1456758995.3164.17.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, akuster@mvista.com
+Date: Mon, 29 Feb 2016 15:16:35 +0000
+In-Reply-To: <cover.1456242658.git.akuster@mvista.com>
+References: <cover.1456242658.git.akuster@mvista.com>
+X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
 Mime-Version: 1.0
-Subject: [PATCH] sato/images: Add ptest image
+Subject: Re: [fido][PATCH 0/7] fido Security fixes pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 15:08:48 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 15:16:44 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-We need an image containing the ptest packages for testing purposes.
-This adds such an image based on sato-sdk. We did try appending this
-in the autobuilder but it creates too much confusion about what is
-going on, and increases build time due to lack of parallelisation.
+On Tue, 2016-02-23 at 07:58 -0800, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+> 
+> Please consider these for the next fido 
+> 
+> This is to meet our obligation for Yocto compatibility
+> 
+> The following changes since commit
+> 06d9c894636352a6c93711c7284d02b0c794a527:
+> 
+>   libbsd: Security fix CVE-2016-2090 (2016-02-18 11:03:10 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib akuster/fido_cve_fixes
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fi
+> do_cve_fixes
+> 
+> Armin Kuster (7):
+>   qemu: Security fix CVE-2016-2198
+>   foomatic-filters: Security fix CVE-2015-8560
+>   foomatic-filters: Security fixes CVE-2015-8327
+>   tiff: Security fix CVE-2015-8781
+>   tiff: Security fix CVE-2015-8784
+>   librsvg: Security fix CVE-2015-7558
+>   gdk-pixbuf: Security fix CVE-2015-7674
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Queued in joshuagl/fido-next
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-new file mode 100644
-index 0000000..93e5a4e
---- /dev/null
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -0,0 +1,6 @@
-+require core-image-sato-sdk.bb
-+
-+DESCRIPTION += "Also includes ptest packages."
-+
-+IMAGE_FEATURES += "ptest-pkgs"
-+
+Regards,
 
-
+Joshua
 
