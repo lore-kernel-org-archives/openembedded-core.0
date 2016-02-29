@@ -1,46 +1,46 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 93EB9605FF
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2849273FA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 20:47:56 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id fl4so98048291pad.0
+	Mon, 29 Feb 2016 20:50:03 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id p65so8217520wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 12:47:57 -0800 (PST)
+	Mon, 29 Feb 2016 12:50:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=WIr01KEs4xIB+on/jHJwuRPntA7/KkF9XxG1cv2aVUw=;
-	b=iYVGqpJoHOUE8GZMz4BmMJxplxOXWpqWb7WSBD7qLDA3EEwKPexWifZ3FEUrNBopDc
-	/L6RqvFYHrmNntt8dLK2qMIwqOiTDFcw2xHVBSyTda9Btrd7ZZIi7NURwQgVnfDUz7Fq
-	yEXDeUZc8f8LF8Yd9Lj9EfV+Z5U0cLD+QwuQ8gXr/l0wfXHCJ0ChnlhNR05qDxyIPAZb
-	otphW7f0A0W2BXUfRKdjOA0S9VXaiflyCx0Svs6muFL4iOxq8RplZJr5643/A0KkiN5R
-	Nv3v2Bn9LPgX2mMmBZMKixhTir20WJIjasdx792OmEg94CafujBe1MAJc0Jbsc4BZfUT
-	1UhA==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=G/QBcRhVB+YYu89tqWa53SVBKOLdz1MGOmEGeaZ++vw=;
+	b=L10Vq5APnS4M5x8rsaSo5qGmbbQkt1Xxk72OLAnll9Noaln1H74OsEhX1dXBmFHnGV
+	YYlu7ojgks8Los4+8NJDSXbzK0cIdfo32dIgXB7GUdsnlb4r4E49XnssXc16L8dsSEjy
+	8u5muHGvPq9O9AnSAsV9kRDkbppgVUILkiDQls1nrsa867yhyb5daIcPLths0M7xegdL
+	/tJ9DaRD3jrP/OKSUN7ZpUQKb6drwFqPkydUBUOZbpU2f4U2JKvJMvO3bZKHFIx00D1J
+	tkcZ2FDoanEV6D/VGDkRvlJL7OPCj0V+no3CKLOIyVVdf5/ram2uLvqVOQFcF9aK/FNk
+	rJeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=WIr01KEs4xIB+on/jHJwuRPntA7/KkF9XxG1cv2aVUw=;
-	b=i6/kL8d+ufS57/lEfG3S1gravdcrvSm7jR01uPTXdRIvriRfwKO1+AOPXi+uReGyOu
-	RUxpRs3IhDB+X8IldKGciIJBx/OOQPyArhjtRfoqD4QViGZEun2CPdDqjEnJMcjVj38t
-	hID88goHq1gd+d6PMD7deIOA7r66P9WOSd9r2rWvaRwCq1tLN+GJpYhW+ocS9PaN9hwp
-	TDAeIlah80v0SqGDQsKx4ikEeI/1TzPsDWoX82liQud1h6yNxe2vswCNn0f/J+zCWyO6
-	fyUJoJ+nHSTY5qHA8zbt3BE5yJfV/a+yrZysHIMhaGiD4SL2ysUjqsVnWCpoxZr+dSaS
-	mjjA==
-X-Gm-Message-State: AD7BkJKqU/aA8ymyHjoRVMi7U2GYEkdurRMR7CTuhdiAY/KuWuXWZnj0Pv1OKPCfW5i4Xw==
-X-Received: by 10.67.12.175 with SMTP id er15mr24834715pad.70.1456778876953;
-	Mon, 29 Feb 2016 12:47:56 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	y68sm40147971pfi.6.2016.02.29.12.47.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 29 Feb 2016 12:47:54 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Feb 2016 13:47:46 -0700
-Message-Id: <1456778866-27873-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] populate_sdk_base: handle empty SDK_PACKAGING_FUNC
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=G/QBcRhVB+YYu89tqWa53SVBKOLdz1MGOmEGeaZ++vw=;
+	b=QTKrqzV6CwJcpA/pJZwBDaV7A0FdfpZdhGzX9tFTEStTImZ+Y+C4oW/ofOyf1qjvrm
+	ZDY6UPmfowUV1YpjiDgERMji06nYiY3PmNTeTW58EWMBYs/ImKM3SVk6E84NysXN3ikY
+	PAd7fUIymQxrn9M+YZ2m/1fYCm/DYbnM65pTlES5VGORyYSkTOrH1DgqDNN5jStxDUO0
+	g8ZP+0tt3rlLTyPPOuO/awPZI+Qe9VvDv7JXbKjSnXPI1/cm+q6+4rzJpI0k4saXbTG3
+	1FZv2FKu1aE6JjhBAQWsJozBrsmA4PC7YPll1jhLKojzajU57XrSZA1Q17Y0RU3X7Xgc
+	+MWA==
+X-Gm-Message-State: AD7BkJJOssXXCSCkXndOi6eclZjr3RQ5OmeVkkXtq6itWBeQAIHKr/xDmYYoeUOs3NPUMseRM1WCasq2gelSNQ==
+MIME-Version: 1.0
+X-Received: by 10.194.242.202 with SMTP id ws10mr16742020wjc.3.1456779004052; 
+	Mon, 29 Feb 2016 12:50:04 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 29 Feb 2016 12:50:03 -0800 (PST)
+In-Reply-To: <CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
+References: <1456773039-5178-1-git-send-email-Martin.Jansa@gmail.com>
+	<1456778449.11498.183.camel@linuxfoundation.org>
+	<CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
+Date: Mon, 29 Feb 2016 12:50:03 -0800
+Message-ID: <CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] no-static-libs.inc: add gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 20:47:57 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 20:50:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Mon, Feb 29, 2016 at 12:43 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 29 February 2016 at 20:40, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> I'm a bit puzzled as our autobuilders build this all the time and we
+>> don't see failures. Any idea what the configuration difference might
+>> be?
+>
+> Since oe-core 94e1b917078bedf73830e54278af77f742c93581 gdb has a
+> packageconfig for system readline, which is enabled by default (and has been
+> enabled explicitly for a long time).  Do you have some local patches adding
+> more PACKAGECONFIG options but not enabling readline?
 
-Currently, the pre/post process command variables are parsed as shell, even
-though they're not shell anymore. As a result, an empty SDK_PACKAGING_FUNC
-results in a parsing error. Rather than manually adding their vardeps, only
-append its ; when the var is set.
+gdb 7.10.1 depends on readline features which are not present in
+readline 5.2 (ie the GPLv2 version). Using the gdb internal readline
+is a workaround for people who don't want to switch to the GPLv3
+version of readline.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/populate_sdk_base.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+(Although gdb is itself GPLv3, it's self contained and easy to exclude
+from release builds).
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index de23f14..008bb57 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -84,7 +84,8 @@ python write_host_sdk_manifest () {
- 
- POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
- POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
--SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_FUNC}; "
-+SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
-+SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
- 
- # Some archs override this, we need the nativesdk version
- # turns out this is hard to get from the datastore due to TRANSLATED_TARGET_ARCH
--- 
-2.2.1
-
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
