@@ -1,24 +1,49 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DE5F77261
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EB6A677194
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 09:23:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1T9N9Mw005308
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 29 Feb 2016 01:23:10 -0800
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 29 Feb 2016 01:23:09 -0800
-From: <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Mon, 29 Feb 2016 17:19:31 +0800
-Message-ID: <cover.1456737103.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.6.1
+	Mon, 29 Feb 2016 10:06:38 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id z8so74591759ige.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Feb 2016 02:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=d5SAUDVXT1TjC/wOsGxfb8BDJwf9eiqNy44nbCAh66s=;
+	b=rAz3s3BOs1WM4xkqFq22+///bB6jrdk4xl3bHBSN6CfPFr6OQ3INGsrvl0wHreHP/y
+	9LLRXscwuxYZVUDXG/boUCr2fpChSRG0F7baDwRnHYERx7uhxhFkvV6Cx/xNrXAaz1mq
+	7AV3Fhd9/uuYM6sfKAk+j5QR8ww6aloOk9IFOAqk40leB442cvIsVDQzWDxKcjqQq16Q
+	sjr6PrEXDDHBT8KhQKqdottIv4hv7ml7iBpLBSAq5lInjRS6/hpPwLLERDGuVihxvDEe
+	V1J1n8TEXffOBQ8//ZBSRDiQ4ZexWHjpBCCZkwZxtRacJlmLZNVTH1LDMs/4fuesz1k2
+	ZFWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=d5SAUDVXT1TjC/wOsGxfb8BDJwf9eiqNy44nbCAh66s=;
+	b=b7/8ywaBkPG6GHEXMlawsukv1NoJMU+9ab6nvYSveDu3gmCM2fyQx8CKie1sg2xkBC
+	X9P/sHs9bFA729numjJr7OqwVL/m5AUtNeVk0Du/K9qRgNsHvSTfjrAOxP9ajycZYjw6
+	copwjKPYCfgm1P9GPhfOnDxrnzOKaPH7YNKONAmR5DUahSpSNAimVLYU92hkxge8ebpg
+	IPji15Fyozi9OrbupWE2Qaqj0fZNZDIksOQ7+UL3pJWV5Fw/bpd4JLknyn963KlivE6m
+	0IW7X4XwytfwY2lGJHBrujsxmRa+IgVQVO5wG2nO+jfA0pyWjifP/9Ejj/IkdUQ6jARA
+	j5+w==
+X-Gm-Message-State: AD7BkJJ25Me5xtdO2MSyNVB17i3Shlc8B+J+3516u1C4Tv3iTI83XQpsEHHL/cv1bv4+D3/3EvdjxhboGc5Z5UIq
+X-Received: by 10.50.66.238 with SMTP id i14mr8477569igt.52.1456740399078;
+	Mon, 29 Feb 2016 02:06:39 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] V4: Replace retry logic in useradd with flock
+Received: by 10.107.162.70 with HTTP; Mon, 29 Feb 2016 02:06:19 -0800 (PST)
+In-Reply-To: <062AD77D-2CDB-4D36-89AA-7F8072A8283A@gmail.com>
+References: <898F5FB0-0062-4647-8A7A-1DE402384A75@gmail.com>
+	<CAJTo0LYt_SVFavOCtZmdcXcgZBarR+RMArwA_MJn7Amiy4iZuw@mail.gmail.com>
+	<062AD77D-2CDB-4D36-89AA-7F8072A8283A@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Feb 2016 10:06:19 +0000
+Message-ID: <CAJTo0LZD0Js6kBqECOvkoOowWPL7bVRN4n08J2k+pf2FL7yhug@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] avahi: make dbus optional but default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 09:23:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Feb 2016 10:06:41 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc109c0476f3052ce5ced7
 
-From: Kai Kang <kai.kang@windriver.com>
+--047d7bdc109c0476f3052ce5ced7
+Content-Type: text/plain; charset=UTF-8
 
-V4:
-* re-add check whether user/group exist
+On 29 February 2016 at 08:00, Jens Rehsack <rehsack@gmail.com> wrote:
 
+> > Add --enable-dbus for clarity, please.
+>
+> This switch isn't documented in configure help. I try it out, but when it
+> complains, I leave it out.
+>
 
-Hi Ross,
+Running configure --help lists the options that are not currently the
+default, so if there's a --without-foo then foo is on by default and
+there's also a --with-foo.  The same for --enable-foo --disable-foo.
 
-I add check back that avahi fails to do compile when remove the checks:
+Ross
 
-| useradd: user 'avahi-autoipd' already exists
+--047d7bdc109c0476f3052ce5ced7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So I add
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 February 2016 at 08:00, Jens Rehsack <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:rehsack@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; Add --ena=
+ble-dbus for clarity, please.<br>
+<br>
+</span>This switch isn&#39;t documented in configure help. I try it out, bu=
+t when it complains, I leave it out.<br></blockquote></div><br>Running conf=
+igure --help lists the options that are not currently the default, so if th=
+ere&#39;s a --without-foo then foo is on by default and there&#39;s also a =
+--with-foo.=C2=A0 The same for --enable-foo --disable-foo.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-set +e
-
-But it fails with:
-
-ERROR: Fakeroot process (13034) exited unexpectedly (-9), shutting down...
-
-So I add the checks back and the commit works.
-
-Regards,
-Kai
-
-The following changes since commit 4006a7f2762ccd5dcbc6cdff49482d4387a73261:
-
-  sanity: Fix int verses string reference (2016-02-28 22:54:09 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/flockv4
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/flockv4
-
-Kai Kang (1):
-  useradd_base.bbclass: replace retry logic with flock
-
- meta/classes/useradd.bbclass      |   6 +-
- meta/classes/useradd_base.bbclass | 165 ++++++++++----------------------------
- 2 files changed, 46 insertions(+), 125 deletions(-)
-
--- 
-2.6.1
-
-
+--047d7bdc109c0476f3052ce5ced7--
