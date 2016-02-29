@@ -1,45 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D35F877225
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id E9AD977206
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 16:02:32 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id p65so75185005wmp.1
+	Mon, 29 Feb 2016 16:02:33 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id l68so64939899wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 08:02:33 -0800 (PST)
+	Mon, 29 Feb 2016 08:02:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=yzfq9YvsayLPSmvky9jh57aIvtrnlj9BZqiVUfWqjjQ=;
-	b=jARYK+9DCCY4AvAOHhfdpTgcwUaCb1DYRK1nOKVBP15OJoKr6gonqgMfQ8X67eol9n
-	XqYUfFHFlkDklYgW7eCTRzd5NlBQDmNPWbq3rNZ1HGRfRSQFS3Htg5sfeVlfcFC6g+D0
-	ADij5vUE7lkg3HXSVtqSP9OVtiSKcwhFNXKMXReOPrbqAr1hNSX26hBzV18oymL4G9It
-	jNUV1xL8mh2r2to/XUkbhbYv4D62MWoneuB2FwlytV5nIeqG8ilWhY85TSAZdgeis8i1
-	51XUn+6bGITQCZJolhea/a1VPv3fkozeMVulV2i+0xHkPii+SSAwMSPZX0GLtQ5JUR64
-	SIDg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=m5TBlA7GHDYAhNBHAUxUSFoLaSLGG5olNi9inQKEZfI=;
+	b=ja4vnJfutj0k94fGfEMw3m5ttMWCmMqLrOVLjQXhywCAjPow40qSL3pS5fhCCL7oaS
+	J1HlpgfuNRiP6YlDwIASmrnaoCNn6agXaME053ANhW2LChK6kIzjyD7rxKQkAPdJ/FC+
+	cq7htFCN0SXlw9f1H9lZb4VPrB+qRDBCe//6qExorNlSJfiAUmcp7M5urdFuzVHkFcEP
+	FgE7fl3B9nxfk/g/hNx6ElzOVLaFEnFRl4ryOHrgPrkURdpGP+uBEcXwV+zBeiLOYZ6W
+	3v31RSyu8OosDmIHOE6PvcOmI61ysGwDZp/10RVFCHAMsICDGfFa1llCfezTbHWmf4pn
+	Ndew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yzfq9YvsayLPSmvky9jh57aIvtrnlj9BZqiVUfWqjjQ=;
-	b=Qj/7xUbOPbqBfHvZDNuQqgmftlpZNJl6Ywp4ueZr6P9TjRNCkvwa2PMWTmuw/4hw+D
-	7FACxaIqkgkXbB3+VbTtZgzQiBxdrzHtjELTkSYY3ZKHwRYZKcmJQymqrhNtj79zcetn
-	ubJyd44j1OmvFu71TDG6qzWLypNdLUK5odVMhXEQ3PGeGub1rLHZrPEGEWdd64vYmxhC
-	aduV5FtCt5aK7rcH+jftZYIj7MOI8gStDTpkx+jCKg/orJh49Xgpfar+lwvcj2N16Zs/
-	HQYJAldJp4pbgD2+iam/oaoI2TZc4VuIqImqkiJL/FhkxwKnGF8ei0BVgGITZPZOKTbz
-	jRFw==
-X-Gm-Message-State: AD7BkJI7dLTOOGu8Y1Q10QRYmvznRjdfKLWHm3FwEc9phUO38xn6GQgaBRGwNCMLVpUd3GdZ
-X-Received: by 10.194.205.103 with SMTP id lf7mr15148976wjc.147.1456761752687; 
-	Mon, 29 Feb 2016 08:02:32 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=m5TBlA7GHDYAhNBHAUxUSFoLaSLGG5olNi9inQKEZfI=;
+	b=lfq/3HQN+/4DuqvWVTunfBOi4zJMMRi5637aynxpDehgT5YVsLuiqoRHiGLctAaOnL
+	UvuRSsNdicwTaDKDH3/Kxs3UEIoIkFR1Zrkyyt2PT6RpitXaadWrKLLbQhj3fZkFnRyK
+	ErQfHmzGwMDzLxaA+9U1qQrcdohFkDeJFtbpj7Z+xeGxjvRgKwF+i+Cz11o19JURt1Ri
+	Cwf0OheulQWIg3hl/H4PCSOulghBAcjKwdNtUD3/LxPlMIEtw6Ql8zW65UlV545+wwFB
+	bBgiuRUQiWYLFJ8QjS4y7dqxlK0DNQh3MMstEwVL4Ut+bvAER4RBG7mFawPC4XuDxSc2
+	erYw==
+X-Gm-Message-State: AD7BkJIlF2H/TAak9DqIZGwxFp4SETZJKASQYil4kAeaowgmG3dBcCdvouVzL6jjFPsB1ivy
+X-Received: by 10.194.209.204 with SMTP id mo12mr16994476wjc.69.1456761753943; 
+	Mon, 29 Feb 2016 08:02:33 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	i1sm26454322wjs.45.2016.02.29.08.02.30
+	i1sm26454322wjs.45.2016.02.29.08.02.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 29 Feb 2016 08:02:31 -0800 (PST)
+	Mon, 29 Feb 2016 08:02:33 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Feb 2016 16:02:25 +0000
-Message-Id: <1456761746-419-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 29 Feb 2016 16:02:26 +0000
+Message-Id: <1456761746-419-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.7.0
-Subject: [PATCH][jethro][RFC 1/2] libsdl: expand PACKAGECONFIG and enable native builds
+In-Reply-To: <1456761746-419-1-git-send-email-ross.burton@intel.com>
+References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH][jethro][RFC 2/2] conf/local.conf.sample: comment out ASSUME_PROVIDED=libsdl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,92 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 16:02:33 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 16:02:34 -0000
 
-Use PACKAGECONFIG instead of using logic in DEPENDS and EXTRA_OECONF, adding new
-options for PulseAudio, tslib, DirectFB, OpenGL and X11.  Pass
---disable-x11-shared so that it links to the X libraries instead of using
-dlopen().
+Ubuntu 15.10 and Debian testing can't build qemu-native against the host libsdl.
+Now that libsdl-native is buildable, comment out the ASSUME_PROVIDED which meant
+it wouldn't be used.
 
-Disable tslib by default as the kernel event input subsystem is generally used.
+[ YOCTO #8553 ]
 
-SDL's OpenGL support requires X11 so check for both x11 and opengl, and merge
-the dependencies.
-
-Finally enable native builds, with a minimal PACKAGECONFIG that will build from
-oe-core for native and nativesdk.
-
-(From OE-Core rev: 3d6c31c3a4ff34376e17005a981bb55fc6f7a38f)
+(From meta-yocto rev: 759accbfca46de058ce402938713189dab22a70c)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 35 ++++++++++++++-------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ meta-yocto/conf/local.conf.sample | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-index c0d5c6a..1cf3c39 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-@@ -12,13 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
+index bf6dd90..72c16b25d 100644
+--- a/meta-yocto/conf/local.conf.sample
++++ b/meta-yocto/conf/local.conf.sample
+@@ -225,11 +225,12 @@ BB_DISKMON_DIRS = "\
+ # Qemu configuration
+ #
+ # By default qemu will build with a builtin VNC server where graphical output can be
+-# seen. The two lines below enable the SDL backend too. This assumes there is a
+-# libsdl library available on your build system.
++# seen. The two lines below enable the SDL backend too. By default libsdl-native will
++# be built, if you want to use your host's libSDL instead of the minimal libsdl built
++# by libsdl-native then uncomment the ASSUME_PROVIDED line below.
+ PACKAGECONFIG_append_pn-qemu-native = " sdl"
+ PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+-ASSUME_PROVIDED += "libsdl-native"
++#ASSUME_PROVIDED += "libsdl-native"
  
- PROVIDES = "virtual/libsdl"
  
--DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
--           tslib"
--DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
--
- PR = "r3"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
-@@ -38,21 +31,29 @@ inherit autotools lib_package binconfig-disabled pkgconfig
- 
- EXTRA_OECONF = "--disable-static --enable-cdrom --enable-threads --enable-timers \
-                 --enable-file --disable-oss --disable-esd --disable-arts \
--                --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
-+                --disable-diskaudio --disable-nas \
-                 --disable-mintaudio --disable-nasm --disable-video-dga \
-                 --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
-                 --disable-xbios --disable-gem --disable-video-dummy \
--                --enable-input-events --enable-input-tslib --enable-pthreads \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
-+                --enable-input-events --enable-pthreads \
-                 --disable-video-svga \
-                 --disable-video-picogui --disable-video-qtopia --enable-sdl-dlopen \
--                --disable-rpath \
--                --disable-pulseaudio"
-+                --disable-rpath"
-+
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+PACKAGECONFIG_class-native = "x11"
-+PACKAGECONFIG_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
--PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
-+PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib"
-+PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
-+PACKAGECONFIG[tslib] = "--enable-input-tslib, --disable-input-tslib, tslib"
-+PACKAGECONFIG[directfb] = "--enable-video-directfb, --disable-video-directfb, directfb"
-+PACKAGECONFIG[opengl] = "--enable-video-opengl, --disable-video-opengl, virtual/libgl libglu"
-+PACKAGECONFIG[x11] = "--enable-video-x11 --disable-x11-shared, --disable-video-x11, virtual/libx11 libxext libxrandr libxrender"
- 
- EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
- 
-@@ -65,4 +66,4 @@ do_configure_prepend() {
-         export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
- }
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
+ # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
 -- 
 2.7.0
 
