@@ -1,23 +1,21 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F2D077026
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 93D9C77264
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 10:24:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 29 Feb 2016 02:24:36 -0800
+	Mon, 29 Feb 2016 11:49:05 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Feb 2016 03:49:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="926083310"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 02:24:36 -0800
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id BB0DB6A4002;
-	Mon, 29 Feb 2016 03:12:23 -0800 (PST)
-From: Costin Constantin <costin.c.constantin@intel.com>
+X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="897369223"
+Received: from gtan23-mobl3.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.165.53])
+	by orsmga001.jf.intel.com with ESMTP; 29 Feb 2016 03:49:03 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Feb 2016 12:38:02 +0200
-Message-Id: <1456742282-11595-1-git-send-email-costin.c.constantin@intel.com>
+Date: Tue,  1 Mar 2016 00:48:22 +1300
+Message-Id: <cover.1456746435.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
-Subject: [PATCH v2] oeqa/selftest/kernel.py: Add new file destined for kernel related tests
+Subject: [PATCH 0/4] recipetool create improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,57 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 10:24:36 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 11:49:05 -0000
 
-[YP#7202]:  Test for linux-dummy
-The new kernel.py file is intended for kernel related test cases.
-The test for linux-dummy will ensure it is in good shape and can
-be used as a kernel replacement at build time. To do this, the
-test will first clean sstate for linux-dummy target, ensuring no
-file is present in the stamps directory. After, core-image-minimal
-is built, ensuring linux-dummy can be used as a kernel substitute.
+Support for creating recipes for kernels, out-of-tree kernel modules,
+and npm modules.
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- meta/lib/oeqa/selftest/kernel.py | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/kernel.py
 
-diff --git a/meta/lib/oeqa/selftest/kernel.py b/meta/lib/oeqa/selftest/kernel.py
-new file mode 100644
-index 0000000..3fe3517
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/kernel.py
-@@ -0,0 +1,29 @@
-+import os
-+import oeqa.utils.ftools as ftools
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-+from oeqa.utils.decorators import testcase
-+
-+class KernelTests(oeSelfTest):
-+    def  test_dummy_kernel(self):
-+        """
-+        [YP#7202]
-+        - test that linux-dummy target can be used as kernel provider for an image
-+        - check no "multiple providers are available for" message is received while building the image
-+        """
-+        config_param = 'PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"'
-+        self.append_config(config_param)
-+        arch_dir = get_bb_var('MULTIMACH_TARGET_SYS', target='linux-dummy')
-+        stamps_dir = os.path.join(os.getenv('BUILDDIR'), "tmp/stamps")
-+        lnx_dmy_stamps_dir = os.path.join(stamps_dir, arch_dir, 'linux-dummy')
-+        res = bitbake("linux-dummy -ccleansstate") # ensure we have nothing related to linux-dummy in stamps dir.
-+        self.assertFalse(os.listdir(lnx_dmy_stamps_dir), msg='linux-dummy stamps dir. should have been cleaned. Something \
-+                         happened with bitbake linux-dummy -ccleansstate')
-+        res = bitbake("core-image-minimal")# testing linux-dummy is both buildable and usable within an image
-+        self.remove_config(config_param)
-+        self.assertEqual(res.status, 0, msg="core-image-minimal failed to build. Please check logs. ")
-+        self.assertNotIn("multiple providers are available for", res.output, msg="'multiple providers are available for\
-+                        linux-dummy' message received during buildtime.")
-+        self.assertTrue(os.listdir(lnx_dmy_stamps_dir), msg="linux-dummy didn't build correctly. No stamp present in stamps \
-+                        dir. %s" % lnx_dmy_stamps_dir)
-+         
+The following changes since commit 390bad905537820f49add855c95d726b5b55c8fa:
+
+  sanity: Fix int verses string reference (2016-02-28 22:54:06 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/recipetool2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/recipetool2
+
+Paul Eggleton (4):
+  classes/module: allow substitution of the modules_install target name
+  recipetool: create: add support for out-of-tree kernel modules
+  recipetool: create: add basic support for generating linux kernel recipes
+  recipetool: create: add basic support for new npm fetcher/class
+
+ meta/classes/module.bbclass             |   4 +-
+ scripts/lib/recipetool/create_kernel.py |  99 +++++++++++++++++++++
+ scripts/lib/recipetool/create_kmod.py   | 152 ++++++++++++++++++++++++++++++++
+ scripts/lib/recipetool/create_npm.py    |  48 ++++++++++
+ 4 files changed, 302 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/lib/recipetool/create_kernel.py
+ create mode 100644 scripts/lib/recipetool/create_kmod.py
+ create mode 100644 scripts/lib/recipetool/create_npm.py
+
 -- 
 2.5.0
 
