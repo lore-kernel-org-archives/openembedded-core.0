@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B317731D7
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5354F771E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 13:51:13 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id y8so82268496igp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 05:51:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xRJOn69pdCkDq/qBN8P0GYhOdRDDn+FJIBFbY6j0TWQ=;
-	b=LSiZn+J37KbAIJh0GvzEUBQ8+CGRGXHWJFXqcks7Q/Uf8yOhO2AiPY4bKPTMXSYKNv
-	eKA37IJXWyE7EZv4sSPzmgWvMHXd3CzOplgbdVBlJJRirqDqCPjiorWN+0h8JRF/l6x2
-	PAQTdhQaHSYiRMxkNUCeDerpBxTGV3FY1foXrdCs40Zwf9i5hZIFaH3JfpHuevGqvu9h
-	lhWChFuFAF/hzd4dGQ1QGEvTWf0mulRPdZpvM9zo4N9+BtZeMhvXpvh4C8LqrUmAcaa+
-	O4vmWqtEfcOig1dbx/oUqwagBxiWIgoZZIUArSdm3K11GGSYIcO+GGe5+qGcSzoXnK+k
-	qE7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xRJOn69pdCkDq/qBN8P0GYhOdRDDn+FJIBFbY6j0TWQ=;
-	b=j1wmDplUuFdXaoYqbpAw1/h2MQ5DDNmSq6WwrVzYskTR83gzV17hXu0I8wmUlGH92k
-	miPIz1Osm+uUObV/05/PN7kzm+EkJ8RRU3g4Zn5izL9vm8ZhSdapc2yZ/osGkicCrQOh
-	7pdEnnP9iGQhZJHZBYYT64Rm8bzi9r+Viv9/hd5KF9i71kXSqhtTtkWQ8uax0phQinRQ
-	gCHjyao+iDOONbmkhPLzWMH0OP50HJFCFq0jeDvjxcyfKFm6+DW7GYcEP5Fon46c6N29
-	UHkPFxiDgpbQ77hnsRiSzEg5MrUca3nN3DZ/CtKms9bGD7MRy2/E4kxf7Nj+iltF850Z
-	nUzg==
-X-Gm-Message-State: AD7BkJJjUSuqVtcV2/48LwAzNcLDimBXWqRggV6fWIRfX5QAb9lc6i1qkIbNZZLHNwEOXDFJD7FodU8d4+P4J/9e
-X-Received: by 10.50.78.227 with SMTP id e3mr9088954igx.64.1456753873542; Mon,
-	29 Feb 2016 05:51:13 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 29 Feb 2016 05:50:54 -0800 (PST)
-In-Reply-To: <1456753354-7448-1-git-send-email-adrian.ratiu@ni.com>
+	Mon, 29 Feb 2016 14:05:09 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u1TE58HA032431; Mon, 29 Feb 2016 08:05:08 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016022908050924-824288 ;
+	Mon, 29 Feb 2016 08:05:09 -0600 
+Date: Mon, 29 Feb 2016 16:04:41 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160229160441.05fbb19c@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
 References: <1456753354-7448-1-git-send-email-adrian.ratiu@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Feb 2016 13:50:54 +0000
-Message-ID: <CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: Jacob Champion <jacob.champion@ni.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
+Organization: National Instruments
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 02/29/2016 08:05:09 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 02/29/2016 08:05:09 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-02-29_04:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v1] site: enable pthread support for x86_64 APR builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,47 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 13:51:18 -0000
-Content-Type: multipart/alternative; boundary=089e0111b734287d45052ce8f1d2
-
---089e0111b734287d45052ce8f1d2
-Content-Type: text/plain; charset=UTF-8
-
-On 29 February 2016 at 13:42, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-
->   apr_cv_process_shared_works=no: several platforms already set this
->   option, which conservatively disables support for PROCESS_SHARED
->   mutexes.
->
-
-Which is interesting as building apr-native (so the site files don't get
-used) for x86-64 gives:
-
-apr_cv_process_shared_works=yes
-
-Can we not go around disabling stuff when it actually does work?
-
-Ross
-
---089e0111b734287d45052ce8f1d2
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 29 Feb 2016 14:05:09 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 February 2016 at 13:42, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
-der-left-style:solid;padding-left:1ex"><div id=3D":32t" class=3D"" style=3D=
-"overflow:hidden">=C2=A0 apr_cv_process_shared_works=3Dno: several platform=
-s already set this<br>
-=C2=A0 option, which conservatively disables support for PROCESS_SHARED<br>
-=C2=A0 mutexes.</div></blockquote></div><br>Which is interesting as buildin=
-g apr-native (so the site files don&#39;t get used) for x86-64 gives:</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">apr_cv_proc=
-ess_shared_works=3Dyes<br></div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Can we not go around disabling stuff when it actually =
-does work?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
+On Mon, 29 Feb 2016 13:50:54 +0000
+"Burton, Ross" <ross.burton@intel.com> wrote:
 
---089e0111b734287d45052ce8f1d2--
+> On 29 February 2016 at 13:42, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wro=
+te:
+>=20
+> >   apr=5Fcv=5Fprocess=5Fshared=5Fworks=3Dno: several platforms already s=
+et this
+> >   option, which conservatively disables support for PROCESS=5FSHARED
+> >   mutexes.
+> >
+>=20
+> Which is interesting as building apr-native (so the site files don't get
+> used) for x86-64 gives:
+>=20
+> apr=5Fcv=5Fprocess=5Fshared=5Fworks=3Dyes
+>=20
+> Can we not go around disabling stuff when it actually does work?
+
+Yes, of course. It was just sloppy patch editing on my part. Sorry.
+I'll remove that and resubmit v2.
+
+>=20
+> Ross
+
+
