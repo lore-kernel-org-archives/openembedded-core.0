@@ -1,24 +1,31 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A7A7C77209
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A0C7E771C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 15:17:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 29 Feb 2016 07:17:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,521,1449561600"; d="scan'208";a="755265801"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.11.10])
-	by orsmga003.jf.intel.com with ESMTP; 29 Feb 2016 07:17:12 -0800
-Message-ID: <1456759026.3164.19.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: Armin Kuster <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org, akuster@mvista.com
-Date: Mon, 29 Feb 2016 15:17:06 +0000
-In-Reply-To: <cover.1456278327.git.akuster@mvista.com>
-References: <cover.1456278327.git.akuster@mvista.com>
-X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [fido][PATCH 00/11] Fido Security fixes #2
+	Mon, 29 Feb 2016 15:18:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1TFIbe3014111
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 29 Feb 2016 07:18:38 -0800
+Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 29 Feb 2016 07:18:37 -0800
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+References: <cover.1456456877.git.mark.hatle@windriver.com>
+	<39dcc8978920aeaf0eeb206b7292f32af4b775f7.1456456877.git.mark.hatle@windriver.com>
+	<55970.10.252.8.77.1456498907.squirrel@linux.intel.com>
+	<56D060AA.6020100@windriver.com> <56D4449F.8010407@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56D4614C.1050909@windriver.com>
+Date: Mon, 29 Feb 2016 09:18:36 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <56D4449F.8010407@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3 v2] rpm: Uprev to rpm-5.4.16 (pre) and rpm-5.4+cvs to current CVS head
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 15:17:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Feb 2016 15:18:38 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2016-02-23 at 17:48 -0800, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
+On 2/29/16 7:16 AM, Alexander Kanavin wrote:
+> On 02/26/2016 04:26 PM, Mark Hatle wrote:
+>>> Why not update the oe-core recipe of db to 6.1 instead? Rpm is the only
+>>> thing that is holding it back.
+>>
+>> Because today is feature freeze, and I'm not going to introduce a new BerkleyDB
+>> version on the day of feature freeze.  The only thing I can test on is RPM --
+>> and there may be other users.
+>>
+>> The patch was done as a single unit specifically so when DB-6.1 is introduced,
+>> it's VERY simple to remove.
 > 
-> please consider these changes for the next fido update.
-> 
-> This is to meet our obligation for Yocto compatibility
-> 
-> The following changes since commit
-> 9037f2c7c797367c2d09b87f344ecf749d28cb41:
-> 
->   gdk-pixbuf: Security fix CVE-2015-7674 (2016-02-22 19:08:53 -0800)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akuster/fido_cve_fixes
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fi
-> do_cve_fixes
-> 
-> Armin Kuster (10):
->   busybox: Security fix CVE-2011-5325
+> Can you then drop the NO_UPDATE_REASON from the db recipe as a part of 
+> this patchset?
 
-This doesn't appear to actually fix anything, it just adds this patch
-which notes a potential security issue:
+I'll add a commit that does this.
 
-https://git.busybox.net/busybox/commit/?id=a116552869db5e7793ae10968eb3
-c962c69b3d8c
-
->   libpng: Security fix CVE-2015-8126
->   libpng: Security fix CVE-2015-8472
->   libgcrypt: Security fix CVE-2015-7511
->   curl: Security fix CVE-2016-0754
->   curl: Secuirty fix CVE-2016-0755
->   bind: Security fix CVE-2015-8461
->   nettle: Security fix CVE-2015-8803 and CVE-2015-8805
->   nettle: Security fix CVE-2015-8804
->   git: Security fixes CVE-2015-7545
+> Alex
 > 
-> Li Zhou (1):
->   rpcbind: Security Advisory - rpcbind - CVE-2015-7236
 
-Queued in joshuagl/fido-next
-
-Regards,
-
-Joshua
 
