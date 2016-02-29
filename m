@@ -1,45 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BF3C7570D
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 489307570D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 19:41:48 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id d32so68433140qgd.0
+	Mon, 29 Feb 2016 19:41:49 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id y89so124291409qge.2
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 29 Feb 2016 11:41:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ao2xDkJErbxC8YpWgSG0OYof0QKNXmm6TitC3GV0BQw=;
-	b=lv3FvJb6qlbMfV+UpG1LnR+wC6QTw8gscl96mHu++9a+2tZaUalQWIjftmh0sYbYLq
-	xAcA+4VntyJeHdGbKL87+DEleYTwW+If23WUt0wtoBN7awtayl7KDKd7sHHrSBGy5UhL
-	bd3G7GUlPZeEU+5+KQ4jjqTGYD2E0uaCPQaWKIICMf0ZUhY9Sq20MMoQDzw4WGZ7dFpi
-	8bluUbEVbMH3gcin6fRoXGuP/9uGhr7p6oNKp/jOroc2TDB4nDQGSGgL+UvZOpLVWn1H
-	4nwn4ovPzVq7memn55nWTeUpspBENiFx0edrfdogljWE5I2ykL/5S0PTexHS0MKu7Nnm
-	hyQw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=5itp+N53HhuJtonp1FO2f2sZgs3B9k6Uv4pROVe14f8=;
+	b=WXcRviNgYCQwX/jW+Z8T7Q/LCmWB9wzvTvw2GBsykaISha0XzAh4k2d+6QWfFxpAUh
+	F6RuPBdzxGPiwRbAkO9FLMUp34KaAebKRjuGM34i3E2dNpSusQxmZmUREB1PlpHbKoJw
+	QcTRSOuWXEgONsvHFqO/2nm1zyvbKLBx8lsQm/GMe7ZTiKSkXSP9FdvN69T6fP7fMTFG
+	P2xrb6tYYQ2hPuL60bVWCC4AVd9yCzNWaM3iLQPIMJZQsnux12wgW+seEzLK6fPSqwIL
+	odRcgWydjAbVEk80+yikaLX03cxu/SpTqVqyg8b0EFkZ0msT+VAm8kCouZTRrfgPH7KW
+	PFLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ao2xDkJErbxC8YpWgSG0OYof0QKNXmm6TitC3GV0BQw=;
-	b=imlivYAhyqTljmK6S/YTTsl3J+HiVr1TcjMLNuyR7oIbm45JEO/Q4jOYt8lGBEjiu6
-	UEJyixJY/nGgAMwqbnzVcO4XhRELTnF30nNlbKLwobMpt1MKLRhUmeM8giSC3wBIGttQ
-	YUNXLyOjnUGT5CLO0ApHg1x7HVFWB93slaHRGi73qFFFlvTcJkBkYbNev7dQ6YOhajHk
-	PaecemHQR2s8vgJgkdmBtIIwnxJTjz1VeKSbzMYVd7N4kWdu47eZtkOOOFZwsGywqoSE
-	Uf1lqerDoMqJ6sVCvWiRXwpzLT9TXk1EOMJ5rbwhPnLw/UqJc0MaJvF4obeM3hsZI9l5
-	PLog==
-X-Gm-Message-State: AD7BkJI70M/voFftssJ2BeS8hbwoV+aA6dJp85lHm79SgAfPB3EK0eOsTb6UO993c5PJjw==
-X-Received: by 10.140.104.50 with SMTP id z47mr21833229qge.68.1456774909577;
-	Mon, 29 Feb 2016 11:41:49 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=5itp+N53HhuJtonp1FO2f2sZgs3B9k6Uv4pROVe14f8=;
+	b=nLHJbhBHRX6cnKYK7v7ox4vNFwov64+FPgx0H8xuEGvx2tps5U/KLHiR3ITjEkCUN1
+	b+QRbUFj+ETRnUB5vImrx6uh2IwVPVvakDEfHOZdVk19WiwDy/tkSBXx+6e8tG3vo+Gr
+	D2NZehmTcBhRIuNv7C4DONdOifLjbwch3WLHN8GSWPCWYHxtg9tfACFTirkUi9bLM8lg
+	FF8UyPfQdmBwmkSzYbuGg3LAKtFfFJofgbdrDSbW3ilOwkRSR5nL7nPXLMLO+wutrPZ3
+	VguHKhv6qh6E2Qnao63ATgseQfGaKaPkJjvnvPL6LXUAcAQcCsUwNxnbTCQjwLx52TNZ
+	s1WQ==
+X-Gm-Message-State: AD7BkJInCmMUeWDGgT7tCl4IGvqODbWgrfQDVY64ZYFa7sjjwNA0CJ5Y8AZydtrR8N8v+w==
+X-Received: by 10.140.100.246 with SMTP id s109mr21678560qge.35.1456774910402; 
+	Mon, 29 Feb 2016 11:41:50 -0800 (PST)
 Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
 	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	w70sm11542795qge.13.2016.02.29.11.41.48
+	w70sm11542795qge.13.2016.02.29.11.41.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 29 Feb 2016 11:41:49 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Feb 2016 19:41:41 +0000
-Message-Id: <cover.1456774338.git.raj.khem@gmail.com>
+Date: Mon, 29 Feb 2016 19:41:42 +0000
+Message-Id: <0f86c52f63ab32e69d55349bbdf560fab569b56e.1456774338.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/2] Clang inspired fixes
+In-Reply-To: <cover.1456774338.git.raj.khem@gmail.com>
+References: <cover.1456774338.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1456774338.git.raj.khem@gmail.com>
+References: <cover.1456774338.git.raj.khem@gmail.com>
+Subject: [PATCH 1/2] ghostscript: 9.16 -> 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +58,269 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 19:41:49 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 19:41:50 -0000
 
-Trying to get OE-Core built using clang came up with
-some errors which could be fixed with updating to newer
-revision or backporting some of upstreamed patches
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Hongxu Jia (1):
-  ghostscript: 9.16 -> 9.18
+- Backport patches to fix build failure caused by
+  '--without-jbig2dec' and '--without-jbig2dec'.
+  ...
+  |make[1]: *** No rule to make target `obj/sjbig2_.dev',
+  needed by `obj/sjbig2.dev'.  Stop.
+  ...
+  http://bugs.ghostscript.com/show_bug.cgi?id=696497
 
-Khem Raj (1):
-  strace: Backport fixes for compiling with clang
+- Previously, it did not build the whole local libpng
+  source in ghostscript, only picked up specific files
+  and compile them. But on ghostscript 9.18, when the
+  arm's FPU has been set to NEON (-mfpu=neon * with GCC),
+  the selected file "libpng/pngrutil.c" needs to link
+  'png_init_filter_functions_neon' which should be
+  compiled by a non-selected file "libpng/arm/arm_init.c".
+  ...
+  |./obj/pngrutil.o: In function `png_init_filter_functions':
+  |armv7a-neon-poky-linux-gnueabi/ghostscript/9.18-r0/build/../
+  ghostscript-9.18/libpng/pngrutil.c:3921: undefined reference to
+  `png_init_filter_functions_neon'
+  ...
+  So do not compile local libpng source in ghostscript,
+  use shared libpng to instead.
 
- ...01-Move-gcc-compat-macros-to-gcc_compat.h.patch | 176 ++++++++++++
- ...1-scm_rights-fd.test-rewrite-without-fork.patch | 198 +++++++++++++
- .../strace/0001-tests-introduce-libtests.patch     | 306 +++++++++++++++++++++
- .../0001-tests-scm_rights.c-use-libtests.patch     |  54 ++++
- meta/recipes-devtools/strace/strace_4.11.bb        |   4 +
- ...Fix-support-for-building-with-no-jbig2-de.patch |  81 ++++++
- ...part-2-fix-support-for-building-with-a-JP.patch |  48 ++++
- .../files/do-not-check-local-libpng-source.patch   |  38 +++
- .../{ghostscript_9.16.bb => ghostscript_9.18.bb}   |  11 +-
- 9 files changed, 912 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-Move-gcc-compat-macros-to-gcc_compat.h.patch
- create mode 100644 meta/recipes-devtools/strace/strace/0001-scm_rights-fd.test-rewrite-without-fork.patch
- create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-introduce-libtests.patch
- create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-scm_rights.c-use-libtests.patch
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...Fix-support-for-building-with-no-jbig2-de.patch | 81 ++++++++++++++++++++++
+ ...part-2-fix-support-for-building-with-a-JP.patch | 48 +++++++++++++
+ .../files/do-not-check-local-libpng-source.patch   | 38 ++++++++++
+ .../{ghostscript_9.16.bb => ghostscript_9.18.bb}   | 11 +--
+ 4 files changed, 174 insertions(+), 4 deletions(-)
  create mode 100644 meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch
  create mode 100644 meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch
  create mode 100644 meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
  rename meta/recipes-extended/ghostscript/{ghostscript_9.16.bb => ghostscript_9.18.bb} (87%)
 
+diff --git a/meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch b/meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch
+new file mode 100644
+index 0000000..d586a1d
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch
+@@ -0,0 +1,81 @@
++From 1d19998091154f89b8294e4594a05986b4c2f822 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Wed, 13 Jan 2016 02:08:42 -0500
++Subject: [PATCH 1/2] Bug 696497: Fix support for building with no jbig2
++ decoder
++
++Author: Chris Liddell <chris.liddell@artifex.com>
++
++Upstream-Status: Backport
++http://bugs.ghostscript.com/show_bug.cgi?id=696497
++http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=b0f5a975
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ base/lib.mak |  9 +++++++++
++ psi/int.mak  | 23 ++++++++++++++++++-----
++ 2 files changed, 27 insertions(+), 5 deletions(-)
++
++diff --git a/base/lib.mak b/base/lib.mak
++index 241df2f..daa7056 100644
++--- a/base/lib.mak
+++++ b/base/lib.mak
++@@ -1732,6 +1732,10 @@ $(GLD)sjbig2_jbig2dec.dev : $(LIB_MAK) $(ECHOGS_XE) \
++ 	$(SETMOD) $(GLD)sjbig2_jbig2dec $(sjbig2_jbig2dec)
++ 	$(ADDMOD) $(GLD)sjbig2_jbig2dec -include $(GLD)jbig2dec.dev
++ 
+++$(GLD)sjbig2_.dev : $(LIB_MAK) $(ECHOGS_XE) \
+++  $(LIB_MAK) $(MAKEDIRS)
+++	$(SETMOD) $(GLD)sjbig2_
+++
++ # jbig2dec.dev is defined in jbig2.mak
++ 
++ $(GLOBJ)sjbig2.$(OBJ) : $(GLSRC)sjbig2.c $(AK) \
++@@ -1739,6 +1743,11 @@ $(GLOBJ)sjbig2.$(OBJ) : $(GLSRC)sjbig2.c $(AK) \
++  $(sjbig2_h) $(strimpl_h) $(MAKEDIRS)
++ 	$(GLJBIG2CC) $(GLO_)sjbig2.$(OBJ) $(C_) $(GLSRC)sjbig2.c
++ 
+++$(GLOBJ)snojbig2.$(OBJ) : $(GLSRC)snojbig2.c $(AK) \
+++ $(stdint__h) $(memory__h) $(stdio__h) $(gserrors_h) $(gdebug_h) \
+++ $(strimpl_h) $(LIB_MAK) $(MAKEDIRS)
+++	$(GLJBIG2CC) $(GLO_)snojbig2.$(OBJ) $(C_) $(GLSRC)snojbig2.c
+++
++ # luratech version
++ sjbig2_luratech=$(GLOBJ)sjbig2_luratech.$(OBJ)
++ 
++diff --git a/psi/int.mak b/psi/int.mak
++index 6149a3b..f9d667d 100644
++--- a/psi/int.mak
+++++ b/psi/int.mak
++@@ -1254,11 +1254,24 @@ $(PSOBJ)zfaes.$(OBJ) : $(PSSRC)zfaes.c $(OP) $(memory__h)\
++ # this can be turned on and off with a FEATURE_DEV
++ 
++ fjbig2_=$(PSOBJ)zfjbig2_$(JBIG2_LIB).$(OBJ)
++-$(PSD)jbig2.dev : $(INT_MAK) $(ECHOGS_XE) $(fjbig2_) $(GLD)sjbig2.dev\
++- $(MAKEDIRS)
++-	$(SETMOD) $(PSD)jbig2 $(fjbig2_)
++-	$(ADDMOD) $(PSD)jbig2 -include $(GLD)sjbig2
++-	$(ADDMOD) $(PSD)jbig2 -oper zfjbig2
+++
+++$(PSD)jbig2_jbig2dec.dev : $(ECHOGS_XE) $(fjbig2_) $(GLD)sjbig2.dev\
+++ $(INT_MAK) $(MAKEDIRS)
+++	$(SETMOD) $(PSD)jbig2_jbig2dec $(fjbig2_)
+++	$(ADDMOD) $(PSD)jbig2_jbig2dec -include $(GLD)sjbig2
+++	$(ADDMOD) $(PSD)jbig2_jbig2dec -oper zfjbig2
+++
+++$(PSD)jbig2_luratech.dev : $(ECHOGS_XE) $(fjbig2_) $(GLD)sjbig2.dev\
+++ $(INT_MAK) $(MAKEDIRS)
+++	$(SETMOD) $(PSD)jbig2_luratech $(fjbig2_)
+++	$(ADDMOD) $(PSD)jbig2_luratech -include $(GLD)sjbig2
+++	$(ADDMOD) $(PSD)jbig2_luratech -oper zfjbig2
+++
+++$(PSD)jbig2_.dev : $(ECHOGS_XE) $(INT_MAK) $(MAKEDIRS)
+++	$(SETMOD) $(PSD)jbig2_ 
+++
+++$(PSD)jbig2.dev : $(PSD)jbig2_$(JBIG2_LIB).dev $(INT_MAK) $(MAKEDIRS)
+++	$(CP_) $(PSD)jbig2_$(JBIG2_LIB).dev $(PSD)jbig2.dev
++ 
++ $(PSOBJ)zfjbig2_jbig2dec.$(OBJ) : $(PSSRC)zfjbig2.c $(OP) $(memory__h)\
++  $(gsstruct_h) $(gstypes_h) $(ialloc_h) $(idict_h) $(ifilter_h)\
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch b/meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch
+new file mode 100644
+index 0000000..fcfc479
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch
+@@ -0,0 +1,48 @@
++From 3b43f93ec02611c4d554612953f5b64765b8683b Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Wed, 13 Jan 2016 02:14:55 -0500
++Subject: [PATCH 2/2] Bug 696497 (part 2): fix support for building with a JPX
++ decoder
++
++Author: Chris Liddell <chris.liddell@artifex.com>
++
++Upstream-Status: Backport
++http://bugs.ghostscript.com/show_bug.cgi?id=696497
++http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=b0f5a975
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ base/lib.mak | 3 +++
++ psi/int.mak  | 3 +++
++ 2 files changed, 6 insertions(+)
++
++diff --git a/base/lib.mak b/base/lib.mak
++index daa7056..8853dd5 100644
++--- a/base/lib.mak
+++++ b/base/lib.mak
++@@ -1774,6 +1774,9 @@ $(GLOBJ)sjpx.$(OBJ) : $(GLSRC)sjpx.c $(AK) \
++  $(gdebug_h) $(strimpl_h) $(sjpx_h) $(MAKEDIRS)
++ 	$(GLJASCC) $(GLO_)sjpx.$(OBJ) $(C_) $(GLSRC)sjpx.c
++ 
+++$(GLD)sjpx_.dev : $(LIB_MAK) $(ECHOGS_XE) $(LIB_MAK) $(MAKEDIRS)
+++	$(SETMOD) $(GLD)sjpx_
+++
++ # luratech version
++ sjpx_luratech=$(GLOBJ)sjpx_luratech.$(OBJ)
++ $(GLD)sjpx_luratech.dev : $(LIB_MAK) $(ECHOGS_XE) \
++diff --git a/psi/int.mak b/psi/int.mak
++index f9d667d..db01b65 100644
++--- a/psi/int.mak
+++++ b/psi/int.mak
++@@ -1290,6 +1290,9 @@ $(PSD)jpx.dev : $(INT_MAK) $(ECHOGS_XE) $(PSD)jpx_$(JPX_LIB).dev\
++  $(MAKEDIRS)
++ 	$(CP_) $(PSD)jpx_$(JPX_LIB).dev $(PSD)jpx.dev
++ 
+++$(PSD)jpx_.dev : $(ECHOGS_XE) $(INT_MAK) $(MAKEDIRS)
+++	$(SETMOD) $(PSD)jpx_
+++
++ fjpx_luratech=$(PSOBJ)zfjpx_luratech.$(OBJ)
++ 
++ $(PSOBJ)zfjpx.$(OBJ) : $(PSSRC)zfjpx.c $(OP) $(memory__h)\
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch b/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+new file mode 100644
+index 0000000..b445a6c
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+@@ -0,0 +1,38 @@
++From 5ef8b85bc98f3bd9a15d5f47e24d3e23ae27c265 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 18 Jan 2016 01:00:30 -0500
++Subject: [PATCH] configure.ac: do not check local png source
++
++In oe-core, it did not need to compile local libpng
++source in ghostscript, so do not check local png
++source, and directly check the existance of shared
++libpng library.
++
++Upstream-Status: Inappropriate [OE-Core specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index ab30a97..b762fd7 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -955,11 +955,11 @@ AC_SUBST(ZLIBDIR)
++ AC_SUBST(FT_SYS_ZLIB)
++ 
++ dnl png for the png output device; it also requires zlib
++-LIBPNGDIR=src
+++LIBPNGDIR=$srcdir/libpng
++ PNGDEVS=''
++ PNGDEVS_ALL='png48 png16m pnggray pngmono png256 png16 pngalpha'
++ AC_MSG_CHECKING([for local png library source])
++-if test -f $srcdir/libpng/pngread.c; then
+++if false; then
++         AC_MSG_RESULT([yes])
++         SHARE_LIBPNG=0
++         LIBPNGDIR=$srcdir/libpng
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.16.bb b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+similarity index 87%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.16.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+index d584c49..d4222c7 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.16.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+@@ -13,13 +13,16 @@ SECTION = "console/utils"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b17cea54743435ab2a581c237bea294a"
+ 
+-DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
+-DEPENDS_class-native = ""
++DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libpng"
++DEPENDS_class-native = "libpng-native"
+ 
+ SRC_URI_BASE = "http://downloads.ghostscript.com/public/ghostscript-${PV}.tar.gz \
+                 file://ghostscript-9.15-parallel-make.patch \
+                 file://ghostscript-9.16-Werror-return-type.patch \
+                 file://png_mak.patch \
++                file://0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch \
++                file://0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch \
++                file://do-not-check-local-libpng-source.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+@@ -34,8 +37,8 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
+ 
+-SRC_URI[md5sum] = "829319325bbdb83f5c81379a8f86f38f"
+-SRC_URI[sha256sum] = "746d77280cca8afdd3d4c2c1389e332ed9b0605bd107bcaae1d761b061d1a68d"
++SRC_URI[md5sum] = "33a47567d7a591c00a253caddd12a88a"
++SRC_URI[sha256sum] = "5fc93079749a250be5404c465943850e3ed5ffbc0d5c07e10c7c5ee8afbbdb1b"
+ 
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 --with-fontpath=${datadir}/fonts \
 -- 
 1.9.1
 
