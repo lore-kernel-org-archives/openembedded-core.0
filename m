@@ -1,23 +1,23 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 104357326D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F6B57326D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 23:38:24 +0000 (UTC)
+	Mon, 29 Feb 2016 23:42:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u1TNcNZv027837
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 29 Feb 2016 15:38:23 -0800
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1TNgKFK028031
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 29 Feb 2016 15:42:21 -0800 (PST)
 Received: from server.local (128.224.20.122) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 29 Feb 2016 15:38:22 -0800
+	Mon, 29 Feb 2016 15:42:20 -0800
 To: "Sullivan, California L" <california.l.sullivan@intel.com>,
 	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
 References: <cover.1456782981.git.bruce.ashfield@windriver.com>
 	<48F3FC2919BF894DA92986D5D64EA12801A6424A@ORSMSX103.amr.corp.intel.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56D4D66D.3030303@windriver.com>
-Date: Mon, 29 Feb 2016 18:38:21 -0500
+Message-ID: <56D4D75B.3060606@windriver.com>
+Date: Mon, 29 Feb 2016 18:42:19 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
 	Gecko/20100101 Thunderbird/38.6.0
 MIME-Version: 1.0
@@ -38,7 +38,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 23:38:27 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 23:42:22 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -64,8 +64,67 @@ On 2016-02-29 6:01 PM, Sullivan, California L wrote:
 >>     to take advantage of the smaller, standard kernel type.
 > It looks like this change hasn't been integrated into the kernel cache yet.
 
-It has. I just forgot to add the patch to the series :) I meant to send
-a follow up, but got distracted!
+I just pushed the fixed patch to the end of zedd/kernel:
+
+--------------------------
+commit caaa5922cca50eab479dfe0e20ae466e92a09775
+Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date:   Mon Feb 29 18:39:24 2016 -0500
+
+     linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL, 
+EXPERT and EMBEDDED
+
+     Integrating the folliwing patch series from Cal:
+
+       This patch series refactors the ktypes so that base and standard 
+ktypes
+       do not enable EMBEDDED, EXPERT, or DEBUG_KERNEL. The reason this
+       decision was made is because production platforms likely do not want
+       DEBUG_KERNEL enabled, and EMBEDDED selects EXPERT which selects
+       DEBUG_KERNEL.
+
+       A new ktype called "developer" was also created. This ktype
+       enables the options now missing from standard and base, making it 
+easy
+       to maintain the functionality of a BSP through simply swapping 
+the ktype
+       from standard to developer. The preempt-rt ktype is now based off of
+       developer in order to maintain its functionality.
+
+       The new standard ktype does not include EMBEDDED, EXPERT, or
+       DEBUG_KERNEL. Without DEBUG_KERNEL it loses a number of debug 
+features
+       that are selected by default. Without EXPERT it gains 
+RFKILL_INPUT and
+       DEBUG_MEMORY_INIT, while losing VMSPLIT_3G. These are only 
+available to
+       configure with CONFIG_EXPERT=y and default to EXPERT or !EXPERT. Not
+       selecting EMBEDDED has no apparent impacts.
+
+       Some coordination is required for this change, as existing BSPs 
+WILL be
+       affected, and will either need to accept the changes in the standard
+       ktype or move to the developer ktype.
+
+       California Sullivan (12):
+         features/debug: add debug-kernel feature
+         ktypes: add developer ktype
+         ktypes/base: Disable EMBEDDED and DEBUG_KERNEL
+         CONFIG_PROCESSOR_SELECT: do not enable
+         intel-common-drivers.scc: move profiling and latencytop to a 
+new file
+         romley.scc remove profiling and latencytop features
+         bsp/intel-common: add intel-core* developer BSPs
+         preempt-rt.scc: include developer ktype instead of standard
+         intel-common: add intel-developer-drivers.scc to preempt-rt BSPs
+         CONFIG_I2C_I801: set option to yes in intel-core* BSPs
+         bsp: add developer common-pc BSPs
+         bsp: remove profiling and latencytop from non-developer 
+common-pc BSPs
+
+     Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+-------------------
 
 Bruce
 
