@@ -1,22 +1,47 @@
-Return-Path: <dmitry.rozhkov@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 71D9475A31
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 185AD75A31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 16:30:31 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 29 Feb 2016 08:30:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,521,1449561600"; d="scan'208";a="56897966"
-Received: from drozhkov-desk.fi.intel.com ([10.237.72.185])
-	by fmsmga004.fm.intel.com with ESMTP; 29 Feb 2016 08:30:31 -0800
-From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Feb 2016 18:37:15 +0200
-Message-Id: <1456763835-21515-2-git-send-email-dmitry.rozhkov@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1456763835-21515-1-git-send-email-dmitry.rozhkov@linux.intel.com>
-References: <1456763835-21515-1-git-send-email-dmitry.rozhkov@linux.intel.com>
-Subject: [PATCH v3] libarchive: Set xattrs after setting times
+	Mon, 29 Feb 2016 16:30:35 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id g203so191864709iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Feb 2016 08:30:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HPbaq2PZPU2y5+m2muFYuJE9A0d/TVTiT8IEvxbqRWk=;
+	b=EboTnpFhIa8SlHeqEYmTeJdcjlH2fMuJR7I2Kjvohm7RObDuP+x3I8hi6uha1KLZMO
+	hqHl7AQce6H/RJswID7ITHCdWnnolpzhwhB2MVZAuVf0q4ot5LqZi4+pjd5RncEYRllQ
+	w0Aie+o8cXDBAWoQm1/go1EKJTpFH8jPI8dLil/8SlwFdSgTTIKq+BA5J3AB6gAtplhw
+	IgdeC3ujrbLwTQ66cOeAU6P0Ak23HszHyKVMVjHJ3b3C+jn88KLP2IQUFKm3pJNeWubG
+	Yi4WiEEVJeydxF05R6nZZ5hHm0fmU0gdgHalpioZtg527eQJ1yVjYiyoxaQDkDQGK35r
+	Fqzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HPbaq2PZPU2y5+m2muFYuJE9A0d/TVTiT8IEvxbqRWk=;
+	b=Sxrj9uYJmi7LvORTa4FRRpNAkcvH5VKt7zYtPKxrJ57vIMs0WdWpIZDxPcsoY/n59g
+	Ij+TEsRIEa9x9vb+FgCk2pOafOqR41idi1N9XcH3p3enNLIxKCxjvBGMKNui6g/xZ94Z
+	lJdFVsutopo5kJtIX/vYhfqRBW5iGz6ov16NKRevLqmav4kruSL2TOE5K1b+MZXVzI45
+	XTBqrKQPM14RPWELk+HfAwMfw0IiFz3Mx96bJcnLLMb9dDLvOsJ5bQrScIOlQV6nBzLc
+	4nBMrHv5QeqQ5m+evE6TCHZPYS4jvF8pXxyelUNecSGkCf3hpmT69BwQwUx/hhhaTKjz
+	SwyA==
+X-Gm-Message-State: AG10YOR5CTVOM4h3K/YCwZ/cJ+T6bgpgwNeGSgXA5ZzU9bwg8W7JYlGE/OwTOh7798L97Cl2Dp+BzfZHSUc7SORX
+X-Received: by 10.107.137.92 with SMTP id l89mr22597393iod.133.1456763436409; 
+	Mon, 29 Feb 2016 08:30:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 29 Feb 2016 08:30:17 -0800 (PST)
+In-Reply-To: <56D3DD08.5080206@windriver.com>
+References: <cover.1456304688.git.liezhi.yang@windriver.com>
+	<56D3DD08.5080206@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Feb 2016 16:30:17 +0000
+Message-ID: <CAJTo0LZ_+P+OmiPoggE40d-mSGANtesD6phx0rUzp58zPCdE7w@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] make vm + live images can build together
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,100 +54,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 16:30:32 -0000
+X-List-Received-Date: Mon, 29 Feb 2016 16:30:38 -0000
+Content-Type: multipart/alternative; boundary=001a113ebdb42679de052ceb2b19
 
-With Integrity Measurement Architecture (IMA) enabled in Linux
-kernel the security.ima extended attribute gets overwritten
-when setting times on a file with a futimens() call. So it's safer
-to set xattrs after times.
+--001a113ebdb42679de052ceb2b19
+Content-Type: text/plain; charset=UTF-8
 
-Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/664]
+On 29 February 2016 at 05:54, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
----
- .../0001-Set-xattrs-after-setting-times.patch      | 59 ++++++++++++++++++++++
- .../libarchive/libarchive_3.1.2.bb                 |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch
-
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch b/meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch
-new file mode 100644
-index 0000000..6d74e86
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch
-@@ -0,0 +1,59 @@
-+From 545ded56095c570426fe102ff2192889681ea75c Mon Sep 17 00:00:00 2001
-+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-+Date: Mon, 29 Feb 2016 14:38:25 +0200
-+Subject: [PATCH] Set xattrs after setting times
-+
-+With Integrity Measurement Architecture (IMA) enabled in Linux
-+kernel the security.ima extended attribute gets overwritten
-+when setting times on a file with a futimens() call. So it's safer
-+to set xattrs after times.
-+
-+Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/664]
-+
-+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-+
-+---
-+ libarchive/archive_write_disk_posix.c | 21 +++++++++++----------
-+ 1 file changed, 11 insertions(+), 10 deletions(-)
-+
-+diff --git a/libarchive/archive_write_disk_posix.c b/libarchive/archive_write_disk_posix.c
-+index 0fc6193..27c9c1e 100644
-+--- a/libarchive/archive_write_disk_posix.c
-++++ b/libarchive/archive_write_disk_posix.c
-+@@ -1620,16 +1620,6 @@ _archive_write_disk_finish_entry(struct archive *_a)
-+	}
-+
-+	/*
-+-	 * Security-related extended attributes (such as
-+-	 * security.capability on Linux) have to be restored last,
-+-	 * since they're implicitly removed by other file changes.
-+-	 */
-+-	if (a->todo & TODO_XATTR) {
-+-		int r2 = set_xattrs(a);
-+-		if (r2 < ret) ret = r2;
-+-	}
-+-
-+-	/*
-+	 * Some flags prevent file modification; they must be restored after
-+	 * file contents are written.
-+	 */
-+@@ -1648,6 +1638,17 @@ _archive_write_disk_finish_entry(struct archive *_a)
-+	}
-+
-+	/*
-++	 * Security-related extended attributes (such as
-++	 * security.capability or security.ima on Linux) have to be restored last,
-++	 * since they're implicitly removed by other file changes like setting
-++	 * times.
-++	 */
-++	if (a->todo & TODO_XATTR) {
-++		int r2 = set_xattrs(a);
-++		if (r2 < ret) ret = r2;
-++	}
-++
-++	/*
-+	 * Mac extended metadata includes ACLs.
-+	 */
-+	if (a->todo & TODO_MAC_METADATA) {
-+--
-+2.5.0
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-index 89c8faf..ed677ac 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://pkgconfig.patch \
-            file://libarchive-CVE-2015-2304.patch \
-            file://mkdir.patch \
-+           file://0001-Set-xattrs-after-setting-times.patch \
-            "
- 
- SRC_URI[md5sum] = "efad5a503f66329bb9d2f4308b5de98a"
--- 
-2.5.0
+> Robert Yang (4):
+>>    image-live/boot-directdisk.bbclass: remove AUTO_SYSLINUXCFG
+>>    boot-directdisk.bbclass: drop IS_VM chechking
+>>
+>
+> The two are merged.
+>
+>    syslinux.bbclass: make vm and live can be built together
+>>    sanity.bbclass: remove conflict checking for image vm and live
+>>
+>
+> How about these 2 please ? These are convenient for testing images,
+> otherwise we have to build two times to get virtual machine and live
+> images.
 
 
+Two were easy, two were more complex.  They're in mut now.
+
+Ross
+
+--001a113ebdb42679de052ceb2b19
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 February 2016 at 05:54, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">Robert Yang (4):<br>
+=C2=A0 =C2=A0image-live/boot-directdisk.bbclass: remove AUTO_SYSLINUXCFG<br=
+>
+=C2=A0 =C2=A0boot-directdisk.bbclass: drop IS_VM chechking<br>
+</blockquote>
+<br>
+The two are merged.<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+=C2=A0 =C2=A0syslinux.bbclass: make vm and live can be built together<br>
+=C2=A0 =C2=A0sanity.bbclass: remove conflict checking for image vm and live=
+<br>
+</blockquote>
+<br>
+How about these 2 please ? These are convenient for testing images,<br>
+otherwise we have to build two times to get virtual machine and live<br>
+images.</blockquote></div><br>Two were easy, two were more complex.=C2=A0 T=
+hey&#39;re in mut now.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a113ebdb42679de052ceb2b19--
