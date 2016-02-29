@@ -1,46 +1,45 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2849273FA3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 70A796E630
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 20:50:03 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id p65so8217520wmp.1
+	Mon, 29 Feb 2016 21:05:17 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id l68so7787004wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 12:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=G/QBcRhVB+YYu89tqWa53SVBKOLdz1MGOmEGeaZ++vw=;
-	b=L10Vq5APnS4M5x8rsaSo5qGmbbQkt1Xxk72OLAnll9Noaln1H74OsEhX1dXBmFHnGV
-	YYlu7ojgks8Los4+8NJDSXbzK0cIdfo32dIgXB7GUdsnlb4r4E49XnssXc16L8dsSEjy
-	8u5muHGvPq9O9AnSAsV9kRDkbppgVUILkiDQls1nrsa867yhyb5daIcPLths0M7xegdL
-	/tJ9DaRD3jrP/OKSUN7ZpUQKb6drwFqPkydUBUOZbpU2f4U2JKvJMvO3bZKHFIx00D1J
-	tkcZ2FDoanEV6D/VGDkRvlJL7OPCj0V+no3CKLOIyVVdf5/ram2uLvqVOQFcF9aK/FNk
-	rJeA==
+	Mon, 29 Feb 2016 13:05:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ahnRYBqRzDGjsvREXDLHkUUK6u8fZbV4qaXUc9j25Gs=;
+	b=SqkDrxTF5W+C/pggLLr7MTABatCW8OEyktm0MDDzj7hD5nJ6oH//Us2zh/rZYamcF8
+	HBXdhWvx3HwUE4lKIknNZBT7eae8nFToOSgCclWBnT5jM7Pvt9UJvPqkIMG13SkLyXc2
+	bKsWtphaeMJV77OGlnQ77SDT6KtE1nIFH/BjSzL65kgQfCa3UM6yuHhBiGANUCzXrCqg
+	eBvhH5zRlMZbWbpawFzi5ykG1xoyCgY300Y+Kk+LMyPRvOXbv6giotA8UfdcLm7HoHs1
+	VT0CTBEmfULxdtM6kOdvRZxYBD9v4P1ADWZugiBW0LCp3zo5oZ8cYjlZItplIVaD3kIL
+	qVmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=G/QBcRhVB+YYu89tqWa53SVBKOLdz1MGOmEGeaZ++vw=;
-	b=QTKrqzV6CwJcpA/pJZwBDaV7A0FdfpZdhGzX9tFTEStTImZ+Y+C4oW/ofOyf1qjvrm
-	ZDY6UPmfowUV1YpjiDgERMji06nYiY3PmNTeTW58EWMBYs/ImKM3SVk6E84NysXN3ikY
-	PAd7fUIymQxrn9M+YZ2m/1fYCm/DYbnM65pTlES5VGORyYSkTOrH1DgqDNN5jStxDUO0
-	g8ZP+0tt3rlLTyPPOuO/awPZI+Qe9VvDv7JXbKjSnXPI1/cm+q6+4rzJpI0k4saXbTG3
-	1FZv2FKu1aE6JjhBAQWsJozBrsmA4PC7YPll1jhLKojzajU57XrSZA1Q17Y0RU3X7Xgc
-	+MWA==
-X-Gm-Message-State: AD7BkJJOssXXCSCkXndOi6eclZjr3RQ5OmeVkkXtq6itWBeQAIHKr/xDmYYoeUOs3NPUMseRM1WCasq2gelSNQ==
-MIME-Version: 1.0
-X-Received: by 10.194.242.202 with SMTP id ws10mr16742020wjc.3.1456779004052; 
-	Mon, 29 Feb 2016 12:50:04 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 29 Feb 2016 12:50:03 -0800 (PST)
-In-Reply-To: <CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
-References: <1456773039-5178-1-git-send-email-Martin.Jansa@gmail.com>
-	<1456778449.11498.183.camel@linuxfoundation.org>
-	<CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
-Date: Mon, 29 Feb 2016 12:50:03 -0800
-Message-ID: <CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] no-static-libs.inc: add gdb
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ahnRYBqRzDGjsvREXDLHkUUK6u8fZbV4qaXUc9j25Gs=;
+	b=Pien1eXKwn4vn9SFZWJMdZncmLh7GVdfzRhqBylBEArFU9vC4MaVyUjpsxEgD30d7+
+	ExKJ2WL6DoHi2mzw6a0VQMi3Mq5g9Gu9MYilDy/g1TYGyhUHnSiF2++fepkERAcA/INJ
+	2WZrndpeD9hTMplucyOfKUWcU1GxoT5osLZB4jHqwQPPzoVTZaNnmpiAfj0XpoINS3sf
+	KUcFFikiwKHaZK51FURO7aUnn/JFXpp/aKfqPK1fV1pvieJEZ4b0WD3CtYFCJ0qWZhYw
+	ZOlsVlGUXb7Ddt2KFjyGY/60NDAwT5HoUXcMWwMDn7bkqstJFvR+8ok+PDt4Nhp6dgY6
+	9Pjg==
+X-Gm-Message-State: AD7BkJLnL1PBL0FFaLlwx1mZYO/9D5wkw76gsPZG0sFSRCWWm0u6Z7SoJfAoaojAM1wavgHL
+X-Received: by 10.194.71.70 with SMTP id s6mr16634860wju.1.1456779918343;
+	Mon, 29 Feb 2016 13:05:18 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 3sm18200697wmp.14.2016.02.29.13.05.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 29 Feb 2016 13:05:17 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Feb 2016 21:05:13 +0000
+Message-Id: <1456779913-3776-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] cracklib: fix Python packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 20:50:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Feb 2016 21:05:19 -0000
 
-On Mon, Feb 29, 2016 at 12:43 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 29 February 2016 at 20:40, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->>
->> I'm a bit puzzled as our autobuilders build this all the time and we
->> don't see failures. Any idea what the configuration difference might
->> be?
->
-> Since oe-core 94e1b917078bedf73830e54278af77f742c93581 gdb has a
-> packageconfig for system readline, which is enabled by default (and has been
-> enabled explicitly for a long time).  Do you have some local patches adding
-> more PACKAGECONFIG options but not enabling readline?
+Don't assume that we know precisely what Python files were installed as patching
+automake can change what optimised forms get installed by matching *.py* in
+FILES and not deleting *.pyo explictly.
 
-gdb 7.10.1 depends on readline features which are not present in
-readline 5.2 (ie the GPLv2 version). Using the gdb internal readline
-is a workaround for people who don't want to switch to the GPLv3
-version of readline.
+Similarly, remove all forms of test_cracklib from the packages.
 
-(Although gdb is itself GPLv3, it's self contained and easy to exclude
-from release builds).
+The python .la file is mostly redundant but if we're shipping it, put it in
+-python where it belongs instead of -staticdev.
 
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/cracklib/cracklib_2.9.5.bb | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.5.bb b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+index 8c9063e..3bd3f93 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+@@ -29,8 +29,7 @@ do_install_append_class-target() {
+ 
+ do_install_append() {
+ 	src_dir="${D}${base_libdir}/${PYTHON_DIR}/site-packages"
+-	rm -f $src_dir/*.pyo
+-	rm -f $src_dir/test_cracklib.py
++	rm -f $src_dir/test_cracklib.py*
+ 
+ 	if [ "${base_libdir}" != "${libdir}" ] ; then
+ 	   # Move python files from ${base_libdir} to ${libdir} since used --libdir=${base_libdir}
+@@ -42,9 +41,7 @@ do_install_append() {
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/cracklib.py \
+-	${PYTHON_SITEPACKAGES_DIR}/_cracklib.so \
+-    "
+-FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/_cracklib.a \
+-	${PYTHON_SITEPACKAGES_DIR}/_cracklib.la \
+-    "
++FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/cracklib.py* \
++	${PYTHON_SITEPACKAGES_DIR}/_cracklib.*"
++
++FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/_cracklib.a"
+-- 
+2.7.0
+
 
