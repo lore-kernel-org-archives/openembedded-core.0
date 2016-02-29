@@ -1,38 +1,20 @@
-Return-Path: <prvs=8609f9632=Mikko.Rapeli@bmw.de>
-Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
-	[68.232.139.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 80591731A3
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E1D9731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 14:19:57 +0000 (UTC)
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 29 Feb 2016 15:19:57 +0100
-Received: from unknown (HELO esabb5.muc) ([160.50.100.47]) by esagw6.muc with
-	ESMTP/TLS; 29 Feb 2016 15:19:56 +0100
-Received: from smuch57a.muc (HELO SMUCH57A.europe.bmw.corp) ([160.46.137.109])
-	by esabb5.muc with ESMTP/TLS; 29 Feb 2016 15:19:35 +0100
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH57A.europe.bmw.corp ([160.46.137.109]) with mapi id 14.03.0248.002;
-	Mon, 29 Feb 2016 15:19:35 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 0/3] Add initial capability to check CVEs for
-	recipes
-Thread-Index: AQHRb8YPTPKRB7zS1kqsvPG9SjQg2J88n/SAgAAQYICAAAu0AIABLzSAgAUcSACAAACZAA==
-Date: Mon, 29 Feb 2016 14:19:34 +0000
-Message-ID: <20160229141934.GQ6210@loska>
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-	<20160225121421.GB6210@loska> <20160225122912.GC6210@loska>
-	<20160225132748.GD6210@loska> <20160225140942.GE6210@loska>
-	<20160226081455.GH6210@loska>
-	<CAJTo0LYAD76f7qOjAhyZF3NAgBo79ewUGKOT=8REWrnSK+cw7Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LYAD76f7qOjAhyZF3NAgBo79ewUGKOT=8REWrnSK+cw7Q@mail.gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.99]
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Add initial capability to check CVEs for recipes
+	Mon, 29 Feb 2016 14:20:38 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 29 Feb 2016 06:20:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,520,1449561600"; d="scan'208";a="926209031"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.185])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 06:20:38 -0800
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Feb 2016 16:27:13 +0200
+Message-Id: <1456756033-17665-1-git-send-email-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] libarchive: Set xattrs after setting times
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +27,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 14:19:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <26FD0C5965D30B4EB54B8378D6686FEB@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Feb 2016 14:20:41 -0000
 
-On Mon, Feb 29, 2016 at 02:17:26PM +0000, Burton, Ross wrote:
-> On 26 February 2016 at 08:14, <Mikko.Rapeli@bmw.de> wrote:
->=20
-> > 17:45:37  *** 0013:        with open(patch_file, "r") as f:
-> > 17:45:37      0014:            patch_text =3D f.read()
-> > 17:45:37      0015:
-> > 17:45:37      0016:        # Search for the "CVE: " line
-> > 17:45:37      0017:        match =3D cve_match.search(patch_text)
-> > 17:45:37 Exception: IOError: [Errno 2] No such file or directory:
-> > '/home/builder/src/base/build/tmp/work/corei7-64-linux/mailx/12.5-r2/he=
-irloom-mailx_12.5-1.diff'
-> > 17:45:37
-> > 17:45:37 ERROR: Function failed: do_cve_check
-> >
-> > So could this be caused by cve-check changes or is this just a side eff=
-ect
-> > of some other recipe problems?
-> >
->=20
-> Do you have rm_work enabled?
+With Integrity Measurement Architecture (IMA) enabled Linux
+kernel the security.ima extended attribute gets overwritten
+when setting times on a file with a futimens() call. So it's safer
+to set xattrs after times.
 
-Yes.
+The patch was submitted upstream in
+https://github.com/libarchive/libarchive/pull/664
 
--Mikko=
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+---
+ .../0001-Set-xattrs-after-setting-times.patch      | 54 ++++++++++++++++++++++
+ .../libarchive/libarchive_3.1.2.bb                 |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch
+
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch b/meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch
+new file mode 100644
+index 0000000..beded5c
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-Set-xattrs-after-setting-times.patch
+@@ -0,0 +1,54 @@
++From 545ded56095c570426fe102ff2192889681ea75c Mon Sep 17 00:00:00 2001
++From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
++Date: Mon, 29 Feb 2016 14:38:25 +0200
++Subject: [PATCH] Set xattrs after setting times
++
++With Integrity Measurement Architecture (IMA) enabled Linux
++kernel the security.ima extended attribute gets overwritten
++when setting times on a file with a futimens() call. So it's safer
++to set xattrs after times.
++---
++ libarchive/archive_write_disk_posix.c | 21 +++++++++++----------
++ 1 file changed, 11 insertions(+), 10 deletions(-)
++
++diff --git a/libarchive/archive_write_disk_posix.c b/libarchive/archive_write_disk_posix.c
++index 0fc6193..27c9c1e 100644
++--- a/libarchive/archive_write_disk_posix.c
+++++ b/libarchive/archive_write_disk_posix.c
++@@ -1620,16 +1620,6 @@ _archive_write_disk_finish_entry(struct archive *_a)
++	}
++
++	/*
++-	 * Security-related extended attributes (such as
++-	 * security.capability on Linux) have to be restored last,
++-	 * since they're implicitly removed by other file changes.
++-	 */
++-	if (a->todo & TODO_XATTR) {
++-		int r2 = set_xattrs(a);
++-		if (r2 < ret) ret = r2;
++-	}
++-
++-	/*
++	 * Some flags prevent file modification; they must be restored after
++	 * file contents are written.
++	 */
++@@ -1648,6 +1638,17 @@ _archive_write_disk_finish_entry(struct archive *_a)
++	}
++
++	/*
+++	 * Security-related extended attributes (such as
+++	 * security.capability or security.ima on Linux) have to be restored last,
+++	 * since they're implicitly removed by other file changes like setting
+++	 * times.
+++	 */
+++	if (a->todo & TODO_XATTR) {
+++		int r2 = set_xattrs(a);
+++		if (r2 < ret) ret = r2;
+++	}
+++
+++	/*
++	 * Mac extended metadata includes ACLs.
++	 */
++	if (a->todo & TODO_MAC_METADATA) {
++--
++2.5.0
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+index 89c8faf..ed677ac 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+@@ -35,6 +35,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://pkgconfig.patch \
+            file://libarchive-CVE-2015-2304.patch \
+            file://mkdir.patch \
++           file://0001-Set-xattrs-after-setting-times.patch \
+            "
+ 
+ SRC_URI[md5sum] = "efad5a503f66329bb9d2f4308b5de98a"
+-- 
+2.5.0
+
 
