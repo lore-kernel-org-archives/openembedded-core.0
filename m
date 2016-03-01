@@ -1,24 +1,24 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0242D605FE
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DD0966FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 02:46:43 +0000 (UTC)
+	Tue,  1 Mar 2016 02:52:40 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Feb 2016 18:46:45 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 29 Feb 2016 18:52:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,521,1449561600"; d="scan'208";a="926702970"
+X-IronPort-AV: E=Sophos;i="5.22,521,1449561600"; d="scan'208";a="926705857"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 18:46:44 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2016 18:52:41 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Mar 2016 02:46:49 +0000
-Message-Id: <b785917f134b3782adc450c65bb055d454219b50.1456800309.git.alejandro.hernandez@linux.intel.com>
+Date: Tue,  1 Mar 2016 02:52:47 +0000
+Message-Id: <eb98eea0a9c5f6d7361e302f7bb60038cba6413a.1456800675.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-In-Reply-To: <cover.1456800309.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1456800309.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH v2 1/4] eudev: Replaces udev with eudev for compatibility when using sysvinit on newer kernels
+In-Reply-To: <cover.1456800675.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1456800675.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH v3 1/4] eudev: Replaces udev with eudev for compatibility when using sysvinit on newer kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 02:46:46 -0000
+X-List-Received-Date: Tue, 01 Mar 2016 02:52:41 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -57,7 +57,7 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
  meta/recipes-core/udev/{udev => eudev}/udev-cache  |   0
  .../udev/{udev => eudev}/udev-cache.default        |   0
  meta/recipes-core/udev/{udev => eudev}/udev.rules  |   0
- meta/recipes-core/udev/eudev_3.1.5.bb              |  83 +++++++++++++++
+ meta/recipes-core/udev/eudev_3.1.5.bb              |  93 +++++++++++++++++
  meta/recipes-core/udev/udev.inc                    | 112 ---------------------
  ...yboard_force_release.sh-shell-script-path.patch |  35 -------
  ...-Add-stdint.h-as-it-was-removed-from-mtd-.patch |  29 ------
@@ -67,7 +67,7 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
  .../udev/udev/fix_rule-syntax-regex-ptest.patch    |  58 -----------
  meta/recipes-core/udev/udev/run-ptest              |   5 -
  meta/recipes-core/udev/udev_182.bb                 |   9 --
- 20 files changed, 84 insertions(+), 412 deletions(-)
+ 20 files changed, 94 insertions(+), 412 deletions(-)
  rename meta/recipes-core/udev/{udev => eudev}/devfs-udev.rules (100%)
  rename meta/recipes-core/udev/{udev => eudev}/init (100%)
  rename meta/recipes-core/udev/{udev => eudev}/links.conf (100%)
@@ -139,10 +139,10 @@ rename from meta/recipes-core/udev/udev/udev.rules
 rename to meta/recipes-core/udev/eudev/udev.rules
 diff --git a/meta/recipes-core/udev/eudev_3.1.5.bb b/meta/recipes-core/udev/eudev_3.1.5.bb
 new file mode 100644
-index 0000000..22021a0
+index 0000000..8a23e6c
 --- /dev/null
 +++ b/meta/recipes-core/udev/eudev_3.1.5.bb
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,93 @@
 +SUMMARY = "eudev is a fork of systemd's udev"
 +HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
 +SRC_URI = "https://github.com/gentoo/${PN}/archive/v${PV}.tar.gz \
@@ -216,10 +216,20 @@ index 0000000..22021a0
 +
 +        install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
 +
++	# Fix for multilib systems where libs along with confs are installed incorrectly 
++        if ! [ -d ${D}${nonarch_base_libdir}/udev ]
++          then
++            install -d ${D}${nonarch_base_libdir}/udev
++            mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}
++        fi
++
 +        # hid2hci has moved to bluez4. removed in udev as of version 169
 +        rm -f ${D}${base_libdir}/udev/hid2hci
 +
 +        echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
++
++        # Use classic network interface naming scheme
++        touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
 +}
 +
 +python () {
