@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 199D5731F6
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D7F26018C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 14:21:52 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id b188so5890056iof.1
+	Tue,  1 Mar 2016 14:58:26 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id l68so37148327wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2016 06:21:53 -0800 (PST)
+	Tue, 01 Mar 2016 06:58:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PCgcRkQib2dd1aEImuuCSd1I4OEsATG8A4axfObcrGI=;
-	b=yhMpca11+FeZfKqG8573s9lh6vrRfQCYPxZoz21+f531D2GIkvcFsLfYII1CmIM98g
-	TwnEgO2PS3CwUtUUiwYZX53lgJ6xhncmfLb+FF0H/dHjgPMyD1Cu4F6+Y/Ok8bi3o9jI
-	5ZVSs7ZqIm3ONFKFFIk620mwgy5ktangMuPQlo2r9l/fODRRH6QzNsIpDcT/M+U4LAJ+
-	cQsBN4qcDcOl9uGkz8MfncKVADJoN/6F6hgC1aNNioace+t53dpViCujUgOnflhzNRHg
-	RV3hQi6ZfaVy5HveHg6Qn3jc/FZ3ZAX85wxE0y9txq3pIbhflPGnI9PBt5ccMuJVDAqB
-	s9kQ==
+	h=from:to:subject:date:message-id;
+	bh=1IoqPHMFxdl9mHrZLdq9IRGzVDyAjXRVr+qDjlLXq0Q=;
+	b=v3HhXhxKtEfdYc/LESmep/t00vDKmaqitUPQRvQM352jbV6IgY9JiX+QckLw1HFOJ+
+	+wIphFPeqLwQtm4TdCnuKFIV3vKnlzc3en4/pyki+9aOQPCZ8EnbVlZCIQFBCHGStBhD
+	e9+xx6TQBIS6Bf3stOV2UBoIaZ3zq/6bTjY6yjCi52cA5m4eGMhi/tK2uVmmZss99UWC
+	z+1bz2mzsVFq3ONza8jvMteqDlOg7febCXq7DRH8n/uXCpczmgzQxoSTVb4EP+m++4V+
+	Ngjx6KcGTiua3mgn9NcKkOsAXhsWPlkbB+g1Nfy7WHcl6WO0TjNIysTmulczQTZ//o8P
+	Nvcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PCgcRkQib2dd1aEImuuCSd1I4OEsATG8A4axfObcrGI=;
-	b=fv8C7U0M+ioj0MMZ2rxBGFlOiGhFWoWN0DteaH6vedWldG8qIYyYM7AS5opwswoJKh
-	y46Q0tCqiH+ZsdmetfJP7ug8EFeEEkU2RlOcIa2wmlnh7S6xtxDg6ELllTE6xbpO6OlU
-	2h9/GMxq70uSy6fSRl3gjx9fcUgldAQxMtC+uW7k2lNQhAY+C4c0airLlXzNKY4ggbE5
-	Z3xWoOZzl6QSHRcCm02mlycRX6BKxWSzdApuuikZSflgDYp/Bt3+AHb62nZFj/TGs7un
-	9Dhm7n033j5gnLvwP+8kmov8IfWfkqeVvxhtvnkNzL2SI3cIKrQI0AvhWXxut35wUJV6
-	MEDg==
-X-Gm-Message-State: AG10YOT4BlMzGgUrozkfMUbTDj8BI9byRhacfz2AxFMkJ368/WAbdar9P+6YYHd4YlchVdPsMXmj4NP+jE+7wbBi
-X-Received: by 10.107.137.92 with SMTP id l89mr27814490iod.133.1456842113270; 
-	Tue, 01 Mar 2016 06:21:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 1 Mar 2016 06:21:33 -0800 (PST)
-In-Reply-To: <CAJTo0LZTCidmPn6ewUPmu60s0ettwL_e2wZfWUJWd6=2kG2j=w@mail.gmail.com>
-References: <cover.1456805147.git.mark.hatle@windriver.com>
-	<CAJTo0LZTCidmPn6ewUPmu60s0ettwL_e2wZfWUJWd6=2kG2j=w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 1 Mar 2016 14:21:33 +0000
-Message-ID: <CAJTo0La64gchAoKeW1f6t51+qPD7f=wwRcJ=sspRQHMa4MJiMQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Upgrade RPM to 5.4.16 (CVE HEAD)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=1IoqPHMFxdl9mHrZLdq9IRGzVDyAjXRVr+qDjlLXq0Q=;
+	b=TlM3+ZResnyCReCjYyxRwObyXkvrV5zo2D/YbloFg9UKUCWDCcLr6IoCOAQkZY5YtX
+	wsMNKZcD9DkLc9W7GoK//XLtT/s3UBcGi7+VCM3F6rmCPg7+j0zhnOKGIP64XoJLUlrB
+	a9qfvMvtcp21Rk2IWAGGj5UbXVaWH9wrrZSZUS0qqFa+tM5STBiDrMWpBr+egOQy3HKD
+	ImhaZgv0mO+nbfk47JA55W/pRUtl7RZwAQdWMb9EpmI1e6C+fBpA0el5y7BcAQp06rW+
+	HP4NgxYa5gyIJCpKyBuk3JdYMrvXXaojnY8kHEpGL3sP7F76hXm5pP2mXxO53Y2HdZ9x
+	y4Fg==
+X-Gm-Message-State: AD7BkJLoDA0XzydByKFWqM7W3HcXsp7ON5gl7bgSVmTLKCa0xtuqbJ0Blep4/tdm2dvH0+o4
+X-Received: by 10.28.49.3 with SMTP id x3mr4170813wmx.4.1456844306815;
+	Tue, 01 Mar 2016 06:58:26 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	k4sm21707731wmc.12.2016.03.01.06.58.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 01 Mar 2016 06:58:26 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Mar 2016 14:58:24 +0000
+Message-Id: <1456844304-11647-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] rpm: disable stack protector in popt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +53,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 14:21:53 -0000
-Content-Type: multipart/alternative; boundary=001a113ebdb4a7dafb052cfd7c37
+X-List-Received-Date: Tue, 01 Mar 2016 14:58:29 -0000
 
---001a113ebdb4a7dafb052cfd7c37
-Content-Type: text/plain; charset=UTF-8
+The stack protector flags in the internal popt can cause link problems with rpm,
+so disable them.
 
-On 1 March 2016 at 13:38, Burton, Ross <ross.burton@intel.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../rpm/rpm/popt-no-stack-protector.patch          | 27 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/popt-no-stack-protector.patch
 
-> http://errors.yoctoproject.org/Errors/Details/38890/:
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-rpm/5.4.16-r0/build/popt/.libs/libpopt.so:
-> undefined reference to `__stack_chk_guard'
+diff --git a/meta/recipes-devtools/rpm/rpm/popt-no-stack-protector.patch b/meta/recipes-devtools/rpm/rpm/popt-no-stack-protector.patch
+new file mode 100644
+index 0000000..10fc6b1
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/popt-no-stack-protector.patch
+@@ -0,0 +1,27 @@
++Disable the stack protector in popt as it causes problems with rpm is built
++without the stack protector.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/popt/configure.ac b/popt/configure.ac
++index ba70368..cf9a44d 100755
++--- a/popt/configure.ac
+++++ b/popt/configure.ac
++@@ -123,7 +123,6 @@ AS_IF([test "x$popt_gcc_warnings" = xyes],
++   popt_CFLAGS_ADD([-Wjump-misses-init],[POPT_CFLAGS])
++   popt_CFLAGS_ADD([-Wno-format-nonliteral],[POPT_CFLAGS])
++   popt_CFLAGS_ADD([-Wframe-larger-than=$MAX_STACK_SIZE],[POPT_CFLAGS])
++-  popt_CFLAGS_ADD([-fstack-protector-all],[POPT_CFLAGS])
++   popt_CFLAGS_ADD([-fasynchronous-unwind-tables],[POPT_CFLAGS])
++   popt_CFLAGS_ADD([-fdiagnostics-show-option],[POPT_CFLAGS])
++   popt_CFLAGS_ADD([-funit-at-a-time],[POPT_CFLAGS])
++@@ -203,7 +202,7 @@ AC_SUBST([POPT_LDFLAGS])
++ # -fno-delete-null-pointer as the kernel does http://patchwork.kernel.org/patch/36060/
++ # GNU GCC (usually "gcc")
++ AS_IF([test "x$GCC" != x],
++- [ for c in -fno-delete-null-pointer-checks -Wp,-D_FORTIFY_SOURCE=2 -fstack-protector -fexceptions
+++ [ for c in -fno-delete-null-pointer-checks -Wp,-D_FORTIFY_SOURCE=2 -fexceptions
++    do
++   	popt_CFLAGS_ADD([$c], [POPT_CFLAGS])
++    done
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 4ca0997..7065c0f 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -129,6 +129,7 @@ SRC_URI += " \
+ 	   file://rpm-syck-fix-gram.patch \
+ 	   file://rpm-rpmdb-grammar.patch \
+ 	   file://rpm-disable-blaketest.patch \
++           file://popt-no-stack-protector.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = "\
+-- 
+2.7.0
 
 
-As discussed on IRC I can confirm that removing the stack guard sections
-from the popt configure fixes this.
-
-Ross
-
---001a113ebdb4a7dafb052cfd7c37
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 March 2016 at 13:38, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><a href=3D"http://errors.yo=
-ctoproject.org/Errors/Details/38890/" target=3D"_blank">http://errors.yocto=
-project.org/Errors/Details/38890/</a>:<br><br>/home/pokybuild/yocto-autobui=
-lder/yocto-worker/nightly-x86-64/build/build/tmp/work/i686-nativesdk-pokysd=
-k-linux/nativesdk-rpm/5.4.16-r0/build/popt/.libs/libpopt.so: undefined refe=
-rence to `__stack_chk_guard&#39;</blockquote></div><br>As discussed on IRC =
-I can confirm that removing the stack guard sections from the popt configur=
-e fixes this.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
-
---001a113ebdb4a7dafb052cfd7c37--
