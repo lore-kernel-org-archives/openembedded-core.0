@@ -1,47 +1,47 @@
 Return-Path: <h4nn35.work@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 9264671951
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E4A9731DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 20:13:06 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id p65so49632932wmp.0
+	Tue,  1 Mar 2016 21:39:21 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id l68so52345610wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2016 12:13:07 -0800 (PST)
+	Tue, 01 Mar 2016 13:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id;
-	bh=n0NgpcxSF3e7rXOEgM+XDwfaTL703GxYvxtNUixc2CE=;
-	b=wlFSTJpzx8XU3XPCqlx7dw5EjIXkS+KoiAseOuJuYGpJTYFvFryHyp8C8nTGSCWe/2
-	iAC7xZfQc6Y9vVBKrIRnKuE4OCbtFHKVT7yl+ootHq4FLIbqaqEIF4+M6JGyQjQ1qldu
-	oj3xKuJ77Ymjh3fK6X0J0r2LmCDaYLAbBkoYbNV+8Zo5O2CWne1msryyaKlDe6VMTQKQ
-	XHrjHbTueRB/u9eizx2GjOv1LHbUojf6nehuEScYQPUC8rxvrx65xAahh49bmOGDgvQJ
-	jmaZ2YPyWSzw5Xi61W1vv18joxuqLQzFfX0PgIJlhFoHutRXbyjXZC+i5tKJrVo3c/0d
-	NHwQ==
+	bh=OR2grCOnidTD8kW5MoHZhvef2yhj5i2ycxi/9xYE0i4=;
+	b=K3zBXqIi8vPE6u3BbaXhRT+PeLJg31XGIp/3jivwYaNqmuQTeGeOjmUny+S/4zVJQ1
+	rZdXH8CfbcMOKGyafeByIJtCzGSZWIo9ky6B/dyQ5hOsD6tLxPfeWHo7pCp+wlCyC22R
+	jzdXlzw9vIUcOt/iszU0JPp60OmSRzY9ks0x+NM4Byo/DzGXXSwF2/6IuvfFyIGYKK5R
+	ZDF68CSvH0oHY9WklwVt1I4dDF9M6iWqoX623XmjGcLUh0fK+IW9G9hpgIkmjGEoKerw
+	YMHGqVPEjjcQtk+gz5Q+s8UzptvLjcjFxbX2gxkdMUgCZ1DfD6ZqfqIyKvt7SzRKDokY
+	VMTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=n0NgpcxSF3e7rXOEgM+XDwfaTL703GxYvxtNUixc2CE=;
-	b=lXzMALHtSEzwdt/cKgb7HXWI+TdcSAUhb/ppQEbSHmGdAFZdFSNl7hvHjCRCObxP9j
-	/HjHFNs9Tblw/7w8HfZAHgoemsofhXdbUrOP7hmV6MpO25/hcdbdhVFL058LAeh3y/M4
-	EzR8jsvX3mvNkFOuvgMFSWgl2TL0CXmNIJRJ/M5hFUX68YZ0TS1wldb8ju3gEdXVyW3P
-	+pU8sxyYQUbOppLqJwwuhYLiS8+JzwiMWt4oGMT9CGCzo4PHtMpGixkCSO7rR9rp8/92
-	z7TpTK+lmvyBPMh+0mxcPrVwUqVf9fN6SA2TBU/vgj52z18NVj/5xciGqE9RqnV9ImCL
-	lUNw==
-X-Gm-Message-State: AD7BkJKhgaH55b1vVZ2Rmr62hLN30yyTYHKqcXhfroyJpzdgv7nEvh3TyHygDuhuNg9dfg==
-X-Received: by 10.194.200.194 with SMTP id ju2mr14367773wjc.63.1456863186534; 
-	Tue, 01 Mar 2016 12:13:06 -0800 (PST)
+	bh=OR2grCOnidTD8kW5MoHZhvef2yhj5i2ycxi/9xYE0i4=;
+	b=PzfZ6siBZdMqikZYxl3oYIKZbeZS5bwgTfTd2tZF5smBJJWvnH4wtRUGQy6HEyPbz7
+	SeStVxfiazk7eL5IwWVVuoiEX0vJFgPmZkAx3D7O5BYG8VkbTxikc7U3BfZquyMmCAcc
+	m9XVF1mH6kUDy6Sh/GfFwUFd2ggfcwetNcqFSwcLNsjpTr6j9kEKkVtrlO5iHhJgdf1X
+	p2VIwlTVhXy9KZ0DSsrCdvS7QHjqAmoX2ocQ6yGdABY8r955s8MEs9lK++G+NQAhB27Z
+	QsrP60n2VIq53Y4tAc1y7dWv0uIxbiniiIyaR4kuMKkyiPn+tAKuuCqZzjjWaJrPIvSA
+	Grrw==
+X-Gm-Message-State: AD7BkJKBld+XiPFjEM/zAb0oBb9L/wtMZ6F8BoePxycFLE1HBTM5SLnTC3BD0C1G6Y0VYQ==
+X-Received: by 10.194.47.237 with SMTP id g13mr22843374wjn.142.1456868362182; 
+	Tue, 01 Mar 2016 13:39:22 -0800 (PST)
 Received: from lenovobook.localdomain
 	(ipbcc1bda1.dynamic.kabel-deutschland.de. [188.193.189.161])
 	by smtp.googlemail.com with ESMTPSA id
-	v66sm726881wmb.18.2016.03.01.12.13.05
+	v2sm999476wmd.24.2016.03.01.13.39.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Mar 2016 12:13:05 -0800 (PST)
+	Tue, 01 Mar 2016 13:39:21 -0800 (PST)
 From: Johannes Pointner <h4nn35.work@gmail.com>
 X-Google-Original-From: Johannes Pointner <johannes.pointner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Mar 2016 21:12:17 +0100
-Message-Id: <1456863137-7388-1-git-send-email-johannes.pointner@gmail.com>
+Date: Tue,  1 Mar 2016 22:39:18 +0100
+Message-Id: <1456868358-9326-1-git-send-email-johannes.pointner@gmail.com>
 X-Mailer: git-send-email 2.7.2
-Subject: [Patch][jethro] xf86-video-modesetting: Require sufficiently new libdrm
+Subject: [Patch][jethro][master] xcursor-transparent-theme: insert several cursors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,64 +54,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 20:13:09 -0000
+X-List-Received-Date: Tue, 01 Mar 2016 21:39:25 -0000
 
-This fixes the check of the libdrm version in the configure script.
+This patch inserts several cursors which are used by Qt for example.
 
 Signed-off-by: Johannes Pointner <johannes.pointner@gmail.com>
 ---
- .../0002-modesetting_libdrm_requirements.patch     | 29 ++++++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.17.2.bb            |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100755 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-modesetting_libdrm_requirements.patch
+ .../insert_several_cursors.patch                   | 79 ++++++++++++++++++++++
+ .../xcursor-transparent-theme_0.1.1.bb             |  3 +-
+ 2 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme-0.1.1/insert_several_cursors.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-modesetting_libdrm_requirements.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-modesetting_libdrm_requirements.patch
-new file mode 100755
-index 0000000..22b7e6f
+diff --git a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme-0.1.1/insert_several_cursors.patch b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme-0.1.1/insert_several_cursors.patch
+new file mode 100644
+index 0000000..861899e
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-modesetting_libdrm_requirements.patch
-@@ -0,0 +1,29 @@
-+From bf23db42a4e5943129501223a47b48884cdeb62f Mon Sep 17 00:00:00 2001
-+From: Adam Jackson <ajax@redhat.com>
-+Date: Wed, 27 Jan 2016 11:50:13 -0500
-+Subject: modesetting: Require sufficiently new libdrm
-+
-+Bugzilla: https://bugs.freedesktop.org/93883
-+Signed-off-by: Adam Jackson <ajax@redhat.com>
-+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-+Reviewed-by: Julien Cristau <jcristau@debian.org>
-+
-+Upstream-Status: Backport
-+
-+diff --git a/configure.ac b/configure.ac
-+index ac3bb64..312fc69 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -2035,8 +2035,7 @@ if test "x$XORG" = xyes; then
++++ b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme-0.1.1/insert_several_cursors.patch
+@@ -0,0 +1,79 @@
++--- xcursor-transparent-theme-0.1.1.orig/cursors/Makefile.am	2016-03-01 21:48:25.000000000 +0100
+++++ xcursor-transparent-theme-0.1.1/cursors/Makefile.am	2016-03-01 22:10:06.473326873 +0100
++@@ -26,10 +26,17 @@
++ 	bottom_tee \
++ 	center_ptr \
++ 	circle \
+++	closedhand \
+++	color-picker \
+++	copy \
++ 	cross \
++ 	cross_reverse \
++ 	crossed_circle \
++ 	crosshair \
+++	dnd-copy \
+++	dnd-move \
+++	dnd-no-drop \
+++	dnd-none \
++ 	dot \
++ 	dot_box_mask \
++ 	dotbox \
++@@ -40,21 +47,27 @@
++ 	exchange     \
++ 	fd_double_arrow \
++ 	fleur \
+++	forbidden \
++ 	gumby \
++ 	h_double_arrow \
++ 	hand \
++ 	hand1 \
++ 	hand2 \
+++	ibeam \
++ 	left_ptr \
++ 	left_ptr_watch \
++ 	left_side \
++ 	left_tee  \
+++	link \
++ 	ll_angle  \
++ 	lr_angle  \
++ 	move      \
+++	open_hand \
++ 	pencil    \
++ 	pirate    \
++ 	plus      \
+++	pointing_hand \
+++	progress \
++ 	question_arrow \
++ 	right_ptr      \
++ 	right_side     \
++@@ -67,9 +80,17 @@
++ 	sb_up_arrow \
++ 	sb_v_double_arrow \
++ 	shuttle \
+++	size_all \
+++	size_bdiag \
+++	size_fdiag \
+++	size_hor \
+++	size_ver \
++ 	sizing  \
+++	split_h \
+++	split_v \
++ 	target  \
++ 	tcross  \
+++	text \
++ 	top_left_arrow  \
++ 	top_left_corner \
++ 	top_right_corner \
++@@ -77,9 +98,12 @@
++ 	top_tee \
++ 	trek \
++ 	ul_angle \
+++	up_arrow \
++ 	ur_angle \
++ 	v_double_arrow \
+++	wait \
++ 	watch \
+++	whats_this \
++ 	xterm  
 + 
-+ 	if test "x$DRM" = xyes; then
-+ 		dnl 2.4.46 is required for cursor hotspot support.
-+-		PKG_CHECK_EXISTS(libdrm >= 2.4.46)
-+-		XORG_DRIVER_MODESETTING=yes
-++		PKG_CHECK_EXISTS(libdrm >= 2.4.46, XORG_DRIVER_MODESETTING=yes, XORG_DRIVER_MODESETTING=no)
-+ 	fi
-+ 
-+ 	AC_SUBST([XORG_LIBS])
-+-- 
-+cgit v0.10.2
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.17.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.17.2.bb
-index 3039d30..f087ecb 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.17.2.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.17.2.bb
-@@ -1,6 +1,7 @@
- require xserver-xorg.inc
++ CURSOR_DIR = $(datadir)/icons/xcursor-transparent/cursors
+diff --git a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
+index 5e668ab..5a9df62 100644
+--- a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
++++ b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
+@@ -10,7 +10,8 @@ PR = "r4"
  
- SRC_URI += "file://0001-use-__GLIBC__-guard-for-glibc-specific-code.patch \
-+	    file://0002-modesetting_libdrm_requirements.patch \
-            "
- SRC_URI[md5sum] = "397e405566651150490ff493e463f1ad"
- SRC_URI[sha256sum] = "f61120612728f2c5034671d0ca3e2273438c60aba93b3dda4a8aa40e6a257993"
+ SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/utils/xcursor-transparent-theme-${PV}.tar.gz \
+ 	   file://use-relative-symlinks.patch \
+-	   file://fix_watch_cursor.patch"
++	   file://fix_watch_cursor.patch \
++	   file://insert_several_cursors.patch"
+ 
+ SRC_URI[md5sum] = "7b0c623049d4aab20600d6473f8aab23"
+ SRC_URI[sha256sum] = "b26adf2d503d01299718390ae39dab4691a67220de09423be0364e9a060bf7e4"
 -- 
 2.7.2
 
