@@ -1,25 +1,47 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A7A16011B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B4006E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 05:23:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u215Nrn9003109
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue,  1 Mar 2016 06:04:44 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id u110so5517676qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 21:23:53 -0800
-Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 29 Feb 2016 21:23:52 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Mar 2016 13:23:33 +0800
-Message-ID: <1456809813-10502-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon, 29 Feb 2016 22:04:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9AwExYGcWJbCL1AdrzdMvT9bIcgiG9KULcDItvq2mCY=;
+	b=KvgBNZFlvjTJwtq7PE4JG0nIBDEO8QiXchJFS0AgKodxaBKcW++o7IL4Tmfu/Ecppd
+	rYcquDNbrRI4NSqONJ68tFpSGATE93oCdk0XA2w5c8YF+6VXHpWlI7hBgGrKgGVnrXfv
+	Zk8ftA4t1mK3Fam4hiHr4ay1o8Qvtm4NDgIwjNS3tcaiF/EHH7nOOo6VAvxdtj3t/nzN
+	SJk6gmZ0xM7ChUWh1NL7yXstEs/mUc49ZoEQhN8J5PEuWGvGZmcSa70MKJ4j1EQfQqNC
+	5UCFGodQvlQo3SqOpXprlcoaspvk+Ur/2NrRrJf9dBXUqIOuLoApdA7VXPUZ2CXSMkIm
+	58yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9AwExYGcWJbCL1AdrzdMvT9bIcgiG9KULcDItvq2mCY=;
+	b=PMHe5/0wWkQK2CuQQH8a8kz6k6CHMU3eKJqN/RTWEym4nKWA1+FxLJG2MYgEUwwxsB
+	ksikz8RK3lzjjiq7AMDUpBnsBaVB3OllQb6hkm8Nk05JjT/TekNPcrsX7pQQ8txgkf6q
+	K67kXsMmNFW/zM14r2aPfTGzo5U0nRbBEzV9ufM/V0hxVjNuaDRI3xJL3dVmqDRIL2uI
+	4k++EF4diyKLTBBOt0hSqWeBWWMbeDTxjgHHOoUjc43VVdcbYVZMYAHchBOvtxrXjMYi
+	rUD72Y1bbD39Ak/DJhHE32jeyQCz0H3aL96Bs7+CC1fEyYTM7nsNcEhcHALpP54vVCs7
+	j9Pw==
+X-Gm-Message-State: AD7BkJI6VXthH5YZWMuSjpEMsD1zEbLG/crc5+MiGzCz/C7MgsjQZ99XJu211WvgJ4kcp6rzLMYdd/mRJVyRGQ==
+X-Received: by 10.141.4.135 with SMTP id g129mr26124407qhd.31.1456812285444;
+	Mon, 29 Feb 2016 22:04:45 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.243]
-Subject: [PATCH] fontconfig: Revert changes made to FcConfigAppFontAddDir() recently
+Received: by 10.55.130.196 with HTTP; Mon, 29 Feb 2016 22:04:16 -0800 (PST)
+In-Reply-To: <e038722afdf9882154e43aaf8c814b708e0842ec.1456805735.git.mark.hatle@windriver.com>
+References: <cover.1456805735.git.mark.hatle@windriver.com>
+	<e038722afdf9882154e43aaf8c814b708e0842ec.1456805735.git.mark.hatle@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Feb 2016 22:04:16 -0800
+Message-ID: <CAMKF1sp-37H1OfKMCvMN6aT5rAJq6n+NK+oHtMBUSVO-xkWdhQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gcc: Add support for atomic opertions (libitm) where available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,172 +54,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 05:23:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 01 Mar 2016 06:04:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Backport <commit 46ec6a52d4cc447cc3ff4a13b2067ecb76c9db2e> from
-fontconfig upstream <http://cgit.freedesktop.org/fontconfig/> to solve
-issue: fontconfig changes break pybootchartgui tool generating bootchart
-png file.
+On Mon, Feb 29, 2016 at 8:18 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> GCC 4.7 and newer have supported various automic operation directives,
+> however these have not been previously enabled.
+>
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- ...ges-made-to-FcConfigAppFontAddDir-recentl.patch |  132 ++++++++++++++++++++
- .../fontconfig/fontconfig_2.11.94.bb               |    1 +
- 2 files changed, 133 insertions(+)
- create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch
+this is ok
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch
-new file mode 100644
-index 0000000..f2fd5d4
---- /dev/null
-+++ b/meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch
-@@ -0,0 +1,132 @@
-+From 46ec6a52d4cc447cc3ff4a13b2067ecb76c9db2e Mon Sep 17 00:00:00 2001
-+From: Behdad Esfahbod <behdad@behdad.org>
-+Date: Fri, 26 Jun 2015 17:02:13 -0700
-+Subject: [PATCH] Revert changes made to FcConfigAppFontAddDir() recently
-+
-+In 32ac7c75e8db0135ef37cf86f92d8b9be000c8bb the behavior of
-+FcConfigAppFontAddFile/Dir() were changed to return false
-+if not fonts were found.  While this is welldefined and useful
-+for AddFile(), it's quite problematic for AddDir().  For example,
-+if the directory is empty, is that a failure or success?  Worse,
-+the false value from AddDir() was being propagated all the way
-+to FcInit() returning false now.  This only happened upon memory
-+allocation failure before, and some clients assert that FcInit()
-+is successful.
-+
-+With this change, AddDir() is reverted back to what it was.
-+AddFont() change (which was actually in fcdir.c) from the original
-+commit is left in.
-+
-+Upstream-Status: backport
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ doc/fcconfig.fncs |    2 +-
-+ src/fccfg.c       |   29 +++++++++++------------------
-+ src/fcint.h       |    3 ---
-+ src/fcstr.c       |    8 --------
-+ 4 files changed, 12 insertions(+), 30 deletions(-)
-+
-+Index: fontconfig-2.11.94/doc/fcconfig.fncs
-+===================================================================
-+--- fontconfig-2.11.94.orig/doc/fcconfig.fncs
-++++ fontconfig-2.11.94/doc/fcconfig.fncs
-+@@ -232,7 +232,7 @@ the current configuration is used.
-+ @DESC@
-+ Scans the specified directory for fonts, adding each one found to the
-+ application-specific set of fonts. Returns FcFalse
-+-if the fonts cannot be added (due to allocation failure or no fonts found).
-++if the fonts cannot be added (due to allocation failure).
-+ Otherwise returns FcTrue. If <parameter>config</parameter> is NULL,
-+ the current configuration is used.
-+ @@
-+Index: fontconfig-2.11.94/src/fccfg.c
-+===================================================================
-+--- fontconfig-2.11.94.orig/src/fccfg.c
-++++ fontconfig-2.11.94/src/fccfg.c
-+@@ -368,7 +368,6 @@ FcConfigAddDirList (FcConfig *config, Fc
-+     FcStrList	    *dirlist;
-+     FcChar8	    *dir;
-+     FcCache	    *cache;
-+-    FcBool	     ret = FcFalse;
-+ 
-+     dirlist = FcStrListCreate (dirSet);
-+     if (!dirlist)
-+@@ -383,10 +382,9 @@ FcConfigAddDirList (FcConfig *config, Fc
-+ 	    continue;
-+ 	FcConfigAddCache (config, cache, set, dirSet);
-+ 	FcDirCacheUnload (cache);
-+-	ret = FcTrue;
-+     }
-+     FcStrListDone (dirlist);
-+-    return ret;
-++    return FcTrue;
-+ }
-+ 
-+ /*
-+@@ -2199,7 +2197,6 @@ FcConfigAppFontAddFile (FcConfig    *con
-+     FcStrSet	*subdirs;
-+     FcStrList	*sublist;
-+     FcChar8	*subdir;
-+-    FcBool	 ret = FcFalse;
-+ 
-+     if (!config)
-+     {
-+@@ -2229,19 +2226,16 @@ FcConfigAppFontAddFile (FcConfig    *con
-+ 	FcStrSetDestroy (subdirs);
-+ 	return FcFalse;
-+     }
-+-    if (subdirs->num == 0)
-+-	ret = FcTrue;
-+-    else if ((sublist = FcStrListCreate (subdirs)))
-++    if ((sublist = FcStrListCreate (subdirs)))
-+     {
-+ 	while ((subdir = FcStrListNext (sublist)))
-+ 	{
-+-	    if (FcConfigAppFontAddDir (config, subdir))
-+-		ret = FcTrue;
-++	    FcConfigAppFontAddDir (config, subdir);
-+ 	}
-+ 	FcStrListDone (sublist);
-+     }
-+     FcStrSetDestroy (subdirs);
-+-    return ret;
-++    return FcTrue;
-+ }
-+ 
-+ FcBool
-+@@ -2250,7 +2244,6 @@ FcConfigAppFontAddDir (FcConfig	    *con
-+ {
-+     FcFontSet	*set;
-+     FcStrSet	*dirs;
-+-    FcBool	 ret = FcTrue;
-+ 
-+     if (!config)
-+     {
-+@@ -2269,8 +2262,8 @@ FcConfigAppFontAddDir (FcConfig	    *con
-+ 	set = FcFontSetCreate ();
-+ 	if (!set)
-+ 	{
-+-	    ret = FcFalse;
-+-	    goto bail;
-++	    FcStrSetDestroy (dirs);
-++	    return FcFalse;
-+ 	}
-+ 	FcConfigSetFonts (config, set, FcSetApplication);
-+     }
-+@@ -2278,10 +2271,12 @@ FcConfigAppFontAddDir (FcConfig	    *con
-+     FcStrSetAddFilename (dirs, dir);
-+ 
-+     if (!FcConfigAddDirList (config, FcSetApplication, dirs))
-+-	ret = FcFalse;
-+-bail:
-++    {
-++	FcStrSetDestroy (dirs);
-++	return FcFalse;
-++    }
-+     FcStrSetDestroy (dirs);
-+-    return ret;
-++    return FcTrue;
-+ }
-+ 
-+ void
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb
-index b3bc7eb..b427947 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb
-@@ -22,6 +22,7 @@ DEPENDS = "expat freetype zlib"
- 
- SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://revert-static-pkgconfig.patch \
-+           file://0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch \
-            "
- SRC_URI[md5sum] = "479be870c7f83f15f87bac085b61d641"
- SRC_URI[sha256sum] = "73f6d323c7bcfbde25d78397675191d55b8f4139132c6a9444410f3a2d8a9a95"
--- 
-1.7.9.5
 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-5.3.inc     |  2 ++
+>  meta/recipes-devtools/gcc/gcc-runtime.inc | 22 +++++++++++++++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+> index 0667299..0bf9f55 100644
+> --- a/meta/recipes-devtools/gcc/gcc-5.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+> @@ -103,6 +103,7 @@ LTO = "--enable-lto"
+>  EXTRA_OECONF_BASE = "\
+>      ${LTO} \
+>      --enable-libssp \
+> +    --enable-libitm \
+>      --disable-bootstrap \
+>      --disable-libmudflap \
+>      --with-system-zlib \
+> @@ -118,6 +119,7 @@ EXTRA_OECONF_BASE = "\
+>  EXTRA_OECONF_INITIAL = "\
+>      --disable-libmudflap \
+>      --disable-libgomp \
+> +    --disable-libitm \
+>      --disable-libquadmath \
+>      --with-system-zlib \
+>      --disable-lto \
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index 844149f..707db37 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -10,9 +10,14 @@ EXTRA_OECONF_PATHS = "\
+>
+>  EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+>
+> -RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic \
+> +RUNTIMELIBITM = "libitm"
+> +RUNTIMELIBITM_mips = ""
+> +RUNTIMELIBITM_mips64 = ""
+> +
+> +RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+>      ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+>  "
+> +
+>  #  ?
+>  # libiberty
+>  # libmudflap
+> @@ -49,6 +54,7 @@ do_install () {
+>                 oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
+>         done
+>         rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir
+> +       rm -rf ${D}${infodir}/libitm.info ${D}${infodir}/dir
+>         rm -rf ${D}${infodir}/libquadmath.info ${D}${infodir}/dir
+>         if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude ]; then
+>                 rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude
+> @@ -94,6 +100,9 @@ PACKAGES = "\
+>      libatomic \
+>      libatomic-dev \
+>      libatomic-staticdev \
+> +    libitm \
+> +    libitm-dev \
+> +    libitm-staticdev \
+>  "
+>
+>  # Most libraries are licensed with the exception, but
+> @@ -121,6 +130,9 @@ LICENSE_libquadmath-staticdev = "GPL-3.0-with-GCC-exception"
+>  LICENSE_libatomic = "GPL-3.0-with-GCC-exception"
+>  LICENSE_libatomic-dev = "GPL-3.0-with-GCC-exception"
+>  LICENSE_libatomic-staticdev = "GPL-3.0-with-GCC-exception"
+> +LICENSE_libitm = "GPL-3.0-with-GCC-exception"
+> +LICENSE_libitm-dev = "GPL-3.0-with-GCC-exception"
+> +LICENSE_libitm-staticdev = "GPL-3.0-with-GCC-exception"
+>
+>  LICENSE_libgomp = "GPLv3"
+>  LICENSE_libgomp-dev = "GPLv3"
+> @@ -196,6 +208,14 @@ FILES_libatomic-dev = "\
+>  "
+>  FILES_libatomic-staticdev = "${libdir}/libatomic.a"
+>
+> +FILES_libitm = "${libdir}/libitm.so.*"
+> +FILES_libitm-dev = "\
+> +    ${libdir}/libitm.so \
+> +    ${libdir}/libitm.la \
+> +    ${libdir}/libitm.spec \
+> +"
+> +FILES_libitm-staticdev = "${libdir}/libitm.a"
+> +
+>  do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+>  do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+>  do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
