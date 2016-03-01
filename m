@@ -1,57 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF17731EA
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 446D775E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 08:57:19 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id l68so23316322wml.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2016 00:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=BA4S/IoVhxuOzP0x2iao7C2TX5rbQ0uO3/nNS6a7kuQ=;
-	b=HMMjAQJdRpFwPSCSgv4leoZgC0ImFbXrJtg9GwZH8YmtSUbVjvqXD/syLKHEafweVW
-	zjC+OuG1iV9Ig+9iyUKZA2Oo5bTeuTLUyWYhRfAEoSb7oPzMXuk5dP+Qg6iGRJWZieru
-	2tTWqwd7kZTyGuCC7f7NuSOcP2AKDCBUpvN+gRv5hG5aydzege6cSSzK3OP5ZEhioxtn
-	tHsOSdR5ZeeFQ39tcAwyydzW20jGzYUZkcxPLekQA8UZHg7ByYpWPdC19OVpusXL5yN9
-	HzgpXWvYRpkcrM9SWkx9hjb6IyORNvHXgHTdj9q4U3tlbj4f3AVoNRb0/S2qNyuuo7/c
-	2UHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=BA4S/IoVhxuOzP0x2iao7C2TX5rbQ0uO3/nNS6a7kuQ=;
-	b=Vw/RrTJf7Tg5bcm7m51ZS2/+fY8IHBBQ04hoxGANXZOiV13aSrcnh6hzbICQxwnEQk
-	3sHW9RvpaKU7vtWdZbw17w/IDap9tTZJ/ubOx5LEEA/7h0nI7ey2II+GzDjP3HijB4IR
-	Nsd0ntaUmwXgffn/F215jhpQJIPz+nmXc4Kw1Gn3tJMZN/iHB2UjJZYuqqDZWWnOZJah
-	xOTr8sWGykuqa3C2excXWll9gXq3dlQ0tIiDkCczjhn5OlXLFl9O7hhUKjdjx2Oc7K78
-	6UG1a/uZCYJ8PZWbp+JhBK8vAderOpXfxLsHIHmDzqfNddYP7b0CMyLMFK9mPtellM2m
-	spfA==
-X-Gm-Message-State: AD7BkJLJoOcXBrju8SpS+ZqEKIn6yS9dkqAHocRacCb1NZYd4Lt9/ynD7bsnB7BJGzvbcw==
-X-Received: by 10.194.115.132 with SMTP id jo4mr18487246wjb.156.1456822639739; 
-	Tue, 01 Mar 2016 00:57:19 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	up6sm29765098wjc.6.2016.03.01.00.57.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Mar 2016 00:57:18 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 1 Mar 2016 09:59:10 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160301085910.GB6407@jama>
-References: <1456773039-5178-1-git-send-email-Martin.Jansa@gmail.com>
-	<1456778449.11498.183.camel@linuxfoundation.org>
-	<CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
-	<CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
-	<CA+chaQfHZPKviheG2NY7miXe9YZir0pszp8qCQbb1kgzPABPDQ@mail.gmail.com>
-	<20160301004309.GA2559@jama>
-	<CAJTo0LbSUxP=yUD2Ga8=TeT-eudZaFjrMP7HKq-yv0B9RfK6sw@mail.gmail.com>
+	Tue,  1 Mar 2016 09:16:49 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u219GnpV001975; Tue, 1 Mar 2016 03:16:49 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016030103165005-868983 ;
+	Tue, 1 Mar 2016 03:16:50 -0600 
+Date: Tue, 1 Mar 2016 11:16:21 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160301111621.39d15dcc@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <1456777067.11498.180.camel@linuxfoundation.org>
+References: <1456757580-31669-1-git-send-email-adrian.ratiu@ni.com>
+	<1456777067.11498.180.camel@linuxfoundation.org>
+Organization: National Instruments
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbSUxP=yUD2Ga8=TeT-eudZaFjrMP7HKq-yv0B9RfK6sw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] no-static-libs.inc: add gdb
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 03/01/2016 03:16:50 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 03/01/2016 03:16:50 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-03-01_06:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] site: enable pthread support for x86_64 APR builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,47 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 08:57:20 -0000
-X-Groupsio-MsgNum: 78980
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="JYK4vJDZwFMowpUq"
-Content-Disposition: inline
-
---JYK4vJDZwFMowpUq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 01 Mar 2016 09:16:51 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 01, 2016 at 08:40:13AM +0000, Burton, Ross wrote:
-> On 1 March 2016 at 00:43, Martin Jansa <martin.jansa@gmail.com> wrote:
+On Mon, 29 Feb 2016 20:17:47 +0000
+Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+
+> On Mon, 2016-02-29 at 16:53 +0200, Ioan-Adrian Ratiu wrote:
+> > The apache2 package is missing key pieces of pthread support (notably
+> > pthread=5Fkill) on x86=5F64 platforms. Fix this by setting cached
+> > variable
+> > apr=5Fcv=5Fpthreads=5Fcflags=3D-pthread which will trickle down into ap=
+ache2
+> > as
+> > well. powerpc32-linux currently sets this option.
+> >=20
+> > Suggested-by: Jacob Champion <jacob.champion@ni.com>
+> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> > ---
+> >  meta/site/x86=5F64-linux | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/meta/site/x86=5F64-linux b/meta/site/x86=5F64-linux
+> > index 573a907..5b37211 100644
+> > --- a/meta/site/x86=5F64-linux
+> > +++ b/meta/site/x86=5F64-linux
+> > @@ -104,6 +104,7 @@
+> > nfsd=5Fcv=5Ffunc=5Fstatfs=3D${nfsd=5Fcv=5Ffunc=5Fstatfs=3Dstatfs2=5Fbsi=
+ze}
+> >  nfsd=5Fcv=5Fbsd=5Fsignals=3D${nfsd=5Fcv=5Fbsd=5Fsignals=3Dyes}
+> > =20
+> >  #apr
+> > +apr=5Fcv=5Fpthreads=5Fcflags=3D${apr=5Fcv=5Fpthreads=5Fcflags=3D-pthre=
+ad}
+> >  apr=5Fcv=5Ftcp=5Fnodelay=5Fwith=5Fcork=3D${apr=5Fcv=5Ftcp=5Fnodelay=5F=
+with=5Fcork=3Dyes} =20
 >=20
-> > OE qemux86@ ~/build/oe-core $ cat
-> > meta-qt5/recipes-devtools/gdb/gdb_%.bbappend
-> > PACKAGECONFIG ??=3D "python"
-> >
+> Autobuilder doesn't look happy after this change:
 >=20
-> Having fixed number of these myself it's definitely best practise to use
-> PACKAGECONFIG_append and _remove in a bbappend.
+> https://autobuilder.yoctoproject.org/main/builders/build-appliance/buil
+> ds/662/steps/BuildImages=5F1/logs/stdio
+>=20
+> This was the only change to apr in there so its looking like the most
+> likely suspect...
 
-That's what I did, but on other hand it's harder for DISTRO to remove
-python if meta-qt5 bbappend uses _append.
+Yes, it definitely is, a line was removed in v2 after review which seems to=
+ trigger it.
+I'll try to find a better solution.
 
-So I'm thinking about changing it to
-PACKAGECONFIG ??=3D "readline python"
+>=20
+> Cheers,
+>=20
+> Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---JYK4vJDZwFMowpUq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlbVWd0ACgkQN1Ujt2V2gBz+YgCgin4ZSEPrx2i9QywV+REP2s29
-DpsAn0H3nNbGlIh/lzOVgKa6pnYy2dkr
-=YcQj
------END PGP SIGNATURE-----
-
---JYK4vJDZwFMowpUq--
