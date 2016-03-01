@@ -1,26 +1,29 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C4F6731D9
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 41D48731E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 13:45:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Mar 2016 05:45:46 -0800
+	Tue,  1 Mar 2016 14:18:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Mar 2016 06:18:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,523,1449561600"; d="scan'208";a="755977546"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.3.164])
-	by orsmga003.jf.intel.com with ESMTP; 01 Mar 2016 05:45:44 -0800
-Message-ID: <1456839944.3290.3.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Tue, 01 Mar 2016 13:45:44 +0000
-In-Reply-To: <1456419979.30039.67.camel@intel.com>
-References: <cover.1456325292.git.joshua.g.lock@intel.com>
-	<6372957b8304964030e874ad8e5b05b1727d7be8.1456325292.git.joshua.g.lock@intel.com>
-	<1456419979.30039.67.camel@intel.com>
-X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
-Mime-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.22,523,1449561600"; d="scan'208";a="924327698"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 01 Mar 2016 06:17:50 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
+	<cover.1456415870.git.alexander.kanavin@linux.intel.com>
+	<549d5d18a9fe89af398559b3f8df60bb66643392.1456415870.git.alexander.kanavin@linux.intel.com>
+	<89F0A1C5-6710-4F62-A646-0A2FDDDC75D8@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <56D5A3B1.8080008@linux.intel.com>
+Date: Tue, 1 Mar 2016 16:14:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <89F0A1C5-6710-4F62-A646-0A2FDDDC75D8@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 05/10] swupdbundle: new class to generate virtual images for swupd-image
+Subject: Re: [PATCH 04/19] nspr: update to 4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +36,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 13:45:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 01 Mar 2016 14:18:30 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Patrick,
+On 02/29/2016 08:39 PM, Khem Raj wrote:
+> This broke musl builds see
+>
+>
+> http://errors.yoctoproject.org/Errors/Details/38154/
 
-Apologies for the delayed response.
+The failing patch is applied only when musl is in use (and so the 
+regression went unnoticed). Can you rework it so that it can be applied 
+unconditionally?
 
-On Thu, 2016-02-25 at 18:06 +0100, Patrick Ohly wrote:
-> On Wed, 2016-02-24 at 14:52 +0000, Joshua Lock wrote:
-> > 
-> > Our initial strategy to generate bundles for consumption by swupd
-> > is to generate images which contain the base image (os-core) plus
-> > the additional contents of the bundle, then prune out the core
-> > contents. By generating images in this manner we hope to accomodate
-> > packages which modify the rootfs outside of installing files, i.e.
-> > with postinsts.
-> > 
-> > To that end this class, to be used via BBCLASSEXTEND, will generate
-> > virtual image recipes that add extra packages to the extended
-> > image.
-> Can this be combined with an image recipe which itself uses
-> BBCLASSEXTEND to generate virtual image recipes, i.e. create a
-> virtual
-> recipes based on a virtual recipe?
-
-Currently this doesn't work, but I've just filed a bug to handle this
-scenario: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9192
-
-Regards,
-
-Joshua
+Alex
 
 
