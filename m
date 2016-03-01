@@ -1,28 +1,30 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BB0CE76E5E
+Return-Path: <Daniel.Dragomir@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A8D77040
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 16:18:23 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 01 Mar 2016 08:18:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,523,1449561600"; d="scan'208";a="756069132"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.3.164])
-	by orsmga003.jf.intel.com with ESMTP; 01 Mar 2016 08:18:21 -0800
-Message-ID: <1456849101.11442.2.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Tue, 01 Mar 2016 16:18:21 +0000
-In-Reply-To: <1456339760.30039.62.camel@intel.com>
-References: <cover.1456325292.git.joshua.g.lock@intel.com>
-	<1456328275.30039.49.camel@intel.com>
-	<1456330147.5333.14.camel@intel.com>
-	<1456339760.30039.62.camel@intel.com>
-X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/10] Integrate swupd software updater
+	Tue,  1 Mar 2016 16:34:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u21GY7jl019852
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 1 Mar 2016 08:34:07 -0800
+Received: from [128.224.124.174] (128.224.124.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Tue, 1 Mar 2016 08:34:06 -0800
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1456577083-19366-1-git-send-email-daniel.dragomir@windriver.com>
+	<1456577083-19366-2-git-send-email-daniel.dragomir@windriver.com>
+	<CAJ86T=UpqspDQ0R0Ts0krLxfAawdHUz+V2Sc418VZ5uxZMHL2g@mail.gmail.com>
+From: Dragomir Daniel <daniel.dragomir@windriver.com>
+Message-ID: <56D5C464.4050402@windriver.com>
+Date: Tue, 1 Mar 2016 18:33:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=UpqspDQ0R0Ts0krLxfAawdHUz+V2Sc418VZ5uxZMHL2g@mail.gmail.com>
+X-Originating-IP: [128.224.124.174]
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] Add tune for 32-bit ARMv8-a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +37,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 16:18:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 01 Mar 2016 16:34:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2016-02-24 at 19:49 +0100, Patrick Ohly wrote:
-> On Wed, 2016-02-24 at 16:09 +0000, Lock, Joshua G wrote:
-> > 
-> > On Wed, 2016-02-24 at 16:37 +0100, Patrick Ohly wrote:
-> > > 
-> > > Hello!
-> > > 
-> > > I haven't had a chance to play with the actual code yet and I
-> > > don't
-> > > know
-> > > yet when I'll be able to. Let me ask for some clarifications
-> > > about
-> > > the
-> > > approach first anyway.
-> > > 
-> > > On Wed, 2016-02-24 at 14:52 +0000, Joshua Lock wrote:
-> > > > 
-> > > > 
-> > > > Approach:
-> > > > An image that inherits the swupd-image bbclass will
-> > > > automatically
-> > > > have bundle
-> > > > 'chroots' created which contain the filesystem contents of the
-> > > > specified
-> > > > bundles, with the contents of the inheriting image forming the
-> > > > default os-core
-> > > > bundle.
-> > > > 
-> > > > The mechanism to achieve this is that several virtual image
-> > > > recipes
-> > > > are created
-> > > > using the swupdbundle class, one for each defined bundle plus a
-> > > > 'mega' image
-> > > > recipe. The 'mega' image contains the base image plus the
-> > > > contents
-> > > > of all of the
-> > > > bundles, whilst bundle images contain only the base image plus
-> > > > the
-> > > > contents of a
-> > > > single bundle.
-> > > Just to be sure, the actual "content" (a term that is a bit too
-> > > overloaded to be used precisely in all cases) of a file and its
-> > > meta
-> > > attributes will come from the mega image, and the virtual image
-> > > recipes,
-> > > including the base image, are merely used to generate file lists?
-> > That's not currently true, no — the file contents for a bundle come
-> > from the bundle image and the file contents for os-core come from
-> > the
-> > base image. It shouldn't be too difficult a change to make, I'll
-> > take a
-> > look now.
-> The prime example that needs to be handled correctly is where
-> installing
-> additional packages for one of the extra bundles adds a system user
-> to /etc/passwd (*). The content of /etc/passwd must come from the
-> mega
-> rootfs.
 
-Indeed,  I'm working on that issue now and have filed a ticket to keep
-track: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9193
 
-> (*) Except that swupd assumes that the distro is stateless and thus
-> automatically excludes /etc from bundles. The example is still valid
-> because preparing bundles does not need to care about that.
+On 03/01/2016 02:02 AM, Andre McCurdy wrote:
+> On Sat, Feb 27, 2016 at 4:44 AM, Daniel Dragomir
+> <daniel.dragomir@windriver.com> wrote:
+>> This patch adds tunes for 32-bit armv8 platforms. The user can select
+>> the vector floating-point instruction set: vfpv3, vfpv4 or fp-armv8
+>> and the Neon, crc and crypto extensions.
+> Why vfpv3? Are there really any armv8a CPUs which have vfpv3 but not vfpv4?
 
-One of the patches I developed for swupd was to turn this into a
-configure time option for swupd-server, see: 
+Hello Andre,
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-swupd/tree/recipes-core/
-swupd-server/swupd-server/0002-Add-configure-option-to-re-enable-
-config-files-in-ma.patch
+I didn't checked before, I simply follow armv7a example and add the new 
+features.
+But it seams that you're right, all armv8a CPU support both vfp 
+versions, so, I will remove armv8a-vfpv3 tune and keep just vfpv4 one.
 
-Regards,
+>> Also, fix some parsing failures for armv7a*-neon-vfpv4 tunes.
+> If you find any issues in arch-armv7a.inc then please double check
+> arch-armv7ve.inc too. These two files are very closely related.
+>
+>> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+>> Signed-off-by: Cristian Bercaru <cristian.bercaru at windriver.com>
+>> ---
+>>   meta/conf/machine/include/arm/arch-armv7a.inc |  4 +-
+>>   meta/conf/machine/include/arm/arch-armv8a.inc | 75 +++++++++++++++++++++++++++
+>>   2 files changed, 77 insertions(+), 2 deletions(-)
+>>   create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+>>
+>> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+>> index d3b6f64..ff6bc29 100644
+>> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
+>> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+>> @@ -65,8 +65,8 @@ PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-v
+>>   PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16} armv7ahf-vfp-vfpv3d16-vfpv3 armv7at2hf-vfp-vfpv3d16-vfpv3"
+>>   PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} armv7ahf-vfp-neon"
+>>   PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7ahf-vfp-neon armv7at2hf-vfp-neon"
+>> -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-neon-vfpv4"
+>> -PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-neon-vfpv4 armv7at2hf-vfp-neon-vfpv4"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-vfpv4-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-vfpv4-neon armv7at2hf-vfp-neon-vfpv4"
+> Is this patch against jethro? Master seems to have a different fix:
+>
+>    http://git.openembedded.org/openembedded-core/commit/?id=6661718158f8fdcdf63b0d48e8fe72d3ac4778f2
 
-Joshua
+Yes, against jethro branch. That's why I didn't saw this fix and also 
+didn't saw the arch-armv7ve.inc file.
+How do I proceed if I want to have armv8a support in jethro? Should I 
+checkout the master branch and add my changes there and resend the patch 
+with the note to be backported to jethro?
+But this patch (with the fix for armv7a) and the one that add 
+arch-armv7ve.inc will be back-ported to jethro too, or how is the process?
+
+>>   # Big Endian
+>>   AVAILTUNES += "armv7ab armv7atb armv7ab-vfpv3d16 armv7atb-vfpv3d16 armv7ab-vfpv3 armv7atb-vfpv3 armv7ab-neon armv7atb-neon"
+>> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+>> new file mode 100644
+>> index 0000000..2d8dd73
+>> --- /dev/null
+>> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
+>> @@ -0,0 +1,75 @@
+>> +DEFAULTTUNE ?= "armv8a"
+>> +
+>> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
+>> +TUNECONFLICTS[armv8a] = "armv4 armv5 armv6 armv7 armv7a"
+>> +
+>> +TUNEVALID[crc] = "Enable CRC instrucitons for ARMv8-a"
+>> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crc", "-crc", "", d)}"
+>> +
+>> +TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
+>> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crypto", "-crypto", "", d)}"
+>> +
+>> +TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
+>> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", "-fp-armv8", "", d)}"
+>> +
+>> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "armv8a", bb.utils.contains("TUNE_FEATURES", "crc", " -march=armv8-a+crc", " -march=armv8-a", d), "", d)}"
+>> +
+>> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", bb.utils.contains("TUNE_FEATURES", "neon", bb.utils.contains("TUNE_FEATURES", "crypto", " -mfpu=crypto-neon-fp-armv8", " -mfpu=neon-fp-armv8", d), " -mfpu=fp-armv8", d), "", d)}"
+>> +
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "armv8a", "armv8a:", "" ,d)}"
+>> +
+>> +require conf/machine/include/arm/arch-armv7a.inc
+> You should include arch-armv7ve.inc here, not arch-armv7a.inc.
+
+Ok, but armv7ve include file is not in jethro. Only in master.
+
+Thanks,
+Daniel
+
+>
+>> +# Little Endian base configs
+>> +AVAILTUNES += "armv8a armv8a-vfpv3 armv8a-neon armv8a-vfpv4 armv8a-vfpv4-neon armv8a-fp-armv8 armv8a-fp-armv8-neon armv8a-crypto-fp-armv8-neon"
+>> +ARMPKGARCH_tune-armv8a ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-vfpv3 ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-neon ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-vfpv4 ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-vfpv4-neon ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-fp-armv8 ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-fp-armv8-neon ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crypto-fp-armv8-neon ?= "armv8a"
+>> +TUNE_FEATURES_tune-armv8a ?= "arm armv8a vfp"
+>> +TUNE_FEATURES_tune-armv8a-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a} vfpv3"
+>> +TUNE_FEATURES_tune-armv8a-neon ?= "${TUNE_FEATURES_tune-armv8a} neon"
+>> +TUNE_FEATURES_tune-armv8a-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a} vfpv4"
+>> +TUNE_FEATURES_tune-armv8a-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a} neon vfpv4"
+>> +TUNE_FEATURES_tune-armv8a-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a} fp-armv8"
+>> +TUNE_FEATURES_tune-armv8a-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} neon fp-armv8"
+>> +TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} crypto neon fp-armv8"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv8a armv8a-vfp"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-vfp-vfpv3"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-vfpv4"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4} armv8a-vfp-neon armv8a-vfp-vfpv4-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-fp-armv8-vfp"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8} armv8a-vfp-neon armv8a-fp-armv8-vfp-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon} armv8a-crypto-fp-armv8-vfp-neon"
+>> +
+>> +# CRC configs
+>> +AVAILTUNES += "armv8a-crc armv8a-crc-vfpv3 armv8a-crc-neon armv8a-crc-vfpv4 armv8a-crc-vfpv4-neon armv8a-crc-fp-armv8 armv8a-crc-fp-armv8-neon armv8a-crc-crypto-fp-armv8-neon"
+>> +ARMPKGARCH_tune-armv8a-crc ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-vfpv3 ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-neon ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-vfpv4 ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-vfpv4-neon ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-fp-armv8 ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-fp-armv8-neon ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-crypto-fp-armv8-neon ?= "armv8a"
+>> +TUNE_FEATURES_tune-armv8a-crc ?= "${TUNE_FEATURES_tune-armv8a} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a-vfpv3} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-neon ?= "${TUNE_FEATURES_tune-armv8a-neon} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a-vfpv4} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a-vfpv4-neon} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8-neon} crc"
+>> +TUNE_FEATURES_tune-armv8a-crc-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon} crc"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crc-vfp"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-vfpv3 armv8a-crc-vfp-vfpv3"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-neon armv8a-crc-vfp-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-vfpv4 armv8a-crc-vfp-vfpv4"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4} armv8a-vfp-neon armv8a-crc-vfp-neon armv8a-vfp-vfpv4-neon armv8a-crc-vfp-vfpv4-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-fp-armv8 armv8a-crc-fp-armv8-vfp"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8} armv8a-vfp-neon armv8a-vfp-neon-fp-armv8 armv8a-crc-fp-armv8-vfp-neon"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon} armv8a-vfp-crypto-neon-fp-armv8 armv8a-crc-crypto-fp-armv8-vfp-neon"
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
