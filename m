@@ -1,44 +1,47 @@
-Return-Path: <h4nn35.work@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 239956FF73
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CDB9731A6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 22:22:56 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id l68so59019290wml.0
+	Tue,  1 Mar 2016 22:50:44 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id z8so29790792ige.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2016 14:22:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=N2TI09qR4xS9xkqBm4Yr86aYC6CGl4ZsJiolI4NZMIw=;
-	b=s6utsI3T+rvwInLjfdOuHTV26dTqMQ9gtTh9r8BpSV2phyVKRawerYBM/dBnvQkKLm
-	bltINf3BVOI8RTN7/lSOFB0v6BsDkR9RYsoCBrral8te8va7QS8QDlswZsKyJZoSMIrW
-	Dl7v3nOslsPWMfC3Av6s+5yxCeMBNeB+XO7Dqs783PuE7gmtIYaWGekY4TukwwEE2JW8
-	5hrrNw7r6rCdXsru7R2cnWb+65lx3MuhC4jHwEtssYieoFKR5wT/djmzCWeO9T01ciUz
-	EYrhCwhx9aaTxbcM67m+/X0jSGFHDIOdT/cPlpcneZrk4q3+EDrJEhC9w8vop4stM5iV
-	pabw==
+	Tue, 01 Mar 2016 14:50:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=UdV/pWQg7CzxGRfvW4ITMpxIGitNhCs8QgcaPbn0YD4=;
+	b=IBxekx/CvvZfDOWLT5O6Q9s0RfxcCXkvR1iEmABSkSQUq5jso6huJfjC24R+fKDXRU
+	ZcJFV88kRovNx8V8a6aXQkaEVHhMYbLwZ8WSi4OLfIqaF+aAxOndfIpVa8RUaOc3SyCn
+	Jl1KBAarA6r9YmmXXSjNU+VE2RZqzMIzNoAAlctMnohGzaTVmMFcByDjyVQRYBFgZYas
+	ZPTv/SxnOGtX0b/BuKs1ulQffqvxd2ev4JbkJe6B89cormAVYvlclbi9q9gdEJQrEof2
+	iuJveMRgNYHb3JX04qfmAWKLjztJhf/SzSvqtoqzkjns45twcu+wziHdTkQBZxXDud1K
+	h48A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=N2TI09qR4xS9xkqBm4Yr86aYC6CGl4ZsJiolI4NZMIw=;
-	b=dZwc1DA0AGXiYr4nt+3rAT/VZ+f3Yvr6RuE1wknX/ZgQLaC8m33m65Ia8wjkmeOw0Z
-	9wrWm+gSBS/dJoTVjdeOzxAthEXBp49uChHpg4NYFDndnRgtjNIVeBUtbLHVDZVfXwrJ
-	mPwfMp35ccJW2nP+zky3ogz4fQQtSqNu8E0Folb6Rj5Fu3zmWZWICfYg+1iSdQWQlpN4
-	jWtGOb5AFflO/BNpCwysoUUTVo4A9Blf1xU4ELL3sId7fGTpduTXq8JbQW1cvZ21v/qx
-	E822kwso4rn301i1l20H827ObgjtBBvKhPRRvGIt7Snw9uwCnVpm3100ByLv9SySdI8F
-	FOYQ==
-X-Gm-Message-State: AD7BkJIveCYpEWME9gynWsjoM5InvwQwxwwwOle2GIKjPUQjTjcN0ckes/Itpz0bzDZyAoAzYmi2i4vsbH7krA==
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=UdV/pWQg7CzxGRfvW4ITMpxIGitNhCs8QgcaPbn0YD4=;
+	b=XcTgk6Nc8qTg/YRKnQ1nMrb4lncrr0mrJfzACb0qtJep+Mro5CCr6uHIwV8JRg0EAw
+	W3bWUFH1DC882wGLThBu4lOQ66sgy9bg+8woEAN2AC2YlWX+mOVmRietfc6Ua6/sLzAd
+	HaTZNDAxL4mGc/YX2126OMRlYHfUbw5pdoD3diAAFpTlgeztzjY59nnziOc0uTgKZ6pp
+	KL1XJF98eHtdn1pwkyziZgpBPUZQ1m036DRZGrzF8lSnLgmE2gTOMrD0T15BOKryWG1d
+	8dE8tkf185AJ0APfpiO/LpQCSc4YJLrrVab97wYugKe9d/WGIq73tcZIyMiyJlFafZIR
+	k2vQ==
+X-Gm-Message-State: AD7BkJKBhtEUDjkkw1UcjoRctZXYfU+tgFM4p3OYcGDy7kfsgxRivnp19fhbpDcfyXmjYhLfKiCm7hPSbneR1vP8
+X-Received: by 10.50.43.226 with SMTP id z2mr1607604igl.78.1456872644898; Tue,
+	01 Mar 2016 14:50:44 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.194.246.35 with SMTP id xt3mr25183158wjc.57.1456870976871;
-	Tue, 01 Mar 2016 14:22:56 -0800 (PST)
-Received: by 10.27.219.20 with HTTP; Tue, 1 Mar 2016 14:22:56 -0800 (PST)
-In-Reply-To: <1456870035.25131.20.camel@linuxfoundation.org>
+Received: by 10.107.162.70 with HTTP; Tue, 1 Mar 2016 14:50:25 -0800 (PST)
+In-Reply-To: <CAHvQdo3iDgR09e7RgS2BNwSYRWfeqOxbEmNO9HFSOVN_=Cwbyg@mail.gmail.com>
 References: <1456868358-9326-1-git-send-email-johannes.pointner@gmail.com>
 	<1456870035.25131.20.camel@linuxfoundation.org>
-Date: Tue, 1 Mar 2016 23:22:56 +0100
-Message-ID: <CAHvQdo3iDgR09e7RgS2BNwSYRWfeqOxbEmNO9HFSOVN_=Cwbyg@mail.gmail.com>
-From: Johannes Pointner <h4nn35.work@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+	<CAHvQdo3iDgR09e7RgS2BNwSYRWfeqOxbEmNO9HFSOVN_=Cwbyg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 1 Mar 2016 22:50:25 +0000
+Message-ID: <CAJTo0LbAJ+Go3bMzkxKV6zTc-zNh1YDanYang_E3fXAb+6J5UA@mail.gmail.com>
+To: Johannes Pointner <h4nn35.work@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [Patch][jethro][master] xcursor-transparent-theme: insert several cursors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -52,57 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 22:22:57 -0000
+X-List-Received-Date: Tue, 01 Mar 2016 22:50:45 -0000
+Content-Type: multipart/alternative; boundary=047d7bfea0f47b9bc5052d049812
+
+--047d7bfea0f47b9bc5052d049812
 Content-Type: text/plain; charset=UTF-8
 
-Hello Richard,
+On 1 March 2016 at 22:22, Johannes Pointner <h4nn35.work@gmail.com> wrote:
 
-sorry I forgot to add a description into the patch.
-The upstream status is quite difficult to define because I don't know
-if there is an upstream for this package.
-
-I'm using Qt5 with X11 and have seen some cursor even if the
-transparent-theme is set because of the missing cursors. But maybe
-this is just something I should add by a bbappend file.
-I thought it could be useful to other people which are using a similar setup.
-
-Thanks,
-Hannes
-
-
-2016-03-01 23:07 GMT+01:00 Richard Purdie <richard.purdie@linuxfoundation.org>:
-> On Tue, 2016-03-01 at 22:39 +0100, Johannes Pointner wrote:
->> This patch inserts several cursors which are used by Qt for example.
->>
->> Signed-off-by: Johannes Pointner <johannes.pointner@gmail.com>
->> ---
->>  .../insert_several_cursors.patch                   | 79
->> ++++++++++++++++++++++
->>  .../xcursor-transparent-theme_0.1.1.bb             |  3 +-
->>  2 files changed, 81 insertions(+), 1 deletion(-)
->>  create mode 100644 meta/recipes-graphics/xcursor-transparent
->> -theme/xcursor-transparent-theme-0.1.1/insert_several_cursors.patch
->>
->> diff --git a/meta/recipes-graphics/xcursor-transparent-theme/xcursor
->> -transparent-theme-0.1.1/insert_several_cursors.patch b/meta/recipes
->> -graphics/xcursor-transparent-theme/xcursor-transparent-theme
->> -0.1.1/insert_several_cursors.patch
->> new file mode 100644
->> index 0000000..861899e
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xcursor-transparent-theme/xcursor
->> -transparent-theme-0.1.1/insert_several_cursors.patch
->> @@ -0,0 +1,79 @@
->
-> There is no description of the patch here, what it does, who wrote it,
-> what the upstream status is etc. Please read the patch submission
-> guidelines.
->
-> How have we survived so long without needing this if its so important?
->
-> Cheers,
->
-> Richard
->
+> The upstream status is quite difficult to define because I don't know
+> if there is an upstream for this package.
 >
 
+We're upstream:
+http://git.yoctoproject.org/cgit/cgit.cgi/xcursor-transparent-theme/.
+Please submit this as a patch to that layer and then a srcrev bump for the
+recipe.
+
+Ross
+
+--047d7bfea0f47b9bc5052d049812
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 March 2016 at 22:22, Johannes Pointner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:h4nn35.work@gmail.com" target=3D"_blank">h4nn35.work@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex"><div id=3D":21o" class=3D"" style=
+=3D"overflow:hidden">The upstream status is quite difficult to define becau=
+se I don&#39;t know<br>
+if there is an upstream for this package.<br></div></blockquote></div><br>W=
+e&#39;re upstream:=C2=A0<a href=3D"http://git.yoctoproject.org/cgit/cgit.cg=
+i/xcursor-transparent-theme/">http://git.yoctoproject.org/cgit/cgit.cgi/xcu=
+rsor-transparent-theme/</a>.=C2=A0 Please submit this as a patch to that la=
+yer and then a srcrev bump for the recipe.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--047d7bfea0f47b9bc5052d049812--
