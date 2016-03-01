@@ -1,27 +1,23 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 61CEE760AA
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D561976420
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 09:37:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u219baM2001585
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Mar 2016 01:37:36 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 1 Mar 2016 01:37:35 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: 
-CC: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Mar 2016 04:37:32 -0500
-Message-ID: <00c1152b43055381d462cd6d1bc0bb3de5a96246.1456824801.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1456824801.git.dengke.du@windriver.com>
-References: <cover.1456824801.git.dengke.du@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pTest-tcl fail fixed
+	Tue,  1 Mar 2016 11:10:38 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 01 Mar 2016 03:10:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,522,1449561600"; d="scan'208";a="926990437"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2016 03:10:39 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 91A1D2C8001;
+	Tue,  1 Mar 2016 03:58:25 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Mar 2016 11:00:56 +0200
+Message-Id: <1456822856-30014-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] bootimg: set default value for LABELS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 09:37:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 01 Mar 2016 11:10:38 -0000
 
-http.test httpold.test socket.test failed when run the pTest-tcl,because
-the tcl script "info hostname" in /usr/lib/tcl/ptest/tests/http.test on
-target fail. When run the "info hostname" get the hostname,but it can find
-the IP in the /etc/hosts, so it failed. We need to add the IP and hostname
-pair in the /etc/hosts. In order to add the IP and hostname pair in the
-/etc/hosts, we need to add the pair when the target start, so I add the
-"echo "127.0.0.1 `cat /etc/hostname`" >> /etc/hosts" to the hostname.sh in
-"meta/recipes-core/initscripts/initscripts-1.0/", when the system invoke
-the hostname.sh in "/etc/init.d/", it add the IP and hostname pair in the
-/etc/hosts.
+With empty LABELS variable build_efi_cfg skips most of its
+functionality producing warning message:
+    'LABELS not defined, nothing to do'
+This causes build failure for efi images.
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Setting default value for LABELS to 'boot install' should fix
+this issue.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/hostname.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/bootimg.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh b/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
-index 95287cc..8866d87 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
-@@ -13,7 +13,7 @@ hostname -b -F /etc/hostname 2> /dev/null
- if [ $? -eq 0 ]; then
- 	exit
- fi
--
-+echo "127.0.0.1 `cat /etc/hostname`" >> /etc/hosts
- # Busybox hostname doesn't support -b so we need implement it on our own
- if [ -f /etc/hostname ];then
- 	hostname `cat /etc/hostname`
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index 7946839..0249a9d 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -49,6 +49,8 @@ EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}",
+ 
+ KERNEL_IMAGETYPE ??= "bzImage"
+ 
++LABELS ?= "boot install"
++
+ # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
+ # contain "efi". This way legacy is supported by default if neither is
+ # specified, maintaining the original behavior.
 -- 
-1.9.1
+2.1.4
 
 
