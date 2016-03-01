@@ -1,48 +1,46 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 786B4765DB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C59760232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 12:49:46 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id l68so31865106wml.1
+	Tue,  1 Mar 2016 13:00:26 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id l68so35505828wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2016 04:49:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:subject:date:message-id:to:mime-version;
-	bh=/OXhvGifN4EydVCw2VIY2K49IyNjewigZnSd36VgS6U=;
-	b=jQRRw55MB1pbz1T06IyZm4TLrRQm/2Bf6mpmk8ceJwGzu503gSqlxYrFroHQrc4F92
-	EMSQ8lRQByh0OKCSHa294RXzXIFnY3K0YUcKMYHz6BbncncwlSBF/SIHcGumpmjIFpcy
-	TYnmYfS0rtK7+tNNbNPNRXphn+2fRJtpxMOWTpInHFaORQR0J62KW1ARJEHtYmYIjZ+N
-	U5iOfFumF0+SuFEyA/76YZ9e7o2Af+/zQMBVFEQDaS2P22jz2syWMFsXLMUFrKW64LZd
-	Zt0KM7z+AKTPt3n8R2BNw9JdfjFqCloTmRd6oPBgQ32XbUDDR5xEnRFCfK35KNyzTSjm
-	q1MA==
+	Tue, 01 Mar 2016 05:00:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=hIcQiO17D3RydKOgbqJW6tRcHHcobXRMoIdngTOai0o=;
+	b=nglcQoxpm0fgvTQzSYsY945vaefBLaVwLTnLu1RChzbHKn8IHq/jOUo6Kv1+Iu105E
+	OFCy5ylsljFfaH2hIVP2i2H9Fo1LJjpPleISibHrLPa+KHpxm6gWrksDPkUSmUMFfP/Z
+	txxEp9xbX2c93KfJ3nLVpfHOowOBXQG3FM8isZQ2/78zYIh9Q5SbhITzxiof0y8hzU79
+	zf9WCA9GwEDxGKx4NhF3Yj2FuB3lW7V7MOk9cO/ri2+FfjqA8Rda5zJ/lrG43/aCeOek
+	bwXKtnTfdryLhRtA47S32s4ZFXicWnjSy9BV8szx22z2NSekPWeDFFfUYmx1C1kBiuj5
+	ODig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:subject:date:message-id:to:mime-version;
-	bh=/OXhvGifN4EydVCw2VIY2K49IyNjewigZnSd36VgS6U=;
-	b=XfH/qZmfKN2cSF6WSrTgS43PUqNIoRXeMTZOLHDV0h66qzbsX4WiMaXCirnkc9mX12
-	BBSYg4T9i+HcjGeEkNODNMy4ptBlrOpt06aT61LZ1wPp/rZvmoDDxYaz5iFQp7AYuPN2
-	z1xDSCCUQVp5+FBSbSCS93iqCJXgbtkDm9azyqqGz08S1Q0ImGjeUVYOss+c9mQxmTIB
-	P/w+IG5Q6SU+3Lyfr7g0T85YMGOa2g1VqfHOslDHxuT4sz/AELnbML4H2xe8mClnS9Oy
-	wyxCDMHYJ1TFUgU+hzotjpKQ4S5/lMM7voaj1l1/uITgd0zN+DMz+CZdgv5kgFLKzFib
-	PgQA==
-X-Gm-Message-State: AD7BkJLVTuoFt5NWy9/+ThUPsLNzEDlwjTyYsQIGPQcYqUwS9XAlfitlLgbMOpYEETqUgw==
-X-Received: by 10.28.226.6 with SMTP id z6mr3419233wmg.44.1456836586881;
-	Tue, 01 Mar 2016 04:49:46 -0800 (PST)
-Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hIcQiO17D3RydKOgbqJW6tRcHHcobXRMoIdngTOai0o=;
+	b=gOE1j0AC74jWVdW4Trm1Pm8jt46t7lHH9ANrMHqrE5KOX5K2CbmXxd4iUZqFgG98ca
+	OzImxDddwaGj2Ks63dI02jRa+HtDm9D45+kInQmvw6L93EY0WcxPyKuENu1ebVVy4i52
+	ichDh7ZkT4kduDg/9qWoPWOQuwdWVeAo8p1zJceBj0SUAr0RfnOjKnB14bMdRxnnqM74
+	WLMLeiZbhepNWJZ3uV97vMy7i5rCSE/ZF6QurdDFvGjrIDz2KnyFF0Rdt2oaPro75auA
+	xWd52MijC1vdYNz+/2tk9QAiD3jMu+E74UHW3iKxm0g6q70zqcRFArxxFRHxYzCO0eQz
+	Nnig==
+X-Gm-Message-State: AD7BkJIIDGv98i9+RR6Yo7BY4PuRzMULQCfimitXskccYX5QVtq+97qhwZ35bL+WMuTYi5ou
+X-Received: by 10.194.112.98 with SMTP id ip2mr20529579wjb.24.1456837226832;
+	Tue, 01 Mar 2016 05:00:26 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	ll9sm30774503wjc.29.2016.03.01.04.49.45
+	lh1sm30726635wjb.20.2016.03.01.05.00.25
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Mar 2016 04:49:46 -0800 (PST)
-From: Jens Rehsack <rehsack@gmail.com>
-X-Pgp-Agent: GPGMail 2.6b2
-Date: Tue, 1 Mar 2016 13:49:44 +0100
-Message-Id: <FBCBD0D0-ED34-46BE-AB52-BFA3E223EA36@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH v3] avahi: make dbus optional but default
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 01 Mar 2016 05:00:26 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Mar 2016 13:00:24 +0000
+Message-Id: <1456837224-13101-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] rpm: fix races over rpmqv.c in parallel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,95 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 12:49:47 -0000
-X-Groupsio-MsgNum: 78986
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_419601B6-6EB7-4AC1-9B1F-B08848D18421";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Tue, 01 Mar 2016 13:00:27 -0000
 
---Apple-Mail=_419601B6-6EB7-4AC1-9B1F-B08848D18421
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-Since do_install fails when dbus is removed by .bbappend, add =
-packageconfig
-to allow users to get rid of desktop ipc helper dbus.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch | 37 +++++++++++++++-------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc =
-b/meta/recipes-connectivity/avahi/avahi.inc
-index faa8ee8..8ee461b 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,7 +14,7 @@ SECTION =3D "network"
- # python scripts are under GPLv2+
- LICENSE =3D "GPLv2+ & LGPLv2.1+"
-
--DEPENDS =3D "expat libcap libdaemon dbus glib-2.0"
-+DEPENDS =3D "expat libcap libdaemon glib-2.0"
-
- SRC_URI =3D =
-"https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar=
-.gz \
-           file://00avahi-autoipd \
-@@ -23,6 +23,9 @@ SRC_URI =3D =
-"https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}
-           "
- UPSTREAM_CHECK_URI =3D "https://github.com/lathiat/avahi/releases/"
-
-+PACKAGECONFIG ??=3D "dbus"
-+PACKAGECONFIG[dbus] =3D "--enable-dbus,--disable-dbus,dbus"
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+index b3c14fd..b2437a8 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+@@ -1,4 +1,7 @@
+-rpm: compile rpmqv.c instead of rpmqv.cc
++From e8bae261615e19ff8a28683765c9539cfb22a086 Mon Sep 17 00:00:00 2001
++From: Joe Slater <jslater@windriver.com>
++Date: Thu, 17 Jul 2014 18:14:54 -0700
++Subject: [PATCH 1/9] rpm: compile rpmqv.c instead of rpmqv.cc
+ 
+ Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
+ into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
+@@ -10,28 +13,38 @@ Upstream-Status: Inappropriate [other]
+ 
+    When linking with g++ is really necessary, the upstream package will do that.
+ 
++Also instead of symlinking files in two places, which can and does race in
++parallel builds, simply refer to the file's full location [RB]
 +
- USERADD_PACKAGES =3D "avahi-daemon avahi-autoipd"
- USERADD_PARAM_avahi-daemon =3D "--system --home /var/run/avahi-daemon \
-                               --no-create-home --shell /bin/false \
-@@ -125,7 +128,7 @@ do_install() {
- 	rm -rf ${D}${localstatedir}/run
- 	rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
- 	rm -rf ${D}${datadir}/dbus-1/interfaces
--	rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
-+	test -d ${D}${datadir}/dbus-1 && rmdir =
---ignore-fail-on-non-empty ${D}${datadir}/dbus-1
- 	rm -rf ${D}${libdir}/avahi
+ Signed-off-by: Joe Slater <joe.slater@windriver.com>
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++---
++ Makefile.am | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
+ 
+-Index: rpm/Makefile.am
+-===================================================================
+---- rpm.orig/Makefile.am
+-+++ rpm/Makefile.am
+-@@ -202,14 +202,16 @@ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAG
++diff --git a/Makefile.am b/Makefile.am
++index 1dade0a..55f8669 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -201,15 +201,13 @@ rpm_SOURCES =		build.c
++ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
+  rpm_LDADD =		rpm.o $(myLDADD)
+  rpm.o:	$(top_srcdir)/rpmqv.c
+- 	ln -sf $< rpmqv.cc
+-+	ln -sf $< rpmqv.c
++-	ln -sf $< rpmqv.cc
+ -	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.cc
+-+	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.c
+++	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $^
+  
+  rpmbuild_SOURCES =	build.c
+  rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
+  rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
+  rpmbuild.o:	$(top_srcdir)/rpmqv.c
+- 	ln -sf $< rpmqv.cc
+-+	ln -sf $< rpmqv.c
++-	ln -sf $< rpmqv.cc
+ -	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.cc
+-+	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.c
+++	$(COMPILE) -DIAM_RPMBT -o $@ -c $^
+  
+  .syntastic_c_config: Makefile
+  	@echo $(COMPILE) | tr ' ' '\n' | sed -e '1d' > $@
++-- 
++2.7.0
++
+-- 
+2.7.0
 
- 	install -d ${D}${sysconfdir}/udhcpc.d
---
-1.9.1
 
-
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_419601B6-6EB7-4AC1-9B1F-B08848D18421
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iQIcBAEBCgAGBQJW1Y/pAAoJEESZlq7c5QqdMkEP/ifDcagVE7h5edqsOM4xmsb7
-oghaUlpw2xs06XfCl1bcc8b6DMMIGtgIukGpq7qE0VE7+NXFD6ie4+Hh7FCzcNOi
-PXeWRmIsIlI5SdTOEVIy095JqrpjlEpQ1mZrwB9A38isGc6XfB/C83vzh0XBnrYe
-asCAG/AWqK0GK1KCZD9RHFS60Gbc8EC7GNFgBdpyzha3vptScYv81n/xbxeweUpv
-sm5AjzWHCJTOkRhCiFYXh0XXkai8pB2Fm6/Uy3H0HwLZvBJN+QZ8B4dhCQ1G/y8B
-4oL1W3aUQ70L7GqRejNDabjeefWf/1ssl/SC09y7lZGH2ykiIB1Xsen//NRmwcdy
-mdndHGZDKt76pi7mTcV667nZDWIyFTRojhyBytw6mtAFFQ1QWrxCmQzjz4uRLZv4
-RJYDmWx3Nw5HogqIKIKQ3EnLKfLBndWjWexbatRzxqWg29Saa2EF+nlkbFTHfCaS
-ZAPrPQWHV9YM/ygeNl1D4P9hJMm/fzQN0PQA6GXNMUlbPxeQfxXczawFsLRWAjPK
-vgxKj6UyFomdEPriH6qnNs7uTETY2QKGVdTgP66NDrpT8ymoLu5iiTm3psezJqwN
-cVZUDABiLv/SL0XkR/mQWAg4KkRxaVb/xo9fvw0QzTXuDKmUWWFROx2rFlZ7CNbb
-6EdcMgNjWOXqn+a6W60/
-=5w6E
------END PGP SIGNATURE-----
-
---Apple-Mail=_419601B6-6EB7-4AC1-9B1F-B08848D18421--
