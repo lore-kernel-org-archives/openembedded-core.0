@@ -1,31 +1,45 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F6B57326D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 73A8F731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 23:42:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u1TNgKFK028031
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Feb 2016 15:42:21 -0800 (PST)
-Received: from server.local (128.224.20.122) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 29 Feb 2016 15:42:20 -0800
-To: "Sullivan, California L" <california.l.sullivan@intel.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-References: <cover.1456782981.git.bruce.ashfield@windriver.com>
-	<48F3FC2919BF894DA92986D5D64EA12801A6424A@ORSMSX103.amr.corp.intel.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56D4D75B.3060606@windriver.com>
-Date: Mon, 29 Feb 2016 18:42:19 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
+	Tue,  1 Mar 2016 00:02:12 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id p65so11620699wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Feb 2016 16:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=yC6+zJLmmcpaulXotfeISEDTplqtE2Zl3VK9O+ZbVfY=;
+	b=tgS1siQYnCXh39lxWodC0hbC2NK8yDzVlZbRtzpsxxeSDB10zUjycT1f4YHGKPTqS7
+	mQxV7Hf3KXTzGxDlpWzYNccfnBieMwTdjeRG23x0B07nCJZ47rV+k4GPujfktiNryaZi
+	O5NRLyasXAnQr6RzaZvCglxySNL+kF0k6XV0cifmYbaXZrGuS80vBwT5eYf3xPc/D7Hi
+	AkVOhHFnV4dLI77rVg8SBdfmoYcByQyCNPU1gjABehQ2ly+N351sPjZhhp1Q1qyjSUsp
+	Z015OQpcpQ6bw4qasWBdtM4a+L/wqKwvPVM7p6d91bY2WBH+rilB12Gd6a34m9J+COwG
+	bSgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=yC6+zJLmmcpaulXotfeISEDTplqtE2Zl3VK9O+ZbVfY=;
+	b=KlRopmYcc4qKN9xgfvY5mZZO/IyDSFsupuHPGsnctNUa3XJWaiMmMjRvqTdgIR3xnQ
+	23s+M+HeyfEBWIvjt/sN5CZy/iXuoX3LETA0r+AM3y0faeYu5jEr0f66aFfriFDeKXaQ
+	JJxI+EDsGtXNZMB2QZVs4FEGhEX8UPePlEgwlyQnAb3jmHwVeBnx8ZvPZ2YCgbqkIDki
+	X0YSdqiOMUSiVoZmFfa/BLArt1RJxsBhNIWr6Q+aK3FYRsUkOZHb4WtZXeB8I88sURUw
+	JZxQa2Wjdmye1GwKfPQ63agt/wBDch415nrLKbICV1TcGqcb8ZzZFP0oecGNwuXBjWzw
+	r4IA==
+X-Gm-Message-State: AD7BkJJubJVDrZhq9QRaRHsqWc3RDIiGq86Ty2ROceKK4j7EyPwBKkPsoXTBtt1CJ58CDaJol4c2DcYHvy9Kkw==
 MIME-Version: 1.0
-In-Reply-To: <48F3FC2919BF894DA92986D5D64EA12801A6424A@ORSMSX103.amr.corp.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "WOLD,
-	SAUL" <saul.wold@intel.com>
-Subject: Re: [v2 PATCH 0/8] linux-yocto: consolidated pull request
+X-Received: by 10.194.63.242 with SMTP id j18mr20566559wjs.114.1456790532589; 
+	Mon, 29 Feb 2016 16:02:12 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 29 Feb 2016 16:02:12 -0800 (PST)
+In-Reply-To: <1456577083-19366-2-git-send-email-daniel.dragomir@windriver.com>
+References: <1456577083-19366-1-git-send-email-daniel.dragomir@windriver.com>
+	<1456577083-19366-2-git-send-email-daniel.dragomir@windriver.com>
+Date: Mon, 29 Feb 2016 16:02:12 -0800
+Message-ID: <CAJ86T=UpqspDQ0R0Ts0krLxfAawdHUz+V2Sc418VZ5uxZMHL2g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Daniel Dragomir <daniel.dragomir@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] Add tune for 32-bit ARMv8-a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,146 +52,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Feb 2016 23:42:22 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Mar 2016 00:02:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2016-02-29 6:01 PM, Sullivan, California L wrote:
-> On 02/29/2016 02:10 PM, Bruce Ashfield wrote:
->> Hi all,
->>
->> v2: actually cc oe-core on the series.
->>
->> Here is the consolidated pull request for linux-yocto 4.1 and 4.4. Most of the
->> changes are updates to -stable for the kernels, and the others are updates for
->> specific boards.
->>
->> I've been building and booting these for qemu*, but of course, more mileage and
->> combinations in the autobuilder is best.
->>
->> Some things to note:
->>
->>   - We have some refactored kernel configuration updates to the base/core policy
->>     of the standard kernel, with a new "developer" kernel type being available,
->>     leaving standard as a smaller variant. Existing board configs have been
->>     flipped to use developer, so they'll see no change, leaving new board configs
->>     to take advantage of the smaller, standard kernel type.
-> It looks like this change hasn't been integrated into the kernel cache yet.
+On Sat, Feb 27, 2016 at 4:44 AM, Daniel Dragomir
+<daniel.dragomir@windriver.com> wrote:
+> This patch adds tunes for 32-bit armv8 platforms. The user can select
+> the vector floating-point instruction set: vfpv3, vfpv4 or fp-armv8
+> and the Neon, crc and crypto extensions.
 
-I just pushed the fixed patch to the end of zedd/kernel:
+Why vfpv3? Are there really any armv8a CPUs which have vfpv3 but not vfpv4?
 
---------------------------
-commit caaa5922cca50eab479dfe0e20ae466e92a09775
-Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date:   Mon Feb 29 18:39:24 2016 -0500
+> Also, fix some parsing failures for armv7a*-neon-vfpv4 tunes.
 
-     linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL, 
-EXPERT and EMBEDDED
+If you find any issues in arch-armv7a.inc then please double check
+arch-armv7ve.inc too. These two files are very closely related.
 
-     Integrating the folliwing patch series from Cal:
-
-       This patch series refactors the ktypes so that base and standard 
-ktypes
-       do not enable EMBEDDED, EXPERT, or DEBUG_KERNEL. The reason this
-       decision was made is because production platforms likely do not want
-       DEBUG_KERNEL enabled, and EMBEDDED selects EXPERT which selects
-       DEBUG_KERNEL.
-
-       A new ktype called "developer" was also created. This ktype
-       enables the options now missing from standard and base, making it 
-easy
-       to maintain the functionality of a BSP through simply swapping 
-the ktype
-       from standard to developer. The preempt-rt ktype is now based off of
-       developer in order to maintain its functionality.
-
-       The new standard ktype does not include EMBEDDED, EXPERT, or
-       DEBUG_KERNEL. Without DEBUG_KERNEL it loses a number of debug 
-features
-       that are selected by default. Without EXPERT it gains 
-RFKILL_INPUT and
-       DEBUG_MEMORY_INIT, while losing VMSPLIT_3G. These are only 
-available to
-       configure with CONFIG_EXPERT=y and default to EXPERT or !EXPERT. Not
-       selecting EMBEDDED has no apparent impacts.
-
-       Some coordination is required for this change, as existing BSPs 
-WILL be
-       affected, and will either need to accept the changes in the standard
-       ktype or move to the developer ktype.
-
-       California Sullivan (12):
-         features/debug: add debug-kernel feature
-         ktypes: add developer ktype
-         ktypes/base: Disable EMBEDDED and DEBUG_KERNEL
-         CONFIG_PROCESSOR_SELECT: do not enable
-         intel-common-drivers.scc: move profiling and latencytop to a 
-new file
-         romley.scc remove profiling and latencytop features
-         bsp/intel-common: add intel-core* developer BSPs
-         preempt-rt.scc: include developer ktype instead of standard
-         intel-common: add intel-developer-drivers.scc to preempt-rt BSPs
-         CONFIG_I2C_I801: set option to yes in intel-core* BSPs
-         bsp: add developer common-pc BSPs
-         bsp: remove profiling and latencytop from non-developer 
-common-pc BSPs
-
-     Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--------------------
-
-Bruce
-
->
+> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+> Signed-off-by: Cristian Bercaru <cristian.bercaru at windriver.com>
 > ---
-> Cal Sullivan
+>  meta/conf/machine/include/arm/arch-armv7a.inc |  4 +-
+>  meta/conf/machine/include/arm/arch-armv8a.inc | 75 +++++++++++++++++++++++++++
+>  2 files changed, 77 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
 >
->>
->>   - The yocto reference BSPs haven't been updated yet, and we need to find
->>     someone with the h/w to do the updates. These may just have to stay on
->>     4.1 LTSI for this cycle.
->>
->>   - We are still seeing the 32 bit x86 X issue on the 4.4 kernel , with a splat on
->>     boot up. I've tried to bisect this twice, leading to inconclusive results, but
->>     regardless, I need to march 4.4 onto the latest -stable, and we'll continue
->>     looking into this issue in the M4 timeframe.
->>
->>   - There still seem to be some races in perf, and something is up with sstate
->>     and the kexec/kboot builds using meta-initramfs and linux-yocto-tiny-kexecboot.
->>     Now that these updates are out, I'll revisit them and hold any stable updates
->>     (unless there are significant CVEs) in the M4 cycle.
->>
->> Cheers,
->>
->> Bruce
->>
->> The following changes since commit 4006a7f2762ccd5dcbc6cdff49482d4387a73261:
->>
->>    sanity: Fix int verses string reference (2016-02-28 22:54:09 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib zedd/kernel
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>
->> Bruce Ashfield (8):
->>    linux-yocto/4.1: Galileo updates
->>    linux-yocto/4.1: clkdev updates
->>    linux-yocto/4.1: update to 4.1.18
->>    linux-yocto/4.4: yaffs2 build fixes
->>    linux-yocto: braswell: Remove feature and move DRM_I915_PRELIMINARY_HW_SUPPORT option
->>    linux-yocto/4.4: update to -stable 4.4.2
->>    linux-yocto/4.1: iwlwifi: mvm: don't allow sched scans without matches to be started
->>    linux-yocto/4.4: update to 4.4.3
->>
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  6 +++---
->>   meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
->>   meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  6 +++---
->>   meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
->>   meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 20 ++++++++++----------
->>   6 files changed, 32 insertions(+), 32 deletions(-)
->>
->
+> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+> index d3b6f64..ff6bc29 100644
+> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+> @@ -65,8 +65,8 @@ PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-v
+>  PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16} armv7ahf-vfp-vfpv3d16-vfpv3 armv7at2hf-vfp-vfpv3d16-vfpv3"
+>  PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} armv7ahf-vfp-neon"
+>  PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7ahf-vfp-neon armv7at2hf-vfp-neon"
+> -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-neon-vfpv4"
+> -PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-neon-vfpv4 armv7at2hf-vfp-neon-vfpv4"
+> +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-vfpv4-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-vfpv4-neon armv7at2hf-vfp-neon-vfpv4"
 
+Is this patch against jethro? Master seems to have a different fix:
+
+  http://git.openembedded.org/openembedded-core/commit/?id=6661718158f8fdcdf63b0d48e8fe72d3ac4778f2
+
+>  # Big Endian
+>  AVAILTUNES += "armv7ab armv7atb armv7ab-vfpv3d16 armv7atb-vfpv3d16 armv7ab-vfpv3 armv7atb-vfpv3 armv7ab-neon armv7atb-neon"
+> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+> new file mode 100644
+> index 0000000..2d8dd73
+> --- /dev/null
+> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
+> @@ -0,0 +1,75 @@
+> +DEFAULTTUNE ?= "armv8a"
+> +
+> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
+> +TUNECONFLICTS[armv8a] = "armv4 armv5 armv6 armv7 armv7a"
+> +
+> +TUNEVALID[crc] = "Enable CRC instrucitons for ARMv8-a"
+> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crc", "-crc", "", d)}"
+> +
+> +TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
+> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crypto", "-crypto", "", d)}"
+> +
+> +TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
+> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", "-fp-armv8", "", d)}"
+> +
+> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "armv8a", bb.utils.contains("TUNE_FEATURES", "crc", " -march=armv8-a+crc", " -march=armv8-a", d), "", d)}"
+> +
+> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", bb.utils.contains("TUNE_FEATURES", "neon", bb.utils.contains("TUNE_FEATURES", "crypto", " -mfpu=crypto-neon-fp-armv8", " -mfpu=neon-fp-armv8", d), " -mfpu=fp-armv8", d), "", d)}"
+> +
+> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "armv8a", "armv8a:", "" ,d)}"
+> +
+> +require conf/machine/include/arm/arch-armv7a.inc
+
+You should include arch-armv7ve.inc here, not arch-armv7a.inc.
+
+> +# Little Endian base configs
+> +AVAILTUNES += "armv8a armv8a-vfpv3 armv8a-neon armv8a-vfpv4 armv8a-vfpv4-neon armv8a-fp-armv8 armv8a-fp-armv8-neon armv8a-crypto-fp-armv8-neon"
+> +ARMPKGARCH_tune-armv8a ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-vfpv3 ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-neon ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-vfpv4 ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-vfpv4-neon ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-fp-armv8 ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-fp-armv8-neon ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crypto-fp-armv8-neon ?= "armv8a"
+> +TUNE_FEATURES_tune-armv8a ?= "arm armv8a vfp"
+> +TUNE_FEATURES_tune-armv8a-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a} vfpv3"
+> +TUNE_FEATURES_tune-armv8a-neon ?= "${TUNE_FEATURES_tune-armv8a} neon"
+> +TUNE_FEATURES_tune-armv8a-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a} vfpv4"
+> +TUNE_FEATURES_tune-armv8a-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a} neon vfpv4"
+> +TUNE_FEATURES_tune-armv8a-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a} fp-armv8"
+> +TUNE_FEATURES_tune-armv8a-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} neon fp-armv8"
+> +TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} crypto neon fp-armv8"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv8a armv8a-vfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-vfp-vfpv3"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-vfpv4"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4} armv8a-vfp-neon armv8a-vfp-vfpv4-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-fp-armv8-vfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8} armv8a-vfp-neon armv8a-fp-armv8-vfp-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon} armv8a-crypto-fp-armv8-vfp-neon"
+> +
+> +# CRC configs
+> +AVAILTUNES += "armv8a-crc armv8a-crc-vfpv3 armv8a-crc-neon armv8a-crc-vfpv4 armv8a-crc-vfpv4-neon armv8a-crc-fp-armv8 armv8a-crc-fp-armv8-neon armv8a-crc-crypto-fp-armv8-neon"
+> +ARMPKGARCH_tune-armv8a-crc ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-vfpv3 ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-neon ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-vfpv4 ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-vfpv4-neon ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-fp-armv8 ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-fp-armv8-neon ?= "armv8a"
+> +ARMPKGARCH_tune-armv8a-crc-crypto-fp-armv8-neon ?= "armv8a"
+> +TUNE_FEATURES_tune-armv8a-crc ?= "${TUNE_FEATURES_tune-armv8a} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a-vfpv3} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-neon ?= "${TUNE_FEATURES_tune-armv8a-neon} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a-vfpv4} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a-vfpv4-neon} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8-neon} crc"
+> +TUNE_FEATURES_tune-armv8a-crc-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon} crc"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crc-vfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-vfpv3 armv8a-crc-vfp-vfpv3"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-neon armv8a-crc-vfp-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-vfpv4 armv8a-crc-vfp-vfpv4"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4} armv8a-vfp-neon armv8a-crc-vfp-neon armv8a-vfp-vfpv4-neon armv8a-crc-vfp-vfpv4-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-fp-armv8 armv8a-crc-fp-armv8-vfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8} armv8a-vfp-neon armv8a-vfp-neon-fp-armv8 armv8a-crc-fp-armv8-vfp-neon"
+> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon} armv8a-vfp-crypto-neon-fp-armv8 armv8a-crc-crypto-fp-armv8-vfp-neon"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
