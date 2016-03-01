@@ -1,45 +1,55 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 73A8F731DF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AF5773D27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 00:02:12 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id p65so11620699wmp.0
+	Tue,  1 Mar 2016 00:41:19 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id l68so12312088wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Feb 2016 16:02:13 -0800 (PST)
+	Mon, 29 Feb 2016 16:41:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=yC6+zJLmmcpaulXotfeISEDTplqtE2Zl3VK9O+ZbVfY=;
-	b=tgS1siQYnCXh39lxWodC0hbC2NK8yDzVlZbRtzpsxxeSDB10zUjycT1f4YHGKPTqS7
-	mQxV7Hf3KXTzGxDlpWzYNccfnBieMwTdjeRG23x0B07nCJZ47rV+k4GPujfktiNryaZi
-	O5NRLyasXAnQr6RzaZvCglxySNL+kF0k6XV0cifmYbaXZrGuS80vBwT5eYf3xPc/D7Hi
-	AkVOhHFnV4dLI77rVg8SBdfmoYcByQyCNPU1gjABehQ2ly+N351sPjZhhp1Q1qyjSUsp
-	Z015OQpcpQ6bw4qasWBdtM4a+L/wqKwvPVM7p6d91bY2WBH+rilB12Gd6a34m9J+COwG
-	bSgw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=PQiaaYprKmDARLOWehqI8PTMgfBoJL59VxI+9e0YrgI=;
+	b=kr5j8RFCLkXyPUfaD75IiNE+DDLnKmINUgJvLijlqu+fZeotSuOUpl+ScxjrWpxrTL
+	lUclyWE/aAJGqmfQYd2nt3o6awZJdgqsF/Yjs3GGEBnY529+OTlgQq42dIZ2Say7riFd
+	v2O5/h373/AScc/d966yJLfc0ePm2RIuEl3L11DBvvBq9l60zkiCnDbRsvP2/ZFcPbJs
+	C931882H25tZM6TLK7VRX8JSaj0N61+vwRHJTkBGFaHpJtY1otB98BA2lS+T/c9CVfAe
+	TguyJHZmC5xoWHVGbYt5hrNBWFKEGScgjI5mS0SxUqEfw4Mq2hy+FSiD4mHFzFf3KWp0
+	nOqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=yC6+zJLmmcpaulXotfeISEDTplqtE2Zl3VK9O+ZbVfY=;
-	b=KlRopmYcc4qKN9xgfvY5mZZO/IyDSFsupuHPGsnctNUa3XJWaiMmMjRvqTdgIR3xnQ
-	23s+M+HeyfEBWIvjt/sN5CZy/iXuoX3LETA0r+AM3y0faeYu5jEr0f66aFfriFDeKXaQ
-	JJxI+EDsGtXNZMB2QZVs4FEGhEX8UPePlEgwlyQnAb3jmHwVeBnx8ZvPZ2YCgbqkIDki
-	X0YSdqiOMUSiVoZmFfa/BLArt1RJxsBhNIWr6Q+aK3FYRsUkOZHb4WtZXeB8I88sURUw
-	JZxQa2Wjdmye1GwKfPQ63agt/wBDch415nrLKbICV1TcGqcb8ZzZFP0oecGNwuXBjWzw
-	r4IA==
-X-Gm-Message-State: AD7BkJJubJVDrZhq9QRaRHsqWc3RDIiGq86Ty2ROceKK4j7EyPwBKkPsoXTBtt1CJ58CDaJol4c2DcYHvy9Kkw==
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=PQiaaYprKmDARLOWehqI8PTMgfBoJL59VxI+9e0YrgI=;
+	b=CCj54QbwXV/FxoTIhvPXU7x+Q2qMiUnfPfWD7A/wf3HS+hqxtuPlpM/cRtfZewt/o4
+	UrVZ0e3+/L/GsoqMCnOPp4TSSVCsJUyHOhP+9RbGMq44vC5Javf4C8FILh3qa8SN0BPM
+	Dsmo3IWbAeUj8cclYD3uj3FdlQlD4D6wwZMCAk4KOIiV2MzxJr/wsfK2S13dP146n8qB
+	TYfzObZB35yldjP9ZcWbMwDyZTnEZjLVnoE/edIH35PyfDV8AqMceHxi0DaS7iGX0KpI
+	f9ISr9KdWcux895ikgyGOgindUgrL6NHbnkCTukHNoQwMFIsHSBH9bVYlZ3sBm7Uu8ct
+	xMhQ==
+X-Gm-Message-State: AD7BkJJtl9UNXbYJBALV/djLV70A1HcLGZHHGB1dnhdgLU4F8E7RhXuuwik6YwRk2CO6Kw==
+X-Received: by 10.194.112.165 with SMTP id ir5mr20871089wjb.113.1456792879572; 
+	Mon, 29 Feb 2016 16:41:19 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	s66sm18767919wmb.6.2016.02.29.16.41.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Feb 2016 16:41:18 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 1 Mar 2016 01:43:09 +0100
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20160301004309.GA2559@jama>
+References: <1456773039-5178-1-git-send-email-Martin.Jansa@gmail.com>
+	<1456778449.11498.183.camel@linuxfoundation.org>
+	<CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
+	<CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
+	<CA+chaQfHZPKviheG2NY7miXe9YZir0pszp8qCQbb1kgzPABPDQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.194.63.242 with SMTP id j18mr20566559wjs.114.1456790532589; 
-	Mon, 29 Feb 2016 16:02:12 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Mon, 29 Feb 2016 16:02:12 -0800 (PST)
-In-Reply-To: <1456577083-19366-2-git-send-email-daniel.dragomir@windriver.com>
-References: <1456577083-19366-1-git-send-email-daniel.dragomir@windriver.com>
-	<1456577083-19366-2-git-send-email-daniel.dragomir@windriver.com>
-Date: Mon, 29 Feb 2016 16:02:12 -0800
-Message-ID: <CAJ86T=UpqspDQ0R0Ts0krLxfAawdHUz+V2Sc418VZ5uxZMHL2g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Daniel Dragomir <daniel.dragomir@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] Add tune for 32-bit ARMv8-a
+In-Reply-To: <CA+chaQfHZPKviheG2NY7miXe9YZir0pszp8qCQbb1kgzPABPDQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] no-static-libs.inc: add gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,138 +62,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 00:02:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Mar 2016 00:41:21 -0000
+X-Groupsio-MsgNum: 78953
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
 
-On Sat, Feb 27, 2016 at 4:44 AM, Daniel Dragomir
-<daniel.dragomir@windriver.com> wrote:
-> This patch adds tunes for 32-bit armv8 platforms. The user can select
-> the vector floating-point instruction set: vfpv3, vfpv4 or fp-armv8
-> and the Neon, crc and crypto extensions.
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Why vfpv3? Are there really any armv8a CPUs which have vfpv3 but not vfpv4?
+On Mon, Feb 29, 2016 at 10:30:17PM +0100, Martin Jansa wrote:
+> No special configuration IIRC (will check tomorrow and send whole
+> config.log).
+>=20
+> But it failed the same in my minimal chroot env with just oe-core and on
+> Ubuntu jenkins slave doing bitbake world with many layers, here is full l=
+og:
+> http://errors.yoctoproject.org/Errors/Details/38149/
+>=20
+> and it shows --without-system-readline parameter.
 
-> Also, fix some parsing failures for armv7a*-neon-vfpv4 tunes.
+It's caused by bbappend in meta-qt5
 
-If you find any issues in arch-armv7a.inc then please double check
-arch-armv7ve.inc too. These two files are very closely related.
+OE qemux86@ ~/build/oe-core $ cat meta-qt5/recipes-devtools/gdb/gdb_%.bbapp=
+end
+PACKAGECONFIG ??=3D "python"
 
-> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-> Signed-off-by: Cristian Bercaru <cristian.bercaru at windriver.com>
-> ---
->  meta/conf/machine/include/arm/arch-armv7a.inc |  4 +-
->  meta/conf/machine/include/arm/arch-armv8a.inc | 75 +++++++++++++++++++++++++++
->  2 files changed, 77 insertions(+), 2 deletions(-)
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
->
-> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-> index d3b6f64..ff6bc29 100644
-> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
-> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-> @@ -65,8 +65,8 @@ PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-v
->  PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16} armv7ahf-vfp-vfpv3d16-vfpv3 armv7at2hf-vfp-vfpv3d16-vfpv3"
->  PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} armv7ahf-vfp-neon"
->  PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7ahf-vfp-neon armv7at2hf-vfp-neon"
-> -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-neon-vfpv4"
-> -PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-neon-vfpv4 armv7at2hf-vfp-neon-vfpv4"
-> +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} armv7ahf-vfp-vfpv4-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} armv7ahf-vfp-vfpv4-neon armv7at2hf-vfp-neon-vfpv4"
+But on the other hand does this change make more harm than confusing
+error for people who try to build without readline in PACKAGECONFIG?
 
-Is this patch against jethro? Master seems to have a different fix:
+Regards,
 
-  http://git.openembedded.org/openembedded-core/commit/?id=6661718158f8fdcdf63b0d48e8fe72d3ac4778f2
+>=20
+> On Mon, Feb 29, 2016 at 9:50 PM, Andre McCurdy <armccurdy@gmail.com> wrot=
+e:
+>=20
+> > On Mon, Feb 29, 2016 at 12:43 PM, Burton, Ross <ross.burton@intel.com>
+> > wrote:
+> > >
+> > > On 29 February 2016 at 20:40, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > >>
+> > >> I'm a bit puzzled as our autobuilders build this all the time and we
+> > >> don't see failures. Any idea what the configuration difference might
+> > >> be?
+> > >
+> > > Since oe-core 94e1b917078bedf73830e54278af77f742c93581 gdb has a
+> > > packageconfig for system readline, which is enabled by default (and h=
+as
+> > been
+> > > enabled explicitly for a long time).  Do you have some local patches
+> > adding
+> > > more PACKAGECONFIG options but not enabling readline?
+> >
+> > gdb 7.10.1 depends on readline features which are not present in
+> > readline 5.2 (ie the GPLv2 version). Using the gdb internal readline
+> > is a workaround for people who don't want to switch to the GPLv3
+> > version of readline.
+> >
+> > (Although gdb is itself GPLv3, it's self contained and easy to exclude
+> > from release builds).
+> >
+> > > Ross
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > >
+> >
 
->  # Big Endian
->  AVAILTUNES += "armv7ab armv7atb armv7ab-vfpv3d16 armv7atb-vfpv3d16 armv7ab-vfpv3 armv7atb-vfpv3 armv7ab-neon armv7atb-neon"
-> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-> new file mode 100644
-> index 0000000..2d8dd73
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-> @@ -0,0 +1,75 @@
-> +DEFAULTTUNE ?= "armv8a"
-> +
-> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
-> +TUNECONFLICTS[armv8a] = "armv4 armv5 armv6 armv7 armv7a"
-> +
-> +TUNEVALID[crc] = "Enable CRC instrucitons for ARMv8-a"
-> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crc", "-crc", "", d)}"
-> +
-> +TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
-> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crypto", "-crypto", "", d)}"
-> +
-> +TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
-> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", "-fp-armv8", "", d)}"
-> +
-> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "armv8a", bb.utils.contains("TUNE_FEATURES", "crc", " -march=armv8-a+crc", " -march=armv8-a", d), "", d)}"
-> +
-> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", bb.utils.contains("TUNE_FEATURES", "neon", bb.utils.contains("TUNE_FEATURES", "crypto", " -mfpu=crypto-neon-fp-armv8", " -mfpu=neon-fp-armv8", d), " -mfpu=fp-armv8", d), "", d)}"
-> +
-> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "armv8a", "armv8a:", "" ,d)}"
-> +
-> +require conf/machine/include/arm/arch-armv7a.inc
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-You should include arch-armv7ve.inc here, not arch-armv7a.inc.
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> +# Little Endian base configs
-> +AVAILTUNES += "armv8a armv8a-vfpv3 armv8a-neon armv8a-vfpv4 armv8a-vfpv4-neon armv8a-fp-armv8 armv8a-fp-armv8-neon armv8a-crypto-fp-armv8-neon"
-> +ARMPKGARCH_tune-armv8a ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-vfpv3 ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-neon ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-vfpv4 ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-vfpv4-neon ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-fp-armv8 ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-fp-armv8-neon ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crypto-fp-armv8-neon ?= "armv8a"
-> +TUNE_FEATURES_tune-armv8a ?= "arm armv8a vfp"
-> +TUNE_FEATURES_tune-armv8a-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a} vfpv3"
-> +TUNE_FEATURES_tune-armv8a-neon ?= "${TUNE_FEATURES_tune-armv8a} neon"
-> +TUNE_FEATURES_tune-armv8a-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a} vfpv4"
-> +TUNE_FEATURES_tune-armv8a-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a} neon vfpv4"
-> +TUNE_FEATURES_tune-armv8a-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a} fp-armv8"
-> +TUNE_FEATURES_tune-armv8a-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} neon fp-armv8"
-> +TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a} crypto neon fp-armv8"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv8a armv8a-vfp"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-vfp-vfpv3"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv3} armv8a-vfp-vfpv4"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4} armv8a-vfp-neon armv8a-vfp-vfpv4-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-fp-armv8-vfp"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8} armv8a-vfp-neon armv8a-fp-armv8-vfp-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon} armv8a-crypto-fp-armv8-vfp-neon"
-> +
-> +# CRC configs
-> +AVAILTUNES += "armv8a-crc armv8a-crc-vfpv3 armv8a-crc-neon armv8a-crc-vfpv4 armv8a-crc-vfpv4-neon armv8a-crc-fp-armv8 armv8a-crc-fp-armv8-neon armv8a-crc-crypto-fp-armv8-neon"
-> +ARMPKGARCH_tune-armv8a-crc ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-vfpv3 ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-neon ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-vfpv4 ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-vfpv4-neon ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-fp-armv8 ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-fp-armv8-neon ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-crypto-fp-armv8-neon ?= "armv8a"
-> +TUNE_FEATURES_tune-armv8a-crc ?= "${TUNE_FEATURES_tune-armv8a} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-vfpv3 ?= "${TUNE_FEATURES_tune-armv8a-vfpv3} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-neon ?= "${TUNE_FEATURES_tune-armv8a-neon} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-vfpv4 ?= "${TUNE_FEATURES_tune-armv8a-vfpv4} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-vfpv4-neon ?= "${TUNE_FEATURES_tune-armv8a-vfpv4-neon} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-fp-armv8 ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-fp-armv8-neon} crc"
-> +TUNE_FEATURES_tune-armv8a-crc-crypto-fp-armv8-neon ?= "${TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon} crc"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crc-vfp"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-vfpv3 armv8a-crc-vfp-vfpv3"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-neon armv8a-crc-vfp-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv3} armv8a-vfp-vfpv4 armv8a-crc-vfp-vfpv4"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4} armv8a-vfp-neon armv8a-crc-vfp-neon armv8a-vfp-vfpv4-neon armv8a-crc-vfp-vfpv4-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-vfp-fp-armv8 armv8a-crc-fp-armv8-vfp"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8} armv8a-vfp-neon armv8a-vfp-neon-fp-armv8 armv8a-crc-fp-armv8-vfp-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon} armv8a-vfp-crypto-neon-fp-armv8 armv8a-crc-crypto-fp-armv8-vfp-neon"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlbU5ZwACgkQN1Ujt2V2gBzjgACeJ6PC+XI3Xk0XiPISOd4EfrDf
++cYAn22IUO5iyj4I+txNdyDC89yHDHkc
+=Kn5G
+-----END PGP SIGNATURE-----
+
+--zhXaljGHf11kAtnf--
