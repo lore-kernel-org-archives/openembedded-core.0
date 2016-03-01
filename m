@@ -1,31 +1,28 @@
-Return-Path: <mariano.lopez@linux.intel.com>
+Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DD35A76E5E
+	by mail.openembedded.org (Postfix) with ESMTP id BB0CE76E5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Mar 2016 15:16:18 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP; 01 Mar 2016 07:15:01 -0800
+	Tue,  1 Mar 2016 16:18:23 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 01 Mar 2016 08:18:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,523,1449561600"; d="scan'208";a="57642533"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.16.118])
-	([10.219.16.118])
-	by fmsmga004.fm.intel.com with ESMTP; 01 Mar 2016 07:15:00 -0800
-To: Mikko.Rapeli@bmw.de, ross.burton@intel.com
-References: <cover.1456327117.git.mariano.lopez@linux.intel.com>
-	<20160225121421.GB6210@loska> <20160225122912.GC6210@loska>
-	<20160225132748.GD6210@loska> <20160225140942.GE6210@loska>
-	<20160226081455.GH6210@loska>
-	<CAJTo0LYAD76f7qOjAhyZF3NAgBo79ewUGKOT=8REWrnSK+cw7Q@mail.gmail.com>
-	<20160229141934.GQ6210@loska>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <56D5B219.8050204@linux.intel.com>
-Date: Tue, 1 Mar 2016 09:15:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <20160229141934.GQ6210@loska>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Add initial capability to check CVEs for recipes
+X-IronPort-AV: E=Sophos;i="5.22,523,1449561600"; d="scan'208";a="756069132"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.3.164])
+	by orsmga003.jf.intel.com with ESMTP; 01 Mar 2016 08:18:21 -0800
+Message-ID: <1456849101.11442.2.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Tue, 01 Mar 2016 16:18:21 +0000
+In-Reply-To: <1456339760.30039.62.camel@intel.com>
+References: <cover.1456325292.git.joshua.g.lock@intel.com>
+	<1456328275.30039.49.camel@intel.com>
+	<1456330147.5333.14.camel@intel.com>
+	<1456339760.30039.62.camel@intel.com>
+X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/10] Integrate swupd software updater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2016 15:16:19 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Mar 2016 16:18:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+On Wed, 2016-02-24 at 19:49 +0100, Patrick Ohly wrote:
+> On Wed, 2016-02-24 at 16:09 +0000, Lock, Joshua G wrote:
+> > 
+> > On Wed, 2016-02-24 at 16:37 +0100, Patrick Ohly wrote:
+> > > 
+> > > Hello!
+> > > 
+> > > I haven't had a chance to play with the actual code yet and I
+> > > don't
+> > > know
+> > > yet when I'll be able to. Let me ask for some clarifications
+> > > about
+> > > the
+> > > approach first anyway.
+> > > 
+> > > On Wed, 2016-02-24 at 14:52 +0000, Joshua Lock wrote:
+> > > > 
+> > > > 
+> > > > Approach:
+> > > > An image that inherits the swupd-image bbclass will
+> > > > automatically
+> > > > have bundle
+> > > > 'chroots' created which contain the filesystem contents of the
+> > > > specified
+> > > > bundles, with the contents of the inheriting image forming the
+> > > > default os-core
+> > > > bundle.
+> > > > 
+> > > > The mechanism to achieve this is that several virtual image
+> > > > recipes
+> > > > are created
+> > > > using the swupdbundle class, one for each defined bundle plus a
+> > > > 'mega' image
+> > > > recipe. The 'mega' image contains the base image plus the
+> > > > contents
+> > > > of all of the
+> > > > bundles, whilst bundle images contain only the base image plus
+> > > > the
+> > > > contents of a
+> > > > single bundle.
+> > > Just to be sure, the actual "content" (a term that is a bit too
+> > > overloaded to be used precisely in all cases) of a file and its
+> > > meta
+> > > attributes will come from the mega image, and the virtual image
+> > > recipes,
+> > > including the base image, are merely used to generate file lists?
+> > That's not currently true, no — the file contents for a bundle come
+> > from the bundle image and the file contents for os-core come from
+> > the
+> > base image. It shouldn't be too difficult a change to make, I'll
+> > take a
+> > look now.
+> The prime example that needs to be handled correctly is where
+> installing
+> additional packages for one of the extra bundles adds a system user
+> to /etc/passwd (*). The content of /etc/passwd must come from the
+> mega
+> rootfs.
 
+Indeed,  I'm working on that issue now and have filed a ticket to keep
+track: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9193
 
-On 02/29/2016 08:19 AM, Mikko.Rapeli@bmw.de wrote:
-> On Mon, Feb 29, 2016 at 02:17:26PM +0000, Burton, Ross wrote:
->> On 26 February 2016 at 08:14, <Mikko.Rapeli@bmw.de> wrote:
->>
->>> 17:45:37  *** 0013:        with open(patch_file, "r") as f:
->>> 17:45:37      0014:            patch_text = f.read()
->>> 17:45:37      0015:
->>> 17:45:37      0016:        # Search for the "CVE: " line
->>> 17:45:37      0017:        match = cve_match.search(patch_text)
->>> 17:45:37 Exception: IOError: [Errno 2] No such file or directory:
->>> '/home/builder/src/base/build/tmp/work/corei7-64-linux/mailx/12.5-r2/heirloom-mailx_12.5-1.diff'
->>> 17:45:37
->>> 17:45:37 ERROR: Function failed: do_cve_check
->>>
->>> So could this be caused by cve-check changes or is this just a side effect
->>> of some other recipe problems?
->>>
->> Do you have rm_work enabled?
-> Yes.
->
-> -Mikko
+> (*) Except that swupd assumes that the distro is stateless and thus
+> automatically excludes /etc from bundles. The example is still valid
+> because preparing bundles does not need to care about that.
 
-I think I have found the problem, when you do devshell it will execute 
-do_unpack and the cve_check task must run after that for some recipes. 
-Try this:
+One of the patches I developed for swupd was to turn this into a
+configure time option for swupd-server, see: 
 
-addtask cve_check after do_unpack before do_build
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-swupd/tree/recipes-core/
+swupd-server/swupd-server/0002-Add-configure-option-to-re-enable-
+config-files-in-ma.patch
 
-Sorry, to no include a diff, the diff is way bigger than just this line 
-at the moment.
+Regards,
 
-Mariano
+Joshua
 
