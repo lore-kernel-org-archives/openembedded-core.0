@@ -1,51 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 33F25770AF
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 9059C7680A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Mar 2016 14:31:08 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id u110so40860420qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2016 06:31:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OOR+wAlUz5+SfvPIx54+jNTj+DInM6jZKXMzQw+Mo7s=;
-	b=gKqLpXa1gz/GRxrOQilIZII9YBbrWlnCuEAAzlvy2rL3HZH6W6oLtZXc4OFyprPArF
-	lj9qRFOai+NlFBSSmpfo0cULna7FcD6VHa3kVzrA9zzBW3ImOGEonFtZJj28kzdpi2NA
-	sOyr+RGPp9tMPlO8u0tnvY/xWDcPqKB2AialWNlSdf/G8hLGJYTiCK73gI/exfeA8u/L
-	NVuDZyiwClem7KvzgEecnEG2HHPxg6V5jd6hbTXx/Kc6aNchObLjwjccXaISzvYn6iXl
-	LZsS7r4nplWRIPu6rxp7mr/0jCxfXk82/zgtuGSgfXkTE/e+hDA8W6Q2+wpJdNJwXmAN
-	n7ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OOR+wAlUz5+SfvPIx54+jNTj+DInM6jZKXMzQw+Mo7s=;
-	b=EMmdyaNj1j5+VcrISM2qzI8Kju9VcIb4Xc1S3P5qJZmb88sozLFyAg0qC3zgrPgBG3
-	/4OoboYWJY940EkcYHhPmgeyv33GfQjXWJyIFd6qoRe/dPdaz5NM6LNqbe4UU13q6flX
-	MtFZHivwTzVsyTfhs14gpB/AawPeF486f5sRVamjnXcxeBbTZZ3S+vPXXIG7r3XZ0yfM
-	UH0s+F6inQOv1vpmrq133WvQSXXQXKFA/iE0Rocryf2js3TBEeKnpAbJtCbEQlCcWqr+
-	VuhUaxf5wGY/waFQImm7EB0ctp4Tam+ASU92Ne/a6YZlHrFugVRLVIkJjh86jHASuOU0
-	w0Ag==
-X-Gm-Message-State: AD7BkJKGOK2poBxR51ZmY3PKiMV/o4FDmAAf1kYkK99jaLb34Pnipp4Z+rqKr3Q7kyyw/svs8mQ1yA4EPkJzQQ==
-X-Received: by 10.141.4.135 with SMTP id g129mr36141276qhd.31.1456929069489;
-	Wed, 02 Mar 2016 06:31:09 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Wed, 2 Mar 2016 06:30:39 -0800 (PST)
-In-Reply-To: <56D6F62C.2020000@linux.intel.com>
-References: <cover.1456415870.git.alexander.kanavin@linux.intel.com>
-	<549d5d18a9fe89af398559b3f8df60bb66643392.1456415870.git.alexander.kanavin@linux.intel.com>
-	<89F0A1C5-6710-4F62-A646-0A2FDDDC75D8@gmail.com>
-	<56D5A3B1.8080008@linux.intel.com>
-	<CAMKF1sqDVjNH_XLhbY+86BdFx9vZZpaw8j-XNDTM67st=LWW=Q@mail.gmail.com>
-	<56D6F62C.2020000@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Mar 2016 06:30:39 -0800
-Message-ID: <CAMKF1sqNKzREAVcpQQry9preJf0Jnj6U245CcTE-vpubQ9jJ1w@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/19] nspr: update to 4.12
+	Wed,  2 Mar 2016 14:48:06 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u22Em5en008145; Wed, 2 Mar 2016 08:48:05 -0600
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016030208480572-926334 ;
+	Wed, 2 Mar 2016 08:48:05 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 2 Mar 2016 16:47:31 +0200
+Message-Id: <ea4ed0cbfccecd595722db4181b6624577b90093.1456929539.git.adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.1
+In-Reply-To: <cover.1456929539.git.adrian.ratiu@ni.com>
+References: <cover.1456929539.git.adrian.ratiu@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 03/02/2016 08:48:06 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 03/02/2016 08:48:06 AM,
+	Serialize complete at 03/02/2016 08:48:06 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-03-02_05:, , signatures=0
+Subject: [PATCH v7 1/5] gpg_sign: add local ipk package signing functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,41 +38,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2016 14:31:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 02 Mar 2016 14:48:08 -0000
 
-On Wed, Mar 2, 2016 at 6:18 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 03/01/2016 04:58 PM, Khem Raj wrote:
->
->>> The failing patch is applied only when musl is in use (and so the
->>> regression
->>> went unnoticed). Can you rework it so that it can be applied
->>> unconditionally?
->>
->>
->> This probably could be however OE-Core supports musl and poky-tiny
->> defaults to it. It will be good to test
->> changes for it when changing OE-Core at the least bitbake -cpatch <recipe>
->
->
-> Yes, but that's a job for autobuilder,
+Implement ipk signing inside the sign_ipk bbclass using the gpg_sign
+module and configure signing similar to how rpm does it. sign_ipk uses
+gpg_sign's detach_sign because its functionality is identical to package
+feed signing.
 
-There is a musl job on autobuilder. Not sure if its run daily. Ross ?
+IPK signing process is a bit different from rpm:
+    - Signatures are stored outside ipk files; opkg connects to a feed
+server and downloads them to verify a package.
+    - Signatures are of two types (both supported by opkg): binary or
+ascii armoured. By default we sign using ascii armoured.
+    - Public keys are stored on targets to verify ipks using the
+opkg-keyrings recipe.
 
-I'm afraid. When doing local changes,
-> I have to draw the line somewhere about what I test, and what I don't, and
-> testing builds against various libc providers is outside of that.
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/classes/package_ipk.bbclass |  5 ++++
+ meta/classes/sign_ipk.bbclass    | 52 ++++++++++++++++++++++++++++++++++++++++
+ meta/lib/oe/gpg_sign.py          | 41 +++++++++++++++++++++----------
+ 3 files changed, 86 insertions(+), 12 deletions(-)
+ create mode 100644 meta/classes/sign_ipk.bbclass
 
-Thats good to please mention that in your patch submissions especially
-when you touch a recipe which is using such overrides for anything so
-maintainers know testing it has received.
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 51bee28..f1ad1d5 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -246,6 +246,11 @@ python do_package_ipk () {
+             bb.utils.unlockfile(lf)
+             raise bb.build.FuncFailed("opkg-build execution failed")
+ 
++        if d.getVar('IPK_SIGN_PACKAGES', True) == '1':
++            ipkver = "%s-%s" % (d.getVar('PKGV', True), d.getVar('PKGR', True))
++            ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH', True))
++            sign_ipk(d, ipk_to_sign)
++
+         cleanupcontrol(root)
+         bb.utils.unlockfile(lf)
+ 
+diff --git a/meta/classes/sign_ipk.bbclass b/meta/classes/sign_ipk.bbclass
+new file mode 100644
+index 0000000..a481f6d
+--- /dev/null
++++ b/meta/classes/sign_ipk.bbclass
+@@ -0,0 +1,52 @@
++# Class for generating signed IPK packages.
++#
++# Configuration variables used by this class:
++# IPK_GPG_PASSPHRASE_FILE
++#           Path to a file containing the passphrase of the signing key.
++# IPK_GPG_NAME
++#           Name of the key to sign with.
++# IPK_GPG_BACKEND
++#           Optional variable for specifying the backend to use for signing.
++#           Currently the only available option is 'local', i.e. local signing
++#           on the build host.
++# IPK_GPG_SIGNATURE_TYPE
++#           Optional variable for specifying the type of gpg signatures, can be:
++#                     1. Ascii armored (ASC), default if not set
++#                     2. Binary (BIN)
++# GPG_BIN
++#           Optional variable for specifying the gpg binary/wrapper to use for
++#           signing.
++# GPG_PATH
++#           Optional variable for specifying the gnupg "home" directory:
++#
++
++inherit sanity
++
++IPK_SIGN_PACKAGES = '1'
++IPK_GPG_BACKEND ?= 'local'
++IPK_GPG_SIGNATURE_TYPE ?= 'ASC'
++
++python () {
++    # Check configuration
++    for var in ('IPK_GPG_NAME', 'IPK_GPG_PASSPHRASE_FILE'):
++        if not d.getVar(var, True):
++            raise_sanity_error("You need to define %s in the config" % var, d)
++
++    sigtype = d.getVar("IPK_GPG_SIGNATURE_TYPE", True)
++    if sigtype.upper() != "ASC" and sigtype.upper() != "BIN":
++        raise_sanity_error("Bad value for IPK_GPG_SIGNATURE_TYPE (%s), use either ASC or BIN" % sigtype)
++}
++
++def sign_ipk(d, ipk_to_sign):
++    from oe.gpg_sign import get_signer
++
++    bb.debug(1, 'Signing ipk: %s' % ipk_to_sign)
++
++    signer = get_signer(d, d.getVar('IPK_GPG_BACKEND', True))
++    sig_type = d.getVar('IPK_GPG_SIGNATURE_TYPE', True)
++    is_ascii_sig = (sig_type.upper() != "BIN")
++
++    signer.detach_sign(ipk_to_sign,
++                       d.getVar('IPK_GPG_NAME', True),
++                       d.getVar('IPK_GPG_PASSPHRASE_FILE', True),
++                       armor=is_ascii_sig)
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index ada1b2f..1406f17 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -1,5 +1,6 @@
+ """Helper module for GPG signing"""
+ import os
++import sys
+ 
+ import bb
+ import oe.utils
+@@ -50,6 +51,7 @@ class LocalSigner(object):
+             bb.error('rpmsign failed: %s' % proc.before.strip())
+             raise bb.build.FuncFailed("Failed to sign RPM packages")
+ 
++
+     def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
+         """Create a detached signature of a file"""
+         import subprocess
+@@ -58,22 +60,37 @@ class LocalSigner(object):
+             raise Exception("You should use either passphrase_file of passphrase, not both")
+ 
+         cmd = [self.gpg_bin, '--detach-sign', '--batch', '--no-tty', '--yes',
+-               '-u', keyid]
+-        if passphrase_file:
+-            cmd += ['--passphrase-file', passphrase_file]
+-        else:
+-            cmd += ['--passphrase-fd', '0']
++               '--passphrase-fd', '0', '-u', keyid]
++
+         if self.gpg_path:
+             cmd += ['--homedir', self.gpg_path]
+         if armor:
+             cmd += ['--armor']
+-        cmd.append(input_file)
+-        job = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+-                               stderr=subprocess.PIPE)
+-        _, stderr = job.communicate(passphrase)
+-        if job.returncode:
+-            raise bb.build.FuncFailed("Failed to create signature for '%s': %s" %
+-                                      (input_file, stderr))
++
++        cmd += [input_file]
++
++        try:
++            if passphrase_file:
++                with open(passphrase_file) as fobj:
++                    passphrase = fobj.readline();
++
++            job = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
++            (_, stderr) = job.communicate(passphrase)
++
++            if job.returncode:
++                raise bb.build.FuncFailed("GPG exited with code %d: %s" %
++                                          (job.returncode, stderr))
++
++        except IOError as e:
++            bb.error("IO error (%s): %s" % (e.errno, e.strerror))
++            raise Exception("Failed to sign '%s'" % input_file)
++        except OSError as e:
++            bb.error("OS error (%s): %s" % (e.errno, e.strerror))
++            raise Exception("Failed to sign '%s" % input_file)
++        except:
++            bb.error("Unexpected error (%s): %s" % (sys.exc_info()[0], sys.exc_info()[1]))
++            raise Exception("Failed to sign '%s'" % input_file)
++
+ 
+     def verify(self, sig_file):
+         """Verify signature"""
+-- 
+2.7.1
 
->
-> Generally, patches should be unconditional, because a) we should be able to
-> send them upstream, b) conditional patches create several slightly different
-> versions of source code, which is a maintenance headache.
->
-
-We understand that, sometimes its not possible.
 
