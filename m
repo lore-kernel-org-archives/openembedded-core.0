@@ -1,48 +1,48 @@
 Return-Path: <eu@felipetonello.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B5B4760588
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EB3C76647
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Mar 2016 11:08:49 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id n186so79789142wmn.1
+	Wed,  2 Mar 2016 11:21:31 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id l68so75338114wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2016 03:08:50 -0800 (PST)
+	Wed, 02 Mar 2016 03:21:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=felipetonello-com.20150623.gappssmtp.com; s=20150623;
 	h=subject:to:references:cc:from:message-id:date:user-agent
 	:mime-version:in-reply-to;
-	bh=9hoQlYZhWXt0uFzJ0o43oAYCVtYLw18J+Vs5IhItMhA=;
-	b=xT01msxWPGLHyuzuEAjS6RGanpBAvIelNBNxKb2OoJuyjmTVXNjp/oRSN7scq4Bszi
-	O0rwSDMma1Uq+Oj8EKTN91XgJxs7AwrnbZdIYLMv6eX6P2H5dutBwSa92scZkDgXzUny
-	AeqRSAVEImsl/AhKPUBNJzsbkmS79Dzdfl1x3WHpYRSD18eADHb55rICp9Zpi2bozSQd
-	zjTJyF8WC8bOy1XZsowLT4i8xocgSEL742gR5vw/jAvnLtSbJ3uYnY9tCDkO7ElJ6MJn
-	Sz1BfZAvPWIjG0MPzgZf5ECGU5DaTTGahLBSg52bsLTnPPXzsVBzlajL4mc22YvLSo1q
-	/VNA==
+	bh=5FkwhkP0fezx1jxWu/vpEAOl7Fogp4dS9+N1UdRhOU4=;
+	b=08ZbL7iXtP51LCHbqtI192k8zFNMyxdGKIvYcjoqe5p/peALQ6ftcPrhSgZP+1AfAh
+	MUnwGwQZd2NgHf1I3lsl21qaaeImiWjn34+9XjzqVBzWQylGzBl3Tu6SroqYnmFV+ch4
+	UxJSLNQ1vu3bnywgwJEx3XsG0WOES0rh/jwqWvsM+BlS9KPF2TMcGjjxrBYsSdvOweKI
+	56a8Qpt8k/VVmaNhr7mZdjX2OESZIbm3HrNPA3ise6yIgGT96Y1Ig6qTvDQ0o6yUEzc/
+	nKniHCJCx0JVeN6Bao8nmDq+z/KSZvs7zFas9+HViZQrub0jUsUk+i22x4Gr3T0cT2iT
+	wKOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=9hoQlYZhWXt0uFzJ0o43oAYCVtYLw18J+Vs5IhItMhA=;
-	b=AIbCtUVEARvCSygWYHEWtR4tUNB3RnryMMqHm3X6HZe8CcmusAf8+w7H7OSYvfFd4I
-	/Nb1RrUm6O5GY1EbmhDZ9YuOYBkG5AFzvmDQR3DdLQvTKQv4Rj/e/V3Tu2Xn5iUsvvZP
-	RRtdH0xu50gVy3ZFrpCnjOoQIWmhgDosB7aDYezGeJF4YpDcqrTu1lZbO4qOTbCmQ6my
-	yFqY+TWNCbtbubvV+4nD1E08F4qqXKncuMFCuODz/PR7Ct/mQxZyiBskDG+CuP3y84FU
-	QQIa1gGZqplISYUXbz+N/h4jT35A2U0HAu6FlO5bcVMk3suE0XDdr1wEx+b/qbn+XcyC
-	Oedw==
-X-Gm-Message-State: AD7BkJLUT2w6/eTvKNKIKEH/3dXtg0R+lCmQjTqYFSudAZWXocJIHv24NXYCKS0jnWoF7g==
-X-Received: by 10.194.48.7 with SMTP id h7mr29313307wjn.81.1456916929699;
-	Wed, 02 Mar 2016 03:08:49 -0800 (PST)
+	bh=5FkwhkP0fezx1jxWu/vpEAOl7Fogp4dS9+N1UdRhOU4=;
+	b=DKHPmuR+bfsBBP8hb+Tanx7GONg1YijKgS3psdZsbRAMdangmu+fCvV14+bJo6VA48
+	aouWJh6e3Msu6QexD8SeGCvn2yPSjm4AwElNZCxnQL9U1v7kerJOg5QheYwpX2OdaeDV
+	z8BPXLfbM3ZICzCeaP4oyfsOUGylm1BacOHB3iMIhoNH5WzMImi672d4YNlkLjHpfmuR
+	DHnxiyy0RbVVOZtjca5iMhLydY7GFk0HdpCEXuzUU6mUpuCV2VHpw5A13fPc9Syz+t0Q
+	sCpebbijSTkPXou4HlrsRg4uUpt7rqa76ho0An21Of1TYYpppO+9vSIIaA5PmfJzLY1Z
+	I7IA==
+X-Gm-Message-State: AD7BkJLAyCpXSuzj3b+bEHGVZUGU2kxWUEYaes4qS1xn+o2WsDH8A4ZGmQYGXuUnBX4dvg==
+X-Received: by 10.28.18.85 with SMTP id 82mr4342126wms.5.1456917692280;
+	Wed, 02 Mar 2016 03:21:32 -0800 (PST)
 Received: from [10.55.10.2] ([81.145.202.106])
 	by smtp.gmail.com with ESMTPSA id
-	ys9sm35274053wjc.35.2016.03.02.03.08.46
+	r62sm3698928wmd.15.2016.03.02.03.21.29
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Mar 2016 03:08:48 -0800 (PST)
+	Wed, 02 Mar 2016 03:21:31 -0800 (PST)
 To: "Burton, Ross" <ross.burton@intel.com>
 References: <1455276418-4134-1-git-send-email-eu@felipetonello.com>
 	<CAJ86T=WQApsnZLTAGsRv9BiitVxiKnmDd=5qEsQrogSaQu22hQ@mail.gmail.com>
 	<CAJTo0LaCr2LbeiKupbXzYxMWSg-MssPqwZ51zCusXKZkArweFQ@mail.gmail.com>
 From: Felipe Ferreri Tonello <eu@felipetonello.com>
-Message-ID: <56D6CA28.1060404@felipetonello.com>
-Date: Wed, 2 Mar 2016 11:10:32 +0000
+Message-ID: <56D6CD22.4030608@felipetonello.com>
+Date: Wed, 2 Mar 2016 11:23:14 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.6.0
 MIME-Version: 1.0
@@ -61,15 +61,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2016 11:08:50 -0000
-X-Groupsio-MsgNum: 79024
-Content-Type: multipart/mixed; boundary="------------020402020304040607010709"
+X-List-Received-Date: Wed, 02 Mar 2016 11:21:32 -0000
+X-Groupsio-MsgNum: 79025
+Content-Type: multipart/mixed; boundary="------------000905050508070004010903"
 
---------------020402020304040607010709
+--------------000905050508070004010903
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-Hi Ross,
+
 
 On 15/02/16 12:37, Burton, Ross wrote:
 > On 13 February 2016 at 04:31, Andre McCurdy <armccurdy@gmail.com
@@ -84,14 +84,14 @@ On 15/02/16 12:37, Burton, Ross wrote:
 > That was a poky reference, the correct oe-core ref was e5f41c22.
 > 
 > But yes, what Andre said.  Felipe, can you revise the patch?
-> 
+>
 
-Revise in a sense to update the commit reference?
+Right, I just read his email. Yes, I will revise that.
 
 -- 
 Felipe
 
---------------020402020304040607010709
+--------------000905050508070004010903
 Content-Type: application/pgp-keys;
  name="0x92698E6A.asc"
 Content-Transfer-Encoding: 7bit
@@ -214,4 +214,4 @@ SkAyCfQaSw==
 =JwBB
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------020402020304040607010709--
+--------------000905050508070004010903--
