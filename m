@@ -1,47 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F111360053
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 435C56FF69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 07:03:08 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id p65so18734709wmp.0
+	Thu,  3 Mar 2016 07:16:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u237Gj0W002162
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2016 23:03:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=KfqK66wxE9/wyGI3awPsUtDfDSyUJO7Kt1WEBOcxK/w=;
-	b=JZzaOeIbEZY1hTQYsmqjiIbVuYozGQ9ivkgBtDfqAHwKkN1Bau5u5U9C70z/PjY9P+
-	uNFgcF+BXr9c7dAQ3D62xtMT6MCzhybM4T26XcqeRiD7lhfy8eG1+4U2yTxmKKIK5g75
-	J3vtVFLUtCo4YF4Mh1sPRob2IYe2Kz/+FPYOI12SQqC3LgChZ9MbSEIk4cu7Kc+1Jwkp
-	QuIUiKQUTjsiC/EifdBag6K2RNs2s1vRnrI4p2U0HO7MC6jzAi1XsG5oikDLpNfVB+DL
-	7JXy/5oaR+TFUBAP0hiKGgn6MhYz9Wq7i8dirx/zYUPP0UCApe373Cq0xGOoy7wkYjxN
-	HwQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=KfqK66wxE9/wyGI3awPsUtDfDSyUJO7Kt1WEBOcxK/w=;
-	b=YOzPZSXOc+3LrcdN9nsJDSmt3cVqJzAhnbaR4xvYYFHWt1q8/Rdz2A4/G8d3ztH3Pv
-	AUSKozMQEvA52IkhaArNzim30QSUl7xQsyvXQOSfRSLwiRI2FaG3d8IuaknnQ/lcYjEN
-	006OsvjKhMjWTLopbhcuws6o3Qcn78OHIfnRfgQmeDfGZwhZr1x8oNRhfraNExg2gpZt
-	Dr7RAMLXS467t1M/dMUVkZPooMEf/tazDw6bdwNXF2alKz/DWQG893DC2A367THiZFNM
-	fIh+cn3dP9ZfOLnEILPgdWcYS7mCAiRV1Ho7C+9iEnLtCliTk4WacFCzRaGL6CCVo8IK
-	xEDQ==
-X-Gm-Message-State: AD7BkJJsy0IkmyQNpXK7LOJyIvG8ULlvReUq41az5FV0+e5yy+JiLKVzQNgKdcm17pvI776jaUTt7sOpp5g9Zw==
+	Wed, 2 Mar 2016 23:16:45 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 2 Mar 2016 23:16:44 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Mar 2016 02:16:43 -0500
+Message-ID: <1456989403-114222-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.28.220.134 with SMTP id t128mr3788442wmg.61.1456988588647;
-	Wed, 02 Mar 2016 23:03:08 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Wed, 2 Mar 2016 23:03:08 -0800 (PST)
-In-Reply-To: <CAJ86T=UUi9twF-2U=ZA4hz8_xX88OSTEjwVf2dzjuysQkx8GTw@mail.gmail.com>
-References: <1456904321-25059-1-git-send-email-akuster808@gmail.com>
-	<CAJ86T=UbRRkZAV5-JEfhZs3TL_W0Hbb4bhcN0kJGZssj60OPOg@mail.gmail.com>
-	<56D73BA0.5030408@mvista.com>
-	<CAJ86T=UUi9twF-2U=ZA4hz8_xX88OSTEjwVf2dzjuysQkx8GTw@mail.gmail.com>
-Date: Wed, 2 Mar 2016 23:03:08 -0800
-Message-ID: <CAJ86T=V+vxEt_1WoK7tay55ei5o1a1dAgk=a652KufP6uxNX-g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: akuster <akuster@mvista.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master][Drown] openssl: Security fix Drown via 1.0.1g update
+Subject: [PATCH] acl: Fix re pattern in test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,161 +31,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 07:03:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 03 Mar 2016 07:16:45 -0000
+Content-Type: text/plain
 
-On Wed, Mar 2, 2016 at 12:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, Mar 2, 2016 at 11:14 AM, akuster <akuster@mvista.com> wrote:
->>
->> On 03/02/2016 10:06 AM, Andre McCurdy wrote:
->>> On Tue, Mar 1, 2016 at 11:38 PM, Armin Kuster <akuster808@gmail.com> wrote:
->>>> From: Armin Kuster <akuster@mvista.com>
->>>>
->>>> CVE-2016-0800
->>>> CVE-2016-0705
->>>> CVE-2016-0798
->>>> CVE-2016-0797
->>>> CVE-2016-0799
->>>> CVE-2016-0702
->>>> CVE-2016-0703
->>>> CVE-2016-0704
->>>>
->>>> https://www.openssl.org/news/secadv/20160301.txt
->>>>
->>>> Updated 2 debian patches to match changes in 1.0.1g
+From: He Zhe <zhe.he@windriver.com>
 
-That should be 1.0.2g (and the commit summary has the same typo too).
+ls adds a '.' at the end of the permission field list on SELinux
+machines, filter this out so root tests work on SELinux machines.
+And backport one patch for other tests.
 
->>> Could you give some details on why the linker version script is now
->>> required
->>
->> it has been part of openssl for over a year.
->>
->> See commit ( Better call Saul )
->>
->> http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-connectivity/openssl?id=10b689033551c37d6cafa284d82bdccd43f6113e
->>
->>>> and how it was generated?
->>
->> This is just an update from debian to support 1.0.2g. Have no idea how
->> they create that file.
->
-> OK, yes, I see it now in the Debian openssl 1.0.2g patches:
->
->   http://http.debian.net/debian/pool/main/o/openssl/openssl_1.0.2g-1.debian.tar.xz
->
-> It seems that Debian have been versioning openssl symbols for quite
-> some time and we've inherited that via the Debian patches.
->
->   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333349
->   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=180725
->   ...
->
-> Perhaps some comments in the openssl recipe would be useful to make it
-> a little clearer that we are providing Debian openssl and not the
-> vanilla upstream version. Maybe even use Debian version numbers (ie
-> 1.0.2g-1 in this case) and apply the complete set of Debian patches
-> for each new release instead of keeping our own local copies?
->
->> If you don't have it this package wont build.
->>
->> It was there when you updated to 1.0.2f, which I suspect you did not
->> realize.
->>
->> Sorry I don't have a better answer.
->>
->> - Armin
->>
->>>
->>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
->>>> ---
->>>>  .../openssl/debian1.0.2/block_diginotar.patch      |   17 +-
->>>>  .../openssl/debian1.0.2/version-script.patch       | 4656 ++++++++++++++++++++
->>>>  .../{openssl_1.0.2f.bb => openssl_1.0.2g.bb}       |    6 +-
->>>>  3 files changed, 4668 insertions(+), 11 deletions(-)
->>>>  create mode 100644 meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
->>>>  rename meta/recipes-connectivity/openssl/{openssl_1.0.2f.bb => openssl_1.0.2g.bb} (91%)
->>>>
->>>> diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_diginotar.patch b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_diginotar.patch
->>>> index 0c1a0b6..d81e22c 100644
->>>> --- a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_diginotar.patch
->>>> +++ b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/block_diginotar.patch
->>>> @@ -9,14 +9,15 @@ Reviewed-by: Kurt Roeckx <kurt@roeckx.be>
->>>>  Reviewed-by: Dr Stephen N Henson <shenson@drh-consultancy.co.uk>
->>>>
->>>>  This is not meant as final patch.
->>>> -
->>>> +
->>>>  Upstream-Status: Backport [debian]
->>>>
->>>> +Signed-off-by: Armin Kuster <akuster@mvista.com>
->>>>
->>>> -Index: openssl-1.0.2/crypto/x509/x509_vfy.c
->>>> +Index: openssl-1.0.2g/crypto/x509/x509_vfy.c
->>>>  ===================================================================
->>>> ---- openssl-1.0.2.orig/crypto/x509/x509_vfy.c
->>>> -+++ openssl-1.0.2/crypto/x509/x509_vfy.c
->>>> +--- openssl-1.0.2g.orig/crypto/x509/x509_vfy.c
->>>> ++++ openssl-1.0.2g/crypto/x509/x509_vfy.c
->>>>  @@ -119,6 +119,7 @@ static int check_trust(X509_STORE_CTX *c
->>>>   static int check_revocation(X509_STORE_CTX *ctx);
->>>>   static int check_cert(X509_STORE_CTX *ctx);
->>>> @@ -25,17 +26,17 @@ Index: openssl-1.0.2/crypto/x509/x509_vfy.c
->>>>
->>>>   static int get_crl_score(X509_STORE_CTX *ctx, X509 **pissuer,
->>>>                            unsigned int *preasons, X509_CRL *crl, X509 *x);
->>>> -@@ -438,6 +439,9 @@ int X509_verify_cert(X509_STORE_CTX *ctx
->>>> +@@ -489,6 +490,9 @@ int X509_verify_cert(X509_STORE_CTX *ctx
->>>>       if (!ok)
->>>> -         goto end;
->>>> +         goto err;
->>>>
->>>>  +      ok = check_ca_blacklist(ctx);
->>>> -+      if(!ok) goto end;
->>>> ++      if(!ok) goto err;
->>>>  +
->>>>   #ifndef OPENSSL_NO_RFC3779
->>>>       /* RFC 3779 path validation, now that CRL check has been done */
->>>>       ok = v3_asid_validate_path(ctx);
->>>> -@@ -938,6 +942,29 @@ static int check_crl_time(X509_STORE_CTX
->>>> +@@ -996,6 +1000,29 @@ static int check_crl_time(X509_STORE_CTX
->>>>       return 1;
->>>>   }
->>>>
->>>> diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
->>>> new file mode 100644
->>>> index 0000000..29f11a2
->>>> --- /dev/null
->>>> +++ b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
->>>> @@ -0,0 +1,4656 @@
->>>> +Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/Configure
->>>> +===================================================================
->>>> +--- openssl-1.0.2~beta1.obsolete.0.0498436515490575.orig/Configure     2014-02-24 21:02:30.000000000 +0100
->>>> ++++ openssl-1.0.2~beta1.obsolete.0.0498436515490575/Configure  2014-02-24 21:02:30.000000000 +0100
->>>> +@@ -1651,6 +1651,8 @@
->>>> +               }
->>>> +       }
->>>> +
->>>> ++$shared_ldflag .= " -Wl,--version-script=openssl.ld";
->>>> ++
->>>> + open(IN,'<Makefile.org') || die "unable to read Makefile.org:$!\n";
->>>> + unlink("$Makefile.new") || die "unable to remove old $Makefile.new:$!\n" if -e "$Makefile.new";
->>>> + open(OUT,">$Makefile.new") || die "unable to create $Makefile.new:$!\n";
->>>> +Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld
->>>> +===================================================================
->>>> +--- /dev/null  1970-01-01 00:00:00.000000000 +0000
->>>> ++++ openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld 2014-02-24 22:19:08.601827266 +0100
->>>> +@@ -0,0 +1,4608 @@
->>>> ++OPENSSL_1.0.2d {
->>>> ++      global:
->>>> ++              BIO_f_ssl;
->>>> ++              BIO_new_buffer_ssl_connect;
->>>> ++              BIO_new_ssl;
->>>> ++              BIO_new_ssl_connect;
->>>> ++              BIO_proxy_ssl_copy_session_id;
->>>> ++              BIO_ssl_copy_session_id;
->>>> ++              BIO_ssl_shutdown;
->>>> ++              d2i_SSL_SESSION;
->>>> ++ ...
->>>> ++ ...
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-support/attr/acl.inc                  |   2 +
+ .../acl/test-fix-insufficient-quoting-of.patch     | 108 +++++++++++++++++++++
+ ...ps-on-SELinux-machines-for-root-testcases.patch |  84 ++++++++++++++++
+ 3 files changed, 194 insertions(+)
+ create mode 100644 meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch
+ create mode 100644 meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch
+
+diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
+index b2bc8ba..198fb4f 100644
+--- a/meta/recipes-support/attr/acl.inc
++++ b/meta/recipes-support/attr/acl.inc
+@@ -12,6 +12,8 @@ DEPENDS = "attr"
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
+            file://run-ptest \
+            file://acl-fix-the-order-of-expected-output-of-getfacl.patch \
++           file://test-fix-insufficient-quoting-of.patch \
++           file://test-fixups-on-SELinux-machines-for-root-testcases.patch \
+ "
+
+ require ea-acl.inc
+diff --git a/meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch b/meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch
+new file mode 100644
+index 0000000..59e4629
+--- /dev/null
++++ b/meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch
+@@ -0,0 +1,108 @@
++From e98ce8acf84d12ea67a3ac76bf63c6d87d9af86d Mon Sep 17 00:00:00 2001
++From: Kamil Dudka <kdudka@redhat.com>
++Date: Mon, 20 May 2013 16:38:06 +0200
++Subject: [PATCH] test: fix insufficient quoting of '\'
++
++This is a follow-up to 7f2c91b8369242a8dbc2b304a5b71b2a85f5b855, which
++caused sbits-restore.test to fail in the following way in case SELinux
++was disabled:
++
++*** sbits-restore.test ***
++[3] $ umask 022 -- ok
++[4] $ mkdir d -- ok
++[5] $ touch d/g -- ok
++[6] $ touch d/u -- ok
++[7] $ chmod u+s d/u -- ok
++[8] $ chmod g+s d/g -- ok
++[9] $ chmod +t d -- ok
++[10] $ getfacl -R d > d.acl -- ok
++[11] $ rm -R d -- ok
++[12] $ mkdir d -- ok
++[13] $ touch d/g -- ok
++[14] $ touch d/u -- ok
++[15] $ setfacl --restore d.acl -- ok
++[16] $ ls -dl d | awk '{print $1}' | sed 's/.$//g' -- failed
++drwxr-xr-                             != drwxr-xr-t
++[18] $ ls -dl d/u | awk '{print $1}' | sed 's/.$//g' -- failed
++-rwSr--r-                             != -rwSr--r--
++[20] $ ls -dl d/g | awk '{print $1}' | sed 's/.$//g' -- failed
++-rw-r-Sr-                             != -rw-r-Sr--
++[22] $ rm -Rf d -- ok
++17 commands (14 passed, 3 failed)
++
++Upstream-Status: Backport
++http://git.savannah.gnu.org/cgit/acl.git/commit/?id=e98ce8acf84d12ea67a3ac76bf63c6d87d9af86d
++
++Signed-off-by: Kamil Dudka <kdudka@redhat.com>
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ test/cp.test            | 2 +-
++ test/misc.test          | 6 +++---
++ test/sbits-restore.test | 6 +++---
++ 3 files changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/test/cp.test b/test/cp.test
++index 0867f63..a927195 100644
++--- a/test/cp.test
+++++ b/test/cp.test
++@@ -9,7 +9,7 @@ The cp utility should only copy ACLs if `-p' is given.
++ 	> -rw-rw-r--+
++
++ 	$ cp f g
++-	$ ls -l g | awk -- '{ print $1 }' | sed 's/\.$//g'
+++	$ ls -l g | awk -- '{ print $1 }' | sed 's/\\.$//g'
++ 	> -rw-r--r--
++
++ 	$ rm g
++diff --git a/test/misc.test b/test/misc.test
++index 6e98053..29372b7 100644
++--- a/test/misc.test
+++++ b/test/misc.test
++@@ -254,7 +254,7 @@ Add some users and groups
++ Symlink in directory with default ACL?
++
++ 	$ ln -s d d/l
++-	$ ls -dl d/l | awk '{print $1}' | sed 's/\.$//g'
+++	$ ls -dl d/l | awk '{print $1}' | sed 's/\\.$//g'
++ 	> lrwxrwxrwx
++
++ 	$ ls -dl -L d/l | awk '{print $1}'
++@@ -343,7 +343,7 @@ Remove the default ACL
++ Reset to base entries
++
++ 	$ setfacl -b d
++-	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
+++	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
++ 	> drwxr-x---
++
++ 	$ getfacl --omit-header d
++@@ -355,7 +355,7 @@ Reset to base entries
++ Now, chmod should change the group_obj entry
++
++ 	$ chmod 775 d
++-	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
+++	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
++ 	> drwxrwxr-x
++
++ 	$ getfacl --omit-header d
++diff --git a/test/sbits-restore.test b/test/sbits-restore.test
++index de21340..5899b0a 100644
++--- a/test/sbits-restore.test
+++++ b/test/sbits-restore.test
++@@ -13,10 +13,10 @@ Ensure setting of SUID/SGID/sticky via --restore works
++ 	$ touch d/g
++ 	$ touch d/u
++ 	$ setfacl --restore d.acl
++-	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
+++	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
++ 	> drwxr-xr-t
++-	$ ls -dl d/u | awk '{print $1}' | sed 's/\.$//g'
+++	$ ls -dl d/u | awk '{print $1}' | sed 's/\\.$//g'
++ 	> -rwSr--r--
++-	$ ls -dl d/g | awk '{print $1}' | sed 's/\.$//g'
+++	$ ls -dl d/g | awk '{print $1}' | sed 's/\\.$//g'
++ 	> -rw-r-Sr--
++ 	$ rm -Rf d
++--
++1.9.1
++
+diff --git a/meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch b/meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch
+new file mode 100644
+index 0000000..8b40751
+--- /dev/null
++++ b/meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch
+@@ -0,0 +1,84 @@
++From d2f49ee6fe4850b8dda5b08676b36201d3c43710 Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Wed, 2 Mar 2016 15:46:57 +0800
++Subject: [PATCH] test: fixups on SELinux machines for root testcases
++
++ls adds a '.' at the end of the permission field list on SELinux
++machines, filter this out so root tests work on SELinux machines.
++
++Upstream-Status: Accepted
++http://git.savannah.gnu.org/cgit/acl.git/commit/?id=26a87d36f80d5e98bccb5878834d9e69dadfe3e9
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ test/root/permissions.test | 8 ++++----
++ test/root/restore.test     | 2 +-
++ test/root/setfacl.test     | 2 +-
++ 3 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/test/root/permissions.test b/test/root/permissions.test
++index 9b9e3de..665339a 100644
++--- a/test/root/permissions.test
+++++ b/test/root/permissions.test
++@@ -19,7 +19,7 @@ defined permissions.
++ 	$ cd d
++ 	$ umask 027
++ 	$ touch f
++-	$ ls -l f | awk -- '{ print $1, $3, $4 }'
+++	$ ls -l f | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
++ 	> -rw-r----- root root
++
++
++@@ -39,7 +39,7 @@ Now, change the ownership of the file to bin:bin and verify that this
++ gives user bin write access.
++
++ 	$ chown bin:bin f
++-	$ ls -l f | awk -- '{ print $1, $3, $4 }'
+++	$ ls -l f | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
++ 	> -rw-r----- bin bin
++ 	$ su bin
++ 	$ echo bin >> f
++@@ -256,12 +256,12 @@ directories if the file has an ACL and only CAP_FOWNER would grant them.
++ 	$ mkdir -m 600 x
++ 	$ chown daemon:daemon x
++ 	$ echo j > x/j
++-	$ ls -l x/j | awk -- '{ print $1, $3, $4 }'
+++	$ ls -l x/j | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
++ 	> -rw-r----- root root
++
++ 	$ setfacl -m u:daemon:r x
++
++-	$ ls -l x/j | awk -- '{ print $1, $3, $4 }'
+++	$ ls -l x/j | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
++ 	> -rw-r----- root root
++ 	(With the bug this gives: `ls: x/j: Permission denied'.)
++
++diff --git a/test/root/restore.test b/test/root/restore.test
++index 63a9d01..c85097c 100644
++--- a/test/root/restore.test
+++++ b/test/root/restore.test
++@@ -21,7 +21,7 @@ Cry immediately if we are not running as root.
++ 	$ chown bin passwd
++ 	$ chmod u+s passwd
++ 	$ setfacl --restore passwd.acl
++-	$ ls -dl passwd | awk '{print $1 " " $3 " " $4}'
+++	$ ls -dl passwd | awk '{print $1 " " $3 " " $4}' | sed 's/\\.//g'
++ 	> -rwsr-xr-x root root
++
++ 	$ rm passwd passwd.acl
++diff --git a/test/root/setfacl.test b/test/root/setfacl.test
++index a46a9f4..7efbad7 100644
++--- a/test/root/setfacl.test
+++++ b/test/root/setfacl.test
++@@ -12,7 +12,7 @@ Cry immediately if we are not running as root.
++ 	$ sg bin
++ 	$ umask 027
++ 	$ touch g
++-	$ ls -dl g | awk '{print $1}'
+++	$ ls -dl g | awk '{print $1}' | sed 's/\\.//g'
++ 	> -rw-r-----
++
++ 	$ setfacl -m m:- g
++--
++1.9.1
++
+--
+1.9.1
+
 
