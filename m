@@ -1,45 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 79E4177158
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 361C6770EF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 21:01:27 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id l68so52360552wml.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2016 13:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=3PYAIfBvlaxgQloi3pxvJ/LRuWiSHTW57CjFwlDynUc=;
-	b=ROjaGzDdxy1oawXRNPHBik0c3/r2ixy13TlpvQxvxCZscxxo9XHe03WK8sOC1vnCKG
-	Vzg3mFffPh0sGgBvDqHH3YHfCJzumWpsVLB+hRbs6ooiaTM9NCacZ8Y8jrVOjFVZJgTi
-	wTQYzxG7w0TzyHFCvN9TycmraOTN61+SAHa800xydIngdlFdOhZXryngaHJVrPxyd2hE
-	maXTNay9ZehbSCb9x6YMEaGUT0OFqj0EooaMiYDHprA9R/Y4ThhL85zbDc4FgL7sQPAB
-	oPxTGMtZUVJ9bvOGxlj+B1z5CJ2iiYyhSE545f97dl67Acp5+Y8noLnZTV5nXU/t3J7u
-	DX7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=3PYAIfBvlaxgQloi3pxvJ/LRuWiSHTW57CjFwlDynUc=;
-	b=dFwsQR3jMqtoBVeqm+i6Ik6zVsR6bWvrJ9sy0qhp0wi/9ezluI2nF9C7qK9CIwh0X6
-	8OUKsbyEb65mLEIOrSgwgjPSUVSgqYuJtoqZ7vJgSLr0FR2tUxxayieKDg9KPkv/Z8Pd
-	tCh9yASfTtt8MmSL+3FrYQDyUPM5t6WHyWg3gh50oIu5TLVvZViDOOpjRj6cIEUIdmtQ
-	97gDDepjX4GcLJ3zzUHooA1vMmBvGnJfSeUNkFhFt3ZzvcQgdkfYujXsTSJaiMfuQCsh
-	oZY8vJznvTHSQwB5MQZZqrbKM75m77maFpHH+zBjW6v2t7qJ3KbzTZgiFRu7eiiX9NJC
-	OBXw==
-X-Gm-Message-State: AD7BkJL/CGICFj+r4a7g4M/StVLIM7Wdc6iKozdOmQ0MWDfxytzLa+nEav0Vv2ghPPEJcB+B
-X-Received: by 10.194.58.234 with SMTP id u10mr5101809wjq.174.1457038888340;
-	Thu, 03 Mar 2016 13:01:28 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id up6sm286888wjc.6.2016.03.03.13.01.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Mar 2016 13:01:27 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Mar 2016 21:01:13 +0000
-Message-Id: <1457038873-26591-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] gdb: fix builds with internal readline and no static libraries
+	Thu,  3 Mar 2016 21:18:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u23LI5gS008530
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 3 Mar 2016 13:18:05 -0800 (PST)
+Received: from yow-pgortmak-d1 (128.224.56.57) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 3 Mar 2016 13:18:03 -0800
+Received: by yow-pgortmak-d1 (Postfix, from userid 1000)	id A8409281B6A; Thu,
+	3 Mar 2016 16:18:03 -0500 (EST)
+Date: Thu, 3 Mar 2016 16:18:03 -0500
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Borislav Petkov <bp@suse.de>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, Toshi Kani <toshi.kani@hp.com>
+Message-ID: <20160303211803.GC25222@windriver.com>
+References: <20160303205924.GA25222@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <20160303205924.GA25222@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>, "Hart,
+	Darren" <darren.hart@intel.com>,
+	"saul.wold" <saul.wold@intel.com>, linux-kernel@vger.kernel.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: runtime regression with "x86/mm/pat: Emulate PAT when it is disabled"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,77 +39,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 21:01:29 -0000
+X-List-Received-Date: Thu, 03 Mar 2016 21:18:09 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-If gdb was configured to use the internal readline but static libraries were
-disabled, gdb wouldn't dutifully not build libreadline.a which was a problem
-when it tried to link with that library.
+[runtime regression with "x86/mm/pat: Emulate PAT when it is disabled"] On 03/03/2016 (Thu 15:59) Paul Gortmaker wrote:
 
-Solve this by ensuring --enable-static is passed to the readline configure.
+> So, the yocto folks moved from 4.1 to 4.4 and one of their automated
+> qemu x86-32 boot tests started failing.  None of the yocto details seem
+> to matter since I offered to help and I've repropduced it using 100%
+> mainline kernels and a generic distro toolchain as well.
+> 
+> The test case is slightly complicated, in that it relies on uvesafb
+> being modular, and so one has to juggle modules within an ext4 image
+> that qemu boots from.  We tried making uvesafb builtin, but that made
+> the issue magically vanish.  Given PAT, this isn't too surprising.
+> 
+> Richard did the preliminary investigation and analysis, and from that I
+> did a bisect, and found the commit in $SUBJECT to be the root cause, as
+> per the discussion here:
+> 
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-March/118397.html
+> 
+> I'd mentioned the above to bpetkov on IRC and after confirming it was
+> still an issue on 4.5-rc6, he'd asked if I had a portable reproducer.  
+> 
+> Not sure how complicated that would be, I set out to make one from my
+> build.   With a little LD_PRELOAD type magic and ensuring all the qemu
+> components are in ./  I have one that runs on an otherwise qemu-free
+> x86-64 box. 
+> 
+> The stand alone reproducer is here; launched in 00-runme:
+> 
+> http://openlinux.wrs.com/pat-splat/reproducer.tar.bz2  
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/gdb/gdb.inc                  |  1 +
- .../gdb/gdb/force-readline-static.patch            | 37 ++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/force-readline-static.patch
+Apologies, I'd used an internal DNS abbreviation here that isn't global.
+Replace the wrs with windriver and everything should be good.
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 1dd6551..507f274 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -7,6 +7,7 @@ SRC_URI += "file://0002-Change-order-of-CFLAGS.patch \
-             file://0001-Use-exported-definitions-of-SIGRTMIN.patch \
-             file://0001-include-sys-types.h-for-mode_t.patch \
-             file://0001-use-asm-sgidefs.h.patch \
-+            file://force-readline-static.patch \
-            "
- #LDFLAGS_append = " -s"
- #export CFLAGS_append=" -L${STAGING_LIBDIR}"
-diff --git a/meta/recipes-devtools/gdb/gdb/force-readline-static.patch b/meta/recipes-devtools/gdb/gdb/force-readline-static.patch
-new file mode 100644
-index 0000000..d34ee8c
---- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/force-readline-static.patch
-@@ -0,0 +1,37 @@
-+If gdb is configured with --disable-static then this is dutifully passed to
-+readline which then disables libreadline.a, which causes a problem when gdb
-+tries to link against that.
-+
-+To ensure that readline always builds static libraries, pass --enable-static to
-+the sub-configure.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/Makefile.def b/Makefile.def
-+index 4394188..05c661a 100644
-+--- a/Makefile.def
-++++ b/Makefile.def
-+@@ -100,7 +100,8 @@ host_modules= { module= libiconv;
-+ 		missing= install-html;
-+ 		missing= install-info; };
-+ host_modules= { module= m4; };
-+-host_modules= { module= readline; };
-++host_modules= { module= readline;
-++                extra_configure_flags='--enable-static';};
-+ host_modules= { module= sid; };
-+ host_modules= { module= sim; };
-+ host_modules= { module= texinfo; no_install= true; };
-+diff --git a/Makefile.in b/Makefile.in
-+index 61e0ab6..837f36e 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -24971,7 +24971,7 @@ configure-readline:
-+ 	  $$s/$$module_srcdir/configure \
-+ 	  --srcdir=$${topdir}/$$module_srcdir \
-+ 	  $(HOST_CONFIGARGS) --build=${build_alias} --host=${host_alias} \
-+-	  --target=${target_alias}  \
-++	  --target=${target_alias} --enable-static \
-+ 	  || exit 1
-+ @endif readline
-+ 
--- 
-2.7.0
+P.
+--
 
+> 
+> It is nothing fancy, just a generic yocto build of "sato" (gfx enabled
+> rootfs).  When it "works" it boots to a UI touchscreen interface.  When
+> it fails, you get a black screen with a blinking cursor (as seen in
+> "vncviewer localhost:0").
+> 
+> Upon failure, you can do <Ctrl>-<Alt>-<2> to get to a passwd-less root
+> login ; there you can run dmesg and see the splat.  The image is
+> currently using 4.5-rc6 ; but any kernel can be inserted; "make
+> modules_install INSTALL_MOD_PATH=here" and then populating those modules
+> from "here" into /lib/modules of the loopback mounted image. And of
+> course updating the bzImage on the qemu cmdline.    Currently it
+> contains a bzImage and modules for 4.5-rc6 as I last tested that.
+> 
+> Also note that vncviewer will disconnect when it goes from early boot
+> 80x25 to a higer res gfx mode; just reconnect and continue observing the
+> target.
+> 
+> I've ruled out yocto kernel changes, and yocto toolchain -- but maybe it
+> is a qemu issue this commit triggers ; who knows at this point.
+> 
+> Since I've NFI what component(s) cause this, I wanted to have the qemu
+> binary, all libraries etc as part of the reproducer and nothing left to
+> chance, and I've tested the reproducer on an ancient dual core w/o vmx
+> and w/o any qemu binaries installed.  Bruce also tested it on a slightly
+> more modern dual socket xeon with vmx and confirmed it failed there..
+> 
+> Inside there is a 00-runme ; mostly a copy of qemu args the yocto
+> automated tests were using.  There is also everything the qemu binaries
+> need to run ; toplevel dir is noisy since qemu only looks in ./ it
+> seems.  There is also an ext4.img ; as mentioned earlier, this only
+> happens when uvesafb.ko is a module, so one has to loopback mount that
+> image and repopulate /lib/modules/  for each boot test/bisect step.
+> 
+> I've also included 00-bisect.txt as the output of git bisect log.  And
+> there is also 00-configs/ dir that has the ".config" kernel file for
+> each build (dir names are "git describe" in here for easy correlation)
+> done for the bisect (plus the latest mainline build).  The failing commit
+> in the subject is v4.1-rc5-22-g9cd25aac1f44 .
+> 
+> My contribution here is largely a bisect that can be relied on and
+> providing a portable reproducer of the regression; I am by no means a
+> PAT expert ; Richard invested more time into actually understanding the
+> problem than I did, so I'm going to totally throw him under the bus on
+> this when it comes to considering the ultimate root cause and possible
+> fixes.  :)
+> 
+> Paul.
+> --
 
