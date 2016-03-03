@@ -1,47 +1,47 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 37ED27705C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AAAC73193
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 16:01:11 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id 4so17118317pfd.1
+	Thu,  3 Mar 2016 16:28:00 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id g203so32836733iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2016 08:01:13 -0800 (PST)
+	Thu, 03 Mar 2016 08:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=AUw+a643emLYuGgB5qifqtu8btS3FSqh36gOG4CAu2M=;
-	b=P1HViS0vnybvnh4QN1HU7Rd3j7+5y5DcLp1rdDupRmnOwZRlBZ24s1IBtjBxXH5qv1
-	5QqX0glpyp96ikDOLfT7Z6vWFgu7efNWmdJ/R1Q0Ht7nhN5P1cL+PC5C0AyNv9vZ0MCP
-	goaVFnzbnQm0tJC1LhYOlvZ8EkkRp3fghAQY9KyZBbTVFiELK4LjiEXK2G0m1WZU8s1e
-	+/4L5o72HXlvRuMIcbuPtSeeJYpr57+Xau8GJEKxDuc0LVw92yuDsYacdtH16/qkyqOS
-	MCwAfuTXeUSsIip+qjucKy/fwbaSbR1jAqwoLjFnsy2RfXI72ilYxPwT2jwfhLws6RPQ
-	DjWA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VSrCllQBhh/EYpt46MdAmMNK5CBpMyzonz775kZDTxk=;
+	b=nNVJ8bfvyTIt+SHGCJzdVVx/nA+Ry2zWhKvYEg4XlfaON+TaQBk2Af4WLeuYeQzisr
+	+s7sCoGE0wf1gi7tflFJVVmU1zuUNTPatf9WRBaymyKygBMrBntAUpVSWTah92pBXk4r
+	serv2GlgDHNoHVIS97UI/7oOtuBCd6PJl2pxsI8OnV430e3zESj3hiZXLxGPqMtPB1+B
+	6xgwBHJ3msyNagrpvinD3Ht8ZUisUYUAdYMBAEEabvNKzSssWLxYiRzxKdGQtkoLmtMm
+	gpoEYJqwAkVH/tTCAAU1D+L2XrebfKYpAgN4QnqBL9ehjTaOC9Dyi3GF+ZZCAA/HI71O
+	HGuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AUw+a643emLYuGgB5qifqtu8btS3FSqh36gOG4CAu2M=;
-	b=ekNuy0jmZkorxou1Xxz62FN1z9OUx3DIU1/1N5N8vF/6ad92VHDYdj90KxQKDoX0+o
-	SFNc2Xanh32vGeEN04JGNpx+dW6EkuUixgadHynU1pCC9J6p7sBbTZxDalHIoIwIr9Ce
-	dqS402cajvpNCS7zQqOp1di/XCqydNdl69I7AM7BolWML5WVE0qx19myE1iDWXSagRdH
-	dbmMmdD1IJXuH6ZKQN2mrSHOvzl6DBcjOJwZ7pb2vmLI/fP1olRH/jGSK+farjsT7Rj1
-	DAKB6DoWdBHypclt0ArEDtMnl3Fk1AmPls/hQ0sXg5kniAEwGXKTOKA3QpIJbKiJ+P/3
-	dFAw==
-X-Gm-Message-State: AD7BkJKO2FUgXrxZzinyESMF8OZZoHa44Ejz+z5Y1Un/PC3M5gy7GElz6/XB4d2OUXmINA==
-X-Received: by 10.98.65.203 with SMTP id g72mr4726163pfd.138.1457020872181;
-	Thu, 03 Mar 2016 08:01:12 -0800 (PST)
-Received: from nathanbox.home.gateway
-	(CPE-123-211-78-35.lnse4.cha.bigpond.net.au. [123.211.78.35])
-	by smtp.gmail.com with ESMTPSA id
-	y21sm1494993pfa.85.2016.03.03.08.01.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Mar 2016 08:01:10 -0800 (PST)
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2016 02:01:00 +1000
-Message-Id: <1457020860-15422-1-git-send-email-nathan@nathanrossi.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] feature-arm-thumb.inc: Fix thumb tune override warning
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VSrCllQBhh/EYpt46MdAmMNK5CBpMyzonz775kZDTxk=;
+	b=Mp108bkjG2EdWl+00JhPRV72c0ZhYsEC8c+2pEkI3LFT38iFdPHA2UBw4TiQOVuqsh
+	nZnRWNEFbCed15HzUk+Rj96ObTGyDg22zvglQGD9pMHvHsLDg5bdR7qpS/oATHXNnFBy
+	LGoB1IktRBUbfWSdRGDZRWrENO0+V5dwBM6ypOQ+ioyR/W5BmO1IFuTw9G5bymD94REc
+	BnjcGG7tAAATo1qI8K8ddz3a0hpLIJ8fBYAkvm/AEir+iGjmxE+Vt+ISlytiY06gK2Vr
+	C9fd32QFTYv3ACPu4Ar3vc1D0+RV6S3ANzQ7qC/d70064dBPlnAwgduMIkPxiCf4j9B9
+	hqrw==
+X-Gm-Message-State: AD7BkJKfWRGyvbBOYgS+/xEw3CXgtyiMZNq0ApYfThF8eRgiTMhqh67apXfjQo72kLMdN4qrexgjfvnJggxlS2RD
+X-Received: by 10.107.137.92 with SMTP id l89mr4142648iod.133.1457022481619;
+	Thu, 03 Mar 2016 08:28:01 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Thu, 3 Mar 2016 08:27:41 -0800 (PST)
+In-Reply-To: <20160303153659.GG2569@jama>
+References: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
+	<20160303153659.GG2569@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Mar 2016 16:27:41 +0000
+Message-ID: <CAJTo0LaEvWh1rgR77i7MQ-zZQOKBF1GNkQyOFHtJHo0HN_YuXQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Replaces udev with eudev for compatibility when using sysvinit on newer kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 16:01:12 -0000
+X-List-Received-Date: Thu, 03 Mar 2016 16:28:02 -0000
+Content-Type: multipart/alternative; boundary=001a113ebdb4727b84052d277bc1
 
-Fix the quotes in the bb.utils.contains feature check so that the call
-results in a boolean value instead of a string, which allows the warning
-check to occur.
+--001a113ebdb4727b84052d277bc1
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- meta/conf/machine/include/arm/feature-arm-thumb.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 3 March 2016 at 15:36, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index dfb9d7e..1faebf7 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -13,7 +13,7 @@ ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 't2', '',
- # some recipe explicitly sets ARM_INSTRUCTION_SET to "arm"
- ARM_M_OPT = "${@bb.utils.contains('TUNE_FEATURES', 'arm', '${ARM_THUMB_OPT}', 'thumb', d)}"
- python () {
--    if bb.utils.contains('TUNE_FEATURES', 'thumb', 'False', 'True', d):
-+    if bb.utils.contains('TUNE_FEATURES', 'thumb', False, True, d):
-         return
-     selected = d.getVar('ARM_INSTRUCTION_SET', True)
-     if selected == None:
--- 
-2.7.0
+> is it expected that old udev package was only 0.5MB, eudev is 6MB?
+>
+> Most of it is probably caused by /etc/udev/hwdb.d
+>
 
+Ouch!
 
+Following systemd, that should be split out into a separate package.
+Alejandro, can you do this?
+
+Ross
+
+--001a113ebdb4727b84052d277bc1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 March 2016 at 15:36, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2u1" class=3D=
+"a3s" style=3D"overflow:hidden">is it expected that old udev package was on=
+ly 0.5MB, eudev is 6MB?<br>
+<br>
+Most of it is probably caused by /etc/udev/hwdb.d<br>
+<div class=3D"HOEnZb"></div></div></blockquote></div><br>Ouch!</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Following systemd,=
+ that should be split out into a separate package.=C2=A0 Alejandro, can you=
+ do this?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--001a113ebdb4727b84052d277bc1--
