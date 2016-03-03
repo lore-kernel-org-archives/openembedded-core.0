@@ -1,20 +1,54 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 755B97320F
+Return-Path: <winiston@futuraautomation.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 9273576420
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 10:47:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 03 Mar 2016 02:46:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,532,1449561600"; d="scan'208";a="925910578"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.14.114])
-	by orsmga002.jf.intel.com with ESMTP; 03 Mar 2016 02:46:51 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Mar 2016 10:46:40 +0000
-Message-Id: <cover.1457001825.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [fido][PATCH 00/19] Consolidated security pull request
+	Thu,  3 Mar 2016 10:55:54 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id fy10so12976068pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Mar 2016 02:55:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=futuraautomation-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:from:to:cc:subject:date:mime-version:importance
+	:disposition-notification-to;
+	bh=eIW7IQRG1t8EfXDjnxgarIxuBZV2QSjklmrUWlgYx9Q=;
+	b=JqHNowE/jtpoOtnSnX4AZKaNRCaJCuzZ5JfoEJ63QOfsB4Cevfw6I4c8Lyhxuo2lKD
+	3OBNwO5lx18KCEL/9HwoUoDwZuHgkOtlkVplFlUG+PP4gDa+VN+Ew1QqqwyaIBybOgFC
+	yBqppPk9YigUIqAONAgUfFlOniTnn0pwjfJ78xSNzzrNx2NDk2t0nNBE/1J+L6qXeOWK
+	IfViR7/eum/j6mfSVOZPcM1KioMdfUIpp6YHaoJuqv+dzwY18WSEgUQYWVrvniJixbJH
+	RLIcJ4C8rbUInDq6Cef4VQ+6AE4QUK0zmCXRKdC4zRSf1MKsqQdS4++nAV6/ml6Ketb5
+	7Hlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:from:to:cc:subject:date:mime-version
+	:importance:disposition-notification-to;
+	bh=eIW7IQRG1t8EfXDjnxgarIxuBZV2QSjklmrUWlgYx9Q=;
+	b=F+kpVaJT+8Uo/lGoQvtFB97lz7AkdqYSrfHI1MrWH+NB9lM3ofNI7DtWWizpmb8Ch6
+	7o0VAEMOXI2FbJZBoP+8frsrpCvc3mdYrtGg8pu9TZ+T8OebjKdxm2xPlCV8Di7J/oBy
+	7fdQU7JleOm8KF1bIDPMS+CAv4YU2f6LLIeX6oirGzJexp+saTPtdd2ahp9MqEGpmxhN
+	FO1Q9lU/ofGs4NAaqMOqoxfyDWsbPSqyRISAf3LuXbonRqPZt77ImrqQxmNyq3qdqWIu
+	5etjO0ff32Q5leVacI4bLgBEUHYDrQ4AuKmmhewKbI/43LWE1rFQ0KnpsvFeGt6kives
+	TiYw==
+X-Gm-Message-State: AD7BkJIEJIqZKZMje9myQZCZDBTtJYgMuI8xygpsZa5YmoYNq3L0KY5Hzr7/B2tHztIfKw==
+X-Received: by 10.66.145.194 with SMTP id sw2mr2612645pab.69.1457002554710;
+	Thu, 03 Mar 2016 02:55:54 -0800 (PST)
+Received: from RD3 ([59.99.236.185]) by smtp.gmail.com with ESMTPSA id
+	kw10sm59771935pab.0.2016.03.03.02.55.51
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Mar 2016 02:55:53 -0800 (PST)
+Message-ID: <D6104635BEC047C6A117367EE5F6969D@RD3>
+From: <winiston@futuraautomation.com>
+To: "OpenEmbedded core" <openembedded-core@lists.openembedded.org>,
+	"Yocto layer" <linux-yocto@yoctoproject.org>
+Date: Thu, 3 Mar 2016 16:29:20 +0530
+MIME-Version: 1.0
+X-Priority: 1
+X-MSMail-Priority: High
+Importance: High
+X-Mailer: Microsoft Windows Live Mail 15.4.3555.308
+X-MimeOLE: Produced By Microsoft MimeOLE V15.4.3555.308
+Cc: yocto texas <meta-ti@yoctoproject.org>
+Subject: How to add recipes-navigation in core-image-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,129 +61,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 10:47:10 -0000
+X-List-Received-Date: Thu, 03 Mar 2016 10:55:54 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_01EE_01D17569.D6C278A0"
 
-This pull request consolidates outstanding security patches for Fido.
-Changes are all either backported from jethro or not required. The status of
-each patch vs. jethro and master has been documented in the patch commit headers
-above my SoB.
+------=_NextPart_000_01EE_01D17569.D6C278A0
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+I wanted to use =E2=80=9Crecipes-navigation=E2=80=9D in my yocto build =
+(Poky ) . How do I add=E2=80=9D recipes-navigation =E2=80=9C to my =
+image?
+
+I have downloaded =E2=80=9C recipes-navigation =E2=80=9C from =
+=E2=80=9Copen embedded project=E2=80=9D. Is it compatible with yocto =
+build (poky ) ?
+
+Note: Ultimately I wanted to integrate =E2=80=9CNavit=E2=80=9D to my =
+image.           =E2=80=9Crecipes-navigation =E2=80=9C has =
+=E2=80=9Cnavit=E2=80=9D.
+How do I achieve this =E2=80=9CNavit=E2=80=9D integration in my image?
+
+Target Image    : image-core-base
+Target machine : AM437x-evm
+Host Machine   :  Ubuntu 14.04=20
+I am looking forward to your valuable reply. If you need any more =
+details, Let me know please.
 
 Regards,
+Winiston.P
+Futura Automation Pvt Ltd.
 
-Joshua
+Ph :91-80-28375290 / 28375295
+Fax :91-80-28375291
 
-The following changes since commit ab29efb8e85020a3621079c7fde217c1bfaa5289:
+------=_NextPart_000_01EE_01D17569.D6C278A0
+Content-Type: text/html;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  libbsd: Security fix CVE-2016-2090 (2016-02-18 10:54:22 +0000)
+<HTML><HEAD></HEAD>
+<BODY dir=3Dltr>
+<DIV dir=3Dltr>
+<DIV style=3D"FONT-SIZE: 12pt; FONT-FAMILY: 'Calibri'; COLOR: #000000">
+<DIV>Hi,</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>I wanted to use =E2=80=9Crecipes-navigation=E2=80=9D in my yocto =
+build (Poky ) . <FONT=20
+color=3D#0000ff>How do I add=E2=80=9D recipes-navigation =E2=80=9C to my =
+image?</FONT></DIV>
+<DIV>&nbsp;</DIV>
+<DIV>I have downloaded =E2=80=9C recipes-navigation =E2=80=9C from =
+=E2=80=9Copen embedded project=E2=80=9D.=20
+<FONT color=3D#0000ff>Is it compatible with yocto build (poky ) =
+?</FONT></DIV>
+<DIV><FONT color=3D#0000ff></FONT>&nbsp;</DIV>
+<DIV><FONT color=3D#0000ff>Note: Ultimately I wanted to integrate =
+=E2=80=9CNavit=E2=80=9D to my=20
+image.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=20
+=E2=80=9Crecipes-navigation =E2=80=9C has =
+=E2=80=9Cnavit=E2=80=9D.</FONT></DIV>
+<DIV><FONT color=3D#0000ff>How do I achieve this =E2=80=9CNavit=E2=80=9D =
+integration in my=20
+image?</FONT></DIV>
+<DIV>&nbsp;</DIV>
+<DIV>Target Image&nbsp;&nbsp;&nbsp; : image-core-base</DIV>
+<DIV>Target machine : AM437x-evm</DIV>
+<DIV>Host Machine&nbsp;&nbsp; :&nbsp; Ubuntu 14.04 </DIV>
+<DIV>I am looking forward to your valuable reply. If you need any more =
+details,=20
+Let me know please.</DIV>
+<DIV>&nbsp;</DIV>
+<DIV=20
+style=3D"FONT-SIZE: 12pt; FONT-FAMILY: 'Calibri'; COLOR: =
+#000000">Regards,<BR>Winiston.P<BR>Futura=20
+Automation Pvt Ltd.<BR><BR>Ph :91-80-28375290 / 28375295<BR>Fax=20
+:91-80-28375291<BR></DIV></DIV></DIV></BODY></HTML>
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/fido-next
-
-Armin Kuster (17):
-  qemu: Security fix CVE-2016-2198
-  foomatic-filters: Security fix CVE-2015-8560
-  foomatic-filters: Security fixes CVE-2015-8327
-  tiff: Security fix CVE-2015-8781
-  tiff: Security fix CVE-2015-8784
-  librsvg: Security fix CVE-2015-7558
-  gdk-pixbuf: Security fix CVE-2015-7674
-  libpng: Security fix CVE-2015-8126
-  libpng: Security fix CVE-2015-8472
-  libgcrypt: Security fix CVE-2015-7511
-  curl: Security fix CVE-2016-0754
-  curl: Secuirty fix CVE-2016-0755
-  bind: Security fix CVE-2015-8461
-  nettle: Security fix CVE-2015-8803 and CVE-2015-8805
-  nettle: Security fix CVE-2015-8804
-  git: Security fixes CVE-2015-7545
-  openssl: Security fix CVE-2016-0800
-
-Hongxu Jia (1):
-  wpa-supplicant: Fix CVE-2015-8041
-
-Li Zhou (1):
-  rpcbind: Security Advisory - rpcbind - CVE-2015-7236
-
- .../bind/bind/CVE-2015-8461.patch                  |  45 ++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |   3 +-
- .../openssl/openssl/CVE-2016-0800.patch            | 198 +++++++
- .../openssl/openssl/CVE-2016-0800_2.patch          | 592 +++++++++++++++++++++
- .../openssl/openssl/CVE-2016-0800_3.patch          | 503 +++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   3 +
- .../wpa-supplicant/wpa-supplicant.inc              |   1 +
- ...load-length-validation-in-NDEF-record-par.patch |  64 +++
- .../git/git-2.3.0/CVE-2015-7545_1.patch            | 445 ++++++++++++++++
- .../git/git-2.3.0/CVE-2015-7545_2.patch            | 113 ++++
- .../git/git-2.3.0/CVE-2015-7545_3.patch            | 110 ++++
- .../git/git-2.3.0/CVE-2015-7545_4.patch            | 146 +++++
- .../git/git-2.3.0/CVE-2015-7545_5.patch            |  67 +++
- meta/recipes-devtools/git/git_2.3.0.bb             |   7 +
- .../recipes-devtools/qemu/qemu/CVE-2016-2198.patch |  45 ++
- meta/recipes-devtools/qemu/qemu_2.2.0.bb           |   1 +
- .../foomatic-filters-4.0.17/CVE-2015-8327.patch    |  23 +
- .../foomatic-filters-4.0.17/CVE-2015-8560.patch    |  23 +
- .../foomatic/foomatic-filters_4.0.17.bb            |   4 +
- .../rpcbind/rpcbind/cve-2015-7236.patch            |  83 +++
- meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb     |   1 +
- .../gdk-pixbuf/gdk-pixbuf/CVE-2015-7674.patch      |  39 ++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |   1 +
- .../librsvg/librsvg/CVE-2015-7558_1.patch          | 139 +++++
- .../librsvg/librsvg/CVE-2015-7558_2.patch          | 230 ++++++++
- .../librsvg/librsvg/CVE-2015-7558_3.patch          | 223 ++++++++
- meta/recipes-gnome/librsvg/librsvg_2.40.6.bb       |   6 +-
- .../libpng/libpng-1.6.16/CVE-2015-8126_1.patch     |  91 ++++
- .../libpng/libpng-1.6.16/CVE-2015-8126_2.patch     | 134 +++++
- .../libpng/libpng-1.6.16/CVE-2015-8126_3.patch     |  79 +++
- .../libpng/libpng-1.6.16/CVE-2015-8126_4.patch     |  48 ++
- .../libpng/libpng-1.6.16/CVE-2015-8472.patch       |  29 +
- meta/recipes-multimedia/libpng/libpng_1.6.16.bb    |   7 +
- .../libtiff/files/CVE-2015-8781.patch              | 196 +++++++
- .../libtiff/files/CVE-2015-8784.patch              |  73 +++
- meta/recipes-multimedia/libtiff/tiff_4.0.3.bb      |   5 +-
- meta/recipes-support/curl/curl/CVE-2016-0754.patch | 384 +++++++++++++
- meta/recipes-support/curl/curl/CVE-2016-0755.patch | 133 +++++
- meta/recipes-support/curl/curl_7.40.0.bb           |   4 +-
- .../libgcrypt/files/CVE-2015-7511_1.patch          | 245 +++++++++
- .../libgcrypt/files/CVE-2015-7511_2.patch          |  55 ++
- meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb  |   5 +
- .../nettle/nettle-2.7.1/CVE-2015-8803_8805.patch   |  71 +++
- .../nettle/nettle-2.7.1/CVE-2015-8804.patch        | 272 ++++++++++
- meta/recipes-support/nettle/nettle_2.7.1.bb        |   5 +
- 45 files changed, 4947 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8461.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_2.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_3.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix-payload-length-validation-in-NDEF-record-par.patch
- create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_1.patch
- create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_2.patch
- create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_3.patch
- create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_4.patch
- create mode 100644 meta/recipes-devtools/git/git-2.3.0/CVE-2015-7545_5.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2198.patch
- create mode 100644 meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8327.patch
- create mode 100644 meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8560.patch
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2015-7674.patch
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_1.patch
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_2.patch
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/CVE-2015-7558_3.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_1.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_2.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_3.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8126_4.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.6.16/CVE-2015-8472.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-0754.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-0755.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2015-7511_1.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2015-7511_2.patch
- create mode 100644 meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
- create mode 100644 meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8804.patch
-
---
-2.5.0
-
+------=_NextPart_000_01EE_01D17569.D6C278A0--
