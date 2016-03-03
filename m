@@ -1,52 +1,55 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CB80D770AB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C7E2777029
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 13:16:21 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l68so4005096wml.3
+	Thu,  3 Mar 2016 13:37:42 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id y8so19389564igp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2016 05:16:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=7gF05sQaY6Teu4vNBgmuv6B9tPIgRZIOgSWXOhBr1Ik=;
-	b=PPtXCoBvV+hFXSFSpAO5H/jvhW/YGQRh1UBvAxwl8oMBKBBlAhF/lsNK6Z4VQ0y2N6
-	pxTAJs5+0+vJw58vetobnzqqleN/VNaabhNS35dTJRHZBmhmgFkg4a1/Di+tzr6MRulW
-	vmU2qGMEkPiD33ApGiSsgJdMBHGbXUatAwYia0vU3FUcUf7uwjFFP1LF5vzN8AxBww5i
-	Ap9MGadIeG2QbIkH4Ha+YmWWFnqvu4j8UJl7/pB0nMRZ5+TLTVDxtXWkjProa3FtlE2l
-	SzBxF6q8i3Qwbc23yZlh0+mOsB9TByVkXusl27raBdpVtBrkiUfdakBzRpjaA0eYCIn3
-	QFtQ==
+	Thu, 03 Mar 2016 05:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aAU+C5LgBpMgn8wzdqq9JbVl1RRfaMHBoIXg+aSFOmY=;
+	b=kTOxvIBar2at0kT0lLbrvPGDmxPoAZ2E8SKIA0Vtd4F1ix1U5VhCuO4hMw4iIln0J7
+	thhgrfxZI96HjUfvcbUrQUuxHQll/Yr+kGCVMYj6lGRK1cvJ9hErEOzRkY20+hcuJqXY
+	p2PJSdYu4955LXMDR9lzjjDzlGsgGLRPIZ5KtVYiJispFHSbvUNBbXM1pneeAtbIAJ0j
+	VX033iybIaMNc/7iPLkPx42BLj3rCQEBMEBj/yPkrFDVJzCUnRfmie0fq2hcQ3vcMtpw
+	SF2pxhcRBwCR3BC2d+/+R0uEL57B+SRiNw3nXencDfPEftct14DmaSUQl76M/6eytYoF
+	HwKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=7gF05sQaY6Teu4vNBgmuv6B9tPIgRZIOgSWXOhBr1Ik=;
-	b=Lk5y91oG28/a8vNsOBJp4SuAOiVdlgxHpf9M+XyxoFtR5A2OVbj1ZJcVbpZ3poK5Sp
-	i7PaZQKO5bB7einm+eXjA7jFuNdVoNDj0TQyePTfEilnxzHpFT+lsDpIRrovNd7FzWfK
-	qkqGZl6pDwzK3goQsas4dXsF2wGfKbnc9FV5vQjjCr2Z47Ffi3J0uwKEmV2CUepCYp56
-	VhtM+ClOosyQCH8Y3zMIkOdM9oO+JHYdTNGs3lIxy7lbpswsLrGpkR8nPqvYKq2PMSMz
-	PbjM7F3qnqWbOxQ2lWKCJJ6ZB8M5IIuiPdppgFB/DpM8tdC6YIUyZFRtVVpDDJMqHe15
-	iTSg==
-X-Gm-Message-State: AD7BkJJNNhwC5erEbnBxfPg2MO41VLtXzfJVEKgcmky9eWVFwZBhiQv+W0tyzR+A/2qtYA==
-X-Received: by 10.194.23.37 with SMTP id j5mr2837643wjf.171.1457010982470;
-	Thu, 03 Mar 2016 05:16:22 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id 202sm8973885wmo.7.2016.03.03.05.16.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Mar 2016 05:16:21 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 3 Mar 2016 14:18:26 +0100
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20160303131826.GE2569@jama>
-References: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
-	<1453937316-1311-4-git-send-email-armccurdy@gmail.com>
-	<1457010155.3476.31.camel@pbcl.net>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aAU+C5LgBpMgn8wzdqq9JbVl1RRfaMHBoIXg+aSFOmY=;
+	b=lf8qYW0wsEZvWwC6T/T8KGmW1Xxv2yEAjOFAMeD7wNRsAwddkzJM7J7eP5yeLrrKkm
+	evAX8KL/MZykjJQ8k6D7A+sKLrxqZ1MmVRCIW67fArt6ot+3MNednHgz1V+AcsvypD0/
+	5zdg7rqRhzqHD71dto5QscwQBfrH4GZayV9lAqNPHhta0/fOxDs1LL4B4tudyoU/6dn2
+	XBEyIKAlyq/+hPoN4oe7Kj8m9MtcNIjLgMR++P9aaCEQUeGjClSxLCEP50rzPW9v2LwQ
+	za2WI4owDnFB4SDFxXUY2Ws7H4nYybwrOe8xCDzn91FN7xhPi1sIn3lwqz+2Skoj6MlA
+	U3mw==
+X-Gm-Message-State: AD7BkJI3hM5EMEVIAy6ISJJZwt1O1wRBFKfiqfFEM+qwtN+/1BqggYP/ByhTXAU5lOPmiU7TvaOEMTqcSvXTxnp8
+X-Received: by 10.50.126.8 with SMTP id mu8mr2938783igb.52.1457012262861; Thu,
+	03 Mar 2016 05:37:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1457010155.3476.31.camel@pbcl.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] glib.inc: limit ARM_INSTRUCTION_SET over-rides to armv4/armv5
+Received: by 10.107.162.70 with HTTP; Thu, 3 Mar 2016 05:37:23 -0800 (PST)
+In-Reply-To: <38408F728A334E9F9A452EFD2448CC8D@RD3>
+References: <AB28D54196164B23BA942EBCF3204741@RD3>
+	<20160224141143.GB2892@mbabyjoh-mobl.fi.intel.com>
+	<2CD39F82881F465AAD78DBB61BCA369E@RD3>
+	<CAJTo0LYMO4C9+rd1NG7mMmn4YfU6vRhuOYni4vvPAugoru=uwA@mail.gmail.com>
+	<E744C7D53BB7428AB0FD15C117627D11@RD3>
+	<20160226093319.GA4329@ad.chargestorm.se>
+	<38408F728A334E9F9A452EFD2448CC8D@RD3>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Mar 2016 13:37:23 +0000
+Message-ID: <CAJTo0LbAoSeWVikqA4t9vXrbSnoiWwOWwLBLPtGPLwwr7E3w+g@mail.gmail.com>
+To: winiston@futuraautomation.com
+Cc: yocto texas <meta-ti@yoctoproject.org>,
+	Anders Darander <anders@chargestorm.se>,
+	Yocto layer <linux-yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [linux-yocto] How to integrate third party application software to yocto image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +62,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 13:16:24 -0000
-X-Groupsio-MsgNum: 79069
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cYtjc4pxslFTELvY"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Mar 2016 13:37:42 -0000
+Content-Type: multipart/alternative; boundary=047d7b1635bf5cac4c052d251a43
 
---cYtjc4pxslFTELvY
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--047d7b1635bf5cac4c052d251a43
+Content-Type: text/plain; charset=UTF-8
+
+On 2 March 2016 at 08:52, <winiston@futuraautomation.com> wrote:
+
+> ERROR: navit was skipped: Recipe is blacklisted: bluez5 conflicts with
+> bluez4 and bluez5 is selected in DISTRO_FEATURES
+>
+
+Your distro is using bluez5 but navit is using the
+old/deprecated/unmaintained bluez4.
+
+Ideally you create a new distro and change this, but for testing this in
+your local.conf should be sufficient:
+
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "bluez5"
+
+This will stop your distro from wanting to use bluez5 and will fall back to
+bluez4, at which point navit will build.
+
+Ross
+
+--047d7b1635bf5cac4c052d251a43
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 03, 2016 at 01:02:35PM +0000, Phil Blundell wrote:
-> On Wed, 2016-01-27 at 15:28 -0800, Andre McCurdy wrote:
-> > -ARM_INSTRUCTION_SET =3D "arm"
-> > +ARM_INSTRUCTION_SET_armv4 =3D "arm"
-> > +ARM_INSTRUCTION_SET_armv5 =3D "arm"
->=20
-> Although I agree that this is a net improvement over the old code in
-> almost all cases, this patch is not quite right. =A0The reason for the
-> original override is that there is assembler code in glib which won't
-> compile as Thumb-1 (but is ok in Thumb-2). =A0Thumb-2 is only available
-> in ARMv6T2 and newer architectures so with your patch it looks like
-> compilation on arm1136jf-s (which is ARMv6 not ARMv6T2) would now fail.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 March 2016 at 08:52,  <span dir=3D"ltr">&lt;<a href=3D"mailto:winiston=
+@futuraautomation.com" target=3D"_blank">winiston@futuraautomation.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><span class=3D"">ERROR: navit was ski=
+pped: Recipe is blacklisted: bluez5 conflicts with bluez4 and bluez5 is sel=
+ected in DISTRO_FEATURES<br></span></blockquote></div><br>Your distro is us=
+ing bluez5 but navit is using the old/deprecated/unmaintained bluez4.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ideally you=
+ create a new distro and change this, but for testing this in your local.co=
+nf should be sufficient:</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">DISTRO_FEATURES_BACKFILL_CONSIDERED =3D &quot;bluez5&quo=
+t;<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>This will stop your distro from wanting to use bluez5 and will fall back t=
+o bluez4, at which point navit will build.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
-If the MACHINE doesn't have thumb in TUNE_FEATURES (for selected
-DEFAULTTUNE) won't use -mthumb, so building on ARMv6 shouldn't fail
-or I didn't get your point.
-
-> I recommend that we either:
->=20
-> 1. Introduce a new, explicit "thumb1" override which can be enabled by
-> the appropriate arch-arm*.inc files, and make all the appropriate
-> recipes set ARM_INSTRUCTION_SET based on that; or
->=20
-> 2. Introduce a new thumb1-compatible.inc file which contains lines like
->=20
-> ARM_INSTRUCTION_SET_glib-2.0 =3D "arm"
->=20
-> and let distros which want to support older ARMs and enable Thumb
-> include that file; or
->=20
-> 3. Take the view that it's now nearly fifteen years since Thumb-2 was
-> introduced, OE-core no longer needs to pander explicitly to Thumb-1,
-> and we should just remove all this scar tissue entirely. =A0Distros that
-> do want to target Thumb-1 can still maintain the appropriate
-> compatibility stuff (which is probably only a dozen lines or so) for
-> themselves.
-
-Except that oe-core still contains qemuarm which is armv5t and almost=20
-nobody is building it with thumb enabled in DISTRO config. I'm regularly
-asking it to be enabled on autobuilder, but without luck:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7717
-
-> Personally I would favour #3. :-)
->=20
-> p.
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---cYtjc4pxslFTELvY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlbYOaEACgkQN1Ujt2V2gBwqTACfdNss7fdAwSIDaKye+bA+khK1
-aK0An06XFMKSCbEJvpRmGaOYqaFSauLv
-=51bq
------END PGP SIGNATURE-----
-
---cYtjc4pxslFTELvY--
+--047d7b1635bf5cac4c052d251a43--
