@@ -1,46 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 426ED77103
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EFB0D70018
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 19:22:49 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id 4so20143434pfd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2016 11:22:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=eyvEi/7nNy06mevjq7FA/zFpWi9n4Xc6lhkW5AtwrtU=;
-	b=SZ55IePM5AqihSEOu3irqQrIpw5W/r5uu7lGQyFgsKLMfccvz6wsriCUVVkaeTe0WK
-	UVrCq4ao37XsusUOB/bBTbwQegWo6vTNqGG6btdEInBuFZx86dSsrSNBHlSxYawHHW+y
-	X1OiF3vBHv/U22i9vHwVoFsVWCnGkeLp1f4dMrU31VBxF1LRB/b8l4H0sjOgmdnaNgHA
-	WNo2bOeP3cZXWSvJOVZHrhtJ9yJq1PfQeGeI+ligeoYij0tUSgpJeGu3lZo6ZW+JRr41
-	k70Bh/PduIzm3vtgKs6ZP9BdcvXGEb61nNlIvYd7/lW9VjXjz+uFlmPDi+Ib6tWfICYb
-	uPNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eyvEi/7nNy06mevjq7FA/zFpWi9n4Xc6lhkW5AtwrtU=;
-	b=TFEI4gjUIVy3mDwhBaS92D6VCfPTL92aQEW9fGNjPaHPIGBQDWXp3iyBQZozW9Rn+K
-	7uu9/NJpIRP3e0dDW28TWQz/zEsif9FKdFLGdRJEOeHWXeZmNe4qfXV7u99G47c0ztJh
-	N4aNR0s2Z33wuC+Kc3UHRlQW+J5Xxmvh117ubUx/8wopEzUthBg8+C64HMKSt1V4HcQd
-	Fy5mK0yj+8xBZ0BVh0IFpg5yVDi0bCEoi/IM56fs2ZQN0KHAfoOqMl1SJ5QvVh9v6Ka1
-	o0zp7trhxHA5MQwYydOtIjgvZnGc48pnHMEmNdp3Mu2doexzesJV0vRmVMqgabQSLIBi
-	aqvg==
-X-Gm-Message-State: AD7BkJJT7bwrqxPSgsMN7KbbiCxLLBQ8gwsHkd9ryVv2wgzNOeQUO77eBx0kMajCDPZA2Q==
-X-Received: by 10.98.87.90 with SMTP id l87mr6099940pfb.70.1457032970865;
-	Thu, 03 Mar 2016 11:22:50 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	cq9sm62404105pac.26.2016.03.03.11.22.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Mar 2016 11:22:49 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Mar 2016 11:22:43 -0800
-Message-Id: <1457032963-27692-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] arch-x86.inc: add leading space to MACHINE_FEATURES_BACKFILL_CONSIDERED_append
+	Thu,  3 Mar 2016 19:23:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Mar 2016 11:23:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,533,1449561600"; 
+	d="scan'208,217";a="900616240"
+Received: from akaringa-mobl2.amr.corp.intel.com (HELO [10.254.102.15])
+	([10.254.102.15])
+	by orsmga001.jf.intel.com with ESMTP; 03 Mar 2016 11:23:55 -0800
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1456442768.git.alejandro.hernandez@linux.intel.com>
+	<20160303153659.GG2569@jama>
+	<CAJTo0LaEvWh1rgR77i7MQ-zZQOKBF1GNkQyOFHtJHo0HN_YuXQ@mail.gmail.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <56D88F99.1070400@linux.intel.com>
+Date: Thu, 3 Mar 2016 13:25:13 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaEvWh1rgR77i7MQ-zZQOKBF1GNkQyOFHtJHo0HN_YuXQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Replaces udev with eudev for compatibility when using sysvinit on newer kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 19:22:50 -0000
+X-List-Received-Date: Thu, 03 Mar 2016 19:23:57 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080000030000050206040900"
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/machine/include/x86/arch-x86.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/machine/include/x86/arch-x86.inc b/meta/conf/machine/include/x86/arch-x86.inc
-index df568a1..ba7be8a 100644
---- a/meta/conf/machine/include/x86/arch-x86.inc
-+++ b/meta/conf/machine/include/x86/arch-x86.inc
-@@ -25,7 +25,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mx32', ' -mx32', '', d)}"
- TUNE_LDARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-m elf32_x86_64', '', d)}"
- TUNE_ASARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-x32', '', d)}"
- # user mode qemu doesn't support x32
--MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'gobject-introspection-data', '', d)}"
-+MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " ${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'gobject-introspection-data', '', d)}"
- 
- # ELF64 ABI
- TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
--- 
-1.9.1
+--------------080000030000050206040900
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 03/03/2016 10:27 AM, Burton, Ross wrote:
+>
+> On 3 March 2016 at 15:36, Martin Jansa <martin.jansa@gmail.com 
+> <mailto:martin.jansa@gmail.com>> wrote:
+>
+>     is it expected that old udev package was only 0.5MB, eudev is 6MB?
+>
+>     Most of it is probably caused by /etc/udev/hwdb.d
+>
+>
+> Ouch!
+>
+> Following systemd, that should be split out into a separate package.  
+> Alejandro, can you do this?
+>
+> Ross
+
+Wow!, sure I'll take a look and split it
+
+Alejandro
+
+--------------080000030000050206040900
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 03/03/2016 10:27 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaEvWh1rgR77i7MQ-zZQOKBF1GNkQyOFHtJHo0HN_YuXQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 3 March 2016 at 15:36, Martin
+            Jansa <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:martin.jansa@gmail.com" target="_blank">martin.jansa@gmail.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":2u1" class="a3s" style="overflow:hidden">is it
+                expected that old udev package was only 0.5MB, eudev is
+                6MB?<br>
+                <br>
+                Most of it is probably caused by /etc/udev/hwdb.d<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Ouch!</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Following systemd, that should be split
+          out into a separate package.  Alejandro, can you do this?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    Wow!, sure I'll take a look and split it<br>
+    <br>
+    Alejandro<br>
+  </body>
+</html>
+
+--------------080000030000050206040900--
