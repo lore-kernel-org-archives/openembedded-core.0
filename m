@@ -1,54 +1,24 @@
-Return-Path: <winiston@futuraautomation.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 9273576420
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B6AB731E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 10:55:54 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id fy10so12976068pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2016 02:55:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=futuraautomation-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:from:to:cc:subject:date:mime-version:importance
-	:disposition-notification-to;
-	bh=eIW7IQRG1t8EfXDjnxgarIxuBZV2QSjklmrUWlgYx9Q=;
-	b=JqHNowE/jtpoOtnSnX4AZKaNRCaJCuzZ5JfoEJ63QOfsB4Cevfw6I4c8Lyhxuo2lKD
-	3OBNwO5lx18KCEL/9HwoUoDwZuHgkOtlkVplFlUG+PP4gDa+VN+Ew1QqqwyaIBybOgFC
-	yBqppPk9YigUIqAONAgUfFlOniTnn0pwjfJ78xSNzzrNx2NDk2t0nNBE/1J+L6qXeOWK
-	IfViR7/eum/j6mfSVOZPcM1KioMdfUIpp6YHaoJuqv+dzwY18WSEgUQYWVrvniJixbJH
-	RLIcJ4C8rbUInDq6Cef4VQ+6AE4QUK0zmCXRKdC4zRSf1MKsqQdS4++nAV6/ml6Ketb5
-	7Hlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:from:to:cc:subject:date:mime-version
-	:importance:disposition-notification-to;
-	bh=eIW7IQRG1t8EfXDjnxgarIxuBZV2QSjklmrUWlgYx9Q=;
-	b=F+kpVaJT+8Uo/lGoQvtFB97lz7AkdqYSrfHI1MrWH+NB9lM3ofNI7DtWWizpmb8Ch6
-	7o0VAEMOXI2FbJZBoP+8frsrpCvc3mdYrtGg8pu9TZ+T8OebjKdxm2xPlCV8Di7J/oBy
-	7fdQU7JleOm8KF1bIDPMS+CAv4YU2f6LLIeX6oirGzJexp+saTPtdd2ahp9MqEGpmxhN
-	FO1Q9lU/ofGs4NAaqMOqoxfyDWsbPSqyRISAf3LuXbonRqPZt77ImrqQxmNyq3qdqWIu
-	5etjO0ff32Q5leVacI4bLgBEUHYDrQ4AuKmmhewKbI/43LWE1rFQ0KnpsvFeGt6kives
-	TiYw==
-X-Gm-Message-State: AD7BkJIEJIqZKZMje9myQZCZDBTtJYgMuI8xygpsZa5YmoYNq3L0KY5Hzr7/B2tHztIfKw==
-X-Received: by 10.66.145.194 with SMTP id sw2mr2612645pab.69.1457002554710;
-	Thu, 03 Mar 2016 02:55:54 -0800 (PST)
-Received: from RD3 ([59.99.236.185]) by smtp.gmail.com with ESMTPSA id
-	kw10sm59771935pab.0.2016.03.03.02.55.51
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Mar 2016 02:55:53 -0800 (PST)
-Message-ID: <D6104635BEC047C6A117367EE5F6969D@RD3>
-From: <winiston@futuraautomation.com>
-To: "OpenEmbedded core" <openembedded-core@lists.openembedded.org>,
-	"Yocto layer" <linux-yocto@yoctoproject.org>
-Date: Thu, 3 Mar 2016 16:29:20 +0530
-MIME-Version: 1.0
-X-Priority: 1
-X-MSMail-Priority: High
-Importance: High
-X-Mailer: Microsoft Windows Live Mail 15.4.3555.308
-X-MimeOLE: Produced By Microsoft MimeOLE V15.4.3555.308
-Cc: yocto texas <meta-ti@yoctoproject.org>
-Subject: How to add recipes-navigation in core-image-base
+	Thu,  3 Mar 2016 11:07:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Mar 2016 03:07:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,532,1449561600"; d="scan'208";a="928710171"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.14.114])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Mar 2016 03:07:48 -0800
+Message-ID: <1457003268.3025.9.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: Javier Viguera <javier.viguera@digi.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 03 Mar 2016 11:07:48 +0000
+In-Reply-To: <1456337679-4602-1-git-send-email-javier.viguera@digi.com>
+References: <1456337679-4602-1-git-send-email-javier.viguera@digi.com>
+X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [jethro][PATCH] bluez5: allow D-Bus to spawn obexd in systems without systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,84 +31,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 10:55:54 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_01EE_01D17569.D6C278A0"
+X-List-Received-Date: Thu, 03 Mar 2016 11:07:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_000_01EE_01D17569.D6C278A0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Javier,
 
-Hi,
+On Wed, 2016-02-24 at 19:14 +0100, Javier Viguera wrote:
+> This includes a proper D-Bus service file for obexd in systems that
+> do
+> not support systemd.
+> 
 
-I wanted to use =E2=80=9Crecipes-navigation=E2=80=9D in my yocto build =
-(Poky ) . How do I add=E2=80=9D recipes-navigation =E2=80=9C to my =
-image?
+This looks like a valid patch for the master branch too?
 
-I have downloaded =E2=80=9C recipes-navigation =E2=80=9C from =
-=E2=80=9Copen embedded project=E2=80=9D. Is it compatible with yocto =
-build (poky ) ?
-
-Note: Ultimately I wanted to integrate =E2=80=9CNavit=E2=80=9D to my =
-image.           =E2=80=9Crecipes-navigation =E2=80=9C has =
-=E2=80=9Cnavit=E2=80=9D.
-How do I achieve this =E2=80=9CNavit=E2=80=9D integration in my image?
-
-Target Image    : image-core-base
-Target machine : AM437x-evm
-Host Machine   :  Ubuntu 14.04=20
-I am looking forward to your valuable reply. If you need any more =
-details, Let me know please.
+The development process we try to follow is for patches to go into the
+master branch first, then be backported into the release branches.
 
 Regards,
-Winiston.P
-Futura Automation Pvt Ltd.
 
-Ph :91-80-28375290 / 28375295
-Fax :91-80-28375291
+Joshua
 
-------=_NextPart_000_01EE_01D17569.D6C278A0
-Content-Type: text/html;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Signed-off-by: Javier Viguera <javier.viguera@digi.com>
+> ---
+>  meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+>  ...-obexd-without-systemd-in-the-user-sessio.patch | 63
+> ++++++++++++++++++++++
+>  2 files changed, 64 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-
+> Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+> 
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc
+> b/meta/recipes-connectivity/bluez5/bluez5.inc
+> index df42c88b9da3..d1af31ea45cd 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+> @@ -18,6 +18,7 @@ PACKAGECONFIG[experimental] = "--enable-
+> experimental,--disable-experimental,"
+>  
+>  SRC_URI = "\
+>      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0
+> 001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)}
+> \
+>  "
+>  S = "${WORKDIR}/bluez-${PV}"
+>  
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-
+> using-obexd-without-systemd-in-the-user-sessio.patch b/meta/recipes-
+> connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-
+> the-user-sessio.patch
+> new file mode 100644
+> index 000000000000..2fde7bc06923
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-
+> without-systemd-in-the-user-sessio.patch
+> @@ -0,0 +1,63 @@
+> +From: Giovanni Campagna <gcampagna-cNUdlRotFMnNLxjTenLetw@public.gma
+> ne.org>
+> +Date: Sat, 12 Oct 2013 17:45:25 +0200
+> +Subject: [PATCH] Allow using obexd without systemd in the user
+> session
+> +
+> +Not all sessions run systemd --user (actually, the majority
+> +doesn't), so the dbus daemon must be able to spawn obexd
+> +directly, and to do so it needs the full path of the daemon.
+> +
+> +Upstream-Status: Denied
+> +
+> +Not accepted by upstream maintainer for being a distro specific
+> +configuration. See thread:
+> +
+> +http://thread.gmane.org/gmane.linux.bluez.kernel/38725/focus=38843
+> +
+> +Signed-off-by: Javier Viguera <javier.viguera@digi.com>
+> +---
+> + Makefile.obexd                      | 4 ++--
+> + obexd/src/org.bluez.obex.service    | 4 ----
+> + obexd/src/org.bluez.obex.service.in | 4 ++++
+> + 3 files changed, 6 insertions(+), 6 deletions(-)
+> + delete mode 100644 obexd/src/org.bluez.obex.service
+> + create mode 100644 obexd/src/org.bluez.obex.service.in
+> +
+> +diff --git a/Makefile.obexd b/Makefile.obexd
+> +index 2e33cbc72f2b..d5d858c857b4 100644
+> +--- a/Makefile.obexd
+> ++++ b/Makefile.obexd
+> +@@ -2,12 +2,12 @@
+> + if SYSTEMD
+> + systemduserunitdir = @SYSTEMD_USERUNITDIR@
+> + systemduserunit_DATA = obexd/src/obex.service
+> ++endif
+> + 
+> + dbussessionbusdir = @DBUS_SESSIONBUSDIR@
+> + dbussessionbus_DATA = obexd/src/org.bluez.obex.service
+> +-endif
+> + 
+> +-EXTRA_DIST += obexd/src/obex.service.in
+> obexd/src/org.bluez.obex.service
+> ++EXTRA_DIST += obexd/src/obex.service.in
+> obexd/src/org.bluez.obex.service.in
+> + 
+> + obex_plugindir = $(libdir)/obex/plugins
+> + 
+> +diff --git a/obexd/src/org.bluez.obex.service
+> b/obexd/src/org.bluez.obex.service
+> +deleted file mode 100644
+> +index a53808884554..000000000000
+> +--- a/obexd/src/org.bluez.obex.service
+> ++++ /dev/null
+> +@@ -1,4 +0,0 @@
+> +-[D-BUS Service]
+> +-Name=org.bluez.obex
+> +-Exec=/bin/false
+> +-SystemdService=dbus-org.bluez.obex.service
+> +diff --git a/obexd/src/org.bluez.obex.service.in
+> b/obexd/src/org.bluez.obex.service.in
+> +new file mode 100644
+> +index 000000000000..9c815f246b77
+> +--- /dev/null
+> ++++ b/obexd/src/org.bluez.obex.service.in
+> +@@ -0,0 +1,4 @@
+> ++[D-BUS Service]
+> ++Name=org.bluez.obex
+> ++Exec=@libexecdir@/obexd
+> ++SystemdService=dbus-org.bluez.obex.service
 
-<HTML><HEAD></HEAD>
-<BODY dir=3Dltr>
-<DIV dir=3Dltr>
-<DIV style=3D"FONT-SIZE: 12pt; FONT-FAMILY: 'Calibri'; COLOR: #000000">
-<DIV>Hi,</DIV>
-<DIV>&nbsp;</DIV>
-<DIV>I wanted to use =E2=80=9Crecipes-navigation=E2=80=9D in my yocto =
-build (Poky ) . <FONT=20
-color=3D#0000ff>How do I add=E2=80=9D recipes-navigation =E2=80=9C to my =
-image?</FONT></DIV>
-<DIV>&nbsp;</DIV>
-<DIV>I have downloaded =E2=80=9C recipes-navigation =E2=80=9C from =
-=E2=80=9Copen embedded project=E2=80=9D.=20
-<FONT color=3D#0000ff>Is it compatible with yocto build (poky ) =
-?</FONT></DIV>
-<DIV><FONT color=3D#0000ff></FONT>&nbsp;</DIV>
-<DIV><FONT color=3D#0000ff>Note: Ultimately I wanted to integrate =
-=E2=80=9CNavit=E2=80=9D to my=20
-image.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=20
-=E2=80=9Crecipes-navigation =E2=80=9C has =
-=E2=80=9Cnavit=E2=80=9D.</FONT></DIV>
-<DIV><FONT color=3D#0000ff>How do I achieve this =E2=80=9CNavit=E2=80=9D =
-integration in my=20
-image?</FONT></DIV>
-<DIV>&nbsp;</DIV>
-<DIV>Target Image&nbsp;&nbsp;&nbsp; : image-core-base</DIV>
-<DIV>Target machine : AM437x-evm</DIV>
-<DIV>Host Machine&nbsp;&nbsp; :&nbsp; Ubuntu 14.04 </DIV>
-<DIV>I am looking forward to your valuable reply. If you need any more =
-details,=20
-Let me know please.</DIV>
-<DIV>&nbsp;</DIV>
-<DIV=20
-style=3D"FONT-SIZE: 12pt; FONT-FAMILY: 'Calibri'; COLOR: =
-#000000">Regards,<BR>Winiston.P<BR>Futura=20
-Automation Pvt Ltd.<BR><BR>Ph :91-80-28375290 / 28375295<BR>Fax=20
-:91-80-28375291<BR></DIV></DIV></DIV></BODY></HTML>
-
-------=_NextPart_000_01EE_01D17569.D6C278A0--
