@@ -1,46 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3304E731F3
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id EE47D77038
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 12:34:35 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id p65so29677096wmp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2016 04:34:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=gTeET2/jw5LvI0kSdqtMMU9ZRm9dKKLhrj7eXdI/flY=;
-	b=UWRuteqPmG0ZLX/0l9xhgx0aFqdclOsI7IK8X1ZZkKVLgIs7xruRRNjrb1VTt04TUr
-	ztb6sdYCFd9CGzcVB8OCP71Q5xpJdMoLXOOeTgvpCCV1ZsjEB3Yl72VJ19Xe9q6/lvQP
-	vfwgymavKzAi6cyPtfeSiw4xtBKwm+iuSRDJ0mupJrarGF8FLrTke11JPqQ9l4yoo3ss
-	v9JPPKGsjlZgXsNPM9SEcH9n6Hf+NVq4zWuRYSWSVWegLiC0dyd/DkSXDZ3B8ze7kM3G
-	hFn2uWiJxOvxC3uSQqBt3TuIy94FqSSpmZLvJJRUEsqETHR4PEVWFZtRrvS2ueaHbXlG
-	MTwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=gTeET2/jw5LvI0kSdqtMMU9ZRm9dKKLhrj7eXdI/flY=;
-	b=YuXrkYbqMxHEnaN2OwpirWBlmdfG6NLbMrI/jNbUmhbxkiFGoXKiMxQGx8CPmRnae9
-	wqxQCTyhq1vSQkYMOaPATHi3tgTU7e118zZSRa5NnIN8VvXEQXYIwp7j+WjOUL9n4sgZ
-	XQLxcSYYbq5ZVHnfyxFYYsjrKNHvjRCt2+VDtQGlIkM2raFpMJPNLFmevSMp1ahKax3E
-	2A1+ZQJGeqT3Z+Iio02KNlgobgU0SB2fL9sTa8GqYF6P0wdQvJgx0sD9Zgn2XyH1ENy0
-	sAZN01xejz0bHKm7vzUuwqQXoNuYppzWCOGuVMZM9pUXFGVU9WEUQ7vFZv8j26MiBU1w
-	FBxg==
-X-Gm-Message-State: AD7BkJJkHrV1eFma+wlQJVW2dKI98pAFGJ5rgPWjjUfj5n9iFcepMa58EKU0WiOIhC4p9i6w
-X-Received: by 10.28.17.198 with SMTP id 189mr5617955wmr.47.1457008476274;
-	Thu, 03 Mar 2016 04:34:36 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	da6sm31008734wjb.24.2016.03.03.04.34.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Mar 2016 04:34:35 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Mar 2016 12:34:33 +0000
-Message-Id: <1457008473-5085-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] uninative: default to downloading the tarball to DL_DIR
+	Thu,  3 Mar 2016 13:02:36 +0000 (UTC)
+Received: from elite.brightsigndigital.co.uk ([213.210.30.29]
+	helo=phil-desktop) by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <pb@pbcl.net>)
+	id 1abSto-0007dK-DF; Thu, 03 Mar 2016 14:02:36 +0100
+Message-ID: <1457010155.3476.31.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Andre McCurdy <armccurdy@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 03 Mar 2016 13:02:35 +0000
+In-Reply-To: <1453937316-1311-4-git-send-email-armccurdy@gmail.com>
+References: <1453937316-1311-1-git-send-email-armccurdy@gmail.com>
+	<1453937316-1311-4-git-send-email-armccurdy@gmail.com>
+X-Mailer: Evolution 3.18.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/3] glib.inc: limit ARM_INSTRUCTION_SET over-rides to armv4/armv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 12:34:37 -0000
+X-List-Received-Date: Thu, 03 Mar 2016 13:02:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/uninative.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2016-01-27 at 15:28 -0800, Andre McCurdy wrote:
+> -ARM_INSTRUCTION_SET = "arm"
+> +ARM_INSTRUCTION_SET_armv4 = "arm"
+> +ARM_INSTRUCTION_SET_armv5 = "arm"
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 9a57170..471c9ae 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -5,7 +5,7 @@ UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
- # Example checksums
- #UNINATIVE_CHECKSUM[i586] = "dead"
- #UNINATIVE_CHECKSUM[x86_64] = "dead"
--UNINATIVE_DLDIR ?= "${COREBASE}"
-+UNINATIVE_DLDIR ?= "${DL_DIR}"
- 
- addhandler uninative_eventhandler
- uninative_eventhandler[eventmask] = "bb.event.BuildStarted"
--- 
-2.7.0
+Although I agree that this is a net improvement over the old code in
+almost all cases, this patch is not quite right.  The reason for the
+original override is that there is assembler code in glib which won't
+compile as Thumb-1 (but is ok in Thumb-2).  Thumb-2 is only available
+in ARMv6T2 and newer architectures so with your patch it looks like
+compilation on arm1136jf-s (which is ARMv6 not ARMv6T2) would now fail.
+
+I recommend that we either:
+
+1. Introduce a new, explicit "thumb1" override which can be enabled by
+the appropriate arch-arm*.inc files, and make all the appropriate
+recipes set ARM_INSTRUCTION_SET based on that; or
+
+2. Introduce a new thumb1-compatible.inc file which contains lines like
+
+ARM_INSTRUCTION_SET_glib-2.0 = "arm"
+
+and let distros which want to support older ARMs and enable Thumb
+include that file; or
+
+3. Take the view that it's now nearly fifteen years since Thumb-2 was
+introduced, OE-core no longer needs to pander explicitly to Thumb-1,
+and we should just remove all this scar tissue entirely.  Distros that
+do want to target Thumb-1 can still maintain the appropriate
+compatibility stuff (which is probably only a dozen lines or so) for
+themselves.
+
+Personally I would favour #3. :-)
+
+p.
 
 
