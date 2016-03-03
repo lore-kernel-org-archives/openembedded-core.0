@@ -1,27 +1,46 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B8D761D8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3304E731F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 11:30:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 03 Mar 2016 03:30:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,532,1449561600"; d="scan'208";a="900272923"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.14.114])
-	by orsmga001.jf.intel.com with ESMTP; 03 Mar 2016 03:30:33 -0800
-Message-ID: <1457004633.3025.13.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: "Viguera, Javier" <Javier.Viguera@digi.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Mar 2016 11:30:33 +0000
-In-Reply-To: <DA8287CC96892A4EB4FCF4FB3FBDA1AB790570@dor-sms-xch01.digi.com>
-References: <1456337679-4602-1-git-send-email-javier.viguera@digi.com>
-	<1457003268.3025.9.camel@linux.intel.com>
-	<DA8287CC96892A4EB4FCF4FB3FBDA1AB790570@dor-sms-xch01.digi.com>
-X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [jethro][PATCH] bluez5: allow D-Bus to spawn obexd in systems without systemd
+	Thu,  3 Mar 2016 12:34:35 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id p65so29677096wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Mar 2016 04:34:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=gTeET2/jw5LvI0kSdqtMMU9ZRm9dKKLhrj7eXdI/flY=;
+	b=UWRuteqPmG0ZLX/0l9xhgx0aFqdclOsI7IK8X1ZZkKVLgIs7xruRRNjrb1VTt04TUr
+	ztb6sdYCFd9CGzcVB8OCP71Q5xpJdMoLXOOeTgvpCCV1ZsjEB3Yl72VJ19Xe9q6/lvQP
+	vfwgymavKzAi6cyPtfeSiw4xtBKwm+iuSRDJ0mupJrarGF8FLrTke11JPqQ9l4yoo3ss
+	v9JPPKGsjlZgXsNPM9SEcH9n6Hf+NVq4zWuRYSWSVWegLiC0dyd/DkSXDZ3B8ze7kM3G
+	hFn2uWiJxOvxC3uSQqBt3TuIy94FqSSpmZLvJJRUEsqETHR4PEVWFZtRrvS2ueaHbXlG
+	MTwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gTeET2/jw5LvI0kSdqtMMU9ZRm9dKKLhrj7eXdI/flY=;
+	b=YuXrkYbqMxHEnaN2OwpirWBlmdfG6NLbMrI/jNbUmhbxkiFGoXKiMxQGx8CPmRnae9
+	wqxQCTyhq1vSQkYMOaPATHi3tgTU7e118zZSRa5NnIN8VvXEQXYIwp7j+WjOUL9n4sgZ
+	XQLxcSYYbq5ZVHnfyxFYYsjrKNHvjRCt2+VDtQGlIkM2raFpMJPNLFmevSMp1ahKax3E
+	2A1+ZQJGeqT3Z+Iio02KNlgobgU0SB2fL9sTa8GqYF6P0wdQvJgx0sD9Zgn2XyH1ENy0
+	sAZN01xejz0bHKm7vzUuwqQXoNuYppzWCOGuVMZM9pUXFGVU9WEUQ7vFZv8j26MiBU1w
+	FBxg==
+X-Gm-Message-State: AD7BkJJkHrV1eFma+wlQJVW2dKI98pAFGJ5rgPWjjUfj5n9iFcepMa58EKU0WiOIhC4p9i6w
+X-Received: by 10.28.17.198 with SMTP id 189mr5617955wmr.47.1457008476274;
+	Thu, 03 Mar 2016 04:34:36 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	da6sm31008734wjb.24.2016.03.03.04.34.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Mar 2016 04:34:35 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Mar 2016 12:34:33 +0000
+Message-Id: <1457008473-5085-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] uninative: default to downloading the tarball to DL_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 11:30:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 03 Mar 2016 12:34:37 -0000
 
-On Thu, 2016-03-03 at 11:22 +0000, Viguera, Javier wrote:
-> Hi Joshua,
-> 
-> > 
-> > -----Original Message-----
-> > From: Joshua G Lock [mailto:joshua.g.lock@linux.intel.com] 
-> > Sent: Thursday, March 03, 2016 12:08 PM
-> > To: Viguera, Javier; openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [jethro][PATCH] bluez5: allow D-Bus to spawn
-> > obexd in systems without systemd
-> > 
-> > This looks like a valid patch for the master branch too?
-> Absolutely. That's why I sent both patches together, one for master
-> and this one for Jethro.
-> 
-> See the one for master: 
-> 
-> http://patchwork.openembedded.org/patch/116389/
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/uninative.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ah, I hadn't seen that patch as I was only looking at patches tagged
-jethro. We can consider this change for jethro once it lands in master.
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 9a57170..471c9ae 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -5,7 +5,7 @@ UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
+ # Example checksums
+ #UNINATIVE_CHECKSUM[i586] = "dead"
+ #UNINATIVE_CHECKSUM[x86_64] = "dead"
+-UNINATIVE_DLDIR ?= "${COREBASE}"
++UNINATIVE_DLDIR ?= "${DL_DIR}"
+ 
+ addhandler uninative_eventhandler
+ uninative_eventhandler[eventmask] = "bb.event.BuildStarted"
+-- 
+2.7.0
 
-> 
-> By the way, for Jethro I sent also a different patch (master
-> backport):
-> 
-> http://patchwork.openembedded.org/patch/116661/
-> 
-> This last one is already in master and it would be great to have it
-> in Jethro as well.
-
-I just included this patch in a consolidated Jethro pull request.
-
-Regards,
-
-Joshua
 
