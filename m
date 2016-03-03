@@ -1,26 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DD27A73163
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F6AF77025
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2016 14:23:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u23EN7cw009572; Thu, 3 Mar 2016 14:23:07 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iwx7gbWKMaHA; Thu,  3 Mar 2016 14:23:07 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u23EN6vM009563
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 3 Mar 2016 14:23:07 GMT
-Message-ID: <1457014986.25131.69.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Mar 2016 14:23:06 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Status of M3
+	Thu,  3 Mar 2016 14:59:31 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id n186so135558537wmn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Mar 2016 06:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=gd8nNI/bKbOKnXn7exNJiob6d0TVA9lhyUjmHc43e7k=;
+	b=AnEvkFc46gr6GmHWeMqFH6n+wMJc4BtVYErRDhYOF49GUckwVJXqZpoH4Wc96YzZFb
+	naX7Jt79XgJBxtThxaEnRyeZQcEbrgYpm6DzspzzAnX12P6KpuWmzLSKkBmJavBloEZp
+	xFkfyDFaBXPCjIiHkBFuD2wSry+mPRuVpSCG1xXhobq5lvgrPyI1ZhyrV3JHc8GMj2cB
+	kMywWhUfoPW6sZ9qlWLeN0NumKSqu5I+lT6h5WfkbC39TClqakeu41bhOm7LIUkTwQkX
+	XyLfAbnuLNOQZzc4VER5oIDrYmx780nDTnXriB8vqeEJPPtfivzLsh5OeK5WX2UGBTJU
+	0MPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=gd8nNI/bKbOKnXn7exNJiob6d0TVA9lhyUjmHc43e7k=;
+	b=Plpt0QUHnMfsS7Mbeyd2flsXNMme6g2Vl/kGUoFe3xBWlT8QKdrW+fp1DwsnyFcKRu
+	D6e25hiXMAUaWyGtAn92sEOtZM4stfuIijXV2On8MXWPb2idy/lz9yLCrbi+zyDhOcnH
+	1RckvpN/7fDA92hq3JsH4ddBMZMEV2xGfbKIAl8UuKiwMI3bq6xM4oshYKH5sWQp7nWm
+	tktJaSSZrsGEfojoEDc0OYmydzdHdtUrTeSUJXl9uHvmLBtf719ArekhiwLfPn2j5KiC
+	BT0/seMpR397espMLyuyOpIJU+svgmNFof5em3UE3Su+9QISPKichi7N/LiZZEn3900q
+	O3wg==
+X-Gm-Message-State: AD7BkJIhxfNXTc7yJhwMcZxmgzoAkPtXIB8TbwSgS96egp2rAfC9PPvYj9HvVx6/DfWa+w==
+X-Received: by 10.28.19.130 with SMTP id 124mr4279180wmt.2.1457017171259;
+	Thu, 03 Mar 2016 06:59:31 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	s206sm7786380wmf.23.2016.03.03.06.59.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Mar 2016 06:59:29 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 3 Mar 2016 16:01:35 +0100
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20160303150135.GF2569@jama>
+References: <1456773039-5178-1-git-send-email-Martin.Jansa@gmail.com>
+	<1456778449.11498.183.camel@linuxfoundation.org>
+	<CAJTo0LZ6RabE0C2o4wjuKQRbgikjc3f+CH8RF=j4RdVP2nu=7w@mail.gmail.com>
+	<CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=VFeZjULfZW3q06juYa90S8g93V7WhTB5Lgdhy+nJaprQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] no-static-libs.inc: add gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,85 +61,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2016 14:23:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Mar 2016 14:59:33 -0000
+X-Groupsio-MsgNum: 79073
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fwqqG+mf3f7vyBCB"
+Content-Disposition: inline
 
-I'm not sure people realise quite how much pain we've been suffering
-this week trying to get things stabilised for M3. To illustrate the
-kinds of problems, let me give an idea of the issues in the past few
-days. The resolved list:
+--fwqqG+mf3f7vyBCB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* gobject-introspection has sstate relocation issues
-* gobject-introspection was missing a dependency
-* allarch contamination issues from gnomebase defaulting to g-i
-* gobject-introspection fails on x32
-* oe-selftest failures from the vm class changes
-* random createrepo issue
-* autobuilder workers were replaced with new distros
-  - one had firewall problems
-  - two had network interface problems
-  - another had VNC issues causing sanity test failures
-* there were autobuilder configuration changes
-  - eSDK changes failed initial
-  - increased ptest coverage failed initially
-  - uninative tarball publishing wasn't correct 
-  - handle meta-poky transition
-  - handle adt-installer removal
-* uninative output name issues (BUILD_ARCH verses SDK_ARCH)
-* uninative sstate interaction issues (NATIVESDKSTRING)
-* ongoing pseudo retry issues
-* bitbake unpack improvements broke
-* canterall fonts broke oe-selftest
-* unsafe script references broke sanity tests
-* unsafe binary references broke in sanity tests due to prelink problem
-* meta-yocto -> meta-poky had multiple problems
-* race in do_rootfs_wicenv
-* eudev change broke oe-selftest
-* rpm upgrade went through multiple different build failures
-* toaster references to meta-yocto
-* I screwed up manually fixing a simple merge breaking builds. Twice :(
+On Mon, Feb 29, 2016 at 12:50:03PM -0800, Andre McCurdy wrote:
+> On Mon, Feb 29, 2016 at 12:43 PM, Burton, Ross <ross.burton@intel.com> wr=
+ote:
+> >
+> > On 29 February 2016 at 20:40, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >>
+> >> I'm a bit puzzled as our autobuilders build this all the time and we
+> >> don't see failures. Any idea what the configuration difference might
+> >> be?
+> >
+> > Since oe-core 94e1b917078bedf73830e54278af77f742c93581 gdb has a
+> > packageconfig for system readline, which is enabled by default (and has=
+ been
+> > enabled explicitly for a long time).  Do you have some local patches ad=
+ding
+> > more PACKAGECONFIG options but not enabling readline?
+>=20
+> gdb 7.10.1 depends on readline features which are not present in
+> readline 5.2 (ie the GPLv2 version). Using the gdb internal readline
+> is a workaround for people who don't want to switch to the GPLv3
+> version of readline.
 
-Things which still break:
+Thanks!
 
-* rpm upgrade causes smart remove to not function
-* gobject-introspection breaks on multilib with python-pygobject file 
-  location issue
-* gobject-introspection fails on musl
-* createrepo has occasional failure with checksum mismatch
-* oe-selftest signing failure
-* sato application launch failures from glib issues due to prelink
-* meta-fsl-ppc breaks on eudev change (patch pending)
-* meta-fsl-ppc breakage blocks AB artefact publishing
+After fixing the default in meta-qt5 I've started to see this issue in
+other builds which were indeed built with
+PREFERRED_VERSION_readline ?=3D "5.2"
+to prevent GPLv3 readline being used by other components.
 
-There are only a small number of us who dive in and try and untangle
-the twisted web of which patch is causing which issue and try and put
-these things on a path to resolution
+For gdb which isn't part of our release builds we can use bundled
+readline, so I had to apply this no-static-libs.inc change and
+explicitly remove readline from gdb's PACKAGECONFIG.
 
-With this level of issues, we're simply not able to consider things
-like "why aren't you testing X?" or "can you test this patch to this
-component to get debugging?". There are 101 things that many of us
-would love to do but we need to improve the turnaround time of the
-tests we have. There are some simple things that come to mind that we
-could do:
+So to recap, meta-qt5 change fixed my jenkins "bitbake world" builds by
+enabling system readline.
+For internal builds (without GPLv3 where possible) on the other hand I
+need to remove readline from PACKAGECONFIG and apply this fix to build
+static readline inside gdb's build.
 
-a) optimisation of oe-selftest. Currently it takes around 8 hours but
-we could cut that time massively with some optimisation around the
-sstate cache and the way the tests are written. This one does catch
-many valid issues but its way too slow. Parallelism is also an option
-here.
+> (Although gdb is itself GPLv3, it's self contained and easy to exclude
+> from release builds).
+>=20
+> > Ross
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
-b) switch to uninative by default to improve native/cross artefact
-reuse on the autobuilder. I have patches queued in -next to test this,
-see if we could switch to it.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-c) switch to the new AB cluster when its ready (newer/faster hardware)
+--fwqqG+mf3f7vyBCB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Volunteers for a) would be most welcome, other ideas welcome too.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-Cheers,
+iEYEARECAAYFAlbYUc4ACgkQN1Ujt2V2gBzsEQCghQenijxrmvuWHkg+LWhkjtOM
+6bEAn2uJkuHZSOXHRqHSWGsNS6OmoV11
+=tbUR
+-----END PGP SIGNATURE-----
 
-Richard
-
-
-
+--fwqqG+mf3f7vyBCB--
