@@ -1,45 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D97731C4
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A16E96FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 09:47:29 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id n186so26612492wmn.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 01:47:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=i/Ft1Fwqp7hINFjjo65mljbO00y4cBgbTVjT0nB5uo8=;
-	b=wsxIPxtDT5x2XhjkJlz1kF8NqEBAXT7LbKNdtZbmAUZiaVWu4s1siLZGaEth+kAkCo
-	sxaQ+a1EV6GJ7LW/z7wio8fJyhO9fuCHZRGy6U0740fcb5QU6e2p1HDqoYcoLffyil+u
-	UN/UEqL9X5SS7FcC4yqTOU62hGoYJytIuTYRYHM76JjWoEIg6mGi3U756xzIky+RSVif
-	0dBQq3zZqrYFVJMAuxEeio59rhhDt5A8rkQXRAh+v5PrPo53hZto2OGPO8a4kgvKwwC3
-	+03+E7Kq+3D8SVt6N39MtxKGvCOJxmrZfoqKxpyVRAJLAE80jBD/VSr5mAdG1fi8Mm2j
-	My2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=i/Ft1Fwqp7hINFjjo65mljbO00y4cBgbTVjT0nB5uo8=;
-	b=PM/dPo4EEyf0R8Av2bosJl1AnJyyzvclpQha4C6ZISRy7Y6m4P8A6wG5zEsGTmrJ9h
-	VwI841lSqvrZarB4zJlrGQpfhFx+wmgcWzaKabeguMksQweAOl/drategJYBiwI792uO
-	/wgRdW1Jcq2+mVHaQRl5j0jvx/zRXjgU4ylW4EIppA9eKayYlM0FTE0AvefE1QD90b8y
-	O2M0dBvjkGDOa8sKVxuMaSB9P5MvwDPNwaES5T0VQwigeNHny+jRkmMFeEkjK4RodTRO
-	qIVkAqjma7POOlWfgrZgy+fm7/bJ68UsYzEbQ8aqBOKsIp69khLurC+9w29cipn0yUAL
-	LanQ==
-X-Gm-Message-State: AD7BkJKxWENrjy5q8H4I8YT/G8LRPFGJqgXC6zKYhz9gIzxWtuGsPtwhabmjpQ+nFMa4ZY6v
-X-Received: by 10.194.60.100 with SMTP id g4mr7862696wjr.30.1457084850390;
-	Fri, 04 Mar 2016 01:47:30 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id o16sm2503990wjr.9.2016.03.04.01.47.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 04 Mar 2016 01:47:29 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Fri,  4 Mar 2016 10:08:21 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Mar 2016 02:08:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,535,1449561600"; d="scan'208";a="758005687"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 04 Mar 2016 02:08:22 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 7CFAC6A4002;
+	Fri,  4 Mar 2016 02:56:08 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2016 09:47:28 +0000
-Message-Id: <1457084848-21497-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] xcursor-transparent-theme: use a version glob in the selftest bbappend
+Date: Fri,  4 Mar 2016 12:12:18 +0200
+Message-Id: <1457086338-26028-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCHv2] oeqa/selftest/buildoptions: Test build does not fail without git rev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,19 +30,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 09:47:30 -0000
+X-List-Received-Date: Fri, 04 Mar 2016 10:08:22 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Test that layer git revisions are displayed and
+do not fail without git repository.
+
+fix for [YOCTO #8852]
+
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- ...nsparent-theme_0.1.1.bbappend => xcursor-transparent-theme_%.bbappend} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta-selftest/recipes-test/xcursor-transparent-theme/{xcursor-transparent-theme_0.1.1.bbappend => xcursor-transparent-theme_%.bbappend} (100%)
+ meta/lib/oeqa/selftest/buildoptions.py | 46 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bbappend b/meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_%.bbappend
-similarity index 100%
-rename from meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bbappend
-rename to meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_%.bbappend
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index e2d12c3..693f069 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -1,7 +1,8 @@
+ import os
+ import re
+ import glob as g
+-
++import shutil
++import tempfile
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.selftest.buildhistory import BuildhistoryBase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+@@ -111,6 +112,49 @@ class SanityOptionsTest(oeSelfTest):
+         line = self.getline(res, "QA Issue: nfs-utils")
+         self.assertTrue(line and line.startswith("WARNING:"), "WARNING: QA Issue: nfs-utils message is not present in bitbake's output: %s" % res.output)
+ 
++    @testcase(1421)
++    def test_layer_git_revisions_are_displayed_and_do_not_fail_without_git_repo(self):
++        """
++        Summary:     Test that layer git revisions are displayed and do not fail without git repository
++        Expected:    The build to be successful and without "fatal" errors
++        Product:     oe-core
++        Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        dirpath = tempfile.mkdtemp()
++
++        dummy_layer_name = 'meta-dummy'
++        dummy_layer_path = os.path.join(dirpath, dummy_layer_name)
++        dummy_layer_conf_dir = os.path.join(dummy_layer_path, 'conf')
++        os.makedirs(dummy_layer_conf_dir)
++        dummy_layer_conf_path = os.path.join(dummy_layer_conf_dir, 'layer.conf')
++
++        dummy_layer_content = 'BBPATH .= ":${LAYERDIR}"\n'
++        dummy_layer_content += 'BBFILES += "${LAYERDIR}/recipes-*/*/*.bb ${LAYERDIR}/recipes-*/*/*.bbappend"\n'
++        dummy_layer_content += 'BBFILE_COLLECTIONS += "%s"\n' % dummy_layer_name
++        dummy_layer_content += 'BBFILE_PATTERN_%s = "^${LAYERDIR}/"\n' % dummy_layer_name
++        dummy_layer_content += 'BBFILE_PRIORITY_%s = "6"\n' % dummy_layer_name
++
++        ftools.write_file(dummy_layer_conf_path, dummy_layer_content)
++
++        bblayers_conf = 'BBLAYERS += "%s"\n' % dummy_layer_path
++        self.write_bblayers_config(bblayers_conf)
++
++        test_recipe = 'ed'
++
++        ret = bitbake('-n %s' % test_recipe)
++
++        patt = r'fatal: Not a git repository \(or any parent up to mount point /\S+\)\n' \
++               r'Stopping at filesystem boundary \(GIT_DISCOVERY_ACROSS_FILESYSTEM not set\)\.'
++
++        found_err = re.search(patt, ret.output)
++
++        shutil.rmtree(dirpath)
++
++        self.assertIsNone(found_err, 'Fatal errors found. Output: %s' % ret.output)
++
++
+ class BuildhistoryTests(BuildhistoryBase):
+ 
+     @testcase(293)
 -- 
-2.7.0
+2.1.0
 
 
