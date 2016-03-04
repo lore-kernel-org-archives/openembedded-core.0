@@ -1,29 +1,46 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CB7E6011B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 717CF731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 14:06:13 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id u24E67QT001275
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 4 Mar 2016 15:06:08 +0100
-Received: from [139.16.79.50] (MD1FZU9C.ww002.siemens.net [139.16.79.50])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id u24E67tw028747;
-	Fri, 4 Mar 2016 15:06:07 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <56CC6832.90506@siemens.com>
-	<1457090416.2804.19.camel@linuxfoundation.org>
-From: Pascal Bach <pascal.bach@siemens.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56D9964E.1070404@siemens.com>
-Date: Fri, 4 Mar 2016 15:06:06 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <1457090416.2804.19.camel@linuxfoundation.org>
-Subject: Re: Debugging using sysroots and GDB
+	Fri,  4 Mar 2016 14:32:12 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id p65so31595235wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Mar 2016 06:32:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=au2TIiPWrJIX4yKLZm7d9NVgs4PELiBK2hH7MHplOUs=;
+	b=pMV+M2WQYG2e9LdzNw4GGRJUSdiSjW98KcWvd+RTJCjQeOAP/7mps4EFjSUJa0uFVg
+	NJHH18o4dwhkPwSxlx4BXBiOG02+VGOsBdRUubN94fgn0NsNiQhtwmHRA4FHajJCAkTU
+	BJU+vX23k5git71t5nETvDAA8pQxxaTSymYUuwCorexcNisvcjV3mC34rFahr9v1ASTW
+	RRQG2dxLZ2wUmKAq0k4VtzGu//zneoG2jyw7tl1PXqE1GZkfoeI+1voLMckTSZBiHTK5
+	gVUkJ6/MtnfZDRBwlZHVV6egWEK2nopsTW65xFw5i/xEeM0mYiaiRf7GrX9rylmu3vUI
+	zZtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=au2TIiPWrJIX4yKLZm7d9NVgs4PELiBK2hH7MHplOUs=;
+	b=NIeXNChKAnFojXDe2ObUrV4RwvVaDGe+1i9MrsDki3BoT2/UVaDB/dGsj/qbI2Yd5J
+	ZHfELxvf7lyxxt7T6jJcOKZ5RS7XQQUetBkjMi2PYeLSzdke57vFPs7kUuQZGo5ORG8E
+	DwVL8JNXGOxIwtIsg4ruRwWs2qLBWcbdqweVl3gVc6caM9Qt+LTIM4Ro5Psp7LVA7GQz
+	LaZy/xVW8sIA6akicx5GHgIN3V+6BV3BAeWgPqh2o+VWQWCMNuHmQByNrT4CPf1ITgP6
+	M+F3QR8HGqsZfj+RBeBiVsGWIW6enK3rfch7iFpgT/3eq3hVw8cDKzq06Js5MFh92y7C
+	/vjw==
+X-Gm-Message-State: AD7BkJK1HARAdegxZdDEtH4/I9WoRFxqIVAoRV6Zr+aaGUH6mRFYRqpSxLgfYvQH4QANvc1g
+X-Received: by 10.194.91.205 with SMTP id cg13mr9123427wjb.166.1457101933269; 
+	Fri, 04 Mar 2016 06:32:13 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	e127sm3555115wma.20.2016.03.04.06.32.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 04 Mar 2016 06:32:12 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Mar 2016 14:32:10 +0000
+Message-Id: <1457101930-19513-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] populate_sdk_ext: specify where the uninative tarball is explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 14:06:14 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Mar 2016 14:32:13 -0000
 
-> It really depends on your view of what the sysroot is used for. We
-> intentionally strip a variety of things out of it as things work today
-> basically for size/performance reasons. If we start putting debugging
-> source in there, it will become huge and this will image the size of
-> things like eSDK and affect the speed of operations like building from
-> sstate.
+Previously this class copied the uninative tarball to a certain directory in the
+assumption that is where uninative.bbclass is looking for it.  However as this
+is a variable in uninative.bbclass that can be changed, specify exactly where
+the tarball is in the eSDK local.conf.
 
-From my point of view debugging from sysroots is not mandatory if I can find a suitable alternative.
-One thing I want to avoid is to install -dbg packages to my image.
+Also don't use string formatting to write the INHERIT for no reason.
 
-What I currently do is the following:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-1. Enable Debugfs generation using: `IMAGE_GEN_DEBUGFS = "1"`
-2. Switch debug split style to: `PACKAGE_DEBUG_SPLIT_STYLE = "debug-file-directory"`
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 74d12eb..8d199f4 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -193,7 +193,9 @@ python copy_buildsystem () {
+             # Write a newline just in case there's none at the end of the original
+             f.write('\n')
+ 
+-            f.write('INHERIT += "%s"\n\n' % 'uninative')
++            f.write('INHERIT += "uninative"\n')
++            f.write('UNINATIVE_DLDIR = "${COREBASE}"\n\n')
++
+             f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION', False))
+ 
+             # Some classes are not suitable for SDK, remove them from INHERIT
+@@ -368,7 +370,7 @@ sdk_ext_postinst() {
+ 	# Warn if trying to use external bitbake and the ext SDK together
+ 	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $env_setup_script
+ 
+-	# For now this is where uninative.bbclass expects the tarball
++	# We configure uninative.bbclass in local.conf to look in ${COREBASE} for the tarball
+ 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
+ 
+ 	if [ "$prepare_buildsystem" != "no" -a -n "${@SDK_INSTALL_TARGETS.strip()}" ]; then
+-- 
+2.7.0
 
-After building the image I end up with a rootfs and a rootfs-dbg
-
-3. Extract both rootfs and rootfs-dbg somewhere (/home/projects)
-4. Setup gdb with the following .gdbinit:
-
-```
-set sysroot /home/projects/rootfs
-set debug-file-directory /home/projects/rootfs-dbg/usr/lib/debug
-set substitute-path /usr/src/debug /home/projects/rootfs-dbg/usr/src/debug
-```
-
-With this setup I'm able to debug trough all libraries on the system.
-So so far so good.
-
-However for this to work I need to change the `PACKAGE_DEBUG_SPLIT_STYLE` to a non default and this made me wonder if I missed something.
-- Is there a way to get this setup working with the default ".debug" style of OE?
-- If not why is the .debug style the default instead of "debug-file-directory"?
-- Is there any documentation? I was unable to find anything more than [1] in the Yocto Mega manual.
-- Is there some best practice I missed?
-
-[1] http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#platdev-gdb-remotedebug-setup
-
-
-> We don't really support debugging from the sysroot. We could talk about
-> changing that but I suspect people wouldn't like the performance
-> penalty.
-Ok if this is not supported is there any documentation on whats the recommended debugging method?
->
-> You might ask "ok, can we make it optional?". The trouble with that is
-> more code paths which people will complain we're not testing and
-> consequently an increased test matrix and even slower patch merging
-> cycles.
-I agree, there should only be one recommended and supported way to do debugging and this way should be well documented.
->
-> So the question is, is this something we want to support this way?
->
-> Cheers,
->
-> Richard
-Pascal
 
