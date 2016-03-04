@@ -1,30 +1,32 @@
-Return-Path: <petter@technux.se>
-X-Greylist: delayed 364 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 04 Mar 2016 15:23:31 UTC
-Received: from bin-vsp-out-02.atm.binero.net (bin-mail-out-05.binero.net
-	[195.74.38.228])
-	by mail.openembedded.org (Postfix) with ESMTP id 761A160762
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B1AC2731A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 15:23:31 +0000 (UTC)
-X-Halon-ID: 31e66cad-e21c-11e5-afed-005056917f90
-Authorized-sender: petter@technux.se
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 16:17:22 +0100 (CET)
-MIME-Version: 1.0
-Date: Fri, 04 Mar 2016 16:17:22 +0100
-From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
-To: <openembedded-core@lists.openembedded.org>
-Organization: Technux
-Reply-To: <petter@technux.se>
-Mail-Reply-To: <petter@technux.se>
-In-Reply-To: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
-Message-ID: <f27176154319caccabbb6a01ae183f5a@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Subject: Re: [PATCH] Wipe ${S} before unpacking sources
+	Fri,  4 Mar 2016 15:30:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u24FTvMU030436; Fri, 4 Mar 2016 15:30:35 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GSk48pnyW7Gm; Fri,  4 Mar 2016 15:30:35 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u24FUXe8030459
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 4 Mar 2016 15:30:35 GMT
+Message-ID: <1457105433.2804.30.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pascal Bach <pascal.bach@siemens.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 04 Mar 2016 15:30:33 +0000
+In-Reply-To: <56D9964E.1070404@siemens.com>
+References: <56CC6832.90506@siemens.com>
+	<1457090416.2804.19.camel@linuxfoundation.org>
+	<56D9964E.1070404@siemens.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: Debugging using sysroots and GDB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,105 +39,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 15:23:33 -0000
-Content-Type: multipart/alternative;
-	boundary="=_9944125e1b572c29b7cb26ef2bf3d2c7"
+X-List-Received-Date: Fri, 04 Mar 2016 15:30:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---=_9944125e1b572c29b7cb26ef2bf3d2c7
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-
- 
-
-2016-02-23 12:36 skrev Markus Lehtonen: 
-
-> It would seem reasonable
-that do_unpack() always results in a pristine source
-> tree. This patch
-causes ${S} to be removed before unpacking sources.
+On Fri, 2016-03-04 at 15:06 +0100, Pascal Bach wrote:
+> > It really depends on your view of what the sysroot is used for. We
+> > intentionally strip a variety of things out of it as things work
+> > today
+> > basically for size/performance reasons. If we start putting
+> > debugging
+> > source in there, it will become huge and this will image the size
+> > of
+> > things like eSDK and affect the speed of operations like building
+> > from
+> > sstate.
 > 
-> I didn't quite
-understand what kind of "investigation" the following code
-> comment in
-do_unpack() was referring to:
-> # TODO: Investigate if we can remove
-> #
-the entire ${S} in this case.
-> What kind of special cases might we
-have? At least qemux86 core-image-sato
-> builds fine for me.
+> From my point of view debugging from sysroots is not mandatory if I
+> can find a suitable alternative.
+> One thing I want to avoid is to install -dbg packages to my image.
+> 
+> What I currently do is the following:
+> 
+> 1. Enable Debugfs generation using: `IMAGE_GEN_DEBUGFS = "1"`
+> 2. Switch debug split style to: `PACKAGE_DEBUG_SPLIT_STYLE = "debug
+> -file-directory"`
+> 
+> After building the image I end up with a rootfs and a rootfs-dbg
+> 
+> 3. Extract both rootfs and rootfs-dbg somewhere (/home/projects)
+> 4. Setup gdb with the following .gdbinit:
+> 
+> ```
+> set sysroot /home/projects/rootfs
+> set debug-file-directory /home/projects/rootfs-dbg/usr/lib/debug
+> set substitute-path /usr/src/debug /home/projects/rootfs
+> -dbg/usr/src/debug
+> ```
+> 
+> With this setup I'm able to debug trough all libraries on the system.
+> So so far so good.
+> 
+> However for this to work I need to change the
+> `PACKAGE_DEBUG_SPLIT_STYLE` to a non default and this made me wonder
+> if I missed something.
+> - Is there a way to get this setup working with the default ".debug"
+> style of OE?
+> - If not why is the .debug style the default instead of "debug-file
+> -directory"?
+> - Is there any documentation? I was unable to find anything more than
+> [1] in the Yocto Mega manual.
+> - Is there some best practice I missed?
 
-The text
-isn't referring to any investigation already done. But me and Paul
-Eggleton discussed this matter (removing entire ${S}, not just
-{$S}/patches) within the scope of another bug. But since this wasn't
-really the scope for that bug, the TODO was added instead. And happily
-you have done the investigation and it's seems like ${S} might be able
-to be removed in this case, after all :)
+Using this method is a supported approach. I'm a little surprised
+.debug directories don't work. Have you tried just setting:
 
-So please go ahead and you can
-remove that TODO comment within the scope of this patch, since if this
-change gets merged it's not relevant anymore..
+set sysroot /home/projects/rootfs-dbg
+set substitute-path /usr/src/debug /home/projects/rootfs
+-bbg/usr/src/debug
 
-BR Petter 
+as I believe it should work with IMAGE_GEN_DEBUGFS=1 "out the box". If
+it doesn't that is a bug and we should try and look into fixing that.
 
-> [YOCTO
-#9064] Markus Lehtonen (1): base.bbclass wipe ${S} before unpacking
-source meta/classes/base.bbclass | 8 +++----- 1 file changed, 3
-insertions(+), 5 deletions(-) -- 2.6.2
+Cheers,
 
-See inline comments. 
+Richard
 
-Petter
-Mabäcker
-
-Technux <petter@technux.se>
-www.technux.se
- 
-
---=_9944125e1b572c29b7cb26ef2bf3d2c7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
-<p>2016-02-23 12:36 skrev Markus Lehtonen:</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
-d --><!-- meta ignored -->
-<pre>It would seem reasonable that do_unpack() always results in a pristine=
- source
-tree. This patch causes ${S} to be removed before unpacking sources.
-
-I didn't quite understand what kind of "investigation" the following code
-comment in do_unpack() was referring to:
-  # TODO: Investigate if we can remove
-  # the entire ${S} in this case.
-What kind of special cases might we have? At least qemux86 core-image-sato
-builds fine for me.<br /><br />
-
-</pre>
-</blockquote>
-<p>The text isn't referring to any investigation already done. But me and P=
-aul Eggleton discussed this matter (removing entire ${S}, not just {$S}/pat=
-ches) within the scope of another bug. But since this wasn't really the sco=
-pe for that bug, the TODO was added instead. And happily you have done the =
-investigation and it's seems like ${S} might be able to be removed in this =
-case, after all :)<br /><br />So please go ahead and you can remove that TO=
-DO comment within the scope of this patch, since if this change gets merged=
- it's not relevant anymore..<br /><br />BR Petter</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%">[YOCTO #9064] Markus Lehtonen (1): ba=
-se.bbclass wipe ${S} before unpacking source meta/classes/base.bbclass | 8 =
-+++----- 1 file changed, 3 insertions(+), 5 deletions(-) <span class=3D"sig=
-">-- 2.6.2 </span></blockquote>
-<p>See inline comments.</p>
-<div>
-<pre>Petter Mab&auml;cker
-
-Technux &lt;petter@technux.se&gt;
-www.technux.se</pre>
-</div>
-</body></html>
-
---=_9944125e1b572c29b7cb26ef2bf3d2c7--
