@@ -1,37 +1,49 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3602 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 04 Mar 2016 19:33:36 UTC
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 8938C74197;
-	Fri,  4 Mar 2016 19:33:36 +0000 (UTC)
-Received: from vz-proxy-l007.mx.aol.com ([64.236.82.151])
-	by vms173017.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014))
-	with ESMTPA id <0O3J005S4279AY60@vms173017.mailsrvcs.net>; Fri,
-	04 Mar 2016 12:33:09 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WcjxEBVX c=1 sm=1 tr=0	a=eaPqxu9IKnv3tbb7QsXVMw==:117
-	a=kj9zAlcOel0A:10 a=7OsogOcEt9IA:10	a=fk1lIlRQAAAA:8 a=Ntg_Zx-WAAAA:8
-	a=lyf1682xAAAA:8 a=Q4-j1AaZAAAA:8	a=glYYetgiuCdXDsQQ4xQA:9
-	a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 1c4a90b2; Fri, 04 Mar 2016 18:33:09 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 55AA3161EFD; Fri,
-	4 Mar 2016 13:33:07 -0500 (EST)
-Date: Fri, 04 Mar 2016 13:33:07 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-id: <20160304183307.GF13743@denix.org>
-References: <1456904241-17157-1-git-send-email-akuster808@gmail.com>
-	<20160304153952.GC13743@denix.org> <56D9BBC9.6010707@mvista.com>
-	<20160304165116.GE13743@denix.org> <56D9BFAE.5030509@windriver.com>
-MIME-version: 1.0
-In-reply-to: <56D9BFAE.5030509@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: akuster <akuster@mvista.com>, openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [jethro][fido][PATCH] openssl: Security fix CVE-2016-0800
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id A86A665CC3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  4 Mar 2016 22:09:29 +0000 (UTC)
+Received: by mail-vk0-f48.google.com with SMTP id c3so68025800vkb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Mar 2016 14:09:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=b34YH6E7r4TgcpKmT3sI94JX7Z6LZJi0iMeA5+89R7U=;
+	b=mkCVYCW0usaTRhHp13f7CR8Ye/H+VthT/zS4FPYv3UStnXn7GQK3nPRJfv6dKKdlSM
+	BHDd+OzMOMrYzWEL7sOdNWpf3Ji9/U2i/GTtfdy6axnULl+Cd8u8Q0R80pB6K2LTYz6T
+	RaBUiMb3/dtFQrbsuF1TLy86+OykforXrkG7SOg1R9xK/gRSpFWQiX46Zg/HZKx3M55P
+	f+fAvfQfUYyuAQDuZz9WgxT1cO0maxwhgTPs0FZr4q+aNYMRXEdd3BUFGIQxDiz6o1l0
+	x0XRlUhnGO8HvRIDhNXlP5xG+TL76uc00gVNrd++F7smKWZbMaLxAG8TmIYPxcIVJ8sq
+	45ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=b34YH6E7r4TgcpKmT3sI94JX7Z6LZJi0iMeA5+89R7U=;
+	b=JiLT/O6ZA0e3fSK9TJZcMp5GOnZmQo2SGFPRrEQkZ9bIG/VmjKAaakr4hR6E9L75Qm
+	TNZtTMyO5DK1tU4u6T72lGRdfNFY51MAPYKNHNNMnBz4t/jwP4ZxU2VbpPkJqfuVqguI
+	7xvqPKYzUklwaLkVbnn8/BXXGYy9MZ0+DNEU6Fdkv5wfMJsYdfONSOXgqOmT2dvP748B
+	7YsVrYkTxjD4RsIdnZ3I4yCGb7/X3W/GBBbyV+jmprBPQHwd2kMtAys/do/3YeZcLdzn
+	zqCGkdzx14XskIGpdAYtJCc3F2rrnq88jQlUVplaSljKn5wECYqXdefoRAkLA6dS4uHI
+	BRXw==
+X-Gm-Message-State: AD7BkJKJzr2GS7ecNahf00sq7QDd57mpxQ9Ho7HYWVh+gfK7G040uGflJXO9a/arrwCe4Q2/r/y2baLA0HWNVw==
+MIME-Version: 1.0
+X-Received: by 10.31.60.134 with SMTP id j128mr8321742vka.43.1457129369813;
+	Fri, 04 Mar 2016 14:09:29 -0800 (PST)
+Received: by 10.103.84.219 with HTTP; Fri, 4 Mar 2016 14:09:29 -0800 (PST)
+Received: by 10.103.84.219 with HTTP; Fri, 4 Mar 2016 14:09:29 -0800 (PST)
+In-Reply-To: <CABcZANmn149p+4tas5nxwuLoXa2AwbHgJutk41EO8u2Y0nLi9w@mail.gmail.com>
+References: <1443533265.5162.35.camel@linuxfoundation.org>
+	<919610E7-93B7-41EF-ADC7-8C6A179C9950@gmail.com>
+	<CABcZANmn149p+4tas5nxwuLoXa2AwbHgJutk41EO8u2Y0nLi9w@mail.gmail.com>
+Date: Fri, 4 Mar 2016 16:09:29 -0600
+Message-ID: <CACS+7ZSZeZ4gtzFSfnDaecGEOPXc7e4fWbqbGLRxdbtkCFByRg@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linuxloader/image-prelink/image-mklibs: Fix non-standard path prelinking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,122 +56,351 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 19:33:36 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 04 Mar 2016 22:09:30 -0000
+Content-Type: multipart/alternative; boundary=001a1139c6447aca40052d405e8b
 
-On Fri, Mar 04, 2016 at 11:02:38AM -0600, Mark Hatle wrote:
-> On 3/4/16 10:51 AM, Denys Dmytriyenko wrote:
-> > On Fri, Mar 04, 2016 at 08:46:01AM -0800, akuster wrote:
-> >>
-> >>
-> >> On 03/04/2016 07:39 AM, Denys Dmytriyenko wrote:
-> >>> On Tue, Mar 01, 2016 at 11:37:21PM -0800, Armin Kuster wrote:
-> >>>> From: Armin Kuster <akuster@mvista.com>
-> >>>>
-> >>>> CVE-2016-0800 SSL/TLS: Cross-protocol attack on TLS using SSLv2 (DROWN)
-> >>>>
-> >>>> https://www.openssl.org/news/secadv/20160301.txt
-> >>>>
-> >>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> >>>> ---
-> >>>>  .../openssl/openssl/CVE-2016-0800.patch            | 198 +++++++
-> >>>>  .../openssl/openssl/CVE-2016-0800_2.patch          | 592 +++++++++++++++++++++
-> >>>>  .../openssl/openssl/CVE-2016-0800_3.patch          | 503 +++++++++++++++++
-> >>>>  .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   3 +
-> >>>>  4 files changed, 1296 insertions(+)
-> >>>>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
-> >>>>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_2.patch
-> >>>>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_3.patch
-> >>>>
-> >>>> diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
-> >>>> new file mode 100644
-> >>>> index 0000000..e5635fe
-> >>>> --- /dev/null
-> >>>> +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
-> >>>> @@ -0,0 +1,198 @@
-> >>>> +From 9dfd2be8a1761fffd152a92d8f1b356ad667eea7 Mon Sep 17 00:00:00 2001
-> >>>> +From: Viktor Dukhovni <openssl-users@dukhovni.org>
-> >>>> +Date: Wed, 17 Feb 2016 21:07:48 -0500
-> >>>> +Subject: [PATCH] Disable SSLv2 default build, default negotiation and weak
-> >>>> + ciphers.
-> >>>> +MIME-Version: 1.0
-> >>>> +Content-Type: text/plain; charset=UTF-8
-> >>>> +Content-Transfer-Encoding: 8bit
-> >>>> +
-> >>>> +SSLv2 is by default disabled at build-time.  Builds that are not
-> >>>> +configured with "enable-ssl2" will not support SSLv2.  Even if
-> >>>> +"enable-ssl2" is used, users who want to negotiate SSLv2 via the
-> >>>> +version-flexible SSLv23_method() will need to explicitly call either
-> >>>> +of:
-> >>>> +
-> >>>> +    SSL_CTX_clear_options(ctx, SSL_OP_NO_SSLv2);
-> >>>> +or
-> >>>> +    SSL_clear_options(ssl, SSL_OP_NO_SSLv2);
-> >>>> +
-> >>>> +as appropriate.  Even if either of those is used, or the application
-> >>>> +explicitly uses the version-specific SSLv2_method() or its client
-> >>>> +or server variants, SSLv2 ciphers vulnerable to exhaustive search
-> >>>> +key recovery have been removed.  Specifically, the SSLv2 40-bit
-> >>>> +EXPORT ciphers, and SSLv2 56-bit DES are no longer available.
-> >>>> +
-> >>>> +Mitigation for CVE-2016-0800
-> >>>
-> >>> So, this CVE is all nice and good, but it breaks things and other OE recipes.
-> >>>
-> >>> For starters, python-m2crypto and crda from meta-openembedded:
-> >>>
-> >>> ERROR: Failed to import the "M2Crypto" module: .../usr/lib/python2.7/site-packages/M2Crypto/__m2crypto.so: undefined symbol: SSLv2_method
-> >>
-> >> well we built that internally and it pass because we are using the one
-> >> from meta-virt. its a newer version (0.22.3) than the one in meta-python
-> >> (0.21.1).
-> >>
-> >> working on the one in meta-python.
-> > 
-> > Ah, thanks! So, what would be the approach to fix it in meta-python? Would 
-> > version update be allowed for backport to fido/dizzy? It's rather against the 
-> > policy, but in this case it's broken w/o the update...
-> 
-> I think in this case, it makes sense to backport a python first for the issue.
-> 
-> SSLv2 really isn't secure any longer.  Anything using cryptography should not be
-> using SSLv2, but if it available should be switching based on OpenSSL having (or
-> not) the necessary symbols.
-> 
-> For reference the CVE-2016-0800 change disables SSLv2 and various 'weak' SSLv3+
-> cryptographic functions.  This can be re-enabled, with a simple build switch in
-> OpenSSL -- but I'd caution against doing so.  Previous patches have mitigated a
-> related problem that would allow an attacker to get OpenSSL to downgrade to a
-> weak SSLv2 encryption, the 0800 patch takes it one further and just disables
-> SSLv2 completely.  So the previous fixes will help mitigate the problem, but
-> only disabling will remove potential reliance on less then secure methods.
+--001a1139c6447aca40052d405e8b
+Content-Type: text/plain; charset=UTF-8
 
-Thanks, Mark!
+On 4 Mar 2016 11:23 a.m., "Christopher Larson" <clarson@kergoth.com> wrote:
+>
+>
+>
+> On Tue, Sep 29, 2015 at 10:09 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>> > On Sep 29, 2015, at 6:27 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > Prelinking on x86-64 wasn't working out the box as it uses /lib and
+>> > not /lib64 for libs. Prelink was refusing to link as the dynamic loader
+>> > didn't match its idea of the right path. Passing in the
+--dyanmic-linker
+>> > option avoids this.
+>> >
+>> > We can share code from image-mklibs so abstract that into a new class,
+>> > linuxloader.bbclass.
+>> >
+>> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> >
+>> > diff --git a/meta/classes/image-mklibs.bbclass
+b/meta/classes/image-mklibs.bbclass
+>> > index c455a8e..45a66fb 100644
+>> > --- a/meta/classes/image-mklibs.bbclass
+>> > +++ b/meta/classes/image-mklibs.bbclass
+>> > @@ -2,6 +2,8 @@ do_rootfs[depends] +=
+"mklibs-native:do_populate_sysroot"
+>> >
+>> > IMAGE_PREPROCESS_COMMAND += "mklibs_optimize_image; "
+>> >
+>> > +inherit linuxloader
+>> > +
+>> > mklibs_optimize_image_doit() {
+>> >       rm -rf ${WORKDIR}/mklibs
+>> >       mkdir -p ${WORKDIR}/mklibs/dest
+>> > @@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {
+>> >               | sed "s+^\./++" \
+>> >               > ${WORKDIR}/mklibs/executables.list
+>> >
+>> > -     case ${TARGET_ARCH} in
+>> > -             powerpc | mips | mipsel | microblaze )
+>> > -                     dynamic_loader="${base_libdir}/ld.so.1"
+>> > -                     ;;
+>> > -             powerpc64)
+>> > -                     dynamic_loader="${base_libdir}/ld64.so.1"
+>> > -                     ;;
+>> > -             x86_64)
+>> > -
+ dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
+>> > -                     ;;
+>> > -             i586 )
+>> > -                     dynamic_loader="${base_libdir}/ld-linux.so.2"
+>> > -                     ;;
+>> > -             arm )
+>> > -                     dynamic_loader="${base_libdir}/ld-linux.so.3"
+>> > -                     ;;
+>> > -             * )
+>> > -                     dynamic_loader="/unknown_dynamic_linker"
+>> > -                     ;;
+>> > -     esac
+>> > +     # Set $dynamic_loader
+>> > +        linuxloader
+>> >
+>> >       mklibs -v \
+>> >               --ldlib ${dynamic_loader} \
+>> > diff --git a/meta/classes/image-prelink.bbclass
+b/meta/classes/image-prelink.bbclass
+>> > index d4bb3ae..4bb090d 100644
+>> > --- a/meta/classes/image-prelink.bbclass
+>> > +++ b/meta/classes/image-prelink.bbclass
+>> > @@ -2,6 +2,8 @@ do_rootfs[depends] +=
+"prelink-native:do_populate_sysroot"
+>> >
+>> > IMAGE_PREPROCESS_COMMAND += "prelink_image; "
+>> >
+>> > +inherit linuxloader
+>> > +
+>> > prelink_image () {
+>> > #     export PSEUDO_DEBUG=4
+>> > #     /bin/env | /bin/grep PSEUDO
+>> > @@ -20,8 +22,11 @@ prelink_image () {
+>> >               dummy_prelink_conf=false;
+>> >       fi
+>> >
+>> > +     # Set $dynamic_loader
+>> > +     linuxloader
+>> > +
+>> >       # prelink!
+>> > -     ${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root
+${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
+>> > +     ${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root
+${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker
+$dynamic_loader
+>> >
+>> >       # Remove the prelink.conf if we had to add it.
+>> >       if [ "$dummy_prelink_conf" = "true" ]; then
+>> > diff --git a/meta/classes/linuxloader.bbclass
+b/meta/classes/linuxloader.bbclass
+>> > new file mode 100644
+>> > index 0000000..578df14
+>> > --- /dev/null
+>> > +++ b/meta/classes/linuxloader.bbclass
+>> > @@ -0,0 +1,23 @@
+>> > +
+>> > +linuxloader () {
+>> > +     case ${TARGET_ARCH} in
+>> > +             powerpc | mips | mipsel | microblaze )
+>> > +                     dynamic_loader="${base_libdir}/ld.so.1"
+>> > +                     ;;
+>> > +             powerpc64)
+>> > +                     dynamic_loader="${base_libdir}/ld64.so.1"
+>> > +                     ;;
+>> > +             x86_64)
+>> > +
+ dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
+>> > +                     ;;
+>> > +             i586 )
+>> > +                     dynamic_loader="${base_libdir}/ld-linux.so.2"
+>> > +                     ;;
+>> > +             arm )
+>> > +                     dynamic_loader="${base_libdir}/ld-linux.so.3"
+>> > +                     ;;
+>> > +             * )
+>> > +                     dynamic_loader="/unknown_dynamic_linker"
+>> > +                     ;;
+>> > +     esac
+>> > +}
+>> >
+>> >
+>>
+>> For readability it would have been nice if it was returning the value
+from function so it could be used
+>>
+>> myloader = call this function
+>
+>
+> Agreed, I was just thinking this could be used for UNINATIVE_LOADER in
+uninative.bbclass.
+>
+> --
+>
 
-As I said before, I understand and agree with this CVE fix, especially in 
-light of all the latest news... But backporting it all the way to fido seems 
-to break bunch of older packages that still rely on SSLv2. Just saying that we 
-now need to fix those either by patching or by upgrading, since past releases 
-should not only be secure, but also stable :)
+This would also be handy for the go stuff I'm writing at $work.
 
--- 
-Denys
+--001a1139c6447aca40052d405e8b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr"><br>
+On 4 Mar 2016 11:23 a.m., &quot;Christopher Larson&quot; &lt;<a href=3D"mai=
+lto:clarson@kergoth.com">clarson@kergoth.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Tue, Sep 29, 2015 at 10:09 AM Khem Raj &lt;<a href=3D"mailto:raj.kh=
+em@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; On Sep 29, 2015, at 6:27 AM, Richard Purdie &lt;<a href=3D"ma=
+ilto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org=
+</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Prelinking on x86-64 wasn&#39;t working out the box as it use=
+s /lib and<br>
+&gt;&gt; &gt; not /lib64 for libs. Prelink was refusing to link as the dyna=
+mic loader<br>
+&gt;&gt; &gt; didn&#39;t match its idea of the right path. Passing in the -=
+-dyanmic-linker<br>
+&gt;&gt; &gt; option avoids this.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; We can share code from image-mklibs so abstract that into a n=
+ew class,<br>
+&gt;&gt; &gt; linuxloader.bbclass.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
+urdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes=
+/image-mklibs.bbclass<br>
+&gt;&gt; &gt; index c455a8e..45a66fb 100644<br>
+&gt;&gt; &gt; --- a/meta/classes/image-mklibs.bbclass<br>
+&gt;&gt; &gt; +++ b/meta/classes/image-mklibs.bbclass<br>
+&gt;&gt; &gt; @@ -2,6 +2,8 @@ do_rootfs[depends] +=3D &quot;mklibs-native:d=
+o_populate_sysroot&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; IMAGE_PREPROCESS_COMMAND +=3D &quot;mklibs_optimize_image; &q=
+uot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; +inherit linuxloader<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; mklibs_optimize_image_doit() {<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${WORKDIR}/mklibs<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${WORKDIR}/mklibs/dest<br>
+&gt;&gt; &gt; @@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| sed &=
+quot;s+^\./++&quot; \<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; ${=
+WORKDIR}/mklibs/executables.list<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0case ${TARGET_ARCH} in<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc | mi=
+ps | mipsel | microblaze )<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld.so.1&quot;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc64)<b=
+r>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld64.so.1&quot;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64)<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux-x86-64.so.2=
+&quot;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586 )<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.2&quot;<=
+br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm )<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.3&quot;<=
+br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* )<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;/unknown_dynamic_linker&quot;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0esac<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0# Set $dynamic_loader<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 linuxloader<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mklibs -v \<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--ldlib=
+ ${dynamic_loader} \<br>
+&gt;&gt; &gt; diff --git a/meta/classes/image-prelink.bbclass b/meta/classe=
+s/image-prelink.bbclass<br>
+&gt;&gt; &gt; index d4bb3ae..4bb090d 100644<br>
+&gt;&gt; &gt; --- a/meta/classes/image-prelink.bbclass<br>
+&gt;&gt; &gt; +++ b/meta/classes/image-prelink.bbclass<br>
+&gt;&gt; &gt; @@ -2,6 +2,8 @@ do_rootfs[depends] +=3D &quot;prelink-native:=
+do_populate_sysroot&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; IMAGE_PREPROCESS_COMMAND +=3D &quot;prelink_image; &quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; +inherit linuxloader<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; prelink_image () {<br>
+&gt;&gt; &gt; #=C2=A0 =C2=A0 =C2=A0export PSEUDO_DEBUG=3D4<br>
+&gt;&gt; &gt; #=C2=A0 =C2=A0 =C2=A0/bin/env | /bin/grep PSEUDO<br>
+&gt;&gt; &gt; @@ -20,8 +22,11 @@ prelink_image () {<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_p=
+relink_conf=3Dfalse;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0# Set $dynamic_loader<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0linuxloader<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# prelink!<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0${STAGING_DIR_NATIVE}${sbindir_native}/p=
+relink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0${STAGING_DIR_NATIVE}${sbindir_native}/p=
+relink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynam=
+ic-linker $dynamic_loader<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove the prelink.conf if we had=
+ to add it.<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$dummy_prelink_conf&quot=
+; =3D &quot;true&quot; ]; then<br>
+&gt;&gt; &gt; diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/=
+linuxloader.bbclass<br>
+&gt;&gt; &gt; new file mode 100644<br>
+&gt;&gt; &gt; index 0000000..578df14<br>
+&gt;&gt; &gt; --- /dev/null<br>
+&gt;&gt; &gt; +++ b/meta/classes/linuxloader.bbclass<br>
+&gt;&gt; &gt; @@ -0,0 +1,23 @@<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +linuxloader () {<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0case ${TARGET_ARCH} in<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc | mi=
+ps | mipsel | microblaze )<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld.so.1&quot;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc64)<b=
+r>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld64.so.1&quot;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64)<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux-x86-64.so.2=
+&quot;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586 )<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.2&quot;<=
+br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm )<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.3&quot;<=
+br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* )<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0dynamic_loader=3D&quot;/unknown_dynamic_linker&quot;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0esac<br>
+&gt;&gt; &gt; +}<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt; For readability it would have been nice if it was returning the va=
+lue from function so it could be used<br>
+&gt;&gt;<br>
+&gt;&gt; myloader =3D call this function<br>
+&gt;<br>
+&gt;<br>
+&gt; Agreed, I was just thinking this could be used for UNINATIVE_LOADER in=
+ uninative.bbclass.<br>
+&gt;<br>
+&gt; --<br>
+&gt;</p>
+<p dir=3D"ltr">This would also be handy for the go stuff I&#39;m writing at=
+ $work. </p>
 
-> >>> Are there any plans to go and ensure that other recipes using SSLv2 are not 
-> >>> broken now?
-> >>
-> >> yes, as I find time and not _all_ meta layers.
-> >>
-> >> thanks for letting me know. it will make this task go by faster.
-> > 
-> > I'll let you know if anything else is broken :)
-> > 
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--001a1139c6447aca40052d405e8b--
