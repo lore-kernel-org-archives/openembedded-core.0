@@ -1,57 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 04BF8731F1
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C7A3C731C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 08:56:17 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id g6so6588049igt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 00:56:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Zj20sHd2vMT1nqmB7fC0EzNtW2TZEHGVN4R/V3wxDqw=;
-	b=fRhzdgMh/p4/igVaKrcsbbVUz3iV1Vo9jX0K7ikQHhw9dzdiCOLtmSLMVfakGOIHQI
-	0E6P3o7W7/ZxeNEM7m26xCO5V7lx7TOMQESuKG5pLbVkXWhNHE/8PHUOp6ECF4hiwONn
-	5ipZGj7v0E7vtwcXeKCyc4zoD/Ebjw2MKYOUuMlY9sE/BvERaljJDN1oGwcR8cKlfz8/
-	dfzcnY18mj2fscZ301SPCganJiTgi1RokgwMpw95OysQsdKSRvKUV8pVBv8FpfVA9C7S
-	Bzh56VY/fDfMBQLRYg1/IiVqRNvfkMi12ymqHN4jFg1tcAtuqOQAEeljOkZKbpOQ32KX
-	421g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Zj20sHd2vMT1nqmB7fC0EzNtW2TZEHGVN4R/V3wxDqw=;
-	b=mBMuU09K00kN1XfcizIT0wWzzGj02lrcovGks/hT+55p/GE3pAyea5z1jtYXjq+1qG
-	ps9GB1N9SkUN8XtoRbkEN7/FNAa08dMm77e+sJ3rUYOwTs6lU3yR52PGQVg0rZ6NTTOo
-	6zj7pj0iInXovcMAVb4iq9D1Cl3ahA6+B31e5V+vmBzKrz4xB+etepLNNJHwaYIsqAhR
-	0RLNxzayRD9cdZdstlqTbPc+xk1IoG488+1DOPNNdJts530R4pE1aOw2B9FttyeGKzt4
-	eh0L1XFTna6IgGLKqpfAWYwp2MSd7NEkFFYyubIfTOmV6wzsx3BIGlEAhX5xrtohCcZv
-	GQ/w==
-X-Gm-Message-State: AD7BkJKCxokfTfiIuPyjXOe6YRO/ICRz7FMXS/w9jeNadKYSYrZgM+3WEKtKbPGJlJKKSZV0pmup2HnL+fN39VYH
-X-Received: by 10.50.43.226 with SMTP id z2mr2541060igl.78.1457081777792; Fri,
-	04 Mar 2016 00:56:17 -0800 (PST)
+	Fri,  4 Mar 2016 09:45:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u249jSr9013027
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 4 Mar 2016 01:45:28 -0800 (PST)
+Received: from [128.224.162.243] (128.224.162.243) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 4 Mar 2016 01:45:27 -0800
+Message-ID: <56D95932.8000609@windriver.com>
+Date: Fri, 4 Mar 2016 17:45:22 +0800
+From: "Zhou, Li" <li.zhou@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 4 Mar 2016 00:55:58 -0800 (PST)
-In-Reply-To: <25A507B472054F9B9002D68314A7C388@RD3>
-References: <AB28D54196164B23BA942EBCF3204741@RD3>
-	<20160224141143.GB2892@mbabyjoh-mobl.fi.intel.com>
-	<2CD39F82881F465AAD78DBB61BCA369E@RD3>
-	<CAJTo0LYMO4C9+rd1NG7mMmn4YfU6vRhuOYni4vvPAugoru=uwA@mail.gmail.com>
-	<E744C7D53BB7428AB0FD15C117627D11@RD3>
-	<20160226093319.GA4329@ad.chargestorm.se>
-	<38408F728A334E9F9A452EFD2448CC8D@RD3>
-	<CAJTo0LbAoSeWVikqA4t9vXrbSnoiWwOWwLBLPtGPLwwr7E3w+g@mail.gmail.com>
-	<25A507B472054F9B9002D68314A7C388@RD3>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Mar 2016 08:55:58 +0000
-Message-ID: <CAJTo0LYqPQDVoKdFPP4onF-V+0fJ3fZU5CAk_ao3QdbgN05RRA@mail.gmail.com>
-To: winiston@futuraautomation.com
-Cc: yocto texas <meta-ti@yoctoproject.org>,
-	Anders Darander <anders@chargestorm.se>,
-	Yocto layer <linux-yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [linux-yocto] How to integrate third party application software to yocto image
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>
+References: <1456798957-22223-1-git-send-email-li.zhou@windriver.com>	
+	<CAMKF1so9u_czYvBO_mhk6tf8-SCw2jSh4dd7rMvFJJF6VqT1BA@mail.gmail.com>	
+	<56D54A81.8000704@windriver.com>
+	<1456831651.25131.1.camel@linuxfoundation.org>
+In-Reply-To: <1456831651.25131.1.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: add TUNE_CCARGS for CFLAGS_FOR_TARGET of gcc-cross-canadian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,40 +39,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 08:56:18 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f4c67260052d35497b
+X-List-Received-Date: Fri, 04 Mar 2016 09:45:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7bfea0f4c67260052d35497b
-Content-Type: text/plain; charset=UTF-8
+Hi, Richard:
+           Could you please give me some information about how to do 
+"selftests for sstate sigs"? Thank you.
 
-On 4 March 2016 at 04:23, <winiston@futuraautomation.com> wrote:
-
-> ERROR: Nothing PROVIDES 'gd' (but
-> /home/winiston/poky/meta/recipes-qt/navit/navit_svn.bb DEPENDS on or
-> otherwise requires it). Close matches:
+On 03/01/2016 07:27 PM, Richard Purdie wrote:
+> On Tue, 2016-03-01 at 15:53 +0800, Zhou, Li wrote:
+>> Please refer to Peter Seebach's patch earlier:
+>> http://lists.openembedded.org/pipermail/openembedded-core/2016-Januar
+>> y/115472.html
+>> My patch should be based on that.
+>> I think the change is not only for canadian build. Thanks.
+>>
+>> On 03/01/2016 02:12 PM, Khem Raj wrote:
+>>> On Mon, Feb 29, 2016 at 6:22 PM, Li Zhou <li.zhou@windriver.com>
+>>> wrote:
+>>>> Add TUNE_CCARGS for CFLAGS_FOR_TARGET of gcc-cross-canadian to
+>>>> solve
+>>>> below errors when compiling gcc-cross-canadian-powerpc64 within a
+>>>> debug
+>>>> build:
+>>>>
+>>>> configure:3655: checking for suffix of object files
+>>>> configure:3677:  powerpc64-wrs-linux-gcc -
+>>>> -sysroot=......bitbake_build/
+>>>> tmp/sysroots/fsl-t2xxx -isystem=/usr/include --sysroot=....../
+>>>> bitbake_build/tmp/sysroots/fsl-t2xxx   -c -O0 -fno-omit-frame
+>>>> -pointer -g
+>>>> -pipe -g -Os  conftest.c >&5
+>>>> {standard input}: Assembler messages:
+>>>> {standard input}:23: Error: register save offset not a multiple
+>>>> of 8
+>>>> {standard input}:24: Error: register save offset not a multiple
+>>>> of 8
+>>>>
+>>>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+>>>> ---
+>>>>    meta/recipes-devtools/gcc/gcc-cross-canadian.inc |    2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>>>> b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>>>> index ec1d281..04ae981 100644
+>>>> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>>>> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+>>>> @@ -51,7 +51,7 @@ do_configure () {
+>>>>           export CPPFLAGS_FOR_BUILD="${BUILD_CPPFLAGS}"
+>>>>           export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
+>>>>           export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
+>>>> -       export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
+>>>> +       export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}
+>>>> ${TUNE_CCARGS}"
+>>> Will this cause canadian builds to become too specific instead of
+>>> generic common arch
+> I agree with Khem, I think there are potential problems this
+> introduces. Did you try running the selftests for sstate sigs with this
+> change? I suspect it breaks :(
 >
+> Cheers,
+>
+> Richard
 
-gd is part of meta-oe.  Instead of copying a few files and assuming that
-you know what you're doing, add the entire layer to BBLAYERS.
+-- 
+Best Regards!
+Zhou Li
+Phone number: 86-10-84778511
 
-Ross
 
---047d7bfea0f4c67260052d35497b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 March 2016 at 04:23,  <span dir=3D"ltr">&lt;<a href=3D"mailto:winiston=
-@futuraautomation.com" target=3D"_blank">winiston@futuraautomation.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>ERROR: Nothing PRO=
-VIDES &#39;gd&#39; (but=20
-/home/winiston/poky/meta/recipes-qt/navit/<a href=3D"http://navit_svn.bb" t=
-arget=3D"_blank">navit_svn.bb</a> DEPENDS on or otherwise=20
-requires it). Close matches:</div>
-<div></div></blockquote></div><br>gd is part of meta-oe.=C2=A0 Instead of c=
-opying a few files and assuming that you know what you&#39;re doing, add th=
-e entire layer to BBLAYERS.</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
-
---047d7bfea0f4c67260052d35497b--
