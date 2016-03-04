@@ -1,47 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E5901755F8
+Return-Path: <pascal.bach@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CB7E6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 14:03:43 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id y8so11419925igp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 06:03:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IdG+o8EawqG2SMcSnJQAXtB6w6cOuOgV4bnyY8XB+bo=;
-	b=FLyfVjbx2SPZ5ajBqK3nyT8fVbLFbkXGdUCRv/bzmRha3KGK7HLFilrhpImeKCm0IJ
-	0CV3XFOvYNo2md5tA8wX+/h+x+cvpRjqKgBTcCAZHJwNpEd2gTQ1A+WsZiSzjl9UiiM5
-	2rdHybvOEpNLmYcGq4x+VR1q+IQVGcVxBwIbPJLT7RWl8zZoui09yboplzw96iGMAUBW
-	f3Cv4Au7t/zcUgvUNYi/7sq+lyYiyPDjMOd1SMvZTo5tUtcPTW7eUn9fq6qanzkLl5jv
-	BsQXSH5oQgDexXxdacxDV8HKtJRYyO8IdTvinJHcYMa96NHeVbjlhJvhWEtYz6IlXe8C
-	vrUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IdG+o8EawqG2SMcSnJQAXtB6w6cOuOgV4bnyY8XB+bo=;
-	b=VwAZa0xHKrchNltBanFq1w1FDGM5sGNT22FMj+LWc0S7qSqGHZ6ONXoNIvCwWr8lJh
-	puiPVLKS7hSKbN460L2YzL8rRX+1qqZ1GktDmCiU0c7oUjsuK76yKQM62YD7r4Hhi1/R
-	xGsxPxTTNx76vI/3nIRIe+g4gP9rbNZelSdDdCPfWjAQV0Zu3S7JJGUlAFCRYKdTdVau
-	dfuNqs/5oOC4NqERYOXj4wZi+TPZqY5elpf+FdmMxioYt9u1jBdr/VOzoYqL+0aiyDCW
-	VyLUI73FCLTVftyCUZY3daHmTDJYIlPezcXTP7jskHlp2Bl3/MX8NzMZv6wPuuxLCX0l
-	pPsw==
-X-Gm-Message-State: AD7BkJKo0fQa5TkKA2S6oj4XK4rgJOWvdqICfwpEpBfWHaaYP955LWODvTnYlCrtLxhxZ89+lRwGkPmW53B+nUvb
-X-Received: by 10.50.43.226 with SMTP id z2mr3814666igl.78.1457100224482; Fri,
-	04 Mar 2016 06:03:44 -0800 (PST)
+	Fri,  4 Mar 2016 14:06:13 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id u24E67QT001275
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 4 Mar 2016 15:06:08 +0100
+Received: from [139.16.79.50] (MD1FZU9C.ww002.siemens.net [139.16.79.50])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id u24E67tw028747;
+	Fri, 4 Mar 2016 15:06:07 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <56CC6832.90506@siemens.com>
+	<1457090416.2804.19.camel@linuxfoundation.org>
+From: Pascal Bach <pascal.bach@siemens.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <56D9964E.1070404@siemens.com>
+Date: Fri, 4 Mar 2016 15:06:06 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 4 Mar 2016 06:03:25 -0800 (PST)
-In-Reply-To: <20160304140448.GE2557@jama>
-References: <1457038873-26591-1-git-send-email-ross.burton@intel.com>
-	<20160304140212.GD2557@jama> <20160304140448.GE2557@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Mar 2016 14:03:25 +0000
-Message-ID: <CAJTo0LZj=ti49_rmYoAUWP6QBC6=cd4YDWPu_Lz0wQ0uXOCubQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb: fix builds with internal readline and no static libraries
+In-Reply-To: <1457090416.2804.19.camel@linuxfoundation.org>
+Subject: Re: Debugging using sysroots and GDB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 14:03:44 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f4487169052d399517
+X-List-Received-Date: Fri, 04 Mar 2016 14:06:14 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---047d7bfea0f4487169052d399517
-Content-Type: text/plain; charset=UTF-8
+> It really depends on your view of what the sysroot is used for. We
+> intentionally strip a variety of things out of it as things work today
+> basically for size/performance reasons. If we start putting debugging
+> source in there, it will become huge and this will image the size of
+> things like eSDK and affect the speed of operations like building from
+> sstate.
 
-On 4 March 2016 at 14:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+From my point of view debugging from sysroots is not mandatory if I can find a suitable alternative.
+One thing I want to avoid is to install -dbg packages to my image.
 
-> Ups, sorry for noise
+What I currently do is the following:
+
+1. Enable Debugfs generation using: `IMAGE_GEN_DEBUGFS = "1"`
+2. Switch debug split style to: `PACKAGE_DEBUG_SPLIT_STYLE = "debug-file-directory"`
+
+After building the image I end up with a rootfs and a rootfs-dbg
+
+3. Extract both rootfs and rootfs-dbg somewhere (/home/projects)
+4. Setup gdb with the following .gdbinit:
+
+```
+set sysroot /home/projects/rootfs
+set debug-file-directory /home/projects/rootfs-dbg/usr/lib/debug
+set substitute-path /usr/src/debug /home/projects/rootfs-dbg/usr/src/debug
+```
+
+With this setup I'm able to debug trough all libraries on the system.
+So so far so good.
+
+However for this to work I need to change the `PACKAGE_DEBUG_SPLIT_STYLE` to a non default and this made me wonder if I missed something.
+- Is there a way to get this setup working with the default ".debug" style of OE?
+- If not why is the .debug style the default instead of "debug-file-directory"?
+- Is there any documentation? I was unable to find anything more than [1] in the Yocto Mega manual.
+- Is there some best practice I missed?
+
+[1] http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#platdev-gdb-remotedebug-setup
+
+
+> We don't really support debugging from the sysroot. We could talk about
+> changing that but I suspect people wouldn't like the performance
+> penalty.
+Ok if this is not supported is there any documentation on whats the recommended debugging method?
 >
+> You might ask "ok, can we make it optional?". The trouble with that is
+> more code paths which people will complain we're not testing and
+> consequently an increased test matrix and even slower patch merging
+> cycles.
+I agree, there should only be one recommended and supported way to do debugging and this way should be well documented.
+>
+> So the question is, is this something we want to support this way?
+>
+> Cheers,
+>
+> Richard
+Pascal
 
-Thank god for that :)
-
-Cheers,
-Ross
-
---047d7bfea0f4487169052d399517
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 March 2016 at 14:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2oc" class=3D=
-"a3s" style=3D"overflow:hidden">Ups, sorry for noise<br></div></blockquote>=
-</div><br>Thank god for that :)</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Cheers,</div><div class=3D"gmail_extra">Ross</div=
-></div>
-
---047d7bfea0f4487169052d399517--
