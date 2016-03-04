@@ -1,27 +1,57 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id D4E4B70149
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 04BF8731F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 08:42:49 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id u248gki3028294
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Fri,  4 Mar 2016 08:56:17 +0000 (UTC)
+Received: by mail-ig0-f175.google.com with SMTP id g6so6588049igt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2016 09:42:47 +0100
-Received: from [139.16.79.50] (MD1FZU9C.ww002.siemens.net [139.16.79.50])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id u248gklv006483
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2016 09:42:46 +0100
-To: openembedded-core@lists.openembedded.org
-References: <56CC6832.90506@siemens.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <56D94A86.7080908@siemens.com>
-Date: Fri, 4 Mar 2016 09:42:46 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Fri, 04 Mar 2016 00:56:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Zj20sHd2vMT1nqmB7fC0EzNtW2TZEHGVN4R/V3wxDqw=;
+	b=fRhzdgMh/p4/igVaKrcsbbVUz3iV1Vo9jX0K7ikQHhw9dzdiCOLtmSLMVfakGOIHQI
+	0E6P3o7W7/ZxeNEM7m26xCO5V7lx7TOMQESuKG5pLbVkXWhNHE/8PHUOp6ECF4hiwONn
+	5ipZGj7v0E7vtwcXeKCyc4zoD/Ebjw2MKYOUuMlY9sE/BvERaljJDN1oGwcR8cKlfz8/
+	dfzcnY18mj2fscZ301SPCganJiTgi1RokgwMpw95OysQsdKSRvKUV8pVBv8FpfVA9C7S
+	Bzh56VY/fDfMBQLRYg1/IiVqRNvfkMi12ymqHN4jFg1tcAtuqOQAEeljOkZKbpOQ32KX
+	421g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Zj20sHd2vMT1nqmB7fC0EzNtW2TZEHGVN4R/V3wxDqw=;
+	b=mBMuU09K00kN1XfcizIT0wWzzGj02lrcovGks/hT+55p/GE3pAyea5z1jtYXjq+1qG
+	ps9GB1N9SkUN8XtoRbkEN7/FNAa08dMm77e+sJ3rUYOwTs6lU3yR52PGQVg0rZ6NTTOo
+	6zj7pj0iInXovcMAVb4iq9D1Cl3ahA6+B31e5V+vmBzKrz4xB+etepLNNJHwaYIsqAhR
+	0RLNxzayRD9cdZdstlqTbPc+xk1IoG488+1DOPNNdJts530R4pE1aOw2B9FttyeGKzt4
+	eh0L1XFTna6IgGLKqpfAWYwp2MSd7NEkFFYyubIfTOmV6wzsx3BIGlEAhX5xrtohCcZv
+	GQ/w==
+X-Gm-Message-State: AD7BkJKCxokfTfiIuPyjXOe6YRO/ICRz7FMXS/w9jeNadKYSYrZgM+3WEKtKbPGJlJKKSZV0pmup2HnL+fN39VYH
+X-Received: by 10.50.43.226 with SMTP id z2mr2541060igl.78.1457081777792; Fri,
+	04 Mar 2016 00:56:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <56CC6832.90506@siemens.com>
-Subject: Re: Debugging using sysroots and GDB
+Received: by 10.107.162.70 with HTTP; Fri, 4 Mar 2016 00:55:58 -0800 (PST)
+In-Reply-To: <25A507B472054F9B9002D68314A7C388@RD3>
+References: <AB28D54196164B23BA942EBCF3204741@RD3>
+	<20160224141143.GB2892@mbabyjoh-mobl.fi.intel.com>
+	<2CD39F82881F465AAD78DBB61BCA369E@RD3>
+	<CAJTo0LYMO4C9+rd1NG7mMmn4YfU6vRhuOYni4vvPAugoru=uwA@mail.gmail.com>
+	<E744C7D53BB7428AB0FD15C117627D11@RD3>
+	<20160226093319.GA4329@ad.chargestorm.se>
+	<38408F728A334E9F9A452EFD2448CC8D@RD3>
+	<CAJTo0LbAoSeWVikqA4t9vXrbSnoiWwOWwLBLPtGPLwwr7E3w+g@mail.gmail.com>
+	<25A507B472054F9B9002D68314A7C388@RD3>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Mar 2016 08:55:58 +0000
+Message-ID: <CAJTo0LYqPQDVoKdFPP4onF-V+0fJ3fZU5CAk_ao3QdbgN05RRA@mail.gmail.com>
+To: winiston@futuraautomation.com
+Cc: yocto texas <meta-ti@yoctoproject.org>,
+	Anders Darander <anders@chargestorm.se>,
+	Yocto layer <linux-yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [linux-yocto] How to integrate third party application software to yocto image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +64,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 08:42:50 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Mar 2016 08:56:18 -0000
+Content-Type: multipart/alternative; boundary=047d7bfea0f4c67260052d35497b
 
-ping!
-No comment on this topic?
+--047d7bfea0f4c67260052d35497b
+Content-Type: text/plain; charset=UTF-8
 
-Am 23.02.2016 um 15:09 schrieb Pascal Bach:
-> Hi Everybody
->
-> Currently debugging using sysroots seems to work as long as the work folder containing the original source is available.
-> Once this work dir is gone the debugger is no longer able to find the source code. This is especially confusing if some packages are taken from sstate and others are built in the current projects, because for some libraries the sources can be found and for others not. It is hard at first to figure out the reason why one works and the other not.
->
-> In order to make it easier to debug using sysroots I propose to modify the how the sysroots is built to do somethins similar to rootfs:
->
-> 1. Changing the source reference in the debug symbols to point to the source under /usr/src/debug
-> 2. Copy the sources into /usr/src/debug under sysroots similar to how it is done for a debug rootfs.
-> 3. Document that the user needs to add the following to the .gdbinit to make it work:
->     ```
->     set sysroot /project/oe/build/tmp/sysroots/<target_sysrtoot>
->     set substitute-path /usr/src/debug /project/oe/build/tmp/sysroots/<target_sysrtoot>/usr/src/debug
->     ```
->
-> This would also allow the sysroot to be relocatable as it is kind of standalone and everything required to debug is included.
->
-> What do you think? Does this proposal make sense, or did I miss something and this is completly unnecessary and there is an easier way already working?
->
-> Regards
-> Pascal
+On 4 March 2016 at 04:23, <winiston@futuraautomation.com> wrote:
 
+> ERROR: Nothing PROVIDES 'gd' (but
+> /home/winiston/poky/meta/recipes-qt/navit/navit_svn.bb DEPENDS on or
+> otherwise requires it). Close matches:
+>
 
+gd is part of meta-oe.  Instead of copying a few files and assuming that
+you know what you're doing, add the entire layer to BBLAYERS.
+
+Ross
+
+--047d7bfea0f4c67260052d35497b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 March 2016 at 04:23,  <span dir=3D"ltr">&lt;<a href=3D"mailto:winiston=
+@futuraautomation.com" target=3D"_blank">winiston@futuraautomation.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>ERROR: Nothing PRO=
+VIDES &#39;gd&#39; (but=20
+/home/winiston/poky/meta/recipes-qt/navit/<a href=3D"http://navit_svn.bb" t=
+arget=3D"_blank">navit_svn.bb</a> DEPENDS on or otherwise=20
+requires it). Close matches:</div>
+<div></div></blockquote></div><br>gd is part of meta-oe.=C2=A0 Instead of c=
+opying a few files and assuming that you know what you&#39;re doing, add th=
+e entire layer to BBLAYERS.</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
+
+--047d7bfea0f4c67260052d35497b--
