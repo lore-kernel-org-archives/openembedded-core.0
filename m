@@ -1,47 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CC37560721
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BE2774197
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 17:23:23 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id ir4so5426378igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 09:23:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=H4VAT4ugf/asA7aLcPyKXSC8I2S4OIh0/RxgSFjHjnU=;
-	b=o2zix97qET8KrrvWIiFqou5TTUgUFGzLrJHL4uk7IJA2qVNLi2uJu/VbSW1HWIlDpJ
-	mUtf7p/a02S7H4ePCTeWAWucMfspa5SzMDw3YeeHFc7+ImtIzQZxVhgdMINdP9ZfDvof
-	iKC1lqu8gtm0rQ/l6vrpeXSerds3XdIo9199lW33LbX8SEi1tBd9jyFtazoF+RPdUI0k
-	mHd5ASKSKrayRkAnyGb5zUfBbd/9sqBJ5muxaD9K/x5ftRCaT9873PlcO/SWlCJ86Aw/
-	+o8WbeYSm2hDarDwzmD7S9Nph5MmyoepivRe9teE+Ylv6eGb/nsahdIaON3N+C+X/M6l
-	dEwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=H4VAT4ugf/asA7aLcPyKXSC8I2S4OIh0/RxgSFjHjnU=;
-	b=YOjPXCEs6SNKVtHIVrkDsjEz2OUe+toLUEFdzktH87ZNS0OLduQK/UCFbJN8BRdHek
-	kjM48XsSqaNmRWHxjpvKztMjyC199r6v8mVOdC/NRRB2RPNvYBAoRl66a0/ggDrd7kmV
-	LLmp5g7E9fBwyC17SPtj+uVnJqQi3clMg7796OQkrrmpORjQSQ03GGI34GnZsxSH4r4b
-	ufuIPt7JEHr+WJb3uxXGjtBcnd5bh+BLh8M2BJj3JfakrOSX48D/bx/mk0PfIbeD3QyQ
-	2PYBgm9vUkkDUIgZrpEiMuW2T2BI2Yh5csMQhSY3aUzz20QWwaKJ39q9L7xIjBWNEGB1
-	cOpQ==
-X-Gm-Message-State: AD7BkJKrU7mtJmB+iAtmSDbPsAEs+ruoA7Tp932kvZ3zu6HLQmT7G+wYOfJJqse3t0+kCyabBs/xP7pvRLgm3A==
-X-Received: by 10.50.221.75 with SMTP id qc11mr11254igc.87.1457112204426; Fri,
-	04 Mar 2016 09:23:24 -0800 (PST)
+	Fri,  4 Mar 2016 18:21:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u24ILHAX003649
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 4 Mar 2016 10:21:17 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 4 Mar 2016 10:21:16 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 4 Mar 2016 13:21:16 -0500
+Message-ID: <1457115676-11034-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-References: <1443533265.5162.35.camel@linuxfoundation.org>
-	<919610E7-93B7-41EF-ADC7-8C6A179C9950@gmail.com>
-In-Reply-To: <919610E7-93B7-41EF-ADC7-8C6A179C9950@gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 04 Mar 2016 17:23:14 +0000
-Message-ID: <CABcZANmn149p+4tas5nxwuLoXa2AwbHgJutk41EO8u2Y0nLi9w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linuxloader/image-prelink/image-mklibs: Fix non-standard path prelinking
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH] linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL, EXPERT and EMBEDDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,320 +31,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 17:23:27 -0000
-Content-Type: multipart/alternative; boundary=001a11344f4057c48d052d3c5f09
+X-List-Received-Date: Fri, 04 Mar 2016 18:21:20 -0000
+Content-Type: text/plain
 
---001a11344f4057c48d052d3c5f09
-Content-Type: text/plain; charset=UTF-8
+Integrating the folliwing patch series from Cal:
 
-On Tue, Sep 29, 2015 at 10:09 AM Khem Raj <raj.khem@gmail.com> wrote:
+  This patch series refactors the ktypes so that base and standard ktypes
+  do not enable EMBEDDED, EXPERT, or DEBUG_KERNEL. The reason this
+  decision was made is because production platforms likely do not want
+  DEBUG_KERNEL enabled, and EMBEDDED selects EXPERT which selects
+  DEBUG_KERNEL.
 
->
-> > On Sep 29, 2015, at 6:27 AM, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> >
-> > Prelinking on x86-64 wasn't working out the box as it uses /lib and
-> > not /lib64 for libs. Prelink was refusing to link as the dynamic loader
-> > didn't match its idea of the right path. Passing in the --dyanmic-linker
-> > option avoids this.
-> >
-> > We can share code from image-mklibs so abstract that into a new class,
-> > linuxloader.bbclass.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> > diff --git a/meta/classes/image-mklibs.bbclass
-> b/meta/classes/image-mklibs.bbclass
-> > index c455a8e..45a66fb 100644
-> > --- a/meta/classes/image-mklibs.bbclass
-> > +++ b/meta/classes/image-mklibs.bbclass
-> > @@ -2,6 +2,8 @@ do_rootfs[depends] += "mklibs-native:do_populate_sysroot"
-> >
-> > IMAGE_PREPROCESS_COMMAND += "mklibs_optimize_image; "
-> >
-> > +inherit linuxloader
-> > +
-> > mklibs_optimize_image_doit() {
-> >       rm -rf ${WORKDIR}/mklibs
-> >       mkdir -p ${WORKDIR}/mklibs/dest
-> > @@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {
-> >               | sed "s+^\./++" \
-> >               > ${WORKDIR}/mklibs/executables.list
-> >
-> > -     case ${TARGET_ARCH} in
-> > -             powerpc | mips | mipsel | microblaze )
-> > -                     dynamic_loader="${base_libdir}/ld.so.1"
-> > -                     ;;
-> > -             powerpc64)
-> > -                     dynamic_loader="${base_libdir}/ld64.so.1"
-> > -                     ;;
-> > -             x86_64)
-> > -
->  dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
-> > -                     ;;
-> > -             i586 )
-> > -                     dynamic_loader="${base_libdir}/ld-linux.so.2"
-> > -                     ;;
-> > -             arm )
-> > -                     dynamic_loader="${base_libdir}/ld-linux.so.3"
-> > -                     ;;
-> > -             * )
-> > -                     dynamic_loader="/unknown_dynamic_linker"
-> > -                     ;;
-> > -     esac
-> > +     # Set $dynamic_loader
-> > +        linuxloader
-> >
-> >       mklibs -v \
-> >               --ldlib ${dynamic_loader} \
-> > diff --git a/meta/classes/image-prelink.bbclass
-> b/meta/classes/image-prelink.bbclass
-> > index d4bb3ae..4bb090d 100644
-> > --- a/meta/classes/image-prelink.bbclass
-> > +++ b/meta/classes/image-prelink.bbclass
-> > @@ -2,6 +2,8 @@ do_rootfs[depends] +=
-> "prelink-native:do_populate_sysroot"
-> >
-> > IMAGE_PREPROCESS_COMMAND += "prelink_image; "
-> >
-> > +inherit linuxloader
-> > +
-> > prelink_image () {
-> > #     export PSEUDO_DEBUG=4
-> > #     /bin/env | /bin/grep PSEUDO
-> > @@ -20,8 +22,11 @@ prelink_image () {
-> >               dummy_prelink_conf=false;
-> >       fi
-> >
-> > +     # Set $dynamic_loader
-> > +     linuxloader
-> > +
-> >       # prelink!
-> > -     ${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root
-> ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
-> > +     ${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root
-> ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker
-> $dynamic_loader
-> >
-> >       # Remove the prelink.conf if we had to add it.
-> >       if [ "$dummy_prelink_conf" = "true" ]; then
-> > diff --git a/meta/classes/linuxloader.bbclass
-> b/meta/classes/linuxloader.bbclass
-> > new file mode 100644
-> > index 0000000..578df14
-> > --- /dev/null
-> > +++ b/meta/classes/linuxloader.bbclass
-> > @@ -0,0 +1,23 @@
-> > +
-> > +linuxloader () {
-> > +     case ${TARGET_ARCH} in
-> > +             powerpc | mips | mipsel | microblaze )
-> > +                     dynamic_loader="${base_libdir}/ld.so.1"
-> > +                     ;;
-> > +             powerpc64)
-> > +                     dynamic_loader="${base_libdir}/ld64.so.1"
-> > +                     ;;
-> > +             x86_64)
-> > +
->  dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
-> > +                     ;;
-> > +             i586 )
-> > +                     dynamic_loader="${base_libdir}/ld-linux.so.2"
-> > +                     ;;
-> > +             arm )
-> > +                     dynamic_loader="${base_libdir}/ld-linux.so.3"
-> > +                     ;;
-> > +             * )
-> > +                     dynamic_loader="/unknown_dynamic_linker"
-> > +                     ;;
-> > +     esac
-> > +}
-> >
-> >
->
-> For readability it would have been nice if it was returning the value from
-> function so it could be used
->
-> myloader = call this function
->
+  A new ktype called "developer" was also created. This ktype
+  enables the options now missing from standard and base, making it easy
+  to maintain the functionality of a BSP through simply swapping the ktype
+  from standard to developer. The preempt-rt ktype is now based off of
+  developer in order to maintain its functionality.
 
-Agreed, I was just thinking this could be used for UNINATIVE_LOADER in
-uninative.bbclass.
+  The new standard ktype does not include EMBEDDED, EXPERT, or
+  DEBUG_KERNEL. Without DEBUG_KERNEL it loses a number of debug features
+  that are selected by default. Without EXPERT it gains RFKILL_INPUT and
+  DEBUG_MEMORY_INIT, while losing VMSPLIT_3G. These are only available to
+  configure with CONFIG_EXPERT=y and default to EXPERT or !EXPERT. Not
+  selecting EMBEDDED has no apparent impacts.
 
---001a11344f4057c48d052d3c5f09
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  Some coordination is required for this change, as existing BSPs WILL be
+  affected, and will either need to accept the changes in the standard
+  ktype or move to the developer ktype.
 
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue=
-, Sep 29, 2015 at 10:09 AM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.co=
-m">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><br>
-&gt; On Sep 29, 2015, at 6:27 AM, Richard Purdie &lt;<a href=3D"mailto:rich=
-ard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfound=
-ation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Prelinking on x86-64 wasn&#39;t working out the box as it uses /lib an=
-d<br>
-&gt; not /lib64 for libs. Prelink was refusing to link as the dynamic loade=
-r<br>
-&gt; didn&#39;t match its idea of the right path. Passing in the --dyanmic-=
-linker<br>
-&gt; option avoids this.<br>
-&gt;<br>
-&gt; We can share code from image-mklibs so abstract that into a new class,=
-<br>
-&gt; linuxloader.bbclass.<br>
-&gt;<br>
-&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@lin=
-uxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&=
-gt;<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mk=
-libs.bbclass<br>
-&gt; index c455a8e..45a66fb 100644<br>
-&gt; --- a/meta/classes/image-mklibs.bbclass<br>
-&gt; +++ b/meta/classes/image-mklibs.bbclass<br>
-&gt; @@ -2,6 +2,8 @@ do_rootfs[depends] +=3D &quot;mklibs-native:do_populat=
-e_sysroot&quot;<br>
-&gt;<br>
-&gt; IMAGE_PREPROCESS_COMMAND +=3D &quot;mklibs_optimize_image; &quot;<br>
-&gt;<br>
-&gt; +inherit linuxloader<br>
-&gt; +<br>
-&gt; mklibs_optimize_image_doit() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${WORKDIR}/mklibs<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${WORKDIR}/mklibs/dest<br>
-&gt; @@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| sed &quot;s+^\=
-./++&quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; ${WORKDIR}/=
-mklibs/executables.list<br>
-&gt;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0case ${TARGET_ARCH} in<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc | mips | mips=
-el | microblaze )<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld.so.1&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc64)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld64.so.1&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux-x86-64.so.2&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586 )<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.2&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm )<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.3&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* )<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;/unknown_dynamic_linker&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0esac<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0# Set $dynamic_loader<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 linuxloader<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mklibs -v \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--ldlib ${dynami=
-c_loader} \<br>
-&gt; diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-p=
-relink.bbclass<br>
-&gt; index d4bb3ae..4bb090d 100644<br>
-&gt; --- a/meta/classes/image-prelink.bbclass<br>
-&gt; +++ b/meta/classes/image-prelink.bbclass<br>
-&gt; @@ -2,6 +2,8 @@ do_rootfs[depends] +=3D &quot;prelink-native:do_popula=
-te_sysroot&quot;<br>
-&gt;<br>
-&gt; IMAGE_PREPROCESS_COMMAND +=3D &quot;prelink_image; &quot;<br>
-&gt;<br>
-&gt; +inherit linuxloader<br>
-&gt; +<br>
-&gt; prelink_image () {<br>
-&gt; #=C2=A0 =C2=A0 =C2=A0export PSEUDO_DEBUG=3D4<br>
-&gt; #=C2=A0 =C2=A0 =C2=A0/bin/env | /bin/grep PSEUDO<br>
-&gt; @@ -20,8 +22,11 @@ prelink_image () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_prelink_co=
-nf=3Dfalse;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0# Set $dynamic_loader<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0linuxloader<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# prelink!<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0${STAGING_DIR_NATIVE}${sbindir_native}/prelink --=
-root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0${STAGING_DIR_NATIVE}${sbindir_native}/prelink --=
-root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker=
- $dynamic_loader<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove the prelink.conf if we had to add i=
-t.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$dummy_prelink_conf&quot; =3D &qu=
-ot;true&quot; ]; then<br>
-&gt; diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxload=
-er.bbclass<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..578df14<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/classes/linuxloader.bbclass<br>
-&gt; @@ -0,0 +1,23 @@<br>
-&gt; +<br>
-&gt; +linuxloader () {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case ${TARGET_ARCH} in<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc | mips | mips=
-el | microblaze )<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld.so.1&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0powerpc64)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld64.so.1&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux-x86-64.so.2&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586 )<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.2&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm )<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;${base_libdir}/ld-linux.so.3&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* )<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dynamic_loader=3D&quot;/unknown_dynamic_linker&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0esac<br>
-&gt; +}<br>
-&gt;<br>
-&gt;<br>
-<br>
-For readability it would have been nice if it was returning the value from =
-function so it could be used<br>
-<br>
-myloader =3D call this function<br></blockquote><div><br></div><div>Agreed,=
- I was just thinking this could be used for UNINATIVE_LOADER in uninative.b=
-bclass.</div></div></div>
+  California Sullivan (12):
+    features/debug: add debug-kernel feature
+    ktypes: add developer ktype
+    ktypes/base: Disable EMBEDDED and DEBUG_KERNEL
+    CONFIG_PROCESSOR_SELECT: do not enable
+    intel-common-drivers.scc: move profiling and latencytop to a new file
+    romley.scc remove profiling and latencytop features
+    bsp/intel-common: add intel-core* developer BSPs
+    preempt-rt.scc: include developer ktype instead of standard
+    intel-common: add intel-developer-drivers.scc to preempt-rt BSPs
+    CONFIG_I2C_I801: set option to yes in intel-core* BSPs
+    bsp: add developer common-pc BSPs
+    bsp: remove profiling and latencytop from non-developer common-pc BSPs
 
---001a11344f4057c48d052d3c5f09--
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index 7251c07fce81..41619d7296a3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+ SRCREV_machine ?= "853991833cc5140ca25450e81bf6b822d537a6ac"
+-SRCREV_meta ?= "8b6a7d80344837fd64163008521a31a6f891313e"
++SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index 0d35bc3ce8b0..5a0884a48706 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_meta ?= "8b6a7d80344837fd64163008521a31a6f891313e"
++SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index c5f160d78691..9c3fe7f1dedb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+ SRCREV_machine_qemux86-64 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+ SRCREV_machine_qemumips64 ?= "8bbcb369cf605d1ada384f4b950da2abc5d1f4cc"
+ SRCREV_machine ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_meta ?= "8b6a7d80344837fd64163008521a31a6f891313e"
++SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+-- 
+2.5.0
+
+
