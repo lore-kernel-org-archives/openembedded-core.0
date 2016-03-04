@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BFBCC73232
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC7E7316B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 16:28:43 +0000 (UTC)
+	Fri,  4 Mar 2016 16:30:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u24GSbLk002243 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2016 16:28:43 GMT
+	u24GUxCA002419 for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Mar 2016 16:30:59 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QlFh_qt909RB
+	with LMTP id klZZBEQagGFc
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 16:28:43 +0000 (GMT)
+	Fri,  4 Mar 2016 16:30:59 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u24GSeHF002260
+	u24GUv6P002415
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2016 16:28:41 GMT
-Message-ID: <1457108920.2804.44.camel@linuxfoundation.org>
+	Fri, 4 Mar 2016 16:30:58 GMT
+Message-ID: <1457109057.2804.46.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Mar 2016 16:28:40 +0000
+Date: Fri, 04 Mar 2016 16:30:57 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] linuxloader/image-prelink/image-mklibs: Fix non-standard path prelinking
+Subject: [PATCH] yocto-uninative: Add common include for uninative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,121 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 16:28:44 -0000
+X-List-Received-Date: Fri, 04 Mar 2016 16:31:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Prelinking on x86-64 wasn't working out the box as it uses /lib and
-not /lib64 for libs. Prelink was refusing to link as the dynamic loader
-didn't match its idea of the right path. Passing in the --dyanmic-linker
-option avoids this.
-
-We can share code from image-mklibs so abstract that into a new class,
-linuxloader.bbclass.
-
-This does break prelinking of multilib images, I've opened a bug so we
-can loop back and fix that problem, the code would need to iterate the 
-dynamic loaders (and setup ld.so.conf files for it).
+uninative has some specific setup requirements. Rather than have everyone
+doing this themselves, do this centrally and allow people to opt into it
+based on some Yocto Project builds of the uninative tarballs.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-index cfb3ffc..45a66fb 100644
---- a/meta/classes/image-mklibs.bbclass
-+++ b/meta/classes/image-mklibs.bbclass
-@@ -2,6 +2,8 @@ do_rootfs[depends] += "mklibs-native:do_populate_sysroot"
- 
- IMAGE_PREPROCESS_COMMAND += "mklibs_optimize_image; "
- 
-+inherit linuxloader
-+
- mklibs_optimize_image_doit() {
- 	rm -rf ${WORKDIR}/mklibs
- 	mkdir -p ${WORKDIR}/mklibs/dest
-@@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {
- 		| sed "s+^\./++" \
- 		> ${WORKDIR}/mklibs/executables.list
- 
--	case ${TARGET_ARCH} in
--		powerpc | mips | mipsel | microblaze )
--			dynamic_loader="${base_libdir}/ld.so.1"
--			;;
--		powerpc64)
--			dynamic_loader="${base_libdir}/ld64.so.1"
--			;;
--		x86_64)
--			dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
--			;;
--		i*86 )
--			dynamic_loader="${base_libdir}/ld-linux.so.2"
--			;;
--		arm )
--			dynamic_loader="${base_libdir}/ld-linux.so.3"
--			;;
--		* )
--			dynamic_loader="/unknown_dynamic_linker"
--			;;
--	esac
-+	# Set $dynamic_loader 
-+        linuxloader
- 
- 	mklibs -v \
- 		--ldlib ${dynamic_loader} \
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index 53c4b0b..3fe097b 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -6,6 +6,8 @@ python prelink_setup () {
-     oe.utils.write_ld_so_conf(d)
- }
- 
-+inherit linuxloader
-+
- prelink_image () {
- #	export PSEUDO_DEBUG=4
- #	/bin/env | /bin/grep PSEUDO
-@@ -31,8 +33,11 @@ prelink_image () {
- 	fi
- 	cat ${STAGING_DIR_TARGET}${sysconfdir}/ld.so.conf >> $ldsoconf
- 
-+	# Set $dynamic_loader
-+	linuxloader
-+
- 	# prelink!
--	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
-+	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
- 
- 	# Remove the prelink.conf if we had to add it.
- 	if [ "$dummy_prelink_conf" = "true" ]; then
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
 new file mode 100644
-index 0000000..af649cc
+index 0000000..f0f1975
 --- /dev/null
-+++ b/meta/classes/linuxloader.bbclass
-@@ -0,0 +1,23 @@
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -0,0 +1,11 @@
++#
++# This include points at uninative tarballs generated and maintained
++# by the Yocto Project. These file can be included by distros if they
++# want to use/maintain a unified sstate feed for native/cross artefacts
++# rather than the feeds having native/cross artefacts which are specific
++# to the distro running on the build machine.
++#
 +
-+linuxloader () {
-+	case ${TARGET_ARCH} in
-+		powerpc | mips | mipsel | microblaze )
-+			dynamic_loader="${base_libdir}/ld.so.1"
-+			;;
-+		powerpc64)
-+			dynamic_loader="${base_libdir}/ld64.so.1"
-+			;;
-+		x86_64)
-+			dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
-+			;;
-+		i*86 )
-+			dynamic_loader="${base_libdir}/ld-linux.so.2"
-+			;;
-+		arm )
-+			dynamic_loader="${base_libdir}/ld-linux.so.3"
-+			;;
-+		* )
-+			dynamic_loader="/unknown_dynamic_linker"
-+			;;
-+	esac
-+}
++UNINATIVE_URL = "http://downloads.yoctoproject.org/releases/uninative/0.9/"
++UNINATIVE_CHECKSUM[i686] = "d74d476bfcf9b82d8e8befb98b87068b"
++UNINATIVE_CHECKSUM[x86_64] = "2b727b6a8e47999ff58da7d7db16fc2f"
 
 
 
