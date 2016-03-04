@@ -1,23 +1,30 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A16E96FFD8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 358C560621
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 10:08:21 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Mar 2016 02:08:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,535,1449561600"; d="scan'208";a="758005687"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 04 Mar 2016 02:08:22 -0800
-Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id 7CFAC6A4002;
-	Fri,  4 Mar 2016 02:56:08 -0800 (PST)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2016 12:12:18 +0200
-Message-Id: <1457086338-26028-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCHv2] oeqa/selftest/buildoptions: Test build does not fail without git rev
+	Fri,  4 Mar 2016 10:18:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u24AILiO008366; Fri, 4 Mar 2016 10:18:21 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 5Fvf1g0EmVZO; Fri,  4 Mar 2016 10:18:21 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u24AIIC3008362
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 4 Mar 2016 10:18:19 GMT
+Message-ID: <1457086698.2804.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zhenhua Luo <zhenhua.luo@nxp.com>
+Date: Fri, 04 Mar 2016 10:18:18 +0000
+In-Reply-To: <DB3PR04MB068422B10C54A685417DCE3AEEBE0@DB3PR04MB0684.eurprd04.prod.outlook.com>
+References: <1457014986.25131.69.camel@linuxfoundation.org>
+	<DB3PR04MB068422B10C54A685417DCE3AEEBE0@DB3PR04MB0684.eurprd04.prod.outlook.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Status of M3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 10:08:22 -0000
+X-List-Received-Date: Fri, 04 Mar 2016 10:18:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Test that layer git revisions are displayed and
-do not fail without git repository.
+On Fri, 2016-03-04 at 09:41 +0000, Zhenhua Luo wrote:
+> > * meta-fsl-ppc breaks on eudev change (patch pending)
+> > * meta-fsl-ppc breakage blocks AB artefact publishing
+> [Luo Zhenhua-B19537] The eudev patch is merged, http://git.yoctoproje
+> ct.org/cgit/cgit.cgi/meta-fsl
+> -ppc/commit/?id=2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there
+> any other blocker issue? 
 
-fix for [YOCTO #8852]
+Thanks, I appreciate getting that sorted! 
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta/lib/oeqa/selftest/buildoptions.py | 46 +++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+Unfortunately there is something else not quite right with meta-fsl
+-ppc:
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index e2d12c3..693f069 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -1,7 +1,8 @@
- import os
- import re
- import glob as g
--
-+import shutil
-+import tempfile
- from oeqa.selftest.base import oeSelfTest
- from oeqa.selftest.buildhistory import BuildhistoryBase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-@@ -111,6 +112,49 @@ class SanityOptionsTest(oeSelfTest):
-         line = self.getline(res, "QA Issue: nfs-utils")
-         self.assertTrue(line and line.startswith("WARNING:"), "WARNING: QA Issue: nfs-utils message is not present in bitbake's output: %s" % res.output)
- 
-+    @testcase(1421)
-+    def test_layer_git_revisions_are_displayed_and_do_not_fail_without_git_repo(self):
-+        """
-+        Summary:     Test that layer git revisions are displayed and do not fail without git repository
-+        Expected:    The build to be successful and without "fatal" errors
-+        Product:     oe-core
-+        Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        dirpath = tempfile.mkdtemp()
-+
-+        dummy_layer_name = 'meta-dummy'
-+        dummy_layer_path = os.path.join(dirpath, dummy_layer_name)
-+        dummy_layer_conf_dir = os.path.join(dummy_layer_path, 'conf')
-+        os.makedirs(dummy_layer_conf_dir)
-+        dummy_layer_conf_path = os.path.join(dummy_layer_conf_dir, 'layer.conf')
-+
-+        dummy_layer_content = 'BBPATH .= ":${LAYERDIR}"\n'
-+        dummy_layer_content += 'BBFILES += "${LAYERDIR}/recipes-*/*/*.bb ${LAYERDIR}/recipes-*/*/*.bbappend"\n'
-+        dummy_layer_content += 'BBFILE_COLLECTIONS += "%s"\n' % dummy_layer_name
-+        dummy_layer_content += 'BBFILE_PATTERN_%s = "^${LAYERDIR}/"\n' % dummy_layer_name
-+        dummy_layer_content += 'BBFILE_PRIORITY_%s = "6"\n' % dummy_layer_name
-+
-+        ftools.write_file(dummy_layer_conf_path, dummy_layer_content)
-+
-+        bblayers_conf = 'BBLAYERS += "%s"\n' % dummy_layer_path
-+        self.write_bblayers_config(bblayers_conf)
-+
-+        test_recipe = 'ed'
-+
-+        ret = bitbake('-n %s' % test_recipe)
-+
-+        patt = r'fatal: Not a git repository \(or any parent up to mount point /\S+\)\n' \
-+               r'Stopping at filesystem boundary \(GIT_DISCOVERY_ACROSS_FILESYSTEM not set\)\.'
-+
-+        found_err = re.search(patt, ret.output)
-+
-+        shutil.rmtree(dirpath)
-+
-+        self.assertIsNone(found_err, 'Fatal errors found. Output: %s' % ret.output)
-+
-+
- class BuildhistoryTests(BuildhistoryBase):
- 
-     @testcase(293)
--- 
-2.1.0
+https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil
+ds/667
 
+Seems something is not working in python3 do_configure? Everything else
+is building python3 fine so not sure what is wrong there.
+
+Cheers,
+
+Richard
 
