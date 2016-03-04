@@ -1,46 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 717CF731D8
+Return-Path: <petter@technux.se>
+X-Greylist: delayed 364 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 04 Mar 2016 15:23:31 UTC
+Received: from bin-vsp-out-02.atm.binero.net (bin-mail-out-05.binero.net
+	[195.74.38.228])
+	by mail.openembedded.org (Postfix) with ESMTP id 761A160762
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 14:32:12 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id p65so31595235wmp.0
+	Fri,  4 Mar 2016 15:23:31 +0000 (UTC)
+X-Halon-ID: 31e66cad-e21c-11e5-afed-005056917f90
+Authorized-sender: petter@technux.se
+Received: from webmail.binero.se (unknown [195.74.38.9])
+	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 06:32:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=au2TIiPWrJIX4yKLZm7d9NVgs4PELiBK2hH7MHplOUs=;
-	b=pMV+M2WQYG2e9LdzNw4GGRJUSdiSjW98KcWvd+RTJCjQeOAP/7mps4EFjSUJa0uFVg
-	NJHH18o4dwhkPwSxlx4BXBiOG02+VGOsBdRUubN94fgn0NsNiQhtwmHRA4FHajJCAkTU
-	BJU+vX23k5git71t5nETvDAA8pQxxaTSymYUuwCorexcNisvcjV3mC34rFahr9v1ASTW
-	RRQG2dxLZ2wUmKAq0k4VtzGu//zneoG2jyw7tl1PXqE1GZkfoeI+1voLMckTSZBiHTK5
-	gVUkJ6/MtnfZDRBwlZHVV6egWEK2nopsTW65xFw5i/xEeM0mYiaiRf7GrX9rylmu3vUI
-	zZtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=au2TIiPWrJIX4yKLZm7d9NVgs4PELiBK2hH7MHplOUs=;
-	b=NIeXNChKAnFojXDe2ObUrV4RwvVaDGe+1i9MrsDki3BoT2/UVaDB/dGsj/qbI2Yd5J
-	ZHfELxvf7lyxxt7T6jJcOKZ5RS7XQQUetBkjMi2PYeLSzdke57vFPs7kUuQZGo5ORG8E
-	DwVL8JNXGOxIwtIsg4ruRwWs2qLBWcbdqweVl3gVc6caM9Qt+LTIM4Ro5Psp7LVA7GQz
-	LaZy/xVW8sIA6akicx5GHgIN3V+6BV3BAeWgPqh2o+VWQWCMNuHmQByNrT4CPf1ITgP6
-	M+F3QR8HGqsZfj+RBeBiVsGWIW6enK3rfch7iFpgT/3eq3hVw8cDKzq06Js5MFh92y7C
-	/vjw==
-X-Gm-Message-State: AD7BkJK1HARAdegxZdDEtH4/I9WoRFxqIVAoRV6Zr+aaGUH6mRFYRqpSxLgfYvQH4QANvc1g
-X-Received: by 10.194.91.205 with SMTP id cg13mr9123427wjb.166.1457101933269; 
-	Fri, 04 Mar 2016 06:32:13 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	e127sm3555115wma.20.2016.03.04.06.32.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 04 Mar 2016 06:32:12 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2016 14:32:10 +0000
-Message-Id: <1457101930-19513-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] populate_sdk_ext: specify where the uninative tarball is explicitly
+	Fri,  4 Mar 2016 16:17:22 +0100 (CET)
+MIME-Version: 1.0
+Date: Fri, 04 Mar 2016 16:17:22 +0100
+From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
+To: <openembedded-core@lists.openembedded.org>
+Organization: Technux
+Reply-To: <petter@technux.se>
+Mail-Reply-To: <petter@technux.se>
+In-Reply-To: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1456227383-9212-1-git-send-email-markus.lehtonen@linux.intel.com>
+Message-ID: <f27176154319caccabbb6a01ae183f5a@technux.se>
+X-Sender: petter@technux.se
+User-Agent: Binero Webmail/0.8.4
+Subject: Re: [PATCH] Wipe ${S} before unpacking sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +37,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 14:32:13 -0000
+X-List-Received-Date: Fri, 04 Mar 2016 15:23:33 -0000
+Content-Type: multipart/alternative;
+	boundary="=_9944125e1b572c29b7cb26ef2bf3d2c7"
 
-Previously this class copied the uninative tarball to a certain directory in the
-assumption that is where uninative.bbclass is looking for it.  However as this
-is a variable in uninative.bbclass that can be changed, specify exactly where
-the tarball is in the eSDK local.conf.
+--=_9944125e1b572c29b7cb26ef2bf3d2c7
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
 
-Also don't use string formatting to write the INHERIT for no reason.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/populate_sdk_ext.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 74d12eb..8d199f4 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -193,7 +193,9 @@ python copy_buildsystem () {
-             # Write a newline just in case there's none at the end of the original
-             f.write('\n')
  
--            f.write('INHERIT += "%s"\n\n' % 'uninative')
-+            f.write('INHERIT += "uninative"\n')
-+            f.write('UNINATIVE_DLDIR = "${COREBASE}"\n\n')
-+
-             f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION', False))
- 
-             # Some classes are not suitable for SDK, remove them from INHERIT
-@@ -368,7 +370,7 @@ sdk_ext_postinst() {
- 	# Warn if trying to use external bitbake and the ext SDK together
- 	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $env_setup_script
- 
--	# For now this is where uninative.bbclass expects the tarball
-+	# We configure uninative.bbclass in local.conf to look in ${COREBASE} for the tarball
- 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
- 
- 	if [ "$prepare_buildsystem" != "no" -a -n "${@SDK_INSTALL_TARGETS.strip()}" ]; then
--- 
-2.7.0
 
+2016-02-23 12:36 skrev Markus Lehtonen: 
 
+> It would seem reasonable
+that do_unpack() always results in a pristine source
+> tree. This patch
+causes ${S} to be removed before unpacking sources.
+> 
+> I didn't quite
+understand what kind of "investigation" the following code
+> comment in
+do_unpack() was referring to:
+> # TODO: Investigate if we can remove
+> #
+the entire ${S} in this case.
+> What kind of special cases might we
+have? At least qemux86 core-image-sato
+> builds fine for me.
+
+The text
+isn't referring to any investigation already done. But me and Paul
+Eggleton discussed this matter (removing entire ${S}, not just
+{$S}/patches) within the scope of another bug. But since this wasn't
+really the scope for that bug, the TODO was added instead. And happily
+you have done the investigation and it's seems like ${S} might be able
+to be removed in this case, after all :)
+
+So please go ahead and you can
+remove that TODO comment within the scope of this patch, since if this
+change gets merged it's not relevant anymore..
+
+BR Petter 
+
+> [YOCTO
+#9064] Markus Lehtonen (1): base.bbclass wipe ${S} before unpacking
+source meta/classes/base.bbclass | 8 +++----- 1 file changed, 3
+insertions(+), 5 deletions(-) -- 2.6.2
+
+See inline comments. 
+
+Petter
+Mabäcker
+
+Technux <petter@technux.se>
+www.technux.se
+ 
+
+--=_9944125e1b572c29b7cb26ef2bf3d2c7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
+<p>2016-02-23 12:36 skrev Markus Lehtonen:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
+d --><!-- meta ignored -->
+<pre>It would seem reasonable that do_unpack() always results in a pristine=
+ source
+tree. This patch causes ${S} to be removed before unpacking sources.
+
+I didn't quite understand what kind of "investigation" the following code
+comment in do_unpack() was referring to:
+  # TODO: Investigate if we can remove
+  # the entire ${S} in this case.
+What kind of special cases might we have? At least qemux86 core-image-sato
+builds fine for me.<br /><br />
+
+</pre>
+</blockquote>
+<p>The text isn't referring to any investigation already done. But me and P=
+aul Eggleton discussed this matter (removing entire ${S}, not just {$S}/pat=
+ches) within the scope of another bug. But since this wasn't really the sco=
+pe for that bug, the TODO was added instead. And happily you have done the =
+investigation and it's seems like ${S} might be able to be removed in this =
+case, after all :)<br /><br />So please go ahead and you can remove that TO=
+DO comment within the scope of this patch, since if this change gets merged=
+ it's not relevant anymore..<br /><br />BR Petter</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%">[YOCTO #9064] Markus Lehtonen (1): ba=
+se.bbclass wipe ${S} before unpacking source meta/classes/base.bbclass | 8 =
++++----- 1 file changed, 3 insertions(+), 5 deletions(-) <span class=3D"sig=
+">-- 2.6.2 </span></blockquote>
+<p>See inline comments.</p>
+<div>
+<pre>Petter Mab&auml;cker
+
+Technux &lt;petter@technux.se&gt;
+www.technux.se</pre>
+</div>
+</body></html>
+
+--=_9944125e1b572c29b7cb26ef2bf3d2c7--
