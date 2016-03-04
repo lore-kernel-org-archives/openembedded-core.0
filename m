@@ -1,23 +1,23 @@
 Return-Path: <daniel.alexandrux.istrate@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EF4FE7320F
+	by mail.openembedded.org (Postfix) with ESMTP id A0FE260761
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 10:37:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2016 02:37:50 -0800
+	Fri,  4 Mar 2016 10:51:38 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2016 02:51:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,535,1449561600"; d="scan'208";a="929506029"
+X-IronPort-AV: E=Sophos;i="5.22,535,1449561600"; d="scan'208";a="926726639"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2016 02:37:50 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2016 02:51:37 -0800
 Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id 288276A4002;
-	Fri,  4 Mar 2016 03:25:36 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 092D56A4002;
+	Fri,  4 Mar 2016 03:39:23 -0800 (PST)
 From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2016 12:41:47 +0200
-Message-Id: <1457088107-30625-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Date: Fri,  4 Mar 2016 12:55:33 +0200
+Message-Id: <1457088933-3844-1-git-send-email-daniel.alexandrux.istrate@intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCHv3] oeqa/selftest/buildoptions: Test build does not fail without git rev
+Subject: [PATCHv4] oeqa/selftest/buildoptions: Test build does not fail without git rev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 10:37:50 -0000
+X-List-Received-Date: Fri, 04 Mar 2016 10:51:39 -0000
 
 Test that layer git revisions are displayed and
 do not fail without git repository.
@@ -43,7 +43,7 @@ Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
  1 file changed, 42 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index e2d12c3..ee2a101 100644
+index e2d12c3..135514a 100644
 --- a/meta/lib/oeqa/selftest/buildoptions.py
 +++ b/meta/lib/oeqa/selftest/buildoptions.py
 @@ -1,7 +1,8 @@
@@ -78,11 +78,11 @@ index e2d12c3..ee2a101 100644
 +        os.makedirs(dummy_layer_conf_dir)
 +        dummy_layer_conf_path = os.path.join(dummy_layer_conf_dir, 'layer.conf')
 +
-+        dummy_layer_content = 'BBPATH .= ":${LAYERDIR}"\n'
-+        dummy_layer_content += 'BBFILES += "${LAYERDIR}/recipes-*/*/*.bb ${LAYERDIR}/recipes-*/*/*.bbappend"\n'
-+        dummy_layer_content += 'BBFILE_COLLECTIONS += "%s"\n' % dummy_layer_name
-+        dummy_layer_content += 'BBFILE_PATTERN_%s = "^${LAYERDIR}/"\n' % dummy_layer_name
-+        dummy_layer_content += 'BBFILE_PRIORITY_%s = "6"\n' % dummy_layer_name
++        dummy_layer_content = 'BBPATH .= ":${LAYERDIR}"\n' \
++                              'BBFILES += "${LAYERDIR}/recipes-*/*/*.bb ${LAYERDIR}/recipes-*/*/*.bbappend"\n' \
++                              'BBFILE_COLLECTIONS += "%s"\n' \
++                              'BBFILE_PATTERN_%s = "^${LAYERDIR}/"\n' \
++                              'BBFILE_PRIORITY_%s = "6"\n' % (dummy_layer_name, dummy_layer_name, dummy_layer_name)
 +
 +        ftools.write_file(dummy_layer_conf_path, dummy_layer_content)
 +
