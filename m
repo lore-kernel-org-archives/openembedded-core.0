@@ -1,46 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id F2A116FF25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 16:48:40 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id l68so36157516wml.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 08:48:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=9wHXlBeMQ3V9KYjJd6ZkGRyzbFj9X3BzudSp0AAuRxI=;
-	b=MTTpBn9TF7MvouMJ3Z3l9tIMipqywSoJ4yBwIMQIl2ImKLKsBPIYWzMMvJOwAm7S/D
-	s2o6KTYzyQIq1aZxPL8F21N/+yxqIbA7r3ShfB3HxKNC2UEdDgv79XFRYPT823SrC4Et
-	n6qOyfbdN+ZONiieRqP41249dMkeZ9u9oEdbnp/0dbnLvBVLXDoIJQt4CSh2anCHewfy
-	8QKLVWehw3CZ9DuyGjywlc4Sj0Voy2WZ4CJUbD2eUNy0QsE5riHF0PULitsUHA90D0WS
-	cJi9Mapq5eM4/p6eMZmVfBbjQE4xytk4dZ/MwmVdDO03NLIH27bE4eWF2S6G9IBdKUNu
-	BCrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=9wHXlBeMQ3V9KYjJd6ZkGRyzbFj9X3BzudSp0AAuRxI=;
-	b=TsAiwjMwxc0cBN2rN0ibfJBnsf50zHccGhIYpTvOtfNSvZvkVurQ7ioPTdDT38HDZI
-	zqRStch+3fifUWB5DvxWSbfPC5SwiRx0YZzVFuqC6pcdMLpG2zsfDpcTuv6KPfrvb4tt
-	LMenQd/kfU5E9JTz3sp7jGpu2hqopnD+2joxwFEU46QAhwL0AH0OCPJh24y8MN5hy5EX
-	13f4OsTGNlPsQr3nPmKIQQFuw+yqKGWzSF5hgC/jFfzGVhOvcMQwoeYccTgsPZ89lOny
-	etnyOHtOLizinP8sCtsFnDljRzas/ZvbxKrOjW+v3TcxVnxHBV7N1SkTrUkqkaX9QRhJ
-	98Qg==
-X-Gm-Message-State: AD7BkJKAkloL8hcNFCFYIRRKocPlZ/Q94NO/CXNQk/nfmaIZrp7M+ZeK4IKkKylL8OpF8xRk
-X-Received: by 10.28.213.142 with SMTP id m136mr6509767wmg.24.1457110120803;
-	Fri, 04 Mar 2016 08:48:40 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	p191sm4173334wmb.0.2016.03.04.08.48.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 04 Mar 2016 08:48:40 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2016 16:48:37 +0000
-Message-Id: <1457110117-11218-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] uninative: correctly enable uninative
+Return-Path: <denis@denix.org>
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 62CCB71957;
+	Fri,  4 Mar 2016 16:51:37 +0000 (UTC)
+Received: from vz-proxy-l007.mx.aol.com ([64.236.82.151])
+	by vms173021.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014))
+	with ESMTPA id <0O3I007K2XHHI770@vms173021.mailsrvcs.net>; Fri,
+	04 Mar 2016 10:51:23 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=MtGvkDue c=1 sm=1 tr=0	a=eaPqxu9IKnv3tbb7QsXVMw==:117
+	a=kj9zAlcOel0A:10 a=7OsogOcEt9IA:10	a=fk1lIlRQAAAA:8 a=Ntg_Zx-WAAAA:8
+	a=lyf1682xAAAA:8 a=kAQ7BjYzXBNbmR4uJasA:9	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 002e7f89; Fri, 04 Mar 2016 16:51:22 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id CD7C7161EFB; Fri,
+	4 Mar 2016 11:51:16 -0500 (EST)
+Date: Fri, 04 Mar 2016 11:51:16 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: akuster <akuster@mvista.com>
+Message-id: <20160304165116.GE13743@denix.org>
+References: <1456904241-17157-1-git-send-email-akuster808@gmail.com>
+	<20160304153952.GC13743@denix.org> <56D9BBC9.6010707@mvista.com>
+MIME-version: 1.0
+In-reply-to: <56D9BBC9.6010707@mvista.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [jethro][fido][PATCH] openssl: Security fix CVE-2016-0800
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,146 +40,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 16:48:42 -0000
+X-List-Received-Date: Fri, 04 Mar 2016 16:51:38 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-The previous attempt at soft-failing when uninative was enabled didn't actually
-work, because the workers didn't evaluate the function that actually enabled
-uninative.
+On Fri, Mar 04, 2016 at 08:46:01AM -0800, akuster wrote:
+> 
+> 
+> On 03/04/2016 07:39 AM, Denys Dmytriyenko wrote:
+> > On Tue, Mar 01, 2016 at 11:37:21PM -0800, Armin Kuster wrote:
+> >> From: Armin Kuster <akuster@mvista.com>
+> >>
+> >> CVE-2016-0800 SSL/TLS: Cross-protocol attack on TLS using SSLv2 (DROWN)
+> >>
+> >> https://www.openssl.org/news/secadv/20160301.txt
+> >>
+> >> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> >> ---
+> >>  .../openssl/openssl/CVE-2016-0800.patch            | 198 +++++++
+> >>  .../openssl/openssl/CVE-2016-0800_2.patch          | 592 +++++++++++++++++++++
+> >>  .../openssl/openssl/CVE-2016-0800_3.patch          | 503 +++++++++++++++++
+> >>  .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   3 +
+> >>  4 files changed, 1296 insertions(+)
+> >>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
+> >>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_2.patch
+> >>  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_3.patch
+> >>
+> >> diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
+> >> new file mode 100644
+> >> index 0000000..e5635fe
+> >> --- /dev/null
+> >> +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
+> >> @@ -0,0 +1,198 @@
+> >> +From 9dfd2be8a1761fffd152a92d8f1b356ad667eea7 Mon Sep 17 00:00:00 2001
+> >> +From: Viktor Dukhovni <openssl-users@dukhovni.org>
+> >> +Date: Wed, 17 Feb 2016 21:07:48 -0500
+> >> +Subject: [PATCH] Disable SSLv2 default build, default negotiation and weak
+> >> + ciphers.
+> >> +MIME-Version: 1.0
+> >> +Content-Type: text/plain; charset=UTF-8
+> >> +Content-Transfer-Encoding: 8bit
+> >> +
+> >> +SSLv2 is by default disabled at build-time.  Builds that are not
+> >> +configured with "enable-ssl2" will not support SSLv2.  Even if
+> >> +"enable-ssl2" is used, users who want to negotiate SSLv2 via the
+> >> +version-flexible SSLv23_method() will need to explicitly call either
+> >> +of:
+> >> +
+> >> +    SSL_CTX_clear_options(ctx, SSL_OP_NO_SSLv2);
+> >> +or
+> >> +    SSL_clear_options(ssl, SSL_OP_NO_SSLv2);
+> >> +
+> >> +as appropriate.  Even if either of those is used, or the application
+> >> +explicitly uses the version-specific SSLv2_method() or its client
+> >> +or server variants, SSLv2 ciphers vulnerable to exhaustive search
+> >> +key recovery have been removed.  Specifically, the SSLv2 40-bit
+> >> +EXPORT ciphers, and SSLv2 56-bit DES are no longer available.
+> >> +
+> >> +Mitigation for CVE-2016-0800
+> > 
+> > So, this CVE is all nice and good, but it breaks things and other OE recipes.
+> > 
+> > For starters, python-m2crypto and crda from meta-openembedded:
+> > 
+> > ERROR: Failed to import the "M2Crypto" module: .../usr/lib/python2.7/site-packages/M2Crypto/__m2crypto.so: undefined symbol: SSLv2_method
+> 
+> well we built that internally and it pass because we are using the one
+> from meta-virt. its a newer version (0.22.3) than the one in meta-python
+> (0.21.1).
+> 
+> working on the one in meta-python.
 
-In a BuildStarted handler we can check if we need to download or extract the
-uninative tarball.
+Ah, thanks! So, what would be the approach to fix it in meta-python? Would 
+version update be allowed for backport to fido/dizzy? It's rather against the 
+policy, but in this case it's broken w/o the update...
 
-In a ConfigParsed handler on the workers we can check if the uninative loader is
-present, and if so enable it.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/uninative.bbclass | 91 +++++++++++++++++++++++-------------------
- 1 file changed, 51 insertions(+), 40 deletions(-)
+> > Are there any plans to go and ensure that other recipes using SSLv2 are not 
+> > broken now?
+> 
+> yes, as I find time and not _all_ meta layers.
+> 
+> thanks for letting me know. it will make this task go by faster.
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 471c9ae..369225f 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -7,19 +7,30 @@ UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
- #UNINATIVE_CHECKSUM[x86_64] = "dead"
- UNINATIVE_DLDIR ?= "${DL_DIR}"
- 
--addhandler uninative_eventhandler
--uninative_eventhandler[eventmask] = "bb.event.BuildStarted"
-+addhandler uninative_event_fetchloader
-+uninative_event_fetchloader[eventmask] = "bb.event.BuildStarted"
- 
--python uninative_eventhandler() {
--    enabled = True
-+addhandler uninative_event_enable
-+uninative_event_enable[eventmask] = "bb.event.ConfigParsed"
-+
-+python uninative_event_fetchloader() {
-+    """
-+    This event fires on the parent and will try to fetch the tarball if the
-+    loader isn't already present.
-+    """
- 
-     loader = d.getVar("UNINATIVE_LOADER", True)
--    tarball = d.getVar("UNINATIVE_TARBALL", True)
--    tarballdir = d.getVar("UNINATIVE_DLDIR", True)
--    tarballpath = os.path.join(tarballdir, tarball)
-+    if os.path.exists(loader):
-+        return
-+
-+    try:
-+        # Save and restore cwd as Fetch.download() does a chdir()
-+        olddir = os.getcwd()
-+
-+        tarball = d.getVar("UNINATIVE_TARBALL", True)
-+        tarballdir = d.getVar("UNINATIVE_DLDIR", True)
-+        tarballpath = os.path.join(tarballdir, tarball)
- 
--    if not os.path.exists(loader):
--        # If the tarball doesn't exist, try to fetch it.
-         if not os.path.exists(tarballpath):
-             if d.getVar("UNINATIVE_URL", True) == "unset":
-                 bb.fatal("Uninative selected but not configured, please set UNINATIVE_URL")
-@@ -28,46 +39,46 @@ python uninative_eventhandler() {
-             if not chksum:
-                 bb.fatal("Uninative selected but not configured correctly, please set UNINATIVE_CHECKSUM[%s]" % d.getVar("BUILD_ARCH", True))
- 
--            try:
--                # Save and restore cwd as Fetch.download() does a chdir()
--                olddir = os.getcwd()
- 
--                localdata = bb.data.createCopy(d)
--                localdata.setVar('FILESPATH', "")
--                localdata.setVar('DL_DIR', tarballdir)
-+            localdata = bb.data.createCopy(d)
-+            localdata.setVar('FILESPATH', "")
-+            localdata.setVar('DL_DIR', tarballdir)
- 
--                srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};md5sum=%s" % chksum)
--                bb.note("Fetching uninative binary shim from %s" % srcuri)
-+            srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};md5sum=%s" % chksum)
-+            bb.note("Fetching uninative binary shim from %s" % srcuri)
- 
--                fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
--                fetcher.download()
--                localpath = fetcher.localpath(srcuri)
--                if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
-+            fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-+            fetcher.download()
-+            localpath = fetcher.localpath(srcuri)
-+            if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
-                     os.symlink(localpath, tarballpath)
--            except Exception as exc:
--                bb.warn("Unable to download uninative tarball: %s" % str(exc))
--                enabled = False
--            finally:
--                os.chdir(olddir)
--
--        # If we're still enabled then the fetch didn't fail, so unpack the tarball
--        if enabled:
--            import subprocess
--            try:
--                cmd = d.expand("mkdir -p ${STAGING_DIR}-uninative; cd ${STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/${UNINATIVE_TARBALL}; ${STAGING_DIR}-uninative/relocate_sdk.py ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative")
--                subprocess.check_call(cmd, shell=True)
--            except subprocess.CalledProcessError as exc:
--                bb.warn("Unable to install uninative tarball: %s" % str(exc))
--                enabled = False
- 
--    if enabled:
-+        import subprocess
-+        cmd = d.expand("mkdir -p ${STAGING_DIR}-uninative; cd ${STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/${UNINATIVE_TARBALL}; ${STAGING_DIR}-uninative/relocate_sdk.py ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative")
-+        subprocess.check_call(cmd, shell=True)
-+
-+    except bb.fetch2.BBFetchException as exc:
-+        bb.warn("Disabling uninative as unable to fetch uninative tarball: %s" % str(exc))
-+        bb.warn("To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.")
-+    except subprocess.CalledProcessError as exc:
-+        bb.warn("Disabling uninative as unable to install uninative tarball: %s" % str(exc))
-+        bb.warn("To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.")
-+    finally:
-+        os.chdir(olddir)
-+}
-+
-+python uninative_event_enable() {
-+    """
-+    This event handler is called in the workers and is responsible for setting
-+    up uninative if a loader is found.
-+    """
-+
-+    loader = d.getVar("UNINATIVE_LOADER", True)
-+    if os.path.exists(loader):
-         bb.debug(2, "Enabling uninative")
-         d.setVar("NATIVELSBSTRING", "universal")
-         d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
-         d.prependVar("PATH", "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
--    else:
--        bb.warn("Uninative selected but the loader isn't present and can't be downloaded.  Disabling uninative.\n"
--                "To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.")
- }
- 
- python uninative_changeinterp () {
+I'll let you know if anything else is broken :)
+
 -- 
-2.7.0
-
+Denys
 
