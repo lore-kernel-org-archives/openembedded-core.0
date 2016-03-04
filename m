@@ -1,32 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 178147328A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 08F0D731CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 22:51:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u24MpNBp019471 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2016 22:51:23 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id y_559z4h5BYr
+	Fri,  4 Mar 2016 23:24:25 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id s68so27227095qkh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2016 22:51:23 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u24MpHq9019467
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2016 22:51:18 GMT
-Message-ID: <1457131877.2804.65.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Mar 2016 22:51:17 +0000
-In-Reply-To: <1457014986.25131.69.camel@linuxfoundation.org>
-References: <1457014986.25131.69.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: Status of M3
+	Fri, 04 Mar 2016 15:24:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PrYlFfEzUm3NbFv9RDSQs3z+Lxey520VjiVwLSY2zAU=;
+	b=JeiW2D77X+sH9+0ol89ZSFkwFwaWsgBX9W5af/6bJGUeJFyio/0kN6SBZ7MZ6B/kAV
+	XVQKsSIUDhLExTwwWQQ9F5Ua/uevaNvpGFuZXiF75Ds37HmQ6ImMxDdZK8sUga7QdO35
+	2VFkdwsqL5IC13vLJF63EIanfiUGuFZ313ml4gP0KNccl2CIGEn3Ly7euBCBQKGd4c20
+	+RGKfTt+WXpgeF4HgA52d75kRO9eepXvOkmPyCMt6yZmzZ3Rl8azajHqD0W1yBWQUHPF
+	6F4JDhfrQax2TVW4YIZjuVaEuS7npkjsmlXqVpHG0RNabS/93N/hhtCy3zvvqCre8rtO
+	fbTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PrYlFfEzUm3NbFv9RDSQs3z+Lxey520VjiVwLSY2zAU=;
+	b=gXJvKmQ2cCV40Ig6iXKr7VgDCYTjq9wezUJ156JhQGbfB3ZJYjifW63PmgJDuD595h
+	vj9Z2qG+VINtCE4UHALg0IYjx9hnR3h9/wTab8vTdP0xAILBLx3QgYkkGmN/PeBlp0+S
+	Syt/tvbbQHOLAyi7XsOxD/bVfwaClDjsrqOajNx/xKpb3Idw0FfgqBb2xiZVzeKl2dww
+	FgNJ5oyNZzUYZLprwjCLIaLvsdT7+qmiA9CyLimXQVTc3k8Km3zwfztSU2auMnI+dexu
+	w0i8KrTuRhT75R98pQshXDZwxr9xugNlY3qhkm/pJ/V/ojI0eoUtrwMSXwm+FP+8zc8c
+	AXiw==
+X-Gm-Message-State: AD7BkJJ9krUdKPDItUyuXF3XDxT+z0TQBI1YQ5c3j8Tb+6ghNY3KdhJqkwBj/4E0nx3/1/vNclPoSQPh3yjINA==
+X-Received: by 10.55.73.199 with SMTP id w190mr13505487qka.77.1457133865911;
+	Fri, 04 Mar 2016 15:24:25 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.55.130.196 with HTTP; Fri, 4 Mar 2016 15:23:56 -0800 (PST)
+In-Reply-To: <1457130807.2804.59.camel@linuxfoundation.org>
+References: <1457130807.2804.59.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 5 Mar 2016 07:23:56 +0800
+Message-ID: <CAMKF1sqY+rsv8Hu5pi1tdvybQLp9Ro-HgZ3NZktvSiWhmVM00Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: uninative stdc++ abi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2016 22:51:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Mar 2016 23:24:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2016-03-03 at 14:23 +0000, Richard Purdie wrote:
-> Things which still break:
-> 
-> * rpm upgrade causes smart remove to not function
-> * gobject-introspection breaks on multilib with python-pygobject file
->   location issue
-> * gobject-introspection fails on musl
-> * createrepo has occasional failure with checksum mismatch
-> * oe-selftest signing failure
-> * sato application launch failures from glib issues due to prelink
+On Sat, Mar 5, 2016 at 6:33 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> +# https://wiki.debian.org/GCC5
+> +# We may see binaries built with gcc5 run or linked into gcc4 environment
+> +# so use the older libstdc++ standard for now until we don't support gcc4
+> +# on the host system.
+> +BUILD_CXXFLAGS_append = " -D_GLIBCXX_USE_CXX11_ABI=0"
+>
+>
+> Is this the right way to try and fix this? Any better ideas?
 
-Most of the above are still broken. In addition, I thought uninative
-was going too well, turns out we broke its enablement on the
-autobuilders. With that "fixed" we've seen some additional issues (and
-some new 'random' race failures):
-
-* a gcc4 verses gcc5 conflict in the libstdc++ ABI (uninative)
-* a codepage issue with mcopy (uninative)
-* an additional gobject-introspection dependency problem (simple?)
-* parallel make race in ncurses make install
-* parallel make race in openssl (borrow patches from other distro?)
-* some xmlto execution issue
-
-So work remains to get M3 into shape. Not sure how much of my weekend
-I'm planning to spend in trying to sort this out...
-
-Cheers,
-
-Richard
-
-
+yes thats the best option we have given the myriad of build OSes we
+have to support.
 
