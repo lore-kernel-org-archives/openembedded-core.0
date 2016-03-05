@@ -1,45 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BC0B46FF93
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6066FF93
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Mar 2016 00:03:28 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id t4so56744916qge.0
+	Sat,  5 Mar 2016 00:05:18 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id y89so56684083qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2016 16:03:29 -0800 (PST)
+	Fri, 04 Mar 2016 16:05:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=u49ADjhR3li1uDC0g/xadnGBt1ogNE7siSReqzG22EU=;
-	b=odqzU76wSBnD3FzXueOyryJAbxpBSRr/Ra0iEPCMMVK0vXg+VrjeXqlcgTrcYZ9kzJ
-	8WS7DW6j7RDMmMP29D0diB0nEudbVWiwr1q4gn0eSxJ1biSoCV/v7AjjZzqvDJnj0wdf
-	UOQAXF85FL0oBO1wRXDw13O1Eai/ElT7FYW0Wv9FqFpUkC6g33Ad/7wUkHIT/qSRXMjq
-	KE5F8NvC+16zARKUnNjQrCA0Pmss6WYVp5f7htCd+EvmHRCqYMQyChwfjI2G39Ro/2Xr
-	5NwKFtgwwgrfdOMY6iLKPz3mLZ2ZiG+9ee6HJjp1Jc2tOkJgEN/YjXBxOjdjRf4hf/7q
-	WYwg==
+	bh=5dEe18bJUhtmr6gDR16eKe7Y0IL44rHVx/8Kg7Gr9OA=;
+	b=k3J/U+esCCX3mR7kmYh5vham5+MakkEp7ClZxu2kAvDx/JXh8vZxudqJksKqwJDquT
+	0w+uEosKglrHMco/a3wAlHIcn33qzqS5xG5rkKL8mhIS0YFUc9ZySYUmW9LkA/6xnJpi
+	gB0jziou47aIAl0dO4Le6sJEc+wUCEZDim3okd1X1r1SPr6kMymMT5NZgzkhdSFmlyEg
+	BrisxY3W4Igey+aDURWQQbIAULNkh5DDe9No2SSYQ/oQZoa9IuZ8FM6DwCLR2xwj1Sc1
+	ckkrGN9Jbw+5nuP/5x8kSof57kk2y5rayYeXXJfpJMu5Wja1DsLeBepMVgQp+PlUWv5v
+	PDIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=u49ADjhR3li1uDC0g/xadnGBt1ogNE7siSReqzG22EU=;
-	b=JvWGbgnfSdO5YJPUD2wWpXeHRuONvwWL9xHlNdmho/+czbirMJpkFhi2cdvKJzjuXK
-	by8PS4ATFENFsMpoR/nfsLylbxj913J4/3g+fqRpV1DYFsu1wJ1axDDfw36dBwfvrpb9
-	r/7DgomCG9nMl9emOPfSyK5Aw17E4yt8//G+pDRj9ulK7iulyFrpdoCXIbkA0iXRcyvd
-	JqsFRBoNkhKjYI4DtnrOMEAw0ALWDxuFLp7b5obf++ZboBrGyZyHpSjeQ+9noTTVGlSp
-	fVZrknr3TPYkQwwnSaqDSv6d3Tr/koRyu0i05F+XzkrXJnKeq40ZHtnzdBV67mQ0+qUS
-	PhMA==
-X-Gm-Message-State: AD7BkJIAUq2BmHYbOBpZQ3x3q5uw0AiQvzP6hTvDoxWchVmK09UTy3mUFKDMlRZbyQ8MHw==
-X-Received: by 10.140.107.74 with SMTP id g68mr13604595qgf.82.1457136209233;
-	Fri, 04 Mar 2016 16:03:29 -0800 (PST)
+	bh=5dEe18bJUhtmr6gDR16eKe7Y0IL44rHVx/8Kg7Gr9OA=;
+	b=UfxLvwRdst43alBH9cv5XTPC9Vow2JGUDQMDowssZVZc2J5qBSXlPwo95T+ljPc+JT
+	ghffFClzu9hu1qhuV47cj54PQItvxRPqi7xJgvh+m5f20lrTpzPSBu/fF9S903tKOV9b
+	zQXGnfJipT6XbREqLer4Wrh+U9AVu7JUzmo8yCG6xaX2aBfqTTbLHVN9G0Ps+X2TAoJm
+	vVlfv+zCJTEN3VqM/2HAo01j3vQDqdVOpl3BVK4U8aKtyJ3L+oig2QS2P6xiLYkmLdoO
+	NTugDTkLof5wMQHTJmVsni3cwVvwzXHRKMKWrrYdg8V7COPnn68JeUprNpPvQccNtxv2
+	cIJw==
+X-Gm-Message-State: AD7BkJJr51ik0cu0P6/siMFaPb05kTkLDPwprvnTuN53/+Dz57hjsB5Kclfi/xYuXdGt7Q==
+X-Received: by 10.140.224.18 with SMTP id u18mr10231764qhb.10.1457136318758;
+	Fri, 04 Mar 2016 16:05:18 -0800 (PST)
 Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
 	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
-	w70sm2745344qge.13.2016.03.04.16.03.28
+	b34sm2726617qgb.31.2016.03.04.16.05.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Mar 2016 16:03:28 -0800 (PST)
+	Fri, 04 Mar 2016 16:05:18 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Mar 2016 00:03:22 +0000
-Message-Id: <1457136202-20890-1-git-send-email-raj.khem@gmail.com>
+Date: Sat,  5 Mar 2016 00:05:11 +0000
+Message-Id: <1457136311-21090-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] nspr: Fix build regression on musl from last upgrade
+Subject: [PATCH] net-tools: Override CFLAGS/LDFLAGS in do_install too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,86 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Mar 2016 00:03:30 -0000
+X-List-Received-Date: Sat, 05 Mar 2016 00:05:22 -0000
 
-This patch is no longer required as upstreamed has fixed
-the problem in more comprehensive way
+do_compile does this but do_install needs same env as well
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...001-Remove-the-check-for-LINUX-glibc-case.patch | 35 ----------------------
- meta/recipes-support/nspr/nspr_4.12.bb             | 11 ++-----
- 2 files changed, 3 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch
+ meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch b/meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch
-deleted file mode 100644
-index 5b17355..0000000
---- a/meta/recipes-support/nspr/nspr/0001-Remove-the-check-for-LINUX-glibc-case.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 9b9c95e0390395c7e9ad24a882deb87a50846059 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 8 Aug 2015 17:10:34 -0700
--Subject: [PATCH] Remove the check for LINUX == glibc case
--
--Here it does not consider the case where musl can be an options it does
--consider the bionic case with !defined(ANDROID) but musl does not define
--and musl'ism defines like that
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- pr/src/misc/prnetdb.c | 5 +----
-- 1 file changed, 1 insertion(+), 4 deletions(-)
--
--diff --git a/pr/src/misc/prnetdb.c b/pr/src/misc/prnetdb.c
--index b86248f..dc83a56 100644
----- a/pr/src/misc/prnetdb.c
--+++ b/pr/src/misc/prnetdb.c
--@@ -61,10 +61,7 @@ PRLock *_pr_dnsLock = NULL;
-- #define _PR_HAVE_GETPROTO_R_POINTER
-- #endif
-- 
---#if defined(SOLARIS) || (defined(BSDI) && defined(_REENTRANT)) \
---	|| (defined(LINUX) && defined(_REENTRANT) \
---        && !(defined(__GLIBC__) && __GLIBC__ >= 2) \
---        && !defined(ANDROID))
--+#if defined(SOLARIS) || (defined(BSDI) && defined(_REENTRANT))
-- #define _PR_HAVE_GETPROTO_R
-- #define _PR_HAVE_GETPROTO_R_POINTER
-- #endif
---- 
--2.1.4
--
-diff --git a/meta/recipes-support/nspr/nspr_4.12.bb b/meta/recipes-support/nspr/nspr_4.12.bb
-index 2fd801f..168341b 100644
---- a/meta/recipes-support/nspr/nspr_4.12.bb
-+++ b/meta/recipes-support/nspr/nspr_4.12.bb
-@@ -9,20 +9,15 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://remove-rpath-from-tests.patch \
-            file://fix-build-on-x86_64.patch \
-            file://remove-srcdir-from-configure-in.patch \
--	   file://0002-Add-nios2-support.patch \
--          "
--
--SRC_URI += "file://nspr.pc.in"
-+           file://0002-Add-nios2-support.patch \
-+           file://nspr.pc.in \
-+"
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 14b8e49..40a021a 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -83,6 +83,10 @@ do_compile() {
+ }
  
- CACHED_CONFIGUREVARS_append_libc-musl = " CFLAGS='${CFLAGS} -D_PR_POLL_AVAILABLE \
-                                           -D_PR_HAVE_OFF64_T -D_PR_INET6 -D_PR_HAVE_INET_NTOP \
-                                           -D_PR_HAVE_GETHOSTBYNAME2 -D_PR_HAVE_GETADDRINFO \
-                                           -D_PR_INET6_PROBE'"
- 
--SRC_URI_append_libc-musl = "\
--        file://0001-Remove-the-check-for-LINUX-glibc-case.patch \
--        "
--
- UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
- UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
+ do_install() {
++	export COPTS="$CFLAGS"
++	export LOPTS="$LDFLAGS"
++	unset CFLAGS
++	unset LDFLAGS
+ 	oe_runmake 'BASEDIR=${D}' install
+ }
  
 -- 
 1.8.3.1
