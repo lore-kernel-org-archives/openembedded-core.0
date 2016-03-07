@@ -1,52 +1,34 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E521B7320F
+Return-Path: <herve.jourdain@neuf.fr>
+Received: from smtp23.services.sfr.fr (smtp23.services.sfr.fr [93.17.128.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 42D6A731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 14:51:20 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id ir4so49442511igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 06:51:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=9QxzHqgqTCX1lGTEeRHsrgIcOQGX0m7t50hDyAemak0=;
-	b=XC1t18uRPIKJf/yR1KOPTJSP74VABmKWhr3JJ4uewSk38RF3gqiHM9RjjV1k2sLho/
-	2gBtwOXjFUnUxl0ZVDhCusOEnUucFh5hHJrhK1s1ARHlAjrQld3eQzmQWzFXSLSe41D4
-	vnWvsrlukGtPyK4yeyHP7wncknHMjmmcIvkpe7DMaZoLX+5S28ePwCe98Vty8sLcnLdM
-	odqEY1mxHRf3HO4i2+/5XjX5/r/aEJ2axxYt9Q/hAPJQKqmNkjvK+lyU09kzCaOIjDuV
-	tzTgZiNfAp1moDpAMw/RjQ6pI6rUlPKw2N/XIziiYu2+7PyckZVmNT31n7ib+NS76lVp
-	abKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=9QxzHqgqTCX1lGTEeRHsrgIcOQGX0m7t50hDyAemak0=;
-	b=DT/duU0cQDqjHR21CRywlpycy5gUx6pUDs72n4E6PtCeEo8emXltQgA8YIybWQzmzQ
-	whnwRJrowXIrUl9tF6nP4qpzQcB3U0YCYJ9k2bEOuirjsyY61HZaVtK1/Bp6Z8rvgPQB
-	HMx5sxfldFBHa3q0vvdNy4EiLev0BASw6jAG842qqlbELDMxdW2S5pO6bAAVucdsEXlg
-	bYZothjpXrIbbfRKCkRBSQzlAy8eEXJxpcGbPOJgvEbgHedPPJCGOekb93Lzp5llIrza
-	hIpyIf3nQ4TcTlIWtWN2Hqp+5mQtc+EpI7AB6nkgmimIFu56AvRfyval8sPjtoCxo42i
-	lKdg==
-X-Gm-Message-State: AD7BkJKkmRzjIM+GKQvEu+MpcVlDN7FZjH1lffyeznCb0epN0Fwhyc1Ihcb+ZWgqHOam5tPg
-X-Received: by 10.50.112.202 with SMTP id is10mr11441284igb.63.1457362281606; 
-	Mon, 07 Mar 2016 06:51:21 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p57A56D71.dip0.t-ipconnect.de.
-	[87.165.109.113])
-	by smtp.gmail.com with ESMTPSA id qt3sm4812448igb.2.2016.03.07.06.51.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Mar 2016 06:51:21 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Mar 2016 15:51:14 +0100
-Message-Id: <8ce90d3f69b45c9284830b306402b28a790a6bc4.1457361747.git.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1bf0ef92a07ad075ae59bb83d7cf353a2a8f05e2.1457361747.git.patrick.ohly@intel.com>
-References: <1bf0ef92a07ad075ae59bb83d7cf353a2a8f05e2.1457361747.git.patrick.ohly@intel.com>
-In-Reply-To: <cover.1457361747.git.patrick.ohly@intel.com>
-References: <cover.1457361747.git.patrick.ohly@intel.com>
-Subject: [PATCH 2/2] image.bbclass: support chaining compression (aka conversion) commands
+	Mon,  7 Mar 2016 15:53:44 +0000 (UTC)
+Received: from filter.sfr.fr (localhost [111.250.196.5])
+	by msfrf2304.sfr.fr (SMTP Server) with ESMTP id 7B8DB70000EA;
+	Mon,  7 Mar 2016 16:53:44 +0100 (CET)
+Authentication-Results: sfrmc.priv.atos.fr; dkim=none (no signature);
+	dkim-adsp=none (no policy) header.from=herve.jourdain@neuf.fr
+Received: from nb-hjo (111-250-196-5.dynamic.hinet.net [111.250.196.5])	(using
+	TLSv1 with cipher AES128-SHA (128/128 bits))	(No client certificate
+	requested)
+	by msfrf2304.sfr.fr (SMTP Server) with ESMTP id 358207000077;
+	Mon,  7 Mar 2016 16:53:42 +0100 (CET)
+X-SFR-UUID: 20160307155343219.358207000077@msfrf2304.sfr.fr
+Received: from nbhjo
+	by nb-hjo (PGP Universal service);  Mon, 07 Mar 2016 16:53:42 +0100
+X-PGP-Universal: processed;	by nb-hjo on Mon, 07 Mar 2016 16:53:42 +0100
+From: Herve Jourdain <herve.jourdain@neuf.fr>
+To: "'Burton, Ross'" <ross.burton@intel.com>
+References: <00ab01d1787c$106f4320$314dc960$@neuf.fr>
+	<CAJTo0LadXojbpycCUR4R2KA3rRO-VL5c604Tq4A+MHoDEhJY8g@mail.gmail.com>
+In-Reply-To: <CAJTo0LadXojbpycCUR4R2KA3rRO-VL5c604Tq4A+MHoDEhJY8g@mail.gmail.com>
+Date: Mon, 7 Mar 2016 16:53:37 +0100
+Message-ID: <00cd01d17889$8623c980$926b5c80$@neuf.fr>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQHi/3KI1klVJIMvDbYu8NzNB6oiMQJnmm5pnxfWLyA=
+Cc: 'OE-core' <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] systemd: binfmt should be added to SYSTEMD_PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,86 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 14:51:22 -0000
+X-List-Received-Date: Mon, 07 Mar 2016 15:53:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: fr
 
-It makes sense to use the compression mechanism also for conversion,
-for example of a whole-disk image into .vdi (VirtualBox). That part
-already works, like this:
+Hmmm=E2=80=A6 It seems the subject line was cut=E2=80=A6 It was supposed =
+to say "system: binfmt should be added to SYSTEMD_PACKAGES only if =
+binfmt is enabled".
+Yep, the second condition was overkill, I agree.
+I'll send a new version of the patch.
 
-   COMPRESSIONTYPES_append = " vdi"
-   COMPRESS_CMD_vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
-   IMAGE_DEPENDS_vdi = "qemu-native"
+Thanks,
 
-But then it also makes sense to allow compressing the resulting image,
-which only works after enhancing the image.bbclass.
+Herve
 
-For example, suppose a custom image command produces "dsk" images. Then
-it becomes possible to set
-   IMAGE_FSTYPES = " dsk.xz dsk.vdi.xz"
-and do_image_dsk will automatically produce the intermediate images,
-convert to dsk.xz resp. dsk.vdi -> dsk.vdi.xz and delete all
-intermediate images. Symlinks are also set correctly.
+From: Burton, Ross [mailto:ross.burton@intel.com]=20
+Sent: lundi 7 mars 2016 15:39
+To: Herve Jourdain <herve.jourdain@neuf.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [meta-oe][PATCH] systemd: binfmt should be added =
+to SYSTEMD_PACKAGES
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/image.bbclass | 27 ++++++++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+First, the commit message isn't accurate (binfmt was already in =
+SYSTEMD_PACKAGES).
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 081a0b3..01b49d4 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -303,6 +303,10 @@ python () {
-                 basetype = type[:-len("." + ctype)]
-                 break
- 
-+        if basetype != type:
-+            # New base type itself might be generated by a conversion command.
-+            basetype = _image_base_type(basetype)
-+
-         return basetype
- 
-     basetypes = {}
-@@ -379,18 +383,35 @@ python () {
-             bb.fatal("No IMAGE_CMD defined for IMAGE_FSTYPES entry '%s' - possibly invalid type name or missing support class" % t)
-         cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
- 
--        for bt in basetypes[t]:
-+        rm_tmp_images = set()
-+        def gen_conversion_cmds(bt):
-             for ctype in ctypes:
-                 if bt.endswith("." + ctype):
-+                    type = bt[0:-len(ctype) - 1]
-+                    # Create input image first.
-+                    gen_conversion_cmds(type)
-+                    localdata.setVar('type', type)
-                     cmds.append("\t" + localdata.getVar("COMPRESS_CMD_" + ctype, True))
-                     vardeps.add('COMPRESS_CMD_' + ctype)
--                    subimages.append(realt + "." + ctype)
-+                    subimages.append(type + "." + ctype)
-+                    if type not in alltypes:
-+                        rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
-+
-+        for bt in basetypes[t]:
-+            gen_conversion_cmds(bt)
- 
-+        localdata.setVar('type', realt)
-         if realt not in alltypes:
--            cmds.append(localdata.expand("\trm ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
-+            rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
-         else:
-             subimages.append(realt)
- 
-+        # Clean up after applying all conversion commands. Some of them might
-+        # use the same input, therefore we cannot delete sooner without applying
-+        # some complex dependency analysis.
-+        for image in rm_tmp_images:
-+            cmds.append("\trm " + image)
-+
-         after = 'do_image'
-         for dep in typedeps[t]:
-             after += ' do_image_%s' % dep.replace("-", "_").replace(".", "_")
--- 
-2.1.4
+On 7 March 2016 at 14:17, Herve Jourdain <herve.jourdain@neuf.fr> wrote:
+-SYSTEMD_PACKAGES =3D "${PN}-binfmt"
+-SYSTEMD_SERVICE_${PN}-binfmt =3D "systemd-binfmt.service"
++SYSTEMD_PACKAGES =3D "${@bb.utils.contains('PACKAGECONFIG', 'binfmt',
+'${PN}-binfmt', '', d)}"
++SYSTEMD_SERVICE_${PN}-binfmt =3D "${@bb.utils.contains('PACKAGECONFIG',
+'binfmt', 'systemd-binfmt.service', '', d)}"
 
+You don't need to conditionalise SYSTEDM_SERVICE_${PN}-binfmt, just =
+SYSTEMD_PACKAGES.
+
+Ross
 
