@@ -1,48 +1,46 @@
 Return-Path: <h4nn35.work@gmail.com>
-Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 12D256FF86
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4276F602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 22:42:52 +0000 (UTC)
-Received: by mail-vk0-f54.google.com with SMTP id e6so134758212vkh.2
+	Mon,  7 Mar 2016 22:52:26 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id l68so5084143wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 14:42:53 -0800 (PST)
+	Mon, 07 Mar 2016 14:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=Tcd0yZn4mySanDBiWEg89PCWmimwFgVupBMZX5rC6vY=;
-	b=YliOF5EPKLoaRMemIOSkE808Pi63wReBkipKpEz+g+uNiqC0zdtbr8O8FIlm+2pghP
-	kQnBXP+iaI65cNJaw7KrxSBtaqpJDSxXnSbb3k1Q1Bxeg1oOAWgFSBl0IdL1Yy6WWXNf
-	dP+ZivUV/9HOckA8PpXxbJ6ehn3Wv5KlciqmshKgkRZPNYWS2553XEEklx8GyAtTS8sR
-	stPUeR9sMWbRrqukwsOd8NfGazhqRriuejkmsLxBgHnNR7BBHoXXH/yI/8DQUlbgM3+7
-	nAEDa+yjpo6pzBcvUa/LUZWmjP/yUp5uQPYapeXma7L1/HjlTKDyPrt/zv2jK32e8AL2
-	UBng==
+	h=from:to:cc:subject:date:message-id;
+	bh=xcbKwQ3tNhgkVqcjWRgV41t1UOhYFJqOjPsH2RAUPuE=;
+	b=TPo4hJZKB8UA/wtQbIoCwocvnvVPtk1WNDxgPzKZT+l9asDOefZjGh+RMFWQc116Qe
+	cAsMu+79k+U3iBYXNgjazKLoEt4mW9YSLHE4wJnb3FtWRr7ojEc1+eDGD5n+bMdx26er
+	L9uQbKL1BWrTLpjDpEJZrh8PDg2o4K+P+Cx+Nv6AH1+5euExvM7QuXvRrqE5+f2EvruH
+	LbqA3aPFu3Jny6rrdl5AtQ8/00tpYt87Wwr6cpt9U1Eqz2zcYHpo5DTQjqiOiePskcgQ
+	G9YNm82rX53tXLH9wcs6pn5dqgJBy4va/lMPQ/n/DBhD84MOz0rbOdz0Lc3HRc8AC/6m
+	35EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=Tcd0yZn4mySanDBiWEg89PCWmimwFgVupBMZX5rC6vY=;
-	b=h5NAcQhKKWYjzbqvdkbsr6F7YA/zhfr1mgHCzvxgXP57UZJZ3N0yiTdyxxJRN2JBAC
-	/LOM8e/k26G/FH38UHz2s9M/ZdXS/uUmJTtGD63pqPCgxkuffckeUtYyK33F7bWz7afB
-	oFIfdRyfgPWjxYNfoCJ+J9RASDf/M3CQP9rm9yFInJbrP4w+iw5Gaes8ktW5LZ573DKf
-	33MKAr64w443SA0xIFLauCcxPDoS74nOBfHczrz++spWPTTcZiUQJqbR6HXPawdW4U2C
-	/A6j7zTSNX1vc1CIKIYVChIqOPTZSuDJqb2x0HsfOicW6jbl4n2uSvDXxyD9csoZEng8
-	LIpA==
-X-Gm-Message-State: AD7BkJKGB0lFaHlHXsM3ARTwyYTiwO/i+PM3sEr2b/xfBGiCKR2t9hQCR02dFicGWNHmKRYTe5EoaVilPeYCUA==
-MIME-Version: 1.0
-X-Received: by 10.31.49.138 with SMTP id x132mr23029716vkx.33.1457390572912;
-	Mon, 07 Mar 2016 14:42:52 -0800 (PST)
-Received: by 10.31.198.133 with HTTP; Mon, 7 Mar 2016 14:42:52 -0800 (PST)
-In-Reply-To: <CAJTo0LZd5wWn6U=uSrEWVMn40Zy=2AhvR9hguZ2E9dpN8-_avw@mail.gmail.com>
-References: <1456863137-7388-1-git-send-email-johannes.pointner@gmail.com>
-	<CAJTo0LZ_rMH3zn+uox0D0tBw+T74xbkNzdvCoR3CCwpo1SnZpg@mail.gmail.com>
-	<CAHvQdo0ckNBU19WSrMwehCsZ-HO37uqNRWqnywUfK3ZPtPT0Zg@mail.gmail.com>
-	<CAJTo0LZd5wWn6U=uSrEWVMn40Zy=2AhvR9hguZ2E9dpN8-_avw@mail.gmail.com>
-Date: Mon, 7 Mar 2016 23:42:52 +0100
-Message-ID: <CAHvQdo3CtRRt9kjf82PGuO9EM5E85JDbjT_XEGCE1xNnYjYGQw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xcbKwQ3tNhgkVqcjWRgV41t1UOhYFJqOjPsH2RAUPuE=;
+	b=PBPFUFTVwN7Onnn6A1Zsg6YrMdfUotwpCk0CdbMnYg2tqJ2L+v0U7CLFaePYyGQq1t
+	b6+twzP53BguTvLLEQuWZ120m9SCPgRg6FV9DTIjIkEUlF2CUlE8QFy/1Pil9vIO6c45
+	B7Chtttgq6vB21Szyay8w6fsUh53rfnFqRrfPTzQocHAQv+Ty84iKTPlTO5eB2maqw7t
+	b38zYbA7Nz3HsAcL3pKEJ/U8xTPRQtrzlDpVl/azaNHRODxkjXITJ+Lvc+zCYByVLh0u
+	xKyzFJTwhoZoQWRSK8mqYl27u+4php7+lqLzUi0z44/UdqJhzGFKEM5VxFkyd3AR184U
+	rcXw==
+X-Gm-Message-State: AD7BkJJqADXGGYQeov8f6CfobVRrcOJPFJdF7f+TQgLvOBkyXH69iKGU4jHLVI2yhmd4dg==
+X-Received: by 10.28.4.210 with SMTP id 201mr14733261wme.51.1457391147164;
+	Mon, 07 Mar 2016 14:52:27 -0800 (PST)
+Received: from lenovobook.localdomain
+	(ipbcc1bda1.dynamic.kabel-deutschland.de. [188.193.189.161])
+	by smtp.googlemail.com with ESMTPSA id
+	x186sm15789193wmg.19.2016.03.07.14.52.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Mar 2016 14:52:26 -0800 (PST)
 From: Johannes Pointner <h4nn35.work@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch][jethro] xf86-video-modesetting: Require sufficiently new libdrm
+X-Google-Original-From: Johannes Pointner <johannes.pointner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Mar 2016 23:51:46 +0100
+Message-Id: <1457391106-6151-1-git-send-email-johannes.pointner@gmail.com>
+X-Mailer: git-send-email 2.7.2
+Subject: [Patch] xf86-video-modesetting: Require sufficiently new libdrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +53,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 22:42:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 07 Mar 2016 22:52:27 -0000
 
-Sure, I'll send a patch for master.
-Furthermore, I'll send a second version of this one, because I just
-saw that I messed up the file mode of the patch file.
+This fixes the check of the libdrm version in the configure script.
 
-2016-03-07 17:00 GMT+01:00 Burton, Ross <ross.burton@intel.com>:
->
-> On 7 March 2016 at 14:50, Johannes Pointner <h4nn35.work@gmail.com> wrote:
->>
->> The reason I thought this patch wouldn't be needed for master is that
->> it was included in xserver 1.18.1 and master is already on xserver
->> 1.18.0.
->> Do you know if it is planned to switch to the newer 1.18.1 version?
->
->
-> No, we're upstream version frozen now, so this is appropriate for master
-> too.  Patches for stable branches should be applied to master first, so can
-> you also prepare a patch for the master branch too?
->
-> Ross
+Signed-off-by: Johannes Pointner <johannes.pointner@gmail.com>
+---
+ .../modesetting_libdrm_requirements.patch          | 29 ++++++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.18.0.bb            |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/modesetting_libdrm_requirements.patch
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/modesetting_libdrm_requirements.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/modesetting_libdrm_requirements.patch
+new file mode 100644
+index 0000000..22b7e6f
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/modesetting_libdrm_requirements.patch
+@@ -0,0 +1,29 @@
++From bf23db42a4e5943129501223a47b48884cdeb62f Mon Sep 17 00:00:00 2001
++From: Adam Jackson <ajax@redhat.com>
++Date: Wed, 27 Jan 2016 11:50:13 -0500
++Subject: modesetting: Require sufficiently new libdrm
++
++Bugzilla: https://bugs.freedesktop.org/93883
++Signed-off-by: Adam Jackson <ajax@redhat.com>
++Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
++Reviewed-by: Julien Cristau <jcristau@debian.org>
++
++Upstream-Status: Backport
++
++diff --git a/configure.ac b/configure.ac
++index ac3bb64..312fc69 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -2035,8 +2035,7 @@ if test "x$XORG" = xyes; then
++ 
++ 	if test "x$DRM" = xyes; then
++ 		dnl 2.4.46 is required for cursor hotspot support.
++-		PKG_CHECK_EXISTS(libdrm >= 2.4.46)
++-		XORG_DRIVER_MODESETTING=yes
+++		PKG_CHECK_EXISTS(libdrm >= 2.4.46, XORG_DRIVER_MODESETTING=yes, XORG_DRIVER_MODESETTING=no)
++ 	fi
++ 
++ 	AC_SUBST([XORG_LIBS])
++-- 
++cgit v0.10.2
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.18.0.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.18.0.bb
+index e606dac..eb79b40 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.18.0.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.18.0.bb
+@@ -2,6 +2,7 @@ require xserver-xorg.inc
+ 
+ SRC_URI += "file://configure.ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch \
+             file://musl-arm-inb-outb.patch \
++            file://modesetting_libdrm_requirements.patch \
+            "
+ SRC_URI[md5sum] = "3c1c1057d3ad27380d8dd87ffcc182cd"
+ SRC_URI[sha256sum] = "195670819695d9cedd8dde95fbe069be0d0f488a77797a2d409f9f702daf312e"
+-- 
+2.7.2
+
 
