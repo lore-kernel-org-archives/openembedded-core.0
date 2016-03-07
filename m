@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1FA731E5
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C7E04731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 15:59:49 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id n190so136066106iof.0
+	Mon,  7 Mar 2016 16:01:17 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id ig19so21297390igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 07:59:50 -0800 (PST)
+	Mon, 07 Mar 2016 08:01:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GSx7GlKF4mhGo0uapnt8GzQCtYDaX8VKI0wDSUUaNl0=;
-	b=1QwrafnKP+ZYuXcdnoruZNE6ftSoYxDpoNUMT6WmrNvgGLMFkOgVtNY8p6vxqAgcTg
-	QqwWjnMi6E4qCPPXc4OY7tlIjlArDUdwxqWT/jJ4BD5NeVHcYfw+T6ugohv86G3eCZi4
-	92jtUyVAPp0m3JhNCRNK+rUgKEyM1O1RBcUdgcMgfZZYudAWI5UOCJK5kz8WFeB0OTS5
-	oMtjpgq7nCwUVEpaMZ3+KJbFh/O6f2KZIhM72LwQOb1hGrjl94RdMW9G0Mn72nEt70P5
-	kk8PeshFjF4qG0vWrJE3cr4Vv0ZfztqJwWnqxG4MDWfYBS3nPOQZPa3Y133okpjnihDL
-	24iA==
+	:cc; bh=VILeqHSZ2qBCXPZ2Mc4mgRMyD5M4Zwt8Dig+FwVFM0I=;
+	b=flRdmezJAhyvmdFytTZVdYUUO1YTX0VjCCD17XhdXIsou8DE54XzyQ/5GO15yfwJ0p
+	MTWlV7sHk24pJxMVvXoVKfI+O0jsyfb4RxMlJZKfyc01SJS/TyztNwmxOUaRJPSb0MlQ
+	YyLmT5XDMf19c+4FXumPVKqyN0fAnZ/eQeCcUR7Wfq/Z8GdZVY6V8eVjDgB+0b2D11es
+	GLnRUpnl0ltJTcGZ2iryAU8gBxEF8wlcXoee2VrQKWHnaFxuap7fL+yLL2B2scPpfnSV
+	eqP6c//lGze8gJN5oWwH5mkF6sQneosRkRfA0c1EEMGE6emsjFEbBmVaoj28Yg6nS7pK
+	e0/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=GSx7GlKF4mhGo0uapnt8GzQCtYDaX8VKI0wDSUUaNl0=;
-	b=lAVLtzkkcs8N5qRrrzyjVNSh4vzvm1DNYAcLxtFelyRrPPGDwSZSurtMzopDx9fM2w
-	jrFxegRGez4sW02Hg7qoOKiuBLsppufaqloqUusPpjARXoowmikO0F4QClWz+aW4M2b5
-	KK+mfRIFSsliN253bSf8Pec/AXxqNrcPeEdgP0PUSEUWNoEY+GaRZiVvCUh6tNem62Mp
-	z85LInWza62CufLFTsemOxEkHpvPKLCtusVwlJ3uHBx1megPbjDr+ZOzFddjydTkHmR2
-	lVtFQ5SGtRXfx3emsvvr66LAOKIOykUOu2DaHgRCF9Yg9aNWSop8IhaYkMQr20OJnXoP
-	4usg==
-X-Gm-Message-State: AD7BkJLdTdbnq4qLNJIS32pPd8e1pySpUqMITyQ/YBAU0to4JgxCt/DasGaPTVrLZXruolo9Q3uMUt2YNgmL9iBK
-X-Received: by 10.107.16.19 with SMTP id y19mr8037286ioi.148.1457366390308;
-	Mon, 07 Mar 2016 07:59:50 -0800 (PST)
+	bh=VILeqHSZ2qBCXPZ2Mc4mgRMyD5M4Zwt8Dig+FwVFM0I=;
+	b=IKBMGlEUNF/dNnqg/QIlY/GexbGEZ5wOFT/E8JvvVTIKu793HLWW3zKf4FgpNpnYwK
+	BS8e6N6Z/67NGLaA/BzHafc1KhEQEBhNplMMNWruWq5nJudmIdOZ330oKr1d3/rwaXTm
+	7imzYR9L5+lx3cLtb/w4AZIAiw1Uhc6G6gQqLJoVdozq1C8udVLhfElwWq+q4tCGJdTZ
+	Yg5S+OPa8TZge1SMKKqB0Q58pKrsh6A4hCMB5fO7JsL6PUaMV45XlAdByjdEum6WWme7
+	0OakVrRwJtpm21D6oICFYU9NMhcWq/CRsI2S7smHjUZ2819LL+waS83daDi/5jEmPLi9
+	VJ5w==
+X-Gm-Message-State: AD7BkJJTOQ9seM65rHCpR9dpJIx32i0AQKQZjrbfrcryrqeFGFYgDdcImbJB4PuDexVPVu1BQ3/mxdkKnxMFjfTZ
+X-Received: by 10.50.126.8 with SMTP id mu8mr12154557igb.52.1457366478351;
+	Mon, 07 Mar 2016 08:01:18 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 07:59:30 -0800 (PST)
-In-Reply-To: <1448698194-14390-1-git-send-email-jkrishnanjanappa@mvista.com>
-References: <1448698194-14390-1-git-send-email-jkrishnanjanappa@mvista.com>
+Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 08:00:58 -0800 (PST)
+In-Reply-To: <CAHvQdo0ckNBU19WSrMwehCsZ-HO37uqNRWqnywUfK3ZPtPT0Zg@mail.gmail.com>
+References: <1456863137-7388-1-git-send-email-johannes.pointner@gmail.com>
+	<CAJTo0LZ_rMH3zn+uox0D0tBw+T74xbkNzdvCoR3CCwpo1SnZpg@mail.gmail.com>
+	<CAHvQdo0ckNBU19WSrMwehCsZ-HO37uqNRWqnywUfK3ZPtPT0Zg@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Mar 2016 15:59:30 +0000
-Message-ID: <CAJTo0LZwOpAaUSOVYyuoKQxjU3OkUsi=pTvY5NihHw_kQGJ1Qg@mail.gmail.com>
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Date: Mon, 7 Mar 2016 16:00:58 +0000
+Message-ID: <CAJTo0LZd5wWn6U=uSrEWVMn40Zy=2AhvR9hguZ2E9dpN8-_avw@mail.gmail.com>
+To: Johannes Pointner <h4nn35.work@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [jethro][PATCH v3] license.bbclass: fix host contamination warnings for license files
+Subject: Re: [Patch][jethro] xf86-video-modesetting: Require sufficiently new libdrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 15:59:50 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1ea00a645052d778e03
+X-List-Received-Date: Mon, 07 Mar 2016 16:01:19 -0000
+Content-Type: multipart/alternative; boundary=047d7b1635bf400a7e052d7793f5
 
---001a113fd1ea00a645052d778e03
+--047d7b1635bf400a7e052d7793f5
 Content-Type: text/plain; charset=UTF-8
 
-On 28 November 2015 at 08:09, Jagadeesh Krishnanjanappa <
-jkrishnanjanappa@mvista.com> wrote:
+On 7 March 2016 at 14:50, Johannes Pointner <h4nn35.work@gmail.com> wrote:
 
-> We get below host contamination warnings of license files for
-> each recipe, when we try to create a separate ${PN}-lic package (which
-> contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
-> in local.conf.
+> The reason I thought this patch wouldn't be needed for master is that
+> it was included in xserver 1.18.1 and master is already on xserver
+> 1.18.0.
+> Do you know if it is planned to switch to the newer 1.18.1 version?
 >
 
-If something is for master and jethro, please make it clear.
-
-(Merged into mut)
+No, we're upstream version frozen now, so this is appropriate for master
+too.  Patches for stable branches should be applied to master first, so can
+you also prepare a patch for the master branch too?
 
 Ross
 
---001a113fd1ea00a645052d778e03
+--047d7b1635bf400a7e052d7793f5
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 November 2015 at 08:09, Jagadeesh Krishnanjanappa <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:jkrishnanjanappa@mvista.com" target=3D"_blank">jkrishn=
-anjanappa@mvista.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":ef" class=3D"a3s" style=3D"overflow:hidden">We get below host=
- contamination warnings of license files for<br>
-each recipe, when we try to create a separate ${PN}-lic package (which<br>
-contains license files), by setting LICENSE_CREATE_PACKAGE equal to &quot;1=
-&quot;<br>
-in local.conf.</div></blockquote></div><br>If something is for master and j=
-ethro, please make it clear.</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">(Merged into mut)</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></div>
+On 7 March 2016 at 14:50, Johannes Pointner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:h4nn35.work@gmail.com" target=3D"_blank">h4nn35.work@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hk" clas=
+s=3D"a3s" style=3D"overflow:hidden">The reason I thought this patch wouldn&=
+#39;t be needed for master is that<br>
+it was included in xserver 1.18.1 and master is already on xserver<br>
+1.18.0.<br>
+Do you know if it is planned to switch to the newer 1.18.1 version?</div></=
+blockquote></div><br>No, we&#39;re upstream version frozen now, so this is =
+appropriate for master too.=C2=A0 Patches for stable branches should be app=
+lied to master first, so can you also prepare a patch for the master branch=
+ too?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
 
---001a113fd1ea00a645052d778e03--
+--047d7b1635bf400a7e052d7793f5--
