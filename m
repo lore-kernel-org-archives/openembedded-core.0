@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 373A673167
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DA72731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 13:50:32 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id z76so29597825iof.3
+	Mon,  7 Mar 2016 13:50:39 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id l68so86934152wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 05:50:33 -0800 (PST)
+	Mon, 07 Mar 2016 05:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hEKB1TuGzbRtifTPX6GRHlXhrRjtlzyMfwX/QFFkXy4=;
-	b=fi0X9adx07aqesHT7h5rw1k7yIjwspWujPGF0s11bB9iMW1XDgP/xCs1ZpnOrKCcYM
-	VsF6wMq9VSQEj4rg9aPDzq2wqplldE+32vZ32Ll1VHIdlewCC+n0h6UkjvbnAk5hEb1s
-	tuTrDQO5uY3c0mFwBhV+6pOWMMPAGAq4sjKdsV4J5RtnxOdtZEKiUPMsGZQ9pOq/BBPU
-	x0AeFeryHqHF6KdtDu/k0dGbHsoauOrbEoNhw4OLMAD72pKOOiI9hSmAPVvpD9Xf3fI+
-	HhbD5I4H4wwPQ0Tf8BAZ5ZHvKzTc8M9Kno/UBITSR8qPZTASFbDIx8wnmYjVKpvWWEz3
-	/zqA==
+	h=from:to:subject:date:message-id;
+	bh=tyt5LVbzFFau5HksD7w9kAF5dTRNz5B/Bw5p8rPPxkw=;
+	b=duYSDZrSr8vz+m4xBKLmreXWSEXe4+1dVf0cUke7bS7X09Q1Ps5sFYD1zi59u3mTZ9
+	xWVp7Jprab9mJCDEZXw+zBXR5EMSsQKZb5t2TBGi1ahcqekBM3e8k8VoYk95AwpcyFY0
+	NGaj/GeIB8Po3rgCiYJZgjQ0RyLA8i7RUmhOpSJJ3JhTDxXFxElKx2z2Z1EZqyqaUDrx
+	tesTK5IzKH8QkY+Y8O/tFre4LRKuKFiQMKn/lNlPoTsG0l6ApwrLbr0Nsw0Ba+fbeEIu
+	rOvZURKPZeloCo/AfW8H18+PIqRDf+XQJsQtQHA4dwRfWClR+GGW235UoIWu/iwHdiFk
+	ipXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hEKB1TuGzbRtifTPX6GRHlXhrRjtlzyMfwX/QFFkXy4=;
-	b=VJwxnrlzJH5pRs0GfraYYf3t8h981F6H+e/nkuLnbh2xu0ml1Y6GQlrwjRdE1vo+bR
-	vi1ofIjjed1tuiBIDhND0dc1GhCK5FxG6xyh4joLUJKSQ7XDE+83Yu83yUpqSyh3KAIX
-	rShtvyaFGlYF3bqd/CFQS5zpnAxSt0vLIroID8jr1zwqXaDSj2S55zYv2cDF5UE/9ym8
-	P9rl0j3Rck3MGrCyPBys25TP/zoZI+lfRfbc6WnrZWQCCdfg/1Hp082y4WYJeEzMsZ7J
-	GDq1O9spsEcl5QMHofbMn4bEy+09aEHIfakiv+zNJ1TIloriKk4EIdkxiqpZc6bOLlqq
-	3T6A==
-X-Gm-Message-State: AD7BkJLL4t8KuSxzQkjViO2JT1Zk0V5Rtologm8cw7gMeAeK+oAKv3x36GUE7k+cmCOQ7ELOQoKQGASgscQdq2QT
-X-Received: by 10.107.137.92 with SMTP id l89mr23478241iod.133.1457358633013; 
-	Mon, 07 Mar 2016 05:50:33 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 05:49:19 -0800 (PST)
-In-Reply-To: <7DE201B3-FFD4-4FBD-899B-F7FF7119B733@gmail.com>
-References: <7DE201B3-FFD4-4FBD-899B-F7FF7119B733@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Mar 2016 13:49:19 +0000
-Message-ID: <CAJTo0Lb3sEjS_YVN4WWZVZB4NyRGSD+zGqsfeJyC9sj-g6VD1Q@mail.gmail.com>
-To: Jens Rehsack <rehsack@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] udev: udev_run is /run, not /var/run (since ea647cd9 2013-05-26)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tyt5LVbzFFau5HksD7w9kAF5dTRNz5B/Bw5p8rPPxkw=;
+	b=SemByDg+/eC0iZ19bA0R/XoGm9woJDwpChuT/ZPZq6h+kxDgD9YXItirPgFVISgzhs
+	f8WoesSS3DjR3dJvQ0TXj3FT29zIFMu9toTlI/1yixSxVL09kxfRGhz2xvWrlcl99FfB
+	GDKXrj/fIKjLCW89tnLZKANnPJPRJHXIRHX1rjMsg+YUb5+G1A2WNfPrGAGKb2Fi+Bae
+	VCHuBuYXFLCK7sOJnEJBqHq53JKwzVbDzyTiFXcjxNzfzeuuceeaeaT6BwalVeGyiYMI
+	nsUVbaT+0k4KoQI4Zknl0H6w7mx5Hofe+6x1xcc3mNVZzq6p5zDBwZVL2I133tpMP1el
+	kapg==
+X-Gm-Message-State: AD7BkJJysP41qbnCzGjViJwdek0avmgWaEOwX9sBwyBoQ0woiJnKpxL7lgYCsk+tqwauSa59
+X-Received: by 10.28.226.6 with SMTP id z6mr12520168wmg.44.1457358639497;
+	Mon, 07 Mar 2016 05:50:39 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	up6sm18089716wjc.6.2016.03.07.05.50.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Mar 2016 05:50:38 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Mar 2016 13:50:36 +0000
+Message-Id: <1457358636-23353-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] eudev: remove redundant udev_run assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 13:50:33 -0000
-Content-Type: multipart/alternative; boundary=001a113ebdb4a1ac48052d75bfd2
+X-List-Received-Date: Mon, 07 Mar 2016 13:50:40 -0000
 
---001a113ebdb4a1ac48052d75bfd2
-Content-Type: text/plain; charset=UTF-8
+The path isn't correct as we use /run/udev now, also /run/udev is the default
+value, and eudev doesn't let you override it like this anyway.
 
-On 28 February 2016 at 11:38, Jens Rehsack <rehsack@gmail.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/udev/eudev_3.1.5.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-> -       echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
-> +       echo 'udev_run="/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
->
+diff --git a/meta/recipes-core/udev/eudev_3.1.5.bb b/meta/recipes-core/udev/eudev_3.1.5.bb
+index c15dd89..ffcebcd 100644
+--- a/meta/recipes-core/udev/eudev_3.1.5.bb
++++ b/meta/recipes-core/udev/eudev_3.1.5.bb
+@@ -58,8 +58,6 @@ do_install_append() {
+ 
+ 	# hid2hci has moved to bluez4. removed in udev as of version 169
+ 	rm -f ${D}${base_libdir}/udev/hid2hci
+-
+-	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
+ }
+ 
+ INITSCRIPT_PACKAGES = "eudev udev-cache"
+-- 
+2.7.0
 
-oe-core has eudev now so this would need rebasing, but I can't see any
-mention of udev_run in the eudev sources and in udev 182 /run/udev was the
-default so I'll send a patch to just delete this line.
 
-Ross
-
---001a113ebdb4a1ac48052d75bfd2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 February 2016 at 11:38, Jens Rehsack <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:rehsack@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":20l" class=3D"a3s" =
-style=3D"overflow:hidden">-=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;udev_run=3D=
-&quot;/var/run/udev&quot;&#39; &gt;&gt; ${D}${sysconfdir}/udev/udev.conf<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;udev_run=3D&quot;/run/udev&quot;&#39;=
- &gt;&gt; ${D}${sysconfdir}/udev/udev.conf</div></blockquote></div><br>oe-c=
-ore has eudev now so this would need rebasing, but I can&#39;t see any ment=
-ion of udev_run in the eudev sources and in udev 182 /run/udev was the defa=
-ult so I&#39;ll send a patch to just delete this line.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113ebdb4a1ac48052d75bfd2--
