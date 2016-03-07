@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 28B8B6612D
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B54B65C5C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 20:12:02 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id p65so663085wmp.0
+	Mon,  7 Mar 2016 20:38:30 +0000 (UTC)
+Received: by mail-ig0-f169.google.com with SMTP id ig19so34357527igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 12:12:03 -0800 (PST)
+	Mon, 07 Mar 2016 12:38:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=hIcQiO17D3RydKOgbqJW6tRcHHcobXRMoIdngTOai0o=;
-	b=saDrB55sQmrd2TpAcLeGH7Nt1kjbOCIGoI5vIob+CIybK9m61eHSB/AcNAWOu8oRS9
-	/E9upC7oC9itSqQgEo8uoisl0wmtQC//sga6rkK0KA1MzNFZGCs6htjQrLkzfY425Irv
-	PlTu8pGOkcGZcV2nmSL+gIimZq2m7l9Bwg7EHd/lSHZYka2PRI6Z890H2F40+OOzjtB3
-	ROAAlZg+WXbcrOYy7gRhgp8Jl/jzKGCC4Efyea+2LQQDfknm4PR32PKneAeWcKVPxRxr
-	BPknyeRVmj0kgpxMyIBXOHi9KEwPnZTpipQNHNrXzBfOnwBCqGF/ENiI0syIptR0+wsZ
-	b2DQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=icuZSnnHU+iuiasfcU2W29OBxlzviMOd4c7jVTn2jUA=;
+	b=sy6zDM5GqwoiceRrcOWlOyRX8IkXXUpEV+Nfj6ghWDlDVxxS/TZnqRDmFh8m2NtjUI
+	TauVU1d7IAFYCQWoPfjCZS/oShkXcX6ghtGAgIFRxyjeLf0BypIt0x14xsdQHvwBgwhC
+	qUK7XKjSd0SvhVmEd2vs+P/afOYH9Gwl6ByYgHWbXlakHHcGrHi/lojCNWfZjVCVXZjc
+	x+sjidtqX6GF60uP/7OEtIqKApUAhvuSo/ElZLQ4N1c1LfQmQvsBSiikn1XaJ4md5Bqb
+	SrV/vSoLY5S/ehcKjKXjheK8M7FkyWS+PdeZiQF8dz3D8i7+hbNHILpbNLM+vO7S6uwD
+	2Llw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=hIcQiO17D3RydKOgbqJW6tRcHHcobXRMoIdngTOai0o=;
-	b=KKohnenwvUvaTeeBIp7cwIiad1YOYzK9LM6tUfxy/gfD3uxAWC1GRqmi3kMAChNpk0
-	UxEFHdRNEzcUvSXwlmrplsRNidU6diYXDHMS996kdGVDtWApJE/ezK3waCMgSbfjuThU
-	CSDwhY+VHC5uVpP++cFYHcOBHtuO+X5RhV2D1nEfp+NSC5YLno1uYnYwoxPTrWfWyB+l
-	cZp+BW7bnojwxLSKTKRMWz+GmcyD24Ir/WQK2WLvlaxh09b3rYTNRq95EJj8WYLUaRka
-	p2jElWGxl239f1Kf9lzHHKU3mxTOz+X7CvzoqPE9WEdcdbLOhnLjbtq8xHIdrs7Ul1a+
-	zZBw==
-X-Gm-Message-State: AD7BkJKS3+HnAvNQGY26wFcQbrjHQbevtEMgGxb36U7kIqxXzGg2PZFRcE92Pqv2oBycFVVA
-X-Received: by 10.28.215.16 with SMTP id o16mr14599967wmg.57.1457381522506;
-	Mon, 07 Mar 2016 12:12:02 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	t8sm19510714wjy.41.2016.03.07.12.12.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Mar 2016 12:12:01 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Mar 2016 20:11:59 +0000
-Message-Id: <1457381519-30481-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] rpm: fix races over rpmqv.c in parallel builds
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=icuZSnnHU+iuiasfcU2W29OBxlzviMOd4c7jVTn2jUA=;
+	b=H8V+1dO7+uqT23HE4TW7/kQ81RuBGBMqkcoLARwvZNMcOZ5eTn1vvOKdkz2KMafnSx
+	+LImBbNU8GCg3tLC2kpReSYYNXVKW2u5RzXp7vN0lPwuXSHrBw1p7L+GY0Y6xH1NQ/zC
+	PqUcv1n5EJ0MvtTdjUhtXSE++wuKjgC9vg2gQIrAMwgpvh5fXoNiPfg3+hXSSiCIhg6N
+	65Bj8Tibf4T8iWQoqaLAGFfIDGQTv6LrHsis1YBCgKGXMdvcqw4NtfknqP8lB+JtPHQD
+	OXYQATTX18PwPkqn7nJh9to0WRAalz2Ggv3F1vOwaVyFC5vnGZXrsZMrpWaED+jdVvC6
+	fQqA==
+X-Gm-Message-State: AD7BkJLeBZdtWMHbAh3V/ogD5Z9AfA2GNJY7ueaNinDBqz2muOw7x8DDfx/qs83EgSAb6rfX7tILpG4e6xEI+afE
+X-Received: by 10.50.43.226 with SMTP id z2mr14697682igl.78.1457383111545;
+	Mon, 07 Mar 2016 12:38:31 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 12:38:12 -0800 (PST)
+In-Reply-To: <1457115676-11034-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1457115676-11034-1-git-send-email-bruce.ashfield@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Mar 2016 20:38:12 +0000
+Message-ID: <CAJTo0LajsWP8e8r-FUXnTirm7RyF2Ss=MwWUqpzWux_zWCQ2NA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL, EXPERT and EMBEDDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,77 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 20:12:03 -0000
+X-List-Received-Date: Mon, 07 Mar 2016 20:38:31 -0000
+Content-Type: multipart/alternative; boundary=047d7bfea0f4aa70e0052d7b725d
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch | 37 +++++++++++++++-------
- 1 file changed, 25 insertions(+), 12 deletions(-)
+--047d7bfea0f4aa70e0052d7b725d
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-index b3c14fd..b2437a8 100644
---- a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-+++ b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-@@ -1,4 +1,7 @@
--rpm: compile rpmqv.c instead of rpmqv.cc
-+From e8bae261615e19ff8a28683765c9539cfb22a086 Mon Sep 17 00:00:00 2001
-+From: Joe Slater <jslater@windriver.com>
-+Date: Thu, 17 Jul 2014 18:14:54 -0700
-+Subject: [PATCH 1/9] rpm: compile rpmqv.c instead of rpmqv.cc
- 
- Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
- into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
-@@ -10,28 +13,38 @@ Upstream-Status: Inappropriate [other]
- 
-    When linking with g++ is really necessary, the upstream package will do that.
- 
-+Also instead of symlinking files in two places, which can and does race in
-+parallel builds, simply refer to the file's full location [RB]
-+
- Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+---
-+ Makefile.am | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
- 
--Index: rpm/Makefile.am
--===================================================================
----- rpm.orig/Makefile.am
--+++ rpm/Makefile.am
--@@ -202,14 +202,16 @@ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAG
-+diff --git a/Makefile.am b/Makefile.am
-+index 1dade0a..55f8669 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -201,15 +201,13 @@ rpm_SOURCES =		build.c
-+ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
-  rpm_LDADD =		rpm.o $(myLDADD)
-  rpm.o:	$(top_srcdir)/rpmqv.c
-- 	ln -sf $< rpmqv.cc
--+	ln -sf $< rpmqv.c
-+-	ln -sf $< rpmqv.cc
- -	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.cc
--+	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.c
-++	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $^
-  
-  rpmbuild_SOURCES =	build.c
-  rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
-  rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
-  rpmbuild.o:	$(top_srcdir)/rpmqv.c
-- 	ln -sf $< rpmqv.cc
--+	ln -sf $< rpmqv.c
-+-	ln -sf $< rpmqv.cc
- -	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.cc
--+	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.c
-++	$(COMPILE) -DIAM_RPMBT -o $@ -c $^
-  
-  .syntastic_c_config: Makefile
-  	@echo $(COMPILE) | tr ' ' '\n' | sed -e '1d' > $@
-+-- 
-+2.7.0
-+
--- 
-2.7.0
+On 4 March 2016 at 18:21, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
 
+>   Some coordination is required for this change, as existing BSPs WILL be
+>   affected, and will either need to accept the changes in the standard
+>   ktype or move to the developer ktype.
+>
 
+As qemu machines are never going to be used in production I think we should
+enable some of the new ktypes.  Currently qemux86 produces this:
+
+WARNING: lttng-modules-2.7.1+gitAUTOINC+45e0ebd91f-r0 do_package:
+lttng-modules: no modules were created; this may be due to
+CONFIG_TRACEPOINTS not being enabled in your kernel.
+
+Ross
+
+--047d7bfea0f4aa70e0052d7b725d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 March 2016 at 18:21, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@windri=
+ver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,2=
+04,204);border-left-style:solid;padding-left:1ex"><div id=3D":gl" class=3D"=
+" style=3D"overflow:hidden">=C2=A0 Some coordination is required for this c=
+hange, as existing BSPs WILL be<br>
+=C2=A0 affected, and will either need to accept the changes in the standard=
+<br>
+=C2=A0 ktype or move to the developer ktype.<br></div></blockquote></div><b=
+r>As qemu machines are never going to be used in production I think we shou=
+ld enable some of the new ktypes.=C2=A0 Currently qemux86 produces this:</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">WARNING:=
+ lttng-modules-2.7.1+gitAUTOINC+45e0ebd91f-r0 do_package: lttng-modules: no=
+ modules were created; this may be due to CONFIG_TRACEPOINTS not being enab=
+led in your kernel.<br></div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
+
+--047d7bfea0f4aa70e0052d7b725d--
