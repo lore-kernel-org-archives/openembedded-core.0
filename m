@@ -1,46 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 41E7171957
+Return-Path: <Daniel.Dragomir@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DC6A5731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 14:34:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 5780F2E104;
-	Mon,  7 Mar 2016 15:34:47 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 4JOg83rJhO7M; Mon,  7 Mar 2016 15:34:45 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id EEF1E2E12C;
-	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id D7878122;
-	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id C0E1015BC;
-	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id BE8D6A0C;
-	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u27EYiwl006359;
-	Mon, 7 Mar 2016 15:34:44 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u27EYidu006358;
-	Mon, 7 Mar 2016 15:34:44 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org,
-	Andre McCurdy <armccurdy@gmail.com>
-Date: Mon,  7 Mar 2016 15:34:31 +0100
-Message-Id: <9eed04bf5413949be4ad3bf75a3db1223f7c1b4c.1457361163.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1457361163.git.pkj@axis.com>
-References: <cover.1457361163.git.pkj@axis.com>
-In-Reply-To: <cover.1457361163.git.pkj@axis.com>
-References: <cover.1457361163.git.pkj@axis.com>
-Subject: [PATCH 1/1] Revert "gstreamer1.0-plugins-XXX: move inherit gettext into common .inc file"
+	Mon,  7 Mar 2016 14:35:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u27EZQUO015151
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Mar 2016 06:35:26 -0800 (PST)
+Received: from otp-ddragomi-d1.corp.ad.wrs.com (128.224.124.174) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 7 Mar 2016 06:35:26 -0800
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Mar 2016 16:34:50 +0200
+Message-ID: <1457361291-14009-1-git-send-email-daniel.dragomir@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Cc: otavio.salvador@ossystems.com.br
+Subject: [master][PATCH] ARMv8 32-bit compiler tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,92 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 14:34:48 -0000
+X-List-Received-Date: Mon, 07 Mar 2016 14:35:28 -0000
+Content-Type: text/plain
 
-Do not assume that the recipes in OE-Core are the only ones using
-gstreamer1.0-plugins.inc or that all GStreamer plugins support
-localization. Without this reversal, all our GStreamer plugin recipes
-started spewing out:
+Hello!
 
-configure: WARNING: unrecognized options: --disable-nls
+This is a new version for the patch, against master branch:
+http://lists.openembedded.org/pipermail/openembedded-core/2016-February/117603.html
 
-This reverts commit 282fa5ff059db6f6daa108d5ec4ea3d0bfbe0fe2.
+@Martin, I pushed the results from testing with your script in a personal repo:
+Tune results without the patch - clean open-embedded (master branch):
+	https://github.com/ddragomi/tune_test/tree/3f4054dd96e9d96c18e1eb9c5fef9f5ebc77f4a3/tune
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc  | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc | 2 ++
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 2 ++
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc | 2 ++
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc      | 2 +-
- 5 files changed, 8 insertions(+), 2 deletions(-)
+Tune results with this patch:
+	https://github.com/ddragomi/tune_test/tree/ff9c904fa6fff38efdc72c604e6d5677b64f76a5/tune
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 64d89b0..a8bff19 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
- 
- DEPENDS += "gstreamer1.0-plugins-base libpng jpeg"
- 
--inherit bluetooth
-+inherit gettext bluetooth
- 
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index f75efea..427611a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -4,6 +4,8 @@ LICENSE = "GPLv2+ & LGPLv2+"
- 
- DEPENDS += "iso-codes util-linux zlib"
- 
-+inherit gettext
-+
- PACKAGES_DYNAMIC =+ "^libgst.*"
- 
- PACKAGECONFIG ??= " \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index 6b005aa..4621bf8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -4,6 +4,8 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
- 
- DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
- 
-+inherit gettext
-+
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-index 38e358f..aff2230 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-@@ -5,6 +5,8 @@ LICENSE_FLAGS = "commercial"
- 
- DEPENDS += "gstreamer1.0-plugins-base libid3tag"
- 
-+inherit gettext
-+
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     a52dec lame mad mpeg2dec \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index 18ed6cf..0a6ff80 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -5,7 +5,7 @@ SECTION = "multimedia"
- 
- DEPENDS = "gstreamer1.0 glib-2.0-native"
- 
--inherit autotools pkgconfig gettext upstream-version-is-even
-+inherit autotools pkgconfig upstream-version-is-even
- 
- acpaths = "-I ${S}/common/m4 -I ${S}/m4"
- 
+And a diff between those here:
+        https://github.com/ddragomi/tune_test/commit/ff9c904fa6fff38efdc72c604e6d5677b64f76a5
+
+NOTE: I also added a new fake-machine (axxiaarm) that require arch-arm8a.inc
+to test/parse armv8a tunes:
+DEFAULTTUNE ?= "armv8a-neon"
+require conf/machine/include/arm/arch-armv8a.inc
+
+Previous message:
+Starting with linux-yocto-4.1, Intel provides kernel support for its
+ARM v8 Axxia platforms, both on 32-bit and 64-bit.
+Poky already contains arm 64-bit compiler tunings, so I added 32-bit
+tunings based on those for armv7.
+
+The patch that I send you is a draft. Please review it and if it's ok
+I will return with thumb and big-endian tunings.
+
+Daniel Dragomir (1):
+  Add tune for 32-bit ARMv8-a
+
+ meta/conf/machine/include/arm/arch-armv8a.inc      | 111 +++++++++++++++++++++
+ .../conf/machine/include/arm/feature-arm-thumb.inc |   1 +
+ 2 files changed, 112 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+
 -- 
-2.1.0
+1.9.1
 
 
