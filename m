@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DA72731D3
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D93A605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 13:50:39 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id l68so86934152wml.0
+	Mon,  7 Mar 2016 14:02:51 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id n190so131961497iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 05:50:40 -0800 (PST)
+	Mon, 07 Mar 2016 06:02:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=tyt5LVbzFFau5HksD7w9kAF5dTRNz5B/Bw5p8rPPxkw=;
-	b=duYSDZrSr8vz+m4xBKLmreXWSEXe4+1dVf0cUke7bS7X09Q1Ps5sFYD1zi59u3mTZ9
-	xWVp7Jprab9mJCDEZXw+zBXR5EMSsQKZb5t2TBGi1ahcqekBM3e8k8VoYk95AwpcyFY0
-	NGaj/GeIB8Po3rgCiYJZgjQ0RyLA8i7RUmhOpSJJ3JhTDxXFxElKx2z2Z1EZqyqaUDrx
-	tesTK5IzKH8QkY+Y8O/tFre4LRKuKFiQMKn/lNlPoTsG0l6ApwrLbr0Nsw0Ba+fbeEIu
-	rOvZURKPZeloCo/AfW8H18+PIqRDf+XQJsQtQHA4dwRfWClR+GGW235UoIWu/iwHdiFk
-	ipXw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xoBRq4mLOoweEmZOfegm01Tv5UIqNZENl+wHfmO7QHI=;
+	b=my0m/WXE+4uw/FUgi2rTl2jHgFUCLyqONXPmeSAmAHedQifxvCKjJb98mW4jpbwh4V
+	g5Q6ltAUFPn0wY3UWx3R38Le2gxU0Fav65fblTBGVoDTGtO3QOP3TbtS587I4nK+eWBj
+	SyGx3UjVn2kfdUsQJzkXZRh4mUm6/a3Lt+97mRD6z3SDjMdl1DiiNVOje0cqiUIA5H3M
+	fNE4b3K+F73Fm39ViLA6R1lXvShFmyCszQ9Vr8P5OYJmL7iEynhnSBkFM0uv5PjZYzmD
+	VOxPlr/nDXVeKgLIesH0lIIVyKtqLlutSIbJF2yoDVQnxssIPDJOWKV5u5KlL4mbySYR
+	pmWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tyt5LVbzFFau5HksD7w9kAF5dTRNz5B/Bw5p8rPPxkw=;
-	b=SemByDg+/eC0iZ19bA0R/XoGm9woJDwpChuT/ZPZq6h+kxDgD9YXItirPgFVISgzhs
-	f8WoesSS3DjR3dJvQ0TXj3FT29zIFMu9toTlI/1yixSxVL09kxfRGhz2xvWrlcl99FfB
-	GDKXrj/fIKjLCW89tnLZKANnPJPRJHXIRHX1rjMsg+YUb5+G1A2WNfPrGAGKb2Fi+Bae
-	VCHuBuYXFLCK7sOJnEJBqHq53JKwzVbDzyTiFXcjxNzfzeuuceeaeaT6BwalVeGyiYMI
-	nsUVbaT+0k4KoQI4Zknl0H6w7mx5Hofe+6x1xcc3mNVZzq6p5zDBwZVL2I133tpMP1el
-	kapg==
-X-Gm-Message-State: AD7BkJJysP41qbnCzGjViJwdek0avmgWaEOwX9sBwyBoQ0woiJnKpxL7lgYCsk+tqwauSa59
-X-Received: by 10.28.226.6 with SMTP id z6mr12520168wmg.44.1457358639497;
-	Mon, 07 Mar 2016 05:50:39 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	up6sm18089716wjc.6.2016.03.07.05.50.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Mar 2016 05:50:38 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Mar 2016 13:50:36 +0000
-Message-Id: <1457358636-23353-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] eudev: remove redundant udev_run assignment
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xoBRq4mLOoweEmZOfegm01Tv5UIqNZENl+wHfmO7QHI=;
+	b=dK5I52BbfVCUuidARpzhbEyom4rI3f78zViaQNKwBZAJulLyYCx5kbr1d1GG3U/TWY
+	yo7tE9eWLrFWxLac3AIYScfbJ7VNoUB9bJwl7gzQvB0WTzpixrUWoRVolPmUyaSyYtkE
+	hRJrambgFaVV8eA2J911ilKQ61RofDas5QcHVXYcm9R77w/4ocY8qUQrCWNRvw1uShXC
+	xn7DAf/2Z/Hw7ah2CRUFROLZAglQclfulrNgMF9Hes63caB9sZFrEX4ZgpBigS1KUmzP
+	u70hiHAamU53k0DDnWxYtbxbQFoqPD8juI/1hXL+igrVruY2Ef5WYfZtgJgQ/1dbfi4u
+	DrIA==
+X-Gm-Message-State: AD7BkJID5RnOKhencto8j8bCxZwR10RdygfOAhIbsH1Ny6VwdaQ3notgogT2eNzYhpuauvBqe2xlaZYDDHSB1J0v
+X-Received: by 10.107.16.19 with SMTP id y19mr7414033ioi.148.1457359371967;
+	Mon, 07 Mar 2016 06:02:51 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 06:02:32 -0800 (PST)
+In-Reply-To: <1456863137-7388-1-git-send-email-johannes.pointner@gmail.com>
+References: <1456863137-7388-1-git-send-email-johannes.pointner@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Mar 2016 14:02:32 +0000
+Message-ID: <CAJTo0LZ_rMH3zn+uox0D0tBw+T74xbkNzdvCoR3CCwpo1SnZpg@mail.gmail.com>
+To: Johannes Pointner <h4nn35.work@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch][jethro] xf86-video-modesetting: Require sufficiently new libdrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 13:50:40 -0000
+X-List-Received-Date: Mon, 07 Mar 2016 14:02:51 -0000
+Content-Type: multipart/alternative; boundary=001a113fd1eaad2cf8052d75eb83
 
-The path isn't correct as we use /run/udev now, also /run/udev is the default
-value, and eudev doesn't let you override it like this anyway.
+--001a113fd1eaad2cf8052d75eb83
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/udev/eudev_3.1.5.bb | 2 --
- 1 file changed, 2 deletions(-)
+On 1 March 2016 at 20:12, Johannes Pointner <h4nn35.work@gmail.com> wrote:
 
-diff --git a/meta/recipes-core/udev/eudev_3.1.5.bb b/meta/recipes-core/udev/eudev_3.1.5.bb
-index c15dd89..ffcebcd 100644
---- a/meta/recipes-core/udev/eudev_3.1.5.bb
-+++ b/meta/recipes-core/udev/eudev_3.1.5.bb
-@@ -58,8 +58,6 @@ do_install_append() {
- 
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
--
--	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
- }
- 
- INITSCRIPT_PACKAGES = "eudev udev-cache"
--- 
-2.7.0
+> This fixes the check of the libdrm version in the configure script.
+>
 
+For patches to stable branches please explain why this isn't also required
+to be applied to master.
 
+Ross
+
+--001a113fd1eaad2cf8052d75eb83
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 March 2016 at 20:12, Johannes Pointner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:h4nn35.work@gmail.com" target=3D"_blank">h4nn35.work@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ns" cla=
+ss=3D"a3s" style=3D"overflow:hidden">This fixes the check of the libdrm ver=
+sion in the configure script.<br></div></blockquote></div><br>For patches t=
+o stable branches please explain why this isn&#39;t also required to be app=
+lied to master. =C2=A0</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a113fd1eaad2cf8052d75eb83--
