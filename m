@@ -1,49 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 87386606A8
+Return-Path: <h4nn35.work@gmail.com>
+Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 12D256FF86
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 21:13:53 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id ir4so58717376igb.1
+	Mon,  7 Mar 2016 22:42:52 +0000 (UTC)
+Received: by mail-vk0-f54.google.com with SMTP id e6so134758212vkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 13:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UecEeGogJx0XTLEsxd/c6XiDuBNHBL+1wqDvPzSJZSU=;
-	b=fXk63kXZfYKbC2ylGjDZWy0t8dPv0e0lV7GIUwpK5ut0RLmEFkwIaNDeAci0B8/37V
-	+xVeJQ24nzCDpII1NSYxYNSMIF+ftYgkttvF/BysE57EmSFCvLmfRv5cGs6hZqTkyk5A
-	95fHBq6FvNT+8KEP10P3YJloq2KMKVO14GB6UxwzXhPYV8aCd1i2igCBsG5WpwHX96Sx
-	6hdTZnMzspF8yyv/EHCLdCrXftYJFkiPSmCCqUcTp/2Y8dCPMFaVGWMUTK9sReGfTyyO
-	lKBxYkzHYteA7VYJn+gTDb8iXEU1T1aaBuMbyefhksdCOFw63tmUoqBoHulWRkpmy06j
-	Lsug==
+	Mon, 07 Mar 2016 14:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=Tcd0yZn4mySanDBiWEg89PCWmimwFgVupBMZX5rC6vY=;
+	b=YliOF5EPKLoaRMemIOSkE808Pi63wReBkipKpEz+g+uNiqC0zdtbr8O8FIlm+2pghP
+	kQnBXP+iaI65cNJaw7KrxSBtaqpJDSxXnSbb3k1Q1Bxeg1oOAWgFSBl0IdL1Yy6WWXNf
+	dP+ZivUV/9HOckA8PpXxbJ6ehn3Wv5KlciqmshKgkRZPNYWS2553XEEklx8GyAtTS8sR
+	stPUeR9sMWbRrqukwsOd8NfGazhqRriuejkmsLxBgHnNR7BBHoXXH/yI/8DQUlbgM3+7
+	nAEDa+yjpo6pzBcvUa/LUZWmjP/yUp5uQPYapeXma7L1/HjlTKDyPrt/zv2jK32e8AL2
+	UBng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=UecEeGogJx0XTLEsxd/c6XiDuBNHBL+1wqDvPzSJZSU=;
-	b=DM5AX2x8O5t8wpeVrBn7nosSIFHpy43NwybTgK1tqLMi4qAU4DbTuLUoUGxIxSrgRb
-	XeUyH+Fslzn0SZ8jDeMGu6D2Xwihb3EoVxSv+VrPUoKEml/bavd1Q7X7f2DZGPtqd8/W
-	aT853AF/kbJZctCwbfUka+qx9BhCTrUPn0u+ys9WqO5NDYvZrCQ8ts46gUS/sMirwGsr
-	o1HUegg8wBLFGmwh6TdfM+XY8tYI+8Dr5wkF6Wl7iOTGiqDCz1Sw7jCahpqLhv0f9EjX
-	W9eLhvQu9UWuA+jkuYcMGYe1aNOA8IvAAKAbRHYPUKzxtPs78sIP3+1dxF9N3XN9mgR+
-	KG9A==
-X-Gm-Message-State: AD7BkJK2GHPuSAVnxshi4z1Wxp0tQF92OOOVg/k17YpSYhpsu6BCa3fV9hCStB1qjCBvXzl+
-X-Received: by 10.50.129.8 with SMTP id ns8mr14660731igb.95.1457385234484;
-	Mon, 07 Mar 2016 13:13:54 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p57A56D71.dip0.t-ipconnect.de.
-	[87.165.109.113])
-	by smtp.gmail.com with ESMTPSA id y8sm29568igl.9.2016.03.07.13.13.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Mar 2016 13:13:53 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Mar 2016 22:13:48 +0100
-Message-Id: <1457385228-5049-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1bf0ef92a07ad075ae59bb83d7cf353a2a8f05e2.1457361747.git.patrick.ohly@intel.com>
-References: <1bf0ef92a07ad075ae59bb83d7cf353a2a8f05e2.1457361747.git.patrick.ohly@intel.com>
-Subject: [PATCH] image.bbclass: fix incomplete .rootfs customization
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=Tcd0yZn4mySanDBiWEg89PCWmimwFgVupBMZX5rC6vY=;
+	b=h5NAcQhKKWYjzbqvdkbsr6F7YA/zhfr1mgHCzvxgXP57UZJZ3N0yiTdyxxJRN2JBAC
+	/LOM8e/k26G/FH38UHz2s9M/ZdXS/uUmJTtGD63pqPCgxkuffckeUtYyK33F7bWz7afB
+	oFIfdRyfgPWjxYNfoCJ+J9RASDf/M3CQP9rm9yFInJbrP4w+iw5Gaes8ktW5LZ573DKf
+	33MKAr64w443SA0xIFLauCcxPDoS74nOBfHczrz++spWPTTcZiUQJqbR6HXPawdW4U2C
+	/A6j7zTSNX1vc1CIKIYVChIqOPTZSuDJqb2x0HsfOicW6jbl4n2uSvDXxyD9csoZEng8
+	LIpA==
+X-Gm-Message-State: AD7BkJKGB0lFaHlHXsM3ARTwyYTiwO/i+PM3sEr2b/xfBGiCKR2t9hQCR02dFicGWNHmKRYTe5EoaVilPeYCUA==
+MIME-Version: 1.0
+X-Received: by 10.31.49.138 with SMTP id x132mr23029716vkx.33.1457390572912;
+	Mon, 07 Mar 2016 14:42:52 -0800 (PST)
+Received: by 10.31.198.133 with HTTP; Mon, 7 Mar 2016 14:42:52 -0800 (PST)
+In-Reply-To: <CAJTo0LZd5wWn6U=uSrEWVMn40Zy=2AhvR9hguZ2E9dpN8-_avw@mail.gmail.com>
+References: <1456863137-7388-1-git-send-email-johannes.pointner@gmail.com>
+	<CAJTo0LZ_rMH3zn+uox0D0tBw+T74xbkNzdvCoR3CCwpo1SnZpg@mail.gmail.com>
+	<CAHvQdo0ckNBU19WSrMwehCsZ-HO37uqNRWqnywUfK3ZPtPT0Zg@mail.gmail.com>
+	<CAJTo0LZd5wWn6U=uSrEWVMn40Zy=2AhvR9hguZ2E9dpN8-_avw@mail.gmail.com>
+Date: Mon, 7 Mar 2016 23:42:52 +0100
+Message-ID: <CAHvQdo3CtRRt9kjf82PGuO9EM5E85JDbjT_XEGCE1xNnYjYGQw@mail.gmail.com>
+From: Johannes Pointner <h4nn35.work@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch][jethro] xf86-video-modesetting: Require sufficiently new libdrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 21:13:56 -0000
+X-List-Received-Date: Mon, 07 Mar 2016 22:42:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The patch for making the .rootfs configurable was incomplete: in the
-python create_symlinks() method the new variable must be expanded
-explicitly.
+Sure, I'll send a patch for master.
+Furthermore, I'll send a second version of this one, because I just
+saw that I messed up the file mode of the patch file.
 
-Not doing so broke the symlink creation and that led to hard build
-failures in image types depending on the boot-directdisk.bbclass (like
-qcow2) because the build_boot_dd() method relied on the symlink.
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 081a0b3..8b6c30b 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -474,7 +474,7 @@ python create_symlinks() {
-     manifest_name = d.getVar('IMAGE_MANIFEST', True)
-     taskname = d.getVar("BB_CURRENTTASK", True)
-     subimages = (d.getVarFlag("do_" + taskname, 'subimages', False) or "").split()
--    imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix', True) or "${IMAGE_NAME_SUFFIX}."
-+    imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix', True) or d.expand("${IMAGE_NAME_SUFFIX}.")
-     os.chdir(deploy_dir)
- 
-     if not link_name:
--- 
-2.1.4
-
+2016-03-07 17:00 GMT+01:00 Burton, Ross <ross.burton@intel.com>:
+>
+> On 7 March 2016 at 14:50, Johannes Pointner <h4nn35.work@gmail.com> wrote:
+>>
+>> The reason I thought this patch wouldn't be needed for master is that
+>> it was included in xserver 1.18.1 and master is already on xserver
+>> 1.18.0.
+>> Do you know if it is planned to switch to the newer 1.18.1 version?
+>
+>
+> No, we're upstream version frozen now, so this is appropriate for master
+> too.  Patches for stable branches should be applied to master first, so can
+> you also prepare a patch for the master branch too?
+>
+> Ross
 
