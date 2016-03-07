@@ -1,26 +1,46 @@
-Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BBA1731DF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id CB7D47317E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 14:35:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u27EZTPJ028680
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 7 Mar 2016 06:35:29 -0800
-Received: from otp-ddragomi-d1.corp.ad.wrs.com (128.224.124.174) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 7 Mar 2016 06:35:28 -0800
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Mar 2016 16:34:51 +0200
-Message-ID: <1457361291-14009-2-git-send-email-daniel.dragomir@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1457361291-14009-1-git-send-email-daniel.dragomir@windriver.com>
-References: <1457361291-14009-1-git-send-email-daniel.dragomir@windriver.com>
+	Mon,  7 Mar 2016 14:39:16 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id ig19so19444051igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Mar 2016 06:39:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=OVZ33Fvaq9yKXjsDcv/xDoQKCkjrXSX1FoeXiPLKvLA=;
+	b=LI5luyml1jGS3lAAHOqaFyF6N3drdaN3jYpGO2xJBs4w2eWgspC1nWqvXp0t3KsEfY
+	vQ1pn6pyOHY+rWMMv6041+57FQq3UxcFhu8rvWErYAvhDHDhXey9hC5pSyjXgyn72HdN
+	zdZhTUwqyyUMGu6wcIQEuCuWQ5JueVP/BiZWp2skaoyKMWwl1+P6y2830orx/LCM9T3U
+	PrWZGhFhrNWbsxJ2TQZiGCeLeXJpuA6y/QKQNQ3OjFBOSQnvbWdnjK8CjLi9fZoPpEYL
+	GKmWhymrBjWuHuxpr0jGlbIvRLs2NvVyMF+mwaycQscJDSvK8vr/mO4Y9glvQHw0+Eqc
+	0/QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=OVZ33Fvaq9yKXjsDcv/xDoQKCkjrXSX1FoeXiPLKvLA=;
+	b=eqmRzubjnxUlvVMXj4qN+zCYl8X+mWWbFb2f3hhnu993nCBCw4IrqYnKERko/UOdxB
+	A5/WdZOb4zrM4ZLIh7Fm4iWvoihAQg7hO/ZGBv8j4GvlJac4qNo3S3aD08XfW1HpmuGH
+	sTHciMK0p1dhX7gqNt4coSOai1doyp99y3I5HTKGWtXuwLHCE2mzNDTzOHDlhEa4obaB
+	SfQuSqq9vjEcseAlKRXLQnf6rRfmWXJeE3xeQsW/4XYlfYj6OV2bwoU/ByhCch/+Yn24
+	nufAxjfcVS41CTv1KX8tCZ8BwcYCz3sTpswOirXxkCtYJP4ihPwlAHg3q6ttbzAMOtZ7
+	Rb2Q==
+X-Gm-Message-State: AD7BkJL4PO/v+06ns4KWvDk4yNrnlpXwG6U31xJuzHgVNo0ZODkegPh2cHA32kZwpA/yydd5bdxQy3wm0x275Pl8
+X-Received: by 10.50.126.8 with SMTP id mu8mr11696575igb.52.1457361556918;
+	Mon, 07 Mar 2016 06:39:16 -0800 (PST)
 MIME-Version: 1.0
-Cc: otavio.salvador@ossystems.com.br
-Subject: [PATCH][master] Add tune for 32-bit ARMv8-a
+Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 06:38:57 -0800 (PST)
+In-Reply-To: <00ab01d1787c$106f4320$314dc960$@neuf.fr>
+References: <00ab01d1787c$106f4320$314dc960$@neuf.fr>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Mar 2016 14:38:57 +0000
+Message-ID: <CAJTo0LadXojbpycCUR4R2KA3rRO-VL5c604Tq4A+MHoDEhJY8g@mail.gmail.com>
+To: Herve Jourdain <herve.jourdain@neuf.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] systemd: binfmt should be added to SYSTEMD_PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,150 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 14:35:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Mar 2016 14:39:17 -0000
+Content-Type: multipart/alternative; boundary=047d7b1635bfe9205f052d766dba
 
-This patch adds tunes for 32-bit armv8 platforms. The user can select
-the vector floating-point instruction set: vfpv4 or fp-armv8
-and the thumb, neon, crc and crypto extensions.
+--047d7b1635bfe9205f052d766dba
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
----
- meta/conf/machine/include/arm/arch-armv8a.inc      | 111 +++++++++++++++++++++
- .../conf/machine/include/arm/feature-arm-thumb.inc |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+First, the commit message isn't accurate (binfmt was already in
+SYSTEMD_PACKAGES).
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-new file mode 100644
-index 0000000..d4fb830
---- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -0,0 +1,111 @@
-+DEFAULTTUNE ?= "armv8a"
-+
-+TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
-+TUNECONFLICTS[armv8a] = "armv4 armv5 armv6 armv7 armv7a armv7ve"
-+
-+TUNEVALID[crc] = "Enable CRC instructions for ARMv8-a"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crc", "-crc", "", d)}"
-+
-+TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "crypto", "-crypto", "", d)}"
-+
-+TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", "-fp-armv8", "", d)}"
-+
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "armv8a", bb.utils.contains("TUNE_FEATURES", "crc", " -march=armv8-a+crc", " -march=armv8-a", d), "", d)}"
-+
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "fp-armv8", bb.utils.contains("TUNE_FEATURES", "neon", bb.utils.contains("TUNE_FEATURES", "crypto", " -mfpu=crypto-neon-fp-armv8", " -mfpu=neon-fp-armv8", d), " -mfpu=fp-armv8", d), "", d)}"
-+
-+MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "armv8a", "armv8a:", "" ,d)}"
-+
-+require conf/machine/include/arm/arch-armv7ve.inc
-+
-+# Little Endian base configs
-+AVAILTUNES += "armv8a armv8at armv8a-neon armv8at-neon armv8a-vfpv4 armv8at-vfpv4 armv8a-vfpv4-neon armv8at-vfpv4-neon armv8a-fp-armv8 armv8at-fp-armv8 armv8a-fp-armv8-neon armv8at-fp-armv8-neon armv8a-crypto-fp-armv8-neon armv8at-crypto-fp-armv8-neon"
-+ARMPKGARCH_tune-armv8a                       ?= "armv8a"
-+ARMPKGARCH_tune-armv8at                      ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-neon                  ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-neon                 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-vfpv4                 ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-vfpv4                ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-vfpv4-neon            ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-vfpv4-neon           ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-fp-armv8              ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-fp-armv8             ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-fp-armv8-neon         ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-fp-armv8-neon        ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crypto-fp-armv8-neon  ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crypto-fp-armv8-neon ?= "armv8a"
-+TUNE_FEATURES_tune-armv8a                       = "arm armv8a vfp"
-+TUNE_FEATURES_tune-armv8at                      = "${TUNE_FEATURES_tune-armv8a} thumb"
-+TUNE_FEATURES_tune-armv8a-neon                  = "${TUNE_FEATURES_tune-armv8a} neon"
-+TUNE_FEATURES_tune-armv8at-neon                 = "${TUNE_FEATURES_tune-armv8at} neon"
-+TUNE_FEATURES_tune-armv8a-vfpv4                 = "${TUNE_FEATURES_tune-armv8a} vfpv4"
-+TUNE_FEATURES_tune-armv8at-vfpv4                = "${TUNE_FEATURES_tune-armv8at} vfpv4"
-+TUNE_FEATURES_tune-armv8a-vfpv4-neon            = "${TUNE_FEATURES_tune-armv8a-neon} vfpv4"
-+TUNE_FEATURES_tune-armv8at-vfpv4-neon           = "${TUNE_FEATURES_tune-armv8at-neon} vfpv4"
-+TUNE_FEATURES_tune-armv8a-fp-armv8              = "${TUNE_FEATURES_tune-armv8a} fp-armv8"
-+TUNE_FEATURES_tune-armv8at-fp-armv8             = "${TUNE_FEATURES_tune-armv8at} fp-armv8"
-+TUNE_FEATURES_tune-armv8a-fp-armv8-neon         = "${TUNE_FEATURES_tune-armv8a-neon} fp-armv8"
-+TUNE_FEATURES_tune-armv8at-fp-armv8-neon        = "${TUNE_FEATURES_tune-armv8at-neon} fp-armv8"
-+TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon  = "${TUNE_FEATURES_tune-armv8a-fp-armv8-neon} crypto"
-+TUNE_FEATURES_tune-armv8at-crypto-fp-armv8-neon = "${TUNE_FEATURES_tune-armv8at-fp-armv8-neon} crypto"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a                       = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve} armv8a armv8a-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at                      = "${PACKAGE_EXTRA_ARCHS_tune-armv7vet2} armv8a armv8a-vfp armv8at2-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-neon                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-neon                 = "${PACKAGE_EXTRA_ARCHS_tune-armv8at} armv8a-neon armv8at2-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4                 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-vfpv4                = "${PACKAGE_EXTRA_ARCHS_tune-armv8at} armv8a-vfpv4 armv8at2-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4-neon            = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4} armv8a-neon armv8a-neon-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-vfpv4-neon           = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-vfpv4} armv8a-neon armv8at2-neon armv8a-neon-vfpv4 armv8at2-neon-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8              = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-fp-armv8"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-fp-armv8             = "${PACKAGE_EXTRA_ARCHS_tune-armv8at} armv8a-fp-armv8 armv8at2-fp-armv8"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8} armv8a-neon armv8a-fp-armv8-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-fp-armv8-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-fp-armv8} armv8a-neon armv8at2-neon armv8a-fp-armv8-neon armv8at2-fp-armv8-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto-fp-armv8-neon  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon} armv8a-crypto-fp-armv8-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-fp-armv8-neon} armv8a-crypto-fp-armv8-neon armv8at2-crypto-fp-armv8-neon"
-+
-+# CRC configs
-+AVAILTUNES += "armv8a-crc armv8at-crc armv8a-crc-neon armv8at-crc-neon armv8a-crc-vfpv4 armv8at-crc-vfpv4 armv8a-crc-vfpv4-neon armv8at-crc-vfpv4-neon armv8a-crc-fp-armv8 armv8at-crc-fp-armv8 armv8a-crc-fp-armv8-neon armv8at-crc-fp-armv8-neon armv8a-crc-crypto-fp-armv8-neon armv8at-crc-crypto-fp-armv8-neon"
-+ARMPKGARCH_tune-armv8a-crc                       ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc                      ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-neon                  ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc-neon                 ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-vfpv4                 ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc-vfpv4                ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-vfpv4-neon            ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc-vfpv4-neon           ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-fp-armv8              ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc-fp-armv8             ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-fp-armv8-neon         ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc-fp-armv8-neon        ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-crypto-fp-armv8-neon  ?= "armv8a"
-+ARMPKGARCH_tune-armv8at-crc-crypto-fp-armv8-neon ?= "armv8a"
-+TUNE_FEATURES_tune-armv8a-crc                       = "${TUNE_FEATURES_tune-armv8a}                       crc"
-+TUNE_FEATURES_tune-armv8at-crc                      = "${TUNE_FEATURES_tune-armv8at}                      crc"
-+TUNE_FEATURES_tune-armv8a-crc-neon                  = "${TUNE_FEATURES_tune-armv8a-neon}                  crc"
-+TUNE_FEATURES_tune-armv8at-crc-neon                 = "${TUNE_FEATURES_tune-armv8at-neon}                 crc"
-+TUNE_FEATURES_tune-armv8a-crc-vfpv4                 = "${TUNE_FEATURES_tune-armv8a-vfpv4}                 crc"
-+TUNE_FEATURES_tune-armv8at-crc-vfpv4                = "${TUNE_FEATURES_tune-armv8at-vfpv4}                crc"
-+TUNE_FEATURES_tune-armv8a-crc-vfpv4-neon            = "${TUNE_FEATURES_tune-armv8a-vfpv4-neon}            crc"
-+TUNE_FEATURES_tune-armv8at-crc-vfpv4-neon           = "${TUNE_FEATURES_tune-armv8at-vfpv4-neon}           crc"
-+TUNE_FEATURES_tune-armv8a-crc-fp-armv8              = "${TUNE_FEATURES_tune-armv8a-fp-armv8}              crc"
-+TUNE_FEATURES_tune-armv8at-crc-fp-armv8             = "${TUNE_FEATURES_tune-armv8at-fp-armv8}             crc"
-+TUNE_FEATURES_tune-armv8a-crc-fp-armv8-neon         = "${TUNE_FEATURES_tune-armv8a-fp-armv8-neon}         crc"
-+TUNE_FEATURES_tune-armv8at-crc-fp-armv8-neon        = "${TUNE_FEATURES_tune-armv8at-fp-armv8-neon}        crc"
-+TUNE_FEATURES_tune-armv8a-crc-crypto-fp-armv8-neon  = "${TUNE_FEATURES_tune-armv8a-crypto-fp-armv8-neon}  crc"
-+TUNE_FEATURES_tune-armv8at-crc-crypto-fp-armv8-neon = "${TUNE_FEATURES_tune-armv8at-crypto-fp-armv8-neon} crc"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc                       = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crc-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc                      = "${PACKAGE_EXTRA_ARCHS_tune-armv8at} armv8a-crc-vfp armv8at2-crc-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-neon                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-neon} armv8a-crc-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc-neon                 = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-neon} armv8a-crc-neon armv8at2-crc-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4                 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4} armv8a-crc-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc-vfpv4                = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-vfpv4} armv8a-crc-vfpv4 armv8at2-crc-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-vfpv4-neon            = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-vfpv4-neon} armv8a-crc-neon armv8a-crc-vfpv4-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc-vfpv4-neon           = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-vfpv4-neon} armv8a-crc-neon armv8at2-crc-neon armv8a-crc-vfpv4-neon armv8at2-crc-vfpv4-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8              = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8} armv8a-crc-fp-armv8"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc-fp-armv8             = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-fp-armv8} armv8a-crc-fp-armv8 armv8at2-crc-fp-armv8"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-fp-armv8-neon         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-fp-armv8-neon} armv8a-crc-fp-armv8-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc-fp-armv8-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-fp-armv8-neon} armv8a-crc-fp-armv8-neon armv8at2-crc-fp-armv8-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto-fp-armv8-neon  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto-fp-armv8-neon} armv8a-crc-crypto-fp-armv8-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv8at-crc-crypto-fp-armv8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv8at-crypto-fp-armv8-neon} armv8a-crc-crypto-fp-armv8-neon armv8at2-crc-crypto-fp-armv8-neon"
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index dfb9d7e..94d269f 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -7,6 +7,7 @@ ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 't2', '', d
- ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7r', 't2', '', d)}"
- ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7m', 't2', '', d)}"
- ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 't2', '', d)}"
-+ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 't2', '', d)}"
- 
- # If the device supports ARM, then respect ARM_THUMB_OPT (which can be "arm" or "thumb")
- # If the defice doesn't support ARM, then always set "thumb" even when
--- 
-1.9.1
+On 7 March 2016 at 14:17, Herve Jourdain <herve.jourdain@neuf.fr> wrote:
 
+> -SYSTEMD_PACKAGES = "${PN}-binfmt"
+> -SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+> +SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt',
+> '${PN}-binfmt', '', d)}"
+> +SYSTEMD_SERVICE_${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG',
+> 'binfmt', 'systemd-binfmt.service', '', d)}"
+>
 
+You don't need to conditionalise SYSTEDM_SERVICE_${PN}-binfmt, just
+SYSTEMD_PACKAGES.
+
+Ross
+
+--047d7b1635bfe9205f052d766dba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">First, the commit message isn&#=
+39;t accurate (binfmt was already in SYSTEMD_PACKAGES).</div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 7 March 2016 at 14:17, Herve=
+ Jourdain <span dir=3D"ltr">&lt;<a href=3D"mailto:herve.jourdain@neuf.fr" t=
+arget=3D"_blank">herve.jourdain@neuf.fr</a>&gt;</span> wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><div id=3D":1pu" class=3D"a3s" style=3D"overflow:hidde=
+n">-SYSTEMD_PACKAGES =3D &quot;${PN}-binfmt&quot;<br>
+-SYSTEMD_SERVICE_${PN}-binfmt =3D &quot;systemd-binfmt.service&quot;<br>
++SYSTEMD_PACKAGES =3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &=
+#39;binfmt&#39;,<br>
+&#39;${PN}-binfmt&#39;, &#39;&#39;, d)}&quot;<br>
++SYSTEMD_SERVICE_${PN}-binfmt =3D &quot;${@bb.utils.contains(&#39;PACKAGECO=
+NFIG&#39;,<br>
+&#39;binfmt&#39;, &#39;systemd-binfmt.service&#39;, &#39;&#39;, d)}&quot;</=
+div></blockquote></div><br>You don&#39;t need to conditionalise SYSTEDM_SER=
+VICE_${PN}-binfmt, just SYSTEMD_PACKAGES.</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--047d7b1635bfe9205f052d766dba--
