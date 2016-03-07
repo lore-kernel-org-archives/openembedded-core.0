@@ -1,28 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ADDD6E630
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 87386606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 21:00:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u27L09ND006481
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 7 Mar 2016 13:00:09 -0800
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 7 Mar 2016 13:00:09 -0800
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1457381519-30481-1-git-send-email-ross.burton@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56DDEBD8.5090500@windriver.com>
-Date: Mon, 7 Mar 2016 15:00:08 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <1457381519-30481-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH] rpm: fix races over rpmqv.c in parallel builds
+	Mon,  7 Mar 2016 21:13:53 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id ir4so58717376igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Mar 2016 13:13:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=UecEeGogJx0XTLEsxd/c6XiDuBNHBL+1wqDvPzSJZSU=;
+	b=fXk63kXZfYKbC2ylGjDZWy0t8dPv0e0lV7GIUwpK5ut0RLmEFkwIaNDeAci0B8/37V
+	+xVeJQ24nzCDpII1NSYxYNSMIF+ftYgkttvF/BysE57EmSFCvLmfRv5cGs6hZqTkyk5A
+	95fHBq6FvNT+8KEP10P3YJloq2KMKVO14GB6UxwzXhPYV8aCd1i2igCBsG5WpwHX96Sx
+	6hdTZnMzspF8yyv/EHCLdCrXftYJFkiPSmCCqUcTp/2Y8dCPMFaVGWMUTK9sReGfTyyO
+	lKBxYkzHYteA7VYJn+gTDb8iXEU1T1aaBuMbyefhksdCOFw63tmUoqBoHulWRkpmy06j
+	Lsug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=UecEeGogJx0XTLEsxd/c6XiDuBNHBL+1wqDvPzSJZSU=;
+	b=DM5AX2x8O5t8wpeVrBn7nosSIFHpy43NwybTgK1tqLMi4qAU4DbTuLUoUGxIxSrgRb
+	XeUyH+Fslzn0SZ8jDeMGu6D2Xwihb3EoVxSv+VrPUoKEml/bavd1Q7X7f2DZGPtqd8/W
+	aT853AF/kbJZctCwbfUka+qx9BhCTrUPn0u+ys9WqO5NDYvZrCQ8ts46gUS/sMirwGsr
+	o1HUegg8wBLFGmwh6TdfM+XY8tYI+8Dr5wkF6Wl7iOTGiqDCz1Sw7jCahpqLhv0f9EjX
+	W9eLhvQu9UWuA+jkuYcMGYe1aNOA8IvAAKAbRHYPUKzxtPs78sIP3+1dxF9N3XN9mgR+
+	KG9A==
+X-Gm-Message-State: AD7BkJK2GHPuSAVnxshi4z1Wxp0tQF92OOOVg/k17YpSYhpsu6BCa3fV9hCStB1qjCBvXzl+
+X-Received: by 10.50.129.8 with SMTP id ns8mr14660731igb.95.1457385234484;
+	Mon, 07 Mar 2016 13:13:54 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p57A56D71.dip0.t-ipconnect.de.
+	[87.165.109.113])
+	by smtp.gmail.com with ESMTPSA id y8sm29568igl.9.2016.03.07.13.13.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Mar 2016 13:13:53 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Mar 2016 22:13:48 +0100
+Message-Id: <1457385228-5049-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1bf0ef92a07ad075ae59bb83d7cf353a2a8f05e2.1457361747.git.patrick.ohly@intel.com>
+References: <1bf0ef92a07ad075ae59bb83d7cf353a2a8f05e2.1457361747.git.patrick.ohly@intel.com>
+Subject: [PATCH] image.bbclass: fix incomplete .rootfs customization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,87 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 21:00:10 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Mar 2016 21:13:56 -0000
 
-On 3/7/16 2:11 PM, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+The patch for making the .rootfs configurable was incomplete: in the
+python create_symlinks() method the new variable must be expanded
+explicitly.
 
-Tested and it works.
+Not doing so broke the symlink creation and that led to hard build
+failures in image types depending on the boot-directdisk.bbclass (like
+qcow2) because the build_boot_dd() method relied on the symlink.
 
-If I need to spin a V6, I'll include this -- otherwise it should be added on
-it's own.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---Mark
-
-> ---
->  .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch | 37 +++++++++++++++-------
->  1 file changed, 25 insertions(+), 12 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-> index b3c14fd..b2437a8 100644
-> --- a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-> +++ b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-> @@ -1,4 +1,7 @@
-> -rpm: compile rpmqv.c instead of rpmqv.cc
-> +From e8bae261615e19ff8a28683765c9539cfb22a086 Mon Sep 17 00:00:00 2001
-> +From: Joe Slater <jslater@windriver.com>
-> +Date: Thu, 17 Jul 2014 18:14:54 -0700
-> +Subject: [PATCH 1/9] rpm: compile rpmqv.c instead of rpmqv.cc
->  
->  Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
->  into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
-> @@ -10,28 +13,38 @@ Upstream-Status: Inappropriate [other]
->  
->     When linking with g++ is really necessary, the upstream package will do that.
->  
-> +Also instead of symlinking files in two places, which can and does race in
-> +parallel builds, simply refer to the file's full location [RB]
-> +
->  Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +---
-> + Makefile.am | 6 ++----
-> + 1 file changed, 2 insertions(+), 4 deletions(-)
->  
-> -Index: rpm/Makefile.am
-> -===================================================================
-> ---- rpm.orig/Makefile.am
-> -+++ rpm/Makefile.am
-> -@@ -202,14 +202,16 @@ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAG
-> +diff --git a/Makefile.am b/Makefile.am
-> +index 1dade0a..55f8669 100644
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -201,15 +201,13 @@ rpm_SOURCES =		build.c
-> + rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
->   rpm_LDADD =		rpm.o $(myLDADD)
->   rpm.o:	$(top_srcdir)/rpmqv.c
-> - 	ln -sf $< rpmqv.cc
-> -+	ln -sf $< rpmqv.c
-> +-	ln -sf $< rpmqv.cc
->  -	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.cc
-> -+	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.c
-> ++	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $^
->   
->   rpmbuild_SOURCES =	build.c
->   rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
->   rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
->   rpmbuild.o:	$(top_srcdir)/rpmqv.c
-> - 	ln -sf $< rpmqv.cc
-> -+	ln -sf $< rpmqv.c
-> +-	ln -sf $< rpmqv.cc
->  -	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.cc
-> -+	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.c
-> ++	$(COMPILE) -DIAM_RPMBT -o $@ -c $^
->   
->   .syntastic_c_config: Makefile
->   	@echo $(COMPILE) | tr ' ' '\n' | sed -e '1d' > $@
-> +-- 
-> +2.7.0
-> +
-> 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 081a0b3..8b6c30b 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -474,7 +474,7 @@ python create_symlinks() {
+     manifest_name = d.getVar('IMAGE_MANIFEST', True)
+     taskname = d.getVar("BB_CURRENTTASK", True)
+     subimages = (d.getVarFlag("do_" + taskname, 'subimages', False) or "").split()
+-    imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix', True) or "${IMAGE_NAME_SUFFIX}."
++    imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix', True) or d.expand("${IMAGE_NAME_SUFFIX}.")
+     os.chdir(deploy_dir)
+ 
+     if not link_name:
+-- 
+2.1.4
 
 
