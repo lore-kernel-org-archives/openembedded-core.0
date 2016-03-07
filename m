@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B8EB66FFA1
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BA13473192
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 17:59:18 +0000 (UTC)
+	Mon,  7 Mar 2016 17:59:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u27HxJfD017018
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u27HxK1D001666
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Mar 2016 09:59:19 -0800 (PST)
+	Mon, 7 Mar 2016 09:59:20 -0800
 Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 7 Mar 2016 09:59:18 -0800
+	Mon, 7 Mar 2016 09:59:19 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Mar 2016 11:59:10 -0600
-Message-ID: <defe1392649033e078433c47ff510c3be661962c.1457373422.git.mark.hatle@windriver.com>
+Date: Mon, 7 Mar 2016 11:59:11 -0600
+Message-ID: <34eab859253b96a5070f82d48a143fd667d05bb6.1457373422.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1457373422.git.mark.hatle@windriver.com>
 References: <cover.1457373422.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/7 v4] rpmresolve: It is not necessary to manually specify -lpopt
+Subject: [PATCH 6/7 v4] db: remove the NO_UPDATE_REASON and replace it a comment about RPM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 17:59:18 -0000
+X-List-Received-Date: Mon, 07 Mar 2016 17:59:19 -0000
 Content-Type: text/plain
-
-Popt may be internal or external to rpm.  Either way the rpm libraries
-will link properly with or without -lpopt.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpmresolve_1.0.bb | 2 +-
+ meta/recipes-support/db/db_6.0.30.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpmresolve_1.0.bb b/meta/recipes-devtools/rpm/rpmresolve_1.0.bb
-index 04a55fd..0c13a67 100644
---- a/meta/recipes-devtools/rpm/rpmresolve_1.0.bb
-+++ b/meta/recipes-devtools/rpm/rpmresolve_1.0.bb
-@@ -11,7 +11,7 @@ SRC_URI = "file://rpmresolve.c"
- S = "${WORKDIR}"
+diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
+index 9505def..50a469b 100644
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.0.30.bb
+@@ -15,7 +15,7 @@ LICENSE = "AGPL-3.0"
+ VIRTUAL_NAME ?= "virtual/db"
+ RCONFLICTS_${PN} = "db3"
  
- do_compile() {
--	${CC} ${CFLAGS} -ggdb -I${STAGING_INCDIR}/rpm ${LDFLAGS} rpmresolve.c -o rpmresolve -lrpmbuild -lrpm -lrpmio -lrpmdb -lpopt
-+	${CC} ${CFLAGS} -ggdb -I${STAGING_INCDIR}/rpm ${LDFLAGS} rpmresolve.c -o rpmresolve -lrpmbuild -lrpm -lrpmio -lrpmdb
- }
+-RECIPE_NO_UPDATE_REASON = "Updating to 6.1.x requires also updating rpm to 5.4.15"
++# Note, when upgraded to 6.1.x, a patch in RPM will need to be removed to activate db 6.1 support.
  
- do_install() {
+ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
 -- 
 2.5.0
 
