@@ -1,61 +1,51 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D23A271957
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EF45D70034
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 12:17:14 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id bc4so127657058lbc.2
+	Mon,  7 Mar 2016 12:26:33 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id l68so106090424wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 04:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=kJ+XwtPdCgzZYOimx5iJpqyQ3ah42eJMYDFlWWIT2tk=;
-	b=iyo+IWYOO0NeWC7pPW2092hE8rGZggp5/oxCuCK0QRYEEnzgdmC5lBZUkgJTxpbvg9
-	CWSM3JBGglVlX1aGIGRlvKSXc1jXf6NnO91BZg75hkaZwt0kVkdQeNqQIv06nwi5WI0c
-	WbUxZFdCpCDHMIgOfZ0NaLAzYxPMOGgEMMoPKQi/gFffoilHC9rd15aT6RGMKZwalKG5
-	vYHOko0gt5/oizADkGYh56GmGBZvtCydDBtmaoY0NaLC08WV67jSIpcD3towwT6iUG5N
-	6QNadzNRkAq/1+5vRgURcoUukVNWoYpLQOC4WR3JSzdGyUrWKVcTYph14wYRRtLHVvy7
-	n3jA==
+	Mon, 07 Mar 2016 04:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=64c28TCvQzsQZ0AT57fK4/T8J91OqHGoI7o0JGaYg0E=;
+	b=Hi9zw6TqRB7qLOFh7Qz8wUx43c92a70ivBT9pP7oYbZLr/myGE8lwd/zbEWC2AqTl+
+	d+pdJUD64AFPQ2zwVH29kk7WWbmKmmg/EJg4dchq0Hac4LQWC5TVDr9f4KVklx2uZC6M
+	NRBBPoGvxvT06MjlAKXKVmX8p0DAADzWc/lnCC+0cHFzsOkzqS9dtwU37VY69XbCiGW9
+	vBwBhR3miCxK9dzmC0pzPb0z/do/LUklPrJ7vpkKc/R86Ae5ha9gHcOx79mAAl3akOTW
+	yKgU6y0x6GqI1VAZTU0ShdCbHGWQxvedDItawRpyL8O7DWVgZrFpdGdxkjVvkjZhW6OX
+	38ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=kJ+XwtPdCgzZYOimx5iJpqyQ3ah42eJMYDFlWWIT2tk=;
-	b=IztQQjywP41nOJaZuWa89gMKU3ZwyQyHuojIxjr75bEzrvylonnMX+8RegVkfc0IbF
-	EdfTh4I9GBt2aH1Ds31AyH4sFv5dfTZZvejQ+9yhiMvTzQEQIEs2GVUe5qugYvO9IV9+
-	xm2Iq79CBipIDtqgMUxyjODoJdgSOo45PpZWdKwnhsH7um+b//U06DqJRfYxELY5u0Ju
-	WsXBj9q4hBhbCwgdlhZbhZQCk08JDMm/wDZ9BT2IgIbmRXWs4+D8ZxL49aVGYyriPbhA
-	s3zhfApPR01yiZhUaTr9l1lyO6akNflaRoLBUFSuS4vv5bqX+/8vVXVcJJaxDV3ChcOd
-	oAdg==
-X-Gm-Message-State: AD7BkJK3vmOe6rZr5YJ4nUoBZZRCsMl9gTmeZnhU0WLrt/vtnwlLJ46nj0erePKZxRkozA==
-X-Received: by 10.25.134.70 with SMTP id i67mr5600698lfd.90.1457353034397;
-	Mon, 07 Mar 2016 04:17:14 -0800 (PST)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
-	l129sm2765636lfl.18.2016.03.07.04.17.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Mar 2016 04:17:13 -0800 (PST)
-Date: Mon, 7 Mar 2016 13:17:11 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <20160307121711.GE6004@ad.chargestorm.se>
-Mail-Followup-To: OE-core <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:date:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=64c28TCvQzsQZ0AT57fK4/T8J91OqHGoI7o0JGaYg0E=;
+	b=I+4badP7Z090S4mXEMrydJZ/FDMzo2WzfXPMl18NAYm1iTYZnfwY5m/mD4maza223o
+	hBH5mSqpt8R3X8271bBXJ2VOMInUpBfO2/zUp6d5yNNbWB+BFC2wQ2ql/AN9DtmfeBoj
+	uKBV4r4s19IlC/tqF7o/F3NxHz+FmP7fz5/CfqGz6cbWtCBMGrLRANP2EYpQXOGIHSeT
+	W/+e89EPXomxCLM2Fd6Akeumd01LayCgGH+boQZBlZsCDH91i4tVkxnAqNjE3bUVwNHI
+	uaiuXaxMo3+gDAXtUyLCCmyS2eVkwBsgKAvW9Z9WssWFLn7KSkQDlAVevkWLvFyz/Pvq
+	DeVw==
+X-Gm-Message-State: AD7BkJKa/MkhuyFqHmqt51RcuQJehm4+LWStjGoj38eYhYS0UKhmWZ9K5hnds9z4vTMTAw==
+X-Received: by 10.28.148.16 with SMTP id w16mr12799221wmd.90.1457353594245;
+	Mon, 07 Mar 2016 04:26:34 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	i1sm17600032wjs.45.2016.03.07.04.26.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Mar 2016 04:26:32 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 7 Mar 2016 13:29:01 +0100
+To: Herve Jourdain <herve.jourdain@neuf.fr>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20160307122901.GF2549@jama>
 References: <004901d1785c$fb27d0f0$f17772d0$@neuf.fr>
 	<005801d1785e$07915900$16b40b00$@neuf.fr>
 	<20160307114709.GD6004@ad.chargestorm.se>
-	<008501d17869$0d5be340$2813a9c0$@neuf.fr>
-	<CAJTo0LZOX2gzWBRF6Wf-EAGZ4uUR-bCA-NVG+oS+zr2sFPStCA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZOX2gzWBRF6Wf-EAGZ4uUR-bCA-NVG+oS+zr2sFPStCA@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
+In-Reply-To: <20160307114709.GD6004@ad.chargestorm.se>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Subject: Re: [systemd][PATCH] some dependencies in systemd seem not to be taken into account in systemd_229.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -70,36 +60,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 12:17:18 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 07 Mar 2016 12:26:34 -0000
+X-Groupsio-MsgNum: 79186
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rWhLK7VZz0iBluhq"
 Content-Disposition: inline
 
-* Burton, Ross <ross.burton@intel.com> [160307 13:11]:
+--rWhLK7VZz0iBluhq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 7 March 2016 at 12:01, Herve Jourdain <herve.jourdain@neuf.fr> wrote:
+On Mon, Mar 07, 2016 at 12:47:09PM +0100, Anders Darander wrote:
+> (Resending as it didn't go to the list).
+>=20
+> Thanks!
+>=20
+> I've just ran into this myself this morning.
+>=20
+> A few comments are inlined.
+>=20
+> * Herve Jourdain <herve.jourdain@neuf.fr> [160307 11:51]:
+>=20
+> > # Sign the journal for anti-tampering
+>=20
+> > -PACKAGECONFIG[gcrypt] =3D "--enable-gcrypt,--disable-gcrypt,libgcrypt"
+>=20
+> Please, keep this line as it is. If gcrypt isn't enabled, we need to
+> pass --disable-gcrypt. Tnus, it should be part of this line.
+>=20
+> > +# RESOLVED depends on GCRYPT, so disable gcrypt only if resolved and g=
+crypt
+> > are NOT part of PACKAGECONFIG - done in EXTRA_OECONF
+>=20
+> Remove the comment.
+>=20
+> > +PACKAGECONFIG[gcrypt] =3D "--enable-gcrypt,,libgcrypt"
+>=20
+> As above, keep the original line.
+>=20
+>=20
+> > -PACKAGECONFIG[resolved] =3D "--enable-resolved,--disable-resolved"
+>=20
+> > +# RESOLVED depends on GCRYPT, so enable gcrypt any time resolved is in
+> > PACKAGECONFIG
+>=20
+> Either keep this comment, and keep enabling gcrypt.
+>=20
+> Though, I'd prefer to follow the precedence of importd, and just have
+> the comment stating what you need to enable.
 
-> > For the gcrypt/resolved patch, I will rework it.
-> > One thing, though, the idea was to add the --disable-gcrypt in the
-> > EXTRA_OECONF, if neither gcrypt nor resolved are enabled.
-> > Hence the removal of "--disable-gcrypt" in the PACKAGECONFIG[gcrypt]
-> > line...
-> > That seemed easier at the time, but I'll try to find a different way to
-> > achieve this.
+I agree, I've updated all layers are care about to enable gcrypt when
+enabling resolved.
 
+It's pity that there isn't easy way to declaratively express
+dependencies between PACKAGECONFIGs (or even required PACKAGECONFIGs
+used in dependencies - or version of dependencies) like e.g. gentoo's
+USE flags do, but documenting this is imho better than each recipe
+introducing some (usually different) automagic to try to autoenable
+right combination.
 
-> Personally I prefer less magic in recipes, and if there are dependencies
-> between PACKAGECONFIG flags then ensure that the default options actually
-> build and that any dependencies are clearly commented.
+> > +PACKAGECONFIG[resolved] =3D "--enable-resolved
+> > --enable-gcrypt,--disable-resolved,libgcrypt"
+>=20
+> No, don't add --enable-gcrypt to the resolved PACKAGECONFIG.
+>=20
+>=20
+> > +# RESOLVED depends on GCRYPT, so disable gcrypt only if resolved and g=
+crypt
+> > are NOT part of PACKAGECONFIG
+>=20
+> > +EXTRA_OECONF +=3D "${@bb.utils.contains_any('PACKAGECONFIG', 'resolved
+> > gcrypt', '', '--disable-gcrypt', d)}
+> > <mailto:$%7b@bb.utils.contains_any('PACKAGECONFIG',%20'resolved%20gcryp=
+t',%2
+> > 0'',%20'--disable-gcrypt',%20d)%7d> "
+>=20
+> Skip this part.
+>=20
+>=20
+> > +             if [ ${@bb.utils.contains('PACKAGECONFIG
+> > <mailto:$%7b@bb.utils.contains('PACKAGECONFIG> ', 'resolved', 'true',
+> > 'false', d)} -a \
+>=20
+> > +         ! ${@bb.utils.contains('PACKAGECONFIG
+> > <mailto:$%7b@bb.utils.contains('PACKAGECONFIG> ', 'gcrypt', 'true', 'fa=
+lse',
+> > d)} ]; then
+>=20
+> > +                           PACKAGECONFIG_append =3D "gcrypt"
+>=20
+> > +             fi
+>=20
+> Isn't this too late? (I've not runtime tested this).
+>=20
+> If you go the route of modifying PACKAGECONFIG automatically, I'd prefer
+> an anonymous python funtion doing this at the recipe processing stage.
+>=20
+>=20
+> > -SYSTEMD_PACKAGES =3D "${PN}-binfmt"
+>=20
+> > -SYSTEMD_SERVICE_${PN}-binfmt =3D "systemd-binfmt.service"
+>=20
+> > +#SYSTEMD_PACKAGES =3D "${PN}-binfmt"
+>=20
+> > +#SYSTEMD_SERVICE_${PN}-binfmt =3D "systemd-binfmt.service"
+>=20
+> > +SYSTEMD_PACKAGES =3D "${@bb.utils.contains('PACKAGECONFIG', 'binfmt',
+> > '${PN}-binfmt', '', d)}
+> > <mailto:$%7b@bb.utils.contains('PACKAGECONFIG',%20'binfmt',%20'$%7bPN%7=
+d-bin
+> > fmt',%20'',%20d)%7d> "
+>=20
+> > +SYSTEMD_SERVICE_${PN}-binfmt =3D "${@bb.utils.contains('PACKAGECONFIG',
+> > 'binfmt', 'systemd-binfmt.service', '', d)}
+> > <mailto:$%7b@bb.utils.contains('PACKAGECONFIG',%20'binfmt',%20'systemd-=
+binfm
+> > t.service',%20'',%20d)%7d> "
+>=20
+> This looks good, but should probably be a separate patch.
+>=20
+> Cheers,
+> Anders
+>=20
+> --=20
+> Anders Darander, Senior System Architect
+> ChargeStorm AB / eStorm AB
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-That's my preference as well, as might be seen from my first reply. Look
-at the importd feature as an example.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-If we should have magic, then it should be on PACKAGECONFIG, though.
+--rWhLK7VZz0iBluhq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Cheers,
-Anders
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
--- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+iEYEARECAAYFAlbddAwACgkQN1Ujt2V2gBwXEgCeM1FWCKrlkJKjj1l86kIOa/sz
+Hf0AoKvM51WgQMN2wudepcXvIcJda2Vf
+=k8Xr
+-----END PGP SIGNATURE-----
 
+--rWhLK7VZz0iBluhq--
