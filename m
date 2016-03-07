@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA58173192
+	by mail.openembedded.org (Postfix) with ESMTP id D93906FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 17:59:14 +0000 (UTC)
+	Mon,  7 Mar 2016 17:59:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u27HxBgG001658
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u27HxH1n001663
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Mar 2016 09:59:14 -0800
+	Mon, 7 Mar 2016 09:59:17 -0800
 Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 7 Mar 2016 09:59:13 -0800
+	Mon, 7 Mar 2016 09:59:16 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Mar 2016 11:59:05 -0600
-Message-ID: <cover.1457373422.git.mark.hatle@windriver.com>
+Date: Mon, 7 Mar 2016 11:59:08 -0600
+Message-ID: <851002ed82071a0e9bd5552d7f8c3f640c2db284.1457373422.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1457373422.git.mark.hatle@windriver.com>
+References: <cover.1457373422.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/7 v4] Upgrade RPM to 5.4.16 (CVE HEAD)
+Subject: [PATCH 3/7 v4] rpm: Enable specific crypto and digest settings via variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,168 +36,237 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 07 Mar 2016 17:59:17 -0000
 Content-Type: text/plain
 
-v4:
-* Move large patches to externally downloaded                              
-  - Included in a commit to be testable, but that commit should not be merged
-* Disable default stack-protector for popt
-* Fix AddErase API breakage
-* Break popt header dependency
-* Allow popt to be built internal (does not yet work, note caveat in recipe)
-* Update 'security_flags.inc' to know about RPM
-* rpmresolve remove unnecessary -lpopt
+Allow the user to set the specific digest and non-repudiable signature
+algorithms.  This should be done on a distribution wide basis.
 
-V3:
-* Update rpm-db5-or-db6.patch to remove potential host contamination
-* Update rpm-disable-auto-stack-protector.patch to only disable the stack protector
-* Add new patch: rpm-atomic-ops.patch
-  - Disable atomic operations in bson when the architecture does not support them
-* Add new patch: rpm-gnu-atomic.patch
-  - Dynamically detect and disable when -fgnu-tm/libitm support is not available
-* Add new patch: rpm-tagname-type.patch and rpm-python-tagname.patch
-  - Fix rpm-python legacy API regressions
-* Add new patch: rpm-disable-blaketest.patch
-  - Disable building the blake test apps, they appear to have dep issues in large
-    parallel builds.
-* Update db-6.0.30 to make it clear that when it is updated, to also update RPM5.
+See recipe for exact instructions, but values are now set using:
+RPM_FILE_DIGEST_ALGO (default 1 - md5)
+RPM_SELF_SIGN_ALGO   (default DSA)
 
-V2:
-Fixed three issues
-- Added Apache 2.0 license for specific mongodb code
+Also, change the PACKAGECONFIG to define the default crypto engine for
+RPM5.  Not just the available crypto engines.  If a crypto engine is not
+selected, the system will default to the internal beecrypt version.
 
-- Switch SSE usage dynamically in rpmio/keccak.c
-  See rpm-keccak-sse-intrin.patch
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-devtools/rpm/rpm_5.4+cvs.bb | 81 ++++++++++++++++++++++++++++++--
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb  | 81 ++++++++++++++++++++++++++++++--
+ 2 files changed, 152 insertions(+), 10 deletions(-)
 
-- Add support for architectures that do not support sync_add_and_fetch_8
-  See rpm-atomic-ops.patch
-
-All of those changes are made in patch 1/3.
-
-This has been built for all of the qemu* BSPs.
-
-V1:
-There is not yet an official RPM 5.4.16 release, however one will be coming
-soon.  Until then, 4 distinct patches are used to upgrade RPM 5.4.15 to
-5.4.16.  These patches are part of the commit (compressed w/ .xz).  However
-I am not sending them as part of the email as it's not very interesting
-to review base64.  :P
-
-Many of the OE patches have been sent to the RPM 5 maintainer, and may be
-part of the official 5.4.16 release.  When that release happens I expect a
-simple rebase to remove the unnecessary patches.
-
-The following changes since commit 380ee36811939d947024bf78de907e3c071b834f:
-
-  image creation: allow overriding .rootfs suffix (2016-03-07 17:16:53 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib mhatle/rpm-5.4.16
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=mhatle/rpm-5.4.16
-
-Mark Hatle (7):
-  rpm: Uprev to rpm-5.4.16 (pre) and rpm-5.4+cvs to current CVS head
-  security_flags.inc: Special flags are needed for RPM
-  rpm: Enable specific crypto and digest settings via variables
-  rpm: A number of the patches have been submitted upstream
-  rpmresolve: It is not necessary to manually specify -lpopt
-  db: remove the NO_UPDATE_REASON and replace it a comment about RPM
-  rpm: Temporarily provide the RPM patches (NOT NOT MERGE)
-
- meta/conf/distro/include/security_flags.inc        |    2 +
- meta/lib/oe/package_manager.py                     |   14 +-
- .../rpm/rpm/0001-define-EM_AARCH64.patch           |    2 +-
- ...arseArgvString-to-parse-the-_gpg_check_pa.patch |    2 +-
- .../beecrypt-5.4.15-to-5.4.16-20160225.patch.gz    |  Bin 0 -> 42815 bytes
- meta/recipes-devtools/rpm/rpm/debugedit-segv.patch |   48 +-
- ...debugedit-valid-file-to-fix-segment-fault.patch |    2 +-
- .../rpm/rpm/fstack-protector-configure-check.patch |   21 -
- .../rpm/rpm/header-include-fix.patch               |   12 +-
- .../rpm/rpm/lua-5.4.15-to-5.4.16-20160225.patch.gz |  Bin 0 -> 269940 bytes
- .../rpm/rpm/makefile-am-exec-hook.patch            |    2 +-
- .../rpm/popt-disable-auto-stack-protector.patch    |   27 +
- .../rpm/rpm/python-rpm-rpmsense.patch              |   32 +-
- .../rpm/rpm/rpm-5.4.15-to-5.4.16-20160225.patch.gz |  Bin 0 -> 2239384 bytes
- meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch |   73 ++
- meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |    2 +-
- meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch |   43 +-
- meta/recipes-devtools/rpm/rpm/rpm-db60.patch       |   56 +
- .../rpm/rpm/rpm-disable-Wno-override-init.patch    |   32 -
- .../rpm/rpm/rpm-disable-auto-stack-protector.patch |   24 +
- .../rpm/rpm/rpm-disable-blaketest.patch            |   28 +
- .../rpm/rpm/rpm-fix-logio-cp.patch                 |    2 +-
- .../rpm/rpm/rpm-fix-parseEmbedded.patch            |   27 +
- meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch |   61 ++
- .../rpm/rpm/rpm-hardlink-segfault-fix.patch        |    2 +-
- .../rpm/rpm/rpm-keccak-sse-intrin.patch            |   27 +
- ...ction.c-fix-file-conflicts-for-mips64-N32.patch |    2 +-
- meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch |    2 +-
- .../rpm/rpm/rpm-lsb-compatibility.patch            |    2 +-
- .../rpm/rpm/rpm-lua-fix-print.patch                |  104 --
- ...rpm-macros.in-disable-external-key-server.patch |   16 +-
- .../rpm/rpm/rpm-mongodb-sasl.patch                 |   69 ++
- meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |    2 +-
- ...b-before-verifyscript-to-avoid-null-point.patch |    2 +-
- .../rpm/rpm/rpm-packageorigin.patch                |    2 +-
- .../rpm/rpm/rpm-payload-use-hashed-inode.patch     |   22 +-
- .../rpm/rpm/rpm-pkgconfigdeps.patch                |   10 +-
- .../rpm/rpm/rpm-platform-file-fix.patch            |    2 +-
- meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |    2 +-
- meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |    4 +-
- meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   16 +-
- .../rpm/rpm/rpm-python-AddErase.patch              |   35 +
- .../rpm/rpm/rpm-python-restore-origin.patch        |   49 +
- .../rpm/rpm/rpm-python-tagname.patch               |   24 +
- .../rpm/rpm/rpm-remove-sykcparse-decl.patch        |   14 -
- meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |    2 +-
- .../rpm/rpm/rpm-rpmdb-grammar.patch                |  124 +++
- .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |    2 +-
- .../rpm/rpm/rpm-rpmio-headers.patch                |   19 +
- meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch |   67 --
- .../recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch |   26 +
- .../rpm/rpm/rpm-scriptletexechelper.patch          |   29 +-
- .../rpm/rpm/rpm-syck-fix-gram.patch                | 1081 ++++++++++++++++++++
- .../rpm-tag-generate-endian-conversion-fix.patch   |    2 +-
- .../rpm/rpm/rpm-tagname-type.patch                 |   25 +
- .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |    2 +-
- meta/recipes-devtools/rpm/rpm/rpmatch.patch        |   32 +-
- .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   27 +-
- .../rpm/syck-5.4.15-to-5.4.16-20160225.patch.gz    |  Bin 0 -> 4837 bytes
- meta/recipes-devtools/rpm/rpm/uclibc-support.patch |   38 +-
- ...broken-logic-for-ghost-avoidance-Mark-Hat.patch |   38 -
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |  302 +++++-
- .../rpm/{rpm_5.4.14.bb => rpm_5.4.16.bb}           |  197 +++-
- meta/recipes-devtools/rpm/rpmresolve_1.0.bb        |    2 +-
- meta/recipes-support/db/db_6.0.30.bb               |    2 +-
- 65 files changed, 2368 insertions(+), 569 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/beecrypt-5.4.15-to-5.4.16-20160225.patch.gz
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/lua-5.4.15-to-5.4.16-20160225.patch.gz
- create mode 100644 meta/recipes-devtools/rpm/rpm/popt-disable-auto-stack-protector.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-5.4.15-to-5.4.16-20160225.patch.gz
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db60.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-Wno-override-init.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-blaketest.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-keccak-sse-intrin.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua-fix-print.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-AddErase.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-tagname.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-remove-sykcparse-decl.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tagname-type.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/syck-5.4.15-to-5.4.16-20160225.patch.gz
- delete mode 100644 meta/recipes-devtools/rpm/rpm/verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch
- rename meta/recipes-devtools/rpm/{rpm_5.4.14.bb => rpm_5.4.16.bb} (81%)
-
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+index 62526fd..e35ddbe 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+@@ -168,6 +168,68 @@ rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macro
+ 
+ # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
+ 
++# Set the digest algorithm used for verifying file integrity
++# If this value changes, and two different packages have different values
++# the "same file" validation (two packages have a non-conflict file)
++# will fail.  This may lead to upgrade problems.  You should treat this
++# value as a distribution wide setting, and only change it when you intend
++# a full system upgrade!
++#
++# Defined file digest algorithm values (note: not all are available!):
++#       1       MD5 (legacy RPM default)
++#       2       SHA1
++#       3       RIPEMD-160
++#       5       MD2
++#       6       TIGER-192
++#       8       SHA256
++#       9       SHA384
++#       10      SHA512
++#       11      SHA224
++#       104     MD4
++#       105     RIPEMD-128
++#       106     CRC-32
++#       107     ADLER-32
++#       108     CRC-64 (ECMA-182 polynomial, untested uint64_t problems)
++#       109     Jenkins lookup3.c hashlittle()
++#       111     RIPEMD-256
++#       112     RIPEMD-320
++#       188     BLAKE2B
++#       189     BLAKE2BP
++#       190     BLAKE2S
++#       191     BLAKE2SP
++RPM_FILE_DIGEST_ALGO ?= "1"
++
++# All packages build with RPM5 contain a non-repudiable signature.
++# The purpose of this signature is not to show authenticity of a package,
++# but instead act as a secondary package wide validation that shows it
++# wasn't damaged by accident in transport.  (When later you sign the package, 
++# this signature may or may not be replaced as there are three signature 
++# slots, one for DSA/RSA, one for ECSDA, and one reserved.)
++#
++# There is a known issue w/ RSA signatures that if they start with an 0x00
++# the signing and validation may fail.
++#
++# The following is the list of choices for the non-rpudiable signature
++# (note: not all of these are implemented):
++#       DSA             (default)
++#       RSA             (implies SHA1)
++#       ECDSA           (implies SHA256)
++#       DSA/SHA1
++#       DSA/SHA224
++#       DSA/SHA256
++#       DSA/SHA384
++#       DSA/SHA512
++#       RSA/SHA1
++#       RSA/SHA224
++#       RSA/SHA256
++#       RSA/SHA384
++#       RSA/SHA512
++#       ECDSA/SHA224    (using NIST P-224)
++#       ECDSA/SHA256    (using NIST P-256)
++#       ECDSA/SHA384    (using NIST P-384)
++#       ECDSA/SHA512    (using NIST P-521)
++RPM_SELF_SIGN_ALGO ?= "DSA"
++
+ # Note: perl and sqlite w/o db specified does not currently work.
+ #       tcl, augeas, nss, gcrypt, xar and keyutils support is untested.
+ PACKAGECONFIG ??= "db bzip2 zlib popt openssl libelf python"
+@@ -203,10 +265,17 @@ PACKAGECONFIG[db] = "${WITH_DB},--without-db,db,"
+ 
+ PACKAGECONFIG[sqlite] = "--with-sqlite,--without-sqlite,sqlite3,"
+ 
++# This switch simply disables external beecrypt, RPM5 always uses beecrypt
++# for base64 processing and various digest algorithms.
++# Beecrypt is only the preferred crypto engine if it's the only engine enabled.
+ PACKAGECONFIG[beecrypt] = "--with-beecrypt=external,--with-beecrypt=internal,beecrypt,"
+-PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl,"
+-PACKAGECONFIG[nss] = "--with-nss,--without-nss,nss,"
+-PACKAGECONFIG[gcrypt] = "--with-gcrypt,--without-gcrypt,gcrypt,"
++
++# --with-usecrypto= setting defined the item as the preferred system
++# crypto engine, which will take priority over the included beecrypt
++PACKAGECONFIG[openssl] = "--with-openssl --with-usecrypto=openssl,--without-openssl,openssl,"
++PACKAGECONFIG[nss] = "--with-nss --with-usecrypto=nss,--without-nss,nss,"
++PACKAGECONFIG[gcrypt] = "--with-gcrypt --with-usecrypto=gcrypt,--without-gcrypt,gcrypt,"
++
+ PACKAGECONFIG[keyutils] = "--with-keyutils,--without-keyutils,keyutils,"
+ PACKAGECONFIG[libelf] = "--with-libelf,--without-libelf,elfutils,"
+ 
+@@ -450,8 +519,10 @@ do_configure() {
+ }
+ 
+ do_install_append() {
+-	# Preserve the previous default of DSA self-signed pkgs
+-	sed -i -e 's,%_build_sign.*,%_build_sign DSA,' ${D}/${libdir}/rpm/macros.rpmbuild
++	# Configure -distribution wide- package crypto settings
++	# If these change, effectively all packages have to be upgraded!
++	sed -i -e 's,%_build_file_digest_algo.*,%_build_sign ${RPM_FILE_DIGEST_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
++	sed -i -e 's,%_build_sign.*,%_build_sign ${RPM_SELF_SIGN_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
+ 
+ 	sed -i -e 's,%__scriptlet_requires,#%%__scriptlet_requires,' ${D}/${libdir}/rpm/macros
+ 	sed -i -e 's,%__perl_provides,#%%__perl_provides,' ${D}/${libdir}/rpm/macros ${D}/${libdir}/rpm/macros.d/*
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 02de22c..cf2c600 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -161,6 +161,68 @@ rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macro
+ 
+ # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
+ 
++# Set the digest algorithm used for verifying file integrity
++# If this value changes, and two different packages have different values
++# the "same file" validation (two packages have a non-conflict file)
++# will fail.  This may lead to upgrade problems.  You should treat this
++# value as a distribution wide setting, and only change it when you intend
++# a full system upgrade!
++#
++# Defined file digest algorithm values (note: not all are available!):
++#       1       MD5 (legacy RPM default)
++#       2       SHA1
++#       3       RIPEMD-160
++#       5       MD2
++#       6       TIGER-192
++#       8       SHA256
++#       9       SHA384
++#       10      SHA512
++#       11      SHA224
++#       104     MD4
++#       105     RIPEMD-128
++#       106     CRC-32
++#       107     ADLER-32
++#       108     CRC-64 (ECMA-182 polynomial, untested uint64_t problems)
++#       109     Jenkins lookup3.c hashlittle()
++#       111     RIPEMD-256
++#       112     RIPEMD-320
++#       188     BLAKE2B
++#       189     BLAKE2BP
++#       190     BLAKE2S
++#       191     BLAKE2SP
++RPM_FILE_DIGEST_ALGO ?= "1"
++
++# All packages build with RPM5 contain a non-repudiable signature.
++# The purpose of this signature is not to show authenticity of a package,
++# but instead act as a secondary package wide validation that shows it
++# wasn't damaged by accident in transport.  (When later you sign the package, 
++# this signature may or may not be replaced as there are three signature 
++# slots, one for DSA/RSA, one for ECSDA, and one reserved.)
++#
++# There is a known issue w/ RSA signatures that if they start with an 0x00
++# the signing and validation may fail.
++#
++# The following is the list of choices for the non-rpudiable signature
++# (note: not all of these are implemented):
++#       DSA             (default)
++#       RSA             (implies SHA1)
++#       ECDSA           (implies SHA256)
++#       DSA/SHA1
++#       DSA/SHA224
++#       DSA/SHA256
++#       DSA/SHA384
++#       DSA/SHA512
++#       RSA/SHA1
++#       RSA/SHA224
++#       RSA/SHA256
++#       RSA/SHA384
++#       RSA/SHA512
++#       ECDSA/SHA224    (using NIST P-224)
++#       ECDSA/SHA256    (using NIST P-256)
++#       ECDSA/SHA384    (using NIST P-384)
++#       ECDSA/SHA512    (using NIST P-521)
++RPM_SELF_SIGN_ALGO ?= "DSA"
++
+ # Note: perl and sqlite w/o db specified does not currently work.
+ #       tcl, augeas, nss, gcrypt, xar and keyutils support is untested.
+ PACKAGECONFIG ??= "db bzip2 zlib popt openssl libelf python"
+@@ -196,10 +258,17 @@ PACKAGECONFIG[db] = "${WITH_DB},--without-db,db,"
+ 
+ PACKAGECONFIG[sqlite] = "--with-sqlite,--without-sqlite,sqlite3,"
+ 
++# This switch simply disables external beecrypt, RPM5 always uses beecrypt
++# for base64 processing and various digest algorithms.
++# Beecrypt is only the preferred crypto engine if it's the only engine enabled.
+ PACKAGECONFIG[beecrypt] = "--with-beecrypt=external,--with-beecrypt=internal,beecrypt,"
+-PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl,"
+-PACKAGECONFIG[nss] = "--with-nss,--without-nss,nss,"
+-PACKAGECONFIG[gcrypt] = "--with-gcrypt,--without-gcrypt,gcrypt,"
++
++# --with-usecrypto= setting defined the item as the preferred system
++# crypto engine, which will take priority over the included beecrypt
++PACKAGECONFIG[openssl] = "--with-openssl --with-usecrypto=openssl,--without-openssl,openssl,"
++PACKAGECONFIG[nss] = "--with-nss --with-usecrypto=nss,--without-nss,nss,"
++PACKAGECONFIG[gcrypt] = "--with-gcrypt --with-usecrypto=gcrypt,--without-gcrypt,gcrypt,"
++
+ PACKAGECONFIG[keyutils] = "--with-keyutils,--without-keyutils,keyutils,"
+ PACKAGECONFIG[libelf] = "--with-libelf,--without-libelf,elfutils,"
+ 
+@@ -443,8 +512,10 @@ do_configure() {
+ }
+ 
+ do_install_append() {
+-	# Preserve the previous default of DSA self-signed pkgs
+-	sed -i -e 's,%_build_sign.*,%_build_sign DSA,' ${D}/${libdir}/rpm/macros.rpmbuild
++	# Configure -distribution wide- package crypto settings
++	# If these change, effectively all packages have to be upgraded!
++	sed -i -e 's,%_build_file_digest_algo.*,%_build_sign ${RPM_FILE_DIGEST_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
++	sed -i -e 's,%_build_sign.*,%_build_sign ${RPM_SELF_SIGN_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
+ 
+ 	sed -i -e 's,%__scriptlet_requires,#%%__scriptlet_requires,' ${D}/${libdir}/rpm/macros
+ 	sed -i -e 's,%__perl_provides,#%%__perl_provides,' ${D}/${libdir}/rpm/macros ${D}/${libdir}/rpm/macros.d/*
 -- 
 2.5.0
 
