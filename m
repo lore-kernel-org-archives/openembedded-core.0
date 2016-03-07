@@ -1,32 +1,41 @@
-Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp23.services.sfr.fr (smtp23.services.sfr.fr [93.17.128.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F8F9731B3
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 42D3873193
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 14:17:23 +0000 (UTC)
-Received: from filter.sfr.fr (localhost [111.250.196.5])
-	by msfrf2303.sfr.fr (SMTP Server) with ESMTP id 907F070000FB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 15:17:23 +0100 (CET)
-Authentication-Results: sfrmc.priv.atos.fr; dkim=none (no signature);
-	dkim-adsp=none (no policy) header.from=herve.jourdain@neuf.fr
-Received: from nb-hjo (111-250-196-5.dynamic.hinet.net [111.250.196.5])	(using
-	TLSv1 with cipher AES128-SHA (128/128 bits))	(No client certificate
-	requested)
-	by msfrf2303.sfr.fr (SMTP Server) with ESMTP id B59DD7000097
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 15:17:22 +0100 (CET)
-X-SFR-UUID: 20160307141722744.B59DD7000097@msfrf2303.sfr.fr
-Received: from nbhjo
-	by nb-hjo (PGP Universal service);  Mon, 07 Mar 2016 15:17:21 +0100
-X-PGP-Universal: processed;	by nb-hjo on Mon, 07 Mar 2016 15:17:21 +0100
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 7 Mar 2016 15:17:16 +0100
-Message-ID: <00ab01d1787c$106f4320$314dc960$@neuf.fr>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AdF4e+f4HQvOqyvWTP+bmiFwI7jvsw==
-Subject: [meta-oe][PATCH] systemd: binfmt should be added to SYSTEMD_PACKAGES
+	Mon,  7 Mar 2016 14:34:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id CAD602E169;
+	Mon,  7 Mar 2016 15:34:46 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id iaKuaeJfSiOa; Mon,  7 Mar 2016 15:34:44 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id CEFBE2E104;
+	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id B6980959;
+	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id A96C3122;
+	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id A7383A0C;
+	Mon,  7 Mar 2016 15:34:44 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u27EYiXE006355;
+	Mon, 7 Mar 2016 15:34:44 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u27EYiGZ006351;
+	Mon, 7 Mar 2016 15:34:44 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org,
+	Andre McCurdy <armccurdy@gmail.com>
+Date: Mon,  7 Mar 2016 15:34:30 +0100
+Message-Id: <cover.1457361163.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/1] Revert recent change to streamer1.0-plugins.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 14:17:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Content-Language: fr
+X-List-Received-Date: Mon, 07 Mar 2016 14:34:48 -0000
 
-Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
----
- meta/recipes-core/systemd/systemd_229.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This reverts a recent change to streamer1.0-plugins.inc where it was
+made to inherit gettext. This caused all out GStreamer plugins to
+start generating warnings since they lack localization support.
 
-diff --git a/meta/recipes-core/systemd/systemd_229.bb
-b/meta/recipes-core/systemd/systemd_229.bb
-index 16af0ac..a537dd3 100644
---- a/meta/recipes-core/systemd/systemd_229.bb
-+++ b/meta/recipes-core/systemd/systemd_229.bb
-@@ -298,8 +298,8 @@ PACKAGES =+ "\
-     ${PN}-extra-utils \
- "
- 
--SYSTEMD_PACKAGES = "${PN}-binfmt"
--SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
-+SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt',
-'${PN}-binfmt', '', d)}"
-+SYSTEMD_SERVICE_${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG',
-'binfmt', 'systemd-binfmt.service', '', d)}"
- 
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd',
-'--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
+//Peter
+
+The following changes since commit d2c96caa40d6979792b7b73f37e81e2bc67f6735:
+
+  mtools: Drop GCONV_PATH manipulation (2016-03-07 12:41:38 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/gstreamer-plugins
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/gstreamer-plugins
+
+Peter Kjellerstedt (1):
+  Revert "gstreamer1.0-plugins-XXX: move inherit gettext into common
+    .inc file"
+
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc  | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc | 2 ++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 2 ++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc | 2 ++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc      | 2 +-
+ 5 files changed, 8 insertions(+), 2 deletions(-)
+
 -- 
-1.9.1
+2.1.0
+
 
