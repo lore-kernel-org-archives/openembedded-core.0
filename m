@@ -1,46 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6592F73192
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 9805A60290
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 17:17:02 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id z8so44044210ige.0
+	Mon,  7 Mar 2016 17:20:20 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id x1so138416020lbj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 09:17:04 -0800 (PST)
+	Mon, 07 Mar 2016 09:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UHfNzckly3JZ5ZgU+CFJ5g67XxBCpAuHYArD+xdhwbw=;
-	b=AmFfSVJNedUPRLg4IZKEM66iTn/Wxg2Gm1plG5kgZomypncbvI1zf910V+mBfLBgHl
-	p152MRPNx285gepH8fNvCz19kjBpLIKH/J0+fse11EPEeA90N35jMXCyE3AHRyUbVUtZ
-	69XQ8Cnk3DoXVjXUgNeWlOogKMWRagckNMwWx2hysiW4ncIZMKZapzhCs93h3pXVcnbf
-	o7tWdehkf4FeR3T9ypE89UxddKbWcOhHmPm5KQJBGEFHmCvJCN6B9aBnuC04im0h5eGX
-	T+yczpNct7sVO3t5BOPad3XuYRot0tiK3OnxiZk0CNj6+DKTkF4PbaF+aGgRf16I9XY3
-	TakQ==
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=B4JmojqP62pArMHKiPKCNhYuICAWaSOaZs01xm/D/xA=;
+	b=uJgr9hKCZSPC7YgnRPEOrACc2W4oW1Di4jOVQoza+xsHpn8maenfspruyw+2uSdA3F
+	11EsyG6xYU8B9kIgt2zxWYIu7PrAZbiXCrqKOAfacpIw61fqC4HokD7Ni+Ow17GVRqrS
+	xVWAzrZBytxz68mG8TUk1DT0Y2GJByqhdH9HiZeWqa55FtbgZsqGnbpzHM4Mb3uZCTP5
+	GA489t8PH1TghS29w2A1GyPBJ5afmj8OEm1cisMartMSYHNQki6HJg/PE2nT23ldVXkk
+	MbZk030S+H5YXs+1eWPnvo9IlYZ0bXYHA7fHcIFQixXC7gdFdtB2MjevVtSC94fx/k0w
+	ASRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UHfNzckly3JZ5ZgU+CFJ5g67XxBCpAuHYArD+xdhwbw=;
-	b=Ad9kEfeZMce7VsntU8vTIY2m+rCGqMpQAQCKoYq0FiKb6t0VrF34wkAfIgLbso9VxW
-	SLCwBIjYutkrKb+PI4nZ37Vlfg+ai3R0KXi4vc5r8S03Ye8D39PvPWYXkOFmbVCqtfNv
-	A1zgqGRCtSPgQo0tp5m6UIlrnR5960a9re5cCm3gfvqGyR8Uempdl0XfQWlh9OhTDrv1
-	Bdm9qjeCXMuuCUgJDIdk/i1whSII4LGHVo9rrTchA4RnYqqbWavmPCSHUOAObdn7A+jR
-	Q5XF2qI/rqWBzyF7DUfU0DJt4x3N+DqL/Oh1w0oeXOFG1djIX12dbMPBozM3Ql1MIByD
-	265Q==
-X-Gm-Message-State: AD7BkJKmvwo1k+a3uIYGlu2cYNO9eRulgluvwKhXPWhfABQlntyr1n+oQCKE5g8VV/lz7E/5mg1ag1fwnMks8woH
-X-Received: by 10.50.97.71 with SMTP id dy7mr13693742igb.78.1457371023736;
-	Mon, 07 Mar 2016 09:17:03 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=B4JmojqP62pArMHKiPKCNhYuICAWaSOaZs01xm/D/xA=;
+	b=gkAHN+f2gzCApCPHAQnXeGaxvTYStCfOJmN5DmUHM39gLteoQHOfip34+D0xcNkFs3
+	OWGRQ0WebYuCjtLqKhSeCwcyNr1AFASHpOgch4vUGdyAWneadcwv+PymQF/eRxieTXVC
+	AUdmI7s1W4JqoIqPl7DJu1G2RWQ57kY+87Q5Qy0adQbI5AnGvPa/JtCTWAi6TbXjkwYR
+	i5cFd4cpue/p7Pal32wQMwGwMrMv6GQamQhGU45FPczZ5G7n5pGBT9in6lFPkpUKvFtp
+	xtcekNDKK+RKpDx4fUcr4FjZJWJpBzbCIyStwujUhQ2g1D26ORMTNqTipe3+d6Or2NXM
+	BDsA==
+X-Gm-Message-State: AD7BkJIV5WSdBh4KwRFFlne51An7PZIniBJbzDsZYiEwmAEov2tF92jP6JuZHfj0GKI6me6wkSAlQPbPxOtBK7BD
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 7 Mar 2016 09:16:44 -0800 (PST)
-In-Reply-To: <CAD3vsf7djsRsAVnRQ7Q0Ztgsdxj2J6TO5FHis1QuSYWdRf6ubA@mail.gmail.com>
+X-Received: by 10.112.156.100 with SMTP id wd4mr7789104lbb.9.1457371220151;
+	Mon, 07 Mar 2016 09:20:20 -0800 (PST)
+Received: by 10.114.182.240 with HTTP; Mon, 7 Mar 2016 09:20:20 -0800 (PST)
+In-Reply-To: <CAJTo0LaH2jPp86=sh7mqiqcQLYmogdx2n4sppm6ma3XaPT8NKg@mail.gmail.com>
 References: <1448698194-14390-1-git-send-email-jkrishnanjanappa@mvista.com>
 	<CAJTo0LZwOpAaUSOVYyuoKQxjU3OkUsi=pTvY5NihHw_kQGJ1Qg@mail.gmail.com>
 	<CAD3vsf7djsRsAVnRQ7Q0Ztgsdxj2J6TO5FHis1QuSYWdRf6ubA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Mar 2016 17:16:44 +0000
-Message-ID: <CAJTo0LaH2jPp86=sh7mqiqcQLYmogdx2n4sppm6ma3XaPT8NKg@mail.gmail.com>
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+	<CAJTo0LaH2jPp86=sh7mqiqcQLYmogdx2n4sppm6ma3XaPT8NKg@mail.gmail.com>
+Date: Mon, 7 Mar 2016 22:50:20 +0530
+Message-ID: <CAD3vsf5jcLJqRO22e+Vso9Q6OQ=TWdZHbpCDr-ohWTBmuw5qiQ@mail.gmail.com>
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [jethro][PATCH v3] license.bbclass: fix host contamination warnings for license files
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,36 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 17:17:03 -0000
-Content-Type: multipart/alternative; boundary=047d7b10cfc12d1b5d052d78a2fd
+X-List-Received-Date: Mon, 07 Mar 2016 17:20:23 -0000
+Content-Type: multipart/alternative; boundary=089e01227e3ce22f2f052d78ad49
 
---047d7b10cfc12d1b5d052d78a2fd
+--089e01227e3ce22f2f052d78ad49
 Content-Type: text/plain; charset=UTF-8
 
-On 7 March 2016 at 16:45, Jagadeesh Krishnanjanappa <
-jkrishnanjanappa@mvista.com> wrote:
-
-> I can send an updated patch for the master branch. For jethro, this patch
-> can be applied successfully.
 >
+> I've merged this into my staging branch for master, no need to send again.
+>
+> Thanks Martin and Ross.
 
-I've merged this into my staging branch for master, no need to send again.
+Regards,
+Jagadeesh
 
-Ross
-
---047d7b10cfc12d1b5d052d78a2fd
+--089e01227e3ce22f2f052d78ad49
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 March 2016 at 16:45, Jagadeesh Krishnanjanappa <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:jkrishnanjanappa@mvista.com" target=3D"_blank">jkrishnanja=
-nappa@mvista.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv>I can send an updated patch for the master branch. For jethro, this patc=
-h can be applied successfully.</div><div></div></blockquote></div><br>I&#39=
-;ve merged this into my staging branch for master, no need to send again.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">I&#3=
+9;ve merged this into my staging branch for master, no need to send again.<=
+/div><span class=3D"HOEnZb"><font color=3D"#888888"><div class=3D"gmail_ext=
+ra"><br></div></font></span></div></blockquote><div>Thanks Martin and Ross.=
+</div><div><br></div><div>Regards,</div><div>Jagadeesh</div></div><br></div=
+></div>
 
---047d7b10cfc12d1b5d052d78a2fd--
+--089e01227e3ce22f2f052d78ad49--
