@@ -1,49 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C3A9607F8
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 61BFA60667
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 10:24:46 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id z8so14081039ige.0
+	Tue,  8 Mar 2016 11:05:53 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id l68so144807399wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Mar 2016 02:24:47 -0800 (PST)
+	Tue, 08 Mar 2016 03:05:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+HLMPdgbi5Fe2Uq3lDYr3FLe80Irmu3I3eZ0qcA+z6Q=;
-	b=kcniIspptHwtKxPDVY2RXOQGHUCnZivLf0lkfk7zxgxkMihLG6/IrdZ+QZniNpw/3Z
-	knrIB/WgBKzYpV74CNflrmirCXeMdblojzDIrAxIJmFkCkXj/ZoXKsVVH8hXwPGQINci
-	VjYmUs8IP5r0zxeGDSs96kKuT5ZtGNBXJk5adZLsYHxJWL1WYkxOLJPwSk9mVIeldaFc
-	YgrsojxPDsEPp5igXkLxe777hCq5L4inAGZSRZ03W4m3vPf5/b7A7BxIiRaNdbU8FQWM
-	9ARqNpIvO92+Oxha0lVv3pCp0ydvileDL+HJKVHHIMOrxXLbxOdzbHJmhQ80Bczv8QdC
-	NfIw==
+	h=from:to:subject:date:message-id;
+	bh=U7NVK61TotJCM+blh3VheajrKdmXZrBWggbT3ZMI0dI=;
+	b=A9ejlfIHJ3fA9DefEg0C6s8o4E4/wjh2SX9WQOE8CH8L1Vo+fBGC6RNNu8KI2eP1+S
+	LLdW5NWvFTbzCg3ap3XvPDBCaWpQVf+h9cytGKw+8IzWNHifOd87PDL1yohOmxxboSZz
+	DoCNGAmbvIr2XB5OZYgrZtnPeRGcr9qqOrznXTPWOQRS2zHhjhoT5WxjbCroLhwVyQh4
+	xOMOfI7ucEewLO2H8Nqe7HgeNgIHBgDNugvfwaO5GFbJOhQG+xUADvbmJPWfiPT58Leg
+	++C58fkfJGEYeAlrcpH0UzRiMeQdL+bAvqlQraI0EFrOBAHEGfDYm9HDgbwk932WJAMz
+	DTUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=+HLMPdgbi5Fe2Uq3lDYr3FLe80Irmu3I3eZ0qcA+z6Q=;
-	b=hGFi1Nn0jAglexjBIy3MwbgUPEYpHcoyM1F0651B81W80yFfW5/sW4acxdGa6bqojf
-	euIvDZB3Hqo6BAA6e3uM2G9vR9YcGtctO0axkm/E8EtW5WtdJNDAjy/o+sV/JOkwlaHj
-	K5vBaxvhkZ00jg/uCTu94snQ/EDPNl3GJ6+I1h0BXnNswUR93n398mnloESs2SAcQ0jN
-	1VptuCTZLa8ELm62bnkouhczxOEegH5c6Xvj0Wxdh+uXjG3eOkn52ZO5fmQ6ggwQMyQw
-	UM+cBn7ZeA/kV51agXolvnbC6KSb+t1B73oIAeCgx0iNPQpFjj6RIMQc8+k+3xx7BHYZ
-	bUZg==
-X-Gm-Message-State: AD7BkJLXxX1nes3DPRRFPefqxBlEcmhapfHagiVtddE2mqF0+4rRevj5/xxRaWyR91LEXh/jZc7g8EYnJmQA30l2
-X-Received: by 10.50.97.71 with SMTP id dy7mr17959989igb.78.1457432686819;
-	Tue, 08 Mar 2016 02:24:46 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 8 Mar 2016 02:24:27 -0800 (PST)
-In-Reply-To: <CALbNGRQbfu45fM=kijvTnx4sY2SzjiVSCtGXhyt0xM+akP1sSQ@mail.gmail.com>
-References: <56CC6832.90506@siemens.com>
-	<1457090416.2804.19.camel@linuxfoundation.org>
-	<CALbNGRQbfu45fM=kijvTnx4sY2SzjiVSCtGXhyt0xM+akP1sSQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Mar 2016 10:24:27 +0000
-Message-ID: <CAJTo0LYivFU_mOJuwKffbwe1KjKCZT4HDOX+6Smv=AegrRAmBQ@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Debugging using sysroots and GDB
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=U7NVK61TotJCM+blh3VheajrKdmXZrBWggbT3ZMI0dI=;
+	b=ctzu8wk5ygjjYGUba+8lbLhDF5r9vl8i8VF02rIJBTrumWa6uOs5ng4gbRbxakmXNk
+	QAZ1rwEWKV4cnVnuWJ6Qa83Q9fw2EfDdApvLDfIpbR5RJWKnWaKc1Ag96/aLAFIjHOxW
+	DYaQPngPGlVUKA5Lp0255zNQnkaxPXB/TbNcyN9HNv0KtWwaGOqgAM/mDBXSMEBPJy0r
+	Iiv/mAbObzpYxxjfEtNb/nqke47wZJKS/+e4/aJPV41hkLjJJ2q7g3n6dfzDonmijXpk
+	BZzebqx6sbje2RIaMT/LUaretvtnNJ/KRwFXYT7WV/IQWjvEdQL+V8WR2Q0T5bG5Pp+D
+	hAMQ==
+X-Gm-Message-State: AD7BkJKQnNFOH1wkIUTdqf+Wowy09qnYO9DVYyd5VTRs43PDsGGDHwZmIuLrvLmbTzviZExt
+X-Received: by 10.28.172.132 with SMTP id v126mr18894688wme.28.1457435153492; 
+	Tue, 08 Mar 2016 03:05:53 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	ka4sm2359920wjc.47.2016.03.08.03.05.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Mar 2016 03:05:52 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Mar 2016 11:05:48 +0000
+Message-Id: <1457435149-14411-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 1/2] avahi: add missing intltool-native build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 10:24:47 -0000
-Content-Type: multipart/alternative; boundary=047d7b10cfc1951632052d86fd57
+X-List-Received-Date: Tue, 08 Mar 2016 11:05:55 -0000
 
---047d7b10cfc1951632052d86fd57
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/avahi/avahi.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 8 March 2016 at 10:01, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
->
-wrote:
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index a054c24..81aad79 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -14,7 +14,7 @@ SECTION = "network"
+ # python scripts are under GPLv2+
+ LICENSE = "GPLv2+ & LGPLv2.1+"
+ 
+-DEPENDS = "expat libcap libdaemon glib-2.0"
++DEPENDS = "expat libcap libdaemon glib-2.0 intltool-native"
+ 
+ SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz \
+           file://00avahi-autoipd \
+-- 
+2.7.0
 
-> How much time is really saved by stripping sysroot?
->
 
-It was more about reducing the size of the sstate than build performance.
-It's a toggle for precisely this reason: some users may not care about the
-space saving but want to use the sysroot for gdb.
-
-Ross
-
---047d7b10cfc1951632052d86fd57
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 March 2016 at 10:01, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@go=
-oglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":5is" class=3D"a3s" style=3D"overflow:hidden">How much time is really =
-saved by stripping sysroot?<br></div></blockquote><div><br></div><div>It wa=
-s more about reducing the size of the sstate than build performance.=C2=A0 =
-It&#39;s a toggle for precisely this reason: some users may not care about =
-the space saving but want to use the sysroot for gdb.</div><div><br></div><=
-div>Ross=C2=A0</div></div><br></div></div>
-
---047d7b10cfc1951632052d86fd57--
