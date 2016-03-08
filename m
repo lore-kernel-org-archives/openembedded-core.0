@@ -1,47 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id F1F5B601A5
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EC81A60670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 17:14:09 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id z76so33961827iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Mar 2016 09:14:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=B6CY6Iff0KOVBjzwwo5goMlqCeRevja69UR2lTDqpJg=;
-	b=h6SUUQAwg0YeYzqm3PUAlBvxebZgOQPJPjKcDOaWbeNP9K6KxbQ8K6s3/olUM71pcI
-	WyG2WZg/E0lfvX4+fD0teObf1JEuWF1tllJiZP1PDx6kt8jeleSRUq7MOlVAE430KvhK
-	B4BkJraJLPJg+BQAzbLJhx3b8qFE8IH5dC7IiiBDtREBNxxFDkvRisSSAuuaT6G7WU0o
-	Rk4RdRi/boeObF8w+ElC68rVEUjViJrWYgMvsPxNjC1NRXWZoU4UTQjNz8mE5cwu+qrj
-	QG5kHmoyujve7+eXtoZcL47deWis8Ph9orSQA8VkGGshPiCBjNH2zUK43IAauP156964
-	IDxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=B6CY6Iff0KOVBjzwwo5goMlqCeRevja69UR2lTDqpJg=;
-	b=X5WF5n7tRJwtgsczBL5xn+/xZuFavO1fUFrAMzu9UeoJUjzQUwi6O/keV4N17/ZgSQ
-	TCUfm76CJEjtomosaX8RrLSAqDPXrRz4HBDWe6xhb5RfLTh31PSjXVfC3bZVaz/RSiA2
-	6CfoxypaHrNfWvSWxe3ZTBo6hlvtaU73EFNmgz8hE+a1faUNQBMUNzhJwkoo9U3L/mJB
-	GjI8+ho4OgytFFwZE36fBnaAvd9ybWWwvzbSMsdJSEh29Dut9RS/CpwIUEc+nNNJKrDT
-	cpLbuIOrddQUEQA83KtAQslo8XSR65A1rKfc+++h9HOdLvCyos77vnr57KFFS23xoKPJ
-	Vm+w==
-X-Gm-Message-State: AD7BkJJ3mfd8w6vqbpcGdN14P3wPrYdW8aIAe8yryyFiDlZbajEsSxXXoTjhwrBf5wZsqzzF0kohAfQOLSl04zD5
-X-Received: by 10.107.16.19 with SMTP id y19mr14140165ioi.148.1457457250209;
-	Tue, 08 Mar 2016 09:14:10 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 8 Mar 2016 09:13:50 -0800 (PST)
-In-Reply-To: <CABcZANnVfCAK3dXoGjbhYXs+=qJw9C1WcD3tZA76=TA+eOiTpA@mail.gmail.com>
-References: <1457392718-14397-1-git-send-email-sgw@linux.intel.com>
-	<CABcZANnVfCAK3dXoGjbhYXs+=qJw9C1WcD3tZA76=TA+eOiTpA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Mar 2016 17:13:50 +0000
-Message-ID: <CAJTo0LYZi+eiNL1Kz73u0id5sCCkJ_+03R3njhuSH52d=2zYhw@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] no-static-libs: Ensure correct whitespace is set for _append
+	Tue,  8 Mar 2016 18:31:23 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Mar 2016 10:31:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,557,1449561600"; d="scan'208";a="760402660"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by orsmga003.jf.intel.com with ESMTP; 08 Mar 2016 10:31:23 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Mar 2016 10:26:41 +0000
+Message-Id: <1457432801-8798-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Cc: joshua.g.lock@intel.com
+Subject: [PATCH] dhcp: CVE-2015-8605
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +29,280 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 17:14:10 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1eaaca915052d8cb5af
+X-List-Received-Date: Tue, 08 Mar 2016 18:31:24 -0000
 
---001a113fd1eaaca915052d8cb5af
-Content-Type: text/plain; charset=UTF-8
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-On 8 March 2016 at 16:57, Christopher Larson <clarson@kergoth.com> wrote:
+ISC DHCP allows remote attackers to cause a denial of
+service (application crash) via an invalid length field
+in a UDP IPv4 packet.
 
-> Just a note that doing it this way will result in do_configure checksums
-> changing for everything when no-static-libs gets included, even if
-> DISABLE_STATIC is explicitly set to the empty string, as there'll be a
-> trailing space always added to EXTRA_OECONF. If that's okay, so be it, but
-> I wanted to make sure it was considered.
->
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ .../dhcp/dhcp/CVE-2015-8605.patch                  |  99 ++++++++++++++++
+ .../dhcp/dhcp/CVE-2015-8605_1.patch                | 131 +++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   2 +
+ 3 files changed, 232 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
 
-Mostly agreed.  The libical change is right, but keeping the no-impact
-behaviour for the DISABLE_STATIC variable seems like the right thing to do.
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+new file mode 100644
+index 0000000..923d5d5
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+@@ -0,0 +1,99 @@
++Solves CVE-2015-8605 that caused DoS when an invalid lenght field in IPv4 UDP
++was recived by the server.
++
++Upstream-Status: Backport
++CVE: CVE-2015-8605
++
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
++
++=======================================================================
++diff --git a/common/packet.c b/common/packet.c
++index b530432..e600e37 100644
++--- a/common/packet.c
+++++ b/common/packet.c
++@@ -220,7 +220,28 @@ ssize_t decode_hw_header (interface, buf, bufix, from)
++ 	}
++ }
++ 
++-/* UDP header and IP header decoded together for convenience. */
+++/*!
+++ *
+++ * \brief UDP header and IP header decoded together for convenience.
+++ *
+++ * Attempt to decode the UDP and IP headers and, if necessary, checksum
+++ * the packet.
+++ *
+++ * \param inteface - the interface on which the packet was recevied
+++ * \param buf - a pointer to the buffer for the received packet
+++ * \param bufix - where to start processing the buffer, previous
+++ *                routines may have processed parts of the buffer already
+++ * \param from - space to return the address of the packet sender
+++ * \param buflen - remaining length of the buffer, this will have been
+++ *                 decremented by bufix by the caller
+++ * \param rbuflen - space to return the length of the payload from the udp
+++ *                  header
+++ * \param csum_ready - indication if the checksum is valid for use
+++ *                     non-zero indicates the checksum should be validated
+++ *
+++ * \return - the index to the first byte of the udp payload (that is the
+++ *           start of the DHCP packet
+++ */
++ 
++ ssize_t
++ decode_udp_ip_header(struct interface_info *interface,
++@@ -231,7 +252,7 @@ decode_udp_ip_header(struct interface_info *interface,
++   unsigned char *data;
++   struct ip ip;
++   struct udphdr udp;
++-  unsigned char *upp, *endbuf;
+++  unsigned char *upp;
++   u_int32_t ip_len, ulen, pkt_len;
++   static unsigned int ip_packets_seen = 0;
++   static unsigned int ip_packets_bad_checksum = 0;
++@@ -241,11 +262,8 @@ decode_udp_ip_header(struct interface_info *interface,
++   static unsigned int udp_packets_length_overflow = 0;
++   unsigned len;
++ 
++-  /* Designate the end of the input buffer for bounds checks. */
++-  endbuf = buf + bufix + buflen;
++-
++   /* Assure there is at least an IP header there. */
++-  if ((buf + bufix + sizeof(ip)) > endbuf)
+++  if (sizeof(ip) > buflen)
++ 	  return -1;
++ 
++   /* Copy the IP header into a stack aligned structure for inspection.
++@@ -257,13 +275,17 @@ decode_udp_ip_header(struct interface_info *interface,
++   ip_len = (*upp & 0x0f) << 2;
++   upp += ip_len;
++ 
++-  /* Check the IP packet length. */
+++  /* Check packet lengths are within the buffer:
+++   * first the ip header (ip_len)
+++   * then the packet length from the ip header (pkt_len)
+++   * then the udp header (ip_len + sizeof(udp)
+++   * We are liberal in what we accept, the udp payload should fit within
+++   * pkt_len, but we only check against the full buffer size.
+++   */
++   pkt_len = ntohs(ip.ip_len);
++-  if (pkt_len > buflen)
++-	return -1;
++-
++-  /* Assure after ip_len bytes that there is enough room for a UDP header. */
++-  if ((upp + sizeof(udp)) > endbuf)
+++  if ((ip_len > buflen) ||
+++      (pkt_len > buflen) ||
+++      ((ip_len + sizeof(udp)) > buflen))
++ 	  return -1;
++ 
++   /* Copy the UDP header into a stack aligned structure for inspection. */
++@@ -284,7 +306,8 @@ decode_udp_ip_header(struct interface_info *interface,
++ 	return -1;
++ 
++   udp_packets_length_checked++;
++-  if ((upp + ulen) > endbuf) {
+++  /* verify that the payload length from the udp packet fits in the buffer */
+++  if ((ip_len + ulen) > buflen) {
++ 	udp_packets_length_overflow++;
++ 	if (((udp_packets_length_checked > 4) &&
++ 	     (udp_packets_length_overflow != 0)) &&
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
+new file mode 100644
+index 0000000..37a3d72
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
+@@ -0,0 +1,131 @@
++This patch is needed for the CVE-2015-8605 that caused DoS when an invalid lenght field in IPv4 UDP
++was recived by the server.
++
++Upstream-Status: Backport
++CVE: CVE-2015-8605
++
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
++---
++From 0ce1aa94454ce9b50d592c08d7e0c559d38d3bc5 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Mon, 8 Sep 2014 09:31:32 -0400
++Subject: [PATCH] [master] Corrected error in UDP bad packet logging
++
++    Merges in rt36897
++---
++ common/packet.c | 55 +++++++++++++++++++++++++++++++++++--------------------
++ 1 file changed, 35 insertions(+), 20 deletions(-)
++
++diff --git a/common/packet.c b/common/packet.c
++index 45e96e8..7460f3d 100644
++--- a/common/packet.c
+++++ b/common/packet.c
++@@ -3,7 +3,7 @@
++    Packet assembly code, originally contributed by Archie Cobbs. */
++ 
++ /*
++- * Copyright (c) 2009,2012 by Internet Systems Consortium, Inc. ("ISC")
+++ * Copyright (c) 2009,2012,2014 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 2004,2005,2007 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 1996-2003 by Internet Software Consortium
++  *
++@@ -234,12 +234,12 @@ decode_udp_ip_header(struct interface_info *interface,
++   unsigned char *upp, *endbuf;
++   u_int32_t ip_len, ulen, pkt_len;
++   u_int32_t sum, usum;
++-  static int ip_packets_seen;
++-  static int ip_packets_bad_checksum;
++-  static int udp_packets_seen;
++-  static int udp_packets_bad_checksum;
++-  static int udp_packets_length_checked;
++-  static int udp_packets_length_overflow;
+++  static unsigned int ip_packets_seen = 0;
+++  static unsigned int ip_packets_bad_checksum = 0;
+++  static unsigned int udp_packets_seen = 0;
+++  static unsigned int udp_packets_bad_checksum = 0;
+++  static unsigned int udp_packets_length_checked = 0;
+++  static unsigned int udp_packets_length_overflow = 0;
++   unsigned len;
++ 
++   /* Designate the end of the input buffer for bounds checks. */
++@@ -287,10 +287,10 @@ decode_udp_ip_header(struct interface_info *interface,
++   udp_packets_length_checked++;
++   if ((upp + ulen) > endbuf) {
++ 	udp_packets_length_overflow++;
++-	if ((udp_packets_length_checked > 4) &&
++-	    ((udp_packets_length_checked /
++-	      udp_packets_length_overflow) < 2)) {
++-		log_info("%d udp packets in %d too long - dropped",
+++	if (((udp_packets_length_checked > 4) &&
+++	     (udp_packets_length_overflow != 0)) &&
+++	    ((udp_packets_length_checked / udp_packets_length_overflow) < 2)) {
+++		log_info("%u udp packets in %u too long - dropped",
++ 			 udp_packets_length_overflow,
++ 			 udp_packets_length_checked);
++ 		udp_packets_length_overflow = 0;
++@@ -299,22 +299,31 @@ decode_udp_ip_header(struct interface_info *interface,
++ 	return -1;
++   }
++ 
++-  if ((ulen < sizeof(udp)) || ((upp + ulen) > endbuf))
++-	return -1;
+++  /* If at least 5 with less than 50% bad, start over */
+++  if (udp_packets_length_checked > 4) {
+++	udp_packets_length_overflow = 0;
+++	udp_packets_length_checked = 0;
+++  }
++ 
++   /* Check the IP header checksum - it should be zero. */
++-  ++ip_packets_seen;
+++  ip_packets_seen++;
++   if (wrapsum (checksum (buf + bufix, ip_len, 0))) {
++ 	  ++ip_packets_bad_checksum;
++-	  if (ip_packets_seen > 4 &&
++-	      (ip_packets_seen / ip_packets_bad_checksum) < 2) {
++-		  log_info ("%d bad IP checksums seen in %d packets",
+++	  if (((ip_packets_seen > 4) && (ip_packets_bad_checksum != 0)) &&
+++	      ((ip_packets_seen / ip_packets_bad_checksum) < 2)) {
+++		  log_info ("%u bad IP checksums seen in %u packets",
++ 			    ip_packets_bad_checksum, ip_packets_seen);
++ 		  ip_packets_seen = ip_packets_bad_checksum = 0;
++ 	  }
++ 	  return -1;
++   }
++ 
+++  /* If at least 5 with less than 50% bad, start over */
+++  if (ip_packets_seen > 4) {
+++	ip_packets_bad_checksum = 0;
+++	ip_packets_seen = 0;
+++  }
+++
++   /* Copy out the IP source address... */
++   memcpy(&from->sin_addr, &ip.ip_src, 4);
++ 
++@@ -339,15 +348,21 @@ decode_udp_ip_header(struct interface_info *interface,
++   udp_packets_seen++;
++   if (usum && usum != sum) {
++ 	  udp_packets_bad_checksum++;
++-	  if (udp_packets_seen > 4 &&
++-	      (udp_packets_seen / udp_packets_bad_checksum) < 2) {
++-		  log_info ("%d bad udp checksums in %d packets",
+++	  if (((udp_packets_seen > 4) && (udp_packets_bad_checksum != 0)) &&
+++	      ((udp_packets_seen / udp_packets_bad_checksum) < 2)) {
+++		  log_info ("%u bad udp checksums in %u packets",
++ 			    udp_packets_bad_checksum, udp_packets_seen);
++ 		  udp_packets_seen = udp_packets_bad_checksum = 0;
++ 	  }
++ 	  return -1;
++   }
++ 
+++  /* If at least 5 with less than 50% bad, start over */
+++  if (udp_packets_seen > 4) {
+++	udp_packets_bad_checksum = 0;
+++	udp_packets_seen = 0;
+++  }
+++
++   /* Copy out the port... */
++   memcpy (&from -> sin_port, &udp.uh_sport, sizeof udp.uh_sport);
++ 
++-- 
++2.6.2
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+index d4414cc..4616693 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+@@ -6,7 +6,9 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://fixsepbuild.patch \
+             file://dhclient-script-drop-resolv.conf.dhclient.patch \
+             file://replace-ifconfig-route.patch \
++            file://CVE-2015-8605_1.patch \
+             file://dhcp-xen-checksum.patch \
++            file://CVE-2015-8605.patch \
+            "
+ 
+ SRC_URI[md5sum] = "b3a42ece3c7f2cd2e74a3e12ca881d20"
+-- 
+2.6.2
 
-Ross
 
---001a113fd1eaaca915052d8cb5af
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 March 2016 at 16:57, Christopher Larson <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Just a =
-note that doing it this way will result in do_configure checksums changing =
-for everything when no-static-libs gets included, even if DISABLE_STATIC is=
- explicitly set to the empty string, as there&#39;ll be a trailing space al=
-ways added to EXTRA_OECONF. If that&#39;s okay, so be it, but I wanted to m=
-ake sure it was considered.<div></div></div></blockquote></div><br>Mostly a=
-greed.=C2=A0 The libical change is right, but keeping the no-impact behavio=
-ur for the DISABLE_STATIC variable seems like the right thing to do.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a113fd1eaaca915052d8cb5af--
