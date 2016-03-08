@@ -1,30 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D570560119
+Return-Path: <pascal.bach@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 45CDC6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 08:09:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2889TsF022004
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 8 Mar 2016 00:09:29 -0800
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Mar 2016 00:09:28 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Zhenhua Luo
-	<zhenhua.luo@nxp.com>
-References: <1457014986.25131.69.camel@linuxfoundation.org>
-	<DB3PR04MB068422B10C54A685417DCE3AEEBE0@DB3PR04MB0684.eurprd04.prod.outlook.com>
-	<1457086698.2804.9.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56DE88AD.7090902@windriver.com>
-Date: Tue, 8 Mar 2016 16:09:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Tue,  8 Mar 2016 08:53:56 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id u288rrcJ026882
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 8 Mar 2016 09:53:54 +0100
+Received: from [139.16.79.50] (MD1FZU9C.ww002.siemens.net [139.16.79.50])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id u288rrpt029487;
+	Tue, 8 Mar 2016 09:53:53 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <56CC6832.90506@siemens.com>
+	<1457090416.2804.19.camel@linuxfoundation.org>
+	<56D9964E.1070404@siemens.com>
+	<1457105433.2804.30.camel@linuxfoundation.org>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <56DE9321.4030404@siemens.com>
+Date: Tue, 8 Mar 2016 09:53:53 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <1457086698.2804.9.camel@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Status of M3
+In-Reply-To: <1457105433.2804.30.camel@linuxfoundation.org>
+Subject: Re: Debugging using sysroots and GDB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,172 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 08:09:32 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060103000400010203040501"
-
---------------060103000400010203040501
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 08 Mar 2016 08:53:59 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2016 06:18 PM, Richard Purdie wrote:
-> On Fri, 2016-03-04 at 09:41 +0000, Zhenhua Luo wrote:
->>> * meta-fsl-ppc breaks on eudev change (patch pending)
->>> * meta-fsl-ppc breakage blocks AB artefact publishing
->> [Luo Zhenhua-B19537] The eudev patch is merged, http://git.yoctoproje
->> ct.org/cgit/cgit.cgi/meta-fsl
->> -ppc/commit/?id=2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there
->> any other blocker issue?
-> Thanks, I appreciate getting that sorted!
+Hi Richard
+> Using this method is a supported approach. I'm a little surprised
+> .debug directories don't work. Have you tried just setting:
 >
-> Unfortunately there is something else not quite right with meta-fsl
-> -ppc:
+> set sysroot /home/projects/rootfs-dbg
+> set substitute-path /usr/src/debug /home/projects/rootfs
+> -bbg/usr/src/debug
+This doesn't seem to work (tried only with dizzy).
+The only way I could get this to work is to extract both the rootfs and the rootfs-dbg into the same place and then set sysroot to that location.
+Is this the way it is supposed to be?
+
 >
-> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil
-> ds/667
+> as I believe it should work with IMAGE_GEN_DEBUGFS=1 "out the box". If
+> it doesn't that is a bug and we should try and look into fixing that.
+I'm currently using dizzy. I will give it another try with jethro next week maybe it is working there.
 
-Hi Richard,
+Pascal
 
-In the log, we have do_configure failed on python3:
-...
-| checking for the platform triplet based on compiler characteristics... 
-powerpc-linux-gnuspe
-| configure: error: internal configure error for the platform triplet, 
-please file a bug report
-| NOTE: The following config.log files may provide further information.
-...
-
-
-vim configure.ac in python3 source
-...
-  852 if test x$PLATFORM_TRIPLET != x && test x$MULTIARCH != x; then
-  853   if test x$PLATFORM_TRIPLET != x$MULTIARCH; then
-  854     AC_MSG_ERROR([internal configure error for the platform 
-triplet, please file a bug report])
-  855   fi
-  856 fi
-...
-
-In this case, PLATFORM_TRIPLET is powerpc-linux-gnuspe, and MULTIARCH is
-MULTIARCH=$($CC --print-multiarch 2>/dev/null), and both of them are not 
-equivalent.
-
-On my local build with MACHINE = "qemux86-64", the MULTIARCH is empty.
-
-On my local build with MACHINE = "p1022ds", $CC --print-multiarch
-powerpc-linux-gnuspev1
-
-Extra 'v1' casued the failure.
-
-I am going to see what happen on 'v1', file [YOCTO #9226] to trace it
-
-//Hongxu
-
-> Seems something is not working in python3 do_configure? Everything else
-> is building python3 fine so not sure what is wrong there.
->
-> Cheers,
->
-> Richard
-
-
---------------060103000400010203040501
-Content-Type: text/html; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 03/04/2016 06:18 PM, Richard Purdie
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:1457086698.2804.9.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">On Fri, 2016-03-04 at 09:41 +0000, Zhenhua Luo wrote:
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="">* meta-fsl-ppc breaks on eudev change (patch pending)
-* meta-fsl-ppc breakage blocks AB artefact publishing
-</pre>
-        </blockquote>
-        <pre wrap="">[Luo Zhenhua-B19537] The eudev patch is merged, <a class="moz-txt-link-freetext" href="http://git.yoctoproje">http://git.yoctoproje</a>
-ct.org/cgit/cgit.cgi/meta-fsl
--ppc/commit/?id=2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there
-any other blocker issue? 
-</pre>
-      </blockquote>
-      <pre wrap="">
-Thanks, I appreciate getting that sorted! 
-
-Unfortunately there is something else not quite right with meta-fsl
--ppc:
-
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil">https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil</a>
-ds/667
-</pre>
-    </blockquote>
-    <br>
-    Hi Richard,<br>
-    <br>
-    In the log, we have do_configure failed on python3:<br>
-    ...<br>
-    | checking for the platform triplet based on compiler
-    characteristics... powerpc-linux-gnuspe<br>
-    | configure: error: internal configure error for the platform
-    triplet, please file a bug report<br>
-    | NOTE: The following config.log files may provide further
-    information.<br>
-    ...<br>
-    <br>
-    <meta http-equiv="content-type" content="text/html;
-      charset=windows-1252">
-    <br>
-    vim configure.ac in python3 source<br>
-    ...<br>
-     852 if test x$PLATFORM_TRIPLET != x &amp;&amp; test x$MULTIARCH !=
-    x; then<br>
-     853   if test x$PLATFORM_TRIPLET != x$MULTIARCH; then<br>
-     854     AC_MSG_ERROR([internal configure error for the platform
-    triplet, please file a bug report])<br>
-     855   fi<br>
-     856 fi<br>
-    ...<br>
-    <br>
-    In this case, PLATFORM_TRIPLET is powerpc-linux-gnuspe, and
-    MULTIARCH is<br>
-    MULTIARCH=$($CC --print-multiarch 2&gt;/dev/null), and both of them
-    are not equivalent.<br>
-    <br>
-    On my local build with MACHINE = "qemux86-64", the MULTIARCH is
-    empty.<br>
-    <br>
-    On my local build with MACHINE = "p1022ds", $CC --print-multiarch<br>
-    powerpc-linux-gnuspev1<br>
-    <br>
-    Extra 'v1' casued the failure.<br>
-    <br>
-    I am going to see what happen on 'v1', file [YOCTO #9226] to trace
-    it<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote cite="mid:1457086698.2804.9.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">
-Seems something is not working in python3 do_configure? Everything else
-is building python3 fine so not sure what is wrong there.
-
-Cheers,
-
-Richard
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------060103000400010203040501--
