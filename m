@@ -1,22 +1,61 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 191D960043
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A9A2073196
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Mar 2016 23:18:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Mar 2016 15:18:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.22,554,1449561600"; d="scan'208";a="759846222"
-Received: from yihsuany-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.jf.intel.com) ([10.255.84.75])
-	by orsmga003.jf.intel.com with ESMTP; 07 Mar 2016 15:18:39 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon,  7 Mar 2016 15:18:38 -0800
-Message-Id: <1457392718-14397-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH v2] no-static-libs: Ensure correct whitespace is set for _append
+	Tue,  8 Mar 2016 00:55:02 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id tt10so132945pab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Mar 2016 16:55:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=IFxWWgNddOPl5mQSuTkzCK2GBlFdBpHSFFqIz32xHdM=;
+	b=YKtFbJ8v5xH2gMea2/1F7uouZxjjNwk8PX0sdiZCYTQ/4kowdiB0hWEWsYUcz/Q55d
+	y714CMX9A2whbKPvEMRwTZBs7oStbgXKTDcwwsI1bJrylHaPgE8Hqm9sL9ijSaJK8m0b
+	7RqOP8WSq2IvK1VX9zoMdKXJGEbNmg2Tqu1nkS+oyjbpOJ4JbOnYjExR0u9Pesdj6jNT
+	+hqa98gARAyGnKVfCcBX4xBF3TiTRrdzmeC5C/BLnWk9fFtWe3WyR4yiD5wXHW6Z3wef
+	FQcO1d8gYqc8VkdwLub0QRwFeWJsK3xmhitdz5JKxUK+rET6NkbFI8J23YdTi0b4AD6V
+	1Org==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=IFxWWgNddOPl5mQSuTkzCK2GBlFdBpHSFFqIz32xHdM=;
+	b=fACnmqVun+mxyZy6RAEx4Op7kPy9GjGj0RU0hitKLwlCDXLFvDLrka/gsjPWXfd+Ko
+	/nQ9KqLyeIUNV4OyRq45r+P63S8kicLLJG5MXFDQuHI1jQRPqtDKWRgs90i/7JNZe6io
+	ZC5G3wAEjkFq5OZJ3F83MAz79vODIc2qOiZx4atnK0PsxwSr7PfdwRblkq8KSz54JLcz
+	XSi3fsDMhtgoZGej4wQ56yFwymGa0nr04tMZjd/9QFWJUOeIjLMsBv37OArId153xBSM
+	+scAUgI43D2E98gOkt/l4snAhkax/liDnq2ofg6+oqFAsob9qE0C8Ay0jUiIjVxITnRQ
+	feKw==
+X-Gm-Message-State: AD7BkJJwlQ0D8vOsyldN5gS2xlNgzxTgq69yA9zNnkJgBscerxW4xqG7S7VW5eOjDzYv7w==
+X-Received: by 10.66.121.97 with SMTP id lj1mr37474254pab.51.1457398502726;
+	Mon, 07 Mar 2016 16:55:02 -0800 (PST)
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com.
+	[209.85.192.176]) by smtp.gmail.com with ESMTPSA id
+	s197sm229335pfs.62.2016.03.07.16.55.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Mar 2016 16:55:00 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f176.google.com with SMTP id 63so163951pfe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Mar 2016 16:55:00 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.98.80.10 with SMTP id e10mr37433767pfb.141.1457398500306;
+	Mon, 07 Mar 2016 16:55:00 -0800 (PST)
+Received: by 10.67.3.163 with HTTP; Mon, 7 Mar 2016 16:55:00 -0800 (PST)
+In-Reply-To: <1457361291-14009-2-git-send-email-daniel.dragomir@windriver.com>
+References: <1457361291-14009-1-git-send-email-daniel.dragomir@windriver.com>
+	<1457361291-14009-2-git-send-email-daniel.dragomir@windriver.com>
+Date: Mon, 7 Mar 2016 21:55:00 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq7M5kMuaQGeoUSssTEvhsnK-j-LqLeKQ6AqXJVoaeViQ@mail.gmail.com>
+Message-ID: <CAP9ODKq7M5kMuaQGeoUSssTEvhsnK-j-LqLeKQ6AqXJVoaeViQ@mail.gmail.com>
+To: Daniel Dragomir <daniel.dragomir@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master] Add tune for 32-bit ARMv8-a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,43 +68,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 23:18:56 -0000
+X-List-Received-Date: Tue, 08 Mar 2016 00:55:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Adjusted white space in the DISABLE_STATIC to make output of the -e
-option more readable.
+Hello Daniel,
 
-Before:
- " --enable-opt1 --with_opt1=${libdir}${DISABLE_STATIC}
-After
- " --enable-opt1 --with_opt1=${libdir} ${DISABLE_STATIC}
+On Mon, Mar 7, 2016 at 11:34 AM, Daniel Dragomir
+<daniel.dragomir@windriver.com> wrote:
+> This patch adds tunes for 32-bit armv8 platforms. The user can select
+> the vector floating-point instruction set: vfpv4 or fp-armv8
+> and the thumb, neon, crc and crypto extensions.
+>
+> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
-v2: Fixed commit message to show what was getting fixed
+First I would like to thank you for working on this. This is very
+helpful and a good step in extending the ARMv8 platform support in
+OE-Core.
 
- meta/conf/distro/include/no-static-libs.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I think you should also change the arch-arm64.inc file to use the
+armv8a.inc file. So it is more consistent.
 
-diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-index 6c0f859..0ab99c0 100644
---- a/meta/conf/distro/include/no-static-libs.inc
-+++ b/meta/conf/distro/include/no-static-libs.inc
-@@ -1,4 +1,4 @@
--DISABLE_STATIC = " --disable-static"
-+DISABLE_STATIC = "--disable-static"
- 
- # qemu aborts on unrecognised option
- DISABLE_STATIC_pn-qemu = ""
-@@ -27,6 +27,6 @@ DISABLE_STATIC_pn-nativesdk-openssl = ""
- # libssp-static-dev included in build-appliance
- DISABLE_STATIC_pn-gcc-runtime = ""
- 
--EXTRA_OECONF_append = "${DISABLE_STATIC}"
-+EXTRA_OECONF_append = " ${DISABLE_STATIC}"
- 
--EXTRA_OECMAKE_append_pn-libical = "-DSHARED_ONLY=True"
-+EXTRA_OECMAKE_append_pn-libical = " -DSHARED_ONLY=True"
 -- 
-2.5.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
