@@ -1,26 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 14A3D7326D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 54269731AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 04:34:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u284Y5V6017009
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 7 Mar 2016 20:34:05 -0800
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 7 Mar 2016 20:34:04 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 7 Mar 2016 23:33:59 -0500
-Message-ID: <118158a1d36a3a6c40ca15a0977c72780a551dae.1457411284.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1457411284.git.bruce.ashfield@windriver.com>
-References: <cover.1457411284.git.bruce.ashfield@windriver.com>
+	Tue,  8 Mar 2016 05:03:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Mar 2016 21:03:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,555,1449561600"; d="scan'208";a="904574868"
+Received: from jlee45-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.164.131])
+	by orsmga001.jf.intel.com with ESMTP; 07 Mar 2016 21:03:08 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Date: Tue, 08 Mar 2016 18:03:05 +1300
+Message-ID: <10265580.5bu4Qb5tF3@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.4.3-300.fc23.x86_64; KDE/4.14.17; x86_64; ;
+	)
+In-Reply-To: <1456410587-7337-2-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1456410587-7337-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1456410587-7337-2-git-send-email-markus.lehtonen@linux.intel.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto/4.4: explicitly enable ftrace in tracing fragment
+Subject: Re: [PATCH v2] externalsrc.bbclas: remove nostamp from do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +35,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 04:34:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Mar 2016 05:03:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The recent split/factoring between production and development
-kernel configurations, EXPERT, EMBEDDED and DEBUG_KERNEL are no longer
-selected for all kernel types. This means that ftrace is no longer
-selected by default in in standard BSPs, causing breakage in things
-that relied on it.
+Hi Markus,
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On Thu, 25 Feb 2016 16:29:47 Markus Lehtonen wrote:
+> Be a bit more intelligent than mindlessly re-compiling every time.
+> Instead of using 'nostamp' flag for do_compile run a python function to
+> get a list of files to add as 'file-checksums' flag.  The intention is
+> to only re-run do_compile if something in the source tree content
+> changes.
+> 
+> This python function, srctree_hash_files(), works differently, depending
+> if the source tree is a git repository clone or not. If the source tree
+> is a git repository, the function runs 'git add .' with a custom git
+> index file in order to record all changes in the git working tree. This
+> custom index file is then returned as the file for the task to depend
+> on. The index file is changed if any changes are made in the source tree
+> causing the task to be re-run.
+> 
+> If the source tree is not a git repository, srctree_hash_files() simply
+> adds the whole source tree as a dependency, causing bitbake to basically
+> hash every file in it. Hidden files and directories in the source tree
+> root are ignored by the glob currently used. This has the advantage of
+> automatically ignoring .git directory, for example.
+> 
+> This method of tracking changes source tree changes to determine if
+> re-build is needed does not work perofectly, though. Many packages are
+> built under ${S} which effectively changes the source tree causing some
+> unwanted re-compilations.  However, if do_compile of the recipe does not
+> produce new/different artefacts on every run (as commonly is and should
+> be the case) the re-compilation loop stops. Thus, you should usually see
+> only one re-compilation (if any) after which the source tree is
+> "stabilized" and no more re-compilations happen.
+> 
+> During the first bitbake run preparing of the task runqueue may take
+> much longer if the source tree is not a git repository. The reason is
+> that all the files in the source tree are hashed.  Subsequent builds are
+> not significantly slower because (most) file hashes are found from the
+> cache.
+> 
+> [YOCTO #8853]
+> 
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 25 +++++++++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/externalsrc.bbclass
+> b/meta/classes/externalsrc.bbclass index b608bd0..4f25bcf 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -85,8 +85,7 @@ python () {
+>          d.prependVarFlag('do_compile', 'prefuncs',
+> "externalsrc_compile_prefunc ") d.prependVarFlag('do_configure',
+> 'prefuncs', "externalsrc_configure_prefunc ")
+> 
+> -        # Ensure compilation happens every time
+> -        d.setVarFlag('do_compile', 'nostamp', '1')
+> +        d.setVarFlag('do_compile', 'file-checksums',
+> '${@srctree_hash_files(d)}')
+> 
+>          # We don't want the workdir to go away
+>          d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN', True))
+> @@ -125,3 +124,25 @@ python externalsrc_compile_prefunc() {
+>      # Make it obvious that this is happening, since forgetting about it
+> could lead to much confusion bb.plain('NOTE: %s: compiling from external
+> source tree %s' % (d.getVar('PN', True), d.getVar('EXTERNALSRC', True))) }
+> +
+> +def srctree_hash_files(d):
+> +    import shutil
+> +    import subprocess
+> +
+> +    s_dir = d.getVar('EXTERNALSRC', True)
+> +    git_dir = os.path.join(s_dir, '.git')
+> +    oe_index_file = os.path.join(git_dir, 'oe-devtool-index')
+> +
+> +    ret = " "
+> +    if os.path.exists(git_dir):
+> +        # Clone index
+> +        if not os.path.exists(oe_index_file):
+> +            shutil.copy2(os.path.join(git_dir, 'index'), oe_index_file)
+> +        # Update our custom index
+> +        env = os.environ.copy()
+> +        env['GIT_INDEX_FILE'] = oe_index_file
+> +        subprocess.check_output(['git', 'add', '.'], cwd=s_dir, env=env)
+> +        ret = oe_index_file + ':True'
+> +    else:
+> +        ret = d.getVar('EXTERNALSRC') + '/*:True'
+> +    return ret
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index d24c119973d7..eeca178f616f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
- require recipes-kernel/linux/linux-yocto.inc
- 
- SRCREV_machine ?= "19e3ed348aefd0802dc8747cc143bea1155edc12"
--SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
-+SRCREV_meta ?= "89419d8b902aa81cb4c52f9dd12a6c9e083ce198"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index c31f637155b2..b14eeaf1980b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
--SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
-+SRCREV_meta ?= "89419d8b902aa81cb4c52f9dd12a6c9e083ce198"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index ba39bb48dbf5..d9138688eda6 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
- SRCREV_machine_qemux86-64 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
- SRCREV_machine_qemumips64 ?= "79b496614c5d0b4862796928ef9890f2eb375a3b"
- SRCREV_machine ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
--SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
-+SRCREV_meta ?= "89419d8b902aa81cb4c52f9dd12a6c9e083ce198"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+So I finally made the time to look at this - sorry for the extreme delay. There 
+are a few issues:
+
+1) Unfortunately this clashes with the EXTERNALSRC_SYMLINKS functionality - we 
+now create oe-logs and oe-workdir symlinks in the source directory, and these 
+will be picked up by the file-checksums resulting in either warnings or errors 
+when pseudo.socket goes missing. For git repositories we should probably be 
+poking these into .git/info/exclude somehow; but without a git repository I'm 
+unsure as to how to exclude them. It could be that we make things easy on 
+ourselves and only activate this functionality if the source tree is a git 
+repository and just fall back to the old behaviour if it isn't.
+
+2) If the source tree is a git repo then we always only add files to the custom 
+index; if you then realise your .gitignore isn't complete and add some items 
+to be ignored within it, those items are still in the custom index and thus 
+still get incorporated into the signature. Perhaps we need to be doing a git 
+reset for that index before git add each time?
+
+3) Even with a git repository and a properly set up .gitignore such that I 
+could tell the index file's md5sum wasn't changing, I couldn't seem to get it 
+to work - it just built every time as before. I wonder if this has to do with 
+the CONFIGURESTAMPFILE functionality, since I noticed it's do_configure 
+executing every time.
+
+Cheers,
+Paul
+
 -- 
-2.5.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
