@@ -1,62 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id BBD8F731A8
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 40E0373167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 02:26:09 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id fl4so1777005pad.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 18:26:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=ASlVTMXtepcataSSq4cMQWgzd2nvEEHJJMGyicLzhc0=;
-	b=jV9erAGuiWSZlcW1JpY8WY2BF/VhGrCyRlvkFPEqNqXS0Y6oDLVJYYuvH3cxKWkgNT
-	LgRFMgyEaNIxf8kZpaDTnHN5teSB4nCFZ2tpemFL4MdFk/LCTwzHa5F346GQOLKROV7N
-	uIe3/PaZ3kkUTsmiE6T20o9XiWgk5Zw6806QIBfIBP2OBj7IUXftNewJslFb9hI8txmE
-	sVqtO4I8CY8jWwN6bzZ8BdKfqVP3xrPgR7YF3EvJl4RbbYF9TdEnR9LjbUoaOLS4/wcN
-	zVRPS5F8gQoMml5k7kJtvUXqIYpIDA6LiRNvk/6IaeJfmzXN06eUv+LS/2NqkLUBkWgd
-	fvVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=ASlVTMXtepcataSSq4cMQWgzd2nvEEHJJMGyicLzhc0=;
-	b=RhLRAdw9hkkIVSyXilv6nEv7dTuN3t/8ihQziN6JvT+5gW/x+QReUtR3hTG12wl8J2
-	XLCDzjSk0H/kZti2AheX4nrdqfpy9cPEX20J+L6uqAaRaA7G3iMNaxTZKfBkpC5JlGEA
-	z9TfERl3mVSWlBw0kfOcbIbyhSQUzktSwCED0gDiuhfAilBigmgixUvIkx+/RmLQEpMh
-	L7BfpO433Z1qOTcTv7RMpZiyAXjsFxxVEQTSbjyRFX/hqGkrNd7wNzWWIIWieOBrY08Z
-	KazxcpBUgXsVXiMGMCnub/7PmZ/s6U8quvC/U+jTdEgVsEv23Tu/U5bvgeI6wmwEbKIG
-	YZXA==
-X-Gm-Message-State: AD7BkJICFdT9geZXRcqKknmahtIqIa8TFNqBS4s45c3ByN5QyUNEVcJHCmdi9GSrI6FAzQ==
-X-Received: by 10.66.65.137 with SMTP id x9mr37816870pas.137.1457403969962;
-	Mon, 07 Mar 2016 18:26:09 -0800 (PST)
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com.
-	[209.85.192.170]) by smtp.gmail.com with ESMTPSA id
-	fk10sm498913pab.33.2016.03.07.18.26.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Mar 2016 18:26:08 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f170.google.com with SMTP id 63so1718262pfe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2016 18:26:07 -0800 (PST)
+	Tue,  8 Mar 2016 04:34:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u284Y2b0007346
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Mar 2016 20:34:02 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 7 Mar 2016 20:34:02 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 7 Mar 2016 23:33:57 -0500
+Message-ID: <68c13fe3a4a7f4331e4b8efc889ff726d04ea22d.1457411284.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1457411284.git.bruce.ashfield@windriver.com>
+References: <cover.1457411284.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.98.32.5 with SMTP id g5mr11299983pfg.95.1457403967618; Mon,
-	07 Mar 2016 18:26:07 -0800 (PST)
-Received: by 10.67.3.163 with HTTP; Mon, 7 Mar 2016 18:26:07 -0800 (PST)
-In-Reply-To: <CAP9ODKq7M5kMuaQGeoUSssTEvhsnK-j-LqLeKQ6AqXJVoaeViQ@mail.gmail.com>
-References: <1457361291-14009-1-git-send-email-daniel.dragomir@windriver.com>
-	<1457361291-14009-2-git-send-email-daniel.dragomir@windriver.com>
-	<CAP9ODKq7M5kMuaQGeoUSssTEvhsnK-j-LqLeKQ6AqXJVoaeViQ@mail.gmail.com>
-Date: Mon, 7 Mar 2016 23:26:07 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrM+q11scZdSsKnzeKACvPj2u7RTBb=t8V+XYuvONzdHA@mail.gmail.com>
-Message-ID: <CAP9ODKrM+q11scZdSsKnzeKACvPj2u7RTBb=t8V+XYuvONzdHA@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master] Add tune for 32-bit ARMv8-a
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL, EXPERT and EMBEDDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,35 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 02:26:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Mar 2016 04:34:03 -0000
+Content-Type: text/plain
 
-Hello Daniel,
+Integrating the folliwing patch series from Cal:
 
-On Mon, Mar 7, 2016 at 9:55 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Mon, Mar 7, 2016 at 11:34 AM, Daniel Dragomir
-> <daniel.dragomir@windriver.com> wrote:
->> This patch adds tunes for 32-bit armv8 platforms. The user can select
->> the vector floating-point instruction set: vfpv4 or fp-armv8
->> and the thumb, neon, crc and crypto extensions.
->>
->> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
->
-> First I would like to thank you for working on this. This is very
-> helpful and a good step in extending the ARMv8 platform support in
-> OE-Core.
->
-> I think you should also change the arch-arm64.inc file to use the
-> armv8a.inc file. So it is more consistent.
+  This patch series refactors the ktypes so that base and standard ktypes
+  do not enable EMBEDDED, EXPERT, or DEBUG_KERNEL. The reason this
+  decision was made is because production platforms likely do not want
+  DEBUG_KERNEL enabled, and EMBEDDED selects EXPERT which selects
+  DEBUG_KERNEL.
 
-When I tried to use armv8at-crc-crypto-fp-armv8-neon as default tune,
-it fails with:
+  A new ktype called "developer" was also created. This ktype
+  enables the options now missing from standard and base, making it easy
+  to maintain the functionality of a BSP through simply swapping the ktype
+  from standard to developer. The preempt-rt ktype is now based off of
+  developer in order to maintain its functionality.
 
-Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
-(armv8a-crc-crypto-fp-armv8-vfp).
+  The new standard ktype does not include EMBEDDED, EXPERT, or
+  DEBUG_KERNEL. Without DEBUG_KERNEL it loses a number of debug features
+  that are selected by default. Without EXPERT it gains RFKILL_INPUT and
+  DEBUG_MEMORY_INIT, while losing VMSPLIT_3G. These are only available to
+  configure with CONFIG_EXPERT=y and default to EXPERT or !EXPERT. Not
+  selecting EMBEDDED has no apparent impacts.
 
+  Some coordination is required for this change, as existing BSPs WILL be
+  affected, and will either need to accept the changes in the standard
+  ktype or move to the developer ktype.
+
+  California Sullivan (12):
+    features/debug: add debug-kernel feature
+    ktypes: add developer ktype
+    ktypes/base: Disable EMBEDDED and DEBUG_KERNEL
+    CONFIG_PROCESSOR_SELECT: do not enable
+    intel-common-drivers.scc: move profiling and latencytop to a new file
+    romley.scc remove profiling and latencytop features
+    bsp/intel-common: add intel-core* developer BSPs
+    preempt-rt.scc: include developer ktype instead of standard
+    intel-common: add intel-developer-drivers.scc to preempt-rt BSPs
+    CONFIG_I2C_I801: set option to yes in intel-core* BSPs
+    bsp: add developer common-pc BSPs
+    bsp: remove profiling and latencytop from non-developer common-pc BSPs
+
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index 7251c07fce81..41619d7296a3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+ SRCREV_machine ?= "853991833cc5140ca25450e81bf6b822d537a6ac"
+-SRCREV_meta ?= "8b6a7d80344837fd64163008521a31a6f891313e"
++SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index 0d35bc3ce8b0..5a0884a48706 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_meta ?= "8b6a7d80344837fd64163008521a31a6f891313e"
++SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index c5f160d78691..9c3fe7f1dedb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+ SRCREV_machine_qemux86-64 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+ SRCREV_machine_qemumips64 ?= "8bbcb369cf605d1ada384f4b950da2abc5d1f4cc"
+ SRCREV_machine ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_meta ?= "8b6a7d80344837fd64163008521a31a6f891313e"
++SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.5.0
+
 
