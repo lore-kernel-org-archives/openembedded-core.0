@@ -1,49 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 90C7E60621
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AAEC160017
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 16:28:56 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id z76so32233049iof.3
+	Tue,  8 Mar 2016 16:57:53 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id n190so33590054iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Mar 2016 08:28:57 -0800 (PST)
+	Tue, 08 Mar 2016 08:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mlM4M3xdEjfZQ3n+PxbO4HLo4LgtJTn/VEpduIh+j3o=;
-	b=K0y9GWHFozhxBbh56+eT8AV1tQUtD8qfFz6HRsqzfQlu6pvRMUDxoYwphvyUD7D3NY
-	OrRG0GRe5xYEzyPJo37ECZ5VdAB1CzJAI/WZcYoXGVT6/5URJcP2GnFEGRk2cvCZ9tcM
-	WNuLs0SmYjLBK2rbXtcxDIMbFoU59kiTZdC2eAvOBNLdLAiTWCMeVnXEX6z9rKCzIYky
-	lNP3qz0Twy8/ryqi5C8U1rL/Wdi0Sm7YCsndwPnTpPEBxNV+l8PrhW73M8b7HmvUnsyf
-	1XM6DK2QbiwOqO4hlGm56TkoZ6CQzAcv70sB/Foau6ys2b70eQmbLMJQLBM/03Jx4yct
-	uGvA==
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=Zzr5+5qqbMXAKb0Nw6B9SleahWciMTt+jPOMxh+/Tu0=;
+	b=DVzFeZsA/lzmiawKHIIRq1l6zhzKS6Vt6Jgn/I+e/auJJ4OTmIPAOzbCG54frbPgRm
+	UdoUSpBGyCgupRCj4ki/CFBb/rt7YpFk3nOVsDTgQODzeDmVe6+aVV6h5SuJ0OUlSMmT
+	sP7YoL97QuWZkjbE9xWSwDy19G2+NVc0nw8o8yXIWG2d7t/j5AURTl+GwxDbTMGpbpwY
+	1hU1ZcnBpBlKXEAoMFrsCt6vgsq02g4hfkdzeRqz+oeI5ByI0DK9DkzwXwDCSvnQqUeG
+	uswAXyXpD6X1r3W6/Vcttf+7XpC9T5gsR5+Tyvv7o9FR5KgzR4PF9bBCZ2zehIwhmiTq
+	96/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mlM4M3xdEjfZQ3n+PxbO4HLo4LgtJTn/VEpduIh+j3o=;
-	b=eQMda+2IWceDvGtvCxqYHs3dB+8+1GTIzEglKAmAEcRJolU8rZaV1XqmiVxxarDkiq
-	LJhzM17vEXuVWJp+ESuYf9v3TQ2vUMr04nsxvX1iBXrPb9r543rsL3jpp5KPvcCiHn73
-	RbtYjorBFN0j8VICrvYfDTkC4aXOuqWOfnJ/lpJpZnOT0kFaMg/HXHOfVQJZItiYCICr
-	HXVjah3tE854zDY37/NR4iGHM591lNH8dQ+vSZ53enVdqeimM0wEkF8vXkFIiYP5XFjt
-	Sumik6WAlk4qX1mL7RzJVJmftDGaslZhx5JxwSGAEVbMGBYKKAUy+BLAEPmx8UcYC4C6
-	EKBg==
-X-Gm-Message-State: AD7BkJLUW1ihargM11KCPJ5IPp60FqTlRdPQy0ug09/T+uls3rw/A/0iRfa+2aCJ5pEc5bLioQeBrUIDt2q30xXx
-X-Received: by 10.107.6.32 with SMTP id 32mr12414292iog.99.1457454537062; Tue,
-	08 Mar 2016 08:28:57 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=Zzr5+5qqbMXAKb0Nw6B9SleahWciMTt+jPOMxh+/Tu0=;
+	b=AwuCUh9kgeH/wVudwEub+iQAEq2rd4XoMcX8tIyLlTChaR7CW9dFhwQnzXulmVWRkX
+	P1CO/NQozNFo4Tacm8BwPFXdsPBScJulsTt9/EOVFvECSl8DAcFvJL72SgzCwaesyF7W
+	0IOFsh+IYXgZb9yOAytXGhf6eIyPxZBSVJ+YUDmcxo0vI8xNtbW8AO/bJElWc2ntmXKr
+	a4KlzbZgp/cPvyEPTWOD7BpKbfoZh6qBTyppnhVaFaJh6w9Mig6LZIJBU21NCTbfP9KY
+	L/t4bzKE5+3u0gHNakcObTR6DEzNinaE9TQEvCIBBKLgNTvtl3OKCNf/4v+gUNRJnTc/
+	1sWw==
+X-Gm-Message-State: AD7BkJIef3kqmncnAVbNut3mY/r584g/M1UxWUu9JPEJBwllK4nLRf8ODas/s2xnzaafhkXeawzRK1+Rf+7dzA==
+X-Received: by 10.107.15.153 with SMTP id 25mr18447710iop.3.1457456274129;
+	Tue, 08 Mar 2016 08:57:54 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 8 Mar 2016 08:28:37 -0800 (PST)
-In-Reply-To: <56DEFABE.1010501@windriver.com>
-References: <cover.1457373422.git.mark.hatle@windriver.com>
-	<CAJTo0LasT7As+5SRFduxEtv7vKMkBTWnCGGSWzvxY0=+jS5Asw@mail.gmail.com>
-	<CAJTo0LZ8gm7Vvo-GB-JG+1yJxnq-MPr__N7XGGqwJN-yXL25Yw@mail.gmail.com>
-	<56DEFABE.1010501@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Mar 2016 16:28:37 +0000
-Message-ID: <CAJTo0LbVY8fzR3=wng77_79nfNEWu-f-=_K5=5FyjFyD4XSRtw@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7 v4] Upgrade RPM to 5.4.16 (CVE HEAD)
+References: <1457392718-14397-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1457392718-14397-1-git-send-email-sgw@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 08 Mar 2016 16:57:44 +0000
+Message-ID: <CABcZANnVfCAK3dXoGjbhYXs+=qJw9C1WcD3tZA76=TA+eOiTpA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Subject: Re: [PATCH v2] no-static-libs: Ensure correct whitespace is set for _append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +52,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 16:28:57 -0000
-Content-Type: multipart/alternative; boundary=001a113fbf5cf572b1052d8c13b3
+X-List-Received-Date: Tue, 08 Mar 2016 16:57:53 -0000
+Content-Type: multipart/alternative; boundary=001a113ee4fc7ecd3c052d8c7bb8
 
---001a113fbf5cf572b1052d8c13b3
+--001a113ee4fc7ecd3c052d8c7bb8
 Content-Type: text/plain; charset=UTF-8
 
-On 8 March 2016 at 16:15, Mark Hatle <mark.hatle@windriver.com> wrote:
+Just a note that doing it this way will result in do_configure checksums
+changing for everything when no-static-libs gets included, even if
+DISABLE_STATIC is explicitly set to the empty string, as there'll be a
+trailing space always added to EXTRA_OECONF. If that's okay, so be it, but
+I wanted to make sure it was considered.
 
-> Does 'musl' work in poky yet, or do you still need an external layer?
+On Mon, Mar 7, 2016 at 4:19 PM Saul Wold <sgw@linux.intel.com> wrote:
+
+> Adjusted white space in the DISABLE_STATIC to make output of the -e
+> option more readable.
 >
-> I've not configured musl before, so I'm not sure what steps are necessary.
+> Before:
+>  " --enable-opt1 --with_opt1=${libdir}${DISABLE_STATIC}
+> After
+>  " --enable-opt1 --with_opt1=${libdir} ${DISABLE_STATIC}
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> v2: Fixed commit message to show what was getting fixed
+>
+>  meta/conf/distro/include/no-static-libs.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/no-static-libs.inc
+> b/meta/conf/distro/include/no-static-libs.inc
+> index 6c0f859..0ab99c0 100644
+> --- a/meta/conf/distro/include/no-static-libs.inc
+> +++ b/meta/conf/distro/include/no-static-libs.inc
+> @@ -1,4 +1,4 @@
+> -DISABLE_STATIC = " --disable-static"
+> +DISABLE_STATIC = "--disable-static"
+>
+>  # qemu aborts on unrecognised option
+>  DISABLE_STATIC_pn-qemu = ""
+> @@ -27,6 +27,6 @@ DISABLE_STATIC_pn-nativesdk-openssl = ""
+>  # libssp-static-dev included in build-appliance
+>  DISABLE_STATIC_pn-gcc-runtime = ""
+>
+> -EXTRA_OECONF_append = "${DISABLE_STATIC}"
+> +EXTRA_OECONF_append = " ${DISABLE_STATIC}"
+>
+> -EXTRA_OECMAKE_append_pn-libical = "-DSHARED_ONLY=True"
+> +EXTRA_OECMAKE_append_pn-libical = " -DSHARED_ONLY=True"
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Oh didn't notice that was musl.  Most of oe-core builds standalone with
-musl now, but rpm is a known exception.  Ignore this one, it's nothing to
-do with the upgrade.
-
-Ross
-
---001a113fbf5cf572b1052d8c13b3
+--001a113ee4fc7ecd3c052d8c7bb8
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 March 2016 at 16:15, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":63t" class=
-=3D"a3s" style=3D"overflow:hidden">Does &#39;musl&#39; work in poky yet, or=
- do you still need an external layer?<br>
+<div dir=3D"ltr">Just a note that doing it this way will result in do_confi=
+gure checksums changing for everything when no-static-libs gets included, e=
+ven if DISABLE_STATIC is explicitly set to the empty string, as there&#39;l=
+l be a trailing space always added to EXTRA_OECONF. If that&#39;s okay, so =
+be it, but I wanted to make sure it was considered.<br><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr">On Mon, Mar 7, 2016 at 4:19 PM Saul Wold &lt;<a=
+ href=3D"mailto:sgw@linux.intel.com">sgw@linux.intel.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">Adjusted white space in the DISABLE_ST=
+ATIC to make output of the -e<br>
+option more readable.<br>
 <br>
-I&#39;ve not configured musl before, so I&#39;m not sure what steps are nec=
-essary.</div></blockquote></div><br>Oh didn&#39;t notice that was musl.=C2=
-=A0 Most of oe-core builds standalone with musl now, but rpm is a known exc=
-eption.=C2=A0 Ignore this one, it&#39;s nothing to do with the upgrade.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
+Before:<br>
+=C2=A0&quot; --enable-opt1 --with_opt1=3D${libdir}${DISABLE_STATIC}<br>
+After<br>
+=C2=A0&quot; --enable-opt1 --with_opt1=3D${libdir} ${DISABLE_STATIC}<br>
+<br>
+Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com" target=
+=3D"_blank">sgw@linux.intel.com</a>&gt;<br>
+---<br>
+v2: Fixed commit message to show what was getting fixed<br>
+<br>
+=C2=A0meta/conf/distro/include/no-static-libs.inc | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro=
+/include/no-static-libs.inc<br>
+index 6c0f859..0ab99c0 100644<br>
+--- a/meta/conf/distro/include/no-static-libs.inc<br>
++++ b/meta/conf/distro/include/no-static-libs.inc<br>
+@@ -1,4 +1,4 @@<br>
+-DISABLE_STATIC =3D &quot; --disable-static&quot;<br>
++DISABLE_STATIC =3D &quot;--disable-static&quot;<br>
+<br>
+=C2=A0# qemu aborts on unrecognised option<br>
+=C2=A0DISABLE_STATIC_pn-qemu =3D &quot;&quot;<br>
+@@ -27,6 +27,6 @@ DISABLE_STATIC_pn-nativesdk-openssl =3D &quot;&quot;<br>
+=C2=A0# libssp-static-dev included in build-appliance<br>
+=C2=A0DISABLE_STATIC_pn-gcc-runtime =3D &quot;&quot;<br>
+<br>
+-EXTRA_OECONF_append =3D &quot;${DISABLE_STATIC}&quot;<br>
++EXTRA_OECONF_append =3D &quot; ${DISABLE_STATIC}&quot;<br>
+<br>
+-EXTRA_OECMAKE_append_pn-libical =3D &quot;-DSHARED_ONLY=3DTrue&quot;<br>
++EXTRA_OECMAKE_append_pn-libical =3D &quot; -DSHARED_ONLY=3DTrue&quot;<br>
+--<br>
+2.5.0<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
 
---001a113fbf5cf572b1052d8c13b3--
+--001a113ee4fc7ecd3c052d8c7bb8--
