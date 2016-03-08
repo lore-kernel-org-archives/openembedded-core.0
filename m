@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BE4A73172
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6B473172
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 04:34:02 +0000 (UTC)
+	Tue,  8 Mar 2016 04:34:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u284Y1fD017006
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 7 Mar 2016 20:34:01 -0800
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u284Y3Ow017562
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Mar 2016 20:34:04 -0800 (PST)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 7 Mar 2016 20:34:00 -0800
+	14.3.248.2; Mon, 7 Mar 2016 20:34:03 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 7 Mar 2016 23:33:56 -0500
-Message-ID: <cover.1457411284.git.bruce.ashfield@windriver.com>
+Date: Mon, 7 Mar 2016 23:33:58 -0500
+Message-ID: <8c72caca31537d267598d5f1127c3c2012bc6158.1457411284.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1457411284.git.bruce.ashfield@windriver.com>
+References: <cover.1457411284.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/3] linux-yocto/4.4: updated pull request
+Subject: [PATCH 2/3] linux-yocto/4.4: iwlwifi: mvm: don't allow sched scans without matches to be started
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 04:34:03 -0000
+X-List-Received-Date: Tue, 08 Mar 2016 04:34:04 -0000
 Content-Type: text/plain
 
-Hi all,
+Integrating the following commit for improved iwlwifi support:
 
-Ross pointed out that the AB found some issues with lttng when the refactored
-kernel types change was included (missing modules).
+    iwlwifi: mvm: don't allow sched scans without matches to be started
 
-I previously sent patch [linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL,
-EXPERT and EMBEDDED], and I've included it in this updated pull
-request, but it is unchanged.
+    commit 5e56276e7555b34550d51459a801ff75eca8b907 upstream.
 
-The new parts are a backport for wilwifi stability, and a patch that fixes up
-the tracing configuration of the "production" kernel type.
+    The firmware can perform a scheduled scan with not matchsets passed,
+    but it can't send notification that results were found.  Since the
+    userspace then cannot know when we got new results and the firmware
+    wouldn't trigger a wake in case we are sleeping, it's better not to
+    allow scans without matchsets.
 
-I thought about squashing the ftrace fixup, with the refactored patch, but
-keeping them separate is better in the history .. since it highlights some of
-the issues when we rely on default/selected values.
+    This fixes https://bugzilla.kernel.org/show_bug.cgi?id=110831
 
-Cheers,
+    Signed-off-by: Luca Coelho <luciano.coelho@intel.com>
+    Signed-off-by: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+    Signed-off-by: Wu Zheng <wu.zheng@intel.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Bruce
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-The following changes since commit 5ac3dc76a5afc2ed35b1abfc8e330e0c580eadf0:
-
-  image.bbclass: fix incomplete .rootfs customization (2016-03-07 22:10:54 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (3):
-  linux-yocto/kernel-meta: ktype refactoring: move DEBUG_KERNEL, EXPERT  and EMBEDDED
-  linux-yocto/4.4: iwlwifi: mvm: don't allow sched scans without matches to be started
-  linux-yocto/4.4: explicitly enable ftrace in tracing fragment
-
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
- 3 files changed, 13 insertions(+), 13 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index 41619d7296a3..d24c119973d7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -2,7 +2,7 @@ KBRANCH ?= "standard/preempt-rt"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "853991833cc5140ca25450e81bf6b822d537a6ac"
++SRCREV_machine ?= "19e3ed348aefd0802dc8747cc143bea1155edc12"
+ SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index 5a0884a48706..c31f637155b2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.4.3"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
++SRCREV_machine ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+ SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index 9c3fe7f1dedb..ba39bb48dbf5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "fa6a2f888d8adfe03b24ef32654be470960aed41"
+-SRCREV_machine_qemuarm64 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_machine_qemumips ?= "a23b6eb1c5bca3bde2a9f94d9059274fff7da281"
+-SRCREV_machine_qemuppc ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_machine_qemux86 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_machine_qemux86-64 ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
+-SRCREV_machine_qemumips64 ?= "8bbcb369cf605d1ada384f4b950da2abc5d1f4cc"
+-SRCREV_machine ?= "ff4c4ef15b51f45b9106d71bf1f62fe7c02e63c2"
++SRCREV_machine_qemuarm ?= "d3ce63d0c83f579605b308f83c62a49e5dbf73e6"
++SRCREV_machine_qemuarm64 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
++SRCREV_machine_qemumips ?= "06c34af69f436c8dca8ff23a30a7d1f834e1d07c"
++SRCREV_machine_qemuppc ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
++SRCREV_machine_qemux86 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
++SRCREV_machine_qemux86-64 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
++SRCREV_machine_qemumips64 ?= "79b496614c5d0b4862796928ef9890f2eb375a3b"
++SRCREV_machine ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+ SRCREV_meta ?= "da47accec6c17c22cecf064be1da29b5bf3d7583"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
 -- 
 2.5.0
 
