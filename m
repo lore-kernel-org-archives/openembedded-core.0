@@ -1,44 +1,26 @@
-Return-Path: <nathangutzmann@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AE4165CC2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id EED9662136
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 21:45:47 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id x188so21997364pfb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Mar 2016 13:45:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=vhIRfkOZG4CYnRJuWwXmyVczLGfijpglEq1kkaVqLug=;
-	b=yfeR4pzQpUYgjMk73CUix4buoI1+enX1U1PkfOSlCxR/u+bA5MimDjJ7F9ws4s2Rd2
-	u6eTVf6BwdelyPwhuq3uJDrS9YQUqiX3+plebyIoeWFPoiGAX09R5s2b2hPt2N+/lULH
-	3RDUwfa4xBhLB6IkuRrIvcaTImjTfnwxuINjk6JGK5nocCnCvzKHJ1Vo+4NoMX4SrOeh
-	3+0w5nvK8V6qiWB75PbUc1zkl8SwSS7uG6Xwfu1+sOBJ91Kl9M2OBVcKbWVo+uCLWrdK
-	71y7gKpFXTHlUoWc53g3PJibcc0ZCVkBbw9ue3D7MyaRwlZw+ngZdt/TKCZn0rvPRiKA
-	sODQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vhIRfkOZG4CYnRJuWwXmyVczLGfijpglEq1kkaVqLug=;
-	b=LrvIKMSH+BzgFFkcNxT+Giz+q1MCjWm7Al9W6SWybUMlqQpyLGMdYq5pLX2ALi2UCo
-	6+TPgrjd5W7N9b4ukSa0gEPEDvOXuKaHxp5NLjn58ZsenePH4SLzRwnKRF71vBa4fE55
-	0uh56c3zkk+NgUSeEulaGjqFD8VBTBT1OVf3UvfdQLHjPo0C889oxQRw6R2msXpsg3kT
-	LtVCPhTQUpF2lBXAiNSvbYZR4MDSQdww48cw71CVA63EEfMkXtsa867gghetHoPesLFp
-	oEFemQzDwEvrcDEuC/zbemnM9I+soeZqsSUXp6dcfuDyb0ZHYFoFVShrDnLctyRt0Jcv
-	J1eA==
-X-Gm-Message-State: AD7BkJL/bOIWPNQQGo27OS8VfMBWk9Pf2/RUaIvyoxGSTaooFi6V/SakdkUHltx0rjs5Vw==
-X-Received: by 10.98.16.198 with SMTP id 67mr45300887pfq.21.1457473548065;
-	Tue, 08 Mar 2016 13:45:48 -0800 (PST)
-Received: from ngutzmann-fedora.int.pason.com ([69.58.16.39])
-	by smtp.gmail.com with ESMTPSA id 9sm7123031pfm.10.2016.03.08.13.45.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Mar 2016 13:45:47 -0800 (PST)
-From: ngutzmann <nathangutzmann@gmail.com>
+	Tue,  8 Mar 2016 22:01:58 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 08 Mar 2016 14:01:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.22,558,1449561600"; d="scan'208";a="760528336"
+Received: from mlim-mobl4.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.143.14])
+	by orsmga003.jf.intel.com with ESMTP; 08 Mar 2016 14:01:46 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Mar 2016 14:49:20 -0700
-Message-Id: <1457473760-8486-1-git-send-email-nathangutzmann@gmail.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [meta-oe][PATCH] nettle: The variable named p in the patch file was incorrectly named.
+Date: Wed, 09 Mar 2016 11:01:43 +1300
+Message-ID: <10266506.VF7A6qpapW@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.4.3-300.fc23.x86_64; KDE/4.14.17; x86_64; ;
+	)
+In-Reply-To: <cover.1457415260.git.paul.eggleton@linux.intel.com>
+References: <cover.1457415260.git.paul.eggleton@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/6] recipetool create improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,30 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 21:45:48 -0000
+X-List-Received-Date: Tue, 08 Mar 2016 22:02:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The variable in question should have been called ecc->p. The patch has been updated
-so that the compilation of the nettle recipe would complete successfully.
+On Tue, 08 Mar 2016 18:35:59 Paul Eggleton wrote:
+> Improvements to the following areas of recipetool create:
+> * License detection
+> * Autotools program mapping and spacing in macro regexes
+> * npm module handling
+> 
+> 
+> The following changes since commit 0d02159c8d66bb136f7da2c10fda7d1a57f40cec:
+> 
+>   image.bbclass: fix incomplete .rootfs customization (2016-03-07 22:01:16
+> +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib paule/recipetool3
+>  
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paul
+> e/recipetool3
+> 
+> Paul Eggleton (6):
+>   recipetool: create: be more tolerant of spacing in configure.ac
+>   recipetool: create: improve mapping for autotools program macros
+>   recipetool: create: match *LICENSE* as a license file
+>   recipetool: create: add license file crunching
+>   recipetool: create: split npm module dependencies into packages
+>   recipetool: create: check if npm available if npm:// URL specified
 
-Signed-off-by: ngutzmann <nathangutzmann@gmail.com>
----
- meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm, I discovered a bug and a deficiency with patch 5/6, as well as some 
+problems with the npm fetcher itself. I'll send a new series for the former 
+today, as well as  some patches to the bitbake list for the latter.
 
-diff --git a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-index 1c4b9a9..a956f42 100644
---- a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-+++ b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-@@ -40,7 +40,7 @@ Index: nettle-2.7.1/ecc-256.c
-        u1 -= cy;
- -      u1 += cnd_add_n (t, rp + n - 4, ecc->p, 3);
- +
--+      cy = cnd_add_n (t, rp + n - 4, p->m, 2);
-++      cy = cnd_add_n (t, rp + n - 4, ecc->p, 2);
- +      u0 += cy;
- +      u1 += (u0 < cy);
-        u1 -= (-t) & 0xffffffff;
+Cheers,
+Paul
+
 -- 
-2.1.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
