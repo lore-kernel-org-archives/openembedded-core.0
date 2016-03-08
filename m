@@ -1,45 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C18762135
+Return-Path: <Daniel.Dragomir@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 65E116080F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 11:27:37 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id p65so145386644wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Mar 2016 03:27:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=y4cKY8AaK8VDHBR2LLJKoVRvMCWMlQYw1IXFayyjy5E=;
-	b=hqjbUbhpGmTYUhc6R9AOdqt/LqNbGuL4kNoUELp7uFo8p0E83yrDKYlbluEVKeeyjK
-	HNVNMJuzjSeQXZPUPlZ1pGYZvGuIAvE300/jwpvOf35iqV5MYzjiNoYa/8+wH0F/Bfmd
-	DGVIxdDFKl5J0ZAJ7atLKh1kRSFrKodwjkjnen3qLZBqkDVGCPfCF7MDfFTp7GQAh44Y
-	/ZpDhFzVAjA65vAf3WHgGPVEE6EsZ/S4zm1OsIYx1vB07OFO3ofkUG7QYpAe4Zc6pIQe
-	AjQZXxaxKjf0MxPZAu7QxeJLed3bz6tEXVAj//kAId2kjZJ2GlgwS8XBh9jaCLQsaU4P
-	jo+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=y4cKY8AaK8VDHBR2LLJKoVRvMCWMlQYw1IXFayyjy5E=;
-	b=SK13B+WP+q9rTfqCtkIWvTBBXa9y0CFTitcWTRtiMBgUd3CZPnvq5GXtDXeDOykzSH
-	wVwtXPwHTVDR/eRO70skpBCmzbkW93jWKpAdzjHGgLbceyGJzQr0oF4lkcTfXsmQxpqc
-	jes/ixZ+MBC6lTilu6gt+jshBqh/1O8ov1sKUimygMHmrmDRn3yrCMyDuPstWFdd48zD
-	bRX/CEP7CBOHWNkkYFfw3wDYYfCAaphkY2GKBKHaBXfFE0KkKJBz622AXydbxfRzodaB
-	EtWHAm4QBqCsZ6WuPg6w844DQbEyIKYTBhVXxbTByK7cyQHrwQ4+HkCI8F7fmqwH2a6M
-	sXGA==
-X-Gm-Message-State: AD7BkJJw5LWi1mqv1rLmt7tqEPZz1CGphXcv3q7vBeby8V0oMuxQ/SXXLsL/girpUVlTsoOY
-X-Received: by 10.194.78.37 with SMTP id y5mr27975072wjw.78.1457436458204;
-	Tue, 08 Mar 2016 03:27:38 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id hq2sm2511604wjb.3.2016.03.08.03.27.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Mar 2016 03:27:37 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Mar 2016 11:27:35 +0000
-Message-Id: <1457436455-20396-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] xmlto: tell xmlto where cp is
+	Tue,  8 Mar 2016 11:38:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u28BcFBS022903
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Mar 2016 03:38:15 -0800 (PST)
+Received: from [128.224.124.174] (128.224.124.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Tue, 8 Mar 2016 03:38:14 -0800
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Otavio Salvador
+	<otavio@ossystems.com.br>
+References: <1457361291-14009-1-git-send-email-daniel.dragomir@windriver.com>
+	<1457361291-14009-2-git-send-email-daniel.dragomir@windriver.com>
+	<CAP9ODKq7M5kMuaQGeoUSssTEvhsnK-j-LqLeKQ6AqXJVoaeViQ@mail.gmail.com>
+	<CAP9ODKrM+q11scZdSsKnzeKACvPj2u7RTBb=t8V+XYuvONzdHA@mail.gmail.com>
+From: Dragomir Daniel <daniel.dragomir@windriver.com>
+Message-ID: <56DEB981.2030801@windriver.com>
+Date: Tue, 8 Mar 2016 13:37:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKrM+q11scZdSsKnzeKACvPj2u7RTBb=t8V+XYuvONzdHA@mail.gmail.com>
+X-Originating-IP: [128.224.124.174]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master] Add tune for 32-bit ARMv8-a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,32 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 11:27:39 -0000
+X-List-Received-Date: Tue, 08 Mar 2016 11:38:15 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-xmlto looks for a cp binary, and on e.g. Fedora 23 will find it at /usr/bin/cp
-but most other distros have it at /bin/cp.  This causing problems with sharing
-sstate between distributions, but as /bin is a symlink on F23 we can safely
-force the path to /bin/cp.
+Thanks, Otavio!
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'll update also the arch-arm64.inc file to have 64bit support for armv8a
+in a new version for the patch.
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 54438ef..71f873f 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -27,7 +27,7 @@ RDEPENDS_${PN}_append_class-target = " \
- 
- BBCLASSEXTEND = "native"
- 
--EXTRA_OECONF_append = " BASH=/bin/bash XMLLINT=xmllint XSLTPROC=xsltproc"
-+EXTRA_OECONF_append = " BASH=/bin/bash GCP=/bin/cp XMLLINT=xmllint XSLTPROC=xsltproc"
- 
- do_install_append() {
-     install -d ${D}${sysconfdir}/xml/
--- 
-2.7.0
+On 03/08/2016 04:26 AM, Otavio Salvador wrote:
+> Hello Daniel,
+>
+> On Mon, Mar 7, 2016 at 9:55 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> On Mon, Mar 7, 2016 at 11:34 AM, Daniel Dragomir
+>> <daniel.dragomir@windriver.com> wrote:
+>>> This patch adds tunes for 32-bit armv8 platforms. The user can select
+>>> the vector floating-point instruction set: vfpv4 or fp-armv8
+>>> and the thumb, neon, crc and crypto extensions.
+>>>
+>>> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+>> First I would like to thank you for working on this. This is very
+>> helpful and a good step in extending the ARMv8 platform support in
+>> OE-Core.
+>>
+>> I think you should also change the arch-arm64.inc file to use the
+>> armv8a.inc file. So it is more consistent.
+> When I tried to use armv8at-crc-crypto-fp-armv8-neon as default tune,
+> it fails with:
+>
+> Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
+> (armv8a-crc-crypto-fp-armv8-vfp).
+>
+
+Did you used master or jethro?
+Did you get this kind of error only for this tuneor there are also other
+armv8a tunes that fails?
+
+Thanks,
+Daniel
+
 
 
