@@ -1,35 +1,30 @@
-Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.163])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E425607F8
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D570560119
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 07:44:30 +0000 (UTC)
-Received: from filter.sfr.fr (localhost [111.250.200.72])
-	by msfrf2603.sfr.fr (SMTP Server) with ESMTP id C00701C000C2C;
-	Tue,  8 Mar 2016 08:44:29 +0100 (CET)
-Authentication-Results: sfrmc.priv.atos.fr; dkim=none (no signature);
-	dkim-adsp=none (no policy) header.from=herve.jourdain@neuf.fr
-Received: from nb-hjo (111-250-200-72.dynamic.hinet.net
-	[111.250.200.72])	(using TLSv1
-	with cipher AES128-SHA (128/128 bits))	(No client certificate
-	requested)
-	by msfrf2603.sfr.fr (SMTP Server) with ESMTP id B8AC41C000C1F;
-	Tue,  8 Mar 2016 08:44:27 +0100 (CET)
-X-SFR-UUID: 20160308074427756.B8AC41C000C1F@msfrf2603.sfr.fr
-Received: from nbhjo
-	by nb-hjo (PGP Universal service);  Tue, 08 Mar 2016 08:44:26 +0100
-X-PGP-Universal: processed;	by nb-hjo on Tue, 08 Mar 2016 08:44:26 +0100
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: "'Burton, Ross'" <ross.burton@intel.com>
-References: <00ce01d1788a$58d10b90$0a7322b0$@neuf.fr>
-	<CAJTo0LYKDrDuQZTcfR2Smm5q9+PM0SQZ0aQvMLJ-6rpnQ8MtHg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYKDrDuQZTcfR2Smm5q9+PM0SQZ0aQvMLJ-6rpnQ8MtHg@mail.gmail.com>
-Date: Tue, 8 Mar 2016 08:44:21 +0100
-Message-ID: <013d01d1790e$572683e0$05738ba0$@neuf.fr>
+	Tue,  8 Mar 2016 08:09:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2889TsF022004
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 8 Mar 2016 00:09:29 -0800
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 8 Mar 2016 00:09:28 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Zhenhua Luo
+	<zhenhua.luo@nxp.com>
+References: <1457014986.25131.69.camel@linuxfoundation.org>
+	<DB3PR04MB068422B10C54A685417DCE3AEEBE0@DB3PR04MB0684.eurprd04.prod.outlook.com>
+	<1457086698.2804.9.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56DE88AD.7090902@windriver.com>
+Date: Tue, 8 Mar 2016 16:09:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQJ7CaaI/1NLJlJ1n165w/M4NEVkowJKO3prnem2q9A=
-Cc: 'OE-core' <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] systemd: binfmt should be added to SYSTEMD_PACKAGES only if binfmt is enabled
+In-Reply-To: <1457086698.2804.9.camel@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Status of M3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,261 +37,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 07:44:31 -0000
+X-List-Received-Date: Tue, 08 Mar 2016 08:09:32 -0000
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_013E_01D17916.B8ED5CE0"
-Content-Language: fr
+	boundary="------------060103000400010203040501"
 
-------=_NextPart_000_013E_01D17916.B8ED5CE0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------060103000400010203040501
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ross,
+On 03/04/2016 06:18 PM, Richard Purdie wrote:
+> On Fri, 2016-03-04 at 09:41 +0000, Zhenhua Luo wrote:
+>>> * meta-fsl-ppc breaks on eudev change (patch pending)
+>>> * meta-fsl-ppc breakage blocks AB artefact publishing
+>> [Luo Zhenhua-B19537] The eudev patch is merged, http://git.yoctoproje
+>> ct.org/cgit/cgit.cgi/meta-fsl
+>> -ppc/commit/?id=2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there
+>> any other blocker issue?
+> Thanks, I appreciate getting that sorted!
+>
+> Unfortunately there is something else not quite right with meta-fsl
+> -ppc:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil
+> ds/667
 
-=20
+Hi Richard,
 
-Duly noted, actually I tried several times through git-send-email, but =
-it didn=E2=80=99t go through=E2=80=A6 I=E2=80=99m trying to figure out =
-how to have it working in my configuration, but as a last resort I =
-turned to Oulook=E2=80=A6
-
-Until I fix my configuration, if I have other patches to send, =
-I=E2=80=99ll follow your suggestion and attach the patch to the email.
-
-=20
-
-Thanks,
-
-=20
-
-Herve
-
-=20
-
-From: Burton, Ross [mailto:ross.burton@intel.com]=20
-Sent: lundi 7 mars 2016 17:16
-To: Herve Jourdain <herve.jourdain@neuf.fr>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [meta-oe][PATCH] systemd: binfmt should be added =
-to SYSTEMD_PACKAGES only if binfmt is enabled
-
-=20
-
-Your mailer (Outlook, by the look of it) is corrupting patches (wraps =
-lines when they shouldn't be wrapped), in the future please don't send =
-patches by pasting them into an email but use git-send-email if you can, =
-or attach the patch if you can't.  For a one-liner I could fix up the =
-patch by hand so you don't need to re-send this one.
-
-=20
-
-Ross
-
-=20
-
-On 7 March 2016 at 15:59, Herve Jourdain <herve.jourdain@neuf.fr =
-<mailto:herve.jourdain@neuf.fr> > wrote:
-
-V2
-Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr =
-<mailto:herve.jourdain@neuf.fr> >
----
- meta/recipes-core/systemd/systemd_229.bb <http://systemd_229.bb>  | 2 =
-++--
- 1 file changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_229.bb =
-<http://systemd_229.bb>=20
-b/meta/recipes-core/systemd/systemd_229.bb <http://systemd_229.bb>=20
-index 16af0ac..a537dd3 100644
---- a/meta/recipes-core/systemd/systemd_229.bb <http://systemd_229.bb>=20
-+++ b/meta/recipes-core/systemd/systemd_229.bb <http://systemd_229.bb>=20
-@@ -298,7 +298,7 @@ PACKAGES =3D+ "\
-     ${PN}-extra-utils \
- "
-
--SYSTEMD_PACKAGES =3D "${PN}-binfmt"
-+SYSTEMD_PACKAGES =3D "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', =
-<mailto:$%7b@bb.utils.contains('PACKAGECONFIG',%20'binfmt',%0b'$%7bPN%7d-=
-binfmt',%20'',%20d)%7d>=20
-'${PN}-binfmt', '', d)}"
- SYSTEMD_SERVICE_${PN}-binfmt =3D "systemd-binfmt.service"
-
- USERADD_PACKAGES =3D "${PN}"
---
-1.9.1
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>=20
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>=20
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-=20
+In the log, we have do_configure failed on python3:
+...
+| checking for the platform triplet based on compiler characteristics... 
+powerpc-linux-gnuspe
+| configure: error: internal configure error for the platform triplet, 
+please file a bug report
+| NOTE: The following config.log files may provide further information.
+...
 
 
-------=_NextPart_000_013E_01D17916.B8ED5CE0
-Content-Type: text/html;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+vim configure.ac in python3 source
+...
+  852 if test x$PLATFORM_TRIPLET != x && test x$MULTIARCH != x; then
+  853   if test x$PLATFORM_TRIPLET != x$MULTIARCH; then
+  854     AC_MSG_ERROR([internal configure error for the platform 
+triplet, please file a bug report])
+  855   fi
+  856 fi
+...
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
-name=3DGenerator content=3D"Microsoft Word 15 (filtered =
-medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.hoenzb
-	{mso-style-name:hoenzb;}
-span.EmailStyle18
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DFR link=3Dblue =
-vlink=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Hi Ross,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Duly noted, actually I tried several times =
-through git-send-email, but it didn=E2=80=99t go through=E2=80=A6 =
-I=E2=80=99m trying to figure out how to have it working in my =
-configuration, but as a last resort I turned to =
-Oulook=E2=80=A6<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Until I fix my configuration, if I have =
-other patches to send, I=E2=80=99ll follow your suggestion and attach =
-the patch to the email.<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Thanks,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Herve<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'>From:</span><=
-/b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'> Burton, =
-Ross [mailto:ross.burton@intel.com] <br><b>Sent:</b> lundi 7 mars 2016 =
-17:16<br><b>To:</b> Herve Jourdain =
-&lt;herve.jourdain@neuf.fr&gt;<br><b>Cc:</b> OE-core =
-&lt;openembedded-core@lists.openembedded.org&gt;<br><b>Subject:</b> Re: =
-[OE-core] [meta-oe][PATCH] systemd: binfmt should be added to =
-SYSTEMD_PACKAGES only if binfmt is enabled<o:p></o:p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><div><p class=3DMsoNormal>Your =
-mailer (Outlook, by the look of it) is corrupting patches (wraps lines =
-when they shouldn't be wrapped), in the future please don't send patches =
-by pasting them into an email but use git-send-email if you can, or =
-attach the patch if you can't.&nbsp; For a one-liner I could fix up the =
-patch by hand so you don't need to re-send this =
-one.<o:p></o:p></p><div><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
-class=3DMsoNormal>Ross<o:p></o:p></p></div></div><div><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><div><p class=3DMsoNormal>On 7 =
-March 2016 at 15:59, Herve Jourdain &lt;<a =
-href=3D"mailto:herve.jourdain@neuf.fr" =
-target=3D"_blank">herve.jourdain@neuf.fr</a>&gt; =
-wrote:<o:p></o:p></p><blockquote style=3D'border:none;border-left:solid =
-#CCCCCC 1.0pt;padding:0cm 0cm 0cm =
-6.0pt;margin-left:4.8pt;margin-right:0cm'><p =
-class=3DMsoNormal>V2<br>Signed-off-by: Herve Jourdain &lt;<a =
-href=3D"mailto:herve.jourdain@neuf.fr">herve.jourdain@neuf.fr</a>&gt;<br>=
----<br>&nbsp;meta/recipes-core/systemd/<a href=3D"http://systemd_229.bb" =
-target=3D"_blank">systemd_229.bb</a> | 2 ++--<br>&nbsp;1 file changed, 1 =
-insertions(+), 1 deletions(-)<br><br>diff --git =
-a/meta/recipes-core/systemd/<a href=3D"http://systemd_229.bb" =
-target=3D"_blank">systemd_229.bb</a><br>b/meta/recipes-core/systemd/<a =
-href=3D"http://systemd_229.bb" =
-target=3D"_blank">systemd_229.bb</a><br>index 16af0ac..a537dd3 =
-100644<br>--- a/meta/recipes-core/systemd/<a =
-href=3D"http://systemd_229.bb" =
-target=3D"_blank">systemd_229.bb</a><br>+++ =
-b/meta/recipes-core/systemd/<a href=3D"http://systemd_229.bb" =
-target=3D"_blank">systemd_229.bb</a><br>@@ -298,7 +298,7 @@ PACKAGES =
-=3D+ &quot;\<br>&nbsp; &nbsp; &nbsp;${PN}-extra-utils =
-\<br>&nbsp;&quot;<br><br>-SYSTEMD_PACKAGES =3D =
-&quot;${PN}-binfmt&quot;<br>+SYSTEMD_PACKAGES =3D &quot;<a =
-href=3D"mailto:$%7b@bb.utils.contains('PACKAGECONFIG',%20'binfmt',%0b'$%7=
-bPN%7d-binfmt',%20'',%20d)%7d">${@bb.utils.contains('PACKAGECONFIG', =
-'binfmt',<br>'${PN}-binfmt', '', =
-d)}</a>&quot;<br>&nbsp;SYSTEMD_SERVICE_${PN}-binfmt =3D =
-&quot;systemd-binfmt.service&quot;<br><br>&nbsp;USERADD_PACKAGES =3D =
-&quot;${PN}&quot;<br>--<br>1.9.1<br>--<br>_______________________________=
-________________<br>Openembedded-core mailing list<br><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-cor=
-e@lists.openembedded.org</a><br><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core"=
- =
-target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br><span class=3Dhoenzb><span =
-style=3D'color:#888888'>--</span></span><span =
-style=3D'color:#888888'><br><span =
-class=3Dhoenzb>_______________________________________________</span><br>=
-<span class=3Dhoenzb>Openembedded-core mailing list</span><br><span =
-class=3Dhoenzb><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-cor=
-e@lists.openembedded.org</a></span><br><span class=3Dhoenzb><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core"=
- =
-target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a></span></span><o:p></o:p></p></blockquote></div><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></div></body></html>
+In this case, PLATFORM_TRIPLET is powerpc-linux-gnuspe, and MULTIARCH is
+MULTIARCH=$($CC --print-multiarch 2>/dev/null), and both of them are not 
+equivalent.
 
-------=_NextPart_000_013E_01D17916.B8ED5CE0--
+On my local build with MACHINE = "qemux86-64", the MULTIARCH is empty.
+
+On my local build with MACHINE = "p1022ds", $CC --print-multiarch
+powerpc-linux-gnuspev1
+
+Extra 'v1' casued the failure.
+
+I am going to see what happen on 'v1', file [YOCTO #9226] to trace it
+
+//Hongxu
+
+> Seems something is not working in python3 do_configure? Everything else
+> is building python3 fine so not sure what is wrong there.
+>
+> Cheers,
+>
+> Richard
+
+
+--------------060103000400010203040501
+Content-Type: text/html; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 03/04/2016 06:18 PM, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:1457086698.2804.9.camel@linuxfoundation.org"
+      type="cite">
+      <pre wrap="">On Fri, 2016-03-04 at 09:41 +0000, Zhenhua Luo wrote:
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre wrap="">* meta-fsl-ppc breaks on eudev change (patch pending)
+* meta-fsl-ppc breakage blocks AB artefact publishing
+</pre>
+        </blockquote>
+        <pre wrap="">[Luo Zhenhua-B19537] The eudev patch is merged, <a class="moz-txt-link-freetext" href="http://git.yoctoproje">http://git.yoctoproje</a>
+ct.org/cgit/cgit.cgi/meta-fsl
+-ppc/commit/?id=2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there
+any other blocker issue? 
+</pre>
+      </blockquote>
+      <pre wrap="">
+Thanks, I appreciate getting that sorted! 
+
+Unfortunately there is something else not quite right with meta-fsl
+-ppc:
+
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil">https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil</a>
+ds/667
+</pre>
+    </blockquote>
+    <br>
+    Hi Richard,<br>
+    <br>
+    In the log, we have do_configure failed on python3:<br>
+    ...<br>
+    | checking for the platform triplet based on compiler
+    characteristics... powerpc-linux-gnuspe<br>
+    | configure: error: internal configure error for the platform
+    triplet, please file a bug report<br>
+    | NOTE: The following config.log files may provide further
+    information.<br>
+    ...<br>
+    <br>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+    <br>
+    vim configure.ac in python3 source<br>
+    ...<br>
+     852 if test x$PLATFORM_TRIPLET != x &amp;&amp; test x$MULTIARCH !=
+    x; then<br>
+     853   if test x$PLATFORM_TRIPLET != x$MULTIARCH; then<br>
+     854     AC_MSG_ERROR([internal configure error for the platform
+    triplet, please file a bug report])<br>
+     855   fi<br>
+     856 fi<br>
+    ...<br>
+    <br>
+    In this case, PLATFORM_TRIPLET is powerpc-linux-gnuspe, and
+    MULTIARCH is<br>
+    MULTIARCH=$($CC --print-multiarch 2&gt;/dev/null), and both of them
+    are not equivalent.<br>
+    <br>
+    On my local build with MACHINE = "qemux86-64", the MULTIARCH is
+    empty.<br>
+    <br>
+    On my local build with MACHINE = "p1022ds", $CC --print-multiarch<br>
+    powerpc-linux-gnuspev1<br>
+    <br>
+    Extra 'v1' casued the failure.<br>
+    <br>
+    I am going to see what happen on 'v1', file [YOCTO #9226] to trace
+    it<br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <blockquote cite="mid:1457086698.2804.9.camel@linuxfoundation.org"
+      type="cite">
+      <pre wrap="">
+Seems something is not working in python3 do_configure? Everything else
+is building python3 fine so not sure what is wrong there.
+
+Cheers,
+
+Richard
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060103000400010203040501--
