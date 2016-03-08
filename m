@@ -1,27 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E3B166FF9F
+Return-Path: <pascal.bach@siemens.com>
+Received: from goliath.siemens.de (unknown [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id A3CA66FF30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Mar 2016 12:11:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u28CBxuM023427
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Mar 2016 04:11:59 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Mar 2016 04:11:58 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: 
-CC: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Mar 2016 07:11:55 -0500
-Message-ID: <f20640eec6e027b1e3b905a3357c934a4fe93d98.1457438802.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1457438802.git.dengke.du@windriver.com>
-References: <cover.1457438802.git.dengke.du@windriver.com>
+	Tue,  8 Mar 2016 14:06:27 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id u28E6Kpk017586
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 8 Mar 2016 15:06:20 +0100
+Received: from [139.16.79.50] (MD1FZU9C.ww002.siemens.net [139.16.79.50])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id u28E6JvL019945;
+	Tue, 8 Mar 2016 15:06:19 +0100
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <56CC6832.90506@siemens.com>
+	<1457090416.2804.19.camel@linuxfoundation.org>
+	<CALbNGRQbfu45fM=kijvTnx4sY2SzjiVSCtGXhyt0xM+akP1sSQ@mail.gmail.com>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <56DEDC5B.4050501@siemens.com>
+Date: Tue, 8 Mar 2016 15:06:19 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] quilt: fix ptest faildiff.test failed
+In-Reply-To: <CALbNGRQbfu45fM=kijvTnx4sY2SzjiVSCtGXhyt0xM+akP1sSQ@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Debugging using sysroots and GDB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2016 12:11:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Mar 2016 14:06:30 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-When run the quilt ptest on the target, the faildiff.test failed,
-because the user is root. The faildiff.test had the following:
-	$ chmod -r test.txt
-	$ quilt refresh
-when we drop the read permission of the file test.txt, we can't
-"quilt refresh" as normal user, so we got the following:
-	>~ .*diff: test\.txt: Permission denied
-	> Diff failed on file 'test.txt', aborting
-But when the user is root, we can access the file, so we get the
-following:
-	> Nothing in patch patches/test.diff
-So I change the file "meta/recipes-devtools/quilt/quilt/run-ptest",
-when it meet the faildiff.test it skipped. I will report this bug to
-quilt upstream.
+Hi Andreas
+> I am using sysroot for debugging too. I have no
+>
+> * INHERIT += "rm_work"
+>
+> and added
+>
+> INHIBIT_SYSROOT_STRIP = "1"
+>
+> to my local.conf
+>
+> I use this approach for very long time now and from my point of view
+> it has one BIG advantage: I can use these settings for productive
+> images and start remote debug within seconds without further
+> rebuilding.
+> OK - default compiler optimization sometimes causes headaches but it
+> works for solving >80% of my cases. In case I want to debug software
+> that I have developed setting optimization recipe wise helps or I
+> debug that on PC or target itself.
+How do you deal with the case where there is no source in your work dir because the package was taken from sstate?
+The only solution I found so far is to build without sstate :(
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-devtools/quilt/quilt/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
-index 958a9df..d5ae8f4 100755
---- a/meta/recipes-devtools/quilt/quilt/run-ptest
-+++ b/meta/recipes-devtools/quilt/quilt/run-ptest
-@@ -1,5 +1,5 @@
- #!/bin/sh
- 
- ln -sf /bin/ed /usr/bin/ed
--for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
-+for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do if [ "$i" == "faildiff" ]; then echo SKIPPED: $i.test; else make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; fi; done
- rm -f /usr/bin/ed
--- 
-1.9.1
-
+Pascal
 
