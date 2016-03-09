@@ -1,49 +1,30 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id EBAC6731D8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E32AA60721
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 16:58:34 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id bc4so74146136lbc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Mar 2016 08:58:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=RsLkW6S1YtkOXwkOiPgh+Vvyb8/dMcB78QXPpM4ZZIw=;
-	b=s4dTZGkqoegWKgM/QHwt03V8KlRNmmWjUlse6k4X2wRq92rwBHt38V1m+iwFGEBaiB
-	cAE8tIJOUFn1lTw31PSOTchRmagX/2DAna0CT9c5NTuxYxNJ8j6/kbiqWq+DwzQVDkXS
-	E4MaqO58uvxBwbuhaSijwuXVixutlFhENFYgnF9NYp+bPfXPGY0xQ2a4jXHHlwHCwuLs
-	ZTV7E8dP6Q938nUtu5JEvIx9UHWgvHnlyuCzVwDjiPlu0Fdj8i98+c6KvxGODJW2ZWi+
-	nXAZXDPlZBP/jiBGAtUOjySZSyNm2lNBKWscF0fRBn6KW3O5Nlh7ayOykDsX0334hgO9
-	pB3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RsLkW6S1YtkOXwkOiPgh+Vvyb8/dMcB78QXPpM4ZZIw=;
-	b=iBLQ5Y39qSuWWHB2AYRBSkAgvK9sc2ffJakHNKJzNWesoPFEhKu6DRDqksew6cfMdu
-	fTIjBa6OtzYcwGNQ0cdbFwFNSqgZTbFyUuUVKPMHh5Xv6tVkpJpXzyLT0M5x4tTaXhOp
-	xQZd1EXscPzqJTY0B3Wb/KSPzbcDoC+uBd3/kj0YtYx7BbEJzIHN8gAdIg420bmzm1rs
-	Jz7ZT9bPz7VvpeXQdb9MeRJ8ntaTBfxCK9EpNof+XAInDj5YrcutCIfNW1R4UoILnU9J
-	1nOl1K/zlDsA9dlp1m4CjaEqo8PNfH9L+YP+XSvTDa7ZLtOKMhL+N+nd5E93JreumKGV
-	s8gw==
-X-Gm-Message-State: AD7BkJKMR/14IsEWD9Re//ldrUFhxnFrARnkYuunN9xiyNKo76s9ocNg+E4y3C+4EymqyQ==
-X-Received: by 10.112.130.69 with SMTP id oc5mr3946537lbb.54.1457542714621;
-	Wed, 09 Mar 2016 08:58:34 -0800 (PST)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id
-	t17sm1461322lfd.17.2016.03.09.08.58.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Mar 2016 08:58:32 -0800 (PST)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>,
-	Matt Madison <matt@madison.systems>,
-	openembedded-core@lists.openembedded.org
-Date: Wed,  9 Mar 2016 17:58:31 +0100
-Message-Id: <1457542711-30476-1-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] package_deb: Fix python runtime error
+	Wed,  9 Mar 2016 17:26:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u29HQW4C012039; Wed, 9 Mar 2016 17:26:32 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RtdqmPC4R8pg; Wed,  9 Mar 2016 17:26:32 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u29HQSDu012036
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 9 Mar 2016 17:26:29 GMT
+Message-ID: <1457544388.2804.179.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	openembedded-core@lists.openembedded.org, ross.burton@intel.com
+Date: Wed, 09 Mar 2016 17:26:28 +0000
+In-Reply-To: <d32227aaa1bf8acd225f695857056f1b5dc77efc.1457522031.git.hongxu.jia@windriver.com>
+References: <cover.1457522031.git.hongxu.jia@windriver.com>
+	<d32227aaa1bf8acd225f695857056f1b5dc77efc.1457522031.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] tune-ppce500v2.inc: explicitly set gcc float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +37,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 16:58:35 -0000
+X-List-Received-Date: Wed, 09 Mar 2016 17:26:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The dictionary cannot be used for iteration if its size may change
-during the loop.
+On Wed, 2016-03-09 at 06:18 -0500, Hongxu Jia wrote:
+> For powerpc*-*-*spe*, default to with_cpu=8548 if --enable-e500
+> -double,
+> and to 8540 otherwise.
+> vim gcc/config.gcc
+> ...
+>     powerpc*-*-*spe*)
+>       if test x$enable_e500_double = xyes; then
+>          with_cpu=8548
+>       else
+>          with_cpu=8540
+>       fi
+>       ;;
+> ...
+> 
+> The with_cpu is used for SPE version detection
+> vim ./gcc/config/rs6000/t-linux
+> ...
+>   7 ifneq (,$(findstring spe,$(target)))
+>   8 MULTIARCH_DIRNAME := powerpc-linux-gnuspe$(if $(findstring
+> 8548,$(with_cpu)),,v1)
+>   9 else
+>  10 MULTIARCH_DIRNAME := powerpc-linux-gnu
+> ...
+> 
+> The variable MULTIARCH_DIRNAME is the output of '$CC --print
+> -multiarch'.
+> Without this patch, the output is 'powerpc-linux-gnuspev1' which
+> caused
+> python3 do_configure failed.
+> 
+> Since ppce500v2 -mcpu is 8548, explicitly add --enable-e500-double
+> could fix
+> the issue.
+> 
+> [YOCTO #9226]
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/conf/machine/include/tune-ppce500v2.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/conf/machine/include/tune-ppce500v2.inc
+> b/meta/conf/machine/include/tune-ppce500v2.inc
+> index 20a5f25..70d3078 100644
+> --- a/meta/conf/machine/include/tune-ppce500v2.inc
+> +++ b/meta/conf/machine/include/tune-ppce500v2.inc
+> @@ -18,3 +18,7 @@ AVAILTUNES += "ppce500v2"
+>  TUNE_FEATURES_tune-ppce500v2 = "m32 spe ppce500v2"
+>  TUNE_PKGARCH_tune-ppce500v2 = "ppce500v2"
+>  PACKAGE_EXTRA_ARCHS_tune-ppce500v2 = "ppce500v2"
+> +
+> +# For powerpc*-*-*spe*, default to with_cpu=8548 if
+> +# --enable-e500-double, and to 8540 otherwise.
+> +EXTRA_OECONF_GCC_FLOAT += "${@get_gcc_float_setting(bb, d)}"
 
-ERROR: Error executing a python function in
-/home/ricardo/curro/qt5022/build-qt5022/repo/yocto/meta/recipes-devtools/perl/perl_5.22.0.bb:
-Exception: RuntimeError: dictionary changed size during iteration
+This is good to understand what is breaking but the patch as it stands
+can't be merged as the gcc recipe intentionally doesn't do this, its
+only done in gcc-target.inc.
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- meta/classes/package_deb.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Why?
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index b3cf07a25b1f..6ecea0e1824e 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -234,12 +234,12 @@ python do_package_deb () {
- 
-         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS", True) or "")
-         debian_cmp_remap(rdepends)
--        for dep in rdepends:
-+        for dep in rdepends.keys():
-                 if '*' in dep:
-                         del rdepends[dep]
-         rrecommends = bb.utils.explode_dep_versions2(localdata.getVar("RRECOMMENDS", True) or "")
-         debian_cmp_remap(rrecommends)
--        for dep in rrecommends:
-+        for dep in rrecommends.keys():
-                 if '*' in dep:
-                         del rrecommends[dep]
-         rsuggests = bb.utils.explode_dep_versions2(localdata.getVar("RSUGGESTS", True) or "")
--- 
-2.7.0
+The theory is we should be building one gcc-cross-powerpc, not multiple
+different variants. I did just try a build and realised that switching
+machines between p1022ds and qemuppc does rebuild gcc-cross-powerpc but
+that is a bug. Adding the above is just going to make this harder to
+fix, and will certainly break the SDK gcc-cross-canadian-gcc.
+
+I'm not sure how we should fix this, particularly given that gcc-cross
+-powerpc already isn't working properly but the avoid fix isn't right.
+
+Cheers,
+
+Richard
+
+
+
 
 
