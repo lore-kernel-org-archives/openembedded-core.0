@@ -1,28 +1,45 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AA0EE601B8
+Return-Path: <tylerwhall@gmail.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DA16560125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 01:11:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u291BjMQ029495
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Mar 2016 17:11:45 -0800 (PST)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Mar 2016 17:11:44 -0800
-To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
-	<ross.burton@intel.com>, <alejandro.hernandez@linux.intel.com>,
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1456449257.git.hongxu.jia@windriver.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56DF7844.9000003@windriver.com>
-Date: Wed, 9 Mar 2016 09:11:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <cover.1456449257.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 00/15] fix python buildpaths QA issue
+	Wed,  9 Mar 2016 02:07:48 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id m184so49653219iof.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Mar 2016 18:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=dYfvOuf3VdZ2ifggMhL1yhjvNdkpw0AY0dOjp14X+Pg=;
+	b=veCtd1RaiH+HX1G0gFqDgZKOyysUpvOa1BLcgcOpaTNfnvXZjOIA2yb4GIHDBbE7uI
+	0XukiNdXnTB8nluT1qcPnt8CsioMk9vMZ6bYZ+ynJORvzymB2ZNjYu8SIKqxCOOqhGe2
+	+CcUYLzoSUD6LZiSS309escPVqj9rvvIuXuAZ4OXOoWEX2U5DGBvJpD7oLed7zqEKywU
+	Kz7LOOC++SEHAQLNZ33afSP0A5oDP1njOzdj1TldsM75AlbFbsNj2EaCx87JhZJzcvww
+	MSB+jgL2bhw1q4G4KaOVAprcWUSuhwCmMO6adCMNBUOdB8RnxmhVCDkLRx+u1O1qQ0TB
+	iqnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dYfvOuf3VdZ2ifggMhL1yhjvNdkpw0AY0dOjp14X+Pg=;
+	b=L9f2K/cY2v7XZlRqxtMbG4W36+EjrCYb9UwKE0TAWYlZFSWZoWx+7q3ELPaxzckCfG
+	V5Ax/075L6F/3aTbyDWO0JCH59g+IIF3i2lAb1NFnmpF41PDS6AwQUQPp4ICF2uv5TxN
+	hZgfIJkkny2/N+YPgQP8W2h6H+flDGKVZFJZVfiGnyLdyMXr7V5GeYy0LSvcwLwvjDMp
+	s4ZSaBgIMDxiUBmVf4KbKfeRWVAWJoICzqFnXHmH1eO4Za7DZY0ruIVVj5N86PgdzWWo
+	dG0yHv1LKyJMdyXrw5Rx9Tec9E9MPcOf4fpLIcTWnvYF2eBRUU4vXcHZIJxltPXwtypW
+	rq3w==
+X-Gm-Message-State: AD7BkJJTr3bHMLz7AxzHLL+pRi09DLogtukosc3D8CpcjNTpXPZX7z3hx3RrMTq02mgwUg==
+X-Received: by 10.107.158.12 with SMTP id h12mr31247279ioe.107.1457489269709; 
+	Tue, 08 Mar 2016 18:07:49 -0800 (PST)
+Received: from metric.localdomain (cpe-76-177-101-4.natcky.res.rr.com.
+	[76.177.101.4]) by smtp.gmail.com with ESMTPSA id
+	qt2sm7611565igb.18.2016.03.08.18.07.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Mar 2016 18:07:48 -0800 (PST)
+From: Tyler Hall <tylerwhall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Mar 2016 21:07:40 -0500
+Message-Id: <1457489260-2465-1-git-send-email-tylerwhall@gmail.com>
+X-Mailer: git-send-email 2.7.1
+Subject: [PATCH] image-mklibs: handle position independent binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,114 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 01:11:48 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Mar 2016 02:07:51 -0000
 
-As Richard suggested ( see [YOCTO #9169]), I will drop
-'insane:add buildpaths QA ignore pattern'
+Executables built with -fpie have the ELF type DYN rather than EXEC
+which makes them difficult to distinguish from shared libraries.
+Currently when building the list of executables we omit these binaries
+so they might fail to run on the resultant rootfs due to missing
+symbols. One of these is systemd which builds -fpie unconditionally, so
+mklibs breaks images containing systemd.
 
-So please drop these, V2 incoming
+Modify the search to catch all executable files that are ELF and have an
+interpreter set. Omit libc and libpthread as special cases because they
+have an interpreter and are directly executable but treating them as
+such is antithetical to the pupose of mklibs.
 
-//Hongxu
+Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+---
+ meta/classes/image-mklibs.bbclass | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-On 02/26/2016 09:44 AM, Hongxu Jia wrote:
-> - Patch 01-06 has be sent in previous pull request.
->
-> - add buildpaths QA ignore pattern, and ignore Makefile by default
->
-> - fix .pyc/.pyo buildpath QA issue
->
-> - fix python related buildpath QA issue
->
-> Test Steps:
->
-> vim local.conf
-> ...
-> MACHINE ?= "qemux86-64"
-> WARN_QA += "buildpaths"
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib32"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
-> ...
->
-> bitbake -k world
->
-> In oe-core, these patches fixed 40+ recipes' buildpath QA issue,
-> and fixed all python related buildpath QA issue.
->
-> There are still 55 recipes left that has buildpath QA issue.
->
-> //Hongxu
->
-> The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
->
->    uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
->
-> Hongxu Jia (15):
->    depmodwrapper-cross: nopackages to avoid QA [buildpaths] issue
->    gcc: use relative path for configure script
->    bison/gettext: add --with-bisonlocaledir to assign BISON_LOCALEDIR
->    openssl: substitute buildpath in source code
->    btrfs-tools: fix symlink creation multiple times
->    git: fix installed-vs-shipped QA Issue
->    insane:add buildpaths QA ignore pattern
->    python2/3: fix buildpath QA issue
->    bbclass distutils/distutils3: fix .pyc/.pyo buildpath
->    python-setuptools/python3-setuptools: use old-style install
->    python3-pip: use old-style install
->    bbclass distutils/distutils3/setuptools/setuptools3: clean up
->      DISTUTILS_INSTALL_ARGS
->    python-pygobject: fix buildpath QA issue
->    python-numpy: fix buildpaths QA issue
->    python-pycairo: fix buildpath QA issue
->
->   meta/classes/distutils.bbclass                     |  8 +--
->   meta/classes/distutils3.bbclass                    |  8 +--
->   meta/classes/insane.bbclass                        | 13 +++++
->   meta/classes/setuptools.bbclass                    |  5 --
->   meta/classes/setuptools3.bbclass                   |  5 --
->   meta/recipes-connectivity/openssl/openssl.inc      |  2 +-
->   .../substitute-buildpath-in-source-code.patch      | 41 ++++++++++++++
->   .../recipes-connectivity/openssl/openssl_1.0.2f.bb |  1 +
->   .../gettext-0.19.6/add-with-bisonlocaledir.patch   | 58 ++++++++++++++++++++
->   meta/recipes-core/gettext/gettext_0.19.6.bb        |  4 ++
->   .../bison/bison/add-with-bisonlocaledir.patch      | 58 ++++++++++++++++++++
->   meta/recipes-devtools/bison/bison_3.0.4.bb         |  1 +
->   .../fix-symlink-creation-multiple-times.patch      | 46 ++++++++++++++++
->   .../btrfs-tools/btrfs-tools_4.4.bb                 |  1 +
->   meta/recipes-devtools/gcc/gcc-runtime.inc          |  3 +-
->   meta/recipes-devtools/gcc/gcc-sanitizers.inc       |  3 +-
->   meta/recipes-devtools/gcc/libgcc-common.inc        |  3 +-
->   meta/recipes-devtools/gcc/libgfortran.inc          |  3 +-
->   meta/recipes-devtools/git/git.inc                  |  2 +
->   .../remove-build-path-in-comments.patch            | 30 +++++++++++
->   .../recipes-devtools/python/python-numpy_1.10.4.bb |  1 +
->   ...trip-off-build-path-in-purported-filename.patch | 62 ++++++++++++++++++++++
->   .../python/python-pycairo_1.10.0.bb                | 22 ++++----
->   .../python/python-pygobject_2.28.3.bb              |  5 ++
->   .../python/python-setuptools_19.4.bb               |  2 -
->   .../use-relative-path-to-compile-source-file.patch | 31 +++++++++++
->   meta/recipes-devtools/python/python3-pip_8.0.0.bb  | 12 -----
->   .../python/python3-setuptools_19.4.bb              |  8 +--
->   .../use-relative-path-to-compile-source-file.patch | 31 +++++++++++
->   meta/recipes-devtools/python/python3_3.5.1.bb      | 10 +++-
->   meta/recipes-devtools/python/python_2.7.11.bb      |  8 +++
->   .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  2 +
->   32 files changed, 438 insertions(+), 51 deletions(-)
->   create mode 100644 meta/recipes-connectivity/openssl/openssl/substitute-buildpath-in-source-code.patch
->   create mode 100644 meta/recipes-core/gettext/gettext-0.19.6/add-with-bisonlocaledir.patch
->   create mode 100644 meta/recipes-devtools/bison/bison/add-with-bisonlocaledir.patch
->   create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-symlink-creation-multiple-times.patch
->   create mode 100644 meta/recipes-devtools/python/python-numpy/remove-build-path-in-comments.patch
->   create mode 100644 meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
->   create mode 100644 meta/recipes-devtools/python/python/use-relative-path-to-compile-source-file.patch
->   create mode 100644 meta/recipes-devtools/python/python3/use-relative-path-to-compile-source-file.patch
->
+diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
+index 6c0e8dc..5f6df1b 100644
+--- a/meta/classes/image-mklibs.bbclass
++++ b/meta/classes/image-mklibs.bbclass
+@@ -9,13 +9,15 @@ mklibs_optimize_image_doit() {
+ 	mkdir -p ${WORKDIR}/mklibs/dest
+ 	cd ${IMAGE_ROOTFS}
+ 	du -bs > ${WORKDIR}/mklibs/du.before.mklibs.txt
+-	for i in `find .`; do file $i; done \
+-		| grep ELF \
+-		| grep "LSB *executable" \
+-		| grep "dynamically linked" \
+-		| sed "s/:.*//" \
+-		| sed "s+^\./++" \
+-		> ${WORKDIR}/mklibs/executables.list
++
++	# Build a list of dynamically linked executable ELF files.
++	# Omit libc/libpthread as a special case because it has an interpreter
++	# but is primarily what we intend to strip down.
++	for i in `find . -type f -executable ! -name 'libc-*' ! -name 'libpthread-*'`; do
++		file $i | grep -q ELF || continue
++		${HOST_PREFIX}readelf -l $i | grep -q INTERP || continue
++		echo $i
++	done > ${WORKDIR}/mklibs/executables.list
+ 
+ 	dynamic_loader=$(linuxloader)
+ 
+-- 
+2.7.1
 
 
