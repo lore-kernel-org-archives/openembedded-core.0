@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 37CA76FF56
+	by mail.openembedded.org (Postfix) with ESMTP id 7E6E36FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 15:07:10 +0000 (UTC)
+	Wed,  9 Mar 2016 15:07:11 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Mar 2016 07:06:21 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 09 Mar 2016 07:06:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,311,1455004800"; d="scan'208";a="933083614"
+X-IronPort-AV: E=Sophos;i="5.24,311,1455004800"; d="scan'208";a="933083619"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 07:06:19 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 07:06:20 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Mar 2016 17:01:51 +0200
-Message-Id: <145200ddac04268e40ee8c3ecf75a8194a4cc48b.1457535622.git.alexander.kanavin@linux.intel.com>
+Date: Wed,  9 Mar 2016 17:01:52 +0200
+Message-Id: <c9d3e96135173503ef0e3730cc80c993b5bf951e.1457535622.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
 References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
 References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/24] gtk-doc-stub: remove introspection stubs
+Subject: [PATCH 06/24] gobject-introspection.bbclass: add a class that enables gobject introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,350 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 15:07:10 -0000
-
-As we provide the full introspection support, we need to remove
-the stubs from this package that conflict with it.
+X-List-Received-Date: Wed, 09 Mar 2016 15:07:11 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...t-Import-introspection-stub-machinery-too.patch | 305 +++++++++++++++++++++
- .../recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb |   6 +-
- 2 files changed, 309 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
+ meta/classes/gobject-introspection.bbclass | 39 ++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 meta/classes/gobject-introspection.bbclass
 
-diff --git a/meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch b/meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
+diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
 new file mode 100644
-index 0000000..80b0521
+index 0000000..ef51629
 --- /dev/null
-+++ b/meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
-@@ -0,0 +1,305 @@
-+From d636be29bf95396b4e27fcd17ff84cb7091cca91 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 8 Oct 2015 15:37:40 +0300
-+Subject: [PATCH] Revert "Import introspection stub machinery too"
++++ b/meta/classes/gobject-introspection.bbclass
+@@ -0,0 +1,39 @@
++# Inherit this class in recipes to enable building their introspection files
 +
-+This reverts commit 3dfd0a09de696ec8c544762747f8a0f77153622e.
-+As we provide the full introspection support, we need to remove
-+the stubs from this package that conflict with it.
++# This allows disabling introspection support in recipes
++# (and therefore avoiding the use of qemu)
++# if gobject-introspection-data is omitted from DISTRO_FEATURES and MACHINE_FEATURES.
++EXTRA_OECONF_prepend = "${@bb.utils.contains('COMBINED_FEATURES', 'gobject-introspection-data', '--enable-introspection', '--disable-introspection', d)} "
 +
-+Upstream-Status: Pending [review on oe-core list]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Makefile               |   4 --
-+ Makefile.introspection | 163 -------------------------------------------------
-+ introspection.m4       |  96 -----------------------------
-+ 3 files changed, 263 deletions(-)
-+ delete mode 100644 Makefile.introspection
-+ delete mode 100644 introspection.m4
++UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
 +
-+diff --git a/Makefile b/Makefile
-+index 7cb6ce5..ad4231a 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -23,7 +23,3 @@ install: $(bin_programs)
-+ 
-+ 	mkdir -p $(DESTDIR)$(datarootdir)/aclocal/
-+ 	install -m 0644 $(srcdir)/gtk-doc.m4 $(DESTDIR)$(datarootdir)/aclocal/gtk-doc.m4
-+-
-+-	mkdir -p $(DESTDIR)$(datarootdir)/gobject-introspection-1.0
-+-	install -m 0644 $(srcdir)/Makefile.introspection $(DESTDIR)$(datarootdir)/gobject-introspection-1.0/Makefile.introspection
-+-	install -m 0644 $(srcdir)/introspection.m4 $(DESTDIR)$(datarootdir)/aclocal/introspection.m4
-+diff --git a/Makefile.introspection b/Makefile.introspection
-+deleted file mode 100644
-+index 755dd15..0000000
-+--- a/Makefile.introspection
-++++ /dev/null
-+@@ -1,163 +0,0 @@
-+-# -*- Mode: make -*-
-+-# Copyright 2009-2010 Johan Dahlin
-+-#
-+-# This file is free software; the author(s) gives unlimited
-+-# permission to copy and/or distribute it, with or without
-+-# modifications, as long as this notice is preserved.
-+-#
-+-# * Input variables:
-+-#
-+-#   INTROSPECTION_GIRS - List of GIRS that should be generated
-+-#   INTROSPECTION_SCANNER - Command to invoke scanner, normally set by
-+-#      GOBJECT_INTROSPECTION_REQUIRE/CHECK() in introspection.m4
-+-#   INTROSPECTION_SCANNER_ARGS - Additional args to pass in to the scanner
-+-#   INTROSPECTION_SCANNER_ENV - Environment variables to set before running
-+-#      the scanner
-+-#   INTROSPECTION_COMPILER - Command to invoke compiler, normally set by
-+-#      GOBJECT_INTROSPECTION_REQUIRE/CHECK() in introspection.m4
-+-#   INTROSPECTION_COMPILER_ARGS - Additional args to pass in to the compiler
-+-#
-+-# * Simple tutorial
-+-#
-+-# Add this to configure.ac:
-+-#   -Wno-portability to AM_INIT_AUTOMAKE
-+-#   GOBJECT_INTROSPECTION_CHECK([0.6.7])
-+-#
-+-# Add this to Makefile.am where your library/program is built:
-+-#   include $(INTROSPECTION_MAKEFILE)
-+-#   INTROSPECTION_GIRS = YourLib-1.0.gir
-+-#   YourLib_1_0_gir_NAMESPACE = YourLib
-+-#   YourLib_1_0_gir_VERSION = 1.0
-+-#   YourLib_1_0_gir_LIBS = libyourlib.la
-+-#   YourLib_1_0_gir_FILES = $(libyourlib_1_0_SOURCES)
-+-#   girdir = $(datadir)/gir-1.0
-+-#   dist_gir_DATA = YourLib-1.0.gir
-+-#   typelibdir = $(libdir)/girepository-1.0
-+-#   typelib_DATA = YourLib-1.0.typelib
-+-#   CLEANFILES = $(dist_gir_DATA) $(typelib_DATA)
-+-#
-+-
-+-# Make sure the required variables are set, these should under normal
-+-# circumstances come from introspection.m4
-+-$(if $(INTROSPECTION_SCANNER),,$(error Need to define INTROSPECTION_SCANNER))
-+-$(if $(INTROSPECTION_COMPILER),,$(error Need to define INTROSPECTION_COMPILER))
-+-
-+-# Private functions
-+-
-+-## Transform the gir filename to something which can reference through a variable
-+-## without automake/make complaining, eg Gtk-2.0.gir -> Gtk_2_0_gir
-+-_gir_name = $(subst /,_,$(subst -,_,$(subst .,_,$(1))))
-+-
-+-# Namespace and Version is either fetched from the gir filename
-+-# or the _NAMESPACE/_VERSION variable combo
-+-_gir_namespace = $(or $($(_gir_name)_NAMESPACE),$(firstword $(subst -, ,$(notdir $(1)))))
-+-_gir_version = $(or $($(_gir_name)_VERSION),$(lastword $(subst -, ,$(1:.gir=))))
-+-
-+-# _PROGRAM is an optional variable which needs it's own --program argument
-+-_gir_program = $(if $($(_gir_name)_PROGRAM),--program=$($(_gir_name)_PROGRAM))
-+-
-+-# Variables which provides a list of things
-+-_gir_libraries = $(foreach lib,$($(_gir_name)_LIBS),--library=$(lib))
-+-_gir_packages = $(foreach pkg,$($(_gir_name)_PACKAGES),--pkg=$(pkg))
-+-_gir_includes = $(foreach include,$($(_gir_name)_INCLUDES),--include=$(include))
-+-_gir_export_packages = $(foreach pkg,$($(_gir_name)_EXPORT_PACKAGES),--pkg-export=$(pkg))
-+-
-+-# Reuse the LIBTOOL variable from automake if it's set, but
-+-# work around MSYS weirdness: When running g-ir-scanner, MSYS changes
-+-# a command-line argument --libtool="/bin/sh ../../libtool" into
-+-# --libtool=c:/opt/msys/1.0/bin/libtool. So just use sh.exe without path
-+-# because we already "know" where the libtool configure produced is.
-+-_gir_libtool = $(if $(findstring MINGW32,$(shell uname -s)),--libtool="$(top_builddir)/libtool",$(if $(LIBTOOL),--libtool="$(LIBTOOL)"))
-+-
-+-# Macros for AM_SILENT_RULES prettiness
-+-_gir_verbosity = $(if $(AM_DEFAULT_VERBOSITY),$(AM_DEFAULT_VERBOSITY),1)
-+-
-+-_gir_silent_scanner_prefix = $(_gir_silent_scanner_prefix_$(V))
-+-_gir_silent_scanner_prefix_ = $(_gir_silent_scanner_prefix_$(_gir_verbosity))
-+-_gir_silent_scanner_prefix_0 = @echo "  GISCAN $(1)";
-+-_gir_silent_scanner_opts = $(_gir_silent_scanner_opts_$(V))
-+-_gir_silent_scanner_opts_ = $(_gir_silent_scanner_opts_$(_gir_verbosity))
-+-_gir_silent_scanner_opts_0 = --quiet
-+-
-+-_gir_silent_compiler = $(_gir_silent_compiler_$(V))
-+-_gir_silent_compiler_ = $(_gir_silent_compiler_$(_gir_verbosity))
-+-_gir_silent_compiler_0 = @echo "  GICOMP $(1)";
-+-
-+-#
-+-# Creates a GIR by scanning C headers/sources
-+-# $(1) - Name of the gir file (output)
-+-#
-+-# If output is Gtk-2.0.gir then you should name the variables like
-+-# Gtk_2_0_gir_NAMESPACE, Gtk_2_0_gir_VERSION etc.
-+-# Required variables:
-+-# FILES - C sources and headers which should be scanned
-+-#
-+-# One of these variables are required:
-+-# LIBS - Library where the symbol represented in the gir can be found
-+-# PROGRAM - Program where the symbol represented in the gir can be found
-+-#
-+-# Optional variables
-+-# NAMESPACE - Namespace of the gir, first letter capital,
-+-#   rest should be lower case, for instance: 'Gtk', 'Clutter', 'ClutterGtk'.
-+-#   If not present the namespace will be fetched from the gir filename,
-+-#   the part before the first dash. For 'Gtk-2.0', namespace will be 'Gtk'.
-+-# VERSION - Version of the gir, if not present, will be fetched from gir
-+-# filename, the part after the first dash. For 'Gtk-2.0', version will be '2.0'.
-+-# LIBTOOL - Command to invoke libtool, usually set by automake
-+-# SCANNERFLAGS - Flags to pass in to the scanner, see g-ir-scanner(1) for a list
-+-# CFLAGS - Flags to pass in to the parser when scanning headers
-+-# LDFLAGS - Linker flags used by the scanner
-+-# PACKAGES - list of pkg-config names which cflags are required to parse
-+-#   the headers of this gir
-+-# INCLUDES - Gir files to include without the .gir suffix, for instance
-+-#   GLib-2.0, Gtk-2.0. This is needed for all libraries which you depend on that
-+-#   provides introspection information.
-+-# EXPORT_PACKAGES - list of pkg-config names that are provided by this gir.
-+-#   By default the names in the PACKAGES variable will be used.
-+-#
-+-
-+-define introspection-scanner
-+-
-+-# Basic sanity check, to make sure required variables are set
-+-$(if $($(_gir_name)_FILES),,$(error Need to define $(_gir_name)_FILES))
-+-$(if $(or $(findstring --header-only,$($(_gir_name)_SCANNERFLAGS)),
-+-          $($(_gir_name)_LIBS),
-+-          $($(_gir_name)_PROGRAM)),,
-+-    $(error Need to define $(_gir_name)_LIBS or $(_gir_name)_PROGRAM))
-+-
-+-# Only dependencies we know are actually filenames goes into _FILES, make
-+-# sure these are built before running the scanner. Libraries and programs
-+-# needs to be added manually.
-+-$(1): $$($(_gir_name)_FILES)
-+-	@ $(MKDIR_P) $(dir $(1))
-+-	$(_gir_silent_scanner_prefix) $(INTROSPECTION_SCANNER_ENV) $(INTROSPECTION_SCANNER) $(_gir_silent_scanner_opts) \
-+-	$(INTROSPECTION_SCANNER_ARGS) \
-+-	  --namespace=$(_gir_namespace) \
-+-	  --nsversion=$(_gir_version) \
-+-	  $(_gir_libtool) \
-+-	  $(_gir_packages) \
-+-	  $(_gir_includes) \
-+-	  $(_gir_export_packages) \
-+-	  $(_gir_program) \
-+-	  $(_gir_libraries) \
-+-	  $($(_gir_name)_SCANNERFLAGS) \
-+-	  $($(_gir_name)_CFLAGS) \
-+-	  $($(_gir_name)_LDFLAGS) \
-+-	  $$^ \
-+-	  --output $(1)
-+-endef
-+-
-+-$(foreach gir,$(INTROSPECTION_GIRS),$(eval $(call introspection-scanner,$(gir))))
-+-
-+-#
-+-# Compiles a gir into a typelib
-+-# $(1): gir filename (input)
-+-# $(2): typelib filename (output)
-+-#
-+-define introspection-compiler
-+-$(_gir_silent_compiler) $(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS) --includedir=. $(1) -o $(2)
-+-endef
-+-
-+-# Simple rule to compile a typelib.
-+-%.typelib: %.gir
-+-	$(call introspection-compiler,$<,$@)
-+diff --git a/introspection.m4 b/introspection.m4
-+deleted file mode 100644
-+index d89c3d9..0000000
-+--- a/introspection.m4
-++++ /dev/null
-+@@ -1,96 +0,0 @@
-+-dnl -*- mode: autoconf -*-
-+-dnl Copyright 2009 Johan Dahlin
-+-dnl
-+-dnl This file is free software; the author(s) gives unlimited
-+-dnl permission to copy and/or distribute it, with or without
-+-dnl modifications, as long as this notice is preserved.
-+-dnl
-+-
-+-# serial 1
-+-
-+-m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
-+-[
-+-    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
-+-    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
-+-    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
-+-
-+-    dnl enable/disable introspection
-+-    m4_if([$2], [require],
-+-    [dnl
-+-        enable_introspection=yes
-+-    ],[dnl
-+-        AC_ARG_ENABLE(introspection,
-+-                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
-+-                                 [Enable introspection for this build]),, 
-+-                                 [enable_introspection=auto])
-+-    ])dnl
-+-
-+-    AC_MSG_CHECKING([for gobject-introspection])
-+-
-+-    dnl presence/version checking
-+-    AS_CASE([$enable_introspection],
-+-    [no], [dnl
-+-        found_introspection="no (disabled, use --enable-introspection to enable)"
-+-    ],dnl
-+-    [yes],[dnl
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
-+-                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
-+-                         found_introspection=yes,
-+-                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
-+-    ],dnl
-+-    [auto],[dnl
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
-+-	dnl Canonicalize enable_introspection
-+-	enable_introspection=$found_introspection
-+-    ],dnl
-+-    [dnl	
-+-        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
-+-    ])dnl
-+-
-+-    AC_MSG_RESULT([$found_introspection])
-+-
-+-    INTROSPECTION_SCANNER=
-+-    INTROSPECTION_COMPILER=
-+-    INTROSPECTION_GENERATE=
-+-    INTROSPECTION_GIRDIR=
-+-    INTROSPECTION_TYPELIBDIR=
-+-    if test "x$found_introspection" = "xyes"; then
-+-       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-+-       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-+-       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-+-       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
-+-       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
-+-       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
-+-       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
-+-       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
-+-    fi
-+-    AC_SUBST(INTROSPECTION_SCANNER)
-+-    AC_SUBST(INTROSPECTION_COMPILER)
-+-    AC_SUBST(INTROSPECTION_GENERATE)
-+-    AC_SUBST(INTROSPECTION_GIRDIR)
-+-    AC_SUBST(INTROSPECTION_TYPELIBDIR)
-+-    AC_SUBST(INTROSPECTION_CFLAGS)
-+-    AC_SUBST(INTROSPECTION_LIBS)
-+-    AC_SUBST(INTROSPECTION_MAKEFILE)
-+-
-+-    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
-+-])
-+-
-+-
-+-dnl Usage:
-+-dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
-+-
-+-AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
-+-[
-+-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
-+-])
-+-
-+-dnl Usage:
-+-dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
-+-
-+-
-+-AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
-+-[
-+-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
-+-])
-+-- 
-+2.1.4
++# Generating introspection data depends on a combination of native and target introspection tools,
++# and qemu to run the target tools.
++DEPENDS_append = " gobject-introspection gobject-introspection-native qemu-native"
 +
-diff --git a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-index 41f4aee..84e49c1 100644
---- a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-+++ b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-@@ -4,12 +4,14 @@ SECTION = "x11/base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--PROVIDES = "gtk-doc gobject-introspection-stub"
-+PROVIDES = "gtk-doc"
- 
- SRCREV = "1dea266593edb766d6d898c79451ef193eb17cfa"
- PV = "1.1+git${SRCPV}"
- 
--SRC_URI = "git://git.gnome.org/${BPN}"
-+SRC_URI = "git://git.gnome.org/${BPN} \
-+	   file://0001-Revert-Import-introspection-stub-machinery-too.patch \
-+	  "
- 
- S = "${WORKDIR}/git"
- 
++# This is necessary for python scripts to succeed - distutils
++# failes if these are not set
++export BUILD_SYS
++export HOST_SYS
++export STAGING_LIBDIR
++export STAGING_INCDIR
++
++# This is used by introspection tools to find .gir includes
++export XDG_DATA_DIRS = "${STAGING_DATADIR}"
++
++do_configure_prepend_class-target () {
++    # introspection.m4 pre-packaged with upstream tarballs does not yet
++    # have our fixes
++    mkdir -p ${S}/m4
++    cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/m4
++}
++
++
++# .typelib files are needed at runtime and so they go to the main package
++# (so they'll be together with libraries they support).
++FILES_${PN}_append = " ${libdir}/girepository-*/*.typelib" 
++    
++# .gir files go to dev package, as they're needed for developing (but not for running)
++# things that depends on introspection.
++FILES_${PN}-dev_append = " ${datadir}/gir-*/*.gir"
++
 -- 
 2.7.0
 
