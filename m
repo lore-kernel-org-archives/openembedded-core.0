@@ -1,29 +1,29 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C7266E5CC
+	by mail.openembedded.org (Postfix) with ESMTP id 996176E666
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 01:06:10 +0000 (UTC)
+	Wed,  9 Mar 2016 01:07:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u29165MF016172
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2917IiH016185
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 8 Mar 2016 17:06:08 -0800
+	Tue, 8 Mar 2016 17:07:18 -0800
 Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Mar 2016 17:06:04 -0800
+	Tue, 8 Mar 2016 17:07:17 -0800
 To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1456449257.git.hongxu.jia@windriver.com>
-	<f6f440f9fbb9c8dccc4c0e449529ed3f3cb9fc65.1456449257.git.hongxu.jia@windriver.com>
-	<CAJTo0LbV7TfDKoZuT2OjV3PU7HaQ24DOpqZ2qGFOb0fhtXM9mA@mail.gmail.com>
+	<05c06ed8ffad83ab3bf492ef793f33f2a5d346e3.1456449257.git.hongxu.jia@windriver.com>
+	<CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com>
 From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56DF76F0.6020104@windriver.com>
-Date: Wed, 9 Mar 2016 09:05:52 +0800
+Message-ID: <56DF7739.4000103@windriver.com>
+Date: Wed, 9 Mar 2016 09:07:05 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbV7TfDKoZuT2OjV3PU7HaQ24DOpqZ2qGFOb0fhtXM9mA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 15/15] python-pycairo: fix buildpath QA issue
+Subject: Re: [PATCH 13/15] python-pygobject: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 01:06:13 -0000
+X-List-Received-Date: Wed, 09 Mar 2016 01:07:21 -0000
 Content-Type: multipart/alternative;
-	boundary="------------000703050703040705070309"
+	boundary="------------000300030609040502010205"
 
---------------000703050703040705070309
+--------------000300030609040502010205
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/08/2016 11:26 PM, Burton, Ross wrote:
+On 03/08/2016 11:24 PM, Burton, Ross wrote:
 >
 > On 26 February 2016 at 01:45, Hongxu Jia <hongxu.jia@windriver.com 
 > <mailto:hongxu.jia@windriver.com>> wrote:
 >
->     +do_unpack[postfuncs] += "unpack_waf"
->     +do_unpack[vardeps] += "unpack_waf"
->     +unpack_waf() {
->     +       # Just self extract tarball embedded in waf, do not care
->     help message.
->     +       # Do not generate bytecode, becuase we need to patch
->     python file later
->     +       PYTHONDONTWRITEBYTECODE=True ./waf --help >/dev/null
+>     +do_install_append_class-target() {
+>     +       sed -i -e "s:${PYTHON}:\`which python\`:g" \
+>     +           ${D}${bindir}/pygobject-codegen-2.0
 >     +}
 >
 >
-> Presumably this isn't pycairo-specific but impacts every recipe using waf?
->
->      do_configure() {
->     -       BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} ./waf
->     configure --prefix=${D}${prefix} --libdir=${D}${libdir}
->     +       BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} ./waf
->     configure --prefix=${prefix} --libdir=${libdir}
->      }
->
->
-> Looks like this recipe needs to use the waf class for a start.
+> If you're going to expect the shell to find the right python on the 
+> target there's no need to use `which python` as exec will search 
+> $PATH.  However, we do know where Python on the target it: 
+> ${bindir}/python.
 >
 
-OK, I will try to merge these to waf.bbclass. V2 Incoming
+OK, I directly use '${bindir}/python' to instead.
 
 //Hongxu
 
 > Ross
 
 
---------------000703050703040705070309
+--------------000300030609040502010205
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -89,11 +77,11 @@ Content-Transfer-Encoding: 8bit
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 03/08/2016 11:26 PM, Burton, Ross
+    <div class="moz-cite-prefix">On 03/08/2016 11:24 PM, Burton, Ross
       wrote:<br>
     </div>
     <blockquote
-cite="mid:CAJTo0LbV7TfDKoZuT2OjV3PU7HaQ24DOpqZ2qGFOb0fhtXM9mA@mail.gmail.com"
+cite="mid:CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com"
       type="cite">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <div dir="ltr">
@@ -104,49 +92,29 @@ cite="mid:CAJTo0LbV7TfDKoZuT2OjV3PU7HaQ24DOpqZ2qGFOb0fhtXM9mA@mail.gmail.com"
             wrote:<br>
             <blockquote class="gmail_quote" style="margin:0 0 0
               .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":5al" class="a3s" style="overflow:hidden">+do_unpack[postfuncs]
-                += "unpack_waf"<br>
-                +do_unpack[vardeps] += "unpack_waf"<br>
-                +unpack_waf() {<br>
-                +       # Just self extract tarball embedded in waf, do
-                not care help message.<br>
-                +       # Do not generate bytecode, becuase we need to
-                patch python file later<br>
-                +       PYTHONDONTWRITEBYTECODE=True ./waf --help
-                &gt;/dev/null<br>
-                +}<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Presumably this isn't pycairo-specific but impacts
-              every recipe using waf?</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":5al" class="a3s" style="overflow:hidden">
-                 do_configure() {<br>
-                -       BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS}
-                ./waf configure --prefix=${D}${prefix}
-                --libdir=${D}${libdir}<br>
-                +       BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS}
-                ./waf configure --prefix=${prefix} --libdir=${libdir}<br>
-                 }</div>
+              <div id=":5h4" class="a3s" style="overflow:hidden">+do_install_append_class-target()
+                {<br>
+                +       sed -i -e "s:${PYTHON}:\`which python\`:g" \<br>
+                +           ${D}${bindir}/pygobject-codegen-2.0<br>
+                +}</div>
             </blockquote>
           </div>
           <br>
-          Looks like this recipe needs to use the waf class for a start.</div>
+          If you're going to expect the shell to find the right python
+          on the target there's no need to use `which python` as exec
+          will search $PATH.  However, we do know where Python on the
+          target it: ${bindir}/python.</div>
         <div class="gmail_extra"><br>
         </div>
       </div>
     </blockquote>
     <br>
-    OK, I will try to merge these to waf.bbclass. V2 Incoming<br>
+    OK, I directly use '${bindir}/python' to instead.<br>
     <br>
     //Hongxu<br>
     <br>
     <blockquote
-cite="mid:CAJTo0LbV7TfDKoZuT2OjV3PU7HaQ24DOpqZ2qGFOb0fhtXM9mA@mail.gmail.com"
+cite="mid:CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com"
       type="cite">
       <div dir="ltr">
         <div class="gmail_extra">Ross</div>
@@ -156,4 +124,4 @@ cite="mid:CAJTo0LbV7TfDKoZuT2OjV3PU7HaQ24DOpqZ2qGFOb0fhtXM9mA@mail.gmail.com"
   </body>
 </html>
 
---------------000703050703040705070309--
+--------------000300030609040502010205--
