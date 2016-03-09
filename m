@@ -1,48 +1,23 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5023D62132
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 454676080F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 21:01:15 +0000 (UTC)
-Received: by mail-lb0-f177.google.com with SMTP id xr8so80428884lbb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Mar 2016 13:01:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=LcrN3cxQk89BPT8H4Gnngjyll0MapOJtSA0s6jYGiL8=;
-	b=qojjcmYAjuKFrziQfcebPhFkNFmjUC+vZRuxjzOGxJr+bXUm7zbd6ckuViG4HBhDlf
-	rY87emOpuf5kN8d2LQsaVdDRECLEqUuNKwp50JKUBaNz8PJmy6gmCfwTbti58yAoxn6w
-	Cj0hB7frsKsVY8U8MYarM0OWiMV1bGUqYJXp/Prf3mg8nr7GlKpNeom6WtcSOxDfM5Ud
-	FF3zy/h9HAlldeNVJM4//FeCuUSoq7YbTzto6PFnRlHjxajq61BcnD4USNsn79CnYZdz
-	L8KZ+wC+JxozS/5oG4XNGjxqbZDhZV31VfSO494svMBAc25l9C6Z6gfW8kyP9BPKy+jw
-	SJqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=LcrN3cxQk89BPT8H4Gnngjyll0MapOJtSA0s6jYGiL8=;
-	b=PeL3egLeEGNlGxG4OymgVrWZ96mwJCHyv3MBn2kQyXAKYev6v1AteOwvQ9fOLGe4dq
-	WsD+RlJwa0ENk/Nf9lWYpdQr5rec18DnIuGvhqwOdrEiUbOR8Se6s6FlMzcojF4BNuhh
-	IZMCNniw070m8Sxa2OZcV6OZ7+7Y6nxbGYSDPz1mrOqWTG4dgnjWixFkCiCWzWM38dw3
-	nvlFgDufyiE8UDd51T26wfPXjXNZ8l3Krr91pCOSq660v0hxBQQHkTsqA6XEQ91cWX5f
-	rul1ufSlnoOnGnm6+Q8J5MHDQG2RhRDs6iOiY8CspaH6Rb9UZG0urvqs1MpsmmCSSUY+
-	jA7g==
-X-Gm-Message-State: AD7BkJIYqLl7v4OBpsZ/6IjFDfBC1fvmHBCWk/avaS2g2RVzrF3z2/yLXXE6zcZkyJEIn7RmTP0BFsrx5SrYlA==
-X-Received: by 10.25.40.81 with SMTP id o78mr98150lfo.22.1457557274828; Wed,
-	09 Mar 2016 13:01:14 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.114.109.68 with HTTP; Wed, 9 Mar 2016 13:00:55 -0800 (PST)
-In-Reply-To: <56E08D90.1090802@linux.intel.com>
-References: <1457547560-21542-1-git-send-email-ricardo.ribalda@gmail.com>
-	<CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
-	<56E08BEB.1000501@linux.intel.com> <56E08D90.1090802@linux.intel.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 9 Mar 2016 22:00:55 +0100
-Message-ID: <CAPybu_3Kijopoqtngw8-vb0=nCmHhOBaOk4KzgP=z9b+NbRrAw@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package-deb: Ignore circular dependencies
+	Wed,  9 Mar 2016 21:09:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2016 13:09:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,312,1455004800"; d="scan'208";a="933314629"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.18.251])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 13:09:29 -0800
+Message-ID: <1457557766.3642.11.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 09 Mar 2016 21:09:26 +0000
+In-Reply-To: <1457432801-8798-1-git-send-email-mariano.lopez@linux.intel.com>
+References: <1457432801-8798-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] dhcp: CVE-2015-8605
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,70 +30,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 21:01:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Mar 2016 21:09:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-What about ack this patch until we have something more generic.
+Hi Mariano,
 
-The fact that the perl-module package is wrong and we havent find it
-out until today makes me think that it is only apt-get who has this
-issue with circular depencies.
+Thanks for the patch.
 
-Regards!
+On Tue, 2016-03-08 at 10:26 +0000, mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> ISC DHCP allows remote attackers to cause a denial of
+> service (application crash) via an invalid length field
+> in a UDP IPv4 packet.
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  .../dhcp/dhcp/CVE-2015-8605.patch                  |  99
+> ++++++++++++++++
+>  .../dhcp/dhcp/CVE-2015-8605_1.patch                | 131
+> +++++++++++++++++++++
+>  meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   2 +
+>  3 files changed, 232 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-
+> 8605.patch
+>  create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-
+> 8605_1.patch
+> 
+> diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+> b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+> new file mode 100644
+> index 0000000..923d5d5
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+> @@ -0,0 +1,99 @@
+> +Solves CVE-2015-8605 that caused DoS when an invalid lenght field in
 
-On Wed, Mar 9, 2016 at 9:54 PM, An=C3=ADbal Lim=C3=B3n
-<anibal.limon@linux.intel.com> wrote:
->
->
-> On 03/09/2016 02:47 PM, An=C3=ADbal Lim=C3=B3n wrote:
->>
->>
->> On 03/09/2016 02:33 PM, Burton, Ross wrote:
->>> On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <ricardo.ribalda@gmai=
-l.com
->>>> wrote:
->>>
->>>> +                        bb.warn("Package %s rdepends on itself. Ignor=
-ing
->>>> this dependency" % pkg)
->>>>
->>>
->>> Depending on yourself seems wrong no matter what packaging backend you'=
-re
->>> using, even if it isn't fatal.  Maybe this should be added to the gener=
-al
->>> sanity checks in insane.bbclass?
->>
->> I agree that this situation could happen in other package management
->> backends, i don't now if at insane class level we could access the
->> dependency tree of the recipes/packages, i like the idea for more
->> general mechanism.
->
-> I forget to mention will be good if also handle circular dependencies
-> between recipe/packages. A time ago i added this support on postinst
-> scripts in package_{deb,ipk} [1].
->
-> [1]
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/lib/oe?id=3Db2=
-c9e7347acdfd0efe1c3dabb853d609233b61b6
->
->
->
->>
->>     alimon
->>
->>
->>>
->>> Ross
->>>
->>
->>
->>
->
+lenght -> length
 
+> IPv4 UDP
+> +was recived by the server.
+> +
+> +Upstream-Status: Backport
 
+Can you include some more information about the backport, i.e. the
+version the patch was backported from, in the Upstream-Status: field so
+that it's easier to determine why this patch isn't required in jethro
+and master?
 
---=20
-Ricardo Ribalda
+> +CVE: CVE-2015-8605
+> +
+> +Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> +
+> +====================================================================
+> ===
+> +diff --git a/common/packet.c b/common/packet.c
+
+<snip>
+
+> new file mode 100644
+> index 0000000..37a3d72
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
+> @@ -0,0 +1,131 @@
+> +This patch is needed for the CVE-2015-8605 that caused DoS when an
+> invalid lenght field in IPv4 UDP
+
+lenght -> length
+
+> +was recived by the server.
+
+recived -> received
+
+> +
+> +Upstream-Status: Backport
+
+Same again, what version was this backported from?
+
+Thanks,
+
+Joshua
 
