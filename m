@@ -1,38 +1,28 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 337 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 09 Mar 2016 01:08:53 UTC
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6216E601B8
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AA0EE601B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 01:08:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 4DDAF352029D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 02:03:16 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id y70SpkbGIy2f
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 02:03:12 +0100 (CET)
-Received: from [172.22.22.61] (55d44aa7.access.ecotel.net [85.212.74.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id F3D3635205E7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 02:03:11 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
-References: <1457473760-8486-1-git-send-email-nathangutzmann@gmail.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56DF764F.204@opendreambox.org>
-Date: Wed, 9 Mar 2016 02:03:11 +0100
+	Wed,  9 Mar 2016 01:11:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u291BjMQ029495
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Mar 2016 17:11:45 -0800 (PST)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 8 Mar 2016 17:11:44 -0800
+To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
+	<ross.burton@intel.com>, <alejandro.hernandez@linux.intel.com>,
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1456449257.git.hongxu.jia@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56DF7844.9000003@windriver.com>
+Date: Wed, 9 Mar 2016 09:11:32 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <1457473760-8486-1-git-send-email-nathangutzmann@gmail.com>
-Subject: Re: [meta-oe][PATCH] nettle: The variable named p in the patch file was incorrectly named.
+In-Reply-To: <cover.1456449257.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 00/15] fix python buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +35,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 01:08:54 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Wed, 09 Mar 2016 01:11:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello Nathan,
+As Richard suggested ( see [YOCTO #9169]), I will drop
+'insane:add buildpaths QA ignore pattern'
 
-On 08.03.2016 22:49, ngutzmann wrote:
-> The variable in question should have been called ecc->p. The patch has been updated
-> so that the compilation of the nettle recipe would complete successfully.
-> 
-> Signed-off-by: ngutzmann <nathangutzmann@gmail.com>
-> ---
->  meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> index 1c4b9a9..a956f42 100644
-> --- a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> +++ b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> @@ -40,7 +40,7 @@ Index: nettle-2.7.1/ecc-256.c
->         u1 -= cy;
->  -      u1 += cnd_add_n (t, rp + n - 4, ecc->p, 3);
->  +
-> -+      cy = cnd_add_n (t, rp + n - 4, p->m, 2);
-> ++      cy = cnd_add_n (t, rp + n - 4, ecc->p, 2);
->  +      u0 += cy;
->  +      u1 += (u0 < cy);
->         u1 -= (-t) & 0xffffffff;
-> 
+So please drop these, V2 incoming
 
-looks good to me. However, I needed to lookup the commit where the
-backport originated from, because the reason for exchanging m and p
-isn't obvious at all without knowing the original commit. Maybe you
-could include it in your commit message.
+//Hongxu
 
-https://git.lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4d
+On 02/26/2016 09:44 AM, Hongxu Jia wrote:
+> - Patch 01-06 has be sent in previous pull request.
+>
+> - add buildpaths QA ignore pattern, and ignore Makefile by default
+>
+> - fix .pyc/.pyo buildpath QA issue
+>
+> - fix python related buildpath QA issue
+>
+> Test Steps:
+>
+> vim local.conf
+> ...
+> MACHINE ?= "qemux86-64"
+> WARN_QA += "buildpaths"
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
+> ...
+>
+> bitbake -k world
+>
+> In oe-core, these patches fixed 40+ recipes' buildpath QA issue,
+> and fixed all python related buildpath QA issue.
+>
+> There are still 55 recipes left that has buildpath QA issue.
+>
+> //Hongxu
+>
+> The following changes since commit 23056103c949b498c23b47579e8dd57ce78e6ed9:
+>
+>    uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+>
+> Hongxu Jia (15):
+>    depmodwrapper-cross: nopackages to avoid QA [buildpaths] issue
+>    gcc: use relative path for configure script
+>    bison/gettext: add --with-bisonlocaledir to assign BISON_LOCALEDIR
+>    openssl: substitute buildpath in source code
+>    btrfs-tools: fix symlink creation multiple times
+>    git: fix installed-vs-shipped QA Issue
+>    insane:add buildpaths QA ignore pattern
+>    python2/3: fix buildpath QA issue
+>    bbclass distutils/distutils3: fix .pyc/.pyo buildpath
+>    python-setuptools/python3-setuptools: use old-style install
+>    python3-pip: use old-style install
+>    bbclass distutils/distutils3/setuptools/setuptools3: clean up
+>      DISTUTILS_INSTALL_ARGS
+>    python-pygobject: fix buildpath QA issue
+>    python-numpy: fix buildpaths QA issue
+>    python-pycairo: fix buildpath QA issue
+>
+>   meta/classes/distutils.bbclass                     |  8 +--
+>   meta/classes/distutils3.bbclass                    |  8 +--
+>   meta/classes/insane.bbclass                        | 13 +++++
+>   meta/classes/setuptools.bbclass                    |  5 --
+>   meta/classes/setuptools3.bbclass                   |  5 --
+>   meta/recipes-connectivity/openssl/openssl.inc      |  2 +-
+>   .../substitute-buildpath-in-source-code.patch      | 41 ++++++++++++++
+>   .../recipes-connectivity/openssl/openssl_1.0.2f.bb |  1 +
+>   .../gettext-0.19.6/add-with-bisonlocaledir.patch   | 58 ++++++++++++++++++++
+>   meta/recipes-core/gettext/gettext_0.19.6.bb        |  4 ++
+>   .../bison/bison/add-with-bisonlocaledir.patch      | 58 ++++++++++++++++++++
+>   meta/recipes-devtools/bison/bison_3.0.4.bb         |  1 +
+>   .../fix-symlink-creation-multiple-times.patch      | 46 ++++++++++++++++
+>   .../btrfs-tools/btrfs-tools_4.4.bb                 |  1 +
+>   meta/recipes-devtools/gcc/gcc-runtime.inc          |  3 +-
+>   meta/recipes-devtools/gcc/gcc-sanitizers.inc       |  3 +-
+>   meta/recipes-devtools/gcc/libgcc-common.inc        |  3 +-
+>   meta/recipes-devtools/gcc/libgfortran.inc          |  3 +-
+>   meta/recipes-devtools/git/git.inc                  |  2 +
+>   .../remove-build-path-in-comments.patch            | 30 +++++++++++
+>   .../recipes-devtools/python/python-numpy_1.10.4.bb |  1 +
+>   ...trip-off-build-path-in-purported-filename.patch | 62 ++++++++++++++++++++++
+>   .../python/python-pycairo_1.10.0.bb                | 22 ++++----
+>   .../python/python-pygobject_2.28.3.bb              |  5 ++
+>   .../python/python-setuptools_19.4.bb               |  2 -
+>   .../use-relative-path-to-compile-source-file.patch | 31 +++++++++++
+>   meta/recipes-devtools/python/python3-pip_8.0.0.bb  | 12 -----
+>   .../python/python3-setuptools_19.4.bb              |  8 +--
+>   .../use-relative-path-to-compile-source-file.patch | 31 +++++++++++
+>   meta/recipes-devtools/python/python3_3.5.1.bb      | 10 +++-
+>   meta/recipes-devtools/python/python_2.7.11.bb      |  8 +++
+>   .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  2 +
+>   32 files changed, 438 insertions(+), 51 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl/substitute-buildpath-in-source-code.patch
+>   create mode 100644 meta/recipes-core/gettext/gettext-0.19.6/add-with-bisonlocaledir.patch
+>   create mode 100644 meta/recipes-devtools/bison/bison/add-with-bisonlocaledir.patch
+>   create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-symlink-creation-multiple-times.patch
+>   create mode 100644 meta/recipes-devtools/python/python-numpy/remove-build-path-in-comments.patch
+>   create mode 100644 meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
+>   create mode 100644 meta/recipes-devtools/python/python/use-relative-path-to-compile-source-file.patch
+>   create mode 100644 meta/recipes-devtools/python/python3/use-relative-path-to-compile-source-file.patch
+>
 
-Regards,
-Andreas
 
