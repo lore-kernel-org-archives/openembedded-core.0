@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DD43C6FF9F
+	by mail.openembedded.org (Postfix) with ESMTP id CA6556FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 15:06:36 +0000 (UTC)
+	Wed,  9 Mar 2016 15:06:38 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2016 07:06:38 -0800
+	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2016 07:06:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,311,1455004800"; d="scan'208";a="933083771"
+X-IronPort-AV: E=Sophos;i="5.24,311,1455004800"; d="scan'208";a="933083820"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 07:06:36 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 07:06:38 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Mar 2016 17:02:04 +0200
-Message-Id: <5b9e7b90ab551365b9e50841994ed7a63d08e618.1457535622.git.alexander.kanavin@linux.intel.com>
+Date: Wed,  9 Mar 2016 17:02:06 +0200
+Message-Id: <56858e0fc0d0a366054737f45d55a7ae25317fbc.1457535622.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
 References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
 References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 18/24] python-pygobject: update to 3.18.2
+Subject: [PATCH 20/24] webkitgtk: enable gobject introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,187 +33,177 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 09 Mar 2016 15:06:39 -0000
 
-The new version of pygobject relies in gobject introspection;
-this has prevented the update previously.
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch | 41 +++++++++++++++++
- .../obsolete_automake_macros.patch                 | 23 ----------
- .../python/python-pygobject_2.28.3.bb              | 53 ----------------------
- .../python/python-pygobject_3.18.2.bb              | 25 ++++++++++
- 4 files changed, 66 insertions(+), 76 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
- delete mode 100644 meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-devtools/python/python-pygobject_2.28.3.bb
- create mode 100644 meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+ ...Introspection.cmake-prefix-variables-obta.patch | 27 +++++++++++++++
+ ...cmake-drop-the-hardcoded-introspection-gt.patch | 35 +++++++++++++++++++
+ ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch | 40 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.10.7.bb       | 14 ++++++--
+ 4 files changed, 114 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+ create mode 100644 meta/recipes-sato/webkit/files/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch
+ create mode 100644 meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
 
-diff --git a/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch b/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+diff --git a/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
 new file mode 100644
-index 0000000..a391f7e
+index 0000000..fae3b0b
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
-@@ -0,0 +1,41 @@
-+From 5e5350d730f85957a42c6d846d347d080e7dd996 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+@@ -0,0 +1,27 @@
++From 317a5ac120c44987219bc03486cd2f2d1842c9b9 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 23 Oct 2015 12:40:34 +0300
-+Subject: [PATCH] configure.ac: add sysroot path to GI_DATADIR; don't set
-+ introspection scanner and compiler paths
++Date: Tue, 27 Oct 2015 16:02:19 +0200
++Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
++ from pkg-config with PKG_CONFIG_SYSROOT_DIR
 +
-+Upstream-Status: Pending [review on oe-core maillist]
++Upstream-Status: Pending [review on oe-core list]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ configure.ac | 8 +-------
-+ 1 file changed, 1 insertion(+), 7 deletions(-)
++ Source/cmake/FindGObjectIntrospection.cmake | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 2c0cfbd..cfcb3bf 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -194,7 +194,7 @@ PKG_CHECK_MODULES(GI,
-+     gobject-introspection-1.0 >= introspection_required_version
-+ )
-+ 
-+-GI_DATADIR=$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
-++GI_DATADIR=$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
-+ AC_SUBST(GI_DATADIR)
-+ 
-+ if test "$enable_cairo" != no; then
-+@@ -219,12 +219,6 @@ AC_ARG_WITH(common,
-+     with_common=yes)
-+ AM_CONDITIONAL(WITH_COMMON, test "$with_common" = "yes")
-+ 
-+-INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-+-INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-+-
-+-AC_SUBST(INTROSPECTION_SCANNER)
-+-AC_SUBST(INTROSPECTION_COMPILER)
-+-
-+ # compiler warnings, errors, required cflags, and code coverage support
-+ GNOME_COMPILE_WARNINGS([maximum])
-+ AC_MSG_CHECKING(for Gnome code coverage support)
++diff --git a/Source/cmake/FindGObjectIntrospection.cmake b/Source/cmake/FindGObjectIntrospection.cmake
++index e1f49b4..03a4446 100644
++--- a/Source/cmake/FindGObjectIntrospection.cmake
+++++ b/Source/cmake/FindGObjectIntrospection.cmake
++@@ -26,6 +26,7 @@ macro(_GIR_GET_PKGCONFIG_VAR _outvar _varname _extra_args)
++     else ()
++         string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
++         string(REGEX REPLACE " +$" ""  _result "${_result}")
+++        string(CONCAT _result $ENV{PKG_CONFIG_SYSROOT_DIR} "${_result}")
++         separate_arguments(_result)
++         set(${_outvar} ${_result} CACHE INTERNAL "")
++     endif ()
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch b/meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch
-deleted file mode 100644
-index c259112..0000000
---- a/meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--Upstream-Status: Accepted [https://bugzilla.gnome.org/show_bug.cgi?id=691101]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd pygobject-2.27.91/configure.ac pygobject-2.27.91/configure.ac
----- pygobject-2.27.91/configure.ac	2011-02-23 22:14:37.000000000 +0200
--+++ pygobject-2.27.91/configure.ac	2013-01-03 05:13:44.034949954 +0200
--@@ -35,7 +35,7 @@
-- AC_DEFINE(PYGOBJECT_MICRO_VERSION, pygobject_micro_version, [pygobject micro version])
-- AC_SUBST(PYGOBJECT_MICRO_VERSION, pygobject_micro_version)
--
---AM_CONFIG_HEADER(config.h)
--+AC_CONFIG_HEADERS(config.h)
-- m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES(yes)])
-- AM_INIT_AUTOMAKE(foreign)
-- AM_MAINTAINER_MODE
--@@ -82,7 +82,6 @@
-- m4_ifdef([LT_OUTPUT], [LT_OUTPUT])
-- AC_ISC_POSIX
-- AC_PROG_CC
---AM_PROG_CC_STDC
-- AM_PROG_CC_C_O
--
-- # check that we have the minimum version of python necisary to build
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-deleted file mode 100644
-index 81d37b4..0000000
---- a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-+++ /dev/null
-@@ -1,53 +0,0 @@
--SUMMARY = "Python GObject bindings"
--SECTION = "devel/python"
--LICENSE = "LGPLv2.1"
--
--RECIPE_NO_UPDATE_REASON = "Newer versions of python-pygobject depend on gobject-introspection which doesn't cross-compile"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
--DEPENDS = "python python-pygobject-native libffi glib-2.0"
--DEPENDS_class-native = "python-native libffi-native glib-2.0-native"
--RDEPENDS_class-native = ""
--
--MAJ_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
--
--SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2 \
--           file://obsolete_automake_macros.patch \
--"
--
--# libtool-native doesn't have fixinstall.patch applied which means
--# that libs get relinked at installation time. This triggers a 
--# relinking along the lines of:
--# gcc -L/tmp/foo/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/lib -lpyglib-2.0-python -o .libs/_glib.so
--# where /tmp/foo is DESTDIR and pyglib-2.0-python may be installed/reinstalled
--# at the same time as the gcc command runs.
--# If this happens between the handoff between gcc and ld, you can see:
--# /bin/ld: cannot find -lpyglib-2.0-python
--# Adding a dependency rule like  install-pyglibLTLIBRARIES: install-libLTLIBRARIES
--# would be ideal but automake can't cope with that without manually 
--# defining the whole function. Give up and disable parallel make in native builds.
--PARALLEL_MAKEINST_class-native = ""
--
--SRC_URI[md5sum] = "aa64900b274c4661a5c32e52922977f9"
--SRC_URI[sha256sum] = "7da88c169a56efccc516cebd9237da3fe518a343095a664607b368fe21df95b6"
--S = "${WORKDIR}/pygobject-${PV}"
--
--EXTRA_OECONF += "--disable-introspection"
--
--inherit autotools distutils-base pkgconfig
--
--# necessary to let the call for python-config succeed
--export BUILD_SYS
--export HOST_SYS
--export STAGING_INCDIR
--export STAGING_LIBDIR
--
--PACKAGES += "${PN}-lib"
--
--RDEPENDS_${PN} += "python-textutils"
--
--FILES_${PN} = "${libdir}/python*"
--FILES_${PN}-lib = "${libdir}/lib*.so.*"
--FILES_${PN}-dev += "${bindir} ${datadir}"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+diff --git a/meta/recipes-sato/webkit/files/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch b/meta/recipes-sato/webkit/files/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch
 new file mode 100644
-index 0000000..e61d75c
+index 0000000..3d004db
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Python GObject bindings"
-+SECTION = "devel/python"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
++++ b/meta/recipes-sato/webkit/files/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch
+@@ -0,0 +1,35 @@
++From 48648570e449cf7f84a26dc03c1e3f620fa69757 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 29 Feb 2016 18:13:39 +0200
++Subject: [PATCH] OptionsGTK.cmake: drop the hardcoded introspection/gtkdoc
++ disabling when cross-compiling
 +
-+inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection
++This was not possible to override from the command line and in OpenEmbedded
++(one of the most prominent cross-compilation frameworks) introspection does work fine,
++through the use of qemu target emulation.
 +
-+DEPENDS += "python3 glib-2.0 gnome-common"
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Source/cmake/OptionsGTK.cmake | 6 ------
++ 1 file changed, 6 deletions(-)
 +
-+SRCNAME="pygobject"
-+SRC_URI = " \
-+    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
-+    file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
-+"
++diff --git a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
++index e5f1f5b..4698036 100644
++--- a/Source/cmake/OptionsGTK.cmake
+++++ b/Source/cmake/OptionsGTK.cmake
++@@ -443,12 +443,6 @@ if (USE_LIBHYPHEN)
++     endif ()
++ endif ()
++ 
++-# Override the cached variables, gtk-doc and gobject-introspection do not really work when cross-building.
++-if (CMAKE_CROSSCOMPILING)
++-    set(ENABLE_GTKDOC OFF)
++-    set(ENABLE_INTROSPECTION OFF)
++-endif ()
++-
++ set(DERIVED_SOURCES_GOBJECT_DOM_BINDINGS_DIR ${DERIVED_SOURCES_DIR}/webkitdom)
++ set(DERIVED_SOURCES_WEBKITGTK_DIR ${DERIVED_SOURCES_DIR}/webkitgtk)
++ set(DERIVED_SOURCES_WEBKITGTK_API_DIR ${DERIVED_SOURCES_WEBKITGTK_DIR}/webkit)
++-- 
++2.7.0
 +
-+SRC_URI[md5sum] = "0a956f3e785e23b0f136832f2e57a862"
-+SRC_URI[sha256sum] = "2a3cad1517916b74e131e6002c3824361aee0671ffb0d55ded119477fc1c2c5f"
+diff --git a/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch b/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+new file mode 100644
+index 0000000..44b43cd
+--- /dev/null
++++ b/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+@@ -0,0 +1,40 @@
++From bae9f73b2c693b5aa156fed717d6481b60682786 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 28 Oct 2015 14:18:57 +0200
++Subject: [PATCH] When building introspection files, add CMAKE_C_FLAGS to the
++ compiler flags.
 +
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
++g-ir-compiler is using a C compiler internally, so it needs to set
++the proper flags for it.
 +
-+BBCLASSEXTEND = "native"
++Upstream-Status: Pending [review on oe-core list]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Source/WebKit2/PlatformGTK.cmake | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+EXTRA_OECONF = "--disable-cairo"
++diff --git a/Source/WebKit2/PlatformGTK.cmake b/Source/WebKit2/PlatformGTK.cmake
++index 706f1e8..14a1c3b 100644
++--- a/Source/WebKit2/PlatformGTK.cmake
+++++ b/Source/WebKit2/PlatformGTK.cmake
++@@ -884,7 +884,7 @@ add_custom_command(
++     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
++     DEPENDS WebKit2
++     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++-    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
+++    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
++         LD_LIBRARY_PATH="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++         ${INTROSPECTION_SCANNER}
++         --quiet
++@@ -930,7 +930,7 @@ add_custom_command(
++     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
++     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++     DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
++-    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations
+++    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
++         LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
++         LD_LIBRARY_PATH="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++         ${INTROSPECTION_SCANNER}
++-- 
++2.6.4
 +
-+RDEPENDS_${PN} += "python3-setuptools"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
+index 8812967..849a33a 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
+@@ -15,11 +15,14 @@ SRC_URI = "\
+   file://clang.patch \
+   file://0001-Enable-backtrace-on-linux-when-using-glibc.patch \
+   file://0001-Fix-build-with-non-glibc-libraries-on-linux.patch \
++  file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
++  file://0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch \
++  file://0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch \
+   "
+ SRC_URI[md5sum] = "84832b9d8329413b4f1d87df5f7e8efe"
+ SRC_URI[sha256sum] = "990d62c82ed6dede31a6ff0a82d847f16b812842ff3e1093d17113627652864e"
+ 
+-inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check upstream-version-is-even
++inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check upstream-version-is-even gobject-introspection
+ 
+ # depends on libxt
+ REQUIRED_DISTRO_FEATURES = "x11"
+@@ -51,7 +54,7 @@ PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
+ EXTRA_OECMAKE = " \
+ 		-DPORT=GTK \
+ 		-DCMAKE_BUILD_TYPE=Release \
+-		-DENABLE_INTROSPECTION=OFF \
++		${@bb.utils.contains('COMBINED_FEATURES', 'gobject-introspection-data', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
+ 		-DENABLE_GTKDOC=OFF \
+ 		-DENABLE_MINIBROWSER=ON \
+ 		"
+@@ -76,3 +79,10 @@ FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbu
+ 
+ # http://errors.yoctoproject.org/Errors/Details/20370/
+ ARM_INSTRUCTION_SET = "arm"
++
++# Invalid data memory access: 0x00000000
++# ...
++# qemu: uncaught target signal 11 (Segmentation fault) - core dumped
++# Segmentation fault
++EXTRA_OECMAKE_append_powerpc = " -DENABLE_INTROSPECTION=OFF "
++
 -- 
 2.7.0
 
