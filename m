@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 50CF86FFC7
+Return-Path: <Zhenbo.Gao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BD90E6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 04:49:51 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 08 Mar 2016 20:49:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,310,1455004800"; d="scan'208";a="929876793"
-Received: from mlim-mobl4.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.143.14])
-	by orsmga002.jf.intel.com with ESMTP; 08 Mar 2016 20:49:33 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Mar 2016 17:48:51 +1300
-Message-Id: <74289c6c776359a3a41da5a2a4c629abf0605528.1457498464.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1457498464.git.paul.eggleton@linux.intel.com>
-References: <cover.1457498464.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1457498464.git.paul.eggleton@linux.intel.com>
-References: <cover.1457498464.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 4/8] recipetool: create: add license file crunching
+	Wed,  9 Mar 2016 07:46:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u297k41S004474
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Mar 2016 23:46:04 -0800 (PST)
+Received: from pek-zgao-d1.corp.ad.wrs.com (128.224.162.191) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 8 Mar 2016 23:46:04 -0800
+From: Zhenbo Gao <zhenbo.gao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <zhenbo.gao@windriver.com>
+Date: Wed, 9 Mar 2016 15:45:08 +0800
+Message-ID: <1457509508-5800-1-git-send-email-zhenbo.gao@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] initscripts: correct the runlevels for urandom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,134 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 04:49:52 -0000
+X-List-Received-Date: Wed, 09 Mar 2016 07:46:05 -0000
+Content-Type: text/plain
 
-Matching license texts directly to md5sums only goes so far. Some
-licenses make the copyright statement an intrinsic part of the license
-statement (e.g. MIT) which of course varies between projects. Also,
-people often seem to take standard license texts such as GPLv2 and
-reformat them cosmetically - re-wrapping lines at a different width or
-changing quoting styles are seemingly popular examples. In order to
-match license files to their actual licenses more effectively, "crunch"
-out these elements before comparing to an md5sum. (The existing plain
-md5sum matching has been left in since it's a shortcut, and our list of
-crunched md5sums isn't a complete replacement for it.)
+The description of urandom is: Save the random seed on shutdown
+and restore it on boot.
 
-As always, this code isn't providing any guarantees (legal or otherwise)
-that it will always get the license correct - as indicated by the
-accompanying comments the LICENSE values it writes out to the recipe are
-indicative and you should verify them yourself by looking at the
-documentation supplied from upstream for the software being built if you
-have any concerns.
+So this script should be used with 'stop' at runlevel 0 and 6, and
+'start' at runlevel 1 2 3 4 5.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
 ---
- scripts/lib/recipetool/create.py | 77 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 76 insertions(+), 1 deletion(-)
+ meta/recipes-core/initscripts/initscripts-1.0/urandom | 2 +-
+ meta/recipes-core/initscripts/initscripts_1.0.bb      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index def2eea..718f2aa 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -25,6 +25,7 @@ import json
- import logging
- import scriptutils
- import urlparse
-+import hashlib
- 
- logger = logging.getLogger('recipetool')
- 
-@@ -717,6 +718,76 @@ def get_license_md5sums(d, static_only=False):
-     md5sums['54c7042be62e169199200bc6477f04d1'] = 'BSD-3-Clause'
-     return md5sums
- 
-+def crunch_license(licfile):
-+    '''
-+    Remove non-material text from a license file and then check
-+    its md5sum against a known list. This works well for licenses
-+    which contain a copyright statement, but is also a useful way
-+    to handle people's insistence upon reformatting the license text
-+    slightly (with no material difference to the text of the
-+    license).
-+    '''
-+
-+    import oe.utils
-+
-+    # Note: these are carefully constructed!
-+    license_title_re = re.compile('^\(?(#+ *)?(The )?.{1,10} [Ll]icen[sc]e( \(.{1,10}\))?\)?:?$')
-+    license_statement_re = re.compile('^This (project|software) is( free software)? released under the .{1,10} [Ll]icen[sc]e:?$')
-+    copyright_re = re.compile('^(#+)? *Copyright .*$')
-+
-+    crunched_md5sums = {}
-+    # The following two were gleaned from the "forever" npm package
-+    crunched_md5sums['0a97f8e4cbaf889d6fa51f84b89a79f6'] = 'ISC'
-+    crunched_md5sums['eecf6429523cbc9693547cf2db790b5c'] = 'MIT'
-+    # https://github.com/vasi/pixz/blob/master/LICENSE
-+    crunched_md5sums['2f03392b40bbe663597b5bd3cc5ebdb9'] = 'BSD-2-Clause'
-+    # https://github.com/waffle-gl/waffle/blob/master/LICENSE.txt
-+    crunched_md5sums['e72e5dfef0b1a4ca8a3d26a60587db66'] = 'BSD-2-Clause'
-+    # https://github.com/spigwitmer/fakeds1963s/blob/master/LICENSE
-+    crunched_md5sums['8be76ac6d191671f347ee4916baa637e'] = 'GPLv2'
-+    # https://github.com/datto/dattobd/blob/master/COPYING
-+    # http://git.savannah.gnu.org/cgit/freetype/freetype2.git/tree/docs/GPLv2.TXT
-+    crunched_md5sums['1d65c5ad4bf6489f85f4812bf08ae73d'] = 'GPLv2'
-+    # http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
-+    # http://git.neil.brown.name/?p=mdadm.git;a=blob;f=COPYING;h=d159169d1050894d3ea3b98e1c965c4058208fe1;hb=HEAD
-+    crunched_md5sums['fb530f66a7a89ce920f0e912b5b66d4b'] = 'GPLv2'
-+    # https://github.com/gkos/nrf24/blob/master/COPYING
-+    crunched_md5sums['7b6aaa4daeafdfa6ed5443fd2684581b'] = 'GPLv2'
-+    # https://github.com/josch09/resetusb/blob/master/COPYING
-+    crunched_md5sums['8b8ac1d631a4d220342e83bcf1a1fbc3'] = 'GPLv3'
-+    # https://github.com/FFmpeg/FFmpeg/blob/master/COPYING.LGPLv2.1
-+    crunched_md5sums['2ea316ed973ae176e502e2297b574bb3'] = 'LGPLv2.1'
-+    # unixODBC-2.3.4 COPYING
-+    crunched_md5sums['1daebd9491d1e8426900b4fa5a422814'] = 'LGPLv2.1'
-+    # https://github.com/FFmpeg/FFmpeg/blob/master/COPYING.LGPLv3
-+    crunched_md5sums['2ebfb3bb49b9a48a075cc1425e7f4129'] = 'LGPLv3'
-+    lictext = []
-+    with open(licfile, 'r') as f:
-+        for line in f:
-+            # Drop opening statements
-+            if copyright_re.match(line):
-+                continue
-+            elif license_title_re.match(line):
-+                continue
-+            elif license_statement_re.match(line):
-+                continue
-+            # Squash spaces, and replace smart quotes, double quotes
-+            # and backticks with single quotes
-+            line = oe.utils.squashspaces(line.strip()).decode("utf-8")
-+            line = line.replace(u"\u2018", "'").replace(u"\u2019", "'").replace(u"\u201c","'").replace(u"\u201d", "'").replace('"', '\'').replace('`', '\'')
-+            if line:
-+                lictext.append(line)
-+
-+    m = hashlib.md5()
-+    try:
-+        m.update(' '.join(lictext))
-+        md5val = m.hexdigest()
-+    except UnicodeEncodeError:
-+        md5val = None
-+        lictext = ''
-+    license = crunched_md5sums.get(md5val, None)
-+    return license, md5val, lictext
-+
- def guess_license(srctree):
-     import bb
-     md5sums = get_license_md5sums(tinfoil.config_data)
-@@ -733,7 +804,11 @@ def guess_license(srctree):
-                         licfiles.append(fullpath)
-     for licfile in licfiles:
-         md5value = bb.utils.md5_file(licfile)
--        license = md5sums.get(md5value, 'Unknown')
-+        license = md5sums.get(md5value, None)
-+        if not license:
-+            license, crunched_md5, lictext = crunch_license(licfile)
-+            if not license:
-+                license = 'Unknown'
-         licenses.append((license, os.path.relpath(licfile, srctree), md5value))
- 
-     # FIXME should we grab at least one source file with a license header and add that too?
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/urandom b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+index af1625b..8cb1b57 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/urandom
++++ b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+@@ -3,7 +3,7 @@
+ # Provides:          urandom
+ # Required-Start:    $local_fs mountvirtfs
+ # Required-Stop:     $local_fs
+-# Default-Start:     S
++# Default-Start:     1 2 3 4 5
+ # Default-Stop:      0 6
+ # Short-Description: Save and restore the random seed
+ # Description:       Save the random seed on shutdown and restore it on boot,
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 148491f..a0aa124 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -123,7 +123,7 @@ do_install () {
+ #
+ 	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
+ 	update-rc.d -r ${D} sendsigs start 20 0 6 .
+-	update-rc.d -r ${D} urandom start 38 S 0 6 .
++	update-rc.d -r ${D} urandom start 38 1 2 3 4 5 . stop 62 0 6 .
+ 	update-rc.d -r ${D} umountnfs.sh start 31 0 1 6 .
+ 	update-rc.d -r ${D} umountfs start 40 0 6 .
+ 	update-rc.d -r ${D} reboot start 90 6 .
 -- 
-2.5.0
+1.9.1
 
 
