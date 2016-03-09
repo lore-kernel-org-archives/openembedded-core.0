@@ -1,30 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E32AA60721
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id DDB236E681
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 17:26:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u29HQW4C012039; Wed, 9 Mar 2016 17:26:32 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RtdqmPC4R8pg; Wed,  9 Mar 2016 17:26:32 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u29HQSDu012036
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 9 Mar 2016 17:26:29 GMT
-Message-ID: <1457544388.2804.179.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	openembedded-core@lists.openembedded.org, ross.burton@intel.com
-Date: Wed, 09 Mar 2016 17:26:28 +0000
-In-Reply-To: <d32227aaa1bf8acd225f695857056f1b5dc77efc.1457522031.git.hongxu.jia@windriver.com>
-References: <cover.1457522031.git.hongxu.jia@windriver.com>
-	<d32227aaa1bf8acd225f695857056f1b5dc77efc.1457522031.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] tune-ppce500v2.inc: explicitly set gcc float
+	Wed,  9 Mar 2016 17:39:53 +0000 (UTC)
+Received: by mail-lb0-f181.google.com with SMTP id k15so77139556lbg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Mar 2016 09:39:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6t8KFUXDPZZ9Y3VJlZSQk78k+zVX5g8M4OMupYnGxao=;
+	b=yqLtchvokNYZSb4ERC7ttf1RszPGlP/UYI60Jcee1aGB1FXyIK1Oo3pcltGcQ4ZRFi
+	Q4coKdTv477yclCvpJjPOlV2NFI6guHgpr28iu9OEf1HUgawZbJepDIQL+XqeYkEDdyb
+	ni77BRngPD8QELdX8grs+UaVfWQJN/tQkNM5L4XBWiO+DkRkUaSEPc5I1BAUR+2Lrz00
+	/pA9VcJ7fR2HwhmJ5dN0+pVu5x70jL8u9V/qdJOPaMMPZE9wuviXWRU4Mgpgq/9Y9atL
+	GNf/zyWPPTnVJehJqSe5anczHQF0CqlXj0/2P9Vwmh56Zpt6RE6KBFDwdoZHAky4t2i3
+	/98g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6t8KFUXDPZZ9Y3VJlZSQk78k+zVX5g8M4OMupYnGxao=;
+	b=Wdv9yxCzIVC23a+6S7vOudPffBod8uhNRBGcDjSspDcRmVWQIv5tnHKDGue7jh9bXB
+	MxtVn3SmWv4tTlswjSvmyO04ydNllXjwDMAAZi4XZLYRqo+oPSw/f+rSKhCzKZESOeGH
+	Go/FSQadf518alwHOc4/8m4J9+iEilk+eAsFxJ+qralzeqBOz64hUAMhcg/1QxScUDiE
+	68Br4U4bGy/6cDoy5Cc6+wb2YmajFjDIFifQj7Fz1kQJ35cIwxYqaYXvZ4+qPfF3DIKd
+	w6sKpE+uN8Q3JhaQPnRpMvVmxWFV6PpQhgzhMO3jP2SkyL8HZqLYxfAErb4m1xx+VGkC
+	PoIg==
+X-Gm-Message-State: AD7BkJKG5D2Y5jpOidUdHqVqmrJh1RLN5kkdlYpnGGC156vxERNt2f5IDOotHZU4II6hyQ==
+X-Received: by 10.25.23.94 with SMTP id n91mr9740136lfi.3.1457545192648;
+	Wed, 09 Mar 2016 09:39:52 -0800 (PST)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id
+	mt7sm1414601lbb.25.2016.03.09.09.39.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Mar 2016 09:39:51 -0800 (PST)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed,  9 Mar 2016 18:39:50 +0100
+Message-Id: <1457545190-31889-1-git-send-email-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] perl-rdepends: Remove circular dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,86 +54,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 17:26:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Mar 2016 17:39:55 -0000
 
-On Wed, 2016-03-09 at 06:18 -0500, Hongxu Jia wrote:
-> For powerpc*-*-*spe*, default to with_cpu=8548 if --enable-e500
-> -double,
-> and to 8540 otherwise.
-> vim gcc/config.gcc
-> ...
->     powerpc*-*-*spe*)
->       if test x$enable_e500_double = xyes; then
->          with_cpu=8548
->       else
->          with_cpu=8540
->       fi
->       ;;
-> ...
-> 
-> The with_cpu is used for SPE version detection
-> vim ./gcc/config/rs6000/t-linux
-> ...
->   7 ifneq (,$(findstring spe,$(target)))
->   8 MULTIARCH_DIRNAME := powerpc-linux-gnuspe$(if $(findstring
-> 8548,$(with_cpu)),,v1)
->   9 else
->  10 MULTIARCH_DIRNAME := powerpc-linux-gnu
-> ...
-> 
-> The variable MULTIARCH_DIRNAME is the output of '$CC --print
-> -multiarch'.
-> Without this patch, the output is 'powerpc-linux-gnuspev1' which
-> caused
-> python3 do_configure failed.
-> 
-> Since ppce500v2 -mcpu is 8548, explicitly add --enable-e500-double
-> could fix
-> the issue.
-> 
-> [YOCTO #9226]
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/conf/machine/include/tune-ppce500v2.inc | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/conf/machine/include/tune-ppce500v2.inc
-> b/meta/conf/machine/include/tune-ppce500v2.inc
-> index 20a5f25..70d3078 100644
-> --- a/meta/conf/machine/include/tune-ppce500v2.inc
-> +++ b/meta/conf/machine/include/tune-ppce500v2.inc
-> @@ -18,3 +18,7 @@ AVAILTUNES += "ppce500v2"
->  TUNE_FEATURES_tune-ppce500v2 = "m32 spe ppce500v2"
->  TUNE_PKGARCH_tune-ppce500v2 = "ppce500v2"
->  PACKAGE_EXTRA_ARCHS_tune-ppce500v2 = "ppce500v2"
-> +
-> +# For powerpc*-*-*spe*, default to with_cpu=8548 if
-> +# --enable-e500-double, and to 8540 otherwise.
-> +EXTRA_OECONF_GCC_FLOAT += "${@get_gcc_float_setting(bb, d)}"
+Packages should not depend on themselves, otherwise it could lead to
+circular dependencies on the package manager.
 
-This is good to understand what is breaking but the patch as it stands
-can't be merged as the gcc recipe intentionally doesn't do this, its
-only done in gcc-target.inc.
+I have added a line on the proposed bash script that should add this
+check on future versions.
 
-Why?
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+---
+ meta/recipes-devtools/perl/perl-rdepends_5.22.1.inc | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-The theory is we should be building one gcc-cross-powerpc, not multiple
-different variants. I did just try a build and realised that switching
-machines between p1022ds and qemuppc does rebuild gcc-cross-powerpc but
-that is a bug. Adding the above is just going to make this harder to
-fix, and will certainly break the SDK gcc-cross-canadian-gcc.
-
-I'm not sure how we should fix this, particularly given that gcc-cross
--powerpc already isn't working properly but the avoid fix isn't right.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.22.1.inc b/meta/recipes-devtools/perl/perl-rdepends_5.22.1.inc
+index 7f886f34ab68..033d4e354611 100644
+--- a/meta/recipes-devtools/perl/perl-rdepends_5.22.1.inc
++++ b/meta/recipes-devtools/perl/perl-rdepends_5.22.1.inc
+@@ -7,6 +7,7 @@
+ #2 find . -name \*.pm | xargs sed -i '/^=head/,/^=cut/d'
+ #3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" 
+ #| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] 
++#| awk '{if ($3 != "\x22"$1"\x22"){ print $0}}'
+ #| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix 
+ #| sort -u 
+ #| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' 
+@@ -275,7 +276,6 @@ RDEPENDS_${PN}-module-constant += "${PN}-module-carp"
+ RDEPENDS_${PN}-module-constant += "${PN}-module-strict"
+ RDEPENDS_${PN}-module-constant += "${PN}-module-warnings-register"
+ RDEPENDS_${PN}-module-corelist += "${PN}-module-list-util"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-corelist"
+ RDEPENDS_${PN}-module-corelist += "${PN}-module-strict"
+ RDEPENDS_${PN}-module-corelist += "${PN}-module-vars"
+ RDEPENDS_${PN}-module-corelist += "${PN}-module-version"
+@@ -283,7 +283,6 @@ RDEPENDS_${PN}-module-corelist += "${PN}-module-warnings"
+ RDEPENDS_${PN}-module-cpan += "${PN}-module-b"
+ RDEPENDS_${PN}-module-cpan += "${PN}-module-carp"
+ RDEPENDS_${PN}-module-cpan += "${PN}-module-config"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-cpan"
+ RDEPENDS_${PN}-module-cpan += "${PN}-module-cwd"
+ RDEPENDS_${PN}-module-cpan += "${PN}-module-data-dumper"
+ RDEPENDS_${PN}-module-cpan += "${PN}-module-dirhandle"
+@@ -885,7 +884,6 @@ RDEPENDS_${PN}-module-fatal += "${PN}-module-autodie-scopeutil"
+ RDEPENDS_${PN}-module-fatal += "${PN}-module-carp"
+ RDEPENDS_${PN}-module-fatal += "${PN}-module-config"
+ RDEPENDS_${PN}-module-fatal += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-fatal"
+ RDEPENDS_${PN}-module-fatal += "${PN}-module-fcntl"
+ RDEPENDS_${PN}-module-fatal += "${PN}-module-posix"
+ RDEPENDS_${PN}-module-fatal += "${PN}-module-scalar-util"
+@@ -1079,7 +1077,6 @@ RDEPENDS_${PN}-module-i18n-langtags-detect += "${PN}-module-vars"
+ RDEPENDS_${PN}-module-i18n-langtags-list += "${PN}-module-strict"
+ RDEPENDS_${PN}-module-i18n-langtags-list += "${PN}-module-vars"
+ RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-i18n-langtags"
+ RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-strict"
+ RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-vars"
+ RDEPENDS_${PN}-module-io-compress-adapter-bzip2 += "${PN}-module-bytes"
+@@ -1428,7 +1425,6 @@ RDEPENDS_${PN}-module-load += "${PN}-module-filehandle"
+ RDEPENDS_${PN}-module-load += "${PN}-module-file-spec"
+ RDEPENDS_${PN}-module-load += "${PN}-module-locale-maketext-simple"
+ RDEPENDS_${PN}-module-load += "${PN}-module-corelist"
+-RDEPENDS_${PN}-module-load += "${PN}-module-load"
+ RDEPENDS_${PN}-module-load += "${PN}-module-params-check"
+ RDEPENDS_${PN}-module-load += "${PN}-module-strict"
+ RDEPENDS_${PN}-module-load += "${PN}-module-vars"
+@@ -2353,7 +2349,6 @@ RDEPENDS_${PN}-module-test-harness += "${PN}-module-warnings"
+ RDEPENDS_${PN}-module-test-more += "${PN}-module-scalar-util"
+ RDEPENDS_${PN}-module-test-more += "${PN}-module-strict"
+ RDEPENDS_${PN}-module-test-more += "${PN}-module-test-builder-module"
+-RDEPENDS_${PN}-module-test-more += "${PN}-module-test-more"
+ RDEPENDS_${PN}-module-test-more += "${PN}-module-warnings"
+ RDEPENDS_${PN}-module-test += "${PN}-module-carp"
+ RDEPENDS_${PN}-module-test += "${PN}-module-exporter"
+-- 
+2.7.0
 
 
