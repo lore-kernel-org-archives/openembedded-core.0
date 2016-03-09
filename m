@@ -1,24 +1,45 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3953470030
+Return-Path: <nathangutzmann@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 914136FEF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 15:07:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Mar 2016 07:06:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,311,1455004800"; d="scan'208";a="933083729"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 07:06:33 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Wed,  9 Mar 2016 16:13:58 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id fl4so3673835pad.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Mar 2016 08:13:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ctfrxVmbGcou7hKpU+HqibrG2Afw9T/RE/FEGbPowww=;
+	b=MDylKauYSMZiJtcsj2L1JcCeN73pmbFI7Mi6PRNKSYT8WS8e2DuGFQ8L40A838hQXV
+	U52TvR4eIdEboWwbqmt6nkaHqqLewOeEq8IHIuKCvh7koCu20yaBVBCmKNnOnowZV9ig
+	/Bl8xbFrtdhq2bBy9VCh4Gxu7mr0EGj65tMOtqCyhkwvXShQP9ijKR065xG47CwgrD1K
+	/X+k6S+OXqjOfctwvDxiu/91DwhJ9o1czIqIhEdnMcAf6atwybWyzzdWDiJ/5yhHGHN+
+	DprvklRX0GbxIXOM7g7iIAZT8iHXXi2e/wr9f23nvreJHDWYORX12s8yb0+f6JtPdGU7
+	ErBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ctfrxVmbGcou7hKpU+HqibrG2Afw9T/RE/FEGbPowww=;
+	b=NrpAMJNtHK7zmIF7Ux2cYbWcHugzWrtxVLiHIp2lJJX/lvA2YUMj9WWvt2OX1Ujm35
+	2hBMkrQZ9S2gi6YSRl5iCApyRZg7rQAh2cQcc9jc0zNlwpJufww1ZjyS0tblL7FUZ/yM
+	pAMWqnDCJDb0BOefKCaTnvShvAq3BzB4nqI+7GSD1bZG0MF4xgi/1LEBxCd1LTakBQu1
+	+0Q/FOFCh270/kk32rulcwQKtLd9+ifpA5Y3AJBGAUriQxozf/AZX0fcHokxKLnIY3yU
+	XkT+zq7YB3z8G5XAk/8vbINf0VA8BicPoUBVk/QYsl/GSGQz4M7oUJzZ4qHXgzODk4zv
+	woaA==
+X-Gm-Message-State: AD7BkJKEyYi0+aAgKL6LeYiajR58rRl4w557eHz9OZ/WCfq1Z6AhEOX1rYbcXqeJscZZVw==
+X-Received: by 10.66.100.196 with SMTP id fa4mr51465514pab.37.1457540039006;
+	Wed, 09 Mar 2016 08:13:59 -0800 (PST)
+Received: from ngutzmann-fedora.int.pason.com ([69.58.16.39])
+	by smtp.gmail.com with ESMTPSA id
+	q4sm13408696pfi.75.2016.03.09.08.13.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 09 Mar 2016 08:13:58 -0800 (PST)
+From: ngutzmann <nathangutzmann@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Mar 2016 17:02:01 +0200
-Message-Id: <d19e22ea2808026718c1f3663c8f73c3d4f536ec.1457535622.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 15/24] libsoup-2.4: enable gobject introspection
+Date: Wed,  9 Mar 2016 09:17:31 -0700
+Message-Id: <1457540251-8951-1-git-send-email-nathangutzmann@gmail.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [meta-oe][PATCH v2] nettle: The variable named p in the patch file was incorrectly named.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +52,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 15:07:49 -0000
+X-List-Received-Date: Wed, 09 Mar 2016 16:13:59 -0000
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+The variable in question should have been called ecc->p. The patch has been updated
+so that the compilation of the nettle recipe would complete successfully. The backport
+originated from this commit https://git.lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4d
+
+Signed-off-by: ngutzmann <nathangutzmann@gmail.com>
 ---
- meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb | 2 +-
+ meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-index 13ff685..f6e3db2 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.52.2.bb
-@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "db55628b5c7d952945bb71b236469057c8dfb8dea0c271513579c6273c
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
--inherit autotools gettext pkgconfig upstream-version-is-even
-+inherit autotools gettext pkgconfig upstream-version-is-even gobject-introspection
- 
- # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Disable by default.
- PACKAGECONFIG ??= ""
+diff --git a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
+index 1c4b9a9..a956f42 100644
+--- a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
++++ b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
+@@ -40,7 +40,7 @@ Index: nettle-2.7.1/ecc-256.c
+        u1 -= cy;
+ -      u1 += cnd_add_n (t, rp + n - 4, ecc->p, 3);
+ +
+-+      cy = cnd_add_n (t, rp + n - 4, p->m, 2);
+++      cy = cnd_add_n (t, rp + n - 4, ecc->p, 2);
+ +      u0 += cy;
+ +      u1 += (u0 < cy);
+        u1 -= (-t) & 0xffffffff;
 -- 
-2.7.0
+2.1.0
 
 
