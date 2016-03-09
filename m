@@ -1,29 +1,38 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 996176E666
+Return-Path: <obi@opendreambox.org>
+X-Greylist: delayed 337 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 09 Mar 2016 01:08:53 UTC
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6216E601B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 01:07:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2917IiH016185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 8 Mar 2016 17:07:18 -0800
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Mar 2016 17:07:17 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1456449257.git.hongxu.jia@windriver.com>
-	<05c06ed8ffad83ab3bf492ef793f33f2a5d346e3.1456449257.git.hongxu.jia@windriver.com>
-	<CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56DF7739.4000103@windriver.com>
-Date: Wed, 9 Mar 2016 09:07:05 +0800
+	Wed,  9 Mar 2016 01:08:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 4DDAF352029D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Mar 2016 02:03:16 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id y70SpkbGIy2f
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Mar 2016 02:03:12 +0100 (CET)
+Received: from [172.22.22.61] (55d44aa7.access.ecotel.net [85.212.74.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id F3D3635205E7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Mar 2016 02:03:11 +0100 (CET)
+To: openembedded-core@lists.openembedded.org
+References: <1457473760-8486-1-git-send-email-nathangutzmann@gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <56DF764F.204@opendreambox.org>
+Date: Wed, 9 Mar 2016 02:03:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/15] python-pygobject: fix buildpath QA issue
+In-Reply-To: <1457473760-8486-1-git-send-email-nathangutzmann@gmail.com>
+Subject: Re: [meta-oe][PATCH] nettle: The variable named p in the patch file was incorrectly named.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,92 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 01:07:21 -0000
-Content-Type: multipart/alternative;
-	boundary="------------000300030609040502010205"
-
---------------000300030609040502010205
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 09 Mar 2016 01:08:54 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On 03/08/2016 11:24 PM, Burton, Ross wrote:
->
-> On 26 February 2016 at 01:45, Hongxu Jia <hongxu.jia@windriver.com 
-> <mailto:hongxu.jia@windriver.com>> wrote:
->
->     +do_install_append_class-target() {
->     +       sed -i -e "s:${PYTHON}:\`which python\`:g" \
->     +           ${D}${bindir}/pygobject-codegen-2.0
->     +}
->
->
-> If you're going to expect the shell to find the right python on the 
-> target there's no need to use `which python` as exec will search 
-> $PATH.  However, we do know where Python on the target it: 
-> ${bindir}/python.
->
+Hello Nathan,
 
-OK, I directly use '${bindir}/python' to instead.
+On 08.03.2016 22:49, ngutzmann wrote:
+> The variable in question should have been called ecc->p. The patch has been updated
+> so that the compilation of the nettle recipe would complete successfully.
+> 
+> Signed-off-by: ngutzmann <nathangutzmann@gmail.com>
+> ---
+>  meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
+> index 1c4b9a9..a956f42 100644
+> --- a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
+> +++ b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
+> @@ -40,7 +40,7 @@ Index: nettle-2.7.1/ecc-256.c
+>         u1 -= cy;
+>  -      u1 += cnd_add_n (t, rp + n - 4, ecc->p, 3);
+>  +
+> -+      cy = cnd_add_n (t, rp + n - 4, p->m, 2);
+> ++      cy = cnd_add_n (t, rp + n - 4, ecc->p, 2);
+>  +      u0 += cy;
+>  +      u1 += (u0 < cy);
+>         u1 -= (-t) & 0xffffffff;
+> 
 
-//Hongxu
+looks good to me. However, I needed to lookup the commit where the
+backport originated from, because the reason for exchanging m and p
+isn't obvious at all without knowing the original commit. Maybe you
+could include it in your commit message.
 
-> Ross
+https://git.lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4d
 
+Regards,
+Andreas
 
---------------000300030609040502010205
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 03/08/2016 11:24 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 26 February 2016 at 01:45, Hongxu
-            Jia <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:hongxu.jia@windriver.com" target="_blank">hongxu.jia@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":5h4" class="a3s" style="overflow:hidden">+do_install_append_class-target()
-                {<br>
-                +       sed -i -e "s:${PYTHON}:\`which python\`:g" \<br>
-                +           ${D}${bindir}/pygobject-codegen-2.0<br>
-                +}</div>
-            </blockquote>
-          </div>
-          <br>
-          If you're going to expect the shell to find the right python
-          on the target there's no need to use `which python` as exec
-          will search $PATH.  However, we do know where Python on the
-          target it: ${bindir}/python.</div>
-        <div class="gmail_extra"><br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    OK, I directly use '${bindir}/python' to instead.<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYNcQTcB9tLgYO0gRak4cLV3feaQJGautCBFyxVTQwBaQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------000300030609040502010205--
