@@ -1,44 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6651360017
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C82E360043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 20:34:08 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id z76so80768141iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Mar 2016 12:34:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VHpzk/z6/fBXoenr2ia0pA2o+OkuzmO/zmEY8kFMD60=;
-	b=Yr65Xy99hpzWP3/Y/qtCtc/R2Zptz4NJOuH3iCs6RQ2uTrQu0vmBxCNJSOPyil9XDY
-	rBC5n0AoAeo6G6qxRdCZTm9NMWLGXPH7URzDBCNNiCj2t2hQP24vgGJ4PFz7bdLmfV9Y
-	lHCzVb0YCSr3bdafr6lVp7gNhK+LmjY5H4f02ZrZkt2XIQBZ1nJJSmneU5gbCEAFdod1
-	Zgqf3j0LipX4Dhb34fVVyBbUfL2ZOSuk2JihqkNvozu3CYapp315j9LzWdJDW5fx/2nw
-	PwuBXI7C9HTRMlkmtiswLWKgIfSAGQrA18wyEWbGHQ8xPsMeoE+ZHTL3YlTDiY6YyRZK
-	k5XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VHpzk/z6/fBXoenr2ia0pA2o+OkuzmO/zmEY8kFMD60=;
-	b=R2eVPg+puyPcUKkIEUB5W1Rqwa4IPzwH9tQ3irupsTHsbLpwzxKcDI4R5Cko1lNB5J
-	Q4A/2ETlnIpWHpTwArgzpGKGa93EwhZ2CtMa7DxLYOMSfxlYhn52tttAQBMU7dWKbPXJ
-	L0laWKDeboA7fl6obw+QSSu9tmr/7wOpN/RL6D9KZoucz0Zqv6Ff/o9lwNJC6Bbgi0g5
-	MR9/lL5o6LccNSG/+58PDJICafZr5DQL5BZpXaZXyQgsWIvoOQrXgI8Ga7T0+7kZ1cvQ
-	LF+BASqAKiEUEW7N0zOlkfExw6575FRNdBZGRxgmwbEgdNpAz7ipHN2AeIY1yMKkPwYy
-	F5IQ==
-X-Gm-Message-State: AD7BkJKTE0tce2vmFkayZwlsizK3QsV0wo9JBHZotyFYHeTlJugmruxHDzWyyvij3sNpeBI0Yp6b2wW5RIllPcOj
-X-Received: by 10.107.16.19 with SMTP id y19mr1084718ioi.148.1457555648869;
-	Wed, 09 Mar 2016 12:34:08 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 9 Mar 2016 12:33:49 -0800 (PST)
-In-Reply-To: <1457547560-21542-1-git-send-email-ricardo.ribalda@gmail.com>
+	Wed,  9 Mar 2016 20:47:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 09 Mar 2016 12:47:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,312,1455004800"; 
+	d="asc'?scan'208";a="930414080"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.54]) ([10.219.5.54])
+	by orsmga002.jf.intel.com with ESMTP; 09 Mar 2016 12:47:34 -0800
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 References: <1457547560-21542-1-git-send-email-ricardo.ribalda@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Mar 2016 20:33:49 +0000
-Message-ID: <CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+	<CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <56E08BEB.1000501@linux.intel.com>
+Date: Wed, 9 Mar 2016 14:47:39 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] package-deb: Ignore circular dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,41 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 20:34:08 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1eab10b80052da39e18
+X-List-Received-Date: Wed, 09 Mar 2016 20:47:36 -0000
+X-Groupsio-MsgNum: 79342
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="vMIpr6pvtP22nLcdDlBtqBt65bjHndt50"
 
---001a113fd1eab10b80052da39e18
-Content-Type: text/plain; charset=UTF-8
-
-On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com
-> wrote:
-
-> +                        bb.warn("Package %s rdepends on itself. Ignoring
-> this dependency" % pkg)
->
-
-Depending on yourself seems wrong no matter what packaging backend you're
-using, even if it isn't fatal.  Maybe this should be added to the general
-sanity checks in insane.bbclass?
-
-Ross
-
---001a113fd1eab10b80052da39e18
-Content-Type: text/html; charset=UTF-8
+--vMIpr6pvtP22nLcdDlBtqBt65bjHndt50
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda=
-@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":7ss" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;P=
-ackage %s rdepends on itself. Ignoring this dependency&quot; % pkg)<br></di=
-v></blockquote></div><br>Depending on yourself seems wrong no matter what p=
-ackaging backend you&#39;re using, even if it isn&#39;t fatal.=C2=A0 Maybe =
-this should be added to the general sanity checks in insane.bbclass?</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
 
---001a113fd1eab10b80052da39e18--
+
+On 03/09/2016 02:33 PM, Burton, Ross wrote:
+> On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <ricardo.ribalda@gmai=
+l.com
+>> wrote:
+>=20
+>> +                        bb.warn("Package %s rdepends on itself. Ignor=
+ing
+>> this dependency" % pkg)
+>>
+>=20
+> Depending on yourself seems wrong no matter what packaging backend you'=
+re
+> using, even if it isn't fatal.  Maybe this should be added to the gener=
+al
+> sanity checks in insane.bbclass?
+
+I agree that this situation could happen in other package management
+backends, i don't now if at insane class level we could access the
+dependency tree of the recipes/packages, i like the idea for more
+general mechanism.
+
+    alimon
+
+
+>=20
+> Ross
+>=20
+
+
+--vMIpr6pvtP22nLcdDlBtqBt65bjHndt50
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJW4IvyAAoJEGJqcE9h3glgGRYP/1VVPl0S4WvT2ZT4QSJSEEDb
+p2U7XgduyKFJapNlwlGv4PgvZFDncWFmobGBbArNssoeD2vgat7my0MMT1KLrlzU
+/iIW8r20L32ANaF4ohz5qaJjJN9x7OuZCyM3W/j/q/WZnSGWPQ6cP0jwNxm5PeBX
+iAg7j+fEnsZPpYz8y96Yw3vPsZGGHVOmqNOImoZH/whDKvt5jvqfJeCn/+g6IohL
+q/lu9qBYSZO+WOPy78Cq3GNdh38F8bWh2wqAe1SDFxXhaZ0iFK7je/0w/olGfjbB
+1mk/x2kZBKcFajpt1CAWHzJ2NJ7Z6NCxG1G/Qm2cdVtHmF6G1qZRieBqdCzIVe7w
+Aiorvm9NWN0y9oDKYdfGkkDh1cOd1zdZUZmj1gJF6PSpxTTc6wzwab1R9YmZe7S3
+nWjOOU/023EXVrUQWBwKrfm7nXgroD4NQloLmq/8YocJpmJPt78krZoXhlHV/KpC
+DC4s3WXn5fBGLsaw8zs7v7+OaGFxXhdILb/C9LyBXF+uT00bI7xarGYkTGFgNtxg
+GJoX0shC1LIAIGjfbhfIjFPLmlSXTRWi6gI+mFp3yKqYAyFqhS2D5Toixe8i4QxU
+3CttRcXv+HkxsYUMHT9+npB4VIKmSfVe5+pOK+aRDZAQikBPVFXP8Ygsfv6G7+mQ
+f1/1mS4TQQCJG2qLs2dP
+=/GJp
+-----END PGP SIGNATURE-----
+
+--vMIpr6pvtP22nLcdDlBtqBt65bjHndt50--
