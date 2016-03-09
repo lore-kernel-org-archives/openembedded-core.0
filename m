@@ -1,27 +1,46 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 587BE60721
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5023D62132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 20:54:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 09 Mar 2016 12:54:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,312,1455004800"; 
-	d="asc'?scan'208";a="761174680"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.54]) ([10.219.5.54])
-	by orsmga003.jf.intel.com with ESMTP; 09 Mar 2016 12:54:31 -0800
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+	Wed,  9 Mar 2016 21:01:15 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id xr8so80428884lbb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Mar 2016 13:01:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=LcrN3cxQk89BPT8H4Gnngjyll0MapOJtSA0s6jYGiL8=;
+	b=qojjcmYAjuKFrziQfcebPhFkNFmjUC+vZRuxjzOGxJr+bXUm7zbd6ckuViG4HBhDlf
+	rY87emOpuf5kN8d2LQsaVdDRECLEqUuNKwp50JKUBaNz8PJmy6gmCfwTbti58yAoxn6w
+	Cj0hB7frsKsVY8U8MYarM0OWiMV1bGUqYJXp/Prf3mg8nr7GlKpNeom6WtcSOxDfM5Ud
+	FF3zy/h9HAlldeNVJM4//FeCuUSoq7YbTzto6PFnRlHjxajq61BcnD4USNsn79CnYZdz
+	L8KZ+wC+JxozS/5oG4XNGjxqbZDhZV31VfSO494svMBAc25l9C6Z6gfW8kyP9BPKy+jw
+	SJqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=LcrN3cxQk89BPT8H4Gnngjyll0MapOJtSA0s6jYGiL8=;
+	b=PeL3egLeEGNlGxG4OymgVrWZ96mwJCHyv3MBn2kQyXAKYev6v1AteOwvQ9fOLGe4dq
+	WsD+RlJwa0ENk/Nf9lWYpdQr5rec18DnIuGvhqwOdrEiUbOR8Se6s6FlMzcojF4BNuhh
+	IZMCNniw070m8Sxa2OZcV6OZ7+7Y6nxbGYSDPz1mrOqWTG4dgnjWixFkCiCWzWM38dw3
+	nvlFgDufyiE8UDd51T26wfPXjXNZ8l3Krr91pCOSq660v0hxBQQHkTsqA6XEQ91cWX5f
+	rul1ufSlnoOnGnm6+Q8J5MHDQG2RhRDs6iOiY8CspaH6Rb9UZG0urvqs1MpsmmCSSUY+
+	jA7g==
+X-Gm-Message-State: AD7BkJIYqLl7v4OBpsZ/6IjFDfBC1fvmHBCWk/avaS2g2RVzrF3z2/yLXXE6zcZkyJEIn7RmTP0BFsrx5SrYlA==
+X-Received: by 10.25.40.81 with SMTP id o78mr98150lfo.22.1457557274828; Wed,
+	09 Mar 2016 13:01:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.114.109.68 with HTTP; Wed, 9 Mar 2016 13:00:55 -0800 (PST)
+In-Reply-To: <56E08D90.1090802@linux.intel.com>
 References: <1457547560-21542-1-git-send-email-ricardo.ribalda@gmail.com>
 	<CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
-	<56E08BEB.1000501@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <56E08D90.1090802@linux.intel.com>
-Date: Wed, 9 Mar 2016 14:54:40 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <56E08BEB.1000501@linux.intel.com>
+	<56E08BEB.1000501@linux.intel.com> <56E08D90.1090802@linux.intel.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 9 Mar 2016 22:00:55 +0100
+Message-ID: <CAPybu_3Kijopoqtngw8-vb0=nCmHhOBaOk4KzgP=z9b+NbRrAw@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] package-deb: Ignore circular dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,85 +55,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 20:54:31 -0000
-X-Groupsio-MsgNum: 79343
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="D0ejLBLHN0hQo7ljwdS2INQlDu0cI1jGk"
-
---D0ejLBLHN0hQo7ljwdS2INQlDu0cI1jGk
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Wed, 09 Mar 2016 21:01:17 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+What about ack this patch until we have something more generic.
 
+The fact that the perl-module package is wrong and we havent find it
+out until today makes me think that it is only apt-get who has this
+issue with circular depencies.
 
-On 03/09/2016 02:47 PM, An=EDbal Lim=F3n wrote:
->=20
->=20
-> On 03/09/2016 02:33 PM, Burton, Ross wrote:
->> On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <ricardo.ribalda@gma=
-il.com
->>> wrote:
+Regards!
+
+On Wed, Mar 9, 2016 at 9:54 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+>
+>
+> On 03/09/2016 02:47 PM, An=C3=ADbal Lim=C3=B3n wrote:
 >>
->>> +                        bb.warn("Package %s rdepends on itself. Igno=
-ring
->>> this dependency" % pkg)
+>>
+>> On 03/09/2016 02:33 PM, Burton, Ross wrote:
+>>> On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <ricardo.ribalda@gmai=
+l.com
+>>>> wrote:
+>>>
+>>>> +                        bb.warn("Package %s rdepends on itself. Ignor=
+ing
+>>>> this dependency" % pkg)
+>>>>
+>>>
+>>> Depending on yourself seems wrong no matter what packaging backend you'=
+re
+>>> using, even if it isn't fatal.  Maybe this should be added to the gener=
+al
+>>> sanity checks in insane.bbclass?
+>>
+>> I agree that this situation could happen in other package management
+>> backends, i don't now if at insane class level we could access the
+>> dependency tree of the recipes/packages, i like the idea for more
+>> general mechanism.
+>
+> I forget to mention will be good if also handle circular dependencies
+> between recipe/packages. A time ago i added this support on postinst
+> scripts in package_{deb,ipk} [1].
+>
+> [1]
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/lib/oe?id=3Db2=
+c9e7347acdfd0efe1c3dabb853d609233b61b6
+>
+>
+>
+>>
+>>     alimon
+>>
+>>
+>>>
+>>> Ross
 >>>
 >>
->> Depending on yourself seems wrong no matter what packaging backend you=
-'re
->> using, even if it isn't fatal.  Maybe this should be added to the gene=
-ral
->> sanity checks in insane.bbclass?
->=20
-> I agree that this situation could happen in other package management
-> backends, i don't now if at insane class level we could access the
-> dependency tree of the recipes/packages, i like the idea for more
-> general mechanism.
-
-I forget to mention will be good if also handle circular dependencies
-between recipe/packages. A time ago i added this support on postinst
-scripts in package_{deb,ipk} [1].
-
-[1]
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/lib/oe?id=3Db2=
-c9e7347acdfd0efe1c3dabb853d609233b61b6
-
-
-
->=20
->     alimon
->=20
->=20
 >>
->> Ross
 >>
->=20
->=20
->=20
+>
 
 
---D0ejLBLHN0hQo7ljwdS2INQlDu0cI1jGk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+--=20
+Ricardo Ribalda
 
-iQIcBAEBAgAGBQJW4I2TAAoJEGJqcE9h3glg3uwP/AhmsROagsHnC9I2ihw2yGxH
-diheCdqaAfhb1I4vBXgEL+zWVk6xyRPHX4sYCSYdOyw2y5D/FQJPBfubNAVrxMkR
-3iODxf6SZXBrJ9LjkHl6IxNT0xXF6pboR0Py9JtOa2lu01vXlU0dnxbKbEUOKtqH
-H++hLyhAWRGI0yQ7B9tH4TyvJL55LAnzieCfFONNgF5ytX46C23d/Nt0XHTLw+DL
-7Gpx9hJeeIfGbZV8g/ZBjVJYJmCGummHz9WlbmTEk6+aQb8N3/bU43PAcd2j16JA
-2pZ9iOreBcnJv+s1EnghUUI6bJC7paDEdQsthOP3KkEsnCgq52zXOtC+5i/8lgiy
-uPTtT+ji/hXTLq2lBjmOBvQ5eg384U10+PT3ReVtErkDBcS7lWuQtSpzawQk0zH2
-QafzoYUTy5qsYqN83tZ03/J+fp/qjvrDy3SSz//5cGYmu+jkNLiKI+bKIRGtmBAO
-NDg9kbPrldjerYbTvhykxRSoDG/NXoN/hO55kaGAFvC4CJqbYJri8bWYs55zcrsQ
-kcAn5xAHLBrn/QhgwKT0YfmG9qNx8ulhK9HDdLThMFHM6HMpIjjufx82lA9WcK4u
-3uXQCSrPiWEZdEm6qRsI8N16KsDpmOxCHxO8CAt9jqTwVH/LdLM6z72NgBvbDHnw
-lTjcKtBVb/Z7UOFORM28
-=YXRG
------END PGP SIGNATURE-----
-
---D0ejLBLHN0hQo7ljwdS2INQlDu0cI1jGk--
