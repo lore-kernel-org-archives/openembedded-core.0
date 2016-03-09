@@ -1,24 +1,50 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4926057A
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BA6A66010B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 09:19:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u299JJZ5027730
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed,  9 Mar 2016 10:02:01 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id ig19so74524883igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Mar 2016 01:19:22 -0800
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 9 Mar 2016 01:19:17 -0800
-From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Mar 2016 17:19:40 +0800
-Message-ID: <1457515180-31107-1-git-send-email-Zhixiong.Chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] libpam: define limits.conf as CONFFILES of package libpam-runtime
+	Wed, 09 Mar 2016 02:02:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:organization:mime-version
+	:content-transfer-encoding;
+	bh=zl6oKhQYfrd+4hOnniPfPmxZV5KjMKb83573e7wytU0=;
+	b=PBEbFLP4XlQBF3eVGlXp4Usv7ol9yVEtoEGv0I4oNFhYN3UBiHtaB0bao8Mrc41c+D
+	AtSG8300vG2WzQu7aK7ZtgCIJw+iByFhSBPItJSgGNm2TEWMqboz29kajgldVKHSwUHK
+	LXh1XwpRC3T28XLG32o8UCNgvJzsQO/T6l5wyDpLAz1LK2cLbzLYU4mmaK5TODYWs1B+
+	+JbRjrI9MNt7u1oaaDQ5oy8mwqbRd2KT58WL6c9vn7fV+p4YN2tQoULzs0LIENfTzazm
+	qfmfX0AZAv5IROmKJpxSgXPHuNj7zfGPrhTKIKp5F8pNsrQ6NNYOKgSwv8KnMkoRd3s/
+	Ss1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:mime-version:content-transfer-encoding;
+	bh=zl6oKhQYfrd+4hOnniPfPmxZV5KjMKb83573e7wytU0=;
+	b=OoK9gcjZdoMZEzDRCNDOcQp29BrdP7rfttrZPipKkeKJO58KlWruYC2XU1eWrtT4TX
+	77nkF4Nij7zzELhjpu8WI+L72xyvHevVBVCW0LiNum1hxvDJ6/Dymb31zmpGkd15HT3+
+	/IV9F56DPOR/oM/oNNy9NRxZi7Z5SGXvQcvWpcD9WNd+deNjOwLSb/SiSNjQlnWVCwLY
+	6yhHMCVtfIMuoNI+yCGOWULnFZ+jwbNMjasrmeciQeQjPJ7VG3SrSN8jQXQkq4mr6C8C
+	qfNi8LhIG9pGYwfiClC4vlUoH+E5052OUQbJ5A/tP4sDj+gFzEHptnaUCs5HYeBwlhbS
+	5COA==
+X-Gm-Message-State: AD7BkJJSRFtFW0TCuaW4EIFcgZZ2m3BFwqkLhfi1sDbW0VYa+dBzvg5RlN0iwJ2HNVCy/572
+X-Received: by 10.50.129.8 with SMTP id ns8mr23984587igb.95.1457517721840;
+	Wed, 09 Mar 2016 02:02:01 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D19F.dip0.t-ipconnect.de. [93.232.209.159])
+	by smtp.gmail.com with ESMTPSA id 78sm2838325iof.22.2016.03.09.02.02.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 09 Mar 2016 02:02:01 -0800 (PST)
+Message-ID: <1457517718.9847.28.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Wed, 09 Mar 2016 11:01:58 +0100
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: systemd-serial-getty obsolete?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 09:19:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 09 Mar 2016 10:02:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Based as security reason, the system must limit users to
-simultaneous system logins, or a site-defined number.
-To avoid overwriting the /etc/security/limits.conf file after
-upgrading this rpm package, we will define the file as
-CONFFILES of package libpam-runtime.
+Hello!
 
-Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
----
- meta/recipes-extended/pam/libpam_1.2.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+systemd-serialgetty.bb was introduced in OE-core together with systemd
+1.96 and probably goes back even further (copied from meta-systemd). It
+explicitly instantiates serial-getty@.service for serial ports specified
+by SERIAL_CONSOLES.
 
-diff --git a/meta/recipes-extended/pam/libpam_1.2.1.bb b/meta/recipes-extended/pam/libpam_1.2.1.bb
-index 3e69f11..341ea24 100644
---- a/meta/recipes-extended/pam/libpam_1.2.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.2.1.bb
-@@ -168,3 +168,4 @@ CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-auth"
- CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-password"
- CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session-noninteractive"
- CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-account"
-+CONFFILES_${PN}-runtime += "${sysconfdir}/security/limits.conf"
+I'm wondering whether that is still needed. systemd also has a generator
+[1] that can activate serial-getty based on kernel boot parameters [2].
+
+Is systemd-serialgetty.bb perhaps kept around because the "console"
+parameters added to APPEND are (perhaps intentionally) not the same as
+SERIAL_CONSOLES?
+
+[1] https://www.freedesktop.org/software/systemd/man/systemd-getty-generator.html
+[2] http://0pointer.de/blog/projects/serial-console.html
+
 -- 
-1.9.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
