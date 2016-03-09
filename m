@@ -1,23 +1,29 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 454676080F
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EFCC60119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 21:09:30 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2016 13:09:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,312,1455004800"; d="scan'208";a="933314629"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.18.251])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2016 13:09:29 -0800
-Message-ID: <1457557766.3642.11.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 09 Mar 2016 21:09:26 +0000
-In-Reply-To: <1457432801-8798-1-git-send-email-mariano.lopez@linux.intel.com>
-References: <1457432801-8798-1-git-send-email-mariano.lopez@linux.intel.com>
-X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] dhcp: CVE-2015-8605
+	Wed,  9 Mar 2016 21:23:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u29LNjTS001949
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Mar 2016 13:23:45 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 9 Mar 2016 13:23:44 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <1457547560-21542-1-git-send-email-ricardo.ribalda@gmail.com>
+	<CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56E09460.9070105@windriver.com>
+Date: Wed, 9 Mar 2016 15:23:44 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYeOMKtvdZb2_Nc55Ti+mrbsjFdOEem-mAC+5N5gVt0fQ@mail.gmail.com>
+Subject: Re: [PATCH] package-deb: Ignore circular dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,85 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 21:09:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 09 Mar 2016 21:23:45 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 8bit
 
-Hi Mariano,
-
-Thanks for the patch.
-
-On Tue, 2016-03-08 at 10:26 +0000, mariano.lopez@linux.intel.com wrote:
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On 3/9/16 2:33 PM, Burton, Ross wrote:
 > 
-> ISC DHCP allows remote attackers to cause a denial of
-> service (application crash) via an invalid length field
-> in a UDP IPv4 packet.
+> On 9 March 2016 at 18:19, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com
+> <mailto:ricardo.ribalda@gmail.com>> wrote:
 > 
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> ---
->  .../dhcp/dhcp/CVE-2015-8605.patch                  |  99
-> ++++++++++++++++
->  .../dhcp/dhcp/CVE-2015-8605_1.patch                | 131
-> +++++++++++++++++++++
->  meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   2 +
->  3 files changed, 232 insertions(+)
->  create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-
-> 8605.patch
->  create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-
-> 8605_1.patch
+>     +                        bb.warn("Package %s rdepends on itself. Ignoring
+>     this dependency" % pkg)
 > 
-> diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
-> b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
-> new file mode 100644
-> index 0000000..923d5d5
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
-> @@ -0,0 +1,99 @@
-> +Solves CVE-2015-8605 that caused DoS when an invalid lenght field in
+> 
+> Depending on yourself seems wrong no matter what packaging backend you're using,
+> even if it isn't fatal.  Maybe this should be added to the general sanity checks
+> in insane.bbclass?
+> 
+> Ross
+> 
+> 
 
-lenght -> length
+I disagree.. it's quite common for an automatic dependency to trigger a
+dependency on one's self.  I.e.:
 
-> IPv4 UDP
-> +was recived by the server.
-> +
-> +Upstream-Status: Backport
+python provides /usr/bin/python
 
-Can you include some more information about the backport, i.e. the
-version the patch was backported from, in the Upstream-Status: field so
-that it's easier to determine why this patch isn't required in jethro
-and master?
+python includes a script that uses /usr/bin/python
 
-> +CVE: CVE-2015-8605
-> +
-> +Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> +
-> +====================================================================
-> ===
-> +diff --git a/common/packet.c b/common/packet.c
+depends system now has a provide and dependency for /usr/bin/python in the same
+package.  This is 'fine'.
 
-<snip>
+Since opkg/deb can't handle file based dependencies, it would be reasonable for
+a dependency on /usr/bin/python to be translated to 'python'.
 
-> new file mode 100644
-> index 0000000..37a3d72
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
-> @@ -0,0 +1,131 @@
-> +This patch is needed for the CVE-2015-8605 that caused DoS when an
-> invalid lenght field in IPv4 UDP
+And now you have the python package depending on the python package.
 
-lenght -> length
 
-> +was recived by the server.
+If the package manager interface does not support this, then it should be the
+package manager .bbclass that should filter out these items.
 
-recived -> received
+This is what we've had to do in the rpm backend... I think it's reasonable for
+the deb and opkg backends as well.
 
-> +
-> +Upstream-Status: Backport
-
-Same again, what version was this backported from?
-
-Thanks,
-
-Joshua
+--Mark
 
