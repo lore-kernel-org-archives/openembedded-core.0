@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EE71760124
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 54A70605FE
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  9 Mar 2016 11:18:49 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u29BIlbN012006
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u29BIn52006004
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Mar 2016 03:18:47 -0800 (PST)
+	Wed, 9 Mar 2016 03:18:49 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 9 Mar 2016 03:18:47 -0800
+	Wed, 9 Mar 2016 03:18:49 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
 	<richard.purdie@linuxfoundation.org>
-Date: Wed, 9 Mar 2016 06:18:44 -0500
-Message-ID: <cover.1457522031.git.hongxu.jia@windriver.com>
+Date: Wed, 9 Mar 2016 06:18:45 -0500
+Message-ID: <d32227aaa1bf8acd225f695857056f1b5dc77efc.1457522031.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1457522031.git.hongxu.jia@windriver.com>
+References: <cover.1457522031.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] fix python3 do_configure failed on meta-fsl-ppc with MACHINE = "p1022ds"
+Subject: [PATCH 1/1] tune-ppce500v2.inc: explicitly set gcc float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +36,54 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 09 Mar 2016 11:18:50 -0000
 Content-Type: text/plain
 
-I am running a world build, and find build failures:
-- usdpaa do_compile failed
-  Send patch to meta-freescale mailing list "usdpaa: remove default -mcpu=e500mc64 in Makefile"
+For powerpc*-*-*spe*, default to with_cpu=8548 if --enable-e500-double,
+and to 8540 otherwise.
+vim gcc/config.gcc
+...
+    powerpc*-*-*spe*)
+      if test x$enable_e500_double = xyes; then
+         with_cpu=8548
+      else
+         with_cpu=8540
+      fi
+      ;;
+...
 
-- pywbem do_compile failed
-  Already a patch in oe-dev for discussing "[oe] [meta-python][jethro][fido][PATCH] python-m2crypto: fix SSLv2 symbol issue"
+The with_cpu is used for SPE version detection
+vim ./gcc/config/rs6000/t-linux
+...
+  7 ifneq (,$(findstring spe,$(target)))
+  8 MULTIARCH_DIRNAME := powerpc-linux-gnuspe$(if $(findstring 8548,$(with_cpu)),,v1)
+  9 else
+ 10 MULTIARCH_DIRNAME := powerpc-linux-gnu
+...
 
-The world build is not finished, and other failures is in analysis.
+The variable MULTIARCH_DIRNAME is the output of '$CC --print-multiarch'.
+Without this patch, the output is 'powerpc-linux-gnuspev1' which caused
+python3 do_configure failed.
 
-//Hongxu
+Since ppce500v2 -mcpu is 8548, explicitly add --enable-e500-double could fix
+the issue.
 
-The following changes since commit 5ac3dc76a5afc2ed35b1abfc8e330e0c580eadf0:
+[YOCTO #9226]
 
-  image.bbclass: fix incomplete .rootfs customization (2016-03-07 22:10:54 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-python3-gcc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
-
-Hongxu Jia (1):
-  tune-ppce500v2.inc: explicitly set gcc float
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/conf/machine/include/tune-ppce500v2.inc | 4 ++++
  1 file changed, 4 insertions(+)
 
+diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machine/include/tune-ppce500v2.inc
+index 20a5f25..70d3078 100644
+--- a/meta/conf/machine/include/tune-ppce500v2.inc
++++ b/meta/conf/machine/include/tune-ppce500v2.inc
+@@ -18,3 +18,7 @@ AVAILTUNES += "ppce500v2"
+ TUNE_FEATURES_tune-ppce500v2 = "m32 spe ppce500v2"
+ TUNE_PKGARCH_tune-ppce500v2 = "ppce500v2"
+ PACKAGE_EXTRA_ARCHS_tune-ppce500v2 = "ppce500v2"
++
++# For powerpc*-*-*spe*, default to with_cpu=8548 if
++# --enable-e500-double, and to 8540 otherwise.
++EXTRA_OECONF_GCC_FLOAT += "${@get_gcc_float_setting(bb, d)}"
 -- 
 1.9.1
 
