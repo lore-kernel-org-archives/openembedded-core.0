@@ -1,45 +1,49 @@
-Return-Path: <nathangutzmann@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 702F87317C
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id EBAC6731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Mar 2016 16:14:47 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id vf5so15145232igb.0
+	Wed,  9 Mar 2016 16:58:34 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id bc4so74146136lbc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Mar 2016 08:14:48 -0800 (PST)
+	Wed, 09 Mar 2016 08:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=Hng2y1RJjm2EjR5ed8epNuwR9dwO0IreMctYcD6P8Tg=;
-	b=pUDstAL/r9yORrMPhAr3ojognwkq8+A5rZFemUG3JMffTdwR0oNZ8cDVRweFHLZp9c
-	0aeeRog2vpqgTw+KKA4y1InKYHUG/Rc3QxqfBbB3pWUy1XYBUrbtDmzc6RJ+D+MdTlQU
-	+GMdR1LcAivZJeLTQajoC+Yk/+bTnvsM69YqCLFiZz9+j404wrt1OTWTV3XwoAP8Fw7S
-	Ysu1i0V20T0tv/lUVd0BHC2goTDY7a25iCvSEv6YrShKvajTBRW6nYR2exjWLgxN9p8H
-	0JaplVXnoN/8Dm5oMNUzuKkV8V1K+M25cz7FHIjlXt3bqBIv5VBBy0Y7h0jPyyPxJEiY
-	MpUQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=RsLkW6S1YtkOXwkOiPgh+Vvyb8/dMcB78QXPpM4ZZIw=;
+	b=s4dTZGkqoegWKgM/QHwt03V8KlRNmmWjUlse6k4X2wRq92rwBHt38V1m+iwFGEBaiB
+	cAE8tIJOUFn1lTw31PSOTchRmagX/2DAna0CT9c5NTuxYxNJ8j6/kbiqWq+DwzQVDkXS
+	E4MaqO58uvxBwbuhaSijwuXVixutlFhENFYgnF9NYp+bPfXPGY0xQ2a4jXHHlwHCwuLs
+	ZTV7E8dP6Q938nUtu5JEvIx9UHWgvHnlyuCzVwDjiPlu0Fdj8i98+c6KvxGODJW2ZWi+
+	nXAZXDPlZBP/jiBGAtUOjySZSyNm2lNBKWscF0fRBn6KW3O5Nlh7ayOykDsX0334hgO9
+	pB3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=Hng2y1RJjm2EjR5ed8epNuwR9dwO0IreMctYcD6P8Tg=;
-	b=fj9jjURAkDhgDO9XKgMYr4fg9F+Ps0vHdYP/6MV+2KtMIj3StRU1cNED8T2CkKrj7i
-	8tEHJkc8VbiNtBu5evgUcx+lWt/tuvkVK7FN1+QF2z/J+krtWhLJYK3LSRX0dDwhorqt
-	5cadsFVOP8srVUoqp0fXc4J2+WPfizUVvok4QosUXNcqY/wQl2l5nmofdINCto/eV59P
-	KChiCzPS4DYScONoNBs7OChto/dceVHqynjN1asS3J7hyYsT+6rmcGnVUsKlUMXkmju8
-	iK7YDXgbFFrOXx0cL96E05AL/XVvXNiGNl7TgywS8m70zWXBHhdxbTgyMHwnpvA3yMv9
-	uA5Q==
-X-Gm-Message-State: AD7BkJLDy7KeaGhs5nfs8TBf8GDiER4LjpaMYVLrxNEbHk3ClSPH9tMwZdjF2k4ETuF1nY/p0wAb2+SG/fVjsg==
-X-Received: by 10.50.131.201 with SMTP id oo9mr24649105igb.68.1457540086337;
-	Wed, 09 Mar 2016 08:14:46 -0800 (PST)
-MIME-Version: 1.0
-References: <1457473760-8486-1-git-send-email-nathangutzmann@gmail.com>
-	<56DF764F.204@opendreambox.org>
-In-Reply-To: <56DF764F.204@opendreambox.org>
-From: Nathan Gutzmann <nathangutzmann@gmail.com>
-Date: Wed, 09 Mar 2016 16:14:36 +0000
-Message-ID: <CAGUrkt-sgkRQo3XnCgx-6QKrVvUeN-zZaaUvZ0OLMbPuup9DHw@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>,
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RsLkW6S1YtkOXwkOiPgh+Vvyb8/dMcB78QXPpM4ZZIw=;
+	b=iBLQ5Y39qSuWWHB2AYRBSkAgvK9sc2ffJakHNKJzNWesoPFEhKu6DRDqksew6cfMdu
+	fTIjBa6OtzYcwGNQ0cdbFwFNSqgZTbFyUuUVKPMHh5Xv6tVkpJpXzyLT0M5x4tTaXhOp
+	xQZd1EXscPzqJTY0B3Wb/KSPzbcDoC+uBd3/kj0YtYx7BbEJzIHN8gAdIg420bmzm1rs
+	Jz7ZT9bPz7VvpeXQdb9MeRJ8ntaTBfxCK9EpNof+XAInDj5YrcutCIfNW1R4UoILnU9J
+	1nOl1K/zlDsA9dlp1m4CjaEqo8PNfH9L+YP+XSvTDa7ZLtOKMhL+N+nd5E93JreumKGV
+	s8gw==
+X-Gm-Message-State: AD7BkJKMR/14IsEWD9Re//ldrUFhxnFrARnkYuunN9xiyNKo76s9ocNg+E4y3C+4EymqyQ==
+X-Received: by 10.112.130.69 with SMTP id oc5mr3946537lbb.54.1457542714621;
+	Wed, 09 Mar 2016 08:58:34 -0800 (PST)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id
+	t17sm1461322lfd.17.2016.03.09.08.58.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Mar 2016 08:58:32 -0800 (PST)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>,
+	Matt Madison <matt@madison.systems>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] nettle: The variable named p in the patch file was incorrectly named.
+Date: Wed,  9 Mar 2016 17:58:31 +0100
+Message-Id: <1457542711-30476-1-git-send-email-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] package_deb: Fix python runtime error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,130 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2016 16:14:47 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e47c817afa2052d9fff0e
+X-List-Received-Date: Wed, 09 Mar 2016 16:58:35 -0000
 
---047d7b2e47c817afa2052d9fff0e
-Content-Type: text/plain; charset=UTF-8
+The dictionary cannot be used for iteration if its size may change
+during the loop.
 
-Thanks for the advice Andreas, will do!
+ERROR: Error executing a python function in
+/home/ricardo/curro/qt5022/build-qt5022/repo/yocto/meta/recipes-devtools/perl/perl_5.22.0.bb:
+Exception: RuntimeError: dictionary changed size during iteration
 
-Nathan
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+---
+ meta/classes/package_deb.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Tue, 8 Mar 2016 at 18:09 Andreas Oberritter <obi@opendreambox.org> wrote:
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index b3cf07a25b1f..6ecea0e1824e 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -234,12 +234,12 @@ python do_package_deb () {
+ 
+         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS", True) or "")
+         debian_cmp_remap(rdepends)
+-        for dep in rdepends:
++        for dep in rdepends.keys():
+                 if '*' in dep:
+                         del rdepends[dep]
+         rrecommends = bb.utils.explode_dep_versions2(localdata.getVar("RRECOMMENDS", True) or "")
+         debian_cmp_remap(rrecommends)
+-        for dep in rrecommends:
++        for dep in rrecommends.keys():
+                 if '*' in dep:
+                         del rrecommends[dep]
+         rsuggests = bb.utils.explode_dep_versions2(localdata.getVar("RSUGGESTS", True) or "")
+-- 
+2.7.0
 
-> Hello Nathan,
->
-> On 08.03.2016 22:49, ngutzmann wrote:
-> > The variable in question should have been called ecc->p. The patch has
-> been updated
-> > so that the compilation of the nettle recipe would complete successfully.
-> >
-> > Signed-off-by: ngutzmann <nathangutzmann@gmail.com>
-> > ---
-> >  meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git
-> a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> > index 1c4b9a9..a956f42 100644
-> > --- a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> > +++ b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patch
-> > @@ -40,7 +40,7 @@ Index: nettle-2.7.1/ecc-256.c
-> >         u1 -= cy;
-> >  -      u1 += cnd_add_n (t, rp + n - 4, ecc->p, 3);
-> >  +
-> > -+      cy = cnd_add_n (t, rp + n - 4, p->m, 2);
-> > ++      cy = cnd_add_n (t, rp + n - 4, ecc->p, 2);
-> >  +      u0 += cy;
-> >  +      u1 += (u0 < cy);
-> >         u1 -= (-t) & 0xffffffff;
-> >
->
-> looks good to me. However, I needed to lookup the commit where the
-> backport originated from, because the reason for exchanging m and p
-> isn't obvious at all without knowing the original commit. Maybe you
-> could include it in your commit message.
->
->
-> https://git.lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4d
->
-> Regards,
-> Andreas
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---047d7b2e47c817afa2052d9fff0e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks for the advice Andreas, will do!<div><br>Nathan</di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue, 8 Mar 2016 =
-at 18:09 Andreas Oberritter &lt;<a href=3D"mailto:obi@opendreambox.org">obi=
-@opendreambox.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">He=
-llo Nathan,<br>
-<br>
-On 08.03.2016 22:49, ngutzmann wrote:<br>
-&gt; The variable in question should have been called ecc-&gt;p. The patch =
-has been updated<br>
-&gt; so that the compilation of the nettle recipe would complete successful=
-ly.<br>
-&gt;<br>
-&gt; Signed-off-by: ngutzmann &lt;<a href=3D"mailto:nathangutzmann@gmail.co=
-m" target=3D"_blank">nathangutzmann@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patc=
-h | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_88=
-05.patch b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patc=
-h<br>
-&gt; index 1c4b9a9..a956f42 100644<br>
-&gt; --- a/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patc=
-h<br>
-&gt; +++ b/meta/recipes-support/nettle/nettle-2.7.1/CVE-2015-8803_8805.patc=
-h<br>
-&gt; @@ -40,7 +40,7 @@ Index: nettle-2.7.1/ecc-256.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u1 -=3D cy;<br>
-&gt;=C2=A0 -=C2=A0 =C2=A0 =C2=A0 u1 +=3D cnd_add_n (t, rp + n - 4, ecc-&gt;=
-p, 3);<br>
-&gt;=C2=A0 +<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 cy =3D cnd_add_n (t, rp + n - 4, p-&gt;m, 2);<b=
-r>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 cy =3D cnd_add_n (t, rp + n - 4, ecc-&gt;p, 2);=
-<br>
-&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 u0 +=3D cy;<br>
-&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 u1 +=3D (u0 &lt; cy);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u1 -=3D (-t) &amp; 0xffffffff;<br>
-&gt;<br>
-<br>
-looks good to me. However, I needed to lookup the commit where the<br>
-backport originated from, because the reason for exchanging m and p<br>
-isn&#39;t obvious at all without knowing the original commit. Maybe you<br>
-could include it in your commit message.<br>
-<br>
-<a href=3D"https://git.lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb9=
-85e3872e4550137209e3ce4d" rel=3D"noreferrer" target=3D"_blank">https://git.=
-lysator.liu.se/nettle/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4=
-d</a><br>
-<br>
-Regards,<br>
-Andreas<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---047d7b2e47c817afa2052d9fff0e--
