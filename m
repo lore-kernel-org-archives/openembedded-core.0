@@ -1,30 +1,24 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 756D46E682
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2627A60124
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 05:13:49 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id F0E7C68A01A; Thu, 10 Mar 2016 05:13:49 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id A27D968A019;
-	Thu, 10 Mar 2016 05:13:48 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 4896B6740C52;
-	Thu, 10 Mar 2016 06:13:48 +0100 (CET)
-From: Gary Thomas <gary@mlbassoc.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <56E1028C.6080605@mlbassoc.com>
-Date: Thu, 10 Mar 2016 06:13:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Thu, 10 Mar 2016 07:23:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2A7NPWn014496
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 Mar 2016 23:23:25 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 9 Mar 2016 23:23:25 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
+	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
+Date: Thu, 10 Mar 2016 02:23:05 -0500
+Message-ID: <cover.1457593651.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Problems with perl 5.22
+Subject: [PATCH V2 00/18] fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +31,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 05:13:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Mar 2016 07:23:27 -0000
+Content-Type: text/plain
 
-I'm working on a package (amanda - the Advanced Maryland Archiving
-system) that is written heavily in perl with swig interfaces to C.
-This code ran great until the update to perl 5.22; it now dies a
-horrible death on almost every activity.  These failures seem to
-always be in the swig generated wrappers, but that may just be
-where most of the work gets done.
+Changed in V2:
+- As Ross suggested, improve waf.bbclass and use it for python-pycairo,
+  and use ${bindir}/python rather than \`which python\` for python-pygobject.
 
-I've narrowed this down to exactly the change to perl 5.22 from
-5.20. Using bisect as well as experimentation (e.g. trying all
-the compiler combinations that have occurred since a last good
-version) and I can go from working to failing by only the change
-in perl.
+- As Richard suggested, drop 'buildpaths QA ignore pattern', always try
+  to fix them rather than ignore them.
 
-The interesting (scary) thing is that I've built amanda for my
-target natively on my board running debian, including perl 5.22.
-This means I can't say definitively  that perl 5.22 is the culprit
-as on debian it runs fine.  So, it's got something to do with the
-OE environment/porting/packaging of perl and not just the revision.
+- For openssl fix, remove build path rather than use TOPDIR to replace.
 
-I've also tested this on multiple architectures (ARM, PowerPC) with
-the same results - with perl 5.20 amanda works, with perl 5.22 it fails.
+- Add new build path fixes
 
-I've compared the actual 5.22.1 sources used by OE-core and debian
-and they are subtly different, although I can't pinpoint any change
-that might be responsible.
+//Hongxu
 
-For the moment, I can just fall back to perl 5.20 for my target
-that needs to run amanda, but this isn't a real solution (e.g.
-in this state I can't propose my recipe to any layer as it's
-totally broken with the current OE-core).  I'd like to see this
-fixed but the amanda code (swig wrappers) are horribly complex
-which makes debugging quite the challenge, not to mention they
-may be about the only way to uncover the bug, whether it's in
-amanda or perl.
 
-Any suggestions on how to move forward?
+Introduce buildpaths QA issue
 
-Thanks for your thoughts
+1. Exist in ELF files DWARF (debugging information)
+   gcc compiled with '-g' option.
+
+   Solutions:
+   Add option '-fdebug-prefix-map' to translate build path to target path.
+   Make sure use option ${DEBUG_FLAGS} to compile
+
+2. Exist in ELF files section .rodata (Read-only data)
+   '__FILE__' is used in C/C++ source/header files.
+
+   1) If '__FILE__' exists in source file, use relative path to compile.
+      gcc /absolute_dir/test.c -o test --> gcc ../relative_dir/test.c -o test
+
+      Solutions:
+      - Use relative path to run configure.
+
+      - Improve python distutils module to use relative path to compile
+        C/C++ source file
+
+      - Improve cmake-native which generate Makefile to use relative path
+        to compile C/C++ source file
+
+   2) TODO: If '__FILE__' exists in header file. No way?(Need to improve gcc?)
+
+   3) If $CFLAGS, $CC which has build paths exists in source file, fix them
+      before compiling
+
+3. Exist in ANSII Text files (Makefile/Configure)
+   Solution:
+   - Process the text files to translate build path to target path
+
+   - Directly remove build path without side effect.
+     Such as removing --sysroot and -fdebug-prefix-map in Makefile is no harm.
+
+4. Exist in python compiled file (Python bytecode, .pyc/.pyo)
+   Invoke python with absolute dir.
+   python -m py_compile  /absolute_dir/test.py
+
+   Solution:
+   - Improve distutils, get the "--root" directory supplied to the "install"
+     command, and use it as a prefix to strip off the purported filename
+     encoded in bytecode files.
+
+   - Manually update specific bytecode file by invoking py_compile module.
+     py_compile.compile(file, cfile=None, dfile=None, doraise=False), use
+     target path for 'dfile'
+
+Apply these patches and build a world, there are still 56 recipes in oe-core
+that has buildpaths QA issue. And most of them could be fixed by above solutions.
+
+//Hongxu
+
+The following changes since commit d53413d3a8444c38a83ea37867c8af7754d8e702:
+
+  bitbake: server/process: Try connecting 4 times before giving up (2016-03-09 22:47:29 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+
+Hongxu Jia (18):
+  fix_buildpaths.bbclass: add bbclass to fix build path
+  python2/3: fix buildpath QA issue
+  bbclass distutils/distutils3: fix .pyc/.pyo buildpath
+  bbclass distutils/distutils3/setuptools/setuptools3: clean up
+    DISTUTILS_INSTALL_ARGS
+  python-setuptools/python3-setuptools: use old-style install
+  python3-pip: use old-style install
+  python-pygobject: fix buildpath QA issue
+  python-numpy: fix buildpaths QA issue
+  waf.bbclass: support do patch on extracted files
+  python-pycairo: fix buildpath QA issue
+  valgrind: fix buildpath QA issue
+  dtc.inc: fix buildpaths QA issue
+  epiphany: fix buildpaths QA issue
+  gconf: fix buildpaths QA issue
+  icu: fix buildpaths QA issue
+  tcl: fix buildpath QA issue
+  openssl: fix buildpath QA issue
+  cmake-native:convert source file to relative path
+
+ meta/classes/distutils.bbclass                     |   8 +-
+ meta/classes/distutils3.bbclass                    |   8 +-
+ meta/classes/fix_buildpaths.bbclass                |  44 +++++++
+ meta/classes/setuptools.bbclass                    |   5 -
+ meta/classes/setuptools3.bbclass                   |   5 -
+ meta/classes/waf.bbclass                           |  11 +-
+ .../openssl/remove-build-path-in-source-code.patch |  44 +++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2g.bb |   7 ++
+ meta/recipes-devtools/cmake/cmake-native_3.4.3.bb  |   1 +
+ .../convert-source-file-to-relative-path.patch     | 128 +++++++++++++++++++++
+ .../remove-build-path-in-comments.patch            |  30 +++++
+ .../recipes-devtools/python/python-numpy_1.10.4.bb |   1 +
+ ...trip-off-build-path-in-purported-filename.patch |  62 ++++++++++
+ .../python/python-pycairo_1.10.0.bb                |  25 +---
+ .../python/python-pygobject_2.28.3.bb              |   5 +
+ .../python/python-setuptools_19.4.bb               |   2 -
+ .../use-relative-path-to-compile-source-file.patch |  31 +++++
+ meta/recipes-devtools/python/python3-pip_8.0.0.bb  |  12 --
+ .../python/python3-setuptools_19.4.bb              |   8 +-
+ .../use-relative-path-to-compile-source-file.patch |  31 +++++
+ meta/recipes-devtools/python/python3_3.5.1.bb      |  21 +++-
+ meta/recipes-devtools/python/python_2.7.11.bb      |  28 ++++-
+ .../tcltk/tcl/use-relative-path-to-compile.patch   |  52 +++++++++
+ meta/recipes-devtools/tcltk/tcl_8.6.4.bb           |  10 +-
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb  |   5 +-
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |   8 +-
+ .../files/use-relative-path-for-build-dir.patch    |  57 +++++++++
+ meta/recipes-gnome/gnome/gconf/gconf.path          |   6 +
+ .../gnome/gconf/use-target-path-for-debug.patch    |  31 +++++
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb            |  12 ++
+ meta/recipes-kernel/dtc/dtc.inc                    |   3 +-
+ .../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch       |  30 +++++
+ .../icu/icu/add-variable-U_CC-and-U_CXX.patch      |  61 ++++++++++
+ meta/recipes-support/icu/icu_56.1.bb               |  12 ++
+ 34 files changed, 732 insertions(+), 72 deletions(-)
+ create mode 100644 meta/classes/fix_buildpaths.bbclass
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+ create mode 100644 meta/recipes-devtools/cmake/cmake/convert-source-file-to-relative-path.patch
+ create mode 100644 meta/recipes-devtools/python/python-numpy/remove-build-path-in-comments.patch
+ create mode 100644 meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
+ create mode 100644 meta/recipes-devtools/python/python/use-relative-path-to-compile-source-file.patch
+ create mode 100644 meta/recipes-devtools/python/python3/use-relative-path-to-compile-source-file.patch
+ create mode 100644 meta/recipes-devtools/tcltk/tcl/use-relative-path-to-compile.patch
+ create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+ create mode 100644 meta/recipes-gnome/gnome/gconf/gconf.path
+ create mode 100644 meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
+ create mode 100644 meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+ create mode 100644 meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.9.1
+
 
