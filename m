@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B39BD60249
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 65A4E60249
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 07:23:58 +0000 (UTC)
+	Thu, 10 Mar 2016 07:24:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2A7NwDq014514
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Mar 2016 23:23:58 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2A7O0As028975
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 9 Mar 2016 23:24:00 -0800
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 9 Mar 2016 23:23:57 -0800
+	Wed, 9 Mar 2016 23:23:59 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Thu, 10 Mar 2016 02:23:19 -0500
-Message-ID: <d07e18f2d93a30d63330cd8a364513d681a5ba56.1457593651.git.hongxu.jia@windriver.com>
+Date: Thu, 10 Mar 2016 02:23:20 -0500
+Message-ID: <e6bceda7565b2d5fc2b47245b838a98911d026de.1457593651.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1457593651.git.hongxu.jia@windriver.com>
 References: <cover.1457593651.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 14/18] gconf: fix buildpaths QA issue
+Subject: [PATCH 15/18] icu: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,127 +33,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 07:23:58 -0000
+X-List-Received-Date: Thu, 10 Mar 2016 07:24:00 -0000
 Content-Type: text/plain
 
-In ${S}/gconf/gconfd.c, we have:
-...
-  /* -- Debug only */
+- Define new variable U_CC and U_CXX which do not have build path.
+  The output of icuinfo will not have build path in it:
+  ...
+  root@qemux86-64:~# icuinfo
+   <icuSystemParams type="icu4c">
+      [snip]
+      <param name="build.cc">x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+      <param name="build.cxx">x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+      [snip]
+   </icuSystemParams>
+  ...
 
-  if (addresses == NULL)
-    {
-      gconf_log(GCL_DEBUG, _("gconfd compiled with debugging; trying to load gconf.path from the source directory"));
-      conffile = g_strconcat(GCONF_SRCDIR, "/gconf/gconf.path", NULL);
-      addresses = gconf_load_source_path(conffile, NULL);
-      g_free(conffile);
-    }
-
-  /* -- End of Debug Only */
-...
-
-- While --enable-debug=yes, the above works, but the released tarball
-  did not have gconf.path, so get a copy from git://git.gnome.org/gconf
-
-- Use target path rather than build path to configure above variable
-  GCONF_SRCDIR, by setting absolute_top_srcdir in configure.ac.
+- Remove build paths in pkgdata.inc, Makefile.inc and
+  icu-config.
 
 [YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-gnome/gnome/gconf/gconf.path          |  6 +++++
- .../gnome/gconf/use-target-path-for-debug.patch    | 31 ++++++++++++++++++++++
- meta/recipes-gnome/gnome/gconf_3.2.6.bb            | 12 +++++++++
- 3 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/gconf/gconf.path
- create mode 100644 meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
+ .../icu/icu/add-variable-U_CC-and-U_CXX.patch      | 61 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_56.1.bb               | 12 +++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
 
-diff --git a/meta/recipes-gnome/gnome/gconf/gconf.path b/meta/recipes-gnome/gnome/gconf/gconf.path
+diff --git a/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch b/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
 new file mode 100644
-index 0000000..4e2a7cf
+index 0000000..826d934
 --- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf/gconf.path
-@@ -0,0 +1,6 @@
-+# This file stores the addresses of config sources for GConf
-+# When a value is stored or requested, the sources are scanned from top to 
-+# bottom, and the first one to have a value for the key (or the first one 
-+# to be writeable) is used to load/store the data.
-+# You can also use include statements
-+xml:readwrite:$(DEFAULTUSERSOURCE)
-diff --git a/meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch b/meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
-new file mode 100644
-index 0000000..0698831
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
-@@ -0,0 +1,31 @@
-+From 7d03ad64b6a8fd2897b07a92c66a15e871f2efe9 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
+@@ -0,0 +1,61 @@
++From 3221b108a18edeff5424bc5c66589eb20148d9b2 Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 2 Mar 2016 03:19:50 -0500
-+Subject: [PATCH] use target path for debugging
++Date: Wed, 2 Mar 2016 21:18:34 -0500
++Subject: [PATCH] add variable U_CC and U_CXX
 +
-+The variable absolute_top_srcdir is used for
-+debugging purposes, use target path rather
-+than build path for cross complication.
++Define new variable U_CC and U_CXX which do not have build path.
++The output of icuinfo will not have build path in it:
++...
++root@qemux86-64:~# icuinfo
++ <icuSystemParams type="icu4c">
++    [snip]
++    <param name="build.cc">x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
++    <param name="build.cxx">x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
++    [snip]
++ </icuSystemParams>
++...
 +
 +Upstream-Status: Inappropriate [openembedded specific]
 +
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ configure.ac               | 9 +++++++++
++ tools/toolutil/Makefile.in | 2 +-
++ 2 files changed, 10 insertions(+), 1 deletion(-)
 +
 +diff --git a/configure.ac b/configure.ac
-+index 69a57e6..1b0739f 100644
++index 595bd12..ec05c19 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -365,7 +365,7 @@ AC_SUBST(CPPFLAGS)
-+ AC_SUBST(LDFLAGS)
++@@ -673,6 +673,15 @@ AC_SUBST(GENCCODE_ASSEMBLY)
 + 
-+ ## Just for debugging purposes
-+-absolute_top_srcdir=`pwd`
-++absolute_top_srcdir="/usr/src/${S##*/}"
-+ AC_SUBST(absolute_top_srcdir)
++ AC_MSG_RESULT($GENCCODE_ASSEMBLY)
 + 
-+ AC_CONFIG_FILES([
+++# U_CC and U_CXX are used for icuinfo which remove
+++# --sysroot for cross-compilation
+++U_CC=${U_CC}
+++AC_SUBST(U_CC)
+++AC_MSG_RESULT(U_CC)
+++U_CXX=${U_CXX}
+++AC_SUBST(U_CXX)
+++AC_MSG_RESULT(U_CXX)
+++
++ # Checks for header files
++ AC_CHECK_HEADERS(inttypes.h)
++ if test $ac_cv_header_inttypes_h = no; then
++diff --git a/tools/toolutil/Makefile.in b/tools/toolutil/Makefile.in
++index 1fb42ed..a083522 100644
++--- a/tools/toolutil/Makefile.in
+++++ b/tools/toolutil/Makefile.in
++@@ -46,7 +46,7 @@ CXXFLAGS += $(LIBCXXFLAGS)
++ CPPFLAGS += -I$(top_srcdir)/common -I$(top_srcdir)/i18n $(LIBCPPFLAGS)
++ 
++ # from icuinfo
++-CPPFLAGS+=  "-DU_BUILD=\"@build@\"" "-DU_HOST=\"@host@\"" "-DU_CC=\"@CC@\"" "-DU_CXX=\"@CXX@\""
+++CPPFLAGS+=  "-DU_BUILD=\"@build@\"" "-DU_HOST=\"@host@\"" "-DU_CC=\"@U_CC@\"" "-DU_CXX=\"@U_CXX@\""
++ CPPFLAGS += -DUNISTR_FROM_CHAR_EXPLICIT=explicit -DUNISTR_FROM_STRING_EXPLICIT=explicit
++ 
++ DEFS += -DU_TOOLUTIL_IMPLEMENTATION
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index e50d077..ac7272f 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -10,6 +10,8 @@ inherit gnomebase gtk-doc gettext
- SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
-            file://remove_plus_from_invalid_characters_list.patch \
-            file://unable-connect-dbus.patch \
-+           file://use-target-path-for-debug.patch \
-+           file://gconf.path \
- "
+diff --git a/meta/recipes-support/icu/icu_56.1.bb b/meta/recipes-support/icu/icu_56.1.bb
+index db0de10..7375170 100644
+--- a/meta/recipes-support/icu/icu_56.1.bb
++++ b/meta/recipes-support/icu/icu_56.1.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
+            file://icu-release-56-1-flagparser-fix.patch \
++           file://add-variable-U_CC-and-U_CXX.patch \
+           "
  
- SRC_URI[archive.md5sum] = "2b16996d0e4b112856ee5c59130e822c"
-@@ -17,6 +19,7 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
+ SRC_URI_append_class-target = "\
+@@ -27,3 +28,14 @@ SRC_URI[sha256sum] = "3a64e9105c734dcf631c0b3ed60404531bce6c0f5a64bfe1a6402a4cc2
  
- S = "${WORKDIR}/GConf-${PV}"
- 
-+CACHED_CONFIGUREVARS += "S=${S}"
- EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
-                 --disable-introspection --disable-orbit --with-openldap=no --disable-gtk"
- 
-@@ -28,6 +31,15 @@ PACKAGECONFIG_libc-uclibc = ""
- 
- PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
- 
-+do_unpack[postfuncs] += "unpack_gconf_debug"
-+do_unpack[vardeps] += "unpack_gconf_debug"
-+unpack_gconf_debug() {
-+	# A copy from git://git.gnome.org/gconf for debug
-+	if [ ! -e ${S}/gconf/gconf.path ]; then
-+		install -m 0664 ${WORKDIR}/gconf.path ${S}/gconf/
-+	fi
-+}
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
+ UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
 +
- do_install_append() {
- 	# this directory need to be created to avoid an Error 256 at gdm launch
- 	install -d ${D}${sysconfdir}/gconf/gconf.xml.system
++inherit fix_buildpaths
++CACHED_CONFIGUREVARS += "U_CC="${@remove_buildpath_variable(d, 'CC')}" \
++                         U_CXX="${@remove_buildpath_variable(d, 'CXX')}" \
++"
++PACKAGE_BUILDPATH_TEXT_FILES ?= " \
++    ${libdir}/${BPN}/${PV}/pkgdata.inc \
++    ${libdir}/${BPN}/${PV}/Makefile.inc \
++    ${bindir}/icu-config \
++"
++
 -- 
 1.9.1
 
