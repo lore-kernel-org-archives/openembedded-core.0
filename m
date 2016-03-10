@@ -1,46 +1,30 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 289CA6FF97
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 756D46E682
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 04:29:40 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id tt10so57252851pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Mar 2016 20:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=tnqjeFw9mwdVzqL2AYKQtKCoFHc9tM6wkcT5wM6jk+o=;
-	b=NoJ40lONGw+ik69dScmORiGdClqlIbexKeXmg8ef09tVggz5S/b4MY3ii97W25U399
-	sZW7nCM8z+WDu7EK8xMBTFfvLlag4vjZOu5BDe5u0TAEUNVb6t9/B81QxMnE2mOM4iDB
-	rGwULiQcgummzPMqZ7opbVmeJKOZqXfq1L3Gtlel53Btcg1o64BHFJkyWF8a7tHokyJm
-	SEe5K5x5LscJLChzafSMyh32rlIeWneM2/HHMYqCDAwyKAz2n3W/15KjC5cBBqbqY4vv
-	4m585MXHVpSZ6JXM3GgDdiuWOobi5ymcCPERnSPEWYGmGZ610qEsT2vpig2Oj0nNMUqB
-	NFGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tnqjeFw9mwdVzqL2AYKQtKCoFHc9tM6wkcT5wM6jk+o=;
-	b=hCaylVzEjZ0qKiO2P19cyfSoW2QpD2NG0k/w+uftHinwoXAocYh/FthSZeY1GgcG1u
-	cCjgcsujzh0qmsl6xEYOrD+v/typeiGKjchRD9NeCSAdS4R6ei15d4WH61dzEGnuXKmk
-	2W/kZou7FB308ZmF4jpy/0DQYbnh7NFLy5VbH5PzNgKIvkY8C1MuF1/kadHcUKc2B0+f
-	QmMR2IDLIvYMaRRbKZXjFyOgz5BylvNOueQ5eMiVrdN2lY0D6TLYd3bDkTD3ITC8S1HO
-	uEJS0mMTlC2kOL+XaRyubIYbcdSWdPPn4DqX5EV/GvF97SC2CKdXpFG+ELvMtIXnDjhi
-	TP0g==
-X-Gm-Message-State: AD7BkJJSEGg51sQTnsi3IT0VhnO3J9aqh0ngYn3Z4t+puqkFuF4mIHtdUiTAZfT0mDgQ5Q==
-X-Received: by 10.66.235.129 with SMTP id um1mr342920pac.17.1457584181797;
-	Wed, 09 Mar 2016 20:29:41 -0800 (PST)
-Received: from nathanbox.home.gateway ([101.162.5.44])
-	by smtp.gmail.com with ESMTPSA id
-	zu10sm1573742pab.31.2016.03.09.20.29.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Mar 2016 20:29:40 -0800 (PST)
-From: Nathan Rossi <nathan@nathanrossi.com>
+	Thu, 10 Mar 2016 05:13:49 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id F0E7C68A01A; Thu, 10 Mar 2016 05:13:49 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id A27D968A019;
+	Thu, 10 Mar 2016 05:13:48 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 4896B6740C52;
+	Thu, 10 Mar 2016 06:13:48 +0100 (CET)
+From: Gary Thomas <gary@mlbassoc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Mar 2016 14:29:31 +1000
-Message-Id: <1457584171-9122-1-git-send-email-nathan@nathanrossi.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] gcc: Disable libitm for MicroBlaze
+Message-ID: <56E1028C.6080605@mlbassoc.com>
+Date: Thu, 10 Mar 2016 06:13:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+Subject: Problems with perl 5.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 04:29:42 -0000
+X-List-Received-Date: Thu, 10 Mar 2016 05:13:50 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Disable libitm as it is not supported on MicroBlaze.
+I'm working on a package (amanda - the Advanced Maryland Archiving
+system) that is written heavily in perl with swig interfaces to C.
+This code ran great until the update to perl 5.22; it now dies a
+horrible death on almost every activity.  These failures seem to
+always be in the swig generated wrappers, but that may just be
+where most of the work gets done.
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
-This patch is based on master-next, so that it cleanly applies on top of
-the nios2 change.
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
- 1 file changed, 1 insertion(+)
+I've narrowed this down to exactly the change to perl 5.22 from
+5.20. Using bisect as well as experimentation (e.g. trying all
+the compiler combinations that have occurred since a last good
+version) and I can go from working to failing by only the change
+in perl.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 312103c..d4cfe08 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -16,6 +16,7 @@ RUNTIMELIBITM_mipsel = ""
- RUNTIMELIBITM_mips64 = ""
- RUNTIMELIBITM_mips64el = ""
- RUNTIMELIBITM_nios2 = ""
-+RUNTIMELIBITM_microblaze = ""
- 
- RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
-     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+The interesting (scary) thing is that I've built amanda for my
+target natively on my board running debian, including perl 5.22.
+This means I can't say definitively  that perl 5.22 is the culprit
+as on debian it runs fine.  So, it's got something to do with the
+OE environment/porting/packaging of perl and not just the revision.
+
+I've also tested this on multiple architectures (ARM, PowerPC) with
+the same results - with perl 5.20 amanda works, with perl 5.22 it fails.
+
+I've compared the actual 5.22.1 sources used by OE-core and debian
+and they are subtly different, although I can't pinpoint any change
+that might be responsible.
+
+For the moment, I can just fall back to perl 5.20 for my target
+that needs to run amanda, but this isn't a real solution (e.g.
+in this state I can't propose my recipe to any layer as it's
+totally broken with the current OE-core).  I'd like to see this
+fixed but the amanda code (swig wrappers) are horribly complex
+which makes debugging quite the challenge, not to mention they
+may be about the only way to uncover the bug, whether it's in
+amanda or perl.
+
+Any suggestions on how to move forward?
+
+Thanks for your thoughts
+
 -- 
-2.7.0
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
