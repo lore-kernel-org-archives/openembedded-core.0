@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BCCE36FF0E
+	by mail.openembedded.org (Postfix) with ESMTP id BD1146FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 18:40:00 +0000 (UTC)
+	Thu, 10 Mar 2016 18:40:01 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Mar 2016 10:34:11 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 10 Mar 2016 10:34:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,316,1455004800"; d="scan'208";a="63721981"
+X-IronPort-AV: E=Sophos;i="5.24,316,1455004800"; d="scan'208";a="63722032"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2016 10:34:11 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2016 10:34:14 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Mar 2016 10:29:20 +0000
-Message-Id: <cover.1457604105.git.mariano.lopez@linux.intel.com>
+Date: Thu, 10 Mar 2016 10:29:21 +0000
+Message-Id: <700ba3c535628dbbfd9edf2c64569869e0cf9f03.1457604105.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH 0/2] Improve bblayers and prservices selftests
+In-Reply-To: <cover.1457604105.git.mariano.lopez@linux.intel.com>
+References: <cover.1457604105.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1457604105.git.mariano.lopez@linux.intel.com>
+References: <cover.1457604105.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/2] selftest/prservice.py: Sanitize package version when looking for stamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +36,29 @@ X-List-Received-Date: Thu, 10 Mar 2016 18:40:02 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-These patches will improve some selftests that required the file
-name of recipes. With these changes just the recipe is needed
-and the tests will get the file names as required.
+Currently when using a git version the check for the stamp, using regex,
+will fail because of plus sign in the version.
 
-The following changes since commit bc0e99d2b165ff547e02c7169a8b0d210de54a1a:
+With this change the version is escaped before adding it to the regex.
 
-  recipetool: create: shrinkwrap and lockdown npm modules (2016-03-09 17:00:29 +0000)
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/prservice.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/xauth
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/xauth
-
-Mariano Lopez (2):
-  selftest/prservice.py: Sanitize package version when looking for stamp
-  selftest/bblayers.py: Remove harcoded recipe files
-
- meta/lib/oeqa/selftest/bblayers.py  | 20 ++++++++++++++++++--
- meta/lib/oeqa/selftest/prservice.py |  2 +-
- 2 files changed, 19 insertions(+), 3 deletions(-)
-
+diff --git a/meta/lib/oeqa/selftest/prservice.py b/meta/lib/oeqa/selftest/prservice.py
+index 66638de..1b9a510 100644
+--- a/meta/lib/oeqa/selftest/prservice.py
++++ b/meta/lib/oeqa/selftest/prservice.py
+@@ -27,7 +27,7 @@ class BitbakePrTests(oeSelfTest):
+         package_stamps_path = "/".join(stampdata[:-1])
+         stamps = []
+         for stamp in os.listdir(package_stamps_path):
+-            find_stamp = re.match("%s\.%s\.([a-z0-9]{32})" % (prefix, recipe_task), stamp)
++            find_stamp = re.match("%s\.%s\.([a-z0-9]{32})" % (re.escape(prefix), recipe_task), stamp)
+             if find_stamp:
+                 stamps.append(find_stamp.group(1))
+         self.assertFalse(len(stamps) == 0, msg="Cound not find stamp for task %s for recipe %s" % (recipe_task, package_name))
 -- 
 2.6.2
 
