@@ -1,53 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A081571633
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96326731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 17:02:54 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l68so5009547wml.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 09:02:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=95V5IB2HjRzHKzeYn3Rg8a9geHQHrQrteqeHxy4diKY=;
-	b=Xii5t8bsT5EReNJ+87IT3aHg2oT+5zpsKaADDQSHKGrDDzjI90RtfmVCBZA0zaf8X6
-	oRtr2PpM1AsCjr9yr0fBleZ4HfXtA65/t2bEM6K+tjLRB2zTvIy+HFOQM6ya4qQMm7PI
-	lJezESyGxmnylXF6RBS1udMK9r7Bdp7NzDFTTz9z8fETRnQlZ4JEH+0AbmJIpGrYfLX2
-	r2ORIkvoPWRPUEH5eVUEiOhnB/avruXZ2zRMoH6lOGmUof4Er5MV0qEtwWyOyELKDBgn
-	7du4NcPNz3Vgu5nRvy8ochdKD0mXinB4x46WOaFTdEI38g0tAmbtGIvb5biSzYYI45uC
-	6Mjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=95V5IB2HjRzHKzeYn3Rg8a9geHQHrQrteqeHxy4diKY=;
-	b=GGJH5iHnc21iYkOByEw+YOtQKqumFGmNme8ybRhLGaicT1Xl88UfS2GzbvpVdg+FqT
-	iucLgzDUnIkM0OmgEpd270/lKZqicLWgcA5D1ECTLeUC37UF//XDCPFZpijWUdbzmMgK
-	R8uxL/GdMp6nYt4xZ8471uzRfOBDR9yHDvBPOcncdpiH9xbvNxcmyRuAMkIiNPBEShkP
-	m00RKR5vaDInRUQVmt3/7ndKGaP8769ZuxqdmMbZYRF5dYPTe9XE9jwVnIH4E/rv1AWd
-	qzMB2gRLNL3VLzEqCu4mku1zxaB/sSirIx9O+lD7oF5m5dmUVL4SN9KcGcnQiUcoi4Gr
-	RKXQ==
-X-Gm-Message-State: AD7BkJIIsDdr8NnEaojU3h+PSLcekn3Zg3nRPg6SbNqoCqo81GLRSfZ82Rtllb564T+nLQ==
-X-Received: by 10.194.78.83 with SMTP id z19mr4955489wjw.5.1457629374920;
-	Thu, 10 Mar 2016 09:02:54 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	w125sm4371987wmw.18.2016.03.10.09.02.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Mar 2016 09:02:54 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 10 Mar 2016 18:05:53 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160310170553.GM2573@jama>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<20160310165631.GK2573@jama>
-	<CAJTo0LZ+Pwv=7OrQDGEFaHEBGCqk38fyWvJp3+n4T5DcUV_+0A@mail.gmail.com>
+	Thu, 10 Mar 2016 17:06:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2AH6ZMF011935
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 10 Mar 2016 09:06:35 -0800
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 10 Mar 2016 09:06:34 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 10 Mar 2016 12:06:33 -0500
+Message-ID: <1457629593-23213-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ+Pwv=7OrQDGEFaHEBGCqk38fyWvJp3+n4T5DcUV_+0A@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/4.4: Galileo updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 17:02:57 -0000
-X-Groupsio-MsgNum: 79416
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+ARLBH93C7pgvpZY"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 Mar 2016 17:06:37 -0000
+Content-Type: text/plain
 
---+ARLBH93C7pgvpZY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Integrating the following patches for improved galileo support:
 
-On Thu, Mar 10, 2016 at 04:56:21PM +0000, Burton, Ross wrote:
-> On 10 March 2016 at 16:56, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> >  which triggered exception NameError: name 'qemu_wrapper_cmdline' is not
-> > defined
-> >
->=20
-> Do you have oe-core 0b68f0632312392cbd20bfcb9ed4895cfc9883ff?  (which is =
-in
-> master, which master-next branches from).
+  66009f8977a6 adc1x8s102: support ACPI-based enumeration.
+  903003b78c13 staging:iio: add support for ADC1x8s102.
+  cd83f4095b23 spi-pxa2xx: fixed ACPI-based enumeration of SPI devices.
+  c4efe23b7f93 pca9685: PCA9685 PWM and GPIO multi-function device.
+  81e166ec0a35 gpio: pca953x: provide GPIO base based on _UID
+  4086f8c34956 acpi: added a custom DSDT file.
 
-I have 0b68f0632312392cbd20bfcb9ed4895cfc9883ff, but one of the layers
-included in that build was overwriting qemu.bbclass to fix some issues.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-The issues were fixed since then in oe-core as well, so I should be able
-to just drop this qemu.bbclass.
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index eeca178f616f..268e21501d72 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -2,8 +2,8 @@ KBRANCH ?= "standard/preempt-rt"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "19e3ed348aefd0802dc8747cc143bea1155edc12"
+-SRCREV_meta ?= "89419d8b902aa81cb4c52f9dd12a6c9e083ce198"
++SRCREV_machine ?= "e9c6f8ed73f9200b0a134ed473b4246d8cba0c3f"
++SRCREV_meta ?= "0ae928f7664c97fcce9411a6323ee9b376a59996"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index b14eeaf1980b..dc439e954f4b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.4.3"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+-SRCREV_meta ?= "89419d8b902aa81cb4c52f9dd12a6c9e083ce198"
++SRCREV_machine ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
++SRCREV_meta ?= "0ae928f7664c97fcce9411a6323ee9b376a59996"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index 9d87b09efe4a..caa3ba2bdfad 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "d3ce63d0c83f579605b308f83c62a49e5dbf73e6"
+-SRCREV_machine_qemuarm64 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+-SRCREV_machine_qemumips ?= "06c34af69f436c8dca8ff23a30a7d1f834e1d07c"
+-SRCREV_machine_qemuppc ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+-SRCREV_machine_qemux86 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+-SRCREV_machine_qemux86-64 ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+-SRCREV_machine_qemumips64 ?= "79b496614c5d0b4862796928ef9890f2eb375a3b"
+-SRCREV_machine ?= "dadb4369046246d7788db1f3cdf0a34298e35b4b"
+-SRCREV_meta ?= "89419d8b902aa81cb4c52f9dd12a6c9e083ce198"
++SRCREV_machine_qemuarm ?= "9ae4dd8747fc85511ebc4b460dd5cc5049abd9c9"
++SRCREV_machine_qemuarm64 ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
++SRCREV_machine_qemumips ?= "9f0cb8fa7b1b3e167bb8d70a3433246830ada786"
++SRCREV_machine_qemuppc ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
++SRCREV_machine_qemux86 ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
++SRCREV_machine_qemux86-64 ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
++SRCREV_machine_qemumips64 ?= "d941e61b3aadae55344addb8bbb778a0c72087bc"
++SRCREV_machine ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
++SRCREV_meta ?= "0ae928f7664c97fcce9411a6323ee9b376a59996"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+-- 
+2.5.0
 
-Sorry for noise, for some reason I usually notice the root cause just
-after hitting Send button in e-mail :/.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---+ARLBH93C7pgvpZY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlbhqXAACgkQN1Ujt2V2gByIxQCgm3Zueg84VGDiERyIU0hay+Sh
-wlMAoKZA7BBEu2CMtgtEMdKNRR7Wd+qv
-=NoKy
------END PGP SIGNATURE-----
-
---+ARLBH93C7pgvpZY--
