@@ -1,50 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6076360124
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C2360124
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 16:53:33 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id l68so4957728wml.3
+	Thu, 10 Mar 2016 16:56:40 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id g203so113183303iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 08:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=nK6Cy4617eKWF1Bb2dK7kWPVQGr0/bYoDuniXQvIJO0=;
-	b=uxnV0KdldignGlmggwsCiRb+JImCsoMrYmb+9BZ4JRVYPZuEw3auuZ4Xs4HdVOM3+R
-	sz9/n6oR2D6pg2vRFjlbfVka1XJNOEsnqvcbwij7a72Cw/uWntHscXfdLfdN7Z4jJL3h
-	enhRIAoTtlkh9dlH/6O2dih2/zqSWD4HqethvTIl1WeMDdfg3jXaQwJJVRhQ5Aeh2Mhe
-	1Q0+CTwzsU4teYUccV0s3GGQC7RH4KB5RXzqFM+e53RGaLRlbmAZ0/rMg1M/hRRmSSDw
-	7g1/1O5ukXXWq0kMDEqtdAMLqm6nMFpTL1EP8gSYPKVymhp8wjNHUzIY9f9x23p/Voxo
-	kQig==
+	Thu, 10 Mar 2016 08:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=orBEnSEQfXs2UUisMOnvEs6yNKy0ho0csXsGrRq03+0=;
+	b=mR6aDViNACq0oBIbB/eQnH4+B256nwzeItiHbQN3OhUffB7WkMHvnnyS4AamebLdLH
+	pfImBszHsncbBdXseGRGh2nIJi64xUONi1KoF9M7aTBzrkOFixzSLtkTFkkjXTIu+r3F
+	nL1zgyyMAQUqKcNL+n37p52f+X2yzh5m3lE6jGB3gWptgAX2W7IVoSVxvWggJNbDn2mC
+	qZMcOgv0pq4wO3sbLF5ni93E1TxINeXQHDE0iLt8ZYJFjUm9yzhScaJVF+JoO+XLjFEd
+	qJqVs0CWDg1CB/43EFZ6jHqoy9XqtMh+sIOyHUzxhx1RDpjjQFCkliOSVoMZy5QZ0Az8
+	kuIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=nK6Cy4617eKWF1Bb2dK7kWPVQGr0/bYoDuniXQvIJO0=;
-	b=SwbimwwpFqgJoASlzUINPUtohx5yeBytwVJHQp1RhTlfI/hXDH7DnHiO7rTP2j6z0P
-	dE+7IWaY7Ev4r6MmVB9C5p4hSXpWuZOYUIvH+dFzZ5eUyDcUd2iGVMHa7cQwC3tCsUK3
-	y82enW3mzNpEWOBlD2qcI8qY58PxMSIFKeDxHBKGSuLbDsTddXwYyRUPbQ+mmvCj6Y+/
-	Ehc440u7/xgbsWPv3RHVjX0Esgg/NLQv736ByaXjfQZb0yGpreQKJH8G0gFCKSZnxt11
-	pebSc4KNIaXVlcGZ4mrAGV2KYrGqjWWHR6gS/j662byGDZjutSX0cal7t/YtnKsh9NYZ
-	d/rA==
-X-Gm-Message-State: AD7BkJKUkm0IJkOPxWoVS6syDEsgqRNsB1Dx2GI6iFZpsttu9XwzSfxPRqTEzrnFKdVgdg==
-X-Received: by 10.28.153.138 with SMTP id b132mr5298860wme.36.1457628813800;
-	Thu, 10 Mar 2016 08:53:33 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	j10sm4342366wjb.46.2016.03.10.08.53.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Mar 2016 08:53:32 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 10 Mar 2016 17:56:31 +0100
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20160310165631.GK2573@jama>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=orBEnSEQfXs2UUisMOnvEs6yNKy0ho0csXsGrRq03+0=;
+	b=ZRpq+zWQ3/lH5KzBsCfBUmQUCAZrjzai11DmwQPQKnZtA5ddZZ6Vqk+xoqUmDDilsl
+	5he4dBWZ0pykPIpuu/Ulm3GVzuP/9/mcSBPjVjzLr6W8H2bq3ouyEK58hkJEwKnjZ6H2
+	XYH1OgsLUECJXtti0N9EBZbYItiboqxqHW1jbcXMYQJYAIAD6nJOActyPbGWIxqB28Y3
+	HucaSVZF8XDikK4GRtBj29AYPZUudanEIWQLzt8AEvk8PwV6PKiXuhz7VibiaL6nQLOz
+	/wdF+LeFJvs8ZGTcUIFumZLmmtvdpu1cEfPfDoo7wpXBFKDk0iPZRECAlG5Mp+5z+ZPY
+	appQ==
+X-Gm-Message-State: AD7BkJLAajsBss1e/0bXDAIJrjAK3Jr8lMM8Dq+RmRCm0gcphy70I7CAQ8+d2JNFsHBoFDr6OobIof0uyC4P0VDF
+X-Received: by 10.107.6.32 with SMTP id 32mr4438016iog.99.1457629000808; Thu,
+	10 Mar 2016 08:56:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
+Received: by 10.107.162.70 with HTTP; Thu, 10 Mar 2016 08:56:21 -0800 (PST)
+In-Reply-To: <20160310165631.GK2573@jama>
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<20160310165631.GK2573@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Mar 2016 16:56:21 +0000
+Message-ID: <CAJTo0LZ+Pwv=7OrQDGEFaHEBGCqk38fyWvJp3+n4T5DcUV_+0A@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,136 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 16:53:35 -0000
-X-Groupsio-MsgNum: 79414
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="iSeZnk6FyAS3EJ1y"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 Mar 2016 16:56:41 -0000
+Content-Type: multipart/alternative; boundary=001a113fbf5ccece05052db4b26c
 
---iSeZnk6FyAS3EJ1y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113fbf5ccece05052db4b26c
+Content-Type: text/plain; charset=UTF-8
+
+On 10 March 2016 at 16:56, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+>  which triggered exception NameError: name 'qemu_wrapper_cmdline' is not
+> defined
+>
+
+Do you have oe-core 0b68f0632312392cbd20bfcb9ed4895cfc9883ff?  (which is in
+master, which master-next branches from).
+
+Ross
+
+--001a113fbf5ccece05052db4b26c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 09, 2015 at 04:50:22PM +0200, Alexander Kanavin wrote:
-> 1. Introduction
->=20
-> This patchset adds support for gobject introspection to oe-core.=20
-> Gir files go to -dev packages, typelib files go to main packages=20
-> (they are packaged together with libraries that are=20
-> introspected).
->=20
-> The work is based on a meta-gir layer, which was used as a proof of
-> concept; overall approach is same and some implementation ideas were=20
-> used, but this implementation is otherwise different, and hopefully=20
-> simpler and cleaner.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 March 2016 at 16:56, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
+r-left-style:solid;padding-left:1ex"><div id=3D":973" class=3D"" style=3D"o=
+verflow:hidden">=C2=A0which triggered exception NameError: name &#39;qemu_w=
+rapper_cmdline&#39; is not defined<br></div></blockquote></div><br>Do you h=
+ave oe-core=C2=A00b68f0632312392cbd20bfcb9ed4895cfc9883ff? =C2=A0(which is =
+in master, which master-next branches from).</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Any idea what could be cause for these failures when testing
-master-next?
-
-NOTE: Your conf/bblayers.conf has been automatically updated.
-Parsing recipes...NOTE: Building Ne10 for armv7
-NOTE: glibc doesn't build cleanly with -Os, adding -Wno-error to SELECTED_O=
-PTIMIZATION
-NOTE: glibc-initial doesn't build cleanly with -Os, adding -Wno-error to SE=
-LECTED_OPTIMIZATION
-WARNING: Exception during build_dependencies for do_configure
-WARNING: Error during finalise of TOPDIR/oe-core/meta/recipes-gnome/gobject=
--introspection/gobject-introspection_1.46.0.bb
-ERROR: ExpansionError during parsing TOPDIR/oe-core/meta/recipes-gnome/gobj=
-ect-introspection/gobject-introspection_1.46.0.bb: Failure expanding variab=
-le do_configure, expression was         # Write out a qemu wrapper that wil=
-l be given to gi-scanner so that it
-        # can run target helper binaries through that.
-        qemu_binary=3D"${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['\$=
-GIR_EXTRA_LIBS_PATH','.libs','$STAGING_DIR_HOST//usr/lib','$STAGING_DIR_HOS=
-T//lib'])}"
-        cat > WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-scanner-qe=
-muwrapper << EOF
-#!/bin/sh
-$qemu_binary "\$@"
-if [ \$? -ne 0 ]; then
-    echo "If the above error message is about missing .so libraries, then s=
-etting up GIR_EXTRA_LIBS_PATH in the recipe should help."
-    echo "(typically like this: GIR_EXTRA_LIBS_PATH=3D\"$""{B}/something/.l=
-ibs\" )"
-    exit 1
-fi
-EOF
-        chmod +x WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-scanner=
--qemuwrapper
-
-        # Write out a wrapper for g-ir-scanner itself, which will be used w=
-hen building introspection files
-        # for glib-based packages. This wrapper calls the native version of=
- the scanner, and tells it to use
-        # a qemu wrapper for running transient target binaries produced by =
-the scanner, and an include directory
-        # from the target sysroot.
-        cat > WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-scanner-wr=
-apper << EOF
-#!/bin/sh
-# This prevents g-ir-scanner from writing cache data to $HOME
-export GI_SCANNER_DISABLE_CACHE=3D1
-
-g-ir-scanner --use-binary-wrapper=3DSYSROOTS/MACHINE/usr/bin/g-ir-scanner-q=
-emuwrapper --use-ldd-wrapper=3DSYSROOTS/MACHINE/usr/bin/g-ir-scanner-lddwra=
-pper --add-include-path=3DSYSROOTS/MACHINE/usr/share/gir-1.0 "\$@"
-EOF
-        chmod +x WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-scanner=
--wrapper
-
-        # Write out a wrapper for g-ir-compiler, which runs the target vers=
-ion of it through qemu.
-        # g-ir-compiler writes out the raw content of a C struct to disk, a=
-nd therefore is architecture dependent.
-        cat > WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-compiler-w=
-rapper << EOF
-#!/bin/sh
-SYSROOTS/MACHINE/usr/bin/g-ir-scanner-qemuwrapper SYSROOTS/MACHINE/usr/bin/=
-g-ir-compiler "\$@"
-EOF
-        chmod +x WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-compile=
-r-wrapper
-
-        # Write out a wrapper to use instead of ldd, which does not work wh=
-en a binary is built
-        # for a different architecture
-        cat > WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-scanner-ld=
-dwrapper << EOF
-#!/bin/sh
-prelink-rtld --root=3D$STAGING_DIR_HOST "\$@"
-EOF
-        chmod +x WORKDIR/gobject-introspection/1.46.0-r0/build/g-ir-scanner=
--lddwrapper
-
-        # Also tweak the target python scripts so that they don't refer to =
-the
-        # native version of python binary (the solution is taken from glib-=
-2.0 recipe)
-        sed -i -e '1s,#!.*,#!/usr/bin/env python,' WORKDIR/gobject-introspe=
-ction/1.46.0-r0/gobject-introspection-1.46.0/tools/g-ir-tool-template.in
-	( cd WORKDIR/gobject-introspection/1.46.0-r0/gobject-introspection-1.46.0;=
- gtkdocize --docdir WORKDIR/gobject-introspection/1.46.0-r0/gobject-introsp=
-ection-1.46.0 )
-    set_icecc_env
-    autotools_do_configure
- which triggered exception NameError: name 'qemu_wrapper_cmdline' is not de=
-fined
-
-Summary: There were 2 WARNING messages shown.
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---iSeZnk6FyAS3EJ1y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlbhpzwACgkQN1Ujt2V2gBzlLQCfTF/5eHlPn3MV+PvsHMXUbrvP
-xj0An356fYT7vvC9QO2U85h82/azyBKU
-=hP9t
------END PGP SIGNATURE-----
-
---iSeZnk6FyAS3EJ1y--
+--001a113fbf5ccece05052db4b26c--
