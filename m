@@ -1,52 +1,48 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 11ACD60124
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8417D6FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 13:47:20 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id bc4so112365010lbc.2
+	Thu, 10 Mar 2016 14:52:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 033E62E0C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 05:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MBzJ+oZF3d0YuZ5ttTPm1wQCdvO+xS5P9kSfcrAMSpk=;
-	b=CCWECAlYC7mF2MLt4g0FtcY+IKTmxgzv+SP6j2FcsyV2pqyxQ1LR5+qiWOObfTzMBw
-	uHrHVp6AiQfCvhjj2ImW+cPHS78O+jwRktVlFQBK9Vdqjz3dBnxsVrw1/9Ccw8Cdi2Zo
-	u589YNxvXBxpaqq1W9e+qKcaCIXjLFpPvwGzyZRzuP3LF2pu13WV8ZMT/RHJ4oHAsL/S
-	idNfy1SIdKs8OhQb5/vhpNfMFVaCyfJH3p874rjjS4sJPvIMehZ2yF3GJKS4TPUB8eLW
-	pWU/uujKlah5z0YQ43h+7OhUGU5cm9KxdOsHVp1pWOrCz1MehsCASva2YjhXz6jSXJb/
-	8vVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=MBzJ+oZF3d0YuZ5ttTPm1wQCdvO+xS5P9kSfcrAMSpk=;
-	b=ckB4BdxW16nw7yco0AEd841wNgUVaMKmqaL5yOd+T1OrOBoLVSnfuVPPob4hNhU39u
-	FOzUF4VmzHxssoDolvFTsywPJXiEhc8/+Ovn7oIhf1nbZftq25wnmajkJyABvVkvpGOE
-	QLneIuKyV5Q5R1RMPK7e/nrRtVkeMHY7CNs6osDNHQPfzpXr9TCu6ayDuaG3OZtNivIW
-	LRWAvRgUQblvfosczSQWhmNx7J4pbr7nkj9zlo6imEqci1Ie6tR1bytxBMxJZBH2fsmJ
-	hCXDzJHsvi98TM2cLtdF6i84xhNyvVIwf0LM+XNC4Vxw9CgAiSlCNdioF4WeutT9UWlA
-	cbTg==
-X-Gm-Message-State: AD7BkJKQrma5nUimm5VHtz7GWeMd29MtrH5RWXLpOMNk7FSPgETWE6MErY7LaMynB6vR9A==
-X-Received: by 10.25.147.209 with SMTP id v200mr1273399lfd.154.1457617633498; 
-	Thu, 10 Mar 2016 05:47:13 -0800 (PST)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id tm4sm529094lbb.42.2016.03.10.05.47.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Mar 2016 05:47:12 -0800 (PST)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>,
-	Matt Madison <matt@madison.systems>, Ross <ross.burton@intel.com>,
-	Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Mar 2016 14:47:09 +0100
-Message-Id: <1457617629-9255-2-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1457617629-9255-1-git-send-email-ricardo.ribalda@gmail.com>
-References: <1457617629-9255-1-git-send-email-ricardo.ribalda@gmail.com>
-Subject: [PATCH v2 2/2] package-deb: Ignore circular dependencies
+	Thu, 10 Mar 2016 15:52:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 8eIFNO+oDi09
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Mar 2016 15:52:03 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 84EFD2E0DF
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 673D11418
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 5C40D833
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 515C1FEB
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2AEq2EY016564
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Mar 2016 15:52:02 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2AEq2Qe016563
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 Mar 2016 15:52:02 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Mar 2016 15:51:58 +0100
+Message-Id: <cover.1457621343.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [jethro][PATCH 0/1] Backport fix to devtool for readonly Git hooks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 13:47:21 -0000
+X-List-Received-Date: Thu, 10 Mar 2016 14:52:06 -0000
 
-If a package depends on itself apt-get fails to install it with the
-error attached to this patch.
+This backports a change to devtool from master so that devtool can
+handle Git hooks that are readonly.
 
-This patch checks for this conditions and notifies the user so the
-recipe maintainer can fix his RDEPENDS variable.
+//Peter
 
-root@qt5022:~# apt-get install perl-module-cpan
-Reading package lists... Done
-Building dependency tree
-Reading state information... Done
-The following NEW packages will be installed:
-  perl-module-cpan
-0 upgraded, 640 newly installed, 0 to remove and 0 not upgraded.
-Need to get 0 B/5964 kB of archives.
-After this operation, 0 B of additional disk space will be used.
-Do you want to continue? [Y/n]
-E: Internal error: MaxLoopCount reached in SmartUnPack (2) for
-perl-module-cpan:amd64, aborting
-E: Internal error, packages left unconfigured. perl-module-cpan:amd64
-root@qt5022:~# apt-get install perl-modules
+The following changes since commit 1a52eceaa5df89914b6a711defdcf0046e74c7f6:
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- meta/classes/package_deb.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+  ref-manual: Corrected Note for CentOS package requirements (2016-03-03 17:40:20 +0000)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 6ecea0e1824e..e1d05a74c215 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -235,6 +235,9 @@ python do_package_deb () {
-         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS", True) or "")
-         debian_cmp_remap(rdepends)
-         for dep in rdepends.keys():
-+                if dep == pkg:
-+                        del rdepends[dep]
-+                        continue
-                 if '*' in dep:
-                         del rdepends[dep]
-         rrecommends = bb.utils.explode_dep_versions2(localdata.getVar("RRECOMMENDS", True) or "")
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/jethro-devtool-hooks
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/jethro-devtool-hooks
+
+Peter Kjellerstedt (1):
+  lib/oe/patch: Make GitApplyTree._applypatch() support read-only
+    .git/hooks
+
+ meta/lib/oe/patch.py | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
+
 -- 
-2.7.0
+2.1.0
 
 
