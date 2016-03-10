@@ -1,29 +1,45 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D7CD873195
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id AEEC76E680
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 16:46:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 10 Mar 2016 08:46:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,316,1455004800"; d="scan'208";a="907123729"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2016 08:46:12 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 7C7CF2C8001
+	Thu, 10 Mar 2016 16:49:31 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id n186so38962776wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 09:33:58 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Thu, 10 Mar 2016 08:49:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=JCKsiIl6vRmYv3blbD3t3UTOtommV/+bLatn7EpHnig=;
+	b=P9MtFnkfaQgaat19Z08UVbguRTlOEsNNZEZYG/IgXboRtn3Sn5KOycqDdF/gmwEYvm
+	iGU4VgIqTqJivtOrjNm7k3McX3bGbDVF+bL+too7TQGuFM5+ONoR6ReyhWB6feQpr+4k
+	FJvAzhH2dLXXTaHg+S+hDRpYIbTL8YDtkkymxVnEoV6FzL38zEHrXTNmOOm2CpcPcyV/
+	u8odpPkvvfCj7MxGFhDpRi3tK8QSgikWMylqSzq2kGgm1yNPwUig6LoqjgLsUfUuI6xe
+	AVglK2L/yqRLdGDAlDo+Na2OyGoaJiIGM3mW/aELiF6scOtGdMxkcWCWtf3LQs0ue27g
+	VlyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JCKsiIl6vRmYv3blbD3t3UTOtommV/+bLatn7EpHnig=;
+	b=Zgeq3hPeG+et1mUzIYZ5C+03lPqv+/Fb2ABnZP5M+H3Eta7Q3mZBWF/050lGw4dL1t
+	MHzuUnmoMWTcjv0Gv/Gi8eQwJ1cKMf6DC4YZPJvcNw76rcZT1aueQ3HCRbH9e9JhbbSt
+	QwrlWXQe48pA4MG3hRR3CvIStCkGPli6EcRYPaRaP19ZCuqNncOWG3iOSGTKziORYyz2
+	b671DBM/9mtWp4osuue4iX/4Wid7JyQUGoC8PcQ1vkLBGkck0IeLmgCRFdzRmXlQ95VB
+	c3xpr6IvbwwxkOiLJFkijM9fkFtz6p3e0jY7+j6D+5lKZzO3f89lZ8wxH8tLPWMn1sjw
+	WBLw==
+X-Gm-Message-State: AD7BkJLSFKanKu9RZXgDQIhBWljBzEGcDPqKZWWAomUWZun2aeM9pLkRMrFq7UXSo27HYxKu
+X-Received: by 10.28.55.139 with SMTP id e133mr5157554wma.98.1457628571899;
+	Thu, 10 Mar 2016 08:49:31 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id m6sm4357616wje.21.2016.03.10.08.49.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Mar 2016 08:49:31 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Mar 2016 13:56:12 +0200
-Message-Id: <1457610972-10872-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1457610972-10872-1-git-send-email-maxin.john@intel.com>
-References: <1457610972-10872-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] eudev: provide UPSTREAM_CHECK_URI
+Date: Thu, 10 Mar 2016 16:49:29 +0000
+Message-Id: <1457628569-23047-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] systemd: add comment stating that resolved needs gcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 16:46:25 -0000
+X-List-Received-Date: Thu, 10 Mar 2016 16:49:31 -0000
 
-Provide UPSTREAM_CHECK_URI to perform checkpkg task.
+The resolved support requires that gcrypt is enabled.  PACKAGECONFIG doesn't
+support dependencies, so add a comment.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/udev/eudev_3.1.5.bb | 1 +
+ meta/recipes-core/systemd/systemd_229.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/udev/eudev_3.1.5.bb b/meta/recipes-core/udev/eudev_3.1.5.bb
-index ffcebcd..e94e0dc 100644
---- a/meta/recipes-core/udev/eudev_3.1.5.bb
-+++ b/meta/recipes-core/udev/eudev_3.1.5.bb
-@@ -18,6 +18,7 @@ SRC_URI = "https://github.com/gentoo/${BPN}/archive/v${PV}.tar.gz \
-            file://udev-cache.default \
-            file://udev.rules \
- "
-+UPSTREAM_CHECK_URI = "https://github.com/gentoo/eudev/releases"
- 
- SRC_URI[md5sum] = "e130f892d8744e292cb855db79935f68"
- SRC_URI[sha256sum] = "ce9d5fa91e3a42c7eb95512ca0fa2a631e89833053066bb6cdf42046b2a88553"
+diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
+index cd48360..ae88c89 100644
+--- a/meta/recipes-core/systemd/systemd_229.bb
++++ b/meta/recipes-core/systemd/systemd_229.bb
+@@ -101,6 +101,7 @@ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
+ PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
+ PACKAGECONFIG[microhttpd] = "--enable-microhttpd,--disable-microhttpd,libmicrohttpd"
+ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
++# resolved needs gcrypt
+ PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+ PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+ PACKAGECONFIG[machined] = "--enable-machined,--disable-machined"
 -- 
-2.4.0
+2.7.0
 
 
