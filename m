@@ -1,48 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8417D6FF91
+	by mail.openembedded.org (Postfix) with ESMTP id 850B57317D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 14:52:03 +0000 (UTC)
+	Thu, 10 Mar 2016 14:52:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 033E62E0C8
+	by bes.se.axis.com (Postfix) with ESMTP id F23D12E0DF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:04 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 8eIFNO+oDi09
+	port 10024) with LMTP id cbcsGygj3qVW
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:03 +0100 (CET)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 84EFD2E0DF
+	by bes.se.axis.com (Postfix) with ESMTP id 84F0D2E225
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 673D11418
+	by postfix.imss71 (Postfix) with ESMTP id 69A73142E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
 Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 5C40D833
+	by boulder.se.axis.com (Postfix) with ESMTP id 5EAD91403
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 515C1FEB
+	by thoth.se.axis.com (Postfix) with ESMTP id 5D113FEB
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:02 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2AEq2EY016564
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2AEq26E016570
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Mar 2016 15:52:02 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2AEq2Qe016563
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2AEq2A7016569
 	for openembedded-core@lists.openembedded.org;
 	Thu, 10 Mar 2016 15:52:02 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Mar 2016 15:51:58 +0100
-Message-Id: <cover.1457621343.git.pkj@axis.com>
+Date: Thu, 10 Mar 2016 15:51:59 +0100
+Message-Id: <ec070733fc999c322f886cf8f351568b0b9cff54.1457621343.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [jethro][PATCH 0/1] Backport fix to devtool for readonly Git hooks
+In-Reply-To: <cover.1457621343.git.pkj@axis.com>
+References: <cover.1457621343.git.pkj@axis.com>
+In-Reply-To: <cover.1457621343.git.pkj@axis.com>
+References: <cover.1457621343.git.pkj@axis.com>
+Subject: [jethro][PATCH 1/1] lib/oe/patch: Make GitApplyTree._applypatch() support read-only .git/hooks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +62,63 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Mar 2016 14:52:06 -0000
 
-This backports a change to devtool from master so that devtool can
-handle Git hooks that are readonly.
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-//Peter
+Rather than modifying files in .git/hooks, which can be read-only
+(e.g., if it is a link to a directory in /usr/share), move away the
+entire .git/hooks directory temporarily.
 
-The following changes since commit 1a52eceaa5df89914b6a711defdcf0046e74c7f6:
-
-  ref-manual: Corrected Note for CentOS package requirements (2016-03-03 17:40:20 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/jethro-devtool-hooks
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/jethro-devtool-hooks
-
-Peter Kjellerstedt (1):
-  lib/oe/patch: Make GitApplyTree._applypatch() support read-only
-    .git/hooks
-
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
  meta/lib/oe/patch.py | 26 ++++++++++++--------------
  1 file changed, 12 insertions(+), 14 deletions(-)
 
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 2bf501e..c25d3c7 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -383,14 +383,15 @@ class GitApplyTree(PatchTree):
+         reporoot = (runcmd("git rev-parse --show-toplevel".split(), self.dir) or '').strip()
+         if not reporoot:
+             raise Exception("Cannot get repository root for directory %s" % self.dir)
+-        commithook = os.path.join(reporoot, '.git', 'hooks', 'commit-msg')
+-        commithook_backup = commithook + '.devtool-orig'
+-        applyhook = os.path.join(reporoot, '.git', 'hooks', 'applypatch-msg')
+-        applyhook_backup = applyhook + '.devtool-orig'
+-        if os.path.exists(commithook):
+-            shutil.move(commithook, commithook_backup)
+-        if os.path.exists(applyhook):
+-            shutil.move(applyhook, applyhook_backup)
++        hooks_dir = os.path.join(reporoot, '.git', 'hooks')
++        hooks_dir_backup = hooks_dir + '.devtool-orig'
++        if os.path.lexists(hooks_dir_backup):
++            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
++        if os.path.lexists(hooks_dir):
++            shutil.move(hooks_dir, hooks_dir_backup)
++        os.mkdir(hooks_dir)
++        commithook = os.path.join(hooks_dir, 'commit-msg')
++        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+         with open(commithook, 'w') as f:
+             # NOTE: the formatting here is significant; if you change it you'll also need to
+             # change other places which read it back
+@@ -439,12 +440,9 @@ class GitApplyTree(PatchTree):
+                     os.remove(tmpfile)
+                 return output
+         finally:
+-            os.remove(commithook)
+-            os.remove(applyhook)
+-            if os.path.exists(commithook_backup):
+-                shutil.move(commithook_backup, commithook)
+-            if os.path.exists(applyhook_backup):
+-                shutil.move(applyhook_backup, applyhook)
++            shutil.rmtree(hooks_dir)
++            if os.path.lexists(hooks_dir_backup):
++                shutil.move(hooks_dir_backup, hooks_dir)
+ 
+ 
+ class QuiltTree(PatchSet):
 -- 
 2.1.0
 
