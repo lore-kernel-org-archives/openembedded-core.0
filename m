@@ -1,39 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 01B08731AC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 89BBF7317D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 21:55:58 +0000 (UTC)
+	Thu, 10 Mar 2016 22:01:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2ALtue8019731
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 10 Mar 2016 13:55:57 -0800
-Received: from server.local (147.11.119.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 10 Mar 2016 13:55:56 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Paul Gortmaker
-	<paul.gortmaker@windriver.com>
-References: <cover.1455203562.git.bruce.ashfield@windriver.com>
-	<2e6d2b75837731be983d888eaa82a9cfcf660e85.1455203562.git.bruce.ashfield@windriver.com>
-	<1455287765.16142.321.camel@linuxfoundation.org>
-	<1455291157.16142.323.camel@linuxfoundation.org>
-	<1455352317.16142.344.camel@linuxfoundation.org>
-	<1455383832.16142.365.camel@linuxfoundation.org>
-	<20160302014146.GE20979@windriver.com> <56E07128.2060401@windriver.com>
-	<1457558624.2804.181.camel@linuxfoundation.org>
-	<56E0F427.7030708@windriver.com>
-	<1457643576.2804.228.camel@linuxfoundation.org>
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2AM1Ogv024513
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 10 Mar 2016 14:01:24 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 10 Mar 2016 14:01:23 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56E1ED68.6060202@windriver.com>
-Date: Thu, 10 Mar 2016 16:55:52 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 10 Mar 2016 17:01:23 -0500
+Message-ID: <1457647283-25104-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <1457643576.2804.228.camel@linuxfoundation.org>
-Cc: "Hart, Darren" <darren.hart@intel.com>, "saul.wold" <saul.wold@intel.com>,
-	poky@yoctoproject.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 1/1] poky: update qemu* to prefer 4.4 kernel
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH] linux-yocto/4.4: gpio-pca953x: add "drive" property
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,70 +31,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 21:55:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Mar 2016 22:01:28 -0000
+Content-Type: text/plain
 
-On 2016-03-10 3:59 PM, Richard Purdie wrote:
-> On Wed, 2016-03-09 at 23:12 -0500, Bruce Ashfield wrote:
->> On 2016-03-09 4:23 PM, Richard Purdie wrote:
->>> On Wed, 2016-03-09 at 13:53 -0500, Bruce Ashfield wrote:
->>>> As another follow up. The thread can be summarized as "It doesn't
->>>> look like it should have worked before, and qemu's pat emulation
->>>> may be the issue'.
->>>>
->>>> The suggestion is to run with 'nopat', which is what Richard
->>>> originally
->>>> did.
->>>>
->>>> So I'm going to prep a patch that drops the kernel patch, and
->>>> leaves
->>>> nopat enabled on the qemu command line. That should get us put
->>>> back
->>>> together in a semi-permanent way.
->>>
->>> How sure are we this is a bug in QEMU's pat emulation? If that is
->>> the
->>> case we should file a bug against qemu and try and fix it rather
->>> than
->>> work around it...
->>
->> It could still be something that the kernel can work around, Toshi
->> did say:
->>
->> There is a matter of how qemu emulates CPU features.  There is no
->> such
->> Intel CPU that supports PAT w/o MTRR.  This is why the current code
->> assumes this dependency.
->>
->> Which is likely the trigger, we've send information about the cpu to
->> him, and with that there's a chance for a pat fix.
->>
->> He repeated our thought of running with 'nopat' while a fix is
->> considered.
->>
->> It may be some time before that happens, and I was going to test
->> with the kernel patch dropped, and nopat in the qemu boot args. If
->> that works, I'd rather run with that, and then revisit when (if)
->> there's more changes upstream.
->
-> Reading the other thread, it looks like if MTRR is disabled, PAT needs
-> to be disabled too. That sounds like a simple enough patch which is
-> going upstream imminently so I think the preferred solution is to get
-> that into our kernels and then drop my patch?
+Integrating the following commit for the 4.4 kernel:
 
-Yep. Looks like there's a patch to disable the pat based on the flags
-of the cpu model being proposed.
+[
+    gpio-pca953x: add "drive" property
 
-When that's out, I'll merge it, and then we'll drop this. So for now,
-we wait a bit longer.
+    Galileo gen 2 has support for setting GPIO modes. Expose these
+    properties through the GPIO sysfs interface. This approach is
+    bit hacky, since it changes the interface semantics.
 
-Bruce
+    The original patch was by Josef Ahmad <josef.ahmad@linux.intel.com>
+    and  made on top of kernel 3.8.
+]
 
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index 268e21501d72..2faad1d5749e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -2,8 +2,8 @@ KBRANCH ?= "standard/preempt-rt"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "e9c6f8ed73f9200b0a134ed473b4246d8cba0c3f"
+-SRCREV_meta ?= "0ae928f7664c97fcce9411a6323ee9b376a59996"
++SRCREV_machine ?= "dfa88200087a7ef73741383c05c14ff2f3978947"
++SRCREV_meta ?= "ce5b35bc76bb65d93d0897535c088f51dae4048b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index dc439e954f4b..8a6e921647f5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.4.3"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
+-SRCREV_meta ?= "0ae928f7664c97fcce9411a6323ee9b376a59996"
++SRCREV_machine ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
++SRCREV_meta ?= "ce5b35bc76bb65d93d0897535c088f51dae4048b"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index caa3ba2bdfad..35a9f124776c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "9ae4dd8747fc85511ebc4b460dd5cc5049abd9c9"
+-SRCREV_machine_qemuarm64 ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
+-SRCREV_machine_qemumips ?= "9f0cb8fa7b1b3e167bb8d70a3433246830ada786"
+-SRCREV_machine_qemuppc ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
+-SRCREV_machine_qemux86 ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
+-SRCREV_machine_qemux86-64 ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
+-SRCREV_machine_qemumips64 ?= "d941e61b3aadae55344addb8bbb778a0c72087bc"
+-SRCREV_machine ?= "66009f8977a62d3bd29d4b89a8e29d1095524aea"
+-SRCREV_meta ?= "0ae928f7664c97fcce9411a6323ee9b376a59996"
++SRCREV_machine_qemuarm ?= "861adc8d32fbb0c1f14fb9b7b67222ab711473a1"
++SRCREV_machine_qemuarm64 ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
++SRCREV_machine_qemumips ?= "0b21ee5897cc49c94f42fca9cea4665f76ae7e0e"
++SRCREV_machine_qemuppc ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
++SRCREV_machine_qemux86 ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
++SRCREV_machine_qemux86-64 ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
++SRCREV_machine_qemumips64 ?= "8b25338045fdb88a9cdff808003102643f03083e"
++SRCREV_machine ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
++SRCREV_meta ?= "ce5b35bc76bb65d93d0897535c088f51dae4048b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+-- 
+2.5.0
 
 
