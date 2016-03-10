@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EDDF2731C8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 40C5B731A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 07:24:02 +0000 (UTC)
+	Thu, 10 Mar 2016 07:24:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2A7O2g5005955
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2A7OBcS014517
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Mar 2016 23:24:02 -0800 (PST)
+	Wed, 9 Mar 2016 23:24:12 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 9 Mar 2016 23:24:01 -0800
+	Wed, 9 Mar 2016 23:24:10 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Thu, 10 Mar 2016 02:23:21 -0500
-Message-ID: <132c0179f28f7a5ec972c236cd7c58ac88879973.1457593651.git.hongxu.jia@windriver.com>
+Date: Thu, 10 Mar 2016 02:23:22 -0500
+Message-ID: <1fd2c2598da726c85da663ed675e4fa86cbbfd39.1457593651.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1457593651.git.hongxu.jia@windriver.com>
 References: <cover.1457593651.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 16/18] tcl: fix buildpath QA issue
+Subject: [PATCH 17/18] openssl: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,117 +33,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 07:24:03 -0000
+X-List-Received-Date: Thu, 10 Mar 2016 07:24:12 -0000
 Content-Type: text/plain
 
-- Use relative path rather than absolute path to compile
+- The openssl records $CC and $CFLAGS in source code which
+  caused buildpaths QA issue:
+  In crypto/cversion.c
+  ...
+      if (t == SSLEAY_CFLAGS) {
+          return (CFLAGS);
+          return ("compiler: information not available");
+      }
+  ...
+  We should remove build path in the above source code.
 
-- Remove build path in tclConfig.sh
+- Remove build paths in ${PTEST_PATH}/Makefile  and
+  ${PTEST_PATH}/Configure
 
-- Tweak sed expression at tclConfig.sh to strict the pattern
-
-[YOCTO #8457]
+[YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../tcltk/tcl/use-relative-path-to-compile.patch   | 52 ++++++++++++++++++++++
- meta/recipes-devtools/tcltk/tcl_8.6.4.bb           | 10 ++++-
- 2 files changed, 60 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/tcltk/tcl/use-relative-path-to-compile.patch
+ .../openssl/remove-build-path-in-source-code.patch | 44 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2g.bb |  7 ++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/use-relative-path-to-compile.patch b/meta/recipes-devtools/tcltk/tcl/use-relative-path-to-compile.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
 new file mode 100644
-index 0000000..8086eb5
+index 0000000..fd5531b
 --- /dev/null
-+++ b/meta/recipes-devtools/tcltk/tcl/use-relative-path-to-compile.patch
-@@ -0,0 +1,52 @@
-+From 1d288139c184f33586de5f0013adff7b3a9d4b7c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+@@ -0,0 +1,44 @@
++From b937d7581a1793cdebbf5829bdaea787ed4128db Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Tue, 1 Mar 2016 03:52:34 -0500
-+Subject: [PATCH] use relative path to compile
++Date: Mon, 7 Mar 2016 01:11:42 -0500
++Subject: [PATCH] crypto/Makefile: remove build path in source code
 +
-+Use relative path rather than absolute path to compile
-+which fix build path issue.
++Openssl records $CC and $CFLAGS in source code which
++caused buildpaths QA issue:
++In crypto/cversion.c
++...
++    if (t == SSLEAY_CFLAGS) {
++        return (CFLAGS);
++        return ("compiler: information not available");
++    }
++...
++
++We should remove build path in the above source code.
 +
 +Upstream-Status: Inappropriate [embedded specific]
++
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ Makefile.in | 4 ++--
-+ configure   | 1 -
-+ 2 files changed, 2 insertions(+), 3 deletions(-)
++ crypto/Makefile | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/Makefile.in b/Makefile.in
-+index ef4f786..072e196 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -224,7 +224,7 @@ AR			= @AR@
-+ RANLIB			= @RANLIB@
-+ DTRACE			= @DTRACE@
-+ SRC_DIR			= @srcdir@
-+-TOP_DIR			= @TCL_SRC_DIR@
-++TOP_DIR			= @srcdir@/..
-+ BUILD_DIR		= @builddir@
-+ GENERIC_DIR		= $(TOP_DIR)/generic
-+ TOMMATH_DIR		= $(TOP_DIR)/libtommath
-+@@ -737,7 +737,7 @@ ro-test: ${TCLTEST_EXE}
-+ # directory after a successful build.
++diff --git a/crypto/Makefile b/crypto/Makefile
++index 17a87f8..ee630e8 100644
++--- a/crypto/Makefile
+++++ b/crypto/Makefile
++@@ -54,8 +54,11 @@ top:
 + 
-+ dltest.marker: ${STUB_LIB_FILE}
-+-	cd dltest ; $(MAKE)
-++	cd dltest ; $(MAKE) SRC_DIR=../$(SRC_DIR)/dltest
++ all: shared
 + 
-+ #--------------------------------------------------------------------------
-+ # Rules for running a shell before installation
-+diff --git a/configure b/configure
-+index 0d7eece..97275be 100755
-+--- a/configure
-++++ b/configure
-+@@ -1374,7 +1374,6 @@ if test "${exec_prefix}" = "NONE"; then
-+     exec_prefix=$prefix
-+ fi
-+ # Make sure srcdir is fully qualified!
-+-srcdir="`cd "$srcdir" ; pwd`"
-+ TCL_SRC_DIR="`cd "$srcdir"/..; pwd`"
+++NO_BUILDPATH_CCFLAGS=`echo "$(CC) $(CFLAGS)" | \
+++         sed -e 's:--sysroot=[^ ]*::g' \
+++             -e 's:-fdebug-prefix-map=[^ ]*::g'`
++ buildinf.h: ../Makefile
++-	$(PERL) $(TOP)/util/mkbuildinf.pl "$(CC) $(CFLAGS)" "$(PLATFORM)" >buildinf.h
+++	$(PERL) $(TOP)/util/mkbuildinf.pl "$(NO_BUILDPATH_CCFLAGS)" "$(PLATFORM)" >buildinf.h
 + 
-+ #------------------------------------------------------------------------
++ x86cpuid.s:	x86cpuid.pl perlasm/x86asm.pl
++ 	$(PERL) x86cpuid.pl $(PERLASM_SCHEME) $(CFLAGS) $(PROCESSOR) > $@
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-index 8e92b3e..1966148 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://no_packages.patch \
-            file://tcl-remove-hardcoded-install-path.patch \
-            file://alter-includedir.patch \
-+           file://use-relative-path-to-compile.patch \
-            file://run-ptest \
- "
- SRC_URI[md5sum] = "d7cbb91f1ded1919370a30edd1534304"
-@@ -54,8 +55,8 @@ do_install() {
- 	autotools_do_install install-private-headers
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
--	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
--	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
-+	sed -i "s,-L${B},-L${STAGING_LIBDIR},g" tclConfig.sh
-+	sed -i "s,='${WORKDIR},='${STAGING_INCDIR},g" tclConfig.sh
- 	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
- 	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
-@@ -73,6 +74,11 @@ tcl_sysroot_preprocess () {
- 	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
- }
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+index 290f129..7b27b47 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+@@ -39,6 +39,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://ptest_makefile_deps.patch  \
+             file://configure-musl-target.patch \
+             file://parallel.patch \
++            file://remove-build-path-in-source-code.patch \
+            "
+ 
+ SRC_URI[md5sum] = "f3c710c045cdee5fd114feb69feba7aa"
+@@ -47,6 +48,12 @@ SRC_URI[sha256sum] = "b784b1b3907ce39abf4098702dade6365522a253ad1552e267a9a0e895
+ PACKAGES =+ "${PN}-engines"
+ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
  
 +inherit fix_buildpaths
-+PACKAGE_BUILDPATH_TEXT_FILES ?= "${bindir_crossscripts}/tclConfig.sh \
-+                                 ${libdir}/tclConfig.sh \
++PACKAGE_BUILDPATH_TEXT_FILES ?= " \
++        ${PTEST_PATH}/Makefile \
++        ${PTEST_PATH}/Configure \
 +"
 +
- PACKAGES =+ "tcl-lib"
- FILES_tcl-lib = "${libdir}/libtcl8.6.so.*"
- FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}/tcl8"
+ # The crypto_use_bigint patch means that perl's bignum module needs to be
+ # installed, but some distributions (for example Fedora 23) don't ship it by
+ # default.  As the resulting error is very misleading check for bignum before
 -- 
 1.9.1
 
