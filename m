@@ -1,31 +1,31 @@
 Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EF60D73194
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E87E73192
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 10:03:23 +0000 (UTC)
+	Thu, 10 Mar 2016 10:03:24 +0000 (UTC)
 Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
 	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u2AA3NjQ006344; Thu, 10 Mar 2016 04:03:23 -0600
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u2AA3Oba021096; Thu, 10 Mar 2016 04:03:24 -0600
 Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016031004032402-1226950 ;
-	Thu, 10 Mar 2016 04:03:24 -0600 
+	HF1218) with ESMTP id 2016031004032519-1226951 ;
+	Thu, 10 Mar 2016 04:03:25 -0600 
 From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Mar 2016 12:02:58 +0200
-Message-Id: <a365247650daa5b26e9447e2554eaa68330be987.1457603028.git.adrian.ratiu@ni.com>
+Date: Thu, 10 Mar 2016 12:02:59 +0200
+Message-Id: <5b6f53a8868d953a0cf12a077a61870c97402bfd.1457603028.git.adrian.ratiu@ni.com>
 X-Mailer: git-send-email 2.7.2
 In-Reply-To: <cover.1457603028.git.adrian.ratiu@ni.com>
 References: <cover.1457603028.git.adrian.ratiu@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 03/10/2016 04:03:24 AM,
+	8.5.3FP6 HF1218|December 12, 2014) at 03/10/2016 04:03:25 AM,
 	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 03/10/2016 04:03:24 AM,
-	Serialize complete at 03/10/2016 04:03:24 AM
+	HF1218|December 12, 2014) at 03/10/2016 04:03:25 AM,
+	Serialize complete at 03/10/2016 04:03:25 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2016-03-10_07:, , signatures=0
-Subject: [PATCH v8 4/6] signing-keys: create ipk package
+Subject: [PATCH v8 5/6] package_manager: sign IPK package feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,63 +40,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Mar 2016 10:03:25 -0000
 
-Store the ascii armored pubkey generated using gpg_sign.export_pubkey()
-in its own package.
+Create gpg signed ipk package feeds using the gpg backend if configured
 
 Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/recipes-core/meta/signing-keys.bb | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ meta/lib/oe/package_manager.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-index 1d0e834..e843301 100644
---- a/meta/recipes-core/meta/signing-keys.bb
-+++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -12,9 +12,10 @@ inherit allarch deploy
- EXCLUDE_FROM_WORLD = "1"
- INHIBIT_DEFAULT_DEPS = "1"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 5cd43e9..dc49903 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -153,11 +153,16 @@ class OpkgIndexer(Indexer):
+                      "MULTILIB_ARCHS"]
  
--PACKAGES =+ "${PN}-rpm ${PN}-packagefeed"
-+PACKAGES =+ "${PN}-ipk ${PN}-rpm ${PN}-packagefeed"
+         opkg_index_cmd = bb.utils.which(os.getenv('PATH'), "opkg-make-index")
++        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
++            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
++        else:
++            signer = None
  
- FILES_${PN}-rpm = "${sysconfdir}/pki/rpm-gpg"
-+FILES_${PN}-ipk = "${sysconfdir}/pki/ipk-gpg"
- FILES_${PN}-packagefeed = "${sysconfdir}/pki/packagefeed-gpg"
+         if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
+             open(os.path.join(self.deploy_dir, "Packages"), "w").close()
  
- python do_get_public_keys () {
-@@ -26,6 +27,12 @@ python do_get_public_keys () {
-         signer.export_pubkey(os.path.join(d.expand('${B}'), 'rpm-key'),
-                              d.getVar('RPM_GPG_NAME', True))
+         index_cmds = []
++        index_sign_files = []
+         for arch_var in arch_vars:
+             archs = self.d.getVar(arch_var, True)
+             if archs is None:
+@@ -176,6 +181,8 @@ class OpkgIndexer(Indexer):
+                 index_cmds.append('%s -r %s -p %s -m %s' %
+                                   (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
  
-+    if d.getVar("IPK_SIGN_PACKAGES", True):
-+        # Export public key of the ipk signing key
-+        signer = get_signer(d, d.getVar('IPK_GPG_BACKEND', True))
-+        signer.export_pubkey(os.path.join(d.expand('${B}'), 'ipk-key'),
-+                             d.getVar('IPK_GPG_NAME', True))
++                index_sign_files.append(pkgs_file)
 +
-     if d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-         # Export public key of the feed signing key
-         signer = get_signer(d, d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
-@@ -39,6 +46,9 @@ do_install () {
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${D}${sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-${DISTRO_VERSION}"
-     fi
-+    if [ -f "${B}/ipk-key" ]; then
-+        install -D -m 0644 "${B}/ipk-key" "${D}${sysconfdir}/pki/ipk-gpg/IPK-GPG-KEY-${DISTRO_VERSION}"
-+    fi
-     if [ -f "${B}/pf-key" ]; then
-         install -D -m 0644 "${B}/pf-key" "${D}${sysconfdir}/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-${DISTRO_VERSION}"
-     fi
-@@ -52,6 +62,9 @@ do_deploy () {
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${DEPLOYDIR}/RPM-GPG-KEY-${DISTRO_VERSION}"
-     fi
-+    if [ -f "${B}/ipk-key" ]; then
-+        install -D -m 0644 "${B}/ipk-key" "${DEPLOYDIR}/IPK-GPG-KEY-${DISTRO_VERSION}"
-+    fi
-     if [ -f "${B}/pf-key" ]; then
-         install -D -m 0644 "${B}/pf-key" "${DEPLOYDIR}/PACKAGEFEED-GPG-KEY-${DISTRO_VERSION}"
-     fi
+         if len(index_cmds) == 0:
+             bb.note("There are no packages in %s!" % self.deploy_dir)
+             return
+@@ -183,9 +190,12 @@ class OpkgIndexer(Indexer):
+         result = oe.utils.multiprocess_exec(index_cmds, create_index)
+         if result:
+             bb.fatal('%s' % ('\n'.join(result)))
+-        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
+-            raise NotImplementedError('Package feed signing not implementd for ipk')
+ 
++        if signer:
++            for f in index_sign_files:
++                signer.detach_sign(f,
++                                   self.d.getVar('PACKAGE_FEED_GPG_NAME', True),
++                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True))
+ 
+ 
+ class DpkgIndexer(Indexer):
 -- 
 2.7.2
 
