@@ -1,49 +1,45 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 201ED7317D
+Return-Path: <michael.g.wood@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 37524731A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 15:54:51 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id l68so36692296wml.0
+	Thu, 10 Mar 2016 15:56:03 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id l68so34596034wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 07:54:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=6rdT0q1MkzyizAK1AZBmqM858MlPugMBkKl72Hq+Oo8=;
-	b=Ri8OvZ+vyC6FYeh05Ki1C+f8NysKyB5zp0gEn5T5OQjUA4XHeDASx9I5iHrwXgMn8q
-	kPgVGRUNAwQxCGof32fEIus+27DkeKpKTD2F6p/UFegvpSwOgwB/zcd8s0+khZcfuc9K
-	tLgTm6l5bmT3S/GGhCTOGNmB/I/R5yQ1++YuAjbmI4QSgGdfC70hzUa2SCJPxi+ePrem
-	eLIPHYFmfQYv+tujH/nrY8hM2hnc3Vl4M2ykMDKOYJGYzYhhuBy69OvN05vaNGK09wJu
-	qLrvP/qv7zSqogiEXG2ZISw1BMDKPnBCGxu02JO9cwOp3MATU9bM0KJYiIUlEPCaaS6w
-	9T5A==
+	Thu, 10 Mar 2016 07:56:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=pCPUdn98xzIraZC6e6gf2ar7lL/y23BjZP2WvGEG1jM=;
+	b=uq23MMI7wugS2CAQE2ygK40lGpFBuZANImdqlzjF16wb3r3a2nbLR+5Nx2xv0au4Sq
+	dFZFlw/XabseD/6hok998pFhhl6mifWx7remJc8J3+vy9BQN8Sk7Cz+M2jWZhBh4Tv6x
+	LkDxLMla6uljcmEKDsu4Jy4bC4oziubGMTbVwxD+cH+Y6hHOgK9lf/oXJPTOqeV5dKaU
+	tEHDaGOx+KIK+VeK8AnHh8UP2wFHtsxoqmKOe6fFzFCfIoLOmHlBrGYtIvElw+IxYh/j
+	9SXxIMpp/uWbn5m3wOoO2/0vHY2bbYGEKKgDI+7JD299lqZK1Wf+NN8iS6kMYeRpgqVg
+	6FhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=6rdT0q1MkzyizAK1AZBmqM858MlPugMBkKl72Hq+Oo8=;
-	b=iakSuhUOTjFiugNnhFlDbUPtaI12hs53Ftc9QQkoOUkRV/iUVP8wQ0FJHiVl0n+L0A
-	BtNFe7R3PHftVB8ct5h4ABdKO63ob54NivPS/EOsktkwlICiBsPg0aSmG10fE3mdzyO8
-	dH24LXS9X0BWK0djzM18zfaCAjXRiMAhhniIAGa1tkXAEgJPMNsi3ffpnofUSg02R0g2
-	qhSIplxPRMSqGfRDnWLub3QlJxXViV67yf03Y61Dyv44SY/hha1+8CQm9M4gCqHmIgaP
-	Yje+3tMnnMERUsZC3EFRqHHTUkDxRH3VOXcttO+wk7nki8teG10Z5ytYTr1NnlzjNQEn
-	Kyyg==
-X-Gm-Message-State: AD7BkJIMrVVvZxB5zX3TTqMDVfbkkUNjO8m13FwSGaYGtQm0/gGFky0JsGdI2bgAsRl3xg==
-X-Received: by 10.194.116.9 with SMTP id js9mr5421872wjb.112.1457625291912;
-	Thu, 10 Mar 2016 07:54:51 -0800 (PST)
-Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
-	by smtp.gmail.com with ESMTPSA id v82sm4151878wmv.6.2016.03.10.07.54.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Mar 2016 07:54:50 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <56E1028C.6080605@mlbassoc.com>
-Date: Thu, 10 Mar 2016 16:54:48 +0100
-Message-Id: <E219D57B-2F63-40DE-9C33-161AE6F738CC@gmail.com>
-References: <56E1028C.6080605@mlbassoc.com>
-To: Gary Thomas <gary@mlbassoc.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Problems with perl 5.22
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pCPUdn98xzIraZC6e6gf2ar7lL/y23BjZP2WvGEG1jM=;
+	b=RKG9x74lRFZmK1nMHyXgwqsUKyPbywLky4/gXHJN49246z8PMLdf83d4cOQHAfz+oR
+	SU6tys7sVUYRj8tcCYaGLXVLeroMs86PTbSuWXYGGsdgdWh93DYNapPYDo+0K2ZJY9+l
+	vexZzU45Nl6qkYYTxumrVjzXL4a9uH5mgTIXYAhNjZ0AS+MNlg0wZYWROdN176EQIUho
+	W526xM85jaWu4MC3m9HPtmEg6MPRxVI++A1uYTsfOK2Q3kR2YOVQE14GyKTVeuMfWZQM
+	oFC7diV8285cEvJiHoQlckPqqdy17UXcCIsEUBK6o5cQvuilAMNZuu+qYra0SYE0apuO
+	BPSQ==
+X-Gm-Message-State: AD7BkJKScIhtg+AfazD4mXdCD6lUZMLekxov08nB9SfCILnF7CVMqtyGSHO0jcNa3HtHg2VG
+X-Received: by 10.194.63.7 with SMTP id c7mr4755785wjs.168.1457625363616;
+	Thu, 10 Mar 2016 07:56:03 -0800 (PST)
+Received: from draco.icx.intel.com ([83.217.123.106])
+	by smtp.gmail.com with ESMTPSA id up6sm4166699wjc.6.2016.03.10.07.56.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Mar 2016 07:56:03 -0800 (PST)
+From: Michael Wood <michael.g.wood@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Mar 2016 15:55:54 +0000
+Message-Id: <1457625354-11657-1-git-send-email-michael.g.wood@intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: brian avery <brian.avery@intel.com>
+Subject: [PATCH] toaster.bbclass: show packages that were setscened into existence too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,101 +52,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 15:54:52 -0000
-X-Groupsio-MsgNum: 79408
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_50E88E4E-2C20-412B-A707-0DB7E0CF5C87";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Thu, 10 Mar 2016 15:56:05 -0000
 
---Apple-Mail=_50E88E4E-2C20-412B-A707-0DB7E0CF5C87
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset=us-ascii
+From: brian avery <avery.brian@gmail.com>
+
+We were previously ignoring pkgs that came in from a setscene like from
+an sstate mirror).  With this patch we can use pkgs than come from sstate
+for image customisation as well.
+
+Also remove unused variable.
+
+[YOCTO #9137]
+
+Signed-off-by: brian avery <brian.avery@intel.com>
+Signed-off-by: Michael Wood <michael.g.wood@intel.com>
+---
+ meta/classes/toaster.bbclass | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index a17501e..1c0703c 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -112,6 +112,26 @@ def _toaster_load_pkgdatafile(dirpath, filepath):
+                 pass    # ignore lines without valid key: value pairs
+     return pkgdata
+ 
++python toaster_package_dumpdata_setscene() {
++    """
++    Dumps the data created by package_setscene
++    """
++    # replicate variables from the package.bbclass
++    packages = d.getVar('PACKAGES', True)
++    pkgdatadir = d.getVar('PKGDATA_DIR', True)
++    # scan and send data for each package
++    lpkgdata = {}
++    for pkg in packages.split():
++        try:
++          lpkgdata = _toaster_load_pkgdatafile(pkgdatadir + "/runtime/", pkg)
++        except:
++          # these are typically foo-locale which actually point into foo-locale-<language> in runtime-rprovides
++          bb.note("toaster_package_dumpdata_setscene: failed to load pkg information for: %s:%s"%(pkg,sys.exc_info()[0]))
++        # Fire an event containing the pkg data
++        bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
++
++}
++
+ 
+ python toaster_package_dumpdata() {
+     """
+@@ -120,8 +140,6 @@ python toaster_package_dumpdata() {
+     # replicate variables from the package.bbclass
+ 
+     packages = d.getVar('PACKAGES', True)
+-    pkgdest = d.getVar('PKGDEST', True)
+-
+     pkgdatadir = d.getVar('PKGDESTWORK', True)
+ 
+     # scan and send data for each package
+@@ -382,6 +400,9 @@ toaster_collect_task_stats[eventmask] = "bb.event.BuildCompleted bb.build.TaskSu
+ addhandler toaster_buildhistory_dump
+ toaster_buildhistory_dump[eventmask] = "bb.event.BuildCompleted"
+ 
++do_packagedata_setscene[postfuncs] += "toaster_package_dumpdata_setscene "
++do_packagedata_setscene[vardepsexclude] += "toaster_package_dumpdata_setscene "
++
+ do_package[postfuncs] += "toaster_package_dumpdata "
+ do_package[vardepsexclude] += "toaster_package_dumpdata "
+ 
+-- 
+2.1.4
 
 
-> Am 10.03.2016 um 06:13 schrieb Gary Thomas <gary@mlbassoc.com>:
-> 
-> I'm working on a package (amanda - the Advanced Maryland Archiving
-> system) that is written heavily in perl with swig interfaces to C.
-> This code ran great until the update to perl 5.22; it now dies a
-> horrible death on almost every activity.  These failures seem to
-> always be in the swig generated wrappers, but that may just be
-> where most of the work gets done.
-> 
-> I've narrowed this down to exactly the change to perl 5.22 from
-> 5.20. Using bisect as well as experimentation (e.g. trying all
-> the compiler combinations that have occurred since a last good
-> version) and I can go from working to failing by only the change
-> in perl.
-> 
-> The interesting (scary) thing is that I've built amanda for my
-> target natively on my board running debian, including perl 5.22.
-> This means I can't say definitively  that perl 5.22 is the culprit
-> as on debian it runs fine.  So, it's got something to do with the
-> OE environment/porting/packaging of perl and not just the revision.
-> 
-> I've also tested this on multiple architectures (ARM, PowerPC) with
-> the same results - with perl 5.20 amanda works, with perl 5.22 it fails.
-> 
-> I've compared the actual 5.22.1 sources used by OE-core and debian
-> and they are subtly different, although I can't pinpoint any change
-> that might be responsible.
-> 
-> For the moment, I can just fall back to perl 5.20 for my target
-> that needs to run amanda, but this isn't a real solution (e.g.
-> in this state I can't propose my recipe to any layer as it's
-> totally broken with the current OE-core).  I'd like to see this
-> fixed but the amanda code (swig wrappers) are horribly complex
-> which makes debugging quite the challenge, not to mention they
-> may be about the only way to uncover the bug, whether it's in
-> amanda or perl.
-> 
-> Any suggestions on how to move forward?
-
-Since I have no clue what's wrong and how it fails (backtrace
-would point in some directions), several ideas might work:
-
-How clean is your build location (we realize that often between
-updates some files remain in our target images until we wipe
-tmp/ - cleansstate for image doesn't help ...)?
-
-Did you prove the library path's of your *.so's? Perl does
-almost everything within libperl.so - build against wrong version
-causes in weird crashes (scan DBI mailing list for admin's
-build issues of DBI on AIX/HP-UX ...).
-
-Maybe share your recipe can help to reproduce the problem
-elsewhere and debug locally.
-
-Cheers
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_50E88E4E-2C20-412B-A707-0DB7E0CF5C87
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iQIcBAEBCgAGBQJW4ZjJAAoJEESZlq7c5QqdL5gP/jbE5JTDZ4DAkHK12EF3RL8D
-kfOmwq6GwEpmr4wQL0sGHkTUV9+hkFsyuXO5LLdpsm378itNIhkCzW8lT802lr43
-fYkewONRK1hCUZG1ADwTbfci9/Zc1/Y/pwzDCX4nAxAQnOWW6xW54WxWZY64tkUQ
-cGPMpPZWiN++UqhVXZVisJEmbWMsQcJn/VAEPrffSg3P0wjRpmn19mmHiOi2Awl4
-slFhk7tw0BYOq0fCeJSsEF19Lo74huuzps9iW0sKIIhe5RKHS+YnlIXHoLBHcy8n
-qgA3Ze9S3hZLJyz/hdLAQ7/RGZS08tLW993VavuM94yIikFkVGQF1p7gx/GghTYF
-B/nc37J8Ad3gQ9SSyxHeNSbnT9unRM/p5DJK/4pohrVt5ZMsxwSJmbZksX7tnUR9
-0JKDPYtpxbv0i4P00le+7D6C55FIORnmBVQJ7MXoi1YLM53rXv6da6PQCnQcARof
-k0qCwObQsZyq93ODkbM0bOLv1qSCPXdTI8h5+2WHtAL5bY2i7kKGoQkiLA2oaRm2
-UhMDxhSmo17DTPmN45CgfUeQAz+tv5lOJDXWgDLK/KpMIQoAD2zhMpxsHEogm24b
-TYgAizucX5tnud9R+W4sBlWTXntIh83h5LIx82rihFzHsUxwE5qSFmNmi1ulecGS
-meqnlfLnmzSakQ/r+cBL
-=Pz7o
------END PGP SIGNATURE-----
-
---Apple-Mail=_50E88E4E-2C20-412B-A707-0DB7E0CF5C87--
