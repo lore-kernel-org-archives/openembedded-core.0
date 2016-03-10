@@ -1,52 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E2E6FF9F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B1C1D6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 00:07:02 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id p65so979985wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Mar 2016 16:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=r/5mKFEfyNQI6aMsF47fHBsSPjMPdgIIel9R3QfmQXI=;
-	b=m/4jCjTUKimyxB5Alm41Hf2Squ8fUb62LxU3JK8KZ7eKWZsd+mdJAYfdWkRNu/wtPM
-	53RS16ICQ+X01FuGtourxP++G+OHKl4ScFHtVfVpbs+Jx6LBH1oH6j4uC3QIdkrC+mX1
-	UdR1V8Z7wP1GuTPuc35g6Xsr1J8kqW3F6on7BZxYJa61YafcvAbFFtMnmRDUg3bH/j1L
-	vK1MuS2I2+XBL4hxlsFE14VH2kg6ingWX9S4YKvWCu2jw6uSlYP6May91kx8DmpSogIm
-	Zu5xhKAZBDS1I9m0qJm3XWh61oBDgAZtRt9O2ELqXZ60eEm0ZU9hQx+FpSrEnRV1ZFG+
-	zi7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=r/5mKFEfyNQI6aMsF47fHBsSPjMPdgIIel9R3QfmQXI=;
-	b=Z+DuOIG5QfDO9rRA5n5HvJoedAk/LAtfvVRs8wCnaUQiy57DV/CdjOy2Ub9pAVN2iT
-	TDh/0KK8QT4h2kqzKREZXiPIJ3uQKQ/712pc6hsz6f1kFV5JDrL0OW3EJ3jeHOnj7g5x
-	WMGD/6mz/w7ISLQDEDuJ0I9y5tzkQA1DCMvbzzUxlaZWIyK4y8Rtx64UVW+EfmMj/FBN
-	rFu1glvhz4SvN8oMa3nd1xG1ECOgCTkubZuHh8qi2CUcUJzurPCKRJ7m5Cta3IQPx0Xu
-	3JbFSlunEMkcOL0tlF0tvvGnvskqGFOWlJoYZOQMj1lJsqEKF6M/WdYh6WhMmHGIJw61
-	hZgw==
-X-Gm-Message-State: AD7BkJLQE+Hvkcji8fd1T+frJW3XdzL5CLK1Ytf1Q5ePpKJ9G1p7HXqMRo2nwILPbU0EPQ==
-X-Received: by 10.194.116.9 with SMTP id js9mr484104wjb.112.1457568422551;
-	Wed, 09 Mar 2016 16:07:02 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id ka4sm836504wjc.47.2016.03.09.16.07.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Mar 2016 16:07:01 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 10 Mar 2016 01:09:55 +0100
-To: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <20160310000955.GP2542@jama>
-References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
-	<c9d3e96135173503ef0e3730cc80c993b5bf951e.1457535622.git.alexander.kanavin@linux.intel.com>
-	<56E0B734.4000607@opendreambox.org>
-MIME-Version: 1.0
-In-Reply-To: <56E0B734.4000607@opendreambox.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/24] gobject-introspection.bbclass: add a class that enables gobject introspection
+	Thu, 10 Mar 2016 00:09:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2A09Xsu031722; Thu, 10 Mar 2016 00:09:33 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id j-cCfPWEvz7b; Thu, 10 Mar 2016 00:09:33 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2A09Ua7031718
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 10 Mar 2016 00:09:31 GMT
+Message-ID: <1457568570.2804.206.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 10 Mar 2016 00:09:30 +0000
+In-Reply-To: <20160309235207.GO2542@jama>
+References: <18448427.V3ACvxT67R@rjs-zotac.streifs.net>
+	<CAJTo0La2CZAKw0Cd4_NpPLt=qXy3x3Arv36huhUMmCH3tV14YA@mail.gmail.com>
+	<20160309225058.GM2542@jama>
+	<1457564551.2804.199.camel@linuxfoundation.org>
+	<20160309235207.GO2542@jama>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Peter A. Bigot" <pab@pabigot.com>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembedded-core@lists.openembedded.org,
+	Rudolf J Streif <rudolf.streif@gmail.com>
+Subject: Re: Wrong sstate signatures for cross toolchain Was: [yocto] Building gdb-7.10 for arm with master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,124 +43,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 00:07:02 -0000
-X-Groupsio-MsgNum: 79357
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="kJZGYML2m3vFaueA"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 Mar 2016 00:09:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---kJZGYML2m3vFaueA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2016-03-10 at 00:52 +0100, Martin Jansa wrote:
+> On Wed, Mar 09, 2016 at 11:02:31PM +0000, Richard Purdie wrote:
+> > On Wed, 2016-03-09 at 23:50 +0100, Martin Jansa wrote:
+> > > What's even more interesting is that even gcc-cross-initial has
+> > > different signatures for 2 ARM MACHINEs with different
+> > > DEFAULTTUNES
+> > > 
+> > > OE qemuarm7@ ~/build/oe-core $ grep ^DEFAULTTUNE= env.gdb-cross
+> > > -arm*
+> > > env.gdb-cross-arm:DEFAULTTUNE="armv5te"
+> > > env.gdb-cross-arm7:DEFAULTTUNE="armv7a-neon"
+> > > 
+> > > OE qemuarm7@ ~/build/oe-core $ ls tmp-glibc/sstate
+> > > -diff/1457556601/*/*/*gcc-cross-initial*/*do_configure*
+> > > tmp-glibc/sstate-diff/1457556601/qemuarm/x86_64-linux/gcc-cross
+> > > -initial-arm/5.3.0
+> > > -r0.do_configure.sigdata.e54e7a04acf1029cc37463114c7e4dba
+> > > tmp-glibc/sstate-diff/1457556601/qemuarm7/x86_64-linux/gcc-cross
+> > > -initial-arm/5.3.0
+> > > -r0.do_configure.sigdata.3496e3dde08a49b14462741cc6f8d239
+> > > OE qemuarm7@ ~/build/oe-core $ bitbake-diffsigs tmp-glibc/sstate
+> > > -diff/1457556601/*/*/*gcc-cross-initial*/*do_configure*
+> > > basehash changed from 5848199c69eee0db746de21c5458c13d to
+> > > 673cd8d19bc4cbea132900a670593df6
+> > > Variable EXTRA_OECONF value changed from '--with-newlib --without
+> > > -headers --disable-shared --disable-threads --disable-multilib -
+> > > -disable-__cxa_atexit --enable-languages=c --program
+> > > -prefix=${TARGET_PREFIX} --with-sysroot=/not/exist --with-build
+> > > -sysroot=${GCCCROSS_BUILDSYSROOT} ${EXTRA_OECONF_INITIAL} 
+> > > ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--with
+> > > -ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)}
+> > > ${EXTRA_OECONF_GCC_FLOAT} ${@get_gcc_ppc_plt_settings(bb, d)} -
+> > > -with
+> > > -native-system-header-dir=${SYSTEMHEADERS}${DISABLE_STATIC} 
+> > > ${@gettext_oeconf(d)}
+> > > DISTRO_FEATURES{ld-is-gold} = Unset' to '--with-newlib --without
+> > > -headers --disable-shared --disable-threads --disable-multilib -
+> > > -disable-__cxa_atexit --enable-languages=c --program
+> > > -prefix=${TARGET_PREFIX} --with-sysroot=/not/exist --with-build
+> > > -sysroot=${GCCCROSS_BUILDSYSROOT} ${EXTRA_OECONF_INITIAL} 
+> > > ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--with
+> > > -ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)}
+> > > ${EXTRA_OECONF_GCC_FLOAT} ${@get_gcc_ppc_plt_settings(bb, d)} -
+> > > -with
+> > > -native-system-header-dir=${SYSTEMHEADERS}${DISABLE_STATIC} 
+> > > ${@gettext_oeconf(d)} --with-arch=armv7-a
+> > > DISTRO_FEATURES{ld-is-gold} = Unset'
+> > 
+> > To answer my own question, it looks like:
+> > 
+> > gcc-configure-common.inc:EXTRA_OECONF_append_armv6 = " --with
+> > -arch=armv6"
+> > gcc-configure-common.inc:EXTRA_OECONF_append_armv7a = " --with
+> > -arch=armv7-a"
+> > gcc-configure-common.inc:EXTRA_OECONF_append_armv7ve = " --with
+> > -arch=armv7-a"
+> > 
+> > which effectively comes from:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/meta/recipes-devto
+> > ols/gcc/gcc-configure
+> > -common.inc?id=c0a071e16ec04f485f06eece5b807e5afbe1c1f1
+> > 
+> > The concept of having one gcc for each arch precludes such changes
+> > :(.
+> > 
+> > I believe these overrides need to move to the gcc-target.inc file.
+> 
+> Reverting this change in Dizzy based build fixes the signatures for
+> gcc-cross(-initial)-arm
+> 
+> for gdb-cross-arm, there is still datadir -> TUNE_PKGARCH dependency
+> from even
+> older change:
+> 
+> OE qemuarm7@ ~/build/oe-core/openembedded-core $ git show -1 3e87aba1
+> commit 3e87aba1ee2ca0e39ba66fb7cba52e48df499c23
+> Author: Phil Blundell <pb@pbcl.net>
+> Date:   Wed Apr 24 16:15:54 2013 +0100
+> 
+>     gdb-cross: Adjust ${datadir} to avoid file conflicts in sysroot
+>     
+> 
+> +datadir .= "/gdb-${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+> 
+> Reverting this change fixes gdb-cross-arm signatures.
+> 
+> Will try what happens when I revert this in master and move --with
+> -arch
+> options to gcc-target.inc only.
 
-On Thu, Mar 10, 2016 at 12:52:20AM +0100, Andreas Oberritter wrote:
-> Hello Alexander,
->=20
-> On 09.03.2016 16:01, Alexander Kanavin wrote:
-> > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> > ---
-> >  meta/classes/gobject-introspection.bbclass | 39 ++++++++++++++++++++++=
-++++++++
-> >  1 file changed, 39 insertions(+)
-> >  create mode 100644 meta/classes/gobject-introspection.bbclass
-> >=20
-> > diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/=
-gobject-introspection.bbclass
-> > new file mode 100644
-> > index 0000000..ef51629
-> > --- /dev/null
-> > +++ b/meta/classes/gobject-introspection.bbclass
-> > @@ -0,0 +1,39 @@
-> > +# Inherit this class in recipes to enable building their introspection=
- files
-> > +
-> > +# This allows disabling introspection support in recipes
-> > +# (and therefore avoiding the use of qemu)
-> > +# if gobject-introspection-data is omitted from DISTRO_FEATURES and MA=
-CHINE_FEATURES.
-> > +EXTRA_OECONF_prepend =3D "${@bb.utils.contains('COMBINED_FEATURES', 'g=
-object-introspection-data', '--enable-introspection', '--disable-introspect=
-ion', d)} "
->=20
-> testing only DISTRO_FEATURES would be better. If MACHINE_FEATURES gets
-> tested, even though indirectly, I'd expect every recipe inheriting this
-> class to switch to MACHINE_ARCH implicitly.
+I have an untested patch for the latter:
 
-I think the idea was to prevent using qemu for MACHINEs without support
-in qemu. But I fully agree that causing all recipes which inherit this
-bbclass effectively MACHINE_ARCH is even worse.
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip
+&id=3b30d958abff7ab913ed9d4852dfd44a57e84eb1
 
-DISTRO needs to make sure that all supported MACHINEs have support in
-qemu or disable introspection for all of them.
+(just not gotten to it yet).
 
-> It's not a feature that depends on any type of hardware design.
+We do have a bigger problem in that I think if you switch tunes between
+things which change TARGET_OS (e.g. an x86 x32 build, mips n32 or ppc
+spe) we'll have the same issue. To fix that we'll likely need the
+target OS mangling that cross-canadian does and that is going to be
+pretty invasive to implement.
 
+The good news is that sstate will remove/install the correct gcc-cross
+quite happily so whilst annoying, builds don't break.
 
->=20
-> Regards,
-> Andreas
->=20
-> > +
-> > +UNKNOWN_CONFIGURE_WHITELIST_append =3D " --enable-introspection --disa=
-ble-introspection"
-> > +
-> > +# Generating introspection data depends on a combination of native and=
- target introspection tools,
-> > +# and qemu to run the target tools.
-> > +DEPENDS_append =3D " gobject-introspection gobject-introspection-nativ=
-e qemu-native"
-> > +
-> > +# This is necessary for python scripts to succeed - distutils
-> > +# failes if these are not set
-> > +export BUILD_SYS
-> > +export HOST_SYS
-> > +export STAGING_LIBDIR
-> > +export STAGING_INCDIR
-> > +
-> > +# This is used by introspection tools to find .gir includes
-> > +export XDG_DATA_DIRS =3D "${STAGING_DATADIR}"
-> > +
-> > +do_configure_prepend_class-target () {
-> > +    # introspection.m4 pre-packaged with upstream tarballs does not yet
-> > +    # have our fixes
-> > +    mkdir -p ${S}/m4
-> > +    cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/=
-m4
-> > +}
-> > +
-> > +
-> > +# .typelib files are needed at runtime and so they go to the main pack=
-age
-> > +# (so they'll be together with libraries they support).
-> > +FILES_${PN}_append =3D " ${libdir}/girepository-*/*.typelib"=20
-> > +   =20
-> > +# .gir files go to dev package, as they're needed for developing (but =
-not for running)
-> > +# things that depends on introspection.
-> > +FILES_${PN}-dev_append =3D " ${datadir}/gir-*/*.gir"
-> > +
-> >=20
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The ppc spe v1 issue is more pressing since python3 is breaking on the
+autobuilder due to that :(
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Cheers,
 
---kJZGYML2m3vFaueA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Richard
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlbgu1IACgkQN1Ujt2V2gBzEYgCdGIcEqrie2Q3PXOnkOdXVYf/I
-JPsAnR03ATSgUBGEns88ib1MLhbHBkQg
-=uaFf
------END PGP SIGNATURE-----
-
---kJZGYML2m3vFaueA--
