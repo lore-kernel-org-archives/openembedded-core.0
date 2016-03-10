@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 242ED60249
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 630C060249
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 07:23:54 +0000 (UTC)
+	Thu, 10 Mar 2016 07:23:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2A7NrlU028972
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 9 Mar 2016 23:23:54 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2A7Nui8005943
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 Mar 2016 23:23:56 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 9 Mar 2016 23:23:53 -0800
+	Wed, 9 Mar 2016 23:23:55 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
 	<ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Thu, 10 Mar 2016 02:23:17 -0500
-Message-ID: <1355785bfbccfaa30c5c46d193565fb7c747ec8a.1457593651.git.hongxu.jia@windriver.com>
+Date: Thu, 10 Mar 2016 02:23:18 -0500
+Message-ID: <04c0faec3df19a118133143898925b8f1f57624b.1457593651.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1457593651.git.hongxu.jia@windriver.com>
 References: <cover.1457593651.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/18] dtc.inc: fix buildpaths QA issue
+Subject: [PATCH 13/18] epiphany: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +33,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 07:23:54 -0000
+X-List-Received-Date: Thu, 10 Mar 2016 07:23:56 -0000
 Content-Type: text/plain
 
-Previous Makefile define its own CFLAGS, pass DEBUG_FLAGS to
-it could fix build path issue in DWARF.
+In order to fix build path issue, we reverts the following commit
+in https://github.com/GNOME/epiphany.git
+...
+commit 54a3122d8626f78338033a704d5849738f6dd2e6
+Author: Xan Lopez <xan@igalia.com>
+Date:   Wed May 16 18:21:21 2012 +0900
 
-[YOCTO #8457]
+    ephy-profile-utils: use absolute path for build dir
+
+    That way we can run the tests from any directory in debug mode.
+...
+It did not consider cross-compile situation which we do not need
+to run tests in host build.
+
+BTW, the tests suits were compiled but not installed to ${D},
+so we explicitly disable it.
+
+[YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-kernel/dtc/dtc.inc                    |  3 ++-
- .../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch       | 30 ++++++++++++++++++++++
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |  8 ++-
+ .../files/use-relative-path-for-build-dir.patch    | 57 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index 0c409b0..ea44877 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -6,9 +6,10 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+index 12d3b07..0b8335b 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+@@ -9,11 +9,15 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even
+ # libwnck3 is x11 only
+ REQUIRED_DISTRO_FEATURES = "x11"
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
-            file://make_install.patch \
-+           file://pass-DEBUG_FLAGS-to-CFLAGS.patch \
- 	  "
+-SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
++SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch \
++            file://use-relative-path-for-build-dir.patch \
++"
+ SRC_URI[archive.md5sum] = "172b78256100e8d3c629764abd0e1495"
+ SRC_URI[archive.sha256sum] = "be699d484371111abae754e669187215df73e21533f461e513b79537d7a1c1c1"
  
--EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
-+EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}" DEBUG_FLAGS="${DEBUG_FLAGS}"'
+-EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
++EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO} \
++                  --disable-tests \
++"
  
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+ do_configure_prepend() {
+     touch ${S}/gnome-doc-utils.make
+diff --git a/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 new file mode 100644
-index 0000000..3f17ee9
+index 0000000..21c0912
 --- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
-@@ -0,0 +1,30 @@
-+From 4019e29b0c1ec441fa43d9969197c24ad73f3b1a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+@@ -0,0 +1,57 @@
++From 73e46aeea35c7bda7833e635f1bb2dbd39e2b43e Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 26 Feb 2016 03:28:15 -0500
-+Subject: [PATCH] Makefile: pass DEBUG_FLAGS to CFLAGS
++Date: Wed, 2 Mar 2016 02:00:23 -0500
++Subject: [PATCH] ephy-profile-utils: use relative path for build dir
 +
-+It fixes buildpaths issue while compiling.
++It reverts the following commit in https://github.com/GNOME/epiphany.git
++...
++commit 54a3122d8626f78338033a704d5849738f6dd2e6
++Author: Xan Lopez <xan@igalia.com>
++Date:   Wed May 16 18:21:21 2012 +0900
++
++    ephy-profile-utils: use absolute path for build dir
++
++    That way we can run the tests from any directory in debug mode.
++...
++It did not consider cross-compile situation which we do not need
++to run tests in host build.
++
++It also caused build path issue.
 +
 +Upstream-Status: Inappropriate [openembedded specific]
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/Makefile.am          | 2 +-
++ lib/ephy-profile-utils.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/Makefile b/Makefile
-+index 18838cc..4954f32 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =
-+ CPPFLAGS = -I libfdt -I .
-+ WARNINGS = -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
-+ 	-Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
-+-CFLAGS = -g -Os -fPIC -Werror $(WARNINGS)
-++CFLAGS = $(DEBUG_FLAGS) -Os -fPIC -Werror $(WARNINGS)
++diff --git a/lib/Makefile.am b/lib/Makefile.am
++index 24d684b..849a07f 100644
++--- a/lib/Makefile.am
+++++ b/lib/Makefile.am
++@@ -88,7 +88,7 @@ libephymisc_la_CPPFLAGS = \
++ 	-DDATADIR="\"$(datadir)\""		    \
++ 	-DSHARE_DIR=\"$(pkgdatadir)\" 		    \
++ 	-DTOP_SRC_DATADIR=\"$(top_srcdir)/data\"    \
++-	-DABS_TOP_BUILD_DIR=\"$(abs_top_builddir)\" \
+++	-DTOP_BUILD_DIR=\"$(top_builddir)\"         \
++ 	-DLOCALEDIR=\"$(localedir)\"		    \
++ 	$(AM_CPPFLAGS)
 + 
-+ BISON = bison
-+ LEX = flex
++diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
++index 0430582..a42ec4e 100644
++--- a/lib/ephy-profile-utils.c
+++++ b/lib/ephy-profile-utils.c
++@@ -128,7 +128,7 @@ ephy_profile_utils_do_migration (const char *profile_directory, int test_to_run,
++   argv[i++] = NULL;
++ 
++   if (debug)
++-    argv[0] = ABS_TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
+++    argv[0] = TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
++ 
++   ret = g_spawn_sync (NULL, argv, envp, G_SPAWN_SEARCH_PATH,
++                       NULL, NULL, NULL, NULL,
 +-- 
 +1.9.1
 +
