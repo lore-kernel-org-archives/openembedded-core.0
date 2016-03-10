@@ -1,45 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 00C2360124
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A081571633
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 16:56:40 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id g203so113183303iof.2
+	Thu, 10 Mar 2016 17:02:54 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id l68so5009547wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 08:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=orBEnSEQfXs2UUisMOnvEs6yNKy0ho0csXsGrRq03+0=;
-	b=mR6aDViNACq0oBIbB/eQnH4+B256nwzeItiHbQN3OhUffB7WkMHvnnyS4AamebLdLH
-	pfImBszHsncbBdXseGRGh2nIJi64xUONi1KoF9M7aTBzrkOFixzSLtkTFkkjXTIu+r3F
-	nL1zgyyMAQUqKcNL+n37p52f+X2yzh5m3lE6jGB3gWptgAX2W7IVoSVxvWggJNbDn2mC
-	qZMcOgv0pq4wO3sbLF5ni93E1TxINeXQHDE0iLt8ZYJFjUm9yzhScaJVF+JoO+XLjFEd
-	qJqVs0CWDg1CB/43EFZ6jHqoy9XqtMh+sIOyHUzxhx1RDpjjQFCkliOSVoMZy5QZ0Az8
-	kuIQ==
+	Thu, 10 Mar 2016 09:02:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=95V5IB2HjRzHKzeYn3Rg8a9geHQHrQrteqeHxy4diKY=;
+	b=Xii5t8bsT5EReNJ+87IT3aHg2oT+5zpsKaADDQSHKGrDDzjI90RtfmVCBZA0zaf8X6
+	oRtr2PpM1AsCjr9yr0fBleZ4HfXtA65/t2bEM6K+tjLRB2zTvIy+HFOQM6ya4qQMm7PI
+	lJezESyGxmnylXF6RBS1udMK9r7Bdp7NzDFTTz9z8fETRnQlZ4JEH+0AbmJIpGrYfLX2
+	r2ORIkvoPWRPUEH5eVUEiOhnB/avruXZ2zRMoH6lOGmUof4Er5MV0qEtwWyOyELKDBgn
+	7du4NcPNz3Vgu5nRvy8ochdKD0mXinB4x46WOaFTdEI38g0tAmbtGIvb5biSzYYI45uC
+	6Mjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=orBEnSEQfXs2UUisMOnvEs6yNKy0ho0csXsGrRq03+0=;
-	b=ZRpq+zWQ3/lH5KzBsCfBUmQUCAZrjzai11DmwQPQKnZtA5ddZZ6Vqk+xoqUmDDilsl
-	5he4dBWZ0pykPIpuu/Ulm3GVzuP/9/mcSBPjVjzLr6W8H2bq3ouyEK58hkJEwKnjZ6H2
-	XYH1OgsLUECJXtti0N9EBZbYItiboqxqHW1jbcXMYQJYAIAD6nJOActyPbGWIxqB28Y3
-	HucaSVZF8XDikK4GRtBj29AYPZUudanEIWQLzt8AEvk8PwV6PKiXuhz7VibiaL6nQLOz
-	/wdF+LeFJvs8ZGTcUIFumZLmmtvdpu1cEfPfDoo7wpXBFKDk0iPZRECAlG5Mp+5z+ZPY
-	appQ==
-X-Gm-Message-State: AD7BkJLAajsBss1e/0bXDAIJrjAK3Jr8lMM8Dq+RmRCm0gcphy70I7CAQ8+d2JNFsHBoFDr6OobIof0uyC4P0VDF
-X-Received: by 10.107.6.32 with SMTP id 32mr4438016iog.99.1457629000808; Thu,
-	10 Mar 2016 08:56:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 10 Mar 2016 08:56:21 -0800 (PST)
-In-Reply-To: <20160310165631.GK2573@jama>
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=95V5IB2HjRzHKzeYn3Rg8a9geHQHrQrteqeHxy4diKY=;
+	b=GGJH5iHnc21iYkOByEw+YOtQKqumFGmNme8ybRhLGaicT1Xl88UfS2GzbvpVdg+FqT
+	iucLgzDUnIkM0OmgEpd270/lKZqicLWgcA5D1ECTLeUC37UF//XDCPFZpijWUdbzmMgK
+	R8uxL/GdMp6nYt4xZ8471uzRfOBDR9yHDvBPOcncdpiH9xbvNxcmyRuAMkIiNPBEShkP
+	m00RKR5vaDInRUQVmt3/7ndKGaP8769ZuxqdmMbZYRF5dYPTe9XE9jwVnIH4E/rv1AWd
+	qzMB2gRLNL3VLzEqCu4mku1zxaB/sSirIx9O+lD7oF5m5dmUVL4SN9KcGcnQiUcoi4Gr
+	RKXQ==
+X-Gm-Message-State: AD7BkJIIsDdr8NnEaojU3h+PSLcekn3Zg3nRPg6SbNqoCqo81GLRSfZ82Rtllb564T+nLQ==
+X-Received: by 10.194.78.83 with SMTP id z19mr4955489wjw.5.1457629374920;
+	Thu, 10 Mar 2016 09:02:54 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	w125sm4371987wmw.18.2016.03.10.09.02.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Mar 2016 09:02:54 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 10 Mar 2016 18:05:53 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160310170553.GM2573@jama>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 	<20160310165631.GK2573@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Mar 2016 16:56:21 +0000
-Message-ID: <CAJTo0LZ+Pwv=7OrQDGEFaHEBGCqk38fyWvJp3+n4T5DcUV_+0A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAJTo0LZ+Pwv=7OrQDGEFaHEBGCqk38fyWvJp3+n4T5DcUV_+0A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZ+Pwv=7OrQDGEFaHEBGCqk38fyWvJp3+n4T5DcUV_+0A@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,37 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 16:56:41 -0000
-Content-Type: multipart/alternative; boundary=001a113fbf5ccece05052db4b26c
+X-List-Received-Date: Thu, 10 Mar 2016 17:02:57 -0000
+X-Groupsio-MsgNum: 79416
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+ARLBH93C7pgvpZY"
+Content-Disposition: inline
 
---001a113fbf5ccece05052db4b26c
-Content-Type: text/plain; charset=UTF-8
-
-On 10 March 2016 at 16:56, Martin Jansa <martin.jansa@gmail.com> wrote:
-
->  which triggered exception NameError: name 'qemu_wrapper_cmdline' is not
-> defined
->
-
-Do you have oe-core 0b68f0632312392cbd20bfcb9ed4895cfc9883ff?  (which is in
-master, which master-next branches from).
-
-Ross
-
---001a113fbf5ccece05052db4b26c
-Content-Type: text/html; charset=UTF-8
+--+ARLBH93C7pgvpZY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 March 2016 at 16:56, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div id=3D":973" class=3D"" style=3D"o=
-verflow:hidden">=C2=A0which triggered exception NameError: name &#39;qemu_w=
-rapper_cmdline&#39; is not defined<br></div></blockquote></div><br>Do you h=
-ave oe-core=C2=A00b68f0632312392cbd20bfcb9ed4895cfc9883ff? =C2=A0(which is =
-in master, which master-next branches from).</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Thu, Mar 10, 2016 at 04:56:21PM +0000, Burton, Ross wrote:
+> On 10 March 2016 at 16:56, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> >  which triggered exception NameError: name 'qemu_wrapper_cmdline' is not
+> > defined
+> >
+>=20
+> Do you have oe-core 0b68f0632312392cbd20bfcb9ed4895cfc9883ff?  (which is =
+in
+> master, which master-next branches from).
 
---001a113fbf5ccece05052db4b26c--
+I have 0b68f0632312392cbd20bfcb9ed4895cfc9883ff, but one of the layers
+included in that build was overwriting qemu.bbclass to fix some issues.
+
+The issues were fixed since then in oe-core as well, so I should be able
+to just drop this qemu.bbclass.
+
+Sorry for noise, for some reason I usually notice the root cause just
+after hitting Send button in e-mail :/.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--+ARLBH93C7pgvpZY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlbhqXAACgkQN1Ujt2V2gByIxQCgm3Zueg84VGDiERyIU0hay+Sh
+wlMAoKZA7BBEu2CMtgtEMdKNRR7Wd+qv
+=NoKy
+-----END PGP SIGNATURE-----
+
+--+ARLBH93C7pgvpZY--
