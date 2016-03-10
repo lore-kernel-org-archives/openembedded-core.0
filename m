@@ -1,37 +1,46 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BE58B60745
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 289CA6FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Mar 2016 04:12:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2A4CP1h024333
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 9 Mar 2016 20:12:25 -0800
-Received: from server.local (128.224.20.145) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 9 Mar 2016 20:12:24 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Paul Gortmaker
-	<paul.gortmaker@windriver.com>
-References: <cover.1455203562.git.bruce.ashfield@windriver.com>
-	<2e6d2b75837731be983d888eaa82a9cfcf660e85.1455203562.git.bruce.ashfield@windriver.com>
-	<1455287765.16142.321.camel@linuxfoundation.org>
-	<1455291157.16142.323.camel@linuxfoundation.org>
-	<1455352317.16142.344.camel@linuxfoundation.org>
-	<1455383832.16142.365.camel@linuxfoundation.org>
-	<20160302014146.GE20979@windriver.com> <56E07128.2060401@windriver.com>
-	<1457558624.2804.181.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56E0F427.7030708@windriver.com>
-Date: Wed, 9 Mar 2016 23:12:23 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <1457558624.2804.181.camel@linuxfoundation.org>
-Cc: "Hart, Darren" <darren.hart@intel.com>, "saul.wold" <saul.wold@intel.com>,
-	poky@yoctoproject.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 1/1] poky: update qemu* to prefer 4.4 kernel
+	Thu, 10 Mar 2016 04:29:40 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id tt10so57252851pab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Mar 2016 20:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=tnqjeFw9mwdVzqL2AYKQtKCoFHc9tM6wkcT5wM6jk+o=;
+	b=NoJ40lONGw+ik69dScmORiGdClqlIbexKeXmg8ef09tVggz5S/b4MY3ii97W25U399
+	sZW7nCM8z+WDu7EK8xMBTFfvLlag4vjZOu5BDe5u0TAEUNVb6t9/B81QxMnE2mOM4iDB
+	rGwULiQcgummzPMqZ7opbVmeJKOZqXfq1L3Gtlel53Btcg1o64BHFJkyWF8a7tHokyJm
+	SEe5K5x5LscJLChzafSMyh32rlIeWneM2/HHMYqCDAwyKAz2n3W/15KjC5cBBqbqY4vv
+	4m585MXHVpSZ6JXM3GgDdiuWOobi5ymcCPERnSPEWYGmGZ610qEsT2vpig2Oj0nNMUqB
+	NFGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tnqjeFw9mwdVzqL2AYKQtKCoFHc9tM6wkcT5wM6jk+o=;
+	b=hCaylVzEjZ0qKiO2P19cyfSoW2QpD2NG0k/w+uftHinwoXAocYh/FthSZeY1GgcG1u
+	cCjgcsujzh0qmsl6xEYOrD+v/typeiGKjchRD9NeCSAdS4R6ei15d4WH61dzEGnuXKmk
+	2W/kZou7FB308ZmF4jpy/0DQYbnh7NFLy5VbH5PzNgKIvkY8C1MuF1/kadHcUKc2B0+f
+	QmMR2IDLIvYMaRRbKZXjFyOgz5BylvNOueQ5eMiVrdN2lY0D6TLYd3bDkTD3ITC8S1HO
+	uEJS0mMTlC2kOL+XaRyubIYbcdSWdPPn4DqX5EV/GvF97SC2CKdXpFG+ELvMtIXnDjhi
+	TP0g==
+X-Gm-Message-State: AD7BkJJSEGg51sQTnsi3IT0VhnO3J9aqh0ngYn3Z4t+puqkFuF4mIHtdUiTAZfT0mDgQ5Q==
+X-Received: by 10.66.235.129 with SMTP id um1mr342920pac.17.1457584181797;
+	Wed, 09 Mar 2016 20:29:41 -0800 (PST)
+Received: from nathanbox.home.gateway ([101.162.5.44])
+	by smtp.gmail.com with ESMTPSA id
+	zu10sm1573742pab.31.2016.03.09.20.29.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Mar 2016 20:29:40 -0800 (PST)
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Mar 2016 14:29:31 +1000
+Message-Id: <1457584171-9122-1-git-send-email-nathan@nathanrossi.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] gcc: Disable libitm for MicroBlaze
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,96 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2016 04:12:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Mar 2016 04:29:42 -0000
 
-On 2016-03-09 4:23 PM, Richard Purdie wrote:
-> On Wed, 2016-03-09 at 13:53 -0500, Bruce Ashfield wrote:
->> On 2016-03-01 8:41 PM, Paul Gortmaker wrote:
->>> [Re: [poky] [PATCH 1/1] poky: update qemu* to prefer 4.4 kernel] On
->>> 13/02/2016 (Sat 17:17) Richard Purdie wrote:
->>>
->>>> I'm moving the discussion to OE-Core and pulling in some kernel
->>>> people.
->>>> I think I understand what is wrong and how to fix it but I could
->>>> use
->>>> someone who actually knows this code.
->>>>
->>>> To summarise the story so far, on qemux86, X doesn't start and
->>>> there is
->>>> a backtrace in the logs:
->>>>
->>>> x86/PAT: Xorg:705 map pfn expected mapping type uncached-minus
->>>> for [mem 0xfd000000-0xfdffffff], got write-combining
->>>
->>> So Bruce helped me set up a reproducer locally today since he'd
->>> already
->>> invested the time on that, and then I boiled that down to divorce
->>> it
->>> from the slower steps of build-deploy-boot to make the bisect
->>> something
->>> that mortal humans could tolerate.
->>>
->>> Amusingly enough that led to:
->>>
->>> commit 9cd25aac1f44f269de5ecea11f7d927f37f1d01c
->>> Author: Borislav Petkov <bp@suse.de>
->>> Date:   Thu Jun 4 18:55:10 2015 +0200
->>>
->>>       x86/mm/pat: Emulate PAT when it is disabled
->>>
->>> So while some of us were joking on IRC about the validity of
->>> forcibly
->>> disabling PAT (via cmdline or Kconfig) as a workaround, the one
->>> line
->>> shortlog above tells us that it wasn't so off the mark after all.
->>>
->>> Bruce and I will decide what to do with this tomorrow, but since
->>> Richard
->>> spent so much time on it, I thought he'd like to know this in the
->>> interim.  Good times.   :-/
->>
->> As another follow up. The thread can be summarized as "It doesn't
->> look like it should have worked before, and qemu's pat emulation
->> may be the issue'.
->>
->> The suggestion is to run with 'nopat', which is what Richard
->> originally
->> did.
->>
->> So I'm going to prep a patch that drops the kernel patch, and leaves
->> nopat enabled on the qemu command line. That should get us put back
->> together in a semi-permanent way.
->
-> How sure are we this is a bug in QEMU's pat emulation? If that is the
-> case we should file a bug against qemu and try and fix it rather than
-> work around it...
+Disable libitm as it is not supported on MicroBlaze.
 
-It could still be something that the kernel can work around, Toshi
-did say:
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+This patch is based on master-next, so that it cleanly applies on top of
+the nios2 change.
+---
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-There is a matter of how qemu emulates CPU features.  There is no such
-Intel CPU that supports PAT w/o MTRR.  This is why the current code
-assumes this dependency.
-
-Which is likely the trigger, we've send information about the cpu to
-him, and with that there's a chance for a pat fix.
-
-He repeated our thought of running with 'nopat' while a fix is
-considered.
-
-It may be some time before that happens, and I was going to test
-with the kernel patch dropped, and nopat in the qemu boot args. If
-that works, I'd rather run with that, and then revisit when (if)
-there's more changes upstream.
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 312103c..d4cfe08 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -16,6 +16,7 @@ RUNTIMELIBITM_mipsel = ""
+ RUNTIMELIBITM_mips64 = ""
+ RUNTIMELIBITM_mips64el = ""
+ RUNTIMELIBITM_nios2 = ""
++RUNTIMELIBITM_microblaze = ""
+ 
+ RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+-- 
+2.7.0
 
 
