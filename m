@@ -1,51 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E27F673232
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 95ABA73232
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 17:01:19 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id ig19so16096114igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 09:01:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H30QWbcZYNjzA/53qsqGyDdtQCqcUuCDWNrofNH4+VA=;
-	b=HiRKwTW7Ujf8YbVMFrBCIfCAFSRTpq13E2wZO2VQtY1z1fyUqqfomfPKjx9Qs6rBGM
-	NXwH5qQaEeLrbglOtDjfZtL50LT0C8SnvH7G82vEueoXENFZ5l7VaXZlb2EPp3F55K9z
-	RTLvbvaqnJ3y8kSGubZW1AQFKFkzkZ6NIvrSIUgRmsS5D0NRTeNXx6afHOWudQhuh44O
-	NtFiz7PEdNwu1ABBXaphPDJrtZxqGR4H0IqiFlb/Sdc3sLQ2a9rCjMVxJbrNgmSlrFfR
-	/SBpYFG67S8MlUizG2mwPh+wK+DuD15r04vy75jMkBasaHZc15PJeLTD2uHkKN8Cy6nK
-	szyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=H30QWbcZYNjzA/53qsqGyDdtQCqcUuCDWNrofNH4+VA=;
-	b=bK/Uwid9LbgSmGcsYTkUDnHQQZqlDThGMxUEVDhSFXe6ty0PNCbcx1cudKYR2Fp/Vr
-	o7VdeSuV0IJObSSYLVlFpIEmmGepco6B95hxiQZtjPQGhThoJ4AIDGCj0HY4lAhzZEKY
-	p5TQbY5inP6ZGS0I3PT6JNe9s3X6I9DEeSodbITmXv+89fuwqMHhncOVAYhx3OYo65oR
-	u2Si+llAVtnwn21+TpHsZq7tBuWo9xn9UpqN+TrLLzgL+oH6u4Z/FfxaGFzNrYf8TS1F
-	9f9cYsCRI7JtqGqAg8pCgtYSKozx6sEwVTDfioDeGOXNbr+LA/uWAZgqvzeYEbRRORlB
-	r8+Q==
-X-Gm-Message-State: AD7BkJIWZvZUQnLhVUSf/3GlOz+tEiG+MTkXGk6li4yAaI2NeLwkrXW9YfbKcx1sMT59G1naTm5Qn45e+wwshAK0
-X-Received: by 10.50.150.41 with SMTP id uf9mr4716081igb.64.1457715679867;
-	Fri, 11 Mar 2016 09:01:19 -0800 (PST)
+	Fri, 11 Mar 2016 17:06:43 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20160311170642457_0484;
+	Fri, 11 Mar 2016 17:06:42 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [127.0.0.1] (port=41003 helo=localhost)
+	by astoria.ccjclearline.com with esmtpa (Exim 4.80)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1aeQXe-0003eN-1D; Fri, 11 Mar 2016 12:07:58 -0500
+Received: from 216.191.234.70 ([216.191.234.70]) by crashcourse.ca (Horde
+	Framework) with HTTP; Fri, 11 Mar 2016 12:07:57 -0500
+Message-ID: <20160311120757.57925u23rdrmrpc0@crashcourse.ca>
+Date: Fri, 11 Mar 2016 12:07:57 -0500
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Christopher Larson <clarson@kergoth.com>
+References: <20160311070859.163019mr4vs6d940@crashcourse.ca>
+	<CABcZAN=yAkvKMUqSML_PhO_mogQUxaBJcqiUpsXT+HAj5FMy6A@mail.gmail.com>
+In-Reply-To: <CABcZAN=yAkvKMUqSML_PhO_mogQUxaBJcqiUpsXT+HAj5FMy6A@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 09:01:00 -0800 (PST)
-In-Reply-To: <95245B46D926B348AEB132E99037C59B36A9FE73@ULM-DC01.bmw-carit.intra>
-References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
-	<CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
-	<1FC09834-DC8A-477D-9C9F-B6D469A7E90E@gmail.com>
-	<CAJTo0LaoVn5ixhYy-2cHf-FGSthY3Fa9Z9ryg6j0hLp2KSLLtg@mail.gmail.com>
-	<7AB4B008-780B-4619-A914-7A00D132FCF0@gmail.com>
-	<95245B46D926B348AEB132E99037C59B36A9FE73@ULM-DC01.bmw-carit.intra>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Mar 2016 17:01:00 +0000
-Message-ID: <CAJTo0LZND6-QdyFzQdo4v_-z6VcmYG8KjOSanAQ=SH=8eg0gUg@mail.gmail.com>
-To: Helio Chissini De Castro <Helio.Castro@bmw-carit.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
+User-Agent: Internet Messaging Program (IMP) H3 (4.3.11)
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: what is the precise search path for resolving "include" or "require" .inc files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 17:01:21 -0000
-Content-Type: multipart/alternative; boundary=001a11345c0c4872bd052dc8e12f
+X-List-Received-Date: Fri, 11 Mar 2016 17:06:45 -0000
+Content-Type: text/plain;
+ charset=UTF-8;
+ DelSp="Yes";
+ format="flowed"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---001a11345c0c4872bd052dc8e12f
-Content-Type: text/plain; charset=UTF-8
+Quoting Christopher Larson <clarson@kergoth.com>:
 
-On 11 March 2016 at 16:24, Helio Chissini De Castro <
-Helio.Castro@bmw-carit.de> wrote:
-
-> If i change recipe scope, need to be on each gcc_${PV}.inc.
-> But they include gcc-common.inc on top, which states LICENSE = "GPL"
+> On Fri, Mar 11, 2016 at 5:08 AM Robert P. J. Day <rpjday@crashcourse.ca>
+> wrote:
 >
-> So, gcc_${PV}.inc is already overriding the original license. If you think
-> is ok, i can do that on gcc_${PV}.inc
+>>    not sure why i never noticed this before, but what is the search order
+>> or precedence or priority for resolving recipe file directives "include"
+>> or "require"? i was just perusing the bitbake user manual, and noticed
+>> the explanation that those directives use BBPATH to track down the first
+>> include file by a given name.
+>>
+>>    but AIUI, BBPATH is supposed to represent an ordered set of *layers*
+>> (i just examined BBPATH for a current [wind river linux] build, and that
+>> is exactly what it seems to contain). so when a recipe file like
+>> busybox.whatever.bb contains the line:
+>>
+>>    require busybox.inc
+>>
+>> i always just assumed the search would look in the current busybox
+>> directory, but that directory is not technically a layer directory --
+>> it's not a directory specified on the alleged BBPATH search path.
+>>
+>>    i never thought about this until i noticed some .bbappend files
+>> specifically using directives like:
+>>
+>>    require recipes-bsp/u-boot/u-boot.inc
+>>
+>> where that file reference *does* refer to a file relative to some
+>> actual layer directory somewhere.
+>>
+>>    what am i missing here?
+>>
 >
+> BBPATH is temporarily prepended to include the directory the recipe lives
+> in, as a special case.
 
-No,you're right - your v2 is the best patch.
+   i *assumed* that must have been what was happening, i just didn't see
+that explicitly mentioned in the bitbake user manual. and while we're
+talking about the bitbake user manual here:
 
-Ross
+http://www.yoctoproject.org/docs/latest/bitbake-user-manual/bitbake-user-manual.html
 
---001a11345c0c4872bd052dc8e12f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+this can't be right, can it?
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 March 2016 at 16:24, Helio Chissini De Castro <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:Helio.Castro@bmw-carit.de" target=3D"_blank">Helio.Castro@=
-bmw-carit.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div s=
-tyle=3D"direction:ltr;font-family:Tahoma;color:#000000;font-size:10pt">If i=
- change recipe scope, need to be on each gcc_${PV}.inc.<br>
-But they include gcc-common.inc on top, which states LICENSE =3D &quot;GPL&=
-quot;<br>
-<br>
-So, gcc_${PV}.inc is already overriding the original license. If you think =
-is ok, i can do that on gcc_${PV}.inc<span class=3D""><br></span></div></bl=
-ockquote></div><br>No,you&#39;re right - your v2 is the best patch.</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
+"3.3.1. Locating Include and Class Files¶
 
---001a11345c0c4872bd052dc8e12f--
+"BitBake uses the BBPATH variable to locate needed include and class files.
+The BBPATH variable is analogous to the environment variable PATH.
+
+"In order for include and class files to be found by BitBake, they need to
+be located in a "classes" subdirectory that can be found in BBPATH."
+
+   while that statement might be true for class files, pretty sure it
+isn't true for *include* files, as it suggests.
+
+rday
+
+p.s. i should probably submit another proofreading patch, to tweak stuff
+like this in section 3.3.2:
+
+"In this case, BitBake would search for the directory [sic]  
+classes/autotools.bbclass in BBPATH."
+
+
+
+
