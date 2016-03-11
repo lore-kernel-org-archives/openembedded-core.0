@@ -1,45 +1,51 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 97C5173232
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 14:45:29 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id g203so147952658iof.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 06:45:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=xa6IbHBiLPHC/khE4DguWNjam9uYHlBRH4pah8BbvfY=;
-	b=0ueTaUcVMMR0UhMXrVNh2EaTSl+L1TRGmUNQWSZURGypPHaY2yNupSa6V2MYBitoD7
-	93dkVZ4j0fR+mikuKly7sZtBZIulpkkXYOOnBGjMwcacDVNi7sO2dTfoL0uoiwZwQl8r
-	1VBFMwth8rQPMAgDOcvtQIgww0gsusP385CnmQJ+cfgVYZ1UgK0Yuk/t2+ZdY6JTr9bh
-	b7OMUYzouL+tz3iA8LGoyYrWBShL5QXzG5+A644A08ULQiL4nRWGg3Iu+0aIX6JNElVw
-	WAvP4q88n93aPvW+zl4WFe88e5oTMNwcn1gVyUgYwf9r/EPZzji/cozgBGu65kBd8T95
-	TLgg==
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 13FC4731D6;
+	Fri, 11 Mar 2016 15:03:18 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id z8so13156743ige.0;
+	Fri, 11 Mar 2016 07:03:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=MBq2kTcshQDeFMU3mOaZK5lb/DCa570AHyYJH3GVV3c=;
+	b=t0BlzSMVOPP4oan2jANXGhGlS0MH0/YOCXc0IxsmSqO/PwkR96C1iIBbyNPX1wEdNT
+	/Q1k7SRmJ/HjAam0hIEylb3jXUpP9F5wfivqjgipaNLll8r3OKnsdB5sN1IrdSe/D7c6
+	zlFKTcpWXjFxxYp63x17vT1p9MzU8ynDiy7uMdCMy9LVHj6FAaWrso6v1unTXfKokWuw
+	EhHq6U2qwCJOUWytILpeFgIcNunP9+Dh2ljlDVUiVYHJjUdEAE+g60IY5fb709VvS5vS
+	bPcEt8H0Q91oW1b378Fco0+RvENoes8/WkkoX/aG3B2n2dzmMBk0EVOPIZDP06sr7TlT
+	GYRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=xa6IbHBiLPHC/khE4DguWNjam9uYHlBRH4pah8BbvfY=;
-	b=WKpifms+sz/ulptlvZEHuVtAfYvYoYNdSrtaY82z3US3iNRVhPK5/fEjUIo6d87dPo
-	/JTl/iuvivvVtqwT5yEINegUwthse5s9JC0pnvJLAnZpPJyuOdH0OfNwgr1EO7fmvGUu
-	n1pPUrvRPreSM6JTuMWrsWF7p/7g70r9Ak4xS0bVnVYxTHFUpAvhOxr6zWvB7BT/THLk
-	7iEU3woDLfGrraxejwrYVWymgcqLWQ80hVnznekkAYi+SCLFl7zgtLpNeMfiLDdOXeTd
-	eJsnZZEs50hX/T62/MWQUuDrZSrV0YU3ymNTtD2aeo/8bhUtvuuPLzWDokD5MCZafIw/
-	NIjQ==
-X-Gm-Message-State: AD7BkJKO1NteTPC9kKPqA2pHkFJX+TI4mFTexq8Xm24fewp/+5qy2oVn9GDEjMSpQ7P/sDgKGW6XozjIlZ177A==
-X-Received: by 10.107.15.153 with SMTP id 25mr10579597iop.3.1457707530234;
-	Fri, 11 Mar 2016 06:45:30 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=MBq2kTcshQDeFMU3mOaZK5lb/DCa570AHyYJH3GVV3c=;
+	b=D/ko9IZ7gLBEKOmh1P3sGrA1S7gUtTcJkB5Ul26MA3iEausRWIW4/OFKHFCHcfOBmR
+	wb8qR2Kta+TypsZmJxkRiELGv+TI2RqFWorVpnZ6q6l7SYkz9BfF7x7ziCf8LGGhG1TG
+	eslHw7pmR4D18zV0mEWlOI8nBq2GVPzqPntUvpihmAKPW3PiURvij5g6U1BGGYL9Rik+
+	RI1hS5ttSx3on+Jv0ehKmr0XMJ/uz3vns0CcmcpoX0cj68bvOaFjIYP+CETHpbkdMQwz
+	B4WCnqgNOrwrm4o1pg5yPKL55lcSwuIObgit9QgvHuCaflkySPlX/e/A5KuZChFMJXQG
+	bWZg==
+X-Gm-Message-State: AD7BkJLWIRgn3mwA2WcauyBj9S0+vi0vvfwKbkQ+Q+lnnm9ryRWvIzC8U7PnGBEu0IBv/Q==
+X-Received: by 10.50.61.232 with SMTP id t8mr4049405igr.83.1457708598931;
+	Fri, 11 Mar 2016 07:03:18 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	l6sm883685igx.14.2016.03.11.07.03.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 11 Mar 2016 07:03:17 -0800 (PST)
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+References: <20160310115301.GC2573@jama>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56E2DE3D.3050703@gmail.com>
+Date: Fri, 11 Mar 2016 10:03:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-References: <20160311070859.163019mr4vs6d940@crashcourse.ca>
-In-Reply-To: <20160311070859.163019mr4vs6d940@crashcourse.ca>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 11 Mar 2016 14:45:20 +0000
-Message-ID: <CABcZAN=yAkvKMUqSML_PhO_mogQUxaBJcqiUpsXT+HAj5FMy6A@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: what is the precise search path for resolving "include" or "require" .inc files?
+In-Reply-To: <20160310115301.GC2573@jama>
+Subject: Re: State of bitbake world, Failed tasks 2016-03-09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,91 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 14:45:31 -0000
-Content-Type: multipart/alternative; boundary=001a113ee4fc86b149052dc6fbb1
+X-List-Received-Date: Fri, 11 Mar 2016 15:03:21 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113ee4fc86b149052dc6fbb1
-Content-Type: text/plain; charset=UTF-8
+On 03/10/16 06:53, Martin Jansa wrote:
+> I'll look at cef3 and chromium issue, my recent patch for meta-browser
+> fixed the build for armv7a MACHINEs, so it probably needs to be extended
+> a bit to cover warnings in x86 and then duplicate the same to cef3.
+> This issue is there for so long, slowing down the builds significantly
+> (and causing logs to be much bigger) - I don't use these recipes but I
+> hate the failures even more.
 
-On Fri, Mar 11, 2016 at 5:08 AM Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+Working with the chromium recipe is painful! Each build takes _hours_, 
+of just this one recipe alone, even on beefy build hardware. There are 
+several PACKAGECONFIG options which affect the build (component build, 
+lost context, side painting). There are multiple MACHINEs. You can 
+perform a 'Release' or a 'Debug' build. Plus there are two rendering 
+systems to support (x11 and wayland). Simply switching between x11 and 
+wayland isn't just a matter of setting some build flags, you have to add 
+another entire repository to your build from which you have to apply 
+dozens of huge patches in order to add an Ozone layer underneath 
+chromium so it can talk to wayland/weston.
 
->    not sure why i never noticed this before, but what is the search order
-> or precedence or priority for resolving recipe file directives "include"
-> or "require"? i was just perusing the bitbake user manual, and noticed
-> the explanation that those directives use BBPATH to track down the first
-> include file by a given name.
->
->    but AIUI, BBPATH is supposed to represent an ordered set of *layers*
-> (i just examined BBPATH for a current [wind river linux] build, and that
-> is exactly what it seems to contain). so when a recipe file like
-> busybox.whatever.bb contains the line:
->
->    require busybox.inc
->
-> i always just assumed the search would look in the current busybox
-> directory, but that directory is not technically a layer directory --
-> it's not a directory specified on the alleged BBPATH search path.
->
->    i never thought about this until i noticed some .bbappend files
-> specifically using directives like:
->
->    require recipes-bsp/u-boot/u-boot.inc
->
-> where that file reference *does* refer to a file relative to some
-> actual layer directory somewhere.
->
->    what am i missing here?
->
+The matrix of builds to perform and test explodes, not to mention the 
+number of days it would take to build all these permutations.
 
-BBPATH is temporarily prepended to include the directory the recipe lives
-in, as a special case.
+I think one way to help contain this situation would be to split the 
+chromium recipe into two: one for x11 and one for wayland. Another thing 
+we should consider is wether or not all those permutations are really 
+necessary. Is anyone actively using/needing Debug builds? Do we really 
+need a component build?
 
--Chris
-
---001a113ee4fc86b149052dc6fbb1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri=
-, Mar 11, 2016 at 5:08 AM Robert P. J. Day &lt;<a href=3D"mailto:rpjday@cra=
-shcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">=C2=A0 =C2=A0not sure why i never noticed this before, but w=
-hat is the search order<br>
-or precedence or priority for resolving recipe file directives &quot;includ=
-e&quot;<br>
-or &quot;require&quot;? i was just perusing the bitbake user manual, and no=
-ticed<br>
-the explanation that those directives use BBPATH to track down the first<br=
->
-include file by a given name.<br>
-<br>
-=C2=A0 =C2=A0but AIUI, BBPATH is supposed to represent an ordered set of *l=
-ayers*<br>
-(i just examined BBPATH for a current [wind river linux] build, and that<br=
->
-is exactly what it seems to contain). so when a recipe file like<br>
-<a href=3D"http://busybox.whatever.bb" rel=3D"noreferrer" target=3D"_blank"=
->busybox.whatever.bb</a> contains the line:<br>
-<br>
-=C2=A0 =C2=A0require busybox.inc<br>
-<br>
-i always just assumed the search would look in the current busybox<br>
-directory, but that directory is not technically a layer directory --<br>
-it&#39;s not a directory specified on the alleged BBPATH search path.<br>
-<br>
-=C2=A0 =C2=A0i never thought about this until i noticed some .bbappend file=
-s<br>
-specifically using directives like:<br>
-<br>
-=C2=A0 =C2=A0require recipes-bsp/u-boot/u-boot.inc<br>
-<br>
-where that file reference *does* refer to a file relative to some<br>
-actual layer directory somewhere.<br>
-<br>
-=C2=A0 =C2=A0what am i missing here?<br></blockquote><div><br></div><div>BB=
-PATH is temporarily prepended to include the directory the recipe lives in,=
- as a special case.</div><div><br></div><div>-Chris=C2=A0</div></div></div>
-
---001a113ee4fc86b149052dc6fbb1--
