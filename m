@@ -1,31 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 95ABA73232
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 9558F731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 17:06:43 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20160311170642457_0484;
-	Fri, 11 Mar 2016 17:06:42 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [127.0.0.1] (port=41003 helo=localhost)
-	by astoria.ccjclearline.com with esmtpa (Exim 4.80)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1aeQXe-0003eN-1D; Fri, 11 Mar 2016 12:07:58 -0500
-Received: from 216.191.234.70 ([216.191.234.70]) by crashcourse.ca (Horde
-	Framework) with HTTP; Fri, 11 Mar 2016 12:07:57 -0500
-Message-ID: <20160311120757.57925u23rdrmrpc0@crashcourse.ca>
-Date: Fri, 11 Mar 2016 12:07:57 -0500
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Christopher Larson <clarson@kergoth.com>
-References: <20160311070859.163019mr4vs6d940@crashcourse.ca>
-	<CABcZAN=yAkvKMUqSML_PhO_mogQUxaBJcqiUpsXT+HAj5FMy6A@mail.gmail.com>
-In-Reply-To: <CABcZAN=yAkvKMUqSML_PhO_mogQUxaBJcqiUpsXT+HAj5FMy6A@mail.gmail.com>
-MIME-Version: 1.0
-User-Agent: Internet Messaging Program (IMP) H3 (4.3.11)
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: what is the precise search path for resolving "include" or "require" .inc files?
+	Fri, 11 Mar 2016 17:26:32 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id l68so26814289wml.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Mar 2016 09:26:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=bMnZG2GpPl0dMo3z0mDjHX3Oa8pOcyRDx4DgNdaYC6Q=;
+	b=hpS1T11/JoOHmmbM2hfDkolSTxDs1h3ujfPkSx6C5JUnJmLMUQgHUqUsf/eJs4DWYj
+	2E8hv9GiZj9dRjyQEh2tzRH3cT5GuTy1a/OMB8IN1qfBIs1ysKEFhwLjdtG4oWcmkSHH
+	xsnDPPZkZsxk+CDrg4mfaYaTaJzfggxDH6csvVKYGhuSPUMoNaYcF1D5y3xM2tsBbtbX
+	fRCG+PK210IQH8nFj7BAPq0nB6dmLU0VG9gFe9DKbaO+7zvBiIaYKvK+9hEmt2DDJ0Qa
+	lwYrwzwa9FvPE/G8kx2I3E6wH7GIfgUtg6OLnRVK14IRMTbNuQwv9Z/TvvnfQiK9CCuo
+	OkfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=bMnZG2GpPl0dMo3z0mDjHX3Oa8pOcyRDx4DgNdaYC6Q=;
+	b=O31wvjl6WqYkgvRWpynIVQVL7UBDPnmOgFtwt4guCobe35XP8dvJsFdh9/88snHypX
+	JVfE6GjLGIElSSh6PTsIqw5CkbOUEWzJZpfn3gbpbRJi4OWop8hTq27AC6jFLsQcUk0k
+	kYv4wAdq2pyfsv0SmBmSEqVmtaV9ACAFunc87wjbkc6oIU+qMkxIwOMoL+xIwvODNFLt
+	ap6BCUj1OFExyWAy1Dp7lQgyZtiaK+z3Dww9Xqcvd6NEPOQuHBX7TiEkvU6dFZn9/eQz
+	DUlvvTthfzMHKn/wLIeC5p7O8f9Pgeem6f0iHrg6ZaZfixkxSztBmQZHQ2RT2uTEHBg9
+	35fg==
+X-Gm-Message-State: AD7BkJJYv4SAy/BYTbnXdbWqj8fEXPrqygK7SiFaWZ0HOz53Viv86zNzvd4s88u6Au24dmMk
+X-Received: by 10.194.236.3 with SMTP id uq3mr10860965wjc.119.1457717193035;
+	Fri, 11 Mar 2016 09:26:33 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	da6sm9402326wjb.24.2016.03.11.09.26.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 11 Mar 2016 09:26:32 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Mar 2016 17:26:30 +0000
+Message-Id: <1457717190-19925-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] gobject-introspection: stop GLib linking to GConf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,77 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 17:06:45 -0000
-Content-Type: text/plain;
- charset=UTF-8;
- DelSp="Yes";
- format="flowed"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Mar 2016 17:26:33 -0000
 
-Quoting Christopher Larson <clarson@kergoth.com>:
+If gconf is installed in the sysroot then GLib will use it by default for the
+GSettings backend.  This will pull a lot more libraries into the scanner
+processes and expands the potential for bad linking through the imperfect qemu
+user-mode emulation.
 
-> On Fri, Mar 11, 2016 at 5:08 AM Robert P. J. Day <rpjday@crashcourse.ca>
-> wrote:
->
->>    not sure why i never noticed this before, but what is the search order
->> or precedence or priority for resolving recipe file directives "include"
->> or "require"? i was just perusing the bitbake user manual, and noticed
->> the explanation that those directives use BBPATH to track down the first
->> include file by a given name.
->>
->>    but AIUI, BBPATH is supposed to represent an ordered set of *layers*
->> (i just examined BBPATH for a current [wind river linux] build, and that
->> is exactly what it seems to contain). so when a recipe file like
->> busybox.whatever.bb contains the line:
->>
->>    require busybox.inc
->>
->> i always just assumed the search would look in the current busybox
->> directory, but that directory is not technically a layer directory --
->> it's not a directory specified on the alleged BBPATH search path.
->>
->>    i never thought about this until i noticed some .bbappend files
->> specifically using directives like:
->>
->>    require recipes-bsp/u-boot/u-boot.inc
->>
->> where that file reference *does* refer to a file relative to some
->> actual layer directory somewhere.
->>
->>    what am i missing here?
->>
->
-> BBPATH is temporarily prepended to include the directory the recipe lives
-> in, as a special case.
+Set GSETTINGS_BACKEND=memory to force it to use the stub backend.  It's possible
+that other fixes (such as glib relocation) have mitigated the damage that this
+causes but right now it's better to be safe than sorry.
 
-   i *assumed* that must have been what was happening, i just didn't see
-that explicitly mentioned in the bitbake user manual. and while we're
-talking about the bitbake user manual here:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-http://www.yoctoproject.org/docs/latest/bitbake-user-manual/bitbake-user-manual.html
-
-this can't be right, can it?
-
-"3.3.1. Locating Include and Class Files¶
-
-"BitBake uses the BBPATH variable to locate needed include and class files.
-The BBPATH variable is analogous to the environment variable PATH.
-
-"In order for include and class files to be found by BitBake, they need to
-be located in a "classes" subdirectory that can be found in BBPATH."
-
-   while that statement might be true for class files, pretty sure it
-isn't true for *include* files, as it suggests.
-
-rday
-
-p.s. i should probably submit another proofreading patch, to tweak stuff
-like this in section 3.3.2:
-
-"In this case, BitBake would search for the directory [sic]  
-classes/autotools.bbclass in BBPATH."
-
-
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
+index 684d7cf..384204c 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
+@@ -54,6 +54,7 @@ do_configure_prepend_class-target() {
+         cat > ${B}/g-ir-scanner-qemuwrapper << EOF
+ #!/bin/sh
+ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules
++export GSETTINGS_BACKEND=memory
+ 
+ $qemu_binary "\$@"
+ if [ \$? -ne 0 ]; then
+-- 
+2.7.0
 
 
