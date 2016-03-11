@@ -1,55 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 172686080F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 16:11:48 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id tt10so102398492pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 08:11:49 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-vk0-f53.google.com (mail-vk0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A6B33731D8;
+	Fri, 11 Mar 2016 16:21:23 +0000 (UTC)
+Received: by mail-vk0-f53.google.com with SMTP id c3so139808302vkb.3;
+	Fri, 11 Mar 2016 08:21:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=3UdHcge3mCNH+RHznA9aeEZLH/p8qDh5/7f59qZ8E1Y=;
-	b=0dkvHgxccKeFh2dXdlKeZ9MBPXKecPxPjEHhA/Iz0inw0IAj846+D0oHq4WvPd1xFN
-	sjnABOdTZ1i5wJu5OpTe+OXxqyy/RiSmqOmQJzIxGsI7Lxljt8crKJAh1vHy18p6SqVJ
-	D8fQtcLVwlmG6xzEuWpHzu9v1BhCbQmY0XfdXquCJGS2+7/UAYZi0gg//L97jx1oYQty
-	6MwT0RkvmKlM5FBoXReEIiOu1UT6zsTqRkiOp/zsMpNkm9xT8P+stYYQ+xlZq4hRN1jo
-	0LPzYOnjdMx3gaPfp8hT+5+J20ox5k6JZyul9EqMSz7DVDGTjxKfOYTi4i6EKk2FxZ1Z
-	cKYQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=4ovDmWQjlxVOC/kuoGJOxw7tcQIXv311WqtbEHH/Bfs=;
+	b=wQiaB9/vLSFJAfxyzYt5zJx5TX0LnCIbfrf6jE+diY3kDAMUdZnJd284S4pgE1t2UG
+	KT7wDRfvtpN07H4upyYCMOgbS9AK3vBorZGmX3xVeRffNv1UXtI60aRGIIIOIGkrVS+O
+	elB7aLzRVfb3fl8Hl9wZ2Zw5OyUOY8V+YR5hpFdDXyTRfJb5nfu0nTglZa5z56LwN8F5
+	lbIDCaGgPwk2M5n7iAGgg3E/RSlX+Fg/AMg6a9SOM9yzEiZOiMxHtaotB5Ho2wSGbhtY
+	D9x9SLxS0u8DM8hvvhwb9eYKDSFQjGqW3uHwt64bCRwdnHyZ/lr/LL9SyNSoy7Sfdsih
+	Nu2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=3UdHcge3mCNH+RHznA9aeEZLH/p8qDh5/7f59qZ8E1Y=;
-	b=aMbJZsCrb/F4/lKPnwJR2hhsZBXnprCKHjL6zcpqFsY1n7fndXzrr0kerCzVoPrA1i
-	ZqTmKsWlvATsP8TOgl2Nbdl4pNRR81qG2zcyuVX0oxhK1rSXu2DFpAE25Dxx1o/hvbmq
-	oFyCIDLY+fFNOYQKqx+lFdg4ZfUHWjF0IJCehUyfXihU2G0aQOyw+GQlE56nwoDDLOqX
-	24VU723lOLk+Q/ogvJPI+cmdWwJxon7vNoNt24Us/YKNAYkKjQ8wb+1E6jNhTJA4e2NV
-	27Ot7YylK3hecdCglqKNgSaZOlFTpa7Vn6PkR/g6wKq38P6fb6jKc45hhU3TUMCZCIfi
-	QaRg==
-X-Gm-Message-State: AD7BkJIsVbDDb2ONgSQnJWfkYAqT/4hu6r8SMCyObSpnaAc1PPQtM48Y61dAkI7j52btXA==
-X-Received: by 10.66.124.130 with SMTP id mi2mr16641379pab.106.1457712709406; 
-	Fri, 11 Mar 2016 08:11:49 -0800 (PST)
-Received: from 172-4-122-115.lightspeed.bcvloh.sbcglobal.net
-	(110-170-137-253.static.asianet.co.th. [110.170.137.253])
-	by smtp.gmail.com with ESMTPSA id
-	wh9sm13996964pab.8.2016.03.11.08.11.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Mar 2016 08:11:48 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LaoVn5ixhYy-2cHf-FGSthY3Fa9Z9ryg6j0hLp2KSLLtg@mail.gmail.com>
-Date: Fri, 11 Mar 2016 23:11:35 +0700
-Message-Id: <7AB4B008-780B-4619-A914-7A00D132FCF0@gmail.com>
-References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
-	<CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
-	<1FC09834-DC8A-477D-9C9F-B6D469A7E90E@gmail.com>
-	<CAJTo0LaoVn5ixhYy-2cHf-FGSthY3Fa9Z9ryg6j0hLp2KSLLtg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=4ovDmWQjlxVOC/kuoGJOxw7tcQIXv311WqtbEHH/Bfs=;
+	b=V+TqArIemcu0IerbHf1+b1idJeRTvzm6WkgJ80Ao6Zro7nsk8hJR+mZsjfEhFv7WGT
+	Yt/1NNmzbKuGB1Yu1RmLZWsAFeNjuDjgUrHDUFiUB1J+3TJSoKJ6Y14YCzeWrmHB/u3R
+	/mnmSIFb8ew+kLi4kXjqT+o7wpDi9nDOv0+wbP8pkHB12X7aNFO/OC4NUIra3jkfHXjd
+	BO0FIj+iczEzcKDOwuL28iudZnpKR3pohci1gY64ytHe+UH6PsHAc1jV1VswJsV3s5LI
+	QqJaBJhWKPQzn9g06FLxMxXrkTooYPwnOqmzzTCFJ/J5mYwn87O8gfFULoX5VtL3Or/z
+	W0Xw==
+X-Gm-Message-State: AD7BkJJKQ19Vl0Ot6RDbyyaw18rF0/lwtoCWWv8215RvIvBwJ2VF9aPFJv99Mh7JymzA5mfRkkM8kYjmZLPoPg==
+MIME-Version: 1.0
+X-Received: by 10.31.6.17 with SMTP id 17mr10782219vkg.75.1457713284624; Fri,
+	11 Mar 2016 08:21:24 -0800 (PST)
+Received: by 10.176.6.42 with HTTP; Fri, 11 Mar 2016 08:21:24 -0800 (PST)
+In-Reply-To: <20160311161353.GA2646@jama>
+References: <20160310115301.GC2573@jama> <56E2E731.1040005@windriver.com>
+	<CADkTA4N43Zi=oLVRe99eEvvPjgYethKFNKH3J90Bss_AzqovVg@mail.gmail.com>
+	<20160311161353.GA2646@jama>
+Date: Fri, 11 Mar 2016 11:21:24 -0500
+Message-ID: <CADkTA4N9fYRt15y36RBUYrQBu=7DAdWdw7iAamMY7s0xvSfLaQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2016-03-09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,72 +54,257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 16:11:49 -0000
-X-Groupsio-MsgNum: 79483
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_9D8A6A2D-4716-4A04-BD93-CD1970E6331D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 11 Mar 2016 16:21:27 -0000
+Content-Type: multipart/alternative; boundary=001a1143f24a83b860052dc85262
 
---Apple-Mail=_9D8A6A2D-4716-4A04-BD93-CD1970E6331D
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_D1CD6618-00BD-4523-8229-15B1D3040516"
+--001a1143f24a83b860052dc85262
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_D1CD6618-00BD-4523-8229-15B1D3040516
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On Mar 11, 2016, at 11:02 PM, Burton, Ross <ross.burton@intel.com> =
+On Fri, Mar 11, 2016 at 11:13 AM, Martin Jansa <martin.jansa@gmail.com>
 wrote:
->=20
->=20
-> 2016-03-11 15:58 GMT+00:00 Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>>:
-> -----BEGIN PGP MESSAGE-----
-> Comment: GPGTools - https://gpgtools.org <https://gpgtools.org/>
->=20
-> hQQOA1XJCHN89ZWPEA//byr/rrxGxNNYYivYsGFBs4h6XrUzdqBCsw2FuyseGKJ1
-> XkZUtuH7f39QYY63OoqFhFdVmy3Hil3wscxe38L6/DA8hQV9Csn4cOxEfp9UF5jj
-> +3QJg/xqk7cgXTLuoUen9JZQHZgnG6+IfBg6jJARCKTmcs8aCT8WU2DYWycGCGg5
->=20
-> Can you send it non-encrypted? :)
 
-patch is ok. It was an oversight that its fixing.
+> On Fri, Mar 11, 2016 at 10:52:14AM -0500, Bruce Ashfield wrote:
+> > On Fri, Mar 11, 2016 at 10:41 AM, Mark Hatle <mark.hatle@windriver.com>
+> > wrote:
+> >
+> > > On 3/10/16 5:53 AM, Martin Jansa wrote:
+> > > > Aggressive PNBLACKLISTing continues. But linux-yocto (and modules
+> > > depending on it)
+> > > > are still broken :/.
+> > > >
+> > > > I'll look at cef3 and chromium issue, my recent patch for
+> meta-browser
+> > > > fixed the build for armv7a MACHINEs, so it probably needs to be
+> extended
+> > > > a bit to cover warnings in x86 and then duplicate the same to cef3.
+> > > > This issue is there for so long, slowing down the builds
+> significantly
+> > > > (and causing logs to be much bigger) - I don't use these recipes but
+> I
+> > > > hate the failures even more.
+> > > >
+> > >
+> > > Is see the reported log failure, but I've been building with the
+> oe-core
+> > > and
+> > > poky linux-yocto head of master for the last couple weeks, all arches
+> > > includes
+> > > qemux86.
+> > >
+> >
+> >
+> > I don't know what to say about those failures either. I've been chasing
+> > perf build
+> > races for the past week, and that includes building linux-yocto hundreds
+> of
+> > times,
+> > and I've never seen the uapi headers not be in place like the logs show.
+>
+> My guess (and supported by Andrea) is that it's caused by
+> linux-yocto-tiny which is built as part of bitbake world and probably
+> not included in your tests when you build the same linux-yocto.
+>
+>
+Aha. Thanks, I'm working those problems as well and did reproduce a variant
+when rm_work is enabled. So I do have a thread to tug on for the failure.
 
->=20
-> Ross
+With that, plus your description below, I've got a better chance of seeing
+it.
+
+Cheers,
+
+Bruce
 
 
---Apple-Mail=_D1CD6618-00BD-4523-8229-15B1D3040516
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=us-ascii
+> That would also explain why these issues break almost every qemux86 and
+> I haven't seen them for qemuarm, linux-yocto-tiny has:
+>   COMPATIBLE_MACHINE = "(qemux86)"
+>
+> Try to run
+> "bitbake linux-yocto linux-yocto-tiny" couple times and maybe you'll be
+> able to reproduce it.
+>
+> For next runs I've PNBLACKLISTED linux-yocto-tiny and
+> linux-yocto-tiny-kexecboot:
+>
+> https://github.com/shr-project/jenkins-jobs/commit/c168b7824c2c68bd5894532fc122929d2d9df9a7
+>
+> > The Yocto AB is also not showing it to me.
+> >
+> > Unless I can get access to a broken build, I'm at a loss to actually
+> debug
+> > and
+> > fix it.
+> >
+> > Bruce
+> >
+> >
+> > >
+> > > I don't see the error on my builder.  Is something changing the default
+> > > recipe/kernel configuration triggering the fault?
+> > >
+> > > --Mark
+> > >
+> > > > === qemux86 (2) ===
+> > > >     * /meta-openembedded/meta-python/recipes-devtools/python/
+> > > python-m2crypto_0.23.0.bb, do_compile
+> > > >     * /openembedded-core/meta/recipes-kernel/linux/
+> linux-yocto_4.4.bb,
+> > > do_compile
+> > >
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > >
+> >
+> >
+> >
+> > --
+> > "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> > at its end"
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
 
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Mar 11, 2016, at 11:02 PM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">2016-03-11 15:58 GMT+00:00 Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span>:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":ao7" class="a3s" style="overflow:hidden">-----BEGIN PGP MESSAGE-----<br class="">
-Comment: GPGTools - <a href="https://gpgtools.org/" rel="noreferrer" target="_blank" class="">https://gpgtools.org</a><br class="">
-<br class="">
-hQQOA1XJCHN89ZWPEA//byr/rrxGxNNYYivYsGFBs4h6XrUzdqBCsw2FuyseGKJ1<br class="">
-XkZUtuH7f39QYY63OoqFhFdVmy3Hil3wscxe38L6/DA8hQV9Csn4cOxEfp9UF5jj<br class="">
-+3QJg/xqk7cgXTLuoUen9JZQHZgnG6+IfBg6jJARCKTmcs8aCT8WU2DYWycGCGg5<br class=""></div></blockquote></div><br class="">Can you send it non-encrypted? :)</div></div></div></blockquote><div><br class=""></div><div>patch is ok. It was an oversight that its fixing.</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""></div><div class="gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=""></body></html>
 
---Apple-Mail=_D1CD6618-00BD-4523-8229-15B1D3040516--
 
---Apple-Mail=_9D8A6A2D-4716-4A04-BD93-CD1970E6331D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+--001a1143f24a83b860052dc85262
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-iEYEARECAAYFAlbi7kEACgkQuwUzVZGdMxQG1ACeK+s5nztrwteVIYByijuIPq3O
-F6IAniHTXvLPWvuc/sMcchx3fF3sKfgp
-=8Alw
------END PGP SIGNATURE-----
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Mar 11, 2016 at 11:13 AM, Martin Jansa <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmai=
+l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
+=3D"">On Fri, Mar 11, 2016 at 10:52:14AM -0500, Bruce Ashfield wrote:<br>
+&gt; On Fri, Mar 11, 2016 at 10:41 AM, Mark Hatle &lt;<a href=3D"mailto:mar=
+k.hatle@windriver.com">mark.hatle@windriver.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt;<br>
+&gt; &gt; On 3/10/16 5:53 AM, Martin Jansa wrote:<br>
+&gt; &gt; &gt; Aggressive PNBLACKLISTing continues. But linux-yocto (and mo=
+dules<br>
+&gt; &gt; depending on it)<br>
+&gt; &gt; &gt; are still broken :/.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I&#39;ll look at cef3 and chromium issue, my recent patch fo=
+r meta-browser<br>
+&gt; &gt; &gt; fixed the build for armv7a MACHINEs, so it probably needs to=
+ be extended<br>
+&gt; &gt; &gt; a bit to cover warnings in x86 and then duplicate the same t=
+o cef3.<br>
+&gt; &gt; &gt; This issue is there for so long, slowing down the builds sig=
+nificantly<br>
+&gt; &gt; &gt; (and causing logs to be much bigger) - I don&#39;t use these=
+ recipes but I<br>
+&gt; &gt; &gt; hate the failures even more.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Is see the reported log failure, but I&#39;ve been building with =
+the oe-core<br>
+&gt; &gt; and<br>
+&gt; &gt; poky linux-yocto head of master for the last couple weeks, all ar=
+ches<br>
+&gt; &gt; includes<br>
+&gt; &gt; qemux86.<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; I don&#39;t know what to say about those failures either. I&#39;ve bee=
+n chasing<br>
+&gt; perf build<br>
+&gt; races for the past week, and that includes building linux-yocto hundre=
+ds of<br>
+&gt; times,<br>
+&gt; and I&#39;ve never seen the uapi headers not be in place like the logs=
+ show.<br>
+<br>
+</span>My guess (and supported by Andrea) is that it&#39;s caused by<br>
+linux-yocto-tiny which is built as part of bitbake world and probably<br>
+not included in your tests when you build the same linux-yocto.<br>
+<br></blockquote><div><br></div><div>Aha. Thanks, I&#39;m working those pro=
+blems as well and did reproduce a variant<br></div><div>when rm_work is ena=
+bled. So I do have a thread to tug on for the failure.<br><br></div><div>Wi=
+th that, plus your description below, I&#39;ve got a better chance of seein=
+g it.<br><br></div><div>Cheers,<br><br></div><div>Bruce<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+That would also explain why these issues break almost every qemux86 and<br>
+I haven&#39;t seen them for qemuarm, linux-yocto-tiny has:<br>
+=C2=A0 COMPATIBLE_MACHINE =3D &quot;(qemux86)&quot;<br>
+<br>
+Try to run<br>
+&quot;bitbake linux-yocto linux-yocto-tiny&quot; couple times and maybe you=
+&#39;ll be<br>
+able to reproduce it.<br>
+<br>
+For next runs I&#39;ve PNBLACKLISTED linux-yocto-tiny and<br>
+linux-yocto-tiny-kexecboot:<br>
+<a href=3D"https://github.com/shr-project/jenkins-jobs/commit/c168b7824c2c6=
+8bd5894532fc122929d2d9df9a7" rel=3D"noreferrer" target=3D"_blank">https://g=
+ithub.com/shr-project/jenkins-jobs/commit/c168b7824c2c68bd5894532fc122929d2=
+d9df9a7</a><br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; The Yocto AB is also not showing it to me.<br>
+&gt;<br>
+&gt; Unless I can get access to a broken build, I&#39;m at a loss to actual=
+ly debug<br>
+&gt; and<br>
+&gt; fix it.<br>
+&gt;<br>
+&gt; Bruce<br>
+&gt;<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; I don&#39;t see the error on my builder.=C2=A0 Is something chang=
+ing the default<br>
+&gt; &gt; recipe/kernel configuration triggering the fault?<br>
+&gt; &gt;<br>
+&gt; &gt; --Mark<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; =3D=3D=3D qemux86 (2) =3D=3D=3D<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0* /meta-openembedded/meta-python/recipes-=
+devtools/python/<br>
+&gt; &gt; <a href=3D"http://python-m2crypto_0.23.0.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">python-m2crypto_0.23.0.bb</a>, do_compile<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0* /openembedded-core/meta/recipes-kernel/=
+linux/<a href=3D"http://linux-yocto_4.4.bb" rel=3D"noreferrer" target=3D"_b=
+lank">linux-yocto_4.4.bb</a>,<br>
+&gt; &gt; do_compile<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; --<br>
+&gt; &gt; _______________________________________________<br>
+&gt; &gt; Openembedded-core mailing list<br>
+&gt; &gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Opene=
+mbedded-core@lists.openembedded.org</a><br>
+&gt; &gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openemb=
+edded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.=
+org/mailman/listinfo/openembedded-core</a><br>
+&gt; &gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madness aw=
+ait thee<br>
+&gt; at its end&quot;<br>
+<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
+rtin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for cha=
+os and madness await thee at its end&quot;</div>
+</div></div>
 
---Apple-Mail=_9D8A6A2D-4716-4A04-BD93-CD1970E6331D--
+--001a1143f24a83b860052dc85262--
