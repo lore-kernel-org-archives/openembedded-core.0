@@ -1,50 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C64FD60248
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id DD502731E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 20:56:31 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id ig19so21668361igb.0
+	Fri, 11 Mar 2016 21:36:09 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id z76so161591309iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 12:56:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DlbHWq8s6AsWkY8EJETCRh9LR1qMjzXNdhc26ibquGI=;
-	b=MxI3JhMiDdTKXNpzPAbazHl6zCGKEnTQc1uWmiF6cxue1D7PfyejRbYfMHz2gMzUPN
-	Sw94K2lHe1VAX3V8XxgKTIaO/jQK6RT041aCMyCEWz8txFCsgJb/W53Ca1OBdO/VdFFv
-	d1MvIQIs40CE3M1+FOMkgz3d3cHRwKGfnO8WeMEMVttmL+B89gzNeovGEPem+CV+Dbfz
-	LGyKax3kA0PuyDRhg6Hat5ql8fE/z8Wq1rlFMJe5cgLNH5w7nTFdSYaRpyMmo9LpFKI8
-	vuNTzpjI0nXVKxv6+bchSBPM1e+zmWb1kzBSwfEdHNdFJ0vF8kzFPomETFY3tPhfg5xF
-	ohjQ==
+	Fri, 11 Mar 2016 13:36:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=WgMucPtRFelXZwI1lfo9x+vc7KCxRGcMQJtV2xmVrhw=;
+	b=V8GVdKw9NGDkeoviLc+SxhrVbhE4dwBOmCweK26Z07CizOktAOy+2beQHFE/dfLwWO
+	sLW8XpfojjY54oU355twT4TB+Etyve2FDIZv8FxwLW0p3rErwcXAsQzuBmIxRj5ZnEUJ
+	3nBSH5DEGOIF+0e4Ht9YoXCOinhKcTGR564DtAcCT42wtGebvJ5vpeg8t1DaBVniAeQn
+	7hRKsdaMWUI2p5tLgsQsq5jbh/dm3yq2+w8KGb4//AjCsvKUovCqEW73G1BPXZ0ucgJW
+	fN2gZFX4QeSQkEhGS/5hPgUp1BA4riPYVMVFsqFRWdeRndYN2cWirZynJSKCaZXofsAc
+	czVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DlbHWq8s6AsWkY8EJETCRh9LR1qMjzXNdhc26ibquGI=;
-	b=gyf4FU99hNxWXuz5Jai1+XCesdcC49CHgB5HtlvPH8B1gNoM3xOUDfGYCeajDS2I3F
-	YeZzo0gniIyANJAVefrUm2LfYNrIP2xOHppLOTlk5iKir+CeJbI3qeAEnxpEZFfXTIEV
-	ipnivhDeN77y8xEn03e3WQ82/rf6iFHfGMrLy8e1r4ReYfqEXYBUHnTLlyGp5CgrqLb6
-	1frOEQgth+ZFcOPEE1CvK9KpSnnn3Q+UTCiyoECP7KSY0PGr8RI1KvIqbuYS4q4Z4Wqe
-	rLttIXDAsAqW7iovEnNvUWTtSUMy2UbwTKY0B0S8YyhiRNfcc1z9oddGwFKqKYRoBeNz
-	JOmA==
-X-Gm-Message-State: AD7BkJJLi9sPdHeysHVo+vZkfSwDHZjwrMhSOwRaytDYNhONzPCTNp77Z3z0BEGOXA+0s7VcInIlA7OWfRFJgMr/
-X-Received: by 10.50.112.101 with SMTP id ip5mr1297123igb.52.1457729792348;
-	Fri, 11 Mar 2016 12:56:32 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=WgMucPtRFelXZwI1lfo9x+vc7KCxRGcMQJtV2xmVrhw=;
+	b=DfZ4SsvElCkWBWoiDCRAnI5eNdpZnfuof8PE40ES0P1v/scfYjkj5oooLkCwEieDxx
+	sS8sTbod40QSHWDPXgyCCLqG01APWtGKxY5cQaZbG2XbmF8DWbslujkJxKRgkBMp6G5O
+	llj7HC69EwNf+PlhPGj+F7v/cmRBZ84tjxsesSuattYuFBlmJNuoGWAQPAZfCnX/Vg/8
+	6SSAEgt7xOqyamVy/yyn1jUIJ3OdnO9+5Z5ItVp1wxYauhEYtlcJpegMjHqU1mgxi2Zn
+	3llXd8oC6ifR80qpWqUhhoDp3iogOUlnXRQiqeopx0OU8Odt+H5Hfz0Z3nkPCH+iDLsv
+	hFYw==
+X-Gm-Message-State: AD7BkJKugAbTJLSq1cGfriNzOc6m5sxgIeqmTCdtCir66wXIN9fwYJ9AAtoR/YA4CtDq2Q==
+X-Received: by 10.107.4.10 with SMTP id 10mr15005531ioe.22.1457732170890;
+	Fri, 11 Mar 2016 13:36:10 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	b13sm1420990ign.0.2016.03.11.13.36.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 11 Mar 2016 13:36:10 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
+	<56E32888.2000301@gmail.com>
+	<CAJTo0LZCxp20cT-Te0mDW+X59Pgrr+MUtO1ArgOJoVzfc-rEmA@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56E33A51.2020807@gmail.com>
+Date: Fri, 11 Mar 2016 16:36:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 12:56:12 -0800 (PST)
-In-Reply-To: <CAP9ODKrdGLcXWLmuYbG=UdGLdUfY6ZoOaO+Oh6K7qoAXVUV_ww@mail.gmail.com>
-References: <cover.1457698804.git.jussi.kukkonen@intel.com>
-	<CAP9ODKrZMfa0bW6e3VRS+mks+OJNDJwSmXqxtRM_QgBTSK5mQg@mail.gmail.com>
-	<CAJTo0La3B=bGXGC1_M8c5qsUEF_kSZpGwfmw8+DHUUDEuOQdGg@mail.gmail.com>
-	<CAP9ODKrdGLcXWLmuYbG=UdGLdUfY6ZoOaO+Oh6K7qoAXVUV_ww@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Mar 2016 20:56:12 +0000
-Message-ID: <CAJTo0LYB0D+=qh3BQP5jA-J49Ue=j2qrUjqf1rjRW_WtJeH5qg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 00/12] Sato desktop upgrade (Gtk3 etc.)
+In-Reply-To: <CAJTo0LZCxp20cT-Te0mDW+X59Pgrr+MUtO1ArgOJoVzfc-rEmA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][jethro][RFC 1/2] libsdl: expand PACKAGECONFIG and enable native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 20:56:34 -0000
-Content-Type: multipart/alternative; boundary=047d7b3a845873becf052dcc2afc
+X-List-Received-Date: Fri, 11 Mar 2016 21:36:11 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b3a845873becf052dcc2afc
-Content-Type: text/plain; charset=UTF-8
+Hi Ross,
 
-On 11 March 2016 at 19:09, Otavio Salvador <otavio.salvador@ossystems.com.br
-> wrote:
-
-> All them; we might use GNOME (MATE or other WM) and write just a GTK+3
-> demo like app for test the desired stuff.
+On 03/11/16 15:49, Burton, Ross wrote:
 >
+> On 11 March 2016 at 20:20, Trevor Woerner <twoerner@gmail.com 
+> <mailto:twoerner@gmail.com>> wrote:
+>
+>     ERROR: Nothing PROVIDES 'virtual/nativesdk-nativesdk-libx11' (but
+>     virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw-jethro/layers/openembedded-core/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>     <http://libsdl_1.2.15.bb> DEPENDS on or otherwise requires it).
+>     Close matches:
+>
+>
+> That's an awesome comment.  Clearly my testing wasn't optimal, there's 
+> another patch required.
+>
+> Can you verify that 
+> cherry-picking 55ca1fb8f0e81ff739b3c46897e43356d1f760c3 solves this?
 
-The full GNOME DE is *huge* and until the g-i branch is merged is literally
-impossible to build.  Something smaller like LXDE is possible but still
-fairly large in comparison and massively fails when you try to use it on
-hardware with a touchscreen: at least Matchbox+desktop+panel has always
-(and will continue to) support a touchscreen+fingers for basic use.
+Yes, verified. Cherry-picking 55ca1fb8 solves the problem.
 
-Ross
+Thanks! :-)
 
---047d7b3a845873becf052dcc2afc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 March 2016 at 19:09, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
-@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div id=3D":1hi" class=3D"a3s" style=3D"overflow:hidden">All them; we might =
-use GNOME (MATE or other WM) and write just a GTK+3<br>
-demo like app for test the desired stuff.</div></blockquote><div><br></div>=
-<div>The full GNOME DE is *huge* and until the g-i branch is merged is lite=
-rally impossible to build.=C2=A0 Something smaller like LXDE is possible bu=
-t still fairly large in comparison and massively fails when you try to use =
-it on hardware with a touchscreen: at least Matchbox+desktop+panel has alwa=
-ys (and will continue to) support a touchscreen+fingers for basic use.</div=
-><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---047d7b3a845873becf052dcc2afc--
