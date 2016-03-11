@@ -1,51 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FF89601D4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 343B660248
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 20:20:17 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id z8so20392247ige.0
+	Fri, 11 Mar 2016 20:50:03 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id z76so160328500iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 12:20:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=p34O/UrsZp+CzrXqv2RNT6X1mDy7trRLWmA+BZxpG9g=;
-	b=UOkbZpyuTuMB0w3dsSmOKGQgP0xs8iOm0xvWtg/bxRH0g6XlCQp5WUIKYntid6uxCA
-	brtAoJg20uep7SCKkjtjv2m2vq9WfXRoG831SUP7UF9Hbn8Q3KJnyiDd892kA3IdSU0s
-	2Sw9pKKpbkuqjxy4krqrgHkCgunZ7+Kn3BSJViPv77C7Kjn3F/rNw5SO1u2c5vghx3tt
-	waynK/J+UCZ1PilGH/AR4O7s6nR07he9xrnA31rof1Aqo4F4Xyt4p99W38/WS7laVSkF
-	1THBuusYDvYMHPjfkkjhO5WQjd4QC4FHv0m/ynKeEUB7eA2m0fRTQL/sclJk32cHSM5x
-	NQiw==
+	Fri, 11 Mar 2016 12:50:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0BOcB3MrDlGFzB8qYGj8SLUUlGbHThU7taA7prg6mG4=;
+	b=qqtHwObGR5TTJrGy3sVUqSRPLrA/2guSGrho6JgpA9s5TUlgCP14vIbUSpcuVlVOqg
+	ChVBI1aNwHLOahwtG+CmReeB+ZbWEAcgGFFGkAhTWBi64UK64ukLMxRExlavJwvkDbtp
+	l8OjNRV1Wg2zvDYdHjFQ+h4uIPkitfrCTljDnkgWTCJWnLXdjZw4xqajl74OzgUw2775
+	wY93IiuCiEGhRF2Uq5lNVm0abp1DP+OiItsZVWSJJczWBj8zeQnBcc3ewk1K5CpEgUZA
+	pQ53MQtg7FzIjAIs15qyfT7B9Gaud0vvVsmOQPDv2VZsaQUYFaFKDmRcaoOOFecctFxG
+	peHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=p34O/UrsZp+CzrXqv2RNT6X1mDy7trRLWmA+BZxpG9g=;
-	b=nNvyirZkkQxfUKz5cDsbffxAw3W/+mTlCoUrDAAO16r926bSBrDMpDu0pbOxfFZGpJ
-	h8xXqIHyu/Ug8AmFjk7JtLuLAHun9VmCniORZWOhMFtewiEpsAlEKvQox7qnaKZ+33kw
-	ssxLJjt7g06Xw0gUcbKC52T1/+ZLbxaL852tl5wCOrWwHgew6RYVEvRMAMcw3gE5nUra
-	lUzPXHbEfLCGUxhxMT7PHNCFWxRtXkHmrf57Cbv9xr8hQWWNDAW7jrgIlLz16nBvowXv
-	pd2I3snoa8MyNrjUwvROKVkyqu/woWYglP18ubcgy56ppRiDfPwWOlewJHMHPpSLEeY6
-	Tn0A==
-X-Gm-Message-State: AD7BkJJvroSsR9X6xFEYySRtmQdHM59ZnnI7zbx4Edikw8YITynC9yn5JL+SSQFh9ZTcJQ==
-X-Received: by 10.50.70.9 with SMTP id i9mr5988736igu.6.1457727618125;
-	Fri, 11 Mar 2016 12:20:18 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	ie9sm1412292igb.10.2016.03.11.12.20.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Mar 2016 12:20:17 -0800 (PST)
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56E32888.2000301@gmail.com>
-Date: Fri, 11 Mar 2016 15:20:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0BOcB3MrDlGFzB8qYGj8SLUUlGbHThU7taA7prg6mG4=;
+	b=NL2AB9laeDq92jdjDMCQOae7Eh2BtNikB9K74dKJaCQ0p7iiASVnUVOQeZgwdZR2Sb
+	z6Dkz1Hk1evpTjjKDMKKNJLldD4HqNczAycGdaGbl2rs+vvEaAiEe1o/tFCQzJIa5nuV
+	14rgetma7khmIgpK+6dha3JHKvLvzxf7qxz8wdLP95lLUisaXfanbFsm9WeNcHZrpwNv
+	mgHjMDFxyP5dFanRR+ZmX0PdLnPWoKVOp98qaSfu93ge348LG4KZPO6KW4ciYTW+c+SK
+	3yGvpNedGfbfe3z7eIOiEsHyNOHNXVFvMKYLt7Ye900dJ+8auyhV7q5fERUP5arNkV2t
+	naCA==
+X-Gm-Message-State: AD7BkJIExAxzeJYe8Ti4CNTDsDjahAMDksoeCg8xEY3nmIIPNiSgQZszYAhFi1QHS7m8/fmGrkvoqQzSUeNEKbzK
+X-Received: by 10.107.16.19 with SMTP id y19mr12024105ioi.148.1457729404469;
+	Fri, 11 Mar 2016 12:50:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1456761746-419-1-git-send-email-ross.burton@intel.com>
+Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 12:49:45 -0800 (PST)
+In-Reply-To: <56E32888.2000301@gmail.com>
+References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
+	<56E32888.2000301@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 Mar 2016 20:49:45 +0000
+Message-ID: <CAJTo0LZCxp20cT-Te0mDW+X59Pgrr+MUtO1ArgOJoVzfc-rEmA@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH][jethro][RFC 1/2] libsdl: expand PACKAGECONFIG and enable native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,105 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 20:20:17 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Mar 2016 20:50:05 -0000
+Content-Type: multipart/alternative; boundary=001a113fd1ea551cc4052dcc13cb
 
-This patch causes my jethro build to now fail with:
+--001a113fd1ea551cc4052dcc13cb
+Content-Type: text/plain; charset=UTF-8
 
-ERROR: Nothing PROVIDES 'virtual/nativesdk-nativesdk-libx11' (but 
-virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw-jethro/layers/openembedded-core/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb 
-DEPENDS on or otherwise requires it). Close matches:
-   virtual/nativesdk-libx11
-   virtual/nativesdk-libc
-   virtual/nativesdk-db
+On 11 March 2016 at 20:20, Trevor Woerner <twoerner@gmail.com> wrote:
 
-
-
-On 02/29/16 11:02, Ross Burton wrote:
-> Use PACKAGECONFIG instead of using logic in DEPENDS and EXTRA_OECONF, adding new
-> options for PulseAudio, tslib, DirectFB, OpenGL and X11.  Pass
-> --disable-x11-shared so that it links to the X libraries instead of using
-> dlopen().
+> ERROR: Nothing PROVIDES 'virtual/nativesdk-nativesdk-libx11' (but
+> virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw-jethro/layers/openembedded-core/meta/recipes-graphics/libsdl/
+> libsdl_1.2.15.bb DEPENDS on or otherwise requires it). Close matches:
 >
-> Disable tslib by default as the kernel event input subsystem is generally used.
->
-> SDL's OpenGL support requires X11 so check for both x11 and opengl, and merge
-> the dependencies.
->
-> Finally enable native builds, with a minimal PACKAGECONFIG that will build from
-> oe-core for native and nativesdk.
->
-> (From OE-Core rev: 3d6c31c3a4ff34376e17005a981bb55fc6f7a38f)
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 35 ++++++++++++++-------------
->   1 file changed, 18 insertions(+), 17 deletions(-)
->
-> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> index c0d5c6a..1cf3c39 100644
-> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> @@ -12,13 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
->   
->   PROVIDES = "virtual/libsdl"
->   
-> -DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
-> -           tslib"
-> -DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
-> -
->   PR = "r3"
->   
->   SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
-> @@ -38,21 +31,29 @@ inherit autotools lib_package binconfig-disabled pkgconfig
->   
->   EXTRA_OECONF = "--disable-static --enable-cdrom --enable-threads --enable-timers \
->                   --enable-file --disable-oss --disable-esd --disable-arts \
-> -                --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
-> +                --disable-diskaudio --disable-nas \
->                   --disable-mintaudio --disable-nasm --disable-video-dga \
->                   --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
->                   --disable-xbios --disable-gem --disable-video-dummy \
-> -                --enable-input-events --enable-input-tslib --enable-pthreads \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
-> +                --enable-input-events --enable-pthreads \
->                   --disable-video-svga \
->                   --disable-video-picogui --disable-video-qtopia --enable-sdl-dlopen \
-> -                --disable-rpath \
-> -                --disable-pulseaudio"
-> +                --disable-rpath"
-> +
-> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-> +PACKAGECONFIG_class-native = "x11"
-> +PACKAGECONFIG_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
->   
-> -PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-> -PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
-> +PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib"
-> +PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
-> +PACKAGECONFIG[tslib] = "--enable-input-tslib, --disable-input-tslib, tslib"
-> +PACKAGECONFIG[directfb] = "--enable-video-directfb, --disable-video-directfb, directfb"
-> +PACKAGECONFIG[opengl] = "--enable-video-opengl, --disable-video-opengl, virtual/libgl libglu"
-> +PACKAGECONFIG[x11] = "--enable-video-x11 --disable-x11-shared, --disable-video-x11, virtual/libx11 libxext libxrandr libxrender"
->   
->   EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
->   
-> @@ -65,4 +66,4 @@ do_configure_prepend() {
->           export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
->   }
->   
-> -BBCLASSEXTEND = "nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
 
+That's an awesome comment.  Clearly my testing wasn't optimal, there's
+another patch required.
 
+Can you verify that cherry-picking 55ca1fb8f0e81ff739b3c46897e43356d1f760c3
+solves this?
+
+Ross
+
+--001a113fd1ea551cc4052dcc13cb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 March 2016 at 20:20, Trevor Woerner <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D":1cz" class=3D"" style=3D"overflo=
+w:hidden">ERROR: Nothing PROVIDES &#39;virtual/nativesdk-nativesdk-libx11&#=
+39; (but virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw-jethro/layers/o=
+penembedded-core/meta/recipes-graphics/libsdl/<a href=3D"http://libsdl_1.2.=
+15.bb" rel=3D"noreferrer" target=3D"_blank">libsdl_1.2.15.bb</a> DEPENDS on=
+ or otherwise requires it). Close matches:<br></div></blockquote></div><br>=
+That&#39;s an awesome comment.=C2=A0 Clearly my testing wasn&#39;t optimal,=
+ there&#39;s another patch required.</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">Can you verify that cherry-picking=C2=A055ca=
+1fb8f0e81ff739b3c46897e43356d1f760c3 solves this?</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113fd1ea551cc4052dcc13cb--
