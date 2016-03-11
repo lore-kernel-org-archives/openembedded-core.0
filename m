@@ -1,37 +1,20 @@
-Return-Path: <helio.castro@bmw-carit.de>
-Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id AF99F7320F
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 54C2E75D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 16:24:19 +0000 (UTC)
-Received: from ulm-dc01.bmw-carit.intra ([172.20.0.50]:59400
-	helo=mail.bmw-carit.de)
-	by mail.bmw-carit.de with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Helio.Castro@bmw-carit.de>)
-	id 1aePrM-0004TE-1h; Fri, 11 Mar 2016 17:24:17 +0100
-Received: from ULM-DC01.bmw-carit.intra ([fe80::d6c:bfcc:5f:52a5]) by
-	ULM-DC01.bmw-carit.intra ([fe80::d6c:bfcc:5f:52a5%13]) with mapi id
-	14.03.0123.003; Fri, 11 Mar 2016 17:24:16 +0100
-X-CTCH-RefID: str=0001.0A0B0204.56E2F131.0348, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-From: Helio Chissini De Castro <Helio.Castro@bmw-carit.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] gcc: Fix the license on GNU OpenMP
-Thread-Index: AQHRe6HQFhaaYbwdx0S851F6NE1r8J9UUEUAgAAFSYCAAAFDAIAAAoWAgAATGHg=
-Date: Fri, 11 Mar 2016 16:24:15 +0000
-Message-ID: <95245B46D926B348AEB132E99037C59B36A9FE73@ULM-DC01.bmw-carit.intra>
-References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
-	<CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
-	<1FC09834-DC8A-477D-9C9F-B6D469A7E90E@gmail.com>
-	<CAJTo0LaoVn5ixhYy-2cHf-FGSthY3Fa9Z9ryg6j0hLp2KSLLtg@mail.gmail.com>,
-	<7AB4B008-780B-4619-A914-7A00D132FCF0@gmail.com>
-In-Reply-To: <7AB4B008-780B-4619-A914-7A00D132FCF0@gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.20.20.205]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
+	Fri, 11 Mar 2016 16:31:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Mar 2016 08:31:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,321,1455004800"; d="scan'208";a="908097065"
+Received: from humberto-desktop.zpn.intel.com ([10.219.5.162])
+	by orsmga001.jf.intel.com with ESMTP; 11 Mar 2016 08:31:32 -0800
+From: humberto.ibarra.lopez@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Mar 2016 10:28:24 -0600
+Message-Id: <1457713704-4221-1-git-send-email-humberto.ibarra.lopez@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] scripts/oe-selftest: Add search expression matching to run/list options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,164 +27,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 16:24:22 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_95245B46D926B348AEB132E99037C59B36A9FE73ULMDC01bmwcarit_"
+X-List-Received-Date: Fri, 11 Mar 2016 16:31:35 -0000
 
---_000_95245B46D926B348AEB132E99037C59B36A9FE73ULMDC01bmwcarit_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
 
-If i change recipe scope, need to be on each gcc_${PV}.inc.
-But they include gcc-common.inc on top, which states LICENSE =3D "GPL"
+The oe-selftest script required an exact matching for the parameters
+passed to its run-tests-by and list-tests-by options. Many tests
+can be retrieved here and filtering is a must.
 
-So, gcc_${PV}.inc is already overriding the original license. If you think =
-is ok, i can do that on gcc_${PV}.inc
+This patch add this filtering functionality by enabling the use
+of wildcards such as "*".
 
-[]'s
+[Yocto #8916]
 
---
-BMW Car IT GmbH
-Helio Chissini de Castro
-Systems Integrator Engineer
-Lise-Meitner-Str.14
-89081 Ulm
-Mobil: +49 176 25435150
-Mail: helio.castro@bmw-carit.de
-Web: http://www.bmw-carit.de
-________________________________
-From: Khem Raj [raj.khem@gmail.com]
-Sent: Friday, March 11, 2016 5:11 PM
-To: Burton, Ross
-Cc: Helio Chissini De Castro; OE-core
-Subject: Re: [OE-core] [PATCH] gcc: Fix the license on GNU OpenMP
+Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+---
+ scripts/oe-selftest | 108 +++++++++++++++++++++-------------------------------
+ 1 file changed, 44 insertions(+), 64 deletions(-)
+
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index de98a6c..4c92f6d 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -243,93 +243,73 @@ def get_all_tests():
+         testlist += get_tests_from_module(tmod)
+     return testlist
+ 
+-
+-def create_testsuite_by(criteria, keyword):
+-    # Create a testsuite based on 'keyword'
+-    # criteria: name, class, module, id, tag
+-    # keyword: a list of tests, classes, modules, ids, tags
+-    # NOTE: globing would be nice?
+-
+-    ts = set()
+-    all_tests = get_all_tests()
+-
+-    if criteria == 'name':
+-        for tc in all_tests:
+-            if tc.tcname in keyword:
+-                ts.add(tc.fullpath)
+-
+-    elif criteria == 'class':
+-        for tc in all_tests:
+-            if tc.tcclass in keyword:
+-                ts.add(tc.fullpath)
+-
+-    elif criteria == 'module':
+-        for tc in all_tests:
+-            if tc.tcmodule in keyword:
+-                ts.add(tc.fullpath)
+-    elif criteria == 'id':
+-        for tc in all_tests:
+-            if str(tc.tcid) in keyword:
+-                ts.add(tc.fullpath)
+-    elif criteria == 'tag':
+-        for tc in all_tests:
+-            # tc can have multiple tags (as list or tuple) otherwise as str
+-            if isinstance(tc.tctag, (list, tuple)):
+-                for tag in tc.tctag:
+-                    if str(tag) in keyword:
+-                        ts.add(tc.fullpath)
+-            elif tc.tctag in keyword:
+-                ts.add(tc.fullpath)
+-
+-    return sorted(list(ts))
+-
+-
+ def get_testsuite_by(criteria, keyword):
+     # Get a testsuite based on 'keyword'
+     # criteria: name, class, module, id, tag
+     # keyword: a list of tests, classes, modules, ids, tags
+-    # NOTE: globing would be nice?
+-    ts = set()
++
++    import re
++    import fnmatch
++
++    ts = []
+     all_tests = get_all_tests()
+ 
++    def get_matches(values):
++        # Get a items and return the ones that match with keyword(s)
++        # values: the list of items (names, modules, classes...)
++        result = []
++        remaining = values[:]
++        for key in keyword:
++            if key in remaining:
++                # Regular matching of exact item
++                result.append(key)
++                remaining.remove(key)
++            else:
++                # Wildcard matching
++                pattern = re.compile(fnmatch.translate(r"%s" % key))
++                added = [ x for x in remaining if pattern.match(x) ]
++                result.extend(added)
++                remaining = [ x for x in remaining if not x in added ]
++
++        return result
++
+     if criteria == 'name':
+-        for tc in all_tests:
+-            if tc.tcname in keyword:
+-                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
++        names = get_matches([ tc.tcname for tc in all_tests ])
++        ts = [ tc for tc in all_tests if tc.tcname in names ]
+ 
+     elif criteria == 'class':
+-        for tc in all_tests:
+-            if tc.tcclass in keyword:
+-                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
++        classes = get_matches([ tc.tcclass for tc in all_tests ])
++        ts = [ tc for tc in all_tests if tc.tcclass in classes ]
+ 
+     elif criteria == 'module':
+-        for tc in all_tests:
+-            if tc.tcmodule in keyword:
+-                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
++        modules = get_matches([ tc.tcmodule for tc in all_tests ])
++        ts = [ tc for tc in all_tests if tc.tcmodule in modules ]
++
+     elif criteria == 'id':
+-        for tc in all_tests:
+-            if str(tc.tcid) in keyword:
+-                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
++        ids = get_matches([ str(tc.tcid) for tc in all_tests ])
++        ts = [ tc for tc in all_tests if str(tc.tcid) in ids ]
++
+     elif criteria == 'tag':
++        values = set()
+         for tc in all_tests:
+             # tc can have multiple tags (as list or tuple) otherwise as str
+             if isinstance(tc.tctag, (list, tuple)):
+-                for tag in tc.tctag:
+-                    if str(tag) in keyword:
+-                        ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
+-            elif str(tc.tctag) in keyword:
+-                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
++                values |= { str(tag) for tag in tc.tctag }
++            else:
++                values.add(str(tc.tctag))
++
++        tags = get_matches(list(values))
++        ts = [ tc for tc in all_tests if str(tc.tctag) in tags ]
+ 
+-    return sorted(list(ts))
++    return ts
+ 
+ 
+ def list_testsuite_by(criteria, keyword):
+     # Get a testsuite based on 'keyword'
+     # criteria: name, class, module, id, tag
+     # keyword: a list of tests, classes, modules, ids, tags
+-    # NOTE: globing would be nice?
+ 
+-    ts = get_testsuite_by(criteria, keyword)
++    ts = sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule) for tc in get_testsuite_by(criteria, keyword) ])
+ 
+     print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module')
+     print '_' * 150
+@@ -459,7 +439,7 @@ def main():
+         else:
+             criteria = args.run_tests_by[0]
+             keyword = args.run_tests_by[1:]
+-            ts = create_testsuite_by(criteria, keyword)
++            ts = sorted([ tc.fullpath for tc in get_testsuite_by(criteria, keyword) ])
+ 
+     if args.list_tests_by and len(args.list_tests_by) >= 2:
+         valid_options = ['name', 'class', 'module', 'id', 'tag']
+-- 
+1.9.1
 
 
-On Mar 11, 2016, at 11:02 PM, Burton, Ross <ross.burton@intel.com<mailto:ro=
-ss.burton@intel.com>> wrote:
-
-
-2016-03-11 15:58 GMT+00:00 Khem Raj <raj.khem@gmail.com<mailto:raj.khem@gma=
-il.com>>:
------BEGIN PGP MESSAGE-----
-Comment: GPGTools - https://gpgtools.org<https://gpgtools.org/>
-
-hQQOA1XJCHN89ZWPEA//byr/rrxGxNNYYivYsGFBs4h6XrUzdqBCsw2FuyseGKJ1
-XkZUtuH7f39QYY63OoqFhFdVmy3Hil3wscxe38L6/DA8hQV9Csn4cOxEfp9UF5jj
-+3QJg/xqk7cgXTLuoUen9JZQHZgnG6+IfBg6jJARCKTmcs8aCT8WU2DYWycGCGg5
-
-Can you send it non-encrypted? :)
-
-patch is ok. It was an oversight that its fixing.
-
-
-Ross
-
-
---_000_95245B46D926B348AEB132E99037C59B36A9FE73ULMDC01bmwcarit_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
-0;}</style>
-</head>
-<body ocsi=3D"0" fpstyle=3D"1" class=3D"" style=3D"word-wrap:break-word">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">If i change recipe scope, need to be on each gcc_${PV}.inc.<br>
-But they include gcc-common.inc on top, which states LICENSE =3D &quot;GPL&=
-quot;<br>
-<br>
-So, gcc_${PV}.inc is already overriding the original license. If you think =
-is ok, i can do that on gcc_${PV}.inc<br>
-<br>
-[]'s<br>
-<div><br>
-<div style=3D"font-family:Tahoma; font-size:13px"><font size=3D"2"><span st=
-yle=3D"font-size:10pt">--
-<br>
-BMW Car IT GmbH<br>
-Helio Chissini de Castro<br>
-Systems Integrator Engineer<br>
-Lise-Meitner-Str.14<br>
-89081 Ulm<br>
-Mobil: &#43;49 176 25435150<br>
-Mail: helio.castro@bmw-carit.de<br>
-Web: <a href=3D"http://www.bmw-carit.de" target=3D"_blank">http://www.bmw-c=
-arit.de</a></span></font></div>
-</div>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div style=3D"direction: ltr;" id=3D"divRpF342559"><font face=3D"Tahoma" co=
-lor=3D"#000000" size=3D"2"><b>From:</b> Khem Raj [raj.khem@gmail.com]<br>
-<b>Sent:</b> Friday, March 11, 2016 5:11 PM<br>
-<b>To:</b> Burton, Ross<br>
-<b>Cc:</b> Helio Chissini De Castro; OE-core<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] gcc: Fix the license on GNU OpenMP<br=
->
-</font><br>
-</div>
-<div></div>
-<div><br class=3D"">
-<div>
-<blockquote type=3D"cite" class=3D"">
-<div class=3D"">On Mar 11, 2016, at 11:02 PM, Burton, Ross &lt;<a href=3D"m=
-ailto:ross.burton@intel.com" class=3D"" target=3D"_blank">ross.burton@intel=
-.com</a>&gt; wrote:</div>
-<br class=3D"Apple-interchange-newline">
-<div class=3D"">
-<div dir=3D"ltr" class=3D"">
-<div class=3D"gmail_extra"><br class=3D"">
-<div class=3D"gmail_quote">2016-03-11 15:58 GMT&#43;00:00 Khem Raj <span di=
-r=3D"ltr" class=3D"">
-&lt;<a href=3D"mailto:raj.khem@gmail.com" class=3D"" target=3D"_blank">raj.=
-khem@gmail.com</a>&gt;</span>:<br class=3D"">
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div id=3D":ao7" class=3D"a3s" style=3D"overflow:hidden">-----BEGIN PGP MES=
-SAGE-----<br class=3D"">
-Comment: GPGTools - <a href=3D"https://gpgtools.org/" rel=3D"noreferrer" cl=
-ass=3D"" target=3D"_blank">
-https://gpgtools.org</a><br class=3D"">
-<br class=3D"">
-hQQOA1XJCHN89ZWPEA//byr/rrxGxNNYYivYsGFBs4h6XrUzdqBCsw2FuyseGKJ1<br class=
-=3D"">
-XkZUtuH7f39QYY63OoqFhFdVmy3Hil3wscxe38L6/DA8hQV9Csn4cOxEfp9UF5jj<br class=
-=3D"">
-&#43;3QJg/xqk7cgXTLuoUen9JZQHZgnG6&#43;IfBg6jJARCKTmcs8aCT8WU2DYWycGCGg5<br=
- class=3D"">
-</div>
-</blockquote>
-</div>
-<br class=3D"">
-Can you send it non-encrypted? :)</div>
-</div>
-</div>
-</blockquote>
-<div><br class=3D"">
-</div>
-<div>patch is ok. It was an oversight that its fixing.</div>
-<br class=3D"">
-<blockquote type=3D"cite" class=3D"">
-<div class=3D"">
-<div dir=3D"ltr" class=3D"">
-<div class=3D"gmail_extra"><br class=3D"">
-</div>
-<div class=3D"gmail_extra">Ross</div>
-</div>
-</div>
-</blockquote>
-</div>
-<br class=3D"">
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_95245B46D926B348AEB132E99037C59B36A9FE73ULMDC01bmwcarit_--
