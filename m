@@ -1,51 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 13FC4731D6;
-	Fri, 11 Mar 2016 15:03:18 +0000 (UTC)
-Received: by mail-ig0-f176.google.com with SMTP id z8so13156743ige.0;
-	Fri, 11 Mar 2016 07:03:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=MBq2kTcshQDeFMU3mOaZK5lb/DCa570AHyYJH3GVV3c=;
-	b=t0BlzSMVOPP4oan2jANXGhGlS0MH0/YOCXc0IxsmSqO/PwkR96C1iIBbyNPX1wEdNT
-	/Q1k7SRmJ/HjAam0hIEylb3jXUpP9F5wfivqjgipaNLll8r3OKnsdB5sN1IrdSe/D7c6
-	zlFKTcpWXjFxxYp63x17vT1p9MzU8ynDiy7uMdCMy9LVHj6FAaWrso6v1unTXfKokWuw
-	EhHq6U2qwCJOUWytILpeFgIcNunP9+Dh2ljlDVUiVYHJjUdEAE+g60IY5fb709VvS5vS
-	bPcEt8H0Q91oW1b378Fco0+RvENoes8/WkkoX/aG3B2n2dzmMBk0EVOPIZDP06sr7TlT
-	GYRg==
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 44CC5731DD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Mar 2016 15:05:53 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id z8so13226858ige.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Mar 2016 07:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=k1j6NoHEn0WW8vCcaW27r1NIsql5zdfEaD3QT8m3RYw=;
+	b=oOqtwLh33VI+tIc5qiu7T0hjxnUs/PpJ5t++pdyyN3YPVUNTnDKHEScg4L6fZIEpOA
+	wE1dnS4TAG7dqPnZ0HnR6UkITFWNIBhXO2ZDqWPfSqdPXFLK45xDumHFQ5sspALDYKsm
+	q1BziEwP2m9/2Osd1K7zVCAYeMZTl1YFu9xiaMrNlQXvaNxsgmiD9N7g4IXgpTl951yA
+	1cAPsgsivH/dsHLB+d2wTVX6Dziu+SrFW13I6nwZ2mNIMwJ/OU0/RVZyz47hxxwkqLAF
+	qGQb8CFMc1TLZKaGMGyed7ccVweCatXQbGxMdIyzmtY5pckK9tvOXbXSKa4h39GZalwq
+	UADQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=MBq2kTcshQDeFMU3mOaZK5lb/DCa570AHyYJH3GVV3c=;
-	b=D/ko9IZ7gLBEKOmh1P3sGrA1S7gUtTcJkB5Ul26MA3iEausRWIW4/OFKHFCHcfOBmR
-	wb8qR2Kta+TypsZmJxkRiELGv+TI2RqFWorVpnZ6q6l7SYkz9BfF7x7ziCf8LGGhG1TG
-	eslHw7pmR4D18zV0mEWlOI8nBq2GVPzqPntUvpihmAKPW3PiURvij5g6U1BGGYL9Rik+
-	RI1hS5ttSx3on+Jv0ehKmr0XMJ/uz3vns0CcmcpoX0cj68bvOaFjIYP+CETHpbkdMQwz
-	B4WCnqgNOrwrm4o1pg5yPKL55lcSwuIObgit9QgvHuCaflkySPlX/e/A5KuZChFMJXQG
-	bWZg==
-X-Gm-Message-State: AD7BkJLWIRgn3mwA2WcauyBj9S0+vi0vvfwKbkQ+Q+lnnm9ryRWvIzC8U7PnGBEu0IBv/Q==
-X-Received: by 10.50.61.232 with SMTP id t8mr4049405igr.83.1457708598931;
-	Fri, 11 Mar 2016 07:03:18 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	l6sm883685igx.14.2016.03.11.07.03.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Mar 2016 07:03:17 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-References: <20160310115301.GC2573@jama>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56E2DE3D.3050703@gmail.com>
-Date: Fri, 11 Mar 2016 10:03:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <20160310115301.GC2573@jama>
-Subject: Re: State of bitbake world, Failed tasks 2016-03-09
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=k1j6NoHEn0WW8vCcaW27r1NIsql5zdfEaD3QT8m3RYw=;
+	b=fbtxOYuKLJAR5kzzhkJm/Iyz87Uv+Fr0rLP5OIjnvyp9ZsOSMIdMK0idEkjoLj3kMu
+	iNAXgnZCH9Dc8EkwkiQtIp+QSG9vHcKtuTsjqSDh68YsLjOcGn7yleQWiOWvaCfd7ZtQ
+	r710+p4FUFaX3VavD9TszH59OIewNpWwxnFi4PrNbMiGdzZuQ5oH6PbUVhXujXt4n++v
+	iLWiKrPR8QbmY4YBLCH+fCAuHZ54UWoQ9lj+7H80Hz3hZNcXks6gXBlje9CAOWrcThn4
+	9+mGgUMrH+ohD1WTs7mBJCIRoLf5JGB1zVPtuIvNnmWggJ0DVEAfpqzTIVpo02r284WO
+	mVCA==
+X-Gm-Message-State: AD7BkJLzrXV1HTkZaK74QDGUsKEbzxNAVA0+USL2MPuuwDKOkcColbfolafH2TAJlK496fY+
+X-Received: by 10.50.28.19 with SMTP id x19mr3924003igg.19.1457708754551;
+	Fri, 11 Mar 2016 07:05:54 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8C5D0.dip0.t-ipconnect.de.
+	[93.232.197.208]) by smtp.gmail.com with ESMTPSA id
+	s101sm3614908ioe.24.2016.03.11.07.05.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 11 Mar 2016 07:05:53 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Mar 2016 16:05:46 +0100
+Message-Id: <1457708746-733-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image-buildinfo.bbclass: fix performance problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +53,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 15:03:21 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Mar 2016 15:05:54 -0000
 
-On 03/10/16 06:53, Martin Jansa wrote:
-> I'll look at cef3 and chromium issue, my recent patch for meta-browser
-> fixed the build for armv7a MACHINEs, so it probably needs to be extended
-> a bit to cover warnings in x86 and then duplicate the same to cef3.
-> This issue is there for so long, slowing down the builds significantly
-> (and causing logs to be much bigger) - I don't use these recipes but I
-> hate the failures even more.
+Inheriting image-buildinfo.bbclass primarily slowed down image
+building for two reasons:
+1. The content of the shell command "buildinfo" gets expanded
+   multiple times, each time again checking the state of all
+   layers.
+2. When expanded as part of the actual image creation, git
+   is invoked under pseudo, which makes the check quite a bit
+   slower (from a few seconds to a minute with many layers).
 
-Working with the chromium recipe is painful! Each build takes _hours_, 
-of just this one recipe alone, even on beefy build hardware. There are 
-several PACKAGECONFIG options which affect the build (component build, 
-lost context, side painting). There are multiple MACHINEs. You can 
-perform a 'Release' or a 'Debug' build. Plus there are two rendering 
-systems to support (x11 and wayland). Simply switching between x11 and 
-wayland isn't just a matter of setting some build flags, you have to add 
-another entire repository to your build from which you have to apply 
-dozens of huge patches in order to add an Ozone layer underneath 
-chromium so it can talk to wayland/weston.
+To fix this, buildinfo now is a Python method which calls the checks
+only when really executed. Pseudo is told to unload itself when
+starting git.
 
-The matrix of builds to perform and test explodes, not to mention the 
-number of days it would take to build all these permutations.
+In addition, "git diff" is invoked with "--quiet", which avoids
+producing output that is just getting thrown away. As before, any kind
+of problem or output causes the layer to be marked as "modified".
 
-I think one way to help contain this situation would be to split the 
-chromium recipe into two: one for x11 and one for wayland. Another thing 
-we should consider is wether or not all those permutations are really 
-necessary. Is anyone actively using/needing Debug builds? Do we really 
-need a component build?
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/image-buildinfo.bbclass | 39 ++++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
+
+diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
+index 5b738ae..408b5b8 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -26,12 +26,21 @@ def image_buildinfo_outputvars(vars, listvars, d):
+ 
+ # Gets git branch's status (clean or dirty)
+ def get_layer_git_status(path):
+-    f = os.popen("cd %s; git diff --stat 2>&1 | tail -n 1" % path)
+-    data = f.read()
+-    if f.close() is None:
+-        if len(data) != 0:
+-            return "-- modified"
+-    return ""
++    import subprocess
++    import copy
++    import os
++    try:
++        env = copy.deepcopy(os.environ)
++        subprocess.check_output("cd %s; PSEUDO_UNLOAD=1 git diff --quiet --no-ext-diff" % path,
++                                shell=True,
++                                stderr=subprocess.STDOUT,
++                                env=env)
++        return ""
++    except subprocess.CalledProcessError, ex:
++        # Silently treat errors as "modified", without checking for the
++        # (expected) return code 1 in a modified git repo. For example, we get
++        # output and a 129 return code when a layer isn't a git repo at all.
++        return "-- modified"
+ 
+ # Returns layer revisions along with their respective status
+ def get_layer_revs(d):
+@@ -53,17 +62,21 @@ def buildinfo_target(d):
+         return image_buildinfo_outputvars(vars, listvars, d)
+ 
+ # Write build information to target filesystem
+-buildinfo () {
+-cat > ${IMAGE_ROOTFS}${sysconfdir}/build << END
+------------------------
++python buildinfo () {
++    with open(d.expand('${IMAGE_ROOTFS}${sysconfdir}/build'), 'w') as build:
++        build.writelines((
++            '''-----------------------
+ Build Configuration:  |
+ -----------------------
+-${@buildinfo_target(d)}
++''',
++            buildinfo_target(d),
++            '''
+ -----------------------
+-Layer Revisions:      |   
++Layer Revisions:      |
+ -----------------------
+-${@get_layer_revs(d)}
+-END
++''',
++            get_layer_revs(d)
++       ))
+ }
+ 
+ IMAGE_PREPROCESS_COMMAND += "buildinfo;"
+-- 
+2.1.4
+
 
