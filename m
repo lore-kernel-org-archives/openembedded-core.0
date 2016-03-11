@@ -1,25 +1,29 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D9AB734B8
+Return-Path: <helio.castro@bmw-carit.de>
+X-Greylist: delayed 351 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 11 Mar 2016 14:31:00 UTC
+Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ECB76FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 14:07:46 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Mar 2016 06:07:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,320,1455004800"; d="scan'208";a="921777288"
-Received: from jlock-mobl1.gar.corp.intel.com (HELO
-	jlock-mobl.gar.corp.intel.com) ([10.252.4.28])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2016 06:07:44 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Mar 2016 14:07:31 +0000
-Message-Id: <521346160846f3f727ad37005efbc89cd83643ef.1457705106.git.joshua.g.lock@intel.com>
+	Fri, 11 Mar 2016 14:31:00 +0000 (UTC)
+Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:10670
+	helo=mail.bmw-carit.de)
+	by mail.bmw-carit.de with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Helio.Castro@bmw-carit.de>)
+	id 1aeO03-0008O1-37 for openembedded-core@lists.openembedded.org;
+	Fri, 11 Mar 2016 15:25:08 +0100
+Received: from localhost (172.20.20.223) by Exchange2010.bmw-carit.intra
+	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.3.123.3;
+	Fri, 11 Mar 2016 15:25:07 +0100
+X-CTCH-RefID: str=0001.0A0C0205.56E2D544.0001, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+From: <helio.castro@bmw-carit.de>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Mar 2016 15:24:44 +0100
+Message-ID: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1457705106.git.joshua.g.lock@intel.com>
-References: <cover.1457705106.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1457705106.git.joshua.g.lock@intel.com>
-References: <cover.1457705106.git.joshua.g.lock@intel.com>
-Subject: [RFC PATCH 3/3] lib/package_manager: remove RPM4 support code
+MIME-Version: 1.0
+X-Originating-IP: [172.20.20.223]
+Subject: [PATCH] gcc: Fix the license on GNU OpenMP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,166 +36,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 14:07:47 -0000
+X-List-Received-Date: Fri, 11 Mar 2016 14:31:03 -0000
+Content-Type: text/plain
 
-Simplify the RPM code by removing support for RPM 4 now that we've
-dropped the RPM 4 recipe.
+From: Helio Chissini de Castro <helio.castro@bmw-carit.de>
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+Poky jethro has libgomp ( GNU OpenMP ) license marked as GPL-3.0,
+where's in fact the correct is GPL-3.0 with GCC Library Runtime Exception
+
+As stated on https://github.com/gcc-mirror/gcc/blob/master/libgomp/libgomp.h
+header license:
+ ...
+   Under Section 7 of GPL version 3, you are granted additional
+   permissions described in the GCC Runtime Library Exception, version
+   3.1, as published by the Free Software Foundation.
+ ...
+
+Signed-off-by: Helio Chissini de Castro <helio.castro@bmw-carit.de>
 ---
- meta/lib/oe/package_manager.py | 94 +++++++++++++++++-------------------------
- 1 file changed, 38 insertions(+), 56 deletions(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 33 ++++---------------------------
+ 1 file changed, 4 insertions(+), 29 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index b701b8c..239ae4e 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -345,7 +345,6 @@ class RpmPkgsList(PkgsList):
-         except subprocess.CalledProcessError as e:
-             bb.fatal("Getting rpm version failed. Command '%s' "
-                      "returned %d:\n%s" % (cmd, e.returncode, e.output))
--        self.rpm_version = int(output.split()[-1].split('.')[0])
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 690d780..98cc4b6 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -93,35 +93,10 @@ PACKAGES = "\
+     libatomic-staticdev \
+ "
  
-     '''
-     Translate the RPM/Smart format names to the OE multilib format names
-@@ -396,10 +395,7 @@ class RpmPkgsList(PkgsList):
-     def list_pkgs(self):
-         cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
-         cmd += ' -D "_dbpath /var/lib/rpm" -qa'
--        if self.rpm_version == 4:
--            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION}\n]'"
--        else:
--            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
-+        cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
- 
-         try:
-             # bb.note(cmd)
-@@ -410,11 +406,7 @@ class RpmPkgsList(PkgsList):
- 
-         output = dict()
-         deps = dict()
--        if self.rpm_version == 4:
--            bb.warn("Dependency listings are not supported with rpm 4 since rpmresolve does not work")
--            dependencies = ""
--        else:
--            dependencies = self._list_pkg_deps()
-+        dependencies = self._list_pkg_deps()
- 
-         # Populate deps dictionary for better manipulation
-         for line in dependencies.splitlines():
-@@ -439,10 +431,8 @@ class RpmPkgsList(PkgsList):
-             # Skip GPG keys
-             if pkg == 'gpg-pubkey':
-                 continue
--            if self.rpm_version == 4:
--                pkgorigin = "unknown"
--            else:
--                pkgorigin = line.split()[3]
-+
-+            pkgorigin = line.split()[3]
-             new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
- 
-             output[new_pkg] = {"arch":new_arch, "ver":ver,
-@@ -675,7 +665,6 @@ class RpmPM(PackageManager):
- 
-         self.indexer = RpmIndexer(self.d, self.deploy_dir)
-         self.pkgs_list = RpmPkgsList(self.d, self.target_rootfs, arch_var, os_var)
--        self.rpm_version = self.pkgs_list.rpm_version
- 
-         self.ml_prefix_list, self.ml_os_list = self.indexer.get_ml_prefix_and_os_list(arch_var, os_var)
- 
-@@ -897,44 +886,41 @@ class RpmPM(PackageManager):
-         # After change the __db.* cache size, log file will not be
-         # generated automatically, that will raise some warnings,
-         # so touch a bare log for rpm write into it.
--        if self.rpm_version == 5:
--            rpmlib_log = os.path.join(self.image_rpmlib, 'log', 'log.0000000001')
--            if not os.path.exists(rpmlib_log):
--                bb.utils.mkdirhier(os.path.join(self.image_rpmlib, 'log'))
--                open(rpmlib_log, 'w+').close()
+-# Most libraries are licensed with the exception, but
+-# one library is really GPLv3.
+-#
+-LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception & GPLv3"
+-LICENSE_libstdc++ = "GPL-3.0-with-GCC-exception"
+-LICENSE_libstdc++-precompile-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libstdc++-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libstdc++-staticdev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libg2c = "GPL-3.0-with-GCC-exception"
+-LICENSE_libg2c-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libssp = "GPL-3.0-with-GCC-exception"
+-LICENSE_libssp-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libssp-staticdev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libgfortran = "GPL-3.0-with-GCC-exception"
+-LICENSE_libgfortran-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libgfortran-staticdev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libmudflap = "GPL-3.0-with-GCC-exception"
+-LICENSE_libmudflap-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libmudflap-staticdev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libquadmath = "GPL-3.0-with-GCC-exception"
+-LICENSE_libquadmath-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libquadmath-staticdev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libatomic = "GPL-3.0-with-GCC-exception"
+-LICENSE_libatomic-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_libatomic-staticdev = "GPL-3.0-with-GCC-exception"
 -
--            DB_CONFIG_CONTENT = "# ================ Environment\n" \
--                "set_data_dir .\n" \
--                "set_create_dir .\n" \
--                "set_lg_dir ./log\n" \
--                "set_tmp_dir ./tmp\n" \
--                "set_flags db_log_autoremove on\n" \
--                "\n" \
--                "# -- thread_count must be >= 8\n" \
--                "set_thread_count 64\n" \
--                "\n" \
--                "# ================ Logging\n" \
--                "\n" \
--                "# ================ Memory Pool\n" \
--                "set_cachesize 0 1048576 0\n" \
--                "set_mp_mmapsize 268435456\n" \
--                "\n" \
--                "# ================ Locking\n" \
--                "set_lk_max_locks 16384\n" \
--                "set_lk_max_lockers 16384\n" \
--                "set_lk_max_objects 16384\n" \
--                "mutex_set_max 163840\n" \
--                "\n" \
--                "# ================ Replication\n"
--
--            db_config_dir = os.path.join(self.image_rpmlib, 'DB_CONFIG')
--            if not os.path.exists(db_config_dir):
--                open(db_config_dir, 'w+').write(DB_CONFIG_CONTENT)
-+        rpmlib_log = os.path.join(self.image_rpmlib, 'log', 'log.0000000001')
-+        if not os.path.exists(rpmlib_log):
-+            bb.utils.mkdirhier(os.path.join(self.image_rpmlib, 'log'))
-+            open(rpmlib_log, 'w+').close()
-+
-+        DB_CONFIG_CONTENT = "# ================ Environment\n" \
-+            "set_data_dir .\n" \
-+            "set_create_dir .\n" \
-+            "set_lg_dir ./log\n" \
-+            "set_tmp_dir ./tmp\n" \
-+            "set_flags db_log_autoremove on\n" \
-+            "\n" \
-+            "# -- thread_count must be >= 8\n" \
-+            "set_thread_count 64\n" \
-+            "\n" \
-+            "# ================ Logging\n" \
-+            "\n" \
-+            "# ================ Memory Pool\n" \
-+            "set_cachesize 0 1048576 0\n" \
-+            "set_mp_mmapsize 268435456\n" \
-+            "\n" \
-+            "# ================ Locking\n" \
-+            "set_lk_max_locks 16384\n" \
-+            "set_lk_max_lockers 16384\n" \
-+            "set_lk_max_objects 16384\n" \
-+            "mutex_set_max 163840\n" \
-+            "\n" \
-+            "# ================ Replication\n"
-+
-+        db_config_dir = os.path.join(self.image_rpmlib, 'DB_CONFIG')
-+        if not os.path.exists(db_config_dir):
-+            open(db_config_dir, 'w+').write(DB_CONFIG_CONTENT)
+-LICENSE_libgomp = "GPLv3"
+-LICENSE_libgomp-dev = "GPLv3"
+-LICENSE_libgomp-staticdev = "GPLv3"
++LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
++LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
++LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
++LICENSE_${PN}-staticdev = "GPL-3.0-with-GCC-exception"
  
-         # Create database so that smart doesn't complain (lazy init)
-         opt = "-qa"
--        if self.rpm_version == 4:
--            opt = "--initdb"
-         cmd = "%s --root %s --dbpath /var/lib/rpm %s > /dev/null" % (
-               self.rpm_cmd, self.target_rootfs, opt)
-         try:
-@@ -1021,12 +1007,8 @@ class RpmPM(PackageManager):
-         # If we ever run into needing more the 899 scripts, we'll have to.
-         # change num to start with 1000.
-         #
--        if self.rpm_version == 4:
--            scriptletcmd = "$2 $3 $4\n"
--            scriptpath = "$3"
--        else:
--            scriptletcmd = "$2 $1/$3 $4\n"
--            scriptpath = "$1/$3"
-+        scriptletcmd = "$2 $1/$3 $4\n"
-+        scriptpath = "$1/$3"
- 
-         # When self.debug_level >= 3, also dump the content of the
-         # executed scriptlets and how they get invoked.  We have to
+ # The base package doesn't exist, so we clear the recommends.
+ RRECOMMENDS_${PN}-dbg = ""
 -- 
 2.5.0
 
