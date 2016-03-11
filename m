@@ -1,35 +1,22 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B30CC6010B
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D9C8607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 16:35:31 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 11 Mar 2016 08:35:12 -0800
+	Fri, 11 Mar 2016 16:51:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 11 Mar 2016 08:51:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,321,1455004800"; d="scan'208,217";a="64371022"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by fmsmga004.fm.intel.com with ESMTP; 11 Mar 2016 08:35:12 -0800
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.159]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.3.42]) with mapi id
-	14.03.0248.002; Fri, 11 Mar 2016 08:35:11 -0800
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] ncurses_6: Fix an install race condition
-Thread-Index: AQHRezy3nyKXxwZTXUmf33KXroELyp9UgoKA///nCzA=
-Date: Fri, 11 Mar 2016 16:35:11 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6117F3F79@ORSMSX112.amr.corp.intel.com>
-References: <1457662056-18208-1-git-send-email-juro.bystricky@intel.com>
-	<1457662056-18208-2-git-send-email-juro.bystricky@intel.com>
-	<CAJTo0LZ6w0t-5mHM6zSXFeT3Q7eAfEjFb-KBUhty_APaM6vh2A@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ6w0t-5mHM6zSXFeT3Q7eAfEjFb-KBUhty_APaM6vh2A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
-MIME-Version: 1.0
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ncurses_6: Fix an install race condition
+X-IronPort-AV: E=Sophos;i="5.24,321,1455004800"; d="scan'208";a="921877059"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2016 08:51:57 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Mar 2016 08:47:09 +0000
+Message-Id: <1457686029-40654-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Cc: joshua.g.lock@intel.com
+Subject: [PATCH v2][fido] dhcp: CVE-2015-8605
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,240 +29,282 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 16:35:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6117F3F79ORSMSX112amrcor_"
+X-List-Received-Date: Fri, 11 Mar 2016 16:52:01 -0000
 
---_000_6E51916E4A1F32428260031F4C7CD2B6117F3F79ORSMSX112amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-DQpUaGUgcGF0Y2ggcGF0Y2hlcyBhbiAuYXdrIGZpbGUgdGhhdCBpcyB1c2VkIHRvIGNyZWF0ZSBz
-ZXZlcmFsIE1ha2VmaWxlcy4NClRoZSBvcmlnaW5hbCBjb2RlIGxvb2tzIHNvbWV0aGluZyBsaWtl
-IHRoaXM6DQoNCmluc3RhbGwgaW5zdGFsbC5saWJzIGluc3RhbGwuaW5jbHVkZXMgOjoNCiAgICAg
-ICAgICAgICAgIGluc3RhbGwgZmlsZXMNCg0KU28gd2Ugc2VlIHRoYXQgaW5zdGFsbC5saWJzIGFu
-ZCBpbnN0YWxsLmluY2x1ZGVzIGRvIGV4YWN0bHkgdGhlIHNhbWUgdGhpbmcuDQoNCkdpdmVuIG91
-ciBuY3Vyc2VzIHJlY2lwZSBpbnN0YWxscyBleHBsaWNpdGx5IGJvdGggdGFyZ2V0czoNCg0K4oCc
-bWFrZSBpbnN0YWxsLmxpYnMgaW5zdGFsbC5pbmNsdWRlcyDigJwgdGhlIHJhY2UgaXMgb2J2aW91
-cy4NCg0KU28gb25lIHdheSB0byBmaXggaXQgd291bGQgYmUgdG8gcHJlcGVuZA0KLk5PVFBBUkFM
-TEVMIGluc3RhbGwubGlicyBpbnN0YWxsLmluY2x1ZGVzDQoNClRoaXMgd291bGQgc29sdmUgdGhl
-IHJhY2UsIGJ1dCBzb21lIGZpbGVzIHdvdWxkIGJlIGluc3RhbGxlZCB0d2ljZS4NClRoZSBvdGhl
-ciB3YXksICh0aGUgb25lIGltcGxlbWVudGVkIGJ5IHRoZSBwYXRjaCkgaXMgdG8gY3JlYXRlIE1h
-a2VmaWxlcyBjb250YWluaW5nOg0KDQppbnN0YWxsLmxpYnMgOjogOw0KDQppbnN0YWxsIGluc3Rh
-bGwuaW5jbHVkZXM6Og0KICAgICAgICAgICAgICAgaW5zdGFsbCBmaWxlcw0KDQpUaGlzIHdheSB0
-aGUgZmlsZXMgYXJlIGluc3RhbGxlZCBvbmx5IG9uY2UsIGFuZCB3ZSBjYW4gdXNlIHBhcmFsbGVs
-IG1ha2UuDQpTbyBhcyBsb25nIGFzIHdlIGluc3RhbGwgZXhwbGljaXRseSBpbnN0YWxsLmxpYnMg
-YW5kIGluc3RhbGwuaW5jbHVkZXMgKGFuZCB3ZSBkbykgLCBuY3Vyc2VzIHNob3VsZA0KaW5zdGFs
-bCB0aGUgd2F5IHRoZXkgd2VyZSBtZWFudCB0by4NCkkgYmVsaWV2ZSB0aGVyZSB3b3VsZCBiZSBu
-byByYWNlIGlmIHdlIHVzZWQgYSBzaW1wbGUgIOKAnCBtYWtlIGluc3RhbGzigJ0sIGJ1dCB0aGlz
-IHdvdWxkDQpwcm9iYWJseSBpbnN0YWxsIGFkZGl0aW9uYWwgY29tcG9uZW50cyB3ZSBkb27igJl0
-IGNhcmUgYWJvdXQuDQpZZXMsIG5jdXJzZXMgaXMgd2VpcmQuIFRoZXkgcmVseSBoZWF2aWx5IG9u
-IHRoZSDigJg6OuKAmSBydWxlcywgc28gcnVsZXMgZm9yIGVhY2ggdGFyZ2V0DQphcmUgc2NhdHRl
-cmVkIGluIHZhcmlvdXMgcGxhY2VzIHNvIGl0IGlzIG5vdCBvYnZpb3VzIHRvIHNlZSB0aGUgYmln
-IHBpY3R1cmUgd2hlbiBpdCBjb21lcyB0bw0KZGVwZW5kZW5jaWVzLg0KDQoNCg0KDQpGcm9tOiBC
-dXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBGcmlkYXks
-IE1hcmNoIDExLCAyMDE2IDE6MzYgQU0NClRvOiBCeXN0cmlja3ksIEp1cm8gPGp1cm8uYnlzdHJp
-Y2t5QGludGVsLmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPjsgSnVybyBCeXN0cmlja3kgPGp1cm9ieXN0cmlja3lAaG90bWFpbC5jb20+
-DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIG5jdXJzZXNfNjogRml4IGFuIGlu
-c3RhbGwgcmFjZSBjb25kaXRpb24NCg0KSGkgSnVybywNCg0KT24gMTEgTWFyY2ggMjAxNiBhdCAw
-MjowNywgSnVybyBCeXN0cmlja3kgPGp1cm8uYnlzdHJpY2t5QGludGVsLmNvbTxtYWlsdG86anVy
-by5ieXN0cmlja3lAaW50ZWwuY29tPj4gd3JvdGU6DQorQXMgYm90aCB0YXJnZXRzIGluc3RhbGwg
-aWRlbnRpY2FsIGZpbGVzLiBUaGUgcmVtZWR5IGlzIHRvIGVpdGhlciBwcmV2ZW50DQorcGFyYWxs
-ZWwgbWFrZSBvZiBpbnN0YWxsLmxpYnMgYW5kIGluc3RhbGwuaW5jbHVkZXMsIG9yIGVuc3VyZSBv
-bmx5IG9uZQ0KK3RhcmdldCBpbnN0YWxscyB0aGUgZmlsZXMuDQorVGhlIHNlY29uZCBhcHByb2No
-IHdpbGwgb25seSB3b3JrIGlmIHdlIGFsd2F5cyBpbnN0YWxsIGJvdGggbGlicyBhbmQNCitpbmNs
-dWRlcyAod2hpY2ggd2UgZG8pLg0KDQpXb3VsZG4ndCBhbiB1cHN0cmVhbWFibGUgZml4IGJlIHRv
-IG1ha2UgaW5zdGFsbC5pbmNsdWRlcyB0aGUgdGFyZ2V0IHRoYXQgYWN0dWFsbHkgZG9lcyBzb21l
-dGhpbmcsIGFuZCB0aGVuIGhhdmUgaW5zdGFsbCBkZXBlbmQgb24gdGhhdD8gIENvbnNpZGVyaW5n
-IGluc3RhbGwubGlicyBhbmQgaW5zdGFsbC5pbmNsdWRlcyBhcmUgc2VwYXJhdGUgcnVsZXMsIHN1
-cmVseSBpbnN0YWxsLmxpYnMgaW4gdGhlIGhlYWRlciBtYWtlZmlsZSBzaG91bGQgZG8gbm90aGlu
-Zz8gIChuY3Vyc2VzIGlzIHdlaXJkLi4uKQ0KDQpIYXZlIHlvdSBjaGVja2VkIHRoZSBvdGhlciBt
-YWtlZmlsZXMgZm9yIHRoZSBzYW1lIHByb2JsZW0/DQoNClJvc3MNCg==
+ISC DHCP allows remote attackers to cause a denial of
+service (application crash) via an invalid length field
+in a UDP IPv4 packet.
 
---_000_6E51916E4A1F32428260031F4C7CD2B6117F3F79ORSMSX112amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ .../dhcp/dhcp/CVE-2015-8605.patch                  | 101 ++++++++++++++++
+ .../dhcp/dhcp/CVE-2015-8605_1.patch                | 131 +++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   2 +
+ 3 files changed, 234 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5U
-aGUgcGF0Y2ggcGF0Y2hlcyBhbiAuYXdrIGZpbGUgdGhhdCBpcyB1c2VkIHRvIGNyZWF0ZSBzZXZl
-cmFsIE1ha2VmaWxlcy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhlIG9yaWdpbmFsIGNvZGUgbG9va3Mg
-c29tZXRoaW5nIGxpa2UgdGhpczo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
-RjQ5N0QiPmluc3RhbGwgaW5zdGFsbC5saWJzIGluc3RhbGwuaW5jbHVkZXMgOjoNCjxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
-cjojMUY0OTdEIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaW5zdGFsbCBmaWxlczxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtj
-b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+U28gd2Ugc2VlIHRoYXQgaW5z
-dGFsbC5saWJzIGFuZCBpbnN0YWxsLmluY2x1ZGVzIGRvIGV4YWN0bHkgdGhlIHNhbWUgdGhpbmcu
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5HaXZlbiBvdXIgbmN1
-cnNlcyByZWNpcGUgaW5zdGFsbHMgZXhwbGljaXRseSBib3RoIHRhcmdldHM6PG86cD48L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
-RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj7igJxtYWtlIGluc3RhbGwubGlicyBpbnN0
-YWxsLmluY2x1ZGVzIOKAnCB0aGUgcmFjZSBpcyBvYnZpb3VzLjxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
-bnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+U28gb25lIHdheSB0byBmaXggaXQgd291bGQgYmUgdG8g
-cHJlcGVuZDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj4uTk9UUEFSQUxMRUwgaW5zdGFsbC5saWJzIGluc3Rh
-bGwuaW5jbHVkZXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRo
-aXMgd291bGQgc29sdmUgdGhlIHJhY2UsIGJ1dCBzb21lIGZpbGVzIHdvdWxkIGJlIGluc3RhbGxl
-ZCB0d2ljZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhlIG90aGVyIHdheSwgKHRoZSBvbmUgaW1wbGVt
-ZW50ZWQgYnkgdGhlIHBhdGNoKSBpcyB0byBjcmVhdGUgTWFrZWZpbGVzIGNvbnRhaW5pbmc6PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
-O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5pbnN0YWxsLmxpYnMgOjog
-OzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+aW5zdGFsbCBpbnN0
-YWxsLmluY2x1ZGVzOjo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7IGluc3RhbGwgZmlsZXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
-YnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
-N0QiPlRoaXMgd2F5IHRoZSBmaWxlcyBhcmUgaW5zdGFsbGVkIG9ubHkgb25jZSwgYW5kIHdlIGNh
-biB1c2UgcGFyYWxsZWwgbWFrZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+U28gYXMgbG9uZyBhcyB3ZSBp
-bnN0YWxsIGV4cGxpY2l0bHkgaW5zdGFsbC5saWJzIGFuZCBpbnN0YWxsLmluY2x1ZGVzIChhbmQg
-d2UgZG8pICwgbmN1cnNlcyBzaG91bGQ8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
-dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+aW5zdGFsbCB0aGUgd2F5
-IHRoZXkgd2VyZSBtZWFudCB0by48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SSBiZWxpZXZlIHRoZXJlIHdv
-dWxkIGJlIG5vIHJhY2UgaWYgd2UgdXNlZCBhIHNpbXBsZSAmbmJzcDvigJwgbWFrZSBpbnN0YWxs
-4oCdLCBidXQgdGhpcyB3b3VsZDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5wcm9iYWJseSBpbnN0YWxsIGFk
-ZGl0aW9uYWwgY29tcG9uZW50cyB3ZSBkb27igJl0IGNhcmUgYWJvdXQuPG86cD48L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
-N0QiPlllcywgbmN1cnNlcyBpcyB3ZWlyZC4gVGhleSByZWx5IGhlYXZpbHkgb24gdGhlIOKAmDo6
-4oCZIHJ1bGVzLCBzbyBydWxlcyBmb3IgZWFjaCB0YXJnZXQ8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+YXJl
-IHNjYXR0ZXJlZCBpbiB2YXJpb3VzIHBsYWNlcyBzbyBpdCBpcyBub3Qgb2J2aW91cyB0byBzZWUg
-dGhlIGJpZyBwaWN0dXJlIHdoZW4gaXQgY29tZXMgdG88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+ZGVwZW5k
-ZW5jaWVzLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4m
-bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
-bzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
-ZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMu
-MHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
-ZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRv
-OnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIE1hcmNo
-IDExLCAyMDE2IDE6MzYgQU08YnI+DQo8Yj5Ubzo8L2I+IEJ5c3RyaWNreSwgSnVybyAmbHQ7anVy
-by5ieXN0cmlja3lAaW50ZWwuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gT0UtY29yZSAmbHQ7b3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs7IEp1cm8gQnlzdHJpY2t5
-ICZsdDtqdXJvYnlzdHJpY2t5QGhvdG1haWwuY29tJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBS
-ZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIG5jdXJzZXNfNjogRml4IGFuIGluc3RhbGwgcmFjZSBj
-b25kaXRpb248bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPkhpIEp1cm8sPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj5PbiAxMSBNYXJjaCAyMDE2IGF0IDAyOjA3LCBKdXJvIEJ5c3RyaWNreSAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOmp1cm8uYnlzdHJpY2t5QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsi
-Pmp1cm8uYnlzdHJpY2t5QGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0K
-PGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0Mg
-MS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4t
-cmlnaHQ6MGluIj4NCjxkaXYgaWQ9IjpoMyI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzO0Fz
-IGJvdGggdGFyZ2V0cyBpbnN0YWxsIGlkZW50aWNhbCBmaWxlcy4gVGhlIHJlbWVkeSBpcyB0byBl
-aXRoZXIgcHJldmVudDxicj4NCiYjNDM7cGFyYWxsZWwgbWFrZSBvZiBpbnN0YWxsLmxpYnMgYW5k
-IGluc3RhbGwuaW5jbHVkZXMsIG9yIGVuc3VyZSBvbmx5IG9uZTxicj4NCiYjNDM7dGFyZ2V0IGlu
-c3RhbGxzIHRoZSBmaWxlcy48YnI+DQomIzQzO1RoZSBzZWNvbmQgYXBwcm9jaCB3aWxsIG9ubHkg
-d29yayBpZiB3ZSBhbHdheXMgaW5zdGFsbCBib3RoIGxpYnMgYW5kPGJyPg0KJiM0MztpbmNsdWRl
-cyAod2hpY2ggd2UgZG8pLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8
-L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCldvdWxkbid0IGFuIHVwc3RyZWFtYWJs
-ZSBmaXggYmUgdG8gbWFrZSBpbnN0YWxsLmluY2x1ZGVzIHRoZSB0YXJnZXQgdGhhdCBhY3R1YWxs
-eSBkb2VzIHNvbWV0aGluZywgYW5kIHRoZW4gaGF2ZSBpbnN0YWxsIGRlcGVuZCBvbiB0aGF0PyZu
-YnNwOyBDb25zaWRlcmluZyBpbnN0YWxsLmxpYnMgYW5kIGluc3RhbGwuaW5jbHVkZXMgYXJlIHNl
-cGFyYXRlIHJ1bGVzLCBzdXJlbHkgaW5zdGFsbC5saWJzIGluIHRoZSBoZWFkZXIgbWFrZWZpbGUg
-c2hvdWxkIGRvIG5vdGhpbmc/DQogJm5ic3A7KG5jdXJzZXMgaXMgd2VpcmQuLi4pPG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkhhdmUgeW91IGNo
-ZWNrZWQgdGhlIG90aGVyIG1ha2VmaWxlcyBmb3IgdGhlIHNhbWUgcHJvYmxlbT88bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+
-DQo=
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+new file mode 100644
+index 0000000..05f1fa9
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+@@ -0,0 +1,101 @@
++Solves CVE-2015-8605 that caused DoS when an invalid length field in IPv4 UDP
++was received by the server.
++
++Upstream-Status: Backport (v4.3.3p1)
++CVE: CVE-2015-8605
++
++From: https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commit;h=4ce21cb6301d665de01c1a6209e40f5f35072c0c
++
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
++
++=======================================================================
++diff --git a/common/packet.c b/common/packet.c
++index b530432..e600e37 100644
++--- a/common/packet.c
+++++ b/common/packet.c
++@@ -220,7 +220,28 @@ ssize_t decode_hw_header (interface, buf, bufix, from)
++ 	}
++ }
++ 
++-/* UDP header and IP header decoded together for convenience. */
+++/*!
+++ *
+++ * \brief UDP header and IP header decoded together for convenience.
+++ *
+++ * Attempt to decode the UDP and IP headers and, if necessary, checksum
+++ * the packet.
+++ *
+++ * \param inteface - the interface on which the packet was recevied
+++ * \param buf - a pointer to the buffer for the received packet
+++ * \param bufix - where to start processing the buffer, previous
+++ *                routines may have processed parts of the buffer already
+++ * \param from - space to return the address of the packet sender
+++ * \param buflen - remaining length of the buffer, this will have been
+++ *                 decremented by bufix by the caller
+++ * \param rbuflen - space to return the length of the payload from the udp
+++ *                  header
+++ * \param csum_ready - indication if the checksum is valid for use
+++ *                     non-zero indicates the checksum should be validated
+++ *
+++ * \return - the index to the first byte of the udp payload (that is the
+++ *           start of the DHCP packet
+++ */
++ 
++ ssize_t
++ decode_udp_ip_header(struct interface_info *interface,
++@@ -231,7 +252,7 @@ decode_udp_ip_header(struct interface_info *interface,
++   unsigned char *data;
++   struct ip ip;
++   struct udphdr udp;
++-  unsigned char *upp, *endbuf;
+++  unsigned char *upp;
++   u_int32_t ip_len, ulen, pkt_len;
++   static unsigned int ip_packets_seen = 0;
++   static unsigned int ip_packets_bad_checksum = 0;
++@@ -241,11 +262,8 @@ decode_udp_ip_header(struct interface_info *interface,
++   static unsigned int udp_packets_length_overflow = 0;
++   unsigned len;
++ 
++-  /* Designate the end of the input buffer for bounds checks. */
++-  endbuf = buf + bufix + buflen;
++-
++   /* Assure there is at least an IP header there. */
++-  if ((buf + bufix + sizeof(ip)) > endbuf)
+++  if (sizeof(ip) > buflen)
++ 	  return -1;
++ 
++   /* Copy the IP header into a stack aligned structure for inspection.
++@@ -257,13 +275,17 @@ decode_udp_ip_header(struct interface_info *interface,
++   ip_len = (*upp & 0x0f) << 2;
++   upp += ip_len;
++ 
++-  /* Check the IP packet length. */
+++  /* Check packet lengths are within the buffer:
+++   * first the ip header (ip_len)
+++   * then the packet length from the ip header (pkt_len)
+++   * then the udp header (ip_len + sizeof(udp)
+++   * We are liberal in what we accept, the udp payload should fit within
+++   * pkt_len, but we only check against the full buffer size.
+++   */
++   pkt_len = ntohs(ip.ip_len);
++-  if (pkt_len > buflen)
++-	return -1;
++-
++-  /* Assure after ip_len bytes that there is enough room for a UDP header. */
++-  if ((upp + sizeof(udp)) > endbuf)
+++  if ((ip_len > buflen) ||
+++      (pkt_len > buflen) ||
+++      ((ip_len + sizeof(udp)) > buflen))
++ 	  return -1;
++ 
++   /* Copy the UDP header into a stack aligned structure for inspection. */
++@@ -284,7 +306,8 @@ decode_udp_ip_header(struct interface_info *interface,
++ 	return -1;
++ 
++   udp_packets_length_checked++;
++-  if ((upp + ulen) > endbuf) {
+++  /* verify that the payload length from the udp packet fits in the buffer */
+++  if ((ip_len + ulen) > buflen) {
++ 	udp_packets_length_overflow++;
++ 	if (((udp_packets_length_checked > 4) &&
++ 	     (udp_packets_length_overflow != 0)) &&
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
+new file mode 100644
+index 0000000..aa93c5e
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
+@@ -0,0 +1,131 @@
++This patch is needed in order to apply the patch for CVE-2015-8605.
++
++Upstream-Status: Backport (4.3.2+)
++
++From: https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commit;h=0ce1aa94454ce9b50d592c08d7e0c559d38d3bc5
++
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
++---
++From 0ce1aa94454ce9b50d592c08d7e0c559d38d3bc5 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Mon, 8 Sep 2014 09:31:32 -0400
++Subject: [PATCH] [master] Corrected error in UDP bad packet logging
++
++    Merges in rt36897
++---
++ common/packet.c | 55 +++++++++++++++++++++++++++++++++++--------------------
++ 1 file changed, 35 insertions(+), 20 deletions(-)
++
++diff --git a/common/packet.c b/common/packet.c
++index 45e96e8..7460f3d 100644
++--- a/common/packet.c
+++++ b/common/packet.c
++@@ -3,7 +3,7 @@
++    Packet assembly code, originally contributed by Archie Cobbs. */
++ 
++ /*
++- * Copyright (c) 2009,2012 by Internet Systems Consortium, Inc. ("ISC")
+++ * Copyright (c) 2009,2012,2014 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 2004,2005,2007 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 1996-2003 by Internet Software Consortium
++  *
++@@ -234,12 +234,12 @@ decode_udp_ip_header(struct interface_info *interface,
++   unsigned char *upp, *endbuf;
++   u_int32_t ip_len, ulen, pkt_len;
++   u_int32_t sum, usum;
++-  static int ip_packets_seen;
++-  static int ip_packets_bad_checksum;
++-  static int udp_packets_seen;
++-  static int udp_packets_bad_checksum;
++-  static int udp_packets_length_checked;
++-  static int udp_packets_length_overflow;
+++  static unsigned int ip_packets_seen = 0;
+++  static unsigned int ip_packets_bad_checksum = 0;
+++  static unsigned int udp_packets_seen = 0;
+++  static unsigned int udp_packets_bad_checksum = 0;
+++  static unsigned int udp_packets_length_checked = 0;
+++  static unsigned int udp_packets_length_overflow = 0;
++   unsigned len;
++ 
++   /* Designate the end of the input buffer for bounds checks. */
++@@ -287,10 +287,10 @@ decode_udp_ip_header(struct interface_info *interface,
++   udp_packets_length_checked++;
++   if ((upp + ulen) > endbuf) {
++ 	udp_packets_length_overflow++;
++-	if ((udp_packets_length_checked > 4) &&
++-	    ((udp_packets_length_checked /
++-	      udp_packets_length_overflow) < 2)) {
++-		log_info("%d udp packets in %d too long - dropped",
+++	if (((udp_packets_length_checked > 4) &&
+++	     (udp_packets_length_overflow != 0)) &&
+++	    ((udp_packets_length_checked / udp_packets_length_overflow) < 2)) {
+++		log_info("%u udp packets in %u too long - dropped",
++ 			 udp_packets_length_overflow,
++ 			 udp_packets_length_checked);
++ 		udp_packets_length_overflow = 0;
++@@ -299,22 +299,31 @@ decode_udp_ip_header(struct interface_info *interface,
++ 	return -1;
++   }
++ 
++-  if ((ulen < sizeof(udp)) || ((upp + ulen) > endbuf))
++-	return -1;
+++  /* If at least 5 with less than 50% bad, start over */
+++  if (udp_packets_length_checked > 4) {
+++	udp_packets_length_overflow = 0;
+++	udp_packets_length_checked = 0;
+++  }
++ 
++   /* Check the IP header checksum - it should be zero. */
++-  ++ip_packets_seen;
+++  ip_packets_seen++;
++   if (wrapsum (checksum (buf + bufix, ip_len, 0))) {
++ 	  ++ip_packets_bad_checksum;
++-	  if (ip_packets_seen > 4 &&
++-	      (ip_packets_seen / ip_packets_bad_checksum) < 2) {
++-		  log_info ("%d bad IP checksums seen in %d packets",
+++	  if (((ip_packets_seen > 4) && (ip_packets_bad_checksum != 0)) &&
+++	      ((ip_packets_seen / ip_packets_bad_checksum) < 2)) {
+++		  log_info ("%u bad IP checksums seen in %u packets",
++ 			    ip_packets_bad_checksum, ip_packets_seen);
++ 		  ip_packets_seen = ip_packets_bad_checksum = 0;
++ 	  }
++ 	  return -1;
++   }
++ 
+++  /* If at least 5 with less than 50% bad, start over */
+++  if (ip_packets_seen > 4) {
+++	ip_packets_bad_checksum = 0;
+++	ip_packets_seen = 0;
+++  }
+++
++   /* Copy out the IP source address... */
++   memcpy(&from->sin_addr, &ip.ip_src, 4);
++ 
++@@ -339,15 +348,21 @@ decode_udp_ip_header(struct interface_info *interface,
++   udp_packets_seen++;
++   if (usum && usum != sum) {
++ 	  udp_packets_bad_checksum++;
++-	  if (udp_packets_seen > 4 &&
++-	      (udp_packets_seen / udp_packets_bad_checksum) < 2) {
++-		  log_info ("%d bad udp checksums in %d packets",
+++	  if (((udp_packets_seen > 4) && (udp_packets_bad_checksum != 0)) &&
+++	      ((udp_packets_seen / udp_packets_bad_checksum) < 2)) {
+++		  log_info ("%u bad udp checksums in %u packets",
++ 			    udp_packets_bad_checksum, udp_packets_seen);
++ 		  udp_packets_seen = udp_packets_bad_checksum = 0;
++ 	  }
++ 	  return -1;
++   }
++ 
+++  /* If at least 5 with less than 50% bad, start over */
+++  if (udp_packets_seen > 4) {
+++	udp_packets_bad_checksum = 0;
+++	udp_packets_seen = 0;
+++  }
+++
++   /* Copy out the port... */
++   memcpy (&from -> sin_port, &udp.uh_sport, sizeof udp.uh_sport);
++ 
++-- 
++2.6.2
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+index d4414cc..4616693 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+@@ -6,7 +6,9 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://fixsepbuild.patch \
+             file://dhclient-script-drop-resolv.conf.dhclient.patch \
+             file://replace-ifconfig-route.patch \
++            file://CVE-2015-8605_1.patch \
+             file://dhcp-xen-checksum.patch \
++            file://CVE-2015-8605.patch \
+            "
+ 
+ SRC_URI[md5sum] = "b3a42ece3c7f2cd2e74a3e12ca881d20"
+-- 
+2.6.2
 
---_000_6E51916E4A1F32428260031F4C7CD2B6117F3F79ORSMSX112amrcor_--
+
