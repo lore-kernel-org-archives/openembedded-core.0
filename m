@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D124731DD
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 215716FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 15:35:58 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id p65so22781096wmp.1
+	Fri, 11 Mar 2016 15:39:27 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id g203so150046293iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 07:35:59 -0800 (PST)
+	Fri, 11 Mar 2016 07:39:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=VnSpL7JmrGk752pJzQxz/KeNubHpdzm2E+TtJgF+pc0=;
-	b=hb3nlVerPUyJJvw1HnoKnt3OAJcGufRmoENX/v/09sxjSNRLapmBlvSURpnoQE1/V8
-	+8y6hd1Bx8y9g9NQTpmB5QPdbMGCIEqVBerfAHUWenGeWaoZ1tyOQ9nTuceogKVeF9Np
-	DQSZw5psQgIg9NjJBqyCNZcJKZ2IV/TwaucTveg6+twb8ScPFAWKjmTmAlg64h1S6RZh
-	xEtkTTy60e1N3I3KY/mZzLbQ3pw6HWWkXC7HL9jQj3PDXNgm5vdK7B+j9pLhrTLL3U4h
-	i2zo7TbjVlf1Oa0EhEbuEyiqusku5LsqXmicsWL2xmkQoP8VAr3ffKPf7gpgo5vlmExl
-	woxA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ulRlcncJWO0hsC3fzZ0maPxz3iI0KIXPyUYVtEWe8jc=;
+	b=zlPOQ4Vgo9OulYctclhHjjJ4hLlH7C77++OtNfG65dhy5AuI/VNvOB9KJOpKXYGVXg
+	KSdddER1614tlAMCroq1Oiuf+YQqwwT5Y65nU8GVzG9yinCJR616zLgpO9RiaR4HJDkh
+	VzucKweb4NDyeMLkNo+IDd++GEhtg8Zg0SdqQNf75xMF6UmhqfP9FUjE6x59zMLvif8Z
+	25D6JprwOUE0DVhTY4HILOItm4sZoPvJ3wl+yxCCM1HLJFGDZilfQBQyN3LKoc+bNJEi
+	feE+xudTMJCJFqtFcf8bWYW/Fue3mW4f2DAFT5ee8pP5SLyGQHZhn6DB4DtoNRlXnPpy
+	mLnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=VnSpL7JmrGk752pJzQxz/KeNubHpdzm2E+TtJgF+pc0=;
-	b=EzXRFX0FFE0rTTDhSN6RiaFZvs9Z4J/mOzRCe9YLaA+FHFJPdyqUKLjuiToleYosvF
-	EHuJZnCQQFRV1SOy3nU+DHnX5bcHSh/GMPQFiD9gCTgKmyHMl6kjbNt2IMtKaqpg5sqe
-	tlQTEUAkvWiOtAdTRZ1cYoLmpTZgcYRkVaewSFLoHpnLNesUiDzh2L7igsQ+vHJeiG7M
-	+1t/F1LDqjRntOXVUyiwrXeA9wHttgQpRm/MNBm6osQf+JpCLbgSnYli0Ts7BCshwtGa
-	NQe9GP0+XNW5+mRYw0ApMsyf64ElJ38tIuwbbuG3RLpXJ0/LVh5l96p76m4zkpeKumlE
-	ymng==
-X-Gm-Message-State: AD7BkJKRxj4JR/KuBuwPC+70Kmb1V9mNNDdgCUB6B+Umni9kwF9qzYruNJyhN6eVdWDWlgQU
-X-Received: by 10.194.222.234 with SMTP id qp10mr10472540wjc.138.1457710558458;
-	Fri, 11 Mar 2016 07:35:58 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id u14sm2815574wmu.8.2016.03.11.07.35.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 11 Mar 2016 07:35:57 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Mar 2016 15:35:55 +0000
-Message-Id: <1457710555-17015-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ulRlcncJWO0hsC3fzZ0maPxz3iI0KIXPyUYVtEWe8jc=;
+	b=U8xaP6FYMLHeeFAjxNzVMSQl9DzddlllEa1bqlF9ZfsuF0EeO6Mbos2Qm8bh9jhtZL
+	7tdYOfm1RLQu2v5qpluTGjh1d4xha4dECh5KmQsfgtkjim8TkNg36skCMLzAiiwIstgp
+	c13dgwFGH9UIGYP4WiOVAwgBSyqlH2udhHhsF3NalwXYGBhLG4b74iwLfQZYMbiqradm
+	NNamRFyXiIxrb9xNip5F1mV1dZLlV6yOX4sUTGQhPCY8hwBAmRB4/SilW+Fg3AXIq+CF
+	i42XhTW3j8DoERV1IyYrrIpUVU0CIHPZt4j6mk1shTJj+/9zq69eXDqjWcb7Q9uYjhfH
+	+fcA==
+X-Gm-Message-State: AD7BkJKz5/wOWf/Jv8UnLGU8W4VmhI5BZl89JAKnxGpg9UM2CO/EFqqNRZPuV6p71C2FoWx+r7gLZbHG44Qq3o45
+X-Received: by 10.107.16.19 with SMTP id y19mr10357430ioi.148.1457710768161;
+	Fri, 11 Mar 2016 07:39:28 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 07:39:08 -0800 (PST)
+In-Reply-To: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
+References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 Mar 2016 15:39:08 +0000
+Message-ID: <CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
+To: helio.castro@bmw-carit.de
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,93 +53,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 15:35:58 -0000
+X-List-Received-Date: Fri, 11 Mar 2016 15:39:28 -0000
+Content-Type: multipart/alternative; boundary=001a113fd1ea859cec052dc7bc1a
 
-Glib hard-codes the install path in search path for GIO modules, which causes
-problems when glib-2.0-native is restored from sstate with a different build
-directory.
+--001a113fd1ea859cec052dc7bc1a
+Content-Type: text/plain; charset=UTF-8
 
-In the future we should relocate symbols directly using the same system that the
-eSDK uses, but for now use dladdr() to look up where the library was loaded from
-to build the search path.
+On 11 March 2016 at 14:24, <helio.castro@bmw-carit.de> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../glib-2.0/glib-2.0/relocate-modules.patch       | 49 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb      |  3 +-
- 2 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> -# Most libraries are licensed with the exception, but
+> -# one library is really GPLv3.
+> -#
+> -LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception & GPLv3"
+> -LICENSE_libstdc++ = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libstdc++-precompile-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libstdc++-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libstdc++-staticdev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libg2c = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libg2c-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libssp = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libssp-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libssp-staticdev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libgfortran = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libgfortran-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libgfortran-staticdev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libmudflap = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libmudflap-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libmudflap-staticdev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libquadmath = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libquadmath-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libquadmath-staticdev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libatomic = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libatomic-dev = "GPL-3.0-with-GCC-exception"
+> -LICENSE_libatomic-staticdev = "GPL-3.0-with-GCC-exception"
+> -
+> -LICENSE_libgomp = "GPLv3"
+> -LICENSE_libgomp-dev = "GPLv3"
+> -LICENSE_libgomp-staticdev = "GPLv3"
+> +LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
+> +LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
+> +LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
+> +LICENSE_${PN}-staticdev = "GPL-3.0-with-GCC-exception"
+>
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-new file mode 100644
-index 0000000..f9e3f3d
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -0,0 +1,49 @@
-+Instead of hard-coding GIO_MODULE_PATH when glib is built, use dladdr() to
-+determine where libglib.so is and use that path to calculate GIO_MODULES_DIR.
-+
-+This solves relocation problems with GIOModule for native builds of glib.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/gio/giomodule.c b/gio/giomodule.c
-+index 56c498c..a2e32b7 100644
-+--- a/gio/giomodule.c
-++++ b/gio/giomodule.c
-+@@ -47,6 +47,27 @@
-+ #include "gdesktopappinfo.h"
-+ #endif
-+ 
-++#include <dlfcn.h>
-++
-++/*
-++ * Generate a GIO module directory based on where glib is installed
-++ */
-++static const char *
-++_get_gio_module_dir (void)
-++{
-++  Dl_info info;
-++
-++  if (dladdr (g_io_module_new, &info)) {
-++    char *libdir = g_path_get_dirname (info.dli_fname);
-++    char *dir = g_build_filename (libdir, "gio", "modules", NULL);
-++    g_free (libdir);
-++    return dir;
-++  } else {
-++    return GIO_MODULE_DIR;
-++  }
-++}
-++
-++
-+ /**
-+  * SECTION:giomodule
-+  * @short_description: Loadable GIO Modules
-+@@ -1057,7 +1078,7 @@ _g_io_modules_ensure_loaded (void)
-+       /* Then load the compiled in path */
-+       module_dir = g_getenv ("GIO_MODULE_DIR");
-+       if (module_dir == NULL)
-+-        module_dir = GIO_MODULE_DIR;
-++        module_dir = _get_gio_module_dir ();
-+ 
-+       g_io_modules_scan_all_in_directory_with_scope (module_dir, scope);
-+ 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-index bf3cade..2a2efae 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-@@ -18,7 +18,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://gi-exclude.patch \
-           "
- 
--SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
-+SRC_URI_append_class-native = " file://glib-gettextize-dir.patch \
-+                                file://relocate-modules.patch"
- 
- SRC_URI[md5sum] = "7f815d6e46df68e070cb421ed7f1139e"
- SRC_URI[sha256sum] = "5031722e37036719c1a09163cc6cf7c326e4c4f1f1e074b433c156862bd733db"
--- 
-2.7.0
+This patch doesn't look right...
 
+Ross
 
+--001a113fd1ea859cec052dc7bc1a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 March 2016 at 14:24,  <span dir=3D"ltr">&lt;<a href=3D"mailto:helio.c=
+astro@bmw-carit.de" target=3D"_blank">helio.castro@bmw-carit.de</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":aon" class=3D"a3s"=
+ style=3D"overflow:hidden">-# Most libraries are licensed with the exceptio=
+n, but<br>
+-# one library is really GPLv3.<br>
+-#<br>
+-LICENSE_${PN}-dbg =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-exc=
+eption &amp; GPLv3&quot;<br>
+-LICENSE_libstdc++ =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-exc=
+eption&quot;<br>
+-LICENSE_libstdc++-precompile-dev =3D &quot;GPL-3.0-with-<span class=3D"il"=
+>GCC</span>-exception&quot;<br>
+-LICENSE_libstdc++-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>=
+-exception&quot;<br>
+-LICENSE_libstdc++-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC<=
+/span>-exception&quot;<br>
+-LICENSE_libg2c =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-except=
+ion&quot;<br>
+-LICENSE_libg2c-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-ex=
+ception&quot;<br>
+-LICENSE_libssp =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-except=
+ion&quot;<br>
+-LICENSE_libssp-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-ex=
+ception&quot;<br>
+-LICENSE_libssp-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</sp=
+an>-exception&quot;<br>
+-LICENSE_libgfortran =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-e=
+xception&quot;<br>
+-LICENSE_libgfortran-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</spa=
+n>-exception&quot;<br>
+-LICENSE_libgfortran-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GC=
+C</span>-exception&quot;<br>
+-LICENSE_libmudflap =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-ex=
+ception&quot;<br>
+-LICENSE_libmudflap-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span=
+>-exception&quot;<br>
+-LICENSE_libmudflap-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC=
+</span>-exception&quot;<br>
+-LICENSE_libquadmath =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-e=
+xception&quot;<br>
+-LICENSE_libquadmath-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</spa=
+n>-exception&quot;<br>
+-LICENSE_libquadmath-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GC=
+C</span>-exception&quot;<br>
+-LICENSE_libatomic =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-exc=
+eption&quot;<br>
+-LICENSE_libatomic-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>=
+-exception&quot;<br>
+-LICENSE_libatomic-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC<=
+/span>-exception&quot;<br>
+-<br>
+-LICENSE_libgomp =3D &quot;GPLv3&quot;<br>
+-LICENSE_libgomp-dev =3D &quot;GPLv3&quot;<br>
+-LICENSE_libgomp-staticdev =3D &quot;GPLv3&quot;<br>
++LICENSE_${PN}-dbg =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-exc=
+eption&quot;<br>
++LICENSE_${PN} =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-excepti=
+on&quot;<br>
++LICENSE_${PN}-dev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</span>-exc=
+eption&quot;<br>
++LICENSE_${PN}-staticdev =3D &quot;GPL-3.0-with-<span class=3D"il">GCC</spa=
+n>-exception&quot;<br></div></blockquote></div><br>This patch doesn&#39;t l=
+ook right...</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
+
+--001a113fd1ea859cec052dc7bc1a--
