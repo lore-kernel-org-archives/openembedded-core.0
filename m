@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 343B660248
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 44B0A73257
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 20:50:03 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id z76so160328500iof.3
+	Fri, 11 Mar 2016 20:54:05 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id l68so32396718wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 12:50:04 -0800 (PST)
+	Fri, 11 Mar 2016 12:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0BOcB3MrDlGFzB8qYGj8SLUUlGbHThU7taA7prg6mG4=;
-	b=qqtHwObGR5TTJrGy3sVUqSRPLrA/2guSGrho6JgpA9s5TUlgCP14vIbUSpcuVlVOqg
-	ChVBI1aNwHLOahwtG+CmReeB+ZbWEAcgGFFGkAhTWBi64UK64ukLMxRExlavJwvkDbtp
-	l8OjNRV1Wg2zvDYdHjFQ+h4uIPkitfrCTljDnkgWTCJWnLXdjZw4xqajl74OzgUw2775
-	wY93IiuCiEGhRF2Uq5lNVm0abp1DP+OiItsZVWSJJczWBj8zeQnBcc3ewk1K5CpEgUZA
-	pQ53MQtg7FzIjAIs15qyfT7B9Gaud0vvVsmOQPDv2VZsaQUYFaFKDmRcaoOOFecctFxG
-	peHw==
+	h=from:to:subject:date:message-id;
+	bh=dFRcEdJaAx6w890tL/xWSPVlsUSa9cHhIVQtCAUNOGU=;
+	b=Oq78uazcd/bqH4gouokgahYtLWum9yIGT91MU0tgbwFwOCPo10z4HtHGe3LqjobTEM
+	YkGiDnLoxA/9rnEfVHtzI8IyPAXw5LSE/gberQJ/qaUqV1dQNEYPwgdChEi2jW8OdISt
+	G1EAHBH3X7jwyudu2FLZ2bjRXm60hkcUCcz4bPIyjCiDpqS4UNEbCOivCRaOD3qy40im
+	eOyKaHIL4T9lWvWsjiZLUA/hQ0YzfuUIsnjSmn3zXEbMeUbs1v6A6mTRDaZimyNoMN7+
+	pZ0WzDHEYm6FimgpISt5JXdrKjfn1zLF6aD/eN3TnIkeOly8yXzH70jFumOK2WYw43TS
+	r+2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0BOcB3MrDlGFzB8qYGj8SLUUlGbHThU7taA7prg6mG4=;
-	b=NL2AB9laeDq92jdjDMCQOae7Eh2BtNikB9K74dKJaCQ0p7iiASVnUVOQeZgwdZR2Sb
-	z6Dkz1Hk1evpTjjKDMKKNJLldD4HqNczAycGdaGbl2rs+vvEaAiEe1o/tFCQzJIa5nuV
-	14rgetma7khmIgpK+6dha3JHKvLvzxf7qxz8wdLP95lLUisaXfanbFsm9WeNcHZrpwNv
-	mgHjMDFxyP5dFanRR+ZmX0PdLnPWoKVOp98qaSfu93ge348LG4KZPO6KW4ciYTW+c+SK
-	3yGvpNedGfbfe3z7eIOiEsHyNOHNXVFvMKYLt7Ye900dJ+8auyhV7q5fERUP5arNkV2t
-	naCA==
-X-Gm-Message-State: AD7BkJIExAxzeJYe8Ti4CNTDsDjahAMDksoeCg8xEY3nmIIPNiSgQZszYAhFi1QHS7m8/fmGrkvoqQzSUeNEKbzK
-X-Received: by 10.107.16.19 with SMTP id y19mr12024105ioi.148.1457729404469;
-	Fri, 11 Mar 2016 12:50:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 12:49:45 -0800 (PST)
-In-Reply-To: <56E32888.2000301@gmail.com>
-References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
-	<56E32888.2000301@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Mar 2016 20:49:45 +0000
-Message-ID: <CAJTo0LZCxp20cT-Te0mDW+X59Pgrr+MUtO1ArgOJoVzfc-rEmA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][jethro][RFC 1/2] libsdl: expand PACKAGECONFIG and enable native builds
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=dFRcEdJaAx6w890tL/xWSPVlsUSa9cHhIVQtCAUNOGU=;
+	b=a/FCq2B9RLbCujq6Fz/jSvfBrX7vmp/wjz636qpkzpKE3CifYclAcaf3kIG6t96Ly+
+	d5ImxSXkOgZ2azYqQjypLcEXMR9weIQB11v+sQVETK7/VddMh78qOIWMryurAvRJ2gKl
+	PJWMAs09fGyRnkOW7zB1qRChmU5im8GZQB5tgPu9AT6OIBoS3JFRabLjq/9ZrILHnGba
+	XrxLMwIZFyzTLVlgcsaBd7Yo2zafzs56TrSJExAWgUIOv0XpGeDUY2wB1JbJlWoIEX2Y
+	b2Jg6czll3oym2aJLp8B6nRJXQjJTsQH2veMGXSt6rLe/bJrsnYTKf8nOrbtorDEwVaq
+	M6oA==
+X-Gm-Message-State: AD7BkJKS8BmL8qRMgs/pGtt15hyoumL1ehqHkcP7+dcGM+DyH/AeMv6pjxOy2d+9U4YqCzLq
+X-Received: by 10.28.217.146 with SMTP id q140mr4770618wmg.85.1457729646065;
+	Fri, 11 Mar 2016 12:54:06 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	y62sm3951710wmg.12.2016.03.11.12.54.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 11 Mar 2016 12:54:05 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Mar 2016 20:54:00 +0000
+Message-Id: <1457729640-21466-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH][jethro] base: check for existing prefix when expanding names in PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 20:50:05 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1ea551cc4052dcc13cb
+X-List-Received-Date: Fri, 11 Mar 2016 20:54:09 -0000
 
---001a113fd1ea551cc4052dcc13cb
-Content-Type: text/plain; charset=UTF-8
+When the DEPENDS are added as part of the PACKAGECONFIG logic the list of
+packages are expanded so that any required nativesdk-/-native/multilib prefixes
+and suffixes are added.
 
-On 11 March 2016 at 20:20, Trevor Woerner <twoerner@gmail.com> wrote:
+However the special handling of virtual/foo names doesn't check that the prefix
+already exists, which breaks under nativesdk as in that situation there's an
+explicit nativesdk- prefix *and* MLPREFIX is set to nativesdk-.  This results in
+the same prefix being applied twice, and virtual packages such as virtual/libx11
+ending up as virtual/nativesdk-nativesdk-libx11.
 
-> ERROR: Nothing PROVIDES 'virtual/nativesdk-nativesdk-libx11' (but
-> virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw-jethro/layers/openembedded-core/meta/recipes-graphics/libsdl/
-> libsdl_1.2.15.bb DEPENDS on or otherwise requires it). Close matches:
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-That's an awesome comment.  Clearly my testing wasn't optimal, there's
-another patch required.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 9bd5499..38b69db 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -363,7 +363,10 @@ python () {
+                     newappends.append(a)
+                 elif a.startswith("virtual/"):
+                     subs = a.split("/", 1)[1]
+-                    newappends.append("virtual/" + prefix + subs + extension)
++                    if subs.startswith(prefix):
++                        newappends.append(a + extension)
++                    else:
++                        newappends.append("virtual/" + prefix + subs + extension)
+                 else:
+                     if a.startswith(prefix):
+                         newappends.append(a + extension)
+-- 
+2.7.0
 
-Can you verify that cherry-picking 55ca1fb8f0e81ff739b3c46897e43356d1f760c3
-solves this?
 
-Ross
-
---001a113fd1ea551cc4052dcc13cb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 March 2016 at 20:20, Trevor Woerner <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
--style:solid;padding-left:1ex"><div id=3D":1cz" class=3D"" style=3D"overflo=
-w:hidden">ERROR: Nothing PROVIDES &#39;virtual/nativesdk-nativesdk-libx11&#=
-39; (but virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw-jethro/layers/o=
-penembedded-core/meta/recipes-graphics/libsdl/<a href=3D"http://libsdl_1.2.=
-15.bb" rel=3D"noreferrer" target=3D"_blank">libsdl_1.2.15.bb</a> DEPENDS on=
- or otherwise requires it). Close matches:<br></div></blockquote></div><br>=
-That&#39;s an awesome comment.=C2=A0 Clearly my testing wasn&#39;t optimal,=
- there&#39;s another patch required.</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Can you verify that cherry-picking=C2=A055ca=
-1fb8f0e81ff739b3c46897e43356d1f760c3 solves this?</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113fd1ea551cc4052dcc13cb--
