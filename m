@@ -1,45 +1,59 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3667F6057A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 63A15612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 19:07:04 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id vf5so17760637igb.0
+	Fri, 11 Mar 2016 19:09:28 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id tt10so106773077pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 11:07:05 -0800 (PST)
+	Fri, 11 Mar 2016 11:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZZtSgZlmu+ymFaEG/+P1a+jo8kkmvlfj1XvZujoN34c=;
-	b=LOgeqS55hJEIUnNE11AJBGbU8f43pmeBx5Vk29L3O5/YI8ZE78wvSlGlFRnoGLxnbx
-	iFSCVnqxo9kp10Ck+DjWAkvzB9y+lSdikr+tHqr0GUXKRYACOGjtq7dJ45KwW2LlGFot
-	i/tp3xEnfm5yj384CC2qwbxnhPjq9lCylMUhztvJcdz0W0nQeP8hUgcsJMoZeP7tBitZ
-	E49XtVfap1oSesLzwhbp+OeRJrz/dhj/NAwNojv4ciqZBlaRp7xiNGb+QCsRolSkTtW2
-	K0mpJnZBFeX424tHznyMiLSx04Dbai5dfMZBq4Lyin/76J0TZ66zCqNdDVOCNqDea97O
-	mRGA==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=kt2Xy34Y8uMJR2xZRu7p9dKYO8JIQCsNQVJQYkJ5BoQ=;
+	b=XDk0sQyMv02SAC2JIZyoRSRRyB+jakNwF8h+miVsQrEU9JHg2A87b+FYi6quyhvIng
+	fJQrNGr4ArxOnt9LdZNwxhcwzkK5pmcws2yk4vfOykBho5AKGqrI5234eDCmezeJeaWD
+	ySyciITUDjTi2MWbYRFerJaE4uVE8IZOsBGRq0JP3DrpqBGna753K6jJkkcTvj3kj8Jc
+	blQEMDLIfyEaVtXmqTkTiER28KkoYGMaNgsQzuEd/HXgHRDvcMDybHxnxQqWUfRVvece
+	9yt/HABDC/GK/kFEEP5Qm449yEVut5NrbNTqFGghU20uWSluJewQjKo1QdnPbc1ZzQrn
+	N6Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=ZZtSgZlmu+ymFaEG/+P1a+jo8kkmvlfj1XvZujoN34c=;
-	b=XRQV+kq4KStKYjtfNaBg5e17bvWiKhP2fi1N7WJC7S9mGQMEAtBwcuV+8YNWRTpdnL
-	S1lqRdNcPqZ2DDOXYSNCYX+LJTCWigf12YgbEmQKUuY9vyI2b92Yi9JIfa5+s4NSLtM/
-	ObsHtr7QLFiF7xu+Ouh9z2dWG2yNe3uxLqPXqhkSs9mdRooJW01w8G3tE6YOViiacWAX
-	6cGJhczPw655g9DdhPTqp0RaQJUJ/LkjYuaGCzRx5aLTJWk3erA5g/kDSLw14kmvx9My
-	K6mjU2SCwcoFIu2Ye4jN5AbEU+l2qp8F0mQzoPh+GDJWqzlumfroSjK5EE8aFcVwoIr5
-	yQFQ==
-X-Gm-Message-State: AD7BkJLYseczZ6bmE8w887DH25pNfK4uaadA3cEZacnJiAhCWthrWB/lV7zhMC4ohrkYfNuRHnfod6zyTXXnNmVl
-X-Received: by 10.50.150.41 with SMTP id uf9mr5475354igb.64.1457723223802;
-	Fri, 11 Mar 2016 11:07:03 -0800 (PST)
+	bh=kt2Xy34Y8uMJR2xZRu7p9dKYO8JIQCsNQVJQYkJ5BoQ=;
+	b=Ng015GVkg7dY0bT7pqI6COUnLFG33WchYC9UI6KHeFxfGwFJv/Xo3r1cnuWFbkYeRU
+	1OiEHVZ16OcUSBtmv44Xz4npeQg2xMfpBkdidLiveCmZyFlJ2jJRPDNpdiG16MvGtbw4
+	hKVjH0lw0mygDm+Q2YZ4BUDKvfRcHtbsaYK+P3AH2XgRUjr2X/Z0JXSrg/lhBRWjAjix
+	j0Ksd2AQ/hy80sEBevc15dPOYP0PeeS4A1HiBPNESSIJlTNUO3fYFSdKTAEPc6pT7zll
+	LDzEd03AsfJKsSvWwwcsDNl22d4Hs0yl8RGcZjbeyck5zrcD7+1OtsrLoHQD2OxoLeyE
+	PYFA==
+X-Gm-Message-State: AD7BkJIp8hIRs4Z6etn1td4DHPEqCpTKNdLY3qd1OZmOgdMzi8ZTqIb5zDFZx5dEuY8lGQ==
+X-Received: by 10.66.190.229 with SMTP id gt5mr18468223pac.118.1457723368906; 
+	Fri, 11 Mar 2016 11:09:28 -0800 (PST)
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com.
+	[209.85.220.42]) by smtp.gmail.com with ESMTPSA id
+	88sm14686492pfj.20.2016.03.11.11.09.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 11 Mar 2016 11:09:27 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f42.google.com with SMTP id td3so79564864pab.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Mar 2016 11:09:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 11:06:44 -0800 (PST)
-In-Reply-To: <CAP9ODKrZMfa0bW6e3VRS+mks+OJNDJwSmXqxtRM_QgBTSK5mQg@mail.gmail.com>
+X-Received: by 10.66.235.9 with SMTP id ui9mr18224960pac.135.1457723367090;
+	Fri, 11 Mar 2016 11:09:27 -0800 (PST)
+Received: by 10.67.3.163 with HTTP; Fri, 11 Mar 2016 11:09:27 -0800 (PST)
+In-Reply-To: <CAJTo0La3B=bGXGC1_M8c5qsUEF_kSZpGwfmw8+DHUUDEuOQdGg@mail.gmail.com>
 References: <cover.1457698804.git.jussi.kukkonen@intel.com>
 	<CAP9ODKrZMfa0bW6e3VRS+mks+OJNDJwSmXqxtRM_QgBTSK5mQg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Mar 2016 19:06:44 +0000
-Message-ID: <CAJTo0La3B=bGXGC1_M8c5qsUEF_kSZpGwfmw8+DHUUDEuOQdGg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+	<CAJTo0La3B=bGXGC1_M8c5qsUEF_kSZpGwfmw8+DHUUDEuOQdGg@mail.gmail.com>
+Date: Fri, 11 Mar 2016 16:09:27 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrdGLcXWLmuYbG=UdGLdUfY6ZoOaO+Oh6K7qoAXVUV_ww@mail.gmail.com>
+Message-ID: <CAP9ODKrdGLcXWLmuYbG=UdGLdUfY6ZoOaO+Oh6K7qoAXVUV_ww@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC PATCH 00/12] Sato desktop upgrade (Gtk3 etc.)
@@ -55,49 +69,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 19:07:05 -0000
-Content-Type: multipart/alternative; boundary=001a11345c0cef9caa052dcaa201
-
---001a11345c0cef9caa052dcaa201
+X-List-Received-Date: Fri, 11 Mar 2016 19:09:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 11 March 2016 at 18:53, Otavio Salvador <otavio.salvador@ossystems.com.br
-> wrote:
-
-> Is matchbox still the way to go? To test OE-Core maybe a custom GTK3
-> app might be better.
+On Fri, Mar 11, 2016 at 4:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 11 March 2016 at 18:53, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>>
+>> Is matchbox still the way to go? To test OE-Core maybe a custom GTK3
+>> app might be better.
+>
+>
+> Do you mean desktop or window manager?  Window managers are very non-trivial
+> and matchbox is a known quantity, and the desktop is a custom GTK+ 3
+> application.
+>
+> To expand the functionality of Sato as a test harness I agree that we need
+> more custom applications, there's a bug for this already. You'll notice that
+> over time the PIM applications have been removed leaving tools for testing
+> only (such as gtk-player).
 
-Do you mean desktop or window manager?  Window managers are very
-non-trivial and matchbox is a known quantity, and the desktop is a custom
-GTK+ 3 application.
+All them; we might use GNOME (MATE or other WM) and write just a GTK+3
+demo like app for test the desired stuff.
 
-To expand the functionality of Sato as a test harness I agree that we need
-more custom applications, there's a bug for this already. You'll notice
-that over time the PIM applications have been removed leaving tools for
-testing only (such as gtk-player).
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Ross
-
---001a11345c0cef9caa052dcaa201
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 March 2016 at 18:53, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
-@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div id=3D":ms" class=3D"a3s" style=3D"overflow:hidden">Is matchbox still th=
-e way to go? To test OE-Core maybe a custom GTK3<br>
-app might be better.</div></blockquote></div><br>Do you mean desktop or win=
-dow manager?=C2=A0 Window managers are very non-trivial and matchbox is a k=
-nown quantity, and the desktop is a custom GTK+ 3 application.</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">To expand the func=
-tionality of Sato as a test harness I agree that we need more custom applic=
-ations, there&#39;s a bug for this already. You&#39;ll notice that over tim=
-e the PIM applications have been removed leaving tools for testing only (su=
-ch as gtk-player).</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
-
---001a11345c0cef9caa052dcaa201--
