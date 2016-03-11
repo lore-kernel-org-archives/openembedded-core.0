@@ -1,49 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E9071731D9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 16:03:41 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id g203so150946359iof.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 08:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=qfU2UKCB2nHKf2slctTBz1vT9I6LMPFGZOOLanMVNRc=;
-	b=nEMKHQTT4uUey1i0Iy/qsHVvqMiDEd7T/O1CYZAf026gMiVksQ1e7+ipm9ukOMUlEe
-	7u071GoItz24sFl2Pm4/uHnxNa02yWp8gmkMw/vVQlxVRB9JwFjZPhEyliYyf4ltL8cS
-	ddvuS5nIYyHKAMoSq+6rLj4DxZv3mSHkPr6y/Psmz0Glqcj2y4Nm8aSIH8tcxX1o4R86
-	jmIGe9DqXGjgNpyk+MbhGQIdofB1AvNRJHucsckqEDmGGULJlTbE8crgrxtvHUWV7v0z
-	UGOrLAT/loTSLcm9p+JCefmjI0rVFk7RUnBbnwdQXFkySgwuj9fli9r2uTw6SZzU8A9n
-	Cgyg==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A03C66080F;
+	Fri, 11 Mar 2016 16:10:42 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id p65so24060137wmp.1;
+	Fri, 11 Mar 2016 08:10:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=kBQwURdcSLNcfSARgrmekKcO2JpzSuCuNT5dYVWoV3g=;
+	b=Ezw8H/02SDTVNfOMP65RSnMhKs3h5rTbuaTrjXKNczIXGQ4n/HfmLAt3/7Zd+BuaW0
+	VRbVBl82kMQiONVfI6Na7zfwjG742iamtNEOlWvsi5dB0jUNrt0VglAtI9NEq3pIi/UP
+	kOyvxNPtaQL3UJ+T/T6zB8zG0BO3szWVXsO1NLlUfd0tVt8/AyI4SNtAgYK+gLRH/+gC
+	xYZAgW5saDaMC8eB4kCh/c5gmpLE3PJmQlYMYoEAdtnH4wQt2SxglXVsqk/kRp0WHwXI
+	pF8X7zrOD5wRxdyp+0wCpzPJMZ5nGTD/c0U9zsLj/ofXYYO4uPwT3UaAa7cG18HZtUzb
+	qvSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=qfU2UKCB2nHKf2slctTBz1vT9I6LMPFGZOOLanMVNRc=;
-	b=GmACAWP2i23JcvMfoe95RrnrrWQHNK6MMmmACwH8PUHu81L4tBI8gFDNyjhozWyi2j
-	0LeWLAcxvNpVykguSAem8jiNBTyyaFhvKQznrSC4zai5/WzN7P6bevDZcIf0VMNoL2Q2
-	4PXBz8/FGJ4BzbNKpA1zVEJhLP8Aop85x7GKOIg/RimLxYUObkArXnHgw4ESU3KYALXL
-	PJ+LmeiQa/n6uG3O0/aBsI9hr0G7Mwvtun+Jd99xmGTTOIeXrsGPvGDExF7zu60URIEd
-	fWyLGJmF9ux7TGPG0EKNvrV8rB62N1PF9YyGjFOMH/YjCDBVH0/meGrImZq3h3V148nZ
-	gdAg==
-X-Gm-Message-State: AD7BkJKod1wEAfapHiMwhyVayw9Py/X7uuFvjRjvj6Qc4chJ60ddis14+t+/yPPKJ1vl78AMqd2d1MPqtyINpN6c
-X-Received: by 10.107.16.19 with SMTP id y19mr10510883ioi.148.1457712217365;
-	Fri, 11 Mar 2016 08:03:37 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=kBQwURdcSLNcfSARgrmekKcO2JpzSuCuNT5dYVWoV3g=;
+	b=isyM1WDNAKTZXIYGUy4ET0EZRQ0qb3kl0ktQfm08xq0hlytnarJWD1GM872mmM1TZB
+	IGFIkAsDCDHVTvwuDHR+ujKORBd7PNypj1jvG5iXcrzlNA++kzaIx4dyysRsIVmL03dQ
+	xIh7ppzLaGwQOJ/ivNPz+IKEDbEMz5tfdb9+av7R1rVwPT2iLd3/94qgWIuB8bFTwErT
+	SxPAYPqD/CzO22cAo4DTGF79o4iI4F/GafnHqHYwFTZCUUcdP0JJ5AxrIDfoaCKQapfr
+	CoQGOo9kxKEkRtZKE3pjf4ExIwvXhlracLeIQpt8O/dx219wBDX/HKmS3W+0trUC2D/9
+	l9KA==
+X-Gm-Message-State: AD7BkJI/Zwjf6R+9K1h/UQXuVy4qqYdpJqqv4J7LZrpCcFZbT9bbhUHurkVHx4Rp8FKdbw==
+X-Received: by 10.194.189.7 with SMTP id ge7mr10675543wjc.72.1457712642795;
+	Fri, 11 Mar 2016 08:10:42 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id 8sm2958801wmk.13.2016.03.11.08.10.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 11 Mar 2016 08:10:41 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 11 Mar 2016 17:13:53 +0100
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20160311161353.GA2646@jama>
+References: <20160310115301.GC2573@jama> <56E2E731.1040005@windriver.com>
+	<CADkTA4N43Zi=oLVRe99eEvvPjgYethKFNKH3J90Bss_AzqovVg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 08:03:17 -0800 (PST)
-In-Reply-To: <CAJTo0LZVFTPSXpOi4bg72xFBqKcGDshaWZEQn84+3RjZD5gMtA@mail.gmail.com>
-References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
-	<CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
-	<95245B46D926B348AEB132E99037C59B36A9FE3A@ULM-DC01.bmw-carit.intra>
-	<CAJTo0LZVFTPSXpOi4bg72xFBqKcGDshaWZEQn84+3RjZD5gMtA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Mar 2016 16:03:17 +0000
-Message-ID: <CAJTo0LbXUvRsnVeSMbgpT3qD9UzuoRzBou6ujPQD9cQNVGDQTQ@mail.gmail.com>
-To: Helio Chissini De Castro <Helio.Castro@bmw-carit.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
+In-Reply-To: <CADkTA4N43Zi=oLVRe99eEvvPjgYethKFNKH3J90Bss_AzqovVg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2016-03-09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +58,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 16:03:43 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1eae7ac5d052dc81214
+X-List-Received-Date: Fri, 11 Mar 2016 16:10:43 -0000
+X-Groupsio-MsgNum: 79482
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
 
---001a113fd1eae7ac5d052dc81214
-Content-Type: text/plain; charset=UTF-8
-
-On 11 March 2016 at 15:55, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 11 March 2016 at 15:53, Helio Chissini De Castro <
-> Helio.Castro@bmw-carit.de> wrote:
->
->> Since all the packages now share exactly the same license, there's no
->> reason anymore to specify each one of then, unless wanted to keep the names
->> to know which packages are related to this recipe.
->>
->
-> That's a good point, thanks.
->
-
-Follow up question - why not just set the recipe-scope LICENSE to
-GPL3-with-gcc-exception and remove all package-specific license assignments.
-
-Ross
-
---001a113fd1eae7ac5d052dc81214
-Content-Type: text/html; charset=UTF-8
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 March 2016 at 15:55, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
-><span class=3D""><div class=3D"gmail_quote">On 11 March 2016 at 15:53, Hel=
-io Chissini De Castro <span dir=3D"ltr">&lt;<a href=3D"mailto:Helio.Castro@=
-bmw-carit.de" target=3D"_blank">Helio.Castro@bmw-carit.de</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div style=3D"direction:ltr;font-fam=
-ily:Tahoma;color:#000000;font-size:10pt">Since all the packages now share e=
-xactly the same license, there&#39;s no reason anymore to specify each one =
-of then, unless wanted to keep the names to know which packages are related=
- to this recipe.<br>
-<div></div></div></blockquote></div><br></span>That&#39;s a good point, tha=
-nks.</div><div class=3D"yj6qo ajU"><div id=3D":aqx" class=3D"ajR" tabindex=
-=3D"0"></div></div></blockquote></div><br>Follow up question - why not just=
- set the recipe-scope LICENSE to GPL3-with-gcc-exception and remove all pac=
-kage-specific license assignments.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+On Fri, Mar 11, 2016 at 10:52:14AM -0500, Bruce Ashfield wrote:
+> On Fri, Mar 11, 2016 at 10:41 AM, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+>=20
+> > On 3/10/16 5:53 AM, Martin Jansa wrote:
+> > > Aggressive PNBLACKLISTing continues. But linux-yocto (and modules
+> > depending on it)
+> > > are still broken :/.
+> > >
+> > > I'll look at cef3 and chromium issue, my recent patch for meta-browser
+> > > fixed the build for armv7a MACHINEs, so it probably needs to be exten=
+ded
+> > > a bit to cover warnings in x86 and then duplicate the same to cef3.
+> > > This issue is there for so long, slowing down the builds significantly
+> > > (and causing logs to be much bigger) - I don't use these recipes but I
+> > > hate the failures even more.
+> > >
+> >
+> > Is see the reported log failure, but I've been building with the oe-core
+> > and
+> > poky linux-yocto head of master for the last couple weeks, all arches
+> > includes
+> > qemux86.
+> >
+>=20
+>=20
+> I don't know what to say about those failures either. I've been chasing
+> perf build
+> races for the past week, and that includes building linux-yocto hundreds =
+of
+> times,
+> and I've never seen the uapi headers not be in place like the logs show.
 
---001a113fd1eae7ac5d052dc81214--
+My guess (and supported by Andrea) is that it's caused by
+linux-yocto-tiny which is built as part of bitbake world and probably
+not included in your tests when you build the same linux-yocto.
+
+That would also explain why these issues break almost every qemux86 and
+I haven't seen them for qemuarm, linux-yocto-tiny has:
+  COMPATIBLE_MACHINE =3D "(qemux86)"
+
+Try to run
+"bitbake linux-yocto linux-yocto-tiny" couple times and maybe you'll be
+able to reproduce it.
+
+For next runs I've PNBLACKLISTED linux-yocto-tiny and
+linux-yocto-tiny-kexecboot:
+https://github.com/shr-project/jenkins-jobs/commit/c168b7824c2c68bd5894532f=
+c122929d2d9df9a7
+
+> The Yocto AB is also not showing it to me.
+>=20
+> Unless I can get access to a broken build, I'm at a loss to actually debug
+> and
+> fix it.
+>=20
+> Bruce
+>=20
+>=20
+> >
+> > I don't see the error on my builder.  Is something changing the default
+> > recipe/kernel configuration triggering the fault?
+> >
+> > --Mark
+> >
+> > > =3D=3D=3D qemux86 (2) =3D=3D=3D
+> > >     * /meta-openembedded/meta-python/recipes-devtools/python/
+> > python-m2crypto_0.23.0.bb, do_compile
+> > >     * /openembedded-core/meta/recipes-kernel/linux/linux-yocto_4.4.bb,
+> > do_compile
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+>=20
+>=20
+>=20
+> --=20
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlbi7r8ACgkQN1Ujt2V2gBxIqACgl727VVGzEhWryBAEz33G2DRa
+KK8An3hG5zOG2TiS+G9K7ObqEwTJ2q9e
+=QwG9
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
