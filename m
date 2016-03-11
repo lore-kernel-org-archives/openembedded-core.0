@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B1204731F6
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E9071731D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 16:02:53 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id m184so151116856iof.1
+	Fri, 11 Mar 2016 16:03:41 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id g203so150946359iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 08:02:54 -0800 (PST)
+	Fri, 11 Mar 2016 08:03:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Dfw8eoKLBiAFUHLFDjdd9YabA0H+92Wlz3OG7zMzZPs=;
-	b=o+uu3+erBwV10ovAvUNui+98N0hoBWAU1YYS4xJ3Nn3Yj+CKjAQN69Khmvh1PgI0Xh
-	vAtbnldBPw6OtBJ9qJzua6/cK60gJ/Gsr5uGH7mIMpTjmMmZ4z8kPYMo1wYrguqlKP96
-	9nHN5AieYr0D91tiBbpHkvMdyB2Vw7+eH2YheJF4bRC9gf/OJb0y8+UqMuaF2hCXPY1d
-	D/54RafjV3wJzsOpARePOeVf/+XZlLeJq3kHzjX8pq//4Dp48HpKiz7ZqN1MVUJgYBrm
-	r3qr1g3PjyzdNoQ52frdiCfEZp63VyzdRo2tIuotpI//JjVCs0kLiTl/aQo+K6Jt+4Jl
-	amyg==
+	:cc; bh=qfU2UKCB2nHKf2slctTBz1vT9I6LMPFGZOOLanMVNRc=;
+	b=nEMKHQTT4uUey1i0Iy/qsHVvqMiDEd7T/O1CYZAf026gMiVksQ1e7+ipm9ukOMUlEe
+	7u071GoItz24sFl2Pm4/uHnxNa02yWp8gmkMw/vVQlxVRB9JwFjZPhEyliYyf4ltL8cS
+	ddvuS5nIYyHKAMoSq+6rLj4DxZv3mSHkPr6y/Psmz0Glqcj2y4Nm8aSIH8tcxX1o4R86
+	jmIGe9DqXGjgNpyk+MbhGQIdofB1AvNRJHucsckqEDmGGULJlTbE8crgrxtvHUWV7v0z
+	UGOrLAT/loTSLcm9p+JCefmjI0rVFk7RUnBbnwdQXFkySgwuj9fli9r2uTw6SZzU8A9n
+	Cgyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Dfw8eoKLBiAFUHLFDjdd9YabA0H+92Wlz3OG7zMzZPs=;
-	b=QSQb+zCOa0LkPTtQ9TXzsjMQpvI1CJNHZiJyDZotqHFSbFUR+RhqPBajpAssjbPQFh
-	96S5PTdaXdmyxIc2Nd72xFXMDfCWf82oi6NKdhk0cJa6d7AGCMJYeq7Q/dHEaA1eJ/IB
-	6MkdSPxehvcjdoxrUVb2euhaaq8iEY4bYgm4kWhJ+kf7ccV0hLKQYnxs4FUiPPcphbUB
-	xFntSk5KisRAeroTHBWtaCaUnMl6mOKofNAhsvnHYzQHzfFI3Vpd5r9Ow0GGLSZcWx40
-	H1OQZLsPy60Zk80N7f/9m/7vjJItt+SooMG2dubNhJeytYFQtIO+zdU88n8VDXcnRGVq
-	rSEQ==
-X-Gm-Message-State: AD7BkJLsOWTzL7wCCB1t2Diwf7HGiT+ZkiO2GSZm05VsstaZDKdLogExjXen1XLT1DjJ76Yy7eMMqQQTvw6CdCJl
-X-Received: by 10.107.16.19 with SMTP id y19mr10504978ioi.148.1457712174328;
-	Fri, 11 Mar 2016 08:02:54 -0800 (PST)
+	bh=qfU2UKCB2nHKf2slctTBz1vT9I6LMPFGZOOLanMVNRc=;
+	b=GmACAWP2i23JcvMfoe95RrnrrWQHNK6MMmmACwH8PUHu81L4tBI8gFDNyjhozWyi2j
+	0LeWLAcxvNpVykguSAem8jiNBTyyaFhvKQznrSC4zai5/WzN7P6bevDZcIf0VMNoL2Q2
+	4PXBz8/FGJ4BzbNKpA1zVEJhLP8Aop85x7GKOIg/RimLxYUObkArXnHgw4ESU3KYALXL
+	PJ+LmeiQa/n6uG3O0/aBsI9hr0G7Mwvtun+Jd99xmGTTOIeXrsGPvGDExF7zu60URIEd
+	fWyLGJmF9ux7TGPG0EKNvrV8rB62N1PF9YyGjFOMH/YjCDBVH0/meGrImZq3h3V148nZ
+	gdAg==
+X-Gm-Message-State: AD7BkJKod1wEAfapHiMwhyVayw9Py/X7uuFvjRjvj6Qc4chJ60ddis14+t+/yPPKJ1vl78AMqd2d1MPqtyINpN6c
+X-Received: by 10.107.16.19 with SMTP id y19mr10510883ioi.148.1457712217365;
+	Fri, 11 Mar 2016 08:03:37 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 08:02:34 -0800 (PST)
-In-Reply-To: <1FC09834-DC8A-477D-9C9F-B6D469A7E90E@gmail.com>
+Received: by 10.107.162.70 with HTTP; Fri, 11 Mar 2016 08:03:17 -0800 (PST)
+In-Reply-To: <CAJTo0LZVFTPSXpOi4bg72xFBqKcGDshaWZEQn84+3RjZD5gMtA@mail.gmail.com>
 References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
 	<CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
-	<1FC09834-DC8A-477D-9C9F-B6D469A7E90E@gmail.com>
+	<95245B46D926B348AEB132E99037C59B36A9FE3A@ULM-DC01.bmw-carit.intra>
+	<CAJTo0LZVFTPSXpOi4bg72xFBqKcGDshaWZEQn84+3RjZD5gMtA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Mar 2016 16:02:34 +0000
-Message-ID: <CAJTo0LaoVn5ixhYy-2cHf-FGSthY3Fa9Z9ryg6j0hLp2KSLLtg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 Mar 2016 16:03:17 +0000
+Message-ID: <CAJTo0LbXUvRsnVeSMbgpT3qD9UzuoRzBou6ujPQD9cQNVGDQTQ@mail.gmail.com>
+To: Helio Chissini De Castro <Helio.Castro@bmw-carit.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,43 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2016 16:02:56 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1ea562692052dc8102b
+X-List-Received-Date: Fri, 11 Mar 2016 16:03:43 -0000
+Content-Type: multipart/alternative; boundary=001a113fd1eae7ac5d052dc81214
 
---001a113fd1ea562692052dc8102b
+--001a113fd1eae7ac5d052dc81214
 Content-Type: text/plain; charset=UTF-8
 
-2016-03-11 15:58 GMT+00:00 Khem Raj <raj.khem@gmail.com>:
+On 11 March 2016 at 15:55, Burton, Ross <ross.burton@intel.com> wrote:
 
-> -----BEGIN PGP MESSAGE-----
-> Comment: GPGTools - https://gpgtools.org
+> On 11 March 2016 at 15:53, Helio Chissini De Castro <
+> Helio.Castro@bmw-carit.de> wrote:
 >
-> hQQOA1XJCHN89ZWPEA//byr/rrxGxNNYYivYsGFBs4h6XrUzdqBCsw2FuyseGKJ1
-> XkZUtuH7f39QYY63OoqFhFdVmy3Hil3wscxe38L6/DA8hQV9Csn4cOxEfp9UF5jj
-> +3QJg/xqk7cgXTLuoUen9JZQHZgnG6+IfBg6jJARCKTmcs8aCT8WU2DYWycGCGg5
+>> Since all the packages now share exactly the same license, there's no
+>> reason anymore to specify each one of then, unless wanted to keep the names
+>> to know which packages are related to this recipe.
+>>
+>
+> That's a good point, thanks.
 >
 
-Can you send it non-encrypted? :)
+Follow up question - why not just set the recipe-scope LICENSE to
+GPL3-with-gcc-exception and remove all package-specific license assignments.
 
 Ross
 
---001a113fd1ea562692052dc8102b
+--001a113fd1eae7ac5d052dc81214
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-2016-03-11 15:58 GMT+00:00 Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>:<b=
-r><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><div id=3D":ao7" class=3D"a3s" style=3D"ov=
-erflow:hidden">-----BEGIN PGP MESSAGE-----<br>
-Comment: GPGTools - <a href=3D"https://gpgtools.org" rel=3D"noreferrer" tar=
-get=3D"_blank">https://gpgtools.org</a><br>
-<br>
-hQQOA1XJCHN89ZWPEA//byr/rrxGxNNYYivYsGFBs4h6XrUzdqBCsw2FuyseGKJ1<br>
-XkZUtuH7f39QYY63OoqFhFdVmy3Hil3wscxe38L6/DA8hQV9Csn4cOxEfp9UF5jj<br>
-+3QJg/xqk7cgXTLuoUen9JZQHZgnG6+IfBg6jJARCKTmcs8aCT8WU2DYWycGCGg5<br></div><=
-/blockquote></div><br>Can you send it non-encrypted? :)</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 11 March 2016 at 15:55, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
+><span class=3D""><div class=3D"gmail_quote">On 11 March 2016 at 15:53, Hel=
+io Chissini De Castro <span dir=3D"ltr">&lt;<a href=3D"mailto:Helio.Castro@=
+bmw-carit.de" target=3D"_blank">Helio.Castro@bmw-carit.de</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div style=3D"direction:ltr;font-fam=
+ily:Tahoma;color:#000000;font-size:10pt">Since all the packages now share e=
+xactly the same license, there&#39;s no reason anymore to specify each one =
+of then, unless wanted to keep the names to know which packages are related=
+ to this recipe.<br>
+<div></div></div></blockquote></div><br></span>That&#39;s a good point, tha=
+nks.</div><div class=3D"yj6qo ajU"><div id=3D":aqx" class=3D"ajR" tabindex=
+=3D"0"></div></div></blockquote></div><br>Follow up question - why not just=
+ set the recipe-scope LICENSE to GPL3-with-gcc-exception and remove all pac=
+kage-specific license assignments.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
 
---001a113fd1ea562692052dc8102b--
+--001a113fd1eae7ac5d052dc81214--
