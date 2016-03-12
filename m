@@ -1,45 +1,65 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D4EE4731A4
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id EEE31731A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Mar 2016 14:04:30 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id w104so120756065qge.1
+	Sat, 12 Mar 2016 14:06:06 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id fl4so121262621pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Mar 2016 06:04:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=3kKEQRG4ExXMpVC6+xPPGFa6nREZ7Vfl2L1PHRAKDKY=;
-	b=JJu+ZNRjnDbK4QqVeqaraHoF/w6l0ZYaIqGscX+D5Osp9Leyh0k1qMCHQNy/nJSLaf
-	8A+uxWL+keFCTRnVTkYXQ5r0bhftAB9yLNpWl18Wc1bqrAfYcKeNCyj6nJ5YcqI/Gj46
-	LXyr7YOTYI5nX8AHrtHnH51Qq9SeGOv9N/+E4QzDn7IyMdDuBwzdEAkAyB4jgyJtqCkE
-	gtNhZJUGoeWkHKGRZjB24ODKvuTkWLZu71abkhNNVIhCPyhwEW6pwuXFxtymZF4gYmgQ
-	5RzYGO0q9xekgH/MC+PGdqsgBJqb2pXsgxv9w7ep855M9N2kzs6lFoGWm8X2TiUdR8Wa
-	LrMQ==
+	Sat, 12 Mar 2016 06:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=JPDGUtiyvb5zUzvDeJ/6sIojDuryis9iJPyYVxow0N0=;
+	b=YrK7a4FL/uT20xTVTxKAe5qZzp5yJKGAMHc9lbRf3wPOg1wdP0CWdQGJpVHvx3cZzg
+	PXIJ3xAlxh8/Y7FQEaN2ZsQNc/r//doBXQ2b8nC1KhvpgEf9yPFDISdfRZq4BKWMxA2R
+	FTbUzCz92WAt3zGKT648+Ozm7IJViFAiD0K9SLuq0h+PKGo6nhjkumO0kpn/8xLhC/9E
+	U+eYCD+T2HBuw9FnhBHv2s5HR2EWe71UcWtVHosEZflUb+YYr8iNi2ldmNYXnisZW4rj
+	AcBCQbVJk7lWTi8IJrjEvbqYx/ZuANPE2gSzwXIQaGEusOnJpxfA6pXwFVyumyiAo0As
+	DiwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=3kKEQRG4ExXMpVC6+xPPGFa6nREZ7Vfl2L1PHRAKDKY=;
-	b=OVHnCTfCUPbGAdiKo0G/udUo252Me/ylsl/OikAyeCAylmWh1zasU1ubVTwDAyClT7
-	O96zYMJPVmbgtztUdNbURCpSXkkW2B+ucMuNGpPU+3Qlns/oQ6tr9arab5gC8IcF7dxv
-	Qx6WLwxV6GvKyxeqjob2/Wz2OuZd4FNTaINgP3Vd34f0JqhcSwoIfJnTR7uv5sBQtHqJ
-	Tgk/s1FXf6eRa6QpggxZsdmv/P5FhowAsElK41wNtAQC7RyFNYK7deIsQ6kJmKBeXuMi
-	D1g6zvwhibOJOhuhue+FHNA5wBF6cQT1ddGyAvgdPiTAaL4mMzohmeRFh66uAguh4pZ5
-	RIpA==
-X-Gm-Message-State: AD7BkJLqb9dtXk/v0D8RWRn/AqU4GkGxaTnGSTycB94YzuEdTWB4JdxqmWI8UrZHyxsCTQ==
-X-Received: by 10.140.107.182 with SMTP id h51mr18427120qgf.53.1457791471257; 
-	Sat, 12 Mar 2016 06:04:31 -0800 (PST)
-Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
-	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	w188sm6117570qhb.37.2016.03.12.06.04.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 12 Mar 2016 06:04:30 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Mar 2016 14:04:23 +0000
-Message-Id: <1457791463-18541-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] busybox: Drop -r passthrough patch
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=JPDGUtiyvb5zUzvDeJ/6sIojDuryis9iJPyYVxow0N0=;
+	b=l4byhkAsrQ1sntaaQVxtN4QfIeZQNGQvq/FepxoHcByhXkloGEXj79tflE1MwF2XwV
+	xwgc1XSHbP0ivRRDhHHeXjxNCq462nc1pp+JD3Y7Qr8tCAMQ/fr4v+YN9FpJSa4+1UTb
+	VfqkW9eqdrb8iIhiAk6hxXjkxJB2+XmNf5q4l1wGhZTCjXZRqZtMRmXOayCjmL9Bl1mw
+	h036xs49mV4XBBX2juLMI2XSkbzkA/GvQiA3tgUlYjwaVw2hYymeBZfylPkNTUCwBaEu
+	r6mJRz16C5RbUlNwVy2Ptwjcp/rxAuKBVSAm+PgbmNj4VIQ7+svYtbcKGiE1M/3O9fJW
+	9udQ==
+X-Gm-Message-State: AD7BkJJG3jGI9KrefMDjbvMa1L9DjbjiGR0ka11thOWvlh1mi2idjDrC1W3PbwyENFVb1w==
+X-Received: by 10.67.14.138 with SMTP id fg10mr23939431pad.145.1457791567376; 
+	Sat, 12 Mar 2016 06:06:07 -0800 (PST)
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com.
+	[209.85.220.51]) by smtp.gmail.com with ESMTPSA id
+	y68sm20199202pfi.6.2016.03.12.06.06.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 12 Mar 2016 06:06:05 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f51.google.com with SMTP id fe3so105533671pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 12 Mar 2016 06:06:05 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.66.235.9 with SMTP id ui9mr23854326pac.135.1457791564833;
+	Sat, 12 Mar 2016 06:06:04 -0800 (PST)
+Received: by 10.67.3.163 with HTTP; Sat, 12 Mar 2016 06:06:04 -0800 (PST)
+In-Reply-To: <CAMKF1sqi9yut+7LXkVWvVCEoVSu=U3yYKOo7wPHOsL=+rb-RJA@mail.gmail.com>
+References: <1457719132-2239-1-git-send-email-daniel.dragomir@windriver.com>
+	<1457719132-2239-2-git-send-email-daniel.dragomir@windriver.com>
+	<249F02FB-87A8-431F-9C52-8312F1736B66@gmail.com>
+	<CAP9ODKqNziC20dgUPwQJdM9CuKRE3awibz8D-QSkF4tw8BaCGg@mail.gmail.com>
+	<CAMKF1spe-QQBJWLef9Ftotc2CHVS-AzOSBm=o0-YdEUPKL8wkA@mail.gmail.com>
+	<CAP9ODKrkHgjE3dr3qcW3L=gkeHf=xbcjSpsa_g8dqOZ6H3okeA@mail.gmail.com>
+	<CAMKF1sqi9yut+7LXkVWvVCEoVSu=U3yYKOo7wPHOsL=+rb-RJA@mail.gmail.com>
+Date: Sat, 12 Mar 2016 11:06:04 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqwDc-cqMfgKObZaJWvZp77of198eUVR3aoY325uyS+jQ@mail.gmail.com>
+Message-ID: <CAP9ODKqwDc-cqMfgKObZaJWvZp77of198eUVR3aoY325uyS+jQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2][master] arch-armv8a.inc: Add tune for 32-bit ARMv8a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,70 +72,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Mar 2016 14:04:32 -0000
+X-List-Received-Date: Sat, 12 Mar 2016 14:06:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This was added to help clang compile busybox but since then
-the option has been added to llvm and now we have upgraded clang
-to 3.8 which has this option available
+On Sat, Mar 12, 2016 at 10:23 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Sat, Mar 12, 2016 at 8:02 PM, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>> On Sat, Mar 12, 2016 at 8:57 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> On Sat, Mar 12, 2016 at 7:41 PM, Otavio Salvador
+>>> <otavio.salvador@ossystems.com.br> wrote:
+>>>> On Fri, Mar 11, 2016 at 9:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>>
+>>>>>> On Mar 12, 2016, at 12:58 AM, Daniel Dragomir <daniel.dragomir@windriver.com> wrote:
+>>>>>>
+>>>>>> This patch adds tunes for 32-bit armv8a platforms. The user can select
+>>>>>> little or big endian, hard or soft float, the vector floating-point
+>>>>>> instruction set: vfpv4 or fp-armv8 and the thumb, neon, crc and crypto
+>>>>>> extensions.
+>>>>>
+>>>>> This does not feel right to me. Look at how thunderX looks like
+>>>>> ARMv8 is the time to fix this tune explodes on arm, this patch is not helping
+>>>>> it.
+>>>>>
+>>>>> Do we need the hf/neon/vfp/thumb2 variants?
+>>>>
+>>>> Do you mean we ought to use hf+neon+thumb2+fp-armv8 for everyone and
+>>>> just have optional features in and out?
+>>>
+>>> something like that yes. Just aarch64 and aarch32 make it simple as that
+>>
+>> ARMv8.1a has different semantics, how does we handle this?
+>
+> question is do we need to handle this with tunes at all ?
+> what advantages are we looking for.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../busybox/0002-Passthrough-r-to-linker.patch     | 32 ----------------------
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 -
- 2 files changed, 33 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
+I don't know but this was my main design doubt.
 
-diff --git a/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch b/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-deleted file mode 100644
-index de286fb..0000000
---- a/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From df2cc76cdebc4773361477f3db203790f6986e3b Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 22 Aug 2015 23:42:40 -0700
--Subject: [PATCH 2/2] Passthrough -r to linker
--
--clang does not have -r switch and it does not pass it down to linker
--either, LDFLAGS_RELOCATABLE is used when CC is used for LD, so this
--should not cause side effects
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- Makefile | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile b/Makefile
--index 9da02cb..10dd4a9 100644
----- a/Makefile
--+++ b/Makefile
--@@ -309,7 +309,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ -Wbitwise $(C
-- MODFLAGS	= -DMODULE
-- CFLAGS_MODULE   = $(MODFLAGS)
-- AFLAGS_MODULE   = $(MODFLAGS)
---LDFLAGS_RELOCATABLE = -r -nostdlib
--+LDFLAGS_RELOCATABLE = -Xlinker -r -nostdlib
-- LDFLAGS_MODULE  = $(LDFLAGS_RELOCATABLE)
-- CFLAGS_KERNEL	=
-- AFLAGS_KERNEL	=
---- 
--2.1.4
--
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index 174ca47..bdaa5a5 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -29,7 +29,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://recognize_connmand.patch \
-            file://busybox-cross-menuconfig.patch \
-            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
--           file://0002-Passthrough-r-to-linker.patch \
-            file://busybox-1.24.1-unzip.patch \
-            file://busybox-1.24.1-unzip-regression.patch \
-            file://busybox-1.24.1-truncate-open-mode.patch \
+To be honest, I think hf, neon, thumb2 and fp-armv8 can be default.
+Crypto and crc seem to be optional and need to be enabled if the core
+offers it. But those are required for ARMv8.1 SoCs ... AFAIK.
+
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
