@@ -1,57 +1,47 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id F086260588
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 28F4160124
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Mar 2016 02:58:41 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id z76so167553263iof.3
+	Sat, 12 Mar 2016 03:59:00 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id x1so55992614qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2016 18:58:42 -0800 (PST)
+	Fri, 11 Mar 2016 19:59:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=aU47QhLxLmZ7ugGTJgBiT+WbsgYanxgKgFfEb8DPRvI=;
-	b=B2R8E4dtooO0t7bUDuJzRH9xtEAbcbG39Ml5wOIk0ycFQKCZZ7VpPq64hlZm54kT3v
-	FAvHq+LcmJ0tNRgDIYFFdsNmupcSyQjeFbBRtbXkLwgh5/F//tJnYq5UjCr/0aA5pqTt
-	aUpW2hTrPfEJLxaADzs8v6c1bRhXQEUBLI5ufeWmnRb883yARZfqWnwdvEkAtHYvbUgh
-	T6w0lWNXt0noNyVQTSKen3p8QbUS8qx31k5TZf3VB93Wd0LgRufQFdP05XVKjG037pXA
-	+CtD/XirgYoWh57LIq8X/E/gyYkqtlujuGOPTW+1+g0S10bH/ZYTyea1WHN1XWRflXoo
-	HHKw==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=2irG1BbAof+gzqI5U695S6q1Sr6GkIskM8mTrDIbMT0=;
+	b=s6o3BHibo9VsGbyoKPVp3V5cfJ3OlO8w8f8NeyCau3Q/h1zI92NhW2/teckdMWhBJ1
+	5JP18tF91OeJC0nkO3iXJwwi7icjzZWIs3ZYoHAc7FFn2VkSXemsawDViyqjO+0f2ChT
+	lhfDNlGpqz569/6QAbQ0z2ovPCb0zyfJSlLtncnc9CKsnPeKTfwZH7TMRGs1KG+6Jr4w
+	L0xD5RXxnJEaBGrzGqqgSr39h6tf/HEPk654UDlUi5E6qwTF5X6wlugtH5oqJSW3poTp
+	/++CaxYojjGrch3OixROXZaFC/zQKYxeu64n4chQxpeASQjGBYeu1zhTeSRx7It9BpqY
+	rftg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=aU47QhLxLmZ7ugGTJgBiT+WbsgYanxgKgFfEb8DPRvI=;
-	b=EJJb5b3kPQkhyP1dG3JTnalhQZL3xUmYP9k/gSElMtjMjnhl3xpRFR0Y8kJPqfCA5F
-	g+rZHFs3R3ruLQJqrL/2UMoqSrr4gRYSVUq0rODX7U1gUGeKrrn1aBSOclVb/URcRjlL
-	vWLaE/deKY8K41hL7Sd7GsUibxq3CmOnuUMjrzQrZss2wEfjwqYUPcRWBdhPkEssG+pr
-	MtDqZ7CL/ZJ0Px/h0gmPF8GKHejpquyDe6qraovox69ogsImsTbx0OM6fvRVNqMvUmjV
-	cCI1ysOHC82Kyt0ablNILwYRhuLCVCEU0uxvYerQIX/j/i2C552MCL2O93Bchb0qIcTw
-	hgmA==
-X-Gm-Message-State: AD7BkJLf9Bv/xy/izzs+shpqaNMGv+k9HOW5yPNhSdkDco0ljGHoq6OYAcDWKwmG4JIpzA==
-X-Received: by 10.107.169.35 with SMTP id s35mr14946363ioe.91.1457751522121;
-	Fri, 11 Mar 2016 18:58:42 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	x9sm2026735igg.17.2016.03.11.18.58.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Mar 2016 18:58:41 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
-	<56E32888.2000301@gmail.com>
-	<CAJTo0LZCxp20cT-Te0mDW+X59Pgrr+MUtO1ArgOJoVzfc-rEmA@mail.gmail.com>
-	<56E33A51.2020807@gmail.com>
-	<1457738209.2804.259.camel@linuxfoundation.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56E385E8.8060105@gmail.com>
-Date: Fri, 11 Mar 2016 21:58:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=2irG1BbAof+gzqI5U695S6q1Sr6GkIskM8mTrDIbMT0=;
+	b=aoVwljvsm4zYn3aU697QI/4/tggSwbXc5A/C1oIVSAu1+Im/7lhX38u1znphWFj122
+	rNlWaukVqBGa7Zgel+PgE6iz4JAv/FVNHtHqo2MF2YdaqZtyD7vqj4gRfNiIyy2dep/J
+	aKKtNMQFlMjlo+4RfGGTW4OQCanYDK8iS6fThFHjbVndXL24ACJ+2AFlWmz06iOp3r05
+	hPKJF5CTPMJYbBbujzh50AJ/9YWh0+5Dxv7RyLcEeay7s9nOYWd1J4WhS8bZPkExg6Jz
+	69ldJUymXaBK+kRb26sOUCJdU6WNynQkq4p+mphQR5i6fzif5LsIcWPaQxJTmOwH9/7E
+	su0A==
+X-Gm-Message-State: AD7BkJKq1IeqWJ4jHHqUNfqRXALrMeMgCMwcvrWY6b0EZoS+bBZbSu3sHiO1EadS0K7avfW7iI2UyJ0kStJfIA==
 MIME-Version: 1.0
-In-Reply-To: <1457738209.2804.259.camel@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][jethro][RFC 1/2] libsdl: expand PACKAGECONFIG and enable native builds
+X-Received: by 10.55.80.68 with SMTP id e65mr16405845qkb.46.1457755141373;
+	Fri, 11 Mar 2016 19:59:01 -0800 (PST)
+Received: by 10.55.130.196 with HTTP; Fri, 11 Mar 2016 19:59:01 -0800 (PST)
+Received: by 10.55.130.196 with HTTP; Fri, 11 Mar 2016 19:59:01 -0800 (PST)
+In-Reply-To: <1457750954-32065-1-git-send-email-twoerner@gmail.com>
+References: <1457750954-32065-1-git-send-email-twoerner@gmail.com>
+Date: Sat, 12 Mar 2016 10:59:01 +0700
+Message-ID: <CAMKF1sqBf1Hg8w8G3Xes9TAjVoQcAE=DuHvsfJxNcVArZ=+Gmw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] buildhistory.bbclass: metadata-revs show repo parent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,42 +54,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Mar 2016 02:58:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Mar 2016 03:59:02 -0000
+Content-Type: multipart/alternative; boundary=001a114a6b7c5f07d8052dd211ec
 
+--001a114a6b7c5f07d8052dd211ec
+Content-Type: text/plain; charset=UTF-8
 
-
-On 03/11/16 18:16, Richard Purdie wrote:
-> On Fri, 2016-03-11 at 16:36 -0500, Trevor Woerner wrote:
->> Hi Ross,
->>
->> On 03/11/16 15:49, Burton, Ross wrote:
->>> On 11 March 2016 at 20:20, Trevor Woerner <twoerner@gmail.com
->>> <mailto:twoerner@gmail.com>> wrote:
->>>
->>>      ERROR: Nothing PROVIDES 'virtual/nativesdk-nativesdk-libx11'
->>> (but
->>>      virtual:nativesdk:/z/dragon410c-repo/dragon410c-tw
->>> -jethro/layers/openembedded-core/meta/recipes
->>> -graphics/libsdl/libsdl_1.2.15.bb
->>>      <http://libsdl_1.2.15.bb> DEPENDS on or otherwise requires it).
->>>      Close matches:
->>>
->>>
->>> That's an awesome comment.  Clearly my testing wasn't optimal,
->>> there's
->>> another patch required.
->>>
->>> Can you verify that
->>> cherry-picking 55ca1fb8f0e81ff739b3c46897e43356d1f760c3 solves
->>> this?
->> Yes, verified. Cherry-picking 55ca1fb8 solves the problem.
->>
->> Thanks! :-)
-> I just merged the fix to the branch, thanks for testing.
+On Mar 12, 2016 9:50 AM, "Trevor Woerner" <twoerner@gmail.com> wrote:
 >
+> Currently my build shows two "meta" repositories: one from meta-poky and
+one
+> from openembedded-core. Have the code which prints the repositories into
+> metadata-revs show the parent directories when repositories with multiple
+> sub-layers are used.
 
-Thank _you_ people for being so fast to respond to the issues your users 
-find!
+Meta-poky is a leaf layer. So how is it offering conflicting meta layer ?
+>
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/classes/buildhistory.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/buildhistory.bbclass
+b/meta/classes/buildhistory.bbclass
+> index fac7fed..b6b4324 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -616,7 +616,7 @@ def buildhistory_get_build_id(d):
+>  def buildhistory_get_metadata_revs(d):
+>      # We want an easily machine-readable format here, so
+get_layers_branch_rev isn't quite what we want
+>      layers = (d.getVar("BBLAYERS", True) or "").split()
+> -    medadata_revs = ["%-17s = %s:%s" % (os.path.basename(i), \
+> +    medadata_revs = ["%-17s = %s:%s" % (os.path.relpath(i,
+d.getVar('BBLAYERS_FETCH_DIR', True)), \
+>          base_get_metadata_git_branch(i, None).strip(), \
+>          base_get_metadata_git_revision(i, None)) \
+>              for i in layers]
+> --
+> 2.7.0.rc3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--001a114a6b7c5f07d8052dd211ec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"><br>
+On Mar 12, 2016 9:50 AM, &quot;Trevor Woerner&quot; &lt;<a href=3D"mailto:t=
+woerner@gmail.com">twoerner@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Currently my build shows two &quot;meta&quot; repositories: one from m=
+eta-poky and one<br>
+&gt; from openembedded-core. Have the code which prints the repositories in=
+to<br>
+&gt; metadata-revs show the parent directories when repositories with multi=
+ple<br>
+&gt; sub-layers are used.</p>
+<p dir=3D"ltr">Meta-poky is a leaf layer. So how is it offering conflicting=
+ meta layer ?<br>
+&gt;<br>
+&gt; Signed-off-by: Trevor Woerner &lt;<a href=3D"mailto:twoerner@gmail.com=
+">twoerner@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/classes/buildhistory.bbclass | 2 +-<br>
+&gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhis=
+tory.bbclass<br>
+&gt; index fac7fed..b6b4324 100644<br>
+&gt; --- a/meta/classes/buildhistory.bbclass<br>
+&gt; +++ b/meta/classes/buildhistory.bbclass<br>
+&gt; @@ -616,7 +616,7 @@ def buildhistory_get_build_id(d):<br>
+&gt; =C2=A0def buildhistory_get_metadata_revs(d):<br>
+&gt; =C2=A0 =C2=A0 =C2=A0# We want an easily machine-readable format here, =
+so get_layers_branch_rev isn&#39;t quite what we want<br>
+&gt; =C2=A0 =C2=A0 =C2=A0layers =3D (d.getVar(&quot;BBLAYERS&quot;, True) o=
+r &quot;&quot;).split()<br>
+&gt; -=C2=A0 =C2=A0 medadata_revs =3D [&quot;%-17s =3D %s:%s&quot; % (os.pa=
+th.basename(i), \<br>
+&gt; +=C2=A0 =C2=A0 medadata_revs =3D [&quot;%-17s =3D %s:%s&quot; % (os.pa=
+th.relpath(i, d.getVar(&#39;BBLAYERS_FETCH_DIR&#39;, True)), \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base_get_metadata_git_branch(i, None=
+).strip(), \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base_get_metadata_git_revision(i, No=
+ne)) \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in layers]<br>
+&gt; --<br>
+&gt; 2.7.0.rc3<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+<br>
+</p>
+
+--001a114a6b7c5f07d8052dd211ec--
