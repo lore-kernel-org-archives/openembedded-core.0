@@ -1,45 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 69A40605B3
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id AE4A26FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Mar 2016 14:28:05 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id y89so120953730qge.2
+	Sat, 12 Mar 2016 14:29:56 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id w104so121074524qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Mar 2016 06:28:06 -0800 (PST)
+	Sat, 12 Mar 2016 06:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=nc6YTFbMJZUjHvJ8rRvZlfejRFPpOThfPH3VGv2E2EA=;
-	b=p92HIWSRy9acJUr5AY5IPB6dNcfL25GtfeZmt1SrRhLLOxZjUoUUBBwICU/ZMh4tgV
-	CU/8P72UaYlllPwEVGbkCHG4o5G1NT2NCa3QeUyIcXEGpXXSNj2X5X2GvZ1CrO6D2Td2
-	M0w1P9NtAVbIRC79eorlBu/NFUP9iX0DiwkLrmrI18msQ8w+vgqQpkwnE5nwITpFPRDp
-	Db40V4SiHbfdcJYemTUVtqF734TdEfI2jelngxzrQlKjRToCtInUhqAxZpJU0w02TTZK
-	nYZsIGSzbRz+GMav4McMawd9mhKK5L2dH+wm1kwpJo0n775d3LIKQZF5LGO7Q95bXgLo
-	GQKQ==
+	bh=fylmZqhBUZ3B5qNPfZUl26a9iEBqOzqkbfPhyBlg82k=;
+	b=XPsRYfwyP8B8Koxd7mO+3iLUsYYCib1mVcC8HdoqCVo9DAO1GeDD7E285/u6MdoW13
+	PL9iu520CDRE49X4p+uoTCkukdR2zR/KSOwbrhA8p/tAInImGKg2wPRMmQ1+uBMdtMzc
+	sz6THEeBxlbC2MDbeFr9VKPVUegcoCJHX57fqXpQFsgxVdVch52lNFGiEf5mBcHdjDul
+	BwNmAYmzxki+LOAYSljHfGIfC20teNpvfuj/X1BqcjX+y86Zvg2Ka8sPBM5QnDJcGOca
+	7leP4wccNQnWohbtrgPF9+Jni737gH99aA6vGQDtvUcWYA5lylCsrhdzbQ/aoaS0Q5mP
+	PtyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=nc6YTFbMJZUjHvJ8rRvZlfejRFPpOThfPH3VGv2E2EA=;
-	b=bcF22Qx3olWeI2IvUGCP3JE6iuhGAIjZ7+Hznp8X2BxL5dNpIo+71JWv4rYRiuOkfV
-	5LSmC38GrXEWTTjrqC9DkhwCdNMjonGSOuaDx5k8Xi4CUtldmvbL2VMKBcT3JRmOFJXR
-	fuzV7zdqN1rV/+1o192LGpDBqzco2a9Ag/fD67JL0V5mAIeFIFm6Qs2Z7XEMv9p8NZRt
-	S2yQQ2AHAZwODUYDTSHcHCDBVJ1v0cBEjEwfxm7C/84OZfMcE8nFfytFrtw1hdAtoRZx
-	dQQwYq+oEdcPIxThlUs9YWlZtrx4YqVzteC66XK6E+6z9ABvS8yHpK2P/1upaTVD2hvF
-	NFzA==
-X-Gm-Message-State: AD7BkJL5z27OfxIpF1gL2dBTJhprpojCjYmMxbHlWQUgp+uEFmFO3EJpLWeonTzrK7j18w==
-X-Received: by 10.140.35.115 with SMTP id m106mr18546956qgm.13.1457792885743; 
-	Sat, 12 Mar 2016 06:28:05 -0800 (PST)
+	bh=fylmZqhBUZ3B5qNPfZUl26a9iEBqOzqkbfPhyBlg82k=;
+	b=bp8Tym17Af7qFwfxKkbTEDp8fDQds2JNATEci4gGJeeQNk0oVR1DJwJ/A3aa7G71XZ
+	SW6Wg6l7kFbOKPg1SxpfVrG6sHIVGLOXP1x+Pqw6G/HaVy9GBvI6m4l4aq9srdQ/c2q6
+	nvo5gERyjo1AMWwTTISuECwDtzHGcCOdO+1QlAMgo1GpvJR5U44sgmBSVY6gzUmDgcph
+	SUZFrkTDUGDoEYJ/VjB/V/WfQn2lMM3ovvBjFguU2jY4SXQmPgBYY88QaESq4MJeO96x
+	moZMU4p4Oq257UdIG9EkEr5WD64tbNOHZhfCQK6W2YJNW6CRxPS/btaVFc+c4v3S6b8s
+	XL+Q==
+X-Gm-Message-State: AD7BkJLSSMF0WythRy0PQjYqb+vjq5T6LKcnfcwtHvzl2Sk/D/v8y5/EbGhu1x2SrHzNbQ==
+X-Received: by 10.140.142.17 with SMTP id 17mr19763197qho.77.1457792997361;
+	Sat, 12 Mar 2016 06:29:57 -0800 (PST)
 Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
-	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	z132sm6237491qka.14.2016.03.12.06.28.05
+	[96.118.179.133])
+	by smtp.gmail.com with ESMTPSA id e79sm6250717qkj.2.2016.03.12.06.29.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 12 Mar 2016 06:28:05 -0800 (PST)
+	Sat, 12 Mar 2016 06:29:56 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Mar 2016 14:27:59 +0000
-Message-Id: <1457792879-9598-1-git-send-email-raj.khem@gmail.com>
+Date: Sat, 12 Mar 2016 14:29:48 +0000
+Message-Id: <1457792988-10081-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH V2] busybox: Drop -r passthrough patch
+Subject: [PATCH V3] busybox: Drop -r passthrough patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,7 +52,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Mar 2016 14:28:06 -0000
+X-List-Received-Date: Sat, 12 Mar 2016 14:29:59 -0000
 
 This was added to help clang compile busybox but since then
 the option has been added to llvm and now we have upgraded clang
@@ -64,8 +64,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
  .../busybox/0002-Passthrough-r-to-linker.patch     | 32 ----------------------
  meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 -
- meta/recipes-core/busybox/busybox_git.bb           | 11 ++++++--
- 3 files changed, 8 insertions(+), 36 deletions(-)
+ meta/recipes-core/busybox/busybox_git.bb           |  9 ++++--
+ 3 files changed, 7 insertions(+), 35 deletions(-)
  delete mode 100644 meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
 
 diff --git a/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch b/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
@@ -119,7 +119,7 @@ index 174ca47..bdaa5a5 100644
             file://busybox-1.24.1-unzip-regression.patch \
             file://busybox-1.24.1-truncate-open-mode.patch \
 diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index ae16b59..e314b97 100644
+index ae16b59..c29b894 100644
 --- a/meta/recipes-core/busybox/busybox_git.bb
 +++ b/meta/recipes-core/busybox/busybox_git.bb
 @@ -1,6 +1,6 @@
@@ -130,7 +130,7 @@ index ae16b59..e314b97 100644
  # Lookout for PV bump too when SRCREV is changed
  PV = "1.25.0+git${SRCPV}"
  
-@@ -35,13 +35,18 @@ SRC_URI = "git://busybox.net/busybox.git \
+@@ -35,12 +35,17 @@ SRC_URI = "git://busybox.net/busybox.git \
             file://recognize_connmand.patch \
             file://busybox-cross-menuconfig.patch \
             file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
@@ -149,8 +149,6 @@ index ae16b59..e314b97 100644
  "
  SRC_URI_append_libc-musl = " file://musl.cfg "
  
--DEFAULT_PREFERENCE = "-1"
-+#DEFAULT_PREFERENCE = "-1"
 -- 
 1.9.1
 
