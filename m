@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D31E47316B
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F292773195
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:16 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id l68so11566648wml.3
+	Sun, 13 Mar 2016 19:15:17 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id n205so11551332wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:17 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=rDT27Ba5wuPo0/t/TkCYzonwq2Qw8Dh7OnCVB3M2zKY=;
-	b=Qi5TGBH+CO47ZOmuvBPdQ0CcibVFAOkpwDZpp2QBQWtt/lrMsvyEywkwUK7zmLFwbs
-	/bgKR1YvJa5nGlsYhq3VI2bE4jtjcqkUSuqKQhxb0iR9Kj9SsEzJXYalMSpqKMxus43d
-	ui82kU9viIDKR8WrH4KjL+uPYM4xHnOz5gHL8W8mWSPgKYhTjtN5Pnwm5yLKD90rqbcf
-	xTI51d4QVLcWxU8AoDUq5UqHMAqocvGb7iUz8bTPhAa4Qx30O90efYv4spZGJMi/NSj4
-	hIGLNNaquJE4tDS+ajzkEs/QCR6UpZLqWC9Uc5bgkWzmlVATHe2eI/8+lMz3mNu4CNb0
-	0mCg==
+	:references; bh=WtQMZZXgtpp3bD5nxp9tpl+hWYxbsc6LePQOBLFvbqY=;
+	b=I8Uej7ihA3uIPbhZdOLFDCPb3EeViKRa6g9r1zIkmnnCo2l7+hV826Cb0e/jZkyx6m
+	06sGiSYCKxGl65gHSralOblVYgwQBcqkaIeobE/xPMzo8P4V48KjShqyLxXoF20Rx3F+
+	Qleob+IzeF9/iQS1QD+Nx7LKzs+96a8BxhAL7kgAsG0R4AqvNswV4TIeN3Q+JUBru8ZX
+	94y5fE4lyGxxc09Dcjx5WQOSLLxi7ZPpYONNAKFfdVvMQC9lUqr4LEtJNdl9LGtFSPWJ
+	c3nctwLlQxiTrmN86FRYmgoVDUXM84WQGiWoyJsdzo+WNOOYiIh8ckqwcQ7t/czyrDN3
+	uXWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=rDT27Ba5wuPo0/t/TkCYzonwq2Qw8Dh7OnCVB3M2zKY=;
-	b=cg96m95zbPBIPbzn8Aid+8SsIXvBkjGujQqsYuWY27IlRmQeSbykhPCKjgn/Jnp+99
-	EZi+gvAeG+Ol2Ut+0pgzN6rc3xt2Xtp4XhLaDV1tmtEyXO/QqNExRzQVqaB6cvc85Wo3
-	5s1dF3y7KtZhJzgkJ8RqGM6R9rVc2rCBLkfWnoszoHxijUSRX9fT/iSSRUPgTfOTd/WK
-	GhLB8TmzCxQ8oBkONldxc00HF7eVpXuL2tjvGA/bW/ZY10sBdH8RXei/t8u7ZCNhw7s0
-	MV87fKBr+6znTQCPrmWTCCujTzTXqHP11O7h09R++z3vhTDHP3PP91CRwEosI2XfpdNC
-	M9sA==
-X-Gm-Message-State: AD7BkJLUo30fSgjqo1l9cwot6rHfP6P7yqdDFH8Ma1ywkOWupdSYPs0P3vBw3u0/VvHIPg==
-X-Received: by 10.194.87.161 with SMTP id az1mr20492550wjb.163.1457896517471; 
-	Sun, 13 Mar 2016 12:15:17 -0700 (PDT)
+	bh=WtQMZZXgtpp3bD5nxp9tpl+hWYxbsc6LePQOBLFvbqY=;
+	b=f/LH/oQi/j+wtLD0bkc2DUGOD/c/1O45rs/0u3qd1iD8PRiB8UaCk9kT0gY9e4ZP0D
+	RT/XP2k/jdXLo6Kbcc4lD7etJXyi+Bqsqi2k3lapuyTh02YqHMjl65bVyV5ZTW9/Pd8U
+	biOtR//CY2hZ3m9Uqh8cPVBG/4nVSgFUBJBi478jiRVHGFYaliUy53atHhhafYuljN8g
+	Ui6Lb9Aqs/u6facAxJEJPEb5KMTzngFVN2Vj8I9ijoJGaAqExeQzOLhcVRS+EBhG36Hh
+	fibrs5swbxGfRnTGkdnmqkYX+9f23MQKq2VK55TWWdvrfP8Mykm1DsdftsHJet45IRXB
+	TDFg==
+X-Gm-Message-State: AD7BkJKoF9HezJxXaNDbhnb1Km20SuN/dBNnrSqYjOjc3BE46ipWW5k6YYMc99+KrDppkA==
+X-Received: by 10.194.179.227 with SMTP id dj3mr20383755wjc.50.1457896518590; 
+	Sun, 13 Mar 2016 12:15:18 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.16
+	n66sm12851410wmg.20.2016.03.13.12.15.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:16 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:17 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:31 +0100
-Message-Id: <7e7372c37c6fc41acbc5cb120cdcb655d7484357.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:32 +0100
+Message-Id: <f86fa1672dd64ef5e26d830e73ba3f62c81a176f.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 33/42] consolekit: Fix usage of systemd unitdir vars
+Subject: [PATCH 34/42] alsa-utils: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:17 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:18 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-support/consolekit/consolekit_0.4.6.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-index 2974e36..1ae054c 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-@@ -28,10 +28,10 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}
- 
- PACKAGECONFIG[pam] = "--enable-pam-module --with-pam-module-dir=${base_libdir}/security,--disable-pam-module,libpam"
- PACKAGECONFIG[policykit] = "--with-polkit,--without-polkit,polkit"
--PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--with-systemdsystemunitdir="
-+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}/,--with-systemdsystemunitdir="
- 
- FILES_${PN} += "${localstatedir}/log/ConsoleKit ${exec_prefix}/lib/ConsoleKit \
--                ${libdir}/ConsoleKit  ${systemd_unitdir} ${base_libdir} \
-+                ${libdir}/ConsoleKit  ${systemd_system_unitdir} ${base_libdir} \
-                 ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
- 
- PACKAGES =+ "pam-plugin-ck-connector"
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb
+index af40488..49068f5 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb
+@@ -62,7 +62,7 @@ FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bind
+ FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
+ FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
+ FILES_alsa-utils-iecset      = "${bindir}/iecset"
+-FILES_alsa-utils-alsactl     = "${sbindir}/alsactl */udev/rules.d */*/udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
++FILES_alsa-utils-alsactl     = "${sbindir}/alsactl */udev/rules.d */*/udev/rules.d ${systemd_system_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
+ FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
+ FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
+ FILES_alsa-utils-alsaucm     = "${bindir}/alsaucm"
 -- 
 2.7.1
 
