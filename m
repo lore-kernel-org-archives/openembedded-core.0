@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 645EE7316B
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E60E7316B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:02 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id n205so11550251wmf.2
+	Sun, 13 Mar 2016 19:15:04 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id p65so11586069wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:03 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=HvH9iz9ulKc2y9GV2cMObM+SnEjHDlqc5fMAAwySyvU=;
-	b=COqvkE/KxpCoBAfpj/B3sDmuUoJJJzNHM6qbLwxl2rdxMEIgEUQyY1UUIIC8fi393z
-	7Y/kXUJUcXhhh5wT+H2pEMmU9cyUWQjV4RLIl7qKvBoC/h10hH9qlbl1ocnCcAyx+gcB
-	HvvYqlGES0va1rpsuYuSZ7TF21bEltcNJ3BVy6RfFJGPiCQSq8dHtSUB5+atSwKGvZXG
-	Xw9sp6QMYKHGpaqLc3PVBPVd6SHVQXTze9u8otoDQLjcGzWHmAEtJ3KAQBt7kZ4hnGZ6
-	GfXhF28EoXUmxblYO/k8EnR3jlVnUUsEJ49iY+O9OzNgJ4yHlcx1IAIENmcz6reo9cpG
-	k1FQ==
+	:references; bh=GEUxSgvtleaUxqtxz/zyVhQ1gFhvFT7iFt/dYpzyzdY=;
+	b=jYUEThSPPAXCC1BJZA6pvADrxGsTv3hfKXIHL2kXwE8zH1Gi7fjZppa9HQe1kcLBuL
+	ZOvyZrn9YiOozdTB6XWFiE2IKk3N51lAbhVVCGSeSUgKyb4JzFDP6wBx2F9mMNvasubV
+	U/Xbb6HlpdNEk4MKg8JzzsxNZKH5DQlwmyafH7iMrtA2WZcdzgPgdxMBphpgHr4Zffvr
+	vUxnmcP+hSnDByvQ60MJe8YvsjkuWV+NIBX/Ks+75vgBnWO4jPzntOkiuBIxWNGM3Rc+
+	K0KYVQuy61AZD61d35//Yb3zjru0xOfNoFAOpa6Q0u4rYX/vh0NWJ8POw4xASOXwVdCB
+	LzTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=HvH9iz9ulKc2y9GV2cMObM+SnEjHDlqc5fMAAwySyvU=;
-	b=LWpTV+1T3I9/ZSMQ/gvw37AZXuQBTXU9bagHMyMM2mU2iSjsofbpiMICA3HlbRB0Sw
-	9ng48pYuTID71D2/ce8Q/g6kJOdOCpIaC/E7ReZU6z2HwMySnKHaBOLg3mK4/mvBEd0M
-	6AaTto7bFDNZMAni/qvuweZsFIOtebIYHOgS61QIHOD8i1XRCFO2ZGg2VCxfYkpE0+1J
-	2fgPgDv4Zf1t7w3dkk3Z0hZFnwkj7bQ1epGq4gEPf/XhnLuNpm0Eg2YcG6sqhY8YpdIE
-	f3nxGZfnewBLTVYVSXt8trb28LCets43nIiQMZjs5DzcZvx20uIbc7dI9IVZGgXb3jrL
-	CbKw==
-X-Gm-Message-State: AD7BkJLNEJAZNlUWC6ZMF2EG7HFZFwq6DbAcTYvB4rBEJ2QakiLFm9EACxPZHDeBy3EInA==
-X-Received: by 10.194.83.101 with SMTP id p5mr20414998wjy.141.1457896503004;
-	Sun, 13 Mar 2016 12:15:03 -0700 (PDT)
+	bh=GEUxSgvtleaUxqtxz/zyVhQ1gFhvFT7iFt/dYpzyzdY=;
+	b=mg/xdz+TxXJL95NRC9uCjfGbDkQbh+dfbVmYFocQd1YwDkdTgprjCnEtSyifqsZkUL
+	XZrg6GakBFEeM9+6flBx+NZ+uNCy0XHZpl0ibrkIVBBLV8B8c4S8Hq5gvoXhJZhoWu2X
+	eMu1EbmA2i7BkhiAJcgpK+WFmp5+C1o5wHp2ShsssD+M967tTWFUSOWLvs8vN/hBrRKp
+	BkE3q00b73yKbJKhp5P0Tivx7aCFjwuOBkiQOlII/YLq9hAaBpeGeo/m0Zmkmd+qhQe5
+	fjqBeJlUzr3IWDOntoD3D5M0fS8gxIdKWcDBbqV5iYPdFKr1Ieam7aDyRK45/oZUbftA
+	sniA==
+X-Gm-Message-State: AD7BkJKqWpHQnGHcTDsaYFOQ31vC7RUGIS0aqSqviezCu1HqGmoXjdE+cLHMOoEXAlJkjQ==
+X-Received: by 10.28.147.72 with SMTP id v69mr13130206wmd.79.1457896504921;
+	Sun, 13 Mar 2016 12:15:04 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.01
+	n66sm12851410wmg.20.2016.03.13.12.15.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:02 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:03 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:20 +0100
-Message-Id: <e0a2ddf28cb8ee669b80b40b7ba561b735629998.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:21 +0100
+Message-Id: <7ec0fedfa28fddf37ceff1488eeb0eadd57d4887.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 22/42] distcc: Fix usage of systemd unitdir vars
+Subject: [PATCH 23/42] run-postints: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:02 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:04 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-devtools/distcc/distcc_3.1.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
-index f8879c8..e7b9e26 100644
---- a/meta/recipes-devtools/distcc/distcc_3.1.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
-@@ -48,9 +48,9 @@ do_install_append() {
-     install -d ${D}${sysconfdir}/default
-     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
--    install -d ${D}${systemd_unitdir}/system/
--    install -m 0644 ${WORKDIR}/distcc.service ${D}${systemd_unitdir}/system
--    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distcc.service
-+    install -d ${D}${systemd_system_unitdir}/
-+    install -m 0644 ${WORKDIR}/distcc.service ${D}${systemd_system_unitdir}
-+    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/distcc.service
-     ${DESKTOPINSTALL}
- }
- DESKTOPINSTALL = ""
-@@ -65,7 +65,7 @@ FILES_${PN} = " ${sysconfdir} \
-     ${bindir}/lsdistcc \
- 		${bindir}/distccd \
- 		${bindir}/distccmon-text \
--		${systemd_unitdir}/system/distcc.service"
-+		${systemd_system_unitdir}/distcc.service"
- FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
- 				${datadir}/distcc"
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
+index 11c94e5..4860d9c 100644
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
+@@ -33,13 +33,13 @@ do_install() {
+ 	install -d ${D}${sysconfdir}/init.d/
+ 	install -m 0755 ${WORKDIR}/run-postinsts.init ${D}${sysconfdir}/init.d/run-postinsts
  
+-	install -d ${D}${systemd_unitdir}/system/
+-	install -m 0644 ${WORKDIR}/run-postinsts.service ${D}${systemd_unitdir}/system/
++	install -d ${D}${systemd_system_unitdir}/
++	install -m 0644 ${WORKDIR}/run-postinsts.service ${D}${systemd_system_unitdir}/
+ 
+ 	sed -i -e 's:#SYSCONFDIR#:${sysconfdir}:g' \
+                -e 's:#SBINDIR#:${sbindir}:g' \
+                -e 's:#BASE_BINDIR#:${base_bindir}:g' \
+                -e 's:#LOCALSTATEDIR#:${localstatedir}:g' \
+                ${D}${sbindir}/run-postinsts \
+-               ${D}${systemd_unitdir}/system/run-postinsts.service
++               ${D}${systemd_system_unitdir}/run-postinsts.service
+ }
 -- 
 2.7.1
 
