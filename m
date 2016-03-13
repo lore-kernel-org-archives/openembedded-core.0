@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9584F7316B
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6662A7316B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:14:59 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id n205so11550072wmf.2
+	Sun, 13 Mar 2016 19:15:01 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n186so11590943wmn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:00 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=ze9e0jHTUpKYRw9yPvUQlND1vwC9nUFCuLzkSN4c0U8=;
-	b=xp/lWcAM1WkJGJLG+rD9BillOSB9o0maAhJRE1j8NJmJ+ciZjTa84KkxozILqcXc/0
-	EgJQ8b2j9VGDP6LTg9H01iqy+DFnjKdA1TkugFKcEZSbm8PEXSaQPYjpMV3B6lUnCnwI
-	wyY1UUJvrowc+Jg0Jd9nym4dkbgXvkpVZ6HIQPq7byz6VqNyiol8uWkRRtOGmInru+ca
-	yQj321s/aqK7YMhAsE80GZqb66MitnFn4WdIjThCbj3DnYg5zPImJNcEx6V0e1gQ2YJQ
-	qsQhuDJFPoiZB2PO6ju1IFYZQxIivvC2vR1V0I85nXdwri1/+fJHe7vkFu14WKJsEN5f
-	WqFA==
+	:references; bh=ErekfvbV7BaN6lzwnF3NKykpe+fEDIgcjGW1N8uJqSk=;
+	b=K5IEn8+iXlby9ZYtpentetlZrJl+4cP20oRNMI6uSarDoi7nQqoMzFwcrcAIa8EyW0
+	5udiL7+reNAz0KhUBHLtV/ixHar640XfpV5qnhM3EccAS+6Q8e2QhEW33ZDLTU8TArVF
+	XHVM49K18TFquO8x2/oFcmlGLDtZ4mPEoTb94BRFNcFVPTFmyQUwiZI9EXCdaeNk1P1L
+	b0iGYTand3Km5E5svpsjB6es2NiUmxNkKNUs4spC9JsDSY+3EJrm1I7SCMaRLa2TLfw+
+	vr3PfSQHRLwkjJu1HX5GcHLAhmVyVaNivYIn8nAm3LazxhpAjF4MerAmXnohLcoUuJmZ
+	YbvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=ze9e0jHTUpKYRw9yPvUQlND1vwC9nUFCuLzkSN4c0U8=;
-	b=dvfCqGwNPGF4HYLvwgDD4bjjCGP7zq1U6RR/RDbMOq0SkdGwJT778j614ywSdNqt/u
-	LKJHkkJt51TjCr6U+/XEgcAFH4GA/MWUxBn4Dj6WQw8e3DvPlkb9BZ7IiKHyS+OyVmdP
-	8e6swR169jj2nvm5wWM980Cghd/HFuPwbcIsKcRvpEfgh49WUf8wwYpx0EG9NsVW9egO
-	Pzo/yBcKu2nO4ZgNSyjcmI59UmQNmlUPeF8DnqrZpYTgM7P1P+R3e99ZYFM5Zbk7Czpw
-	fXKCGADrIjW+bIxGrbDWXBU2gVCc2h3aj0ikY+SscGycQSTxMs9Y9x/OpUz5R0vfyOmw
-	wlLg==
-X-Gm-Message-State: AD7BkJJ73sHXvxpTTmM5YMYSuenVwdTo8PFpt7AzngVwwYFv5wXO8h6ipY2pRLUFKoW4lQ==
-X-Received: by 10.28.229.132 with SMTP id c126mr13244309wmh.72.1457896500212; 
-	Sun, 13 Mar 2016 12:15:00 -0700 (PDT)
+	bh=ErekfvbV7BaN6lzwnF3NKykpe+fEDIgcjGW1N8uJqSk=;
+	b=k5zckxUl0vrGBDhLIRfhiLRuF7Iu7k3LU0LYSnVMuTLExNtatJw+AZW580aaZEFXPV
+	/3OZMYuvtN3cX2Ih3r3tVPhK8v7Fxo3W3XhhFAQLKXHN6YPX/tz0KOd6IP1l3jCfuBa4
+	57KdggihWysL8TOQR82IqbZca1cxiRSxQ3Dmf8ykAmDYEbvOJychL/wKHc8cOndEXF/T
+	9UkCf4qFWl7puRkCR2D2+i6PcXIAgMl/BdzALtDlnQhmg1I268bJGSJe8ZctEKOoLuCT
+	ANQOKLW6xIOeBxMPjVXZi6SLFJixYYNDV0KCLyvB13l3q9p+Nke/AAm0SdEsNITo1jJL
+	RJLA==
+X-Gm-Message-State: AD7BkJLoLwfi4fexTsC3IePz343zBYeZPo7vC1n5foLW8r6MfJhIbFHCsoZFXwUBVv4Mxw==
+X-Received: by 10.28.145.9 with SMTP id t9mr14331635wmd.54.1457896501854;
+	Sun, 13 Mar 2016 12:15:01 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.14.59
+	n66sm12851410wmg.20.2016.03.13.12.15.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:14:59 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:00 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:18 +0100
-Message-Id: <2c9ef810b05914422da0744780063265f1f2a5a2.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:19 +0100
+Message-Id: <a728ae0ebf33f58580de485a892dfa4161f30e8a.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 20/42] util-linux: Fix usage of systemd unitdir vars
+Subject: [PATCH 21/42] volatile-binds: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:00 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:01 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/volatile-binds/volatile-binds.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 08ca040..f3c5685 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -54,7 +54,7 @@ PACKAGECONFIG_class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'p
- PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
+diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
+index fee7275..e5fec95 100644
+--- a/meta/recipes-core/volatile-binds/volatile-binds.bb
++++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
+@@ -32,7 +32,7 @@ def volatile_systemd_services(d):
  
- # Respect the systemd feature for uuidd
--PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_unitdir}/system/, --without-systemd --without-systemdsystemunitdir,systemd"
-+PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}/, --without-systemd --without-systemdsystemunitdir,systemd"
+ SYSTEMD_SERVICE_${PN} = "${@volatile_systemd_services(d)}"
  
- # Build setpriv requires libcap-ng
- PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
+-FILES_${PN} += "${systemd_unitdir}/system/*.service"
++FILES_${PN} += "${systemd_system_unitdir}/*.service"
+ 
+ do_compile () {
+     while read spec mountpoint; do
+@@ -63,9 +63,9 @@ do_install () {
+     install -d ${D}${base_sbindir}
+     install -m 0755 mount-copybind ${D}${base_sbindir}/
+ 
+-    install -d ${D}${systemd_unitdir}/system
++    install -d ${D}${systemd_system_unitdir}
+     for service in ${SYSTEMD_SERVICE_volatile-binds}; do
+-        install -m 0644 $service ${D}${systemd_unitdir}/system/
++        install -m 0644 $service ${D}${systemd_system_unitdir}/
+     done
+ }
+ do_install[dirs] = "${WORKDIR}"
 -- 
 2.7.1
 
