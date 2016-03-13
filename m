@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B2837316B
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 505A27316D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:08 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l68so11566053wml.3
+	Sun, 13 Mar 2016 19:15:09 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id p65so11586431wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:09 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=X9LO0uE3IwBX06zVMRC2qZyQXQXXKZJCMx4Fei+85q0=;
-	b=Ohp4kII1JNFsvc63/GfbdHAg/kW24Fab71TenZsnrecZNCEefZ31G8iBAoPSMxfPx6
-	ERKQ1WMWBLgvG7LtB2s7LIKihiAxd5r/DLaDxlyksuZgb4VYUdHS64QFeDM+AcJEm0Bh
-	senP/fuchXyuEPGVZ2Rca2aCBY88UUvYAz88tngY0SjdEsjhA0oD3sywP3YosfqRVGZp
-	PdDW146DcGZ27Hid8hczlo3B5SlBsel2Izt6ligSsy0aD9+g3l9K672CqYToYjolh93k
-	zeugagmLfwRctD+Kh5PgcIDYGnethdJAPxWYDXQCgXzmI5mpYV1Ek20VYZc2bW+eUSJu
-	Ke4w==
+	:references; bh=aESg213Zxy/+0OK8AlKqpIbxwljtmYZGLKPuOtFJt8U=;
+	b=UaoGSlIWF/cBo9vrghJiEOOk1MuAg/d4uEH3bk0R0urS4EB6sY85RgY08X2SvHYCCf
+	N7meCiArvFLFH/s5kyNTn12PbZDcOuEWF/TloxuxxeepfNW1Mwm7PoYLKox6iDMu982y
+	dYLvSykPgYfd8ukx9Lsxn5it/1ZmCDBxDvdRr+UY6GVnPpATl9WrFGAqG057HhjBk40R
+	n5mEbXzgTLJSnc4PkK1QemkeXC94ohdUqRv7qbRhr7WUzP4MtDOhZhAeSCM4nPTnMWD3
+	IhhAKIZw1Gmr+54YXIVlmMnBYLr/9b7gCQXmof/lB4IlMN5PAsP/yJHFvBSC0PwISzYO
+	Idqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=X9LO0uE3IwBX06zVMRC2qZyQXQXXKZJCMx4Fei+85q0=;
-	b=g6pGgmUh6mJoqB4Tge05hPS7tkncrQMd4ekD40slJI1fAwsUiMlKKArp70mKC/+wvm
-	9TQUrkH0wcMKYXR5HSONS2qreFpmuMGPPWNh/CjGYT+CV12Jen6Gc9F5oj8ENXNbmKcA
-	xaccOlnqLcV7H/XuH+o8D+Uo4yuBoTRMnKRbnfGhc+vobONH56kuiLO0IQMZpmz8W7JT
-	VulZmK+tPKk0MITJ/BWejwM4n7hWF7tg6UfFj5TzYKMyWTf9tmbF6ZOIz4W9Mc9ToE4q
-	cLoyGxdYOzQLyNLvurnVNkkNY3DizYehAgWxrtOp+aq0MSLn3oyMrFxwMflA70hUToKR
-	3/Xw==
-X-Gm-Message-State: AD7BkJKHBxqw8lgZCY3n8fXC6ESV40XKSaOoZTTDvB/HfC+TUP7I//6J8O8INtr/bXoApw==
-X-Received: by 10.194.91.205 with SMTP id cg13mr20063057wjb.166.1457896508785; 
-	Sun, 13 Mar 2016 12:15:08 -0700 (PDT)
+	bh=aESg213Zxy/+0OK8AlKqpIbxwljtmYZGLKPuOtFJt8U=;
+	b=c56KgMqvk9B+C5CAw9DRMiOnD2niHeDL0a/QXXrrtI6yJ1UyZPq1q6dpoZrdlxqfEY
+	P7G0dShZY4qjXEqGEnaUlYtGid55RojqoijNAQxriNATUCvmYjdhlSqCHkaSYdfpxY5z
+	CwNVK+Evy/QjT6Ao19VXVj/TnDKgD2rvaNfqsNAvFDKKA5DPq0YjdXGIYXAhE0it1FaU
+	8hrG8ReSymipncCgS6Tn3IXOHYY2lK3N1lHsZ6qvj14fcpJl5sqUUbXuRmiDDHtMGI/B
+	0CmjPnG6AoJNPuS/w8vEutKnY6uc3nRkr1HWruvMHI1ANl95cNGn0GhYwFCfeSgUPsR8
+	NhNA==
+X-Gm-Message-State: AD7BkJKgIIS0tuzuefEzQDwzMqvUdnfM7ynJ+uhAeeZ6F9LWvAoEQ2fHlWQOPsEJ/i4oGA==
+X-Received: by 10.28.21.75 with SMTP id 72mr13391094wmv.64.1457896509928;
+	Sun, 13 Mar 2016 12:15:09 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.07
+	n66sm12851410wmg.20.2016.03.13.12.15.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:07 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:09 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:24 +0100
-Message-Id: <6ccce981c69f2c9524897e1f2045bc91928b1bb7.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:25 +0100
+Message-Id: <8d4028279df58da017ca2dfd41f392194f7956b9.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 26/42] cronie: Fix usage of systemd unitdir vars
+Subject: [PATCH 27/42] lighttpd: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:08 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:09 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-extended/cronie/cronie_1.5.0.bb | 6 +++---
+ meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-index 697501a..54eabf3 100644
---- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-@@ -48,11 +48,11 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/crond.init ${D}${sysconfdir}/init.d/crond
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
+index a407d03..ca88b75 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
+@@ -54,12 +54,12 @@ do_install_append() {
+ 	install -m 0644 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+ 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
  
- 	# install systemd unit files
 -	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
 +	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_system_unitdir}
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 	       -e 's,@SBINDIR@,${sbindir},g' \
--	       ${D}${systemd_unitdir}/system/crond.service
-+	       ${D}${systemd_system_unitdir}/crond.service
- 
- 	# below are necessary for a complete cron environment
- 	install -d ${D}${localstatedir}/spool/cron
++	install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_system_unitdir}
+ 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
+ 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+ 		-e 's,@BASE_BINDIR@,${base_bindir},g' \
+-		${D}${systemd_unitdir}/system/lighttpd.service
++		${D}${systemd_system_unitdir}/lighttpd.service
+ 	#For FHS compliance, create symbolic links to /var/log and /var/tmp for logs and temporary data
+ 	ln -sf ${localstatedir}/log ${D}/www/logs
+ 	ln -sf ${localstatedir}/tmp ${D}/www/var
 -- 
 2.7.1
 
