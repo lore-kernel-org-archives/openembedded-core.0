@@ -1,29 +1,27 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ACEE6FFFB
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AA23B71633
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:25:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 13 Mar 2016 12:25:25 -0700
+	Sun, 13 Mar 2016 19:26:05 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Mar 2016 12:26:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,332,1455004800"; d="scan'208";a="932902274"
+X-IronPort-AV: E=Sophos;i="5.24,332,1455004800"; d="scan'208";a="763349900"
 Received: from jschew-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.169.99])
-	by orsmga002.jf.intel.com with ESMTP; 13 Mar 2016 12:25:21 -0700
+	by orsmga003.jf.intel.com with ESMTP; 13 Mar 2016 12:26:05 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Trevor Woerner <twoerner@gmail.com>
-Date: Mon, 14 Mar 2016 08:25:19 +1300
-Message-ID: <208273178.A9osnfWkmR@peggleto-mobl.ger.corp.intel.com>
+Date: Mon, 14 Mar 2016 08:26:02 +1300
+Message-ID: <10341857.OKlmJH1THC@peggleto-mobl.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.10 (Linux/4.4.3-300.fc23.x86_64; KDE/4.14.17; x86_64; ;
 	)
-In-Reply-To: <56E498E3.8000106@gmail.com>
-References: <1457750954-32065-1-git-send-email-twoerner@gmail.com>
-	<CAJTo0Lb23TkQYmVBUpTmOpCgtB-odj9MDZzSrAn4ZzyQKaw6gQ@mail.gmail.com>
-	<56E498E3.8000106@gmail.com>
+In-Reply-To: <1457836529-32388-1-git-send-email-twoerner@gmail.com>
+References: <1457836529-32388-1-git-send-email-twoerner@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] buildhistory.bbclass: metadata-revs show repo parent
+Subject: Re: [PATCH] metadata-revs: provide more information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,75 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:25:45 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:26:05 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Trevor,
-
-On Sat, 12 Mar 2016 17:32:03 Trevor Woerner wrote:
-> On 03/12/16 16:54, Burton, Ross wrote:
-> > On 12 March 2016 at 04:28, Trevor Woerner <twoerner@gmail.com
-> > 
-> > <mailto:twoerner@gmail.com>> wrote:
-> >     openembedded-core/meta =
-> >     master:00d3fd571a8d261d065b43f5cf3076a381843984
-> >     
-> >         meta-openembedded/meta-oe =
-> >     
-> >     master:a1e135a499998add7575682bf53db5e02e753580
-> >     
-> >         meta-openembedded/meta-gnome =
-> >     
-> >     master:a1e135a499998add7575682bf53db5e02e753580
-> >     
-> >         meta-rpb          =
-> >     
-> >     master:203903ca6f4e8df09bef6ea3c6e899d07eca8df9
-> >     
-> >         meta-96boards     =
-> >     
-> >     master:2be59f0d381b5ec173d7fc24f3ae14aaf47b8649
-> >     
-> >         meta-qcom         =
-> >     
-> >     master:32fcda819acb8ec485d9ab05108d554f807bf75d
-> >     
-> >         meta-browser      =
-> >     
-> >     master:a3789a4168fcd42f1cdf5b5febe2c779a9467919
-> >     
-> >         meta-linaro/meta-linaro-toolchain =
-> >     
-> >     master:367f784b831938dc508b7d472342d2d0d6ed9769
-> >     
-> >         meta-poky/meta    =
-> >     
-> >     master:37b61b059031e3c272a929b834e12fd83f46598c
-> >     
-> >         meta-poky/meta-poky =
-> >     
-> >     master:37b61b059031e3c272a929b834e12fd83f46598c
-> > 
-> > Why are you pulling oe-core/meta and poky/meta into the same build
-> > considering they're literally the same layer?  You should either drop
-> > oe-core/meta or poky/meta from your bblayers.
+On Sat, 12 Mar 2016 21:35:29 Trevor Woerner wrote:
+> Provide many more details concerning the repositories that are used in a
+> particular build: the remote information, the layer, the local branch, the
+> remote branch the local branch tracks (if any), and the HEAD commit.
 > 
-> Ok, thanks; good point.
->
-> > However the output showing the full remote URLs seems a sensible
-> > improvement to me.
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/classes/buildhistory.bbclass |  6 +++++-
+>  meta/classes/metadata_scm.bbclass | 18 ++++++++++++++++++
+>  2 files changed, 23 insertions(+), 1 deletion(-)
 > 
-> My hesitation is whether we want to replace the existing
-> buildhistory/metadata-revs with my "improvements" or whether I should
-> just create a second file with the updates. I don't want to break
-> anyone's process should they have come to rely on that file being as it is.
+> diff --git a/meta/classes/buildhistory.bbclass
+> b/meta/classes/buildhistory.bbclass index b6b4324..1b0ae0e 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -615,9 +615,13 @@ def buildhistory_get_build_id(d):
+> 
+>  def buildhistory_get_metadata_revs(d):
+>      # We want an easily machine-readable format here, so
+> get_layers_branch_rev isn't quite what we want +    import subprocess
+>      layers = (d.getVar("BBLAYERS", True) or "").split()
+> -    medadata_revs = ["%-17s = %s:%s" % (os.path.relpath(i,
+> d.getVar('BBLAYERS_FETCH_DIR', True)), \ +    medadata_revs = ["%s\tlayer: 
+> %s\n\tbranch: %s\n\tremote: %s\n\tHEAD:   %s\n" % ( \ +       
+> base_get_metadata_git_remote(i, None), \
+> +        os.path.relpath(i, d.getVar('BBLAYERS_FETCH_DIR', True)), \
+>          base_get_metadata_git_branch(i, None).strip(), \
+> +        base_get_metadata_git_remote_branch(i, None).strip(), \
+>          base_get_metadata_git_revision(i, None)) \
+>              for i in layers]
+>      return '\n'.join(medadata_revs)
+> diff --git a/meta/classes/metadata_scm.bbclass
+> b/meta/classes/metadata_scm.bbclass index 0f7f423..31a2c54 100644
+> --- a/meta/classes/metadata_scm.bbclass
+> +++ b/meta/classes/metadata_scm.bbclass
+> @@ -73,6 +73,15 @@ def base_get_metadata_git_branch(path, d):
+>          rev = '<unknown>'
+>      return rev.strip()
+> 
+> +def base_get_metadata_git_remote_branch(path, d):
+> +    import bb.process
+> +
+> +    try:
+> +        rev, _ = bb.process.run('git rev-parse --abbrev-ref
+> --symbolic-full-name @{u}', cwd=path) +    except
+> bb.process.ExecutionError:
+> +        rev = '(HEAD does not point to a remote branch)'
+> +    return rev.strip()
+> +
+>  def base_get_metadata_git_revision(path, d):
+>      import bb.process
+> 
+> @@ -81,3 +90,12 @@ def base_get_metadata_git_revision(path, d):
+>      except bb.process.ExecutionError:
+>          rev = '<unknown>'
+>      return rev.strip()
+> +
+> +def base_get_metadata_git_remote(path, d):
+> +    import bb.process
+> +
+> +    try:
+> +        lines, _ = bb.process.run('git remote -v', cwd=path)
+> +    except bb.process.ExecutionError:
+> +        return '<unknown>'
+> +    return lines
 
-metadata-revs was intended to be consumed by scripts rather than humans, so 
-I'd rather not change its format unless absolutely necessary.
-
-Besides, if you fix the problem with what you've checked out, do you need to 
-make the change at all?
+As I mentioned in my other reply, metadata-revs was intended to be consumed by 
+scripts rather than humans, so I'd rather not change its format unless 
+absolutely necessary.
 
 Cheers,
 Paul
