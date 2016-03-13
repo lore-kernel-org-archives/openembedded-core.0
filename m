@@ -1,25 +1,53 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 48CA06FFC7
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4297017C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:59:32 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Mar 2016 12:59:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,332,1455004800"; d="scan'208";a="909365483"
-Received: from jschew-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.169.99])
-	by orsmga001.jf.intel.com with ESMTP; 13 Mar 2016 12:59:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Mar 2016 08:59:03 +1300
-Message-Id: <b6fd81017bc104a88bfb87a9e1567386e5514ab8.1457899086.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1457899086.git.paul.eggleton@linux.intel.com>
-References: <cover.1457899086.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1457899086.git.paul.eggleton@linux.intel.com>
-References: <cover.1457899086.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] recipetool: create: don't create extra files directory unconditionally
+	Sun, 13 Mar 2016 20:42:34 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id z76so201635189iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 Mar 2016 13:42:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=lTwxtzYLkFKahnHKQoLYwxET152ZCKZzG44aQP3nAYE=;
+	b=aX14S5xXwX/3JI0CmIxNqmTsTKdziNryFg1AvmewQXneC73Xz58mEROPRBhLvGOaLS
+	YOAUGQnx/2btd/WPG3PXiWRN7obRh6/+dvXFdq9Wgdhjx3CryKtKzV+ZeDAXLtpDJsML
+	A/vCxw8fHaVAO3KwfyjPz4iHYQqOAkxqGr62IIqF+05s50lWRTxYYuZAmE2T8d8uvM3I
+	bWRneBwL/UFmmMCAxFf7V3LRPU+V3/TtTpstEegZEXkcTZ1+iChvneQTM4jO+QoTBiAE
+	26lb1YWOFG27Y0lbP2orZpceUccCEpgRRjWFMBg2wqjF6DA6BwTadc/oGWNJnhzmXWg9
+	5JgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=lTwxtzYLkFKahnHKQoLYwxET152ZCKZzG44aQP3nAYE=;
+	b=WFRU3CvDXlISPQ7aazWcpaz+ytLdCSl/RwEj4E+v14tKvwSy29HBOYwmR5tXVdVoGJ
+	ezUFWUOM6me16uOk4bL/0FMr7q9P08IeCYCoLcI64AcNfZYBM9vwILe4L87rZL4iv1bD
+	cmjKl7nDueIEGjuzToIO8BaPlY3RMTUOKqFx1s1Z5FNcPa50zZeDi1JIjaRBLulBPEb5
+	VlJkxYfaPpi4Was7axf/IvoM9c+bcSgUDvnE0XqpWspXdOQHz83IlnVIkL4abCbcBs1x
+	cOCFBw7OgoQXeaPXYHP68GpFuTovJlA7+kjR/2+urk2Kec8am/UkfqXzpZU2ckBiIouj
+	KQ2Q==
+X-Gm-Message-State: AD7BkJIdKOaBrWL13g46Ia5RbIstOajfX9EQGaFD1OhXh9w4K4MnOY2bL0lQZxYzmSu7lQ==
+X-Received: by 10.107.3.152 with SMTP id e24mr23776218ioi.106.1457901754864;
+	Sun, 13 Mar 2016 13:42:34 -0700 (PDT)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	qs10sm5287470igb.7.2016.03.13.13.42.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 13 Mar 2016 13:42:33 -0700 (PDT)
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1457836529-32388-1-git-send-email-twoerner@gmail.com>
+	<10341857.OKlmJH1THC@peggleto-mobl.ger.corp.intel.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56E5D0C1.7010302@gmail.com>
+Date: Sun, 13 Mar 2016 16:42:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <10341857.OKlmJH1THC@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] metadata-revs: provide more information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,70 +60,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:59:32 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 20:42:38 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The extra directory next to the recipe should only be created if there
-are files to put into it; currently only the npm plugin does this. I
-didn't notice the issue earlier because the test was actually able to
-succeed under these circumstances if the recipe file came first in the
-directory listing, which was a fault in my original oe-selftest test;
-apparently on some YP autobuilder machines the order came out reversed.
+Hi Paul,
 
-With this change we can put the oe-selftest test that highlighted the
-issue back to the way it was, with an extra check to reinforce that only
-a single file should be created.
+On 03/13/16 15:26, Paul Eggleton wrote:
+> On Sat, 12 Mar 2016 21:35:29 Trevor Woerner wrote:
+>> Provide many more details concerning the repositories that are used in a
+>> particular build: the remote information, the layer, the local branch, the
+>> remote branch the local branch tracks (if any), and the HEAD commit.
+>>
+>> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+>> ---
+>>   meta/classes/buildhistory.bbclass |  6 +++++-
+>>   meta/classes/metadata_scm.bbclass | 18 ++++++++++++++++++
+>>   2 files changed, 23 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/buildhistory.bbclass
+>> b/meta/classes/buildhistory.bbclass index b6b4324..1b0ae0e 100644
+>> --- a/meta/classes/buildhistory.bbclass
+>> +++ b/meta/classes/buildhistory.bbclass
+>> @@ -615,9 +615,13 @@ def buildhistory_get_build_id(d):
+>>
+>>   def buildhistory_get_metadata_revs(d):
+>>       # We want an easily machine-readable format here, so
+>> get_layers_branch_rev isn't quite what we want +    import subprocess
+>>       layers = (d.getVar("BBLAYERS", True) or "").split()
+>> -    medadata_revs = ["%-17s = %s:%s" % (os.path.relpath(i,
+>> d.getVar('BBLAYERS_FETCH_DIR', True)), \ +    medadata_revs = ["%s\tlayer:
+>> %s\n\tbranch: %s\n\tremote: %s\n\tHEAD:   %s\n" % ( \ +
+>> base_get_metadata_git_remote(i, None), \
+>> +        os.path.relpath(i, d.getVar('BBLAYERS_FETCH_DIR', True)), \
+>>           base_get_metadata_git_branch(i, None).strip(), \
+>> +        base_get_metadata_git_remote_branch(i, None).strip(), \
+>>           base_get_metadata_git_revision(i, None)) \
+>>               for i in layers]
+>>       return '\n'.join(medadata_revs)
+>> diff --git a/meta/classes/metadata_scm.bbclass
+>> b/meta/classes/metadata_scm.bbclass index 0f7f423..31a2c54 100644
+>> --- a/meta/classes/metadata_scm.bbclass
+>> +++ b/meta/classes/metadata_scm.bbclass
+>> @@ -73,6 +73,15 @@ def base_get_metadata_git_branch(path, d):
+>>           rev = '<unknown>'
+>>       return rev.strip()
+>>
+>> +def base_get_metadata_git_remote_branch(path, d):
+>> +    import bb.process
+>> +
+>> +    try:
+>> +        rev, _ = bb.process.run('git rev-parse --abbrev-ref
+>> --symbolic-full-name @{u}', cwd=path) +    except
+>> bb.process.ExecutionError:
+>> +        rev = '(HEAD does not point to a remote branch)'
+>> +    return rev.strip()
+>> +
+>>   def base_get_metadata_git_revision(path, d):
+>>       import bb.process
+>>
+>> @@ -81,3 +90,12 @@ def base_get_metadata_git_revision(path, d):
+>>       except bb.process.ExecutionError:
+>>           rev = '<unknown>'
+>>       return rev.strip()
+>> +
+>> +def base_get_metadata_git_remote(path, d):
+>> +    import bb.process
+>> +
+>> +    try:
+>> +        lines, _ = bb.process.run('git remote -v', cwd=path)
+>> +    except bb.process.ExecutionError:
+>> +        return '<unknown>'
+>> +    return lines
+> As I mentioned in my other reply, metadata-revs was intended to be consumed by
+> scripts rather than humans, so I'd rather not change its format unless
+> absolutely necessary.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/recipetool.py |  6 ++++--
- scripts/lib/recipetool/create.py     | 15 ++++++++-------
- 2 files changed, 12 insertions(+), 9 deletions(-)
+No problem, I had guessed that might be the case.
 
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index 72ee110..a04ee87 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -410,9 +410,11 @@ class RecipetoolTests(RecipetoolBase):
-         srcuri = 'http://www.dest-unreach.org/socat/download/socat-%s.tar.bz2' % pv
-         result = runCmd('recipetool create %s -o %s' % (srcuri, temprecipe))
-         dirlist = os.listdir(temprecipe)
--        if len(dirlist) < 1 or not os.path.isfile(os.path.join(temprecipe, 'socat_%s.bb' % pv)):
-+        if len(dirlist) > 1:
-+            self.fail('recipetool created more than just one file; output:\n%s\ndirlist:\n%s' % (result.output, str(dirlist)))
-+        if len(dirlist) < 1 or not os.path.isfile(os.path.join(temprecipe, dirlist[0])):
-             self.fail('recipetool did not create recipe file; output:\n%s\ndirlist:\n%s' % (result.output, str(dirlist)))
--        self.assertIn('socat_%s.bb' % pv, dirlist, 'Recipe file incorrectly named')
-+        self.assertEqual(dirlist[0], 'socat_%s.bb' % pv, 'Recipe file incorrectly named')
-         checkvars = {}
-         checkvars['LICENSE'] = set(['Unknown', 'GPLv2'])
-         checkvars['LIC_FILES_CHKSUM'] = set(['file://COPYING.OpenSSL;md5=5c9bccc77f67a8328ef4ebaf468116f4', 'file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'])
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 1649e40..bb9fb9b 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -604,13 +604,14 @@ def create_recipe(args):
-                 sys.exit(1)
- 
-     # Move any extra files the plugins created to a directory next to the recipe
--    if outfile == '-':
--        extraoutdir = pn
--    else:
--        extraoutdir = os.path.join(os.path.dirname(outfile), pn)
--    bb.utils.mkdirhier(extraoutdir)
--    for destfn, extrafile in extrafiles.iteritems():
--        shutil.move(extrafile, os.path.join(extraoutdir, destfn))
-+    if extrafiles:
-+        if outfile == '-':
-+            extraoutdir = pn
-+        else:
-+            extraoutdir = os.path.join(os.path.dirname(outfile), pn)
-+        bb.utils.mkdirhier(extraoutdir)
-+        for destfn, extrafile in extrafiles.iteritems():
-+            shutil.move(extrafile, os.path.join(extraoutdir, destfn))
- 
-     lines = lines_before
-     lines_before = []
--- 
-2.5.0
+Would you (or anyone) be open to the possibility of the buildhistory 
+task creating a second file that would contain this information?
 
+I had been thinking about doing something like this for a long time. 
+Having the two "meta" listings is what finally prompted me to actually 
+do something about it. The fact that Ross pointed out that it was really 
+the result of my own mistake is a little bit secondary to what I'm 
+trying to accomplish.
+
+I like to keep my build artifacts for a very long time. But I find when 
+I'm looking through my old artifacts that I wish I had also kept the 
+various configurations that led to that artifact's creation. ["Wait... I 
+successfully built something for MACHINE XYZ back in June, how did I do 
+that?"] So along with the artifacts I've also been keeping local.conf, 
+auto.conf, bblayers.conf... and metadata-revs.
+
+However, as I've pointed out, there are lots of clones around. Have you 
+taken a look at github recently? There are dozens of clones + tweaks to 
+many of the repositories we all know and love: beaglebone, odroid, 
+raspberrypi, browser. Sometimes it's one of these clones that works out 
+better for a given situation (MACHINE, board...) than the canonical. For 
+example, if I want to add chromium to my DragonBoard410c build, I need 
+to use Linaro's clone of meta-browser and not the canonical OSSystems' one.
+
+The information currently provided by buildhistory/metadata-revs doesn't 
+provide the level of detail required to distinguish between these two 
+situations. In six months I would look at what I've built today, grab 
+git://github.com/OSSystems/meta-browser.git, and then say: "how come 
+there's no commit 5c00d0114c5963a178cb33f6d06181c588c03ae0?". It's not 
+like there's any requirement to make the names of all layers universally 
+unique.
+
+That's the problem I'm trying to solve: how can I easily keep all the 
+information required to reproduce this build, exactly. The whole "two 
+meta's" thing was just a speed bump.
 
