@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 829D373195
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A4123731DD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:19 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id p65so11587105wmp.1
+	Sun, 13 Mar 2016 19:15:20 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id l68so11566868wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:20 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=s9mZPeFZur5LEYRXbhPIYFZhi5kIC4VxpQwn9gdEXmQ=;
-	b=d/UzyEkHeHCGSwTcVDlTd1lsxpJV+eYg/GokVa59BgvPVFfDIVcrfJqhgrVpozwXM8
-	HW9iRc62UY08OeNnd51qCcgWpwcL3Z+yH97oiS7EteDBY5FVFWVbD97effJBfTzCWeUX
-	UEnWsc1ANQRXtq6gdRRul1oxHAQNMUjFhn0hIVXFcrnCn2L+apkf61q1R1q3wAKx6DaU
-	m7JNh85Ygskp87Z55ZyJbIlE24m4VoNd1hvmsH2OKwFwJ1QUEk3sMIh+anHZ2HkpaQOx
-	D7lkhw4Ij2cXhT1g5ylo6zvUFbOrBwlNm5LepU3YoVOEF1LnQhcVmkj5x2aemVfqOLBk
-	jXjA==
+	:references; bh=kjnxqcPktre6mGJSYgEbL1bgQIs/fvpVy+plkBps3y4=;
+	b=MzhBqe9rEwGOX4EVqIMQW0CDlvD6uTwXVGteMnffv4kh55XSb/vHge6ziPmNxBgQIp
+	7fFTBda9oz7DRZBjqkl6cfZ9KAry0fdlloJuqDo9pa3pDMowxO5HqtmDn0wKYtoCSBEU
+	AvM8vGba5xIrehBloW4Fj0g7NPc9Ut9e+xdxb+mzKpT2480+ZzJCHer6VGkcmY4AknbQ
+	E/B2UbnBP5foyw33Zh0Hh+c/yFldnqEc+urSyIjYTPg+RtrANzAh+pMlVX4tdl1L6993
+	Q7q+ZhpHMJyx7ZREtPxi1pCIHU1UMCywd5W5EXz0V9MwA1C+cIzr0y2n6bdGRXBwb97/
+	Yfow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=s9mZPeFZur5LEYRXbhPIYFZhi5kIC4VxpQwn9gdEXmQ=;
-	b=glaPLwLwfdT0x67+pYuOWf18OxTtxWoluCKHG6Q6IvrNcaFRIJ98lUAPCpvTsaLh0N
-	iKuP9bbWZ7rcdZRXcnYzD9w4QZE86q5k8TiwfPZoJ1somnyZrNdKY3pZWaPXdarLjaYU
-	HmweMvzbx71xvLVXP9I4KyeEMA3IXIe54q2xo/otLAMZZAEbMQ/fZSykqlx0vSpsADt/
-	nQadmpQMeqUdweFfvYs+ZtveKe7+lgTzNaxHHUJWUBEJs4/XdeTe1YUo+SUarnhF2Da0
-	gbfkY2sUBdBek8kROvIcC5IT8X0rNP8UFNyDHylI0sjE7THrWIHbILx9lyJSGR9n/xSj
-	Y9zQ==
-X-Gm-Message-State: AD7BkJJEBtKT1hhqNVCQQH85jH8CtxJs6Xhs77xbkgzPkIigpnj6ekctcL66w8yfzKVuyQ==
-X-Received: by 10.28.217.146 with SMTP id q140mr13292801wmg.85.1457896520139; 
-	Sun, 13 Mar 2016 12:15:20 -0700 (PDT)
+	bh=kjnxqcPktre6mGJSYgEbL1bgQIs/fvpVy+plkBps3y4=;
+	b=bZhAfTASCXeGpKekVAPQ8CXgV5uiNzISqk9FJFVSr3LNAJIPvbcW7E9ZBGOFpbTaR9
+	086B+8Y4oHfHOfYYqmUuv1fQ2i7k2Bq4hSb+vEnL5comBFE/xgKxYDEDfHKqUywW8Wtf
+	U0gJ6tO13UZkdiNAZQbi0ImJggpo1M9cmmkcUXIrz34nP8Oyl/ei51SPTOxyN+JPFsSW
+	kegh/w6yRbc2i+uOdEWKItYJ+pXujTGjrXx8bZa+SnMtRaEQcxeROGVWutV1hdJI4MIo
+	VUMpIloC3KJ+xgosXrhRLvJ7Vs8OodwnhhO4ZxdK+d4APOBPPKLk9rv14IY3QN7EK/Ru
+	qkGw==
+X-Gm-Message-State: AD7BkJL/hCcdd6QwUjI7g6xvAZDuSm3CKk1GcxYXRs/f4bqeK6cYMZTUYzbVhIcjr7UhuA==
+X-Received: by 10.194.92.68 with SMTP id ck4mr20133700wjb.144.1457896521269;
+	Sun, 13 Mar 2016 12:15:21 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.18
+	n66sm12851410wmg.20.2016.03.13.12.15.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:18 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:20 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:33 +0100
-Message-Id: <83af74b0041c734611e34381dc6328443f449b86.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:34 +0100
+Message-Id: <d213a5299c588fa5cb9b5229c385d1b60eb166b1.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 35/42] ofono: Fix usage of systemd unitdir vars
+Subject: [PATCH 36/42] bluez5: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:19 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:20 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-connectivity/ofono/ofono.inc | 4 ++--
+ meta/recipes-connectivity/bluez5/bluez5.inc | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index c415a39..5e40c6c 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -16,7 +16,7 @@ PACKAGECONFIG ??= "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     "
--PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
-+PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/,--with-systemdunitdir="
- PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index ff2bdcb..504c320 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -69,14 +69,14 @@ ALLOW_EMPTY_libasound-module-bluez = "1"
+ PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
  
- EXTRA_OECONF += "--enable-test"
-@@ -32,6 +32,6 @@ PACKAGES =+ "${PN}-tests"
+ FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
+-FILES_${PN} += "${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
++FILES_${PN} += "${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_system_unitdir}/ ${datadir}/dbus-1"
+ FILES_${PN}-dev += "\
+   ${libdir}/bluetooth/plugins/*.la \
+   ${libdir}/alsa-lib/*.la \
+ "
  
- RDEPENDS_${PN} += "dbus"
- 
--FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
-+FILES_${PN} += "${base_libdir}/udev ${systemd_system_unitdir}"
- FILES_${PN}-tests = "${libdir}/${BPN}/test"
- RDEPENDS_${PN}-tests = "python python-pygobject python-dbus"
+ FILES_${PN}-obex = "${libexecdir}/bluetooth/obexd \
+-                    ${exec_prefix}/lib/systemd/user/obex.service \
++                    ${systemd_user_unitdir}/obex.service \
+                     ${datadir}/dbus-1/services/org.bluez.obex.service \
+                    "
+ SYSTEMD_SERVICE_${PN}-obex = "obex.service"
 -- 
 2.7.1
 
