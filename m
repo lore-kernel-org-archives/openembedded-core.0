@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E4A46072C
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A96D73175
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:14:49 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id n186so11590263wmn.0
+	Sun, 13 Mar 2016 19:14:50 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id l68so11564854wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:14:50 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=ro+EYBl2nkWFy1bK9WHELWeSpMrn6lHmATZPEfw8O8c=;
-	b=QdVEaNiOojrgtZS1haksaUdLmPFVaJiqjFIDyP38K4O2HC8uZopuIgA5SZ5rUPm7Zj
-	oTgJrLM2MG8djW1WLxQ5CudXXxkmiQX1ThkNg5NxDJQiylLP9xUxeGkNspj22eEdkV50
-	BC7Xv1tC6TWervmwUyyGBsqSxvfI2TunThUwKVjy9zyW7nUbjHx7CBYwk+QgcndSVFQ9
-	iQDxiWsuVIslyM+IfO1NXS7FlTfo7nqqbJNl15eNGiJ3PNfbw5XWkjJzdJwKhT6LhaFg
-	yWGVq8ykWlsVdFkYy1/M0jzFuk8j6t/lgaqoQOlV8nAO+O+jUFglTN7wBsSCkFYczwyg
-	HXzA==
+	:references; bh=E1qvj8ik9FauvyyB06Z2j7HAXhN9om3votc4nRQskjU=;
+	b=RM9pml/pmeBeIpelV/1fci7v26yQ2ljdljIM6UqGXv28GkGno5gvk6K6ZbxpVY5jBk
+	D3/hOXrofll/YXbjI5+I9QX9jAlP8OMFz9SQObuEizgxYnDlN2Vvh8vWQRHcEj5ubAyn
+	TGWLZc0PntoYQpq4loyCFx9rp5IzuCviaYyX0t8mXZvrMwUWGRKtXCdasegtyvIRlAVf
+	mj7vTOE/1BdI9sHtlRKwvAsZ8M34fF4925fErs7mHHIczSSs5RFcp1QtwdilojfY6FN4
+	EjoeNaLp/ZDCVewAOnpQefvbRD+Dd5+wBj9XlU7/ffzVXiVx0vjnVuq1vRK9KkrUlxH9
+	2kVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=ro+EYBl2nkWFy1bK9WHELWeSpMrn6lHmATZPEfw8O8c=;
-	b=MEYLzGN9p47K9vPpDFaVjWKH/8/8+DuxWEWWenYqH8z9M1+GQDyOMSefz5vQT9bMmF
-	PedReWRE8NuGV+l9secfNsxEyG1ivOBovtUCSwTtGBtezulFxH7y+1lFEGK7rKtF7JSN
-	TB73Sfq8xuLefmfMxJjL1/vOft2PZ3A15vD/+EJBmhGp4Vi6lWCrIWHT8FlTRXszBsLI
-	+hAehQMwW+3yoWHNV8PW2Qrw1glKPS6amUc3snmBquqNmdufAFnYyhR9JM0LH9qO9TGo
-	v4urmTwdsJ4+RdXHYpw+Ky7fYlKxEUEBw07TmKKQMs9C2iGQko9ktJKXpO2fjvVmhgnS
-	DgZQ==
-X-Gm-Message-State: AD7BkJLZEroSws6YxGRQcY4H15oiQUI4TK9BqH5Z977xd8JBEYsxFlKBdVK7IpoKQCbS/A==
-X-Received: by 10.194.83.101 with SMTP id p5mr20414343wjy.141.1457896489906;
-	Sun, 13 Mar 2016 12:14:49 -0700 (PDT)
+	bh=E1qvj8ik9FauvyyB06Z2j7HAXhN9om3votc4nRQskjU=;
+	b=XnNDIS7jNH5J+zgcBEAdQpmlV4V+yHa4Ccuq834LO35GfLGzR3JZGIRl9dtGilbxzS
+	ISy40j3JCXS1rZIMuQxSzzqFGyXBOFB2RGpEUeh7gcE3t2GGsz8NwoZQB+uG4vQcklE/
+	oO/oc3yXjIVYdQArxXp41IMWVSyuWOC7W2VLOdzQSuVbwoIdn1itLhRux9j9hBmJgEPd
+	EtcUcHv8rcOkgnuZiQt+ejRLyxPCi/jAOH+crNoUm45Um4Rihnn8n7Nu8pXesf3ln8hC
+	HRT9GlqqMdpMD6p+A0nKdgRZO/WVK+j2c16/q+b6oHI1cK0kUMmT8IZps6v8K46e5XWL
+	U3Pw==
+X-Gm-Message-State: AD7BkJIXMRB3peKYEBJJ/KkuPtHRSOk4bDfbuKTCcMAl6ziXGsS79GE8zE/XwUF43MtRDQ==
+X-Received: by 10.28.125.195 with SMTP id y186mr13135165wmc.79.1457896491069; 
+	Sun, 13 Mar 2016 12:14:51 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.14.48
+	n66sm12851410wmg.20.2016.03.13.12.14.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:14:49 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:50 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:10 +0100
-Message-Id: <dcecd477cdc1efdb82b6d3e328982db7e4aec0c5.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:11 +0100
+Message-Id: <392eb96647d523fb8ede1e5dc237daaa8263cc87.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 12/42] ppp: Fix usage of systemd unitdir vars
+Subject: [PATCH 13/42] wpa-supplicant: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:14:49 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:14:52 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 4437b5c..5dab247 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -70,17 +70,17 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/pap ${D}${sysconfdir}/chatscripts
- 	install -m 0755 ${WORKDIR}/ppp_on_boot ${D}${sysconfdir}/ppp/ppp_on_boot
- 	install -m 0755 ${WORKDIR}/provider ${D}${sysconfdir}/ppp/peers/provider
--	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/ppp@.service ${D}${systemd_unitdir}/system
-+	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/ppp@.service ${D}${systemd_system_unitdir}
- 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
--	       ${D}${systemd_unitdir}/system/ppp@.service
-+	       ${D}${systemd_system_unitdir}/ppp@.service
- 	rm -rf ${D}/${mandir}/man8/man8
- 	chmod u+s ${D}${sbindir}/pppd
- }
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+index 935c8af..16ad53b 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+@@ -91,8 +91,8 @@ do_install () {
+ 	install -m 644 ${S}/wpa_supplicant/dbus/*.service ${D}/${datadir}/dbus-1/system-services
  
- CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
- PACKAGES =+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-minconn ${PN}-password ${PN}-l2tp ${PN}-tools"
--FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${systemd_unitdir}/system/ppp@.service"
-+FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${systemd_system_unitdir}/ppp@.service"
- FILES_${PN}-oa       = "${libdir}/pppd/${PV}/pppoatm.so"
- FILES_${PN}-oe       = "${sbindir}/pppoe-discovery ${libdir}/pppd/${PV}/rp-pppoe.so"
- FILES_${PN}-radius   = "${libdir}/pppd/${PV}/radius.so ${libdir}/pppd/${PV}/radattr.so ${libdir}/pppd/${PV}/radrealms.so"
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-		install -d ${D}/${systemd_unitdir}/system
+-		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_unitdir}/system
++		install -d ${D}/${systemd_system_unitdir}
++		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_system_unitdir}
+ 	fi
+ 
+ 	install -d ${D}/etc/default/volatiles
 -- 
 2.7.1
 
