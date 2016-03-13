@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 505A27316D
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 07F2B73192
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:09 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id p65so11586431wmp.1
+	Sun, 13 Mar 2016 19:15:11 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id n205so11550825wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:10 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=aESg213Zxy/+0OK8AlKqpIbxwljtmYZGLKPuOtFJt8U=;
-	b=UaoGSlIWF/cBo9vrghJiEOOk1MuAg/d4uEH3bk0R0urS4EB6sY85RgY08X2SvHYCCf
-	N7meCiArvFLFH/s5kyNTn12PbZDcOuEWF/TloxuxxeepfNW1Mwm7PoYLKox6iDMu982y
-	dYLvSykPgYfd8ukx9Lsxn5it/1ZmCDBxDvdRr+UY6GVnPpATl9WrFGAqG057HhjBk40R
-	n5mEbXzgTLJSnc4PkK1QemkeXC94ohdUqRv7qbRhr7WUzP4MtDOhZhAeSCM4nPTnMWD3
-	IhhAKIZw1Gmr+54YXIVlmMnBYLr/9b7gCQXmof/lB4IlMN5PAsP/yJHFvBSC0PwISzYO
-	Idqg==
+	:references; bh=inHQkPjg+egzrwenJbkdHPf4vtyKW3NFyftZ1D16bf8=;
+	b=kwFxsUV3I8FHfsx74Mjgs3taVtMsxpgwDjAitmR+6N7mgfmcekp8oJBu05nTf+B32o
+	pdoY+4xweDvRTQPgvmSV7E8Ouu+idz2EMhu3EnXVdgVO8xyfsAZzj7AIBhWI7WePszji
+	+NH3ySx9KQkBOCZJz0EIf7Fox25Ymk01UtptrunwY2+dQJyXwHiuZfy8PMDT1kWMZUti
+	txQ2RvkzY+N/5DdeBwF2b8k2QvDQwlWo2WuBSMl3YzBoQvoSRnEUOsxJATdlH+KaImwh
+	/URpfPU/eu6YMvu9+cPkoLyM7UA/V+CPRnd6rxEBPYads5FjFVLU0NywEdit6i7hBpN4
+	EAQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=aESg213Zxy/+0OK8AlKqpIbxwljtmYZGLKPuOtFJt8U=;
-	b=c56KgMqvk9B+C5CAw9DRMiOnD2niHeDL0a/QXXrrtI6yJ1UyZPq1q6dpoZrdlxqfEY
-	P7G0dShZY4qjXEqGEnaUlYtGid55RojqoijNAQxriNATUCvmYjdhlSqCHkaSYdfpxY5z
-	CwNVK+Evy/QjT6Ao19VXVj/TnDKgD2rvaNfqsNAvFDKKA5DPq0YjdXGIYXAhE0it1FaU
-	8hrG8ReSymipncCgS6Tn3IXOHYY2lK3N1lHsZ6qvj14fcpJl5sqUUbXuRmiDDHtMGI/B
-	0CmjPnG6AoJNPuS/w8vEutKnY6uc3nRkr1HWruvMHI1ANl95cNGn0GhYwFCfeSgUPsR8
-	NhNA==
-X-Gm-Message-State: AD7BkJKgIIS0tuzuefEzQDwzMqvUdnfM7ynJ+uhAeeZ6F9LWvAoEQ2fHlWQOPsEJ/i4oGA==
-X-Received: by 10.28.21.75 with SMTP id 72mr13391094wmv.64.1457896509928;
-	Sun, 13 Mar 2016 12:15:09 -0700 (PDT)
+	bh=inHQkPjg+egzrwenJbkdHPf4vtyKW3NFyftZ1D16bf8=;
+	b=cwwfTg2u+rcLa8jGhmS7UoZXFlXMRf5JWwxGpvHGC/crjVYCgc0wM6SAmFyrRYFCMb
+	1aogD9hOLV0hFVX+lJDcX7dp6jR42yuhzU3zX9HOFvqO8tFCDKhkpMd0cM3fKCT/ManY
+	ZvHE0DqqaHIhFnhksw+yRReBkCdR5K/SZKT3s9ikQF4g0e211IDeHS74P0qgHkcbL/rN
+	vWIZUi3QP436jmru73oGOlQ30RjIz09kZ8/5OIvJuvj4VltA/ECdALuAPK1Td7xDTHdf
+	ehPhe0aEfyT04aTS3526g0Kz4nrjcd2EDKzdKzoCfDSOebNjP6MBjM5+eywU8dDlaagC
+	cQ1w==
+X-Gm-Message-State: AD7BkJI/kc941M3+xkdzoOT85qK10QiQ8C15sJv3KMAuePOwh3r3IkMkGBp1qOB8cSwk6Q==
+X-Received: by 10.194.86.202 with SMTP id r10mr9521134wjz.113.1457896511630;
+	Sun, 13 Mar 2016 12:15:11 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.08
+	n66sm12851410wmg.20.2016.03.13.12.15.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:09 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:10 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:25 +0100
-Message-Id: <8d4028279df58da017ca2dfd41f392194f7956b9.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:26 +0100
+Message-Id: <aaa1e57537642218cc38fead598283cd7e6a3d5c.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 27/42] lighttpd: Fix usage of systemd unitdir vars
+Subject: [PATCH 28/42] rpcbind: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:09 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:11 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
-index a407d03..ca88b75 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
-@@ -54,12 +54,12 @@ do_install_append() {
- 	install -m 0644 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
- 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
+index c19a197..0afec6d 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
+@@ -47,7 +47,7 @@ USERADD_PARAM_${PN} = "--system --no-create-home --home-dir / \
+                        --shell /bin/false --user-group rpc"
  
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+-PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/, \
++PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}/, \
+                           --without-systemdsystemunitdir, \
+                           systemd \
+ "
+@@ -64,10 +64,10 @@ do_install_append () {
+ 	chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
+ 
+ 	install -m 0755 ${WORKDIR}/rpcbind.conf ${D}${sysconfdir}
 -	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/rpcbind.socket ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
 +	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/rpcbind.socket ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_system_unitdir}
  	sed -i -e 's,@SBINDIR@,${sbindir},g' \
  		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
- 		-e 's,@BASE_BINDIR@,${base_bindir},g' \
--		${D}${systemd_unitdir}/system/lighttpd.service
-+		${D}${systemd_system_unitdir}/lighttpd.service
- 	#For FHS compliance, create symbolic links to /var/log and /var/tmp for logs and temporary data
- 	ln -sf ${localstatedir}/log ${D}/www/logs
- 	ln -sf ${localstatedir}/tmp ${D}/www/var
+-		${D}${systemd_unitdir}/system/rpcbind.service
++		${D}${systemd_system_unitdir}/rpcbind.service
+ }
 -- 
 2.7.1
 
