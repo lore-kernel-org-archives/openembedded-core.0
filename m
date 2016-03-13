@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
 Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AEFFF6FFED
+	by mail.openembedded.org (Postfix) with ESMTP id CCA7A60667
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:14:42 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id p65so11584635wmp.1
+	Sun, 13 Mar 2016 19:14:43 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id n205so11549144wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:14:43 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=Tr26StWvOXtvHuGUbsql2E2/n3KNrP5XifJcEnflCE4=;
-	b=c5Co2+Vj8DGBqskYKDL5fSR/QGxVaOUotvDD8B+6LrVmbN4UxW7LTO+c352HSEQCt5
-	uMW1h2m2szIXW8NVpz/kKMSlWlEVUBEIZQatKh9MYtXyZNx+ugSigD+eLA//0IS79M0M
-	hZPf1ykuL0t0qyFCLhNQzfUWceKrzzDWCZ01rbG3T6p/Onmlm5MyzhbtNCKS8PEwDLZu
-	S8fhbrJ7d2s8L5vrV+lF0wtDpCCSx6YewuWMepIwmlX1BeOgwSXXrdhQy5frUYVWw5Cc
-	BL7uIBo0uqc6gvZWREFjt/nDdE91Z8wYesFl5HnsNLX081pyeE9YouJo8FNWTc8lZNj1
-	ZMrg==
+	:references; bh=ilZ2JlN8PRrzOCAA+VcxhXfshtU31kWRQpdCog4vl0c=;
+	b=YNw8AP40i7KDNI3TkS9+g1nKMCcQfiixogMoVBaEz/ylpNZKKphWDeQKQj3J6sqvXp
+	jvjNZKk5PGqVtCmjJj9pqZAluwyOvMxhqXJIjB8Rg7HFO3eyneSI1xXJ/K2aUfdIet5T
+	gFtAiRV0OsQMbJm5oTw5HaXvaHk9FNoW49J1/RTkylKyLJrcRpDVfDug1XILhiqy1rIW
+	MrzgaD2HYLEx9O3hk0uSIgc6a3ZVh1s6DYKWca2dtf7gnIGuWW+Hl5m8EaLHJsr3GaDl
+	mAXGwVb9UCKk4XpkeTpyBrFgVlyzX1defzUAfCZUB4BCPt8wOLJxbppRlqseaF/2+G1Q
+	iMxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=Tr26StWvOXtvHuGUbsql2E2/n3KNrP5XifJcEnflCE4=;
-	b=NQ63WIfRA4aKMwT3kmp0jI+z1mQhugfB+EivX1z91zoLJfJa0KVZANlS0QhWoD8hTD
-	AUYa/00NdelAjYod5SPdOl7V6jIqA5UX9gDLePfCby9MwymJRimAYoqFCBsqwkkfbLBT
-	t6HrlbZAlogiuxWWveXvqK1/0BJfD2iFfON2h8UAY4plMKjuZRyU5vrepDU1N9qYrksB
-	XHptzv1CLi9xYEjBRRavYDUdAHSCnbP7qI+jSzECHh/cbjnDb88KT6/TWuE+/h1n0x+7
-	dV8egMdIkg2rnBzbMrc7qDc4IRX+FEeIkZ9ceCFu1Qu/xOsRtqV2WHb7ZWkxvRsiIAiQ
-	MBXg==
-X-Gm-Message-State: AD7BkJIiyLitGbvLAGfTkUrbfQRFm7GbLc9L6IgeZqfhf+gYSe/hHyiSEFHeWeY48HYd7Q==
-X-Received: by 10.194.86.202 with SMTP id r10mr9519383wjz.113.1457896483329;
-	Sun, 13 Mar 2016 12:14:43 -0700 (PDT)
+	bh=ilZ2JlN8PRrzOCAA+VcxhXfshtU31kWRQpdCog4vl0c=;
+	b=lWH+DD+3MIPB5KTW0zcR8ROEN03en8Lg3ZCQjolVKQP1GF1tnSQ2tVq81Ap07bWvyA
+	PNf5PNHO3JtHRfvbtUKcgnJLRbxi5iSsBi3q0fx0AY0rsZchBe75aj5/r/ZYX22syP6a
+	wAgd6eI6gpQ0Xr058E6+ykNCLsv9rICoqNE72HcTVIYv2bAvZNWqZ1QMO+IIwOn5jt2Y
+	CEBA8iOUn9jEbJRHBDskNdGHThHWDGA3o6GGtZKKnx7bJN/SlmidJpWnVGxWWLoOkhnP
+	qFecmRu84fCYbLfvMzUF0kH8AERwr2YDHWEPeRcHaLXSfu9t1nXq+vFDHYC/d5nN+wlC
+	n1EQ==
+X-Gm-Message-State: AD7BkJKANnuue8013STIrXtrMvjU+v1VTDSsQFa8UDBfcmtHNGWN4XOOMI64dESX5mb9Tg==
+X-Received: by 10.194.71.70 with SMTP id s6mr20391529wju.1.1457896484456;
+	Sun, 13 Mar 2016 12:14:44 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.14.41
+	n66sm12851410wmg.20.2016.03.13.12.14.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:14:41 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:43 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:05 +0100
-Message-Id: <d967a35894d0c8c743bf4fce287d22c194cdbd84.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:06 +0100
+Message-Id: <f0330d75f873015079ccea6d50d466922282bdb5.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 07/42] dhcp: Fix usage of systemd unitdir vars
+Subject: [PATCH 08/42] neard: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:14:43 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:14:44 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ meta/recipes-connectivity/neard/neard_0.15.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index 9c4233b..c57eb03 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -62,14 +62,14 @@ do_install_append () {
- 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
+diff --git a/meta/recipes-connectivity/neard/neard_0.15.bb b/meta/recipes-connectivity/neard/neard_0.15.bb
+index 93bddb3..be593fb 100644
+--- a/meta/recipes-connectivity/neard/neard_0.15.bb
++++ b/meta/recipes-connectivity/neard/neard_0.15.bb
+@@ -21,7 +21,7 @@ inherit autotools pkgconfig systemd update-rc.d bluetooth
  
- 	# Install systemd unit files
--	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/dhcpd.service ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/dhcpd6.service ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/dhcrelay.service ${D}${systemd_unitdir}/system
--	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/dhcpd*.service ${D}${systemd_unitdir}/system/dhcrelay.service
--	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' ${D}${systemd_unitdir}/system/dhcpd*.service
--	sed -i -e 's,@base_bindir@,${base_bindir},g' ${D}${systemd_unitdir}/system/dhcpd*.service
--	sed -i -e 's,@localstatedir@,${localstatedir},g' ${D}${systemd_unitdir}/system/dhcpd*.service
-+	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/dhcpd.service ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/dhcpd6.service ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/dhcrelay.service ${D}${systemd_system_unitdir}
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/dhcpd*.service ${D}${systemd_system_unitdir}/dhcrelay.service
-+	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' ${D}${systemd_system_unitdir}/dhcpd*.service
-+	sed -i -e 's,@base_bindir@,${base_bindir},g' ${D}${systemd_system_unitdir}/dhcpd*.service
-+	sed -i -e 's,@localstatedir@,${localstatedir},g' ${D}${systemd_system_unitdir}/dhcpd*.service
- }
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
  
- PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+-PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_unitdir}/system/ --with-systemduserunitdir=${systemd_unitdir}/user/,--disable-systemd"
++PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}/ --with-systemduserunitdir=${systemd_user_unitdir}/,--disable-systemd"
+ 
+ EXTRA_OECONF += "--enable-tools"
+ 
 -- 
 2.7.1
 
