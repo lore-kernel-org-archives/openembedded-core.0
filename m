@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9785E7317F
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D16A6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:14:55 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id n205so11549854wmf.2
+	Sun, 13 Mar 2016 19:14:57 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id p65so11585578wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:14:56 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=uMrqINmIlPUrMwzK8wq346FORC5gCdUatKsJnI2aHrA=;
-	b=dlZp0U8oT14lxWGXM02UyvENrmM5Jo4CVpozw3imzGShzmZutZHzSk+QTCy+G4CZQU
-	ggDxzMJ4Hl5yM36pfNVv32hKaL9xdm4jcGeT2C64qSOsQpVkwQWBiipvgix8owaGiK7b
-	HW5ZfwWCTAdt/5p9w35H8x0+F424BnBzkBeAQaGB9WdQhADmIW4KJQQlTiYwe7tDZXym
-	BMDPjGropZby4aV9s1J6gfAZnR/m7WQ4yQekhnRiEzsuv/bh8UbG7n3b/L5sQrwHGNmY
-	LJU3R4M04n0zS5js7YgcNmItOu7LBPwjRu1MEJCDdAtIpHrURwrgk9FYsfQ+wBNrOpkY
-	oYlw==
+	:references; bh=PuP93cD7Ac/PshSq4WoMoikAe6ysoumEs9qXE7wbKQQ=;
+	b=iLVuQ7qE3bl/bQH/JpLNp5ElrvtrKkYYYOF6Rgg7O+zyJU4a1JbjF4RsIcmQ8Yzu2d
+	oJhYL7qkjrpXc01tT1hNBGHB90bvcwm9jd39hzsUajwnU+RceywYiTrYzXeN72GV3hkg
+	2IYfTTQfBv4QQGUpNQyTmkw1NHjuqDthahmukhZQ4qqey3LPDviCBHBy9oFeKj+tKnMl
+	TK/ksTKWeuVcRRtScto6//EPDbE0pi0jgaZ4jS28jXoATcaBoG0yTb+TqWlPGM5eU0Zx
+	32ne8fKlW+qe2Y8QYkzkRdJLBL6oooBru38ASQfdxshJRLOv7fTpkU5bFFumzjKkM1tW
+	HSGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=uMrqINmIlPUrMwzK8wq346FORC5gCdUatKsJnI2aHrA=;
-	b=aXd5YqO+w+faOrBaIfulOLU/xMAT4shhaombdE1gmcgDM7eqPHnxaCeSPj6v7pv1nY
-	o6H5VSHzP+6sltD3vtYBIb45Uv2tW+Itq1FRZg08yikPZmvKfhFxClqa7dfjZSy3igVU
-	H6BjxdGb+ixp3OLzyw393s+FVtUqZ+bfKMbitZzBjYpM1q1uxL6gkwx5YXBOItXBsz9u
-	pk+CMH+Ha12fMYTGNopsy6b7e5al8mxOh405NLuGuLl0ScfncF74k/Vq8VYlAV2eXe48
-	uOHXR6gH7Ckam2W80x6W87DlcKyogzMxdQbhYMqZ5AcE1VuHmfeNsTCPVmlNrXsHJS/I
-	zRog==
-X-Gm-Message-State: AD7BkJLTR7F6n5z0gku/98eZQ4S372gslBk9+hZ7pTj09uVk/FjCBkbPsa1k5RJHl7jzZQ==
-X-Received: by 10.28.184.148 with SMTP id i142mr14255213wmf.22.1457896496226; 
-	Sun, 13 Mar 2016 12:14:56 -0700 (PDT)
+	bh=PuP93cD7Ac/PshSq4WoMoikAe6ysoumEs9qXE7wbKQQ=;
+	b=LaIS6yqQ4vonMcxBqGKzrOl1kDzQdMnj4Vbvcx9xMOp3t7pqvjDmgV2BGbnfPg50K5
+	eFiIWjIOEe9RnIINf5bTdGcbSxdSKT7yp4f2frc9UQXr0weIDV/fiJ4pi54vMy564V5b
+	ny6mPRTmCDfZlVH9X0tq8Z7lUasSStV0IKmYgh98nBm7Cbfz3FKgYLU1qNaMiQlS3LDf
+	IC1z9YZIJxaKT/1Zs4aeJFpKWI1OYUz2lUK+uPO07zUvJaJEMwL5b7QQJVe1EwefRFk9
+	O+uLbAjyG+y8KJj2oy0cJCO+79GhOHjQdspNCuqVx8Gw+Xs3iLQewcJs2PtZfQdEmxTT
+	4dgg==
+X-Gm-Message-State: AD7BkJKBC9jMq86TdvXd37wWcqfzDVZeVMuQMewWgBtwlZrUsxYsXvJbW9eKxR2y3piciw==
+X-Received: by 10.194.209.204 with SMTP id mo12mr21997520wjc.69.1457896497846; 
+	Sun, 13 Mar 2016 12:14:57 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.14.54
+	n66sm12851410wmg.20.2016.03.13.12.14.56
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:14:54 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:56 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:15 +0100
-Message-Id: <2d2e9a48d4767ece72e05ea7ddc43a80cb06a195.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:16 +0100
+Message-Id: <f9ff41b92903329e9e471d5a9dc69186539bf02d.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 17/42] systemd-compat-units: Fix usage of systemd unitdir vars
+Subject: [PATCH 18/42] systemd-serialgetty: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:14:55 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:14:57 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd-serialgetty.bb | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index 0b8ff09..9ff3237 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -34,7 +34,7 @@ pkg_postinst_${PN} () {
- 	fi
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 768b130..b57f0f3 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -13,10 +13,10 @@ S = "${WORKDIR}"
+ do_install() {
+ 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
+ 		default_baudrate=`echo "${SERIAL_CONSOLES}" | sed 's/\;.*//'`
+-		install -d ${D}${systemd_unitdir}/system/
++		install -d ${D}${systemd_system_unitdir}/
+ 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
+-		install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/
+-		sed -i -e s/\@BAUDRATE\@/$default_baudrate/g ${D}${systemd_unitdir}/system/serial-getty@.service
++		install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_system_unitdir}/
++		sed -i -e s/\@BAUDRATE\@/$default_baudrate/g ${D}${systemd_system_unitdir}/serial-getty@.service
  
- 	for i in ${SYSTEMD_DISABLED_SYSV_SERVICES} ; do
--		if [ \( -e $i -o $i.sh \) -a ! \( -e $D${sysconfdir}/systemd/system/$i.service -o  -e $D${systemd_unitdir}/system/$i.service \) ] ; then
-+		if [ \( -e $i -o $i.sh \) -a ! \( -e $D${sysconfdir}/systemd/system/$i.service -o  -e $D${systemd_system_unitdir}/$i.service \) ] ; then
- 			echo -n "$i: " ; systemctl ${OPTS} mask $i.service
- 		fi
- 	done ; echo
+ 		tmp="${SERIAL_CONSOLES}"
+ 		for entry in $tmp ; do
+@@ -24,14 +24,14 @@ do_install() {
+ 			ttydev=`echo $entry | sed -e 's/^[0-9]*\;//' -e 's/\;.*//'`
+ 			if [ "$baudrate" = "$default_baudrate" ] ; then
+ 				# enable the service
+-				ln -sf ${systemd_unitdir}/system/serial-getty@.service \
++				ln -sf ${systemd_system_unitdir}/serial-getty@.service \
+ 					${D}${sysconfdir}/systemd/system/getty.target.wants/serial-getty@$ttydev.service
+ 			else
+ 				# install custom service file for the non-default baudrate
+-				install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/serial-getty$baudrate@.service
+-				sed -i -e s/\@BAUDRATE\@/$baudrate/g ${D}${systemd_unitdir}/system/serial-getty$baudrate@.service
++				install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_system_unitdir}/serial-getty$baudrate@.service
++				sed -i -e s/\@BAUDRATE\@/$baudrate/g ${D}${systemd_system_unitdir}/serial-getty$baudrate@.service
+ 				# enable the service
+-				ln -sf ${systemd_unitdir}/system/serial-getty$baudrate@.service \
++				ln -sf ${systemd_system_unitdir}/serial-getty$baudrate@.service \
+ 					${D}${sysconfdir}/systemd/system/getty.target.wants/serial-getty$baudrate@$ttydev.service
+ 			fi
+ 		done
+@@ -41,7 +41,7 @@ do_install() {
+ RDEPENDS_${PN} = "systemd"
+ 
+ # This is a machine specific file
+-FILES_${PN} = "${systemd_unitdir}/system/*.service ${sysconfdir}"
++FILES_${PN} = "${systemd_system_unitdir}/*.service ${sysconfdir}"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ # As this package is tied to systemd, only build it when we're also building systemd.
 -- 
 2.7.1
 
