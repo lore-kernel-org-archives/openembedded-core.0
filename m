@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DF1FC731C5
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F19C731F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:26 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id n205so11551847wmf.2
+	Sun, 13 Mar 2016 19:15:28 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id n205so11551930wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:28 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=RyDsVw4a6ceiBmkhOp2/9SI6135JM6yd/6e9hg8YJq8=;
-	b=rPRjtT4o+faFqSNvHu5l36W3w+hTM9dksAZ1F7mm1byAXrC3IvhAtX6MCvsHYKoh+P
-	5N0xJmmlBTLf7bF/8GnbfckwdmuuWKp4huGyM45E+Jn4AY/1nEuEwJuZ2dx2pnmbFvvl
-	sn360uc32ftj4HKrhFg9ynLxx3I4gbWMHmoZHJJ/j+/2WhBm3D1vlKt6eKF3SBFlTTCY
-	tHMM9IA5R1u0MfHufvdfGhwiXRwPiBjjO2PFWaTIl4SvOLw/Xtgc09sHgXE516WrNxo8
-	6L+NUhW/VxrTFNBQd0jg9DWtZ/yOjAqoSUnD5nBvz6jonrcopgHoah/rvlaJ7vjHLm2p
-	Fgdw==
+	:references; bh=f6IkL4pFtAz4dgRUU6cmBBU1oUeX1qdc+fqfl3W5szc=;
+	b=gVpogcT1bIEIQr3p8Md3Xvs0+mdKrt3dPjsO57qvT1dW2jmFlcQI37MnH9A71efdX5
+	mi5CdBz700kaqxnBVBZdnANUnAKFOGpt29PdswPDqqUwKmnk+/frESPldCWQSlE8pVwY
+	Hinu6is1kshOkvalLvtW8y1Z6qJhg1SPLYnkPAcFMpHjfhTt9cdPL22VZPgUrCS4qc0L
+	7ku5cQkOcV+JyXF3T4bVnsZJQdyZw0YIvkptgLCSQluyZgjIOL1kW3GnpPZo9ntsgTLt
+	vU9pgOjy0xkvp3C7JVUQFASDrrpp4xw773aSR6nUrKF+OJyJJcrCXPrGwC2Dup6wOSQc
+	PUQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=RyDsVw4a6ceiBmkhOp2/9SI6135JM6yd/6e9hg8YJq8=;
-	b=f9UYwn4RXz/G/ttWDqLEzcHLmkvj3ExEDW78PMgwUNwzXqzKCkrwsuF7SVVojkyx20
-	z+wku8epaVLi7coocJ4pTy0en7AJ+y0p/LDws5Wb/77O9C8fUbAXBEVZh6kBo/lRA+uI
-	B4YU7VcO8JYKpaNqQYzYPzP3pgYAreiP8qxIV+bX0rYfckPNa5ldMc0Iv/t37MjHe6Q1
-	7iT4X5IpeFPB6ja2HoJLU9WMpF86q6TjKEDd70CCq431ULMUooSucjiyChQmQNp/BN2L
-	Cn4OGJwUIFsHrDlBNL340oei26CtIDoXC8a0QA3DLBZBFqUiswNgIErQoOczKbgAuRW+
-	Y8Sg==
-X-Gm-Message-State: AD7BkJJpqcobyBPZp9+/UKaS1zQI3S4vkHMl03R1MGjl1jGfcc6EtYcFQvdI049dnstgcw==
-X-Received: by 10.28.213.66 with SMTP id m63mr14371634wmg.2.1457896527518;
-	Sun, 13 Mar 2016 12:15:27 -0700 (PDT)
+	bh=f6IkL4pFtAz4dgRUU6cmBBU1oUeX1qdc+fqfl3W5szc=;
+	b=UQq3BXt8SIGCuXSpNJYvvLmYAhtIeqzPKuy3PAJVFY1NlVkq3JkbREEfnti+fAz/EA
+	+tu6mcsUpTEtY38Gf5KLXYMw5pFJvKk2Zevizs1Uid1/QwsXPOyvNyahrt1+BEzDTLTY
+	qavHyF9iAgmWsiA2FsLTPV4l05RlgyWcBoztb4AT4Vc4deoewJ8RJ+K1Hc0efLSvMSM2
+	5HjWWE0Bj3ZQP8f7BgTeVfldrJ6B6Tc64h4Zr119gYJaSsqKYUTyRolBOyjV4GLaUIhc
+	0npWuv5mpiRI890mY7DZEtYjK7WbiggMwcLi2u30eg76UTqRLzvU4QjDqpqyVsksQsPV
+	POqw==
+X-Gm-Message-State: AD7BkJI0byVNeq/4SZQUDVpSiAaPT6Iy8TXa+ZY9hekG85Se9excOLXIk9sQ93oVBU7mRw==
+X-Received: by 10.28.19.130 with SMTP id 124mr14376006wmt.2.1457896528681;
+	Sun, 13 Mar 2016 12:15:28 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.26
+	n66sm12851410wmg.20.2016.03.13.12.15.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:26 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:27 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:39 +0100
-Message-Id: <b48f02bf19197d554b0ca52216f79c9913c60083.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:40 +0100
+Message-Id: <93b575d9347e4c2b95d429e5c69bd533fe00d059.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 41/42] systemd: Remove usage of systemd_unitdir
+Subject: [PATCH 42/42] bitbake.conf: Mark systemd_unitdir as deprecated to avoid future use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:27 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:28 -0000
+
+* This var is not used anymore in oe-core, but it may still be used in
+  some other layers. Let's leave it there for some more time to avoid
+  crashes.
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_229.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
-index fcb22a3..f422d15 100644
---- a/meta/recipes-core/systemd/systemd_229.bb
-+++ b/meta/recipes-core/systemd/systemd_229.bb
-@@ -260,7 +260,7 @@ do_install() {
- 		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
- 		echo 'f /run/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
- 	fi
--	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
-+	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${nonarch_base_libdir}/systemd/systemd-sysv-install
- }
- 
- do_install_ptest () {
-@@ -411,7 +411,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${sysconfdir}/init.d/README \
-                 ${sysconfdir}/resolv.conf \
-                 ${rootlibexecdir}/systemd/* \
--                ${systemd_unitdir}/* \
-+                ${nonarch_base_libdir}/systemd/* \
-                 ${base_libdir}/security/*.so \
-                 ${libdir}/libnss_* \
-                 /cgroup \
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7ed5ffb..7eeac94 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -32,7 +32,10 @@ export datadir = "${prefix}/share"
+ export infodir = "${datadir}/info"
+ export mandir = "${datadir}/man"
+ export docdir = "${datadir}/doc"
++
++# systemd_unitdir is DEPRECATED, don't use it:
+ export systemd_unitdir = "${nonarch_base_libdir}/systemd"
++
+ export systemd_system_unitdir = "${nonarch_base_libdir}/systemd/system"
+ export nonarch_libdir = "${exec_prefix}/lib"
+ export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
 -- 
 2.7.1
 
