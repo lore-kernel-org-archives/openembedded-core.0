@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
 Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 49E6760667
+	by mail.openembedded.org (Postfix) with ESMTP id 456FE70030
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:14:35 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id n186so11589225wmn.0
+	Sun, 13 Mar 2016 19:14:37 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n205so11548673wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:14:36 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=fYpn7GbZQ4BX+Nd4nkjGYkRy5282v43Yzg4fXAUagsk=;
-	b=T9Bwk7l7/8itVU/F28ipxlnjMMgSA5u54R2TQavimNAiqhno9rayat604jycTVh5e2
-	5z1VpyXjRD3rRr8GwDUpNExTNMRRToMGkiL59ma7jrWjdUkbUJ8A1ErxYPN1rUQwubdG
-	h4Hh5Ds7XBUES8f9qSk5O+TLduQgC7p7fuFX6nWPGJzVId6pXO5zpGkYQTWIuV/UWOdK
-	1Sb/Ea+CL8a1x42vKJ6pFfPwcaJyvqqmlEdEna2fjfKDjVVBqK4rW7nDCUxuhhluekkF
-	PCy/MrTgMDF6OhlCefvvmftVGIGMGnAALt1Mu0SihTPPxXybOeLbky4Je+sjW+eSLCyC
-	6fBQ==
+	:references; bh=gVvqKgAbM1x9HSchEmJF8terUSLBpqSJQK3+t1X+Ms8=;
+	b=07ghEK0Mwo0JSkZylML853sV1Kp6N6CACY9ei/VmlzNsBtT2/25Ia3tvZWE4QhMeic
+	4+hG+LF4dprixduOSyo7mUcE3d0kVOEB5/MPfm3nywMt93O0WNBOgaY9vFWbZ6jGdk9h
+	b95Xrrc5nHOfVU5xy2OeX3j950PQh9AViJSwmNP1PguiTFA+un/ahLQEOk5ac9lh7ssU
+	267hltUv/yCMyA1wH1SFIDZP/w7V5Ae4ORlpch+1Hmwu92Rj4o6Bgn2/yxHR/3yMUxd3
+	GbSkoBi42LoF47NqO3Er3c/0nKAnM/QbjE/NMHw1NXeZzgLBWfpVUgRzpcIsRn6cQOmK
+	7RPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=fYpn7GbZQ4BX+Nd4nkjGYkRy5282v43Yzg4fXAUagsk=;
-	b=BhAW/VfHd3K0Ushd3qsKNfBbaricleFnXQ+2f5+Pp/Pw49oievBYxS8mcORaIObWTY
-	Yt/ID0DYUuD8/mJIdJ9g6jc2460RMQ1CcaPAepSfqy/B2eas32AWEti/IaO/E2p4CIps
-	YqjcIOE04CJlZpGzIFEvozb9ngZhu1weZOZ3N2Gx2WoVcsxUVyjH9xcEkmFaxANofvYX
-	YsTHgv4jBmf33jTwvnRxThg2c0iJ+cJOvZtCPAWX/ovWH8hD93L3ekj1gE7ehwUt/B/c
-	jg+3xWuOSXJfCG2Ftg0fHdyPq2hoFhQzvQ+GC7Uv4fTgx3+Pnzg8cbdqcD4ZBojrtJDk
-	iLYw==
-X-Gm-Message-State: AD7BkJJl5EybE6lZ6Lhgt5IHY3xnM5Ewdgs9fGmnfHBHUhbV5hrxECjSzn08S12ho8m37Q==
-X-Received: by 10.194.90.100 with SMTP id bv4mr20354689wjb.4.1457896476249;
-	Sun, 13 Mar 2016 12:14:36 -0700 (PDT)
+	bh=gVvqKgAbM1x9HSchEmJF8terUSLBpqSJQK3+t1X+Ms8=;
+	b=G9wxGwhkEfn6XtOYJ4D9gniK9JeMmA+x/lJ1/JGRjisiMqTgWloPcPph+ZAYFv73xp
+	92ydqvUvr+1feyp88HZZWl18jGqnUOfHMLH1zGq+IvR3dpDfjww29TSmt0Rl5nGOullz
+	H6gqvothr5k47fDztYL6QMwRmj179KZvCXbpGDt5pA/Z1lw7R+/DknH5FAOE+x7n5ch0
+	2vxSl4VKDtR9phukbeBaUx6njTytjV2wUt1fNwbpUjoUUNvmOoYBh4pvVVQBgzdPFD3t
+	W6XZ82NYe0FEMPYAvRNifOGHZIzdLk0qPfUP+cYPdDbZMBTnVymEp+QMwij1q6B280O/
+	a/7A==
+X-Gm-Message-State: AD7BkJKOkVPg4oATUexy+qWIAuXjj9SZsjCvJubJpINOjvmseVtV29B+Mbr3GR6LCSst7Q==
+X-Received: by 10.194.87.161 with SMTP id az1mr20490502wjb.163.1457896477889; 
+	Sun, 13 Mar 2016 12:14:37 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.14.35
+	n66sm12851410wmg.20.2016.03.13.12.14.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:14:35 -0700 (PDT)
+	Sun, 13 Mar 2016 12:14:36 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:00 +0100
-Message-Id: <908773c70d90c6b80b120e3773704134d1f32ff1.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:01 +0100
+Message-Id: <f489864c5ab61ca09283ebe5bc919c68edd4c0fc.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 02/42] acpid: Fix usage of systemd unitdir vars
+Subject: [PATCH 03/42] apmd: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:14:36 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:14:37 -0000
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-bsp/acpid/acpid.inc | 6 +++---
+ meta/recipes-bsp/apmd/apmd_3.2.2-15.bb | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
-index 12ec19b..181f448 100644
---- a/meta/recipes-bsp/acpid/acpid.inc
-+++ b/meta/recipes-bsp/acpid/acpid.inc
-@@ -24,7 +24,7 @@ do_install_append () {
- 	install -d ${D}${sysconfdir}/acpi
- 	install -d ${D}${sysconfdir}/acpi/events
+diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
+index 4ff6ad0..e66a553 100644
+--- a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
++++ b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
+@@ -72,10 +72,10 @@ do_install() {
+ 	sed -e 's,/usr/sbin,${sbindir},g; s,/etc,${sysconfdir},g;' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/apmd
+ 	chmod 755 ${D}${sysconfdir}/init.d/apmd
  
 -	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/acpid.service ${D}${systemd_unitdir}/system
--	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/acpid.service
+-	install -m 0644 ${WORKDIR}/apmd.service ${D}${systemd_unitdir}/system/
 +	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/acpid.service ${D}${systemd_system_unitdir}
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/acpid.service
++	install -m 0644 ${WORKDIR}/apmd.service ${D}${systemd_system_unitdir}/
+ 	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/apmd.service
++		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/apmd.service
  }
+ 
+ PACKAGES =+ "libapm apm"
 -- 
 2.7.1
 
