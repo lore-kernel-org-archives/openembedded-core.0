@@ -1,50 +1,50 @@
 Return-Path: <pespin.shar@gmail.com>
 Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C5D507316B
+	by mail.openembedded.org (Postfix) with ESMTP id E5C7173195
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 19:15:21 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l68so11566927wml.3
+	Sun, 13 Mar 2016 19:15:22 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id l68so11566987wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 12:15:22 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=t7RxP3DqGsoefuPt4FyQ5yuXh1OX292tqtG/7q02vsM=;
-	b=lmoDpP+2frA+Qze1TAwzRCHwXu7si90bkpzY0CDoMIlCDVA7OmZtPahoeybALmLcjC
-	ceIg6FVw84sSEC5oe2pwDH/0KLTu6mW7NkJvqshW4fHsv34eP+sDzmHS8wYjBNAN60rI
-	MO6+RDFN3zV4hyMRZShtKjQDzuoBwXDflop/nb6TEmAqU9jpeskrbGGNdHToq3Tk1mAd
-	QF8KwQKSCPqtxfhLwa3++LgH5MI+jiHyPNYAy5biDAUuTXzh2BCFTDmkBoZF9nC/E1O9
-	3hMArY7nEIDk5i7E7vQFCfhWXDtHgwlQt0B9xw0pz96+2QbXFe0/VUIHvXg5qEQ3Fy1j
-	0Emg==
+	:references; bh=Xrt/7r8VEzkVbW+hikDaHxGxEZFV9mii4q2eP2efM5o=;
+	b=ZbcNCsWXx2bgUh3JL+/Hr+A6T+xxFyG/p4lNs4kQM0H0pv1tqE4uo+nNbpnK4bAq2l
+	3H2gEFzXYcXQCyyQKYyGbcMy8ZkJpWGtROeRGM6Uip0/+vHmrgsCqHPzsuaBFc/6++2X
+	xhyStkJ0vUrakjFO2lbiGqtZwbOeKqDAAPwwr/8xe097E58MDFKBc7ZDwP7UMiFVCcVI
+	ndUwkj2GiwqX8xcowoCge/fa962lf6SP+PrA1k4u6ig/XGv/PC+gYYEkZT7innva36qi
+	6FZbWphwYEp3uOreHqXHZjXSqtfzCZBeewl76fMho4AXncjB/MCkPAgDsPXuC5qN5/2G
+	HT+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=t7RxP3DqGsoefuPt4FyQ5yuXh1OX292tqtG/7q02vsM=;
-	b=bsciQ80OSVywMWlSIf/AXua0KaqLeNsFX0ju1sDhK+jRspBF82G7RuClS4iNUJSCjb
-	2yN0FP1AslB4k5JTOvjoLmE3lukY66tUXh7AE4xCLKbUB/MCjpnsIlbPUi7jx6kNUXI1
-	HjBDQ6T21HjFIprfQLAxQFC4gQjhmFCA1KkQyd+NetuWKigYnL4uQ+daIWI8TbF8CMei
-	+/vAc4qgJkGw4dJOquAQHItRBofDj13agQ3iZKES7coL3QUfyJJun67PjV96oYS/7C4p
-	79+pqv/fFZSLfypDdlpHofVJRC+r37aP4JBy1tHTzM11jVGBZbiQ7CWYDeRQXyLNZyUL
-	dCHQ==
-X-Gm-Message-State: AD7BkJIQsZyj1dlM6IRkSmLTWcci2c/8wMlKS72ZfW+mjub7408bCU8NW7n9Gx4QUjCalw==
-X-Received: by 10.194.7.201 with SMTP id l9mr20698645wja.16.1457896522429;
-	Sun, 13 Mar 2016 12:15:22 -0700 (PDT)
+	bh=Xrt/7r8VEzkVbW+hikDaHxGxEZFV9mii4q2eP2efM5o=;
+	b=J8z0b7rCAzEQq0oqf5Jsl/RgDhfnoR/Gobt+PHNvpwsjz+wgkXSSLXdLvHbd5IQ/5C
+	iBkzY7Vnyl9K+3m2Nst9j0bp1IHFeAnD4Nd9ffuIahD4jd4+X2PqUk+nwESwXky3UZA1
+	G/CKGz9aNqEajGW9UBQHDwZCufHAvumee/I4+P0Diahhw1dhMBOv5hq3aL+5ZmVyXSc8
+	vTeF7BZdZcmmOwyzw+PMaw6aIlqLtu/5Ii1I4Pfxih5pW8KL79o5eDwxCW2W+L+k9p/x
+	fBtpPJjSID5KTX4INUXZWkp65Dbhv3KJLKhOd/RPn8Wwfb0CPL2aTKOHuhb6Dx971p4u
+	7Z7g==
+X-Gm-Message-State: AD7BkJKYrXQIYJbQFms33z6QOuC2LYaH5m4mzLJAkPkocGzqmykth6/MGof7yzjEiGvRSg==
+X-Received: by 10.194.5.194 with SMTP id u2mr20660277wju.139.1457896523558;
+	Sun, 13 Mar 2016 12:15:23 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1811:c1f:3300:9248:9aff:fe94:7ff1])
 	by smtp.gmail.com with ESMTPSA id
-	n66sm12851410wmg.20.2016.03.13.12.15.21
+	n66sm12851410wmg.20.2016.03.13.12.15.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Mar 2016 12:15:21 -0700 (PDT)
+	Sun, 13 Mar 2016 12:15:22 -0700 (PDT)
 From: Pau Espin Pedrol <pespin.shar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Mar 2016 20:13:35 +0100
-Message-Id: <5571da5bb37995b6dec56117e9b6a2c9e200fb2e.1457896224.git.pespin.shar@gmail.com>
+Date: Sun, 13 Mar 2016 20:13:36 +0100
+Message-Id: <45da47270071e1db68f883e633461a12a3cefc97.1457896224.git.pespin.shar@gmail.com>
 X-Mailer: git-send-email 2.7.1
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
 In-Reply-To: <cover.1457896224.git.pespin.shar@gmail.com>
 References: <cover.1457896224.git.pespin.shar@gmail.com>
-Subject: [PATCH 37/42] avahi-ui: Fix usage of systemd unitdir vars
+Subject: [PATCH 38/42] opkg: Fix usage of systemd unitdir vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Mar 2016 19:15:22 -0000
+X-List-Received-Date: Sun, 13 Mar 2016 19:15:23 -0000
+
+* SYSTEMD_UNITDIR var is not present in the file, it can be safely removed
 
 Signed-off-by: Pau Espin Pedrol <pespin.shar@gmail.com>
 ---
- meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/opkg/opkg_0.3.1.bb | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-index 3966b4c..0ab1e38 100644
---- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-+++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-@@ -41,11 +41,9 @@ RDEPENDS_python-avahi = "python-core python-dbus"
- do_install_append () {
- 	rm ${D}${sysconfdir} -rf
- 	rm ${D}${base_libdir} -rf
--	rm ${D}${systemd_unitdir} -rf
--	# The ${systemd_unitdir} is /lib/systemd, so we need rmdir /lib,
--	# but not ${base_libdir} here. And the /lib may not exist
--	# whithout systemd.
--	[ ! -d ${D}/lib ] || rmdir ${D}/lib --ignore-fail-on-non-empty
-+	rm ${D}${systemd_system_unitdir} -rf
-+	rm ${D}${nonarch_base_libdir}/systemd -rf
-+	[ ! -d ${D}${nonarch_base_libdir} ] || rmdir ${D}${nonarch_base_libdir} --ignore-fail-on-non-empty
- 	rm ${D}${bindir}/avahi-b*
- 	rm ${D}${bindir}/avahi-p*
- 	rm ${D}${bindir}/avahi-r*
+diff --git a/meta/recipes-devtools/opkg/opkg_0.3.1.bb b/meta/recipes-devtools/opkg/opkg_0.3.1.bb
+index 577f495..f1bc8ae 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.3.1.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.3.1.bb
+@@ -48,13 +48,12 @@ do_install_append () {
+ 	install -d ${D}${OPKGLIBDIR}/opkg
+ 
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
+-		install -d ${D}${systemd_unitdir}/system
+-		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
++		install -d ${D}${systemd_system_unitdir}
++		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_system_unitdir}/
+ 		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+ 			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+ 			-e 's,@BINDIR@,${bindir},g' \
+-			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
+-			${D}${systemd_unitdir}/system/opkg-configure.service
++			${D}${systemd_system_unitdir}/opkg-configure.service
+ 	fi
+ }
+ 
+@@ -68,7 +67,7 @@ RPROVIDES_${PN} = "opkg-collateral"
+ PACKAGES =+ "libopkg"
+ 
+ FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
+-FILES_${PN} += "${systemd_unitdir}/system/"
++FILES_${PN} += "${systemd_system_unitdir}/"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.7.1
 
