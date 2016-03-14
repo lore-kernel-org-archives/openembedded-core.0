@@ -1,31 +1,59 @@
-Return-Path: <praveenreddy.p@hcl.com>
-Received: from GWS07.hcl.com (gws07.hcl.com [192.8.186.130])
-	by mail.openembedded.org (Postfix) with ESMTP id 08B126AC37
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7774465CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 18:53:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.24,337,1454956200"; d="scan'208,217";a="46964539"
-Received: from unknown (HELO CHN-CORP-HT02.CORP.HCL.IN) ([10.249.2.34])
-	by GWS07.hcl.com with ESMTP/TLS/AES128-SHA; 15 Mar 2016 00:23:27 +0530
-Received: from CHN-HCLT-CSHT06.HCLT.CORP.HCL.IN (10.150.12.31) by
-	CHN-CORP-HT02.CORP.HCL.IN (10.249.2.34) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 15 Mar 2016 00:23:27 +0530
-Received: from CHN-HCLT-MBS02.HCLT.CORP.HCL.IN ([fe80::45e7:d7f7:b243:fdd9])
-	by CHN-HCLT-CSHT06.HCLT.CORP.HCL.IN ([::1]) with mapi id 14.03.0235.001;
-	Tue, 15 Mar 2016 00:23:27 +0530
-From: Praveenreddy Padamati <praveenreddy.p@hcl.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Regarding Accelerator
-Thread-Index: AdF+IsmyHRSWFR0dQpiPlEHG6hocTQ==
-Date: Mon, 14 Mar 2016 18:53:25 +0000
-Message-ID: <09856974BCEE6F48AB378E52E4CAA73C226E8E44@CHN-HCLT-MBS02.HCLT.CORP.HCL.IN>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.150.5.114]
+	Mon, 14 Mar 2016 19:12:20 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id n190so234936435iof.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Mar 2016 12:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=UDVL9xfYOs9dhzZl2qy+piB7UWsB28x6d4pbSfeC5Mk=;
+	b=dwS3nOb5Nu549MB5n5exB+88Y9qKyaw1Z1dA63HTAY3BnyWr1XHt9K4cUOJ/1uEbxF
+	55bBakb8caND0XQggMosphqkSdSe0UzEdIUMtJjrGklq1NiwICBUd+tjziVG4bHZCa4N
+	igtzS8JGGdVwXnY7Wi62EJhtw2mFlyxr3F9kTIZaZfe56kGVaA5Ppvi8zBBTWJfaje3e
+	iUbFZMTokWu3TGd+tyCSYfrNQ6vCGJYqjCwiCsVMoQF+LkAX9+tFyh5avq5pKD+3+mgQ
+	aQHetrzHHcudK5o/jtKg1ETPvIONFxohagfCPnIPaLRGztiiaJZL+AJxJfMW6H6j32ai
+	yt6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=UDVL9xfYOs9dhzZl2qy+piB7UWsB28x6d4pbSfeC5Mk=;
+	b=Xja//PrM5Ud4jS3nBoryItqNHMM8wNYzuoVQnj6SjJj81kdRO/ix1AWycGtsUdE1xc
+	xi3Z+/bLuD+ZekGuIfJW17sfu06QaDVcx7zZxlNnmZCK2RkK65iWK7owR5PPPBm0vtFR
+	1GPH6IoZSYoU5GjR1+l2aUcmYkYAiwQoujX5p1jaU7urfC3H4W6fFIsPFEqA3Yb6IOao
+	DO218fPxADu5PPDZWQeA5tDDOe+rFzLsrtBTtq7dnGgalxxu4XLACGxlLgbPZ1UpT0yL
+	/TUoJIKW35btKrDmHNZS5VUnb16ZesvCjJmfHYTNmWLKZGYPdwtjoGORESjtul3zM/Ww
+	IAPA==
+X-Gm-Message-State: AD7BkJLqsk6Utqy3sqs/noLbM0CsxwzqS4h7ZFx2t5Kp4TVQpQvJwHKjwN5PGQ1zZbgEmg==
+X-Received: by 10.107.138.224 with SMTP id c93mr28919099ioj.143.1457982740748; 
+	Mon, 14 Mar 2016 12:12:20 -0700 (PDT)
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com.
+	[209.85.213.169])
+	by smtp.gmail.com with ESMTPSA id o2sm7172138igv.0.2016.03.14.12.12.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Mar 2016 12:12:19 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ig0-f169.google.com with SMTP id mh10so22224972igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Mar 2016 12:12:18 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Vinay Kumar gupta <vinay.kumargup@hcl.com>
-Subject: Regarding Accelerator
+X-Received: by 10.50.111.230 with SMTP id il6mr19339140igb.66.1457982738553;
+	Mon, 14 Mar 2016 12:12:18 -0700 (PDT)
+Received: by 10.79.91.133 with HTTP; Mon, 14 Mar 2016 12:12:18 -0700 (PDT)
+In-Reply-To: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
+References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
+Date: Mon, 14 Mar 2016 16:12:18 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
+Message-ID: <CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,215 +66,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 18:53:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_09856974BCEE6F48AB378E52E4CAA73C226E8E44CHNHCLTMBS02HCL_"
+X-List-Received-Date: Mon, 14 Mar 2016 19:12:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_09856974BCEE6F48AB378E52E4CAA73C226E8E44CHNHCLTMBS02HCL_
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+On Mon, Mar 14, 2016 at 3:46 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> To allow the use of Framebuffer-only distributions we cannot force the
+> existence of X11. This fixes:
+>
+> ,----
+> | ERROR: Nothing PROVIDES 'virtual/libx11-native' (but
+> |     virtual:native:.../meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> |     DEPENDS on or otherwise requires it)
+> `----
+>
+> Error catch by O.S. Systems' autobuilder.
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Hi,
+Just for completeness, this is only need on Jethro.
 
-Can you please tell me what are the video accelerators  supported by yocto =
-for imx6 freescale ?
-* VPU-Video Processing Unit
-* IPUv3H-Image Processing Unit version 3H (2 IPUs)
-* GPU3Dv4-3D Graphics Processing Unit (OpenGL ES 2.0) version 4
-* GPU2Dv2-2D Graphics Processing Unit (BitBlt)
-* GPUVG-OpenVG 1.1 Graphics Processing Unit
-* ASRC-Asynchronous Sample Rate Converter
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Thanks and Regards,
-Praveen Reddy P
-HCL Technologies Ltd | Lead Engineer | Alstom ODC| ERS-SS-SCS-Embedded Plat=
-form Lab
-Phone: +914443935173 | Mobile: +919989642159 | E-mail: praveenreddy.p@hcl.c=
-om<mailto:praveenreddy.p@hcl.com>
-Company address: HCL Technologies Ltd ,73-74, South Phase,Ambattur Industri=
-al Estate (AMB-5), Chennai - 600 058,India
-Switchboard: +91-44-4393-5000  WebSite: www.hclt.com<http://www.hclt.com/>
-
-
-::DISCLAIMER::
----------------------------------------------------------------------------=
--------------------------------------------------------------------------
-
-The contents of this e-mail and any attachment(s) are confidential and inte=
-nded for the named recipient(s) only.
-E-mail transmission is not guaranteed to be secure or error-free as informa=
-tion could be intercepted, corrupted,
-lost, destroyed, arrive late or incomplete, or may contain viruses in trans=
-mission. The e mail and its contents
-(with or without referred errors) shall therefore not attach any liability =
-on the originator or HCL or its affiliates.
-Views or opinions, if any, presented in this email are solely those of the =
-author and may not necessarily reflect the
-views or opinions of HCL or its affiliates. Any form of reproduction, disse=
-mination, copying, disclosure, modification,
-distribution and / or publication of this message without the prior written=
- consent of authorized representative of
-HCL is strictly prohibited. If you have received this email in error please=
- delete it and notify the sender immediately.
-Before opening any email and/or attachments, please check them for viruses =
-and other defects.
-
----------------------------------------------------------------------------=
--------------------------------------------------------------------------
-
---_000_09856974BCEE6F48AB378E52E4CAA73C226E8E44CHNHCLTMBS02HCL_
-Content-Type: text/html; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Segoe UI";
-	panose-1:2 11 5 2 4 2 4 2 2 3;}
-@font-face
-	{font-family:Alstom;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">Hi,<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">Can you please tell me what are the video accelerators&nbsp; supported=
- by yocto for imx6 freescale ?<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">&#8226; VPU&#8212;Video Processing Unit<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">&#8226; IPUv3H&#8212;Image Processing Unit version 3H (2 IPUs)<o:p></o=
-:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">&#8226; GPU3Dv4&#8212;3D Graphics Processing Unit (OpenGL ES 2.0) vers=
-ion 4<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">&#8226; GPU2Dv2&#8212;2D Graphics Processing Unit (BitBlt)<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">&#8226; GPUVG&#8212;OpenVG 1.1 Graphics Processing Unit<o:p></o:p></sp=
-an></p>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"color:#1F4=
-97D">&#8226; ASRC&#8212;Asynchronous Sample Rate Converter<o:p></o:p></span=
-></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:9.0pt;font-family:Alstom=
-;color:#E36C0A">Thanks and Regards,<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal" style=3D"background:white"><b><span lang=3D"EN-GB" s=
-tyle=3D"font-size:12.0pt;font-family:Alstom;color:#1F497D;mso-fareast-langu=
-age:EN-GB">Praveen Reddy P</span></b><b><span lang=3D"EN-GB" style=3D"font-=
-family:Alstom;color:#1F497D;mso-fareast-language:EN-GB"><br>
-</span></b><b><span lang=3D"EN-GB" style=3D"font-size:9.0pt;font-family:Als=
-tom;color:#1F497D;mso-fareast-language:EN-GB">HCL Technologies Ltd</span></=
-b><span lang=3D"EN-GB" style=3D"font-size:9.0pt;font-family:Alstom;color:#1=
-F497D;mso-fareast-language:EN-GB"> | Lead
- Engineer | Alstom ODC| </span><span style=3D"font-size:9.0pt;font-family:A=
-lstom;color:#1F497D">ERS-SS-SCS-Embedded Platform Lab</span><span style=3D"=
-font-size:9.0pt;font-family:&quot;Segoe UI&quot;,sans-serif;color:#666666">=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-GB" style=3D"font-size:9.0pt;font-f=
-amily:Alstom;color:#1F497D;mso-fareast-language:EN-GB">P<b>hone:</b> &#43;9=
-14443935173 |
-<b>Mobile:</b> &#43;919989642159 | <b>E-mail:</b> </span><u><span lang=3D"E=
-N-GB" style=3D"font-size:9.0pt;font-family:Alstom;color:blue;mso-fareast-la=
-nguage:EN-GB"><a href=3D"mailto:praveenreddy.p@hcl.com"><span style=3D"colo=
-r:#0563C1">praveenreddy.p@hcl.com</span></a></span></u><span lang=3D"EN-GB"=
- style=3D"font-size:9.0pt;font-family:Alstom;color:#1F497D;mso-fareast-lang=
-uage:EN-GB"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><b><span lang=3D"EN-GB" style=3D"font-size:9.0pt;fon=
-t-family:Alstom;color:#1F497D;mso-fareast-language:EN-GB">Company address:<=
-/span></b><span lang=3D"EN-GB" style=3D"font-size:9.0pt;font-family:Alstom;=
-color:#1F497D;mso-fareast-language:EN-GB">
- HCL Technologies Ltd ,73-74, South Phase,Ambattur Industrial Estate (AMB-5=
-), Chennai - 600 058,India&nbsp;
-<br>
-<b>Switchboard:</b></span><u><span lang=3D"EN-GB" style=3D"font-size:9.0pt;=
-color:blue">
-</span></u><span lang=3D"EN-GB" style=3D"font-size:9.0pt;font-family:Alstom=
-;color:#1F497D;mso-fareast-language:EN-GB">&#43;91-44-4393-5000&nbsp; Web<b=
->Site:</b>
-<a href=3D"http://www.hclt.com/"><span style=3D"color:#1F497D;text-decorati=
-on:none">www.hclt.com</span></a><o:p></o:p></span></p>
-</div>
-<span style=3D"FONT-FAMILY: 'Arial','sans-serif'; COLOR: gray; FONT-SIZE: 7=
-.5pt; mso-fareast-font-family: 'Times New Roman'">
-<P style=3D"MARGIN: 0in 0in 0pt" class=3DMsoNormal><br><br><font style=3D"F=
-ONT-FAMILY: 'Arial','sans-serif'; COLOR: gray; FONT-SIZE: 9px">::DISCLAIMER=
-::<br>---------------------------------------------------------------------=
----------------------------------------------------------------------------=
-----</font></P>
-<P style=3D"MARGIN: 0in 0in 0pt" class=3DMsoNormal><font style=3D"FONT-FAMI=
-LY: 'Arial','sans-serif'; COLOR: gray; FONT-SIZE: 11px">The contents of thi=
-s e-mail and any attachment(s) are confidential and intended for the named =
-recipient(s) only.<br>E-mail transmission is not guaranteed to be secure or=
- error-free as information could be intercepted, corrupted, <br>lost, destr=
-oyed, arrive late or incomplete, or may contain viruses in transmission. Th=
-e e mail and its contents <br>(with or without referred errors) shall there=
-fore not attach any liability on the originator or HCL or its affiliates. <=
-br>Views or opinions, if any, presented in this email are solely those of t=
-he author and may not necessarily reflect the <br>views or opinions of HCL =
-or its affiliates. Any form of reproduction, dissemination, copying, disclo=
-sure, modification, <br>distribution and / or publication of this message w=
-ithout the prior written consent of authorized representative of <br>HCL is=
- strictly prohibited. If you have received this email in error please delet=
-e it and notify the sender immediately. <br>Before opening any email and/or=
- attachments, please check them for viruses and other defects.</font></P>
-<P style=3D"MARGIN: 0in 0in 0pt" class=3DMsoNormal><font style=3D"FONT-FAMI=
-LY: 'Arial','sans-serif'; COLOR: gray; FONT-SIZE: 11px">-------------------=
----------------------------------------------------------------------------=
-------------------------------------------------------</font></span></P></b=
-ody>
-</html>
-
---_000_09856974BCEE6F48AB378E52E4CAA73C226E8E44CHNHCLTMBS02HCL_--
