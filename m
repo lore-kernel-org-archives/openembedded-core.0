@@ -1,20 +1,25 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 23AE96B6EA
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E8E316FF23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 17:08:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Mar 2016 10:08:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,336,1455004800"; d="scan'208";a="910065325"
-Received: from humberto-desktop.zpn.intel.com ([10.219.5.154])
-	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2016 10:08:39 -0700
-From: humberto.ibarra.lopez@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Mar 2016 11:05:25 -0600
-Message-Id: <1457975125-3454-1-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] scripts/lib/bsp/help.py: Add missing options to yocto-bsp help and usage
+	Mon, 14 Mar 2016 18:16:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2EIGXuO002430
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Mar 2016 11:16:33 -0700 (PDT)
+Received: from seebs-worktop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 14 Mar 2016 11:16:31 -0700
+Date: Mon, 14 Mar 2016 13:16:31 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20160314131631.0584f867@seebs-worktop>
+X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Subject: Seeking volunteer(s) for pseudo code review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +32,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 17:08:57 -0000
+X-List-Received-Date: Mon, 14 Mar 2016 18:16:33 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+So, long story short, there were some relatively straightforward patches
+recently which led to discovering a weird race condition during startup, and
+careful debugging of that convinced me to rework the server-spawning code,
+and the server startup code, and some other things.
 
-Add the options --codedump and --skip-git-check to the yocto-bsp help and
-yocto-bsp usage, since they are currently missing.
+At which point, I think I would be interested in code review rather than just
+sending patches, and I'm wondering if anyone on the list has an interest in
+reviewing some patches and sanity-checking them.
 
-[YOCTO #8322]
-
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
----
- scripts/lib/bsp/help.py | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/scripts/lib/bsp/help.py b/scripts/lib/bsp/help.py
-index bbb7b31..2b4ed06 100644
---- a/scripts/lib/bsp/help.py
-+++ b/scripts/lib/bsp/help.py
-@@ -103,6 +103,7 @@ yocto_bsp_create_usage = """
- 
-  usage: yocto-bsp create <bsp-name> <karch> [-o <DIRNAME> | --outdir <DIRNAME>]
-             [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
-+            [-c | --codedump] [-s | --skip-git-check]
- 
-  This command creates a Yocto BSP based on the specified parameters.
-  The new BSP will be a new Yocto BSP layer contained by default within
-@@ -131,6 +132,7 @@ NAME
- SYNOPSIS
-     yocto-bsp create <bsp-name> <karch> [-o <DIRNAME> | --outdir <DIRNAME>]
-         [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
-+        [-c | --codedump] [-s | --skip-git-check]
- 
- DESCRIPTION
-     This command creates a Yocto BSP based on the specified
+-s
 -- 
-1.9.1
-
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
