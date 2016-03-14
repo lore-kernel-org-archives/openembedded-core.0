@@ -1,36 +1,29 @@
-Return-Path: <anujx.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD226057B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CED01605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 07:38:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2016 00:38:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,334,1455004800"; d="scan'208";a="909679764"
-Received: from pgsmsx107.gar.corp.intel.com ([10.221.44.105])
-	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2016 00:38:14 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.115]) by
-	PGSMSX107.gar.corp.intel.com ([169.254.7.10]) with mapi id
-	14.03.0248.002; Mon, 14 Mar 2016 15:38:12 +0800
-From: "Mittal, AnujX" <anujx.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Yang, Liezhi (Wind River)"
-	<liezhi.yang@windriver.com>
-Thread-Topic: [meta-intel][master][jethro][PATCH 1/1] tune-corei7.inc: Fix
-	PACKAGE_EXTRA_ARCHS for corei7-32
-Thread-Index: AQHRdGmyxBnpaiX770yOMDNKRlK/IJ9Yn4rQ
-Date: Mon, 14 Mar 2016 07:38:12 +0000
-Message-ID: <DFCB2C9E62139C41B3FDE8F2B4659331CDF7EF@PGSMSX101.gar.corp.intel.com>
-References: <1456912541-16297-1-git-send-email-anujx.mittal@intel.com>
-	<1456912541-16297-2-git-send-email-anujx.mittal@intel.com>
-In-Reply-To: <1456912541-16297-2-git-send-email-anujx.mittal@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.20.205]
-MIME-Version: 1.0
-Cc: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
-Subject: Re: [meta-intel][master][jethro][PATCH 1/1] tune-corei7.inc: Fix PACKAGE_EXTRA_ARCHS for corei7-32
+	Mon, 14 Mar 2016 08:14:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2E8E2SI001515; Mon, 14 Mar 2016 08:14:02 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Vov4NP4aMb-0; Mon, 14 Mar 2016 08:14:02 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2E8Dw3k001511
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 14 Mar 2016 08:13:59 GMT
+Message-ID: <1457943238.2804.294.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rebecca Chang <rebecca.swee.fun.chang@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 14 Mar 2016 08:13:58 +0000
+In-Reply-To: <1457939741-29071-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+References: <1457939741-29071-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [master][PATCH] rpm: enable xz/lzma compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +36,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 07:38:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Mar 2016 08:14:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Robert,
+On Mon, 2016-03-14 at 15:15 +0800, Rebecca Chang wrote:
+> From: Anuj Mittal <anujx.mittal@intel.com>
+> 
+> Enable lzma compression support in rpm.
 
-> Subject: [meta-intel][master][jethro][PATCH 1/1] tune-corei7.inc: Fix
-> PACKAGE_EXTRA_ARCHS for corei7-32
->=20
-> From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
->=20
-> Change the name to core2-32 from core2.
->=20
-> There's no AVAILTUNES with the name core2. Make sure that we specify the =
-correct
-> TUNE name so PACKAGE_EXTRA_ARCHS is expanded correctly.
->=20
-> [ YOCTO #9197 ]
+Your commit message says what the patch does but not why? Presumably
+this change increases the size of the rpm install so what is the
+benefit?
 
-Can this be merged to Jethro too? Thanks.
+Cheers,
 
->=20
-> Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-> Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
-> ---
->  meta/conf/machine/include/tune-corei7.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/conf/machine/include/tune-corei7.inc
-> b/meta/conf/machine/include/tune-corei7.inc
-> index 153a21b..6edfb68 100644
-> --- a/meta/conf/machine/include/tune-corei7.inc
-> +++ b/meta/conf/machine/include/tune-corei7.inc
-> @@ -21,7 +21,7 @@ AVAILTUNES +=3D "corei7-32"
->  TUNE_FEATURES_tune-corei7-32 =3D "${TUNE_FEATURES_tune-x86} corei7"
->  BASE_LIB_tune-corei7-32 =3D "lib"
->  TUNE_PKGARCH_tune-corei7-32 =3D "corei7-32"
-> -PACKAGE_EXTRA_ARCHS_tune-corei7-32 =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-core2} corei7-32"
-> +PACKAGE_EXTRA_ARCHS_tune-corei7-32 =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-core2-32} corei7-32"
->  QEMU_EXTRAOPTIONS_corei7-32 =3D " -cpu Nehalem,check=3Dfalse"
->=20
->  AVAILTUNES +=3D "corei7-64"
-> --
-> 1.9.1
-
+Richard
 
