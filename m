@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E58A17017D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 73CA673174
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 06:51:53 +0000 (UTC)
+	Mon, 14 Mar 2016 06:51:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2E6prYB011916
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2E6prQp001545
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 23:51:54 -0700 (PDT)
+	Sun, 13 Mar 2016 23:51:53 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 13 Mar 2016 23:51:53 -0700
+	Sun, 13 Mar 2016 23:51:52 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 13 Mar 2016 23:51:50 -0700
-Message-ID: <1b8823d1edd013cb2414746d22fabff8d0296aac.1457938004.git.liezhi.yang@windriver.com>
+Date: Sun, 13 Mar 2016 23:51:49 -0700
+Message-ID: <bf280fed7f8168268ce4361ef3f0de5284f4d51a.1457938004.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1457938004.git.liezhi.yang@windriver.com>
 References: <cover.1457938004.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] dhcp: CVE-2015-8605
+Subject: [PATCH 2/4] make 4.1: fix segfault when ttyname fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,141 +36,113 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 14 Mar 2016 06:51:54 -0000
 Content-Type: text/plain
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 
-ISC DHCP allows remote attackers to cause a denial of
-service (application crash) via an invalid length field
-in a UDP IPv4 packet.
+GNU make segfaults when run in a chroot environment because
+of a known bug in GNU make 4.1. See [1] for details.
 
-(From OE-Core master rev: f9739b7fa8d08521dc5e42a169753d4c75074ec7)
+Works if /dev/pts is mounted before chroot.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+[1] http://savannah.gnu.org/bugs/?43434
+
+[YOCTO #9067]
+
+Reported-by: Alexander Larsson <alexl@redhat.com>
+(From OE-Core master rev: 0fe2a4b428b1b9a937914d87ec089b5a64f641eb)
+
+Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../dhcp/dhcp/CVE-2015-8605.patch                  |   99 ++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |    1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+ ...-SV-43434-Handle-NULL-returns-from-ttynam.patch |   63 ++++++++++++++++++++
+ meta/recipes-devtools/make/make_4.1.bb             |    2 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+diff --git a/meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch b/meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
 new file mode 100644
-index 0000000..923d5d5
+index 0000000..7a5f4ba
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
-@@ -0,0 +1,99 @@
-+Solves CVE-2015-8605 that caused DoS when an invalid lenght field in IPv4 UDP
-+was recived by the server.
++++ b/meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
+@@ -0,0 +1,63 @@
++From 292da6f6867b75a5af7ddbb639a1feae022f438f Mon Sep 17 00:00:00 2001
++From: Paul Smith <psmith@gnu.org>
++Date: Mon, 20 Oct 2014 01:54:56 -0400
++Subject: [PATCH] * main.c (main): [SV 43434] Handle NULL returns from
++ ttyname().
 +
 +Upstream-Status: Backport
-+CVE: CVE-2015-8605
 +
-+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
++From: http://git.savannah.gnu.org/cgit/make.git/commit/?id=292da6f6867b75a5af7ddbb639a1feae022f438f
 +
-+=======================================================================
-+diff --git a/common/packet.c b/common/packet.c
-+index b530432..e600e37 100644
-+--- a/common/packet.c
-++++ b/common/packet.c
-+@@ -220,7 +220,28 @@ ssize_t decode_hw_header (interface, buf, bufix, from)
-+ 	}
-+ }
-+ 
-+-/* UDP header and IP header decoded together for convenience. */
-++/*!
-++ *
-++ * \brief UDP header and IP header decoded together for convenience.
-++ *
-++ * Attempt to decode the UDP and IP headers and, if necessary, checksum
-++ * the packet.
-++ *
-++ * \param inteface - the interface on which the packet was recevied
-++ * \param buf - a pointer to the buffer for the received packet
-++ * \param bufix - where to start processing the buffer, previous
-++ *                routines may have processed parts of the buffer already
-++ * \param from - space to return the address of the packet sender
-++ * \param buflen - remaining length of the buffer, this will have been
-++ *                 decremented by bufix by the caller
-++ * \param rbuflen - space to return the length of the payload from the udp
-++ *                  header
-++ * \param csum_ready - indication if the checksum is valid for use
-++ *                     non-zero indicates the checksum should be validated
-++ *
-++ * \return - the index to the first byte of the udp payload (that is the
-++ *           start of the DHCP packet
-++ */
-+ 
-+ ssize_t
-+ decode_udp_ip_header(struct interface_info *interface,
-+@@ -231,7 +252,7 @@ decode_udp_ip_header(struct interface_info *interface,
-+   unsigned char *data;
-+   struct ip ip;
-+   struct udphdr udp;
-+-  unsigned char *upp, *endbuf;
-++  unsigned char *upp;
-+   u_int32_t ip_len, ulen, pkt_len;
-+   static unsigned int ip_packets_seen = 0;
-+   static unsigned int ip_packets_bad_checksum = 0;
-+@@ -241,11 +262,8 @@ decode_udp_ip_header(struct interface_info *interface,
-+   static unsigned int udp_packets_length_overflow = 0;
-+   unsigned len;
-+ 
-+-  /* Designate the end of the input buffer for bounds checks. */
-+-  endbuf = buf + bufix + buflen;
++---
++ main.c    | 15 ++++++++++-----
++ makeint.h |  3 ++-
++ 2 files changed, 12 insertions(+), 6 deletions(-)
++
++diff --git a/main.c b/main.c
++index b2d169c..0cdb8a8 100644
++--- a/main.c
+++++ b/main.c
++@@ -1429,13 +1429,18 @@ main (int argc, char **argv, char **envp)
++ #ifdef HAVE_ISATTY
++     if (isatty (fileno (stdout)))
++       if (! lookup_variable (STRING_SIZE_TUPLE ("MAKE_TERMOUT")))
++-        define_variable_cname ("MAKE_TERMOUT", TTYNAME (fileno (stdout)),
++-                               o_default, 0)->export = v_export;
 +-
-+   /* Assure there is at least an IP header there. */
-+-  if ((buf + bufix + sizeof(ip)) > endbuf)
-++  if (sizeof(ip) > buflen)
-+ 	  return -1;
+++        {
+++          const char *tty = TTYNAME (fileno (stdout));
+++          define_variable_cname ("MAKE_TERMOUT", tty ? tty : DEFAULT_TTYNAME,
+++                                 o_default, 0)->export = v_export;
+++        }
++     if (isatty (fileno (stderr)))
++       if (! lookup_variable (STRING_SIZE_TUPLE ("MAKE_TERMERR")))
++-        define_variable_cname ("MAKE_TERMERR", TTYNAME (fileno (stderr)),
++-                               o_default, 0)->export = v_export;
+++        {
+++          const char *tty = TTYNAME (fileno (stderr));
+++          define_variable_cname ("MAKE_TERMERR", tty ? tty : DEFAULT_TTYNAME,
+++                                 o_default, 0)->export = v_export;
+++        }
++ #endif
 + 
-+   /* Copy the IP header into a stack aligned structure for inspection.
-+@@ -257,13 +275,17 @@ decode_udp_ip_header(struct interface_info *interface,
-+   ip_len = (*upp & 0x0f) << 2;
-+   upp += ip_len;
++   /* Reset in case the switches changed our minds.  */
++diff --git a/makeint.h b/makeint.h
++index 6223936..2009f41 100644
++--- a/makeint.h
+++++ b/makeint.h
++@@ -436,10 +436,11 @@ extern struct rlimit stack_limit;
++ /* The number of bytes needed to represent the largest integer as a string.  */
++ #define INTSTR_LENGTH         CSTRLEN ("18446744073709551616")
 + 
-+-  /* Check the IP packet length. */
-++  /* Check packet lengths are within the buffer:
-++   * first the ip header (ip_len)
-++   * then the packet length from the ip header (pkt_len)
-++   * then the udp header (ip_len + sizeof(udp)
-++   * We are liberal in what we accept, the udp payload should fit within
-++   * pkt_len, but we only check against the full buffer size.
-++   */
-+   pkt_len = ntohs(ip.ip_len);
-+-  if (pkt_len > buflen)
-+-	return -1;
-+-
-+-  /* Assure after ip_len bytes that there is enough room for a UDP header. */
-+-  if ((upp + sizeof(udp)) > endbuf)
-++  if ((ip_len > buflen) ||
-++      (pkt_len > buflen) ||
-++      ((ip_len + sizeof(udp)) > buflen))
-+ 	  return -1;
+++#define DEFAULT_TTYNAME "true"
++ #ifdef HAVE_TTYNAME
++ # define TTYNAME(_f) ttyname (_f)
++ #else
++-# define TTYNAME(_f) "true"
+++# define TTYNAME(_f) DEFAULT_TTYNAME
++ #endif
 + 
-+   /* Copy the UDP header into a stack aligned structure for inspection. */
-+@@ -284,7 +306,8 @@ decode_udp_ip_header(struct interface_info *interface,
-+ 	return -1;
-+ 
-+   udp_packets_length_checked++;
-+-  if ((upp + ulen) > endbuf) {
-++  /* verify that the payload length from the udp packet fits in the buffer */
-++  if ((ip_len + ulen) > buflen) {
-+ 	udp_packets_length_overflow++;
-+ 	if (((udp_packets_length_checked > 4) &&
-+ 	     (udp_packets_length_overflow != 0)) &&
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-index b4a05fc..31c4cbd 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://fixsepbuild.patch \
-             file://dhclient-script-drop-resolv.conf.dhclient.patch \
-             file://replace-ifconfig-route.patch \
-+            file://CVE-2015-8605.patch \
-            "
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/make/make_4.1.bb b/meta/recipes-devtools/make/make_4.1.bb
+index a1b0d7c..78fe0b5 100644
+--- a/meta/recipes-devtools/make/make_4.1.bb
++++ b/meta/recipes-devtools/make/make_4.1.bb
+@@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
+ require make.inc
  
- SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
++SRC_URI += "file://0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch"
++
+ EXTRA_OECONF += "--without-guile"
+ 
+ SRC_URI[md5sum] = "57a7a224a822f94789a587ccbcedff69"
 -- 
 1.7.9.5
 
