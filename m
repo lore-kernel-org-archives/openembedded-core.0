@@ -1,24 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E4D70030
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E2CC70018
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 03:32:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2E3W6qZ028684
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 13 Mar 2016 20:32:06 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 13 Mar 2016 20:32:05 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 13 Mar 2016 23:32:05 -0400
-Message-ID: <1457926325-29508-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Mon, 14 Mar 2016 03:34:06 +0000 (UTC)
+Received: by mail-vk0-f52.google.com with SMTP id e6so193975073vkh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 Mar 2016 20:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=BN2x5vUo2YalGpaP4NixhyVESdLXl5zGlFdOO4K+uFI=;
+	b=viVoiuDMQVFEFuC4RoU//SgQkYqf9EocG1ZGNk+dHQIEyzja9PQJ5vKcEi8qH3Tkx0
+	NwufPtWm3qzL/C43Dvg7LNSqbGkBXRbETD27xCLZmzQ3XOqQX6WUwpAp7WneNx5Cgm0C
+	/tueSXBIk9wTm7ZtaqnQ2dyno7JRsxvwVD8b9cTwswIr8ZaQ0/YyPhdfiti/Efv19hPD
+	jPk3RHKMIkqeE32I4QuTJNKofU3eykbFsZOyawwoJzaB0O2AoeppGO+iKhQIqVSLsft+
+	yKH2Ss97al/PFkQdzJZZUO7CEcG9bmfkfH5JTEd237tXtkBUw1wLaNLdhcgyes71oirU
+	BNDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=BN2x5vUo2YalGpaP4NixhyVESdLXl5zGlFdOO4K+uFI=;
+	b=jg0XqVgLCKCWoJI4hw3UaaWEQ051BRSoWt1I/zwxxK0F+mXvAp0aqDnOTO/vxLCioy
+	7yCYoGSEIb91ZrNpqf5I+N5bJFxbqwtz1JbP0K7YF/9xo/NbflyLUmUTxUU6aICZXVKn
+	iPjGnkq5cMZrv+YpGR2YUwQ6oQWTp5ngSjVgaman3PxyBLd+E4Po+PWeR7Ef6OKEYsA1
+	u43x76lNKDj05ehXHfvi/bycuW1Ks3V+8ybs14gv4DRqm1TkJD7ZJAe9EIBqUpV7oD2b
+	TRo975QfKa3jITNG2Ue1CHLc/FujS/a43RuETreewo9BJ+8jSgdWgD5fWcPmp+m7sYYG
+	XJWg==
+X-Gm-Message-State: AD7BkJJXjvxyDo1K3Qz0Xgiv4u9AhUKzrPEZXCBEWoXluTDRLwqJq4qQuv0wSHts0baSeYigWKvJimGRsKIb+A==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] linux-yocto/4.1: usb backports for Apollo Lake/Broxton
+X-Received: by 10.31.185.201 with SMTP id j192mr23686308vkf.21.1457926446772; 
+	Sun, 13 Mar 2016 20:34:06 -0700 (PDT)
+Received: by 10.176.6.42 with HTTP; Sun, 13 Mar 2016 20:34:06 -0700 (PDT)
+In-Reply-To: <CADkTA4NhD9nyZomt98hjWgbh7NcfU=YyLVpK6R1TeCFYU5-6vQ@mail.gmail.com>
+References: <1457721891-28398-1-git-send-email-bruce.ashfield@windriver.com>
+	<1457793803.2804.276.camel@linuxfoundation.org>
+	<CADkTA4NhD9nyZomt98hjWgbh7NcfU=YyLVpK6R1TeCFYU5-6vQ@mail.gmail.com>
+Date: Sun, 13 Mar 2016 23:34:06 -0400
+Message-ID: <CADkTA4MG2k-NO886q0uap1cvKSpT21X53BjKeS72j3DBUTec2Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-yocto/4.1: usb backports for Apollo Lake/Broxton
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,106 +55,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 03:32:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Mar 2016 03:34:06 -0000
+Content-Type: multipart/alternative; boundary=001a11436c72f7f789052df9f3c9
 
-Importing a series of mainline backports to support USB on a couple of
-Intel platforms:
+--001a11436c72f7f789052df9f3c9
+Content-Type: text/plain; charset=UTF-8
 
-   b5f6aa9957dd usb: otg: add usb_otg_caps structure for otg capabilities
-   bbce8fe2cc42 usb: dwc3: pci: add support for Intel Broxton SOC
-   e734e1d9f827 usb: dwc3: pci: Set enblslpm quirk for Synopsys platforms
-   1c6bb6694d50 usb: dwc3: Add dis_enblslpm_quirk
-   1c6be99e56b8 usb: dwc3: pci: trivial: Formatting
-   2f2b89764b97 usb: dwc3: pci: passing forward the ACPI companion
-   ea4b3c72d976 usb: dwc3: core: convert to unified device property interface
-   dc670b52c69a usb: common: of_usb_get_dr_mode to usb_get_dr_mode
-   586fc5174649 usb: dwc3: st: prepare the driver for generic usb_get_dr_mode function
-   0624bd9af7ef usb: common: of_usb_get_maximum_speed to usb_get_maximum_speed
-   e65bc5467e07 usb: dwc3: Add frame length adjustment quirk
-   a90954c5d267 usb: musb: dsps: control musb speed based on dts setting
-   b48ff160a993 usb: renesas_usbhs: Allow an OTG PHY driver to provide VBUS
-   d1c59752195e usb: chipidea: set usb otg capabilities
-   733eada2cdec usb: common: add API to update usb otg capabilities by device tree
-   7ab2108dd82b usb: dwc3: core: avoid NULL pointer dereference
-   1aedb48b7dc9 usb: dwc3: add ULPI interface support
-   07e42a29fb7e usb: dwc3: pci: add quirk for Baytrails
-   065917252622 usb: dwc3: add hsphy_interface property
-   b2bb32a363a3 usb: dwc3: setup phys earlier
-   bf6bb0a6ebb5 usb: dwc3: soft reset to it's own function
-   d481da949476 usb: dwc3: cache hwparams earlier
-   9ac66262a201 usb: dwc3: store driver data earlier
-   5f940588938c usb: dwc3: ULPI or UTMI+ select
-   04fdce097f83 usb: dwc3: USB2 PHY register access bits
-   b7209213cc05 usb: add bus type for USB ULPI
+On Sat, Mar 12, 2016 at 2:04 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 18 +++++++++---------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+>
+>
+> On Sat, Mar 12, 2016 at 9:43 AM, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+>
+>> On Fri, 2016-03-11 at 13:44 -0500, Bruce Ashfield wrote:
+>> > Importing a series of mainline backports to support USB on a couple
+>> > of
+>> > Intel platforms:
+>> >
+>> >    bbce8fe2cc42 usb: dwc3: pci: add support for Intel Broxton SOC
+>> >    e734e1d9f827 usb: dwc3: pci: Set enblslpm quirk for Synopsys
+>> > platforms
+>> >    1c6bb6694d50 usb: dwc3: Add dis_enblslpm_quirk
+>> >    1c6be99e56b8 usb: dwc3: pci: trivial: Formatting
+>> >    2f2b89764b97 usb: dwc3: pci: passing forward the ACPI companion
+>> >    ea4b3c72d976 usb: dwc3: core: convert to unified device property
+>> > interface
+>> >    dc670b52c69a usb: common: of_usb_get_dr_mode to usb_get_dr_mode
+>> >    586fc5174649 usb: dwc3: st: prepare the driver for generic
+>> > usb_get_dr_mode function
+>> >    0624bd9af7ef usb: common: of_usb_get_maximum_speed to
+>> > usb_get_maximum_speed
+>> >    e65bc5467e07 usb: dwc3: Add frame length adjustment quirk
+>> >    a90954c5d267 usb: musb: dsps: control musb speed based on dts
+>> > setting
+>> >    b48ff160a993 usb: renesas_usbhs: Allow an OTG PHY driver to
+>> > provide VBUS
+>> >    d1c59752195e usb: chipidea: set usb otg capabilities
+>> >    733eada2cdec usb: common: add API to update usb otg capabilities
+>> > by device tree
+>> >    7ab2108dd82b usb: dwc3: core: avoid NULL pointer dereference
+>> >    1aedb48b7dc9 usb: dwc3: add ULPI interface support
+>> >    07e42a29fb7e usb: dwc3: pci: add quirk for Baytrails
+>> >    065917252622 usb: dwc3: add hsphy_interface property
+>> >    b2bb32a363a3 usb: dwc3: setup phys earlier
+>> >    bf6bb0a6ebb5 usb: dwc3: soft reset to it's own function
+>> >    d481da949476 usb: dwc3: cache hwparams earlier
+>> >    9ac66262a201 usb: dwc3: store driver data earlier
+>> >    5f940588938c usb: dwc3: ULPI or UTMI+ select
+>> >    04fdce097f83 usb: dwc3: USB2 PHY register access bits
+>> >    b7209213cc05 usb: add bus type for USB ULPI
+>>
+>> I have a suspicion this breaks qemuppc:
+>>
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/683/steps/BuildImages/logs/stdio
+>
+>
+> Yup. With mainline backports, I have a shorter validation cycle, since
+> they really should
+> be safe.
+>
+> I'll hunt up whatever is missing from the series and send another update.
+>
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 4a6928a7d1fe..4d9f5fbff88c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -2,8 +2,8 @@ KBRANCH ?= "standard/preempt-rt/base"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "2a4c22b03d434f7695e607b6ad30f77671985a6d"
--SRCREV_meta ?= "56dcb623ebf5e83d65fdb4eb270f23676bb000a5"
-+SRCREV_machine ?= "0872aaf9d3a4b718ba6ad17a7706843cb556992d"
-+SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 41a79f17b7f1..b2fac8a3578c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.1.18"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
--SRCREV_meta ?= "56dcb623ebf5e83d65fdb4eb270f23676bb000a5"
-+SRCREV_machine ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
-+SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 9663966d8e17..9093590f8b11 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "96b21aab2adf2c9396f8cf579420a2e497923eae"
--SRCREV_machine_qemuarm64 ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
--SRCREV_machine_qemumips ?= "e0a6ffb62a4d28659e0e1be7b1a42a8ef499aa3b"
--SRCREV_machine_qemuppc ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
--SRCREV_machine_qemux86 ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
--SRCREV_machine_qemux86-64 ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
--SRCREV_machine_qemumips64 ?= "1b1349ca5a642086d4b92347fb9d1de1c6eab742"
--SRCREV_machine ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
--SRCREV_meta ?= "56dcb623ebf5e83d65fdb4eb270f23676bb000a5"
-+SRCREV_machine_qemuarm ?= "2b83b94ab36113da6d63e525e0686d1e9fefbeca"
-+SRCREV_machine_qemuarm64 ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
-+SRCREV_machine_qemumips ?= "a5c91d6ff822f3920fd9a20b0deefa6e23acef32"
-+SRCREV_machine_qemuppc ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
-+SRCREV_machine_qemux86 ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
-+SRCREV_machine_qemux86-64 ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
-+SRCREV_machine_qemumips64 ?= "2299caefd7d36e0fe868316045ceb58b9ae369f9"
-+SRCREV_machine ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
-+SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+I found the missing commit:  6a88bbe8e30d4beb2320b5a7452242a1fe7889c5
+
+I added it to the patch, and just sent v2. qemuppc builds fine here with
+this set of SRCREVs
+
+
+Bruce
+
+
+
+>
+> Bruce
+>
+>
+>>
+>>
+>> Cheers,
+>>
+>> Richard
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
+>
+
+
+
 -- 
-2.5.0
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a11436c72f7f789052df9f3c9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Sat, Mar 12, 2016 at 2:04 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield=
+@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><br><=
+div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><div><div class=3D=
+"h5">On Sat, Mar 12, 2016 at 9:43 AM, Richard Purdie <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">ric=
+hard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
+<div><div>On Fri, 2016-03-11 at 13:44 -0500, Bruce Ashfield wrote:<br>
+&gt; Importing a series of mainline backports to support USB on a couple<br=
+>
+&gt; of<br>
+&gt; Intel platforms:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 bbce8fe2cc42 usb: dwc3: pci: add support for Intel Broxto=
+n SOC<br>
+&gt;=C2=A0 =C2=A0 e734e1d9f827 usb: dwc3: pci: Set enblslpm quirk for Synop=
+sys<br>
+&gt; platforms<br>
+&gt;=C2=A0 =C2=A0 1c6bb6694d50 usb: dwc3: Add dis_enblslpm_quirk<br>
+&gt;=C2=A0 =C2=A0 1c6be99e56b8 usb: dwc3: pci: trivial: Formatting<br>
+&gt;=C2=A0 =C2=A0 2f2b89764b97 usb: dwc3: pci: passing forward the ACPI com=
+panion<br>
+&gt;=C2=A0 =C2=A0 ea4b3c72d976 usb: dwc3: core: convert to unified device p=
+roperty<br>
+&gt; interface<br>
+&gt;=C2=A0 =C2=A0 dc670b52c69a usb: common: of_usb_get_dr_mode to usb_get_d=
+r_mode<br>
+&gt;=C2=A0 =C2=A0 586fc5174649 usb: dwc3: st: prepare the driver for generi=
+c<br>
+&gt; usb_get_dr_mode function<br>
+&gt;=C2=A0 =C2=A0 0624bd9af7ef usb: common: of_usb_get_maximum_speed to<br>
+&gt; usb_get_maximum_speed<br>
+&gt;=C2=A0 =C2=A0 e65bc5467e07 usb: dwc3: Add frame length adjustment quirk=
+<br>
+&gt;=C2=A0 =C2=A0 a90954c5d267 usb: musb: dsps: control musb speed based on=
+ dts<br>
+&gt; setting<br>
+&gt;=C2=A0 =C2=A0 b48ff160a993 usb: renesas_usbhs: Allow an OTG PHY driver =
+to<br>
+&gt; provide VBUS<br>
+&gt;=C2=A0 =C2=A0 d1c59752195e usb: chipidea: set usb otg capabilities<br>
+&gt;=C2=A0 =C2=A0 733eada2cdec usb: common: add API to update usb otg capab=
+ilities<br>
+&gt; by device tree<br>
+&gt;=C2=A0 =C2=A0 7ab2108dd82b usb: dwc3: core: avoid NULL pointer derefere=
+nce<br>
+&gt;=C2=A0 =C2=A0 1aedb48b7dc9 usb: dwc3: add ULPI interface support<br>
+&gt;=C2=A0 =C2=A0 07e42a29fb7e usb: dwc3: pci: add quirk for Baytrails<br>
+&gt;=C2=A0 =C2=A0 065917252622 usb: dwc3: add hsphy_interface property<br>
+&gt;=C2=A0 =C2=A0 b2bb32a363a3 usb: dwc3: setup phys earlier<br>
+&gt;=C2=A0 =C2=A0 bf6bb0a6ebb5 usb: dwc3: soft reset to it&#39;s own functi=
+on<br>
+&gt;=C2=A0 =C2=A0 d481da949476 usb: dwc3: cache hwparams earlier<br>
+&gt;=C2=A0 =C2=A0 9ac66262a201 usb: dwc3: store driver data earlier<br>
+&gt;=C2=A0 =C2=A0 5f940588938c usb: dwc3: ULPI or UTMI+ select<br>
+&gt;=C2=A0 =C2=A0 04fdce097f83 usb: dwc3: USB2 PHY register access bits<br>
+&gt;=C2=A0 =C2=A0 b7209213cc05 usb: add bus type for USB ULPI<br>
+<br>
+</div></div>I have a suspicion this breaks qemuppc:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-l=
+sb/builds/683/steps/BuildImages/logs/stdio" rel=3D"noreferrer" target=3D"_b=
+lank">https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/bu=
+ilds/683/steps/BuildImages/logs/stdio</a></blockquote><div><br></div></div>=
+</div><div>Yup. With mainline backports, I have a shorter validation cycle,=
+ since they really should</div><div>be safe.</div><div><br></div><div>I&#39=
+;ll hunt up whatever is missing from the series and send another update.</d=
+iv></div></div></div></blockquote><div><br></div><div>I found the missing c=
+ommit: =C2=A06a88bbe8e30d4beb2320b5a7452242a1fe7889c5</div><div><p class=3D=
+"">I added it to the patch, and just sent v2. qemuppc builds fine here with=
+ this set of SRCREVs</p><p class=3D""><br></p><p class=3D"">Bruce</p><p cla=
+ss=3D"">=C2=A0<br></p></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
+4);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D=
+"gmail_extra"><div class=3D"gmail_quote"><div><br></div><div>Bruce</div><sp=
+an class=3D""><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204=
+,204);border-left-style:solid;padding-left:1ex"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<div><div>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</div></div></blockquote></span></div><span class=3D""><font color=3D"#8888=
+88"><br><br clear=3D"all"><div><br></div>-- <br><div>&quot;Thou shalt not f=
+ollow the NULL pointer, for chaos and madness await thee at its end&quot;</=
+div>
+</font></span></div></div>
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
+=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
+s and madness await thee at its end&quot;</div>
+</div></div>
+
+--001a11436c72f7f789052df9f3c9--
