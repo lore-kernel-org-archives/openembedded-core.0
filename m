@@ -1,52 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C514F62135
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F76562135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 20:36:31 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id m184so237673689iof.1
+	Mon, 14 Mar 2016 20:38:45 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id fl4so163924824pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 13:36:32 -0700 (PDT)
+	Mon, 14 Mar 2016 13:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wJ+nVWLBVBDI5sopNAx0ZDbSGb8eD3ZHsrO3ArffneQ=;
-	b=GQXseuqwwA1DUlUL2id3bUoTrEs9rSwoUXYdJJLdgZp3c+y5wvuZn/XtnKShz6YtB8
-	UnbxGovlQ7Ai1etzTLoRyRj+Bp0dwgFHyKzi1VaWsFaV7YUnqM43us9AMdq73+7UDTOK
-	nuthucn4AvOGTqJJrvxhB9fKIM3TY29B44TP9btlJ07eoiKPuQAzC9vy33p8okba6O0k
-	+ElUchcmzzA/phfEfXSZT0DL98Px0fyvnMHpTVS/shr9UWR6gbq41TI+W91XN4On47kF
-	r1wIiFSXQh0687/PIzZaSYmpS3iY9Cy5+iwcXQWbgTJYw+aV9U8/lVrOBeHSDwB6VoxJ
-	ZOsQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=FVB4eiHdUg0Famy96FP/O95lLx0v9H85G5/VwEwAjOk=;
+	b=jzrCH/AozQ8eUGX5Lle7MaRafYIDp3xnGyOK9p7L/QdYo5qKo2oYc0ldVw8prZvzra
+	DTzOiUmoqszGUG3huy+9js6iY3yJxeEEKw81UOTR2TFJdcrmB62KYf83462Ju0NK3Rgk
+	ie1/Hul0V7Rzxb0DS2l9WUcdenJolEeYcNwKT3Q2v7PSKy+nnplEdacA6cqiNLAIZ2Wc
+	sMZH2uXCmIXyRZdJsMirhL41teJ1hj2pgrS7ZXdN+N/Yl3ZjKapV1tH450jmPcHVKRrt
+	7c8QzY7u4LtQDZnBcP06UgSy58DxaoD18UDwfAZJv3sWqGoyvwso+XVDgV6tNHZRnC8M
+	cNqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=wJ+nVWLBVBDI5sopNAx0ZDbSGb8eD3ZHsrO3ArffneQ=;
-	b=WdmU2u7bJDs+tKxZA5e396xAKIaki37Vz7fvxPtn0VGeSCQk9rbVAbpVe9xV4FjFvT
-	RFY8urzXqYQtBDXc2iSDvkYIX7qqOuiSqrJleBcRgFG7TgZIBVLKtvZjiXaRJm0ShXtH
-	q/JqEjLQ9y/KDE+Wb5+7QHXiir1xiJLK32MKGiZ0xehEMNgLQ0Hv9cdcv/FyXV2FLOub
-	RjDoA2i54wcJ+LXjLvkcXP7GjZuWzZtm331FSqt/yKqC2/wpVhfcFAk3igV23jil2+h+
-	c2CFZBfVBqsBU9GzLPzH1Zs355UMraeBemdor7e2R6jMLzwqRfYCcWU/R1C14VqIcTup
-	Ue7g==
-X-Gm-Message-State: AD7BkJLfLlLVWJ5+Sje9ApiVCOaeoeF1cV6daemosiX0B7LhBXOFuWuJCgxoaCwpl2+mw5vecslOxZc0KYRa/9XN
-X-Received: by 10.107.16.19 with SMTP id y19mr23841278ioi.148.1457987792166;
-	Mon, 14 Mar 2016 13:36:32 -0700 (PDT)
+	bh=FVB4eiHdUg0Famy96FP/O95lLx0v9H85G5/VwEwAjOk=;
+	b=iD2wU0nh3AdewjAnLLBH+KmovOvEoK6nl9UBSR7eiiQ3HBAnOSOQ+MWARA1t3kK1M2
+	61cvJC3vrYodZ+go7f6NDtKCFFruFaaAckQ2d2qRYjFRji93ci3LF/xkf7QNSq1axrlD
+	Bg7NFz43wdx6izl49j9ZZt7ioeqAW+tbmIh65iEFQDfjmcThxu8TtakzEySKR990Xp9k
+	fgDo4G8sMsniwtrQ1gr+Bbp5ODoSpprU7vPOqOlD3k/VbIrCBNXgzfPi39rxaBYJBbXE
+	g07Y36nnQhhCixBi/I/CwjlaswRM9bODX57ytgzo3B4UmQk/Vh567HDTmJLQluu8O95p
+	Wceg==
+X-Gm-Message-State: AD7BkJKsUueHA7DWzT7EBIrNrv4kboyRTk4EnysqL/TVw/Rcz4Q4NzEO31Nqw4YivWDuuA==
+X-Received: by 10.67.14.6 with SMTP id fc6mr21981603pad.55.1457987926098;
+	Mon, 14 Mar 2016 13:38:46 -0700 (PDT)
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com.
+	[209.85.192.181])
+	by smtp.gmail.com with ESMTPSA id 8sm31774300pfk.69.2016.03.14.13.38.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Mar 2016 13:38:44 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f181.google.com with SMTP id u190so113985017pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Mar 2016 13:38:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 14 Mar 2016 13:36:12 -0700 (PDT)
-In-Reply-To: <CAP9ODKr7qDA42hdJA2J3ib3xKDxRCwT2oV-t8nhsn9YNoQG6-Q@mail.gmail.com>
-References: <1456761746-419-1-git-send-email-ross.burton@intel.com>
-	<56E32888.2000301@gmail.com>
-	<CAJTo0LZCxp20cT-Te0mDW+X59Pgrr+MUtO1ArgOJoVzfc-rEmA@mail.gmail.com>
-	<56E33A51.2020807@gmail.com>
-	<1457738209.2804.259.camel@linuxfoundation.org>
-	<56E385E8.8060105@gmail.com>
-	<CAP9ODKr7qDA42hdJA2J3ib3xKDxRCwT2oV-t8nhsn9YNoQG6-Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Mar 2016 20:36:12 +0000
-Message-ID: <CAJTo0Lb3KirMOugx9SJF9JZp-vyDA92KrHbz_YW=S9OWabdOLA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][jethro][RFC 1/2] libsdl: expand PACKAGECONFIG and enable native builds
+X-Received: by 10.98.87.23 with SMTP id l23mr33149391pfb.101.1457987923896;
+	Mon, 14 Mar 2016 13:38:43 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Mon, 14 Mar 2016 13:38:43 -0700 (PDT)
+In-Reply-To: <CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
+References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
+	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
+	<CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
+Date: Mon, 14 Mar 2016 17:38:43 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
+Message-ID: <CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +69,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 20:36:31 -0000
-Content-Type: multipart/alternative; boundary=001a113fd1ea707699052e083c86
-
---001a113fd1ea707699052e083c86
+X-List-Received-Date: Mon, 14 Mar 2016 20:38:47 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 14 March 2016 at 18:40, Otavio Salvador <otavio.salvador@ossystems.com.br
-> wrote:
-
-> The native flavour ought to enable X11 ONLY if it is in DISTRO_FEATURES.
+On Mon, Mar 14, 2016 at 5:33 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 14 March 2016 at 19:12, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>>
+>> Just for completeness, this is only need on Jethro.
+>
+>
+> Wouldn't a better fix be to backport
+> 161bb3409edee21827cf594cc011fe88185f1496?
 
-Backport of the relevant fix - not workaround - submitted.
+This makes nativesdk and native feature set to differ. I don't think
+it is a good move.
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a113fd1ea707699052e083c86
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2016 at 18:40, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
-@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div id=3D":23i" class=3D"a3s" style=3D"overflow:hidden">The native flavour =
-ought to enable X11 ONLY if it is in DISTRO_FEATURES.</div></blockquote><di=
-v><br></div><div>Backport of the relevant fix - not workaround - submitted.=
-</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---001a113fd1ea707699052e083c86--
