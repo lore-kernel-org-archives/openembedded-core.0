@@ -1,48 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B8E526FF22
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id BAE9762135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 20:34:07 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id ig19so71844579igb.0
+	Mon, 14 Mar 2016 20:35:38 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id l68so125021916wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 13:34:08 -0700 (PDT)
+	Mon, 14 Mar 2016 13:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JndvyHAklBw9pHwldea0nGHDg0j3nB0GzNQlr+xfEvA=;
-	b=LcltEC8Fk+zJsWq0bzauuoQSa/XbZCdKNOAVzJISvvu8YInb8UdHT5EwzPtPcsQgzS
-	NtP2WPAgZTKXP6me/cPN//fBs5IQxjPL7ecmzP4tc7pJpuDLZNgdmwoKV2MKoK9XPRA+
-	3DrYCb8q9ajJhfQi8fwK2B0DaB6lk9v0xHiupZbAwV3olRcC8p9DIVe3QZmqGD7UXb21
-	dNqHYvht6RDOUSIzgS81bXAO8uiVNTbcXvJLxnV8xPgFBTZA5fWmw2FXKTp5prAeihCo
-	E32UZOY5D5sz7pvWnSoiebNHUg+d4mCZxmOERzB+Hz06QlXOzjknsnrCBJcxjBWqhWtn
-	8f4w==
+	h=from:to:subject:date:message-id;
+	bh=U8GIiMJHVFPT+ViG4Qa7TezCvUC/itGiGTGgD+8ASuM=;
+	b=s63Nq5wCO7dwCtyx/FmAJccepquvmhkaE+N9SMdRCtI69Gaa3LLsIyZbP8lFRePbXD
+	52328urlRvyOjnP1XzrIuNun4F1rn2+oxpmPPwp294Shsas+EIrFX9DLYgSun0vFE4/6
+	iQ5D930e3dvO1hT7+aPljcbP1un379UJDRMBZZx0kInm7YU+Wzt3ghYGoRauVu+NzNLH
+	fCKj5E/ZN5yE4nNpwi9jvBan94/RsdVt+LmMZ7SqvvjsTkEqcQzp0HhBq0z2OGgImrN1
+	NEdChWOh3v26FpY4W5jpcPMrdpvdUTXLOn8Is6YTH6UuJhZYQ6lOGw/sSPeR6mDIHNrS
+	MKQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JndvyHAklBw9pHwldea0nGHDg0j3nB0GzNQlr+xfEvA=;
-	b=UFZg2T72jlswGi26cqdDX6YpW0qi5Pw0YYkAg2iq+2X0ic77VonTs+DqhmvZ5rzyF4
-	1fl+a1y1qZNuUHtPI7+8v2tSRPX5Aw2As7yGR7atiqG3OgR1NoXLIOtT7RthvPxfo+jf
-	/tc+iyeWPfn2M28KhlRgF8mLfwzef1aQnHwF7TMzKxv3FmvExXt7O0ViaDfesNgJfvho
-	jlVwyEveWtX6gySRNsZDgOeTW0rZjU7LJxlNFinTEbodr6jtf36hxm3TNYVajbSdXyDv
-	nXoqyrXKOEhAtkO1NNcJ+SLd+A3UDq+e5Z8JgMGCOAnHcNz8XkKdCpRlRyopcyoHuEb4
-	Q+hQ==
-X-Gm-Message-State: AD7BkJIE62QipS5nFibBXmi7Sjvwbd/9DKLhaTH0198s98DcvEGx+CePioN3ScHDK5Tc/oRzHPGsSSdZtS0JvfqH
-X-Received: by 10.50.97.71 with SMTP id dy7mr20386583igb.78.1457987647878;
-	Mon, 14 Mar 2016 13:34:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 14 Mar 2016 13:33:48 -0700 (PDT)
-In-Reply-To: <CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
-References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
-	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Mar 2016 20:33:48 +0000
-Message-ID: <CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=U8GIiMJHVFPT+ViG4Qa7TezCvUC/itGiGTGgD+8ASuM=;
+	b=Fr9gRQs6+gNH+Be1ZJmjnie1ux03JXyJdBA8DfUCpeKxmb5sswjBHPV5DlUCLX8vd8
+	E4d6gNuJbg07fF1uqz5nfJslgWqdvKI/2c/Lq4baXZWGcFHlDDwIK6AtOQRAsJqolh+/
+	Lr64UK6jPO0XM9qhFybF+lOhKBoj7VYhvPmuUAq3NW53VMw1utXG7GG0AmZmuB00ejuO
+	Tr/Yiuo6JtDDdga+sC7AGTglAV8K+u0X/n1pvCrOfkWKXecLSp7hiLq12zzSamfXcqP+
+	WGJ2ScdsZeI2lWBKFN+JvNvWZEsUsSYbafLV3v5BjGzkbqHXsBMD7NjY9AGuqj2EZqeD
+	Vkyw==
+X-Gm-Message-State: AD7BkJITy/uHyyd4TSQ0sPyQcY045uUXDOOcx2fGH1dKk2agSHi8Z+sdCcNV8v8zco15BsLM
+X-Received: by 10.28.4.75 with SMTP id 72mr19870094wme.78.1457987738681;
+	Mon, 14 Mar 2016 13:35:38 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 63sm17756007wms.1.2016.03.14.13.35.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 14 Mar 2016 13:35:38 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Mar 2016 20:35:35 +0000
+Message-Id: <1457987735-23523-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH][jethro] xorg-lib: allow native building without x11 DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 20:34:08 -0000
-Content-Type: multipart/alternative; boundary=047d7b10cfc1d707cf052e0833bf
+X-List-Received-Date: Mon, 14 Mar 2016 20:35:40 -0000
 
---047d7b10cfc1d707cf052e0833bf
-Content-Type: text/plain; charset=UTF-8
+The Xorg libraries use REQUIRED_DISTRO_FEATURES to stop building on
+distributions without the x11 feature but this stops people building native
+tooling that uses libX11, such as libsdl-native.
 
-On 14 March 2016 at 19:12, Otavio Salvador <otavio.salvador@ossystems.com.br
-> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-lib/libxcb.inc          | 1 +
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc | 1 +
+ 2 files changed, 2 insertions(+)
 
-> Just for completeness, this is only need on Jethro.
->
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb.inc b/meta/recipes-graphics/xorg-lib/libxcb.inc
+index e40ae77..b02efd2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb.inc
++++ b/meta/recipes-graphics/xorg-lib/libxcb.inc
+@@ -26,6 +26,7 @@ inherit autotools pkgconfig pythonnative distro_features_check
+ 
+ # The libxau and others requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
++REQUIRED_DISTRO_FEATURES_class-native = ""
+ 
+ python populate_packages_prepend () {
+     do_split_packages(d, '${libdir}', '^libxcb-(.*)\.so\..*$', 'libxcb-%s', 'XCB library module for %s', allow_links=True)
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 09df010..6f4e444 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -24,3 +24,4 @@ UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0ret
+ "
+ 
+ REQUIRED_DISTRO_FEATURES ?= "x11"
++REQUIRED_DISTRO_FEATURES_class-native = ""
+-- 
+2.7.0
 
-Wouldn't a better fix be to
-backport 161bb3409edee21827cf594cc011fe88185f1496?
 
-Ross
-
---047d7b10cfc1d707cf052e0833bf
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2016 at 19:12, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
-@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color=
-:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":26t=
-" class=3D"" style=3D"overflow:hidden">Just for completeness, this is only =
-need on Jethro.<br></div></blockquote></div><br>Wouldn&#39;t a better fix b=
-e to backport=C2=A0161bb3409edee21827cf594cc011fe88185f1496?</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---047d7b10cfc1d707cf052e0833bf--
