@@ -1,23 +1,21 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C928765CBF
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 23C5560232
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 21:42:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Mar 2016 14:42:36 -0700
+	Mon, 14 Mar 2016 23:10:04 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 14 Mar 2016 16:10:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,337,1455004800"; d="scan'208";a="910269062"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
-	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2016 14:42:36 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
+X-IronPort-AV: E=Sophos;i="5.24,337,1455004800"; d="scan'208";a="66318833"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by fmsmga004.fm.intel.com with ESMTP; 14 Mar 2016 16:10:05 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Mar 2016 14:29:11 -0700
-Message-Id: <1457990951-32467-2-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1457990951-32467-1-git-send-email-juro.bystricky@intel.com>
-References: <1457990951-32467-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH 1/1] ncurses_6: Improve installation
+Date: Mon, 14 Mar 2016 23:09:37 +0000
+Message-Id: <1457996977-24572-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] eudev: split eudev-hwdb from eudev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,99 +28,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 21:42:34 -0000
+X-List-Received-Date: Mon, 14 Mar 2016 23:10:06 -0000
 
-As "install.libs" also installs header files, it is
-redundant to also call "install.includes".
-In fact, doing so can lead to a race, as both targets could
-try to install the header files at the same time if running
-parallel make. Obviously, with only calling "install.libs",
-there is no race with "install.includes".
-If there is no race, then the patch fix-include-files-race.patch
-is no longer needed.
+The eudev recipe included the hwdb.d directory by default,
+which ended up making the eudev package a lot heavier than
+the old udev, this patch splits the eudev-hwdb package to
+avoid using unecessary space when required
 
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- .../ncurses/files/fix-include-files-race.patch     | 32 ----------------------
- meta/recipes-core/ncurses/ncurses.inc              | 11 ++++++--
- meta/recipes-core/ncurses/ncurses_6.0+20160213.bb  |  1 -
- 3 files changed, 8 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-core/ncurses/files/fix-include-files-race.patch
+ meta/recipes-core/udev/eudev_3.1.5.bb | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/ncurses/files/fix-include-files-race.patch b/meta/recipes-core/ncurses/files/fix-include-files-race.patch
-deleted file mode 100644
-index 6f22e98..0000000
---- a/meta/recipes-core/ncurses/files/fix-include-files-race.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--There is a race condition when running 
--
--    $ make install.libs install.includes
--    
--As both targets install identical files. The remedy is to either prevent
--parallel make of install.libs and install.includes, or ensure only one 
--target installs the files. 
--The second approch will only work if we always install both libs and 
--includes (which we do).
--
--
--Upstream-Status: Inappropriate [configuration]
--
--Index: git/mk-hdr.awk
--===================================================================
----- a/mk-hdr.awk
--+++ b/mk-hdr.awk
--@@ -73,11 +73,13 @@ BEGIN	{
-- END	{
-- 		if ( count > 0 )
-- 		{
--+			print" # patched here: Removed install.libs due the race "
-- 			print "${INCLUDEDIR} :"
-- 			print "	mkdir -p $@"
-- 			print ""
--+			print "install.libs :: ;"
--+			print ""
-- 			print "install \\"
---			print "install.libs \\"
-- 			print "install.includes :: ${AUTO_SRC} ${INCLUDEDIR} \\"
-- 
-- 			for (i = 0; i < count - 1; ++i) {
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 35b8b94..acd2579 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -145,9 +145,14 @@ do_test() {
- # Split original _install_opts to two parts.
- # One is the options to install contents, the other is the parameters \
- # when running command "make install"
--_install_opts = "\
--  install.libs install.includes install.man \
--"
-+# Note that install.libs will also implicitly install header files,
-+# so we do not need to explicitly specify install.includes.
-+# Doing so could in fact result in a race condition, as both targets
-+# (install.libs and install.includes) would install the same headers
-+# at the same time
-+
-+_install_opts = " install.libs install.man "
-+
- _install_cfgs = "\
-   DESTDIR='${D}' \
-   PKG_CONFIG_LIBDIR='${libdir}/pkgconfig' \
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20160213.bb b/meta/recipes-core/ncurses/ncurses_6.0+20160213.bb
-index fef4e0f..0d56481 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20160213.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20160213.bb
-@@ -2,7 +2,6 @@ require ncurses.inc
+diff --git a/meta/recipes-core/udev/eudev_3.1.5.bb b/meta/recipes-core/udev/eudev_3.1.5.bb
+index e94e0dc..b77744d 100644
+--- a/meta/recipes-core/udev/eudev_3.1.5.bb
++++ b/meta/recipes-core/udev/eudev_3.1.5.bb
+@@ -23,7 +23,7 @@ UPSTREAM_CHECK_URI = "https://github.com/gentoo/eudev/releases"
+ SRC_URI[md5sum] = "e130f892d8744e292cb855db79935f68"
+ SRC_URI[sha256sum] = "ce9d5fa91e3a42c7eb95512ca0fa2a631e89833053066bb6cdf42046b2a88553"
  
- SRC_URI += "file://tic-hang.patch \
-             file://config.cache \
--            file://fix-include-files-race.patch \
- "
- # commit id corresponds to the revision in package version
- SRCREV = "a25949ff653ac5ae7a204381a3ebfd800feeaa01"
+-inherit autotools update-rc.d
++inherit autotools update-rc.d qemu
+ 
+ EXTRA_OECONF = " \
+     --sbindir=${base_sbindir} \
+@@ -69,6 +69,8 @@ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+ 
+ PACKAGES =+ "libudev"
+ PACKAGES =+ "udev-cache"
++PACKAGES =+ "eudev-hwdb"
++
+ 
+ FILES_${PN} += "${libexecdir} ${nonarch_base_libdir}/udev ${bindir}/udevadm"
+ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
+@@ -77,12 +79,30 @@ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
+                    ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
+ FILES_libudev = "${base_libdir}/libudev.so.*"
+ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
++FILES_eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
++
++RDEPENDS_eudev-hwdb += "eudev"
++
++RRECOMMENDS_${PN} += "udev-cache eudev-hwdb"
++
++RPROVIDES_${PN} = "hotplug udev"
+ 
+ python () {
+     if bb.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
+         raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
+ }
+ 
+-RRECOMMENDS_${PN} += "udev-cache"
++pkg_postinst_eudev-hwdb () {
++    if test -n "$D"; then
++        ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
++            --root $D
++        chown root:root $D${sysconfdir}/udev/hwdb.bin
++    else
++        udevadm hwdb --update
++    fi
++}
++
++pkg_prerm_eudev-hwdb () {
++        rm -f $D${sysconfdir}/udev/hwdb.bin
++}
+ 
+-RPROVIDES_${PN} = "hotplug udev"
 -- 
-1.9.1
+2.6.2
 
 
