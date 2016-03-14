@@ -1,50 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 60BA26FF30
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BAF56FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 20:41:38 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id z76so237615092iof.3
+	Mon, 14 Mar 2016 20:43:01 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id m184so237871520iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 13:41:40 -0700 (PDT)
+	Mon, 14 Mar 2016 13:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=d2Kr0hD2e5iqsDdbdz+jI6U42QEIOP/6eoiG1V0gcx0=;
-	b=dtJZfKjFfUXLd1M8+nrkan8VV2nQ5H1ERBB5vJFf3XHFtKNWHF83sFoCa1z4oo85i3
-	0Dp0clyaqAzVxSZVxlRl717jrZj8pen5gTLT5TxlpZABTbg4HcEgHieGuuDA2KN9p0WL
-	EL1O3idNc9BnMKuaJZStS2iFgRd0xWYVB/Fp6k5vbSAi6+czNBrjjwXf15HZobYoelTo
-	qQdwNDeKHTVANhNcl3o/IlwH7tOBWoX5khTzvSdnwpp1V/wrzjFk1Ew3oPJYJXf96ejE
-	cLzXzD4BkHEUyxalYLosxva2S7nT2vBYSYY5SQVujGpQ0JUqBfTn+b7Aivy2nH8TL0SE
-	NbGQ==
+	:cc; bh=I0inISfdUHjsn+z3sfLdeH0R8AfgMOsUv+lIgyVszX8=;
+	b=a6KK7C3ZDhJqaxzfUBTG6/mRs+LwXYXkRKQQdx/GYamvLgCTjTYdiGbkyglmT6N31v
+	T1KvkGI/hlTnMI4vOmqf96vk2TS1eUZ9z+IzSwbSiKtd0HTOwuc2WJDr1bnZQTRe0tKI
+	2p+JMDyd3VNEcTLwI5x2271Byi7+3sO3FMP1Ew41MGat6v9fsiH5ClpsHLygzQBXo0bl
+	OpjYy8WBStaP9ksCGLK+CZBqX4iagyw9SUdbzl+hI+s6Ev2UFy5wK79SJ765nHk1VyRa
+	hVHvrFiSP1umfnbWOHl80vPKF9QHT0P7zOCy26+LjmTpVnUFe0NikbUZWI1d8w/DsKAm
+	mVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=d2Kr0hD2e5iqsDdbdz+jI6U42QEIOP/6eoiG1V0gcx0=;
-	b=YBufUG2EfhvO1hXxHte/M65YSk+YcV288pEgzYdzImh6pUjIG2PQMXkVsgnUIJ9hQG
-	NAbAwv/BT6ylVT/dIvhj/pJp0gTOH5j3juegs2Q1FKOyZY2l1D40KA5k5bZNAChibpn/
-	/UASuIeiJlaN0OTBtlXt9k9oU6pNIALgXB75V1ug5jvsJyo0aKRFcH6HfgNLepGQQVVx
-	Th2sd6N3U8fK83Y1iFpXWSg+AVi5/xUqytV+zZKauhrHZrmV46RGKdv1iBgg+flE8qrL
-	t3eELvyZ0sKoiIJFGPvQ9LkoHzc05f0BqpaSMIqHvHBGBT2+eYJLOw7MfIafm+LrfsR/
-	lnUQ==
-X-Gm-Message-State: AD7BkJLwVD1JhG6j0reYzytXBLx+MzJvB4FGx3FyU7oem2pv/jOm0HWyCJwgQTyJCDqvzDZje4xWMa8LhgBYvybQ
-X-Received: by 10.107.6.32 with SMTP id 32mr24495281iog.99.1457988099812; Mon,
-	14 Mar 2016 13:41:39 -0700 (PDT)
+	bh=I0inISfdUHjsn+z3sfLdeH0R8AfgMOsUv+lIgyVszX8=;
+	b=lYz6uKOK31fCf4hqbUd9ij4jG10GaxTTVEkhVGv908ZjRSkBMw58ub/2xXO2kqJJaL
+	BOL628A0Iy2IXkV4czyecNNeW3P4pjBYQAkAWCMoFWSYBoM3OTGVUJYa7uDWQ8ztETW+
+	wT8pfpbuZTZ6SeUWn0bAFhJJKU30+S1KipAM2yzjtSMMP/+vdLm0ZfWqhLfDlgDgKCSL
+	KQB0Mm5Xc6td7OZm2ZFCLO+gen0nS7+J2AXbtv/Myb5wgWC1fDMpJGtdKW4kyye3IHH3
+	mV+U09jSnEuaLyvO9KwqaRlBLgadexH4C8Ww+JDeXJIMZebBUH3pLuA54P4OJLccT5cw
+	UNgA==
+X-Gm-Message-State: AD7BkJI2IAgYXT0q0sZSA48GNTfVNqogOTpTnXWRRl/z8phhgMGMbfXe9EcMBY+2zKgjVMddRb12/GqKBsXfNkrg
+X-Received: by 10.107.6.32 with SMTP id 32mr24499905iog.99.1457988182600; Mon,
+	14 Mar 2016 13:43:02 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 14 Mar 2016 13:41:20 -0700 (PDT)
-In-Reply-To: <CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
-References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
-	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
-	<CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
-	<CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
+Received: by 10.107.162.70 with HTTP; Mon, 14 Mar 2016 13:42:43 -0700 (PDT)
+In-Reply-To: <CAP9ODKrV517jdeiow4pAvz_ewNvbEe7mz7qbEvufoG4mRu-j0A@mail.gmail.com>
+References: <1457987735-23523-1-git-send-email-ross.burton@intel.com>
+	<CAP9ODKrV517jdeiow4pAvz_ewNvbEe7mz7qbEvufoG4mRu-j0A@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Mar 2016 20:41:20 +0000
-Message-ID: <CAJTo0LYfwrc+wteB+ez6gqZbXgM8dJO6PKrB+vf0S6+ANC7ggQ@mail.gmail.com>
+Date: Mon, 14 Mar 2016 20:42:43 +0000
+Message-ID: <CAJTo0La6DTEzZ2zr-GoKjimy3Yonw_btCO8zB_b_2tvQ=c=xwQ@mail.gmail.com>
 To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][jethro] xorg-lib: allow native building without x11 DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 20:41:39 -0000
-Content-Type: multipart/alternative; boundary=001a113fbf5cc6d93a052e084e37
+X-List-Received-Date: Mon, 14 Mar 2016 20:43:04 -0000
+Content-Type: multipart/alternative; boundary=001a113fbf5cb61716052e08534e
 
---001a113fbf5cc6d93a052e084e37
+--001a113fbf5cb61716052e08534e
 Content-Type: text/plain; charset=UTF-8
 
-On 14 March 2016 at 20:38, Otavio Salvador <otavio.salvador@ossystems.com.br
+On 14 March 2016 at 20:40, Otavio Salvador <otavio.salvador@ossystems.com.br
 > wrote:
 
-> This makes nativesdk and native feature set to differ. I don't think
-> it is a good move
+> To be honest, even though this syncs the Jethro and master on this
+> regard (and thus is a good change) I think this needs to be considered
+> that doing this way libsdl-native will differ. Native and Native SDK
+> binaries will provide different set of features, which is bad in my
+> point of view.
 >
 
-It's exactly the right move - nativesdk and native are different.  You want
-nativesdk to match target, but native is unrelated to the distro you've
-built (to be honest I'd prefer it if the required distro features logic
-didn't execute on native recipes).
+(just replied on the other thread)
 
 Ross
 
---001a113fbf5cc6d93a052e084e37
+--001a113fbf5cb61716052e08534e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2016 at 20:38, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
+On 14 March 2016 at 20:40, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
 "mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
 @ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
 " style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div id=3D":1q5" class=3D"a3s" style=3D"overflow:hidden">This makes nativesd=
-k and native feature set to differ. I don&#39;t think<br>
-it is a good move<br></div></blockquote><div><br></div><div>It&#39;s exactl=
-y the right move - nativesdk and native are different.=C2=A0 You want nativ=
-esdk to match target, but native is unrelated to the distro you&#39;ve buil=
-t (to be honest I&#39;d prefer it if the required distro features logic did=
-n&#39;t execute on native recipes).</div><div><br></div><div>Ross</div></di=
-v></div></div>
+div id=3D":1kk" class=3D"a3s" style=3D"overflow:hidden">To be honest, even =
+though this syncs the Jethro and master on this<br>
+regard (and thus is a good change) I think this needs to be considered<br>
+that doing this way libsdl-native will differ. Native and Native SDK<br>
+binaries will provide different set of features, which is bad in my<br>
+point of view.</div></blockquote></div><br>(just replied on the other threa=
+d)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
 
---001a113fbf5cc6d93a052e084e37--
+--001a113fbf5cb61716052e08534e--
