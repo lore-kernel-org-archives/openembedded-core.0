@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A0E5D601D4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AA4A26FFED
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 14 Mar 2016 06:51:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2E6pqRR024163
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2E6pqDo011913
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 13 Mar 2016 23:51:52 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 13 Mar 2016 23:51:52 -0700
+	Sun, 13 Mar 2016 23:51:51 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 13 Mar 2016 23:51:48 -0700
-Message-ID: <c21121846c197c1c78481145dec55b604d96e29b.1457938004.git.liezhi.yang@windriver.com>
+Date: Sun, 13 Mar 2016 23:51:47 -0700
+Message-ID: <cover.1457938004.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1457938004.git.liezhi.yang@windriver.com>
-References: <cover.1457938004.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] lib/oe/patch: Make GitApplyTree._applypatch() support read-only .git/hooks
+Subject: [PATCH 0/4] [jethro] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,66 +34,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 14 Mar 2016 06:51:53 -0000
 Content-Type: text/plain
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+The following changes since commit 1a51bb69b7600cbe6da7928d46e0ea058a14ccde:
 
-Rather than modifying files in .git/hooks, which can be read-only
-(e.g., if it is a link to a directory in /usr/share), move away the
-entire .git/hooks directory temporarily.
+  base: check for existing prefix when expanding names in PACKAGECONFIG (2016-03-11 23:15:01 +0000)
 
-(From OE-Core master rev: a88d603b51a9ebb39210d54b667519acfbe465c3)
+are available in the git repository at:
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oe/patch.py |   26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+  git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/jethro-next
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 2bf501e..c25d3c7 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -383,14 +383,15 @@ class GitApplyTree(PatchTree):
-         reporoot = (runcmd("git rev-parse --show-toplevel".split(), self.dir) or '').strip()
-         if not reporoot:
-             raise Exception("Cannot get repository root for directory %s" % self.dir)
--        commithook = os.path.join(reporoot, '.git', 'hooks', 'commit-msg')
--        commithook_backup = commithook + '.devtool-orig'
--        applyhook = os.path.join(reporoot, '.git', 'hooks', 'applypatch-msg')
--        applyhook_backup = applyhook + '.devtool-orig'
--        if os.path.exists(commithook):
--            shutil.move(commithook, commithook_backup)
--        if os.path.exists(applyhook):
--            shutil.move(applyhook, applyhook_backup)
-+        hooks_dir = os.path.join(reporoot, '.git', 'hooks')
-+        hooks_dir_backup = hooks_dir + '.devtool-orig'
-+        if os.path.lexists(hooks_dir_backup):
-+            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
-+        if os.path.lexists(hooks_dir):
-+            shutil.move(hooks_dir, hooks_dir_backup)
-+        os.mkdir(hooks_dir)
-+        commithook = os.path.join(hooks_dir, 'commit-msg')
-+        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
-         with open(commithook, 'w') as f:
-             # NOTE: the formatting here is significant; if you change it you'll also need to
-             # change other places which read it back
-@@ -439,12 +440,9 @@ class GitApplyTree(PatchTree):
-                     os.remove(tmpfile)
-                 return output
-         finally:
--            os.remove(commithook)
--            os.remove(applyhook)
--            if os.path.exists(commithook_backup):
--                shutil.move(commithook_backup, commithook)
--            if os.path.exists(applyhook_backup):
--                shutil.move(applyhook_backup, applyhook)
-+            shutil.rmtree(hooks_dir)
-+            if os.path.lexists(hooks_dir_backup):
-+                shutil.move(hooks_dir_backup, hooks_dir)
- 
- 
- class QuiltTree(PatchSet):
+Chang Rebecca Swee Fun (1):
+  make 4.1: fix segfault when ttyname fails
+
+Jagadeesh Krishnanjanappa (1):
+  license.bbclass: fix host contamination warnings for license files
+
+Mariano Lopez (1):
+  dhcp: CVE-2015-8605
+
+Peter Kjellerstedt (1):
+  lib/oe/patch: Make GitApplyTree._applypatch() support read-only
+    .git/hooks
+
+ meta/classes/license.bbclass                       |   10 ++
+ meta/lib/oe/patch.py                               |   26 +++--
+ .../dhcp/dhcp/CVE-2015-8605.patch                  |   99 ++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |    1 +
+ ...-SV-43434-Handle-NULL-returns-from-ttynam.patch |   63 +++++++++++++
+ meta/recipes-devtools/make/make_4.1.bb             |    2 +
+ 6 files changed, 187 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+ create mode 100644 meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
+
 -- 
 1.7.9.5
 
