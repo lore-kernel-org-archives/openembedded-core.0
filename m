@@ -1,62 +1,60 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F76562135
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 159CA6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 20:38:45 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id fl4so163924824pad.0
+	Mon, 14 Mar 2016 20:40:58 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id fl4so163958297pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 13:38:46 -0700 (PDT)
+	Mon, 14 Mar 2016 13:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=FVB4eiHdUg0Famy96FP/O95lLx0v9H85G5/VwEwAjOk=;
-	b=jzrCH/AozQ8eUGX5Lle7MaRafYIDp3xnGyOK9p7L/QdYo5qKo2oYc0ldVw8prZvzra
-	DTzOiUmoqszGUG3huy+9js6iY3yJxeEEKw81UOTR2TFJdcrmB62KYf83462Ju0NK3Rgk
-	ie1/Hul0V7Rzxb0DS2l9WUcdenJolEeYcNwKT3Q2v7PSKy+nnplEdacA6cqiNLAIZ2Wc
-	sMZH2uXCmIXyRZdJsMirhL41teJ1hj2pgrS7ZXdN+N/Yl3ZjKapV1tH450jmPcHVKRrt
-	7c8QzY7u4LtQDZnBcP06UgSy58DxaoD18UDwfAZJv3sWqGoyvwso+XVDgV6tNHZRnC8M
-	cNqg==
+	:cc; bh=tmCoA0OO/jqjo+2QRrSf2N2Wdz/k9O4lGaxyH0ZGV1g=;
+	b=0BipmUsTJFNIy/opeV8EMXCfLMbsin4o4XGv/FDo0Js3NyH1VTU2E/uOLvHEX5wXxT
+	VKsqv00j5as3/p8n7epK1UEWWMwKnLNeroe9HCnojIgftAfZIXTYupnOf5vxyvlwZr33
+	PeGPgWpWKuFZwS28Fw6GD123eKlX6TH7d8rGwmkLvs2S5rO/pZ7kmLWaACXqKWkl8566
+	cJ6zJKvu8GbA5AeYEF6doy6NeVkIAKXpizIEPqey6a80O8pzFOPjlIcB2o638Qc5nZfP
+	lpy6uwal6IcDKGBC6g6h6m665/AhD0hAEOV+NcN+dMEqBXttVtuREPA+kPexDaI6M6Bp
+	zOCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=FVB4eiHdUg0Famy96FP/O95lLx0v9H85G5/VwEwAjOk=;
-	b=iD2wU0nh3AdewjAnLLBH+KmovOvEoK6nl9UBSR7eiiQ3HBAnOSOQ+MWARA1t3kK1M2
-	61cvJC3vrYodZ+go7f6NDtKCFFruFaaAckQ2d2qRYjFRji93ci3LF/xkf7QNSq1axrlD
-	Bg7NFz43wdx6izl49j9ZZt7ioeqAW+tbmIh65iEFQDfjmcThxu8TtakzEySKR990Xp9k
-	fgDo4G8sMsniwtrQ1gr+Bbp5ODoSpprU7vPOqOlD3k/VbIrCBNXgzfPi39rxaBYJBbXE
-	g07Y36nnQhhCixBi/I/CwjlaswRM9bODX57ytgzo3B4UmQk/Vh567HDTmJLQluu8O95p
-	Wceg==
-X-Gm-Message-State: AD7BkJKsUueHA7DWzT7EBIrNrv4kboyRTk4EnysqL/TVw/Rcz4Q4NzEO31Nqw4YivWDuuA==
-X-Received: by 10.67.14.6 with SMTP id fc6mr21981603pad.55.1457987926098;
-	Mon, 14 Mar 2016 13:38:46 -0700 (PDT)
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com.
-	[209.85.192.181])
-	by smtp.gmail.com with ESMTPSA id 8sm31774300pfk.69.2016.03.14.13.38.44
+	bh=tmCoA0OO/jqjo+2QRrSf2N2Wdz/k9O4lGaxyH0ZGV1g=;
+	b=McYLNKS3vZCFc18/wfPYazh1E2j/f7B4chUbXZWb2yt/Cxpc1w/RDI3TD2iS5Bdu56
+	we1pNBM9mKBmW4tztmSRsZaeZ4gEHWH6fFEsHU27YWNj1iwBHRSuwJVNCF28oNTvVm+N
+	DTs6cjPnl5oKAD0fPSFTk3FhELQecfOAufd8FG/vbWoIXX4YWRX3r9KZuw8OTKr5Xvd6
+	cSvKvikAvLsmI36ybF5RbtZ7563s7kQRlHTk7laqgG/l6HsGcKZQ5hE/4mnlLtWE1zhn
+	m+f5b/fPp2yNng6y3vLVYG8DB7iYCEVIbM4QxV8/w9HMijlo0SpQmRW6pbVqR0Je8NZM
+	HmHw==
+X-Gm-Message-State: AD7BkJIfjABRQba40gZQN2SlDUokQtUrzwC9EWnEEVvDMvnRGE3HG19jA5LuCGq+qOgE2A==
+X-Received: by 10.66.132.37 with SMTP id or5mr40976205pab.144.1457988059645;
+	Mon, 14 Mar 2016 13:40:59 -0700 (PDT)
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com.
+	[209.85.220.50]) by smtp.gmail.com with ESMTPSA id
+	q2sm34167825pfq.88.2016.03.14.13.40.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Mar 2016 13:38:44 -0700 (PDT)
+	Mon, 14 Mar 2016 13:40:58 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f181.google.com with SMTP id u190so113985017pfb.3
+Received: by mail-pa0-f50.google.com with SMTP id fl4so163957833pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 13:38:44 -0700 (PDT)
+	Mon, 14 Mar 2016 13:40:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.98.87.23 with SMTP id l23mr33149391pfb.101.1457987923896;
-	Mon, 14 Mar 2016 13:38:43 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Mon, 14 Mar 2016 13:38:43 -0700 (PDT)
-In-Reply-To: <CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
-References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
-	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
-	<CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
-Date: Mon, 14 Mar 2016 17:38:43 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
-Message-ID: <CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
+X-Received: by 10.66.176.10 with SMTP id ce10mr40184470pac.68.1457988058045;
+	Mon, 14 Mar 2016 13:40:58 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Mon, 14 Mar 2016 13:40:57 -0700 (PDT)
+In-Reply-To: <1457987735-23523-1-git-send-email-ross.burton@intel.com>
+References: <1457987735-23523-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 14 Mar 2016 17:40:57 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrV517jdeiow4pAvz_ewNvbEe7mz7qbEvufoG4mRu-j0A@mail.gmail.com>
+Message-ID: <CAP9ODKrV517jdeiow4pAvz_ewNvbEe7mz7qbEvufoG4mRu-j0A@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][jethro] xorg-lib: allow native building without x11 DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,22 +67,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 20:38:47 -0000
+X-List-Received-Date: Mon, 14 Mar 2016 20:40:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 14, 2016 at 5:33 PM, Burton, Ross <ross.burton@intel.com> wrote:
+On Mon, Mar 14, 2016 at 5:35 PM, Ross Burton <ross.burton@intel.com> wrote:
+> The Xorg libraries use REQUIRED_DISTRO_FEATURES to stop building on
+> distributions without the x11 feature but this stops people building native
+> tooling that uses libX11, such as libsdl-native.
 >
-> On 14 March 2016 at 19:12, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> Just for completeness, this is only need on Jethro.
->
->
-> Wouldn't a better fix be to backport
-> 161bb3409edee21827cf594cc011fe88185f1496?
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-This makes nativesdk and native feature set to differ. I don't think
-it is a good move.
+To be honest, even though this syncs the Jethro and master on this
+regard (and thus is a good change) I think this needs to be considered
+that doing this way libsdl-native will differ. Native and Native SDK
+binaries will provide different set of features, which is bad in my
+point of view.
 
 -- 
 Otavio Salvador                             O.S. Systems
