@@ -1,48 +1,67 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E2CC70018
+Return-Path: <zhenhua.luo@nxp.com>
+Received: from emea01-db3-obe.outbound.protection.outlook.com
+	(mail-db3on0084.outbound.protection.outlook.com [157.55.234.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 1126B6FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2016 03:34:06 +0000 (UTC)
-Received: by mail-vk0-f52.google.com with SMTP id e6so193975073vkh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Mar 2016 20:34:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=BN2x5vUo2YalGpaP4NixhyVESdLXl5zGlFdOO4K+uFI=;
-	b=viVoiuDMQVFEFuC4RoU//SgQkYqf9EocG1ZGNk+dHQIEyzja9PQJ5vKcEi8qH3Tkx0
-	NwufPtWm3qzL/C43Dvg7LNSqbGkBXRbETD27xCLZmzQ3XOqQX6WUwpAp7WneNx5Cgm0C
-	/tueSXBIk9wTm7ZtaqnQ2dyno7JRsxvwVD8b9cTwswIr8ZaQ0/YyPhdfiti/Efv19hPD
-	jPk3RHKMIkqeE32I4QuTJNKofU3eykbFsZOyawwoJzaB0O2AoeppGO+iKhQIqVSLsft+
-	yKH2Ss97al/PFkQdzJZZUO7CEcG9bmfkfH5JTEd237tXtkBUw1wLaNLdhcgyes71oirU
-	BNDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=BN2x5vUo2YalGpaP4NixhyVESdLXl5zGlFdOO4K+uFI=;
-	b=jg0XqVgLCKCWoJI4hw3UaaWEQ051BRSoWt1I/zwxxK0F+mXvAp0aqDnOTO/vxLCioy
-	7yCYoGSEIb91ZrNpqf5I+N5bJFxbqwtz1JbP0K7YF/9xo/NbflyLUmUTxUU6aICZXVKn
-	iPjGnkq5cMZrv+YpGR2YUwQ6oQWTp5ngSjVgaman3PxyBLd+E4Po+PWeR7Ef6OKEYsA1
-	u43x76lNKDj05ehXHfvi/bycuW1Ks3V+8ybs14gv4DRqm1TkJD7ZJAe9EIBqUpV7oD2b
-	TRo975QfKa3jITNG2Ue1CHLc/FujS/a43RuETreewo9BJ+8jSgdWgD5fWcPmp+m7sYYG
-	XJWg==
-X-Gm-Message-State: AD7BkJJXjvxyDo1K3Qz0Xgiv4u9AhUKzrPEZXCBEWoXluTDRLwqJq4qQuv0wSHts0baSeYigWKvJimGRsKIb+A==
+	Mon, 14 Mar 2016 06:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+	s=selector1-nxp-com;
+	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=/q9GLCjsmMPFu+dR+KxQtG5w4yfXAcyo1ICCwR2CnrE=;
+	b=h1uCDizreSF2dNu5sZkywg+lEI9WzLkJXQUwAPooRSMvixeZZUwqBgHxYWO91i5iLqEzjC+2lnCKBQt1WmOOadnf1955kc3d/as2vtTEuL2o4KXl4FQ/3Tpd0M8mE78/ZWnsZk/nXeAXOzm9kgjTH9TlcYXbGPcnVGNGxx+Fu0Y=
+Received: from DB3PR04MB0684.eurprd04.prod.outlook.com
+	(2a01:111:e400:943c::14) by DB3PR04MB0684.eurprd04.prod.outlook.com
+	(2a01:111:e400:943c::14) with Microsoft SMTP Server (TLS) id
+	15.1.427.16; Mon, 14 Mar 2016 06:12:20 +0000
+Received: from DB3PR04MB0684.eurprd04.prod.outlook.com
+	([fe80::5d5f:4faf:f854:c77e]) by
+	DB3PR04MB0684.eurprd04.prod.outlook.com
+	([fe80::5d5f:4faf:f854:c77e%16]) with mapi id 15.01.0427.020;
+	Mon, 14 Mar 2016 06:12:20 +0000
+From: Zhenhua Luo <zhenhua.luo@nxp.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] Status of M3
+Thread-Index: AQHRdVhGsXvrFyBNX0Gn620r+EcAUp9JCDuwgAALawCABiVIgIAJTDyA
+Date: Mon, 14 Mar 2016 06:12:20 +0000
+Message-ID: <DB3PR04MB068479840363DCBF812FD0E9EE880@DB3PR04MB0684.eurprd04.prod.outlook.com>
+References: <1457014986.25131.69.camel@linuxfoundation.org>
+	<DB3PR04MB068422B10C54A685417DCE3AEEBE0@DB3PR04MB0684.eurprd04.prod.outlook.com>
+	<1457086698.2804.9.camel@linuxfoundation.org>
+	<56DE88AD.7090902@windriver.com>
+In-Reply-To: <56DE88AD.7090902@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: windriver.com; dkim=none (message not signed)
+	header.d=none; windriver.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [199.59.230.102]
+x-ms-office365-filtering-correlation-id: 138907ce-8418-41cf-9865-08d34bcf9a0a
+x-microsoft-exchange-diagnostics: 1; DB3PR04MB0684;
+	5:9H02KFcA3w8Tij+iUTpcm7kmWmZFFnqZc4uqVdQLEauTSPTpPOH4fWuq70F6HAIq8Xphsg/UEA976C5dlBiOLuStJT1QwMzsFWYxDGxBGejEAAvAgAX3I0gTs2thu7W2g+8B5CZUPPmtwyM1NqeMjQ==;
+	24:M8+SArsgOYFstyMBT0eEYiaQ6jQwGoEdDLxUIPRRDrankx3+2e03DiOQfZhL2UhNwohQwMPA5IvM4Fvk6oX2PR2xbmLOViRZKNoZlOHf15w=
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB3PR04MB0684;
+x-microsoft-antispam-prvs: <DB3PR04MB068497ABF0CFFDFD8B1308CDEE880@DB3PR04MB0684.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(5005006)(8121501046)(10201501046)(3002001);
+	SRVR:DB3PR04MB0684; BCL:0; PCL:0; RULEID:; SRVR:DB3PR04MB0684; 
+x-forefront-prvs: 0881A7A935
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(164054003)(377424004)(479174004)(377454003)(24454002)(3280700002)(87936001)(74316001)(19300405004)(3660700001)(5001770100001)(1220700001)(76576001)(19617315012)(19625215002)(93886004)(81166005)(16236675004)(33656002)(5250100002)(5003600100002)(76176999)(2900100001)(2950100001)(2906002)(1096002)(586003)(15975445007)(4326007)(189998001)(66066001)(3846002)(86362001)(11100500001)(5008740100001)(102836003)(5002640100001)(19580405001)(19580395003)(50986999)(54356999)(106116001)(6116002)(790700001)(92566002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB3PR04MB0684;
+	H:DB3PR04MB0684.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-X-Received: by 10.31.185.201 with SMTP id j192mr23686308vkf.21.1457926446772; 
-	Sun, 13 Mar 2016 20:34:06 -0700 (PDT)
-Received: by 10.176.6.42 with HTTP; Sun, 13 Mar 2016 20:34:06 -0700 (PDT)
-In-Reply-To: <CADkTA4NhD9nyZomt98hjWgbh7NcfU=YyLVpK6R1TeCFYU5-6vQ@mail.gmail.com>
-References: <1457721891-28398-1-git-send-email-bruce.ashfield@windriver.com>
-	<1457793803.2804.276.camel@linuxfoundation.org>
-	<CADkTA4NhD9nyZomt98hjWgbh7NcfU=YyLVpK6R1TeCFYU5-6vQ@mail.gmail.com>
-Date: Sun, 13 Mar 2016 23:34:06 -0400
-Message-ID: <CADkTA4MG2k-NO886q0uap1cvKSpT21X53BjKeS72j3DBUTec2Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto/4.1: usb backports for Apollo Lake/Broxton
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2016 06:12:20.1571 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR04MB0684
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Status of M3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,217 +74,329 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2016 03:34:06 -0000
-Content-Type: multipart/alternative; boundary=001a11436c72f7f789052df9f3c9
+X-List-Received-Date: Mon, 14 Mar 2016 06:26:55 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_DB3PR04MB068479840363DCBF812FD0E9EE880DB3PR04MB0684eurp_"
 
---001a11436c72f7f789052df9f3c9
-Content-Type: text/plain; charset=UTF-8
-
-On Sat, Mar 12, 2016 at 2:04 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
-
->
->
-> On Sat, Mar 12, 2016 at 9:43 AM, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Fri, 2016-03-11 at 13:44 -0500, Bruce Ashfield wrote:
->> > Importing a series of mainline backports to support USB on a couple
->> > of
->> > Intel platforms:
->> >
->> >    bbce8fe2cc42 usb: dwc3: pci: add support for Intel Broxton SOC
->> >    e734e1d9f827 usb: dwc3: pci: Set enblslpm quirk for Synopsys
->> > platforms
->> >    1c6bb6694d50 usb: dwc3: Add dis_enblslpm_quirk
->> >    1c6be99e56b8 usb: dwc3: pci: trivial: Formatting
->> >    2f2b89764b97 usb: dwc3: pci: passing forward the ACPI companion
->> >    ea4b3c72d976 usb: dwc3: core: convert to unified device property
->> > interface
->> >    dc670b52c69a usb: common: of_usb_get_dr_mode to usb_get_dr_mode
->> >    586fc5174649 usb: dwc3: st: prepare the driver for generic
->> > usb_get_dr_mode function
->> >    0624bd9af7ef usb: common: of_usb_get_maximum_speed to
->> > usb_get_maximum_speed
->> >    e65bc5467e07 usb: dwc3: Add frame length adjustment quirk
->> >    a90954c5d267 usb: musb: dsps: control musb speed based on dts
->> > setting
->> >    b48ff160a993 usb: renesas_usbhs: Allow an OTG PHY driver to
->> > provide VBUS
->> >    d1c59752195e usb: chipidea: set usb otg capabilities
->> >    733eada2cdec usb: common: add API to update usb otg capabilities
->> > by device tree
->> >    7ab2108dd82b usb: dwc3: core: avoid NULL pointer dereference
->> >    1aedb48b7dc9 usb: dwc3: add ULPI interface support
->> >    07e42a29fb7e usb: dwc3: pci: add quirk for Baytrails
->> >    065917252622 usb: dwc3: add hsphy_interface property
->> >    b2bb32a363a3 usb: dwc3: setup phys earlier
->> >    bf6bb0a6ebb5 usb: dwc3: soft reset to it's own function
->> >    d481da949476 usb: dwc3: cache hwparams earlier
->> >    9ac66262a201 usb: dwc3: store driver data earlier
->> >    5f940588938c usb: dwc3: ULPI or UTMI+ select
->> >    04fdce097f83 usb: dwc3: USB2 PHY register access bits
->> >    b7209213cc05 usb: add bus type for USB ULPI
->>
->> I have a suspicion this breaks qemuppc:
->>
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/683/steps/BuildImages/logs/stdio
->
->
-> Yup. With mainline backports, I have a shorter validation cycle, since
-> they really should
-> be safe.
->
-> I'll hunt up whatever is missing from the series and send another update.
->
-
-I found the missing commit:  6a88bbe8e30d4beb2320b5a7452242a1fe7889c5
-
-I added it to the patch, and just sent v2. qemuppc builds fine here with
-this set of SRCREVs
-
-
-Bruce
-
-
-
->
-> Bruce
->
->
->>
->>
->> Cheers,
->>
->> Richard
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a11436c72f7f789052df9f3c9
-Content-Type: text/html; charset=UTF-8
+--_000_DB3PR04MB068479840363DCBF812FD0E9EE880DB3PR04MB0684eurp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Sat, Mar 12, 2016 at 2:04 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield=
-@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><br><=
-div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><div><div class=3D=
-"h5">On Sat, Mar 12, 2016 at 9:43 AM, Richard Purdie <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">ric=
-hard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
-<div><div>On Fri, 2016-03-11 at 13:44 -0500, Bruce Ashfield wrote:<br>
-&gt; Importing a series of mainline backports to support USB on a couple<br=
->
-&gt; of<br>
-&gt; Intel platforms:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 bbce8fe2cc42 usb: dwc3: pci: add support for Intel Broxto=
-n SOC<br>
-&gt;=C2=A0 =C2=A0 e734e1d9f827 usb: dwc3: pci: Set enblslpm quirk for Synop=
-sys<br>
-&gt; platforms<br>
-&gt;=C2=A0 =C2=A0 1c6bb6694d50 usb: dwc3: Add dis_enblslpm_quirk<br>
-&gt;=C2=A0 =C2=A0 1c6be99e56b8 usb: dwc3: pci: trivial: Formatting<br>
-&gt;=C2=A0 =C2=A0 2f2b89764b97 usb: dwc3: pci: passing forward the ACPI com=
-panion<br>
-&gt;=C2=A0 =C2=A0 ea4b3c72d976 usb: dwc3: core: convert to unified device p=
-roperty<br>
-&gt; interface<br>
-&gt;=C2=A0 =C2=A0 dc670b52c69a usb: common: of_usb_get_dr_mode to usb_get_d=
-r_mode<br>
-&gt;=C2=A0 =C2=A0 586fc5174649 usb: dwc3: st: prepare the driver for generi=
-c<br>
-&gt; usb_get_dr_mode function<br>
-&gt;=C2=A0 =C2=A0 0624bd9af7ef usb: common: of_usb_get_maximum_speed to<br>
-&gt; usb_get_maximum_speed<br>
-&gt;=C2=A0 =C2=A0 e65bc5467e07 usb: dwc3: Add frame length adjustment quirk=
-<br>
-&gt;=C2=A0 =C2=A0 a90954c5d267 usb: musb: dsps: control musb speed based on=
- dts<br>
-&gt; setting<br>
-&gt;=C2=A0 =C2=A0 b48ff160a993 usb: renesas_usbhs: Allow an OTG PHY driver =
-to<br>
-&gt; provide VBUS<br>
-&gt;=C2=A0 =C2=A0 d1c59752195e usb: chipidea: set usb otg capabilities<br>
-&gt;=C2=A0 =C2=A0 733eada2cdec usb: common: add API to update usb otg capab=
-ilities<br>
-&gt; by device tree<br>
-&gt;=C2=A0 =C2=A0 7ab2108dd82b usb: dwc3: core: avoid NULL pointer derefere=
-nce<br>
-&gt;=C2=A0 =C2=A0 1aedb48b7dc9 usb: dwc3: add ULPI interface support<br>
-&gt;=C2=A0 =C2=A0 07e42a29fb7e usb: dwc3: pci: add quirk for Baytrails<br>
-&gt;=C2=A0 =C2=A0 065917252622 usb: dwc3: add hsphy_interface property<br>
-&gt;=C2=A0 =C2=A0 b2bb32a363a3 usb: dwc3: setup phys earlier<br>
-&gt;=C2=A0 =C2=A0 bf6bb0a6ebb5 usb: dwc3: soft reset to it&#39;s own functi=
-on<br>
-&gt;=C2=A0 =C2=A0 d481da949476 usb: dwc3: cache hwparams earlier<br>
-&gt;=C2=A0 =C2=A0 9ac66262a201 usb: dwc3: store driver data earlier<br>
-&gt;=C2=A0 =C2=A0 5f940588938c usb: dwc3: ULPI or UTMI+ select<br>
-&gt;=C2=A0 =C2=A0 04fdce097f83 usb: dwc3: USB2 PHY register access bits<br>
-&gt;=C2=A0 =C2=A0 b7209213cc05 usb: add bus type for USB ULPI<br>
-<br>
-</div></div>I have a suspicion this breaks qemuppc:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-l=
-sb/builds/683/steps/BuildImages/logs/stdio" rel=3D"noreferrer" target=3D"_b=
-lank">https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/bu=
-ilds/683/steps/BuildImages/logs/stdio</a></blockquote><div><br></div></div>=
-</div><div>Yup. With mainline backports, I have a shorter validation cycle,=
- since they really should</div><div>be safe.</div><div><br></div><div>I&#39=
-;ll hunt up whatever is missing from the series and send another update.</d=
-iv></div></div></div></blockquote><div><br></div><div>I found the missing c=
-ommit: =C2=A06a88bbe8e30d4beb2320b5a7452242a1fe7889c5</div><div><p class=3D=
-"">I added it to the patch, and just sent v2. qemuppc builds fine here with=
- this set of SRCREVs</p><p class=3D""><br></p><p class=3D"">Bruce</p><p cla=
-ss=3D"">=C2=A0<br></p></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
-4);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D=
-"gmail_extra"><div class=3D"gmail_quote"><div><br></div><div>Bruce</div><sp=
-an class=3D""><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204=
-,204);border-left-style:solid;padding-left:1ex"><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<div><div>--<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></span></div><span class=3D""><font color=3D"#8888=
-88"><br><br clear=3D"all"><div><br></div>-- <br><div>&quot;Thou shalt not f=
-ollow the NULL pointer, for chaos and madness await thee at its end&quot;</=
-div>
-</font></span></div></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
-s and madness await thee at its end&quot;</div>
-</div></div>
+A patch is submitted to fix the issue.
 
---001a11436c72f7f789052df9f3c9--
+http://patchwork.openembedded.org/patch/117783/
+
+
+Best Regards,
+
+Zhenhua
+
+From: Hongxu Jia [mailto:hongxu.jia@windriver.com]
+Sent: Tuesday, March 08, 2016 4:09 PM
+To: Richard Purdie <richard.purdie@linuxfoundation.org>; Zhenhua Luo <zhenh=
+ua.luo@nxp.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Status of M3
+
+On 03/04/2016 06:18 PM, Richard Purdie wrote:
+
+On Fri, 2016-03-04 at 09:41 +0000, Zhenhua Luo wrote:
+
+* meta-fsl-ppc breaks on eudev change (patch pending)
+
+* meta-fsl-ppc breakage blocks AB artefact publishing
+
+[Luo Zhenhua-B19537] The eudev patch is merged, http://git.yoctoproje
+
+ct.org/cgit/cgit.cgi/meta-fsl
+
+-ppc/commit/?id=3D2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there
+
+any other blocker issue?
+
+
+
+Thanks, I appreciate getting that sorted!
+
+
+
+Unfortunately there is something else not quite right with meta-fsl
+
+-ppc:
+
+
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/buil
+
+ds/667
+
+Hi Richard,
+
+In the log, we have do_configure failed on python3:
+...
+| checking for the platform triplet based on compiler characteristics... po=
+werpc-linux-gnuspe
+| configure: error: internal configure error for the platform triplet, plea=
+se file a bug report
+| NOTE: The following config.log files may provide further information.
+...
+
+
+vim configure.ac in python3 source
+...
+ 852 if test x$PLATFORM_TRIPLET !=3D x && test x$MULTIARCH !=3D x; then
+ 853   if test x$PLATFORM_TRIPLET !=3D x$MULTIARCH; then
+ 854     AC_MSG_ERROR([internal configure error for the platform triplet, p=
+lease file a bug report])
+ 855   fi
+ 856 fi
+...
+
+In this case, PLATFORM_TRIPLET is powerpc-linux-gnuspe, and MULTIARCH is
+MULTIARCH=3D$($CC --print-multiarch 2>/dev/null), and both of them are not =
+equivalent.
+
+On my local build with MACHINE =3D "qemux86-64", the MULTIARCH is empty.
+
+On my local build with MACHINE =3D "p1022ds", $CC --print-multiarch
+powerpc-linux-gnuspev1
+
+Extra 'v1' casued the failure.
+
+I am going to see what happen on 'v1', file [YOCTO #9226] to trace it
+
+//Hongxu
+
+
+
+
+
+Seems something is not working in python3 do_configure? Everything else
+
+is building python3 fine so not sure what is wrong there.
+
+
+
+Cheers,
+
+
+
+Richard
+
+
+--_000_DB3PR04MB068479840363DCBF812FD0E9EE880DB3PR04MB0684eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	color:black;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	color:black;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted";
+	font-family:Consolas;
+	color:black;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body bgcolor=3D"white" lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D">A patch is submitted to fix the issue=
+.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D"><a href=3D"http://patchwork.openembed=
+ded.org/patch/117783/">http://patchwork.openembedded.org/patch/117783/</a><=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D"><o:p>&nbsp;</o:p></span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D">Best Regards,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D">Zhenhua<o:p></o:p></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1F497D"><o:p>&nbsp;</o:p></span></p>
+<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0in 0in 0in =
+4.0pt">
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:windowtext">From:</span></b><span style=3D"=
+font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:windowtex=
+t"> Hongxu Jia [mailto:hongxu.jia@windriver.com]
+<br>
+<b>Sent:</b> Tuesday, March 08, 2016 4:09 PM<br>
+<b>To:</b> Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; Zhenh=
+ua Luo &lt;zhenhua.luo@nxp.com&gt;<br>
+<b>Cc:</b> openembedded-core &lt;openembedded-core@lists.openembedded.org&g=
+t;<br>
+<b>Subject:</b> Re: [OE-core] Status of M3<o:p></o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<p class=3D"MsoNormal">On 03/04/2016 06:18 PM, Richard Purdie wrote:<o:p></=
+o:p></p>
+</div>
+<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
+<pre>On Fri, 2016-03-04 at 09:41 &#43;0000, Zhenhua Luo wrote:<o:p></o:p></=
+pre>
+<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
+<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
+<pre>* meta-fsl-ppc breaks on eudev change (patch pending)<o:p></o:p></pre>
+<pre>* meta-fsl-ppc breakage blocks AB artefact publishing<o:p></o:p></pre>
+</blockquote>
+<pre>[Luo Zhenhua-B19537] The eudev patch is merged, <a href=3D"http://git.=
+yoctoproje">http://git.yoctoproje</a><o:p></o:p></pre>
+<pre>ct.org/cgit/cgit.cgi/meta-fsl<o:p></o:p></pre>
+<pre>-ppc/commit/?id=3D2642cf5e8a6f8d11603acf016b8c075ebce00ec0, is there<o=
+:p></o:p></pre>
+<pre>any other blocker issue? <o:p></o:p></pre>
+</blockquote>
+<pre><o:p>&nbsp;</o:p></pre>
+<pre>Thanks, I appreciate getting that sorted! <o:p></o:p></pre>
+<pre><o:p>&nbsp;</o:p></pre>
+<pre>Unfortunately there is something else not quite right with meta-fsl<o:=
+p></o:p></pre>
+<pre>-ppc:<o:p></o:p></pre>
+<pre><o:p>&nbsp;</o:p></pre>
+<pre><a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-=
+fsl-ppc/buil">https://autobuilder.yoctoproject.org/main/builders/nightly-fs=
+l-ppc/buil</a><o:p></o:p></pre>
+<pre>ds/667<o:p></o:p></pre>
+</blockquote>
+<p class=3D"MsoNormal"><br>
+Hi Richard,<br>
+<br>
+In the log, we have do_configure failed on python3:<br>
+...<br>
+| checking for the platform triplet based on compiler characteristics... po=
+werpc-linux-gnuspe<br>
+| configure: error: internal configure error for the platform triplet, plea=
+se file a bug report<br>
+| NOTE: The following config.log files may provide further information.<br>
+...<br>
+<br>
+<br>
+vim configure.ac in python3 source<br>
+...<br>
+&nbsp;852 if test x$PLATFORM_TRIPLET !=3D x &amp;&amp; test x$MULTIARCH !=
+=3D x; then<br>
+&nbsp;853&nbsp;&nbsp; if test x$PLATFORM_TRIPLET !=3D x$MULTIARCH; then<br>
+&nbsp;854&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_ERROR([internal configure error fo=
+r the platform triplet, please file a bug report])<br>
+&nbsp;855&nbsp;&nbsp; fi<br>
+&nbsp;856 fi<br>
+...<br>
+<br>
+In this case, PLATFORM_TRIPLET is powerpc-linux-gnuspe, and MULTIARCH is<br=
+>
+MULTIARCH=3D$($CC --print-multiarch 2&gt;/dev/null), and both of them are n=
+ot equivalent.<br>
+<br>
+On my local build with MACHINE =3D &quot;qemux86-64&quot;, the MULTIARCH is=
+ empty.<br>
+<br>
+On my local build with MACHINE =3D &quot;p1022ds&quot;, $CC --print-multiar=
+ch<br>
+powerpc-linux-gnuspev1<br>
+<br>
+Extra 'v1' casued the failure.<br>
+<br>
+I am going to see what happen on 'v1', file [YOCTO #9226] to trace it<br>
+<br>
+//Hongxu<br>
+<br>
+<br>
+<o:p></o:p></p>
+<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
+<pre><o:p>&nbsp;</o:p></pre>
+<pre>Seems something is not working in python3 do_configure? Everything els=
+e<o:p></o:p></pre>
+<pre>is building python3 fine so not sure what is wrong there.<o:p></o:p></=
+pre>
+<pre><o:p>&nbsp;</o:p></pre>
+<pre>Cheers,<o:p></o:p></pre>
+<pre><o:p>&nbsp;</o:p></pre>
+<pre>Richard<o:p></o:p></pre>
+</blockquote>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</div>
+</body>
+</html>
+
+--_000_DB3PR04MB068479840363DCBF812FD0E9EE880DB3PR04MB0684eurp_--
