@@ -1,26 +1,33 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EA0C6FF01
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id A15236AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 07:13:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2F7Dc7o021593
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 00:13:38 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.210) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 15 Mar 2016 00:13:37 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Mar 2016 15:13:46 +0800
-Message-ID: <be3bc855e07621413e0e2443d722d2932b05dee1.1458025958.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1458025958.git.Qi.Chen@windriver.com>
-References: <cover.1458025958.git.Qi.Chen@windriver.com>
+	Tue, 15 Mar 2016 08:00:20 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id EEE3868A01C; Tue, 15 Mar 2016 08:00:16 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id CAA5F68A019;
+	Tue, 15 Mar 2016 08:00:12 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 6F98B67400A8;
+	Tue, 15 Mar 2016 09:00:12 +0100 (CET)
+To: openembedded-core@lists.openembedded.org
+References: <56E1028C.6080605@mlbassoc.com>
+	<E219D57B-2F63-40DE-9C33-161AE6F738CC@gmail.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <56E7C10B.6000301@mlbassoc.com>
+Date: Tue, 15 Mar 2016 09:00:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] openssl: don't move libcrypto to base_libdir
+In-Reply-To: <E219D57B-2F63-40DE-9C33-161AE6F738CC@gmail.com>
+Subject: Re: Problems with perl 5.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +40,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 07:13:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Mar 2016 08:00:21 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-For now, if 'openssl' is enabled for ntp, ntp would still be built
-without openssl & libcrypto. This is because that ntp thinks openssl
-and libcrypto locates under the same directory.
+On 03/10/2016 04:54 PM, Jens Rehsack wrote:
+>
+>> Am 10.03.2016 um 06:13 schrieb Gary Thomas <gary@mlbassoc.com>:
+>>
+>> I'm working on a package (amanda - the Advanced Maryland Archiving
+>> system) that is written heavily in perl with swig interfaces to C.
+>> This code ran great until the update to perl 5.22; it now dies a
+>> horrible death on almost every activity.  These failures seem to
+>> always be in the swig generated wrappers, but that may just be
+>> where most of the work gets done.
+>>
+>> I've narrowed this down to exactly the change to perl 5.22 from
+>> 5.20. Using bisect as well as experimentation (e.g. trying all
+>> the compiler combinations that have occurred since a last good
+>> version) and I can go from working to failing by only the change
+>> in perl.
+>>
+>> The interesting (scary) thing is that I've built amanda for my
+>> target natively on my board running debian, including perl 5.22.
+>> This means I can't say definitively  that perl 5.22 is the culprit
+>> as on debian it runs fine.  So, it's got something to do with the
+>> OE environment/porting/packaging of perl and not just the revision.
+>>
+>> I've also tested this on multiple architectures (ARM, PowerPC) with
+>> the same results - with perl 5.20 amanda works, with perl 5.22 it fails.
+>>
+>> I've compared the actual 5.22.1 sources used by OE-core and debian
+>> and they are subtly different, although I can't pinpoint any change
+>> that might be responsible.
+>>
+>> For the moment, I can just fall back to perl 5.20 for my target
+>> that needs to run amanda, but this isn't a real solution (e.g.
+>> in this state I can't propose my recipe to any layer as it's
+>> totally broken with the current OE-core).  I'd like to see this
+>> fixed but the amanda code (swig wrappers) are horribly complex
+>> which makes debugging quite the challenge, not to mention they
+>> may be about the only way to uncover the bug, whether it's in
+>> amanda or perl.
+>>
+>> Any suggestions on how to move forward?
+>
+> Since I have no clue what's wrong and how it fails (backtrace
+> would point in some directions), several ideas might work:
+>
+> How clean is your build location (we realize that often between
+> updates some files remain in our target images until we wipe
+> tmp/ - cleansstate for image doesn't help ...)?
+>
+> Did you prove the library path's of your *.so's? Perl does
+> almost everything within libperl.so - build against wrong version
+> causes in weird crashes (scan DBI mailing list for admin's
+> build issues of DBI on AIX/HP-UX ...).
+>
+> Maybe share your recipe can help to reproduce the problem
+> elsewhere and debug locally.
 
-This patch removes the codes of moving libcrypto to base_libdir.
+I've spent quite a lot of time trying to come up with debuggable
+scenario(s) on many different targets.  This is all packed up in
+   https://github.com/GaryThomas/meta-amanda
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+If you give the README a look, you'll see that there are plenty
+of issues to be looked at.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 1282115..0c7e192 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -33,12 +33,12 @@ EXTRA_OEMAKE = "-e MAKEFLAGS="
- inherit pkgconfig siteinfo multilib_header ptest
- 
- PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
--FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
-+FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
- FILES_libssl = "${libdir}/libssl.so.*"
- FILES_${PN} =+ " ${libdir}/ssl/*"
- FILES_${PN}-misc = "${libdir}/ssl/misc ${bindir}/c_rehash"
- RDEPENDS_${PN}-misc = "${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perl', '', d)}"
--FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
-+FILES_${PN}-dev += "${libdir}/libcrypto${SOLIBSDEV}"
- 
- # Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
- # package RRECOMMENDS on this package.  This will enable the configuration
-@@ -166,13 +166,6 @@ do_install () {
- 	oe_libinstall -so libcrypto ${D}${libdir}
- 	oe_libinstall -so libssl ${D}${libdir}
- 
--	# Moving libcrypto to /lib
--	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
--		mkdir -p ${D}/${base_libdir}/
--		mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
--		sed -i s#libdir=\$\{exec_prefix\}\/lib#libdir=${base_libdir}# ${D}/${libdir}/pkgconfig/libcrypto.pc
--	fi
--
- 	install -d ${D}${includedir}
- 	cp --dereference -R include/openssl ${D}${includedir}
- 
 -- 
-1.9.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
