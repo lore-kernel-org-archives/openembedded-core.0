@@ -1,53 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C26BC73163
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F3EF607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 17:43:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id E057C1812E
+	Tue, 15 Mar 2016 19:23:36 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id s5so11523892qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:17 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id BRrdFLzSehGU
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:14 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id E8A251812D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:13 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id D26C11463
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:13 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id C78D8145E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:13 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id C63A2106C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:13 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2FHhDVI014442
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 18:43:13 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2FHhDEx014441
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Mar 2016 18:43:13 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Mar 2016 18:43:06 +0100
-Message-Id: <00ffbe7cb30c2028f343015d87102cf329d9afc0.1458063686.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1458063686.git.pkj@axis.com>
-References: <cover.1458063686.git.pkj@axis.com>
-In-Reply-To: <cover.1458063686.git.pkj@axis.com>
-References: <cover.1458063686.git.pkj@axis.com>
-Subject: [PATCH 1/6] oe-init-build-env*: Allow $OEROOT to be predefined
+	Tue, 15 Mar 2016 12:23:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=OqXmKcr/4xR/1TaPsP0Rz5L/AsQ+SnC3VqU1nN5r/nE=;
+	b=dzqprzHsn0Qq4M8INMpBxD1hlJuONr8D/+2odVUMD02CUnbMNUtTyZTTRKLuNC5Qa1
+	JadJaXrS+ODZt3cAjyHMJps+YBncXAjUoF8v2pda7lnNbpqSjuvBWjcsfuvDrA91NXgK
+	cm3kSKVzRuai3bO8mmeXs87dXyIR+r0J4q33QZWOsjNIPEHiCruognE5k8VfVZPB0UPj
+	LuEytlvf/vTwgVDxS/jeO3V60uIaEu1hyyfjiIB4Np6wewiFlA4RgS50o2b+3gdD174c
+	6UAlCe4fESNzmgSAyNG59wch2xcR1UyLZm3kWM1SMQmv2/7zojEruD8VS5zjoolvWkzR
+	MKLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=OqXmKcr/4xR/1TaPsP0Rz5L/AsQ+SnC3VqU1nN5r/nE=;
+	b=UrMf8YHH4P2zrFNh9bGg45YkNCfmb/ZtVQVzGv3Bga7eltYUJI6y3Bd5gwJUbhPr4v
+	BX29kWhlFEaKAHU4eK6bxor2PeWh77/HDHqatkZ++jOFZK4H+jJt34mJTpiyOgrxtuvl
+	P74jsvH7khq36BQAI9RwA0GhLT3pm3DLHsj26kB+Lk6hab60ZW2S5MH3j8rmZtN8dhNr
+	gJtd3s1RBfsqZrJz8G4/X91iixGeeT5iTfMnIc82OKAruqixfg/q7hVg0WTyFZ+h9i+Y
+	Nn230eEMxgLNEVsT5q5si0Jzz1rk994rMFfBT7pScnP+OiV4HHht8w9ajI8o3S6KxTX2
+	Anpw==
+X-Gm-Message-State: AD7BkJJ+y6KxGstJCNW+AsoRrF6zPBjRhTtz5FHrNirWc0dtUjvBHMGHOK7724g25WsgrMQnNP3BCw+lflrXAw==
+X-Received: by 10.55.74.197 with SMTP id x188mr40769154qka.104.1458069816954; 
+	Tue, 15 Mar 2016 12:23:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.130.196 with HTTP; Tue, 15 Mar 2016 12:23:07 -0700 (PDT)
+In-Reply-To: <56E8315D.2080906@linux.intel.com>
+References: <cover.1457535622.git.alexander.kanavin@linux.intel.com>
+	<15c0b6ce47e45b3be9db55c6b32bb2830766e932.1457535622.git.alexander.kanavin@linux.intel.com>
+	<CALbNGRSZXjynMUy2B3Ke9k4g=DwFnhb2eO=xpJj4fGXHT2HBMw@mail.gmail.com>
+	<56E8315D.2080906@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 15 Mar 2016 12:23:07 -0700
+Message-ID: <CAMKF1srbyaUBZO0Lu49x0FKoZR+-6CQcMX6h5ze8r4z9Yu6oHw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/24] python3-native: use the previous version of python-config script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,111 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 17:43:18 -0000
+X-List-Received-Date: Tue, 15 Mar 2016 19:23:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The current implementation of oe-init-build-env and
-oe-init-build-env-memres requires that they are sourced from the
-directory that will be known as $OEROOT. This makes it hard to write a
-wrapper script with the same name as the original OE script which,
-e.g., sources the original OE script from a sub-directory.
+On Tue, Mar 15, 2016 at 8:59 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 03/10/2016 11:24 PM, Andreas M=C3=BCller wrote:
+>
+>> This one seems to report host's python3 version:
+>>
+>> [superandy@localhost sysroots]$
+>> x86_64-linux/usr/bin/python3-native/python3-config --ldflags
+>> -lpython3.4m -lpthread -ldl -lutil -lm -Xlinker -export-dynamic
+>>
+>> We are at 3.5
+>
+>
+> This is because python3-config does not contain the version within itself=
+,
+> it reports the version of the python interpreter that it is run with. So
+> NOTABUG.
 
-With this change, $OEROOT can be predefined when oe-init-build-env or
-oe-init-build-env-memres is sourced, allowing the original OE scripts
-to be anywhere.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- oe-init-build-env        | 16 ++++++++--------
- oe-init-build-env-memres | 16 ++++++++--------
- 2 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/oe-init-build-env b/oe-init-build-env
-index b7e2918..f511b57 100755
---- a/oe-init-build-env
-+++ b/oe-init-build-env
-@@ -26,30 +26,30 @@
- # to sourcing this script.
- #
- if [ -n "$BASH_SOURCE" ]; then
--   OEROOT="`dirname $BASH_SOURCE`"
-+    THIS_SCRIPT=$BASH_SOURCE
- elif [ -n "$ZSH_NAME" ]; then
--   OEROOT="`dirname $0`"
-+    THIS_SCRIPT=$0
- else
--   OEROOT="`pwd`"
-+    THIS_SCRIPT="$(pwd)/oe-init-build-env"
- fi
- if [ -n "$BBSERVER" ]; then
-    unset BBSERVER
- fi
--THIS_SCRIPT=$OEROOT/oe-init-build-env
- 
- if [ -z "$ZSH_NAME" ] && [ "$0" = "$THIS_SCRIPT" ]; then
-    echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'"
-    exit 1
- fi
- 
--OEROOT=`readlink -f "$OEROOT"`
-+if [ -z "$OEROOT" ]; then
-+    OEROOT=$(dirname "$THIS_SCRIPT")
-+    OEROOT=$(readlink -f "$OEROOT")
-+fi
- export OEROOT
- . $OEROOT/scripts/oe-buildenv-internal && \
-      TEMPLATECONF="$TEMPLATECONF" $OEROOT/scripts/oe-setup-builddir && \
-      [ -n "$BUILDDIR" ] && cd "$BUILDDIR"
--unset OEROOT
--unset BBPATH
--unset THIS_SCRIPT
-+unset THIS_SCRIPT OEROOT BBPATH
- 
- # Shutdown any bitbake server if the BBSERVER variable is not set
- if [ -z "$BBSERVER" ] && [ -f bitbake.lock ] ; then
-diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
-index c1dc4fe..6dd2b13 100755
---- a/oe-init-build-env-memres
-+++ b/oe-init-build-env-memres
-@@ -34,30 +34,30 @@ else
- fi
- 
- if [ -n "$BASH_SOURCE" ]; then
--  OEROOT="`dirname $BASH_SOURCE`"
-+    THIS_SCRIPT=$BASH_SOURCE
- elif [ -n "$ZSH_NAME" ]; then
--  OEROOT="`dirname $0`"
-+    THIS_SCRIPT=$0
- else
--  OEROOT="`pwd`"
-+    THIS_SCRIPT="$(pwd)/oe-init-build-env"
- fi
- if [ -n "$BBSERVER" ]; then
-   unset BBSERVER
- fi
- 
--THIS_SCRIPT=$OEROOT/oe-init-build-env-memres
- if [ -z "$ZSH_NAME" ] && [ "x$0" = "x$THIS_SCRIPT" ]; then
-    echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'"
-    exit 1
- fi
- 
--OEROOT=`readlink -f "$OEROOT"`
-+if [ -z "$OEROOT" ]; then
-+    OEROOT=$(dirname "$THIS_SCRIPT")
-+    OEROOT=$(readlink -f "$OEROOT")
-+fi
- export OEROOT
- . $OEROOT/scripts/oe-buildenv-internal && \
-     $OEROOT/scripts/oe-setup-builddir && \
-     [ -n "$BUILDDIR" ] && cd $BUILDDIR
--unset OEROOT
--unset BBPATH
--unset THIS_SCRIPT
-+unset THIS_SCRIPT OEROOT BBPATH
- 
- res=1
- if [ -e bitbake.lock ] && grep : bitbake.lock > /dev/null ; then
--- 
-2.1.0
-
+If its supposed to report the version of python pack its coming with
+and not the interpreter its run with
+then how do you decide its not a behavior change ?
+Lets keep the semantics as they were. I am perfectly fine to revert to
+python 3.4 if thats what it takes.
 
