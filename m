@@ -1,45 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DE416FFC8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A42B56FF64
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 11:48:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2FBmtke007091; Tue, 15 Mar 2016 11:48:55 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bdkSLBFmiGTe; Tue, 15 Mar 2016 11:48:55 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2FBmovg007087
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 15 Mar 2016 11:48:51 GMT
-Message-ID: <1458042530.2804.310.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Tue, 15 Mar 2016 11:48:50 +0000
-In-Reply-To: <CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
-References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
-	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
-	<CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
-	<CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
-	<CAJTo0LYfwrc+wteB+ez6gqZbXgM8dJO6PKrB+vf0S6+ANC7ggQ@mail.gmail.com>
-	<CAP9ODKopJb0SusuYNubJz9oEMjJUDLyRBjNWDjeFD+tw0iYS3g@mail.gmail.com>
-	<CAJTo0Lbx5YajNU5fcRkn1sk43LW1tCLm7p1WxCM=fQqTYo=zWA@mail.gmail.com>
-	<CAP9ODKp=+6F6dMDryHOtNcMsmBL3VqHpNwioxpi3AtoxQ3ji9A@mail.gmail.com>
-	<CAJTo0LY=BQxpH0Eq=86OnLB7M_bAR5+HhrWg7YqfhVPZgQ6=ng@mail.gmail.com>
-	<CAP9ODKqoummpnrf_-4mZgY94u3kRTdmB0AhNX=0LGFAz0yBpVA@mail.gmail.com>
-	<CABcZAN=_-oVgP+8OOggYaGox6GkDLeyhtS5+=dCvgapaKZ0TDw@mail.gmail.com>
-	<CAP9ODKprS3P41A_fCApFSTmm=s9MvTDtD5J87d9fOdRm=cS0Zg@mail.gmail.com>
-	<CAJTo0Lb5ehLTcYu5=twZOqJQULCX1qywXz=p1K7=E5ExWDVM2g@mail.gmail.com>
-	<CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
+	Tue, 15 Mar 2016 13:11:11 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id m184so22988466iof.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Mar 2016 06:11:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=eZqinow47sHRhjN8RUzmKR72IbwQdQfTvPH9uKxSKCk=;
+	b=rnUwwpFEAdCIbOGhfCq7Vboiz27/5pkr2fItPnHE+dXCm+pf8sceCve732BamtRzFT
+	Q3C/+tJ44JbA8Ktw/txLYz89sqENIomwNW+u012UDWEDwVE9ho4+D3b/+jVOa361ijak
+	lyD3um0fUdoPdAj1HAT82k4gHmklNdhSlhrAbiDxB9SUhf4+wtLRyuLyGI9M3YGo37Q+
+	I6Pb1ehKigmpZlaEeQeuyRWBrR+yInMSmBXFALvK94qdpz2A5AcXovtdqO6vr//YniPb
+	sPrHdOOQJMwR8FanqU4yYEVCXHXRXz1gRHlxgaDbebPLSfREEOHnZTB3L2/p5epHnnpX
+	ELDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=eZqinow47sHRhjN8RUzmKR72IbwQdQfTvPH9uKxSKCk=;
+	b=bV/lTCaqE9dPicHHXGCk6Ji6E8ZpHe3qNy5Yk1vMTDv3ALCGbaGZRkJCkel7YFm8qz
+	R7LtapfauYUc7ezT+RwVz836oMD7dOndOGdxHRbSx27W3fyeXMs4HRDiRY0qyP3/NvCE
+	1ukW9opFw3Rm7K9uBxMwxuIKF1Y7NRgSBxE/lCZgErjLXIWfDo0xqFce2eQa46ySM3gX
+	URmMo6ebKZKiuRWBHRPDvz5OcGecudQYj0fVTopJQS6rKZmwQeUiEZSxiqfW8+yibGZD
+	vQErWY3KXBqP+HqbwNKH4P42pfNEGt0zQ8SwzUkpd+i0PHjQxxNVNTA0L0bwmngh53+n
+	3WaA==
+X-Gm-Message-State: AD7BkJJbQmZFx2fDjf9pIIJDByoJ8+86TIi1ncUllsd3hF3OKHem5WHYmtD8gdwOJiKe38Jn
+X-Received: by 10.107.10.150 with SMTP id 22mr27865778iok.85.1458047472532;
+	Tue, 15 Mar 2016 06:11:12 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p57A577BD.dip0.t-ipconnect.de.
+	[87.165.119.189])
+	by smtp.gmail.com with ESMTPSA id j7sm8640603ige.5.2016.03.15.06.11.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 15 Mar 2016 06:11:11 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Mar 2016 14:11:07 +0100
+Message-Id: <1458047467-30688-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image.bbclass: track ROOTFS_POSTUNINSTALL_COMMAND in do_rootfs vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,42 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 11:49:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Mar 2016 13:11:14 -0000
 
-On Tue, 2016-03-15 at 08:01 -0300, Otavio Salvador wrote:
-> On Mon, Mar 14, 2016 at 6:26 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > 
-> > On 14 March 2016 at 21:23, Otavio Salvador
-> > <otavio.salvador@ossystems.com.br> wrote:
-> > > 
-> > > Do you mind to explain to me why?
-> > > 
-> > > I would like to try to see your view on this.
-> > 
-> > 
-> > libsdl is a good example to be honest.  Why does your choice of
-> > target
-> > distro features decide what libraries the native sdl should use? 
-> >  Respecting
-> > them means in this case that you can't have a graphical qemu. 
-> >  Taking it to
-> > hypotheticals, just because my target is pure Wayland doesn't mean
-> > I expect
-> > sdl to build for Wayland without X11, especially if my desktop is
-> > X11 based.
-> 
-> I agree with the overall goal here however this means we ought to
-> have
-> a HOST_DISTRO_FEATURES setting and not ignore it at all.
+The list of variables influencing do_rootfs was not updated when
+introducing ROOTFS_POSTUNINSTALL_COMMAND. As a result, making changes
+in commands listed there or the variables they depend on did not trigger
+a re-run of do_rootfs.
 
-I think right now there isn't a pressing need for the extra
-complications this brings in. Obviously we should watch the situation
-carefully though.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index c61d814..3ab432e 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -98,7 +98,7 @@ do_rootfs[depends] += " \
+ do_rootfs[recrdeptask] += "do_packagedata"
+ 
+ def rootfs_command_variables(d):
+-    return ['ROOTFS_POSTPROCESS_COMMAND','ROOTFS_PREPROCESS_COMMAND','ROOTFS_POSTINSTALL_COMMAND','OPKG_PREPROCESS_COMMANDS','OPKG_POSTPROCESS_COMMANDS','IMAGE_POSTPROCESS_COMMAND',
++    return ['ROOTFS_POSTPROCESS_COMMAND','ROOTFS_PREPROCESS_COMMAND','ROOTFS_POSTINSTALL_COMMAND','ROOTFS_POSTUNINSTALL_COMMAND','OPKG_PREPROCESS_COMMANDS','OPKG_POSTPROCESS_COMMANDS','IMAGE_POSTPROCESS_COMMAND',
+             'IMAGE_PREPROCESS_COMMAND','ROOTFS_POSTPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS','RPM_POSTPROCESS_COMMANDS']
+ 
+ python () {
+-- 
+2.1.4
 
-Richard
 
