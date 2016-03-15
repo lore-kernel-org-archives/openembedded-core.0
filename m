@@ -1,52 +1,25 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id F054F6FFFB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DE416FFC8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 11:01:15 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id u190so24576826pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 04:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=Qoc857ZM/DcGevkuDqCKIbI2tkxOUlk3uE1LgKlYZVk=;
-	b=QhtnxM9FimEfC3NMIhXFeC+FeG1/0rSckBJ8gpXhcC0UPPHPWJO1ZcaZ1HHrcJP8Zj
-	xgQ5b/I35CHa2E57YrF8F6yZD8q+77H1EWlZ5KSSDEjzpfvxTDpb0J4EMCrUaUKqBGSj
-	YVFIQ/uneMrNH6jTjxdziA9N4MTFBhL5AphRiu/RQ8tnTPjCJZGCsfx/tLwK6RAcijJT
-	Ibo/fQUCZ+JJ5BPjGKa/Irc40Ty5+e1tdhkgfAuhdDo3xcrbsaDLpGQriU4Jzzaq5Q33
-	emz3CSUzFNMqzoGfOhqmPivc+gjcXWbaP+SGdgaHjfxthL5dJ+8zh0aC8rwd+hfvEKSk
-	+koA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=Qoc857ZM/DcGevkuDqCKIbI2tkxOUlk3uE1LgKlYZVk=;
-	b=EibjKg3uaw6TyFzIw976gqgp0s0m4m6TjYNm2nVWEOmVcoxMXwvwtyZskuugcPbe3m
-	TU6xWPOfu/M8yVp7HqJFJF7TGrA+ohFbRiuiYdvYuszoT2YjC2h6E6Ttc1f9xggCB5FX
-	VbQcW9MZFLGADxuJQ52NOOcjUXQagV7OcqVRYNhYMxOvxTxP07+SQNJHyWVi0UZebM3+
-	o7X4SH6r09tIjARhmpc+c6ta4G0bbIRNNbAaIEMn6DcX789dyf3Dv8gdWEHF4RKCixHD
-	Au3cNeU60/q7Dq1Z8Fi6advZQxQ5bMG8oo/BiuIyieo8PYMV6t86WYauucfzMNRTbzGn
-	CI1Q==
-X-Gm-Message-State: AD7BkJKqDy9DNxyZ/vQ0oAA8gwNOx128zQwekVBChKMmh8EzLs9M76tw02AjDLV1adkKpA==
-X-Received: by 10.66.65.228 with SMTP id a4mr43651815pat.4.1458039675710;
-	Tue, 15 Mar 2016 04:01:15 -0700 (PDT)
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com.
-	[209.85.192.170])
-	by smtp.gmail.com with ESMTPSA id s66sm3850351pfi.3.2016.03.15.04.01.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Mar 2016 04:01:13 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f170.google.com with SMTP id 124so24723016pfg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 04:01:13 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.66.63.41 with SMTP id d9mr45265622pas.1.1458039673251; Tue,
-	15 Mar 2016 04:01:13 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Tue, 15 Mar 2016 04:01:13 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb5ehLTcYu5=twZOqJQULCX1qywXz=p1K7=E5ExWDVM2g@mail.gmail.com>
+	Tue, 15 Mar 2016 11:48:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2FBmtke007091; Tue, 15 Mar 2016 11:48:55 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bdkSLBFmiGTe; Tue, 15 Mar 2016 11:48:55 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2FBmovg007087
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 15 Mar 2016 11:48:51 GMT
+Message-ID: <1458042530.2804.310.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Tue, 15 Mar 2016 11:48:50 +0000
+In-Reply-To: <CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
 References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
 	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
 	<CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
@@ -60,10 +33,9 @@ References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
 	<CABcZAN=_-oVgP+8OOggYaGox6GkDLeyhtS5+=dCvgapaKZ0TDw@mail.gmail.com>
 	<CAP9ODKprS3P41A_fCApFSTmm=s9MvTDtD5J87d9fOdRm=cS0Zg@mail.gmail.com>
 	<CAJTo0Lb5ehLTcYu5=twZOqJQULCX1qywXz=p1K7=E5ExWDVM2g@mail.gmail.com>
-Date: Tue, 15 Mar 2016 08:01:13 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
-Message-ID: <CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: Christopher Larson <clarson@kergoth.com>,
 	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
 	<openembedded-core@lists.openembedded.org>
@@ -80,30 +52,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 11:01:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Mar 2016 11:49:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 14, 2016 at 6:26 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 14 March 2016 at 21:23, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> Do you mind to explain to me why?
->>
->> I would like to try to see your view on this.
->
->
-> libsdl is a good example to be honest.  Why does your choice of target
-> distro features decide what libraries the native sdl should use?  Respecting
-> them means in this case that you can't have a graphical qemu.  Taking it to
-> hypotheticals, just because my target is pure Wayland doesn't mean I expect
-> sdl to build for Wayland without X11, especially if my desktop is X11 based.
+On Tue, 2016-03-15 at 08:01 -0300, Otavio Salvador wrote:
+> On Mon, Mar 14, 2016 at 6:26 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > 
+> > On 14 March 2016 at 21:23, Otavio Salvador
+> > <otavio.salvador@ossystems.com.br> wrote:
+> > > 
+> > > Do you mind to explain to me why?
+> > > 
+> > > I would like to try to see your view on this.
+> > 
+> > 
+> > libsdl is a good example to be honest.  Why does your choice of
+> > target
+> > distro features decide what libraries the native sdl should use? 
+> >  Respecting
+> > them means in this case that you can't have a graphical qemu. 
+> >  Taking it to
+> > hypotheticals, just because my target is pure Wayland doesn't mean
+> > I expect
+> > sdl to build for Wayland without X11, especially if my desktop is
+> > X11 based.
+> 
+> I agree with the overall goal here however this means we ought to
+> have
+> a HOST_DISTRO_FEATURES setting and not ignore it at all.
 
-I agree with the overall goal here however this means we ought to have
-a HOST_DISTRO_FEATURES setting and not ignore it at all.
+I think right now there isn't a pressing need for the extra
+complications this brings in. Obviously we should watch the situation
+carefully though.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Cheers,
+
+Richard
 
