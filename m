@@ -1,33 +1,73 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id A15236AC00
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id F054F6FFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 08:00:20 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id EEE3868A01C; Tue, 15 Mar 2016 08:00:16 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id CAA5F68A019;
-	Tue, 15 Mar 2016 08:00:12 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 6F98B67400A8;
-	Tue, 15 Mar 2016 09:00:12 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
-References: <56E1028C.6080605@mlbassoc.com>
-	<E219D57B-2F63-40DE-9C33-161AE6F738CC@gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56E7C10B.6000301@mlbassoc.com>
-Date: Tue, 15 Mar 2016 09:00:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Tue, 15 Mar 2016 11:01:15 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id u190so24576826pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Mar 2016 04:01:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=Qoc857ZM/DcGevkuDqCKIbI2tkxOUlk3uE1LgKlYZVk=;
+	b=QhtnxM9FimEfC3NMIhXFeC+FeG1/0rSckBJ8gpXhcC0UPPHPWJO1ZcaZ1HHrcJP8Zj
+	xgQ5b/I35CHa2E57YrF8F6yZD8q+77H1EWlZ5KSSDEjzpfvxTDpb0J4EMCrUaUKqBGSj
+	YVFIQ/uneMrNH6jTjxdziA9N4MTFBhL5AphRiu/RQ8tnTPjCJZGCsfx/tLwK6RAcijJT
+	Ibo/fQUCZ+JJ5BPjGKa/Irc40Ty5+e1tdhkgfAuhdDo3xcrbsaDLpGQriU4Jzzaq5Q33
+	emz3CSUzFNMqzoGfOhqmPivc+gjcXWbaP+SGdgaHjfxthL5dJ+8zh0aC8rwd+hfvEKSk
+	+koA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=Qoc857ZM/DcGevkuDqCKIbI2tkxOUlk3uE1LgKlYZVk=;
+	b=EibjKg3uaw6TyFzIw976gqgp0s0m4m6TjYNm2nVWEOmVcoxMXwvwtyZskuugcPbe3m
+	TU6xWPOfu/M8yVp7HqJFJF7TGrA+ohFbRiuiYdvYuszoT2YjC2h6E6Ttc1f9xggCB5FX
+	VbQcW9MZFLGADxuJQ52NOOcjUXQagV7OcqVRYNhYMxOvxTxP07+SQNJHyWVi0UZebM3+
+	o7X4SH6r09tIjARhmpc+c6ta4G0bbIRNNbAaIEMn6DcX789dyf3Dv8gdWEHF4RKCixHD
+	Au3cNeU60/q7Dq1Z8Fi6advZQxQ5bMG8oo/BiuIyieo8PYMV6t86WYauucfzMNRTbzGn
+	CI1Q==
+X-Gm-Message-State: AD7BkJKqDy9DNxyZ/vQ0oAA8gwNOx128zQwekVBChKMmh8EzLs9M76tw02AjDLV1adkKpA==
+X-Received: by 10.66.65.228 with SMTP id a4mr43651815pat.4.1458039675710;
+	Tue, 15 Mar 2016 04:01:15 -0700 (PDT)
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com.
+	[209.85.192.170])
+	by smtp.gmail.com with ESMTPSA id s66sm3850351pfi.3.2016.03.15.04.01.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Mar 2016 04:01:13 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f170.google.com with SMTP id 124so24723016pfg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Mar 2016 04:01:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <E219D57B-2F63-40DE-9C33-161AE6F738CC@gmail.com>
-Subject: Re: Problems with perl 5.22
+X-Received: by 10.66.63.41 with SMTP id d9mr45265622pas.1.1458039673251; Tue,
+	15 Mar 2016 04:01:13 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Tue, 15 Mar 2016 04:01:13 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb5ehLTcYu5=twZOqJQULCX1qywXz=p1K7=E5ExWDVM2g@mail.gmail.com>
+References: <1457981210-23532-1-git-send-email-otavio@ossystems.com.br>
+	<CAP9ODKpGfXsyzE91Nxak39npYTZ-yLw0NkVw91z75=vuVo1UyQ@mail.gmail.com>
+	<CAJTo0LaVVaY9gmtzp7tq=77GBj+rCzGBC+2K1CnOoXEk8XCwBw@mail.gmail.com>
+	<CAP9ODKq2CDKAxXijkEQH75vV6QKakt2HCSXHOU-HhZ0tCCnzwg@mail.gmail.com>
+	<CAJTo0LYfwrc+wteB+ez6gqZbXgM8dJO6PKrB+vf0S6+ANC7ggQ@mail.gmail.com>
+	<CAP9ODKopJb0SusuYNubJz9oEMjJUDLyRBjNWDjeFD+tw0iYS3g@mail.gmail.com>
+	<CAJTo0Lbx5YajNU5fcRkn1sk43LW1tCLm7p1WxCM=fQqTYo=zWA@mail.gmail.com>
+	<CAP9ODKp=+6F6dMDryHOtNcMsmBL3VqHpNwioxpi3AtoxQ3ji9A@mail.gmail.com>
+	<CAJTo0LY=BQxpH0Eq=86OnLB7M_bAR5+HhrWg7YqfhVPZgQ6=ng@mail.gmail.com>
+	<CAP9ODKqoummpnrf_-4mZgY94u3kRTdmB0AhNX=0LGFAz0yBpVA@mail.gmail.com>
+	<CABcZAN=_-oVgP+8OOggYaGox6GkDLeyhtS5+=dCvgapaKZ0TDw@mail.gmail.com>
+	<CAP9ODKprS3P41A_fCApFSTmm=s9MvTDtD5J87d9fOdRm=cS0Zg@mail.gmail.com>
+	<CAJTo0Lb5ehLTcYu5=twZOqJQULCX1qywXz=p1K7=E5ExWDVM2g@mail.gmail.com>
+Date: Tue, 15 Mar 2016 08:01:13 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
+Message-ID: <CAP9ODKoNSWrsjo5=dKX863+=5YKfjnUv-ic1_Q3MzQA-y9pUcg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsdl: Only enable X11 support when the DISTRO supports it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,76 +80,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 08:00:21 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Mar 2016 11:01:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 03/10/2016 04:54 PM, Jens Rehsack wrote:
+On Mon, Mar 14, 2016 at 6:26 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
->> Am 10.03.2016 um 06:13 schrieb Gary Thomas <gary@mlbassoc.com>:
+> On 14 March 2016 at 21:23, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
 >>
->> I'm working on a package (amanda - the Advanced Maryland Archiving
->> system) that is written heavily in perl with swig interfaces to C.
->> This code ran great until the update to perl 5.22; it now dies a
->> horrible death on almost every activity.  These failures seem to
->> always be in the swig generated wrappers, but that may just be
->> where most of the work gets done.
+>> Do you mind to explain to me why?
 >>
->> I've narrowed this down to exactly the change to perl 5.22 from
->> 5.20. Using bisect as well as experimentation (e.g. trying all
->> the compiler combinations that have occurred since a last good
->> version) and I can go from working to failing by only the change
->> in perl.
->>
->> The interesting (scary) thing is that I've built amanda for my
->> target natively on my board running debian, including perl 5.22.
->> This means I can't say definitively  that perl 5.22 is the culprit
->> as on debian it runs fine.  So, it's got something to do with the
->> OE environment/porting/packaging of perl and not just the revision.
->>
->> I've also tested this on multiple architectures (ARM, PowerPC) with
->> the same results - with perl 5.20 amanda works, with perl 5.22 it fails.
->>
->> I've compared the actual 5.22.1 sources used by OE-core and debian
->> and they are subtly different, although I can't pinpoint any change
->> that might be responsible.
->>
->> For the moment, I can just fall back to perl 5.20 for my target
->> that needs to run amanda, but this isn't a real solution (e.g.
->> in this state I can't propose my recipe to any layer as it's
->> totally broken with the current OE-core).  I'd like to see this
->> fixed but the amanda code (swig wrappers) are horribly complex
->> which makes debugging quite the challenge, not to mention they
->> may be about the only way to uncover the bug, whether it's in
->> amanda or perl.
->>
->> Any suggestions on how to move forward?
+>> I would like to try to see your view on this.
 >
-> Since I have no clue what's wrong and how it fails (backtrace
-> would point in some directions), several ideas might work:
 >
-> How clean is your build location (we realize that often between
-> updates some files remain in our target images until we wipe
-> tmp/ - cleansstate for image doesn't help ...)?
->
-> Did you prove the library path's of your *.so's? Perl does
-> almost everything within libperl.so - build against wrong version
-> causes in weird crashes (scan DBI mailing list for admin's
-> build issues of DBI on AIX/HP-UX ...).
->
-> Maybe share your recipe can help to reproduce the problem
-> elsewhere and debug locally.
+> libsdl is a good example to be honest.  Why does your choice of target
+> distro features decide what libraries the native sdl should use?  Respecting
+> them means in this case that you can't have a graphical qemu.  Taking it to
+> hypotheticals, just because my target is pure Wayland doesn't mean I expect
+> sdl to build for Wayland without X11, especially if my desktop is X11 based.
 
-I've spent quite a lot of time trying to come up with debuggable
-scenario(s) on many different targets.  This is all packed up in
-   https://github.com/GaryThomas/meta-amanda
-
-If you give the README a look, you'll see that there are plenty
-of issues to be looked at.
+I agree with the overall goal here however this means we ought to have
+a HOST_DISTRO_FEATURES setting and not ignore it at all.
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
