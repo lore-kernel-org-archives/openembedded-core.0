@@ -1,29 +1,45 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8603F65CC2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1909C6FF01
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 07:02:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2F72jf0007555
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 15 Mar 2016 07:10:19 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id u110so7001001qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 00:02:45 -0700 (PDT)
-Received: from [128.224.162.210] (128.224.162.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Tue, 15 Mar 2016 00:02:45 -0700
-Message-ID: <56E7B39D.5010406@windriver.com>
-Date: Tue, 15 Mar 2016 15:02:53 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1446105200.git.Qi.Chen@windriver.com>
-	<eea7f5b8bfa634cc1fb6f3232f6404a4bda2611f.1446105200.git.Qi.Chen@windriver.com>
-In-Reply-To: <eea7f5b8bfa634cc1fb6f3232f6404a4bda2611f.1446105200.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.210]
-Subject: Re: [PATCH 1/1] coreutils: fix reporting 'unknown' by `uname -p' and `uname -i'
+	Tue, 15 Mar 2016 00:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=YCcoYXI7rMkc8BJmabwyrFzuFsnl+Y0f/aabDPbykec=;
+	b=Hx943rNRRI17nDg98MwTqLoYu1AadfWDhp2RMD6ijj34RjZuT/8sJktVEV+QrKQxU4
+	jD9uOfPXCX8TuyWZjZM4tYNKKwYxR3OG5rOswyiQT+ZXXQlqMtI1UDP601OmKx4A0L1b
+	N1yIxiGNKR+N8nOO/8v8HdtGT1Q0I4EQWWfFxdSBhAhy+wgucfvqq584x743IitgYXnR
+	cUw9cUtoqQ9y/FmF1KonlHesqtqOqXUWpEvicRVUMMAxxRxYx4dcaVI3/S15yTXJjPhu
+	vmruiuocfug9R82B8piXvrWQoeTgxEK0mX6+CtyvDYl7LskXjHq5TC7fhP85ChMPtHzd
+	13Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YCcoYXI7rMkc8BJmabwyrFzuFsnl+Y0f/aabDPbykec=;
+	b=ZdaOaMw3sg7XDeFWrey2+KUyfRlO2D4trAwjGlQYAaYiEMl+YBpq+CeH+6vPcGScki
+	I3LFwtD0E4kVPZFWhosb2lEt8GtDIhQvFHxmZ7K5FOvtNxP18A9sjyxgzrl4xE7rbaj9
+	+y0MX6tJ3zqM4ZZXNEmH0Z/fchL1yL7qPR8/vtjbYWON35rgOYWvCeb7uiTjzsCcavpf
+	zGLpVV2Mlf1eSXvUYfiRkWqRhFRth/k861osfBc7X9zEemTo2dhBjzRF7Hv0Z11j+iGU
+	ij3fMTkPCk/2j1roNZsb+q40w0YFaDMN92j0UtcM1v/VLBQ7SsdCrU/SKhV+v/Oz6AWz
+	8x5g==
+X-Gm-Message-State: AD7BkJJa599NlyJkhJq75ltQdWxWVkBw40zmKfUO09MUGxZwGCMgdYIb4Y379i/csMzgFg==
+X-Received: by 10.140.224.18 with SMTP id u18mr38250972qhb.10.1458025820226;
+	Tue, 15 Mar 2016 00:10:20 -0700 (PDT)
+Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
+	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
+	r6sm12039452qhb.49.2016.03.15.00.10.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 15 Mar 2016 00:10:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Mar 2016 07:10:11 +0000
+Message-Id: <1458025812-19302-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] musl: Update to get mips64 port
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,110 +52,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 07:02:47 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Mar 2016 07:10:20 -0000
 
-ping ...
+mips64 port is now available on top of 1.1.14
+this updates brings it to OE
 
+Copyright file changed due to mips64 attribution being added
 
-On 10/29/2015 03:54 PM, Chen Qi wrote:
-> This patch make `uname -p' and `uname -i' not reporting 'unknown'.
-> It refers a to Fedora's way to do this.
->
-> The coreutils upstream rejects to accept this patch, blaming the
-> 'unknown' result to the kernel not providing enough information.
-> As on normal distros, `uname -p' and `uname -i' do not report 'unknown',
-> we refer to Fedora's patch to fix this problem.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   ...e-report-processor-and-hardware-correctly.patch | 64 ++++++++++++++++++++++
->   meta/recipes-core/coreutils/coreutils_8.24.bb      |  1 +
->   2 files changed, 65 insertions(+)
->   create mode 100644 meta/recipes-core/coreutils/coreutils-8.24/0001-uname-report-processor-and-hardware-correctly.patch
->
-> diff --git a/meta/recipes-core/coreutils/coreutils-8.24/0001-uname-report-processor-and-hardware-correctly.patch b/meta/recipes-core/coreutils/coreutils-8.24/0001-uname-report-processor-and-hardware-correctly.patch
-> new file mode 100644
-> index 0000000..c5f449f
-> --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils-8.24/0001-uname-report-processor-and-hardware-correctly.patch
-> @@ -0,0 +1,64 @@
-> +Upstream-Status: Rejected
-> +
-> +Subject: uname: report processor and hardware correctly
-> +
-> +This patch is rejected by coreutils upstream, but distros like debian and fedora
-> +uses this patch to make `uname -i' and `uname -p' to not report 'unknown'.
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + src/uname.c | 18 ++++++++++++++++--
-> + 1 file changed, 16 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/src/uname.c b/src/uname.c
-> +index 39bd28c..c84582d 100644
-> +--- a/src/uname.c
-> ++++ b/src/uname.c
-> +@@ -299,13 +299,19 @@ main (int argc, char **argv)
-> +
-> +   if (toprint & PRINT_PROCESSOR)
-> +     {
-> +-      char const *element = unknown;
-> ++      char *element = unknown;
-> + #if HAVE_SYSINFO && defined SI_ARCHITECTURE
-> +       {
-> +         static char processor[257];
-> +         if (0 <= sysinfo (SI_ARCHITECTURE, processor, sizeof processor))
-> +           element = processor;
-> +       }
-> ++#else
-> ++      {
-> ++	static struct utsname u;
-> ++	uname(&u);
-> ++	element = u.machine;
-> ++      }
-> + #endif
-> + #ifdef UNAME_PROCESSOR
-> +       if (element == unknown)
-> +@@ -343,7 +349,7 @@ main (int argc, char **argv)
-> +
-> +   if (toprint & PRINT_HARDWARE_PLATFORM)
-> +     {
-> +-      char const *element = unknown;
-> ++      char *element = unknown;
-> + #if HAVE_SYSINFO && defined SI_PLATFORM
-> +       {
-> +         static char hardware_platform[257];
-> +@@ -361,6 +367,14 @@ main (int argc, char **argv)
-> +           if (sysctl (mib, 2, hardware_platform, &s, 0, 0) >= 0)
-> +             element = hardware_platform;
-> +         }
-> ++#else
-> ++      {
-> ++	static struct utsname u;
-> ++	uname(&u);
-> ++	element = u.machine;
-> ++	if(strlen(element)==4 && element[0]=='i' && element[2]=='8' && element[3]=='6')
-> ++	  element[1]='3';
-> ++      }
-> + #endif
-> +       if (! (toprint == UINT_MAX && element == unknown))
-> +         print_element (element);
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.24.bb b/meta/recipes-core/coreutils/coreutils_8.24.bb
-> index f042346..ae9c375 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.24.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.24.bb
-> @@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
->              file://remove-usr-local-lib-from-m4.patch \
->              file://fix-selinux-flask.patch \
->              file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-> +           file://0001-uname-report-processor-and-hardware-correctly.patch \
->             "
->   
->   SRC_URI[tarball.md5sum] = "40efdbce865d2458d8da0a9dcee7c16c"
+http://git.musl-libc.org/cgit/musl/commit/COPYRIGHT?id=589aefa5b061647e8b9ad9bca3aaa8dc6222460a
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl.inc    | 2 +-
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+index 3ad31b5..f2390e6 100644
+--- a/meta/recipes-core/musl/musl.inc
++++ b/meta/recipes-core/musl/musl.inc
+@@ -9,7 +9,7 @@ standards-conformance and safety."
+ HOMEPAGE = "http://www.musl-libc.org/"
+ LICENSE = "MIT"
+ SECTION = "libs"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=617ba6560e800d47ec31dc88deb63101"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c9c8cfb4e5e4b9ee6ff570f078950120"
+ 
+ PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 3b7c9a5..507e793 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "074e6b3fe3f2ad89b991f3d8ab0932035b312a62"
++SRCREV = "de400b6609becbc6a5ae87fa8b155f02a860e257"
+ 
+ PV = "1.1.14+git${SRCPV}"
+ 
+-- 
+1.9.1
 
 
