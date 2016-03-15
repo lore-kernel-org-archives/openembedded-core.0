@@ -1,44 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DC626FF80
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id CC5906FF04
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 13:32:51 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id vf5so87431627igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 06:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=aZqfi1x9cKXM0ha50dgFkycZzpv5VTQsdIwi66Q5Dj4=;
-	b=mqqKw39JeOc7L7B/ufspsRyScfctuVDSiM/1QEzruglL8EPBTv5c0/au1X7+8S06wh
-	oJZPOp9OU4nBNLes0C3B85VixmRwxxDhrOoaGY7dVj7vuU8xgHwJvKusfNMpVxWIIbpA
-	xkhKrvoNiWlkh+DEkDTNCPTCpYH4N6xJRJ6aNV7uVL9rb62SKYyyiM7bGnGP1aGQvPUf
-	5MoNOc48+8DxmlWcb2+5qlAhDXhQjF+ri3kSogG7FSZ2Fa674xout2OXstuwnwsrIHLH
-	uRDbJ9Kun7TrsU8zKcGkabomkTwvVq1gsaIBF/8KayygAaM1YBeEDoIKaFBo0oW4jBGY
-	eg9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=aZqfi1x9cKXM0ha50dgFkycZzpv5VTQsdIwi66Q5Dj4=;
-	b=YYzatTMmLBo+wDma6GKw1xr4UeXDeVbEQaZ/gI5srE9jUhBRNSrD9VcvnAOmooWKwC
-	FkNBPf2XBUPUWQjqQ+nm+vjTsNNqOB140Rn9uqdkNehfX2xwavFaMQeZccBKyFymLc5O
-	us5pnt8lF/+AiDceMZNBiNFbbvFF/PotGV/+eZUISmxl1KrwhutMwUJORlise3OSD9lB
-	lvynoNUqxLUwCFT2nCcTDKFDKu81K5icpyGsKVMrZrDd6c6dXavCQEyBrOs/LVha7+vx
-	I5NXqFVsToy7I50EliVV89QEk5ZR4+6fnW0jpg0gwDxDwnQ8N4ZE58t8uJ1JYEl68Yl4
-	iZag==
-X-Gm-Message-State: AD7BkJLTzUBHuZQ2typczYgNhBuZbwk3WaBdL0raJKtogXAtCg3AMO0yyW6hlAbiu7+2+W+tbSZR+/yvOrJEh/qT
-X-Received: by 10.50.126.8 with SMTP id mu8mr22680281igb.52.1458048772674;
-	Tue, 15 Mar 2016 06:32:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 15 Mar 2016 06:32:33 -0700 (PDT)
-In-Reply-To: <1457996977-24572-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	Tue, 15 Mar 2016 14:42:03 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Mar 2016 07:42:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,339,1455004800"; 
+	d="scan'208,217";a="924511810"
+Received: from unknown (HELO [10.219.16.70]) ([10.219.16.70])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2016 07:42:03 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1457996977-24572-1-git-send-email-alejandro.hernandez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Mar 2016 13:32:33 +0000
-Message-ID: <CAJTo0La-tCOJsXY29+VL0wD_G9vK-2XSzGoA-SsYF4kgYs0N_g@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+	<CAJTo0La-tCOJsXY29+VL0wD_G9vK-2XSzGoA-SsYF4kgYs0N_g@mail.gmail.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <56E81F99.7020003@linux.intel.com>
+Date: Tue, 15 Mar 2016 08:43:37 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La-tCOJsXY29+VL0wD_G9vK-2XSzGoA-SsYF4kgYs0N_g@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] eudev: split eudev-hwdb from eudev
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,43 +34,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2016 13:32:53 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf29343d052e166f16
+X-List-Received-Date: Tue, 15 Mar 2016 14:42:05 -0000
+Content-Type: multipart/alternative;
+	boundary="------------030002000505030907080306"
 
---047d7b1635bf29343d052e166f16
-Content-Type: text/plain; charset=UTF-8
+--------------030002000505030907080306
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 March 2016 at 23:09, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
-
-> +        ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb
-> --update \
-> +            --root $D
+On 03/15/2016 07:32 AM, Burton, Ross wrote:
 >
+> On 14 March 2016 at 23:09, Alejandro Hernandez 
+> <alejandro.hernandez@linux.intel.com 
+> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
+>
+>     +   ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb
+>     --update \
+>     +            --root $D
+>
+>
+> udevadm is at ${bindir} with eudev, which means this script delays 
+> until first boot.  I've fixed locally, and will file a bug about how 
+> hard it is to tell when a postinst is delayed due to errors...
+>
+> Ross
 
-udevadm is at ${bindir} with eudev, which means this script delays until
-first boot.  I've fixed locally, and will file a bug about how hard it is
-to tell when a postinst is delayed due to errors...
+Thanks Ross
 
-Ross
+Alejandro
 
---047d7b1635bf29343d052e166f16
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2016 at 23:09, Alejandro Hernandez <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejandr=
-o.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><div id=3D":1np" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 ${@qemu_run_binary(d, &#39;$D&#39;, &#39;${base_bindir=
-}/udevadm&#39;)} <span class=3D"il">hwdb</span> --update \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --root $D<br></div></blockquote>=
-</div><br>udevadm is at ${bindir} with eudev, which means this script delay=
-s until first boot.=C2=A0 I&#39;ve fixed locally, and will file a bug about=
- how hard it is to tell when a postinst is delayed due to errors...</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
+--------------030002000505030907080306
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---047d7b1635bf29343d052e166f16--
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    On 03/15/2016 07:32 AM, Burton, Ross wrote:<br>
+    <blockquote
+cite="mid:CAJTo0La-tCOJsXY29+VL0wD_G9vK-2XSzGoA-SsYF4kgYs0N_g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 14 March 2016 at 23:09, Alejandro
+            Hernandez <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:alejandro.hernandez@linux.intel.com"
+                target="_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":1np" class="a3s" style="overflow:hidden">+     
+                  ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
+                <span class="il">hwdb</span> --update \<br>
+                +            --root $D<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          udevadm is at ${bindir} with eudev, which means this script
+          delays until first boot.  I've fixed locally, and will file a
+          bug about how hard it is to tell when a postinst is delayed
+          due to errors...</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    Thanks Ross<br>
+    <br>
+    Alejandro<br>
+    <br>
+  </body>
+</html>
+
+--------------030002000505030907080306--
