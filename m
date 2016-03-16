@@ -1,27 +1,48 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9567C70179
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 24FD76FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2016 02:49:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2G2nGS5004122
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 16 Mar 2016 09:34:24 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id p65so180742480wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2016 19:49:16 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 15 Mar 2016 19:49:15 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: 
-CC: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Mar 2016 22:49:13 -0400
-Message-ID: <7f65eb60b218d156262f426460a2873ecdb32a14.1458096408.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1458096408.git.dengke.du@windriver.com>
-References: <cover.1458096408.git.dengke.du@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] nativesdk-coreutils: a lot of warnings fixed
+	Wed, 16 Mar 2016 02:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:subject:date:message-id:cc:to:mime-version;
+	bh=QjDPftG/SfHHQzz9IT1sixW9zzio9HyPbYc8oFKtJMQ=;
+	b=x6wO/UOYdwfOjAM7OqHUHfnpKJIIGIj3/Dd0j1Iz1d3PECybIDAYh2qHOIzRaXHhPr
+	RLP6QOUx1dzTX1QvV7Pc8H+LdnaJK5jONwB2eYFMyMxtKQKiaysKzC4NfDd7LIhZ4ZTK
+	aB4VgA2QwycAeb8FoUIQf3q4SgUFVnKsXDNsrDTI514zGXHIgeLM8zaFq+5z+72vU9PM
+	d4NQJR2U3WspPcuF0nepysxzeSCkDL4Lf4IMpz1kK+mwvlwp1QKjg2xqCx0l/MtW2ebb
+	xFDFzoX5qWc6UCGZ2ocmEfWV9Rwcom6HaGeHSxb+oWR1jf8s+dsgTSGb/rmiIoYNGpyL
+	wZfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:subject:date:message-id:cc:to:mime-version;
+	bh=QjDPftG/SfHHQzz9IT1sixW9zzio9HyPbYc8oFKtJMQ=;
+	b=jzwsNIuhh0C3uj/VOftOFtntSq+HYfjoYPPi7/q4kp2GRhRsnQeNjyt53LrQg/3Sjd
+	uN4PaXgacLqfx57LubRqZQlDC+WhUlhiS/fsSZasGmgN6RYmtPaLPrfDfEE6E83Y5Syu
+	zT1Juk5hIvRv5F5mF8pgSeef84VJVb9dER+41DzE3TUY9080mO3x/kj6a6cY3qdWyYSt
+	Z3nOvvrZF8MmVVz5DCoUU+JhBeWOwfi9UQViNE1CbbHwuqGbh13nrEgbAyC+WUF0cPUz
+	YjQkZ2X/bmSSSIi4JSTh33xjXfWGFQmwgrc6c3hTVm430csVURcQyJsBtGAWOPKrZJB8
+	u5Jw==
+X-Gm-Message-State: AD7BkJLHDeoF6X4mGUw051tgKBIXbtW0mixts92YKurunP0ek3kL3NyofblEImExJmKJIw==
+X-Received: by 10.28.229.132 with SMTP id c126mr27302741wmh.72.1458120865018; 
+	Wed, 16 Mar 2016 02:34:25 -0700 (PDT)
+Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	r62sm2608012wmd.15.2016.03.16.02.34.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 16 Mar 2016 02:34:24 -0700 (PDT)
+From: Jens Rehsack <rehsack@gmail.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Wed, 16 Mar 2016 10:34:22 +0100
+Message-Id: <E262EC7C-008A-421F-894E-40BED850BDEB@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: [PATCH RESEND 1/4] ARM: handle missing thumb suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2016 02:49:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Mar 2016 09:34:25 -0000
+X-Groupsio-MsgNum: 79677
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_DF4FA1B4-62E9-42A1-8A0B-F127387E9617";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-When we create nativesdk-coreutils, a lot of warnings appear,it
-show many files can't find. Because in the coreutils recipe, it
-didn't contain the do_install for the nativesdk, so when the
-alternative system check the files in the following process, it
-can't find the files. So we should add the do_install for the
-nativesdk, change the function do_install_append_class-target() to
-do_install_append() in the file:
-	meta/recipes-core/coreutils/coreutils_8.25.bb
-in this way, the alternative system can find the files, the warnings
-disappear.
+--Apple-Mail=_DF4FA1B4-62E9-42A1-8A0B-F127387E9617
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+When enabling tune for arm926ejs, poky optionally appends suffixes for
+thumb and dsp support. Since sometimes arm926ejse (ARM code) and =
+sometime
+arm926ejste (thumb code) is used in PACKAGE_ARCH, allow both.
+
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/recipes-core/coreutils/coreutils_8.25.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/conf/machine/include/tune-arm926ejs.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb b/meta/recipes-core/coreutils/coreutils_8.25.bb
-index 650008e..ffedecb 100644
---- a/meta/recipes-core/coreutils/coreutils_8.25.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
-@@ -27,6 +27,7 @@ SRC_URI[manpages.sha256sum] = "2ee31c3a6d2276f49c5515375d4a0c1047580da6ac1053689
- 
- EXTRA_OECONF_class-native = "--without-gmp"
- EXTRA_OECONF_class-target = "--enable-install-program=arch --libexecdir=${libdir}"
-+EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch"
- 
- # acl and xattr are not default features
- #
-@@ -67,7 +68,7 @@ do_compile_prepend () {
- 	mkdir -p ${B}/src
- }
- 
--do_install_append_class-target() {
-+do_install_append() {
- 	for i in df mktemp base64; do mv ${D}${bindir}/$i ${D}${bindir}/$i.${BPN}; done
- 
- 	install -d ${D}${base_bindir}
--- 
-1.9.1
+diff --git a/meta/conf/machine/include/tune-arm926ejs.inc =
+b/meta/conf/machine/include/tune-arm926ejs.inc
+index 4f4d7dc..81bcda3 100644
+--- a/meta/conf/machine/include/tune-arm926ejs.inc
++++ b/meta/conf/machine/include/tune-arm926ejs.inc
+@@ -8,4 +8,4 @@ TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', =
+'arm926ejs', ' -mcpu=3Darm92
+ AVAILTUNES +=3D "arm926ejs"
+ ARMPKGARCH_tune-arm926ejs =3D "arm926ejs"
+ TUNE_FEATURES_tune-arm926ejs =3D "${TUNE_FEATURES_tune-armv5te} =
+arm926ejs"
+-PACKAGE_EXTRA_ARCHS_tune-arm926ejs =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv5te} arm926ejste"
++PACKAGE_EXTRA_ARCHS_tune-arm926ejs =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv5te} arm926ejste arm926ejse"
+--
+2.6.3
+
+Please apply this one to OE-Core - it has been discussed completely (see =
+http://patchwork.openembedded.org/patch/105231/).
+@Otavio: Ross gave me the hint to ask you for ACK'ing - if possible =
+(please don't, if it hurts).
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
 
 
+--Apple-Mail=_DF4FA1B4-62E9-42A1-8A0B-F127387E9617
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJW6SifAAoJEESZlq7c5QqdhSAP/0YuKp8JczOL+RWDwo5Jnk1Z
+7FIu5derixPbpZYohEw7zln/ojVaz5xHuyLfgFdoQ6EiJ0szYrCFn5HOlynF0mAa
+Yyw4fdPCl5oJNIAm2hiREaii0RvFSjU4uHYykFlANs76gTKaBuDp4GceIyk2+m0f
+Ot+RVeZWakVJ2qL3t7ThMuid32SmWpYSPupHE11vRI9Skz926GktTPQcdP95WqNv
++mo1CELygZy/AexEVHAHuT8FLXNwFeh+BqmH4khOMtYUNhUT4EFqNMm4t6Dfl1+n
+4YZSj7mEGcu9TUly1AvMMCJZH0/D5Z9wLRHMeSo2pbyp6moAnrzIqdBinsFY68cK
+PwiDjTkbtvHbZo6InDLk8fxeFcNDsmocJbk99ch+93FHwn/cvXVoY/9jh4KvsE8N
+R5lTCDaCZXIhy2JhrO+gb/xVqcP1XYAHYAX/p4t07T7gZ6Sf6/Ck8vGCoXTmrThh
+XtTjLTWUNgWRnXQi83u0VlZRFpIzM2sCtkw2EtkkDY00xjElZuLpcKUDvsen7qs7
+yibv+geXO1dZrP454lsTLDv42AzpQtJ9cEBmxgZFCpOeygujnqwLvpK12WaMgScO
+W+8tQUoBc6o1SdIYt9tC6yLs0gSREx7QMGfVAkznxY3VRGOopM3FjfI7KxbsRBkr
+uWjlurY5f+FhWJ981YFS
+=InFe
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_DF4FA1B4-62E9-42A1-8A0B-F127387E9617--
