@@ -1,47 +1,47 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 8530E6E682
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 55F2260616
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2016 09:35:19 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id l68so181037790wml.0
+	Wed, 16 Mar 2016 09:42:48 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id l68so181327235wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2016 02:35:20 -0700 (PDT)
+	Wed, 16 Mar 2016 02:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:subject:date:message-id:cc:to:mime-version;
-	bh=8uumwmcHsJYKDs81I2batk1wqDfe3Oyj27Or4BWVLzE=;
-	b=Cm4DGYjOoSujeQ9wI8FLm4xxYJtl+gTHRhBUsmHaXWQbXbzfgMqiNFX3JcNIRkMEkJ
-	r39ElRX3FEf60HDEfLgsf4iwfCxr23xo1m2a0/+SrIvhejc/kPb0rLYZcZ/uXErAyFgT
-	as4Wjo0yeK9yvncGhqcivzarG8C7YN2WldRFLiQpPO0Ui1YHYA7RxEdkYAX60/7CdZyg
-	qSWOWztTEbKhbRmUjsZmQP6OeFQIxlRWe/ws4TxT7Vv7WLFJdTfqEYP2Vn94g0XPHi06
-	mdYw5FupRojSO38/pvc7v/Onx75biPGHbUwMuIGm9rODW9I2OwKpkvtspdtZOnEgpLga
-	a4xg==
+	bh=A8PfTrr1+N1hZLUx5XpvSyhlTHMtbmuriBfpyhYLNKI=;
+	b=c+57sIusZsPGTdZ5dj1YVA5T4hEGSE7GfJC6YP5ZPb6+IZN2mKnS0QIkGhPk8VLdLf
+	F4tl+tthdQzWouj7Naunvq20mlC7N8+EKp0r++bSlETetTO2ku9/Sf9jhbfDCH350k8H
+	MsIetRh0SbnnSSWgIqDFrXHdsxewQ/EvwqKYOCoyWdS7ekFm+zAuLSYsnkUcYZzho4FI
+	xQ1XlGxVNe1+mChg3UW7h3h/6PFPcAnyFMZLAjWdoHqKyQRxp7jIrDAfXqO/DKfB7zhE
+	GjypQg+sdxBT4PPz0CPikAV19X0akTlGhTZnbQvGnh4zptobLVI9HqX/4+mPxwqR0Txo
+	oVjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:subject:date:message-id:cc:to:mime-version;
-	bh=8uumwmcHsJYKDs81I2batk1wqDfe3Oyj27Or4BWVLzE=;
-	b=f3O9369kIYhWu+xvWopiqvcsiQkj93D1SKDxCmfU2UvF4sceECvAY9m7oOuUcALOjG
-	hXLFn7MiZn22zlsldRwbkerBJ6Z3k8w50KfnBK6u6P7rRvJ8cje+UVSulNNLd+VRBDTT
-	KLdYRIOVfFV+02azTvZtkx0fHJDAuZhwEpJZ2xTS5K8CrDHNOo7fTkWTn4VOimgBotHQ
-	qNJnOWFtHhQq6lzK9PNy2QHF0oQGLp171fQ7gSEeGsHXscnfU6I+amGn4vp4dnhV4pN7
-	WhLaOlmHgse+nstH5zYTRQQCknypWcVfbU6u3bwZdre2m5wpd6wMwp55A2KBxSPej8w8
-	sM8w==
-X-Gm-Message-State: AD7BkJIOBjTaBbcI91TbGg9X27E61zGXfteCAIbCkQOD54DFqv7TmN5dKQKbuEmBkFlGbw==
-X-Received: by 10.28.113.155 with SMTP id d27mr3387631wmi.67.1458120919224;
-	Wed, 16 Mar 2016 02:35:19 -0700 (PDT)
+	bh=A8PfTrr1+N1hZLUx5XpvSyhlTHMtbmuriBfpyhYLNKI=;
+	b=ZpAGVFTGuZHUR0DIQRYkLOR1BD40/wOaaiXlxTwM2EjNzwz+bRj81o2wYPLEuFm5hE
+	KtICoKAiBb4lUWn3c/8CVsAi4YKBFkrhbyC0Zzfub87fnxv5GepOyq1t227ONmYzYFsc
+	jHUZK4aVE+aRgKxzhus2BLOs3QOZs+TxliRol9NFqvCDTwhVSFalUQsoat/5k4ZyXeRb
+	98X/8oLIZiteEEvmQpGFwOOmCPQmEx8z910tsIzleJZsaUf1eid3mSXIf6r9ei8Iimos
+	M1UfEz9nIiIO8o0S6jeWrrRyYceA08xQvb91bNfU4xXZXffsvZYPLUn7JCrZhKvtvN8Z
+	iVLg==
+X-Gm-Message-State: AD7BkJKs7WVAXSizV4LES7tA+OoYgONbW9DVpXA0+Dk78jlHKjCAOtB/x2YOSXKvwjoMEg==
+X-Received: by 10.194.90.137 with SMTP id bw9mr2648587wjb.120.1458121368842;
+	Wed, 16 Mar 2016 02:42:48 -0700 (PDT)
 Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
 	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	r62sm2608012wmd.15.2016.03.16.02.35.18
+	c128sm24606992wma.11.2016.03.16.02.42.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 16 Mar 2016 02:35:18 -0700 (PDT)
+	Wed, 16 Mar 2016 02:42:48 -0700 (PDT)
 From: Jens Rehsack <rehsack@gmail.com>
 X-Pgp-Agent: GPGMail 2.6b2
-Date: Wed, 16 Mar 2016 10:35:18 +0100
-Message-Id: <62C54BAC-C5BF-4B02-8C4B-5645E853D57F@gmail.com>
+Date: Wed, 16 Mar 2016 10:42:47 +0100
+Message-Id: <2607CCC1-5299-4C5F-A9A0-95E6F3C54C5F@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH 2/4] linux-firmware: package firmware for Marvell 88W8688
+Subject: [PATCH 3/4] wpa-supplicant: use debian wpa contribution to improve ifup/ifdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,96 +54,307 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2016 09:35:20 -0000
-X-Groupsio-MsgNum: 79678
+X-List-Received-Date: Wed, 16 Mar 2016 09:42:53 -0000
+X-Groupsio-MsgNum: 79679
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_FCFB7741-DBD9-4EAB-B8E5-935A2FCCE531";
+	boundary="Apple-Mail=_EA98934F-08F0-496D-8EEE-E0A89987D622";
 	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---Apple-Mail=_FCFB7741-DBD9-4EAB-B8E5-935A2FCCE531
+--Apple-Mail=_EA98934F-08F0-496D-8EEE-E0A89987D622
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
+Instead of simplified, self-written start/stop hooks for wpa-supplicant =
+on
+interfaces coming up or going down, use the more advanced hooks provided
+by the debian contribution.
 
-According to error messages from guruplug
+Since the default behavior in the debian start/stop hooks is log into =
+syslog,
+which is more reasonable for embedded devices either (usually no user =
+interface
+available), follow this behavior and enable CONFIG_DEBUG_SYSLOG.
 
-[   35.826441] btmrvl_sdio mmc0:0001:2: Direct firmware load for =
-mrvl/sd8688_helper.bin failed with error -2
-[   35.903291] Bluetooth: request_firmware(helper) failed, error code =3D =
--2
-[   35.909942] Bluetooth: Failed to download helper!
-[   36.052820] Bluetooth: Downloading firmware failed!
-...
-[  764.422739] libertas_sdio: Libertas SDIO driver
-[  764.438213] libertas_sdio: Copyright Pierre Ossman
-[  764.461186] libertas_sdio mmc0:0001:1: Direct firmware load for =
-libertas/sd8688_helper.bin failed with error -2
-[  764.488234] libertas_sdio mmc0:0001:1: Direct firmware load for =
-sd8688_helper.bin failed with error -2
-[  764.507382] libertas_sdio: failed to find firmware (-2)
-
-and =
-http://wiki.beyondlogic.org/index.php?title=3DGuruPlug_Libertas_SD8688,
-package the firmware files for Marvell 88W8688, too.
+Add a package for ifplugd action hooks, if desired and install man-pages
+as well for a reasonable wpa-supplicant-doc.
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../wpa-supplicant/wpa-supplicant/defconfig        |  4 +-
+ .../wpa-supplicant/wpa-supplicant.sh               | 85 =
+----------------------
+ .../wpa-supplicant/wpa-supplicant_2.5.bb           | 47 ++++++++----
+ 3 files changed, 36 insertions(+), 100 deletions(-)
+ delete mode 100644 =
+meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa-supplicant.sh
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb =
-b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 9792686..f4a3230 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -173,7 +173,7 @@ do_install() {
+diff --git =
+a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
+index f04e398..217cf61 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
+@@ -418,9 +418,9 @@ CONFIG_CTRL_IFACE_DBUS_NEW=3Dy
+ #CONFIG_DEBUG_FILE=3Dy
 
- PACKAGES =3D+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-radeon-license ${PN}-radeon \
--             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8787 =
-${PN}-sd8797 \
-+             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 =
-${PN}-sd8787 ${PN}-sd8797 \
-              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce =
-${PN}-rtl8192su \
-@@ -254,6 +254,7 @@ RDEPENDS_${PN}-radeon +=3D "${PN}-radeon-license"
+ # Send debug messages to syslog instead of stdout
+-#CONFIG_DEBUG_SYSLOG=3Dy
++CONFIG_DEBUG_SYSLOG=3Dy
+ # Set syslog facility for debug messages
+-#CONFIG_DEBUG_SYSLOG_FACILITY=3DLOG_DAEMON
++CONFIG_DEBUG_SYSLOG_FACILITY=3DLOG_DAEMON
 
- # For marvell
- LICENSE_${PN}-sd8686 =3D "Firmware-Marvell"
-+LICENSE_${PN}-sd8688 =3D "Firmware-Marvell"
- LICENSE_${PN}-sd8787 =3D "Firmware-Marvell"
- LICENSE_${PN}-sd8797 =3D "Firmware-Marvell"
+ # Add support for sending all debug messages (regardless of debug =
+verbosity)
+ # to the Linux kernel tracing facility. This helps debug the entire =
+stack by
+diff --git =
+a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa-supplicant.s=
+h =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa-supplicant.s=
+h
+deleted file mode 100644
+index 5c9e5d3..0000000
+--- =
+a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa-supplicant.s=
+h
++++ /dev/null
+@@ -1,85 +0,0 @@
+-#!/bin/sh
+-
+-
+-WPA_SUP_BIN=3D"/usr/sbin/wpa_supplicant"
+-WPA_SUP_PNAME=3D"wpa_supplicant"
+-WPA_SUP_PIDFILE=3D"/var/run/wpa_supplicant.$IFACE.pid"
+-WPA_SUP_OPTIONS=3D"-B -P $WPA_SUP_PIDFILE -i $IFACE"
+-
+-VERBOSITY=3D0
+-
+-
+-if [ -s "$IF_WPA_CONF" ]; then
+-	WPA_SUP_CONF=3D"-c $IF_WPA_CONF"
+-else
+-	exit 0
+-fi
+-
+-if [ ! -x "$WPA_SUP_BIN" ]; then
+-
+-	if [ "$VERBOSITY" =3D "1" ]; then
+-		echo "$WPA_SUP_PNAME: binaries not executable or missing =
+from $WPA_SUP_BIN"
+-	fi
+-
+-	exit 1
+-fi
+-
+-if [ "$MODE" =3D "start" ] ; then
+-	# driver type of interface, defaults to wext when undefined
+-	if [ -s "/etc/wpa_supplicant/driver.$IFACE" ]; then
+-		IF_WPA_DRIVER=3D$(cat =
+"/etc/wpa_supplicant/driver.$IFACE")
+-	elif [ -z "$IF_WPA_DRIVER" ]; then
+-
+-		if [ "$VERBOSITY" =3D "1" ]; then
+-			echo "$WPA_SUP_PNAME: wpa-driver not provided, =
+using \"wext\""
+-		fi
+-
+-		IF_WPA_DRIVER=3D"wext"
+-	fi
+-
+-	# if we have passed the criteria, start wpa_supplicant
+-	if [ -n "$WPA_SUP_CONF" ]; then
+-
+-		if [ "$VERBOSITY" =3D "1" ]; then
+-			echo "$WPA_SUP_PNAME: $WPA_SUP_BIN =
+$WPA_SUP_OPTIONS $WPA_SUP_CONF -D $IF_WPA_DRIVER"
+-		fi
+-
+-		start-stop-daemon --start --quiet \
+-			--name $WPA_SUP_PNAME --startas $WPA_SUP_BIN =
+--pidfile $WPA_SUP_PIDFILE \
+-			--  $WPA_SUP_OPTIONS $WPA_SUP_CONF -D =
+$IF_WPA_DRIVER
+-	fi
+-
+-	# if the interface socket exists, then wpa_supplicant was =
+invoked successfully
+-	if [ -S "$WPA_COMMON_CTRL_IFACE/$IFACE" ]; then
+-
+-		if [ "$VERBOSITY" =3D "1" ]; then
+-			echo "$WPA_SUP_PNAME: ctrl_interface socket =
+located at $WPA_COMMON_CTRL_IFACE/$IFACE"
+-		fi
+-
+-		exit 0
+-
+-	fi
+-
+-elif [ "$MODE" =3D "stop" ]; then
+-
+-	if [ -f "$WPA_SUP_PIDFILE" ]; then
+-
+-		if [ "$VERBOSITY" =3D "1" ]; then
+-			echo "$WPA_SUP_PNAME: terminating $WPA_SUP_PNAME =
+daemon"
+-		fi
+-
+-		start-stop-daemon --stop --quiet \
+-			--name $WPA_SUP_PNAME --pidfile	$WPA_SUP_PIDFILE
+-
+-		if [ -S "$WPA_COMMON_CTRL_IFACE/$IFACE" ]; then
+-			rm -f $WPA_COMMON_CTRL_IFACE/$IFACE
+-		fi
+-
+-		if [ -f "$WPA_SUP_PIDFILE" ]; then
+-			rm -f $WPA_SUP_PIDFILE
+-		fi
+-	fi
+-
+-fi
+-
+-exit 0
+diff --git =
+a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+index 935c8af..fa40c57 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+@@ -19,8 +19,8 @@ SYSTEMD_SERVICE_${PN} =3D "wpa_supplicant.service =
+wpa_supplicant-nl80211@.service
+ SYSTEMD_AUTO_ENABLE =3D "disable"
 
-@@ -262,6 +263,10 @@ FILES_${PN}-sd8686 =3D " \
-   /lib/firmware/libertas/sd8686_v9* \
-   /lib/firmware/sd8686* \
- "
-+FILES_${PN}-sd8688 =3D " \
-+  /lib/firmware/libertas/sd8688* \
-+  /lib/firmware/mrvl/sd8688* \
-+"
- FILES_${PN}-sd8787 =3D " \
-   /lib/firmware/mrvl/sd8787_uapsta.bin \
- "
-@@ -270,6 +275,7 @@ FILES_${PN}-sd8797 =3D " \
- "
+ SRC_URI =3D "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
++           =
+http://snapshot.debian.org/archive/debian/20151115T033945Z/pool/main/w/wpa=
+/wpa_2.3-2.3.debian.tar.xz;name=3Dwpa-debian \
+            file://defconfig \
+-           file://wpa-supplicant.sh \
+            file://wpa_supplicant.conf \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
+@@ -28,11 +28,15 @@ SRC_URI =3D =
+"http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+ SRC_URI[md5sum] =3D "96ff75c3a514f1f324560a2376f13110"
+ SRC_URI[sha256sum] =3D =
+"cce55bae483b364eae55c35ba567c279be442ed8bab5b80a3c7fb0d057b9b316"
 
- RDEPENDS_${PN}-sd8686 +=3D "${PN}-marvell-license"
-+RDEPENDS_${PN}-sd8688 +=3D "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8787 +=3D "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8797 +=3D "${PN}-marvell-license"
++SRC_URI[wpa-debian.md5sum] =3D "38dedea3056ee103fb70c544ae1b99b8"
++SRC_URI[wpa-debian.sha256sum] =3D =
+"aebdeda11461e93d7f37df5f45643a3fc3c203853c884d983ed4f558604f0b2f"
++
+ S =3D "${WORKDIR}/wpa_supplicant-${PV}"
 
+-PACKAGES_prepend =3D "wpa-supplicant-passphrase wpa-supplicant-cli "
++PACKAGES_prepend =3D "wpa-supplicant-passphrase wpa-supplicant-cli =
+wpa-supplicant-ifplugd "
+ FILES_wpa-supplicant-passphrase =3D "${bindir}/wpa_passphrase"
+ FILES_wpa-supplicant-cli =3D "${sbindir}/wpa_cli"
++FILES_wpa-supplicant-ifplugd =3D "${sysconfdir}/ifplugd/action.d/ =
+${sysconfdir}/wpa_supplicant/action_wpa.sh"
+ FILES_${PN} +=3D "${datadir}/dbus-1/system-services/*"
+ CONFFILES_${PN} +=3D "${sysconfdir}/wpa_supplicant.conf"
+
+@@ -62,12 +66,16 @@ do_compile () {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS
+ 	sed -e "s:CFLAGS\ =3D.*:& \$(EXTRA_CFLAGS):g" -i =
+${S}/src/lib.rules
+ 	oe_runmake -C wpa_supplicant
++
++        cd "${WORKDIR}/debian"
++        sed -i -e 's,"/sbin/wpa,"/usr/sbin/wpa,g' ifupdown/functions.sh
+ }
+
+ do_install () {
+ 	install -d ${D}${sbindir}
+-	install -m 755 wpa_supplicant/wpa_supplicant ${D}${sbindir}
+-	install -m 755 wpa_supplicant/wpa_cli        ${D}${sbindir}
++	install -m 755 wpa_supplicant/wpa_supplicant         =
+${D}${sbindir}
++	install -m 755 wpa_supplicant/wpa_cli                =
+${D}${sbindir}
++	install -m 755 ${WORKDIR}/debian/ifupdown/wpa_action =
+${D}${sbindir}
+
+ 	install -d ${D}${bindir}
+ 	install -m 755 wpa_supplicant/wpa_passphrase ${D}${bindir}
+@@ -78,21 +86,34 @@ do_install () {
+ 	install -d ${D}${sysconfdir}
+ 	install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane =
+${D}${sysconfdir}/wpa_supplicant.conf
+
+-	install -d ${D}${sysconfdir}/network/if-pre-up.d/
+-	install -d ${D}${sysconfdir}/network/if-post-down.d/
+-	install -d ${D}${sysconfdir}/network/if-down.d/
+-	install -m 755 ${WORKDIR}/wpa-supplicant.sh =
+${D}${sysconfdir}/network/if-pre-up.d/wpa-supplicant
+-	cd ${D}${sysconfdir}/network/ && \
+-	ln -sf ../if-pre-up.d/wpa-supplicant =
+if-post-down.d/wpa-supplicant
++	install -d ${D}${sysconfdir}/wpa_supplicant/
++        install -m 755 ${WORKDIR}/debian/ifupdown/action_wpa.sh =
+${D}${sysconfdir}/wpa_supplicant/
++        install -m 644 ${WORKDIR}/debian/ifupdown/functions.sh =
+${D}${sysconfdir}/wpa_supplicant/
++        install -m 755 ${WORKDIR}/debian/ifupdown/wpasupplicant.sh =
+${D}${sysconfdir}/wpa_supplicant/ifupdown.sh
++
++	for nethook in if-up.d if-pre-up.d if-post-down.d if-down.d; do
++            install -d ${D}${sysconfdir}/network/${nethook}/
++            (cd ${D}${sysconfdir}/network/ && \
++                ln -sf ../../wpa_supplicant/ifupdown.sh =
+${nethook}/wpa-supplicant)
++        done
++
++	install -d ${D}${sysconfdir}/ifplugd/action.d/
++        (cd ${D}${sysconfdir}/ifplugd/action.d/ && ln -sf =
+../../wpa_supplicant/action_wpa.sh action_wpa)
++
++        install -d ${D}${mandir}/man5 ${D}${mandir}/man8
++        install -m 0644 =
+wpa_supplicant/doc/docbook/wpa_supplicant.conf.5 ${D}${mandir}/man5/
++        install -m 0644 wpa_supplicant/doc/docbook/wpa_passphrase.8 =
+wpa_supplicant/doc/docbook/wpa_supplicant.8 \
++            wpa_supplicant/doc/docbook/wpa_cli.8 =
+${WORKDIR}/debian/ifupdown/wpa_action.8 \
++            ${D}${mandir}/man8/
+
+ 	install -d ${D}/${sysconfdir}/dbus-1/system.d
+-	install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf =
+${D}/${sysconfdir}/dbus-1/system.d
++	install -m 644 wpa_supplicant/dbus/dbus-wpa_supplicant.conf =
+${D}/${sysconfdir}/dbus-1/system.d
+ 	install -d ${D}/${datadir}/dbus-1/system-services
+-	install -m 644 ${S}/wpa_supplicant/dbus/*.service =
+${D}/${datadir}/dbus-1/system-services
++	install -m 644 wpa_supplicant/dbus/*.service =
+${D}/${datadir}/dbus-1/system-services
+
+ 	if =
+${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; =
+then
+ 		install -d ${D}/${systemd_unitdir}/system
+-		install -m 644 ${S}/wpa_supplicant/systemd/*.service =
+${D}/${systemd_unitdir}/system
++		install -m 644 wpa_supplicant/systemd/*.service =
+${D}/${systemd_unitdir}/system
+ 	fi
+
+ 	install -d ${D}/etc/default/volatiles
 --
 2.6.3
 
+The counterpart (cf88eed - dnsmasq: steal resolvconf support from =
+Ubuntu) is in master-next of meta-oe
+and will be hopefully pushed to master (heard nothing contrary ...)
+
+Cheers
 --
 Jens Rehsack - rehsack@gmail.com
 
 
---Apple-Mail=_FCFB7741-DBD9-4EAB-B8E5-935A2FCCE531
+--Apple-Mail=_EA98934F-08F0-496D-8EEE-E0A89987D622
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -154,19 +365,19 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iQIcBAEBCgAGBQJW6SjWAAoJEESZlq7c5Qqd5OcP/1IIGJb4rMlZxLD5TUNzCqRI
-e5Qjt5o3ulBp3VchK6nSaWbaWfasliogSaYTo4UjgqQi+EuVk5rUEuw3W+wA38P+
-m9tp6pYa24AzVf6X4wUABBWGLd3dAy80RE5Gyso3lpnzd8OxkaHRKFmBE+F6fC3x
-OiS09EHxYmPT/V2mSNH232Pk1j4/5xYWfMl3YkfjNsnLi1qknXHkZ8/MgAzvKWH5
-T2cmwnMOm66WA+Igr/ouAIQD9OshMFKPmlLWzbfXQxGg8M92GcOH/89DhH0glV0M
-ucIc0tmK64y3Zxvu14i8mFZubS4HPa1ar7Ls8U/iJ246fg8zPTc1f/Z2TOUoHU6c
-9WYxb/EuaBJp5hDvTg5Rjf+6YADVU8fOe6e7AHW+yQCFcXL2OKKouYq9I0EzDYkI
-LeshuWcg8W9MQzslo772sZ8kjpH+Jsuk/JRFp+BnO2+u+gbgw2RiNOEJ/Gr5onSc
-qNiCS8gN7Vp4Hs1GKZ4UM3ndG+QHhLJVaoKqp19ZOiD2IbtzZjRCzgIAuesEiT5b
-9rP5amYr3JHlf5G4y1mdhidNy774jP0mO/oq5RvsGmG/vyNXFE1QEgOlxO32AB+H
-QjngonW2WnoXjWNNf2kkN9TtYsdedZHZBsnHqYOhIX47PPeYhGLNKRhnYIV3rCYJ
-6fh7LzM/WvQauZ3WOc4q
-=wrG0
+iQIcBAEBCgAGBQJW6SqXAAoJEESZlq7c5QqdZnEQAK7I/PXqeth3FoIuUrgazbKS
+VZvUNEnc9e2Hlyk7LOmTYMZqnhdWLWFoJ9Uje+qtvrVwRtqANJmOAAZKluarz0oU
+WwIg7ALoufIL+el0AYlJWZ6BVTLj4RbaIntFA51RPy+XeIZU4ZfI4OusmPvxblRO
+HMhb4MWsyTVQc0BdgM5e34w3To5iBrLGYOmg3Z7FBfQsAqcP/Y/a687TiClyhPIA
+0bQO3+bZtOSH84AnTSQTxyNvqzuIcxcBFqi8ddXEGMtskGix3jdIr9ttLBBnMvh7
+AGCbk7NCNcAtUUT2zVglAjzi33comRSWm81C/6xAc5cJw5sDVZGRdhFHArA+uyLK
+XzpiK8ntLZEudB+Gb3Muwlc2wX3zwuMcLt6wF4BjNztcfIXCkby+JhUzp/31j9or
+DD/AiW/yR4IWcRSB/+KEWQc7xBO4FvdrVteWTq8zKqWWHAOFmo/KTj6N5g243Zl7
+sBcz1/gdhdeyNj0M10QacZKuBJcXLCmR7hAxdn7QVbxN21JWHf4bhqmycwGokTy0
+yLXNmHoWg+wFld+ZmXjv5IYuiJLktqtCWLqEtVvV4srdnY6er/jPJnBXMxVRtm2V
+4Ur3My0o/AeRfHgO/yCwcHuxQNj1AL/VPAwTl0R2exJUw3MllcUC0FiN3P1hO8GT
+VSbO2SNwstHcQdAifrkv
+=XuNq
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_FCFB7741-DBD9-4EAB-B8E5-935A2FCCE531--
+--Apple-Mail=_EA98934F-08F0-496D-8EEE-E0A89987D622--
