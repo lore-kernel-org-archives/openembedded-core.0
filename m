@@ -1,20 +1,26 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 56517700F3
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BE0566E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2016 15:51:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Mar 2016 08:50:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,345,1455004800"; d="scan'208";a="765377747"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 16 Mar 2016 08:50:58 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Mar 2016 17:50:57 +0200
-Message-Id: <1458143457-5455-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] devtool: change config symlink name to .config.new
+	Wed, 16 Mar 2016 16:48:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2GGmOKu028133
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Mar 2016 09:48:24 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 16 Mar 2016 09:48:23 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 16 Mar 2016 12:48:17 -0400
+Message-ID: <bc63a829ea305bb9ecd56ab043a1e25697afac11.1458146315.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1458146315.git.bruce.ashfield@windriver.com>
+References: <cover.1458146315.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/5] linux-yocto/4.1: usb backports for Apollo Lake/Broxton
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +33,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2016 15:51:13 -0000
+X-List-Received-Date: Wed, 16 Mar 2016 16:48:26 -0000
+Content-Type: text/plain
 
-Otherwise (if the symlink is named .config) kernel build considers
-source tree as dirty and fails.
+Importing a series of mainline backports to support USB on a couple of
+Intel platforms:
 
-[YOCTO #9270]
+   b5f6aa9957dd usb: otg: add usb_otg_caps structure for otg capabilities
+   bbce8fe2cc42 usb: dwc3: pci: add support for Intel Broxton SOC
+   e734e1d9f827 usb: dwc3: pci: Set enblslpm quirk for Synopsys platforms
+   1c6bb6694d50 usb: dwc3: Add dis_enblslpm_quirk
+   1c6be99e56b8 usb: dwc3: pci: trivial: Formatting
+   2f2b89764b97 usb: dwc3: pci: passing forward the ACPI companion
+   ea4b3c72d976 usb: dwc3: core: convert to unified device property interface
+   dc670b52c69a usb: common: of_usb_get_dr_mode to usb_get_dr_mode
+   586fc5174649 usb: dwc3: st: prepare the driver for generic usb_get_dr_mode function
+   0624bd9af7ef usb: common: of_usb_get_maximum_speed to usb_get_maximum_speed
+   e65bc5467e07 usb: dwc3: Add frame length adjustment quirk
+   a90954c5d267 usb: musb: dsps: control musb speed based on dts setting
+   b48ff160a993 usb: renesas_usbhs: Allow an OTG PHY driver to provide VBUS
+   d1c59752195e usb: chipidea: set usb otg capabilities
+   733eada2cdec usb: common: add API to update usb otg capabilities by device tree
+   7ab2108dd82b usb: dwc3: core: avoid NULL pointer dereference
+   1aedb48b7dc9 usb: dwc3: add ULPI interface support
+   07e42a29fb7e usb: dwc3: pci: add quirk for Baytrails
+   065917252622 usb: dwc3: add hsphy_interface property
+   b2bb32a363a3 usb: dwc3: setup phys earlier
+   bf6bb0a6ebb5 usb: dwc3: soft reset to it's own function
+   d481da949476 usb: dwc3: cache hwparams earlier
+   9ac66262a201 usb: dwc3: store driver data earlier
+   5f940588938c usb: dwc3: ULPI or UTMI+ select
+   04fdce097f83 usb: dwc3: USB2 PHY register access bits
+   b7209213cc05 usb: add bus type for USB ULPI
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- scripts/lib/devtool/standard.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 18 +++++++++---------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index b344001..7600a8f 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -783,7 +783,7 @@ def modify(args, config, basepath, workspace):
-                     'do_fetch do_unpack do_patch do_kernel_configme do_kernel_configcheck"\n')
-             f.write('\ndo_configure_append() {\n'
-                     '    cp ${B}/.config ${S}/.config.baseline\n'
--                    '    ln -sfT ${B}/.config ${S}/.config\n'
-+                    '    ln -sfT ${B}/.config ${S}/.config.new\n'
-                     '}\n')
-         if initial_rev:
-             f.write('\n# initial_rev: %s\n' % initial_rev)
-@@ -930,7 +930,7 @@ def _create_kconfig_diff(srctree, rd, outfile):
-     """Create a kconfig fragment"""
-     # Only update config fragment if both config files exist
-     orig_config = os.path.join(srctree, '.config.baseline')
--    new_config = os.path.join(srctree, '.config')
-+    new_config = os.path.join(srctree, '.config.new')
-     if os.path.exists(orig_config) and os.path.exists(new_config):
-         cmd = ['diff', '--new-line-format=%L', '--old-line-format=',
-                '--unchanged-line-format=', orig_config, new_config]
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index 4a6928a7d1fe..4d9f5fbff88c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -2,8 +2,8 @@ KBRANCH ?= "standard/preempt-rt/base"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "2a4c22b03d434f7695e607b6ad30f77671985a6d"
+-SRCREV_meta ?= "56dcb623ebf5e83d65fdb4eb270f23676bb000a5"
++SRCREV_machine ?= "0872aaf9d3a4b718ba6ad17a7706843cb556992d"
++SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 41a79f17b7f1..b2fac8a3578c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.1.18"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
+-SRCREV_meta ?= "56dcb623ebf5e83d65fdb4eb270f23676bb000a5"
++SRCREV_machine ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
++SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index 9663966d8e17..9093590f8b11 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "96b21aab2adf2c9396f8cf579420a2e497923eae"
+-SRCREV_machine_qemuarm64 ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
+-SRCREV_machine_qemumips ?= "e0a6ffb62a4d28659e0e1be7b1a42a8ef499aa3b"
+-SRCREV_machine_qemuppc ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
+-SRCREV_machine_qemux86 ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
+-SRCREV_machine_qemux86-64 ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
+-SRCREV_machine_qemumips64 ?= "1b1349ca5a642086d4b92347fb9d1de1c6eab742"
+-SRCREV_machine ?= "ec18b0b3bd6befd416078e81d775dab37b3f9124"
+-SRCREV_meta ?= "56dcb623ebf5e83d65fdb4eb270f23676bb000a5"
++SRCREV_machine_qemuarm ?= "2b83b94ab36113da6d63e525e0686d1e9fefbeca"
++SRCREV_machine_qemuarm64 ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
++SRCREV_machine_qemumips ?= "a5c91d6ff822f3920fd9a20b0deefa6e23acef32"
++SRCREV_machine_qemuppc ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
++SRCREV_machine_qemux86 ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
++SRCREV_machine_qemux86-64 ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
++SRCREV_machine_qemumips64 ?= "2299caefd7d36e0fe868316045ceb58b9ae369f9"
++SRCREV_machine ?= "b5f6aa9957ddc28eafede6678b4c9ff49240bc19"
++SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
 -- 
-2.6.2
+2.5.0
 
 
