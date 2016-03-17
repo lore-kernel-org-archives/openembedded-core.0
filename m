@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2C5970101
+	by mail.openembedded.org (Postfix) with ESMTP id A011A6067D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 11:14:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 0F66F1817C
+	by bastet.se.axis.com (Postfix) with ESMTP id D492C1816C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 12:14:18 +0100 (CET)
+	Thu, 17 Mar 2016 12:14:17 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Wzw0pJ3arMpt
+	port 10024) with LMTP id M7sKyvRMo9mZ
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 12:14:17 +0100 (CET)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 2C72618184
+	by bastet.se.axis.com (Postfix) with ESMTP id 214CC18183
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 12:14:17 +0100 (CET)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 16F561433
+	by postfix.imss71 (Postfix) with ESMTP id 0B0C61426
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 12:14:17 +0100 (CET)
 Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 151C5140F
+	by boulder.se.axis.com (Postfix) with ESMTP id 08FD61413
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 12:14:17 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 139741080
+	by thoth.se.axis.com (Postfix) with ESMTP id 076E91080
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 12:14:17 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2HBEHUq026181
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2HBEHg7026177
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Mar 2016 12:14:17 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2HBEHLu026180
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2HBEGrg026176
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Mar 2016 12:14:17 +0100
+	Thu, 17 Mar 2016 12:14:16 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2016 12:14:14 +0100
-Message-Id: <add603142545f5620e8f8fbfcfa8ef260ed44a1f.1458213205.git.pkj@axis.com>
+Date: Thu, 17 Mar 2016 12:14:13 +0100
+Message-Id: <b73830241203674b7d5cd445749b61511cda051f.1458213205.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1458213205.git.pkj@axis.com>
 References: <cover.1458213205.git.pkj@axis.com>
 In-Reply-To: <cover.1458213205.git.pkj@axis.com>
 References: <cover.1458213205.git.pkj@axis.com>
-Subject: [PATCHv2 7/7] oe-buildenv-internal: Some clean up
+Subject: [PATCHv2 6/7] oe-buildenv-internal: Add variables individually to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,113 +62,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Mar 2016 11:14:18 -0000
 
-* Consistent indentation (four spaces)
-* Use [ -z ...] and [ -n ... ] where possible
-* Unset temporary variables
-* Use $(...) instead of `...`
-* Avoid an unnecessary call to expr
+Instead of adding all variables to BB_ENV_EXTRAWHITE as one, treat
+them separately and add them one by one as needed.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/oe-buildenv-internal | 46 +++++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ scripts/oe-buildenv-internal | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 354501e..bc6a4fe 100755
+index 85f82f1..354501e 100755
 --- a/scripts/oe-buildenv-internal
 +++ b/scripts/oe-buildenv-internal
-@@ -24,7 +24,7 @@ if [ -z "$OEROOT" ]; then
-     return 1
- fi
+@@ -108,13 +108,29 @@ unset BITBAKEDIR newpath
+ export BUILDDIR
+ export PATH
  
--if [ -z "$OE_SKIP_SDK_CHECK" -a ! -z "$OECORE_SDK_VERSION" ]; then
-+if [ -z "$OE_SKIP_SDK_CHECK" ] && [ -n "$OECORE_SDK_VERSION" ]; then
-     echo >&2 "Error: The OE SDK/ADT was detected as already being present in this shell environment. Please use a clean shell when sourcing this environment script."
-     return 1
- fi
-@@ -33,24 +33,26 @@ fi
- # sanity.bbclass because bitbake's source code doesn't even pass
- # parsing stage when used with python v3, so we catch it here so we
- # can offer a meaningful error message.
--py_v3_check=`/usr/bin/env python --version 2>&1 | grep "Python 3"`
--if [ "$py_v3_check" != "" ]; then
--	echo >&2 "Bitbake is not compatible with python v3"
--	echo >&2 "Please set up python v2 as your default python interpreter"
--	return 1
-+py_v3_check=$(/usr/bin/env python --version 2>&1 | grep "Python 3")
-+if [ -n "$py_v3_check" ]; then
-+    echo >&2 "Bitbake is not compatible with python v3"
-+    echo >&2 "Please set up python v2 as your default python interpreter"
-+    return 1
- fi
-+unset py_v3_check
+-BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
++add_extrawhite() {
++    # If the current shell is zsh, then temporarily set it to emulate sh in this
++    # function so that the for and case statements below work as expected.
++    [ -z "$ZSH_NAME" ] || emulate -L sh
++
++    local extrawhite="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
+ HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
+ all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
+ SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
+ SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
  
- # Similarly, we now have code that doesn't parse correctly with older
- # versions of Python, and rather than fixing that and being eternally
- # vigilant for any other new feature use, just check the version here.
--py_v26_check=`python -c 'import sys; print sys.version_info >= (2,7,3)'`
-+py_v26_check=$(python -c 'import sys; print sys.version_info >= (2,7,3)')
- if [ "$py_v26_check" != "True" ]; then
--	echo >&2 "BitBake requires Python 2.7.3 or later"
--	return 1
-+    echo >&2 "BitBake requires Python 2.7.3 or later"
-+    return 1
- fi
-+unset py_v26_check
- 
--if [ "x$BDIR" = "x" ]; then
--    if [ "x$1" = "x" ]; then
-+if [ -z "$BDIR" ]; then
-+    if [ -z "$1" ]; then
-         BDIR="build"
-     else
-         BDIR="$1"
-@@ -62,34 +64,34 @@ if [ "x$BDIR" = "x" ]; then
-         # Remove any possible trailing slashes. This is used to work around
-         # buggy readlink in Ubuntu 10.04 that doesn't ignore trailing slashes
-         # and hence "readlink -f new_dir_to_be_created/" returns empty.
--        BDIR=`echo $BDIR | sed -re 's|/+$||'`
-+        BDIR=$(echo $BDIR | sed -re 's|/+$||')
- 
--        BDIR=`readlink -f "$BDIR"`
-+        BDIR=$(readlink -f "$BDIR")
-         if [ -z "$BDIR" ]; then
--            PARENTDIR=`dirname "$1"`
-+            PARENTDIR=$(dirname "$1")
-             echo >&2 "Error: the directory $PARENTDIR does not exist?"
-             return 1
-         fi
-     fi
--    if [ "x$2" != "x" ]; then
-+    if [ -n "$2" ]; then
-         BITBAKEDIR="$2"
-     fi
- fi
--if expr "$BDIR" : '/.*' > /dev/null ; then
-+if [ "${BDIR#/}" != "$BDIR" ]; then
-     BUILDDIR="$BDIR"
- else
--    BUILDDIR="`pwd`/$BDIR"
-+    BUILDDIR="$(pwd)/$BDIR"
- fi
- unset BDIR
- 
--if [ "x$BITBAKEDIR" = "x" ]; then
--    BITBAKEDIR="$OEROOT/bitbake$BBEXTRA/"
-+if [ -z "$BITBAKEDIR" ]; then
-+    BITBAKEDIR="$OEROOT/bitbake$BBEXTRA"
- fi
- 
--BITBAKEDIR=`readlink -f "$BITBAKEDIR"`
--BUILDDIR=`readlink -f "$BUILDDIR"`
-+BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
-+BUILDDIR=$(readlink -f "$BUILDDIR")
- 
--if ! (test -d "$BITBAKEDIR"); then
-+if [ ! -d "$BITBAKEDIR" ]; then
-     echo >&2 "Error: The bitbake directory ($BITBAKEDIR) does not exist!  Please ensure a copy of bitbake exists at this location"
-     return 1
- fi
+-echo "$BB_ENV_EXTRAWHITE" | grep -q "${BB_ENV_EXTRAWHITE_OE}"
+-if [ $? != 0 ]; then
+-     export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE_OE} $BB_ENV_EXTRAWHITE"
+-fi
++    local var
++    for var in $extrawhite; do
++        case " $BB_ENV_EXTRAWHITE " in
++            *[[:blank:]]$var[[:blank:]]*)
++                ;;
++            *)
++                BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE:+$BB_ENV_EXTRAWHITE }$var"
++                ;;
++        esac
++    done
++}
++
++add_extrawhite
++unset -f add_extrawhite
++export BB_ENV_EXTRAWHITE
 -- 
 2.1.0
 
