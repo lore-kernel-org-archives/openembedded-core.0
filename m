@@ -1,46 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 925C462133
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FD456E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 17:44:20 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id x188so723207wmg.0
+	Thu, 17 Mar 2016 18:17:52 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id l68so937611wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 10:44:21 -0700 (PDT)
+	Thu, 17 Mar 2016 11:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=N8lfBw/Q6J6M4SR9KJQgKG6ZI+x0VvYYcUuc2+OBRoA=;
-	b=ZZVS8wxoNNmXgCvBbZyrtQa0bOOvMIqpAJqyMYWmS8fRcMJ4Z+INtJ6Y5PjjATOpE+
-	5r2gH/vvflqtZtd9T9LcnOq2eBtVmN1wxaCD9UB8cFfLkGasP2N0olvFjhU0GQyElkPF
-	CmuzCNkzAobB5S34H/MwBnlGs0rSx0Dls4TRWYY2G0HuM7KLnoohWa+C/1t4v1+snL2y
-	PeXqNRLfhlmwOipo0/EY+UiJuIg5RyyhrudtffIoG0xfJ+Sjt7LWFatvNx+TEB3nFFOc
-	qvRvetdpWVYVDIw2HDo8oLEnmkaiQLfRUQEsMDphX6GnVMPS7rypmiZ3mK7Rw+3pvskW
-	rTaQ==
+	:cc; bh=ON12PhMZGKd7o/VK35/GkX70eVixDIsfFCVQrfEjQmU=;
+	b=F+R1NzlUyEnKCy7S5GwV/UElMWlVijAvIuMWN4cvkQyDH1rPTPVsMf5aiBlvXYzbGC
+	MSDZL8H/OMxERwGQPmgzub/cOs+VhZIgVhawF6FrI0a30e2SMF9gk3HAG+gWC6fKYhDX
+	rUsiUH9duFIW2KHZkjayNltwyPp6fe6YXDn3erXsicOa4I6RaFxg2AxjwDooycmfXN/A
+	+8kfVmjcJyQy1VuuItrf+HXDvYsiMH3AwNh21/EWtWnDb4df2tFcXjq+yEy2HE2P7jvk
+	xmnX07eo2PizIcN3HhZwgcl3WYkqenRAmsKGeGc9utxOld2SAq85Ufnkz6SpaASbo+dS
+	2kDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=N8lfBw/Q6J6M4SR9KJQgKG6ZI+x0VvYYcUuc2+OBRoA=;
-	b=FlIh3LzuvXwhZ1KAzJNf6PXYemPtnu4CktMpXfikbfUsKdk182oXFOO+Bz1wdmGkZ1
-	9egCebOq08lcZWwjXLMPw473vwIt8SrjG8IEUt1N3TRSvO790TB4rahoHUbDocIb2JKr
-	K5eUgtPDZ694fCM63B1262Hl3OBxE+oDbnUdYUBpQ+faPIFTNF8a0NqJbODvQSLiSo7o
-	etqxjq4ns2US4YbSb3neo3AXDMadH8nkrK33qRAk6Al8dK1hutnxlowCofh8IcWSVEbH
-	tIKf5VGh5YPaL3Y6nt9YdZD83yc1XjLrYn5HNuXuWk7qbzCtL6m9bD80x1HanMPihff7
-	8rjQ==
-X-Gm-Message-State: AD7BkJL6/9Xc4TFEetAWi7UiwHJd3i9Kcj1J+ap+ozRmKKOE77Z0aK7Y4pEfiHGVP1WJA478AI/+Q+Q701FtIw==
+	bh=ON12PhMZGKd7o/VK35/GkX70eVixDIsfFCVQrfEjQmU=;
+	b=nFGCp06Ryv5jSpXhKYoh+81EfBCWMi0KsOYy4vwyEcbLi0+6c+iyDUJYFapjgVcBLd
+	SzChuqQdGV2OBxFndmsFj9hlkB1WEt1SbWUlcNHuwny5rM2pbQKtzFcUDVz8Mplm1JHs
+	n5/t3RBxgiZ0xIMeY+oB1JIqFIiTL/C02G6AuKkTIwh6224Zwhc+xIGPRp3c3Vm+IOtK
+	fr8WcGd7W6R4Pa3HB973uNT2bbxyqE1uXOREkHOMakWQmFhnlrgv5W+0G1daEYZx13b5
+	lQUAu+JBC9UYpehMHWEbxYUtShprI4hWYj1tGSmpnk8KP8qeTrOyAJApFYA7q8SeMb4O
+	N8eQ==
+X-Gm-Message-State: AD7BkJJlGNPnzlWfu05tmcUnF6Kvphq9AZVjtZpuUITB2iFs0mTbBlBipfOkFQ0nizD+Ghq241jelRmaRCpBPw==
 MIME-Version: 1.0
-X-Received: by 10.28.49.3 with SMTP id x3mr11929731wmx.4.1458236660680; Thu,
-	17 Mar 2016 10:44:20 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Thu, 17 Mar 2016 10:44:20 -0700 (PDT)
-In-Reply-To: <CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+X-Received: by 10.28.49.3 with SMTP id x3mr12098245wmx.4.1458238672917; Thu,
+	17 Mar 2016 11:17:52 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Thu, 17 Mar 2016 11:17:52 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
 References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
-Date: Thu, 17 Mar 2016 10:44:20 -0700
-Message-ID: <CAJ86T=Xs--Sh0eru4XABWG95pN4S_UnvzF24e1cqYFbbKxNrtg@mail.gmail.com>
+	<1458235169-9267-2-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
+Date: Thu, 17 Mar 2016 11:17:52 -0700
+Message-ID: <CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
+Subject: Re: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 17:44:21 -0000
+X-List-Received-Date: Thu, 17 Mar 2016 18:17:52 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Mar 17, 2016 at 10:29 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Thu, Mar 17, 2016 at 10:31 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
 > On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com> wrote:
 >>
->>  # Generating introspection data depends on a combination of native and
->> target
->>  # introspection tools, and qemu to run the target tools.
->> -DEPENDS_append = " gobject-introspection gobject-introspection-native
->> qemu-native"
->> +DEPENDS_append = " ${@bb.utils.contains('COMBINED_FEATURES',
->> 'gobject-introspection-data', 'gobject-introspection
->> gobject-introspection-native qemu-native', '', d)}"
+>> -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5
+>> gobject-introspection-data"
+>> -MACHINE_FEATURES_BACKFILL = "rtc gobject-introspection-data"
+>> +DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
+>> +MACHINE_FEATURES_BACKFILL = "rtc"
 >
+> So every BSP (apart from the qemu ones) would need to add the feature to
+> MACHINE_FEATURES?
 >
-> Have you verified this works with g-i disabled and a clean sysroot?  I'm
-> thinking builds will still need at least some of this to provide the m4
-> macros.
+> Maybe we should remove from DISTRO backfill but keep backfilling for MACHINE
+> features?
 
-I'm travelling at the moment, without access to any kind of reasonable
-build machine... so I have to confess that I didn't test the patch set
-at all. Please treat everything as RFC.
+Or don't control via a MACHINE feature at all (which would also solve
+the package PACKAGE_ARCH issue) ?
+
+Each CPU tuning file would then instead need to somehow express "this
+tuning target creates binaries which can / can't be run with qemu",
+but maybe that's an improvement too - isn't it better to define and
+maintain that information centrally in files controlled by oe-core
+rather than leave it up to BSPs to get right?
 
 > Ross
 
