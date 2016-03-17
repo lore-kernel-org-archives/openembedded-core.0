@@ -1,45 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
 	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 99DE06FEF5
+	by mail.openembedded.org (Postfix) with ESMTP id 3673C60111
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 05:18:32 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id w104so63250363qge.1
+	Thu, 17 Mar 2016 05:18:34 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id w104so63250763qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2016 22:18:33 -0700 (PDT)
+	Wed, 16 Mar 2016 22:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=dkL1/iX15go9Ed4HO58u5Zz+tvgiQEKq9liNBQgmifk=;
-	b=BmsSRBJf1f7IV10cNrKALJxxDpSHrIIbrcpeu8sUVT9nRl7zFE5MywWDgnPXVEcFue
-	WUBfy5A4EpyXtlIMBsI2idubKCqLbZj0w30pOP/KYq0EJ5H+EGju2CMcrHZFN33j+lMZ
-	et3HLXU6HO5nBKaoQ+7VXDxxGgg2TqgTxw8g/P7MF6pY5hDf+bf7wuSGXeJalJYAaJW/
-	78sZOufkxofSbLEIEZu9lJZKRRagcPrQvfX6UsAuph8Tt4186lcQOTPqbQipmYC2s7xv
-	TMDTt9NCRIaRisqTS3BjEnuTVu+pQhIPNxQkuE2olq4Fw1ipXShnZGkR8+SgKE7Ggbr0
-	GFYg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=0VxyW33IqfKWiSUVZkRH8sYf4iCbbOhvEXx4aMsq+jY=;
+	b=BRU95e2HFp+aqp3YVrqmQa40janELcQTZyon25rc1Tj0y0vN9xPfpa7iI2WjamP22p
+	y9pcITMFEiBElbww81TaGiwubZh10XZP+ZtW7rU0KEb7dmWpkW8W0pdttyvVELOM9sEJ
+	D8ZuKohKgZkmdT7/D05jYlZV3hWg1SGe0/QvmG3QU0p7U4Uc09v8IGtp3sFrp3SBm+/2
+	ptBEVYlFBK/pf3HKFxIDRsjL5tP3vTHAPwmdKGIcv5lbHvhtHc8Pz96hqnHBdkCuhVhx
+	0RDptYToQZQP0eCRwZ9p1c0mlzkRy5sHdyj84oYGl1JuL9OO0ctNm7E98BSDGl9GWlcE
+	4iSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=dkL1/iX15go9Ed4HO58u5Zz+tvgiQEKq9liNBQgmifk=;
-	b=F96ul0xed5PrW5aDy+RyjZlIknn32vok3hCApjjlG3HrpbHNAV1KgLGR9gblyc3gjw
-	axdurtcZNpcmHLZbzBxSeJDeQgiURqLQuhRjsmUG0KdA2yDZs/JByhPEPt1vLw5aleI+
-	cDAp+x+yUTWbxKg0Yj58kYUqq5oAAVkn6U2VrTMWalWSKp2pHjOvTgwjSjQ4zljWqtr+
-	Ub/orMKeDp/wv9wE0yMoYjT040LryMmDcDFwY5SwAVC1h3yudfnw8auaae+347FkgroW
-	2kJTW0dbvBKEJ5QsUrdH2bj2uKWpSlpVZwD5OOBQYVfQCHaiklaSN8QTVnj7UPOome9a
-	VbUg==
-X-Gm-Message-State: AD7BkJKWwLSRkDoWroXdLlzK6oXCT0YhoPnfEclg7ZX1Tu5+KJnIh4UogzCqc8j9Wg1v1A==
-X-Received: by 10.140.234.11 with SMTP id f11mr12408766qhc.51.1458191912974;
-	Wed, 16 Mar 2016 22:18:32 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=0VxyW33IqfKWiSUVZkRH8sYf4iCbbOhvEXx4aMsq+jY=;
+	b=UoeI7wsrVaRd6jpWNNKLN0Wnn0XNhyhn01osNeiVEJ2VOJKV49cqdCGLjvRxQFO1qQ
+	c4HhKXOP4es+YEbwHTM3VO5iWDyTtyMsEGJx2QM07Er85+Zwc99mevbczwHYmvfcA5+X
+	nXXFSKU1B30EG/zkiERT+/HT1moTMMrxX6OEZgRYDDeZUFpIG2WALuaviwWijscgSyRs
+	GL+Uw85aQmg2Q4p+ALQZg6vibQxYXKt9JQJXB/NatneqeNCRDkFGvSUs4bALA5EDllCY
+	4i1hKsq/PG65Vip8/tvopSDOQKdzsBPtz7mVETMR3T40rNwQG7lTQ7vagPMOHndzZAJK
+	A+lw==
+X-Gm-Message-State: AD7BkJLVtKB6gpkhzMMNX3v2dO9MIjbEgDAucm69RcbbD9gJ3eqT8NWUKBprVTBUBlxYYw==
+X-Received: by 10.140.230.18 with SMTP id a18mr12366262qhc.3.1458191915024;
+	Wed, 16 Mar 2016 22:18:35 -0700 (PDT)
 Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
 	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	i46sm2216771qgd.19.2016.03.16.22.18.31
+	i46sm2216771qgd.19.2016.03.16.22.18.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 16 Mar 2016 22:18:31 -0700 (PDT)
+	Wed, 16 Mar 2016 22:18:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2016 05:18:14 +0000
-Message-Id: <cover.1458191793.git.raj.khem@gmail.com>
+Date: Thu, 17 Mar 2016 05:18:17 +0000
+Message-Id: <6fe213a08313bc9118e05e7c9d5107e2153373b3.1458191793.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/6] Fix more recipes to build with musl
+In-Reply-To: <cover.1458191793.git.raj.khem@gmail.com>
+References: <cover.1458191793.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1458191793.git.raj.khem@gmail.com>
+References: <cover.1458191793.git.raj.khem@gmail.com>
+Subject: [PATCH 2/6] bdwgc: Check for getcontext() API during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,47 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 05:18:34 -0000
+X-List-Received-Date: Thu, 17 Mar 2016 05:18:35 -0000
 
-This fixes build for few more recipes on musl
+This helps in compiling dependent components like
+guile where it shows the problem of missing getcontext
+API when using libc which dont implement it e.g. musl
 
-Khem Raj (6):
-  xcb-util-image: Fix build with clang
-  bdwgc: Check for getcontext() API during configure
-  watchdog: Disable nfs on musl targets
-  socat: Access c_ispeed and c_ospeed via APIs
-  python-numpy: Fix build on musl
-  libtirpc: Add native rpcgen and regenrate rpc headers on musl
-
- ...001-Access-c_ispeed-and-c_ospeed-via-APIs.patch |   39 +
- meta/recipes-connectivity/socat/socat_1.7.3.1.bb   |    1 +
- .../python/python-numpy/aarch64/_numpyconfig.h     |    3 +-
- .../python/python-numpy/add-glibc-check.patch      |   36 +
- .../python/python-numpy/mips/_numpyconfig.h        |    3 +-
- .../python/python-numpy/mips64/_numpyconfig.h      |    3 +-
- .../python/python-numpy/mips64n32/_numpyconfig.h   |    3 +-
- .../python/python-numpy/powerpc/_numpyconfig.h     |    3 +-
- .../python/python-numpy/powerpc64/_numpyconfig.h   |    3 +-
- .../python/python-numpy/x86-64/_numpyconfig.h      |    3 +-
- .../recipes-devtools/python/python-numpy_1.10.4.bb |    1 +
- ...Add-rpcgen-program-from-nfs-utils-sources.patch | 6510 ++++++++++++++++++++
- ...ly-generate-XDR-header-files-from-.x-sour.patch | 1003 +++
- ...R-files-needed-to-build-rpcbind-on-top-of.patch | 1655 +++++
- meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |    6 +-
- meta/recipes-extended/watchdog/watchdog_5.14.bb    |    1 +
- .../xorg-lib/xcb-util-image/clang.patch            |   24 +
- .../xorg-lib/xcb-util-image_0.4.0.bb               |    5 +-
- ...ac-add-check-for-NO_GETCONTEXT-definition.patch |   29 +
- meta/recipes-support/bdwgc/bdwgc_7.4.2.bb          |    1 +
- 20 files changed, 9323 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
- create mode 100644 meta/recipes-devtools/python/python-numpy/add-glibc-check.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0003-Add-rpcgen-program-from-nfs-utils-sources.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0004-Automatically-generate-XDR-header-files-from-.x-sour.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0005-Add-more-XDR-files-needed-to-build-rpcbind-on-top-of.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/xcb-util-image/clang.patch
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...ac-add-check-for-NO_GETCONTEXT-definition.patch | 29 ++++++++++++++++++++++
+ meta/recipes-support/bdwgc/bdwgc_7.4.2.bb          |  1 +
+ 2 files changed, 30 insertions(+)
  create mode 100644 meta/recipes-support/bdwgc/bdwgc/0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch
 
+diff --git a/meta/recipes-support/bdwgc/bdwgc/0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch b/meta/recipes-support/bdwgc/bdwgc/0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch
+new file mode 100644
+index 0000000..8ef774f
+--- /dev/null
++++ b/meta/recipes-support/bdwgc/bdwgc/0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch
+@@ -0,0 +1,29 @@
++configure.ac: add check for NO_GETCONTEXT definition
++
++Signed-off-by: Samuel Martin <s.martin49@gmail.com>
++[yann.morin.1998@free.fr: add a comment, change variable name, use
++ AS_IF, remove debug traces, use AC_CHECK_FUNCS (as suggested by
++ Thomas)]
++Signed-off-by: "Yann E. MORIN" <yann.morin.1998@free.fr>
++Cc: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++
++---
++Upstream-Status: Pending
++ configure.ac | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++--- bdwgc-7.2f.orig/configure.ac	2014-06-01 19:00:47.000000000 +0200
+++++ bdwgc-7.2f/configure.ac	2014-12-23 14:13:11.585716713 +0100
++@@ -365,6 +365,12 @@
++   AC_MSG_RESULT($ac_cv_fno_strict_aliasing)
++ fi
++ 
+++# Check for getcontext (uClibc can be configured without it, for example)
+++AC_CHECK_FUNCS([getcontext])
+++AS_IF([test "$ac_cv_func_getcontext" = "no"],
+++  [CFLAGS="$CFLAGS -DNO_GETCONTEXT"
+++   CPPFLAGS="$CPPFLAGS -DNO_GETCONTEXT"])
+++
++ case "$host" in
++ # While IRIX 6 has libdl for the O32 and N32 ABIs, it's missing for N64
++ # and unnecessary everywhere.
+diff --git a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+index 95e358f..209f533 100644
+--- a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
++++ b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+@@ -23,6 +23,7 @@ LIC_FILES_CHKSUM = "file://README.QUICK;md5=55f5088f90a982fed7af9a4897047ef7"
+ 
+ SRC_URI = "http://www.hboehm.info/gc/gc_source/gc-${PV}.tar.gz \
+            file://0001-fix-build-with-musl.patch \
++           file://0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch \
+           "
+ 
+ SRC_URI[md5sum] = "12c05fd2811d989341d8c6d81f66af87"
 -- 
 1.9.1
 
