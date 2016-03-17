@@ -1,32 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 673F2606A8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 271BB601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 21:02:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2HL2dRi008607; Thu, 17 Mar 2016 21:02:39 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 21OhxYbu7EhF; Thu, 17 Mar 2016 21:02:39 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2HL2X23008604
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 17 Mar 2016 21:02:34 GMT
-Message-ID: <1458248553.7615.34.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Mar 2016 21:02:33 +0000
-In-Reply-To: <CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
+	Thu, 17 Mar 2016 21:32:25 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id l68so44212296wml.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Mar 2016 14:32:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=vUL2aPCItxQTM/AYqc/4eQbXZ7ExgpbuTRtmGWKZ+08=;
+	b=qNi+i9TFVCJ87sJu74/la4J57TdnVJFep2ojEj30tq/C3/JsvkBr3EwVUpZOxPMZRc
+	YvBmaU8MKwc8TgvkEyY4eHHP/9+Bvh3WVy4sU5tu35ck96xkBh8a5kuOvyfmvg/0uoc4
+	ryUzgBBKWN9jTQtv4WXaJ7AZMzUF2In+owRwLllgHWCYeWgRsQL4v64BWtt1A7fHVKAG
+	qs5X8stAlU+gViYwV8zrrba7QgQ+foa1kSwUrTjOMuiRnCHtzU8eRaf9dBAjODS85g0O
+	Q7YlG9ndQO1Pv1DZUoAp7W3sW5VeJTX4syyKFkxaofsGw3EO+swziKKS9dr0VA1hOY7C
+	TF2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=vUL2aPCItxQTM/AYqc/4eQbXZ7ExgpbuTRtmGWKZ+08=;
+	b=c28gXUcXNK4bALEnNfYA/sKbCtoyiUZm3NxyWV97V84WfBv+a5VLI+PYruBUwCLl/4
+	UzwEMhtChPLWn0fQJIKve7RRjKEboRvtHNYZiT6dcqykBQF9LJfxpqT/TuB17ZyEfuVz
+	5omh0u/Z5EGcVPFqUzW6ogDpC2UqDB+C3IpIGTCmXY6pQRKtOd6p/nS6KpxuVjNRO6uS
+	h34y70eLrguPMDYq2KH2JJBypBNBP3PMo1wEnELyRWPEWv0uGCpCZRNrhvlShDYIVpd+
+	W+s3H1V3OuN0WMftBb+bFy/YYvIybnkNel8CucoaGT2oIXBWqjk5hnD/oinKKRY6Xhzz
+	l+aQ==
+X-Gm-Message-State: AD7BkJJQGQREF2/uaKSkaWtjBlAfHnN6FxPCYPDJbI9T96vjqwArWp4z+kD/HO1XAvi1+A==
+X-Received: by 10.194.95.73 with SMTP id di9mr13385141wjb.152.1458250345621;
+	Thu, 17 Mar 2016 14:32:25 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	198sm9871466wml.22.2016.03.17.14.32.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 17 Mar 2016 14:32:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 17 Mar 2016 22:36:08 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160317213608.GG2553@jama>
 References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-	<1458235169-9267-2-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
-	<CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
+	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
+Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,59 +60,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 21:02:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Mar 2016 21:32:27 -0000
+X-Groupsio-MsgNum: 79762
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yZnyZsPjQYjG7xG7"
+Content-Disposition: inline
 
-On Thu, 2016-03-17 at 11:17 -0700, Andre McCurdy wrote:
-> On Thu, Mar 17, 2016 at 10:31 AM, Burton, Ross <ross.burton@intel.com
-> > wrote:
-> > 
-> > On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com>
-> > wrote:
-> > > 
-> > > -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5
-> > > gobject-introspection-data"
-> > > -MACHINE_FEATURES_BACKFILL = "rtc gobject-introspection-data"
-> > > +DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
-> > > +MACHINE_FEATURES_BACKFILL = "rtc"
-> > 
-> > So every BSP (apart from the qemu ones) would need to add the
-> > feature to
-> > MACHINE_FEATURES?
-> > 
-> > Maybe we should remove from DISTRO backfill but keep backfilling
-> > for MACHINE
-> > features?
-> 
-> Or don't control via a MACHINE feature at all (which would also solve
-> the package PACKAGE_ARCH issue) ?
-> 
-> Each CPU tuning file would then instead need to somehow express "this
-> tuning target creates binaries which can / can't be run with qemu",
-> but maybe that's an improvement too - isn't it better to define and
-> maintain that information centrally in files controlled by oe-core
-> rather than leave it up to BSPs to get right?
+--yZnyZsPjQYjG7xG7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-MACHINE_FEATURES is a variable which represents the features the target
-hardware has. There is nothing which says "this must be set in
-MACHINE.conf". In fact there is significant precedent for setting up
-common include files which define the hardware properties.
+On Thu, Mar 17, 2016 at 05:29:59PM +0000, Burton, Ross wrote:
+> On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com> wrote:
+>=20
+> >  # Generating introspection data depends on a combination of native and
+> > target
+> >  # introspection tools, and qemu to run the target tools.
+> > -DEPENDS_append =3D " gobject-introspection gobject-introspection-native
+> > qemu-native"
+> > +DEPENDS_append =3D " ${@bb.utils.contains('COMBINED_FEATURES',
+> > 'gobject-introspection-data', 'gobject-introspection
+> > gobject-introspection-native qemu-native', '', d)}"
+> >
+>=20
+> Have you verified this works with g-i disabled and a clean sysroot?  I'm
+> thinking builds will still need at least some of this to provide the m4
+> macros.
 
-If you look at one of my patches, it alters a core common include file
-to exclude introspection in a case where we can't use it (x32).
+Even with gobject-introspection-data removed from DISTRO_FEATURES I'm seeing
+couple recipes (our version of gst-*) failing with:
 
-So I think we actually want the same thing which is for the common tune
-files to setup the right data.
+| configure:22282: error: possibly undefined macro: PKG_CONFIG_SYSROOT_DIR
+|       If this token and others are legitimate, please use m4_pattern_allo=
+w.
+|       See the Autoconf documentation.
 
-We have made a decision to defaulting to introspection, rightly or
-wrongly. I'm also quite happy to disable it where we know qemu can't
-work and tune files are likely the right place to that.
+and PKG_CONFIG_SYSROOT_DIR is added by introspection.m4 from g-i patchset.
 
-I don't think this patchset is right.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Cheers,
+--yZnyZsPjQYjG7xG7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Richard
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlbrI0cACgkQN1Ujt2V2gBz10wCgmh/LF8qt6mN6s19/xkgikV8z
+jMUAn0IixRvUoAdZMGoK1+OwbDxnES3p
+=iBhk
+-----END PGP SIGNATURE-----
 
+--yZnyZsPjQYjG7xG7--
