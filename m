@@ -1,44 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E1EA60116
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id AEC836011B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 17:27:42 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id p65so3867275wmp.0
+	Thu, 17 Mar 2016 17:30:18 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id kc10so2384563igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 10:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=yy+Du9xByqaaNqDtfaracxLh1T2WhEFU18RQ9PG7X8U=;
-	b=bqE/iUHDr3YqtsQBGmBfyaizzNdOQABX1uo7zB1B3WQ9nO2/iyrIA0RcTPAJBmQfWm
-	DtBTUlBAq5vmukkuETKw86BwnoAxT+RbBPvM8bODHX3wHpLrEmMQw2mNDcUondaPghCH
-	W3Ibode0jTgpezblH9LMNkrQNb8314yzYe75L8NkygAKIkcSUOVjYw9mWbnvOJm/4Hi9
-	/+T5nGoLmTE/GduUjOI6+fGcz3drdr1cLbxOqfc/AUGS/XZUWrHSdn42Pzc8H9oGqcli
-	rIS9h727M0ks3PO4YJPQOn8PCQ5/i/AaPn2IZXeuBVBxCPcF6fCmQnd6JRp30w8Vnb8z
-	QGgg==
+	Thu, 17 Mar 2016 10:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JLU4GubkA07YR0R4XFwJvA0nZeg59dudNRAHFdy74HU=;
+	b=hsrWa4yJeOLKAeFzWDaZ7smeKoN2Ux/AARIiVHkWkkLPQ5tm8hqkuZqv5EpVher16A
+	MFBKTOS6nDRj88DF5Hf2Z2Ao+xtKHD+INZ5ubjns6XeZfoS9xO0QZvNUa6gTbv2pbH+S
+	pXe83bX6j7KgyultwY6/0l3K52aJB+jGvKodJ3W5OPPqqD7yKHZCDrJLIAwVDuVGV+9g
+	0hEzC/0UycKDe0/b3ICOPDLsgC5Z9H4ONatkTUJkEVaB07nouMh4Hx5cVbWttgJvdCCP
+	FZTN5icgVnSsUGwF0cXavY1dMkNMP1i6RdjGEwpEpm30DIEd7dh1rSPkb71cyu3WGYgI
+	viqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yy+Du9xByqaaNqDtfaracxLh1T2WhEFU18RQ9PG7X8U=;
-	b=PKZQfHN41lYJlvzIbuaplW31MfigVu0AeGEfaDbsRYeQnbcFjxR5Rmnr/5qh1d8twf
-	+9yFx2imV1Mo3LXKMoqgF8MDd5yOWTA5i3j88/qOYA0xyTb2W6j8S9hqjTvqUZRZmk/r
-	YGBYdiVovdRLwqLecWPqMYQB8XJj+Q0RfK2qP/v8LYNWUlJdxb4GCHM91ZMpdBnIJmkq
-	TvyxTduSHrbvVjWsULwHEITenMyfVs1C0laAqZILzeAJzDTuBJI5QdeHEwl0cKgeS6dO
-	b7kfefUme/fsZn2bxMIeabKktWRTmh6U8T6sI/OVO/AohjYa//wY6LnMsJYQIhx4vcBn
-	xM5A==
-X-Gm-Message-State: AD7BkJLm4RPX5ID1U3NaSvgDAVRPO1kuGM4yZRzfagZXPcSDCjD6mw1KfA6jxOwgyy7xmA==
-X-Received: by 10.28.212.19 with SMTP id l19mr35892163wmg.97.1458235662833;
-	Thu, 17 Mar 2016 10:27:42 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id z6sm9070233wme.9.2016.03.17.10.27.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Mar 2016 10:27:42 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2016 18:31:22 +0100
-Message-Id: <1458235882-1101-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.7.3
-Subject: [PATCH] grub: add --disable-werror to native EXTRA_OECONF
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JLU4GubkA07YR0R4XFwJvA0nZeg59dudNRAHFdy74HU=;
+	b=GzSA5PvxxCMvpCpcgsbpHGvIMEPQXadIZMbNk3tZdfQOXl9fmP2gy77xbTgEjVIKCb
+	S/WQeD9PnS+47ZFkUKwn1EkKb+yjeT9uRWIo9hkd1vkYC5juTdLyHNMQZ+W/bNM/922i
+	ON84sVMLcN4mdutEtHZBbh+FN8TU4sfRD0rEKfkfHablD5g8KoSEPriZo7HoO4FdJNLY
+	PFjpCN+wjh07UMTbT1qWG3/SnDeMmuZAXodwCw/kpU9e7FeMNItOW2K29R2M4MhWCgYa
+	ESq2f7UgWtm4QYqC8FuyJksp8aoqZa/WQYhQ7oZ8r2M4yFbVHCShw14H7BDGlpPZyaTK
+	elAA==
+X-Gm-Message-State: AD7BkJI2FLT9ovoNTpzPsPpD9MqhPWgpdl6Tq1IO9oxTmfZbIyonXoPHD76ZjRjkWE5koowcAGoxR04m/CafKCQq
+X-Received: by 10.50.43.226 with SMTP id z2mr39663709igl.78.1458235818659;
+	Thu, 17 Mar 2016 10:30:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Thu, 17 Mar 2016 10:29:59 -0700 (PDT)
+In-Reply-To: <1458235169-9267-8-git-send-email-armccurdy@gmail.com>
+References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
+	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 Mar 2016 17:29:59 +0000
+Message-ID: <CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,29 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 17:27:44 -0000
+X-List-Received-Date: Thu, 17 Mar 2016 17:30:19 -0000
+Content-Type: multipart/alternative; boundary=047d7bfea0f4f890a3052e41fbb8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-bsp/grub/grub-efi_2.00.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+--047d7bfea0f4f890a3052e41fbb8
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-index 4e80e18..9d4768b 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -35,6 +35,10 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
- 
- EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile ac_cv_sizeof_off_t=8', '--disable-largefile', d)}"
- 
-+# Generates many trampolines even with -Wno-trampoline
-+# bsdlabel.c:161:7: error: trampoline generated for nested function 'check_msdos' [-Werror=trampolines]
-+EXTRA_OECONF_append_class-native = " --disable-werror"
-+
- do_install_class-native() {
- 	install -d ${D}${bindir}
- 	install -m 755 grub-mkimage ${D}${bindir}
--- 
-2.7.3
+On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com> wrote:
 
+>  # Generating introspection data depends on a combination of native and
+> target
+>  # introspection tools, and qemu to run the target tools.
+> -DEPENDS_append = " gobject-introspection gobject-introspection-native
+> qemu-native"
+> +DEPENDS_append = " ${@bb.utils.contains('COMBINED_FEATURES',
+> 'gobject-introspection-data', 'gobject-introspection
+> gobject-introspection-native qemu-native', '', d)}"
+>
 
+Have you verified this works with g-i disabled and a clean sysroot?  I'm
+thinking builds will still need at least some of this to provide the m4
+macros.
+
+Ross
+
+--047d7bfea0f4f890a3052e41fbb8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 March 2016 at 17:19, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":au" class=3D"a3s"=
+ style=3D"overflow:hidden">=C2=A0# Generating introspection data depends on=
+ a combination of native and target<br>
+=C2=A0# introspection tools, and qemu to run the target tools.<br>
+-DEPENDS_append =3D &quot; gobject-introspection gobject-introspection-nati=
+ve qemu-native&quot;<br>
++DEPENDS_append =3D &quot; ${@bb.utils.contains(&#39;COMBINED_FEATURES&#39;=
+, &#39;gobject-introspection-data&#39;, &#39;gobject-introspection gobject-=
+introspection-native qemu-native&#39;, &#39;&#39;, d)}&quot;<br></div></blo=
+ckquote></div><br>Have you verified this works with g-i disabled and a clea=
+n sysroot?=C2=A0 I&#39;m thinking builds will still need at least some of t=
+his to provide the m4 macros.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
+
+--047d7bfea0f4f890a3052e41fbb8--
