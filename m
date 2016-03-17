@@ -1,51 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1086B60043
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 99DE06FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 05:18:33 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id y89so64057481qge.2
+	Thu, 17 Mar 2016 05:18:32 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id w104so63250363qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2016 22:18:34 -0700 (PDT)
+	Wed, 16 Mar 2016 22:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=c99OoOaLdg6qpO+RXrunAtWFkwk0CBflI6NhQpMLjrE=;
-	b=REIeaUc/r600hWSV5m93TFgal8KcF1le4mmtQGML10JvQEA0hq4gZMvhJGkO1M3USV
-	2JotIJuJLJdynphkQ25FK6i4cq55QoxWqPF74ggDmoVY6p8xCp6I9UiWNbzivMHKeujt
-	LY3QBjNB2MfmZzdW25gnu15wk7cDBShRt+yYCjJwaPRp29NcVD/yJpYzY5n2hFdQDwGk
-	xWGyNXdUCy9zCrEEZh9c6tUz8KT7lFglExqteE/qTnKSvsILF4S7ttIP6H0HzrBsTifm
-	L90v3Z2E3y6D4c2tYFalWwc7xJdDmex+7SgNo2Vo2ER2oWNRp5X1wjehZgkQPfv3EU+6
-	HfwA==
+	h=from:to:cc:subject:date:message-id;
+	bh=dkL1/iX15go9Ed4HO58u5Zz+tvgiQEKq9liNBQgmifk=;
+	b=BmsSRBJf1f7IV10cNrKALJxxDpSHrIIbrcpeu8sUVT9nRl7zFE5MywWDgnPXVEcFue
+	WUBfy5A4EpyXtlIMBsI2idubKCqLbZj0w30pOP/KYq0EJ5H+EGju2CMcrHZFN33j+lMZ
+	et3HLXU6HO5nBKaoQ+7VXDxxGgg2TqgTxw8g/P7MF6pY5hDf+bf7wuSGXeJalJYAaJW/
+	78sZOufkxofSbLEIEZu9lJZKRRagcPrQvfX6UsAuph8Tt4186lcQOTPqbQipmYC2s7xv
+	TMDTt9NCRIaRisqTS3BjEnuTVu+pQhIPNxQkuE2olq4Fw1ipXShnZGkR8+SgKE7Ggbr0
+	GFYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=c99OoOaLdg6qpO+RXrunAtWFkwk0CBflI6NhQpMLjrE=;
-	b=gVDDD1Jdvg59wqFvbzYiV/9tU7YnWvIvsjwvPcsZpmTaqJ82F9PZ/dcLMt2dxksoUv
-	3pZOD2n9G4ncoCcQhLgYWyyTDZS0TMbvkVSLCEDoX44SshRb4xp1AJZjHQD7s8Ti94XE
-	m9Ni4jWZ/Ri1V7XAgAsS/xi6CqQzbbyN0ZmYsYBb1rgQ8iBepLeMvjYXQb94FEu3RVzf
-	cIndVcJyyOEH158BCdwm1TRvafFMtN7+ju3X1RPANGS8If0y9H5wp7SIMihaZAqQd9fK
-	JRWNqyqzalYw8FTId0gQcm8S/8gtXYMDEyFVaa3sZbc+XUoW1Kfvgwj5gLnUAn61eZlq
-	19yQ==
-X-Gm-Message-State: AD7BkJJ7FycP4GgxIUtSF+q1oZ85zWbS9hBuQUoI0CcnK6wMlNqW6nUXHeVnkInlQyqZ7w==
-X-Received: by 10.141.23.211 with SMTP id z202mr7684701qhd.52.1458191914342;
-	Wed, 16 Mar 2016 22:18:34 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dkL1/iX15go9Ed4HO58u5Zz+tvgiQEKq9liNBQgmifk=;
+	b=F96ul0xed5PrW5aDy+RyjZlIknn32vok3hCApjjlG3HrpbHNAV1KgLGR9gblyc3gjw
+	axdurtcZNpcmHLZbzBxSeJDeQgiURqLQuhRjsmUG0KdA2yDZs/JByhPEPt1vLw5aleI+
+	cDAp+x+yUTWbxKg0Yj58kYUqq5oAAVkn6U2VrTMWalWSKp2pHjOvTgwjSjQ4zljWqtr+
+	Ub/orMKeDp/wv9wE0yMoYjT040LryMmDcDFwY5SwAVC1h3yudfnw8auaae+347FkgroW
+	2kJTW0dbvBKEJ5QsUrdH2bj2uKWpSlpVZwD5OOBQYVfQCHaiklaSN8QTVnj7UPOome9a
+	VbUg==
+X-Gm-Message-State: AD7BkJKWwLSRkDoWroXdLlzK6oXCT0YhoPnfEclg7ZX1Tu5+KJnIh4UogzCqc8j9Wg1v1A==
+X-Received: by 10.140.234.11 with SMTP id f11mr12408766qhc.51.1458191912974;
+	Wed, 16 Mar 2016 22:18:32 -0700 (PDT)
 Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
 	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	i46sm2216771qgd.19.2016.03.16.22.18.33
+	i46sm2216771qgd.19.2016.03.16.22.18.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 16 Mar 2016 22:18:33 -0700 (PDT)
+	Wed, 16 Mar 2016 22:18:31 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2016 05:18:16 +0000
-Message-Id: <7b4bb195a30eeb6a4dae474082023372c8906259.1458191793.git.raj.khem@gmail.com>
+Date: Thu, 17 Mar 2016 05:18:14 +0000
+Message-Id: <cover.1458191793.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1458191793.git.raj.khem@gmail.com>
-References: <cover.1458191793.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1458191793.git.raj.khem@gmail.com>
-References: <cover.1458191793.git.raj.khem@gmail.com>
-Subject: [PATCH 1/6] xcb-util-image: Fix build with clang
+Subject: [PATCH 0/6] Fix more recipes to build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,58 +54,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Mar 2016 05:18:34 -0000
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../xorg-lib/xcb-util-image/clang.patch            | 24 ++++++++++++++++++++++
- .../xorg-lib/xcb-util-image_0.4.0.bb               |  5 ++++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/xcb-util-image/clang.patch
+This fixes build for few more recipes on musl
 
-diff --git a/meta/recipes-graphics/xorg-lib/xcb-util-image/clang.patch b/meta/recipes-graphics/xorg-lib/xcb-util-image/clang.patch
-new file mode 100644
-index 0000000..11e9094
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/xcb-util-image/clang.patch
-@@ -0,0 +1,24 @@
-+Make clang happy since it squashes the control warning, ideally it will never reach that return value due to assert
-+but there is a chance when NDEBUG is defined
-+
-+| In file included from ../../xcb-util-image-0.4.0/image/xcb_image.c:37:
-+| ../../xcb-util-image-0.4.0/image/xcb_bitops.h:210:1: error: control may reach end of non-void function [-Werror,-Wreturn-type]
-+| }
-+| ^
-+| 1 error generated.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+
-+Index: xcb-util-image-0.4.0/image/xcb_bitops.h
-+===================================================================
-+--- xcb-util-image-0.4.0.orig/image/xcb_bitops.h
-++++ xcb-util-image-0.4.0/image/xcb_bitops.h
-+@@ -207,6 +207,7 @@ xcb_host_byte_order(void) {
-+       return XCB_IMAGE_ORDER_LSB_FIRST;
-+   }
-+   assert(0);
-++  return -1;
-+ }
-+ 
-+ #endif /* __XCB_BITOPS_H__ */
-diff --git a/meta/recipes-graphics/xorg-lib/xcb-util-image_0.4.0.bb b/meta/recipes-graphics/xorg-lib/xcb-util-image_0.4.0.bb
-index 91464b6..c6bb5a6 100644
---- a/meta/recipes-graphics/xorg-lib/xcb-util-image_0.4.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/xcb-util-image_0.4.0.bb
-@@ -6,5 +6,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://image/xcb_image.c;endline=24;md5=eafdf965cfb89955fdedf75054223fb4 \
-                     file://image/xcb_image.h;beginline=4;endline=27;md5=48cd25ae55e7de525fe1e1a3a7672e1c"
- 
-+SRC_URI += "file://clang.patch \
-+"
-+
- SRC_URI[md5sum] = "08fe8ffecc8d4e37c0ade7906b3f4c87"
--SRC_URI[sha256sum] = "2db96a37d78831d643538dd1b595d7d712e04bdccf8896a5e18ce0f398ea2ffc"
-\ No newline at end of file
-+SRC_URI[sha256sum] = "2db96a37d78831d643538dd1b595d7d712e04bdccf8896a5e18ce0f398ea2ffc"
+Khem Raj (6):
+  xcb-util-image: Fix build with clang
+  bdwgc: Check for getcontext() API during configure
+  watchdog: Disable nfs on musl targets
+  socat: Access c_ispeed and c_ospeed via APIs
+  python-numpy: Fix build on musl
+  libtirpc: Add native rpcgen and regenrate rpc headers on musl
+
+ ...001-Access-c_ispeed-and-c_ospeed-via-APIs.patch |   39 +
+ meta/recipes-connectivity/socat/socat_1.7.3.1.bb   |    1 +
+ .../python/python-numpy/aarch64/_numpyconfig.h     |    3 +-
+ .../python/python-numpy/add-glibc-check.patch      |   36 +
+ .../python/python-numpy/mips/_numpyconfig.h        |    3 +-
+ .../python/python-numpy/mips64/_numpyconfig.h      |    3 +-
+ .../python/python-numpy/mips64n32/_numpyconfig.h   |    3 +-
+ .../python/python-numpy/powerpc/_numpyconfig.h     |    3 +-
+ .../python/python-numpy/powerpc64/_numpyconfig.h   |    3 +-
+ .../python/python-numpy/x86-64/_numpyconfig.h      |    3 +-
+ .../recipes-devtools/python/python-numpy_1.10.4.bb |    1 +
+ ...Add-rpcgen-program-from-nfs-utils-sources.patch | 6510 ++++++++++++++++++++
+ ...ly-generate-XDR-header-files-from-.x-sour.patch | 1003 +++
+ ...R-files-needed-to-build-rpcbind-on-top-of.patch | 1655 +++++
+ meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |    6 +-
+ meta/recipes-extended/watchdog/watchdog_5.14.bb    |    1 +
+ .../xorg-lib/xcb-util-image/clang.patch            |   24 +
+ .../xorg-lib/xcb-util-image_0.4.0.bb               |    5 +-
+ ...ac-add-check-for-NO_GETCONTEXT-definition.patch |   29 +
+ meta/recipes-support/bdwgc/bdwgc_7.4.2.bb          |    1 +
+ 20 files changed, 9323 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
+ create mode 100644 meta/recipes-devtools/python/python-numpy/add-glibc-check.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0003-Add-rpcgen-program-from-nfs-utils-sources.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0004-Automatically-generate-XDR-header-files-from-.x-sour.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0005-Add-more-XDR-files-needed-to-build-rpcbind-on-top-of.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/xcb-util-image/clang.patch
+ create mode 100644 meta/recipes-support/bdwgc/bdwgc/0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch
+
 -- 
 1.9.1
 
