@@ -1,48 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A07FF60116
+	by mail.openembedded.org (Postfix) with ESMTP id 0A10060116
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 17:19:37 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id x188so518190wmg.0
+	Thu, 17 Mar 2016 17:19:39 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id l124so500276wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 10:19:38 -0700 (PDT)
+	Thu, 17 Mar 2016 10:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=f1MwP6trhutNSzuOXJsMowj691A1VveQbv0yPxBx3vo=;
-	b=WloJyIPzcdlKwh8SC8QSdsY3zXtsIJ2MhuZ9Y3kob9C/TEu12DjQj3z9DDbFC507Tw
-	fRvqLgzetbIHRZzQ/nzn0z8muDeTjVZPzCQyQWhGyidnTFAGphC8JlxkMXmL3LY2VaSy
-	ymoEYZHYB0VKHmanH2z/HGuWLQ0f3zXXd6gGfQGQ7X5OJP/G88Vrr6Bh9o671qi2io3R
-	sif6OGc2+KYypkCTiIu/kTNZNnIQ1hp3O/Iwe9aeZaqQBInCli4zpFKK1fVz8+KQ63ii
-	Yk32zKNWvlaqKsFIZJ/JQMlmWYqN7XBea3ive2jXTfvsKfWQbCTTFCMzYHRoDXS//1CH
-	DRrQ==
+	bh=4i5pmfj938jqWBtoW5qAntbfXYmBk4AVi+JkVSLmyc0=;
+	b=i8dCb4cEZzmCebViKwGIyd1EfKPCa/q7XHAk+KFkrbeQRVAMzuUdVFCUjzEVRADb/c
+	OvZBlPlEG6h/CMoHy1SCa768ZCqsntMWqgqYH9fJJYj9f/nTjAUWSb5/Mh7Hofcd04YC
+	1nMZmBdKHtpfDou9VoJ4NZh7sV5CRrKIj1PzcSOcdXebVjdNsx7IMoHSjdro5y2N1L9F
+	RIxAHGDnDJslisjwucJAvJ2cfARemU5UH/fMrw4xlpzeKLtJF5T3XFomDYSvDt824Dpl
+	pf+39moTYqWxb8cg3bXsb87jBo7uDtBIK/+YncrPxYx4Uii6ofsIyWYR1yf62tGEx/Ii
+	sPrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=f1MwP6trhutNSzuOXJsMowj691A1VveQbv0yPxBx3vo=;
-	b=GcNvBrOCbiiifyoxI2+V8b6wBOLbBRjIkROpb3kdIUUtGxysv9qR5y5LZAcBxm+xqH
-	9oEs2VeX9nC1bQ/hpTHeJWSFQH+KwH32kYU3cduGTCAmP1cdlhwUDRP+eLsdaIKzXHvu
-	XYE+ZzXw9M2ltYEwIDk+0Jal2fo+GN+0f72vEBU6BkuhG3i1dxKqKnWypUDMNFvl25DT
-	3v/ajD2/fayUbMVTr7/thyx0+qwxUVv8yKrsQ8gIMuR3QPihXBEs9oe7BLfWYYQpcbdt
-	YpdDStOtNYSlUYPQeB+/2Gmp9K+fE19niBhlmdugnOCbQtKUtTSfAN48pygo9Aq5RDfT
-	cVAg==
-X-Gm-Message-State: AD7BkJL7i4SuWRox56JBC/TKy4hkTj24kgmZ0TPHJnHFayUWoKBgIuTOWhORBfHIaR5UdQ==
-X-Received: by 10.28.63.13 with SMTP id m13mr39602187wma.55.1458235177571;
-	Thu, 17 Mar 2016 10:19:37 -0700 (PDT)
+	bh=4i5pmfj938jqWBtoW5qAntbfXYmBk4AVi+JkVSLmyc0=;
+	b=bL6gl4bvtgMcWaMn5T+Tjx4u4DHvSEphcRUexGUgNdSunOPdiZMAwVOfr0R4dOBwh0
+	TLsexaY+MUVBGxFLOgRdu9Vggj/4/aWs4x3Gui4qFBtuo+IQ7xGckyDEnWIZcBxjZVlC
+	2Hg+1qEMaELc0cQs0P5fUeVM3BqGWYgg3VFUwBvzoyynUp2ZNXi1sbJVU1LG2Qx7/aI4
+	R4tRChwiLMMNJJW6ncvBlgxqU3BlCqEW8MzOuCMBHzn2wnHHPt3pIGnWkSYmv5i5XJXO
+	XOw/R3n+GiVisJ6LngFgqtPvQYFzZgbx0hbXn5RDFf9HwCbQcBfxgOR8FObn0WiSPadf
+	6fPw==
+X-Gm-Message-State: AD7BkJKM7BLpqoWKGjQG1FBjWVRX78ma9X+NiwrWFsIVdkqOJZG13G6KDMW71OqjJz78IQ==
+X-Received: by 10.194.200.225 with SMTP id jv1mr11429335wjc.49.1458235179657; 
+	Thu, 17 Mar 2016 10:19:39 -0700 (PDT)
 Received: from localhost.localdomain
 	(LPuteaux-656-1-252-235.w82-127.abo.wanadoo.fr. [82.127.113.235])
 	by smtp.gmail.com with ESMTPSA id
-	e25sm31066139wmi.21.2016.03.17.10.19.36
+	e25sm31066139wmi.21.2016.03.17.10.19.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 Mar 2016 10:19:36 -0700 (PDT)
+	Thu, 17 Mar 2016 10:19:39 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2016 10:19:22 -0700
-Message-Id: <1458235169-9267-2-git-send-email-armccurdy@gmail.com>
+Date: Thu, 17 Mar 2016 10:19:23 -0700
+Message-Id: <1458235169-9267-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
 References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
+Subject: [PATCH 2/8] default-distrovars.inc: add gobject-introspection-data to DISTRO_FEATURES_DEFAULT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 17:19:38 -0000
+X-List-Received-Date: Thu, 17 Mar 2016 17:19:39 -0000
 
-Support for gobject introspection was not previously enabled by
-default, therefore it's not appropriate to backfill into existing
-distro or machine configurations.
-
-  http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#ref-features-backfill
+Enable gobject introspection by default for all distros which respect
+DISTRO_FEATURES_DEFAULT.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/bitbake.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 7ed5ffb..9cec7dd 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -761,8 +761,8 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- EXTRA_IMAGE_FEATURES ??= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index ce42bde..8c9c5c1 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -9,7 +9,7 @@ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
  
--DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-introspection-data"
--MACHINE_FEATURES_BACKFILL = "rtc gobject-introspection-data"
-+DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
-+MACHINE_FEATURES_BACKFILL = "rtc"
- 
- COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
- COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
+-DISTRO_FEATURES_DEFAULT ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
++DISTRO_FEATURES_DEFAULT ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 gobject-introspection-data"
+ DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+ 					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+ 					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
 -- 
 1.9.1
 
