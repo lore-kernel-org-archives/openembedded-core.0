@@ -1,47 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FDDD6011B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 925C462133
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 17:31:44 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id vf5so2284017igb.0
+	Thu, 17 Mar 2016 17:44:20 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id x188so723207wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 10:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tbbeJhax0EMa71e+aoT1PXin8a4qLoulWE9ajYyS2mM=;
-	b=qGMZFaNFZFJrnJ0FIkXzyf6Ca9tUupTitCVQ99GJhVO2vZPBzjZxHEGrsj0Rdyotp7
-	GblTX0WQVUtnKodWxWHGlsT32S/2755nzfZF+DWiEGi9kIE8PCT4VqoxZgFxCcjShGVr
-	OzrubwbbrFOZ4WRbgDWmFcLCNQqoVc4okpA59+hACecnBG92Xx9YYeaVCd0PWX3fyY3I
-	x4Asg20C1JKp+8ycRGHTYc+pNRlOAfeZSrDWgMaXzl//ck1xGYcqn/zBD6jbgmpNVrYy
-	HiUR1S8E3FvtloOZ+12jU3U70X90thtXNvsOYRx2A8Tq73FLZvLbQ7kGf3+v0AdtRtLy
-	h4TQ==
+	Thu, 17 Mar 2016 10:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=N8lfBw/Q6J6M4SR9KJQgKG6ZI+x0VvYYcUuc2+OBRoA=;
+	b=ZZVS8wxoNNmXgCvBbZyrtQa0bOOvMIqpAJqyMYWmS8fRcMJ4Z+INtJ6Y5PjjATOpE+
+	5r2gH/vvflqtZtd9T9LcnOq2eBtVmN1wxaCD9UB8cFfLkGasP2N0olvFjhU0GQyElkPF
+	CmuzCNkzAobB5S34H/MwBnlGs0rSx0Dls4TRWYY2G0HuM7KLnoohWa+C/1t4v1+snL2y
+	PeXqNRLfhlmwOipo0/EY+UiJuIg5RyyhrudtffIoG0xfJ+Sjt7LWFatvNx+TEB3nFFOc
+	qvRvetdpWVYVDIw2HDo8oLEnmkaiQLfRUQEsMDphX6GnVMPS7rypmiZ3mK7Rw+3pvskW
+	rTaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tbbeJhax0EMa71e+aoT1PXin8a4qLoulWE9ajYyS2mM=;
-	b=JnrEPBDPUDw8DzFDd/rLQoojHfAot5XITW6+BmZ0iKP5F9t0oNcA/gd6NpopErum1E
-	bemyx0CG9x7IeODAUKDHJT8K6My6Hop3y8MQlQ9T/r3IM2/eCV6G16ITFJQrXvZlZB8o
-	6gA1H3nzBxesMz1DFzs/FWMzzZz3UXgRTliJsNxnoe5f+pR4iEIFj9tRkkQd7V6tTJFN
-	PwKO83JLt6DqBg+dSuQKqJ9h5r5ujCtOt6/R46qBcXDwarihD3sbLfwbwGY5ToW21GO5
-	VJ2xd7JzM+1uv6gQD6MNmuTEtfRlDbAVyQ2/k/NxUESf1onrlPnn3KWYQfaimTKlH3dc
-	+BgQ==
-X-Gm-Message-State: AD7BkJLnmxdnUqwkFzb24NDw7MoBe0G8chINM7VdCdjaM0gXzlCiGHmS594ZbEjFnlyopSyecOsC0QiL7yIfG2kI
-X-Received: by 10.50.150.41 with SMTP id uf9mr7888053igb.64.1458235904638;
-	Thu, 17 Mar 2016 10:31:44 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=N8lfBw/Q6J6M4SR9KJQgKG6ZI+x0VvYYcUuc2+OBRoA=;
+	b=FlIh3LzuvXwhZ1KAzJNf6PXYemPtnu4CktMpXfikbfUsKdk182oXFOO+Bz1wdmGkZ1
+	9egCebOq08lcZWwjXLMPw473vwIt8SrjG8IEUt1N3TRSvO790TB4rahoHUbDocIb2JKr
+	K5eUgtPDZ694fCM63B1262Hl3OBxE+oDbnUdYUBpQ+faPIFTNF8a0NqJbODvQSLiSo7o
+	etqxjq4ns2US4YbSb3neo3AXDMadH8nkrK33qRAk6Al8dK1hutnxlowCofh8IcWSVEbH
+	tIKf5VGh5YPaL3Y6nt9YdZD83yc1XjLrYn5HNuXuWk7qbzCtL6m9bD80x1HanMPihff7
+	8rjQ==
+X-Gm-Message-State: AD7BkJL6/9Xc4TFEetAWi7UiwHJd3i9Kcj1J+ap+ozRmKKOE77Z0aK7Y4pEfiHGVP1WJA478AI/+Q+Q701FtIw==
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 17 Mar 2016 10:31:25 -0700 (PDT)
-In-Reply-To: <1458235169-9267-2-git-send-email-armccurdy@gmail.com>
+X-Received: by 10.28.49.3 with SMTP id x3mr11929731wmx.4.1458236660680; Thu,
+	17 Mar 2016 10:44:20 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Thu, 17 Mar 2016 10:44:20 -0700 (PDT)
+In-Reply-To: <CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
 References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-	<1458235169-9267-2-git-send-email-armccurdy@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Mar 2016 17:31:25 +0000
-Message-ID: <CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+Date: Thu, 17 Mar 2016 10:44:20 -0700
+Message-ID: <CAJ86T=Xs--Sh0eru4XABWG95pN4S_UnvzF24e1cqYFbbKxNrtg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
+Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 17:31:45 -0000
-Content-Type: multipart/alternative; boundary=001a11345c0c185e79052e420173
-
---001a11345c0c185e79052e420173
+X-List-Received-Date: Thu, 17 Mar 2016 17:44:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5
-> gobject-introspection-data"
-> -MACHINE_FEATURES_BACKFILL = "rtc gobject-introspection-data"
-> +DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
-> +MACHINE_FEATURES_BACKFILL = "rtc"
+On Thu, Mar 17, 2016 at 10:29 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>>  # Generating introspection data depends on a combination of native and
+>> target
+>>  # introspection tools, and qemu to run the target tools.
+>> -DEPENDS_append = " gobject-introspection gobject-introspection-native
+>> qemu-native"
+>> +DEPENDS_append = " ${@bb.utils.contains('COMBINED_FEATURES',
+>> 'gobject-introspection-data', 'gobject-introspection
+>> gobject-introspection-native qemu-native', '', d)}"
+>
+>
+> Have you verified this works with g-i disabled and a clean sysroot?  I'm
+> thinking builds will still need at least some of this to provide the m4
+> macros.
 
-So every BSP (apart from the qemu ones) would need to add the feature to
-MACHINE_FEATURES?
+I'm travelling at the moment, without access to any kind of reasonable
+build machine... so I have to confess that I didn't test the patch set
+at all. Please treat everything as RFC.
 
-Maybe we should remove from DISTRO backfill but keep backfilling for
-MACHINE features?
+> Ross
 
-Ross
-
---001a11345c0c185e79052e420173
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 March 2016 at 17:19, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ai" class=3D"a3s=
-" style=3D"overflow:hidden">-DISTRO_FEATURES_BACKFILL =3D &quot;pulseaudio =
-sysvinit bluez5 gobject-introspection-data&quot;<br>
--MACHINE_FEATURES_BACKFILL =3D &quot;rtc gobject-introspection-data&quot;<b=
-r>
-+DISTRO_FEATURES_BACKFILL =3D &quot;pulseaudio sysvinit bluez5&quot;<br>
-+MACHINE_FEATURES_BACKFILL =3D &quot;rtc&quot;</div></blockquote></div><br>=
-So every BSP (apart from the qemu ones) would need to add the feature to MA=
-CHINE_FEATURES?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Maybe we should remove from DISTRO backfill but keep backfilling =
-for MACHINE features?</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---001a11345c0c185e79052e420173--
