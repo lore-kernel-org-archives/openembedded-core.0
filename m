@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 677C86FFD4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 673F2606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 20:33:00 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id m184so114062983iof.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 13:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OT6YzM0CTV6Myz9wuY7/KN0Zmijvv2GpCeb4p6Lhj3k=;
-	b=LcXGhHhgtcuFRlpkB4P6HOo2o0aJ8V6nDFVvhGAsw1IsW+1I5yPmbH82tNNmH21g0D
-	zKlrX9a1OkhoW+4wuFQuaFtuorzwzj31I/l/4wQo0xenTcmgXWmq1gJNKNAmu8XZC0Vc
-	DvIyoJySr6D9FiadJkA/MjdJCcpRp7G5/+O+GHmQfJJphNSgVjLFbebrKR11VIXfscoi
-	ltgcCMHI39++NPk3/WATzRmH3wADePqTqgTYgY18b6NVgo9x0Q6sW8M6LQThQsuLl9kN
-	peQ7W0HfKjaOX9dDCzia07VIcNzPTW71DMyZ6nOfUiy8XZZDWLqXsayZa42GevhorhNh
-	Syzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OT6YzM0CTV6Myz9wuY7/KN0Zmijvv2GpCeb4p6Lhj3k=;
-	b=NfWNeH1ebofYVazT/t08h13AwjM5gFVgNKF0WejtT1et8CPuU11sKl1TfFQl98MxJ5
-	LZiVdPNi3f/FgujGkv/RAR2LLyFIyI/Qw5GOdBkemMt3tv0gg/l0lIr/HyLoL9fe8wmA
-	ykko9b87LyxRVbt5jOQSHqtM61pTAn4rcaDhj9Z+xBUAwyKMS7096WmKcBCi1Thgoop5
-	4fJOQfO3WyE0/Zap/Qt0BDN+LzWJfr5il9ewwmKLVrcggSVlorO8DfQcg28sU4xSaVC1
-	r+72GkGsL014/nffLsDQIGp/cfI8sfOROp7KQjZf4I5wix8uqKoySvW1KlM0M9ChqJfD
-	PPEw==
-X-Gm-Message-State: AD7BkJJaNnFDPqM00M3mX2FaP0oMpTkqe+loK9mR/DcDgFxgpsDf2tu4LUBa8y6xYxI6jxNYOm+m4O2pPi1rFXM7
-X-Received: by 10.107.137.38 with SMTP id l38mr13105058iod.133.1458246781338; 
-	Thu, 17 Mar 2016 13:33:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 17 Mar 2016 13:32:41 -0700 (PDT)
-In-Reply-To: <1458211050-21152-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-References: <1458211050-21152-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Mar 2016 20:32:41 +0000
-Message-ID: <CAJTo0LYpmnCX9OckD=hgt18F46wFD-9RVDESJV930sy1jzjE6Q@mail.gmail.com>
-To: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+	Thu, 17 Mar 2016 21:02:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2HL2dRi008607; Thu, 17 Mar 2016 21:02:39 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 21OhxYbu7EhF; Thu, 17 Mar 2016 21:02:39 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2HL2X23008604
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 17 Mar 2016 21:02:34 GMT
+Message-ID: <1458248553.7615.34.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 Mar 2016 21:02:33 +0000
+In-Reply-To: <CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
+References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
+	<1458235169-9267-2-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
+	<CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] oe-selftest: Updated --list-tests and --list-tests-by
+Subject: Re: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +39,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 20:33:02 -0000
-Content-Type: multipart/alternative; boundary=001a113ec52265dce1052e4489a7
+X-List-Received-Date: Thu, 17 Mar 2016 21:02:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ec52265dce1052e4489a7
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2016-03-17 at 11:17 -0700, Andre McCurdy wrote:
+> On Thu, Mar 17, 2016 at 10:31 AM, Burton, Ross <ross.burton@intel.com
+> > wrote:
+> > 
+> > On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com>
+> > wrote:
+> > > 
+> > > -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5
+> > > gobject-introspection-data"
+> > > -MACHINE_FEATURES_BACKFILL = "rtc gobject-introspection-data"
+> > > +DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
+> > > +MACHINE_FEATURES_BACKFILL = "rtc"
+> > 
+> > So every BSP (apart from the qemu ones) would need to add the
+> > feature to
+> > MACHINE_FEATURES?
+> > 
+> > Maybe we should remove from DISTRO backfill but keep backfilling
+> > for MACHINE
+> > features?
+> 
+> Or don't control via a MACHINE feature at all (which would also solve
+> the package PACKAGE_ARCH issue) ?
+> 
+> Each CPU tuning file would then instead need to somehow express "this
+> tuning target creates binaries which can / can't be run with qemu",
+> but maybe that's an improvement too - isn't it better to define and
+> maintain that information centrally in files controlled by oe-core
+> rather than leave it up to BSPs to get right?
 
-On 17 March 2016 at 10:37, Daniel Istrate <
-daniel.alexandrux.istrate@intel.com> wrote:
+MACHINE_FEATURES is a variable which represents the features the target
+hardware has. There is nothing which says "this must be set in
+MACHINE.conf". In fact there is significant precedent for setting up
+common include files which define the hardware properties.
 
-> +from tabulate import tabulate
->
+If you look at one of my patches, it alters a core common include file
+to exclude introspection in a case where we can't use it (x32).
 
-This isn't a core python module, so adds an external dependency.  Are we
-okay with adding new dependencies to the selftest code, or should we try to
-keep the dependencies down?
+So I think we actually want the same thing which is for the common tune
+files to setup the right data.
 
-Ross
+We have made a decision to defaulting to introspection, rightly or
+wrongly. I'm also quite happy to disable it where we know qemu can't
+work and tune files are likely the right place to that.
 
---001a113ec52265dce1052e4489a7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I don't think this patchset is right.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 March 2016 at 10:37, Daniel Istrate <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:daniel.alexandrux.istrate@intel.com" target=3D"_blank">daniel.alexan=
-drux.istrate@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><div id=3D":l6" class=3D"a3s" style=3D"overflow:hidden">+from <span cla=
-ss=3D"il">tabulate</span> import <span class=3D"il">tabulate</span><br></di=
-v></blockquote></div><br>This isn&#39;t a core python module, so adds an ex=
-ternal dependency.=C2=A0 Are we okay with adding new dependencies to the se=
-lftest code, or should we try to keep the dependencies down?</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Cheers,
 
---001a113ec52265dce1052e4489a7--
+Richard
+
+
