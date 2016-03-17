@@ -1,48 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3518E73177
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E35587017D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 17:19:43 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id p65so553252wmp.1
+	Thu, 17 Mar 2016 17:19:44 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id p65so553517wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 10:19:44 -0700 (PDT)
+	Thu, 17 Mar 2016 10:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=EbvCjJuB5UHC34eTT0uqDFzLb6Bz22ntAdL+TDkm8XI=;
-	b=dEpXsEud4bdZWolVHv2DrYmXfIUhS28O6uOe92sadDYIQ9/rcllvkf/OfV9XgW6jsb
-	PUrWGqTqWpFJO0jVauE2ftPIvLoNleHURH1wj0AK96zhopE6cXbZoDAHFUVLNudGPWiR
-	WJ9J/tJWtjmbS/W7LzwiSJ4AWuKS78x6kAvLxfXvtCDosBan7e7jB7h0dbbW/IRd9qxD
-	2XpJvFOJR8gGQkX8g6F6NowuL8HGcZPv7JVAyO3yxW3HL77tLTHbcNRjhOUCmlX5UBej
-	GNuV/XcGktK7/JXh3RtovZBSgYU0Ho2rrIlIe3MtOu51UA2z/oYlhZCbsfzpdoDih/+X
-	zdCA==
+	bh=v6VxIXI8JdsCK2jYD52IdRIK27YLlC+GROLRGFJh6+8=;
+	b=F16FTV5mhU+Yt3jBHJ89WvlO4ER/ZaCq4/3ZPJAB4KNiLPhr8e5AxjaFeGiM/PNs/G
+	AJej2hw05CJ/s/X3JyR+ZOzK47XhCgR2nW/BK+KOqLwlWJpkCjNgckBaORYfXnVH2HuU
+	LqK7nOYC+RNj/joqfGxM5kmH+fpyd0IdQ8fcelhkYFojuoc/APXfjuqu4a24D4IO1IK9
+	+N9AE0VPPZk536bYEaLXBsIwB7SfREZG2Odp645R9+pDY3iOoaeyOEj4CeHeEMi/YlUG
+	akFeCULS96ryvoztWOU+n3k9xK32SL4lk2ftdmXQ30+fcpfaJwcrofiHx9iahMtsC29o
+	BjCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=EbvCjJuB5UHC34eTT0uqDFzLb6Bz22ntAdL+TDkm8XI=;
-	b=bgbFQuYg9DEO7sSYCH2r9X22EHgpr3TJSC3+WbI2Mu8IMzEjaDOWQgS6jtaBgNJ7LC
-	stOVmK3iPyinJC+5ZqOz1JqZqbeQwpPJJG4NSqesL97OmYE9pc9bw6S+AraemzoCtk7N
-	QZ+zyI+LWtaOHNkTlSeW63wU1tUiEvozc/t76zKW1jYqKEQMovQz2DcAsZlFcaXz9bgU
-	s6huPN8Mh6bdMhJsjjB7i6q1T5H06cURRdV2NuKCdb4oKMA6N2cJXbCZsDFCXX/nQq5a
-	0wLeaD/II7+Xi1lUuvQDod3ptSLLiako53+AoX4gsflzXF/zm+eOiMddLPPljFVL0gmN
-	0ong==
-X-Gm-Message-State: AD7BkJI3j60T3hrtBhY0+mfEgrD0bq86cScc1JEt47E2Smv20KWElmO+R0GMz0rmF0Xr3w==
-X-Received: by 10.194.5.36 with SMTP id p4mr11299295wjp.167.1458235183822;
-	Thu, 17 Mar 2016 10:19:43 -0700 (PDT)
+	bh=v6VxIXI8JdsCK2jYD52IdRIK27YLlC+GROLRGFJh6+8=;
+	b=Gw8GtuU8Sq23Od3TrbFb1hD+bqNsu06F3qQ0w4HG//4EFgsottp7q3aKL2KfLWOLK/
+	KuLb+fg8Y6QhNzqai1iDF+Ot+RiOgsnThBfksYcdi+cPvxUYn/0wSxWZv11x074K67fA
+	SqncdsRrZnYnCXAbcAMWQjuK8aZErFPUTtSyaGIih7JmIo4mY9rEcxCv7e7RytFg2vZP
+	XOX+l3//w/n4JdUZN+38Q6k8KowckZsW37dC1NBTcuy0c4hD7lfgNrXGIoYqvlH+P4G8
+	dLQhcTxdOs88dqZPhAebyZHRwC30mFzwuH/s37QHPiysiC8hN8c0Nl0Vaz0h14/HcnNU
+	xADw==
+X-Gm-Message-State: AD7BkJKpeUf+2jrSv3GIGtkjA30WEQFg+28HKwR7X2xi6oUk/a7lRo6sgqKjXzYDXNVh+A==
+X-Received: by 10.194.60.145 with SMTP id h17mr11850077wjr.47.1458235185554;
+	Thu, 17 Mar 2016 10:19:45 -0700 (PDT)
 Received: from localhost.localdomain
 	(LPuteaux-656-1-252-235.w82-127.abo.wanadoo.fr. [82.127.113.235])
 	by smtp.gmail.com with ESMTPSA id
-	e25sm31066139wmi.21.2016.03.17.10.19.42
+	e25sm31066139wmi.21.2016.03.17.10.19.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 Mar 2016 10:19:43 -0700 (PDT)
+	Thu, 17 Mar 2016 10:19:44 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2016 10:19:25 -0700
-Message-Id: <1458235169-9267-5-git-send-email-armccurdy@gmail.com>
+Date: Thu, 17 Mar 2016 10:19:26 -0700
+Message-Id: <1458235169-9267-6-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
 References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/8] arch-x86.inc: disable gobject introspection for x86-64 x32 builds
+Subject: [PATCH 5/8] qemuarm64.conf: don't clear MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2016 17:19:43 -0000
+X-List-Received-Date: Thu, 17 Mar 2016 17:19:45 -0000
 
-Since gobject introspection is no longer backfilled into existing
-machine configurations, it needs to be removed from MACHINE_FEATURES
-directly when building for x86-64 x32.
+Accept the default MACHINE_FEATURES from qemu.inc (qemuarm64
+shouldn't need to be a special case).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/machine/include/x86/arch-x86.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/machine/qemuarm64.conf | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/x86/arch-x86.inc b/meta/conf/machine/include/x86/arch-x86.inc
-index ba7be8a..665da89 100644
---- a/meta/conf/machine/include/x86/arch-x86.inc
-+++ b/meta/conf/machine/include/x86/arch-x86.inc
-@@ -25,7 +25,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mx32', ' -mx32', '', d)}"
- TUNE_LDARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-m elf32_x86_64', '', d)}"
- TUNE_ASARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-x32', '', d)}"
- # user mode qemu doesn't support x32
--MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " ${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'gobject-introspection-data', '', d)}"
-+MACHINE_FEATURES_remove = "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'gobject-introspection-data', '', d)}"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 8459d0f..f59fb15 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -5,8 +5,6 @@
+ require conf/machine/include/arm/arch-armv8.inc
+ require conf/machine/include/qemu.inc
  
- # ELF64 ABI
- TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
+-MACHINE_FEATURES = ""
+-
+ KERNEL_IMAGETYPE = "Image"
+ 
+ SERIAL_CONSOLES = "38400;ttyAMA0 38400;hvc0"
 -- 
 1.9.1
 
