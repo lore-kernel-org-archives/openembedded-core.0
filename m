@@ -1,34 +1,22 @@
-Return-Path: <belen.barros.pena@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4216011B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9030A6FFE2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 17:13:47 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 18 Mar 2016 10:13:48 -0700
+	Fri, 18 Mar 2016 17:40:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Mar 2016 10:40:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,356,1455004800"; d="scan'208";a="914074272"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by orsmga001.jf.intel.com with ESMTP; 18 Mar 2016 10:13:47 -0700
-Received: from irsmsx112.ger.corp.intel.com (10.108.20.5) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 18 Mar 2016 17:13:46 +0000
-Received: from irsmsx109.ger.corp.intel.com ([169.254.13.174]) by
-	irsmsx112.ger.corp.intel.com ([169.254.1.234]) with mapi id
-	14.03.0248.002; Fri, 18 Mar 2016 17:13:46 +0000
-From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project booth at ELC - Call for demos
-Thread-Index: AQHRgTmHF2T4QGRyIU6+wqC20x+ylw==
-Date: Fri, 18 Mar 2016 17:13:45 +0000
-Message-ID: <D311E7C8.770CC%belen.barros.pena@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.6.1.160122
-x-originating-ip: [10.237.224.32]
-MIME-Version: 1.0
-Subject: Yocto Project booth at ELC - Call for demos
+X-IronPort-AV: E=Sophos;i="5.24,356,1455004800"; d="scan'208";a="936970572"
+Received: from mmaidmen-mobl3.amr.corp.intel.com (HELO
+	swold-mobl.jf.intel.com) ([10.254.103.97])
+	by orsmga002.jf.intel.com with ESMTP; 18 Mar 2016 10:40:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Fri, 18 Mar 2016 10:40:01 -0700
+Message-Id: <1458322801-14714-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] parselogs: add new whitelist entries to address 4.4.3 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,21 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 17:13:47 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <10C4741169D2B542BA94E1514E0801F5@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Mar 2016 17:40:03 -0000
 
-The Yocto Project will have a booth at the Embedded Linux Conference in
-San Diego. If you have something you'd like to demo in the booth, please
-reply to me off list providing the following information:
+This message appears on older hardware and is a benign warning
 
-1. Person in charge of the demo (they must be at ELC)
-2. Demo description
+[YOCTO #9179]
 
-Thanks!
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/lib/oeqa/runtime/parselogs.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-Bel=E9n
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index 431c436..32d9081 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -54,6 +54,7 @@ x86_common = [
+     'wrong ELF class',
+     'Could not enable PowerButton event',
+     'probe of LNXPWRBN:00 failed with error -22',
++    'pmd_set_huge: Cannot satisfy',
+ ] + common_errors
+ 
+ qemux86_common = [
+-- 
+2.5.0
 
 
