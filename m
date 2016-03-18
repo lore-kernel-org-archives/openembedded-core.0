@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB2C1731A5
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B5C27731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 09:02:52 +0000 (UTC)
+	Fri, 18 Mar 2016 09:02:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2I92qiG015195
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 18 Mar 2016 02:02:52 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2I92sX1020446
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 18 Mar 2016 02:02:54 -0700
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 18 Mar 2016 02:02:50 -0700
+	Fri, 18 Mar 2016 02:02:53 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<raj.khem@gmail.com>
-Date: Fri, 18 Mar 2016 05:01:59 -0400
-Message-ID: <ced58b296b886bfe1db833e823eb2b80d43e324f.1458282563.git.hongxu.jia@windriver.com>
+Date: Fri, 18 Mar 2016 05:02:00 -0400
+Message-ID: <d2ce71bcf6ad68479f279f02f9a986d0e8384188.1458282563.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458282563.git.hongxu.jia@windriver.com>
 References: <cover.1458282563.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 17/18] gconf: fix buildpaths QA issue
+Subject: [PATCH 18/18] epiphany: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,127 +34,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 09:02:53 -0000
+X-List-Received-Date: Fri, 18 Mar 2016 09:02:55 -0000
 Content-Type: text/plain
 
-In ${S}/gconf/gconfd.c, we have:
+In order to fix build path issue, we reverts the following commit
+in https://github.com/GNOME/epiphany.git
 ...
-  /* -- Debug only */
+commit 54a3122d8626f78338033a704d5849738f6dd2e6
+Author: Xan Lopez <xan@igalia.com>
+Date:   Wed May 16 18:21:21 2012 +0900
 
-  if (addresses == NULL)
-    {
-      gconf_log(GCL_DEBUG, _("gconfd compiled with debugging; trying to load gconf.path from the source directory"));
-      conffile = g_strconcat(GCONF_SRCDIR, "/gconf/gconf.path", NULL);
-      addresses = gconf_load_source_path(conffile, NULL);
-      g_free(conffile);
-    }
+    ephy-profile-utils: use absolute path for build dir
 
-  /* -- End of Debug Only */
+    That way we can run the tests from any directory in debug mode.
 ...
+It did not consider cross-compile situation which we do not need
+to run tests in host build.
 
-- While --enable-debug=yes, the above works, but the released tarball
-  did not have gconf.path, so get a copy from git://git.gnome.org/gconf
-
-- Use target path rather than build path to configure above variable
-  GCONF_SRCDIR, by setting absolute_top_srcdir in configure.ac.
+BTW, the tests suits were compiled but not installed to ${D},
+so we explicitly disable it.
 
 [YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-gnome/gnome/gconf/gconf.path          |  6 +++++
- .../gnome/gconf/use-target-path-for-debug.patch    | 31 ++++++++++++++++++++++
- meta/recipes-gnome/gnome/gconf_3.2.6.bb            | 12 +++++++++
- 3 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/gconf/gconf.path
- create mode 100644 meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |  8 ++-
+ .../files/use-relative-path-for-build-dir.patch    | 57 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 
-diff --git a/meta/recipes-gnome/gnome/gconf/gconf.path b/meta/recipes-gnome/gnome/gconf/gconf.path
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+index 12d3b07..0b8335b 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+@@ -9,11 +9,15 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even
+ # libwnck3 is x11 only
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
++SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch \
++            file://use-relative-path-for-build-dir.patch \
++"
+ SRC_URI[archive.md5sum] = "172b78256100e8d3c629764abd0e1495"
+ SRC_URI[archive.sha256sum] = "be699d484371111abae754e669187215df73e21533f461e513b79537d7a1c1c1"
+ 
+-EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
++EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO} \
++                  --disable-tests \
++"
+ 
+ do_configure_prepend() {
+     touch ${S}/gnome-doc-utils.make
+diff --git a/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 new file mode 100644
-index 0000000..573ec68
+index 0000000..21c0912
 --- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf/gconf.path
-@@ -0,0 +1,6 @@
-+# This file stores the addresses of config sources for GConf
-+# When a value is stored or requested, the sources are scanned from top to
-+# bottom, and the first one to have a value for the key (or the first one
-+# to be writeable) is used to load/store the data.
-+# You can also use include statements
-+xml:readwrite:$(DEFAULTUSERSOURCE)
-diff --git a/meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch b/meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
-new file mode 100644
-index 0000000..0698831
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf/use-target-path-for-debug.patch
-@@ -0,0 +1,31 @@
-+From 7d03ad64b6a8fd2897b07a92c66a15e871f2efe9 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+@@ -0,0 +1,57 @@
++From 73e46aeea35c7bda7833e635f1bb2dbd39e2b43e Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 2 Mar 2016 03:19:50 -0500
-+Subject: [PATCH] use target path for debugging
++Date: Wed, 2 Mar 2016 02:00:23 -0500
++Subject: [PATCH] ephy-profile-utils: use relative path for build dir
 +
-+The variable absolute_top_srcdir is used for
-+debugging purposes, use target path rather
-+than build path for cross complication.
++It reverts the following commit in https://github.com/GNOME/epiphany.git
++...
++commit 54a3122d8626f78338033a704d5849738f6dd2e6
++Author: Xan Lopez <xan@igalia.com>
++Date:   Wed May 16 18:21:21 2012 +0900
++
++    ephy-profile-utils: use absolute path for build dir
++
++    That way we can run the tests from any directory in debug mode.
++...
++It did not consider cross-compile situation which we do not need
++to run tests in host build.
++
++It also caused build path issue.
 +
 +Upstream-Status: Inappropriate [openembedded specific]
 +
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/Makefile.am          | 2 +-
++ lib/ephy-profile-utils.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 69a57e6..1b0739f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -365,7 +365,7 @@ AC_SUBST(CPPFLAGS)
-+ AC_SUBST(LDFLAGS)
++diff --git a/lib/Makefile.am b/lib/Makefile.am
++index 24d684b..849a07f 100644
++--- a/lib/Makefile.am
+++++ b/lib/Makefile.am
++@@ -88,7 +88,7 @@ libephymisc_la_CPPFLAGS = \
++ 	-DDATADIR="\"$(datadir)\""		    \
++ 	-DSHARE_DIR=\"$(pkgdatadir)\" 		    \
++ 	-DTOP_SRC_DATADIR=\"$(top_srcdir)/data\"    \
++-	-DABS_TOP_BUILD_DIR=\"$(abs_top_builddir)\" \
+++	-DTOP_BUILD_DIR=\"$(top_builddir)\"         \
++ 	-DLOCALEDIR=\"$(localedir)\"		    \
++ 	$(AM_CPPFLAGS)
 + 
-+ ## Just for debugging purposes
-+-absolute_top_srcdir=`pwd`
-++absolute_top_srcdir="/usr/src/${S##*/}"
-+ AC_SUBST(absolute_top_srcdir)
++diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
++index 0430582..a42ec4e 100644
++--- a/lib/ephy-profile-utils.c
+++++ b/lib/ephy-profile-utils.c
++@@ -128,7 +128,7 @@ ephy_profile_utils_do_migration (const char *profile_directory, int test_to_run,
++   argv[i++] = NULL;
 + 
-+ AC_CONFIG_FILES([
++   if (debug)
++-    argv[0] = ABS_TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
+++    argv[0] = TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
++ 
++   ret = g_spawn_sync (NULL, argv, envp, G_SPAWN_SEARCH_PATH,
++                       NULL, NULL, NULL, NULL,
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index feaf080..d5dc0b7 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -10,6 +10,8 @@ inherit gnomebase gtk-doc gettext gobject-introspection
- SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
-            file://remove_plus_from_invalid_characters_list.patch \
-            file://unable-connect-dbus.patch \
-+           file://use-target-path-for-debug.patch \
-+           file://gconf.path \
- "
- 
- SRC_URI[archive.md5sum] = "2b16996d0e4b112856ee5c59130e822c"
-@@ -17,6 +19,7 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
- 
- S = "${WORKDIR}/GConf-${PV}"
- 
-+CACHED_CONFIGUREVARS += "S=${S}"
- EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
-                 --disable-orbit --with-openldap=no --disable-gtk"
- 
-@@ -28,6 +31,15 @@ PACKAGECONFIG_libc-uclibc = ""
- 
- PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
- 
-+do_unpack[postfuncs] += "unpack_gconf_debug"
-+do_unpack[vardeps] += "unpack_gconf_debug"
-+unpack_gconf_debug() {
-+	# A copy from git://git.gnome.org/gconf for debug
-+	if [ ! -e ${S}/gconf/gconf.path ]; then
-+		install -m 0664 ${WORKDIR}/gconf.path ${S}/gconf/
-+	fi
-+}
-+
- do_install_append() {
- 	# this directory need to be created to avoid an Error 256 at gdm launch
- 	install -d ${D}${sysconfdir}/gconf/gconf.xml.system
 -- 
 1.9.1
 
