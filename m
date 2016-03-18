@@ -1,50 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EF886FF84
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B0296080F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 10:50:05 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id l68so31188171wml.1
+	Fri, 18 Mar 2016 11:08:44 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id l124so5090889wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 03:50:06 -0700 (PDT)
+	Fri, 18 Mar 2016 04:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=BdhvloxZxyYeNoIWbltgpE1suOGUkacLY/uUUcLKIU8=;
-	b=r8ilO3r+Ikyxx3593pcqnxtrsOSrfJ7Jcgfc/93pb8NLOmf+0iI5nh/BbA4G163C++
-	q/mYWVxre/K+YYrZ2WLy9kB9Qm9Ug0Q244rLrMvYGm1urlH/0OG5/nJe4g5A8kXk2MlO
-	RgUzhIOeyZPaQxCLcRStJ/8B2gE45EFqtD7fbmFe1H9ZyqXrCNJmwywgJBECFgdXV40e
-	M3e7qSl7aAdwFviH//7ifsoacUPP1jR6RwlpaKOSgtRfTw1phMG2B3561WlZt0SzagtK
-	QRB2bAr843fp532xhO0MzjtGm5j6Ol63s/DKUb7vZsUUhN0GKo9fW/TMpHN1TlT4gNUh
-	SwYA==
+	:cc; bh=Sy+GOPoEZYLfaxkcqVheIRJxFMeevHhHmRtuw0z3oeI=;
+	b=XItUbOY0nkr2zcHWPCQaBlLq7mQyRArvJSXk/T3DSBBtB+g+c4FV60XBTGxh7mE72q
+	TdidAH42xPoKd8C3ULvrCjY8Scb9lVbs0GnwGtxauOT1ovfu2+/eF8h+m9tQUZKpRyvZ
+	KLqxxb5QJXMkbtbNuP2VwOrMbhiJK2qf0L12tqSOavlK7oqBwq6IEd1P+SgxTpTBH/C3
+	2jh2HKQQvXeVyxHR5JoxoR1u1EhbnV8NF+o8YPm83NnOTtAfb3H210V4y/3z1C4P4bP5
+	m5GjqIJbxtU89LLMNfOvoqMlCYK49Rvo3k6l/5Pj2NWYAf1LyCjxCI9N5qEgRYYFoN2B
+	8rxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=BdhvloxZxyYeNoIWbltgpE1suOGUkacLY/uUUcLKIU8=;
-	b=A0K1d9O62hMQfo9zfTKI1cj6n4+A/drnOAyPTh2p1ULKwghMP1mO3ErW2XzZo6MiMK
-	l9CZSRsbx11B9NMxa8DLUcGGoRUPvfxx6HJruOqKg8M4CtNlVO88tKiZnICsY0Vt/hqZ
-	v1Sc1tNVqS9zk5fWRbdQ7HMxwkWTlU+e3bb2ECz5Gviw2YuOaF6CSxs0Io+IzT8ZwDW2
-	BS3V8z80RGJMMe7gwx4LVbvRfiTBpt1hG6mEB7OkCsV+eqkcLzS9NJOw931F6UOntRrX
-	jIvXIidic8KEmKlVFUD47sPM+WBUVzg0zGaZBqBscxl8AnUWoVUF/YOEbr3bZGotNjhB
-	hy/Q==
-X-Gm-Message-State: AD7BkJKdi9mmdKgvl7Yol2vErRLIO81Oi8e8CAi7KLeTyauxmhosYJa7bc7+ivpm/CuSN2q0RdGP2wczAFi3eA==
+	bh=Sy+GOPoEZYLfaxkcqVheIRJxFMeevHhHmRtuw0z3oeI=;
+	b=N5JlL2l764YkfQhUOV0h90t6NHKWiuxZH3XnlK9G1r3kW+/Asse3HEzMZXYb5mcFjU
+	i7zqr4NfGQ+NrNUUjCSEg32ouvfiBdzm+aUaRE7b/A5X3Opw2VmeytVQWoEWb45430rb
+	Zry7OZhnRTnj7sbiUXx70IAe+3T4NPw+T4CgatR0NSwv9dLq+B+/D1gMZkZzCl/GLmRz
+	PIaHAAkTyhFYN8tcK87uz0zfHq+QwvUu/mo3iBjbpHlTdsROIwQ/eO/SzyQqUDLiTNSJ
+	8GfARs26b6clR8++TrMTtrMG5TlAohUBDAIksHtBUxO8QW+oWWFZkmWryTgSctC7DFWD
+	JWEw==
+X-Gm-Message-State: AD7BkJI9Cil9u48lk0VryYueYu+ySnVPbcTXN5PPntr5NPKuskh6s6fpbxqsndYVBaVSnve7DJzliviRO3hL3Q==
 MIME-Version: 1.0
-X-Received: by 10.194.63.242 with SMTP id j18mr17240385wjs.114.1458298205341; 
-	Fri, 18 Mar 2016 03:50:05 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Fri, 18 Mar 2016 03:50:05 -0700 (PDT)
-In-Reply-To: <CAJTo0LZND6-QdyFzQdo4v_-z6VcmYG8KjOSanAQ=SH=8eg0gUg@mail.gmail.com>
-References: <1457706284-38023-1-git-send-email-helio.castro@bmw-carit.de>
-	<CAJTo0Lb0qJKgAyqb4naHHdE6QfzfmzAw22DUU=srMWdXDm62LA@mail.gmail.com>
-	<1FC09834-DC8A-477D-9C9F-B6D469A7E90E@gmail.com>
-	<CAJTo0LaoVn5ixhYy-2cHf-FGSthY3Fa9Z9ryg6j0hLp2KSLLtg@mail.gmail.com>
-	<7AB4B008-780B-4619-A914-7A00D132FCF0@gmail.com>
-	<95245B46D926B348AEB132E99037C59B36A9FE73@ULM-DC01.bmw-carit.intra>
-	<CAJTo0LZND6-QdyFzQdo4v_-z6VcmYG8KjOSanAQ=SH=8eg0gUg@mail.gmail.com>
-Date: Fri, 18 Mar 2016 03:50:05 -0700
-Message-ID: <CAJ86T=UfaG49mYPPJH08MTHRROz8LEqXJ3Ge-ujaxLLCA_aSmA@mail.gmail.com>
+X-Received: by 10.28.50.133 with SMTP id y127mr40596528wmy.4.1458299324515;
+	Fri, 18 Mar 2016 04:08:44 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Fri, 18 Mar 2016 04:08:44 -0700 (PDT)
+In-Reply-To: <1458248553.7615.34.camel@linuxfoundation.org>
+References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
+	<1458235169-9267-2-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
+	<CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
+	<1458248553.7615.34.camel@linuxfoundation.org>
+Date: Fri, 18 Mar 2016 04:08:44 -0700
+Message-ID: <CAJ86T=WpO9wAphNS==h6zzcg2oUZLa4tepVbAORT865VtX0YxQ@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Fix the license on GNU OpenMP
+Subject: Re: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 10:50:07 -0000
+X-List-Received-Date: Fri, 18 Mar 2016 11:08:46 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Mar 11, 2016 at 9:01 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 11 March 2016 at 16:24, Helio Chissini De Castro
-> <Helio.Castro@bmw-carit.de> wrote:
+On Thu, Mar 17, 2016 at 2:02 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2016-03-17 at 11:17 -0700, Andre McCurdy wrote:
+>> On Thu, Mar 17, 2016 at 10:31 AM, Burton, Ross <ross.burton@intel.com
+>> > wrote:
+>> >
+>> > On 17 March 2016 at 17:19, Andre McCurdy <armccurdy@gmail.com>
+>> > wrote:
+>> > >
+>> > > -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5
+>> > > gobject-introspection-data"
+>> > > -MACHINE_FEATURES_BACKFILL = "rtc gobject-introspection-data"
+>> > > +DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
+>> > > +MACHINE_FEATURES_BACKFILL = "rtc"
+>> >
+>> > So every BSP (apart from the qemu ones) would need to add the
+>> > feature to
+>> > MACHINE_FEATURES?
+>> >
+>> > Maybe we should remove from DISTRO backfill but keep backfilling
+>> > for MACHINE
+>> > features?
 >>
->> If i change recipe scope, need to be on each gcc_${PV}.inc.
->> But they include gcc-common.inc on top, which states LICENSE = "GPL"
+>> Or don't control via a MACHINE feature at all (which would also solve
+>> the package PACKAGE_ARCH issue) ?
 >>
->> So, gcc_${PV}.inc is already overriding the original license. If you think
->> is ok, i can do that on gcc_${PV}.inc
+>> Each CPU tuning file would then instead need to somehow express "this
+>> tuning target creates binaries which can / can't be run with qemu",
+>> but maybe that's an improvement too - isn't it better to define and
+>> maintain that information centrally in files controlled by oe-core
+>> rather than leave it up to BSPs to get right?
 >
-> No,you're right - your v2 is the best patch.
-
-The patch which got merged isn't right.
-
-gcc_${PV}.inc sets LICENSE="GPL-3.0-with-GCC-exception & GPLv3" and we
-need to over-ride that (to remove the "& GPLv3") for each package
-created by the gcc-runtime recipe. Over-riding LICENSE_gcc-runtime
-only isn't enough.
-
-With current oe-core master, libstdc++ is taking the "... & GPLv3"
-license from gcc_${PV}.inc and is therefore being excluded from the
-rootfs if GPLv3 is blacklisted:
-
-  ...
-  NOTE: SKIPPING the package libstdc++ at do_rootfs because it's
-GPL-3.0-with-GCC-exception & GPLv3
-  ...
-
-
-> Ross
+> MACHINE_FEATURES is a variable which represents the features the target
+> hardware has. There is nothing which says "this must be set in
+> MACHINE.conf". In fact there is significant precedent for setting up
+> common include files which define the hardware properties.
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> If you look at one of my patches, it alters a core common include file
+> to exclude introspection in a case where we can't use it (x32).
+>
+> So I think we actually want the same thing which is for the common tune
+> files to setup the right data.
+
+Yes, I think so.
+
+Deciding if/how qemu can run binaries for each tuning target is
+already partially addressed by the QEMU_EXTRAOPTIONS logic in
+qemu.bbclass. My suggestion would be to somehow generalise that
+existing logic, so (at least for machines using one of the standard
+oe-core tuning files) the question "can qemu run binaries created for
+${MACHINE}?" could be answered automatically.
+
+> We have made a decision to defaulting to introspection, rightly or
+> wrongly. I'm also quite happy to disable it where we know qemu can't
+> work and tune files are likely the right place to that.
+>
+> I don't think this patchset is right.
+>
+> Cheers,
+>
+> Richard
 >
 
