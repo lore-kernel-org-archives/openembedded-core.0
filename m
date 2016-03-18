@@ -1,49 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
-	[209.85.192.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D8A1C6FFFB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C9ED6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 21:43:39 +0000 (UTC)
-Received: by mail-qg0-f65.google.com with SMTP id y89so8343737qge.0
+	Fri, 18 Mar 2016 22:47:10 +0000 (UTC)
+Received: by mail-qg0-f42.google.com with SMTP id y89so113492540qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 14:43:40 -0700 (PDT)
+	Fri, 18 Mar 2016 15:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=PbnkYj5hpL81ewH4tHPoTPRPBp1SAQ4Tw2S+X6RcRY4=;
-	b=snWQFLP0aLaz4Rriwjo51ySTwRq3sxKtYvODo3jriuBpnLt1/0OFJaxvnSGpSntqcN
-	JSCbCcsOrCYTEmMhLlSBn00wLeWT4LJh3ZdsAhd+8sKnTY97GWQicLJR3o3oR6aKwkWH
-	8ZhrWdQkhbjIkTGbdiSKLJxHxCB399Ij17d+eDGUcDP9mDVH9yhZgKWg6GgRiEKRh7+p
-	5xvyIjqRDi066XaP8tnEIcuNBCGt+kDeDejVfDb6cUN1rsh6E5K5Ku1xMk6j8XSwNx86
-	q6XyTApHdvjzOU6yf8q+4PlFMoYIo/6x9O0it/sZVnW1WugZtgPWqrn8sfwzZ8vx6nOq
-	WYqA==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=GR2l1ntyYtOc9bu9TiivT7THWy16yyuqHIDb6gfKNPE=;
+	b=RIwebSVImlidEucpos24D/wE7zG1ze330rf2+zrZ9r4olmpFK6+9ifB8K7Q7zDZv3l
+	901+3EGDx55E+G5OUuPI5ZHVR+WdfY718oqwBUPgSJu7oAgmpZyG8cadm8JKYu2Nfbq8
+	Wp1B8STaPVCIQQ6sFiLr3uBB50qBvmlzFyCFaC5BLx8L3nERXBLLjv56sfI9s/DiN93x
+	ROnwUK5FjgMbm5b9DEtQcUuDYd0ulajkIcasWeMNOPpzEevWzPSFlgxApEh0Xs3akDLZ
+	ednFTy7UC2lqSuGpY+N59EINNBvZdpYTV0k7f5f42BzIJHpgEdQlVXmS9j12wHgTxW5V
+	l/Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=PbnkYj5hpL81ewH4tHPoTPRPBp1SAQ4Tw2S+X6RcRY4=;
-	b=Fc2sGrOG+qCzDoTe38KrilnFYpqac7oEP7ND8fsyDrdG5/zHUpJIx31ZGg5KnJIQzX
-	3/pl+1vdFedhEBRCbgMl2rhfXrv6tmn5GIPVHsJIlwGiQlejfu8+9zk2Oeh/2kPZlIvr
-	SqHELavH9sUP5wHlMDZHJtacJU/f/KPXHGj+hTyughaTPjqbvQXqdKA6kcbfSOHYh6hO
-	RlH5HZNltxfIZ24mP1dzIl/fwEr09U00+htHlynfd49ukSzJsH1wLwcsmiCrkV7nthln
-	+JKW92tThI6znEfmo+8pXJqO0YG6nFxmgwP6fUhCIfug2VTmtQro6e6GcU5kZoHb6H9T
-	3iEA==
-X-Gm-Message-State: AD7BkJK2I25V0uhdwDbBPxYpA5PMCe7eVSE3aRfphlQYENRLm1Wwval4sZSlcv3Lv8KwFQ==
-X-Received: by 10.140.174.2 with SMTP id u2mr25704516qhu.35.1458337420322;
-	Fri, 18 Mar 2016 14:43:40 -0700 (PDT)
-Received: from localhost.localdomain ([151.124.160.55])
-	by smtp.gmail.com with ESMTPSA id
-	s77sm6871630qkl.29.2016.03.18.14.43.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 18 Mar 2016 14:43:39 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Mar 2016 14:43:18 -0700
-Message-Id: <1458337398-1462-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1458337398-1462-1-git-send-email-akuster808@gmail.com>
-References: <1458337398-1462-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/2] tzdata: update to 2016b
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=GR2l1ntyYtOc9bu9TiivT7THWy16yyuqHIDb6gfKNPE=;
+	b=Yfa1QjcWaYUxTgZvWhZz9YAg0tyTrNKwig4AEhCsBSilAjsr7yYx9AXGHs58VZisE7
+	QbPBJ36HimA2wjClNwUyf5nCuaOywJpcrlk7FvbLihxS3J3rDObtDwjZTy6t1suwpiDx
+	gaZIeRbGp6YK14tTad8Waz86NlX35HwJqPK+manMS1gdslsdGvvfaBhWffkUKmINMc9A
+	j2H3BfTOfW1cjz1t+BPBv62yCnM395daKN6ltNXtZUqwHyte9tkIRKbaVnFc6E+c/gMS
+	ViFzGhR4yquHEnh0i2MboQPAB2W9q3wqIts//JW5IXfEuqqLvmPJVMU17WW6/Wnbv8QE
+	cE5w==
+X-Gm-Message-State: AD7BkJLcp9PsFvQ1pAtoqEuqTtdUgpGY/oG1Pasfg6gDVY7NT1ZOV8xyqqdU5trjjPKWjWN2lWQi36DtvQuuag==
+MIME-Version: 1.0
+X-Received: by 10.140.104.234 with SMTP id a97mr25623425qgf.57.1458341231212; 
+	Fri, 18 Mar 2016 15:47:11 -0700 (PDT)
+Received: by 10.55.130.196 with HTTP; Fri, 18 Mar 2016 15:47:10 -0700 (PDT)
+Received: by 10.55.130.196 with HTTP; Fri, 18 Mar 2016 15:47:10 -0700 (PDT)
+In-Reply-To: <CAJTo0Laq7Re6hAEmY=Dd1=UUr0+Zg9UCDO5STXoDJni+Md86+g@mail.gmail.com>
+References: <1456753354-7448-1-git-send-email-adrian.ratiu@ni.com>
+	<CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
+	<1BF009E9-B718-4FE2-BBF3-83CEA93D1ABB@gmail.com>
+	<CAJTo0Laq7Re6hAEmY=Dd1=UUr0+Zg9UCDO5STXoDJni+Md86+g@mail.gmail.com>
+Date: Fri, 18 Mar 2016 15:47:10 -0700
+Message-ID: <CAMKF1soCxyOdWGEAxz_5FbR4pwirUGXmTCQtOdT062eD6NX2mg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Jacob Champion <jacob.champion@ni.com>
+Subject: Re: [PATCH v1] site: enable pthread support for x86_64 APR builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,69 +58,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 21:43:41 -0000
+X-List-Received-Date: Fri, 18 Mar 2016 22:47:11 -0000
+Content-Type: multipart/alternative; boundary=001a11352ee20c3ed8052e5a8744
 
-updated SRC_URI to http as it seems more stable.
+--001a11352ee20c3ed8052e5a8744
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Changes affecting future time stamps
+On Mar 18, 2016 4:38 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+>
+> On 18 March 2016 at 00:22, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> Which is interesting as building apr-native (so the site files don't
+get used) for x86-64 gives:
+>>>
+>>> apr_cv_process_shared_works=3Dyes
+>>>
+>>> Can we not go around disabling stuff when it actually does work?
+>>
+>>
+>> No it really doesnt work. its running a configure time test on your
+build host ( which I assume is x86_64 mostly now
+>> a days) and then deciding that process shared mutexes work, which is not
+correct.
+>>
+>> If we think that it should work on x86_64 then lets cache the value to
+=E2=80=98yes=E2=80=99 but not leave it
+>> at the mercy of configure.
+>
+>
+> That was my point: the patch was to add works=3Dno to x86-64 target build=
+s,
+but if I run the same test on x86-64 hardware directly then the result is
+works=3Dyes.
 
-     New zones Europe/Astrakhan and Europe/Ulyanovsk for Astrakhan and
-     Ulyanovsk Oblasts, Russia, both of which will switch from +03 to +04 on
-     2016-03-27 at 02:00 local time.  They need distinct zones since their
-     post-1970 histories disagree.  New zone Asia/Barnaul for Altai Krai and
-     Altai Republic, Russia, which will switch from +06 to +07 on the same date
-     and local time.  Also, Asia/Sakhalin moves from +10 to +11 on 2016-03-27
-     at 02:00.  (Thanks to Alexander Krivenyshev for the heads-up, and to
-     Matt Johnson and Stepan Golosunov for followup.)
+Actually it depends on libc implementation of process shared mutexes. So
+glibc for most arches should set it yes. Musl doesnt have it. So that
+should be no mostly
+>
+> Ross
 
-     As a trial of a new system that needs less information to be made up,
-     the new zones use numeric time zone abbreviations like "+04"
-     instead of invented abbreviations like "ASTT".
+--001a11352ee20c3ed8052e5a8744
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-     Haiti will not observe DST in 2016.  (Thanks to Jean Antoine via
-     Steffen Thorsen.)
+<p dir=3D"ltr"><br>
+On Mar 18, 2016 4:38 AM, &quot;Burton, Ross&quot; &lt;<a href=3D"mailto:ros=
+s.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On 18 March 2016 at 00:22, Khem Raj &lt;<a href=3D"mailto:raj.khem@gma=
+il.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Which is interesting as building apr-native (so the site files=
+ don&#39;t get used) for x86-64 gives:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; apr_cv_process_shared_works=3Dyes<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Can we not go around disabling stuff when it actually does wor=
+k?<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; No it really doesnt work. its running a configure time test on you=
+r build host ( which I assume is x86_64 mostly now<br>
+&gt;&gt; a days) and then deciding that process shared mutexes work, which =
+is not correct.=C2=A0<br>
+&gt;&gt;<br>
+&gt;&gt; If we think that it should work on x86_64 then lets cache the valu=
+e to =E2=80=98yes=E2=80=99 but not leave it<br>
+&gt;&gt; at the mercy of configure.<br>
+&gt;<br>
+&gt;<br>
+&gt; That was my point: the patch was to add works=3Dno to x86-64 target bu=
+ilds, but if I run the same test on x86-64 hardware directly then the resul=
+t is works=3Dyes.</p>
+<p dir=3D"ltr">Actually it depends on libc implementation of process shared=
+ mutexes. So glibc for most arches should set it yes. Musl doesnt have it. =
+So that should be no mostly<br>
+&gt;<br>
+&gt; Ross</p>
 
-     Palestine's spring-forward transition on 2016-03-26 is at 01:00, not 00:00.
-     (Thanks to Hannah Kreitem.) Guess future transitions will be March's last
-     Saturday at 01:00, not March's last Friday at 24:00.
-
-Changes affecting past time stamps
-
-     Europe/Chisinau observed DST during 1990, and switched from +04 to
-     +03 at 1990-05-06 02:00, instead of switching from +03 to +02.
-     (Thanks to Stepan Golosunov.)
-
-     1991 abbreviations in Europe/Samara should be SAMT/SAMST, not
-     KUYT/KUYST.  (Thanks to Stepan Golosunov.)
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/tzdata/{tzdata_2016a.bb => tzdata_2016b.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2016a.bb => tzdata_2016b.bb} (97%)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2016a.bb b/meta/recipes-extended/tzdata/tzdata_2016b.bb
-similarity index 97%
-rename from meta/recipes-extended/tzdata/tzdata_2016a.bb
-rename to meta/recipes-extended/tzdata/tzdata_2016b.bb
-index cacc480..b9e386a 100644
---- a/meta/recipes-extended/tzdata/tzdata_2016a.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2016b.bb
-@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ae2becfcb9a685041c6f166b44c2c2"
- 
- DEPENDS = "tzcode-native"
- 
--SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
-+SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- 
--SRC_URI[tzdata.md5sum] = "0d3123eb1b453ec0620822bd65be4c42"
--SRC_URI[tzdata.sha256sum] = "5efa6b324e64ef921ef700ac3273a51895f672684a30e342f68e47871c6a8cd1"
-+SRC_URI[tzdata.md5sum] = "f638ec0d4d7a17f001ce475860255c85"
-+SRC_URI[tzdata.sha256sum] = "6392091d92556a32de488ea06a055c51bc46b7d8046c8a677f0ccfe286b3dbdc"
- 
- inherit allarch
- 
--- 
-1.9.1
-
-
+--001a11352ee20c3ed8052e5a8744--
