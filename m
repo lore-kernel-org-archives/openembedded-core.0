@@ -1,50 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DFB3A6FFC8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A9F5862132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 20:05:00 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id kc10so29690900igb.0
+	Fri, 18 Mar 2016 20:42:31 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id p65so9012415wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 13:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yLg9kEROR6QOKvaCX72gXZMMeR46FW2se4nP3MPfsnc=;
-	b=N2UWR/UEKgpP868JxGNDtjZKPimx7smXnNY/ad31wHR31OltoZkWqAr7M7keMNbo2X
-	0oc3Ep4z1OQv9XCuPcRuxlRSEEG/SBewW8h2odBur59+XUlN0rg9j+VJC/PaRZKCw+DX
-	8C6ESOJPgHi5cwPTXhKi6evaXeKlryPLbJ4PSCsjXi82HEDoj1ZsdRabuDwhcJmK1pNz
-	0WxkEwGSR1l2SN+kE0ynq3T1xdMKqygzAgQ2hRQC4xx8W1c4MFvWav/FLLj0KJ+3o3pe
-	MwEl+77XuOmh4OUObF2+u2uqWeFohNZmYGLNCbd6Eim2T83IeMOHxoWqe6q8wwHvC7oS
-	myCQ==
+	Fri, 18 Mar 2016 13:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=3tXnMMZS04bf83bKrOhhZmpsGrlIGU5ji730gA5Jk6k=;
+	b=i7ABS25CKqm29iQW1c1Q7+LcS+IpJ/IiEo8+PjISwGFkVvaP1laiZ3V1jZttSaLiB2
+	hyvgQOcTVCqoOFFozcq6N5rBund674wWYmAUzjp6tpifnZFlvWXxk57BcId1WkNOSySc
+	lTI1b5lrCBSBQPiJYrIZ83EbovoiartbELV1v6z2xAb72pSI/JrWbrM6hsFnaF26ppvT
+	lb0xoB4wAoB5bCqErVubUTplAkyEMCAsM/o1fiTBv3+VMEubjGqMT6xCf/+vDw/QSBSQ
+	wNA1pVl5Szkqjlu7beGxSx/QulI5AbyFRoM5eOnbQdud8tR8ZbEVgoYOylcHONk65Fes
+	B9vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yLg9kEROR6QOKvaCX72gXZMMeR46FW2se4nP3MPfsnc=;
-	b=milNtlwhlPIR1bMxoj8SkkF+qeM6ANbV2JR4ZunB7gPI/wmz+r9j+w8DMqoGK79PcQ
-	5hmyqnSBZUN8r4SEaHs8OJ60TrLPzmJpIJ6VDbzFpTq6QnlL66Mbu9kk6Yqelm9EKhA2
-	i7Rabbw/EpcBTXyGNS8Zh52C0/m4+iv44J/+R0YrsSqBGxE1A3lXxDrdIA0I9OKejFpx
-	ua99rix671fr2yag+NWrKz2yHokhlTXHSPnoxViIYm0yj7mT4a7vGFCwGXe5yOO/MOzT
-	XIOkxOtWH0sCm/ofYDEQRLbtfnU5T/zlV85Pg3UALdHuNnkxIxNpXgwYNf6Wp6xQO6gV
-	hDng==
-X-Gm-Message-State: AD7BkJKS1sFZZdCPgkCV1oODQ/EvfhUYjr9GQFoj2GEhqW/oJmtGxzg3y23zOfu1AgENRH61lQGFxcsklXOQp+as
-X-Received: by 10.50.150.41 with SMTP id uf9mr1232587igb.64.1458331501713;
-	Fri, 18 Mar 2016 13:05:01 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=3tXnMMZS04bf83bKrOhhZmpsGrlIGU5ji730gA5Jk6k=;
+	b=XxMgQx8EUfKJRv7nSkgD1vJdjpQSaKDg7gVSaShFcdD3CA4ETPFZIu1yZQEC8mVM7+
+	1AVkMyxoqPhAcejfBp97sgDJPZNEDmeso63fIDT2W/Nv7Wgu2vlogCVtqjSAs46CFggl
+	JFH8lirXA+mKsJr/CHHEyDbtF5DrO5tgjodH7/DWDt5ZzUDb1NX6kEC4Th6UvOe0niBv
+	qFNapu+ZyrQUqvMD/337Hvkqsi6nMx3WeGdzg5aDRiCadBQ0tKJ0LByeRfgefkf5EZnv
+	n18pwFiROJY4QfkuKv1HnKdNjIm33vcCvy076uTvv4yNMmGrN2KNMKKdwcpXGvd22uhw
+	zv7Q==
+X-Gm-Message-State: AD7BkJKO+8B9HcBWO2WdhzHLVLPLpg5ZM2NpI84s8VOffJ0FuaB2vH+3VbqW0uFOS3OhJg==
+X-Received: by 10.28.213.142 with SMTP id m136mr1324669wmg.24.1458333751897;
+	Fri, 18 Mar 2016 13:42:31 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	vw2sm13724002wjc.43.2016.03.18.13.42.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 18 Mar 2016 13:42:30 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 18 Mar 2016 21:46:26 +0100
+To: alexander.kanavin@linux.intel.com
+Message-ID: <20160318204626.GD2555@jama>
+References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
+	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+	<20160317213608.GG2553@jama>
+	<51498.10.252.7.138.1458328949.squirrel@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 18 Mar 2016 13:04:42 -0700 (PDT)
-In-Reply-To: <CAP9ODKoF0kqMr9UAiGLsqC9DZytTJnuHa21kQ0npNtUDM8QJ5w@mail.gmail.com>
-References: <1456337541-4269-1-git-send-email-javier.viguera@digi.com>
-	<56E06C6D.5020008@digi.com> <56EC1FC2.1020502@digi.com>
-	<CAP9ODKoF0kqMr9UAiGLsqC9DZytTJnuHa21kQ0npNtUDM8QJ5w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Mar 2016 20:04:42 +0000
-Message-ID: <CAJTo0LYEHUmrXrH41d9SfUpYyFnyKvO456BahKjUU7+Q75O5WQ@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Javier Viguera <javier.viguera@digi.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bluez5: allow D-Bus to spawn obexd in systems without systemd
+In-Reply-To: <51498.10.252.7.138.1458328949.squirrel@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +62,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 20:05:02 -0000
-Content-Type: multipart/alternative; boundary=001a11345c0c1ffc84052e58434c
+X-List-Received-Date: Fri, 18 Mar 2016 20:42:34 -0000
+X-Groupsio-MsgNum: 79818
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="sXc4Kmr5FA7axrvy"
+Content-Disposition: inline
 
---001a11345c0c1ffc84052e58434c
-Content-Type: text/plain; charset=UTF-8
-
-On 18 March 2016 at 18:48, Otavio Salvador <otavio.salvador@ossystems.com.br
-> wrote:
-
-> Agreed; this is good to be included as it does address an issue for a
-> lot of users. Ross, could you queue it for MUT please?
->
-
-I didn't merge it straight away as I wanted to understand why upstream
-rejected this, but it was merged earlier today.
-
-Ross
-
---001a11345c0c1ffc84052e58434c
-Content-Type: text/html; charset=UTF-8
+--sXc4Kmr5FA7axrvy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 March 2016 at 18:48, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
-@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div id=3D":72p" class=3D"a3s" style=3D"overflow:hidden">Agreed; this is goo=
-d to be included as it does address an issue for a<br>
-lot of users. Ross, could you queue it for MUT please?<br></div></blockquot=
-e><div><br></div><div>I didn&#39;t merge it straight away as I wanted to un=
-derstand why upstream rejected this, but it was merged earlier today.</div>=
-<div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+On Fri, Mar 18, 2016 at 09:22:29PM +0200, alexander.kanavin@linux.intel.com=
+ wrote:
+> > Even with gobject-introspection-data removed from DISTRO_FEATURES I'm
+> > seeing
+> > couple recipes (our version of gst-*) failing with:
+> >
+> > | configure:22282: error: possibly undefined macro: PKG_CONFIG_SYSROOT_=
+DIR
+> > |       If this token and others are legitimate, please use
+> > m4_pattern_allow.
+> > |       See the Autoconf documentation.
+> >
+> > and PKG_CONFIG_SYSROOT_DIR is added by introspection.m4 from g-i patchs=
+et.
+>=20
+> Disabling building of introspection data will not guarantee absence of
+> build failures, I'm afraid. Some recipes will work just fine unchanged,
+> but others, including gstreamer, do need custom fixing, usually because
+> they have non-standard locations for m4 macros, or those macros themselves
+> are non-standard. So you need to rebase your recipes on top of those
+> available now in oe-core, and particularly this snippet will fix the
+> immediate problem you have above:
+>=20
+> delete_pkg_m4_file() {
+>         # This m4 file is out of date and is missing
+> PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
+>         rm "${S}/common/m4/pkg.m4" || true
+> }
+>=20
+> do_configure[prefuncs] +=3D " delete_pkg_m4_file"
 
---001a11345c0c1ffc84052e58434c--
+Thanks, this did the trick.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--sXc4Kmr5FA7axrvy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlbsaSEACgkQN1Ujt2V2gBy80QCfQF1DE9Apygb6hDACZUqOe7in
+A2gAoLfi8LCg5kAehAXcuCuDICMUOvNt
+=EjTK
+-----END PGP SIGNATURE-----
+
+--sXc4Kmr5FA7axrvy--
