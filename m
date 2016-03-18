@@ -1,48 +1,24 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 44DCB6E5CC
+Return-Path: <Alexandru.Moise@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4440465C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 12:02:06 +0000 (UTC)
-Received: by mail-ob0-f180.google.com with SMTP id ts10so113409659obc.1
+	Fri, 18 Mar 2016 12:19:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2ICJDOC025283
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 05:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gSUB+YDj/A19A4xr8WjyyfcoikhpMv6ZROhIaNMjKkY=;
-	b=IJ5OyuygshXMvkl8nhRGPmEGdh/zaNZvIrwC7km2QSvnDP3145cNqPery7dIy87mXG
-	AUClqYGZMKBHOV3LaCIgaTkRV3zkJFBK2+ag81v0jeYMdxBMrORBYTcXhA1vyTpftvJA
-	aLqVbEZmBrKPFwyAR6JkeOCxYFu/n3XDj1hYZsG7z9fqBVBElOKIhkTFuqKxUWehO2AC
-	1CUjtxPPHDMVlEUCovBVzPU8Xk5w1HbrW9Cjb65IpiBe4zVYhDf0pHec2Iiivat1ufcj
-	CF9zR4zyMA72PedguH9BCpNqLUJgn5/v9V+Cz8sIh+Wh2tT589S47TjFEHp33rP3oHLB
-	+pNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gSUB+YDj/A19A4xr8WjyyfcoikhpMv6ZROhIaNMjKkY=;
-	b=i4Sg9E/Psjdp+748jhH2ufBwkohT2aBxQQa8kEUmfIAhYjga1PEXLk3h/NAKsUMkTK
-	uj0F39/HT4JxsU9BLSZcXF9zip/DqV6oTcSUIfWisWRGuxQBDBhfxTdBXm4hVW/jyrZO
-	FfjiHSltoZky4jojSQc5ql3r1m3fii4Bk8Pj7wTC6T1oVA8JU2zNZd14gTps95SK6Xl1
-	r5+8NHAEZxoTrG9+hpFS2CT/Tk13236jU/wY26WLaUu1+PVN9e2/Bc/lUNul5x0ZT83+
-	l9vetD04NYs18T1m5JBqEhfngbit9DCGC+HNR4o6SL3xfohpp1q9fsO35W+NWEfOwpMp
-	Vlew==
-X-Gm-Message-State: AD7BkJKZfvs5PpcViI0AtPW8Vzyyj2QkwVFe7AxYmLNc2QrWUZtWjeUd8tUPoKqf4kaYWAJKqrAm/LNNMoVz4gBd
-X-Received: by 10.60.98.106 with SMTP id eh10mr9317378oeb.48.1458302526595;
-	Fri, 18 Mar 2016 05:02:06 -0700 (PDT)
+	Fri, 18 Mar 2016 05:19:13 -0700
+Received: from obsrwr.corp.ad.wrs.com (128.224.125.134) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 18 Mar 2016 05:19:12 -0700
+From: Alexandru Moise <alexandru.moise@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Mar 2016 14:21:25 +0200
+Message-ID: <1458303685-16358-1-git-send-email-alexandru.moise@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.202.75.144 with HTTP; Fri, 18 Mar 2016 05:01:37 -0700 (PDT)
-In-Reply-To: <bf3c411f84f26b13de2a4f40d1d7141b735ccb3f.1458282563.git.hongxu.jia@windriver.com>
-References: <cover.1458282563.git.hongxu.jia@windriver.com>
-	<bf3c411f84f26b13de2a4f40d1d7141b735ccb3f.1458282563.git.hongxu.jia@windriver.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 18 Mar 2016 14:01:37 +0200
-Message-ID: <CAHiDW_HdK9jJmmFvt+PMgbK9O0qukSRw=MuY_+N-zXMH+wup=w@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/18] dtc.inc: fix buildpaths QA issue
+Subject: [PATCH] dhcpd: create dhcpd user for dhcp dameon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,197 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 12:02:08 -0000
-Content-Type: multipart/alternative; boundary=089e01161ae612dedb052e51848c
+X-List-Received-Date: Fri, 18 Mar 2016 12:19:14 -0000
+Content-Type: text/plain
 
---089e01161ae612dedb052e51848c
-Content-Type: text/plain; charset=UTF-8
+This patch enables the functionality for dhcpd service to be started
+with dhcp uid and gid.
 
-On 18 March 2016 at 11:01, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+Test steps:
 
-> Previous Makefile define its own CFLAGS, pass DEBUG_FLAGS to
-> it could fix build path issue in DWARF.
->
-> [YOCTO #8457]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-kernel/dtc/dtc.inc                    |  3 +++
->  .../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch       | 30
-> ++++++++++++++++++++++
->  2 files changed, 33 insertions(+)
->  create mode 100644
-> meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
->
-> diff --git a/meta/recipes-kernel/dtc/dtc.inc
-> b/meta/recipes-kernel/dtc/dtc.inc
-> index 0c409b0..a1a30fc 100644
-> --- a/meta/recipes-kernel/dtc/dtc.inc
-> +++ b/meta/recipes-kernel/dtc/dtc.inc
-> @@ -7,8 +7,11 @@ DEPENDS = "flex-native bison-native"
->  SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
->             file://make_install.patch \
->           "
-> +SRC_URI_append_class-target = " file://pass-DEBUG_FLAGS-to-CFLAGS.patch \
-> +"
->
->  EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
-> +EXTRA_OEMAKE_class-target += 'DEBUG_FLAGS="${DEBUG_FLAGS}"'
->
->  S = "${WORKDIR}/git"
->
-> diff --git a/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
-> b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
-> new file mode 100644
-> index 0000000..3f17ee9
-> --- /dev/null
-> +++ b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
-> @@ -0,0 +1,30 @@
-> +From 4019e29b0c1ec441fa43d9969197c24ad73f3b1a Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Fri, 26 Feb 2016 03:28:15 -0500
-> +Subject: [PATCH] Makefile: pass DEBUG_FLAGS to CFLAGS
-> +
-> +It fixes buildpaths issue while compiling.
-> +
-> +Upstream-Status: Inappropriate [openembedded specific]
->
+Step 1: Assign ip to interface
+ifconfig eth0 192.168.1.1
 
-Is this really an openembedded specific change?
+Step 2: Edit /etc/dhcp/dhcpd.conf:
+default-lease-time 600;
+max-lease-time 7200;
+option subnet-mask 255.255.255.0;
+subnet 192.168.1.0 netmask 255.255.255.0 {
+        option broadcast-address 192.168.1.255;
+        range 192.168.1.88 192.168.1.88;
+        option routers 192.168.1.0;
+}
 
+Step 3: Edit /etc/default/dhcp-server:
+INTERFACES="eth0"
+
+Step 4: Check uid and gid of running dhcpd process
+$ ps -eo user:19,group:19,cmd | grep dhcpd
+dhcp        dhcp        /usr/sbin/dhcpd eth0 -user dhcp -group dhcp
+
+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc          | 6 +++++-
+ meta/recipes-connectivity/dhcp/files/init-server | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 9c4233b..5703f1e 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -24,7 +24,10 @@ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+ UPSTREAM_CHECK_URI = "ftp://ftp.isc.org/isc/dhcp/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+\.\d+\.(\d+?))/"
+ 
+-inherit autotools systemd
++inherit autotools systemd useradd
 +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + Makefile | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 18838cc..4954f32 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =
-> + CPPFLAGS = -I libfdt -I .
-> + WARNINGS = -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
-> +       -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
-> +-CFLAGS = -g -Os -fPIC -Werror $(WARNINGS)
-> ++CFLAGS = $(DEBUG_FLAGS) -Os -fPIC -Werror $(WARNINGS)
-> +
-> + BISON = bison
-> + LEX = flex
-> +--
-> +1.9.1
-> +
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
++USERADD_PACKAGES = "${PN}-server"
++USERADD_PARAM_${PN}-server = "--system --no-create-home --home-dir /var/run/${PN} --shell /bin/false --user-group ${PN}"
+ 
+ SYSTEMD_PACKAGES = "${PN}-server ${PN}-relay"
+ SYSTEMD_SERVICE_${PN}-server = "dhcpd.service dhcpd6.service"
+@@ -39,6 +42,7 @@ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
+                 --with-cli-lease-file=${localstatedir}/lib/dhcp/dhclient.leases \
+                 --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases \
+                 --with-libbind=${STAGING_LIBDIR}/ \
++		--enable-paranoia \
+                "
+ 
+ do_install_append () {
+diff --git a/meta/recipes-connectivity/dhcp/files/init-server b/meta/recipes-connectivity/dhcp/files/init-server
+index 34c2085..5e693ad 100644
+--- a/meta/recipes-connectivity/dhcp/files/init-server
++++ b/meta/recipes-connectivity/dhcp/files/init-server
+@@ -20,7 +20,7 @@ case "$1" in
+ 		echo -n "Starting DHCP server: "
+ 		test -d /var/lib/dhcp/ || mkdir -p /var/lib/dhcp/
+ 		test -f /var/lib/dhcp/dhcpd.leases || touch /var/lib/dhcp/dhcpd.leases	
+-		start-stop-daemon -S -x /usr/sbin/dhcpd -- -q $INTERFACES
++		start-stop-daemon -S -x /usr/sbin/dhcpd -- -q $INTERFACES -user dhcp -group dhcp
+ 		echo "."
+ 		;;
+ 	stop)
+-- 
+1.9.1
 
---089e01161ae612dedb052e51848c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-8 March 2016 at 11:01, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"mailto:h=
-ongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">Previous Makefile define i=
-ts own CFLAGS, pass DEBUG_FLAGS to<br>
-it could fix build path issue in DWARF.<br>
-<br>
-[YOCTO #8457]<br>
-<br>
-Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">h=
-ongxu.jia@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/dtc/dtc.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +++<br>
-=C2=A0.../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 30 ++++++++++++++++++++++<br>
-=C2=A02 files changed, 33 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CF=
-LAGS.patch<br>
-<br>
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.=
-inc<br>
-index 0c409b0..a1a30fc 100644<br>
---- a/meta/recipes-kernel/dtc/dtc.inc<br>
-+++ b/meta/recipes-kernel/dtc/dtc.inc<br>
-@@ -7,8 +7,11 @@ DEPENDS =3D &quot;flex-native bison-native&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.kernel.org/pub/scm/util=
-s/dtc/dtc.git" rel=3D"noreferrer" target=3D"_blank">git.kernel.org/pub/scm/=
-utils/dtc/dtc.git</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://make_install.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-+SRC_URI_append_class-target =3D &quot; file://pass-DEBUG_FLAGS-to-CFLAGS.p=
-atch \<br>
-+&quot;<br>
-<br>
-=C2=A0EXTRA_OEMAKE=3D&#39;PREFIX=3D&quot;${prefix}&quot; LIBDIR=3D&quot;${l=
-ibdir}&quot; DESTDIR=3D&quot;${D}&quot;&#39;<br>
-+EXTRA_OEMAKE_class-target +=3D &#39;DEBUG_FLAGS=3D&quot;${DEBUG_FLAGS}&quo=
-t;&#39;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-diff --git a/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch b=
-/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch<br>
-new file mode 100644<br>
-index 0000000..3f17ee9<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch<br>
-@@ -0,0 +1,30 @@<br>
-+From 4019e29b0c1ec441fa43d9969197c24ad73f3b1a Mon Sep 17 00:00:00 2001<br>
-+From: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">hongxu.ji=
-a@windriver.com</a>&gt;<br>
-+Date: Fri, 26 Feb 2016 03:28:15 -0500<br>
-+Subject: [PATCH] Makefile: pass DEBUG_FLAGS to CFLAGS<br>
-+<br>
-+It fixes buildpaths issue while compiling.<br>
-+<br>
-+Upstream-Status: Inappropriate [openembedded specific]<br>
-</blockquote><div><br></div><div>Is this really an openembedded specific ch=
-ange?</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">+<br>
-+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">=
-hongxu.jia@windriver.com</a>&gt;<br>
-+---<br>
-+ Makefile | 2 +-<br>
-+ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/Makefile b/Makefile<br>
-+index 18838cc..4954f32 100644<br>
-+--- a/Makefile<br>
-++++ b/Makefile<br>
-+@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =3D<br>
-+ CPPFLAGS =3D -I libfdt -I .<br>
-+ WARNINGS =3D -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0-Wstrict-prototypes -Wmissing-prototypes -Wredu=
-ndant-decls -Wshadow<br>
-+-CFLAGS =3D -g -Os -fPIC -Werror $(WARNINGS)<br>
-++CFLAGS =3D $(DEBUG_FLAGS) -Os -fPIC -Werror $(WARNINGS)<br>
-+<br>
-+ BISON =3D bison<br>
-+ LEX =3D flex<br>
-+--<br>
-+1.9.1<br>
-+<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.1<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div></div>
-
---089e01161ae612dedb052e51848c--
