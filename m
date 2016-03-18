@@ -1,33 +1,45 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 818546FFE2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id BC12373179
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 13:11:28 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1aguBc-0006Wg-AT from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Mar 2016 06:11:28 -0700
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Fri, 18 Mar 2016 13:11:27 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH][RFC] systemd-serialgetty: allow baud rate
-	overriding
-Thread-Index: AQHReGpmkzj5q4iQ/0yD3vSRAtK/PJ9fPn0T
-Date: Fri, 18 Mar 2016 13:11:26 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB9237E@EU-MBX-02.mgc.mentorg.com>
-References: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>
-In-Reply-To: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
-MIME-Version: 1.0
-Subject: Re: [PATCH][RFC] systemd-serialgetty: allow baud rate	overriding
+	Fri, 18 Mar 2016 13:13:32 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id p65so36764474wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Mar 2016 06:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=bynk3JI+wFpnN1u30G1K/Z14LGVgpvM6TyDfDjI2Ggg=;
+	b=CgWdWfAhwSATsjbyCd/myTG1quTrc5qfauPJlCou8Ur1xeE5JTXPt7/hRvTiZcMl3C
+	b3eV6MM8UvMaib3EBTHSb3h2kmdSNwZz+9zrD9iBVcLcOA9t/+ejXkKaArFGGhdiWQKO
+	l0AggstY3MSzMLzyFOChyVd0AdsX136TCN2iefNrOT8TBRBE9Cs4zY5mN9Ou8GEi8j9b
+	F8yOwCWHNV3wJTQZbt6zLzqSV9iTW7a3CftEvaeXimoJSfpFp6ytygXOFKowomioX7Vv
+	+q9dJpuKMZqhGw+nPgNafAc0QoNbHHO8u5aqAklz3dU05SR9Kw7RmiliMQcc3NX2nRED
+	1EAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bynk3JI+wFpnN1u30G1K/Z14LGVgpvM6TyDfDjI2Ggg=;
+	b=YGO4qyK233wzi9K3dYAE1Tx+JovyxNpFCzHKfGf+hXxb6rSHpXGXyig5nqGbJjB3RA
+	dG5wDIUXb7psno/kx4hp10sVZtY1toeDaTlJIf0gPE9EMRRReYDnyoWK/cqtGYJjFui8
+	4hqBJppVjwsPVaqHGDgw7oNxQh+wkqS9pk4jMu48LaYLimM4Hu5ihaYNuiw+nOA72qMM
+	bZyiLJhPV/iiAVYxgVJcbuqn3a9vesrlmiz2CzkXM5DXikxODeDeopnQ5o0DX1Yvnj0t
+	Dq1vKGDD7OJ319mBxAhHktWUJkLGVRCJKUUXutTpY6SoeFU/uj6qSyd+7HwJIWQtuHBE
+	K+8Q==
+X-Gm-Message-State: AD7BkJKFqJRTEexaafreiMdbMyQg0K+4tcyuOFZ6Fysi5kti+u0QQwm2skJ6ak9tSAn/ZA==
+X-Received: by 10.194.175.33 with SMTP id bx1mr16187693wjc.104.1458306812791; 
+	Fri, 18 Mar 2016 06:13:32 -0700 (PDT)
+Received: from localhost.localdomain
+	(LPuteaux-656-1-252-235.w82-127.abo.wanadoo.fr. [82.127.113.235])
+	by smtp.gmail.com with ESMTPSA id
+	za6sm12269450wjc.18.2016.03.18.06.13.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Mar 2016 06:13:31 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Mar 2016 06:13:26 -0700
+Message-Id: <1458306806-17511-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] gcc-runtime.inc: set LICENSE for all gcc-runtime packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,58 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 13:11:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Mar 2016 13:13:34 -0000
 
-Anyone?=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-Sent: Monday, March 07, 2016 5:10 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH][RFC] systemd-serialgetty: allow baud rate    ove=
-rriding=0A=
-=0A=
-In case a getty is required on a UART which is not being=0A=
-used as the kernel console, the current agetty invocation=0A=
-fails to obey the baud rate configured through the=0A=
-SERIAL_CONSOLES variable because it uses --keep-baud.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 2 +-=
-=0A=
- 1 file changed, 1 insertion(+), 1 deletion(-)=0A=
-=0A=
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.se=
-rvice b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service=
-=0A=
-index 182167b..e8b027e 100644=0A=
---- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service=
-=0A=
-+++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service=
-=0A=
-@@ -21,7 +21,7 @@ IgnoreOnIsolate=3Dyes=0A=
-=0A=
- [Service]=0A=
- Environment=3D"TERM=3Dxterm"=0A=
--ExecStart=3D-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM=0A=
-+ExecStart=3D-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM=0A=
- Type=3Didle=0A=
- Restart=3Dalways=0A=
- RestartSec=3D0=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+LICENSE_${PN} doesn't apply to all gcc-runtime packages. Set LICENSE
+instead. Without this fix, gcc-runtime packages such as libstdc++ are
+excluded from rootfs for builds which blacklist GPLv3.
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 572396d..8639c1c 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -1,5 +1,9 @@
+ require gcc-configure-common.inc
+ 
++# Over-ride the LICENSE set by gcc-${PV}.inc to remove "& GPLv3"
++# All gcc-runtime packages are now covered by the runtime exception.
++LICENSE = "GPL-3.0-with-GCC-exception"
++
+ CXXFLAGS_remove = "-fvisibility-inlines-hidden"
+ 
+ EXTRA_OECONF_PATHS = "\
+@@ -109,11 +113,6 @@ PACKAGES = "\
+     libitm-staticdev \
+ "
+ 
+-LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
+-LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
+-LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
+-LICENSE_${PN}-staticdev = "GPL-3.0-with-GCC-exception"
+-
+ # The base package doesn't exist, so we clear the recommends.
+ RRECOMMENDS_${PN}-dbg = ""
+ 
+-- 
+1.9.1
+
 
