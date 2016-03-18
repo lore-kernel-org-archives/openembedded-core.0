@@ -1,53 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id C916665C5C
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 05D9F6FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 00:22:21 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id u190so142197066pfb.3
+	Fri, 18 Mar 2016 01:02:05 +0000 (UTC)
+Received: by mail-pf0-f172.google.com with SMTP id n5so143285779pfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 17:22:22 -0700 (PDT)
+	Thu, 17 Mar 2016 18:02:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=DN/LR7l8DIqBp2wAj8iY8zyf8EUw5OU1aFldTdT3CAY=;
-	b=nuV4MproDYsiG0Fv7OqA+2Nhv5nDnnnCm/HQvt2Zmn0UPY1rp045S8POAgSaTpUGdd
-	A8yUu+8eNdRcYnLqOgayms4ViaRHCd0MWqM+HVmaAjFj9slIV0Von/UR+JjB+unOuacz
-	Fl0ynwPLUGJMdhPtUJU4aOW4j5kvYlkQCac9KmyUSM0kg3S6EJGYHDWu0Uu0H9uK81P4
-	HCtd0OWUSG5yE2qiiwINNojiguzXI+WeZ4QRcoCfgLVUCHXlULdENjgi8Yr2m3c8Y1zc
-	aM9HvrSr1natUjfIz0DXB5MrMdJybzDjazbP2yT68SVIz7WyBqAglPNq0FGsVko0pGtY
-	1mjw==
+	:to; bh=AVUYOtvxd3yyH8jpt60DIRJ7J0a/8kZSQoTYDhfmEck=;
+	b=i6GAP1eACRqO56f0zoSvLiL38WS56rACK+txJVvUmVON8awqJnXMsHA8gVfdhPg2+6
+	u4jKDbC9a2thXzUoOkuJ1V2uTsrHhBhqOZxlfIFcMUu4g53Hb8zrpVzha4UqqUuydiA6
+	uLP4O4X2mDxHYhJut9oAkng+oOqm5FlMe78x4rpKsvQ5XtDA/ifF2qeG8YO8ed+sFhLv
+	64kjZ0WFCPfrRcrMNTsku/Fb9vaYCcpz8ZmNmlmt0CqvFVumgeOcgv2+fMhu0Nw4Dyha
+	5qCsEjjMffqrwRPALfF5y+XK47fBHzZZumYUmiHTAxvdUm8JPtlBMJUBTU7GBZG+m9qV
+	x/9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=DN/LR7l8DIqBp2wAj8iY8zyf8EUw5OU1aFldTdT3CAY=;
-	b=iN9AacEpwFray+qIPVr/QbI2o6Bbdvv8Au3rCwgImdy9lkpx86OWNcNN0khY+P+Jpi
-	uRFIwdGfkXpsEVqUMhT9nPSxTRLGV8FlF3NJH2aGY1Mx8n2IhszkqGBzrxGszWQAIbmW
-	dZPpXRt0ib1dY3aJDMB8DkaKnd6yfaRINKx2dbX/bg32ix0jWpXO/tQi4XARMOCw+QLl
-	lhY2DDLhWF2+NAvd18rxZxcjHDXWp77kebbfMnIv1oXH4uj+M4tnTnqMfwuUoofANg00
-	anVDqDtvqc87yIUC56W9xqW5+C+EnzL1Nsqt+u0W/qdC6Ajru1KoF30sTAemYxx0fv4q
-	07Rg==
-X-Gm-Message-State: AD7BkJJOef8x1DlOl3YSBrXYoFQLf5JGC2wsFWnHG+jGERoMH7W9wmk6wdoAQfCZJAjazQ==
-X-Received: by 10.66.154.233 with SMTP id vr9mr19306430pab.66.1458260542007;
-	Thu, 17 Mar 2016 17:22:22 -0700 (PDT)
-Received: from [192.168.0.76] (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id 9sm16055306pfm.10.2016.03.17.17.22.20
+	bh=AVUYOtvxd3yyH8jpt60DIRJ7J0a/8kZSQoTYDhfmEck=;
+	b=jDkXl1KAWYlbTxqeiaBSNcpcGRilB5/ttOFGmVYvUiivGnao05tthfDKMl5KbhRwcs
+	vNG0UdIKunI3Z2xVUBiyWgfSzPhu/DE4+DE9sMeN/TEYed5NcPNLMdKBq6Ec/7DxLN5g
+	jfwq6Vgjx0eA2oRi2WMn3l5z22yRfc81pJbvWsoRMUs7tkITPCSfZGQ0T278r57OlKHd
+	EUUj/lIhDtlaKCnfcAtgiYQUyokxcGV9w5ZHhSYvo9EjzVh3fFacO6ukAXFxcRbyuAXA
+	l3W1vWOD4V778g3nHmcN6c8U2mFHGy8TbcPhloq3CuvlS8AGker/n6Ng6DFSys1xy6o/
+	EP3g==
+X-Gm-Message-State: AD7BkJK6YeT5rC5SURNkMBLyntM4QDh02I2PucXZ1Xn9o7bW7JLYE+A6E4rMPNGrFCiJcA==
+X-Received: by 10.98.44.70 with SMTP id s67mr7105243pfs.59.1458262926291;
+	Thu, 17 Mar 2016 18:02:06 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:7c39:5b21:5bbc:5fa7?
+	([2601:646:8800:5a9a:7c39:5b21:5bbc:5fa7])
+	by smtp.gmail.com with ESMTPSA id
+	r68sm16134017pfa.33.2016.03.17.18.02.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 Mar 2016 17:22:20 -0700 (PDT)
+	Thu, 17 Mar 2016 18:02:04 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
-Date: Thu, 17 Mar 2016 17:22:15 -0700
-Message-Id: <1BF009E9-B718-4FE2-BBF3-83CEA93D1ABB@gmail.com>
-References: <1456753354-7448-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <1456777067.11498.180.camel@linuxfoundation.org>
+Date: Thu, 17 Mar 2016 18:01:54 -0700
+Message-Id: <0F4B30B5-F34E-46E7-83F5-19BEED9455CD@gmail.com>
+References: <1456757580-31669-1-git-send-email-adrian.ratiu@ni.com>
+	<1456777067.11498.180.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.3112)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Jacob Champion <jacob.champion@ni.com>
-Subject: Re: [PATCH v1] site: enable pthread support for x86_64 APR builds
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] site: enable pthread support for x86_64 APR builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +60,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 00:22:21 -0000
-X-Groupsio-MsgNum: 79765
+X-List-Received-Date: Fri, 18 Mar 2016 01:02:07 -0000
+X-Groupsio-MsgNum: 79766
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F19D269A-9D5C-4020-9762-4ECFDD658C62";
+	boundary="Apple-Mail=_C3E2B685-51D9-4D69-A33A-D16A4A64FF83";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_F19D269A-9D5C-4020-9762-4ECFDD658C62
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_D47561A4-042B-4210-96F2-4890D8F4EECF"
-
---Apple-Mail=_D47561A4-042B-4210-96F2-4890D8F4EECF
+--Apple-Mail=_C3E2B685-51D9-4D69-A33A-D16A4A64FF83
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=utf-8
 
 
-> On Feb 29, 2016, at 5:50 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
+> On Feb 29, 2016, at 12:17 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 >=20
+> On Mon, 2016-02-29 at 16:53 +0200, Ioan-Adrian Ratiu wrote:
+>> The apache2 package is missing key pieces of pthread support (notably
+>> pthread_kill) on x86_64 platforms. Fix this by setting cached
+>> variable
+>> apr_cv_pthreads_cflags=3D-pthread which will trickle down into =
+apache2
+>> as
+>> well. powerpc32-linux currently sets this option.
+>>=20
+>> Suggested-by: Jacob Champion <jacob.champion@ni.com>
+>> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>> ---
+>> meta/site/x86_64-linux | 1 +
+>> 1 file changed, 1 insertion(+)
+>>=20
+>> diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+>> index 573a907..5b37211 100644
+>> --- a/meta/site/x86_64-linux
+>> +++ b/meta/site/x86_64-linux
+>> @@ -104,6 +104,7 @@
+>> nfsd_cv_func_statfs=3D${nfsd_cv_func_statfs=3Dstatfs2_bsize}
+>> nfsd_cv_bsd_signals=3D${nfsd_cv_bsd_signals=3Dyes}
+>>=20
+>> #apr
+>> +apr_cv_pthreads_cflags=3D${apr_cv_pthreads_cflags=3D-pthread}
+>> apr_cv_tcp_nodelay_with_cork=3D${apr_cv_tcp_nodelay_with_cork=3Dyes}
 >=20
-> On 29 February 2016 at 13:42, Ioan-Adrian Ratiu <adrian.ratiu@ni.com =
-<mailto:adrian.ratiu@ni.com>> wrote:
->   apr_cv_process_shared_works=3Dno: several platforms already set this
->   option, which conservatively disables support for PROCESS_SHARED
->   mutexes.
+> Autobuilder doesn't look happy after this change:
 >=20
-> Which is interesting as building apr-native (so the site files don't =
-get used) for x86-64 gives:
+> =
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/buil
+> ds/662/steps/BuildImages_1/logs/stdio
 >=20
-> apr_cv_process_shared_works=3Dyes
->=20
-> Can we not go around disabling stuff when it actually does work?
+> This was the only change to apr in there so its looking like the most
+> likely suspect=E2=80=A6
 
-No it really doesnt work. its running a configure time test on your =
-build host ( which I assume is x86_64 mostly now
-a days) and then deciding that process shared mutexes work, which is not =
-correct.
 
-If we think that it should work on x86_64 then lets cache the value to =
-=E2=80=98yes=E2=80=99 but not leave it
-at the mercy of configure.
+IMO caching config variables in site files should only be applied to
+target packages.
 
 >=20
-> Ross
+> Cheers,
+>=20
+> Richard
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -111,59 +126,7 @@ at the mercy of configure.
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_D47561A4-042B-4210-96F2-4890D8F4EECF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Feb 29, 2016, at 5:50 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 29 February 2016 at 13:42, Ioan-Adrian Ratiu =
-<span dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:adrian.ratiu@ni.com" =
-target=3D"_blank" class=3D"">adrian.ratiu@ni.com</a>&gt;</span> =
-wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
--style:solid;padding-left:1ex"><div id=3D":32t" class=3D"" =
-style=3D"overflow:hidden">&nbsp; apr_cv_process_shared_works=3Dno: =
-several platforms already set this<br class=3D"">
-&nbsp; option, which conservatively disables support for =
-PROCESS_SHARED<br class=3D"">
-&nbsp; mutexes.</div></blockquote></div><br class=3D"">Which is =
-interesting as building apr-native (so the site files don't get used) =
-for x86-64 gives:</div><div class=3D"gmail_extra"><br =
-class=3D""></div><div =
-class=3D"gmail_extra">apr_cv_process_shared_works=3Dyes<br =
-class=3D""></div><div class=3D"gmail_extra"><br class=3D""></div><div =
-class=3D"gmail_extra">Can we not go around disabling stuff when it =
-actually does work?</div></div></div></blockquote><div><br =
-class=3D""></div>No it really doesnt work. its running a configure time =
-test on your build host ( which I assume is x86_64 mostly =
-now</div><div>a days) and then deciding that process shared mutexes =
-work, which is not correct.&nbsp;</div><div><br class=3D""></div><div>If =
-we think that it should work on x86_64 then lets cache the value to =
-=E2=80=98yes=E2=80=99 but not leave it</div><div>at the mercy of =
-configure.</div><div><br class=3D""><blockquote type=3D"cite" =
-class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra"><br class=3D""></div><div =
-class=3D"gmail_extra">Ross</div></div>
--- <br class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_D47561A4-042B-4210-96F2-4890D8F4EECF--
-
---Apple-Mail=_F19D269A-9D5C-4020-9762-4ECFDD658C62
+--Apple-Mail=_C3E2B685-51D9-4D69-A33A-D16A4A64FF83
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -174,9 +137,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlbrSjsACgkQuwUzVZGdMxQ0TQCcDqKPR7w657h5cOz17COTb3Fd
-pz4An1mRufpPqVOLkjGFWvIZBq4IiLLt
-=q/nM
+iEYEARECAAYFAlbrU4sACgkQuwUzVZGdMxQ6NwCfT5gDp8AXE5FFLIfv3ZwpHN7n
+TWgAnjCqnBS6wctqE32dFHRZGt0m0EHP
+=tw3o
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_F19D269A-9D5C-4020-9762-4ECFDD658C62--
+--Apple-Mail=_C3E2B685-51D9-4D69-A33A-D16A4A64FF83--
