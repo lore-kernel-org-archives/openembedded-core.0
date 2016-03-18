@@ -1,33 +1,24 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 812466FFEC
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 97A38601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 01:30:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Mar 2016 18:30:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,352,1455004800"; d="scan'208";a="913504196"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga001.jf.intel.com with ESMTP; 17 Mar 2016 18:30:29 -0700
-Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
-	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Thu, 17 Mar 2016 18:30:29 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.68]) by
-	ORSMSX114.amr.corp.intel.com ([169.254.8.18]) with mapi id
-	14.03.0248.002; Thu, 17 Mar 2016 18:30:29 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] grub: add -Wno-error=trampolines to native CFLAGS
-Thread-Index: AQHRgLXALnkf0fCfUEWw9QtDw+arVg==
-Date: Fri, 18 Mar 2016 01:30:28 +0000
-Message-ID: <1458264628.9397.10.camel@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.79.100]
+	Fri, 18 Mar 2016 05:20:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2I5KYw5015290
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Mar 2016 22:20:34 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.210) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 17 Mar 2016 22:20:33 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Mar 2016 13:20:46 +0800
+Message-ID: <cover.1458278395.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2] grub: add -Wno-error=trampolines to native CFLAGS
+Subject: [PATCH 0/1] rpm: fix error when 'lua' is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 01:30:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AB79E63926697340BAAD151225621238@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 18 Mar 2016 05:20:35 -0000
+Content-Type: text/plain
 
-UHJldmlvdXMgcGF0Y2ggd2FzIG5vdCBhZ2FpbnN0IG1hc3Rlci4gVXBkYXRlZCBhZ2FpbnN0IG1h
-c3RlciBicmFuY2guDQoNCkZpeGVzIFlPQ1RPIDkyMDENCkFkZHMgLVduby1lcnJvcj10cmFtcG9s
-aW5lcyB0byBuYXRpdmUgQ0ZMQUdTIHByZXZlbnQgbXVsdGlwbGUgY29tcGlsZQ0KZXJyb3JzIHdo
-ZW4gdXNpbmcgZ2NjIDUuMy4wIGZvciBnZW50b28uDQoNClNpZ25lZC1vZmYtYnk6IEJpbGwgUmFu
-ZGxlIDx3aWxsaWFtLmMucmFuZGxlQGludGVsLmNvbT4NCi0tLQ0KwqBtZXRhL3JlY2lwZXMtYnNw
-L2dydWIvZ3J1Yi1lZmlfMi4wMC5iYiB8IDQgKysrKw0KwqAxIGZpbGUgY2hhbmdlZCwgNCBpbnNl
-cnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL2dydWIvZ3J1Yi1lZmlf
-Mi4wMC5iYiBiL21ldGEvcmVjaXBlcy1ic3AvZ3J1Yi9ncnViLWVmaV8yLjAwLmJiDQppbmRleCA0
-ZTgwZTE4Li5jYTczMjM0IDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC9ncnViL2dydWIt
-ZWZpXzIuMDAuYmINCisrKyBiL21ldGEvcmVjaXBlcy1ic3AvZ3J1Yi9ncnViLWVmaV8yLjAwLmJi
-DQpAQCAtMzUsNiArMzUsMTAgQEAgRVhUUkFfT0VDT05GID0gIi0td2l0aC1wbGF0Zm9ybT1lZmkg
-LS1kaXNhYmxlLWdydWItbWtmb250IFwNCsKgDQrCoEVYVFJBX09FQ09ORiArPSAiJHtAYmIudXRp
-bHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICdsYXJnZWZpbGUnLCAnLS1lbmFibGUtbGFy
-Z2VmaWxlIGFjX2N2X3NpemVvZl9vZmZfdD04JywgJy0tZGlzYWJsZS1sYXJnZWZpbGUnLCBkKX0i
-DQrCoA0KKyMgbGRtLmM6MTE0Ojc6IGVycm9yOiB0cmFtcG9saW5lIGdlbmVyYXRlZCBmb3IgbmVz
-dGVkIGZ1bmN0aW9uICdob29rJyBbLVdlcnJvcj10cmFtcG9saW5lc10NCisjIGFuZCBtYW55IG90
-aGVyIHBsYWNlcyBpbiB0aGUgZ3J1YiBjb2RlIHdoZW4gY29tcGlsZWQgd2l0aCBzb21lIG5hdGl2
-ZSBnY2MgNS4zIGNvbXBpbGVycw0KK0NGTEFHU19hcHBlbmRfY2xhc3MtbmF0aXZlID0gIiAtV25v
-LWVycm9yPXRyYW1wb2xpbmVzIg0KKw0KwqBkb19pbnN0YWxsX2NsYXNzLW5hdGl2ZSgpIHsNCsKg
-wqDCoMKgaW5zdGFsbCAtZCAke0R9JHtiaW5kaXJ9DQrCoMKgwqDCoGluc3RhbGwgLW0gNzU1IGdy
-dWItbWtpbWFnZSAke0R9JHtiaW5kaXJ9DQotLQ0KMi41LjANCg==
+The following changes since commit 300f858ba07c938427ccd05a3d7220027a03d461:
+
+  local.conf.sample: Disable prelink by default (2016-03-13 22:08:55 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/rpm-lua
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/rpm-lua
+
+Chen Qi (1):
+  rpm: fix error when 'lua' is enabled
+
+ .../rpm-fix-lua-tests-compilation-failure.patch    | 43 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  2 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
+
+-- 
+1.9.1
+
 
