@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B1C2C6FF84
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E29D6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 09:02:26 +0000 (UTC)
+	Fri, 18 Mar 2016 09:02:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2I92PVF017692
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2I92SMl015090
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 18 Mar 2016 02:02:26 -0700 (PDT)
+	Fri, 18 Mar 2016 02:02:28 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 18 Mar 2016 02:02:24 -0700
+	Fri, 18 Mar 2016 02:02:27 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<raj.khem@gmail.com>
-Date: Fri, 18 Mar 2016 05:01:50 -0400
-Message-ID: <f25a727175913bd00e96caacdf486530c39a262e.1458282563.git.hongxu.jia@windriver.com>
+Date: Fri, 18 Mar 2016 05:01:51 -0400
+Message-ID: <3c4c20f10c15a3f49d45c360ec986cd942eb6c2a.1458282563.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458282563.git.hongxu.jia@windriver.com>
 References: <cover.1458282563.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/18] tcl: fix buildpath QA issue
+Subject: [PATCH 09/18] python2/3: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 09:02:26 -0000
+X-List-Received-Date: Fri, 18 Mar 2016 09:02:29 -0000
 Content-Type: text/plain
 
-- Tweak DEBUG_FLAGS, since ${S} is not normal format
+- Remove build paths in target file
 
-- Remove build path in tclConfig.sh
+- Since _sysconfigdata.py was modified at do_package,
+  so update _sysconfigdata.pyc manually (Python2 only).
 
-- Tweak sed expression at tclConfig.sh to strict the pattern
-
-[YOCTO #8457]
+[YOCTO #8446]
+[YOCTO #9169]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.6.4.bb | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3_3.5.1.bb | 20 ++++++++++++++++----
+ meta/recipes-devtools/python/python_2.7.11.bb | 27 ++++++++++++++++++++++-----
+ 2 files changed, 38 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-index 8e92b3e..f32419e 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-@@ -30,6 +30,7 @@ SRC_URI[sha256sum] = "9e6ed94c981c1d0c5f5fefb8112d06c6bf4d050a7327e95e71d417c416
- SRC_URI_class-native = "${BASE_SRC_URI}"
- 
- S = "${WORKDIR}/${BPN}${PV}/unix"
-+DEBUG_FLAGS += "-fdebug-prefix-map=${WORKDIR}/${BPN}${PV}=/usr/src/${BPN}"
- 
- VER = "${PV}"
- 
-@@ -54,8 +55,8 @@ do_install() {
- 	autotools_do_install install-private-headers
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
--	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
--	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
-+	sed -i "s,-L${B},-L${STAGING_LIBDIR},g" tclConfig.sh
-+	sed -i "s,='${WORKDIR},='${STAGING_INCDIR},g" tclConfig.sh
- 	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
- 	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
-@@ -73,6 +74,14 @@ tcl_sysroot_preprocess () {
- 	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+diff --git a/meta/recipes-devtools/python/python3_3.5.1.bb b/meta/recipes-devtools/python/python3_3.5.1.bb
+index 2fbb3cb..bfcea85 100644
+--- a/meta/recipes-devtools/python/python3_3.5.1.bb
++++ b/meta/recipes-devtools/python/python3_3.5.1.bb
+@@ -186,12 +186,24 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+ 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+-	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
+-	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
  }
  
++# Remove references to buildmachine paths in target
 +inherit fix_buildpaths
-+PACKAGE_BUILDPATH_TEXT_FILES ?= "${bindir_crossscripts}/tclConfig.sh \
-+                                 ${libdir}/tclConfig.sh \
++PACKAGE_BUILDPATH_TEXT_FILES ?= " \
++    ${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
++    ${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/Makefile \
++    ${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py \
++    ${bindir}/python${PYTHON_BINABI}-config \
 +"
 +PACKAGE_BUILDPATH_TEXT_PATTERNS += " \
-+    -e 's:-fdebug-prefix-map=${WORKDIR}/${BPN}${PV}=/usr/src/${BPN}::g'\
++    -e 's:--with-libtool-sysroot=${STAGING_DIR_TARGET}::g' \
++    -e 's:${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig:${datadir}/pkgconfig:g' \
++    -e 's:${STAGING_DIR_HOST}::g' \
++    -e 's:${STAGING_DIR_NATIVE}::g' \
++    -e 's:${WORKDIR}::g' \
 +"
 +
- PACKAGES =+ "tcl-lib"
- FILES_tcl-lib = "${libdir}/libtcl8.6.so.*"
- FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}/tcl8"
+ require python-${PYTHON_MAJMIN}-manifest.inc
+ 
+ # manual dependency additions
+diff --git a/meta/recipes-devtools/python/python_2.7.11.bb b/meta/recipes-devtools/python/python_2.7.11.bb
+index 0c00d6e..1019e29 100644
+--- a/meta/recipes-devtools/python/python_2.7.11.bb
++++ b/meta/recipes-devtools/python/python_2.7.11.bb
+@@ -128,15 +128,32 @@ do_install_append_class-nativesdk () {
+ 
+ SSTATE_SCAN_FILES += "Makefile"
+ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+-
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+ 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++}
++
++# Remove references to buildmachine paths in target
++inherit fix_buildpaths
++PACKAGE_BUILDPATH_TEXT_FILES ?= " \
++    ${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
++    ${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py \
++    ${PTEST_PATH}/Makefile \
++"
++PACKAGE_BUILDPATH_TEXT_PATTERNS += " \
++    -e 's:--with-libtool-sysroot=${STAGING_DIR_TARGET}::g' \
++    -e 's:${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig:${datadir}/pkgconfig:g' \
++    -e 's:${STAGING_DIR_HOST}::g' \
++    -e 's:${STAGING_DIR_NATIVE}::g' \
++    -e 's:${WORKDIR}::g' \
++"
+ 
+-	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
+-	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
++PACKAGE_PREPROCESS_FUNCS += "update_pyc_package_preprocess"
++python update_pyc_package_preprocess () {
++    # Update _sysconfigdata.pyc
++    root_path = d.expand("${PKGD}")
++    byte_code = d.expand("${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.pyc")
++    remove_buildpath_bytecode(root_path, byte_code)
+ }
+ 
+ require python-${PYTHON_MAJMIN}-manifest.inc
 -- 
 1.9.1
 
