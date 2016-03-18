@@ -1,33 +1,39 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id ECCE360746
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A0E586FF01
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 18:35:04 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 18 Mar 2016 11:34:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,356,1455004800"; d="scan'208";a="940369984"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Mar 2016 11:34:44 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 70EA26A4006; Fri, 18 Mar 2016 12:22:29 -0700 (PDT)
-Received: from 10.252.7.138 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Fri, 18 Mar 2016 21:22:29 +0200 (EET)
-Message-ID: <51498.10.252.7.138.1458328949.squirrel@linux.intel.com>
-In-Reply-To: <20160317213608.GG2553@jama>
-References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
-	<20160317213608.GG2553@jama>
-Date: Fri, 18 Mar 2016 21:22:29 +0200 (EET)
-From: alexander.kanavin@linux.intel.com
-To: "Martin Jansa" <martin.jansa@gmail.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
-MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
+	Fri, 18 Mar 2016 18:39:40 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id s5so52834685qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Mar 2016 11:39:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=xk0jdjQvecatmMmSjXXpi0ePQQljXx1MHw2M6zlEAFU=;
+	b=mOcikdHl3KYoW/nCY3inwmUAl3LgKkUmQU8Lao39IDe6VTwVwRjNkcZWnmxCcHRE16
+	H4XiRXO6AkmApKIuYruVehhVnrsFtFKQcwJN9KbsWhEW8OQcEOBuPsjh+LjrLkIKuKUI
+	I02yrpstj3U/IESezCtGXAUERxrm8w9VcRxHN4WWYfsBA4Y7USKJ9qAlLFtxRcaz0OSQ
+	txTmgqTIFh6NBJGqEkgW30+hJ1V0XBPy92EjjdBGktfWA7js2LKtkavWxIdSWFe6d12y
+	ApXrHCCqzjjc0lTpMFfHAzWVcVhqF5gRYqBatc4irHtX9rn+k/tATcmhCCma0C2iHaEy
+	xC9Q==
+X-Gm-Message-State: AD7BkJIuEfEXy/EfUaJWWOcJCJu98ZHv+vAcoFefgCUk6fhmlUpLvXK7edbLnEH08DIv5A==
+X-Received: by 10.55.73.85 with SMTP id w82mr24414933qka.52.1458326381343;
+	Fri, 18 Mar 2016 11:39:41 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	z62sm6541452qka.26.2016.03.18.11.39.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 18 Mar 2016 11:39:39 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Fri, 18 Mar 2016 15:39:35 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Mar 2016 15:39:34 -0300
+Message-Id: <1458326374-8865-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.7.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] u-boot: Upgrade to 2016.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +46,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 18:35:10 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Mar 2016 18:39:41 -0000
 
-> Even with gobject-introspection-data removed from DISTRO_FEATURES I'm
-> seeing
-> couple recipes (our version of gst-*) failing with:
->
-> | configure:22282: error: possibly undefined macro: PKG_CONFIG_SYSROOT_DIR
-> |       If this token and others are legitimate, please use
-> m4_pattern_allow.
-> |       See the Autoconf documentation.
->
-> and PKG_CONFIG_SYSROOT_DIR is added by introspection.m4 from g-i patchset.
+The 2016.03 release has been announced in March 14th. This
+incorporates a lot of bug fixes and improvements which are useful for
+any new embedded development.
 
-Disabling building of introspection data will not guarantee absence of
-build failures, I'm afraid. Some recipes will work just fine unchanged,
-but others, including gstreamer, do need custom fixing, usually because
-they have non-standard locations for m4 macros, or those macros themselves
-are non-standard. So you need to rebase your recipes on top of those
-available now in oe-core, and particularly this snippet will fix the
-immediate problem you have above:
+Along with the upgrade of U-Boot and its related recipes, this patch
+also drops the AM335x environment fix which has been merged into the
+release.
 
-delete_pkg_m4_file() {
-        # This m4 file is out of date and is missing
-PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
-        rm "${S}/common/m4/pkg.m4" || true
-}
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-do_configure[prefuncs] += " delete_pkg_m4_file"
+ ...utils_2016.01.bb => u-boot-fw-utils_2036.03.bb} |  8 ++---
+ ...kimage_2016.01.bb => u-boot-mkimage_2036.03.bb} |  8 ++---
+ meta/recipes-bsp/u-boot/u-boot.inc                 |  5 ++--
+ .../0001-am335x_evm.h-unsed-CONFIG_BOOTDELAY.patch | 34 ----------------------
+ .../{u-boot_2016.01.bb => u-boot_2036.03.bb}       |  6 ++--
+ 5 files changed, 13 insertions(+), 48 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2016.01.bb => u-boot-fw-utils_2036.03.bb} (86%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2016.01.bb => u-boot-mkimage_2036.03.bb} (75%)
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot/0001-am335x_evm.h-unsed-CONFIG_BOOTDELAY.patch
+ rename meta/recipes-bsp/u-boot/{u-boot_2016.01.bb => u-boot_2036.03.bb} (50%)
 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2036.03.bb
+similarity index 86%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2036.03.bb
+index 30b7c7a..dfda5c1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2036.03.bb
+@@ -1,15 +1,15 @@
+ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+ SECTION = "bootloader"
+ DEPENDS = "mtd-utils"
+ 
+-# This revision corresponds to the tag "v2016.01"
++# This revision corresponds to the tag "v2016.03"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "fa85e826c16b9ce1ad302a57e9c4b24db0d8b930"
++SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
+ 
+-PV = "v2016.01+git${SRCPV}"
++PV = "v2016.03+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2036.03.bb
+similarity index 75%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2016.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2036.03.bb
+index 5d163a8..d5921a0 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2036.03.bb
+@@ -1,16 +1,16 @@
+ SUMMARY = "U-Boot bootloader image creation tool"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+ SECTION = "bootloader"
+ 
+ DEPENDS = "openssl"
+ 
+-# This revision corresponds to the tag "v2016.01"
++# This revision corresponds to the tag "v2016.03"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "fa85e826c16b9ce1ad302a57e9c4b24db0d8b930"
++SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
+ 
+-PV = "v2016.01+git${SRCPV}"
++PV = "v2016.03+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index ac8f338..48be71d 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -4,10 +4,9 @@ SECTION = "bootloaders"
+ PROVIDES = "virtual/bootloader"
+ 
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
+-           file://0001-am335x_evm.h-unsed-CONFIG_BOOTDELAY.patch"
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot/0001-am335x_evm.h-unsed-CONFIG_BOOTDELAY.patch b/meta/recipes-bsp/u-boot/u-boot/0001-am335x_evm.h-unsed-CONFIG_BOOTDELAY.patch
+deleted file mode 100644
+index 70c87c4..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot/0001-am335x_evm.h-unsed-CONFIG_BOOTDELAY.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 7205442e621db54ea06c3bca2d793e1ae2214f9c Mon Sep 17 00:00:00 2001
+-From: Tom Rini <trini@konsulko.com>
+-Date: Thu, 10 Dec 2015 16:46:01 -0500
+-Subject: [PATCH] am335x_evm.h: unsed CONFIG_BOOTDELAY
+-
+-Now that ti_armv7_common.h uses config_distro_defaults.h we don't need
+-to include it again and then undef CONFIG_BOOTDELAY
+-
+-Signed-off-by: Tom Rini <trini@konsulko.com>
+-
+-Upstream-Status: Backport
+-
+----
+- include/configs/am335x_evm.h | 4 ----
+- 1 file changed, 4 deletions(-)
+-
+-diff --git a/include/configs/am335x_evm.h b/include/configs/am335x_evm.h
+-index c51db8c..cf6a606 100644
+---- a/include/configs/am335x_evm.h
+-+++ b/include/configs/am335x_evm.h
+-@@ -18,10 +18,6 @@
+-
+- #include <configs/ti_am335x_common.h>
+-
+--/* Don't override the distro default bootdelay */
+--#undef CONFIG_BOOTDELAY
+--#include <config_distro_defaults.h>
+--
+- #ifndef CONFIG_SPL_BUILD
+- #ifndef CONFIG_FIT
+- # define CONFIG_FIT
+---
+-2.7.0
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.01.bb b/meta/recipes-bsp/u-boot/u-boot_2036.03.bb
+similarity index 50%
+rename from meta/recipes-bsp/u-boot/u-boot_2016.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2036.03.bb
+index d5c1181..836b0ce 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2016.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2036.03.bb
+@@ -2,9 +2,9 @@ require u-boot.inc
+ 
+ DEPENDS += "dtc-native"
+ 
+-# This revision corresponds to the tag "v2016.01"
++# This revision corresponds to the tag "v2016.03"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "fa85e826c16b9ce1ad302a57e9c4b24db0d8b930"
++SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
+ 
+-PV = "v2016.01+git${SRCPV}"
++PV = "v2016.03+git${SRCPV}"
+-- 
+2.7.3
 
-Alex
 
