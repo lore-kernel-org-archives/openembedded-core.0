@@ -1,45 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BC12373179
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D5CE70101
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 13:13:32 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id p65so36764474wmp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 06:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=bynk3JI+wFpnN1u30G1K/Z14LGVgpvM6TyDfDjI2Ggg=;
-	b=CgWdWfAhwSATsjbyCd/myTG1quTrc5qfauPJlCou8Ur1xeE5JTXPt7/hRvTiZcMl3C
-	b3eV6MM8UvMaib3EBTHSb3h2kmdSNwZz+9zrD9iBVcLcOA9t/+ejXkKaArFGGhdiWQKO
-	l0AggstY3MSzMLzyFOChyVd0AdsX136TCN2iefNrOT8TBRBE9Cs4zY5mN9Ou8GEi8j9b
-	F8yOwCWHNV3wJTQZbt6zLzqSV9iTW7a3CftEvaeXimoJSfpFp6ytygXOFKowomioX7Vv
-	+q9dJpuKMZqhGw+nPgNafAc0QoNbHHO8u5aqAklz3dU05SR9Kw7RmiliMQcc3NX2nRED
-	1EAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bynk3JI+wFpnN1u30G1K/Z14LGVgpvM6TyDfDjI2Ggg=;
-	b=YGO4qyK233wzi9K3dYAE1Tx+JovyxNpFCzHKfGf+hXxb6rSHpXGXyig5nqGbJjB3RA
-	dG5wDIUXb7psno/kx4hp10sVZtY1toeDaTlJIf0gPE9EMRRReYDnyoWK/cqtGYJjFui8
-	4hqBJppVjwsPVaqHGDgw7oNxQh+wkqS9pk4jMu48LaYLimM4Hu5ihaYNuiw+nOA72qMM
-	bZyiLJhPV/iiAVYxgVJcbuqn3a9vesrlmiz2CzkXM5DXikxODeDeopnQ5o0DX1Yvnj0t
-	Dq1vKGDD7OJ319mBxAhHktWUJkLGVRCJKUUXutTpY6SoeFU/uj6qSyd+7HwJIWQtuHBE
-	K+8Q==
-X-Gm-Message-State: AD7BkJKFqJRTEexaafreiMdbMyQg0K+4tcyuOFZ6Fysi5kti+u0QQwm2skJ6ak9tSAn/ZA==
-X-Received: by 10.194.175.33 with SMTP id bx1mr16187693wjc.104.1458306812791; 
-	Fri, 18 Mar 2016 06:13:32 -0700 (PDT)
-Received: from localhost.localdomain
-	(LPuteaux-656-1-252-235.w82-127.abo.wanadoo.fr. [82.127.113.235])
-	by smtp.gmail.com with ESMTPSA id
-	za6sm12269450wjc.18.2016.03.18.06.13.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 18 Mar 2016 06:13:31 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Fri, 18 Mar 2016 13:14:09 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Mar 2016 06:14:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,355,1455004800"; d="scan'208";a="936797780"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 18 Mar 2016 06:13:58 -0700
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 555846A4004;
+	Fri, 18 Mar 2016 07:01:42 -0700 (PDT)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Mar 2016 06:13:26 -0700
-Message-Id: <1458306806-17511-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gcc-runtime.inc: set LICENSE for all gcc-runtime packages
+Date: Fri, 18 Mar 2016 15:18:09 +0200
+Message-Id: <1458307089-9894-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oe-selftest: Fixed --list-tests-by tag option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +30,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 13:13:34 -0000
+X-List-Received-Date: Fri, 18 Mar 2016 13:14:11 -0000
 
-LICENSE_${PN} doesn't apply to all gcc-runtime packages. Set LICENSE
-instead. Without this fix, gcc-runtime packages such as libstdc++ are
-excluded from rootfs for builds which blacklist GPLv3.
+Commit 35be67951305950ba797dc2efddbc7d88fc0556a broke the
+--list-tests-by tag option.
+This patch fixes that.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Having a module in lib/oeqa/selftest named testmodule:
+class TestClass(oeSelfTest):
+    @tag(feature='tag1')
+    def test_func1(self):
+        pass
+    @tag(feature=('tag1', 'tag2'))
+    def test_func2(self):
+        pass
+    @tag(feature=('tag2', 'tag3'))
+    def test_func3(self):
+        pass
+    @tag(feature=('tag1', 'tag2', 'tag3'))
+    def test_func4(self):
+        pass
+
+$ oe-selftest --list-tests-by tag tag1
+ ID  TAG(s)            NAME        CLASS      MODULE
+----  ----------------  ----------  ---------  --------
+      tag1              test_func1  TestClass  testmodule
+      tag1, tag2        test_func2  TestClass  testmodule
+      tag1, tag2, tag3  test_func4  TestClass  testmodule
+______________________________
+Filtering by:	 tag
+Looking for:	 tag1
+Total found:	 3
+
+$  oe-selftest --list-tests-by tag tag1 tag2
+  ID  TAG(s)            NAME        CLASS      MODULE
+----  ----------------  ----------  ---------  --------
+      tag1              test_func1  TestClass  testmodule
+      tag1, tag2        test_func2  TestClass  testmodule
+      tag1, tag2, tag3  test_func4  TestClass  testmodule
+      tag2, tag3        test_func3  TestClass  testmodule
+______________________________
+Filtering by:	 tag
+Looking for:	 tag1, tag2
+Total found:	 4
+
+$ oe-selftest --list-tests-by tag tag*
+  ID  TAG(s)            NAME        CLASS      MODULE
+----  ----------------  ----------  ---------  --------
+      tag1              test_func1  TestClass  testmodule
+      tag1, tag2        test_func2  TestClass  testmodule
+      tag1, tag2, tag3  test_func4  TestClass  testmodule
+      tag2, tag3        test_func3  TestClass  testmodule
+______________________________
+Filtering by:	 tag
+Looking for:	 tag*
+Total found:	 4
+
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ scripts/oe-selftest | 29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 572396d..8639c1c 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -1,5 +1,9 @@
- require gcc-configure-common.inc
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 9444244..d18348d 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -32,6 +32,8 @@ import logging
+ import argparse
+ import subprocess
+ import time as t
++import re
++import fnmatch
  
-+# Over-ride the LICENSE set by gcc-${PV}.inc to remove "& GPLv3"
-+# All gcc-runtime packages are now covered by the runtime exception.
-+LICENSE = "GPL-3.0-with-GCC-exception"
+ sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) + '/lib')
+ import scriptpath
+@@ -197,7 +199,7 @@ class Tc:
+         self.tcclass = tcclass
+         self.tcmodule = tcmodule
+         self.tcid = tcid
+-        # A test case can have multiple tags (as list or as tuples) otherwise str suffice
++        # A test case can have multiple tags (as tuples) otherwise str will suffice
+         self.tctag = tctag
+         self.fullpath = '.'.join(['oeqa', 'selftest', tcmodule, tcclass, tcname])
+ 
+@@ -243,19 +245,17 @@ def get_all_tests():
+         testlist += get_tests_from_module(tmod)
+     return testlist
+ 
 +
- CXXFLAGS_remove = "-fvisibility-inlines-hidden"
+ def get_testsuite_by(criteria, keyword):
+     # Get a testsuite based on 'keyword'
+     # criteria: name, class, module, id, tag
+     # keyword: a list of tests, classes, modules, ids, tags
  
- EXTRA_OECONF_PATHS = "\
-@@ -109,11 +113,6 @@ PACKAGES = "\
-     libitm-staticdev \
- "
- 
--LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
--LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
--LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
--LICENSE_${PN}-staticdev = "GPL-3.0-with-GCC-exception"
+-    import re
+-    import fnmatch
 -
- # The base package doesn't exist, so we clear the recommends.
- RRECOMMENDS_${PN}-dbg = ""
+     ts = []
+     all_tests = get_all_tests()
+ 
+     def get_matches(values):
+-        # Get a items and return the ones that match with keyword(s)
++        # Get an item and return the ones that match with keyword(s)
+         # values: the list of items (names, modules, classes...)
+         result = []
+         remaining = values[:]
+@@ -267,9 +267,9 @@ def get_testsuite_by(criteria, keyword):
+             else:
+                 # Wildcard matching
+                 pattern = re.compile(fnmatch.translate(r"%s" % key))
+-                added = [ x for x in remaining if pattern.match(x) ]
++                added = [x for x in remaining if pattern.match(x)]
+                 result.extend(added)
+-                remaining = [ x for x in remaining if not x in added ]
++                remaining = [x for x in remaining if x not in added]
+ 
+         return result
+ 
+@@ -292,14 +292,23 @@ def get_testsuite_by(criteria, keyword):
+     elif criteria == 'tag':
+         values = set()
+         for tc in all_tests:
+-            # tc can have multiple tags (as list or tuple) otherwise as str
+-            if isinstance(tc.tctag, (list, tuple)):
++            # tc can have multiple tags (as tuple) otherwise str will suffice
++            if isinstance(tc.tctag, tuple):
+                 values |= { str(tag) for tag in tc.tctag }
+             else:
+                 values.add(str(tc.tctag))
+ 
+         tags = get_matches(list(values))
+-        ts = [ tc for tc in all_tests if str(tc.tctag) in tags ]
++
++        for tc in all_tests:
++            for tag in tags:
++                if isinstance(tc.tctag, tuple) and tag in tc.tctag:
++                    ts.append(tc)
++                elif tag == tc.tctag:
++                    ts.append(tc)
++
++        # Remove duplicates from the list
++        ts = list(set(ts))
+ 
+     return ts
  
 -- 
-1.9.1
+2.1.0
 
 
