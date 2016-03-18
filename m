@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E4586FFEF
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 44DCB6E5CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 11:38:29 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id o5so49761235iod.2
+	Fri, 18 Mar 2016 12:02:06 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id ts10so113409659obc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 04:38:30 -0700 (PDT)
+	Fri, 18 Mar 2016 05:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M1jSbEmFBGtM3hFHSYNw1TDiPUhAq4pccpfdW+lV+LY=;
-	b=ywlU5lIl2o2JEqzdGQg69iH6m6ZHqkbj+JRRdrYy+f16IdICBpRzTpiQSHKA7t3Yel
-	b2JlxpmWvMZRMAL9WH6lrSM2OZMZPMITmgTPG2mIdzNA/x5/cbexFqzcmLCfzMOmGcFD
-	aG4oNd0zBiZvpP+gOsTmHU/H1q59q7K6RqzUk0mheWnHvOYTciiKVW33j5tRVLCmrqTG
-	PbUniPtMcDaHx1oSd14MqW4Zn0Y8IevtJQHz/50JYsymQbqtDO0N6JT4Pk/LqyOQ0Rzq
-	px0zSkJcUtq+wCsIJNlUWFpVWT+lNoOfQdEtIv0z15o/iHiEBTjYk1O4U3s9d4+8NM3I
-	Wkdg==
+	:cc; bh=gSUB+YDj/A19A4xr8WjyyfcoikhpMv6ZROhIaNMjKkY=;
+	b=IJ5OyuygshXMvkl8nhRGPmEGdh/zaNZvIrwC7km2QSvnDP3145cNqPery7dIy87mXG
+	AUClqYGZMKBHOV3LaCIgaTkRV3zkJFBK2+ag81v0jeYMdxBMrORBYTcXhA1vyTpftvJA
+	aLqVbEZmBrKPFwyAR6JkeOCxYFu/n3XDj1hYZsG7z9fqBVBElOKIhkTFuqKxUWehO2AC
+	1CUjtxPPHDMVlEUCovBVzPU8Xk5w1HbrW9Cjb65IpiBe4zVYhDf0pHec2Iiivat1ufcj
+	CF9zR4zyMA72PedguH9BCpNqLUJgn5/v9V+Cz8sIh+Wh2tT589S47TjFEHp33rP3oHLB
+	+pNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=M1jSbEmFBGtM3hFHSYNw1TDiPUhAq4pccpfdW+lV+LY=;
-	b=GlBDTxDhn7qWPC85YaPaObwSoyT7eb8ZYlHE9ZiSu1SM20WjpkQZqU9R5ru3sN5WCS
-	k9aV2YIpvBDdvCTC38tAsbrzFU32pmjUdE7p5LCXgaVmHdohap+8XbX9eIPzK0iPZhCH
-	EoBWBGNi+JQCkVLj+mmGgnpcLslwzrmd1RwyCfmZ7ehRqTEvUXoEaaPZ+SK/D7E+AhEB
-	vm5EXeKjqiHxHfI9e3Vw12iNQjIz/BCzage8oxXvQmykcnfkdUidCzvwOUpBBRspOqle
-	AQXyQhZNgr4SuP0aX/Jjj6kAEU9EmCUOeVjlArXQWOgxFt82UCYveGzZp7xOCaXven/P
-	GfzA==
-X-Gm-Message-State: AD7BkJJk6+0eBl6pi9+DgCUtW1hEMBFczym7KqcjJnoAdPgaRJXPQ1FP+EurRUfXkuYuZSIcWVANLaASFNmCrwsQ
-X-Received: by 10.107.6.32 with SMTP id 32mr14144477iog.99.1458301110152; Fri,
-	18 Mar 2016 04:38:30 -0700 (PDT)
+	bh=gSUB+YDj/A19A4xr8WjyyfcoikhpMv6ZROhIaNMjKkY=;
+	b=i4Sg9E/Psjdp+748jhH2ufBwkohT2aBxQQa8kEUmfIAhYjga1PEXLk3h/NAKsUMkTK
+	uj0F39/HT4JxsU9BLSZcXF9zip/DqV6oTcSUIfWisWRGuxQBDBhfxTdBXm4hVW/jyrZO
+	FfjiHSltoZky4jojSQc5ql3r1m3fii4Bk8Pj7wTC6T1oVA8JU2zNZd14gTps95SK6Xl1
+	r5+8NHAEZxoTrG9+hpFS2CT/Tk13236jU/wY26WLaUu1+PVN9e2/Bc/lUNul5x0ZT83+
+	l9vetD04NYs18T1m5JBqEhfngbit9DCGC+HNR4o6SL3xfohpp1q9fsO35W+NWEfOwpMp
+	Vlew==
+X-Gm-Message-State: AD7BkJKZfvs5PpcViI0AtPW8Vzyyj2QkwVFe7AxYmLNc2QrWUZtWjeUd8tUPoKqf4kaYWAJKqrAm/LNNMoVz4gBd
+X-Received: by 10.60.98.106 with SMTP id eh10mr9317378oeb.48.1458302526595;
+	Fri, 18 Mar 2016 05:02:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 18 Mar 2016 04:38:10 -0700 (PDT)
-In-Reply-To: <1BF009E9-B718-4FE2-BBF3-83CEA93D1ABB@gmail.com>
-References: <1456753354-7448-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LYcCQ9f0W6gQPtemxKjzCVo55M-pS+iWatV5YsfDrq41A@mail.gmail.com>
-	<1BF009E9-B718-4FE2-BBF3-83CEA93D1ABB@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Mar 2016 11:38:10 +0000
-Message-ID: <CAJTo0Laq7Re6hAEmY=Dd1=UUr0+Zg9UCDO5STXoDJni+Md86+g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Jacob Champion <jacob.champion@ni.com>
-Subject: Re: [PATCH v1] site: enable pthread support for x86_64 APR builds
+Received: by 10.202.75.144 with HTTP; Fri, 18 Mar 2016 05:01:37 -0700 (PDT)
+In-Reply-To: <bf3c411f84f26b13de2a4f40d1d7141b735ccb3f.1458282563.git.hongxu.jia@windriver.com>
+References: <cover.1458282563.git.hongxu.jia@windriver.com>
+	<bf3c411f84f26b13de2a4f40d1d7141b735ccb3f.1458282563.git.hongxu.jia@windriver.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Fri, 18 Mar 2016 14:01:37 +0200
+Message-ID: <CAHiDW_HdK9jJmmFvt+PMgbK9O0qukSRw=MuY_+N-zXMH+wup=w@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/18] dtc.inc: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,62 +55,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 11:38:30 -0000
-Content-Type: multipart/alternative; boundary=001a113fbf5ca58466052e512fa2
+X-List-Received-Date: Fri, 18 Mar 2016 12:02:08 -0000
+Content-Type: multipart/alternative; boundary=089e01161ae612dedb052e51848c
 
---001a113fbf5ca58466052e512fa2
+--089e01161ae612dedb052e51848c
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 18 March 2016 at 00:22, Khem Raj <raj.khem@gmail.com> wrote:
+On 18 March 2016 at 11:01, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-> Which is interesting as building apr-native (so the site files don't get
-> used) for x86-64 gives:
+> Previous Makefile define its own CFLAGS, pass DEBUG_FLAGS to
+> it could fix build path issue in DWARF.
 >
-> apr_cv_process_shared_works=3Dyes
+> [YOCTO #8457]
 >
-> Can we not go around disabling stuff when it actually does work?
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-kernel/dtc/dtc.inc                    |  3 +++
+>  .../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch       | 30
+> ++++++++++++++++++++++
+>  2 files changed, 33 insertions(+)
+>  create mode 100644
+> meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
 >
+> diff --git a/meta/recipes-kernel/dtc/dtc.inc
+> b/meta/recipes-kernel/dtc/dtc.inc
+> index 0c409b0..a1a30fc 100644
+> --- a/meta/recipes-kernel/dtc/dtc.inc
+> +++ b/meta/recipes-kernel/dtc/dtc.inc
+> @@ -7,8 +7,11 @@ DEPENDS = "flex-native bison-native"
+>  SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
+>             file://make_install.patch \
+>           "
+> +SRC_URI_append_class-target = " file://pass-DEBUG_FLAGS-to-CFLAGS.patch \
+> +"
 >
-> No it really doesnt work. its running a configure time test on your build
-> host ( which I assume is x86_64 mostly now
-> a days) and then deciding that process shared mutexes work, which is not
-> correct.
+>  EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
+> +EXTRA_OEMAKE_class-target += 'DEBUG_FLAGS="${DEBUG_FLAGS}"'
 >
-> If we think that it should work on x86_64 then lets cache the value to
-> =E2=80=98yes=E2=80=99 but not leave it
-> at the mercy of configure.
+>  S = "${WORKDIR}/git"
+>
+> diff --git a/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+> b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+> new file mode 100644
+> index 0000000..3f17ee9
+> --- /dev/null
+> +++ b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+> @@ -0,0 +1,30 @@
+> +From 4019e29b0c1ec441fa43d9969197c24ad73f3b1a Mon Sep 17 00:00:00 2001
+> +From: Hongxu Jia <hongxu.jia@windriver.com>
+> +Date: Fri, 26 Feb 2016 03:28:15 -0500
+> +Subject: [PATCH] Makefile: pass DEBUG_FLAGS to CFLAGS
+> +
+> +It fixes buildpaths issue while compiling.
+> +
+> +Upstream-Status: Inappropriate [openembedded specific]
 >
 
-That was my point: the patch was to add works=3Dno to x86-64 target builds,
-but if I run the same test on x86-64 hardware directly then the result is
-works=3Dyes.
+Is this really an openembedded specific change?
 
-Ross
++
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index 18838cc..4954f32 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =
+> + CPPFLAGS = -I libfdt -I .
+> + WARNINGS = -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
+> +       -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
+> +-CFLAGS = -g -Os -fPIC -Werror $(WARNINGS)
+> ++CFLAGS = $(DEBUG_FLAGS) -Os -fPIC -Werror $(WARNINGS)
+> +
+> + BISON = bison
+> + LEX = flex
+> +--
+> +1.9.1
+> +
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---001a113fbf5ca58466052e512fa2
+--089e01161ae612dedb052e51848c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 March 2016 at 00:22, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div><span class=3D""><blockquote ty=
-pe=3D"cite"><div><div dir=3D"ltr"><div class=3D"gmail_extra">Which is inter=
-esting as building apr-native (so the site files don&#39;t get used) for x8=
-6-64 gives:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">apr_cv_process_shared_works=3Dyes<br></div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra">Can we not go around disabling stuff =
-when it actually does work?</div></div></div></blockquote><div><br></div></=
-span>No it really doesnt work. its running a configure time test on your bu=
-ild host ( which I assume is x86_64 mostly now</div><div>a days) and then d=
-eciding that process shared mutexes work, which is not correct.=C2=A0</div>=
-<div><br></div><div>If we think that it should work on x86_64 then lets cac=
-he the value to =E2=80=98yes=E2=80=99 but not leave it</div><div>at the mer=
-cy of configure.</div></blockquote></div><br>That was my point: the patch w=
-as to add works=3Dno to x86-64 target builds, but if I run the same test on=
- x86-64 hardware directly then the result is works=3Dyes.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+8 March 2016 at 11:01, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"mailto:h=
+ongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">Previous Makefile define i=
+ts own CFLAGS, pass DEBUG_FLAGS to<br>
+it could fix build path issue in DWARF.<br>
+<br>
+[YOCTO #8457]<br>
+<br>
+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">h=
+ongxu.jia@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/dtc/dtc.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +++<br>
+=C2=A0.../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 30 ++++++++++++++++++++++<br>
+=C2=A02 files changed, 33 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CF=
+LAGS.patch<br>
+<br>
+diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.=
+inc<br>
+index 0c409b0..a1a30fc 100644<br>
+--- a/meta/recipes-kernel/dtc/dtc.inc<br>
++++ b/meta/recipes-kernel/dtc/dtc.inc<br>
+@@ -7,8 +7,11 @@ DEPENDS =3D &quot;flex-native bison-native&quot;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.kernel.org/pub/scm/util=
+s/dtc/dtc.git" rel=3D"noreferrer" target=3D"_blank">git.kernel.org/pub/scm/=
+utils/dtc/dtc.git</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://make_install.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
++SRC_URI_append_class-target =3D &quot; file://pass-DEBUG_FLAGS-to-CFLAGS.p=
+atch \<br>
++&quot;<br>
+<br>
+=C2=A0EXTRA_OEMAKE=3D&#39;PREFIX=3D&quot;${prefix}&quot; LIBDIR=3D&quot;${l=
+ibdir}&quot; DESTDIR=3D&quot;${D}&quot;&#39;<br>
++EXTRA_OEMAKE_class-target +=3D &#39;DEBUG_FLAGS=3D&quot;${DEBUG_FLAGS}&quo=
+t;&#39;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch b=
+/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch<br>
+new file mode 100644<br>
+index 0000000..3f17ee9<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch<br>
+@@ -0,0 +1,30 @@<br>
++From 4019e29b0c1ec441fa43d9969197c24ad73f3b1a Mon Sep 17 00:00:00 2001<br>
++From: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">hongxu.ji=
+a@windriver.com</a>&gt;<br>
++Date: Fri, 26 Feb 2016 03:28:15 -0500<br>
++Subject: [PATCH] Makefile: pass DEBUG_FLAGS to CFLAGS<br>
++<br>
++It fixes buildpaths issue while compiling.<br>
++<br>
++Upstream-Status: Inappropriate [openembedded specific]<br>
+</blockquote><div><br></div><div>Is this really an openembedded specific ch=
+ange?</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">+<br>
++Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">=
+hongxu.jia@windriver.com</a>&gt;<br>
++---<br>
++ Makefile | 2 +-<br>
++ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
++<br>
++diff --git a/Makefile b/Makefile<br>
++index 18838cc..4954f32 100644<br>
++--- a/Makefile<br>
+++++ b/Makefile<br>
++@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =3D<br>
++ CPPFLAGS =3D -I libfdt -I .<br>
++ WARNINGS =3D -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0-Wstrict-prototypes -Wmissing-prototypes -Wredu=
+ndant-decls -Wshadow<br>
++-CFLAGS =3D -g -Os -fPIC -Werror $(WARNINGS)<br>
+++CFLAGS =3D $(DEBUG_FLAGS) -Os -fPIC -Werror $(WARNINGS)<br>
++<br>
++ BISON =3D bison<br>
++ LEX =3D flex<br>
++--<br>
++1.9.1<br>
++<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div></div>
 
---001a113fbf5ca58466052e512fa2--
+--089e01161ae612dedb052e51848c--
