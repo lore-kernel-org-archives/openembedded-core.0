@@ -1,20 +1,33 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 043356E666
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id ECCE360746
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 18:17:45 +0000 (UTC)
+	Fri, 18 Mar 2016 18:35:04 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 18 Mar 2016 11:17:46 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 18 Mar 2016 11:34:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,356,1455004800"; d="scan'208";a="940360075"
-Received: from wcrandle-mobl1.amr.corp.intel.com ([10.254.114.227])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Mar 2016 11:17:46 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Mar 2016 11:16:27 -0700
-Message-Id: <1458324987-30874-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH v3] grub: add -Wno-error=trampolines to native CFLAGS
+X-IronPort-AV: E=Sophos;i="5.24,356,1455004800"; d="scan'208";a="940369984"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Mar 2016 11:34:44 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 70EA26A4006; Fri, 18 Mar 2016 12:22:29 -0700 (PDT)
+Received: from 10.252.7.138 (SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Fri, 18 Mar 2016 21:22:29 +0200 (EET)
+Message-ID: <51498.10.252.7.138.1458328949.squirrel@linux.intel.com>
+In-Reply-To: <20160317213608.GG2553@jama>
+References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
+	<1458235169-9267-8-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LbQbAi-_eoqYkZgNr9qCFr=Ro5UfP7P6OBLP=m6vCzr3Q@mail.gmail.com>
+	<20160317213608.GG2553@jama>
+Date: Fri, 18 Mar 2016 21:22:29 +0200 (EET)
+From: alexander.kanavin@linux.intel.com
+To: "Martin Jansa" <martin.jansa@gmail.com>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+MIME-Version: 1.0
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/8] gobject-introspection.bbclass: make additional DEPENDS conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,37 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 18:17:46 -0000
+X-List-Received-Date: Fri, 18 Mar 2016 18:35:10 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-(Resend as mailer munged previous submission. Also updated comments
-to indicate problem is not limited to gcc 5.3.0.)
+> Even with gobject-introspection-data removed from DISTRO_FEATURES I'm
+> seeing
+> couple recipes (our version of gst-*) failing with:
+>
+> | configure:22282: error: possibly undefined macro: PKG_CONFIG_SYSROOT_DIR
+> |       If this token and others are legitimate, please use
+> m4_pattern_allow.
+> |       See the Autoconf documentation.
+>
+> and PKG_CONFIG_SYSROOT_DIR is added by introspection.m4 from g-i patchset.
 
-Adds -Wno-error=trampolines to native CFLAGS prevent multiple compile
-errors when using gentoo builf of gcc.
+Disabling building of introspection data will not guarantee absence of
+build failures, I'm afraid. Some recipes will work just fine unchanged,
+but others, including gstreamer, do need custom fixing, usually because
+they have non-standard locations for m4 macros, or those macros themselves
+are non-standard. So you need to rebase your recipes on top of those
+available now in oe-core, and particularly this snippet will fix the
+immediate problem you have above:
 
-[YOCTO #9201]
+delete_pkg_m4_file() {
+        # This m4 file is out of date and is missing
+PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
+        rm "${S}/common/m4/pkg.m4" || true
+}
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- meta/recipes-bsp/grub/grub-efi_2.00.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+do_configure[prefuncs] += " delete_pkg_m4_file"
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-index 4e80e18..ca73234 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -35,6 +35,10 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
- 
- EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile ac_cv_sizeof_off_t=8', '--disable-largefile', d)}"
- 
-+# ldm.c:114:7: error: trampoline generated for nested function 'hook' [-Werror=trampolines]
-+# and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
-+CFLAGS_append_class-native = " -Wno-error=trampolines"
-+
- do_install_class-native() {
- 	install -d ${D}${bindir}
- 	install -m 755 grub-mkimage ${D}${bindir}
--- 
-2.5.0
 
+Alex
 
