@@ -1,35 +1,46 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 75DDA6FFE2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E2D9260761
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 09:26:00 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2016 02:25:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,354,1455004800"; 
-	d="scan'208,217";a="936670932"
-Received: from irsmsx108.ger.corp.intel.com ([163.33.3.3])
-	by orsmga002.jf.intel.com with ESMTP; 18 Mar 2016 02:25:46 -0700
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.19]) by
-	IRSMSX108.ger.corp.intel.com ([169.254.11.13]) with mapi id
-	14.03.0248.002; Fri, 18 Mar 2016 09:25:34 +0000
-From: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/3] oe-selftest: Updated --list-tests and
-	--list-tests-by
-Thread-Index: AQHRgDhx1g/cqUdE40qj4VXdoGfE759eF92AgADWqtA=
-Date: Fri, 18 Mar 2016 09:25:33 +0000
-Message-ID: <174AD7CFE5F468498ACCFE3FEE0EF1EB14328479@IRSMSX102.ger.corp.intel.com>
+	Fri, 18 Mar 2016 09:50:21 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id ig19so17415129igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Mar 2016 02:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=UNqTHnlhYBBuLX8VoAMUxyAi8/q0fE6Rom/HmMyoumI=;
+	b=ZZlwUf6QU7lpo9BfpZK+Ua3Ik6cdOP3NGmqvilQMXVTCM/HiurMQtSSi9cg3LuSLQ6
+	dlvwI8y7KYoAh0nOfzE9GvRyBJmpCjRnc1mzOK/jdO5MiQSe+o6NsV/v1MGg9oSNgjbl
+	D+pFPtlZq0RMv3xydFqE0MxCf/EsFJ5dsMIK44PCP+MfqEaLUtI7BphFJMkMdOgWczes
+	96IubJkiDizFLlrCSFSv4XJofYy6+WOWT62+a1R9OfE77lPvqXlqLjD/kcHZVE5+Ap4I
+	q+RUL+YE8/76a6kvxootbSVUuKwaytlG0isy0ABQFoNnAaIGuA9aURc+v2RG1iJAsZc5
+	UJCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=UNqTHnlhYBBuLX8VoAMUxyAi8/q0fE6Rom/HmMyoumI=;
+	b=bhiRJARiVBeF4Ts7bcZ6w/qbDbfuL0yTfrEC4GG7h1+mb6nQpEyX2neiX5vtZ5o+4t
+	cxfKLopZRJcVsh3mIoqchnTCMa4BvaTMnlRlnXpKemYOx7IJ4zZ8xsLvUXPMcwh9dfQT
+	fwE1KgIIjPQNhnn8JcUEkDs6zr6+KQlMF/xHwqL3D534fwkoKZMUntEHpspFQqQCUkfU
+	z/PA4OsgNd587qoBB/Lwp2Pttpv8KrFdSMZPqPHzABhCKbaTs6TMnqcE+CAG0cN3Oho2
+	B/GuxPI8MedLVnwuyi6Tq2DiESsZGZolmVQx+ha9nfdRUk497is+5IFEjQSy3AfX+NzN
+	KVUQ==
+X-Gm-Message-State: AD7BkJLtb5SinrMfJFeP4x2kbqQj8ROHHjjfzDe+jghG5ONfgaIXRQaPsXFa9ETXQsLKOZtr3DJ8jZBxKq9Kf8x0
+X-Received: by 10.50.97.71 with SMTP id dy7mr17245747igb.78.1458294622093;
+	Fri, 18 Mar 2016 02:50:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 18 Mar 2016 02:50:02 -0700 (PDT)
+In-Reply-To: <174AD7CFE5F468498ACCFE3FEE0EF1EB14328479@IRSMSX102.ger.corp.intel.com>
 References: <1458211050-21152-1-git-send-email-daniel.alexandrux.istrate@intel.com>
 	<CAJTo0LYpmnCX9OckD=hgt18F46wFD-9RVDESJV930sy1jzjE6Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LYpmnCX9OckD=hgt18F46wFD-9RVDESJV930sy1jzjE6Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYTg2M2EyMGMtZDgyNS00MTlkLWIwNTMtMGFiZDRlODBlZjY3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IkUralwvVFNsYzhOcUltNVJBZ2orbW8wT0hSbFdiTzkrVlpGMm1NK1wvS0VxND0ifQ==
-x-ctpclassification: CTP_IC
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
+	<174AD7CFE5F468498ACCFE3FEE0EF1EB14328479@IRSMSX102.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 Mar 2016 09:50:02 +0000
+Message-ID: <CAJTo0LaRmz_Hg5eZ3BdKf=czGgXo_a_vYWpyi7Lv=xSZRKfXig@mail.gmail.com>
+To: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] oe-selftest: Updated --list-tests and --list-tests-by
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,105 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 09:26:04 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_174AD7CFE5F468498ACCFE3FEE0EF1EB14328479IRSMSX102gercor_"
+X-List-Received-Date: Fri, 18 Mar 2016 09:50:24 -0000
+Content-Type: multipart/alternative; boundary=047d7b10cfc1edff55052e4fac78
 
---_000_174AD7CFE5F468498ACCFE3FEE0EF1EB14328479IRSMSX102gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--047d7b10cfc1edff55052e4fac78
+Content-Type: text/plain; charset=UTF-8
 
-V2UgY291bGQgZ2F0aGVyIGFsbCBleHRlcm5hbCBweXRob24gbW9kdWxlcyBhbmQgd2UgZWl0aGVy
-IHZlcmlmeSBpZiB0aGV5IGFyZSBpbnN0YWxsZWQgYW5kIGFzayB0aGUgdXNlciB0byBpbnN0YWxs
-IHRoZW0gb3IgYXR0ZW1wdCB0byBwaXAgaW5zdGFsbCBhbGwgb2YgdGhlbSB3aGVuIHNvdXJjaW5n
-IHRoZSBlbnZpcm9ubWVudCAob2UtaW5pdC1idWlsZC1lbnYpLg0KDQotLURhbmllbA0KDQpGcm9t
-OiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUaHVy
-c2RheSwgTWFyY2ggMTcsIDIwMTYgMjI6MzMNClRvOiBJc3RyYXRlLCBEYW5pZWwgQWxleGFuZHJ1
-WCA8ZGFuaWVsLmFsZXhhbmRydXguaXN0cmF0ZUBpbnRlbC5jb20+DQpDYzogT0UtY29yZSA8b3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIIDEvM10gb2Utc2VsZnRlc3Q6IFVwZGF0ZWQgLS1saXN0LXRlc3RzIGFuZCAt
-LWxpc3QtdGVzdHMtYnkNCg0KDQpPbiAxNyBNYXJjaCAyMDE2IGF0IDEwOjM3LCBEYW5pZWwgSXN0
-cmF0ZSA8ZGFuaWVsLmFsZXhhbmRydXguaXN0cmF0ZUBpbnRlbC5jb208bWFpbHRvOmRhbmllbC5h
-bGV4YW5kcnV4LmlzdHJhdGVAaW50ZWwuY29tPj4gd3JvdGU6DQorZnJvbSB0YWJ1bGF0ZSBpbXBv
-cnQgdGFidWxhdGUNCg0KVGhpcyBpc24ndCBhIGNvcmUgcHl0aG9uIG1vZHVsZSwgc28gYWRkcyBh
-biBleHRlcm5hbCBkZXBlbmRlbmN5LiAgQXJlIHdlIG9rYXkgd2l0aCBhZGRpbmcgbmV3IGRlcGVu
-ZGVuY2llcyB0byB0aGUgc2VsZnRlc3QgY29kZSwgb3Igc2hvdWxkIHdlIHRyeSB0byBrZWVwIHRo
-ZSBkZXBlbmRlbmNpZXMgZG93bj8NCg0KUm9zcw0K
+On 18 March 2016 at 09:25, Istrate, Daniel AlexandruX <
+daniel.alexandrux.istrate@intel.com> wrote:
 
---_000_174AD7CFE5F468498ACCFE3FEE0EF1EB14328479IRSMSX102gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> We could gather all external python modules and we either verify if they
+> are installed and ask the user to install them or attempt to pip install
+> all of them when sourcing the environment (oe-init-build-env).
+>
+>
+Can we not use any more external modules for 2.1, and then revisit this
+once in the 2.2 cycle?  As this is just visual, the old code was fine just
+not optimal.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmlsDQoJe21zby1zdHls
-ZS1uYW1lOmlsO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5
-N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9u
-dC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3Np
-emU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBwdCA3Mi4wcHQ7
-fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwh
-LS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3Bp
-ZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1s
-Pg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRh
-dGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8
-Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNz
-PSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
-bG9yOiMxRjQ5N0QiPldlIGNvdWxkIGdhdGhlciBhbGwgZXh0ZXJuYWwgcHl0aG9uIG1vZHVsZXMg
-YW5kIHdlIGVpdGhlciB2ZXJpZnkgaWYgdGhleSBhcmUgaW5zdGFsbGVkIGFuZCBhc2sgdGhlIHVz
-ZXIgdG8gaW5zdGFsbCB0aGVtIG9yIGF0dGVtcHQgdG8gcGlwIGluc3RhbGwgYWxsIG9mIHRoZW0N
-CiB3aGVuIHNvdXJjaW5nIHRoZSBlbnZpcm9ubWVudCAob2UtaW5pdC1idWlsZC1lbnYpLjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtj
-b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+LS1EYW5pZWw8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6
-IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PGEgbmFtZT0iX19fX19yZXBseXNlcGFyYXRvciI+PC9hPjxiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+
-RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJv
-c3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUaHVyc2RheSwgTWFyY2gg
-MTcsIDIwMTYgMjI6MzM8YnI+DQo8Yj5Ubzo8L2I+IElzdHJhdGUsIERhbmllbCBBbGV4YW5kcnVY
-ICZsdDtkYW5pZWwuYWxleGFuZHJ1eC5pc3RyYXRlQGludGVsLmNvbSZndDs8YnI+DQo8Yj5DYzo8
-L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcm
-Z3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvM10gb2Utc2Vs
-ZnRlc3Q6IFVwZGF0ZWQgLS1saXN0LXRlc3RzIGFuZCAtLWxpc3QtdGVzdHMtYnk8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMTcgTWFyY2ggMjAxNiBhdCAxMDozNywg
-RGFuaWVsIElzdHJhdGUgJmx0OzxhIGhyZWY9Im1haWx0bzpkYW5pZWwuYWxleGFuZHJ1eC5pc3Ry
-YXRlQGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmRhbmllbC5hbGV4YW5kcnV4LmlzdHJhdGVA
-aW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHls
-ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBj
-bSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRp
-diBpZD0iOmw2Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7ZnJvbSA8c3BhbiBjbGFzcz0i
-aWwiPnRhYnVsYXRlPC9zcGFuPiBpbXBvcnQgPHNwYW4gY2xhc3M9ImlsIj4NCnRhYnVsYXRlPC9z
-cGFuPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxicj4NClRoaXMgaXNuJ3QgYSBjb3JlIHB5dGhvbiBtb2R1bGUsIHNv
-IGFkZHMgYW4gZXh0ZXJuYWwgZGVwZW5kZW5jeS4mbmJzcDsgQXJlIHdlIG9rYXkgd2l0aCBhZGRp
-bmcgbmV3IGRlcGVuZGVuY2llcyB0byB0aGUgc2VsZnRlc3QgY29kZSwgb3Igc2hvdWxkIHdlIHRy
-eSB0byBrZWVwIHRoZSBkZXBlbmRlbmNpZXMgZG93bj88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+Ross
 
---_000_174AD7CFE5F468498ACCFE3FEE0EF1EB14328479IRSMSX102gercor_--
+--047d7b10cfc1edff55052e4fac78
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 March 2016 at 09:25, Istrate, Daniel AlexandruX <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:daniel.alexandrux.istrate@intel.com" target=3D"_blank">d=
+aniel.alexandrux.istrate@intel.com</a>&gt;</span> wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex"><p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font=
+-family:&quot;Calibri&quot;,sans-serif;color:#1f497d">We could gather all e=
+xternal python modules and we either verify if they are installed and ask t=
+he user to install them or attempt to pip install all of them
+ when sourcing the environment (oe-init-build-env).<u></u><u></u></span></p=
+>
+<p class=3D"MsoNormal"></p></blockquote></div><br>Can we not use any more e=
+xternal modules for 2.1, and then revisit this once in the 2.2 cycle?=C2=A0=
+ As this is just visual, the old code was fine just not optimal.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--047d7b10cfc1edff55052e4fac78--
