@@ -1,26 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 82E586FF7F
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2625D605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 05:20:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2I5KaR8021120
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2016 22:20:36 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.210) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 17 Mar 2016 22:20:35 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Mar 2016 13:20:47 +0800
-Message-ID: <e952463596d8e51bfec386848dc5b29c1e943b4b.1458278395.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1458278395.git.Qi.Chen@windriver.com>
-References: <cover.1458278395.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] rpm: fix error when 'lua' is enabled
+	Fri, 18 Mar 2016 07:41:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 18 Mar 2016 00:41:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,353,1455004800"; d="scan'208";a="913699370"
+Received: from jblondin-mobl1.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.21.216])
+	by orsmga001.jf.intel.com with ESMTP; 18 Mar 2016 00:41:52 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Mar 2016 09:41:51 +0200
+Message-Id: <1458286911-9432-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH v2] externalsrc: use shared stamp directory if B=S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +28,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 05:20:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Mar 2016 07:41:53 -0000
 
-Fix the following compilation error when 'lua' is enabled in PACKAGECONFIG.
+We have a common build directory for all target architectures if
+externalsrc is used and ${B}=${S}. In this case we also need to have a
+common stamp directory. The reason is that e.g. changing MACHINE will
+basically "invalidate" the artefacts in ${B} (wrt. to the new MACHINE)
+but old stamp files with matching hashes from an earlier build might be
+available in the machine-specific stamps directory and tasks would not
+be correctly re-run.
 
-  | gcc: error: lib21.c: No such file or directory
-  | gcc: fatal error: no input files
+Previous attempt in f44f12af346888bdeb3ae01a275cb5dd4396b505 to handle
+this correctly was faulty as it threw some spurious warnings and caused
+do_configure to be re-run in every build if that would not be necessary.
 
-Modify FILES for dev package to avoid installed-not-shipped error.
+[YOCTO #8950]
+[YOCTO #9237]
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- .../rpm-fix-lua-tests-compilation-failure.patch    | 43 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  2 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
+ meta/classes/externalsrc.bbclass | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch b/meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
-new file mode 100644
-index 0000000..1a08243
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
-@@ -0,0 +1,43 @@
-+Upstream-Status: Pending
-+
-+Subject: lua: fix to build test libs correctly
-+
-+This patch fixes errors like below.
-+
-+  | gcc: error: lib21.c: No such file or directory
-+  | gcc: fatal error: no input files
-+
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ lua/tests/libs/Makefile.am | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/lua/tests/libs/Makefile.am b/lua/tests/libs/Makefile.am
-+index 19d1a0b..1e5de72 100644
-+--- a/lua/tests/libs/Makefile.am
-++++ b/lua/tests/libs/Makefile.am
-+@@ -28,16 +28,16 @@ clean:
-+ 	rm -f lib1.so lib11.so lib2.so lib21.so lib2-v2.so
-+ 
-+ lib1.so: lib1.c
-+-	$(CC) $(CFLAGS) -o lib1.so lib1.c
-++	$(CC) $(CFLAGS) -o lib1.so $(top_srcdir)/lua/tests/libs/lib1.c
-+ 
-+ lib11.so: lib11.c
-+-	$(CC) $(CFLAGS) -o lib11.so lib11.c
-++	$(CC) $(CFLAGS) -o lib11.so $(top_srcdir)/lua/tests/libs/lib11.c
-+ 
-+ lib2.so: lib2.c
-+-	$(CC) $(CFLAGS) -o lib2.so lib2.c
-++	$(CC) $(CFLAGS) -o lib2.so $(top_srcdir)/lua/tests/libs/lib2.c
-+ 
-+ lib21.so: lib21.c
-+-	$(CC) $(CFLAGS) -o lib21.so lib21.c
-++	$(CC) $(CFLAGS) -o lib21.so $(top_srcdir)/lua/tests/libs/lib21.c
-+ 
-+ lib2-v2.so: lib2.so
-+ 	mv lib2.so ./lib2-v2.so
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 5fea53f..eba043e 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -113,6 +113,7 @@ SRC_URI += " \
- 	   file://rpm-python-tagname.patch \
- 	   file://rpm-python-AddErase.patch \
- 	   file://rpm-rpmpgp-popt.patch \
-+	   file://rpm-fix-lua-tests-compilation-failure.patch \
- "
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 0ec338c..d3cede2 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -92,15 +92,13 @@ python () {
+         d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN', True))
  
- # OE specific changes
-@@ -494,6 +495,7 @@ FILES_${PN}-dev = "${includedir}/rpm \
- 		${libdir}/rpm/lib/liblua.la \
- 		${libdir}/pkgconfig/rpm.pc \
- 		${libdir}/rpm/rpmdb_loadcvt \
-+		${libdir}/rpm/include \
- 		"
+         # If B=S the same builddir is used even for different architectures.
+-        # Thus, use a shared CONFIGURESTAMPFILE so that change of do_configure
+-        # task hash is correctly detected if e.g. MACHINE changes. In addition,
+-        # do_configure needs to depend on the stamp file so that the task is
+-        # re-run when the stamp was changed since the last run on this
+-        # architecture.
++        # Thus, use a shared CONFIGURESTAMPFILE and STAMP directory so that
++        # change of do_configure task hash is correctly detected and stamps are
++        # invalidated if e.g. MACHINE changes.
+         if d.getVar('S', True) == d.getVar('B', True):
+             configstamp = '${TMPDIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}/configure.sstate'
+             d.setVar('CONFIGURESTAMPFILE', configstamp)
+-            d.setVarFlag('do_configure', 'file-checksums', configstamp + ':True')
++            d.setVar('STAMP', '${STAMPS_DIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}')
+ }
  
- FILES_${PN}-staticdev = " \
+ python externalsrc_configure_prefunc() {
 -- 
-1.9.1
+2.6.2
 
 
