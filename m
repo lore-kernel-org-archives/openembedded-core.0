@@ -1,48 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E2D9260761
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D542F6FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 09:50:21 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id ig19so17415129igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 02:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UNqTHnlhYBBuLX8VoAMUxyAi8/q0fE6Rom/HmMyoumI=;
-	b=ZZlwUf6QU7lpo9BfpZK+Ua3Ik6cdOP3NGmqvilQMXVTCM/HiurMQtSSi9cg3LuSLQ6
-	dlvwI8y7KYoAh0nOfzE9GvRyBJmpCjRnc1mzOK/jdO5MiQSe+o6NsV/v1MGg9oSNgjbl
-	D+pFPtlZq0RMv3xydFqE0MxCf/EsFJ5dsMIK44PCP+MfqEaLUtI7BphFJMkMdOgWczes
-	96IubJkiDizFLlrCSFSv4XJofYy6+WOWT62+a1R9OfE77lPvqXlqLjD/kcHZVE5+Ap4I
-	q+RUL+YE8/76a6kvxootbSVUuKwaytlG0isy0ABQFoNnAaIGuA9aURc+v2RG1iJAsZc5
-	UJCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UNqTHnlhYBBuLX8VoAMUxyAi8/q0fE6Rom/HmMyoumI=;
-	b=bhiRJARiVBeF4Ts7bcZ6w/qbDbfuL0yTfrEC4GG7h1+mb6nQpEyX2neiX5vtZ5o+4t
-	cxfKLopZRJcVsh3mIoqchnTCMa4BvaTMnlRlnXpKemYOx7IJ4zZ8xsLvUXPMcwh9dfQT
-	fwE1KgIIjPQNhnn8JcUEkDs6zr6+KQlMF/xHwqL3D534fwkoKZMUntEHpspFQqQCUkfU
-	z/PA4OsgNd587qoBB/Lwp2Pttpv8KrFdSMZPqPHzABhCKbaTs6TMnqcE+CAG0cN3Oho2
-	B/GuxPI8MedLVnwuyi6Tq2DiESsZGZolmVQx+ha9nfdRUk497is+5IFEjQSy3AfX+NzN
-	KVUQ==
-X-Gm-Message-State: AD7BkJLtb5SinrMfJFeP4x2kbqQj8ROHHjjfzDe+jghG5ONfgaIXRQaPsXFa9ETXQsLKOZtr3DJ8jZBxKq9Kf8x0
-X-Received: by 10.50.97.71 with SMTP id dy7mr17245747igb.78.1458294622093;
-	Fri, 18 Mar 2016 02:50:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 18 Mar 2016 02:50:02 -0700 (PDT)
-In-Reply-To: <174AD7CFE5F468498ACCFE3FEE0EF1EB14328479@IRSMSX102.ger.corp.intel.com>
-References: <1458211050-21152-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-	<CAJTo0LYpmnCX9OckD=hgt18F46wFD-9RVDESJV930sy1jzjE6Q@mail.gmail.com>
-	<174AD7CFE5F468498ACCFE3FEE0EF1EB14328479@IRSMSX102.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Mar 2016 09:50:02 +0000
-Message-ID: <CAJTo0LaRmz_Hg5eZ3BdKf=czGgXo_a_vYWpyi7Lv=xSZRKfXig@mail.gmail.com>
-To: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] oe-selftest: Updated --list-tests and --list-tests-by
+	Fri, 18 Mar 2016 10:34:47 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u2IAYmtE004784 for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Mar 2016 05:34:48 -0500
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016031805344881-1540049 ;
+	Fri, 18 Mar 2016 05:34:48 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Mar 2016 12:34:19 +0200
+Message-Id: <1458297259-25664-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.3
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 03/18/2016 05:34:49 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 03/18/2016 05:34:49 AM,
+	Serialize complete at 03/18/2016 05:34:49 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-03-18_06:, , signatures=0
+Subject: [PATCH] ParaTypeFFL-1.3: Add license file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2016 09:50:24 -0000
-Content-Type: multipart/alternative; boundary=047d7b10cfc1edff55052e4fac78
+X-List-Received-Date: Fri, 18 Mar 2016 10:34:51 -0000
 
---047d7b10cfc1edff55052e4fac78
-Content-Type: text/plain; charset=UTF-8
+The ParaType Free Font License is used by various fonts, out of which a
+recipe will be added to meta-openembedded for ttf-pt-sans.
 
-On 18 March 2016 at 09:25, Istrate, Daniel AlexandruX <
-daniel.alexandrux.istrate@intel.com> wrote:
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/files/common-licenses/ParaTypeFFL-1.3 | 44 ++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 meta/files/common-licenses/ParaTypeFFL-1.3
 
-> We could gather all external python modules and we either verify if they
-> are installed and ask the user to install them or attempt to pip install
-> all of them when sourcing the environment (oe-init-build-env).
->
->
-Can we not use any more external modules for 2.1, and then revisit this
-once in the 2.2 cycle?  As this is just visual, the old code was fine just
-not optimal.
+diff --git a/meta/files/common-licenses/ParaTypeFFL-1.3 b/meta/files/common-licenses/ParaTypeFFL-1.3
+new file mode 100644
+index 0000000..8357965
+--- /dev/null
++++ b/meta/files/common-licenses/ParaTypeFFL-1.3
+@@ -0,0 +1,44 @@
++ParaType Free Font Licensing Agreement
++
++Copyright (c) 2009, ParaType Ltd. All Rights Reserved.
++
++LICENSING AGREEMENT
++for the fonts with Original Name: PT Sans, PT Serif, PT Mono
++Version 1.3 - January 20, 2012
++
++GRANT OF LICENSE
++ParaType Ltd grants you the right to use, copy, modify the fonts and
++distribute modified and unmodified copies of the fonts by any means,
++including placing on Web servers for free downloading, embedding in
++documents and Web pages, bundling with commercial and non commercial
++products, if it does not conflict with the conditions listed below:
++
++- You may bundle the fonts with commercial software, but you may not
++sell the fonts by themselves. They are free.
++
++- You may distribute the fonts in modified or unmodified versions only
++together with this Licensing Agreement and with above copyright notice.
++You have no right to modify the text of Licensing Agreement. It can be
++placed in a separate text file or inserted into the font file, but it
++must be easily viewed by users.
++
++- You may not distribute modified version of the font under the Original
++name or a combination of Original name with any other words without
++explicit written permission from ParaType.
++
++TERMINATION & TERRITORY
++This license has no limits on time and territory, but it becomes null
++and void if any of the above conditions are not met.
++
++DISCLAIMER
++THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL
++PARATYPE BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING
++ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES,
++WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
++OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS
++IN THE FONT SOFTWARE.
++
++ParaType Ltd
+-- 
+2.7.3
 
-Ross
 
---047d7b10cfc1edff55052e4fac78
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 March 2016 at 09:25, Istrate, Daniel AlexandruX <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:daniel.alexandrux.istrate@intel.com" target=3D"_blank">d=
-aniel.alexandrux.istrate@intel.com</a>&gt;</span> wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex"><p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font=
--family:&quot;Calibri&quot;,sans-serif;color:#1f497d">We could gather all e=
-xternal python modules and we either verify if they are installed and ask t=
-he user to install them or attempt to pip install all of them
- when sourcing the environment (oe-init-build-env).<u></u><u></u></span></p=
->
-<p class=3D"MsoNormal"></p></blockquote></div><br>Can we not use any more e=
-xternal modules for 2.1, and then revisit this once in the 2.2 cycle?=C2=A0=
- As this is just visual, the old code was fine just not optimal.</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---047d7b10cfc1edff55052e4fac78--
