@@ -1,52 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 284F060667
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C7F196E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Mar 2016 00:35:22 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id n5so187835230pfn.2
+	Sat, 19 Mar 2016 07:36:51 +0000 (UTC)
+Received: by mail-qk0-f181.google.com with SMTP id s5so58411210qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 17:35:23 -0700 (PDT)
+	Sat, 19 Mar 2016 00:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=ufaeDIR6bUNSFagxK1CPCl9/wcxTKIbuyimRVlCNJmA=;
-	b=WaKiI7ZbtPm6E4K5QrsYuz03gZmzb8e78AK8rwvqb0l2jOCaw2xUYt2NCuzPkZoRmJ
-	oQ9M1DAB+T+1f7SWmwE+ZXIr7/lKMkLXPJYwnDVcjc6uQJCBImuxB9/FtQ+dYgHkNUNl
-	/OI4lNK9d/UHQMw4Xoh5+J8HPA2qJEjDRcRjEKOvuWk+aMHbd/99flevb9n+iGCUfVUQ
-	KR94gT4mZZG5T3ZV+p6JuHRoZU1p6FDaewxzZ8Z62Qjj0nZ3VmXTEyvAt5HREvf5qi97
-	xljpxF6RmgabjYx61pgNqmdYL4rTgN+Z6lwvC1F+5Zh19OQgO4gQfiQ+krHjrp+FA9Pg
-	mKqw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=c5R4hFyzro2pIr9lcjxELCMD2GpOchrcrXaEP+CqTJw=;
+	b=DzvALngH6WW3ETgqknjuoTqOj7j3med1hAkx+8NJ/PmnI3PfvFzddbob7sXugIm+uv
+	i+913pcB3pDDhBJ7CY/l+rTt+E2eS/UkJdIjMO6CFgANja7tBsT4VmLb+akVdUhQ8+cf
+	dQKK4n5fES2T/YmSQbQ1kkbat/i6aY9F2rgZJLXCZXBmZRwr76nBpnAvSzTgY65bFbcu
+	kj3wqMyrfA8Hi1XiDnQCLQ3XAOIdfHmvJo6vJKBpgZiDTqIaoaC8P3RG2fThcpXBVtaU
+	EHbnxWgDJAnlDfCoaQacJlSSPX7b+XzhCGkzwrw+sJn39LRG4ScIo6rwN9bQBDIlu4X7
+	uGMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=ufaeDIR6bUNSFagxK1CPCl9/wcxTKIbuyimRVlCNJmA=;
-	b=C9oA1LSQ/DZvYRgFuRqCHYGFqsLLc2ez6fgrGtKoRiKY9cgRHN3zNATg4yn5iwN2L2
-	4w7bfDvliN3ncjBkQlrgDkqKT1/HDFbR58oe2FzQh4H0wL9GI2qGghfK85eW7bm+rr9G
-	wzznmSJnOLotmWnW4Yb+l3w7LA+5hZUHU2CtaPt6f0s7Tg/dtBmXNJmghWDR6GQ4pl5/
-	WpjmulN8s12UcKcvoGvPdBJfao6ChMk/kxeJm03QCJ4iRK70kl6JbfH57MhYpvgCNZeu
-	GEMWR4W+rvn89n/xnwlRQaZPh/jL5zFdUSchMqvrCLZ79YVmnsLrizqDatO7uCbOoyd4
-	fHOg==
-X-Gm-Message-State: AD7BkJJZfsmhEv+wVrxT1CrOT1h59Wo4gia6iNOxNjgKoYKgzUj8CRFagVgxKGr4XZziAQ==
-X-Received: by 10.98.14.149 with SMTP id 21mr27625497pfo.79.1458347722724;
-	Fri, 18 Mar 2016 17:35:22 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:79ad:121d:e03f:5232?
-	([2601:646:8800:5a9a:79ad:121d:e03f:5232])
-	by smtp.gmail.com with ESMTPSA id
-	n19sm23579575pfi.53.2016.03.18.17.35.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 18 Mar 2016 17:35:21 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=c5R4hFyzro2pIr9lcjxELCMD2GpOchrcrXaEP+CqTJw=;
+	b=m1jGMMy9fuBR1qcmxEMrl9DG2ZWL3FswgB0zjJRE8NowBF1ia9B5ZMZL8YwTZ6cZEV
+	wB8UWj8z/WkOEw46jXZ3Pm9vx2oy7CD6/Xwhu8ACaehoWo6QKpfo2hvLUAMV42X3WSda
+	DDC+El8xNqO6D1vi8MpalGO2F14HOSEiAMLjMttrqY7uDTi2ME5oVmvVX/hDq+FPiL45
+	L4uojcC1rARP6CO1pkVV7Ym0lJLaXeoiaGY/J9BXi6H4vcV0And/5tfXYhqmwN/VzZdP
+	78SDgOhBSKvZoiQbD0KqlivcdWK1UlMdQSFnxn4MgW5VhUQFOu5j86m+HscVAYfBFTFO
+	MoJg==
+X-Gm-Message-State: AD7BkJK/f+ggxPYsr4ANUhNWjXNMiMehlJL7CZ63rU3fdoGVCtZeCweqeG93eUkyf7UUXA==
+X-Received: by 10.55.78.11 with SMTP id c11mr27364677qkb.89.1458373011976;
+	Sat, 19 Mar 2016 00:36:51 -0700 (PDT)
+Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
+	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
+	f128sm7693466qhf.30.2016.03.19.00.36.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 19 Mar 2016 00:36:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>
-Date: Fri, 18 Mar 2016 17:35:17 -0700
-Message-Id: <53D8DD3F-C83D-4179-9974-28EE2960F85A@gmail.com>
-References: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>
-To: Awais Belal <awais_belal@mentor.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][RFC] systemd-serialgetty: allow baud rate overriding
+To: openembedded-core@lists.openembedded.org 
+Date: Sat, 19 Mar 2016 07:36:43 +0000
+Message-Id: <1458373003-13033-2-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1458373003-13033-1-git-send-email-raj.khem@gmail.com>
+References: <1458373003-13033-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/2] world-broken: Add packages broken on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,76 +55,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Mar 2016 00:35:23 -0000
-X-Groupsio-MsgNum: 79825
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sat, 19 Mar 2016 07:36:52 -0000
 
---Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+These 14 packages are failing aross all architectures
+on musl targets.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/distro/include/world-broken.inc | 42 +++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
+index ab0c2dc..8c01669 100644
+--- a/meta/conf/distro/include/world-broken.inc
++++ b/meta/conf/distro/include/world-broken.inc
+@@ -2,4 +2,46 @@
+ # Exclude known broken packages
+ #
+ 
++# rt-tests needs PI mutex support in libc
++EXCLUDE_FROM_WORLD_pn-rt-tests_libc-musl = "1"
+ 
++# error: no member named 'sin_port' in 'struct sockaddr_in6'
++# this is due to libtirpc using ipv6 but portmap rpc expecting ipv4
++EXCLUDE_FROM_WORLD_pn-portmap_libc-musl = "1"
++EXCLUDE_FROM_WORLD_pn-unfs3_libc-musl = "1"
++
++# error: use of undeclared identifier '_STAT_VER'
++EXCLUDE_FROM_WORLD_pn-pseudo_libc-musl = "1"
++
++# error: Need to implement custom I/O
++EXCLUDE_FROM_WORLD_pn-libsolv_libc-musl = "1"
++
++# undefined reference to `pthread_tryjoin_np'
++EXCLUDE_FROM_WORLD_pn-btrfs-tools_libc-musl = "1"
++
++# error: error.h: No such file or directory
++EXCLUDE_FROM_WORLD_pn-prelink_libc-musl = "1"
++
++# error: use of undeclared identifier 'O_CREAT'
++EXCLUDE_FROM_WORLD_pn-libbsd_libc-musl = "1"
++
++# error: expected declaration specifiers before '__nonnull'
++EXCLUDE_FROM_WORLD_pn-lttng-ust_libc-musl = "1"
++
++# error: obstack.h: No such file or directory
++EXCLUDE_FROM_WORLD_pn-systemtap_libc-musl = "1"
++
++# error: a parameter list without types is only allowed in a function definition
++#            void (*_function)(sigval_t);
++EXCLUDE_FROM_WORLD_pn-qemu_libc-musl = "1"
++
++# glibc specific funcrions
++# error: storage size of 'mi' isn't known struct mallinfo mi
++EXCLUDE_FROM_WORLD_pn-valgrind_libc-musl = "1"
++
++# error: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Werror=format=]
++#   snprintf(buf, size, "%s", strerror_r(err, sbuf, sizeof(sbuf)));
++EXCLUDE_FROM_WORLD_pn-perf_libc-musl = "1"
++
++# error: 'RTLD_NEXT' was not declared in this scope
++EXCLUDE_FROM_WORLD_pn-gcc-sanitizers_libc-musl = "1"
+-- 
+1.8.3.1
 
 
-> On Mar 7, 2016, at 4:10 AM, Awais Belal <awais_belal@mentor.com> =
-wrote:
->=20
-> In case a getty is required on a UART which is not being
-> used as the kernel console, the current agetty invocation
-> fails to obey the baud rate configured through the
-> SERIAL_CONSOLES variable because it uses --keep-baud.
->=20
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> ---
-> meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | =
-2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git =
-a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service =
-b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> index 182167b..e8b027e 100644
-> --- =
-a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> +++ =
-b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> @@ -21,7 +21,7 @@ IgnoreOnIsolate=3Dyes
->=20
-> [Service]
-> Environment=3D"TERM=3Dxterm"
-> -ExecStart=3D-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM
-> +ExecStart=3D-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
-
-this looks good.
-
-> Type=3Didle
-> Restart=3Dalways
-> RestartSec=3D0
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlbsnskACgkQuwUzVZGdMxRrggCdGGbHUf0v4h2fDEbc7l4dT2li
-h6EAn27nA0sPwlXWhMSpY6eUiHm3SjOk
-=UPea
------END PGP SIGNATURE-----
-
---Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14--
