@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 154B26FFD3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BFEF06FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Mar 2016 14:56:48 +0000 (UTC)
+	Sat, 19 Mar 2016 14:56:50 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2JEun3N030284
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sat, 19 Mar 2016 07:56:49 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2JEupV3016595
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 19 Mar 2016 07:56:51 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sat, 19 Mar 2016 07:56:48 -0700
+	Sat, 19 Mar 2016 07:56:50 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>
-Date: Sat, 19 Mar 2016 10:56:38 -0400
-Message-ID: <0d391eb760dc275ac0041bc498b9b6172c9966b0.1458397812.git.hongxu.jia@windriver.com>
+Date: Sat, 19 Mar 2016 10:56:39 -0400
+Message-ID: <ee2f2af704cb828dd936d435cb98c88de74db825.1458397812.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458397812.git.hongxu.jia@windriver.com>
 References: <cover.1458397812.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 16/18] openssl: fix buildpath QA issue
+Subject: [PATCH 18/18] gconf: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,107 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Mar 2016 14:56:49 -0000
+X-List-Received-Date: Sat, 19 Mar 2016 14:56:51 -0000
 Content-Type: text/plain
 
-- The openssl records $CC and $CFLAGS in source code which
-  caused buildpaths QA issue:
-  In crypto/cversion.c
-  ...
-      if (t == SSLEAY_CFLAGS) {
-          return (CFLAGS);
-          return ("compiler: information not available");
-      }
-  ...
-  We should remove build path in the above source code.
-
-- Remove build paths in ${PTEST_PATH}/Makefile  and
-  ${PTEST_PATH}/Configure
+The build paths come from debug mode, and GConf is effectively
+unmaintained these days anyway. So explicitly disable debug
+to fix build paths QA issue.
 
 [YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../openssl/remove-build-path-in-source-code.patch | 44 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2g.bb |  7 ++++
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
-new file mode 100644
-index 0000000..fd5531b
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
-@@ -0,0 +1,44 @@
-+From b937d7581a1793cdebbf5829bdaea787ed4128db Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Mon, 7 Mar 2016 01:11:42 -0500
-+Subject: [PATCH] crypto/Makefile: remove build path in source code
-+
-+Openssl records $CC and $CFLAGS in source code which
-+caused buildpaths QA issue:
-+In crypto/cversion.c
-+...
-+    if (t == SSLEAY_CFLAGS) {
-+        return (CFLAGS);
-+        return ("compiler: information not available");
-+    }
-+...
-+
-+We should remove build path in the above source code.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ crypto/Makefile | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/crypto/Makefile b/crypto/Makefile
-+index 17a87f8..ee630e8 100644
-+--- a/crypto/Makefile
-++++ b/crypto/Makefile
-+@@ -54,8 +54,11 @@ top:
-+ 
-+ all: shared
-+ 
-++NO_BUILDPATH_CCFLAGS=`echo "$(CC) $(CFLAGS)" | \
-++         sed -e 's:--sysroot=[^ ]*::g' \
-++             -e 's:-fdebug-prefix-map=[^ ]*::g'`
-+ buildinf.h: ../Makefile
-+-	$(PERL) $(TOP)/util/mkbuildinf.pl "$(CC) $(CFLAGS)" "$(PLATFORM)" >buildinf.h
-++	$(PERL) $(TOP)/util/mkbuildinf.pl "$(NO_BUILDPATH_CCFLAGS)" "$(PLATFORM)" >buildinf.h
-+ 
-+ x86cpuid.s:	x86cpuid.pl perlasm/x86asm.pl
-+ 	$(PERL) x86cpuid.pl $(PERLASM_SCHEME) $(CFLAGS) $(PROCESSOR) > $@
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
-index 290f129..078f60e 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
-@@ -39,6 +39,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://ptest_makefile_deps.patch  \
-             file://configure-musl-target.patch \
-             file://parallel.patch \
-+            file://remove-build-path-in-source-code.patch \
-            "
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index feaf080..91c5366 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -27,6 +27,7 @@ PACKAGECONFIG_class-native = ""
+ PACKAGECONFIG_libc-uclibc = ""
  
- SRC_URI[md5sum] = "f3c710c045cdee5fd114feb69feba7aa"
-@@ -47,6 +48,12 @@ SRC_URI[sha256sum] = "b784b1b3907ce39abf4098702dade6365522a253ad1552e267a9a0e895
- PACKAGES =+ "${PN}-engines"
- FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+ PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
++PACKAGECONFIG[debug] = "--enable-debug=yes, --enable-debug=no"
  
-+inherit fix_buildpaths
-+PACKAGE_BUILDPATH_TEXT_FILES_${PN}-ptest ?= " \
-+        ${PTEST_PATH}/Makefile \
-+        ${PTEST_PATH}/Configure \
-+"
-+
- # The crypto_use_bigint patch means that perl's bignum module needs to be
- # installed, but some distributions (for example Fedora 23) don't ship it by
- # default.  As the resulting error is very misleading check for bignum before
+ do_install_append() {
+ 	# this directory need to be created to avoid an Error 256 at gdm launch
 -- 
 1.9.1
 
