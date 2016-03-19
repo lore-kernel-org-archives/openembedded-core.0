@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id AEC8F6FF9D
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 284F060667
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Mar 2016 00:27:50 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id n5so187656108pfn.2
+	Sat, 19 Mar 2016 00:35:22 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id n5so187835230pfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Mar 2016 17:27:51 -0700 (PDT)
+	Fri, 18 Mar 2016 17:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=a7PLUps9S6hpnt9APOL1N+104WDRnyDLtJitgSvfxnQ=;
-	b=eyzgNVo5CkbpxzOtvZDZuoQkO7WGytmGAta7RQidZIaqD+QpOCFdQcTGGYVCXSY2jn
-	lMfthkJcqjuWSZoPqI0p+vzYp8QUaHw/Jvx1DeQSM5w6Qv3fQFDjtYX/P4SQ8jBTtaXU
-	qQ0X3nbULzPaTHFEASl1u1dVGbeFA688L/KI7L9w0Hl6p+3UeBD1qrZaHmh+Y9QSYrgz
-	+e1wXWUAWcf5QsJD4R/cFQP/54oLszYj05K+9EIg9hZSb4j0QSxdQshO1JiZYXq0l0ZB
-	5lDoEwM6nj8MC79BKsCAZIeod19h0+yQSerfqcFm68/v9knkNG4YkPLZBoP1cW+5XvHF
-	SGow==
+	:to; bh=ufaeDIR6bUNSFagxK1CPCl9/wcxTKIbuyimRVlCNJmA=;
+	b=WaKiI7ZbtPm6E4K5QrsYuz03gZmzb8e78AK8rwvqb0l2jOCaw2xUYt2NCuzPkZoRmJ
+	oQ9M1DAB+T+1f7SWmwE+ZXIr7/lKMkLXPJYwnDVcjc6uQJCBImuxB9/FtQ+dYgHkNUNl
+	/OI4lNK9d/UHQMw4Xoh5+J8HPA2qJEjDRcRjEKOvuWk+aMHbd/99flevb9n+iGCUfVUQ
+	KR94gT4mZZG5T3ZV+p6JuHRoZU1p6FDaewxzZ8Z62Qjj0nZ3VmXTEyvAt5HREvf5qi97
+	xljpxF6RmgabjYx61pgNqmdYL4rTgN+Z6lwvC1F+5Zh19OQgO4gQfiQ+krHjrp+FA9Pg
+	mKqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=a7PLUps9S6hpnt9APOL1N+104WDRnyDLtJitgSvfxnQ=;
-	b=S2aJCgRk0u3eJex1nb/ZGotmfBxEUkZAgHgawJeANs48WCOCgm7zMx13w9FBfbrgiP
-	ryXeaa93F+0pwukLPeH96PBPNYTsrw95T5ImtD3zcrQTHKUbjmgjyt28Ut9vtOLa+cOV
-	XMA/h+McUjwbtKn4O4PUlfChPYnKr8mSNGihfXebVWKxR2CJNbEsoy09i0ZbOJClk14L
-	E9SVlfDPA5Sgt92smpHcmvHIt+jfokARecpILhFoygqmiQfnJuGgCISz4XPjfZWA55H0
-	5m0uTTSNabWdOT1CSiQmLqOSd+fEXNtSTBg6zPKVIzCS6Sy9DYKy8HNW8M9aX10mtQN4
-	yV+w==
-X-Gm-Message-State: AD7BkJIXMC1jBxkulv/638yOna0ObLh6vIAHJHA64c1mabyHpLDzItfOZU2MKd0ZdLjvjQ==
-X-Received: by 10.98.72.149 with SMTP id q21mr27867361pfi.148.1458347271161;
-	Fri, 18 Mar 2016 17:27:51 -0700 (PDT)
+	bh=ufaeDIR6bUNSFagxK1CPCl9/wcxTKIbuyimRVlCNJmA=;
+	b=C9oA1LSQ/DZvYRgFuRqCHYGFqsLLc2ez6fgrGtKoRiKY9cgRHN3zNATg4yn5iwN2L2
+	4w7bfDvliN3ncjBkQlrgDkqKT1/HDFbR58oe2FzQh4H0wL9GI2qGghfK85eW7bm+rr9G
+	wzznmSJnOLotmWnW4Yb+l3w7LA+5hZUHU2CtaPt6f0s7Tg/dtBmXNJmghWDR6GQ4pl5/
+	WpjmulN8s12UcKcvoGvPdBJfao6ChMk/kxeJm03QCJ4iRK70kl6JbfH57MhYpvgCNZeu
+	GEMWR4W+rvn89n/xnwlRQaZPh/jL5zFdUSchMqvrCLZ79YVmnsLrizqDatO7uCbOoyd4
+	fHOg==
+X-Gm-Message-State: AD7BkJJZfsmhEv+wVrxT1CrOT1h59Wo4gia6iNOxNjgKoYKgzUj8CRFagVgxKGr4XZziAQ==
+X-Received: by 10.98.14.149 with SMTP id 21mr27625497pfo.79.1458347722724;
+	Fri, 18 Mar 2016 17:35:22 -0700 (PDT)
 Received: from ?IPv6:2601:646:8800:5a9a:79ad:121d:e03f:5232?
 	([2601:646:8800:5a9a:79ad:121d:e03f:5232])
 	by smtp.gmail.com with ESMTPSA id
-	by3sm23570977pab.39.2016.03.18.17.27.50
+	n19sm23579575pfi.53.2016.03.18.17.35.21
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 18 Mar 2016 17:27:50 -0700 (PDT)
+	Fri, 18 Mar 2016 17:35:21 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1458306806-17511-1-git-send-email-armccurdy@gmail.com>
-Date: Fri, 18 Mar 2016 17:27:49 -0700
-Message-Id: <F866595E-231E-48DD-B7FB-F0D3E89CC3DB@gmail.com>
-References: <1458306806-17511-1-git-send-email-armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+In-Reply-To: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>
+Date: Fri, 18 Mar 2016 17:35:17 -0700
+Message-Id: <53D8DD3F-C83D-4179-9974-28EE2960F85A@gmail.com>
+References: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>
+To: Awais Belal <awais_belal@mentor.com>
 X-Mailer: Apple Mail (2.3112)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-runtime.inc: set LICENSE for all gcc-runtime packages
+Subject: Re: [PATCH][RFC] systemd-serialgetty: allow baud rate overriding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,60 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Mar 2016 00:27:50 -0000
-X-Groupsio-MsgNum: 79824
+X-List-Received-Date: Sat, 19 Mar 2016 00:35:23 -0000
+X-Groupsio-MsgNum: 79825
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED";
+	boundary="Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED
+--Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On Mar 18, 2016, at 6:13 AM, Andre McCurdy <armccurdy@gmail.com> =
+> On Mar 7, 2016, at 4:10 AM, Awais Belal <awais_belal@mentor.com> =
 wrote:
 >=20
-> LICENSE_${PN} doesn't apply to all gcc-runtime packages. Set LICENSE
-> instead. Without this fix, gcc-runtime packages such as libstdc++ are
-> excluded from rootfs for builds which blacklist GPLv3.
+> In case a getty is required on a UART which is not being
+> used as the kernel console, the current agetty invocation
+> fails to obey the baud rate configured through the
+> SERIAL_CONSOLES variable because it uses --keep-baud.
 >=20
-
-this is ok
-
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> Signed-off-by: Awais Belal <awais_belal@mentor.com>
 > ---
-> meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++-----
-> 1 file changed, 4 insertions(+), 5 deletions(-)
+> meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | =
+2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc =
-b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 572396d..8639c1c 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -1,5 +1,9 @@
-> require gcc-configure-common.inc
+> diff --git =
+a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service =
+b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+> index 182167b..e8b027e 100644
+> --- =
+a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+> +++ =
+b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+> @@ -21,7 +21,7 @@ IgnoreOnIsolate=3Dyes
 >=20
-> +# Over-ride the LICENSE set by gcc-${PV}.inc to remove "& GPLv3"
-> +# All gcc-runtime packages are now covered by the runtime exception.
-> +LICENSE =3D "GPL-3.0-with-GCC-exception"
-> +
-> CXXFLAGS_remove =3D "-fvisibility-inlines-hidden"
->=20
-> EXTRA_OECONF_PATHS =3D "\
-> @@ -109,11 +113,6 @@ PACKAGES =3D "\
->     libitm-staticdev \
-> "
->=20
-> -LICENSE_${PN}-dbg =3D "GPL-3.0-with-GCC-exception"
-> -LICENSE_${PN} =3D "GPL-3.0-with-GCC-exception"
-> -LICENSE_${PN}-dev =3D "GPL-3.0-with-GCC-exception"
-> -LICENSE_${PN}-staticdev =3D "GPL-3.0-with-GCC-exception"
-> -
-> # The base package doesn't exist, so we clear the recommends.
-> RRECOMMENDS_${PN}-dbg =3D ""
->=20
+> [Service]
+> Environment=3D"TERM=3Dxterm"
+> -ExecStart=3D-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM
+> +ExecStart=3D-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
+
+this looks good.
+
+> Type=3Didle
+> Restart=3Dalways
+> RestartSec=3D0
 > --
 > 1.9.1
 >=20
@@ -123,7 +115,7 @@ b/meta/recipes-devtools/gcc/gcc-runtime.inc
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED
+--Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -134,9 +126,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlbsnQUACgkQuwUzVZGdMxQCygCcCgZ/YegmkAg87PKjEwKS2jHj
-8N0An06rY7UiVz2+CtxuSV3yMMtQyGKK
-=PLRO
+iEYEARECAAYFAlbsnskACgkQuwUzVZGdMxRrggCdGGbHUf0v4h2fDEbc7l4dT2li
+h6EAn27nA0sPwlXWhMSpY6eUiHm3SjOk
+=UPea
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED--
+--Apple-Mail=_422F325A-70AB-4936-ABC6-946F834ADC14--
