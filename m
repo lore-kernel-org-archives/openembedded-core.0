@@ -1,48 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C7F196E64A
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A4D3570034
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Mar 2016 07:36:51 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id s5so58411210qkd.0
+	Sat, 19 Mar 2016 07:36:50 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id s5so58411145qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Mar 2016 00:36:52 -0700 (PDT)
+	Sat, 19 Mar 2016 00:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=c5R4hFyzro2pIr9lcjxELCMD2GpOchrcrXaEP+CqTJw=;
-	b=DzvALngH6WW3ETgqknjuoTqOj7j3med1hAkx+8NJ/PmnI3PfvFzddbob7sXugIm+uv
-	i+913pcB3pDDhBJ7CY/l+rTt+E2eS/UkJdIjMO6CFgANja7tBsT4VmLb+akVdUhQ8+cf
-	dQKK4n5fES2T/YmSQbQ1kkbat/i6aY9F2rgZJLXCZXBmZRwr76nBpnAvSzTgY65bFbcu
-	kj3wqMyrfA8Hi1XiDnQCLQ3XAOIdfHmvJo6vJKBpgZiDTqIaoaC8P3RG2fThcpXBVtaU
-	EHbnxWgDJAnlDfCoaQacJlSSPX7b+XzhCGkzwrw+sJn39LRG4ScIo6rwN9bQBDIlu4X7
-	uGMg==
+	h=from:to:cc:subject:date:message-id;
+	bh=12eGJOCNvZk91n7QpMOMe5oQjdxSG3D/loJy4cd7i6c=;
+	b=wEj6TgTLtkYGj2i6FP22l7y0+kmmuvp3hzjvW2LGKbHniKNQDiJRGPRYpeX1KJ/DfY
+	j+yIxNI/QxlEEqvKe+dabuRIk7Si1XTDCQXeyocE0IbSK6pucx2omgF82GiEdH3qWSwH
+	IlgqLF/yZthMDRJeNPed/HQxhQKL1wkvYrqpyBoKfZIZBcmN+p6012GyiSPeYyB62dz3
+	zMeQFDizT1T0zr87a3b2pGeCVqtLG/gmqb02fuyB6hFsqYuhPhSx6mUij6IkFUqFnb0v
+	tRAJF82BoShiILGlEQQT1875Cs93to8X7T/60nMA3E3MqXZpdZ4vluJwnsiUm4Jw9kUH
+	ls9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=c5R4hFyzro2pIr9lcjxELCMD2GpOchrcrXaEP+CqTJw=;
-	b=m1jGMMy9fuBR1qcmxEMrl9DG2ZWL3FswgB0zjJRE8NowBF1ia9B5ZMZL8YwTZ6cZEV
-	wB8UWj8z/WkOEw46jXZ3Pm9vx2oy7CD6/Xwhu8ACaehoWo6QKpfo2hvLUAMV42X3WSda
-	DDC+El8xNqO6D1vi8MpalGO2F14HOSEiAMLjMttrqY7uDTi2ME5oVmvVX/hDq+FPiL45
-	L4uojcC1rARP6CO1pkVV7Ym0lJLaXeoiaGY/J9BXi6H4vcV0And/5tfXYhqmwN/VzZdP
-	78SDgOhBSKvZoiQbD0KqlivcdWK1UlMdQSFnxn4MgW5VhUQFOu5j86m+HscVAYfBFTFO
-	MoJg==
-X-Gm-Message-State: AD7BkJK/f+ggxPYsr4ANUhNWjXNMiMehlJL7CZ63rU3fdoGVCtZeCweqeG93eUkyf7UUXA==
-X-Received: by 10.55.78.11 with SMTP id c11mr27364677qkb.89.1458373011976;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=12eGJOCNvZk91n7QpMOMe5oQjdxSG3D/loJy4cd7i6c=;
+	b=Vh+1oS0hSQ3q0g8KovdCLONXyaGfilqTPDGWaDMzP9qmZT5UiJ+e3IYtwFija/CU0O
+	CTDZH/92OgAb6PMb+jzYhZiOJBwyJ+dLDjA4L8AEFJJO8x0cE2DpaT8R+IkglERVnAch
+	Ldv0OjL2msuEFu5u4CN3RuYUjTpg9CyMFmKDv25/orm6bgWsJPl9YoAD2komuQ6q+X2l
+	vk2Ki48u+aap+1o8/GwcFjUyao7zpbmb1/3U4ofhpdsiUGwZM1nHgyFZsknqoGtN0xnR
+	m0nXePJdwVrnBFQiog0eAHHkQ1Buuj+NF8xsSP6EHfag4Bh7GdbOqhesC0oh4lbBaycB
+	jz5Q==
+X-Gm-Message-State: AD7BkJKPlT2XA08+Svx+4jmGmVlu97tfq2xEsFIhxWCroqjiY9UGG3Zw+StPJaR2qSzshg==
+X-Received: by 10.55.80.86 with SMTP id e83mr27257587qkb.91.1458373011230;
 	Sat, 19 Mar 2016 00:36:51 -0700 (PDT)
 Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
 	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
-	f128sm7693466qhf.30.2016.03.19.00.36.51
+	f128sm7693466qhf.30.2016.03.19.00.36.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 19 Mar 2016 00:36:51 -0700 (PDT)
+	Sat, 19 Mar 2016 00:36:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org 
-Date: Sat, 19 Mar 2016 07:36:43 +0000
-Message-Id: <1458373003-13033-2-git-send-email-raj.khem@gmail.com>
+Date: Sat, 19 Mar 2016 07:36:42 +0000
+Message-Id: <1458373003-13033-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1458373003-13033-1-git-send-email-raj.khem@gmail.com>
-References: <1458373003-13033-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/2] world-broken: Add packages broken on musl
+Subject: [PATCH 1/2] siteinfo: Move apr configure cache to common-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +54,133 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 19 Mar 2016 07:36:52 -0000
 
-These 14 packages are failing aross all architectures
-on musl targets.
+There are variables which are used in all target specific
+sitefiles. Move it to common-linux, so it can be effective
+for all targets. Usually they will vary based upon libc
+e.g. musl does not have process shared mutexes so apr_cv_process_shared_works
+should be no for it. For glibc though it should be yes but
+existing behaviour is to use 'no' so its left as it is.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/world-broken.inc | 42 +++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ meta/site/arm-common      | 5 -----
+ meta/site/common-linux    | 3 +++
+ meta/site/ix86-common     | 4 ----
+ meta/site/mips-common     | 3 ---
+ meta/site/nios2-linux     | 3 ---
+ meta/site/powerpc32-linux | 2 --
+ meta/site/sh-common       | 3 ---
+ 7 files changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
-index ab0c2dc..8c01669 100644
---- a/meta/conf/distro/include/world-broken.inc
-+++ b/meta/conf/distro/include/world-broken.inc
-@@ -2,4 +2,46 @@
- # Exclude known broken packages
- #
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 12e5d45..a3c979f 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -8,11 +8,6 @@ ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
+ ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
+ ac_cv_sctp=${ac_cv_sctp=no}
  
-+# rt-tests needs PI mutex support in libc
-+EXCLUDE_FROM_WORLD_pn-rt-tests_libc-musl = "1"
+-# apache
+-ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+-apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
+-apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
+-
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index 448758b..21fcac1 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -5,6 +5,9 @@ gl_cv_header_working_fcntl_h=${gl_cv_header_working_fcntl_h=yes}
+ # apr
+ ac_cv_file__dev_zero=${ac_cv_file__dev_zero=yes}
+ ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t=4}
++ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
++apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
++apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
  
-+# error: no member named 'sin_port' in 'struct sockaddr_in6'
-+# this is due to libtirpc using ipv6 but portmap rpc expecting ipv4
-+EXCLUDE_FROM_WORLD_pn-portmap_libc-musl = "1"
-+EXCLUDE_FROM_WORLD_pn-unfs3_libc-musl = "1"
-+
-+# error: use of undeclared identifier '_STAT_VER'
-+EXCLUDE_FROM_WORLD_pn-pseudo_libc-musl = "1"
-+
-+# error: Need to implement custom I/O
-+EXCLUDE_FROM_WORLD_pn-libsolv_libc-musl = "1"
-+
-+# undefined reference to `pthread_tryjoin_np'
-+EXCLUDE_FROM_WORLD_pn-btrfs-tools_libc-musl = "1"
-+
-+# error: error.h: No such file or directory
-+EXCLUDE_FROM_WORLD_pn-prelink_libc-musl = "1"
-+
-+# error: use of undeclared identifier 'O_CREAT'
-+EXCLUDE_FROM_WORLD_pn-libbsd_libc-musl = "1"
-+
-+# error: expected declaration specifiers before '__nonnull'
-+EXCLUDE_FROM_WORLD_pn-lttng-ust_libc-musl = "1"
-+
-+# error: obstack.h: No such file or directory
-+EXCLUDE_FROM_WORLD_pn-systemtap_libc-musl = "1"
-+
-+# error: a parameter list without types is only allowed in a function definition
-+#            void (*_function)(sigval_t);
-+EXCLUDE_FROM_WORLD_pn-qemu_libc-musl = "1"
-+
-+# glibc specific funcrions
-+# error: storage size of 'mi' isn't known struct mallinfo mi
-+EXCLUDE_FROM_WORLD_pn-valgrind_libc-musl = "1"
-+
-+# error: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Werror=format=]
-+#   snprintf(buf, size, "%s", strerror_r(err, sbuf, sizeof(sbuf)));
-+EXCLUDE_FROM_WORLD_pn-perf_libc-musl = "1"
-+
-+# error: 'RTLD_NEXT' was not declared in this scope
-+EXCLUDE_FROM_WORLD_pn-gcc-sanitizers_libc-musl = "1"
+ # samba
+ samba_cv_HAVE_IFACE_AIX=${samba_cv_HAVE_IFACE_AIX=no}
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 5cd2ce2..135c305 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -24,7 +24,6 @@ ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=4}
+ ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+-ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
+ ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
+@@ -35,9 +34,6 @@ ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ ac_cv_sctp=${ac_cv_sctp=no}
+ 
+-apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
+-apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
+-
+ ac_cv_path_ESD_CONFIG=no
+ lf_cv_sane_realloc=yes
+ jm_cv_func_gettimeofday_clobber=no
+diff --git a/meta/site/mips-common b/meta/site/mips-common
+index 89d72cb..5858dfb 100644
+--- a/meta/site/mips-common
++++ b/meta/site/mips-common
+@@ -30,10 +30,7 @@ ac_cv_alignof_CORBA_pointer=4
+ ac_cv_alignof_CORBA_struct=1
+ 
+ # apache
+-ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+-apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
+ ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
+-apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
+ 
+ # glib
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
+index 9e53e5d..434f09b 100644
+--- a/meta/site/nios2-linux
++++ b/meta/site/nios2-linux
+@@ -7,10 +7,7 @@ ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
+ ac_cv_sctp=${ac_cv_sctp=no}
+ 
+ # apache
+-ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+-apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
+ ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
+-apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
+ 
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index e3929ac..a7744fb 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -38,8 +38,6 @@ cookie_io_functions_use_off64_t=${cookie_io_functions_use_off64_t=yes}
+ 
+ 
+ # apache
+-ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+-apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
+ ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
+ 
+ ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index bde416a..5cbf36a 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -29,9 +29,6 @@ ac_cv_ushort=${ac_cv_ushort=yes}
+ ac_cv_time_r_type=${ac_cv_time_r_type=POSIX}
+ 
+ # apache
+-ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+-apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
+-apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
+ ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
+ 
+ ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
 -- 
 1.8.3.1
 
