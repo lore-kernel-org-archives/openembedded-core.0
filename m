@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA7FC6FFC7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ACD070179
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Mar 2016 14:56:45 +0000 (UTC)
+	Sat, 19 Mar 2016 14:56:47 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2JEujE2016592
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2JEul7S003226
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 19 Mar 2016 07:56:45 -0700 (PDT)
+	Sat, 19 Mar 2016 07:56:47 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sat, 19 Mar 2016 07:56:44 -0700
+	Sat, 19 Mar 2016 07:56:46 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>
-Date: Sat, 19 Mar 2016 10:56:36 -0400
-Message-ID: <d2abfb9ff78b31407721b1475636a7dc33367bfe.1458397812.git.hongxu.jia@windriver.com>
+Date: Sat, 19 Mar 2016 10:56:37 -0400
+Message-ID: <fcd6f0087515ff5ad533544a6a72a6c5bb7d7370.1458397812.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458397812.git.hongxu.jia@windriver.com>
 References: <cover.1458397812.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 07/18] icu: fix buildpaths QA issue
+Subject: [PATCH 09/18] python2/3: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,124 +36,97 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 19 Mar 2016 14:56:47 -0000
 Content-Type: text/plain
 
-- Define new variable U_CC and U_CXX which do not have build path.
-  The output of icuinfo will not have build path in it:
-  ...
-  root@qemux86-64:~# icuinfo
-   <icuSystemParams type="icu4c">
-      [snip]
-      <param name="build.cc">x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
-      <param name="build.cxx">x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
-      [snip]
-   </icuSystemParams>
-  ...
+- Remove build paths in target file
 
-- Remove build paths in pkgdata.inc, Makefile.inc and
-  icu-config.
+- Since _sysconfigdata.py was modified at do_package,
+  so update _sysconfigdata.pyc manually (Python2 only).
 
-[YOCTO #7058]
+[YOCTO #8446]
+[YOCTO #9169]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../icu/icu/add-variable-U_CC-and-U_CXX.patch      | 61 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_56.1.bb               | 12 +++++
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
+ meta/recipes-devtools/python/python3_3.5.1.bb | 20 ++++++++++++++----
+ meta/recipes-devtools/python/python_2.7.11.bb | 29 ++++++++++++++++++++++-----
+ 2 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch b/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
-new file mode 100644
-index 0000000..826d934
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
-@@ -0,0 +1,61 @@
-+From 3221b108a18edeff5424bc5c66589eb20148d9b2 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 2 Mar 2016 21:18:34 -0500
-+Subject: [PATCH] add variable U_CC and U_CXX
-+
-+Define new variable U_CC and U_CXX which do not have build path.
-+The output of icuinfo will not have build path in it:
-+...
-+root@qemux86-64:~# icuinfo
-+ <icuSystemParams type="icu4c">
-+    [snip]
-+    <param name="build.cc">x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
-+    <param name="build.cxx">x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
-+    [snip]
-+ </icuSystemParams>
-+...
-+
-+Upstream-Status: Inappropriate [openembedded specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ configure.ac               | 9 +++++++++
-+ tools/toolutil/Makefile.in | 2 +-
-+ 2 files changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 595bd12..ec05c19 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -673,6 +673,15 @@ AC_SUBST(GENCCODE_ASSEMBLY)
-+ 
-+ AC_MSG_RESULT($GENCCODE_ASSEMBLY)
-+ 
-++# U_CC and U_CXX are used for icuinfo which remove
-++# --sysroot for cross-compilation
-++U_CC=${U_CC}
-++AC_SUBST(U_CC)
-++AC_MSG_RESULT(U_CC)
-++U_CXX=${U_CXX}
-++AC_SUBST(U_CXX)
-++AC_MSG_RESULT(U_CXX)
-++
-+ # Checks for header files
-+ AC_CHECK_HEADERS(inttypes.h)
-+ if test $ac_cv_header_inttypes_h = no; then
-+diff --git a/tools/toolutil/Makefile.in b/tools/toolutil/Makefile.in
-+index 1fb42ed..a083522 100644
-+--- a/tools/toolutil/Makefile.in
-++++ b/tools/toolutil/Makefile.in
-+@@ -46,7 +46,7 @@ CXXFLAGS += $(LIBCXXFLAGS)
-+ CPPFLAGS += -I$(top_srcdir)/common -I$(top_srcdir)/i18n $(LIBCPPFLAGS)
-+ 
-+ # from icuinfo
-+-CPPFLAGS+=  "-DU_BUILD=\"@build@\"" "-DU_HOST=\"@host@\"" "-DU_CC=\"@CC@\"" "-DU_CXX=\"@CXX@\""
-++CPPFLAGS+=  "-DU_BUILD=\"@build@\"" "-DU_HOST=\"@host@\"" "-DU_CC=\"@U_CC@\"" "-DU_CXX=\"@U_CXX@\""
-+ CPPFLAGS += -DUNISTR_FROM_CHAR_EXPLICIT=explicit -DUNISTR_FROM_STRING_EXPLICIT=explicit
-+ 
-+ DEFS += -DU_TOOLUTIL_IMPLEMENTATION
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/icu/icu_56.1.bb b/meta/recipes-support/icu/icu_56.1.bb
-index db0de10..1fd4dfc 100644
---- a/meta/recipes-support/icu/icu_56.1.bb
-+++ b/meta/recipes-support/icu/icu_56.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-            file://fix-install-manx.patch \
-            file://icu-release-56-1-flagparser-fix.patch \
-+           file://add-variable-U_CC-and-U_CXX.patch \
-           "
+diff --git a/meta/recipes-devtools/python/python3_3.5.1.bb b/meta/recipes-devtools/python/python3_3.5.1.bb
+index 2fbb3cb..bfcea85 100644
+--- a/meta/recipes-devtools/python/python3_3.5.1.bb
++++ b/meta/recipes-devtools/python/python3_3.5.1.bb
+@@ -186,12 +186,24 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+ 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+-	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
+-	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+ }
  
- SRC_URI_append_class-target = "\
-@@ -27,3 +28,14 @@ SRC_URI[sha256sum] = "3a64e9105c734dcf631c0b3ed60404531bce6c0f5a64bfe1a6402a4cc2
- 
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
- UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
-+
++# Remove references to buildmachine paths in target
 +inherit fix_buildpaths
-+CACHED_CONFIGUREVARS += "U_CC="${@remove_buildpath_variable(d, 'CC')}" \
-+                         U_CXX="${@remove_buildpath_variable(d, 'CXX')}" \
++PACKAGE_BUILDPATH_TEXT_FILES ?= " \
++    ${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
++    ${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/Makefile \
++    ${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py \
++    ${bindir}/python${PYTHON_BINABI}-config \
 +"
-+PACKAGE_BUILDPATH_TEXT_FILES_${PN}-dev ?= " \
-+    ${libdir}/${BPN}/${PV}/pkgdata.inc \
-+    ${libdir}/${BPN}/${PV}/Makefile.inc \
-+    ${bindir}/icu-config \
++PACKAGE_BUILDPATH_TEXT_PATTERNS += " \
++    -e 's:--with-libtool-sysroot=${STAGING_DIR_TARGET}::g' \
++    -e 's:${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig:${datadir}/pkgconfig:g' \
++    -e 's:${STAGING_DIR_HOST}::g' \
++    -e 's:${STAGING_DIR_NATIVE}::g' \
++    -e 's:${WORKDIR}::g' \
 +"
 +
+ require python-${PYTHON_MAJMIN}-manifest.inc
+ 
+ # manual dependency additions
+diff --git a/meta/recipes-devtools/python/python_2.7.11.bb b/meta/recipes-devtools/python/python_2.7.11.bb
+index 0c00d6e..3cf8642 100644
+--- a/meta/recipes-devtools/python/python_2.7.11.bb
++++ b/meta/recipes-devtools/python/python_2.7.11.bb
+@@ -128,15 +128,34 @@ do_install_append_class-nativesdk () {
+ 
+ SSTATE_SCAN_FILES += "Makefile"
+ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+-
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+ 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++}
++
++# Remove references to buildmachine paths in target
++inherit fix_buildpaths
++PACKAGE_BUILDPATH_TEXT_FILES ?= " \
++    ${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
++    ${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py \
++"
++PACKAGE_BUILDPATH_TEXT_FILES_${PN}-ptest ?= " \
++    ${PTEST_PATH}/Makefile \
++"
++PACKAGE_BUILDPATH_TEXT_PATTERNS += " \
++    -e 's:--with-libtool-sysroot=${STAGING_DIR_TARGET}::g' \
++    -e 's:${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig:${datadir}/pkgconfig:g' \
++    -e 's:${STAGING_DIR_HOST}::g' \
++    -e 's:${STAGING_DIR_NATIVE}::g' \
++    -e 's:${WORKDIR}::g' \
++"
+ 
+-	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
+-	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
+-		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
++PACKAGE_PREPROCESS_FUNCS += "update_pyc_package_preprocess"
++python update_pyc_package_preprocess () {
++    # Update _sysconfigdata.pyc
++    root_path = d.expand("${PKGD}")
++    byte_code = d.expand("${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.pyc")
++    remove_buildpath_bytecode(root_path, byte_code)
+ }
+ 
+ require python-${PYTHON_MAJMIN}-manifest.inc
 -- 
 1.9.1
 
