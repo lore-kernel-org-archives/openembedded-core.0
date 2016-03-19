@@ -1,50 +1,52 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 07426607A4;
-	Sat, 19 Mar 2016 00:22:53 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id kc10so33208644igb.0;
-	Fri, 18 Mar 2016 17:22:54 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id AEC8F6FF9D
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Mar 2016 00:27:50 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id n5so187656108pfn.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Mar 2016 17:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=kBCZBcTB2tBK/uXCStzw9qbCqqv6qZB/+oPIxni0YaM=;
-	b=Yx2IzA79kxeAtmIwQW0n60DEsHvh4det7hNNwuj6K3mIFLhmPRtztIvIzouxkO1JEn
-	rbfFVbgqCkoMS4nvh7DQlDp9CZzefXem+fwvQhhrxvL8XxtF/32sNuqNPS7o3tXzs+ou
-	/eygL7XssWu4uD7+HBlShcLogpu56MpEBZIv8iiF0qHC3JDTkHUx5hxvgxnl53lqSEk/
-	X42nkd+HqAEkFwrnIpaCWI0gvwvEu8Pof0ypTzJxZBQvAPNrLEtwdjGwBIdM8TlYyy5r
-	L1mtN50I1ClNXBXCibGZVsI+x6FA2fDdi0tz061ICyU5Zp40Ha2o7Pas7WLHg/TJ5KXx
-	xCxQ==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=a7PLUps9S6hpnt9APOL1N+104WDRnyDLtJitgSvfxnQ=;
+	b=eyzgNVo5CkbpxzOtvZDZuoQkO7WGytmGAta7RQidZIaqD+QpOCFdQcTGGYVCXSY2jn
+	lMfthkJcqjuWSZoPqI0p+vzYp8QUaHw/Jvx1DeQSM5w6Qv3fQFDjtYX/P4SQ8jBTtaXU
+	qQ0X3nbULzPaTHFEASl1u1dVGbeFA688L/KI7L9w0Hl6p+3UeBD1qrZaHmh+Y9QSYrgz
+	+e1wXWUAWcf5QsJD4R/cFQP/54oLszYj05K+9EIg9hZSb4j0QSxdQshO1JiZYXq0l0ZB
+	5lDoEwM6nj8MC79BKsCAZIeod19h0+yQSerfqcFm68/v9knkNG4YkPLZBoP1cW+5XvHF
+	SGow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=kBCZBcTB2tBK/uXCStzw9qbCqqv6qZB/+oPIxni0YaM=;
-	b=YWHp+Cc/VA/psZSgRHpRPuYrAJRUyAK1iLJ5JW7mscJXl5ZwehMqY0PaGlckewZhyP
-	J/nXZV1ueRwztH/UtiSEuqWKdBE/xMUuRLhKbKwu0dMcv1ffIahK8fGoTWYr/+0+GwCQ
-	XA0y81S64NNJ1axDo5KOQHliSM8uyB3yIgdwuT99H/KVukB4+/+lSy8N5NMlZxHOZusa
-	OGkT4uhq/qNPtzeAZPNGLFdfBAhxXBopmCXuAYmSLe7paMfa8YAT2MroPraZqLSIAk5m
-	K8Zoo/aiORPgvQ6JkV2YNVlDOjSEVXxm+KMgExsEH6xD1IK3eaZNdFYDUuAKtuettJ7p
-	I78A==
-X-Gm-Message-State: AD7BkJIbe/ocBgPJTNFNopWxEZxUkFhD1rha7p4PT52fAdxLyOzGGeiJGXOk3kqlFnEpuA==
-X-Received: by 10.50.132.39 with SMTP id or7mr2099785igb.38.1458346974593;
-	Fri, 18 Mar 2016 17:22:54 -0700 (PDT)
-Received: from linux-yxv0 (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id 129sm6747177ion.0.2016.03.18.17.22.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Mar 2016 17:22:53 -0700 (PDT)
-Date: Fri, 18 Mar 2016 20:23:11 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20160319002311.GA1738@linux-yxv0>
-References: <20160317144357.GB2553@jama>
-MIME-Version: 1.0
-In-Reply-To: <20160317144357.GB2553@jama>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world, Failed tasks 2016-03-16
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=a7PLUps9S6hpnt9APOL1N+104WDRnyDLtJitgSvfxnQ=;
+	b=S2aJCgRk0u3eJex1nb/ZGotmfBxEUkZAgHgawJeANs48WCOCgm7zMx13w9FBfbrgiP
+	ryXeaa93F+0pwukLPeH96PBPNYTsrw95T5ImtD3zcrQTHKUbjmgjyt28Ut9vtOLa+cOV
+	XMA/h+McUjwbtKn4O4PUlfChPYnKr8mSNGihfXebVWKxR2CJNbEsoy09i0ZbOJClk14L
+	E9SVlfDPA5Sgt92smpHcmvHIt+jfokARecpILhFoygqmiQfnJuGgCISz4XPjfZWA55H0
+	5m0uTTSNabWdOT1CSiQmLqOSd+fEXNtSTBg6zPKVIzCS6Sy9DYKy8HNW8M9aX10mtQN4
+	yV+w==
+X-Gm-Message-State: AD7BkJIXMC1jBxkulv/638yOna0ObLh6vIAHJHA64c1mabyHpLDzItfOZU2MKd0ZdLjvjQ==
+X-Received: by 10.98.72.149 with SMTP id q21mr27867361pfi.148.1458347271161;
+	Fri, 18 Mar 2016 17:27:51 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:79ad:121d:e03f:5232?
+	([2601:646:8800:5a9a:79ad:121d:e03f:5232])
+	by smtp.gmail.com with ESMTPSA id
+	by3sm23570977pab.39.2016.03.18.17.27.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 18 Mar 2016 17:27:50 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1458306806-17511-1-git-send-email-armccurdy@gmail.com>
+Date: Fri, 18 Mar 2016 17:27:49 -0700
+Message-Id: <F866595E-231E-48DD-B7FB-F0D3E89CC3DB@gmail.com>
+References: <1458306806-17511-1-git-send-email-armccurdy@gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+X-Mailer: Apple Mail (2.3112)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-runtime.inc: set LICENSE for all gcc-runtime packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,17 +59,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Mar 2016 00:22:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 19 Mar 2016 00:27:50 -0000
+X-Groupsio-MsgNum: 79824
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Thu 2016-03-17 @ 03:43:57 PM, Martin Jansa wrote:
-> c278358 metadata-revs: provide more information
+--Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-I think the general consensus was to not accept patch c278358 since it
-affected the layout of a file that was expected to be processed by scripts.
 
-> e2bf30c buildhistory.bbclass: metadata-revs show repo parent
+> On Mar 18, 2016, at 6:13 AM, Andre McCurdy <armccurdy@gmail.com> =
+wrote:
+>=20
+> LICENSE_${PN} doesn't apply to all gcc-runtime packages. Set LICENSE
+> instead. Without this fix, gcc-runtime packages such as libstdc++ are
+> excluded from rootfs for builds which blacklist GPLv3.
+>=20
 
-But I *think* everyone was okay with this one?
+this is ok
 
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++-----
+> 1 file changed, 4 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc =
+b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index 572396d..8639c1c 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -1,5 +1,9 @@
+> require gcc-configure-common.inc
+>=20
+> +# Over-ride the LICENSE set by gcc-${PV}.inc to remove "& GPLv3"
+> +# All gcc-runtime packages are now covered by the runtime exception.
+> +LICENSE =3D "GPL-3.0-with-GCC-exception"
+> +
+> CXXFLAGS_remove =3D "-fvisibility-inlines-hidden"
+>=20
+> EXTRA_OECONF_PATHS =3D "\
+> @@ -109,11 +113,6 @@ PACKAGES =3D "\
+>     libitm-staticdev \
+> "
+>=20
+> -LICENSE_${PN}-dbg =3D "GPL-3.0-with-GCC-exception"
+> -LICENSE_${PN} =3D "GPL-3.0-with-GCC-exception"
+> -LICENSE_${PN}-dev =3D "GPL-3.0-with-GCC-exception"
+> -LICENSE_${PN}-staticdev =3D "GPL-3.0-with-GCC-exception"
+> -
+> # The base package doesn't exist, so we clear the recommends.
+> RRECOMMENDS_${PN}-dbg =3D ""
+>=20
+> --
+> 1.9.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlbsnQUACgkQuwUzVZGdMxQCygCcCgZ/YegmkAg87PKjEwKS2jHj
+8N0An06rY7UiVz2+CtxuSV3yMMtQyGKK
+=PLRO
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_520DA74D-2288-4303-AB97-BF0CBD9E63ED--
