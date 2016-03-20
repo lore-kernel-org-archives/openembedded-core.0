@@ -1,27 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9596965CC3;
-	Sun, 20 Mar 2016 21:26:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Mar 2016 14:26:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,367,1455004800"; d="scan'208";a="941402876"
-Received: from edeshpan-mobl5.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.136.133])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2016 14:26:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Mon, 21 Mar 2016 10:26:29 +1300
-Message-ID: <19981776.1mF1NMTY9t@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.4-301.fc23.x86_64; KDE/4.14.17; x86_64; ;
-	)
-In-Reply-To: <20160319002311.GA1738@linux-yxv0>
-References: <20160317144357.GB2553@jama> <20160319002311.GA1738@linux-yxv0>
-MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C5C8F60232
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Mar 2016 22:40:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2KMe0N4017226; Sun, 20 Mar 2016 22:40:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sALlB427Mvpo; Sun, 20 Mar 2016 22:40:43 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2KMebCu017272
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 20 Mar 2016 22:40:39 GMT
+Message-ID: <1458513637.20442.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world, Failed tasks 2016-03-16
+Date: Sun, 20 Mar 2016 22:40:37 +0000
+In-Reply-To: <cover.1457938286.git.liezhi.yang@windriver.com>
+References: <cover.1457938286.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/7] fixes for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Mar 2016 21:26:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 20 Mar 2016 22:40:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 18 Mar 2016 20:23:11 Trevor Woerner wrote:
-> On Thu 2016-03-17 @ 03:43:57 PM, Martin Jansa wrote:
-> > c278358 metadata-revs: provide more information
+On Sun, 2016-03-13 at 23:52 -0700, Robert Yang wrote:
+> The following changes since commit
+> 9d5fa6da5ae14b26a83ec1af609d4c45944bfd44:
 > 
-> I think the general consensus was to not accept patch c278358 since it
-> affected the layout of a file that was expected to be processed by scripts.
+>   cross-canadian/libgcc: fix aarch64's multilib SDK (2016-03-13
+> 19:36:57 -0700)
 > 
-> > e2bf30c buildhistory.bbclass: metadata-revs show repo parent
+> are available in the git repository at:
 > 
-> But I *think* everyone was okay with this one?
+>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log
+> /?h=rbt/runqemu
+> 
+> Robert Yang (7):
+>   runqemu: fix ROOTFS for vmdk
+>   runqemu: simplify the checking for vm images
+>   runqemu: remove ISO and RAMFS from help text
+>   runqemu: add support for qcow2 and vdi
+>   runqemu: simplify checking for iso and ramfs
+>   runqemu-internal: cleanup unsed code
+>   runqemu-internal: split the code into functions
 
-I guess I'm OK with it yes.
+I have a feeling one of these causes:
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/
+builds/426/steps/Running%20oe-selftest/logs/stdio
+
+(the  test_qemu (oeqa.selftest.wic.Wic) failure)
 
 Cheers,
-Paul
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Richard
 
