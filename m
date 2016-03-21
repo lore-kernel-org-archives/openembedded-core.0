@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F2B260290
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E75F26FFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 09:25:52 +0000 (UTC)
+	Mon, 21 Mar 2016 09:25:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2L9PrSH022252
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2L9Ps9J020345
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 02:25:53 -0700
+	Mon, 21 Mar 2016 02:25:54 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 21 Mar 2016 02:25:52 -0700
+	Mon, 21 Mar 2016 02:25:53 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Mar 2016 02:25:49 -0700
-Message-ID: <5d8eede8b5f8fa67fc8a341abdaabfd66f0a3dd4.1458551516.git.liezhi.yang@windriver.com>
+Date: Mon, 21 Mar 2016 02:25:50 -0700
+Message-ID: <3e08bc0ed0e3b0fa239b53e1ef6aca422d87e036.1458551516.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1458551516.git.liezhi.yang@windriver.com>
 References: <cover.1458551516.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] rpm: check _gpg_passphrase before ask for input
+Subject: [PATCH 2/3] gpg_sign.py: get rid of pexpect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,109 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 09:25:53 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 09:25:54 -0000
 Content-Type: text/plain
 
-rpm always asked for pass phrasae when add signature, which made it
-can't work non-interactively, this patch fix the problem. It will work
-non-interactively if _gpg_passphrase is defined, and work as before if
-not.
+The python-expect is not installed on the distro such as Ubuntu by
+default, and we can get rid of it.
+
+Use RPM_GPG_PASSPHRASE to replace of RPM_GPG_PASSPHRASE_FILE which is
+more straightforward.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...heck-_gpg_passphrase-before-ask-for-input.patch |   70 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |    1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
+ meta/classes/sign_rpm.bbclass |   10 ++++++----
+ meta/lib/oe/gpg_sign.py       |   24 ++++++------------------
+ 2 files changed, 12 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch b/meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
-new file mode 100644
-index 0000000..c68681c
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
-@@ -0,0 +1,70 @@
-+From bb48dbc88a58bc05a43d71a3375fb05358119ec5 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sun, 20 Mar 2016 20:20:16 -0700
-+Subject: [PATCH] rpmqv.c: check _gpg_passphrase before ask for input
-+
-+rpm always asked for pass phrasae when add signature, which made it
-+can't work non-interactively, this patch fix the problem. It will work
-+non-interactively if _gpg_passphrase is defined, and work as before if
-+not.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ macros/macros.in |    7 +++++--
-+ rpmqv.c          |   17 ++++++++++-------
-+ 2 files changed, 15 insertions(+), 9 deletions(-)
-+
-+diff --git a/macros/macros.in b/macros/macros.in
-+index 2e5b07d..01b3aad 100644
-+--- a/macros/macros.in
-++++ b/macros/macros.in
-+@@ -520,15 +520,18 @@ $_arbitrary_tags_tests	Foo:Bar
-+ #	Macro(s) to hold the arguments passed to GPG/PGP for package
-+ #	signing and verification.
-+ #
-++
-++%_gpg_passphrase_way %{?_gpg_passphrase:--passphrase "%{_gpg_passphrase}"}%{!?_gpg_passphrase:--passphrase-fd 3}
-++
-+ %__gpg_check_password_cmd	%{__gpg} \
-+-	gpg --batch --no-verbose --passphrase-fd 3 -u "%{_gpg_name}" -so -
-++	gpg --batch --no-verbose %{_gpg_passphrase_way} -u "%{_gpg_name}" -so -
-+ #%__pgp_check_password_cmd	%{__pgp} \
-+ #	pgp +batchmode=on +verbose=0 "%{_pgp_name}" -sf
-+ #%__pgp5_check_password_cmd	%{__pgp} \
-+ #	pgps +batchmode=on +verbose=0 +armor=off "%{_pgp_name}" -f
-+ 
-+ %__gpg_sign_cmd			%{__gpg} \
-+-	gpg --batch --no-verbose --no-armor --passphrase-fd 3 --no-secmem-warning \
-++	gpg --batch --no-verbose --no-armor %{_gpg_passphrase_way}  --no-secmem-warning \
-+ 	-u "%{_gpg_name}" -sbo %{__signature_filename} %{__plaintext_filename}
-+ #%__pgp_sign_cmd			%{__pgp} \
-+ #	pgp +batchmode=on +verbose=0 +armor=off \
-+diff --git a/rpmqv.c b/rpmqv.c
-+index b306486..7604396 100644
-+--- a/rpmqv.c
-++++ b/rpmqv.c
-+@@ -831,13 +831,16 @@ int main(int argc, const char ** argv)
-+ #endif
-+ 	    )
-+ 	    {
-+-		passPhrase = Getpass(_("Enter pass phrase: "));
-+-		if (rpmCheckPassPhrase(passPhrase)) {
-+-		    fprintf(stderr, _("Pass phrase check failed\n"));
-+-		    ec = EXIT_FAILURE;
-+-		    goto exit;
-++		passPhrase = rpmExpand("%{?_gpg_passphrase}", NULL);
-++		if (passPhrase == NULL || passPhrase[0] == '\0') {
-++			passPhrase = Getpass(_("Enter pass phrase: "));
-++			if (rpmCheckPassPhrase(passPhrase)) {
-++			    fprintf(stderr, _("Pass phrase check failed\n"));
-++			    ec = EXIT_FAILURE;
-++			    goto exit;
-++			}
-++			fprintf(stderr, _("Pass phrase is good.\n"));
-+ 		}
-+-		fprintf(stderr, _("Pass phrase is good.\n"));
-+ 		/* XXX Getpass() should realloc instead. */
-+ 		passPhrase = xstrdup(passPhrase);
-+ 	    }
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index eba043e..7621f8f 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -114,6 +114,7 @@ SRC_URI += " \
- 	   file://rpm-python-AddErase.patch \
- 	   file://rpm-rpmpgp-popt.patch \
- 	   file://rpm-fix-lua-tests-compilation-failure.patch \
-+	   file://rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch \
- "
+diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
+index c21e3f0..a8ea75f 100644
+--- a/meta/classes/sign_rpm.bbclass
++++ b/meta/classes/sign_rpm.bbclass
+@@ -1,8 +1,8 @@
+ # Class for generating signed RPM packages.
+ #
+ # Configuration variables used by this class:
+-# RPM_GPG_PASSPHRASE_FILE
+-#           Path to a file containing the passphrase of the signing key.
++# RPM_GPG_PASSPHRASE
++#           The passphrase of the signing key.
+ # RPM_GPG_NAME
+ #           Name of the key to sign with. May be key id or key name.
+ # RPM_GPG_BACKEND
+@@ -22,8 +22,10 @@ RPM_GPG_BACKEND ?= 'local'
  
- # OE specific changes
+ 
+ python () {
++    if d.getVar('RPM_GPG_PASSPHRASE_FILE', True):
++        raise_sanity_error('RPM_GPG_PASSPHRASE_FILE is replaced by RPM_GPG_PASSPHRASE', d)
+     # Check configuration
+-    for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE_FILE'):
++    for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE'):
+         if not d.getVar(var, True):
+             raise_sanity_error("You need to define %s in the config" % var, d)
+ 
+@@ -44,7 +46,7 @@ python sign_rpm () {
+ 
+     signer.sign_rpms(rpms,
+                      d.getVar('RPM_GPG_NAME', True),
+-                     d.getVar('RPM_GPG_PASSPHRASE_FILE', True))
++                     d.getVar('RPM_GPG_PASSPHRASE', True))
+ }
+ 
+ do_package_index[depends] += "signing-keys:do_deploy"
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index e738397..b83ee86 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -26,32 +26,20 @@ class LocalSigner(object):
+             raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
+                                       (keyid, output))
+ 
+-    def sign_rpms(self, files, keyid, passphrase_file):
++    def sign_rpms(self, files, keyid, passphrase):
+         """Sign RPM files"""
+-        import pexpect
+ 
+-        cmd = self.rpm_bin + " --addsign --define '_gpg_name %s' " % keyid
++        cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
++        cmd += "--define '_gpg_passphrase %s' " % passphrase
+         if self.gpg_bin:
+             cmd += "--define '%%__gpg %s' " % self.gpg_bin
+         if self.gpg_path:
+             cmd += "--define '_gpg_path %s' " % self.gpg_path
+         cmd += ' '.join(files)
+ 
+-        # Need to use pexpect for feeding the passphrase
+-        proc = pexpect.spawn(cmd)
+-        try:
+-            proc.expect_exact('Enter pass phrase:', timeout=15)
+-            with open(passphrase_file) as fobj:
+-                proc.sendline(fobj.readline().rstrip('\n'))
+-            proc.expect(pexpect.EOF, timeout=900)
+-            proc.close()
+-        except pexpect.TIMEOUT as err:
+-            bb.error('rpmsign timeout: %s' % err)
+-            proc.terminate()
+-        if os.WEXITSTATUS(proc.status) or not os.WIFEXITED(proc.status):
+-            bb.error('rpmsign failed: %s' % proc.before.strip())
+-            raise bb.build.FuncFailed("Failed to sign RPM packages")
+-
++        status, output = oe.utils.getstatusoutput(cmd)
++        if status:
++            raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
+ 
+     def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
+         """Create a detached signature of a file"""
 -- 
 1.7.9.5
 
