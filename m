@@ -1,47 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 72F1160722
+Return-Path: <julio.cruz@smartmatic.com>
+X-Greylist: delayed 352 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 21 Mar 2016 23:59:09 UTC
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com
+	[148.163.129.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 15FE86E688
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 23:30:27 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id nk17so83214894igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 16:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mBFPn1RKMFeyPH++TbbR3M5xRm4vTL29D3H4PMxJR8g=;
-	b=Ta+f/hZq6YMP0J+OytmPUUB0Yt2XnaYV4+BIzrEZkUSqZ7gp6LMi7iXM0TP3qNY89r
-	AyQHdoK1TS33p0rCcp/O5pXvqEpXWwyeb998ZV77M1d+Io9jq47Km0G5JwM1buguUFTi
-	0a+8IWljtk03xikn1MIU3YQljZcvUGmGKYHEqhgLbbLPXNmmzRqcDrHTyNLR3YIxSw+O
-	keQRMzXi0UfrCEgIgedGIkQaQwEBwtHepKKb0gI1kneBuDm7vnxRgScRoTr9VKQirW82
-	pQ/fgzo7NPtGA9zKZGUuc9ataHOaTwhaQomdMLyWLvSxS/Vfli7h9AQSpHQJNLmD4hTo
-	lSkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mBFPn1RKMFeyPH++TbbR3M5xRm4vTL29D3H4PMxJR8g=;
-	b=dWGYZdoT2uHUUjXiq8q77kj4ab3aPnTDzPAHyED5G90pMLZrUewGTVyi1cVAS1danh
-	6gaBmDQrhkwXeKxUfqqNIjzY7SBDGLRer3OwdWRv4rCTOury6VoovHypfuOkiSmE4RzA
-	CvXjQYOXQJVrBk0ihwYxV8DZcQ9vkzBOPirwlkfpIYcor4giqgtqR2jeLqZN1d9nAQe/
-	ik5qQ9HICNbz0mEXi5TTMRAWEo4ajWs2MZRUHrc1l/7NG5Z98hqEUEk5IGguFs6SWRVZ
-	OERa0sEWglHJ/Fg0zGvEFdAWWZcgfIaIkTPrtIedko8HtBq880AKs++LTI9+loLujSF2
-	g9fA==
-X-Gm-Message-State: AD7BkJKPMEnbrv6sbwddFAbwyA3B60PLAS9us0qzY4xUHCHI9bVSSFSlE8iQJF0bkxYsuAqiYqIn+eR9n7vyLV6n
-X-Received: by 10.50.43.226 with SMTP id z2mr15811700igl.78.1458603027737;
-	Mon, 21 Mar 2016 16:30:27 -0700 (PDT)
+	Mon, 21 Mar 2016 23:59:09 +0000 (UTC)
+Received: from mx1-us1.ppe-hosted.com (unknown [10.7.64.20])
+	by dispatch1-us1.ppe-hosted.com (Proofpoint Essentials ESMTP Server)
+	with ESMTP id 959132005D; Mon, 21 Mar 2016 23:53:18 +0000 (UTC)
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from hyperion.ve.sbp.com (unknown [186.73.192.71])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by mx1-us1.ppe-hosted.com (Proofpoint Essentials ESMTP Server) with
+	ESMTPS id 796E9119; Mon, 21 Mar 2016 23:53:16 +0000 (UTC)
+Received: from tethys.ve.sbp.com ([10.4.100.167]) by hyperion.ve.sbp.com
+	([10.4.100.165]) with mapi id 14.03.0123.003;
+	Mon, 21 Mar 2016 18:53:14 -0500
+From: Julio Cruz Barroso <julio.cruz@smartmatic.com>
+To: "Ryan Elkholy, PhD, PE" <ryanelkholy@gmail.com>
+Thread-Topic: [OE-core] [meta-qt5] QtCreator now allowing me to select qmake
+	in	SDK
+Thread-Index: AQHRg6pqYsKGEDUjJEyPZIjX5rAkjJ9kklXR
+Date: Mon, 21 Mar 2016 23:53:15 +0000
+Message-ID: <45BCEEFE-5C63-462E-95C9-BFE3D4E9ACAE@smartmatic.com>
+References: <CAMZfsd4G5iyKkEjaaR+T9_xTiSw=BKdB+rParnk7fwnq6uUvYQ@mail.gmail.com>
+In-Reply-To: <CAMZfsd4G5iyKkEjaaR+T9_xTiSw=BKdB+rParnk7fwnq6uUvYQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 21 Mar 2016 16:30:08 -0700 (PDT)
-In-Reply-To: <98344b2eaa67b64a8397652dcb3c51d5dbe39a61.1458582024.git.jussi.kukkonen@intel.com>
-References: <cover.1458582024.git.jussi.kukkonen@intel.com>
-	<98344b2eaa67b64a8397652dcb3c51d5dbe39a61.1458582024.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Mar 2016 23:30:08 +0000
-Message-ID: <CAJTo0LZQAcsMTkhqK8-S2LhqbCYCTWTGBS2Wqv3h6eQbh0haOg@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] glib-2.0: Install gio-querymodules in main package
+X-MDID: MabKRdMz0kqP
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-qt5] QtCreator now allowing me to select qmake in	SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,76 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 23:30:28 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f4566e87052e977b4b
-
---047d7bfea0f4566e87052e977b4b
-Content-Type: text/plain; charset=UTF-8
-
-On 21 March 2016 at 18:29, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-
-> gio-querymodules should be used whenever new Gio modules are
-> installed (to regenerate the module cache) so it should be
-> available by default.
->
-
-packages/corei7-64-poky-linux/glib-2.0/glib-2.0: FILELIST: added
-"/usr/bin/gio-querymodules /usr/share/glib-2.0/gettext/po/Makefile.in.in"
-  * FILES: added "/usr/bin/gio-querymodules"
-packages/corei7-64-poky-linux/glib-2.0/glib-2.0: PKG changed from
-libglib-2.0-0 to glib-2.0 [default] - may indicate debian renaming failure
-
-(and another few pages of rename warnings as everything renamed from
-libglib-2.0-0-locale-foo-bar to glib-2.0-locale-foo-bar)
-
-Basically the debian renamer doesn't take effect if there are binaries in
-the package.  Maybe we need to inherit lib_package (if possible) and put
-key binaries (such as this) into libglib-2.0-bin and the rest into -utils.
-A fair number of the utils could be moved to -dev anyway, such as
-genmarshal and mkenums.
-
-Looking at this did show some other odd file placement in the glib recipe
-though:
-* gschema.dtd in PN instead of somewhere else (PN-dev?)
-* gdbus-codegen should be in PN-codegen?
-* glib-gettext/Makefile.in.in should be in PN-dev?
-
-Ross
-
---047d7bfea0f4566e87052e977b4b
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 21 Mar 2016 23:59:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 March 2016 at 18:29, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
-;border-left-style:solid;padding-left:1ex"><div id=3D":bhh" class=3D"" styl=
-e=3D"overflow:hidden">gio-querymodules should be used whenever new Gio modu=
-les are<br>
-installed (to regenerate the module cache) so it should be<br>
-available by default.</div></blockquote></div><br><div class=3D"gmail_extra=
-">packages/corei7-64-poky-linux/glib-2.0/glib-2.0: FILELIST: added &quot;/u=
-sr/bin/gio-querymodules /usr/share/glib-2.0/gettext/po/<a href=3D"http://Ma=
-kefile.in.in">Makefile.in.in</a>&quot;</div><div class=3D"gmail_extra">=C2=
-=A0 * FILES: added &quot;/usr/bin/gio-querymodules&quot;</div><div class=3D=
-"gmail_extra">packages/corei7-64-poky-linux/glib-2.0/glib-2.0: PKG changed =
-from libglib-2.0-0 to glib-2.0 [default] - may indicate debian renaming fai=
-lure</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(=
-and another few pages of rename warnings as everything renamed from libglib=
--2.0-0-locale-foo-bar to glib-2.0-locale-foo-bar)</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Basically the debian renamer do=
-esn&#39;t take effect if there are binaries in the package.=C2=A0 Maybe we =
-need to inherit lib_package (if possible) and put key binaries (such as thi=
-s) into libglib-2.0-bin and the rest into -utils.=C2=A0 A fair number of th=
-e utils could be moved to -dev anyway, such as genmarshal and mkenums.</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Looking at=
- this did show some other odd file placement in the glib recipe though:</di=
-v><div class=3D"gmail_extra">* gschema.dtd in PN instead of somewhere else =
-(PN-dev?)</div><div class=3D"gmail_extra">* gdbus-codegen should be in PN-c=
-odegen?</div><div class=3D"gmail_extra">* glib-gettext/<a href=3D"http://Ma=
-kefile.in.in">Makefile.in.in</a> should be in PN-dev?</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+Hi Ryan,
 
---047d7bfea0f4566e87052e977b4b--
+Try to inherit populate_sdk_qt5 in your image  or use meta-toolchain-qt5 to=
+ create the SDK. In this way you will have the qmake in your SDK installer.
+
+Regards
+
+Julio
+
+On Mar 22, 2016, at 3:46 AM, Ryan Elkholy, PhD, PE <ryanelkholy@gmail.com> =
+wrote:
+
+Hello,
+
+I have used bitbake core-image-minimal -c populate_sdk to build an SDK for =
+the Minnowboard to be used by QtCreator. After doing so, the SDK was built =
+in /opt/poky/2.0.1/sysroots...
+
+1. Within /sysroots I have corei7-64-poky-linux and x86_64-pokysdk-linux di=
+rectories. My first question is which directory do I use when pointing to m=
+y compiler, debugger and QtVersion (qmake) for QtCreator?
+
+2. Secondly, when I try pointing to the qmake in /opt/poky/2.0.1/sysroots/c=
+orei7-64-poky-linux/usr/bin/qt, QtCreator says that the file does not exist=
+. I have tried everything to add it but it just wont work. I then thought I=
+ had to point to the one in x86_64-pokysdk-linux, however there is no qmake=
+ there. Any ideas on what the problem may be?
+
+Thanks!
+--=20
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
