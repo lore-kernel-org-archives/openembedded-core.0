@@ -1,28 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C5C8F60232
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B571D607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Mar 2016 22:40:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2KMe0N4017226; Sun, 20 Mar 2016 22:40:43 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sALlB427Mvpo; Sun, 20 Mar 2016 22:40:43 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2KMebCu017272
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 20 Mar 2016 22:40:39 GMT
-Message-ID: <1458513637.20442.5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 20 Mar 2016 22:40:37 +0000
-In-Reply-To: <cover.1457938286.git.liezhi.yang@windriver.com>
+	Mon, 21 Mar 2016 01:53:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2L1rcS6013987
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 20 Mar 2016 18:53:38 -0700 (PDT)
+Received: from [128.224.163.174] (128.224.163.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 20 Mar 2016 18:53:37 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1457938286.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
+	<1458513637.20442.5.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56EF5420.7030809@windriver.com>
+Date: Mon, 21 Mar 2016 09:53:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <1458513637.20442.5.camel@linuxfoundation.org>
 Subject: Re: [PATCH 0/7] fixes for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,40 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Mar 2016 22:40:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 21 Mar 2016 01:53:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2016-03-13 at 23:52 -0700, Robert Yang wrote:
-> The following changes since commit
-> 9d5fa6da5ae14b26a83ec1af609d4c45944bfd44:
-> 
->   cross-canadian/libgcc: fix aarch64's multilib SDK (2016-03-13
-> 19:36:57 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log
-> /?h=rbt/runqemu
-> 
-> Robert Yang (7):
->   runqemu: fix ROOTFS for vmdk
->   runqemu: simplify the checking for vm images
->   runqemu: remove ISO and RAMFS from help text
->   runqemu: add support for qcow2 and vdi
->   runqemu: simplify checking for iso and ramfs
->   runqemu-internal: cleanup unsed code
->   runqemu-internal: split the code into functions
 
-I have a feeling one of these causes:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/
-builds/426/steps/Running%20oe-selftest/logs/stdio
+On 03/21/2016 06:40 AM, Richard Purdie wrote:
+> On Sun, 2016-03-13 at 23:52 -0700, Robert Yang wrote:
+>> The following changes since commit
+>> 9d5fa6da5ae14b26a83ec1af609d4c45944bfd44:
+>>
+>>    cross-canadian/libgcc: fix aarch64's multilib SDK (2016-03-13
+>> 19:36:57 -0700)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log
+>> /?h=rbt/runqemu
+>>
+>> Robert Yang (7):
+>>    runqemu: fix ROOTFS for vmdk
+>>    runqemu: simplify the checking for vm images
+>>    runqemu: remove ISO and RAMFS from help text
+>>    runqemu: add support for qcow2 and vdi
+>>    runqemu: simplify checking for iso and ramfs
+>>    runqemu-internal: cleanup unsed code
+>>    runqemu-internal: split the code into functions
+>
+> I have a feeling one of these causes:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/
+> builds/426/steps/Running%20oe-selftest/logs/stdio
+>
+> (the  test_qemu (oeqa.selftest.wic.Wic) failure)
 
-(the  test_qemu (oeqa.selftest.wic.Wic) failure)
+Sorry, I will fix it.
 
-Cheers,
+// Robert
 
-Richard
+>
+> Cheers,
+>
+> Richard
+>
 
