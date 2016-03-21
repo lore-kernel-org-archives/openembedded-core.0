@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A8926FFC7
+	by mail.openembedded.org (Postfix) with ESMTP id 27E676FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 19:43:20 +0000 (UTC)
+	Mon, 21 Mar 2016 19:43:21 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Mar 2016 12:43:21 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 21 Mar 2016 12:43:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="673362620"
+X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="673362629"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2016 12:43:20 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2016 12:43:21 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 21:43:17 +0200
-Message-Id: <8ee737433c7c8a18d3ee295aa66ea379ad309989.1458587440.git.jussi.kukkonen@intel.com>
+Date: Mon, 21 Mar 2016 21:43:18 +0200
+Message-Id: <bb5be82eba2b4195cf99e3767a8554f517b6d6a1.1458587440.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <8ee737433c7c8a18d3ee295aa66ea379ad309989.1458587440.git.jussi.kukkonen@intel.com>
+References: <8ee737433c7c8a18d3ee295aa66ea379ad309989.1458587440.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1458587440.git.jussi.kukkonen@intel.com>
 References: <cover.1458587440.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/2] matchbox-panel-2: Fix Home-button icon load issue
+Subject: [PATCH 2/2] matchbox-wm: Update to fix XChangeProperty datatype issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,86 +33,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 21 Mar 2016 19:43:22 -0000
 
-Home (showdesktop) button sometimes did not load the icon because
-the active state was never initialized. Backport fix for this issue.
+This brings us to master HEAD and adds a single commit
+compared to the previous version:
+  8178e70 ewmh: Fix data type of a few XChangeProperty calls
 
-[YOCTO #9026]
+This fixes broken Home-button in matchbox panel on mips64 (and
+probably other platforms).
+
+[YOCTO #9284]
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...top-Make-sure-active-state-is-initialized.patch | 50 ++++++++++++++++++++++
- .../matchbox-panel-2/matchbox-panel-2_git.bb       |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make-sure-active-state-is-initialized.patch
+ meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make-sure-active-state-is-initialized.patch b/meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make-sure-active-state-is-initialized.patch
-new file mode 100644
-index 0000000..3bab6d2
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make-sure-active-state-is-initialized.patch
-@@ -0,0 +1,50 @@
-+From a0b5fca04da208990f3c40e65dbb045da4cdb35e Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Sun, 20 Mar 2016 13:24:37 +0200
-+Subject: [PATCH] showdesktop: Make sure active state is initialized
-+
-+There are cases (in qemu at least) where set_active()
-+is never called on startup. Make sure we initialize the active
-+state so the icon gets loaded and the applet is not confused
-+about the current state.
-+
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+
-+Upstream-Status: Backport
-+---
-+ applets/showdesktop/showdesktop.c | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/applets/showdesktop/showdesktop.c b/applets/showdesktop/showdesktop.c
-+index 61dd5c2..33c13e1 100644
-+--- a/applets/showdesktop/showdesktop.c
-++++ b/applets/showdesktop/showdesktop.c
-+@@ -181,6 +181,12 @@ button_clicked_cb (GtkButton         *button,
-+ 	            &xev);
-+ }
-+ 
-++static void
-++realize_cb (GtkWidget *button, ShowDesktopApplet *applet)
-++{
-++        sync_applet (applet);
-++}
-++
-+ G_MODULE_EXPORT GtkWidget *
-+ mb_panel_applet_create (const char    *id,
-+                         GtkOrientation orientation)
-+@@ -216,6 +222,10 @@ mb_panel_applet_create (const char    *id,
-+                           "clicked",
-+                           G_CALLBACK (button_clicked_cb),
-+                           applet);
-++        g_signal_connect (button,
-++                          "realize",
-++                          G_CALLBACK (realize_cb),
-++                          applet);
-+ 
-+         g_object_weak_ref (G_OBJECT (button),
-+                            (GWeakNotify) show_desktop_applet_free,
-+-- 
-+2.7.0
-+
-diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
-index 61d9e30..98c3ae4 100644
---- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
-+++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
-@@ -22,6 +22,7 @@ RREPLACES_${PN} = "matchbox-panel"
- RCONFLICTS_${PN} = "matchbox-panel"
+diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
+index 422d255..aa76828 100644
+--- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
++++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://src/wm.h;endline=21;md5=a7e844465edbcf79c282369f93caa
+ SECTION = "x11/wm"
+ DEPENDS = "libmatchbox virtual/libx11 libxext libxrender startup-notification expat gconf libxcursor libxfixes"
  
- SRC_URI = "git://git.yoctoproject.org/${BPN} \
-+           file://0001-showdesktop-Make-sure-active-state-is-initialized.patch \
-            file://silence-warnings.patch"
+-SRCREV = "29544f0e61cc281fc60061443a537271e1081b78"
++SRCREV = "8178e70d5c742c4cd63b51df228cc8aa3594d518"
+ PV = "1.2+git${SRCPV}"
  
- EXTRA_OECONF = "--enable-startup-notification --enable-dbus"
+ SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager \
 -- 
 2.1.4
 
