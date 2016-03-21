@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 4912673167
+	by mail.openembedded.org (Postfix) with ESMTP id 9A8EC6FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 05:14:33 +0000 (UTC)
+	Mon, 21 Mar 2016 05:14:35 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 20 Mar 2016 22:14:34 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 20 Mar 2016 22:14:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,369,1455004800"; d="scan'208";a="938122173"
+X-IronPort-AV: E=Sophos;i="5.24,369,1455004800"; d="scan'208";a="938122186"
 Received: from edeshpan-mobl5.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.136.133])
-	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2016 22:14:32 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2016 22:14:35 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 18:14:04 +1300
-Message-Id: <d9d0824228f56fe7ff65a32d292abd1ea9a7bdb9.1458537176.git.paul.eggleton@linux.intel.com>
+Date: Mon, 21 Mar 2016 18:14:05 +1300
+Message-Id: <d52615af439cb62736ca45b5b170ae95fecb3999.1458537176.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1458537176.git.paul.eggleton@linux.intel.com>
 References: <cover.1458537176.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1458537176.git.paul.eggleton@linux.intel.com>
 References: <cover.1458537176.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/9] devtool: add: delete externalsrc files on npm recipe do_install
+Subject: [PATCH 6/9] devtool: add: create git repository if URL specified as positional argument
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,67 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 05:14:33 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 05:14:35 -0000
 
-The npm class just installs whatever is in ${S}; if you're using
-externalsrc in conjunction with it the symlinks (oe-workdir and oe-logs
-by default) plus singletask.lock will end up in the final package, which
-isn't really right. Introduce a variable so we know the path the files
-will be installed into within npm.bbclass, and append to do_install
-within the workspace bbappend to delete the files.
+When we add from a fetched URL we are supposed to turn the resulting
+source tree into a git repository (if it isn't already one). However, we
+were using the older deprecated option name here instead of the
+positional argument, so "devtool add -f <url>" resulted in the repo
+being created but "devtool add <url>" didn't, which was wrong.
+
+Also update the oe-selftest tests to check that this worked.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/npm.bbclass        |  6 ++++--
- scripts/lib/devtool/standard.py | 11 +++++++++++
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/devtool.py | 2 ++
+ scripts/lib/devtool/standard.py   | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index b5db99d..33ff5e3 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -1,6 +1,8 @@
- DEPENDS_prepend = "nodejs-native "
- S = "${WORKDIR}/npmpkg"
- 
-+NPM_INSTALLDIR = "${D}${libdir}/node_modules/${PN}"
-+
- npm_do_compile() {
- 	# changing the home directory to the working directory, the .npmrc will
- 	# be created in this directory
-@@ -14,8 +16,8 @@ npm_do_compile() {
- }
- 
- npm_do_install() {
--	mkdir -p ${D}${libdir}/node_modules/${PN}/
--	cp -a ${S}/* ${D}${libdir}/node_modules/${PN}/ --no-preserve=ownership
-+	mkdir -p ${NPM_INSTALLDIR}/
-+	cp -a ${S}/* ${NPM_INSTALLDIR}/ --no-preserve=ownership
- }
- 
- python populate_packages_prepend () {
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 2e4b6da..fe9f7f7 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -301,6 +301,7 @@ class DevtoolTests(DevtoolBase):
+         result = runCmd('devtool add %s %s -f %s' % (testrecipe, srcdir, url))
+         self.assertTrue(os.path.exists(os.path.join(self.workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created. %s' % result.output)
+         self.assertTrue(os.path.isfile(os.path.join(srcdir, 'setup.py')), 'Unable to find setup.py in source directory')
++        self.assertTrue(os.path.isdir(os.path.join(srcdir, '.git')), 'git repository for external source tree was not created')
+         # Test devtool status
+         result = runCmd('devtool status')
+         self.assertIn(testrecipe, result.output)
+@@ -394,6 +395,7 @@ class DevtoolTests(DevtoolBase):
+         result = runCmd('devtool add %s' % url)
+         self.assertTrue(os.path.exists(os.path.join(self.workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created. %s' % result.output)
+         self.assertTrue(os.path.isfile(os.path.join(srcdir, 'configure')), 'Unable to find configure script in source directory')
++        self.assertTrue(os.path.isdir(os.path.join(srcdir, '.git')), 'git repository for external source tree was not created')
+         # Test devtool status
+         result = runCmd('devtool status')
+         self.assertIn(testrecipe, result.output)
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 7600a8f..9ac2ad5 100644
+index 9ac2ad5..f3f3e98 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -238,6 +238,17 @@ def add(args, config, basepath, workspace):
-             f.write('    rm -f ${D}/singletask.lock\n')
-             f.write('}\n')
+@@ -205,7 +205,7 @@ def add(args, config, basepath, workspace):
+     for fn in os.listdir(recipedir):
+         _add_md5(config, recipename, os.path.join(recipedir, fn))
  
-+        if bb.data.inherits_class('npm', rd):
-+            f.write('do_install_append() {\n')
-+            f.write('    # Remove files added to source dir by devtool/externalsrc\n')
-+            f.write('    rm -f ${NPM_INSTALLDIR}/singletask.lock\n')
-+            f.write('    rm -rf ${NPM_INSTALLDIR}/.git\n')
-+            f.write('    rm -rf ${NPM_INSTALLDIR}/oe-local-files\n')
-+            f.write('    for symlink in ${EXTERNALSRC_SYMLINKS} ; do\n')
-+            f.write('        rm -f ${NPM_INSTALLDIR}/${symlink%%:*}\n')
-+            f.write('    done\n')
-+            f.write('}\n')
-+
-     _add_md5(config, recipename, appendfile)
+-    if args.fetch and not args.no_git:
++    if args.fetchuri and not args.no_git:
+         setup_git_repo(srctree, args.version, 'devtool')
  
-     logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
+     initial_rev = None
 -- 
 2.5.5
 
