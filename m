@@ -1,30 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 945EB6FFA6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 208A8608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 14:20:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Mar 2016 07:20:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,372,1455004800"; d="scan'208";a="915621618"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 21 Mar 2016 07:19:57 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1458235169-9267-1-git-send-email-armccurdy@gmail.com>
-	<1458235169-9267-2-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LZ_9NTAMLo9eYGKYa+W4L_QQWQXrROog2Bwn89pbxmRng@mail.gmail.com>
-	<CAJ86T=X=amcjcvmsUidKYTsUYHMO+LHEE5znv-t0Qv8KGZLyjA@mail.gmail.com>
-	<1458248553.7615.34.camel@linuxfoundation.org>
-	<CAJ86T=WpO9wAphNS==h6zzcg2oUZLa4tepVbAORT865VtX0YxQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <56F00213.8020408@linux.intel.com>
-Date: Mon, 21 Mar 2016 16:15:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Mon, 21 Mar 2016 14:48:10 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id ig19so85807405igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2016 07:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2jF45ChzONqOIezFumL0AbVOTQmaSWVV4r3u/K7dL9M=;
+	b=cmMtRCpm9tr1jSZm429zHr92awqtN54Yp1Hr3yyTib2ANEXiPfirkRGK+VTmqBJO7e
+	pNCKlKsIYqNJjDoBDMaPkQVFfBV4J6x7AkT9/Fd2SRouAZGM/IUz+1ecMejvhbUmO8X5
+	8jMOxHUJMci/X95CVnU2rEu5+BdP0InGY2ygHeQVbLPhxb97MNksVaK97HMNkobDO6gW
+	gQMQllqWPVPKZPox6Cvx2c2pkpP19gthVrPx8mPmFu9waSerlxk2qhjJ7aG6s4Cd0Rnk
+	GDeSGSodfeXzciWlRG2HsQ3fpVYv2UoZ7w6SfELLYIwSCnIYNo497TbvK/tgL/sc63Rs
+	KAIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2jF45ChzONqOIezFumL0AbVOTQmaSWVV4r3u/K7dL9M=;
+	b=m2OP0UX28BoLys+yeXR5G265lyR0OyDoMLTAAPVTFNrmyXPmmgatSvWp+3BESU5wGT
+	76AqtZULC9UrSSj7+Polt7sM19uU2w76TW1ZkesxQjLvCW6x+/iPqsb3UeE5/KCaSsR5
+	se3c9P0sUZvEsbrC78xMGBAwbiw2+S2bNoWWrtI+EbZQckpf89Do2Fu3mOm3aOVpB/H8
+	1IM7cg+9qs4+EmCWAcnpwqWMNkrthrt0Pu9krEF/fWFXA/LGywgNCOYwwAc7WdUYQtCK
+	/0x6ceLeg6boITMGe0mEYPi3O7aNJysMBDK7GoGorNgMviJAZRjOxOmdB3CfHUD4+YbQ
+	yiMQ==
+X-Gm-Message-State: AD7BkJLtIZewWbPaMsBbbQKl+ZZvBVQkqf9YZtWlsi+seUkRvYK5NAKeMYlCHzmCb+YTlKxs9Ak8MFs79ezf1mPA
+X-Received: by 10.50.155.72 with SMTP id vu8mr11983078igb.64.1458571690976;
+	Mon, 21 Mar 2016 07:48:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WpO9wAphNS==h6zzcg2oUZLa4tepVbAORT865VtX0YxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/8] bitbake.conf: remove 'gobject-introspection-data' from DISTRO/MACHINE_FEATURES_BACKFILL
+Received: by 10.107.162.70 with HTTP; Mon, 21 Mar 2016 07:47:51 -0700 (PDT)
+In-Reply-To: <ee2f2af704cb828dd936d435cb98c88de74db825.1458397812.git.hongxu.jia@windriver.com>
+References: <cover.1458397812.git.hongxu.jia@windriver.com>
+	<ee2f2af704cb828dd936d435cb98c88de74db825.1458397812.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 Mar 2016 14:47:51 +0000
+Message-ID: <CAJTo0LbbXz4PkHzW97csmTBjnffFJwJnR6JauecLrXc-nH3_BQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 18/18] gconf: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 14:20:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Mar 2016 14:48:12 -0000
+Content-Type: multipart/alternative; boundary=001a1134bb18854db8052e902f13
 
-On 03/18/2016 01:08 PM, Andre McCurdy wrote:
+--001a1134bb18854db8052e902f13
+Content-Type: text/plain; charset=UTF-8
 
-> Deciding if/how qemu can run binaries for each tuning target is
-> already partially addressed by the QEMU_EXTRAOPTIONS logic in
-> qemu.bbclass. My suggestion would be to somehow generalise that
-> existing logic, so (at least for machines using one of the standard
-> oe-core tuning files) the question "can qemu run binaries created for
-> ${MACHINE}?" could be answered automatically.
+On 19 March 2016 at 14:56, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-I agree: machine features should specify the capabilities of a machine, 
-and 'generate of gobject introspection data' is only a specific 
-application of 'machine has qemu usermode support' feature. We might 
-have other uses for qemu userspace in the future, for example gtkdoc 
-generation.
+> +PACKAGECONFIG[debug] = "--enable-debug=yes, --enable-debug=no"
+>
 
-So I'm thinking of having a machine feature called 'qemu-usermode', 
-which is turned on by default, and can be disabled in specific machine 
-configurations. And then a distro feature called 'gobject introspection 
-data', which is on or off depending on whether the machine supports it, 
-but can also be turned off explicitly. And then the recipes and recipe 
-classes do the right thing. How's that?
+There's an explicit --enable-debug in EXTRA_OECONF, and reading the
+configure --help shows that the "off" mode should be --enable-debug=minimum
+as "no" removes the GLib checks which can result in crashes if bad data is
+passed to the API.
 
+Ross
 
-Alex
+--001a1134bb18854db8052e902f13
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 March 2016 at 14:56, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9qh" class=
+=3D"a3s" style=3D"overflow:hidden">+PACKAGECONFIG[debug] =3D &quot;--enable=
+-debug=3Dyes, --enable-debug=3Dno&quot;<br></div></blockquote></div><br>The=
+re&#39;s an explicit --enable-debug in EXTRA_OECONF, and reading the config=
+ure --help shows that the &quot;off&quot; mode should be --enable-debug=3Dm=
+inimum as &quot;no&quot; removes the GLib checks which can result in crashe=
+s if bad data is passed to the API.</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1134bb18854db8052e902f13--
