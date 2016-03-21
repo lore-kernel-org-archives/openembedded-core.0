@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A82660745
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DDF0C60745
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 18:29:28 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 21 Mar 2016 11:29:29 -0700
+	Mon, 21 Mar 2016 18:29:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Mar 2016 11:29:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="70567411"
+X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="942006403"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga004.fm.intel.com with ESMTP; 21 Mar 2016 11:29:28 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2016 11:29:35 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 20:29:24 +0200
-Message-Id: <cover.1458582024.git.jussi.kukkonen@intel.com>
+Date: Mon, 21 Mar 2016 20:29:32 +0200
+Message-Id: <98344b2eaa67b64a8397652dcb3c51d5dbe39a61.1458582024.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/2] Create GIO module cache on postinst/rm
+In-Reply-To: <cover.1458582024.git.jussi.kukkonen@intel.com>
+References: <cover.1458582024.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/2] glib-2.0: Install gio-querymodules in main package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +29,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 18:29:31 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 18:29:36 -0000
 
-GIO module cache is used by GIO at runtime to avoid opening all modules
-just to find out which extension points they implement. The patch
-uses gio-querymodules tool to regenerate the cache at postinst/postrm.
+gio-querymodules should be used whenever new Gio modules are
+installed (to regenerate the module cache) so it should be
+available by default.
 
-So nothing is really broken currently, this is a runtime optimization.
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Cheers,
-  Jussi
-
-The following changes since commit 068afc5d436c716591a54f7d6e1944d8b6f9a198:
-
-  tzdata: update to 2016b (2016-03-20 23:12:32 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/gio-module-cache
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/gio-module-cache
-
-Jussi Kukkonen (2):
-  glib-2.0: Install gio-querymodules in main package
-  gio-module-cache: Add class for Gio modules
-
- meta/classes/gio-module-cache.bbclass              | 36 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc                | 12 +++++---
- .../glib-networking/glib-networking_2.46.1.bb      |  2 +-
- meta/recipes-gnome/gnome/gconf_3.2.6.bb            |  2 +-
- .../postinst-intercepts/update_gio_module_cache    |  7 +++++
- 5 files changed, 53 insertions(+), 6 deletions(-)
- create mode 100644 meta/classes/gio-module-cache.bbclass
- create mode 100644 scripts/postinst-intercepts/update_gio_module_cache
-
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 35153fa..c0f9e0d 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -22,7 +22,7 @@ DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' dbus', '', d)}"
+ DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
+ DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib glib-2.0-native"
+ 
+-PACKAGES =+ "${PN}-utils ${PN}-codegen"
++PACKAGES += "${PN}-utils ${PN}-codegen"
+ 
+ LEAD_SONAME = "libglib-2.0.*"
+ FILES_${PN}-utils = "${bindir}/* ${datadir}/glib-2.0/gettext"
+@@ -48,8 +48,12 @@ do_configure_prepend() {
+ 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+ }
+ 
+-FILES_${PN} = "${libdir}/lib*${SOLIBS} ${libdir}/gio ${datadir}/glib-2.0/schemas \
+-               ${datadir}/glib-2.0/gettext/mkinstalldirs ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
++FILES_${PN} = "${libdir}/lib*${SOLIBS} \
++               ${libdir}/gio \
++               ${bindir}/gio-querymodules \
++               ${datadir}/glib-2.0/schemas \
++               ${datadir}/glib-2.0/gettext/mkinstalldirs \
++               ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
+ FILES_${PN}-dev += "${libdir}/glib-2.0/include \
+                     ${libdir}/gio/modules/lib*${SOLIBSDEV} \
+                     ${libdir}/gio/modules/*.la"
 -- 
 2.1.4
 
