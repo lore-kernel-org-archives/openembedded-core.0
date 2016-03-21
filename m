@@ -1,24 +1,41 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 27E676FFD4
+Return-Path: <ryanelkholy@gmail.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9449B607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 19:43:21 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Mar 2016 12:43:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="673362629"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2016 12:43:21 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Mon, 21 Mar 2016 19:46:41 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id o5so137733295iod.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2016 12:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to;
+	bh=idJuoVUKWwRfMTB2bn1D6eqv7A1tn/02qohfGgqFGYs=;
+	b=TfWeD5dzXnNusmdTTKmiD8l49uLg8xcNKeQZkVjcTfNpYCHUYbjalgKcOaLLxtH6UR
+	p9Aj6Q+kHi0wV/DJvBy1dNxsPyBEvNcRvR3waY6mza9eGKdRfHM9DsENaTwZ5e2Svhuh
+	75S8ynzkynSLUlg0xEZ8HudAy4k4N2LUDMFtf8Pju6egyU7Fu1n8OQPKb4n4biXGbcfS
+	1WAclWyFklYaeNILq/F57HPF1pyUsZlCsv3q7g09WHKeEsVzveRpCWn8De+ODV3xTCjR
+	lTT7e+63RpIlTScvDpboelnJFUrqJGSUktGmFpEyJM/yPf8dOIE5ctLACMeNRkLd3ZZm
+	97Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+	bh=idJuoVUKWwRfMTB2bn1D6eqv7A1tn/02qohfGgqFGYs=;
+	b=BiplM9D3/MaXryAlpkOsdVn0WGS59jUQgT/wpIE290R1iT9ee8h/dDieivqjaoDaVZ
+	DZLwC2iUunXKWoe4HFfa+7FXejLKjOSWbmJjP6jNgeZ9pnOT0jAYBIlAIfFznAxQt5U/
+	JkFjT7L7lMasDR+i/6E3+2x5wiD/sS5da4dALzr4yWHI7xbtHXgoLu9O5t48u88oXUP5
+	uE1VeMwd45IHNNlUEcyFWL0DZ9nFZVBEEqd3NU0xwQ4M7vr6C52C+q56IFVXGjUqPaQO
+	5DaXwWRxVapeNF1bzx0Q7pozqcIovMAskkw05I9RmW+rdJjBhD4HR1LlO8dp82EUn/hE
+	77cg==
+X-Gm-Message-State: AD7BkJKIzs2zFU/wbo77Z5Jpq9U9xPgadO4sWObTJBWTt8aVFRWqorrW3kx5JjWshnn7Ngshcp/kyP6VVU14fw==
+MIME-Version: 1.0
+X-Received: by 10.107.63.139 with SMTP id m133mr28019158ioa.157.1458589110960; 
+	Mon, 21 Mar 2016 12:38:30 -0700 (PDT)
+Received: by 10.64.26.227 with HTTP; Mon, 21 Mar 2016 12:38:30 -0700 (PDT)
+Date: Mon, 21 Mar 2016 15:38:30 -0400
+Message-ID: <CAMZfsd4G5iyKkEjaaR+T9_xTiSw=BKdB+rParnk7fwnq6uUvYQ@mail.gmail.com>
+From: "Ryan Elkholy, PhD, PE" <ryanelkholy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 21:43:18 +0200
-Message-Id: <bb5be82eba2b4195cf99e3767a8554f517b6d6a1.1458587440.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <8ee737433c7c8a18d3ee295aa66ea379ad309989.1458587440.git.jussi.kukkonen@intel.com>
-References: <8ee737433c7c8a18d3ee295aa66ea379ad309989.1458587440.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1458587440.git.jussi.kukkonen@intel.com>
-References: <cover.1458587440.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/2] matchbox-wm: Update to fix XChangeProperty datatype issue
+Subject: [meta-qt5] QtCreator now allowing me to select qmake in SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 19:43:22 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 19:46:44 -0000
+Content-Type: multipart/alternative; boundary=94eb2c061552d57e65052e943d57
 
-This brings us to master HEAD and adds a single commit
-compared to the previous version:
-  8178e70 ewmh: Fix data type of a few XChangeProperty calls
+--94eb2c061552d57e65052e943d57
+Content-Type: text/plain; charset=UTF-8
 
-This fixes broken Home-button in matchbox panel on mips64 (and
-probably other platforms).
+Hello,
 
-[YOCTO #9284]
+I have used bitbake core-image-minimal -c populate_sdk to build an SDK for
+the Minnowboard to be used by QtCreator. After doing so, the SDK was built
+in /opt/poky/2.0.1/sysroots...
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+1. Within /sysroots I have corei7-64-poky-linux and x86_64-pokysdk-linux
+directories. My first question is which directory do I use when pointing to
+my compiler, debugger and QtVersion (qmake) for QtCreator?
 
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-index 422d255..aa76828 100644
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-+++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://src/wm.h;endline=21;md5=a7e844465edbcf79c282369f93caa
- SECTION = "x11/wm"
- DEPENDS = "libmatchbox virtual/libx11 libxext libxrender startup-notification expat gconf libxcursor libxfixes"
- 
--SRCREV = "29544f0e61cc281fc60061443a537271e1081b78"
-+SRCREV = "8178e70d5c742c4cd63b51df228cc8aa3594d518"
- PV = "1.2+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager \
--- 
-2.1.4
+2. Secondly, when I try pointing to the qmake in
+/opt/poky/2.0.1/sysroots/corei7-64-poky-linux/usr/bin/qt, QtCreator says
+that the file does not exist. I have tried everything to add it but it just
+wont work. I then thought I had to point to the one in x86_64-pokysdk-linux,
+however there is no qmake there. Any ideas on what the problem may be?
 
+Thanks!
 
+--94eb2c061552d57e65052e943d57
+Content-Type: text/html; charset=UTF-8
+
+<div dir="ltr"><div><div><div><div>Hello,<br><br></div>I have used <span>bitbake 
+core-image-minimal -c populate_sdk to build an SDK for the Minnowboard 
+to be used by QtCreator. After doing so, the SDK was built in 
+/opt/poky/2.0.1/sysroots...<br><br></span></div><span>1. Within 
+/sysroots I have corei7-64-poky-linux and x86_64-pokysdk-linux 
+directories. My first question is which directory do I use when pointing
+ to my compiler, debugger and QtVersion (qmake) for QtCreator?<br><br></span></div><span>2.
+ Secondly, when I try pointing to the qmake in 
+/opt/poky/2.0.1/sysroots/corei7-64-poky-linux/usr/bin/qt, QtCreator says
+ that the file does not exist. I have tried everything to add it but it 
+just wont work. I then thought I had to point to the one in </span><span>x86_64-pokysdk-linux, however there is no qmake there. </span><span>Any ideas on what the problem may be?</span><br><br></div>Thanks!</div>
+
+--94eb2c061552d57e65052e943d57--
