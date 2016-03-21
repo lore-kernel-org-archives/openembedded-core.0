@@ -1,27 +1,61 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2754D6212F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1396D6212F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 10:09:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2LA9QlG002044
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 21 Mar 2016 03:09:26 -0700 (PDT)
-Received: from [128.224.163.174] (128.224.163.174) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 21 Mar 2016 03:09:25 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1458213205.git.pkj@axis.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <56EFC854.2020605@windriver.com>
-Date: Mon, 21 Mar 2016 18:09:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Mon, 21 Mar 2016 10:11:15 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id u190so260401595pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2016 03:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=HRW2wbnOs63GBYPrOAN983s1VLBil32cS+jZxLrGcOw=;
+	b=Yvo6xAK6DjvBAqewRG7U0Xzp6fF+MdFmNfMSDypgNlp951CON0eV+CQHUWdXvWtLGs
+	6Bg9cjT6pt/zAhjqW+HA7+Zy+2kOR6HOSEINYQN+Bk8MxjknyAlcecRTMyE4yD77zmrr
+	KiEZY6QJZ2X+BEvX2oOFW46ahJxTGAU3p8aS2Iu6uuxhGAVEShU9Yyt9sTrf9s5Ydq6M
+	Wed5i3mt8ZiOZZKXcyBruR9JMa4iJGxJ68Eto+nEpUApVURgejmMUm5fsbYjFhf70KSL
+	ss7jg7/2CQUfJazaSUYFDDJTTM5UPCnC5b8R6V2sK5pdsBtwq1eH0/yCYhJsRf7+oapU
+	5xAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=HRW2wbnOs63GBYPrOAN983s1VLBil32cS+jZxLrGcOw=;
+	b=RKN4cVQ+xYhKUvmbRbA75Y/nWb6bJSE1lvexJIVJ1OZFU3laZjIqOC3FM2KJ2Y4beF
+	ylKzg5tsen2gDde3dXDmCgahlIGBJbN0yUQWZ9D9xMmiqXlxm+XnjF4YHSuYdQw/LXSm
+	p3MAc8qB8WmMb6jkPhJWqa+oYsDBg5HEfBRd4pLqx2q24myG3RDgt0RYLXZqrfwCnwh3
+	sylfLZSMJowF23X7qJbSNzQNKsXkXv2Vhiuuj7yBqGG7VcCbr2qsIy35quF0wKe4CUJo
+	hb+/7ztV2iXNnJUJxD0rPUa8sA5JPsXUs+z1SpYa0GG2WENsU7bUTaHrZHyLHi0Fgpy0
+	Dv9g==
+X-Gm-Message-State: AD7BkJLQ2HFahd1OLFxJbSI7UoSedQVmMMrT3lfi3ovbUAGwBdxOm2CBI0G4S9iVAuCSHQ==
+X-Received: by 10.66.145.194 with SMTP id sw2mr43397299pab.69.1458555076392;
+	Mon, 21 Mar 2016 03:11:16 -0700 (PDT)
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com.
+	[209.85.192.181]) by smtp.gmail.com with ESMTPSA id
+	n74sm11619002pfa.45.2016.03.21.03.11.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Mar 2016 03:11:14 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f181.google.com with SMTP id 4so128577209pfd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2016 03:11:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1458213205.git.pkj@axis.com>
-Subject: Re: [PATCHv2 0/7] Improve oe-init-build-env/-memres
+X-Received: by 10.98.93.155 with SMTP id n27mr43889365pfj.88.1458555074268;
+	Mon, 21 Mar 2016 03:11:14 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Mon, 21 Mar 2016 03:11:14 -0700 (PDT)
+In-Reply-To: <1458460237.7615.64.camel@linuxfoundation.org>
+References: <1458326374-8865-1-git-send-email-otavio@ossystems.com.br>
+	<1458460237.7615.64.camel@linuxfoundation.org>
+Date: Mon, 21 Mar 2016 07:11:14 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKps4nPy+UGvgyxt-vQUG+vpTXc8904mLi8xcZSJX3m9mw@mail.gmail.com>
+Message-ID: <CAP9ODKps4nPy+UGvgyxt-vQUG+vpTXc8904mLi8xcZSJX3m9mw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Upgrade to 2016.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +68,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 10:09:33 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Mar 2016 10:11:19 -0000
+Content-Type: text/plain; charset=UTF-8
+
+On Sun, Mar 20, 2016 at 4:50 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2016-03-18 at 15:39 -0300, Otavio Salvador wrote:
+>> The 2016.03 release has been announced in March 14th. This
+>> incorporates a lot of bug fixes and improvements which are useful for
+>> any new embedded development.
+>>
+>> Along with the upgrade of U-Boot and its related recipes, this patch
+>> also drops the AM335x environment fix which has been merged into the
+>> release.
+>>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>>
+>>  ...utils_2016.01.bb => u-boot-fw-utils_2036.03.bb} |  8 ++---
+>>  ...kimage_2016.01.bb => u-boot-mkimage_2036.03.bb} |  8 ++---
+>
+> 2036?
+>
+> Where did the last 20 years go?! :)
+>
+> I'll fix this up in -next.
+
+Sorry, :P
+
+Thanks for fixup it.
 
 
-I got strange errors, I think that it is caused by one of these patches:
-
-$ . ../poky/oe-init-build-env .
-$ bitbake core-image-minimal
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-     Either fix the cause of this error or at your own risk disable the checker 
-(see sanity.conf).
-     Following is the list of potential problems / advisories:
-
-     PATH contains '.', './' or '' (empty element), which will break the build, 
-please remove this.
-
-$ echo $PATH
-/buildarea/lyang1/poky/scripts:/buildarea/lyang1/poky/bitbake/bin:/folk/lyang1/bin:/folk/lyang1/gbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/dell/srvadmin/bin:
-
-
-Without running oe-init-build-env:
-$ echo $PATH
-/folk/lyang1/bin:/folk/lyang1/gbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/dell/srvadmin/bin:/buildarea/lyang1/poky/bitbake/bin
-
-// Robert
-
-On 03/17/2016 07:14 PM, Peter Kjellerstedt wrote:
-> I started looking at the oe-init-build-env (and
-> oe-init-build-env-memres) scripts since I wanted to add support for
-> specifying $OEROOT from the outside. This is because we want to wrap
-> those scripts with our own while keeping the official names (so anyone
-> reading the official Poky documentation will not be too confused).
->
-> While fixing the above, I had noticed a number of inconsistencies in
-> the scripts, so I continued to fix those. I also improved the code
-> that adds paths to $PATH, and the code that adds variable names to
-> $BB_ENV_EXTRAWHITE.
->
-> New in version 2:
->
-> * Make sure oe-init-build-env and oe-init-build-env-memres actually
->    return failures from other scripts they source and call.
->
-> //Peter
->
-> The following changes since commit 8debfea81e69d038bd2d56314b272cb74f5582ed:
->
->    local.conf.sample: Disable prelink by default (2016-03-13 22:09:05 +0000)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib pkj/oe-init-build-env
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/oe-init-build-env
->
-> Peter Kjellerstedt (7):
->    oe-init-build-env*: Allow $OEROOT to be predefined
->    oe-init-build-env*: Update/correct comment about specifying arguments
->    oe-init-build-env*: Remove unnecessary differences between the scripts
->    oe-init-build-env*: Make them actually return failures
->    oe-buildenv-internal: Add paths to $PATH individually
->    oe-buildenv-internal: Add variables individually to BB_ENV_EXTRAWHITE
->    oe-buildenv-internal: Some clean up
->
->   oe-init-build-env            | 51 +++++++++++++++------------
->   oe-init-build-env-memres     | 60 ++++++++++++++++++--------------
->   scripts/oe-buildenv-internal | 83 ++++++++++++++++++++++++++++----------------
->   3 files changed, 114 insertions(+), 80 deletions(-)
->
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
