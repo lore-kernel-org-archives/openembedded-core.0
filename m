@@ -1,20 +1,47 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DDC165CB5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 72F1160722
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 23:22:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Mar 2016 16:22:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,374,1455004800"; d="scan'208";a="938726846"
-Received: from wcrandle-mobl1.jf.intel.com ([10.24.6.123])
-	by orsmga002.jf.intel.com with ESMTP; 21 Mar 2016 16:22:26 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 16:22:12 -0700
-Message-Id: <1458602532-22796-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [jethro][PATCH] systemd: fix segfault on shutdown
+	Mon, 21 Mar 2016 23:30:27 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id nk17so83214894igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2016 16:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mBFPn1RKMFeyPH++TbbR3M5xRm4vTL29D3H4PMxJR8g=;
+	b=Ta+f/hZq6YMP0J+OytmPUUB0Yt2XnaYV4+BIzrEZkUSqZ7gp6LMi7iXM0TP3qNY89r
+	AyQHdoK1TS33p0rCcp/O5pXvqEpXWwyeb998ZV77M1d+Io9jq47Km0G5JwM1buguUFTi
+	0a+8IWljtk03xikn1MIU3YQljZcvUGmGKYHEqhgLbbLPXNmmzRqcDrHTyNLR3YIxSw+O
+	keQRMzXi0UfrCEgIgedGIkQaQwEBwtHepKKb0gI1kneBuDm7vnxRgScRoTr9VKQirW82
+	pQ/fgzo7NPtGA9zKZGUuc9ataHOaTwhaQomdMLyWLvSxS/Vfli7h9AQSpHQJNLmD4hTo
+	lSkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mBFPn1RKMFeyPH++TbbR3M5xRm4vTL29D3H4PMxJR8g=;
+	b=dWGYZdoT2uHUUjXiq8q77kj4ab3aPnTDzPAHyED5G90pMLZrUewGTVyi1cVAS1danh
+	6gaBmDQrhkwXeKxUfqqNIjzY7SBDGLRer3OwdWRv4rCTOury6VoovHypfuOkiSmE4RzA
+	CvXjQYOXQJVrBk0ihwYxV8DZcQ9vkzBOPirwlkfpIYcor4giqgtqR2jeLqZN1d9nAQe/
+	ik5qQ9HICNbz0mEXi5TTMRAWEo4ajWs2MZRUHrc1l/7NG5Z98hqEUEk5IGguFs6SWRVZ
+	OERa0sEWglHJ/Fg0zGvEFdAWWZcgfIaIkTPrtIedko8HtBq880AKs++LTI9+loLujSF2
+	g9fA==
+X-Gm-Message-State: AD7BkJKPMEnbrv6sbwddFAbwyA3B60PLAS9us0qzY4xUHCHI9bVSSFSlE8iQJF0bkxYsuAqiYqIn+eR9n7vyLV6n
+X-Received: by 10.50.43.226 with SMTP id z2mr15811700igl.78.1458603027737;
+	Mon, 21 Mar 2016 16:30:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Mon, 21 Mar 2016 16:30:08 -0700 (PDT)
+In-Reply-To: <98344b2eaa67b64a8397652dcb3c51d5dbe39a61.1458582024.git.jussi.kukkonen@intel.com>
+References: <cover.1458582024.git.jussi.kukkonen@intel.com>
+	<98344b2eaa67b64a8397652dcb3c51d5dbe39a61.1458582024.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 Mar 2016 23:30:08 +0000
+Message-ID: <CAJTo0LZQAcsMTkhqK8-S2LhqbCYCTWTGBS2Wqv3h6eQbh0haOg@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] glib-2.0: Install gio-querymodules in main package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,140 +54,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 23:22:29 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 23:30:28 -0000
+Content-Type: multipart/alternative; boundary=047d7bfea0f4566e87052e977b4b
 
-This applies upstream fixes to fix a segfault in systemd-logind on
-shutdown.
+--047d7bfea0f4566e87052e977b4b
+Content-Type: text/plain; charset=UTF-8
 
-[Fixes YOCTO #9265]
+On 21 March 2016 at 18:29, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- .../0023-backported-fixes-for-null-messages.patch  | 101 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_225.bb           |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
+> gio-querymodules should be used whenever new Gio modules are
+> installed (to regenerate the module cache) so it should be
+> available by default.
+>
 
-diff --git a/meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch b/meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
-new file mode 100644
-index 0000000..33570dd
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
-@@ -0,0 +1,101 @@
-+From ce88232a1c8e914936e18edbee2551ab95fc4c1d Mon Sep 17 00:00:00 2001
-+From: Bill Randle <william.c.randle@intel.com>
-+Date: Mon, 21 Mar 2016 15:52:30 -0700
-+Subject: [PATCH] backported fixes for null messages
-+
-+Apply upstream commits 5744f59a3ee883ef3a78214bd5236157acdc35ba,
-+2cf088b56d72cb6a3243041524f1fbae7c1cb28e and
-+c7430c3d1a0c14aed631864b9da504ba1a9352c2 to fix Yocto #9265.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Bill Randle <william.c.randle@intel.com>
-+---
-+ src/login/logind-dbus.c | 31 ++++++++++++++++++-------------
-+ 1 file changed, 18 insertions(+), 13 deletions(-)
-+
-+diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
-+index 5b2b36b..e433549 100644
-+--- a/src/login/logind-dbus.c
-++++ b/src/login/logind-dbus.c
-+@@ -1339,8 +1339,7 @@ static int bus_manager_log_shutdown(
-+                 InhibitWhat w,
-+                 const char *unit_name) {
-+ 
-+-        const char *p;
-+-        const char *q;
-++        const char *p, *q;
-+ 
-+         assert(m);
-+         assert(unit_name);
-+@@ -1365,8 +1364,8 @@ static int bus_manager_log_shutdown(
-+                 q = NULL;
-+         }
-+ 
-+-        if (m->wall_message)
-+-                p = strjoina(p, " (", m->wall_message, ")", NULL);
-++        if (!isempty(m->wall_message))
-++                p = strjoina(p, " (", m->wall_message, ")");
-+ 
-+         return log_struct(LOG_NOTICE,
-+                           LOG_MESSAGE_ID(SD_MESSAGE_SHUTDOWN),
-+@@ -1797,9 +1796,11 @@ static int update_schedule_file(Manager *m) {
-+         if (r < 0)
-+                 return log_error_errno(r, "Failed to create shutdown subdirectory: %m");
-+ 
-+-        t = cescape(m->wall_message);
-+-        if (!t)
-+-                return log_oom();
-++        if (!isempty(m->wall_message)) {
-++                t = cescape(m->wall_message);
-++                if (!t)
-++                        return log_oom();
-++        }
-+ 
-+         r = fopen_temporary("/run/systemd/shutdown/scheduled", &f, &temp_path);
-+         if (r < 0)
-+@@ -1815,7 +1816,7 @@ static int update_schedule_file(Manager *m) {
-+                 m->enable_wall_messages,
-+                 m->scheduled_shutdown_type);
-+ 
-+-        if (!isempty(m->wall_message))
-++        if (t)
-+                 fprintf(f, "WALL_MESSAGE=%s\n", t);
-+ 
-+         r = fflush_and_check(f);
-+@@ -2294,7 +2295,7 @@ static int method_set_wall_message(
-+         int r;
-+         Manager *m = userdata;
-+         char *wall_message;
-+-        bool enable_wall_messages;
-++        int enable_wall_messages;
-+ 
-+         assert(message);
-+         assert(m);
-+@@ -2310,15 +2311,19 @@ static int method_set_wall_message(
-+                                     UID_INVALID,
-+                                     &m->polkit_registry,
-+                                     error);
-+-
-+         if (r < 0)
-+                 return r;
-+         if (r == 0)
-+                 return 1; /* Will call us back */
-+ 
-+-        r = free_and_strdup(&m->wall_message, wall_message);
-+-        if (r < 0)
-+-                return log_oom();
-++        if (isempty(wall_message))
-++                m->wall_message = mfree(m->wall_message);
-++        else {
-++                r = free_and_strdup(&m->wall_message, wall_message);
-++                if (r < 0)
-++                        return log_oom();
-++        }
-++
-+         m->enable_wall_messages = enable_wall_messages;
-+ 
-+         return sd_bus_reply_method_return(message, NULL);
-+-- 
-+2.5.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index 18c2448..7c66ba2 100644
---- a/meta/recipes-core/systemd/systemd_225.bb
-+++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -46,6 +46,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
-            file://init \
-            file://run-ptest \
-            file://rules-whitelist-hd-devices.patch \
-+           file://0023-backported-fixes-for-null-messages.patch \
-           "
- SRC_URI_append_qemuall = " file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
--- 
-2.5.0
+packages/corei7-64-poky-linux/glib-2.0/glib-2.0: FILELIST: added
+"/usr/bin/gio-querymodules /usr/share/glib-2.0/gettext/po/Makefile.in.in"
+  * FILES: added "/usr/bin/gio-querymodules"
+packages/corei7-64-poky-linux/glib-2.0/glib-2.0: PKG changed from
+libglib-2.0-0 to glib-2.0 [default] - may indicate debian renaming failure
 
+(and another few pages of rename warnings as everything renamed from
+libglib-2.0-0-locale-foo-bar to glib-2.0-locale-foo-bar)
 
+Basically the debian renamer doesn't take effect if there are binaries in
+the package.  Maybe we need to inherit lib_package (if possible) and put
+key binaries (such as this) into libglib-2.0-bin and the rest into -utils.
+A fair number of the utils could be moved to -dev anyway, such as
+genmarshal and mkenums.
+
+Looking at this did show some other odd file placement in the glib recipe
+though:
+* gschema.dtd in PN instead of somewhere else (PN-dev?)
+* gdbus-codegen should be in PN-codegen?
+* glib-gettext/Makefile.in.in should be in PN-dev?
+
+Ross
+
+--047d7bfea0f4566e87052e977b4b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 March 2016 at 18:29, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
+;border-left-style:solid;padding-left:1ex"><div id=3D":bhh" class=3D"" styl=
+e=3D"overflow:hidden">gio-querymodules should be used whenever new Gio modu=
+les are<br>
+installed (to regenerate the module cache) so it should be<br>
+available by default.</div></blockquote></div><br><div class=3D"gmail_extra=
+">packages/corei7-64-poky-linux/glib-2.0/glib-2.0: FILELIST: added &quot;/u=
+sr/bin/gio-querymodules /usr/share/glib-2.0/gettext/po/<a href=3D"http://Ma=
+kefile.in.in">Makefile.in.in</a>&quot;</div><div class=3D"gmail_extra">=C2=
+=A0 * FILES: added &quot;/usr/bin/gio-querymodules&quot;</div><div class=3D=
+"gmail_extra">packages/corei7-64-poky-linux/glib-2.0/glib-2.0: PKG changed =
+from libglib-2.0-0 to glib-2.0 [default] - may indicate debian renaming fai=
+lure</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(=
+and another few pages of rename warnings as everything renamed from libglib=
+-2.0-0-locale-foo-bar to glib-2.0-locale-foo-bar)</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Basically the debian renamer do=
+esn&#39;t take effect if there are binaries in the package.=C2=A0 Maybe we =
+need to inherit lib_package (if possible) and put key binaries (such as thi=
+s) into libglib-2.0-bin and the rest into -utils.=C2=A0 A fair number of th=
+e utils could be moved to -dev anyway, such as genmarshal and mkenums.</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Looking at=
+ this did show some other odd file placement in the glib recipe though:</di=
+v><div class=3D"gmail_extra">* gschema.dtd in PN instead of somewhere else =
+(PN-dev?)</div><div class=3D"gmail_extra">* gdbus-codegen should be in PN-c=
+odegen?</div><div class=3D"gmail_extra">* glib-gettext/<a href=3D"http://Ma=
+kefile.in.in">Makefile.in.in</a> should be in PN-dev?</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+
+--047d7bfea0f4566e87052e977b4b--
