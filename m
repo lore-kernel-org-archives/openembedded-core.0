@@ -1,20 +1,29 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EFEED60797
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 459D06FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 20:24:47 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 21 Mar 2016 13:24:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="768513775"
-Received: from wcrandle-mobl1.jf.intel.com ([10.24.6.123])
-	by orsmga003.jf.intel.com with ESMTP; 21 Mar 2016 13:24:49 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 13:24:33 -0700
-Message-Id: <1458591873-25879-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] sanity.bbclass cleanup
+	Mon, 21 Mar 2016 21:11:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2LLBlvu008560; Mon, 21 Mar 2016 21:11:47 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Vtf_0q-s0PLu; Mon, 21 Mar 2016 21:11:47 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2LLBfBB008538
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 21 Mar 2016 21:11:43 GMT
+Message-ID: <1458594701.20442.20.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 21 Mar 2016 21:11:41 +0000
+In-Reply-To: <1458578170-13054-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1458578170-13054-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] image.bbclass: run wicenv task only for wic images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,81 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 20:24:51 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 21:11:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Limit search for a version var name to start at the beginning of a line,
-otherwise, if the var name is used in a comment, that comment line will
-be replaced, rather than the desired assignment line.
-Move bblayer update message into function where it's actually updated,
-rather than assuming all successful config file update are to the
-bblayers.conf file.
-Replace a stray tab with spaces for consistency.
+On Mon, 2016-03-21 at 18:36 +0200, Ed Bartosh wrote:
+> Currently do_wicenv task is run for all images. However, its
+> result is used only to produce wic image. It's better to
+> run this task only for wic images. If another rootfs is
+> required to produce wic image, dependency to its do_wicenv
+> must be added to the wic image recipy.
+> 
+> Stopped running do_wicenv for all images. Added explicit
+> dependency to this task in wic-image-minimal recipe.
+> 
+> [YOCTO #9095]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 +-
+>  meta/classes/image.bbclass                             | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb
+> b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+> index 9c50ddb..e98f60f 100644
+> --- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
+> +++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+> @@ -11,7 +11,7 @@ DEPENDS = "syslinux syslinux-native parted-native
+> dosfstools-native mtools-nativ
+>  
+>  # core-image-minimal is referenced in .wks, so we need its rootfs
+>  # to be ready before our rootfs
+> -do_rootfs[depends] += "core-image-minimal:do_rootfs_wicenv"
+> +do_rootfs[depends] += "core-image-minimal:do_rootfs core-image
+> -minimal:do_rootfs_wicenv"
+>  
+>  IMAGE_ROOTFS_EXTRA_SPACE = "2000"
+>  
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 3ab432e..63a0fb6 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -275,7 +275,7 @@ python do_rootfs_wicenv () {
+>              if value:
+>                  envf.write('%s="%s"\n' % (var, value.strip()))
+>  }
+> -addtask do_rootfs_wicenv after do_image before do_image_wic
+> do_image_complete
+> +addtask do_rootfs_wicenv after do_rootfs before do_image_wic
+>  do_rootfs_wicenv[vardeps] += "${WICVARS}"
+>  do_rootfs_wicenv[prefuncs] = 'set_image_size'
+>  
+I think I tried do_rootfs here originally and there was a race of some
+sort so this needs to be do_image. You can check the commit logs for
+the exact reason (prelink can cause the image size to change during
+do_image and we need the image size?).
 
-[Fixes YOCTO #9318]
+Cheers,
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- meta/classes/sanity.bbclass | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 4873e64..597f3de 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -20,7 +20,7 @@ def sanity_conf_find_line(pattern, lines):
-         if re.search(pattern, line)), (None, None))
- 
- def sanity_conf_update(fn, lines, version_var_name, new_version):
--    index, line = sanity_conf_find_line(version_var_name, lines)
-+    index, line = sanity_conf_find_line(r"^%s" % version_var_name, lines)
-     lines[index] = '%s = "%d"\n' % (version_var_name, new_version)
-     with open(fn, "w") as f:
-         f.write(''.join(lines))
-@@ -117,12 +117,14 @@ is a good way to visualise the changes.""" % (current_lconf, lconf_version)
- 
-         current_lconf += 1
-         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
-+        bb.note("Your conf/bblayers.conf has been automatically updated.")
-         return
- 
-     elif current_lconf == 5 and lconf_version > 5:
-         # Null update, to avoid issues with people switching between poky and other distros
-         current_lconf = 6
-         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
-+        bb.note("Your conf/bblayers.conf has been automatically updated.")
-         return
- 
-         if not status.reparse:
-@@ -133,7 +135,7 @@ is a good way to visualise the changes.""" % (current_lconf, lconf_version)
-         # This marks the start of separate version numbers but code is needed in OE-Core
-         # for the migration, one last time.
-         layers = d.getVar('BBLAYERS', True).split()
--	layers = [ os.path.basename(path) for path in layers ]
-+        layers = [ os.path.basename(path) for path in layers ]
-         if 'meta-yocto' in layers:
-             found = False
-             while True:
-@@ -152,9 +154,11 @@ is a good way to visualise the changes.""" % (current_lconf, lconf_version)
-                 raise NotImplementedError(failmsg)
-             with open(bblayers_fn, "w") as f:
-                 f.write(''.join(lines))
-+            bb.note("Your conf/bblayers.conf has been automatically updated.")
-             return
-         current_lconf += 1
-         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
-+        bb.note("Your conf/bblayers.conf has been automatically updated.")
-         return
- 
-     raise NotImplementedError(failmsg)
-@@ -556,7 +560,6 @@ def sanity_check_conffiles(status, d):
-                 success = False
-                 status.addresult(e.msg)
-             if success:
--                bb.note("Your conf/bblayers.conf has been automatically updated.")
-                 status.reparse = True
- 
- def sanity_handle_abichanges(status, d):
--- 
-2.5.0
-
+Richard
 
