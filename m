@@ -1,45 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BAF46E660
+Return-Path: <william.c.randle@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EFEED60797
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 20:13:33 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id r129so65674673wmr.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 13:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=69yY/LGLH0iUPHKDTPkSiUYxJg8bVdswRaswBcE6wBY=;
-	b=klSkfiRblnP+Pxw26Yz9eeaYj+9DnnVlqin/1vCdYrKIZFqOUG/zFExC9+4xVO8yU/
-	MZ/B8sDt/MSm8fPV/zi2cXwXnGM3xLelBpjxdXBCEC9M3fGuj1SnLg8bkga6YsuEU8Uo
-	TGUoTnJEtNJ9pabPSyWN7Fe5rPtZvVmmXKKeZgsd3uNbD4s8duaLR97neQVDyI+0cmoI
-	dDWsQOS69dycSAp+aPKfpO+vso8KCw7SubZozgMV3pDRUEWJCNqaP4XKaKO1pj0j5Mcd
-	+F6ihQBcPI+LwHPE7yeKmmbaSSNM7k4Tg5wTMS5EaKwpGOm4kJ3S9cpafkpAgqVnptoB
-	kG5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=69yY/LGLH0iUPHKDTPkSiUYxJg8bVdswRaswBcE6wBY=;
-	b=lusJBbpei9WEqEjibWu5HwoxDubGZsdBTgmuaLBQmt7zMJMHuA+QhI5NArjiJL27PX
-	MO8ln+yhFA5GB+W7cFfCQe6BdSrSN0FJL0SunQ7TZ/0wdBXcOFx+jygJTBGB0Q4WfVVY
-	KsxaSdV1wQdc73VeXtvNRKCkn2T7ktVM+597SV74+l2417m/09gwee0oJ+zFyg45v9RO
-	Ku9P2G5Va/608RGxFn/ioKKMPkQ0dh8t11uiVgNQt/DnkK8ZLS5oHRz8D7prd2PiT6WF
-	wXxPMjIuNzc2WC6/aqAwiEUUBPgL5QSg3IoHLTYo7mMBAOEMC2+AZvzxof/cCdIgCeAc
-	Rrjw==
-X-Gm-Message-State: AD7BkJL8raoYd8h1ziMrfxOhztdoIMhgGdrnphRuvhULa1bi7RxBiDcGtBhRJfAdqvoh9w==
-X-Received: by 10.28.174.72 with SMTP id x69mr15858081wme.68.1458591214361;
-	Mon, 21 Mar 2016 13:13:34 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	et11sm26986096wjc.30.2016.03.21.13.13.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Mar 2016 13:13:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Mon, 21 Mar 2016 20:24:47 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 21 Mar 2016 13:24:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="768513775"
+Received: from wcrandle-mobl1.jf.intel.com ([10.24.6.123])
+	by orsmga003.jf.intel.com with ESMTP; 21 Mar 2016 13:24:49 -0700
+From: Bill Randle <william.c.randle@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 21:17:49 +0100
-Message-Id: <1458591469-24233-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.7.3
-Subject: [PATCH][jethro] ruby-native: Depend on openssl-native
+Date: Mon, 21 Mar 2016 13:24:33 -0700
+Message-Id: <1458591873-25879-1-git-send-email-william.c.randle@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] sanity.bbclass cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +27,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 20:13:37 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 20:24:51 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+Limit search for a version var name to start at the beginning of a line,
+otherwise, if the var name is used in a comment, that comment line will
+be replaced, rather than the desired assignment line.
+Move bblayer update message into function where it's actually updated,
+rather than assuming all successful config file update are to the
+bblayers.conf file.
+Replace a stray tab with spaces for consistency.
 
-This dependency is floating otherwise, It races against openssl-native
-and when openssl config does not match with openssl on build host the
-build fails occasionally
+[Fixes YOCTO #9318]
 
-x86_64-linux/usr/include/openssl/ripemd.h:70:4: error: #error RIPEMD is
-disabled.
- #  error RIPEMD is disabled.
-
-Change-Id: I5ff6d8f058ff99c64ad4dc7c0377724071003ae6
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
 ---
- meta/recipes-devtools/ruby/ruby.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/sanity.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index 17aa789..313e752 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
- "
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 4873e64..597f3de 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -20,7 +20,7 @@ def sanity_conf_find_line(pattern, lines):
+         if re.search(pattern, line)), (None, None))
  
- DEPENDS = "ruby-native zlib openssl tcl libyaml db gdbm readline"
--DEPENDS_class-native = "libyaml-native"
-+DEPENDS_class-native = "openssl-native libyaml-native"
+ def sanity_conf_update(fn, lines, version_var_name, new_version):
+-    index, line = sanity_conf_find_line(version_var_name, lines)
++    index, line = sanity_conf_find_line(r"^%s" % version_var_name, lines)
+     lines[index] = '%s = "%d"\n' % (version_var_name, new_version)
+     with open(fn, "w") as f:
+         f.write(''.join(lines))
+@@ -117,12 +117,14 @@ is a good way to visualise the changes.""" % (current_lconf, lconf_version)
  
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+         current_lconf += 1
+         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
++        bb.note("Your conf/bblayers.conf has been automatically updated.")
+         return
+ 
+     elif current_lconf == 5 and lconf_version > 5:
+         # Null update, to avoid issues with people switching between poky and other distros
+         current_lconf = 6
+         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
++        bb.note("Your conf/bblayers.conf has been automatically updated.")
+         return
+ 
+         if not status.reparse:
+@@ -133,7 +135,7 @@ is a good way to visualise the changes.""" % (current_lconf, lconf_version)
+         # This marks the start of separate version numbers but code is needed in OE-Core
+         # for the migration, one last time.
+         layers = d.getVar('BBLAYERS', True).split()
+-	layers = [ os.path.basename(path) for path in layers ]
++        layers = [ os.path.basename(path) for path in layers ]
+         if 'meta-yocto' in layers:
+             found = False
+             while True:
+@@ -152,9 +154,11 @@ is a good way to visualise the changes.""" % (current_lconf, lconf_version)
+                 raise NotImplementedError(failmsg)
+             with open(bblayers_fn, "w") as f:
+                 f.write(''.join(lines))
++            bb.note("Your conf/bblayers.conf has been automatically updated.")
+             return
+         current_lconf += 1
+         sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
++        bb.note("Your conf/bblayers.conf has been automatically updated.")
+         return
+ 
+     raise NotImplementedError(failmsg)
+@@ -556,7 +560,6 @@ def sanity_check_conffiles(status, d):
+                 success = False
+                 status.addresult(e.msg)
+             if success:
+-                bb.note("Your conf/bblayers.conf has been automatically updated.")
+                 status.reparse = True
+ 
+ def sanity_handle_abichanges(status, d):
 -- 
-2.7.3
+2.5.0
 
 
