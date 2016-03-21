@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 40C4D73193
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB0260290
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 05:14:43 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 20 Mar 2016 22:14:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,369,1455004800"; d="scan'208";a="938122222"
-Received: from edeshpan-mobl5.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.136.133])
-	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2016 22:14:43 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 18:14:08 +1300
-Message-Id: <407626bac78aa11a3541c26b703605df53825109.1458537176.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1458537176.git.paul.eggleton@linux.intel.com>
-References: <cover.1458537176.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1458537176.git.paul.eggleton@linux.intel.com>
-References: <cover.1458537176.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 9/9] oe-publish-sdk: fix remote publishing
+	Mon, 21 Mar 2016 09:25:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2L9PqDk016561
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2016 02:25:52 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 21 Mar 2016 02:25:51 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Mar 2016 02:25:48 -0700
+Message-ID: <cover.1458551516.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/3] gpg_sign.py: get rid of pexpect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 05:14:43 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 09:25:52 -0000
+Content-Type: text/plain
 
-A typo in the command prevented the last part of the publish from
-succeeding.
+The following changes since commit d3ab7005f0c899da9f9f132b22861bd5d4f952ba:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/oe-publish-sdk | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  tzdata: update to 2016b (2016-03-20 22:58:00 +0000)
 
-diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
-index 5dbd1e5..1729a0d 100755
---- a/scripts/oe-publish-sdk
-+++ b/scripts/oe-publish-sdk
-@@ -115,7 +115,7 @@ def publish(args):
-     if not is_remote:
-         cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
-     else:
--        cmd = "ssh %s 'set -e; mkdir-p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
-+        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
-     ret = subprocess.call(cmd, shell=True)
-     if ret == 0:
-         logger.info('SDK published successfully')
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/rpm
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rpm
+
+Robert Yang (3):
+  rpm: check _gpg_passphrase before ask for input
+  gpg_sign.py: get rid of pexpect
+  selftest/signing.py: RPM_GPG_PASSPHRASE_FILE -> RPM_GPG_PASSPHRASE
+
+ meta-selftest/files/signing/secret.txt             |    1 -
+ meta/classes/sign_rpm.bbclass                      |   10 +--
+ meta/lib/oe/gpg_sign.py                            |   24 ++-----
+ meta/lib/oeqa/selftest/signing.py                  |    2 +-
+ ...heck-_gpg_passphrase-before-ask-for-input.patch |   70 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |    1 +
+ 6 files changed, 84 insertions(+), 24 deletions(-)
+ delete mode 100644 meta-selftest/files/signing/secret.txt
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
+
 -- 
-2.5.5
+1.7.9.5
 
 
