@@ -1,26 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D15B6AC3C
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A636601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 09:25:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2L9PtOX016564
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 02:25:55 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 21 Mar 2016 02:25:54 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Mar 2016 02:25:51 -0700
-Message-ID: <e7580623a1ee236d26e948ce06e9d775b69e3e63.1458551516.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1458551516.git.liezhi.yang@windriver.com>
-References: <cover.1458551516.git.liezhi.yang@windriver.com>
+	Mon, 21 Mar 2016 09:37:53 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ahwHY-0004Be-Vd from Awais_Belal@mentor.com ;
+	Mon, 21 Mar 2016 02:37:53 -0700
+Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
+	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
+	14.03.0224.002; Mon, 21 Mar 2016 09:37:52 +0000
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH][RFC] systemd-serialgetty: allow baud rate
+	overriding
+Thread-Index: AQHRgXc7/bxP6WDNZ0SxFZikMVo0gJ9jp5d8
+Date: Mon, 21 Mar 2016 09:37:50 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB928FE@EU-MBX-02.mgc.mentorg.com>
+References: <1457352632-4609-1-git-send-email-awais_belal@mentor.com>,
+	<53D8DD3F-C83D-4179-9974-28EE2960F85A@gmail.com>
+In-Reply-To: <53D8DD3F-C83D-4179-9974-28EE2960F85A@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-Subject: [PATCH 3/3] selftest/signing.py: RPM_GPG_PASSPHRASE_FILE -> RPM_GPG_PASSPHRASE
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] systemd-serialgetty: allow baud rate overriding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +41,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 09:25:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Mar 2016 09:37:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta-selftest/files/signing/secret.txt |    1 -
- meta/lib/oeqa/selftest/signing.py      |    2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
- delete mode 100644 meta-selftest/files/signing/secret.txt
-
-diff --git a/meta-selftest/files/signing/secret.txt b/meta-selftest/files/signing/secret.txt
-deleted file mode 100644
-index 5271a52..0000000
---- a/meta-selftest/files/signing/secret.txt
-+++ /dev/null
-@@ -1 +0,0 @@
--test123
-diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
-index 1e710e3..312e502 100644
---- a/meta/lib/oeqa/selftest/signing.py
-+++ b/meta/lib/oeqa/selftest/signing.py
-@@ -54,7 +54,7 @@ class Signing(oeSelfTest):
-         test_recipe = 'ed'
- 
-         feature = 'INHERIT += "sign_rpm"\n'
--        feature += 'RPM_GPG_PASSPHRASE_FILE = "%ssecret.txt"\n' % self.gpg_dir
-+        feature += 'RPM_GPG_PASSPHRASE = "test123"\n'
-         feature += 'RPM_GPG_NAME = "testuser"\n'
-         feature += 'RPM_GPG_PUBKEY = "%s%s"\n' % (self.gpg_dir, self.pub_key_name)
-         feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
--- 
-1.7.9.5
-
+Hi Khem,=0A=
+=0A=
+Thanks a lot for replying. Do I need to resend with RFC removed or will thi=
+s do?=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Khem Raj [raj.khem@gmail.com]=0A=
+Sent: Saturday, March 19, 2016 5:35 AM=0A=
+To: Belal, Awais=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH][RFC] systemd-serialgetty: allow baud rate ov=
+erriding=0A=
+=0A=
+> On Mar 7, 2016, at 4:10 AM, Awais Belal <awais_belal@mentor.com> wrote:=
+=0A=
+>=0A=
+> In case a getty is required on a UART which is not being=0A=
+> used as the kernel console, the current agetty invocation=0A=
+> fails to obey the baud rate configured through the=0A=
+> SERIAL_CONSOLES variable because it uses --keep-baud.=0A=
+>=0A=
+> Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
+> ---=0A=
+> meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 2 +=
+-=0A=
+> 1 file changed, 1 insertion(+), 1 deletion(-)=0A=
+>=0A=
+> diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.=
+service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.servi=
+ce=0A=
+> index 182167b..e8b027e 100644=0A=
+> --- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service=
+=0A=
+> +++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service=
+=0A=
+> @@ -21,7 +21,7 @@ IgnoreOnIsolate=3Dyes=0A=
+>=0A=
+> [Service]=0A=
+> Environment=3D"TERM=3Dxterm"=0A=
+> -ExecStart=3D-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM=0A=
+> +ExecStart=3D-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM=0A=
+=0A=
+this looks good.=0A=
+=0A=
+> Type=3Didle=0A=
+> Restart=3Dalways=0A=
+> RestartSec=3D0=0A=
+> --=0A=
+> 1.9.1=0A=
+>=0A=
+> --=0A=
+> _______________________________________________=0A=
+> Openembedded-core mailing list=0A=
+> Openembedded-core@lists.openembedded.org=0A=
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+=0A=
 
