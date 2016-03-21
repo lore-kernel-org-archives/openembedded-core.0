@@ -1,41 +1,52 @@
-Return-Path: <ryanelkholy@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 9449B607F8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DB0866E660
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 19:46:41 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id o5so137733295iod.2
+	Mon, 21 Mar 2016 20:11:44 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id l68so24696340wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 12:46:42 -0700 (PDT)
+	Mon, 21 Mar 2016 13:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to;
-	bh=idJuoVUKWwRfMTB2bn1D6eqv7A1tn/02qohfGgqFGYs=;
-	b=TfWeD5dzXnNusmdTTKmiD8l49uLg8xcNKeQZkVjcTfNpYCHUYbjalgKcOaLLxtH6UR
-	p9Aj6Q+kHi0wV/DJvBy1dNxsPyBEvNcRvR3waY6mza9eGKdRfHM9DsENaTwZ5e2Svhuh
-	75S8ynzkynSLUlg0xEZ8HudAy4k4N2LUDMFtf8Pju6egyU7Fu1n8OQPKb4n4biXGbcfS
-	1WAclWyFklYaeNILq/F57HPF1pyUsZlCsv3q7g09WHKeEsVzveRpCWn8De+ODV3xTCjR
-	lTT7e+63RpIlTScvDpboelnJFUrqJGSUktGmFpEyJM/yPf8dOIE5ctLACMeNRkLd3ZZm
-	97Yg==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=yGpi9l9u1L/C7O0JsDK/4IDtEaWYJmocmEXLi+wdSHE=;
+	b=JHsPQZ/vWRaBC3o1gsYJ4esDvQBxr6NAe2pYyzoH3V11+Pq/ERBJH4W/CPKUok1hM9
+	2biGvvmsko6YMv9DOvTG7y0aT6l9orb/KH+6Xr7X1km6AkkjD6uPm00pCdDWEE/c10S9
+	OnEIPu43vt0tH5/KPAZYKy5Cz/Du4NByz6uXSck1z8zczNELuniOxXwO/uWx/p1Yzvji
+	ujAJdt2LvXg9WQWcM6Rjntx+YShagOvc91+jyXCZ4evSV27a9sJgy6ouaaF5SR19ZhCq
+	x0NYOHLeswwZhBm3CagnD4DwjCk+uzd1fGQSx+hfgq+YlEwxW0H1jlYhplMZp+6zzi0O
+	35vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-	bh=idJuoVUKWwRfMTB2bn1D6eqv7A1tn/02qohfGgqFGYs=;
-	b=BiplM9D3/MaXryAlpkOsdVn0WGS59jUQgT/wpIE290R1iT9ee8h/dDieivqjaoDaVZ
-	DZLwC2iUunXKWoe4HFfa+7FXejLKjOSWbmJjP6jNgeZ9pnOT0jAYBIlAIfFznAxQt5U/
-	JkFjT7L7lMasDR+i/6E3+2x5wiD/sS5da4dALzr4yWHI7xbtHXgoLu9O5t48u88oXUP5
-	uE1VeMwd45IHNNlUEcyFWL0DZ9nFZVBEEqd3NU0xwQ4M7vr6C52C+q56IFVXGjUqPaQO
-	5DaXwWRxVapeNF1bzx0Q7pozqcIovMAskkw05I9RmW+rdJjBhD4HR1LlO8dp82EUn/hE
-	77cg==
-X-Gm-Message-State: AD7BkJKIzs2zFU/wbo77Z5Jpq9U9xPgadO4sWObTJBWTt8aVFRWqorrW3kx5JjWshnn7Ngshcp/kyP6VVU14fw==
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=yGpi9l9u1L/C7O0JsDK/4IDtEaWYJmocmEXLi+wdSHE=;
+	b=UWSdZZE6IroSjjFJMZPpe7YOiCd8wsB7GpyfPqeFlr4HyL2t7WGqqTQGKITNo3yrBu
+	GWlrUfQ2cNrd6QjzcyQ0tOWaIJKfPuhTo/0mJ/zch6x+RYy916yrqk7eO6EilSKs3UoH
+	FJed096w9ImqQBhvcF2CK6bR8yUZo92S3dQQH6d6XzhUGEGgzV1PxtsQC7e4rmSKKQ4M
+	q6gG75LcCcoXVGLbh6OEXql/OfdIbBxJgW+G1zeQH/kGAaLR0hUUYO+NRGMCZbCY/v57
+	8AUsvjmL2Nh5TyYSn8JPfXXzfnh3MHJgzIVggOpseSm1cSSX2bbMnQWbxs3OqktTOAoC
+	LiTg==
+X-Gm-Message-State: AD7BkJKOFD+m2lPansFjChzCxTDDJlv7dfTyH0pEeHbzUA18iHCjMrPxzYOeGW53JY76Yg==
+X-Received: by 10.194.60.145 with SMTP id h17mr34656109wjr.47.1458591105114;
+	Mon, 21 Mar 2016 13:11:45 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	y72sm14033851wmh.21.2016.03.21.13.11.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Mar 2016 13:11:43 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 21 Mar 2016 21:16:01 +0100
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Message-ID: <20160321201601.GE2562@jama>
+References: <cover.1458582024.git.jussi.kukkonen@intel.com>
+	<7fc053339242682df1f66a07c0f481acb3313daf.1458582024.git.jussi.kukkonen@intel.com>
 MIME-Version: 1.0
-X-Received: by 10.107.63.139 with SMTP id m133mr28019158ioa.157.1458589110960; 
-	Mon, 21 Mar 2016 12:38:30 -0700 (PDT)
-Received: by 10.64.26.227 with HTTP; Mon, 21 Mar 2016 12:38:30 -0700 (PDT)
-Date: Mon, 21 Mar 2016 15:38:30 -0400
-Message-ID: <CAMZfsd4G5iyKkEjaaR+T9_xTiSw=BKdB+rParnk7fwnq6uUvYQ@mail.gmail.com>
-From: "Ryan Elkholy, PhD, PE" <ryanelkholy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [meta-qt5] QtCreator now allowing me to select qmake in SDK
+In-Reply-To: <7fc053339242682df1f66a07c0f481acb3313daf.1458582024.git.jussi.kukkonen@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] gio-module-cache: Add class for Gio modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +59,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 19:46:44 -0000
-Content-Type: multipart/alternative; boundary=94eb2c061552d57e65052e943d57
+X-List-Received-Date: Mon, 21 Mar 2016 20:11:47 -0000
+X-Groupsio-MsgNum: 79892
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="C94crkcyjafcjHxo"
+Content-Disposition: inline
 
---94eb2c061552d57e65052e943d57
-Content-Type: text/plain; charset=UTF-8
+--C94crkcyjafcjHxo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Mon, Mar 21, 2016 at 08:29:33PM +0200, Jussi Kukkonen wrote:
+> The new class uses gio-querymodules tool on postinst and postrm:
+> this regenerates the module cache which is useful to avoid loading
+> modules that are not neededi at runtime. If a Gio module is not
+> listed in the cache file it will always get loaded.
+>=20
+> * Add a postinst-intercept 'gio-module-cache': it runs
+>   gio-querymodules using qemuwrapper. This is required because the tool
+>   actually loads the modules to generate the cache.
+> * Add a gio-module-cache class that adds postinstall and postrm
+>   scripts. In the sysroot population case use the new intercept.
+> * Inherit the new class in glib-2.0, glib-networking and gconf.
+>=20
+> Fixes [YOCTO #9241].
+>=20
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  meta/classes/gio-module-cache.bbclass              | 36 ++++++++++++++++=
+++++++
+>  meta/recipes-core/glib-2.0/glib.inc                |  2 +-
+>  .../glib-networking/glib-networking_2.46.1.bb      |  2 +-
+>  meta/recipes-gnome/gnome/gconf_3.2.6.bb            |  2 +-
+>  .../postinst-intercepts/update_gio_module_cache    |  7 +++++
+>  5 files changed, 46 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/classes/gio-module-cache.bbclass
+>  create mode 100644 scripts/postinst-intercepts/update_gio_module_cache
+>=20
+> diff --git a/meta/classes/gio-module-cache.bbclass b/meta/classes/gio-mod=
+ule-cache.bbclass
+> new file mode 100644
+> index 0000000..4d59f5c
+> --- /dev/null
+> +++ b/meta/classes/gio-module-cache.bbclass
+> @@ -0,0 +1,36 @@
+> +DEPENDS +=3D "qemu-native"
+> +inherit qemu
+> +
+> +GIO_MODULE_PACKAGES ??=3D "${PN}"
+> +
+> +gio_module_cache_common() {
+> +if [ "x$D" !=3D "x" ]; then
+> +	$INTERCEPT_DIR/postinst_intercept update_gio_module_cache ${PKG} \
+> +		mlprefix=3D${MLPREFIX} \
+> +		libdir=3D${libdir} \
+> +                base_libdir=3D${base_libdir} \
+> +                bindir=3D${bindir}
+> +else
+> +        gio-querymodules ${libdir}/gio/modules/
+> +fi
 
-I have used bitbake core-image-minimal -c populate_sdk to build an SDK for
-the Minnowboard to be used by QtCreator. After doing so, the SDK was built
-in /opt/poky/2.0.1/sysroots...
+Don't mix tabs and spaces.
 
-1. Within /sysroots I have corei7-64-poky-linux and x86_64-pokysdk-linux
-directories. My first question is which directory do I use when pointing to
-my compiler, debugger and QtVersion (qmake) for QtCreator?
+> +}
+> +
+> +python populate_packages_append () {
+> +    packages =3D d.getVar('GIO_MODULE_PACKAGES', True).split()
+> +
+> +    for pkg in packages:
+> +        bb.note("adding gio-module-cache postinst and postrm scripts to =
+%s" % pkg)
+> +
+> +        postinst =3D d.getVar('pkg_postinst_%s' % pkg, True)
+> +        if not postinst:
+> +            postinst =3D '#!/bin/sh\n'
+> +        postinst +=3D d.getVar('gio_module_cache_common', True)
+> +        d.setVar('pkg_postinst_%s' % pkg, postinst)
+> +
+> +        postrm =3D d.getVar('pkg_postrm_%s' % pkg, True)
+> +        if not postrm:
+> +            postrm =3D '#!/bin/sh\n'
+> +        postrm +=3D d.getVar('gio_module_cache_common', True)
+> +        d.setVar('pkg_postrm_%s' % pkg, postrm)
+> +}
+> +
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+> index c0f9e0d..baba7e5 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -27,7 +27,7 @@ PACKAGES +=3D "${PN}-utils ${PN}-codegen"
+>  LEAD_SONAME =3D "libglib-2.0.*"
+>  FILES_${PN}-utils =3D "${bindir}/* ${datadir}/glib-2.0/gettext"
+> =20
+> -inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version=
+-is-even bash-completion
+> +inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version=
+-is-even bash-completion gio-module-cache
+> =20
+>  S =3D "${WORKDIR}/glib-${PV}"
+> =20
+> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb =
+b/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb
+> index 70be87c..749ac98 100644
+> --- a/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb
+> +++ b/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb
+> @@ -22,7 +22,7 @@ PACKAGECONFIG[pkcs11] =3D "--with-pkcs11,--without-pkcs=
+11,p11-kit"
+> =20
+>  EXTRA_OECONF =3D "--without-gnome-proxy"
+> =20
+> -inherit gnomebase gettext upstream-version-is-even
+> +inherit gnomebase gettext upstream-version-is-even gio-module-cache
+> =20
+>  FILES_${PN} +=3D "${libdir}/gio/modules/libgio*.so ${datadir}/dbus-1/ser=
+vices/"
+>  FILES_${PN}-dev +=3D "${libdir}/gio/modules/libgio*.la"
+> diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome=
+/gnome/gconf_3.2.6.bb
+> index feaf080..e3af3d0 100644
+> --- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+> +++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b=
+5b66355690e9abc605"
+> =20
+>  DEPENDS =3D "glib-2.0 dbus dbus-glib libxml2 intltool-native"
+> =20
+> -inherit gnomebase gtk-doc gettext gobject-introspection
+> +inherit gnomebase gtk-doc gettext gobject-introspection gio-module-cache
+> =20
+>  SRC_URI =3D "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}=
+=2Etar.xz;name=3Darchive \
+>             file://remove_plus_from_invalid_characters_list.patch \
+> diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/script=
+s/postinst-intercepts/update_gio_module_cache
+> new file mode 100644
+> index 0000000..c1b6d66
+> --- /dev/null
+> +++ b/scripts/postinst-intercepts/update_gio_module_cache
+> @@ -0,0 +1,7 @@
+> +#!/bin/sh
+> +
+> +set -e
+> +
+> +PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D=
+/${base_libdir} \
+> +        $D${bindir}/gio-querymodules $D${libdir}/gio/modules/
+> +
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-2. Secondly, when I try pointing to the qmake in
-/opt/poky/2.0.1/sysroots/corei7-64-poky-linux/usr/bin/qt, QtCreator says
-that the file does not exist. I have tried everything to add it but it just
-wont work. I then thought I had to point to the one in x86_64-pokysdk-linux,
-however there is no qmake there. Any ideas on what the problem may be?
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Thanks!
+--C94crkcyjafcjHxo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---94eb2c061552d57e65052e943d57
-Content-Type: text/html; charset=UTF-8
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-<div dir="ltr"><div><div><div><div>Hello,<br><br></div>I have used <span>bitbake 
-core-image-minimal -c populate_sdk to build an SDK for the Minnowboard 
-to be used by QtCreator. After doing so, the SDK was built in 
-/opt/poky/2.0.1/sysroots...<br><br></span></div><span>1. Within 
-/sysroots I have corei7-64-poky-linux and x86_64-pokysdk-linux 
-directories. My first question is which directory do I use when pointing
- to my compiler, debugger and QtVersion (qmake) for QtCreator?<br><br></span></div><span>2.
- Secondly, when I try pointing to the qmake in 
-/opt/poky/2.0.1/sysroots/corei7-64-poky-linux/usr/bin/qt, QtCreator says
- that the file does not exist. I have tried everything to add it but it 
-just wont work. I then thought I had to point to the one in </span><span>x86_64-pokysdk-linux, however there is no qmake there. </span><span>Any ideas on what the problem may be?</span><br><br></div>Thanks!</div>
+iEYEARECAAYFAlbwVoAACgkQN1Ujt2V2gBxYawCfUF39VzoYirkSX4rr3kr5U2Wg
+GkkAoLieRdWzD+6hcEsQmrLT9gPoHfdG
+=ZUKS
+-----END PGP SIGNATURE-----
 
---94eb2c061552d57e65052e943d57--
+--C94crkcyjafcjHxo--
