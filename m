@@ -1,23 +1,20 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C3E7260746
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D41EF6FF6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 18:56:10 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 21 Mar 2016 11:56:11 -0700
+	Mon, 21 Mar 2016 19:43:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 21 Mar 2016 12:43:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="673341559"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2016 11:56:12 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id A33EC6A4004;
-	Mon, 21 Mar 2016 12:43:53 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.24,373,1455004800"; d="scan'208";a="928821494"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2016 12:43:06 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2016 18:36:10 +0200
-Message-Id: <1458578170-13054-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Mon, 21 Mar 2016 21:42:59 +0200
+Message-Id: <cover.1458587440.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image.bbclass: run wicenv task only for wic images
+Subject: [PATCH 0/2] Bugfixes for matchbox panel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 18:56:14 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 19:43:08 -0000
 
-Currently do_wicenv task is run for all images. However, its
-result is used only to produce wic image. It's better to
-run this task only for wic images. If another rootfs is
-required to produce wic image, dependency to its do_wicenv
-must be added to the wic image recipy.
+Two fixes for Matchbox panel Home-button issues:
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=9026
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=9284
 
-Stopped running do_wicenv for all images. Added explicit
-dependency to this task in wic-image-minimal recipe.
+Thanks,
+ Jussi
 
-[YOCTO #9095]
+The following changes since commit 068afc5d436c716591a54f7d6e1944d8b6f9a198:
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 +-
- meta/classes/image.bbclass                             | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+  tzdata: update to 2016b (2016-03-20 23:12:32 +0000)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-index 9c50ddb..e98f60f 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-@@ -11,7 +11,7 @@ DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-nativ
- 
- # core-image-minimal is referenced in .wks, so we need its rootfs
- # to be ready before our rootfs
--do_rootfs[depends] += "core-image-minimal:do_rootfs_wicenv"
-+do_rootfs[depends] += "core-image-minimal:do_rootfs core-image-minimal:do_rootfs_wicenv"
- 
- IMAGE_ROOTFS_EXTRA_SPACE = "2000"
- 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 3ab432e..63a0fb6 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -275,7 +275,7 @@ python do_rootfs_wicenv () {
-             if value:
-                 envf.write('%s="%s"\n' % (var, value.strip()))
- }
--addtask do_rootfs_wicenv after do_image before do_image_wic do_image_complete
-+addtask do_rootfs_wicenv after do_rootfs before do_image_wic
- do_rootfs_wicenv[vardeps] += "${WICVARS}"
- do_rootfs_wicenv[prefuncs] = 'set_image_size'
- 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/sato-home-icon
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/sato-home-icon
+
+Jussi Kukkonen (2):
+  matchbox-panel-2: Fix Home-button icon load issue
+  matchbox-wm: Update to fix XChangeProperty datatype issue
+
+ .../matchbox-wm/matchbox-wm_git.bb                 |  2 +-
+ ...top-Make-sure-active-state-is-initialized.patch | 50 ++++++++++++++++++++++
+ .../matchbox-panel-2/matchbox-panel-2_git.bb       |  1 +
+ 3 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make-sure-active-state-is-initialized.patch
+
 -- 
 2.1.4
 
