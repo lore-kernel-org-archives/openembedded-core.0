@@ -1,34 +1,21 @@
-Return-Path: <brad.mouring@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 61B2365CBC
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 50E6562135
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 23:18:09 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u2MNI9Qd032108; Tue, 22 Mar 2016 18:18:09 -0500
-Received: from ni.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with SMTP id 2016032218180940-109000 ;
-	Tue, 22 Mar 2016 18:18:09 -0500 
-Received: by ni.com (sSMTP sendmail emulation); Tue, 22 Mar 2016 18:18:08 -0500
-From: Brad Mouring <brad.mouring@ni.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 22 Mar 2016 18:18:01 -0500
-Message-Id: <1458688681-31394-4-git-send-email-brad.mouring@ni.com>
+	Tue, 22 Mar 2016 23:50:53 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Mar 2016 16:50:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,379,1455004800"; d="scan'208";a="71450813"
+Received: from afshjern.zpn.intel.com ([10.219.16.250])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2016 16:50:53 -0700
+From: Alex Franco <alejandro.franco@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 17:52:04 -0600
+Message-Id: <1458690727-23015-1-git-send-email-alejandro.franco@linux.intel.com>
 X-Mailer: git-send-email 2.7.3
-In-Reply-To: <1458688681-31394-1-git-send-email-brad.mouring@ni.com>
-References: <1458688681-31394-1-git-send-email-brad.mouring@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 03/22/2016 06:18:10 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 03/22/2016 06:18:10 PM,
-	Serialize complete at 03/22/2016 06:18:10 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-03-22_09:, , signatures=0
-Cc: Brad Mouring <brad.mouring@ni.com>
-Subject: [PATCH 3/3] busybox-git: Backport patch to fix zcip false-conflict
+Cc: joshua.g.lock@intel.com, aschultz@tpip.net, benjamin.esquivel@intel.com
+Subject: [PATCHv2 0/3] fix icecc support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,29 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 23:18:09 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 23:50:55 -0000
 
-Busybox upstream fixed the issue where an incorrect comparison of
-addresses led to bogus renegotiation of a new ll ip in 1.24. Backport
-this change to the -git recipe.
+The commits related to this fix are provided in order of
+importance.
 
-Signed-off-by: Brad Mouring <brad.mouring@ni.com>
----
- meta/recipes-core/busybox/busybox_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+1/3 - the actual fix, it adds a check for the
+  inheritance of allarch in icecc.bbclass
 
-diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index 47c1364..11c390e 100644
---- a/meta/recipes-core/busybox/busybox_git.bb
-+++ b/meta/recipes-core/busybox/busybox_git.bb
-@@ -34,6 +34,7 @@ SRC_URI = "git://busybox.net/busybox.git;branch=1_23_stable \
-            file://inetd.conf \
-            file://inetd \
-            file://login-utilities.cfg \
-+           file://0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch \
- "
- 
- EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
+2/3 - optional, makes it so that PACKAGE_ARCH is
+  expanded ib icc_is_allarch, as it may contain
+  unexpanded variables
+
+3/3 - optional, replace icc with icecc to avoid
+  confusing the Icecream compiler (icecc) with the
+  Intel C compiler (icc)
+
+note: an additional related documentation patch is
+  being sent to the documentation mailing list
+
+Alex Franco (4):
+  icecc.bbclass: add icc_is_allarch inherit check
+  icecc.bbclass: expand package arch
+  icecc.bbclass: replace icc with icecc
+
+ documentation/ref-manual/ref-classes.xml |  2 +-
+ meta/classes/icecc.bbclass               | 61 +++++++++++++++++---------------
+ 2 files changed, 33 insertions(+), 30 deletions(-)
+
 -- 
 2.7.3
 
