@@ -1,22 +1,20 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 33A7E6AC00
+	by mail.openembedded.org (Postfix) with ESMTP id 32AA265CB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 16:02:40 +0000 (UTC)
+	Tue, 22 Mar 2016 16:02:38 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Mar 2016 09:01:17 -0700
+	by orsmga102.jf.intel.com with ESMTP; 22 Mar 2016 09:01:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,377,1455004800"; d="scan'208";a="939264301"
+X-IronPort-AV: E=Sophos;i="5.24,377,1455004800"; d="scan'208";a="939264138"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2016 09:01:14 -0700
+	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2016 09:01:12 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Mar 2016 18:01:10 +0200
-Message-Id: <1458662470-20336-3-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Tue, 22 Mar 2016 18:01:08 +0200
+Message-Id: <1458662470-20336-1-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-In-Reply-To: <1458662470-20336-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1458662470-20336-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH v3 2/2] externalsrc: remove nostamp from do_configure
+Subject: [PATCH v3 0/2] Improve externalsrc task dependency tracking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +29,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 22 Mar 2016 16:02:41 -0000
 
-Extend the srctree_hash_files() function in externalsrc.bbclass to
-handle non-Git source trees.  If the source tree is not a git
-repository, srctree_hash_files() now simply adds the whole source tree
-as a dependency, causing bitbake to basically hash every file in it.
-Hidden files and directories in the source tree root are ignored by the
-glob currently used. This has the advantage of automatically ignoring
-.git directory, for example.
+This iteration of divides the patchset into two parts.
 
-During the first bitbake run preparing of the task runqueue may take
-much longer if the source tree is not a git repository. The reason is
-that all the files in the source tree are hashed.  Subsequent builds are
-not significantly slower because (most) file hashes are found from the
-cache.
+The first patch only enables file-checksums tracking for git repositories. The
+functionality is now changed so that a git tree hash of the work tree content
+is written into a separate file which is checksummed by bitbake. It turns out
+that checksumming git index file (done in v2 of the patchset) was not reliable
+as its checksum might change without any changes in the work tree.
+
+The first patch depends on a bitbake patch which introduces BB_DONT_CACHE
+variable:
+http://patchwork.openembedded.org/patch/118465/
+
+The second patch enables source files tracking for non-Git source trees.  This
+part is basically unchanged from v2 of the patchset. However, in order for it
+to behave nicely another bitbake patch needs to be applied:
+http://patchwork.openembedded.org/patch/118463/ The reason is that without this
+bitbake patch the EXTERNALSRC_SYMLINKS in the source tree are causing a failure
+in checksumming which, in turn, causes the build to fail.
+
+If so desired, the first patch can be merged independently, leaving the non-Git
+support for later time.
 
 [YOCTO #8853]
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/externalsrc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 9c200760cbbe322ed884729eb395f389c863e1c8:
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index f983359..dff6184 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -149,5 +149,5 @@ def srctree_hash_files(d):
-             fobj.write(sha1)
-         ret = oe_hash_file + ':True'
-     else:
--        d.setVarFlag('do_compile', 'nostamp', '1')
-+        ret = d.getVar('EXTERNALSRC', True) + '/*:True'
-     return ret
+  oe-buildenv-internal: Correct the sed expression which updates $PATH (2016-03-21 11:57:27 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/devtool/fixes
+
+
+Markus Lehtonen (2):
+  externalsrc: do not use do_configure[nostamp] for git srctrees
+  externalsrc: remove nostamp from do_configure
+
+ meta/classes/externalsrc.bbclass | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
+
 -- 
 2.6.2
 
