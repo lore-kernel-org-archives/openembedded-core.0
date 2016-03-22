@@ -1,53 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C337760797
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6B065C5C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 17:02:30 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id u190so320230653pfb.3
+	Tue, 22 Mar 2016 17:06:14 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id u110so183451911qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 10:02:31 -0700 (PDT)
+	Tue, 22 Mar 2016 10:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=5HG7gYBPLdja13ebK1xv0ay32tR5YrLFqQvxVYEqsX0=;
-	b=Gao6BkSh9QbPsb92tlAhVRBlntlb/GqD+IRwZB2fgd0C9omUgatZXiPoSpD1TNYvlM
-	qyex8NpldPDxchmV0uPzHr6576ApqYnBxRacoR/vSszYeVG71KEWCbppQncPj4R1W01t
-	ObzIx6ZQ2+9TgAafGDdtijd3csvAmOdFESAVo5jgNpRAmWtu7XMrf0nfiL3XCB77lY51
-	XEW4UJ0yeQz5yLI6qOU2VPzA8XlBMijZl/Zbp62IFr2fiAfkrHBQ9ighjdn3rSDqbqIu
-	wUA/ijrs9tb9/DYZL/jFEMIDDMqInYFEpQqMjQn6S7UdT++JlBAvyY51JNVLpIs9ZeG5
-	w0vA==
+	h=from:to:cc:subject:date:message-id;
+	bh=pKpWcPPNNdUJpJ3099zs+JuU5KR/sNOdswkzNzvNu7I=;
+	b=Mu3OgkEJVxBfI5rb702HuzwFMHefm8jdpbDuj4KiOKy2yO1O/7uxmHIhH6Ai2MTWAd
+	RH5PuMEqdSVQZh31HUm4eGUdy5K5HiKIZEjYYfl8UEIllUnguHVT31MiXkEEa7uABoDP
+	YKowcmMTW6GR7IpY3vMvTRS3Q3dncRM8j95QbVWT/vUZVIsWmrEgSTdYioSOFPlxDFSS
+	ZrFagYJ/4v0+Dm4hcj1RnI0N+8UnaSH1vIcXpXfOskdK1EqZ4GO/CgbdPEqs9MzKMReI
+	t+i3tAwco4WhWR+Mmhace3wWEj9lBoBXl3CEVOsiNF8517CenUK6Dk4UH/wVcXr4Kz5M
+	YQMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=5HG7gYBPLdja13ebK1xv0ay32tR5YrLFqQvxVYEqsX0=;
-	b=AIdtzs3BB7gbXNwUPBaVoZMgbHe/n9AOgKhehOvx3zAVmu4WewZqPfImZ7OhARsVcN
-	LiuN5lIn/VwKLkH5E3MzvjTLgPyKkent8ktSMnNP5iTKDPV/xW3YtTWfN1OGCfaYSOY7
-	TDYi2laHZiY+6kY335XBh/qGsLcxIIYSVNnEcQsLkw9h5rhSnLblH0kwybgPQKmAG6US
-	8M9wJvMv0K9NCgKgEuPVY19X+E1R54461RPBDkeP7ROZzFd8Oe4wq95zmIUo27gOX1oa
-	pZ/LDzx09Vd3TE5Pnm+dPRHzdCnPYVbcoNb+BoPB9wkKKf/uh4afBUu4n0suVjQfAX5c
-	ZfEw==
-X-Gm-Message-State: AD7BkJKthmwgAxroNQUajWSk70YLO70SQz96eya4Cl1CpfaEuaQqonRrO8xuxT4fYSNo6w==
-X-Received: by 10.66.237.1 with SMTP id uy1mr56440791pac.114.1458666151133;
-	Tue, 22 Mar 2016 10:02:31 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:9c30:4d73:34d:3f32?
-	([2601:646:8800:5a9a:9c30:4d73:34d:3f32])
-	by smtp.gmail.com with ESMTPSA id
-	ll7sm49664010pab.6.2016.03.22.10.02.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 22 Mar 2016 10:02:30 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pKpWcPPNNdUJpJ3099zs+JuU5KR/sNOdswkzNzvNu7I=;
+	b=Az+Z0SNxy27cBXsQPivO3gv9gWWJ2lZquciI7gJz7uClgFA/CFG1bmpMLqAedk5jiA
+	kOjP8wSRLgr930SWqV7fYN3YX/TPvC1YesiO7HtR7l6yuEROR5L+CFvGhW6JGYswCYKu
+	/r1ER9Ox6cw49u+qYPkF25elAkOSsy6+qDHLVrJ/kdsyHIKsEcWirtVeh63QJoznWJRu
+	mjEIQOXBaERyUC3dUWPDUJClC2eqIjMuTAqQKbEG0D0mUl0uH7pejai3g8HEbL8XdZ8J
+	svS0t58zN3ObruVpuW7QymUMeSw1RCHuz+QTotkaYyihm+nN5RTTKGPL7O3HXVhZH10A
+	Zt5w==
+X-Gm-Message-State: AD7BkJLU38daY8hjGVQcC9qt5Ea9Jb0+OsR6PIgmh6tuUGS8PONFvXdlP6nnDubrHdAuYA==
+X-Received: by 10.140.144.132 with SMTP id 126mr51185346qhq.102.1458666375108; 
+	Tue, 22 Mar 2016 10:06:15 -0700 (PDT)
+Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
+	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
+	h64sm14986059qgh.39.2016.03.22.10.06.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 22 Mar 2016 10:06:14 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LYKGNi1FmpQ1rRF+Wn=5Fgy1Ruv6hqKr_69s6xy4t+9dA@mail.gmail.com>
-Date: Tue, 22 Mar 2016 10:02:25 -0700
-Message-Id: <CE40B32B-4E50-4991-90EC-D38E2E959759@gmail.com>
-References: <1458665161-14132-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LYKGNi1FmpQ1rRF+Wn=5Fgy1Ruv6hqKr_69s6xy4t+9dA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libunwind: Fix build with fstack-protector on musl
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 17:06:07 +0000
+Message-Id: <1458666367-28283-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH V2] libunwind: Fix build with fstack-protector on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,82 +52,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 17:02:30 -0000
-X-Groupsio-MsgNum: 79960
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_12DE9649-D906-46F7-A9FF-2406D7B27707";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 22 Mar 2016 17:06:15 -0000
 
---Apple-Mail=_12DE9649-D906-46F7-A9FF-2406D7B27707
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_FDB8807A-2E90-4218-B656-FBBD645CB44E"
+libunwind makery inserts -nostdlib during linking
+which fails the build on musl when security flags are enabled
+since it remove ssp from linking, so add them explicitly
+to SECURITY_LDFLAGS
 
---Apple-Mail=_FDB8807A-2E90-4218-B656-FBBD645CB44E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+disable tests for musl targets, tests use obsolete
+posix APIs e.g. getcontext
+
+patchout x86_local_resume() on x86, gets a working
+linunwind on x86, it seems that it wont work even
+in glibc case but lets leave it as it is for glibc
+and apply the patch only for musl
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Change from v1 -> v2:
+- Move SRC_URI to bb, helps with devtool workflow
+
+ .../libunwind-1.1/0001-disable-tests.patch         | 31 +++++++++++++
+ .../0001-x86-Stub-out-x86_local_resume.patch       | 54 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind.inc       |  4 +-
+ meta/recipes-support/libunwind/libunwind_1.1.bb    | 21 +++++----
+ 4 files changed, 99 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch
+
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch
+new file mode 100644
+index 0000000..7309ffd
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch
+@@ -0,0 +1,31 @@
++From b07435a90bd636ee718e2238fb46c74a6dd5e069 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 22 Mar 2016 16:41:13 +0000
++Subject: [PATCH] disable tests
++
++Tests use getcontext() API which is
++not there on musl
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Inappropriate [MUSL-only]
++
++ Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index e24fe1e..15380e4 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -39,7 +39,7 @@ endif
++ 
++ nodist_include_HEADERS = include/libunwind-common.h
++ 
++-SUBDIRS = src tests doc
+++SUBDIRS = src doc
++ 
++ noinst_HEADERS = include/dwarf.h include/dwarf_i.h include/dwarf-eh.h	\
++ 	include/compiler.h include/libunwind_i.h include/mempool.h	\
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch
+new file mode 100644
+index 0000000..371013a
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch
+@@ -0,0 +1,54 @@
++From f5df01655a4b76d4fe415747de581d94ac593e6a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 22 Mar 2016 16:19:29 +0000
++Subject: [PATCH] x86: Stub out x86_local_resume()
++
++its purpose seems
++to be unwinding across signal handler boundaries, which cannot happen
++in correct programs anyway. Replacing the whole function with
++something like *(volatile char *)0=0; (i.e. crash), gets a working
++libunwind
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ src/x86/Gos-linux.c | 22 +---------------------
++ 1 file changed, 1 insertion(+), 21 deletions(-)
++
++diff --git a/src/x86/Gos-linux.c b/src/x86/Gos-linux.c
++index 31f83ba..3aaa34e 100644
++--- a/src/x86/Gos-linux.c
+++++ b/src/x86/Gos-linux.c
++@@ -281,27 +281,7 @@ x86_r_uc_addr (ucontext_t *uc, int reg)
++ HIDDEN int
++ x86_local_resume (unw_addr_space_t as, unw_cursor_t *cursor, void *arg)
++ {
++-  struct cursor *c = (struct cursor *) cursor;
++-  ucontext_t *uc = c->uc;
++-
++-  /* Ensure c->pi is up-to-date.  On x86, it's relatively common to be
++-     missing DWARF unwind info.  We don't want to fail in that case,
++-     because the frame-chain still would let us do a backtrace at
++-     least.  */
++-  dwarf_make_proc_info (&c->dwarf);
++-
++-  if (unlikely (c->sigcontext_format != X86_SCF_NONE))
++-    {
++-      struct sigcontext *sc = (struct sigcontext *) c->sigcontext_addr;
++-
++-      Debug (8, "resuming at ip=%x via sigreturn(%p)\n", c->dwarf.ip, sc);
++-      sigreturn (sc);
++-    }
++-  else
++-    {
++-      Debug (8, "resuming at ip=%x via setcontext()\n", c->dwarf.ip);
++-      setcontext (uc);
++-    }
+++  *(volatile char *)0=0;
++   return -UNW_EINVAL;
++ }
++ #endif
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+index f83614b..1c342d3 100644
+--- a/meta/recipes-support/libunwind/libunwind.inc
++++ b/meta/recipes-support/libunwind/libunwind.inc
+@@ -5,8 +5,6 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3fced11d6df719b47505837a51c16ae5"
+ DEPENDS += "libatomic-ops"
+ 
+-SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+-
+ inherit autotools
+ 
+ PACKAGECONFIG ??= ""
+@@ -29,4 +27,6 @@ LDFLAGS_append_aarch64 = " -fuse-ld=gold"
+ LDFLAGS_append_powerpc = " -fuse-ld=gold -mbss-plt"
+ LDFLAGS_append_powerpc64 = " -fuse-ld=gold -mbss-plt"
+ 
++SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared -lssp"
++
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 7df9f5e..1ed525f 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -1,15 +1,18 @@
+ require libunwind.inc
+ 
+-SRC_URI += "\
+-    file://Support-building-with-older-compilers.patch \
+-    file://AArch64-port.patch \
+-    file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
+-    file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
+-    file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
+-    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
+-    file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
++SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
++           file://Support-building-with-older-compilers.patch \
++           file://AArch64-port.patch \
++           file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
++           file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
++           file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
++           file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
++           file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
++"
++SRC_URI_append_libc-musl = "\
++           file://0001-x86-Stub-out-x86_local_resume.patch \
++           file://0001-disable-tests.patch \
+ "
+-
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+ SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
+ 
+-- 
+1.9.1
 
 
-> On Mar 22, 2016, at 9:49 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 22 March 2016 at 16:46, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> -SRC_URI +=3D "\
-> -    file://Support-building-with-older-compilers.patch \
-> -    file://AArch64-port.patch \
-> -    =
-file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch =
-\
-> -    file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
-> -    =
-file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
-> -    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
-> -    file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
-> +SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
->=20
-> Why change the recipe to use =3D when the .inc sets the main tarball =
-already?
->=20
-
-I guess I trusted devtool update-recipe too much. will send a v2 soon
-
-> Ross
-
-
---Apple-Mail=_FDB8807A-2E90-4218-B656-FBBD645CB44E
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Mar 22, 2016, at 9:49 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 22 March 2016 at 16:46, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":dqs" class="a3s" style="overflow:hidden">-SRC_URI += "\<br class="">
--&nbsp; &nbsp; <a href="file:///Support-building-with-older-compilers.patch" class="">file://Support-building-with-older-compilers.patch</a> \<br class="">
--&nbsp; &nbsp; <a href="file:///AArch64-port.patch" class="">file://AArch64-port.patch</a> \<br class="">
--&nbsp; &nbsp; <a href="file:///Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch" class="">file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch</a> \<br class="">
--&nbsp; &nbsp; <a href="file:///Link-libunwind-to-libgcc_s-rather-than-libgcc.patch" class="">file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch</a> \<br class="">
--&nbsp; &nbsp; <a href="file:///0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch" class="">file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch</a> \<br class="">
--&nbsp; &nbsp; <a href="file:///Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch" class="">file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch</a> \<br class="">
--&nbsp; &nbsp; <a href="file:///0001-backtrace-Use-only-with-glibc-and-uclibc.patch" class="">file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch</a> \<br class="">
-+SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \<br class=""></div></blockquote></div><br class="">Why change the recipe to use = when the .inc sets the main tarball already?</div><div class="gmail_extra"><br class=""></div></div></div></blockquote><div><br class=""></div><div>I guess I trusted devtool update-recipe too much. will send a v2 soon&nbsp;</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=""></body></html>
-
---Apple-Mail=_FDB8807A-2E90-4218-B656-FBBD645CB44E--
-
---Apple-Mail=_12DE9649-D906-46F7-A9FF-2406D7B27707
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlbxeqUACgkQuwUzVZGdMxSeewCeOcb9d/9q/OsylKcizhylzA99
-5moAn0y0pnyEcY6PHLHbDDUhHgMOrlwe
-=rBcW
------END PGP SIGNATURE-----
-
---Apple-Mail=_12DE9649-D906-46F7-A9FF-2406D7B27707--
