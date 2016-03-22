@@ -1,29 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 81A3160722
+	by mail.openembedded.org (Postfix) with ESMTP id A6DDB606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 08:57:28 +0000 (UTC)
+	Tue, 22 Mar 2016 09:30:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2M8vPRG027600; Tue, 22 Mar 2016 08:57:25 GMT
+	u2M9UhV4029019; Tue, 22 Mar 2016 09:30:43 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CNF3PZZfil6s; Tue, 22 Mar 2016 08:57:25 +0000 (GMT)
+	with LMTP id GG_jeGrhQwus; Tue, 22 Mar 2016 09:30:43 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2M8vJmT027594
+	u2M9UcXV029016
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 22 Mar 2016 08:57:20 GMT
-Message-ID: <1458637039.20442.34.camel@linuxfoundation.org>
+	Tue, 22 Mar 2016 09:30:39 GMT
+Message-ID: <1458639038.20442.36.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <saul.wold@intel.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 22 Mar 2016 08:57:19 +0000
-In-Reply-To: <1458611456.5327.25.camel@intel.com>
-References: <1458336286-21607-1-git-send-email-sgw@linux.intel.com>
-	<1458611456.5327.25.camel@intel.com>
+To: Li Xin <lixin.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 09:30:38 +0000
+In-Reply-To: <1458625715-1813-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1458625715-1813-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH v2] parselogs: add new whitelist entries to address 4.4.3 issues
+Subject: Re: [PATCH] gcc-cross-canadian.inc: add INSANE_SKIP_ to avoid build warning.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 08:57:30 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 09:31:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2016-03-21 at 18:50 -0700, Saul Wold wrote:
-> Did this v2 get missed?  I see the first patch got merged.
+On Tue, 2016-03-22 at 08:48 +0300, Li Xin wrote:
+> WARNING: QA Issue: gcc-cross-canadian-i586-dbg: found library in
+> wrong location:
+> /PATH/sysroots/x86_64-oesdk-linux/usr/libexec/i586-oe-linux/gcc/i586
+> -oe-linux/5.2.0/.debug/libcc1.so.0.0.0
+> 
+> This warning is introduced by commit f6e47aa(gcc-target 5.1: fix for
+> libcc1)
+> 
+> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Clearly it got missed sorry. 
-
-I appreciate that is frustrating for people, equally, we do some level
-of testing of changes going in, which introduces delay and when you
-have ~80 patches you're about to merge and scan the lists for new
-versions, its sometimes hard to catch everything :(.
-
-Its also even harder when the v2 is buried in some random git branch
-somewhere which I appreciate in this case it wasn't but does cause
-problems in general.
+I just tried a "MACHINE=qemux86-64 bitbake gcc-cross-canadian-x86-64"
+here and didn't see this warning. How would I get this warning to show
+up as I'm not seeing it in my builds?
 
 Cheers,
 
 Richard
-
-
-
-
 
