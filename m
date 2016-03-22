@@ -1,29 +1,41 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41A6D6067D
+Return-Path: <julio.cruz@smartmatic.com>
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com
+	[148.163.129.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B68EB6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 01:16:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2M1GGj1014218
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 21 Mar 2016 18:16:16 -0700
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 21 Mar 2016 18:16:15 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1458397812.git.hongxu.jia@windriver.com>
-	<ee2f2af704cb828dd936d435cb98c88de74db825.1458397812.git.hongxu.jia@windriver.com>
-	<CAJTo0LbbXz4PkHzW97csmTBjnffFJwJnR6JauecLrXc-nH3_BQ@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56F09CD9.7020802@windriver.com>
-Date: Tue, 22 Mar 2016 09:16:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Tue, 22 Mar 2016 01:49:51 +0000 (UTC)
+Received: from mx1-us1.ppe-hosted.com (unknown [10.7.64.20])
+	by dispatch1-us1.ppe-hosted.com (Proofpoint Essentials ESMTP Server)
+	with ESMTP id 3D10020076; Tue, 22 Mar 2016 01:49:52 +0000 (UTC)
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from hyperion.ve.sbp.com (unknown [186.73.192.71])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by mx1-us1.ppe-hosted.com (Proofpoint Essentials ESMTP Server) with
+	ESMTPS id 87CA2110; Tue, 22 Mar 2016 01:49:49 +0000 (UTC)
+Received: from tethys.ve.sbp.com ([10.4.100.167]) by hyperion.ve.sbp.com
+	([10.4.100.165]) with mapi id 14.03.0123.003;
+	Mon, 21 Mar 2016 20:49:48 -0500
+From: Julio Cruz Barroso <julio.cruz@smartmatic.com>
+To: "Ryan Elkholy, PhD, PE" <ryanelkholy@gmail.com>
+Thread-Topic: [OE-core] [meta-qt5] QtCreator now allowing me to select qmake
+	in SDK
+Thread-Index: AQHRg9Y74E+8ImdQxkGbLlu0N+yfUZ9ksVaQ
+Date: Tue, 22 Mar 2016 01:49:47 +0000
+Message-ID: <AF04265A3FC2B144B9892F621A394E13EA3F49B3@tethys>
+References: <CAMZfsd4G5iyKkEjaaR+T9_xTiSw=BKdB+rParnk7fwnq6uUvYQ@mail.gmail.com>
+	<45BCEEFE-5C63-462E-95C9-BFE3D4E9ACAE@smartmatic.com>
+	<CAMZfsd4aXD7O059_+j1vY_+QbvaEiJ_MJ6RsoDGkek_Ri++Yyg@mail.gmail.com>
+In-Reply-To: <CAMZfsd4aXD7O059_+j1vY_+QbvaEiJ_MJ6RsoDGkek_Ri++Yyg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.2.86]
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbbXz4PkHzW97csmTBjnffFJwJnR6JauecLrXc-nH3_BQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 18/18] gconf: fix buildpaths QA issue
+X-MDID: u4znJu9LYR0x
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-qt5] QtCreator now allowing me to select qmake in SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,199 +48,238 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 01:16:17 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 01:49:52 -0000
+Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="------------060702030804040506060204"
+	boundary="_000_AF04265A3FC2B144B9892F621A394E13EA3F49B3tethys_"
 
---------------060702030804040506060204
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--_000_AF04265A3FC2B144B9892F621A394E13EA3F49B3tethys_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 03/21/2016 10:47 PM, Burton, Ross wrote:
->
-> On 19 March 2016 at 14:56, Hongxu Jia <hongxu.jia@windriver.com 
-> <mailto:hongxu.jia@windriver.com>> wrote:
->
->     +PACKAGECONFIG[debug] = "--enable-debug=yes, --enable-debug=no"
->
->
-> There's an explicit --enable-debug in EXTRA_OECONF,
+SW4gc3VtbWFyeToNCg0KDQotICAgICAgICAgIEluICIgeDg2XzY0LXBva3lzZGstbGludXggIiB5
+b3Ugd2lsbCBmaW5kIHRoZSBjcm9zcyB0b29sIGNoYWluIHRoYXQgbWF0Y2ggeW91ciB0YXJnZXQg
+cGxhdGZvcm0gKE1pbm5vd2JvYXJkKSwgaW5jbHVkaW5nIHRoZSBjb21waWxlciwgZGVidWdnZXIg
+YW5kIHFtYWtlDQoNCi0gICAgICAgICAgSW4gImNvcmVpNy02NC1wb2t5LWxpbnV4ICIgeW91IHdp
+bGwgaGF2ZSB0aGUgc3lzcm9vdCBvZiB5b3VyIHRhcmdldA0KDQpCdXQsIGlmIHRoZSBpbWFnZSBk
+b27igJl0IGluaGVyaXQgcG9wdWxhdGVfc2RrX3F0NSwgdGhlIGZpbmFsIHRvb2wgY2hhaW4gd2ls
+bCBub3QgaW5jbHVkZSB0aGUgbmVjZXNzYXJ5IHRvb2xzIChmb3IgUXQpLg0KDQpSZWdhcmRzDQoN
+CkpDDQoNCkZyb206IFJ5YW4gRWxraG9seSwgUGhELCBQRSBbbWFpbHRvOnJ5YW5lbGtob2x5QGdt
+YWlsLmNvbV0NClNlbnQ6IFR1ZXNkYXksIE1hcmNoIDIyLCAyMDE2IDk6MDAgQU0NClRvOiBKdWxp
+byBDcnV6IEJhcnJvc28NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFttZXRhLXF0NV0gUXRDcmVhdG9yIG5vdyBhbGxv
+d2luZyBtZSB0byBzZWxlY3QgcW1ha2UgaW4gU0RLDQoNCk9LLCBJIHdpbGwgdHJ5IHRoYXQuIEFz
+IGEgZm9sbG93LXVwIHRvIG15IGZpcnN0IHF1ZXN0aW9uLCB3aGF0IGlzIHRoZSBkaWZmZXJlbmNl
+IGJldHdlZW4gY29yZWk3LTY0LXBva3ktbGludXggYW5kIHg4Nl82NC1wb2t5c2RrLWxpbnV4IGRp
+cmVjdG9yaWVzIGluIHRoZSBzeXNyb290IGZvbGRlcj8gV2hpY2ggb25lIGRvIEkgcHVsbCB0aGUg
+Y29tcGlsZXIsIGRlYnVnZ2VyIGFuZCBxbWFrZSBmcm9tPw0KDQpPbiBNb24sIE1hciAyMSwgMjAx
+NiBhdCA3OjUzIFBNLCBKdWxpbyBDcnV6IEJhcnJvc28gPGp1bGlvLmNydXpAc21hcnRtYXRpYy5j
+b208bWFpbHRvOmp1bGlvLmNydXpAc21hcnRtYXRpYy5jb20+PiB3cm90ZToNCkhpIFJ5YW4sDQoN
+ClRyeSB0byBpbmhlcml0IHBvcHVsYXRlX3Nka19xdDUgaW4geW91ciBpbWFnZSAgb3IgdXNlIG1l
+dGEtdG9vbGNoYWluLXF0NSB0byBjcmVhdGUgdGhlIFNESy4gSW4gdGhpcyB3YXkgeW91IHdpbGwg
+aGF2ZSB0aGUgcW1ha2UgaW4geW91ciBTREsgaW5zdGFsbGVyLg0KDQpSZWdhcmRzDQoNCkp1bGlv
+DQoNCk9uIE1hciAyMiwgMjAxNiwgYXQgMzo0NiBBTSwgUnlhbiBFbGtob2x5LCBQaEQsIFBFIDxy
+eWFuZWxraG9seUBnbWFpbC5jb208bWFpbHRvOnJ5YW5lbGtob2x5QGdtYWlsLmNvbT4+IHdyb3Rl
+Og0KDQpIZWxsbywNCg0KSSBoYXZlIHVzZWQgYml0YmFrZSBjb3JlLWltYWdlLW1pbmltYWwgLWMg
+cG9wdWxhdGVfc2RrIHRvIGJ1aWxkIGFuIFNESyBmb3IgdGhlIE1pbm5vd2JvYXJkIHRvIGJlIHVz
+ZWQgYnkgUXRDcmVhdG9yLiBBZnRlciBkb2luZyBzbywgdGhlIFNESyB3YXMgYnVpbHQgaW4gL29w
+dC9wb2t5LzIuMC4xL3N5c3Jvb3RzLi4uDQoNCjEuIFdpdGhpbiAvc3lzcm9vdHMgSSBoYXZlIGNv
+cmVpNy02NC1wb2t5LWxpbnV4IGFuZCB4ODZfNjQtcG9reXNkay1saW51eCBkaXJlY3Rvcmllcy4g
+TXkgZmlyc3QgcXVlc3Rpb24gaXMgd2hpY2ggZGlyZWN0b3J5IGRvIEkgdXNlIHdoZW4gcG9pbnRp
+bmcgdG8gbXkgY29tcGlsZXIsIGRlYnVnZ2VyIGFuZCBRdFZlcnNpb24gKHFtYWtlKSBmb3IgUXRD
+cmVhdG9yPw0KDQoyLiBTZWNvbmRseSwgd2hlbiBJIHRyeSBwb2ludGluZyB0byB0aGUgcW1ha2Ug
+aW4gL29wdC9wb2t5LzIuMC4xL3N5c3Jvb3RzL2NvcmVpNy02NC1wb2t5LWxpbnV4L3Vzci9iaW4v
+cXQsIFF0Q3JlYXRvciBzYXlzIHRoYXQgdGhlIGZpbGUgZG9lcyBub3QgZXhpc3QuIEkgaGF2ZSB0
+cmllZCBldmVyeXRoaW5nIHRvIGFkZCBpdCBidXQgaXQganVzdCB3b250IHdvcmsuIEkgdGhlbiB0
+aG91Z2h0IEkgaGFkIHRvIHBvaW50IHRvIHRoZSBvbmUgaW4geDg2XzY0LXBva3lzZGstbGludXgs
+IGhvd2V2ZXIgdGhlcmUgaXMgbm8gcW1ha2UgdGhlcmUuIEFueSBpZGVhcyBvbiB3aGF0IHRoZSBw
+cm9ibGVtIG1heSBiZT8NCg0KVGhhbmtzIQ0KLS0NCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCk9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
 
-Yes, we should remove the duplicated --enable-debug in EXTRA_OECONF
-
-> and reading the configure --help shows that the "off" mode should be 
-> --enable-debug=minimum as "no" removes the GLib checks which can 
-> result in crashes if bad data is passed to the API.
-
-./configure --help
-...
-   --enable-debug          Compile with debug checks. [no/yes/minimum,
-                           default=minimum]
-...
-
-vim ./configure.ac
-...
-121 dnl Default to debug spew in unstable branch
-122 AC_ARG_ENABLE(debug,
-123   AS_HELP_STRING([--enable-debug],
-124     [Compile with debug checks. @<:@no/yes/minimum, 
-default=minimum@:>@]),
-125   , enable_debug=minimum)
-126
-127 if test "x$enable_debug" = "xyes"; then
-128   CFLAGS="$CFLAGS -DGCONF_ENABLE_DEBUG=1"
-129   AC_MSG_NOTICE([Will build with debugging spew and checks])
-130 else
-131   if test "x$enable_debug" = "xno"; then
-132     CFLAGS="$CFLAGS -DG_DISABLE_CHECKS=1 -DG_DISABLE_ASSERT=1"
-133     AC_MSG_NOTICE([Will build without *any* debugging code])
-134   else
-135     AC_MSG_NOTICE([Will build with debug checks but no debug spew])
-136   fi
-137 fi
-...
-
-vim gconf/gconfd.c
-...
-  384 #ifdef GCONF_ENABLE_DEBUG
-  385   /* -- Debug only */
-  386
-  387   if (addresses == NULL)
-  388     {
-  389       gconf_log(GCL_DEBUG, _("gconfd compiled with debugging; 
-trying to load gconf.path from the source directory"));
-  390       conffile = g_strconcat(GCONF_SRCDIR, "/gconf/gconf.path", NULL);
-  391       addresses = gconf_load_source_path(conffile, NULL);
-  392       g_free(conffile);
-  393     }
-  394
-  395   /* -- End of Debug Only */
-  396 #endif
-...
-
-If we could not use '--enable-debug=yes' to fix build paths issue,
-and as your suggested it should not remove check and assert,
-so minimum is the best choice.
-
-//Hongxu
-
->
-> Ross
-
-
---------------060702030804040506060204
+--_000_AF04265A3FC2B144B9892F621A394E13EA3F49B3tethys_
 Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 03/21/2016 10:47 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LbbXz4PkHzW97csmTBjnffFJwJnR6JauecLrXc-nH3_BQ@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 19 March 2016 at 14:56, Hongxu Jia
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:hongxu.jia@windriver.com" target="_blank">hongxu.jia@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":9qh" class="a3s" style="overflow:hidden">+PACKAGECONFIG[debug]
-                = "--enable-debug=yes, --enable-debug=no"<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          There's an explicit --enable-debug in EXTRA_OECONF, </div>
-      </div>
-    </blockquote>
-    <br>
-    Yes, we should remove the duplicated --enable-debug in EXTRA_OECONF<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LbbXz4PkHzW97csmTBjnffFJwJnR6JauecLrXc-nH3_BQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">and reading the configure --help shows
-          that the "off" mode should be --enable-debug=minimum as "no"
-          removes the GLib checks which can result in crashes if bad
-          data is passed to the API.</div>
-      </div>
-    </blockquote>
-    <br>
-    ./configure --help<br>
-    ...<br>
-      --enable-debug          Compile with debug checks.
-    [no/yes/minimum,<br>
-                              default=minimum]<br>
-    ...<br>
-    <br>
-    vim ./configure.ac<br>
-    ...<br>
-    121 dnl Default to debug spew in unstable branch<br>
-    122 AC_ARG_ENABLE(debug,<br>
-    123   AS_HELP_STRING([--enable-debug],<br>
-    124     [Compile with debug checks. @&lt;:@no/yes/minimum,
-    default=minimum@:&gt;@]),<br>
-    125   , enable_debug=minimum)<br>
-    126 <br>
-    127 if test "x$enable_debug" = "xyes"; then<br>
-    128   CFLAGS="$CFLAGS -DGCONF_ENABLE_DEBUG=1"<br>
-    129   AC_MSG_NOTICE([Will build with debugging spew and checks])<br>
-    130 else<br>
-    131   if test "x$enable_debug" = "xno"; then<br>
-    132     CFLAGS="$CFLAGS -DG_DISABLE_CHECKS=1 -DG_DISABLE_ASSERT=1"<br>
-    133     AC_MSG_NOTICE([Will build without *any* debugging code])<br>
-    134   else<br>
-    135     AC_MSG_NOTICE([Will build with debug checks but no debug
-    spew])<br>
-    136   fi<br>
-    137 fi<br>
-    ...<br>
-    <br>
-    vim gconf/gconfd.c<br>
-    ...<br>
-     384 #ifdef GCONF_ENABLE_DEBUG<br>
-     385   /* -- Debug only */<br>
-     386 <br>
-     387   if (addresses == NULL)<br>
-     388     {<br>
-     389       gconf_log(GCL_DEBUG, _("gconfd compiled with debugging;
-    trying to load gconf.path from the source directory"));<br>
-     390       conffile = g_strconcat(GCONF_SRCDIR, "/gconf/gconf.path",
-    NULL);<br>
-     391       addresses = gconf_load_source_path(conffile, NULL);<br>
-     392       g_free(conffile);<br>
-     393     }<br>
-     394 <br>
-     395   /* -- End of Debug Only */<br>
-     396 #endif<br>
-    ...<br>
-    <br>
-    If we could not use '--enable-debug=yes' to fix build paths issue,<br>
-    and as your suggested it should not remove check and assert,<br>
-    so minimum is the best choice.<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LbbXz4PkHzW97csmTBjnffFJwJnR6JauecLrXc-nH3_BQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
+CXtmb250LWZhbWlseTpQTWluZ0xpVTsNCglwYW5vc2UtMToyIDIgNSAwIDAgMCAwIDAgMCAwO30N
+CkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0
+IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJ
+cGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWls
+eToiXEBQTWluZ0xpVSI7DQoJcGFub3NlLTE6MiAyIDUgMCAwIDAgMCAwIDAgMDt9DQovKiBTdHls
+ZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1h
+bA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIu
+MHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTpsaW5rLCBz
+cGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsN
+Cgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxp
+bmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxlOw0KCXRl
+eHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KcC5Nc29MaXN0UGFyYWdyYXBoLCBsaS5Nc29MaXN0
+UGFyYWdyYXBoLCBkaXYuTXNvTGlzdFBhcmFncmFwaA0KCXttc28tc3R5bGUtcHJpb3JpdHk6MzQ7
+DQoJbWFyZ2luLXRvcDowaW47DQoJbWFyZ2luLXJpZ2h0OjBpbjsNCgltYXJnaW4tYm90dG9tOjBp
+bjsNCgltYXJnaW4tbGVmdDouNWluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0Kc3Bh
+bi5ob2VuemINCgl7bXNvLXN0eWxlLW5hbWU6aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJ
+e21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwi
+c2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5
+bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYi
+O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4w
+aW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0
+aW9uMTt9DQovKiBMaXN0IERlZmluaXRpb25zICovDQpAbGlzdCBsMA0KCXttc28tbGlzdC1pZDox
+MTY3MDkyMDMzOw0KCW1zby1saXN0LXR5cGU6aHlicmlkOw0KCW1zby1saXN0LXRlbXBsYXRlLWlk
+czoyMDUyNTAzNTYyIDE0MTc5ODE1ODQgNjc2OTg2OTEgNjc2OTg2OTMgNjc2OTg2ODkgNjc2OTg2
+OTEgNjc2OTg2OTMgNjc2OTg2ODkgNjc2OTg2OTEgNjc2OTg2OTM7fQ0KQGxpc3QgbDA6bGV2ZWwx
+DQoJe21zby1sZXZlbC1zdGFydC1hdDowOw0KCW1zby1sZXZlbC1udW1iZXItZm9ybWF0OmJ1bGxl
+dDsNCgltc28tbGV2ZWwtdGV4dDotOw0KCW1zby1sZXZlbC10YWItc3RvcDpub25lOw0KCW1zby1s
+ZXZlbC1udW1iZXItcG9zaXRpb246bGVmdDsNCgl0ZXh0LWluZGVudDotLjI1aW47DQoJZm9udC1m
+YW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjsNCgltc28tZmFyZWFzdC1mb250LWZhbWlseTpQ
+TWluZ0xpVTsNCgltc28tYmlkaS1mb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIjt9DQpAbGlz
+dCBsMDpsZXZlbDINCgl7bXNvLWxldmVsLW51bWJlci1mb3JtYXQ6YnVsbGV0Ow0KCW1zby1sZXZl
+bC10ZXh0Om87DQoJbXNvLWxldmVsLXRhYi1zdG9wOm5vbmU7DQoJbXNvLWxldmVsLW51bWJlci1w
+b3NpdGlvbjpsZWZ0Ow0KCXRleHQtaW5kZW50Oi0uMjVpbjsNCglmb250LWZhbWlseToiQ291cmll
+ciBOZXciO30NCkBsaXN0IGwwOmxldmVsMw0KCXttc28tbGV2ZWwtbnVtYmVyLWZvcm1hdDpidWxs
+ZXQ7DQoJbXNvLWxldmVsLXRleHQ674KnOw0KCW1zby1sZXZlbC10YWItc3RvcDpub25lOw0KCW1z
+by1sZXZlbC1udW1iZXItcG9zaXRpb246bGVmdDsNCgl0ZXh0LWluZGVudDotLjI1aW47DQoJZm9u
+dC1mYW1pbHk6V2luZ2RpbmdzO30NCkBsaXN0IGwwOmxldmVsNA0KCXttc28tbGV2ZWwtbnVtYmVy
+LWZvcm1hdDpidWxsZXQ7DQoJbXNvLWxldmVsLXRleHQ674K3Ow0KCW1zby1sZXZlbC10YWItc3Rv
+cDpub25lOw0KCW1zby1sZXZlbC1udW1iZXItcG9zaXRpb246bGVmdDsNCgl0ZXh0LWluZGVudDot
+LjI1aW47DQoJZm9udC1mYW1pbHk6U3ltYm9sO30NCkBsaXN0IGwwOmxldmVsNQ0KCXttc28tbGV2
+ZWwtbnVtYmVyLWZvcm1hdDpidWxsZXQ7DQoJbXNvLWxldmVsLXRleHQ6bzsNCgltc28tbGV2ZWwt
+dGFiLXN0b3A6bm9uZTsNCgltc28tbGV2ZWwtbnVtYmVyLXBvc2l0aW9uOmxlZnQ7DQoJdGV4dC1p
+bmRlbnQ6LS4yNWluOw0KCWZvbnQtZmFtaWx5OiJDb3VyaWVyIE5ldyI7fQ0KQGxpc3QgbDA6bGV2
+ZWw2DQoJe21zby1sZXZlbC1udW1iZXItZm9ybWF0OmJ1bGxldDsNCgltc28tbGV2ZWwtdGV4dDrv
+gqc7DQoJbXNvLWxldmVsLXRhYi1zdG9wOm5vbmU7DQoJbXNvLWxldmVsLW51bWJlci1wb3NpdGlv
+bjpsZWZ0Ow0KCXRleHQtaW5kZW50Oi0uMjVpbjsNCglmb250LWZhbWlseTpXaW5nZGluZ3M7fQ0K
+QGxpc3QgbDA6bGV2ZWw3DQoJe21zby1sZXZlbC1udW1iZXItZm9ybWF0OmJ1bGxldDsNCgltc28t
+bGV2ZWwtdGV4dDrvgrc7DQoJbXNvLWxldmVsLXRhYi1zdG9wOm5vbmU7DQoJbXNvLWxldmVsLW51
+bWJlci1wb3NpdGlvbjpsZWZ0Ow0KCXRleHQtaW5kZW50Oi0uMjVpbjsNCglmb250LWZhbWlseTpT
+eW1ib2w7fQ0KQGxpc3QgbDA6bGV2ZWw4DQoJe21zby1sZXZlbC1udW1iZXItZm9ybWF0OmJ1bGxl
+dDsNCgltc28tbGV2ZWwtdGV4dDpvOw0KCW1zby1sZXZlbC10YWItc3RvcDpub25lOw0KCW1zby1s
+ZXZlbC1udW1iZXItcG9zaXRpb246bGVmdDsNCgl0ZXh0LWluZGVudDotLjI1aW47DQoJZm9udC1m
+YW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpAbGlzdCBsMDpsZXZlbDkNCgl7bXNvLWxldmVsLW51bWJl
+ci1mb3JtYXQ6YnVsbGV0Ow0KCW1zby1sZXZlbC10ZXh0Ou+CpzsNCgltc28tbGV2ZWwtdGFiLXN0
+b3A6bm9uZTsNCgltc28tbGV2ZWwtbnVtYmVyLXBvc2l0aW9uOmxlZnQ7DQoJdGV4dC1pbmRlbnQ6
+LS4yNWluOw0KCWZvbnQtZmFtaWx5OldpbmdkaW5nczt9DQpvbA0KCXttYXJnaW4tYm90dG9tOjBp
+bjt9DQp1bA0KCXttYXJnaW4tYm90dG9tOjBpbjt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1z
+byA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIg
+Lz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVs
+YXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8
+L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJF
+Ti1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlv
+bjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
+bG9yOiMxRjQ5N0QiPkluIHN1bW1hcnk6PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29MaXN0UGFyYWdyYXBoIiBz
+dHlsZT0idGV4dC1pbmRlbnQ6LS4yNWluO21zby1saXN0OmwwIGxldmVsMSBsZm8xIj48IVtpZiAh
+c3VwcG9ydExpc3RzXT48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
+PHNwYW4gc3R5bGU9Im1zby1saXN0Oklnbm9yZSI+LTxzcGFuIHN0eWxlPSJmb250OjcuMHB0ICZx
+dW90O1RpbWVzIE5ldyBSb21hbiZxdW90OyI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQo8L3NwYW4+PC9zcGFuPjwvc3Bhbj48IVtlbmRpZl0+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkluICZxdW90Ozwvc3Bh
+bj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj54ODZfNjQtcG9r
+eXNkay1saW51eCAmcXVvdDsgeW91IHdpbGwgZmluZCB0aGUgY3Jvc3MgdG9vbCBjaGFpbiB0aGF0
+IG1hdGNoIHlvdXIgdGFyZ2V0IHBsYXRmb3JtIChNaW5ub3dib2FyZCksIGluY2x1ZGluZyB0aGUg
+Y29tcGlsZXIsIGRlYnVnZ2VyIGFuZCBxbWFrZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29MaXN0UGFyYWdyYXBoIiBzdHlsZT0idGV4dC1pbmRlbnQ6LS4yNWluO21zby1saXN0
+OmwwIGxldmVsMSBsZm8xIj48IVtpZiAhc3VwcG9ydExpc3RzXT48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PHNwYW4gc3R5bGU9Im1zby1saXN0Oklnbm9yZSI+LTxz
+cGFuIHN0eWxlPSJmb250OjcuMHB0ICZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90OyI+Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQo8L3NwYW4+
+PC9zcGFuPjwvc3Bhbj48IVtlbmRpZl0+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9y
+OiMxRjQ5N0QiPkluICZxdW90O2NvcmVpNy02NC1wb2t5LWxpbnV4ICZxdW90OyB5b3Ugd2lsbCBo
+YXZlIHRoZSBzeXNyb290IG9mIHlvdXIgdGFyZ2V0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
+N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5CdXQsIGlmIHRoZSBpbWFn
+ZSBkb27igJl0IGluaGVyaXQgcG9wdWxhdGVfc2RrX3F0NSwgdGhlIGZpbmFsIHRvb2wgY2hhaW4g
+d2lsbCBub3QgaW5jbHVkZSB0aGUgbmVjZXNzYXJ5IHRvb2xzIChmb3IgUXQpLjxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
+dW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
+UmVnYXJkczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
+dDs7Y29sb3I6IzFGNDk3RCI+SkM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVv
+dDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
+JnF1b3Q7Ij4gUnlhbiBFbGtob2x5LCBQaEQsIFBFIFttYWlsdG86cnlhbmVsa2hvbHlAZ21haWwu
+Y29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFR1ZXNkYXksIE1hcmNoIDIyLCAyMDE2IDk6MDAgQU08
+YnI+DQo8Yj5Ubzo8L2I+IEp1bGlvIENydXogQmFycm9zbzxicj4NCjxiPkNjOjwvYj4gb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBS
+ZTogW09FLWNvcmVdIFttZXRhLXF0NV0gUXRDcmVhdG9yIG5vdyBhbGxvd2luZyBtZSB0byBzZWxl
+Y3QgcW1ha2UgaW4gU0RLPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T0ss
+IEkgd2lsbCB0cnkgdGhhdC4gQXMgYSBmb2xsb3ctdXAgdG8gbXkgZmlyc3QgcXVlc3Rpb24sIHdo
+YXQgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiBjb3JlaTctNjQtcG9reS1saW51eCBhbmQgeDg2
+XzY0LXBva3lzZGstbGludXggZGlyZWN0b3JpZXMgaW4gdGhlIHN5c3Jvb3QgZm9sZGVyPyBXaGlj
+aCBvbmUgZG8gSSBwdWxsIHRoZSBjb21waWxlciwgZGVidWdnZXIgYW5kIHFtYWtlIGZyb20/PG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBNb24sIE1hciAy
+MSwgMjAxNiBhdCA3OjUzIFBNLCBKdWxpbyBDcnV6IEJhcnJvc28gJmx0OzxhIGhyZWY9Im1haWx0
+bzpqdWxpby5jcnV6QHNtYXJ0bWF0aWMuY29tIiB0YXJnZXQ9Il9ibGFuayI+anVsaW8uY3J1ekBz
+bWFydG1hdGljLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUg
+c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGlu
+ZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPkhpIFJ5YW4sPGJyPg0KPGJyPg0KVHJ5IHRvIGluaGVyaXQg
+cG9wdWxhdGVfc2RrX3F0NSBpbiB5b3VyIGltYWdlJm5ic3A7IG9yIHVzZSBtZXRhLXRvb2xjaGFp
+bi1xdDUgdG8gY3JlYXRlIHRoZSBTREsuIEluIHRoaXMgd2F5IHlvdSB3aWxsIGhhdmUgdGhlIHFt
+YWtlIGluIHlvdXIgU0RLIGluc3RhbGxlci48YnI+DQo8YnI+DQpSZWdhcmRzPGJyPg0KPGJyPg0K
+SnVsaW88bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PGJyPg0KT24gTWFyIDIyLCAyMDE2LCBhdCAzOjQ2IEFNLCBSeWFuIEVsa2hvbHksIFBoRCwgUEUg
+Jmx0OzxhIGhyZWY9Im1haWx0bzpyeWFuZWxraG9seUBnbWFpbC5jb20iPnJ5YW5lbGtob2x5QGdt
+YWlsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxicj4NCjxicj4NCkhlbGxvLDxicj4NCjxicj4NCkkgaGF2
+ZSB1c2VkIGJpdGJha2UgY29yZS1pbWFnZS1taW5pbWFsIC1jIHBvcHVsYXRlX3NkayB0byBidWls
+ZCBhbiBTREsgZm9yIHRoZSBNaW5ub3dib2FyZCB0byBiZSB1c2VkIGJ5IFF0Q3JlYXRvci4gQWZ0
+ZXIgZG9pbmcgc28sIHRoZSBTREsgd2FzIGJ1aWx0IGluIC9vcHQvcG9reS8yLjAuMS9zeXNyb290
+cy4uLjxicj4NCjxicj4NCjEuIFdpdGhpbiAvc3lzcm9vdHMgSSBoYXZlIGNvcmVpNy02NC1wb2t5
+LWxpbnV4IGFuZCB4ODZfNjQtcG9reXNkay1saW51eCBkaXJlY3Rvcmllcy4gTXkgZmlyc3QgcXVl
+c3Rpb24gaXMgd2hpY2ggZGlyZWN0b3J5IGRvIEkgdXNlIHdoZW4gcG9pbnRpbmcgdG8gbXkgY29t
+cGlsZXIsIGRlYnVnZ2VyIGFuZCBRdFZlcnNpb24gKHFtYWtlKSBmb3IgUXRDcmVhdG9yPzxicj4N
+Cjxicj4NCjIuIFNlY29uZGx5LCB3aGVuIEkgdHJ5IHBvaW50aW5nIHRvIHRoZSBxbWFrZSBpbiAv
+b3B0L3Bva3kvMi4wLjEvc3lzcm9vdHMvY29yZWk3LTY0LXBva3ktbGludXgvdXNyL2Jpbi9xdCwg
+UXRDcmVhdG9yIHNheXMgdGhhdCB0aGUgZmlsZSBkb2VzIG5vdCBleGlzdC4gSSBoYXZlIHRyaWVk
+IGV2ZXJ5dGhpbmcgdG8gYWRkIGl0IGJ1dCBpdCBqdXN0IHdvbnQgd29yay4gSSB0aGVuIHRob3Vn
+aHQgSSBoYWQgdG8gcG9pbnQgdG8gdGhlIG9uZSBpbiB4ODZfNjQtcG9reXNkay1saW51eCwNCiBo
+b3dldmVyIHRoZXJlIGlzIG5vIHFtYWtlIHRoZXJlLiBBbnkgaWRlYXMgb24gd2hhdCB0aGUgcHJv
+YmxlbSBtYXkgYmU/PGJyPg0KPGJyPg0KVGhhbmtzITxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGNsYXNzPSJob2VuemIiPjxzcGFuIHN0
+eWxlPSJjb2xvcjojODg4ODg4Ij4tLTwvc3Bhbj48L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiM4
+ODg4ODgiPjxicj4NCjxzcGFuIGNsYXNzPSJob2VuemIiPl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fPC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJob2VuemIi
+Pk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdDwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0i
+aG9lbnpiIj48YSBocmVmPSJtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyI+T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48L3Nw
+YW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+PGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZSIgdGFyZ2V0PSJf
+YmxhbmsiPmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
+bmVtYmVkZGVkLWNvcmU8L2E+PC9zcGFuPjwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2tx
+dW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---------------060702030804040506060204--
+--_000_AF04265A3FC2B144B9892F621A394E13EA3F49B3tethys_--
