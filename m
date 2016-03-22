@@ -1,28 +1,46 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B4E462132
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A46462132
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 17:14:04 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 22 Mar 2016 10:14:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,378,1455004800"; d="scan'208";a="939325146"
-Received: from unknown (HELO [10.252.9.96]) ([10.252.9.96])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2016 10:14:05 -0700
-User-Agent: Microsoft-MacOutlook/0.0.0.160212
-Date: Tue, 22 Mar 2016 19:14:03 +0200
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <9A58CABD-70B7-44A4-BFE5-C42A79341193@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v2] externalsrc.bbclas: remove nostamp from
-	do_configure
-References: <1456410587-7337-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1456410587-7337-2-git-send-email-markus.lehtonen@linux.intel.com>
-	<10265580.5bu4Qb5tF3@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <10265580.5bu4Qb5tF3@peggleto-mobl.ger.corp.intel.com>
-Mime-version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] externalsrc.bbclas: remove nostamp from do_configure
+	Tue, 22 Mar 2016 17:14:19 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id w20so128610368oia.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Mar 2016 10:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nfN1NYEf4u3Cz94o9Yw9oVQ5XB6kRN2T/ATtbzhIkhQ=;
+	b=oDkGi+5ZfzX5Zjdx7/MJHNZK97P8gCeelu7AE9Do8lFUe1V4V+xXGbeCpvRZ/Lk7XM
+	HAczCIxQ/jBnZcsHhRqncVOXG0IsnsoyiEQCglMEAdIoQqshKbKibynojSJrk0abRcJe
+	2nzIRkdp4cdpCIFn5IqU42qS4YlR5cP2jk/uDTax524M1vQUpo4V2VAucw5nEHmcjfcs
+	rWkSeTpCHnObOYiacAEOjewuJXAYoOgIcIjsve9tJzk4M5ObazF7LpqPprOrwMaRc1Rm
+	WoTD12bXzX88cCfq5WD0Dmja9N7/bQYsxvumsxBn/qGw98ppTNVaM/VDw3rfUYG9dDV0
+	hqEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nfN1NYEf4u3Cz94o9Yw9oVQ5XB6kRN2T/ATtbzhIkhQ=;
+	b=LC4rK/k33P9EYmoD+5kj7LX6szt8scvS5YbmSAablsgC1Z2w6E8BtnHZCbAPe+syx7
+	pAkugSRwXeSFTk5tJ9HU7hMYhFZH5ygZKO52SOKiwyvSu6vCtf3tTANUpbOPEk78IaBt
+	lb8aSQmglTZimuyRTAEULtHkfKY2Ok3bCZKCXh2/8KYM1CJ3HsmiZQMEIzRa+tIwC8A/
+	XvX1m1HQgt8vSC0UPsGKAZumSTiZpwdhBa5AhfWHm8JQAAEzlPAl+VvB8LkPxqeEYJqh
+	urIuJH4mX1PmqCO7xdMdbaexGTUiQiVbJKA0hgbcEogKPF8+7h6FhlyvhcSyIb4+e1+v
+	meAQ==
+X-Gm-Message-State: AD7BkJIOOLDNfnhL0TYa3Y6y0UCpW6APd4XxHXVt8ClguN2HkdbOVKQjVcT/mtvVbdnFsjRlb+GBH40Xk2HoiyBn
+X-Received: by 10.157.32.112 with SMTP id n103mr3786227ota.9.1458666860405;
+	Tue, 22 Mar 2016 10:14:20 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.90.134 with HTTP; Tue, 22 Mar 2016 10:14:01 -0700 (PDT)
+In-Reply-To: <1458666367-28283-1-git-send-email-raj.khem@gmail.com>
+References: <1458666367-28283-1-git-send-email-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Mar 2016 17:14:01 +0000
+Message-ID: <CAJTo0LZoLPo3rpCn8zqaJYYxuJd17j5AwH+ww3t-46FSB7dqHw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] libunwind: Fix build with fstack-protector on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,164 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 17:14:05 -0000
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Tue, 22 Mar 2016 17:14:20 -0000
+Content-Type: multipart/alternative; boundary=001a11379eb40f76b6052ea6584e
 
-Hi Paul,
+--001a11379eb40f76b6052ea6584e
+Content-Type: text/plain; charset=UTF-8
 
+On 22 March 2016 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
 
-
-On 08/03/16 07:03, "Paul Eggleton" <paul.eggleton@linux.intel.com> wrote:
-
->Hi Markus,
+> - Move SRC_URI to bb, helps with devtool workflow
 >
->On Thu, 25 Feb 2016 16:29:47 Markus Lehtonen wrote:
->> Be a bit more intelligent than mindlessly re-compiling every time.
->> Instead of using 'nostamp' flag for do_compile run a python function to
->> get a list of files to add as 'file-checksums' flag.  The intention is
->> to only re-run do_compile if something in the source tree content
->> changes.
->> 
->> This python function, srctree_hash_files(), works differently, depending
->> if the source tree is a git repository clone or not. If the source tree
->> is a git repository, the function runs 'git add .' with a custom git
->> index file in order to record all changes in the git working tree. This
->> custom index file is then returned as the file for the task to depend
->> on. The index file is changed if any changes are made in the source tree
->> causing the task to be re-run.
->> 
->> If the source tree is not a git repository, srctree_hash_files() simply
->> adds the whole source tree as a dependency, causing bitbake to basically
->> hash every file in it. Hidden files and directories in the source tree
->> root are ignored by the glob currently used. This has the advantage of
->> automatically ignoring .git directory, for example.
->> 
->> This method of tracking changes source tree changes to determine if
->> re-build is needed does not work perofectly, though. Many packages are
->> built under ${S} which effectively changes the source tree causing some
->> unwanted re-compilations.  However, if do_compile of the recipe does not
->> produce new/different artefacts on every run (as commonly is and should
->> be the case) the re-compilation loop stops. Thus, you should usually see
->> only one re-compilation (if any) after which the source tree is
->> "stabilized" and no more re-compilations happen.
->> 
->> During the first bitbake run preparing of the task runqueue may take
->> much longer if the source tree is not a git repository. The reason is
->> that all the files in the source tree are hashed.  Subsequent builds are
->> not significantly slower because (most) file hashes are found from the
->> cache.
->> 
->> [YOCTO #8853]
->> 
->> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
->> ---
->>  meta/classes/externalsrc.bbclass | 25 +++++++++++++++++++++++--
->>  1 file changed, 23 insertions(+), 2 deletions(-)
->> 
->> diff --git a/meta/classes/externalsrc.bbclass
->> b/meta/classes/externalsrc.bbclass index b608bd0..4f25bcf 100644
->> --- a/meta/classes/externalsrc.bbclass
->> +++ b/meta/classes/externalsrc.bbclass
->> @@ -85,8 +85,7 @@ python () {
->>          d.prependVarFlag('do_compile', 'prefuncs',
->> "externalsrc_compile_prefunc ") d.prependVarFlag('do_configure',
->> 'prefuncs', "externalsrc_configure_prefunc ")
->> 
->> -        # Ensure compilation happens every time
->> -        d.setVarFlag('do_compile', 'nostamp', '1')
->> +        d.setVarFlag('do_compile', 'file-checksums',
->> '${@srctree_hash_files(d)}')
->> 
->>          # We don't want the workdir to go away
->>          d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN', True))
->> @@ -125,3 +124,25 @@ python externalsrc_compile_prefunc() {
->>      # Make it obvious that this is happening, since forgetting about it
->> could lead to much confusion bb.plain('NOTE: %s: compiling from external
->> source tree %s' % (d.getVar('PN', True), d.getVar('EXTERNALSRC', True))) }
->> +
->> +def srctree_hash_files(d):
->> +    import shutil
->> +    import subprocess
->> +
->> +    s_dir = d.getVar('EXTERNALSRC', True)
->> +    git_dir = os.path.join(s_dir, '.git')
->> +    oe_index_file = os.path.join(git_dir, 'oe-devtool-index')
->> +
->> +    ret = " "
->> +    if os.path.exists(git_dir):
->> +        # Clone index
->> +        if not os.path.exists(oe_index_file):
->> +            shutil.copy2(os.path.join(git_dir, 'index'), oe_index_file)
->> +        # Update our custom index
->> +        env = os.environ.copy()
->> +        env['GIT_INDEX_FILE'] = oe_index_file
->> +        subprocess.check_output(['git', 'add', '.'], cwd=s_dir, env=env)
->> +        ret = oe_index_file + ':True'
->> +    else:
->> +        ret = d.getVar('EXTERNALSRC') + '/*:True'
->> +    return ret
->
->So I finally made the time to look at this - sorry for the extreme delay. There 
->are a few issues:
 
-Thank you for the review. I'm sorry about the latest delay on my part. I had just
-missed your email.
+<insert moan about bb/inc splits for no reason here> :)
 
-I just submitted a new version of the patchset. That should have the issues you
-were seeing resolved. It now requires two patches to bitbake, too, though.
+--001a11379eb40f76b6052ea6584e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 March 2016 at 17:06, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":cs2" class=3D"a3s" style=
+=3D"overflow:hidden">- Move SRC_URI to bb, helps with devtool workflow<br><=
+/div></blockquote></div><br>&lt;insert moan about bb/inc splits for no reas=
+on here&gt; :)</div></div>
 
-
->1) Unfortunately this clashes with the EXTERNALSRC_SYMLINKS functionality - we 
->now create oe-logs and oe-workdir symlinks in the source directory, and these 
->will be picked up by the file-checksums resulting in either warnings or errors 
->when pseudo.socket goes missing. For git repositories we should probably be 
->poking these into .git/info/exclude somehow; but without a git repository I'm 
->unsure as to how to exclude them. It could be that we make things easy on 
->ourselves and only activate this functionality if the source tree is a git 
->repository and just fall back to the old behaviour if it isn't.
-
-Yes, it does (or did). Generally, I don't like the idea of build system
-dirtying/tampering with the source tree (unless B=S). But, I guess there's
-not much I can do about that now.
-
-For git trees the symlinks do not cause any problems for checksumming as Git
-handles those. Even if they make the git tree dirty and devtool should add those
-into .git/info/exclude. However, I think that is unrelated to this patchset and
-could/should be done in a separate patchset.
-
-My latest iteration fixes the symlink problem for non-Git trees by changing bitbake
-checksumming code not to follow directory symlinks. If that is not seen feasible we
-could try e.g. listing each file in the root directory as a dependency separately
-(i.e. without using a glob) and filtering out symlinks there.
-
-
-
->2) If the source tree is a git repo then we always only add files to the custom 
->index; if you then realise your .gitignore isn't complete and add some items 
->to be ignored within it, those items are still in the custom index and thus 
->still get incorporated into the signature. Perhaps we need to be doing a git 
->reset for that index before git add each time?
-
-This is now also fixed. In the new version a fresh copy of the "real" git index is
-always used as a base for the custom index so this shouldn't be an issue anymore.
-
-
-
->3) Even with a git repository and a properly set up .gitignore such that I 
->could tell the index file's md5sum wasn't changing, I couldn't seem to get it 
->to work - it just built every time as before. I wonder if this has to do with 
->the CONFIGURESTAMPFILE functionality, since I noticed it's do_configure 
->executing every time.
-
-Yes, this was caused by the semi-broken CONFIGURESTAMP functionality. It is
-fixed in master, now.
-
-
-Thanks,
-   Markus
-
-
-
+--001a11379eb40f76b6052ea6584e--
