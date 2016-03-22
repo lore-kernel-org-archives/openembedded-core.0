@@ -1,51 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 232DE60797
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C52566FF30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 16:45:56 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id i17so15319006oib.1
+	Tue, 22 Mar 2016 16:46:08 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id y89so183739168qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 09:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kLutK+UdMrh04usNdgJS2jk01QPbNuYyaNGl95KioEI=;
-	b=r5Q2GqQ9a59NOheU2tKWcBhCZjdkBfjjbFtckK2jfjIPMocjGmSDP6MJYXD9fD37Xh
-	+MqwzTwBzt+FX2C3DFyYFLdfMT+doVDGdiuvk/fpCGsEbkzNZGmOj69O0kxCVEXR5yt7
-	uguw+Kcwg/rALAvStKjsl8jtvVblH1BKtzpAMmr/Ft0h4ZyNztg7AAgj4nWAxnpr9D6T
-	OZWOPO8+5ak56hHqykquGAjbHEaAZr76IllTzTl2n60ZsXa+QJFwtrXI1iF+JuuiVgah
-	kZSIDpzTHWbusCE+8HUVhmgY67Zav9zCDyA2bFFlD1kS/IQExjQmK2AJebZLfznqLRNC
-	TB/Q==
+	Tue, 22 Mar 2016 09:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=bO60HVEegc62Plj/KawrmihVnoTvjVpT/+bhCQ/8f4E=;
+	b=zc7ixJ/X/tctp4yy+HHVr/1b+9Q7gEfFVQ77UC72pHcX1HGu01TFVRa+jWcCAs7OWY
+	mHJOP/kXG3PgSxBCqAhAXzg4o1wXD+j+a7V3b89eVVQ9FQFEtp/WW5uf3VpRwQlkMHOb
+	H5+wIm7JeH/WOE5RiwRPVCtiWNAN9uNDSijhNb8XOHKR040k7BagkoXhDn5KyyLLdFZN
+	vRkQSlJ7Zr376mC9rMZOBaSLeFQSt9PnjltNbZRxuhfKM9rcT3jd0LsJ/8/YnRo+gqU9
+	QiaKZRKiv8njZRHbIi/a35pPfGHbTA/t5M2PKmX3BVsIdA/4G5w3pWDguqmFafT8vYyH
+	VsOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kLutK+UdMrh04usNdgJS2jk01QPbNuYyaNGl95KioEI=;
-	b=H8FShSIh1d7b2ErbqiLXR7vcub8NO8R/kJxvnPoP/frqDFFsWtAstIwxzaqw2dha9h
-	3m+IfrINbJ2L7pFyILBT9C9hPdEE1TVo59Dj8yymblsW2E9CaTM/ZIQOWIgW+yqbIBWx
-	BsY/9/nXYxvlBww1ber98a3u+afKgh33rOEP0FAcq3mCwifTIojp3DGZYHSf7qQXT64t
-	D8OlmDSdAWgJiMJ6imGuHJ0W/F3kpITqcVCty0hullfNuOPpoksIPNTAor5uoYjHwhxB
-	OPbPIJA4HRSXcNwc5vkzFGNrOzbLX9HPR+D1Au7YNdOKa4CHoMbbOVsgn1fhEJIjcJzh
-	+gkg==
-X-Gm-Message-State: AD7BkJJLUfRSnvlgjZpR3H1cuSy31ILTZl60YkyOP5VHBrswSED9i4G2AEdhYMfJpGYhUOtkmJfLv0ZdeKMgA/Ff
-X-Received: by 10.202.88.130 with SMTP id m124mr20331612oib.52.1458665157233; 
-	Tue, 22 Mar 2016 09:45:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.90.134 with HTTP; Tue, 22 Mar 2016 09:45:37 -0700 (PDT)
-In-Reply-To: <CAJTo0LZv97ZB+x5t3toR=r00Dzcvy8jfpF0EzQZ7OZMhHqgQoQ@mail.gmail.com>
-References: <1458664665-20517-1-git-send-email-alejandro.franco@linux.intel.com>
-	<56F17581.70809@linux.intel.com>
-	<CAJTo0LZv97ZB+x5t3toR=r00Dzcvy8jfpF0EzQZ7OZMhHqgQoQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Mar 2016 16:45:37 +0000
-Message-ID: <CAJTo0LaLRwcuY=-BJcRDUm9Y5Y_umixeq=Zm3NUL+2XTbBTxaw@mail.gmail.com>
-To: Alex Franco <alejandro.franco@linux.intel.com>
-Cc: Joshua G Lock <joshua.g.lock@intel.com>,
-	Benjamin Esquivel <benjamin.esquivel@intel.com>,
-	Andreas Schultz <aschultz@tpip.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nativesdk-buildtools-perl-dummy.bb: disable ICECC
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bO60HVEegc62Plj/KawrmihVnoTvjVpT/+bhCQ/8f4E=;
+	b=hx8fT5PdSaQscSzTVq5MeVCwH63CFFLufPqFLksMaKOxjhlEtJAVgkhXrpzA+dBDeb
+	W8vIOOdOCHsRTNGP1d3eNxHPiXtokLNz7nxXubOCONZzg9jDPjXzKDkYGu0dT0D29i6S
+	CnJ49fbeOIPZjbLOywfiC3seUlIKoHqbHiAMfvzZUt1Fjv7e5vxwaZwHqi0K5z+oX13r
+	uMhLppmxFw1sf3r8GfVdgJlpEbXsSVGmqvkGp4Mu3f4yZu7yTkJ994O6IV7Alt5MHF1h
+	a2V2lvwdBFcKyLhtTCrDTmRhlmVSbzaucUYqfGPvaQV5s/vXtlhgzqE4yKqiKlaHlqVn
+	Knfw==
+X-Gm-Message-State: AD7BkJJm0VNicVXzgZX/e9BMaBw8IPbSl0lbwG12bLsBlGr2/rJY7RMTIQmLdPhIYsse9A==
+X-Received: by 10.140.145.151 with SMTP id 145mr51140926qhr.95.1458665168753; 
+	Tue, 22 Mar 2016 09:46:08 -0700 (PDT)
+Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
+	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
+	g184sm15026172qkb.7.2016.03.22.09.46.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Mar 2016 09:46:07 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 16:46:01 +0000
+Message-Id: <1458665161-14132-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] libunwind: Fix build with fstack-protector on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +52,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 16:45:59 -0000
-Content-Type: multipart/alternative; boundary=001a113d5e3e8b41ee052ea5f279
+X-List-Received-Date: Tue, 22 Mar 2016 16:46:09 -0000
 
---001a113d5e3e8b41ee052ea5f279
-Content-Type: text/plain; charset=UTF-8
+libunwind makery inserts -nostdlib during linking
+which fails the build on musl when security flags are enabled
+since it remove ssp from linking, so add them explicitly
+to SECURITY_LDFLAGS
 
-On 22 March 2016 at 16:41, Burton, Ross <ross.burton@intel.com> wrote:
+disable tests for musl targets, tests use obsolete
+posix APIs e.g. getcontext
 
-> Do we understand why this recipe breaks the icecc class?
->
+patchout x86_local_resume() on x86, gets a working
+linunwind on x86, it seems that it wont work even
+in glibc case but lets leave it as it is for glibc
+and apply the patch only for musl
 
-So I'm guessing it's because the architecture of the recipe is "special" -
-it's sort-of allarch and sort of nativesdk.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../libunwind-1.1/0001-disable-tests.patch         | 31 +++++++++++++
+ .../0001-x86-Stub-out-x86_local_resume.patch       | 54 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind.inc       |  2 +
+ meta/recipes-support/libunwind/libunwind_1.1.bb    | 21 +++++----
+ 4 files changed, 99 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch
 
-I wonder if changing the icecc_is_allarch() test to check for inherit of
-allarch would fix this without working around the problem.
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch
+new file mode 100644
+index 0000000..7309ffd
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-disable-tests.patch
+@@ -0,0 +1,31 @@
++From b07435a90bd636ee718e2238fb46c74a6dd5e069 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 22 Mar 2016 16:41:13 +0000
++Subject: [PATCH] disable tests
++
++Tests use getcontext() API which is
++not there on musl
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Inappropriate [MUSL-only]
++
++ Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index e24fe1e..15380e4 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -39,7 +39,7 @@ endif
++ 
++ nodist_include_HEADERS = include/libunwind-common.h
++ 
++-SUBDIRS = src tests doc
+++SUBDIRS = src doc
++ 
++ noinst_HEADERS = include/dwarf.h include/dwarf_i.h include/dwarf-eh.h	\
++ 	include/compiler.h include/libunwind_i.h include/mempool.h	\
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch
+new file mode 100644
+index 0000000..371013a
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-x86-Stub-out-x86_local_resume.patch
+@@ -0,0 +1,54 @@
++From f5df01655a4b76d4fe415747de581d94ac593e6a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 22 Mar 2016 16:19:29 +0000
++Subject: [PATCH] x86: Stub out x86_local_resume()
++
++its purpose seems
++to be unwinding across signal handler boundaries, which cannot happen
++in correct programs anyway. Replacing the whole function with
++something like *(volatile char *)0=0; (i.e. crash), gets a working
++libunwind
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ src/x86/Gos-linux.c | 22 +---------------------
++ 1 file changed, 1 insertion(+), 21 deletions(-)
++
++diff --git a/src/x86/Gos-linux.c b/src/x86/Gos-linux.c
++index 31f83ba..3aaa34e 100644
++--- a/src/x86/Gos-linux.c
+++++ b/src/x86/Gos-linux.c
++@@ -281,27 +281,7 @@ x86_r_uc_addr (ucontext_t *uc, int reg)
++ HIDDEN int
++ x86_local_resume (unw_addr_space_t as, unw_cursor_t *cursor, void *arg)
++ {
++-  struct cursor *c = (struct cursor *) cursor;
++-  ucontext_t *uc = c->uc;
++-
++-  /* Ensure c->pi is up-to-date.  On x86, it's relatively common to be
++-     missing DWARF unwind info.  We don't want to fail in that case,
++-     because the frame-chain still would let us do a backtrace at
++-     least.  */
++-  dwarf_make_proc_info (&c->dwarf);
++-
++-  if (unlikely (c->sigcontext_format != X86_SCF_NONE))
++-    {
++-      struct sigcontext *sc = (struct sigcontext *) c->sigcontext_addr;
++-
++-      Debug (8, "resuming at ip=%x via sigreturn(%p)\n", c->dwarf.ip, sc);
++-      sigreturn (sc);
++-    }
++-  else
++-    {
++-      Debug (8, "resuming at ip=%x via setcontext()\n", c->dwarf.ip);
++-      setcontext (uc);
++-    }
+++  *(volatile char *)0=0;
++   return -UNW_EINVAL;
++ }
++ #endif
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+index f83614b..848a50a 100644
+--- a/meta/recipes-support/libunwind/libunwind.inc
++++ b/meta/recipes-support/libunwind/libunwind.inc
+@@ -29,4 +29,6 @@ LDFLAGS_append_aarch64 = " -fuse-ld=gold"
+ LDFLAGS_append_powerpc = " -fuse-ld=gold -mbss-plt"
+ LDFLAGS_append_powerpc64 = " -fuse-ld=gold -mbss-plt"
+ 
++SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared -lssp"
++
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 7df9f5e..1ed525f 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -1,15 +1,18 @@
+ require libunwind.inc
+ 
+-SRC_URI += "\
+-    file://Support-building-with-older-compilers.patch \
+-    file://AArch64-port.patch \
+-    file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
+-    file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
+-    file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
+-    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
+-    file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
++SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
++           file://Support-building-with-older-compilers.patch \
++           file://AArch64-port.patch \
++           file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
++           file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
++           file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
++           file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
++           file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
++"
++SRC_URI_append_libc-musl = "\
++           file://0001-x86-Stub-out-x86_local_resume.patch \
++           file://0001-disable-tests.patch \
+ "
+-
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+ SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
+ 
+-- 
+1.8.3.1
 
-Ross
 
---001a113d5e3e8b41ee052ea5f279
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 March 2016 at 16:41, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
->Do we understand why this recipe breaks the icecc class?</div></blockquote=
-><div><br></div><div>So I&#39;m guessing it&#39;s because the architecture =
-of the recipe is &quot;special&quot; - it&#39;s sort-of allarch and sort of=
- nativesdk.</div><div><br></div><div>I wonder if changing the icecc_is_alla=
-rch() test to check for inherit of allarch would fix this without working a=
-round the problem.</div><div><br></div><div>Ross=C2=A0</div></div><br></div=
-></div>
-
---001a113d5e3e8b41ee052ea5f279--
