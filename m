@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 56BCB73163
+	by mail.openembedded.org (Postfix) with ESMTP id 860C06FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 12:13:39 +0000 (UTC)
+	Tue, 22 Mar 2016 12:13:46 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MCDHnw005443
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MCDPHf005450
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Mar 2016 05:13:18 -0700 (PDT)
+	Tue, 22 Mar 2016 05:13:25 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 22 Mar 2016 05:13:16 -0700
+	Tue, 22 Mar 2016 05:13:25 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Tue, 22 Mar 2016 08:12:39 -0400
-Message-ID: <23181200f59bc9d7b025d3cecf4e18d6d87b09a7.1458638728.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Mar 2016 08:12:42 -0400
+Message-ID: <f170911daf1e17354b4165890b2dc2fb1c6cf6de.1458638728.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458638728.git.hongxu.jia@windriver.com>
 References: <cover.1458638728.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/16] python3-pip: use old-style install
+Subject: [PATCH 14/16] openssl: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +34,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 12:13:39 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 12:13:46 -0000
 Content-Type: text/plain
 
-Since '--root' is added to 'setup.py install' to fix .pyc/.pyo
-buildpaths issue. For python3-pip, the '--root' option
-means there will be no eggs generated.
+- The openssl records $CC and $CFLAGS in source code which
+  caused buildpaths QA issue:
+  In crypto/cversion.c
+  ...
+      if (t == SSLEAY_CFLAGS) {
+          return (CFLAGS);
+          return ("compiler: information not available");
+      }
+  ...
+  We should remove build path in the above source code.
 
-Ubuntu or Debian did the same thing like us:
-https://packages.debian.org/sid/all/python3-pip/filelist
+- Remove build paths in ${PTEST_PATH}/Makefile  and
+  ${PTEST_PATH}/Configure
 
-[YOCTO #8446]
+[YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/python/python3-pip_8.0.0.bb | 12 ------------
- 1 file changed, 12 deletions(-)
+ .../openssl/remove-build-path-in-source-code.patch | 44 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2g.bb |  7 ++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pip_8.0.0.bb b/meta/recipes-devtools/python/python3-pip_8.0.0.bb
-index 834ecda..b45aeea 100644
---- a/meta/recipes-devtools/python/python3-pip_8.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-pip_8.0.0.bb
-@@ -19,22 +19,10 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
+diff --git a/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+new file mode 100644
+index 0000000..fd5531b
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+@@ -0,0 +1,44 @@
++From b937d7581a1793cdebbf5829bdaea787ed4128db Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 7 Mar 2016 01:11:42 -0500
++Subject: [PATCH] crypto/Makefile: remove build path in source code
++
++Openssl records $CC and $CFLAGS in source code which
++caused buildpaths QA issue:
++In crypto/cversion.c
++...
++    if (t == SSLEAY_CFLAGS) {
++        return (CFLAGS);
++        return ("compiler: information not available");
++    }
++...
++
++We should remove build path in the above source code.
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ crypto/Makefile | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/crypto/Makefile b/crypto/Makefile
++index 17a87f8..ee630e8 100644
++--- a/crypto/Makefile
+++++ b/crypto/Makefile
++@@ -54,8 +54,11 @@ top:
++ 
++ all: shared
++ 
+++NO_BUILDPATH_CCFLAGS=`echo "$(CC) $(CFLAGS)" | \
+++         sed -e 's:--sysroot=[^ ]*::g' \
+++             -e 's:-fdebug-prefix-map=[^ ]*::g'`
++ buildinf.h: ../Makefile
++-	$(PERL) $(TOP)/util/mkbuildinf.pl "$(CC) $(CFLAGS)" "$(PLATFORM)" >buildinf.h
+++	$(PERL) $(TOP)/util/mkbuildinf.pl "$(NO_BUILDPATH_CCFLAGS)" "$(PLATFORM)" >buildinf.h
++ 
++ x86cpuid.s:	x86cpuid.pl perlasm/x86asm.pl
++ 	$(PERL) x86cpuid.pl $(PERLASM_SCHEME) $(CFLAGS) $(PROCESSOR) > $@
++-- 
++1.9.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+index 290f129..078f60e 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+@@ -39,6 +39,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://ptest_makefile_deps.patch  \
+             file://configure-musl-target.patch \
+             file://parallel.patch \
++            file://remove-build-path-in-source-code.patch \
+            "
  
- inherit distutils3
+ SRC_URI[md5sum] = "f3c710c045cdee5fd114feb69feba7aa"
+@@ -47,6 +48,12 @@ SRC_URI[sha256sum] = "b784b1b3907ce39abf4098702dade6365522a253ad1552e267a9a0e895
+ PACKAGES =+ "${PN}-engines"
+ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
  
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
--
--do_install_prepend() {
--    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
--}
--
- # Use setuptools site.py instead, avoid shared state issue
- do_install_append() {
--    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/site.py
--    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/__pycache__/site.cpython-*.pyc
--
-     # Install as pip3 and leave pip2 as default
-     rm ${D}/${bindir}/pip
--
--    # Installed eggs need to be passed directly to the interpreter via a pth file
--    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}-${PV}.pth
- }
- 
- RDEPENDS_${PN} = "\
++inherit fix_buildpaths
++PACKAGE_BUILDPATH_TEXT_FILES_${PN}-ptest ?= " \
++        ${PTEST_PATH}/Makefile \
++        ${PTEST_PATH}/Configure \
++"
++
+ # The crypto_use_bigint patch means that perl's bignum module needs to be
+ # installed, but some distributions (for example Fedora 23) don't ship it by
+ # default.  As the resulting error is very misleading check for bignum before
 -- 
 1.9.1
 
