@@ -1,22 +1,32 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 50F956E660
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ABEF65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 16:02:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Mar 2016 09:01:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,377,1455004800"; d="scan'208";a="939264234"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2016 09:01:13 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Mar 2016 18:01:09 +0200
-Message-Id: <1458662470-20336-2-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <1458662470-20336-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1458662470-20336-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH v3 1/2] externalsrc: do not use do_configure[nostamp] for git srctrees
+	Tue, 22 Mar 2016 16:18:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MGIlJx005951
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Mar 2016 09:18:47 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 22 Mar 2016 09:18:46 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Hongxu Jia
+	<hongxu.jia@windriver.com>
+References: <cover.1458638728.git.hongxu.jia@windriver.com>
+	<fe57bd778472c15f247fbf20491221bdadad8b37.1458638728.git.hongxu.jia@windriver.com>
+	<CADkTA4PbOMTOAEyA3GSPFiiiimOaQKB-Sv_TCtsGBmbiET-yCw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56F17064.6040507@windriver.com>
+Date: Tue, 22 Mar 2016 11:18:44 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4PbOMTOAEyA3GSPFiiiimOaQKB-Sv_TCtsGBmbiET-yCw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/16] kernel.bbclass: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,90 +39,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 16:02:41 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 16:18:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Be a bit more intelligent than mindlessly re-compiling every time.
-Instead of always using 'nostamp' flag for do_compile run a python
-function to get a list of files to add as 'file-checksums' flag. The
-intention is to only re-run do_compile if something in the source tree
-content changes.
+On 3/22/16 7:21 AM, Bruce Ashfield wrote:
+> 
+> 
+> On Tue, Mar 22, 2016 at 8:12 AM, Hongxu Jia <hongxu.jia@windriver.com
+> <mailto:hongxu.jia@windriver.com>> wrote:
+> 
+>     Since CFLAGS CPPFLAGS CXXFLAGS has been unset, variable DEBUG_FLAGS could
+>     not been passed to compiler, so we explicitly add DEBUG_FLAGS to CC to
+>     replace build path with target path.
+> 
+> 
+> Can you be more explicit here ? What is typically contained in DEBUG_FLAGS ? The
+> kernel builds its own compiler line and flags, so anything you are setting from this
+> environment, should not be leaking into the kernel build.
+> 
+> .. which leaves me wondering, what exactly is in DEBUG_FLAGS, and how is it
+> actually fixing the QA issue ?
 
-This python function, srctree_hash_files(), works differently, depending
-if the source tree is a git repository clone or not. If the source tree
-is a git repository, the function runs 'git add .' and 'git write tree'
-to get a hash of the working tree and writes this hash into a file under
-the .git directory. This file containing the hash is then returned as
-the file for the task to depend on. Hash is changed if any changes are
-made in the source tree causing the task to be re-run. A trick is used
-to parse the recipe every time so that the hash file gets updated.
+The specific debug flag in question is being added to remap the on-disk path to
+the path we want the items to look like from a debugging point of view.
 
-If the source tree is not a git repository behaviour remains the same.
-In this case srctree_hash_files() currently sets the 'nostamp' flag for
-do_compile causing it to be re-run every time.
+The typical format of DEBUG_FLAGS is something like:
 
-This method of tracking changes source tree changes to determine if
-re-build is needed does not work perofectly, though. Many packages are
-built under ${S} which effectively changes the source tree causing some
-unwanted re-compilations.  However, if do_compile of the recipe does not
-produce new/different artefacts on every run (as commonly is and should
-be the case) the re-compilation loop stops. Thus, you should usually see
-only one re-compilation (if any) after which the source tree is
-"stabilized" and no more re-compilations happen.
+DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
 
-[YOCTO #8853]
+This was recently updated to include the remapping:
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/externalsrc.bbclass | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types \
+                 -fdebug-prefix-map=${WORKDIR}=/usr/src/debug \
+                 -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+                 -fdebug-prefix-map=${STAGING_DIR_HOST}= \
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index d3cede2..f983359 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -85,8 +85,10 @@ python () {
-         d.prependVarFlag('do_compile', 'prefuncs', "externalsrc_compile_prefunc ")
-         d.prependVarFlag('do_configure', 'prefuncs', "externalsrc_configure_prefunc ")
- 
--        # Ensure compilation happens every time
--        d.setVarFlag('do_compile', 'nostamp', '1')
-+        # Force the recipe to be always re-parsed so that the file_checksums
-+        # function is run every time
-+        d.setVar('BB_DONT_CACHE', '1')
-+        d.setVarFlag('do_compile', 'file-checksums', '${@srctree_hash_files(d)}')
- 
-         # We don't want the workdir to go away
-         d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN', True))
-@@ -124,3 +126,28 @@ python externalsrc_compile_prefunc() {
-     # Make it obvious that this is happening, since forgetting about it could lead to much confusion
-     bb.plain('NOTE: %s: compiling from external source tree %s' % (d.getVar('PN', True), d.getVar('EXTERNALSRC', True)))
- }
-+
-+def srctree_hash_files(d):
-+    import shutil
-+    import subprocess
-+
-+    s_dir = d.getVar('EXTERNALSRC', True)
-+    git_dir = os.path.join(s_dir, '.git')
-+    oe_index_file = os.path.join(git_dir, 'oe-devtool-index')
-+    oe_hash_file = os.path.join(git_dir, 'oe-devtool-tree-sha1')
-+
-+    ret = " "
-+    if os.path.exists(git_dir):
-+        # Clone index
-+        shutil.copy2(os.path.join(git_dir, 'index'), oe_index_file)
-+        # Update our custom index
-+        env = os.environ.copy()
-+        env['GIT_INDEX_FILE'] = oe_index_file
-+        subprocess.check_output(['git', 'add', '.'], cwd=s_dir, env=env)
-+        sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env)
-+        with open(oe_hash_file, 'w') as fobj:
-+            fobj.write(sha1)
-+        ret = oe_hash_file + ':True'
-+    else:
-+        d.setVarFlag('do_compile', 'nostamp', '1')
-+    return ret
--- 
-2.6.2
+The idea is the WORKDIR is replaced with '/usr/src/debug' inside of the binary
+and any debug symbol references.  This makes it much easier for the system to
+work with supplied debug sources/symbols.
+
+I'm not sure you want to use DEBUG_FLAGS since anything can be put in there....
+
+Application space code should always use the DEBUG_FLAGS, or I think it's likely
+a bug.
+
+The kernel though should probably define it's own flag(s).  Most likely you'll
+want something simple like:
+
+-fdebug-prefix-map=${WORKDIR}=/usr/src/debug
+
+Then all of the internal references to WORKDIR will be replaced with
+'/usr/src/debug' which cross gdb can 'map' or on-target will actually look in
+that location.  (A corresponding '-dbg' package should be provided with the
+matching compilation sources at the local specified.)
+
+--Mark
+
+> Bruce
+>  
+> 
+> 
+>     [YOCTO #7058]
+> 
+>     Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>>
+>     ---
+>      meta/classes/kernel.bbclass | 4 ++--
+>      1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+>     diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>     index c3eab50..d357ccf 100644
+>     --- a/meta/classes/kernel.bbclass
+>     +++ b/meta/classes/kernel.bbclass
+>     @@ -207,7 +207,7 @@ kernel_do_compile() {
+>                     copy_initramfs
+>                    
+>     use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>             fi
+>     -       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE}
+>     CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>     +       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE}
+>     CC="${KERNEL_CC} ${DEBUG_FLAGS}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+>     $use_alternate_initrd
+>             if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>                     gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>             fi
+>     @@ -216,7 +216,7 @@ kernel_do_compile() {
+>      do_compile_kernelmodules() {
+>             unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>             if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+>     -               oe_runmake -C ${B} ${PARALLEL_MAKE} modules
+>     CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+>     +               oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC}
+>     ${DEBUG_FLAGS}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+> 
+>                     # Module.symvers gets updated during the
+>                     # building of the kernel modules. We need to
+>     --
+>     1.9.1
+> 
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> 
+> 
+> -- 
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its
+> end"
 
 
