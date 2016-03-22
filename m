@@ -1,47 +1,32 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id DF47D601F6
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AB4F16612C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 14:44:22 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id k12so164931836lbb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 07:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=uXygvL/4S2sZb3FXRDQG+G2/tJtIJHcauwnFVYQfRxA=;
-	b=KCKbbBLvXwXAUA1EWMOG9+Cishe7tEayaIy52JlyicurCtgZk94xj+sa/gQdQuEQVF
-	o+rq2emLaV3q0R2Xuf4DkJVpS6YVmsp8/FFxs/dg8hEAxi0NRLmx3j6UdJ13jMkT0fId
-	0DBueLti1ElX6D4csAwX5Rq1yRb9/eA4nnrfj5K2SS8HVyk37zlDQQxOet1QNdl0UuK0
-	6UcptOXeIX2iplBErYTw4/Eq50hPzzC9GU82f5G7tsaIVJPyyIbWlrRpHuETMfrbgEib
-	moHgjdFJavgifoRGEumRbOS1X0O5hAlKc2oV+qe4U1lnndFx45ThxQLs2BydHgBlll7O
-	S62w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uXygvL/4S2sZb3FXRDQG+G2/tJtIJHcauwnFVYQfRxA=;
-	b=LURms+BHEUEWGX3QFD/VB1agbEuxI4wM7KuXyyrb831iI4IpdzAlFEBSkPwQELDGu/
-	tJd6tit4Kt1+VGiNHXmeCWocGI0dFd7T/3dU/cIBLJw8WxYrCx0CqL1ivnqtMQFvdYV/
-	HGC8OQ7WUWCc3wUN5s0oRewBQ36zuZ9Qa2hA/KtrA/tJa6Mhp3feUSjbHxv58OAvsoK9
-	P23ZvWKEETTT9p2MncNk5L+ut4W68VC41+OWemeo95XRwvJ3KsMdTdqJE4TQ+JPSxAIy
-	P2ib/fICeeuCvilbP3dl2DIk0wKSZ5Dkq/VedoH4P5aKLpTauH/fpmX42uldY0/5qZ9+
-	GtzA==
-X-Gm-Message-State: AD7BkJKrAk2ix5dOsxcWCyLd85NsdR0zgZJu/bLJ4j4M9k4hfkL6FKwCyWrqtwd5LSAS6Q==
-X-Received: by 10.112.37.67 with SMTP id w3mr10236329lbj.136.1458657862498;
-	Tue, 22 Mar 2016 07:44:22 -0700 (PDT)
-Received: from localhost.localdomain (m77-218-244-160.cust.tele2.se.
-	[77.218.244.160])
-	by smtp.gmail.com with ESMTPSA id m8sm5283773lfe.32.2016.03.22.07.44.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 22 Mar 2016 07:44:21 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
+	Tue, 22 Mar 2016 14:49:40 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u2MEnf2s029150 for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Mar 2016 09:49:41 -0500
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016032209494171-88664 ;
+	Tue, 22 Mar 2016 09:49:41 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Mar 2016 15:44:17 +0100
-Message-Id: <1458657857-10527-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
-	jian.liu@windriver.com
-Subject: [PATCH] libmad: avoid using legacy _thumb overrides
+Date: Tue, 22 Mar 2016 16:49:03 +0200
+Message-Id: <6a3dabb3d4fb36a11f3094dd3446c817e017286e.1458657317.git.adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <123f1a18e95c8aea9939e14a537b701de8137737.1458657317.git.adrian.ratiu@ni.com>
+References: <123f1a18e95c8aea9939e14a537b701de8137737.1458657317.git.adrian.ratiu@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 03/22/2016 09:49:41 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 03/22/2016 09:49:42 AM,
+	Serialize complete at 03/22/2016 09:49:42 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-03-22_08:, , signatures=0
+Subject: [PATCH 3/3] sysvinit: downgrade ALTERNATIVE_PRIORITY[mountpoint]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 14:44:23 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 14:49:42 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+From: Richard Tollerton <rich.tollerton@ni.com>
 
-_thumb had been dropped from overrides since commit 351443d7:
-[ feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-rides ]
+sysvinit is objectively less maintained than util-linux or busybox, each
+of which may supply its own mountpoint implementation. Adjust the
+ALTERNATIVE_PRIORITY to select the sysvinit implementation as the last
+resort.
 
-Use bb.utils.contains('TUNE_FEATURES', 'thumb', **, **, d) instead.
-
-[YOCTO #9323]
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/recipes-multimedia/libmad/libmad_0.15.1b.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-index 9e08b16..15a9d96 100644
---- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-@@ -27,7 +27,7 @@ inherit autotools pkgconfig
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index e4aa4c3..0f0df85 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -39,6 +39,8 @@ ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
+ ALTERNATIVE_PRIORITY[init] = "50"
  
- EXTRA_OECONF = "-enable-speed --enable-shared"
- # The ASO's don't take any account of thumb...
--EXTRA_OECONF_append_thumb = " --disable-aso --enable-fpm=default"
-+EXTRA_OECONF_append = "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' --disable-aso --enable-fpm=default', '', d)}"
- EXTRA_OECONF_append_arm = " --enable-fpm=arm"
- 
- do_configure_prepend () {
+ ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
++ALTERNATIVE_PRIORITY[mountpoint] = "20"
++
+ ALTERNATIVE_LINK_NAME[halt] = "${base_sbindir}/halt"
+ ALTERNATIVE_LINK_NAME[reboot] = "${base_sbindir}/reboot"
+ ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
 -- 
-1.9.1
+2.7.4
 
 
