@@ -1,24 +1,46 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 37408606D0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B8E8605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 20:36:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MKaJNH008175
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Mar 2016 20:55:38 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id l68so180418610wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 13:36:19 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 22 Mar 2016 13:36:18 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Mar 2016 13:36:19 -0700
-Message-ID: <1458678979-12352-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1] bind: /var/cache/bind
+	Tue, 22 Mar 2016 13:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=NHcAqi+9rqSr7mDBSsxLMcyaHRU5hiA+3VcUhgVvrJI=;
+	b=oNYyMLbiAMIJQKfGWzXsfK97RVOKzENxxFOU7QVVn7QRb2V9hZf6L+f3ChvS33/cPT
+	qDsVnh8NIm6hlViD4Gh9n8gIQ3qjEYJpKvNNA5Db5XhRE2HtGRQVRmumPWjRNMiYgAoY
+	c0I+b/hhAcCRtUPe1NyqPLR8heioFJUREi61Oz5DtqJ3YSNbMPjbr3eXnIu9ktPiRg/0
+	D2aAG/JxanqSDYlUHq406Awbha7xZqcswlCOBYNOJlv8unCzUJyZv9ztsbvil+hqg0cB
+	ZnQPEzjqXVv6Bht0o8p3w4pEqADPDtaKt5HPokPq6of1Fs9r9myE7uPqbzZjdfc6Cs/j
+	R/XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=NHcAqi+9rqSr7mDBSsxLMcyaHRU5hiA+3VcUhgVvrJI=;
+	b=LU6Jd2iUMSMKqYhBe3B79DyjJCMfHWdPFlM191nobNgLSlmi0+trEENsg2Fa0C1LDc
+	ZP5dFzhRINDCzH3DDLp6iIjRZhCldW++ZfgrNZLX8ry20ojgDS6hxo/Ze4Qa9/K8Oll6
+	kERTKUQR6Wp6CXOZ+eJbOIksmYBW053UduaA+u94Suwzl/gMr/D1SBU6KNma5MYVQzVo
+	F6dWzmvGRiBDgXH/D9vCVihcPTXd2J4arjyOu4XfRDZEl2aqUhg6/ovFzXU+mrLniKpv
+	GvpLEhyxlAvcOYjNm9l9r7L7/M0blwbk8BYnXNG+p/8ptOsSgD715FEUJqrG1ViBVp2Q
+	RRhw==
+X-Gm-Message-State: AD7BkJK0BA0455MwBhX3NwpxGdx/bzUo3ycfRAKgSlCpMojhHISRlg4BoLMFl7UN3SnABgfB
+X-Received: by 10.28.90.68 with SMTP id o65mr21427680wmb.70.1458680138999;
+	Tue, 22 Mar 2016 13:55:38 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	h67sm19002615wmf.15.2016.03.22.13.55.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 22 Mar 2016 13:55:38 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 20:55:36 +0000
+Message-Id: <1458680136-5455-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] python-pygobject: use Python 2 instead of Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 20:36:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Mar 2016 20:55:40 -0000
 
-Change the ownership of /var/cache/bind to bind rather than root.
+Ideally this would be an option but that means conditional inherits.  For now
+Python 2 is clearly the default Python in oe-core so switch to Python 2 instead
+of 3.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+This stops python3 being pulled inadvertently into builds, and appearing in
+images that have ptest-pkgs installed (via dbus-test).
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/bind/bind_9.10.2-P4.bb |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python-pygobject_3.18.2.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-index 19f87d7..b309b06 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-@@ -43,7 +43,7 @@ PACKAGECONFIG ?= ""
- PACKAGECONFIG[httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+index e61d75c..8fe1d63 100644
+--- a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
++++ b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+@@ -3,9 +3,9 @@ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
  
- USERADD_PACKAGES = "${PN}"
--USERADD_PARAM_${PN} = "--system --home /var/cache/bind --no-create-home \
-+USERADD_PARAM_${PN} = "--system --home ${localstatedir}/cache/bind --no-create-home \
-                        --user-group bind"
+-inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection
++inherit autotools pkgconfig gnomebase distutils-base gobject-introspection
  
- INITSCRIPT_NAME = "bind"
-@@ -73,7 +73,7 @@ do_install_append() {
- 	rm "${D}${mandir}/man1/nslookup.1"
- 	rmdir "${D}${localstatedir}/run"
- 	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
--	install -d "${D}${localstatedir}/cache/bind"
-+	install -d -o bind "${D}${localstatedir}/cache/bind"
- 	install -d "${D}${sysconfdir}/bind"
- 	install -d "${D}${sysconfdir}/init.d"
- 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
-@@ -81,7 +81,6 @@ do_install_append() {
- 	sed -i -e '1s,#!.*python,#! /usr/bin/env python,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
+-DEPENDS += "python3 glib-2.0 gnome-common"
++DEPENDS += "python glib-2.0 gnome-common"
  
- 	# Install systemd related files
--	install -d ${D}${localstatedir}/cache/bind
- 	install -d ${D}${sbindir}
- 	install -m 755 ${WORKDIR}/generate-rndc-key.sh ${D}${sbindir}
- 	install -d ${D}${systemd_unitdir}/system
+ SRCNAME="pygobject"
+ SRC_URI = " \
+@@ -20,6 +20,6 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-EXTRA_OECONF = "--disable-cairo"
++EXTRA_OECONF = "--disable-cairo --with-python=python2.7"
+ 
+-RDEPENDS_${PN} += "python3-setuptools"
++RDEPENDS_${PN} += "python-setuptools"
 -- 
-1.7.9.5
+2.7.0
 
 
