@@ -1,60 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A7CA6AC00
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5393A605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 21:07:39 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id n5so326186230pfn.2
+	Tue, 22 Mar 2016 21:27:57 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id o5so174133748iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 14:07:40 -0700 (PDT)
+	Tue, 22 Mar 2016 14:27:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=oaw0nDHZBYaV0EfoMY0hLS39PC+6wqe6LFNmKZHCBF8=;
-	b=Y5MqPkShvtEn+SmrdQWU8ybLkeQ/g6EI6cEcmiC1vm/ep6nVRaYYVErEEO+m6RIFlp
-	bDewaxxQdhsqNWCNLu238fSU5dtvEtcU3R6f1J/GhHIqBS4srdZ5X5DpcOJwMjavDOXr
-	Q6xwij+4h8jyko5e8uMl0DPgPIzLBxWEm3lU0wc1i6Q0nAhSIch0TaLHMHI5B4JC7xIM
-	5yedhUvll1UlWMdbLqjZiTT8NOIwOWjtuEUbfQqK5eijDMCUFTavb4L9kdoroK+pOUw2
-	ZxmsuFHULlcNrrDMQC/1SZBhN2QD/75sA10LYwyOGEz9R8Jtb+hXi6KsUhmJKLqk8lNj
-	Mt0A==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JLpdoZduuG7lowJCYYZzEPAPOEkqn7IMBmCDTpYyulY=;
+	b=o/kLTiaG12r7YFi1nseCjEpU1BP/sAE4hjfEZjIbUgmkT8j+ilaHR6g3LZsMAaqGLS
+	LrzxegyIE8KjlnLeR9eWDQ2bojua96VfDuZVIj86Yt5v8vn+yIHcFtrxUR7NL8GMrVgY
+	+zWQsSwFcufabkgr0AXYJLJAWuf7Rbh6HoXNv7mU+Cr+ZGb0BMiKxyCxh5cpo4Me5bVM
+	0xwjxrr9sz00maemXXZ+7HP/t724MyJy8E3H5/ISq1NBkbrWODQb6WAdbUF9VxuowcaN
+	y9R/LTk3+Rn3JnSAkRZNEnG+z7IXsP9XSUcK0CoJ0TZoylt81tDk86FoBqHaP/M0xnfl
+	EfYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=oaw0nDHZBYaV0EfoMY0hLS39PC+6wqe6LFNmKZHCBF8=;
-	b=X7KQCVoo7/GG5lBiM+/4tCB76Tuvxm6MDbImvhzDkTMr8k8pSv4CLo3kruZFKtLPzT
-	ozR6nUluafcTCw4f2BMrJ+Sq/yn38TUSv+aIAcxC595meHCojvTX1iZ0Tr2cIAJTkiGy
-	vpG7Fx366djYXGv5xbGKol9TxUpv9+SOKM9BlcBJ/G1Chbn8X0YLdlSYRGTGoiMNCZJy
-	wu8zWBDj782T5BiK0DGbz3K2F4el01My4ostUwldSd/nyDaBSNV4LTPx0aQ1iSzwzWeZ
-	oASCQ8qcVtrpciMA1vuL5/JX/giRRFYCGVaPT19j1gfltzTJiwo2IRfR0NvVVvDzZJqL
-	8fzA==
-X-Gm-Message-State: AD7BkJK5xayekUCAq4fOWZI9h1/U/jJzOO/3kG3/rsWq+v7K1fbipb0oSz1fsppUzMOfeA==
-X-Received: by 10.98.7.153 with SMTP id 25mr57670896pfh.38.1458680860053;
-	Tue, 22 Mar 2016 14:07:40 -0700 (PDT)
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com.
-	[209.85.192.175]) by smtp.gmail.com with ESMTPSA id
-	s87sm50385349pfa.89.2016.03.22.14.07.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Mar 2016 14:07:38 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f175.google.com with SMTP id n5so326185107pfn.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 14:07:38 -0700 (PDT)
+	bh=JLpdoZduuG7lowJCYYZzEPAPOEkqn7IMBmCDTpYyulY=;
+	b=DkowUag2cgOFArF2mN65vZPA/Hlr1eIL2a+P67VaoVDzKGE+/goRH1od43Q2B4+5Oo
+	133sIWR+KI4nQIESN7PNLLbD9ktoCBljDnPP3ogoYZ6SCn5bq0rXA/9KMlUx77NH+SbG
+	VTKbO/sHQ7cLYccAu3ggLTpqNtphA0oMOb26fcgWxksN0/1iFLLD1u5myyrFV2Pyf6kJ
+	dq+i5ddiw1swxcBiXOpyyDwW1pK50xl4tZVlaE2sWBv+9/6YXpAIIN3M1/GPQ7TkwiwJ
+	HEQvoWnhgYBVCPbFcstnuL4kPjdXt7Xy/Wlx/lM69VPzYa6u/G3Y3qLXJHAk1A2VuOPK
+	NGUQ==
+X-Gm-Message-State: AD7BkJK4BS+yePyrVKqmyaee/E4YT3kIMuU4e7fMDpfzqqHKumu1yEp9C485Ls6cS53VDyr7D4raG92ye9ml4eoM
+X-Received: by 10.107.137.38 with SMTP id l38mr39795273iod.133.1458682078635; 
+	Tue, 22 Mar 2016 14:27:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.98.74.200 with SMTP id c69mr56623064pfj.129.1458680858048;
-	Tue, 22 Mar 2016 14:07:38 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Tue, 22 Mar 2016 14:07:37 -0700 (PDT)
+Received: by 10.107.162.70 with HTTP; Tue, 22 Mar 2016 14:27:39 -0700 (PDT)
 In-Reply-To: <1458670391-26915-5-git-send-email-sgw@linux.intel.com>
 References: <1458670391-26915-1-git-send-email-sgw@linux.intel.com>
 	<1458670391-26915-5-git-send-email-sgw@linux.intel.com>
-Date: Tue, 22 Mar 2016 18:07:37 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrtzYwE-Y2pCD7wCMcwY9CVixxAg+dmNJkL2o=CQrmL=w@mail.gmail.com>
-Message-ID: <CAP9ODKrtzYwE-Y2pCD7wCMcwY9CVixxAg+dmNJkL2o=CQrmL=w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Mar 2016 21:27:39 +0000
+Message-ID: <CAJTo0LYn1aCCqk5=QV1iug+Zqz1s-=c2iF=mhZSaU6EOPAeR4A@mail.gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 4/4] linux-firmware: Break out some additional firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -68,42 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 21:07:39 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 21:27:58 -0000
+Content-Type: multipart/alternative; boundary=001a113ec522235d59052ea9e363
+
+--001a113ec522235d59052ea9e363
 Content-Type: text/plain; charset=UTF-8
 
-Hello Saul,
+On 22 March 2016 at 18:13, Saul Wold <sgw@linux.intel.com> wrote:
 
-First I would like to thank you to manage this upgrade and
-refactoring. This recipe was indeed requiring some love and you did a
-great job.
-
-On Tue, Mar 22, 2016 at 3:13 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> This breaks out new firmware from the iwlwifi firmware along with the i915 graphics firmware.
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../linux-firmware/linux-firmware_git.bb           | 25 +++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> index 04d9471..6f6581a 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -224,6 +224,9 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
->               ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
-
-As done in the other one, this might make sense to consolidate into a
-single one.
-
->               ${PN}-iwlwifi-7260 \
->               ${PN}-iwlwifi-7265 \
 > +             ${PN}-iwlwifi-7265D ${PN}-iwlwifi-8000C ${PN}-iwlwifi-8265 \
+>
 
-Does it make sense to split D out ? I think adding it inside the
-former might avoid too much fragmentation.
+opkg doesn't like this one bit:
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+| linux-firmware-iwlwifi-7265D
+| *** Error: Package name  contains illegal characters, (other than
+[a-z0-9.+-])
 
+Also, what Otavio said about splitting out - is C vs D a model thing or a
+version thing?
+
+Ross
+
+--001a113ec522235d59052ea9e363
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 March 2016 at 18:13, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
+yle:solid;padding-left:1ex"><div id=3D":d86" class=3D"" style=3D"overflow:h=
+idden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${PN}-iwlwifi-7265D=
+ ${PN}-iwlwifi-8000C ${PN}-iwlwifi-8265 \<br></div></blockquote></div><br>o=
+pkg doesn&#39;t like this one bit:</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra"><div class=3D"gmail_extra">| linux-firmware-iw=
+lwifi-7265D</div><div class=3D"gmail_extra">| *** Error: Package name =C2=
+=A0contains illegal characters, (other than [a-z0-9.+-])</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Also, what Otavio said a=
+bout splitting out - is C vs D a model thing or a version thing?</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>=
+</div>
+
+--001a113ec522235d59052ea9e363--
