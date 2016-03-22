@@ -1,47 +1,45 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F02C66FEF5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 72FEA6AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 03:37:18 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id e22so10587508oib.0
+	Tue, 22 Mar 2016 05:34:12 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id 51so4755283qgy.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2016 20:37:19 -0700 (PDT)
+	Mon, 21 Mar 2016 22:34:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=/CjvPYVyDjO0DSulwL9k8upbkMjZufNWsZtOIDXVGfY=;
-	b=i6s6pa0Y9p8czNLmfnusxYWgUz3j04FgnUrtUrnTDYshJIotgwYx0fZjiV0UwnBx0g
-	iQAW/eRLdpsf9msjPxegiRuVv8vzlxOO6rSiOvBhARm2ccxcwtEjOOH3jjsLhlZWjwpn
-	CW9cJNgazIxfzSX5GCjdIg0LEMcE5Urbr0szMms485g4VFXtAKK6i1C9I2y4Qjl6FqMO
-	+cKbNhdkzN2MDj77T218C7BgUDQI8T5LoHGADV8yEC1EMrAQALv6JiBRwNAFo+3bDk/9
-	CH38YTZFIAZHh949397YgUBX1cm9Kss2gvHdB4p170xxW0Kt9fcq97qIaUptij7ExvD7
-	7TGQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=yxeq+35ubqinFxLSbgobsuyG4anWS6L+rPOFfRd5Y/w=;
+	b=YHcvkwzjhNZoFCMwM9xQCzafyMNsZNc3MNZSFZh0EY2Rgmc3xZLxECOJl8LIPO9/g9
+	Uu9GihZJchU7QOyvpFDymY+wzptzMsmQ5eNrZBfjWeQDHFZPATOT0GLEOmBOcm1bo1Lt
+	FY8Rw/UXDmsyq/Vi2Z9DBxPUaMq7CDuY1+GNW0eavgzAxih++4CbxLDTLiFnGNy38026
+	adbDfpQbjEZl7nGYy3PgzDvfUgYHToCcjrifklaFDzBF1A1XH7303c8Bzcg7ZQs1+znN
+	JBDJweEbntck5URdgf0PnxFC1kLfTd2pd1w95ab7YK2dpCVAVzDIY92wsAEFKsObaMpM
+	Q0+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=/CjvPYVyDjO0DSulwL9k8upbkMjZufNWsZtOIDXVGfY=;
-	b=f32z1QUf8MQDljcWqgP19GazoN6dCBkN4jwd7iyrvggfb6bf1vuhCzHHcqqGKggxun
-	yfh3yRDsMpH7xLqFNDtarCWX+u44q31qD0cn79vy9xiFR9LFlCrIHV7pmiCyaVvZiRVB
-	OPt2lq/KFlM1FFW4z/dCfWpYbP7Xc2oU5z+4cLIf4G6T/L1Hn3aOAJKr05pJtf/pU3BG
-	PgL1CjevRv73Rg7MQHVjxEeD8I4EzvxjvWkvAqnn008d/9Yt4iHVTtiNZajioCkYiq+S
-	aKIHI2KtrovpAdAgSzidObcgbn7npUeg5qrq1Hfy0vuhoNbboTuTmAGWM74fJkc9z0LS
-	k3TA==
-X-Gm-Message-State: AD7BkJKfu1fqTDQy03udhMhFo9jvI4afmkUK7DEEfq+koUKp6eBxCPP+SA/sXXvQsvMTcOg/0aVEykDNSKqzpQ==
-MIME-Version: 1.0
-X-Received: by 10.202.170.8 with SMTP id t8mr16250257oie.60.1458617839271;
-	Mon, 21 Mar 2016 20:37:19 -0700 (PDT)
-Received: by 10.157.8.248 with HTTP; Mon, 21 Mar 2016 20:37:19 -0700 (PDT)
-In-Reply-To: <56F0AE86.3060105@windriver.com>
-References: <cover.1456315808.git.zhe.he@windriver.com>
-	<56E23C3E.2000101@windriver.com> <56F0AE86.3060105@windriver.com>
-Date: Mon, 21 Mar 2016 23:37:19 -0400
-Message-ID: <CADkTA4Mmbpf1=S7wgYoX3VJ_SaeH7-qBZ-26d2qF=uijhuCHqg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: He Zhe <zhe.he@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 0/2] Yocto Bug #6945
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yxeq+35ubqinFxLSbgobsuyG4anWS6L+rPOFfRd5Y/w=;
+	b=Kq8Vjrzx5/qw0NEv+3W2ZL9s0D8AnSWeA0wx4zH7if7eTRvMgZ/GKBVJHXfkKkhBaN
+	T/aZeZaFXlefUCUwENFPdfwZ4Dj0JBEWv2h5+CDbR//sb/YfWEoc4ND84sOol4Z4RrY8
+	QuIcOo/iTUPUK2mMMoVMXooDtnZfUAl6qqYiRhfWKlhwghlG0CLWdM8rsZDNxGIaUlFK
+	/DL21TdNLC6loxpIc8XZrawbVncfsrWT5MFKoZM22SEpRfnhElzSJCChK2oAkzm2nlal
+	222qOUzTZp9mdzOQpAfrbZ5WanxYGm8c1hDVlXD46WK3PqB6hE12lyU0uZgBrOyU0IZf
+	Dfbg==
+X-Gm-Message-State: AD7BkJI9LhE/+mtZ2Bsrvc/+6SjumBNlgra94w97jRKmMNyb6KStGpduhtb5xcKyXZMEDA==
+X-Received: by 10.140.160.214 with SMTP id g205mr47581498qhg.88.1458624853162; 
+	Mon, 21 Mar 2016 22:34:13 -0700 (PDT)
+Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
+	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
+	u202sm13918242qka.43.2016.03.21.22.34.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 21 Mar 2016 22:34:12 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 05:34:05 +0000
+Message-Id: <1458624845-32637-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] ltp: Fix build on x86/musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,254 +52,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 03:37:19 -0000
-Content-Type: multipart/alternative; boundary=001a113cbc0c2c443e052e9aeeee
+X-List-Received-Date: Tue, 22 Mar 2016 05:34:15 -0000
 
---001a113cbc0c2c443e052e9aeeee
-Content-Type: text/plain; charset=UTF-8
+In last patch it covered out the non-glibc case well
+but did not define else case, when __GLIBC__ is not
+defined, as a result errors like
 
-On Mon, Mar 21, 2016 at 10:31 PM, He Zhe <zhe.he@windriver.com> wrote:
+| getcpu01.c:107:41: error: use of undeclared identifier 'sys_support'
+|         if (((tst_kvercmp(2, 6, 20)) < 0) || !(sys_support)) {
 
-> Ping.
->
->
-This slipped through my filters. Sorry about that.
+appeared, fixed it with this updated patch
 
-We are too late for the 2.1 release at this point, but I'll review the
-changes again in the
-morning and send any comments that I may have.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...__GLIBC_PREREQ-is-defined-before-using-it.patch | 36 +++++++++++-----------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-Cheers,
-
-Bruce
-
-
-> Thanks,
-> Zhe
->
-> On 03/11/2016 11:32 AM, He Zhe wrote:
-> > Any more comments?
-> >
-> > Thanks,
-> > Zhe
-> >
-> > On 02/24/2016 08:20 PM, zhe.he@windriver.com wrote:
-> >> From: He Zhe <zhe.he@windriver.com>
-> >>
-> >> v1 to v2:
-> >>  - Change KERNEL_OUTPUT to KERNEL_OUTPUT_DIR and update comments
-> >>  - Update related doc files
-> >>  - Replace all KERNEL_ALT_IMAGETYPEs with KERNEL_IMAGETYPES
-> >>  - Link built vmlinuz to boot directory for reference
-> >>
-> >> v2 to v3:
-> >>  - Merge existing KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES in order
-> that users can still use the old variables.
-> >>  - Run oe_rummake in a loop for every types so that we can add
-> different configurations to them easily in the future.
-> >>  - Warn, intead of die, users if one of the types are over the size
-> limit.
-> >>  - Remove the replacement of KERNEL_ALT_IMAGETYPE in v2.
-> >>  - Remove the doc parts. They will be submitted yocto-docs later.
-> >>  - Change some grep usage to make it more clear.
-> >>  - Correct a typo.
-> >>
-> >> The following changes since commit
-> 23056103c949b498c23b47579e8dd57ce78e6ed9:
-> >>
-> >>   uclibc: Do not use immediate expansion operator (2016-02-22 20:42:48
-> +0000)
-> >>
-> >> are available in the git repository at:
-> >>
-> >>   git://git.yoctoproject.org/poky-contrib zhe/yocto-bug-6945
-> >>
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=zhe/yocto-bug-6945
-> >>
-> >> for you to fetch changes up to dc52a1efbb8248ea274a1cd0cca5734290b3025f:
-> >>
-> >>   kernel: Make symbol link to vmlinuz in boot directory (2016-02-24
-> 07:08:16 -0500)
-> >>
-> >> ----------------------------------------------------------------
-> >> He Zhe (2):
-> >>       kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one
-> time
-> >>       kernel: Make symbol link to vmlinuz in boot directory
-> >>
-> >>  meta/classes/kernel-fitimage.bbclass      |  20 ++++++++-------
-> >>  meta/classes/kernel-grub.bbclass          |  44
-> +++++++++++++++++++++-----------
-> >>  meta/classes/kernel-uimage.bbclass        |  22 ++++++++--------
-> >>  meta/classes/kernel.bbclass               | 187
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------
-> >>  meta/conf/documentation.conf              |   3 ++-
-> >>  meta/recipes-kernel/linux/linux-dtb.inc   |  49
-> ++++++++++++++++++++++--------------
-> >>  meta/recipes-kernel/linux/linux-yocto.inc |   2 +-
-> >>  7 files changed, 218 insertions(+), 109 deletions(-)
-> >>
-> >> He Zhe (2):
-> >>   kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
-> >>   kernel: Make symbol link to vmlinuz in boot directory
-> >>
-> >>  meta/classes/kernel-fitimage.bbclass      |  20 ++--
-> >>  meta/classes/kernel-grub.bbclass          |  44 ++++---
-> >>  meta/classes/kernel-uimage.bbclass        |  22 ++--
-> >>  meta/classes/kernel.bbclass               | 187
-> +++++++++++++++++++++---------
-> >>  meta/conf/documentation.conf              |   3 +-
-> >>  meta/recipes-kernel/linux/linux-dtb.inc   |  49 +++++---
-> >>  meta/recipes-kernel/linux/linux-yocto.inc |   2 +-
-> >>  7 files changed, 218 insertions(+), 109 deletions(-)
-> >>
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch b/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+index 59e169e..fd71b38 100644
+--- a/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
++++ b/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+@@ -1,17 +1,18 @@
+-From 714024e4699b28eed866d775f4c715b0e55b76f7 Mon Sep 17 00:00:00 2001
++From 54a1c3da53e351b52ae750bd2865435650ec55f5 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 7 Jan 2016 19:40:08 +0000
+-Subject: [PATCH 08/32] Check if __GLIBC_PREREQ is defined before using it
++Subject: [PATCH 01/25] Check if __GLIBC_PREREQ is defined before using it
+ 
+ __GLIBC_PREREQ is specific to glibc so it should be checked if it is
+ defined or not.
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
+ ---
+- testcases/kernel/syscalls/accept4/accept4_01.c     |  9 ++++++-
+- testcases/kernel/syscalls/getcpu/getcpu01.c        | 31 ++++++++++++++++++++++
+- .../sched_getaffinity/sched_getaffinity01.c        | 26 ++++++++++++++++++
+- 3 files changed, 65 insertions(+), 1 deletion(-)
++ testcases/kernel/syscalls/accept4/accept4_01.c     |  9 +++++-
++ testcases/kernel/syscalls/getcpu/getcpu01.c        | 33 ++++++++++++++++++++++
++ .../sched_getaffinity/sched_getaffinity01.c        | 26 +++++++++++++++++
++ 3 files changed, 67 insertions(+), 1 deletion(-)
+ 
+ diff --git a/testcases/kernel/syscalls/accept4/accept4_01.c b/testcases/kernel/syscalls/accept4/accept4_01.c
+ index 6072bfa..2b090cb 100644
+@@ -58,7 +59,7 @@ index 6072bfa..2b090cb 100644
+  	acceptfd = accept4(lfd, (struct sockaddr *)&claddr, &addrlen,
+  			   closeonexec_flag | nonblock_flag);
+ diff --git a/testcases/kernel/syscalls/getcpu/getcpu01.c b/testcases/kernel/syscalls/getcpu/getcpu01.c
+-index c927512..6de6362 100644
++index c927512..2d252b4 100644
+ --- a/testcases/kernel/syscalls/getcpu/getcpu01.c
+ +++ b/testcases/kernel/syscalls/getcpu/getcpu01.c
+ @@ -62,6 +62,7 @@
+@@ -69,14 +70,13 @@ index c927512..6de6362 100644
+  #if __GLIBC_PREREQ(2,6)
+  #if defined(__x86_64__)
+  #include <utmpx.h>
+-@@ -72,13 +73,16 @@ int sys_support = 1;
++@@ -75,10 +76,15 @@ int sys_support = 0;
+  #else
+  int sys_support = 0;
+  #endif
+++#else
+++int sys_support = 0;
+ +#endif
+- #else
+- int sys_support = 0;
+- #endif
+  
+ +#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+  #if !(__GLIBC_PREREQ(2, 7))
+@@ -86,7 +86,7 @@ index c927512..6de6362 100644
+  
+  void cleanup(void);
+  void setup(void);
+-@@ -164,9 +168,11 @@ static inline int getcpu(unsigned *cpu_id, unsigned *node_id,
++@@ -164,9 +170,11 @@ static inline int getcpu(unsigned *cpu_id, unsigned *node_id,
+  {
+  #if defined(__i386__)
+  	return syscall(318, cpu_id, node_id, cache_struct);
+@@ -98,7 +98,7 @@ index c927512..6de6362 100644
+  	return 0;
+  }
+  
+-@@ -191,15 +197,20 @@ unsigned int set_cpu_affinity(void)
++@@ -191,15 +199,20 @@ unsigned int set_cpu_affinity(void)
+  	cpu_set_t *set;
+  	size_t size;
+  	int nrcpus = 1024;
+@@ -119,7 +119,7 @@ index c927512..6de6362 100644
+  #if __GLIBC_PREREQ(2, 7)
+  	size = CPU_ALLOC_SIZE(nrcpus);
+  	CPU_ZERO_S(size, set);
+-@@ -207,8 +218,13 @@ realloc:
++@@ -207,8 +220,13 @@ realloc:
+  	size = sizeof(cpu_set_t);
+  	CPU_ZERO(set);
+  #endif
+@@ -133,7 +133,7 @@ index c927512..6de6362 100644
+  #if __GLIBC_PREREQ(2, 7)
+  		if (errno == EINVAL && nrcpus < (1024 << 8)) {
+  			nrcpus = nrcpus << 2;
+-@@ -220,10 +236,17 @@ realloc:
++@@ -220,10 +238,17 @@ realloc:
+  				 "NR_CPUS of the kernel is more than 1024, so we'd better use a newer glibc(>= 2.7)");
+  		else
+  #endif
+@@ -151,7 +151,7 @@ index c927512..6de6362 100644
+  #if __GLIBC_PREREQ(2, 7)
+  	CPU_ZERO_S(size, set);
+  	CPU_SET_S(cpu_max, size, set);
+-@@ -231,6 +254,10 @@ realloc:
++@@ -231,6 +256,10 @@ realloc:
+  	CPU_ZERO(set);
+  	CPU_SET(cpu_max, set);
+  #endif
+@@ -162,7 +162,7 @@ index c927512..6de6362 100644
+  	if (sched_setaffinity(0, size, set) < 0) {
+  		CPU_FREE(set);
+  		tst_brkm(TFAIL, NULL, "sched_setaffinity:errno:%d", errno);
+-@@ -247,11 +274,15 @@ unsigned int max_cpuid(size_t size, cpu_set_t * set)
++@@ -247,11 +276,15 @@ unsigned int max_cpuid(size_t size, cpu_set_t * set)
+  {
+  	unsigned int index, max = 0;
+  	for (index = 0; index < size * BITS_PER_BYTE; index++)
+@@ -275,5 +275,5 @@ index 9d6a81a..4ed13b2 100644
+  	QUICK_TEST(sched_getaffinity(0, len, (cpu_set_t *) - 1));
+  	QUICK_TEST(sched_getaffinity(0, 0, mask));
+ -- 
+-2.7.0
++1.9.1
+ 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+1.9.1
 
---001a113cbc0c2c443e052e9aeeee
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Mar 21, 2016 at 10:31 PM, He Zhe <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:zhe.he@windriver.com" target=3D"_blank">zhe.he@windriver.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Ping.<br>
-<br></blockquote><div><br></div><div>This slipped through my filters. Sorry=
- about that.</div><div><br></div><div>We are too late for the 2.1 release a=
-t this point, but I&#39;ll review the changes again in the</div><div>mornin=
-g and send any comments that I may have.</div><div><br></div><div>Cheers,</=
-div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-Thanks,<br>
-Zhe<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-On 03/11/2016 11:32 AM, He Zhe wrote:<br>
-&gt; Any more comments?<br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Zhe<br>
-&gt;<br>
-&gt; On 02/24/2016 08:20 PM, <a href=3D"mailto:zhe.he@windriver.com">zhe.he=
-@windriver.com</a> wrote:<br>
-&gt;&gt; From: He Zhe &lt;<a href=3D"mailto:zhe.he@windriver.com">zhe.he@wi=
-ndriver.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; v1 to v2:<br>
-&gt;&gt;=C2=A0 - Change KERNEL_OUTPUT to KERNEL_OUTPUT_DIR and update comme=
-nts<br>
-&gt;&gt;=C2=A0 - Update related doc files<br>
-&gt;&gt;=C2=A0 - Replace all KERNEL_ALT_IMAGETYPEs with KERNEL_IMAGETYPES<b=
-r>
-&gt;&gt;=C2=A0 - Link built vmlinuz to boot directory for reference<br>
-&gt;&gt;<br>
-&gt;&gt; v2 to v3:<br>
-&gt;&gt;=C2=A0 - Merge existing KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES=
- in order that users can still use the old variables.<br>
-&gt;&gt;=C2=A0 - Run oe_rummake in a loop for every types so that we can ad=
-d different configurations to them easily in the future.<br>
-&gt;&gt;=C2=A0 - Warn, intead of die, users if one of the types are over th=
-e size limit.<br>
-&gt;&gt;=C2=A0 - Remove the replacement of KERNEL_ALT_IMAGETYPE in v2.<br>
-&gt;&gt;=C2=A0 - Remove the doc parts. They will be submitted yocto-docs la=
-ter.<br>
-&gt;&gt;=C2=A0 - Change some grep usage to make it more clear.<br>
-&gt;&gt;=C2=A0 - Correct a typo.<br>
-&gt;&gt;<br>
-&gt;&gt; The following changes since commit 23056103c949b498c23b47579e8dd57=
-ce78e6ed9:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0uclibc: Do not use immediate expansion operator (2016-=
-02-22 20:42:48 +0000)<br>
-&gt;&gt;<br>
-&gt;&gt; are available in the git repository at:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0git://<a href=3D"http://git.yoctoproject.org/poky-cont=
-rib" rel=3D"noreferrer" target=3D"_blank">git.yoctoproject.org/poky-contrib=
-</a> zhe/yocto-bug-6945<br>
-&gt;&gt;=C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/p=
-oky-contrib/commit/?h=3Dzhe/yocto-bug-6945" rel=3D"noreferrer" target=3D"_b=
-lank">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dzh=
-e/yocto-bug-6945</a><br>
-&gt;&gt;<br>
-&gt;&gt; for you to fetch changes up to dc52a1efbb8248ea274a1cd0cca5734290b=
-3025f:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0kernel: Make symbol link to vmlinuz in boot directory =
-(2016-02-24 07:08:16 -0500)<br>
-&gt;&gt;<br>
-&gt;&gt; ----------------------------------------------------------------<b=
-r>
-&gt;&gt; He Zhe (2):<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0kernel: Add KERNEL_IMAGETYPES to build m=
-ulti types kernel at one time<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0kernel: Make symbol link to vmlinuz in b=
-oot directory<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 meta/classes/kernel-fitimage.bbclass=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 20 ++++++++-------<br>
-&gt;&gt;=C2=A0 meta/classes/kernel-grub.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 44 +++++++++++++++++++++-----------<br>
-&gt;&gt;=C2=A0 meta/classes/kernel-uimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 22 ++++++++--------<br>
-&gt;&gt;=C2=A0 meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 187 +++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++------------------------=
----------------<br>
-&gt;&gt;=C2=A0 meta/conf/documentation.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 ++-<br>
-&gt;&gt;=C2=A0 meta/recipes-kernel/linux/linux-dtb.inc=C2=A0 =C2=A0|=C2=A0 =
-49 ++++++++++++++++++++++--------------<br>
-&gt;&gt;=C2=A0 meta/recipes-kernel/linux/linux-yocto.inc |=C2=A0 =C2=A02 +-=
-<br>
-&gt;&gt;=C2=A0 7 files changed, 218 insertions(+), 109 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; He Zhe (2):<br>
-&gt;&gt;=C2=A0 =C2=A0kernel: Add KERNEL_IMAGETYPES to build multi types ker=
-nel at one time<br>
-&gt;&gt;=C2=A0 =C2=A0kernel: Make symbol link to vmlinuz in boot directory<=
-br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 meta/classes/kernel-fitimage.bbclass=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 20 ++--<br>
-&gt;&gt;=C2=A0 meta/classes/kernel-grub.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 44 ++++---<br>
-&gt;&gt;=C2=A0 meta/classes/kernel-uimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 22 ++--<br>
-&gt;&gt;=C2=A0 meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 187 +++++++++++++++++++++---------<br>
-&gt;&gt;=C2=A0 meta/conf/documentation.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
-&gt;&gt;=C2=A0 meta/recipes-kernel/linux/linux-dtb.inc=C2=A0 =C2=A0|=C2=A0 =
-49 +++++---<br>
-&gt;&gt;=C2=A0 meta/recipes-kernel/linux/linux-yocto.inc |=C2=A0 =C2=A02 +-=
-<br>
-&gt;&gt;=C2=A0 7 files changed, 218 insertions(+), 109 deletions(-)<br>
-&gt;&gt;<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
-, for chaos and madness await thee at its end&quot;</div>
-</div></div>
-
---001a113cbc0c2c443e052e9aeeee--
