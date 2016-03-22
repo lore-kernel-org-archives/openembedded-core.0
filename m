@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 243BA605BB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CA13605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 12:13:01 +0000 (UTC)
+	Tue, 22 Mar 2016 12:13:06 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2MCCxDe030997
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 22 Mar 2016 05:12:59 -0700
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MCD4f8003596
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Mar 2016 05:13:04 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 22 Mar 2016 05:12:58 -0700
+	Tue, 22 Mar 2016 05:13:04 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Tue, 22 Mar 2016 08:12:32 -0400
-Message-ID: <b4458bad3dc8814225f8dc3404c97509aed687d8.1458638728.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Mar 2016 08:12:34 -0400
+Message-ID: <340d592492ce74b71e22a7538d10738ad3f47f13.1458638728.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458638728.git.hongxu.jia@windriver.com>
 References: <cover.1458638728.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/16] fix_buildpaths.bbclass: add bbclass to fix build path
+Subject: [PATCH 06/16] tcl: fix buildpath QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,92 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 12:13:01 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 12:13:07 -0000
 Content-Type: text/plain
 
-Define variable PACKAGE_BUILDPATH_TEXT_FILES to list files that have
-build paths and remove these paths at do_package time. It supports
-package override while files exist in conditionally generated package.
-(such as ${PN}-ptest is conditionally generated)
+- Tweak DEBUG_FLAGS, since ${S} is not normal format
 
-Define variable PACKAGE_BUILDPATH_TEXT_PATTERNS to list build path
-patterns, which used by sed, it removes --sysroot and
--fdebug-prefix-map in text files by default.
+- Remove build path in tclConfig.sh
 
-Define python function to remove build path in variable.
+- Tweak sed expression at tclConfig.sh to strict the pattern
 
-Define python function to remove build path in python compiled
-code.
-
-[YOCTO #9169]
+[YOCTO #8457]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/fix_buildpaths.bbclass | 55 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
- create mode 100644 meta/classes/fix_buildpaths.bbclass
+ meta/recipes-devtools/tcltk/tcl_8.6.4.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/fix_buildpaths.bbclass b/meta/classes/fix_buildpaths.bbclass
-new file mode 100644
-index 0000000..eff0a30
---- /dev/null
-+++ b/meta/classes/fix_buildpaths.bbclass
-@@ -0,0 +1,55 @@
-+PACKAGE_PREPROCESS_FUNCS += 'remove_buildpath_package_preprocess'
-+
-+def list_package_buildpath_text_files(d):
-+    files = d.getVar('PACKAGE_BUILDPATH_TEXT_FILES', True) or ''
-+
-+    # Support package override
-+    for pn in d.getVar('PACKAGES', True).split():
-+        files += d.getVar('PACKAGE_BUILDPATH_TEXT_FILES_%s' % pn, True) or ''
-+
-+    return files
-+
-+remove_buildpath_package_preprocess () {
-+	buildpath_files="${@list_package_buildpath_text_files(d)}"
-+
-+	# Remove build paths in text files
-+	for file in $buildpath_files;do
-+		sed -i ${PACKAGE_BUILDPATH_TEXT_PATTERNS} ${PKGD}$file
-+	done
-+}
-+
-+# List build path patterns, which used by sed, it removes
-+# --sysroot and -fdebug-prefix-map by default.
-+PACKAGE_BUILDPATH_TEXT_PATTERNS = " \
-+    -e 's:--sysroot=${STAGING_DIR_TARGET}::g' \
-+    -e 's:-fdebug-prefix-map=${WORKDIR}=/usr/src/debug::g' \
-+    -e 's:-fdebug-prefix-map=${STAGING_DIR_NATIVE}=::g' \
-+    -e 's:-fdebug-prefix-map=${STAGING_DIR_HOST}=::g' \
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+index 8e92b3e..2aeb952 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+@@ -54,8 +54,8 @@ do_install() {
+ 	autotools_do_install install-private-headers
+ 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
+ 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
+-	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
+-	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
++	sed -i "s,-L${B},-L${STAGING_LIBDIR},g" tclConfig.sh
++	sed -i "s,='${WORKDIR},='${STAGING_INCDIR},g" tclConfig.sh
+ 	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
+ 	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
+ 	install -d ${D}${bindir_crossscripts}
+@@ -73,6 +73,11 @@ tcl_sysroot_preprocess () {
+ 	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+ }
+ 
++inherit fix_buildpaths
++PACKAGE_BUILDPATH_TEXT_FILES ?= "${bindir_crossscripts}/tclConfig.sh \
++                                 ${libdir}/tclConfig.sh \
 +"
 +
-+# List files which have build paths, and remove these paths.
-+PACKAGE_BUILDPATH_TEXT_FILES ??= ""
-+
-+# Remove build path in variable
-+def remove_buildpath_variable(d, var):
-+    val = d.getVar(var, True) or ''
-+
-+    toolchain_opts = d.getVar('TOOLCHAIN_OPTIONS', True)
-+    val = val.replace(toolchain_opts, '')
-+
-+    debug_flags = d.getVar('DEBUG_FLAGS', True).split()
-+    for opt in debug_flags:
-+        if '-fdebug-prefix-map=' in opt:
-+            val = val.replace(opt, '')
-+
-+    return val
-+
-+# Remove build path in python compiled code which
-+# located in root_path
-+def remove_buildpath_bytecode(root_path, byte_code):
-+    import py_compile
-+
-+    file = root_path + byte_code[0:-1]
-+    dfile = byte_code[0:-1]
-+    py_compile.compile(file, dfile=dfile)
-+
+ PACKAGES =+ "tcl-lib"
+ FILES_tcl-lib = "${libdir}/libtcl8.6.so.*"
+ FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}/tcl8"
 -- 
 1.9.1
 
