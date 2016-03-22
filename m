@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B8E8605FE
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D96526072C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 20:55:38 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id l68so180418610wml.1
+	Tue, 22 Mar 2016 21:04:33 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id c63so77862667iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 13:55:39 -0700 (PDT)
+	Tue, 22 Mar 2016 14:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=NHcAqi+9rqSr7mDBSsxLMcyaHRU5hiA+3VcUhgVvrJI=;
-	b=oNYyMLbiAMIJQKfGWzXsfK97RVOKzENxxFOU7QVVn7QRb2V9hZf6L+f3ChvS33/cPT
-	qDsVnh8NIm6hlViD4Gh9n8gIQ3qjEYJpKvNNA5Db5XhRE2HtGRQVRmumPWjRNMiYgAoY
-	c0I+b/hhAcCRtUPe1NyqPLR8heioFJUREi61Oz5DtqJ3YSNbMPjbr3eXnIu9ktPiRg/0
-	D2aAG/JxanqSDYlUHq406Awbha7xZqcswlCOBYNOJlv8unCzUJyZv9ztsbvil+hqg0cB
-	ZnQPEzjqXVv6Bht0o8p3w4pEqADPDtaKt5HPokPq6of1Fs9r9myE7uPqbzZjdfc6Cs/j
-	R/XQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=kq6jA4p8XFDiPVFTeFQIm5zYxhg6XZcUJNynYzg1ZTc=;
+	b=o/pDLzLH7XhkB23WpM3LMPZV2Uif1b4VNWBh0C1dc5lR6ugIJtUoym0vqwHuZF1bgz
+	XgD8nRxCqb9rGx//IHRN3CgjKdIcbAwMloblGJhhLN6fEiEYH5tFB96ADNeJ0allzhUi
+	0ZVQ0iDB04YGUbISb/jOaacKK2yqznrLq9ILlvW/ylvvY9x7PQqD2oW7Ruzgj6Ri+MDg
+	oQGN4h6zrrBNuhEpDEjlh0DhLyialyjKYidObKCf9ChwLomYNzyWAjIC6dnTEGNBqj18
+	7pQddZCIHTq/ogt4dazC8j3Vn5dgHAHLXfHWrbTZ8sIgb+TwukJL20oDfbVMYZMQnRk3
+	gtdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=NHcAqi+9rqSr7mDBSsxLMcyaHRU5hiA+3VcUhgVvrJI=;
-	b=LU6Jd2iUMSMKqYhBe3B79DyjJCMfHWdPFlM191nobNgLSlmi0+trEENsg2Fa0C1LDc
-	ZP5dFzhRINDCzH3DDLp6iIjRZhCldW++ZfgrNZLX8ry20ojgDS6hxo/Ze4Qa9/K8Oll6
-	kERTKUQR6Wp6CXOZ+eJbOIksmYBW053UduaA+u94Suwzl/gMr/D1SBU6KNma5MYVQzVo
-	F6dWzmvGRiBDgXH/D9vCVihcPTXd2J4arjyOu4XfRDZEl2aqUhg6/ovFzXU+mrLniKpv
-	GvpLEhyxlAvcOYjNm9l9r7L7/M0blwbk8BYnXNG+p/8ptOsSgD715FEUJqrG1ViBVp2Q
-	RRhw==
-X-Gm-Message-State: AD7BkJK0BA0455MwBhX3NwpxGdx/bzUo3ycfRAKgSlCpMojhHISRlg4BoLMFl7UN3SnABgfB
-X-Received: by 10.28.90.68 with SMTP id o65mr21427680wmb.70.1458680138999;
-	Tue, 22 Mar 2016 13:55:38 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	h67sm19002615wmf.15.2016.03.22.13.55.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 22 Mar 2016 13:55:38 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Mar 2016 20:55:36 +0000
-Message-Id: <1458680136-5455-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] python-pygobject: use Python 2 instead of Python 3
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=kq6jA4p8XFDiPVFTeFQIm5zYxhg6XZcUJNynYzg1ZTc=;
+	b=dx7z3nSr+KZnLI0bg1CAuBBpXW6EnPGBuYBRF86hdQE2LIubX131YY3P0nCpBNBbE+
+	G1pYskkXiJr/PukDpGArl2gNjeilAsZ60PnqOljRZYJOXcWQpRfR+gC4l+mcjaie1HZE
+	5JsJSGKWrKfZ36HrhlMGlfg4JFdgb1Q8Y52l7mr5EP/mMhAP9wLdfoWcW3YCjjKIus0v
+	jvmwLrk6u+SgvubA+JVMTFCw0AxTrmyrpnNQjsC/0yjOOONSB299nHGplRVFE6E6coW3
+	9O9artdK/pHd+yvngPTfyZqV0Vt/UTcPdMoD3dS6tX8xoxW2bn27Yn7pJd05MiKBXw9h
+	6+JQ==
+X-Gm-Message-State: AD7BkJLsTudw0QviNelornGZx0GRI4E10Cma3YsL2lp8YdGYT4gsFmONXvcjxHVYFeLbk4A9I7PrdRVswo7nNDpc
+X-Received: by 10.50.43.226 with SMTP id z2mr21049036igl.78.1458680674029;
+	Tue, 22 Mar 2016 14:04:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.90.134 with HTTP; Tue, 22 Mar 2016 14:04:13 -0700 (PDT)
+In-Reply-To: <2c1e4c9b74ddb6c21ea4485b53eb42b4cf0eceaa.1458657317.git.adrian.ratiu@ni.com>
+References: <123f1a18e95c8aea9939e14a537b701de8137737.1458657317.git.adrian.ratiu@ni.com>
+	<2c1e4c9b74ddb6c21ea4485b53eb42b4cf0eceaa.1458657317.git.adrian.ratiu@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Mar 2016 21:04:13 +0000
+Message-ID: <CAJTo0LZ2Lw994KWao=3hca5hDtz89xTJOX2L5wZ1PYjTMe=A5Q@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] default-providers.inc: add VIRTUAL-RUNTIME_mountpoint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 20:55:40 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 21:04:34 -0000
+Content-Type: multipart/alternative; boundary=047d7bfea0f46b16ab052ea98f0b
 
-Ideally this would be an option but that means conditional inherits.  For now
-Python 2 is clearly the default Python in oe-core so switch to Python 2 instead
-of 3.
+--047d7bfea0f46b16ab052ea98f0b
+Content-Type: text/plain; charset=UTF-8
 
-This stops python3 being pulled inadvertently into builds, and appearing in
-images that have ptest-pkgs installed (via dbus-test).
+On 22 March 2016 at 14:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python-pygobject_3.18.2.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> util-linux, sysvinit, and busybox are all capable of providing
+> mountpoint; add a VIRTUAL-RUNTIME_mountpoint in order to switch
+> runtime dependencies between the three at build time.
+>
 
-diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
-index e61d75c..8fe1d63 100644
---- a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
-@@ -3,9 +3,9 @@ SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- 
--inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection
-+inherit autotools pkgconfig gnomebase distutils-base gobject-introspection
- 
--DEPENDS += "python3 glib-2.0 gnome-common"
-+DEPENDS += "python glib-2.0 gnome-common"
- 
- SRCNAME="pygobject"
- SRC_URI = " \
-@@ -20,6 +20,6 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
- BBCLASSEXTEND = "native"
- 
--EXTRA_OECONF = "--disable-cairo"
-+EXTRA_OECONF = "--disable-cairo --with-python=python2.7"
- 
--RDEPENDS_${PN} += "python3-setuptools"
-+RDEPENDS_${PN} += "python-setuptools"
--- 
-2.7.0
+Is there a good reason to use util-linux's mountpoint over busybox by
+default?  If busybox can do it already then we can save a bit of space.
 
+Ross
 
+--047d7bfea0f46b16ab052ea98f0b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 March 2016 at 14:49, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fr" class=3D=
+"a3s" style=3D"overflow:hidden">util-linux, sysvinit, and busybox are all c=
+apable of providing<br>
+mountpoint; add a VIRTUAL-RUNTIME_mountpoint in order to switch<br>
+runtime dependencies between the three at build time.</div></blockquote></d=
+iv><br>Is there a good reason to use util-linux&#39;s mountpoint over busyb=
+ox by default?=C2=A0 If busybox can do it already then we can save a bit of=
+ space.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
+
+--047d7bfea0f46b16ab052ea98f0b--
