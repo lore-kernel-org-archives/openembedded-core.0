@@ -1,32 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ABEF65CBB
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 63AA565C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 16:18:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MGIlJx005951
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Mar 2016 09:18:47 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 22 Mar 2016 09:18:46 -0700
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Hongxu Jia
-	<hongxu.jia@windriver.com>
-References: <cover.1458638728.git.hongxu.jia@windriver.com>
-	<fe57bd778472c15f247fbf20491221bdadad8b37.1458638728.git.hongxu.jia@windriver.com>
-	<CADkTA4PbOMTOAEyA3GSPFiiiimOaQKB-Sv_TCtsGBmbiET-yCw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56F17064.6040507@windriver.com>
-Date: Tue, 22 Mar 2016 11:18:44 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4PbOMTOAEyA3GSPFiiiimOaQKB-Sv_TCtsGBmbiET-yCw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/16] kernel.bbclass: fix buildpath QA issue
+	Tue, 22 Mar 2016 16:36:42 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 22 Mar 2016 09:36:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,377,1455004800"; d="scan'208";a="942758417"
+Received: from unknown (HELO afshjern.zpn.intel.com) ([10.219.16.250])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Mar 2016 09:36:35 -0700
+From: Alex Franco <alejandro.franco@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Mar 2016 10:37:45 -0600
+Message-Id: <1458664665-20517-1-git-send-email-alejandro.franco@linux.intel.com>
+X-Mailer: git-send-email 2.7.3
+Cc: joshua.g.lock@intel.com, benjamin.esquivel@intel.com, aschultz@tpip.net
+Subject: [PATCH] nativesdk-buildtools-perl-dummy.bb: disable ICECC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,118 +28,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 16:18:51 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Mar 2016 16:36:43 -0000
 
-On 3/22/16 7:21 AM, Bruce Ashfield wrote:
-> 
-> 
-> On Tue, Mar 22, 2016 at 8:12 AM, Hongxu Jia <hongxu.jia@windriver.com
-> <mailto:hongxu.jia@windriver.com>> wrote:
-> 
->     Since CFLAGS CPPFLAGS CXXFLAGS has been unset, variable DEBUG_FLAGS could
->     not been passed to compiler, so we explicitly add DEBUG_FLAGS to CC to
->     replace build path with target path.
-> 
-> 
-> Can you be more explicit here ? What is typically contained in DEBUG_FLAGS ? The
-> kernel builds its own compiler line and flags, so anything you are setting from this
-> environment, should not be leaking into the kernel build.
-> 
-> .. which leaves me wondering, what exactly is in DEBUG_FLAGS, and how is it
-> actually fixing the QA issue ?
+Disable ICECC, as this recipe was added for compatibility with
+the extensible SDK (eSDK), and therefore does not need to be
+able to be built with the distributed icecream compiler.
 
-The specific debug flag in question is being added to remap the on-disk path to
-the path we want the items to look like from a debugging point of view.
+[YOCTO #8934]
 
-The typical format of DEBUG_FLAGS is something like:
+Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+---
+ meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types"
-
-This was recently updated to include the remapping:
-
- DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types \
-                 -fdebug-prefix-map=${WORKDIR}=/usr/src/debug \
-                 -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-                 -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-
-The idea is the WORKDIR is replaced with '/usr/src/debug' inside of the binary
-and any debug symbol references.  This makes it much easier for the system to
-work with supplied debug sources/symbols.
-
-I'm not sure you want to use DEBUG_FLAGS since anything can be put in there....
-
-Application space code should always use the DEBUG_FLAGS, or I think it's likely
-a bug.
-
-The kernel though should probably define it's own flag(s).  Most likely you'll
-want something simple like:
-
--fdebug-prefix-map=${WORKDIR}=/usr/src/debug
-
-Then all of the internal references to WORKDIR will be replaced with
-'/usr/src/debug' which cross gdb can 'map' or on-target will actually look in
-that location.  (A corresponding '-dbg' package should be provided with the
-matching compilation sources at the local specified.)
-
---Mark
-
-> Bruce
->  
-> 
-> 
->     [YOCTO #7058]
-> 
->     Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
->     <mailto:hongxu.jia@windriver.com>>
->     ---
->      meta/classes/kernel.bbclass | 4 ++--
->      1 file changed, 2 insertions(+), 2 deletions(-)
-> 
->     diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->     index c3eab50..d357ccf 100644
->     --- a/meta/classes/kernel.bbclass
->     +++ b/meta/classes/kernel.bbclass
->     @@ -207,7 +207,7 @@ kernel_do_compile() {
->                     copy_initramfs
->                    
->     use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
->             fi
->     -       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE}
->     CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
->     +       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE}
->     CC="${KERNEL_CC} ${DEBUG_FLAGS}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
->     $use_alternate_initrd
->             if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
->                     gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
->             fi
->     @@ -216,7 +216,7 @@ kernel_do_compile() {
->      do_compile_kernelmodules() {
->             unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->             if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
->     -               oe_runmake -C ${B} ${PARALLEL_MAKE} modules
->     CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
->     +               oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC}
->     ${DEBUG_FLAGS}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-> 
->                     # Module.symvers gets updated during the
->                     # building of the kernel modules. We need to
->     --
->     1.9.1
-> 
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
-> 
-> 
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its
-> end"
+diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+index 90784a9..b488b03 100644
+--- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+@@ -18,6 +18,7 @@ PERLPACKAGES = "nativesdk-perl \
+                 nativesdk-perl-module-file-path"
+ 
+ ALLOW_EMPTY_${PN} = "1"
++ICECC_DISABLED = "1"
+ 
+ python populate_packages_prepend() {
+     d.appendVar(d.expand('RPROVIDES_${PN}'), '${PERLPACKAGES}')
+-- 
+2.7.3
 
 
