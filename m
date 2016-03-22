@@ -1,47 +1,61 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D96526072C
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A7CA6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 21:04:33 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id c63so77862667iof.0
+	Tue, 22 Mar 2016 21:07:39 +0000 (UTC)
+Received: by mail-pf0-f176.google.com with SMTP id n5so326186230pfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 14:04:34 -0700 (PDT)
+	Tue, 22 Mar 2016 14:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kq6jA4p8XFDiPVFTeFQIm5zYxhg6XZcUJNynYzg1ZTc=;
-	b=o/pDLzLH7XhkB23WpM3LMPZV2Uif1b4VNWBh0C1dc5lR6ugIJtUoym0vqwHuZF1bgz
-	XgD8nRxCqb9rGx//IHRN3CgjKdIcbAwMloblGJhhLN6fEiEYH5tFB96ADNeJ0allzhUi
-	0ZVQ0iDB04YGUbISb/jOaacKK2yqznrLq9ILlvW/ylvvY9x7PQqD2oW7Ruzgj6Ri+MDg
-	oQGN4h6zrrBNuhEpDEjlh0DhLyialyjKYidObKCf9ChwLomYNzyWAjIC6dnTEGNBqj18
-	7pQddZCIHTq/ogt4dazC8j3Vn5dgHAHLXfHWrbTZ8sIgb+TwukJL20oDfbVMYZMQnRk3
-	gtdA==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=oaw0nDHZBYaV0EfoMY0hLS39PC+6wqe6LFNmKZHCBF8=;
+	b=Y5MqPkShvtEn+SmrdQWU8ybLkeQ/g6EI6cEcmiC1vm/ep6nVRaYYVErEEO+m6RIFlp
+	bDewaxxQdhsqNWCNLu238fSU5dtvEtcU3R6f1J/GhHIqBS4srdZ5X5DpcOJwMjavDOXr
+	Q6xwij+4h8jyko5e8uMl0DPgPIzLBxWEm3lU0wc1i6Q0nAhSIch0TaLHMHI5B4JC7xIM
+	5yedhUvll1UlWMdbLqjZiTT8NOIwOWjtuEUbfQqK5eijDMCUFTavb4L9kdoroK+pOUw2
+	ZxmsuFHULlcNrrDMQC/1SZBhN2QD/75sA10LYwyOGEz9R8Jtb+hXi6KsUhmJKLqk8lNj
+	Mt0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=kq6jA4p8XFDiPVFTeFQIm5zYxhg6XZcUJNynYzg1ZTc=;
-	b=dx7z3nSr+KZnLI0bg1CAuBBpXW6EnPGBuYBRF86hdQE2LIubX131YY3P0nCpBNBbE+
-	G1pYskkXiJr/PukDpGArl2gNjeilAsZ60PnqOljRZYJOXcWQpRfR+gC4l+mcjaie1HZE
-	5JsJSGKWrKfZ36HrhlMGlfg4JFdgb1Q8Y52l7mr5EP/mMhAP9wLdfoWcW3YCjjKIus0v
-	jvmwLrk6u+SgvubA+JVMTFCw0AxTrmyrpnNQjsC/0yjOOONSB299nHGplRVFE6E6coW3
-	9O9artdK/pHd+yvngPTfyZqV0Vt/UTcPdMoD3dS6tX8xoxW2bn27Yn7pJd05MiKBXw9h
-	6+JQ==
-X-Gm-Message-State: AD7BkJLsTudw0QviNelornGZx0GRI4E10Cma3YsL2lp8YdGYT4gsFmONXvcjxHVYFeLbk4A9I7PrdRVswo7nNDpc
-X-Received: by 10.50.43.226 with SMTP id z2mr21049036igl.78.1458680674029;
-	Tue, 22 Mar 2016 14:04:34 -0700 (PDT)
+	bh=oaw0nDHZBYaV0EfoMY0hLS39PC+6wqe6LFNmKZHCBF8=;
+	b=X7KQCVoo7/GG5lBiM+/4tCB76Tuvxm6MDbImvhzDkTMr8k8pSv4CLo3kruZFKtLPzT
+	ozR6nUluafcTCw4f2BMrJ+Sq/yn38TUSv+aIAcxC595meHCojvTX1iZ0Tr2cIAJTkiGy
+	vpG7Fx366djYXGv5xbGKol9TxUpv9+SOKM9BlcBJ/G1Chbn8X0YLdlSYRGTGoiMNCZJy
+	wu8zWBDj782T5BiK0DGbz3K2F4el01My4ostUwldSd/nyDaBSNV4LTPx0aQ1iSzwzWeZ
+	oASCQ8qcVtrpciMA1vuL5/JX/giRRFYCGVaPT19j1gfltzTJiwo2IRfR0NvVVvDzZJqL
+	8fzA==
+X-Gm-Message-State: AD7BkJK5xayekUCAq4fOWZI9h1/U/jJzOO/3kG3/rsWq+v7K1fbipb0oSz1fsppUzMOfeA==
+X-Received: by 10.98.7.153 with SMTP id 25mr57670896pfh.38.1458680860053;
+	Tue, 22 Mar 2016 14:07:40 -0700 (PDT)
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com.
+	[209.85.192.175]) by smtp.gmail.com with ESMTPSA id
+	s87sm50385349pfa.89.2016.03.22.14.07.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Mar 2016 14:07:38 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f175.google.com with SMTP id n5so326185107pfn.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Mar 2016 14:07:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.90.134 with HTTP; Tue, 22 Mar 2016 14:04:13 -0700 (PDT)
-In-Reply-To: <2c1e4c9b74ddb6c21ea4485b53eb42b4cf0eceaa.1458657317.git.adrian.ratiu@ni.com>
-References: <123f1a18e95c8aea9939e14a537b701de8137737.1458657317.git.adrian.ratiu@ni.com>
-	<2c1e4c9b74ddb6c21ea4485b53eb42b4cf0eceaa.1458657317.git.adrian.ratiu@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Mar 2016 21:04:13 +0000
-Message-ID: <CAJTo0LZ2Lw994KWao=3hca5hDtz89xTJOX2L5wZ1PYjTMe=A5Q@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] default-providers.inc: add VIRTUAL-RUNTIME_mountpoint
+X-Received: by 10.98.74.200 with SMTP id c69mr56623064pfj.129.1458680858048;
+	Tue, 22 Mar 2016 14:07:38 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Tue, 22 Mar 2016 14:07:37 -0700 (PDT)
+In-Reply-To: <1458670391-26915-5-git-send-email-sgw@linux.intel.com>
+References: <1458670391-26915-1-git-send-email-sgw@linux.intel.com>
+	<1458670391-26915-5-git-send-email-sgw@linux.intel.com>
+Date: Tue, 22 Mar 2016 18:07:37 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrtzYwE-Y2pCD7wCMcwY9CVixxAg+dmNJkL2o=CQrmL=w@mail.gmail.com>
+Message-ID: <CAP9ODKrtzYwE-Y2pCD7wCMcwY9CVixxAg+dmNJkL2o=CQrmL=w@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] linux-firmware: Break out some additional firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +68,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 21:04:34 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f46b16ab052ea98f0b
-
---047d7bfea0f46b16ab052ea98f0b
+X-List-Received-Date: Tue, 22 Mar 2016 21:07:39 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 22 March 2016 at 14:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+Hello Saul,
 
-> util-linux, sysvinit, and busybox are all capable of providing
-> mountpoint; add a VIRTUAL-RUNTIME_mountpoint in order to switch
-> runtime dependencies between the three at build time.
+First I would like to thank you to manage this upgrade and
+refactoring. This recipe was indeed requiring some love and you did a
+great job.
+
+On Tue, Mar 22, 2016 at 3:13 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> This breaks out new firmware from the iwlwifi firmware along with the i915 graphics firmware.
 >
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../linux-firmware/linux-firmware_git.bb           | 25 +++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> index 04d9471..6f6581a 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> @@ -224,6 +224,9 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+>               ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
 
-Is there a good reason to use util-linux's mountpoint over busybox by
-default?  If busybox can do it already then we can save a bit of space.
+As done in the other one, this might make sense to consolidate into a
+single one.
 
-Ross
+>               ${PN}-iwlwifi-7260 \
+>               ${PN}-iwlwifi-7265 \
+> +             ${PN}-iwlwifi-7265D ${PN}-iwlwifi-8000C ${PN}-iwlwifi-8265 \
 
---047d7bfea0f46b16ab052ea98f0b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Does it make sense to split D out ? I think adding it inside the
+former might avoid too much fragmentation.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 March 2016 at 14:49, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fr" class=3D=
-"a3s" style=3D"overflow:hidden">util-linux, sysvinit, and busybox are all c=
-apable of providing<br>
-mountpoint; add a VIRTUAL-RUNTIME_mountpoint in order to switch<br>
-runtime dependencies between the three at build time.</div></blockquote></d=
-iv><br>Is there a good reason to use util-linux&#39;s mountpoint over busyb=
-ox by default?=C2=A0 If busybox can do it already then we can save a bit of=
- space.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---047d7bfea0f46b16ab052ea98f0b--
