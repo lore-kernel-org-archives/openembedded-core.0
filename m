@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E67973163
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B80036FF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 12:13:24 +0000 (UTC)
+	Tue, 22 Mar 2016 12:13:30 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2MCDNuD031014
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 22 Mar 2016 05:13:23 -0700
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MCDSPG003608
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Mar 2016 05:13:28 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 22 Mar 2016 05:13:22 -0700
+	Tue, 22 Mar 2016 05:13:27 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Tue, 22 Mar 2016 08:12:41 -0400
-Message-ID: <d261fd8e069d0cad6d72556fddd1daaaf3daa5fe.1458638728.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Mar 2016 08:12:43 -0400
+Message-ID: <e91570f93ec91d7dbd3a9e0b1e2b29d601a640af.1458638728.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458638728.git.hongxu.jia@windriver.com>
 References: <cover.1458638728.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/16] python-pycairo: fix buildpath QA issue
+Subject: [PATCH 15/16] epiphany: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,136 +34,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 12:13:24 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 12:13:31 -0000
 Content-Type: text/plain
 
-- Inherit waf.bbclass, remove duplicate tasks
+In order to fix build path issue, we reverts the following commit
+in https://github.com/GNOME/epiphany.git
+...
+commit 54a3122d8626f78338033a704d5849738f6dd2e6
+Author: Xan Lopez <xan@igalia.com>
+Date:   Wed May 16 18:21:21 2012 +0900
 
-- Get "--destdir" directory supplied to the "install" command,
-  and use it as a prefix to strip off the purported filename
-  encoded in bytecode files.
+    ephy-profile-utils: use absolute path for build dir
 
-- Do not need to generate pycairo.pc manually
+    That way we can run the tests from any directory in debug mode.
+...
+It did not consider cross-compile situation which we do not need
+to run tests in host build.
 
-[YOCTO #8446]
+BTW, the tests suits were compiled but not installed to ${D},
+so we explicitly disable it.
+
+[YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...trip-off-build-path-in-purported-filename.patch | 62 ++++++++++++++++++++++
- .../python/python-pycairo_1.10.0.bb                | 25 +++------
- 2 files changed, 68 insertions(+), 19 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |  8 ++-
+ .../files/use-relative-path-for-build-dir.patch    | 57 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 
-diff --git a/meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch b/meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+index 12d3b07..0b8335b 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+@@ -9,11 +9,15 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even
+ # libwnck3 is x11 only
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
++SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch \
++            file://use-relative-path-for-build-dir.patch \
++"
+ SRC_URI[archive.md5sum] = "172b78256100e8d3c629764abd0e1495"
+ SRC_URI[archive.sha256sum] = "be699d484371111abae754e669187215df73e21533f461e513b79537d7a1c1c1"
+ 
+-EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
++EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO} \
++                  --disable-tests \
++"
+ 
+ do_configure_prepend() {
+     touch ${S}/gnome-doc-utils.make
+diff --git a/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 new file mode 100644
-index 0000000..647c4be
+index 0000000..21c0912
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
-@@ -0,0 +1,62 @@
-+From 86faf604fc8a7f17320db48734cda464119da387 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+@@ -0,0 +1,57 @@
++From 73e46aeea35c7bda7833e635f1bb2dbd39e2b43e Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Thu, 25 Feb 2016 04:22:07 -0500
-+Subject: [PATCH] strip off build path in purported filename
++Date: Wed, 2 Mar 2016 02:00:23 -0500
++Subject: [PATCH] ephy-profile-utils: use relative path for build dir
 +
-+Get the "--destdir" directory supplied to the "install" command,
-+and use it as a prefix to strip off the purported filename
-+encoded in bytecode files.
++It reverts the following commit in https://github.com/GNOME/epiphany.git
++...
++commit 54a3122d8626f78338033a704d5849738f6dd2e6
++Author: Xan Lopez <xan@igalia.com>
++Date:   Wed May 16 18:21:21 2012 +0900
++
++    ephy-profile-utils: use absolute path for build dir
++
++    That way we can run the tests from any directory in debug mode.
++...
++It did not consider cross-compile situation which we do not need
++to run tests in host build.
++
++It also caused build path issue.
 +
 +Upstream-Status: Inappropriate [openembedded specific]
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+diff --git a/.waf-1.6.3-3c3129a3ec8fb4a5bbc7ba3161463b22/waflib/Tools/python.py b/.waf-1.6.3-3c3129a3ec8fb4a5bbc7ba3161463b22/waflib/Tools/python.py
-+--- a/.waf-1.6.3-3c3129a3ec8fb4a5bbc7ba3161463b22/waflib/Tools/python.py
-++++ b/.waf-1.6.3-3c3129a3ec8fb4a5bbc7ba3161463b22/waflib/Tools/python.py
-+@@ -26,7 +26,7 @@ int main()
-+ INST='''
-+ import sys, py_compile
-+ for pyfile in sys.argv[1:]:
-+-	py_compile.compile(pyfile, pyfile + %r)
-++	py_compile.compile(pyfile, pyfile + %r, %r)
-+ '''
-+ def process_py(self,node):
-+ 	try:
-+@@ -39,6 +39,16 @@ def process_py(self,node):
-+ 	def inst_py(ctx):
-+ 		install_pyfile(self,node)
-+ 	self.bld.add_post_fun(inst_py)
-++
-++def get_dfile(dfile):
-++	if getattr(Options.options,'destdir'):
-++		destdir = Options.options.destdir
-++		if dfile[:len(destdir)] != destdir:
-++			raise Errors.WafError("invalid destdir: filename %r doesn't start with %r" % ((dfile, destdir)))
-++		dfile = dfile[len(destdir):]
-++
-++	return dfile
-++
-+ def install_pyfile(self,node):
-+ 	tsk=self.bld.install_files(self.install_path,[node],postpone=False)
-+ 	path=os.path.join(tsk.get_install_path(),node.name)
-+@@ -53,12 +63,14 @@ def install_pyfile(self,node):
-+ 		if self.env['PYC']or self.env['PYO']:
-+ 			info("+ byte compiling %r"%path)
-+ 		if self.env['PYC']:
-+-			argv=self.env['PYTHON']+['-c',INST%'c',path]
-++			dfile = get_dfile(path+'c')
-++			argv=self.env['PYTHON']+['-c',INST%('c',dfile),path]
-+ 			ret=Utils.subprocess.Popen(argv).wait()
-+ 			if ret:
-+ 				raise Errors.WafError('pyc compilation failed %r'%path)
-+ 		if self.env['PYO']:
-+-			argv=self.env['PYTHON']+[self.env['PYFLAGS_OPT'],'-c',INST%'o',path]
-++			dfile = get_dfile(path+'o')
-++			argv=self.env['PYTHON']+[self.env['PYFLAGS_OPT'],'-c',INST%('o',dfile),path]
-+ 			ret=Utils.subprocess.Popen(argv).wait()
-+ 			if ret:
-+ 				raise Errors.WafError('pyo compilation failed %r'%path)
++ lib/Makefile.am          | 2 +-
++ lib/ephy-profile-utils.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/lib/Makefile.am b/lib/Makefile.am
++index 24d684b..849a07f 100644
++--- a/lib/Makefile.am
+++++ b/lib/Makefile.am
++@@ -88,7 +88,7 @@ libephymisc_la_CPPFLAGS = \
++ 	-DDATADIR="\"$(datadir)\""		    \
++ 	-DSHARE_DIR=\"$(pkgdatadir)\" 		    \
++ 	-DTOP_SRC_DATADIR=\"$(top_srcdir)/data\"    \
++-	-DABS_TOP_BUILD_DIR=\"$(abs_top_builddir)\" \
+++	-DTOP_BUILD_DIR=\"$(top_builddir)\"         \
++ 	-DLOCALEDIR=\"$(localedir)\"		    \
++ 	$(AM_CPPFLAGS)
++ 
++diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
++index 0430582..a42ec4e 100644
++--- a/lib/ephy-profile-utils.c
+++++ b/lib/ephy-profile-utils.c
++@@ -128,7 +128,7 @@ ephy_profile_utils_do_migration (const char *profile_directory, int test_to_run,
++   argv[i++] = NULL;
++ 
++   if (debug)
++-    argv[0] = ABS_TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
+++    argv[0] = TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
++ 
++   ret = g_spawn_sync (NULL, argv, envp, G_SPAWN_SEARCH_PATH,
++                       NULL, NULL, NULL, NULL,
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
-index 70fe25c..2fbd033 100644
---- a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
-+++ b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
-@@ -11,31 +11,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421 \
- DEPENDS = "cairo"
- PR = "r2"
- 
--SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.bz2"
-+SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.bz2 \
-+           file://strip-off-build-path-in-purported-filename.patch \
-+"
- 
- SRC_URI[md5sum] = "20337132c4ab06c1146ad384d55372c5"
- SRC_URI[sha256sum] = "d30439f06c2ec1a39e27464c6c828b6eface3b22ee17b2de05dc409e429a7431"
- 
- S = "${WORKDIR}/py2cairo-${PV}"
- 
--inherit distutils pkgconfig
-+inherit distutils pkgconfig waf
- 
- BBCLASSEXTEND = "native"
- 
--do_configure() {
--	BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} ./waf configure --prefix=${D}${prefix} --libdir=${D}${libdir}
--}
--
--do_compile() {
--	./waf build ${PARALLEL_MAKE}
--}
--
--do_install() {
--	./waf install
--	sed \
--		-e 's:@prefix@:${prefix}:' \
--		-e 's:@VERSION@:${PV}:' \
--		-e 's:@includedir@:${includedir}:' \
--		pycairo.pc.in > pycairo.pc
--	install -m 0644 pycairo.pc ${D}${libdir}/pkgconfig/
--}
-+CACHED_CONFIGUREVARS = "BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS}"
-+EXTRA_OECONF += "--libdir=${libdir}"
 -- 
 1.9.1
 
