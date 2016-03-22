@@ -1,26 +1,24 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 506956AC00
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 37408606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 19:13:32 +0000 (UTC)
-Received: (qmail 22434 invoked by uid 1003); 22 Mar 2016 19:13:32 -0000
-Received: from unknown (HELO ?10.16.32.95?)
-	(philip@opensdr.com@207.114.172.147)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	22 Mar 2016 19:13:32 -0000
-References: <CA+YB3raxynjSZAhGA7VOoyddY1BGkNdFvOWRAmHZwYT2HyGVaA@mail.gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-From: Philip Balister <philip@balister.org>
-X-Forwarded-Message-Id: <CA+YB3raxynjSZAhGA7VOoyddY1BGkNdFvOWRAmHZwYT2HyGVaA@mail.gmail.com>
-Message-ID: <56F1995A.7070604@balister.org>
-Date: Tue, 22 Mar 2016 12:13:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Tue, 22 Mar 2016 20:36:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MKaJNH008175
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Mar 2016 13:36:19 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 22 Mar 2016 13:36:18 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Mar 2016 13:36:19 -0700
+Message-ID: <1458678979-12352-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-In-Reply-To: <CA+YB3raxynjSZAhGA7VOoyddY1BGkNdFvOWRAmHZwYT2HyGVaA@mail.gmail.com>
-Subject: [yocto] REMINDER: REGISTER TODAY - Yocto Project Developer Day US, April 7, 2016 - San Diego
+Subject: [PATCH 1/1] bind: /var/cache/bind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 19:13:34 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Mar 2016 20:36:23 -0000
+Content-Type: text/plain
 
-FYI, this should be useful for people new to OpenEmbedded, and fun for
-more experienced people.
+Change the ownership of /var/cache/bind to bind rather than root.
 
-Philip
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-
--------- Forwarded Message --------
-Subject: [yocto] REMINDER: REGISTER TODAY - Yocto Project Developer Day
-US, April 7, 2016 - San Diego
-Date: Tue, 22 Mar 2016 11:39:58 -0700
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: Yocto Project <yocto@yoctoproject.org>
-
-Register today and get a jump start on using the Yocto Project tools:
-https://www.regonline.com/Register/Checkin.aspx?EventID=1809027
-
-Check out what our trainers have prepared for the event agenda below.
-
-Introductory Track
-
-·        Introduction to the Yocto Project
-·        Key Concepts
-·        Build System Workflow
-·        Examining Recipes
-·        Standard Recipe Build Steps
-·        Working with Layers
-·        Build and Boot Your Custom Image
-·        Working with Applications
-
-
-Advanced Track
-
-·        Introductions/set up
-·        New workflows: Toaster, CROPS and devtool
-·        Deep dive presentation and demo on CROPS
-·        Deep dive and class exercises on devtool, user/group
-creation, and handout boards demo
-·        Deep dive on Toaster and related topics (e.g. Layer Index, Š)
-·        Poky-tiny
-·        Kernel
-·        Q&A (stump the expert)
-
-
-EVENT DESCRIPTION:
-https://www.yoctoproject.org/yocto-project-developer-day-us-2016-elc
-
-Sincerely,
-
-Yocto Project Advocacy Team
-
-
-
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
+index 19f87d7..b309b06 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
+@@ -43,7 +43,7 @@ PACKAGECONFIG ?= ""
+ PACKAGECONFIG[httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+ 
+ USERADD_PACKAGES = "${PN}"
+-USERADD_PARAM_${PN} = "--system --home /var/cache/bind --no-create-home \
++USERADD_PARAM_${PN} = "--system --home ${localstatedir}/cache/bind --no-create-home \
+                        --user-group bind"
+ 
+ INITSCRIPT_NAME = "bind"
+@@ -73,7 +73,7 @@ do_install_append() {
+ 	rm "${D}${mandir}/man1/nslookup.1"
+ 	rmdir "${D}${localstatedir}/run"
+ 	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
+-	install -d "${D}${localstatedir}/cache/bind"
++	install -d -o bind "${D}${localstatedir}/cache/bind"
+ 	install -d "${D}${sysconfdir}/bind"
+ 	install -d "${D}${sysconfdir}/init.d"
+ 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+@@ -81,7 +81,6 @@ do_install_append() {
+ 	sed -i -e '1s,#!.*python,#! /usr/bin/env python,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
+ 
+ 	# Install systemd related files
+-	install -d ${D}${localstatedir}/cache/bind
+ 	install -d ${D}${sbindir}
+ 	install -m 755 ${WORKDIR}/generate-rndc-key.sh ${D}${sbindir}
+ 	install -d ${D}${systemd_unitdir}/system
 -- 
-Jeff Osier-Mixon
-Open Source Community Architect, Intel Corporation
--- 
-_______________________________________________
-yocto mailing list
-yocto@yoctoproject.org
-https://lists.yoctoproject.org/listinfo/yocto
-
+1.7.9.5
 
 
