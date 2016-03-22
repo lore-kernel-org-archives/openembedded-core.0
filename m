@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B80036FF9D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 211936FF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 12:13:30 +0000 (UTC)
+	Tue, 22 Mar 2016 12:13:32 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2MCDSPG003608
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Mar 2016 05:13:28 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2MCDV18031018
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 22 Mar 2016 05:13:31 -0700
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 22 Mar 2016 05:13:27 -0700
+	Tue, 22 Mar 2016 05:13:30 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Tue, 22 Mar 2016 08:12:43 -0400
-Message-ID: <e91570f93ec91d7dbd3a9e0b1e2b29d601a640af.1458638728.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Mar 2016 08:12:44 -0400
+Message-ID: <6939ceb54a8286cd10b36abdceb703f3c551bc32.1458638728.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1458638728.git.hongxu.jia@windriver.com>
 References: <cover.1458638728.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 15/16] epiphany: fix buildpaths QA issue
+Subject: [PATCH 16/16] gconf: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,120 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2016 12:13:31 -0000
+X-List-Received-Date: Tue, 22 Mar 2016 12:13:32 -0000
 Content-Type: text/plain
 
-In order to fix build path issue, we reverts the following commit
-in https://github.com/GNOME/epiphany.git
-...
-commit 54a3122d8626f78338033a704d5849738f6dd2e6
-Author: Xan Lopez <xan@igalia.com>
-Date:   Wed May 16 18:21:21 2012 +0900
+The build paths come from debug mode, and GConf is effectively
+unmaintained these days anyway. So explicitly disable debug
+to fix build paths QA issue.
 
-    ephy-profile-utils: use absolute path for build dir
-
-    That way we can run the tests from any directory in debug mode.
-...
-It did not consider cross-compile situation which we do not need
-to run tests in host build.
-
-BTW, the tests suits were compiled but not installed to ${D},
-so we explicitly disable it.
+The minimum still keeps Glib check and assert which can result in
+crashes if bad data is passed to the API.
 
 [YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |  8 ++-
- .../files/use-relative-path-for-build-dir.patch    | 57 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
-index 12d3b07..0b8335b 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
-@@ -9,11 +9,15 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even
- # libwnck3 is x11 only
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index feaf080..76fca14 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -17,7 +17,7 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
  
--SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
-+SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch \
-+            file://use-relative-path-for-build-dir.patch \
-+"
- SRC_URI[archive.md5sum] = "172b78256100e8d3c629764abd0e1495"
- SRC_URI[archive.sha256sum] = "be699d484371111abae754e669187215df73e21533f461e513b79537d7a1c1c1"
+ S = "${WORKDIR}/GConf-${PV}"
  
--EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
-+EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO} \
-+                  --disable-tests \
-+"
+-EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
++EXTRA_OECONF = "--enable-shared --disable-static \
+                 --disable-orbit --with-openldap=no --disable-gtk"
  
- do_configure_prepend() {
-     touch ${S}/gnome-doc-utils.make
-diff --git a/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
-new file mode 100644
-index 0000000..21c0912
---- /dev/null
-+++ b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
-@@ -0,0 +1,57 @@
-+From 73e46aeea35c7bda7833e635f1bb2dbd39e2b43e Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 2 Mar 2016 02:00:23 -0500
-+Subject: [PATCH] ephy-profile-utils: use relative path for build dir
-+
-+It reverts the following commit in https://github.com/GNOME/epiphany.git
-+...
-+commit 54a3122d8626f78338033a704d5849738f6dd2e6
-+Author: Xan Lopez <xan@igalia.com>
-+Date:   Wed May 16 18:21:21 2012 +0900
-+
-+    ephy-profile-utils: use absolute path for build dir
-+
-+    That way we can run the tests from any directory in debug mode.
-+...
-+It did not consider cross-compile situation which we do not need
-+to run tests in host build.
-+
-+It also caused build path issue.
-+
-+Upstream-Status: Inappropriate [openembedded specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ lib/Makefile.am          | 2 +-
-+ lib/ephy-profile-utils.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/Makefile.am b/lib/Makefile.am
-+index 24d684b..849a07f 100644
-+--- a/lib/Makefile.am
-++++ b/lib/Makefile.am
-+@@ -88,7 +88,7 @@ libephymisc_la_CPPFLAGS = \
-+ 	-DDATADIR="\"$(datadir)\""		    \
-+ 	-DSHARE_DIR=\"$(pkgdatadir)\" 		    \
-+ 	-DTOP_SRC_DATADIR=\"$(top_srcdir)/data\"    \
-+-	-DABS_TOP_BUILD_DIR=\"$(abs_top_builddir)\" \
-++	-DTOP_BUILD_DIR=\"$(top_builddir)\"         \
-+ 	-DLOCALEDIR=\"$(localedir)\"		    \
-+ 	$(AM_CPPFLAGS)
-+ 
-+diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
-+index 0430582..a42ec4e 100644
-+--- a/lib/ephy-profile-utils.c
-++++ b/lib/ephy-profile-utils.c
-+@@ -128,7 +128,7 @@ ephy_profile_utils_do_migration (const char *profile_directory, int test_to_run,
-+   argv[i++] = NULL;
-+ 
-+   if (debug)
-+-    argv[0] = ABS_TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
-++    argv[0] = TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
-+ 
-+   ret = g_spawn_sync (NULL, argv, envp, G_SPAWN_SEARCH_PATH,
-+                       NULL, NULL, NULL, NULL,
-+-- 
-+1.9.1
-+
+ # Disable PolicyKit by default
+@@ -27,6 +27,7 @@ PACKAGECONFIG_class-native = ""
+ PACKAGECONFIG_libc-uclibc = ""
+ 
+ PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
++PACKAGECONFIG[debug] = "--enable-debug=yes, --enable-debug=minimum"
+ 
+ do_install_append() {
+ 	# this directory need to be created to avoid an Error 256 at gdm launch
 -- 
 1.9.1
 
