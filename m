@@ -1,27 +1,20 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A6D65CBF
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DE2362136
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 11:14:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2NBEkO3028677
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 04:14:46 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 23 Mar 2016 04:14:45 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: 
-CC: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Mar 2016 07:14:42 -0400
-Message-ID: <ecd80b5ad2eb73b3c5615d3b8985c30c7d088bd6.1458731173.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1458731173.git.dengke.du@windriver.com>
-References: <cover.1458731173.git.dengke.du@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pTest-quilt: pTest-quilt failed fixed
+	Wed, 23 Mar 2016 11:17:31 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Mar 2016 04:17:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="71745894"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga004.fm.intel.com with ESMTP; 23 Mar 2016 04:17:30 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2016 13:17:25 +0200
+Message-Id: <1458731845-3554-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] matchbox-desktop: Do not close desktop on alt-F4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,98 +27,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 11:14:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Mar 2016 11:17:33 -0000
 
-When run the pTest-quilt, the faildiff.test failed, because the user
-is root. The faildiff.test had the following:
-	$ chmod -r test.txt
-	$ quilt refresh
-Then we drop the read permission of the file test.txt, we can't
-"quilt refresh" as normal user, so we got the following:
-	>~ .*diff: test\.txt: Permission denied
-	> Diff failed on file 'test.txt', aborting
-But when the user is root, we can access the file, so we get the
-following:
-	> Nothing in patch patchs/test.dfff
-So I add a user who named "test" to run the pTest, when we run the
-run-ptest script. In this way, we should add the user at the begining.
-Add the useradd inherit to the meta/recipes-devtools/quilt/quilt.inc
-and set the USERADD_PACKAGES and USERADD_PARAM_${PN}-ptest variable
-respectively.
-In the end, change the authority of the directory of test which collect
-all the test case under the directory /usr/lib/quilt/ptest/ on the
-target to 777. Because the test case would write this directory, if
-the user is test user, it can't write this directory.
+There are cases where user can close the desktop with a
+well timed alt-F4: prevent this from happening
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+[YOCTO #2063]
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-devtools/quilt/quilt.inc       | 9 +++++++--
- meta/recipes-devtools/quilt/quilt/run-ptest | 3 ++-
- meta/recipes-devtools/quilt/quilt/test.sh   | 1 +
- 3 files changed, 10 insertions(+), 3 deletions(-)
- create mode 100755 meta/recipes-devtools/quilt/quilt/test.sh
 
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index 837b36b..65d40cc 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -8,12 +8,13 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
-         file://install.patch \
-         file://run-ptest \
-         file://Makefile \
-+        file://test.sh \
- "
- 
- SRC_URI[md5sum] = "fc0310db5868a0873d602d4332a76d43"
- SRC_URI[sha256sum] = "c4bfd3282214a288e8d3e921ae4d52e73e24c4fead72b5446752adee99a7affd"
- 
--inherit autotools-brokensep ptest
-+inherit autotools-brokensep ptest useradd
- 
- EXTRA_OECONF_darwin += "--without-date \
-                         --without-getopt \
-@@ -35,6 +36,9 @@ EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
- 
-+USERADD_PACKAGES = "${PN}-ptest"
-+USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
-+
- # quilt ignores DESTDIR
- do_install () {
- 	oe_runmake ${EXTRA_OE_MAKE_ARGS} install
-@@ -50,8 +54,9 @@ do_install_ptest() {
- 	tar -cf - bin/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
- 	tar -cf - compat/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
- 	tar -cf - quilt/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
--	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - && chmod 777 test)
- 	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
-+	cp ${WORKDIR}/test.sh ${D}${PTEST_PATH}
- }
- 
- RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
-diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
-index 958a9df..14430a2 100755
---- a/meta/recipes-devtools/quilt/quilt/run-ptest
-+++ b/meta/recipes-devtools/quilt/quilt/run-ptest
-@@ -1,5 +1,6 @@
- #!/bin/sh
- 
-+THIS_SH=/bin/sh
- ln -sf /bin/ed /usr/bin/ed
--for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
-+su -c "${THIS_SH} ./test.sh" test
- rm -f /usr/bin/ed
-diff --git a/meta/recipes-devtools/quilt/quilt/test.sh b/meta/recipes-devtools/quilt/quilt/test.sh
-new file mode 100755
-index 0000000..6563e4a
+This commit also available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/desktop-fix
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/desktop-fix
+
+
+ ...thing-on-delete-event-when-not-STANDALONE.patch | 60 ++++++++++++++++++++++
+ .../matchbox-desktop/matchbox-desktop_git.bb       |  4 +-
+ 2 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch
+
+diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch b/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch
+new file mode 100644
+index 0000000..46397dc
 --- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/test.sh
-@@ -0,0 +1 @@
-+for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
++++ b/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch
+@@ -0,0 +1,60 @@
++From 5fe37ef38500f858a22ecdf9bf69bf06e213bf68 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Tue, 22 Mar 2016 12:41:35 +0200
++Subject: [PATCH] Do nothing on delete-event when not STANDALONE
++
++This prevents an opportunistic alt-F4 from closing the desktop.
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++
++Upstream-Status: Backport
++---
++ src/desktop.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/src/desktop.c b/src/desktop.c
++index d4fc2fb..94b4ddf 100644
++--- a/src/desktop.c
+++++ b/src/desktop.c
++@@ -122,6 +122,15 @@ load_items (TakuMenu *menu)
++ 
++ }
++ 
+++#ifndef STANDALONE
+++static gboolean
+++delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer user_data)
+++{
+++  /* prevent default handler from destroying the window */
+++  return TRUE;
+++}
+++#endif
+++
++ static void
++ workarea_changed (int x, int y, int w, int h)
++ {
++@@ -144,11 +153,11 @@ create_desktop (void)
++   gtk_icon_size_register ("taku-icon", 64, 64);
++ 
++   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
++-  g_signal_connect (window, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
++   gtk_widget_set_name (window, "TakuWindow");
++   gtk_window_set_title (GTK_WINDOW (window), _("Desktop"));
++ 
++ #ifndef STANDALONE
+++  g_signal_connect (window, "delete-event", G_CALLBACK (delete_event_cb), NULL);
++   gtk_window_set_type_hint (GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_DESKTOP);
++   gtk_window_set_skip_taskbar_hint (GTK_WINDOW (window), TRUE);
++ 
++@@ -156,6 +165,7 @@ create_desktop (void)
++   screen_w = gdk_screen_get_width (screen);
++   screen_h = gdk_screen_get_height (screen);
++ #else
+++  g_signal_connect (window, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
++   screen_w = 640;
++   screen_h = 480;
++ #endif
++-- 
++2.7.0
++
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
+index 318d2e0..dbe8c11 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
+@@ -13,7 +13,9 @@ SECTION = "x11/wm"
+ SRCREV = "71e3e6e04271e9d5a14f1c231ef100c7f320134d"
+ PV = "2.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN}-2"
++SRC_URI = "git://git.yoctoproject.org/${BPN}-2 \
++           file://0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch \
++           "
+ 
+ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
+ 
 -- 
-1.9.1
+2.1.4
 
 
