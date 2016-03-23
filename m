@@ -1,25 +1,53 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 047C9605BB
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 18:03:54 +0000 (UTC)
-Received: from elite.brightsigndigital.co.uk ([213.210.30.29]
-	helo=phil-desktop) by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1ain8M-0005f8-Ri; Wed, 23 Mar 2016 19:03:55 +0100
-Message-ID: <1458756234.3476.189.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Mar 2016 18:03:54 +0000
-In-Reply-To: <CAJTo0LbicCM6LJbxEK8m-QES49-WjPJsDUgduV0-dOg1FSEdZw@mail.gmail.com>
-References: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
-	<1458755798.3476.186.camel@pbcl.net>
-	<CAJTo0LbicCM6LJbxEK8m-QES49-WjPJsDUgduV0-dOg1FSEdZw@mail.gmail.com>
-X-Mailer: Evolution 3.18.3-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: tighten lib_re and exec_re patterns to avoid false positive
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 051426E5CB;
+	Wed, 23 Mar 2016 21:08:49 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id p21so4626860ioe.1;
+	Wed, 23 Mar 2016 14:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=ibMmHd7kgOuxZVJWIFTuteNLPVmab18cGzetoiZ8I2c=;
+	b=Jsn3rpVlpdtgas13pIPEOSsE8odQKDSkUEg/K+RTCuX2mFd8TchN2W6aNmWxPAFzTF
+	s+Thw2d40syHdg+nki7TkcQA64vNcQ8oo+gWHVlKQBfecQ3X+6hXBWW+3+Bt0XpfD5MZ
+	FAfoorwppQkJfDeAsYCDXm6daaoWDORwdvzgGWejz4wvnHYoa/CgQIDaY5SODRPWQYC6
+	8BVDDe3YBjrPWsu9o7fmJi24lIcbQ+FCuNUoNMjEpSdNRXntCDJLQXpoRFd6CoLrr8F/
+	eqAFbN1NOMNgRjlU1BLOSQBHyXLn0Kjd+KG0F85GFbz/8oY2x+kLTg9bTsXEnVQUumqy
+	G0sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=ibMmHd7kgOuxZVJWIFTuteNLPVmab18cGzetoiZ8I2c=;
+	b=Cmd7i4Si+i+155NpagQM0mMkFeSuUh/YLGQz67y9hSpEUtTHRwH+GpCk7GnlrZnNd/
+	LpVMbAjrkS3WUAXpARq9SxNy2k0y24phEtTCZP2SheLq7GsIa+o8/yankAapfYOmajiR
+	0kThzlKgDYJKf5fvk+mVLttbyPHUxpSOg3JZNCxtGhmwxs1tEDFB5dajEEjT3MPzljTi
+	yj/isMrIsUWeHYv/Q/TCsecx3/aQR7Xjcy49lMS6qW9TZ+/ecom7Ox8XZKgtnOvE8jrw
+	AlQqc6V/GEq77q0LwSZLNTHNxCvRKXjIEP+erfgyfQr4S+xvVrkthpL1LzQMgYYboMk5
+	OImg==
+X-Gm-Message-State: AD7BkJLv0Sw2KpTOMI6LcK1n8psM8WnmkQ0ilWGeNRk3NpvHMk0jTEr251tFnSCIrf1ggg==
+X-Received: by 10.50.29.3 with SMTP id f3mr5935151igh.59.1458767330203;
+	Wed, 23 Mar 2016 14:08:50 -0700 (PDT)
+Received: from linux-yxv0 (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id p8sm9894659igi.2.2016.03.23.14.08.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Mar 2016 14:08:49 -0700 (PDT)
+Date: Wed, 23 Mar 2016 17:08:50 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: akuster808 <akuster808@gmail.com>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>
+Message-ID: <20160323210850.GA5376@linux-yxv0>
+References: <56DEF97F.9070306@balister.org>
+ <56F2C618.3050205@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <56F2C618.3050205@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [oe] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,47 +60,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 18:03:55 -0000
-Content-Type: multipart/alternative; boundary="=-MXc/9Iq9v01BNK7CnpjH"
+X-List-Received-Date: Wed, 23 Mar 2016 21:08:50 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---=-MXc/9Iq9v01BNK7CnpjH
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+On Wed 2016-03-23 @ 09:36:40 AM, akuster808 wrote:
+> There are only 10 people signed up.
+> Is that enough people to justify the expense room or even meet?
 
-On Wed, 2016-03-23 at 17:59 +0000, Burton, Ross wrote:
-> 
-> On 23 March 2016 at 17:56, Phil Blundell <pb@pbcl.net> wrote:
-> > > lib_re would match files like "/libsoletta.so.0.0.1-gdb.py" which
-> > are
-> > > not valid library filenames.
-> > 
-> > What are the consequences of it matching things that are not
-> > libraries?
-> See #9215, the libdir sanity test fires when it shouldn't.
-> 
-> WARNING: QA Issue: soletta-dbg: found library in wrong location:
-> /usr/share/gdb/auto-load/libsoletta.so.0.0.1-gdb.py [libdir]
-> 
-> That's no library...
-Ah, right. I see.
-I wonder if we should just give insane.bbclass a whitelist of
-directories in which it should ignore apparently misplaced libraries.
- There aren't likely to be many cases like that one.
-Or alternatively, add an extra check so that when it thinks it's found
-a misplaced library, it checks the ELF header to make sure that it
-really is one and suppresses the diagnostic if not.  If you only do
-this in cases where it was about to print a warning anyway then the
-impact on performance shouldn't be too bad.
-p.
+I have no idea what the budget might be or what a room might cost. I'll leave
+it to those who do know to worry about the costs versus the benefits.
 
---=-MXc/9Iq9v01BNK7CnpjH
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+In any case I certainly think it's still worth meeting. A smaller, more
+focused group can sometimes get more done than a larger group. Secondly, it's
+my experience that more people always show up than sign up.
 
-<html><head></head><body><div>On Wed, 2016-03-23 at 17:59 +0000, Burton, Ross wrote:</div><blockquote type="cite"><div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On 23 March 2016 at 17:56, Phil Blundell <span dir="ltr">&lt;<a href="mailto:pb@pbcl.net" target="_blank">pb@pbcl.net</a>&gt;</span> wrote:<br><blockquote type="cite"><span class="">&gt; lib_re would match files like "/<a href="http://libsoletta.so.0.0.1-gdb.py" rel="noreferrer" target="_blank">libsoletta.so.0.0.1-gdb.py</a>" which are<br>
-&gt; not valid library filenames.<br>
-<br>
-</span>What are the consequences of it matching things that are not libraries?<br></blockquote></div><br>See #9215, the libdir sanity test fires when it shouldn't.</div><br>WARNING: QA Issue: soletta-dbg: found library in wrong location: /usr/share/gdb/auto-load/<a href="http://libsoletta.so.0.0.1-gdb.py">libsoletta.so.0.0.1-gdb.py</a> [libdir]<br><br><div>That's no library...</div></div>
-</blockquote><div><br></div><div>Ah, right. I see.</div><div><br></div><div>I wonder if we should just give insane.bbclass a whitelist of directories in which it should ignore apparently misplaced libraries. &nbsp;There aren't likely to be many cases like that one.</div><div><br></div><div>Or alternatively, add an extra check so that when it thinks it's found a misplaced library, it checks the ELF header to make sure that it really is one and suppresses the diagnostic if not. &nbsp;If you only do this in cases where it was about to print a warning anyway then the impact on performance shouldn't be too bad.</div><div><br></div><div>p.</div><div><br></div></body></html>
+With a project like this there will always be things to discuss, and sometimes
+a discussion goes better in person rather than online.
 
---=-MXc/9Iq9v01BNK7CnpjH--
+Best regards,
+	Trevor
+
