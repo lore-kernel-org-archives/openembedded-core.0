@@ -1,45 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D95EB60248
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 22:09:42 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id j35so24217203qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 15:09:44 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-yw0-f176.google.com (mail-yw0-f176.google.com
+	[209.85.161.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5742160248;
+	Wed, 23 Mar 2016 22:11:48 +0000 (UTC)
+Received: by mail-yw0-f176.google.com with SMTP id h65so37459175ywe.0;
+	Wed, 23 Mar 2016 15:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=igah5Fjzt2mkfPmxT64fb0lPlexY9cce6nJSi7qlqpQ=;
-	b=Gfq+98n+wN0z6mZymLNVkiE9nVae1EQWaSJlUHTUyIOqBH/s/33hROnnhuhpf0dA8A
-	znLbZ/Ua7GxEbIrDjqHTpLnY1xud2mSHAju1GIcUF7uDAY9M8nAvOk9Bd+8h3ilc/Ryu
-	y13whe1y2T7CbLy5N3yL5LqZ4P1q7XBsfluQU6wx623k0YmmGazXmjE0aX1moePF6O47
-	NFEl46eRX4snG8uj+hMJSXgJh0gJVyLYrGau29rMd3Saz6jNYNr4hZWzBHbKF3BW2yW7
-	vKz6WHZCCPGHjF1aR+dbahnbr6Vb4thQtKdSLoFDq+H0ifK98Uz40GyGE3zE1VQW7sWy
-	Ma/Q==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=BAazTvV0Vr0cFIWVXWdbseyelgAr+Ga6SmygmMixJPA=;
+	b=HjqQ6x7GngSGwYcYltLX0bv4D7AvQ8IdV8OHyy016gklyj0ge4+Dv1BsPW/ibHt62B
+	tPEa+wm2Z4ysfV84lvrZAsZw++cLb+KxvF3SGRkxPftb7KDJTmzhNVMLfyYjjKMx4Jlk
+	cG5UGugW3M0bSyDshmZMNS9imHo+MyYgvrrDBAFxueoJx1bc8vvCZxTqWJFhAbMj6FgB
+	fB0dWnar/4//kKHuE16Wb8AmkOfioL01qNI+rl04cTUpoTunwIiC7VSeZ3yOl5tRsKJO
+	6KwX1oiTOuX4M0+bYL962j0M1slEIKmILwgj+8DZEsdDiRlX3fjlU9yOVANusFDAmlOk
+	THZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=igah5Fjzt2mkfPmxT64fb0lPlexY9cce6nJSi7qlqpQ=;
-	b=TmL3Len23JVIt2BYivA/TyEtrDmcG6GOxgE8HmXoIeHCGAPpb5FzYrcg8szCqa5ssT
-	WW1zMf8J9RgCnYupD55QTPKChUK+9Gdzpoxf6cSO6ynN1SdQj/zc4A0g5oDzkVIbdvDJ
-	a9Q1uR19MCsColDjhh8jnlCb/ziBUqmrrEupp+DLuO5puFsjz8GV090xTIUS3Y2AYyX+
-	bfgAGlv+kxN21yiF4WSAHBPWVjsXKm6HdHiN09M+uN4DPW4bXJYm1V9vv2zyJysoEwzo
-	rjCjpOU3NqLp6zbAaB2uNzqlbdUCyCdTFDlqRm9V1gxKUJI4aNJOLZsVlvdzubbh62WI
-	Rzdg==
-X-Gm-Message-State: AD7BkJKnmWLBalz+LsI5ik37oY1qWWpoXkvjzVYRqFnmLyTMnpau42Ie+EcnH6NGzjeA/A==
-X-Received: by 10.140.43.37 with SMTP id d34mr6570968qga.51.1458770983283;
-	Wed, 23 Mar 2016 15:09:43 -0700 (PDT)
-Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
-	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	a11sm1957214qge.43.2016.03.23.15.09.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 23 Mar 2016 15:09:42 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Mar 2016 22:09:32 +0000
-Message-Id: <1458770972-30300-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] kernel.bbclass: consider .csp firmware files
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=BAazTvV0Vr0cFIWVXWdbseyelgAr+Ga6SmygmMixJPA=;
+	b=HGKohyHGiLStFIZggq3QBTWxrkddo1dyLmqA6PF4HYY8/e8WVj+lfI9Ns7wO6MQ/ku
+	NChiX471efNZ7wo2voslNQvd5awaCQSPCXlp7uZBbwsupuJUJD3xuXkXchckICFuC/sj
+	wIQiorZ66H4iH2joGLzRCPwqG1QAq930Z06JON9H1MQm7dgGW+7qxprptsoXKEIzVMlL
+	ToQS+AGxEbjJe8W7ArkYGaAUg+bZw5xM0ydByYxNI+GIrQgVTy/UOk8mntpALoyF6LJA
+	yn61122wGJl6KfLfs4QV1RIckSrEhebKWlYDiQebEUPxYfkDG/BDTGV6h+3Gsfj/TVTf
+	sX9g==
+X-Gm-Message-State: AD7BkJIsznKWRPoHqx2CVwWJf9ChPzyeZSNXYwAh/ItZzIiSm2WdcG3RkRUzklBGx2P/KQ==
+X-Received: by 10.13.216.76 with SMTP id a73mr2614068ywe.179.1458771109498;
+	Wed, 23 Mar 2016 15:11:49 -0700 (PDT)
+Received: from [10.43.100.29] ([64.2.3.194])
+	by smtp.googlemail.com with ESMTPSA id
+	a202sm2684819ywe.22.2016.03.23.15.11.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 23 Mar 2016 15:11:48 -0700 (PDT)
+To: Jeff Osier-Mixon <jefro@jefro.net>, Philip Balister <philip@balister.org>
+References: <56DEF97F.9070306@balister.org> <56F2C618.3050205@gmail.com>
+	<20160323210850.GA5376@linux-yxv0> <1458767514382.89578@seescan.com>
+	<56F30D13.6030909@balister.org>
+	<CA+YB3rYNxkjsFaRzAQVTvLtZLu_0sb=-nurdmQ8xixruGLAmOg@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <56F314A2.70100@gmail.com>
+Date: Wed, 23 Mar 2016 15:11:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CA+YB3rYNxkjsFaRzAQVTvLtZLu_0sb=-nurdmQ8xixruGLAmOg@mail.gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Fred Ollinger <Fred.Ollinger@seescan.com>
+Subject: Re: [yocto] [oe] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +66,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 22:09:50 -0000
+X-List-Received-Date: Wed, 23 Mar 2016 22:11:49 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Fixes kernels which package sb16 firmware e.g.
 
-directories were installed but not shipped in any package:
-  /lib/firmware/sb16
-  /lib/firmware/sb16/ima_adpcm_playback.csp
-  /lib/firmware/sb16/ima_adpcm_init.csp
-  /lib/firmware/sb16/mulaw_main.csp
-  /lib/firmware/sb16/ima_adpcm_capture.csp
-  /lib/firmware/sb16/alaw_main.csp
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 03/23/2016 03:03 PM, Jeff Osier-Mixon wrote:
+>>>> There are only 10 people signed up.
+>>>> Is that enough people to justify the expense room or even meet?
+>>>
+>>> I have no idea what the budget might be or what a room might cost. I'll leave
+>>> it to those who do know to worry about the costs versus the benefits.
+> 
+> I would give an unequivocal "yes" to this (as the guy with the credit
+> card). We need reliable internet access to loop in those who can't be
+> there in person, plus this was actually a reasonable rate for the
+> immediate area. 
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index c3eab50..6e3e81e 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -405,7 +405,7 @@ pkg_postrm_kernel-image () {
- PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
- 
- python split_kernel_packages () {
--    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-+    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
- }
- 
- # Many scripts want to look in arch/$arch/boot for the bootable
--- 
-1.9.1
+tijuana? OEDMX
+
+We can take up to 25 and these meetings usually gain 5
+> or 6 people who never sign up on the wiki, so I think we are in
+> excellent shape.
+> 
+
 
 
