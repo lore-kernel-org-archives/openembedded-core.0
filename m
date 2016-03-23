@@ -1,49 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 90AB46AC4B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 712ED60797
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 21:17:48 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id m184so66572811iof.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 14:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YdPDViDA6fQf/Ye8Kh6Onl2Txk5dtDe3vO1no/DwrKI=;
-	b=vr+MO8Hb9DH0YdLUrA5ldQS6vDnsrfLwV12jJhq2gXGZEylofQafe+20IgEdulY/7c
-	1vwnoPWWF2O+VpvhpnsxI1qMPIRzRA+iN539DruGx+gy0abPsSmhutkZcqFim3hyhpt1
-	HkLVDZTPXFLkpE1dLSrZGvTeRlSPCmwRHRSwkyuLmN315eocyxPAXVQ2f3109yk0RCYN
-	KIBNqacoqC8oY/t1GpfT9C3TZWcmPySqlISHHMMlXp4eMLVITyKoQtClWot+Jn2T/I5b
-	fiQFC4Ft39PV6eA8fQExJyFRutaE4lAa/pzwT2uYvC/NkVMB20detd1sGsrJOsk+QWv7
-	Lz9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YdPDViDA6fQf/Ye8Kh6Onl2Txk5dtDe3vO1no/DwrKI=;
-	b=QjvJyFNZaX3gQBwjbZoDXbwWz/D73Ar/bLLCqhGzy7ObcdStdIlnX4qWreHGy4e8Ni
-	n/l+lI0ucZGJejwq+Xj4dr6CBXff6pRt+aZpRU5v8XMOFUh+/niNy2MEfdn2D06XU+X1
-	Lqz7GqFgNo+13UlzGAw29QywY5N226Y+yHCci5G3nqlDjJz8ukWMtl1FR5RLE/UiZhFg
-	2rMcsFrg8lRLXWtt9YXCesknEYPK5hC/au/Dk0Ec8QqlAbdvILxaQTDWv2Xujmw5THjd
-	eMCTQBYI4o7RCezXh8ebutfzPS0rCRT+czpafKDfT51tfasFYR37ax7XiSoU8ic9n3yX
-	2Jlg==
-X-Gm-Message-State: AD7BkJLCcPA3qOuMcAtF77+OMy8yikuVJXUSVxKEaGcae98b5ePgbt3ZOtJx88IaSneqZxflk2Xn255hT7gx2o6u
-X-Received: by 10.107.6.32 with SMTP id 32mr5375673iog.99.1458767869151; Wed,
-	23 Mar 2016 14:17:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 23 Mar 2016 14:17:29 -0700 (PDT)
-In-Reply-To: <1458756234.3476.189.camel@pbcl.net>
-References: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
-	<1458755798.3476.186.camel@pbcl.net>
-	<CAJTo0LbicCM6LJbxEK8m-QES49-WjPJsDUgduV0-dOg1FSEdZw@mail.gmail.com>
-	<1458756234.3476.189.camel@pbcl.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Mar 2016 21:17:29 +0000
-Message-ID: <CAJTo0LZL6WKPv+UFNRP9hMO8Ui0F6mLvkKrcM0eBdFJ5bF-pSQ@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
+	Wed, 23 Mar 2016 21:22:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2NLMZJ0008463; Wed, 23 Mar 2016 21:22:35 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0M8SxpJBl6WX; Wed, 23 Mar 2016 21:22:35 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2NLMWAH008457
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 23 Mar 2016 21:22:34 GMT
+Message-ID: <1458768152.3073.26.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Mar 2016 21:22:32 +0000
+In-Reply-To: <CAJTo0LYz6ufXJZyc0TFviL=oih7RBuOym1VwiQrmn3Cz4RJVnQ@mail.gmail.com>
+References: <1458680136-5455-1-git-send-email-ross.burton@intel.com>
+	<56F29A68.5030905@linux.intel.com>
+	<1458742435.3073.7.camel@linuxfoundation.org>
+	<CAJTo0LYz6ufXJZyc0TFviL=oih7RBuOym1VwiQrmn3Cz4RJVnQ@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: tighten lib_re and exec_re patterns to avoid false positive
+Subject: Re: Python 3 as oe-core default?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +39,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 21:17:51 -0000
-Content-Type: multipart/alternative; boundary=001a113fbf5ca6c253052ebddce6
+X-List-Received-Date: Wed, 23 Mar 2016 21:22:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113fbf5ca6c253052ebddce6
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2016-03-23 at 14:35 +0000, Burton, Ross wrote:
+> 
+> On 23 March 2016 at 14:13, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > In 2.2, switching the bulk of things over to python 3 is one of the
+> > things I'd like to see happen.
+> > 
+> Including bitbake itself?
 
-On 23 March 2016 at 18:03, Phil Blundell <pb@pbcl.net> wrote:
+Yes!
 
-> Or alternatively, add an extra check so that when it thinks it's found a
-> misplaced library, it checks the ELF header to make sure that it really is
-> one and suppresses the diagnostic if not.  If you only do this in cases
-> where it was about to print a warning anyway then the impact on performance
-> shouldn't be too bad.
->
+Its about time we got this sorted out...
 
-Yeah, best of both worlds.  A flexible regex to catch potential offenders,
-and then use oe.qa.ELFFile to verify it's actually a library.  Can you
-update the patch Bill?
+Cheers,
 
-Ross
+Richard
 
---001a113fbf5ca6c253052ebddce6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 March 2016 at 18:03, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex"><div>Or alternatively, add an extra check so =
-that when it thinks it&#39;s found a misplaced library, it checks the ELF h=
-eader to make sure that it really is one and suppresses the diagnostic if n=
-ot.=C2=A0 If you only do this in cases where it was about to print a warnin=
-g anyway then the impact on performance shouldn&#39;t be too bad.</div></bl=
-ockquote><div><br></div><div>Yeah, best of both worlds.=C2=A0 A flexible re=
-gex to catch potential offenders, and then use oe.qa.ELFFile to verify it&#=
-39;s actually a library.=C2=A0 Can you update the patch Bill?</div><div><br=
-></div><div>Ross=C2=A0</div></div><br></div></div>
-
---001a113fbf5ca6c253052ebddce6--
