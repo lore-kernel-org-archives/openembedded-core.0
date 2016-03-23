@@ -1,58 +1,31 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-yw0-f176.google.com (mail-yw0-f176.google.com
-	[209.85.161.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 5742160248;
-	Wed, 23 Mar 2016 22:11:48 +0000 (UTC)
-Received: by mail-yw0-f176.google.com with SMTP id h65so37459175ywe.0;
-	Wed, 23 Mar 2016 15:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=BAazTvV0Vr0cFIWVXWdbseyelgAr+Ga6SmygmMixJPA=;
-	b=HjqQ6x7GngSGwYcYltLX0bv4D7AvQ8IdV8OHyy016gklyj0ge4+Dv1BsPW/ibHt62B
-	tPEa+wm2Z4ysfV84lvrZAsZw++cLb+KxvF3SGRkxPftb7KDJTmzhNVMLfyYjjKMx4Jlk
-	cG5UGugW3M0bSyDshmZMNS9imHo+MyYgvrrDBAFxueoJx1bc8vvCZxTqWJFhAbMj6FgB
-	fB0dWnar/4//kKHuE16Wb8AmkOfioL01qNI+rl04cTUpoTunwIiC7VSeZ3yOl5tRsKJO
-	6KwX1oiTOuX4M0+bYL962j0M1slEIKmILwgj+8DZEsdDiRlX3fjlU9yOVANusFDAmlOk
-	THZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=BAazTvV0Vr0cFIWVXWdbseyelgAr+Ga6SmygmMixJPA=;
-	b=HGKohyHGiLStFIZggq3QBTWxrkddo1dyLmqA6PF4HYY8/e8WVj+lfI9Ns7wO6MQ/ku
-	NChiX471efNZ7wo2voslNQvd5awaCQSPCXlp7uZBbwsupuJUJD3xuXkXchckICFuC/sj
-	wIQiorZ66H4iH2joGLzRCPwqG1QAq930Z06JON9H1MQm7dgGW+7qxprptsoXKEIzVMlL
-	ToQS+AGxEbjJe8W7ArkYGaAUg+bZw5xM0ydByYxNI+GIrQgVTy/UOk8mntpALoyF6LJA
-	yn61122wGJl6KfLfs4QV1RIckSrEhebKWlYDiQebEUPxYfkDG/BDTGV6h+3Gsfj/TVTf
-	sX9g==
-X-Gm-Message-State: AD7BkJIsznKWRPoHqx2CVwWJf9ChPzyeZSNXYwAh/ItZzIiSm2WdcG3RkRUzklBGx2P/KQ==
-X-Received: by 10.13.216.76 with SMTP id a73mr2614068ywe.179.1458771109498;
-	Wed, 23 Mar 2016 15:11:49 -0700 (PDT)
-Received: from [10.43.100.29] ([64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	a202sm2684819ywe.22.2016.03.23.15.11.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Mar 2016 15:11:48 -0700 (PDT)
-To: Jeff Osier-Mixon <jefro@jefro.net>, Philip Balister <philip@balister.org>
-References: <56DEF97F.9070306@balister.org> <56F2C618.3050205@gmail.com>
-	<20160323210850.GA5376@linux-yxv0> <1458767514382.89578@seescan.com>
-	<56F30D13.6030909@balister.org>
-	<CA+YB3rYNxkjsFaRzAQVTvLtZLu_0sb=-nurdmQ8xixruGLAmOg@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56F314A2.70100@gmail.com>
-Date: Wed, 23 Mar 2016 15:11:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <CA+YB3rYNxkjsFaRzAQVTvLtZLu_0sb=-nurdmQ8xixruGLAmOg@mail.gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 8E07B6FF56
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2016 22:16:02 +0000 (UTC)
+Received: (qmail 20518 invoked by uid 1003); 23 Mar 2016 22:16:02 -0000
+Received: from unknown (HELO ?10.16.32.95?)
+	(philip@opensdr.com@207.114.172.147)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	23 Mar 2016 22:16:02 -0000
+To: Fred Ollinger <Fred.Ollinger@seescan.com>,
+	Trevor Woerner <twoerner@gmail.com>, akuster808 <akuster808@gmail.com>, 
 	"openembedded-devel@lists.openembedded.org"
 	<openembedded-devel@lists.openembedded.org>,
-	Fred Ollinger <Fred.Ollinger@seescan.com>
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>
+References: <56DEF97F.9070306@balister.org> <56F2C618.3050205@gmail.com>
+	<20160323210850.GA5376@linux-yxv0> <1458767514382.89578@seescan.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <56F315A0.80605@balister.org>
+Date: Wed, 23 Mar 2016 15:16:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <1458767514382.89578@seescan.com>
 Subject: Re: [yocto] [oe] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -66,30 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 22:11:49 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Wed, 23 Mar 2016 22:16:12 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
+OK, All outstanding requests approved. I'm not getting all the email
+notifications I expect, so feel free to nag me.
 
+Philip
 
-On 03/23/2016 03:03 PM, Jeff Osier-Mixon wrote:
->>>> There are only 10 people signed up.
->>>> Is that enough people to justify the expense room or even meet?
->>>
->>> I have no idea what the budget might be or what a room might cost. I'll leave
->>> it to those who do know to worry about the costs versus the benefits.
+On 03/23/2016 02:11 PM, Fred Ollinger wrote:
+> I'm coming and I'm probably brining another person.
 > 
-> I would give an unequivocal "yes" to this (as the guy with the credit
-> card). We need reliable internet access to loop in those who can't be
-> there in person, plus this was actually a reasonable rate for the
-> immediate area. 
-
-tijuana? OEDMX
-
-We can take up to 25 and these meetings usually gain 5
-> or 6 people who never sign up on the wiki, so I think we are in
-> excellent shape.
+> I still have to make the wiki account which failed for some reason before.
 > 
-
-
+> Frederick
+> ________________________________________
+> From: yocto-bounces@yoctoproject.org <yocto-bounces@yoctoproject.org> on behalf of Trevor Woerner <twoerner@gmail.com>
+> Sent: Wednesday, March 23, 2016 2:08 PM
+> To: akuster808; openembedded-devel@lists.openembedded.org; openembedded-core; Yocto Project; openembedded-members@lists.openembedded.org
+> Subject: Re: [yocto] [OE-core] [oe] OEDAM, April 8 in San Diego after ELC
+> 
+> On Wed 2016-03-23 @ 09:36:40 AM, akuster808 wrote:
+>> There are only 10 people signed up.
+>> Is that enough people to justify the expense room or even meet?
+> 
+> I have no idea what the budget might be or what a room might cost. I'll leave
+> it to those who do know to worry about the costs versus the benefits.
+> 
+> In any case I certainly think it's still worth meeting. A smaller, more
+> focused group can sometimes get more done than a larger group. Secondly, it's
+> my experience that more people always show up than sign up.
+> 
+> With a project like this there will always be things to discuss, and sometimes
+> a discussion goes better in person rather than online.
+> 
+> Best regards,
+>         Trevor
+> --
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
+> 
 
