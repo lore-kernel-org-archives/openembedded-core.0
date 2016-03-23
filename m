@@ -1,47 +1,30 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
-	[209.85.213.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 43073608B7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 70CFF607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 00:34:07 +0000 (UTC)
-Received: by mail-vk0-f48.google.com with SMTP id e6so420721vkh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 17:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=RtFWkhw8/N1ehULcPwA3WS1VnTTDzBG/CA3TOoKeKXc=;
-	b=ZYdUL41f+07QhqaGjBsGajcxeDn31VNSZ9DjKnfhVKFBo+F21c4Q6RFviW2dp3VGag
-	0sH7BI+yfU+SpKdxJZYhpDLY694cdnmyo5zXaYXDBCy4lO++TT1gGI4WzHjktQk4GFsO
-	KNwdKM2rJeWgbsm16X3UwseLB0Yx3dbFEwEFWmP+Axq0PGatKvm1ylH1LNy17L5k4U9B
-	qoyZXyAi6jPCWPWj0IWua2aOu7Yk3JhekvyK9OQFt+G/eFd36WIeN03+g8lZnzxLLWuQ
-	XMbWSOfX0zEo4crnU6YBROXLykcW9SlPzyerTQvWZc4aaeExdAUSvUB56KOAk0s6mOuR
-	PqzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=RtFWkhw8/N1ehULcPwA3WS1VnTTDzBG/CA3TOoKeKXc=;
-	b=BQs0jYMuZOg803ZNu6mweRrWmgSGzj9f1JkqZgo0vj966cT8a9j82WJe78++wNSYF6
-	Kvt6DJtG2rTBjHbWSRQdX7t2A2s9UtmGLe0TmQJ79HRrwYYFWPQkUpWjbY/TBWEw8yQe
-	96QiQACWqsguBCpu29brjUvcl2rotmUrWfWyotM6qtPX+X+yBQCRqJ8XQP60lIrginQq
-	b+z9velE0L+WbROGRSooBa540fYYaigYQh7WJAmw4ax6cjxA9QSqUClQ9juWnwf36R46
-	LAiIN3VQ7/c2yGJLwNXS0Im1c2qcJJGlTzfHBr26aC4h85ETc9D+wC7oq5C3uqzUxTkO
-	1glA==
-X-Gm-Message-State: AD7BkJIR4bRdOSI7xQG7gP0lWOIFq2ThIIXkiL3cRX0pLR80qs0HlwgAi/by+SCu0Jmyb+u+goI6eJFY8XSQQw==
+	Wed, 23 Mar 2016 01:11:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2N1Brup010301
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Mar 2016 18:11:54 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 22 Mar 2016 18:11:53 -0700
+To: Mark Hatle <mark.hatle@windriver.com>, <ross.burton@intel.com>,
+	<richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
+References: <cover.1458638728.git.hongxu.jia@windriver.com>
+	<106023d3fcea3a639f3ef6d68265739359f22252.1458638728.git.hongxu.jia@windriver.com>
+	<56F17A74.1050006@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56F1ED56.7010805@windriver.com>
+Date: Wed, 23 Mar 2016 09:11:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-X-Received: by 10.159.37.10 with SMTP id 10mr24815uaz.88.1458693248517; Tue,
-	22 Mar 2016 17:34:08 -0700 (PDT)
-Received: by 10.103.84.156 with HTTP; Tue, 22 Mar 2016 17:34:08 -0700 (PDT)
-Received: by 10.103.84.156 with HTTP; Tue, 22 Mar 2016 17:34:08 -0700 (PDT)
-In-Reply-To: <1455701436-11645-1-git-send-email-u.oelmann@pengutronix.de>
-References: <1455701436-11645-1-git-send-email-u.oelmann@pengutronix.de>
-Date: Tue, 22 Mar 2016 18:34:08 -0600
-Message-ID: <CACS+7ZTw_vCMo5dfGCT9PyUMFvq7QaoXRbK5Ou60Y=m=YGhL_g@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: =?UTF-8?Q?Ulrich_=C3=96lmann?= <u.oelmann@pengutronix.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nfs-utils: bugfix: adjust name of statd service unit
+In-Reply-To: <56F17A74.1050006@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/16] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,217 +37,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 00:34:11 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1241f4ea0e9c052eac7c93
+X-List-Received-Date: Wed, 23 Mar 2016 01:11:56 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c1241f4ea0e9c052eac7c93
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 03/23/2016 01:01 AM, Mark Hatle wrote:
+> On 3/22/16 7:12 AM, Hongxu Jia wrote:
+>> Tweak DEBUG_FLAGS to use "/usr/src/debug" as source target path
+>> in DWARF. While use gdb to debug binary, it could work with
+>> sources in dbg package.
+>>
+>> While -fdebug-prefix-map is used for compiling, we do not need
+>> invoking debugedit to edit DWARF at do_package time, but list
+>> where sources files are.
+>>
+>> The copydebugsources uses the list to copy sources to dbg package.
+>> It works whether -fdebug-prefix-map used or not.
+>>
+>> [YOCTO #9305]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/classes/package.bbclass | 31 +++++++++++++++++++++++++------
+>>   meta/conf/bitbake.conf       |  3 +--
+>>   2 files changed, 26 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+>> index ef80e50..478a1d9 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -300,6 +300,15 @@ def get_conffiles(pkg, d):
+>>       os.chdir(cwd)
+>>       return conf_list
+>>   
+>> +def checkbuildpath(file, d):
+>> +    tmpdir = d.getVar('TMPDIR', True)
+>> +    with open(file) as f:
+>> +        file_content = f.read()
+>> +        if tmpdir in file_content:
+>> +            return True
+>> +
+>> +    return False
+>> +
+>>   def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+>>       # Function to split a single file into two components, one is the stripped
+>>       # target system binary, the other contains any debugging information. The
+>> @@ -313,7 +322,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+>>       objcopy = d.getVar("OBJCOPY", True)
+>>       debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
+>>       workdir = d.getVar("WORKDIR", True)
+>> -    workparentdir = d.getVar("DEBUGSRC_OVERRIDE_PATH", True) or os.path.dirname(os.path.dirname(workdir))
+>>   
+>>       # We ignore kernel modules, we don't generate debug info files.
+>>       if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
+>> @@ -327,7 +335,7 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+>>   
+>>       # We need to extract the debug src information here...
+>>       if debugsrcdir:
+>> -        cmd = "'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file)
+>> +        cmd = "'%s' -i -l '%s' '%s'" % (debugedit, sourcefile, file)
+>>           (retval, output) = oe.utils.getstatusoutput(cmd)
+>>           if retval:
+>>               bb.fatal("debugedit failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
+>> @@ -363,8 +371,14 @@ def copydebugsources(debugsrcdir, d):
+>>           objcopy = d.getVar("OBJCOPY", True)
+>>           debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
+>>           workdir = d.getVar("WORKDIR", True)
+>> -        workparentdir = os.path.dirname(os.path.dirname(workdir))
+>> -        workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
+>> +
+>> +        # If build path exists in sourcefile, it means toolchain did not use
+>> +        # -fdebug-prefix-map to compile
+>> +        if checkbuildpath(sourcefile, d):
+>> +            localsrc_word = workdir
+>> +        else:
+>> +            localsrc_word = "/usr/src/debug"
+>> +        localsrc_prefix = localsrc_word + '/'
+>>   
+>>           nosuchdir = []
+>>           basepath = dvar
+>> @@ -379,17 +393,22 @@ def copydebugsources(debugsrcdir, d):
+>>           # We need to ignore files that are not actually ours
+>>           # we do this by only paying attention to items from this package
+>>           processdebugsrc += "fgrep -zw '%s' | "
+>> +        # Remove prefix in the source paths
+>> +        processdebugsrc += "sed 's#%s##g' | "
+>> +
+>>           processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
+>>   
+>> -        cmd = processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir)
+>> +        cmd = processdebugsrc % (sourcefile, localsrc_word, localsrc_prefix, workdir, dvar, debugsrcdir)
+>>           (retval, output) = oe.utils.getstatusoutput(cmd)
+>> +
+>>           # Can "fail" if internal headers/transient sources are attempted
+>>           #if retval:
+>>           #    bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
+>>   
+>>           # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
+>>           # Work around this by manually finding and copying any symbolic links that made it through.
+>> -        cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s' 2>/dev/null)" % (dvar, debugsrcdir, dvar, debugsrcdir, workparentdir, dvar, debugsrcdir)
+>> +        cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s' 2>/dev/null)" % (dvar, debugsrcdir, dvar, debugsrcdir, workdir, dvar, debugsrcdir)
+>> +
+>>           (retval, output) = oe.utils.getstatusoutput(cmd)
+>>           if retval:
+>>               bb.fatal("debugsrc symlink fixup failed with exit code %s (cmd was %s)" % (retval, cmd))
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 7ed5ffb..838ee81 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -550,8 +550,7 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
+>>   # Optimization flags.
+>>   ##################################################################
+>>   DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types \
+>> -                -fdebug-prefix-map=${B}=/usr/src/${BPN} \
+>> -                -fdebug-prefix-map=${S}=/usr/src/${BPN} \
+>> +                -fdebug-prefix-map=${WORKDIR}=/usr/src/debug \
+> The above is incorrect.
+>
+> Replacing WORKDIR w/ /usr/src/debug will lead to file collisions.  Since a lot
+> of 'workdir' directories have a 'build' directory.  Any temporary files created
+> in the build will now end up in a shared build directory.  In addition if there
+> are differences between different 'arch' source dirs, the same issue can occur
+> causing file conflicts.
+>
+> In the past the /usr/src/debug location would have been:
+>
+> /usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}
+>
+> That ensures that all recipes, even multiple recipes of different versions have
+> a uniquely named directory structure.  (PN is important vs BPN, as it has the
+> remapped 'lib32-' or similar extension to prevent collision.)
 
-On 17 Feb 2016 3:48 a.m., "Ulrich =C3=96lmann" <u.oelmann@pengutronix.de> w=
-rote:
->
-> Upstream nfs-utils use 'rpc-statd.service' and Yocto introduced
-> 'nfs-statd.service' instead but forgot to update the mount.nfs helper
-> 'start-statd' accordingly.
->
-> Signed-off-by: Ulrich =C3=96lmann <u.oelmann@pengutronix.de>
-> ---
->  .../files/bugfix-adjust-statd-service-name.patch   | 34
-++++++++++++++++++++++
->  .../nfs-utils/nfs-utils_1.3.3.bb                   |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644
-meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.=
-patch
->
-> diff --git
-a/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-nam=
-e.patch
-b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-nam=
-e.patch
-> new file mode 100644
-> index 0000000..14bd403
-> --- /dev/null
-> +++
-b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-nam=
-e.patch
-> @@ -0,0 +1,34 @@
-> +From 398fed3bb0350cb1229e54e7020ae0e044c206d1 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Ulrich=3D20=3DC3=3D96lmann?=3D <u.oelmann@pengutronix.=
-de>
-> +Date: Wed, 17 Feb 2016 08:33:45 +0100
-> +Subject: bugfix: adjust statd service name
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Upstream uses 'rpc-statd.service' and Yocto introduced
-'nfs-statd.service'
-> +instead but forgot to update the mount.nfs helper 'start-statd'
-accordingly.
-> +
-> +Upstream-Status: Inappropriate [other]
-> +
-> +Signed-off-by: Ulrich =C3=96lmann <u.oelmann@pengutronix.de>
-> +---
-> + utils/statd/start-statd | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/utils/statd/start-statd b/utils/statd/start-statd
-> +index 8211a90..3c2aa6f 100755
-> +--- a/utils/statd/start-statd
-> ++++ b/utils/statd/start-statd
-> +@@ -16,7 +16,7 @@ fi
-> + # First try systemd if it's installed.
-> + if [ -d /run/systemd/system ]; then
-> +     # Quit only if the call worked.
-> +-    systemctl start rpc-statd.service && exit
-> ++    systemctl start nfs-statd.service && exit
-> + fi
-> +
-> + # Fall back to launching it ourselves.
-> +--
-> +2.1.4
-> +
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-> index ea00656..a6268f3 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-> @@ -32,6 +32,7 @@ SRC_URI =3D
-"${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->
-file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
->             file://nfs-utils-debianize-start-statd.patch \
->
-file://0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch \
-> +           file://bugfix-adjust-statd-service-name.patch \
->  "
->
->  SRC_URI[md5sum] =3D "cd6b568c2e9301cc3bfac09d87fbbc0b"
-> --
-> 2.7.0
->
-> --
->
+Yes, you are right, I thought you should point it out (but not sure).
 
-I just got bit by this in jethro. Can it be backported?
+So I pulled this V1 for discussing, and I will change it as you 
+suggested in V2.
 
-_______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+//Hongxu
 
---94eb2c1241f4ea0e9c052eac7c93
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"><br>
-On 17 Feb 2016 3:48 a.m., &quot;Ulrich =C3=96lmann&quot; &lt;<a href=3D"mai=
-lto:u.oelmann@pengutronix.de">u.oelmann@pengutronix.de</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Upstream nfs-utils use &#39;rpc-statd.service&#39; and Yocto introduce=
-d<br>
-&gt; &#39;nfs-statd.service&#39; instead but forgot to update the mount.nfs=
- helper<br>
-&gt; &#39;start-statd&#39; accordingly.<br>
-&gt;<br>
-&gt; Signed-off-by: Ulrich =C3=96lmann &lt;<a href=3D"mailto:u.oelmann@peng=
-utronix.de">u.oelmann@pengutronix.de</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0.../files/bugfix-adjust-statd-service-name.patch=C2=A0 =C2=A0| 3=
-4 ++++++++++++++++++++++<br>
-&gt; =C2=A0.../nfs-utils/<a href=3D"http://nfs-utils_1.3.3.bb">nfs-utils_1.=
-3.3.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 1 +<br>
-&gt; =C2=A02 files changed, 35 insertions(+)<br>
-&gt; =C2=A0create mode 100644 meta/recipes-connectivity/nfs-utils/files/bug=
-fix-adjust-statd-service-name.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-s=
-tatd-service-name.patch b/meta/recipes-connectivity/nfs-utils/files/bugfix-=
-adjust-statd-service-name.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..14bd403<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-se=
-rvice-name.patch<br>
-&gt; @@ -0,0 +1,34 @@<br>
-&gt; +From 398fed3bb0350cb1229e54e7020ae0e044c206d1 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: =3D?UTF-8?q?Ulrich=3D20=3DC3=3D96lmann?=3D &lt;<a href=3D"mailt=
-o:u.oelmann@pengutronix.de">u.oelmann@pengutronix.de</a>&gt;<br>
-&gt; +Date: Wed, 17 Feb 2016 08:33:45 +0100<br>
-&gt; +Subject: bugfix: adjust statd service name<br>
-&gt; +MIME-Version: 1.0<br>
-&gt; +Content-Type: text/plain; charset=3DUTF-8<br>
-&gt; +Content-Transfer-Encoding: 8bit<br>
-&gt; +<br>
-&gt; +Upstream uses &#39;rpc-statd.service&#39; and Yocto introduced &#39;n=
-fs-statd.service&#39;<br>
-&gt; +instead but forgot to update the mount.nfs helper &#39;start-statd&#3=
-9; accordingly.<br>
-&gt; +<br>
-&gt; +Upstream-Status: Inappropriate [other]<br>
-&gt; +<br>
-&gt; +Signed-off-by: Ulrich =C3=96lmann &lt;<a href=3D"mailto:u.oelmann@pen=
-gutronix.de">u.oelmann@pengutronix.de</a>&gt;<br>
-&gt; +---<br>
-&gt; + utils/statd/start-statd | 2 +-<br>
-&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/utils/statd/start-statd b/utils/statd/start-statd<br>
-&gt; +index 8211a90..3c2aa6f 100755<br>
-&gt; +--- a/utils/statd/start-statd<br>
-&gt; ++++ b/utils/statd/start-statd<br>
-&gt; +@@ -16,7 +16,7 @@ fi<br>
-&gt; + # First try systemd if it&#39;s installed.<br>
-&gt; + if [ -d /run/systemd/system ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0# Quit only if the call worked.<br>
-&gt; +-=C2=A0 =C2=A0 systemctl start rpc-statd.service &amp;&amp; exit<br>
-&gt; ++=C2=A0 =C2=A0 systemctl start nfs-statd.service &amp;&amp; exit<br>
-&gt; + fi<br>
-&gt; +<br>
-&gt; + # Fall back to launching it ourselves.<br>
-&gt; +--<br>
-&gt; +2.1.4<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs=
--utils_1.3.3.bb">nfs-utils_1.3.3.bb</a> b/meta/recipes-connectivity/nfs-uti=
-ls/<a href=3D"http://nfs-utils_1.3.3.bb">nfs-utils_1.3.3.bb</a><br>
-&gt; index ea00656..a6268f3 100644<br>
-&gt; --- a/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_=
-1.3.3.bb">nfs-utils_1.3.3.bb</a><br>
-&gt; +++ b/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_=
-1.3.3.bb">nfs-utils_1.3.3.bb</a><br>
-&gt; @@ -32,6 +32,7 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/utils/nf=
-s-utils/${PV}/nfs-utils-${PV}.tar.x<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://nfs-utils-Do-not-pass=
--CFLAGS-to-gcc-while-building.patch \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://nfs-utils-debianize-s=
-tart-statd.patch \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-nfs-utils-statd-=
-fix-a-segfault-caused-by-improper-us.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://bugfix-adjust-statd-s=
-ervice-name.patch \<br>
-&gt; =C2=A0&quot;<br>
-&gt;<br>
-&gt; =C2=A0SRC_URI[md5sum] =3D &quot;cd6b568c2e9301cc3bfac09d87fbbc0b&quot;=
-<br>
-&gt; --<br>
-&gt; 2.7.0<br>
-&gt;<br>
-&gt; --<br>
-&gt;</p>
-<p dir=3D"ltr">I just got bit by this in jethro. Can it be backported?</p>
-<p dir=3D"ltr"> _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
+> --Mark
+>
+>>                   -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+>>                   -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+>>   "
+>>
 
---94eb2c1241f4ea0e9c052eac7c93--
+
