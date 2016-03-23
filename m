@@ -1,30 +1,46 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A3476012C
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lb0-f196.google.com (mail-lb0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 43A8160132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 14:15:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2NEFjOA006639
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 23 Mar 2016 07:15:45 -0700
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 23 Mar 2016 07:15:44 -0700
-To: Mark Hatle <mark.hatle@windriver.com>, <ross.burton@intel.com>,
-	<richard.purdie@linuxfoundation.org>, <bruce.ashfield@gmail.com>
-References: <cover.1458713426.git.hongxu.jia@windriver.com>
-	<33e2a988b2639c965d4b733148a9eb20619b8a66.1458713426.git.hongxu.jia@windriver.com>
-	<56F29CC4.9010204@windriver.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56F2A50E.9090102@windriver.com>
-Date: Wed, 23 Mar 2016 22:15:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <56F29CC4.9010204@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 01/15] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
+	Wed, 23 Mar 2016 14:20:06 +0000 (UTC)
+Received: by mail-lb0-f196.google.com with SMTP id bc4so1181672lbc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2016 07:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=RE77cEtXCUXeW44P59EsoEZEjoZ5jG0ASYS5JJqOhLo=;
+	b=HY7aM9GDT8B2cQjquQkyX6e+PUO6JbpQM5oZGpTm2qVfiNKPkcOQDjC8Ty4GOP6XU/
+	yKrf6fLk9adIMzTGt1Z3bMEmMH89nq4u0EbEA8tiraGXKGOL8fmEPKE0c9oICKgvhwRl
+	iLjP+4gPjWel0IerK8yZWT593WWoqqXbBOG3DAKeuttX43aPoELR5ER+3gqauWNtyR+d
+	Z7Lgzo69czPHkz3YBg59+xLCDATpiZuGmNbCPcEIUK1H+NM012ZKgUQwzo4x6H0+pS8C
+	aMgm1tVPRqEuUuhHCkglCj/d7JcyuU2PgPXXxrPyhEd4Ngi6DKFUDNK5LYd2xRQv0jFJ
+	I0bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RE77cEtXCUXeW44P59EsoEZEjoZ5jG0ASYS5JJqOhLo=;
+	b=jYVjVBpKxyqYd6Ldr7madOF4My2yD3nNji4HfBvGMJmYEQuLQ7wBQVTl+ydJpWWddO
+	MVl4ZXc/nQP5IMJwafHxYjnYN1YhJEO79Sb1PhmeL71l/iSSy01X9T0CaSBvH1tVDhim
+	Vs8bTmKjlOaRTp3LB2oiH9gTb+uJxxVTQfSHF9xeKCPHUUx6dD5fMAK1Hzrb4GS7f4vq
+	kcvnjRZRGe/Uy6mqWwe6O+KRUEMwQ7eGy1gSebYJpnQKPVM5iebOWM2G25IN/UNlqT7a
+	8j+3NCCnVw2dtnIkYs7xChcw5ehIltEhBGNTC9AlY6TarZPHkwZHjtEYCvJ2a1tCHMiY
+	0d0Q==
+X-Gm-Message-State: AD7BkJJXNFxtILQzJB489CJuIXUXnugwvcIlfmkd0iRH/0OlJl2kfT172Jfccc5xCy8cag==
+X-Received: by 10.112.14.102 with SMTP id o6mr1331507lbc.87.1458742806591;
+	Wed, 23 Mar 2016 07:20:06 -0700 (PDT)
+Received: from localhost.localdomain (m77-218-253-198.cust.tele2.se.
+	[77.218.253.198])
+	by smtp.gmail.com with ESMTPSA id m64sm437283lfd.36.2016.03.23.07.20.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Mar 2016 07:20:05 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2016 15:19:58 +0100
+Message-Id: <1458742798-9890-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Peter Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH v1] libmad: avoid using legacy _thumb overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 14:15:48 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Mar 2016 14:20:08 -0000
 
-On 03/23/2016 09:40 PM, Mark Hatle wrote:
-> The following looks right to me.  I'd recommend this version be used.
->
-> However, I'm guessing the work is not done.  Anything that has an ${S} outside
-> of the WORKDIR will not be remapped.  I'm guessing this includes the toolchain
-> and kernel bits.... but other things might also have a shared work dir?
+From: Peter Liu <peter.x.liu@external.atlascopco.com>
 
-Yes, we should consider this situation, I will do the investigation to 
-find the fix
+_thumb had been dropped from overrides since commit 351443d7:
+[ feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-rides ]
 
->
-> We probably should make it a requirement that those things have their own unique
-> mapping defined as well.  I'm not sure if the existing tests will capture those
-> issues and alert the user.
+Change to set EXTRA_OECONF_append by checking ARM_INSTRUCTION_SET instead.
 
-OK, with some investigation done, I will try to collect the requirements 
-for discussing.
+[YOCTO #9323]
 
->
-> (This is also a place in the developer guide we should probably explain what
-> this debug-prelix-map does and how it should be used to make on-target
-> debuggable items.)
+Signed-off-by: Peter Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Maybe we should introduce -debug-pprefix-map in reference/development
-manual, I will file a doc requirement in bugzilla.
-
-So it's just a start, we should continue to work on:
-
-1) Support to remap ${S} outside of the WORKDIR (shared work dir)
-
-2) Add -fdebug-prefix-map usage in manual
-
-//Hongxu
-
->
-> --Mark
+diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+index 9e08b16..4c15db2 100644
+--- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
++++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+@@ -27,7 +27,7 @@ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "-enable-speed --enable-shared"
+ # The ASO's don't take any account of thumb...
+-EXTRA_OECONF_append_thumb = " --disable-aso --enable-fpm=default"
++EXTRA_OECONF_append = " ${@['', '--disable-aso --enable-fpm=default'][d.getVar('ARM_INSTRUCTION_SET', True) == 'thumb']}"
+ EXTRA_OECONF_append_arm = " --enable-fpm=arm"
+ 
+ do_configure_prepend () {
+-- 
+1.9.1
 
 
