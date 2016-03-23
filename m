@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C0D2E65CC3
+	by mail.openembedded.org (Postfix) with ESMTP id A6FCA6E688
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 23 Mar 2016 14:52:22 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga104.fm.intel.com with ESMTP; 23 Mar 2016 07:52:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="930227035"
+X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="930227030"
 Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO
 	swold-mobl.jf.intel.com) ([10.254.120.177])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2016 07:52:18 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2016 07:52:17 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Wed, 23 Mar 2016 07:52:15 -0700
-Message-Id: <1458744735-32559-5-git-send-email-sgw@linux.intel.com>
+Date: Wed, 23 Mar 2016 07:52:13 -0700
+Message-Id: <1458744735-32559-3-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1458744735-32559-1-git-send-email-sgw@linux.intel.com>
 References: <1458744735-32559-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 4/4 v2] linux-firmware: Break out some additional firmware
+Subject: [PATCH 2/4 v2] linux-firmware: Collapse iwlwifi firmware blobs for 7260 and 7265
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,92 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 14:52:23 -0000
+X-List-Received-Date: Wed, 23 Mar 2016 14:52:24 -0000
 
-This breaks out new firmware from the iwlwifi firmware along with the i915 graphics firmware.
+There are newer blobs that are not include since we currently package
+blobs independtly, this will ensure that future updates are correctly
+added to the packages.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
-[v2]: Changed package names to use lower case for opkg
- .../linux-firmware/linux-firmware_git.bb           | 25 +++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+[v2]: fixed up firmware numbering in package updating lines
+ .../linux-firmware/linux-firmware_git.bb           | 35 +++++++++++-----------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 2d7126f..0feccb3 100644
+index 9a49762..8ec64e7 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -224,6 +224,9 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+@@ -186,9 +186,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-iwlwifi-6000-4 ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2a-6 \
+              ${PN}-iwlwifi-6000g2b-5 ${PN}-iwlwifi-6000g2b-6 \
               ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
-              ${PN}-iwlwifi-7260 \
-              ${PN}-iwlwifi-7265 \
-+             ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
-+             ${PN}-i915-license ${PN}-i915 \
-+             ${PN}-adsp-sst-license ${PN}-adsp-sst \
+-             ${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9 \
+-             ${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9 \
+-             \
++             ${PN}-iwlwifi-7260 \
++             ${PN}-iwlwifi-7265 \
               ${PN}-license \
               "
  
-@@ -430,6 +433,10 @@ LICENSE_${PN}-iwlwifi-6050-4    = "Firmware-iwlwifi_firmware"
+@@ -393,11 +392,8 @@ LICENSE_${PN}-iwlwifi-6000g2a-5 = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6000g2b-6 = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6050-4    = "Firmware-iwlwifi_firmware"
  LICENSE_${PN}-iwlwifi-6050-5    = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-7260      = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-7265      = "Firmware-iwlwifi_firmware"
-+LICENSE_${PN}-iwlwifi-7265d     = "Firmware-iwlwifi_firmware"
-+LICENSE_${PN}-iwlwifi-8000c     = "Firmware-iwlwifi_firmware"
-+LICENSE_${PN}-iwlwifi-8265      = "Firmware-iwlwifi_firmware"
-+
+-LICENSE_${PN}-iwlwifi-7260-7    = "Firmware-iwlwifi_firmware"
+-LICENSE_${PN}-iwlwifi-7260-8    = "Firmware-iwlwifi_firmware"
+-LICENSE_${PN}-iwlwifi-7260-9    = "Firmware-iwlwifi_firmware"
+-LICENSE_${PN}-iwlwifi-7265-8    = "Firmware-iwlwifi_firmware"
+-LICENSE_${PN}-iwlwifi-7265-9    = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-7260      = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-7265      = "Firmware-iwlwifi_firmware"
  
  FILES_${PN}-iwlwifi-license = "/lib/firmware/LICENCE.iwlwifi_firmware"
  FILES_${PN}-iwlwifi-135-6 = "/lib/firmware/iwlwifi-135-6.ucode"
-@@ -445,6 +452,9 @@ FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
+@@ -411,11 +407,8 @@ FILES_${PN}-iwlwifi-6000g2b-5 = "/lib/firmware/iwlwifi-6000g2b-5.ucode"
+ FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
+ FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
  FILES_${PN}-iwlwifi-6050-5 = "/lib/firmware/iwlwifi-6050-5.ucode"
- FILES_${PN}-iwlwifi-7260   = "/lib/firmware/iwlwifi-7260-*.ucode"
- FILES_${PN}-iwlwifi-7265   = "/lib/firmware/iwlwifi-7265-*.ucode"
-+FILES_${PN}-iwlwifi-7265d   = "/lib/firmware/iwlwifi-7265D-*.ucode"
-+FILES_${PN}-iwlwifi-8000c   = "/lib/firmware/iwlwifi-8000C-*.ucode"
-+FILES_${PN}-iwlwifi-8265   = "/lib/firmware/iwlwifi-8265-*.ucode"
+-FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
+-FILES_${PN}-iwlwifi-7260-8 = "/lib/firmware/iwlwifi-7260-8.ucode"
+-FILES_${PN}-iwlwifi-7260-9 = "/lib/firmware/iwlwifi-7260-9.ucode"
+-FILES_${PN}-iwlwifi-7265-8 = "/lib/firmware/iwlwifi-7265-8.ucode"
+-FILES_${PN}-iwlwifi-7265-9 = "/lib/firmware/iwlwifi-7265-9.ucode"
++FILES_${PN}-iwlwifi-7260   = "/lib/firmware/iwlwifi-7260-*.ucode"
++FILES_${PN}-iwlwifi-7265   = "/lib/firmware/iwlwifi-7265-*.ucode"
  
  RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
  RDEPENDS_${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
-@@ -459,6 +469,9 @@ RDEPENDS_${PN}-iwlwifi-6050-4    = "${PN}-iwlwifi-license"
+@@ -428,11 +421,17 @@ RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6050-4    = "${PN}-iwlwifi-license"
  RDEPENDS_${PN}-iwlwifi-6050-5    = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-7260      = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-7265      = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7265d     = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-8000c     = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-8265      = "${PN}-iwlwifi-license"
- 
- # Handle package updating for the newly merged iwlwifi groupings
- RPROVIDES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
-@@ -469,13 +482,20 @@ RPROVIDES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-
- RREPLACES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
- RCONFLICTS_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
- 
--
-+LICENSE_${PN}-i915       = "Firmware-i915"
-+FILES_${PN}-i915-license = "/lib/firmware/LICENCE.i915"
-+FILES_${PN}-i915         = "/lib/firmware/i915"
-+RDEPENDS_${PN}-i915      = "${PN}-i915-license"
-+ 
-+FILES_${PN}-adsp-sst-license      = "/lib/firmware/LICENCE.adsp_sst"
-+LICENSE_${PN}-adsp-sst            = "Firmware-adsp_sst"
-+FILES_${PN}-adsp-sst              = "/lib/firmware/intel/dsp_fw*"
-+RDEPENDS_${PN}-adsp-sst           = "${PN}-adsp-sst-license"
+-RDEPENDS_${PN}-iwlwifi-7260-7    = "${PN}-iwlwifi-license"
+-RDEPENDS_${PN}-iwlwifi-7260-8    = "${PN}-iwlwifi-license"
+-RDEPENDS_${PN}-iwlwifi-7260-9    = "${PN}-iwlwifi-license"
+-RDEPENDS_${PN}-iwlwifi-7265-8    = "${PN}-iwlwifi-license"
+-RDEPENDS_${PN}-iwlwifi-7265-9    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7260      = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7265      = "${PN}-iwlwifi-license"
++
++# Handle package updating for the newly merged iwlwifi groupings
++RPROVIDES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
++RREPLACES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
++RCONFLICTS_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
++
++RPROVIDES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
++RREPLACES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
++RCONFLICTS_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
  
  # For other firmwares
  # Maybe split out to separate packages when needed.
- LICENSE_${PN} = "\
-     Firmware-Abilis \
--    & Firmware-adsp_sst \
-     & Firmware-agere \
-     & Firmware-amdgpu \
-     & Firmware-amd-ucode \
-@@ -491,7 +511,6 @@ LICENSE_${PN} = "\
-     & Firmware-go7007 \
-     & Firmware-hfi1_firmware \
-     & Firmware-i2400m \
--    & Firmware-i915 \
-     & Firmware-ibt_firmware \
-     & Firmware-it913x \
-     & Firmware-IntcSST2 \
 -- 
 2.5.0
 
