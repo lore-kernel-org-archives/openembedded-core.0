@@ -1,40 +1,40 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 87F33606D1
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D827365CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 09:47:14 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id l68so2800313wml.3
+	Wed, 23 Mar 2016 09:47:11 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id p65so2825676wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 02:47:15 -0700 (PDT)
+	Wed, 23 Mar 2016 02:47:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=hw1K7gr4roo5bJ8DM017xsxZOXihW2ciJUpAZWGan7Y=;
-	b=G1zO9ZTkq4HzItgHmBArOB9hadkP2yXrcGda2RlynRq5v30inDDP0o+EqMnXvSIndc
-	nrsLTkE/416sf7PzkYJ4JmqERwgfyfU/H40xV4q7D+19eNYyCH0OY3pt+iJ16rwZ5TMa
-	bCH+8hG0lDqzuk8dQMoiuNJNl9pvBLQKrWoc1Bo+jcMDi44SYH3IY5kgkRmeEnReQy3s
-	fMIYYU7kl0kSfPH+1iiZD8+5w9PN2B1E24VKSSumkG8HyQT6QgpHdGNxLrbhDf2gPFy/
-	ahbuHBxN0czKB2gsBwi+jj0XmdPsclUIVsuJP3E6kp8ivhZDzYOIj8hsBrBU1zY93FTO
-	ckRg==
-X-Gm-Message-State: AD7BkJIhVBVF3PzVVT+KjNPYKugWw2AibZglzd/357o4FdW1gYudFNKeuZleiQRRT4pf+A==
-X-Received: by 10.28.17.141 with SMTP id 135mr2923777wmr.48.1458726434654;
-	Wed, 23 Mar 2016 02:47:14 -0700 (PDT)
+	bh=CztpS9Ev/TVRpBjtpE3qlXiZU9ar1X5mEUeDIVoU6QQ=;
+	b=iVzDyzT0cUqpuKCa3m4iXj4j5aODa8x7FsWH60B5QB8g/QcJ0iDMPwPBqnnKyvb3a3
+	7QVGOj6edGUivYfGZI15WkBticAtroE/mIcm+9vUBQGnluMxL1gSW3eN4tDmb2j6h6UI
+	oS/Ldf4I8cpn2OPlsC3G5lRErtKFcxLhYpXqTSJ83+T76zzGrzIaH/OUG8agL6mdQt7R
+	36wh/Iy5cXmLMfzUajB11aI4RjiIXxYKCMlo6VKtWIsnfO0/Aqp3Vl7ZVN6CZp+VgfL1
+	hHTUIAHlYj5N4vcGvnyzhnpVS+2lzus50JLcrO8OWrtOL+NTVoVkwvUbmCNTfTlfF54U
+	Adfg==
+X-Gm-Message-State: AD7BkJJvL7Jqt50Si7NgD4F/j6rSo0ODfurQgDzsC/OeFSByTMDSROffugDAkZJIO7uo1w==
+X-Received: by 10.28.227.130 with SMTP id a124mr2859699wmh.2.1458726432070;
+	Wed, 23 Mar 2016 02:47:12 -0700 (PDT)
 Received: from sushi.stratoserver.net (sushi.andred.org. [85.214.105.253])
 	by smtp.gmail.com with ESMTPSA id
-	k124sm2044853wmb.11.2016.03.23.02.47.13
+	k124sm2044853wmb.11.2016.03.23.02.47.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 23 Mar 2016 02:47:13 -0700 (PDT)
+	Wed, 23 Mar 2016 02:47:11 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Mar 2016 10:47:05 +0100
-Message-Id: <1458726425-24672-3-git-send-email-git@andred.net>
+Date: Wed, 23 Mar 2016 10:47:04 +0100
+Message-Id: <1458726425-24672-2-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.0.rc3
 In-Reply-To: <1458726425-24672-1-git-send-email-git@andred.net>
 References: <1458726425-24672-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
 Cc: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@tycoint.com>
-Subject: [PATCH 2/2] oe-git-proxy: support username / password in http proxy
+Subject: [PATCH 1/2] oe-git-proxy: also check all_proxy and http_proxy env variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,64 +53,42 @@ Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-We also make sure to correctly support usernames that contain spaces.
-
-For simplicity sed + regex has been replaced with shell parameter expansion,
-which works in both, bash and dash.
-
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- scripts/oe-git-proxy | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+ scripts/oe-git-proxy | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
-index 38ce7b6..1247902 100755
+index d2e9f92..38ce7b6 100755
 --- a/scripts/oe-git-proxy
 +++ b/scripts/oe-git-proxy
-@@ -116,14 +116,27 @@ for H in ${NO_PROXY//,/ }; do
- done
+@@ -1,10 +1,12 @@
+ #!/bin/bash
  
- # Proxy is necessary, determine protocol, server, and port
--PROTO=$(echo $ALL_PROXY | sed -e 's/\([^:]*\):\/\/.*/\1/')
--PROXY=$(echo $ALL_PROXY | sed -e 's/.*:\/\/\([^:]*\).*/\1/')
--# For backwards compatibility, this allows the port number to be followed by /?
--# in addition to the customary optional /
--PORT=$(echo $ALL_PROXY | sed -e 's/.*:\([0-9]*\)\(\/?\?\)\?$/\1/')
--if [ "$PORT" = "$ALL_PROXY" ]; then
-+# extract protocol
-+PROTO=${ALL_PROXY%://*}
-+# strip protocol:// from string
-+ALL_PROXY=${ALL_PROXY#*://}
-+# extract host & port parts:
-+#   1) drop username/password
-+PROXY=${ALL_PROXY##*@}
-+#   2) remove optional trailing /?
-+PROXY=${PROXY%%/*}
-+#   3) extract optional port
-+PORT=${PROXY##*:}
-+if [ "$PORT" = "$PROXY" ]; then
- 	PORT=""
- fi
-+#   4) remove port
-+PROXY=${PROXY%%:*}
+ # oe-git-proxy is a simple tool to be via GIT_PROXY_COMMAND. It uses socat
+-# to make SOCKS5 or HTTPS proxy connections. It uses ALL_PROXY to determine the
+-# proxy server, protocol, and port. It uses NO_PROXY to skip using the proxy for
+-# a comma delimited list of hosts, host globs (*.example.com), IPs, or CIDR
+-# masks (192.168.1.0/24). It is known to work with both bash and dash shells.
++# to make SOCKS5 or HTTPS proxy connections.
++# It uses ALL_PROXY or all_proxy or http_proxy to determine the proxy server,
++# protocol, and port.
++# It uses NO_PROXY to skip using the proxy for a comma delimited list of
++# hosts, host globs (*.example.com), IPs, or CIDR masks (192.168.1.0/24). It
++# is known to work with both bash and dash shells.
+ #
+ # Example ALL_PROXY values:
+ # ALL_PROXY=socks://socks.example.com:1080
+@@ -99,6 +101,9 @@ match_host() {
+ # If no proxy is set or needed, just connect directly
+ METHOD="TCP:$1:$2"
+ 
++[ -z "${ALL_PROXY}" ] && ALL_PROXY=$all_proxy
++[ -z "${ALL_PROXY}" ] && ALL_PROXY=$http_proxy
 +
-+# extract username & password
-+PROXYAUTH="${ALL_PROXY%@*}"
-+[ "$PROXYAUTH" = "$ALL_PROXY" ] && PROXYAUTH=
-+[ -n "${PROXYAUTH}" ] && PROXYAUTH=",proxyauth=${PROXYAUTH}"
- 
- if [ "$PROTO" = "socks" ] || [ "$PROTO" = "socks4a" ]; then
- 	if [ -z "$PORT" ]; then
-@@ -140,7 +153,7 @@ else
- 	if [ -z "$PORT" ]; then
- 		PORT="8080"
- 	fi
--	METHOD="PROXY:$PROXY:$1:$2,proxyport=$PORT"
-+	METHOD="PROXY:$PROXY:$1:$2,proxyport=${PORT}${PROXYAUTH}"
+ if [ -z "$ALL_PROXY" ]; then
+ 	exec $SOCAT STDIO $METHOD
  fi
- 
--exec $SOCAT STDIO $METHOD
-+exec $SOCAT STDIO "$METHOD"
 -- 
 2.8.0.rc3
 
