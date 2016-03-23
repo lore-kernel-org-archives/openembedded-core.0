@@ -1,24 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A6FCA6E688
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EDBCF60125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 14:52:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Mar 2016 07:52:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="930227030"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO
-	swold-mobl.jf.intel.com) ([10.254.120.177])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2016 07:52:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Wed, 23 Mar 2016 07:52:13 -0700
-Message-Id: <1458744735-32559-3-git-send-email-sgw@linux.intel.com>
+	Wed, 23 Mar 2016 15:09:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2NF97Kv018500
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Mar 2016 08:09:07 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 23 Mar 2016 08:09:05 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 23 Mar 2016 11:08:59 -0400
+Message-ID: <cover.1458745322.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1458744735-32559-1-git-send-email-sgw@linux.intel.com>
-References: <1458744735-32559-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/4 v2] linux-firmware: Collapse iwlwifi firmware blobs for 7260 and 7265
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] kernel: consolidated pull request (linux-yocto-4.1 and perf)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,85 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 14:52:24 -0000
+X-List-Received-Date: Wed, 23 Mar 2016 15:09:09 -0000
+Content-Type: text/plain
 
-There are newer blobs that are not include since we currently package
-blobs independtly, this will ensure that future updates are correctly
-added to the packages.
+Hi all,
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
-[v2]: fixed up firmware numbering in package updating lines
- .../linux-firmware/linux-firmware_git.bb           | 35 +++++++++++-----------
- 1 file changed, 17 insertions(+), 18 deletions(-)
+In this series I have two sets of backports, and one configuration change to
+linux-yocto.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 9a49762..8ec64e7 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -186,9 +186,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-iwlwifi-6000-4 ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2a-6 \
-              ${PN}-iwlwifi-6000g2b-5 ${PN}-iwlwifi-6000g2b-6 \
-              ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
--             ${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9 \
--             ${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9 \
--             \
-+             ${PN}-iwlwifi-7260 \
-+             ${PN}-iwlwifi-7265 \
-              ${PN}-license \
-              "
- 
-@@ -393,11 +392,8 @@ LICENSE_${PN}-iwlwifi-6000g2a-5 = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-6000g2b-6 = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-6050-4    = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-6050-5    = "Firmware-iwlwifi_firmware"
--LICENSE_${PN}-iwlwifi-7260-7    = "Firmware-iwlwifi_firmware"
--LICENSE_${PN}-iwlwifi-7260-8    = "Firmware-iwlwifi_firmware"
--LICENSE_${PN}-iwlwifi-7260-9    = "Firmware-iwlwifi_firmware"
--LICENSE_${PN}-iwlwifi-7265-8    = "Firmware-iwlwifi_firmware"
--LICENSE_${PN}-iwlwifi-7265-9    = "Firmware-iwlwifi_firmware"
-+LICENSE_${PN}-iwlwifi-7260      = "Firmware-iwlwifi_firmware"
-+LICENSE_${PN}-iwlwifi-7265      = "Firmware-iwlwifi_firmware"
- 
- FILES_${PN}-iwlwifi-license = "/lib/firmware/LICENCE.iwlwifi_firmware"
- FILES_${PN}-iwlwifi-135-6 = "/lib/firmware/iwlwifi-135-6.ucode"
-@@ -411,11 +407,8 @@ FILES_${PN}-iwlwifi-6000g2b-5 = "/lib/firmware/iwlwifi-6000g2b-5.ucode"
- FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
- FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
- FILES_${PN}-iwlwifi-6050-5 = "/lib/firmware/iwlwifi-6050-5.ucode"
--FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
--FILES_${PN}-iwlwifi-7260-8 = "/lib/firmware/iwlwifi-7260-8.ucode"
--FILES_${PN}-iwlwifi-7260-9 = "/lib/firmware/iwlwifi-7260-9.ucode"
--FILES_${PN}-iwlwifi-7265-8 = "/lib/firmware/iwlwifi-7265-8.ucode"
--FILES_${PN}-iwlwifi-7265-9 = "/lib/firmware/iwlwifi-7265-9.ucode"
-+FILES_${PN}-iwlwifi-7260   = "/lib/firmware/iwlwifi-7260-*.ucode"
-+FILES_${PN}-iwlwifi-7265   = "/lib/firmware/iwlwifi-7265-*.ucode"
- 
- RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
-@@ -428,11 +421,17 @@ RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6050-4    = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6050-5    = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-7260-7    = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-7260-8    = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-7260-9    = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-7265-8    = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-7265-9    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7260      = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7265      = "${PN}-iwlwifi-license"
-+
-+# Handle package updating for the newly merged iwlwifi groupings
-+RPROVIDES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
-+RREPLACES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
-+RCONFLICTS_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
-+
-+RPROVIDES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
-+RREPLACES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
-+RCONFLICTS_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
- 
- # For other firmwares
- # Maybe split out to separate packages when needed.
+The config change addresses YOCTO 9269, and is as follows:
+
+  [PATCH 1/5] linux-yocto: ktypes/standard: Add tmpfs-posix-acl feature]
+
+    This enables the CONFIG_TMPFS_POSIX_ACL, which is wanted by things like
+    systemd. We also explicitly enable the features's dependencies and
+    options selected by the feature for clarity.
+
+The backports are mainline cherry-picks, and have built safely on a number of
+boards ofr me.
+
+  [PATCH 2/5] linux-yocto/4.1: device property : Backport device property patches
+  [PATCH 3/5] linux-yocto/4.1: MFD backports
+
+The two perf fixes are addressing some issues with the python scripts that perf
+ships. They were either runtime broken (missing modules), or were generating
+QA warnings. These address [YOCTO #8991] and [YOCTO #9069].
+
+I've executed the python scripts on target, and everything looks sane!
+
+Cheers,
+
+Bruce
+
+The following changes since commit 2f2f784727a1617c2b9ce0bb86730ba301238e06:
+
+  parselogs: add new whitelist entries to address 4.4.3 issues (2016-03-22 08:54:34 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto: ktypes/standard: Add tmpfs-posix-acl feature
+  linux-yocto/4.1: device property : Backport device property patches
+  linux-yocto/4.1: MFD backports
+  perf: fix python scripts QA errors
+  perf: package python modules into perf-python
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      |  2 +-
+ meta/recipes-kernel/perf/perf.bb                  | 10 ++++++++--
+ 7 files changed, 21 insertions(+), 15 deletions(-)
+
 -- 
 2.5.0
 
