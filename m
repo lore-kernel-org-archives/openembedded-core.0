@@ -1,54 +1,45 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id D77C260248;
-	Wed, 23 Mar 2016 22:04:11 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id bc4so19015838lbc.2;
-	Wed, 23 Mar 2016 15:04:12 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D95EB60248
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2016 22:09:42 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id j35so24217203qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2016 15:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=bvSrKB39i0yyIMzaSHtgwkON6owFCdmthwjRkqPiTHI=;
-	b=0u8Uc+SyCXwQL+Ih/vFSKMO2YkhmawtE8HvJ+C7ZI46r4oxV4vuLvlEXvm1sWEHIYp
-	Y5yDWXz5cCV7cv3TpJuxXw+yGUi3ouUQrVAVP7MNt9/u/tC+uVuyU4gG4FkRoqLstPYq
-	GPsZWHv2qBOr0F3Vscw2ZeydB/O/C27MYuh8tSLX0sqah/dRHE7vhML3ZzEj9TcbvybR
-	lMvUlZZoDMLt2HXtHpOxUFhF7THjOXuP46kizYSui7KADU7VncQDrHk2d0ODp7TDW4gw
-	esbUZzUzjFTroMuW+VnHBe/TvTqzU4wvlNuQJCh3mpTCPhE0J/auas9zwAX5J5WNVKtG
-	P+QQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=igah5Fjzt2mkfPmxT64fb0lPlexY9cce6nJSi7qlqpQ=;
+	b=Gfq+98n+wN0z6mZymLNVkiE9nVae1EQWaSJlUHTUyIOqBH/s/33hROnnhuhpf0dA8A
+	znLbZ/Ua7GxEbIrDjqHTpLnY1xud2mSHAju1GIcUF7uDAY9M8nAvOk9Bd+8h3ilc/Ryu
+	y13whe1y2T7CbLy5N3yL5LqZ4P1q7XBsfluQU6wx623k0YmmGazXmjE0aX1moePF6O47
+	NFEl46eRX4snG8uj+hMJSXgJh0gJVyLYrGau29rMd3Saz6jNYNr4hZWzBHbKF3BW2yW7
+	vKz6WHZCCPGHjF1aR+dbahnbr6Vb4thQtKdSLoFDq+H0ifK98Uz40GyGE3zE1VQW7sWy
+	Ma/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=bvSrKB39i0yyIMzaSHtgwkON6owFCdmthwjRkqPiTHI=;
-	b=hBy800o+wGriaq5V59Gj0+2dYSCHmrTOLBglKq1dEJQdqWFd9pkjTNKES7o6X0zYfM
-	H1X3vG87qhMBhNP8RK2hTW181VezfgMcMyH+jcRj3+zXssQs6LWRX8o///rexWWj5fZ4
-	gNqD76V95DwLiMZOEGCm0lPzlm9w84UCHbl0uAJAPxyWss1WGGbmK8clcpWkdTdxaa7u
-	xLe1mumkdy6zLZeetNrc5UPZw0ItKih37j9zFJVGTrXIuXWGS+r56xpiUG8HRQwVk922
-	hPSOtwXoiRRVVdOc2BN1PKNpfA+cPvqZOamUdGWWv+Xp5vROCe/cyT4js03j/EiL1NBM
-	g3CA==
-X-Gm-Message-State: AD7BkJI5RfiT9tWBYhNhfSM/IAhR/gD3ImPgOMvzyhGdTl8GGvfN+eaSaxGlt4LBP3K2b/a4RuCQq/3G2piZ9Q==
-X-Received: by 10.112.130.74 with SMTP id oc10mr2175950lbb.14.1458770651846;
-	Wed, 23 Mar 2016 15:04:11 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.55.101 with HTTP; Wed, 23 Mar 2016 15:03:52 -0700 (PDT)
-In-Reply-To: <56F30D13.6030909@balister.org>
-References: <56DEF97F.9070306@balister.org> <56F2C618.3050205@gmail.com>
-	<20160323210850.GA5376@linux-yxv0> <1458767514382.89578@seescan.com>
-	<56F30D13.6030909@balister.org>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Wed, 23 Mar 2016 15:03:52 -0700
-X-Google-Sender-Auth: MtIiSnTYTTVhN51lcPGcjNX-nk4
-Message-ID: <CA+YB3rYNxkjsFaRzAQVTvLtZLu_0sb=-nurdmQ8xixruGLAmOg@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Fred Ollinger <Fred.Ollinger@seescan.com>
-Subject: Re: [yocto] [oe] OEDAM, April 8 in San Diego after ELC
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=igah5Fjzt2mkfPmxT64fb0lPlexY9cce6nJSi7qlqpQ=;
+	b=TmL3Len23JVIt2BYivA/TyEtrDmcG6GOxgE8HmXoIeHCGAPpb5FzYrcg8szCqa5ssT
+	WW1zMf8J9RgCnYupD55QTPKChUK+9Gdzpoxf6cSO6ynN1SdQj/zc4A0g5oDzkVIbdvDJ
+	a9Q1uR19MCsColDjhh8jnlCb/ziBUqmrrEupp+DLuO5puFsjz8GV090xTIUS3Y2AYyX+
+	bfgAGlv+kxN21yiF4WSAHBPWVjsXKm6HdHiN09M+uN4DPW4bXJYm1V9vv2zyJysoEwzo
+	rjCjpOU3NqLp6zbAaB2uNzqlbdUCyCdTFDlqRm9V1gxKUJI4aNJOLZsVlvdzubbh62WI
+	Rzdg==
+X-Gm-Message-State: AD7BkJKnmWLBalz+LsI5ik37oY1qWWpoXkvjzVYRqFnmLyTMnpau42Ie+EcnH6NGzjeA/A==
+X-Received: by 10.140.43.37 with SMTP id d34mr6570968qga.51.1458770983283;
+	Wed, 23 Mar 2016 15:09:43 -0700 (PDT)
+Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
+	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
+	a11sm1957214qge.43.2016.03.23.15.09.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Mar 2016 15:09:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2016 22:09:32 +0000
+Message-Id: <1458770972-30300-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] kernel.bbclass: consider .csp firmware files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,19 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 22:04:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Mar 2016 22:09:50 -0000
 
->>> There are only 10 people signed up.
->>> Is that enough people to justify the expense room or even meet?
->>
->> I have no idea what the budget might be or what a room might cost. I'll leave
->> it to those who do know to worry about the costs versus the benefits.
+Fixes kernels which package sb16 firmware e.g.
 
-I would give an unequivocal "yes" to this (as the guy with the credit
-card). We need reliable internet access to loop in those who can't be
-there in person, plus this was actually a reasonable rate for the
-immediate area. We can take up to 25 and these meetings usually gain 5
-or 6 people who never sign up on the wiki, so I think we are in
-excellent shape.
+directories were installed but not shipped in any package:
+  /lib/firmware/sb16
+  /lib/firmware/sb16/ima_adpcm_playback.csp
+  /lib/firmware/sb16/ima_adpcm_init.csp
+  /lib/firmware/sb16/mulaw_main.csp
+  /lib/firmware/sb16/ima_adpcm_capture.csp
+  /lib/firmware/sb16/alaw_main.csp
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index c3eab50..6e3e81e 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -405,7 +405,7 @@ pkg_postrm_kernel-image () {
+ PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+ 
+ python split_kernel_packages () {
+-    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
++    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+ }
+ 
+ # Many scripts want to look in arch/$arch/boot for the bootable
+-- 
+1.9.1
+
 
