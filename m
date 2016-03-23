@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6705F6AC37
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A7EBD6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 18:00:11 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id c63so57304398iof.0
+	Wed, 23 Mar 2016 18:00:31 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id 4so36502406pfd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 11:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oh8bzy107ftRc3SD3XK7HMjG6WtLQAP0xRbEJ5uKmEk=;
-	b=vl8Npdu/NSBj/beluMIrtCd3+XSXgNScypaOHY76HbfiWPXkxA80euuJDH1a3X8Gtr
-	56Slum6bijrxvoBLxXk05dZIfGTsiyM3SvLUQtKohc7t/5TgkAhJbttL3sVkCtsRD+au
-	jnkQqEsB+/qUasDlybX5MHahcBVZC1lzc2ZGNqP4dUsUi8CaZV8XXQItcb1We7n4tZLf
-	FeX4fjVulRBWYJAZgi9WbaUvuIN0tpUszDdC2jsg8AU9BMfyTIDGWNl5ShVByr6rJ7UH
-	zFglOS3/BnOZXhn6is91622239lNJiqmcpmcWvPMTz/kMi4RkQKfEAfRS9xKPQbwI3hI
-	2VMg==
+	Wed, 23 Mar 2016 11:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=La3jfX628XbPeaLE5OrRx2v9So83KItIys0jbxRu1nY=;
+	b=osGUgWg+dFXuvfOSA0Cf/w8LOuiM0yqibdNu+LJX1S665qn6WMcq71mAd5p8xOzoTs
+	JSJZPk18RflSi1u6DaDuN0Ix+nIfxxmQzDaSZCbk9EgABtr+jFTj9UyX7PITku2++80u
+	v0s3m1UpGOx20rlhB9EMTBqxP5piojheArEx9RBXOF45Xvv9EiSfBQz2u9UvzVN+2gkZ
+	JXNCKUOzACBUx4S6cTAIywDTfXWQx3UdqklSunVyU4mtP1BH7oJM+Z9zPu+2PtIQhce7
+	WeQXTSNS/mPWhfnVSIlg9xPvIib4FmVnC43SFJq7fSDWpwjRySx3gjiAVfuA+T8sAoyR
+	s3LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oh8bzy107ftRc3SD3XK7HMjG6WtLQAP0xRbEJ5uKmEk=;
-	b=mohFPc1O49ZvB1PslTc7kD0zNm69DF/OfoTQMF/oS7uB6b92iAVEaKZNdcCswq7Zv/
-	XANOqnWaOA2hdGDE8qKBrvjoYWFZlzZsBW0EpkDW4iI/NRVjfLqgo5ld41oVwHyCK15Z
-	8aVLjEIrp7PFJ9ZOTHi8o/gcwZjsvwmwtEZrZRdpRnnrm270hKUX4HW9lZaTiRKvJIHN
-	yGWQBoiwS6PypKZ7+fg813VXVvn/4ONc3NS/StRNpu4dQWjn7Cvely+A8rL1Z2Wh3vjI
-	mHP90SEQRNRsjDTiUJMbeOIGAae8bZuW3bVypaSyKMh8qYdcjdMtz2fCBOKEP+XK6CF4
-	GTfw==
-X-Gm-Message-State: AD7BkJLOFCl0/B0m0MhTQi+DBpP7p9d6rZLGawruxfj/s6B08Z97JVB/Jf9zj5XePHMotxrvaLt2b5pu3yKVX/IZ
-X-Received: by 10.107.137.38 with SMTP id l38mr5107110iod.133.1458756011559;
-	Wed, 23 Mar 2016 11:00:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 23 Mar 2016 10:59:52 -0700 (PDT)
-In-Reply-To: <1458755798.3476.186.camel@pbcl.net>
-References: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
-	<1458755798.3476.186.camel@pbcl.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Mar 2016 17:59:52 +0000
-Message-ID: <CAJTo0LbicCM6LJbxEK8m-QES49-WjPJsDUgduV0-dOg1FSEdZw@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: tighten lib_re and exec_re patterns to avoid false positive
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=La3jfX628XbPeaLE5OrRx2v9So83KItIys0jbxRu1nY=;
+	b=PyeK1SrYb8K5ELKskhwSpv0tBzUVkWH7oT6B4MiLO6K7CaSIUqMQvfooldZWTe9KsW
+	P96bJbHK84TU2q0TMPQ+4ZPTAzDp6kgP0rtSkStYB/4ugWhz7BWSqHtCykz8xjpwykI4
+	O9/zZvLBQvh909HcIFXj+Z0dpjWp7DRYSXR6Jtih+0ZvdmAlYBZHr1Ckls1qnzElfNzR
+	D66/EmC7rr5SoJpJJfx5igo3aMM22n/nr59brzQQCQ4uGMJymH1vz3pPFpEWGtsy74Sy
+	N/Tzkc/gM2xzFtkrTBSRFMX5618kg7T2BAw4bQuDkF4hkLZGtG3keu1SeZaY1yqjX7X7
+	1h5A==
+X-Gm-Message-State: AD7BkJLp7h9N+FN9n0ez22NgKxg75GHsbG8U8ZqaeGtjKH8xUtFRXKP5oukMU6v9PIX2TA==
+X-Received: by 10.98.86.28 with SMTP id k28mr6161430pfb.43.1458756031929;
+	Wed, 23 Mar 2016 11:00:31 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id 79sm5644126pfq.65.2016.03.23.11.00.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Mar 2016 11:00:31 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2016 11:00:25 -0700
+Message-Id: <1458756025-11452-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] libmad: remove use of obsolete _thumb over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 18:00:12 -0000
-Content-Type: multipart/alternative; boundary=001a113ec522e26449052ebb19dd
+X-List-Received-Date: Wed, 23 Mar 2016 18:00:31 -0000
 
---001a113ec522e26449052ebb19dd
-Content-Type: text/plain; charset=UTF-8
+The _thumb over-ride was first used by the libmad recipe in 2006 [1],
+but should have been removed in 2007, when the libmad recipe dropped
+support for building for thumb [2].
 
-On 23 March 2016 at 17:56, Phil Blundell <pb@pbcl.net> wrote:
+ [1] http://git.openembedded.org/openembedded-core/commit/?id=f1f8c5a6a7234a7b618f98efbb3d28e414890fa9
+ [2] http://git.openembedded.org/openembedded-core/commit/?id=1aa801ac7b991790dce9cb2618d0816700e52a16
 
-> > lib_re would match files like "/libsoletta.so.0.0.1-gdb.py" which are
-> > not valid library filenames.
->
-> What are the consequences of it matching things that are not libraries?
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+index 9e08b16..d431abd 100644
+--- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
++++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+@@ -26,8 +26,6 @@ S = "${WORKDIR}/libmad-${PV}"
+ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "-enable-speed --enable-shared"
+-# The ASO's don't take any account of thumb...
+-EXTRA_OECONF_append_thumb = " --disable-aso --enable-fpm=default"
+ EXTRA_OECONF_append_arm = " --enable-fpm=arm"
+ 
+ do_configure_prepend () {
+-- 
+1.9.1
 
 
-See #9215, the libdir sanity test fires when it shouldn't.
-
-WARNING: QA Issue: soletta-dbg: found library in wrong location:
-/usr/share/gdb/auto-load/libsoletta.so.0.0.1-gdb.py [libdir]
-
-That's no library...
-
-Ross
-
---001a113ec522e26449052ebb19dd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 March 2016 at 17:56, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;pa=
-dding-left:1ex"><span class=3D"">&gt; lib_re would match files like &quot;/=
-<a href=3D"http://libsoletta.so.0.0.1-gdb.py" rel=3D"noreferrer" target=3D"=
-_blank">libsoletta.so.0.0.1-gdb.py</a>&quot; which are<br>
-&gt; not valid library filenames.<br>
-<br>
-</span>What are the consequences of it matching things that are not librari=
-es?</blockquote></div><br>See #9215, the libdir sanity test fires when it s=
-houldn&#39;t.</div><br>WARNING: QA Issue: soletta-dbg: found library in wro=
-ng location: /usr/share/gdb/auto-load/<a href=3D"http://libsoletta.so.0.0.1=
--gdb.py">libsoletta.so.0.0.1-gdb.py</a> [libdir]<br><br><div>That&#39;s no =
-library...</div><div><br></div><div>Ross</div></div>
-
---001a113ec522e26449052ebb19dd--
