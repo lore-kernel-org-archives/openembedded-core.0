@@ -1,41 +1,22 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 510DE65CC2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DFDD46E630
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 21:36:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2016 14:36:20 -0700
+	Wed, 23 Mar 2016 21:36:30 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 23 Mar 2016 14:36:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,383,1455004800"; d="scan'208";a="770185290"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga003.jf.intel.com with ESMTP; 23 Mar 2016 14:36:20 -0700
-Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
-	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Wed, 23 Mar 2016 14:36:20 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.68]) by
-	ORSMSX111.amr.corp.intel.com ([169.254.12.9]) with mapi id
-	14.03.0248.002; Wed, 23 Mar 2016 14:36:19 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, "pb@pbcl.net" <pb@pbcl.net>
-Thread-Topic: [OE-core] [PATCH] insane.bbclass: tighten lib_re and exec_re
-	patterns to avoid false positive
-Thread-Index: AQHRhRxTM8ODTxW/+UeMoyRHDMMi3Z9nxdEAgAAA5wCAAAEhAIAANhaAgAAFRAA=
-Date: Wed, 23 Mar 2016 21:36:19 +0000
-Message-ID: <1458768980.2442.13.camel@intel.com>
-References: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
-	<1458755798.3476.186.camel@pbcl.net>
-	<CAJTo0LbicCM6LJbxEK8m-QES49-WjPJsDUgduV0-dOg1FSEdZw@mail.gmail.com>
-	<1458756234.3476.189.camel@pbcl.net>
-	<CAJTo0LZL6WKPv+UFNRP9hMO8Ui0F6mLvkKrcM0eBdFJ5bF-pSQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZL6WKPv+UFNRP9hMO8Ui0F6mLvkKrcM0eBdFJ5bF-pSQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.0.118]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: tighten lib_re and exec_re patterns to avoid false positive
+X-IronPort-AV: E=Sophos;i="5.24,383,1455004800"; d="scan'208";a="674617935"
+Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO
+	swold-mobl.jf.intel.com) ([10.254.120.177])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Mar 2016 14:36:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 23 Mar 2016 14:36:24 -0700
+Message-Id: <1458768984-14986-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 4/4 v4] linux-firmware: Break out some additional firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,23 +29,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 21:36:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3DEE5174C9DDE24CB79F4A6F76C7279B@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 23 Mar 2016 21:36:32 -0000
 
-T24gV2VkLCAyMDE2LTAzLTIzIGF0IDIxOjE3ICswMDAwLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+
-IA0KPiBPbiAyMyBNYXJjaCAyMDE2IGF0IDE4OjAzLCBQaGlsIEJsdW5kZWxsIDxwYkBwYmNsLm5l
-dD4gd3JvdGU6DQo+ID4gT3IgYWx0ZXJuYXRpdmVseSwgYWRkIGFuIGV4dHJhIGNoZWNrIHNvIHRo
-YXQgd2hlbiBpdCB0aGlua3MgaXQncyBmb3VuZCBhDQo+ID4gbWlzcGxhY2VkIGxpYnJhcnksIGl0
-IGNoZWNrcyB0aGUgRUxGIGhlYWRlciB0byBtYWtlIHN1cmUgdGhhdCBpdCByZWFsbHkgaXMNCj4g
-PiBvbmUgYW5kIHN1cHByZXNzZXMgdGhlIGRpYWdub3N0aWMgaWYgbm90LsKgIElmIHlvdSBvbmx5
-IGRvIHRoaXMgaW4gY2FzZXMNCj4gPiB3aGVyZSBpdCB3YXMgYWJvdXQgdG8gcHJpbnQgYSB3YXJu
-aW5nIGFueXdheSB0aGVuIHRoZSBpbXBhY3Qgb24gcGVyZm9ybWFuY2UNCj4gPiBzaG91bGRuJ3Qg
-YmUgdG9vIGJhZC4NCj4gPiANCj4gWWVhaCwgYmVzdCBvZiBib3RoIHdvcmxkcy7CoCBBIGZsZXhp
-YmxlIHJlZ2V4IHRvIGNhdGNoIHBvdGVudGlhbCBvZmZlbmRlcnMsIGFuZA0KPiB0aGVuIHVzZSBv
-ZS5xYS5FTEZGaWxlIHRvIHZlcmlmeSBpdCdzIGFjdHVhbGx5IGEgbGlicmFyeS7CoCBDYW4geW91
-IHVwZGF0ZSB0aGUNCj4gcGF0Y2ggQmlsbD8NCj4gDQpZZXMsIEknbGwgdXBkYXRlIHRoZSBwYXRj
-aCBhbmQgcmVwb3N0IGluIGEgYml0Lg0KDQrCoCDCoCAtQmlsbA==
+This breaks out new firmware from the iwlwifi firmware along with the i915 graphics firmware.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+v4: Fixed another LICENSE spelling issue
+
+ .../linux-firmware/linux-firmware_git.bb           | 29 ++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 2d7126f..8046b54 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -132,9 +132,9 @@ NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
+ NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
+ NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
+ NO_GENERIC_LICENSE[Firmware-go7007] = "LICENCE.go7007"
+-NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENCE.hfi1_firmware"
++NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
+ NO_GENERIC_LICENSE[Firmware-i2400m] = "LICENCE.i2400m"
+-NO_GENERIC_LICENSE[Firmware-i915] = "LICENCE.915"
++NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.915"
+ NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENCE.ibt_firmware"
+ NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
+ NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
+@@ -224,6 +224,9 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
+              ${PN}-iwlwifi-7260 \
+              ${PN}-iwlwifi-7265 \
++             ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
++             ${PN}-i915-license ${PN}-i915 \
++             ${PN}-adsp-sst-license ${PN}-adsp-sst \
+              ${PN}-license \
+              "
+ 
+@@ -430,6 +433,10 @@ LICENSE_${PN}-iwlwifi-6050-4    = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6050-5    = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-7260      = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-7265      = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-7265d     = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-8000c     = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-8265      = "Firmware-iwlwifi_firmware"
++
+ 
+ FILES_${PN}-iwlwifi-license = "/lib/firmware/LICENCE.iwlwifi_firmware"
+ FILES_${PN}-iwlwifi-135-6 = "/lib/firmware/iwlwifi-135-6.ucode"
+@@ -445,6 +452,9 @@ FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
+ FILES_${PN}-iwlwifi-6050-5 = "/lib/firmware/iwlwifi-6050-5.ucode"
+ FILES_${PN}-iwlwifi-7260   = "/lib/firmware/iwlwifi-7260-*.ucode"
+ FILES_${PN}-iwlwifi-7265   = "/lib/firmware/iwlwifi-7265-*.ucode"
++FILES_${PN}-iwlwifi-7265d   = "/lib/firmware/iwlwifi-7265D-*.ucode"
++FILES_${PN}-iwlwifi-8000c   = "/lib/firmware/iwlwifi-8000C-*.ucode"
++FILES_${PN}-iwlwifi-8265   = "/lib/firmware/iwlwifi-8265-*.ucode"
+ 
+ RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
+@@ -459,6 +469,9 @@ RDEPENDS_${PN}-iwlwifi-6050-4    = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6050-5    = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-7260      = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-7265      = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7265d     = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-8000c     = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-8265      = "${PN}-iwlwifi-license"
+ 
+ # Handle package updating for the newly merged iwlwifi groupings
+ RPROVIDES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
+@@ -469,13 +482,20 @@ RPROVIDES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-
+ RREPLACES_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
+ RCONFLICTS_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9"
+ 
+-
++LICENSE_${PN}-i915       = "Firmware-i915"
++FILES_${PN}-i915-license = "/lib/firmware/LICENSE.i915"
++FILES_${PN}-i915         = "/lib/firmware/i915"
++RDEPENDS_${PN}-i915      = "${PN}-i915-license"
++ 
++FILES_${PN}-adsp-sst-license      = "/lib/firmware/LICENCE.adsp_sst"
++LICENSE_${PN}-adsp-sst            = "Firmware-adsp_sst"
++FILES_${PN}-adsp-sst              = "/lib/firmware/intel/dsp_fw*"
++RDEPENDS_${PN}-adsp-sst           = "${PN}-adsp-sst-license"
+ 
+ # For other firmwares
+ # Maybe split out to separate packages when needed.
+ LICENSE_${PN} = "\
+     Firmware-Abilis \
+-    & Firmware-adsp_sst \
+     & Firmware-agere \
+     & Firmware-amdgpu \
+     & Firmware-amd-ucode \
+@@ -491,7 +511,6 @@ LICENSE_${PN} = "\
+     & Firmware-go7007 \
+     & Firmware-hfi1_firmware \
+     & Firmware-i2400m \
+-    & Firmware-i915 \
+     & Firmware-ibt_firmware \
+     & Firmware-it913x \
+     & Firmware-IntcSST2 \
+-- 
+2.5.0
+
 
