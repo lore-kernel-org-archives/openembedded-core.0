@@ -1,31 +1,33 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3659660746
+	by mail.openembedded.org (Postfix) with ESMTP id A115565CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 01:52:34 +0000 (UTC)
+	Wed, 23 Mar 2016 01:53:33 +0000 (UTC)
 X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
-   d="scan'208";a="4868745"
+   d="scan'208";a="4868796"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 23 Mar 2016 09:52:28 +0800
+	by heian.cn.fujitsu.com with ESMTP; 23 Mar 2016 09:53:35 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id C62AE489F965
+	by cn.fujitsu.com (Postfix) with ESMTP id 41DA8489F962
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 09:52:24 +0800 (CST)
+	Wed, 23 Mar 2016 09:53:32 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.85) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Wed, 23 Mar 2016 09:52:24 +0800
+	Server (TLS) id 14.3.279.2; Wed, 23 Mar 2016 09:53:31 +0800
 From: Li Xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Mar 2016 04:52:11 +0300
-Message-ID: <1458697931-1829-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Wed, 23 Mar 2016 04:53:20 +0300
+Message-ID: <1458698000-1864-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <A8FC939F80655644A89BB21CCD3741E801409801C8@G08CNEXMBPEKD02.g08.fujitsu.local>
+References: <A8FC939F80655644A89BB21CCD3741E801409801C8@G08CNEXMBPEKD02.g08.fujitsu.local>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.85]
-X-yoursite-MailScanner-ID: C62AE489F965.A24EC
+X-yoursite-MailScanner-ID: 41DA8489F962.AE4E9
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] openssh: add systemd service file sshd.service
+Subject: [jethro][PATCH v2] gcc-cross-canadian.inc: add INSANE_SKIP_ to avoid build warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,82 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 01:52:35 -0000
+X-List-Received-Date: Wed, 23 Mar 2016 01:53:34 -0000
 Content-Type: text/plain
 
-If sysvinit is disabled from DISTRO_FEATURES,then /etc/init.d/sshd
-will be removed,and this will cause sshd daemon failed to start by systemd,
-So add it.
+WARNING: QA Issue: gcc-cross-canadian-i586-dbg: found library in wrong location:
+/PATH/sysroots/x86_64-oesdk-linux/usr/libexec/i586-oe-linux/gcc/
+i586-oe-linux/5.2.0/.debug/libcc1.so.0.0.0
+
+This warning is introduced by commit f6e47aa(gcc-target 5.1: fix for libcc1)
 
 Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- .../recipes-connectivity/openssh/openssh/sshd.service | 19 +++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.1p2.bb    |  9 +++++++--
- 2 files changed, 26 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd.service
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.service b/meta/recipes-connectivity/openssh/openssh/sshd.service
-new file mode 100644
-index 0000000..6c05f23
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd.service
-@@ -0,0 +1,19 @@
-+[Unit]
-+Description=OpenSSH server daemon
-+Documentation=man:sshd(8) man:sshd_config(5)
-+After=network.target sshd-keygen.service
-+Wants=sshd-keygen.service
-+
-+[Service]
-+Type=forking
-+PIDFile=@localstatedir@/run/sshd.pid
-+EnvironmentFile=-@SYSCONFDIR@/sysconfig/sshd
-+ExecStart=@SBINDIR@/sshd $OPTIONS
-+ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
-+KillMode=process
-+Restart=on-failure
-+RestartSec=42s
-+
-+[Install]
-+WantedBy=multi-user.target
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.1p2.bb b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-index 3b5e28a..8b31b40 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.1p2.bb
-@@ -23,7 +23,9 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://run-ptest \
-            file://CVE-2016-1907_upstream_commit.patch \
-            file://CVE-2016-1907_2.patch \
--           file://CVE-2016-1907_3.patch "
-+           file://CVE-2016-1907_3.patch \
-+           file://sshd.service"
-+
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index 54e4881..027c09a 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -83,6 +83,8 @@ FILES_${PN} = "\
+     ${prefix}/${TARGET_SYS}/usr/include/* \
+ "
+ INSANE_SKIP_${PN} += "dev-so"
++INSANE_SKIP_${PN} += "libdir"
++INSANE_SKIP_${PN}-dbg += "libdir"
  
- PAM_SRC_URI = "file://sshd"
- 
-@@ -39,7 +41,7 @@ INITSCRIPT_NAME_${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
- 
- SYSTEMD_PACKAGES = "${PN}-sshd"
--SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
-+SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket sshd.service"
- 
- inherit autotools-brokensep ptest
- 
-@@ -118,9 +120,12 @@ do_install_append () {
- 	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
- 	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
- 	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
-+	install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_unitdir}/system
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 		-e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@BINDIR@,${bindir},g' \
-+		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+		-e 's,@localstatedir@,${localstatedir},g' \ 
- 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
- }
- 
+ FILES_${PN}-dbg += " \
+     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/.debug \
 -- 
 1.8.4.2
 
