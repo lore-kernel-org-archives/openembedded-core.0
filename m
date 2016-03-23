@@ -1,46 +1,27 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A76436067C
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AC45D6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 03:51:46 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id p65so217081877wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2016 20:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=g7Jm0uO6dVqaHMUky4sJ5Kq0wyxm/leQLOPDfQ4mVjg=;
-	b=PRR4OSpuKyMH/zMmFeLHh5UYaOz1M4bp9gTm/3OSjHD7/yzEK5Mmh0CeqBgciiUcCo
-	jzaYpVhHW5I13ETX9B8t+8Z1knvQn2cM7EzlFHtrTqq1qjHVSksENFRHzyN73imUu7LE
-	bSfp3fuAYrHum7g+FRBEYm3FSBWbqrpz/2NuR1STLln+AdQZggKXF/d5a0rFrWyLdGy/
-	uAbTPyGXVe7P48c5ioXVuf6Rb5ZrRz2zdo03PBxouBC6YaqSC2em769ggAFFtMgvkbEj
-	sCB4605I7Sq0+xbNt2/at9CUNQpLMJd73pgNOWiqEDjOijXzAatT+W5S6Tb4xOdSdlne
-	H1Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=g7Jm0uO6dVqaHMUky4sJ5Kq0wyxm/leQLOPDfQ4mVjg=;
-	b=nNFHJwr1dy/yvxLFk9w/MNMv3y+nHz4t0ALC1fOto00J7V2DOaWxiOpC+zlIwNqXZF
-	ib9mKEQs48MO96XU+MTAhnwqIOiZpGH6R2ZYh/s4ZKeIAS/lVN+oSzp05QtREzvMle5H
-	t5syys3ikJP6tSHv85PzKv276Kxov+Xd63pbPecOoq8yu9bqQ4iWqiYaVj6WPg018fOd
-	oNlVtPTnXwr5Y5k4RnsgDehXqkvYXyeNrEkHNowEUquJzIm0fuskEoD5CmO6xKcyArnQ
-	I2ANTKccHLVRgSKV4ofyOiW151601yhbjnAnG0/+eiN4VaUHEHNYt8FHKcFZ5Skbpx5Y
-	hsaw==
-X-Gm-Message-State: AD7BkJJbJ7rje2uDCQgXnA/Wf++3/IG3nSZtX3fFXIuWMWP7FZ8Yj+ij/7isIqbhPMZRbdM/c5S9zzM9BR7UmQ==
+	Wed, 23 Mar 2016 06:15:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2N6Flho011935
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Mar 2016 23:15:47 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 22 Mar 2016 23:15:46 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
+	<bruce.ashfield@gmail.com>, <mark.hatle@windriver.com>
+Date: Wed, 23 Mar 2016 02:15:41 -0400
+Message-ID: <cover.1458713426.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1458638728.git.hongxu.jia@windriver.com>
+References: <cover.1458638728.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.194.63.242 with SMTP id j18mr787944wjs.114.1458705106815;
-	Tue, 22 Mar 2016 20:51:46 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Tue, 22 Mar 2016 20:51:46 -0700 (PDT)
-In-Reply-To: <1458657857-10527-1-git-send-email-liu.ming50@gmail.com>
-References: <1458657857-10527-1-git-send-email-liu.ming50@gmail.com>
-Date: Tue, 22 Mar 2016 20:51:46 -0700
-Message-ID: <CAJ86T=XbBusqrWkU=wdDWEJT5AHC+kEm=HcvNJgN01gEynjgBg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
-	jian.liu@windriver.com,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libmad: avoid using legacy _thumb overrides
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V6 00/15] fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +34,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 03:51:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Mar 2016 06:15:50 -0000
+Content-Type: text/plain
 
-On Tue, Mar 22, 2016 at 7:44 AM, Ming Liu <liu.ming50@gmail.com> wrote:
-> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->
-> _thumb had been dropped from overrides since commit 351443d7:
-> [ feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-rides ]
->
-> Use bb.utils.contains('TUNE_FEATURES', 'thumb', **, **, d) instead.
+Changed in V6:
+- Drop kernel build path fix
 
-Finding thumb in TUNE_FEATURES is not a valid way to determine whether
-or not a particular package is being compiled as Thumb.
+- Tweak debug location to /usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}
+  to keep syn with past
 
-Since this recipe explicitly sets ARM_INSTRUCTION_SET = "arm", I think
-the correct fix is simply to remove the "EXTRA_OECONF_append_thumb"
-line.
+- Tweak PACKAGE_BUILDPATH_TEXT_PATTERNS in fix_buildpaths.bbclass to
+  adapt the above fix;
 
-> [YOCTO #9323]
->
-> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
-> ---
->  meta/recipes-multimedia/libmad/libmad_0.15.1b.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-> index 9e08b16..15a9d96 100644
-> --- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-> +++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-> @@ -27,7 +27,7 @@ inherit autotools pkgconfig
->
->  EXTRA_OECONF = "-enable-speed --enable-shared"
->  # The ASO's don't take any account of thumb...
-> -EXTRA_OECONF_append_thumb = " --disable-aso --enable-fpm=default"
-> +EXTRA_OECONF_append = "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' --disable-aso --enable-fpm=default', '', d)}"
->  EXTRA_OECONF_append_arm = " --enable-fpm=arm"
->
->  do_configure_prepend () {
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Follow test case in V5:
+-----------
+root@qemux86-64:~# ls /usr/src/debug/
+acl           bash          e2fsprogs     glibc         libcap        libxcb        ncurses       service       util-linux    zlib
+attr          busybox       expat         kbd           libx11        libxdmcp      opkg-utils    shadow        v86d
+base-passwd   dbus          gdb           kmod          libxau        libxkbcommon  readline      systemd       xz
+
+root@qemux86-64:~# gdb skeleton-test 
+(gdb) r
+Starting program: /usr/sbin/skeleton-test 
+hello world
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000000000040056b in main (argc=1, argv=0x7fffffffed08) at /usr/src/debug/service/0.1-r0/skeleton_test.c:8
+8		*p = 1;
+(gdb) list
+3	int main(int argc, char *argv[])
+4	{
+5		printf("hello world\n");
+6	
+7		char *p = NULL;
+8		*p = 1;
+9		return 0;
+10	}
+
+-----------
+
+//Hongxu
+
+The following changes since commit 2f2f784727a1617c2b9ce0bb86730ba301238e06:
+
+  parselogs: add new whitelist entries to address 4.4.3 issues (2016-03-22 08:54:34 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+
+Hongxu Jia (15):
+  conf/bitbake.conf package.bbclass: fix dbg package not contain sources
+    while -fdebug-prefix-map used
+  dtc.inc: fix buildpaths QA issue
+  fix_buildpaths.bbclass: add bbclass to fix build path
+  icu: fix buildpaths QA issue
+  tcl: fix buildpath QA issue
+  python2/3: fix buildpath QA issue
+  bbclass distutils/distutils3: fix .pyc/.pyo buildpath
+  bbclass distutils/distutils3/setuptools/setuptools3: clean up
+    DISTUTILS_INSTALL_ARGS
+  python-setuptools/python3-setuptools: use old-style install
+  python3-pip: use old-style install
+  waf.bbclass: support do patch on extracted files
+  python-pycairo: fix buildpath QA issue
+  openssl: fix buildpath QA issue
+  epiphany: fix buildpaths QA issue
+  gconf: fix buildpaths QA issue
+
+ meta/classes/distutils.bbclass                     |  8 +--
+ meta/classes/distutils3.bbclass                    |  8 +--
+ meta/classes/fix_buildpaths.bbclass                | 55 +++++++++++++++++++
+ meta/classes/package.bbclass                       | 24 +++++++--
+ meta/classes/setuptools.bbclass                    |  5 --
+ meta/classes/setuptools3.bbclass                   |  5 --
+ meta/classes/waf.bbclass                           | 11 +++-
+ meta/conf/bitbake.conf                             |  3 +-
+ .../openssl/remove-build-path-in-source-code.patch | 44 +++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2g.bb |  7 +++
+ ...trip-off-build-path-in-purported-filename.patch | 62 ++++++++++++++++++++++
+ .../python/python-pycairo_1.10.0.bb                | 25 +++------
+ .../python/python-setuptools_19.4.bb               |  2 -
+ meta/recipes-devtools/python/python3-pip_8.0.0.bb  | 12 -----
+ .../python/python3-setuptools_19.4.bb              |  8 +--
+ meta/recipes-devtools/python/python3_3.5.1.bb      | 20 +++++--
+ meta/recipes-devtools/python/python_2.7.11.bb      | 29 ++++++++--
+ meta/recipes-devtools/tcltk/tcl_8.6.4.bb           |  9 +++-
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |  8 ++-
+ .../files/use-relative-path-for-build-dir.patch    | 57 ++++++++++++++++++++
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb            |  3 +-
+ meta/recipes-kernel/dtc/dtc.inc                    |  3 ++
+ .../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch       | 30 +++++++++++
+ .../icu/icu/add-variable-U_CC-and-U_CXX.patch      | 61 +++++++++++++++++++++
+ meta/recipes-support/icu/icu_56.1.bb               | 12 +++++
+ 25 files changed, 435 insertions(+), 76 deletions(-)
+ create mode 100644 meta/classes/fix_buildpaths.bbclass
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+ create mode 100644 meta/recipes-devtools/python/python-pycairo/strip-off-build-path-in-purported-filename.patch
+ create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+ create mode 100644 meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+ create mode 100644 meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
+
+-- 
+1.9.1
+
 
