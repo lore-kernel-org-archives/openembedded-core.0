@@ -1,53 +1,49 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 051426E5CB;
-	Wed, 23 Mar 2016 21:08:49 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id p21so4626860ioe.1;
-	Wed, 23 Mar 2016 14:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ibMmHd7kgOuxZVJWIFTuteNLPVmab18cGzetoiZ8I2c=;
-	b=Jsn3rpVlpdtgas13pIPEOSsE8odQKDSkUEg/K+RTCuX2mFd8TchN2W6aNmWxPAFzTF
-	s+Thw2d40syHdg+nki7TkcQA64vNcQ8oo+gWHVlKQBfecQ3X+6hXBWW+3+Bt0XpfD5MZ
-	FAfoorwppQkJfDeAsYCDXm6daaoWDORwdvzgGWejz4wvnHYoa/CgQIDaY5SODRPWQYC6
-	8BVDDe3YBjrPWsu9o7fmJi24lIcbQ+FCuNUoNMjEpSdNRXntCDJLQXpoRFd6CoLrr8F/
-	eqAFbN1NOMNgRjlU1BLOSQBHyXLn0Kjd+KG0F85GFbz/8oY2x+kLTg9bTsXEnVQUumqy
-	G0sw==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 90AB46AC4B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2016 21:17:48 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id m184so66572811iof.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2016 14:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YdPDViDA6fQf/Ye8Kh6Onl2Txk5dtDe3vO1no/DwrKI=;
+	b=vr+MO8Hb9DH0YdLUrA5ldQS6vDnsrfLwV12jJhq2gXGZEylofQafe+20IgEdulY/7c
+	1vwnoPWWF2O+VpvhpnsxI1qMPIRzRA+iN539DruGx+gy0abPsSmhutkZcqFim3hyhpt1
+	HkLVDZTPXFLkpE1dLSrZGvTeRlSPCmwRHRSwkyuLmN315eocyxPAXVQ2f3109yk0RCYN
+	KIBNqacoqC8oY/t1GpfT9C3TZWcmPySqlISHHMMlXp4eMLVITyKoQtClWot+Jn2T/I5b
+	fiQFC4Ft39PV6eA8fQExJyFRutaE4lAa/pzwT2uYvC/NkVMB20detd1sGsrJOsk+QWv7
+	Lz9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ibMmHd7kgOuxZVJWIFTuteNLPVmab18cGzetoiZ8I2c=;
-	b=Cmd7i4Si+i+155NpagQM0mMkFeSuUh/YLGQz67y9hSpEUtTHRwH+GpCk7GnlrZnNd/
-	LpVMbAjrkS3WUAXpARq9SxNy2k0y24phEtTCZP2SheLq7GsIa+o8/yankAapfYOmajiR
-	0kThzlKgDYJKf5fvk+mVLttbyPHUxpSOg3JZNCxtGhmwxs1tEDFB5dajEEjT3MPzljTi
-	yj/isMrIsUWeHYv/Q/TCsecx3/aQR7Xjcy49lMS6qW9TZ+/ecom7Ox8XZKgtnOvE8jrw
-	AlQqc6V/GEq77q0LwSZLNTHNxCvRKXjIEP+erfgyfQr4S+xvVrkthpL1LzQMgYYboMk5
-	OImg==
-X-Gm-Message-State: AD7BkJLv0Sw2KpTOMI6LcK1n8psM8WnmkQ0ilWGeNRk3NpvHMk0jTEr251tFnSCIrf1ggg==
-X-Received: by 10.50.29.3 with SMTP id f3mr5935151igh.59.1458767330203;
-	Wed, 23 Mar 2016 14:08:50 -0700 (PDT)
-Received: from linux-yxv0 (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id p8sm9894659igi.2.2016.03.23.14.08.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Mar 2016 14:08:49 -0700 (PDT)
-Date: Wed, 23 Mar 2016 17:08:50 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: akuster808 <akuster808@gmail.com>,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>
-Message-ID: <20160323210850.GA5376@linux-yxv0>
-References: <56DEF97F.9070306@balister.org>
- <56F2C618.3050205@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YdPDViDA6fQf/Ye8Kh6Onl2Txk5dtDe3vO1no/DwrKI=;
+	b=QjvJyFNZaX3gQBwjbZoDXbwWz/D73Ar/bLLCqhGzy7ObcdStdIlnX4qWreHGy4e8Ni
+	n/l+lI0ucZGJejwq+Xj4dr6CBXff6pRt+aZpRU5v8XMOFUh+/niNy2MEfdn2D06XU+X1
+	Lqz7GqFgNo+13UlzGAw29QywY5N226Y+yHCci5G3nqlDjJz8ukWMtl1FR5RLE/UiZhFg
+	2rMcsFrg8lRLXWtt9YXCesknEYPK5hC/au/Dk0Ec8QqlAbdvILxaQTDWv2Xujmw5THjd
+	eMCTQBYI4o7RCezXh8ebutfzPS0rCRT+czpafKDfT51tfasFYR37ax7XiSoU8ic9n3yX
+	2Jlg==
+X-Gm-Message-State: AD7BkJLCcPA3qOuMcAtF77+OMy8yikuVJXUSVxKEaGcae98b5ePgbt3ZOtJx88IaSneqZxflk2Xn255hT7gx2o6u
+X-Received: by 10.107.6.32 with SMTP id 32mr5375673iog.99.1458767869151; Wed,
+	23 Mar 2016 14:17:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <56F2C618.3050205@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [oe] OEDAM, April 8 in San Diego after ELC
+Received: by 10.107.162.70 with HTTP; Wed, 23 Mar 2016 14:17:29 -0700 (PDT)
+In-Reply-To: <1458756234.3476.189.camel@pbcl.net>
+References: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
+	<1458755798.3476.186.camel@pbcl.net>
+	<CAJTo0LbicCM6LJbxEK8m-QES49-WjPJsDUgduV0-dOg1FSEdZw@mail.gmail.com>
+	<1458756234.3476.189.camel@pbcl.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Mar 2016 21:17:29 +0000
+Message-ID: <CAJTo0LZL6WKPv+UFNRP9hMO8Ui0F6mLvkKrcM0eBdFJ5bF-pSQ@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane.bbclass: tighten lib_re and exec_re patterns to avoid false positive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,24 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 21:08:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Mar 2016 21:17:51 -0000
+Content-Type: multipart/alternative; boundary=001a113fbf5ca6c253052ebddce6
 
-On Wed 2016-03-23 @ 09:36:40 AM, akuster808 wrote:
-> There are only 10 people signed up.
-> Is that enough people to justify the expense room or even meet?
+--001a113fbf5ca6c253052ebddce6
+Content-Type: text/plain; charset=UTF-8
 
-I have no idea what the budget might be or what a room might cost. I'll leave
-it to those who do know to worry about the costs versus the benefits.
+On 23 March 2016 at 18:03, Phil Blundell <pb@pbcl.net> wrote:
 
-In any case I certainly think it's still worth meeting. A smaller, more
-focused group can sometimes get more done than a larger group. Secondly, it's
-my experience that more people always show up than sign up.
+> Or alternatively, add an extra check so that when it thinks it's found a
+> misplaced library, it checks the ELF header to make sure that it really is
+> one and suppresses the diagnostic if not.  If you only do this in cases
+> where it was about to print a warning anyway then the impact on performance
+> shouldn't be too bad.
+>
 
-With a project like this there will always be things to discuss, and sometimes
-a discussion goes better in person rather than online.
+Yeah, best of both worlds.  A flexible regex to catch potential offenders,
+and then use oe.qa.ELFFile to verify it's actually a library.  Can you
+update the patch Bill?
 
-Best regards,
-	Trevor
+Ross
 
+--001a113fbf5ca6c253052ebddce6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 March 2016 at 18:03, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex"><div>Or alternatively, add an extra check so =
+that when it thinks it&#39;s found a misplaced library, it checks the ELF h=
+eader to make sure that it really is one and suppresses the diagnostic if n=
+ot.=C2=A0 If you only do this in cases where it was about to print a warnin=
+g anyway then the impact on performance shouldn&#39;t be too bad.</div></bl=
+ockquote><div><br></div><div>Yeah, best of both worlds.=C2=A0 A flexible re=
+gex to catch potential offenders, and then use oe.qa.ELFFile to verify it&#=
+39;s actually a library.=C2=A0 Can you update the patch Bill?</div><div><br=
+></div><div>Ross=C2=A0</div></div><br></div></div>
+
+--001a113fbf5ca6c253052ebddce6--
