@@ -1,20 +1,54 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 47C37606A8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 16:25:04 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2016 09:25:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="943523950"
-Received: from jhibarra-desk.zpn.intel.com ([10.219.24.147])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2016 09:25:00 -0700
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Mar 2016 18:32:02 -0600
-Message-Id: <1458779522-3127-1-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] scripts:/oe-selftest: Use timestamp instead of test names in coverage data file
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C09BB6067D;
+	Wed, 23 Mar 2016 16:36:52 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id td3so283pab.2;
+	Wed, 23 Mar 2016 09:36:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=4Qj01y9M7MovGVDgTJg+1GcMoGrImu2rsPNzp3Y/vaE=;
+	b=D22HLsPJBCi9tcWH/J5SgQHcKYKMAtsT/IyUS8VOiaX9T0ZBnWlA2iYsKAd49rncGM
+	Hzh1rIuOeumMzM5ocNDTI6abIFZ9cD3bblAiPkXEy1xRvlXqUg6ft8yrGmgjWixld49a
+	WbH3knHP2rE5B0uHBoXbXv65oR+Dyq6gVL7SwqjeVqiu4JpsfGntOeWd70kDKCPXInCd
+	iGgvmbbQIznZzGS0E5SeaTtrLQ/o2GsrgKxjVvMBf9D+adk1oLhfOUFatfdeEWS9NIjj
+	y0bQDTDHhIyDGHWhlxKrNxECt8FlO3KUxwzS3qa3l/MPJECb0ooW+1SZeH07zcb3HXfZ
+	V7Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=4Qj01y9M7MovGVDgTJg+1GcMoGrImu2rsPNzp3Y/vaE=;
+	b=QgedBRHNSTDW7oJuGg2c9yM1JvMEx/P9WAvoCFhskYxGgLuqtcjD12ZfET1XM4q03O
+	lrcqUkpBz/lXD9ehYI4GPUFfcRdHYXMUov9rnkkhnhqi5nxY6PZxITouFaVDhlFlq77Y
+	UabKaiZcQwQIdeyYgDTvLCrC/aQPVwmqIJKwKcV/fIeDxmlspT2ZqrCSpNgM/h0Pt1d1
+	2dW0b5ZA0KlGyUvo+ZJldtzDb6PhaVwMgIpMH/65nLOKvrQ+HU/GrvvnoRNb6ogamBST
+	AfisIO+VOlrcvCU2HZAzudNLA0FROxOsbGuK/s5fSh7H8W7DAB4b76LGE3d4VXxlvxJU
+	NSdg==
+X-Gm-Message-State: AD7BkJLYljvnATRAC9GhNv1IL3PKzRnkZ3QQbbl1WtmXc6ORJjKOt3xxgDKbFtReRKiQXg==
+X-Received: by 10.66.222.129 with SMTP id qm1mr5605664pac.22.1458751012992;
+	Wed, 23 Mar 2016 09:36:52 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:4df:d6eb:1e52:fc5f?
+	([2601:202:4000:1239:4df:d6eb:1e52:fc5f])
+	by smtp.googlemail.com with ESMTPSA id
+	s87sm5309339pfa.89.2016.03.23.09.36.51
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 23 Mar 2016 09:36:51 -0700 (PDT)
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>
+References: <56DEF97F.9070306@balister.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <56F2C618.3050205@gmail.com>
+Date: Wed, 23 Mar 2016 09:36:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <56DEF97F.9070306@balister.org>
+Subject: Re: [oe] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,65 +61,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 16:25:05 -0000
+X-List-Received-Date: Wed, 23 Mar 2016 16:36:56 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-This fixes the problem by changing the name to the coverage data file,
-using the timestamp as an identifier.
 
-The name for the coverage data file is constructed based on the tests
-ran; this has created a couple of issues so far, affecting coverage report.
 
-If --run-tests-by option is given, the data file name won't have any
-identifier, causing following runs to overwrite themselves. On the
-other hand, if too many tests are given, the file name exceeds linux
-limits and fails to store the coverage data all together.
+On 03/08/2016 08:10 AM, Philip Balister wrote:
+> On the Friday after ELC in San Diego (Yocto Project Dev Day is
+> Thursday), we will have a developer meeting near the conference venue
+> (need to double check with Jefro about exact location).
 
-[Yocto #9253]
+There are only 10 people signed up.
 
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
----
- scripts/oe-selftest | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Is that enough people to justify the expense room or even meet?
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index d18348d..9b61bfa 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -364,16 +364,21 @@ def list_tags():
- 
-     print 'Tags:\t%s' % ', '.join(str(x) for x in tags)
- 
--def coverage_setup(run_tests, run_all_tests, coverage_source, coverage_include, coverage_omit):
-+def coverage_setup(coverage_source, coverage_include, coverage_omit):
-     """ Set up the coverage measurement for the testcases to be run """
-+    import datetime
-+    import subprocess
-     builddir = os.environ.get("BUILDDIR")
-+    pokydir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-+    curcommit= subprocess.check_output(["git", "--git-dir", os.path.join(pokydir, ".git"), "rev-parse", "HEAD"])
-     coveragerc = "%s/.coveragerc" % builddir
-     data_file = "%s/.coverage." % builddir
--    data_file += ((run_tests and '.'.join(run_tests)) or
--        (run_all_tests and "all_tests") or "")
-+    data_file += datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
-     if os.path.isfile(data_file):
-         os.remove(data_file)
-     with open(coveragerc, 'w') as cps:
-+        cps.write("# Generated with command '%s'\n" % " ".join(sys.argv))
-+        cps.write("# HEAD commit %s\n" % curcommit.strip())
-         cps.write("[run]\n")
-         cps.write("data_file = %s\n" % data_file)
-         cps.write("branch = True\n")
-@@ -586,7 +591,7 @@ def buildResultClass(args):
-                 # value indicates where the coverage configuration file resides
-                 # More info on https://pypi.python.org/pypi/coverage
-                 if not os.environ.get('COVERAGE_PROCESS_START'):
--                    os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
-+                    os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.coverage_source, args.coverage_include, args.coverage_omit)
- 
-                 # Use default site.USER_SITE and write corresponding config file
-                 site.ENABLE_USER_SITE = True
--- 
-2.1.4
-
+- armin
+> 
+> http://openembedded.org/wiki/OEDAM_2016
+> 
+> At these meetings we try to follow an agenda we develop before hand on
+> the wiki page. I've created a rough agenda by posting notes from the
+> meeting in Dublin. Everyone, please go over the notes and add remarks
+> for completed items.
+> 
+> You can also bring up issues at the meeting. We only have one day
+> scheduled for the meeting, so a little pre-planning helps keep us on time.
+> 
+> Everyone involved in the project is welcome to attend, no how
+> knowledgeable in the overall OpenEmbedded project We like to hear from
+> people from many different use cases.
+> 
+> Thanks,
+> 
+> Philip
+> 
 
