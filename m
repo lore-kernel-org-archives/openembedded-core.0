@@ -1,33 +1,46 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A115565CBB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A76436067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 01:53:33 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
-   d="scan'208";a="4868796"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 23 Mar 2016 09:53:35 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 41DA8489F962
+	Wed, 23 Mar 2016 03:51:46 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id p65so217081877wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 09:53:32 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Wed, 23 Mar 2016 09:53:31 +0800
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Mar 2016 04:53:20 +0300
-Message-ID: <1458698000-1864-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <A8FC939F80655644A89BB21CCD3741E801409801C8@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <A8FC939F80655644A89BB21CCD3741E801409801C8@G08CNEXMBPEKD02.g08.fujitsu.local>
+	Tue, 22 Mar 2016 20:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=g7Jm0uO6dVqaHMUky4sJ5Kq0wyxm/leQLOPDfQ4mVjg=;
+	b=PRR4OSpuKyMH/zMmFeLHh5UYaOz1M4bp9gTm/3OSjHD7/yzEK5Mmh0CeqBgciiUcCo
+	jzaYpVhHW5I13ETX9B8t+8Z1knvQn2cM7EzlFHtrTqq1qjHVSksENFRHzyN73imUu7LE
+	bSfp3fuAYrHum7g+FRBEYm3FSBWbqrpz/2NuR1STLln+AdQZggKXF/d5a0rFrWyLdGy/
+	uAbTPyGXVe7P48c5ioXVuf6Rb5ZrRz2zdo03PBxouBC6YaqSC2em769ggAFFtMgvkbEj
+	sCB4605I7Sq0+xbNt2/at9CUNQpLMJd73pgNOWiqEDjOijXzAatT+W5S6Tb4xOdSdlne
+	H1Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=g7Jm0uO6dVqaHMUky4sJ5Kq0wyxm/leQLOPDfQ4mVjg=;
+	b=nNFHJwr1dy/yvxLFk9w/MNMv3y+nHz4t0ALC1fOto00J7V2DOaWxiOpC+zlIwNqXZF
+	ib9mKEQs48MO96XU+MTAhnwqIOiZpGH6R2ZYh/s4ZKeIAS/lVN+oSzp05QtREzvMle5H
+	t5syys3ikJP6tSHv85PzKv276Kxov+Xd63pbPecOoq8yu9bqQ4iWqiYaVj6WPg018fOd
+	oNlVtPTnXwr5Y5k4RnsgDehXqkvYXyeNrEkHNowEUquJzIm0fuskEoD5CmO6xKcyArnQ
+	I2ANTKccHLVRgSKV4ofyOiW151601yhbjnAnG0/+eiN4VaUHEHNYt8FHKcFZ5Skbpx5Y
+	hsaw==
+X-Gm-Message-State: AD7BkJJbJ7rje2uDCQgXnA/Wf++3/IG3nSZtX3fFXIuWMWP7FZ8Yj+ij/7isIqbhPMZRbdM/c5S9zzM9BR7UmQ==
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-X-yoursite-MailScanner-ID: 41DA8489F962.AE4E9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [jethro][PATCH v2] gcc-cross-canadian.inc: add INSANE_SKIP_ to avoid build warning
+X-Received: by 10.194.63.242 with SMTP id j18mr787944wjs.114.1458705106815;
+	Tue, 22 Mar 2016 20:51:46 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Tue, 22 Mar 2016 20:51:46 -0700 (PDT)
+In-Reply-To: <1458657857-10527-1-git-send-email-liu.ming50@gmail.com>
+References: <1458657857-10527-1-git-send-email-liu.ming50@gmail.com>
+Date: Tue, 22 Mar 2016 20:51:46 -0700
+Message-ID: <CAJ86T=XbBusqrWkU=wdDWEJT5AHC+kEm=HcvNJgN01gEynjgBg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
+	jian.liu@windriver.com,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libmad: avoid using legacy _thumb overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,36 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 01:53:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Mar 2016 03:51:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-WARNING: QA Issue: gcc-cross-canadian-i586-dbg: found library in wrong location:
-/PATH/sysroots/x86_64-oesdk-linux/usr/libexec/i586-oe-linux/gcc/
-i586-oe-linux/5.2.0/.debug/libcc1.so.0.0.0
+On Tue, Mar 22, 2016 at 7:44 AM, Ming Liu <liu.ming50@gmail.com> wrote:
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
+> _thumb had been dropped from overrides since commit 351443d7:
+> [ feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-rides ]
+>
+> Use bb.utils.contains('TUNE_FEATURES', 'thumb', **, **, d) instead.
 
-This warning is introduced by commit f6e47aa(gcc-target 5.1: fix for libcc1)
+Finding thumb in TUNE_FEATURES is not a valid way to determine whether
+or not a particular package is being compiled as Thumb.
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Since this recipe explicitly sets ARM_INSTRUCTION_SET = "arm", I think
+the correct fix is simply to remove the "EXTRA_OECONF_append_thumb"
+line.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 54e4881..027c09a 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -83,6 +83,8 @@ FILES_${PN} = "\
-     ${prefix}/${TARGET_SYS}/usr/include/* \
- "
- INSANE_SKIP_${PN} += "dev-so"
-+INSANE_SKIP_${PN} += "libdir"
-+INSANE_SKIP_${PN}-dbg += "libdir"
- 
- FILES_${PN}-dbg += " \
-     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/.debug \
--- 
-1.8.4.2
-
-
-
+> [YOCTO #9323]
+>
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> ---
+>  meta/recipes-multimedia/libmad/libmad_0.15.1b.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+> index 9e08b16..15a9d96 100644
+> --- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+> +++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+> @@ -27,7 +27,7 @@ inherit autotools pkgconfig
+>
+>  EXTRA_OECONF = "-enable-speed --enable-shared"
+>  # The ASO's don't take any account of thumb...
+> -EXTRA_OECONF_append_thumb = " --disable-aso --enable-fpm=default"
+> +EXTRA_OECONF_append = "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' --disable-aso --enable-fpm=default', '', d)}"
+>  EXTRA_OECONF_append_arm = " --enable-fpm=arm"
+>
+>  do_configure_prepend () {
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
