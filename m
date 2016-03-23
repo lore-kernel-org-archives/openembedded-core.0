@@ -1,24 +1,26 @@
 Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9449460017
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A58E6607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 08:38:05 +0000 (UTC)
+	Wed, 23 Mar 2016 08:38:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2N8c5W5030353
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2N8c6pa027614
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 01:38:05 -0700
+	Wed, 23 Mar 2016 01:38:06 -0700 (PDT)
 Received: from pek-wkang-u14.corp.ad.wrs.com (128.224.162.238) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 23 Mar 2016 01:38:04 -0700
+	14.3.248.2; Wed, 23 Mar 2016 01:38:06 -0700
 From: Wenlin Kang <wenlin.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Mar 2016 16:35:48 +0800
-Message-ID: <1458722149-12730-1-git-send-email-wenlin.kang@windriver.com>
+Date: Wed, 23 Mar 2016 16:35:49 +0800
+Message-ID: <1458722149-12730-2-git-send-email-wenlin.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1458722149-12730-1-git-send-email-wenlin.kang@windriver.com>
+References: <1458722149-12730-1-git-send-email-wenlin.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] relocate_sdk: fixed .gccrelocprefix section handling
+Subject: [PATCH 2/2] toolchain-shar-extract.sh: limit the length for target_sdk_dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 23 Mar 2016 08:38:07 -0000
 Content-Type: text/plain
 
-When fixing paths for .gccrelocprefix section, it will corrupt the next
-entry during updating the current one if "new_prefix" length is more
-than "DEFAULT_INSTALL_DIR", this problem is obvious on the code, but it's
-only found when install sdk onto a net file system.
+Limit the length for target_sdk_dir, this can ensure the relocation
+behaviour in relocate_sdk.py has the right result.
 
 Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
 ---
- scripts/relocate_sdk.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/files/toolchain-shar-extract.sh | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 992db5c..ceca1f2 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -166,6 +166,7 @@ def change_dl_sysdirs():
-                 while (offset + 4096) <= sh_size:
-                     path = f.read(4096)
-                     new_path = old_prefix.sub(new_prefix, path)
-+                    new_path = new_path.rstrip(b("\0"))
-                     # pad with zeros
-                     new_path += b("\0") * (4096 - len(new_path))
-                     #print "Changing %s to %s at %s" % (str(path), str(new_path), str(offset))
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 12d39c3..0295bde 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -110,6 +110,12 @@ else
+ 	target_sdk_dir=$(readlink -m "$target_sdk_dir")
+ fi
+ 
++# limit the length for target_sdk_dir, ensure the relocation behaviour in relocate_sdk.py has right result.
++if [ ${#target_sdk_dir} -gt 2048 ]; then
++	echo "Error: The target directory path is too long!!!"
++	exit 1
++fi
++
+ if [ "$SDK_EXTENSIBLE" = "1" ]; then
+ 	# We're going to be running the build system, additional restrictions apply
+ 	if echo "$target_sdk_dir" | grep -q '[+\ @$]'; then
 -- 
 1.9.1
 
