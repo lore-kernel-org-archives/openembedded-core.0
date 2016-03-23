@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 87DD3601D3
+	by mail.openembedded.org (Postfix) with ESMTP id EC5CD601D3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 23 Mar 2016 08:59:11 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP; 23 Mar 2016 01:59:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,381,1455004800"; d="scan'208";a="674289525"
+X-IronPort-AV: E=Sophos;i="5.24,381,1455004800"; d="scan'208";a="674289535"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Mar 2016 01:59:12 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Mar 2016 01:59:13 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Mar 2016 10:59:06 +0200
-Message-Id: <ecd54a3428d17f605d310010d1213c4c6cb1cd8f.1458723078.git.jussi.kukkonen@intel.com>
+Date: Wed, 23 Mar 2016 10:59:07 +0200
+Message-Id: <56c462fbba16531c3acc1bd866a0fc157748af19.1458723078.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <ecd54a3428d17f605d310010d1213c4c6cb1cd8f.1458723078.git.jussi.kukkonen@intel.com>
+References: <ecd54a3428d17f605d310010d1213c4c6cb1cd8f.1458723078.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1458723078.git.jussi.kukkonen@intel.com>
 References: <cover.1458723078.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 1/3] glib-2.0: Install gio-querymodules in main package
+Subject: [PATCHv2 2/3] gio-module-cache: Add class for Gio modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,102 +31,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 08:59:11 -0000
+X-List-Received-Date: Wed, 23 Mar 2016 08:59:12 -0000
 
-gio-querymodules should be used whenever new Gio modules are installed
-(to regenerate the module cache) so it should be available by default.
-Each multilib is going to need its own variant (because the tool
-actually dlopens the modules when cache is generated), so it's
-packaged as  ${libexecdir}/${MLPREFIX}gio-querymodules
+The new class uses gio-querymodules tool on postinst and postrm.
+This regenerates the module cache which is useful to avoid loading
+modules that are not needed at runtime: If a Gio module is not
+listed in the cache file it will always get loaded.
+
+* Add a postinst-intercept 'gio-module-cache': it runs
+  gio-querymodules using qemuwrapper. This is required because the tool
+  actually loads the modules to generate the cache.
+* Add a gio-module-cache class that adds postinstall and postrm
+  scripts. In the sysroot population case use the new intercept.
+* Inherit the new class in glib-2.0, glib-networking and gconf.
+
+Fixes [YOCTO #9241].
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...stall-gio-querymodules-as-libexec_PROGRAM.patch | 31 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb      |  1 +
- meta/recipes-core/glib-2.0/glib.inc                | 13 +++++++--
- 3 files changed, 43 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+ meta/classes/gio-module-cache.bbclass              | 37 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib.inc                |  2 +-
+ .../glib-networking/glib-networking_2.46.1.bb      |  2 +-
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb            |  2 +-
+ .../postinst-intercepts/update_gio_module_cache    |  7 ++++
+ 5 files changed, 47 insertions(+), 3 deletions(-)
+ create mode 100644 meta/classes/gio-module-cache.bbclass
+ create mode 100644 scripts/postinst-intercepts/update_gio_module_cache
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+diff --git a/meta/classes/gio-module-cache.bbclass b/meta/classes/gio-module-cache.bbclass
 new file mode 100644
-index 0000000..561d100
+index 0000000..91461b1
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-@@ -0,0 +1,31 @@
-+From 80682c171ccb27d01343d4cfcfb4dd49b7863ccc Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 22 Mar 2016 15:14:58 +0200
-+Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
++++ b/meta/classes/gio-module-cache.bbclass
+@@ -0,0 +1,37 @@
++DEPENDS += "qemu-native"
++inherit qemu
 +
-+We want to install this binary with the gio library, and debian
-+renamer does not cope with library packages with files in ${bindir}
++GIO_MODULE_PACKAGES ??= "${PN}"
 +
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Inappropriate [OE specific]
-+---
-+ gio/Makefile.am | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++gio_module_cache_common() {
++if [ "x$D" != "x" ]; then
++    $INTERCEPT_DIR/postinst_intercept update_gio_module_cache ${PKG} \
++            mlprefix=${MLPREFIX} \
++            binprefix=${MLPREFIX} \
++            libdir=${libdir} \
++            base_libdir=${base_libdir} \
++            bindir=${bindir}
++else
++    ${libexecdir}/${MLPREFIX}gio-querymodules ${libdir}/gio/modules/
++fi
++}
 +
-+diff --git a/gio/Makefile.am b/gio/Makefile.am
-+index b7f91cc..4d81cc0 100644
-+--- a/gio/Makefile.am
-++++ b/gio/Makefile.am
-+@@ -702,7 +702,8 @@ gio.def: libgio-2.0.la
-+ gio-2.0.lib: libgio-2.0.la gio.def
-+ 	$(AM_V_GEN) lib.exe -machine:@LIB_EXE_MACHINE_FLAG@ -name:libgio-2.0-$(LT_CURRENT_MINUS_AGE).dll -def:$(builddir)/gio.def -out:$@
-+ 
-+-bin_PROGRAMS = gio-querymodules glib-compile-schemas glib-compile-resources gsettings
-++bin_PROGRAMS = glib-compile-schemas glib-compile-resources gsettings
-++libexec_PROGRAMS = gio-querymodules
-+ 
-+ glib_compile_resources_LDADD = libgio-2.0.la 		\
-+ 	$(top_builddir)/gobject/libgobject-2.0.la	\
-+-- 
-+2.1.4
++python populate_packages_append () {
++    packages = d.getVar('GIO_MODULE_PACKAGES', True).split()
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-index 2a2efae..8e445b4 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
- 	   file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-            file://Enable-more-tests-while-cross-compiling.patch \
-            file://gi-exclude.patch \
-+           file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
-           "
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch \
++    for pkg in packages:
++        bb.note("adding gio-module-cache postinst and postrm scripts to %s" % pkg)
++
++        postinst = d.getVar('pkg_postinst_%s' % pkg, True)
++        if not postinst:
++            postinst = '#!/bin/sh\n'
++        postinst += d.getVar('gio_module_cache_common', True)
++        d.setVar('pkg_postinst_%s' % pkg, postinst)
++
++        postrm = d.getVar('pkg_postrm_%s' % pkg, True)
++        if not postrm:
++            postrm = '#!/bin/sh\n'
++        postrm += d.getVar('gio_module_cache_common', True)
++        d.setVar('pkg_postrm_%s' % pkg, postrm)
++}
++
 diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 35153fa..75a7d25 100644
+index 75a7d25..bce3ce7 100644
 --- a/meta/recipes-core/glib-2.0/glib.inc
 +++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -48,8 +48,12 @@ do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
- }
+@@ -27,7 +27,7 @@ PACKAGES =+ "${PN}-utils ${PN}-codegen"
+ LEAD_SONAME = "libglib-2.0.*"
+ FILES_${PN}-utils = "${bindir}/* ${datadir}/glib-2.0/gettext"
  
--FILES_${PN} = "${libdir}/lib*${SOLIBS} ${libdir}/gio ${datadir}/glib-2.0/schemas \
--               ${datadir}/glib-2.0/gettext/mkinstalldirs ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
-+FILES_${PN} = "${libdir}/lib*${SOLIBS} \
-+               ${libdir}/gio \
-+               ${libexecdir}/*gio-querymodules \
-+               ${datadir}/glib-2.0/schemas \
-+               ${datadir}/glib-2.0/gettext/mkinstalldirs \
-+               ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
- FILES_${PN}-dev += "${libdir}/glib-2.0/include \
-                     ${libdir}/gio/modules/lib*${SOLIBSDEV} \
-                     ${libdir}/gio/modules/*.la"
-@@ -81,6 +85,11 @@ do_install_append () {
- 			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
- 		fi
- 	fi
+-inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion
++inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache
+ 
+ S = "${WORKDIR}/glib-${PV}"
+ 
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb
+index 70be87c..749ac98 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.46.1.bb
+@@ -22,7 +22,7 @@ PACKAGECONFIG[pkcs11] = "--with-pkcs11,--without-pkcs11,p11-kit"
+ 
+ EXTRA_OECONF = "--without-gnome-proxy"
+ 
+-inherit gnomebase gettext upstream-version-is-even
++inherit gnomebase gettext upstream-version-is-even gio-module-cache
+ 
+ FILES_${PN} += "${libdir}/gio/modules/libgio*.so ${datadir}/dbus-1/services/"
+ FILES_${PN}-dev += "${libdir}/gio/modules/libgio*.la"
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index feaf080..e3af3d0 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ 
+ DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
+ 
+-inherit gnomebase gtk-doc gettext gobject-introspection
++inherit gnomebase gtk-doc gettext gobject-introspection gio-module-cache
+ 
+ SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
+            file://remove_plus_from_invalid_characters_list.patch \
+diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/scripts/postinst-intercepts/update_gio_module_cache
+new file mode 100644
+index 0000000..fe46809
+--- /dev/null
++++ b/scripts/postinst-intercepts/update_gio_module_cache
+@@ -0,0 +1,7 @@
++#!/bin/sh
 +
-+        # Make sure gio-querymodules is unique among multilibs
-+        if test "x${MLPREFIX}" != "x"; then
-+                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
-+        fi
- }
- 
- do_install_append_libc-musl () {
++set -e
++
++PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
++        $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
++
 -- 
 2.1.4
 
