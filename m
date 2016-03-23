@@ -1,25 +1,41 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DC94960118
+Return-Path: <uol@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CDD86014F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 13:34:28 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Mar 2016 06:34:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="943414426"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2016 06:34:24 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1458680136-5455-1-git-send-email-ross.burton@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <56F29A68.5030905@linux.intel.com>
-Date: Wed, 23 Mar 2016 15:30:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Wed, 23 Mar 2016 13:38:06 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0]
+	ident=Debian-exim) by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:RSA_AES_128_CBC_SHA1:128) (Exim 4.80)
+	(envelope-from <uol@pengutronix.de>)
+	id 1aiiz8-0000c3-TK; Wed, 23 Mar 2016 14:38:06 +0100
+Received: from uol by ptx.hi.pengutronix.de with local (Exim 4.84_2)
+	(envelope-from <uol@pengutronix.de>)
+	id 1aiiz8-00062E-D5; Wed, 23 Mar 2016 14:38:06 +0100
+Date: Wed, 23 Mar 2016 14:38:06 +0100
+From: Ulrich =?iso-8859-1?Q?=D6lmann?= <u.oelmann@pengutronix.de>
+To: Dan McGregor <danismostlikely@gmail.com>
+Message-ID: <20160323133806.GX28020@pengutronix.de>
+References: <CACS+7ZTw_vCMo5dfGCT9PyUMFvq7QaoXRbK5Ou60Y=m=YGhL_g@mail.gmail.com>
+	<1458722860-17353-1-git-send-email-u.oelmann@pengutronix.de>
+	<CACS+7ZRFa0j2tWsW2EyLhtHbBStsb8StE8EEt=LDGQ3eqP-_8g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1458680136-5455-1-git-send-email-ross.burton@intel.com>
-Subject: Python 3 as oe-core default?
+In-Reply-To: <CACS+7ZRFa0j2tWsW2EyLhtHbBStsb8StE8EEt=LDGQ3eqP-_8g@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:34:46 up 15 days, 16:34, 41 users,  load average: 0.00, 0.02, 0.05
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nfs-utils: bugfix: adjust name of statd service unit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,17 +48,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 13:34:29 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Mar 2016 13:38:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 03/22/2016 10:55 PM, Ross Burton wrote:
-> Ideally this would be an option but that means conditional inherits.  For now
-> Python 2 is clearly the default Python in oe-core so switch to Python 2 instead
-> of 3.
+On Wed, Mar 23, 2016 at 07:18:38AM -0600, Dan McGregor wrote:
+> Oh, I did backport it locally, I was just hoping to get it into the
+> upstream jethro branch.
 
-Shall we start the work towards making 3 the default though?
+Let's see what upstream decides.
 
-Alex
+> Cherry picking your commit was pretty straightforward.
 
+:)
+
+Regards
+Ulrich
+
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
