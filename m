@@ -1,48 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C9579608B7
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 39A656AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 15:43:54 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id p65so71781461wmp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 08:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=KSiOlI67tW4MvHJ9gU0YoWdcESnwwTjpa8vGTLjtUJQ=;
-	b=P94GNKLoFz0ZOO4Z2pRVFB/5+KMPbeDd9PuIn6WPGVcam2/CZu2MFOIbHSEhnLg8mF
-	ufNY538Mbz4+1dioFpYV5RMeE+KfCSbIXOXrahWtKKSwQqIK1zd4aH65O5XUenF2wO7X
-	VMQZgJfakSJ2KYWui9JW9wEXFOpVkVdU4EsIryd311kWBIFIUmnFk8Gy8BFGS4QIeGtD
-	Adk1yY8KTkHN5I3AYW/fy+2AeL8jj5crGy61nmotl5Y9GSoDYXvHIA4DYRg7HG57qbrv
-	XzivFRveztdnd6mIlcDMXmc05GMGIkgAFAcK3syESlhYwuHC2RKcZCQd0ZX6F6GU4oRA
-	NBOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=KSiOlI67tW4MvHJ9gU0YoWdcESnwwTjpa8vGTLjtUJQ=;
-	b=ikMt6Lz1PZWopqnj0ddyJoEtsisrsiqrkPdgTzB3Vp8IBAZ4mp3G41pH38Qkbo96cI
-	5qZIhezmkquB7NpFSNj0oDJDoYHwNGmdmhlcOcSR0auFhVzMJzk1EkmmvTElDlB66Nw4
-	cWIuu9SK1rGmJavMo9dp5KxOxYjLabOH4IqOPLZPI95ahgqZGbQ8Sqngv0HVzKR6QwYM
-	Z2CCLwgVij66yUgYr4GHtuXpviGFlskyl+RYGOpZXqRYuMyvobLhi6av5H7UpGR4IYpd
-	yY9pY3loMeqZmu4cSSYCywfzhz3WnhcDg39GBbt9mosmH40hiqq4Hes3H5Oho4IPFbwD
-	6E6g==
-X-Gm-Message-State: AD7BkJI2GZtnF0vHbGy5Q/X2WckIZsMvgQKayH0Ms8JvdYbo379C60E7pinb5KKs4pP9Om5o
-X-Received: by 10.194.157.65 with SMTP id wk1mr11233319wjb.83.1458834235073;
-	Thu, 24 Mar 2016 08:43:55 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id v2sm8300568wmd.24.2016.03.24.08.43.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Mar 2016 08:43:54 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Mar 2016 15:43:48 +0000
-Message-Id: <1458834228-23233-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1458834228-23233-1-git-send-email-ross.burton@intel.com>
-References: <1458834228-23233-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] uninative: don't try to relocate static binaries
+	Thu, 24 Mar 2016 15:58:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Mar 2016 08:58:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,385,1455004800"; d="scan'208";a="918054222"
+Received: from jlock-mobl1.gar.corp.intel.com (HELO
+	jlock-mobl.gar.corp.intel.com) ([10.252.8.19])
+	by orsmga001.jf.intel.com with ESMTP; 24 Mar 2016 08:58:50 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Mar 2016 15:58:44 +0000
+Message-Id: <1458835124-7128-1-git-send-email-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH] pseudo: backport a patch to fix xattr removal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +28,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 15:43:56 -0000
+X-List-Received-Date: Thu, 24 Mar 2016 15:58:53 -0000
 
-patchelf will understandably error out if there isn't a .interp section to
-relocate, so don't try to relocate static binaries.
+xattr removal doesn't work in pseudo 1.7.5, backport a patch from
+pseudo master to fix this.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+[YOCTO #9324]
+
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/classes/uninative.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../pseudo/files/handle-remove-xattr.patch         | 36 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/handle-remove-xattr.patch
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index b045a28..0798717 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -127,6 +127,8 @@ python uninative_changeinterp () {
-                 elf.open()
-             except oe.qa.NotELFFileError:
-                 continue
-+            if not elf.isDynamic():
-+                continue
+diff --git a/meta/recipes-devtools/pseudo/files/handle-remove-xattr.patch b/meta/recipes-devtools/pseudo/files/handle-remove-xattr.patch
+new file mode 100644
+index 0000000..8b7f30c
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/handle-remove-xattr.patch
+@@ -0,0 +1,36 @@
++From a24cf102967a4966bfabe36c3542fb65f35bf539 Mon Sep 17 00:00:00 2001
++From: Peter Seebach <peter.seebach@windriver.com>
++Date: Wed, 23 Mar 2016 11:55:25 -0500
++Subject: actually handle remove_xattr correctly
++
++The path is required but wasn't being extracted from the client's message,
++resulting in xattr removal never working. This does not fully address some
++deeper problems with the xattr implementation, but at least the common
++removal case works.
++
++Upstream-Status: Backport
++
++Index: pseudo-1.7.5/ChangeLog.txt
++===================================================================
++--- pseudo-1.7.5.orig/ChangeLog.txt
+++++ pseudo-1.7.5/ChangeLog.txt
++@@ -1,3 +1,7 @@
+++2016-03-22:
+++       * (seebs) extract path from message for remove_xattr so it
+++         actually works.
+++
++ 2016-02-09:
++         * (seebs) 1.7.5 release
++ 
++Index: pseudo-1.7.5/pseudo.c
++===================================================================
++--- pseudo-1.7.5.orig/pseudo.c
+++++ pseudo-1.7.5/pseudo.c
++@@ -543,6 +543,7 @@ pseudo_op(pseudo_msg_t *msg, const char
++ 		case OP_GET_XATTR:
++ 		case OP_LIST_XATTR:
++ 		case OP_REPLACE_XATTR:
+++		case OP_REMOVE_XATTR:
++ 		case OP_SET_XATTR:
++ 			/* In a rename there are two paths, null separated in msg->path */
++ 			initial_len = strlen(msg->path);
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+index 7af4d65..d90e644 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+@@ -6,6 +6,7 @@ SRC_URI = " \
+     file://fallback-passwd \
+     file://fallback-group \
+     file://moreretries.patch \
++    file://handle-remove-xattr.patch \
+ "
  
-             try:
-                 subprocess.check_output(("patchelf-uninative", "--set-interpreter",
+ SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
 -- 
-2.7.0
+2.5.5
 
 
