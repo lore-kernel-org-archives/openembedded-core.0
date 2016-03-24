@@ -1,48 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F5773173
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 12A4460248
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 17:37:50 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id l68so285280308wml.0
+	Thu, 24 Mar 2016 17:49:27 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id x3so63700616pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 10:37:51 -0700 (PDT)
+	Thu, 24 Mar 2016 10:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=JoIwgcxuzR2TqR7kyHn8C94DhSgmuiBTQ7UzZry/ldQ=;
-	b=iJj78IuRx+zGPoRPXxUue5FjE4OsL7nbjvTCuSJUH35k2YJcn/cbOHL4auRMGESu5X
-	bAp3mtPNMtODeKMnd+eiktuoKy/l9UBNqDZcLnQ4TUTy8YYF7VNg8Q0taDIwrkuJxH8u
-	xfes9KsSKKrQYVSeYy9cAr6sdvKtSRtLyyDMMo7KtXLne4n7QOD+cQmNn9+iNyzsGdAf
-	4qrmw5ryhiDfPrScg6nGuF+1lTZN8vF2QLrUdppKVYW1a6GUyVgE7uy4Khw/+oRyOAPZ
-	BB6BcF2671NoLNJLCVnI5sON+GqjUA+LqNeGGyyd0H0ifFuCNVGGBVfSsEPZrm9iOlg4
-	lm4w==
+	h=from:to:cc:subject:date:message-id;
+	bh=7VQRRxbyHeQBIot5PsrFw3N42I5WQE+HT4se8RChrXo=;
+	b=VFQ59p6aTVi3BHmeZEN7RpnKzxdvMlT2H2cvvFeqlti8ZBbCxjsUDy2RBg8c3m7w8b
+	FsqAsbJuHNNbMnhc5CRGuOpucb5ogpRK6o34KI5TQp+BlJgXtt1/Vyw9+h5WmOR0dukd
+	qc6uw5JXvOO4XgF+PSQw1qCJPTmLN4CA2sgwFGEIdjrcUXRkJYOjmKTL4o+5zZEfraqX
+	cAa9mo3pNqBAR/jVY4mJOnHKZ8UWkAd3EFc5Z2m0iroNSwUG/29/Vof4CDvTz2IlR4JG
+	mH4yz8R6eqNLygWAAPh6QTN4npXj52WfhCk5YP/QBWaYFgCdkIijEqy8LyTNVNwUF0ld
+	odqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=JoIwgcxuzR2TqR7kyHn8C94DhSgmuiBTQ7UzZry/ldQ=;
-	b=CMFH68fIrNpMlknPX5JNUWQ14FwTBxeTUR5+8N1L2zwf8Q5q4USuSe5iaVHM3amWds
-	FjQ493/GSGJFmPhYSD98nXLLN7C6D9BDM+/iYFrbltEhdlS1HJ316hpZE7jbQv6Nzkdm
-	sV/a5VJK7vUwtNWs9l78cTtnKqLIbNjIRuFgEvAPY4LsoczLQHB/6mLlxZ0CYwLl5EVH
-	pmf5CABgr3a3oLwEZBPV3u8cINSzAqrAgRmUN8tKCSt5ARGzFZ3R6Ju5kV8Ehj1YWPH+
-	ISlq2zhoxKrHxy9jDQsBn42smx3f3Zz03okcWFhqO8+JhdKoIWf/c2zkKyMXjuSBub+9
-	036w==
-X-Gm-Message-State: AD7BkJLnxFhjGAewvyMFoSaD9bzyTVCs4EascTenFL0ol4J3PEA6plgR6uDhrYQtm8R/z0MMr/s5/+nO2xlUOQ==
-MIME-Version: 1.0
-X-Received: by 10.28.158.149 with SMTP id h143mr11623173wme.61.1458841070842; 
-	Thu, 24 Mar 2016 10:37:50 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Thu, 24 Mar 2016 10:37:50 -0700 (PDT)
-In-Reply-To: <CAMKF1sofsW2HYMNzDOc9WKKs2ADejfX+VcwqaYx5fEof4g6ngQ@mail.gmail.com>
-References: <1458789553-3629-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1spVnsTtz4Wwa562aVaafzSUR3tJrrvstRGjRhT-VGOUAw@mail.gmail.com>
-	<CAJ86T=X4fDmNRjWv4nNPX3U3+Ak=z+2psGtTgFvt4-ga7b_sEg@mail.gmail.com>
-	<CAMKF1sofsW2HYMNzDOc9WKKs2ADejfX+VcwqaYx5fEof4g6ngQ@mail.gmail.com>
-Date: Thu, 24 Mar 2016 10:37:50 -0700
-Message-ID: <CAJ86T=VjwZD9qKnhyX6-0xHQVRph1e0FSkwR7OWWJPQsvnOnnQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7VQRRxbyHeQBIot5PsrFw3N42I5WQE+HT4se8RChrXo=;
+	b=bvEkEAPkV74eW7hKxdBiXvBidiBuNI9dqphUU2MNIPSVvXmyyYYwhBUbzqYyT1fiwu
+	ceGiigEeSoO+DQ5/78sqs3gTeXL5W7vWfg/Cs9GADz8kwDFgyCSlnooeh6KCWx3rtNYq
+	jaIpOvZvNA0foHffUB6IS8w65ytkWhdoeU8UqMpLaVOGs5/4ESoY/ndpO//uuy8VMaJ2
+	L6EDN+XzohjRbvjHEu3da9JUc2eflSMSNdQLCuI/wNRNMaOFUWyYuDanLCr52dE+4KoJ
+	b23f4Gji95meSmrBMmmGKZ3KMDe4baKIQaeDUHFAyYyHcvq798K0ndAB5AlB1hFOMKsQ
+	o0ZQ==
+X-Gm-Message-State: AD7BkJLrQcrv5sS9XSRDuuXczdFALgtWCLA6kFVkYIXZwzOdpg4Fu5TmppcyESxLv9vr0w==
+X-Received: by 10.98.34.216 with SMTP id p85mr14547403pfj.45.1458841768352;
+	Thu, 24 Mar 2016 10:49:28 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id e1sm11540793pas.1.2016.03.24.10.49.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 24 Mar 2016 10:49:27 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-configure-common.inc: duplicate armv7a over-ride for armv8a
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Mar 2016 10:49:22 -0700
+Message-Id: <1458841762-9002-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] oe-buildenv-internal: simplify derivation of BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 17:37:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Mar 2016 17:49:28 -0000
 
-On Thu, Mar 24, 2016 at 1:03 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Mar 23, 2016 at 10:16 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Wed, Mar 23, 2016 at 9:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> On Mar 23, 2016 8:19 PM, "Andre McCurdy" <armccurdy@gmail.com> wrote:
->>>>
->>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>>> ---
->>>>  meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> b/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> index f4f76bd..a7b8d63 100644
->>>> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>>> @@ -65,6 +65,7 @@ EXTRA_OECONF_append_mips64eln32 = " --with-abi=64
->>>> --with-arch-64=mips64 --with-t
->>>>  EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
->>>>  EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
->>>>  EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
->>>> +EXTRA_OECONF_append_armv8a = " --with-arch=armv7-a"
->>>
->>> Armv8 is different architecture and even gcc backends for armv8 arent shared
->>> with armv7. This change doesn't look right to me. What are you fixing with
->>> this change
->>
->> In the context of oe-core machine specific over-rides, "armv8a"
->> signifies that we're building 32bit code for an ARMv8-A class CPU.
->> See:
->>
->>   http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=823af99d825375485d64fcb82c00fb85004813b8
->>
->> (Maybe it would have been better to use aarch32 as the over-ride in this case?).
->
-> ah I did not know this patch has made it in. I had concerns about it.
-> Its quite confusing to call armv8a as 32bit since thats wrong
-> representation. It should be renamed to aarch32 atleast.
-> since thats the execution state of armv8a architecture thats what this
-> file is doing. armv8a support aarch64/aarch32/(thumb2 in aarch2 state)
->
-> Please submit a rename patch with adjustments before starting to use
-> it widely in metadata
+Use 'sort --unique' to combine the two lists and remove duplicates.
 
-Renaming armv8a -> aarch32 is going to affect almost every line in the
-patch. We should probably drop the current patch from master-next.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ scripts/oe-buildenv-internal | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
+
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 8eee008..be212f2 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -110,29 +110,12 @@ unset BITBAKEDIR newpath
+ export BUILDDIR
+ export PATH
+ 
+-add_extrawhite() {
+-    # If the current shell is zsh, then temporarily set it to emulate sh in this
+-    # function so that the for and case statements below work as expected.
+-    [ -z "$ZSH_NAME" ] || emulate -L sh
+-
+-    local extrawhite="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
++BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
+ HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
+ all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
+ SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
+ SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
+ 
+-    local var
+-    for var in $extrawhite; do
+-        case " $BB_ENV_EXTRAWHITE " in
+-            *[[:blank:]]$var[[:blank:]]*)
+-                ;;
+-            *)
+-                BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE:+$BB_ENV_EXTRAWHITE }$var"
+-                ;;
+-        esac
+-    done
+-}
+-
+-add_extrawhite
+-unset -f add_extrawhite
++BB_ENV_EXTRAWHITE=$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | sed 's/ /\n/g' | LC_ALL=C sort --unique)
++
+ export BB_ENV_EXTRAWHITE
+-- 
+1.9.1
+
 
