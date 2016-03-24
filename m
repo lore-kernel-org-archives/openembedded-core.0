@@ -1,44 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 51A1F731AF
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C064731A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 20:32:06 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id l68so4204112wml.0
+	Thu, 24 Mar 2016 20:42:38 +0000 (UTC)
+Received: by mail-vk0-f47.google.com with SMTP id e6so74354285vkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 13:32:07 -0700 (PDT)
+	Thu, 24 Mar 2016 13:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=JAsPzNCHglVEGLAZiWkYIjAZs092Dnaiqpd6s5TtBlw=;
-	b=C4WCA6+OgHl1W6ttVh3R0wI+tSFXlyODu/NOd/+Nd6JvvjAERx3d0YpjnDRgV/L8V3
-	Dtuc50lvNeVo2b2VeGE24OenpQ3uGyHEe06JbccmwMmVtZ+4Lm6d8Pw6IgBGly5tindH
-	nxaKJmnHUBjvpm7MruBmWvuJ+th1oLvYP3OFM/obprXp6YjTqzhEFGQrWoEqAC4PHXGl
-	goKgolNRwwS3zMEVETIjX4Vw/nwYsT++hVyasn3cMEIwBMHeTCXC997ibjX+9/Kkd131
-	JZ1QeNE+JkBOMlAAyvv2dExTPFFa8LQ1y10tEmXk32LEzKS7LUSuoObK6CZBI0JoV0sz
-	ooVw==
+	:cc; bh=QMQ26crpwmqm3Lr8ZRMG8Q5Vzhd6cpagBIaXsATTd7k=;
+	b=AeF+w/h4poFUiFp9OWv3gDMwlMKg568mfpViRv7TEhzjH5w8apQ3IukYnInKhLbn0E
+	9lsHPJAhRNcDGypSAsKtOrfNT15N1BoX/3uXBlldftQ6+syPjbKqyaXtdnJvB/Qel+uk
+	fJkR36xPYyygjDTfwDvheZSKkTFFrQxRFsooyAtHuGP4uBTESs4ihbLTGr+drziwcWeA
+	G+ZCjluwSESaOH0fZUg03RM9TvcaP3bLLbzvdpYkT6Rc337QL7HW+sWpN6gSTeMGPFjt
+	OH32BGSTwfiyPJ+NwA6cwenfhmpPK2sZf3IT7kJnGcZnPYf5IfCS1+bxFqdqDzl7xBEN
+	JcvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=JAsPzNCHglVEGLAZiWkYIjAZs092Dnaiqpd6s5TtBlw=;
-	b=PUu0HqeuVNycWRUKebynqlh1U+pYjTSs/jp1dUwYnec6DacSHZqT5O9MAvZC2lYn8Y
-	a3bDE3HXk+Um99iOxUQnNsgpor5+FZ4ALeomYOflcIqeD3bKfoM/aQsDGSsgsRHYajxV
-	Ggu9GueYkthqaG9KRYnZTZrKw98C8bI+Gprg3+xdOuYHcLK1BMvzGvEVQAnlnFpkUQYj
-	PUPZAXwjvUOuH4J7M06WllbqZDJm4K0aGvwONw2cK4QXQFmvDQCmaorJxm97ifY0goUp
-	ppisdw7dzR0PXHkSLjjgFwaYDvZ8d0OkaH0lhV6i9NI70WdYE7+eqZUprVHDzza4lwOq
-	zR5A==
-X-Gm-Message-State: AD7BkJK2FHMyBLhRQmPGtRSsjX6Z3/CF6/zEHb9FkWcELtSc+6//SDtFQV6vQlm3kt7MoMDohXj/sJS/HT+IMg==
+	bh=QMQ26crpwmqm3Lr8ZRMG8Q5Vzhd6cpagBIaXsATTd7k=;
+	b=UzQ/MP6Hd2W31Pn7WBjWXyHHxSGH78snMRD8Z9RyKr5utOn5WW2ClDLFlu+wY1k8mZ
+	Yulw21qgR/Ktvf8D5f94J64h+QqafG56JzHqMxVDvhEAbsiIOCs15lBeSktmNz8FHJ5v
+	YRDrxtC21QTo2gqb6OHhX20K5wFPzjhMpjDMfxz+SeJGuQ05bAHWkXAMKBaHdUCtAqua
+	bb8y5LrdJ3RPGV5EcqvWj89iX9SPoayeD/t6H4fB8axXVMXcbC6TDuPibvAdX8+ByWHE
+	bMBJ6CJ2Be19+gisY7m4neM77eZXyY5dRWytxwOU1RR1PFy542KAlAFKevgy36pCxANg
+	E8sQ==
+X-Gm-Message-State: AD7BkJINc1YZuZLU/JR0/WdWwYjId3udujfiRnLgNMJM06uU4/OXomxv+0bhWDFeWKCtf1UXv8HFzST97OTLeg==
 MIME-Version: 1.0
-X-Received: by 10.194.242.202 with SMTP id ws10mr11874474wjc.3.1458851526523; 
-	Thu, 24 Mar 2016 13:32:06 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Thu, 24 Mar 2016 13:32:06 -0700 (PDT)
-In-Reply-To: <1458850608-50481-1-git-send-email-kad@kad.name>
-References: <1458850608-50481-1-git-send-email-kad@kad.name>
-Date: Thu, 24 Mar 2016 13:32:06 -0700
-Message-ID: <CAJ86T=Wbu31V7DqS2jcG8Kf+Ltq0vD9TR2k-XzGu89=BaM0QTg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Alexander D. Kanevskiy" <kad@kad.name>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: use compress framework to produce checksums for images
+X-Received: by 10.159.36.208 with SMTP id 74mr5996044uar.133.1458852158666;
+	Thu, 24 Mar 2016 13:42:38 -0700 (PDT)
+Received: by 10.103.94.196 with HTTP; Thu, 24 Mar 2016 13:42:38 -0700 (PDT)
+In-Reply-To: <1458768152.3073.26.camel@linuxfoundation.org>
+References: <1458680136-5455-1-git-send-email-ross.burton@intel.com>
+	<56F29A68.5030905@linux.intel.com>
+	<1458742435.3073.7.camel@linuxfoundation.org>
+	<CAJTo0LYz6ufXJZyc0TFviL=oih7RBuOym1VwiQrmn3Cz4RJVnQ@mail.gmail.com>
+	<1458768152.3073.26.camel@linuxfoundation.org>
+Date: Thu, 24 Mar 2016 14:42:38 -0600
+Message-ID: <CACS+7ZT7Oo3CgXPsDr_qSXuo2MXFoK5bRbzaTOuj_QLr4AH=0w@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Python 3 as oe-core default?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,58 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 20:32:08 -0000
+X-List-Received-Date: Thu, 24 Mar 2016 20:42:38 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Mar 24, 2016 at 1:16 PM, Alexander D. Kanevskiy <kad@kad.name> wrote:
-> Existing compress framework for producing various compressed versions
-> of images is powerfull enough to be extended for other uses, e.g. to
-> convert types of images.
+On 23 March 2016 at 15:22, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2016-03-23 at 14:35 +0000, Burton, Ross wrote:
+>>
+>> On 23 March 2016 at 14:13, Richard Purdie <
+>> richard.purdie@linuxfoundation.org> wrote:
+>> > In 2.2, switching the bulk of things over to python 3 is one of the
+>> > things I'd like to see happen.
+>> >
+>> Including bitbake itself?
 >
-> It is possible to use it also to produce image checksums at the time
-> of image generation. This commit adds support for all supported
-> at the moment coreutils hashing algorithms: md5, sha1, sha224,
-> sha256, sha384 and sha512
+> Yes!
 >
-> Usage:
-> IMAGE_FSTYPES_append = " hddimg.sha256sum"
+> Its about time we got this sorted out...
+>
 
-I guess a common requirement is for hashes of the compressed images,
-not only the uncompressed image.
+Looking forward to that one...
 
-> Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
-> ---
->  meta/classes/image_types.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+
+> Cheers,
 >
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 22719ad..3e98024 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -259,13 +259,19 @@ IMAGE_TYPES = " \
->      wic wic.gz wic.bz2 wic.lzma \
->  "
->
-> -COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
-> +COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum"
->  COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->  COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
->  COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->  COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
-> +COMPRESS_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
-> +COMPRESS_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
-> +COMPRESS_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
-> +COMPRESS_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
-> +COMPRESS_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
-> +COMPRESS_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
->  COMPRESS_DEPENDS_lzma = "xz-native"
->  COMPRESS_DEPENDS_gz = ""
->  COMPRESS_DEPENDS_bz2 = "pbzip2-native"
-> --
-> 2.7.4
->
+> Richard
 > --
 > _______________________________________________
 > Openembedded-core mailing list
