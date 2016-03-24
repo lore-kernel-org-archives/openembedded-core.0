@@ -1,28 +1,53 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 17EEA60110
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 18:32:06 +0000 (UTC)
-Received: from elite.brightsigndigital.co.uk ([213.210.30.29]
-	helo=phil-desktop) by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1ajA3B-0000SZ-N5; Thu, 24 Mar 2016 19:32:06 +0100
-Message-ID: <1458844322.3476.198.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Andre McCurdy <armccurdy@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Thu, 24 Mar 2016 18:32:02 +0000
-In-Reply-To: <CAJ86T=VjwZD9qKnhyX6-0xHQVRph1e0FSkwR7OWWJPQsvnOnnQ@mail.gmail.com>
-References: <1458789553-3629-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1spVnsTtz4Wwa562aVaafzSUR3tJrrvstRGjRhT-VGOUAw@mail.gmail.com>
-	<CAJ86T=X4fDmNRjWv4nNPX3U3+Ak=z+2psGtTgFvt4-ga7b_sEg@mail.gmail.com>
-	<CAMKF1sofsW2HYMNzDOc9WKKs2ADejfX+VcwqaYx5fEof4g6ngQ@mail.gmail.com>
-	<CAJ86T=VjwZD9qKnhyX6-0xHQVRph1e0FSkwR7OWWJPQsvnOnnQ@mail.gmail.com>
-X-Mailer: Evolution 3.18.3-1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-configure-common.inc: duplicate armv7a over-ride for armv8a
+Return-Path: <rudolf.streif@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E81B360110;
+	Thu, 24 Mar 2016 18:36:41 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id tt10so28958581pab.3;
+	Thu, 24 Mar 2016 11:36:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=HTU98DcFcHyWfLS5J7113D72P8MRpKTOQYpsmj5imUg=;
+	b=h8a6zgNN5vbkZ3C/EIVvAOY84smyVi/IXhvE8wmnh3qwwb/YI5ynIbLkqzsPWCI2pp
+	SRHtFhsWvWcWc+PRxmA7U7fGVuIeUPfB9mPZA6wtd2fcE77/FxPcbawX1l528j403sPj
+	6rqahGGoWmj9D//TTfLd0PD2UWejCruUSbKDZBgTls2WX+G7hNU7tvaxfbRYUuokwAIU
+	svAuRjaN0nLDCyMykEyHnULLh6AsXw7hql6wXCS0Iw1Kdj/nSVPusuB1aTls6tEf7ByS
+	RDQuR01Gt6+5U41W5ds68JUg24MabwvXM8VinD2shYJKOiZRGM+cu+1iFlSvpgwlV38H
+	OVNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=HTU98DcFcHyWfLS5J7113D72P8MRpKTOQYpsmj5imUg=;
+	b=MYOcdtW46/fx741imlPX+Q2g5IywE9el5IeMRHL7b1iAcRhmiySXBUYRzdaiLNM1Ev
+	tM3jYyQ9rlWXfXCvLpi7ANwoyKBCREH4FHu7Tc3Lap3bNOHcJj/r+zuUi9my9PF2Mu+z
+	AEljxnCHwWRda4xEw7G+Y664czo79t14c82SUtKxs/tDXROF34BkXvsd+y5kCZWj7TZ7
+	sqw7hZUicZaYH6cimjEGmo4fF/6OIUjzDdL/tTKkkYR4gyeHbRKytFcjEb4rvNxTGNGg
+	FE8+7Ct0cvC9sMKc54ZAB6mp0kp20V9SaVpLFzdBSiEc2uchNZmjx8tuuPUTZOkvnrcn
+	NGYQ==
+X-Gm-Message-State: AD7BkJLs/kDzdgmNq6qjWkDz02EzAFmIHEefjvn5zGbPRXQUrItJxfLeqAuEREW6d5oEQQ==
+X-Received: by 10.66.191.225 with SMTP id hb1mr14851498pac.78.1458844602377;
+	Thu, 24 Mar 2016 11:36:42 -0700 (PDT)
+Received: from rjs-zotac.streifs.net (ip68-7-48-20.sd.sd.cox.net. [68.7.48.20])
+	by smtp.gmail.com with ESMTPSA id
+	qh8sm11674432pac.40.2016.03.24.11.36.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 Mar 2016 11:36:41 -0700 (PDT)
+From: Rudolf J Streif <rudolf.streif@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Date: Thu, 24 Mar 2016 11:36:40 -0700
+Message-ID: <1604312.a7pP1GrPCb@rjs-zotac.streifs.net>
+User-Agent: KMail/4.14.10 (Linux/4.4.5-200.fc22.x86_64+debug; KDE/4.14.17;
+	x86_64; ; )
+In-Reply-To: <56F42DA1.4090902@balister.org>
+References: <56DEF97F.9070306@balister.org> <1458767514382.89578@seescan.com>
+	<56F42DA1.4090902@balister.org>
+MIME-Version: 1.0
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembedded-members@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [yocto] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +60,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 18:32:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 Mar 2016 18:36:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 2016-03-24 at 10:37 -0700, Andre McCurdy wrote:
+Since I happen to live in San Diego, I have been asking around for a potential meeting room (unfortunately, I don't have an office with a meeting room myself). I am currently working with the University of San Diego and the Catamaran/Bahia Hotel. Can't promise anything yet.
+
+:rjs
+
+
+On Thursday, March 24, 2016 11:10:41 AM Philip Balister wrote:
+> We are up to fifteen now and as noted will have some off site attendees
+> and late sign ups.
 > 
-> Renaming armv8a -> aarch32 is going to affect almost every line in
-> the patch. We should probably drop the current patch from master-
-> next.
-
-"AArch32" applies retrospectively to all older versions of the ARM
-architecture as well, so it's not obvious to me that a straight rename
-of the existing "armv8a" override to "aarch32" would be the right thing
-either. 
-
-I think the whole approach to ARMv8 and AArch64 in OE needs to be
-carefully thought through before we start landing any patches for that
-stuff.  We have a tangled enough maze of overrides right now and I
-think we should make all efforts to avoid it getting worse.
-
-p.
+> Philip
+> 
+> On 03/23/2016 02:11 PM, Fred Ollinger wrote:
+> > I'm coming and I'm probably brining another person.
+> > 
+> > I still have to make the wiki account which failed for some reason before.
+> > 
+> > Frederick
+> > ________________________________________
+> > From: yocto-bounces@yoctoproject.org <yocto-bounces@yoctoproject.org> on behalf of Trevor Woerner <twoerner@gmail.com>
+> > Sent: Wednesday, March 23, 2016 2:08 PM
+> > To: akuster808; openembedded-devel@lists.openembedded.org; openembedded-core; Yocto Project; openembedded-members@lists.openembedded.org
+> > Subject: Re: [yocto] [OE-core] [oe] OEDAM, April 8 in San Diego after ELC
+> > 
+> > On Wed 2016-03-23 @ 09:36:40 AM, akuster808 wrote:
+> >> There are only 10 people signed up.
+> >> Is that enough people to justify the expense room or even meet?
+> > 
+> > I have no idea what the budget might be or what a room might cost. I'll leave
+> > it to those who do know to worry about the costs versus the benefits.
+> > 
+> > In any case I certainly think it's still worth meeting. A smaller, more
+> > focused group can sometimes get more done than a larger group. Secondly, it's
+> > my experience that more people always show up than sign up.
+> > 
+> > With a project like this there will always be things to discuss, and sometimes
+> > a discussion goes better in person rather than online.
+> > 
+> > Best regards,
+> >         Trevor
+> > --
+> > _______________________________________________
+> > yocto mailing list
+> > yocto@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/yocto
+> > 
+> 
 
 
