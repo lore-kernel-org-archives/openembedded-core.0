@@ -1,47 +1,58 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
-	[209.85.161.175])
-	by mail.openembedded.org (Postfix) with ESMTP id D43E160132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 830F2605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 22:11:48 +0000 (UTC)
-Received: by mail-yw0-f175.google.com with SMTP id h129so78068730ywb.1
+	Thu, 24 Mar 2016 22:22:30 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id u190so68459811pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 15:11:50 -0700 (PDT)
+	Thu, 24 Mar 2016 15:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-transfer-encoding;
-	bh=n7K9DNocHWAl6VWrrRVP0bh/ZVyU/S1eH4X73Scj0KI=;
-	b=HF80uHVs9BDsVacXvhFm2gicIFHp9TW5cpOMXtlS9CzD5Ic/gl9eC3JXheuGecSAJz
-	Q2uIsZv1YjzuraLMMoVdWqe/kp5wJLoD2KBLQjr1z/OuOUeUJoaDr+goAChLOrei2IUP
-	MLayCArZ5Uq+dId5ro8f+EyBACOc0gWm42/HK3y6uiZPqkWEC5rK77+cvr3UJV/7r4Dx
-	RFYMyoYnFfqT2FTi7vuE0VI9NE8GjCZ2HKqnDfiAGLiEOxGp41bTZAIc/fxJu57ncjLB
-	KK+vhG121vLfTzvDGpQ4X8HUIgH77B3MrpT4o/w5ic9JmmxSRA4YQipVvSkHxoU7Sl7f
-	v3Mw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=D8VN/puSXkWPUwGMPx9TqAvkVk+ckzrB3oEJE+KzbWg=;
+	b=QI2DUjeRfp3T/Piu5ghLYCvHbQkRIIGxFNFTlJCE7Vz4FEp/muQqPWOMkbBXYjvEW5
+	hdNMOhsB4/BkpjdUGXRsrlJseo0KtFukRv5RupZqy2ubtl1pAEKVZbxY6/mjyMLqlDWI
+	OqSv4+bipOTbn+ZemEdZHC/BLe7ckeU8UfBZTBRdoqXQ/dfG+jyCUJjsxcZ/ynKYK/o4
+	f9qW5kzZxma1KiGSNeeJngiDwkunpmcKCxdU2NZ18jdYHZJs0V8cjxTC66tB9gdZ0yCa
+	6S1z73P1i/N7A5wTDpvjYcSTf2iWmr2Cmshzqwr3PcYy/2TMBQBnxeb4rNcUEhz2L8oP
+	/8mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-transfer-encoding;
-	bh=n7K9DNocHWAl6VWrrRVP0bh/ZVyU/S1eH4X73Scj0KI=;
-	b=TsNzmXbuBTdMUY1LCtcPWMebNmEGnAblFIwjcb2CfkHZ5NoQDAyLkFZQtkdVa5tYAZ
-	YgwFJRhwVp0/gih2EiGWadCod27UBP1SPMHx+L/K8CPgYjBujHOdT0FdvqKj7OfFMp1V
-	TcsVUYnvVIrdhQMCWtnx9nCmA3inuQWNn9ae5dHNWe/sEauP8ljOkQK2ftwrUfimxImZ
-	cIo7b5H4khludAD81lL0fCQlTZC0GdiCge7TrHPkmOAp+ek8sjEWstMjau7/MfoaD2WL
-	oBsg5DLfNvpVmjfPPeLqEQA7obMevah733Y+qrhmCZcJS3/jJ/8O9lP7lqYBYw2Jlo8o
-	PApg==
-X-Gm-Message-State: AD7BkJJnj2m0EdiSH7NRlIE8IdOtZ2s5kr7CYJZrtJVeXwNHvuOaTzS/00/CIOJ+hIku+psuZad3zQrhbTS4Sg==
-MIME-Version: 1.0
-X-Received: by 10.176.2.169 with SMTP id 38mr6106449uah.98.1458857509572; Thu,
-	24 Mar 2016 15:11:49 -0700 (PDT)
-Received: by 10.103.94.196 with HTTP; Thu, 24 Mar 2016 15:11:49 -0700 (PDT)
-In-Reply-To: <CAJTo0LYboOzaym+2+dBNg5s96cqybgMXxNoCJX4uvy+YZA2epg@mail.gmail.com>
-References: <1455701436-11645-1-git-send-email-u.oelmann@pengutronix.de>
-	<CAJTo0LYboOzaym+2+dBNg5s96cqybgMXxNoCJX4uvy+YZA2epg@mail.gmail.com>
-Date: Thu, 24 Mar 2016 16:11:49 -0600
-Message-ID: <CACS+7ZSRUrq10fyDqGg6F_oVBSj=Pg1x8_zofFsyPANXYvLTVg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nfs-utils: bugfix: adjust name of statd service unit
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=D8VN/puSXkWPUwGMPx9TqAvkVk+ckzrB3oEJE+KzbWg=;
+	b=KLzxUzZOUN4bcel3AcN8PudFngeDiWG5JFNi8qdw76NB+UBi4OhjdI9QfMK/Do90C3
+	xF5bJSerdumoQpN5DjsIO6w6j8rVHXxIRTPaZEgeFk6pDVjq0qCLyaN3jcMXb/+ziDla
+	waHN0mFtybk1t85zQp1floRfUJ98MH6qJ8o88MFWA5LmYTwtenVOI5thXzicmn6TcwiH
+	maUTYfY9DNp4Uf2fIqySHNRBFRzycqZ1usTH4YZg5+ouLTo5FpMrcMi9NTCj09YkOasa
+	0Q8sbqD6DX8iFHe8K+XcuW3aNtUmMR4uYOPbnYqUlU9rP+BTYgAGB5pJmgJOK96rMSBE
+	I/Qw==
+X-Gm-Message-State: AD7BkJJ2TolqKMg3k4PA/WgkWD51tGDUSdUF+ORaBvcDpt3pLROZrNRy94bPXIufe++lMA==
+X-Received: by 10.98.10.20 with SMTP id s20mr16383424pfi.109.1458858151463;
+	Thu, 24 Mar 2016 15:22:31 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:a4d9:b8b5:b926:f5b2?
+	([2601:646:8800:5a9a:a4d9:b8b5:b926:f5b2])
+	by smtp.gmail.com with ESMTPSA id
+	w62sm12217498pfa.79.2016.03.24.15.22.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 Mar 2016 15:22:30 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1458844322.3476.198.camel@pbcl.net>
+Date: Thu, 24 Mar 2016 15:22:25 -0700
+Message-Id: <93EB73B6-E9B5-4DAE-9CCE-3D87FAD794D3@gmail.com>
+References: <1458789553-3629-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1spVnsTtz4Wwa562aVaafzSUR3tJrrvstRGjRhT-VGOUAw@mail.gmail.com>
+	<CAJ86T=X4fDmNRjWv4nNPX3U3+Ak=z+2psGtTgFvt4-ga7b_sEg@mail.gmail.com>
+	<CAMKF1sofsW2HYMNzDOc9WKKs2ADejfX+VcwqaYx5fEof4g6ngQ@mail.gmail.com>
+	<CAJ86T=VjwZD9qKnhyX6-0xHQVRph1e0FSkwR7OWWJPQsvnOnnQ@mail.gmail.com>
+	<1458844322.3476.198.camel@pbcl.net>
+To: Phil Blundell <pb@pbcl.net>
+X-Mailer: Apple Mail (2.3124)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-configure-common.inc: duplicate armv7a over-ride for armv8a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +65,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 22:11:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Mar 2016 22:22:33 -0000
+X-Groupsio-MsgNum: 80117
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_A1AE5B61-5AF5-4628-99F5-FA14A97DE84F";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_A1AE5B61-5AF5-4628-99F5-FA14A97DE84F
 Content-Transfer-Encoding: quoted-printable
-
-On 24 March 2016 at 15:48, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 17 February 2016 at 09:30, Ulrich =C3=96lmann <u.oelmann@pengutronix.d=
-e>
-> wrote:
->>
->> Upstream nfs-utils use 'rpc-statd.service' and Yocto introduced
->> 'nfs-statd.service' instead but forgot to update the mount.nfs helper
->> 'start-statd' accordingly.
->
->
-> Having less patches seems sensible, so would it be simple if we move to t=
-he
-> upstream names instead of away from upstream?
->
-
-I think that's sensible. The upstream services are there in the
-distfile, we'd just need to install them.
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> On Mar 24, 2016, at 11:32 AM, Phil Blundell <pb@pbcl.net> wrote:
+>=20
+> On Thu, 2016-03-24 at 10:37 -0700, Andre McCurdy wrote:
+>>=20
+>> Renaming armv8a -> aarch32 is going to affect almost every line in
+>> the patch. We should probably drop the current patch from master-
+>> next.
+>=20
+> "AArch32" applies retrospectively to all older versions of the ARM
+> architecture as well,
 
+not really. Arm refers to aarch32 specifically when we use 32-bit on =
+ARMv8
+so atleast we are speaking same terms.
+
+> so it's not obvious to me that a straight rename
+> of the existing "armv8a" override to "aarch32" would be the right =
+thing
+> either.
+>=20
+> I think the whole approach to ARMv8 and AArch64 in OE needs to be
+> carefully thought through before we start landing any patches for that
+> stuff.  We have a tangled enough maze of overrides right now and I
+> think we should make all efforts to avoid it getting worse.
+
+Totally agreed.
+The current tunes we have are probably sufficient for 64bit case and it =
+simple
+and nice. However, the fact of people running 32bit userspace on a53 =
+SOCs
+is a reality due to porting reasons or resource reasons. So I think =
+divorcing
+legacy tunes and just having aarch64 and another one for aarch32 is =
+going to suffice
+
+--Apple-Mail=_A1AE5B61-5AF5-4628-99F5-FA14A97DE84F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlb0aKUACgkQuwUzVZGdMxSAHgCdF7SL+HjSh1sOqtk+eJxnpair
+YFwAn2xC7cWtUjQgQ2RlkfIx27K7PsjW
+=55m0
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_A1AE5B61-5AF5-4628-99F5-FA14A97DE84F--
