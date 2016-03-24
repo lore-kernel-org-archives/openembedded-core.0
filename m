@@ -1,34 +1,48 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id B38306FFCE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A2D36FFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 10:40:47 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id E2FCE68A01B; Thu, 24 Mar 2016 10:40:47 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 4B39A68A019;
-	Thu, 24 Mar 2016 10:40:47 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id CCEC66740554;
-	Thu, 24 Mar 2016 11:40:46 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
+	Thu, 24 Mar 2016 10:43:21 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id r187so55632073oih.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Mar 2016 03:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+D0Gc0NNwSFJhZWa4fLCIfU9URCh1bZaxOliDAAm5tE=;
+	b=cH5DpuBmE4DmMTs0qxY+3K/p2qxDHBRzJNR886lZsMAt6a5fVOK0+wgC8QsmfFj9OF
+	s2T4ERWNdUYd8ieDtfOWMqy/dtHoiVQRzDXwW+yrLCI6YwwMDXw44VRQUmJUPT/RXULb
+	LGtwXWOLJhiJ6FBtUKj6oJvRAy7xr6Ziu5SorY8ZvnRfjOqR5R7cU6bd0enHOayB4XR4
+	EWFDENqih+NC+xPKp84QvJXryKw3wLHFEi72H8RKW6k0DiPsMZLGl6dh2534tJxxaTi9
+	1Xc7ydpSNnfG2zRC1O3ZJhQ7A3Mnawmdkc/On1uXU4yJntXggP/0PYv/TDzOwWksCSr7
+	Waew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+D0Gc0NNwSFJhZWa4fLCIfU9URCh1bZaxOliDAAm5tE=;
+	b=cztnwVlgyjmiEs2wvnk+G0bzDAuNInTsu2NyEaFwDvai2SZSR7Hq3INGPtDhpmyuTn
+	51TUW5yGzR4FnvgSghou/jfEcbxp0mecUhaFj+MFLpdC5P94XV9oKTXWShiVOuM53woY
+	RZa/L5Em5sH6zwO60e4pHm5XeL61SBmraoki5hfHIsgb4jlpNUB0tQRpOwqv8nQ5f7+/
+	n/MlZ8g+tPgJLMKU8MRyuW3NkLAd21szv6LClBzHjlhyd36OViD1eBxgieqro3ef6Xk/
+	cB7VF90pcLDDG8go2bgBDd6uHTGL+KYpm1AftM5sX97qmfsg8VKdGHfw7P7TRd/DKjcH
+	yCBQ==
+X-Gm-Message-State: AD7BkJKR4a9k1ZgxkUVyNEpa5Kkk6m39/W1pxKDb4k7KyIvbdvarwkBRj90Fg0nTDOt0fbbVkICDafInvAeKbv12
+X-Received: by 10.202.88.130 with SMTP id m124mr3708199oib.52.1458816201925;
+	Thu, 24 Mar 2016 03:43:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.90.134 with HTTP; Thu, 24 Mar 2016 03:43:02 -0700 (PDT)
+In-Reply-To: <56F3C42E.6060703@mlbassoc.com>
 References: <56F3B739.3030108@mlbassoc.com>
 	<CAJTo0LZWmp7iqE22miPiq2Sp+oNUYzGtU-YR=7ZGiA3QjDaRbg@mail.gmail.com>
 	<56F3C11E.5000204@mlbassoc.com>
 	<CAJTo0LaS8jvkQ-ANsmyeVGNDR8rbfsti-oEXuO2LN6gM+PUj3Q@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56F3C42E.6060703@mlbassoc.com>
-Date: Thu, 24 Mar 2016 11:40:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaS8jvkQ-ANsmyeVGNDR8rbfsti-oEXuO2LN6gM+PUj3Q@mail.gmail.com>
+	<56F3C42E.6060703@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Mar 2016 10:43:02 +0000
+Message-ID: <CAJTo0La3429ZJ_FeFbE8emjC25LTuhhVToFdp134S6gxdh=KXQ@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Change in udev
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,78 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 10:40:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Mar 2016 10:43:21 -0000
+Content-Type: multipart/alternative; boundary=001a113d5e3e824b09052ec91d66
 
-On 2016-03-24 11:30, Burton, Ross wrote:
+--001a113d5e3e824b09052ec91d66
+Content-Type: text/plain; charset=UTF-8
+
+On 24 March 2016 at 10:40, Gary Thomas <gary@mlbassoc.com> wrote:
+
+> So /etc/udev/hwdb.bin is somehow unpackaged (an orphan)?
 >
-> On 24 March 2016 at 10:27, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
+
+Have a look at the recipe: it's a postinst from eudev-hwdb.  Possibly that
+package should ship an empty file and we force it to re-generate in the
+postinst so it's not orphaned.
+
+
+> Also, how will I prevent eudev-hwdb from being sucked in if I
+> only depend [RDEPENDS/RRECOMMENDS] on 'udev'?
 >
->     More recent than poky:2df514bfe4a911c0dca8828038dd94e6265f50ca?
->
->
-> In that case the file should have been generated at build time (please file a bug with logs if it wasn't) and is in a
-> separate package so if you don't need it (its basically the USB and PCI ID tables) then you can remove it.
->
-> As you say, eudev is new, so there's bound to be small configuration issues to work out before release.
 
-Ah, interesting.  The file is in my rootfs, but it doesn't belong
-to any package?
+eudev recommends eudev-hwdb, so BAD_RECOMMENDATIONS as usual.
 
-This is from my build:
+Ross
 
-$ ls -l tmp/work/teton_p0382-amltd-linux-gnueabi/amanda-server-image/1.0-r0/rootfs/etc/udev/
-total 6532
--rw-r--r-- 1 gthomas gthomas       0 Mar 24 07:41 cache.data
--r--r--r-- 1 gthomas gthomas 6660476 Mar 24 09:21 hwdb.bin
-drwxr-xr-x 2 gthomas gthomas    4096 Mar 24 07:42 hwdb.d
--rw-r--r-- 1 gthomas gthomas      51 Mar 24 08:51 mount.blacklist
-drwxr-xr-x 2 gthomas gthomas    4096 Mar 24 08:51 mount.blacklist.d
-drwxr-xr-x 2 gthomas gthomas    4096 Mar 24 09:21 rules.d
-drwxr-xr-x 2 gthomas gthomas    4096 Mar 24 08:51 scripts
--rw-r--r-- 1 gthomas gthomas      49 Mar 24 07:41 udev.conf
+--001a113d5e3e824b09052ec91d66
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On my target:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 March 2016 at 10:40, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div id=3D":gih" class=3D"a3s" styl=
+e=3D"overflow:hidden">So /etc/udev/hwdb.bin is somehow unpackaged (an orpha=
+n)?<br></div></blockquote><div><br></div><div>Have a look at the recipe: it=
+&#39;s a postinst from eudev-hwdb.=C2=A0 Possibly that package should ship =
+an empty file and we force it to re-generate in the postinst so it&#39;s no=
+t orphaned.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":gih" class=3D"a3s" style=3D"overflow:hidden">
+Also, how will I prevent eudev-hwdb from being sucked in if I<br>
+only depend [RDEPENDS/RRECOMMENDS] on &#39;udev&#39;?</div></blockquote></d=
+iv><br>eudev recommends eudev-hwdb, so BAD_RECOMMENDATIONS as usual.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
 
-root@teton-p0382:~# opkg search /etc/udev/hwdb.bin
-root@teton-p0382:~#
-
-I seem to have gotten the hwdb, but not packaged correctly.  Again, on the target:
-
-root@teton-p0382:~# opkg list-installed *udev*
-eudev - 3.1.5-r0.2
-eudev-hwdb - 3.1.5-r0.2
-libudev1 - 3.1.5-r0.2
-udev-cache - 3.1.5-r0.2
-udev-extraconf - 1.1-r0.6
-udev-rules-imx - 1.0-r0.6
-root@teton-p0382:~# opkg files eudev-hwdb
-Package eudev-hwdb (3.1.5-r0.2) is installed on root and has the following files:
-/etc/udev/hwdb.d/20-pci-classes.hwdb
-/etc/udev/hwdb.d/70-pointingstick.hwdb
-/etc/udev/hwdb.d/70-mouse.hwdb
-/etc/udev/hwdb.d/
-/etc/udev/hwdb.d/20-acpi-vendor.hwdb
-/etc/udev/hwdb.d/20-usb-vendor-model.hwdb
-/etc/udev/hwdb.d/20-sdio-vendor-model.hwdb
-/etc/udev/hwdb.d/60-keyboard.hwdb
-/etc/udev/hwdb.d/20-net-ifname.hwdb
-/etc/udev/hwdb.d/20-usb-classes.hwdb
-/etc/udev/hwdb.d/20-bluetooth-vendor-product.hwdb
-/etc/udev/hwdb.d/60-evdev.hwdb
-/etc/udev/hwdb.d/20-pci-vendor-model.hwdb
-/etc/udev/hwdb.d/20-sdio-classes.hwdb
-/etc/udev/hwdb.d/20-OUI.hwdb
-
-So /etc/udev/hwdb.bin is somehow unpackaged (an orphan)?
-
-Also, how will I prevent eudev-hwdb from being sucked in if I
-only depend [RDEPENDS/RRECOMMENDS] on 'udev'?
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
-
+--001a113d5e3e824b09052ec91d66--
