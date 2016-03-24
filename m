@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A2D36FFFB
+Return-Path: <akuster808@gmail.com>
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C7FA6AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 10:43:21 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id r187so55632073oih.3
+	Thu, 24 Mar 2016 14:06:35 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id o63so1713444ywe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 03:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+D0Gc0NNwSFJhZWa4fLCIfU9URCh1bZaxOliDAAm5tE=;
-	b=cH5DpuBmE4DmMTs0qxY+3K/p2qxDHBRzJNR886lZsMAt6a5fVOK0+wgC8QsmfFj9OF
-	s2T4ERWNdUYd8ieDtfOWMqy/dtHoiVQRzDXwW+yrLCI6YwwMDXw44VRQUmJUPT/RXULb
-	LGtwXWOLJhiJ6FBtUKj6oJvRAy7xr6Ziu5SorY8ZvnRfjOqR5R7cU6bd0enHOayB4XR4
-	EWFDENqih+NC+xPKp84QvJXryKw3wLHFEi72H8RKW6k0DiPsMZLGl6dh2534tJxxaTi9
-	1Xc7ydpSNnfG2zRC1O3ZJhQ7A3Mnawmdkc/On1uXU4yJntXggP/0PYv/TDzOwWksCSr7
-	Waew==
+	Thu, 24 Mar 2016 07:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=I6xDjYjf/9JXJ7Gk0KxHBpcz3xErER6g7m4zzJhDnMs=;
+	b=EchPJe6XkXDh3opfKjq9xulKb6kCvxBR3kErqVodUKC78Misa4+TvoT0nTR6pjzLUR
+	0HEzRIvjxLB6UM+Kq39T8XnEN5+No04aDsS1/yISXhUacmUZjAl/ADWB/tJsXrS/NUfH
+	3bCJT9TJslkC46jBzFTmzlbnB1PbmuzZcDrJJ0YU2slEhrZTHUPTfzEIIjJLPhQTM4BY
+	sbdnRVIgrGaAjzgdnCaA5EVvWsVHISrStbmxLQFVvUfkpjpEmhl51sBWrQ6SItLL/L/6
+	aBZbbKFHVQnOMARn17LDCW51nAtJAJOdSyaeH2dkR/ZEDrzlS1x3FeFeIRCWPGhnZsS0
+	LqCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=+D0Gc0NNwSFJhZWa4fLCIfU9URCh1bZaxOliDAAm5tE=;
-	b=cztnwVlgyjmiEs2wvnk+G0bzDAuNInTsu2NyEaFwDvai2SZSR7Hq3INGPtDhpmyuTn
-	51TUW5yGzR4FnvgSghou/jfEcbxp0mecUhaFj+MFLpdC5P94XV9oKTXWShiVOuM53woY
-	RZa/L5Em5sH6zwO60e4pHm5XeL61SBmraoki5hfHIsgb4jlpNUB0tQRpOwqv8nQ5f7+/
-	n/MlZ8g+tPgJLMKU8MRyuW3NkLAd21szv6LClBzHjlhyd36OViD1eBxgieqro3ef6Xk/
-	cB7VF90pcLDDG8go2bgBDd6uHTGL+KYpm1AftM5sX97qmfsg8VKdGHfw7P7TRd/DKjcH
-	yCBQ==
-X-Gm-Message-State: AD7BkJKR4a9k1ZgxkUVyNEpa5Kkk6m39/W1pxKDb4k7KyIvbdvarwkBRj90Fg0nTDOt0fbbVkICDafInvAeKbv12
-X-Received: by 10.202.88.130 with SMTP id m124mr3708199oib.52.1458816201925;
-	Thu, 24 Mar 2016 03:43:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.90.134 with HTTP; Thu, 24 Mar 2016 03:43:02 -0700 (PDT)
-In-Reply-To: <56F3C42E.6060703@mlbassoc.com>
-References: <56F3B739.3030108@mlbassoc.com>
-	<CAJTo0LZWmp7iqE22miPiq2Sp+oNUYzGtU-YR=7ZGiA3QjDaRbg@mail.gmail.com>
-	<56F3C11E.5000204@mlbassoc.com>
-	<CAJTo0LaS8jvkQ-ANsmyeVGNDR8rbfsti-oEXuO2LN6gM+PUj3Q@mail.gmail.com>
-	<56F3C42E.6060703@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Mar 2016 10:43:02 +0000
-Message-ID: <CAJTo0La3429ZJ_FeFbE8emjC25LTuhhVToFdp134S6gxdh=KXQ@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Change in udev
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=I6xDjYjf/9JXJ7Gk0KxHBpcz3xErER6g7m4zzJhDnMs=;
+	b=T+YIAy5Sac2fKjsHbm/GuN0oT2FzkEyJnSvyEkwKITCk1L+l0KmFB8jNy8NKFkaDW5
+	AGdLNsbv06VnkpkIjf5DVUEf//IS6FEz5XXxExzinD88nH6CGNqodKx39VDSIIWOW1bR
+	2CpUIhY7AH9GAJ6D8kx8TgIwy6QyQTV+IQ9+VnHgmYVqZVaRuDCGZbGtDB4kmyf8HiBm
+	cka0y+zb20aWfg7Pi9BtPsjmRB5Tuka6SmQUSFDepc1z8S1w0RkndrtTLp6mPBaz3fZg
+	YAeWlrk84rSOYfPr/XGsbEubU57Q0HwCi61S8XffhW/mo4dHy28hMYC5a6M/jpWm4P35
+	7EvQ==
+X-Gm-Message-State: AD7BkJKcBCcvkG/jJUMAbofNMbNb34jB3+uzl4f0oTsXhNxXTGWp/C5hd+BGokr5Oez2OA==
+X-Received: by 10.37.8.5 with SMTP id 5mr3160733ybi.179.1458782516462;
+	Wed, 23 Mar 2016 18:21:56 -0700 (PDT)
+Received: from Pahoa2.mvista.com ([64.2.3.194])
+	by smtp.gmail.com with ESMTPSA id
+	h68sm3123910ywd.42.2016.03.23.18.21.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Mar 2016 18:21:55 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2016 18:21:51 -0700
+Message-Id: <1458782511-24274-2-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+In-Reply-To: <1458782511-24274-1-git-send-email-akuster808@gmail.com>
+References: <1458782511-24274-1-git-send-email-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH 2/2] tzdata: update to 2016c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,50 +56,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 10:43:21 -0000
-Content-Type: multipart/alternative; boundary=001a113d5e3e824b09052ec91d66
+X-List-Received-Date: Thu, 24 Mar 2016 14:06:37 -0000
 
---001a113d5e3e824b09052ec91d66
-Content-Type: text/plain; charset=UTF-8
+From: Armin Kuster <akuster@mvista.com>
 
-On 24 March 2016 at 10:40, Gary Thomas <gary@mlbassoc.com> wrote:
+The 2016c release of the tz code and data is available. Its most urgent change is for Asia/Baku, where the update takes effect this weekend.
 
-> So /etc/udev/hwdb.bin is somehow unpackaged (an orphan)?
->
+This release reflects the following changes, which were either circulated on the tz mailing list or are relatively minor technical or administrative changes:
 
-Have a look at the recipe: it's a postinst from eudev-hwdb.  Possibly that
-package should ship an empty file and we force it to re-generate in the
-postinst so it's not orphaned.
+Changes affecting future time stamps
+
+Azerbaijan no longer observes DST.  (Thanks to Steffen Thorsen.)
+
+Chile reverts from permanent to seasonal DST.  (Thanks to Juan
+Correa for the heads-up, and to Tim Parenti for corrections.)
+Guess that future transitions are August's and May's second
+Saturdays at 24:00 mainland time.  Also, call the period from
+2014-09-07 through 2016-05-14 daylight saving time instead of
+standard time, as that seems more appropriate now.
+
+Changes affecting past time stamps
+
+Europe/Kaliningrad and Europe/Vilnius changed from +03/+04 to
++02/+03 on 1989-03-26, not 1991-03-31.  Europe/Volgograd changed
+from +04/+05 to +03/+04 on 1988-03-27, not 1989-03-26.
+(Thanks to Stepan Golosunov.)
+
+Changes to commentary
+Several updates and URLs for historical and proposed Russian changes.
+(Thanks to Stepan Golosunov, Matt Johnson, and Alexander Krivenyshev.)
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-extended/tzdata/{tzdata_2016b.bb => tzdata_2016c.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2016b.bb => tzdata_2016c.bb} (98%)
+
+diff --git a/meta/recipes-extended/tzdata/tzdata_2016b.bb b/meta/recipes-extended/tzdata/tzdata_2016c.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2016b.bb
+rename to meta/recipes-extended/tzdata/tzdata_2016c.bb
+index b9e386a..5eb85b7 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2016b.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2016c.bb
+@@ -8,8 +8,8 @@ DEPENDS = "tzcode-native"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ 
+-SRC_URI[tzdata.md5sum] = "f638ec0d4d7a17f001ce475860255c85"
+-SRC_URI[tzdata.sha256sum] = "6392091d92556a32de488ea06a055c51bc46b7d8046c8a677f0ccfe286b3dbdc"
++SRC_URI[tzdata.md5sum] = "0330ccd16140d3b6438a18dae9b34b93"
++SRC_URI[tzdata.sha256sum] = "8700d981e6f2007ac037dabb5d2b12f390e8629bbc30e564bc21cf0c069a2d48"
+ 
+ inherit allarch
+ 
+-- 
+2.3.5
 
 
-> Also, how will I prevent eudev-hwdb from being sucked in if I
-> only depend [RDEPENDS/RRECOMMENDS] on 'udev'?
->
-
-eudev recommends eudev-hwdb, so BAD_RECOMMENDATIONS as usual.
-
-Ross
-
---001a113d5e3e824b09052ec91d66
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 March 2016 at 10:40, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":gih" class=3D"a3s" styl=
-e=3D"overflow:hidden">So /etc/udev/hwdb.bin is somehow unpackaged (an orpha=
-n)?<br></div></blockquote><div><br></div><div>Have a look at the recipe: it=
-&#39;s a postinst from eudev-hwdb.=C2=A0 Possibly that package should ship =
-an empty file and we force it to re-generate in the postinst so it&#39;s no=
-t orphaned.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":gih" class=3D"a3s" style=3D"overflow:hidden">
-Also, how will I prevent eudev-hwdb from being sucked in if I<br>
-only depend [RDEPENDS/RRECOMMENDS] on &#39;udev&#39;?</div></blockquote></d=
-iv><br>eudev recommends eudev-hwdb, so BAD_RECOMMENDATIONS as usual.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a113d5e3e824b09052ec91d66--
