@@ -1,53 +1,45 @@
-Return-Path: <rudolf.streif@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E81B360110;
-	Thu, 24 Mar 2016 18:36:41 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id tt10so28958581pab.3;
-	Thu, 24 Mar 2016 11:36:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=HTU98DcFcHyWfLS5J7113D72P8MRpKTOQYpsmj5imUg=;
-	b=h8a6zgNN5vbkZ3C/EIVvAOY84smyVi/IXhvE8wmnh3qwwb/YI5ynIbLkqzsPWCI2pp
-	SRHtFhsWvWcWc+PRxmA7U7fGVuIeUPfB9mPZA6wtd2fcE77/FxPcbawX1l528j403sPj
-	6rqahGGoWmj9D//TTfLd0PD2UWejCruUSbKDZBgTls2WX+G7hNU7tvaxfbRYUuokwAIU
-	svAuRjaN0nLDCyMykEyHnULLh6AsXw7hql6wXCS0Iw1Kdj/nSVPusuB1aTls6tEf7ByS
-	RDQuR01Gt6+5U41W5ds68JUg24MabwvXM8VinD2shYJKOiZRGM+cu+1iFlSvpgwlV38H
-	OVNQ==
+Return-Path: <kad@kad.name>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CC7560621
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Mar 2016 20:16:59 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id p65so883007wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Mar 2016 13:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kad-name.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=YyzAOq26SC3sQ6c9kAMABURgTwXxPwyws6q4tWL8t0A=;
+	b=13AFE2GKC2acujvA4ctzzoy4byuuI7sElqgbIax53b/rMa5VwP7iT+wRHDfN4lVJn+
+	3fE5tvUK7YaD+ZM2+2EALStSCuR5D709CsM7QKdfvrtCBFY06YzANRB60lG/v0NffrLY
+	zDLizBcV9j/h4hnakYiKDFnF6q/A3kueWrCLWWoBiFGyv98WWhqfbNlX5XkWmNBBRZm2
+	Mvl0fhTPJTBXwAc8ge/15AB+hk5YuqSoUn8BzgIs248LO0vWZGNiuLsEB121Ob+zd9VT
+	Yb6kXcUgkKcfWdjWVRb7LJYw1FB5WvBtHK4Jf1ndHWpeUFeh7wsyQKfMZg39UKXhsPh+
+	xjGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=HTU98DcFcHyWfLS5J7113D72P8MRpKTOQYpsmj5imUg=;
-	b=MYOcdtW46/fx741imlPX+Q2g5IywE9el5IeMRHL7b1iAcRhmiySXBUYRzdaiLNM1Ev
-	tM3jYyQ9rlWXfXCvLpi7ANwoyKBCREH4FHu7Tc3Lap3bNOHcJj/r+zuUi9my9PF2Mu+z
-	AEljxnCHwWRda4xEw7G+Y664czo79t14c82SUtKxs/tDXROF34BkXvsd+y5kCZWj7TZ7
-	sqw7hZUicZaYH6cimjEGmo4fF/6OIUjzDdL/tTKkkYR4gyeHbRKytFcjEb4rvNxTGNGg
-	FE8+7Ct0cvC9sMKc54ZAB6mp0kp20V9SaVpLFzdBSiEc2uchNZmjx8tuuPUTZOkvnrcn
-	NGYQ==
-X-Gm-Message-State: AD7BkJLs/kDzdgmNq6qjWkDz02EzAFmIHEefjvn5zGbPRXQUrItJxfLeqAuEREW6d5oEQQ==
-X-Received: by 10.66.191.225 with SMTP id hb1mr14851498pac.78.1458844602377;
-	Thu, 24 Mar 2016 11:36:42 -0700 (PDT)
-Received: from rjs-zotac.streifs.net (ip68-7-48-20.sd.sd.cox.net. [68.7.48.20])
-	by smtp.gmail.com with ESMTPSA id
-	qh8sm11674432pac.40.2016.03.24.11.36.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 24 Mar 2016 11:36:41 -0700 (PDT)
-From: Rudolf J Streif <rudolf.streif@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Date: Thu, 24 Mar 2016 11:36:40 -0700
-Message-ID: <1604312.a7pP1GrPCb@rjs-zotac.streifs.net>
-User-Agent: KMail/4.14.10 (Linux/4.4.5-200.fc22.x86_64+debug; KDE/4.14.17;
-	x86_64; ; )
-In-Reply-To: <56F42DA1.4090902@balister.org>
-References: <56DEF97F.9070306@balister.org> <1458767514382.89578@seescan.com>
-	<56F42DA1.4090902@balister.org>
-MIME-Version: 1.0
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembedded-members@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [yocto] OEDAM, April 8 in San Diego after ELC
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YyzAOq26SC3sQ6c9kAMABURgTwXxPwyws6q4tWL8t0A=;
+	b=ab0Nx/XzS1FCe7kzc+2b9rwxfvzGm7fuaRGYrwq/QaPxlHbzWPaD4DrycDKBAmGQPw
+	W53F1e8aY+GnQ5I9hevq1FJIEiasK+AUhPh50CyiRqDtXie6cvAarA128+f9xHt7xSy1
+	TRPqfh8T/oI3EuprPQmoNFHyK2HioDFVga8pBExRQWWvVMrn5VZEURmmn8Q9yeqUxiZF
+	Yu+g3Ji9Wu+m2oNipRIkTve/itU17MC3U0hF2uO4tC3sE402LS3Q+vJ38WqdyfqBLjr2
+	D1IAg3kyQC5nMcMVeD4RoQFBkgBL3K9dAm3QMQ+44n5Qlc5zv6S6Z0IcxVBi03QDMJnv
+	fERA==
+X-Gm-Message-State: AD7BkJIMM6sft/+Hml5AMlrpdbl0kgTC5bFLIl/YTmV+AM3S23TDGIp/6dIfSSJP2vSK7Q==
+X-Received: by 10.194.22.97 with SMTP id c1mr11736941wjf.19.1458850620361;
+	Thu, 24 Mar 2016 13:17:00 -0700 (PDT)
+Received: from localhost.localdomain (dsl-hkibrasgw3-54fb77-110.dhcp.inet.fi.
+	[84.251.119.110]) by smtp.gmail.com with ESMTPSA id
+	hh8sm8826815wjc.42.2016.03.24.13.16.58
+	(version=TLS1 cipher=AES128-SHA bits=128/128);
+	Thu, 24 Mar 2016 13:16:59 -0700 (PDT)
+From: "Alexander D. Kanevskiy" <kad@kad.name>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Mar 2016 22:16:48 +0200
+Message-Id: <1458850608-50481-1-git-send-email-kad@kad.name>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] image_types: use compress framework to produce checksums for images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,55 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 18:36:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 24 Mar 2016 20:17:01 -0000
 
-Since I happen to live in San Diego, I have been asking around for a potential meeting room (unfortunately, I don't have an office with a meeting room myself). I am currently working with the University of San Diego and the Catamaran/Bahia Hotel. Can't promise anything yet.
+Existing compress framework for producing various compressed versions
+of images is powerfull enough to be extended for other uses, e.g. to
+convert types of images.
 
-:rjs
+It is possible to use it also to produce image checksums at the time
+of image generation. This commit adds support for all supported
+at the moment coreutils hashing algorithms: md5, sha1, sha224,
+sha256, sha384 and sha512
 
+Usage:
+IMAGE_FSTYPES_append = " hddimg.sha256sum"
 
-On Thursday, March 24, 2016 11:10:41 AM Philip Balister wrote:
-> We are up to fifteen now and as noted will have some off site attendees
-> and late sign ups.
-> 
-> Philip
-> 
-> On 03/23/2016 02:11 PM, Fred Ollinger wrote:
-> > I'm coming and I'm probably brining another person.
-> > 
-> > I still have to make the wiki account which failed for some reason before.
-> > 
-> > Frederick
-> > ________________________________________
-> > From: yocto-bounces@yoctoproject.org <yocto-bounces@yoctoproject.org> on behalf of Trevor Woerner <twoerner@gmail.com>
-> > Sent: Wednesday, March 23, 2016 2:08 PM
-> > To: akuster808; openembedded-devel@lists.openembedded.org; openembedded-core; Yocto Project; openembedded-members@lists.openembedded.org
-> > Subject: Re: [yocto] [OE-core] [oe] OEDAM, April 8 in San Diego after ELC
-> > 
-> > On Wed 2016-03-23 @ 09:36:40 AM, akuster808 wrote:
-> >> There are only 10 people signed up.
-> >> Is that enough people to justify the expense room or even meet?
-> > 
-> > I have no idea what the budget might be or what a room might cost. I'll leave
-> > it to those who do know to worry about the costs versus the benefits.
-> > 
-> > In any case I certainly think it's still worth meeting. A smaller, more
-> > focused group can sometimes get more done than a larger group. Secondly, it's
-> > my experience that more people always show up than sign up.
-> > 
-> > With a project like this there will always be things to discuss, and sometimes
-> > a discussion goes better in person rather than online.
-> > 
-> > Best regards,
-> >         Trevor
-> > --
-> > _______________________________________________
-> > yocto mailing list
-> > yocto@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/yocto
-> > 
-> 
+Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
+---
+ meta/classes/image_types.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 22719ad..3e98024 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -259,13 +259,19 @@ IMAGE_TYPES = " \
+     wic wic.gz wic.bz2 wic.lzma \
+ "
+ 
+-COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
++COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+ COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+ COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
++COMPRESS_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
++COMPRESS_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
++COMPRESS_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
++COMPRESS_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
++COMPRESS_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
++COMPRESS_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
+ COMPRESS_DEPENDS_lzma = "xz-native"
+ COMPRESS_DEPENDS_gz = ""
+ COMPRESS_DEPENDS_bz2 = "pbzip2-native"
+-- 
+2.7.4
 
 
