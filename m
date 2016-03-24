@@ -1,53 +1,59 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
 	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AAF5731BB
+	by mail.openembedded.org (Postfix) with ESMTP id E6A69731A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 22:24:51 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id n5so68110139pfn.2
+	Thu, 24 Mar 2016 22:28:36 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id u190so68554756pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 15:24:52 -0700 (PDT)
+	Thu, 24 Mar 2016 15:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=tx8lW8tYYN6i7D21fc0LlvvTqjP2JbSoquq7I4FKzv0=;
-	b=ZzS8tlvIAbqgo5YO4y3k/qMeBnsEivcGv5nu/p/WJOgM1EkA+fuwAGos89aQ+pj5cJ
-	eaFy0ayzxyioKFqIx3XJpvB0r8cCkRV2weOgzosnVDtmTGM2jIt6vUp9TSdxvHf6wvV8
-	rE/qg5E52fOX2hjwdpCrHOvTkVaZuDwaVGc3ot7peiX6jK9VTLPy8hfoTI6z93/nBDRP
-	OLnJraBeoN+LRtbjNMvHOA4YuW5qPpZO/jBTF1pwxxDPQBg1JhrjMG4hg5hlsiUuvuy9
-	pbuvDuvyjqwY6cKOhk6eRZ50bh7RuumLVid3OQ0Q2mw5CVcO8UpJcUWsxEPNn+NgdUwj
-	ilVg==
+	:to; bh=b8G1Z5hne85oNBcAI5M8nnI0QmkNxQ/VJ3rtyOfPsx4=;
+	b=KlyF9tAB4q6tA+K8jdF7RZEKGtq44itfEazumwVqB4QtUAAHdVzpJAoiwQRFUbip+B
+	uRQW4j4yiWgm9DlfNpX1FD5rAw8/nkOQ7qk14+1CU1W9IBqCw5ZCv4/o6um3UbNWv2ZP
+	2RbVxYEd9V/hc+99v1zLP4e8B7ziAJHZrWbcc97+ouyK/wWgqDPFnXuEjEGYe/3sdnS2
+	cZU67u91uWtBoszCkGl7z62TQJIZmyCwqVpMuxfIcKchn8QbuOHDaiFHWS9yYbh9nXGh
+	ZgyU54yjWnplYBNgPfEfQhhnLLNbRE2alsPtWOM/bHuu7GNhDxkgWB0cB9onenU78ygK
+	9z7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=tx8lW8tYYN6i7D21fc0LlvvTqjP2JbSoquq7I4FKzv0=;
-	b=BYzJOWm3HcMpvhLFx+VcbSVXXL3bcrzrRy8zBp8KqMRbEd2fmS2Orpmaq66BwsVh6j
-	vF/ov+sqQtC8WLUlOpma0c2/JOWaUaC0Ift9hsnEdTOcrbmj78RY698r1anqubPfCpzT
-	QjYqZhfTLOWhp6f00w1jMLp6JOwbqHGasEmDus7z0huIYshH2oS0XFAxamldViPK6K68
-	PSP6PxTkIjqtFRvd8hkxDq951OcDKBqcDnKEewKUI1JDd8INNt5m07+UXT4jtUQM5ngy
-	WXf7rftucXmXcQAv+rE54eAsxaFMd4SkK0mV1wOwoqdoqc7L4jxHsb7Pf2RPtsJznDl8
-	spIA==
-X-Gm-Message-State: AD7BkJIVKcz0HoLVQWfPAfYPzhO0fDG45fGyxBu8YTffpDbSZ4r9uNqzR3iFkhNTuHsIrg==
-X-Received: by 10.98.7.81 with SMTP id b78mr16225146pfd.49.1458858292345;
-	Thu, 24 Mar 2016 15:24:52 -0700 (PDT)
+	bh=b8G1Z5hne85oNBcAI5M8nnI0QmkNxQ/VJ3rtyOfPsx4=;
+	b=QQ7bkhaqmnZj0FsFR+3p+IBWN7h/QHhiiKfIJoULQfEORroNwYl92vfr2FIvp8llr6
+	RHzzLq6TNqaVpoIeiDskgr1Vi+AZ3hOHi9jyIjPfmIYxFtWAq6ZiIUiUt2FfZdPsaMHJ
+	ysHRWaLHI4bI2D1F7xlwpUIH2Q+YlVE1NEaP9VNr1tISaW4WuNIn9BMwC4a1FqcmvQFo
+	NcbGKd0AlxyzRrOgtisjP+V0bqTXKVZBO3sXLFK4yy6Km+I5Nyly9Z+w13xsGvzrKwTa
+	o4YijOCvIDm6r+DY8jkgD9IIv0mhP3cXj9lJe7c8SkOfViHn2P9RpTqkZA65lHL1T9HK
+	2JTA==
+X-Gm-Message-State: AD7BkJL2THpAZ/q1WzkL5MlYHhbM7ZddDqUZ7xBhVydcAGvQ7tOSpguWzjd8TRuI/4SzDQ==
+X-Received: by 10.98.40.200 with SMTP id o191mr16156433pfo.83.1458858517577;
+	Thu, 24 Mar 2016 15:28:37 -0700 (PDT)
 Received: from ?IPv6:2601:646:8800:5a9a:a4d9:b8b5:b926:f5b2?
 	([2601:646:8800:5a9a:a4d9:b8b5:b926:f5b2])
 	by smtp.gmail.com with ESMTPSA id
-	82sm12230146pfi.78.2016.03.24.15.24.50
+	m87sm12258387pfj.38.2016.03.24.15.28.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 24 Mar 2016 15:24:50 -0700 (PDT)
+	Thu, 24 Mar 2016 15:28:36 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1458836404.3476.194.camel@pbcl.net>
-Date: Thu, 24 Mar 2016 15:24:50 -0700
-Message-Id: <DA8E3E92-8B9C-43CA-8563-DE5E37EC3F93@gmail.com>
-References: <1458833075-543-1-git-send-email-raj.khem@gmail.com>
-	<1458836404.3476.194.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
+In-Reply-To: <1458855677.3073.35.camel@linuxfoundation.org>
+Date: Thu, 24 Mar 2016 15:28:36 -0700
+Message-Id: <2D123A70-82BA-4D68-9CE3-016CD5FA687C@gmail.com>
+References: <1458789553-3629-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1spVnsTtz4Wwa562aVaafzSUR3tJrrvstRGjRhT-VGOUAw@mail.gmail.com>
+	<CAJ86T=X4fDmNRjWv4nNPX3U3+Ak=z+2psGtTgFvt4-ga7b_sEg@mail.gmail.com>
+	<CAMKF1sofsW2HYMNzDOc9WKKs2ADejfX+VcwqaYx5fEof4g6ngQ@mail.gmail.com>
+	<CAJ86T=VjwZD9qKnhyX6-0xHQVRph1e0FSkwR7OWWJPQsvnOnnQ@mail.gmail.com>
+	<1458844322.3476.198.camel@pbcl.net>
+	<1458855677.3073.35.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nss: Explicitly link with libssp on musl/ppc
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-configure-common.inc: duplicate armv7a over-ride for armv8a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,69 +66,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 22:24:52 -0000
-X-Groupsio-MsgNum: 80118
+X-List-Received-Date: Thu, 24 Mar 2016 22:28:39 -0000
+X-Groupsio-MsgNum: 80119
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1E9594B0-0C1B-4620-9341-54B3F2F103C6";
+	boundary="Apple-Mail=_30B3F9C9-681A-4B89-8D8C-71231C4AEB1B";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_1E9594B0-0C1B-4620-9341-54B3F2F103C6
+--Apple-Mail=_30B3F9C9-681A-4B89-8D8C-71231C4AEB1B
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On Mar 24, 2016, at 9:20 AM, Phil Blundell <pb@pbcl.net> wrote:
+> On Mar 24, 2016, at 2:41 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 >=20
-> On Thu, 2016-03-24 at 15:24 +0000, Khem Raj wrote:
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->=20
-> This is all a bit obscure.  Please add an explanation of why this is
-> needed specifically by ppc (and not other architectures) to the commit
-> message.
-
-It is using nodefaultlib on linker cmdline and as a result, it was =
-complaining
-about missing __stack_chk_fail_local which was being added by compiler =
-due
-to -fstack-protector-strong being in CFLAGS, I did not look into roots =
-as to
-why it was showing up on ppc only.
-
->=20
-> Also, the subject says "musl" but the patch doesn't seem to be
-> obviously specific to musl.  Is SECURITY_LDFLAGS not used at all by
-> other libcs?
-
-It does not harm others.
-
->=20
-> p.
->=20
->> ---
->>  meta/recipes-support/nss/nss_3.21.bb | 1 +
->>  1 file changed, 1 insertion(+)
+> On Thu, 2016-03-24 at 18:32 +0000, Phil Blundell wrote:
+>> On Thu, 2016-03-24 at 10:37 -0700, Andre McCurdy wrote:
+>>>=20
+>>> Renaming armv8a -> aarch32 is going to affect almost every line in
+>>> the patch. We should probably drop the current patch from master-
+>>> next.
 >>=20
->> diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-
->> support/nss/nss_3.21.bb
->> index d2e2411..9f2626b 100644
->> --- a/meta/recipes-support/nss/nss_3.21.bb
->> +++ b/meta/recipes-support/nss/nss_3.21.bb
->> @@ -41,6 +41,7 @@ TD =3D "${S}/tentative-dist"
->>  TDS =3D "${S}/tentative-dist-staging"
+>> "AArch32" applies retrospectively to all older versions of the ARM
+>> architecture as well, so it's not obvious to me that a straight
+>> rename
+>> of the existing "armv8a" override to "aarch32" would be the right
+>> thing
+>> either.
 >>=20
->>  TARGET_CC_ARCH +=3D "${LDFLAGS}"
->> +SECURITY_LDFLAGS_append_powerpc =3D " -lssp_nonshared -lssp"
->>=20
->>  do_configure_prepend_libc-musl () {
->>      sed -i -e '/-DHAVE_SYS_CDEFS_H/d'
->> ${S}/nss/lib/dbm/config/config.mk
->> --
->> 1.8.3.1
->>=20
+>> I think the whole approach to ARMv8 and AArch64 in OE needs to be
+>> carefully thought through before we start landing any patches for
+>> that
+>> stuff.  We have a tangled enough maze of overrides right now and I
+>> think we should make all efforts to avoid it getting worse.
+>=20
+> Agreed, I'm planning to drop the patch triggering this from -next and
+> defer it until 2.2. The discussions can happen in the meantime to get =
+a
+> patchset we're all happy with.
+
+hopefully we will be able to cherry-pick into 2.1 at later stage ?
+
+>=20
+> Cheers,
+>=20
+> Richard
 
 
---Apple-Mail=_1E9594B0-0C1B-4620-9341-54B3F2F103C6
+--Apple-Mail=_30B3F9C9-681A-4B89-8D8C-71231C4AEB1B
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -133,9 +125,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlb0aTIACgkQuwUzVZGdMxQbCwCfQgQK6z2aeL/ZQPMmfSkVpiI4
-EvYAnAohfaCFjH+G9LU/Na/fV0D5TYiL
-=M8PL
+iEYEARECAAYFAlb0ahQACgkQuwUzVZGdMxSYoACbBkrkraN3Y+fozwn9+CYXLOXR
+jD8AnRBMNWMVK7yGG+QHTbC2lt3lXC/r
+=2Z5L
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_1E9594B0-0C1B-4620-9341-54B3F2F103C6--
+--Apple-Mail=_30B3F9C9-681A-4B89-8D8C-71231C4AEB1B--
