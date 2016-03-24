@@ -1,46 +1,55 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 157316FFED
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 90C8F6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 14:07:08 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id p65so5561622ywb.3
+	Thu, 24 Mar 2016 14:45:45 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id l68so13103273wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 07:07:09 -0700 (PDT)
+	Thu, 24 Mar 2016 07:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=kbfG0IVADov43qLqD7Glc2FVYzMCYKI/nhi1TiFf2vk=;
-	b=D7fxWiFTVoMrROJ/uG9oG6NNg37A54brkbk9Uw1ejnaXu8mcf3zVeFMQais889nwIG
-	0QIjfUnDlIUXx6t77t/g07IM6JnbTYqpP3y4ItsHAOWm6eeF/GvruzVIqRhHITFfMLhR
-	OUg2yZ/tixEIdVKd1VbGNL+lG6/UnWp+X2ffg09evkD0gy58Dp5rO3SNw25zZTqvdsFF
-	JvoXxRCH3C0xcTIbV1bSEM7WNca7aAiTixEitFQSwobw/EoFe8M/sGYiOGoQXLr8oipS
-	ivIpJRZD06pFNsWHwQX3CUOX2UUXmRu2xZA65nehmSQ2IgNbdDfvq/T7PJV3rLrwe0jN
-	YAGw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=B5CibhLahXeIVpNjNqe62H6GEqk86oFbQr3JqOj14nA=;
+	b=OTJi51DOevuGwYZXPNJloELUVR+fbsnpWHOLLATzMjvwJWJEp9mWwRVC3CSkJ76tYI
+	32bLTWuCcGWVF8SsUkQkqApYgxIrYQRNG35ETX9LJlSYVPMNLFHFP1JEQgb3g/h+avnQ
+	b05kmLensF2DtklDwol3jcfRJ24uKArde+7apMPNC2VtUnu9pEJTz9DiYPnht1PPPrPU
+	cQjW/2/gNmjvk8EY2EP/0328spDXxaDnCBSPEa8HI2uypyGX4TcK0BP7D907IHvinsja
+	9CiiV11evrFLz4NVNmnyXx3YxUwm6zrxFzYiJYY2qNk1V0PcKtYwb25Rb8T+tWqjuw5+
+	YJ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kbfG0IVADov43qLqD7Glc2FVYzMCYKI/nhi1TiFf2vk=;
-	b=MTDBm1LMZk7IdboUs0i0mTcsa8Dqk87J/FoIZsKUFWtbooqxqHEtX133ot1PZpmMpb
-	gzMSKGoLJ3DBtGWwCIQ3WBI13yiBY+sxMo5X89NSsQqRCjR9B0WeYrUuG0HhNcHDDIrG
-	n5D8fAvuU6v0Fn/IUup8k57audPJNz/P7QUDbciURTVxCB5YQtLT8rpkWvXtFaQ4tOKe
-	SjwNAOf57yGOk8h+1SVjn3Uaz9pn0f+UEohVH0wG2gZyfAk8eN1gfA7jtcQVXjcaljzQ
-	FhE1McwFvOqHp1tHTYIYbIsUTMSJn9wwyr2ep7ALM4FodABqA5uUHx1CeBCPknDBRnD/
-	7+fg==
-X-Gm-Message-State: AD7BkJKbzAWCsRoLfx/pgoGWe8zP6/iiBwliKdzROaHD7k4G3NHN9i6BR7watcgyYPqNXQ==
-X-Received: by 10.13.212.4 with SMTP id w4mr3247702ywd.321.1458782514895;
-	Wed, 23 Mar 2016 18:21:54 -0700 (PDT)
-Received: from Pahoa2.mvista.com ([64.2.3.194])
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=B5CibhLahXeIVpNjNqe62H6GEqk86oFbQr3JqOj14nA=;
+	b=RoBT+bi3RgHZbPgjUSigDZ1IbC8j5J2HFMWaIyx1romqnuTJY1ZPmkeqCI2GwZVO83
+	p4qsd73nTlxU5ieW5q6NTAXZc/IRy+XboUccO56G8rkPI0zrGdOFZx645uSsQVH+JeYk
+	QHZyovfSc/IAWgw3U6+fyqCDwEvOKGHdTFthGFkbPgVKPnbz3EwzLpoeUSJXw8u/FX1l
+	N4Mx3bOCwT7ym/tw1hO6v5erTyzBa2HgSqOQJ2NfxldNK2zdDIyTELom1NK1/4Fo5FCZ
+	CoK5gqUkErVxC7dVFQZ5rZo8pfI5rWIlGpvR+7pKqJIxyBEgbihxRPcmSNbKOMEGmddl
+	Gvtw==
+X-Gm-Message-State: AD7BkJIL0TX4I9Gvyi5zFtc2SOBLAEglE67Ac8slf+1AzbbcME1uqRotgbLuRyi693tuzg==
+X-Received: by 10.28.9.19 with SMTP id 19mr34947096wmj.87.1458830745682;
+	Thu, 24 Mar 2016 07:45:45 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	h68sm3123910ywd.42.2016.03.23.18.21.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 23 Mar 2016 18:21:53 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Mar 2016 18:21:50 -0700
-Message-Id: <1458782511-24274-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 1/2] tzcode: update to 2016c
+	w203sm8073184wmg.14.2016.03.24.07.45.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Mar 2016 07:45:44 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 24 Mar 2016 15:50:24 +0100
+To: Peter Liu <peter.x.liu@external.atlascopco.com>
+Message-ID: <20160324145024.GD2518@jama>
+References: <1458742798-9890-1-git-send-email-liu.ming50@gmail.com>
+	<20160323144107.GD2565@jama>
+	<DB3PR03MB201ABA2E63F24B74C089EACE3820@DB3PR03MB201.eurprd03.prod.outlook.com>
+MIME-Version: 1.0
+In-Reply-To: <DB3PR03MB201ABA2E63F24B74C089EACE3820@DB3PR03MB201.eurprd03.prod.outlook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "yue.tao@windriver.com" <yue.tao@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Ming Liu <liu.ming50@gmail.com>
+Subject: Re: [PATCH v1] libmad: avoid using legacy _thumb overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +62,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 14:07:09 -0000
+X-List-Received-Date: Thu, 24 Mar 2016 14:45:48 -0000
+X-Groupsio-MsgNum: 80091
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zbGR4y+acU1DwHSi"
+Content-Disposition: inline
 
-From: Armin Kuster <akuster@mvista.com>
+--zbGR4y+acU1DwHSi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../tzcode/{tzcode-native_2016b.bb => tzcode-native_2016c.bb}     | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2016b.bb => tzcode-native_2016c.bb} (68%)
+On Thu, Mar 24, 2016 at 02:38:04PM +0000, Peter Liu wrote:
+>=20
+>=20
+> ________________________________________
+> From: Martin Jansa <martin.jansa@gmail.com>
+> Sent: Wednesday, March 23, 2016 3:41 PM
+> To: Ming Liu
+> Cc: openembedded-core@lists.openembedded.org; yue.tao@windriver.com; Pete=
+r Liu
+> Subject: Re: [OE-core] [PATCH v1] libmad: avoid using legacy _thumb overr=
+ides
+>=20
+> On Wed, Mar 23, 2016 at 03:19:58PM +0100, Ming Liu wrote:
+> >> From: Peter Liu <peter.x.liu@external.atlascopco.com>
+> >>
+> >> _thumb had been dropped from overrides since commit 351443d7:
+> >> [ feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-=
+rides ]
+> >>
+> >> Change to set EXTRA_OECONF_append by checking ARM_INSTRUCTION_SET inst=
+ead.
+> >=20
+> > This also isn't right, ARM_INSTRUCTION_SET can be set to "thumb" even
+> > when MACHINE doesn't support it by having "thumb" in TUNE_FEATURES.
+>=20
+> OK, thanks for the correction.
+>=20
+> >=20
+> > You'll need to replicate the conditionals which were used in the tune
+> > files or just revert that cleanup if you find "thumb" override still
+> > useful.
+>=20
+> Yes, then maybe reverting that commit could be a better fix considering t=
+hat there is not a easy way for end users to override the thumb related set=
+tings. I will send a V2 soon.
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016b.bb b/meta/recipes-extended/tzcode/tzcode-native_2016c.bb
-similarity index 68%
-rename from meta/recipes-extended/tzcode/tzcode-native_2016b.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2016c.bb
-index 3a7dbf5..06b92ea 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2016b.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2016c.bb
-@@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ae2becfcb9a685041c6f166b44c2c2"
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- 
--SRC_URI[tzcode.md5sum] = "527e73bc90c70746799d61006bcf038e"
--SRC_URI[tzcode.sha256sum] = "e935c4fe78b5c5da3791f58f3ab7f07fb059a7c71d6b62b69ef345211ae5dfa7"
--SRC_URI[tzdata.md5sum] = "f638ec0d4d7a17f001ce475860255c85"
--SRC_URI[tzdata.sha256sum] = "6392091d92556a32de488ea06a055c51bc46b7d8046c8a677f0ccfe286b3dbdc"
-+SRC_URI[tzcode.md5sum] = "ffb82ab0b588138759902b4627a6a80d"
-+SRC_URI[tzcode.sha256sum] = "344b1bd486935bca2b7baa47db3b99b32211c45f31ec0d1ead8bacd103c5a416"
-+SRC_URI[tzdata.md5sum] = "0330ccd16140d3b6438a18dae9b34b93"
-+SRC_URI[tzdata.sha256sum] = "8700d981e6f2007ac037dabb5d2b12f390e8629bbc30e564bc21cf0c069a2d48"
- 
- S = "${WORKDIR}"
- 
--- 
-2.3.5
+Andre already sent patch to remove this EXTRA_OECONF override completely.
 
+If you think that it's still needed for whatever reason you should reply
+on his patch.
 
+>=20
+> //Ming Liu=20
+>=20
+> >=20
+> >> [YOCTO #9323]
+> >>
+> >> Signed-off-by: Peter Liu <peter.x.liu@external.atlascopco.com>
+> >> ---
+> >>  meta/recipes-multimedia/libmad/libmad_0.15.1b.bb | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/r=
+ecipes-multimedia/libmad/libmad_0.15.1b.bb
+> >> index 9e08b16..4c15db2 100644
+> >> --- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+> >> +++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+> >> @@ -27,7 +27,7 @@ inherit autotools pkgconfig
+> >>
+> >>  EXTRA_OECONF =3D "-enable-speed --enable-shared"
+> >>  # The ASO's don't take any account of thumb...
+> >> -EXTRA_OECONF_append_thumb =3D " --disable-aso --enable-fpm=3Ddefault"
+> >> +EXTRA_OECONF_append =3D " ${@['', '--disable-aso --enable-fpm=3Ddefau=
+lt'][d.getVar('ARM_INSTRUCTION_SET', True) =3D=3D 'thumb']}"
+> >>  EXTRA_OECONF_append_arm =3D " --enable-fpm=3Darm"
+> >>
+> >>  do_configure_prepend () {
+> >> --
+> >> 1.9.1
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--zbGR4y+acU1DwHSi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlbz/q8ACgkQN1Ujt2V2gBy3LQCffK5PCaB5bUgzGkVqxsSoa41K
+HU4An1V3o/VYYsrEjeeUGwn2v52d230m
+=pwTB
+-----END PGP SIGNATURE-----
+
+--zbGR4y+acU1DwHSi--
