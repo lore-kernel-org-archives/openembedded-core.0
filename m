@@ -1,45 +1,45 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 12A4460248
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C5496012C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 17:49:27 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id x3so63700616pfb.1
+	Thu, 24 Mar 2016 18:03:33 +0000 (UTC)
+Received: by mail-ig0-f169.google.com with SMTP id av4so126853036igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 10:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=7VQRRxbyHeQBIot5PsrFw3N42I5WQE+HT4se8RChrXo=;
-	b=VFQ59p6aTVi3BHmeZEN7RpnKzxdvMlT2H2cvvFeqlti8ZBbCxjsUDy2RBg8c3m7w8b
-	FsqAsbJuHNNbMnhc5CRGuOpucb5ogpRK6o34KI5TQp+BlJgXtt1/Vyw9+h5WmOR0dukd
-	qc6uw5JXvOO4XgF+PSQw1qCJPTmLN4CA2sgwFGEIdjrcUXRkJYOjmKTL4o+5zZEfraqX
-	cAa9mo3pNqBAR/jVY4mJOnHKZ8UWkAd3EFc5Z2m0iroNSwUG/29/Vof4CDvTz2IlR4JG
-	mH4yz8R6eqNLygWAAPh6QTN4npXj52WfhCk5YP/QBWaYFgCdkIijEqy8LyTNVNwUF0ld
-	odqQ==
+	Thu, 24 Mar 2016 11:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=czYuI2ymRZx2EdzxDDZ7dMh8ZH9r016Zri0plpr8S4E=;
+	b=qJ4InpQ/yTFq8fRFtFFSzsg681oePNIvwxl6Rv871IoI+lJx5HQGnmOO17gNr+1cm5
+	PaaOYE/ywERFciKTDphFXUOuv0wxhAR5fRCcSts53cDel4cZpE124Sa6vEyBJmPlmpvI
+	OI0LngOlBbR59zLt9Xmbf2fsicVXAGP9h69o7SvFdGtK4Exm/9KBwo/4gjLXXlFIAXKf
+	uCGEi7FlQ0fsBY1S72YxCEIQY3RBFqfKZuSeyFrUNJhmcJN/wYsW1d4QjCQesqXQsuyv
+	QzjTl2U3azPKMDo6/7Wt9i+ZQ6UtphhqjH2CE4wAEitHNEUKWvm8/UagAdtvrpgMcuzH
+	3Gkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7VQRRxbyHeQBIot5PsrFw3N42I5WQE+HT4se8RChrXo=;
-	b=bvEkEAPkV74eW7hKxdBiXvBidiBuNI9dqphUU2MNIPSVvXmyyYYwhBUbzqYyT1fiwu
-	ceGiigEeSoO+DQ5/78sqs3gTeXL5W7vWfg/Cs9GADz8kwDFgyCSlnooeh6KCWx3rtNYq
-	jaIpOvZvNA0foHffUB6IS8w65ytkWhdoeU8UqMpLaVOGs5/4ESoY/ndpO//uuy8VMaJ2
-	L6EDN+XzohjRbvjHEu3da9JUc2eflSMSNdQLCuI/wNRNMaOFUWyYuDanLCr52dE+4KoJ
-	b23f4Gji95meSmrBMmmGKZ3KMDe4baKIQaeDUHFAyYyHcvq798K0ndAB5AlB1hFOMKsQ
-	o0ZQ==
-X-Gm-Message-State: AD7BkJLrQcrv5sS9XSRDuuXczdFALgtWCLA6kFVkYIXZwzOdpg4Fu5TmppcyESxLv9vr0w==
-X-Received: by 10.98.34.216 with SMTP id p85mr14547403pfj.45.1458841768352;
-	Thu, 24 Mar 2016 10:49:28 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id e1sm11540793pas.1.2016.03.24.10.49.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Mar 2016 10:49:27 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Mar 2016 10:49:22 -0700
-Message-Id: <1458841762-9002-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] oe-buildenv-internal: simplify derivation of BB_ENV_EXTRAWHITE
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=czYuI2ymRZx2EdzxDDZ7dMh8ZH9r016Zri0plpr8S4E=;
+	b=EvQE7PZW5laYS2Biwcdgg3csg41hsBMqry4cGCiKsJ8o1TiIDW/BiAlG5Vrka6jaJX
+	gk9HC0GvaDr91uCyk3uyjAVZ4Y8TGJkD8AOsHujPc7W+Ng+FQpZI8fsN6MszyCfFjf9V
+	S+MBX+wIM0XbT54YuTqqcmC6WZomITRkHPArwxVwsn3RqBUbuc8eS+PGnx6vieQnZzag
+	siZzzXaVo9aLoeBpZurhNQhcUGihogWuIGoKJiTAu1qL8gUnwY3VNd0e349iE6lni87f
+	bIXETHCPhVg+oxWCTgBboIgUDhyjp66kYinNQhqR/j9elEWSn8tCc3UYowuKudSzJpp7
+	Ox8w==
+X-Gm-Message-State: AD7BkJK5LkhMZ1Q2Smyes2cFEEQbAntUwb+pxZbLpiR6AdTnWatIghBlJW7zn0wz/hr8itrdt6oDdNhBYBHNoA==
+X-Received: by 10.51.17.34 with SMTP id gb2mr31187942igd.13.1458842614399;
+	Thu, 24 Mar 2016 11:03:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <1458841762-9002-1-git-send-email-armccurdy@gmail.com>
+In-Reply-To: <1458841762-9002-1-git-send-email-armccurdy@gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 24 Mar 2016 18:03:25 +0000
+Message-ID: <CABcZAN=Xg--fNjRVKWTSC2pkPnyVLHN+Vz++a07xq-sorC534w@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] oe-buildenv-internal: simplify derivation of BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,53 +52,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 17:49:28 -0000
+X-List-Received-Date: Thu, 24 Mar 2016 18:03:35 -0000
+Content-Type: multipart/alternative; boundary=001a1135ed32d0ae48052ecf433b
 
-Use 'sort --unique' to combine the two lists and remove duplicates.
+--001a1135ed32d0ae48052ecf433b
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- scripts/oe-buildenv-internal | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+On Thu, Mar 24, 2016 at 10:49 AM Andre McCurdy <armccurdy@gmail.com> wrote:
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 8eee008..be212f2 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -110,29 +110,12 @@ unset BITBAKEDIR newpath
- export BUILDDIR
- export PATH
- 
--add_extrawhite() {
--    # If the current shell is zsh, then temporarily set it to emulate sh in this
--    # function so that the for and case statements below work as expected.
--    [ -z "$ZSH_NAME" ] || emulate -L sh
--
--    local extrawhite="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
-+BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
- HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
- all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
- SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
- SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
- 
--    local var
--    for var in $extrawhite; do
--        case " $BB_ENV_EXTRAWHITE " in
--            *[[:blank:]]$var[[:blank:]]*)
--                ;;
--            *)
--                BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE:+$BB_ENV_EXTRAWHITE }$var"
--                ;;
--        esac
--    done
--}
--
--add_extrawhite
--unset -f add_extrawhite
-+BB_ENV_EXTRAWHITE=$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | sed 's/ /\n/g' | LC_ALL=C sort --unique)
-+
- export BB_ENV_EXTRAWHITE
--- 
-1.9.1
+> Use 'sort --unique' to combine the two lists and remove duplicates.
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  scripts/oe-buildenv-internal | 23 +++--------------------
+>  1 file changed, 3 insertions(+), 20 deletions(-)
+>
+> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+> index 8eee008..be212f2 100755
+> --- a/scripts/oe-buildenv-internal
+> +++ b/scripts/oe-buildenv-internal
+> @@ -110,29 +110,12 @@ unset BITBAKEDIR newpath
+>  export BUILDDIR
+>  export PATH
+>
+> -add_extrawhite() {
+> -    # If the current shell is zsh, then temporarily set it to emulate sh
+> in this
+> -    # function so that the for and case statements below work as expected.
+> -    [ -z "$ZSH_NAME" ] || emulate -L sh
+> -
+> -    local extrawhite="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
+> +BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
+>  HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy
+> ALL_PROXY \
+>  all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
+>  SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE
+> GIT_PROXY_COMMAND \
+>  SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
+>
+> -    local var
+> -    for var in $extrawhite; do
+> -        case " $BB_ENV_EXTRAWHITE " in
+> -            *[[:blank:]]$var[[:blank:]]*)
+> -                ;;
+> -            *)
+> -
+> BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE:+$BB_ENV_EXTRAWHITE }$var"
+> -                ;;
+> -        esac
+> -    done
+> -}
+> -
+> -add_extrawhite
+> -unset -f add_extrawhite
+> +BB_ENV_EXTRAWHITE=$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | sed
+> 's/ /\n/g' | LC_ALL=C sort --unique)
+>
 
+You could use this instead of sed here: tr ' ' '\n'
 
+--001a1135ed32d0ae48052ecf433b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu=
+, Mar 24, 2016 at 10:49 AM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gm=
+ail.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">Use &#39;sort --unique&#39; to combine the two lists and remove du=
+plicates.<br>
+<br>
+Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com" tar=
+get=3D"_blank">armccurdy@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/oe-buildenv-internal | 23 +++--------------------<br>
+=C2=A01 file changed, 3 insertions(+), 20 deletions(-)<br>
+<br>
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal<br=
+>
+index 8eee008..be212f2 100755<br>
+--- a/scripts/oe-buildenv-internal<br>
++++ b/scripts/oe-buildenv-internal<br>
+@@ -110,29 +110,12 @@ unset BITBAKEDIR newpath<br>
+=C2=A0export BUILDDIR<br>
+=C2=A0export PATH<br>
+<br>
+-add_extrawhite() {<br>
+-=C2=A0 =C2=A0 # If the current shell is zsh, then temporarily set it to em=
+ulate sh in this<br>
+-=C2=A0 =C2=A0 # function so that the for and case statements below work as=
+ expected.<br>
+-=C2=A0 =C2=A0 [ -z &quot;$ZSH_NAME&quot; ] || emulate -L sh<br>
+-<br>
+-=C2=A0 =C2=A0 local extrawhite=3D&quot;MACHINE DISTRO TCMODE TCLIBC HTTP_P=
+ROXY http_proxy \<br>
++BB_ENV_EXTRAWHITE_OE=3D&quot;MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_=
+proxy \<br>
+=C2=A0HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL=
+_PROXY \<br>
+=C2=A0all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POL=
+ICY \<br>
+=C2=A0SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_CO=
+MMAND \<br>
+=C2=A0SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR&quot;<br>
+<br>
+-=C2=A0 =C2=A0 local var<br>
+-=C2=A0 =C2=A0 for var in $extrawhite; do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case &quot; $BB_ENV_EXTRAWHITE &quot; in<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *[[:blank:]]$var[[:blank:]]*)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ;;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BB_ENV_EXTRAWHITE=
+=3D&quot;${BB_ENV_EXTRAWHITE:+$BB_ENV_EXTRAWHITE }$var&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ;;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 esac<br>
+-=C2=A0 =C2=A0 done<br>
+-}<br>
+-<br>
+-add_extrawhite<br>
+-unset -f add_extrawhite<br>
++BB_ENV_EXTRAWHITE=3D$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | sed =
+&#39;s/ /\n/g&#39; | LC_ALL=3DC sort --unique)<br></blockquote><div><br></d=
+iv><div>You could use this instead of sed here: tr &#39; &#39; &#39;\n&#39;=
+</div></div></div>
+
+--001a1135ed32d0ae48052ecf433b--
