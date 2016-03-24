@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 48C7B605BB
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 556D0601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 08:03:40 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id j92so7665830qgj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2016 01:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cIe7YWdex1YlauZDX8WspXx8cWhGn3xIH60DvhGrvRk=;
-	b=UiYz3q1w2YYliJ5aeib8tAAmNsN6l6FBpf9PUhM1CUDym3UMOL1V9nBHBIOVQp4JdY
-	sYKjYgzh1Mfq5dfDbmN7lseV42pO7Q1WxUPbsgNKz6XEYiiVGymk2ype8+ji2uZBj69J
-	R7cEY4Jp+guw7C9gh7wSbEcPkVOMTS3t15Mt4bAj//Vp9n/l+FHunplDAaA4Zart0bSE
-	wYFD5gp53OkC7rfHt9gaOhcZ9fXvY7rPEjpgv5CPvjUVb5xAi94Vr+4qZSRyf1x/1a9J
-	sBJXq4fzDBSZxU9SWU1xTfOtdGMxOaBkOVFLg2T13e2lnp0R4Wq29bQZNsscWFu+IdfB
-	SQNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=cIe7YWdex1YlauZDX8WspXx8cWhGn3xIH60DvhGrvRk=;
-	b=iMBTDJYk6t6XTE95GT2KlkdLUmCR1fylH4GIEaWrRP7HUieePPMQAhaBfd5lMMkiiU
-	8/H01b6bUzwe+UlOGWqTidMPSNYVKRPagY/T16N95a7tY7WKKDnUjYADyx8ErJXcKV00
-	Msm0xs9hz7hsDe7Ct5pxGoh02/T1zxANcrq5pb7W+gvAlpkKSB2CsEB5g0C3ZbF/Y6OA
-	UzSY690bkByapRavs9NmjtB1K4lUVwA1zUlwDNbWxw9p8ckoBiXX4JMyyg009+gt+5Vo
-	5Owrw8iibvEZdG1HYWg1UYdHd7irXW9MTxF+fB8B7TntDkp0hHwCf214Mg5xcpRQ8jud
-	G0sw==
-X-Gm-Message-State: AD7BkJKAkuMwdvnD4ICYb61gMvDmdG4ZUu1dGnkmNmI4d/EHl+ENNKCIvaJ15W10g7eS95LGLKOHx/w0+6If8Q==
-X-Received: by 10.140.37.113 with SMTP id q104mr8548989qgq.104.1458806620817; 
-	Thu, 24 Mar 2016 01:03:40 -0700 (PDT)
+	Thu, 24 Mar 2016 09:23:51 +0000 (UTC)
+Received: from [IPv6:fda8:8b75:6fa6:1000:31c0:4816:a1c6:a1f9] (192.168.15.34)
+	by smtp.enea.com (172.21.1.209) with Microsoft SMTP Server id
+	14.3.266.1; Thu, 24 Mar 2016 10:23:43 +0100
+To: Dengke Du <dengke.du@windriver.com>
+References: <cover.1458731173.git.dengke.du@windriver.com>
+	<ecd80b5ad2eb73b3c5615d3b8985c30c7d088bd6.1458731173.git.dengke.du@windriver.com>
+From: Tudor Florea <tudor.florea@enea.com>
+Message-ID: <56F3B211.7000904@enea.com>
+Date: Thu, 24 Mar 2016 11:23:29 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Thu, 24 Mar 2016 01:03:11 -0700 (PDT)
-In-Reply-To: <CAJ86T=X4fDmNRjWv4nNPX3U3+Ak=z+2psGtTgFvt4-ga7b_sEg@mail.gmail.com>
-References: <1458789553-3629-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1spVnsTtz4Wwa562aVaafzSUR3tJrrvstRGjRhT-VGOUAw@mail.gmail.com>
-	<CAJ86T=X4fDmNRjWv4nNPX3U3+Ak=z+2psGtTgFvt4-ga7b_sEg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 24 Mar 2016 01:03:11 -0700
-Message-ID: <CAMKF1sofsW2HYMNzDOc9WKKs2ADejfX+VcwqaYx5fEof4g6ngQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>,
-	Daniel Dragomir <daniel.dragomir@windriver.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-configure-common.inc: duplicate armv7a over-ride for armv8a
+In-Reply-To: <ecd80b5ad2eb73b3c5615d3b8985c30c7d088bd6.1458731173.git.dengke.du@windriver.com>
+X-Originating-IP: [192.168.15.34]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] pTest-quilt: pTest-quilt failed fixed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +31,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2016 08:03:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Mar 2016 09:23:55 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 23, 2016 at 10:16 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, Mar 23, 2016 at 9:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Mar 23, 2016 8:19 PM, "Andre McCurdy" <armccurdy@gmail.com> wrote:
->>>
->>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>> ---
->>>  meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>> b/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>> index f4f76bd..a7b8d63 100644
->>> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
->>> @@ -65,6 +65,7 @@ EXTRA_OECONF_append_mips64eln32 = " --with-abi=64
->>> --with-arch-64=mips64 --with-t
->>>  EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
->>>  EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
->>>  EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
->>> +EXTRA_OECONF_append_armv8a = " --with-arch=armv7-a"
->>
->> Armv8 is different architecture and even gcc backends for armv8 arent shared
->> with armv7. This change doesn't look right to me. What are you fixing with
->> this change
->
-> In the context of oe-core machine specific over-rides, "armv8a"
-> signifies that we're building 32bit code for an ARMv8-A class CPU.
-> See:
->
->   http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=823af99d825375485d64fcb82c00fb85004813b8
->
-> (Maybe it would have been better to use aarch32 as the over-ride in this case?).
+A few comments:
 
-ah I did not know this patch has made it in. I had concerns about it.
-Its quite confusing to call armv8a as 32bit since thats wrong
-representation. It should be renamed to aarch32 atleast.
-since thats the execution state of armv8a architecture thats what this
-file is doing. armv8a support aarch64/aarch32/(thumb2 in aarch2 state)
+1. (Editorial) Please use the appropriate package name and description
+of the fix in the commit message:
+e.g.: "quilt: run ptest as normal user" or similar
 
-Please submit a rename patch with adjustments before starting to use
-it widely in metadata
+2. I would avoid using the user "test" in this context. "test" user
+might be a legitimate one in some actual deployment and could interfere
+this this one.
+
+3. I'd avoid having the user persistent on rootfs (created on
+post-install script) Instead I would create a regular user at the
+beginning of test and removing it at the end. You may take a look on
+libpam recipe tests.
+
+Regards,
+ Tudor.
+
+On 23/03/2016 13:14, Dengke Du wrote:
+> When run the pTest-quilt, the faildiff.test failed, because the user
+> is root. The faildiff.test had the following:
+> 	$ chmod -r test.txt
+> 	$ quilt refresh
+> Then we drop the read permission of the file test.txt, we can't
+> "quilt refresh" as normal user, so we got the following:
+> 	>~ .*diff: test\.txt: Permission denied
+> 	> Diff failed on file 'test.txt', aborting
+> But when the user is root, we can access the file, so we get the
+> following:
+> 	> Nothing in patch patchs/test.dfff
+> So I add a user who named "test" to run the pTest, when we run the
+> run-ptest script. In this way, we should add the user at the begining.
+> Add the useradd inherit to the meta/recipes-devtools/quilt/quilt.inc
+> and set the USERADD_PACKAGES and USERADD_PARAM_${PN}-ptest variable
+> respectively.
+> In the end, change the authority of the directory of test which collect
+> all the test case under the directory /usr/lib/quilt/ptest/ on the
+> target to 777. Because the test case would write this directory, if
+> the user is test user, it can't write this directory.
+> 
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ---
+>  meta/recipes-devtools/quilt/quilt.inc       | 9 +++++++--
+>  meta/recipes-devtools/quilt/quilt/run-ptest | 3 ++-
+>  meta/recipes-devtools/quilt/quilt/test.sh   | 1 +
+>  3 files changed, 10 insertions(+), 3 deletions(-)
+>  create mode 100755 meta/recipes-devtools/quilt/quilt/test.sh
+> 
+> diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+> index 837b36b..65d40cc 100644
+> --- a/meta/recipes-devtools/quilt/quilt.inc
+> +++ b/meta/recipes-devtools/quilt/quilt.inc
+> @@ -8,12 +8,13 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
+>          file://install.patch \
+>          file://run-ptest \
+>          file://Makefile \
+> +        file://test.sh \
+>  "
+>  
+>  SRC_URI[md5sum] = "fc0310db5868a0873d602d4332a76d43"
+>  SRC_URI[sha256sum] = "c4bfd3282214a288e8d3e921ae4d52e73e24c4fead72b5446752adee99a7affd"
+>  
+> -inherit autotools-brokensep ptest
+> +inherit autotools-brokensep ptest useradd
+>  
+>  EXTRA_OECONF_darwin += "--without-date \
+>                          --without-getopt \
+> @@ -35,6 +36,9 @@ EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
+>  
+>  CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
+>  
+> +USERADD_PACKAGES = "${PN}-ptest"
+> +USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
+> +
+>  # quilt ignores DESTDIR
+>  do_install () {
+>  	oe_runmake ${EXTRA_OE_MAKE_ARGS} install
+> @@ -50,8 +54,9 @@ do_install_ptest() {
+>  	tar -cf - bin/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
+>  	tar -cf - compat/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
+>  	tar -cf - quilt/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
+> -	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - )
+> +	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - && chmod 777 test)
+>  	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
+> +	cp ${WORKDIR}/test.sh ${D}${PTEST_PATH}
+>  }
+>  
+>  RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
+> diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
+> index 958a9df..14430a2 100755
+> --- a/meta/recipes-devtools/quilt/quilt/run-ptest
+> +++ b/meta/recipes-devtools/quilt/quilt/run-ptest
+> @@ -1,5 +1,6 @@
+>  #!/bin/sh
+>  
+> +THIS_SH=/bin/sh
+>  ln -sf /bin/ed /usr/bin/ed
+> -for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
+> +su -c "${THIS_SH} ./test.sh" test
+>  rm -f /usr/bin/ed
+> diff --git a/meta/recipes-devtools/quilt/quilt/test.sh b/meta/recipes-devtools/quilt/quilt/test.sh
+> new file mode 100755
+> index 0000000..6563e4a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/quilt/quilt/test.sh
+> @@ -0,0 +1 @@
+> +for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
+> 
 
