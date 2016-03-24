@@ -1,46 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id DE11D606A8
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 47C37606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 16:23:53 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id 124so48318749iov.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2016 09:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tT1Acppvey0S1DLI1W/Ax93jOn6aoWXFBm9Dxn9u1CU=;
-	b=NsCTTTdjpH+IvPTWHSSjpP7P2XiMOqA7ylpepkn9xs1VB8fxmP0avRb8IYL50wXTWu
-	xUFFuNQhPaqay57glIdXSCVOzhXRvdNS0dEq9U7t187IELYov9VUWCmADEh3+vAouR+J
-	FruipjPcOKaNCuuFrZPaMQANFODOFcsDrdy8L4SJFSGUqo4vaGO7dPKrXXzQ1BOWqwQA
-	jHCv/vAciDkGOXcO8d68UcorUOEAZIThsct6vdGx85QD9VQOym4qAhkL5YUmmlrliZs+
-	dS9Dl27S2foNZwfvNKTJcJDR0zYp6byyIZqGe4+2/5iV0hdUNiBlIVOimbUFWNWJcryD
-	+GKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tT1Acppvey0S1DLI1W/Ax93jOn6aoWXFBm9Dxn9u1CU=;
-	b=DBmzShJ4aDwE27Z+p49QCKYrMGcctn9jd1yxuKuqUdgr+9bz56DHM1Ol7vbfU3kqxU
-	QvKtcRk7uVjbvMxixMqU6u1Nor7aFTsY+TM/dMqs6WQvQBtA9IZnV1LPAo9IlS6UBoRI
-	zXdVXKn6V8CyeTWaD80bbryHhL0sPv/BjpYi9mWqeIW53zg2L6cQ1ZCBgGhilCmyPKYg
-	dSlMhi+ZiiwP8A+PPmxd2UcJ2LzNT0QjlrfvveBi3NVAx5wZnbtAmnmeLdNvXX6OE5VH
-	yZ3AWtLN4p9b70Cpa/Wq8YTQ1YoK5tdMOvU86jd2+dJBFvS7qCbwiuFl2Es4Aia/Sf16
-	DJ+w==
-X-Gm-Message-State: AD7BkJLR0SxiYl0CCq6eFZx+cLhDMYNpqkuOcvXDrz43xHccLDCCZtjjJePhfKbynqOMe+1Jr7shZWghAzKoz85o
-X-Received: by 10.50.43.226 with SMTP id z2mr25791893igl.78.1458750204652;
-	Wed, 23 Mar 2016 09:23:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 23 Mar 2016 09:23:05 -0700 (PDT)
-In-Reply-To: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
-References: <1458748461-4643-1-git-send-email-william.c.randle@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Mar 2016 16:23:05 +0000
-Message-ID: <CAJTo0LYjV1OROv5oO3_Wi8638pnnhOh3SgEp31yJ8GRk2XfsfQ@mail.gmail.com>
-To: Bill Randle <william.c.randle@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: tighten lib_re and exec_re patterns to avoid false positive
+	Wed, 23 Mar 2016 16:25:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2016 09:25:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,382,1455004800"; d="scan'208";a="943523950"
+Received: from jhibarra-desk.zpn.intel.com ([10.219.24.147])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2016 09:25:00 -0700
+From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2016 18:32:02 -0600
+Message-Id: <1458779522-3127-1-git-send-email-humberto.ibarra.lopez@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] scripts:/oe-selftest: Use timestamp instead of test names in coverage data file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +27,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2016 16:23:54 -0000
-Content-Type: multipart/alternative; boundary=047d7bfea0f4c413c4052eb9bf0c
+X-List-Received-Date: Wed, 23 Mar 2016 16:25:05 -0000
 
---047d7bfea0f4c413c4052eb9bf0c
-Content-Type: text/plain; charset=UTF-8
+This fixes the problem by changing the name to the coverage data file,
+using the timestamp as an identifier.
 
-On 23 March 2016 at 15:54, Bill Randle <william.c.randle@intel.com> wrote:
+The name for the coverage data file is constructed based on the tests
+ran; this has created a couple of issues so far, affecting coverage report.
 
-> +    lib_re = re.compile("^/lib.+\.so(\.\d+){0,3}$")
-> +    exec_re = re.compile("^%s.*/lib.+\.so(\.\d+){0,3}$" % exec_prefix)
->
+If --run-tests-by option is given, the data file name won't have any
+identifier, causing following runs to overwrite themselves. On the
+other hand, if too many tests are given, the file name exceeds linux
+limits and fails to store the coverage data all together.
 
-I worry that this goes too far in the other way, my Debian host has a
-library called /usr/lib/libblas.so.3gf.
+[Yocto #9253]
 
-Maybe we should add a "is this an ELF" test into the libdir check instead?
-That might kill performance though, and this is just a sanity check.
+Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+---
+ scripts/oe-selftest | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Any other thoughts?
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index d18348d..9b61bfa 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -364,16 +364,21 @@ def list_tags():
+ 
+     print 'Tags:\t%s' % ', '.join(str(x) for x in tags)
+ 
+-def coverage_setup(run_tests, run_all_tests, coverage_source, coverage_include, coverage_omit):
++def coverage_setup(coverage_source, coverage_include, coverage_omit):
+     """ Set up the coverage measurement for the testcases to be run """
++    import datetime
++    import subprocess
+     builddir = os.environ.get("BUILDDIR")
++    pokydir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
++    curcommit= subprocess.check_output(["git", "--git-dir", os.path.join(pokydir, ".git"), "rev-parse", "HEAD"])
+     coveragerc = "%s/.coveragerc" % builddir
+     data_file = "%s/.coverage." % builddir
+-    data_file += ((run_tests and '.'.join(run_tests)) or
+-        (run_all_tests and "all_tests") or "")
++    data_file += datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
+     if os.path.isfile(data_file):
+         os.remove(data_file)
+     with open(coveragerc, 'w') as cps:
++        cps.write("# Generated with command '%s'\n" % " ".join(sys.argv))
++        cps.write("# HEAD commit %s\n" % curcommit.strip())
+         cps.write("[run]\n")
+         cps.write("data_file = %s\n" % data_file)
+         cps.write("branch = True\n")
+@@ -586,7 +591,7 @@ def buildResultClass(args):
+                 # value indicates where the coverage configuration file resides
+                 # More info on https://pypi.python.org/pypi/coverage
+                 if not os.environ.get('COVERAGE_PROCESS_START'):
+-                    os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.run_tests, args.run_all_tests, args.coverage_source, args.coverage_include, args.coverage_omit)
++                    os.environ['COVERAGE_PROCESS_START'] = coverage_setup(args.coverage_source, args.coverage_include, args.coverage_omit)
+ 
+                 # Use default site.USER_SITE and write corresponding config file
+                 site.ENABLE_USER_SITE = True
+-- 
+2.1.4
 
-Ross
 
---047d7bfea0f4c413c4052eb9bf0c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 March 2016 at 15:54, Bill Randle <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:william.c.randle@intel.com" target=3D"_blank">william.c.randle@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
-);border-left-style:solid;padding-left:1ex"><div id=3D":fn1" class=3D"" sty=
-le=3D"overflow:hidden">+=C2=A0 =C2=A0 lib_re =3D re.compile(&quot;^/lib.+\.=
-so(\.\d+){0,3}$&quot;)<br>
-+=C2=A0 =C2=A0 exec_re =3D re.compile(&quot;^%s.*/lib.+\.so(\.\d+){0,3}$&qu=
-ot; % exec_prefix)<br></div></blockquote></div><br>I worry that this goes t=
-oo far in the other way, my Debian host has a library called=C2=A0/usr/lib/=
-libblas.so.3gf.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Maybe we should add a &quot;is this an ELF&quot; test into the li=
-bdir check instead?=C2=A0 That might kill performance though, and this is j=
-ust a sanity check.</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra">Any other thoughts?</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
-
---047d7bfea0f4c413c4052eb9bf0c--
