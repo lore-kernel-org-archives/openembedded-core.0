@@ -1,45 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2686C6057A
+Return-Path: <cliff.brake@gmail.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C18E06FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 16:42:56 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id n5so85781559pfn.2
+	Fri, 25 Mar 2016 20:18:55 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id y89so67911812qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 09:42:57 -0700 (PDT)
+	Fri, 25 Mar 2016 13:18:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=vHmS5RfVY788A79fG3zOGDhlazyW2faSiuIwVCKJXPk=;
-	b=ByQCrUMS3LAFJu5sSk2sZEXFL4INd/cviYlAWlmBJ92/DOoZrxvKIVXF3qV/kqRLJE
-	kImS8cYjDtgm5INnuFmblTSUsM5HaKMJFjWXvX1jdv+39nGwP0J7kWM1nMuPZdhAbVp9
-	+bFgHraMpW2WCrrH57dUvKO3Mholy448SyxDuRP5Of5C0/qn8v5Ok5GB7HmR5yhK+btA
-	owbS2q/c0iiwkSMgwiup+kxdAuVIqYRGCtqfKM85l36xr7YUoJ+rDL3Hcnpq8xyGbBx0
-	c0AWnXZuhyc+9YiE/jXUT79It0thPGuCVY3+Cb3Yta/+8cw/p9OBpXH3E1leF6nFXOkM
-	1DQw==
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=zMGeXvzdQGi98OaYNxRMJkiWQPQOch1oISoInQ8Umwg=;
+	b=Ul7fEDF9hfYx/Sz9FvwXGR5YJ+XkN9MlgGeqJygqURW2rGVvvShSCKTh0DfVJHFR4U
+	Ie/iOCfGdVi7ffsKR4U5H30wzXCN3GlDMOmjFhanUVfpV42XO+fR5OGg+dNOWBt1dQpd
+	zyKk0mEsVq7+z9yiFOWq93p6QAL/6fxKhF++zqDru4smxwlweV23+ZkW0FAIoPK5mr6H
+	u7n9fA72rk7jnluEoZsZLN6vGHKuKanWU+1AyFEQUK5fMRFSKRnM2y1TdJGMbDIogPTz
+	RpVJpbRRkf7Lel3YV1VjV9fTOekmnZ5+Q+aYO9r5u3NwVVQSxXISRSR/a9UMtp9HMX4D
+	XqpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vHmS5RfVY788A79fG3zOGDhlazyW2faSiuIwVCKJXPk=;
-	b=gicvYasuVtpw/zCvQIbWsJoes4/OnwuNkDAXSfmTYkCL+byfBf2GXSz/BCh52CKcen
-	6iEuGWOTpcwXxKKd/MAsgZJALeJNdFUhfeTLWPKeNYr2qQm2d4qrG+YZqeuyWbwCuCo1
-	fZFRb8XsF9410fsnHt6SoQG8bQ8SftXzOqzalRJaTfH6WKSFadEII8y7ngGEYIpfJi/S
-	7H8Dukto2jREAlXAqnFXwlcaqj/OM2cQq+v7sbbv7rhCzu57VzL6l7sxMq88pWUmH7Fr
-	6ypukyy0YgZIjEGFm3ms2N60xUEaxeCSuNsT1u30xUtgS3i/Na9IdRvAQSuACopKiaM5
-	YsPw==
-X-Gm-Message-State: AD7BkJLh79CKzW65WWUU/pQybkSRXihW2hK8mW6I6sgHX30tG6/AxhfqPEnQyUu4WNl79A==
-X-Received: by 10.98.10.29 with SMTP id s29mr22670279pfi.166.1458924177333;
-	Fri, 25 Mar 2016 09:42:57 -0700 (PDT)
-Received: from haswell.localdomain ([2601:646:8800:5a9a:e493:6aff:fe07:db7a])
-	by smtp.gmail.com with ESMTPSA id
-	g6sm17551833pfg.15.2016.03.25.09.42.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Mar 2016 09:42:56 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=zMGeXvzdQGi98OaYNxRMJkiWQPQOch1oISoInQ8Umwg=;
+	b=UFOfv8QQBhtlgO9NI5Kmzl1uVW1iTWL7561aXApQLyz2wG+778HuSrVkmmGkeP23l8
+	KOr7Y6goFsqhpg358uKpx9Y/0fsMUjxMpGIrBqRuiaM6zCUGJD/CHuw9VvYHlHkRXNej
+	6aJWR3jUETQ/iXYozDmvMQQAMH+c0eT6ZMMHxwlTF7G44wEf3AYU4/D9m9VsU0WsleIk
+	NQzUZhgP0wPze0BfuwAgFvql2WxZ4Ta+eiLfuMM6ppGgq7JL3RAF1NzScQt2qn3XQ4Yb
+	7R3NkHaGoOg304gpYLMU9OxO5VqgB5aaSDvCPSymrl4SAdFsd9mEnN4YUlUil1juWAJ8
+	AAPA==
+X-Gm-Message-State: AD7BkJKg2R8IrYJsSLJzooriXGH3WSAdKK2jnYgziS0+4qkkHHtQEuEJGlI1DLX2ON58uQ==
+X-Received: by 10.140.153.135 with SMTP id 129mr20839776qhz.38.1458937135828; 
+	Fri, 25 Mar 2016 13:18:55 -0700 (PDT)
+Received: from [192.168.1.139] (cable2-pool191-cs-134.doycomm.com.
+	[66.219.191.134]) by smtp.gmail.com with ESMTPSA id
+	a203sm5979877qha.31.2016.03.25.13.18.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 25 Mar 2016 13:18:53 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Mar 2016 09:42:50 -0700
-Message-Id: <1458924170-8851-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] site: Cache config vars for ccache
+From: Cliff Brake <cliff.brake@gmail.com>
+Message-ID: <56F59D2B.2010108@gmail.com>
+Date: Fri, 25 Mar 2016 16:18:51 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+Subject: How to use externalsrc with git workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,36 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2016 16:42:59 -0000
+X-List-Received-Date: Fri, 25 Mar 2016 20:19:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-ccache's configure tries to do a runtime test to
-determine hw_cv_func_snprintf_c99 and hw_cv_func_vsnprintf_c99
-which wont work in OE.
+Hi,
 
-c99 versions of these functions are provided on all
-supported libc implementations in OE-Core
+In the past (say Dora era), I've used externalsrc like:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/site/common-linux | 4 ++++
- 1 file changed, 4 insertions(+)
+====================
+DESCRIPTION = "MyApp"
+LICENSE = "CLOSED"
 
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 21fcac1..0a752a4 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -42,6 +42,10 @@ bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
- bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
- bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
- 
-+# ccache
-+hw_cv_func_snprintf_c99=${hw_cv_func_snprintf_c99=yes}
-+hw_cv_func_vsnprintf_c99=${hw_cv_func_vsnprintf_c99=yes}
-+
- # coreutils
- gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
- 
--- 
-2.7.4
+inherit externalsrc
+
+SRCREV = "${AUTOREV}"
+PV = "1.4+gitr${SRCPV}"
+PR = "r1"
+
+SRC_URI = "git://${FILE_DIRNAME};protocol=file;branch=HEAD"
+S = "${FILE_DIRNAME}"
+
+...
+====================
+
+This was very nice in that it set SRCPV to to the git version of the HEAD of my
+local workspace.  When building from a local git workspace, this makes sense to
+me -- I want the Git version of the workspace, not a remote version.
+
+Now with Jethro, I get errors like:
+
+ERROR: ExpansionError during parsing myapp.bb: Failure expanding variable SRCPV,
+expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError:
+Fetcher failure: Unable to resolve 'HEAD' in upstream git repository in git
+ls-remote output for /scratch/externalsrc/MyApp
+
+Do you have any suggestions how to use externalsrc + a local git workspace and
+avoid the above error.  I can set branch=master, etc and bitbake will then parse
+it, but the remote master version is not really what I'm building.
+
+Thanks,
+Cliff
 
 
