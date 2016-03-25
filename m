@@ -1,53 +1,52 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lb0-f195.google.com (mail-lb0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B94BB6FF9D;
-	Fri, 25 Mar 2016 20:37:59 +0000 (UTC)
-Received: by mail-lb0-f195.google.com with SMTP id sx8so5783431lbb.3;
-	Fri, 25 Mar 2016 13:38:00 -0700 (PDT)
+Return-Path: <cliff.brake@gmail.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 17F4F6FF30
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Mar 2016 21:07:17 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id c67so34867286qgc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Mar 2016 14:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=SBiT3sfiSAA4fPsN5w4KdJs9jjbqCTaGJe215W0YQIc=;
-	b=TGJVFTYXc2A2Hwy5ericUlJaBtHxXe4VBeTI2R4hhmpvoWdjR1cDwCk+hN+nC7qJX9
-	uNq1XsroEbRfYcRL7909UVo39sE/2f7Hi4rPASZofVFSlV679TqV9ZczGGbVYy2mLlcs
-	k8HAX3k69n1smNLyd3dJ2eZ4HP72AyO++Lwt+80v2H9StKO36zgYcasAXWqSpR/MNs2w
-	GXwoYlJ4R7KYIeRgnz5WeqC/s0sXvg1spIlTyFCW0/67QSWPhoP2GD2bi/Bws9jFbMUO
-	w04stw3WHgB9u799bQ6na1fnVd+2hiQLkoj8Ga2RWInYB1EmZ2evrLBQQSYpjVAANYG+
-	umBw==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=umqbzzVpHOF1oY9YYMmBvmVgjWfVeMD9B9ZpQT7kfHI=;
+	b=AEpocaWjS0Pq4NQBAorki2lDAAy5Ebd3SZfpYMQbn6mIcaxlmr0nvVQ9SFopNJvXRx
+	KHinBSKWWPIzXVNQg25OHm04ddzr5ohjzazcPnBEXfknbJUUl/rvLOGSplghvR7ro6ML
+	rzwvA03ssjVl2IxqkE63cJEe6AXzehYOhdzSJpe6Sj8mPjDAv9HkvFcfIeXEvwPSsweO
+	WGYBjumP4L42e/hKRNsYohIRXteaXjj1ilkpP59Cxsm5M7Vw7udM+Ahb62/pc953vQuE
+	QEx4Pw0De70ELLJyrUCypJ6f6WX7ryY1FizHD129Y81tHdhvrbgiStYZbqz2HxQlC+uZ
+	O4TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=SBiT3sfiSAA4fPsN5w4KdJs9jjbqCTaGJe215W0YQIc=;
-	b=f+B9xiQFJWkuOEkDb6AoIsyCiZvF9+UNZYOuCtzROvszbGtPaCj/Goya9Rp5aRMvWD
-	VGz4lBZMBezT4Ioy/KwXLtBt5qwdM68zF0fvNuh4QUayXoTTiEDh7OBlXTxtXeofshEX
-	9mp1ki5pQrW3NFXlQC/W2ZT6wT2t4psGdXjNIbKvnW6y2w9xJcdMYdghvZqBkX55GIzU
-	WuXPC/MflbQyCXclf3nppGmRBoYG4bMc5onc1lGmmJ0d9U++XieUqglrBAEjAsdmU8Oc
-	NmLkJ88fkQ49Nq7VopHVYNGWVVHDDvaB8ICTJW2Y2bnJDbMxFINqwyg4Mh547gXzBoX5
-	KlhA==
-X-Gm-Message-State: AD7BkJKfrRj0xS1tjoa1dA+QCsVDMcO6ONhwchWmGQbRQ59shVOkEJaD2mqbpa599D50VhyDhaNrZMwtTA54Rw==
-X-Received: by 10.112.171.33 with SMTP id ar1mr1983383lbc.54.1458938279398;
-	Fri, 25 Mar 2016 13:37:59 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=umqbzzVpHOF1oY9YYMmBvmVgjWfVeMD9B9ZpQT7kfHI=;
+	b=PNHhnt3h/znLtv0wvmqH0zPodFwjfuublO2xmzHYM99YA+tfXJjGCLTaxHGnGa/WNc
+	IWLc0L78llqm6pT0l2Sy+QyXoJdYKqIYiMKQOafs/77/6L6pXkEXlRESCecf5uMKbyO5
+	knJncOqD8MU0+D0+ndX3ZgA3mKQHeonbViXfGDYGtDecCq9ca88EiAatXj+8TulC6soH
+	zRE7mnLc9Msjk//cmzBN/YmPtOQHOucx1zeU1CghIbo/4WpCpUhUwzyGjTCrmBfpOM1E
+	UlveQx4DjjQ89HYahoXOuV/0y0s7N+4qDJJZ+tcw6cdJIx3PXsmrTImOobo0i6rH+bgd
+	IhfQ==
+X-Gm-Message-State: AD7BkJJnGoM6mjRrKWnmUthfKkt98AnO0Ut9/5aq/DQsy2peIQOiYkmAn9jLNeiemUy18g==
+X-Received: by 10.140.87.98 with SMTP id q89mr2615167qgd.8.1458940038202;
+	Fri, 25 Mar 2016 14:07:18 -0700 (PDT)
+Received: from [192.168.1.139] (cable2-pool191-cs-134.doycomm.com.
+	[66.219.191.134]) by smtp.gmail.com with ESMTPSA id
+	z65sm6067797qhb.36.2016.03.25.14.07.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 25 Mar 2016 14:07:16 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <56F59D2B.2010108@gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
+Message-ID: <56F5A883.5040306@gmail.com>
+Date: Fri, 25 Mar 2016 17:07:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.55.101 with HTTP; Fri, 25 Mar 2016 13:37:39 -0700 (PDT)
-In-Reply-To: <CAMZfsd43wWQTZGp=FWvHATXyvY2YQASaiSAWdeatS=hviPQ4uA@mail.gmail.com>
-References: <56DEF97F.9070306@balister.org> <1458767514382.89578@seescan.com>
-	<56F42DA1.4090902@balister.org>
-	<1604312.a7pP1GrPCb@rjs-zotac.streifs.net>
-	<CAMZfsd43wWQTZGp=FWvHATXyvY2YQASaiSAWdeatS=hviPQ4uA@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Fri, 25 Mar 2016 13:37:39 -0700
-X-Google-Sender-Auth: _uf6jhS78dBd5TE2Yd4mylNoK_o
-Message-ID: <CA+YB3raXh6g-hNvZaqiVEv=cM0fH3oh=C0_2DbjRqYcoz15ePg@mail.gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [yocto] OEDAM, April 8 in San Diego after ELC
+In-Reply-To: <56F59D2B.2010108@gmail.com>
+Subject: Re: How to use externalsrc with git workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,103 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2016 20:38:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 25 Mar 2016 21:07:24 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Unfortunately, this OE meeting will be a business meeting followed by
-a gathering for OE developers to help determine the direction of the
-project and figure out who is doing what. It would not be ideal or
-even interesting for beginners. Interested folks can sign up by adding
-their name to the wiki at http://openembedded.org/wiki/OEDAM_2016
+This change gets things parsing again, but still testing to see if it does what
+I want it to do:
 
-However, the Yocto Project Developer Day on Thursday of that week is
-specifically designed as training for beginners and also interesting
-presentations and labs for advanced folks.
-https://yoctoproject.org/devday
+diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
+index 9bd87ad..fb44fdc 100644
+--- a/lib/bb/fetch2/git.py
++++ b/lib/bb/fetch2/git.py
+@@ -358,7 +358,7 @@ class Git(FetchMethod):
+         """
+         output = self._lsremote(ud, d, "")
+         # Tags of the form ^{} may not work, need to fallback to other form
+-        if ud.unresolvedrev[name][:5] == "refs/":
++        if ud.unresolvedrev[name][:5] == "refs/" or ud.unresolvedrev[name] ==
+"HEAD":
+             head = ud.unresolvedrev[name]
+             tag = ud.unresolvedrev[name]
+         else:
 
-I'd be happy to answer any specific questions on either event.
+Cliff
 
-On Fri, Mar 25, 2016 at 1:32 PM, Ryan Elkholy, PhD, PE
-<ryanelkholy@gmail.com> wrote:
-> Is this something beneficial for beginners who are getting their feet wet
-> in open embedded? Also, where do we register?
+On 03/25/2016 04:18 PM, Cliff Brake wrote:
+> Hi,
 >
-> On Thu, Mar 24, 2016 at 2:36 PM, Rudolf J Streif <rudolf.streif@gmail.com>
-> wrote:
+> In the past (say Dora era), I've used externalsrc like:
 >
->> Since I happen to live in San Diego, I have been asking around for a
->> potential meeting room (unfortunately, I don't have an office with a
->> meeting room myself). I am currently working with the University of San
->> Diego and the Catamaran/Bahia Hotel. Can't promise anything yet.
->>
->> :rjs
->>
->>
->> On Thursday, March 24, 2016 11:10:41 AM Philip Balister wrote:
->> > We are up to fifteen now and as noted will have some off site attendees
->> > and late sign ups.
->> >
->> > Philip
->> >
->> > On 03/23/2016 02:11 PM, Fred Ollinger wrote:
->> > > I'm coming and I'm probably brining another person.
->> > >
->> > > I still have to make the wiki account which failed for some reason
->> before.
->> > >
->> > > Frederick
->> > > ________________________________________
->> > > From: yocto-bounces@yoctoproject.org <yocto-bounces@yoctoproject.org>
->> on behalf of Trevor Woerner <twoerner@gmail.com>
->> > > Sent: Wednesday, March 23, 2016 2:08 PM
->> > > To: akuster808; openembedded-devel@lists.openembedded.org;
->> openembedded-core; Yocto Project;
->> openembedded-members@lists.openembedded.org
->> > > Subject: Re: [yocto] [OE-core] [oe] OEDAM, April 8 in San Diego after
->> ELC
->> > >
->> > > On Wed 2016-03-23 @ 09:36:40 AM, akuster808 wrote:
->> > >> There are only 10 people signed up.
->> > >> Is that enough people to justify the expense room or even meet?
->> > >
->> > > I have no idea what the budget might be or what a room might cost.
->> I'll leave
->> > > it to those who do know to worry about the costs versus the benefits.
->> > >
->> > > In any case I certainly think it's still worth meeting. A smaller, more
->> > > focused group can sometimes get more done than a larger group.
->> Secondly, it's
->> > > my experience that more people always show up than sign up.
->> > >
->> > > With a project like this there will always be things to discuss, and
->> sometimes
->> > > a discussion goes better in person rather than online.
->> > >
->> > > Best regards,
->> > >         Trevor
->> > > --
->> > > _______________________________________________
->> > > yocto mailing list
->> > > yocto@yoctoproject.org
->> > > https://lists.yoctoproject.org/listinfo/yocto
->> > >
->> >
->>
->> --
->> _______________________________________________
->> Openembedded-devel mailing list
->> Openembedded-devel@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
->>
-> --
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+> ====================
+> DESCRIPTION = "MyApp"
+> LICENSE = "CLOSED"
+>
+> inherit externalsrc
+>
+> SRCREV = "${AUTOREV}"
+> PV = "1.4+gitr${SRCPV}"
+> PR = "r1"
+>
+> SRC_URI = "git://${FILE_DIRNAME};protocol=file;branch=HEAD"
+> S = "${FILE_DIRNAME}"
+>
+> ...
+> ====================
+>
+> This was very nice in that it set SRCPV to to the git version of the HEAD of my
+> local workspace.  When building from a local git workspace, this makes sense to
+> me -- I want the Git version of the workspace, not a remote version.
+>
+> Now with Jethro, I get errors like:
+>
+> ERROR: ExpansionError during parsing myapp.bb: Failure expanding variable SRCPV,
+> expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError:
+> Fetcher failure: Unable to resolve 'HEAD' in upstream git repository in git
+> ls-remote output for /scratch/externalsrc/MyApp
+>
+> Do you have any suggestions how to use externalsrc + a local git workspace and
+> avoid the above error.  I can set branch=master, etc and bitbake will then parse
+> it, but the remote master version is not really what I'm building.
+>
+> Thanks,
+> Cliff
+>
 
-
-
--- 
-Jeff Osier-Mixon
-Open Source Community Architect, Intel Corporation
 
