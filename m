@@ -1,54 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A62E26AC37
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A143C60667
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 11:50:17 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id s187so3678155wme.2
+	Fri, 25 Mar 2016 15:43:46 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id x3so85070975pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 04:50:18 -0700 (PDT)
+	Fri, 25 Mar 2016 08:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=fU2i86yKt67fU7qw/CfnQRL75I5LkMCWcBe6kJiaYI0=;
-	b=oC1l6wfjbevN8Km/e3ATp/t6lAhd+uVrzp3NTZOKL6no9Ss69mOhcg49gMC2r/abMP
-	+K/1QmvYgNB0M1uLkMJq2M0VAFrROgsr2y4ohbyUafXED46468vkCj1ryTaytpPyHIk1
-	ThrrJmuyfkI1EAuRBcbuLhn7ANg7n6HeOXqom6tqGKvkrP1vnylGqv4YPIZUI152pJp0
-	yoSD8+F8CA/1UNV1foD7daF9j15zbX6HOcbKEwtR6XmaHZ+It1TI6qyjdM/jtTAnM0RC
-	rJJoBteQ3EWf2RufqmX6NUn0lKHYeSyhFrVP6VYJXh+aCvExLbKhL7CNKpx9du1gJA+u
-	60Nw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=3pGBGuVwNGBo8PJnbVoVRAgKYySbfj0P+ctFzJ7FNlM=;
+	b=B3PpnANpZVsZz3YdZZFqY6fin+HcMoPGUsrkG6FcesokIhgdkGsKecq0lzKMaFyHJ0
+	BnX1aat7ICB4HJQL6p7I9DmVKuRNFtM1u6PmggsC+QsnkkT1/GeRXUQiyNW+Qt7JtGnO
+	HogmGWQS7wx1BXWLaxngzxvSEN93wNM3UDbYnSi5iduc87334V8cSj/u74xQrpyC1kyF
+	HbRmLr8e0jXQDEcn/gOBNvsMJdByObNuCdKa42OvrokcZsjjJE78r2JXPjg4OW/sJIQd
+	vGYgYdBKzxQGVCYumvlulk2P40akrLe2kbOmHbDciGo2M0pKEonGUdzA2h84NmVq45gW
+	xRjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=fU2i86yKt67fU7qw/CfnQRL75I5LkMCWcBe6kJiaYI0=;
-	b=X0n4adjfZYONi/jGJnKEulZGwpfx+Ccc6vTN/eAwDjIGXUYeiSFWI2jQDqG8wUd6zF
-	ZkHF9uS9Vaw7dfhz5a3Tq0uJ3mCpk2Ng3UOHhaOWtL4QeS4cyUv6rbnCyxV13C3G1ury
-	Kl8657urClhjTGZGFaImFSVbe6TKvmZHYnfTnykQ1NUz097vwpIM2LWZpWN5yEgSUHrH
-	+0eaXNWPW5oBzLTszjcqlnb9Ujjav56PdMuhEgeBSSNKmPuWOJVkGXC/G00KYGpBjw0l
-	c1GLH+sGb7mrMlE652aGBzHoCWSOYnlEMO5Iv4h+/xr1hvNvgnDk6BCEqVOrO55kcBoF
-	sSlA==
-X-Gm-Message-State: AD7BkJKpJtpr06PVoM8d52QHlm0nRKuLGkigfpEhjAsO4nJ4bv16twDV24CQB4ZjJ12wow==
-X-Received: by 10.28.65.137 with SMTP id o131mr16059702wma.54.1458906617862;
-	Fri, 25 Mar 2016 04:50:17 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=3pGBGuVwNGBo8PJnbVoVRAgKYySbfj0P+ctFzJ7FNlM=;
+	b=EsCqUWaka134yoxjThUHPlCzq2gurob+lY3YBnUCYyyBZKD7tiRBMp/UBL0k0re5oY
+	QkwE0mfq2Tto7mIb34bOlIApD2EO5s7uuOw3lhVI9zau3V2CEN7oGJpJnyk0EC1eVwuD
+	wNXvJ7Kbm4ko4XvrCOpDdQDYU21BwHSfRUjAl1Py4n6JBMgyHDZuQZM0vLYptMZs2EJA
+	LMm1KQAsMBP77CI8g+6YQF2oJx3Tz3prd9IvGIumR5YqwoIqVTO11VGzsx0lDtnq8V1S
+	1bSF0jFKTdSmz7i1XPnhRc3gmE2ZZ0RVmq5TW4UiwYWfUdmtKWxpTzNXbU+/UMm0co7b
+	egLw==
+X-Gm-Message-State: AD7BkJLVpLii2m7T7CdYfqCUmGOgfLuStFGoJtN353ygUX7VENdBcSs+uh3IZgptWn35fw==
+X-Received: by 10.98.89.129 with SMTP id k1mr22111427pfj.66.1458920627141;
+	Fri, 25 Mar 2016 08:43:47 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:19a:36c7:1ab2:7027?
+	([2601:646:8800:5a9a:19a:36c7:1ab2:7027])
 	by smtp.gmail.com with ESMTPSA id
-	et11sm11664088wjc.30.2016.03.25.04.50.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Mar 2016 04:50:16 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 25 Mar 2016 12:55:03 +0100
+	yx1sm17313039pac.29.2016.03.25.08.43.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 25 Mar 2016 08:43:45 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1458894419.3073.41.camel@linuxfoundation.org>
+Date: Fri, 25 Mar 2016 08:43:40 -0700
+Message-Id: <3E1653F2-219C-418A-ABB6-B537303842D2@gmail.com>
+References: <DB3PR04MB0684386FD5BEA86D54DDA26EEE830@DB3PR04MB0684.eurprd04.prod.outlook.com>
+	<1458894419.3073.41.camel@linuxfoundation.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160325115503.GE2555@jama>
-References: <1456610987-17836-1-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0LaVL04OQaipNFn1hyCGruFZ7itmrxH00i=L+OkcsZexQw@mail.gmail.com>
-	<20160325105025.GC2555@jama>
-	<1458905339.3073.53.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1458905339.3073.53.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] base.bbclass: Introduce EXTRA_CONF_PACKAGECONFIG variable
+X-Mailer: Apple Mail (2.3124)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: LE and BE build for the same machine in Yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,70 +61,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2016 11:50:23 -0000
-X-Groupsio-MsgNum: 80154
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Pql/uPZNXIm1JCle"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 25 Mar 2016 15:43:50 -0000
+X-Groupsio-MsgNum: 80155
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_3FAB7B9B-F83B-46E1-B7DC-341DC866A747";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Pql/uPZNXIm1JCle
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_3FAB7B9B-F83B-46E1-B7DC-341DC866A747
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Fri, Mar 25, 2016 at 11:28:59AM +0000, Richard Purdie wrote:
-> On Fri, 2016-03-25 at 11:50 +0100, Martin Jansa wrote:
-> > On Wed, Mar 02, 2016 at 12:40:31PM +0000, Burton, Ross wrote:
-> > > On 27 February 2016 at 22:09, Martin Jansa <martin.jansa@gmail.com>
-> > > wrote:
-> > >=20
-> > > > * add separate variable for configuration options generated from
-> > > >   PACKAGECONFIG setting, this helps other bbclasses and recipes
-> > > >   to take advantage of PACKAGECONFIG mechanism, without including
-> > > >   other options from EXTRA_OECONF
-> > > > * e.g. meta-qt5 recipes are abusing EXTRA_OECONF to get options
-> > > >   from PACKAGECONFIG:
-> > > >   EXTRA_QMAKEVARS_PRE +=3D
-> > > >   but with
-> > > >   conf/distro/include/no-static-libs.inc
-> > > >   it means getting --disable-static as invalid option inside
-> > > >   EXTRA_QMAKEVARS_PRE as reported by Alexandre Belloni who tried
-> > > >   to use poky with meta-qt5.
-> > > > * once we migrate all bbclasses and recipes to
-> > > > EXTRA_CONF_PACKAGECONFIG
-> > > >   we should also restrict EXTRA_OECONF append only to
-> > > > autotools.bbclass
-> > > >   like I did for cmake.bbclass
-> > > >=20
-> > >=20
-> > > Sorry, some of us have been a bit busy trying to get M3 stable.=20
-> > >  This does
-> > > look good and I'm for squeezing it into M3.
-> >=20
-> > Any update on squeezing this?
-> >=20
-> > meta-qt5 is still broken with default poky config
+
+> On Mar 25, 2016, at 1:26 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 >=20
-> I'm a little confused, was there going to be another version with some
-> tweaked variable names?
+> On Fri, 2016-03-25 at 06:07 +0000, Zhenhua Luo wrote:
+>> If the multilib feature is enabled in Yocto, two cross-compile gcc
+>> binaries will be generated to do both 32b and 64b build for the same
+>> machine.  Currently we have requirement to build LE u-boot and BE
+>> kernel/rootfs for the same machine, may I know if there is similar
+>> multilib mechanism in Yocto to support BE and LE build for the same
+>> machine?
+>=20
+> If u-boot doesn't need any support libs, the existing compiler can
+> likely cope with that. If you need libgcc, then you will need =
+multilib.
+>=20
+> I'd like to get to a point where we can support this using multilib
+> however it might not all work correctly today. It would be interesting
+> to try it! The intent is to get to the point where it would work but
+> its not currently a priority as not many people have been asking for
+> it.
+>=20
 
-Was there some agreement about variable name?
+Do you mean having BE/LE as a multilib option ? that might be a =
+possibility
+and would probably make sense for this kind of limited scenario.
 
-:)
+u-boot, kernel, are standalone apps, but some of them do need gcc =
+runtime at
+various stages, some need startup files some need libgcc as well. Good =
+thing
+is they won=E2=80=99t require libgcc_s but static libgcc, which can come =
+from gcc-cross area and
+we don=E2=80=99t have to worry about packaging it for target. I wonder
+if we could tool the multilib configuration of cross-gcc separately from =
+the rootfs
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+however, that might work for startup files since they are only needed =
+during build
+and are not packaged into target package like libgcc is.
 
---Pql/uPZNXIm1JCle
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+If we can limit ourselves to startup files and static libgcc then a =
+solution could
+become possible.
+
+--Apple-Mail=_3FAB7B9B-F83B-46E1-B7DC-341DC866A747
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlb1JxcACgkQN1Ujt2V2gBw7RgCgu3k9WlqcF+MH61a/9pG32ABi
-vjUAnid/4h9GYFCpU5k+j3qlO7652v3W
-=ArG6
+iEYEARECAAYFAlb1XLAACgkQuwUzVZGdMxSs7wCdEqe5g0nVeE/fyFT2DmSZJEZM
+8X4An2ILD0pzAyWN59oeflPwZ/XBwJnO
+=H8HY
 -----END PGP SIGNATURE-----
 
---Pql/uPZNXIm1JCle--
+--Apple-Mail=_3FAB7B9B-F83B-46E1-B7DC-341DC866A747--
