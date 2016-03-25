@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 51ADD606D0
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 98A45605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 08:27:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2P8R3K1024869; Fri, 25 Mar 2016 08:27:03 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RIpisQ_NqzVn; Fri, 25 Mar 2016 08:27:03 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2P8QxGp024866
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 25 Mar 2016 08:27:00 GMT
-Message-ID: <1458894419.3073.41.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zhenhua Luo <zhenhua.luo@nxp.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Mar 2016 08:26:59 +0000
-In-Reply-To: <DB3PR04MB0684386FD5BEA86D54DDA26EEE830@DB3PR04MB0684.eurprd04.prod.outlook.com>
-References: <DB3PR04MB0684386FD5BEA86D54DDA26EEE830@DB3PR04MB0684.eurprd04.prod.outlook.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: LE and BE build for the same machine in Yocto
+	Fri, 25 Mar 2016 08:29:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2P8SxPf007317
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 25 Mar 2016 01:28:59 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 25 Mar 2016 01:28:58 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>, <tudor.florea@enea.com>
+Date: Fri, 25 Mar 2016 04:28:54 -0400
+Message-ID: <fd0548b7b60220ca68bce43e6c27bfbf26a12c38.1458893281.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1458893281.git.dengke.du@windriver.com>
+References: <cover.1458893281.git.dengke.du@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] quilt: run ptest as normal user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2016 08:27:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Mar 2016 08:29:13 -0000
+Content-Type: text/plain
 
-On Fri, 2016-03-25 at 06:07 +0000, Zhenhua Luo wrote:
-> If the multilib feature is enabled in Yocto, two cross-compile gcc
-> binaries will be generated to do both 32b and 64b build for the same
-> machine.  Currently we have requirement to build LE u-boot and BE
-> kernel/rootfs for the same machine, may I know if there is similar
-> multilib mechanism in Yocto to support BE and LE build for the same
-> machine?
+When the user is root, run quilt ptest, the faildiff.test failed.
+Because in the faildiff.test, we drop the read permission of the
+file test.txt, we can't "quilt refresh" as normal user, so we got
+the following:
+	>~ .*diff:test\.txt: Permission denied
+	> Diff failed on file 'test.txt', aborting
+But when the user is root, we can access the file, so we got the
+following:
+	> Nothing in patch patchs/test.diff
+So the faildiff.test was failed. We should create a normal user
+to run the ptest in the run-ptest scripts to slove the problem.
 
-If u-boot doesn't need any support libs, the existing compiler can
-likely cope with that. If you need libgcc, then you will need multilib.
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+---
+ meta/recipes-devtools/quilt/quilt.inc       | 4 +++-
+ meta/recipes-devtools/quilt/quilt/run-ptest | 5 ++++-
+ meta/recipes-devtools/quilt/quilt/test.sh   | 1 +
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+ create mode 100755 meta/recipes-devtools/quilt/quilt/test.sh
 
-I'd like to get to a point where we can support this using multilib
-however it might not all work correctly today. It would be interesting
-to try it! The intent is to get to the point where it would work but
-its not currently a priority as not many people have been asking for
-it.
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 837b36b..4e393c4 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -8,6 +8,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
+         file://install.patch \
+         file://run-ptest \
+         file://Makefile \
++	file://test.sh \
+ "
+ 
+ SRC_URI[md5sum] = "fc0310db5868a0873d602d4332a76d43"
+@@ -50,8 +51,9 @@ do_install_ptest() {
+ 	tar -cf - bin/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
+ 	tar -cf - compat/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
+ 	tar -cf - quilt/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
+-	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - )
++	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - && chmod 777 test)
+ 	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
++	cp ${WORKDIR}/test.sh ${D}${PTEST_PATH}
+ }
+ 
+ RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
+diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
+index 958a9df..4b808ae 100755
+--- a/meta/recipes-devtools/quilt/quilt/run-ptest
++++ b/meta/recipes-devtools/quilt/quilt/run-ptest
+@@ -1,5 +1,8 @@
+ #!/bin/sh
+ 
++THIS_SH=/bin/sh
+ ln -sf /bin/ed /usr/bin/ed
+-for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
++/usr/sbin/adduser --disabled-password quilttest
++su -c "${THIS_SH} ./test.sh" quilttest
++/usr/sbin/deluser quilttest
+ rm -f /usr/bin/ed
+diff --git a/meta/recipes-devtools/quilt/quilt/test.sh b/meta/recipes-devtools/quilt/quilt/test.sh
+new file mode 100755
+index 0000000..6563e4a
+--- /dev/null
++++ b/meta/recipes-devtools/quilt/quilt/test.sh
+@@ -0,0 +1 @@
++for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
+-- 
+1.9.1
 
-Cheers,
-
-Richard
 
