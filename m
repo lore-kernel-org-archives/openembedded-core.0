@@ -1,34 +1,29 @@
-Return-Path: <brad.mouring@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 05D807017D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 33D0C6FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Mar 2016 02:20:20 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u2Q2KKe5007960; Fri, 25 Mar 2016 21:20:20 -0500
-Received: from ni.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with SMTP id 2016032521202042-231272 ;
-	Fri, 25 Mar 2016 21:20:20 -0500 
-Received: by ni.com (sSMTP sendmail emulation); Fri, 25 Mar 2016 21:20:19 -0500
-From: Brad Mouring <brad.mouring@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Mar 2016 21:20:06 -0500
-Message-Id: <1458958806-30290-2-git-send-email-brad.mouring@ni.com>
-X-Mailer: git-send-email 2.7.3
-In-Reply-To: <1458958806-30290-1-git-send-email-brad.mouring@ni.com>
-References: <1458688681-31394-1-git-send-email-brad.mouring@ni.com>
-	<1458958806-30290-1-git-send-email-brad.mouring@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 03/25/2016 09:20:21 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 03/25/2016 09:20:21 PM,
-	Serialize complete at 03/25/2016 09:20:21 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-03-25_06:, , signatures=0
-Cc: Joshua Lock <joshua.g.lock@intel.com>, Brad Mouring <brad.mouring@ni.com>
-Subject: [fido][PATCH v2 2/2] busybox_git: Fix SRCREV
+	Sat, 26 Mar 2016 07:41:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2Q7fGiZ002632; Sat, 26 Mar 2016 07:41:16 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id EGb2GW_rfaOS; Sat, 26 Mar 2016 07:41:15 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2Q7fAoE002629
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 26 Mar 2016 07:41:11 GMT
+Message-ID: <1458978069.3073.62.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Cliff Brake <cliff.brake@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 26 Mar 2016 07:41:09 +0000
+In-Reply-To: <56F59D2B.2010108@gmail.com>
+References: <56F59D2B.2010108@gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: How to use externalsrc with git workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,31 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Mar 2016 02:20:23 -0000
+X-List-Received-Date: Sat, 26 Mar 2016 07:41:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The SRCREV in the busybox git recipe did not point to a commit ID
-on the master branch. Point the variable to something reachable from
-the master branch (which fixes this recipe's fetch()).
+On Fri, 2016-03-25 at 16:18 -0400, Cliff Brake wrote:
+> Hi,
+> 
+> In the past (say Dora era), I've used externalsrc like:
+> 
+> ====================
+> DESCRIPTION = "MyApp"
+> LICENSE = "CLOSED"
+> 
+> inherit externalsrc
+> 
+> SRCREV = "${AUTOREV}"
+> PV = "1.4+gitr${SRCPV}"
+> PR = "r1"
+> 
+> SRC_URI = "git://${FILE_DIRNAME};protocol=file;branch=HEAD"
+> S = "${FILE_DIRNAME}"
+> 
+> ...
+> ====================
+> 
+> This was very nice in that it set SRCPV to to the git version of the
+> HEAD of my
+> local workspace.  When building from a local git workspace, this
+> makes sense to
+> me -- I want the Git version of the workspace, not a remote version.
+> 
+> Now with Jethro, I get errors like:
+> 
+> ERROR: ExpansionError during parsing myapp.bb: Failure expanding
+> variable SRCPV,
+> expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception
+> FetchError:
+> Fetcher failure: Unable to resolve 'HEAD' in upstream git repository
+> in git
+> ls-remote output for /scratch/externalsrc/MyApp
+> 
+> Do you have any suggestions how to use externalsrc + a local git
+> workspace and
+> avoid the above error.  I can set branch=master, etc and bitbake will
+> then parse
+> it, but the remote master version is not really what I'm building.
 
-Suggested-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Brad Mouring <brad.mouring@ni.com>
----
- meta/recipes-core/busybox/busybox_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+HEAD is a revision, not a branch and the fetcher became a bit more
+picky about that difference. Your local tree must have HEAD on some
+branch which would usually be master so setting branch=master is likely
+correct, or don't set that parameter at all? master isn't just a remote
+thing.
 
-diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index 529ed5b..166864d 100644
---- a/meta/recipes-core/busybox/busybox_git.bb
-+++ b/meta/recipes-core/busybox/busybox_git.bb
-@@ -1,6 +1,6 @@
- require busybox.inc
- 
--SRCREV = "1ecfe811fe2f70380170ef7d820e8150054e88ca"
-+SRCREV = "4d15068d83054a9f82b3f8842706cd6deb401e25"
- # Lookout for PV bump too when SRCREV is changed
- PV = "1.23.1+git${SRCPV}"
- 
--- 
-2.7.3
+The piece which says "use the HEAD revision" is the SRCREV =
+"${AUTOREV}" line.
+
+Cheers,
+
+Richard
+
+
 
 
