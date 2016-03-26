@@ -1,52 +1,33 @@
-Return-Path: <cliff.brake@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 17F4F6FF30
+Return-Path: <brad.mouring@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D9D55606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 21:07:17 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id c67so34867286qgc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2016 14:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=umqbzzVpHOF1oY9YYMmBvmVgjWfVeMD9B9ZpQT7kfHI=;
-	b=AEpocaWjS0Pq4NQBAorki2lDAAy5Ebd3SZfpYMQbn6mIcaxlmr0nvVQ9SFopNJvXRx
-	KHinBSKWWPIzXVNQg25OHm04ddzr5ohjzazcPnBEXfknbJUUl/rvLOGSplghvR7ro6ML
-	rzwvA03ssjVl2IxqkE63cJEe6AXzehYOhdzSJpe6Sj8mPjDAv9HkvFcfIeXEvwPSsweO
-	WGYBjumP4L42e/hKRNsYohIRXteaXjj1ilkpP59Cxsm5M7Vw7udM+Ahb62/pc953vQuE
-	QEx4Pw0De70ELLJyrUCypJ6f6WX7ryY1FizHD129Y81tHdhvrbgiStYZbqz2HxQlC+uZ
-	O4TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=umqbzzVpHOF1oY9YYMmBvmVgjWfVeMD9B9ZpQT7kfHI=;
-	b=PNHhnt3h/znLtv0wvmqH0zPodFwjfuublO2xmzHYM99YA+tfXJjGCLTaxHGnGa/WNc
-	IWLc0L78llqm6pT0l2Sy+QyXoJdYKqIYiMKQOafs/77/6L6pXkEXlRESCecf5uMKbyO5
-	knJncOqD8MU0+D0+ndX3ZgA3mKQHeonbViXfGDYGtDecCq9ca88EiAatXj+8TulC6soH
-	zRE7mnLc9Msjk//cmzBN/YmPtOQHOucx1zeU1CghIbo/4WpCpUhUwzyGjTCrmBfpOM1E
-	UlveQx4DjjQ89HYahoXOuV/0y0s7N+4qDJJZ+tcw6cdJIx3PXsmrTImOobo0i6rH+bgd
-	IhfQ==
-X-Gm-Message-State: AD7BkJJnGoM6mjRrKWnmUthfKkt98AnO0Ut9/5aq/DQsy2peIQOiYkmAn9jLNeiemUy18g==
-X-Received: by 10.140.87.98 with SMTP id q89mr2615167qgd.8.1458940038202;
-	Fri, 25 Mar 2016 14:07:18 -0700 (PDT)
-Received: from [192.168.1.139] (cable2-pool191-cs-134.doycomm.com.
-	[66.219.191.134]) by smtp.gmail.com with ESMTPSA id
-	z65sm6067797qhb.36.2016.03.25.14.07.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 Mar 2016 14:07:16 -0700 (PDT)
+	Sat, 26 Mar 2016 02:06:45 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u2Q26jeL022753; Fri, 25 Mar 2016 21:06:46 -0500
+Received: from ni.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with SMTP id 2016032521064563-229768 ;
+	Fri, 25 Mar 2016 21:06:45 -0500 
+Received: by ni.com (sSMTP sendmail emulation); Fri, 25 Mar 2016 21:06:44 -0500
+From: Brad Mouring <brad.mouring@ni.com>
 To: openembedded-core@lists.openembedded.org
-References: <56F59D2B.2010108@gmail.com>
-From: Cliff Brake <cliff.brake@gmail.com>
-Message-ID: <56F5A883.5040306@gmail.com>
-Date: Fri, 25 Mar 2016 17:07:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <56F59D2B.2010108@gmail.com>
-Subject: Re: How to use externalsrc with git workspace
+Date: Fri, 25 Mar 2016 21:05:35 -0500
+Message-Id: <1458957936-29447-1-git-send-email-brad.mouring@ni.com>
+X-Mailer: git-send-email 2.7.3
+In-Reply-To: <1458862325-24367-1-git-send-email-brad.mouring@ni.com>
+References: <1458862325-24367-1-git-send-email-brad.mouring@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 03/25/2016 09:06:46 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 03/25/2016 09:06:46 PM,
+	Serialize complete at 03/25/2016 09:06:46 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-03-25_06:, , signatures=0
+Cc: Brad Mouring <brad.mouring@ni.com>
+Subject: [jethro][PATCH v2 1/2] busybox-1.23: Backport patch to fix zcip false-conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,68 +40,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2016 21:07:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 26 Mar 2016 02:06:46 -0000
 
-This change gets things parsing again, but still testing to see if it does what
-I want it to do:
+Busybox upstream fixed the issue where an incorrect comparison of
+addresses led to bogus renegotiation of a new ll ip in 1.24. Backport
+this change to 1.23.2.
 
-diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 9bd87ad..fb44fdc 100644
---- a/lib/bb/fetch2/git.py
-+++ b/lib/bb/fetch2/git.py
-@@ -358,7 +358,7 @@ class Git(FetchMethod):
-         """
-         output = self._lsremote(ud, d, "")
-         # Tags of the form ^{} may not work, need to fallback to other form
--        if ud.unresolvedrev[name][:5] == "refs/":
-+        if ud.unresolvedrev[name][:5] == "refs/" or ud.unresolvedrev[name] ==
-"HEAD":
-             head = ud.unresolvedrev[name]
-             tag = ud.unresolvedrev[name]
-         else:
+Signed-off-by: Brad Mouring <brad.mouring@ni.com>
+---
+ ...wrong-comparison-of-source-IP-with-our-IP.patch | 38 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
 
-Cliff
-
-On 03/25/2016 04:18 PM, Cliff Brake wrote:
-> Hi,
->
-> In the past (say Dora era), I've used externalsrc like:
->
-> ====================
-> DESCRIPTION = "MyApp"
-> LICENSE = "CLOSED"
->
-> inherit externalsrc
->
-> SRCREV = "${AUTOREV}"
-> PV = "1.4+gitr${SRCPV}"
-> PR = "r1"
->
-> SRC_URI = "git://${FILE_DIRNAME};protocol=file;branch=HEAD"
-> S = "${FILE_DIRNAME}"
->
-> ...
-> ====================
->
-> This was very nice in that it set SRCPV to to the git version of the HEAD of my
-> local workspace.  When building from a local git workspace, this makes sense to
-> me -- I want the Git version of the workspace, not a remote version.
->
-> Now with Jethro, I get errors like:
->
-> ERROR: ExpansionError during parsing myapp.bb: Failure expanding variable SRCPV,
-> expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError:
-> Fetcher failure: Unable to resolve 'HEAD' in upstream git repository in git
-> ls-remote output for /scratch/externalsrc/MyApp
->
-> Do you have any suggestions how to use externalsrc + a local git workspace and
-> avoid the above error.  I can set branch=master, etc and bitbake will then parse
-> it, but the remote master version is not really what I'm building.
->
-> Thanks,
-> Cliff
->
+diff --git a/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch b/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
+new file mode 100644
+index 0000000..dec5eb5
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
+@@ -0,0 +1,38 @@
++From 4d15068d83054a9f82b3f8842706cd6deb401e25 Mon Sep 17 00:00:00 2001
++From: Vladislav Grishenko <themiron@mail.ru>
++Date: Thu, 19 Mar 2015 16:19:35 +0500
++Subject: [PATCH] zcip: fix wrong comparison of source IP with our IP
++
++Commit "zcip: fix link-local IP conflict detection" has introduced
++wrong comparsion of source IP with our IP. This leads to a new IP
++being picked unnecessarily on every incoming ARP packet.
++
++Signed-off-by: Vladislav Grishenko <themiron@mail.ru>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++This change was picked from Busybox without modification
++(git://git.busybox.net/busybox, commit 4d15068)
++
++Upstream-Status: Backport (added in 1.24)
++Signed-off-by: Brad Mouring <brad.mouring@ni.com>
++
++---
++ networking/zcip.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/networking/zcip.c b/networking/zcip.c
++index a3307c5..962ba2e 100644
++--- a/networking/zcip.c
+++++ b/networking/zcip.c
++@@ -521,7 +521,7 @@ int zcip_main(int argc UNUSED_PARAM, char **argv)
++ 			target_ip_conflict = 0;
++ 
++ 			if (memcmp(&p.arp.arp_sha, &eth_addr, ETH_ALEN) != 0) {
++-				if (memcmp(p.arp.arp_spa, &ip.s_addr, sizeof(struct in_addr))) {
+++				if (memcmp(p.arp.arp_spa, &ip.s_addr, sizeof(struct in_addr)) == 0) {
++ 					/* A probe or reply with source_ip == chosen ip */
++ 					source_ip_conflict = 1;
++ 				}
++-- 
++2.7.3
++
+diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
+index 7258df0..5edcbfd 100644
+--- a/meta/recipes-core/busybox/busybox_1.23.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
+@@ -36,6 +36,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
+            file://0002-Passthrough-r-to-linker.patch \
+            file://0001-randconfig-fix.patch \
++           file://0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch \
+            file://mount-via-label.cfg \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
+-- 
+2.7.3
 
 
