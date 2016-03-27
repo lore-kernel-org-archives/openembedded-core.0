@@ -1,47 +1,46 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1534C612E5
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E31316072C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Mar 2016 00:45:07 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id c63so148031804iof.0
+	Sun, 27 Mar 2016 00:45:23 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id tt10so71732365pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Mar 2016 17:45:08 -0700 (PDT)
+	Sat, 26 Mar 2016 17:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=r2Is1sUU7v1V8q1UMvkwtFOFNnbfRAoTDx8NPK2h4UQ=;
-	b=TVMtEzpVazwAEiCQ7eS5lPn+b+b6SjXDoRI3TjtmM7AZi/F4kbDPjiF+csGL7Sosr8
-	Dnm2QHgDfAHLM4VQ54zbv2j+wZrw+HHPEk+WOe3YC0RDf2QaaHL+Cc/7uqZBXXUCCwSo
-	M2lJXi/3ASLWavqssChZ5xXk+TYU/8VZ7JTBAtrU1MbW8ffQbxLDhLe4dMY/u8H/mnqq
-	Ed2JEx5AZVXLDY/vs+iGylGhjLJ6kiySQyw5B+CyJTPdp1zyJWPiIva6wkZt4p/BUm+7
-	fsXyMGMcVL7j/4qhWGpbEv3joqXyr+Sp7Ix0stFZcDVtGSc92T8lrg1q5WTM7OAxu45v
-	FWmA==
+	h=from:to:cc:subject:date:message-id;
+	bh=L6l7GO755KONPQqpGQRkLBMMiY107Ap7ylRc99jry5Q=;
+	b=RpvbqpRDAMRse4HSqwp8W5Smi2AYqdAy9JTca7qJg0Gt9DJbXPCOI4W3pFxKmnaJae
+	MIw/vycNRhruOhoEYC0IuOIKzWQ8+Q6liuBG6z+jeZRcpJTCkyLo7uUNcDNGt/UkElrw
+	jb6emQ12AqdeP7KQctWPX4hMTSXX5dyhqH3dsTGAsJHQITgS2Yjy1Jb5zUyi321Cb8Of
+	PrdibOSk8/GI7rvxliyEKkUWyd5n98O3TNaNsduTO7Rymx90bYErNPETz+ih8zH9G256
+	lWYJx/z6M6pgDl5fL/qqS4/lnQxs6D3ZM7Ovt7EF/2rH2GKpJn0DQ9a6sryUTko/KUhx
+	FDkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=r2Is1sUU7v1V8q1UMvkwtFOFNnbfRAoTDx8NPK2h4UQ=;
-	b=OQJS8cJ7BPSowk5/mzZ3ObRP9abtIBy56uvDQN1/1rzzQfzzS9bGXuFfI7RDwz49Hx
-	GtlKs9PM3uvOLoxRQC46NVqHqsjHu43G+GhUGiTlMR2obpf2HxAPTbOIk3L7MLGMfHdR
-	CcTnAnx+yEedzr2BmlQL5au+skGVLmzJtwJtxCO8qDoCRxjA0bzy9fCeLKru/omO959a
-	Njb7L868u2XtmMLAH/0bkYxewUHQtp2iQr4dVuT/3vxyyz6iJjY5VNVBkGsztZw9WLY8
-	ukfPnQx5icHbQgQMON4YPYFkLZJusi9CcYe1bELbDlA1qlZfbytzo5dCjq6tlMGcaEHW
-	+h6w==
-X-Gm-Message-State: AD7BkJJ7iIFPzdxVsIxM+4SfzNHSxC9SWaWC0f89/9DDEZNI4jHS9OCPpeSqKn7quHouJPHepiXMMLzS7vxsag==
-MIME-Version: 1.0
-X-Received: by 10.107.12.95 with SMTP id w92mr22275880ioi.114.1459039508352;
-	Sat, 26 Mar 2016 17:45:08 -0700 (PDT)
-Received: by 10.36.69.12 with HTTP; Sat, 26 Mar 2016 17:45:08 -0700 (PDT)
-In-Reply-To: <1459032411.21672.1.camel@linuxfoundation.org>
-References: <1458905600-21185-1-git-send-email-net147@gmail.com>
-	<1459032411.21672.1.camel@linuxfoundation.org>
-Date: Sun, 27 Mar 2016 11:45:08 +1100
-Message-ID: <CANwerB0dfdPVOKu80CEH0dRh8y_FNoVFfQ5ws07t=idP_1BGXQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=L6l7GO755KONPQqpGQRkLBMMiY107Ap7ylRc99jry5Q=;
+	b=fwJf0GOkn5U0O1Bl24gaY7FXGWvJSfhmtAacrR0AKBwpcJzfh8Zs4i4/XPLjAj/OiS
+	dBWTHqGMg3xbl2JzZ/KiDmcTC8lkGQcvZld4zK52v7to9pu+J3LRf7b10DqHPY3qFlWi
+	QV/iNKTEUBW5N9Nz9egqWSkHv3NP9CpxCI7CdAIjF2vg1qChPgJHCjdMpnEraVK77/U/
+	FGCpKjX1/7zCTK4Mr8r9Erf9WTP3VbYSomEuC/vvVDSGFzN7R7g3dwvBL94xy6tS+y/Z
+	Qtci3K3rFbXqXe6RwG4Rt3Cz+D+qNFl/VGuYW91PM7yHQDtlyhhZ/XlM0cyjk6dU8bau
+	weVQ==
+X-Gm-Message-State: AD7BkJIriWaF85VWx4ADBANUPip4IsRvN2ZMMAZ7I1IDeXbnXV5H5CxcRNO9ggf7MrqkWQ==
+X-Received: by 10.67.23.161 with SMTP id ib1mr30843828pad.156.1459039524294;
+	Sat, 26 Mar 2016 17:45:24 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	l11sm25533774pfb.56.2016.03.26.17.45.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 26 Mar 2016 17:45:23 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb-cross-canadian: use PACKAGECONFIG for python and readline
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Mar 2016 11:44:51 +1100
+Message-Id: <1459039491-5480-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] gdb-cross: disable conflicting PACKAGECONFIG variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,72 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Mar 2016 00:45:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 27 Mar 2016 00:45:24 -0000
 
-Hi Richard,
+The PACKAGECONFIG variables in gdb-common.inc don't work correctly for
+the cross recipes so they need to be disabled.
 
-On 27 March 2016 at 09:46, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2016-03-25 at 22:33 +1100, Jonathan Liu wrote:
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->>  meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 12 +++++++-----
->>  1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> index ae97759..6e42af1 100644
->> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> @@ -5,15 +5,17 @@ SUMMARY = "GNU debugger (cross-canadian gdb for
->> ${TARGET_ARCH} target)"
->>  PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->>  BPN = "gdb"
->>
->> -DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext
->> nativesdk-readline nativesdk-python \
->> +DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext \
->>             virtual/${HOST_PREFIX}gcc-crosssdk
->> virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk
->> -${HOST_PREFIX}libc-for-gcc"
->>
->> -RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang
->> nativesdk-python-re \
->> -                   nativesdk-python-codecs nativesdk-python
->> -netclient"
->> -
->>  GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
->>
->> -EXTRA_OECONF_append = " --with-python=${WORKDIR}/python"
->> +# Overrides PACKAGECONFIG variables in gdb-common.inc
->> +PACKAGECONFIG ??= "python readline"
->> +PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without
->> -python,nativesdk-python, \
->> +                         nativesdk-python-core nativesdk-python-lang
->> nativesdk-python-re \
->> +                         nativesdk-python-codecs nativesdk-python
->> -netclient"
->> +PACKAGECONFIG[readline] = "--with-system-readline,--without-system
->> -readline,nativesdk-readline"
->>
->>  SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
->
-> Sadly this breaks multilib tests on the autobuilder:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/bui
-> lds/719/steps/BuildImages/logs/stdio
->
-> I'll have to remove this from the queue until we can figure out a
-> fix...
->
-> Cheers,
->
-> Richard
+Python support was not being enabled because the python PACKAGECONFIG
+added --without-python to OE_EXTRACONF.
 
-I have posted another patchset which takes a different approach and
-disables the conflicting PACKAGECONFIG variables.
+The recipe depends on readline-native and the readline PACKAGECONFIG
+just adds an unnecessary extra dependency on readline. The
+--with-system-readline configure argument is explicitly added
+to EXTRA_OECONF to ensure we link to readline-native.
 
-Regards,
-Jonathan
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-cross.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
+index 6e44778..e13462e 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+@@ -5,6 +5,11 @@ DEPENDS = "expat-native ncurses-native readline-native python-native"
+ inherit pythonnative
+ 
+ EXTRA_OECONF += "--with-python=${STAGING_BINDIR_NATIVE}/python-native/python"
++EXTRA_OECONF += "--with-system-readline"
++
++# Disable conflicting PACKAGECONFIG variables in gdb-common.inc
++PACKAGECONFIG[python] = ""
++PACKAGECONFIG[readline] = ""
+ 
+ do_compile_prepend() {
+     export BUILD_SYS="${BUILD_SYS}"
+-- 
+2.7.4
+
 
