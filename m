@@ -1,46 +1,46 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A71446072C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id DDCC4605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Mar 2016 00:45:30 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id td3so71218398pab.2
+	Sun, 27 Mar 2016 06:42:56 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id c67so54180029qgc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Mar 2016 17:45:32 -0700 (PDT)
+	Sat, 26 Mar 2016 23:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=yS0qh/cXJP5E4Qb4cecE1afV+e+Deea0GU0GTs/+yxE=;
-	b=nNzzvn+Q+TJUGTy8a8TA+4rxUJuCWwoSzJF8E71m+JJVqnPKB4cei8h5SSE/g7xr6u
-	z/sf/oLtjZaou1gB/TH0Sp/4kmzzqC70LH5+6ysHuR1+s/0HRPhkCD91A+CfMDeX8vT6
-	rxnZgEuusZHzYwXuOWS3H3XZ9CDOTpwyPkaSkfh7mJxSwM/EvjG46ZHKgjFqAoyV5/pa
-	8VD6GMeM4UZftspZIZHOEhWw9pTO7pF99DsR8xdjLi8yl4duUwJz3fVz7keHOnhB0V67
-	6/+GpKlvW27ppGfKvfxWPyJAfzIrP5rjQgmrLX7HhZfxn3pqsLTJdH5d1zDcT5SGs6nY
-	tsgQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SACSRQ+zPSpV5BjZopchnXF+5T6RQjuBjaMwEQwkmm4=;
+	b=CbsMyYi29DzWRLosUBvMGVWpgGcIGGKQ+RgbSDluDZFuhWdx5wLNOm4htlGEGbA+B5
+	dycFObuDC3xa5oZ8JIeClyuL1pURKak1uAZyHzRaAwYroJj9G0L9qHFBU7ET6YmsN1TN
+	EoRj5xrwKVgghLcU80hSa49opahTZUr5h1ogfgtwW2ifxcMn9PP0JXZCYORpcZPedv/2
+	le/jzG9Luwk57pMep+llApgSxSrsgq7jYIuOMZAuu1TMpWK7Ge/2dDxnOdMhZvye1eCr
+	eW5ut+vp0lc1L8GTduLwPxak7Vx3OlNj9plkIJKlpSsegz6aWJ+MLO1U38oAwoeuH7I6
+	3nxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yS0qh/cXJP5E4Qb4cecE1afV+e+Deea0GU0GTs/+yxE=;
-	b=dF7uH4DNszLEBWst9cnBqnypd773S4P/6NX/uMd9qjrXZ75oEMFYr2nyrR83oUzI39
-	wsC5uXqWVLo049e25jGQB85Qrc2VS5k+EVeSV1SikeKIvnaYIPxizPvuJ3ywa+IGubo0
-	bIU2fXkfvLpU1Up3lVlc3xzdz6hk790WRX3h3J5lihKjLuyRgRSA82fs1edrK6r8LRky
-	DRMF/GD/h4mPJbJevtDEmKCAGO281pGsr6lFkstCegjaHbBjmjf0+ulgkWfu2HxH6PX8
-	pFDSrBRgWAJxhPXevpsv4++h7VRJiSGm+8/6H32UthpUtU+5khK1+M7/Qyoc33sfBQ4x
-	vmow==
-X-Gm-Message-State: AD7BkJLhIGL8NNImPlojYmm1HFWaRZXw1whMBxIgX+Kq1drsnlg59m4RwLZEKybeWx6nbw==
-X-Received: by 10.66.154.233 with SMTP id vr9mr31990038pab.66.1459039531912;
-	Sat, 26 Mar 2016 17:45:31 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by smtp.gmail.com with ESMTPSA id
-	wh9sm25582584pab.8.2016.03.26.17.45.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 26 Mar 2016 17:45:31 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Mar 2016 11:45:03 +1100
-Message-Id: <1459039503-5526-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] gdb-cross-canadian: disable conflicting PACKAGECONFIG variables
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SACSRQ+zPSpV5BjZopchnXF+5T6RQjuBjaMwEQwkmm4=;
+	b=g6qCzr3mPS7KqsOFfVkHFM2SxtQkBjdSA3/641RWyBGENDy+9CyElcRrJkikUcB4SO
+	fdmLyTWycCAJJ2wp/bq3O1RZYmTqr1D1yZowNMK31ngp+TXg/txw+sEXsb20R/aEmFju
+	z0XCoM/uEGhDIPgpuGsoV8ROWzo3kq2MW+fRIAPO6xHbBMGBo20HklqE67ZVg1lkDw70
+	GvCie9awau5vP1cdycOqcHkn4cNL8gQXx037y8e6yrnq3Vl+AweFinpqgIPPhO7qqGpC
+	mold8SHQ+Glxv0mXZlyCeKIupNrTx6N09F8AyzBSrsQV5MEjm7ieZbdBcFd0dmtsXw0h
+	x0IQ==
+X-Gm-Message-State: AD7BkJLTp4PsdYM9Q0jWcEwDIpL7HjuYMPhOg0WCA6QE35hRVE2SvoRw07QF1+ynLVOpSf6EKLam0UDEQvivCA==
+X-Received: by 10.140.172.212 with SMTP id s203mr28445974qhs.41.1459060976978; 
+	Sat, 26 Mar 2016 23:42:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.130.196 with HTTP; Sat, 26 Mar 2016 23:42:27 -0700 (PDT)
+In-Reply-To: <1459039503-5526-1-git-send-email-net147@gmail.com>
+References: <1459039503-5526-1-git-send-email-net147@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 26 Mar 2016 23:42:27 -0700
+Message-ID: <CAMKF1sqV+PeZZvH1Am-MEs-f3e4JtENPdX=ByDesatb3EGM76Q@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdb-cross-canadian: disable conflicting PACKAGECONFIG variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Mar 2016 00:45:32 -0000
+X-List-Received-Date: Sun, 27 Mar 2016 06:42:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The PACKAGECONFIG variables in gdb-common.inc don't work correctly for
-the cross recipes so they need to be disabled.
+On Sat, Mar 26, 2016 at 5:45 PM, Jonathan Liu <net147@gmail.com> wrote:
+> The PACKAGECONFIG variables in gdb-common.inc don't work correctly for
+> the cross recipes so they need to be disabled.
+>
+> Python support was not being enabled because the python PACKAGECONFIG
+> added --without-python to OE_EXTRACONF.
+>
+> The recipe depends on nativesdk-readline and the readline PACKAGECONFIG
+> just adds an unnecessary extra dependency on readline. The
+> --with-system-readline configure argument is explicitly added
+> to EXTRA_OECONF to ensure we link to nativesdk-readline.
+>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> index ae97759..952f28f 100644
+> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> @@ -13,7 +13,12 @@ RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang nativesdk-python-
+>
+>  GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+>
+> -EXTRA_OECONF_append = " --with-python=${WORKDIR}/python"
+> +EXTRA_OECONF += "--with-python=${WORKDIR}/python"
 
-Python support was not being enabled because the python PACKAGECONFIG
-added --without-python to OE_EXTRACONF.
+should this point to a valid python location ?
 
-The recipe depends on nativesdk-readline and the readline PACKAGECONFIG
-just adds an unnecessary extra dependency on readline. The
---with-system-readline configure argument is explicitly added
-to EXTRA_OECONF to ensure we link to nativesdk-readline.
-
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index ae97759..952f28f 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -13,7 +13,12 @@ RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang nativesdk-python-
- 
- GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- 
--EXTRA_OECONF_append = " --with-python=${WORKDIR}/python"
-+EXTRA_OECONF += "--with-python=${WORKDIR}/python"
-+EXTRA_OECONF += "--with-system-readline"
-+
-+# Disable conflicting PACKAGECONFIG variables in gdb-common.inc
-+PACKAGECONFIG[python] = ""
-+PACKAGECONFIG[readline] = ""
- 
- SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
- 
--- 
-2.7.4
-
+> +EXTRA_OECONF += "--with-system-readline"
+> +
+> +# Disable conflicting PACKAGECONFIG variables in gdb-common.inc
+> +PACKAGECONFIG[python] = ""
+> +PACKAGECONFIG[readline] = ""
+>
+>  SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
