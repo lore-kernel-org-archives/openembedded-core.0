@@ -1,46 +1,24 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 5730260797
+Return-Path: <Daniel.Dragomir@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9618B6E682
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 13:28:06 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id e3so62471291ioa.1
+	Mon, 28 Mar 2016 15:30:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2SFUcVT021665
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 06:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=rn4NA73uVu8a6Rz93qnDDrd92dBBu+CbNvNM8ElIbkE=;
-	b=Szt9bXXfP/MSLbz1xuA0U/rNRerxE1VlMRrWSdzLVlG+0cTap1W8xi1La/292jOoQ1
-	Fgx9WSv2UcIMuEUgUyy0puEwSDXaktdHC7quhV0yawVAc9qtoCdRiwvkNZgL7aApt9zM
-	VyQx1gQddxQIr/Vy5aHjTJZAsZv8qhbBnDmlGVkRDYOEOBWEULwNhd5ex72WW8obxBL/
-	bdOyc8lDkwihKJDD5xsTbvUOX4f6FbZpMsEtOW/cxt2owZu78aZqBOWXTBGR85fBdrhO
-	1Zv6JAXtvRSNFVyw2wvGsyaNOqRoaN72LnsTmChn3D2ITfqENDzwTtGsJ/fS7BwsA+md
-	kZBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=rn4NA73uVu8a6Rz93qnDDrd92dBBu+CbNvNM8ElIbkE=;
-	b=aQ4kt+IESMPo/cOb9cLqTQxl4WZKOWaQmEBUST8CnnfikFQ4ctsbCdzTRGdLR8ZCyB
-	zNJ/ZGP4A4Exx1WjZmEWCYrTOjUvFszYiq6svGdhGX+LLztgJbXzxFdHJZx8iam11gI1
-	n6ViM3B78FcI+zZM6k11nt24UdeohKycvmF6IOm90G29eaP+OXSsaDVXHmr4h1cz4ksx
-	JPyRtqYHpSPKpWoPhX8pVN3ciY3kTLEXBzS1uDpR4NLw9mpcnsklRIv0pjcSpk4DiDUP
-	iT+hPKtpa8PWBz/hwIyEoh/olgtbcPhSMkEUs3m1RXA8uqasNqqySF9G3T+oUVj7WR5g
-	HPgg==
-X-Gm-Message-State: AD7BkJLMqCYC7wZdY08jn06+TUmCYw4YnmuJVukFTBfW2w7jfeFq5AS8yMvozkoplLOc/yYt
-X-Received: by 10.107.151.74 with SMTP id z71mr30475382iod.43.1459171687380;
-	Mon, 28 Mar 2016 06:28:07 -0700 (PDT)
-Received: from pohly-mobl1.fritz.box
-	(dyndsl-037-138-177-144.ewe-ip-backbone.de. [37.138.177.144])
-	by smtp.gmail.com with ESMTPSA id o1sm3970287igh.0.2016.03.28.06.28.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 28 Mar 2016 06:28:06 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Mar 2016 15:27:57 +0200
-Message-Id: <1459171677-17268-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] buildhistory.bbclass: create image directory when needed
+	Mon, 28 Mar 2016 08:30:38 -0700
+Received: from otp-ddragomi-d1.corp.ad.wrs.com (128.224.124.174) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 28 Mar 2016 08:30:37 -0700
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Mar 2016 18:29:29 +0300
+Message-ID: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +31,250 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 13:28:10 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 15:30:39 -0000
+Content-Type: text/plain
 
-buildhistory_get_imageinfo() assumed that the buildhistory directory
-for the image had already been created earlier. That assumption is not
-true for special images (like the virtual swupd images from
-meta-swupd) where the entire traditional do_rootfs/do_image is
-skipped.
+ARMv8-A supports two main execution states:
+  - AArch64 - The 64-bit execution state including exception model,
+  memory model, programmers' model and instruction set support for
+  that state
+  - AArch32 - The 32-bit execution state including exception model,
+   memory model, programmers' model and instruction set support for
+   that state
 
-Creating files-in-image.txt still makes sense for such images, so
-support them by creating the directory also in
-buildhistory_get_imageinfo().
+This patch adds tunes for 32-bit and 64-bit armv8a platforms.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+For AArch32 state, the default tune is aarch32 and include which
+    include by default hard float, fp-armv8 floating-point, thumb
+    and neon extensions.
+    Depending on the features supported by the core, the user can
+    select between little or big endian and may choose to enable
+    crc and crypto extensions.
+
+For AArch64 state, the default tune is aarch32 and include which
+    include just the aarch64 feature.
+    Depending on the features supported by the core, the user can
+    select between little or big endian and may choose to enable
+    crc and crypto extensions.
+
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/buildhistory.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/machine/include/arm/arch-arm64.inc       |  36 -------
+ meta/conf/machine/include/arm/arch-armv8.inc       |   1 -
+ meta/conf/machine/include/arm/arch-armv8a.inc      | 113 +++++++++++++++++++++
+ .../conf/machine/include/arm/feature-arm-thumb.inc |   1 +
+ meta/conf/machine/include/tune-thunderx.inc        |   2 +-
+ meta/conf/machine/qemuarm64.conf                   |   2 +-
+ 6 files changed, 116 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/conf/machine/include/arm/arch-arm64.inc
+ delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 0b3b7ce..108275a 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -504,6 +504,7 @@ buildhistory_get_imageinfo() {
- 		return
- 	fi
+diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+deleted file mode 100644
+index 9440698..0000000
+--- a/meta/conf/machine/include/arm/arch-arm64.inc
++++ /dev/null
+@@ -1,36 +0,0 @@
+-DEFAULTTUNE ?= "aarch64"
+-
+-require conf/machine/include/arm/arch-armv7a.inc
+-
+-TUNEVALID[aarch64] = "Enable instructions for aarch64"
+-
+-MACHINEOVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', ':aarch64', '' ,d)}"
+-
+-# Little Endian base configs
+-AVAILTUNES += "aarch64 aarch64_be"
+-ARMPKGARCH_tune-aarch64 ?= "aarch64"
+-ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
+-TUNE_FEATURES_tune-aarch64 = "aarch64"
+-TUNE_FEATURES_tune-aarch64_be = "${TUNE_FEATURES_tune-aarch64} bigendian"
+-BASE_LIB_tune-aarch64 = "lib64"
+-BASE_LIB_tune-aarch64_be = "lib64"
+-
+-PACKAGE_EXTRA_ARCHS_tune-aarch64 = "aarch64"
+-PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
+-
+-ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
+-TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
+-TUNE_PKGARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
+-ABIEXTENSION_64 = ""
+-TARGET_FPU_64 = ""
+-
+-# Duplicated from arch-arm.inc
+-TUNE_ARCH_32 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'armeb', 'arm', d)}"
+-TUNE_PKGARCH_32 = "${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}"
+-ABIEXTENSION_32 = "eabi"
+-TARGET_FPU_32 = "${@d.getVar('TUNE_CCARGS_MFLOAT', True) or 'soft'}"
+-
+-TUNE_ARCH = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TUNE_ARCH_64}', '${TUNE_ARCH_32}' ,d)}"
+-TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TUNE_PKGARCH_64}', '${TUNE_PKGARCH_32}' ,d)}"
+-ABIEXTENSION = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${ABIEXTENSION_64}', '${ABIEXTENSION_32}' ,d)}"
+-TARGET_FPU = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TARGET_FPU_64}', '${TARGET_FPU_32}' ,d)}"
+diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
+deleted file mode 100644
+index 5e832fa..0000000
+--- a/meta/conf/machine/include/arm/arch-armv8.inc
++++ /dev/null
+@@ -1 +0,0 @@
+-require conf/machine/include/arm/arch-arm64.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+new file mode 100644
+index 0000000..27135e1
+--- /dev/null
++++ b/meta/conf/machine/include/arm/arch-armv8a.inc
+@@ -0,0 +1,113 @@
++DEFAULTTUNE ?= "aarch64"
++
++TUNEVALID[aarch32] = "Enable instructions for 32bit state for ARMv8-a (aarch32)"
++TUNEVALID[aarch64] = "Enable instructions for 64bit state for ARMv8-a (aarch64)"
++TUNECONFLICTS[aarch32] = "armv4 armv5 armv6 armv7 armv7a armv7ve"
++
++TUNEVALID[crc] = "Enable CRC instructions for ARMv8-a"
++ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '-crc', '', d)}"
++ARMPKGSFX_FPU_64 = "${@bb.utils.contains('TUNE_FEATURES', 'crc', '-crc', '', d)}"
++
++TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
++ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '-crypto', '', d)}"
++ARMPKGSFX_FPU_64 .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '-crypto', '', d)}"
++
++TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
++ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'fp-armv8', '-fp-armv8', '', d)}"
++
++require conf/machine/include/arm/arch-armv7ve.inc
++
++TUNE_CCARGS .= "${@bb.utils.contains_any('TUNE_FEATURES', [ 'aarch32', 'aarch64' ], bb.utils.contains('TUNE_FEATURES', 'crc', ' -march=armv8-a+crc', ' -march=armv8-a', d), '', d)}"
++TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'fp-armv8', ' fp-armv8', '', d)}"
++TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', [ 'fp-armv8', 'neon' ], ' neon-fp-armv8', '', d)}"
++TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', [ 'fp-armv8', 'neon', 'crypto' ], ' crypto-neon-fp-armv8', '', d)}"
++
++MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch32', 'aarch32:', '' ,d)}"
++MACHINEOVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', ':aarch64', '' ,d)}"
++
++# Aarch64 Little Endian base configs
++AVAILTUNES += "aarch64 aarch64-crypto aarch64-crc aarch64-crc-crypto"
++ARMPKGARCH_tune-aarch64            ?= "aarch64"
++ARMPKGARCH_tune-aarch64-crypto     ?= "aarch64"
++ARMPKGARCH_tune-aarch64-crc        ?= "aarch64"
++ARMPKGARCH_tune-aarch64-crc-crypto ?= "aarch64"
++TUNE_FEATURES_tune-aarch64            = "aarch64"
++TUNE_FEATURES_tune-aarch64-crypto     = "${TUNE_FEATURES_tune-aarch64} crypto"
++TUNE_FEATURES_tune-aarch64-crc        = "${TUNE_FEATURES_tune-aarch64} crc"
++TUNE_FEATURES_tune-aarch64-crc-crypto = "${TUNE_FEATURES_tune-aarch64-crypto} crc"
++PACKAGE_EXTRA_ARCHS_tune-aarch64            = "aarch64"
++PACKAGE_EXTRA_ARCHS_tune-aarch64-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} aarch64-crypto"
++PACKAGE_EXTRA_ARCHS_tune-aarch64-crc        = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} aarch64-crc"
++PACKAGE_EXTRA_ARCHS_tune-aarch64-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-aarch64-crypto} aarch64-crc-crypto"
++BASE_LIB_tune-aarch64            = "lib64"
++BASE_LIB_tune-aarch64-crypto     = "lib64"
++BASE_LIB_tune-aarch64-crc        = "lib64"
++BASE_LIB_tune-aarch64-crc-crypto = "lib64"
++
++# Aarch64 Big Endian base configs
++AVAILTUNES += "aarch64_be aarch64_be-crypto aarch64_be-crc aarch64_be-crc-crypto"
++ARMPKGARCH_tune-aarch64_be            ?= "aarch64_be"
++ARMPKGARCH_tune-aarch64_be-crypto     ?= "aarch64_be"
++ARMPKGARCH_tune-aarch64_be-crc        ?= "aarch64_be"
++ARMPKGARCH_tune-aarch64_be-crc-crypto ?= "aarch64_be"
++TUNE_FEATURES_tune-aarch64_be            = "${TUNE_FEATURES_tune-aarch64}            bigendian"
++TUNE_FEATURES_tune-aarch64_be-crypto     = "${TUNE_FEATURES_tune-aarch64-crypto}     bigendian"
++TUNE_FEATURES_tune-aarch64_be-crc        = "${TUNE_FEATURES_tune-aarch64-crc}        bigendian"
++TUNE_FEATURES_tune-aarch64_be-crc-crypto = "${TUNE_FEATURES_tune-aarch64-crc-crypto} bigendian"
++PACKAGE_EXTRA_ARCHS_tune-aarch64_be            = "aarch64_be"
++PACKAGE_EXTRA_ARCHS_tune-aarch64_be-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-aarch64_be} aarch64_be-crypto"
++PACKAGE_EXTRA_ARCHS_tune-aarch64_be-crc        = "${PACKAGE_EXTRA_ARCHS_tune-aarch64_be} aarch64_be-crc"
++PACKAGE_EXTRA_ARCHS_tune-aarch64_be-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-aarch64_be-crypto} aarch64_be-crc-crypto"
++BASE_LIB_tune-aarch64_be            = "lib64"
++BASE_LIB_tune-aarch64_be-crypto     = "lib64"
++BASE_LIB_tune-aarch64_be-crc        = "lib64"
++BASE_LIB_tune-aarch64_be-crc-crypto = "lib64"
++
++
++# Aarch32 Little Endian base configs
++AVAILTUNES += "aarch32 aarch32-crypto aarch32-crc aarch32-crc-crypto"
++ARMPKGARCH_tune-aarch32            ?= "aarch32"
++ARMPKGARCH_tune-aarch32-crypto     ?= "aarch32"
++ARMPKGARCH_tune-aarch32-crc        ?= "aarch32"
++ARMPKGARCH_tune-aarch32-crc-crypto ?= "aarch32"
++TUNE_FEATURES_tune-aarch32             = "arm aarch32 thumb neon fp-armv8 callconvention-hard"
++TUNE_FEATURES_tune-aarch32-crypto      = "${TUNE_FEATURES_tune-aarch32} crypto"
++TUNE_FEATURES_tune-aarch32-crc         = "${TUNE_FEATURES_tune-aarch32} crc"
++TUNE_FEATURES_tune-aarch32-crc-crypto  = "${TUNE_FEATURES_tune-aarch32-crypto} crc"
++PACKAGE_EXTRA_ARCHS_tune-aarch32            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} aarch32 aarch32hf aarch32t2hf aarch32hf-fp-armv8 aarch32t2hf-fp-armv8 aarch32hf-neon aarch32t2hf-neon aarch32hf-neon-fp-armv8 aarch32t2hf-neon-fp-armv8"
++PACKAGE_EXTRA_ARCHS_tune-aarch32-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-aarch32} aarch32hf-crypto-neon-fp-armv8 aarch32t2hf-crypto-neon-fp-armv8"
++PACKAGE_EXTRA_ARCHS_tune-aarch32-crc        = "${PACKAGE_EXTRA_ARCHS_tune-aarch32} aarch32hf-crc-neon-fp-armv8 aarch32t2hf-crc-neon-fp-armv8"
++PACKAGE_EXTRA_ARCHS_tune-aarch32-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-aarch32-crypto} aarch32hf-crc-crypto-neon-fp-armv8 aarch32t2hf-crc-crypto-neon-fp-armv8"
++
++# Aarch32 Big Endian base configs
++AVAILTUNES += "aarch32b aarch32b-crypto aarch32b-crc aarch32b-crc-crypto"
++ARMPKGARCH_tune-aarch32b            ?= "aarch32"
++ARMPKGARCH_tune-aarch32b-crypto     ?= "aarch32"
++ARMPKGARCH_tune-aarch32b-crc        ?= "aarch32"
++ARMPKGARCH_tune-aarch32b-crc-crypto ?= "aarch32"
++TUNE_FEATURES_tune-aarch32b             = "${TUNE_FEATURES_tune-aarch32}            bigendian"
++TUNE_FEATURES_tune-aarch32b-crypto      = "${TUNE_FEATURES_tune-aarch32-crypto}     bigendian"
++TUNE_FEATURES_tune-aarch32b-crc         = "${TUNE_FEATURES_tune-aarch32-crc}        bigendian"
++TUNE_FEATURES_tune-aarch32b-crc-crypto  = "${TUNE_FEATURES_tune-aarch32-crc-crypto} bigendian"
++PACKAGE_EXTRA_ARCHS_tune-aarch32b            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb} aarch32b aarch32hfb aarch32t2hfb aarch32hfb-fp-armv8 aarch32t2hfb-fp-armv8 aarch32hfb-neon aarch32t2hfb-neon aarch32hfb-neon-fp-armv8 aarch32t2hfb-neon-fp-armv8"
++PACKAGE_EXTRA_ARCHS_tune-aarch32b-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-aarch32b} aarch32hfb-crypto-neon-fp-armv8 aarch32t2hfb-crypto-neon-fp-armv8"
++PACKAGE_EXTRA_ARCHS_tune-aarch32b-crc        = "${PACKAGE_EXTRA_ARCHS_tune-aarch32b} aarch32hfb-crc-neon-fp-armv8 aarch32t2hfb-crc-neon-fp-armv8"
++PACKAGE_EXTRA_ARCHS_tune-aarch32b-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-aarch32b-crypto} aarch32hfb-crc-crypto-neon-fp-armv8 aarch32t2hfb-crc-crypto-neon-fp-armv8"
++
++
++ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
++TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
++TUNE_PKGARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}${ARMPKGSFX_FPU_64}"
++ABIEXTENSION_64 = ""
++TARGET_FPU_64 = ""
++
++# Duplicated from arch-arm.inc
++TUNE_ARCH_32 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'armeb', 'arm', d)}"
++TUNE_PKGARCH_32 = "${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}"
++ABIEXTENSION_32 = "eabi"
++TARGET_FPU_32 = "${@d.getVar('TUNE_CCARGS_MFLOAT', True) or 'soft'}"
++
++TUNE_ARCH = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TUNE_ARCH_64}', '${TUNE_ARCH_32}' ,d)}"
++TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TUNE_PKGARCH_64}', '${TUNE_PKGARCH_32}' ,d)}"
++ABIEXTENSION = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${ABIEXTENSION_64}', '${ABIEXTENSION_32}' ,d)}"
++TARGET_FPU = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TARGET_FPU_64}', '${TARGET_FPU_32}' ,d)}"
+diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+index 1faebf7..37bed4a 100644
+--- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
++++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+@@ -7,6 +7,7 @@ ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 't2', '', d
+ ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7r', 't2', '', d)}"
+ ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7m', 't2', '', d)}"
+ ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 't2', '', d)}"
++ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch32', 't2', '', d)}"
  
-+        mkdir -p ${BUILDHISTORY_DIR_IMAGE}
- 	buildhistory_list_files ${IMAGE_ROOTFS} ${BUILDHISTORY_DIR_IMAGE}/files-in-image.txt
+ # If the device supports ARM, then respect ARM_THUMB_OPT (which can be "arm" or "thumb")
+ # If the defice doesn't support ARM, then always set "thumb" even when
+diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
+index 3d43b0f..4d1247c 100644
+--- a/meta/conf/machine/include/tune-thunderx.inc
++++ b/meta/conf/machine/include/tune-thunderx.inc
+@@ -1,4 +1,4 @@
+-require conf/machine/include/arm/arch-armv8.inc
++require conf/machine/include/arm/arch-armv8a.inc
  
- 	# Collect files requested in BUILDHISTORY_IMAGE_FILES
+ DEFAULTTUNE ?= "thunderx"
+ AVAILTUNES += "thunderx thunderx_be"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index f59fb15..ff1ff64 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -2,7 +2,7 @@
+ #@NAME: generic armv8 machine
+ #@DESCRIPTION: Machine configuration for running a generic armv8
+ 
+-require conf/machine/include/arm/arch-armv8.inc
++require conf/machine/include/arm/arch-armv8a.inc
+ require conf/machine/include/qemu.inc
+ 
+ KERNEL_IMAGETYPE = "Image"
 -- 
-2.1.4
+1.9.1
 
 
