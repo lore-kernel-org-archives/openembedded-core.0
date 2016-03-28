@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A67B7017D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DF1073166
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Mar 2016 09:40:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S9eYRS007476
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2S9eYKA012783
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 02:40:34 -0700 (PDT)
+	Mon, 28 Mar 2016 02:40:34 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 02:40:33 -0700
+	Mon, 28 Mar 2016 02:40:34 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Mar 2016 02:40:23 -0700
-Message-ID: <135333204d1613292c77a134a4f9d602fba946ff.1459157937.git.liezhi.yang@windriver.com>
+Date: Mon, 28 Mar 2016 02:40:24 -0700
+Message-ID: <60bad322f6e6ff0d0f124e0f5143f4b2034e3041.1459157937.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1459157937.git.liezhi.yang@windriver.com>
 References: <cover.1459157937.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/8] bluez5: allow D-Bus to spawn obexd in systems without systemd
+Subject: [PATCH 3/8] busybox-1.23: Backport patch to fix zcip false-conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,104 +36,75 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 28 Mar 2016 09:40:34 -0000
 Content-Type: text/plain
 
-From: Javier Viguera <javier.viguera@digi.com>
+From: Brad Mouring <brad.mouring@ni.com>
 
-This includes a proper D-Bus service file for obexd in systems that do
-not support systemd.
+Busybox upstream fixed the issue where an incorrect comparison of
+addresses led to bogus renegotiation of a new ll ip in 1.24. Backport
+this change to 1.23.2.
 
-(From OE-Core rev: 75c5dc8d4a5506bf5b89292a96c7b9f91e9d71c8)
-
-Signed-off-by: Javier Viguera <javier.viguera@digi.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Brad Mouring <brad.mouring@ni.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
- ...-obexd-without-systemd-in-the-user-sessio.patch | 63 ++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+ ...wrong-comparison-of-source-IP-with-our-IP.patch | 38 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index df42c88..d1af31e 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -18,6 +18,7 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
- 
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
- "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+diff --git a/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch b/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
 new file mode 100644
-index 0000000..2fde7bc
+index 0000000..dec5eb5
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-@@ -0,0 +1,63 @@
-+From: Giovanni Campagna <gcampagna-cNUdlRotFMnNLxjTenLetw@public.gmane.org>
-+Date: Sat, 12 Oct 2013 17:45:25 +0200
-+Subject: [PATCH] Allow using obexd without systemd in the user session
++++ b/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
+@@ -0,0 +1,38 @@
++From 4d15068d83054a9f82b3f8842706cd6deb401e25 Mon Sep 17 00:00:00 2001
++From: Vladislav Grishenko <themiron@mail.ru>
++Date: Thu, 19 Mar 2015 16:19:35 +0500
++Subject: [PATCH] zcip: fix wrong comparison of source IP with our IP
 +
-+Not all sessions run systemd --user (actually, the majority
-+doesn't), so the dbus daemon must be able to spawn obexd
-+directly, and to do so it needs the full path of the daemon.
++Commit "zcip: fix link-local IP conflict detection" has introduced
++wrong comparsion of source IP with our IP. This leads to a new IP
++being picked unnecessarily on every incoming ARP packet.
 +
-+Upstream-Status: Denied
++Signed-off-by: Vladislav Grishenko <themiron@mail.ru>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
 +
-+Not accepted by upstream maintainer for being a distro specific
-+configuration. See thread:
++This change was picked from Busybox without modification
++(git://git.busybox.net/busybox, commit 4d15068)
 +
-+http://thread.gmane.org/gmane.linux.bluez.kernel/38725/focus=38843
++Upstream-Status: Backport (added in 1.24)
++Signed-off-by: Brad Mouring <brad.mouring@ni.com>
 +
-+Signed-off-by: Javier Viguera <javier.viguera@digi.com>
 +---
-+ Makefile.obexd                      | 4 ++--
-+ obexd/src/org.bluez.obex.service    | 4 ----
-+ obexd/src/org.bluez.obex.service.in | 4 ++++
-+ 3 files changed, 6 insertions(+), 6 deletions(-)
-+ delete mode 100644 obexd/src/org.bluez.obex.service
-+ create mode 100644 obexd/src/org.bluez.obex.service.in
++ networking/zcip.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Makefile.obexd b/Makefile.obexd
-+index 2e33cbc72f2b..d5d858c857b4 100644
-+--- a/Makefile.obexd
-++++ b/Makefile.obexd
-+@@ -2,12 +2,12 @@
-+ if SYSTEMD
-+ systemduserunitdir = @SYSTEMD_USERUNITDIR@
-+ systemduserunit_DATA = obexd/src/obex.service
-++endif
++diff --git a/networking/zcip.c b/networking/zcip.c
++index a3307c5..962ba2e 100644
++--- a/networking/zcip.c
+++++ b/networking/zcip.c
++@@ -521,7 +521,7 @@ int zcip_main(int argc UNUSED_PARAM, char **argv)
++ 			target_ip_conflict = 0;
 + 
-+ dbussessionbusdir = @DBUS_SESSIONBUSDIR@
-+ dbussessionbus_DATA = obexd/src/org.bluez.obex.service
-+-endif
-+ 
-+-EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service
-++EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service.in
-+ 
-+ obex_plugindir = $(libdir)/obex/plugins
-+ 
-+diff --git a/obexd/src/org.bluez.obex.service b/obexd/src/org.bluez.obex.service
-+deleted file mode 100644
-+index a53808884554..000000000000
-+--- a/obexd/src/org.bluez.obex.service
-++++ /dev/null
-+@@ -1,4 +0,0 @@
-+-[D-BUS Service]
-+-Name=org.bluez.obex
-+-Exec=/bin/false
-+-SystemdService=dbus-org.bluez.obex.service
-+diff --git a/obexd/src/org.bluez.obex.service.in b/obexd/src/org.bluez.obex.service.in
-+new file mode 100644
-+index 000000000000..9c815f246b77
-+--- /dev/null
-++++ b/obexd/src/org.bluez.obex.service.in
-+@@ -0,0 +1,4 @@
-++[D-BUS Service]
-++Name=org.bluez.obex
-++Exec=@libexecdir@/obexd
-++SystemdService=dbus-org.bluez.obex.service
++ 			if (memcmp(&p.arp.arp_sha, &eth_addr, ETH_ALEN) != 0) {
++-				if (memcmp(p.arp.arp_spa, &ip.s_addr, sizeof(struct in_addr))) {
+++				if (memcmp(p.arp.arp_spa, &ip.s_addr, sizeof(struct in_addr)) == 0) {
++ 					/* A probe or reply with source_ip == chosen ip */
++ 					source_ip_conflict = 1;
++ 				}
++-- 
++2.7.3
++
+diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
+index 7258df0..5edcbfd 100644
+--- a/meta/recipes-core/busybox/busybox_1.23.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
+@@ -36,6 +36,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
+            file://0002-Passthrough-r-to-linker.patch \
+            file://0001-randconfig-fix.patch \
++           file://0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch \
+            file://mount-via-label.cfg \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
 -- 
 2.7.4
 
