@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 89FCB73166
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B010F7316D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 09:40:34 +0000 (UTC)
+	Mon, 28 Mar 2016 09:40:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S9eZI8011855
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S9eb8L007479
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 02:40:35 -0700 (PDT)
+	Mon, 28 Mar 2016 02:40:37 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 02:40:34 -0700
+	Mon, 28 Mar 2016 02:40:35 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Mar 2016 02:40:25 -0700
-Message-ID: <27524c3315a49b16d7b057aa38a95d2c0072e774.1459157937.git.liezhi.yang@windriver.com>
+Date: Mon, 28 Mar 2016 02:40:26 -0700
+Message-ID: <8281f1f46c2876587c0193adb44b8687ea6642bb.1459157937.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1459157937.git.liezhi.yang@windriver.com>
 References: <cover.1459157937.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/8] busybox_git: Fix SRCREV
+Subject: [PATCH 5/8] nfs-utils: bugfix: adjust name of statd service unit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 09:40:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Mar 2016 09:40:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Brad Mouring <brad.mouring@ni.com>
+From: Ulrich Ölmann <u.oelmann@pengutronix.de>
 
-The SRCREV in the busybox git recipe did not point to a commit ID
-on the master branch. Point the variable to something reachable from
-the master branch (which fixes this recipe's fetch()).
+Upstream nfs-utils use 'rpc-statd.service' and Yocto introduced
+'nfs-statd.service' instead but forgot to update the mount.nfs helper
+'start-statd' accordingly.
 
-Suggested-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Brad Mouring <brad.mouring@ni.com>
+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
 ---
- meta/recipes-core/busybox/busybox_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../files/bugfix-adjust-statd-service-name.patch   | 34 ++++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.3.1.bb                   |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
 
-diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index ade72f4..7c1b650 100644
---- a/meta/recipes-core/busybox/busybox_git.bb
-+++ b/meta/recipes-core/busybox/busybox_git.bb
-@@ -1,6 +1,6 @@
- require busybox.inc
+diff --git a/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
+new file mode 100644
+index 0000000..14bd403
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
+@@ -0,0 +1,34 @@
++From 398fed3bb0350cb1229e54e7020ae0e044c206d1 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
++Date: Wed, 17 Feb 2016 08:33:45 +0100
++Subject: bugfix: adjust statd service name
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream uses 'rpc-statd.service' and Yocto introduced 'nfs-statd.service'
++instead but forgot to update the mount.nfs helper 'start-statd' accordingly.
++
++Upstream-Status: Inappropriate [other]
++
++Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
++---
++ utils/statd/start-statd | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/utils/statd/start-statd b/utils/statd/start-statd
++index 8211a90..3c2aa6f 100755
++--- a/utils/statd/start-statd
+++++ b/utils/statd/start-statd
++@@ -16,7 +16,7 @@ fi
++ # First try systemd if it's installed.
++ if [ -d /run/systemd/system ]; then
++     # Quit only if the call worked.
++-    systemctl start rpc-statd.service && exit
+++    systemctl start nfs-statd.service && exit
++ fi
++ 
++ # Fall back to launching it ourselves.
++-- 
++2.1.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+index 42101de..f346fdc 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://proc-fs-nfsd.mount \
+            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+            file://nfs-utils-debianize-start-statd.patch \
++           file://bugfix-adjust-statd-service-name.patch \
+ "
  
--SRCREV = "be947c4d97c0dacb703a6f24dd813ff6dd3a33b6"
-+SRCREV = "4d15068d83054a9f82b3f8842706cd6deb401e25"
- # Lookout for PV bump too when SRCREV is changed
- PV = "1.23.2+git${SRCPV}"
- 
+ SRC_URI[md5sum] = "8de676b9ff34b8f9addc1d0800fabdf8"
 -- 
 2.7.4
 
