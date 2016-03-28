@@ -1,59 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DBFC0607A5
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
+	[209.85.213.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 015B960116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 18:20:31 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id u190so143630430pfb.3
+	Mon, 28 Mar 2016 18:43:17 +0000 (UTC)
+Received: by mail-ig0-f195.google.com with SMTP id nt3so11144512igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 11:20:32 -0700 (PDT)
+	Mon, 28 Mar 2016 11:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=EByif11lFUo1wTUr3lBIN2eL+W1fjLmICnmq6J9w+Bg=;
-	b=VkL6hmYAa1rwQx3NCIZcux29tPi/j/u7xlvivQTBiUyHLAFQSReL01An16njqFiTbR
-	BuCKvNoo82YGsJN1tDpYHeCMhZoxdCWZrl9K57wEMriBiNoOUMMVhnmmp7/UQIC9PA9j
-	gx3is5e9KzgVDdPzRVQjcYbLMwZd4jZkY1cL/zhBwFhjqkZEELHOlZ6hw9DISdJGeaSU
-	rKL0dEHjP7bMra66SSfvJ7kK3tZj4FHsv4VwDM78g+ApT6AiLpUPrBGMKA2KhFIgV2Ns
-	wAp4MquW3QjnxZtwQbUDieS4qt1sh9tOWhSOF/nyIbYmenY9jWUgpwXIfrFZLlUuvOS8
-	32bA==
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=fbzZ+eSFviefdfL13f0q1NkpEzCO+B9wdSAUBWbL5lI=;
+	b=Rxjy2DjNeGl1uqWqkprM95OFxOOxM9MiP9Nny0a1CZQNeIVW2BT6e4RWW8L/Ep2ziX
+	mKSR1OetAm3SdVMv9ce1stkQVmSprUdqitwzz/Py3ZNw/14n70Jok5mmLJPdxQMKwvtm
+	Uf/L2ish6mTblg0VSTTWgcZCAUuHotSpEc+A0pzzRCWYdVAhCpqVqZS1Vy6ogxJ067Wx
+	l4njnFBOcCmol+iClWCoUKzV9deAcUlEwIrUhFWOxC8FqSY3UomnA0yBqAJ4bjaVyAt9
+	rCDp01H43xwg5yeKcTkoooBEqGIt2tDOUkq9wY+xjPNcWfrdVK/HQ3S7/hRsU2AH0o/r
+	1XlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=EByif11lFUo1wTUr3lBIN2eL+W1fjLmICnmq6J9w+Bg=;
-	b=b1T3U2/S3S5IAT+87pnI8iYEFyI5+JHQUCeOPWaNGuu2aRrVPR7dgYzaxASjmrKCji
-	YEgNxVRF5miIIUr2o+bWZonCSn38kxjei4v+jbHUHEYKhl5Q2brYsiNwBWVGGC2kTsQf
-	KCz6ek0JkUCb6jypi81OOcX9ijSqetEPj+Ex5CPPHLbWV1oiGx/HUZepMRAGJZhExs4u
-	2qINJJ9GokD8t5td+ayZCrc7UDPdKMKQv0WacRwzEp6qS1hfpA3SGQIt7qW8vyDiZ5Wb
-	4Wbh3kQ4sNCuGaRl/M9qCfBgPG9vreqnO7lnlKWooZLKKxMZE2xIj00w4jVSpo3q1deg
-	I+1w==
-X-Gm-Message-State: AD7BkJKYazFy8vYOiyl1at+rdogJ3tVWmSTgOR43daFbreWraKSee70X7LZEuLXtAd+yYg==
-X-Received: by 10.98.80.70 with SMTP id e67mr45530688pfb.136.1459189232135;
-	Mon, 28 Mar 2016 11:20:32 -0700 (PDT)
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com.
-	[209.85.220.53]) by smtp.gmail.com with ESMTPSA id
-	22sm37325461pfh.48.2016.03.28.11.20.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f53.google.com with SMTP id fe3so103750147pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=fbzZ+eSFviefdfL13f0q1NkpEzCO+B9wdSAUBWbL5lI=;
+	b=erIu4lpye5412fxvzJJi0yJmEnTl3iNgvdu5XVn7p+TnYQAetSPdYJ1qgAW7mplQBe
+	/2KD+dXzwd4xnDyCh94Pf4OHbA/j8FPA5Df5gVckph4rytN4FFXyExacLXzl/ZtUOmHf
+	Lg8lYpALq2bu59hQ4wMGQjXA0ZooYgqoVrM3Twb4dCi9+bd8Y1svzlPY1n5d+KpkmI0x
+	rY6Nyz7nlEaLQHT6jGc5SiVRS9ysemOVIVy3X+0BbBjZgK3dG6Io5cw9c0KJ6LYQgnlW
+	2ooD8es2yBaQRMPCfBFMTjm3+WSVeolBajk5FIAhsvsBhdNZlXQovdy2DyZVPbUYnt4p
+	58ZQ==
+X-Gm-Message-State: AD7BkJLJAECHrSH54vsl9rLOhPEz/Cot7WdB9kLmOzdqj/aPE5jXQ1TJlYo9GhZBr47B008QPXRSx3SMPNb7SA==
+X-Received: by 10.50.138.233 with SMTP id qt9mr11492481igb.13.1459190597864;
+	Mon, 28 Mar 2016 11:43:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.66.176.139 with SMTP id ci11mr44687966pac.68.1459189230419; 
-	Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
-In-Reply-To: <56F952F7.2010409@gmail.com>
-References: <56F952F7.2010409@gmail.com>
-Date: Mon, 28 Mar 2016 15:20:30 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqPzybLhTyx8wz1xCpb4_4R0cXSsmYXB3dtLwc4scBbCg@mail.gmail.com>
-Message-ID: <CAP9ODKqPzybLhTyx8wz1xCpb4_4R0cXSsmYXB3dtLwc4scBbCg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Aarch64 u-boot with gcc .5x
+References: <cover.1458803813.git.mariano.lopez@linux.intel.com>
+	<34e4b28e8c8e665b38fd82d59ecaf8d486de6193.1458803813.git.mariano.lopez@linux.intel.com>
+	<CABcZANkt+zzsRKL7ao2aP81Cu7Easc5rmmGHQzBdy0jwRNTDQg@mail.gmail.com>
+	<56F97344.9040204@linux.intel.com>
+In-Reply-To: <56F97344.9040204@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 28 Mar 2016 18:43:08 +0000
+Message-ID: <CABcZAN==+94v=j6knPg5Ap7ov17h6S-Yb=tjz7-7E6jsZSN2vg@mail.gmail.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] archiver.bbclass: Just archive gcc-source for all gcc recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,27 +55,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 18:20:32 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 18:43:22 -0000
+Content-Type: multipart/alternative; boundary=089e013c6a983ed3ae052f2049a6
+
+--089e013c6a983ed3ae052f2049a6
 Content-Type: text/plain; charset=UTF-8
 
-Hello Armin,
+Fair enough, thanks for the clarification!
 
-On Mon, Mar 28, 2016 at 12:51 PM, akuster808 <akuster808@gmail.com> wrote:
-> I have an arm64 odroid c2 board.  If I build u-boot with the current OE
-> 5.3 gcc it hangs at kernel load time. If I use 4.9 gcc it works fine. A
-> 5.3 built kernel boots fine with a 4.9 built u-boot.
+On Mon, Mar 28, 2016 at 11:08 AM Mariano Lopez <
+mariano.lopez@linux.intel.com> wrote:
+
 >
-> The vendor supplied u-boot is hacked up and am leaning it that direction
-> as the culprit so I am looking for data points.
 >
-> Is anyone using a current u-boot with 5.3 gcc on an arm64 machine? if
-> so, any special tweaks to get that combo to work?
+> On 03/24/2016 12:04 PM, Christopher Larson wrote:
+>
+> On Thu, Mar 24, 2016 at 8:26 AM <mariano.lopez@linux.intel.com> wrote:
+>
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+>
+>
+>> +    # We just archive gcc-source for all the gcc related recipes
+>> +    if d.getVar('BPN', True) in ['gcc', 'libgcc'] \
+>> +            and not pn.startswith('gcc-source'):
+>> +        bb.debug(1, 'archiver: %s is excluded, covered by gcc-source' %
+>> pn)
+>> +        return
+>>
+>
+> Hmm, I wonder if it'd be possible to make this more generic, check for
+> work-shared or something.
+>
+>
+> I was thinking the same when writing the patch, but it seems gcc is more
+> of a corner case. The only two recipes that use work-shared are gcc and the
+> kernel, the kernel case it's already covered checking for the class
+> "kernel-yocto". In case of gcc we can't check for a class, we would need
+> for work-shared and gcc, and that would be the almost the same comparison
+> as is in the patch.
+>
+>
+> Mariano
+>
 
-I am using one ARM 64 SoC with GCC 5.2 at this moment and it works
-fine. What U-Boot version is the fork based on?
+--089e013c6a983ed3ae052f2049a6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+<div dir=3D"ltr">Fair enough, thanks for the clarification!</div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr">On Mon, Mar 28, 2016 at 11:08 AM Mari=
+ano Lopez &lt;<a href=3D"mailto:mariano.lopez@linux.intel.com">mariano.lope=
+z@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <br>
+    <br>
+    <div>On 03/24/2016 12:04 PM, Christopher
+      Larson wrote:<br>
+    </div>
+    </div><div text=3D"#000000" bgcolor=3D"#FFFFFF"><blockquote type=3D"cit=
+e"><div dir=3D"ltr"><div class=3D"gmail_quote">
+          <div dir=3D"ltr">On Thu, Mar 24, 2016 at 8:26 AM &lt;<a href=3D"m=
+ailto:mariano.lopez@linux.intel.com" target=3D"_blank"><a href=3D"mailto:ma=
+riano.lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.co=
+m</a></a>&gt;
+            wrote:<br>
+          </div>
+          </div></div></blockquote></div><div text=3D"#000000" bgcolor=3D"#=
+FFFFFF"><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gmail_quot=
+e"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">From:
+            Mariano Lopez &lt;<a href=3D"mailto:mariano.lopez@linux.intel.c=
+om" target=3D"_blank">mariano.lopez@linux.intel.com</a>&gt;</blockquote></d=
+iv></div></blockquote></div><div text=3D"#000000" bgcolor=3D"#FFFFFF"><bloc=
+kquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gmail_quote"><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><br>
+            +=C2=A0 =C2=A0 # We just archive gcc-source for all the gcc rel=
+ated
+            recipes<br>
+            +=C2=A0 =C2=A0 if d.getVar(&#39;BPN&#39;, True) in [&#39;gcc&#3=
+9;, &#39;libgcc&#39;] \<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 and not pn.startswit=
+h(&#39;gcc-source&#39;):<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(1, &#39;archiver: %s is e=
+xcluded, covered by
+            gcc-source&#39; % pn)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
+          </blockquote></div></div></blockquote></div><div text=3D"#000000"=
+ bgcolor=3D"#FFFFFF"><blockquote type=3D"cite"><div dir=3D"ltr"><div class=
+=3D"gmail_quote">
+          <div><br>
+          </div>
+          <div>Hmm, I wonder if it&#39;d be possible to make this more
+            generic, check for work-shared or something. <br>
+          </div>
+        </div></div></blockquote></div><div text=3D"#000000" bgcolor=3D"#FF=
+FFFF"><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gmail_quote"=
+></div>
+      </div>
+    </blockquote>
+    <br>
+    I was thinking the same when writing the patch, but it seems gcc is
+    more of a corner case. The only two recipes that use work-shared are
+    gcc and the kernel, the kernel case it&#39;s already covered checking
+    for the class &quot;kernel-yocto&quot;. In case of gcc we can&#39;t che=
+ck for a
+    class, we would need for work-shared and gcc, and that would be the
+    almost the same comparison as is in the patch.</div><div text=3D"#00000=
+0" bgcolor=3D"#FFFFFF"><br>
+    <br>
+    <div>Mariano<br>
+    </div>
+  </div></blockquote></div>
 
+--089e013c6a983ed3ae052f2049a6--
