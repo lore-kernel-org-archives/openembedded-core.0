@@ -1,26 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D0D671633
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 5730260797
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 09:40:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S9ee0h007482
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 28 Mar 2016 13:28:06 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id e3so62471291ioa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 02:40:40 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 02:40:39 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Mar 2016 02:40:29 -0700
-Message-ID: <f6444b900c8f30eec2571d51e33a84b3484de97a.1459157937.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1459157937.git.liezhi.yang@windriver.com>
-References: <cover.1459157937.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 8/8] cdrtools: update SRC_URI
+	Mon, 28 Mar 2016 06:28:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=rn4NA73uVu8a6Rz93qnDDrd92dBBu+CbNvNM8ElIbkE=;
+	b=Szt9bXXfP/MSLbz1xuA0U/rNRerxE1VlMRrWSdzLVlG+0cTap1W8xi1La/292jOoQ1
+	Fgx9WSv2UcIMuEUgUyy0puEwSDXaktdHC7quhV0yawVAc9qtoCdRiwvkNZgL7aApt9zM
+	VyQx1gQddxQIr/Vy5aHjTJZAsZv8qhbBnDmlGVkRDYOEOBWEULwNhd5ex72WW8obxBL/
+	bdOyc8lDkwihKJDD5xsTbvUOX4f6FbZpMsEtOW/cxt2owZu78aZqBOWXTBGR85fBdrhO
+	1Zv6JAXtvRSNFVyw2wvGsyaNOqRoaN72LnsTmChn3D2ITfqENDzwTtGsJ/fS7BwsA+md
+	kZBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rn4NA73uVu8a6Rz93qnDDrd92dBBu+CbNvNM8ElIbkE=;
+	b=aQ4kt+IESMPo/cOb9cLqTQxl4WZKOWaQmEBUST8CnnfikFQ4ctsbCdzTRGdLR8ZCyB
+	zNJ/ZGP4A4Exx1WjZmEWCYrTOjUvFszYiq6svGdhGX+LLztgJbXzxFdHJZx8iam11gI1
+	n6ViM3B78FcI+zZM6k11nt24UdeohKycvmF6IOm90G29eaP+OXSsaDVXHmr4h1cz4ksx
+	JPyRtqYHpSPKpWoPhX8pVN3ciY3kTLEXBzS1uDpR4NLw9mpcnsklRIv0pjcSpk4DiDUP
+	iT+hPKtpa8PWBz/hwIyEoh/olgtbcPhSMkEUs3m1RXA8uqasNqqySF9G3T+oUVj7WR5g
+	HPgg==
+X-Gm-Message-State: AD7BkJLMqCYC7wZdY08jn06+TUmCYw4YnmuJVukFTBfW2w7jfeFq5AS8yMvozkoplLOc/yYt
+X-Received: by 10.107.151.74 with SMTP id z71mr30475382iod.43.1459171687380;
+	Mon, 28 Mar 2016 06:28:07 -0700 (PDT)
+Received: from pohly-mobl1.fritz.box
+	(dyndsl-037-138-177-144.ewe-ip-backbone.de. [37.138.177.144])
+	by smtp.gmail.com with ESMTPSA id o1sm3970287igh.0.2016.03.28.06.28.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 28 Mar 2016 06:28:06 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Mar 2016 15:27:57 +0200
+Message-Id: <1459171677-17268-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] buildhistory.bbclass: create image directory when needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 09:40:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Mar 2016 13:28:10 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+buildhistory_get_imageinfo() assumed that the buildhistory directory
+for the image had already been created earlier. That assumption is not
+true for special images (like the virtual swupd images from
+meta-swupd) where the entire traditional do_rootfs/do_image is
+skipped.
 
-Upstream released their 3.01 so the alpha releases we were downloading have
-moved.  Update the SRC_URI so it continues to download.
+Creating files-in-image.txt still makes sense for such images, so
+support them by creating the directory also in
+buildhistory_get_imageinfo().
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/buildhistory.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
-index d0f36e2..50e284c 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
-@@ -7,7 +7,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 0b3b7ce..108275a 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -504,6 +504,7 @@ buildhistory_get_imageinfo() {
+ 		return
+ 	fi
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/cdrtools-${PV}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/OLD/3.01aX/cdrtools-${PV}.tar.bz2"
++        mkdir -p ${BUILDHISTORY_DIR_IMAGE}
+ 	buildhistory_list_files ${IMAGE_ROOTFS} ${BUILDHISTORY_DIR_IMAGE}/files-in-image.txt
  
- SRC_URI[md5sum] = "78172557894f469b4584d008e93ec469"
- SRC_URI[sha256sum] = "183b5c12777779e78d8b69461aae52401f863768e7e7391d60730006f8cadc5a"
+ 	# Collect files requested in BUILDHISTORY_IMAGE_FILES
 -- 
-2.7.4
+2.1.4
 
 
