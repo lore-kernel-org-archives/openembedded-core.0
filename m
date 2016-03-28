@@ -1,22 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 95F56607A5
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E2CAD70031
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 18:07:17 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Mar 2016 11:07:18 -0700
+	Mon, 28 Mar 2016 18:08:30 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Mar 2016 11:08:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,407,1455004800"; d="scan'208";a="74660746"
-Received: from spareek-mobl6.amr.corp.intel.com (HELO swold-mobl.jf.intel.com)
-	([10.254.108.99])
-	by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2016 11:07:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon, 28 Mar 2016 11:07:16 -0700
-Message-Id: <1459188436-13411-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] xf86-video-intel: Add UXA PACKAGECONFIG and 20-intel.conf
+X-IronPort-AV: E=Sophos;i="5.24,407,1455004800"; 
+	d="scan'208,217";a="773270934"
+Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.26.0])
+	([10.219.26.0])
+	by orsmga003.jf.intel.com with ESMTP; 28 Mar 2016 11:08:31 -0700
+To: Christopher Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1458803813.git.mariano.lopez@linux.intel.com>
+	<34e4b28e8c8e665b38fd82d59ecaf8d486de6193.1458803813.git.mariano.lopez@linux.intel.com>
+	<CABcZANkt+zzsRKL7ao2aP81Cu7Easc5rmmGHQzBdy0jwRNTDQg@mail.gmail.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Message-ID: <56F97344.9040204@linux.intel.com>
+Date: Mon, 28 Mar 2016 12:09:08 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CABcZANkt+zzsRKL7ao2aP81Cu7Easc5rmmGHQzBdy0jwRNTDQg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] archiver.bbclass: Just archive gcc-source for all gcc recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,110 +36,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 18:07:18 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 18:08:31 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010405030208040600000705"
 
-This patch adds the UXA Packageconfig option to handle older Intel Graphics
-the uxa code when enabled needs a patch from upstream due to a change in the
-API of the Xserver.
-
-Also added a generic 20-intel.conf with a commented line to enable the uxa
-AccelMethod option.
-
-The Packageconfig only needs to be enabled in genericx86-64 since other
-MACHINE configs (such as meta-intel) include the VAAPI acceleration that
-handle the graphics hardware corretly.
-
-[YOCTO #8312]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ...-call-to-PixmapSyncDirtyHelper-broken-by-.patch | 30 ++++++++++++++++++++++
- .../xorg-driver/xf86-video-intel/20-intel.conf     |  6 +++++
- .../xorg-driver/xf86-video-intel_2.99.917.bb       | 14 ++++++++++
- 3 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-call-to-PixmapSyncDirtyHelper-broken-by-.patch
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/20-intel.conf
-
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-call-to-PixmapSyncDirtyHelper-broken-by-.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-call-to-PixmapSyncDirtyHelper-broken-by-.patch
-new file mode 100644
-index 0000000..29924bb
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-call-to-PixmapSyncDirtyHelper-broken-by-.patch
-@@ -0,0 +1,30 @@
-+From 2c5063938cc809f624e56efd4673041fa8141e81 Mon Sep 17 00:00:00 2001
-+From: Martin Peres <martin.peres@linux.intel.com>
-+Date: Thu, 9 Jul 2015 11:26:38 +0300
-+Subject: [PATCH] uxa: fix the call to PixmapSyncDirtyHelper, broken by
-+ xserver's 90db5ed
-+
-+[ickle: switch to HAS_DIRTYTRACKING_ROTATION as suggested by Dave Airlie]
-+Signed-off-by: Martin Peres <martin.peres@linux.intel.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+---
-+ src/compat-api.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/compat-api.h b/src/compat-api.h
-+index aa93bee..293e9d7 100644
-+--- a/src/compat-api.h
-++++ b/src/compat-api.h
-+@@ -247,3 +247,7 @@ static inline void FreePixmap(PixmapPtr pixmap)
-+ #endif
-+ 
-+ #endif
-++
-++#if HAS_DIRTYTRACKING_ROTATION
-++#define PixmapSyncDirtyHelper(d, dd) PixmapSyncDirtyHelper(d)
-++#endif
-+-- 
-+2.5.0
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/20-intel.conf b/meta/recipes-graphics/xorg-driver/xf86-video-intel/20-intel.conf
-new file mode 100644
-index 0000000..0ce1939
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/20-intel.conf
-@@ -0,0 +1,6 @@
-+
-+Section "Device"
-+    Identifier  "Intel Graphics"
-+    Driver      "intel"
-+#uxa    Option      "AccelMethod"  "uxa"
-+EndSection
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
-index a2f1456..8b67d70 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
-@@ -13,8 +13,13 @@ SRC_URI += "file://disable-x11-dri3.patch \
-             file://always_include_xorg_server.h.patch \
-             file://sna-Protect-against-ABI-breakage-in-recent-versions-.patch \
-             file://udev-fstat.patch \
-+            ${@bb.utils.contains('PACKAGECONFIG', 'uxa', '${UXA_SRC_URI}', '', d)} \
-+            file://20-intel.conf \
-            "
- 
-+UXA_SRC_URI = "file://0001-uxa-fix-the-call-to-PixmapSyncDirtyHelper-broken-by-.patch \
-+              "
-+
- SRC_URI[md5sum] = "fa196a66e52c0c624fe5d350af7a5e7b"
- SRC_URI[sha256sum] = "00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf9667c9"
- 
-@@ -38,3 +43,12 @@ EXTRA_OECONF += '${@base_conditional( "ROOTLESS_X", "1", " --enable-kms-only", "
- COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
- 
- FILES_${PN} += "${datadir}/polkit-1"
-+
-+do_install_append() {
-+	install -d ${D}${sysconfdir}/X11/xorg.conf.d
-+	install -m 0644 ${WORKDIR}/20-intel.conf ${D}${sysconfdir}/X11/xorg.conf.d
-+
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'uxa', 'true', 'false', d)}; then
-+		sed -e "s/#uxa//" -i ${D}${sysconfdir}/X11/xorg.conf.d/20-intel.conf
-+        fi
-+}
--- 
-2.5.0
+--------------010405030208040600000705
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 03/24/2016 12:04 PM, Christopher Larson wrote:
+>
+>
+> On Thu, Mar 24, 2016 at 8:26 AM <mariano.lopez@linux.intel.com 
+> <mailto:mariano.lopez@linux.intel.com>> wrote:
+>
+>     From: Mariano Lopez <mariano.lopez@linux.intel.com
+>     <mailto:mariano.lopez@linux.intel.com>>
+>     +    # We just archive gcc-source for all the gcc related recipes
+>     +    if d.getVar('BPN', True) in ['gcc', 'libgcc'] \
+>     +            and not pn.startswith('gcc-source'):
+>     +        bb.debug(1, 'archiver: %s is excluded, covered by
+>     gcc-source' % pn)
+>     +        return
+>
+>
+> Hmm, I wonder if it'd be possible to make this more generic, check for 
+> work-shared or something.
+
+I was thinking the same when writing the patch, but it seems gcc is more 
+of a corner case. The only two recipes that use work-shared are gcc and 
+the kernel, the kernel case it's already covered checking for the class 
+"kernel-yocto". In case of gcc we can't check for a class, we would need 
+for work-shared and gcc, and that would be the almost the same 
+comparison as is in the patch.
+
+Mariano
+
+--------------010405030208040600000705
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 03/24/2016 12:04 PM, Christopher
+      Larson wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CABcZANkt+zzsRKL7ao2aP81Cu7Easc5rmmGHQzBdy0jwRNTDQg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr"><br>
+        <br>
+        <div class="gmail_quote">
+          <div dir="ltr">On Thu, Mar 24, 2016 at 8:26 AM &lt;<a
+              moz-do-not-send="true"
+              href="mailto:mariano.lopez@linux.intel.com"><a class="moz-txt-link-abbreviated" href="mailto:mariano.lopez@linux.intel.com">mariano.lopez@linux.intel.com</a></a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">From:
+            Mariano Lopez &lt;<a moz-do-not-send="true"
+              href="mailto:mariano.lopez@linux.intel.com"
+              target="_blank">mariano.lopez@linux.intel.com</a>&gt;<br>
+            +    # We just archive gcc-source for all the gcc related
+            recipes<br>
+            +    if d.getVar('BPN', True) in ['gcc', 'libgcc'] \<br>
+            +            and not pn.startswith('gcc-source'):<br>
+            +        bb.debug(1, 'archiver: %s is excluded, covered by
+            gcc-source' % pn)<br>
+            +        return<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Hmm, I wonder if it'd be possible to make this more
+            generic, check for work-shared or something. <br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I was thinking the same when writing the patch, but it seems gcc is
+    more of a corner case. The only two recipes that use work-shared are
+    gcc and the kernel, the kernel case it's already covered checking
+    for the class "kernel-yocto". In case of gcc we can't check for a
+    class, we would need for work-shared and gcc, and that would be the
+    almost the same comparison as is in the patch.<br>
+    <br>
+    <div class="moz-signature">Mariano<br>
+    </div>
+  </body>
+</html>
+
+--------------010405030208040600000705--
