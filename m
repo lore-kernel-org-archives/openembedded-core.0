@@ -1,53 +1,45 @@
-Return-Path: <cliff.brake@gmail.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id EC746601A4
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 620AB6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 19:58:26 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id j35so117905698qge.0
+	Mon, 28 Mar 2016 20:08:14 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id h6so129188749oia.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 12:58:27 -0700 (PDT)
+	Mon, 28 Mar 2016 13:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=8Owb2JAc7vBNGkH8v5lyOoKqgs1wOKMIRgJdFV+F0TM=;
-	b=vh5JxtmrPw1LYu7+XqKSs/E1fsFm6TEWcVP7lontj0qgLwy2+JUHV7fUrn+AvG4Q+S
-	cimhDaepra/YIP8VoV7D5p+tE0YnlYNdPMcQwI2KU/CE4nlVBaYJEMdXluFwkKVLvrnc
-	SYt4ej/OduynSwKYLEYI7i8P1LzzuTqXCusF0Cx84fCDZGvJRnIVfBeZTmFb1WNEETnD
-	li5m5YQ0ou8CuNDnLq1JJNjn2A17Ol+VWtJLfr9hFgMuu3GdAHNQEbwKZ4bngiVIj9jR
-	Iu1lAmuDSseZQp7+wNwL2ZYLBcjkWhv4p9vhUGMf98Y86Hu5HQ480qth2kWsXCLnsG4s
-	2nOw==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to; 
+	bh=N0PfvonQdomLlGat6F0LsY80TbBlap/XyV5shjzyHt4=;
+	b=ILQG3JsF5WO/tOh1QxxJ4qmi+OpgTNQYVKyKXAd8M0j37qRYk0k0mk4p/Co11I8TGD
+	zSqdfZ/EzdWpJVLyAqCRKinGGHjLHL8nPKt8YuUsKmCbfQRE/svCm/bQ9XCC6IRO5LWb
+	Bu+8D3hUirjN7e/rpYadyy7MWMFY0GGgo9YdgdVFJC6Jml3VNeJFRozzMgXh8kPy6G4e
+	2j6D8q9QtC7NdjhRdovgmhKNIF7TxN1htHJaZ2DvNRKKL4bLkPuTxGnVKlF00AXKASKp
+	CeCfH4+xH9J00AfNMC4q5kY+FVRyTLjF8QRptnuXsEYOZpvMbK3NPRBx/qWQeoghDUPO
+	mDxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=8Owb2JAc7vBNGkH8v5lyOoKqgs1wOKMIRgJdFV+F0TM=;
-	b=aORS6HMBjy9UI5g1Ai23isLSJB7oOX/7FUnAYvlywMAtQu+RiqKgxzguwVl0QpT6dv
-	U/Y94sRGfjs8nYKryeZCO5ic1x9OvxvC8jE8QXk2TgHFXIKT6lPkVFMEbTCSQuApzg2F
-	ynH9Sc1+4zB47pDMFpPOUWhOyuCksGytGr7dkD1ZRy1fgaDBv2iOFb3Uta6uxs+IEzvh
-	O3dfiFBvnY3hgEev4PI9qwdDs8ndKHmcbdS7/HSBBE2JS8NYtroNPAV7b1lq7JDfQsXp
-	RJeTG/gpe7aGZ2lkPsLuVUy5si5rRyzEzGP459gVEamwp2CzwfyEaP0zX2EPEcKxAzUA
-	4P3w==
-X-Gm-Message-State: AD7BkJICQBeb1QwG2bMdnb8gdxNrSoJLk+ccU0yCxMUvcmzQTNeYI2SFcALPNf7PMYwwxA==
-X-Received: by 10.141.23.211 with SMTP id z202mr40046699qhd.52.1459195107150; 
-	Mon, 28 Mar 2016 12:58:27 -0700 (PDT)
-Received: from [192.168.1.139] (cable2-pool191-cs-134.doycomm.com.
-	[66.219.191.134]) by smtp.gmail.com with ESMTPSA id
-	j8sm12353831qhj.19.2016.03.28.12.58.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 28 Mar 2016 12:58:25 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <56F59D2B.2010108@gmail.com>
-	<1458978069.3073.62.camel@linuxfoundation.org>
-From: Cliff Brake <cliff.brake@gmail.com>
-Message-ID: <56F98CDF.7080205@gmail.com>
-Date: Mon, 28 Mar 2016 15:58:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to;
+	bh=N0PfvonQdomLlGat6F0LsY80TbBlap/XyV5shjzyHt4=;
+	b=YPIwEp8PN8s7AbeC32Xuht498fHnQBWAx0YYcVRQWSVikg4tvbhgPAL4HxldjPmiYQ
+	VoETDz9Tp86EKDycAVjATrP8M/dsjh37RBTITxFLuHTK29LK8jOgMLx9exv08KB8mYsa
+	oM6cG1IKxIHwz6fUiYngzApWzl3gUAjIokKHeYP/IqVi9yNblUTPXWmLAFgDWNoTq6us
+	d+enfrhMYCpLkiFP4MeuQHain1TZVpoZrUHhr9WYiQ7zaVyIYoFSpZFnQdxPYnKXX8fR
+	TyHdwNLXhQGVBtauqYeMK7xXh5UqhApQYmb40jCKaDN6bAKgOfZTphfbBOrP2ypwCF1L
+	gXTA==
+X-Gm-Message-State: AD7BkJKesLC3Ir3PkOdgNdIz8p03qGxtQ9SLTrKjQYWLhXymbnMshgDpcCqJJMckODR98EVOkUJJFeZyBvf5Eg==
 MIME-Version: 1.0
-In-Reply-To: <1458978069.3073.62.camel@linuxfoundation.org>
-Subject: Re: How to use externalsrc with git workspace
+X-Received: by 10.202.229.134 with SMTP id c128mr12632888oih.115.1459195695517;
+	Mon, 28 Mar 2016 13:08:15 -0700 (PDT)
+Received: by 10.182.76.234 with HTTP; Mon, 28 Mar 2016 13:08:15 -0700 (PDT)
+In-Reply-To: <CAP9ODKqPzybLhTyx8wz1xCpb4_4R0cXSsmYXB3dtLwc4scBbCg@mail.gmail.com>
+References: <56F952F7.2010409@gmail.com>
+	<CAP9ODKqPzybLhTyx8wz1xCpb4_4R0cXSsmYXB3dtLwc4scBbCg@mail.gmail.com>
+Date: Mon, 28 Mar 2016 13:08:15 -0700
+Message-ID: <CAOLEWZW+UtviSquWjDedaUHc9Epk+yzmuhT8Cehdnnq-U8sghg@mail.gmail.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Aarch64 u-boot with gcc .5x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +52,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 19:58:32 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Mar 2016 20:08:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 03/26/2016 03:41 AM, Richard Purdie wrote:
-> HEAD is a revision, not a branch and the fetcher became a bit more
-> picky about that difference. Your local tree must have HEAD on some
-> branch which would usually be master so setting branch=master is likely
-> correct, or don't set that parameter at all? master isn't just a remote
-> thing.
+I hit the same thing and ended up using their prebuilt bootloader to
+get it up for testing.  There is a big C++ ABI change with gcc 5.x
+(I've been using 5.3.0 for a while now) and the gold linker is much
+less tolerant of underlinking than bfd is.  That said, their u-boot is
+funky but not actually that old, and they also have a blob 1st-stage
+that is only provided as a binary.
+
+Their wiki:
+
+http://odroid.com/dokuwiki/doku.php?id=en:c2_building_u-boot
+
+says to checkout branch odroidc2-v2015.01 but I didn't dig into the
+commit history to see when they last pulled from upstream.  The error
+I get with 5.3.0 looks like their u-boot/include/linux stuff is just
+way too old for gcc5 (since they're still using a 3.10 kernel fork
+probably).  Their build also blows up with gcc-4.8 - can you say
+brittle-hard-dep on gcc 4.9?
+
+Steve
+
+On Mon, Mar 28, 2016 at 11:20 AM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> Hello Armin,
 >
-> The piece which says "use the HEAD revision" is the SRCREV =
-> "${AUTOREV}" line.
+> On Mon, Mar 28, 2016 at 12:51 PM, akuster808 <akuster808@gmail.com> wrote:
+>> I have an arm64 odroid c2 board.  If I build u-boot with the current OE
+>> 5.3 gcc it hangs at kernel load time. If I use 4.9 gcc it works fine. A
+>> 5.3 built kernel boots fine with a 4.9 built u-boot.
+>>
+>> The vendor supplied u-boot is hacked up and am leaning it that direction
+>> as the culprit so I am looking for data points.
+>>
+>> Is anyone using a current u-boot with 5.3 gcc on an arm64 machine? if
+>> so, any special tweaks to get that combo to work?
 >
-> Cheers,
+> I am using one ARM 64 SoC with GCC 5.2 at this moment and it works
+> fine. What U-Boot version is the fork based on?
 >
-> Richard
->
-We typically set up our projects to use git submodules, such that the top level
-calls out a set of submodules which are the actively developed applications and
-other bits in the system.  These submodules are externalsrc trees for bitbake,
-and include a bitbake recipe (bitbake recipe is embedded directly in source
-code).  Sometimes these submodules/externalsrc trees track branches (typically
-release-xyz, or develop-xyz), but almost never master.  Sometimes they may be at
-a tagged version that is not at the HEAD of a branch.  In the end, I want to be
-able to build exactly what is in the externalsrc directory, and accurately
-include the git version in the PV.  Branches/tags may change at any time and I
-don't want to have to edit the recipe every time this happens.
-
-Repo might be used in a similar fashion to manage a tree of components that get
-built.  What we are trying to avoid is having to edit the git version in the
-recipes to lock down versions for a set of components for a build -- git
-submodules or repo work much better for doing this.
-
-I tried nobranch=1;rev=HEAD, but then that conflicts with ${AUTOREV}.
-
-The git fetcher could have an option like head=1 in the SRC_URI, that told it to
-use whatever is in the git workspace, and allow AUTOREV to figure out version. 
-
-Perhaps a better approach might be to figure out a function for PV that simply
-extracts the git version of ${S} -- that is really all I want.  In this case, I
-might even need a SRC_URI, as I'm not really fetching anything -- its already there.
-
-Thanks,
-Cliff
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
