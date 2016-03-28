@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A7606018C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C5DCF6FF5D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 08:19:16 +0000 (UTC)
+	Mon, 28 Mar 2016 08:19:18 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S8JGOB029995
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S8JIDg007005
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Mar 2016 01:19:16 -0700 (PDT)
+	Mon, 28 Mar 2016 01:19:18 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 01:19:15 -0700
+	Mon, 28 Mar 2016 01:19:17 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<mark.hatle@windriver.com>
-Date: Mon, 28 Mar 2016 04:18:48 -0400
-Message-ID: <f99eda7198113476eefe4e38ece2041f0c1acc98.1459147231.git.hongxu.jia@windriver.com>
+Date: Mon, 28 Mar 2016 04:18:49 -0400
+Message-ID: <d6b4a416df2b95b75a8101e5e3cb4358ea862ebc.1459147231.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1459147231.git.hongxu.jia@windriver.com>
 References: <cover.1459147231.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/17] dtc.inc: fix buildpaths QA issue
+Subject: [PATCH 05/17] fix_buildpaths.bbclass: add bbclass to fix build path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +34,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 08:19:16 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 08:19:19 -0000
 Content-Type: text/plain
 
-Previous Makefile define its own CFLAGS, pass DEBUG_FLAGS to
-it could fix build path issue in DWARF.
+Define variable PACKAGE_BUILDPATH_TEXT_FILES to list files that have
+build paths and remove these paths at do_package time. It supports
+package override while files exist in conditionally generated package.
+(such as ${PN}-ptest is conditionally generated)
 
-[YOCTO #8457]
+Define variable PACKAGE_BUILDPATH_TEXT_PATTERNS to list build path
+patterns, which used by sed, it removes --sysroot and
+-fdebug-prefix-map in text files by default.
+
+Define python function to remove build path in variable.
+
+Define python function to remove build path in python compiled
+code.
+
+[YOCTO #9169]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-kernel/dtc/dtc.inc                    |  3 +++
- .../dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch       | 30 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+ meta/classes/fix_buildpaths.bbclass | 66 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
+ create mode 100644 meta/classes/fix_buildpaths.bbclass
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index 0c409b0..a1a30fc 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -7,8 +7,11 @@ DEPENDS = "flex-native bison-native"
- SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
-            file://make_install.patch \
- 	  "
-+SRC_URI_append_class-target = " file://pass-DEBUG_FLAGS-to-CFLAGS.patch \
-+"
- 
- EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
-+EXTRA_OEMAKE_class-target += 'DEBUG_FLAGS="${DEBUG_FLAGS}"'
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
+diff --git a/meta/classes/fix_buildpaths.bbclass b/meta/classes/fix_buildpaths.bbclass
 new file mode 100644
-index 0000000..3f17ee9
+index 0000000..7ab7c66
 --- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc/pass-DEBUG_FLAGS-to-CFLAGS.patch
-@@ -0,0 +1,30 @@
-+From 4019e29b0c1ec441fa43d9969197c24ad73f3b1a Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 26 Feb 2016 03:28:15 -0500
-+Subject: [PATCH] Makefile: pass DEBUG_FLAGS to CFLAGS
++++ b/meta/classes/fix_buildpaths.bbclass
+@@ -0,0 +1,66 @@
++PACKAGE_PREPROCESS_FUNCS += 'remove_buildpath_package_preprocess'
 +
-+It fixes buildpaths issue while compiling.
++def list_package_buildpath_text_files(d):
++    files = d.getVar('PACKAGE_BUILDPATH_TEXT_FILES', True) or ''
 +
-+Upstream-Status: Inappropriate [openembedded specific]
++    # Support package override
++    for pn in d.getVar('PACKAGES', True).split():
++        files += d.getVar('PACKAGE_BUILDPATH_TEXT_FILES_%s' % pn, True) or ''
 +
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++    return files
 +
-+diff --git a/Makefile b/Makefile
-+index 18838cc..4954f32 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =
-+ CPPFLAGS = -I libfdt -I .
-+ WARNINGS = -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
-+ 	-Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
-+-CFLAGS = -g -Os -fPIC -Werror $(WARNINGS)
-++CFLAGS = $(DEBUG_FLAGS) -Os -fPIC -Werror $(WARNINGS)
-+ 
-+ BISON = bison
-+ LEX = flex
-+-- 
-+1.9.1
++remove_buildpath_package_preprocess () {
++	buildpath_files="${@list_package_buildpath_text_files(d)}"
++
++	# Remove build paths in text files
++	for file in $buildpath_files;do
++		sed -i ${@get_package_buildpath_text_patterns(d)} ${PKGD}$file
++	done
++}
++
++def get_package_buildpath_text_patterns(d):
++    result = d.getVar("PACKAGE_BUILDPATH_TEXT_PATTERNS", True) or ""
++
++    # Add --sysroot as default pattern
++    toolchain_opt = d.getVar("TOOLCHAIN_OPTIONS", True).split()
++    for opt in toolchain_opt:
++        if '--sysroot' in opt:
++            result += " -e 's:%s::g'" % opt
++
++    # Add -fdebug-prefix-map as default pattern
++    debug_flags = d.getVar('DEBUG_FLAGS', True).split()
++    for opt in debug_flags:
++        if '-fdebug-prefix-map=' in opt:
++            result += " -e 's:%s::g'" % opt
++
++    return result
++
++# List build path patterns, which used by sed
++PACKAGE_BUILDPATH_TEXT_PATTERNS = ""
++
++# List files which have build paths, and remove these paths.
++PACKAGE_BUILDPATH_TEXT_FILES ??= ""
++
++# Remove build path in variable
++def remove_buildpath_variable(d, var):
++    val = d.getVar(var, True) or ''
++
++    toolchain_opts = d.getVar('TOOLCHAIN_OPTIONS', True)
++    val = val.replace(toolchain_opts, '')
++
++    debug_flags = d.getVar('DEBUG_FLAGS', True).split()
++    for opt in debug_flags:
++        if '-fdebug-prefix-map=' in opt:
++            val = val.replace(opt, '')
++
++    return val
++
++# Remove build path in python compiled code which
++# located in root_path
++def remove_buildpath_bytecode(root_path, byte_code):
++    import py_compile
++
++    file = root_path + byte_code[0:-1]
++    dfile = byte_code[0:-1]
++    py_compile.compile(file, dfile=dfile)
 +
 -- 
 1.9.1
