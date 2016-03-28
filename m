@@ -1,51 +1,20 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C865C6E660
+Return-Path: <william.c.randle@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 938AE6067D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 15:51:30 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id fe3so101169313pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 08:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=1GhEXP17HsP+AGRIwAUAm0rkiLL3mDwslHY3+LlVpSk=;
-	b=1B8XN1/jutWoXyjE3H0SGbtFBR2flrTY3zGml5oqwvqc3nNUCnrLv7AKlzk5jNBd5+
-	+K9+tBs3PuBMAOv+Lw6Va3ppWoUXiwRlBqiaYPs71B487uObYUZ7mAPUk8vppfHW3+LL
-	SD8qX8g9a8hKpTBfHM8PiTLfL32oZa+o367LZBgm8frMvtHfpwQ6vF6+bgPJBSLDkyOS
-	OLaXcNZwpbBL4XNSi74J9OErVQVnuBZX1T8Ik4aR6RewzOjtaif/99c8rPGE32DyX1XG
-	gKwPaauMpR8XOnCp2CtP4MUKb8+k2V9XROApxXh9pJ+PuvcQySIZRgLHVuYTAmzwl4mq
-	ybOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=1GhEXP17HsP+AGRIwAUAm0rkiLL3mDwslHY3+LlVpSk=;
-	b=HyQkal7pkYwyh7kJ7f5tQ2ZDXfgf/WFCvcZ6HaRwJet+CJOTQtvEtkLmW5JKcY3e2C
-	j1BpbsyRT2+M0q/DA1bi5UwC0dRjGSWDkkpKvJPaotxxw7A5xXDzOMou10U67m6vz/ra
-	Et7gc4Q1ygVwtPeRWE453xY8e45+evUyyQETqg0P3aPbjEahZeaGKqUVfZaj/7ghq19c
-	IvmsaKyq51Pjw7HKoThVd6SQ1P98RTusZj9XCOJ64Q0xvMdjnehOoGuiBVw3Ed0v9QYA
-	uCqMXrsxZG98yOFtrcqNNfLUNMFrJqax3imyqawMJHed4ccfqxFlVZqzt2CNWFGuK2Vu
-	w3yQ==
-X-Gm-Message-State: AD7BkJLMz/itUdK9QG5QEYQMRGTrykzceRLUgtAkNwT6LxYuAk/MnWDOLiwg9PqjyTUFcw==
-X-Received: by 10.66.253.68 with SMTP id zy4mr43842714pac.81.1459180291084;
-	Mon, 28 Mar 2016 08:51:31 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:714a:4e59:1cde:8924?
-	([2601:202:4000:1239:714a:4e59:1cde:8924])
-	by smtp.googlemail.com with ESMTPSA id
-	16sm36717843pfk.28.2016.03.28.08.51.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 28 Mar 2016 08:51:29 -0700 (PDT)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56F952F7.2010409@gmail.com>
-Date: Mon, 28 Mar 2016 08:51:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-Subject: Aarch64 u-boot with gcc .5x
+	Mon, 28 Mar 2016 16:58:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 28 Mar 2016 09:58:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,407,1455004800"; d="scan'208";a="933258129"
+Received: from wcrandle-mobl1.jf.intel.com ([10.24.4.45])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Mar 2016 09:58:20 -0700
+From: Bill Randle <william.c.randle@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Mar 2016 09:58:02 -0700
+Message-Id: <1459184282-12803-1-git-send-email-william.c.randle@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] man: fix src/Makefile to work with parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +27,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 15:51:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Mar 2016 16:58:21 -0000
 
-Hello,
+The Makefile for man has a rule to create two generated targets with
+a program run from the shell. Because the rule was run twice, with
+parallel make, the generated files were being overwritten at the same
+time they were being compiled. This patch forces the rule to be run
+only once.
 
-I have an arm64 odroid c2 board.  If I build u-boot with the current OE
-5.3 gcc it hangs at kernel load time. If I use 4.9 gcc it works fine. A
-5.3 built kernel boots fine with a 4.9 built u-boot.
+[YOCTO #9333]
 
-The vendor supplied u-boot is hacked up and am leaning it that direction
-as the culprit so I am looking for data points.
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
+---
+ .../recipes-extended/man/man/man-1.6g-parallel.patch | 20 ++++++++++++++++++++
+ meta/recipes-extended/man/man_1.6g.bb                |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-extended/man/man/man-1.6g-parallel.patch
 
-Is anyone using a current u-boot with 5.3 gcc on an arm64 machine? if
-so, any special tweaks to get that combo to work?
+diff --git a/meta/recipes-extended/man/man/man-1.6g-parallel.patch b/meta/recipes-extended/man/man/man-1.6g-parallel.patch
+new file mode 100644
+index 0000000..c6d8975
+--- /dev/null
++++ b/meta/recipes-extended/man/man/man-1.6g-parallel.patch
+@@ -0,0 +1,20 @@
++--- man-1.6g/src/Makefile.in.orig	2010-12-31 12:28:46.000000000 -0800
+++++ man-1.6g/src/Makefile.in	2016-03-28 09:09:16.845458798 -0700
++@@ -43,8 +43,10 @@
++ makemsg:
++ 	$(BUILD_CC) -o makemsg makemsg.c
++ 
++-msg.c gripedefs.h: ../msgs/mess.en makemsg
+++msg.c gripedefs.h: genfiles-stamp
+++genfiles-stamp: ../msgs/mess.en makemsg
++ 	./makemsg ../msgs/mess.en gripedefs.h msg.c
+++	touch genfiles-stamp
++ 
++ # glob.c does not have prototypes
++ glob.o: glob.c ndir.h
++@@ -117,4 +119,4 @@
++ 
++ spotless: clean
++ 	rm -f Makefile config.status paths.h version.h man.conf
++-	rm -f gripedefs.h msg.c mess.*.cat
+++	rm -f gripedefs.h msg.c mess.*.cat genfiles-stamp
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index fa4736b..9b057b6 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -53,6 +53,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
+            file://manpath.5.gz;unpack=false \
+            file://man-1.6g-whatis3.patch \
+            file://configure_sed.patch \
++           file://man-1.6g-parallel.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
+-- 
+2.5.0
 
-kind regards,
-Armin
 
