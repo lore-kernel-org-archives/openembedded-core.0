@@ -1,23 +1,21 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 75C7D65CBC
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FBEF65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 22:10:10 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1akfMP-00048v-7a; Tue, 29 Mar 2016 00:10:09 +0200
-Message-ID: <1459203003.2322.29.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Daniel Dragomir <daniel.dragomir@windriver.com>
-Date: Mon, 28 Mar 2016 23:10:03 +0100
-In-Reply-To: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
-References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
+	Mon, 28 Mar 2016 22:15:17 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 28 Mar 2016 15:15:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,408,1455004800"; d="scan'208";a="943231161"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga002.jf.intel.com with ESMTP; 28 Mar 2016 15:15:18 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Mar 2016 15:01:23 -0700
+Message-Id: <1459202484-4746-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH 0/1] Build Appliance modifications
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,67 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 22:10:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Mar 2016 22:15:18 -0000
 
-On Mon, 2016-03-28 at 18:29 +0300, Daniel Dragomir wrote:
-> For AArch64 state, the default tune is aarch32 and include which
->     include just the aarch64 feature.
+This patch fixes the Build Appliance problem
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=9314
 
-I don't really understand what this sentence is trying to say.  Can you
-re-phrase it so as to be more accessible to non-experts?
+The patch explicitly sets permissions in the directory 'poky', not assuming 
+correct permissions when copying the directory from the host machine 
+to the Build Appliance image. 
 
->  meta/conf/machine/include/arm/arch-arm64.inc       |  36 -------
->  meta/conf/machine/include/arm/arch-armv8.inc       |   1 -
+There are some additional minor tweaks, these are non-functional. 
+The file .bashrc contains (commented out) two samples of how to 
+setup proxy in conjunction with "oe-git-proxy".
+A new environmental variable BA_SRCREV contains SRCREV that
+was actually used to build the Build Appliance image. Without this, there is
+no simple way to distinguish between the contents of various Build Appliance
+images.
 
-If you are deleting existing files, please mention that in the commit
-message.  And in particular, if you are removing a file that supports
-generic ARMv8 (if imperfectly) and replacing it with something that is
-specific to ARMv8-A, please explain why this is a good thing.
+The SRCREV is bumped to a later master just so the Hob removal
+patches and builder changes make it into the image. 
+(This is provisional, final SRCREV will correspond to release commit number)
 
-> +TUNEVALID[crc] = "Enable CRC instructions for ARMv8-a"
-> +ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '-crc', '', d)}"
-> +ARMPKGSFX_FPU_64 = "${@bb.utils.contains('TUNE_FEATURES', 'crc', '-crc', '', d)}"
 
-Why is this involved with ARMPKGSFX_FPU?  The crc instructions are not
-related to the fpu.  Also, the fact that you need to duplicate both this
-and the crypto one for both FPU and FPU_64 seems like an indication that
-something elsewhere is misdesigned.
+Juro Bystricky (1):
+  build-appliance-image: Fix permissions
 
-> +TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
-> +ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'fp-armv8', '-fp-armv8', '', d)}"
+ .../images/build-appliance-image_14.0.0.bb          | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-I don't entirely understand why this one doesn't have an FPU_64
-equivalent.  Are you always enabling vfp for A64?
-
-> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch32', 'aarch32:', '' ,d)}"
-> +MACHINEOVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', ':aarch64', '' ,d)}"
-
-As previously discussed, I am not wild about "aarch32" as the name of an
-override which really means "ARMv8 in AArch32 state".  I know there is a
-school of thought that says that the execution state of older cpus is
-not AArch32 even if in practice it is indistinguishable, but this
-doesn't seem to match either the expectations that a rational user of OE
-is likely to have, or the information in the published literature.
-
-> +ARMPKGARCH_tune-aarch64            ?= "aarch64"
-
-This seems a tiny bit short-sighted since presumably there will be an
-ARMv9 (or ARMv8.2) at some point.  What will ARMPKGARCH for A64 be then?
-
-> +BASE_LIB_tune-aarch64            = "lib64"
-
-This seems like more a matter of distro policy and I'm not sure it
-belongs in a tune file.  If it does then can't you rely on the aarch64
-MACHINEOVERRIDE and just write "BASE_LIB_aarch64" rather than having to
-duplicate this for all four of the tunes (and the -be equivalents)?
-
-> +# Duplicated from arch-arm.inc
-
-Please add a comment explaining why you can't include arch-arm.inc.
-
-p.
-
+-- 
+1.9.1
 
 
