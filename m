@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C5DCF6FF5D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 963546FF5D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 08:19:18 +0000 (UTC)
+	Mon, 28 Mar 2016 08:19:21 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S8JIDg007005
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Mar 2016 01:19:18 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2S8JLAq011181
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 28 Mar 2016 01:19:21 -0700
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 01:19:17 -0700
+	Mon, 28 Mar 2016 01:19:20 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<mark.hatle@windriver.com>
-Date: Mon, 28 Mar 2016 04:18:49 -0400
-Message-ID: <d6b4a416df2b95b75a8101e5e3cb4358ea862ebc.1459147231.git.hongxu.jia@windriver.com>
+Date: Mon, 28 Mar 2016 04:18:50 -0400
+Message-ID: <9dc173f7b9951d01e9e7bfdcb3e68e1e732468d8.1459147231.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1459147231.git.hongxu.jia@windriver.com>
 References: <cover.1459147231.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/17] fix_buildpaths.bbclass: add bbclass to fix build path
+Subject: [PATCH 06/17] icu: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,102 +34,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 08:19:19 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 08:19:21 -0000
 Content-Type: text/plain
 
-Define variable PACKAGE_BUILDPATH_TEXT_FILES to list files that have
-build paths and remove these paths at do_package time. It supports
-package override while files exist in conditionally generated package.
-(such as ${PN}-ptest is conditionally generated)
+- Define new variable U_CC and U_CXX which do not have build path.
+  The output of icuinfo will not have build path in it:
+  ...
+  root@qemux86-64:~# icuinfo
+   <icuSystemParams type="icu4c">
+      [snip]
+      <param name="build.cc">x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+      <param name="build.cxx">x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+      [snip]
+   </icuSystemParams>
+  ...
 
-Define variable PACKAGE_BUILDPATH_TEXT_PATTERNS to list build path
-patterns, which used by sed, it removes --sysroot and
--fdebug-prefix-map in text files by default.
+- Remove build paths in pkgdata.inc, Makefile.inc and
+  icu-config.
 
-Define python function to remove build path in variable.
-
-Define python function to remove build path in python compiled
-code.
-
-[YOCTO #9169]
+[YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/fix_buildpaths.bbclass | 66 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
- create mode 100644 meta/classes/fix_buildpaths.bbclass
+ .../icu/icu/add-variable-U_CC-and-U_CXX.patch      | 61 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_56.1.bb               | 12 +++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
 
-diff --git a/meta/classes/fix_buildpaths.bbclass b/meta/classes/fix_buildpaths.bbclass
+diff --git a/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch b/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
 new file mode 100644
-index 0000000..7ab7c66
+index 0000000..826d934
 --- /dev/null
-+++ b/meta/classes/fix_buildpaths.bbclass
-@@ -0,0 +1,66 @@
-+PACKAGE_PREPROCESS_FUNCS += 'remove_buildpath_package_preprocess'
++++ b/meta/recipes-support/icu/icu/add-variable-U_CC-and-U_CXX.patch
+@@ -0,0 +1,61 @@
++From 3221b108a18edeff5424bc5c66589eb20148d9b2 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 2 Mar 2016 21:18:34 -0500
++Subject: [PATCH] add variable U_CC and U_CXX
 +
-+def list_package_buildpath_text_files(d):
-+    files = d.getVar('PACKAGE_BUILDPATH_TEXT_FILES', True) or ''
++Define new variable U_CC and U_CXX which do not have build path.
++The output of icuinfo will not have build path in it:
++...
++root@qemux86-64:~# icuinfo
++ <icuSystemParams type="icu4c">
++    [snip]
++    <param name="build.cc">x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
++    <param name="build.cxx">x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
++    [snip]
++ </icuSystemParams>
++...
 +
-+    # Support package override
-+    for pn in d.getVar('PACKAGES', True).split():
-+        files += d.getVar('PACKAGE_BUILDPATH_TEXT_FILES_%s' % pn, True) or ''
++Upstream-Status: Inappropriate [openembedded specific]
 +
-+    return files
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ configure.ac               | 9 +++++++++
++ tools/toolutil/Makefile.in | 2 +-
++ 2 files changed, 10 insertions(+), 1 deletion(-)
 +
-+remove_buildpath_package_preprocess () {
-+	buildpath_files="${@list_package_buildpath_text_files(d)}"
++diff --git a/configure.ac b/configure.ac
++index 595bd12..ec05c19 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -673,6 +673,15 @@ AC_SUBST(GENCCODE_ASSEMBLY)
++ 
++ AC_MSG_RESULT($GENCCODE_ASSEMBLY)
++ 
+++# U_CC and U_CXX are used for icuinfo which remove
+++# --sysroot for cross-compilation
+++U_CC=${U_CC}
+++AC_SUBST(U_CC)
+++AC_MSG_RESULT(U_CC)
+++U_CXX=${U_CXX}
+++AC_SUBST(U_CXX)
+++AC_MSG_RESULT(U_CXX)
+++
++ # Checks for header files
++ AC_CHECK_HEADERS(inttypes.h)
++ if test $ac_cv_header_inttypes_h = no; then
++diff --git a/tools/toolutil/Makefile.in b/tools/toolutil/Makefile.in
++index 1fb42ed..a083522 100644
++--- a/tools/toolutil/Makefile.in
+++++ b/tools/toolutil/Makefile.in
++@@ -46,7 +46,7 @@ CXXFLAGS += $(LIBCXXFLAGS)
++ CPPFLAGS += -I$(top_srcdir)/common -I$(top_srcdir)/i18n $(LIBCPPFLAGS)
++ 
++ # from icuinfo
++-CPPFLAGS+=  "-DU_BUILD=\"@build@\"" "-DU_HOST=\"@host@\"" "-DU_CC=\"@CC@\"" "-DU_CXX=\"@CXX@\""
+++CPPFLAGS+=  "-DU_BUILD=\"@build@\"" "-DU_HOST=\"@host@\"" "-DU_CC=\"@U_CC@\"" "-DU_CXX=\"@U_CXX@\""
++ CPPFLAGS += -DUNISTR_FROM_CHAR_EXPLICIT=explicit -DUNISTR_FROM_STRING_EXPLICIT=explicit
++ 
++ DEFS += -DU_TOOLUTIL_IMPLEMENTATION
++-- 
++1.9.1
 +
-+	# Remove build paths in text files
-+	for file in $buildpath_files;do
-+		sed -i ${@get_package_buildpath_text_patterns(d)} ${PKGD}$file
-+	done
-+}
+diff --git a/meta/recipes-support/icu/icu_56.1.bb b/meta/recipes-support/icu/icu_56.1.bb
+index db0de10..1fd4dfc 100644
+--- a/meta/recipes-support/icu/icu_56.1.bb
++++ b/meta/recipes-support/icu/icu_56.1.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
+            file://icu-release-56-1-flagparser-fix.patch \
++           file://add-variable-U_CC-and-U_CXX.patch \
+           "
+ 
+ SRC_URI_append_class-target = "\
+@@ -27,3 +28,14 @@ SRC_URI[sha256sum] = "3a64e9105c734dcf631c0b3ed60404531bce6c0f5a64bfe1a6402a4cc2
+ 
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
+ UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
 +
-+def get_package_buildpath_text_patterns(d):
-+    result = d.getVar("PACKAGE_BUILDPATH_TEXT_PATTERNS", True) or ""
-+
-+    # Add --sysroot as default pattern
-+    toolchain_opt = d.getVar("TOOLCHAIN_OPTIONS", True).split()
-+    for opt in toolchain_opt:
-+        if '--sysroot' in opt:
-+            result += " -e 's:%s::g'" % opt
-+
-+    # Add -fdebug-prefix-map as default pattern
-+    debug_flags = d.getVar('DEBUG_FLAGS', True).split()
-+    for opt in debug_flags:
-+        if '-fdebug-prefix-map=' in opt:
-+            result += " -e 's:%s::g'" % opt
-+
-+    return result
-+
-+# List build path patterns, which used by sed
-+PACKAGE_BUILDPATH_TEXT_PATTERNS = ""
-+
-+# List files which have build paths, and remove these paths.
-+PACKAGE_BUILDPATH_TEXT_FILES ??= ""
-+
-+# Remove build path in variable
-+def remove_buildpath_variable(d, var):
-+    val = d.getVar(var, True) or ''
-+
-+    toolchain_opts = d.getVar('TOOLCHAIN_OPTIONS', True)
-+    val = val.replace(toolchain_opts, '')
-+
-+    debug_flags = d.getVar('DEBUG_FLAGS', True).split()
-+    for opt in debug_flags:
-+        if '-fdebug-prefix-map=' in opt:
-+            val = val.replace(opt, '')
-+
-+    return val
-+
-+# Remove build path in python compiled code which
-+# located in root_path
-+def remove_buildpath_bytecode(root_path, byte_code):
-+    import py_compile
-+
-+    file = root_path + byte_code[0:-1]
-+    dfile = byte_code[0:-1]
-+    py_compile.compile(file, dfile=dfile)
++inherit fix_buildpaths
++CACHED_CONFIGUREVARS += "U_CC="${@remove_buildpath_variable(d, 'CC')}" \
++                         U_CXX="${@remove_buildpath_variable(d, 'CXX')}" \
++"
++PACKAGE_BUILDPATH_TEXT_FILES_${PN}-dev ?= " \
++    ${libdir}/${BPN}/${PV}/pkgdata.inc \
++    ${libdir}/${BPN}/${PV}/Makefile.inc \
++    ${bindir}/icu-config \
++"
 +
 -- 
 1.9.1
