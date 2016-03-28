@@ -1,60 +1,59 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A704F607A5
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DBFC0607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 18:14:37 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id x3so143215719pfb.1
+	Mon, 28 Mar 2016 18:20:31 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id u190so143630430pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 11:14:38 -0700 (PDT)
+	Mon, 28 Mar 2016 11:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=Nn4ABtnHUQA1MNXxVbvH6z+91Y0FAQ12aSRUciCTicc=;
-	b=OY9YgyZMlkCNhXcJu0YHnvl3SPd/7HtMbkImx+mUJgTZtf6pZF34ysmZdIxH25un1t
-	92g+vgUcxlNtM+AbSQgcjDFw22KAqSWA2jvVU5a2Ka8M1YMyIohBALXnjhtyYk5tg4l2
-	4Nb/8zOQQnip44YSgIddoSsUPGbgsHjRz5lTC01TEta6TUaIJLrnFHx948Mh9rqSAhO3
-	JaeAu1TOF+TidotV4QBvnVzLq2ki90SBcVgLNcpducwgvW35eYCoTGCdYu/oxDnotPeM
-	9x16fRtmSA/QSBBxqqWs9nOIc6r4DhxyzHndLsVrmXVyhJNxzzi/XsRD5HQxvWm7tieX
-	cJ8Q==
+	:cc; bh=EByif11lFUo1wTUr3lBIN2eL+W1fjLmICnmq6J9w+Bg=;
+	b=VkL6hmYAa1rwQx3NCIZcux29tPi/j/u7xlvivQTBiUyHLAFQSReL01An16njqFiTbR
+	BuCKvNoo82YGsJN1tDpYHeCMhZoxdCWZrl9K57wEMriBiNoOUMMVhnmmp7/UQIC9PA9j
+	gx3is5e9KzgVDdPzRVQjcYbLMwZd4jZkY1cL/zhBwFhjqkZEELHOlZ6hw9DISdJGeaSU
+	rKL0dEHjP7bMra66SSfvJ7kK3tZj4FHsv4VwDM78g+ApT6AiLpUPrBGMKA2KhFIgV2Ns
+	wAp4MquW3QjnxZtwQbUDieS4qt1sh9tOWhSOF/nyIbYmenY9jWUgpwXIfrFZLlUuvOS8
+	32bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=Nn4ABtnHUQA1MNXxVbvH6z+91Y0FAQ12aSRUciCTicc=;
-	b=RMbt3rJ/da1NE+qfvL4t2WrdubedWDzIMxdmKtYEYbXSzf/z6FOpyq2qzBjWpHZ7VU
-	g79CX16r7flMsklpNIUB7rbIJyIGtAdlQO14jq3lPpoMrMT4W3jXLWcaI2sWwGdgtEZE
-	vCzk/sGDRPB7CLlqrC3efEYNzb0eeryUcvmAzk1y0TBhwgU85oxod+b4ARAO0jJYAcMK
-	qVejeKEazUneRwMn/jhV2Fcd9mqv60LuqfnotJQk13S5806FcoGMGGfAleXjYkdT54Xa
-	1kh6ovpvhWY+3UXxU1Nuku/Ut5DE5dPdUkbfG/xx9A6QbI6x1bAxkZJbdADlagFZg1CB
-	XDVg==
-X-Gm-Message-State: AD7BkJLsFYuhidf99YtBnDCtQNycd3pZGX3YxJ8VNIbxEaeKQ49itjkf/GZWEO7HjUCysQ==
-X-Received: by 10.98.16.198 with SMTP id 67mr45253817pfq.21.1459188877619;
-	Mon, 28 Mar 2016 11:14:37 -0700 (PDT)
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com.
-	[209.85.192.178]) by smtp.gmail.com with ESMTPSA id
-	xn8sm37372078pab.15.2016.03.28.11.14.36
+	bh=EByif11lFUo1wTUr3lBIN2eL+W1fjLmICnmq6J9w+Bg=;
+	b=b1T3U2/S3S5IAT+87pnI8iYEFyI5+JHQUCeOPWaNGuu2aRrVPR7dgYzaxASjmrKCji
+	YEgNxVRF5miIIUr2o+bWZonCSn38kxjei4v+jbHUHEYKhl5Q2brYsiNwBWVGGC2kTsQf
+	KCz6ek0JkUCb6jypi81OOcX9ijSqetEPj+Ex5CPPHLbWV1oiGx/HUZepMRAGJZhExs4u
+	2qINJJ9GokD8t5td+ayZCrc7UDPdKMKQv0WacRwzEp6qS1hfpA3SGQIt7qW8vyDiZ5Wb
+	4Wbh3kQ4sNCuGaRl/M9qCfBgPG9vreqnO7lnlKWooZLKKxMZE2xIj00w4jVSpo3q1deg
+	I+1w==
+X-Gm-Message-State: AD7BkJKYazFy8vYOiyl1at+rdogJ3tVWmSTgOR43daFbreWraKSee70X7LZEuLXtAd+yYg==
+X-Received: by 10.98.80.70 with SMTP id e67mr45530688pfb.136.1459189232135;
+	Mon, 28 Mar 2016 11:20:32 -0700 (PDT)
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com.
+	[209.85.220.53]) by smtp.gmail.com with ESMTPSA id
+	22sm37325461pfh.48.2016.03.28.11.20.30
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Mar 2016 11:14:36 -0700 (PDT)
+	Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f178.google.com with SMTP id u190so143521387pfb.3
+Received: by mail-pa0-f53.google.com with SMTP id fe3so103750147pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 11:14:36 -0700 (PDT)
+	Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.98.67.139 with SMTP id l11mr45049496pfi.112.1459188875694;
-	Mon, 28 Mar 2016 11:14:35 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Mon, 28 Mar 2016 11:14:35 -0700 (PDT)
-In-Reply-To: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
-References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
-Date: Mon, 28 Mar 2016 15:14:35 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrFxoo+jyLTFdkNdAPiBYKQA8Y3uHtuJ_=-P=fxYtPCWg@mail.gmail.com>
-Message-ID: <CAP9ODKrFxoo+jyLTFdkNdAPiBYKQA8Y3uHtuJ_=-P=fxYtPCWg@mail.gmail.com>
-To: Daniel Dragomir <daniel.dragomir@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
+X-Received: by 10.66.176.139 with SMTP id ci11mr44687966pac.68.1459189230419; 
+	Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Mon, 28 Mar 2016 11:20:30 -0700 (PDT)
+In-Reply-To: <56F952F7.2010409@gmail.com>
+References: <56F952F7.2010409@gmail.com>
+Date: Mon, 28 Mar 2016 15:20:30 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqPzybLhTyx8wz1xCpb4_4R0cXSsmYXB3dtLwc4scBbCg@mail.gmail.com>
+Message-ID: <CAP9ODKqPzybLhTyx8wz1xCpb4_4R0cXSsmYXB3dtLwc4scBbCg@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Aarch64 u-boot with gcc .5x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,44 +66,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 18:14:38 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 18:20:32 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 28, 2016 at 12:29 PM, Daniel Dragomir
-<daniel.dragomir@windriver.com> wrote:
-> ARMv8-A supports two main execution states:
->   - AArch64 - The 64-bit execution state including exception model,
->   memory model, programmers' model and instruction set support for
->   that state
->   - AArch32 - The 32-bit execution state including exception model,
->    memory model, programmers' model and instruction set support for
->    that state
->
-> This patch adds tunes for 32-bit and 64-bit armv8a platforms.
->
-> For AArch32 state, the default tune is aarch32 and include which
->     include by default hard float, fp-armv8 floating-point, thumb
->     and neon extensions.
->     Depending on the features supported by the core, the user can
->     select between little or big endian and may choose to enable
->     crc and crypto extensions.
->
-> For AArch64 state, the default tune is aarch32 and include which
->     include just the aarch64 feature.
->     Depending on the features supported by the core, the user can
->     select between little or big endian and may choose to enable
->     crc and crypto extensions.
->
-> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Hello Armin,
 
-Just for completeness here, Daniel and I been discussing this (outside
-of mailing list) and we agreed that including all the tunes supported
-by the ARMv8-A core in a single .inc file makes more sense. As this
-tune is still not widely used we think the more invasive change
-present in this patch is fine as well.
+On Mon, Mar 28, 2016 at 12:51 PM, akuster808 <akuster808@gmail.com> wrote:
+> I have an arm64 odroid c2 board.  If I build u-boot with the current OE
+> 5.3 gcc it hangs at kernel load time. If I use 4.9 gcc it works fine. A
+> 5.3 built kernel boots fine with a 4.9 built u-boot.
+>
+> The vendor supplied u-boot is hacked up and am leaning it that direction
+> as the culprit so I am looking for data points.
+>
+> Is anyone using a current u-boot with 5.3 gcc on an arm64 machine? if
+> so, any special tweaks to get that combo to work?
 
-Khem and Richard, please review and comment on this one.
+I am using one ARM 64 SoC with GCC 5.2 at this moment and it works
+fine. What U-Boot version is the fork based on?
 
 -- 
 Otavio Salvador                             O.S. Systems
