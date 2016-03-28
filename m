@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C89086FF5D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 263ED731BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 08:19:44 +0000 (UTC)
+	Mon, 28 Mar 2016 08:19:47 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2S8Jixa011195
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 28 Mar 2016 01:19:44 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S8Jl4e000040
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 28 Mar 2016 01:19:47 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 01:19:43 -0700
+	Mon, 28 Mar 2016 01:19:46 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
 	<mark.hatle@windriver.com>
-Date: Mon, 28 Mar 2016 04:18:59 -0400
-Message-ID: <3a1246172fda580912d2c2eebf20cf1c5905b743.1459147231.git.hongxu.jia@windriver.com>
+Date: Mon, 28 Mar 2016 04:19:00 -0400
+Message-ID: <37bb1e27f11b13dfd321ac53537c11be6bd804f4.1459147231.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1459147231.git.hongxu.jia@windriver.com>
 References: <cover.1459147231.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 15/17] openssl: fix buildpath QA issue
+Subject: [PATCH 16/17] epiphany: fix buildpaths QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,107 +34,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 08:19:45 -0000
+X-List-Received-Date: Mon, 28 Mar 2016 08:19:47 -0000
 Content-Type: text/plain
 
-- The openssl records $CC and $CFLAGS in source code which
-  caused buildpaths QA issue:
-  In crypto/cversion.c
-  ...
-      if (t == SSLEAY_CFLAGS) {
-          return (CFLAGS);
-          return ("compiler: information not available");
-      }
-  ...
-  We should remove build path in the above source code.
+In order to fix build path issue, we reverts the following commit
+in https://github.com/GNOME/epiphany.git
+...
+commit 54a3122d8626f78338033a704d5849738f6dd2e6
+Author: Xan Lopez <xan@igalia.com>
+Date:   Wed May 16 18:21:21 2012 +0900
 
-- Remove build paths in ${PTEST_PATH}/Makefile  and
-  ${PTEST_PATH}/Configure
+    ephy-profile-utils: use absolute path for build dir
+
+    That way we can run the tests from any directory in debug mode.
+...
+It did not consider cross-compile situation which we do not need
+to run tests in host build.
+
+BTW, the tests suits were compiled but not installed to ${D},
+so we explicitly disable it.
 
 [YOCTO #7058]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../openssl/remove-build-path-in-source-code.patch | 44 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2g.bb |  7 ++++
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |  8 ++-
+ .../files/use-relative-path-for-build-dir.patch    | 57 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+index 12d3b07..0b8335b 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.18.4.bb
+@@ -9,11 +9,15 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even
+ # libwnck3 is x11 only
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
++SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch \
++            file://use-relative-path-for-build-dir.patch \
++"
+ SRC_URI[archive.md5sum] = "172b78256100e8d3c629764abd0e1495"
+ SRC_URI[archive.sha256sum] = "be699d484371111abae754e669187215df73e21533f461e513b79537d7a1c1c1"
+ 
+-EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
++EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO} \
++                  --disable-tests \
++"
+ 
+ do_configure_prepend() {
+     touch ${S}/gnome-doc-utils.make
+diff --git a/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
 new file mode 100644
-index 0000000..fd5531b
+index 0000000..21c0912
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/remove-build-path-in-source-code.patch
-@@ -0,0 +1,44 @@
-+From b937d7581a1793cdebbf5829bdaea787ed4128db Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-gnome/epiphany/files/use-relative-path-for-build-dir.patch
+@@ -0,0 +1,57 @@
++From 73e46aeea35c7bda7833e635f1bb2dbd39e2b43e Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Mon, 7 Mar 2016 01:11:42 -0500
-+Subject: [PATCH] crypto/Makefile: remove build path in source code
++Date: Wed, 2 Mar 2016 02:00:23 -0500
++Subject: [PATCH] ephy-profile-utils: use relative path for build dir
 +
-+Openssl records $CC and $CFLAGS in source code which
-+caused buildpaths QA issue:
-+In crypto/cversion.c
++It reverts the following commit in https://github.com/GNOME/epiphany.git
 +...
-+    if (t == SSLEAY_CFLAGS) {
-+        return (CFLAGS);
-+        return ("compiler: information not available");
-+    }
++commit 54a3122d8626f78338033a704d5849738f6dd2e6
++Author: Xan Lopez <xan@igalia.com>
++Date:   Wed May 16 18:21:21 2012 +0900
++
++    ephy-profile-utils: use absolute path for build dir
++
++    That way we can run the tests from any directory in debug mode.
 +...
++It did not consider cross-compile situation which we do not need
++to run tests in host build.
 +
-+We should remove build path in the above source code.
++It also caused build path issue.
 +
-+Upstream-Status: Inappropriate [embedded specific]
++Upstream-Status: Inappropriate [openembedded specific]
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ crypto/Makefile | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ lib/Makefile.am          | 2 +-
++ lib/ephy-profile-utils.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/crypto/Makefile b/crypto/Makefile
-+index 17a87f8..ee630e8 100644
-+--- a/crypto/Makefile
-++++ b/crypto/Makefile
-+@@ -54,8 +54,11 @@ top:
++diff --git a/lib/Makefile.am b/lib/Makefile.am
++index 24d684b..849a07f 100644
++--- a/lib/Makefile.am
+++++ b/lib/Makefile.am
++@@ -88,7 +88,7 @@ libephymisc_la_CPPFLAGS = \
++ 	-DDATADIR="\"$(datadir)\""		    \
++ 	-DSHARE_DIR=\"$(pkgdatadir)\" 		    \
++ 	-DTOP_SRC_DATADIR=\"$(top_srcdir)/data\"    \
++-	-DABS_TOP_BUILD_DIR=\"$(abs_top_builddir)\" \
+++	-DTOP_BUILD_DIR=\"$(top_builddir)\"         \
++ 	-DLOCALEDIR=\"$(localedir)\"		    \
++ 	$(AM_CPPFLAGS)
 + 
-+ all: shared
++diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
++index 0430582..a42ec4e 100644
++--- a/lib/ephy-profile-utils.c
+++++ b/lib/ephy-profile-utils.c
++@@ -128,7 +128,7 @@ ephy_profile_utils_do_migration (const char *profile_directory, int test_to_run,
++   argv[i++] = NULL;
 + 
-++NO_BUILDPATH_CCFLAGS=`echo "$(CC) $(CFLAGS)" | \
-++         sed -e 's:--sysroot=[^ ]*::g' \
-++             -e 's:-fdebug-prefix-map=[^ ]*::g'`
-+ buildinf.h: ../Makefile
-+-	$(PERL) $(TOP)/util/mkbuildinf.pl "$(CC) $(CFLAGS)" "$(PLATFORM)" >buildinf.h
-++	$(PERL) $(TOP)/util/mkbuildinf.pl "$(NO_BUILDPATH_CCFLAGS)" "$(PLATFORM)" >buildinf.h
++   if (debug)
++-    argv[0] = ABS_TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
+++    argv[0] = TOP_BUILD_DIR"/lib/"EPHY_PROFILE_MIGRATOR;
 + 
-+ x86cpuid.s:	x86cpuid.pl perlasm/x86asm.pl
-+ 	$(PERL) x86cpuid.pl $(PERLASM_SCHEME) $(CFLAGS) $(PROCESSOR) > $@
++   ret = g_spawn_sync (NULL, argv, envp, G_SPAWN_SEARCH_PATH,
++                       NULL, NULL, NULL, NULL,
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
-index 290f129..078f60e 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
-@@ -39,6 +39,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://ptest_makefile_deps.patch  \
-             file://configure-musl-target.patch \
-             file://parallel.patch \
-+            file://remove-build-path-in-source-code.patch \
-            "
- 
- SRC_URI[md5sum] = "f3c710c045cdee5fd114feb69feba7aa"
-@@ -47,6 +48,12 @@ SRC_URI[sha256sum] = "b784b1b3907ce39abf4098702dade6365522a253ad1552e267a9a0e895
- PACKAGES =+ "${PN}-engines"
- FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
- 
-+inherit fix_buildpaths
-+PACKAGE_BUILDPATH_TEXT_FILES_${PN}-ptest ?= " \
-+        ${PTEST_PATH}/Makefile \
-+        ${PTEST_PATH}/Configure \
-+"
-+
- # The crypto_use_bigint patch means that perl's bignum module needs to be
- # installed, but some distributions (for example Fedora 23) don't ship it by
- # default.  As the resulting error is very misleading check for bignum before
 -- 
 1.9.1
 
