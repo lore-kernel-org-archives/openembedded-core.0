@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B010F7316D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 93A847316D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 09:40:36 +0000 (UTC)
+	Mon, 28 Mar 2016 09:40:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2S9eb8L007479
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2S9ecUZ012787
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Mar 2016 02:40:37 -0700 (PDT)
+	Mon, 28 Mar 2016 02:40:38 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 28 Mar 2016 02:40:35 -0700
+	Mon, 28 Mar 2016 02:40:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Mar 2016 02:40:26 -0700
-Message-ID: <8281f1f46c2876587c0193adb44b8687ea6642bb.1459157937.git.liezhi.yang@windriver.com>
+Date: Mon, 28 Mar 2016 02:40:27 -0700
+Message-ID: <73969a958a2913affa36eab5a383878267cb8a1e.1459157937.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1459157937.git.liezhi.yang@windriver.com>
 References: <cover.1459157937.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] nfs-utils: bugfix: adjust name of statd service unit
+Subject: [PATCH 6/8] systemd: fix segfault on shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +33,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2016 09:40:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 28 Mar 2016 09:40:38 -0000
+Content-Type: text/plain
 
-From: Ulrich Ölmann <u.oelmann@pengutronix.de>
+From: Bill Randle <william.c.randle@intel.com>
 
-Upstream nfs-utils use 'rpc-statd.service' and Yocto introduced
-'nfs-statd.service' instead but forgot to update the mount.nfs helper
-'start-statd' accordingly.
+This applies upstream fixes to fix a segfault in systemd-logind on
+shutdown.
 
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+[Fixes YOCTO #9265]
+
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
 ---
- .../files/bugfix-adjust-statd-service-name.patch   | 34 ++++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.3.1.bb                   |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
+ .../0023-backported-fixes-for-null-messages.patch  | 101 +++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_225.bb           |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
+diff --git a/meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch b/meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
 new file mode 100644
-index 0000000..14bd403
+index 0000000..b39037f
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
-@@ -0,0 +1,34 @@
-+From 398fed3bb0350cb1229e54e7020ae0e044c206d1 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-+Date: Wed, 17 Feb 2016 08:33:45 +0100
-+Subject: bugfix: adjust statd service name
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
+@@ -0,0 +1,101 @@
++From ce88232a1c8e914936e18edbee2551ab95fc4c1d Mon Sep 17 00:00:00 2001
++From: Bill Randle <william.c.randle@intel.com>
++Date: Mon, 21 Mar 2016 15:52:30 -0700
++Subject: [PATCH] backported fixes for null messages
 +
-+Upstream uses 'rpc-statd.service' and Yocto introduced 'nfs-statd.service'
-+instead but forgot to update the mount.nfs helper 'start-statd' accordingly.
++Apply upstream commits 5744f59a3ee883ef3a78214bd5236157acdc35ba,
++2cf088b56d72cb6a3243041524f1fbae7c1cb28e and
++c7430c3d1a0c14aed631864b9da504ba1a9352c2 to fix Yocto #9265.
 +
-+Upstream-Status: Inappropriate [other]
++Upstream-Status: Backport
 +
-+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
++Signed-off-by: Bill Randle <william.c.randle@intel.com>
 +---
-+ utils/statd/start-statd | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/login/logind-dbus.c | 31 ++++++++++++++++++-------------
++ 1 file changed, 18 insertions(+), 13 deletions(-)
 +
-+diff --git a/utils/statd/start-statd b/utils/statd/start-statd
-+index 8211a90..3c2aa6f 100755
-+--- a/utils/statd/start-statd
-++++ b/utils/statd/start-statd
-+@@ -16,7 +16,7 @@ fi
-+ # First try systemd if it's installed.
-+ if [ -d /run/systemd/system ]; then
-+     # Quit only if the call worked.
-+-    systemctl start rpc-statd.service && exit
-++    systemctl start nfs-statd.service && exit
-+ fi
++diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
++index 5b2b36b..e433549 100644
++--- a/src/login/logind-dbus.c
+++++ b/src/login/logind-dbus.c
++@@ -1339,8 +1339,7 @@ static int bus_manager_log_shutdown(
++                 InhibitWhat w,
++                 const char *unit_name) {
 + 
-+ # Fall back to launching it ourselves.
++-        const char *p;
++-        const char *q;
+++        const char *p, *q;
++ 
++         assert(m);
++         assert(unit_name);
++@@ -1365,8 +1364,8 @@ static int bus_manager_log_shutdown(
++                 q = NULL;
++         }
++ 
++-        if (m->wall_message)
++-                p = strjoina(p, " (", m->wall_message, ")", NULL);
+++        if (!isempty(m->wall_message))
+++                p = strjoina(p, " (", m->wall_message, ")");
++ 
++         return log_struct(LOG_NOTICE,
++                           LOG_MESSAGE_ID(SD_MESSAGE_SHUTDOWN),
++@@ -1797,9 +1796,11 @@ static int update_schedule_file(Manager *m) {
++         if (r < 0)
++                 return log_error_errno(r, "Failed to create shutdown subdirectory: %m");
++ 
++-        t = cescape(m->wall_message);
++-        if (!t)
++-                return log_oom();
+++        if (!isempty(m->wall_message)) {
+++                t = cescape(m->wall_message);
+++                if (!t)
+++                        return log_oom();
+++        }
++ 
++         r = fopen_temporary("/run/systemd/shutdown/scheduled", &f, &temp_path);
++         if (r < 0)
++@@ -1815,7 +1816,7 @@ static int update_schedule_file(Manager *m) {
++                 m->enable_wall_messages,
++                 m->scheduled_shutdown_type);
++ 
++-        if (!isempty(m->wall_message))
+++        if (t)
++                 fprintf(f, "WALL_MESSAGE=%s\n", t);
++ 
++         r = fflush_and_check(f);
++@@ -2294,7 +2295,7 @@ static int method_set_wall_message(
++         int r;
++         Manager *m = userdata;
++         char *wall_message;
++-        bool enable_wall_messages;
+++        int enable_wall_messages;
++ 
++         assert(message);
++         assert(m);
++@@ -2310,15 +2311,19 @@ static int method_set_wall_message(
++                                     UID_INVALID,
++                                     &m->polkit_registry,
++                                     error);
++-
++         if (r < 0)
++                 return r;
++         if (r == 0)
++                 return 1; /* Will call us back */
++ 
++-        r = free_and_strdup(&m->wall_message, wall_message);
++-        if (r < 0)
++-                return log_oom();
+++        if (isempty(wall_message))
+++                m->wall_message = mfree(m->wall_message);
+++        else {
+++                r = free_and_strdup(&m->wall_message, wall_message);
+++                if (r < 0)
+++                        return log_oom();
+++        }
+++
++         m->enable_wall_messages = enable_wall_messages;
++ 
++         return sd_bus_reply_method_return(message, NULL);
 +-- 
-+2.1.4
++2.5.0
 +
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-index 42101de..f346fdc 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://proc-fs-nfsd.mount \
-            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
-            file://nfs-utils-debianize-start-statd.patch \
-+           file://bugfix-adjust-statd-service-name.patch \
- "
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index 18c2448..7c66ba2 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -46,6 +46,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+            file://init \
+            file://run-ptest \
+            file://rules-whitelist-hd-devices.patch \
++           file://0023-backported-fixes-for-null-messages.patch \
+           "
+ SRC_URI_append_qemuall = " file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
  
- SRC_URI[md5sum] = "8de676b9ff34b8f9addc1d0800fabdf8"
 -- 
 2.7.4
 
