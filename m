@@ -1,52 +1,21 @@
-Return-Path: <rudolf.streif@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C7C8C6612D;
-	Tue, 29 Mar 2016 20:03:35 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id fe3so22118049pab.1;
-	Tue, 29 Mar 2016 13:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=maEqf9Z3MK5hQw2Tju2JFx1MdI8YU2T+vnn7ke9up/U=;
-	b=gtMg094v4grRB44ZmRYlqRDzU+8OneU9bo1jTnEM4kN72OeNfT/7tw7mfao1kuoVOm
-	KrgD9Gm1dGy5QW8YAqZ1HyNGaqhC/p2CcL6ZXNuRNzlLfdnALMlptZaf8QT/jHV3M3X6
-	6QQz1zvbKElKg0u3fLD6auk18owgm9bWQGnGL2p4q4M8VwqKH1/9i0wcHQiwapxJfnoa
-	zwDOlB5NqzHaMo4mF/db7Hmfbw1bDJrPvfYd6czzhNuMHLNUSVcAENGZflOkp16O6GZr
-	8JpDrHcdn5hZ+8vIH8DPupHhB+u+nIC2v0kpThrejC0hv6ge6Q3XmmSZTIbtZBhglS6N
-	zJXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=maEqf9Z3MK5hQw2Tju2JFx1MdI8YU2T+vnn7ke9up/U=;
-	b=FsvZg4X64je+kKwQ3EgqoZsWDBZzsGdSHi6DKh6d5d4Qds9Hb9CjOILijy1QiKNxCh
-	DHyx20ZRyinMdVo9fN9f0f3re1FF/y0KHdPtb+0yNZLNS5LvpHd13lR91FBGEOd739Oc
-	Cj+x/NLa04HbYOJlsgZ05bI+fE6NfXQwJBHi9j14wMI/T4R6QE+uexVI/B3D78ODf3ca
-	sRJmXalmaPbJkEA/bv8NV0XbNokmuvGZeMPXJU0/qs8Pyze9QRGUJggJbNnt0M1/NfTL
-	4MXJbeKTBSPOkRWYqscSeLKVEU+A35f7Pk+7AnMtqxDvB1/Fz7KWlwRs+SC7ZV+VsUU3
-	otbw==
-X-Gm-Message-State: AD7BkJKA6s9hKEaNr6u9jUkADKNLmauS/CcqS54jwwGHQRcpKFHS5zDLB7HaeaPqAElq6A==
-X-Received: by 10.66.55.70 with SMTP id q6mr6280068pap.126.1459281816086;
-	Tue, 29 Mar 2016 13:03:36 -0700 (PDT)
-Received: from rjs-zotac.streifs.net (ip68-7-48-20.sd.sd.cox.net. [68.7.48.20])
-	by smtp.gmail.com with ESMTPSA id ez6sm311279pab.12.2016.03.29.13.03.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 29 Mar 2016 13:03:35 -0700 (PDT)
-From: Rudolf J Streif <rudolf.streif@gmail.com>
-To: yocto@yoctoproject.org
-Date: Tue, 29 Mar 2016 13:03:34 -0700
-Message-ID: <5328453.C7Dxv7TdD1@rjs-zotac.streifs.net>
-User-Agent: KMail/4.14.10 (Linux/4.4.5-200.fc22.x86_64+debug; KDE/4.14.17;
-	x86_64; ; )
-In-Reply-To: <56FADE23.8090300@balister.org>
-References: <CA+YB3rY9NKNFJNtTwQQwePfwAm37skk8jtDnBoQEBqxiE-i2Hg@mail.gmail.com>
-	<56FADE23.8090300@balister.org>
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id BBA36605BA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Mar 2016 20:37:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 29 Mar 2016 13:37:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,412,1455004800"; d="scan'208";a="947518516"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.90])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Mar 2016 13:37:11 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Mar 2016 14:37:50 -0600
+Message-Id: <1459283870-24898-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Fwd: OEDAM: New Location - Catamaran resort
+Subject: [PATCH] ptest-runner_2.0.bb: Update recipe to point git.yoctoproject.org repo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,45 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 20:03:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 29 Mar 2016 20:37:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-We need the final headcount by next Monday.
+Since ptest-runner is a Yocto Project tool is better to have hosted
+into git.yoctoproject.org.
 
-Food, breakfast, lunch and refreshments, will be provided. If you have special dietary needs such as vegetarian, gluten-free etc. please indicate so behind you name. We'll do the best to accommodate them.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-support/ptest-runner/ptest-runner_2.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Rudi
-
-On Tuesday, March 29, 2016 12:57:23 PM Philip Balister wrote:
-> OEDAM moved. Thanks Rudi and Jefro.
-> 
-> Please add your name to the attendee list so Jefro can get the correct
-> amount of food and coffee. He needs the number "soon".
-> 
-> Philip
-> 
-> -------- Forwarded Message --------
-> Subject: OEDAM: New Location - Catamaran resort
-> Date: Mon, 28 Mar 2016 13:36:41 -0700
-> From: Jeff Osier-Mixon <jefro@jefro.net>
-> Reply-To: openembedded-members@lists.openembedded.org
-> To: openembedded-members@lists.openembedded.org
-> <openembedded-members@lists.openembedded.org>
-> 
-> The OpenEmbedded meeting on Friday April 8, which was previously
-> announced, has been moved to the Catamaran Resort & Hotel.
-> Transportation will be provided. The meeting is still 9am-5pm.
-> 
-> 3999 Mission Boulevard
-> San Diego, CA 92109
-> 858-539-8727
-> 
-> Again, OEDAM will be at the Catamaran, NOT at the Marriott. The wiki
-> page and this mailing list will be updated with transportation info.
-> 
-> Thanks to Rudi Streif for finding us a great location!
-> 
-> 
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+index dc6ac72..7081afb 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "A C program to run all installed ptests"
+ DESCRIPTION = "The ptest-runner2 package installs a ptest-runner \
+ program which loops through all installed ptest test suites and \
+ runs them in sequence."
+-HOMEPAGE = "https://github.com/alimon/ptest-runner2"
++HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ 
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ SRCREV = "8bfdf946e784f4d5757bebee1fbc4b4a3d7a95c4"
+ PV = "2.0+git${SRCPV}"
+ 
+-SRC_URI = "git://github.com/alimon/ptest-runner2.git;protocol=https"
++SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+ S = "${WORKDIR}/git"
+ 
+ FILES_${PN} = "${bindir}/ptest-runner"
+-- 
+2.1.4
 
 
