@@ -1,21 +1,20 @@
-Return-Path: <anibal.limon@linux.intel.com>
+Return-Path: <william.c.randle@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id BBA36605BA
+	by mail.openembedded.org (Postfix) with ESMTP id 918DB6E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 20:37:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 29 Mar 2016 13:37:12 -0700
+	Tue, 29 Mar 2016 22:03:15 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 29 Mar 2016 15:02:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,412,1455004800"; d="scan'208";a="947518516"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.90])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Mar 2016 13:37:11 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.24,413,1455004800"; d="scan'208";a="944023195"
+Received: from wcrandle-mobl1.jf.intel.com ([10.24.0.231])
+	by orsmga002.jf.intel.com with ESMTP; 29 Mar 2016 15:02:50 -0700
+From: Bill Randle <william.c.randle@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Mar 2016 14:37:50 -0600
-Message-Id: <1459283870-24898-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH] ptest-runner_2.0.bb: Update recipe to point git.yoctoproject.org repo.
+Date: Tue, 29 Mar 2016 15:02:48 -0700
+Message-Id: <1459288968-9327-1-git-send-email-william.c.randle@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCHv2] fix src/Makefile to work with parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +27,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 20:37:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 29 Mar 2016 22:03:16 -0000
 
-Since ptest-runner is a Yocto Project tool is better to have hosted
-into git.yoctoproject.org.
+v2: add Upstream-Status and change reason in patch file.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+The Makefile for man has a rule to create two generated targets with
+a program run from the shell. Because the rule was run twice, with
+parallel make, the generated files were being overwritten at the same
+time they were being compiled. This patch forces the rule to be run
+only once.
+
+[YOCTO #9333]
+
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
 ---
- meta/recipes-support/ptest-runner/ptest-runner_2.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../man/man/man-1.6g-parallel.patch                | 30 ++++++++++++++++++++++
+ meta/recipes-extended/man/man_1.6g.bb              |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-extended/man/man/man-1.6g-parallel.patch
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-index dc6ac72..7081afb 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-@@ -2,7 +2,7 @@ SUMMARY = "A C program to run all installed ptests"
- DESCRIPTION = "The ptest-runner2 package installs a ptest-runner \
- program which loops through all installed ptest test suites and \
- runs them in sequence."
--HOMEPAGE = "https://github.com/alimon/ptest-runner2"
-+HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+diff --git a/meta/recipes-extended/man/man/man-1.6g-parallel.patch b/meta/recipes-extended/man/man/man-1.6g-parallel.patch
+new file mode 100644
+index 0000000..72a88b8
+--- /dev/null
++++ b/meta/recipes-extended/man/man/man-1.6g-parallel.patch
+@@ -0,0 +1,30 @@
++The Makefile for man has a rule to create two generated targets with
++a program run from the shell. Because the rule was run twice, with
++parallel make, the generated files were being overwritten at the same
++time they were being compiled. This patch forces the rule to be run
++only once.
++
++Upstream-Status: Pending
++
++Signed-off-by: Bill Randle <william.c.randle at intel.com>
++
++--- man-1.6g/src/Makefile.in.orig	2010-12-31 12:28:46.000000000 -0800
+++++ man-1.6g/src/Makefile.in	2016-03-28 09:09:16.845458798 -0700
++@@ -43,8 +43,10 @@
++ makemsg:
++ 	$(BUILD_CC) -o makemsg makemsg.c
++ 
++-msg.c gripedefs.h: ../msgs/mess.en makemsg
+++msg.c gripedefs.h: genfiles-stamp
+++genfiles-stamp: ../msgs/mess.en makemsg
++ 	./makemsg ../msgs/mess.en gripedefs.h msg.c
+++	touch genfiles-stamp
++ 
++ # glob.c does not have prototypes
++ glob.o: glob.c ndir.h
++@@ -117,4 +119,4 @@
++ 
++ spotless: clean
++ 	rm -f Makefile config.status paths.h version.h man.conf
++-	rm -f gripedefs.h msg.c mess.*.cat
+++	rm -f gripedefs.h msg.c mess.*.cat genfiles-stamp
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index fa4736b..9b057b6 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -53,6 +53,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
+            file://manpath.5.gz;unpack=false \
+            file://man-1.6g-whatis3.patch \
+            file://configure_sed.patch \
++           file://man-1.6g-parallel.patch \
+ "
  
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
- SRCREV = "8bfdf946e784f4d5757bebee1fbc4b4a3d7a95c4"
- PV = "2.0+git${SRCPV}"
- 
--SRC_URI = "git://github.com/alimon/ptest-runner2.git;protocol=https"
-+SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
- S = "${WORKDIR}/git"
- 
- FILES_${PN} = "${bindir}/ptest-runner"
+ SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
 -- 
-2.1.4
+2.5.0
 
 
