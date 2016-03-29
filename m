@@ -1,28 +1,56 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 456 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 29 Mar 2016 13:04:05 UTC
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 82631601D4
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BC8F6018C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 13:04:05 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id bowS1s0060BmcFC01owTuT; Tue, 29 Mar 2016 13:56:29 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=7OsogOcEt9IA:10 a=_KtNUsfIDAEmc9bHkb0A:9 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>) id 1aktC6-0003eR-IV
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Mar 2016 13:56:26 +0100
-Date: Tue, 29 Mar 2016 13:56:26 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160329125626.GA11712@mcrowe.com>
+	Tue, 29 Mar 2016 13:35:39 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id zm5so14018158pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Mar 2016 06:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:date:message-id:subject:to:cc;
+	bh=jL1eH7VwRZj9LnydF4bAySAsk9PtLaFhnrrvzfmH70k=;
+	b=t9CHkamGTvr4lc/nyUXcmDKS8U8Oz9F/VgHtAW9f5xslgg2SiaEbFWm6ubRtjMOA/0
+	wSinDbsxWsEeGRoOvQXo7ui9LaEkCLAeNBtpHUZFI12nTRxK0Tcv8HXJo04EqKhqC1Bc
+	IN9SGRor6oXgw7kUw5v3aKB7wQg+fhbKGO6IF0eOy4opAxlHb6KMNAO622rt/PrAIcyF
+	SF6tMcL8uAzZeQLShKF8KpmNK87si9akSVEemroqz0dgSOZ3RoF5wgkMRxrEAYeG9JEo
+	mAdbdx4DDnZwTXFOkfyz6rwEw/4pC/KMJdU+RDLh39R7z1pPasJ57BgPaajKo8eSjN9u
+	tgFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
+	bh=jL1eH7VwRZj9LnydF4bAySAsk9PtLaFhnrrvzfmH70k=;
+	b=W0/w+Cm5VSu3eXWowRD1vn0n61IITywXIW6sPeNcmqoP1OG9AfdR0kfwF7iC9OgojZ
+	LEnME0IrygWv2YIMQErn3bMz+eDJxH0dkHO+EWus1QfaB/foeQhzvWJkoIFB7LzLLxxL
+	C+MjzCp+cjYUn34P+UPzE78pdcYcIit9LmBRZLfGxHZval2TGkFL8k9Vi8K1dAeuyxr9
+	5IT8j8YIJDdnzHKt8mRmXyB5KI6oooOlm0r1hxB0gwBwDlh8AdLFvtHSsHl7YGE4hwEx
+	tad6BIzhRU/q9+b1dRMjEFRstPDp7chZqU9zIqWpDnVOWCcD7c1Uueub1lqHP0d+odhA
+	jf2w==
+X-Gm-Message-State: AD7BkJIUnq1xrsgQEydLkpAkqtvaUwQQzmq/n7rLfmpK8I14Z3ZlumeZR1/2FJsVnSwV+g==
+X-Received: by 10.67.1.65 with SMTP id be1mr3536198pad.46.1459258540148;
+	Tue, 29 Mar 2016 06:35:40 -0700 (PDT)
+Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com.
+	[209.85.192.171]) by smtp.gmail.com with ESMTPSA id
+	q4sm43391910pfi.94.2016.03.29.06.35.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f171.google.com with SMTP id x3so14579231pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Over-pruning the sstate cache
+X-Received: by 10.98.93.155 with SMTP id n27mr3536626pfj.88.1459258538325;
+	Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
+Date: Tue, 29 Mar 2016 10:35:38 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoNk=TFALAKGbaAo20z-3GKKg=6NEVAMoHqGmzx-VSdqQ@mail.gmail.com>
+Message-ID: <CAP9ODKoNk=TFALAKGbaAo20z-3GKKg=6NEVAMoHqGmzx-VSdqQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [Jethro][Backport] Fixes for 2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +63,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 13:04:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Mar 2016 13:35:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-80b3974081c4a8c604e23982a6db8fb32c616058 implies that at least some people
-are pruning the sstate cache based on file access time.
+Hello folks,
 
-We run incremental and nightly Jenkins jobs that build images for various
-targets and branches in order to keep the sstate-cache populated. Files are
-pruned once they haven't been accessed for a few days. This has worked
-reasonably well for a few years (and the script can be simplified now since
-the above commit.)
+At O.S. Systems, we are backporting some important fixes for Jethro which are:
 
-Recently we've found that files that are still required are being pruned.
-This appears to be due to a combination of improvements to oe-core to avoid
-unnecessary tasks and improvements to our own recipes. These have resulted
-in it being possible to build an image without requiring the
-populate_sysroot.tgz files if nothing has changed that needs building.
+Author: Christopher Larson <chris_larson@mentor.com>
+Date:   Tue Nov 10 22:34:01 2015 -0700
 
-Is there a recommended way to ensure that all the sstate cache files are
-touched, even those that are not actually required to build the image
-currently due to task optimisation?
+    systemd: chown hwdb.bin to root:root for do_rootfs
 
-The only solution I can come up with is to invent a recursive
-"all_populate_sysroot" recrdeptask that depends on the individual
-populate_sysroot tasks and run that task for each image.
+    This is created by qemu for the do_rootfs case, which bypasses pseudo, so we
+    need to correct the ownership. This fixes a warning issued by
+    rootfs_check_host_user_contaminated.
 
-Does anyone have any better ideas?
+    Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Mike.
+Author: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+Date:   Tue Jan 5 10:32:40 2016 +0100
+
+    boost: ensure boost to remain an empty metapackage
+
+    To ensure that boost remains an empty metapackage after version
+    updates, we explicitly require boost files to be empty. If new
+    libraries exist after a version update of the boost recipe,
+    bitbake will emit a warning at the do_package task. For example,
+    at the version update from 1.58.0 to 1.59.0, the new timer
+    library is indicated with:
+
+    WARNING: QA Issue: boost: Files/directories were installed but not
+shipped in any package:
+      /usr/lib/libboost_timer.so.1.59.0
+    Please set FILES such that these items are packaged. Alternatively
+if they are unneeded, avoid installing them or delete them within
+do_install.
+    boost: 1 installed and not shipped files. [installed-vs-shipped]
+
+    Ross Burton suggested this improvement on the openembedded-core
+    mailing list during review of the boost recipe version update [1].
+
+    [1] http://lists.openembedded.org/pipermail/openembedded-core/2015-December/114314.html
+
+    Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+Could those be queued for testing and backport?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
