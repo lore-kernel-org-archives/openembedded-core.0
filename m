@@ -1,20 +1,63 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E3E16080F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D376A612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 17:26:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Mar 2016 10:26:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,412,1455004800"; d="scan'208";a="773990423"
-Received: from wcrandle-mobl1.jf.intel.com ([10.24.0.231])
-	by orsmga003.jf.intel.com with ESMTP; 29 Mar 2016 10:26:16 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Mar 2016 10:26:10 -0700
-Message-Id: <1459272370-6300-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] man: fix several annoying compile/build warnings
+	Tue, 29 Mar 2016 18:49:16 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id zm5so20894737pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Mar 2016 11:49:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=1QbLEsgoMWQwxhvzJMiqktv6jYUV4hrxGNXjZqI8ORU=;
+	b=oLBE/UVPZsLPdz4k4ZK8Vj2Enp4v+KvrZ51KXPinAnyP2TncTsXTu1r+PqfgHBih/j
+	xpHHIgJ2NNzWZNXk7NbQknuC2uQLd5K1rcGEuNkRfg6FA3Dxp45RI2jyq4isJ5Lb2CcS
+	hkqwsfaUXWF0Khls4SdFF8CNxiLI/KYHT8eONwuI2UJ4lgDyj6LIWRFty3qWbQ+hyGWf
+	Qi1OcQrnt/3Bap8tJw2DB3gwT5HR7kzTvDf4cCuRXCTbecoTZOV6EJ87DG1VLZiSTG/f
+	9ULDB3xzhz5E0Ln45zaKhNBwEwrv+ROXzI7Oinox2FLML1n0vfU+iA0LbL/fmg+7bvD/
+	mgAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=1QbLEsgoMWQwxhvzJMiqktv6jYUV4hrxGNXjZqI8ORU=;
+	b=crmA5aKJ2yFDVLF0UUqNY1+KvSP0dVt+OTalN1o7uCpvpLrOIRK92Hoia3XPPQ+cVO
+	AjioXphhbgUrNN4+2RMveyDMK6Pw6l8idW3W0sAqrTvyee2UJzVKX5biNmJ4+bBewsEz
+	AkgVKpJMnAFnQBvyXgExIkxpCqd/Eu59SUpGY/y/NmiDFH7tLu1oLyJaQ+ytoHyaOaOZ
+	NzEqJ6CuNN8b7u41U0eiAgmm63oqWhdi351CdMxg9wh966VbbjUOZ7jbBTGbbkCsoIje
+	EZjDtSH/o8zwQshihtnXwe10bywn1AXEO1G4sWh0HGGGH0ZI8K/gkPsGGD5+xIlKXuub
+	xing==
+X-Gm-Message-State: AD7BkJI4RGPv46TbfcIlGbhY5JQwbwizvgMNpJ7jfrDrN3IRDk+KTncPikaY4m96bxYPbg==
+X-Received: by 10.66.193.6 with SMTP id hk6mr5853544pac.3.1459277356735;
+	Tue, 29 Mar 2016 11:49:16 -0700 (PDT)
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com.
+	[209.85.220.42])
+	by smtp.gmail.com with ESMTPSA id 82sm52374pfb.64.2016.03.29.11.49.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Mar 2016 11:49:15 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f42.google.com with SMTP id zm5so20894086pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Mar 2016 11:49:15 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.66.176.139 with SMTP id ci11mr5913038pac.68.1459277354666;
+	Tue, 29 Mar 2016 11:49:14 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Tue, 29 Mar 2016 11:49:14 -0700 (PDT)
+In-Reply-To: <1459271456.3476.211.camel@pbcl.net>
+References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
+	<1459203003.2322.29.camel@pbcl.net>
+	<56FAA65F.9060300@windriver.com>
+	<1459271456.3476.211.camel@pbcl.net>
+Date: Tue, 29 Mar 2016 15:49:14 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrdi09oFKji0jb-yu5q=3drJjT7mCZMGVJTvQP0zM5TZg@mail.gmail.com>
+Message-ID: <CAP9ODKrdi09oFKji0jb-yu5q=3drJjT7mCZMGVJTvQP0zM5TZg@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,185 +70,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 17:26:19 -0000
+X-List-Received-Date: Tue, 29 Mar 2016 18:49:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixed the build error when building man.config.5 (a remnant of a long
-ago previous patch). Optimized the manpages Makefile for parallel
-builds. Drop a FHS patch that is no longer needed, as the standard
-Makefile puts the man pages in the proper location. Also, fix compile
-warnings in a couple other files.
+On Tue, Mar 29, 2016 at 2:10 PM, Phil Blundell <pb@pbcl.net> wrote:
+> On Tue, 2016-03-29 at 18:59 +0300, Dragomir Daniel wrote:
+>>
+>> arch-arm8a.inc add now support for armv8-A processors which support 2
+>> states:
+>> 32-bit and 64-bit states. It makes more sense to have support for
+>> both states
+>> in the same inc file because both refer to the same arch.
+>
+> OK.  And I assume you feel this is a greater benefit than having the
+> 32-bit ARMv8 bits in a single file that could be shared by ARMv8-R and
+> ARMv8-M, right?
 
-[YOCTO #9341]
+For now, I think it is indeed better. When we add R and M flavours we
+can move the 32 bit for another file if we see the need but we ought
+to make it simple now.
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- .../man/man/man-1.5m2-tv_fhs.patch                 | 31 -------
- .../man/man/man-1.6g-compile-warnings.patch        | 96 ++++++++++++++++++++++
- meta/recipes-extended/man/man_1.6g.bb              |  2 +-
- 3 files changed, 97 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
- create mode 100644 meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
+>> So, you say that we should not use aarch32 and aarch64 for armv8a,
+>> but to use something like armv8a64 and armv8a32?
+>
+> That would be my preference, but of course it's not my decision to
+> make.
 
-diff --git a/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch b/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
-deleted file mode 100644
-index fe66d75..0000000
---- a/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
----- man/Makefile.in	2008-12-21 19:19:33.000000000 +0100
--+++ man/Makefile.in.oden	2008-12-21 19:19:39.000000000 +0100
--@@ -34,6 +34,15 @@
-- 	for i in $(MAN8); \
-- 		do if test -f $$i.8; then $(INSTALL) $$i.8 $(mandir)/man8/$$i.@man8ext@; fi; done
-- 
--+install-l10n: $(ALL)
--+	mkdir -p $(mandir)/$(SLANG)/man1 $(mandir)/$(SLANG)/man5 $(mandir)/$(SLANG)/man8
--+	for i in $(MAN1); \
--+		do $(INSTALL) $$i.1 $(mandir)/$(SLANG)/man1/$$i.@man1ext@; done
--+	for i in $(MAN5); \
--+		do $(INSTALL) $$i.5 $(mandir)/$(SLANG)/man5/$$i.@man5ext@; done
--+	for i in $(MAN8); \
--+		do if test -f $$i.8; then $(INSTALL) $$i.8 $(mandir)/$(SLANG)/man8/$$i.@man8ext@; fi; done
--+
-- clean:
-- 	rm -f core *.in *.@man1ext@ *.@man5ext@ *.@man8ext@ *~
-- 
--@@ -49,7 +58,7 @@
-- 	@for i in @languages@; do if test -d $$i; then echo; \
-- 		echo "==== Installing the `cat $$i.txt` man pages. ===="; \
-- 		cd $$i; SLANG=/$$i; if test $$SLANG = /en; then SLANG= ; fi; \
---		export SLANG; make -f ../Makefile install; cd ..; \
--+		export SLANG; make -f ../Makefile install-l10n; cd ..; \
-- 		else echo "==== No $$i man pages found. ===="; fi; done
-- 
-- cleansubdirs:
-diff --git a/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch b/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
-new file mode 100644
-index 0000000..3d1446a
---- /dev/null
-+++ b/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
-@@ -0,0 +1,96 @@
-+
-+Signed-off-by: Bill Randle <william.c.randle@intel.com>
-+
-+--- man-1.6g/man/Makefile.in.orig	2016-03-28 17:31:08.723949180 -0700
-++++ man-1.6g/man/Makefile.in	2016-03-28 17:46:12.866910386 -0700
-+@@ -5,6 +5,13 @@
-+ ALL = man.1 whatis.1 apropos.1 man.config.5
-+ MAYBE8 = makewhatis
-+ 
-++SUBDIRS := $(shell echo @languages@)
-++
-++.PHONY: subdirs $(SUBDIRS)
-++
-++man.config.man: man.conf.man
-++	@cp $< $@
-++
-+ .SUFFIXES: .man .1 .5 .8
-+ 
-+ .man.1:
-+@@ -19,11 +26,11 @@
-+ INSTALL = @INSTALL@ -c -m 644
-+ 
-+ # Where to put the manual pages.
-+-mandir = $(DESTDIR)$(PREFIX)@mandir@$(SLANG)
-++mandir := $(DESTDIR)$(PREFIX)@mandir@$(SLANG)
-+ 
-+ all:	$(ALL)
-+ 	for i in $(MAYBE8); \
-+-		do if test -f $$i.man; then make -f ../Makefile $$i.8; fi; done
-++		do if test -f $$i.man; then $(MAKE) -f ../Makefile $$i.8; fi; done
-+ 
-+ install: $(ALL)
-+ 	mkdir -p $(mandir)/man1 $(mandir)/man5 $(mandir)/man8
-+@@ -38,24 +45,27 @@
-+ 	rm -f core *.in *.@man1ext@ *.@man5ext@ *.@man8ext@ *~
-+ 
-+ spotless:
-++	rm -f man.config.man
-+ 
-+ subdirs:
-+-	@for i in @languages@; do if test -d $$i; then echo; \
-+-		echo "==== Making the `cat $$i.txt` man pages. ===="; \
-+-		cd $$i; make -f ../Makefile; cd ..; \
-+-		else echo "==== No $$i man pages found. ===="; fi; done
-++subdirs: $(SUBDIRS)
-++$(SUBDIRS):
-++	if test -d $@; then echo; \
-++		echo "==== Making the `cat $@.txt` man pages. ===="; \
-++		$(MAKE) -C $@ -f ../Makefile all; \
-++		else echo "==== No $@ man pages found. ===="; fi
-+ 
-+ installsubdirs:
-+ 	@for i in @languages@; do if test -d $$i; then echo; \
-+ 		echo "==== Installing the `cat $$i.txt` man pages. ===="; \
-+ 		cd $$i; SLANG=/$$i; if test $$SLANG = /en; then SLANG= ; fi; \
-+-		export SLANG; make -f ../Makefile install; cd ..; \
-++		export SLANG; $(MAKE) -f ../Makefile install; cd ..; \
-+ 		else echo "==== No $$i man pages found. ===="; fi; done
-+ 
-+ cleansubdirs:
-+-	@for i in ??; do cd $$i; make -f ../Makefile clean; cd ..; done
-++	@for i in ??; do $(MAKE) -C $$i -f ../Makefile clean; done
-+ 	rm -f core *~
-+ 
-+ spotlesssubdirs:
-+-	for i in ??; do cd $$i; make -f ../Makefile spotless; cd ..; done
-++	for i in ??; do $(MAKE) -C $$i -f ../Makefile spotless; done
-+ 	rm -f Makefile
-+
-+--- man-1.6g/src/gripes.c.orig	2006-11-21 11:53:44.000000000 -0800
-++++ man-1.6g/src/gripes.c	2016-03-29 09:12:52.959171325 -0700
-+@@ -7,10 +7,10 @@
-+ 
-+ extern char *msg[];
-+ 
-+-static char *mantexts = "man";		/* e.g. /usr/lib/locale/%L/man.cat */
-+-
-+ #ifdef NONLS
-+ 
-++static char *mantexts = "man";		/* e.g. /usr/lib/locale/%L/man.cat */
-++
-+ static char *
-+ getmsg (int n) {
-+     char *s;
-+
-+--- man-1.6g/src/manfile.c.orig	2005-08-20 16:26:06.000000000 -0700
-++++ man-1.6g/src/manfile.c	2016-03-29 09:10:21.527841285 -0700
-+@@ -299,7 +299,7 @@
-+ 	const char *((*tocat)(const char *man_filename, const char *ext,
-+ 			      int flags))) {
-+      char **sl;
-+-     struct manpage *res;
-++     struct manpage *res = 0;
-+ 
-+      standards = (flags & (FHS | FSSTND | DO_HP | DO_IRIX));
-+      to_cat_filename = tocat;
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index c42bffb..4ccc574 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -39,7 +39,6 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
-            file://man-1.5i2-initial.patch \
-            file://man-1.5h1-gencat.patch;striplevel=0 \
-            file://man-1.5g-nonrootbuild.patch \
--           file://man-1.5m2-tv_fhs.patch;striplevel=0 \
-            file://man-1.5j-i18n.patch \
-            file://man-1.6e-whatis2.patch \
-            file://man-1.6e-use_i18n_vars_in_a_std_way.patch \
-@@ -54,6 +53,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
-            file://man-1.6g-whatis3.patch \
-            file://configure_sed.patch \
-            file://man-1.6g-man-config.patch \
-+           file://man-1.6g-compile-warnings.patch \
- "
- 
- SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
+I like this as well.
+
 -- 
-2.5.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
