@@ -1,56 +1,57 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BC8F6018C
+Return-Path: <cliff.brake@gmail.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id D77E160111
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 13:35:39 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id zm5so14018158pac.0
+	Tue, 29 Mar 2016 13:50:56 +0000 (UTC)
+Received: by mail-qk0-f179.google.com with SMTP id x64so6015910qkd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 06:35:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to:cc;
-	bh=jL1eH7VwRZj9LnydF4bAySAsk9PtLaFhnrrvzfmH70k=;
-	b=t9CHkamGTvr4lc/nyUXcmDKS8U8Oz9F/VgHtAW9f5xslgg2SiaEbFWm6ubRtjMOA/0
-	wSinDbsxWsEeGRoOvQXo7ui9LaEkCLAeNBtpHUZFI12nTRxK0Tcv8HXJo04EqKhqC1Bc
-	IN9SGRor6oXgw7kUw5v3aKB7wQg+fhbKGO6IF0eOy4opAxlHb6KMNAO622rt/PrAIcyF
-	SF6tMcL8uAzZeQLShKF8KpmNK87si9akSVEemroqz0dgSOZ3RoF5wgkMRxrEAYeG9JEo
-	mAdbdx4DDnZwTXFOkfyz6rwEw/4pC/KMJdU+RDLh39R7z1pPasJ57BgPaajKo8eSjN9u
-	tgFA==
+	Tue, 29 Mar 2016 06:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=dhe6RH4D+GLn41OKNhww1VAYbAH08lDqbGsfpdPmTdI=;
+	b=peUCa3MGUB5z2tr69cpG5hzpldBXASOxHrfBq//Gn7UnHjoAzp2SYns6F0eNJyViBt
+	pmOP5Wg2L2+uNe6htuPnP1GzhAL7MCNz/37FzinKRKAXhfcAJVmpG/+r9Pj3NXu3dFVR
+	kbj9CmjKzdGwd6lp4wm44iNAVwTiCRrdlNa6/aIfNrD70v9L6qX7OPtKoBiGVJLaRhef
+	Gn+pO3LYCe/OqiaKIvWuemUZeb3VoLmwvTN+eJcuw7LkN/ibiGmL0KTYHqjY556WScTv
+	SYgcKjV5lTMIAuTK3jqLG2U/jvHr6MkTOjjK8clfCTL/PaAigJX81XQ2tcpLOmTwqA8B
+	6LZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
-	bh=jL1eH7VwRZj9LnydF4bAySAsk9PtLaFhnrrvzfmH70k=;
-	b=W0/w+Cm5VSu3eXWowRD1vn0n61IITywXIW6sPeNcmqoP1OG9AfdR0kfwF7iC9OgojZ
-	LEnME0IrygWv2YIMQErn3bMz+eDJxH0dkHO+EWus1QfaB/foeQhzvWJkoIFB7LzLLxxL
-	C+MjzCp+cjYUn34P+UPzE78pdcYcIit9LmBRZLfGxHZval2TGkFL8k9Vi8K1dAeuyxr9
-	5IT8j8YIJDdnzHKt8mRmXyB5KI6oooOlm0r1hxB0gwBwDlh8AdLFvtHSsHl7YGE4hwEx
-	tad6BIzhRU/q9+b1dRMjEFRstPDp7chZqU9zIqWpDnVOWCcD7c1Uueub1lqHP0d+odhA
-	jf2w==
-X-Gm-Message-State: AD7BkJIUnq1xrsgQEydLkpAkqtvaUwQQzmq/n7rLfmpK8I14Z3ZlumeZR1/2FJsVnSwV+g==
-X-Received: by 10.67.1.65 with SMTP id be1mr3536198pad.46.1459258540148;
-	Tue, 29 Mar 2016 06:35:40 -0700 (PDT)
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com.
-	[209.85.192.171]) by smtp.gmail.com with ESMTPSA id
-	q4sm43391910pfi.94.2016.03.29.06.35.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f171.google.com with SMTP id x3so14579231pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=dhe6RH4D+GLn41OKNhww1VAYbAH08lDqbGsfpdPmTdI=;
+	b=iSLMWL/nWDJlkqd3/DPqLcHe0QAR9VVXekmEtyqAhBad+oWVKhEJ4l8WNSP78IRaer
+	pfB/c8jfcLQfQ1OjAeTEpSZhAGf8YDQ6qunCEwhHCnX5wEqSIxVgEEbwp5ncFSiRODLc
+	787czHkOn7K3Pg5lvlkYtNkYx0QWRVwaobTElNL378h1b9ZXkQZEFHCi790goMzj8Hy3
+	ttu79EzJU2F7FkHkZu9ZUTpeBEq6sW29wuLYd0WPmxcIH4MR1rzae+632XivbrMcAa7p
+	o3iCUrBFFGQ1e9GVs98sNMYrCAYmT8M5mb85NS4Oiu1efhUJB0OEjuRWOI6e3Y40OMYb
+	0msg==
+X-Gm-Message-State: AD7BkJIKjol0UIwN+63dyKfkvgNfjgVdKAvUxP611rtMOutTwrSzY/TtyHSeNJkHMgRxUQ==
+X-Received: by 10.55.82.195 with SMTP id g186mr2773805qkb.47.1459259457149;
+	Tue, 29 Mar 2016 06:50:57 -0700 (PDT)
+Received: from [192.168.1.139] (cable2-pool191-cs-134.doycomm.com.
+	[66.219.191.134]) by smtp.gmail.com with ESMTPSA id
+	q198sm13824752qhb.16.2016.03.29.06.50.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 29 Mar 2016 06:50:55 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <56F59D2B.2010108@gmail.com>
+	<1458978069.3073.62.camel@linuxfoundation.org>
+	<56F98CDF.7080205@gmail.com>
+	<1459204121.21672.12.camel@linuxfoundation.org>
+	<56FA743B.5030200@gmail.com>
+	<1459254522.21672.24.camel@linuxfoundation.org>
+From: Cliff Brake <cliff.brake@gmail.com>
+Message-ID: <56FA883E.6010308@gmail.com>
+Date: Tue, 29 Mar 2016 09:50:54 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-X-Received: by 10.98.93.155 with SMTP id n27mr3536626pfj.88.1459258538325;
-	Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Tue, 29 Mar 2016 06:35:38 -0700 (PDT)
-Date: Tue, 29 Mar 2016 10:35:38 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoNk=TFALAKGbaAo20z-3GKKg=6NEVAMoHqGmzx-VSdqQ@mail.gmail.com>
-Message-ID: <CAP9ODKoNk=TFALAKGbaAo20z-3GKKg=6NEVAMoHqGmzx-VSdqQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [Jethro][Backport] Fixes for 2.0
+In-Reply-To: <1459254522.21672.24.camel@linuxfoundation.org>
+Subject: Re: How to use externalsrc with git workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,57 +64,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 13:35:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 29 Mar 2016 13:51:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Hello folks,
+On 03/29/2016 08:28 AM, Richard Purdie wrote:
+> On Tue, 2016-03-29 at 08:25 -0400, Cliff Brake wrote:
+>> On 03/28/2016 06:28 PM, Richard Purdie wrote:
+>>>> I tried nobranch=1;rev=HEAD, but then that conflicts with
+>>>> ${AUTOREV}.
+>>> Did you just try nobranch=1 and leave rev to get set from SRCREV?
+>> That will parse, but it puts the wrong git rev in the PV:
+>>
+>> The following package gets built:
+>>
+>> blkqcl-app-tune_1.4+gitr1+a97fcb58e6-r1.0_cortexa9hf-vfp-neon.ipk
+>>
+>> But, the actual version of the source that gets built is
+>> 0edb656fc9a1a77d75eaa49a17586deb4c986bb1.
+>>
+>> a97... is the version of the branch (default is master) in the
+>> workspace.
+>>
+>> So this would work if we did not care what gitv got put in the PV. 
+>>  There is
+>> also the issue of bitbake not rebuilding the source if you change the
+>> git
+>> version of the workspace, but the branch happens to not change.
+> At least from my perspective, this is what *should* work and the fact
+> it doesn't is a bug somewhere. Adding extra things to the fetcher would
+> likely just workaround it. Filing a bug report for it would be the
+> likely next step.
 
-At O.S. Systems, we are backporting some important fixes for Jethro which are:
+Thanks, bug submitted: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9351
 
-Author: Christopher Larson <chris_larson@mentor.com>
-Date:   Tue Nov 10 22:34:01 2015 -0700
-
-    systemd: chown hwdb.bin to root:root for do_rootfs
-
-    This is created by qemu for the do_rootfs case, which bypasses pseudo, so we
-    need to correct the ownership. This fixes a warning issued by
-    rootfs_check_host_user_contaminated.
-
-    Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-Author: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-Date:   Tue Jan 5 10:32:40 2016 +0100
-
-    boost: ensure boost to remain an empty metapackage
-
-    To ensure that boost remains an empty metapackage after version
-    updates, we explicitly require boost files to be empty. If new
-    libraries exist after a version update of the boost recipe,
-    bitbake will emit a warning at the do_package task. For example,
-    at the version update from 1.58.0 to 1.59.0, the new timer
-    library is indicated with:
-
-    WARNING: QA Issue: boost: Files/directories were installed but not
-shipped in any package:
-      /usr/lib/libboost_timer.so.1.59.0
-    Please set FILES such that these items are packaged. Alternatively
-if they are unneeded, avoid installing them or delete them within
-do_install.
-    boost: 1 installed and not shipped files. [installed-vs-shipped]
-
-    Ross Burton suggested this improvement on the openembedded-core
-    mailing list during review of the boost recipe version update [1].
-
-    [1] http://lists.openembedded.org/pipermail/openembedded-core/2015-December/114314.html
-
-    Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-Could those be queued for testing and backport?
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Cliff
 
