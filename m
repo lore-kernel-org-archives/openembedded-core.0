@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D7EE65CBB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A6D2606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 07:49:53 +0000 (UTC)
+	Tue, 29 Mar 2016 07:55:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2T7nsIV008422
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2T7t3Lx019056
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 00:49:54 -0700 (PDT)
+	Tue, 29 Mar 2016 00:55:03 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 29 Mar 2016 00:49:54 -0700
+	Tue, 29 Mar 2016 00:55:03 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Mar 2016 00:49:52 -0700
-Message-ID: <930680769815c85878081c7d850dc6b06e62f28c.1459237687.git.liezhi.yang@windriver.com>
+Date: Tue, 29 Mar 2016 00:55:01 -0700
+Message-ID: <4618757d9910b199d7bf79235efd9bf0b2514da2.1459237938.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1459237687.git.liezhi.yang@windriver.com>
-References: <cover.1459237687.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1459237938.git.liezhi.yang@windriver.com>
+References: <cover.1459237938.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] init-live.sh: fix overlay fs
+Subject: [PATCH 1/1] runqemu: fix for iso
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,91 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 07:49:55 -0000
+X-List-Received-Date: Tue, 29 Mar 2016 07:55:04 -0000
 Content-Type: text/plain
 
-* The name changes from overlayfs to overlayo
-* The workdir is a must when mount
-* The updir must be a subdir of rootfs.rw
-
-This patch plus with another one which has been sent to linux-yocto can
-fix the error when boot iso:
-EXT4-fs (loop0): re-mounted. Opts: data=ordered
-Populating dev cache
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/rcS.d/S36udev-cache: line 73: can't create /etc/udev-cache.tar.gz:
-Read-only file system
-udev-cache: update failed!
-rm: can't remove '/etc/udev/cache.data': Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-rm: can't remove '/tmp': Read-only file system
-ln: /tmp/tmp: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-ln: /etc/resolv.conf: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
-/etc/init.d/rc: /etc/rcS.d/S37populate-volatile.sh: line 1: can't create
-/etc/volatile.cache.build: Read-only file system
+It should be the similar type as hddimg, rather than ext234 or btrfs.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ scripts/runqemu | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 04e58d5..09fb479 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -169,8 +169,8 @@ mount_and_boot() {
- 
-     # determine which unification filesystem to use
-     union_fs_type=""
--    if grep -q -w "overlayfs" /proc/filesystems; then
--	union_fs_type="overlayfs"
-+    if grep -q -w "overlay" /proc/filesystems; then
-+	union_fs_type="overlay"
-     elif grep -q -w "aufs" /proc/filesystems; then
- 	union_fs_type="aufs"
-     else
-@@ -179,14 +179,15 @@ mount_and_boot() {
- 
-     # make a union mount if possible
-     case $union_fs_type in
--	"overlayfs")
-+	"overlay")
- 	    mkdir -p /rootfs.ro /rootfs.rw
- 	    if ! mount -n --move $ROOT_MOUNT /rootfs.ro; then
- 		rm -rf /rootfs.ro /rootfs.rw
- 		fatal "Could not move rootfs mount point"
- 	    else
- 		mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
--		mount -t overlayfs -o "lowerdir=/rootfs.ro,upperdir=/rootfs.rw" overlayfs $ROOT_MOUNT
-+		mkdir -p /rootfs.rw/upperdir /rootfs.rw/work
-+		mount -t overlay overlay -o "lowerdir=/rootfs.ro,upperdir=/rootfs.rw/upperdir,workdir=/rootfs.rw/work" $ROOT_MOUNT
- 		mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
- 		mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
- 		mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
+diff --git a/scripts/runqemu b/scripts/runqemu
+index ab7c4f3..49ccd18 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -125,10 +125,10 @@ while true; do
+             [ -z "$MACHINE" -o "$MACHINE" = "$arg" ] && MACHINE=$arg || \
+                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
+             ;;
+-        "ext"[234] | "jffs2" | "nfs" | "btrfs" | "iso")
++        "ext"[234] | "jffs2" | "nfs" | "btrfs")
+             check_fstype_conflicts $arg
+             ;;
+-        "hddimg" | "hdddirect" | "wic" | "vmdk" | "qcow2" | "vdi")
++        "hddimg" | "hdddirect" | "wic" | "vmdk" | "qcow2" | "vdi" | "iso")
+             check_fstype_conflicts $arg
+             IS_VM="true"
+             ;;
 -- 
 2.7.4
 
