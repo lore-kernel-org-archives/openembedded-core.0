@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EB496FEFA
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B1660722
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 08:38:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2T8csP1008763 for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 09:38:54 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3I__qBBcVq08
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 09:38:54 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2T8cmkC008760
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 09:38:49 +0100
-Message-ID: <1459240728.21672.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Mar 2016 09:38:48 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] sstatesig: Ensure we keep native depends for allarch recipes
+	Tue, 29 Mar 2016 10:58:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Mar 2016 03:58:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,410,1455004800"; d="scan'208";a="920898179"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2016 03:58:11 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id E406A6A4002;
+	Tue, 29 Mar 2016 04:45:52 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Mar 2016 11:38:17 +0300
+Message-Id: <1459240697-11343-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] oe-selftest: generate .env only in test_image_env
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 08:38:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Mar 2016 10:58:13 -0000
 
-Without this, do_package_write_rpm doesn't depend on rpm-native which
-it really should since that is needed to build rpms.
+Most of wic functionality doesn't depend on .wicenv file,
+so it's better to generate it only in test_image_env
+test case where it's used.
 
-[YOCTO #8047]
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 4f115e9..5828a9d 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -40,7 +40,7 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     # Only target packages beyond here
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 3829de2..56ce8c8 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -50,7 +50,7 @@ class Wic(oeSelfTest):
+         if not Wic.image_is_ready:
+             bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+                     'dosfstools-native mtools-native')
+-            bitbake('core-image-minimal -c do_rootfs_wicenv')
++            bitbake('core-image-minimal')
+             Wic.image_is_ready = True
  
-     # allarch packagegroups are assumed to have well behaved names which don't change between architecures/tunes
--    if isPackageGroup(fn) and isAllArch(fn):
-+    if isPackageGroup(fn) and isAllArch(fn) and not isNative(depname):
-         return False  
+         rmtree(self.resultdir, ignore_errors=True)
+@@ -199,6 +199,7 @@ class Wic(oeSelfTest):
+     def test_image_env(self):
+         """Test generation of <image>.env files."""
+         image = 'core-image-minimal'
++        self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
+         stdir = get_bb_var('STAGING_DIR_TARGET', image)
+         imgdatadir = os.path.join(stdir, 'imgdata')
  
-     # Exclude well defined machine specific configurations which don't change ABI
-
+-- 
+2.1.4
 
 
