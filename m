@@ -1,23 +1,45 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B1660722
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E43E60670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Mar 2016 10:58:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Mar 2016 03:58:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,410,1455004800"; d="scan'208";a="920898179"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2016 03:58:11 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id E406A6A4002;
-	Tue, 29 Mar 2016 04:45:52 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Tue, 29 Mar 2016 11:46:19 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id 139so4457915wmn.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Mar 2016 04:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=kRNBg68k9az8Y2NQ6qXvQs+eGNjcH02BKtb2mIeHwzE=;
+	b=FnXywWfmI5EWw3g6HubKp3gRNpFPnb6widj8nyPlUWV3FGm738gRF1KUm5uc5P3WWl
+	HAcke7swQTljnd6jhkBilcyDucQyw+Mvtg4v365LCtC0enxR73GJXIaR+Hi3hslAD5Jz
+	aXolyQJHhJSr++N6XOYzTqOu3hBEuSfOftFbQApawZfXLSilY6yHjYpN6lSgtyQ9r9/S
+	Spy1S0pfKss6K6RwdM4UdjjGFVuXwgQqjV/ghvpayCuItH7eokW6of7Z4EuaCTUtghM8
+	Bi95+ZjF3ENzo6HB00OFLyy+TWKFgC1C6JNvXPOY+RJFsWkVI0esZpcl2oe8ZBdu/8Kt
+	Gw1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kRNBg68k9az8Y2NQ6qXvQs+eGNjcH02BKtb2mIeHwzE=;
+	b=K2TrtkVxY79urJCSFvvEJSSDIFmo8tseRw03SvEmEPxXUPPom6RVso4E75k/1oXISv
+	G4EAXJaHtmy7LoXrjPFdKAQ+pjjRDYKMoOemtMGdsoqFpCnFGhkRTFhcws+T4UAUUFMa
+	10xvqjgPPl66TkhpJrVIS7FDDlsRxSGz1J8FGmurT5suM/KLJBpcgfz9O+Z7+eBvmi6S
+	PCEW4zmtbkAVnnF20zZVa7WfT5IEeIAuExI25Pn2Yntdc2AEmpYQsxHX549nfHDF+inR
+	uRiEvUNmxoteG/oQDsmAicAik+fIijJHDCpXWsYAgj65lV5Tv1X7IDDFBlWC4dMfAJF2
+	4LtA==
+X-Gm-Message-State: AD7BkJI98f/71pqwulG+cp4BosDJRK//MYGvYvEQrRMW9uw6PryPUbMka77a/UfD+QhTYQ==
+X-Received: by 10.194.202.195 with SMTP id kk3mr2177094wjc.159.1459251980172; 
+	Tue, 29 Mar 2016 04:46:20 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	lh1sm28852575wjb.20.2016.03.29.04.46.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Mar 2016 04:46:18 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Mar 2016 11:38:17 +0300
-Message-Id: <1459240697-11343-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] oe-selftest: generate .env only in test_image_env
+Date: Tue, 29 Mar 2016 13:46:10 +0200
+Message-Id: <1459251970-10993-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.7.3
+Subject: [PATCH] no-static-libs.inc: build static libusb1-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +52,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 10:58:13 -0000
+X-List-Received-Date: Tue, 29 Mar 2016 11:46:21 -0000
 
-Most of wic functionality doesn't depend on .wicenv file,
-so it's better to generate it only in test_image_env
-test case where it's used.
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/no-static-libs.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 3829de2..56ce8c8 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -50,7 +50,7 @@ class Wic(oeSelfTest):
-         if not Wic.image_is_ready:
-             bitbake('syslinux syslinux-native parted-native gptfdisk-native '
-                     'dosfstools-native mtools-native')
--            bitbake('core-image-minimal -c do_rootfs_wicenv')
-+            bitbake('core-image-minimal')
-             Wic.image_is_ready = True
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+index 1265908..13a7918 100644
+--- a/meta/conf/distro/include/no-static-libs.inc
++++ b/meta/conf/distro/include/no-static-libs.inc
+@@ -27,6 +27,8 @@ DISABLE_STATIC_pn-openssl-native = ""
+ DISABLE_STATIC_pn-nativesdk-openssl = ""
+ # libssp-static-dev included in build-appliance
+ DISABLE_STATIC_pn-gcc-runtime = ""
++# libusb1-native is used to build static dfu-util-native
++DISABLE_STATIC_pn-libusb1-native = ""
  
-         rmtree(self.resultdir, ignore_errors=True)
-@@ -199,6 +199,7 @@ class Wic(oeSelfTest):
-     def test_image_env(self):
-         """Test generation of <image>.env files."""
-         image = 'core-image-minimal'
-+        self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
-         stdir = get_bb_var('STAGING_DIR_TARGET', image)
-         imgdatadir = os.path.join(stdir, 'imgdata')
+ EXTRA_OECONF_append = "${DISABLE_STATIC}"
  
 -- 
-2.1.4
+2.7.3
 
 
