@@ -1,20 +1,53 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E735F62136
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CF7262136
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 23:50:57 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Mar 2016 16:50:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,419,1455004800"; d="scan'208";a="76220790"
-Received: from wcrandle-mobl1.jf.intel.com ([10.24.4.102])
-	by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2016 16:50:58 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 16:50:49 -0700
-Message-Id: <1459381849-13495-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCHv4] man: fix several annoying compile/build warnings
+	Wed, 30 Mar 2016 23:59:04 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id p65so92358050wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Mar 2016 16:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-transfer-encoding;
+	bh=XhrCckdpMu9TA6Pm/ug/BM61tkFKnWQIT/QVCgV+Rms=;
+	b=N/3jkyc+C93Gz0/XigsnCUg0QfiGOC2nBYWixOAGjn5NHLGRm7UfPp9mv0vpPDSrtk
+	mlt77YFLtTdwST2ixWFqNvD46VfKuYqeZAvv6lgzpG4fPyN1giT48k0vO4ljqEGN06VR
+	t2Yc9ii3CUgPU0C5y7o1pRC9aNj/smawNHjT/TgMafyFmNu2patbRWvDjVGpNVgIXBmN
+	kvzk8mzChOM5//TuX5OfSkL1+VOdKGrRLq+5rItcty2QZ8NceviaY4wH7RAQ4+Nr/WyV
+	D8+6lB6iSFQ7DTUgnZJEYpBH6U/Zw7ripzH688WecRD5+RhedVmyspf3GF+NB1sLK7z/
+	qSmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-transfer-encoding;
+	bh=XhrCckdpMu9TA6Pm/ug/BM61tkFKnWQIT/QVCgV+Rms=;
+	b=TM6rbW6tgVKdJb0tX7L47Hclrm0Iz0WB87k0TnvqJBwfGVtFKeHuWRKpQ0sv2r+aTQ
+	6xLN5/SYRsqGgsXSIPaWKv5UyKOVqcPAyPSaN+Mb34hUu4JlKsPdSUwvgUrniqzrbUq8
+	so8qKOQP0EowDUTaHNdIirUYEuCu1tYQ9vfIxsogFvbWF/rDKbVutZa6/u88RYscz+jT
+	srjFeLXuxxVGpb63go+x7Wu/yOxCeZ9YQvtoMsWX0apz60IpxevRnstxyYrnQYdPEd9e
+	L1VLEeX5IXKFE10GtvVRtsPtL7fhhTSOgcWdHx3cuMXt+XjQAy6OJinhM+P7nS70Zi5n
+	fXKQ==
+X-Gm-Message-State: AD7BkJIeK6Q1EJoJQbgCFW1aHgqymXC5o3caKvqTBp6pV11fag9PLQewNL+6VIcCuY88QdzAnzDhnj3KEA80YA==
+MIME-Version: 1.0
+X-Received: by 10.28.49.3 with SMTP id x3mr12697287wmx.4.1459382344781; Wed,
+	30 Mar 2016 16:59:04 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Wed, 30 Mar 2016 16:59:04 -0700 (PDT)
+In-Reply-To: <1459377982.2322.57.camel@pbcl.net>
+References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
+	<1459203003.2322.29.camel@pbcl.net>
+	<87103DB9-1813-4A3B-A68D-9BDC572BC588@gmail.com>
+	<56FBF8CA.20809@windriver.com>
+	<0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
+	<CAJ86T=WfMfoXjabaN0+9u52Jxy4d+HXnaJv2Hii+TEtr0JohNw@mail.gmail.com>
+	<6065832E-762D-413F-AE15-9B743371EF93@gmail.com>
+	<CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
+	<1459377982.2322.57.camel@pbcl.net>
+Date: Wed, 30 Mar 2016 16:59:04 -0700
+Message-ID: <CAJ86T=XShqiCRiZan9s4kimpBdejqjRYCHei7aXfv5xfbcpUmA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,198 +60,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 23:50:58 -0000
+X-List-Received-Date: Wed, 30 Mar 2016 23:59:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fixed the build error when building man.config.5 (a remnant of a long
-ago previous patch). Optimized the manpages Makefile for parallel
-builds. Drop a FHS patch that is no longer needed, as the standard
-Makefile puts the man pages in the proper location. Also, fix compile 
-warnings in a couple other files.
+On Wed, Mar 30, 2016 at 3:46 PM, Phil Blundell <pb@pbcl.net> wrote:
+> On Wed, 2016-03-30 at 11:53 -0700, Andre McCurdy wrote:
+>> Either way it shouldn't be a concern for the CPU tuning files.
+>> Building Thumb2 for an armv8a CPU is really just an extension of
+>> "optimise for size" and we don't include -Os, -O2, etc options in the
+>> CPU tuning files.
+>
+> Yes, agreed.  In principle there's no reason that the compiler couldn't
+> choose between A32 and T32 instruction sets dynamically for each
+> compilation unit (or each function) according to which it thinks would
+> give the better result.  And from the user's point of view, the outcome
+> should be equivalent apart from minor performance differences.
+>
+>> >> For most cores from Cortex A9 onwards NEON and VFP are optional, so
+>> >> hardcoded assumptions won't work.
+>
+>> Nothing very concrete. The ARM Cortex-A Series Programmer=E2=80=99s Guid=
+e for
+>> ARMv8-A mentions:
+>>
+>> "Both floating-point and NEON are required in all standard ARMv8
+>> implementations. However, implementations targeting specialized
+>> markets may support the following combinations:
+>>
+>>  - No NEON or floating-point.
+>>  - Full floating-point and SIMD support with exception trapping.
+>>  - Full floating-point and SIMD support without exception trapping.
+>
+> Is there any evidence that anyone is actually building ARMv8-A (as
+> opposed to -R or -M) cores that lack VFP and/or NEON?  Unless there is a
+> fairly clear indication that such cores do exist and are likely to be
+> used with OE, I think we should not complicate the tuning files with
+> support for such things.  Anybody who wants them can always add
+> appropriate tunes later, either in oe-core or in their own layer.
 
-[YOCTO #9341]
+I can't find any evidence of real ARMv8-A cores without NEON or VFP,
+so if any "new approach" to ARM CPU tuning files is limited to armv8a
+then hardcoding support for NEON and VFP is probably going to work out
+OK (at least until someone wants support for the half-precision
+floating point extensions added in ARMv8.2-A).
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
-[Note: should be applied after previous man patch "fix src/Makefile
-to work with parallel make".] 
+Personally though, I'd like to see a comprehensive cleanup and
+restructuring which could be applied to all ARM tuning files,
+including armv7a where NEON certainly is optional in the real world.
 
-v4: redo patch to src/gripes.c
-
- .../man/man/man-1.5m2-tv_fhs.patch                 |  31 ------- 
- .../man/man/man-1.6g-compile-warnings.patch        | 101 +++++++++++++++++++++
- meta/recipes-extended/man/man_1.6g.bb              |   2 +-
- 3 files changed, 102 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
- create mode 100644 meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
-
-diff --git a/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch b/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
-deleted file mode 100644
-index fe66d75..0000000
---- a/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
----- man/Makefile.in	2008-12-21 19:19:33.000000000 +0100
--+++ man/Makefile.in.oden	2008-12-21 19:19:39.000000000 +0100
--@@ -34,6 +34,15 @@
-- 	for i in $(MAN8); \
-- 		do if test -f $$i.8; then $(INSTALL) $$i.8 $(mandir)/man8/$$i.@man8ext@; fi; done
-- 
--+install-l10n: $(ALL)
--+	mkdir -p $(mandir)/$(SLANG)/man1 $(mandir)/$(SLANG)/man5 $(mandir)/$(SLANG)/man8
--+	for i in $(MAN1); \
--+		do $(INSTALL) $$i.1 $(mandir)/$(SLANG)/man1/$$i.@man1ext@; done
--+	for i in $(MAN5); \
--+		do $(INSTALL) $$i.5 $(mandir)/$(SLANG)/man5/$$i.@man5ext@; done
--+	for i in $(MAN8); \
--+		do if test -f $$i.8; then $(INSTALL) $$i.8 $(mandir)/$(SLANG)/man8/$$i.@man8ext@; fi; done
--+
-- clean:
-- 	rm -f core *.in *.@man1ext@ *.@man5ext@ *.@man8ext@ *~
-- 
--@@ -49,7 +58,7 @@
-- 	@for i in @languages@; do if test -d $$i; then echo; \
-- 		echo "==== Installing the `cat $$i.txt` man pages. ===="; \
-- 		cd $$i; SLANG=/$$i; if test $$SLANG = /en; then SLANG= ; fi; \
---		export SLANG; make -f ../Makefile install; cd ..; \
--+		export SLANG; make -f ../Makefile install-l10n; cd ..; \
-- 		else echo "==== No $$i man pages found. ===="; fi; done
-- 
-- cleansubdirs:
-diff --git a/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch b/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
-new file mode 100644
-index 0000000..4631d2d
---- /dev/null
-+++ b/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
-@@ -0,0 +1,105 @@
-+Fix a build error when building man.config.5 (a remnant of a long
-+ago previous patch). Optimized the manpages Makefile for parallel
-+builds. Also, fix compile warnings in a couple other files.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Bill Randle <william.c.randle@intel.com>
-+
-+--- man-1.6g/man/Makefile.in.orig	2016-03-28 17:31:08.723949180 -0700
-++++ man-1.6g/man/Makefile.in	2016-03-28 17:46:12.866910386 -0700
-+@@ -5,6 +5,13 @@
-+ ALL = man.1 whatis.1 apropos.1 man.config.5
-+ MAYBE8 = makewhatis
-+ 
-++SUBDIRS := $(shell echo @languages@)
-++
-++.PHONY: subdirs $(SUBDIRS)
-++
-++man.config.man: man.conf.man
-++	@cp $< $@
-++
-+ .SUFFIXES: .man .1 .5 .8
-+ 
-+ .man.1:
-+@@ -19,11 +26,11 @@
-+ INSTALL = @INSTALL@ -c -m 644
-+ 
-+ # Where to put the manual pages.
-+-mandir = $(DESTDIR)$(PREFIX)@mandir@$(SLANG)
-++mandir := $(DESTDIR)$(PREFIX)@mandir@$(SLANG)
-+ 
-+ all:	$(ALL)
-+ 	for i in $(MAYBE8); \
-+-		do if test -f $$i.man; then make -f ../Makefile $$i.8; fi; done
-++		do if test -f $$i.man; then $(MAKE) -f ../Makefile $$i.8; fi; done
-+ 
-+ install: $(ALL)
-+ 	mkdir -p $(mandir)/man1 $(mandir)/man5 $(mandir)/man8
-+@@ -38,24 +45,27 @@
-+ 	rm -f core *.in *.@man1ext@ *.@man5ext@ *.@man8ext@ *~
-+ 
-+ spotless:
-++	rm -f man.config.man
-+ 
-+ subdirs:
-+-	@for i in @languages@; do if test -d $$i; then echo; \
-+-		echo "==== Making the `cat $$i.txt` man pages. ===="; \
-+-		cd $$i; make -f ../Makefile; cd ..; \
-+-		else echo "==== No $$i man pages found. ===="; fi; done
-++subdirs: $(SUBDIRS)
-++$(SUBDIRS):
-++	if test -d $@; then echo; \
-++		echo "==== Making the `cat $@.txt` man pages. ===="; \
-++		$(MAKE) -C $@ -f ../Makefile all; \
-++		else echo "==== No $@ man pages found. ===="; fi
-+ 
-+ installsubdirs:
-+ 	@for i in @languages@; do if test -d $$i; then echo; \
-+ 		echo "==== Installing the `cat $$i.txt` man pages. ===="; \
-+ 		cd $$i; SLANG=/$$i; if test $$SLANG = /en; then SLANG= ; fi; \
-+-		export SLANG; make -f ../Makefile install; cd ..; \
-++		export SLANG; $(MAKE) -f ../Makefile install; cd ..; \
-+ 		else echo "==== No $$i man pages found. ===="; fi; done
-+ 
-+ cleansubdirs:
-+-	@for i in ??; do cd $$i; make -f ../Makefile clean; cd ..; done
-++	@for i in ??; do $(MAKE) -C $$i -f ../Makefile clean; done
-+ 	rm -f core *~
-+ 
-+ spotlesssubdirs:
-+-	for i in ??; do cd $$i; make -f ../Makefile spotless; cd ..; done
-++	for i in ??; do $(MAKE) -C $$i -f ../Makefile spotless; done
-+ 	rm -f Makefile
-+
-+--- man-1.6g/src/gripes.c.orig	2006-11-21 11:53:44.000000000 -0800
-++++ man-1.6g/src/gripes.c	2016-03-30 16:32:31.601103487 -0700
-+@@ -7,8 +7,6 @@
-+ 
-+ extern char *msg[];
-+ 
-+-static char *mantexts = "man";		/* e.g. /usr/lib/locale/%L/man.cat */
-+-
-+ #ifdef NONLS
-+ 
-+ static char *
-+@@ -30,6 +28,8 @@
-+ #include <nl_types.h>
-+ #include "../catopen/catopen.c"
-+ 
-++static char *mantexts = "man";		/* e.g. /usr/lib/locale/%L/man.cat */
-++
-+ nl_catd catfd = (nl_catd) -1;
-+ int cat_is_open = 0;
-+ 
-+--- man-1.6g/src/manfile.c.orig	2005-08-20 16:26:06.000000000 -0700
-++++ man-1.6g/src/manfile.c	2016-03-29 09:10:21.527841285 -0700
-+@@ -299,7 +299,7 @@
-+ 	const char *((*tocat)(const char *man_filename, const char *ext,
-+ 			      int flags))) {
-+      char **sl;
-+-     struct manpage *res;
-++     struct manpage *res = 0;
-+ 
-+      standards = (flags & (FHS | FSSTND | DO_HP | DO_IRIX));
-+      to_cat_filename = tocat;
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index 9b057b6..efdf565 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -39,7 +39,6 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
-            file://man-1.5i2-initial.patch \
-            file://man-1.5h1-gencat.patch;striplevel=0 \
-            file://man-1.5g-nonrootbuild.patch \
--           file://man-1.5m2-tv_fhs.patch;striplevel=0 \
-            file://man-1.5j-i18n.patch \
-            file://man-1.6e-whatis2.patch \
-            file://man-1.6e-use_i18n_vars_in_a_std_way.patch \
-@@ -54,6 +53,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
-            file://man-1.6g-whatis3.patch \
-            file://configure_sed.patch \
-            file://man-1.6g-parallel.patch \
-+           file://man-1.6g-compile-warnings.patch \
- "
- 
- SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
---
-2.5.0
+> p.
+>
+>
 
