@@ -1,45 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E9BCD6012C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 48F5C60119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 17:56:52 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id x64so22861629qkd.1
+	Wed, 30 Mar 2016 18:10:28 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id r72so110248865wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 10:56:53 -0700 (PDT)
+	Wed, 30 Mar 2016 11:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=bc5uZRWUHe3w/f48SA4HtfoowGQWhAIX/fYnFSutlxs=;
-	b=X1pJtij3sbaoxoJ71utPFwHi9HveyevqVqlaTFDa73+hx9OB+NzvgCPUGr/jRl9L0U
-	WsHfOtWIVR3YA834aYJH/3GN0aiZC1SUfMFtCEWColQZvpQyBCjcBsqUY0xZciGSW90M
-	aD+fL+oxWumNl+TjFIcgJeXKNYu4cmsIxchVFinOs4rPfvhQ27VHG6vnOqokjYe0VAuR
-	6n/nRrSA5TkZ+DozX5dgDrA80O8sS7PcfSY5qXwZPMasKzaRQDwdd1F/lEayGSC6FMxs
-	3bLPycoszX+m632jIp52B7qgux3EzmAaSksIEad4hdfmaxGB7zaTI8KrpVpDVheylcDN
-	3T3w==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-transfer-encoding;
+	bh=GuAW22VZShdNpXCKtJj4p1ENSdThwKKJHrtygvQp6VE=;
+	b=OcDpeKc3At7Gc4OhOeYeUA/XwXhda22mzDcepxDnlLd4Mk+bh79Lr6yA3idve545/C
+	IHi9p1hQFErtt2zVKBrUThzi9ZAGwUqzd7uCmOkC1uQBMxUer/r9zjRq7aYhYX8C7KN2
+	DwixKYhg7hhp3u51EFzIh0SSo5KrdfdCke6MGC17HYqXg099gy/XoNASAu3NFO3RcPmu
+	GLBmM1VF+8g0Bo1Fj6p7n4HXnX4+7cJdjymMcmnCKNktFPFpu5CGz2MszKGhR45eJdvB
+	GePZleoNWVf5DT4IQMBxb1Rmmt7kpSq85q08KEY6XcKCrVq85mEml6q4ygVwTGm+CluK
+	25qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bc5uZRWUHe3w/f48SA4HtfoowGQWhAIX/fYnFSutlxs=;
-	b=UcDALHn3zIh0MzFPHKzinUmbyjYkW5zn4hH4E4/7fDx41Tct414IuANIAiwwB9+++d
-	OCxhGSnchIYaoL5dOv0ZjOHd7xU/dFgYksEc7ysuxU3scY75d49KGL71iQ4yutaknodU
-	oEe9Y+bPG5DLdu5PTQtl/5Fv2qWtzgAE9S+rSSJogev4vrhXHiu/2HprKHbMWTRTg8gl
-	TyatsJ3T89Ju7OAo34ksKslZ5K47AODeoB7mkYAWxq4R400K/NGqHWaMgCxiJnODqb/L
-	RdbDLAzyixUmCOH01uGtR/FVCLspCcFQ8FklmnqtX9pv/RpJA++DP7GuCzuoh/N6PoWL
-	Ybkw==
-X-Gm-Message-State: AD7BkJI7mnZ2Pqfb3NTQZBpr95FQbn0R4gXJiyu/rdE3MEuSQwaWBbwq+IbmV7hr05ln9g==
-X-Received: by 10.55.215.208 with SMTP id t77mr11595344qkt.23.1459360612994;
-	Wed, 30 Mar 2016 10:56:52 -0700 (PDT)
-Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
-	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	u202sm2253144qka.43.2016.03.30.10.56.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 30 Mar 2016 10:56:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 17:56:47 +0000
-Message-Id: <1459360607-25880-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH V2] psmisc: Remove including sys/user.h and __WORDSIZE
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-transfer-encoding;
+	bh=GuAW22VZShdNpXCKtJj4p1ENSdThwKKJHrtygvQp6VE=;
+	b=QyB+v5pM4UkKG/12eCSQFbJikLAJceP2mtcrzsPJOYBlzHX32fmniyCupa3Wh/JdRN
+	fduoaMtFDf5CQbNk+JkSPOTz5qJNiICh8zh4TTzh67afqUNBkN3vQiQbiXyyTOdcZMpn
+	EN1pn33OX3zoOWHIyMirElggHuCwkYA6ZALI/ClH1D3bLWYaBRsxXCk0Evq5qLU0I7sG
+	hgi2BhZJXpsKR31vENKhzBQIc0flbWxjLk8l4zU2bAY09h4qoKqTHkOjdYDZWEIS72qx
+	fZdrjT8HpvadT8kAKJuXEJRkq6Y/RhseiaQ0MF3GyLvP+JXulKz7hSDOrV4GTeRB1QhZ
+	isSA==
+X-Gm-Message-State: AD7BkJJEBtDUA8va+sxUC+Uqk2N2V5uWha9S+7Atns+bn6VJR9Grs4zNgx61R+uQPH6h753Bz2fF0iO3sxVXHw==
+MIME-Version: 1.0
+X-Received: by 10.28.0.148 with SMTP id 142mr11359963wma.72.1459361428888;
+	Wed, 30 Mar 2016 11:10:28 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Wed, 30 Mar 2016 11:10:28 -0700 (PDT)
+In-Reply-To: <0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
+References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
+	<1459203003.2322.29.camel@pbcl.net>
+	<87103DB9-1813-4A3B-A68D-9BDC572BC588@gmail.com>
+	<56FBF8CA.20809@windriver.com>
+	<0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
+Date: Wed, 30 Mar 2016 11:10:28 -0700
+Message-ID: <CAJ86T=WfMfoXjabaN0+9u52Jxy4d+HXnaJv2Hii+TEtr0JohNw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,95 +56,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 17:56:55 -0000
+X-List-Received-Date: Wed, 30 Mar 2016 18:10:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-We can replace __WORDSIZE with UINTPTR_MAX
-sys/user.h is in conflict with asm/ptrace.h on musl
+On Wed, Mar 30, 2016 at 9:36 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Mar 30, 2016, at 9:03 AM, Dragomir Daniel <daniel.dragomir@windriver.=
+com> wrote:
+>>
+>> On 03/29/2016 07:07 PM, Khem Raj wrote:
+>>>> On Mar 28, 2016, at 3:10 PM, Phil Blundell <pb@pbcl.net> wrote:
+>>>>
+>>>> On Mon, 2016-03-28 at 18:29 +0300, Daniel Dragomir wrote:
+>>>>> For AArch64 state, the default tune is aarch32 and include which
+>>>>>    include just the aarch64 feature.
+>>>> I don't really understand what this sentence is trying to say.  Can yo=
+u
+>>>> re-phrase it so as to be more accessible to non-experts?
+>>>>
+>>>>> meta/conf/machine/include/arm/arch-arm64.inc       |  36 -------
+>>>>> meta/conf/machine/include/arm/arch-armv8.inc       |   1 -
+>>>> If you are deleting existing files, please mention that in the commit
+>>>> message.  And in particular, if you are removing a file that supports
+>>>> generic ARMv8 (if imperfectly) and replacing it with something that is
+>>>> specific to ARMv8-A, please explain why this is a good thing.
+>>>>
+>>>>> +TUNEVALID[crc] =3D "Enable CRC instructions for ARMv8-a"
+>>>>> +ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'crc', '-c=
+rc', '', d)}"
+>>>>> +ARMPKGSFX_FPU_64 =3D "${@bb.utils.contains('TUNE_FEATURES', 'crc', '=
+-crc', '', d)}"
+>>>> Why is this involved with ARMPKGSFX_FPU?  The crc instructions are not
+>>>> related to the fpu.  Also, the fact that you need to duplicate both th=
+is
+>>>> and the crypto one for both FPU and FPU_64 seems like an indication th=
+at
+>>>> something elsewhere is misdesigned.
+>>>>
+>>>>> +TUNEVALID[fp-armv8] =3D "Enable ARMv8 Vector Floating Point unit."
+>>>>> +ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'fp-armv8'=
+, '-fp-armv8', '', d)}"
+>>>> I don't entirely understand why this one doesn't have an FPU_64
+>>>> equivalent.  Are you always enabling vfp for A64?
+>>>>
+>>>>> +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'aarch3=
+2', 'aarch32:', '' ,d)}"
+>>>>> +MACHINEOVERRIDES .=3D "${@bb.utils.contains('TUNE_FEATURES', 'aarch6=
+4', ':aarch64', '' ,d)}"
+>>>> As previously discussed, I am not wild about "aarch32" as the name of =
+an
+>>>> override which really means "ARMv8 in AArch32 state".  I know there is=
+ a
+>>>> school of thought that says that the execution state of older cpus is
+>>>> not AArch32 even if in practice it is indistinguishable, but this
+>>>> doesn't seem to match either the expectations that a rational user of =
+OE
+>>>> is likely to have, or the information in the published literature.
+>>> Don=E2=80=99t disagree with technical argument I said that previously t=
+oo. All I am trying
+>>> to say is lets take this opportunity to simplify arm tunes starting wit=
+h armv8
+>>> we have this opportunity and what you suggest will keep the thread aliv=
+e with
+>>> prior tunes. With armv8 we should match what we do for x86 and x86_64 i=
+deally.
+>>
+>> We'll need to take a decision on this and continue the work on tunes.
+>>
+>> What is the best way to name the armv8a tunes:
+>> aarch32 and aarch64 or armv8a32 and armv8a64?
+>
+> We are catering armv8 here and not 64bit or 32bit arm. Thats the differen=
+ce.
+> may be those could be added in a common file?
+> its fine to call them armv8a32 and armv8a64 it doesnt matter
+> but break the inclusion of .inc files that will drag it
+> into pre-armv8 world and define a consistent 32bit tunes
+> such that when we think armv8, we get three options
+> aarch64, aarch32, aarch32t2,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-Change from v1 to v2:
-- Fix build regression on arches which do require user_regs_struct from glibc
+All armv8a CPUs support Thumb2, so there's no need to distinguish
+between aarch32 and aarch32t2.
 
- ...001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch | 51 ++++++++++++++++++++++
- meta/recipes-extended/psmisc/psmisc_22.21.bb       |  8 ++--
- 2 files changed, 56 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch
+We've made that mistake historically for armv6 and armv7 but we
+shouldn't keep carrying it forward.
 
-diff --git a/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch b/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch
-new file mode 100644
-index 0000000..b57a006
---- /dev/null
-+++ b/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch
-@@ -0,0 +1,51 @@
-+From 5dc872bb2fba6421cb8e1ee578f7bd4aaed55f61 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 24 Mar 2016 15:46:14 +0000
-+Subject: [PATCH] Use UINTPTR_MAX instead of __WORDSIZE
-+
-+Do not include sys/user.h since it conflicts with
-+pt_regs struct from kernel APIs in asm/ptrace.h
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ src/peekfd.c | 13 ++++++++-----
-+ 1 file changed, 8 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/peekfd.c b/src/peekfd.c
-+index cba2130..0d39878 100644
-+--- a/src/peekfd.c
-++++ b/src/peekfd.c
-+@@ -30,8 +30,11 @@
-+ #include <asm/ptrace.h>
-+ #include <byteswap.h>
-+ #include <endian.h>
-++#ifdef __GLIBC__
-+ #include <sys/user.h>
-++#endif
-+ #include <stdlib.h>
-++#include <stdint.h>
-+ #include <getopt.h>
-+ #include <ctype.h>
-+ 
-+@@ -228,11 +231,11 @@ int main(int argc, char **argv)
-+ 		if (WIFSTOPPED(status)) {
-+ #ifdef PPC
-+ 			struct pt_regs regs;
-+-			regs.gpr[0] = ptrace(PTRACE_PEEKUSER, pid, __WORDSIZE/8 * PT_R0, 0);
-+-			regs.gpr[3] = ptrace(PTRACE_PEEKUSER, pid, __WORDSIZE/8 * PT_R3, 0);
-+-			regs.gpr[4] = ptrace(PTRACE_PEEKUSER, pid, __WORDSIZE/8 * PT_R4, 0);
-+-			regs.gpr[5] = ptrace(PTRACE_PEEKUSER, pid, __WORDSIZE/8 * PT_R5, 0);
-+-			regs.orig_gpr3 = ptrace(PTRACE_PEEKUSER, pid, __WORDSIZE/8 * PT_ORIG_R3, 0);
-++			regs.gpr[0] = ptrace(PTRACE_PEEKUSER, pid, UINTPTR_MAX/8 * PT_R0, 0);
-++			regs.gpr[3] = ptrace(PTRACE_PEEKUSER, pid, UINTPTR_MAX/8 * PT_R3, 0);
-++			regs.gpr[4] = ptrace(PTRACE_PEEKUSER, pid, UINTPTR_MAX/8 * PT_R4, 0);
-++			regs.gpr[5] = ptrace(PTRACE_PEEKUSER, pid, UINTPTR_MAX/8 * PT_R5, 0);
-++			regs.orig_gpr3 = ptrace(PTRACE_PEEKUSER, pid, UINTPTR_MAX/8 * PT_ORIG_R3, 0);
-+ #elif defined(ARM)
-+ 			struct pt_regs regs;
-+ 			ptrace(PTRACE_GETREGS, pid, 0, &regs);
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb b/meta/recipes-extended/psmisc/psmisc_22.21.bb
-index 66aba9e..1c6473e 100644
---- a/meta/recipes-extended/psmisc/psmisc_22.21.bb
-+++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
-@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
- SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
- SRC_URI[sha256sum] = "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
- 
--SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
--            file://0002-Include-limits.h-for-PATH_MAX.patch \
--            "
-+SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz \
-+           file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
-+           file://0002-Include-limits.h-for-PATH_MAX.patch \
-+           file://0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch \
-+           "
--- 
-1.9.1
+> all the vfp options
+> may be folder into these three and also neon and others
 
+For most cores from Cortex A9 onwards NEON and VFP are optional, so
+hardcoded assumptions won't work.
+
+> Can we reach that somehow ?
+>
+>
+>>
+>> Who else need to express his opinion about this and make the decision?
+>>
+>> Daniel
+>>
+>>>
+>>>>> +ARMPKGARCH_tune-aarch64            ?=3D "aarch64"
+>>>> This seems a tiny bit short-sighted since presumably there will be an
+>>>> ARMv9 (or ARMv8.2) at some point.  What will ARMPKGARCH for A64 be the=
+n?
+>>>>
+>>>>> +BASE_LIB_tune-aarch64            =3D "lib64"
+>>>> This seems like more a matter of distro policy and I'm not sure it
+>>>> belongs in a tune file.  If it does then can't you rely on the aarch64
+>>>> MACHINEOVERRIDE and just write "BASE_LIB_aarch64" rather than having t=
+o
+>>>> duplicate this for all four of the tunes (and the -be equivalents)?
+>>>>
+>>>>> +# Duplicated from arch-arm.inc
+>>>> Please add a comment explaining why you can't include arch-arm.inc.
+>>>>
+>>>> p.
+>>>>
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
