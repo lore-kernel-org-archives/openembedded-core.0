@@ -1,23 +1,30 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A92C6E65F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CB93A60053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 19:45:55 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 30 Mar 2016 12:45:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,417,1455004800"; d="scan'208";a="774903655"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
-	by orsmga003.jf.intel.com with ESMTP; 30 Mar 2016 12:45:55 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 12:31:54 -0700
-Message-Id: <1459366314-23967-2-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1459366314-23967-1-git-send-email-juro.bystricky@intel.com>
-References: <1459366314-23967-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [jethro][PATCH 1/1] python3: fix building nativesdk-python3
+	Wed, 30 Mar 2016 19:49:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2UJn0T6023161 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Mar 2016 20:49:00 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6asiPCFn2Jqc
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Mar 2016 20:49:00 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u2UJmwO3023149
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Mar 2016 20:48:59 +0100
+Message-ID: <1459367338.21672.53.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Mar 2016 20:48:58 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] uninative: Switch md5sum -> sha256
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 19:45:55 -0000
+X-List-Received-Date: Wed, 30 Mar 2016 19:49:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When the class nativesdk.bbclass is inherited, it redefines TARGET_CC_ARCH,
-in the case of python3, this enables debug, causing an error while linking.
-Since we don't enable debug during configure some functions are not declared.
-This patch makes sure we keep debug disabled, fixing the linking errors.
+There are various concerns about md5 so use sha256 instead.
 
-[YOCTO #9357]
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/recipes-devtools/python/python3_3.4.3.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
-index f61d278..4f4e79c 100644
---- a/meta/recipes-devtools/python/python3_3.4.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.4.3.bb
-@@ -61,6 +61,7 @@ CACHED_CONFIGUREVARS = "ac_cv_have_chflags=no \
- TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
- TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
- TARGET_CC_ARCH += "-DNDEBUG -fno-inline"
-+SDK_CC_ARCH += "-DNDEBUG -fno-inline"
- EXTRA_OEMAKE += "CROSS_COMPILE=yes"
- EXTRA_OECONF += "CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ --without-ensurepip"
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 0798717..89cec07 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -60,7 +60,7 @@ python uninative_event_fetchloader() {
+             localdata.setVar('FILESPATH', "")
+             localdata.setVar('DL_DIR', tarballdir)
  
--- 
-1.9.1
+-            srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};md5sum=%s" % chksum)
++            srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};sha256sum=%s" % chksum)
+             bb.note("Fetching uninative binary shim from %s" % srcuri)
+ 
+             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 122a944..6ac67ac 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,5 +7,5 @@
+ #
+ 
+ UNINATIVE_URL = "http://downloads.yoctoproject.org/releases/uninative/0.95/"
+-UNINATIVE_CHECKSUM[i686] ?= "dd09aebeda3eac4e9140cdc327f28ed1"
+-UNINATIVE_CHECKSUM[x86_64] ?= "4b6fb2106c2f18b8f9c8ac67e1cf9e57"
++UNINATIVE_CHECKSUM[i686] ?= "5f27d7e0f4dd2ed80a7ff6a0d88af107b08e00765b31ed3aa180cc5ce15b0811"
++UNINATIVE_CHECKSUM[x86_64] ?= "26d46c61ad88cc245e31c88549717c0092a838d111b93ec169d88b08cc027581"
+
 
 
