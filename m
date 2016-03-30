@@ -1,29 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CA1B6FF4E
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 35009605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 07:32:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2U7WuIG011046; Wed, 30 Mar 2016 08:32:56 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id a3vF1TwmIJ8f; Wed, 30 Mar 2016 08:32:56 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2U7WnfY011041
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 30 Mar 2016 08:32:51 +0100
-Message-ID: <1459323169.21672.46.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bill Randle <william.c.randle@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 08:32:49 +0100
-In-Reply-To: <1459290421-9838-1-git-send-email-william.c.randle@intel.com>
-References: <1459290421-9838-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCHv3] man: fix several annoying compile/build warnings
+	Wed, 30 Mar 2016 08:06:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2U86BVo020075
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 30 Mar 2016 01:06:12 -0700
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 30 Mar 2016 01:06:10 -0700
+To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
+	<mark.hatle@windriver.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56FB88EE.3070709@windriver.com>
+Date: Wed, 30 Mar 2016 16:06:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1459147231.git.hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V7 00/17] fix buildpaths QA issue && dbp package source generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +35,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 07:32:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 30 Mar 2016 08:06:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2016-03-29 at 15:27 -0700, Bill Randle wrote:
-> Fixed the build error when building man.config.5 (a remnant of a long
-> ago previous patch). Optimized the manpages Makefile for parallel
-> builds. Drop a FHS patch that is no longer needed, as the standard
-> Makefile puts the man pages in the proper location. Also, fix compile
-> warnings in a couple other files.
-> 
-> [YOCTO #9341]
-> 
-> Signed-off-by: Bill Randle <william.c.randle@intel.com>
-> ---
-> [Note: should be applied after previous man patch "fix src/Makefile
-> to work with parallel make".]
-> 
-> v3: clean up patch submission for mailing list
+On 03/28/2016 04:18 PM, Hongxu Jia wrote:
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
 
-These two were applied in the build yet we saw:
+Rebase to latest master to fix gcc-5.3 conflict.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/buil
-ds/718/steps/BuildImages/logs/stdio
-
-Cheers,
-
-Richard
+//Hongxu
 
