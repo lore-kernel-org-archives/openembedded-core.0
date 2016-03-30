@@ -1,23 +1,23 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D5CD605B3
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 583AD6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 13:41:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Mar 2016 06:41:21 -0700
+	Wed, 30 Mar 2016 15:07:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Mar 2016 08:03:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,416,1455004800"; d="scan'208";a="774678380"
-Received: from jlock-mobl1.gar.corp.intel.com ([10.252.27.217])
-	by orsmga003.jf.intel.com with ESMTP; 30 Mar 2016 06:41:19 -0700
-Message-ID: <1459345278.3751.1.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.24,416,1455004800"; d="scan'208";a="934766474"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Mar 2016 08:03:11 -0700
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 10EBB6A4002;
+	Wed, 30 Mar 2016 08:50:52 -0700 (PDT)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 14:41:18 +0100
-In-Reply-To: <1459292571-13876-1-git-send-email-raj.khem@gmail.com>
-References: <1459292571-13876-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] psmisc: Remove including sys/user.h and __WORDSIZE
+Date: Wed, 30 Mar 2016 18:07:32 +0300
+Message-Id: <1459350452-1807-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] selftest: Added testcase decorator to tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,123 +30,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 13:41:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 30 Mar 2016 15:07:28 -0000
 
-On Tue, 2016-03-29 at 23:02 +0000, Khem Raj wrote:
-> We can replace __WORDSIZE with UINTPTR_MAX
-> sys/user.h is in conflict with asm/ptrace.h on musl
+1418	test_recipetool_create_cmake
+1422	test_qemu
+1423	test_devtool_add_git_local
+1433	test_devtool_upgrade_git
+1434	test_sanity_unsafe_binary_references
+1435	test_read_only_image
 
-psmisc is failing to build on the autobuilder with this patch included:
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 2 ++
+ meta/lib/oeqa/selftest/devtool.py      | 2 ++
+ meta/lib/oeqa/selftest/recipetool.py   | 1 +
+ meta/lib/oeqa/selftest/wic.py          | 1 +
+ 4 files changed, 6 insertions(+)
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
-s/65/steps/BuildImages/logs/stdio
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index 2fc77e1..ff34e9a 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -57,6 +57,7 @@ class ImageOptionsTests(oeSelfTest):
+         res = runCmd("grep ccache %s" % (os.path.join(get_bb_var("WORKDIR","m4"),"temp/log.do_compile")), ignore_status=True)
+         self.assertEqual(0, res.status, msg="No match for ccache in m4 log.do_compile. For further details: %s" % os.path.join(get_bb_var("WORKDIR","m4"),"temp/log.do_compile"))
+ 
++    @testcase(1435)
+     def test_read_only_image(self):
+         self.write_config('IMAGE_FEATURES += "read-only-rootfs"')
+         bitbake("core-image-sato")
+@@ -124,6 +125,7 @@ do_install_append_pn-gzip () {
+         line = self.getline(res, "QA Issue: gzip")
+         self.assertTrue(line and line.startswith("WARNING:"), "WARNING: QA Issue: gzip message is not present in bitbake's output: %s" % res.output)
+ 
++    @testcase(1434)
+     def test_sanity_unsafe_binary_references(self):
+         self.write_config('WARN_QA_append = " unsafe-references-in-binaries"')
+ 
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 32025be..132a73d 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -201,6 +201,7 @@ class DevtoolTests(DevtoolBase):
+             bindir = bindir[1:]
+         self.assertTrue(os.path.isfile(os.path.join(installdir, bindir, 'pv')), 'pv binary not found in D')
+ 
++    @testcase(1423)
+     def test_devtool_add_git_local(self):
+         # Fetch source from a remote URL, but do it outside of devtool
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+@@ -1138,6 +1139,7 @@ class DevtoolTests(DevtoolBase):
+         self.assertNotIn(recipe, result.output)
+         self.assertFalse(os.path.exists(os.path.join(self.workspacedir, 'recipes', recipe)), 'Recipe directory should not exist after resetting')
+ 
++    @testcase(1433)
+     def test_devtool_upgrade_git(self):
+         # Check preconditions
+         self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
+diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
+index a04ee87..e72911b 100644
+--- a/meta/lib/oeqa/selftest/recipetool.py
++++ b/meta/lib/oeqa/selftest/recipetool.py
+@@ -424,6 +424,7 @@ class RecipetoolTests(RecipetoolBase):
+         inherits = ['autotools']
+         self._test_recipe_contents(os.path.join(temprecipe, dirlist[0]), checkvars, inherits)
+ 
++    @testcase(1418)
+     def test_recipetool_create_cmake(self):
+         # Try adding a recipe
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 56ce8c8..a569fbf 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -266,6 +266,7 @@ class Wic(oeSelfTest):
+                                    % image).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
++    @testcase(1422)
+     def test_qemu(self):
+         """Test wic-image-minimal under qemu"""
+         self.assertEqual(0, bitbake('wic-image-minimal').status)
+-- 
+2.1.0
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-non-
-gpl3/builds/721/steps/BuildImages/logs/stdio
-
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch | 49
-> ++++++++++++++++++++++
->  meta/recipes-extended/psmisc/psmisc_22.21.bb       |  8 ++--
->  2 files changed, 54 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Use-
-> UINTPTR_MAX-instead-of-__WORDSIZE.patch
-> 
-> diff --git a/meta/recipes-extended/psmisc/psmisc/0001-Use-
-> UINTPTR_MAX-instead-of-__WORDSIZE.patch b/meta/recipes-
-> extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-
-> __WORDSIZE.patch
-> new file mode 100644
-> index 0000000..2e70d5e
-> --- /dev/null
-> +++ b/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-
-> instead-of-__WORDSIZE.patch
-> @@ -0,0 +1,49 @@
-> +From 004de754e8b2c3cbfaf3aeba511a1c4149b23eb4 Mon Sep 17 00:00:00
-> 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Thu, 24 Mar 2016 15:46:14 +0000
-> +Subject: [PATCH] Use UINTPTR_MAX instead of __WORDSIZE
-> +
-> +Do not include sys/user.h since it conflicts with
-> +pt_regs struct from kernel APIs in asm/ptrace.h
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> +Upstream-Status: Pending
-> +
-> + src/peekfd.c | 12 ++++++------
-> + 1 file changed, 6 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/src/peekfd.c b/src/peekfd.c
-> +index cba2130..e2c39cd 100644
-> +--- a/src/peekfd.c
-> ++++ b/src/peekfd.c
-> +@@ -30,8 +30,8 @@
-> + #include <asm/ptrace.h>
-> + #include <byteswap.h>
-> + #include <endian.h>
-> +-#include <sys/user.h>
-> + #include <stdlib.h>
-> ++#include <stdint.h>
-> + #include <getopt.h>
-> + #include <ctype.h>
-> + 
-> +@@ -228,11 +228,11 @@ int main(int argc, char **argv)
-> + 		if (WIFSTOPPED(status)) {
-> + #ifdef PPC
-> + 			struct pt_regs regs;
-> +-			regs.gpr[0] = ptrace(PTRACE_PEEKUSER, pid,
-> __WORDSIZE/8 * PT_R0, 0);
-> +-			regs.gpr[3] = ptrace(PTRACE_PEEKUSER, pid,
-> __WORDSIZE/8 * PT_R3, 0);
-> +-			regs.gpr[4] = ptrace(PTRACE_PEEKUSER, pid,
-> __WORDSIZE/8 * PT_R4, 0);
-> +-			regs.gpr[5] = ptrace(PTRACE_PEEKUSER, pid,
-> __WORDSIZE/8 * PT_R5, 0);
-> +-			regs.orig_gpr3 = ptrace(PTRACE_PEEKUSER,
-> pid, __WORDSIZE/8 * PT_ORIG_R3, 0);
-> ++			regs.gpr[0] = ptrace(PTRACE_PEEKUSER, pid,
-> UINTPTR_MAX/8 * PT_R0, 0);
-> ++			regs.gpr[3] = ptrace(PTRACE_PEEKUSER, pid,
-> UINTPTR_MAX/8 * PT_R3, 0);
-> ++			regs.gpr[4] = ptrace(PTRACE_PEEKUSER, pid,
-> UINTPTR_MAX/8 * PT_R4, 0);
-> ++			regs.gpr[5] = ptrace(PTRACE_PEEKUSER, pid,
-> UINTPTR_MAX/8 * PT_R5, 0);
-> ++			regs.orig_gpr3 = ptrace(PTRACE_PEEKUSER,
-> pid, UINTPTR_MAX/8 * PT_ORIG_R3, 0);
-> + #elif defined(ARM)
-> + 			struct pt_regs regs;
-> + 			ptrace(PTRACE_GETREGS, pid, 0, &regs);
-> +-- 
-> +1.8.3.1
-> +
-> diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> b/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> index 66aba9e..1c6473e 100644
-> --- a/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> +++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> @@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e
-> 8d672dc4c32c317bb3"
->  SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
->  SRC_URI[sha256sum] =
-> "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
->  
-> -SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch
-> \
-> -            file://0002-Include-limits.h-for-PATH_MAX.patch \
-> -            "
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz \
-> +           file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
-> +           file://0002-Include-limits.h-for-PATH_MAX.patch \
-> +           file://0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch \
-> +           "
-> -- 
-> 1.9.1
-> 
 
