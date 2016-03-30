@@ -1,27 +1,23 @@
-Return-Path: <clemens.lang@bmw-carit.de>
-X-Greylist: delayed 307 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 30 Mar 2016 13:27:59 UTC
-Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 285B0600B3
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D5CD605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 13:27:59 +0000 (UTC)
-Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:45215
-	helo=mail.bmw-carit.de)
-	by mail.bmw-carit.de with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
-	id 1alG5C-0003bW-0g; Wed, 30 Mar 2016 15:22:50 +0200
-Received: from localhost (172.20.20.238) by Exchange2010.bmw-carit.intra
-	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.3.123.3;
-	Wed, 30 Mar 2016 15:22:49 +0200
-Date: Wed, 30 Mar 2016 15:22:49 +0200
-From: Clemens Lang <clemens.lang@bmw-carit.de>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20160330132249.GM14883@ulm-bmuc496424.bmw-carit.de>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Originating-IP: [172.20.20.238]
-Cc: yocto@yoctoproject.org
-Subject: [PATCH] ldconfig-native: Fix ELF flags on 64-bit binaries
+	Wed, 30 Mar 2016 13:41:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Mar 2016 06:41:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,416,1455004800"; d="scan'208";a="774678380"
+Received: from jlock-mobl1.gar.corp.intel.com ([10.252.27.217])
+	by orsmga003.jf.intel.com with ESMTP; 30 Mar 2016 06:41:19 -0700
+Message-ID: <1459345278.3751.1.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Mar 2016 14:41:18 +0100
+In-Reply-To: <1459292571-13876-1-git-send-email-raj.khem@gmail.com>
+References: <1459292571-13876-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] psmisc: Remove including sys/user.h and __WORDSIZE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,146 +30,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 13:28:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Mar 2016 13:41:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Yocto's ldconfig-native was exported from an old version of glibc and
-generates an ld.so.cache that is partially ignored by current versions
-of glibc when loading libraries. This occurs for 64-bit binaries, where
-glibc expects FLAG_ELF_LIBC6, but ldconfig-native only generates the
-standard ELF flag. Fix this with an additional patch on top of the patch
-for now.
+On Tue, 2016-03-29 at 23:02 +0000, Khem Raj wrote:
+> We can replace __WORDSIZE with UINTPTR_MAX
+> sys/user.h is in conflict with asm/ptrace.h on musl
 
-You can verify this by applying the patch below to your target copy of
-glibc and running
+psmisc is failing to build on the autobuilder with this patch included:
 
-  LD_DEBUG=libs /lib64/ld-linux-x86-64.so.2 --list $anybinary
+https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
+s/65/steps/BuildImages/logs/stdio
 
---- ./elf/dl-cache.c.orig       2016-01-07 11:05:36.823447171 +0100
-+++ ./elf/dl-cache.c    2016-01-07 11:19:53.925878628 +0100
-@@ -106,6 +106,8 @@
-                if (_dl_cache_check_flags (flags)                             \
-                    && _dl_cache_verify_ptr (lib->value))                     \
-                  {                                                           \
-+                   if (__glibc_unlikely (GLRO_dl_debug_mask & DL_DEBUG_LIBS))\
-+                       _dl_debug_printf ("  considering file %s\n", cache_data + lib->value); \
-                    if (best == NULL || flags == GLRO(dl_correct_cache_id))   \
-                      {                                                       \
-                        HWCAP_CHECK;                                          \
-@@ -117,6 +119,9 @@
-                             searching.  */                                   \
-                          break;                                              \
-                      }                                                       \
-+                 } else {                                                    \
-+                     if (__glibc_unlikely (GLRO_dl_debug_mask & DL_DEBUG_LIBS))              \
-+                       _dl_debug_printf ("  ignoring file %s due to flags %x, expected %x\n", cache_data + lib->value, lib->flags, GLRO(dl_correct_cache_id)); \
-                  }                                                           \
-              }                                                               \
-            while (++middle <= right);                                        \
-@@ -265,14 +270,23 @@
+https://autobuilder.yoctoproject.org/main/builders/nightly-non-
+gpl3/builds/721/steps/BuildImages/logs/stdio
 
-       /* Only accept hwcap if it's for the right platform.  */
- #define HWCAP_CHECK \
--      if (lib->hwcap & hwcap_exclude)                                        \
-+      if (lib->hwcap & hwcap_exclude) {                                              \
-+       if (__glibc_unlikely (GLRO_dl_debug_mask & DL_DEBUG_LIBS))            \
-+           _dl_debug_printf ("   hwcap mismatch %x vs. %x\n", lib->hwcap, hwcap_exclude); \
-        continue;                                                             \
--      if (GLRO(dl_osversion) && lib->osversion > GLRO(dl_osversion))         \
-+      }                                                                              \
-+      if (GLRO(dl_osversion) && lib->osversion > GLRO(dl_osversion)) {       \
-+       if (__glibc_unlikely (GLRO_dl_debug_mask & DL_DEBUG_LIBS))            \
-+           _dl_debug_printf ("   os version mismatch %x vs. %x\n", lib->osversion, GLRO(dl_osversion)); \
-        continue;                                                             \
-+      }                                                                              \
-       if (_DL_PLATFORMS_COUNT                                                \
-          && (lib->hwcap & _DL_HWCAP_PLATFORM) != 0                           \
--         && (lib->hwcap & _DL_HWCAP_PLATFORM) != platform)                   \
--       continue
-+         && (lib->hwcap & _DL_HWCAP_PLATFORM) != platform) {                 \
-+       if (__glibc_unlikely (GLRO_dl_debug_mask & DL_DEBUG_LIBS))            \
-+           _dl_debug_printf ("   platform mismatch %x vs. %x\n", lib->hwcap & _DL_HWCAP_PLATFORM, platform); \
-+       continue;                                                             \
-+      }
-       SEARCH_CACHE (cache_new);
-     }
-   else
-
-This version of ldconfig-native should really be replaced with a version
-matching the glibc source in use on the target platform.
-
-Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
----
- .../add-64-bit-flag-for-ELF64-entries.patch        | 27 ++++++++++++++++------
- 1 file changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-index a9af110..f4e38d4 100644
---- a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-@@ -64,7 +64,7 @@ index 0bf0de3..6e87afc 100644
-  #undef check_ptr
-  #define check_ptr(ptr)						\
-  do								\
--@@ -290,6 +295,35 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+@@ -290,6 +295,48 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-       libc5/libc6.  */
-    *flag = FLAG_ELF;
-  
-@@ -73,23 +73,36 @@ index 0bf0de3..6e87afc 100644
- +  switch (elf_header->e_machine)
- +    {
- +    case EM_IA_64:
--+      *flag |= FLAG_IA64_LIB64;
-++      /* Intel 64bit libraries are always libc.so.6+. */
-++      /* see sysdeps/unix/sysv/linux/ia64/readelflib.c */
-++      *flag |= FLAG_IA64_LIB64|FLAG_ELF_LIBC6;
- +      break;
- +    case EM_X86_64:
--+      *flag |= FLAG_X8664_LIB64;
-++      /* X86-64 64bit libraries are always libc.so.6+. */
-++      /* see sysdeps/unix/sysv/linux/i386/readelflib.c */
-++      *flag |= FLAG_X8664_LIB64|FLAG_ELF_LIBC6;
- +      break;
- +    case EM_S390:
--+      *flag |= FLAG_S390_LIB64;
-++      /* S/390 64bit libraries are always libc.so.6+. */
-++      /* see sysdeps/unix/sysv/linux/s390/readelflib.c */
-++      *flag |= FLAG_S390_LIB64|FLAG_ELF_LIBC6;
- +      break;
- +    case EM_PPC64:
--+      *flag |= FLAG_POWERPC_LIB64;
-++      /* PowerPC 64bit libraries are always libc.so.6+. */
-++      /* see sysdeps/unix/sysv/linux/powerpc/readelflib.c */
-++      *flag |= FLAG_POWERPC_LIB64|FLAG_ELF_LIBC6;
- +      break;
- +    case EM_MIPS:
- +    case EM_MIPS_RS3_LE:
--+      *flag |= FLAG_MIPS64_LIBN64;
-++      /* n64 libraries are always libc.so.6+. */
-++      /* NOTE: This does not correctly distinguish NAN2008 binaries and is possibly broken */
-++      /* see sysdeps/unix/sysv/linux/mips/readelflib.c */
-++      *flag |= FLAG_MIPS64_LIBN64|FLAG_ELF_LIBC6;
- +      break;
- +    case EM_AARCH64:
--+      *flag |= FLAG_AARCH64_LIB64;
-++      /* AArch64 libraries are always libc.so.6+. */
-++      /* see sysdeps/unix/sysv/linux/arm/readelflib.c */
-++      *flag |= FLAG_AARCH64_LIB64|FLAG_ELF_LIBC6;
- +      break;
- +    default:
- +      error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
--- 
-2.8.0.rc3
-
--- 
-Clemens Lang • Development Specialist
-BMW Car IT GmbH • Lise-Meitner-Str. 14 • 89081 Ulm • http://bmw-carit.com
--------------------------------------------------------------------------
-BMW Car IT GmbH
-Geschäftsführer: Michael Würtenberger und Reinhard Stolle
-Sitz und Registergericht: München HRB 134810
--------------------------------------------------------------------------
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  ...001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch | 49
+> ++++++++++++++++++++++
+>  meta/recipes-extended/psmisc/psmisc_22.21.bb       |  8 ++--
+>  2 files changed, 54 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Use-
+> UINTPTR_MAX-instead-of-__WORDSIZE.patch
+> 
+> diff --git a/meta/recipes-extended/psmisc/psmisc/0001-Use-
+> UINTPTR_MAX-instead-of-__WORDSIZE.patch b/meta/recipes-
+> extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-
+> __WORDSIZE.patch
+> new file mode 100644
+> index 0000000..2e70d5e
+> --- /dev/null
+> +++ b/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-
+> instead-of-__WORDSIZE.patch
+> @@ -0,0 +1,49 @@
+> +From 004de754e8b2c3cbfaf3aeba511a1c4149b23eb4 Mon Sep 17 00:00:00
+> 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Thu, 24 Mar 2016 15:46:14 +0000
+> +Subject: [PATCH] Use UINTPTR_MAX instead of __WORDSIZE
+> +
+> +Do not include sys/user.h since it conflicts with
+> +pt_regs struct from kernel APIs in asm/ptrace.h
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> +Upstream-Status: Pending
+> +
+> + src/peekfd.c | 12 ++++++------
+> + 1 file changed, 6 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/src/peekfd.c b/src/peekfd.c
+> +index cba2130..e2c39cd 100644
+> +--- a/src/peekfd.c
+> ++++ b/src/peekfd.c
+> +@@ -30,8 +30,8 @@
+> + #include <asm/ptrace.h>
+> + #include <byteswap.h>
+> + #include <endian.h>
+> +-#include <sys/user.h>
+> + #include <stdlib.h>
+> ++#include <stdint.h>
+> + #include <getopt.h>
+> + #include <ctype.h>
+> + 
+> +@@ -228,11 +228,11 @@ int main(int argc, char **argv)
+> + 		if (WIFSTOPPED(status)) {
+> + #ifdef PPC
+> + 			struct pt_regs regs;
+> +-			regs.gpr[0] = ptrace(PTRACE_PEEKUSER, pid,
+> __WORDSIZE/8 * PT_R0, 0);
+> +-			regs.gpr[3] = ptrace(PTRACE_PEEKUSER, pid,
+> __WORDSIZE/8 * PT_R3, 0);
+> +-			regs.gpr[4] = ptrace(PTRACE_PEEKUSER, pid,
+> __WORDSIZE/8 * PT_R4, 0);
+> +-			regs.gpr[5] = ptrace(PTRACE_PEEKUSER, pid,
+> __WORDSIZE/8 * PT_R5, 0);
+> +-			regs.orig_gpr3 = ptrace(PTRACE_PEEKUSER,
+> pid, __WORDSIZE/8 * PT_ORIG_R3, 0);
+> ++			regs.gpr[0] = ptrace(PTRACE_PEEKUSER, pid,
+> UINTPTR_MAX/8 * PT_R0, 0);
+> ++			regs.gpr[3] = ptrace(PTRACE_PEEKUSER, pid,
+> UINTPTR_MAX/8 * PT_R3, 0);
+> ++			regs.gpr[4] = ptrace(PTRACE_PEEKUSER, pid,
+> UINTPTR_MAX/8 * PT_R4, 0);
+> ++			regs.gpr[5] = ptrace(PTRACE_PEEKUSER, pid,
+> UINTPTR_MAX/8 * PT_R5, 0);
+> ++			regs.orig_gpr3 = ptrace(PTRACE_PEEKUSER,
+> pid, UINTPTR_MAX/8 * PT_ORIG_R3, 0);
+> + #elif defined(ARM)
+> + 			struct pt_regs regs;
+> + 			ptrace(PTRACE_GETREGS, pid, 0, &regs);
+> +-- 
+> +1.8.3.1
+> +
+> diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> index 66aba9e..1c6473e 100644
+> --- a/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> +++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> @@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e
+> 8d672dc4c32c317bb3"
+>  SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
+>  SRC_URI[sha256sum] =
+> "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
+>  
+> -SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+> \
+> -            file://0002-Include-limits.h-for-PATH_MAX.patch \
+> -            "
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz \
+> +           file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
+> +           file://0002-Include-limits.h-for-PATH_MAX.patch \
+> +           file://0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch \
+> +           "
+> -- 
+> 1.9.1
+> 
 
