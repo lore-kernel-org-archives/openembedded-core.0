@@ -1,23 +1,30 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BFE6F6E688
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EF3760248
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 20:28:24 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Mar 2016 13:28:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,418,1455004800"; d="scan'208";a="774923929"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.90])
-	by orsmga003.jf.intel.com with ESMTP; 30 Mar 2016 13:28:24 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 14:21:42 -0600
-Message-Id: <1459369302-16671-2-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1459369302-16671-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1459369302-16671-1-git-send-email-anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] recipes-support/rng-tools: Change runlevel start from S to 2, 3, 4, 5.
+	Wed, 30 Mar 2016 22:46:33 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <pb@pbcl.net>)
+	id 1alOsi-0002CW-Hm; Thu, 31 Mar 2016 00:46:32 +0200
+Message-ID: <1459377982.2322.57.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 30 Mar 2016 23:46:22 +0100
+In-Reply-To: <CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
+References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
+	<1459203003.2322.29.camel@pbcl.net>
+	<87103DB9-1813-4A3B-A68D-9BDC572BC588@gmail.com>
+	<56FBF8CA.20809@windriver.com>
+	<0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
+	<CAJ86T=WfMfoXjabaN0+9u52Jxy4d+HXnaJv2Hii+TEtr0JohNw@mail.gmail.com>
+	<6065832E-762D-413F-AE15-9B743371EF93@gmail.com>
+	<CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 20:28:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 30 Mar 2016 22:46:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-When using systemd as init rng-tools is causing a circular dependency
-between units,
+On Wed, 2016-03-30 at 11:53 -0700, Andre McCurdy wrote:
+> Either way it shouldn't be a concern for the CPU tuning files.
+> Building Thumb2 for an armv8a CPU is really just an extension of
+> "optimise for size" and we don't include -Os, -O2, etc options in the
+> CPU tuning files.
 
-	[    7.706250] systemd[1]: basic.target: Found ordering cycle on
-	basic.target/start
-	[    7.706934] systemd[1]: basic.target: Found dependency on
-	sysinit.target/start
-	[    7.707795] systemd[1]: basic.target: Found dependency on
-	rng-tools.service/start
-	[    7.708692] systemd[1]: basic.target: Found dependency on
-	basic.target/start
-	[    7.709461] systemd[1]: basic.target: Breaking ordering cycle by
-	deleting job rng-tools.service/start
-	[    7.710404] systemd[1]: rng-tools.service: Job rng-tools.service/start
-	deleted to break ordering cycle starting with basic.target/start
+Yes, agreed.  In principle there's no reason that the compiler couldn't
+choose between A32 and T32 instruction sets dynamically for each
+compilation unit (or each function) according to which it thinks would
+give the better result.  And from the user's point of view, the outcome
+should be equivalent apart from minor performance differences.
 
-The problem is related to systemd running sysvinit scripts by default
-add dependency of basic.target for sysvinit script so when sysvscript
-is at rcS is added also as dependency of sysinit.target causing a
-cirular dependency in this case: basic.target -> sysinit.target ->
-rng-tools.service -> basic.target.
+> >> For most cores from Cortex A9 onwards NEON and VFP are optional, so
+> >> hardcoded assumptions won't work.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-support/rng-tools/rng-tools_5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Nothing very concrete. The ARM Cortex-A Series Programmer’s Guide for
+> ARMv8-A mentions:
+> 
+> "Both floating-point and NEON are required in all standard ARMv8
+> implementations. However, implementations targeting specialized
+> markets may support the following combinations:
+> 
+>  - No NEON or floating-point.
+>  - Full floating-point and SIMD support with exception trapping.
+>  - Full floating-point and SIMD support without exception trapping.
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
-index 53d2d61..913a092 100644
---- a/meta/recipes-support/rng-tools/rng-tools_5.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
-@@ -43,4 +43,4 @@ do_install_append() {
- }
- 
- INITSCRIPT_NAME = "rng-tools"
--INITSCRIPT_PARAMS = "start 30 S . stop 30 0 6 1 ."
-+INITSCRIPT_PARAMS = "start 30 2 3 4 5 . stop 30 0 6 1 ."
--- 
-2.1.4
+Is there any evidence that anyone is actually building ARMv8-A (as
+opposed to -R or -M) cores that lack VFP and/or NEON?  Unless there is a
+fairly clear indication that such cores do exist and are likely to be
+used with OE, I think we should not complicate the tuning files with
+support for such things.  Anybody who wants them can always add
+appropriate tunes later, either in oe-core or in their own layer.
+
+p.
+
 
 
