@@ -1,26 +1,29 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 354FA7017D
+Return-Path: <mac@mcrowe.com>
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A2886014F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 12:25:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2UCPIOB006952
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 05:25:18 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 30 Mar 2016 05:25:17 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Mar 2016 08:25:07 -0400
-Message-ID: <f9cdaa7bc1d216da336d6417cf73c956300fac53.1459340441.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1459340441.git.bruce.ashfield@windriver.com>
-References: <cover.1459340441.git.bruce.ashfield@windriver.com>
+	Wed, 30 Mar 2016 13:05:17 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id cD5E1s0070BmcFC01D5FNe; Wed, 30 Mar 2016 14:05:17 +0100
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
+	a=7OsogOcEt9IA:10 a=5LxY0qJsEVYeBrQsBm0A:9 a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.84_2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1alFoA-00008q-9T; Wed, 30 Mar 2016 14:05:14 +0100
+Date: Wed, 30 Mar 2016 14:05:14 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20160330130514.GA510@mcrowe.com>
+References: <20160329125626.GA11712@mcrowe.com>
+	<1459260670.21672.25.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 9/9] linux-yocto: add overlayfs feature
+In-Reply-To: <1459260670.21672.25.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: Over-pruning the sstate cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 12:25:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Mar 2016 13:05:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-To let overlayfs be used like aufs, we create a feature
-fragment. Configurations that want this union FS type, can
-enable it via KERNEL_FEATURES.
+On Tuesday 29 March 2016 at 15:11:10 +0100, Richard Purdie wrote:
+> On Tue, 2016-03-29 at 13:56 +0100, Mike Crowe wrote:
+> > Is there a recommended way to ensure that all the sstate cache files
+> > are
+> > touched, even those that are not actually required to build the image
+> > currently due to task optimisation?
+ 
+> generate the "locked-sigs" inc file (bitbake XXX -S none) and then with
+> a script touch all the objects listed in that file?
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+That looks like it might work. There's a bit of messing about required for
+the distribution name in the native packages but I can probably deal with
+that.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index 5c66c199ae44..48025c48af02 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
- require recipes-kernel/linux/linux-yocto.inc
- 
- SRCREV_machine ?= "5ff13cb449701bfeb30ea4a0c4c0b86dc680e219"
--SRCREV_meta ?= "28bff6d39803ad83f83e353f158fc1aa14d5492d"
-+SRCREV_meta ?= "770996a263e22562c81f48fde0f0dc647156abce"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index 8c8cd9842bf3..7583f8019f07 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "c43425f73287757a166d74464fddf1f5389c9f59"
--SRCREV_meta ?= "28bff6d39803ad83f83e353f158fc1aa14d5492d"
-+SRCREV_meta ?= "770996a263e22562c81f48fde0f0dc647156abce"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index af7daba41512..3d6991e8998a 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "c43425f73287757a166d74464fddf1f5389c9f59"
- SRCREV_machine_qemux86-64 ?= "c43425f73287757a166d74464fddf1f5389c9f59"
- SRCREV_machine_qemumips64 ?= "b09e103786fc1a0622e89bac9df4254e6cb96baa"
- SRCREV_machine ?= "c43425f73287757a166d74464fddf1f5389c9f59"
--SRCREV_meta ?= "28bff6d39803ad83f83e353f158fc1aa14d5492d"
-+SRCREV_meta ?= "770996a263e22562c81f48fde0f0dc647156abce"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
--- 
-2.5.0
+Thanks.
 
+Mike.
 
