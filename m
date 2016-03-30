@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B285F601F6
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E1DF165CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 10:56:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2UAuNJX022035; Wed, 30 Mar 2016 11:56:23 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KwO9Pwe1B7Ky; Wed, 30 Mar 2016 11:56:23 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2UAuKtX022025
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 30 Mar 2016 11:56:22 +0100
-Message-ID: <1459335380.21672.51.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bill Randle <william.c.randle@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 11:56:20 +0100
-In-Reply-To: <1459323169.21672.46.camel@linuxfoundation.org>
-References: <1459290421-9838-1-git-send-email-william.c.randle@intel.com>
-	<1459323169.21672.46.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCHv3] man: fix several annoying compile/build warnings
+	Wed, 30 Mar 2016 12:25:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2UCP94b026644
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Mar 2016 05:25:10 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 30 Mar 2016 05:25:09 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Mar 2016 08:24:59 -0400
+Message-ID: <18b1af74515e3bf41089af269679acf8b04a5cb4.1459340441.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1459340441.git.bruce.ashfield@windriver.com>
+References: <cover.1459340441.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/9] linux-yocto/4.1: SMBus/iTCO backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +33,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 10:56:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Mar 2016 12:25:10 -0000
+Content-Type: text/plain
 
-On Wed, 2016-03-30 at 08:32 +0100, Richard Purdie wrote:
-> On Tue, 2016-03-29 at 15:27 -0700, Bill Randle wrote:
-> > Fixed the build error when building man.config.5 (a remnant of a
-> > long
-> > ago previous patch). Optimized the manpages Makefile for parallel
-> > builds. Drop a FHS patch that is no longer needed, as the standard
-> > Makefile puts the man pages in the proper location. Also, fix
-> > compile
-> > warnings in a couple other files.
-> > 
-> > [YOCTO #9341]
-> > 
-> > Signed-off-by: Bill Randle <william.c.randle@intel.com>
-> > ---
-> > [Note: should be applied after previous man patch "fix src/Makefile
-> > to work with parallel make".]
-> > 
-> > v3: clean up patch submission for mailing list
-> 
-> These two were applied in the build yet we saw:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/bu
-> il
-> ds/718/steps/BuildImages/logs/stdio
+Backporting the following mainline commits to add Intel Broxton and Denverton
+support:
 
-The man failure worried me a bit so I had a look at the code. The
-configure script looks good with its BUILD_CC and CC, however it goes
-on to build things with $CC then run them which in a cross environment,
-isn't going to work.
+  49b34899e7ca i2c: i801: Add support for Intel Broxton
+  69f6eeceb5b1 i2c: i801: Add support for Intel DNV
+  b131e3e13838 watchdog: iTCO_wdt: Add support for TCO on Intel Sunrisepoint
+  fce230a538de mfd: watchdog: iTCO_wdt: Expose watchdog properties using platform data
+  a1a2140e856d intel_pmc_ipc: Update kerneldoc formatting
+  e407caf0a583 intel_pmc_ipc: Fix compiler casting warnings
+  909588e549d7 intel_pmc_ipc: Add Intel Apollo Lake PMC IPC driver
+  1cd89340c1a9 mfd: lpc_ich: Assign subdevice ids automatically
+  729025b3e8d3 i2c: i801: Create iTCO device on newer Intel PCHs
 
-The reason we only saw failures in qemux86-64 with poky-lsb is because
-that is the only case where the binaries generated with $CC could
-actually run (in the normal poky case, the interpretor isn't in /lib64/
-but /lib/).
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-On my local builds in conf_script I see:
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index f217f78daf0f..0e25536538e5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -2,7 +2,7 @@ KBRANCH ?= "standard/preempt-rt/base"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "8a1c72b29b63604b45ef13aed04f7bfe6d4fc277"
++SRCREV_machine ?= "d84b3cdc2d04fe42efb94b6f1e67c2d84af20bde"
+ SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 0af568509a22..8300319e7ea7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.18"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "e9b00f938e9971cf84dd33f317719c91135246e9"
++SRCREV_machine ?= "49b34899e7caa4237e6efbdf2e8f68e578707cee"
+ SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index caf71ae96a22..e3f2e6445078 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "e6b84f3f0c7292a7d3453e6bebd9987e08678a4b"
+-SRCREV_machine_qemuarm64 ?= "e9b00f938e9971cf84dd33f317719c91135246e9"
+-SRCREV_machine_qemumips ?= "c70a6ad907f0f9ffd4d911b6413e509766fba07b"
+-SRCREV_machine_qemuppc ?= "e9b00f938e9971cf84dd33f317719c91135246e9"
+-SRCREV_machine_qemux86 ?= "e9b00f938e9971cf84dd33f317719c91135246e9"
+-SRCREV_machine_qemux86-64 ?= "e9b00f938e9971cf84dd33f317719c91135246e9"
+-SRCREV_machine_qemumips64 ?= "a023db1f6f40280d3e254aed327f61f6d138992e"
+-SRCREV_machine ?= "e9b00f938e9971cf84dd33f317719c91135246e9"
++SRCREV_machine_qemuarm ?= "55edd4698b9d54da4e648783918f2ee9ab7693ad"
++SRCREV_machine_qemuarm64 ?= "49b34899e7caa4237e6efbdf2e8f68e578707cee"
++SRCREV_machine_qemumips ?= "2c794fb0c6e6dec146e9d99018016da9bb04018d"
++SRCREV_machine_qemuppc ?= "49b34899e7caa4237e6efbdf2e8f68e578707cee"
++SRCREV_machine_qemux86 ?= "49b34899e7caa4237e6efbdf2e8f68e578707cee"
++SRCREV_machine_qemux86-64 ?= "49b34899e7caa4237e6efbdf2e8f68e578707cee"
++SRCREV_machine_qemumips64 ?= "28bf6a37b7600979593be2ee922361acd83d1617"
++SRCREV_machine ?= "49b34899e7caa4237e6efbdf2e8f68e578707cee"
+ SRCREV_meta ?= "b9023d4c8fbbb854c26f158a079a5f54dd61964d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+-- 
+2.5.0
 
-s,@DEFS@, -DUSG -Duid_t=__uid_t -Dgid_t=__uid_t -DALLOCA_MISSING -DNONLS -DNOGETOPT -DDO_COMPRESS,
-
-and on the failed builds on the AB:
-
-s,@DEFS@, -DSTDC_HEADERS -DTERMIOS_HEADER -DPOSIX -DDO_COMPRESS,
-
-with the -DNONLS being necessary to avoid build failures.
-
-I suspect we're going to have to seriously patch the configure script
-to remove several of the tests and then set the options to the correct
-things manually.
-
-I haven't looked further at what other nastiness may lurk beyond this
-but at least we have a clear understanding of why its breaking now...
-
-Cheers,
-
-Richard
 
