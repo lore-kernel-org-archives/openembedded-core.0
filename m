@@ -1,28 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 35009605B3
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id EDB1362133
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 08:06:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2U86BVo020075
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 30 Mar 2016 01:06:12 -0700
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 30 Mar 2016 01:06:10 -0700
-To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
-	<mark.hatle@windriver.com>
-References: <cover.1459147231.git.hongxu.jia@windriver.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56FB88EE.3070709@windriver.com>
-Date: Wed, 30 Mar 2016 16:06:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Wed, 30 Mar 2016 09:35:21 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1alCX2-0003fy-Hd from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 Mar 2016 02:35:20 -0700
+Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
+	Server id 14.3.224.2; Wed, 30 Mar 2016 10:35:19 +0100
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Mar 2016 14:35:15 +0500
+Message-ID: <1459330515-11129-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1459147231.git.hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V7 00/17] fix buildpaths QA issue && dbp package source generation
+Subject: [master][jethro][PATCH] systemd-serialgetty: allow baud rate overriding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,17 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 08:06:14 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Mar 2016 09:35:22 -0000
+Content-Type: text/plain
 
-On 03/28/2016 04:18 PM, Hongxu Jia wrote:
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib hongxu/fix-buildpath
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-buildpath
+In case a getty is required on a UART which is not being
+used as the kernel console, the current agetty invocation
+fails to obey the baud rate configured through the
+SERIAL_CONSOLES variable because it uses --keep-baud.
 
-Rebase to latest master to fix gcc-5.3 conflict.
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-//Hongxu
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+index 182167b..e8b027e 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
++++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+@@ -21,7 +21,7 @@ IgnoreOnIsolate=yes
+ 
+ [Service]
+ Environment="TERM=xterm"
+-ExecStart=-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM
++ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
+ Type=idle
+ Restart=always
+ RestartSec=0
+-- 
+1.9.1
+
 
