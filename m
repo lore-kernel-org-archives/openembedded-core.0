@@ -1,30 +1,23 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EF3760248
+	by mail.openembedded.org (Postfix) with ESMTP id B02EA60616
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 22:46:33 +0000 (UTC)
+	Wed, 30 Mar 2016 22:53:34 +0000 (UTC)
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
 	by hetzner.pbcl.net with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
 	(envelope-from <pb@pbcl.net>)
-	id 1alOsi-0002CW-Hm; Thu, 31 Mar 2016 00:46:32 +0200
-Message-ID: <1459377982.2322.57.camel@pbcl.net>
+	id 1alOzW-0002DD-9E; Thu, 31 Mar 2016 00:53:34 +0200
+Message-ID: <1459378408.2322.63.camel@pbcl.net>
 From: Phil Blundell <pb@pbcl.net>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 30 Mar 2016 23:46:22 +0100
-In-Reply-To: <CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
-References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
-	<1459203003.2322.29.camel@pbcl.net>
-	<87103DB9-1813-4A3B-A68D-9BDC572BC588@gmail.com>
-	<56FBF8CA.20809@windriver.com>
-	<0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
-	<CAJ86T=WfMfoXjabaN0+9u52Jxy4d+HXnaJv2Hii+TEtr0JohNw@mail.gmail.com>
-	<6065832E-762D-413F-AE15-9B743371EF93@gmail.com>
-	<CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Mar 2016 23:53:28 +0100
+In-Reply-To: <1459360607-25880-1-git-send-email-raj.khem@gmail.com>
+References: <1459360607-25880-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] psmisc: Remove including sys/user.h and __WORDSIZE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 22:46:36 -0000
+X-List-Received-Date: Wed, 30 Mar 2016 22:53:34 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2016-03-30 at 11:53 -0700, Andre McCurdy wrote:
-> Either way it shouldn't be a concern for the CPU tuning files.
-> Building Thumb2 for an armv8a CPU is really just an extension of
-> "optimise for size" and we don't include -Os, -O2, etc options in the
-> CPU tuning files.
+On Wed, 2016-03-30 at 17:56 +0000, Khem Raj wrote:
+> +Subject: [PATCH] Use UINTPTR_MAX instead of __WORDSIZE
+> +
+> +Do not include sys/user.h since it conflicts with
+> +pt_regs struct from kernel APIs in asm/ptrace.h
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-Yes, agreed.  In principle there's no reason that the compiler couldn't
-choose between A32 and T32 instruction sets dynamically for each
-compilation unit (or each function) according to which it thinks would
-give the better result.  And from the user's point of view, the outcome
-should be equivalent apart from minor performance differences.
+This description (and the subject line of the commit) implies that you
+are removing the include unconditionally.  But actually, you are only
+removing it for non-glibc platforms.  
 
-> >> For most cores from Cortex A9 onwards NEON and VFP are optional, so
-> >> hardcoded assumptions won't work.
+Also, the change itself seems slightly backwards since the ptrace
+manpage suggests that <sys/user.h> is actually the right header to be
+using for these definitions and possibly it's <asm/ptrace.h> that should
+be eliminated.  Maybe that's not feasible here but it would be nice if
+the patch header explained why.  And...
 
-> Nothing very concrete. The ARM Cortex-A Series Programmer’s Guide for
-> ARMv8-A mentions:
-> 
-> "Both floating-point and NEON are required in all standard ARMv8
-> implementations. However, implementations targeting specialized
-> markets may support the following combinations:
-> 
->  - No NEON or floating-point.
->  - Full floating-point and SIMD support with exception trapping.
->  - Full floating-point and SIMD support without exception trapping.
+> -SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
+> -            file://0002-Include-limits.h-for-PATH_MAX.patch \
+> -            "
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz \
+> +           file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
+> +           file://0002-Include-limits.h-for-PATH_MAX.patch \
+> +           file://0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch \
+> +           "
 
-Is there any evidence that anyone is actually building ARMv8-A (as
-opposed to -R or -M) cores that lack VFP and/or NEON?  Unless there is a
-fairly clear indication that such cores do exist and are likely to be
-used with OE, I think we should not complicate the tuning files with
-support for such things.  Anybody who wants them can always add
-appropriate tunes later, either in oe-core or in their own layer.
+... this change is not mentioned in the commit message.  Why have you
+added the tarball to SRC_URI directly (rather than letting the .inc do
+that as it did before)?  
 
 p.
 
