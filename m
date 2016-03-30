@@ -1,30 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BA0416010B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E61DC60125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 19:55:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2UJti9L023415 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 20:55:44 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1RwhCZJ6kfFq
+	Wed, 30 Mar 2016 20:08:36 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id sy18so43789574igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 20:55:44 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u2UJtgak023403
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 20:55:43 +0100
-Message-ID: <1459367742.21672.60.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Mar 2016 20:55:42 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] sanity.bbclass: Use pythonexception to raise real exceptions without backtraces
+	Wed, 30 Mar 2016 13:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=h9HrLXobkoCLktuogEByUBytZWNQjTSNmf2KsUJ+mGo=;
+	b=mNUqX6iF2jLADj1ASEOPjWL0ZVXrisvwcH90B36v3aMQC8k6Ng6QUBZo8WPL9YYfhs
+	VSKbyfKyeaVbY9AWEWtIEKt5cx1Yqrst6ktaunKEpSAS8fsRRWZUEKBOTj1ngrt9nh4b
+	4tc4L28QEzbyDtUYSTvlDwaS5X3lqUvjhEr455HIHl9JSHKaal64HrF2XfcImt48OuJw
+	AKsp/zNx/zXbjNmu/g9bXiyhcJiWen5CaoTy1na6cKrIiTZabEmWK2hevjfTEZxY2Cat
+	hZCHlirEnAzpo82kcvXFAPmY/3h8qCZ+0OApvqqijvgj+IRYrfG0rnl/tK4JjIYxsKTI
+	IwZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=h9HrLXobkoCLktuogEByUBytZWNQjTSNmf2KsUJ+mGo=;
+	b=j85eAI/tlI3V9K44EESFzDdlAdrJNIdQXfg4cJ67Neis1UooCoPiHt5KN4xKPH4HGm
+	PTtzVzjrGn3dYw3eovN5oWo2/COqVrnTEK7OeXEiEDzM0nbsS97pvhfu4ztbO8lsGYiT
+	k1z7ib51ceHeT/n+DKUyGUVkSmK5JRIIUkCpy0bUOw4qYhM69ZOo2s0sF1Ni7t70FHhv
+	92SASQXfwKLcw8Rj/N03K/2cqKnHpMUDM8rA5ojeLV083C6U6fxIzcSxAdqhAAT9mGZw
+	AcdOberk6pEU6jKfXLTB9USmYAq+76uzNUF6L03vXl3UP9wxuwX11uW4TXJU4ZwzxujP
+	sICw==
+X-Gm-Message-State: AD7BkJJnE+pL9PGrVuPDuhCZpE6UhCAmDUtjxxE3fIySZAmG9wR1FK4/QyDsE6PRkdKP3A==
+X-Received: by 10.50.8.101 with SMTP id q5mr23610817iga.22.1459368516797;
+	Wed, 30 Mar 2016 13:08:36 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	qb1sm2407294igb.19.2016.03.30.13.08.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 30 Mar 2016 13:08:35 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Mar 2016 13:08:30 -0700
+Message-Id: <1459368510-29566-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] default-distrovars.inc: remove gnutls + libtasn1 from LGPLv2_WHITELIST_GPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 19:55:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Mar 2016 20:08:38 -0000
 
-If the sanity code encounters a version change is doesn't understand, the current
-output is unreadable and confusing for the user, particularly due to the presence 
-of the backtrace.
+With the modern license handling code, gnutls and libtasn1 are both
+buildable in distros which blacklist GPL-3.0 without needing to be
+explicitly whitelisted (since they both provide at least one non
+GPLv3 package).
 
-Use improved functionality in bitbake to improve this and correctly pass python 
-exceptions around.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[YOCTO #9291]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index a400bca..662f764 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -563,10 +563,10 @@ def sanity_check_conffiles(status, d):
-                 d.getVar(current_version, True) != d.getVar(required_version, True):
-             success = True
-             try:
--                bb.build.exec_func(func, d)
-+                bb.build.exec_func(func, d, pythonexception=True)
-             except NotImplementedError as e:
-                 success = False
--                status.addresult(e.msg)
-+                status.addresult(str(e))
-             if success:
-                 status.reparse = True
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index ce42bde..9779bfb 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -26,7 +26,7 @@ IMAGE_FEATURES ?= ""
+ # directly part of the distribution. 
+ HOSTTOOLS_WHITELIST_GPL-3.0 ?= ""
+ WHITELIST_GPL-3.0 ?= ""
+-LGPLv2_WHITELIST_GPL-3.0 ?= "libassuan gnutls libtasn1 libidn"
++LGPLv2_WHITELIST_GPL-3.0 ?= "libassuan libidn"
  
+ COMMERCIAL_AUDIO_PLUGINS ?= ""
+ # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
 -- 
-cgit v0.10.2
+1.9.1
 
 
