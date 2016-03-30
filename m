@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C0C3E60017
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 109D06FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 07:30:08 +0000 (UTC)
+	Wed, 30 Mar 2016 07:30:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2U7U9oU002469
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2U7UAnS018986
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 00:30:09 -0700 (PDT)
+	Wed, 30 Mar 2016 00:30:10 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 30 Mar 2016 00:30:08 -0700
+	Wed, 30 Mar 2016 00:30:09 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Mar 2016 00:30:06 -0700
-Message-ID: <b38797c6631e65f3f1f2499b222fea57653c4262.1459322953.git.liezhi.yang@windriver.com>
+Date: Wed, 30 Mar 2016 00:30:07 -0700
+Message-ID: <07b3a5e5f8d42008b72679b702962e4eb6de441a.1459322953.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1459322953.git.liezhi.yang@windriver.com>
 References: <cover.1459322953.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] archiver.bbclass: addtask do_deploy_archives_setscene
+Subject: [PATCH 2/2] selftest/buildoptions.py: use INHERIT +=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 07:30:08 -0000
+X-List-Received-Date: Wed, 30 Mar 2016 07:30:10 -0000
 Content-Type: text/plain
 
-There was a do_deploy_archives_setscene, but no addtask.
+* INHERIT = -> INHERIT +=
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/archiver.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/selftest/buildoptions.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 42982ab..15d2d04 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -364,6 +364,7 @@ python do_deploy_archives_setscene () {
- }
- do_deploy_archives[sstate-inputdirs] = "${ARCHIVER_TOPDIR}"
- do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
-+addtask do_deploy_archives_setscene
- 
- addtask do_ar_original after do_unpack
- addtask do_unpack_and_patch after do_patch
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index 2fc77e1..e9a5aad 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -276,7 +276,7 @@ class ArchiverTest(oeSelfTest):
+         Test for archiving the work directory and exporting the source files.
+         """
+         self.add_command_to_tearDown('cleanup-workdir')
+-        self.write_config("INHERIT = \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
++        self.write_config("INHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
+         res = bitbake("xcursor-transparent-theme", ignore_status=True)
+         self.assertEqual(res.status, 0, "\nCouldn't build xcursortransparenttheme.\nbitbake output %s" % res.output)
+         pkgs_path = g.glob(str(self.builddir) + "/tmp/deploy/sources/allarch*/xcurs*")
 -- 
 2.7.4
 
