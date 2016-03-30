@@ -1,53 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 3492F607A4
+Return-Path: <william.c.randle@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E735F62136
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 23:29:40 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id fe3so51741891pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 16:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=KDMYV9ITODxNJOju1ASE7eaPYylrnS65cRBrut4MRoU=;
-	b=Vv1HSjihx/+8DWjtwCGl6c21OUntwC6pBf9LycfktX1i0uJV7acqDzy640OqfBOafy
-	Cf5APZl7s/sWbcgsx0HmsVTfJx5bmdXorO0ZjIH523ZhJB7z5gk1yw1+qCz9I+4NLQzv
-	B73ukwEKfsfginnw8rTX+T5JlCkf+1RLkX3F2gsNrJGHLJtkBFR28fIJKL81S9CqtabH
-	mT+o8ApSM9KGEfkXddYXfvcG2BySYFTkJXKU2IDHtGWh5tYkdTKuxy+tV4yetMd8Ea8J
-	vtc7VtR3DHGvrCUUdDPNVOQkd4oBposG6IHnsLMmnFPOu24pvCP8+9JA9C/q/WVse+pt
-	gwNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=KDMYV9ITODxNJOju1ASE7eaPYylrnS65cRBrut4MRoU=;
-	b=X5ERYPDTjkO+Oc6KLmuzAX92laFwUtAFA5vuN/M5EW9eiED0Oj1Do4KuhupSpibhXb
-	WdA4C/wvqWM+py1NtYVJTTbXhmAeMsQQkQzYKFPv+NfOh+9bTXu3GgxJaSng1fBVsFmi
-	c0eEt5LgTyi9lS1T/r9u0iT5chXA6qtYQoy7M8t/3h+vJIYs5pYuri1DMAqYyVGotU6H
-	fbdkgTDk1kqcaLi5BQ1Dsi4tEFWG8QlEF7eNcbxOQymB3SPTm3Wp2nbxtUxNnfDYExVa
-	CSygHJU/tTC/1xk+U4aa8DNfIrq8O1bjlcd/2Anh+vPkvGFspYiNQM+CTHc3X4sGCBC2
-	/47Q==
-X-Gm-Message-State: AD7BkJIxkw1Y4MdnQdZlqr/mroGXNfdlfzU981xzneAEg4USxrTbyVgpe6WZV8DDjOWZPQ==
-X-Received: by 10.66.192.195 with SMTP id hi3mr17170075pac.149.1459380581574; 
-	Wed, 30 Mar 2016 16:29:41 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:5948:2b5c:b7c0:30b8?
-	([2601:646:8800:5a9a:5948:2b5c:b7c0:30b8])
-	by smtp.gmail.com with ESMTPSA id
-	fa3sm8370344pab.45.2016.03.30.16.29.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Mar 2016 16:29:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1459378408.2322.63.camel@pbcl.net>
-Date: Wed, 30 Mar 2016 16:29:32 -0700
-Message-Id: <83C93289-2B99-4EC8-A966-4BE4E6F57F23@gmail.com>
-References: <1459360607-25880-1-git-send-email-raj.khem@gmail.com>
-	<1459378408.2322.63.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] psmisc: Remove including sys/user.h and __WORDSIZE
+	Wed, 30 Mar 2016 23:50:57 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Mar 2016 16:50:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,419,1455004800"; d="scan'208";a="76220790"
+Received: from wcrandle-mobl1.jf.intel.com ([10.24.4.102])
+	by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2016 16:50:58 -0700
+From: Bill Randle <william.c.randle@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Mar 2016 16:50:49 -0700
+Message-Id: <1459381849-13495-1-git-send-email-william.c.randle@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCHv4] man: fix several annoying compile/build warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,88 +27,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 23:29:43 -0000
-X-Groupsio-MsgNum: 80323
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F4C1DD5A-8BB3-4581-8183-DF6C8BEADD16";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 30 Mar 2016 23:50:58 -0000
 
---Apple-Mail=_F4C1DD5A-8BB3-4581-8183-DF6C8BEADD16
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Fixed the build error when building man.config.5 (a remnant of a long
+ago previous patch). Optimized the manpages Makefile for parallel
+builds. Drop a FHS patch that is no longer needed, as the standard
+Makefile puts the man pages in the proper location. Also, fix compile 
+warnings in a couple other files.
 
+[YOCTO #9341]
 
-> On Mar 30, 2016, at 3:53 PM, Phil Blundell <pb@pbcl.net> wrote:
->=20
-> On Wed, 2016-03-30 at 17:56 +0000, Khem Raj wrote:
->> +Subject: [PATCH] Use UINTPTR_MAX instead of __WORDSIZE
->> +
->> +Do not include sys/user.h since it conflicts with
->> +pt_regs struct from kernel APIs in asm/ptrace.h
->> +
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->=20
-> This description (and the subject line of the commit) implies that you
-> are removing the include unconditionally.  But actually, you are only
-> removing it for non-glibc platforms.
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
+---
+[Note: should be applied after previous man patch "fix src/Makefile
+to work with parallel make".] 
 
-OK.
+v4: redo patch to src/gripes.c
 
->=20
-> Also, the change itself seems slightly backwards since the ptrace
-> manpage suggests that <sys/user.h> is actually the right header to be
-> using for these definitions and possibly it's <asm/ptrace.h> that =
-should
-> be eliminated.  Maybe that's not feasible here but it would be nice if
-> the patch header explained why.  And=E2=80=A6
+ .../man/man/man-1.5m2-tv_fhs.patch                 |  31 ------- 
+ .../man/man/man-1.6g-compile-warnings.patch        | 101 +++++++++++++++++++++
+ meta/recipes-extended/man/man_1.6g.bb              |   2 +-
+ 3 files changed, 102 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
+ create mode 100644 meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
 
-The linux ptrace(2) manpage is written with glibc as the only reference. =
-Unfortunately, its not a POSIX API
-so there is no standard per se. The motivation for this patch to look =
-for a middle ground, between
-different libc implementaitons.
+diff --git a/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch b/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
+deleted file mode 100644
+index fe66d75..0000000
+--- a/meta/recipes-extended/man/man/man-1.5m2-tv_fhs.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Upstream-Status: Pending
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+---- man/Makefile.in	2008-12-21 19:19:33.000000000 +0100
+-+++ man/Makefile.in.oden	2008-12-21 19:19:39.000000000 +0100
+-@@ -34,6 +34,15 @@
+- 	for i in $(MAN8); \
+- 		do if test -f $$i.8; then $(INSTALL) $$i.8 $(mandir)/man8/$$i.@man8ext@; fi; done
+- 
+-+install-l10n: $(ALL)
+-+	mkdir -p $(mandir)/$(SLANG)/man1 $(mandir)/$(SLANG)/man5 $(mandir)/$(SLANG)/man8
+-+	for i in $(MAN1); \
+-+		do $(INSTALL) $$i.1 $(mandir)/$(SLANG)/man1/$$i.@man1ext@; done
+-+	for i in $(MAN5); \
+-+		do $(INSTALL) $$i.5 $(mandir)/$(SLANG)/man5/$$i.@man5ext@; done
+-+	for i in $(MAN8); \
+-+		do if test -f $$i.8; then $(INSTALL) $$i.8 $(mandir)/$(SLANG)/man8/$$i.@man8ext@; fi; done
+-+
+- clean:
+- 	rm -f core *.in *.@man1ext@ *.@man5ext@ *.@man8ext@ *~
+- 
+-@@ -49,7 +58,7 @@
+- 	@for i in @languages@; do if test -d $$i; then echo; \
+- 		echo "==== Installing the `cat $$i.txt` man pages. ===="; \
+- 		cd $$i; SLANG=/$$i; if test $$SLANG = /en; then SLANG= ; fi; \
+--		export SLANG; make -f ../Makefile install; cd ..; \
+-+		export SLANG; make -f ../Makefile install-l10n; cd ..; \
+- 		else echo "==== No $$i man pages found. ===="; fi; done
+- 
+- cleansubdirs:
+diff --git a/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch b/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
+new file mode 100644
+index 0000000..4631d2d
+--- /dev/null
++++ b/meta/recipes-extended/man/man/man-1.6g-compile-warnings.patch
+@@ -0,0 +1,105 @@
++Fix a build error when building man.config.5 (a remnant of a long
++ago previous patch). Optimized the manpages Makefile for parallel
++builds. Also, fix compile warnings in a couple other files.
++
++Upstream-Status: Pending
++
++Signed-off-by: Bill Randle <william.c.randle@intel.com>
++
++--- man-1.6g/man/Makefile.in.orig	2016-03-28 17:31:08.723949180 -0700
+++++ man-1.6g/man/Makefile.in	2016-03-28 17:46:12.866910386 -0700
++@@ -5,6 +5,13 @@
++ ALL = man.1 whatis.1 apropos.1 man.config.5
++ MAYBE8 = makewhatis
++ 
+++SUBDIRS := $(shell echo @languages@)
+++
+++.PHONY: subdirs $(SUBDIRS)
+++
+++man.config.man: man.conf.man
+++	@cp $< $@
+++
++ .SUFFIXES: .man .1 .5 .8
++ 
++ .man.1:
++@@ -19,11 +26,11 @@
++ INSTALL = @INSTALL@ -c -m 644
++ 
++ # Where to put the manual pages.
++-mandir = $(DESTDIR)$(PREFIX)@mandir@$(SLANG)
+++mandir := $(DESTDIR)$(PREFIX)@mandir@$(SLANG)
++ 
++ all:	$(ALL)
++ 	for i in $(MAYBE8); \
++-		do if test -f $$i.man; then make -f ../Makefile $$i.8; fi; done
+++		do if test -f $$i.man; then $(MAKE) -f ../Makefile $$i.8; fi; done
++ 
++ install: $(ALL)
++ 	mkdir -p $(mandir)/man1 $(mandir)/man5 $(mandir)/man8
++@@ -38,24 +45,27 @@
++ 	rm -f core *.in *.@man1ext@ *.@man5ext@ *.@man8ext@ *~
++ 
++ spotless:
+++	rm -f man.config.man
++ 
++ subdirs:
++-	@for i in @languages@; do if test -d $$i; then echo; \
++-		echo "==== Making the `cat $$i.txt` man pages. ===="; \
++-		cd $$i; make -f ../Makefile; cd ..; \
++-		else echo "==== No $$i man pages found. ===="; fi; done
+++subdirs: $(SUBDIRS)
+++$(SUBDIRS):
+++	if test -d $@; then echo; \
+++		echo "==== Making the `cat $@.txt` man pages. ===="; \
+++		$(MAKE) -C $@ -f ../Makefile all; \
+++		else echo "==== No $@ man pages found. ===="; fi
++ 
++ installsubdirs:
++ 	@for i in @languages@; do if test -d $$i; then echo; \
++ 		echo "==== Installing the `cat $$i.txt` man pages. ===="; \
++ 		cd $$i; SLANG=/$$i; if test $$SLANG = /en; then SLANG= ; fi; \
++-		export SLANG; make -f ../Makefile install; cd ..; \
+++		export SLANG; $(MAKE) -f ../Makefile install; cd ..; \
++ 		else echo "==== No $$i man pages found. ===="; fi; done
++ 
++ cleansubdirs:
++-	@for i in ??; do cd $$i; make -f ../Makefile clean; cd ..; done
+++	@for i in ??; do $(MAKE) -C $$i -f ../Makefile clean; done
++ 	rm -f core *~
++ 
++ spotlesssubdirs:
++-	for i in ??; do cd $$i; make -f ../Makefile spotless; cd ..; done
+++	for i in ??; do $(MAKE) -C $$i -f ../Makefile spotless; done
++ 	rm -f Makefile
++
++--- man-1.6g/src/gripes.c.orig	2006-11-21 11:53:44.000000000 -0800
+++++ man-1.6g/src/gripes.c	2016-03-30 16:32:31.601103487 -0700
++@@ -7,8 +7,6 @@
++ 
++ extern char *msg[];
++ 
++-static char *mantexts = "man";		/* e.g. /usr/lib/locale/%L/man.cat */
++-
++ #ifdef NONLS
++ 
++ static char *
++@@ -30,6 +28,8 @@
++ #include <nl_types.h>
++ #include "../catopen/catopen.c"
++ 
+++static char *mantexts = "man";		/* e.g. /usr/lib/locale/%L/man.cat */
+++
++ nl_catd catfd = (nl_catd) -1;
++ int cat_is_open = 0;
++ 
++--- man-1.6g/src/manfile.c.orig	2005-08-20 16:26:06.000000000 -0700
+++++ man-1.6g/src/manfile.c	2016-03-29 09:10:21.527841285 -0700
++@@ -299,7 +299,7 @@
++ 	const char *((*tocat)(const char *man_filename, const char *ext,
++ 			      int flags))) {
++      char **sl;
++-     struct manpage *res;
+++     struct manpage *res = 0;
++ 
++      standards = (flags & (FHS | FSSTND | DO_HP | DO_IRIX));
++      to_cat_filename = tocat;
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index 9b057b6..efdf565 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -39,7 +39,6 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
+            file://man-1.5i2-initial.patch \
+            file://man-1.5h1-gencat.patch;striplevel=0 \
+            file://man-1.5g-nonrootbuild.patch \
+-           file://man-1.5m2-tv_fhs.patch;striplevel=0 \
+            file://man-1.5j-i18n.patch \
+            file://man-1.6e-whatis2.patch \
+            file://man-1.6e-use_i18n_vars_in_a_std_way.patch \
+@@ -54,6 +53,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
+            file://man-1.6g-whatis3.patch \
+            file://configure_sed.patch \
+            file://man-1.6g-parallel.patch \
++           file://man-1.6g-compile-warnings.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
+--
+2.5.0
 
-musl=E2=80=99s sys/user.h defines elements that conflict with =
-asm/ptrace.h especially on ppc, may be musl community
-should take a closer look at what can be done since many tracing =
-utilities e.g. strace gdb etc. rely on
-this, may be its worth a libc item there.
-
->=20
->> -SRC_URI +=3D =
-"file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
->> -            file://0002-Include-limits.h-for-PATH_MAX.patch \
->> -            "
->> +SRC_URI =3D "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz \
->> +           file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch \
->> +           file://0002-Include-limits.h-for-PATH_MAX.patch \
->> +           file://0001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch \
->> +           "
->=20
-> ... this change is not mentioned in the commit message.  Why have you
-> added the tarball to SRC_URI directly (rather than letting the .inc do
-> that as it did before)?
->=20
-> p.
->=20
->=20
-
-
---Apple-Mail=_F4C1DD5A-8BB3-4581-8183-DF6C8BEADD16
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlb8YWQACgkQuwUzVZGdMxQnzQCdFfCmJQ0vEjx/H4ULmc/CKA11
-T+8AniZGvfdFQP6F6Stz2+z5J5xrvEUk
-=gils
------END PGP SIGNATURE-----
-
---Apple-Mail=_F4C1DD5A-8BB3-4581-8183-DF6C8BEADD16--
