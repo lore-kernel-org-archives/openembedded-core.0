@@ -1,48 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
-	[209.85.213.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 46E4860796
+Received: from mail-ig0-f196.google.com (mail-ig0-f196.google.com
+	[209.85.213.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 019F760796
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 18:13:22 +0000 (UTC)
-Received: by mail-ig0-f195.google.com with SMTP id sy18so8665634igc.3
+	Thu, 31 Mar 2016 18:13:24 +0000 (UTC)
+Received: by mail-ig0-f196.google.com with SMTP id nt3so14189856igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 11:13:24 -0700 (PDT)
+	Thu, 31 Mar 2016 11:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dUp6UE4SKmVIe5QcZFRTFunPvfTQEETMXy6AizdeCPM=;
-	b=la2QA8jMYI+16/0aV3Abe22MyOjomkrdus5f4VXDrU4H3ZemNZAGs7lhV28EZddyKo
-	PHCROJ9TDAXxdZnx4xBxrASW+zUKhuCF03o7Se755xZrqPRJyVDldEuTtk4nEy2PlJ4C
-	rykh3DYJqdBceJPLV8LctF6oK69RgkWBnQGbHHTVc5kxNsqh9/SG69JdZEwYRVFP8XtH
-	yesmXc41XgvfOg2CruzT3sOBJJUZDyiU2UwytVUDPU2hMtEVLpLafZUSvJq/+CWGbY7L
-	y6EgLyLSHDGrOmNKrftwOAecn4rG0XJ7J1odQTpbwBflN8qQ1RIIXzJVuCBMhH7A7Yu7
-	qeFw==
+	bh=DjbeLFd9987yDC1fIGmSROGXlOuUuHs0NfKz8RS/lg8=;
+	b=LMo4ffP8iqNT2Uht9Ijvzsb5I1DbDCgE+bUdT9WR8UgVZMIo8goTrXplBLZzP6bPTW
+	vcgHoBY2xdtN6nrzaloKJErzS5YgAUUNTGyNdnQygdpt1f99g4+9XYlytQQTlmBsimek
+	jqwnDf08gLEqgm03MKNc19M99Q4ryAyRQZwdg7Hq0iy7J1deEGnZR7/wss1KZXXkLKGT
+	RhZC9UNU3ZJlTFBAL8T+dEI0+rB0I8tvofAka/fFBLAT91MLoafWdlwKKdGPq/8QOxFd
+	jBs8ObdJN8SuI8bFUeKzGNEPodOGr2Nf7oua3HktswOG7yLcgIIkYxZ375XelXCkj9fU
+	dLHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dUp6UE4SKmVIe5QcZFRTFunPvfTQEETMXy6AizdeCPM=;
-	b=JolfsJDO3jCeXbHzsjFpYVKGiQHW8bNlglK6px5VR9Ocl1GJB079PnAq6Oro8A3fpy
-	SAXNcTSrR6ZiCORahSlts+jruPy+S22fhfytMpPrduamLgCePsFVcpORrCdVHjECt9+A
-	ZMt+Nwjd72iBfGclK1l4V8X+dShVQLU3RECdIig/fcvYBb/jQFHensB2H9h33SHW3Zwx
-	yhJ1d/q3Cx4iG/Vb95pMQ9ZRbNNRiQCbVvj8LVtXYuIhQacpb1X4eWM7JMSSD6K+Ml+j
-	y9yjXAN/h+A9yg2K+Cvs7E7RzH1oebU22eGsrqZA0VV5yQHAK+BtkWiVuAhH2mJsVbiS
-	L+ew==
-X-Gm-Message-State: AD7BkJK6WZy2b8b7vAajqn/WWn7EfT3fnGfvXaDrxBVBxUbwxYnlxYp0lbeyL7mkHLfhtA==
-X-Received: by 10.50.60.9 with SMTP id d9mr389424igr.54.1459448003417;
-	Thu, 31 Mar 2016 11:13:23 -0700 (PDT)
+	bh=DjbeLFd9987yDC1fIGmSROGXlOuUuHs0NfKz8RS/lg8=;
+	b=I9VQHu+Ry0801l0Il5hiZd/MfOiCBdWVEhvJdEcqhVqJL/THaVfxuXCADOGym6iEo8
+	50LMrW5aYRm7DW5Tmz6SKc56wekJCCB68G4+RS9esCLafk2yW/yyOzhozLYpgnFkRn50
+	DqQISsFX0KnptyIfc0INo+RrXAwc37Iee1hfReFUySBEg6w9Gj7zwTMpVJxZjdjmyChf
+	o22GoMFKKbA66K717/eIqS/2HT4Vx6naPytjs8wKW834ToFvajsVde9gdhdvBJrffIUa
+	8TJilakwfS5paWp/RXgHLGq4iN6LnumLj/xghKRSTkr/042Q6o5o85TPiSG+q2WZ7TQ0
+	gtow==
+X-Gm-Message-State: AD7BkJLORTf9F/zIa82mVvWLgUQjaD02kYVOQ4KbKzS1wWaSZbR4NO28xqNBSn2iMpv60w==
+X-Received: by 10.50.112.42 with SMTP id in10mr353856igb.1.1459448005714;
+	Thu, 31 Mar 2016 11:13:25 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id p1sm4252058iop.12.2016.03.31.11.13.21
+	by smtp.gmail.com with ESMTPSA id p1sm4252058iop.12.2016.03.31.11.13.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 31 Mar 2016 11:13:22 -0700 (PDT)
+	Thu, 31 Mar 2016 11:13:24 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2016 11:13:07 -0700
-Message-Id: <1459447989-25263-3-git-send-email-armccurdy@gmail.com>
+Date: Thu, 31 Mar 2016 11:13:08 -0700
+Message-Id: <1459447989-25263-4-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1459447989-25263-1-git-send-email-armccurdy@gmail.com>
 References: <1459447989-25263-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/4] base.bbclass: avoid duplicate call to d.getVar('LICENSE', True)
+Subject: [PATCH 3/4] base.bbclass: include PV in 'incompatible license but whitelisted' debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 18:13:25 -0000
+X-List-Received-Date: Thu, 31 Mar 2016 18:13:27 -0000
 
-Reuse the 'license' variable, instead of calling
-d.getVar('LICENSE', True) again.
+Referencing PN only is ambiguous if multiple versions of a recipe are
+present.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/base.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/classes/base.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index ab8715e..67b3370 100644
+index 67b3370..d91e059 100644
 --- a/meta/classes/base.bbclass
 +++ b/meta/classes/base.bbclass
-@@ -516,7 +516,6 @@ python () {
-                         incompatwl.extend((d.getVar(w + spdx_license, True) or "").split())
- 
-             if not pn in whitelist:
--                recipe_license = d.getVar('LICENSE', True)
-                 pkgs = d.getVar('PACKAGES', True).split()
-                 skipped_pkgs = []
-                 unskipped_pkgs = []
-@@ -528,14 +527,14 @@ python () {
-                 all_skipped = skipped_pkgs and not unskipped_pkgs
-                 if unskipped_pkgs:
-                     for pkg in skipped_pkgs:
--                        bb.debug(1, "SKIPPING the package " + pkg + " at do_rootfs because it's " + recipe_license)
-+                        bb.debug(1, "SKIPPING the package " + pkg + " at do_rootfs because it's " + license)
-                         mlprefix = d.getVar('MLPREFIX', True)
-                         d.setVar('LICENSE_EXCLUSION-' + mlprefix + pkg, 1)
-                     for pkg in unskipped_pkgs:
-                         bb.debug(1, "INCLUDING the package " + pkg)
-                 elif all_skipped or incompatible_license(d, bad_licenses):
--                    bb.debug(1, "SKIPPING recipe %s because it's %s" % (pn, recipe_license))
--                    raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
-+                    bb.debug(1, "SKIPPING recipe %s because it's %s" % (pn, license))
-+                    raise bb.parse.SkipPackage("incompatible with license %s" % license)
+@@ -537,7 +537,8 @@ python () {
+                     raise bb.parse.SkipPackage("incompatible with license %s" % license)
              elif pn in whitelist:
                  if pn in incompatwl:
-                     bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted")
+-                    bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted")
++                    p = d.getVar('P', True)
++                    bb.note("INCLUDING " + p + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted")
+ 
+     needsrcrev = False
+     srcuri = d.getVar('SRC_URI', True)
 -- 
 1.9.1
 
