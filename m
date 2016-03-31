@@ -1,51 +1,46 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 376806011A
+Return-Path: <laurent.bonnans@hikob.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E75A7601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 14:42:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id B1BC62E63C;
-	Thu, 31 Mar 2016 16:42:26 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id zR8-91135HPw; Thu, 31 Mar 2016 16:42:25 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id DF3742E639;
-	Thu, 31 Mar 2016 16:42:25 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id C60F21446;
-	Thu, 31 Mar 2016 16:42:25 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id BA745143E;
-	Thu, 31 Mar 2016 16:42:25 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id B898D101A;
-	Thu, 31 Mar 2016 16:42:25 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1156.6;
-	Thu, 31 Mar 2016 16:42:21 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%22]) with mapi id
-	15.00.1156.000; Thu, 31 Mar 2016 16:42:21 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] scripts, lib: Don't limit traceback lengths to
-	arbitrary values
-Thread-Index: AQHRi0MI/MGUbUw+qE6Ic7LQ+B4KsZ9zoGPg
-Date: Thu, 31 Mar 2016 14:42:20 +0000
-Message-ID: <0632c6723e0a41efbba6c400c61d6d3d@XBOX02.axis.com>
-References: <1459424798.21672.63.camel@linuxfoundation.org>
-In-Reply-To: <1459424798.21672.63.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.55]
-MIME-Version: 1.0
-Subject: Re: [PATCH] scripts, lib: Don't limit traceback lengths to arbitrary values
+	Thu, 31 Mar 2016 16:16:13 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id 191so132072534wmq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 09:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=hikob-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=9xfUNddFMSticmWbXVR+IjH6AQ76r4wKJyvqHbVETzA=;
+	b=Y7L/habRGRQQSZBFI2mZVkOKmmKvD9LAzSNgA85fswn74k1HpwHRaym759Y+ofV8MZ
+	ssWLBV/tIGF3sAiJ0e9heQnCyHudytMI2Iyq9KRnCbENGdNuN7jESFDZW3VGAjVfO/OD
+	FHcrXYMYJs4ush9YqVkLO5hjpSDbu7Z0RmsFeodjdCJc/CShiacuB+GV37FNlFC6WH+Y
+	gBe8wVH+fo43V+pg4sXCct5IB1MnkeclN/+XBhZlWOEuD3zvZBqMPLxBV7Ttmp61OnJv
+	1a4erWSaBzpoJLcU8MZ5QBvCDcuD0IHYySS4djETQyYe1g7WI9Itt1hruyZ+A9bHktlO
+	Hk3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=9xfUNddFMSticmWbXVR+IjH6AQ76r4wKJyvqHbVETzA=;
+	b=kh7zy7IoLJoYO1LpAQrBpKPAfhv37MA+C82EouM1apynp784iApIHRGIwnGPQHTPHx
+	5MvfO4f7hSl8PjbKHh3mnLEpvuZZuyQztsBsc2bO8V6srk6a6FWmf3SGUYvbJgTQ/YRi
+	Vv1PthKmPqkKMcKlGfEPr0+uVIgdddVEY4JHHh6j3almlTQItdLFQtXXG8YUCE9D3dUf
+	6jXDFyk6Ea977IbZSHrKPC8cb8yp3Cvi9/zqm1j4Vrn25TpNgnQvD/Ezv7Q76RRK3Wqz
+	XONQbgxQweXTuGAStckfEBBamGLqn/Ga2AUcBkGPCs5+Q8UrUi2mHlCLpIJSqK8W3RVe
+	e63Q==
+X-Gm-Message-State: AD7BkJJpxAESO9MKcYvrJoGBHvBsM2dHDGkWH18bOLPae9WLQXBFmI2+sjPE6Fy9cFRzhBA7
+X-Received: by 10.194.184.139 with SMTP id eu11mr13211440wjc.154.1459440974297;
+	Thu, 31 Mar 2016 09:16:14 -0700 (PDT)
+Received: from skinnylynx.meylan.hikob.com (hikob-152-162.fib.nerim.net.
+	[194.79.152.162]) by smtp.gmail.com with ESMTPSA id
+	gg7sm9767296wjd.10.2016.03.31.09.16.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 31 Mar 2016 09:16:13 -0700 (PDT)
+From: Laurent Bonnans <laurent.bonnans@hikob.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Mar 2016 18:15:58 +0200
+Message-Id: <cover.1459438792.git.laurent.bonnans@hikob.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 0/1] python: remove tests and sqlite3-tests modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 14:42:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 Mar 2016 16:16:15 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Richard Purdie
-> Sent: den 31 mars 2016 13:47
-> To: openembedded-core
-> Subject: [OE-core] [PATCH] scripts, lib: Don't limit traceback lengths
-> to arbitrary values
->=20
-> There appears to have been a lot of copy and pasting of the code
-> which prints tracebacks upon failure and limits the stack trace to
-> 5 entries. This obscures the real error and is very confusing to the user
-> it look me an age to work out why some tracebacks weren't useful.
-     ^^^^
-Change "look" to "took".
+Some python test packages were shipped with python-modules but are useless
+in most production deployements. python-modules is commonly used to ship the
+entire python standard library (it is in the runtime deps of pip, for
+instance).
 
-//Peter
+This pull request relegates them to 'python-misc' along with less commonly
+used modules.
+
+The following changes since commit 3ece01215a7b038dbd5cde313754c42d134a887f:
+
+  ldconfig-native: Fix ELF flags on 64-bit binaries (2016-03-31 13:18:06 +0100)
+
+are available in the git repository at:
+
+  git://github.com/lbonn/poky python-rm-tests
+  https://github.com/lbonn/poky/tree/python-rm-tests
+
+Laurent Bonnans (1):
+  python: remove tests and sqlite3-tests modules
+
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 14 +++-----------
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 14 +++-----------
+ scripts/contrib/python/generate-manifest-2.7.py      |  6 ------
+ scripts/contrib/python/generate-manifest-3.5.py      |  6 ------
+ 4 files changed, 6 insertions(+), 34 deletions(-)
+
+-- 
+2.5.0
 
 
