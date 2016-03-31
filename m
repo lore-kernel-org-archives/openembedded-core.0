@@ -1,27 +1,27 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0905F6E65F
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B85F760722
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 09:00:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 31 Mar 2016 02:00:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,421,1455004800"; d="scan'208";a="948646123"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Mar 2016 02:00:16 -0700
-Received: from mbabyjoh-desk.ger.corp.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 519636A4006
+	Thu, 31 Mar 2016 10:07:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2VA7X3I028291
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:47:57 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2016 12:00:16 +0300
-Message-Id: <1459414816-7175-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] systemd: fix build with gcrypt PACKAGECONFIG disabled
+	Thu, 31 Mar 2016 03:07:33 -0700
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 31 Mar 2016 03:07:32 -0700
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <56FCF6E3.7090109@windriver.com>
+Date: Thu, 31 Mar 2016 18:07:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: aufs missing in kernel 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,169 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 09:00:36 -0000
+X-List-Received-Date: Thu, 31 Mar 2016 10:07:33 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-systemd-resolved build fails without gcrypt PACKAGECONFIG. Backport the fix.
-Also remove the comment about resolved's dependence on gcrypt.
+Hi Bruce,
 
-[YOCTO #9219]
+In kernel 4.1, it supports aufs:
+http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.1/tree/fs/aufs?h=standard/base
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...ild-sys-fix-build-with-libgrcypt-disabled.patch | 122 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_229.bb           |   2 +-
- 2 files changed, 123 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0023-build-sys-fix-build-with-libgrcypt-disabled.patch
+But it does not exist in kernel 4.4:
+http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.4/tree/fs?h=standard/base
 
-diff --git a/meta/recipes-core/systemd/systemd/0023-build-sys-fix-build-with-libgrcypt-disabled.patch b/meta/recipes-core/systemd/systemd/0023-build-sys-fix-build-with-libgrcypt-disabled.patch
-new file mode 100644
-index 0000000..1ae3d66
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0023-build-sys-fix-build-with-libgrcypt-disabled.patch
-@@ -0,0 +1,122 @@
-+From b68f10bf1f7519e012da5e35fab3a57da7dc46d4 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Sun, 27 Mar 2016 17:33:54 -0400
-+Subject: [PATCH] build-sys: fix build with libgrcypt disabled
-+
-+- Move gcrypt.h include inside grcrypt-util.h.
-+- Allow gcrypt-util.[ch] to be compiled even without gcrypt.
-+This allows the logic in files using gcrypt to be simplified.
-+
-+- Fix compilation of systemd-resolve without gcrypt.
-+systemd-resolved already supported that.
-+
-+Upstream-Status: Backport [ https://github.com/systemd/systemd/pull/2905 ]
-+
-+Fixes [YOCTO #9219]
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ Makefile.am                |  8 ++++----
-+ src/resolve/resolve-tool.c |  3 +--
-+ src/shared/gcrypt-util.c   |  4 +++-
-+ src/shared/gcrypt-util.h   | 14 ++++++++++++++
-+ 4 files changed, 22 insertions(+), 7 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 2b72a53..95eaa9a 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -4262,7 +4262,9 @@ libsystemd_journal_internal_la_SOURCES = \
-+ 	src/journal/mmap-cache.h \
-+ 	src/journal/compress.c \
-+ 	src/journal/audit-type.h \
-+-	src/journal/audit-type.c
-++	src/journal/audit-type.c \
-++	src/shared/gcrypt-util.h \
-++	src/shared/gcrypt-util.c
-+ 
-+ nodist_libsystemd_journal_internal_la_SOURCES = \
-+ 	src/journal/audit_type-to-name.h
-+@@ -4294,9 +4296,7 @@ libsystemd_journal_internal_la_SOURCES += \
-+ 	src/journal/journal-authenticate.c \
-+ 	src/journal/journal-authenticate.h \
-+ 	src/journal/fsprg.c \
-+-	src/journal/fsprg.h \
-+-	src/shared/gcrypt-util.c \
-+-	src/shared/gcrypt-util.h
-++	src/journal/fsprg.h
-+ 
-+ libsystemd_journal_internal_la_LIBADD += \
-+ 	$(GCRYPT_LIBS)
-+diff --git a/src/resolve/resolve-tool.c b/src/resolve/resolve-tool.c
-+index 009cc73..14ee01c 100644
-+--- a/src/resolve/resolve-tool.c
-++++ b/src/resolve/resolve-tool.c
-+@@ -17,7 +17,6 @@
-+   along with systemd; If not, see <http://www.gnu.org/licenses/>.
-+ ***/
-+ 
-+-#include <gcrypt.h>
-+ #include <getopt.h>
-+ #include <net/if.h>
-+ 
-+@@ -863,7 +862,7 @@ static int resolve_openpgp(sd_bus *bus, const char *address) {
-+         }
-+         domain++;
-+ 
-+-        r = string_hashsum(address, domain - 1 - address, GCRY_MD_SHA224, &hashed);
-++        r = string_hashsum_sha224(address, domain - 1 - address, &hashed);
-+         if (r < 0)
-+                 return log_error_errno(r, "Hashing failed: %m");
-+ 
-+diff --git a/src/shared/gcrypt-util.c b/src/shared/gcrypt-util.c
-+index 4ff9452..39b544b 100644
-+--- a/src/shared/gcrypt-util.c
-++++ b/src/shared/gcrypt-util.c
-+@@ -19,10 +19,11 @@
-+   along with systemd; If not, see <http://www.gnu.org/licenses/>.
-+ ***/
-+ 
-++#ifdef HAVE_GCRYPT
-+ #include <gcrypt.h>
-+ 
-+-#include "hexdecoct.h"
-+ #include "gcrypt-util.h"
-++#include "hexdecoct.h"
-+ 
-+ void initialize_libgcrypt(bool secmem) {
-+         const char *p;
-+@@ -67,3 +68,4 @@ int string_hashsum(const char *s, size_t len, int md_algorithm, char **out) {
-+         *out = enc;
-+         return 0;
-+ }
-++#endif
-+diff --git a/src/shared/gcrypt-util.h b/src/shared/gcrypt-util.h
-+index c7652c2..cf33b3c 100644
-+--- a/src/shared/gcrypt-util.h
-++++ b/src/shared/gcrypt-util.h
-+@@ -19,7 +19,21 @@
-+   along with systemd; If not, see <http://www.gnu.org/licenses/>.
-+ ***/
-+ 
-++#include <errno.h>
-+ #include <stdbool.h>
-++#include <stddef.h>
-++
-++#ifdef HAVE_GCRYPT
-++#include <gcrypt.h>
-+ 
-+ void initialize_libgcrypt(bool secmem);
-+ int string_hashsum(const char *s, size_t len, int md_algorithm, char **out);
-++#endif
-++
-++static inline int string_hashsum_sha224(const char *s, size_t len, char **out) {
-++#ifdef HAVE_GCRYPT
-++        return string_hashsum(s, len, GCRY_MD_SHA224, out);
-++#else
-++        return -EOPNOTSUPP;
-++#endif
-++}
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
-index b16cacb..309a4c3 100644
---- a/meta/recipes-core/systemd/systemd_229.bb
-+++ b/meta/recipes-core/systemd/systemd_229.bb
-@@ -53,6 +53,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
-            file://0020-check-for-uchar.h-in-configure.patch \
-            file://0021-include-missing.h-for-getting-secure_getenv-definiti.patch \
-            file://0022-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch \
-+           file://0023-build-sys-fix-build-with-libgrcypt-disabled.patch \
- "
- SRC_URI_append_libc-uclibc = "\
-            file://0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch \
-@@ -101,7 +102,6 @@ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
- PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
- PACKAGECONFIG[microhttpd] = "--enable-microhttpd,--disable-microhttpd,libmicrohttpd"
- PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
--# resolved needs gcrypt
- PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
- PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
- PACKAGECONFIG[machined] = "--enable-machined,--disable-machined"
--- 
-2.4.0
+It caused ISO's rootfs is readonly.
+
+In meta/recipes-core/initrdscripts/files/init-live.sh:
+-----------------
+174     elif grep -q -w "aufs" /proc/filesystems; then
+175         union_fs_type="aufs"
+[snip]
+204         "aufs")
+205             mkdir -p /rootfs.ro /rootfs.rw
+206             if ! mount -n --move $ROOT_MOUNT /rootfs.ro; then
+207                 rm -rf /rootfs.ro /rootfs.rw
+208                 fatal "Could not move rootfs mount point"
+209             else
+210                 mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
+211                 mount -t aufs -o "dirs=/rootfs.rw=rw:/rootfs.ro=ro" 
+aufs $ROOT_MOUNT
+212                 mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
+213                 mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
+214                 mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
+215             fi
+216             ;;
+-----------------
+
+Would you please update kernel 4.4 to support aufs?
+
+//Hongxu
 
 
