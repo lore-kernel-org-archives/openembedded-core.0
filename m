@@ -1,29 +1,26 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 831F360797
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BC441605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 10:31:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u2VAVHEi019531
+	Thu, 31 Mar 2016 10:47:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2VAl4uY012038
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 03:31:17 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 31 Mar 2016 03:31:16 -0700
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-References: <56FCF6E3.7090109@windriver.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <56FCFC74.4080001@windriver.com>
-Date: Thu, 31 Mar 2016 18:31:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Thu, 31 Mar 2016 03:47:04 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 31 Mar 2016 03:47:03 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 Mar 2016 03:47:02 -0700
+Message-ID: <7d0abc8ee6607ee15f5a7f3c05ff0cd468906fe5.1459421153.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1459421153.git.liezhi.yang@windriver.com>
+References: <cover.1459421153.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <56FCF6E3.7090109@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: aufs missing in kernel 4.4
+Subject: [PATCH 1/1] image-live.bbclass: DEPENDS on syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 10:31:19 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Mar 2016 10:47:06 -0000
+Content-Type: text/plain
 
-On 03/31/2016 06:07 PM, Hongxu Jia wrote:
-> Hi Bruce,
->
-> In kernel 4.1, it supports aufs:
-> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.1/tree/fs/aufs?h=standard/base 
->
->
-> But it does not exist in kernel 4.4:
-> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.4/tree/fs?h=standard/base 
->
->
-> It caused ISO's rootfs is readonly.
->
-> In meta/recipes-core/initrdscripts/files/init-live.sh:
-> -----------------
-> 174     elif grep -q -w "aufs" /proc/filesystems; then
-> 175         union_fs_type="aufs"
-> [snip]
-> 204         "aufs")
-> 205             mkdir -p /rootfs.ro /rootfs.rw
-> 206             if ! mount -n --move $ROOT_MOUNT /rootfs.ro; then
-> 207                 rm -rf /rootfs.ro /rootfs.rw
-> 208                 fatal "Could not move rootfs mount point"
-> 209             else
-> 210                 mount -t tmpfs -o rw,noatime,mode=755 tmpfs 
-> /rootfs.rw
-> 211                 mount -t aufs -o 
-> "dirs=/rootfs.rw=rw:/rootfs.ro=ro" aufs $ROOT_MOUNT
-> 212                 mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
-> 213                 mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
-> 214                 mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
-> 215             fi
-> 216             ;;
-> -----------------
->
-> Would you please update kernel 4.4 to support aufs?
+The mkisofs requires syslinux/isolinux.bin which is provided by
+target syslinux, for pcbios, the depends is already there, but for
+EFI, it isn't, so add the depends.
 
-Or with Robert's patch in mailing list also could fix this issue.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/bootimg.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-[OE-core] [PATCH 1/1] linux-yocto 4.4: enable overlayfs
-
-//Hongxu
-
->
-> //Hongxu
->
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index d9ed7db..6204101 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -29,6 +29,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+                         mtools-native:do_populate_sysroot \
+                         cdrtools-native:do_populate_sysroot \
+                         virtual/kernel:do_deploy \
++                        ${MLPREFIX}syslinux:do_populate_sysroot \
+                         ${@oe.utils.ifelse(d.getVar('COMPRESSISO', False),'zisofs-tools-native:do_populate_sysroot','')}"
+ 
+ PACKAGES = " "
+-- 
+2.7.4
 
 
