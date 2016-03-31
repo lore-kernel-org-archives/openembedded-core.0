@@ -1,21 +1,25 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D319A62135
+Return-Path: <saul.wold@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 13A7560722
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 00:27:54 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 30 Mar 2016 17:27:55 -0700
+	Thu, 31 Mar 2016 01:01:40 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Mar 2016 18:01:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,419,1455004800"; d="scan'208";a="922197679"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
-	by orsmga001.jf.intel.com with ESMTP; 30 Mar 2016 17:27:55 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2016 17:13:54 -0700
-Message-Id: <1459383234-17222-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-Cc: richard.purdie@intel.com, jurobystricky@hotmail.com
-Subject: [PATCH] relocate_sdk: additional error checks
+X-IronPort-AV: E=Sophos;i="5.24,419,1455004800"; d="scan'208";a="76253603"
+Received: from jdiei-mobl4.amr.corp.intel.com ([10.254.184.42])
+	by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2016 18:01:42 -0700
+Message-ID: <1459386101.18406.168.camel@intel.com>
+From: Saul Wold <saul.wold@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 30 Mar 2016 18:01:41 -0700
+In-Reply-To: <9050734f9f9baec08caa67948dd70f9389a93a6e.1458640034.git.liezhi.yang@windriver.com>
+References: <cover.1458640034.git.liezhi.yang@windriver.com>
+	<9050734f9f9baec08caa67948dd70f9389a93a6e.1458640034.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/3] bootimg.bbclass: only inherit syslinux when pcbios
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,70 +32,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 00:27:55 -0000
+X-List-Received-Date: Thu, 31 Mar 2016 01:01:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-When installing SDK in a non-default location and the path length
-of the SDK install location is longer than the path length of the
-default SDK location, relocation of .ldsochache section will overwrite
-file location outside of the .ldsocache section size.
-In addition, additional checks were added to ensure that any
-path in sections .gccrelocprefix and .ldsochache will not exceed
-the space allocated for it within the file, which would also result
-in file corruption.
+On Tue, 2016-03-22 at 02:48 -0700, Robert Yang wrote:
+> syslinux.bbclass should not be seen when use efi.
+> 
+That's not completely true, there is a case which still requires the
+ioslinux.bin binary when EFI is used.  In the build_iso() function
+there is a workaround that is still required and uses isolinux.bin
 
-[YOCTO #9268]
+This change breaks building EFI only machines (intel-quark for example)
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- scripts/relocate_sdk.py | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Please check into this.
+Thanks
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index ceca1f2..99fca86 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -112,7 +112,7 @@ def change_interpreter(elf_file_name):
-             f.write(dl_path)
-             break
- 
--def change_dl_sysdirs():
-+def change_dl_sysdirs(elf_file_name):
-     if arch == 32:
-         sh_fmt = "<IIIIIIIIII"
-     else:
-@@ -156,6 +156,11 @@ def change_dl_sysdirs():
-             elif name == b(".ldsocache"):
-                 ldsocache_path = f.read(sh_size)
-                 new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
-+                new_ldsocache_path = new_ldsocache_path.rstrip(b("\0"))
-+                if (len(new_ldsocache_path) >= sh_size):
-+                    print("ERROR: could not relocate %s, .ldsocache section size = %i and %i is needed." \
-+                    % (elf_file_name, sh_size, len(new_ldsocache_path)))
-+                    sys.exit(-1)
-                 # pad with zeros
-                 new_ldsocache_path += b("\0") * (sh_size - len(new_ldsocache_path))
-                 # write it back
-@@ -167,6 +172,10 @@ def change_dl_sysdirs():
-                     path = f.read(4096)
-                     new_path = old_prefix.sub(new_prefix, path)
-                     new_path = new_path.rstrip(b("\0"))
-+                    if (len(new_path) >= 4096):
-+                        print("ERROR: could not relocate %s, max path size = 4096 and %i is needed." \
-+                        % (elf_file_name, len(new_path)))
-+                        sys.exit(-1)
-                     # pad with zeros
-                     new_path += b("\0") * (4096 - len(new_path))
-                     #print "Changing %s to %s at %s" % (str(path), str(new_path), str(offset))
-@@ -241,7 +250,7 @@ for e in executables_list:
-         if arch:
-             parse_elf_header()
-             change_interpreter(e)
--            change_dl_sysdirs()
-+            change_dl_sysdirs(e)
- 
-     """ change permissions back """
-     if perms:
--- 
-1.9.1
+Sau!
 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/boot-directdisk.bbclass |    1 -
+>  meta/classes/bootimg.bbclass         |    9 +++++++--
+>  meta/classes/image-live.bbclass      |    1 -
+>  meta/classes/syslinux.bbclass        |    7 +++----
+>  4 files changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/classes/boot-directdisk.bbclass
+> b/meta/classes/boot-directdisk.bbclass
+> index c6ada47..46f88ac 100644
+> --- a/meta/classes/boot-directdisk.bbclass
+> +++ b/meta/classes/boot-directdisk.bbclass
+> @@ -59,7 +59,6 @@ inherit ${EFI_CLASS}
+>  
+>  DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+>  ROOT_VM ?= "root=/dev/sda2"
+> -SYSLINUX_CFG_VM  ?= "${S}/syslinux_vm.cfg"
+>  
+>  boot_direct_populate() {
+>  	dest=$1
+> diff --git a/meta/classes/bootimg.bbclass
+> b/meta/classes/bootimg.bbclass
+> index 70ce070..d9ed7db 100644
+> --- a/meta/classes/bootimg.bbclass
+> +++ b/meta/classes/bootimg.bbclass
+> @@ -40,6 +40,11 @@ EFIIMGDIR = "${S}/efi_img"
+>  COMPACT_ISODIR = "${S}/iso.z"
+>  COMPRESSISO ?= "0"
+>  
+> +ISOLINUXDIR ?= "/isolinux"
+> +ISO_BOOTIMG = "isolinux/isolinux.bin"
+> +ISO_BOOTCAT = "isolinux/boot.cat"
+> +MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
+> +
+>  BOOTIMG_VOLUME_ID   ?= "boot"
+>  BOOTIMG_EXTRA_SPACE ?= "512"
+>  
+> @@ -59,10 +64,10 @@ def pcbios(d):
+>      return pcbios
+>  
+>  PCBIOS = "${@pcbios(d)}"
+> +PCBIOS_CLASS = "${@['','syslinux'][d.getVar('PCBIOS', True) ==
+> '1']}"
+>  
+> -# The syslinux is required for the isohybrid command and boot
+> catalog
+> -inherit syslinux
+>  inherit ${EFI_CLASS}
+> +inherit ${PCBIOS_CLASS}
+>  
+>  populate() {
+>  	DEST=$1
+> diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-
+> live.bbclass
+> index 504725d..05e416a 100644
+> --- a/meta/classes/image-live.bbclass
+> +++ b/meta/classes/image-live.bbclass
+> @@ -3,7 +3,6 @@ INITRD_IMAGE_LIVE ?= "core-image-minimal-initramfs"
+>  INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-
+> ${MACHINE}.cpio.gz"
+>  ROOT_LIVE ?= "root=/dev/ram0"
+>  LABELS_LIVE ?= "boot install"
+> -SYSLINUX_CFG_LIVE ?= "${S}/syslinux_live.cfg"
+>  
+>  ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4"
+>  
+> diff --git a/meta/classes/syslinux.bbclass
+> b/meta/classes/syslinux.bbclass
+> index 6de656b..7d324c3 100644
+> --- a/meta/classes/syslinux.bbclass
+> +++ b/meta/classes/syslinux.bbclass
+> @@ -20,7 +20,7 @@
+>  do_bootimg[depends] += "${MLPREFIX}syslinux:do_populate_sysroot \
+>                          syslinux-native:do_populate_sysroot"
+>  
+> -ISOLINUXDIR = "/isolinux"
+> +ISOLINUXDIR ?= "/isolinux"
+>  SYSLINUXDIR = "/"
+>  # The kernel has an internal default console, which you can override
+> with
+>  # a console=...some_tty...
+> @@ -30,10 +30,9 @@ SYSLINUX_SERIAL_TTY ?= "console=ttyS0,115200"
+>  SYSLINUX_PROMPT ?= "0"
+>  SYSLINUX_TIMEOUT ?= "50"
+>  AUTO_SYSLINUXMENU ?= "1"
+> -ISO_BOOTIMG = "isolinux/isolinux.bin"
+> -ISO_BOOTCAT = "isolinux/boot.cat"
+> -MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
+>  SYSLINUX_ROOT ?= "${ROOT}"
+> +SYSLINUX_CFG_VM  ?= "${S}/syslinux_vm.cfg"
+> +SYSLINUX_CFG_LIVE ?= "${S}/syslinux_live.cfg"
+>  APPEND_prepend = " ${SYSLINUX_ROOT} "
+>  
+>  # Need UUID utility code.
+> -- 
+> 1.7.9.5
+> 
 
