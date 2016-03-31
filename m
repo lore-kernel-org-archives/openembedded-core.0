@@ -1,47 +1,46 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E27096E660
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id DD6006E660
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 12:05:31 +0000 (UTC)
-Received: by mail-oi0-f50.google.com with SMTP id p188so24424972oih.2
+	Thu, 31 Mar 2016 12:06:32 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id d205so57216018oia.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 05:05:32 -0700 (PDT)
+	Thu, 31 Mar 2016 05:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=+Cq3dx/ZgoPeUjucDlAGC9f9OJ8+K5gUiEVPgCuWZKM=;
-	b=NakaqNLoTu4jj0Z+tALU6wH5TcptoaUY1g8pLhqL3VJ/DtNcflqeQjO6q50JoDNdmi
-	eUdmF2csl+Rmp1dl6+NT5QV0uPdJaBBvUwbxDLCpcb+uVQVPdL3V5Hu7o/PlR2haQhM9
-	hdGW+Xo2uxLBR2TFwrJB6QlcqkHQLimPVE/Rci/s0meECbh47IWRjOqQf7KTCIn/JO9c
-	3vq2YEnMKyrqQsH3TGm/xpMaMEGO5swVAKsMqxMN86/+6HbBmOq6M0SFKgLTKeSBmy85
-	bhOoqRGZPqlmei5Sc55VS9zXuLMex9oAWwTFLfI8p8s7rsW0m7FPUJjRBRPPZYj1NNLK
-	S0gA==
+	:cc; bh=NKlBDW8dIKNlyhRDOQNz/ZXfZOd9zRAAJA61x/oPaR8=;
+	b=Rjva0jPH8/crvu+wlrjmwaKu4fSsAOb7T2Hl/bk42YbOJe8O6womcgfdXWLZKQX98B
+	N1Qu2ZGKjf/7/b8wznFZ2PJz9sFoN27c3PEUL5VnTQMzEv5xcFq2tM4UXp+RjyfO1Si+
+	r/ufItgYXdq0N67TiLSCbkZdJom144fmfM41HuyEASm9XSeWg9Q5tuGSyrsmUeGAZoFP
+	821XvoBqn4wlr7bwjozvuj5+qMHJsJWquw5+7sVGeS0JNKd1q3aVegEO5XQboO1O5fnf
+	y/G1i/zo25/M040gpG8lEIzsbeBWEekfm1urr9Xa+TVcDDglYb11r9E/4o5mJweXTZye
+	SVyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=+Cq3dx/ZgoPeUjucDlAGC9f9OJ8+K5gUiEVPgCuWZKM=;
-	b=UjaCwh8t7mxZBqlkKgEbBkPQ6OqgjvKEoIUgIfA9z5dsT5RnWKXXRdBa5oBWsV0tt+
-	tzILsQ491Wg1V+HYv9+acLsp/RxIk/KI2FGY8cbujDI2BIeZJQBEgSKV9Zq8iy8Poerb
-	4x7+DCaTXrvQ+iqL4NAtRa5aR5XOPh0wydHwsA+2bQyaDP0tGJdfXeJF0hAD8og8/J69
-	KR0nRNKRyUcXas924qmzH+djvHIr+DtDVAhGNKz+uosBthY4M1nUUuzwNscOffPzRlTt
-	kyjIx8iEgRAgQOePge5yCv9Ovm68SUuoDzcKUiKMaZvmxNE/QRZQ0eId+Z0n2+V3HC26
-	VVmw==
-X-Gm-Message-State: AD7BkJIsY0Ac6GDpK9ijtoN/93n3+8cDuPLNMLK3leGKWsSaVRPfUnDEdGgf405RKfn/0g5DBBxBejfWlSAlXg==
+	bh=NKlBDW8dIKNlyhRDOQNz/ZXfZOd9zRAAJA61x/oPaR8=;
+	b=JxxEt/AFmNEQjhfUU3eBsC8659ZyO34D6XdexTHoUkWdf36tE9hqLaqrNSkITL1PeN
+	kHVTvXIFNYaw3Q+UeDc7wvE/okq6fy4eBtBA/l9rbCMOMfiE0VaOd9tRBB4KbpGrUyZD
+	uOvveW3CwK3QjguvQ8OFkj//xsA1cnyd0muubQN6EYxWp2x2fAkfG9G3z4R4nL9OeKy5
+	VxRPkZVM15Uy9AKsiecxCPSkyQxiZ58UiRj8QjIwB4UhXNK5eKMOqdiyPitQSDK3qKtP
+	J1wKx1B8f9OWGxVduj6Gwi0DWc8g5g2B/ZAeiYXJoprs6Fmcj9oiDqBH9qJAH+AtauHl
+	sAjw==
+X-Gm-Message-State: AD7BkJLa16nfmznWPMC7aKtS95ZqpMD3ilAvDo3boz5tE8fvPiSInuY9s/7eniyWwLz6tFVLPV5pzCi5SerIKg==
 MIME-Version: 1.0
-X-Received: by 10.157.47.208 with SMTP id b16mr8218366otd.118.1459425931935;
-	Thu, 31 Mar 2016 05:05:31 -0700 (PDT)
-Received: by 10.157.5.101 with HTTP; Thu, 31 Mar 2016 05:05:31 -0700 (PDT)
-In-Reply-To: <e821fe90eb5b650d5e43b3465ce4eaffee766a5d.1459413941.git.paul.eggleton@linux.intel.com>
-References: <cover.1459413941.git.paul.eggleton@linux.intel.com>
-	<e821fe90eb5b650d5e43b3465ce4eaffee766a5d.1459413941.git.paul.eggleton@linux.intel.com>
-Date: Thu, 31 Mar 2016 08:05:31 -0400
-Message-ID: <CADkTA4OHSayhSfAz8z4=Z6f9x4f7MrmZGZExQWUPZuUUXn-aEQ@mail.gmail.com>
+X-Received: by 10.157.37.52 with SMTP id k49mr977447otb.119.1459425993079;
+	Thu, 31 Mar 2016 05:06:33 -0700 (PDT)
+Received: by 10.157.5.101 with HTTP; Thu, 31 Mar 2016 05:06:33 -0700 (PDT)
+In-Reply-To: <56FCFC74.4080001@windriver.com>
+References: <56FCF6E3.7090109@windriver.com> <56FCFC74.4080001@windriver.com>
+Date: Thu, 31 Mar 2016 08:06:33 -0400
+Message-ID: <CADkTA4Nw_y5QLzW14i-dzV2NRdnDV+jGeZv4ocF_zBKx7xmfbA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto: add patch in existing SRC_URI value rather than using _append
+Subject: Re: aufs missing in kernel 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,74 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 12:05:34 -0000
-Content-Type: multipart/alternative; boundary=001a113ded003fc68d052f5714f6
+X-List-Received-Date: Thu, 31 Mar 2016 12:06:34 -0000
+Content-Type: multipart/alternative; boundary=001a113f061ce4c1fd052f5717de
 
---001a113ded003fc68d052f5714f6
+--001a113f061ce4c1fd052f5717de
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Mar 31, 2016 at 4:47 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
+On Thu, Mar 31, 2016 at 6:31 AM, Hongxu Jia <hongxu.jia@windriver.com>
+wrote:
 
-> Of course SRC_URI_append works just fine for building here, but it does
-> introduce two problems:
+> On 03/31/2016 06:07 PM, Hongxu Jia wrote:
 >
-> 1) It's not really very tidy and you could look at the SRC_URI value and
->    miss the fact that there's a patch appended at the end.
-> 2) devtool update-recipe will end up duplicating the appended item
->    (covered under [YOCTO #9360]).
+>> Hi Bruce,
+>>
+>> In kernel 4.1, it supports aufs:
+>>
+>> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.1/tree/fs/aufs?h=standard/base
+>>
+>> But it does not exist in kernel 4.4:
+>>
+>> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.4/tree/fs?h=standard/base
+>>
+>> It caused ISO's rootfs is readonly.
+>>
+>> In meta/recipes-core/initrdscripts/files/init-live.sh:
+>> -----------------
+>> 174     elif grep -q -w "aufs" /proc/filesystems; then
+>> 175         union_fs_type="aufs"
+>> [snip]
+>> 204         "aufs")
+>> 205             mkdir -p /rootfs.ro /rootfs.rw
+>> 206             if ! mount -n --move $ROOT_MOUNT /rootfs.ro; then
+>> 207                 rm -rf /rootfs.ro /rootfs.rw
+>> 208                 fatal "Could not move rootfs mount point"
+>> 209             else
+>> 210                 mount -t tmpfs -o rw,noatime,mode=755 tmpfs /
+>> rootfs.rw
+>> 211                 mount -t aufs -o "dirs=/rootfs.rw=rw:/rootfs.ro=ro"
+>> aufs $ROOT_MOUNT
+>> 212                 mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
+>> 213                 mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
+>> 214                 mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
+>> 215             fi
+>> 216             ;;
+>> -----------------
+>>
+>> Would you please update kernel 4.4 to support aufs?
+>>
 >
-> Given the above it seems reasonable to squash the appended value into
-> the main SRC_URI value.
+> Or with Robert's patch in mailing list also could fix this issue.
 >
+> [OE-core] [PATCH 1/1] linux-yocto 4.4: enable overlayfs
 
-This is only temporary, which is why it's an _append, and I'm about to get
-rid of the need for this patch completely
-since upstream has finally produced a 7 patch series to fix the regression.
 
-So I'd rather not churn this, and leave it as-is for another few days.
+If you read that very same thread ... aufs is already planned and queued.
+There were
+issues upstream that have now been sorted out.
+
+Cheers,
 
 Bruce
 
 
 >
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto_4.4.bb | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> index 3d6991e..2832876 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> @@ -22,7 +22,9 @@ SRCREV_machine ?=
-> "c43425f73287757a166d74464fddf1f5389c9f59"
->  SRCREV_meta ?= "770996a263e22562c81f48fde0f0dc647156abce"
+> //Hongxu
 >
->  SRC_URI = "git://
-> git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-> -           git://
-> git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}
-> "
-> +           git://
-> git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}
-> \
-> +           file://0001-Fix-qemux86-pat-issue.patch \
-> +           "
 >
->  LINUX_VERSION ?= "4.4.3"
 >
-> @@ -41,4 +43,3 @@ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc
-> cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32",
-> " cfg/x32.scc", "" ,d)}"
->
-> -SRC_URI_append = " file://0001-Fix-qemux86-pat-issue.patch"
-> --
-> 2.5.5
->
+>> //Hongxu
+>>
+>>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -135,101 +137,110 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a113ded003fc68d052f5714f6
+--001a113f061ce4c1fd052f5717de
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Mar 31, 2016 at 4:47 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggle=
-ton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->Of course SRC_URI_append works just fine for building here, but it does<br=
+te">On Thu, Mar 31, 2016 at 6:31 AM, Hongxu Jia <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriv=
+er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=
+=3D"HOEnZb"><div class=3D"h5">On 03/31/2016 06:07 PM, Hongxu Jia wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Hi Bruce,<br>
+<br>
+In kernel 4.1, it supports aufs:<br>
+<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.1/tree/f=
+s/aufs?h=3Dstandard/base" rel=3D"noreferrer" target=3D"_blank">http://git.y=
+octoproject.org/cgit/cgit.cgi/linux-yocto-4.1/tree/fs/aufs?h=3Dstandard/bas=
+e</a> <br>
+<br>
+But it does not exist in kernel 4.4:<br>
+<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.4/tree/f=
+s?h=3Dstandard/base" rel=3D"noreferrer" target=3D"_blank">http://git.yoctop=
+roject.org/cgit/cgit.cgi/linux-yocto-4.4/tree/fs?h=3Dstandard/base</a> <br>
+<br>
+It caused ISO&#39;s rootfs is readonly.<br>
+<br>
+In meta/recipes-core/initrdscripts/files/init-live.sh:<br>
+-----------------<br>
+174=C2=A0 =C2=A0 =C2=A0elif grep -q -w &quot;aufs&quot; /proc/filesystems; =
+then<br>
+175=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0union_fs_type=3D&quot;aufs&quot;<br>
+[snip]<br>
+204=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;aufs&quot;)<br>
+205=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p /<a href=3D"htt=
+p://rootfs.ro" rel=3D"noreferrer" target=3D"_blank">rootfs.ro</a> /<a href=
+=3D"http://rootfs.rw" rel=3D"noreferrer" target=3D"_blank">rootfs.rw</a><br=
 >
-introduce two problems:<br>
+206=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ! mount -n --move $RO=
+OT_MOUNT /<a href=3D"http://rootfs.ro" rel=3D"noreferrer" target=3D"_blank"=
+>rootfs.ro</a>; then<br>
+207=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf /<a=
+ href=3D"http://rootfs.ro" rel=3D"noreferrer" target=3D"_blank">rootfs.ro</=
+a> /<a href=3D"http://rootfs.rw" rel=3D"noreferrer" target=3D"_blank">rootf=
+s.rw</a><br>
+208=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fatal &quo=
+t;Could not move rootfs mount point&quot;<br>
+209=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+210=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount -t t=
+mpfs -o rw,noatime,mode=3D755 tmpfs /<a href=3D"http://rootfs.rw" rel=3D"no=
+referrer" target=3D"_blank">rootfs.rw</a><br>
+211=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount -t a=
+ufs -o &quot;dirs=3D/<a href=3D"http://rootfs.rw" rel=3D"noreferrer" target=
+=3D"_blank">rootfs.rw</a>=3Drw:/<a href=3D"http://rootfs.ro" rel=3D"norefer=
+rer" target=3D"_blank">rootfs.ro</a>=3Dro&quot; aufs $ROOT_MOUNT<br>
+212=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p $=
+ROOT_MOUNT/<a href=3D"http://rootfs.ro" rel=3D"noreferrer" target=3D"_blank=
+">rootfs.ro</a> $ROOT_MOUNT/<a href=3D"http://rootfs.rw" rel=3D"noreferrer"=
+ target=3D"_blank">rootfs.rw</a><br>
+213=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount --mo=
+ve /<a href=3D"http://rootfs.ro" rel=3D"noreferrer" target=3D"_blank">rootf=
+s.ro</a> $ROOT_MOUNT/<a href=3D"http://rootfs.ro" rel=3D"noreferrer" target=
+=3D"_blank">rootfs.ro</a><br>
+214=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount --mo=
+ve /<a href=3D"http://rootfs.rw" rel=3D"noreferrer" target=3D"_blank">rootf=
+s.rw</a> $ROOT_MOUNT/<a href=3D"http://rootfs.rw" rel=3D"noreferrer" target=
+=3D"_blank">rootfs.rw</a><br>
+215=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+216=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+-----------------<br>
 <br>
-1) It&#39;s not really very tidy and you could look at the SRC_URI value an=
-d<br>
-=C2=A0 =C2=A0miss the fact that there&#39;s a patch appended at the end.<br=
->
-2) devtool update-recipe will end up duplicating the appended item<br>
-=C2=A0 =C2=A0(covered under [YOCTO #9360]).<br>
+Would you please update kernel 4.4 to support aufs?<br>
+</blockquote>
+<br></div></div>
+Or with Robert&#39;s patch in mailing list also could fix this issue.<br>
 <br>
-Given the above it seems reasonable to squash the appended value into<br>
-the main SRC_URI value.<br></blockquote><div><br></div><div>This is only te=
-mporary, which is why it&#39;s an _append, and I&#39;m about to get rid of =
-the need for this patch completely</div><div>since upstream has finally pro=
-duced a 7 patch series to fix the regression.</div><div><br></div><div>So I=
-&#39;d rather not churn this, and leave it as-is for another few days.</div=
-><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">
+[OE-core] [PATCH 1/1] linux-yocto 4.4: enable overlayfs</blockquote><div><b=
+r></div><div>If you read that very same thread ... aufs is already planned =
+and queued. There were</div><div>issues upstream that have now been sorted =
+out.</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"HOEnZb"><font=
+ color=3D"#888888"><br>
 <br>
-Signed-off-by: Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.inte=
-l.com">paul.eggleton@linux.intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a> | 5 +++--<br>
-=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
+//Hongxu</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
 <br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb=
-" rel=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a> b/meta/recipe=
-s-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">linux-yocto_4.4.bb</a><br>
-index 3d6991e..2832876 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a><br>
-@@ -22,7 +22,9 @@ SRCREV_machine ?=3D &quot;c43425f73287757a166d74464fddf1f=
-5389c9f59&quot;<br>
-=C2=A0SRCREV_meta ?=3D &quot;770996a263e22562c81f48fde0f0dc647156abce&quot;=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
 <br>
+//Hongxu<br>
 <br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
-yocto-4.4.git;name=3Dmachine;branch=3D${KBRANCH}" rel=3D"noreferrer" target=
-=3D"_blank">git.yoctoproject.org/linux-yocto-4.4.git;name=3Dmachine;branch=
-=3D${KBRANCH}</a>; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-4.4;=
-destsuffix=3D${KMETA}" rel=3D"noreferrer" target=3D"_blank">git.yoctoprojec=
-t.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-4.4;destsu=
-ffix=3D${KMETA}</a>&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-4.4;=
-destsuffix=3D${KMETA}" rel=3D"noreferrer" target=3D"_blank">git.yoctoprojec=
-t.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-4.4;destsu=
-ffix=3D${KMETA}</a> \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-qemux86-pat-issue=
-.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+</blockquote>
 <br>
-=C2=A0LINUX_VERSION ?=3D &quot;4.4.3&quot;<br>
-<br>
-@@ -41,4 +43,3 @@ KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg=
-/paravirt_kvm.scc&quot;<br>
-=C2=A0KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt=
-_kvm.scc&quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; ${@bb.utils.contains(&quot;TUNE_FEA=
-TURES&quot;, &quot;mx32&quot;, &quot; cfg/x32.scc&quot;, &quot;&quot; ,d)}&=
-quot;<br>
-<br>
--SRC_URI_append =3D &quot; file://0001-Fix-qemux86-pat-issue.patch&quot;<br=
->
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.5.5<br>
-<br>
---<br>
+-- <br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
-er, for chaos and madness await thee at its end&quot;</div>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
+, for chaos and madness await thee at its end&quot;</div>
 </div></div>
 
---001a113ded003fc68d052f5714f6--
+--001a113f061ce4c1fd052f5717de--
