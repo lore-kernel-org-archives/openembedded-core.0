@@ -1,53 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF7262136
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A94062136
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 23:59:04 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id p65so92358050wmp.0
+	Thu, 31 Mar 2016 00:20:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 718452E4AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2016 16:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-transfer-encoding;
-	bh=XhrCckdpMu9TA6Pm/ug/BM61tkFKnWQIT/QVCgV+Rms=;
-	b=N/3jkyc+C93Gz0/XigsnCUg0QfiGOC2nBYWixOAGjn5NHLGRm7UfPp9mv0vpPDSrtk
-	mlt77YFLtTdwST2ixWFqNvD46VfKuYqeZAvv6lgzpG4fPyN1giT48k0vO4ljqEGN06VR
-	t2Yc9ii3CUgPU0C5y7o1pRC9aNj/smawNHjT/TgMafyFmNu2patbRWvDjVGpNVgIXBmN
-	kvzk8mzChOM5//TuX5OfSkL1+VOdKGrRLq+5rItcty2QZ8NceviaY4wH7RAQ4+Nr/WyV
-	D8+6lB6iSFQ7DTUgnZJEYpBH6U/Zw7ripzH688WecRD5+RhedVmyspf3GF+NB1sLK7z/
-	qSmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-transfer-encoding;
-	bh=XhrCckdpMu9TA6Pm/ug/BM61tkFKnWQIT/QVCgV+Rms=;
-	b=TM6rbW6tgVKdJb0tX7L47Hclrm0Iz0WB87k0TnvqJBwfGVtFKeHuWRKpQ0sv2r+aTQ
-	6xLN5/SYRsqGgsXSIPaWKv5UyKOVqcPAyPSaN+Mb34hUu4JlKsPdSUwvgUrniqzrbUq8
-	so8qKOQP0EowDUTaHNdIirUYEuCu1tYQ9vfIxsogFvbWF/rDKbVutZa6/u88RYscz+jT
-	srjFeLXuxxVGpb63go+x7Wu/yOxCeZ9YQvtoMsWX0apz60IpxevRnstxyYrnQYdPEd9e
-	L1VLEeX5IXKFE10GtvVRtsPtL7fhhTSOgcWdHx3cuMXt+XjQAy6OJinhM+P7nS70Zi5n
-	fXKQ==
-X-Gm-Message-State: AD7BkJIeK6Q1EJoJQbgCFW1aHgqymXC5o3caKvqTBp6pV11fag9PLQewNL+6VIcCuY88QdzAnzDhnj3KEA80YA==
-MIME-Version: 1.0
-X-Received: by 10.28.49.3 with SMTP id x3mr12697287wmx.4.1459382344781; Wed,
-	30 Mar 2016 16:59:04 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Wed, 30 Mar 2016 16:59:04 -0700 (PDT)
-In-Reply-To: <1459377982.2322.57.camel@pbcl.net>
-References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
-	<1459203003.2322.29.camel@pbcl.net>
-	<87103DB9-1813-4A3B-A68D-9BDC572BC588@gmail.com>
-	<56FBF8CA.20809@windriver.com>
-	<0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
-	<CAJ86T=WfMfoXjabaN0+9u52Jxy4d+HXnaJv2Hii+TEtr0JohNw@mail.gmail.com>
-	<6065832E-762D-413F-AE15-9B743371EF93@gmail.com>
-	<CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
-	<1459377982.2322.57.camel@pbcl.net>
-Date: Wed, 30 Mar 2016 16:59:04 -0700
-Message-ID: <CAJ86T=XShqiCRiZan9s4kimpBdejqjRYCHei7aXfv5xfbcpUmA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
+	Thu, 31 Mar 2016 02:20:14 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 2ltYgXcyMoYd
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 6AA442E4A3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 54E681342
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 49CBD156B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 46F5010BD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2V0KDP7009518
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2016 02:20:13 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2V0KDVa009517
+	for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2016 02:20:13 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Mar 2016 02:20:11 +0200
+Message-Id: <55ffe5a631d152a927c984cb930f4faaeda4c23a.1459383524.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1459383524.git.pkj@axis.com>
+References: <cover.1459383524.git.pkj@axis.com>
+In-Reply-To: <cover.1459383524.git.pkj@axis.com>
+References: <cover.1459383524.git.pkj@axis.com>
+Subject: [PATCH 1/1] image.bbclass: Make unneeded packages for a read-only rootfs configurable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,56 +60,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 23:59:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 Mar 2016 00:20:15 -0000
 
-On Wed, Mar 30, 2016 at 3:46 PM, Phil Blundell <pb@pbcl.net> wrote:
-> On Wed, 2016-03-30 at 11:53 -0700, Andre McCurdy wrote:
->> Either way it shouldn't be a concern for the CPU tuning files.
->> Building Thumb2 for an armv8a CPU is really just an extension of
->> "optimise for size" and we don't include -Os, -O2, etc options in the
->> CPU tuning files.
->
-> Yes, agreed.  In principle there's no reason that the compiler couldn't
-> choose between A32 and T32 instruction sets dynamically for each
-> compilation unit (or each function) according to which it thinks would
-> give the better result.  And from the user's point of view, the outcome
-> should be equivalent apart from minor performance differences.
->
->> >> For most cores from Cortex A9 onwards NEON and VFP are optional, so
->> >> hardcoded assumptions won't work.
->
->> Nothing very concrete. The ARM Cortex-A Series Programmer=E2=80=99s Guid=
-e for
->> ARMv8-A mentions:
->>
->> "Both floating-point and NEON are required in all standard ARMv8
->> implementations. However, implementations targeting specialized
->> markets may support the following combinations:
->>
->>  - No NEON or floating-point.
->>  - Full floating-point and SIMD support with exception trapping.
->>  - Full floating-point and SIMD support without exception trapping.
->
-> Is there any evidence that anyone is actually building ARMv8-A (as
-> opposed to -R or -M) cores that lack VFP and/or NEON?  Unless there is a
-> fairly clear indication that such cores do exist and are likely to be
-> used with OE, I think we should not complicate the tuning files with
-> support for such things.  Anybody who wants them can always add
-> appropriate tunes later, either in oe-core or in their own layer.
+Previously the list of packages that are considered unneeded for a
+read-only rootfs was hardcoded. This made it impossible to, e.g., have
+shadow installed on a system with a read-only rootfs, but where /etc
+is mounted writable.
 
-I can't find any evidence of real ARMv8-A cores without NEON or VFP,
-so if any "new approach" to ARM CPU tuning files is limited to armv8a
-then hardcoding support for NEON and VFP is probably going to work out
-OK (at least until someone wants support for the half-precision
-floating point extensions added in ARMv8.2-A).
+This also lists ${VIRTUAL-RUNTIME_update-alternatives} rather than
+update-alternatives (as was previously the case) since this should
+actually remove the intended package.
 
-Personally though, I'd like to see a comprehensive cleanup and
-restructuring which could be applied to all ARM tuning files,
-including armv7a where NEON certainly is optional in the real world.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/image.bbclass |  6 +++++-
+ meta/lib/oe/rootfs.py      | 23 +++++------------------
+ 2 files changed, 10 insertions(+), 19 deletions(-)
 
-> p.
->
->
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 62ff07e..894ff99 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -33,6 +33,10 @@ IMAGE_GEN_DEBUGFS ?= "0"
+ # rootfs bootstrap install
+ ROOTFS_BOOTSTRAP_INSTALL = "${@bb.utils.contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}"
+ 
++# These packages will be removed from a read-only rootfs after all other
++# packages have been installed
++ROOTFS_RO_UNNEEDED = "update-rc.d base-passwd shadow ${VIRTUAL-RUNTIME_update-alternatives} ${ROOTFS_BOOTSTRAP_INSTALL}"
++
+ # packages to install from features
+ FEATURE_INSTALL = "${@' '.join(oe.packagegroup.required_packages(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
+ FEATURE_INSTALL[vardepvalue] = "${FEATURE_INSTALL}"
+@@ -114,7 +118,7 @@ def rootfs_variables(d):
+                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
+                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
+                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+-                 'COMPRESSIONTYPES', 'IMAGE_GEN_DEBUGFS']
++                 'COMPRESSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED']
+     variables.extend(rootfs_command_variables(d))
+     variables.extend(variable_depends(d))
+     return " ".join(variables)
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 0f835d3..bfae1d8 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -238,28 +238,13 @@ class Rootfs(object):
+                                       self.d.getVar('IMAGE_ROOTFS', True),
+                                       "run-postinsts", "remove"])
+ 
+-        runtime_pkgmanage = bb.utils.contains("IMAGE_FEATURES", "package-management",
+-                         True, False, self.d)
+-        sysvcompat_in_distro = bb.utils.contains("DISTRO_FEATURES", [ "systemd", "sysvinit" ],
+-                         True, False, self.d)
+         image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
+-                         True, False, self.d)
+-        if sysvcompat_in_distro and not image_rorfs:
+-            pkg_to_remove = ""
+-        else:
+-            pkg_to_remove = "update-rc.d"
++                                        True, False, self.d)
+         if image_rorfs:
+             # Remove components that we don't need if it's a read-only rootfs
++            unneeded_pkgs = self.d.getVar("ROOTFS_RO_UNNEEDED", True).split()
+             pkgs_installed = image_list_installed_packages(self.d)
+-            pkgs_to_remove = list()
+-            for pkg in pkgs_installed:
+-                if pkg in ["update-rc.d",
+-                        "base-passwd",
+-                        "shadow",
+-                        "update-alternatives", pkg_to_remove,
+-                        self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)
+-                        ]:
+-                    pkgs_to_remove.append(pkg)
++            pkgs_to_remove = [pkg for pkg in pkgs_installed if pkg in unneeded_pkgs]
+ 
+             if len(pkgs_to_remove) > 0:
+                 self.pm.remove(pkgs_to_remove, False)
+@@ -273,6 +258,8 @@ class Rootfs(object):
+         post_uninstall_cmds = self.d.getVar("ROOTFS_POSTUNINSTALL_COMMAND", True)
+         execute_pre_post_process(self.d, post_uninstall_cmds)
+ 
++        runtime_pkgmanage = bb.utils.contains("IMAGE_FEATURES", "package-management",
++                                              True, False, self.d)
+         if not runtime_pkgmanage:
+             # Remove the package manager data files
+             self.pm.remove_packaging_data()
+-- 
+2.1.0
+
 
