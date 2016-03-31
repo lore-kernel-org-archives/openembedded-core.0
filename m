@@ -1,48 +1,21 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C486662136
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D319A62135
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 00:20:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 60DED18291
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:14 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id xrH6RT3NtzIc
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 573251828B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 3B8471569
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 309DA1342
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 2ED8110BD
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:13 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u2V0KD9t009514
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 02:20:13 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u2V0KD0s009513
-	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2016 02:20:13 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Thu, 31 Mar 2016 00:27:54 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 30 Mar 2016 17:27:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,419,1455004800"; d="scan'208";a="922197679"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga001.jf.intel.com with ESMTP; 30 Mar 2016 17:27:55 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2016 02:20:10 +0200
-Message-Id: <cover.1459383524.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/1] Make unneeded packages for read-only rootfs configurable
+Date: Wed, 30 Mar 2016 17:13:54 -0700
+Message-Id: <1459383234-17222-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: richard.purdie@intel.com, jurobystricky@hotmail.com
+Subject: [PATCH] relocate_sdk: additional error checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +28,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2016 00:20:16 -0000
+X-List-Received-Date: Thu, 31 Mar 2016 00:27:55 -0000
 
-We use a read-only rootfs (i.e., we have read-only-rootfs set in
-IMAGE_FEATURES). However, we mount /etc from a separate writable flash
-partition. But because of how some packages are considered unneeded
-and subsequently removed from the rootfs if it is read-only, we cannot
-enable, e.g., shadow in our image. The list of unneeded packages is
-hardcoded in lib/oe/rootfs.py, making it near impossible to override
-this.
+When installing SDK in a non-default location and the path length
+of the SDK install location is longer than the path length of the
+default SDK location, relocation of .ldsochache section will overwrite
+file location outside of the .ldsocache section size.
+In addition, additional checks were added to ensure that any
+path in sections .gccrelocprefix and .ldsochache will not exceed
+the space allocated for it within the file, which would also result
+in file corruption.
 
-With this change the list of unneeded packages is moved to a variable
-(ROOTFS_RO_UNNEEDED) in image.bbclass, which makes it easy to adopt it
-as needed.
+[YOCTO #9268]
 
-There was code in lib/oe/rootfs.py which was meant to not add
-update-rc.d to the list of unneeded packages if both systemd and
-sysvinit are enabled in DISTRO_FEATURES. I have removed this code
-since a) it is no longer needed (as it only made sense when the
-unneeded packages were removed based on whether package-management was
-enabled or not), and b) it can never have worked as intended (because
-the explicit addition of update-rc.d to the list of unneeded packages
-was not removed when the conditional addition was introduced...)
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ scripts/relocate_sdk.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-//Peter
-
-The following changes since commit 53b5dc0dda3fa7703e8f6a68b05b565ecee9e41f:
-
-  gcc: Fix musl ldso name for mips64 (2016-03-30 21:24:02 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/unneeded_packages
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/unneeded_packages
-
-Peter Kjellerstedt (1):
-  image.bbclass: Make unneeded packages for a read-only rootfs
-    configurable
-
- meta/classes/image.bbclass |  6 +++++-
- meta/lib/oe/rootfs.py      | 23 +++++------------------
- 2 files changed, 10 insertions(+), 19 deletions(-)
-
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index ceca1f2..99fca86 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -112,7 +112,7 @@ def change_interpreter(elf_file_name):
+             f.write(dl_path)
+             break
+ 
+-def change_dl_sysdirs():
++def change_dl_sysdirs(elf_file_name):
+     if arch == 32:
+         sh_fmt = "<IIIIIIIIII"
+     else:
+@@ -156,6 +156,11 @@ def change_dl_sysdirs():
+             elif name == b(".ldsocache"):
+                 ldsocache_path = f.read(sh_size)
+                 new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
++                new_ldsocache_path = new_ldsocache_path.rstrip(b("\0"))
++                if (len(new_ldsocache_path) >= sh_size):
++                    print("ERROR: could not relocate %s, .ldsocache section size = %i and %i is needed." \
++                    % (elf_file_name, sh_size, len(new_ldsocache_path)))
++                    sys.exit(-1)
+                 # pad with zeros
+                 new_ldsocache_path += b("\0") * (sh_size - len(new_ldsocache_path))
+                 # write it back
+@@ -167,6 +172,10 @@ def change_dl_sysdirs():
+                     path = f.read(4096)
+                     new_path = old_prefix.sub(new_prefix, path)
+                     new_path = new_path.rstrip(b("\0"))
++                    if (len(new_path) >= 4096):
++                        print("ERROR: could not relocate %s, max path size = 4096 and %i is needed." \
++                        % (elf_file_name, len(new_path)))
++                        sys.exit(-1)
+                     # pad with zeros
+                     new_path += b("\0") * (4096 - len(new_path))
+                     #print "Changing %s to %s at %s" % (str(path), str(new_path), str(offset))
+@@ -241,7 +250,7 @@ for e in executables_list:
+         if arch:
+             parse_elf_header()
+             change_interpreter(e)
+-            change_dl_sysdirs()
++            change_dl_sysdirs(e)
+ 
+     """ change permissions back """
+     if perms:
 -- 
-2.1.0
+1.9.1
 
 
