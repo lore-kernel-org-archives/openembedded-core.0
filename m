@@ -1,20 +1,20 @@
 Return-Path: <Tudor.Florea@enea.com>
 Received: from mx-3.enea.com (mx-3.enea.com [192.36.1.72])
-	by mail.openembedded.org (Postfix) with SMTP id 439CA760AC
+	by mail.openembedded.org (Postfix) with SMTP id 0958F760AC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  1 Apr 2016 11:50:54 +0000 (UTC)
-Received: from sestovs32.enea.se (172.21.3.146) by smtp.enea.com
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0; Fri, 1 Apr 2016
-	13:44:53 +0200
-Received: by sestovs32.enea.se (Postfix, from userid 4200)	id 0974A2413BD;
-	Fri,  1 Apr 2016 13:44:53 +0200 (CEST)
+	13:46:22 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id CDC9D28BA24;
+	Fri,  1 Apr 2016 13:46:22 +0200 (CEST)
 From: Tudor Florea <tudor.florea@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Apr 2016 13:44:52 +0200
-Message-ID: <1459511092-57587-2-git-send-email-tudor.florea@enea.com>
+Date: Fri, 1 Apr 2016 13:46:20 +0200
+Message-ID: <1459511180-32068-2-git-send-email-tudor.florea@enea.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1459511092-57587-1-git-send-email-tudor.florea@enea.com>
-References: <1459511092-57587-1-git-send-email-tudor.florea@enea.com>
+In-Reply-To: <1459511180-32068-1-git-send-email-tudor.florea@enea.com>
+References: <1459511180-32068-1-git-send-email-tudor.florea@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
 	designate permitted sender hosts)
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 11:50:54 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 11:50:55 -0000
 Content-Type: text/plain
 
 Signed-off-by: Tudor Florea <tudor.florea@enea.com>
