@@ -1,24 +1,22 @@
 Return-Path: <Tudor.Florea@enea.com>
 Received: from mx-3.enea.com (mx-3.enea.com [192.36.1.72])
-	by mail.openembedded.org (Postfix) with SMTP id 0958F760AC
+	by mail.openembedded.org (Postfix) with SMTP id C429E760AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 11:50:54 +0000 (UTC)
+	Fri,  1 Apr 2016 11:50:55 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0; Fri, 1 Apr 2016
 	13:46:22 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id CDC9D28BA24;
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 3855B28BA23;
 	Fri,  1 Apr 2016 13:46:22 +0200 (CEST)
 From: Tudor Florea <tudor.florea@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Apr 2016 13:46:20 +0200
-Message-ID: <1459511180-32068-2-git-send-email-tudor.florea@enea.com>
+Date: Fri, 1 Apr 2016 13:46:19 +0200
+Message-ID: <1459511180-32068-1-git-send-email-tudor.florea@enea.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1459511180-32068-1-git-send-email-tudor.florea@enea.com>
-References: <1459511180-32068-1-git-send-email-tudor.florea@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
 	designate permitted sender hosts)
-Subject: [PATCH 2/2] ltp: fix test_proc_kill hanging
+Subject: [PATCH 1/2] ltp: add periodic output for memcg stress test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +29,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 11:50:55 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 11:50:56 -0000
 Content-Type: text/plain
 
 Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 ---
- .../ltp/ltp/0035-fix-test_proc_kill-hang.patch     | 23 ++++++++++++++++++++++
+ .../ltp/ltp/0034-periodic_output.patch             | 43 ++++++++++++++++++++++
  meta/recipes-extended/ltp/ltp_20160126.bb          |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0035-fix-test_proc_kill-hang.patch
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0034-periodic_output.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0035-fix-test_proc_kill-hang.patch b/meta/recipes-extended/ltp/ltp/0035-fix-test_proc_kill-hang.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0034-periodic_output.patch b/meta/recipes-extended/ltp/ltp/0034-periodic_output.patch
 new file mode 100644
-index 0000000..32ae8aa
+index 0000000..59caefe
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0035-fix-test_proc_kill-hang.patch
-@@ -0,0 +1,23 @@
-+Fix test_proc_kill hanging
++++ b/meta/recipes-extended/ltp/ltp/0034-periodic_output.patch
+@@ -0,0 +1,43 @@
++Add periodic output for long time test.
 +
-+Sometimes the signal is delivered to memcg_process before the framework took
-+into consideration its pid entered in the tasks. Fixed by delaying the signal
-+send command.
++This is needed in context of having scripts running ltp tests and
++waiting with a timeout for the output of the tests.
 +
-+Signed-off-by: George Nita <george.nita@enea.com>
-+Upstream-Status: Pending 
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++Upstream-Status: Pending
 +
-+diff --git a/testcases/kernel/controllers/memcg/functional/memcg_lib.sh b/testcases/kernel/controllers/memcg/functional/memcg_lib.sh
-+index ffbe006..e81bf74 100755
-+--- a/testcases/kernel/controllers/memcg/functional/memcg_lib.sh
-++++ b/testcases/kernel/controllers/memcg/functional/memcg_lib.sh
-+@@ -220,8 +220,8 @@ test_proc_kill()
++diff -ruN a/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh b/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh
++--- a/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh	2013-11-08 15:54:09.515049081 +0100
+++++ b/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh	2013-11-08 22:32:15.587370406 +0100
++@@ -37,7 +37,8 @@
++         exit 0
++ fi
 + 
-+ 	$TEST_PATH/memcg_process $2 -s $3 &
-+ 	pid=$!
-+-	sleep 1
-+ 	echo $pid > tasks
-++	sleep 1
++-RUN_TIME=$(( 60 * 60 ))
+++ONE_MINUTE=60
+++RUN_TIME=60
 + 
-+ 	kill -s USR1 $pid 2> /dev/null
-+ 	sleep 1
++ cleanup()
++ {
++@@ -62,7 +63,7 @@
++ # $1 - Number of cgroups
++ # $2 - Allocated how much memory in one process? in MB
++ # $3 - The interval to touch memory in a process
++-# $4 - How long does this test run ? in second
+++# $4 - How long does this test run ? in minutes
++ run_stress()
++ {
++ 	do_mount;
++@@ -81,7 +82,11 @@
++ 		eval /bin/kill -s SIGUSR1 \$pid$i 2> /dev/null
++ 	done
++ 
++-	sleep $4
+++	for i in $(seq 0 $(($4-1)))
+++	do
+++		eval echo "Started $i min ago. Still alive... " 
+++		sleep $ONE_MINUTE
+++	done
++ 
++ 	for i in $(seq 0 $(($1-1)))
++ 	do
 diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
-index 6be2187..097c16d 100644
+index 720a569..6be2187 100644
 --- a/meta/recipes-extended/ltp/ltp_20160126.bb
 +++ b/meta/recipes-extended/ltp/ltp_20160126.bb
-@@ -61,6 +61,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+@@ -60,6 +60,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch \
             file://0032-regen.sh-Include-asm-unistd.h-explicitly.patch \
             file://0033-shmat1-Cover-GNU-specific-code-under-__USE_GNU.patch \
-            file://0034-periodic_output.patch \
-+           file://0035-fix-test_proc_kill-hang.patch \
++           file://0034-periodic_output.patch \
             "
  
  S = "${WORKDIR}/git"
