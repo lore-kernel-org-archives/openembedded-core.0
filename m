@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C035673172
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 42900765DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 14:45:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u31EiUDZ017444 for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Apr 2016 15:45:18 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id A7XUTQPDUR8O
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 15:45:18 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u31EjGfc017469
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Apr 2016 15:45:17 +0100
-Message-ID: <1459521916.7348.27.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 01 Apr 2016 15:45:16 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Availability of automated buildhistory for master/master-next and YP autobuilder
+	Fri,  1 Apr 2016 14:58:38 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Apr 2016 07:58:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="77336626"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 01 Apr 2016 07:58:40 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Apr 2016 17:54:15 +0300
+Message-Id: <1459522455-8836-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] bluez5: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +27,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 14:45:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Apr 2016 14:58:40 -0000
 
-We've had buildhistory for a while and its long been intended to make
-better use of it. I'm pleased to say that we now have this available on
-our automated infrastructure (thanks Beth, Michael and others who've
-helped!).
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        | 13 ++++++++-
+ ...-target-for-building-tests-without-runnin.patch | 28 +++++++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5/run-ptest  | 31 ++++++++++++++++++++++
+ 3 files changed, 71 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/run-ptest
 
-The output gets shared into a git repository at:
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index f38eaa5..5232523 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -19,11 +19,13 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+     file://init \
++    file://run-ptest \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
++    file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+-inherit autotools-brokensep pkgconfig systemd update-rc.d distro_features_check
++inherit autotools-brokensep pkgconfig systemd update-rc.d distro_features_check ptest
+ 
+ EXTRA_OECONF = "\
+   --enable-tools \
+@@ -101,3 +103,12 @@ INITSCRIPT_PACKAGES = "${PN}"
+ INITSCRIPT_NAME_${PN} = "bluetooth"
+ 
+ EXCLUDE_FROM_WORLD = "1"
++
++do_compile_ptest() {
++        oe_runmake buildtests
++}
++
++do_install_ptest() {
++        cp -r ${B}/unit/ ${D}${PTEST_PATH}
++        rm ${D}${PTEST_PATH}/unit/*.c ${D}${PTEST_PATH}/unit/*.o
++}
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+new file mode 100644
+index 0000000..24ddae6
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+@@ -0,0 +1,28 @@
++From 4bdf0f96dcaa945fd29f26d56e5b36d8c23e4c8b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 1 Apr 2016 17:07:34 +0300
++Subject: [PATCH] tests: add a target for building tests without running them
++
++Upstream-Status: Inappropriate [oe specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Makefile.am | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index 1a48a71..ba3b92f 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -425,6 +425,9 @@ endif
++ TESTS = $(unit_tests)
++ AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
++ 
+++# This allows building tests without running them
+++buildtests: $(TESTS)
+++
++ if DBUS_RUN_SESSION
++ AM_TESTS_ENVIRONMENT += dbus-run-session --
++ endif
++-- 
++2.8.0.rc3
++
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/run-ptest b/meta/recipes-connectivity/bluez5/bluez5/run-ptest
+new file mode 100644
+index 0000000..21df00c
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/run-ptest
+@@ -0,0 +1,31 @@
++#! /bin/sh
++
++cd unit
++
++failed=0
++all=0
++
++for f in test-*; do
++    "./$f"
++    case "$?" in
++        0)
++            echo "PASS: $f"
++            all=$((all + 1))
++            ;;
++        77)
++            echo "SKIP: $f"
++            ;;
++        *)
++            echo "FAIL: $f"
++            failed=$((failed + 1))
++            all=$((all + 1))
++            ;;
++    esac
++done
++
++if [ "$failed" -eq 0 ] ; then
++  echo "All $all tests passed"
++else
++  echo "$failed of $all tests failed"
++fi
++
+-- 
+2.8.0.rc3
 
-http://git.yoctoproject.org/cgit.cgi/poky-buildhistory/
-
-For master builds, there are branches like:
-
-http://git.yoctoproject.org/cgit.cgi/poky-buildhistory/log/?h=poky/master/nightly-arm
-
-with one per autobuilder build target. These logs are incremental and
-data is appended to the previous build data.
-
-master-next poses some challenges since it can be rebased. Right now
-the autobuilder is pushing a fresh branch each time, e.g.:
-
-http://git.yoctoproject.org/cgit.cgi/poky-buildhistory/log/?h=poky/master-next/nightly-arm
-
-These are reset for each new build. Comparisons can be made against
-the latest master branch but for now that is a manual process since the
-autobuilder doesn't know how to map "master-next against master". There
-are also other branches created for other poky-contrib based builds.
-
-We do need to start analysing this data as it does highlight there are
-problems within the builds. For example, looking through the latest
-master packages diff for arm:
-
-http://git.yoctoproject.org/cgit.cgi/poky-buildhistory/commit/?h=poky/master/nightly-arm&id=76be4fa8cbcab7c334ae299188f3c3d7684d5349
-
-why did the attr-dbg package change its FILELIST? It could have been
-the gcc patch but was it a good change?
-
-The files contained in images is also a bit worrying:
-
-http://git.yoctoproject.org/cgit.cgi/poky-buildhistory/diff/images/qemuarm/glibc/core-image-sato-sdk/files-in-image.txt?h=poky/master/nightly-arm&id=77580baf448a95c6d66f963d112300a0214c233a
-
-The /usr/src/kernel dir/subdir permissions changed. Was that
-intentional?
-
-/var/lib/sudo/lectured changed into /var/db/sudo/lectured. Why?
-
-I'd love some help going over this output, logging bugs for issues
-found and then help in fixing the builds. I'm pretty sure there are
-some serious reproducibility issues buried in there. By that, I mean
-that two builds which are supposedly of the same revision, have
-produced slightly differing results.
-
-We do have some tools like buildhistory-diff which are designed to
-filter the repository data and come up with a list of "serious"
-problems and filter out normal version changes. We're aware there are
-shortcomings in those tools but this may give us the push to go and fix
-or improve them!
-
-Cheers,
-
-Richard
 
