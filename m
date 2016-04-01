@@ -1,22 +1,49 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4ED763F0
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6156B762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 15:04:09 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2016 08:02:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="679226937"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Apr 2016 08:02:45 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Apr 2016 18:02:42 +0300
-Message-Id: <1459522962-30866-2-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <1459522962-30866-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1459522962-30866-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/2] oe/patch: print cleaner error message when patch fails to apply
+	Fri,  1 Apr 2016 15:19:25 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id o6so39607621qkc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Apr 2016 08:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=xkrZYGegaG2sYWj9WB/kqnqyVgg2Jh3DuoLSmLizORY=;
+	b=Wi6UgEqVWoEHrUk3jV6D6nATEZVZ6XHpJ+b5sFaoVFqoGclHhKndDhMnCvZshFRFA3
+	56q4RvKW7peMGVuAN3rLli3bXcZy3Lqndi6FgG0d8J0pzmlYLhzLRDyoksjkXXnG3njx
+	k9ULHrv2JNN/KZ+E5xWSJ6cWhfqXkfLlqDGAQwTMsLVzzFlIjzVZGTPMX2SQ6Eqi35ei
+	+PNqK3YrB5eUtETkhfjkaL61a3eUlIJoHbom9MRc7KyQLlrATYDs3RdhdXseZsFtV/Yj
+	n9vOOwqTWeodqf5sBOnZ1PqhzUGu6PbRTj0Tl5q8RDSj941hV9d3nLv3Kjnvt21gAqyv
+	DlOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=xkrZYGegaG2sYWj9WB/kqnqyVgg2Jh3DuoLSmLizORY=;
+	b=O8DzFUufxNM6ImNcYh5AtNyEuOySCA3ajSnLxI4CJJFy0Ce+CXxd4CYrVikei8imE+
+	zWjDF6o6+9N9FKWTXiATrBWcCeaLtCgKYCZOfD3viyp4PhJJHIAc20d6PIptH7dLbCt3
+	zZFnrxFy5W6twdkE4ffjh4NHNBqONL9uiPXDC2PHtvlw/0MvxcOD7blYv2U5PK9VEEnu
+	Q2QDd5zwr6Gk5KJcjD1hz+9KcfqZzx6wcYEmmy2DAup8KjdvDx3W6JOCTcFbC7sLYblX
+	dhUgpOESMQ/sEnwCKjJOOcv4GSjCH/x0R7DF9ujxqhXpYEp3psU1pQqB4F3gjFyRB5vQ
+	oGAQ==
+X-Gm-Message-State: AD7BkJIj31pPJyeiMMotEALVNgiotsVid8Su7d/GBf+NuyX0vOLTDI6KmvYkaVjUrN/Xb8YlAqpp5aCjxXOKNA==
+MIME-Version: 1.0
+X-Received: by 10.176.5.163 with SMTP id e32mr2196515uae.93.1459523966197;
+	Fri, 01 Apr 2016 08:19:26 -0700 (PDT)
+Received: by 10.103.94.2 with HTTP; Fri, 1 Apr 2016 08:19:26 -0700 (PDT)
+In-Reply-To: <CAPhnLPDKabk-Uy0is+v_oDZVOiMLBNLaJoh+ihGQaKfWpdefTg@mail.gmail.com>
+References: <1459501616-4775-1-git-send-email-ross.burton@intel.com>
+	<1459504783.2322.69.camel@pbcl.net>
+	<1459504875.2322.70.camel@pbcl.net>
+	<CAPhnLPDKabk-Uy0is+v_oDZVOiMLBNLaJoh+ihGQaKfWpdefTg@mail.gmail.com>
+Date: Fri, 1 Apr 2016 09:19:26 -0600
+Message-ID: <CACS+7ZRhu19JehnxX-0hf3Ku+FdhKUA6-Lnt-0mBDtXno=pVAw@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta: remove obsolete architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,43 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 15:04:10 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 15:19:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #9344]
+On 1 April 2016 at 06:13, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
+> On 1 April 2016 at 11:01, Phil Blundell <pb@pbcl.net> wrote:
+>> On Fri, 2016-04-01 at 10:59 +0100, Phil Blundell wrote:
+>>> On Fri, 2016-04-01 at 10:06 +0100, Ross Burton wrote:
+>>> > Remove ancient and obsolete architectures from openembedded-core, they've no
+>>> > real users and are causing complications that can be now removed.
+>>>
+>>> It seems a bit harsh, or possibly wishful thinking on Intel's part, to
+>>> describe most of these as "ancient and obsolete".
+>>
+>> Oh, hah, I just realised what the date is.
+>>
+>> Removing SPARC still seems like a fine idea though :-)
+>
+> Date schmate. If we remove all of them ab runs go faster. Besides, we
+> need to make room for the new Windows 10 with bash builds.
+>
+> -b
+>
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/lib/oe/patch.py | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Wouldn't Windows 10 with bash just be genericx86-64 with no kernel? :P
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 6ab4427..9d36172 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -214,13 +214,17 @@ class PatchTree(PatchSet):
-         if not force:
-             shellcmd.append('--dry-run')
- 
--        output = runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+        try:
-+            output = runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
- 
--        if force:
--            return
-+            if force:
-+                return
- 
--        shellcmd.pop(len(shellcmd) - 1)
--        output = runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+            shellcmd.pop(len(shellcmd) - 1)
-+            output = runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+        except CmdError as err:
-+            raise bb.BBHandledException("Applying '%s' failed:\n%s" %
-+                                        (os.path.basename(patch['file']), err.output))
- 
-         if not reverse:
-             self._appendPatchFile(patch['file'], patch['strippath'])
--- 
-2.6.2
+That reminds me, I need to go test core-image-minimal on FreeBSD's linuxulator.
 
+Dan
+
+>>
+>> p.
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> Elizabeth Flanagan
+> Yocto Project
+> Build and Release
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
