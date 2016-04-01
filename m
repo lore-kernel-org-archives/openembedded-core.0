@@ -1,47 +1,32 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C06E273204
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 75F8A734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 11:42:19 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id e3so148395964ioa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Apr 2016 04:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=1E0UNOFjj9cU+LY6DViArrJUVxcSYHY6NQMTNZ1dC70=;
-	b=Wyy7Mi4hcWEo5hTWonvcuhMPMwFACz0JZ7/fpT0IO/YW9oPLZYFfjsgTudjsv1nbBh
-	RwrqEP6ooMq2V8l10m9YG4QRBIF6cD1HmNFXTy11fQ1PpG5ipiQGi1KPlKypnkWBhuAe
-	pEV43EPhk4nsgOpO0N0xWs6lenoc6DKeu5bSV/VeYCjEjG2znTvpl45xNB3D+6Eyq6J+
-	AmrdpuwogigPyGG9cWGjoGWb2Mw3oyu1bCea1gv4LzqOAPyIcSRNhYybuDwVI1arQcYM
-	YAioXPT5hiyoT7xaRfc/sp7kK9mayObe5JlxQtCdSb7bX0VjE8epiPoy9lxlYdBz93z9
-	rNFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=1E0UNOFjj9cU+LY6DViArrJUVxcSYHY6NQMTNZ1dC70=;
-	b=HzO3DbqXBOpykiHFZVXpZT1ChprmKwMCDdynLkbTrR7buWryxfwAqVentk4pVHr8T1
-	ZkLHdq5lYeX/DFWBhi8Da1ivbrJkS4kK22CuWyh6ruL7fjq6cmJZoHATQMw4zwfys97f
-	Zys9K9AsbZ1svxkQzIfa/5n1ZnXI9+dsRBZTP7nDgHYflfR/ZYBuFLbFyeqOSToKjGOf
-	/fPWkp+P69sQzpSsfjE9iiOtJSac2RCUkLvSsdfTbiiONvGnGIAAQNYaTJEA/Fmu8+ma
-	ZOjQF4f6Sam3cf4bw3CRucpzDhFZtxAt3Zx09rWrghFGdgehjoGLwil5hEl4YEHI46Ca
-	qWjg==
-X-Gm-Message-State: AD7BkJLCex1qIZKX8XkI0kEuY/jI558heySiLV1+TrHg7dcuFTKncrwma/h/ftK7YRDmY5p9N8wxuT07OYg2dg==
-MIME-Version: 1.0
-X-Received: by 10.107.32.20 with SMTP id g20mr4067824iog.149.1459510940011;
-	Fri, 01 Apr 2016 04:42:20 -0700 (PDT)
-Received: by 10.36.69.12 with HTTP; Fri, 1 Apr 2016 04:42:19 -0700 (PDT)
-In-Reply-To: <CAMKF1sqV+PeZZvH1Am-MEs-f3e4JtENPdX=ByDesatb3EGM76Q@mail.gmail.com>
-References: <1459039503-5526-1-git-send-email-net147@gmail.com>
-	<CAMKF1sqV+PeZZvH1Am-MEs-f3e4JtENPdX=ByDesatb3EGM76Q@mail.gmail.com>
-Date: Fri, 1 Apr 2016 22:42:19 +1100
-Message-ID: <CANwerB3q0tnyeqGGYddsZQ5CE4yDC6znL3NY8oJXLMOU4u9fTQ@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb-cross-canadian: disable conflicting PACKAGECONFIG variables
+	Fri,  1 Apr 2016 11:42:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u31BgQAP008275; Fri, 1 Apr 2016 12:42:26 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Uzf4_0Tnswfi; Fri,  1 Apr 2016 12:42:26 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u31BgLb7008272
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 1 Apr 2016 12:42:22 +0100
+Message-ID: <1459510941.7348.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Laurent Bonnans <laurent.bonnans@hikob.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 01 Apr 2016 12:42:21 +0100
+In-Reply-To: <CABBNMXXkshQSZkKruaBjQP=oejM79JLnkAcUW_EUNfSPLpaBxQ@mail.gmail.com>
+References: <cover.1459438792.git.laurent.bonnans@hikob.com>
+	<8a3fd47fc059f25ec7110cb74a5759556bae165e.1459438792.git.laurent.bonnans@hikob.com>
+	<1459461285.21672.70.camel@linuxfoundation.org>
+	<CABBNMXXkshQSZkKruaBjQP=oejM79JLnkAcUW_EUNfSPLpaBxQ@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] python: remove tests and sqlite3-tests modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,56 +39,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 11:42:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 01 Apr 2016 11:42:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Khem,
+On Fri, 2016-04-01 at 13:21 +0200, Laurent Bonnans wrote:
+> 2016-03-31 23:54 GMT+02:00 Richard Purdie <
+> richard.purdie@linuxfoundation.org>:
+> > Would it not make sense to keep these as separate packages but
+> > specifically exclude them from python-modules (and add a comment
+> > along
+> > the lines of the above as a reason)?
+> 
+> This sounds reasonable to me. It would require to slightly tweak the
+> logic of the generate-manifest scripts.
 
-On 27 March 2016 at 17:42, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sat, Mar 26, 2016 at 5:45 PM, Jonathan Liu <net147@gmail.com> wrote:
->> The PACKAGECONFIG variables in gdb-common.inc don't work correctly for
->> the cross recipes so they need to be disabled.
->>
->> Python support was not being enabled because the python PACKAGECONFIG
->> added --without-python to OE_EXTRACONF.
->>
->> The recipe depends on nativesdk-readline and the readline PACKAGECONFIG
->> just adds an unnecessary extra dependency on readline. The
->> --with-system-readline configure argument is explicitly added
->> to EXTRA_OECONF to ensure we link to nativesdk-readline.
->>
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->>  meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> index ae97759..952f28f 100644
->> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
->> @@ -13,7 +13,12 @@ RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang nativesdk-python-
->>
->>  GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
->>
->> -EXTRA_OECONF_append = " --with-python=${WORKDIR}/python"
->> +EXTRA_OECONF += "--with-python=${WORKDIR}/python"
->
-> should this point to a valid python location ?
+That sounds good to me, could you send an updated patch please?
 
-${WORKDIR}/python is created by do_configure_prepend()
+Cheers,
 
->
->> +EXTRA_OECONF += "--with-system-readline"
->> +
->> +# Disable conflicting PACKAGECONFIG variables in gdb-common.inc
->> +PACKAGECONFIG[python] = ""
->> +PACKAGECONFIG[readline] = ""
->>
->>  SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
->>
->> --
->> 2.7.4
-
-Regards,
-Jonathan
+Richard
 
