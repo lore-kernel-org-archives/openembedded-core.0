@@ -1,65 +1,34 @@
-Return-Path: <zhenhua.luo@nxp.com>
-Received: from emea01-db3-obe.outbound.protection.outlook.com
-	(mail-db3on0075.outbound.protection.outlook.com [157.55.234.75])
-	by mail.openembedded.org (Postfix) with ESMTP id C0180731F7
+Return-Path: <ulf.magnusson@bmw-carit.de>
+X-Greylist: delayed 325 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 01 Apr 2016 10:58:59 UTC
+Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BCAC73257
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 10:24:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
-	s=selector1-nxp-com;
-	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=AAvZfrLqKwdOHD0s0fas84Bia3zlTVR0Ft8lMdH55sw=;
-	b=w0YzQmY/2vsFm89nFsw1IGWKVdSCzBBipnZQzMn7N7ehqnJj1Yqx4gg9H7vyeXm+dT1XFPJVn5SG8jiil5VhrLhUfjHTxGsD7gdRpRPb8L3Pl/MKoUR+X7BkPeJmJqz6uHgo7dt+IAvXnAEIDNZOMVWbX4nc0QCIdNGwE3c9Wk0=
-Received: from DB3PR04MB0684.eurprd04.prod.outlook.com
-	(2a01:111:e400:943c::14) by DB3PR04MB0683.eurprd04.prod.outlook.com
-	(2a01:111:e400:943c::13) with Microsoft SMTP Server (TLS) id
-	15.1.447.15; Fri, 1 Apr 2016 10:08:45 +0000
-Received: from DB3PR04MB0684.eurprd04.prod.outlook.com
-	([fe80::6154:2240:a351:cf3a]) by
-	DB3PR04MB0684.eurprd04.prod.outlook.com
-	([fe80::6154:2240:a351:cf3a%15]) with mapi id 15.01.0443.017;
-	Fri, 1 Apr 2016 10:08:45 +0000
-From: Zhenhua Luo <zhenhua.luo@nxp.com>
-To: Phil Blundell <pb@pbcl.net>, Ross Burton <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] meta: remove obsolete architectures
-Thread-Index: AQHRi/XwgV/GvQB8nEWBESjl4ITy6Z904oGAgAAAboCAAAHVQA==
-Date: Fri, 1 Apr 2016 10:08:45 +0000
-Message-ID: <DB3PR04MB068489FF098D2F6CA960D0A6EE9A0@DB3PR04MB0684.eurprd04.prod.outlook.com>
-References: <1459501616-4775-1-git-send-email-ross.burton@intel.com>
-	<1459504783.2322.69.camel@pbcl.net> <1459504875.2322.70.camel@pbcl.net>
-In-Reply-To: <1459504875.2322.70.camel@pbcl.net>
-Accept-Language: en-US
+	Fri,  1 Apr 2016 10:58:59 +0000 (UTC)
+Received: from ulm-dc01.bmw-carit.intra ([172.20.0.50]:49086
+	helo=mail.bmw-carit.de)
+	by mail.bmw-carit.de with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Ulf.Magnusson@bmw-carit.de>)
+	id 1alwho-0003G6-07 for openembedded-core@lists.openembedded.org;
+	Fri, 01 Apr 2016 12:53:32 +0200
+Received: from ULM-DC01.bmw-carit.intra ([fe80::d6c:bfcc:5f:52a5]) by
+	ULM-DC01.bmw-carit.intra ([fe80::d6c:bfcc:5f:52a5%13]) with mapi id
+	14.03.0123.003; Fri, 1 Apr 2016 12:53:31 +0200
+X-CTCH-RefID: str=0001.0A0C0203.56FE532C.009C, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+From: Ulf Magnusson <Ulf.Magnusson@bmw-carit.de>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] classes/packagegroup: Refactor code to be simpler
+Thread-Index: AdGMBLqx4eOMvAk1ShibHQ//Kp8vCQ==
+Date: Fri, 1 Apr 2016 10:53:31 +0000
+Message-ID: <A63F55F218E7884EB1B20D0E0B5927D1608B9BE2@ULM-DC01.bmw-carit.intra>
+Accept-Language: en-US, de-DE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: pbcl.net; dkim=none (message not signed)
-	header.d=none;pbcl.net; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [199.59.230.102]
-x-ms-office365-filtering-correlation-id: 76f11b42-da01-448c-1dee-08d35a159ca0
-x-microsoft-exchange-diagnostics: 1; DB3PR04MB0683;
-	5:IoVHy7Paa3+EUwpPUESGwxFUld6gc//adBw+SFoDa51wFGjUARrziWWMYLuODTwCgF9o9LIpWmn0R75Oz7jBLsLRc6v0yE1GV1HWc4DDMRCeVT0WU5MW4g8DBLEqwSvfr8mn+AuSdaaYVnWcBdo03g==;
-	24:E0c4vYJT7x4dbRUi138n8JwSu7SiJd20B6PIupy1bGfEJC5j63VF6qTO+JGd/mVmZrhIfV2SOdMYOTAbpYyHbeO+/WyGGgFplEfQj3MBm/I=
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB3PR04MB0683;
-x-microsoft-antispam-prvs: <DB3PR04MB068339FC5BC922FA19AFAE55EE9A0@DB3PR04MB0683.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046);
-	SRVR:DB3PR04MB0683; BCL:0; PCL:0; RULEID:; SRVR:DB3PR04MB0683; 
-x-forefront-prvs: 0899B47777
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(6009001)(377424004)(24454002)(13464003)(377454003)(3660700001)(189998001)(102836003)(6116002)(3280700002)(11100500001)(3846002)(586003)(76576001)(5004730100002)(4326007)(87936001)(1220700001)(33656002)(2906002)(92566002)(74316001)(19580395003)(81166005)(19580405001)(5002640100001)(1096002)(5008740100001)(1720100001)(86362001)(106116001)(5250100002)(5001770100001)(2900100001)(2950100001)(76176999)(66066001)(15975445007)(54356999)(50986999)(5003600100002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB3PR04MB0683;
-	H:DB3PR04MB0684.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-spamdiagnosticoutput: 1:23
-spamdiagnosticmetadata: NSPM
+x-originating-ip: [10.242.6.42]
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2016 10:08:45.6986 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR04MB0683
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: remove obsolete architectures
+Subject: [PATCH] classes/packagegroup: Refactor code to be simpler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,41 +41,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 10:24:39 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 10:59:00 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/alternative;
+	boundary="_000_A63F55F218E7884EB1B20D0E0B5927D1608B9BE2ULMDC01bmwcarit_"
+
+--_000_A63F55F218E7884EB1B20D0E0B5927D1608B9BE2ULMDC01bmwcarit_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Ah, a gift of the day. :)
+This was originally going to be a fix for ALLOW_EMPTY not being set on
+complementary package groups, but that was already fixed by
+d96ea299b3b5a44b1959 (classes/packagegroup: fix dbg/dev/ptest
+complementary packages).
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Phil Blundell
-> Sent: Friday, April 01, 2016 6:01 PM
-> To: Ross Burton <ross.burton@intel.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] meta: remove obsolete architectures
->=20
-> On Fri, 2016-04-01 at 10:59 +0100, Phil Blundell wrote:
-> > On Fri, 2016-04-01 at 10:06 +0100, Ross Burton wrote:
-> > > Remove ancient and obsolete architectures from openembedded-core,
-> > > they've no real users and are causing complications that can be now
-> removed.
-> >
-> > It seems a bit harsh, or possibly wishful thinking on Intel's part, to
-> > describe most of these as "ancient and obsolete".
->=20
-> Oh, hah, I just realised what the date is.
->=20
-> Removing SPARC still seems like a fine idea though :-)
->=20
-> p.
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Since I also spent some time refactoring the code, I'll submit a patch
+(against the latest version) anyway. This version should be a bit
+shorter and more readable.
+---
+ meta/classes/packagegroup.bbclass | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.=
+bbclass
+index d56248f..ee7a22d 100644
+--- a/meta/classes/packagegroup.bbclass
++++ b/meta/classes/packagegroup.bbclass
+@@ -22,19 +22,15 @@ inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH_EXPAN=
+DED', True) =3D=3D 'all', 'al
+ # Also mark all packages as ALLOW_EMPTY
+ python () {
+     packages =3D d.getVar('PACKAGES', True).split()
+-    for pkg in packages:
+-        d.setVar("ALLOW_EMPTY_%s" % pkg, "1")
+     if d.getVar('PACKAGEGROUP_DISABLE_COMPLEMENTARY', True) !=3D '1':
+-        # Add complementary packagegroups
+-        genpackages =3D []
+-        complementary_types =3D ['-dbg', '-dev']
++        types =3D ['', '-dbg', '-dev']
+         if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
+-            complementary_types.append('-ptest')
+-        for pkg in packages:
+-            for postfix in complementary_types:
+-                genpackages.append(pkg+postfix)
+-                d.setVar("ALLOW_EMPTY_%s" % pkg+postfix, "1")
+-        d.setVar('PACKAGES', ' '.join(packages+genpackages))
++            types.append('-ptest')
++        packages =3D [pkg + suffix for pkg in packages
++                    for suffix in types]
++        d.setVar('PACKAGES', ' '.join(packages))
++    for pkg in packages:
++        d.setVar('ALLOW_EMPTY_%s' % pkg, '1')
+ }
+
+ # We don't want to look at shared library dependencies for the
+--
+2.1.4
+
+
+--_000_A63F55F218E7884EB1B20D0E0B5927D1608B9BE2ULMDC01bmwcarit_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body ocsi=3D"0" fpstyle=3D"1">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">This was originally going to be a fix for ALLOW_EMPTY not being set =
+on<br>
+complementary package groups, but that was already fixed by<br>
+d96ea299b3b5a44b1959 (classes/packagegroup: fix dbg/dev/ptest<br>
+complementary packages).<br>
+<br>
+Since I also spent some time refactoring the code, I'll submit a patch<br>
+(against the latest version) anyway. This version should be a bit<br>
+shorter and more readable.<br>
+---<br>
+&nbsp;meta/classes/packagegroup.bbclass | 18 &#43;&#43;&#43;&#43;&#43;&#43;=
+&#43;-----------<br>
+&nbsp;1 file changed, 7 insertions(&#43;), 11 deletions(-)<br>
+<br>
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.=
+bbclass<br>
+index d56248f..ee7a22d 100644<br>
+--- a/meta/classes/packagegroup.bbclass<br>
+&#43;&#43;&#43; b/meta/classes/packagegroup.bbclass<br>
+@@ -22,19 &#43;22,15 @@ inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH_E=
+XPANDED', True) =3D=3D 'all', 'al<br>
+&nbsp;# Also mark all packages as ALLOW_EMPTY<br>
+&nbsp;python () {<br>
+&nbsp;&nbsp;&nbsp;&nbsp; packages =3D d.getVar('PACKAGES', True).split()<br=
+>
+-&nbsp;&nbsp;&nbsp; for pkg in packages:<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.setVar(&quot;ALLOW_EMPTY_%s&q=
+uot; % pkg, &quot;1&quot;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; if d.getVar('PACKAGEGROUP_DISABLE_COMPLEMENTARY', =
+True) !=3D '1':<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Add complementary packagegrou=
+ps<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; genpackages =3D []<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; complementary_types =3D ['-dbg'=
+, '-dev']<br>
+&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; types =3D ['', '-dbg', '-de=
+v']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if bb.utils.contains('DIST=
+RO_FEATURES', 'ptest', True, False, d):<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; complem=
+entary_types.append('-ptest')<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for pkg in packages:<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for pos=
+tfix in complementary_types:<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; genpackages.append(pkg&#43;postfix)<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; d.setVar(&quot;ALLOW_EMPTY_%s&quot; % pkg&#43;postfix, &qu=
+ot;1&quot;)<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.setVar('PACKAGES', ' '.join(p=
+ackages&#43;genpackages))<br>
+&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; typ=
+es.append('-ptest')<br>
+&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; packages =3D [pkg &#43; suf=
+fix for pkg in packages<br>
+&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for suffix in types]<br>
+&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.setVar('PACKAGES', ' '.jo=
+in(packages))<br>
+&#43;&nbsp;&nbsp;&nbsp; for pkg in packages:<br>
+&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.setVar('ALLOW_EMPTY_%s' %=
+ pkg, '1')<br>
+&nbsp;}<br>
+&nbsp;<br>
+&nbsp;# We don't want to look at shared library dependencies for the<br>
+-- <br>
+2.1.4<br>
+<br>
+</div>
+</body>
+</html>
+
+--_000_A63F55F218E7884EB1B20D0E0B5927D1608B9BE2ULMDC01bmwcarit_--
