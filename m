@@ -1,20 +1,20 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
+Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2790B76809
+	by mail.openembedded.org (Postfix) with ESMTP id 6DD2B762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 15:03:01 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2016 08:01:58 -0700
+	Fri,  1 Apr 2016 15:04:08 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2016 08:02:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="949671688"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2016 08:01:58 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="679226892"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Apr 2016 08:02:43 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Apr 2016 17:57:35 +0300
-Message-Id: <1459522655-9037-1-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH v2] bluez5: add ptest support
+Date: Fri,  1 Apr 2016 18:02:41 +0300
+Message-Id: <1459522962-30866-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH 1/2] oe/patch: more detailed error reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,123 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 15:03:02 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 15:04:10 -0000
 
-[YOCTO #5134]
+Show the actual command that failed when raising a CmdError. Makes
+figuring out what actually failed much easier.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+[YOCTO #9344]
+
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc        | 13 ++++++++-
- ...-target-for-building-tests-without-runnin.patch | 28 +++++++++++++++++++
- meta/recipes-connectivity/bluez5/bluez5/run-ptest  | 31 ++++++++++++++++++++++
- 3 files changed, 71 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/run-ptest
+ meta/lib/oe/patch.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index f38eaa5..5232523 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -19,11 +19,13 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-     file://init \
-+    file://run-ptest \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-+    file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
- "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 2464efd..6ab4427 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -8,12 +8,14 @@ class NotFoundError(bb.BBHandledException):
+         return "Error: %s not found." % self.path
  
--inherit autotools-brokensep pkgconfig systemd update-rc.d distro_features_check
-+inherit autotools-brokensep pkgconfig systemd update-rc.d distro_features_check ptest
+ class CmdError(bb.BBHandledException):
+-    def __init__(self, exitstatus, output):
++    def __init__(self, command, exitstatus, output):
++        self.command = command
+         self.status = exitstatus
+         self.output = output
  
- EXTRA_OECONF = "\
-   --enable-tools \
-@@ -101,3 +103,12 @@ INITSCRIPT_PACKAGES = "${PN}"
- INITSCRIPT_NAME_${PN} = "bluetooth"
+     def __str__(self):
+-        return "Command Error: exit status: %d  Output:\n%s" % (self.status, self.output)
++        return "Command Error: '%s' exited with %d  Output:\n%s" % \
++                (self.command, self.status, self.output)
  
- EXCLUDE_FROM_WORLD = "1"
-+
-+do_compile_ptest() {
-+        oe_runmake buildtests
-+}
-+
-+do_install_ptest() {
-+        cp -r ${B}/unit/ ${D}${PTEST_PATH}
-+        rm ${D}${PTEST_PATH}/unit/*.c ${D}${PTEST_PATH}/unit/*.o
-+}
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-new file mode 100644
-index 0000000..24ddae6
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-@@ -0,0 +1,28 @@
-+From 4bdf0f96dcaa945fd29f26d56e5b36d8c23e4c8b Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 1 Apr 2016 17:07:34 +0300
-+Subject: [PATCH] tests: add a target for building tests without running them
-+
-+Upstream-Status: Inappropriate [oe specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Makefile.am | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 1a48a71..ba3b92f 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -425,6 +425,9 @@ endif
-+ TESTS = $(unit_tests)
-+ AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
-+ 
-++# This allows building tests without running them
-++buildtests: $(TESTS)
-++
-+ if DBUS_RUN_SESSION
-+ AM_TESTS_ENVIRONMENT += dbus-run-session --
-+ endif
-+-- 
-+2.8.0.rc3
-+
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/run-ptest b/meta/recipes-connectivity/bluez5/bluez5/run-ptest
-new file mode 100644
-index 0000000..21df00c
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/run-ptest
-@@ -0,0 +1,31 @@
-+#! /bin/sh
-+
-+cd unit
-+
-+failed=0
-+all=0
-+
-+for f in test-*; do
-+    "./$f"
-+    case "$?" in
-+        0)
-+            echo "PASS: $f"
-+            all=$((all + 1))
-+            ;;
-+        77)
-+            echo "SKIP: $f"
-+            ;;
-+        *)
-+            echo "FAIL: $f"
-+            failed=$((failed + 1))
-+            all=$((all + 1))
-+            ;;
-+    esac
-+done
-+
-+if [ "$failed" -eq 0 ] ; then
-+  echo "All $all tests passed"
-+else
-+  echo "$failed of $all tests failed"
-+fi
-+
+ 
+ def runcmd(args, dir = None):
+@@ -32,7 +34,7 @@ def runcmd(args, dir = None):
+         # print("cmd: %s" % cmd)
+         (exitstatus, output) = oe.utils.getstatusoutput(cmd)
+         if exitstatus != 0:
+-            raise CmdError(exitstatus >> 8, output)
++            raise CmdError(cmd, exitstatus >> 8, output)
+         return output
+ 
+     finally:
 -- 
-2.8.0.rc3
+2.6.2
 
 
