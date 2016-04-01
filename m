@@ -1,20 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 42900765DB
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2790B76809
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 14:58:38 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Apr 2016 07:58:41 -0700
+	Fri,  1 Apr 2016 15:03:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2016 08:01:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="77336626"
+X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="949671688"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 01 Apr 2016 07:58:40 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2016 08:01:58 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Apr 2016 17:54:15 +0300
-Message-Id: <1459522455-8836-1-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Fri,  1 Apr 2016 17:57:35 +0300
+Message-Id: <1459522655-9037-1-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] bluez5: add ptest support
+Subject: [PATCH v2] bluez5: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,7 +27,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 14:58:40 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 15:03:02 -0000
+
+[YOCTO #5134]
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
