@@ -1,30 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EE546FEFA
+Return-Path: <raphael.freudiger@siemens.com>
+X-Greylist: delayed 1772 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 01 Apr 2016 13:24:13 UTC
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id F226873695
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 13:14:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u31DE4fC012741; Fri, 1 Apr 2016 14:14:04 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id L-dz_eAomEMq; Fri,  1 Apr 2016 14:14:04 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u31DE2gM012737
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 1 Apr 2016 14:14:03 +0100
-Message-ID: <1459516442.7348.7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Armin Kuster <akuster808@gmail.com>
-Date: Fri, 01 Apr 2016 14:14:02 +0100
-In-Reply-To: <20160401120304.GE2567@jama>
-References: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
-	<20160401120304.GE2567@jama>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][jethro] glibc-locale: fix QA warning
+	Fri,  1 Apr 2016 13:24:12 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id u31CsfJe025723
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Apr 2016 14:54:41 +0200
+Received: from bt-builds.hqs.sbt.siemens.com (MD1AT2FC.ww002.siemens.net
+	[139.16.79.16])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id u31CsfKQ008741;
+	Fri, 1 Apr 2016 14:54:41 +0200
+Received: from bt-builds.hqs.sbt.siemens.com (localhost [127.0.0.1])
+	by bt-builds.hqs.sbt.siemens.com (Postfix) with ESMTP id 4B6C1200A508; 
+	Fri,  1 Apr 2016 14:54:41 +0200 (CEST)
+From: Freudiger Raphael <raphael.freudiger@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Apr 2016 14:54:20 +0200
+Message-Id: <1459515260-11787-1-git-send-email-raphael.freudiger@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Freudiger Raphael <raphael.freudiger@siemens.com>
+Subject: [PATCH] debugfs: Fix recursion loop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 13:14:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Apr 2016 13:24:14 -0000
 
-On Fri, 2016-04-01 at 14:03 +0200, Martin Jansa wrote:
-> On Sun, Jan 31, 2016 at 11:55:30AM -0800, Armin Kuster wrote:
-> > From: Armin Kuster <akuster@mvista.com>
-> > 
-> > WARNING: QA Issue: glibc-locale: /glibc-binary-localedata-sd
-> > -in/usr/lib/locale/sd_IN/LC_CTYPE is owned by uid 1000, which is
-> > the same as the user running bitbake. This may be due to host
-> > contamination [host-user-contaminated]
-> 
-> FWIW: my last bitbke world build shows few of these:
-> glibc-locale-2.23: glibc-locale: /glibc-binary-localedata-ka
-> -ge/usr/lib/locale/ka_GE/LC_MEASUREMENT is owned by uid 3004, which
-> is the same as the user running bitbake. This may be due to host
-> contamination [host-user-contaminated]
-> glibc-locale-2.23: glibc-locale: /glibc-binary-localedata-mr
-> -in/usr/lib/locale/mr_IN/LC_MEASUREMENT is owned by uid 3004, which
-> is the same as the user running bitbake. This may be due to host
-> contamination [host-user-contaminated]
-> glibc-locale-2.23: glibc-locale: /glibc-binary-localedata-ru
-> -ua/usr/lib/locale/ru_UA/LC_MEASUREMENT is owned by uid 3004, which
-> is the same as the user running bitbake. This may be due to host
-> contamination [host-user-contaminated]
-> 
-> Even with your change already in master.
+The debugfs prefix is striped from t, but not from baset.
+Therefore baset never matches t.
 
-I do wonder if this might be a pseudo issue which we fixed in master.
-The trouble is that whilst master is working better, there is a bigger
-rewrite/fixup of some pseudo code planned for 2.2 so even with master,
-its not "properly" fixed yet. Master would error more clearly and
-hasn't shown errors in recent builds though.
+Signed-off-by: Freudiger Raphael <raphael.freudiger@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/classes/image.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Cheers,
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index c61d814..adbbe35 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -320,6 +320,7 @@ python () {
+ 
+     def _add_type(t):
+         baset = _image_base_type(t)
++        input_t = t
+         if baset not in basetypes:
+             basetypes[baset]= []
+         if t not in basetypes[baset]:
+@@ -340,9 +341,9 @@ python () {
+             basedep = _image_base_type(dep)
+             typedeps[baset].add(basedep)
+ 
+-        if baset != t:
++        if baset != input_t:
+             _add_type(baset)
+-        
++
+     for t in alltypes[:]:
+         _add_type(t)
+ 
+-- 
+2.1.4
 
-Richard
 
