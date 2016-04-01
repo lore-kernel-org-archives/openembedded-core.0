@@ -1,48 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CADB06FF97
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DA3F1731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 05:01:09 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id e3so16425938ioa.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2016 22:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=efysnLrY+nexeu4Sbe3sD8i9BtUG86FPmzPtFS06nGo=;
-	b=g9N0BrCWEn4ElfclKpimofUYv8EZ0Hb0jpHbYnapX12Sb/spnLOn6dSF0Ti4NknWgD
-	kspcqETRuUv+C1XoWrIeHqNqPof3vNDXqC73RczKk1xQQ6t+9JF212828+Bu7pT3ZgwJ
-	3WjrcyjWkU3oUNkQpNGhd3MKoXTbXCiPGZwu1x0s6bGKv1jFfhy1yUlAz6xmszsuzUAS
-	wGvkvyk3zIZAPjw2krIJrvzuOq7q1MFfyKHrpQjRtHeISZblM5xgf+pogpqh5J5n4ioE
-	8VRHJ8jvEFYAR+hipgmNFep+DTqHUjO5sZLQyoZ24RubX83d0sTdepaHTgAxn2KFE+b5
-	xiwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=efysnLrY+nexeu4Sbe3sD8i9BtUG86FPmzPtFS06nGo=;
-	b=cjvKLEtP/ngTUg92IXcHBvDHxFQf6QE4sPZElWXh1o7BhBDsighyYED9eBz2zUj9Ta
-	SoOwBAp5ZGXVylh91uOlG6jDxJyj03Yci4+1r3tm66f8qZOv9dP8T5twWVSwZL0W9tx6
-	Z1Uwo3cDYNWfFopY4hsxzeXj7cxLbeXOBqxp3YLju2w2ASdU75r0akXzsAF/+2FBxs/4
-	XLjr4hxcXuTegq3nb+BgZBkMXuE2UwCHPjCY22nikMkSRWfIIvq2l4Qu84VzQmftpdbj
-	N8Xy1rtydt9hiwmEdCI0wktFjBsCaQe0gSnhqiOOjYqOdWXRUjYphKuPq8sUSuJ5qqwu
-	EO1g==
-X-Gm-Message-State: AD7BkJJi6cRnWZvPj7mMez8YbGAUzZhNvYdIZtJC8aWv5HUYnwe0OdL2lg2brWL1dlDk+g==
-X-Received: by 10.107.30.71 with SMTP id e68mr887241ioe.145.1459486870706;
-	Thu, 31 Mar 2016 22:01:10 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id z8sm5150069igp.3.2016.03.31.22.01.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 31 Mar 2016 22:01:09 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2016 22:00:59 -0700
-Message-Id: <1459486859-14736-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1459486859-14736-1-git-send-email-armccurdy@gmail.com>
-References: <1459486859-14736-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/2] default-distrovars.inc: remove libassuan from LGPLv2_WHITELIST_GPL-3.0
+	Fri,  1 Apr 2016 08:44:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u318i0RG007407
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 1 Apr 2016 01:44:00 -0700 (PDT)
+Received: from [128.224.162.210] (128.224.162.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Fri, 1 Apr 2016 01:43:59 -0700
+Message-ID: <56FE34F1.1070107@windriver.com>
+Date: Fri, 1 Apr 2016 16:44:33 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1455955403.git.raj.khem@gmail.com>	<f444175f17a8fd5aea09aad8674c7b26d2ee6fd5.1455955403.git.raj.khem@gmail.com>	<CAJ86T=VoDWL_Os8yAFHKpTfWTv8Q-uTpu8TEtwQc-7+-dWKFuA@mail.gmail.com>	<56F9DC9A.6070409@windriver.com>	<39E0EE4C-3FCD-4FAC-94F2-0B4F3BED8F2F@gmail.com>
+	<56FCCB36.4040203@windriver.com>
+In-Reply-To: <56FCCB36.4040203@windriver.com>
+X-Originating-IP: [128.224.162.210]
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: Upgrade to 2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +36,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 05:01:11 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 08:44:03 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The libassuan recipe is now buildable in distros which blacklist
-GPL-3.0 without needing to be explicitly whitelisted (since it
-provides at least one non GPLv3 package).
+On 03/31/2016 03:01 PM, ChenQi wrote:
+> On 03/29/2016 10:16 AM, Khem Raj wrote:
+>>> On Mar 28, 2016, at 6:38 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+>>>
+>>> On 02/23/2016 06:31 AM, Andre McCurdy wrote:
+>>>> On Sat, Feb 20, 2016 at 12:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>> Drop kconfig and options-group support
+>>>>> Forward port cross-localedef support
+>>>>> Assume ssp support in libc when building gcc-initial
+>>>> Breaks for me when building for x86 with -Os (building with
+>>>> -O1/-O2/-O3 are all OK):
+>>>>
+>>>> i686-rdk-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+>>>> --sysroot=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32-tcbootstrap 
+>>>>
+>>>> ../sysdeps/unix/sysv/linux/posix_fallocate.c -c -std=gnu11
+>>>> -fgnu89-inline  -Os -Wall -Werror -Wno-error -Wundef -Wwrite-strings
+>>>> -fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32= 
+>>>>
+>>>> -fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/x86_64-linux= 
+>>>>
+>>>> -fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux=/usr/src/glibc 
+>>>>
+>>>> -fdebug-prefix-map=/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/git=/usr/src/glibc 
+>>>>
+>>>> -feliminate-unused-debug-types -fmerge-all-constants -frounding-math
+>>>> -g -pipe -Wstrict-prototypes -Wold-style-definition -Wa,-mtune=i686
+>>>> -fexceptions  -ftls-model=initial-exec      -I../include
+>>>> -I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io 
+>>>>
+>>>> -I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux
+>>>>   -I../sysdeps/unix/sysv/linux/i386/i686 -I../sysdeps/i386/i686/nptl
+>>>> -I../sysdeps/unix/sysv/linux/i386 -I../sysdeps/unix/sysv/linux/x86
+>>>> -I../sysdeps/i386/nptl  -I../sysdeps/unix/sysv/linux/include
+>>>> -I../sysdeps/unix/sysv/linux  -I../sysdeps/nptl -I../sysdeps/pthread
+>>>> -I../sysdeps/gnu  -I../sysdeps/unix/inet -I../sysdeps/unix/sysv
+>>>> -I../sysdeps/unix/i386  -I../sysdeps/unix -I../sysdeps/posix
+>>>> -I../sysdeps/i386/i686/fpu/multiarch -I../sysdeps/i386/i686/fpu
+>>>> -I../sysdeps/i386/i686/multiarch  -I../sysdeps/i386/i686
+>>>> -I../sysdeps/i386/fpu  -I../sysdeps/x86/fpu/include
+>>>> -I../sysdeps/x86/fpu  -I../sysdeps/i386  -I../sysdeps/x86
+>>>> -I../sysdeps/wordsize-32  -I../sysdeps/ieee754/ldbl-96
+>>>> -I../sysdeps/ieee754/dbl-64  -I../sysdeps/ieee754/flt-32
+>>>> -I../sysdeps/ieee754  -I../sysdeps/generic  -I.. -I../libio -I.
+>>>> -nostdinc -isystem
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/x86_64-linux/usr/bin/i686-rdk-linux.gcc-cross-initial-i686/../../lib/i686-rdk-linux.gcc-cross-initial-i686/gcc/i686-rdk-linux/5.3.0/include 
+>>>>
+>>>> -isystem 
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/x86_64-linux/usr/bin/i686-rdk-linux.gcc-cross-initial-i686/../../lib/i686-rdk-linux.gcc-cross-initial-i686/gcc/i686-rdk-linux/5.3.0/include-fixed
+>>>> -isystem 
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32/usr/include 
+>>>>
+>>>>   -D_LIBC_REENTRANT -include
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/libc-modules.h 
+>>>>
+>>>> -DMODULE_NAME=libc -include ../include/libc-symbols.h -o
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io/posix_fallocate.o 
+>>>>
+>>>> -MD -MP -MF 
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io/posix_fallocate.o.dt
+>>>> -MT 
+>>>> /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/glibc/2.23-r0/build-i686-rdk-linux/io/posix_fallocate.o
+>>>> ../sysdeps/unix/sysv/linux/posix_fallocate.c: In function 
+>>>> 'posix_fallocate':
+>>>> ../sysdeps/unix/sysv/linux/posix_fallocate.c:39:1: error: bp cannot be
+>>>> used in asm here
+>>>>   }
+>>>>   ^
+>>>> ../sysdeps/unix/sysv/linux/posix_fallocate.c:39:1: error: bp cannot be
+>>>> used in asm here
+>>>
+>>> Hi All,
+>>>
+>>> For the latest master, if 'DEBUG_BUILD' is enabled, the above error 
+>>> appers.
+>>>
+>>> | ../sysdeps/unix/sysv/linux/posix_fallocate.c: In function 
+>>> 'posix_fallocate':
+>>> | ../sysdeps/unix/sysv/linux/posix_fallocate.c:39:1: error: bp 
+>>> cannot be used in asm here
+>>> |  }
+>>> |  ^
+>>>
+>>> The problem could be reproduced if we add in local.conf the 
+>>> following line.
+>>> DEBUG_BUILD = "1"
+>>>
+>>> Do you have any idea what's going on there?
+>> posix_fallocate is calling a syscall helper with 6 argument, and 
+>> there has been i386 specific optimization added to glibc
+>> which checks for gcc version and if its >= 5.0 then relies upon gcc 
+>> to do right thing when spilling ebp, and switched to using
+>> inline syscall handler. But this spill is working/tested with -O2 and 
+>> everything else is just a bonus if it works. Can you try this
+>> patch to glibc  ?
+>>
+>>
+>> --- a/sysdeps/unix/sysv/linux/i386/sysdep.h
+>> +++ b/sysdeps/unix/sysv/linux/i386/sysdep.h
+>> @@ -46,7 +46,7 @@
+>>      to compile glibc.  Disable GCC 5 optimization when compiling for
+>>      profiling since asm ("ebp") can't be used to put the 6th argument
+>>      in %ebp for syscall.  */
+>> -#if __GNUC_PREREQ (5,0) && !defined PROF
+>> +#if __GNUC_PREREQ (5,0) && !defined PROF && !defined __OPTIMIZE_SIZE__
+>>   # define OPTIMIZE_FOR_GCC_5
+>>   #endif
+>>
+>>
+>>
+>>
+>
+> Hi Khem,
+>
+> Thanks for your reply.
+> I've tried the above patch, but the problem is still there :(
+>
+> Best Regards,
+> Chen Qi
+>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/distro/include/default-distrovars.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And if we remove " -fno-omit-frame-pointer" from CFLAGS, things work.
+CFLAGS_remove_pn-glibc_x86 = " -fno-omit-frame-pointer"
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 84cdaca..fac4deb 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -23,7 +23,7 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
- IMAGE_FEATURES ?= ""
- 
- WHITELIST_GPL-3.0 ?= ""
--LGPLv2_WHITELIST_GPL-3.0 ?= "libassuan libidn"
-+LGPLv2_WHITELIST_GPL-3.0 ?= "libidn"
- 
- COMMERCIAL_AUDIO_PLUGINS ?= ""
- # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
--- 
-1.9.1
-
+Regards,
+Chen Qi
 
