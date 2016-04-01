@@ -1,48 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id ABE7773695
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id CCF79760A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 14:21:14 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id f52so1106973qga.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Apr 2016 07:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2N3NehKRQxKlqw6Q+uBxUi1TUJAsPQxZmPP+CYVW/jU=;
-	b=gCMwd4y3LQpbr3ZOT0QKuYRzAIxuCnvqzlZKGgLjYShlB/Nrb5867DVdTDbCanZ9cQ
-	qEvkAXVA0/30XxCaVxtvNXnjTeTE43OarL5G13iNPSTOSVbmq7+7ojNO72Nzsv6o06S2
-	jdjkKDgsBiWUQONPhdGY1FzGue5KzmrbNc4xj4XirqAwE6fcyXun+2QP1DxI/VlJpWwZ
-	CCFnoqdfXpmRsChJXEQUl8dxKjS6k6Dzb7/7xNf+1WXVCqmGDasToJ861DJT9GNpp40W
-	/w8pRAOgEPyJSAjoNK8P83HZ2aJdMkXh6O4IFGmfJLfxYofxXGsoHQbzcKwS/woPKI2T
-	e/RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2N3NehKRQxKlqw6Q+uBxUi1TUJAsPQxZmPP+CYVW/jU=;
-	b=I9F49AIbSzfR60rV9DKV0R+S0zx7R6O24/YQI+mU7O3ui3rOvMOMUHv8ADPJkVyt+i
-	Ec1co3uvnREKRb4drmbgKZuWykW9G1b64T5aP1PZEbU87UbPyCsuGrR21N69RQLT1KGT
-	K9rfNvB5Eu1d7gzVvbVea8NQ1dAyaxDXhXFxH5UiYLaZDUnz4GndKZ/PNXqReGlpdCvR
-	VmN/1KeQuTjIYvGIb5Gu+oZ9c2pPgoclGrB7FLoM1+DfDcVUpZ+0p4fieE4NdvZz07Xk
-	jK0qZz2kOcVuZ8jnAotCSunPklQ7gzz1r0wLS6th6BoY4mQL5mjMwRPKHvly1k40pDTw
-	i4NA==
-X-Gm-Message-State: AD7BkJIIwqX9uDwxxuBl+n/qZn6mEQ+moK/Uaf30452T/e0hD9tZLML4cqTJWxCq7m9+GxXtUd9wnoZjUCCj6w==
-X-Received: by 10.140.100.244 with SMTP id s107mr24405386qge.19.1459520474957; 
-	Fri, 01 Apr 2016 07:21:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Fri, 1 Apr 2016 07:20:45 -0700 (PDT)
-In-Reply-To: <CANwerB3q0tnyeqGGYddsZQ5CE4yDC6znL3NY8oJXLMOU4u9fTQ@mail.gmail.com>
-References: <1459039503-5526-1-git-send-email-net147@gmail.com>
-	<CAMKF1sqV+PeZZvH1Am-MEs-f3e4JtENPdX=ByDesatb3EGM76Q@mail.gmail.com>
-	<CANwerB3q0tnyeqGGYddsZQ5CE4yDC6znL3NY8oJXLMOU4u9fTQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Apr 2016 07:20:45 -0700
-Message-ID: <CAMKF1srusBXY=OpSFgw+jxtQrJOWQpn0GezTCbP=nN3Bs+VaiA@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb-cross-canadian: disable conflicting PACKAGECONFIG variables
+	Fri,  1 Apr 2016 14:31:42 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u31EVgnF020681 for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Apr 2016 09:31:43 -0500
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016040109314340-464340 ;
+	Fri, 1 Apr 2016 09:31:43 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 1 Apr 2016 17:31:19 +0300
+Message-Id: <18546c4acf904968012b1861fac052bc72e55e09.1459520938.git.adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.7.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 04/01/2016 09:31:43 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 04/01/2016 09:31:43 AM,
+	Serialize complete at 04/01/2016 09:31:43 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-04-01_06:, , signatures=0
+Subject: [PATCH 1/2] isoimage-isohybrid.py: use glob to find initramfs location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,18 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 14:21:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 01 Apr 2016 14:31:45 -0000
 
-On Fri, Apr 1, 2016 at 4:42 AM, Jonathan Liu <net147@gmail.com> wrote:
->>> -EXTRA_OECONF_append = " --with-python=${WORKDIR}/python"
->>> +EXTRA_OECONF += "--with-python=${WORKDIR}/python"
->>
->> should this point to a valid python location ?
->
-> ${WORKDIR}/python is created by do_configure_prepend()
->
+Some filenames can omit 'initramfs', or use other names. This makes
+detection more flexible by using only the image name, machine arch and
+image type in a glob wildcard.
 
-Will it look for this location during execution ?
-and will it work when gdb-cross is built from sstate into a different workdir ?
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 31dc9b6..de99ad8 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -23,6 +23,7 @@
+ import os
+ import re
+ import shutil
++import glob
+ 
+ from wic import msger
+ from wic.pluginbase import SourcePlugin
+@@ -150,8 +151,7 @@ class IsoImagePlugin(SourcePlugin):
+             if not machine_arch:
+                 msger.error("Couldn't find MACHINE_ARCH, exiting.\n")
+ 
+-            initrd = "%s/%s-initramfs-%s.%s" \
+-                    % (initrd_dir, image_name, machine_arch, image_type)
++            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, machine_arch, image_type))[0]
+ 
+         if not os.path.exists(initrd):
+             # Create initrd from rootfs directory
+-- 
+2.7.4
+
 
