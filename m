@@ -1,20 +1,30 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A0E0760AD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AEF2E760AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 16:49:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2016 09:49:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,427,1455004800"; d="scan'208";a="923530828"
-Received: from wcrandle-mobl1.amr.corp.intel.com ([10.254.35.3])
-	by orsmga001.jf.intel.com with ESMTP; 01 Apr 2016 09:49:16 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Apr 2016 09:49:12 -0700
-Message-Id: <1459529352-18287-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCHv2] insane.bbclass: avoid false positives on library location
+	Fri,  1 Apr 2016 17:02:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u31H1igF024710 for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Apr 2016 18:02:13 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sNRLUEX7TLuc
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Apr 2016 18:02:13 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u31H27Lx024730
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Apr 2016 18:02:08 +0100
+Message-ID: <1459530127.7348.30.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 01 Apr 2016 18:02:07 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] base: Fixup PACKAGECONFIG incorrect mappings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,60 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 16:49:16 -0000
+X-List-Received-Date: Fri, 01 Apr 2016 17:02:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-package_qa_check_libdir() reports that the file libsoletta.so.0.0.1-gdb.py
-in /usr/share/gdb/auto-load is in the wrong location. Before generating
-a warning for files in non-standard locations, check that the file is an
-actual elf file (and hence a real library file).
+PACKAGECONFIG doesn't work in cross-canadian recipes at the moment as
+DEPENDS are prepended with mlprefix.
 
-[YOCTO #9215]
+A recipe is either nativesdk, native or target so adjust the if
+statements accordingly, use inherits_class for more accurate recipe
+classification and add cross-canadian support.
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- meta/classes/insane.bbclass | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 7ac945d..c57b217 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -318,6 +318,9 @@ def package_qa_check_libdir(d):
- 
-     messages = []
- 
-+    # The re's are purposely fuzzy, as some there are some .so.x.y.z files
-+    # that don't follow the standard naming convention. It checks later
-+    # that they are actual ELF files
-     lib_re = re.compile("^/lib.+\.so(\..+)?$")
-     exec_re = re.compile("^%s.*/lib.+\.so(\..+)?$" % exec_prefix)
- 
-@@ -342,10 +345,22 @@ def package_qa_check_libdir(d):
-                 rel_path = os.sep + rel_path
-                 if lib_re.match(rel_path):
-                     if base_libdir not in rel_path:
--                        messages.append("%s: found library in wrong location: %s" % (package, rel_path))
-+                        # make sure it's an actual ELF file
-+                        elf = oe.qa.ELFFile(full_path)
-+                        try:
-+                            elf.open()
-+                            messages.append("%s: found library in wrong location: %s" % (package, rel_path))
-+                        except (oe.qa.NotELFFileError):
-+                            pass
-                 if exec_re.match(rel_path):
-                     if libdir not in rel_path and libexecdir not in rel_path:
--                        messages.append("%s: found library in wrong location: %s" % (package, rel_path))
-+                        # make sure it's an actual ELF file
-+                        elf = oe.qa.ELFFile(full_path)
-+                        try:
-+                            elf.open()
-+                            messages.append("%s: found library in wrong location: %s" % (package, rel_path))
-+                        except (oe.qa.NotELFFileError):
-+                            pass
- 
-     if messages:
-         package_qa_handle_error("libdir", "\n".join(messages), d)
--- 
-2.5.0
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 85d6bc4..02429dd 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -398,11 +398,11 @@ python () {
+             if not appends:
+                 return
+             if varname.find("DEPENDS") != -1:
+-                if pn.startswith("nativesdk-"):
++                if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('cross-canadian', d) :
+                     appends = expandFilter(appends, "", "nativesdk-")
+-                if pn.endswith("-native"):
++                elif bb.data.inherits_class('native', d):
+                     appends = expandFilter(appends, "-native", "")
+-                if mlprefix:
++                elif mlprefix:
+                     appends = expandFilter(appends, "", mlprefix)
+             varname = d.expand(varname)
+             d.appendVar(varname, " " + " ".join(appends))
+
 
 
