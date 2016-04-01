@@ -1,22 +1,50 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (mx-3.enea.com [192.36.1.72])
-	by mail.openembedded.org (Postfix) with SMTP id C429E760AC
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D0ABF6AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Apr 2016 11:50:55 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0; Fri, 1 Apr 2016
-	13:46:22 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 3855B28BA23;
-	Fri,  1 Apr 2016 13:46:22 +0200 (CEST)
-From: Tudor Florea <tudor.florea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Apr 2016 13:46:19 +0200
-Message-ID: <1459511180-32068-1-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  1 Apr 2016 12:02:50 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 139so4057834wmn.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Apr 2016 05:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=heb2AS0vZfAQW1jkeQ3YIpaiOMN9G2iMTyVCb1Ub9bY=;
+	b=AXxyUdVLDg6tJmifeT6REITejD1E1af2/Xy8aTjUqFk6gdZU90Ny9VEF7SuSwJ4c0c
+	Pgb9jKnVG+zKm9mTxFl3iOb8MBt3Ast0xp9JpOTJYebz2Kl3XLl+IyDEMDkxIp+dMxFe
+	/ToAeELypRP2MdY5GOfQrmXw2Nv9CDn+at5+JhwnD9nHlq3nBjbZQobsV5P+FzHvediv
+	752s1Hlw9Xrm6aMvfxwA/XgWtBcQ+uxjTEVVljC8ch1dCE8VweLgfN3B0fdp6s+b2bvz
+	wN83qmkg7rMBhZhYY1tgND37BHM8mnaSXsgbyXjCINaIR7rFYshhX4jqYAfw0SjqaYig
+	vmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=heb2AS0vZfAQW1jkeQ3YIpaiOMN9G2iMTyVCb1Ub9bY=;
+	b=FfVZFN1/M0os1+j9eSI6LiIc2ISyO9xmAKQ2ai3X9D6cLghUHR8lIT+SHYOrhOWnYi
+	la5U3kP5Erb1ocTtRoEY4VOVawK37WgPEB5En5zov2S4SEpoJRqEH49EsunM7gyuWHHg
+	ngvWvs63wieedWM9sNPP/F8Fgj3+1HKtK4BihR6/6zU7aUhVUr2Hp3CbwkWIEjUB5onL
+	oifUt93WWlfaXt8K2b67Z8sp/AwCs/oJgdBD/sZZPNOexJLXfCdDVhaUpUXji0QV7EIl
+	JeXQN9+XbpDYGxGCpKINe6a3L1kjNi1ZyVutxp5hKd2mgmZFbLnXSif/EwCOTAnV/0/i
+	bGSA==
+X-Gm-Message-State: AD7BkJLYW3d96yAQYDbPR701akH2ad75E7eSC4GGKtC/5uCXFPrdFePS8GZnjeZt/0DXDQ==
+X-Received: by 10.28.9.71 with SMTP id 68mr3516371wmj.33.1459512171268;
+	Fri, 01 Apr 2016 05:02:51 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id n3sm18012wja.6.2016.04.01.05.02.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Apr 2016 05:02:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 1 Apr 2016 14:03:04 +0200
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20160401120304.GE2567@jama>
+References: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH 1/2] ltp: add periodic output for memcg stress test
+In-Reply-To: <1454270130-11287-1-git-send-email-akuster808@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][jethro] glibc-locale: fix QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,78 +57,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2016 11:50:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 01 Apr 2016 12:02:52 -0000
+X-Groupsio-MsgNum: 80390
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="C94crkcyjafcjHxo"
+Content-Disposition: inline
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
----
- .../ltp/ltp/0034-periodic_output.patch             | 43 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20160126.bb          |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0034-periodic_output.patch
+--C94crkcyjafcjHxo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/ltp/ltp/0034-periodic_output.patch b/meta/recipes-extended/ltp/ltp/0034-periodic_output.patch
-new file mode 100644
-index 0000000..59caefe
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0034-periodic_output.patch
-@@ -0,0 +1,43 @@
-+Add periodic output for long time test.
-+
-+This is needed in context of having scripts running ltp tests and
-+waiting with a timeout for the output of the tests.
-+
-+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-+Upstream-Status: Pending
-+
-+diff -ruN a/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh b/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh
-+--- a/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh	2013-11-08 15:54:09.515049081 +0100
-++++ b/testcases/kernel/controllers/memcg/stress/memcg_stress_test.sh	2013-11-08 22:32:15.587370406 +0100
-+@@ -37,7 +37,8 @@
-+         exit 0
-+ fi
-+ 
-+-RUN_TIME=$(( 60 * 60 ))
-++ONE_MINUTE=60
-++RUN_TIME=60
-+ 
-+ cleanup()
-+ {
-+@@ -62,7 +63,7 @@
-+ # $1 - Number of cgroups
-+ # $2 - Allocated how much memory in one process? in MB
-+ # $3 - The interval to touch memory in a process
-+-# $4 - How long does this test run ? in second
-++# $4 - How long does this test run ? in minutes
-+ run_stress()
-+ {
-+ 	do_mount;
-+@@ -81,7 +82,11 @@
-+ 		eval /bin/kill -s SIGUSR1 \$pid$i 2> /dev/null
-+ 	done
-+ 
-+-	sleep $4
-++	for i in $(seq 0 $(($4-1)))
-++	do
-++		eval echo "Started $i min ago. Still alive... " 
-++		sleep $ONE_MINUTE
-++	done
-+ 
-+ 	for i in $(seq 0 $(($1-1)))
-+ 	do
-diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
-index 720a569..6be2187 100644
---- a/meta/recipes-extended/ltp/ltp_20160126.bb
-+++ b/meta/recipes-extended/ltp/ltp_20160126.bb
-@@ -60,6 +60,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch \
-            file://0032-regen.sh-Include-asm-unistd.h-explicitly.patch \
-            file://0033-shmat1-Cover-GNU-specific-code-under-__USE_GNU.patch \
-+           file://0034-periodic_output.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-1.9.1
+On Sun, Jan 31, 2016 at 11:55:30AM -0800, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+>=20
+> WARNING: QA Issue: glibc-locale: /glibc-binary-localedata-sd-in/usr/lib/l=
+ocale/sd_IN/LC_CTYPE is owned by uid 1000, which is the same as the user ru=
+nning bitbake. This may be due to host contamination [host-user-contaminate=
+d]
 
+FWIW: my last bitbke world build shows few of these:
+glibc-locale-2.23: glibc-locale: /glibc-binary-localedata-ka-ge/usr/lib/loc=
+ale/ka_GE/LC_MEASUREMENT is owned by uid 3004, which is the same as the use=
+r running bitbake. This may be due to host contamination [host-user-contami=
+nated]
+glibc-locale-2.23: glibc-locale: /glibc-binary-localedata-mr-in/usr/lib/loc=
+ale/mr_IN/LC_MEASUREMENT is owned by uid 3004, which is the same as the use=
+r running bitbake. This may be due to host contamination [host-user-contami=
+nated]
+glibc-locale-2.23: glibc-locale: /glibc-binary-localedata-ru-ua/usr/lib/loc=
+ale/ru_UA/LC_MEASUREMENT is owned by uid 3004, which is the same as the use=
+r running bitbake. This may be due to host contamination [host-user-contami=
+nated]
 
+Even with your change already in master.
+
+> fix type
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  meta/recipes-core/glibc/glibc-locale.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core=
+/glibc/glibc-locale.inc
+> index df6d073..2352bd0 100644
+> --- a/meta/recipes-core/glibc/glibc-locale.inc
+> +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> @@ -87,7 +87,7 @@ do_install () {
+>  	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+>  		cp -fpPR ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
+>  	fi
+> -	chown root.root -R ${D}
+> +	chown root:root -R ${D}
+>  	cp -fpPR ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+>  }
+> =20
+> --=20
+> 2.3.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--C94crkcyjafcjHxo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlb+Y3cACgkQN1Ujt2V2gBzlawCeN3XNYbOLDY0K7Tq+mh/FIxUL
+YaIAoIkV6DDxjgw6qEsSfrU2OPCTJB6i
+=rFZy
+-----END PGP SIGNATURE-----
+
+--C94crkcyjafcjHxo--
