@@ -1,52 +1,70 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 26D6976C9F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 85F0477038
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Apr 2016 09:30:12 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id x3so108049577pfb.1
+	Sat,  2 Apr 2016 11:21:11 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id tt10so109640951pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Apr 2016 02:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=GBPKrWbEkigvoAkpuHOu1WWvOftIQFhaa6+o7E7kaxc=;
-	b=khAfSvy86dGioHeb1Xw3W3WlQJHL0g0fzoJHSKCbP1rufMwkrfwplJyalPtAaBb7Q7
-	A63X6bd3Gj586OyWgL8gxdocKev3gndmu68ofBIxc94cM/Yw9ArfZNfhWLzdYam0Omxy
-	YNH3r8rOcuA1D1mPGXciXz5w5P1ZBLo1VlEEznTbv1OFh5xDOFH/C6craFfqwE7lEMVg
-	kq/mOedC3JQGqaZKPqigsB1RHbnZxqw7FP/F1R8tx1CXOc0jGv5Mez8RqFTrYu1wlnTO
-	/BN80mD0qQU0IXUlZFyOgarxZa0Gn/C9K/0Rpq0zeFrFIUQIn1LWpvlqJTdU0uEpKTcE
-	N6XQ==
+	Sat, 02 Apr 2016 04:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=/v/F0uaV7TqTYlBeEG214niux1sXu+0PV6JWhZ1q0OI=;
+	b=avfprw7mVJOkpgUBXZOEwJXxMWtX14kkss3IH63oix/RacAxZf5LFAox+F6HZewzOZ
+	f6qL6JeTk+nUgzQW1qn9E5pP8TMSiwlDqDVDiLC+UHNDeW7p+FKuwTrQdvAhnGOROQyA
+	RFzIub/xBMSte+s+tXz495ETEyKpTSJ2eckoCHUZqd29Ps3k0j8UqFGUgOq7qhAHh5sK
+	OLOicB4EDv3dGQPn1zOkfLUVHwVOlYVryJUFBPe70kpFxAfws1kuxDgEegTCHEQY/Mz/
+	4nNWliOXDab9AWEWoBsYgms4++Np0S2YjFV3w5n0coyiq3MZhjQ+sufmLnmY9iiCTj33
+	27Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=GBPKrWbEkigvoAkpuHOu1WWvOftIQFhaa6+o7E7kaxc=;
-	b=ebgE0nLSbCdLeRbzbbMpjsFmK9+rDOcgPhftl15UuKeAnWZ5Gn4qfuGpRBPin2X9ZE
-	m9njvL750bWm0IZoS8UFIOA2UmwFzKuWurnSUxdeXdKhCgtGfSAGxlfTQUhXl2R6igFT
-	ze8+7gCRIZo4RNEn4KffHyi3lplMGdnhLaGePDaiJ2H3KAckTAKe6mOOV4IlTljnwXTB
-	uUGZvcWCaDcEV+/XX5hzUquXMz5ttlDNOFklYozC8iD941rK/qO1EpSqQAydpciJ15sj
-	Ph55hPqN6YjFqzeLIEDol4Y8skF8oSMpx2pt57e6ZH9j8lQv19Frfzmb9eWKHGFADRUh
-	p7gw==
-X-Gm-Message-State: AD7BkJKdnLm/CjuX/yYqPLDKQhFohSuJC2EeS9ylzrFbpP3Shogirl+/h3dtgxN9HXvHxg==
-X-Received: by 10.98.14.68 with SMTP id w65mr4965610pfi.144.1459589413673;
-	Sat, 02 Apr 2016 02:30:13 -0700 (PDT)
-Received: from [192.168.0.76] (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	17sm25440787pfp.96.2016.04.02.02.30.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 02 Apr 2016 02:30:12 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1459586928.7348.75.camel@linuxfoundation.org>
-Date: Sat, 2 Apr 2016 02:30:02 -0700
-Message-Id: <79CCC584-CCE7-47D5-A8F5-912F1CF3E272@gmail.com>
-References: <CAJ86T=VWi3JQoCs23RqrW95M=z9DszLfgAo3fOT2UaqiJty5jg@mail.gmail.com>
-	<1459586928.7348.75.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3124)
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=/v/F0uaV7TqTYlBeEG214niux1sXu+0PV6JWhZ1q0OI=;
+	b=dFHDRebCJGO3CXDPAdZpUFJGyJgV+V5qp9sMv4aUoyBEoGGUI+A5wc/4J2hZBe7fIo
+	Rcz8HTX0eFVUcnMEWA7FXvsXz6oxreCxkcZiGU5ei623K25z0NlUCDqPBs5d7Nllj3P1
+	xhBXYDvlEQzqb9Rt72+bnQfuWO/juR+R1h/ZGDJeKPYOZue0dy0GcrTnEsKJraFJobYW
+	dd1s2qBrzM8polnGfkJ7LfduWHKB5YMCr3wcggQmChbZQ9ARw7RCSEK9V/eHgG5rRDt6
+	9VX7ugnjT/rpgQ/oHWV+3Z+iXFivBPHA7AOy2DghREsID1O+nclNBQ+jgK2rDRP+2JiY
+	mrdQ==
+X-Gm-Message-State: AD7BkJLwQapuQ/V+7kNw46ETzkhoZG5PAygt9aJuKkWhTg2H/XNRgOjSM8YvAe3pMinljg==
+X-Received: by 10.66.118.166 with SMTP id kn6mr10533065pab.33.1459596072702;
+	Sat, 02 Apr 2016 04:21:12 -0700 (PDT)
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com.
+	[209.85.220.41]) by smtp.gmail.com with ESMTPSA id
+	w27sm26279692pfa.67.2016.04.02.04.21.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Apr 2016 04:21:11 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f41.google.com with SMTP id tt10so109640565pab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 02 Apr 2016 04:21:11 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.66.251.10 with SMTP id zg10mr38043674pac.1.1459596070606;
+	Sat, 02 Apr 2016 04:21:10 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Sat, 2 Apr 2016 04:21:10 -0700 (PDT)
+In-Reply-To: <CAJ86T=VQxvgYomwYScxG3Ht__bnJT5nysJeAiKVKWSeJ_6=NDw@mail.gmail.com>
+References: <1459178969-23397-1-git-send-email-daniel.dragomir@windriver.com>
+	<1459203003.2322.29.camel@pbcl.net>
+	<87103DB9-1813-4A3B-A68D-9BDC572BC588@gmail.com>
+	<56FBF8CA.20809@windriver.com>
+	<0D55B52F-DFC8-4E25-A7E7-AAEEE683894B@gmail.com>
+	<CAJ86T=WfMfoXjabaN0+9u52Jxy4d+HXnaJv2Hii+TEtr0JohNw@mail.gmail.com>
+	<6065832E-762D-413F-AE15-9B743371EF93@gmail.com>
+	<CAJ86T=V8ftVDVY498MULYspLE57JvzPCOgQhCk_hp-8UbTuBEg@mail.gmail.com>
+	<1459377982.2322.57.camel@pbcl.net>
+	<CAJ86T=XShqiCRiZan9s4kimpBdejqjRYCHei7aXfv5xfbcpUmA@mail.gmail.com>
+	<CAP9ODKpWv6eEGqnnAoqog822avKJLWLErh0aaJfZ1uhBy4d8SA@mail.gmail.com>
+	<CAJ86T=VQxvgYomwYScxG3Ht__bnJT5nysJeAiKVKWSeJ_6=NDw@mail.gmail.com>
+Date: Sat, 2 Apr 2016 08:21:10 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqfv40aWk-hTief9_v7pVsi6f-kLsjiaHpDe9W_d+TVaQ@mail.gmail.com>
+Message-ID: <CAP9ODKqfv40aWk-hTief9_v7pVsi6f-kLsjiaHpDe9W_d+TVaQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Staging machine specific kernel headers in sysroot
+Subject: Re: [PATCH] ARMv8-A: Add tune for AArch32 state and AArch64 state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,87 +77,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Apr 2016 09:30:13 -0000
-X-Groupsio-MsgNum: 80427
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CE4EF7B1-A9E3-497A-8A2A-64C5448CE541";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sat, 02 Apr 2016 11:21:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_CE4EF7B1-A9E3-497A-8A2A-64C5448CE541
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+On Fri, Apr 1, 2016 at 7:03 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> The floor is still open for discussion for 2.2. One initial question
+> seems to be whether we're aiming for a point solution for armv8a or a
+> wider ranging cleanup?
 
+I think we ought to work on a solution for armv8a and basing on that
+we can clean up the other things.
 
-> On Apr 2, 2016, at 1:48 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Fri, 2016-04-01 at 20:38 -0700, Andre McCurdy wrote:
->> Say I have a kernel driver with a user space API (simple struct and
->> ioctl definitions) defined in a header file which is part of my
->> machine specific kernel. The header file is not found in the upstream
->> kernel, so doesn't clash with anything in linux-libc-headers.
->>=20
->> Is it OK to use something like the following in my kernel recipe?
->>=20
->>  sysroot_stage_all_append () {
->>    install -d ${SYSROOT_DESTDIR}/${includedir}/linux
->>    install -m644 ${S}/include/linux/foo.h
->> ${SYSROOT_DESTDIR}/${includedir}/linux/
->>  }
->>=20
->> I've tested it and everything seems to work fine, but I'm wondering
->> if
->> bypassing do_install like that is going to cause problems somehow?
->=20
-> You can probably just do it in do_install to be honest, then on target
-> development would also work.
->=20
-> The trouble we usually have is that people expect more and more kernel
-> headers to be installed/usable (e.g. to build complete modules =
-against)
-> until we have a complete build of the kernel there, at which point you
-> really want to use the kernel shared work directory instead. We did
-> pretty much the full circle on that.
->=20
-> Or people go the other route and hack linux-libc-headers to install
-> their header as well, and then the whole system including the compiler
-> becomes machine specific. I appreciate you're not doing that, I just
-> want this answer to mention it as that is a much worse idea and the
-> comments in that recipe reflect some bad experiences for good reason.
->=20
-> So in summary, you can probably do that reasonably safely, on the
-> understanding that any user of that header will also become machine
-> specific with a kernel build dependency. There is risk of overlap if
-> upstream do create such a header or API but its probably not a huge
-> deal.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-if its really not to be treated as global kernel UAPI then wouldn=E2=80=99=
-t it be
-better to inherit kernelsrc and access it relative to STAGING_KERNEL_DIR =
-?
-if you put it in UAPI namespace doesn't matter which recipe brings it in
-the SDKs will get those APIs regardless who puts it there so you still =
-have
-the global UAPI namespace contamination that you are trying to avoid in
-first place.
-
-
-
---Apple-Mail=_CE4EF7B1-A9E3-497A-8A2A-64C5448CE541
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlb/kSQACgkQuwUzVZGdMxT17gCfXGLbgDlHXRoBVdGOK8N7vuGT
-CD0An3u/Bs1VzxzLF6o1IYHEDXGaNvUB
-=tnwQ
------END PGP SIGNATURE-----
-
---Apple-Mail=_CE4EF7B1-A9E3-497A-8A2A-64C5448CE541--
