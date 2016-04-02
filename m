@@ -1,26 +1,41 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BE6A7709E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 125216FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Apr 2016 00:09:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3209a5V009229
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 1 Apr 2016 17:09:36 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 1 Apr 2016 17:09:36 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 1 Apr 2016 20:09:26 -0400
-Message-ID: <49adf038de6dab1fc9ed745789228eb17ee24465.1459555221.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1459555221.git.bruce.ashfield@windriver.com>
-References: <cover.1459555221.git.bruce.ashfield@windriver.com>
+	Sat,  2 Apr 2016 03:38:13 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id k79so96872649lfb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Apr 2016 20:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to;
+	bh=PyJZdUZOGBna08c8Y5YlTT06G+gQwFntFpBFwKighCM=;
+	b=eM0REjJRd1AWuDo1lx8jpiajEEhPYkAwOJZneLvblD+1yfJeYOYkZixZkrrTY8D0dZ
+	vrNjygronf5LwllsGhZpx9d0+MnaoET/xoPDBgvCFWausnHCPitDLH7+9tfXSeoPPCs9
+	6yRAkJsl0vsdJ62aNSvUAdFy2K1o2Ny8NPB7/iGOUgdmVzM28wCy6G6yKymxaJ1MTjUH
+	UVUqZqCiUaxMrooa3pplxtUhxPERp2oHRhZSG0JoYr7GICq9jqYQMfY+te7JW6NGhG8U
+	HnnER+lGd2VRj1lHVt5jGcdGSFefPrHzk3GZ0Nelty8ILw4srr92eo7/DOpENPoJTBtS
+	B27g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+	bh=PyJZdUZOGBna08c8Y5YlTT06G+gQwFntFpBFwKighCM=;
+	b=fRxbAKOOpPZbZuJnIOv7wuPHB4BpK8OpLDcAbKUL9X1+QcUFAdQKYlw1Sx36A6G6Ay
+	9psFLl6b4ex09t5V+H/xuqVRF/13LZZOBpqVmCxDbgQCU+2yvGLYUX9juTgGPI4h42Ho
+	M9XDsH7IEFomdp4L1euQfvzWAU0VqwVA9MOfWcJP/E746RfslwWSdKVgmaRwN32cdKvr
+	YVYD7t3fGpuPWzdtM/qvnFkcqW3cZ4RARYf48h2gAu0Q9wjz1hkF+5ykG2VGJxxVMPj6
+	nAWuj26RiDaU3sVHcJiKVWFAbwYRTru+iCyRHOw1wTTG870OCrsl5ecRSXYawAux0fZy
+	j9MA==
+X-Gm-Message-State: AD7BkJJ4lMpxRm5n29DSMN4opUDw/egfICAMSCR/Ql/JCX7KmjUzRXJ4DB8SRNBG8IVakAgYR8asVtV7jj99gg==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/8] kernel-yocto: enforce SRC_URI specified branch
+X-Received: by 10.194.242.202 with SMTP id ws10mr3143374wjc.3.1459568293318;
+	Fri, 01 Apr 2016 20:38:13 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Fri, 1 Apr 2016 20:38:13 -0700 (PDT)
+Date: Fri, 1 Apr 2016 20:38:13 -0700
+Message-ID: <CAJ86T=VWi3JQoCs23RqrW95M=z9DszLfgAo3fOT2UaqiJty5jg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Staging machine specific kernel headers in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Apr 2016 00:09:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 02 Apr 2016 03:38:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-During the simplication and cleanup of branches and kernel meta data
-handling, the ability to force build a branch that didn't match the
-meta data was dropped.
+Say I have a kernel driver with a user space API (simple struct and
+ioctl definitions) defined in a header file which is part of my
+machine specific kernel. The header file is not found in the upstream
+kernel, so doesn't clash with anything in linux-libc-headers.
 
-There are valid uses cases when a different branch should be built
-(testing, development, etc), so we restore the capability with this
-change.
+Is it OK to use something like the following in my kernel recipe?
 
-If after the kernel meta data is processed the current branch does
-not match the SRC_URI specified branch, a warning is generated
-about the impending branch switch and that the user should double
-check that they are building what they expect.
+  sysroot_stage_all_append () {
+    install -d ${SYSROOT_DESTDIR}/${includedir}/linux
+    install -m644 ${S}/include/linux/foo.h
+${SYSROOT_DESTDIR}/${includedir}/linux/
+  }
 
-  WARNING: After meta data application, the kernel tree branch is standard/base. The
-  WARNING: SRC_URI specified branch standard/gt. The branch will be forced to standard/gt,
-  WARNING: but this means the board meta data (.scc files) do not match the SRC_URI specification.
-  WARNING: The meta data and branch standard/gt should be inspected to ensure the proper
-  WARNING: kernel is being built.
-
-Reported-by: Steve Sakoman" <steve.sakoman@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel-yocto.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 6a6a3a31d904..f86b3ef011a3 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -170,6 +170,17 @@ do_patch() {
- 		fi
- 	fi
- 
-+        current_branch=`git rev-parse --abbrev-ref HEAD`
-+        machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
-+        if [ "${current_branch}" != "${machine_branch}" ]; then
-+            bbwarn "After meta data application, the kernel tree branch is ${current_branch}. The"
-+            bbwarn "SRC_URI specified branch ${machine_branch}. The branch will be forced to ${machine_branch},"
-+            bbwarn "but this means the board meta data (.scc files) do not match the SRC_URI specification."
-+            bbwarn "The meta data and branch ${machine_branch} should be inspected to ensure the proper"
-+            bbwarn "kernel is being built."
-+            git checkout -f ${machine_branch}
-+        fi
-+
- 	if [ "${machine_srcrev}" != "AUTOINC" ]; then
- 		if ! [ "$(git rev-parse --verify ${machine_srcrev}~0)" = "$(git merge-base ${machine_srcrev} HEAD)" ]; then
- 			bberror "SRCREV ${machine_srcrev} was specified, but is not reachable"
--- 
-2.5.0
-
+I've tested it and everything seems to work fine, but I'm wondering if
+bypassing do_install like that is going to cause problems somehow?
 
