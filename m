@@ -1,48 +1,31 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 67FAD76E3F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DDBF76A51
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Apr 2016 22:54:56 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id s79so46174414oie.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Apr 2016 15:54:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=Ntl/hOfqH8EWqqTfpwneILfR3kncRP0rKfjVNeupAYk=;
-	b=FnkZsChD+vg6jFx69M5ILS2/tJFQVW8Isa+0pedjTXslcpumI4zqDpOMsJVDdulzKv
-	3uepE8mmxzDGjydLxp4qyQ7Tduo+10a4mREDSCVmS5pV02JI3cBq/R9CzVHaXg1UujcF
-	2p4BFKyiWdP9uHGg88yb36WtcTSPwitRI5H3d8jfCq1KWCBCgWfEBz2DTgp6KG6kOipx
-	koYFznMXdpliHcQc1Ua2yjTSwgA4AlnZ311O+LyUlBhuSkL/Kj6Yhni7f88EJ8AP2LyP
-	PIKMF7GJ5Wgej/ewv7kKoEljrWjRO7C7JcN/b9X2K1eV0qs7Uqgm4QETtBoGBhdGcDVd
-	C1Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=Ntl/hOfqH8EWqqTfpwneILfR3kncRP0rKfjVNeupAYk=;
-	b=f2qJ5yy2giWko9Jqi+kPLHeB7/66g+UqlVRuZR1IiImy8Rbi5S4Lu+A7gBid8tYM7a
-	5WpeIiIuubk4bYToqvc8ofce6jTzXE+jDr6sqfINCTWiVDynx/+Mzfop4DDFeIreZN1W
-	X1ZNvGF49KO5Ctx0Gq5iBzqLbLLtQUb7ZBjCsgI4JpudsMAJdaRJ3yA45bX1aJiHY7d+
-	L3CpawgppToGWyEZbabAo4Alm7gMeecUUJmxEFvjyfC3PUN5pCa2rRHSwWJdrOBWVD7l
-	A+JmdQuQdhIEa/dJm1613JMCLx1LyBu1LTJAuZdbqawNpV+XE5zxpsxkNaauhpG+AaPO
-	Jg8Q==
-X-Gm-Message-State: AD7BkJKD5nh/EGvxvRzwO0UsGnd9/k2BShTaJEmNHYAf9NAK4b5dC86rZRjA6P1hPbUf8WE/5LEiA4t7GPupbg==
-MIME-Version: 1.0
-X-Received: by 10.157.27.155 with SMTP id z27mr8223572otd.99.1459724096683;
-	Sun, 03 Apr 2016 15:54:56 -0700 (PDT)
-Received: by 10.157.5.203 with HTTP; Sun, 3 Apr 2016 15:54:56 -0700 (PDT)
-In-Reply-To: <CAMKF1sp_yzu2KnHvN_4R0+-_cfhp9i_J4t=-mNcj5nyif4dWJg@mail.gmail.com>
+	Sun,  3 Apr 2016 23:00:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u33N0tIt003061; Mon, 4 Apr 2016 00:00:55 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id TuKjaplEXkhE; Mon,  4 Apr 2016 00:00:55 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u33N0of9003058
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 4 Apr 2016 00:00:52 +0100
+Message-ID: <1459724450.7348.146.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Date: Mon, 04 Apr 2016 00:00:50 +0100
+In-Reply-To: <CAEHkU3VUnh78uOWRT2gYhAR5QOxYGDnc6J8RAsqkEkyj31HWfA@mail.gmail.com>
 References: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
 	<1459719934.7348.141.camel@linuxfoundation.org>
-	<CAMKF1sp_yzu2KnHvN_4R0+-_cfhp9i_J4t=-mNcj5nyif4dWJg@mail.gmail.com>
-Date: Mon, 4 Apr 2016 00:54:56 +0200
-Message-ID: <CAEHkU3XgovQPm6dq5EKGx6RJPMUxvKfBuYEjxg3Kw6hp9WJtbg@mail.gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAEHkU3VUnh78uOWRT2gYhAR5QOxYGDnc6J8RAsqkEkyj31HWfA@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [oe][Patch] package.bbclass: fix host contamination warnings for source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,94 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Apr 2016 22:54:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 03 Apr 2016 23:00:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Khem
+On Mon, 2016-04-04 at 00:51 +0200, Max Krummenacher wrote:
+> 2016-04-03 23:45 GMT+02:00 Richard Purdie <
+> richard.purdie@linuxfoundation.org>:
+> > On Sun, 2016-04-03 at 22:57 +0200, Max Krummenacher wrote:
+> > How about passing --owner=0:0 to cpio?
+> 
+> That was my first try, it didn't help.
+> I'm also not sure if do_package() is executed under pseudo by
+> default.
 
-2016-04-03 23:53 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
->
-> On Apr 3, 2016 2:45 PM, "Richard Purdie"
-> <richard.purdie@linuxfoundation.org> wrote:
->>
->> On Sun, 2016-04-03 at 22:57 +0200, Max Krummenacher wrote:
->> > Addresses https://bugzilla.yoctoproject.org/show_bug.cgi?id=8939
->> >
->> > Source files deployed with the *-dbg packages are owned by the user
->> > running bitbake leading to warnings as the one below.
->> >
->> > WARNING: glibc-2.23-r0 do_package_qa: QA Issue: glibc: /glibc
->> > -dbg/usr/src/debug/glibc/2.23-r0/git/include/resolv.h is owned by uid
->> > 1000, which is the same as the user running bitbake. This may be due
->> > to host contamination
->> > glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/monetary.h
->> > is owned by uid 1000, which is the same as the user running bitbake.
->> > This may be due to host contamination
->> > glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/locale.h is
->> > owned by uid 1000, which is the same as the user running bitbake.
->> > This may be due to host contamination
->> > ...
->> >
->> > The files are copied as part of the do_package task.
->> > The patch chowns all file in packages/usr/src after cpio copied them
->> > into the
->> > package directory.
->> >
->> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
->> > ---
->> >
->> >
->> >  meta/classes/package.bbclass | 23 +++++++++++++++++++++++
->> >  1 file changed, 23 insertions(+)
->> >
->> > diff --git a/meta/classes/package.bbclass
->> > b/meta/classes/package.bbclass
->> > index bdbe96d..d9ef62c 100644
->> > --- a/meta/classes/package.bbclass
->> > +++ b/meta/classes/package.bbclass
->> > @@ -362,6 +362,7 @@ def copydebugsources(debugsrcdir, d):
->> >      # and copied to the destination here.
->> >
->> >      import stat
->> > +    import subprocess
->> >
->> >      sourcefile = d.expand("${WORKDIR}/debugsources.list")
->> >      if debugsrcdir and os.path.isfile(sourcefile):
->> > @@ -410,6 +411,28 @@ def copydebugsources(debugsrcdir, d):
->> >          if retval:
->> >              bb.fatal("debugsrc symlink fixup failed with exit code
->> > %s (cmd was %s)" % (retval, cmd))
->> >
->> > +        # cpio --no-preserve-owner does not create the destination
->> > files with
->> > +        # owner root even when run under pseudo, chown them
->> > explicitely.
->>
->> How about passing --owner=0:0 to cpio?
->>
->> I'm a little worried about why I don't see this failure on my own local
->> builds.
->
-> Can you dump the dbg rpm from poky and see if the flagged file is there ?
-I checked this with -c package followed by -c devshell.
-In poky they source files are missing, in angstrom they are in
-${WORKDIR}/package/usr/src
-but with the 'wrong' owner.
+do_package is definitely run under pseudo.
 
-Regards
-Max
+> Also since the command is a pipeline, I don't know if pseudo is
+> propagated from one command to the next.
 
->>
->> We have a few cases where things sometimes seem to work out and
->> sometimes don't and I'd love to get to the bottom of how to reproduce
->> it and to understand why its different for different people.
->>
->> Cheers,
->>
->> Richard
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+It almost certainly does stay around. Its one of the reasons I found
+the fakeroot changes in your patch odd.
+
+> Actually I feel a bit as a sorcerer apprentice when it comes to
+> python/pseudo/packaging.
+> 
+> > 
+> > I'm a little worried about why I don't see this failure on my own
+> > local
+> > builds.
+> I added some text to bugzilla. The gist is: In poky the sources are
+> not deployed.
+
+I don't understand that. If you mean playing sources in the -dbg
+packages, poky does that too. Is there some specific configuration
+Angstrom makes which triggers this?
+
+There was a bug in master recently which broke source file deployment
+into -dbg packages but that was a bug everywhere which was then fixed
+when we realised.
+
+> No source files, no wrong ownership.
+> 
+> What I did is doing a repo setup of angstrom master.
+> 
+> Removed the following from bblayers.conf because of parsing errors:
+>   ${TOPDIR}/sources/meta-uav
+>   ${TOPDIR}/sources/meta-kde4
+>   ${TOPDIR}/sources/meta-edison
+>   ${TOPDIR}/sources/meta-atmel
+>   ${TOPDIR}/sources/meta-minnow
+>   ${TOPDIR}/sources/meta-altera
+> 
+> And then:
+> . setup-environment qemux86
+> bitbake core-image-minimal
+> 
+> Regards
+> Max
+
+Cheers,
+
+Richard
 
