@@ -1,48 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B2F1776F8C
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 268B37680A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Apr 2016 21:53:57 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id f52so39324294qga.3
+	Sun,  3 Apr 2016 22:51:28 +0000 (UTC)
+Received: by mail-ob0-f181.google.com with SMTP id fp4so85012009obb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Apr 2016 14:53:59 -0700 (PDT)
+	Sun, 03 Apr 2016 15:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=HYgUdFounvPU+tGYVypfNUb3vc7j6v5YIcyfov7B0T4=;
-	b=SWVYcOHOCfXZuLN6s5C9/T3MTQlV1M7uv3UdMPS7BTbWjO779p78EAJ+iBp0J2F383
-	MF6Dy0rvcW7ZwOzEFjUaH5dymRUZvwQMoaeJ1vquYuzj3vZ691o2TUxrKE8G5RYpjMFs
-	7vpC8sKeRtSRegAkF+/ltEUAVVJ8XtnS+WEyBoNbKtFIqHs5XvON46PuSI8HTg03/Qov
-	2s3rrJLHa+xmAiWsWyXaPx8ebbkq7TbTYbairJ6Q1Iyhf+yLRqu2AqOPLHhlu95DUEOq
-	gEnWgU8nm+gvhU5Lg85Ps7XKET1cbvui607p7VS2YBJtT8HWqtu5N5sQIeSDCgfcz6Ho
-	MTRw==
+	:cc; bh=VuIg1b/mwJu29T5o134M53KF/OKkjuAk0MclbuGZkjw=;
+	b=Wz7yfd8HuXMlHi3m+CvJQfIhLn1BE5cM9JjbuQoNULcPhxy/U2rVvb2xR+lCduBsJD
+	ELIRh6BeXdE25/28EALY2v7JpBMDAwqqq2mDABFq8Fmd/8ZKnEo414LRllR3xCqfVpN0
+	U4juJI+9ARHsYGm++ThkmPGrk+RoJdv8tB98kCuhWJ/kqDQxFnRINpX65FHpfXHcXHju
+	pxPvCO2H3IqHi4ojLRvNQ/Q7nS0Wd0CbQCb3GXmLX62g6PxBmgIjfUfp9/UIu1IOaSDH
+	ynPXwb1Tiahugd23kALM1Dgql/sD6JJwO4Gce9/9aNWTb/VTnws5gkFHMdpWYk/1IpYf
+	fmHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=HYgUdFounvPU+tGYVypfNUb3vc7j6v5YIcyfov7B0T4=;
-	b=k+wejxZqlqMRlLi0e2rrngCxNa9fSeWjU7UpUZCRs2IR9cZKFqeYMrmL24JPoZYkih
-	gTUPhj3Iuuk7DvPv9uIR3MAGbT5SoaKe+GGVnEuwBu5ItiMIYZvwx61mAs3WQM1yS/az
-	tSifGnXZPiCGa5OClNCXaeWyeJytRiQwsiHkCF8wpMRjvSh87EmOV9rOaSNPXSnpXcqn
-	Ura5gYy6WjisB+G39Wfnu1c+e9gDcZJrRMmeU4LZjOVHu0lyWqiChSjmi7FtlHNeAYcm
-	PzxH86b79NlQiWBpWsltYVK33Vo/9EPnmyL9v6PE7PHr7sSi4nt5XKiZFSQyS40jjM6b
-	SZjQ==
-X-Gm-Message-State: AD7BkJJIbDyS3WGlr0Qr5nsgFNcU8wgrd3/owAE9hmSLIzhEivsdlLLRxDizcOB+tfkDEOLYcpc5PSaAToaz+g==
+	bh=VuIg1b/mwJu29T5o134M53KF/OKkjuAk0MclbuGZkjw=;
+	b=cRysGBawX3V/K9UR8iUAEK5pKizdocycuVsLqS3TQ0anQfHs6Yze/hQU3oX5KimS9J
+	2qfVg142duunuw3jt2KsB4Sl5/65Pvc2TX9CVuyNgKxzwPR7iN8AncWG6WKOd6fWhHHY
+	FY3CGleKfFEVdytU6y/f4rfI91JXW9sGbNLutdw63KFyyh0OBt45J4vmKQNaJbF8mboT
+	xh08uRiNtma4xM59NyL3xfljIZ6LnK8VmONQuxSknH5FyoG3HKKRuakRUizAxR6DOl1f
+	V8/08GKRXIrIG9u6UbWLyT1HIHT1qJjCAVrZdUf1+tkgJSPtby2Nx8ZUdV28yr+oS7vK
+	LGvg==
+X-Gm-Message-State: AD7BkJJYIo1ZiLg8i7hHrAuV5L0WQYvMvzY+PKy4Y7d83FPMh4xHrC43c70Dkakfixf3SIDUKQaSkUCnkDDnNA==
 MIME-Version: 1.0
-X-Received: by 10.140.148.134 with SMTP id 128mr10419981qhu.98.1459720438513; 
-	Sun, 03 Apr 2016 14:53:58 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Sun, 3 Apr 2016 14:53:57 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Sun, 3 Apr 2016 14:53:57 -0700 (PDT)
+X-Received: by 10.60.129.166 with SMTP id nx6mr2649582oeb.13.1459723889316;
+	Sun, 03 Apr 2016 15:51:29 -0700 (PDT)
+Received: by 10.157.5.203 with HTTP; Sun, 3 Apr 2016 15:51:29 -0700 (PDT)
 In-Reply-To: <1459719934.7348.141.camel@linuxfoundation.org>
 References: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
 	<1459719934.7348.141.camel@linuxfoundation.org>
-Date: Sun, 3 Apr 2016 14:53:57 -0700
-Message-ID: <CAMKF1sp_yzu2KnHvN_4R0+-_cfhp9i_J4t=-mNcj5nyif4dWJg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 4 Apr 2016 00:51:29 +0200
+Message-ID: <CAEHkU3VUnh78uOWRT2gYhAR5QOxYGDnc6J8RAsqkEkyj31HWfA@mail.gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [oe][Patch] package.bbclass: fix host contamination warnings for source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,74 +54,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Apr 2016 21:54:00 -0000
-Content-Type: multipart/alternative; boundary=001a1136ff183585a4052f9ba660
-
---001a1136ff183585a4052f9ba660
+X-List-Received-Date: Sun, 03 Apr 2016 22:51:31 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Apr 3, 2016 2:45 PM, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-wrote:
->
+2016-04-03 23:45 GMT+02:00 Richard Purdie <richard.purdie@linuxfoundation.org>:
 > On Sun, 2016-04-03 at 22:57 +0200, Max Krummenacher wrote:
-> > Addresses https://bugzilla.yoctoproject.org/show_bug.cgi?id=8939
-> >
-> > Source files deployed with the *-dbg packages are owned by the user
-> > running bitbake leading to warnings as the one below.
-> >
-> > WARNING: glibc-2.23-r0 do_package_qa: QA Issue: glibc: /glibc
-> > -dbg/usr/src/debug/glibc/2.23-r0/git/include/resolv.h is owned by uid
-> > 1000, which is the same as the user running bitbake. This may be due
-> > to host contamination
-> > glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/monetary.h
-> > is owned by uid 1000, which is the same as the user running bitbake.
-> > This may be due to host contamination
-> > glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/locale.h is
-> > owned by uid 1000, which is the same as the user running bitbake.
-> > This may be due to host contamination
-> > ...
-> >
-> > The files are copied as part of the do_package task.
-> > The patch chowns all file in packages/usr/src after cpio copied them
-> > into the
-> > package directory.
-> >
-> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> > ---
-> >
-> >
-> >  meta/classes/package.bbclass | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/meta/classes/package.bbclass
-> > b/meta/classes/package.bbclass
-> > index bdbe96d..d9ef62c 100644
-> > --- a/meta/classes/package.bbclass
-> > +++ b/meta/classes/package.bbclass
-> > @@ -362,6 +362,7 @@ def copydebugsources(debugsrcdir, d):
-> >      # and copied to the destination here.
-> >
-> >      import stat
-> > +    import subprocess
-> >
-> >      sourcefile = d.expand("${WORKDIR}/debugsources.list")
-> >      if debugsrcdir and os.path.isfile(sourcefile):
-> > @@ -410,6 +411,28 @@ def copydebugsources(debugsrcdir, d):
-> >          if retval:
-> >              bb.fatal("debugsrc symlink fixup failed with exit code
-> > %s (cmd was %s)" % (retval, cmd))
-> >
-> > +        # cpio --no-preserve-owner does not create the destination
-> > files with
-> > +        # owner root even when run under pseudo, chown them
-> > explicitely.
+>> Addresses https://bugzilla.yoctoproject.org/show_bug.cgi?id=8939
+>>
+>> Source files deployed with the *-dbg packages are owned by the user
+>> running bitbake leading to warnings as the one below.
+>>
+>> WARNING: glibc-2.23-r0 do_package_qa: QA Issue: glibc: /glibc
+>> -dbg/usr/src/debug/glibc/2.23-r0/git/include/resolv.h is owned by uid
+>> 1000, which is the same as the user running bitbake. This may be due
+>> to host contamination
+>> glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/monetary.h
+>> is owned by uid 1000, which is the same as the user running bitbake.
+>> This may be due to host contamination
+>> glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/locale.h is
+>> owned by uid 1000, which is the same as the user running bitbake.
+>> This may be due to host contamination
+>> ...
+>>
+>> The files are copied as part of the do_package task.
+>> The patch chowns all file in packages/usr/src after cpio copied them
+>> into the
+>> package directory.
+>>
+>> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+>> ---
+>>
+>>
+>>  meta/classes/package.bbclass | 23 +++++++++++++++++++++++
+>>  1 file changed, 23 insertions(+)
+>>
+>> diff --git a/meta/classes/package.bbclass
+>> b/meta/classes/package.bbclass
+>> index bdbe96d..d9ef62c 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -362,6 +362,7 @@ def copydebugsources(debugsrcdir, d):
+>>      # and copied to the destination here.
+>>
+>>      import stat
+>> +    import subprocess
+>>
+>>      sourcefile = d.expand("${WORKDIR}/debugsources.list")
+>>      if debugsrcdir and os.path.isfile(sourcefile):
+>> @@ -410,6 +411,28 @@ def copydebugsources(debugsrcdir, d):
+>>          if retval:
+>>              bb.fatal("debugsrc symlink fixup failed with exit code
+>> %s (cmd was %s)" % (retval, cmd))
+>>
+>> +        # cpio --no-preserve-owner does not create the destination
+>> files with
+>> +        # owner root even when run under pseudo, chown them
+>> explicitely.
 >
 > How about passing --owner=0:0 to cpio?
+
+That was my first try, it didn't help.
+I'm also not sure if do_package() is executed under pseudo by default.
+Also since the command is a pipeline, I don't know if pseudo is
+propagated from one command to the next.
+Actually I feel a bit as a sorcerer apprentice when it comes to
+python/pseudo/packaging.
+
 >
 > I'm a little worried about why I don't see this failure on my own local
 > builds.
+I added some text to bugzilla. The gist is: In poky the sources are
+not deployed.
+No source files, no wrong ownership.
 
-Can you dump the dbg rpm from poky and see if the flagged file is there ?
+What I did is doing a repo setup of angstrom master.
+
+Removed the following from bblayers.conf because of parsing errors:
+  ${TOPDIR}/sources/meta-uav
+  ${TOPDIR}/sources/meta-kde4
+  ${TOPDIR}/sources/meta-edison
+  ${TOPDIR}/sources/meta-atmel
+  ${TOPDIR}/sources/meta-minnow
+  ${TOPDIR}/sources/meta-altera
+
+And then:
+. setup-environment qemux86
+bitbake core-image-minimal
+
+Regards
+Max
+
 >
 > We have a few cases where things sometimes seem to work out and
 > sometimes don't and I'd love to get to the bottom of how to reproduce
@@ -132,115 +152,4 @@ Can you dump the dbg rpm from poky and see if the flagged file is there ?
 > Cheers,
 >
 > Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a1136ff183585a4052f9ba660
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"><br>
-On Apr 3, 2016 2:45 PM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
-; wrote:<br>
-&gt;<br>
-&gt; On Sun, 2016-04-03 at 22:57 +0200, Max Krummenacher wrote:<br>
-&gt; &gt; Addresses <a href=3D"https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D8939">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8939</a><=
-br>
-&gt; &gt;<br>
-&gt; &gt; Source files deployed with the *-dbg packages are owned by the us=
-er<br>
-&gt; &gt; running bitbake leading to warnings as the one below.<br>
-&gt; &gt;<br>
-&gt; &gt; WARNING: glibc-2.23-r0 do_package_qa: QA Issue: glibc: /glibc<br>
-&gt; &gt; -dbg/usr/src/debug/glibc/2.23-r0/git/include/resolv.h is owned by=
- uid<br>
-&gt; &gt; 1000, which is the same as the user running bitbake. This may be =
-due<br>
-&gt; &gt; to host contamination<br>
-&gt; &gt; glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/monetar=
-y.h<br>
-&gt; &gt; is owned by uid 1000, which is the same as the user running bitba=
-ke.<br>
-&gt; &gt; This may be due to host contamination<br>
-&gt; &gt; glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/locale.=
-h is<br>
-&gt; &gt; owned by uid 1000, which is the same as the user running bitbake.=
-<br>
-&gt; &gt; This may be due to host contamination<br>
-&gt; &gt; ...<br>
-&gt; &gt;<br>
-&gt; &gt; The files are copied as part of the do_package task.<br>
-&gt; &gt; The patch chowns all file in packages/usr/src after cpio copied t=
-hem<br>
-&gt; &gt; into the<br>
-&gt; &gt; package directory.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Max Krummenacher &lt;<a href=3D"mailto:max.krummen=
-acher@toradex.com">max.krummenacher@toradex.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 meta/classes/package.bbclass | 23 +++++++++++++++++++++++<b=
-r>
-&gt; &gt;=C2=A0 1 file changed, 23 insertions(+)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/classes/package.bbclass<br>
-&gt; &gt; b/meta/classes/package.bbclass<br>
-&gt; &gt; index bdbe96d..d9ef62c 100644<br>
-&gt; &gt; --- a/meta/classes/package.bbclass<br>
-&gt; &gt; +++ b/meta/classes/package.bbclass<br>
-&gt; &gt; @@ -362,6 +362,7 @@ def copydebugsources(debugsrcdir, d):<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 # and copied to the destination here.<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 import stat<br>
-&gt; &gt; +=C2=A0 =C2=A0 import subprocess<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 sourcefile =3D d.expand(&quot;${WORKDIR}/debu=
-gsources.list&quot;)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if debugsrcdir and os.path.isfile(sourcefile)=
-:<br>
-&gt; &gt; @@ -410,6 +411,28 @@ def copydebugsources(debugsrcdir, d):<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if retval:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;de=
-bugsrc symlink fixup failed with exit code<br>
-&gt; &gt; %s (cmd was %s)&quot; % (retval, cmd))<br>
-&gt; &gt;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # cpio --no-preserve-owner does not =
-create the destination<br>
-&gt; &gt; files with<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # owner root even when run under pse=
-udo, chown them<br>
-&gt; &gt; explicitely.<br>
-&gt;<br>
-&gt; How about passing --owner=3D0:0 to cpio?<br>
-&gt;<br>
-&gt; I&#39;m a little worried about why I don&#39;t see this failure on my =
-own local<br>
-&gt; builds.</p>
-<p dir=3D"ltr">Can you dump the dbg rpm from poky and see if the flagged fi=
-le is there ?<br>
-&gt;<br>
-&gt; We have a few cases where things sometimes seem to work out and<br>
-&gt; sometimes don&#39;t and I&#39;d love to get to the bottom of how to re=
-produce<br>
-&gt; it and to understand why its different for different people.<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
-
---001a1136ff183585a4052f9ba660--
