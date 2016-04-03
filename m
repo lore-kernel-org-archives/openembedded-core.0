@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 78A1A73163
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2008D77087
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  3 Apr 2016 09:58:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u339wQ04027052
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u339wPnL005520
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 Apr 2016 02:58:26 -0700 (PDT)
+	Sun, 3 Apr 2016 02:58:25 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 3 Apr 2016 02:58:25 -0700
+	Sun, 3 Apr 2016 02:58:24 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 3 Apr 2016 02:58:24 -0700
-Message-ID: <637f6783157bb0e9449d153133485401bcf2dbb1.1459677330.git.liezhi.yang@windriver.com>
+Date: Sun, 3 Apr 2016 02:58:23 -0700
+Message-ID: <cover.1459677330.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1459677330.git.liezhi.yang@windriver.com>
-References: <cover.1459677330.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] linux-yocto 4.4: enable overlayfs by default
+Subject: [PATCH 0/1 V2] linux-yocto 4.4: enable overlayfs by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +34,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 03 Apr 2016 09:58:27 -0000
 Content-Type: text/plain
 
-So that iso can work well, otherwise the iso is readonly and there would
-be errors. The other way is aufs, but overlayfs is more pupolar and had
-been merged by kernel mainline, we need make iso work well by default.
+* V2
+  Rebase the patch based on Bruce's recent changes on kernel.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+* V1
+  Initial version.
+
+// Robert
+
+The following changes since commit 322904f62f11e794543362f04212242567c556a0:
+
+  selftest/signing: Use packagedata to obtain PR value for signing test (2016-03-31 23:55:13 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib 637f6783157bb0e9449d153133485401bcf2dbb1
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=637f6783157bb0e9449d153133485401bcf2dbb1
+
+Robert Yang (1):
+  linux-yocto 4.4: enable overlayfs by default
+
  meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb | 2 +-
  meta/recipes-kernel/linux/linux-yocto_4.4.bb    | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index 48025c4..4f3beb7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -20,7 +20,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
- COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
- 
- # Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc features/overlayfs/overlayfs.scc"
- KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
- KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
- KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index 3d6991e..66bf956 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -34,7 +34,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
- 
- # Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/overlayfs/overlayfs.scc"
- KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
- KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
- KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
 -- 
 2.8.0
 
