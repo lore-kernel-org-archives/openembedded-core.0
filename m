@@ -1,47 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6A2731D1
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 16FA4731B3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Apr 2016 10:11:04 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id y204so16101268oie.3
+	Sun,  3 Apr 2016 20:57:59 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id p188so115125923lfd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Apr 2016 03:11:05 -0700 (PDT)
+	Sun, 03 Apr 2016 13:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=rzlnZeTo5l72q/fIsPqj4XgR26ZNHIOqCOLGJdXQOuk=;
-	b=HVOM7iJ13/3SItlnLJt7E6LoWgP1jALwA6vvTUz1+2twy3mdbpLHDVmYxW+JkC08Rw
-	umBge2QD26DEs7EoHVD/kM/vIp0bIwn9cOfzmwrao6BhTb7x4AMZwNGB9e45y6LmLD9I
-	llGjr+xyYVMMdwlVvV1dXboBGBO5gdqo+gva86LWuW3Y9x3tl38g9242cnz3c72G8rAU
-	q61LeDk+Nlyd5+4Zoz3XFQpnHggbhhz4XQtxv4CTO9rPGIpGB0jCmz/TJaf2EBruTn8u
-	KKEsHJrWzvCVf529BhMhE0dtIDZz6tWrv8CmF5pAmdsb7gFJ+bvNUYdirOkn3o/+5dPm
-	eSqw==
+	h=from:to:cc:subject:date:message-id;
+	bh=pAExpbvmrkX1QAyg7vy8peD8mZsUGs65pgqsdvsE894=;
+	b=HtuiSPaGEy3SrAfyZ3qyF18L3dFhnYzPv3G/mddKKSyBoVY2VlI3ugBvZlTBO5SD8J
+	PV8lGVJa8zO/c5VRCdM4rE0M5t/7IFzZUqmJjHeaPgLBS4qjfCVoEiq7Bfukecdo2xXE
+	Bfr91yAO3IWQA1Clbxm6lsvUr0QhAA76kSvGYkFUnqeKUv6vfMLbu0qCT3zEACQGs1ii
+	zVk/c8iUC4iqnyalQ2mylZb+gNB/1IUI+gD1ubjFrlEeDeXiI70PXBh+2D4q/KH6vO9+
+	i3qFC74tcBzeI6sUb5XOD8r0tFbdwGsevNBOt/tt6WiajbMESuNbGyhet4OhI5bi06to
+	z5/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=rzlnZeTo5l72q/fIsPqj4XgR26ZNHIOqCOLGJdXQOuk=;
-	b=jOIdusw1nh/w9O8E3+KEi4JfCBqT5ytuKfHMTKoyR88Eij1hBaK/6nbz7AW0zgpLmw
-	4C5J42TYEXvS+EDxt2JfwL650oA6JJD25Q0Dh9+2shzfjpiDEDWPNGDmXKwtlvNF4wUY
-	KDP1AnNHsrqp3/j5r/nrAUjEU5ewx4LVjh+W1Im9AqnjPbJxO3Ld6zdQFwO1NSdyyMK/
-	tWLMWUp6UrhqdX830EQAWjKzLQnHKOSaP7FGwYm4sufNoJiGZF5ijZNyu4gK0JT8Ab+O
-	BrhjpXUJtv7LhSQ9bCo94YMTDB3XZk1MkJJllg6lTRZjJQNHsmxJwELFLEO2mm6wuZQT
-	UDYQ==
-X-Gm-Message-State: AD7BkJKpnk9cEuCIpDITAAidOkY+0h0wWtdtxRSu3VjgpzDxwUigvjpLYlVrVHTeOVokZHTCSQ1moibQ+7Q41Q==
-MIME-Version: 1.0
-X-Received: by 10.202.90.3 with SMTP id o3mr9507036oib.96.1459678265150; Sun,
-	03 Apr 2016 03:11:05 -0700 (PDT)
-Received: by 10.157.5.101 with HTTP; Sun, 3 Apr 2016 03:11:05 -0700 (PDT)
-In-Reply-To: <637f6783157bb0e9449d153133485401bcf2dbb1.1459677330.git.liezhi.yang@windriver.com>
-References: <cover.1459677330.git.liezhi.yang@windriver.com>
-	<637f6783157bb0e9449d153133485401bcf2dbb1.1459677330.git.liezhi.yang@windriver.com>
-Date: Sun, 3 Apr 2016 06:11:05 -0400
-Message-ID: <CADkTA4NVbCvZwHt62hZzrV+NLpq0qytN_duRv8EigM12mUJs7g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto 4.4: enable overlayfs by default
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pAExpbvmrkX1QAyg7vy8peD8mZsUGs65pgqsdvsE894=;
+	b=ZfLPXvFWnN782ODouuBtCdSTch/DO76MDrmtLEPKKBMu2zd9J+DjAMmOGacHquhP/2
+	9FSe/cMUVwapQ1UZddyrHO40NdFwZIRuEpfQBG0Q9js0t44HlOgLiVuqwxj5VrQoGvYB
+	j2ulIB0za7/owpZ8tKiWK5t7Vxt5uCaVCPNiplqWy/YmwPZS6+LMx9/2Kol+uoxAimIV
+	GhUlzL9xWioDyx+VIGNEyYaaO5vhLu4GAC3N1s/pikApdfz4EOTpRXDRCFld+mLTuw9I
+	8plcy+3mAhNSuT1QWDAVh7h24xRw+1FYkwsBNKOH7hGEATYnUiRXuVvGz1vlDNXzJ114
+	5Fhg==
+X-Gm-Message-State: AD7BkJJlS090uyKFEOn+UKUTA/PBoV4Sxo3zqaKLklm5mC50lHWmLfmd+yFksAP7GX/rsw==
+X-Received: by 10.194.78.129 with SMTP id b1mr14504990wjx.60.1459717078896;
+	Sun, 03 Apr 2016 13:57:58 -0700 (PDT)
+Received: from Saturn.local.all (212-41-96-121.adsl.solnet.ch. [212.41.96.121])
+	by smtp.gmail.com with ESMTPSA id
+	kj9sm25611191wjb.14.2016.04.03.13.57.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 03 Apr 2016 13:57:58 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Apr 2016 22:57:18 +0200
+Message-Id: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.6.2
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [oe][Patch] package.bbclass: fix host contamination warnings for source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,176 +54,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Apr 2016 10:11:05 -0000
-Content-Type: multipart/alternative; boundary=001a113d5edc7b1538052f91d4fb
+X-List-Received-Date: Sun, 03 Apr 2016 20:58:01 -0000
 
---001a113d5edc7b1538052f91d4fb
-Content-Type: text/plain; charset=UTF-8
+Addresses https://bugzilla.yoctoproject.org/show_bug.cgi?id=8939
 
-On Sun, Apr 3, 2016 at 5:58 AM, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+Source files deployed with the *-dbg packages are owned by the user
+running bitbake leading to warnings as the one below.
 
-> So that iso can work well, otherwise the iso is readonly and there would
-> be errors. The other way is aufs, but overlayfs is more pupolar and had
-> been merged by kernel mainline, we need make iso work well by default.
->
+WARNING: glibc-2.23-r0 do_package_qa: QA Issue: glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/resolv.h is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination
+glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/monetary.h is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination
+glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/locale.h is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination
+...
 
-Nope. As I mentioned before, this can't be a always on default. It will
-conflict
-with other unionFS use cases.
+The files are copied as part of the do_package task.
+The patch chowns all file in packages/usr/src after cpio copied them into the
+package directory.
 
-If you want overlayfs enabled, it needs to be triggered from a specific
-image
-or distro feature.
-
-Bruce
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
 
 
+ meta/classes/package.bbclass | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb | 2 +-
->  meta/recipes-kernel/linux/linux-yocto_4.4.bb    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-> b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-> index 48025c4..4f3beb7 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-> @@ -20,7 +20,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
->  COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
->
->  # Functionality flags
-> -KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc
-> features/taskstats/taskstats.scc"
-> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc
-> features/taskstats/taskstats.scc features/overlayfs/overlayfs.scc"
->  KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
->  KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
->  KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> index 3d6991e..66bf956 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-> @@ -34,7 +34,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
->  COMPATIBLE_MACHINE =
-> "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
->
->  # Functionality flags
-> -KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc
-> features/overlayfs/overlayfs.scc"
->  KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
->  KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
->  KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> --
-> 2.8.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index bdbe96d..d9ef62c 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -362,6 +362,7 @@ def copydebugsources(debugsrcdir, d):
+     # and copied to the destination here.
+ 
+     import stat
++    import subprocess
+ 
+     sourcefile = d.expand("${WORKDIR}/debugsources.list")
+     if debugsrcdir and os.path.isfile(sourcefile):
+@@ -410,6 +411,28 @@ def copydebugsources(debugsrcdir, d):
+         if retval:
+             bb.fatal("debugsrc symlink fixup failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
++        # cpio --no-preserve-owner does not create the destination files with
++        # owner root even when run under pseudo, chown them explicitely.
++        fakerootcmd = d.getVar('FAKEROOTCMD', True)
++        if not os.path.exists(fakerootcmd):
++            logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
++            return 2
++        # Set up the appropriate environment
++        newenv = dict(os.environ)
++        fakerootenv = d.getVar('FAKEROOTENV', True)
++        for varvalue in fakerootenv.split():
++            if '=' in varvalue:
++                splitval = varvalue.split('=', 1)
++                newenv[splitval[0]] = splitval[1]
++        kwargs = dict(env = newenv, shell = True)
++
++        cmd = "find '%s%s' -not -uid 0 -exec chown 0:0 {} \;" % (dvar, debugsrcdir)
++        if fakerootcmd is not None:
++            cmd = "%s %s" % (fakerootcmd, cmd)
++        retval = subprocess.call(cmd, **kwargs)
++        if retval:
++            bb.fatal("debugsrc chown failed with code %s (cmd was %s)" % (retval, cmd))
++
+         # The copy by cpio may have resulted in some empty directories!  Remove these
+         cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
+         (retval, output) = oe.utils.getstatusoutput(cmd)
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.6.2
 
---001a113d5edc7b1538052f91d4fb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Sun, Apr 3, 2016 at 5:58 AM, Robert Yang <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windr=
-iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">So that =
-iso can work well, otherwise the iso is readonly and there would<br>
-be errors. The other way is aufs, but overlayfs is more pupolar and had<br>
-been merged by kernel mainline, we need make iso work well by default.<br><=
-/blockquote><div><br></div><div>Nope. As I mentioned before, this can&#39;t=
- be a always on default. It will conflict</div><div>with other unionFS use =
-cases.</div><div><br></div><div>If you want overlayfs enabled, it needs to =
-be triggered from a specific image</div><div>or distro feature.</div><div><=
-br></div><div>Bruce</div><div><br></div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;<br>
----<br>
-<span class=3D"">=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yo=
-cto-rt_4.4.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.4.bb</=
-a> | 2 +-<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a>=C2=A0 =C2=A0 | 2 +=
--<br>
-=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-</span>diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto=
--rt_4.4.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.4.bb</a> =
-b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" rel=3D=
-"noreferrer" target=3D"_blank">linux-yocto-rt_4.4.bb</a><br>
-index 48025c4..4f3beb7 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" re=
-l=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.4.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" re=
-l=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.4.bb</a><br>
-@@ -20,7 +20,7 @@ LINUX_KERNEL_TYPE =3D &quot;preempt-rt&quot;<br>
-=C2=A0COMPATIBLE_MACHINE =3D &quot;(qemux86|qemux86-64|qemuarm|qemuppc|qemu=
-mips)&quot;<br>
-<br>
-=C2=A0# Functionality flags<br>
--KERNEL_EXTRA_FEATURES ?=3D &quot;features/netfilter/netfilter.scc features=
-/taskstats/taskstats.scc&quot;<br>
-+KERNEL_EXTRA_FEATURES ?=3D &quot;features/netfilter/netfilter.scc features=
-/taskstats/taskstats.scc features/overlayfs/overlayfs.scc&quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; ${KERNEL_EXTRA_FEATURES}&quot;<br>
-=C2=A0KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&quot;<br>
-=C2=A0KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
-m.scc&quot;<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb=
-" rel=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a> b/meta/recipe=
-s-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">linux-yocto_4.4.bb</a><br>
-index 3d6991e..66bf956 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_4.4.bb</a><br>
-@@ -34,7 +34,7 @@ KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
-=C2=A0COMPATIBLE_MACHINE =3D &quot;qemuarm|qemuarm64|qemux86|qemuppc|qemumi=
-ps|qemumips64|qemux86-64&quot;<br>
-<br>
-=C2=A0# Functionality flags<br>
--KERNEL_EXTRA_FEATURES ?=3D &quot;features/netfilter/netfilter.scc&quot;<br=
->
-+KERNEL_EXTRA_FEATURES ?=3D &quot;features/netfilter/netfilter.scc features=
-/overlayfs/overlayfs.scc&quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; ${KERNEL_EXTRA_FEATURES}&quot;<br>
-=C2=A0KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&quot;<br>
-=C2=A0KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
-m.scc&quot;<br>
-<div class=3D"HOEnZb"><div class=3D"h5">--<br>
-2.8.0<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
-, for chaos and madness await thee at its end&quot;</div>
-</div></div>
-
---001a113d5edc7b1538052f91d4fb--
