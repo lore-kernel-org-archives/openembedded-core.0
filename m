@@ -1,51 +1,50 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 55B42734B8;
-	Mon,  4 Apr 2016 06:19:56 +0000 (UTC)
-Received: by mail-lf0-f52.google.com with SMTP id p188so126235357lfd.0;
-	Sun, 03 Apr 2016 23:19:57 -0700 (PDT)
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id BD6DC734B8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Apr 2016 07:49:50 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id bg3so27813226obb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Apr 2016 00:49:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=eA0oX6AuGHbb6x0DDLU3cfccpBiKXac6YHe5KDI99GA=;
-	b=BubFkVdVBb2l6AE6PQlGs9JWt0Xizq8NttTfe/+ORdJu6PYFRHxAiLlf3lb8VGhznf
-	nZu/cEeJ+G6LLid4FaZRL2dLfYMMhMoJ0sJnDQ96UE7gvJ/DeX6fqFXxTgR0VxILP3Ov
-	sBgGCGNBWrWKs6vI7LDCJ2zr9xeEhBmq4P5L/lr+7xaa0zFuaZ0t6sPVJeOCACCa3h+g
-	jvOzCqYa47pzVN8G5N/yvF43RhH8jE0VbU4a4JVwZDe6DcjlCfhWMZg9MW27YFYeB5Xj
-	GCorOTtfzS20colmFM/lLoog0fEAmIoVOWEadmwfzMR5dTdt8bALySHrTsw/Rd+fiITs
-	QDhQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=J+b6z0MyzXMMBbNuZ0E0eEgpRxqyKsHPpOeX0y5lHBs=;
+	b=lNXhJbcNhqhJLU7K8kiPtgHGJzkX/kM5hg7Wxx0yPKoRH6FmUNLaG3CnXrEl/gW+Up
+	4fidOzBKaurY7cdnVJlDt4ouRus8ly9zBXJy35aqR0qh64Dmf8VTba5Iri+GkuXBAS92
+	GJ7R8GlcT/BiII2UIPbdhB1k9D4yrfJQGr49rAVEWAroG39pBOKODxQsJhmRWkl/phk5
+	+yyO2chMWAQjM+i4ZN5PIJDUx9ZWEDgSbHyJvx26y5ZACKV8rqSKdT++X4FSbqKXks2Q
+	N8nv6Q0L5YgPglJ6wW4L5TprhbEw8qg9b838wU4o59QfTu5A8Bwemvz/4pjXVFmOEJ73
+	l4dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=eA0oX6AuGHbb6x0DDLU3cfccpBiKXac6YHe5KDI99GA=;
-	b=iKXEMJUkmFWzLla3B1aqwcyxnHewrIaGiedD/fEVOt51tbihQ8JNr6QVBx8ABcWcKl
-	j35O6vdTo1a99K/emxfKq6ow44NOj0xcL/3i9lxZX9XnkW6kOP7m7gZRS3PY4N9Kyh1b
-	VEzplKTNOsMzdbA0yFpqcRqV0IzwNY8BTgedszPOn7vGHPFc7XtqXz5AmBtDOLbj9zCc
-	2+yXsN3pHESwvEmfXfdKcnB4RWeZJVcqd2glEjHdKj22K4jiAIK0LtGTc1y4Am5SDWFw
-	NNOOqoYhTmaQEPZXS+GL2OmZE72DVvgXsUFbeAQ0cFCtKRfh4NPufzJnEjTpfcme/UFZ
-	VGSg==
-X-Gm-Message-State: AD7BkJKhq2koupkFTTWsB4ncCPles8zw99WSbLjVUGqEDZfXvtNrJBZg3qdMdYdqE7VGUz/ITuG1xX5PPgZ/Ag==
-X-Received: by 10.25.212.6 with SMTP id l6mr4212937lfg.163.1459750795840; Sun,
-	03 Apr 2016 23:19:55 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=J+b6z0MyzXMMBbNuZ0E0eEgpRxqyKsHPpOeX0y5lHBs=;
+	b=R+rc1yJpiXPfvTFOrT1btJNJitlA3/Ss9EiMd8g15xBwn7f2Z9PhAj3/Kp/trobajg
+	C8+knyNTI/maqbezcT3jXjjdj1C60bII7nnrEPz5oy/VNnMjQVZvNVQHXUXGqc7MVgyX
+	KWNoV/3L2Etp+pXdcBYb54oipL3JpubnRsu5oSjRC9xof7YObLg/uJAsWb6hz1ia6925
+	j6MJpOOdZQYn2RxB17J43JJ/0Gvd2dgwhOGs714/oFbBbK6TIY3L03nA+KLlQ4/BEA/Q
+	8r00KDdGhkI6zTgqsuybe4HJ9efUkxZQqS362d8ao5UhqhyLI6wkmWlVz+asm14nY/of
+	l1BA==
+X-Gm-Message-State: AD7BkJI2/EuuYfabNEQUmjpushKihLUF8sh+rL+9PHry86TyP3lqLy8PgrsjdB54dFDMpT4s+9xzrBQ4QAD1Sw==
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.55.101 with HTTP; Sun, 3 Apr 2016 23:19:36 -0700 (PDT)
-In-Reply-To: <5328453.C7Dxv7TdD1@rjs-zotac.streifs.net>
-References: <CA+YB3rY9NKNFJNtTwQQwePfwAm37skk8jtDnBoQEBqxiE-i2Hg@mail.gmail.com>
-	<56FADE23.8090300@balister.org>
-	<5328453.C7Dxv7TdD1@rjs-zotac.streifs.net>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Sun, 3 Apr 2016 23:19:36 -0700
-X-Google-Sender-Auth: 81TEwc0w6_CesEWnllHdy5w8Ww0
-Message-ID: <CA+YB3rZz4DVbu78rRogyqQw9=LMPWPFFpxQw1DvKNARHh2aLDQ@mail.gmail.com>
-To: Rudolf J Streif <rudolf.streif@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Fwd: OEDAM: New Location - Catamaran resort
+X-Received: by 10.60.15.165 with SMTP id y5mr10270714oec.52.1459756191054;
+	Mon, 04 Apr 2016 00:49:51 -0700 (PDT)
+Received: by 10.157.5.203 with HTTP; Mon, 4 Apr 2016 00:49:50 -0700 (PDT)
+In-Reply-To: <CAMKF1spSnyYGJWZOG6vs8kW7y3JjZBo7J843jWhOZzq-RYCeww@mail.gmail.com>
+References: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
+	<1459719934.7348.141.camel@linuxfoundation.org>
+	<CAEHkU3VUnh78uOWRT2gYhAR5QOxYGDnc6J8RAsqkEkyj31HWfA@mail.gmail.com>
+	<1459724450.7348.146.camel@linuxfoundation.org>
+	<CAMKF1spSnyYGJWZOG6vs8kW7y3JjZBo7J843jWhOZzq-RYCeww@mail.gmail.com>
+Date: Mon, 4 Apr 2016 09:49:51 +0200
+Message-ID: <CAEHkU3VBBpuCzOBXgyAm_POc6zoV+hZ3XvdH2utCg_y73aJqyw@mail.gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][Patch] package.bbclass: fix host contamination warnings for source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,62 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 06:19:58 -0000
+X-List-Received-Date: Mon, 04 Apr 2016 07:49:53 -0000
 Content-Type: text/plain; charset=UTF-8
 
-At this point, I have had no requestes for vegetarian etc. and only a
-few responses regarding transportation, so I will NOT be ordering a
-bus. If you do need transportation and haven't let me know, please do
-so asap. thanks
+Hi Khem
 
-On Tue, Mar 29, 2016 at 1:03 PM, Rudolf J Streif
-<rudolf.streif@gmail.com> wrote:
-> We need the final headcount by next Monday.
->
-> Food, breakfast, lunch and refreshments, will be provided. If you have special dietary needs such as vegetarian, gluten-free etc. please indicate so behind you name. We'll do the best to accommodate them.
->
-> Rudi
->
-> On Tuesday, March 29, 2016 12:57:23 PM Philip Balister wrote:
->> OEDAM moved. Thanks Rudi and Jefro.
->>
->> Please add your name to the attendee list so Jefro can get the correct
->> amount of food and coffee. He needs the number "soon".
->>
->> Philip
->>
->> -------- Forwarded Message --------
->> Subject: OEDAM: New Location - Catamaran resort
->> Date: Mon, 28 Mar 2016 13:36:41 -0700
->> From: Jeff Osier-Mixon <jefro@jefro.net>
->> Reply-To: openembedded-members@lists.openembedded.org
->> To: openembedded-members@lists.openembedded.org
->> <openembedded-members@lists.openembedded.org>
->>
->> The OpenEmbedded meeting on Friday April 8, which was previously
->> announced, has been moved to the Catamaran Resort & Hotel.
->> Transportation will be provided. The meeting is still 9am-5pm.
->>
->> 3999 Mission Boulevard
->> San Diego, CA 92109
->> 858-539-8727
->>
->> Again, OEDAM will be at the Catamaran, NOT at the Marriott. The wiki
->> page and this mailing list will be updated with transportation info.
->>
->> Thanks to Rudi Streif for finding us a great location!
->>
->>
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I'm seeing the issue in Angstrom in
+ fido, jethro and master, basically since the QA test for host user
+contamination has been introduced.
 
+But I only now tried to debug it, meaning I did this on Angstrom
+master and Poky master with HEAD of oe-core being no older than 1
+week.
 
-
--- 
-Jeff Osier-Mixon
-Open Source Community Architect, Intel Corporation
+2016-04-04 4:36 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
+> On Sun, Apr 3, 2016 at 4:00 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>> I added some text to bugzilla. The gist is: In poky the sources are
+>>> not deployed.
+>>
+>> I don't understand that. If you mean playing sources in the -dbg
+>> packages, poky does that too. Is there some specific configuration
+>> Angstrom makes which triggers this?
+>>
+>> There was a bug in master recently which broke source file deployment
+>> into -dbg packages but that was a bug everywhere which was then fixed
+>> when we realised.
+>
+> Max, somewhere in thread you indicated angstrom 2015.12 release which
+> would be actually using jethro
+> and if it has been recently fixed in master than it would explain why
+> it worked on poky/master and not on angstrom
+> may be this fix should be cherry-picked to jethro.
 
