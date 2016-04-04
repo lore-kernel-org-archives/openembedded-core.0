@@ -1,60 +1,47 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id F36DD6E666
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 528C5731D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 13:58:32 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id 184so45269359pff.0
+	Mon,  4 Apr 2016 14:39:30 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id c62so173806152lfc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Apr 2016 06:58:33 -0700 (PDT)
+	Mon, 04 Apr 2016 07:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=w+bUgROeV4O9LVktbSNdSa5K16fzmgtfKFcRcPEfnZE=;
-	b=DsYaRhb1LEy7JXZFhOkHvOMrvlzZAp5/e4Sz02pyIoInp0wZH0FtTnX826H9kP5QKx
-	2jer4WvSQY4xHvGRBGIToRPBehaNUOlFCv2tgOqxc7gJ5Y/fBtvktStCjJcAl1uxZ0lA
-	9CTecqafjd01L7mRo4MV++43h7jg7EYwgX+KhhU2wWaLszmGEfGAzt0vPEVWtiV0PBrR
-	Cca70PaAUNxC3WP00Ks+94nEcF13upB9oish8Nqfcyb1Xj5PqBdGQ2tTWEo+OarZsUkm
-	iSWiKQmMDdUSqy96PkssgoU6fyrYzAIWk47nTuhPLFSzj3WM3D+NskaKH+d8IVfjbTJV
-	hMRA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=3FMybxdx2ncpLTCzPLovKPTfYtTOQNikksi7BuVxBos=;
+	b=s/AWrKaTeaT4FpnVj+uBUFb6v3HfDVZ86R3pB0DxkVCjD2DyMcb7iJpXTkOZA010rQ
+	+dVItCI/ajOPyjQHu4soxGUgkWF6lNGwZ1GHzFPsxjPVGFgZG27KQzNOHfNTJb1D4BMc
+	pJpmZp8Z0cm4q4P3zCkQQaub3ELJxtUIh4i8RW/zWijQJtJOJZV6lmjFMFUXLQnfUXnG
+	EUdXHtj9ZG2eO8i43e5vhRRGP2fDH3/OBPBoPmfaiKadI1snPA93WghFUCw+rsMY4z/U
+	Pa0ufnwvwGeEM18bYtzX+cf2TyIEfnnM/rIOu+unr7z1DgxFSSi3tvb+xu2s2flcZhuV
+	VpZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=w+bUgROeV4O9LVktbSNdSa5K16fzmgtfKFcRcPEfnZE=;
-	b=ceDcd9jYNZDil5ENR6tGMR24CocJnZ7Z45Sh+xzxPFnxMFD2GD2954TEudBaWPiVvn
-	1PLA/Wl9OKv10ggj/tXskhb36BPfoFKzRRF9v6PWgHegVrCrww4GYqSSfwTbud+m3GEJ
-	aXbNWJSwBImRxr/rm8G1cIIExpddI4wi8igOrc60wlO+lipbZuKiQtRvL4AnGXx1Rx/j
-	E9N2iXnqhGEdtKnpa1WY04RJfAzp3F4ET3akV6pcCwEI4fZyP4jrPGHUODzo0sp2BcGX
-	pYyEd4grYXrgCqmqg1bERyCIza6r+CUKgJESIk0yDqfW0/QstmAvNxASE6+WPmZJbab7
-	ol2Q==
-X-Gm-Message-State: AD7BkJKph5QNa0Bt8oa7Nhs82OOfgPl+X/zAfsfNY3uiTh8SpxUvswXL5V+0q3cfhOt6LA==
-X-Received: by 10.98.64.79 with SMTP id n76mr21037489pfa.149.1459778313468;
-	Mon, 04 Apr 2016 06:58:33 -0700 (PDT)
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com.
-	[209.85.192.182]) by smtp.gmail.com with ESMTPSA id
-	v9sm39884426pfi.50.2016.04.04.06.58.31
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=3FMybxdx2ncpLTCzPLovKPTfYtTOQNikksi7BuVxBos=;
+	b=MFvaXCsj4sUp8v+/bpW2KgkI7HTW9L6dh7qDfVeduArIt3ze2scSL2oqKCDBiOEGhY
+	rsDlB+EKUCNE2LJratyhVt5307MNrA+7GvnI6rRZstcF8lkxrjaGVTixJ4+vJvW7IChF
+	o/VIVs7Ix0VEuwhRVvFFbEtzlxxh12GzxGLFRefYpr1N92RS5ctUUXooW7zYi9QbwYuM
+	z48DYGXXyXIoS8yUGDydPmg5G6xL2aX3DWkJkZlz+m3O26KqVDNpVVSndouo/jyfj4NA
+	Hc8K/BzdJlWT+4wk3pVZz11B9mDlQfEXj43ayb3HGxt7QP4vCb0cL/uVzO7aNyvKzEHI
+	E5ww==
+X-Gm-Message-State: AD7BkJLju6sahG/DZZQzjfpaEvP9QZHzi7bzqay9Tpga6kw5kMwpQn+NVtxn5kLtBE+vrwd2
+X-Received: by 10.28.224.132 with SMTP id x126mr12569533wmg.88.1459780769806; 
+	Mon, 04 Apr 2016 07:39:29 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	c144sm14261319wmd.0.2016.04.04.07.39.28
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Apr 2016 06:58:32 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f182.google.com with SMTP id 184so45268817pff.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Apr 2016 06:58:31 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.98.67.139 with SMTP id l11mr20996551pfi.112.1459778311586;
-	Mon, 04 Apr 2016 06:58:31 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Mon, 4 Apr 2016 06:58:31 -0700 (PDT)
-In-Reply-To: <cover.1459776943.git.patrick.ohly@intel.com>
-References: <cover.1459776943.git.patrick.ohly@intel.com>
-Date: Mon, 4 Apr 2016 10:58:31 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoDAitpGfH_uZ1Er_Fov8st0sB7gXXSNm9ok=1aBVvLYw@mail.gmail.com>
-Message-ID: <CAP9ODKoDAitpGfH_uZ1Er_Fov8st0sB7gXXSNm9ok=1aBVvLYw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] misc enhancements
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 04 Apr 2016 07:39:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Apr 2016 15:39:22 +0100
+Message-Id: <1459780763-22368-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [jethro][PATCH 1/2] cdrtools: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,26 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 13:58:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Apr 2016 14:39:32 -0000
 
-On Mon, Apr 4, 2016 at 10:41 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> I've worked on making Ostro OS support Toybox and "stateless"
-> configuration, i.e. running with empty /etc and reserving that
-> for local configuration changes.
->
-> That work depends on several enhancements in
-> OE-core. "package_manager.py: better error handling in opkg's package
-> listing" is not needed anymore, but helped debug a packaging problem.
->
-> Please pick whatever you deem suitable for OE-core at this time, I'll
-> keep maintaining the rest and can re-submit again later.
+Upstream released their 3.01 so the alpha releases we were downloading have
+moved.  Update the SRC_URI so it continues to download.
 
-I looked at all patches and all looks sane and generic for OE-Core acceptance.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+index d0f36e2..50e284c 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+@@ -7,7 +7,7 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/cdrtools-${PV}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/OLD/3.01aX/cdrtools-${PV}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "78172557894f469b4584d008e93ec469"
+ SRC_URI[sha256sum] = "183b5c12777779e78d8b69461aae52401f863768e7e7391d60730006f8cadc5a"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.7.0
+
 
