@@ -1,50 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DC1276806
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AA97073181
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 14:39:32 +0000 (UTC)
-Received: by mail-lb0-f177.google.com with SMTP id vo2so164885417lbb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Apr 2016 07:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=7FeOnH989hQ6nQ3SAkcRAxPW6ddmyhlJZumyDaiid1w=;
-	b=Ir2VqaJe2NA3FJihiCU/ywP1w0CU0dBGMu6e/zDdb244FooViGTYnqL7KzSvITB8gG
-	ipwuiqqbZ/BBJ765ayxN3WpUZzVKo7ncNdULjjGJeIwkAonLorrQ62NZsDYEXLDmA85o
-	VTbL+ww6GKsDUJGyCSv/DoNVafI7Od/fDi01jvnEZt6wNgEsa8bIDLOrNPeKrAo+gaUp
-	DTBu/bDFxJGBcbzPj8kxH9ERAQOVif8vAjep5DUn8c755teNwOEHr9R/q+q5LvqC7D0J
-	dNt8UBxqphUh2c1jRJ3yTWAE2H/FljBTHAOgfiClZmK4d/lNqDvq9CIMphIHbu1JZKdj
-	fAEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=7FeOnH989hQ6nQ3SAkcRAxPW6ddmyhlJZumyDaiid1w=;
-	b=cylXloEYViRWxcqjXtvT2eRotqAIS8TVUNR5hXYAiyevh6Mh2qBFU6zEOdtpGXv2D+
-	0BKOcGhZk3SPP5lTRJX/lEi+31t/nzJe+hjFuzqmORJm+7ESRCIaLFm60a1chkRezdID
-	ZgVUT0iwHqO/ftH4TAzy3MMZDXZMGLaHRgaFRBeJiCT9epRe9Rnt1UKHEU1U96fc0+K1
-	2fsGSXI/EtmKImhvoPJZ+9l4aM+NrD25kEVGzNmEmQGXas2Z1R2keF2JsIasa1eDEVO0
-	+oPhOaPxQSWZCw7Nsb4c8iypYybx8S7fM4i0GkbkE/rc5CjjFrrtoUxmhkBmpTQGZ0Po
-	TvzQ==
-X-Gm-Message-State: AD7BkJKcA6eD0EESV1BUojxpI1y0xVzqXl+n997fjDktwG++qIstYEUVYAc7nh0M3oFVhJBu
-X-Received: by 10.28.57.214 with SMTP id g205mr12436153wma.24.1459780771014;
-	Mon, 04 Apr 2016 07:39:31 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	c144sm14261319wmd.0.2016.04.04.07.39.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 04 Apr 2016 07:39:30 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Apr 2016 15:39:23 +0100
-Message-Id: <1459780763-22368-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1459780763-22368-1-git-send-email-ross.burton@intel.com>
-References: <1459780763-22368-1-git-send-email-ross.burton@intel.com>
-Subject: [jethro][PATCH 2/2] ncurses: update SRC_URI
+	Mon,  4 Apr 2016 14:56:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u34Eu0BO009872; Mon, 4 Apr 2016 15:56:27 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uz1fE-kFF4Bk; Mon,  4 Apr 2016 15:56:27 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u34EuPjO009904
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 4 Apr 2016 15:56:26 +0100
+Message-ID: <1459781785.7348.151.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 04 Apr 2016 15:56:25 +0100
+In-Reply-To: <af63dbfb9cff4fbbd38bccbff955af03cbda3f92.1459776943.git.patrick.ohly@intel.com>
+References: <bcd7b4f85a904081342992ec49c92ca3bcf0449b.1459776943.git.patrick.ohly@intel.com>
+	<af63dbfb9cff4fbbd38bccbff955af03cbda3f92.1459776943.git.patrick.ohly@intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 5/5] ca-certificates: support Toybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 14:39:36 -0000
+X-List-Received-Date: Mon, 04 Apr 2016 14:56:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Upstream re-arranged their FTP server and deleted the tarball that we were
-downloading.  This tarball is mirrors on downloads.yoctoproject.org but not
-everyone uses that, so Work around this by pointing the SRC_URI at the Yocto
-Project source mirror directly.
+On Mon, 2016-04-04 at 15:41 +0200, Patrick Ohly wrote:
+> "mktemp -t" is deprecated and does not work when using Toybox.
+> Replace
+> with something that works also with Toybox.
+> 
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  .../update-ca-certificates-support-Toybox.patch    | 35
+> ++++++++++++++++++++++
+>  .../ca-certificates/ca-certificates_20160104.bb    |  1 +
+>  2 files changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-support/ca-certificates/ca
+> -certificates/update-ca-certificates-support-Toybox.patch
+> 
+> diff --git a/meta/recipes-support/ca-certificates/ca
+> -certificates/update-ca-certificates-support-Toybox.patch
+> b/meta/recipes-support/ca-certificates/ca-certificates/update-ca
+> -certificates-support-Toybox.patch
+> new file mode 100644
+> index 0000000..b3b21e2
+> --- /dev/null
+> +++ b/meta/recipes-support/ca-certificates/ca-certificates/update-ca
+> -certificates-support-Toybox.patch
+> @@ -0,0 +1,35 @@
+> +From 30378026d136efa779732e3f6664e2ecf461e458 Mon Sep 17 00:00:00
+> 2001
+> +From: Patrick Ohly <patrick.ohly@intel.com>
+> +Date: Thu, 17 Mar 2016 12:38:09 +0100
+> +Subject: [PATCH] update-ca-certificates: support Toybox
+> +
+> +"mktemp -t" is deprecated and does not work when using Toybox.
+> Replace
+> +with something that works also with Toybox.
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
 
-[ YOCTO #9379 ]
+If its deprecated, is it really Inappropriate?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/ncurses/ncurses_5.9.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-core/ncurses/ncurses_5.9.bb b/meta/recipes-core/ncurses/ncurses_5.9.bb
-index 54d27a9..35ef9c3 100644
---- a/meta/recipes-core/ncurses/ncurses_5.9.bb
-+++ b/meta/recipes-core/ncurses/ncurses_5.9.bb
-@@ -4,9 +4,11 @@ REVISION = "20150329"
- 
- PR = "${INC_PR}.1"
- 
--SRC_URI += "file://tic-hang.patch \
--            file://config.cache \
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/ncurses-5.9-20150329.tgz \
-+           file://tic-hang.patch \
-+           file://config.cache \
- "
-+
- S = "${WORKDIR}/${BP}-${REVISION}"
- SRC_URI[md5sum] = "cee991d09e69e60ebedef424804c52d4"
- SRC_URI[sha256sum] = "5b64f40e4dce73e3aa83d15bd9257c6eff8790ec41150f0938bd87c0eb75828f"
--- 
-2.7.0
+Richard
 
 
