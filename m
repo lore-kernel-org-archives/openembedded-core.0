@@ -1,53 +1,39 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f53.google.com (mail-vk0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A6679763F0
+Return-Path: <hainsvdbosch@ziggo.nl>
+X-Greylist: delayed 969 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 04 Apr 2016 09:14:56 UTC
+Received: from smtpq3.tb.mail.iss.as9143.net (smtpq3.tb.mail.iss.as9143.net
+	[212.54.42.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 04B7F7327F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 08:46:26 +0000 (UTC)
-Received: by mail-vk0-f53.google.com with SMTP id k1so171110176vkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Apr 2016 01:46:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=9oD96POhZcOdQkxoOIUGz4CEitoE8KYmaykMSHqMHuQ=;
-	b=TYMfnJXWGrSrj5Owq3Fra4oqMzAysCibKCNdmpjOzFRx79yi1lHEKYdOzIBahVZrxA
-	mWyp3HokUtI4xOUorPJyuLnlphxnP2zkjg1FBN84ZE0cSVDN6ZNSxbHSHRSb04/wJ7IY
-	/ojPSIUZPgiTONi1DJ0ci/TTKtpzwasGpqjuukqYZO6ReysxA8GtAdiRpivAXL+8sWQZ
-	TaoRwIYktHADDno/E+BxRMnt+cD1Q5rVup9Dp970bGysg6ZnyI/jRnSHkxNX17WrdqF8
-	+ywD4UNsN+QycNEKhu+aKN6HBafT6WHw9SWQN4hiurp1vjpu03vBcBxlHjIom4ZCbayH
-	pCxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=9oD96POhZcOdQkxoOIUGz4CEitoE8KYmaykMSHqMHuQ=;
-	b=SP062mxziF8WDeE01vlXXMEyMq8boKHgZxD8k7DxxwAbHc1f4U0tdPVzDjBXn0f2xA
-	utJozQIh68cFAwW5UeU59nbh//i5mZfic5RZ/V/Gx3Gtn2mBJRb5WjenMt6BHOFAmoVy
-	u/r84g07l+xX1+bwBU0GMiZAetGBR4hdg39cyWqIQeTylvO3Jpc7KVGvo1as4F1UhhxP
-	QBPt3HV0l/wa/xTFW7QSq2oNGVD0Ch7qsIZv7XcTU5DUHgBtosiAHe80/btDJkcyZKg2
-	QM3OxlEPkiI6SlQXWus0hoAKdYtyZsjV84wbr2qjgkX1Gb2+Iv5aDnvysB102aKte65d
-	wEzQ==
-X-Gm-Message-State: AD7BkJIs7n35tUvkoRU5rxEpXAnEiayagH8Q61o4pJP3CXNZe26dIAV0tSqS6u5tFOfgYjSLqONRCUeS8ihv4A==
-MIME-Version: 1.0
-X-Received: by 10.31.52.134 with SMTP id b128mr3619766vka.124.1459759587482;
-	Mon, 04 Apr 2016 01:46:27 -0700 (PDT)
-Received: by 10.159.35.65 with HTTP; Mon, 4 Apr 2016 01:46:27 -0700 (PDT)
-In-Reply-To: <CAEHkU3XvFjr8dCV48E7zvtWPDwJ1Vht=Q02MdM9C+KM0-N=s9g@mail.gmail.com>
-References: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
-	<1459719934.7348.141.camel@linuxfoundation.org>
-	<CAEHkU3VUnh78uOWRT2gYhAR5QOxYGDnc6J8RAsqkEkyj31HWfA@mail.gmail.com>
-	<1459724450.7348.146.camel@linuxfoundation.org>
-	<CAMKF1spSnyYGJWZOG6vs8kW7y3JjZBo7J843jWhOZzq-RYCeww@mail.gmail.com>
-	<CALbNGRS7NEOTpCdV+Y-ZFzwTk-k9w2DPV_t9_VMP_4J6zM5CaQ@mail.gmail.com>
-	<CAEHkU3XvFjr8dCV48E7zvtWPDwJ1Vht=Q02MdM9C+KM0-N=s9g@mail.gmail.com>
-Date: Mon, 4 Apr 2016 10:46:27 +0200
-Message-ID: <CALbNGRTvQBVetdm7ty8RQLviYijSP0GadUNUUycAepYWX8iCjw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Max Krummenacher <max.oss.09@gmail.com>
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][Patch] package.bbclass: fix host contamination warnings for source files
+	Mon,  4 Apr 2016 09:14:56 +0000 (UTC)
+Received: from [212.54.34.114] (helo=smtp6.mnd.mail.iss.as9143.net)
+	by smtpq3.tb.mail.iss.as9143.net with esmtp (Exim 4.82)
+	(envelope-from <hainsvdbosch@ziggo.nl>) id 1an0LP-00062V-2m
+	for openembedded-core@lists.openembedded.org;
+	Mon, 04 Apr 2016 10:58:47 +0200
+Received: from 52496b87.cm-4-2b.dynamic.ziggo.nl ([82.73.107.135]
+	helo=localhost.localdomain)
+	by smtp6.mnd.mail.iss.as9143.net with esmtpsa
+	(TLS1.2:RSA_AES_128_CBC_SHA256:128) (Exim 4.82)
+	(envelope-from <hainsvdbosch@ziggo.nl>)
+	id 1an0LO-0007mo-Vb; Mon, 04 Apr 2016 10:58:47 +0200
+From: Hains van den Bosch <hainsvdbosch@ziggo.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Apr 2016 10:58:38 +0200
+Message-Id: <1459760318-3480-1-git-send-email-hainsvdbosch@ziggo.nl>
+X-Mailer: git-send-email 2.7.4
+X-Authenticated-Sender: hainsvdbosch@ziggo.nl (via SMTP)
+X-Ziggo-spamsetting: Instelling=Ziggo Scorelimiet=10
+X-Ziggo-spambar: /
+X-Ziggo-spamscore: 0.0
+X-Ziggo-spamreport: CMAE Analysis: v=2.1 cv=HOo+bdZv c=1 sm=0 tr=0
+	a=9+rZDBEiDlHhcck0kWbJtElFXBc=:19 a=kziv93cY1bsA:10
+	a=e5mUnYsNAAAA:8 a=SbEykzVWBEVf5XDfCxoA:9 wl=body:9
+	xcat=Undefined/Undefined none
+X-Ziggo-Spam-Status: No
+X-Spam-Status: No
+X-Spam-Flag: No
+Subject: [PATCH] gstreamer1.0-plugins-bad_git: Remove obsolete PACKAGESPLITFUNCS_append = " handle_hls_rename "
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,20 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 08:46:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Apr 2016 09:14:57 -0000
 
-On Mon, Apr 4, 2016 at 10:00 AM, Max Krummenacher <max.oss.09@gmail.com> wrote:
-> Hi Andreas
->
-> I guess Richard refers to this one:
-> http://cgit.openembedded.org/openembedded-core/commit/meta/classes/package.bbclass?h=master-next&id=ecb56a6ae0c870af680da03db9d39703b525fc98
-> Max
->
-Hi Max,
+No need for that,now gstreamer_git is 1.7.2
 
-I was addressing Khem as I understood his comment in a way that there
-is a related fix in angstrom master (which I cannot find).
+Signed-off-by: Hains van den Bosch <hainsvdbosch@ziggo.nl>
+---
+ .../gstreamer/gstreamer1.0-plugins-bad_git.bb                | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-Andreas
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+index ef6581b..cb562ef 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+@@ -51,15 +51,3 @@ do_configure_prepend() {
+ 	${S}/autogen.sh --noconfigure
+ }
+ 
+-# In 1.6.2, the "--enable-hls" configure option generated an installable package
+-# called "gstreamer1.0-plugins-bad-fragmented". In 1.7.1 that HLS plugin package
+-# has become "gstreamer1.0-plugins-bad-hls". See:
+-# http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=efe62292a3d045126654d93239fdf4cc8e48ae08
+-
+-PACKAGESPLITFUNCS_append = " handle_hls_rename "
+-
+-python handle_hls_rename () {
+-    d.setVar('RPROVIDES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
+-    d.setVar('RREPLACES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
+-    d.setVar('RCONFLICTS_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
+-}
+-- 
+2.7.4
+
 
