@@ -1,39 +1,47 @@
-Return-Path: <hainsvdbosch@ziggo.nl>
-X-Greylist: delayed 969 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 04 Apr 2016 09:14:56 UTC
-Received: from smtpq3.tb.mail.iss.as9143.net (smtpq3.tb.mail.iss.as9143.net
-	[212.54.42.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 04B7F7327F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C27C473175
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 09:14:56 +0000 (UTC)
-Received: from [212.54.34.114] (helo=smtp6.mnd.mail.iss.as9143.net)
-	by smtpq3.tb.mail.iss.as9143.net with esmtp (Exim 4.82)
-	(envelope-from <hainsvdbosch@ziggo.nl>) id 1an0LP-00062V-2m
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Apr 2016 10:58:47 +0200
-Received: from 52496b87.cm-4-2b.dynamic.ziggo.nl ([82.73.107.135]
-	helo=localhost.localdomain)
-	by smtp6.mnd.mail.iss.as9143.net with esmtpsa
-	(TLS1.2:RSA_AES_128_CBC_SHA256:128) (Exim 4.82)
-	(envelope-from <hainsvdbosch@ziggo.nl>)
-	id 1an0LO-0007mo-Vb; Mon, 04 Apr 2016 10:58:47 +0200
-From: Hains van den Bosch <hainsvdbosch@ziggo.nl>
+	Mon,  4 Apr 2016 13:28:57 +0000 (UTC)
+Received: by mail-qg0-f42.google.com with SMTP id f52so53017697qga.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Apr 2016 06:28:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=4RNvUAxVojBG3i0FhjcJ13eqxshAqMNi76VWQAFzxZ0=;
+	b=MbQl2xgYoPwNY5wFwPPhME6TlyC9GhUmCjOIUEJxYv3HedpKKmGgyDxNbwQKWt30rL
+	6oTlDlmJNcXzBY8e7H0vcCmi7gJdawWi9cRwYkA49qPUPMXq4CCwueF10wzn07iKe5rA
+	ZJPD8zwyKWX3bzLUVtgJDmKvKdyG99JaZCPVBSsNHxmqjuQ4K6Q/Jr0MStmuhtYJKCmh
+	TlIpEYC6noVxS4jRwxOhVIZvtOFqNrbEOJYMqv62ho5nMFZYKelJMn3r57xvV7UrqCMb
+	nRsk6NCxltg+CkN0dNC/dzFiaqCoOHvQxpVuEylNNnAdwP2+UKv6CEQjEgeAUCnIJ7Qd
+	zbSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4RNvUAxVojBG3i0FhjcJ13eqxshAqMNi76VWQAFzxZ0=;
+	b=Yz5G8KAu9uPT/T6IlDO6JCJp0mWIfqAnpcswubnI4RVG2J7ft/PPTiH8C7Gt2GTx7w
+	rTktM0/bEsBMaCa+Esfhbksq7qVnj5iUdmOno4iB1wq+pImzKzSL7fkMdqA89XDj77Az
+	LbpSPlxRHl4d28S9Zhh7eNRHbFsPMyGvYj4E7yQ1zwf9PVl3nF5EyG61ylM9i4GVcK0Q
+	nCtpEKHpMzUciQ+2lc5UQ3hGTIIeU733foqcN0Gkn2vjCrpRZgmOLWGoRVrR3yoR0ULi
+	176StX1OtEsWehRVCexoDexBCfaHSfmpOZVTO2MMsFilz1w8Nc0+GVTrx1QwfwPL4mPx
+	j5VQ==
+X-Gm-Message-State: AD7BkJLMh6XWnT1YNhPnYCVgzaHuopaVsCbZVTU48cau02B/uWSUKcXxCX0SHlXybRWwxV6u
+X-Received: by 10.194.184.139 with SMTP id eu11mr3547766wjc.154.1459776538303; 
+	Mon, 04 Apr 2016 06:28:58 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	c144sm13953260wmd.0.2016.04.04.06.28.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 04 Apr 2016 06:28:57 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Apr 2016 10:58:38 +0200
-Message-Id: <1459760318-3480-1-git-send-email-hainsvdbosch@ziggo.nl>
-X-Mailer: git-send-email 2.7.4
-X-Authenticated-Sender: hainsvdbosch@ziggo.nl (via SMTP)
-X-Ziggo-spamsetting: Instelling=Ziggo Scorelimiet=10
-X-Ziggo-spambar: /
-X-Ziggo-spamscore: 0.0
-X-Ziggo-spamreport: CMAE Analysis: v=2.1 cv=HOo+bdZv c=1 sm=0 tr=0
-	a=9+rZDBEiDlHhcck0kWbJtElFXBc=:19 a=kziv93cY1bsA:10
-	a=e5mUnYsNAAAA:8 a=SbEykzVWBEVf5XDfCxoA:9 wl=body:9
-	xcat=Undefined/Undefined none
-X-Ziggo-Spam-Status: No
-X-Spam-Status: No
-X-Spam-Flag: No
-Subject: [PATCH] gstreamer1.0-plugins-bad_git: Remove obsolete PACKAGESPLITFUNCS_append = " handle_hls_rename "
+Date: Mon,  4 Apr 2016 14:28:55 +0100
+Message-Id: <1459776535-13627-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH] cogl: fix G-I .typelib installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 09:14:57 -0000
+X-List-Received-Date: Mon, 04 Apr 2016 13:28:59 -0000
 
-No need for that,now gstreamer_git is 1.7.2
+By default gobject-introspection puts .typelib files into $PN, but the cogl-1.0
+recipe doesn't use PN.  Installing cogl-1.0 is impossible as libcogl
+conflicts/replaces with cogl-1.0 due to a previous upgrade.
 
-Signed-off-by: Hains van den Bosch <hainsvdbosch@ziggo.nl>
+Fix this by putting the .typelib files into the right subpackages, and
+explicitly setting FILES_${PN} to "" so that nothing accidently ends up in PN.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_git.bb                | 12 ------------
- 1 file changed, 12 deletions(-)
+ meta/recipes-graphics/cogl/cogl-1.0.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-index ef6581b..cb562ef 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-@@ -51,15 +51,3 @@ do_configure_prepend() {
- 	${S}/autogen.sh --noconfigure
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index fc7cffe..690ea3b 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -61,10 +61,11 @@ do_compile_prepend() {
+         export GIR_EXTRA_LIBS_PATH="${B}/cogl/.libs"
  }
  
--# In 1.6.2, the "--enable-hls" configure option generated an installable package
--# called "gstreamer1.0-plugins-bad-fragmented". In 1.7.1 that HLS plugin package
--# has become "gstreamer1.0-plugins-bad-hls". See:
--# http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=efe62292a3d045126654d93239fdf4cc8e48ae08
--
--PACKAGESPLITFUNCS_append = " handle_hls_rename "
--
--python handle_hls_rename () {
--    d.setVar('RPROVIDES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
--    d.setVar('RREPLACES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
--    d.setVar('RCONFLICTS_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
--}
++FILES_${PN} = ""
+ FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
+-FILES_libcogl = "${libdir}/libcogl${SOLIBS}"
++FILES_libcogl = "${libdir}/libcogl${SOLIBS} ${libdir}/girepository-1.0/Cogl-*.typelib"
+ FILES_libcogl-gles2 = "${libdir}/libcogl-gles2${SOLIBS}"
+-FILES_libcogl-pango = "${libdir}/libcogl-pango${SOLIBS}"
++FILES_libcogl-pango = "${libdir}/libcogl-pango${SOLIBS} ${libdir}/girepository-1.0/CoglPango*.typelib"
+ 
+ FILES_libcogl-path = "${libdir}/libcogl-path${SOLIBS}"
+ 
 -- 
-2.7.4
+2.7.0
 
 
