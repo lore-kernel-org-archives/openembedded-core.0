@@ -1,46 +1,47 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BD6DC734B8
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 683F575E80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 07:49:50 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id bg3so27813226obb.1
+	Mon,  4 Apr 2016 07:56:48 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id e185so19444202vkb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Apr 2016 00:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Mon, 04 Apr 2016 00:56:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=J+b6z0MyzXMMBbNuZ0E0eEgpRxqyKsHPpOeX0y5lHBs=;
-	b=lNXhJbcNhqhJLU7K8kiPtgHGJzkX/kM5hg7Wxx0yPKoRH6FmUNLaG3CnXrEl/gW+Up
-	4fidOzBKaurY7cdnVJlDt4ouRus8ly9zBXJy35aqR0qh64Dmf8VTba5Iri+GkuXBAS92
-	GJ7R8GlcT/BiII2UIPbdhB1k9D4yrfJQGr49rAVEWAroG39pBOKODxQsJhmRWkl/phk5
-	+yyO2chMWAQjM+i4ZN5PIJDUx9ZWEDgSbHyJvx26y5ZACKV8rqSKdT++X4FSbqKXks2Q
-	N8nv6Q0L5YgPglJ6wW4L5TprhbEw8qg9b838wU4o59QfTu5A8Bwemvz/4pjXVFmOEJ73
-	l4dQ==
+	:cc; bh=zG0l+F3YI/XlZjUjnta0B4jLfbJgnXoFu9LRlx5RFCI=;
+	b=ivhEFR50Hv9sSz7kkD52DGhVcGN8lsO+yv9NBdfREsqUNzHhyLLJhG7s6fUa550uZR
+	rpLNxDcqWw6YkdkgUvGZBDUDNeejtOOn3TgSjEqXgREV8dndAUmnz8kBh0z/Xsrup8YI
+	PHM163PSu86LG+lFHlsPw9dyN+NsjF8IjrYqn0fNfE+d5Z1RqRJNkv3a3+jOhq63QcW7
+	3MZjMDonYUSZld8J4ultiPrRPZJiisqvHLxa4c7Uk1GjLmdvm99ToCG08AW/geKL4HPB
+	Un3zTsDYhhbzBjW8vBVFtrG8/LmrEIevSxAMoZ7Uej8AY2/EUWIVCTlf8McIhTOQiHBp
+	DlBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=J+b6z0MyzXMMBbNuZ0E0eEgpRxqyKsHPpOeX0y5lHBs=;
-	b=R+rc1yJpiXPfvTFOrT1btJNJitlA3/Ss9EiMd8g15xBwn7f2Z9PhAj3/Kp/trobajg
-	C8+knyNTI/maqbezcT3jXjjdj1C60bII7nnrEPz5oy/VNnMjQVZvNVQHXUXGqc7MVgyX
-	KWNoV/3L2Etp+pXdcBYb54oipL3JpubnRsu5oSjRC9xof7YObLg/uJAsWb6hz1ia6925
-	j6MJpOOdZQYn2RxB17J43JJ/0Gvd2dgwhOGs714/oFbBbK6TIY3L03nA+KLlQ4/BEA/Q
-	8r00KDdGhkI6zTgqsuybe4HJ9efUkxZQqS362d8ao5UhqhyLI6wkmWlVz+asm14nY/of
-	l1BA==
-X-Gm-Message-State: AD7BkJI2/EuuYfabNEQUmjpushKihLUF8sh+rL+9PHry86TyP3lqLy8PgrsjdB54dFDMpT4s+9xzrBQ4QAD1Sw==
+	bh=zG0l+F3YI/XlZjUjnta0B4jLfbJgnXoFu9LRlx5RFCI=;
+	b=FA7DrENZULJ4DKY+74ijLlFw2DSLYmYY/08cFDSv+Ap8gNwGHZyMP+hEUpJK8KB2Cz
+	Ns/IAq7TBY/SJIAVRWlgWnsaKqqtXZyRaq1MkEjWBazO3x7gTOCGFF3Rz9/XEcNqR8mS
+	Iw5RyDmDqy22rLlNBXK3RMuQZCD7I5kc6Bo2i7OOitrfHyuEUykjKIpt1t7hfgqdVTdt
+	0NNST6OvNm3WYuHOqNAjANQ1xJrkdVgCTwC6E2sxWE+3zmFj23KXm994JpwTGzdaOzRf
+	X2Qe6sXEAzITSHgBVv9WmCyOuBRR9GjqS27Zp7D9sekEpkEqU+h8IoKDUcYij0ycU1co
+	MmoA==
+X-Gm-Message-State: AD7BkJIW0tMP8VoNYm2hiQTGsb5AYvT/Hqpj7XCIgTSFBPB75BH1UzFaDP1QrbzdETtIN+g0T+1M97+YzDXVDw==
 MIME-Version: 1.0
-X-Received: by 10.60.15.165 with SMTP id y5mr10270714oec.52.1459756191054;
-	Mon, 04 Apr 2016 00:49:51 -0700 (PDT)
-Received: by 10.157.5.203 with HTTP; Mon, 4 Apr 2016 00:49:50 -0700 (PDT)
+X-Received: by 10.31.1.67 with SMTP id 64mr5900926vkb.130.1459756608426; Mon,
+	04 Apr 2016 00:56:48 -0700 (PDT)
+Received: by 10.159.35.65 with HTTP; Mon, 4 Apr 2016 00:56:48 -0700 (PDT)
 In-Reply-To: <CAMKF1spSnyYGJWZOG6vs8kW7y3JjZBo7J843jWhOZzq-RYCeww@mail.gmail.com>
 References: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
 	<1459719934.7348.141.camel@linuxfoundation.org>
 	<CAEHkU3VUnh78uOWRT2gYhAR5QOxYGDnc6J8RAsqkEkyj31HWfA@mail.gmail.com>
 	<1459724450.7348.146.camel@linuxfoundation.org>
 	<CAMKF1spSnyYGJWZOG6vs8kW7y3JjZBo7J843jWhOZzq-RYCeww@mail.gmail.com>
-Date: Mon, 4 Apr 2016 09:49:51 +0200
-Message-ID: <CAEHkU3VBBpuCzOBXgyAm_POc6zoV+hZ3XvdH2utCg_y73aJqyw@mail.gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Mon, 4 Apr 2016 09:56:48 +0200
+Message-ID: <CALbNGRS7NEOTpCdV+Y-ZFzwTk-k9w2DPV_t9_VMP_4J6zM5CaQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: Max Krummenacher <max.krummenacher@toradex.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -57,20 +58,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 07:49:53 -0000
+X-List-Received-Date: Mon, 04 Apr 2016 07:56:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi Khem
-
-I'm seeing the issue in Angstrom in
- fido, jethro and master, basically since the QA test for host user
-contamination has been introduced.
-
-But I only now tried to debug it, meaning I did this on Angstrom
-master and Poky master with HEAD of oe-core being no older than 1
-week.
-
-2016-04-04 4:36 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
+On Mon, Apr 4, 2016 at 4:36 AM, Khem Raj <raj.khem@gmail.com> wrote:
 > On Sun, Apr 3, 2016 at 4:00 PM, Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
 >>> I added some text to bugzilla. The gist is: In poky the sources are
@@ -89,4 +80,8 @@ week.
 > and if it has been recently fixed in master than it would explain why
 > it worked on poky/master and not on angstrom
 > may be this fix should be cherry-picked to jethro.
+I checked Angstrom master but did not find matching commit. Which
+commit are you referring to?
+
+Andreas
 
