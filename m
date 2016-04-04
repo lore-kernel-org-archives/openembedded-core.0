@@ -1,45 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C8DE76710
+Return-Path: <bjorn.forsman@gmail.com>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 899AC7325A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 18:54:24 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id p188so157813285lfd.0
+	Mon,  4 Apr 2016 19:02:34 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id u8so175210032lbk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Apr 2016 11:54:25 -0700 (PDT)
+	Mon, 04 Apr 2016 12:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=mYRhnDr5FhvqB7M+Oq+HVTwkgvNKi6kqaFm2zjsuHp8=;
-	b=lhcIxzMjlQwumaHh2waH+doyl8Jya5ytYJLeC34CNBAV+vJO7btRZjsLJ4hJigbD3Q
-	Rb1VRbMsET5WLKfgEQkL09gzwmKAkYfSOMlhXT3WYOk9jdfmElJkWapyPDb9/ktNCJF6
-	eJp6UgWCGrxtADIJNnFbrAyevB93ZcYT2gnPm3go5caP+Lsk1Y/vW/RYLES3uWsLjHhg
-	h7O6kLM946g6FNfJAQ+4vpA/qTlr206v5/GxbGLGxxRxf6D08FZhaixP8sgWNH167B1e
-	UIbn8wWyrBfuGkDM/4Hv3bi/08BhMlBqZiWRDWCIJ39XEsx6cV8FJt5lcyRqVXKFFKFb
-	UDGw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=l3vWdkT3jWohL9IOLfBVW20FdTuRoQMU0mHHRYEQF/U=;
+	b=TFrVfbFWzbOqjrz7xePelBtK6b6ZJWXxvW1AtG0s79KZ1yyjBUQukQSkjbLy2X5EqE
+	2B88PE6NPNk8bLxe4E7AvfZRjmtWIG+rTwhFyLN0P5n+Fo3636INAaZoy5yB0n6xkuD0
+	qxV1BWWM7DVsp3eoEz3Hgtcbh+e+1PCkh32FwjZbf+2OI4PNutNuwbYO1l2LUN8oHSBY
+	s8b0R4CH/NnNVws3IBCQVAby72oPCNPBvZa8yyxiI+dltDVQVCr1j6D5/0/oLDTmnE2d
+	hFawkqCUYYSTQpIKey5ISZi+RDjBKqk3WtId9W4Gzc8bKIffoRK1aZyXAHm3bAspjkjc
+	MiAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=mYRhnDr5FhvqB7M+Oq+HVTwkgvNKi6kqaFm2zjsuHp8=;
-	b=QTuTL7l32dBnG+N/U1+HI/K773o4aUfo7EjZvGZtUBo6HQP70HPbb7BAp+QlRqXNv3
-	s9duCJ0mOu0j4cswucVfN/bTIYVNUC2u9hWnJMgjNEvGVrGNjiwVz3KCxKJct1+tjMp/
-	6EMpEgJj5fK5tVDrIvuPNIbnXoAaG7bO7GL5/20jebJZ5j9gQMZD2P/jkt/4d7SI8jEt
-	urGG0w9H8mEK9fDv1+KArQZZ9phxtDJfiN2068wdAs3FqGSrCmqb2DSkhQiOQuT3MRH1
-	ijoa9VriUuMh0LCezfG/69Ph/XS+vVCL6SeaMpxWFvMVYko0N8G3FdbPtmz0EOjU4L7i
-	bGFA==
-X-Gm-Message-State: AD7BkJLcoKj/ByWE/k6HMPNKaMIEUyIQnV+9w+xbH6YKhYkNrnziRo3ENVxttxWnqKta9G4Sy7BBH22s8qwBPg==
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=l3vWdkT3jWohL9IOLfBVW20FdTuRoQMU0mHHRYEQF/U=;
+	b=XzUBQlkYSfHNkn4UunRlpZ07xIT1mUou4lBbo2qDoRMvesm/2Q/Tn3zDzRfNypXMim
+	4YI/a2o60FjrsTtT63KSBsGgkdizVDK3ks8mURwMBdqGOcGmESgNmpcxOyRETJysTQXi
+	t6nAbN5yi0KbEfTy9Qy30++4OConSXc2VEBo9FaeZ2gtPjGx7I+mGdtEA5E6d/vUtyfu
+	Wipxy29FwIe7b5AYCIe19D6FlOQcj24NGxzykctPh0eZoMZWbSCPT+O/TwydlJURye8e
+	hFePujx1ZW4Z7UYLzZqsqjaR0aWz6rsiaehA5CSJtasOLHCANkM8Xu7XcyPRnS1dOggu
+	2p6g==
+X-Gm-Message-State: AD7BkJIgnfT80qwCXc9H0ApJs/WeSNtajaA7Ejfs8W01PWa3NyJNZGNBO+jGry3Tt/2fQA==
+X-Received: by 10.112.13.33 with SMTP id e1mr5396676lbc.79.1459796554105;
+	Mon, 04 Apr 2016 12:02:34 -0700 (PDT)
+Received: from localhost (cm-84.208.208.120.getinternet.no. [84.208.208.120])
+	by smtp.gmail.com with ESMTPSA id
+	ez1sm4996645lbc.29.2016.04.04.12.02.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Apr 2016 12:02:33 -0700 (PDT)
+From: =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Apr 2016 21:02:29 +0200
+Message-Id: <1459796549-29882-1-git-send-email-bjorn.forsman@gmail.com>
+X-Mailer: git-send-email 2.5.4
 MIME-Version: 1.0
-X-Received: by 10.194.242.202 with SMTP id ws10mr15425690wjc.3.1459796063840; 
-	Mon, 04 Apr 2016 11:54:23 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Mon, 4 Apr 2016 11:54:23 -0700 (PDT)
-In-Reply-To: <1459760318-3480-1-git-send-email-hainsvdbosch@ziggo.nl>
-References: <1459760318-3480-1-git-send-email-hainsvdbosch@ziggo.nl>
-Date: Mon, 4 Apr 2016 11:54:23 -0700
-Message-ID: <CAJ86T=UQfZNc4AwQtdBNEkRSSyrtVykvmYZ2ZhjXPPD=TP5=qQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Hains van den Bosch <hainsvdbosch@ziggo.nl>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad_git: Remove obsolete PACKAGESPLITFUNCS_append = " handle_hls_rename "
+Subject: [PATCH] license.bbclass: fix warnings when run in unprivileged "container" env
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,50 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 18:54:27 -0000
+X-List-Received-Date: Mon, 04 Apr 2016 19:02:35 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 4, 2016 at 1:58 AM, Hains van den Bosch
-<hainsvdbosch@ziggo.nl> wrote:
-> No need for that,now gstreamer_git is 1.7.2
+An unprivileged "container" environment like this[1] doesn't have root
+account (uid 0) which causes tons of "Invalid argument" warnings:
 
-No, this is need BECAUSE gstreamer_git is 1.7.2 (or any version >= 1.7.1).
+  $ bitbake ...
+  ...
+  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
+  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
+  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
+  ...
 
-It gives a smooth upgrade path from gstreamer 1.6.x (which provides
-the gstreamer1.0-plugins-bad-fragmented plug-in) to gstreamer >= 1.7.1
-(which provides the gstreamer1.0-plugins-bad-hls plug-in).
+Fix it by handling EINVAL similar to existing handling of EPERM (which
+was added for when not running under pseudo).
 
-> Signed-off-by: Hains van den Bosch <hainsvdbosch@ziggo.nl>
-> ---
->  .../gstreamer/gstreamer1.0-plugins-bad_git.bb                | 12 ------------
->  1 file changed, 12 deletions(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-> index ef6581b..cb562ef 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-> @@ -51,15 +51,3 @@ do_configure_prepend() {
->         ${S}/autogen.sh --noconfigure
->  }
->
-> -# In 1.6.2, the "--enable-hls" configure option generated an installable package
-> -# called "gstreamer1.0-plugins-bad-fragmented". In 1.7.1 that HLS plugin package
-> -# has become "gstreamer1.0-plugins-bad-hls". See:
-> -# http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=efe62292a3d045126654d93239fdf4cc8e48ae08
-> -
-> -PACKAGESPLITFUNCS_append = " handle_hls_rename "
-> -
-> -python handle_hls_rename () {
-> -    d.setVar('RPROVIDES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
-> -    d.setVar('RREPLACES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
-> -    d.setVar('RCONFLICTS_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
-> -}
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+[1]: The real environemnt is buildFHSUserEnv from NixOS/nixpkgs, but a
+  demonstration of the issue can be done like this:
+
+    $ touch f
+    $ unshare --user --mount chown 0:0 f
+    chown: changing ownership of ‘f’: Invalid argument
+
+Signed-off-by: Bjørn Forsman <bjorn.forsman@gmail.com>
+---
+ meta/classes/license.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index ba95c9a..94be559 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -354,9 +354,11 @@ def copy_license_files(lic_files_paths, destdir):
+                     os.chown(dst,0,0)
+                 except OSError as err:
+                     import errno
+-                    if err.errno == errno.EPERM:
+-                        # suppress "Operation not permitted" error, as
+-                        # sometimes this function is not executed under pseudo
++                    if err.errno in (errno.EPERM, errno.EINVAL):
++                        # Suppress "Operation not permitted" error, as
++                        # sometimes this function is not executed under pseudo.
++                        # Also ignore "Invalid argument" errors that happen in
++                        # some (unprivileged) container environments (no root).
+                         pass
+                     else:
+                         raise
+-- 
+2.7.4
+
 
