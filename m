@@ -1,21 +1,45 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EDC8607A5
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C8DE76710
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2016 16:41:06 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2016 09:40:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,441,1455004800"; d="scan'208";a="777822341"
-Received: from wcrandle-mobl1.amr.corp.intel.com (HELO
-	wcrandle-mobl1.jf.intel.com) ([10.24.5.27])
-	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2016 09:40:40 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Apr 2016 09:40:37 -0700
-Message-Id: <1459788037-14806-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCHv2] bdwgc: use github repo for source location
+	Mon,  4 Apr 2016 18:54:24 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id p188so157813285lfd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Apr 2016 11:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=mYRhnDr5FhvqB7M+Oq+HVTwkgvNKi6kqaFm2zjsuHp8=;
+	b=lhcIxzMjlQwumaHh2waH+doyl8Jya5ytYJLeC34CNBAV+vJO7btRZjsLJ4hJigbD3Q
+	Rb1VRbMsET5WLKfgEQkL09gzwmKAkYfSOMlhXT3WYOk9jdfmElJkWapyPDb9/ktNCJF6
+	eJp6UgWCGrxtADIJNnFbrAyevB93ZcYT2gnPm3go5caP+Lsk1Y/vW/RYLES3uWsLjHhg
+	h7O6kLM946g6FNfJAQ+4vpA/qTlr206v5/GxbGLGxxRxf6D08FZhaixP8sgWNH167B1e
+	UIbn8wWyrBfuGkDM/4Hv3bi/08BhMlBqZiWRDWCIJ39XEsx6cV8FJt5lcyRqVXKFFKFb
+	UDGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=mYRhnDr5FhvqB7M+Oq+HVTwkgvNKi6kqaFm2zjsuHp8=;
+	b=QTuTL7l32dBnG+N/U1+HI/K773o4aUfo7EjZvGZtUBo6HQP70HPbb7BAp+QlRqXNv3
+	s9duCJ0mOu0j4cswucVfN/bTIYVNUC2u9hWnJMgjNEvGVrGNjiwVz3KCxKJct1+tjMp/
+	6EMpEgJj5fK5tVDrIvuPNIbnXoAaG7bO7GL5/20jebJZ5j9gQMZD2P/jkt/4d7SI8jEt
+	urGG0w9H8mEK9fDv1+KArQZZ9phxtDJfiN2068wdAs3FqGSrCmqb2DSkhQiOQuT3MRH1
+	ijoa9VriUuMh0LCezfG/69Ph/XS+vVCL6SeaMpxWFvMVYko0N8G3FdbPtmz0EOjU4L7i
+	bGFA==
+X-Gm-Message-State: AD7BkJLcoKj/ByWE/k6HMPNKaMIEUyIQnV+9w+xbH6YKhYkNrnziRo3ENVxttxWnqKta9G4Sy7BBH22s8qwBPg==
+MIME-Version: 1.0
+X-Received: by 10.194.242.202 with SMTP id ws10mr15425690wjc.3.1459796063840; 
+	Mon, 04 Apr 2016 11:54:23 -0700 (PDT)
+Received: by 10.194.201.104 with HTTP; Mon, 4 Apr 2016 11:54:23 -0700 (PDT)
+In-Reply-To: <1459760318-3480-1-git-send-email-hainsvdbosch@ziggo.nl>
+References: <1459760318-3480-1-git-send-email-hainsvdbosch@ziggo.nl>
+Date: Mon, 4 Apr 2016 11:54:23 -0700
+Message-ID: <CAJ86T=UQfZNc4AwQtdBNEkRSSyrtVykvmYZ2ZhjXPPD=TP5=qQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Hains van den Bosch <hainsvdbosch@ziggo.nl>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad_git: Remove obsolete PACKAGESPLITFUNCS_append = " handle_hls_rename "
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,42 +52,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2016 16:41:07 -0000
+X-List-Received-Date: Mon, 04 Apr 2016 18:54:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The Yocto Autobuilder has been unable to fetch the release package 
-from the developer's website at www.hboehm.info, so change recipe
-to fetch from the developer's github repo instead.
+On Mon, Apr 4, 2016 at 1:58 AM, Hains van den Bosch
+<hainsvdbosch@ziggo.nl> wrote:
+> No need for that,now gstreamer_git is 1.7.2
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
-v2: diff against latest master
+No, this is need BECAUSE gstreamer_git is 1.7.2 (or any version >= 1.7.1).
 
- meta/recipes-support/bdwgc/bdwgc_7.4.2.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+It gives a smooth upgrade path from gstreamer 1.6.x (which provides
+the gstreamer1.0-plugins-bad-fragmented plug-in) to gstreamer >= 1.7.1
+(which provides the gstreamer1.0-plugins-bad-hls plug-in).
 
-diff --git a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-index 2e6ccf2..592352e 100644
---- a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-+++ b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-@@ -21,14 +21,13 @@ SECTION = "devel"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://README.QUICK;md5=55f5088f90a982fed7af9a4897047ef7"
- 
--SRC_URI = "http://www.hboehm.info/gc/gc_source/gc-${PV}.tar.gz \
-+SRCREV = "e31cdc288ffbee5bf25f948e19deb5a7ce846971"
-+SRC_URI = "git://github.com/ivmai/bdwgc.git;branch=release-7_4 \
-            file://0001-fix-build-with-musl.patch \
-            file://0001-configure.ac-add-check-for-NO_GETCONTEXT-definition.patch \
--	   file://0002-Altera-NIOS2-support.patch \
-+           file://0002-Altera-NIOS2-support.patch \
-           "
- 
--SRC_URI[md5sum] = "12c05fd2811d989341d8c6d81f66af87"
--SRC_URI[sha256sum] = "63320ad7c45460e4a40e03f5aa4c6893783f21a16416c3282b994f933312afa2"
- FILES_${PN}-doc = "/usr/share"
- 
- REAL_PV = "${@[d.getVar('PV',1)[:-1], d.getVar('PV',1)][(d.getVar('PV',1)[-1]).isdigit()]}"
--- 
-2.5.0
-
+> Signed-off-by: Hains van den Bosch <hainsvdbosch@ziggo.nl>
+> ---
+>  .../gstreamer/gstreamer1.0-plugins-bad_git.bb                | 12 ------------
+>  1 file changed, 12 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+> index ef6581b..cb562ef 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+> @@ -51,15 +51,3 @@ do_configure_prepend() {
+>         ${S}/autogen.sh --noconfigure
+>  }
+>
+> -# In 1.6.2, the "--enable-hls" configure option generated an installable package
+> -# called "gstreamer1.0-plugins-bad-fragmented". In 1.7.1 that HLS plugin package
+> -# has become "gstreamer1.0-plugins-bad-hls". See:
+> -# http://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=efe62292a3d045126654d93239fdf4cc8e48ae08
+> -
+> -PACKAGESPLITFUNCS_append = " handle_hls_rename "
+> -
+> -python handle_hls_rename () {
+> -    d.setVar('RPROVIDES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
+> -    d.setVar('RREPLACES_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
+> -    d.setVar('RCONFLICTS_gstreamer1.0-plugins-bad-hls', 'gstreamer1.0-plugins-bad-fragmented')
+> -}
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
