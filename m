@@ -1,30 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BB86576802
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 57FCE7716D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 14:46:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u35EkOpQ001476 for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Apr 2016 15:46:24 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qJ3G7pRHzK-f
+	Tue,  5 Apr 2016 14:56:41 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id 2so21805051ioy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 15:46:24 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u35EkLPZ001472
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Apr 2016 15:46:23 +0100
-Message-ID: <1459867581.7348.167.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Apr 2016 15:46:21 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] sanity: Increase minimum git version to 1.8.3.1
+	Tue, 05 Apr 2016 07:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wtsUffC/p8Wh44pvRNjP0GwYv7fHZy6wXA4L6QSRKDo=;
+	b=hgxdxYEKzSNo4V1nnoXz7craliHPXbgw42yjwkbZc5vVTGRjfwIJQqtc5D5jUE+AZY
+	OxWo4RIxwAJcM3R+v+8wjy64fTrSmcd9WJu1a2FDRlak9TXD0D0kbElp+yEF9oroe767
+	Med/xkAg3CcszVfl9FWBmzvJVUXx7YX0oSui19kPqR12XIet+6EzeN4dwIPOlikoqvYu
+	H+5w9+PUxHPhPxNc1aro3g9Wa1Dm+Qov7Rfg4BdmwJu4XOXsJI/TY3keHJZ1FT4mR1S2
+	Ztv8CPFwy8Da6iM5WkiKbQcd+idOBPgwYpcfAm/H2d12m0W2sSGm6cBeSdGRnqHwHZs6
+	lTXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wtsUffC/p8Wh44pvRNjP0GwYv7fHZy6wXA4L6QSRKDo=;
+	b=TyxXGq9nYI5quGyTjH5OpcBXr1XkbMvOgRctRdudYt8b4gcSYn9ay3vHXBlM++Zl0u
+	7AjMDUgbvaGeOVRUB6C5vUEceRPGKY06VImcX9BlpD2VxZT9PZKz8/XyRAYdy01vrvQB
+	eM6apTpqDxN/QX4T61q2F3djlQmzu1vnQA4murZumTAUMuGzBAi5KgZDP2npxHYU5aC+
+	CWQhlOL66VWY3msaP5GZ6GyxLBIPZ7k+mUYGVIM29tCSaO5AkE5hBkiO/2TAUmT5Eu+I
+	rc4mny+YFTojDV3PPGOduY4nR0l8JnxCzphMPZeO1caYREr0rSSuZKzEkr1hAiFko5QG
+	tuww==
+X-Gm-Message-State: AD7BkJIMcSRpcxPUzaNIkrdCkaHvdZFWi+Tw2bEfFrwrRd/17MJHzaVkf87qFXIlGs0XE0bhV8cOqvx6nG+GmLOQ
+X-Received: by 10.107.135.74 with SMTP id j71mr16354592iod.133.1459868202550; 
+	Tue, 05 Apr 2016 07:56:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.132.24 with HTTP; Tue, 5 Apr 2016 07:56:23 -0700 (PDT)
+In-Reply-To: <8a3fd47fc059f25ec7110cb74a5759556bae165e.1459438792.git.laurent.bonnans@hikob.com>
+References: <cover.1459438792.git.laurent.bonnans@hikob.com>
+	<8a3fd47fc059f25ec7110cb74a5759556bae165e.1459438792.git.laurent.bonnans@hikob.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Apr 2016 15:56:23 +0100
+Message-ID: <CAJTo0LYnkMORa=qY7wVruxYEmzD6mQZYeJENJz-vm3XRNnEYcw@mail.gmail.com>
+To: Laurent Bonnans <laurent.bonnans@hikob.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python: remove tests and sqlite3-tests modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 14:46:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Apr 2016 14:56:43 -0000
+Content-Type: multipart/alternative; boundary=001a113f9218a1dae3052fbe0d8b
 
-The kernel tools assume git > 1.7.9.5, I'm unsure of the exact version but
-the oldest in our infrastructure is 1.8.3.1. The git fetcher also currently
-has nasty workarounds for git < 1.7.9.2.
+--001a113f9218a1dae3052fbe0d8b
+Content-Type: text/plain; charset=UTF-8
 
-Moving to 1.8.3.1 as our minimum version seems sane at this point as the oldest
-we're testing/supporting.
+On 31 March 2016 at 17:15, Laurent Bonnans <laurent.bonnans@hikob.com>
+wrote:
 
-[YOCTO #6162]
+> If present in manifests, they are shipped in 'python-modules'. This
+> commit keeps them avalaible in the 'python-misc' package.
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+python-modules depends on python-misc, so this won't really achieve
+anything.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 662f764..d229938 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -531,14 +531,16 @@ def check_tar_version(sanity_data):
-     return None
- 
- # We use git parameters and functionality only found in 1.7.8 or later
-+# The kernel tools assume git >= 1.8.3.1 (verified needed > 1.7.9.5) see #6162 
-+# The git fetcher also had workarounds for git < 1.7.9.2 which we've dropped
- def check_git_version(sanity_data):
-     from distutils.version import LooseVersion
-     status, result = oe.utils.getstatusoutput("git --version 2> /dev/null")
-     if status != 0:
-         return "Unable to execute git --version, exit code %s\n" % status
-     version = result.split()[2]
--    if LooseVersion(version) < LooseVersion("1.7.8"):
--        return "Your version of git is older than 1.7.8 and has bugs which will break builds. Please install a newer version of git.\n"
-+    if LooseVersion(version) < LooseVersion("1.8.3.1"):
-+        return "Your version of git is older than 1.8.3.1 and has bugs which will break builds. Please install a newer version of git.\n"
-     return None
- 
- # Check the required perl modules which may not be installed by default
+Ross
 
+--001a113f9218a1dae3052fbe0d8b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 March 2016 at 17:15, Laurent Bonnans <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:laurent.bonnans@hikob.com" target=3D"_blank">laurent.bonnans@hikob.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":b8q=
+" class=3D"a3s" style=3D"overflow:hidden">If present in manifests, they are=
+ shipped in &#39;python-modules&#39;. This<br>
+commit keeps them avalaible in the &#39;python-misc&#39; package.<br></div>=
+</blockquote></div><br>python-modules depends on python-misc, so this won&#=
+39;t really achieve anything.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
 
+--001a113f9218a1dae3052fbe0d8b--
