@@ -1,46 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id ADEA2770EF
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AC3E077136
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 10:38:00 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id gy3so51582526igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Apr 2016 03:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NnTBQkreU3s+hfvaagwnXGo/W95EeJlZfp1566qBPpA=;
-	b=LawmNPVHX5KEuRISMXk28BTfMALqtF7VhI3SiIzwxK0shinU1U14EQynhKQ36UKNLT
-	ESLjHANuLaMr3mRVLidRSdRTQmJEAo5nJFoJAnAF2gOLVGEUusAcA1P2BQTo6HFnOWI6
-	ApO57TYTyMqkyikRPMzKC06GAwWEH0/V3zZNfmM146lxE4Mo45oZznLwZ2jG2vtm4SQm
-	Q+TJvzx4F3uCkeeqPDyh6NuNR6ftKkj09Lwo9KVz7/fJN1DchJOvFbLL3MBzp83bDB75
-	sreby7nIG9Rmv7xPPd8JiXjcHlaAtMkjvCFWIKJQmBwF/+idAsa76JVe/q17eORs4k2h
-	O93Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NnTBQkreU3s+hfvaagwnXGo/W95EeJlZfp1566qBPpA=;
-	b=gTYGydqn0Wg9JBK/+PtSQWcfz2oCLYju49hHDgwB+va5yV8DYhWhdsXrzOPeXkG7q9
-	xSRyOQzNSTFpnbV4mxD0BfYQGVS4Vn6TyWhyzmSwaKMv95gwixz+KFff4dfKwnQJvGg8
-	PpXbuR4iOOUSbRT7wMrLU+AysCiiuzGUTPDof8a+3KzjSuIYrlLTyOS2yV2gfnCjuoom
-	Bnu+t4aJB2ZQgMCqtHZg1zOSXZmLqulQ9L0Qx7FpCw6g7MzTCnFOFb+8wkNuSdeXhOBh
-	AmfxmL+PjiLpuMYcpNccN/UXUlMn/ggmFmz+DKSbe1hoc/LxNgNHSJX7KrdnrsdlCRnM
-	MS4A==
-X-Gm-Message-State: AD7BkJL2VNqSemr9Q5eeVkOLlsqFJnX2+YvPUByglBnFKboQbgcBw/ki+M2vy/YBEaemJVQHJCsJHsPLUITgKvXS
-X-Received: by 10.50.155.67 with SMTP id vu3mr14571229igb.52.1459852681181;
-	Tue, 05 Apr 2016 03:38:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Tue, 5 Apr 2016 03:37:41 -0700 (PDT)
-In-Reply-To: <1459826822-13791-1-git-send-email-Haiqing.Bai@windriver.com>
-References: <1459826822-13791-1-git-send-email-Haiqing.Bai@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Apr 2016 11:37:41 +0100
-Message-ID: <CAJTo0Lb8AccFHoBfHJXZR0iUtPXEvCzRiUBpadYeDw8cA10QXg@mail.gmail.com>
-To: Haiqing Bai <Haiqing.Bai@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Make conditional compile for DES related code in python-m2crypto.
+	Tue,  5 Apr 2016 13:21:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2016 06:21:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,444,1455004800"; d="scan'208";a="925820818"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 05 Apr 2016 06:21:50 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, paul.eggleton@linux.intel.com
+Date: Tue,  5 Apr 2016 16:21:49 +0300
+Message-Id: <1459862509-13676-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] externalsrc: avoid race in temporary git index file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +28,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 10:38:01 -0000
-Content-Type: multipart/alternative; boundary=001a1134dbec7cd9fe052fba70aa
+X-List-Received-Date: Tue, 05 Apr 2016 13:21:51 -0000
 
---001a1134dbec7cd9fe052fba70aa
-Content-Type: text/plain; charset=UTF-8
+Use a unique tempfile as the temporary git index file when determining
+the git hash of the source tree. A fixed filename was obviously causing
+races (with the git index.lock file) under oe-selftest where multiple
+bitbake instances were run against the same source tree at the same
+time.
 
-On 5 April 2016 at 04:27, Haiqing Bai <Haiqing.Bai@windriver.com> wrote:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/classes/externalsrc.bbclass | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-> +From 85dbf29dcc3786ed101278721d60cc3bc4c182bc Mon Sep 17 00:00:00 2001
-> +From: Haiqing Bai <Haiqing.Bai@windriver.com>
-> +Date: Fri, 1 Apr 2016 14:44:33 +0800
-> +Subject: [PATCH] conditional compile DES related code.
->
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index dff6184..da7eb478 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -130,21 +130,22 @@ python externalsrc_compile_prefunc() {
+ def srctree_hash_files(d):
+     import shutil
+     import subprocess
++    import tempfile
+ 
+     s_dir = d.getVar('EXTERNALSRC', True)
+     git_dir = os.path.join(s_dir, '.git')
+-    oe_index_file = os.path.join(git_dir, 'oe-devtool-index')
+     oe_hash_file = os.path.join(git_dir, 'oe-devtool-tree-sha1')
+ 
+     ret = " "
+     if os.path.exists(git_dir):
+-        # Clone index
+-        shutil.copy2(os.path.join(git_dir, 'index'), oe_index_file)
+-        # Update our custom index
+-        env = os.environ.copy()
+-        env['GIT_INDEX_FILE'] = oe_index_file
+-        subprocess.check_output(['git', 'add', '.'], cwd=s_dir, env=env)
+-        sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env)
++        with tempfile.NamedTemporaryFile(dir=git_dir, prefix='oe-devtool-index') as tmp_index:
++            # Clone index
++            shutil.copy2(os.path.join(git_dir, 'index'), tmp_index.name)
++            # Update our custom index
++            env = os.environ.copy()
++            env['GIT_INDEX_FILE'] = tmp_index.name
++            subprocess.check_output(['git', 'add', '.'], cwd=s_dir, env=env)
++            sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env)
+         with open(oe_hash_file, 'w') as fobj:
+             fobj.write(sha1)
+         ret = oe_hash_file + ':True'
+-- 
+2.6.2
 
-Missing Signed-off-by and Upstream-Status.
 
-Ross
-
---001a1134dbec7cd9fe052fba70aa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 April 2016 at 04:27, Haiqing Bai <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:Haiqing.Bai@windriver.com" target=3D"_blank">Haiqing.Bai@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7k8" cla=
-ss=3D"a3s" style=3D"overflow:hidden">+From 85dbf29dcc3786ed101278721d60cc3b=
-c4c182bc Mon Sep 17 00:00:00 2001<br>
-+From: Haiqing Bai &lt;<a href=3D"mailto:Haiqing.Bai@windriver.com">Haiqing=
-.Bai@windriver.com</a>&gt;<br>
-+Date: Fri, 1 Apr 2016 14:44:33 +0800<br>
-+Subject: [PATCH] conditional compile DES related code.</div></blockquote><=
-/div><br>Missing Signed-off-by and Upstream-Status.</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1134dbec7cd9fe052fba70aa--
