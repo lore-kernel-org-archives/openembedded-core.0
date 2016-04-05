@@ -1,60 +1,36 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1563 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 05 Apr 2016 06:37:30 UTC
-Received: from mx18-13.smtp.antispamcloud.com (mx18-13.smtp.antispamcloud.com
-	[207.244.64.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 45A3D62133
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F4577103
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 06:37:30 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1anKCr-0008QY-7J; Tue, 05 Apr 2016 08:11:25 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 5 Apr 2016 08:11:14 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
-	<armccurdy@gmail.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-References: <CAJ86T=VWi3JQoCs23RqrW95M=z9DszLfgAo3fOT2UaqiJty5jg@mail.gmail.com>
-	<1459586928.7348.75.camel@linuxfoundation.org>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <57035702.5080101@topic.nl>
-Date: Tue, 5 Apr 2016 08:11:14 +0200
+	Tue,  5 Apr 2016 06:42:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u356gGWF006308
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 4 Apr 2016 23:42:16 -0700
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 4 Apr 2016 23:42:15 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1459677330.git.liezhi.yang@windriver.com>
+	<637f6783157bb0e9449d153133485401bcf2dbb1.1459677330.git.liezhi.yang@windriver.com>
+	<CADkTA4NVbCvZwHt62hZzrV+NLpq0qytN_duRv8EigM12mUJs7g@mail.gmail.com>
+	<1459719999.7348.142.camel@linuxfoundation.org>
+	<CADkTA4Pz5sHPmRMVmQQsoPoQH1tmPkK93QUhtA7LmzibH7-tjQ@mail.gmail.com>
+	<57031A9C.3040000@windriver.com>
+	<CADkTA4M=kwVZnHi-3EfdjkhV4rA6Ep+hWw3EpZrcfu3Q7pz85A@mail.gmail.com>
+	<57032796.3020302@windriver.com>
+	<CADkTA4PtLF1tYBdSQLuz5Z-zRtNX46NV2LVNJuJtAb2jStR8dw@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57035E46.3090707@windriver.com>
+Date: Tue, 5 Apr 2016 14:42:14 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <1459586928.7348.75.camel@linuxfoundation.org>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0mvayrARxQsaVhW6R5/2thqbscANip7ZwTyX91RPNepXTxYO9+h4+Kgr/VqvR5kS3Px
-	Wi/qTuYSS82eGozojuMmxVQnuZQWsVlRBrZxlxA3N2542d/b7t9lHmDQ8yh7HaBeFoCpBTZf/vD+
-	3CqUfp1OGUSwEeTZOqcIQrOnOb/i7uC0nKyQ4WRk1ASq3LEA9bahZ3yT0N1sCL/bdMvhajbFy1Z4
-	Umm1/HOC+KUPSSTIPAlbDjazCbhs7qBpykynMiKLxe/jSv7J0ay+ZKRnZ1QgRN+MUQw/F94u72K1
-	Vk+WySsGK8uKTQL/mP7ZoP922ygJZp+EGNF2ucOZkdt/1pk0dKFOE3BfZETw255uBppYkljXryrt
-	+P8qvARxhOwUCVuDQEdKm65cTUbfWaDAny60lVw2sV/gZozkSDmyU05j0GfvDBaIXh8p/cSXZXPL
-	ixtnh67vwc34ME4psYWcv54v/jvJWXl4bZSUf3oJrZnl5dnU3Bofyz743BOOAvzp0ZnckpWaLvah
-	yBjmQxBKOzsUVWwArlQYMzGS1J7mlVN6n4eei8kcprcU9UCAt8uY6Uq66K6N15pi4KtuN7St+JBd
-	c/8+FpxKAvAtd3FgAVpYzHkfATGQrLEsGz/Salrk+OidX4Ts4xdG+C13IyWeZaKdTmSHNtpP4Vu7
-	zWKoyv+dJcqaANbLHasxeXJYXsXLua6pN1S5UDp5Ue1Z1WpPtRCh5tarCJ8BGubaGSYIZnVp
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJcFIkh7yuznlTeFPLSNUgKbJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Subject: Re: Staging machine specific kernel headers in sysroot
+In-Reply-To: <CADkTA4PtLF1tYBdSQLuz5Z-zRtNX46NV2LVNJuJtAb2jStR8dw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] linux-yocto 4.4: enable overlayfs by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,58 +43,232 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 06:37:31 -0000
+X-List-Received-Date: Tue, 05 Apr 2016 06:42:20 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-=EF=BB=BFOn 02-04-16 10:48, Richard Purdie wrote:
-> On Fri, 2016-04-01 at 20:38 -0700, Andre McCurdy wrote:
->> Say I have a kernel driver with a user space API (simple struct and
->> ioctl definitions) defined in a header file which is part of my
->> machine specific kernel. The header file is not found in the upstream
->> kernel, so doesn't clash with anything in linux-libc-headers.
->>
->> Is it OK to use something like the following in my kernel recipe?
->>
->>    sysroot_stage_all_append () {
->>      install -d ${SYSROOT_DESTDIR}/${includedir}/linux
->>      install -m644 ${S}/include/linux/foo.h
->> ${SYSROOT_DESTDIR}/${includedir}/linux/
->>    }
->>
->> I've tested it and everything seems to work fine, but I'm wondering
->> if
->> bypassing do_install like that is going to cause problems somehow?
+
+
+On 04/05/2016 02:33 PM, Bruce Ashfield wrote:
 >
-> You can probably just do it in do_install to be honest, then on target
-> development would also work.
+>
+> On Mon, Apr 4, 2016 at 10:48 PM, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>
+>
+>     On 04/05/2016 10:31 AM, Bruce Ashfield wrote:
+>
+>
+>
+>         On Mon, Apr 4, 2016 at 9:53 PM, Robert Yang <liezhi.yang@windriver.com
+>         <mailto:liezhi.yang@windriver.com>
+>         <mailto:liezhi.yang@windriver.com <mailto:liezhi.yang@windriver.com>>>
+>         wrote:
+>
+>
+>              Hi Bruce,
+>
+>              How many union fs on Linux, please? AFAIK:
+>              * unionfs: not supported by kernel any more.
+>              * aufs
+>              * overlayfs
+>
+>              If aufs and overlayfs are conflicted, how about:
+>
+>              KERNEL_UNION_FS ?= "features/overlayfs/overlayfs.scc"
+>
+>              KERNEL_EXTRA_FEATURES ?= "[snip] ${KERNEL_UNION_FS}"
+>
+>              I think that we really need a way to make iso/hddimg work by default
+>              to enhance the OOBE.
+>
+>
+>         That sort of mechanism can work, but not if it is enabled by default.
+>         out of box
+>         experience
+>         is one thing, but there are plenty of boot and image types that don't need a
+>         unionfs, and
+>         we can't force these as =y for those image types.
+>
+>         If we make a modular config, and a built-in config, we could pick the
+>         modular
+>         config by
+>         default, and then have the package list for the images that need them,
+>         rdepend
+>         on the
+>         appropriate modules.
+>
+>
+>     Sounds good, so how about:
+>
+>     1) Update kernel to make overlayfs as module rather than builtin
+>
+>
+> Having two fragments make sense. one for built in, and one that is modules.
+> Since these are
+> distinct use case both sets of configuration are reasonable.
 
-A simple method to get around the header being "kernel" related is to creat=
-e a=20
-second recipe referring the same repository as the module, but that just=20
-installs the header. That turns it into a simple "library" dependency inste=
-ad=20
-of making things machine-specific.
+How about this:
+
+diff --git a/ktypes/preempt-rt/preempt-rt.cfg b/ktypes/preempt-rt/preempt-rt.cfg
+index 4c62804..28ad8cf 100644
+--- a/ktypes/preempt-rt/preempt-rt.cfg
++++ b/ktypes/preempt-rt/preempt-rt.cfg
+@@ -1116,3 +1116,5 @@ CONFIG_CRYPTO_TEST=m
+  #
+  CONFIG_LIBCRC32C=m
+  CONFIG_ZLIB_DEFLATE=m
++
++CONFIG_OVERLAY_FS=m
+diff --git a/ktypes/standard/standard.cfg b/ktypes/standard/standard.cfg
+index b3dbde5..3dabf49 100644
+--- a/ktypes/standard/standard.cfg
++++ b/ktypes/standard/standard.cfg
+@@ -1108,3 +1108,5 @@ CONFIG_LIBCRC32C=m
+  CONFIG_ZLIB_DEFLATE=m
+
+  CONFIG_SHMEM=y
++
++CONFIG_OVERLAY_FS=m
 
 
+>
+>     2) let core-image-minimal-initramfs RDEPENEDS on the module.
+>
+>
+> I'd still prefer that this be set in a distro or optional layer. Since why
 
+The live/iso/hddimg is supported by oe-core, all of them are in oe-core layer,
+I'm afraid that we can't add it in an extra layer or bbappend.
 
-Kind regards,
+> should core image
+> minimal be the target for this ? There are any number of targets that might be
+> used for
+> live boot.
 
-Mike Looijmans
-System Expert
+All of them are in oe-core layer, core-image-minimal-initramfs.bb is the
+default live image in oe-core, I think that add kerne-module-overlay to
+its INSTALL is reasonable.
 
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
+If there are other layers which have their own live image, then they can add
+it to their INSTALL.
 
-Please consider the environment before printing this e-mail
+// Robert
 
-
-
-
-
+>
+> Bruce
+>
+>     // Robert
+>
+>
+>         Bruce
+>
+>
+>              // Robert
+>
+>              On 04/04/2016 07:56 AM, Bruce Ashfield wrote:
+>
+>
+>
+>                  On Sun, Apr 3, 2016 at 5:46 PM, Richard Purdie
+>                  <richard.purdie@linuxfoundation.org
+>         <mailto:richard.purdie@linuxfoundation.org>
+>                  <mailto:richard.purdie@linuxfoundation.org
+>         <mailto:richard.purdie@linuxfoundation.org>>
+>                  <mailto:richard.purdie@linuxfoundation.org
+>         <mailto:richard.purdie@linuxfoundation.org>
+>                  <mailto:richard.purdie@linuxfoundation.org
+>         <mailto:richard.purdie@linuxfoundation.org>>>>
+>                  wrote:
+>
+>                       On Sun, 2016-04-03 at 06:11 -0400, Bruce Ashfield wrote:
+>                       >
+>                       >
+>                       > On Sun, Apr 3, 2016 at 5:58 AM, Robert Yang <
+>                       >liezhi.yang@windriver.com
+>         <mailto:liezhi.yang@windriver.com> <mailto:liezhi.yang@windriver.com
+>         <mailto:liezhi.yang@windriver.com>>
+>                  <mailto:liezhi.yang@windriver.com
+>         <mailto:liezhi.yang@windriver.com> <mailto:liezhi.yang@windriver.com
+>         <mailto:liezhi.yang@windriver.com>>>>
+>
+>                  wrote:
+>                       > > So that iso can work well, otherwise the iso is
+>         readonly and there
+>                       > > would
+>                       > > be errors. The other way is aufs, but overlayfs is
+>         more pupolar and
+>                       > > had
+>                       > > been merged by kernel mainline, we need make iso work
+>         well by
+>                       > > default.
+>                       > Nope. As I mentioned before, this can't be a always on
+>         default. It
+>                       > will conflict
+>                       > with other unionFS use cases.
+>                       >
+>                       > If you want overlayfs enabled, it needs to be triggered
+>         from a
+>                       > specific image
+>                       > or distro feature.
+>
+>                       We can't change the kernel config from an image so it
+>         would have to be
+>                       a distro setting. Is there a problem with enabling both as
+>         modules btw?
+>                       I assume they can coexist?
+>
+>
+>                  I've always found it limiting that we can't trigger kernel
+>         features based on
+>                  what an image'
+>                  type actually needs, but I understand why/how it works like this.
+>
+>                  If it can't be triggered by an image setting, then just keeping
+>         a layer
+>                  that is
+>                  added
+>                  to the build, that has a bbappend with the appropriate
+>         KERNEL_FEATURES would
+>                  also work, and is the approach that I've also taken.
+>
+>                  Not that the existing configs are great in this respect (they
+>         need a lot of
+>                  streamlining),
+>                  but building modules 'just in case' eventually leads to
+>         allmodconfig :)
+>
+>                  I'd imagine they could co-exist, but it isn't something I've tried.
+>
+>                  Bruce
+>
+>
+>                       Cheers,
+>
+>                       Richard
+>
+>
+>
+>
+>                  --
+>                  "Thou shalt not follow the NULL pointer, for chaos and madness
+>         await
+>                  thee at its
+>                  end"
+>
+>
+>
+>
+>         --
+>         "Thou shalt not follow the NULL pointer, for chaos and madness await
+>         thee at its
+>         end"
+>
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its
+> end"
 
