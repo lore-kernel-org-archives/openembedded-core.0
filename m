@@ -1,36 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 23F4577103
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C33707706C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 06:42:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u356gGWF006308
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 4 Apr 2016 23:42:16 -0700
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 4 Apr 2016 23:42:15 -0700
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.1459677330.git.liezhi.yang@windriver.com>
-	<637f6783157bb0e9449d153133485401bcf2dbb1.1459677330.git.liezhi.yang@windriver.com>
-	<CADkTA4NVbCvZwHt62hZzrV+NLpq0qytN_duRv8EigM12mUJs7g@mail.gmail.com>
-	<1459719999.7348.142.camel@linuxfoundation.org>
-	<CADkTA4Pz5sHPmRMVmQQsoPoQH1tmPkK93QUhtA7LmzibH7-tjQ@mail.gmail.com>
-	<57031A9C.3040000@windriver.com>
-	<CADkTA4M=kwVZnHi-3EfdjkhV4rA6Ep+hWw3EpZrcfu3Q7pz85A@mail.gmail.com>
-	<57032796.3020302@windriver.com>
-	<CADkTA4PtLF1tYBdSQLuz5Z-zRtNX46NV2LVNJuJtAb2jStR8dw@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57035E46.3090707@windriver.com>
-Date: Tue, 5 Apr 2016 14:42:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4PtLF1tYBdSQLuz5Z-zRtNX46NV2LVNJuJtAb2jStR8dw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto 4.4: enable overlayfs by default
+	Tue,  5 Apr 2016 07:25:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 05 Apr 2016 00:25:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,443,1455004800"; d="scan'208";a="951847976"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2016 00:25:09 -0700
+Received: from mbabyjoh-desk.ger.corp.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 192906A4002
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Apr 2016 01:12:48 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Apr 2016 10:25:15 +0300
+Message-Id: <1459841115-15996-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] useradd.bbclass: remove user/group created by the package in clean* task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,232 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 06:42:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Apr 2016 07:25:20 -0000
 
+At present, if a recipe is built which creates users/groups via useradd.bbclass,
+those users/groups are not removed (at least from sysroot) when the
+recipe/package is cleaned using clean/cleansstate/cleanall.
 
+The "userdel_sysroot_sstate()" provides that functionality.
 
-On 04/05/2016 02:33 PM, Bruce Ashfield wrote:
->
->
-> On Mon, Apr 4, 2016 at 10:48 PM, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->
->
->     On 04/05/2016 10:31 AM, Bruce Ashfield wrote:
->
->
->
->         On Mon, Apr 4, 2016 at 9:53 PM, Robert Yang <liezhi.yang@windriver.com
->         <mailto:liezhi.yang@windriver.com>
->         <mailto:liezhi.yang@windriver.com <mailto:liezhi.yang@windriver.com>>>
->         wrote:
->
->
->              Hi Bruce,
->
->              How many union fs on Linux, please? AFAIK:
->              * unionfs: not supported by kernel any more.
->              * aufs
->              * overlayfs
->
->              If aufs and overlayfs are conflicted, how about:
->
->              KERNEL_UNION_FS ?= "features/overlayfs/overlayfs.scc"
->
->              KERNEL_EXTRA_FEATURES ?= "[snip] ${KERNEL_UNION_FS}"
->
->              I think that we really need a way to make iso/hddimg work by default
->              to enhance the OOBE.
->
->
->         That sort of mechanism can work, but not if it is enabled by default.
->         out of box
->         experience
->         is one thing, but there are plenty of boot and image types that don't need a
->         unionfs, and
->         we can't force these as =y for those image types.
->
->         If we make a modular config, and a built-in config, we could pick the
->         modular
->         config by
->         default, and then have the package list for the images that need them,
->         rdepend
->         on the
->         appropriate modules.
->
->
->     Sounds good, so how about:
->
->     1) Update kernel to make overlayfs as module rather than builtin
->
->
-> Having two fragments make sense. one for built in, and one that is modules.
-> Since these are
-> distinct use case both sets of configuration are reasonable.
+[YOCTO #9262]
 
-How about this:
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/classes/sstate.bbclass  |  6 ++++++
+ meta/classes/useradd.bbclass | 26 ++++++++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/ktypes/preempt-rt/preempt-rt.cfg b/ktypes/preempt-rt/preempt-rt.cfg
-index 4c62804..28ad8cf 100644
---- a/ktypes/preempt-rt/preempt-rt.cfg
-+++ b/ktypes/preempt-rt/preempt-rt.cfg
-@@ -1116,3 +1116,5 @@ CONFIG_CRYPTO_TEST=m
-  #
-  CONFIG_LIBCRC32C=m
-  CONFIG_ZLIB_DEFLATE=m
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 6f285da..96b6265 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -51,6 +51,7 @@ SSTATEPREINSTFUNCS = ""
+ SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
+ SSTATEPOSTINSTFUNCS = ""
+ EXTRA_STAGING_FIXMES ?= ""
++SSTATECLEANFUNCS = ""
+ 
+ SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
+ 
+@@ -444,6 +445,11 @@ def sstate_clean(ss, d):
+                 stfile.endswith(rm_nohash):
+             oe.path.remove(stfile)
+ 
++    # Remove the users/groups created by the package
++    for cleanfunc in (d.getVar('SSTATECLEANFUNCS', True) or '').split():
++        if d.getVar('BB_CURRENTTASK', True) in ['configure', 'clean']:
++            bb.build.exec_func(cleanfunc, d)
 +
-+CONFIG_OVERLAY_FS=m
-diff --git a/ktypes/standard/standard.cfg b/ktypes/standard/standard.cfg
-index b3dbde5..3dabf49 100644
---- a/ktypes/standard/standard.cfg
-+++ b/ktypes/standard/standard.cfg
-@@ -1108,3 +1108,5 @@ CONFIG_LIBCRC32C=m
-  CONFIG_ZLIB_DEFLATE=m
-
-  CONFIG_SHMEM=y
+ sstate_clean[vardepsexclude] = "SSTATE_MANFILEPREFIX"
+ 
+ CLEANFUNCS += "sstate_cleanall"
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 0a6f2be..2b2bb96 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -127,6 +127,32 @@ useradd_sysroot_sstate () {
+ 	fi
+ }
+ 
++userdel_sysroot_sstate () {
++if test "x${STAGING_DIR_TARGET}" != "x"; then
++    export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir}/pseudo"
++    OPT="--root ${STAGING_DIR_TARGET}"
 +
-+CONFIG_OVERLAY_FS=m
++    # Remove groups and users defined for package
++    GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
++    USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
++
++    if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" != "x"; then
++        user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
++        perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
++    fi
++
++    if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" != "x"; then
++        group=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
++        perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $group"
++    fi
++fi
++}
++
++SSTATECLEANFUNCS = "userdel_sysroot_sstate"
++SSTATECLEANFUNCS_class-cross = ""
++SSTATECLEANFUNCS_class-native = ""
++SSTATECLEANFUNCS_class-nativesdk = ""
++
+ do_install[prefuncs] += "${SYSROOTFUNC}"
+ SYSROOTFUNC = "useradd_sysroot"
+ SYSROOTFUNC_class-cross = ""
+-- 
+2.4.0
 
-
->
->     2) let core-image-minimal-initramfs RDEPENEDS on the module.
->
->
-> I'd still prefer that this be set in a distro or optional layer. Since why
-
-The live/iso/hddimg is supported by oe-core, all of them are in oe-core layer,
-I'm afraid that we can't add it in an extra layer or bbappend.
-
-> should core image
-> minimal be the target for this ? There are any number of targets that might be
-> used for
-> live boot.
-
-All of them are in oe-core layer, core-image-minimal-initramfs.bb is the
-default live image in oe-core, I think that add kerne-module-overlay to
-its INSTALL is reasonable.
-
-If there are other layers which have their own live image, then they can add
-it to their INSTALL.
-
-// Robert
-
->
-> Bruce
->
->     // Robert
->
->
->         Bruce
->
->
->              // Robert
->
->              On 04/04/2016 07:56 AM, Bruce Ashfield wrote:
->
->
->
->                  On Sun, Apr 3, 2016 at 5:46 PM, Richard Purdie
->                  <richard.purdie@linuxfoundation.org
->         <mailto:richard.purdie@linuxfoundation.org>
->                  <mailto:richard.purdie@linuxfoundation.org
->         <mailto:richard.purdie@linuxfoundation.org>>
->                  <mailto:richard.purdie@linuxfoundation.org
->         <mailto:richard.purdie@linuxfoundation.org>
->                  <mailto:richard.purdie@linuxfoundation.org
->         <mailto:richard.purdie@linuxfoundation.org>>>>
->                  wrote:
->
->                       On Sun, 2016-04-03 at 06:11 -0400, Bruce Ashfield wrote:
->                       >
->                       >
->                       > On Sun, Apr 3, 2016 at 5:58 AM, Robert Yang <
->                       >liezhi.yang@windriver.com
->         <mailto:liezhi.yang@windriver.com> <mailto:liezhi.yang@windriver.com
->         <mailto:liezhi.yang@windriver.com>>
->                  <mailto:liezhi.yang@windriver.com
->         <mailto:liezhi.yang@windriver.com> <mailto:liezhi.yang@windriver.com
->         <mailto:liezhi.yang@windriver.com>>>>
->
->                  wrote:
->                       > > So that iso can work well, otherwise the iso is
->         readonly and there
->                       > > would
->                       > > be errors. The other way is aufs, but overlayfs is
->         more pupolar and
->                       > > had
->                       > > been merged by kernel mainline, we need make iso work
->         well by
->                       > > default.
->                       > Nope. As I mentioned before, this can't be a always on
->         default. It
->                       > will conflict
->                       > with other unionFS use cases.
->                       >
->                       > If you want overlayfs enabled, it needs to be triggered
->         from a
->                       > specific image
->                       > or distro feature.
->
->                       We can't change the kernel config from an image so it
->         would have to be
->                       a distro setting. Is there a problem with enabling both as
->         modules btw?
->                       I assume they can coexist?
->
->
->                  I've always found it limiting that we can't trigger kernel
->         features based on
->                  what an image'
->                  type actually needs, but I understand why/how it works like this.
->
->                  If it can't be triggered by an image setting, then just keeping
->         a layer
->                  that is
->                  added
->                  to the build, that has a bbappend with the appropriate
->         KERNEL_FEATURES would
->                  also work, and is the approach that I've also taken.
->
->                  Not that the existing configs are great in this respect (they
->         need a lot of
->                  streamlining),
->                  but building modules 'just in case' eventually leads to
->         allmodconfig :)
->
->                  I'd imagine they could co-exist, but it isn't something I've tried.
->
->                  Bruce
->
->
->                       Cheers,
->
->                       Richard
->
->
->
->
->                  --
->                  "Thou shalt not follow the NULL pointer, for chaos and madness
->         await
->                  thee at its
->                  end"
->
->
->
->
->         --
->         "Thou shalt not follow the NULL pointer, for chaos and madness await
->         thee at its
->         end"
->
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its
-> end"
 
