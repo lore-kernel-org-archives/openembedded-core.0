@@ -1,24 +1,32 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F43D731F7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 81365731CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 01:33:24 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2016 18:33:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,442,1455004800"; d="scan'208";a="79073034"
-Received: from anandsan-mobl.amr.corp.intel.com ([10.254.19.102])
-	by fmsmga004.fm.intel.com with ESMTP; 04 Apr 2016 18:33:24 -0700
-Message-ID: <1459820004.18406.230.camel@intel.com>
-From: Saul Wold <saul.wold@intel.com>
-To: Bill Randle <william.c.randle@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 04 Apr 2016 18:33:24 -0700
-In-Reply-To: <1459786689-13082-1-git-send-email-william.c.randle@intel.com>
-References: <1459786689-13082-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: Evolution 3.18.5.1 (3.18.5.1-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] bdwgc: use github repo for source location
+	Tue,  5 Apr 2016 01:53:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u351rZm6009213
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Apr 2016 18:53:35 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 4 Apr 2016 18:53:34 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1459677330.git.liezhi.yang@windriver.com>
+	<637f6783157bb0e9449d153133485401bcf2dbb1.1459677330.git.liezhi.yang@windriver.com>
+	<CADkTA4NVbCvZwHt62hZzrV+NLpq0qytN_duRv8EigM12mUJs7g@mail.gmail.com>
+	<1459719999.7348.142.camel@linuxfoundation.org>
+	<CADkTA4Pz5sHPmRMVmQQsoPoQH1tmPkK93QUhtA7LmzibH7-tjQ@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57031A9C.3040000@windriver.com>
+Date: Tue, 5 Apr 2016 09:53:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4Pz5sHPmRMVmQQsoPoQH1tmPkK93QUhtA7LmzibH7-tjQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] linux-yocto 4.4: enable overlayfs by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,61 +39,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 01:33:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-On Mon, 2016-04-04 at 09:18 -0700, Bill Randle wrote:
-> The Yocto Autobuilder has been unable to fetch the release package
-> from the developer's website at www.hboehm.info, so change recipe
-> to fetch from the developer's github repo instead.
-> 
-> Signed-off-by: Bill Randle <william.c.randle@intel.com>
-> ---
->  meta/recipes-support/bdwgc/bdwgc_7.4.2.bb | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-> b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-> index 95e358f..7a4110d 100644
-> --- a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-> +++ b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
-> @@ -21,12 +21,10 @@ SECTION = "devel"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM =
-> "file://README.QUICK;md5=55f5088f90a982fed7af9a4897047ef7"
->  
-> -SRC_URI = "http://www.hboehm.info/gc/gc_source/gc-${PV}.tar.gz \
-> +SRCREV = "e31cdc288ffbee5bf25f948e19deb5a7ce846971"
-> +SRC_URI = "git://github.com/ivmai/bdwgc.git;branch=release-7_4 \
->             file://0001-fix-build-with-musl.patch \
->            "
-
-It appears that when you updated to the git location the source base
-might have changed and the MUSL patch is no longer applyng correctly.
-
-Please verify that the patch correctly applies.
-
-See the failure in master-next with your patch:
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
-s/76/steps/BuildImages/logs/stdio
-
-This might cause more failures in the Autobuilder, this is the first
-that I saw.
-
-Sau!
+X-List-Received-Date: Tue, 05 Apr 2016 01:53:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-> -
-> -SRC_URI[md5sum] = "12c05fd2811d989341d8c6d81f66af87"
-> -SRC_URI[sha256sum] =
-> "63320ad7c45460e4a40e03f5aa4c6893783f21a16416c3282b994f933312afa2"
->  FILES_${PN}-doc = "/usr/share"
->  
->  REAL_PV = "${@[d.getVar('PV',1)[:-1],
-> d.getVar('PV',1)][(d.getVar('PV',1)[-1]).isdigit()]}"
-> -- 
-> 2.5.0
-> 
+Hi Bruce,
+
+How many union fs on Linux, please? AFAIK:
+* unionfs: not supported by kernel any more.
+* aufs
+* overlayfs
+
+If aufs and overlayfs are conflicted, how about:
+
+KERNEL_UNION_FS ?= "features/overlayfs/overlayfs.scc"
+
+KERNEL_EXTRA_FEATURES ?= "[snip] ${KERNEL_UNION_FS}"
+
+I think that we really need a way to make iso/hddimg work by default
+to enhance the OOBE.
+
+// Robert
+
+On 04/04/2016 07:56 AM, Bruce Ashfield wrote:
+>
+>
+> On Sun, Apr 3, 2016 at 5:46 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org <mailto:richard.purdie@linuxfoundation.org>>
+> wrote:
+>
+>     On Sun, 2016-04-03 at 06:11 -0400, Bruce Ashfield wrote:
+>     >
+>     >
+>     > On Sun, Apr 3, 2016 at 5:58 AM, Robert Yang <
+>     >liezhi.yang@windriver.com <mailto:liezhi.yang@windriver.com>> wrote:
+>     > > So that iso can work well, otherwise the iso is readonly and there
+>     > > would
+>     > > be errors. The other way is aufs, but overlayfs is more pupolar and
+>     > > had
+>     > > been merged by kernel mainline, we need make iso work well by
+>     > > default.
+>     > Nope. As I mentioned before, this can't be a always on default. It
+>     > will conflict
+>     > with other unionFS use cases.
+>     >
+>     > If you want overlayfs enabled, it needs to be triggered from a
+>     > specific image
+>     > or distro feature.
+>
+>     We can't change the kernel config from an image so it would have to be
+>     a distro setting. Is there a problem with enabling both as modules btw?
+>     I assume they can coexist?
+>
+>
+> I've always found it limiting that we can't trigger kernel features based on
+> what an image'
+> type actually needs, but I understand why/how it works like this.
+>
+> If it can't be triggered by an image setting, then just keeping a layer that is
+> added
+> to the build, that has a bbappend with the appropriate KERNEL_FEATURES would
+> also work, and is the approach that I've also taken.
+>
+> Not that the existing configs are great in this respect (they need a lot of
+> streamlining),
+> but building modules 'just in case' eventually leads to allmodconfig :)
+>
+> I'd imagine they could co-exist, but it isn't something I've tried.
+>
+> Bruce
+>
+>
+>     Cheers,
+>
+>     Richard
+>
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its
+> end"
 
