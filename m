@@ -1,39 +1,46 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D485F77116
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 87E6277143
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 15:31:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 05 Apr 2016 08:31:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,444,1455004800"; d="scan'208";a="948537466"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by orsmga002.jf.intel.com with ESMTP; 05 Apr 2016 08:31:13 -0700
-Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Tue, 5 Apr 2016 08:31:13 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.68]) by
-	ORSMSX156.amr.corp.intel.com ([169.254.8.159]) with mapi id
-	14.03.0248.002; Tue, 5 Apr 2016 08:31:12 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Wold, Saul"
-	<saul.wold@intel.com>
-Thread-Topic: [OE-core] [PATCH] bdwgc: use github repo for source location
-Thread-Index: AQHRjo2dKZAlijQhLkOAayinKm1ypJ97DocAgADPPICAABrXgA==
-Date: Tue, 5 Apr 2016 15:31:11 +0000
-Message-ID: <1459870271.2426.0.camel@intel.com>
-References: <1459786689-13082-1-git-send-email-william.c.randle@intel.com>
-	<1459820004.18406.230.camel@intel.com>
-	<1459864507.7348.164.camel@linuxfoundation.org>
-In-Reply-To: <1459864507.7348.164.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.0.73]
-MIME-Version: 1.0
-Subject: Re: [PATCH] bdwgc: use github repo for source location
+	Tue,  5 Apr 2016 16:10:48 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id l6so30304247wml.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Apr 2016 09:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=SkDC5kcz6RfHIkwLma3YbCeycE+F5d4Zs26yE8+nK0I=;
+	b=NwKdPpP1OZ9q+Chh4c/eXfrA4AkRTTTCx26Adeeq3Nlz9AJuQNjBX+5blZ/g32/Zzn
+	+TBuULgFunxkCT2EY16axS0X6ElBORmIaph8fg4sbyz4jVDMvCtl1KZRlBKOGioXY7/j
+	3bQ/l38Ma4ibbL0yfI4ub+IP6MUx2ZmqMiGvlw6Wau4GI/hisRJPChY1i+TkwgalJDct
+	bCYlhzZ/NHhMYprxtHP6/4MNLJLjiNyLuCSGa2F44M0LFvHYluBaTlKZQmlAFCuE0gd+
+	72zcwlayFOZ/wa7+Zvki0fTkPFX8896csrovDsqG/w3jyMvGZkf2C/IFNXK+QPnHG2CG
+	MLKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=SkDC5kcz6RfHIkwLma3YbCeycE+F5d4Zs26yE8+nK0I=;
+	b=JWUR0fJcXXSOUa+x5ZyyskTj8LEwvf4kZZjHnsh2Jp5IsHP7ccYloult0f4XdGsq3b
+	OW5R8JpXdoB2GZO85ZVADkeH3xB8rFFC8lecDCxqdqtyPm43+4iVQucm+dgKYkAJ8GZu
+	WY0SmMN8UG+iDp93nghsXrXjytKh8vCL9/3MYTwQo2cxep7/Tnxr1Bzqs3ltQFoc9HBh
+	ogsDdzbVeCz9FHe01UlUFUR2ys4IqgZjMVAN33KzC0s7Lw+qTIXdI1RP6oZPxXYS2Ly+
+	mPlwF2467n6VesqEIpGMbZ2JZQJ6qPLqmJSVXZWMQGewGMugzid1d5eCUXAVRdfOG2qw
+	eiZA==
+X-Gm-Message-State: AD7BkJL6JEe0UbHQSGzQdRZrs1hqKeRIV25pSxiq8GfLgCGCE3litBi/z7uwg/8TljpoY/KC
+X-Received: by 10.28.65.137 with SMTP id o131mr19546248wma.54.1459872648328;
+	Tue, 05 Apr 2016 09:10:48 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	wr2sm35479664wjc.49.2016.04.05.09.10.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 Apr 2016 09:10:47 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Apr 2016 17:10:43 +0100
+Message-Id: <1459872644-6381-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.0
+Subject: [PATCH 1/2] package: do_split_packages: expand variables in extra_depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,42 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 15:31:17 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AD77ED9D3E3C2F4DA5C4CCC4FBB48C19@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 05 Apr 2016 16:10:48 -0000
 
-T24gVHVlLCAyMDE2LTA0LTA1IGF0IDE0OjU1ICswMTAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
-Cg0KT24gTW9uLCAyMDE2LTA0LTA0IGF0IDE4OjMzIC0wNzAwLCBTYXVsIFdvbGQgd3JvdGU6DQoN
-Cg0KT24gTW9uLCAyMDE2LTA0LTA0IGF0IDA5OjE4IC0wNzAwLCBCaWxsIFJhbmRsZSB3cm90ZToN
-Cg0KDQpUaGUgWW9jdG8gQXV0b2J1aWxkZXIgaGFzIGJlZW4gdW5hYmxlIHRvIGZldGNoIHRoZSBy
-ZWxlYXNlIHBhY2thZ2UNCmZyb20gdGhlIGRldmVsb3BlcidzIHdlYnNpdGUgYXQgd3d3Lmhib2Vo
-bS5pbmZvPGh0dHA6Ly93d3cuaGJvZWhtLmluZm8+LCBzbyBjaGFuZ2UgcmVjaXBlDQp0byBmZXRj
-aCBmcm9tIHRoZSBkZXZlbG9wZXIncyBnaXRodWIgcmVwbyBpbnN0ZWFkLg0KDQpTaWduZWQtb2Zm
-LWJ5OiBCaWxsIFJhbmRsZSA8d2lsbGlhbS5jLnJhbmRsZUBpbnRlbC5jb208bWFpbHRvOndpbGxp
-YW0uYy5yYW5kbGVAaW50ZWwuY29tPj4NCi0tLQ0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2Jkd2dj
-L2Jkd2djXzcuNC4yLmJiIHwgNiArKy0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
-KCspLCA0IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-YmR3Z2MvYmR3Z2NfNy40LjIuYmINCmIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYmR3Z2MvYmR3Z2Nf
-Ny40LjIuYmINCmluZGV4IDk1ZTM1OGYuLjdhNDExMGQgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9iZHdnYy9iZHdnY183LjQuMi5iYg0KKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvYmR3Z2MvYmR3Z2NfNy40LjIuYmINCkBAIC0yMSwxMiArMjEsMTAgQEAgU0VDVElPTiA9ICJk
-ZXZlbCINCiBMSUNFTlNFID0gIk1JVCINCiBMSUNfRklMRVNfQ0hLU1VNID0NCiJmaWxlOi8vUkVB
-RE1FLlFVSUNLO21kNT01NWY1MDg4ZjkwYTk4MmZlZDdhZjlhNDg5NzA0N2VmNyINCg0KLVNSQ19V
-UkkgPSAiaHR0cDovL3d3dy5oYm9laG0uaW5mby9nYy9nY19zb3VyY2UvZ2MtJHtQVn0udGFyLmd6
-IFwNCitTUkNSRVYgPSAiZTMxY2RjMjg4ZmZiZWU1YmYyNWY5NDhlMTlkZWI1YTdjZTg0Njk3MSIN
-CitTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vaXZtYWkvYmR3Z2MuZ2l0O2JyYW5jaD1yZWxl
-YXNlLTdfNCBcDQogICAgICAgICAgICBmaWxlOi8vMDAwMS1maXgtYnVpbGQtd2l0aC1tdXNsLnBh
-dGNoIFwNCiAgICAgICAgICAgIg0KDQoNCg0KSXQgYXBwZWFycyB0aGF0IHdoZW4geW91IHVwZGF0
-ZWQgdG8gdGhlIGdpdCBsb2NhdGlvbiB0aGUgc291cmNlIGJhc2UNCm1pZ2h0IGhhdmUgY2hhbmdl
-ZCBhbmQgdGhlIE1VU0wgcGF0Y2ggaXMgbm8gbG9uZ2VyIGFwcGx5bmcgY29ycmVjdGx5Lg0KDQpQ
-bGVhc2UgdmVyaWZ5IHRoYXQgdGhlIHBhdGNoIGNvcnJlY3RseSBhcHBsaWVzLg0KDQpTZWUgdGhl
-IGZhaWx1cmUgaW4gbWFzdGVyLW5leHQgd2l0aCB5b3VyIHBhdGNoOg0KDQpodHRwczovL2F1dG9i
-dWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvbWFpbi9idWlsZGVycy9uaWdodGx5LW5vLXgxMS9idWkN
-CmxkDQpzLzc2L3N0ZXBzL0J1aWxkSW1hZ2VzL2xvZ3Mvc3RkaW8NCg0KVGhpcyBtaWdodCBjYXVz
-ZSBtb3JlIGZhaWx1cmVzIGluIHRoZSBBdXRvYnVpbGRlciwgdGhpcyBpcyB0aGUgZmlyc3QNCnRo
-YXQgSSBzYXcuDQoNCg0KDQpUaGUgcGF0Y2ggaXMgb2ssIGJ1dCAke1N9IHdhc24ndCBzZXQgY29y
-cmVjdGx5LiBJJ3ZlIHR3ZWFrZWQgaW4gdGhlDQp2ZXJzaW9uIEkgbWVyZ2VkIGludG8gbWFzdGVy
-Lg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQpUaGFua3MsIGd1eXMhDQoNCg==
+If a recipe passes for example extra_depends="${PN}-dev" to do_split_packages()
+then it isn't expanded, so the check for the multilib prefix doesn't work.
+Solve this centrally by expanding extra_depends inside do_split_packages().
+
+[ YOCTO #9381 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/package.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index bdbe96d4..4452e2f 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -123,6 +123,7 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
+     dvar = d.getVar('PKGD', True)
+     root = d.expand(root)
+     output_pattern = d.expand(output_pattern)
++    extra_depends = d.expand(extra_depends)
+ 
+     # If the root directory doesn't exist, don't error out later but silently do
+     # no splitting.
+-- 
+2.7.0
+
 
