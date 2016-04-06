@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id ED365760AA
+	by mail.openembedded.org (Postfix) with ESMTP id 403F8760AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 08:19:41 +0000 (UTC)
+	Wed,  6 Apr 2016 08:19:43 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Apr 2016 01:19:16 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 06 Apr 2016 01:19:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,447,1455004800"; d="scan'208";a="926496746"
+X-IronPort-AV: E=Sophos;i="5.24,447,1455004800"; d="scan'208";a="926496752"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 06 Apr 2016 01:19:15 -0700
+	by orsmga001.jf.intel.com with ESMTP; 06 Apr 2016 01:19:16 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Apr 2016 11:19:11 +0300
-Message-Id: <027dd53408d97f085b2e3bc014c619ff952653fe.1459929046.git.jussi.kukkonen@intel.com>
+Date: Wed,  6 Apr 2016 11:19:12 +0300
+Message-Id: <354604dae62477a036dc170cd9f9034272ce2fdd.1459929046.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <027dd53408d97f085b2e3bc014c619ff952653fe.1459929046.git.jussi.kukkonen@intel.com>
+References: <027dd53408d97f085b2e3bc014c619ff952653fe.1459929046.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1459929046.git.jussi.kukkonen@intel.com>
 References: <cover.1459929046.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/2] ffmpeg: Make configure options explicit
+Subject: [PATCH 2/2] ffmpeg, gstreamer1.0-libav: add textrel INSANE_SKIPs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +33,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Apr 2016 08:19:43 -0000
 
-Currently ffmpeg builds libraries that are packaged but never appear
-in PACKAGES. Add PACKAGECONFIGs for all libraries, and make sure
-PACKAGES_DYNAMIC lists all dynamic packages.
+ffmpeg disables PIC on some platforms even when --enable-pic is
+set, apparently for performance reasons. Add INSANE_SKIPS for the
+relevant packages.
 
-Default choice (build all except libavresample) does not change.
+Fixes [YOCTO #9375].
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb             | 11 +++++++++++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc |  3 +++
+ 2 files changed, 14 insertions(+)
 
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
-index 7dfcf09..0296ada 100644
+index 0296ada..1dfbb9b 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb
-@@ -29,9 +29,21 @@ DEPENDS = "alsa-lib zlib libogg yasm-native"
+@@ -94,6 +94,17 @@ do_configure() {
  
- inherit autotools pkgconfig
+ PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util|resample)|swscale|swresample|postproc).*"
  
--PACKAGECONFIG ??= "avdevice avfilter bzlib gpl lzma theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
-+PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc \
-+                   bzlib gpl lzma theora x264 \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
++# ffmpeg disables PIC on some platforms (e.g. x86-32)
++INSANE_SKIP_${MLPREFIX}libavcodec = "textrel"
++INSANE_SKIP_${MLPREFIX}libavdevice = "textrel"
++INSANE_SKIP_${MLPREFIX}libavfilter = "textrel"
++INSANE_SKIP_${MLPREFIX}libavformat = "textrel"
++INSANE_SKIP_${MLPREFIX}libavutil = "textrel"
++INSANE_SKIP_${MLPREFIX}libavresample = "textrel"
++INSANE_SKIP_${MLPREFIX}libswscale = "textrel"
++INSANE_SKIP_${MLPREFIX}libswresample = "textrel"
++INSANE_SKIP_${MLPREFIX}libpostproc = "textrel"
 +
-+# libraries to build in addition to avutil
- PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
- PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
-+PACKAGECONFIG[avcodec] = "--enable-avcodec,--disable-avcodec"
-+PACKAGECONFIG[avformat] = "--enable-avformat,--disable-avformat"
-+PACKAGECONFIG[swresample] = "--enable-swresample,--disable-swresample"
-+PACKAGECONFIG[swscale] = "--enable-swscale,--disable-swscale"
-+PACKAGECONFIG[postproc] = "--enable-postproc,--disable-postproc"
-+PACKAGECONFIG[avresample] = "--enable-avresample,--disable-avresample"
-+
-+# features to support
- PACKAGECONFIG[bzlib] = "--enable-bzlib,--disable-bzlib,bzip2"
- PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
- PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
-@@ -80,7 +92,7 @@ do_configure() {
-     ${S}/configure ${EXTRA_OECONF}
- }
- 
--PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|swscale).*"
-+PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util|resample)|swscale|swresample|postproc).*"
- 
  python populate_packages_prepend() {
      av_libdir = d.expand('${libdir}')
+     av_pkgconfig = d.expand('${libdir}/pkgconfig')
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+index 598a349..363101e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+@@ -41,3 +41,6 @@ FILES_${PN}-staticdev += "${libdir}/gstreamer-1.0/*.a"
+ # http://errors.yoctoproject.org/Errors/Details/20493/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
++
++# ffmpeg/libav disables PIC on some platforms (e.g. x86-32)
++INSANE_SKIP_${PN} = "textrel"
 -- 
 2.1.4
 
