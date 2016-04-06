@@ -1,26 +1,20 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 005C97328A
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id B13F6760AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 08:05:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Apr 2016 01:05:17 -0700
+	Wed,  6 Apr 2016 08:19:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 06 Apr 2016 01:19:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,447,1455004800"; d="scan'208";a="926489181"
-Received: from mbabyjoh-mobl.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga001.jf.intel.com with ESMTP; 06 Apr 2016 01:05:14 -0700
-Date: Wed, 6 Apr 2016 11:05:55 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160406080554.GA17261@mbabyjoh-desk.ger.corp.intel.com>
-References: <1459878277-9734-1-git-send-email-maxin.john@intel.com>
-	<1459890305.7348.171.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1459890305.7348.171.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] useradd.bbclass: remove user/group created by the package in clean* task
+X-IronPort-AV: E=Sophos;i="5.24,447,1455004800"; d="scan'208";a="681622584"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Apr 2016 01:19:02 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Apr 2016 11:18:54 +0300
+Message-Id: <cover.1459929046.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] Hide textrel QA warning for ffmpeg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2016 08:05:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 06 Apr 2016 08:19:03 -0000
+
+ffmpeg disables position independent code on several architectures even
+when --enable-pic is set: this seems to be a conscious decision based
+on performance (see also previous discussion*).
+
+First patch is an unrelated packaging fix, second adds INSANE_SKIPs to
+hide QA warnings about .text relocation.
+
+*) http://lists.openembedded.org/pipermail/openembedded-core/2015-May/105501.html
 
 
-On Tue, Apr 05, 2016 at 10:05:05PM +0100, Richard Purdie wrote:
-> On Tue, 2016-04-05 at 20:44 +0300, Maxin B. John wrote:
-> > At present, if a recipe is built which creates users/groups via
-> > useradd.bbclass, those users/groups are not removed from sysroot
-> > when the recipe/package is cleaned using clean/cleansstate/cleanall
-> > or when a recipe is rebuild and 'unstaged' from the the sysroot.
-> > 
-> > The "userdel_sysroot_sstate()" provides that functionality.
-> > 
-> > [YOCTO #9262]
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  meta/classes/sstate.bbclass  |  6 ++++++
-> >  meta/classes/useradd.bbclass | 26 ++++++++++++++++++++++++++
-> >  2 files changed, 32 insertions(+)
-> 
-> This patch looks the same as v2? Did you see my second comment?
+Thanks,
+ Jussi
 
-My aplogies. Haven't seen the second comment last time. Will resend the updated one.  
 
-> Cheers,
-> 
-> Richard
 
-Best Regards,
-Maxin
+The following changes since commit f4f1d206f4ebafcde18c96c88a1bfc4ab7b0c119:
+
+  scripts/lib/bsp/help.py: Typo in help for yocto-bsp create (2016-04-05 14:33:58 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/ffmpeg-textrel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/ffmpeg-textrel
+
+Jussi Kukkonen (2):
+  ffmpeg: Make configure options explicit
+  ffmpeg, gstreamer1.0-libav: add textrel INSANE_SKIPs
+
+ meta/recipes-multimedia/ffmpeg/ffmpeg_3.0.bb       | 27 ++++++++++++++++++++--
+ .../gstreamer/gstreamer1.0-libav.inc               |  3 +++
+ 2 files changed, 28 insertions(+), 2 deletions(-)
+
+-- 
+2.1.4
+
 
