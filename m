@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1D2D771A2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2624B771AF
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Apr 2016 06:58:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u366wkaW011990
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u366wl11028738
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Apr 2016 23:58:46 -0700
+	Tue, 5 Apr 2016 23:58:47 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 5 Apr 2016 23:58:45 -0700
+	Tue, 5 Apr 2016 23:58:46 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Apr 2016 23:58:39 -0700
-Message-ID: <cover.1459925867.git.liezhi.yang@windriver.com>
+Date: Tue, 5 Apr 2016 23:58:40 -0700
+Message-ID: <f5f60e69230ea54f8c9b00256418cc02de09d14a.1459925867.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1459925867.git.liezhi.yang@windriver.com>
+References: <cover.1459925867.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] meta: remove unused patches
+Subject: [PATCH 1/6] rpm: remove two unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +36,184 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 06 Apr 2016 06:58:49 -0000
 Content-Type: text/plain
 
-The following changes since commit b2dc5a68e74dafedf7960ef77ad3d73912ed7960:
+They are already in the source:
+rpm-CVE-2013-6435.patch
+rpm-CVE-2014-8118.patch
 
-  bdwgc: use github repo for source location (2016-04-05 11:48:09 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/unused
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/unused
-
-Robert Yang (6):
-  rpm: remove two unused patch
-  tcl: remove unused fix-configure.patch
-  cmake: remove unused dont-run-cross-binaries.patch
-  clutter-gst-3.0: remove unused enable-tests.patch
-  glibc: remove unused CVE patches
-  grub: remove unused 0001-Fix-build-with-glibc-2.20.patch
-
- .../files/0001-Fix-build-with-glibc-2.20.patch     |   32 -
- meta/recipes-core/glibc/glibc/CVE-2015-8776.patch  |  155 ---
- meta/recipes-core/glibc/glibc/CVE-2015-8777.patch  |  123 ---
- meta/recipes-core/glibc/glibc/CVE-2015-8779.patch  |  262 -----
- .../recipes-core/glibc/glibc/CVE-2015-9761_1.patch | 1039 --------------------
- .../recipes-core/glibc/glibc/CVE-2015-9761_2.patch |  385 --------
- .../cmake/cmake/dont-run-cross-binaries.patch      |   23 -
- .../rpm/rpm/rpm-CVE-2013-6435.patch                |  110 ---
- .../rpm/rpm/rpm-CVE-2014-8118.patch                |   44 -
- .../recipes-devtools/tcltk/tcl/fix-configure.patch |   46 -
- .../clutter/clutter-gst-3.0/enable-tests.patch     |   23 -
- 11 files changed, 2242 deletions(-)
- delete mode 100644 meta/recipes-bsp/grub/files/0001-Fix-build-with-glibc-2.20.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8776.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8777.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8779.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_1.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-9761_2.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/dont-run-cross-binaries.patch
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../rpm/rpm/rpm-CVE-2013-6435.patch                | 110 ---------------------
+ .../rpm/rpm/rpm-CVE-2014-8118.patch                |  44 ---------
+ 2 files changed, 154 deletions(-)
  delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-CVE-2013-6435.patch
  delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-CVE-2014-8118.patch
- delete mode 100644 meta/recipes-devtools/tcltk/tcl/fix-configure.patch
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-3.0/enable-tests.patch
 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-CVE-2013-6435.patch b/meta/recipes-devtools/rpm/rpm/rpm-CVE-2013-6435.patch
+deleted file mode 100644
+index a2691f6..0000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-CVE-2013-6435.patch
++++ /dev/null
+@@ -1,110 +0,0 @@
+-From 08105acda1da63d32fbb18596a3d6c3e0aa106d1 Mon Sep 17 00:00:00 2001
+-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+-Date: Wed, 10 Jun 2015 14:36:56 +0000
+-Subject: [PATCH 2/2] rpm: CVE-2013-6435
+-
+-Upstream-Status: Backport
+-CVE: CVE-2013-6435
+-
+-Reference:
+-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2013-6435
+-
+-Description:
+-It was found that RPM wrote file contents to the target installation
+-directory under a temporary name, and verified its cryptographic signature
+-only after the temporary file has been written completely. Under certain
+-conditions, the system interprets the unverified temporary file contents
+-and extracts commands from it. This could allow an attacker to modify
+-signed RPM files in such a way that they would execute code chosen
+-by the attacker during package installation.
+-
+-Original Patch:
+-https://bugzilla.redhat.com/attachment.cgi?id=956207
+-
+-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+----
+- lib/fsm.c     |  2 +-
+- rpmio/rpmio.c | 18 ++++++++++++++----
+- 2 files changed, 15 insertions(+), 5 deletions(-)
+-
+-diff --git a/lib/fsm.c b/lib/fsm.c
+-index 1ee7e67..094eb1d 100644
+---- a/lib/fsm.c
+-+++ b/lib/fsm.c
+-@@ -726,7 +726,7 @@ static int expandRegular(FSM_t fsm, rpmpsm psm, rpmcpio_t archive, int nodigest)
+- {
+-     FD_t wfd = NULL;
+-     const struct stat * st = &fsm->sb;
+--    rpm_loff_t left = st->st_size;
+-+    rpm_loff_t left = rpmfiFSizeIndex(fsmGetFi(fsm), fsm->ix);
+-     const unsigned char * fidigest = NULL;
+-     pgpHashAlgo digestalgo = 0;
+-     int rc = 0;
+-diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
+-index cd223e8..0b12e31 100644
+---- a/rpmio/rpmio.c
+-+++ b/rpmio/rpmio.c
+-@@ -1309,15 +1309,19 @@ int Fclose(FD_t fd)
+-  * - bzopen:	[1-9] is block size (modulo 100K)
+-  * - bzopen:	's' is smallmode
+-  * - HACK:	'.' terminates, rest is type of I/O
+-+ * -            'U' sets *mode to zero (no permissions) instead of 0666
+-  */
+- static void cvtfmode (const char *m,
+- 				char *stdio, size_t nstdio,
+- 				char *other, size_t nother,
+--				const char **end, int * f)
+-+				const char **end, int *f, mode_t *mode)
+- {
+-     int flags = 0;
+-     char c;
+- 
+-+    if (mode)
+-+    *mode = 0666;
+-+
+-     switch (*m) {
+-     case 'a':
+- 	flags |= O_WRONLY | O_CREAT | O_APPEND;
+-@@ -1357,6 +1361,10 @@ static void cvtfmode (const char *m,
+- 	    if (--nstdio > 0) *stdio++ = c;
+- 	    continue;
+- 	    break;
+-+	case 'U':
+-+	    if (mode)
+-+		*mode = 0;
+-+	    break;
+- 	default:
+- 	    if (--nother > 0) *other++ = c;
+- 	    continue;
+-@@ -1385,7 +1393,8 @@ fprintf(stderr, "*** Fdopen(%p,%s) %s\n", fd, fmode, fdbg(fd));
+-     if (fd == NULL || fmode == NULL)
+- 	return NULL;
+- 
+--    cvtfmode(fmode, stdio, sizeof(stdio), other, sizeof(other), &end, NULL);
+-+    cvtfmode(fmode, stdio, sizeof(stdio), other, sizeof(other), &end, NULL,
+-+        NULL);
+-     if (stdio[0] == '\0')
+- 	return NULL;
+-     zstdio[0] = '\0';
+-@@ -1436,7 +1445,7 @@ FD_t Fopen(const char *path, const char *fmode)
+- {
+-     char stdio[20], other[20];
+-     const char *end = NULL;
+--    mode_t perms = 0666;
+-+    mode_t perms;
+-     int flags = 0;
+-     FD_t fd;
+- 
+-@@ -1444,7 +1453,8 @@ FD_t Fopen(const char *path, const char *fmode)
+- 	return NULL;
+- 
+-     stdio[0] = '\0';
+--    cvtfmode(fmode, stdio, sizeof(stdio), other, sizeof(other), &end, &flags);
+-+    cvtfmode(fmode, stdio, sizeof(stdio), other, sizeof(other), &end, &flags,
+-+        &perms);
+-     if (stdio[0] == '\0')
+- 	return NULL;
+- 
+--- 
+-1.8.4.5
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-CVE-2014-8118.patch b/meta/recipes-devtools/rpm/rpm/rpm-CVE-2014-8118.patch
+deleted file mode 100644
+index 985f150..0000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-CVE-2014-8118.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 71c812edf1431a9967bd99ba6ffa6ab89eb7ec7c Mon Sep 17 00:00:00 2001
+-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+-Date: Wed, 10 Jun 2015 12:56:55 +0000
+-Subject: [PATCH 1/2] rpm: CVE-2014-8118
+-
+-Upstream-Status: Backport
+-CVE: CVE-2014-8118
+-
+-Reference:
+-https://bugzilla.redhat.com/show_bug.cgi?id=1168715
+-
+-Description:
+-It was found that RPM could encounter an integer overflow,
+-leading to a stack-based overflow, while parsing a crafted
+-CPIO header in the payload section of an RPM file.  This could
+-allow an attacker to modify signed RPM files in such a way that
+-they would execute code chosen by the attacker during package
+-installation.
+-
+-Original Patch:
+-https://bugzilla.redhat.com/attachment.cgi?id=962159
+-
+-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+----
+- lib/cpio.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/lib/cpio.c b/lib/cpio.c
+-index 382eeb6..74ddd9c 100644
+---- a/lib/cpio.c
+-+++ b/lib/cpio.c
+-@@ -296,6 +296,9 @@ int rpmcpioHeaderRead(rpmcpio_t cpio, char ** path, struct stat * st)
+-     st->st_rdev = makedev(major, minor);
+- 
+-     GET_NUM_FIELD(hdr.namesize, nameSize);
+-+    if (nameSize <= 0 || nameSize > 4096) {
+-+        return CPIOERR_BAD_HEADER;
+-+    }
+- 
+-     *path = xmalloc(nameSize + 1);
+-     read = Fread(*path, nameSize, 1, cpio->fd);
+--- 
+-1.8.4.5
+-
 -- 
 2.8.0
 
