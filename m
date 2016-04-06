@@ -1,33 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9202C731BC
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B850977045
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 09:20:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u369JvQs017002; Wed, 6 Apr 2016 10:19:57 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MBWrYt_DxbL7; Wed,  6 Apr 2016 10:19:57 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u369Jt5I016996
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 6 Apr 2016 10:19:56 +0100
-Message-ID: <1459934394.7348.199.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Laurent Bonnans <laurent.bonnans@hikob.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Wed, 06 Apr 2016 10:19:54 +0100
-In-Reply-To: <CABBNMXVNRa8ANtg9dFgfT1nF8br-hB4_w1Q07FMjq=2Sq+L_RQ@mail.gmail.com>
-References: <cover.1459438792.git.laurent.bonnans@hikob.com>
-	<8a3fd47fc059f25ec7110cb74a5759556bae165e.1459438792.git.laurent.bonnans@hikob.com>
-	<CAJTo0LYnkMORa=qY7wVruxYEmzD6mQZYeJENJz-vm3XRNnEYcw@mail.gmail.com>
-	<CABBNMXVNRa8ANtg9dFgfT1nF8br-hB4_w1Q07FMjq=2Sq+L_RQ@mail.gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python: remove tests and sqlite3-tests modules
+	Wed,  6 Apr 2016 09:20:44 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 06 Apr 2016 02:20:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,447,1455004800"; d="scan'208";a="939368162"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2016 02:20:25 -0700
+Received: from mbabyjoh-desk.ger.corp.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id CF2D76A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Apr 2016 03:08:05 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Apr 2016 12:20:31 +0300
+Message-Id: <1459934431-31553-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v4] useradd.bbclass: remove user/group created by the package in clean* task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +34,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2016 09:20:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Apr 2016 09:20:44 -0000
 
-On Wed, 2016-04-06 at 10:00 +0200, Laurent Bonnans wrote:
-> 2016-04-05 16:56 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
-> > 
-> > On 31 March 2016 at 17:15, Laurent Bonnans <
-> > laurent.bonnans@hikob.com>
-> > wrote:
-> > > 
-> > > If present in manifests, they are shipped in 'python-modules'.
-> > > This
-> > > commit keeps them avalaible in the 'python-misc' package.
-> > 
-> > 
-> > python-modules depends on python-misc, so this won't really achieve
-> > anything.
-> 
-> You're right, I missed the change which adds this dependency in
-> master.
-> 
-> What would then be the best way to avoid shipping tests when using
-> python-modules?
-> Add another package(s) in the main recipe files before python-misc?
+At present, if a recipe is built which creates users/groups via
+useradd.bbclass, those users/groups are not removed from sysroot
+when the recipe/package is cleaned using clean/cleansstate/cleanall
+or when a recipe is rebuild and 'unstaged' from the the sysroot.
 
-Exclude those packages from python-modules as I previously suggested?
+The "userdel_sysroot_sstate()" provides that functionality.
 
-Cheers,
+[YOCTO #9262]
 
-Richard
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/classes/sstate.bbclass  |  5 +++++
+ meta/classes/useradd.bbclass | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 6f285da..3234e79 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -51,6 +51,7 @@ SSTATEPREINSTFUNCS = ""
+ SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
+ SSTATEPOSTINSTFUNCS = ""
+ EXTRA_STAGING_FIXMES ?= ""
++SSTATECLEANFUNCS = ""
+ 
+ SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
+ 
+@@ -444,6 +445,10 @@ def sstate_clean(ss, d):
+                 stfile.endswith(rm_nohash):
+             oe.path.remove(stfile)
+ 
++    # Removes the users/groups created by the package
++    for cleanfunc in (d.getVar('SSTATECLEANFUNCS', True) or '').split():
++        bb.build.exec_func(cleanfunc, d)
++
+ sstate_clean[vardepsexclude] = "SSTATE_MANFILEPREFIX"
+ 
+ CLEANFUNCS += "sstate_cleanall"
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 0a6f2be..ee402ac 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -127,6 +127,35 @@ useradd_sysroot_sstate () {
+ 	fi
+ }
+ 
++userdel_sysroot_sstate () {
++if test "x${STAGING_DIR_TARGET}" != "x"; then
++    if [ "${BB_CURRENTTASK}" = "configure" -o "${BB_CURRENTTASK}" = "clean" ]; then
++        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir}/pseudo"
++        OPT="--root ${STAGING_DIR_TARGET}"
++
++        # Remove groups and users defined for package
++        GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
++        USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
++
++        if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" != "x"; then
++            user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
++            perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
++        fi
++
++        if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" != "x"; then
++            group=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
++            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $group"
++        fi
++
++    fi
++fi
++}
++
++SSTATECLEANFUNCS = "userdel_sysroot_sstate"
++SSTATECLEANFUNCS_class-cross = ""
++SSTATECLEANFUNCS_class-native = ""
++SSTATECLEANFUNCS_class-nativesdk = ""
++
+ do_install[prefuncs] += "${SYSROOTFUNC}"
+ SYSROOTFUNC = "useradd_sysroot"
+ SYSROOTFUNC_class-cross = ""
+-- 
+2.4.0
+
 
