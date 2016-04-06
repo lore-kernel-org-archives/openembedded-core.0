@@ -1,26 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC761771A4
+Return-Path: <laurent.bonnans@hikob.com>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D6328731E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 06:58:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u366woMi012000
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed,  6 Apr 2016 08:00:45 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id e190so26091607lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Apr 2016 23:58:50 -0700
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 5 Apr 2016 23:58:49 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Apr 2016 23:58:45 -0700
-Message-ID: <6f90522437cb86b844e19852b3884afddd611c69.1459925867.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1459925867.git.liezhi.yang@windriver.com>
-References: <cover.1459925867.git.liezhi.yang@windriver.com>
+	Wed, 06 Apr 2016 01:00:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=hikob-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=2jg1B4mgAPrUJPmjMKlma+DV34thgEO7iGudg5A6gi8=;
+	b=AE77MMLAwXAUnNTWwQtLIkQfUp5VIHBGcSQOZ6F9zNOosbIGotiCfGjBlheP2NSlFj
+	SWRhZd5J6QEuYprTT8qAMgsGx7r1FypzOfnFb90oSwupxNT8TmU2afAtNH/OE7XI9RmS
+	O6NmA8MdknfdUESgAH+dJXNnoHZ8aAsOoqOl3/+X/RQSeTKL08D1ck80jSwrDekqejPs
+	ocQBevkoO0WBdK1BtgWZFkx3SFHjxWWhV98YbXKkVwYDpa4SUIVjV3Le9Mah4eA3Omz4
+	/FCUDK+xyI2TPJGcRjxdf9NGmiMA1OyvbFmfs05hMnAK9ubZaK/O9JEPCRh125usf78T
+	pD8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=2jg1B4mgAPrUJPmjMKlma+DV34thgEO7iGudg5A6gi8=;
+	b=RZu9BZ8UQWfYg2u8PAwYBkPMSQq2k6kCXqWnX9K0rpMpE53rG2mMXVEjT2T7T9QHFz
+	wnFPmPs0eL70hvgbqFbUpCZHW3tkvWNbqfFxO64QMVXjibADgueh9qxVI3/JC82cOzFl
+	HXYm8UiJJqhL3wJN1rqyxuRGBeE/59V4eOUit5VCNgzBr87QXUMngSbmrRKChk3uZ/f0
+	7aYX/axlIsgENwakrG5n4lG31MhDa6Z/VoydrO3B4UJDst1r2KFbKXltb04g3oxPz4UN
+	EyGa5TLiiD4hVewdWYu3KaTCHwyiM62MLd+lbfDCuJrFSwVzYswl0u/Lw9hWZz9WIikQ
+	9Wrg==
+X-Gm-Message-State: AD7BkJJR+2hYsJ/ZU7xAJB7WUs9ej5bqyAT0puJJb3BW5yAo5Y62voPMr9KVVV13dOkMjGKS9ey40Lcse5988Rrt
 MIME-Version: 1.0
-Subject: [PATCH 6/6] grub: remove unused 0001-Fix-build-with-glibc-2.20.patch
+X-Received: by 10.25.21.166 with SMTP id 38mr10670460lfv.160.1459929644878;
+	Wed, 06 Apr 2016 01:00:44 -0700 (PDT)
+Received: by 10.25.211.21 with HTTP; Wed, 6 Apr 2016 01:00:44 -0700 (PDT)
+In-Reply-To: <CAJTo0LYnkMORa=qY7wVruxYEmzD6mQZYeJENJz-vm3XRNnEYcw@mail.gmail.com>
+References: <cover.1459438792.git.laurent.bonnans@hikob.com>
+	<8a3fd47fc059f25ec7110cb74a5759556bae165e.1459438792.git.laurent.bonnans@hikob.com>
+	<CAJTo0LYnkMORa=qY7wVruxYEmzD6mQZYeJENJz-vm3XRNnEYcw@mail.gmail.com>
+Date: Wed, 6 Apr 2016 10:00:44 +0200
+Message-ID: <CABBNMXVNRa8ANtg9dFgfT1nF8br-hB4_w1Q07FMjq=2Sq+L_RQ@mail.gmail.com>
+From: Laurent Bonnans <laurent.bonnans@hikob.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python: remove tests and sqlite3-tests modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +55,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2016 06:58:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Apr 2016 08:00:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-It was used for building with glibc 2.20, now is glibc 2.23, so remove it.
+2016-04-05 16:56 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
+>
+> On 31 March 2016 at 17:15, Laurent Bonnans <laurent.bonnans@hikob.com>
+> wrote:
+>>
+>> If present in manifests, they are shipped in 'python-modules'. This
+>> commit keeps them avalaible in the 'python-misc' package.
+>
+>
+> python-modules depends on python-misc, so this won't really achieve
+> anything.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../files/0001-Fix-build-with-glibc-2.20.patch     | 32 ----------------------
- 1 file changed, 32 deletions(-)
- delete mode 100644 meta/recipes-bsp/grub/files/0001-Fix-build-with-glibc-2.20.patch
+You're right, I missed the change which adds this dependency in master.
 
-diff --git a/meta/recipes-bsp/grub/files/0001-Fix-build-with-glibc-2.20.patch b/meta/recipes-bsp/grub/files/0001-Fix-build-with-glibc-2.20.patch
-deleted file mode 100644
-index 46aaa97..0000000
---- a/meta/recipes-bsp/grub/files/0001-Fix-build-with-glibc-2.20.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 275fe0269ecc00af4788afaf9dc151a50b25645b Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 28 Aug 2014 19:26:14 -0700
--Subject: [PATCH] Fix build with glibc 2.20
--
--* grub-core/kern/emu/hostfs.c: squahes below warning
--  warning: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Submitted
--
-----
-- grub-core/kern/emu/hostfs.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/grub-core/kern/emu/hostfs.c b/grub-core/kern/emu/hostfs.c
--index 7e725f6..8dd8e65 100644
----- a/grub-core/kern/emu/hostfs.c
--+++ b/grub-core/kern/emu/hostfs.c
--@@ -19,7 +19,7 @@
-- 
-- #include <config-util.h>
-- 
---#define _BSD_SOURCE
--+#define _DEFAULT_SOURCE
-- #include <grub/fs.h>
-- #include <grub/file.h>
-- #include <grub/disk.h>
---- 
--2.1.0
--
--- 
-2.8.0
-
+What would then be the best way to avoid shipping tests when using
+python-modules?
+Add another package(s) in the main recipe files before python-misc?
 
