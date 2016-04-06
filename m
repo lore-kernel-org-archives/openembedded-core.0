@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A432C73199
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 179CA73199
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 09:30:02 +0000 (UTC)
+	Wed,  6 Apr 2016 09:30:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u369U2OT016735
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u369U5NV025170
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Apr 2016 02:30:03 -0700
+	Wed, 6 Apr 2016 02:30:05 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 6 Apr 2016 02:30:02 -0700
+	Wed, 6 Apr 2016 02:30:03 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Apr 2016 02:30:00 -0700
-Message-ID: <cover.1459934955.git.liezhi.yang@windriver.com>
+Date: Wed, 6 Apr 2016 02:30:02 -0700
+Message-ID: <a56a312f9a90427fe47b2e5600cb9eb8698fb90f.1459934955.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1459934955.git.liezhi.yang@windriver.com>
+References: <cover.1459934955.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fixes for len(TMPDIR) == 410
+Subject: [PATCH 2/2] wget: fix build when len(TMPDIR) == 410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2016 09:30:04 -0000
+X-List-Received-Date: Wed, 06 Apr 2016 09:30:05 -0000
 Content-Type: text/plain
 
-The following changes since commit b2dc5a68e74dafedf7960ef77ad3d73912ed7960:
+Fixed:
+aclocal: error: cannot open [snip] |: Argument list too long
 
-  bdwgc: use github repo for source location (2016-04-05 11:48:09 +0100)
+Set acpaths to fix the problem.
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/long
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/long
-
-Robert Yang (2):
-  sanity.bbclass: fix a hardcode in check_path_length()
-  wget: fix build when len(TMPDIR) == 410
-
- meta/classes/sanity.bbclass         | 2 +-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-extended/wget/wget.inc | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ 1 file changed, 5 insertions(+)
 
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index 049b898..dc381a6 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -22,3 +22,8 @@ BBCLASSEXTEND += "nativesdk"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[libuuid] = "--with-libuuid, --without-libuuid,util-linux"
++
++# Let aclocal use the relative path for the m4 file rather than
++# absolute, otherwise there might be an "Argument list too long" error
++# when it is built in a long/deep directory.
++acpaths = "-I ./m4"
 -- 
 2.8.0
 
