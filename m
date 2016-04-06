@@ -1,44 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 395507700A
+Return-Path: <Haiqing.Bai@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39F1F7717A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Apr 2016 22:02:49 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id 191so38518943wmq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Apr 2016 15:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=cothTTSdXTrZEaIBC7YsBul09WnMQ+h0jyU0iRXyZuM=;
-	b=hi5lR5e435G0RDjbNenha3PEEe1XZD18K14hK7bMh50yN6ybNu3eNicd4dxOe5C9Za
-	CE6IHFEt7UBfGxqrw0Oujh63i+A2wV7PcICOApNDdqdmrm1eXUn8RWs0w5VFR3m9cxp0
-	8PNLyEdBIdidq6Ge1tvRUeb627KD4IUo7J/TesHokhHrFzbuafbJSTx+Y4ondK+YsTc2
-	Amft4RjV4aLJq3haAOmW6E/+563VbvRZ0bekEgyabl1PWsBe9TamT9r/dF6jRGryMFzG
-	0OzdDChpv72/IDbb9ataU6hhW+MLaphATea2cbZ1FiT3G1cW0vKAiYOY7PeWM2IbzW1n
-	sDGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=cothTTSdXTrZEaIBC7YsBul09WnMQ+h0jyU0iRXyZuM=;
-	b=GEHtZapp5pojWv0sNojwpoQC+/8ZzQ59OmOlJHdT6qzTgsiqR41WsNpZ4tvCFWqPT2
-	yqjRkDBJkXwFFid8AIXjT/LeskoBxUYuZoxU62PCMG8amVCe+HJ+9LcKyl2pxSvUf43g
-	8pht3wqRycMRN8YvB0vvxp+KakZD5UQPO5zvcggVzwXvMlAgPgBNRZl4TJfr94l8jb0V
-	D+NOFfi65OcaHTgPhj9i+ujicWRgiS9CaGoBAMqg7F1OYS8N6lFwpcn4y2Ws4DGhvdiv
-	3m3TfVa3KsVxDirc2cJWj/6tgDg5HwWmNfsWVCMZamZhoSmmwh2GcAfUDwwMLh36VSfv
-	Jz/g==
-X-Gm-Message-State: AD7BkJI3sW6B7zsznlMoLpbDYT13tusHKEqyltCZxXHEJGUtKTvjiB9EUpizoj7UaKWaBbN/Vln4USMy9Fvxxw==
+	Wed,  6 Apr 2016 01:48:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u361mNS4004628
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 5 Apr 2016 18:48:23 -0700
+Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 5 Apr 2016 18:48:22 -0700
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 6 Apr 2016 09:46:36 +0800
+Message-ID: <1459907196-32653-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.28.50.133 with SMTP id y127mr20292017wmy.4.1459893770392;
-	Tue, 05 Apr 2016 15:02:50 -0700 (PDT)
-Received: by 10.194.201.104 with HTTP; Tue, 5 Apr 2016 15:02:50 -0700 (PDT)
-In-Reply-To: <1459891560-4178-1-git-send-email-ross.burton@intel.com>
-References: <1459891560-4178-1-git-send-email-ross.burton@intel.com>
-Date: Tue, 5 Apr 2016 15:02:50 -0700
-Message-ID: <CAJ86T=XXJtGhRqvtkXp1aAHMYN8Y0VDrUJZfDhqNkodtbOXymw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bzip2: set correct soname
+Subject: [meta-oe][PATCH V2] Make conditional compile for DES related code in python-m2crypto.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,60 +30,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 22:02:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 06 Apr 2016 01:48:36 -0000
+Content-Type: text/plain
 
-On Tue, Apr 5, 2016 at 2:26 PM, Ross Burton <ross.burton@intel.com> wrote:
-> The correct name for the bzip2 shared library is libbz2.so.1.0.6, not
-> libbz2.so.0.0.0.  Pass -version-info to libtool to correct this.
->
-> Also fix the configure.ac so that is doesn't mention libXrender and has the
-> right version.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am  | 1 +
->  meta/recipes-extended/bzip2/bzip2-1.0.6/configure.ac | 5 +----
->  2 files changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am b/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am
-> index 1d163b6..05d389f 100644
-> --- a/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am
-> +++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am
-> @@ -1,5 +1,6 @@
->
->  lib_LTLIBRARIES = libbz2.la
-> +libbz2_la_LDFLAGS = -version-info 1:6:0
+The source code in python-m2crypto don't check whether the depended
+DES cipher has been disabled in openssl or not, this fix added
+the checking.
 
-1:6:0 or 1:0:6 ?
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+---
+ .../conditional-compile-DES-related-code.patch     | 62 ++++++++++++++++++++++
+ .../python/python-m2crypto_0.21.1.bb               |  3 +-
+ 2 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 meta-python/recipes-devtools/python/python-m2crypto/conditional-compile-DES-related-code.patch
 
->
->  libbz2_la_SOURCES = blocksort.c  \
->                      huffman.c    \
-> diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/configure.ac b/meta/recipes-extended/bzip2/bzip2-1.0.6/configure.ac
-> index 47ee576..e2bf1bf 100644
-> --- a/meta/recipes-extended/bzip2/bzip2-1.0.6/configure.ac
-> +++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/configure.ac
-> @@ -1,12 +1,9 @@
->  AC_PREREQ([2.57])
->
-> -AC_INIT(bzip2, 2.0.5, , libXrender)
-> +AC_INIT(bzip2, 1.0.6)
->  AM_INIT_AUTOMAKE(foreign)
->  AM_MAINTAINER_MODE
->
-> -#AM_CONFIG_HEADER(config.h)
-> -
-> -# Check for progs
->  AC_PROG_CC
->  AC_PROG_LIBTOOL
->
-> --
-> 2.7.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta-python/recipes-devtools/python/python-m2crypto/conditional-compile-DES-related-code.patch b/meta-python/recipes-devtools/python/python-m2crypto/conditional-compile-DES-related-code.patch
+new file mode 100644
+index 0000000..7c3e410
+--- /dev/null
++++ b/meta-python/recipes-devtools/python/python-m2crypto/conditional-compile-DES-related-code.patch
+@@ -0,0 +1,62 @@
++From 85dbf29dcc3786ed101278721d60cc3bc4c182bc Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Fri, 1 Apr 2016 14:44:33 +0800
++Subject: [PATCH] conditional compile DES related code.
++
++Upstream-Status: Pending
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
++
++---
++ SWIG/_evp.i       | 2 ++
++ tests/test_evp.py | 4 ++++
++ 2 files changed, 6 insertions(+)
++
++diff --git a/SWIG/_evp.i b/SWIG/_evp.i
++index 0593eed..f3156af 100644
++--- a/SWIG/_evp.i
+++++ b/SWIG/_evp.i
++@@ -49,6 +49,7 @@ extern const EVP_MD *EVP_sha512(void);
++ %rename(digest_init) EVP_DigestInit;
++ extern int EVP_DigestInit(EVP_MD_CTX *, const EVP_MD *);
++
+++#ifndef OPENSSL_NO_DES
++ %rename(des_ecb) EVP_des_ecb;
++ extern const EVP_CIPHER *EVP_des_ecb(void);
++ %rename(des_ede_ecb) EVP_des_ede;
++@@ -73,6 +74,7 @@ extern const EVP_CIPHER *EVP_des_ofb(void);
++ extern const EVP_CIPHER *EVP_des_ede_ofb(void);
++ %rename(des_ede3_ofb) EVP_des_ede3_ofb;
++ extern const EVP_CIPHER *EVP_des_ede3_ofb(void);
+++#endif
++ %rename(bf_ecb) EVP_bf_ecb;
++ extern const EVP_CIPHER *EVP_bf_ecb(void);
++ %rename(bf_cbc) EVP_bf_cbc;
++diff --git a/tests/test_evp.py b/tests/test_evp.py
++index ba09092..8b7fb21 100644
++--- a/tests/test_evp.py
+++++ b/tests/test_evp.py
++@@ -213,8 +213,10 @@ class CipherTestCase(unittest.TestCase):
++
++     def test_ciphers(self):
++         ciphers=[
+++#ifndef OPENSSL_NO_DES
++             'des_ede_ecb', 'des_ede_cbc', 'des_ede_cfb', 'des_ede_ofb',
++             'des_ede3_ecb', 'des_ede3_cbc', 'des_ede3_cfb', 'des_ede3_ofb',
+++#endif
++             'aes_128_ecb', 'aes_128_cbc', 'aes_128_cfb', 'aes_128_ofb',
++             'aes_192_ecb', 'aes_192_cbc', 'aes_192_cfb', 'aes_192_ofb',
++             'aes_256_ecb', 'aes_256_cbc', 'aes_256_cfb', 'aes_256_ofb']
++@@ -222,7 +224,9 @@ class CipherTestCase(unittest.TestCase):
++                          #'idea_ecb', 'idea_cbc', 'idea_cfb', 'idea_ofb',
++                          'cast5_ecb', 'cast5_cbc', 'cast5_cfb', 'cast5_ofb',
++                          #'rc5_ecb', 'rc5_cbc', 'rc5_cfb', 'rc5_ofb',
+++#ifndef OPENSSL_NO_DES
++                          'des_ecb', 'des_cbc', 'des_cfb', 'des_ofb',
+++#endif
++                          'rc4', 'rc2_40_cbc']
++         if not fips_mode: # Disabled algorithms
++             ciphers += nonfips_ciphers
++--
++1.9.1
++
+diff --git a/meta-python/recipes-devtools/python/python-m2crypto_0.21.1.bb b/meta-python/recipes-devtools/python/python-m2crypto_0.21.1.bb
+index a3f9a09..a1b0a4c 100644
+--- a/meta-python/recipes-devtools/python/python-m2crypto_0.21.1.bb
++++ b/meta-python/recipes-devtools/python/python-m2crypto_0.21.1.bb
+@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=b0e1f0b7d0ce8a62c18b1287b991800e"
+ 
+ SRC_URI = " \
+            file://0001-setup.py-link-in-sysroot-not-in-host-directories.patch \
+-           file://0001-M2Crypto-Error-fix.patch"
++           file://0001-M2Crypto-Error-fix.patch \
++           file://conditional-compile-DES-related-code.patch"
+ 
+ SRC_URI[md5sum] = "f93d8462ff7646397a9f77a2fe602d17"
+ SRC_URI[sha256sum] = "25b94498505c2d800ee465db0cc1aff097b1615adc3ac042a1c85ceca264fc0a"
+-- 
+1.9.1
+
 
