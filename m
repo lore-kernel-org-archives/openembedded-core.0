@@ -1,20 +1,60 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 62AF8770C4
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8581973190
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 13:43:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 06 Apr 2016 06:43:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,447,1455004800"; d="scan'208";a="939516694"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2016 06:43:17 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Apr 2016 16:42:56 +0300
-Message-Id: <1459950176-29324-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] x11-common: Add PACKAGECONFIG for screen blanking
+	Wed,  6 Apr 2016 14:01:42 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id bx7so17599771pad.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Apr 2016 07:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=4aAKK3Sgx4nPjIgZgz6x5DWGfT+I8O8hpQeCSJkHsIU=;
+	b=BZdKej3enbaVT8k3FDgZhY2PNUMRNCQ/LXLLzKQOm9bT+22djZaEX1DZnpkkgbWxVu
+	y6m05yeFdGtmlJk1dZ4HTTXRKP8BIMJsGDedFSEK25ge/r0+45hpSW0BdNT5utUKSyI4
+	LLt1oHXkq1XoNRh7aQnfhJqHMAm2sr6RsO1Qtc75utV58mr6PKH2EQ3Rat/LnL58o3HV
+	8/26eri0xygYUq0x8n7nkVLlkwfmJ96zPlRbEybWeMnBATznDlKr/619x6siy6cftZZC
+	NJDynSBDvTMKiD+6o5kLZ5ZpJh3JBxsvs5b7KylmVzPryo5I2qJ2i/4Bz5FG9hAUwQtr
+	vlog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=4aAKK3Sgx4nPjIgZgz6x5DWGfT+I8O8hpQeCSJkHsIU=;
+	b=g0nWXplTbVsHSU2hdyuLlc60nBXnv1cCLNjk5hdXnd243rsfW5NDewtteqw+wqIK+3
+	LA9uqJlOPUvXlXbt3Z+WrvJuU017l6dR427kOpueBG03Ss1etDWywnWWUSDNQq2S3V5f
+	m1Ox+0NkINwMbH76Gz45dDQpyCtHjmgXmxmV6rAvKnCipeOhXvrzH14T01N3QgkUUkm7
+	HUaAaRSuepAZ8HBrjaaZ0iRIamYDAKH0d+unr3KAm4XcvNXtDHegPMorZX38Yw9HtbFu
+	WS1M9hYm9Wd7u3u1w5DALfbL8nzK8DTkegfRl6/PNzgnGG9PPBIB1wPejRLNXy7dFgUo
+	QT3A==
+X-Gm-Message-State: AD7BkJJY4j44dyaNwLRRkOcBrWkff/VGpx/kXGt1fSMQzzirYJnOqtxCtaknF8EmlmPeGw==
+X-Received: by 10.66.65.228 with SMTP id a4mr70838575pat.4.1459951303579;
+	Wed, 06 Apr 2016 07:01:43 -0700 (PDT)
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com.
+	[209.85.220.41])
+	by smtp.gmail.com with ESMTPSA id 87sm5360175pfq.93.2016.04.06.07.01.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Apr 2016 07:01:42 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f41.google.com with SMTP id fe3so33790875pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Apr 2016 07:01:41 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.66.90.163 with SMTP id bx3mr71244126pab.59.1459951301570;
+	Wed, 06 Apr 2016 07:01:41 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Wed, 6 Apr 2016 07:01:41 -0700 (PDT)
+In-Reply-To: <1459950176-29324-1-git-send-email-jussi.kukkonen@intel.com>
+References: <1459950176-29324-1-git-send-email-jussi.kukkonen@intel.com>
+Date: Wed, 6 Apr 2016 11:01:41 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp0FjCbDXG2_CGoFsgYVwsOUj-LKjqcRvYR8n0KHmqg_g@mail.gmail.com>
+Message-ID: <CAP9ODKp0FjCbDXG2_CGoFsgYVwsOUj-LKjqcRvYR8n0KHmqg_g@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x11-common: Add PACKAGECONFIG for screen blanking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,67 +67,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2016 13:43:18 -0000
+X-List-Received-Date: Wed, 06 Apr 2016 14:01:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-when "blank" is not in PACKAGECONFIG, explicitly set dpms and
-screensaver off. The intention here is to make it easier to
-create builds that should not blank the screen (just remove
-"blank" from x11-common PACKAGECONFIG).
+Hello Jussi,
 
-Partly fixes [YOCTO #7278].
+On Wed, Apr 6, 2016 at 10:42 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> when "blank" is not in PACKAGECONFIG, explicitly set dpms and
+> screensaver off. The intention here is to make it easier to
+> create builds that should not blank the screen (just remove
+> "blank" from x11-common PACKAGECONFIG).
+>
+> Partly fixes [YOCTO #7278].
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+I like the idea and solution however we ought to make clear it is
+using replaced strings. So please:
+
+ - rename Xserver to Xserver.in in SRC_URI
+ - add BLANK_ARGS="@BLANK_ARGS@" inside the file
+ - change sed to accommodate the changes
 
 
-Adding a packageconfig didn't seem like particularly nice way to set
-runtime configuration but it was the simplest I could think of.
-I can try adding a xorg.conf snippet to xserver-xf86-config if that's
-seen as better...
-
-Jussi
-
-
-
- meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver | 3 ++-
- meta/recipes-graphics/x11-common/x11-common_0.1.bb          | 5 +++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
-index 73570df..8d5f9b8 100644
---- a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
-+++ b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
-@@ -5,7 +5,8 @@ XSERVER=/usr/bin/Xorg
- 
- . /etc/profile
- 
--ARGS=" -br -pn"
-+BLANK_ARGS=""
-+ARGS=" -br -pn $BLANK_ARGS"
- 
- DISPLAY=':0'
- 
-diff --git a/meta/recipes-graphics/x11-common/x11-common_0.1.bb b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-index 156b329..2da178f 100644
---- a/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-+++ b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-@@ -13,10 +13,15 @@ SRC_URI = "file://etc \
- 
- S = "${WORKDIR}"
- 
-+PACKAGECONFIG ??= "blank"
-+# dpms and screen saver will be on only if 'blank' is in PACKAGECONFIG
-+PACKAGECONFIG[blank] = ""
-+
- do_install() {
- 	cp -R ${S}/etc ${D}${sysconfdir}
- 	chmod -R 755 ${D}${sysconfdir}
- 	find ${D}${sysconfdir} -type f -name \*~ -exec rm -rf {} \;
-+        sed -i -e 's/^BLANK_ARGS=.*/BLANK_ARGS="${@bb.utils.contains('PACKAGECONFIG', 'blank', '', '-s 0 -dpms', d)}"/' ${D}${sysconfdir}/X11/Xserver
- }
- 
- RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
