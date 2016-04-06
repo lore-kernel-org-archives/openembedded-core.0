@@ -1,30 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 01F54731B9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9202C731BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Apr 2016 08:53:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u368rPSK017092
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Apr 2016 01:53:26 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 6 Apr 2016 01:53:25 -0700
-To: Joshua G Lock <joshua.g.lock@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1459917622.git.dengke.du@windriver.com>
-	<39560f98b94a3d0d24c44c7ff139aa1c605a8498.1459917622.git.dengke.du@windriver.com>
-	<57049583.8060608@windriver.com>
-	<1459932124.5713.1.camel@linux.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5704CE84.6090204@windriver.com>
-Date: Wed, 6 Apr 2016 16:53:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <1459932124.5713.1.camel@linux.intel.com>
-Subject: Re: [PATCH 1/1] coreutils: correct the case for class-native
+	Wed,  6 Apr 2016 09:20:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u369JvQs017002; Wed, 6 Apr 2016 10:19:57 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MBWrYt_DxbL7; Wed,  6 Apr 2016 10:19:57 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u369Jt5I016996
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 6 Apr 2016 10:19:56 +0100
+Message-ID: <1459934394.7348.199.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Laurent Bonnans <laurent.bonnans@hikob.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Wed, 06 Apr 2016 10:19:54 +0100
+In-Reply-To: <CABBNMXVNRa8ANtg9dFgfT1nF8br-hB4_w1Q07FMjq=2Sq+L_RQ@mail.gmail.com>
+References: <cover.1459438792.git.laurent.bonnans@hikob.com>
+	<8a3fd47fc059f25ec7110cb74a5759556bae165e.1459438792.git.laurent.bonnans@hikob.com>
+	<CAJTo0LYnkMORa=qY7wVruxYEmzD6mQZYeJENJz-vm3XRNnEYcw@mail.gmail.com>
+	<CABBNMXVNRa8ANtg9dFgfT1nF8br-hB4_w1Q07FMjq=2Sq+L_RQ@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python: remove tests and sqlite3-tests modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2016 08:53:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 06 Apr 2016 09:20:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2016-04-06 at 10:00 +0200, Laurent Bonnans wrote:
+> 2016-04-05 16:56 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
+> > 
+> > On 31 March 2016 at 17:15, Laurent Bonnans <
+> > laurent.bonnans@hikob.com>
+> > wrote:
+> > > 
+> > > If present in manifests, they are shipped in 'python-modules'.
+> > > This
+> > > commit keeps them avalaible in the 'python-misc' package.
+> > 
+> > 
+> > python-modules depends on python-misc, so this won't really achieve
+> > anything.
+> 
+> You're right, I missed the change which adds this dependency in
+> master.
+> 
+> What would then be the best way to avoid shipping tests when using
+> python-modules?
+> Add another package(s) in the main recipe files before python-misc?
 
+Exclude those packages from python-modules as I previously suggested?
 
-On 04/06/2016 04:42 PM, Joshua G Lock wrote:
-> On Wed, 2016-04-06 at 12:50 +0800, Robert Yang wrote:
->>
->> On 04/06/2016 12:45 PM, Dengke Du wrote:
->>>
->>> The function of do_install_append_class-native for class-native
->>> had alread exist,so exclude the class-native in function
->>> do_install_append.
->>>
->>> Signed-off-by: Dengke Du <dengke.du@windriver.com>
->>> ---
->>>    meta/recipes-core/coreutils/coreutils_8.25.bb | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> b/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> index 419a693..e8e269a 100644
->>> --- a/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> +++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> @@ -70,6 +70,10 @@ do_compile_prepend () {
->>>    }
->>>
->>>    do_install_append() {
->>> +	if [ "${CLASSOVERRIDE}" = "class-native" ]; then
->>> +		return
->>> +	fi
->>> +
->
-> If the do_install_append is only valid for the target it'd be cleaner
-> to use a target-specific override i.e.
+Cheers,
 
-Thanks, but it is needed by both target and nativesdk.
-
-// Robert
-
->
-> do_install_append_class-target () {
-> }
->
-> Thanks,
->
-> Joshua
->
+Richard
 
