@@ -1,21 +1,47 @@
-Return-Path: <elliot.smith@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EBF35731E6
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1601D6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 13:12:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 07 Apr 2016 06:12:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,449,1455004800"; d="scan'208";a="953723537"
-Received: from jmkenned-mobl1.ger.corp.intel.com (HELO lp.ger.corp.intel.com)
-	([10.252.6.182])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Apr 2016 06:11:57 -0700
-From: Elliot Smith <elliot.smith@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Apr 2016 14:11:46 +0100
-Message-Id: <1460034706-13999-1-git-send-email-elliot.smith@intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] toaster.bbclass: strip task from the target
+	Thu,  7 Apr 2016 13:30:21 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id e185so11911968vkb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Apr 2016 06:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=r71i+7J+y0GpTTZlcZa2Woqm5sZWyxMU/EccFmCnDvc=;
+	b=anY5M6FkJQCL09SkmuxxWOdikCHHiqJcETi9JTa5h+gKq4b8l5BxZ86dFEJflaQxyb
+	h419mcCr4GZ9Z1ZYLlJs1eP1KEaqB/0bcIgpaNL9Y7/AeI+2bi1gNoFpXItileGTY8hE
+	J9g+Jo9pMEKVrqBKNvOIMAhzz0Ms8U9eO+C3Pf6X82O1p7gJ286+bPgy+R3BV7RTin5n
+	fAA/3w0LN7dWyhahhQZSVuHCdQaSNooJrY5TtYErTzxm0rLLfPRupHVHQkDLN8T2pse7
+	cyeRS4BpHcYwNfHWl6GTxII9binmxnknvBzkwlZ+60aeNZtWa71WcZfGtLkTQfbY/rcJ
+	PNfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=r71i+7J+y0GpTTZlcZa2Woqm5sZWyxMU/EccFmCnDvc=;
+	b=A8p3wi2IyuE8QLplyuByKynq8CfP6jzEwHGUm5Ej8fBSFBNZwuCvC8x5+kY1IwLgEo
+	EI/4ua6OHsOKO4/UCp7uQmct83O538VQtOfLWzuWqsZq5g/+64gTs4swTNKQlExV1IAR
+	GvXW4ftDrwLt3FdIA5yLpfaDNGuqCzq4G9XbYzl0rI6FTraXdI7iz5LTc5XcIrzlqwRF
+	lwBqggSA0KQ7PJW/s1uWqyY3fSICKZzKrZauLj9op9yLr4dExKiDIWGKg5VDtRFBL2pN
+	rUBFVc0t9cehfzKMSi+NcQ+BhCAFQGe0WYVMk0g4OU+dppCocb544AOpyr7tPC65wiM4
+	7T/w==
+X-Gm-Message-State: AD7BkJJnx8N1ADY6g/j/xBy7RLGsvU9fI1g39z2xYrYJfGywKbCDZijK/8zztOggFxsUjsUxlBdhOUIlmMJTAw==
+MIME-Version: 1.0
+X-Received: by 10.31.58.213 with SMTP id h204mr1423896vka.101.1460035821775;
+	Thu, 07 Apr 2016 06:30:21 -0700 (PDT)
+Received: by 10.103.94.2 with HTTP; Thu, 7 Apr 2016 06:30:21 -0700 (PDT)
+In-Reply-To: <0186a488dc4ff5d3daf5ef0d1fd54bb0e79763a7.1460015043.git.liezhi.yang@windriver.com>
+References: <cover.1460015043.git.liezhi.yang@windriver.com>
+	<0186a488dc4ff5d3daf5ef0d1fd54bb0e79763a7.1460015043.git.liezhi.yang@windriver.com>
+Date: Thu, 7 Apr 2016 07:30:21 -0600
+Message-ID: <CACS+7ZQ55g1EQkWD5OQOH0zU=S1p9BRx_Nn8u5FKQmL3_-QEcw@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] fs-perms.txt: fix ROOT_HOME's permission
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,46 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 13:12:16 -0000
+X-List-Received-Date: Thu, 07 Apr 2016 13:30:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+On 7 April 2016 at 01:50, Robert Yang <liezhi.yang@windriver.com> wrote:
+> It should be 0700 rather than 0755.
+>
+> Reported-by: Charles Chan <charles.wh.chan@gmail.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/files/fs-perms.txt | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+> index 109cbe5..1d74da7 100644
+> --- a/meta/files/fs-perms.txt
+> +++ b/meta/files/fs-perms.txt
+> @@ -51,6 +51,7 @@ ${localstatedir}/lock link    /run/lock
+>  ${localstatedir}/tmp   link    volatile/tmp
+>
+>  /home                          0755    root    root    false - - -
+> +${ROOT_HOME}                   0700    root    root    false - - -
 
-Current code in toaster_buildhistory_dump assumes that bitbake
-target doesn't contain task name. It uses target as a part of
-path to the files with data that it analizes. It fails to find
-files if target contains task name. Stripping task from the
-target should solve this.
+I'd like to see this in the section labelled "Special permissions from
+base-files" around line 58. I think that makes it more clear that this
+is a special permission setting.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Elliot Smith <elliot.smith@intel.com>
----
- meta/classes/toaster.bbclass | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 1c0703c..004e068 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -317,6 +317,7 @@ python toaster_buildhistory_dump() {
-     allpkgs = {}
-     files = {}
-     for target in e._pkgs:
-+        target = target.split(':')[0] # strip ':<task>' suffix from the target
-         installed_img_path = e.data.expand(os.path.join(BUILDHISTORY_DIR_IMAGE_BASE, target))
-         if os.path.exists(installed_img_path):
-             images[target] = {}
--- 
-1.9.3
-
----------------------------------------------------------------------
-Intel Corporation (UK) Limited
-Registered No. 1134945 (England)
-Registered Office: Pipers Way, Swindon SN3 1RJ
-VAT No: 860 2173 47
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+>  /srv                           0755    root    root    false - - -
+>  ${prefix}/src                  0755    root    root    false - - -
+>  ${localstatedir}/local         0755    root    root    false - - -
+> --
+> 2.8.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
