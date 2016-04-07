@@ -1,32 +1,45 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F5C0770A0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C0D976294
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 03:01:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3731lZo000918
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Apr 2016 20:01:47 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 6 Apr 2016 20:01:46 -0700
-To: Dan McGregor <danismostlikely@gmail.com>, Charles Chan
-	<charles.wh.chan@gmail.com>
-References: <CAEDY82g1SD-4C1BVH6X2OJFkG9-KiqKSkRZzTKMUwu38dphvuw@mail.gmail.com>
-	<57049FBF.1010504@windriver.com>
-	<CAEDY82hDvy0Fe3HWE-1WPDQEst7TbOrvoU_KjrGaLXbXZ3Gofw@mail.gmail.com>
-	<CACS+7ZS7TMWdR-M7aH8DRupH7P7UN-8Q6kR1EK6v4r+C_v1wbg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5705CD99.9000103@windriver.com>
-Date: Thu, 7 Apr 2016 11:01:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CACS+7ZS7TMWdR-M7aH8DRupH7P7UN-8Q6kR1EK6v4r+C_v1wbg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Security question: base-files_3.0.14.bb and ${ROOT_HOME} directory permission
+	Thu,  7 Apr 2016 07:02:48 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id f52so55916888qga.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Apr 2016 00:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=FsFjW3m0Y6iYL0wcf7cmnCc14bEKMU/CYWe6j1B9rEc=;
+	b=Z6zPdwN5BUpCXwUqzP6yHqFpdflRxoTJRue/+lhTW+QfClsn3qTcSsu6rPlgfnKyfZ
+	Z+UQ5FYAPoVHMbzwQb8HiKLereGiS+SzFE3z7jk6oe8j2h7S4S+d8a+KAwsEUMf13M1q
+	IPUAWohiW9z1pX8l1swyYJfybW1xjUngELOHwAjZ2sT6OoS0k7sujrlAydi6fU77ummf
+	yq/0nS2rPjO73+FjXdja7F9Z3CwjK7W/PUDMCKm0VdLPMsqIBDnktIhDXqG2dqbbnOIp
+	IhuYN1+OJILTyk+aUB6FSu6QJWFzazyqRK7hw6ISP3i4brCp5uIg3WksDM1/gwOGmGK0
+	1sDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FsFjW3m0Y6iYL0wcf7cmnCc14bEKMU/CYWe6j1B9rEc=;
+	b=hlvqU1HTNVI1f4vX02VLa94KiNvsOtapH1yO9ZYisVVoPvrdMk1qYc6KlQCeMPPeb3
+	UfO4ZuTxEMZx6UodaRHJv0oq1sY6EnN+ET8iredPXhtI23MJqxdfxAoy4T/iRnOMFvj6
+	DQM+nVm7NbXVh4UewS9CiSCIiOKou+G1ZY7sRIN0l1/y4pRlFFBkB7jYvaLUjlxOO8b7
+	Vvm/TGoQKTbvcgjtJ1CnY3WGDHUM1GJYVImlZ5dTuokYJVQZZ7j82DSTQCTErmYCIlxI
+	tKYvWmcOQnQ/dfmqMyiUZ8e2YdRP4p/UxfUq2y8aD82Qwf4IJOd1OZd3QIh4c4Swqsc6
+	sGHg==
+X-Gm-Message-State: AD7BkJIb87K1egJlxgXyoRqDDdFFnt3osZdU/MPrZvLgT0anZxjY4EnRCSntBqs5r0EGdQ==
+X-Received: by 10.140.39.138 with SMTP id v10mr1582154qgv.82.1460012569398;
+	Thu, 07 Apr 2016 00:02:49 -0700 (PDT)
+Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
+	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
+	v66sm2840212qhb.26.2016.04.07.00.02.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 07 Apr 2016 00:02:48 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Apr 2016 07:02:43 +0000
+Message-Id: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] busybox/mdev: Ensure /sys is mounted before using it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,145 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 03:01:48 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Apr 2016 07:02:49 -0000
 
+echo would fail if /sys is not mounted and boot would abort
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/busybox/files/mdev | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On 04/07/2016 07:17 AM, Dan McGregor wrote:
-> On 6 April 2016 at 13:39, Charles Chan <charles.wh.chan@gmail.com> wrote:
->> Hi Robert,
->>
->> Thanks for the patch. I tested it and it worked ... partially.
->>
->> Taking an existing image and then using `opkg install base-files.ipk` will
->> correctly set the permission to 0700.
->>
->> However, when I rebuild the full image rootfs, /home/root still ends up with
->> the wrong permission. I suspect another recipe is modifying the permission.
->> Is there a way (ie. bitbake command) to find out which recipe is causing the
->> change?
+diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
+index 9625247..8c9c06e 100755
+--- a/meta/recipes-core/busybox/files/mdev
++++ b/meta/recipes-core/busybox/files/mdev
+@@ -1,10 +1,12 @@
+ #!/bin/sh
+-
++mount -t proc proc /proc
++mount -t sysfs sysfs /sys
+ mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
+ mkdir /dev/pts /dev/shm
+ chmod 777 /dev/shm
+ mount -t devpts devpts /dev/pts
+ touch /dev/mdev.seq
++#sysctl -w kernel.hotplug=/sbin/mdev
+ echo "/sbin/mdev" > /proc/sys/kernel/hotplug
+ mdev -s
+ 
+-- 
+1.9.1
 
-I tried a fresh build, it works for me.
-
->>
->> Thanks again,
->> Charles
->>
->
-> I don't know what recipe is creating /home/root, but ${ROOT_HOME}
-
-It is created by base-files
-
-> should probably be added to files/fs-perms.txt with the correct
-> permissions set.
-
-Sounds good to me.
-
-// Robert
-
->
->
->>
->> On Tue, Apr 5, 2016 at 10:33 PM, Robert Yang <liezhi.yang@windriver.com>
->> wrote:
->>>
->>>
->>> I think that it should be a bug, would you please try this patch?
->>>
->>> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> b/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> index d391707..2082ed4 100644
->>> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> @@ -95,6 +95,7 @@ do_install () {
->>>          for d in ${dirs755}; do
->>>                  install -m 0755 -d ${D}$d
->>>          done
->>> +       chmod 0700 ${D}${ROOT_HOME}
->>>          for d in ${dirs1777}; do
->>>                  install -m 1777 -d ${D}$d
->>>          done
->>>
->>> // Robert
->>>
->>> On 04/06/2016 01:03 PM, Charles Chan wrote:
->>>>
->>>> (This is my first post to OE list, hopefully I am posting to the right
->>>> mailing
->>>> list.)
->>>>
->>>> Background: During the process of trying to configure SSH keys for root
->>>> user
->>>> login via dropbear, we realized the permission for /home/root directory
->>>> is set
->>>> too loose for group and other members [1]. As a result, dropbears fails
->>>> when we
->>>> try to put the key under /home/root/.ssh
->>>>
->>>> ---------
->>>>
->>>> In the image, /home/root directory is set to 0755:
->>>>
->>>>      $ stat /home/root
->>>>         File: /home/root
->>>>         Size: 4096            Blocks: 8          IO Block: 4096
->>>> directory
->>>>      Device: b302h/45826d    Inode: 13268       Links: 4
->>>>      Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/
->>>> root)
->>>>      Access: 2016-04-05 22:21:13.000000000
->>>>      Modify: 2016-04-05 22:08:57.000000000
->>>>      Change: 2016-04-05 22:08:57.000000000
->>>>
->>>>
->>>> After some debugging, we believe the permission (0755) is initialized in
->>>> base-files_3.0.14.bb <http://base-files_3.0.14.bb> (in line 35) [2].
->>>>
->>>> A few questions:
->>>> 1. I tried looking at the git log for the history, but wasn't able to
->>>> find any
->>>> background on why the permission was set this way. eg. on a desktop Linux
->>>> (Ubuntu), /root is set to 0700:
->>>>
->>>>      $ sudo stat /root
->>>>         File: `/root'
->>>>         Size: 4096 Blocks: 8          IO Block: 4096   directory
->>>>      Device: 801h/2049dInode: 1441793     Links: 3
->>>>      Access: (0700/drwx------)  Uid: (    0/    root)   Gid: (    0/
->>>> root)
->>>>      Access: 2016-04-05 21:29:17.389725228 -0700
->>>>      Modify: 2016-03-22 17:11:54.912479000 -0700
->>>>      Change: 2016-03-22 17:11:54.912479000 -0700
->>>>        Birth: -
->>>>
->>>>
->>>> 2. If we would like to override the directory permission for /home/root
->>>> in our
->>>> image, what is the best way to do it? I am not an expert with bitbake,
->>>> should I
->>>> be patching the base-files_3.0.14.bb <http://base-files_3.0.14.bb>? using
->>>> *_append? or I should be looking at some other recipe altogether?
->>>>
->>>> Sorry for the long email. Thanks in advance.
->>>> Charles
->>>>
->>>> [1]
->>>> https://wiki.openwrt.org/doc/howto/dropbear.public-key.auth#troubleshooting
->>>>
->>>> [2]
->>>>
->>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core/tree/meta/recipes-core/base-files/base-files_3.0.14.bb?h=master#n35
->>>>
->>>>
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
 
