@@ -1,24 +1,36 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 05CFB770F9
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B083077011
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 23:34:58 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 07 Apr 2016 16:34:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,449,1455004800"; d="scan'208";a="780431307"
-Received: from bitbang.jf.intel.com ([10.7.199.152])
-	by orsmga003.jf.intel.com with ESMTP; 07 Apr 2016 16:34:58 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Apr 2016 16:34:52 -0700
-Message-Id: <b4567c49b3aba8424e45758579dd283d7e1866b1.1460071932.git.randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1460071932.git.randy.e.witt@linux.intel.com>
-References: <cover.1460071932.git.randy.e.witt@linux.intel.com>
-In-Reply-To: <cover.1460071932.git.randy.e.witt@linux.intel.com>
-References: <cover.1460071932.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 4/5] sstatesig.py: Add a method to "unlock" recipes
+	Thu,  7 Apr 2016 23:46:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id B53E23141D35;
+	Fri,  8 Apr 2016 01:46:37 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id EfXAe-t753A2; Fri,  8 Apr 2016 01:46:35 +0200 (CEST)
+Received: from [172.22.22.61] (55d40344.access.ecotel.net [85.212.3.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 5BEBE3141D33;
+	Fri,  8 Apr 2016 01:46:35 +0200 (CEST)
+To: Khem Raj <raj.khem@gmail.com>
+References: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
+	<57069A2A.4040901@opendreambox.org>
+	<EAFEA49B-06C0-446C-80F0-0B300EFFB863@gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <5706F15A.3080205@opendreambox.org>
+Date: Fri, 8 Apr 2016 01:46:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <EAFEA49B-06C0-446C-80F0-0B300EFFB863@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] busybox/mdev: Ensure /sys is mounted before using it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +43,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 23:34:59 -0000
+X-List-Received-Date: Thu, 07 Apr 2016 23:46:44 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-In order to support workflows using devtool where a user might want to
-modify tasks that exist in locked-sigs.inc, there must be a way to unlock
-recipes.
+On 07.04.2016 21:01, Khem Raj wrote:
+> 
+>> On Apr 7, 2016, at 10:34 AM, Andreas Oberritter <obi@opendreambox.org> wrote:
+>>
+>> Hi Khem,
+>>
+>> On 07.04.2016 09:02, Khem Raj wrote:
+>>> echo would fail if /sys is not mounted and boot would abort
+>>
+>> are you sure about the dependency between echo and sysfs? It seems quite
+>> unlikely to me. I'd guess the real problem is mdev failing to start
+>> without syses.
+> 
+> real problem was missing mounting sysfs on /sys, but I wanted to keep the other
+> way of setting it instead of echo
 
-This patch adds that support by allowing the user to add recipes to
-SIGGEN_UNLOCKED_RECIPES. Recipes that exist in that variable will have
-all their tasks unlocked, as well as any tasks that depend on that
-recipe.
+Note that I was referring to your commit message.
 
-For example if foo->bar->baz, if you unlock baz, it will also unlock bar
-so that foo can be rebuilt without explicitly specifying bar as being
-unlocked.
+After a second look I see that you also mount /proc in your patch, and I
+guess that's what you meant to describe. Please update the commit
+message (and subject) to actually match your patch.
 
-[YOCTO #9195]
+Regards,
+Andreas
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/lib/oe/sstatesig.py | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 009adea..01dce66 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -94,6 +94,9 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         self.lockedhashfn = {}
-         self.machine = data.getVar("MACHINE", True)
-         self.mismatch_msgs = []
-+        self.unlockedrecipes = (data.getVar("SIGGEN_UNLOCKED_RECIPES", True) or
-+                                "").split()
-+        self.unlockedrecipes = { k: "" for k in self.unlockedrecipes }
-         pass
- 
-     def tasks_resolved(self, virtmap, virtpnmap, dataCache):
-@@ -136,7 +139,26 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         recipename = dataCache.pkg_fn[fn]
-         self.lockedpnmap[fn] = recipename
-         self.lockedhashfn[fn] = dataCache.hashfn[fn]
--        if recipename in self.lockedsigs:
-+
-+        unlocked = False
-+        if recipename in self.unlockedrecipes:
-+            unlocked = True
-+        else:
-+            def recipename_from_dep(dep):
-+                # The dep entry will look something like
-+                # /path/path/recipename.bb.task, virtual:native:/p/foo.bb.task,
-+                # ...
-+                fn = dep.rsplit('.', 1)[0]
-+                return dataCache.pkg_fn[fn]
-+
-+            # If any unlocked recipe is in the direct dependencies then the
-+            # current recipe should be unlocked as well.
-+            depnames = [ recipename_from_dep(x) for x in deps ]
-+            if any(x in y for y in depnames for x in self.unlockedrecipes):
-+                self.unlockedrecipes[recipename] = ''
-+                unlocked = True
-+
-+        if not unlocked and recipename in self.lockedsigs:
-             if task in self.lockedsigs[recipename]:
-                 k = fn + "." + task
-                 h_locked = self.lockedsigs[recipename][task][0]
--- 
-2.5.5
+> 
+>>
+>> Regards,
+>> Andreas
+>>
+>>
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>> meta/recipes-core/busybox/files/mdev | 4 +++-
+>>> 1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
+>>> index 9625247..8c9c06e 100755
+>>> --- a/meta/recipes-core/busybox/files/mdev
+>>> +++ b/meta/recipes-core/busybox/files/mdev
+>>> @@ -1,10 +1,12 @@
+>>> #!/bin/sh
+>>> -
+>>> +mount -t proc proc /proc
+>>> +mount -t sysfs sysfs /sys
+>>> mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
+>>> mkdir /dev/pts /dev/shm
+>>> chmod 777 /dev/shm
+>>> mount -t devpts devpts /dev/pts
+>>> touch /dev/mdev.seq
+>>> +#sysctl -w kernel.hotplug=/sbin/mdev
+>>> echo "/sbin/mdev" > /proc/sys/kernel/hotplug
+>>> mdev -s
+>>>
+>>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
 
