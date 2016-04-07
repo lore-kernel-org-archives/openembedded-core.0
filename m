@@ -1,31 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5997B770CD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E3B4F770CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 09:50:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u379oGLr022983
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 7 Apr 2016 02:50:16 -0700
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 7 Apr 2016 02:50:15 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1459891560-4178-1-git-send-email-ross.burton@intel.com>
-	<CAJ86T=XXJtGhRqvtkXp1aAHMYN8Y0VDrUJZfDhqNkodtbOXymw@mail.gmail.com>
-	<CAJTo0LZSmc3+nOGn1dK9CzKqd+aAkAnFdk=tkk-gCHPqz+8NNg@mail.gmail.com>
-	<5705C7DE.2000102@windriver.com>
-	<CAJTo0LaGS9g=-kamcNL8Z+QcC2JkM-C-iE0BJv1H0ARoSYaprw@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57062D55.7030705@windriver.com>
-Date: Thu, 7 Apr 2016 17:50:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Thu,  7 Apr 2016 09:50:36 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id o126so65282757iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Apr 2016 02:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qNqYzGeonuM8A3EvgXNBkHjv6BjL+J0YdxG+6h+0gE8=;
+	b=Q4C0NaV8gVvvylez1kNUrCWhJKdfVSSgSiPj5+jIzOzWwjMZAtcjzcdEogVfKPAYY4
+	gNcXOpOA9CkxKx+io/4tko6BddvLtdIbJqtFlTXos88QWenMl4c8o9rH5ePmpmA54/ih
+	rbSpkkQja4DVamaj+P1yOse3YmEI9BYatGOoTfhMLa6ep7IL4Foxenfl+JnhqJwdU/az
+	wYndzIldLcvagcpOK5dw1ha8i2JmYebj05IJwD6Bm53u+psSNmohePbfNT6TLQvhwaRO
+	KYJcF/PefMoc/OC41esa9zzJTQUeLRCUXz5WoEC9O3u/29WlHjQN3PvuuZErrhmEeKne
+	/awA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qNqYzGeonuM8A3EvgXNBkHjv6BjL+J0YdxG+6h+0gE8=;
+	b=E5ExEeskpHx3Ne0YyaKzQ41CPCAO9MwI/5TI8Gyh4KrWlocUAEZj5z5536CfeXytY5
+	U3T1elCdr1ER/JvEJN+R5+oM+HtSFMS7roXf+MqbJxAvFtHatMrSm/brtbpp//YlDlDj
+	8MmH+gdinflH1KjBPxgQ0tNUEh/5mtouD+j6m60jKSLVRCxIMcB0nLisVPk9O+6yW2Tg
+	Nm6D9w+CP60OavIVsN3M2Ccrynnl2BIrzR2oAX1IF4jgl7QhpBnsVCHfbQKqEByvDpyj
+	oklh5RHTCLbDwF2nJv+j2kqb1GZA3/Icmo00/ygmZcEIId2gPEhHYmhSssVkR8+AS7+d
+	hy9w==
+X-Gm-Message-State: AD7BkJKCmXzuDe7iX9+eSmP4AZ9+ZgO5gM/V3jw4/+FBaCsJLixEfbs9N+Dd5qPCVgoG4DFy4PD3YewpcOG8Yygm
+X-Received: by 10.107.134.84 with SMTP id i81mr2094824iod.99.1460022636995;
+	Thu, 07 Apr 2016 02:50:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaGS9g=-kamcNL8Z+QcC2JkM-C-iE0BJv1H0ARoSYaprw@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bzip2: set correct soname
+Received: by 10.107.132.24 with HTTP; Thu, 7 Apr 2016 02:50:17 -0700 (PDT)
+In-Reply-To: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
+References: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Apr 2016 10:50:17 +0100
+Message-ID: <CAJTo0LbNiJNmDdFXPwGbF-AD8fzgtj9YiYX9-7jrVGugytgBNQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox/mdev: Ensure /sys is mounted before using it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 09:50:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Apr 2016 09:50:37 -0000
+Content-Type: multipart/alternative; boundary=001a113febc8a4b350052fe202aa
 
+--001a113febc8a4b350052fe202aa
+Content-Type: text/plain; charset=UTF-8
 
+On 7 April 2016 at 08:02, Khem Raj <raj.khem@gmail.com> wrote:
 
-On 04/07/2016 05:12 PM, Burton, Ross wrote:
+> +#sysctl -w kernel.hotplug=/sbin/mdev
 >
-> On 7 April 2016 at 03:37, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     I got this error when build in an old build dir:
->
->     | pbzip2: error while loading shared libraries: libbz2.so.0: cannot open
->     shared object file: No such file or directory
->     | WARNING: exit code 127 from a shell command.
->     | ERROR: Function failed: do_image_tar (log file is located at
->     /buildarea/lyang1/test_fetch/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_image_tar.33968)
->     ERROR: Task 19
->     (/buildarea/lyang1/poky/meta/recipes-core/images/core-image-minimal.bb
->     <http://core-image-minimal.bb>, do_image_tar) failed with exit code '1'
->
->     It is OK when clean pbzip2-native and rebuild. But I wonder how can this
->     happen since pbzip2-native DEPENDS on bzip2-native.
->
->
-> Can you find the cooker log for this run?  Did it rebuild pbzip2-native as expected?
 
-Yes, it did:
+Why add a commented line?
 
-NOTE: recipe pbzip2-native-1.1.13-r0: task do_populate_sysroot: Started
-NOTE: recipe pbzip2-native-1.1.13-r0: task do_populate_sysroot: Succeeded
+Ross
 
-// Robert
+--001a113febc8a4b350052fe202aa
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->
-> Ross
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 April 2016 at 08:02, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":h8k" class=3D"a3s" style=
+=3D"overflow:hidden">+#sysctl -w kernel.hotplug=3D/sbin/mdev<br></div></blo=
+ckquote></div><br>Why add a commented line?</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a113febc8a4b350052fe202aa--
