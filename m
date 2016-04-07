@@ -1,45 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C0D976294
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B43D60111
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 07:02:48 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id f52so55916888qga.3
+	Thu,  7 Apr 2016 07:34:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u377YXTj026785
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Apr 2016 00:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=FsFjW3m0Y6iYL0wcf7cmnCc14bEKMU/CYWe6j1B9rEc=;
-	b=Z6zPdwN5BUpCXwUqzP6yHqFpdflRxoTJRue/+lhTW+QfClsn3qTcSsu6rPlgfnKyfZ
-	Z+UQ5FYAPoVHMbzwQb8HiKLereGiS+SzFE3z7jk6oe8j2h7S4S+d8a+KAwsEUMf13M1q
-	IPUAWohiW9z1pX8l1swyYJfybW1xjUngELOHwAjZ2sT6OoS0k7sujrlAydi6fU77ummf
-	yq/0nS2rPjO73+FjXdja7F9Z3CwjK7W/PUDMCKm0VdLPMsqIBDnktIhDXqG2dqbbnOIp
-	IhuYN1+OJILTyk+aUB6FSu6QJWFzazyqRK7hw6ISP3i4brCp5uIg3WksDM1/gwOGmGK0
-	1sDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=FsFjW3m0Y6iYL0wcf7cmnCc14bEKMU/CYWe6j1B9rEc=;
-	b=hlvqU1HTNVI1f4vX02VLa94KiNvsOtapH1yO9ZYisVVoPvrdMk1qYc6KlQCeMPPeb3
-	UfO4ZuTxEMZx6UodaRHJv0oq1sY6EnN+ET8iredPXhtI23MJqxdfxAoy4T/iRnOMFvj6
-	DQM+nVm7NbXVh4UewS9CiSCIiOKou+G1ZY7sRIN0l1/y4pRlFFBkB7jYvaLUjlxOO8b7
-	Vvm/TGoQKTbvcgjtJ1CnY3WGDHUM1GJYVImlZ5dTuokYJVQZZ7j82DSTQCTErmYCIlxI
-	tKYvWmcOQnQ/dfmqMyiUZ8e2YdRP4p/UxfUq2y8aD82Qwf4IJOd1OZd3QIh4c4Swqsc6
-	sGHg==
-X-Gm-Message-State: AD7BkJIb87K1egJlxgXyoRqDDdFFnt3osZdU/MPrZvLgT0anZxjY4EnRCSntBqs5r0EGdQ==
-X-Received: by 10.140.39.138 with SMTP id v10mr1582154qgv.82.1460012569398;
-	Thu, 07 Apr 2016 00:02:49 -0700 (PDT)
-Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
-	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
-	v66sm2840212qhb.26.2016.04.07.00.02.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Apr 2016 00:02:48 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Apr 2016 07:02:43 +0000
-Message-Id: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] busybox/mdev: Ensure /sys is mounted before using it
+	Thu, 7 Apr 2016 00:34:33 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 7 Apr 2016 00:34:32 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Apr 2016 00:34:29 -0700
+Message-ID: <cover.1460014426.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/3] meta: 3 fixes for nativesdk recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 07:02:49 -0000
+X-List-Received-Date: Thu, 07 Apr 2016 07:34:33 -0000
+Content-Type: text/plain
 
-echo would fail if /sys is not mounted and boot would abort
+The following changes since commit 5ebea1114d54120d5ff5d8a6cd148110d0fda23f:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/busybox/files/mdev | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+  build-appliance-image: Update to master head revision (2016-04-06 23:54:57 +0100)
 
-diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
-index 9625247..8c9c06e 100755
---- a/meta/recipes-core/busybox/files/mdev
-+++ b/meta/recipes-core/busybox/files/mdev
-@@ -1,10 +1,12 @@
- #!/bin/sh
--
-+mount -t proc proc /proc
-+mount -t sysfs sysfs /sys
- mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
- mkdir /dev/pts /dev/shm
- chmod 777 /dev/shm
- mount -t devpts devpts /dev/pts
- touch /dev/mdev.seq
-+#sysctl -w kernel.hotplug=/sbin/mdev
- echo "/sbin/mdev" > /proc/sys/kernel/hotplug
- mdev -s
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/3fixes
+
+Robert Yang (3):
+  libsolv: fix installed-vs-shipped for nativesdk
+  bdwgc: installed-vs-shipped for nativesdk
+  apr-util: fix path in rules.mk for nativesdk
+
+ .../0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch  | 37 ++++++++++++++++++++++
+ meta/recipes-extended/libsolv/libsolv_git.bb       |  4 ++-
+ meta/recipes-support/apr/apr-util_1.5.4.bb         |  8 ++---
+ meta/recipes-support/bdwgc/bdwgc_7.4.2.bb          |  2 +-
+ 4 files changed, 45 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch
+
 -- 
-1.9.1
+2.7.4
 
 
