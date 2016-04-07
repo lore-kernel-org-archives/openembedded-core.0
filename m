@@ -1,54 +1,47 @@
-Return-Path: <michael.g.wood@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 8290B75C51
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id F06BF6FF93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 10:05:21 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id l6so18254502wml.1
+	Thu,  7 Apr 2016 10:24:28 +0000 (UTC)
+Received: by mail-ig0-f169.google.com with SMTP id gy3so98347906igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Apr 2016 03:05:23 -0700 (PDT)
+	Thu, 07 Apr 2016 03:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=CAJ6lwBu6Imt7zcbjwLo9jJ0ow36TXQ/j1UxKBLZn0M=;
-	b=LeAUGZMy+WC/+FSruKzetFqoE0YQusR9hCpAwZsAft3/uKpx4T92JJUWClwl8cMrTo
-	JmWOLlxw4j1Ku2l30v/lfzfqOFSGq2dA5fOW46c55ARV3y2ZMpM/NNuq5xZhIVcJYyHe
-	InBUlk2TteHvbNIjgERnbs0/lYyDW/ZcxQH7BFjJN8aTfSGMV6fugIwBx13dT+ImiWSU
-	lSHe96p2U8xRnCjtKKF+DHwAMmrotl8DlCwkjCdk1iB+oQlTOyOA6bBWHubTh0br8eus
-	LHjSArCvEU/S6NjRWayiJq6a4WykqaQmQN7qoyYpVI07q0b45C6EEP1sQuiD64R140vh
-	uUGA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Ctr7Vg1r83vNZKhU6Y9eUrqb0+5/ngIX49SdyrDR8sI=;
+	b=YaE7VsVwYo5DymmMAopbzSITLFDCevKiEw/qgL2FuuTqwpamNaxJXLtwWvgEJl2WX/
+	6jh7SEJ8dDIgRil6rc0o412bCd20dhDJaHQrpD+482j3K9OMkRjqw900Q47t7WyPJWlG
+	8GnDc9gBnWsw0pFrMiO9XUHfLzUMSSjtcH5Z9TMIU1g4kY9KJRsjDkE7zm9ObD309W9V
+	aCF9aQy+R7IUIUpln6p+/5xbLtl9z87SnJdDsNC4ugaS1vvFeMU7pJ0Czpy6tUtdau45
+	y3nWp4qGNHFbCkUO+aHTllH69bYvfDS6B6fYgiF1hM0FxStG9gQgTmzlDGP5frTBC+F6
+	iKaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=CAJ6lwBu6Imt7zcbjwLo9jJ0ow36TXQ/j1UxKBLZn0M=;
-	b=YN2JUPGgP5I3xurnh+/ouYAgOaJLsJZlUq2qL+s6E5mP7kyZvgcOaEQMdWR73X3yg2
-	wZljx5v4ht9TCFajAEsYhT/gjlbFPDg/F8ECkviQrlkLcMA+CODBb6PPU5DKrIOGLIZk
-	2NE8OVakT3lcZdZSy3zAhjrbFb353kqe0KwFQQtQklUzLJM1ZyyWRSgAl01bwkEshgt9
-	pHHuLsPdb0syyAqonoMjj6xBC6Cuet1qyOuiFtJM96VUDjDXqgXKPzwAbZ/uwd8z4czA
-	ZNn9D0PjpgWK0KLxYdgIsdRmN/mqvDvqdrr9rf8W5Sk04ZwpRmwwWxkihsh616KcJ24r
-	nq8A==
-X-Gm-Message-State: AD7BkJJ3r4XGqteiLLDHSK7Zgp1dI83z3bbCR+ch5b6+eMkI795B9QV7m8gTJjU/DC43qAKw
-X-Received: by 10.28.170.137 with SMTP id t131mr3124422wme.32.1460023522377;
-	Thu, 07 Apr 2016 03:05:22 -0700 (PDT)
-Received: from [192.168.2.24] ([83.217.123.106])
-	by smtp.googlemail.com with ESMTPSA id
-	ll9sm7690853wjc.29.2016.04.07.03.05.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Apr 2016 03:05:21 -0700 (PDT)
-To: Randy Witt <randy.e.witt@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1459962043-30259-1-git-send-email-michael.g.wood@intel.com>
-	<1459962043-30259-2-git-send-email-michael.g.wood@intel.com>
-	<570572EC.2000008@linux.intel.com>
-From: Michael Wood <michael.g.wood@intel.com>
-Message-ID: <570630E0.7080007@intel.com>
-Date: Thu, 7 Apr 2016 11:05:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Ctr7Vg1r83vNZKhU6Y9eUrqb0+5/ngIX49SdyrDR8sI=;
+	b=IMMps9UcKWkHZIOxAKT4uKI55v371dvlZ89HZ6FZAQPVGIhMgnrNezLsQc3BNitjPr
+	RkAwif36cnN1IoRSFSTJItjv2OzNEaOX8KDu10l7QYrh9zrYATw2v7JB/qXhN87Lh76E
+	5E9kPn/kRmy3dNa4FUE7NTxHdFsmrMWefxTs5JsGafiNqZ+POQNWyOITLcZN+j8X64B9
+	A7DI2nJn+nm8AM8hGAYndd1yDIFGNYxfY0omay9Xrg+jJ/SaUfgo6J3JEJ/heHiwgRvP
+	0a4v/TP97hQJXqlyT3rp9Jpu1c/0EMv8x1C13mnHKd3AgbybIzNvqH8Cvarh4YJQ4YOE
+	oVPA==
+X-Gm-Message-State: AD7BkJIXo/BzrAVt/5iZ5Cqa83nHoUyel9n6UbAkOz8Q+G4HcSoHFmVRmV5HN3zl5sgPmOkSuebrOpfNBMknBiNh
+X-Received: by 10.50.78.8 with SMTP id x8mr2688075igw.78.1460024669090; Thu,
+	07 Apr 2016 03:24:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <570572EC.2000008@linux.intel.com>
-Subject: Re: [PATCH] toaster: add DL_DIR and SSTATE_DIR to oe toasterconf
+Received: by 10.107.132.24 with HTTP; Thu, 7 Apr 2016 03:24:09 -0700 (PDT)
+In-Reply-To: <ca141106b28e9f213b0965de589507300ccbbca3.1460020929.git.Qi.Chen@windriver.com>
+References: <cover.1460020929.git.Qi.Chen@windriver.com>
+	<ca141106b28e9f213b0965de589507300ccbbca3.1460020929.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Apr 2016 11:24:09 +0100
+Message-ID: <CAJTo0LZLevMcyDJhgGe9uADDW60PgBXHm+GD1kijm8F6BSnCRw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] grub2: fix do_configure failure when largefile is not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,47 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 10:05:26 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Apr 2016 10:24:29 -0000
+Content-Type: multipart/alternative; boundary=089e01183a4cc3ce91052fe27b21
 
-On 06/04/16 21:34, Randy Witt wrote:
-> On 04/06/2016 10:00 AM, Michael Wood wrote:
->> From: Ed Bartosh <ed.bartosh@linux.intel.com>
->
-> Shouldn't the message from the cover letter actually be the commit 
-> message here, rather than an empty message?
+--089e01183a4cc3ce91052fe27b21
+Content-Type: text/plain; charset=UTF-8
 
-Sure, I can easily amend Ed's commit message to include this if you'd 
-like, the reason I sent a cover letter was just to let people know who 
-aren't following the development of Toaster what this was about.
+On 7 April 2016 at 10:22, Chen Qi <Qi.Chen@windriver.com> wrote:
 
->
->>
->> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->> Signed-off-by: Michael Wood <michael.g.wood@intel.com>
->> ---
->>   meta/conf/toasterconf.json | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
->> index 1987793..bbd40e9 100644
->> --- a/meta/conf/toasterconf.json
->> +++ b/meta/conf/toasterconf.json
->> @@ -2,9 +2,11 @@
->>       "config": {
->>           "MACHINE"      : "qemux86",
->>           "DISTRO"       : "poky",
->> +        "DL_DIR"       : "${TOPDIR}/../downloads",
->>           "IMAGE_FSTYPES": "ext3 jffs2 tar.bz2",
->>           "IMAGE_INSTALL_append": "",
->> -        "PACKAGE_CLASSES": "package_rpm"
->> +        "PACKAGE_CLASSES": "package_rpm",
->> +        "SSTATE_DIR"   : "${TOPDIR}/../sstate-cache"
->>       },
->>       "layersources": [
->>           {
->>
+>   configure: error: Large file support is required
 >
 
+Is it safe to ignore configure.ac telling you that large file support is
+required?
 
+Ross
+
+--089e01183a4cc3ce91052fe27b21
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 April 2016 at 10:22, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Q=
+i.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":eqq" class=3D"a3s" s=
+tyle=3D"overflow:hidden">=C2=A0 configure: error: Large file support is req=
+uired<br></div></blockquote></div><br>Is it safe to ignore <a href=3D"http:=
+//configure.ac">configure.ac</a> telling you that large file support is req=
+uired?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>Ross</div></div>
+
+--089e01183a4cc3ce91052fe27b21--
