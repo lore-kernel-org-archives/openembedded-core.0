@@ -1,30 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E2E273CF7
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CA756FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 17:04:24 +0000 (UTC)
+	Thu,  7 Apr 2016 17:34:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u37H4NHj006934; Thu, 7 Apr 2016 18:04:23 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id W_aPxJ_WI2B4; Thu,  7 Apr 2016 18:04:23 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u37H4KGE006931
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 7 Apr 2016 18:04:21 +0100
-Message-ID: <1460048660.7348.274.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 07 Apr 2016 18:04:20 +0100
-In-Reply-To: <C45DACC4-0F2A-450B-B17F-4A7A362876FB@dominion.thruhere.net>
-References: <1445729978-29103-1-git-send-email-raj.khem@gmail.com>
-	<C45DACC4-0F2A-450B-B17F-4A7A362876FB@dominion.thruhere.net>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] toasterconf.json: Set default distro to nodistro
+	by mail.dream-property.net (Postfix) with ESMTP id E182B3141D25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Apr 2016 19:34:39 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ELQ7hsUHXas2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Apr 2016 19:34:34 +0200 (CEST)
+Received: from [172.22.22.61] (55d40344.access.ecotel.net [85.212.3.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id BE5A73141A6D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Apr 2016 19:34:34 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <57069A2A.4040901@opendreambox.org>
+Date: Thu, 7 Apr 2016 19:34:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <1460012563-18898-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] busybox/mdev: Ensure /sys is mounted before using it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,24 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 17:04:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 07 Apr 2016 17:34:41 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-04-07 at 09:42 -0700, Koen Kooi wrote:
-> > Op 24 okt. 2015, om 16:39 heeft Khem Raj <raj.khem@gmail.com> het
-> > volgende geschreven:
-> > 
-> > This makes it self-sufficient with OE-Core
-> > Generate ext4 instead of ext3, most of Qemu
-> > targets in oe-core now use ext4
+Hi Khem,
+
+On 07.04.2016 09:02, Khem Raj wrote:
+> echo would fail if /sys is not mounted and boot would abort
+
+are you sure about the dependency between echo and sysfs? It seems quite
+unlikely to me. I'd guess the real problem is mdev failing to start
+without sysfs.
+
+Regards,
+Andreas
+
+
 > 
-> Any reason this still hasn’t been applied yet?
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/busybox/files/mdev | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
+> index 9625247..8c9c06e 100755
+> --- a/meta/recipes-core/busybox/files/mdev
+> +++ b/meta/recipes-core/busybox/files/mdev
+> @@ -1,10 +1,12 @@
+>  #!/bin/sh
+> -
+> +mount -t proc proc /proc
+> +mount -t sysfs sysfs /sys
+>  mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
+>  mkdir /dev/pts /dev/shm
+>  chmod 777 /dev/shm
+>  mount -t devpts devpts /dev/pts
+>  touch /dev/mdev.seq
+> +#sysctl -w kernel.hotplug=/sbin/mdev
+>  echo "/sbin/mdev" > /proc/sys/kernel/hotplug
+>  mdev -s
+>  
+> 
 
-It got lost in the system and a reminder helps. Its in -next now, sorry
-about the delay.
-
-Cheers,
-
-Richard
 
