@@ -1,47 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 41A4477045
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5997B770CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Apr 2016 09:49:22 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id ui10so65715345igc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Apr 2016 02:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MvUJgJjjfSRv3E1ovtbMvCXz1WWCsGQhEoTV/Uqc5uM=;
-	b=Ljm41j8wUYWzwU/KqnwlQKToomGrS3RIbLPBQQCrdnvknt0iMM03zxw+zF21IklIdx
-	431ZJw/yKTEvaEzbhfbgRfJ3dqTJjVBBxlz0KbavhdGLKLWE7T54zuBMEGUIWIM8Govj
-	IEkpBEYCZzd8K7sBLzgQUm+8lw9cZnhnNo9E9l14+XaPlDljeQ2kfmEnVvKcPCgkpH+p
-	zLhWRRBfDT6seMWX9JmpFnB6jxvRJpbk0gIAf2HpzkWkkLeewsUud7xUjY8Jbbzgu1Kc
-	jhBRdlYKO4uwc50BkSnus9MzBINQedgo9+TelOW4EV3UC4KYTB8tGE9em+RRFFmWq6us
-	eaWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MvUJgJjjfSRv3E1ovtbMvCXz1WWCsGQhEoTV/Uqc5uM=;
-	b=D5YXFtVHPh/hiMK3ENrTSM45YEyHWoq7gP5bNpjnWl0J9pXlWxqj/+hl1XnyCpOSzJ
-	knG7oIu0LpfdIffCGSuEPA0bjoWcA9qJoRsnpwRxlZyMDQW7DwePjmfT3TT+2Aclmgt2
-	zHEBmvdfo8/TlfE7nPLethW1vqg6RUxHCY1gOJugcmS+15LrZycFKtnqNWU7uD8YVRYy
-	mSAia/55saKwJDRRWgzmcBwNMsMF2BXdY2L4odkYjcltQ9oJArDBSneGT3noTUU6nbkY
-	WOsDPZylXjURZ8uhRvmj0pNyppsvbcFbdPmqKEaP6yWzAHwE8mgLIA/xfxzBrT3cfO/6
-	ESbQ==
-X-Gm-Message-State: AD7BkJICv8+qiYJr2+YveLmPTAWAUd8w3WS2w75JdhavJSBOBQM9urZhEnADiXsyzi6TmkkCI7UQgNXl2oLspTaS
-X-Received: by 10.50.155.67 with SMTP id vu3mr25608935igb.52.1460022563699;
-	Thu, 07 Apr 2016 02:49:23 -0700 (PDT)
+	Thu,  7 Apr 2016 09:50:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u379oGLr022983
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 7 Apr 2016 02:50:16 -0700
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 7 Apr 2016 02:50:15 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1459891560-4178-1-git-send-email-ross.burton@intel.com>
+	<CAJ86T=XXJtGhRqvtkXp1aAHMYN8Y0VDrUJZfDhqNkodtbOXymw@mail.gmail.com>
+	<CAJTo0LZSmc3+nOGn1dK9CzKqd+aAkAnFdk=tkk-gCHPqz+8NNg@mail.gmail.com>
+	<5705C7DE.2000102@windriver.com>
+	<CAJTo0LaGS9g=-kamcNL8Z+QcC2JkM-C-iE0BJv1H0ARoSYaprw@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57062D55.7030705@windriver.com>
+Date: Thu, 7 Apr 2016 17:50:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Thu, 7 Apr 2016 02:49:04 -0700 (PDT)
-In-Reply-To: <7233483e1d443fd02bf6fa1282dff28190b6de76.1459966555.git.pkj@axis.com>
-References: <cover.1459966555.git.pkj@axis.com>
-	<7233483e1d443fd02bf6fa1282dff28190b6de76.1459966555.git.pkj@axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Apr 2016 10:49:04 +0100
-Message-ID: <CAJTo0LYtoAyk21MnLVd8VcfiWhzfO=4Xi0nv0_ZaLSFL2SFc9Q@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libnl: Make sure files end up in libnl-cli as they should
+In-Reply-To: <CAJTo0LaGS9g=-kamcNL8Z+QcC2JkM-C-iE0BJv1H0ARoSYaprw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bzip2: set correct soname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2016 09:49:23 -0000
-Content-Type: multipart/alternative; boundary=001a1134dbec463d02052fe1fe20
+X-List-Received-Date: Thu, 07 Apr 2016 09:50:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1134dbec463d02052fe1fe20
-Content-Type: text/plain; charset=UTF-8
 
-On 6 April 2016 at 19:16, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-wrote:
 
-> The modules that belong to libnl-cli ended up in libnl-dev since the
-> latter appeared earlier in PACKAGES than the former. This also avoids
-> warnings like the following:
+On 04/07/2016 05:12 PM, Burton, Ross wrote:
 >
+> On 7 April 2016 at 03:37, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     I got this error when build in an old build dir:
+>
+>     | pbzip2: error while loading shared libraries: libbz2.so.0: cannot open
+>     shared object file: No such file or directory
+>     | WARNING: exit code 127 from a shell command.
+>     | ERROR: Function failed: do_image_tar (log file is located at
+>     /buildarea/lyang1/test_fetch/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_image_tar.33968)
+>     ERROR: Task 19
+>     (/buildarea/lyang1/poky/meta/recipes-core/images/core-image-minimal.bb
+>     <http://core-image-minimal.bb>, do_image_tar) failed with exit code '1'
+>
+>     It is OK when clean pbzip2-native and rebuild. But I wonder how can this
+>     happen since pbzip2-native DEPENDS on bzip2-native.
+>
+>
+> Can you find the cooker log for this run?  Did it rebuild pbzip2-native as expected?
 
-This doesn't result in any files moving around for me.  In particular,
-libnl-cli contains /usr/lib/libnl/cli/cls/basic.so.
+Yes, it did:
 
-Ross
+NOTE: recipe pbzip2-native-1.1.13-r0: task do_populate_sysroot: Started
+NOTE: recipe pbzip2-native-1.1.13-r0: task do_populate_sysroot: Succeeded
 
---001a1134dbec463d02052fe1fe20
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+// Robert
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 April 2016 at 19:16, Peter Kjellerstedt <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjellersted=
-t@axis.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":fug" class=
-=3D"" style=3D"overflow:hidden">The modules that belong to libnl-cli ended =
-up in libnl-dev since the<br>
-latter appeared earlier in PACKAGES than the former. This also avoids<br>
-warnings like the following:</div></blockquote></div><br>This doesn&#39;t r=
-esult in any files moving around for me.=C2=A0 In particular, libnl-cli con=
-tains=C2=A0/usr/lib/libnl/cli/cls/basic.so.</div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra">Ross</div></div>
+>
+> Ross
 
---001a1134dbec463d02052fe1fe20--
