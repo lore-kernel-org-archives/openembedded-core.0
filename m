@@ -1,61 +1,46 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id ADD52731C4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ABDF65C5C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Apr 2016 09:54:51 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id bk9so38995060lbc.3
+	Fri,  8 Apr 2016 10:04:25 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id q128so126048056iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Apr 2016 02:54:52 -0700 (PDT)
+	Fri, 08 Apr 2016 03:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=nsDlYeMGnUfyIRbaeRlyhz1IGQyoJxXvCvlogMhRfI8=;
-	b=Hsk/Wv0zWH3A8jy97HzxVsyeGs32f9Lz98PJGxRGjveHY8l4uEPL1QOlG12rDbnDLP
-	gMLt0keVCguWTOnP9bBpwaQ8sl3a4U/+degzdOT6qi6HF/UBD0haGVM4kztpmgw2vlAZ
-	gEv4OHbDX9ijqZ0AP8nQgbvK9Es2adIT5Js84FNIcoi1jp1V/PkNLrWOGA0l0PjalqS1
-	4tEgs6Hq4mISXePenq2AWuQdDiP1Z+uM7drAZYhcwFUKw8zXr2XpXF8FVubtNQAoOIee
-	CUQyDULGl0V0+4AuElsINnWYz35jNbrQgZMHX1nE2aCJgcLyhZVFLeu5CR+/liLC0kpH
-	L2Yw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tmz3uaNWZwfbY6MBA6ko5MADZU0yd9r+lMAQrPRy/1Y=;
+	b=DkhpPvgIBRAR/nnHCRY2jLdl9vMudCPD88gZE/r+ywA6Xkow5DRkqPJ2emr/xuug2o
+	vcAuP5+1O6XGUFyUaDdKBkIQSyhuq0WzKpibKqbyxd4u/xzM/1WVBGRsk3iySviBh8+B
+	ad96mS3aCsx36UoNwuTlMip1N3hV5BSthtWi5aCHzNpZg4qjDFhimhxJVImlZVIIdti3
+	8M+SxKG38pGm5A5tJQbKhNPpJkqQX6eBX6iJcfWPS/3VmdNbiUS/hOnDfS3c60SlpCQs
+	lyDeiffTIn16Pj8fUVZGJZBbslWVcg3bDjY93S3Fo+EV1GpLm8elI3RHQSzg9p85k4tz
+	+UBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=nsDlYeMGnUfyIRbaeRlyhz1IGQyoJxXvCvlogMhRfI8=;
-	b=fCyth92QSF0IR/N3OI38BDvnaDwnw5qfPGd22KE9+lo7YtQFiN0HrAcQ5WCil9t7DZ
-	VtgZoHviDtrilfYobN5bW2ngpAkVj3sFhQfoT2UDEX0Cy3XYtilAs4V+kxCO+/y95Bjx
-	bCdEqdTpoFDKQQchrDUXWtk7WsAkT0w8UzbAOEC1pygAhd6slnBb1i5EQKTzdyOBN8lR
-	emUHKrou56XcdiRYdkPIDT63jXCISGEgeGUVvmbBOv3uAcvlFhS/hnvwWTv0MLaDNf7Z
-	n85nvVVE7WpP+9FHba2engexnJZ5+ySHS868SxmaSC0coGiwi3V+7EGQqW3rm3PKJLsz
-	TWPg==
-X-Gm-Message-State: AD7BkJKH5IlY0wvYQ6IvzwxItH+r8sTVj01EyomceUuXIFtaC1v0R7o55Ela8GWbtE34yA==
-X-Received: by 10.112.122.244 with SMTP id lv20mr2800198lbb.63.1460109290527; 
-	Fri, 08 Apr 2016 02:54:50 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by smtp.gmail.com with ESMTPSA id i9sm1938581lfe.31.2016.04.08.02.54.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Apr 2016 02:54:49 -0700 (PDT)
-Date: Fri, 8 Apr 2016 11:54:48 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160408095448.GA4953@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1460099653.git.liezhi.yang@windriver.com>
-	<088e89118818dccb4f19c73795d7ae2a724e6473.1460099653.git.liezhi.yang@windriver.com>
-	<57077543.1010708@denx.de>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tmz3uaNWZwfbY6MBA6ko5MADZU0yd9r+lMAQrPRy/1Y=;
+	b=iVjkCDjY/pGP2Yf2yM/ts0S87gLIikhIRGUWdtkGv4TFvGyr3wSso08RVjs9OInBXe
+	xBdwYd3g2ga7gUKZl0qpd/8/1mMBlAIdienBCqPZaEhtL75eTGQU6Unukg2hMOv6/5hi
+	Zq/RGBYNW2oXnaJ5AerjpQ9jC57OfSMAhdzs7jKOan3KpAyl3HoFQc3+dg0kZI/BVyxr
+	6WUkhGTt5QxHAv7pywSsXGBhOqPe+/iHlmJ5HV13Wn0jR6mD+NPuymu8qqYiINzjoWWt
+	Dum10QiM1YiW28SeXwSAtzVKeqqQa13112ym8RUGLTAVT8w2SFm4JTVcM9ufn/Q1vfDQ
+	pnxQ==
+X-Gm-Message-State: AD7BkJK3iEeYaAkPQ1M3OAzuOMlk068pfMWBUHiajE74jNYnoElvKSoXYteZw6fpfgHuKe5/cxzUIjXAliV8h0QI
+X-Received: by 10.107.135.74 with SMTP id j71mr9025777iod.133.1460109865967;
+	Fri, 08 Apr 2016 03:04:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <57077543.1010708@denx.de>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH 2/4] image_types.bbclass: fix ubi ubifs and multiubi
+Received: by 10.107.132.24 with HTTP; Fri, 8 Apr 2016 03:04:06 -0700 (PDT)
+In-Reply-To: <1460106177-22822-1-git-send-email-rongqing.li@windriver.com>
+References: <1460106177-22822-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Apr 2016 11:04:06 +0100
+Message-ID: <CAJTo0La47_jBoFLh+UoMqshBec2BT+G76rrUK6Fa5x5gL82+KQ@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: add krb5 to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,39 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2016 09:54:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Apr 2016 10:04:27 -0000
+Content-Type: multipart/alternative; boundary=001a113f9218e4f5b9052ff651b8
 
-* Stefano Babic <sbabic@denx.de> [160408 11:19]:
-> On 08/04/2016 09:15, Robert Yang wrote:
-> > Fixed when do_image_ubi:
-> > | DEBUG: Executing shell function do_image_ubifs
-> > | Error: min. I/O unit was not specified (use -h for help)
-> > | WARNING: exit code 255 from a shell command.
+--001a113f9218e4f5b9052ff651b8
+Content-Type: text/plain; charset=UTF-8
 
-NAK
+On 8 April 2016 at 10:02, <rongqing.li@windriver.com> wrote:
 
-> > +MKUBIFS_ARGS ?= "-m 1KiB -e 128KiB -c $ROOTFS_SIZE"
-> > +UBINIZE_ARGS ?= "-m 1KiB -p 128KiB"
-> > +
+> +PACKAGECONFIG[krb5] = "--with-gssapi-includes=${STAGING_INCDIR}/gssapi/, \
+> +                       --without-gssapi,krb5"
+>
 
-> These are machine specific and are generally set in the machine
-> configuration file. Default values you set here could be wrong in most
-> cases, depending on the NAND chip.
+If you're using pkgconfig why do you need to pass paths?
 
-> Is it not better to get the error ? Then I know that I forget to set the
-> two variables and I can easy fix it. If no error is raised, we get a
-> ubifs that never run on the machine and as rootfs is not mounted - and
-> finding the reason is much more difficult.
+Ross
 
-I agree with Stefano here; I'd also prefer a build failure instead of a
-non-working image.
+--001a113f9218e4f5b9052ff651b8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Anders
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 April 2016 at 10:02,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":n5m" class=3D"a3s" =
+style=3D"overflow:hidden">+PACKAGECONFIG[krb5] =3D &quot;--with-gssapi-incl=
+udes=3D${STAGING_INCDIR}/gssapi/, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0--without-gssapi,krb5&quot;<br></div></blockquote></div><br>If yo=
+u&#39;re using pkgconfig why do you need to pass paths?</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
--- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
-
+--001a113f9218e4f5b9052ff651b8--
