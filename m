@@ -1,24 +1,22 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A2D360232
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id E826B7327F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Apr 2016 09:09:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3899KV9022068
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Apr 2016 02:09:21 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 8 Apr 2016 02:09:20 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 8 Apr 2016 17:02:57 +0800
-Message-ID: <1460106177-22822-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] curl: add krb5 to PACKAGECONFIG
+	Fri,  8 Apr 2016 09:14:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 08 Apr 2016 02:14:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,449,1455004800"; d="scan'208";a="928169333"
+Received: from jlock-mobl1.gar.corp.intel.com (HELO
+	jlock-mobl.gar.corp.intel.com) ([10.252.22.160])
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2016 02:14:26 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Apr 2016 10:14:18 +0100
+Message-Id: <1460106859-14007-1-git-send-email-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.5.5
+Cc: Joshua Lock <joshua.lock@collabora.co.uk>
+Subject: [PATCH 1/2] wic/utils/partitionedfs.py: assemble .wic images as sparse files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,94 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2016 09:09:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 08 Apr 2016 09:14:28 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 
-krb5 is needed to enables GSS-Negotiate authentication
+The individual partitions created by wic are sparse but without
+this change the assembled image is written as one (potentially
+very) large file.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Preserve sparseness in the assembled image by passing the sparse
+conversion symbol.
+
+[YOCTO #9099]
+
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- .../0001-replace-krb5-config-with-pkg-config.patch | 43 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.47.1.bb           |  6 ++-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch
+ scripts/lib/wic/utils/partitionedfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch b/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch
-new file mode 100644
-index 0000000..74e5d99
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch
-@@ -0,0 +1,43 @@
-+[PATCH] replace krb5-config with pkg-config
-+
-+Upstream-Status:  Pending
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ configure.ac | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index e99b303..dc93f39 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1196,7 +1196,7 @@ AC_ARG_WITH(gssapi,
-+   fi
-+ ])
-+ 
-+-: ${KRB5CONFIG:="$GSSAPI_ROOT/bin/krb5-config"}
-++KRB5CONFIG=`which pkg-config`
-+ 
-+ save_CPPFLAGS="$CPPFLAGS"
-+ AC_MSG_CHECKING([if GSS-API support is requested])
-+@@ -1207,7 +1207,7 @@ if test x"$want_gss" = xyes; then
-+      if test -n "$host_alias" -a -f "$GSSAPI_ROOT/bin/$host_alias-krb5-config"; then
-+         GSSAPI_INCS=`$GSSAPI_ROOT/bin/$host_alias-krb5-config --cflags gssapi`
-+      elif test -f "$KRB5CONFIG"; then
-+-        GSSAPI_INCS=`$KRB5CONFIG --cflags gssapi`
-++        GSSAPI_INCS=`$KRB5CONFIG --cflags mit-krb5-gssapi`
-+      elif test "$GSSAPI_ROOT" != "yes"; then
-+         GSSAPI_INCS="-I$GSSAPI_ROOT/include"
-+      fi
-+@@ -1300,7 +1300,7 @@ if test x"$want_gss" = xyes; then
-+         elif test -f "$KRB5CONFIG"; then
-+            dnl krb5-config doesn't have --libs-only-L or similar, put everything
-+            dnl into LIBS
-+-           gss_libs=`$KRB5CONFIG --libs gssapi`
-++           gss_libs=`$KRB5CONFIG --libs mit-krb5-gssapi`
-+            LIBS="$gss_libs $LIBS"
-+         else
-+            case $host in
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index 7e2664c..85d291c 100644
---- a/meta/recipes-support/curl/curl_7.47.1.bb
-+++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -5,7 +5,9 @@ SECTION = "console/network"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e664ac"
- 
--SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2"
-+SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-+           file://0001-replace-krb5-config-with-pkg-config.patch \
-+"
- 
- # curl likes to set -g0 in CFLAGS, so we stop it
- # from mucking around with debug options
-@@ -40,6 +42,8 @@ PACKAGECONFIG[ssl] = "--with-ssl --with-random=/dev/urandom,--without-ssl,openss
- PACKAGECONFIG[telnet] = "--enable-telnet,--disable-telnet,"
- PACKAGECONFIG[tftp] = "--enable-tftp,--disable-tftp,"
- PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
-+PACKAGECONFIG[krb5] = "--with-gssapi-includes=${STAGING_INCDIR}/gssapi/, \
-+                       --without-gssapi,krb5"
- 
- EXTRA_OECONF = " \
-     --enable-crypto-auth \
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 5a103bb..3e2b420 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -340,7 +340,7 @@ class Image(object):
+             source = part['source_file']
+             if source:
+                 # install source_file contents into a partition
+-                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
++                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc,sparse" % \
+                       (source, image_file, self.sector_size,
+                        part['start'], part['size'])
+                 exec_cmd(cmd)
 -- 
-1.9.1
+2.5.5
 
 
