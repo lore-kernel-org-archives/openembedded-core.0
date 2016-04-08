@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DE66731AF
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 26C97731AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Apr 2016 03:13:09 +0000 (UTC)
+	Fri,  8 Apr 2016 03:13:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u383DA32019968
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u383DBKa019425
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Apr 2016 20:13:10 -0700 (PDT)
+	Thu, 7 Apr 2016 20:13:11 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 7 Apr 2016 20:13:09 -0700
+	Thu, 7 Apr 2016 20:13:10 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Apr 2016 20:13:08 -0700
-Message-ID: <cover.1460085139.git.liezhi.yang@windriver.com>
+Date: Thu, 7 Apr 2016 20:13:09 -0700
+Message-ID: <a9ea8a660f37bbcf917c71360512ab155241114e.1460085139.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1460085139.git.liezhi.yang@windriver.com>
+References: <cover.1460085139.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] pbzip2: fix for rebuild
+Subject: [PATCH 1/1] pbzip2: fix for rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2016 03:13:10 -0000
+X-List-Received-Date: Fri, 08 Apr 2016 03:13:11 -0000
 Content-Type: text/plain
 
-The following changes since commit 5ebea1114d54120d5ff5d8a6cd148110d0fda23f:
+Fixed when rebuild pbzip2:
+make: Nothing to be done for `all'
 
-  build-appliance-image: Update to master head revision (2016-04-06 23:54:57 +0100)
+This may cause unexpected errors, for example, when depends libs
+changed:
+| pbzip2: error while loading shared libraries: libbz2.so.0: cannot open shared object file: No such file or directory
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/rebuild
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rebuild
-
-Robert Yang (1):
-  pbzip2: fix for rebuild
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+index b3c5975..67fb2ef 100644
+--- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+@@ -22,6 +22,18 @@ do_configure[noexec] = "1"
+ 
+ EXTRA_OEMAKE = "CXX='${CXX} ${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
+ 
++do_compile_prepend() {
++    # Update timestamp to fix rebuild
++    src_files="pbzip2.cpp BZ2StreamScanner.cpp ErrorContext.cpp"
++    for f in $src_files; do
++        if [ -f $f ]; then
++            touch $f
++        else
++            bbwarn "Regular file $f not found"
++        fi
++    done
++}
++
+ do_install() {
+     install -d ${D}${bindir}
+     install -m 0755 pbzip2 ${D}${bindir}/
 -- 
 2.7.4
 
