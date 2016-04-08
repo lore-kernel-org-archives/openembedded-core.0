@@ -1,46 +1,60 @@
-Return-Path: <sbabic@denx.de>
-X-Greylist: delayed 573 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 08 Apr 2016 09:19:03 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id D57367327F
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id ADD52731C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Apr 2016 09:19:03 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3qhDDT5xVTz3hjNF;
-	Fri,  8 Apr 2016 11:09:29 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3qhDDT2YpGzvh2C;
-	Fri,  8 Apr 2016 11:09:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id PvnWk-a56zgV; Fri,  8 Apr 2016 11:09:28 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221]) by mail.mnet-online.de (Postfix) with ESMTP;
-	Fri,  8 Apr 2016 11:09:28 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 27E49454060F;
-	Fri,  8 Apr 2016 11:09:28 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id gzQdsCHfcuxt; Fri,  8 Apr 2016 11:09:24 +0200 (CEST)
-Received: from [192.168.178.20] (papero.fritz.box [192.168.178.20])
-	by babic.homelinux.org (Postfix) with ESMTP id 37CFC454021A;
-	Fri,  8 Apr 2016 11:09:23 +0200 (CEST)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
+	Fri,  8 Apr 2016 09:54:51 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id bk9so38995060lbc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Apr 2016 02:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=nsDlYeMGnUfyIRbaeRlyhz1IGQyoJxXvCvlogMhRfI8=;
+	b=Hsk/Wv0zWH3A8jy97HzxVsyeGs32f9Lz98PJGxRGjveHY8l4uEPL1QOlG12rDbnDLP
+	gMLt0keVCguWTOnP9bBpwaQ8sl3a4U/+degzdOT6qi6HF/UBD0haGVM4kztpmgw2vlAZ
+	gEv4OHbDX9ijqZ0AP8nQgbvK9Es2adIT5Js84FNIcoi1jp1V/PkNLrWOGA0l0PjalqS1
+	4tEgs6Hq4mISXePenq2AWuQdDiP1Z+uM7drAZYhcwFUKw8zXr2XpXF8FVubtNQAoOIee
+	CUQyDULGl0V0+4AuElsINnWYz35jNbrQgZMHX1nE2aCJgcLyhZVFLeu5CR+/liLC0kpH
+	L2Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=nsDlYeMGnUfyIRbaeRlyhz1IGQyoJxXvCvlogMhRfI8=;
+	b=fCyth92QSF0IR/N3OI38BDvnaDwnw5qfPGd22KE9+lo7YtQFiN0HrAcQ5WCil9t7DZ
+	VtgZoHviDtrilfYobN5bW2ngpAkVj3sFhQfoT2UDEX0Cy3XYtilAs4V+kxCO+/y95Bjx
+	bCdEqdTpoFDKQQchrDUXWtk7WsAkT0w8UzbAOEC1pygAhd6slnBb1i5EQKTzdyOBN8lR
+	emUHKrou56XcdiRYdkPIDT63jXCISGEgeGUVvmbBOv3uAcvlFhS/hnvwWTv0MLaDNf7Z
+	n85nvVVE7WpP+9FHba2engexnJZ5+ySHS868SxmaSC0coGiwi3V+7EGQqW3rm3PKJLsz
+	TWPg==
+X-Gm-Message-State: AD7BkJKH5IlY0wvYQ6IvzwxItH+r8sTVj01EyomceUuXIFtaC1v0R7o55Ela8GWbtE34yA==
+X-Received: by 10.112.122.244 with SMTP id lv20mr2800198lbb.63.1460109290527; 
+	Fri, 08 Apr 2016 02:54:50 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by smtp.gmail.com with ESMTPSA id i9sm1938581lfe.31.2016.04.08.02.54.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 08 Apr 2016 02:54:49 -0700 (PDT)
+Date: Fri, 8 Apr 2016 11:54:48 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160408095448.GA4953@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
 References: <cover.1460099653.git.liezhi.yang@windriver.com>
 	<088e89118818dccb4f19c73795d7ae2a724e6473.1460099653.git.liezhi.yang@windriver.com>
-From: Stefano Babic <sbabic@denx.de>
-Message-ID: <57077543.1010708@denx.de>
-Date: Fri, 8 Apr 2016 11:09:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	<57077543.1010708@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <088e89118818dccb4f19c73795d7ae2a724e6473.1460099653.git.liezhi.yang@windriver.com>
+In-Reply-To: <57077543.1010708@denx.de>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Subject: Re: [PATCH 2/4] image_types.bbclass: fix ubi ubifs and multiubi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,51 +68,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2016 09:19:04 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Apr 2016 09:54:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Robert,
+* Stefano Babic <sbabic@denx.de> [160408 11:19]:
+> On 08/04/2016 09:15, Robert Yang wrote:
+> > Fixed when do_image_ubi:
+> > | DEBUG: Executing shell function do_image_ubifs
+> > | Error: min. I/O unit was not specified (use -h for help)
+> > | WARNING: exit code 255 from a shell command.
 
-On 08/04/2016 09:15, Robert Yang wrote:
-> Fixed when do_image_ubi:
-> | DEBUG: Executing shell function do_image_ubifs
-> | Error: min. I/O unit was not specified (use -h for help)
-> | WARNING: exit code 255 from a shell command.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/image_types.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 3f97ddd..caa4dbb 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -120,6 +120,9 @@ IMAGE_CMD_elf () {
->  }
->  IMAGE_TYPEDEP_elf = "cpio.gz"
->  
-> +MKUBIFS_ARGS ?= "-m 1KiB -e 128KiB -c $ROOTFS_SIZE"
-> +UBINIZE_ARGS ?= "-m 1KiB -p 128KiB"
-> +
+NAK
 
-These are machine specific and are generally set in the machine
-configuration file. Default values you set here could be wrong in most
-cases, depending on the NAND chip.
+> > +MKUBIFS_ARGS ?= "-m 1KiB -e 128KiB -c $ROOTFS_SIZE"
+> > +UBINIZE_ARGS ?= "-m 1KiB -p 128KiB"
+> > +
 
-Is it not better to get the error ? Then I know that I forget to set the
-two variables and I can easy fix it. If no error is raised, we get a
-ubifs that never run on the machine and as rootfs is not mounted - and
-finding the reason is much more difficult.
+> These are machine specific and are generally set in the machine
+> configuration file. Default values you set here could be wrong in most
+> cases, depending on the NAND chip.
 
-Best regards,
-Stefano
+> Is it not better to get the error ? Then I know that I forget to set the
+> two variables and I can easy fix it. If no error is raised, we get a
+> ubifs that never run on the machine and as rootfs is not mounted - and
+> finding the reason is much more difficult.
+
+I agree with Stefano here; I'd also prefer a build failure instead of a
+non-working image.
+
+Cheers,
+Anders
 
 -- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
