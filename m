@@ -1,38 +1,23 @@
-Return-Path: <tracy.graydon@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5070B71951
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri,  8 Apr 2016 18:53:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 08 Apr 2016 11:53:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,454,1455004800"; d="scan'208";a="941275635"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2016 11:53:07 -0700
-Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 8 Apr 2016 11:53:06 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.244]) by
-	ORSMSX160.amr.corp.intel.com ([10.22.226.43]) with mapi id
-	14.03.0248.002; Fri, 8 Apr 2016 11:53:06 -0700
-From: "Graydon, Tracy" <tracy.graydon@intel.com>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] meta/conf/distro/include/distro_alias.inc
-Thread-Index: AQHRkWPo4NO2TUY9sEiI8BFnhQ8H15+Ae9eA///xI4A=
-Date: Fri, 8 Apr 2016 18:53:05 +0000
-Message-ID: <D32D4BD6.A8F0%tracy.graydon@intel.com>
-References: <1460047375-20395-1-git-send-email-tracy.graydon@intel.com>
-	<1460098636.23253.5.camel@linuxfoundation.org>
-	<CAPhnLPA1C--0WxOFi8uMYJQN5H-7Nvs6T-T9fK-1TbBM4xgfnw@mail.gmail.com>
-In-Reply-To: <CAPhnLPA1C--0WxOFi8uMYJQN5H-7Nvs6T-T9fK-1TbBM4xgfnw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.6.2.160219
-x-originating-ip: [10.254.80.4]
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 799536014F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Apr 2016 21:46:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u38LkSq1008876
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 8 Apr 2016 14:46:29 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 8 Apr 2016 14:46:28 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Apr 2016 17:46:26 -0400
+Message-ID: <1460151987-17663-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: Re: [PATCH] meta/conf/distro/include/distro_alias.inc
+Subject: [PATCH 1/2] extrausers.bbclass: drop retry count for perform_user/group* calls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,40 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2016 18:53:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <882695F821A94A439A475CDC4EC1F114@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 08 Apr 2016 21:46:30 -0000
+Content-Type: text/plain
 
-T24gMDQvMDgvMTYsIDU6NDYgQU0sICJGbGFuYWdhbiwgRWxpemFiZXRoIiA8ZWxpemFiZXRoLmZs
-YW5hZ2FuQGludGVsLmNvbT4NCndyb3RlOg0KDQo+T24gOCBBcHJpbCAyMDE2IGF0IDA3OjU3LCBS
-aWNoYXJkIFB1cmRpZQ0KPjxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90
-ZToNCj4+IE9uIFRodSwgMjAxNi0wNC0wNyBhdCAwOTo0MiAtMDcwMCwgR3JheWRvbiwgVHJhY3kg
-d3JvdGU6DQo+Pj4gVXBkYXRlIHRoZSBkaXN0cm9fYWxpYXMuaW5jIGZpbGUgdG8gaW5jbHVkZSB1
-cGRhdGVkL25ldyBwYWNrYWdlcy4NCj4+Pg0KPj4+IFRoaXMgaXMgcmVxdWlyZWQgZm9yIHRoZSBZ
-b2N0by0yLjEgcmVsZWFzZS4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IEdyYXlkb24sIFRyYWN5
-IDx0cmFjeS5ncmF5ZG9uQGludGVsLmNvbT4NCj4+PiAtLS0NCj4+PiAgbWV0YS9jb25mL2Rpc3Ry
-by9pbmNsdWRlL2Rpc3Ryb19hbGlhcy5pbmMgfCAzMQ0KPj4+ICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysNCj4+PiAgMSBmaWxlIGNoYW5nZWQsIDMxIGluc2VydGlvbnMoKykNCj4+Pg0K
-Pj4+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvZGlzdHJvX2FsaWFzLmlu
-Yw0KPj4+IGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL2Rpc3Ryb19hbGlhcy5pbmMNCj4+PiBp
-bmRleCBjOGY5Mzk1Li41MTg2OWQ1IDEwMDY0NA0KPj4+IC0tLSBhL21ldGEvY29uZi9kaXN0cm8v
-aW5jbHVkZS9kaXN0cm9fYWxpYXMuaW5jDQo+Pj4gKysrIGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNs
-dWRlL2Rpc3Ryb19hbGlhcy5pbmMNCj4+PiBAQCAtOSwxMyArOSwxNyBAQA0KPj4+ICAjDQo+Pj4g
-ICMgUGxlYXNlIGtlZXAgdGhpcyBsaXN0IGluIGFscGhhYmV0aWNhbCBvcmRlci4NCj4+PiAgIw0K
-Pj4+ICtESVNUUk9fUE5fQUxJQVNfcG4tYWxzYS1saWIgPSAiRGViaWFuPWFsc2EtbGliIFVidW50
-dT1hbHNhLWxpYg0KPj4+IEZlZG9yYT1hbHNhLWxpYiINCj4+DQo+PiBJIHRob3VnaCB0aGF0IHdl
-IGRpZG4ndCBhZGQgdGhlc2UgZm9yICpldmVyeSogZW50cnksIG9ubHkgd2hlcmUgdGhlDQo+PiBu
-YW1lcyBkaWZmZXI/DQo+DQo+VGhlcmUgYXJlIGEgbG90IG9mIHByaW9yIGNhc2VzIHdoZXJlIGl0
-IHNlZW1zIHdlIGhhdmUgYmVlbi4gSSBzdWdnZXN0DQo+dHdvIHBhdGNoZXMgaGVyZSB0aGVuLiBP
-bmUgdG8gY2xlYW4gdXAgdGhvc2UgaW5zdGFuY2VzLCB0aGVuIHRoaXMgb25lDQo+d2l0aCB0aGUg
-bm9uLWRpZmZlcmluZyBuYW1lcyByZW1vdmVkLg0KDQpJ4oCZbGwgd29yayBvbiBnZXR0aW5nIHRo
-b3NlIHR3byBwYXRjaGVzIHN1Ym1pdHRlZCBhc2FwLg0KDQotdA0KDQoNCg0KPg0KPi1iDQo+DQo+
-Pg0KPj4gQ2hlZXJzLA0KPj4NCj4+IFJpY2hhcmQNCj4+IC0tDQo+PiBfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFp
-bGluZyBsaXN0DQo+PiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+
-PiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
-ZGRlZC1jb3JlDQo+DQo+DQo+DQo+LS0gDQo+RWxpemFiZXRoIEZsYW5hZ2FuDQo+WW9jdG8gUHJv
-amVjdA0KPkJ1aWxkIGFuZCBSZWxlYXNlDQo+DQoNCg0K
+Commit 2ebf697b46c42cee8bfa6d2e6087397f8cce385c [useradd_base.bbclass:
+replace retry logic with flock] dropped the 3rd (retry) parameter for
+these functions. These are simply being ignored now but we should
+remove the retry count to avoid confusion.
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta/classes/extrausers.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
+index faf57b1..43900f3 100644
+--- a/meta/classes/extrausers.bbclass
++++ b/meta/classes/extrausers.bbclass
+@@ -33,22 +33,22 @@ set_user_group () {
+ 		# this setting is actually a serial process. So we only retry once.
+ 		case $cmd in
+ 			useradd)
+-				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
++				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts"
+ 				;;
+ 			groupadd)
+-				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
++				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts"
+ 				;;
+ 			userdel)
+-				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
++				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts"
+ 				;;
+ 			groupdel)
+-				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
++				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts"
+ 				;;
+ 			usermod)
+-				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
++				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts"
+ 				;;
+ 			groupmod)
+-				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
++				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts"
+ 				;;
+ 			*)
+ 				bbfatal "Invalid command in EXTRA_USERS_PARAMS: $cmd"
+-- 
+2.1.4
+
 
