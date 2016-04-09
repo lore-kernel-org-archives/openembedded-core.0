@@ -1,27 +1,21 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id EF7F177193
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id BD9F2771D5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Apr 2016 16:42:06 +0000 (UTC)
-Received: (qmail 19786 invoked by uid 1003); 9 Apr 2016 16:42:06 -0000
-Received: from unknown (HELO ?192.168.1.23?) (philip@opensdr.com@66.87.64.10)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	9 Apr 2016 16:42:04 -0000
-To: Alexander Kanevskiy <kad@kad.name>, Joshua Lock <joshua.g.lock@intel.com>
-References: <1460106859-14007-1-git-send-email-joshua.g.lock@intel.com>
-	<CANFkWp=ynO2J38+k=mBH6Y3GFOb2kZhbM9zea2T09EL2BDZHxA@mail.gmail.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <570930BD.6070203@balister.org>
-Date: Sat, 9 Apr 2016 09:41:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.1
-MIME-Version: 1.0
-In-Reply-To: <CANFkWp=ynO2J38+k=mBH6Y3GFOb2kZhbM9zea2T09EL2BDZHxA@mail.gmail.com>
-Cc: Joshua Lock <joshua.lock@collabora.co.uk>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wic/utils/partitionedfs.py: assemble .wic images as sparse files
+	Sat,  9 Apr 2016 20:26:08 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 09 Apr 2016 13:26:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,460,1455004800"; d="scan'208";a="781627682"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga003.jf.intel.com with ESMTP; 09 Apr 2016 13:26:08 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  9 Apr 2016 13:11:51 -0700
+Message-Id: <1460232711-23433-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] build-appliance-image: Support for VirtualBox guest additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,119 +28,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Apr 2016 16:42:07 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 09 Apr 2016 20:26:08 -0000
 
-On 04/09/2016 03:36 AM, Alexander Kanevskiy wrote:
-> On Fri, Apr 8, 2016 at 12:14 PM, Joshua Lock <joshua.g.lock@intel.com>
-> wrote:
-> 
->> From: Joshua Lock <joshua.lock@collabora.co.uk>
->>
->> The individual partitions created by wic are sparse but without
->> this change the assembled image is written as one (potentially
->> very) large file.
->>
->> Preserve sparseness in the assembled image by passing the sparse
->> conversion symbol.
->>
->> [YOCTO #9099]
->>
->> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
->> ---
->>  scripts/lib/wic/utils/partitionedfs.py | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/lib/wic/utils/partitionedfs.py
->> b/scripts/lib/wic/utils/partitionedfs.py
->> index 5a103bb..3e2b420 100644
->> --- a/scripts/lib/wic/utils/partitionedfs.py
->> +++ b/scripts/lib/wic/utils/partitionedfs.py
->> @@ -340,7 +340,7 @@ class Image(object):
->>              source = part['source_file']
->>              if source:
->>                  # install source_file contents into a partition
->> -                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d
->> conv=notrunc" % \
->> +                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d
->> conv=notrunc,sparse" % \
->>                        (source, image_file, self.sector_size,
->>                         part['start'], part['size'])
->>                  exec_cmd(cmd)
->>
-> 
-> 
-> 
-> This might be dangerous. Even in recent version of DD (coreutils 8.25), it
-> might not detect in source file mapped/unmapped blocks properly,
-> (just use is_nul() function to check if block contains only zeros, instead
-> of e.g. fiemap).
-> Result might be so, that in output file block which must be zeros is
-> actually become unmapped. And as consequence, if it might not be written to
-> destination drive.
+Add support for VirtualBox guest additions.
+The additions are built inside the Build Appliance VM.
+For this to be possible, the environment for out-of-tree kernel module builds
+must be present and set up properly.
+A README file with detailed steps on how to build the guest additions is placed
+in the home directory of the user "builder" as well.
+The main purpose of the guest additions is to allow sharing folders between
+the host and Build Appliance VM.
 
-Does it work with bmaptool?
+[YOCTO #8073]
 
-Philip
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ .../README_VirtualBox_Guest_Additions.txt          | 75 ++++++++++++++++++++++
+ .../images/build-appliance-image_14.0.0.bb         | 14 +++-
+ 2 files changed, 87 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/images/build-appliance-image/README_VirtualBox_Guest_Additions.txt
 
-> 
-> Let me show example based on Ostro Project sparse images:
-> 
-> kad@orava:/tmp> ls -ls 2222
-> 308416 -rw-r--r-- 1 kad users 5280628736 Apr  6 00:53 2222
-> kad@orava:/tmp> grep /MappedBlocksCount 2222.bmap
->     <MappedBlocksCount> 77104   </MappedBlocksCount>
-> 
-> Now, let's copy it with dd:
-> kad@orava:/tmp> ~/cu/coreutils-8.25/src/dd if=2222 of=4444
-> conv=notrunc,sparse bs=4096
-> 1289216+0 records in
-> 1289216+0 records out
-> 5280628736 bytes (5.3 GB, 4.9 GiB) copied, 1.31239 s, 4.0 GB/s
-> kad@orava:/tmp> bmaptool create 4444 -o 4444.bmap
-> kad@orava:/tmp> ls -ls 4444
-> 308348 -rw-r--r-- 1 kad users 5280628736 Apr  9 13:22 4444
-> kad@orava:/tmp> grep /MappedBlocksCount 4444.bmap
->     <MappedBlocksCount> 77087   </MappedBlocksCount>
-> kad@orava:/tmp>
-> 
-> As you can see, in result of dd copied file we have less blocks mapped than
-> in original.
-> 
-> Diffing block ranges:  (- original file, + dd copied)
->      <BlockMap>
-> -        <Range> 0-4 </Range>
-> -        <Range> 768-3321 </Range>
-> -        <Range> 4608-7161 </Range>
-> +        <Range> 0 </Range>
-> +        <Range> 768-770 </Range>
-> +        <Range> 772-774 </Range>
-> +        <Range> 776 </Range>
-> +        <Range> 780-3321 </Range>
-> +        <Range> 4608-4610 </Range>
-> +        <Range> 4612-4614 </Range>
-> +        <Range> 4616 </Range>
-> +        <Range> 4620-7161 </Range>
-> -        <Range> 1289211-1289215 </Range>
-> +        <Range> 1289211 </Range>
-> +        <Range> 1289215 </Range>
->      </BlockMap>
-> 
-> As you can see, some blocks that must be cleaned (e.g. 1-3 around MBR or in
-> the end, 1289211-1289215 where GPT bits located) are not marked as mapped,
-> thus in case of sparse aware writing tool used to write to destination
-> drive it might result as unwritten zero blocks, thus some old data would
-> left on device.
-> 
-> I would suggest not to accept this patch right now, and do copy function
-> that would be aware about real mapped/unmapped blocks.
-> Something similar that I've did for Ostro Project here:
-> https://github.com/ostroproject/meta-ostro/commit/d883169c3266c3c44f22db5f75ae94c4cf0f2924
-> 
-> but adopted to be generic for use inside wic.
-> 
-> 
-> 
-> 
+diff --git a/meta/recipes-core/images/build-appliance-image/README_VirtualBox_Guest_Additions.txt b/meta/recipes-core/images/build-appliance-image/README_VirtualBox_Guest_Additions.txt
+new file mode 100644
+index 0000000..e7298f2
+--- /dev/null
++++ b/meta/recipes-core/images/build-appliance-image/README_VirtualBox_Guest_Additions.txt
+@@ -0,0 +1,75 @@
++
++Installing VirtualBox Guest Additions
++=====================================
++
++In order to use VirtualBox guest additions, they have to be build
++first. They may have to be rebuilt each time the time you upgrade to
++a new version of VirtualBox.
++
++Make sure VM is configured with an Optical Drive. 
++
++Please follow these steps to install the VirtualBox Guest Additions on the
++Build Appliance VM:
++
++1.  Boot VM, select root "Terminal" instead of the default "Terminal <2>"
++
++2.  Insert Guest additions CD into VM optical drive:
++    VM menu "Devices"->"Optical Drives"-> Select "VBoxGuestAdditions<version>.iso"
++
++3.  Find your CDROM device. Typically it is /dev/hda for IDE. You can determine
++    the actual name <cdromedev> by viewing the cdrom info:
++
++        # cat /proc/sys/dev/cdrom/info
++
++    Mount the cdrom drive:
++        # mount -t iso9660 <cdromdev> /media/cdrom
++    i.e.:
++        # mount -t iso9660 /dev/hda /media/cdrom
++
++4. Build the additions:
++
++    First, we need to build of some prerequisite utilities.
++    (This is only needed to be done once)
++
++        # cd /lib/modules/<kernel-version>-yocto-standard/build
++        # make scripts
++
++    Now build the guest additions:
++
++        # /media/cdrom/VBoxLinuxAdditions.run --nox11
++
++    At this point, providing there were no build errors, the guest additions are 
++    built and installed.
++
++5. Check if vbox additions running:
++
++        # /etc/init.d/vboxadd status
++
++    If not running, try manually starting:
++
++        # /etc/init.d/vboxadd start
++
++6. Check if additons actually work, in particular folder sharing.
++
++    Host: Devices->Shared Folders->Shared Folder Settings...
++        Add any host folder and name it (i.e. "images")
++
++    Guest VM: create mount point for the shared folder, i.e.:
++
++        # mkdir ~/my-host
++
++    Mount the shared folder: (Watch out for spelling: it's vboxsf NOT vboxfs)
++
++        # mount -t vboxsf images ~/my-host
++
++    Verify mount, should see the contents of the shared folder:
++
++        # ls ~/my-host
++
++
++
++
++
++
++
++
+diff --git a/meta/recipes-core/images/build-appliance-image_14.0.0.bb b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
+index a34a621..eeb301d 100644
+--- a/meta/recipes-core/images/build-appliance-image_14.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
+@@ -6,7 +6,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegroup-self-hosted"
++IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegroup-self-hosted kernel-dev kernel-devsrc "
+ 
+ IMAGE_FEATURES += "x11-base package-management splash"
+ 
+@@ -19,12 +19,13 @@ APPEND += "rootfstype=ext4 quiet"
+ DEPENDS = "zip-native"
+ IMAGE_FSTYPES = "vmdk"
+ 
+-inherit core-image
++inherit core-image module-base
+ 
+ SRCREV ?= "00c4c9bf0007b964dfa4559fe8fc8687f14cdec3"
+ SRC_URI = "git://git.yoctoproject.org/poky \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
++           file://README_VirtualBox_Guest_Additions.txt \
+           "
+ BA_INCLUDE_SOURCES ??= "0"
+ 
+@@ -49,6 +50,12 @@ fakeroot do_populate_poky_src () {
+ 		rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
+ 	fi
+ 
++	# Place the README_VirtualBox_Guest_Additions file in builders home folder.
++	cp ${WORKDIR}/README_VirtualBox_Guest_Additions.txt ${IMAGE_ROOTFS}/home/builder/
++
++	# Create a symlink, needed for out-of-tree kernel modules build
++	ln -snr ${IMAGE_ROOTFS}/usr/src/kernel ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
++
+ 	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
+ 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+ 	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
+@@ -70,6 +77,9 @@ fakeroot do_populate_poky_src () {
+ 	chown -R builder.builder ${IMAGE_ROOTFS}/home/builder/poky
+ 	chmod -R ug+rw ${IMAGE_ROOTFS}/home/builder/poky
+ 
++	# Assume we will need CDROM to install guest additions
++	mkdir -p ${IMAGE_ROOTFS}/media/cdrom
++
+ 	# Allow builder to use sudo to setup tap/tun
+ 	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
+ 
+-- 
+1.9.1
+
 
