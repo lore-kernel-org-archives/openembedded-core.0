@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DF83677187
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 45D74771BF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Apr 2016 14:14:57 +0000 (UTC)
+	Sun, 10 Apr 2016 14:16:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3AEEwgw015503
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3AEGoeB001233
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Apr 2016 07:14:58 -0700 (PDT)
+	Sun, 10 Apr 2016 07:16:50 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 10 Apr 2016 07:14:57 -0700
+	Sun, 10 Apr 2016 07:16:49 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 10 Apr 2016 07:14:56 -0700
-Message-ID: <86645b1cea4e8cd70156e0fd5f4fb2480933b81d.1460297667.git.liezhi.yang@windriver.com>
+Date: Sun, 10 Apr 2016 07:16:48 -0700
+Message-ID: <d5001db65b5acf7879105d5693c225ececec0b86.1460297783.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1460297667.git.liezhi.yang@windriver.com>
-References: <cover.1460297667.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1460297783.git.liezhi.yang@windriver.com>
+References: <cover.1460297783.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] base.bbclass: fix COMPATIBLE_MACHINE
+Subject: [PATCH 1/1] runqemu: let ramfs equal to cpio.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Apr 2016 14:14:58 -0000
+X-List-Received-Date: Sun, 10 Apr 2016 14:16:49 -0000
 Content-Type: text/plain
 
-It mismatched such as qemux86 and qemux86-64 which was incorrect, for
-example:
-COMPATIBLE_MACHINE = "(qemux86)"
-But it treated MACHINE = "qemux86-64" as matched. The similar to others.
-
-This patch fixes the problem.
+For example, support both:
+$ runqemu qemux86-64 ramfs
+$ runqemu qemux86-64 cpio.gz (new)
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/runqemu | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f9697a9..f376478 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -469,7 +469,7 @@ python () {
-         import re
-         compat_machines = (d.getVar('MACHINEOVERRIDES', True) or "").split(":")
-         for m in compat_machines:
--            if re.match(need_machine, m):
-+            if re.match('^' + need_machine + '$', m):
-                 break
-         else:
-             raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % d.getVar('MACHINE', True))
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 49ccd18..d7fa941 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -40,7 +40,7 @@ Examples:
+   $MYNAME qemux86-64 core-image-sato ext4
+   $MYNAME qemux86-64 wic-image-minimal wic
+   $MYNAME path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial
+-  $MYNAME qemux86 iso/hddimg/vmdk/qcow2/vdi/ramfs...
++  $MYNAME qemux86 iso/hddimg/vmdk/qcow2/vdi/ramfs/cpio.gz...
+   $MYNAME qemux86 qemuparams="-m 256"
+   $MYNAME qemux86 bootparams="psplash=false"
+   $MYNAME path/to/<image>-<machine>.vmdk
+@@ -132,7 +132,7 @@ while true; do
+             check_fstype_conflicts $arg
+             IS_VM="true"
+             ;;
+-        "ramfs")
++        "ramfs" | "cpio.gz")
+             FSTYPE=cpio.gz
+             ;;
+         "nographic")
 -- 
 2.8.0
 
