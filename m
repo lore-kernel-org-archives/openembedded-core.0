@@ -1,45 +1,53 @@
-Return-Path: <kceleon@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 074417001D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 21:44:07 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id td3so129013700pab.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 14:44:08 -0700 (PDT)
+Return-Path: <rudolf.streif@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B9D4C60762;
+	Mon, 11 Apr 2016 22:35:22 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id zm5so365744pac.0;
+	Mon, 11 Apr 2016 15:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=MrQJgTBOFYLkhchk6Zq4mnGyY/ExmEZpTxZPQWUsPMI=;
-	b=Uj82/We/Rbj8qScQhCE0EDOs+8PVe/JBzmAxbhzf3X1TlUFgnrXdSdUQU5hN1Dv0jt
-	CHXki4gSAecEXnAgealQQvqliGStBYQC5JtV9giTvjDEqH6OQVlClrqAzdJmGBgs7k7f
-	OpHiKSFNcgBaeYTTa//UcAhL3gJGbExH3UCnnsqYjed6sjDLjkhd+A3KOn2xH7gR56oq
-	FMKWdkyOXQr2S9G83V/a9/FO9s+wi6ZgBIXfQo+QANFHPFNppTKrsLeE2cCgRX78UgJV
-	kiSIbiKR2lOqtp/73vcOzfa0U5uRDpUFuF8tHrU83Vsgi5CXl9eZDD8/3vf6mFvir14J
-	p6rA==
+	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=qcJZANuJPrfzQdQyFbumbR758JT7vQplsSIWeaVdkX4=;
+	b=XzNfGlqqpLM3RLx37rmcQXxawZPwzv55W/2qbyTjXKe253e5KYidY/QPLsacieNvFV
+	LTxQhU4ZG+4Q9HeHkrcDofZdnWZnM4oqlmSncn5/1IRJmwDRPdZctNO9JI3jyFaEeYyP
+	Z0iY2qysUT98a5njHt+JLKCdu2zgX3zvwd/VM/167/j78i6CZrWIJdjFIUO80V3mQlE1
+	lzZjFOhf0iLGx3TxTfBK1QuAI67KDk2BYhYY7gfrmVl3l0DHdfcmnknBawmRXV3VUt2p
+	sF2iFIPk+ci1m6GcOp89y8XBWXyaofFV86TspPgTrV+2F3d0ajMsY5fmFQuEmT0J0ZA6
+	yZAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=MrQJgTBOFYLkhchk6Zq4mnGyY/ExmEZpTxZPQWUsPMI=;
-	b=BYxy/bLPnjPamOb0rvhrZVd8M8KeVe5hviOq8H3Pckk/k/8nFJN/qzpoXFEEdtpK1x
-	bQMaTedu/1CDToePZbesz9glsWC3733GLrw4jVfb88R+sYTEke1qzGGrrrj1yoRfj/Fh
-	RrHqOS7R9d/JgZbwu8FZkZ54XsUqLTxHKY/gujt8aCjmSTFUZ2sCSRduzZnl0FHkW326
-	IlbfCzBVzVyrH8rtSsyfv8yXLDkHg1GWneORX7BWf5y8LxIIGDFAzYegPAPVcLlwVW4V
-	+VdVajZ9H77ZhTMRfznvWWkRMljxq/7fGbyU+lmSZsMdQ9m0CHxI8o9v+iKpPv/h2ekf
-	Pd5g==
-X-Gm-Message-State: AD7BkJLCLTVcu0qUIWEq2LkoQw1BjW86J75/iy0QIY7Zc1dKDJxKjtoSnvsvpjrHlYS6aw==
-X-Received: by 10.66.79.162 with SMTP id k2mr34569509pax.121.1460411048550;
-	Mon, 11 Apr 2016 14:44:08 -0700 (PDT)
-Received: from flax.jf.intel.com (fmdmzpr02-ext.fm.intel.com. [192.55.55.37])
-	by smtp.gmail.com with ESMTPSA id
-	q4sm38266579pfi.94.2016.04.11.14.44.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Apr 2016 14:44:08 -0700 (PDT)
-From: noel eck <kceleon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Apr 2016 14:44:05 -0700
-Message-Id: <1460411045-116765-1-git-send-email-kceleon@gmail.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [meta][patch] gcc-common.inc: String format tweak for available tunes
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=qcJZANuJPrfzQdQyFbumbR758JT7vQplsSIWeaVdkX4=;
+	b=DI1uE2FYvFPjrPST84ubmTwzo8vBkVXhOQbOXjJnY1eiU/Qx+7o+8xYM0cQ9xEmXXW
+	+1sm7xICp0F5TfqIQ4secfvsz97qINBy4XsbuRnAYrqcVyovuR/IBVRPjJpbwt8ADFAp
+	Rm8CwFYwQuGGGaidV5dD1tHuPj86PPXgaeIXOqBgmKy5svpQbxlP6A7uqJJR+2t2tKgW
+	9StySI/eWQNbu0CvMG9Q6dG557ZfAhndortvrWfVaqTuAVcPpN+USpwk/usHcxqFWpCk
+	hVuyDZyZJSN1ZcKiA8u9fbNITMVDubdidp9lHPEqqP5mHFNlXprBprrF+ELmvJ0M3YRf
+	v3TQ==
+X-Gm-Message-State: AD7BkJLJ16cUEO21bstDs1jkpTbp6yCW4ltw00WL7RliRTrhV6dmI0ERV03LV2YoziISng==
+X-Received: by 10.66.162.39 with SMTP id xx7mr35823858pab.97.1460414122992;
+	Mon, 11 Apr 2016 15:35:22 -0700 (PDT)
+Received: from rjs-zotac.streifs.net (ip68-7-48-20.sd.sd.cox.net. [68.7.48.20])
+	by smtp.gmail.com with ESMTPSA id h5sm38542987pat.0.2016.04.11.15.35.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Apr 2016 15:35:22 -0700 (PDT)
+From: Rudolf J Streif <rudolf.streif@gmail.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Apr 2016 15:35:21 -0700
+Message-ID: <2408177.Nm4BLto1dd@rjs-zotac.streifs.net>
+User-Agent: KMail/4.14.10 (Linux/4.4.6-201.fc22.x86_64; KDE/4.14.17; x86_64; ;
+	)
+In-Reply-To: <56F30D13.6030909@balister.org>
+References: <56DEF97F.9070306@balister.org> <1458767514382.89578@seescan.com>
+	<56F30D13.6030909@balister.org>
+MIME-Version: 1.0
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>
+Subject: Re: [oe] [yocto] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,32 +60,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 21:44:09 -0000
+X-List-Received-Date: Mon, 11 Apr 2016 22:35:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Small change to python string formatting for error logging.
-Previously, tune and availtunes would print out at the end of
-the log message.  This change allows them to print out in the
-correct locations of the error string.
+Hello Everyone:
 
-Signed-off-by: noel eck <kceleon@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-common.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you attended OEDAM last Friday in San Diego, I very much hope that you enjoyed being here.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 6f2f224..e4fd4d6 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -54,7 +54,7 @@ def get_gcc_multiarch_setting(bb, d):
- def get_tune_parameters(tune, d):
-     availtunes = d.getVar('AVAILTUNES', True)
-     if tune not in availtunes.split():
--        bb.error('The tune: %s is not one of the available tunes: %s', tune or None, availtunes)
-+        bb.error('The tune: %s is not one of the available tunes: %s' % (tune or None, availtunes))
- 
-     localdata = bb.data.createCopy(d)
-     override = ':tune-' + tune
--- 
-2.5.0
+The Catamaran Hotel, where we held the meeting, would very much appreciate your feedback:
+
+www.catamaranresort.com/trip
+
+I hope you all had a safe trip back home,
+Rudi
+
 
 
