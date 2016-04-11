@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 30F606E682
+Return-Path: <kceleon@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 074417001D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 20:43:37 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id u206so1755958wme.1
+	Mon, 11 Apr 2016 21:44:07 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id td3so129013700pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 13:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=fEcNB+qqaAKIEZ8OCp7mhP+35xXvmVdoG2N+ozDbVWU=;
-	b=qJHE3X0KPuLl00KVdirAfo0cPGINphXKnQ7w5YKme3zQ4O9uYZDg5KzyypVlx2k0+E
-	dvSzL4CQlTaKC67t56JpgRiKwGu2IbUNFmkcoHqGVUabbDlSCgvb3f/0fmvao24FS+Kz
-	j4OP+iAUrOj+B6mditc57UvFYRRzLniHdpEnTYIAqr1YB+ng9g9bA6P4SAh1tgliHWnF
-	TkPxjZl8fSqq2PE804tiLEa0noij8UbrqFLsH4zHiiIauzOelTlf2IsKi6N9x/NpPbtT
-	fXdWnSxkJW3FKEiwTvTrvPxdcZDy0DVtlpCJNOJKqo0YOL2yNh6mGSRWVuNe7vgXt+dR
-	errA==
+	Mon, 11 Apr 2016 14:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=MrQJgTBOFYLkhchk6Zq4mnGyY/ExmEZpTxZPQWUsPMI=;
+	b=Uj82/We/Rbj8qScQhCE0EDOs+8PVe/JBzmAxbhzf3X1TlUFgnrXdSdUQU5hN1Dv0jt
+	CHXki4gSAecEXnAgealQQvqliGStBYQC5JtV9giTvjDEqH6OQVlClrqAzdJmGBgs7k7f
+	OpHiKSFNcgBaeYTTa//UcAhL3gJGbExH3UCnnsqYjed6sjDLjkhd+A3KOn2xH7gR56oq
+	FMKWdkyOXQr2S9G83V/a9/FO9s+wi6ZgBIXfQo+QANFHPFNppTKrsLeE2cCgRX78UgJV
+	kiSIbiKR2lOqtp/73vcOzfa0U5uRDpUFuF8tHrU83Vsgi5CXl9eZDD8/3vf6mFvir14J
+	p6rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=fEcNB+qqaAKIEZ8OCp7mhP+35xXvmVdoG2N+ozDbVWU=;
-	b=dNw3MYEeB5kpLJWdm7FikrIt4gSYbr0fxvsd3w9R5TsbAO6sLOk5rMaNg8hUls885z
-	Spkkl/gAFGsVuT9QM049sthJx3jQ8W9R7doZ1L4eMmYeTszwSjqzB/IqQ2Xjwg8vHgac
-	cVtoJek/pNfTdIUX7+OEAv45iVvrANqYuVetmmRMUnbucvSdpg7tiH9Wgn/ZFVulLUvW
-	E5EQPBvOCd5erduGHrOeasn/8TgHph6XQDPldZyKe7V93PFLzWJzR+NASDquUARxpTx8
-	/JHpMs37BXzVxrYlIDPlWLrb8YLPqk0zGtUwbzP50XfqcQw4Ad9Sj0N1HOq5QIyqEQP6
-	jnZg==
-X-Gm-Message-State: AOPr4FXNGmioNJWvyz/yn67INlIGFaOX5XWTTUNJD1+rKtGgXIpWxovar0OpnvZizheBjxSo
-X-Received: by 10.28.93.85 with SMTP id r82mr22933wmb.77.1460407417960;
-	Mon, 11 Apr 2016 13:43:37 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MrQJgTBOFYLkhchk6Zq4mnGyY/ExmEZpTxZPQWUsPMI=;
+	b=BYxy/bLPnjPamOb0rvhrZVd8M8KeVe5hviOq8H3Pckk/k/8nFJN/qzpoXFEEdtpK1x
+	bQMaTedu/1CDToePZbesz9glsWC3733GLrw4jVfb88R+sYTEke1qzGGrrrj1yoRfj/Fh
+	RrHqOS7R9d/JgZbwu8FZkZ54XsUqLTxHKY/gujt8aCjmSTFUZ2sCSRduzZnl0FHkW326
+	IlbfCzBVzVyrH8rtSsyfv8yXLDkHg1GWneORX7BWf5y8LxIIGDFAzYegPAPVcLlwVW4V
+	+VdVajZ9H77ZhTMRfznvWWkRMljxq/7fGbyU+lmSZsMdQ9m0CHxI8o9v+iKpPv/h2ekf
+	Pd5g==
+X-Gm-Message-State: AD7BkJLCLTVcu0qUIWEq2LkoQw1BjW86J75/iy0QIY7Zc1dKDJxKjtoSnvsvpjrHlYS6aw==
+X-Received: by 10.66.79.162 with SMTP id k2mr34569509pax.121.1460411048550;
+	Mon, 11 Apr 2016 14:44:08 -0700 (PDT)
+Received: from flax.jf.intel.com (fmdmzpr02-ext.fm.intel.com. [192.55.55.37])
 	by smtp.gmail.com with ESMTPSA id
-	cb2sm29733530wjc.16.2016.04.11.13.43.36
-	for <openembedded-core@lists.openembedded.org>
+	q4sm38266579pfi.94.2016.04.11.14.44.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Apr 2016 13:43:37 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 11 Apr 2016 14:44:08 -0700 (PDT)
+From: noel eck <kceleon@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Apr 2016 21:43:34 +0100
-Message-Id: <1460407414-16548-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] util-linux: take ownership of hwclock if installed
+Date: Mon, 11 Apr 2016 14:44:05 -0700
+Message-Id: <1460411045-116765-1-git-send-email-kceleon@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [meta][patch] gcc-common.inc: String format tweak for available tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,60 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 20:43:38 -0000
+X-List-Received-Date: Mon, 11 Apr 2016 21:44:09 -0000
 
-Previously util-linux had a lower priority for hwclock than busybox but the
-reasoning was lost in the mists of time, with just this enigmatic comment
-remaining:
+Small change to python string formatting for error logging.
+Previously, tune and availtunes would print out at the end of
+the log message.  This change allows them to print out in the
+correct locations of the error string.
 
-    There seems to be problem, atleast on nslu2, with these, until they are
-    fixed the busybox ones have higher priority.
-
-Chasing the comment back through history it first appeared in the following
-oe-classic commit:
-
-    commit 5e01906b8433bc6a8c03be2e31758589641124c9
-    Author: David Karlstrom <daka@thg.se>
-    Date:   Sat Jul 23 13:36:38 2005 +0000
-
-        Updated to use update-alternatives and fix some FHS bugs
-
-Which doesn't really give a lot away.
-
-Let's assume that in the past eleven years both hwclock and hardware have
-improved, and restore util-linux's hwclock to it's intended priority.
-
-[ YOCTO #9103 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: noel eck <kceleon@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-devtools/gcc/gcc-common.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index c2a91e1..a1614c2 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -132,7 +132,7 @@ SYSTEMD_AUTO_ENABLE_${PN}-fstrim = "disable"
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 6f2f224..e4fd4d6 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -54,7 +54,7 @@ def get_gcc_multiarch_setting(bb, d):
+ def get_tune_parameters(tune, d):
+     availtunes = d.getVar('AVAILTUNES', True)
+     if tune not in availtunes.split():
+-        bb.error('The tune: %s is not one of the available tunes: %s', tune or None, availtunes)
++        bb.error('The tune: %s is not one of the available tunes: %s' % (tune or None, availtunes))
  
- do_compile () {
- 	set -e
--	oe_runmake ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}' 
-+	oe_runmake ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'
- }
- 
- do_install () {
-@@ -220,9 +220,6 @@ ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
- ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
- 
- ALTERNATIVE_util-linux-hwclock = "hwclock"
--# There seems to be problem, atleast on nslu2, with these, untill they are
--# fixed the busybox ones have higher priority
--ALTERNATIVE_PRIORITY[hwclock] = "10"
- ALTERNATIVE_LINK_NAME[hwclock] = "${base_sbindir}/hwclock"
- 
- ALTERNATIVE_util-linux-fdisk = "fdisk"
+     localdata = bb.data.createCopy(d)
+     override = ':tune-' + tune
 -- 
-2.8.0.rc3
+2.5.0
 
 
