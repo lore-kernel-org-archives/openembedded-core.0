@@ -1,30 +1,21 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 991926FF78
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6271A601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 10:31:35 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160411103133085_0684;
-	Mon, 11 Apr 2016 10:31:33 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=16984 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1apZ9M-0006VE-IV; Mon, 11 Apr 2016 06:32:56 -0400
-Date: Mon, 11 Apr 2016 06:31:23 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Martin Jansa <martin.jansa@gmail.com>
-In-Reply-To: <20160408140705.GA2562@jama>
-Message-ID: <alpine.LFD.2.20.1604110630370.3907@localhost.localdomain>
-References: <alpine.LFD.2.20.1604080942280.11776@localhost.localdomain>
-	<20160408140705.GA2562@jama>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: does a normal OE kernel build negate the ability to generate a local version string?
+	Mon, 11 Apr 2016 11:08:06 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Apr 2016 04:08:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,462,1455004800"; d="scan'208";a="952450161"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2016 04:08:04 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	gary@mlbassoc.com
+Date: Mon, 11 Apr 2016 14:07:52 +0300
+Message-Id: <1460372872-7074-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] glib-2.0: Put glib-compile-schemas back in -utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,80 +28,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 10:31:37 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 11 Apr 2016 11:08:07 -0000
 
-On Fri, 8 Apr 2016, Martin Jansa wrote:
+Commit cc97d576 moved a bunch of development tools to the -dev
+package. glib-compile-schemas is actually used in postinst by
+gsettings.bbclass so it needs to be available on target at package
+install time: Move the tool back to glib-2.0-utils which
+gsettings.bbclass depends on.
 
-> On Fri, Apr 08, 2016 at 09:57:02AM -0400, Robert P. J. Day wrote:
-> >
-> >   i was just playing with wind river linux 8 and trying to figure out
-> > why i couldn't generate a local version string that contained the git
-> > commit ID, so i zipped over to oe-core to see how it was done there,
-> > and it seems to be the same way, so can someone clarify that my
-> > understanding here is correct?
-> >
-> >   normally, if i want to add the git commit ID ("-gxxxxxxxx") to the
-> > kernel version string so it's available via "uname", i'm used to
-> > selecting the kernel config option CONFIG_LOCALVERSION_AUTO, which
-> > uses:
-> >
-> >  $ git rev-parse --verify HEAD
-> >
-> > to extract the first 8 characters of the commit ID. so i selected that
-> > option, but wasn't getting that string.
-> >
-> >   poking around further, i saw this in scripts/setlocalversion:
-> >
-> > scm_version()
-> > {
-> >         local short
-> >         short=false
-> >
-> >         cd "$srctree"
-> >         if test -e .scmversion; then
-> >                 cat .scmversion
-> >                 return
-> >         fi
-> >         ... snip ...
-> >
-> > so if the file ".scmversion" exists, its contents are used instead.
-> > now *i* never set that file, but lo and behold, in the kernel source
-> > tree, there it was, empty, which explains why i wasn't getting any
-> > local version string.
-> >
-> >   and where did that empty .scmversion file come from? i see this in
-> > kernel.bbclass:
-> >
-> > kernel_do_configure() {
-> >         # fixes extra + in /lib/modules/2.6.37+
-> >         # $ scripts/setlocalversion . => +
-> >         # $ make kernelversion => 2.6.37
-> >         # $ make kernelrelease => 2.6.37+
-> >         touch ${B}/.scmversion ${S}/.scmversion    <---- there
-> >         ... snip ...
-> >
-> > which clearly appears to touch that empty file. is that deliberate? is
-> > this an explicit decision by this bbclass file to prevent people from
-> > generating that local version string? am i reading all this correctly?
->
-> Yes, see
-> http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053263.html
-> for more details
+Fixes [YOCTO #9431].
 
-  hmmmmm ... that's disappointing as i could have used that feature. i
-guess i can always tweak a recipe that removes those files.
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
 
-rday
+I also reviewed again the other tools that were moved in cc97d576:
+this one seems like the only one that is needed at postinst.
 
+Possibly glib-compile-schemas should be installed with the library
+(like qio-querymodules now is) but I'd rather not do that at this
+point in the release as it would mean other changes like moving
+the binary install location.
+
+This commit is also available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/glib-compile-schemas
+
+
+ meta/recipes-core/glib-2.0/glib.inc | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 3a03191..e764fad 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -57,7 +57,6 @@ FILES_${PN}-dev += "${libdir}/glib-2.0/include \
+                     ${bindir}/glib-genmarshal \
+                     ${bindir}/glib-gettextize \
+                     ${bindir}/glib-mkenums \
+-                    ${bindir}/glib-compile-schemas \
+                     ${bindir}/glib-compile-resources \
+                     ${datadir}/glib-2.0/gettext/po/Makefile.in.in \
+                     ${datadir}/glib-2.0/schemas/gschema.dtd"
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.1.4
 
 
