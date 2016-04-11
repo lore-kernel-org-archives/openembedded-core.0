@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 71DDD6FFD4
+Return-Path: <denis@denix.org>
+Received: from vms173007pub.verizon.net (vms173007pub.verizon.net
+	[206.46.173.7])
+	by mail.openembedded.org (Postfix) with ESMTP id ADE976FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 16:52:30 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id o126so194420235iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 09:52:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M4k85zyudArvBzTitK+C0UGY6EZbrpzERVcPNAt/hKM=;
-	b=CPwfIHy+zVQMJmIpz1nL+QD461V/YnhPjhcUwILrUmtLUGILMDqJtvxKLWWi4NzrZZ
-	6u0xkB7tyQIbT5hI3Sh0MsrV+LETAeyz9xB/9wd6/Yb50CHqvmwusXbZ3CIUc//SwFOt
-	4d/vsRi5yUgHgzzGJuJf2MQnaXeTZ4Gp/bdcoYnQudJyoLBo5qrOUKLOPgYtXxZIpa1f
-	pCLLdm8r2JWLQtzHvQxDTUhuEQdoRt5kef5UhwgD4i5gAVMXQhnAem8U2x3ehJA9UnPn
-	H8nCxMuj9d6+X9kh6ylZjTGPO6SfcVmXOE765KNWsgETABz7wnPsZ5uVwQRY90yXfLRP
-	U51Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=M4k85zyudArvBzTitK+C0UGY6EZbrpzERVcPNAt/hKM=;
-	b=kSQbYicxYnUE5MOZT1S2S/Xd4n2PE0Mwm7STbNAYz85iiplFPUJy3yWxVzmtR/DZXy
-	n+C2bVWIRR4qPH4RwsAcxAW6Y8bi+m1VKWmLNFhB3sKpFTtkVsk2DqDm+Nv5av67zpMb
-	IjRYmIvwfmXPtmXZuYr4g91aVjt0D2LeynaLDMQrfbItozCHyyZg71tVtX3821XTmpIu
-	tOAEq6M/CEK2biTvZwtHTrakraQWVKZNZN/KinQdMCEV1d1ZYW0h61fEsw2wBuNpcmvX
-	9IcEhCchBtLPo7W6ZfjGb/Gzs3TzixzEPiKsgZmyzToFZazoe62fLRBQ4hN6jG9dDBiX
-	pPMA==
-X-Gm-Message-State: AD7BkJLJvaBscUFHy0J8iQPB/AXxX7NENYiBbfs7pBceNbWtcbhqop51R5LLdMaWVq1HfAniTA+NP1eiTThmFP8N
-X-Received: by 10.107.16.104 with SMTP id y101mr22578934ioi.148.1460393551438; 
-	Mon, 11 Apr 2016 09:52:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 09:52:12 -0700 (PDT)
-In-Reply-To: <1460091428-15870-1-git-send-email-denis@denix.org>
+	Mon, 11 Apr 2016 16:59:21 +0000 (UTC)
+Received: from vz-proxy-l006.mx.aol.com ([64.236.82.154])
+	by vms173007.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0O5H00FHKB6XHQ40@vms173007.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 11 Apr 2016 11:59:21 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=EdU1O6SC c=1 sm=1 tr=0	a=Ut/DdBcw22SB5hFy08yqCQ==:117
+	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=sozttTNsAAAA:8 a=4RBUngkUAAAA:8
+	a=obsejYyUGo3rRHOU0tYA:9	a=CjuIK1q_8ugA:10 a=4eMpV3Q9VpoA:10
+Received: by 100.15.86.14 with SMTP id 3e29d6b6; Mon, 11 Apr 2016 16:59:21 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 401BD161F8C; Mon,
+	11 Apr 2016 12:59:21 -0400 (EDT)
+Date: Mon, 11 Apr 2016 12:59:21 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Message-id: <20160411165921.GP16135@denix.org>
 References: <1460091428-15870-1-git-send-email-denis@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Apr 2016 17:52:12 +0100
-Message-ID: <CAJTo0LYeWqjTM63t6rDjTMqqZiqEF16jnGURODh6ZCvxrbhHTA@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	<570BCD36.30204@ni.com>
+MIME-version: 1.0
+In-reply-to: <570BCD36.30204@ni.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] opkg-utils: re-do find/ls code to not fail on filenames with spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,49 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 16:52:31 -0000
-Content-Type: multipart/alternative; boundary=001a113ff020dddeac0530385e4b
+X-List-Received-Date: Mon, 11 Apr 2016 16:59:25 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
---001a113ff020dddeac0530385e4b
-Content-Type: text/plain; charset=UTF-8
+On Mon, Apr 11, 2016 at 11:13:42AM -0500, Alejandro del Castillo wrote:
+> On 04/07/2016 11:57 PM, Denys Dmytriyenko wrote:
+> > From: Denys Dmytriyenko <denys@ti.com>
+> > 
+> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > ---
+> 
+> do you mind posting the patch to the opkg-devel@googlegroups.com list too?
 
-On 8 April 2016 at 05:57, Denys Dmytriyenko <denis@denix.org> wrote:
+Sure, will do.
 
-> +From 8e424296ce2af4a5a7392c38a31f8723f9b9fbda Mon Sep 17 00:00:00 2001
-> +From: Denys Dmytriyenko <denys@ti.com>
-> +Date: Thu, 7 Apr 2016 20:43:13 -0400
-> +Subject: [PATCH] opkg-build: re-do find/ls code to not fail on filenames
-> with
-> + spaces
-> +
-> +Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->
+-- 
+Denys
 
-Speaking of which, this is missing an Upstream-Status.
-
-Ross
-
---001a113ff020dddeac0530385e4b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 April 2016 at 05:57, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":trz" class=3D"a3s" s=
-tyle=3D"overflow:hidden">+From 8e424296ce2af4a5a7392c38a31f8723f9b9fbda Mon=
- Sep 17 00:00:00 2001<br>
-+From: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys@ti.com</=
-a>&gt;<br>
-+Date: Thu, 7 Apr 2016 20:43:13 -0400<br>
-+Subject: [PATCH] opkg-build: re-do find/ls code to not fail on filenames w=
-ith<br>
-+ spaces<br>
-+<br>
-+Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys=
-@ti.com</a>&gt;</div></blockquote></div><br>Speaking of which, this is miss=
-ing an Upstream-Status.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
-
---001a113ff020dddeac0530385e4b--
