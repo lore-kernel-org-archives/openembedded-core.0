@@ -1,46 +1,49 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DF3A731C8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 06:44:38 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id w85so196722089oiw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Apr 2016 23:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1CY4uVCyIyNbGJb/cjTek0uHHKxDoJJEnPwB7Acbe5s=;
-	b=Hi1Dm7gc+DWiD51TZ3sQKoEvCXiWW/63FUiuGMUeV0K999TqOUU8J/NEkBSs8YAXmu
-	ckzIJD7xedEgL3gHK5r9CWhJQsVG02dcLdKueOZM11bAVPdGNoEqBrdlzHI56V7lEKgE
-	rAwLOKG+okUEgwjOyxytyja5skSiEtdNxF2EH3Bb7HXtLCo34nvlpHxo0fwGYQG0m4yT
-	KKu1lX9/CBfvHFAyEcJX2BsgO75c2MJuPQP6P3w79Q0241p2b4nPdXMCdbKmgne+23MA
-	K07e8ScLpY94gHwHyayE0yRJF3Ie4m9cYBsf6YycRLSgP3ctsrnjs+qPN3M4SfM39yYp
-	7VQA==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id CBB8B73185;
+	Mon, 11 Apr 2016 06:52:33 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id 191so73168412wmq.0;
+	Sun, 10 Apr 2016 23:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=R0U5FVvfNnYYa8/x1+snh6sE3KWku70wuGmCeIY9/+8=;
+	b=asn5doPSu/QcB1Y0pu21+m0SoLR3GEvelttjnz3fYg5vjBaH/ZGBcNpjq23WfOgnJ4
+	VzMj7NVw0D0hVT5jeMDr62XgX5MBu4BYG4Is3RcZmYcSl35nG1HUEhRGJNf7IIYjPiIm
+	/xI/ZIhdUBQxGtvA0nh1QgXzss3xveW4j6on42Ii0pdiE6WZetdS54ilEqq07rLUlzAr
+	4o6XtnJ3qKDnX/3SLkHYN59d62/P1aUC2Cur6Dpd3dcKzXrodS5Hia1tnVwCA3RSbKiS
+	uG3O3OeWgS/lQuxIZVPC79xFi3rDPNgc0LMQdKBGvkIddoNWGxWrKfBuqLlrHe1njHai
+	tHPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1CY4uVCyIyNbGJb/cjTek0uHHKxDoJJEnPwB7Acbe5s=;
-	b=ir9+sU6+GCc/GdBO7HR9kXftNWRt+MZzcQtMRMCv9683LbNXBtw/a5Yqj3hQvRDSTY
-	nWMBD3wCK9m7b11uhhtrRqc7bPsbanN9Cdi5gEzO2GtG+qHaIw2c2COHCZK00IEvc5E7
-	x7AP0JL8jIX09kNuhbCODAECjS08uH8Ut/WME/fsQZ2uit/uSuxgFoL8hfILLJ7lYgD0
-	CU6v2mCPgpfRoaBkX91X9erQcOPG19wWM6guB8XDrRysiW1TAL4PIMoxOCyWhlHKV608
-	coyvU5VqaXblbVPa9JiSY5A52F4JS/azXChCST75n9IhU0y9nDWDMQCn24hNIJHAjMRf
-	Q3Pg==
-X-Gm-Message-State: AOPr4FXmUUzrXx5+bnMtjyROvsmDkeCw1H+Sz3AJjFusMjQtPu5mzYjaNckQhRw/JUK+d0LDvisUcUG0xapodg/1
-X-Received: by 10.157.12.72 with SMTP id 66mr116779otr.4.1460357079538; Sun,
-	10 Apr 2016 23:44:39 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=R0U5FVvfNnYYa8/x1+snh6sE3KWku70wuGmCeIY9/+8=;
+	b=Lbx6H94UU0uiwIjdyK0ozJbvkmhGEY/0b45lKCBiTOtDhZWETJLoFsq1BRscGnTygG
+	LZ/1RAHOtoj6JKZ9sBxCcN/lbmeji+WYjYpimcJZTxODVEVlubnJnNz1MjHSlTxTIVYR
+	WT96UaTI3IkUAMov4252T4NuhGwqyACoZWIGK3lq7ZtNV9Y20Bar7rmbrJycrSc+cQnd
+	5oB2B5WwLu9LQ8cqkWcxm3ToOIUqJcRiO0onWVsexDL5zflFAh8RoRLu1vRN/O6abPY6
+	VADSsHvJfIAO3Zxoe3B0exQKQjVpfq7Ls8a47GnOM5N9UeryGy7KGog4008re6AqWFFe
+	V6BQ==
+X-Gm-Message-State: AD7BkJIIavekLd0zPEMofYad9E86CLJmqVzTLbmbAARymJhQtTlsGdcpPS4w2eTlqjVXHw==
+X-Received: by 10.194.248.200 with SMTP id yo8mr22026602wjc.38.1460357553651; 
+	Sun, 10 Apr 2016 23:52:33 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	a16sm15708426wme.22.2016.04.10.23.52.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 10 Apr 2016 23:52:32 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 11 Apr 2016 08:53:39 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20160411065339.GB9652@jama>
+References: <20160410061425.GA9652@jama>
 MIME-Version: 1.0
-Received: by 10.202.173.77 with HTTP; Sun, 10 Apr 2016 23:44:10 -0700 (PDT)
-In-Reply-To: <570B3A38.9000000@mlbassoc.com>
-References: <570B3A38.9000000@mlbassoc.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 11 Apr 2016 09:44:10 +0300
-Message-ID: <CAHiDW_GtNHhTacnN+ZC3ZzORBkDk2Foa+xrC11O=0K_RqoaDPg@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Issues installing GTK based packages
+In-Reply-To: <20160410061425.GA9652@jama>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: State of bitbake world, test-dependencies 2016-04-10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,141 +56,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 06:44:39 -0000
-Content-Type: multipart/alternative; boundary=94eb2c11e7caf8b4b005302fe09e
+X-List-Received-Date: Mon, 11 Apr 2016 06:52:36 -0000
+X-Groupsio-MsgNum: 80687
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yNb1oOkm5a9FJOVX"
+Content-Disposition: inline
 
---94eb2c11e7caf8b4b005302fe09e
-Content-Type: text/plain; charset=UTF-8
-
-On 11 April 2016 at 08:46, Gary Thomas <gary@mlbassoc.com> wrote:
-
-> When installing epiphany into an existing system, I'm now
-> getting these errors:
->   Configuring libgtk-3.0.
->   ///var/lib/opkg/info/libgtk-3.0.postinst: line 3: glib-compile-schemas:
-> not found
->   Configuring gsettings-desktop-schemas.
->   ///var/lib/opkg/info/gsettings-desktop-schemas.postinst: line 2:
-> glib-compile-schemas: not found
->   Configuring epiphany.
->   ///var/lib/opkg/info/epiphany.postinst: line 2: glib-compile-schemas:
-> not found
->
-> I believe this is because glib-compile-schemas was moved from
-> glib-2.0-utils to glib-2.0-dev by this change (Poky)
->
-> commit cc97d5760100415ed22fa329e8962e5f37b8d741
-> Author: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> Date:   Wed Mar 23 10:59:08 2016 +0200
->
->     glib-2.0: Fix packaging
->
->     * move gdbus-codegen to ${PN}-codegen
->     * move other development tools and data files to ${PN}-dev
->     * remove references to non-existent paths
->
->     (From OE-Core rev: 351064e9c5deb6411c8a0d40ebd4fd4f83299d4e)
->
->     Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Installing glib-2.0-dev just to get this tool doesn't seem reasonable as
-> it hauls in a boatload of other packages, including bash and friends, which
-> I don't want on my target.
->
-
-That's a valid point, I did not realize schema XML compilation was done on
-postinst (instead of build time). I'll fix this.
-
-Thanks,
-  Jussi
-
-Filed as bug #9431
->
-> --
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---94eb2c11e7caf8b4b005302fe09e
-Content-Type: text/html; charset=UTF-8
+--yNb1oOkm5a9FJOVX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On 11 April 2016 at 08:46, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">When installing epiphany into a=
-n existing system, I&#39;m now<br>
-getting these errors:<br>
-=C2=A0 Configuring libgtk-3.0.<br>
-=C2=A0 ///var/lib/opkg/info/libgtk-3.0.postinst: line 3: glib-compile-schem=
-as: not found<br>
-=C2=A0 Configuring gsettings-desktop-schemas.<br>
-=C2=A0 ///var/lib/opkg/info/gsettings-desktop-schemas.postinst: line 2: gli=
-b-compile-schemas: not found<br>
-=C2=A0 Configuring epiphany.<br>
-=C2=A0 ///var/lib/opkg/info/epiphany.postinst: line 2: glib-compile-schemas=
-: not found<br>
-<br>
-I believe this is because glib-compile-schemas was moved from<br>
-glib-2.0-utils to glib-2.0-dev by this change (Poky)<br>
-<br>
-commit cc97d5760100415ed22fa329e8962e5f37b8d741<br>
-Author: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.com" targ=
-et=3D"_blank">jussi.kukkonen@intel.com</a>&gt;<br>
-Date:=C2=A0 =C2=A0Wed Mar 23 10:59:08 2016 +0200<br>
-<br>
-=C2=A0 =C2=A0 glib-2.0: Fix packaging<br>
-<br>
-=C2=A0 =C2=A0 * move gdbus-codegen to ${PN}-codegen<br>
-=C2=A0 =C2=A0 * move other development tools and data files to ${PN}-dev<br=
->
-=C2=A0 =C2=A0 * remove references to non-existent paths<br>
-<br>
-=C2=A0 =C2=A0 (From OE-Core rev: 351064e9c5deb6411c8a0d40ebd4fd4f83299d4e)<=
-br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kuk=
-konen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
-urdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation=
-.org</a>&gt;<br>
-<br>
-Installing glib-2.0-dev just to get this tool doesn&#39;t seem reasonable a=
-s<br>
-it hauls in a boatload of other packages, including bash and friends, which=
-<br>
-I don&#39;t want on my target.<br></blockquote><div><br></div><div>That&#39=
-;s a valid point, I did not realize schema XML compilation was done on post=
-inst (instead of build time). I&#39;ll fix this.</div><div>=C2=A0</div><div=
->Thanks,</div><div>=C2=A0 Jussi</div><div><br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-Filed as bug #9431<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-<br>
--- <br>
-------------------------------------------------------------<br>
-Gary Thomas=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 Consulting for the<br>
-MLB Associates=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A0 Embedded world<br>
-------------------------------------------------------------<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div></div>
+On Sun, Apr 10, 2016 at 08:14:25AM +0200, Martin Jansa wrote:
+> This time complete test of all recipes, for both qemux86 and qemuarm.
 
---94eb2c11e7caf8b4b005302fe09e--
+Somehow I managed to delete the links to logs when sending this.
+
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20160408_06=
+2500.log/
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20160408_18=
+0900.log/
+
+> qemux86:
+>=20
+> Found differences:=20
+> WARN: jasper: jasper-bin rdepends on libgl-mesa, but it isn't a build dep=
+endency?
+> WARN: jasper: jasper-bin rdepends on libglu, but it isn't a build depende=
+ncy?
+> WARN: jasper: jasper-bin rdepends on mesa-glut, but it isn't a build depe=
+ndency?
+> WARN: samba: samba rdepends on libpam, but it isn't a build dependency?
+> WARN: libdrm: libdrm-tests rdepends on cunit, but it isn't a build depend=
+ency?
+> WARN: libdrm: libdrm-tests rdepends on libdrm-amdgpu, but it isn't a buil=
+d dependency?
+> WARN: enchant: enchant rdepends on hunspell, but it isn't a build depende=
+ncy?
+> Found errors:=20
+> ERROR: 50 issues were found in these recipes: chkconfig-alternatives-nati=
+ve core-image-rt core-image-rt-sdk core-image-sato-dev core-image-sato-sdk =
+core-image-sato-sdk-ptest cpupower cyrus-sasl enchant fontforge gtkmathview=
+ jasper libdrm lttng-modules meta-ide-support meta-world-pkgdata nativesdk-=
+zeroc-ice netmap netmap-modules openlmi-networking openlmi-providers openlm=
+i-storage packagegroup-core-tools-profile perf proxy-libintl python-pyparsi=
+ng samba sblim-sfcb tiptop zeroc-ice
+>=20
+> 2_max/failed/chkconfig-alternatives-native.log
+> 2_max/failed/core-image-rt-sdk.log
+> 2_max/failed/core-image-rt.log
+> 2_max/failed/core-image-sato-dev.log
+> 2_max/failed/core-image-sato-sdk-ptest.log
+> 2_max/failed/core-image-sato-sdk.log
+> 2_max/failed/cpupower.log
+> 2_max/failed/cyrus-sasl.log
+> 2_max/failed/fontforge.log
+> 2_max/failed/lttng-modules.log
+> 2_max/failed/meta-world-pkgdata.log
+> 2_max/failed/nativesdk-zeroc-ice.log
+> 2_max/failed/netmap-modules.log
+> 2_max/failed/netmap.log
+> 2_max/failed/openlmi-networking.log
+> 2_max/failed/openlmi-providers.log
+> 2_max/failed/openlmi-storage.log
+> 2_max/failed/packagegroup-core-tools-profile.log
+> 2_max/failed/proxy-libintl.log
+> 2_max/failed/zeroc-ice.log
+>=20
+> 3_min/failed/core-image-rt-sdk.log
+> 3_min/failed/core-image-rt.log
+> 3_min/failed/core-image-sato-dev.log
+> 3_min/failed/core-image-sato-sdk-ptest.log
+> 3_min/failed/core-image-sato-sdk.log
+> 3_min/failed/cyrus-sasl.log
+> 3_min/failed/fontforge.log
+> 3_min/failed/gtkmathview.log
+> 3_min/failed/meta-world-pkgdata.log
+> 3_min/failed/nativesdk-zeroc-ice.log
+> 3_min/failed/perf.log
+> 3_min/failed/proxy-libintl.log
+> 3_min/failed/python-pyparsing.log
+> 3_min/failed/sblim-sfcb.log
+> 3_min/failed/zeroc-ice.log
+>=20
+> qemuarm:
+>=20
+> Found differences:=20
+> WARN: samba: samba rdepends on libpam, but it isn't a build dependency?
+> WARN: libdrm: libdrm-tests rdepends on cunit, but it isn't a build depend=
+ency?
+> WARN: libdrm: libdrm-tests rdepends on libdrm-amdgpu, but it isn't a buil=
+d dependency?
+> WARN: enchant: enchant rdepends on hunspell, but it isn't a build depende=
+ncy?
+> Found errors:=20
+> ERROR: 55 issues were found in these recipes: chkconfig-alternatives-nati=
+ve core-image-minimal-initramfs core-image-rt core-image-rt-sdk core-image-=
+sato-dev core-image-sato-sdk core-image-sato-sdk-ptest core-image-testmaste=
+r-initramfs cyrus-sasl enchant fontforge gtkmathview ipmiutil libdrm meta-w=
+orld-pkgdata nativesdk-zeroc-ice netmap-modules perf proxy-libintl remake s=
+amba sblim-sfcb zeroc-ice
+>=20
+> 2_max/failed/chkconfig-alternatives-native.log
+> 2_max/failed/core-image-minimal-initramfs.log
+> 2_max/failed/core-image-rt-sdk.log
+> 2_max/failed/core-image-rt.log
+> 2_max/failed/core-image-sato-dev.log
+> 2_max/failed/core-image-sato-sdk-ptest.log
+> 2_max/failed/core-image-sato-sdk.log
+> 2_max/failed/core-image-testmaster-initramfs.log
+> 2_max/failed/cyrus-sasl.log
+> 2_max/failed/fontforge.log
+> 2_max/failed/ipmiutil.log
+> 2_max/failed/meta-world-pkgdata.log
+> 2_max/failed/nativesdk-zeroc-ice.log
+> 2_max/failed/netmap-modules.log
+> 2_max/failed/proxy-libintl.log
+> 2_max/failed/remake.log
+> 2_max/failed/zeroc-ice.log
+>=20
+> 3_min/failed/core-image-minimal-initramfs.log
+> 3_min/failed/core-image-rt-sdk.log
+> 3_min/failed/core-image-rt.log
+> 3_min/failed/core-image-sato-dev.log
+> 3_min/failed/core-image-sato-sdk-ptest.log
+> 3_min/failed/core-image-sato-sdk.log
+> 3_min/failed/core-image-testmaster-initramfs.log
+> 3_min/failed/cyrus-sasl.log
+> 3_min/failed/fontforge.log
+> 3_min/failed/gtkmathview.log
+> 3_min/failed/ipmiutil.log
+> 3_min/failed/meta-world-pkgdata.log
+> 3_min/failed/nativesdk-zeroc-ice.log
+> 3_min/failed/perf.log
+> 3_min/failed/proxy-libintl.log
+> 3_min/failed/remake.log
+> 3_min/failed/sblim-sfcb.log
+> 3_min/failed/zeroc-ice.log
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--yNb1oOkm5a9FJOVX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlcLSfIACgkQN1Ujt2V2gBwBpwCeMYhDpznwJj1RXDuxgTHSIoEN
+Fm8AoJmk342sT1MwwaQIRSWbS5/+LP+X
+=qSIU
+-----END PGP SIGNATURE-----
+
+--yNb1oOkm5a9FJOVX--
