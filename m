@@ -1,44 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D45D6FF23
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FDC86FF23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 14:46:59 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id u185so43858909iod.3
+	Mon, 11 Apr 2016 14:48:42 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id g185so211754374ioa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 07:47:00 -0700 (PDT)
+	Mon, 11 Apr 2016 07:48:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AqfrPeGxGuhAAtzwiaQ/Z9ibSZOuckyBjI6IS2ddvak=;
-	b=AQTvq4Abnc2ZxkWa7ld9FkUF2oQP+eUY+sIs0PrvV6GIcloXfoCH4Tjuex+tZAXUBt
-	GqTcp0eKLxauJcFRvQrCPZm1vuQ0Kl7TD55a5PjUJJijed6gv15dDUkTeF3uU4apTYAu
-	iwiGlY8wR/o8wgNAxjjEG626w6INZxJEy+uJ6RS3HGdkazj5MWM3w9sb6Oa9DHeLd+kX
-	P8nuoH3ITNFlr4faJK4tqe1aof1JwYlDAMpaE/ZmiycjmHS+EazGNiQ39zlb3l5iqOYF
-	g+MXqgAJfBTM/uZp8Mf41Y14NqPrW+Kw9Th91xjLxjv/NjIqaL0XxhshWS5/q8kQaeHn
-	l/FA==
+	:cc; bh=Fj4jyzEHbBml+25MGQn67WrV0m8whxfvSoQI1JtIgVo=;
+	b=IH0d6FxvkxSNHv1RETP15x9yTIzsATT8zVDNa63Vty8yT7NxMxWsh9pUbmtvIEXHfP
+	cPEuQMVL+5BoH1UsK9cROIeq63SzFVJx9EN+xWTish5kFBicuQYr6caaM+w+UgpK5m3o
+	CHm49Q89YcrN1qUq5VfAcM758g0O8i+8KH8xYzEQ2H2dqKgP6ped5l4nf6GJNfrkxTwk
+	RhBmHdOmiYJb6hXJyLvdCHl3Hx/8mwHMBl26nPLYNZvUmwalReSjVqqK1XxbqtSJnwv9
+	xymEZMIiPKtipb7/FaujnMwXI9mdu2AouUhRIuSZ0hSIsYC7cpmePsJSKhhf+491kawF
+	qc4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=AqfrPeGxGuhAAtzwiaQ/Z9ibSZOuckyBjI6IS2ddvak=;
-	b=ausEC+TtkRmPSSwhtdJS81GFg147nZNjXlhKQYGef0P0X5ZVr6da6kTH+oPN8tRobH
-	rHmSaGD7KZYtBjfkFXqQaQWFzcdTsNQwOqcdw0ZS/j+l0mOYfBpbDhB84oRcG8CbH8ae
-	PIe2prx46eFVmCxR5XfjaQNPxy15vvL2hDs/i6+2YocJ1B2l/nBctPuOr42OQYJq3Fub
-	VwpH/ue9xfVkt4bfL21tMg2j90PoXWTXAertyDPF4n2l4XuVF+l9tF6PBC0W6AkeVlKB
-	h2sq3MD0qHsyPAvq/1EeUGtMNCgX8x63TBuWhH1KQl9dK3V8ME9jg2dIpzn4Kiw2IEYC
-	5v+Q==
-X-Gm-Message-State: AD7BkJK7Nlqpi+F8Yd2QGwGbmzCMOD1s6zjrNCRdsO9IBkCIzfZsjwzUAi6KA5foA84Fxc5aGovFRqKBfysIG8VM
-X-Received: by 10.107.16.104 with SMTP id y101mr21913961ioi.148.1460386020122; 
-	Mon, 11 Apr 2016 07:47:00 -0700 (PDT)
+	bh=Fj4jyzEHbBml+25MGQn67WrV0m8whxfvSoQI1JtIgVo=;
+	b=gKH6BT/l3wJQ6YM5CV4sSuxMALZsiRkfilC7r4ZICkXaFxR5vXBnb1DJGPHou134t6
+	OYqFtt2VoOGJqdrx46hHhk96fTKm+CgifpTjzSxRni+xyROl4SjBJmx00iZFoTkFrC8T
+	Y8Cl/KAgJpNPZ9n2dn3lFbrAigYCwDWMOJ6lhrSluP6Fbc6GT2E2fALutEWYdTl7+k6s
+	ujnW+CLIsfb5mY4jc4mXVAlXAZ+w6U3cJ2B7oF4+vJ9VUCPhrTueYxYnv94W7CWwQxwU
+	G5GQDacBS0jerl7PafPmRFg5/wwC9TI52A+sePS/MqhOBiTOlAp/7n1qcjGk5nABKfDl
+	pQ3g==
+X-Gm-Message-State: AD7BkJLzJlkX0TIFyaf6M2TGNCsSfJtAfxswu/lvDuc3tTxoNYY4R9daVCeEybr78rneR6dxY2N+a/wR5EP7S3oy
+X-Received: by 10.107.135.74 with SMTP id j71mr26076275iod.133.1460386123499; 
+	Mon, 11 Apr 2016 07:48:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 07:46:40 -0700 (PDT)
-In-Reply-To: <a9ea8a660f37bbcf917c71360512ab155241114e.1460085139.git.liezhi.yang@windriver.com>
+Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 07:48:24 -0700 (PDT)
+In-Reply-To: <CAJTo0LY9PMgCJXqAL8qw=u37UyTo+o=ykzGdb8Vv_4w+5O58ag@mail.gmail.com>
 References: <cover.1460085139.git.liezhi.yang@windriver.com>
 	<a9ea8a660f37bbcf917c71360512ab155241114e.1460085139.git.liezhi.yang@windriver.com>
+	<CAJTo0LY9PMgCJXqAL8qw=u37UyTo+o=ykzGdb8Vv_4w+5O58ag@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Apr 2016 15:46:40 +0100
-Message-ID: <CAJTo0LY9PMgCJXqAL8qw=u37UyTo+o=ykzGdb8Vv_4w+5O58ag@mail.gmail.com>
+Date: Mon, 11 Apr 2016 15:48:24 +0100
+Message-ID: <CAJTo0LZkC4Q22PNMKnjSA97v-7T1yxvne6kraBydNS9-PVOqjQ@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] pbzip2: fix for rebuild
@@ -54,52 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 14:47:00 -0000
-Content-Type: multipart/alternative; boundary=001a113ff020f6f6220530369dbf
+X-List-Received-Date: Mon, 11 Apr 2016 14:48:43 -0000
+Content-Type: multipart/alternative; boundary=001a113f9218205fe6053036a4d0
 
---001a113ff020f6f6220530369dbf
+--001a113f9218205fe6053036a4d0
 Content-Type: text/plain; charset=UTF-8
 
-On 8 April 2016 at 04:13, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 11 April 2016 at 15:46, Burton, Ross <ross.burton@intel.com> wrote:
 
-> +do_compile_prepend() {
-> +    # Update timestamp to fix rebuild
-> +    src_files="pbzip2.cpp BZ2StreamScanner.cpp ErrorContext.cpp"
-> +    for f in $src_files; do
-> +        if [ -f $f ]; then
-> +            touch $f
-> +        else
-> +            bbwarn "Regular file $f not found"
-> +        fi
-> +    done
+> Wouldn't "oe_runmake clean" be simpler?
 >
 
-Wouldn't "oe_runmake clean" be simpler?
+Or not disabling do_configure in the recipe, as base.bbclass's do_configure
+includes an invocation to make clean.
 
 Ross
 
---001a113ff020f6f6220530369dbf
+--001a113f9218205fe6053036a4d0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 April 2016 at 04:13, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":sln" cla=
-ss=3D"a3s" style=3D"overflow:hidden">+do_compile_prepend() {<br>
-+=C2=A0 =C2=A0 # Update timestamp to fix rebuild<br>
-+=C2=A0 =C2=A0 src_files=3D&quot;pbzip2.cpp BZ2StreamScanner.cpp ErrorConte=
-xt.cpp&quot;<br>
-+=C2=A0 =C2=A0 for f in $src_files; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -f $f ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 touch $f<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Regular file $f not=
- found&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 done</div></blockquote></div><br>Wouldn&#39;t &quot;oe_runma=
-ke clean&quot; be simpler?</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
+On 11 April 2016 at 15:46, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
+>Wouldn&#39;t &quot;oe_runmake clean&quot; be simpler?</div></blockquote><d=
+iv><br></div><div>Or not disabling do_configure in the recipe, as base.bbcl=
+ass&#39;s do_configure includes an invocation to make clean.</div><div><br>=
+</div><div>Ross</div></div></div></div>
 
---001a113ff020f6f6220530369dbf--
+--001a113f9218205fe6053036a4d0--
