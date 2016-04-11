@@ -1,32 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B786011B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB5870016
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 08:35:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3B8Zrgt028281; Mon, 11 Apr 2016 09:35:53 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TfgZGtJzRbLh; Mon, 11 Apr 2016 09:35:53 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3B8ZmIN028258
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 11 Apr 2016 09:35:50 +0100
-Message-ID: <1460363748.9308.30.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>, Robert Yang
-	<liezhi.yang@windriver.com>
-Date: Mon, 11 Apr 2016 09:35:48 +0100
-In-Reply-To: <20160411014945.GL16135@denix.org>
-References: <cover.1428410929.git.liezhi.yang@windriver.com>
-	<20160410225130.GK16135@denix.org> <570AFBA4.40201@windriver.com>
-	<20160411014945.GL16135@denix.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/2] unique -dev package
+	Mon, 11 Apr 2016 08:53:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3B8rNBr003643
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Apr 2016 01:53:23 -0700
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Apr 2016 01:53:22 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Apr 2016 01:53:21 -0700
+Message-ID: <0f84b26f1d1546b77ca15c3a6bac1c2d726ec3bd.1460364737.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1460364737.git.liezhi.yang@windriver.com>
+References: <cover.1460364737.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] linux-yocto-tiny: fix COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,58 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 08:35:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Apr 2016 08:53:25 -0000
+Content-Type: text/plain
 
-On Sun, 2016-04-10 at 21:49 -0400, Denys Dmytriyenko wrote:
-> On Mon, Apr 11, 2016 at 09:19:32AM +0800, Robert Yang wrote:
-> > On 04/11/2016 06:51 AM, Denys Dmytriyenko wrote:
-> > > On Tue, Apr 07, 2015 at 05:58:13AM -0700, Robert Yang wrote:
-> > > > Hello,
-> > > > 
-> > > > I think that one recipe should only have one -dev package, I'm
-> > > > not sure
-> > > > whether this is right or not, please feel free to give your
-> > > > comments, we
-> > > 
-> > > I know it is already 1 year since this change. But I can't seem
-> > > to find any
-> > > discussion or any explanation to why this change was required and
-> > > what
-> > > specific problem it was supposed to fix. Please point me to a
-> > > clear reasoning
-> > > of this change. Thanks.
-> > 
-> > There is only one source package, so there should be only one pack
-> > of header
-> > files, dev libs, and so on, and they should be placed in a uniq
-> > pkg.
-> 
-> Since you are using "should" twice in the same sentence, can you
-> please point 
-> me to a ratified RFC?
+It only works with qemux86, but mismatched qemux86-64 which caused
+runtime errros. (kernel is bigger, can't boot, no output, and so on).
 
-I couldn't seem to see the history of this discussion in my mail folder
-but I do remember some patches along these lines.
+Add '$' in the end to fix the problem.
 
-The reason for a single -dev package is that the "package chain"
-functions we have assumes this. I know there are some specific cases
-where we do have multiple -dev packages (qt4, gcc-runtime) but they are
-very much in the minority and are special cases.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-I'm definitely on record as saying the depchains code needs revisiting
-and redoing, preferably with a structured rethink so that we can better
-handle situations like this. Until that is done, multiple -dev packages
-can cause issues and we did remove some where there didn't seem to be
-any real benefit.
-
-Which case is causing problems for you?
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 4c79bfd..36f83b5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -17,7 +17,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 
+-COMPATIBLE_MACHINE = "(qemux86)"
++COMPATIBLE_MACHINE = "(qemux86$)"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index 9446da9..04e6258 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -17,7 +17,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+ 
+-COMPATIBLE_MACHINE = "(qemux86)"
++COMPATIBLE_MACHINE = "(qemux86$)"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
+-- 
+2.8.0
 
 
