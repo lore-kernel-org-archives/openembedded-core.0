@@ -1,35 +1,61 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id E91906018C
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EEA265CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 13:12:26 +0000 (UTC)
-Received: from vz-proxy-l005.mx.aol.com ([64.236.82.148])
-	by vms173025.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O5H001P90OB1U80@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 11 Apr 2016 08:12:12 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WcjxEBVX c=1 sm=1 tr=0	a=hkQRW7prCrFMEwk2DGUM9Q==:117
-	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=Q4-j1AaZAAAA:8 a=HihYlcsHAAAA:8
-	a=V7-QPi8DYQzvr882_fgA:9	a=CjuIK1q_8ugA:10 a=okya7ekcPOEA:10
-Received: by 100.15.86.14 with SMTP id 1954cb1b; Mon, 11 Apr 2016 13:12:12 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9F0AB161F8C; Mon,
-	11 Apr 2016 09:12:11 -0400 (EDT)
-Date: Mon, 11 Apr 2016 09:12:11 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-id: <20160411131210.GN16135@denix.org>
-References: <cover.1460297667.git.liezhi.yang@windriver.com>
-	<86645b1cea4e8cd70156e0fd5f4fb2480933b81d.1460297667.git.liezhi.yang@windriver.com>
-	<20160410190630.GI16135@denix.org> <570AFB23.9070507@windriver.com>
-	<CABcZANk80jGAHW4uUFqoF2DkMqh7wL2TpOVvQbo4-w+XXmMQwQ@mail.gmail.com>
-	<570B07DD.3080309@windriver.com> <20160411022925.GM16135@denix.org>
-MIME-version: 1.0
-In-reply-to: <20160411022925.GM16135@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH 1/1] base.bbclass: fix COMPATIBLE_MACHINE
+	Mon, 11 Apr 2016 13:28:10 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id c20so124123721pfc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Apr 2016 06:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=j8ftb8C8ArRoAbVf4OHbS+8QZmxWv9iSWv3qtmJbKus=;
+	b=kefIRlH4o9v02RdwLjh7LmaK9LcGyrF0/ufImWqC3x20P0yYuaJJBdehbLjRA46RlZ
+	c98M+JHDICQ/baHbdXzmhbECMY6xM8W8v/SbhV9hRq1tYrl92+fRjQZ9+BlPewABJx9f
+	4G21PxNTmPa2xigWk5fr7xYo1/q0cg8o9eT48Z3vA7pBfB1s372xnu02ErT98ZzAO4aU
+	p1PejggdoeTFaat0zMtRu2n8ZKjrjm5EP4zEynOeKA/bdgEPQzRRFWVSk9w5ZBRovyL7
+	KWeMuxD9JScVo+t/WaTDvFsYkDxvKv36Hv2ew4OP/DnXQMQj+qGY6ngLfqiM2SFioOUE
+	Yy/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=j8ftb8C8ArRoAbVf4OHbS+8QZmxWv9iSWv3qtmJbKus=;
+	b=Dp3Ue0oz2c8xD43cuL/iHNz1PpXoe+iu48JAWpBpreet0ZvPlU5wAQpZ0WTJ/+Z5Aa
+	n6Sg+X9F8aTqphx8Hdyuj72jDH3cfx/+OJF2rtuvK7epQk1cwyd101wWFsCW0W1QwuOf
+	GCGv7GmyvgkmO+gRsUEPAFiFwmTgPb+7Wqqd+RGMIQvDNLOk6a2JJ9b55LlEpjDZoEMP
+	3fpoEYCvkEjmSy+FE67c6hhZ7aP7gWvu5l7BNl72LWHlzyA+lIMkk1INTjFsusK+l0wD
+	a2BWNC2HmfNh6E9XKZTTBdeuirgoKKdeyxERlbBM3C5a/tYQoO9HvdOkGzsvJBDUhzZF
+	UIJA==
+X-Gm-Message-State: AD7BkJLu1PbuyJr9Is53300/znNSOMGiv4g3ighpfzw8NGWE464mWPeafCyv7csi5iveUw==
+X-Received: by 10.98.80.150 with SMTP id g22mr32759325pfj.132.1460381290898;
+	Mon, 11 Apr 2016 06:28:10 -0700 (PDT)
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com.
+	[209.85.192.172])
+	by smtp.gmail.com with ESMTPSA id y3sm14946300par.2.2016.04.11.06.28.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Apr 2016 06:28:09 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f172.google.com with SMTP id 184so124334542pff.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Apr 2016 06:28:09 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.98.80.10 with SMTP id e10mr32799375pfb.141.1460381288953;
+	Mon, 11 Apr 2016 06:28:08 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Mon, 11 Apr 2016 06:28:08 -0700 (PDT)
+In-Reply-To: <1460232711-23433-1-git-send-email-juro.bystricky@intel.com>
+References: <1460232711-23433-1-git-send-email-juro.bystricky@intel.com>
+Date: Mon, 11 Apr 2016 10:28:08 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo1b2o4LaMPmnrLg=Mz1NEgE2fCpXBrYyVooDMuBBAJmg@mail.gmail.com>
+Message-ID: <CAP9ODKo1b2o4LaMPmnrLg=Mz1NEgE2fCpXBrYyVooDMuBBAJmg@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] build-appliance-image: Support for VirtualBox guest additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +68,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 13:12:28 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 11 Apr 2016 13:28:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-> > Since introduced ? I did a grep in oe-core and meta-openembedded, it seems
-> > that no ?
-> 
-> Not really sure what you are trying to say here... Are you arguing that it was 
-> never used as a regular expression? I beg to differ and I can provide multiple 
-> examples for that:
-> 
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-devtools/nodejs/nodejs_4.4.1.bb#n8
-> http://arago-project.org/git/?p=meta-arago.git;a=blob;f=meta-arago-distro/recipes-core/images/arago-console-image.bb;hb=HEAD#l6
-> 
-> It was like that for 15+ years, since OpenEmbedded Classic days...
+On Sat, Apr 9, 2016 at 5:11 PM, Juro Bystricky <juro.bystricky@intel.com> wrote:
+> Add support for VirtualBox guest additions.
+> The additions are built inside the Build Appliance VM.
+> For this to be possible, the environment for out-of-tree kernel module builds
+> must be present and set up properly.
+> A README file with detailed steps on how to build the guest additions is placed
+> in the home directory of the user "builder" as well.
+> The main purpose of the guest additions is to allow sharing folders between
+> the host and Build Appliance VM.
+>
+> [YOCTO #8073]
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 
-Oops, that does sound more impressive, but I meant 10+ years - my math failed 
-me that late at night... :)
+We have guestadditions (without X driver) supported on meta-oe, why
+not included this here and avoid all this manual work from the end
+user?
 
 -- 
-Denys
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
