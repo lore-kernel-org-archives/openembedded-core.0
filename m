@@ -1,53 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-ob0-f196.google.com (mail-ob0-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 422C371E63
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D45D6FF23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 14:14:49 +0000 (UTC)
-Received: by mail-ob0-f196.google.com with SMTP id 4so12417434obi.2
+	Mon, 11 Apr 2016 14:46:59 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id u185so43858909iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 07:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=8J0CL/8qYoftEsZkjgOcTmuqm2AIY5y07jV11QjuIM4=;
-	b=yBsos1yeQlOVIVaIccE8exWNDp1M41aGeABlXxFXXOV4GFDknUVrOiaKDyvdtZHfZJ
-	DMLr11hxzGkrTqwozasBz3pgJl9b3RCv96FMqG/ZxzqU1FsQRlauGz/h/EsmZXivd0XS
-	tPoZpLDX9UZ9h18BSiZSdhf8/kWOAA8Pbdt/B2IdrMxH6nUW9ArG5nrsVjFglrkIwYbW
-	Lm+uBjUJNPdnNCuhpC+eR8sqkiNG0hg7EYcF+1r+TdnNKjL6iqsxlu08MLnNqVrZ+8i3
-	xFgwKj/s887PamQYOtjm8Azi8RTHi0OAptSyuo1lilBOtFl1PuRpA9CmZfm24gb0mqm2
-	kYVg==
+	Mon, 11 Apr 2016 07:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AqfrPeGxGuhAAtzwiaQ/Z9ibSZOuckyBjI6IS2ddvak=;
+	b=AQTvq4Abnc2ZxkWa7ld9FkUF2oQP+eUY+sIs0PrvV6GIcloXfoCH4Tjuex+tZAXUBt
+	GqTcp0eKLxauJcFRvQrCPZm1vuQ0Kl7TD55a5PjUJJijed6gv15dDUkTeF3uU4apTYAu
+	iwiGlY8wR/o8wgNAxjjEG626w6INZxJEy+uJ6RS3HGdkazj5MWM3w9sb6Oa9DHeLd+kX
+	P8nuoH3ITNFlr4faJK4tqe1aof1JwYlDAMpaE/ZmiycjmHS+EazGNiQ39zlb3l5iqOYF
+	g+MXqgAJfBTM/uZp8Mf41Y14NqPrW+Kw9Th91xjLxjv/NjIqaL0XxhshWS5/q8kQaeHn
+	l/FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=8J0CL/8qYoftEsZkjgOcTmuqm2AIY5y07jV11QjuIM4=;
-	b=kzzI+RkhFTV6evzmbK8G/zDpP4FFhiADbJvNshjlaHmafPT/5T2bMtmUTkKqzry0z1
-	jybltH6FU+MBKKncyA7Yug1QIFvmK0CAduyKCnKexgJi7/XN0esCxb/SdZ2tLniM+yFk
-	0CogVUxVFFBtJ40RiD4hSEZkaqqxy6Tg5R74YAgSk23PiVc1ZDBS86p3l7LShbNQd+tY
-	bgNyiCPo1tNhZ3FOOBoh8GjnY/taIB8NcXrmRN1cVxpPUdVXEq77UDiBEb6bhX0a2Ulh
-	g6prhlzxBeW4A5N/pHVNL8oc7SzGbKXUeEJGFs/NZUxo01atAsGAGmxkKzpMrDq2xitw
-	xsiA==
-X-Gm-Message-State: AD7BkJLzAtL6rVOfM7hCGj3IrkpHZ5kMbDaUV77+XANhzdDeX3AkPm3BMixujyxlPifRxw==
-X-Received: by 10.60.129.166 with SMTP id nx6mr10541256oeb.13.1460384090543;
-	Mon, 11 Apr 2016 07:14:50 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:cac:bf3:bc26:fd0c?
-	([2601:202:4000:1239:cac:bf3:bc26:fd0c])
-	by smtp.googlemail.com with ESMTPSA id
-	q1sm8306321obi.20.2016.04.11.07.14.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Apr 2016 07:14:49 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <cover.1460359568.git.liezhi.yang@windriver.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <570BB157.4050708@gmail.com>
-Date: Mon, 11 Apr 2016 07:14:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AqfrPeGxGuhAAtzwiaQ/Z9ibSZOuckyBjI6IS2ddvak=;
+	b=ausEC+TtkRmPSSwhtdJS81GFg147nZNjXlhKQYGef0P0X5ZVr6da6kTH+oPN8tRobH
+	rHmSaGD7KZYtBjfkFXqQaQWFzcdTsNQwOqcdw0ZS/j+l0mOYfBpbDhB84oRcG8CbH8ae
+	PIe2prx46eFVmCxR5XfjaQNPxy15vvL2hDs/i6+2YocJ1B2l/nBctPuOr42OQYJq3Fub
+	VwpH/ue9xfVkt4bfL21tMg2j90PoXWTXAertyDPF4n2l4XuVF+l9tF6PBC0W6AkeVlKB
+	h2sq3MD0qHsyPAvq/1EeUGtMNCgX8x63TBuWhH1KQl9dK3V8ME9jg2dIpzn4Kiw2IEYC
+	5v+Q==
+X-Gm-Message-State: AD7BkJK7Nlqpi+F8Yd2QGwGbmzCMOD1s6zjrNCRdsO9IBkCIzfZsjwzUAi6KA5foA84Fxc5aGovFRqKBfysIG8VM
+X-Received: by 10.107.16.104 with SMTP id y101mr21913961ioi.148.1460386020122; 
+	Mon, 11 Apr 2016 07:47:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1460359568.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 00/14] [jethro] Consolidated pull
+Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 07:46:40 -0700 (PDT)
+In-Reply-To: <a9ea8a660f37bbcf917c71360512ab155241114e.1460085139.git.liezhi.yang@windriver.com>
+References: <cover.1460085139.git.liezhi.yang@windriver.com>
+	<a9ea8a660f37bbcf917c71360512ab155241114e.1460085139.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Apr 2016 15:46:40 +0100
+Message-ID: <CAJTo0LY9PMgCJXqAL8qw=u37UyTo+o=ykzGdb8Vv_4w+5O58ag@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] pbzip2: fix for rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,96 +54,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 14:14:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Apr 2016 14:47:00 -0000
+Content-Type: multipart/alternative; boundary=001a113ff020f6f6220530369dbf
 
+--001a113ff020f6f6220530369dbf
+Content-Type: text/plain; charset=UTF-8
 
+On 8 April 2016 at 04:13, Robert Yang <liezhi.yang@windriver.com> wrote:
 
+> +do_compile_prepend() {
+> +    # Update timestamp to fix rebuild
+> +    src_files="pbzip2.cpp BZ2StreamScanner.cpp ErrorContext.cpp"
+> +    for f in $src_files; do
+> +        if [ -f $f ]; then
+> +            touch $f
+> +        else
+> +            bbwarn "Regular file $f not found"
+> +        fi
+> +    done
+>
 
+Wouldn't "oe_runmake clean" be simpler?
 
-On 04/11/2016 12:29 AM, Robert Yang wrote:
-> The following changes since commit 4d879cb8d7384ac4a96f22c1664b8875f2d8f615:
-> 
->   devtool: extract: update SRCTREECOVEREDTASKS for kernel (2016-03-20 10:22:55 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/jethro-next
+Ross
 
-please cherry-pick the timezone updates too.
+--001a113ff020f6f6220530369dbf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tdata:
-d3ab7005f0c899da9f9f132b22861bd5d4f952ba
-66031bcf8cec2e8e7a6803f2c6cfc2c2ba071ffe
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 April 2016 at 04:13, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":sln" cla=
+ss=3D"a3s" style=3D"overflow:hidden">+do_compile_prepend() {<br>
++=C2=A0 =C2=A0 # Update timestamp to fix rebuild<br>
++=C2=A0 =C2=A0 src_files=3D&quot;pbzip2.cpp BZ2StreamScanner.cpp ErrorConte=
+xt.cpp&quot;<br>
++=C2=A0 =C2=A0 for f in $src_files; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -f $f ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 touch $f<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Regular file $f not=
+ found&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++=C2=A0 =C2=A0 done</div></blockquote></div><br>Wouldn&#39;t &quot;oe_runma=
+ke clean&quot; be simpler?</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">Ross</div></div>
 
-and
-tzcode:
-0c4816c1f723951179988a274f236f28fe4db20f
-41adb87c2f1aa20e51f1af3542d65c920eb94be6
-
-
-> 
-> Awais Belal (2):
->   systemd-serialgetty: allow baud rate overriding
->   lttng-tools: fix regression tests hang
-> 
-> Bill Randle (1):
->   systemd: fix segfault on shutdown
-> 
-> Brad Mouring (2):
->   busybox-1.23: Backport patch to fix zcip false-conflict
->   busybox_git: Fix SRCREV
-> 
-> Christopher Larson (1):
->   systemd: chown hwdb.bin to root:root for do_rootfs
-> 
-> Javier Viguera (1):
->   bluez5: allow D-Bus to spawn obexd in systems without systemd
-> 
-> Juro Bystricky (1):
->   python3: fix building nativesdk-python3
-> 
-> Khem Raj (1):
->   ruby-native: Depend on openssl-native
-> 
-> Li Xin (1):
->   gcc-cross-canadian.inc: add INSANE_SKIP_ to avoid build warning
-> 
-> Lukas Bulwahn (1):
->   boost: ensure boost to remain an empty metapackage
-> 
-> Ross Burton (2):
->   cdrtools: update SRC_URI
->   ncurses: update SRC_URI
-> 
-> Ulrich Ölmann (1):
->   nfs-utils: bugfix: adjust name of statd service unit
-> 
->  meta/recipes-connectivity/bluez5/bluez5.inc        |   1 +
->  ...-obexd-without-systemd-in-the-user-sessio.patch |  63 +++
->  .../files/bugfix-adjust-statd-service-name.patch   |  34 ++
->  .../nfs-utils/nfs-utils_1.3.1.bb                   |   1 +
->  ...wrong-comparison-of-source-IP-with-our-IP.patch |  38 ++
->  meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
->  meta/recipes-core/busybox/busybox_git.bb           |   2 +-
->  meta/recipes-core/ncurses/ncurses_5.9.bb           |   6 +-
->  .../systemd-serialgetty/serial-getty@.service      |   2 +-
->  .../0023-backported-fixes-for-null-messages.patch  | 101 +++++
->  meta/recipes-core/systemd/systemd_225.bb           |   2 +
->  .../cdrtools/cdrtools-native_3.01a31.bb            |   2 +-
->  meta/recipes-devtools/gcc/gcc-cross-canadian.inc   |   2 +
->  meta/recipes-devtools/python/python3_3.4.3.bb      |   1 +
->  meta/recipes-devtools/ruby/ruby.inc                |   2 +-
->  .../lttng/lttng-tools/Fix-regression-tests.patch   | 480 +++++++++++++++++++++
->  meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb     |   1 +
->  meta/recipes-support/boost/boost.inc               |   1 +
->  18 files changed, 734 insertions(+), 6 deletions(-)
->  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
->  create mode 100644 meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
->  create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0023-backported-fixes-for-null-messages.patch
->  create mode 100644 meta/recipes-kernel/lttng/lttng-tools/Fix-regression-tests.patch
-> 
-
+--001a113ff020f6f6220530369dbf--
