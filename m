@@ -1,55 +1,52 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EDC96010B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9686B6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 19:36:11 +0000 (UTC)
-Received: by mail-pf0-f181.google.com with SMTP id c20so129701768pfc.1
+	Mon, 11 Apr 2016 19:40:29 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id 2so223185696ioy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 12:36:13 -0700 (PDT)
+	Mon, 11 Apr 2016 12:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to;
-	bh=7ERFpT5dm83cZoXmHELiWOE2XsfeNcDcMh18kUTSli8=;
-	b=Rv/BoL55po7RITfKkQlvb5Xb/CPmk/L0x8SEBbDyjbQ7+nHS5u52nUYfnwPPgKgWr7
-	V+fH8E+d5iUky2fwW/ZfGbWnk3dFWj8eiutvecz3ZH5spF3ZgNE+p0ONFHPmJ+HVfo9B
-	FzoZTRiqgdflqv/4lm1W+970B/eHzOg4FKi7wVfhFOs0Sm2aMulp4rPYXBOb3JLqRQHc
-	K0EIJWYQMGNVabj/rlaFFXWcEy4r7q8JF4a9x+zrNsCotZAJ94rfTNjq3osX0LzyyIdq
-	jNucCNl4dcxbSdBE7pDby7RQ19/Z++46N+LwJy5UaIMB6YpGAQJoSBqz055z3ufJVQOI
-	/WRg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TnsJ7Gop9yrjsui65d0D8YkAbeYXbrhFou1/eFs4DIw=;
+	b=hfpC9IYMlq6aRSoL/0ftsR8J7f/MLVe6NWjYy9U4WoRK4f19mcL7MlXfF3ZAR7sw8d
+	B4QUcVLvn3GoU06RAxdVA4pl47jJ3sIVB1kLDxSVqcuHAhTn4JHLiboaCCxq9YvC6cQ3
+	lp3JHjv1ZhNt/TizbvcUVsiXIh5AmEToqePfj72EZpACNUsN9P4MNgH/VF7+XmcXYckb
+	uFsmUZ4O/sAr3mCp+KZ0w5b6L/avbL+1Xc8rjT/xVS99JITFCG6EpM6zSelAB9ynB3kk
+	I1QNnjt46vK2INwX6/v7Ahk9rOO00bcidOm72liANB3eh0D5TmvaJsEXnnJAhNi+hNHj
+	aDeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to;
-	bh=7ERFpT5dm83cZoXmHELiWOE2XsfeNcDcMh18kUTSli8=;
-	b=DunVI3Xj6KsPe9gYcjYzhS5BEDALdmT7Ls9lCyhBHLiR8FW+o20Zyazt/pl5RdCkAa
-	D3Oo8yDlsVEOme5aZbPgGqB0VH7DR6C/FSp+s6gu9s2WR+qdBK+was6Erpa+1Uc0dFly
-	m9u7KVMcft5VBEmIvu6gtVZg7aXjSL281X5NXvOSkemT/wny0ONMZw8jUUVdfJlcrBPm
-	6Kri6wj5h0CkoyTZQHR7xbsgkasUJcu4/8tW89vwNoufQx3u2lu04sPgyPJn319J9VDJ
-	sAUhiFPcXypnveYqStgo9LsGtvH0MdHVlDrxpQtyDnUs7TVHfY3lCE3xcE3RgIEQEql6
-	6Y6Q==
-X-Gm-Message-State: AD7BkJKA2zljCTuzJwlUpcjLq76654M647WkP7RppqKHE8ZUa3HAFq2aS3VvZISypipmHA==
-X-Received: by 10.98.66.155 with SMTP id h27mr34998170pfd.91.1460403372771;
-	Mon, 11 Apr 2016 12:36:12 -0700 (PDT)
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com.
-	[209.85.192.171]) by smtp.gmail.com with ESMTPSA id
-	u2sm38017957pfi.26.2016.04.11.12.36.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Apr 2016 12:36:11 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f171.google.com with SMTP id e128so129585463pfe.3;
-	Mon, 11 Apr 2016 12:36:11 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TnsJ7Gop9yrjsui65d0D8YkAbeYXbrhFou1/eFs4DIw=;
+	b=UjxnUcwTwNCeLnjTvrLKy5EhNmPpVTftFT7vJm4aApWdifpnZU7ipq/SmKqAPv50k5
+	ve9e6EEpqq34wiuIcqxrgFKLoZg/0JuneQVuecYZyktvCO6mT2N2xrZFXXQ1zRbA+05c
+	NVeidRSC4Y+xQtWYZPMzYrxcmUAvriwLRBhzLnQAo6UcWGj3cfUe/lV57s12lhEvvomC
+	1iJZiXddZ4cllVJjAvdcEQlvhfcYbLb0mq6e2KykB0b6wxxCy40z9y5DCy1otdpejyJ4
+	mmut43aDjznoYmNXC8z93eaDSxx18fEwjdDt8PRZPdSHW/dUG/p6qPGxyfcOWSS/1OP8
+	IIhw==
+X-Gm-Message-State: AD7BkJI90KfHobSEf5bJy3lxvfQhlxLoU6v40UQUN5EfKj7pP21pu6fyvPTN2hK7OLqmc8dcVm9YBJRnFCue56T1
+X-Received: by 10.107.16.104 with SMTP id y101mr23400041ioi.148.1460403629880; 
+	Mon, 11 Apr 2016 12:40:29 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.98.67.139 with SMTP id l11mr35082228pfi.112.1460403370677;
-	Mon, 11 Apr 2016 12:36:10 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Mon, 11 Apr 2016 12:36:10 -0700 (PDT)
-Date: Mon, 11 Apr 2016 16:36:10 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrY-j+KEjRnggfRwpXXZyCWngNZ7xMkL5=Z5QV0b9R+uQ@mail.gmail.com>
-Message-ID: <CAP9ODKrY-j+KEjRnggfRwpXXZyCWngNZ7xMkL5=Z5QV0b9R+uQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Subject: [ANN] Yocto Explorer: command line tool to ease the manipulation of files inside Yocto Project based systems
+Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 12:40:10 -0700 (PDT)
+In-Reply-To: <20160411191022.GS16135@denix.org>
+References: <cover.1428410929.git.liezhi.yang@windriver.com>
+	<20160410225130.GK16135@denix.org> <570AFBA4.40201@windriver.com>
+	<20160411014945.GL16135@denix.org>
+	<1460363748.9308.30.camel@linuxfoundation.org>
+	<20160411134240.GO16135@denix.org> <570BB0B6.4070907@mlbassoc.com>
+	<20160411191022.GS16135@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Apr 2016 20:40:10 +0100
+Message-ID: <CAJTo0LaerKQtF-z-nmAHvzQR0HGbnUc8+HB40=iN8bYZgtANKg@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/2] unique -dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,31 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 19:36:13 -0000
+X-List-Received-Date: Mon, 11 Apr 2016 19:40:30 -0000
+Content-Type: multipart/alternative; boundary=001a113ff020968eea05303ab7ff
+
+--001a113ff020968eea05303ab7ff
 Content-Type: text/plain; charset=UTF-8
 
-[ DISCLAIMER: I am posting this here as many people may find it
-useful, I would like to apologize in advance for any inconvenience ]
+On 11 April 2016 at 20:10, Denys Dmytriyenko <denis@denix.org> wrote:
 
-ye[1] is a command line tool to ease the manipulation of files under
-the directory structure adopted by O.S. Systems (using repo tool) to
-organize projects that use the Yocto Project. ye provides means to
-quickly locate files and directories into projects' directory tree,
-and act on them.
+> So, why -dbg cannot follow the example of -dev and -staticdev packages?
+> I.e.
+> in your ffmpeg example it would mean creating all the necessary libblah-dbg
+> packages. Why isn't it the option?
+>
 
-1. http://code.ossystems.com.br/gitweb?p=apps/ye.git;a=summary
-    http://code.ossystems.com.br/p/apps/ye.git
+To save time and effort the debug packaging happens automatically in modern
+OE, so it's actually effort to split the debug files into multiple
+packages.  If you split the packaging from PN-dbg to libfoo-dbg libbar-dbg,
+where does the debug source go?  There's even more packages to follow the
+dependencies for now too.
 
-I won't paste the full documentation about the tool as it would flood
-people not intending to use it, however there is a fairly complete
-documentation in our doc[2] server.
+As much as I'd like to see 9104 disappear (being the assignee for it), I do
+think that supporting a single -dbg package is the right thing to do.
 
-2. http://doc.ossystems.com.br/ye.html
+Ross
 
-Thanks in advance,
+--001a113ff020968eea05303ab7ff
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 April 2016 at 20:10, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":uer" class=3D"a3s" s=
+tyle=3D"overflow:hidden">So, why -dbg cannot follow the example of -dev and=
+ -staticdev packages? I.e.<br>
+in your ffmpeg example it would mean creating all the necessary libblah-dbg=
+<br>
+packages. Why isn&#39;t it the option?</div></blockquote></div><br>To save =
+time and effort the debug packaging happens automatically in modern OE, so =
+it&#39;s actually effort to split the debug files into multiple packages.=
+=C2=A0 If you split the packaging from PN-dbg to libfoo-dbg libbar-dbg, whe=
+re does the debug source go?=C2=A0 There&#39;s even more packages to follow=
+ the dependencies for now too.</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">As much as I&#39;d like to see 9104 disappear (bei=
+ng the assignee for it), I do think that supporting a single -dbg package i=
+s the right thing to do.</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
 
+--001a113ff020968eea05303ab7ff--
