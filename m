@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4C46FF7F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 90AF0731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 07:29:19 +0000 (UTC)
+	Mon, 11 Apr 2016 07:29:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3B7TKBb000563
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3B7TLHr022922
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 00:29:20 -0700
+	Mon, 11 Apr 2016 00:29:21 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 11 Apr 2016 00:29:19 -0700
+	Mon, 11 Apr 2016 00:29:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Apr 2016 00:29:06 -0700
-Message-ID: <60bad322f6e6ff0d0f124e0f5143f4b2034e3041.1460359568.git.liezhi.yang@windriver.com>
+Date: Mon, 11 Apr 2016 00:29:07 -0700
+Message-ID: <27524c3315a49b16d7b057aa38a95d2c0072e774.1460359568.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1460359568.git.liezhi.yang@windriver.com>
 References: <cover.1460359568.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/14] busybox-1.23: Backport patch to fix zcip false-conflict
+Subject: [PATCH 04/14] busybox_git: Fix SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 07:29:20 -0000
+X-List-Received-Date: Mon, 11 Apr 2016 07:29:22 -0000
 Content-Type: text/plain
 
 From: Brad Mouring <brad.mouring@ni.com>
 
-Busybox upstream fixed the issue where an incorrect comparison of
-addresses led to bogus renegotiation of a new ll ip in 1.24. Backport
-this change to 1.23.2.
+The SRCREV in the busybox git recipe did not point to a commit ID
+on the master branch. Point the variable to something reachable from
+the master branch (which fixes this recipe's fetch()).
 
+Suggested-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Brad Mouring <brad.mouring@ni.com>
 ---
- ...wrong-comparison-of-source-IP-with-our-IP.patch | 38 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.23.2.bb        |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
+ meta/recipes-core/busybox/busybox_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch b/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
-new file mode 100644
-index 0000000..dec5eb5
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
-@@ -0,0 +1,38 @@
-+From 4d15068d83054a9f82b3f8842706cd6deb401e25 Mon Sep 17 00:00:00 2001
-+From: Vladislav Grishenko <themiron@mail.ru>
-+Date: Thu, 19 Mar 2015 16:19:35 +0500
-+Subject: [PATCH] zcip: fix wrong comparison of source IP with our IP
-+
-+Commit "zcip: fix link-local IP conflict detection" has introduced
-+wrong comparsion of source IP with our IP. This leads to a new IP
-+being picked unnecessarily on every incoming ARP packet.
-+
-+Signed-off-by: Vladislav Grishenko <themiron@mail.ru>
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+This change was picked from Busybox without modification
-+(git://git.busybox.net/busybox, commit 4d15068)
-+
-+Upstream-Status: Backport (added in 1.24)
-+Signed-off-by: Brad Mouring <brad.mouring@ni.com>
-+
-+---
-+ networking/zcip.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/networking/zcip.c b/networking/zcip.c
-+index a3307c5..962ba2e 100644
-+--- a/networking/zcip.c
-++++ b/networking/zcip.c
-+@@ -521,7 +521,7 @@ int zcip_main(int argc UNUSED_PARAM, char **argv)
-+ 			target_ip_conflict = 0;
-+ 
-+ 			if (memcmp(&p.arp.arp_sha, &eth_addr, ETH_ALEN) != 0) {
-+-				if (memcmp(p.arp.arp_spa, &ip.s_addr, sizeof(struct in_addr))) {
-++				if (memcmp(p.arp.arp_spa, &ip.s_addr, sizeof(struct in_addr)) == 0) {
-+ 					/* A probe or reply with source_ip == chosen ip */
-+ 					source_ip_conflict = 1;
-+ 				}
-+-- 
-+2.7.3
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 7258df0..5edcbfd 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
-            file://0002-Passthrough-r-to-linker.patch \
-            file://0001-randconfig-fix.patch \
-+           file://0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch \
-            file://mount-via-label.cfg \
-            file://sha1sum.cfg \
-            file://sha256sum.cfg \
+diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
+index ade72f4..7c1b650 100644
+--- a/meta/recipes-core/busybox/busybox_git.bb
++++ b/meta/recipes-core/busybox/busybox_git.bb
+@@ -1,6 +1,6 @@
+ require busybox.inc
+ 
+-SRCREV = "be947c4d97c0dacb703a6f24dd813ff6dd3a33b6"
++SRCREV = "4d15068d83054a9f82b3f8842706cd6deb401e25"
+ # Lookout for PV bump too when SRCREV is changed
+ PV = "1.23.2+git${SRCPV}"
+ 
 -- 
 2.7.4
 
