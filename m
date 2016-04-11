@@ -1,48 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FDC86FF23
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF2E60721
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 14:48:42 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id g185so211754374ioa.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 07:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Fj4jyzEHbBml+25MGQn67WrV0m8whxfvSoQI1JtIgVo=;
-	b=IH0d6FxvkxSNHv1RETP15x9yTIzsATT8zVDNa63Vty8yT7NxMxWsh9pUbmtvIEXHfP
-	cPEuQMVL+5BoH1UsK9cROIeq63SzFVJx9EN+xWTish5kFBicuQYr6caaM+w+UgpK5m3o
-	CHm49Q89YcrN1qUq5VfAcM758g0O8i+8KH8xYzEQ2H2dqKgP6ped5l4nf6GJNfrkxTwk
-	RhBmHdOmiYJb6hXJyLvdCHl3Hx/8mwHMBl26nPLYNZvUmwalReSjVqqK1XxbqtSJnwv9
-	xymEZMIiPKtipb7/FaujnMwXI9mdu2AouUhRIuSZ0hSIsYC7cpmePsJSKhhf+491kawF
-	qc4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Fj4jyzEHbBml+25MGQn67WrV0m8whxfvSoQI1JtIgVo=;
-	b=gKH6BT/l3wJQ6YM5CV4sSuxMALZsiRkfilC7r4ZICkXaFxR5vXBnb1DJGPHou134t6
-	OYqFtt2VoOGJqdrx46hHhk96fTKm+CgifpTjzSxRni+xyROl4SjBJmx00iZFoTkFrC8T
-	Y8Cl/KAgJpNPZ9n2dn3lFbrAigYCwDWMOJ6lhrSluP6Fbc6GT2E2fALutEWYdTl7+k6s
-	ujnW+CLIsfb5mY4jc4mXVAlXAZ+w6U3cJ2B7oF4+vJ9VUCPhrTueYxYnv94W7CWwQxwU
-	G5GQDacBS0jerl7PafPmRFg5/wwC9TI52A+sePS/MqhOBiTOlAp/7n1qcjGk5nABKfDl
-	pQ3g==
-X-Gm-Message-State: AD7BkJLzJlkX0TIFyaf6M2TGNCsSfJtAfxswu/lvDuc3tTxoNYY4R9daVCeEybr78rneR6dxY2N+a/wR5EP7S3oy
-X-Received: by 10.107.135.74 with SMTP id j71mr26076275iod.133.1460386123499; 
-	Mon, 11 Apr 2016 07:48:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 07:48:24 -0700 (PDT)
-In-Reply-To: <CAJTo0LY9PMgCJXqAL8qw=u37UyTo+o=ykzGdb8Vv_4w+5O58ag@mail.gmail.com>
-References: <cover.1460085139.git.liezhi.yang@windriver.com>
-	<a9ea8a660f37bbcf917c71360512ab155241114e.1460085139.git.liezhi.yang@windriver.com>
-	<CAJTo0LY9PMgCJXqAL8qw=u37UyTo+o=ykzGdb8Vv_4w+5O58ag@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Apr 2016 15:48:24 +0100
-Message-ID: <CAJTo0LZkC4Q22PNMKnjSA97v-7T1yxvne6kraBydNS9-PVOqjQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] pbzip2: fix for rebuild
+	Mon, 11 Apr 2016 14:58:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 11 Apr 2016 07:58:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,462,1455004800"; d="scan'208";a="952588867"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2016 07:58:49 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Apr 2016 06:55:35 +0000
+Message-Id: <1460357735-34044-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] oeqa/runexported.py: Fix exported test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +28,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 14:48:43 -0000
-Content-Type: multipart/alternative; boundary=001a113f9218205fe6053036a4d0
+X-List-Received-Date: Mon, 11 Apr 2016 14:58:54 -0000
 
---001a113f9218205fe6053036a4d0
-Content-Type: text/plain; charset=UTF-8
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-On 11 April 2016 at 15:46, Burton, Ross <ross.burton@intel.com> wrote:
+With the changes introduced to test the eSDK
+the runexported test failed during the execution.
 
-> Wouldn't "oe_runmake clean" be simpler?
->
+This change fix runexported test in the least invasive
+way, because of the release cycle.
 
-Or not disabling do_configure in the recipe, as base.bbclass's do_configure
-includes an invocation to make clean.
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/oetest.py         |  6 +++++-
+ meta/lib/oeqa/runexported.py    | 19 ++++++++++---------
+ meta/lib/oeqa/utils/commands.py |  6 +++++-
+ 3 files changed, 20 insertions(+), 11 deletions(-)
 
-Ross
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index fc1e8b5..8eb84ed 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -19,7 +19,11 @@ except ImportError:
+ import logging
+ 
+ import oeqa.runtime
+-import oeqa.sdkext
++# Exported test doesn't require sdkext
++try:
++    import oeqa.sdkext
++except ImportError:
++    pass
+ from oeqa.utils.decorators import LogResults, gettag, getResults
+ from oeqa.utils import avoid_paths_in_environ
+ 
+diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
+index e9a2912..cc89e13 100755
+--- a/meta/lib/oeqa/runexported.py
++++ b/meta/lib/oeqa/runexported.py
+@@ -30,7 +30,7 @@ except ImportError:
+ 
+ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "oeqa")))
+ 
+-from oeqa.oetest import runTests
++from oeqa.oetest import TestContext
+ from oeqa.utils.sshcontrol import SSHControl
+ from oeqa.utils.dump import get_host_dumper
+ 
+@@ -49,7 +49,7 @@ class FakeTarget(object):
+     def exportStart(self):
+         self.sshlog = os.path.join(self.testdir, "ssh_target_log.%s" % self.datetime)
+         sshloglink = os.path.join(self.testdir, "ssh_target_log")
+-        if os.path.exists(sshloglink):
++        if os.path.lexists(sshloglink):
+             os.remove(sshloglink)
+         os.symlink(self.sshlog, sshloglink)
+         print("SSH log file: %s" %  self.sshlog)
+@@ -69,10 +69,9 @@ class MyDataDict(dict):
+     def getVar(self, key, unused = None):
+         return self.get(key, "")
+ 
+-class TestContext(object):
+-    def __init__(self):
+-        self.d = None
+-        self.target = None
++class ExportTestContext(TestContext):
++    def __init__(self, d):
++        self.d = d
+ 
+ def main():
+ 
+@@ -121,7 +120,9 @@ def main():
+     host_dumper.parent_dir = loaded["host_dumper"]["parent_dir"]
+     host_dumper.cmds = loaded["host_dumper"]["cmds"]
+ 
+-    tc = TestContext()
++    target.exportStart()
++    tc = ExportTestContext(d)
++
+     setattr(tc, "d", d)
+     setattr(tc, "target", target)
+     setattr(tc, "host_dumper", host_dumper)
+@@ -129,8 +130,8 @@ def main():
+         if key != "d" and key != "target" and key != "host_dumper":
+             setattr(tc, key, loaded[key])
+ 
+-    target.exportStart()
+-    runTests(tc)
++    tc.loadTests()
++    tc.runTests()
+ 
+     return 0
+ 
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 32e001c..48f6441 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -18,7 +18,11 @@ from oeqa.utils import CommandError
+ from oeqa.utils import ftools
+ import re
+ import contextlib
+-import bb
++# Export test doesn't require bb
++try:
++    import bb
++except ImportError:
++    pass
+ 
+ class Command(object):
+     def __init__(self, command, bg=False, timeout=None, data=None, **options):
+-- 
+2.6.2
 
---001a113f9218205fe6053036a4d0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 April 2016 at 15:46, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
->Wouldn&#39;t &quot;oe_runmake clean&quot; be simpler?</div></blockquote><d=
-iv><br></div><div>Or not disabling do_configure in the recipe, as base.bbcl=
-ass&#39;s do_configure includes an invocation to make clean.</div><div><br>=
-</div><div>Ross</div></div></div></div>
-
---001a113f9218205fe6053036a4d0--
