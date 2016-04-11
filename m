@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B38CC6011B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B5D66011B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 07:29:26 +0000 (UTC)
+	Mon, 11 Apr 2016 07:29:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3B7TRKh020266
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3B7TSU0000574
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 00:29:27 -0700 (PDT)
+	Mon, 11 Apr 2016 00:29:29 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Mon, 11 Apr 2016 00:29:27 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Apr 2016 00:29:14 -0700
-Message-ID: <33781b9ada6aca75e188ed3d0b783e7de201fa76.1460359568.git.liezhi.yang@windriver.com>
+Date: Mon, 11 Apr 2016 00:29:15 -0700
+Message-ID: <56fdccd83cb59b32fff604cb2ffbc987709a7444.1460359568.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1460359568.git.liezhi.yang@windriver.com>
 References: <cover.1460359568.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 11/14] systemd-serialgetty: allow baud rate overriding
+Subject: [PATCH 12/14] python3: fix building nativesdk-python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 07:29:26 -0000
+X-List-Received-Date: Mon, 11 Apr 2016 07:29:28 -0000
 Content-Type: text/plain
 
-From: Awais Belal <awais_belal@mentor.com>
+From: Juro Bystricky <juro.bystricky@intel.com>
 
-In case a getty is required on a UART which is not being
-used as the kernel console, the current agetty invocation
-fails to obey the baud rate configured through the
-SERIAL_CONSOLES variable because it uses --keep-baud.
+When the class nativesdk.bbclass is inherited, it redefines TARGET_CC_ARCH,
+in the case of python3, this enables debug, causing an error while linking.
+Since we don't enable debug during configure some functions are not declared.
+This patch makes sure we keep debug disabled, fixing the linking errors.
 
-(From OE-Core master rev: b54b73834e73d55de1038b55d0a4d7f49cda52d0)
+[YOCTO #9357]
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3_3.4.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-index 182167b..e8b027e 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-+++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-@@ -21,7 +21,7 @@ IgnoreOnIsolate=yes
+diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+index f61d278..4f4e79c 100644
+--- a/meta/recipes-devtools/python/python3_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+@@ -61,6 +61,7 @@ CACHED_CONFIGUREVARS = "ac_cv_have_chflags=no \
+ TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
+ TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
+ TARGET_CC_ARCH += "-DNDEBUG -fno-inline"
++SDK_CC_ARCH += "-DNDEBUG -fno-inline"
+ EXTRA_OEMAKE += "CROSS_COMPILE=yes"
+ EXTRA_OECONF += "CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ --without-ensurepip"
  
- [Service]
- Environment="TERM=xterm"
--ExecStart=-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM
-+ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
- Type=idle
- Restart=always
- RestartSec=0
 -- 
 2.7.4
 
