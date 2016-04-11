@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 16F9B731F9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B38CC6011B
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Apr 2016 07:29:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3B7TQos022937
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3B7TRKh020266
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Apr 2016 00:29:27 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 11 Apr 2016 00:29:26 -0700
+	Mon, 11 Apr 2016 00:29:27 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Apr 2016 00:29:13 -0700
-Message-ID: <1cb3733027a1cd4389af740593909cf7b8e1070e.1460359568.git.liezhi.yang@windriver.com>
+Date: Mon, 11 Apr 2016 00:29:14 -0700
+Message-ID: <33781b9ada6aca75e188ed3d0b783e7de201fa76.1460359568.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1460359568.git.liezhi.yang@windriver.com>
 References: <cover.1460359568.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 10/14] boost: ensure boost to remain an empty metapackage
+Subject: [PATCH 11/14] systemd-serialgetty: allow baud rate overriding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 Apr 2016 07:29:26 -0000
 Content-Type: text/plain
 
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+From: Awais Belal <awais_belal@mentor.com>
 
-To ensure that boost remains an empty metapackage after version
-updates, we explicitly require boost files to be empty. If new
-libraries exist after a version update of the boost recipe,
-bitbake will emit a warning at the do_package task. For example,
-at the version update from 1.58.0 to 1.59.0, the new timer
-library is indicated with:
+In case a getty is required on a UART which is not being
+used as the kernel console, the current agetty invocation
+fails to obey the baud rate configured through the
+SERIAL_CONSOLES variable because it uses --keep-baud.
 
-WARNING: QA Issue: boost: Files/directories were installed but not shipped in any package:
-  /usr/lib/libboost_timer.so.1.59.0
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-boost: 1 installed and not shipped files. [installed-vs-shipped]
+(From OE-Core master rev: b54b73834e73d55de1038b55d0a4d7f49cda52d0)
 
-Ross Burton suggested this improvement on the openembedded-core
-mailing list during review of the boost recipe version update [1].
-
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2015-December/114314.html
-
-(From OE-Core master rev: c4e33232db2da3594cc4ba38eea56ee1acb54d3a)
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-support/boost/boost.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 3288e84..bb49d60 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -59,6 +59,7 @@ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+index 182167b..e8b027e 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
++++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+@@ -21,7 +21,7 @@ IgnoreOnIsolate=yes
  
- # -dev last to pick up the remaining stuff
- PACKAGES += "${PN}-dev ${PN}-staticdev"
-+FILES_${PN} = ""
- FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so"
- FILES_${PN}-staticdev = "${libdir}/libboost_*.a"
- 
+ [Service]
+ Environment="TERM=xterm"
+-ExecStart=-/sbin/agetty -8 -L --keep-baud %I @BAUDRATE@ $TERM
++ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
+ Type=idle
+ Restart=always
+ RestartSec=0
 -- 
 2.7.4
 
