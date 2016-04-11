@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BB5C96011B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 678AD6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 07:29:23 +0000 (UTC)
+	Mon, 11 Apr 2016 07:29:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3B7TOns022934
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3B7TP2a020263
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 00:29:24 -0700 (PDT)
+	Mon, 11 Apr 2016 00:29:25 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 11 Apr 2016 00:29:23 -0700
+	Mon, 11 Apr 2016 00:29:24 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Apr 2016 00:29:10 -0700
-Message-ID: <400de893b2f82c7c94ae2ef5131dcc9692d6e264.1460359568.git.liezhi.yang@windriver.com>
+Date: Mon, 11 Apr 2016 00:29:11 -0700
+Message-ID: <f6444b900c8f30eec2571d51e33a84b3484de97a.1460359568.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1460359568.git.liezhi.yang@windriver.com>
 References: <cover.1460359568.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/14] gcc-cross-canadian.inc: add INSANE_SKIP_ to avoid build warning
+Subject: [PATCH 08/14] cdrtools: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 07:29:23 -0000
+X-List-Received-Date: Mon, 11 Apr 2016 07:29:25 -0000
 Content-Type: text/plain
 
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
+From: Ross Burton <ross.burton@intel.com>
 
-WARNING: QA Issue: gcc-cross-canadian-i586-dbg: found library in wrong location:
-/PATH/sysroots/x86_64-oesdk-linux/usr/libexec/i586-oe-linux/gcc/
-i586-oe-linux/5.2.0/.debug/libcc1.so.0.0.0
+Upstream released their 3.01 so the alpha releases we were downloading have
+moved.  Update the SRC_URI so it continues to download.
 
-This warning is introduced by commit f6e47aa(gcc-target 5.1: fix for libcc1)
-
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 54e4881..027c09a 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -83,6 +83,8 @@ FILES_${PN} = "\
-     ${prefix}/${TARGET_SYS}/usr/include/* \
- "
- INSANE_SKIP_${PN} += "dev-so"
-+INSANE_SKIP_${PN} += "libdir"
-+INSANE_SKIP_${PN}-dbg += "libdir"
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+index d0f36e2..50e284c 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+@@ -7,7 +7,7 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
  
- FILES_${PN}-dbg += " \
-     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/.debug \
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/cdrtools-${PV}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/OLD/3.01aX/cdrtools-${PV}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "78172557894f469b4584d008e93ec469"
+ SRC_URI[sha256sum] = "183b5c12777779e78d8b69461aae52401f863768e7e7391d60730006f8cadc5a"
 -- 
 2.7.4
 
