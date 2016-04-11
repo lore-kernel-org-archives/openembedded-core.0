@@ -1,35 +1,30 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3600 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 11 Apr 2016 02:49:56 UTC
-Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
-	[206.46.173.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 6202C731C8
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id C9D91731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 02:49:56 +0000 (UTC)
-Received: from vz-proxy-l004.mx.aol.com ([64.236.82.152])
-	by vms173023.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O5G00ERA52X7X70@vms173023.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Sun, 10 Apr 2016 20:49:46 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=J+9Xl1TS c=1 sm=1 tr=0	a=a3t/a0oOYlYu/nGe1mf8ZA==:117
-	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=pQ1NxvdBEWUWmppR-P0A:9
-	a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 3917d889; Mon, 11 Apr 2016 01:49:46 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 68CA9161F8A; Sun,
-	10 Apr 2016 21:49:45 -0400 (EDT)
-Date: Sun, 10 Apr 2016 21:49:45 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-id: <20160411014945.GL16135@denix.org>
-References: <cover.1428410929.git.liezhi.yang@windriver.com>
-	<20160410225130.GK16135@denix.org> <570AFBA4.40201@windriver.com>
-MIME-version: 1.0
-In-reply-to: <570AFBA4.40201@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/2] unique -dev package
+	Mon, 11 Apr 2016 05:46:34 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 8463E68A01C; Mon, 11 Apr 2016 06:46:33 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id CEE7A68A019;
+	Mon, 11 Apr 2016 06:46:32 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 7A0D2674004E;
+	Mon, 11 Apr 2016 07:46:32 +0200 (CEST)
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <570B3A38.9000000@mlbassoc.com>
+Date: Mon, 11 Apr 2016 07:46:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+Subject: Issues installing GTK based packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 02:49:57 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 11 Apr 2016 05:46:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 11, 2016 at 09:19:32AM +0800, Robert Yang wrote:
-> On 04/11/2016 06:51 AM, Denys Dmytriyenko wrote:
-> >On Tue, Apr 07, 2015 at 05:58:13AM -0700, Robert Yang wrote:
-> >>Hello,
-> >>
-> >>I think that one recipe should only have one -dev package, I'm not sure
-> >>whether this is right or not, please feel free to give your comments, we
-> >
-> >I know it is already 1 year since this change. But I can't seem to find any
-> >discussion or any explanation to why this change was required and what
-> >specific problem it was supposed to fix. Please point me to a clear reasoning
-> >of this change. Thanks.
-> 
-> There is only one source package, so there should be only one pack of header
-> files, dev libs, and so on, and they should be placed in a uniq pkg.
+When installing epiphany into an existing system, I'm now
+getting these errors:
+   Configuring libgtk-3.0.
+   ///var/lib/opkg/info/libgtk-3.0.postinst: line 3: glib-compile-schemas: not found
+   Configuring gsettings-desktop-schemas.
+   ///var/lib/opkg/info/gsettings-desktop-schemas.postinst: line 2: glib-compile-schemas: not found
+   Configuring epiphany.
+   ///var/lib/opkg/info/epiphany.postinst: line 2: glib-compile-schemas: not found
 
-Since you are using "should" twice in the same sentence, can you please point 
-me to a ratified RFC?
+I believe this is because glib-compile-schemas was moved from
+glib-2.0-utils to glib-2.0-dev by this change (Poky)
+
+commit cc97d5760100415ed22fa329e8962e5f37b8d741
+Author: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date:   Wed Mar 23 10:59:08 2016 +0200
+
+     glib-2.0: Fix packaging
+
+     * move gdbus-codegen to ${PN}-codegen
+     * move other development tools and data files to ${PN}-dev
+     * remove references to non-existent paths
+
+     (From OE-Core rev: 351064e9c5deb6411c8a0d40ebd4fd4f83299d4e)
+
+     Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Installing glib-2.0-dev just to get this tool doesn't seem reasonable as
+it hauls in a boatload of other packages, including bash and friends, which
+I don't want on my target.
+
+Filed as bug #9431
 
 -- 
-Denys
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
