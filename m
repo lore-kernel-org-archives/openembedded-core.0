@@ -1,45 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E6F76FFD4
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 27EBF70016
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 19:49:26 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id a140so26767759wma.0
+	Mon, 11 Apr 2016 19:49:27 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id l6so160224485wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 12:49:27 -0700 (PDT)
+	Mon, 11 Apr 2016 12:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=qxhKbJc6ivgZCuyCcVj/8I4GUO+l5ulkdzpfHApdAbw=;
-	b=xEHr3qhY0arbR/6DrFudmQ26iE7FuvKvddb2uDvyGc5UN74lb+HjBi9eZ1n6jS/qaq
-	o1m3IbxfAS0BCV+UMdqwJtF4Dj99jeeEQmxdJ9vedZu+mFTVXk/RdQqUvhsF83XuYBvq
-	Tcz7IGX6ME8hlIvf7qFkEFfXq8EC27ggkRYZF7wmT4VsDgMV1evCOXshexZXaLdTveRx
-	dQb3tjjlr3BNbtcEB8ps/6xQEmK/7uhX7w4JVZP/kg43zg7DsZWWGZIuhg5ksXEBXFTa
-	E3V0xumDosvu6u2tYuisDZ6g1zEAGFuUXMfyojuPB0AvW8u09o7yZNqtl3yZfGIz9KNm
-	6pfg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=MiHv5bv1InHvhLbT6PVQmnAgRd4GZWPufG4fwKU89O4=;
+	b=LGPPLRyU6qmVsBc/hfMaSD6/6HOUuxW9T4SWncXI/TZyVETR+k37D2glMLg6ECefnD
+	ctkmC2Y/qrFkBrOgPWfx8Xs2k07CuISL9ACC3X/CwzbRmAzvjjIICBJf0WNPNLe57i/H
+	EyChNx6VzC8tcAV6+J0tjeiujTV3sM/rHheaqygtORrrmsCB3iOkj8CpY6YF6vlFnkDq
+	3AiJG2hASwQrBnZFmenMaQRPfew+y1soxRcAWPTrZ6LxZnbPNBrcCexS/3VmJ96+idhF
+	anFhQNWdqWUPiDX19n54bkY0Qc+aRZ/kzH9F8+2bmIwKu+fhLTSScKYsNXzyisigZEtN
+	vXfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qxhKbJc6ivgZCuyCcVj/8I4GUO+l5ulkdzpfHApdAbw=;
-	b=JJvODqL+e1X0fYLg0chN4vc3DmEI1zSZWyUiyNBPJ1LYMTC3Ky52gpYX2M3md8+M5A
-	lZnNUSbZu1KGrehkSZy392UwKb/tBM8vR3lx1LIcD6TwxYAgLVuqmjao4X9KERAeh3s4
-	eVk6On2zLgZbcTf+xJODwZXNOnglDxYT7heNpfGlwjk/4CweSe6xHAURq3d8mVjT5YC2
-	DRnzBVgPveuKl9SfXVhbxcHFYfP4UpK63CNfsZhRmqxoj0hCyGAe+0372x4zrA5DmneG
-	nwjrO9Idczl7ElAHyOGYECMM7kuvaDpq6+HaJ9vpVsUqP0MiNdr5AQhtD/sUVpnSRQfk
-	FFbw==
-X-Gm-Message-State: AD7BkJLUnzr2AKCFKhp+vnOug0uXH8e950Y1Cq3mb4b2J2dehz69TV8sc4pe0zQ87UBS0Kxc
-X-Received: by 10.28.30.86 with SMTP id e83mr19420439wme.18.1460404167179;
-	Mon, 11 Apr 2016 12:49:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=MiHv5bv1InHvhLbT6PVQmnAgRd4GZWPufG4fwKU89O4=;
+	b=jxvuXnpiOWljkTbDOJQMGYf9W7JO/foyfKFftGQL07rSJyAZUfeg8d4YhueK8YXikd
+	PhSSISaJD7jAU/gkOjkIBLPgPZrANP5KI6twf32qJ9AO/RpQTKpVmsDVVHVkQsSyUYqe
+	vGKj7bERV3xCEF+iHqvQMXtIs/hzgh3nkvV1zWmqqmOEnfYBRT77FVAZy3U8+NzySLDB
+	5O6Pb1urBNnR1KDT9BRG1u15tVyUTi/LdZbsfah8YK6MtnOa4gX3wZMZMd5rWU62YhZQ
+	FZz0HF6kVZIcUX5GAlqE+0RStJzZrAAe7yeAPMru8U0/YU8Jmtf6DIQkLU4cXEgzqpmq
+	8MUg==
+X-Gm-Message-State: AOPr4FX3QOUKLiGaibVHXpo4Wbk44NvDLaOysDN1WhMMgn5+EmTRHVyRo0qhb+G19+Kl7FFX
+X-Received: by 10.28.91.199 with SMTP id p190mr11561867wmb.47.1460404168233;
+	Mon, 11 Apr 2016 12:49:28 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id t4sm18996531wmf.8.2016.04.11.12.49.26
+	by smtp.gmail.com with ESMTPSA id t4sm18996531wmf.8.2016.04.11.12.49.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Apr 2016 12:49:26 -0700 (PDT)
+	Mon, 11 Apr 2016 12:49:27 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Apr 2016 20:49:22 +0100
-Message-Id: <1460404163-11259-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 11 Apr 2016 20:49:23 +0100
+Message-Id: <1460404163-11259-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH 1/2] meta/site: remove sizeof_off_t
+In-Reply-To: <1460404163-11259-1-git-send-email-ross.burton@intel.com>
+References: <1460404163-11259-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] meta: remove redundant ac_cv_sizeof_off_t assignments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,90 +57,130 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 11 Apr 2016 19:49:28 -0000
 
-The size of off_t depends on whether large file support is enabled through
-preprocessor flags, so we can't cache this.
+ac_cv_sizeof_off_t was previously in the site cache files, which was breaking
+large file support and required a workaround in each recipe that actually wanted
+to use large files.
+
+Now that the entry has been removed from the site cache, we can remove the
+workarounds.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/site/arm-linux       | 1 -
- meta/site/ix86-common     | 1 -
- meta/site/nios2-linux     | 1 -
- meta/site/powerpc32-linux | 1 -
- meta/site/x32-linux       | 1 -
- meta/site/x86_64-linux    | 1 -
- 6 files changed, 6 deletions(-)
+ meta/recipes-bsp/grub/grub-efi_2.00.bb                   | 2 +-
+ meta/recipes-bsp/grub/grub_2.00.bb                       | 2 +-
+ meta/recipes-bsp/grub/grub_git.bb                        | 2 +-
+ meta/recipes-devtools/python/python.inc                  | 2 --
+ meta/recipes-devtools/python/python_2.7.11.bb            | 3 +--
+ meta/recipes-extended/pax/pax_3.4.bb                     | 4 ----
+ meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb | 1 -
+ meta/recipes-support/curl/curl_7.47.1.bb                 | 4 ----
+ 8 files changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/meta/site/arm-linux b/meta/site/arm-linux
-index 14b1889..e6b9a72 100644
---- a/meta/site/arm-linux
-+++ b/meta/site/arm-linux
-@@ -10,7 +10,6 @@ ac_cv_sizeof_int_p=${ac_cv_sizeof_int_p=4}
- ac_cv_sizeof_long=${ac_cv_sizeof_long=4}
- ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int=4}
- ac_cv_sizeof_long_long=${ac_cv_sizeof_long_long=8}
--ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
- ac_cv_sizeof_short=${ac_cv_sizeof_short=2}
- ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
- ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=4}
-diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 135c305..23b8e8b 100644
---- a/meta/site/ix86-common
-+++ b/meta/site/ix86-common
-@@ -17,7 +17,6 @@ ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
- ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
- ac_cv_sizeof_long_p=${ac_cv_sizeof_long_p=4}
- ac_cv_sizeof_float=${ac_cv_sizeof_float=4}
--ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
- ac_cv_sizeof_uid_t=${ac_cv_sizeof_uid_t=4}
- ac_cv_sizeof_gid_t=${ac_cv_sizeof_gid_t=4}
- ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=4}
-diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
-index 434f09b..95c09d3 100644
---- a/meta/site/nios2-linux
-+++ b/meta/site/nios2-linux
-@@ -241,7 +241,6 @@ ac_cv_sizeof_int_p=${ac_cv_sizeof_int_p=4}
- ac_cv_sizeof_long=${ac_cv_sizeof_long=4}
- ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int=4}
- ac_cv_sizeof_long_long=${ac_cv_sizeof_long_long=8}
--ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
- ac_cv_sizeof_short=${ac_cv_sizeof_short=2}
- ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
- ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=4}
-diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index a7744fb..06d961f 100644
---- a/meta/site/powerpc32-linux
-+++ b/meta/site/powerpc32-linux
-@@ -203,7 +203,6 @@ apr_cv_pthreads_cflags=${apr_cv_pthreads_cflags=-pthread}
- apr_cv_pthreads_lib=${apr_cv_pthreads_lib=-lpthread}
- ac_cv_func_mmap=${ac_cv_func_mmap=yes}
- ac_cv_file__dev_zero=${ac_cv_file__dev_zero=yes}
--ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
- ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t=4}
- ac_cv_socklen_t=${ac_cv_socklen_t=yes}
- ac_cv_struct_rlimit=${ac_cv_struct_rlimit=yes}
-diff --git a/meta/site/x32-linux b/meta/site/x32-linux
-index 36ee68b..308d6e2 100644
---- a/meta/site/x32-linux
-+++ b/meta/site/x32-linux
-@@ -1,6 +1,5 @@
- # general
- ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=16}
--ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=8}
- ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=8}
- ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
- ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=64}
-diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index 573a907..ebdcf69 100644
---- a/meta/site/x86_64-linux
-+++ b/meta/site/x86_64-linux
-@@ -18,7 +18,6 @@ ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long=8}
- ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=16}
- ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int=8}
- ac_cv_sizeof_long_long=${ac_cv_sizeof_long_long=8}
--ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=8}
- ac_cv_sizeof_short=${ac_cv_sizeof_short=2}
- ac_cv_sizeof_unsigned_short=${ac_cv_sizeof_unsigned_short=2}
- ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+index dbc034c..5a0dc95 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -33,7 +33,7 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+                 --enable-efiemu=no --program-prefix='' \
+                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile ac_cv_sizeof_off_t=8', '--disable-largefile', d)}"
++EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile', '--disable-largefile', d)}"
+ 
+ # ldm.c:114:7: error: trampoline generated for nested function 'hook' [-Werror=trampolines]
+ # and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
+diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+index addc1b2..778074a 100644
+--- a/meta/recipes-bsp/grub/grub_2.00.bb
++++ b/meta/recipes-bsp/grub/grub_2.00.bb
+@@ -6,7 +6,7 @@ PR = "r1"
+ EXTRA_OECONF = "--with-platform=pc --disable-grub-mkfont --program-prefix="" \
+                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile ac_cv_sizeof_off_t=8', '--disable-largefile', d)}"
++EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile', '--disable-largefile', d)}"
+ 
+ do_install_append () {
+     install -d ${D}${sysconfdir}/grub.d
+diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
+index 3ebab7f..6919c9a 100644
+--- a/meta/recipes-bsp/grub/grub_git.bb
++++ b/meta/recipes-bsp/grub/grub_git.bb
+@@ -31,7 +31,7 @@ GRUBPLATFORM ??= "pc"
+ EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-prefix="" \
+                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile ac_cv_sizeof_off_t=8', '--disable-largefile', d)}"
++EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile', '--disable-largefile', d)}"
+ 
+ do_configure_prepend() {
+     ( cd ${S}
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 52250d2..f4818c6 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -20,8 +20,6 @@ PYTHON_MAJMIN = "2.7"
+ 
+ inherit autotools
+ 
+-PYTHONLSBOPTS_linuxstdbase = "ac_cv_sizeof_off_t=8"
+-
+ EXTRA_OECONF = "\
+   --with-threads \
+   --with-pymalloc \
+diff --git a/meta/recipes-devtools/python/python_2.7.11.bb b/meta/recipes-devtools/python/python_2.7.11.bb
+index 0c00d6e..606f153 100644
+--- a/meta/recipes-devtools/python/python_2.7.11.bb
++++ b/meta/recipes-devtools/python/python_2.7.11.bb
+@@ -35,8 +35,7 @@ inherit autotools multilib_header python-dir pythonnative
+ 
+ CONFIGUREOPTS += " --with-system-ffi "
+ 
+-# The following is a hack until we drop ac_cv_sizeof_off_t from site files
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)} ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
++EXTRA_OECONF += "ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
+ 
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+diff --git a/meta/recipes-extended/pax/pax_3.4.bb b/meta/recipes-extended/pax/pax_3.4.bb
+index cee52e3..9d1abfb 100644
+--- a/meta/recipes-extended/pax/pax_3.4.bb
++++ b/meta/recipes-extended/pax/pax_3.4.bb
+@@ -25,8 +25,4 @@ SRC_URI_append_libc-musl = " file://0001-Fix-build-with-musl.patch \
+ SRC_URI[md5sum] = "fbd9023b590b45ac3ade95870702a0d6"
+ SRC_URI[sha256sum] = "ac3c06048e02828077cf7757d3d142241429238893b91d529af29a2e8cc5623b"
+ 
+-# see https://lists.yoctoproject.org/pipermail/poky/2013-December/009435.html
+-# We should ideally drop ac_cv_sizeof_off_t from site files but until then
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)}"
+-
+ inherit autotools
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+index a5ac84e..80435d4 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+@@ -22,6 +22,5 @@ inherit autotools lib_package pkgconfig
+ do_configure_prepend_arm() {
+ 	export ac_cv_sys_largefile_source=1
+ 	export ac_cv_sys_file_offset_bits=64
+-	ac_cv_sizeof_off_t=8
+ }
+ 
+diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
+index 7e2664c..c2173d8 100644
+--- a/meta/recipes-support/curl/curl_7.47.1.bb
++++ b/meta/recipes-support/curl/curl_7.47.1.bb
+@@ -49,10 +49,6 @@ EXTRA_OECONF = " \
+     --without-nghttp2 \
+ "
+ 
+-# see https://lists.yoctoproject.org/pipermail/poky/2013-December/009435.html
+-# We should ideally drop ac_cv_sizeof_off_t from site files but until then
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)}"
+-
+ do_install_append() {
+ 	oe_multilib_header curl/curlbuild.h
+ }
 -- 
 2.8.0.rc3
 
