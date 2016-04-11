@@ -1,27 +1,87 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D87FD70034
+Return-Path: <alejandro.delcastillo@ni.com>
+X-Greylist: delayed 923 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 11 Apr 2016 16:29:14 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0119.outbound.protection.outlook.com [157.56.110.119])
+	by mail.openembedded.org (Postfix) with ESMTP id 618EA607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 15:57:01 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Apr 2016 08:57:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,462,1455004800"; 
-	d="asc'?scan'208";a="930055581"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.72]) ([10.219.5.72])
-	by orsmga001.jf.intel.com with ESMTP; 11 Apr 2016 08:56:59 -0700
-To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1460357735-34044-1-git-send-email-mariano.lopez@linux.intel.com>
-	<570BBF16.7000001@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <570BC981.3000603@linux.intel.com>
-Date: Mon, 11 Apr 2016 10:57:53 -0500
+	Mon, 11 Apr 2016 16:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nio365.onmicrosoft.com; s=selector1-ni-com;
+	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=26vjFFnXAzSg/xI1uDZzPrkmtTAMTw0cWbbMIWwI+II=;
+	b=Gul00f8IGgShay/y6Yfuo9zpu8+SyjhxSuhkfPchJirzbmDy1TRpqAjk+rk/DPz7mf9utnj8DAyGrPwyELS1y51Uu6w7T4QUCx/GrIJVelsCNpKLnj7jgNnjYqoQ7q+N0Vbs0dhm/udx17EMNhBJRPpAVzI/D/1B90FwkTyXGco=
+Authentication-Results: ti.com; dkim=none (message not signed)
+	header.d=none;ti.com; dmarc=none action=none header.from=ni.com;
+Received: from [10.2.106.105] (130.164.62.224) by
+	BN1PR04MB842.namprd04.prod.outlook.com (10.255.203.144) with Microsoft
+	SMTP Server (TLS) id 15.1.447.15; Mon, 11 Apr 2016 16:13:49 +0000
+To: Denys Dmytriyenko <denis@denix.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1460091428-15870-1-git-send-email-denis@denix.org>
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Message-ID: <570BCD36.30204@ni.com>
+Date: Mon, 11 Apr 2016 11:13:42 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <570BBF16.7000001@linux.intel.com>
-Subject: Re: [PATCH] oeqa/runexported.py: Fix exported test
+In-Reply-To: <1460091428-15870-1-git-send-email-denis@denix.org>
+X-Originating-IP: [130.164.62.224]
+X-ClientProxiedBy: CY1PR20CA0086.namprd20.prod.outlook.com (10.164.213.140) To
+	BN1PR04MB842.namprd04.prod.outlook.com (10.255.203.144)
+X-MS-Office365-Filtering-Correlation-Id: cb1a8606-21eb-4151-72fa-08d3622444f4
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR04MB842;
+	2:jGzL0CUBerrreOqV2VLgCsooFHGzqKjtBb7mtzn2BNvZtpxygAMfpSLFPRe5SZwv9ehw0kpuy+E2JfzeEWq3bZh0U8BtOv+Jf7OMezPBIbDBZ05exZQ6y2RK27s82eNEA0AK4IIiFDcAMCzR6eIlCs+atn3S/lF8SmhtEXz+ev8sq/mcBNRhDBQ9jdrcSF/n;
+	3:qbr2z1VBINSEXBjAU0eKZvPS3Ma6G7Og1Hfa5XKS9uOOOHV+pjoMHWYZCwrbSHgUaG1bmVQA9sFTN2iw9rxxND7OA+FBS6ealT4vRQ7ZFFQPDTgqT2JTepJs+AeeUdXb
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN1PR04MB842;
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR04MB842;
+	25:Oc6XCgvuET5sYe5RwgWWVited91wP1A2543s8cX9LXkf5YVf6G2/KFw/9MsrIg8zok1mr7RIcEPQ9CxPZTf8kFiARiSDgVoJAJiw1weH/LAC7EZY9VOGuUixif4uHOzkov6e6kc7L3+NaV9F/zt5kyRybA/+U8YFQmNiWgucTdBv365B9wYuKTD0GyR39w7lVBel0KdwsFq8rOAB2n5FwL6qGkWzjvng205QZWdKT6Ty/IN/AG+b876Oz5NBi9tLbOdg1a+uYo2OiWm102ZT1aHuZdQgxv19YJ0R0r1oV5hcGoRnOvyknYXs82Tpt0KUMqaSRFjBGVQIbTgVay9ot7vjQH8R4/LDsufncHKqLVNn58hhoKMLZJWn/lcweQ2geVjNACs6dlo8Untgm06QXyahgZx5eMspBEk/5+z5NrsvJ0EIMFD+xOyf8t288ycR6UqvfcsiPIbsy/2qFbKOjyzfCe7Uroj7mI2XQaP3w9uU1A6VpiBrOj3BeK2iih3s5knDFVWE3gslWJE4BHiIiNeCC5DrGCMHBXKXDTZI+dzkr0GvVXhfbDpdPXRksy9L6WEn2x/AP6w6LTu3tBo22VJy0gNQ1hJimn53snUz84gabX50pdGRbeJDMIEXbDJMEwW9kRl2g+didNsxksSoWl9yrs4x/3pHDk2ZovbvVojgIdZIYd9ThP+cjrgUHRpv
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR04MB842;
+	20:SaXnk0ricqhOoMgehH8pTQbUHRphMQVoRlQIqXgkbcLLk1e0XSbLlLyvMCT13uBXpPXie3P7v+xwaD6mNw7uwAD8kYAvP6U/J53YscYJkfV56bxhoB4V0XbH1yFhYsAZ9krvsufbZ+4o0HFIuBNJ965WV6Pzrhnh+QY3Bu5pXOzlCJHgaUdrVpyShRSHHkEVERwVECRjciMvSLg9kzVYRbLd6g0Vry5Sb1NnvTPQVRVrr/PrCpLNo6INsfRIskkc8+WEVQ/2XE2xYZKnuTXdfqxrU7zVk70QgoMPWKwQyF7gMw7jHCs3KJvQ+RtCtr3jNrnNzeXOFnlv5vvhznYNrAi9kSCx/fxb/W0llig/7dCpBqWuBMPgaAxYBr/dFgnVaMUUW1SBtuc/oNgm1sfaqUpHs3C0tRnNzCkMSQ5KWHhUhDtNQcsF+ctYJf6/QEZ9Frl7ZAVyz0dIphEp61kSQieMm5qCMw+CVMIFMe/e/iQi22+mbpqgGNh8uj3BggUcHEhtJ+noROgejQIdOAdG/FPyMM70b878Dhw6AgHaBJRvRtwxICJ/3sNeymY8Fsbx6x+DVNGFtidehtAILL8m/Cg86j+alJ8x2L4jxc+aQfQ=
+X-Microsoft-Antispam-PRVS: <BN1PR04MB8428FBB07D7E22009AE2A9786940@BN1PR04MB842.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026);
+	SRVR:BN1PR04MB842; BCL:0; PCL:0; RULEID:; SRVR:BN1PR04MB842; 
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR04MB842;
+	4:WwU2DEINXavcJ6gcFJ979Nk/5u8OUeX/CpZduDkuer49ZAhv7+6jwehFdPC83DxXGl0jWeWX/sHAoTrWPzL21PumaO2SEUUf/s0fhE9iJjXmqWTpCB4BPmXxtqExUzX86aF+/GAdYjZmbffHXwxkM1TaldqYqqoHjHsYdwkhAZhJCOUsF8gy0+i2DxivO1K0pqMursnXSWhxljDEE7eIVVOZXMR3TDvu1Go653RcX7zjxgLSZzFz3lmIKim8fqXgNi1ukB+Lpckhd3mxcLNul+KpvIFCYJRGhcPNMPGu/ZhCB89MaJ2Eebl9acPGdFGzYEnHmh9w9WPGxWbWHT+1WWCMgmEs43/xO5+80QkDR7DG2LMcK0bIOQyDgrBLanVK8DbD+ATKkml3Gmvy7LBWAg==
+X-Forefront-PRVS: 09090B6B69
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(4630300001)(6049001)(6009001)(377454003)(24454002)(2906002)(86362001)(4001350100001)(36756003)(5004730100002)(50466002)(83506001)(4326007)(5008740100001)(65816999)(19580395003)(19580405001)(6116002)(586003)(3846002)(2950100001)(33656002)(92566002)(47776003)(66066001)(77096005)(65956001)(5001770100001)(76176999)(54356999)(50986999)(23746002)(558084003)(42186005)(189998001)(1096002)(81166005)(230700001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN1PR04MB842; H:[10.2.106.105];
+	FPR:; SPF:None; MLV:sfv; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; BN1PR04MB842;
+	23:SH24On+zXOUvSXt2Lw0zWm/Jx6xu+0SI4sGNtB?=
+	=?Windows-1252?Q?HMwYWOBzMYjUQwRxsESeYBKAS3os0LASSRIGBOoiMp5NVS1UnJ7aCbI6?=
+	=?Windows-1252?Q?i0G6S+XQkHarAjt954aBLS/1I3G/yd+7LEKzIUHNdLbCY6gOeAOYh/mP?=
+	=?Windows-1252?Q?K8fgxeXOB8v8Duqrm2JElAI2KHrpB+oVFoWjMM0D+OowBkLtEU3Vh0Sh?=
+	=?Windows-1252?Q?b+5vb2w4HC+/ThjayNuMSceXz/CyjIINpyz2K1lKWqv9WFMJxoUlB9ez?=
+	=?Windows-1252?Q?5qv8hV/hLyLi5FaOrsVqwiq82t+yz82EMyN2Z/S7TT/DAf3QRT4NvEjk?=
+	=?Windows-1252?Q?WKOv9FyNagZ71+MuK+wh05J6vzXPULEWIPedPwLAzd1DtROjxJqqqp8v?=
+	=?Windows-1252?Q?W+29cwdYSZD5LAekvCU8/1RabwTDtDLlSPpLVivnOdIoQkFjSpy2O1tf?=
+	=?Windows-1252?Q?EpZKZzQ8Oo17YXIGjron+zTjnSbaqsg8XRPVxC1ZzAZO5A3Auk4tL076?=
+	=?Windows-1252?Q?rGxOuVVXCKqM7PlNs1qBYq2WvN4ywMNZ6mocYbfO4Lo1d7aQtHKX4P02?=
+	=?Windows-1252?Q?B4ilBaEe6rW8PVaAUC/BXDyTzVHzZR5p55fq6x9d6UM2AzPf2VU6StJ/?=
+	=?Windows-1252?Q?DtuZL03VOT3EFZ/zKRtR1yev3p752BQJu2zfsiA7uxTx60zpYUZidnUs?=
+	=?Windows-1252?Q?cgeK6WcewpsvHKzsphDOHnWZpVXHGFweqxWgfQ+XiIsGLcxKFrOLzl2N?=
+	=?Windows-1252?Q?OWc5hyR43MFAmbumsOHVsfmqV8ig1Whl4MzMalFTFUqCfjiAG0J9Aw/5?=
+	=?Windows-1252?Q?yv4k/VNIjK7jAOCoIiX0PEvaPHPZGRPbe7iutMUrv5dOQsWN5kmbH41s?=
+	=?Windows-1252?Q?QkDjGbO0cFxsJM2AuU7DUeCHvXlt7yiVaPxBDDynfhzeubM78lyjjhKQ?=
+	=?Windows-1252?Q?K9UQLEn/oBxcGSeMQtzQuV+NBwMu35nlIWs2g2BoWE48X4zqmBf1Bp3f?=
+	=?Windows-1252?Q?2/DkolLdH2I/RXE9bCVvBfqs8buSm+maTBYWmH8ev0q0KNbtsBl7nwh4?=
+	=?Windows-1252?Q?1jdS5wL2t25+FK9TrNgyEDghDW4CL5ONYB8b2UHYFbPdIF32DE/D4adw?=
+	=?Windows-1252?Q?=3D=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR04MB842;
+	5:3/HHa82bPOxyD1Kp9/Onv5Rw6bG8gbr08S6kxz/L26dXfxRtR/YXG4EyuMHeigB6IdSSlkNfhKU5rRx1j6oE6ff5R5DmpP/NOZs9EzphijKkU5ihlWEpEsK+YwmKNAR5E77ACQ5Elzp9ThPKxf693Q==;
+	24:Qic51fC5WyWrMSnEZ2WaRj7i22ydjN+EsCNLZapq3sZEgo3Tci7wj040eshTfqmMsHd0V56yz1b2t0tl8pi1c9QBVTmqb3Ha8NFIvWuG9HA=
+SpamDiagnosticOutput: 1:23
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2016 16:13:49.9899 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1PR04MB842
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] opkg-utils: re-do find/ls code to not fail on filenames with spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,171 +94,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 15:57:05 -0000
-X-Groupsio-MsgNum: 80723
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="xP3bRC1Ir98Q7PXaSSkFwdXP2SCkhXMQa"
-
---xP3bRC1Ir98Q7PXaSSkFwdXP2SCkhXMQa
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
-
-+ RP to integrate this patch before release 2.1
-
-On 04/11/2016 10:13 AM, An=EDbal Lim=F3n wrote:
-> Also will be a good idea to add testing for this functionality to avoid=
-
-> future broke.
->=20
-> Mariano could you load the bug for this task?
->=20
-> Best regards,
-> 	alimon
->=20
-> On 04/11/2016 01:55 AM, mariano.lopez@linux.intel.com wrote:
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>
->> With the changes introduced to test the eSDK
->> the runexported test failed during the execution.
->>
->> This change fix runexported test in the least invasive
->> way, because of the release cycle.
->>
->> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> Acked-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
->=20
->> ---
->>  meta/lib/oeqa/oetest.py         |  6 +++++-
->>  meta/lib/oeqa/runexported.py    | 19 ++++++++++---------
->>  meta/lib/oeqa/utils/commands.py |  6 +++++-
->>  3 files changed, 20 insertions(+), 11 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
->> index fc1e8b5..8eb84ed 100644
->> --- a/meta/lib/oeqa/oetest.py
->> +++ b/meta/lib/oeqa/oetest.py
->> @@ -19,7 +19,11 @@ except ImportError:
->>  import logging
->> =20
->>  import oeqa.runtime
->> -import oeqa.sdkext
->> +# Exported test doesn't require sdkext
->> +try:
->> +    import oeqa.sdkext
->> +except ImportError:
->> +    pass
->>  from oeqa.utils.decorators import LogResults, gettag, getResults
->>  from oeqa.utils import avoid_paths_in_environ
->> =20
->> diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.=
-py
->> index e9a2912..cc89e13 100755
->> --- a/meta/lib/oeqa/runexported.py
->> +++ b/meta/lib/oeqa/runexported.py
->> @@ -30,7 +30,7 @@ except ImportError:
->> =20
->>  sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__=
-), "oeqa")))
->> =20
->> -from oeqa.oetest import runTests
->> +from oeqa.oetest import TestContext
->>  from oeqa.utils.sshcontrol import SSHControl
->>  from oeqa.utils.dump import get_host_dumper
->> =20
->> @@ -49,7 +49,7 @@ class FakeTarget(object):
->>      def exportStart(self):
->>          self.sshlog =3D os.path.join(self.testdir, "ssh_target_log.%s=
-" % self.datetime)
->>          sshloglink =3D os.path.join(self.testdir, "ssh_target_log")
->> -        if os.path.exists(sshloglink):
->> +        if os.path.lexists(sshloglink):
->>              os.remove(sshloglink)
->>          os.symlink(self.sshlog, sshloglink)
->>          print("SSH log file: %s" %  self.sshlog)
->> @@ -69,10 +69,9 @@ class MyDataDict(dict):
->>      def getVar(self, key, unused =3D None):
->>          return self.get(key, "")
->> =20
->> -class TestContext(object):
->> -    def __init__(self):
->> -        self.d =3D None
->> -        self.target =3D None
->> +class ExportTestContext(TestContext):
->> +    def __init__(self, d):
->> +        self.d =3D d
->> =20
->>  def main():
->> =20
->> @@ -121,7 +120,9 @@ def main():
->>      host_dumper.parent_dir =3D loaded["host_dumper"]["parent_dir"]
->>      host_dumper.cmds =3D loaded["host_dumper"]["cmds"]
->> =20
->> -    tc =3D TestContext()
->> +    target.exportStart()
->> +    tc =3D ExportTestContext(d)
->> +
->>      setattr(tc, "d", d)
->>      setattr(tc, "target", target)
->>      setattr(tc, "host_dumper", host_dumper)
->> @@ -129,8 +130,8 @@ def main():
->>          if key !=3D "d" and key !=3D "target" and key !=3D "host_dump=
-er":
->>              setattr(tc, key, loaded[key])
->> =20
->> -    target.exportStart()
->> -    runTests(tc)
->> +    tc.loadTests()
->> +    tc.runTests()
->> =20
->>      return 0
->> =20
->> diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/com=
-mands.py
->> index 32e001c..48f6441 100644
->> --- a/meta/lib/oeqa/utils/commands.py
->> +++ b/meta/lib/oeqa/utils/commands.py
->> @@ -18,7 +18,11 @@ from oeqa.utils import CommandError
->>  from oeqa.utils import ftools
->>  import re
->>  import contextlib
->> -import bb
->> +# Export test doesn't require bb
->> +try:
->> +    import bb
->> +except ImportError:
->> +    pass
->> =20
->>  class Command(object):
->>      def __init__(self, command, bg=3DFalse, timeout=3DNone, data=3DNo=
-ne, **options):
->>
->=20
->=20
->=20
+X-List-Received-Date: Mon, 11 Apr 2016 16:29:16 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
 
---xP3bRC1Ir98Q7PXaSSkFwdXP2SCkhXMQa
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+On 04/07/2016 11:57 PM, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+> 
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
 
-iQIcBAEBAgAGBQJXC8mDAAoJEGJqcE9h3glg9K4P+gPcNPvtk6pyErcXKOQ1KCb8
-qsPeA5XrCLUxNYmkc3rWh0RoknBVwmiA3jY3nKLTX5588Hmj8jLGmdqznb9mNzf6
-VBBX8VF0EJqxjo9huTocu4XPpMtRvJEorDu676vgUmMpFxCwmysOfxIvaAk6LnRm
-lbpkAfeLAHvXxFVgJ4Ls5vvnImC1BFiJastpv7fe2s15WlKYtqmRXtt0NlK7dg8i
-LbGrUtPyoLo6zHzHNeEWTM9shQ9sM+vLQPIbvxX9Bf+FO6T0L/m+a+xkc7etTgaO
-uKSP3Fp1581h8ZSIcUyAXfGHNVvaKlxU5fua9VX1oZbqFr9jC7v0qcxspDM6qFkx
-pPLFEu85Cz/DTQFntaBXLXvu7L3Mq4EpcXCcTWGYB5sB82Hkk3P3Kmkcl7UlJ+Ed
-xQjA05E/lg+SU1h0292BTBK+bmp/fFm9/uAsD/CR7m3hPauZkk4Md+6jDhwEox3a
-P12jlIpHP93O+4qbD5qdaGbC9WuzUMrvZ3lxzLK8fzBZZB1Na34ALsSQvxWEUxZn
-um+Bhc9+/qcVrn2DkRlOosEd7DOHpQQHeYQPpF8gQLUxn9kVdxhjs+oPEVBzdDlK
-zJ/r/OBw9vp2qN6eIwjJ6VowEIBKpBhdexWmWAsEaOF9Uq+9DFNg158H5JcxcjfS
-0hB3n4N4uaUSYN6GNAcv
-=cus+
------END PGP SIGNATURE-----
+do you mind posting the patch to the opkg-devel@googlegroups.com list too?
 
---xP3bRC1Ir98Q7PXaSSkFwdXP2SCkhXMQa--
+-- 
+Cheers,
+
+Alejandro
+
