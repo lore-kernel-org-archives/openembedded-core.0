@@ -1,61 +1,35 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EEA265CBF
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A5536E65F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 13:28:10 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id c20so124123721pfc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 06:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=j8ftb8C8ArRoAbVf4OHbS+8QZmxWv9iSWv3qtmJbKus=;
-	b=kefIRlH4o9v02RdwLjh7LmaK9LcGyrF0/ufImWqC3x20P0yYuaJJBdehbLjRA46RlZ
-	c98M+JHDICQ/baHbdXzmhbECMY6xM8W8v/SbhV9hRq1tYrl92+fRjQZ9+BlPewABJx9f
-	4G21PxNTmPa2xigWk5fr7xYo1/q0cg8o9eT48Z3vA7pBfB1s372xnu02ErT98ZzAO4aU
-	p1PejggdoeTFaat0zMtRu2n8ZKjrjm5EP4zEynOeKA/bdgEPQzRRFWVSk9w5ZBRovyL7
-	KWeMuxD9JScVo+t/WaTDvFsYkDxvKv36Hv2ew4OP/DnXQMQj+qGY6ngLfqiM2SFioOUE
-	Yy/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=j8ftb8C8ArRoAbVf4OHbS+8QZmxWv9iSWv3qtmJbKus=;
-	b=Dp3Ue0oz2c8xD43cuL/iHNz1PpXoe+iu48JAWpBpreet0ZvPlU5wAQpZ0WTJ/+Z5Aa
-	n6Sg+X9F8aTqphx8Hdyuj72jDH3cfx/+OJF2rtuvK7epQk1cwyd101wWFsCW0W1QwuOf
-	GCGv7GmyvgkmO+gRsUEPAFiFwmTgPb+7Wqqd+RGMIQvDNLOk6a2JJ9b55LlEpjDZoEMP
-	3fpoEYCvkEjmSy+FE67c6hhZ7aP7gWvu5l7BNl72LWHlzyA+lIMkk1INTjFsusK+l0wD
-	a2BWNC2HmfNh6E9XKZTTBdeuirgoKKdeyxERlbBM3C5a/tYQoO9HvdOkGzsvJBDUhzZF
-	UIJA==
-X-Gm-Message-State: AD7BkJLu1PbuyJr9Is53300/znNSOMGiv4g3ighpfzw8NGWE464mWPeafCyv7csi5iveUw==
-X-Received: by 10.98.80.150 with SMTP id g22mr32759325pfj.132.1460381290898;
-	Mon, 11 Apr 2016 06:28:10 -0700 (PDT)
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com.
-	[209.85.192.172])
-	by smtp.gmail.com with ESMTPSA id y3sm14946300par.2.2016.04.11.06.28.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Apr 2016 06:28:09 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f172.google.com with SMTP id 184so124334542pff.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 06:28:09 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.98.80.10 with SMTP id e10mr32799375pfb.141.1460381288953;
-	Mon, 11 Apr 2016 06:28:08 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Mon, 11 Apr 2016 06:28:08 -0700 (PDT)
-In-Reply-To: <1460232711-23433-1-git-send-email-juro.bystricky@intel.com>
-References: <1460232711-23433-1-git-send-email-juro.bystricky@intel.com>
-Date: Mon, 11 Apr 2016 10:28:08 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo1b2o4LaMPmnrLg=Mz1NEgE2fCpXBrYyVooDMuBBAJmg@mail.gmail.com>
-Message-ID: <CAP9ODKo1b2o4LaMPmnrLg=Mz1NEgE2fCpXBrYyVooDMuBBAJmg@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] build-appliance-image: Support for VirtualBox guest additions
+	Mon, 11 Apr 2016 13:42:45 +0000 (UTC)
+Received: from vz-proxy-l008.mx.aol.com ([64.236.82.152])
+	by vms173023.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0O5H00GY3234HW90@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 11 Apr 2016 08:42:41 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=EdU1O6SC c=1 sm=1 tr=0	a=a3t/a0oOYlYu/nGe1mf8ZA==:117
+	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=_7wvQ67gKmrSCoIAeskA:9
+	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 19f2f127; Mon, 11 Apr 2016 13:42:41 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 65AC2161F8C; Mon,
+	11 Apr 2016 09:42:40 -0400 (EDT)
+Date: Mon, 11 Apr 2016 09:42:40 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-id: <20160411134240.GO16135@denix.org>
+References: <cover.1428410929.git.liezhi.yang@windriver.com>
+	<20160410225130.GK16135@denix.org> <570AFBA4.40201@windriver.com>
+	<20160411014945.GL16135@denix.org>
+	<1460363748.9308.30.camel@linuxfoundation.org>
+MIME-version: 1.0
+In-reply-to: <1460363748.9308.30.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/2] unique -dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,29 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 13:28:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Apr 2016 13:42:49 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Sat, Apr 9, 2016 at 5:11 PM, Juro Bystricky <juro.bystricky@intel.com> wrote:
-> Add support for VirtualBox guest additions.
-> The additions are built inside the Build Appliance VM.
-> For this to be possible, the environment for out-of-tree kernel module builds
-> must be present and set up properly.
-> A README file with detailed steps on how to build the guest additions is placed
-> in the home directory of the user "builder" as well.
-> The main purpose of the guest additions is to allow sharing folders between
-> the host and Build Appliance VM.
->
-> [YOCTO #8073]
->
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+On Mon, Apr 11, 2016 at 09:35:48AM +0100, Richard Purdie wrote:
+> On Sun, 2016-04-10 at 21:49 -0400, Denys Dmytriyenko wrote:
+> > On Mon, Apr 11, 2016 at 09:19:32AM +0800, Robert Yang wrote:
+> > > On 04/11/2016 06:51 AM, Denys Dmytriyenko wrote:
+> > > > On Tue, Apr 07, 2015 at 05:58:13AM -0700, Robert Yang wrote:
+> > > > > Hello,
+> > > > > 
+> > > > > I think that one recipe should only have one -dev package, I'm
+> > > > > not sure
+> > > > > whether this is right or not, please feel free to give your
+> > > > > comments, we
+> > > > 
+> > > > I know it is already 1 year since this change. But I can't seem
+> > > > to find any
+> > > > discussion or any explanation to why this change was required and
+> > > > what
+> > > > specific problem it was supposed to fix. Please point me to a
+> > > > clear reasoning
+> > > > of this change. Thanks.
+> > > 
+> > > There is only one source package, so there should be only one pack
+> > > of header
+> > > files, dev libs, and so on, and they should be placed in a uniq
+> > > pkg.
+> > 
+> > Since you are using "should" twice in the same sentence, can you
+> > please point 
+> > me to a ratified RFC?
+> 
+> I couldn't seem to see the history of this discussion in my mail folder
+> but I do remember some patches along these lines.
+> 
+> The reason for a single -dev package is that the "package chain"
+> functions we have assumes this. I know there are some specific cases
+> where we do have multiple -dev packages (qt4, gcc-runtime) but they are
+> very much in the minority and are special cases.
+> 
+> I'm definitely on record as saying the depchains code needs revisiting
+> and redoing, preferably with a structured rethink so that we can better
+> handle situations like this. Until that is done, multiple -dev packages
+> can cause issues and we did remove some where there didn't seem to be
+> any real benefit.
+> 
+> Which case is causing problems for you?
 
-We have guestadditions (without X driver) supported on meta-oe, why
-not included this here and avoid all this manual work from the end
-user?
+Thanks, Richard.
+
+I was updating some of our old recipes to work with the latest code and had to 
+replace dependencies on libblah-dev to blah-dev as well as -staticdev and -dbg 
+in several places. When tried to dig up any relevant discussion on this matter 
+either as a discussion or clear explanation of the problem this causes, I 
+couldn't find any, hence my inquiry.
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Denys
 
