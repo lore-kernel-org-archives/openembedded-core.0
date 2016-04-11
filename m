@@ -1,51 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 48DF96072C
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 30F606E682
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 19:49:34 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id o126so167297iod.0
+	Mon, 11 Apr 2016 20:43:37 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id u206so1755958wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 12:49:35 -0700 (PDT)
+	Mon, 11 Apr 2016 13:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=T9kaNxld1Xs3Pl9HfYkBFbZEiSll91pzME8Cq+ZxFgo=;
-	b=TX6d3v2NoXRXfVKbf+dalBbQjjjDDksC+OCLk9SBWIKL8SExorfBm+G3LIq0TM6PGY
-	06xhDAcZqQ07kYKEQtiZvixY48hpRGq64DJQnX9o/a2jB2DtmllIkiRRpMsdkqvHyPKm
-	L/CHo6S0EO4IgDWru/fRselEyrihIDlbk2zf70FkwcGUSsz9Uq5DQUINnsK3IE7LUHsN
-	VMbwDFcQP4TZ2N5XtcmBg2TeN60gPAwhQFuACRP0GhUClw2yjyb+SjEKMpsj63JmlnIz
-	MOND4FCtfYhQrMWyVxs5Xwo36nozkAUyAiIRlPRlj95xwOeXGT6Xn/7gew+aFvc3T5pI
-	bc8A==
+	h=from:to:subject:date:message-id;
+	bh=fEcNB+qqaAKIEZ8OCp7mhP+35xXvmVdoG2N+ozDbVWU=;
+	b=qJHE3X0KPuLl00KVdirAfo0cPGINphXKnQ7w5YKme3zQ4O9uYZDg5KzyypVlx2k0+E
+	dvSzL4CQlTaKC67t56JpgRiKwGu2IbUNFmkcoHqGVUabbDlSCgvb3f/0fmvao24FS+Kz
+	j4OP+iAUrOj+B6mditc57UvFYRRzLniHdpEnTYIAqr1YB+ng9g9bA6P4SAh1tgliHWnF
+	TkPxjZl8fSqq2PE804tiLEa0noij8UbrqFLsH4zHiiIauzOelTlf2IsKi6N9x/NpPbtT
+	fXdWnSxkJW3FKEiwTvTrvPxdcZDy0DVtlpCJNOJKqo0YOL2yNh6mGSRWVuNe7vgXt+dR
+	errA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=T9kaNxld1Xs3Pl9HfYkBFbZEiSll91pzME8Cq+ZxFgo=;
-	b=fC3oA5xVHjWyd8PKUwefZgeWJw+WbuAaQLCUZ8B1pzFWKyH9UuVTFEGdDnk3+knc4z
-	9zu3amEo6KRy1EwOi6bldQeJty2QBEoufIGaIeKHbyMxksidV/T7Mz/wtF762UKArzSR
-	jMhq7nsgk18msJDvu8KvHmRzoG0FqDXvZZOUxMqTj52d8KX8iQoKJioURzDH28FU5PM7
-	9EBe2cBh4oEBbvu7OHPa3KE/l7idB8Ssy9fIMHgsm8rUHpsy2Wwk21FdFX+GuEfAg06o
-	s6ewMditRPAKp2MnfImNvScE4yS2q77c/7DQWj2AGNUsUD3ysGbWf8SKjOUKC1ujPsPu
-	YETg==
-X-Gm-Message-State: AD7BkJLyrSbH+mNXHQUo/UK4Nc96A5xsEfKhWMy0mBdKR2d/Mcd/AzzHB3sHwoj/KswKn8A+WUEouU4Etnw/9Cz3
-X-Received: by 10.107.135.74 with SMTP id j71mr27811002iod.133.1460404174758; 
-	Mon, 11 Apr 2016 12:49:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Mon, 11 Apr 2016 12:49:15 -0700 (PDT)
-In-Reply-To: <CAMKF1spSxf3UBO=4=R017RYb-gnfRaA8S53nn8-tiN6dvAekQQ@mail.gmail.com>
-References: <cover.1460020929.git.Qi.Chen@windriver.com>
-	<ca141106b28e9f213b0965de589507300ccbbca3.1460020929.git.Qi.Chen@windriver.com>
-	<CAJTo0LZLevMcyDJhgGe9uADDW60PgBXHm+GD1kijm8F6BSnCRw@mail.gmail.com>
-	<570710A7.9020306@windriver.com>
-	<CAMKF1spSxf3UBO=4=R017RYb-gnfRaA8S53nn8-tiN6dvAekQQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Apr 2016 20:49:15 +0100
-Message-ID: <CAJTo0LYY5qA57Gfz=LPrwCo0EyyM=Hr07rVfzHaP1DyZ_N3VEg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] grub2: fix do_configure failure when largefile is not in DISTRO_FEATURES
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=fEcNB+qqaAKIEZ8OCp7mhP+35xXvmVdoG2N+ozDbVWU=;
+	b=dNw3MYEeB5kpLJWdm7FikrIt4gSYbr0fxvsd3w9R5TsbAO6sLOk5rMaNg8hUls885z
+	Spkkl/gAFGsVuT9QM049sthJx3jQ8W9R7doZ1L4eMmYeTszwSjqzB/IqQ2Xjwg8vHgac
+	cVtoJek/pNfTdIUX7+OEAv45iVvrANqYuVetmmRMUnbucvSdpg7tiH9Wgn/ZFVulLUvW
+	E5EQPBvOCd5erduGHrOeasn/8TgHph6XQDPldZyKe7V93PFLzWJzR+NASDquUARxpTx8
+	/JHpMs37BXzVxrYlIDPlWLrb8YLPqk0zGtUwbzP50XfqcQw4Ad9Sj0N1HOq5QIyqEQP6
+	jnZg==
+X-Gm-Message-State: AOPr4FXNGmioNJWvyz/yn67INlIGFaOX5XWTTUNJD1+rKtGgXIpWxovar0OpnvZizheBjxSo
+X-Received: by 10.28.93.85 with SMTP id r82mr22933wmb.77.1460407417960;
+	Mon, 11 Apr 2016 13:43:37 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	cb2sm29733530wjc.16.2016.04.11.13.43.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Apr 2016 13:43:37 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Apr 2016 21:43:34 +0100
+Message-Id: <1460407414-16548-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] util-linux: take ownership of hwclock if installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +53,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2016 19:49:35 -0000
-Content-Type: multipart/alternative; boundary=001a113f921810c08b05303ad89c
+X-List-Received-Date: Mon, 11 Apr 2016 20:43:38 -0000
 
---001a113f921810c08b05303ad89c
-Content-Type: text/plain; charset=UTF-8
+Previously util-linux had a lower priority for hwclock than busybox but the
+reasoning was lost in the mists of time, with just this enigmatic comment
+remaining:
 
-On 8 April 2016 at 03:08, Khem Raj <raj.khem@gmail.com> wrote:
+    There seems to be problem, atleast on nslu2, with these, until they are
+    fixed the busybox ones have higher priority.
 
-> We cache sizeof off_t with out considering lfs support thats the
-> fundamental problem. We should probably stop doing that.
->
->
-Thanks for reminding me, patch on the list shortly.
+Chasing the comment back through history it first appeared in the following
+oe-classic commit:
 
-Ross
+    commit 5e01906b8433bc6a8c03be2e31758589641124c9
+    Author: David Karlstrom <daka@thg.se>
+    Date:   Sat Jul 23 13:36:38 2005 +0000
 
---001a113f921810c08b05303ad89c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        Updated to use update-alternatives and fix some FHS bugs
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 April 2016 at 03:08, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">We cache sizeof off_t =
-with out considering lfs support thats the fundamental problem. We should p=
-robably stop doing that.</p>
-<p dir=3D"ltr"></p></blockquote></div><br>Thanks for reminding me, patch on=
- the list shortly.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
+Which doesn't really give a lot away.
 
---001a113f921810c08b05303ad89c--
+Let's assume that in the past eleven years both hwclock and hardware have
+improved, and restore util-linux's hwclock to it's intended priority.
+
+[ YOCTO #9103 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index c2a91e1..a1614c2 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -132,7 +132,7 @@ SYSTEMD_AUTO_ENABLE_${PN}-fstrim = "disable"
+ 
+ do_compile () {
+ 	set -e
+-	oe_runmake ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}' 
++	oe_runmake ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'
+ }
+ 
+ do_install () {
+@@ -220,9 +220,6 @@ ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
+ ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
+ 
+ ALTERNATIVE_util-linux-hwclock = "hwclock"
+-# There seems to be problem, atleast on nslu2, with these, untill they are
+-# fixed the busybox ones have higher priority
+-ALTERNATIVE_PRIORITY[hwclock] = "10"
+ ALTERNATIVE_LINK_NAME[hwclock] = "${base_sbindir}/hwclock"
+ 
+ ALTERNATIVE_util-linux-fdisk = "fdisk"
+-- 
+2.8.0.rc3
+
+
