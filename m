@@ -1,48 +1,61 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B0DD65CBF
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C65166FF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 13:18:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 4633F180EB
+	Tue, 12 Apr 2016 13:34:32 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id c20so14083516pfc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:36 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id hssTFN+wkIRl
+	Tue, 12 Apr 2016 06:34:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=+e6L5eSAvcpYDSWQyD2OJ7BYQn0yvhTNTF0TWkYocNQ=;
+	b=yZ9y/qnMy49iOJavOIRLJIho9l8gjJR6RsldYspm4yDwIOSm4YlPNCA8kxSQxcqS/x
+	vPFPnmzexScgxVPMY99aBNAoXpfm6r78vWY9qV3lNrSBHEGJ08SZLXHXjhwTAplrfvMR
+	hIWQ8rPEbyqin3KkhKfi0eVTgTo11QkDfH31aCy0LekMT08AlMLxdnet3Kx0xMwtDP0L
+	up/Me5/OI63opBM9CstBqJO8Z/88zBGMQJdNde+3nuheXZyhX+RpJm7BU5Fqlu2vVIqz
+	PiPjP9Vfx0eRxrkHBHsIu4k6u5pQJLOVEgxO8jKlzeBEq2KxwPenmoKeNmJamAAtyID2
+	R3Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=+e6L5eSAvcpYDSWQyD2OJ7BYQn0yvhTNTF0TWkYocNQ=;
+	b=hEIRyigG1215uO5qnwAP7qnSUKBAKIiqQZxss907X8QxHGl6Jo+yduyekB+rBqHUdX
+	YEn4dpw2lzVEex6C+25G7AQ2JKSpLPhnetBFN0yy9HNlJWErihIU/mUrNsSdW4qSrnXu
+	Ulm+/U7qnCksmjiDGmiGKYPpFYEunS9HGFSfqicyDnHptjNZx1jegaopqyE9yz7THYzL
+	5nG7/uGRW55d3K/RFpulebVn2Cc3bYQ5p1ByBFiZQLZYbPpfYm8fjL8jrYZPi7Wcm6GT
+	pdkJQ+Myu33aHrpNgNp57YoPZkBmj/g8s24UQNSl2iGbKurLkNXxcVUItIxsSczo6Ud8
+	0k2A==
+X-Gm-Message-State: AOPr4FXi3d3qANaxZIZHYFiVfL89mq5OZjGvaGZBfNhgXAR8Xb8DWtIA+cVRLJRrZi6bWQ==
+X-Received: by 10.98.33.91 with SMTP id h88mr4703750pfh.54.1460468072141;
+	Tue, 12 Apr 2016 06:34:32 -0700 (PDT)
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com.
+	[209.85.220.46]) by smtp.gmail.com with ESMTPSA id
+	k65sm43905072pfb.30.2016.04.12.06.34.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Apr 2016 06:34:30 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f46.google.com with SMTP id td3so13796948pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:34 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id C85051806C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:34 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id A6BA214F7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:34 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 9BB711368
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:34 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 99EF1788
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:34 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3CDIYM7015660
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:18:34 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3CDIY5B015612
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Apr 2016 15:18:34 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Apr 2016 15:18:32 +0200
-Message-Id: <cover.1460467072.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCHv2 0/1] Revert cleaning of users/groups
+	Tue, 12 Apr 2016 06:34:30 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.66.157.194 with SMTP id wo2mr4758833pab.128.1460468070054;
+	Tue, 12 Apr 2016 06:34:30 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Tue, 12 Apr 2016 06:34:29 -0700 (PDT)
+In-Reply-To: <7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
+References: <cover.1460467072.git.pkj@axis.com>
+	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
+Date: Tue, 12 Apr 2016 10:34:29 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpcrPAh8P=rVn8Z=2oTdcw3Wk=i-gP6xVo+6nRmJY0EBg@mail.gmail.com>
+Message-ID: <CAP9ODKpcrPAh8P=rVn8Z=2oTdcw3Wk=i-gP6xVo+6nRmJY0EBg@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +68,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 13:18:37 -0000
+X-List-Received-Date: Tue, 12 Apr 2016 13:34:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-About a week ago the "solution" to
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9262 was accepted
-into OE-Core. This is supposed to solve the problem that users/groups
-are not removed from the sysroot when the recipe is cleansstated. The
-solution, however, totally fails to handle the case where multiple
-recipes have installed the same user/group causing the build to fail
-all over the place.
+On Tue, Apr 12, 2016 at 10:18 AM, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> Removal of users/group when cleansstating a recipe as implemented here
+> totally breaks when multiple recipes install the same user/groups.
+>
+> This reverts commit b5304ce438666a7418746f4ddd32703ae3188089.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-We have a lot of recipes that installs users and groups, many of which
-are created by multiple recipes. An example of how this change broke
-for us:
-
-Recipe libwsd creates the wsd group. Recipe wsd creates the wsd group
-and the wsd user which has the wsd group as it primary group. When the
-libwsd recipe needs to be rebuilt the following error occurs:
-
-groupdel: cannot remove the primary group of user 'wsd'
-
-and the build aborts.
-
-If a solution like this is supposed to be implemented it needs to keep
-track of all recipes that install a particular user/group and only
-when all of them have been removed can the user/group be removed.
-Until that has been solved, the current solution needs to be
-reverted...
-
-PATCHv2: Correct a typo in the commit message.
-
-//Peter
-
-The following changes since commit 5602f64ab8c3654737273c0e7ac1c966fa8afb6a:
-
-  archiver: Fix ASSUME_PROVIDED issues (2016-04-11 09:03:58 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/clean_users
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/clean_users
-
-Peter Kjellerstedt (1):
-  Revert "useradd.bbclass: remove user/group created by the package in
-    clean* task"
-
- meta/classes/sstate.bbclass  |  5 -----
- meta/classes/useradd.bbclass | 29 -----------------------------
- 2 files changed, 34 deletions(-)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 -- 
-2.1.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
