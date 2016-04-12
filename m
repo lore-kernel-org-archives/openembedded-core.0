@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 44C0F6FF9D
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B04D265CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 22:20:46 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id n63so1351958qkf.0
+	Tue, 12 Apr 2016 22:33:48 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id f52so28989367qga.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:20:47 -0700 (PDT)
+	Tue, 12 Apr 2016 15:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=OVZ3QADU78EGPiXweOX/M3aNB8F4qI1QLGFUGvjGwMA=;
-	b=xfKHu7wyQOeQnd8oD010wIewlIuI/FgaaYszTJXwTU94QeMemU7q6VIi2wTG74h4yG
-	vVK+IZEMg6HgnGVLg+2O19vVj/mnkGObd67t1WfoY5wnlXAMHN0laYsHro0zsRhUFpbu
-	bpsI8jX6JIwoLGUXepaim0HgauAHPxANZbdmEzuJHQdvEkLniZSBZthGgTI5xn2ldmKa
-	P/Zya2sEns3T5H+Mlrx/OT/Rk9viiXFb6zvIT7aM71y7WG0dt2/4YEu91uUTVy4AEf+3
-	pm2zqKsTjAKJfBqZAWcz5fTU0sIK6TE59HWcCIJyNsyQ84gPekVlvJvd9cV/tVUPWuTP
-	1SjQ==
+	:cc; bh=d0VQup85IdPm8a8izpCcyBvyjIlXk7d2MRBue2SZzKo=;
+	b=z9oTO3KSnY9vqT5T72KxTPPBCy/+o7IxxO/5T2nJuKZf2US72KCDDpkXrs1xgJ8MuW
+	hs32d9/4jSPChYQyS9cfatRhYxaRmKcD22HqLsL9DF8eI9GZ0RncNEKp2lOzhTOJREsa
+	uTwiVcn/ZZvgz2+JBYP6kCKcfDI9WEYaVzckAJEcwl2T/jo6yga4bSLzmMmd+FBTjcsu
+	6YRgICmffmlSertaZq8lOrq7oVTiKi4WGTC7eS2dQGJB6vczSi3LrZI6bzPGgGSxtrxv
+	xYhLUaHNWR7aLDeK76UVQrBh2d46WXBHMSSnTLPpHqaaLn4lEbHiDBHkgtvIl68KNRej
+	Ce2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=OVZ3QADU78EGPiXweOX/M3aNB8F4qI1QLGFUGvjGwMA=;
-	b=LTWVJSefJq/d4yd0FgirJ8NxSsL0EoofeG+XmOylugLQxPOErab1yMTwZe7e02sYJu
-	uSGs0EAZSc4H5oRQTBhWdsI2TF1AmbbPJcWXvadJ8S/fw6IqIOeRBb/GlmIhvcJ4IkIo
-	YUoCtTtCr+sXKm3qas/Jci7P+Eqa5xGCFXgeoNuCSeSpSSFNyWxbLV9FYUnMSiTTxHX7
-	rqJNgU8/0enRLeec03XBe2sJ7Nc6eDDy95eN49p0EZtV7wFSgLOCFj/JKP6YJCAlPJmu
-	9djo3gOfmLBf0EZOLycUzs5Rzr8QX9leJTV+HlKq9nSAudo8JslLs5zDdwLLnHAwBItO
-	LdDQ==
-X-Gm-Message-State: AOPr4FV9NHy4mFXrXTI2zass5sywl69bRFy8GAzEUiujdV1V2ZBLtZ9mlScg7cG5Ci0O/qgw6gupflJlvPRQQQ==
+	bh=d0VQup85IdPm8a8izpCcyBvyjIlXk7d2MRBue2SZzKo=;
+	b=hQjMPn7IXxYLZOyFgIx3ZNIncYeO0pJBxz+O4BnAG0E0EbQAMuZOWvmjtogCQIZilF
+	zUe+tBSsstvgGtpO1l+sVXfMEtdhaess130l8DC/dBplrGYZ0vKSDPPoKwfTAsZ1S8HK
+	iv0/zX+mwKa3q8zMoAArWNkxgoOkOd1PIJa+c5YB2EIGH34aDYpCx5Kyb4PU1ARB1v9g
+	Qw7a65f5CmdpxxglXCpGPjIrwoGI+4RAkN8lg0zU51wZisIX28NM3Tj9FTMqvp0IBQTj
+	bzvVWB95Xfn6T09YOsZhuxaRbeq5m3xUlrH+o5yU3uTRTgs6eX83IFf/UraRM/UJ8B/1
+	zb7A==
+X-Gm-Message-State: AOPr4FURP3mjSZZKpVC1oe6NXrPSHDzCd3LrUXZhDtHNmrAeusyB2Vmz7AwpDXRmJFnUFYLlPz/vwjNN1PRW9Q==
 MIME-Version: 1.0
-X-Received: by 10.55.71.135 with SMTP id u129mr7000300qka.26.1460499647303;
-	Tue, 12 Apr 2016 15:20:47 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Tue, 12 Apr 2016 15:20:47 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Tue, 12 Apr 2016 15:20:47 -0700 (PDT)
-In-Reply-To: <570D631F.5020503@windriver.com>
+X-Received: by 10.140.176.23 with SMTP id w23mr7524792qhw.76.1460500429356;
+	Tue, 12 Apr 2016 15:33:49 -0700 (PDT)
+Received: by 10.55.130.196 with HTTP; Tue, 12 Apr 2016 15:33:49 -0700 (PDT)
+Received: by 10.55.130.196 with HTTP; Tue, 12 Apr 2016 15:33:49 -0700 (PDT)
+In-Reply-To: <CAMKF1sqBwbkHWQBBzX8jbK0SoZtcMr6MO2ZSZ9dcMJJns6x+eQ@mail.gmail.com>
 References: <1458077979-23303-1-git-send-email-raj.khem@gmail.com>
 	<56E91CC8.9060907@dest-unreach.org>
 	<CAMKF1sp7C3zCHQBiJ=i5YYsHcXfkBX74qYXgZxYX-tqcwqrD+A@mail.gmail.com>
 	<570D631F.5020503@windriver.com>
-Date: Tue, 12 Apr 2016 18:20:47 -0400
-Message-ID: <CAMKF1srjaNz1dnZCHFkWn6=PyQ+w6Vb1FoF1rbDVCGaTCe3FrA@mail.gmail.com>
+	<CAMKF1srjaNz1dnZCHFkWn6=PyQ+w6Vb1FoF1rbDVCGaTCe3FrA@mail.gmail.com>
+	<CAMKF1srQ5ayOr3ha=YTTGBS-ovX8Ht41ODoNaSEHBGW9EfjFGA@mail.gmail.com>
+	<CAMKF1sqBwbkHWQBBzX8jbK0SoZtcMr6MO2ZSZ9dcMJJns6x+eQ@mail.gmail.com>
+Date: Tue, 12 Apr 2016 18:33:49 -0400
+Message-ID: <CAMKF1sq1kqM7iair34+2ZoxZh24=wszYniJ4cyoBc2M9_XzEQw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 To: Bruce Ashfield <bruce.ashfield@windriver.com>
 Cc: Patches and discussions about the oe-core layer
@@ -57,11 +60,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 22:20:48 -0000
-Content-Type: multipart/alternative; boundary=001a114a7d20ac1862053051124f
+X-List-Received-Date: Tue, 12 Apr 2016 22:33:50 -0000
+Content-Type: multipart/alternative; boundary=001a113abdd4494ab10530514115
 
---001a114a7d20ac1862053051124f
+--001a113abdd4494ab10530514115
 Content-Type: text/plain; charset=UTF-8
+
+I think I see the problem now. The constant should be converted to use Bnn
+values. When calling the baudrate apis. I will send a patch for you to test
+once I am close to computer
+On Apr 12, 2016 6:20 PM, "Khem Raj" <raj.khem@gmail.com> wrote:
 
 Since you have it reproduced. Can you check which of the api call is
 failing?
@@ -128,17 +136,24 @@ wrote:
 >>>
 >
 
---001a114a7d20ac1862053051124f
+--001a113abdd4494ab10530514115
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">Since you have it reproduced. Can you check which of the api=
- call is failing?</p>
+<p dir=3D"ltr">I think I see the problem now. The constant should be conver=
+ted to use Bnn values. When calling the baudrate apis. I will send a patch =
+for you to test once I am close to computer </p>
+<div class=3D"gmail_quote">On Apr 12, 2016 6:20 PM, &quot;Khem Raj&quot; &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r type=3D"attribution"><blockquote class=3D"quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">Since you ha=
+ve it reproduced. Can you check which of the api call is failing?</p><div c=
+lass=3D"elided-text">
 <div class=3D"gmail_quote">On Apr 12, 2016 5:05 PM, &quot;Bruce Ashfield&qu=
-ot; &lt;<a href=3D"mailto:bruce.ashfield@windriver.com">bruce.ashfield@wind=
-river.com</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">On 2016-04-12 1:53 PM, Khem Raj wrote:<br>
+ot; &lt;<a href=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">b=
+ruce.ashfield@windriver.com</a>&gt; wrote:<br type=3D"attribution"><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">On 2016-04-12 1:53 PM, Khem Raj wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
 x #ccc solid;padding-left:1ex">
 FYI<br>
@@ -207,5 +222,6 @@ peeds[OSPEED_OFFSET]);<br>
 </blockquote></blockquote>
 <br>
 </blockquote></div>
+</div></blockquote></div>
 
---001a114a7d20ac1862053051124f--
+--001a113abdd4494ab10530514115--
