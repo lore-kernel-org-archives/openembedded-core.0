@@ -1,48 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id F3BAE6FEF5
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDD46FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 18:06:44 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id f52so22768267qga.3
+	Tue, 12 Apr 2016 18:25:35 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id k3so1903206pav.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 11:06:45 -0700 (PDT)
+	Tue, 12 Apr 2016 11:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Z+htAi+Dr463SIFuGJlKcrpbQ/A8OGMzU8Mh3o9O32Q=;
-	b=eiJPo3ztFlZRW9LLFPuUrUmrhL+0hffD9OumlsZwXvSgiON3Kn2HEHf3kM5H/85lbY
-	o5av9FGw9Tz2pZee6CZse/sBoabkEvR4dzcB0gNJQt69prPVtK+6nE6Okv1pnyWwclrO
-	L1MzpDGj0fdVqUFBICp5mcN1yC6fJUsj3ekIEnFQmkAYU3qGgV9XjKsrOhmcuR/2knnP
-	zz+ljaSs7wpKo4L3lny+WeAA9w/1O3INMbk6wzhWzDZvh7bH+Cf5W+amPrKjufJDTC2I
-	sND8GuERfV95ES3XyN7fZW1hvyotMNTjVteeTiFebw+dMGaOnaxxAa6f+kr+6RUPM9Ju
-	qU7w==
+	h=from:to:subject:date:message-id;
+	bh=xJeG8fUFH2aYym5J4Io1ZxBCYD7d0aMMbirYzM5ujzw=;
+	b=B8dgqmTeBHdJ5mlpMjZ8PgLAOGKKGFoLjEhoCa+SHy5IJ8ZaCrvcDFxvEAjKOsEvzW
+	4dqxpSNeNt3sAqk0s15NRX2tsbr4rRcUX5znTmywy7H/am2iIK0vAzYNyzQA86GY36tk
+	cWH/m9CBJZx2BhL8/evuZmMr+Oue7jBKRyGFEia98Vkf6TtEmYdOCEcIc30kMOufrbGx
+	rzV800uZt48BAuw/QMrDz0SZxZVHdxEPNCpR5eeoVTb/Kj/JkJxymL9KzVz5Owd9n58I
+	2VbMLU66cnJ1X4KOAxbhaKO59UUdIUrXOp16nDM+Y520cR8K8KCejagjH4AAQ1KNJRMM
+	mysQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Z+htAi+Dr463SIFuGJlKcrpbQ/A8OGMzU8Mh3o9O32Q=;
-	b=WeLo3CuDMPF71gDcXZZaVp4Qv1xn9nZb2xgkb5XGjJeqo19CaKL+306P1+opYj8Lft
-	B6/ePUenPeW20hQX5nxEhe3wbOahCkGdrgT+S5Wi3eggSuUYgFP9bwQyebdVAlfBL8sX
-	jLbGauN47SR0LBCcDV3Gfzv28UuaS5VJl8JU1HTpwrpoqfL3SI6VrY9mpEemfgOwmnG5
-	ilMOcdk2bGVWe3PmviypcX7ORo7/eFw8E8pBDYhuRlapkEP4kQ+ytYB8zqwDASMo6u0S
-	gI3eSgsuxnj9ArnpFqczs53zqA5I8ETX2u82MUcxlMjLa9B/UoZTRFVzemvv4EzybllQ
-	xuQA==
-X-Gm-Message-State: AOPr4FV6HBs9IUKRGYMcn64z0H64WCO8P7XGOHA8vWlu0XbD8F9/FqVRVa/3X+zBz10iI7/tIITRlzKjNBtQig==
-X-Received: by 10.140.148.134 with SMTP id 128mr5972740qhu.98.1460484405084;
-	Tue, 12 Apr 2016 11:06:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Tue, 12 Apr 2016 11:06:15 -0700 (PDT)
-In-Reply-To: <CADkTA4PBrU16rwZjWZCq_88JUYN6YKqTNH8X_XQdBZ17QYeNeg@mail.gmail.com>
-References: <cover.1458191793.git.raj.khem@gmail.com>
-	<b807b4837bfb7f579a075e107e9cd7cc297b654b.1458191793.git.raj.khem@gmail.com>
-	<CADkTA4PBrU16rwZjWZCq_88JUYN6YKqTNH8X_XQdBZ17QYeNeg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Apr 2016 14:06:15 -0400
-Message-ID: <CAMKF1soZXL=W87Vah6Th9ZUXond266CuWwskeM_73tMXyfcg5g@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] socat: Access c_ispeed and c_ospeed via APIs
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xJeG8fUFH2aYym5J4Io1ZxBCYD7d0aMMbirYzM5ujzw=;
+	b=lXnOOCtfxYCo/p+/M2evd2xIQp6AU5Zm0ULVTNTLRSXquOnyweO4SwVc72r1dL/b11
+	i9uW/VSq7YqFISzeQehskjr+aMsbwPRtzpdNjPhN0DyvfSrfut45U82Rdp1lQ9yli4tr
+	E+/x7KpRgcdH8TOR3nT6voLaMPIz5mCpMv9Qi27tAem0Tyz0qtHZcqA1kM2Q5WPr6+GM
+	fAz1AOpNGoZ0PDxdTiLqB/ungAeDNooAdvkdZc/aGxVxHqJHo9LrCAPQ1NSmrFw1o5Ox
+	lI4L3Fp10M4b5KUNV05Wo34y1KhvvFo3M7x1Q1xQHsu7pKBASFUNwuLY1xX2zYeNy7Qv
+	+MRQ==
+X-Gm-Message-State: AOPr4FXX5dW6zYNuiAqYjPwQQho+mDod9OgpXKsh/5hmWz3AcTZiqw+L/x15GV1oneZ2VA==
+X-Received: by 10.66.241.106 with SMTP id wh10mr6662530pac.130.1460485536609; 
+	Tue, 12 Apr 2016 11:25:36 -0700 (PDT)
+Received: from mediabox.local (71-17-245-40.sktn.hsdb.sasknet.sk.ca.
+	[71.17.245.40]) by smtp.gmail.com with ESMTPSA id
+	ud5sm45385274pac.11.2016.04.12.11.25.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 12 Apr 2016 11:25:36 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Apr 2016 12:25:30 -0600
+Message-Id: <1460485532-13735-1-git-send-email-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/3] sysvinit: make lastb.1 an alternative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,129 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 18:06:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Apr 2016 18:25:36 -0000
 
-On Tue, Apr 12, 2016 at 10:00 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
->
->
-> On Thu, Mar 17, 2016 at 1:18 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> make it more portable across libc implementations
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  ...001-Access-c_ispeed-and-c_ospeed-via-APIs.patch | 39
->> ++++++++++++++++++++++
->>  meta/recipes-connectivity/socat/socat_1.7.3.1.bb   |  1 +
->>  2 files changed, 40 insertions(+)
->>  create mode 100644
->> meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
->>
->> diff --git
->> a/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
->> b/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
->> new file mode 100644
->> index 0000000..367b48f
->> --- /dev/null
->> +++
->> b/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
->> @@ -0,0 +1,39 @@
->> +From 545d3dec8c91d6074516ffcfa79323ddf9d83839 Mon Sep 17 00:00:00 2001
->> +From: Khem Raj <raj.khem@gmail.com>
->> +Date: Tue, 15 Mar 2016 21:36:02 +0000
->> +Subject: [PATCH] Access c_ispeed and c_ospeed via APIs
->> +
->> +Use cfsetispeed(), cfsetospeed(), cfgetispeed, and cfgetospeed()
->> +instead of operating on c_ispeed and c_ospeed termios structure
->> +members directly because they are not guaranteed to exist on all
->> +libc implementations
->
->
-> I finally bisected a runtime failure on my container platform to this
-> change. I'm now
-> failing the new assertion, where I wasn't failing before this was added:
->
-> socat-1.7.3.1/xioinitialize.c:70: xioinitialize: Assertion
-> `cfgetispeed(&tdata.termarg) == tdata.speeds[ISPEED_OFFSET]' failed.
->
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-this is a benign change. Have you root caused it before you try to revert it
+util-linux has an alternative for it. Add it to sysvinit too.
 
-> I can revert this in my own layers, but what's the best way forward to get
-> this
-> fixed in core ?
->
-> khem: This says it is submitted upstream, did it get accepted ? I can follow
-> up on the socat
-> list if it merged there as well.
->
-> Bruce
->
->>
->> +
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +---
->> +Upstream-Status: Submitted
->> +
->> + xioinitialize.c | 8 ++++----
->> + 1 file changed, 4 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/xioinitialize.c b/xioinitialize.c
->> +index 9f50155..632ca4c 100644
->> +--- a/xioinitialize.c
->> ++++ b/xioinitialize.c
->> +@@ -65,10 +65,10 @@ int xioinitialize(void) {
->> + #if HAVE_TERMIOS_ISPEED && (ISPEED_OFFSET != -1) && (OSPEED_OFFSET !=
->> -1)
->> + #if defined(ISPEED_OFFSET) && (ISPEED_OFFSET != -1)
->> + #if defined(OSPEED_OFFSET) && (OSPEED_OFFSET != -1)
->> +-      tdata.termarg.c_ispeed = 0x56789abc;
->> +-      tdata.termarg.c_ospeed = 0x6789abcd;
->> +-      assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
->> +-      assert(tdata.termarg.c_ospeed == tdata.speeds[OSPEED_OFFSET]);
->> ++      cfsetispeed(&tdata.termarg, 0x56789abc);
->> ++      cfsetospeed(&tdata.termarg, 0x6789abcd);
->> ++      assert(cfgetispeed(&tdata.termarg) ==
->> tdata.speeds[ISPEED_OFFSET]);
->> ++      assert(cfgetospeed(&tdata.termarg) ==
->> tdata.speeds[OSPEED_OFFSET]);
->> + #endif
->> + #endif
->> + #endif
->> +--
->> +1.9.1
->> +
->> diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
->> b/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
->> index b9a8a2f..6da9a17 100644
->> --- a/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
->> +++ b/meta/recipes-connectivity/socat/socat_1.7.3.1.bb
->> @@ -15,6 +15,7 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->>  SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2
->> \
->>             file://Makefile.in-fix-for-parallel-build.patch \
->>             file://0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
->> \
->> +           file://0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch \
->>  "
->>
->>  SRC_URI[md5sum] = "334e46924f2b386299c9db2ac22bcd36"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at
-> its end"
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index 0f0df85..884857a 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -53,9 +53,10 @@ ALTERNATIVE_LINK_NAME[pidof] = "${base_bindir}/pidof"
+ ALTERNATIVE_${PN}-sulogin = "sulogin"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+ 
+-ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
++ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
+ 
+ ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
++ALTERNATIVE_LINK_NAME[lastb.1] = "${mandir}/man1/lastb.1"
+ ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
+ ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
+ ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+-- 
+2.8.1
+
 
