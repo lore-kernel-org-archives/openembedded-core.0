@@ -1,27 +1,51 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D1ED6FF23
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B56A62133
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 06:36:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3C6ajmE006442
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 12 Apr 2016 07:57:04 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id o126so18315500iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Apr 2016 23:36:45 -0700
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 11 Apr 2016 23:36:44 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Apr 2016 23:36:43 -0700
-Message-ID: <0877ab068513b9720c808aaeb0c8a90f9a45afc3.1460442964.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1460442964.git.liezhi.yang@windriver.com>
-References: <cover.1460442964.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH 1/1] linux-yocto-tiny: fix KBRANCH
+	Tue, 12 Apr 2016 00:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:organization:mime-version
+	:content-transfer-encoding;
+	bh=IqJAWyS1QrmQfEPFZV7GPN8mK04xrW2WQDrQlS7FVd4=;
+	b=KMXfSPsSTissSPf1+bEwRu5pch6fSWNpTfRmztX/fdBkMw6HqpWxC5V+3hb6qmHWdB
+	xELscU5Dd+EQ8u5l7SvEknQcSL89rYnIjCisdnTze+hPj83tkekZM6idinMDzaCsceve
+	x8aAoh0Tjwoa0+PFyzuEUKQSOoM87bwrf3Hyai8SNMo1hdV72Rh9RLP6hHZ71Gzb3/yq
+	J/Zdrven/O5O3/ojmvdSuJQlHCxTNM63UUbUnfsO9UuT6YXqQmYsqaAIy5fgQvWR0Wqg
+	10WZHzI3svfO7iYsX8DVIG34n7Hzs1UoS96Q6cKmjx7vr4b8LRe1MT9+0i0KHtpG6V+V
+	BV4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:mime-version:content-transfer-encoding;
+	bh=IqJAWyS1QrmQfEPFZV7GPN8mK04xrW2WQDrQlS7FVd4=;
+	b=F4qKdBJxpfiQkpdA8nSDYgbamw12Y3DzKvSFN9vdtQDRkiZh5zwPNrTpKFXLZ40AUE
+	GNmZSR0yPoctlEhtGakZ5sBliskgiQ6O28i9qkWEyxjSl6YhoQd06iGLO+CmTM6kk9s4
+	UArIR4vLZ7x5pVNV5TO2gdET3GZ5dnU4G2ByZOf6b2cWX0l3K463D87tcO/Lyx/khF86
+	duTLZczzt+r0WEY4QbDrz9621rgFncWsnhyV/VkuqyznGroGk8QA5KPWBVkk3rp3+ULW
+	gnnidLC1dde6SOV8xVch9beClWvggXhHtN3FKjvj67iucH71bQ5fG81IdjkY55fKcE8Z
+	2s3w==
+X-Gm-Message-State: AOPr4FWdGZ/li2WfVQLJkbDm6FzaobZTtDBSih1a1Ax8VAsgAexoIYfEsmpC8FYyTJBgdkxl
+X-Received: by 10.107.13.133 with SMTP id 127mr2647557ion.129.1460447824753;
+	Tue, 12 Apr 2016 00:57:04 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8D633.dip0.t-ipconnect.de. [93.232.214.51])
+	by smtp.gmail.com with ESMTPSA id
+	au6sm14885831igc.0.2016.04.12.00.57.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Apr 2016 00:57:03 -0700 (PDT)
+Message-ID: <1460447821.25299.7.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Apr 2016 09:57:01 +0200
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Busybox syslogd/klogd and journald
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 06:36:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Apr 2016 07:57:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fixed:
-WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: After meta data application, the kernel tree branch is standard/tiny/common-pc. The
-WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: SRC_URI specified branch standard/tiny/base. The branch will be forced to standard/tiny/base,
-WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: but this means the board meta data (.scc files) do not match the SRC_URI specification.
-WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: The meta data and branch standard/tiny/base should be inspected to ensure the proper
-WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: kernel is being built.
+Hello!
 
-Use standard/tiny/common-pc which is pointed by the .scc to fix problem.
-Btw, standard/tiny/base and standard/tiny/common-pc points to the same
-commit id.
+Can anyone think of a reason why busybox syslogd and klogd are enabled
+even when using systemd's journald? journald already captures both dmesg
+and syslog output, the other two daemons are just plain redundant.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Is it perhaps because it is unclear during compilation of busybox
+whether the daemons are needed?
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 4c79bfd..37ff046 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -1,4 +1,4 @@
--KBRANCH ?= "standard/tiny/base"
-+KBRANCH ?= "standard/tiny/common-pc"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index 9446da9..dcb545e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -1,4 +1,4 @@
--KBRANCH ?= "standard/tiny/base"
-+KBRANCH ?= "standard/tiny/common-pc"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
 -- 
-2.8.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
