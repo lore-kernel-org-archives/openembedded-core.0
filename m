@@ -1,48 +1,43 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7851A6FF78
+Return-Path: <rbilovol@cisco.com>
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AEDDC65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 13:04:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 7424A18109
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:23 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 1cQ2u7bTAwg5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id D3E831806C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id B657E1523
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id AB853151B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id A9E05103B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3CD4L0O031822
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:04:21 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3CD4Lun031790
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Apr 2016 15:04:21 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Apr 2016 15:04:19 +0200
-Message-Id: <cover.1460466222.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/1] Revert cleaning of users/groups
+	Tue, 12 Apr 2016 13:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2225; q=dns/txt; s=iport;
+	t=1460466448; x=1461676048;
+	h=subject:to:references:cc:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=xcRWWqPFE/0RkU67+J4T6IRH+tMmHTLl+It5sylyAuQ=;
+	b=HTm+vKzMTgLR6cJTWJIiCMY7LDatlIKrwG9sUuycQfPAdPNt6/lJr3ar
+	t1+3HN9DtsVE+rZ5otjtEgAkmzaMDVq8YAkTNhUC2MAVtoIsAyUSdefwq
+	WILhK6n1fxfuv4A7UGxlR6Gw/o8r8Mn6jShg+H1I1VlC4N2WPqm655uTT w=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DOAQDX8QxX/xbLJq1ehQe4WIIPAQ2Bd?=
+	=?us-ascii?q?IYNAoFpFAEBAQEBAQFlJ4RCAQEEIxVAARALDgQGAgIFFgsCAgkDAgECATcOBgE?=
+	=?us-ascii?q?MBgIBAYgjrk+SIwEBAQEBAQEBAQEBAQEBAQEBGQtxhSWDSYEChA2DMoJWAQSOQ?=
+	=?us-ascii?q?IlIjg2JOoVWjyceAQFCg2o5MIhIgT0BAQE?=
+X-IronPort-AV: E=Sophos;i="5.24,474,1454976000"; d="scan'208";a="676712414"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Apr 2016 13:07:23 +0000
+Received: from [10.61.89.247] (ams3-vpn-dhcp6648.cisco.com [10.61.89.247])
+	by aer-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id u3CD7NiM004266;
+	Tue, 12 Apr 2016 13:07:23 GMT
+To: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
+References: <1460014829-27799-1-git-send-email-rbilovol@cisco.com>
+	<57063CDB.5000801@denx.de>
+From: Ruslan Bilovol <rbilovol@cisco.com>
+Message-ID: <570CF30B.8090208@cisco.com>
+Date: Tue, 12 Apr 2016 16:07:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <57063CDB.5000801@denx.de>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+Cc: xe-linux-external@cisco.com
+Subject: Re: [PATCH] kernel-uimage: build per-architecture target image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +50,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 13:04:25 -0000
+X-List-Received-Date: Tue, 12 Apr 2016 13:07:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-About a week ago the "solution" to
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9262 was accepted
-into OE-Core. This is supposed to solve the problem that users/groups
-are not removed from the sysroot when the recipe is cleansstated. The
-solution, however, totally fails to handle the case where multiple
-recipes have installed the same user/group causing the build to fail
-all over the place.
+On 04/07/2016 01:56 PM, Marek Vasut wrote:
+> On 04/07/2016 09:40 AM, Ruslan Bilovol wrote:
+>> Commit e69525: "kernel: Build uImage only when really
+>> needed" hardcoded target kernel image to zImage for
+>> case if uImage is generated by OpenEmbedded buildsystem.
+>>
+>> However not all kernel architectures support zImage
+>> target, for example AArch64 doesn't, so building of
+>> kernel is failing on this step. Moreover, possible
+>> target images may vary depending on arch.
+>>
+>> So instead of hardcoding it to zImage, let it be
+>> architecture-dependent. Currently added for and
+>> verified with AArch64.
+>>
+>> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+>> ---
+>>   meta/classes/kernel-uimage.bbclass | 9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+>> index f73965b..a6a5912 100644
+>> --- a/meta/classes/kernel-uimage.bbclass
+>> +++ b/meta/classes/kernel-uimage.bbclass
+>> @@ -1,6 +1,8 @@
+>>   inherit kernel-uboot
+>>   
+>>   python __anonymous () {
+>> +    import re
+>> +
+>>       kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>>       if kerneltype == 'uImage':
+>>           depends = d.getVar("DEPENDS", True)
+>> @@ -13,7 +15,12 @@ python __anonymous () {
+>>   	# KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+>>   	# the uImage .
+>>   	if d.getVar("KEEPUIMAGE", True) != 'yes':
+>> -            d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
+>> +            kernelarch = d.getVar('ARCH', True)
+>> +
+>> +            if re.match('arm64', kernelarch): target_image = 'Image'
+> I'm not quite convinced it's a great idea to add arch-specific handling
+> into generic bbclass. By checking kernel-uboot.bbclass, I see you only
+> need to generate vmlinux for both the uImage and fitImage, so I suspect
+> this should be set to "vmlinux" for both arm32 and arch64. What do you
+> think ?
 
-We have a lot of recipes that installs users and groups, many of which
-are created by multiple recipes. An example of how this change broke
-for us:
+Yes, it makes sense for me.
+I'll send updated patch soon
 
-Recipe libwsd creates the wsd group. Recipe wsd creates the wsd group
-and the wsd user which has the wsd group as it primary group. When the
-libwsd recipe needs to be rebuilt the following error occurs:
+Best regards,
+Ruslan
 
-groupdel: cannot remove the primary group of user 'wsd'
-
-and the build aborts.
-
-If a solution like this is supposed to be implemented it needs to keep
-track of all recipes that install a particular user/group and only
-when all of them have been removed can the user/group be removed.
-Until that has been solved, the current solution needs to be
-reverted...
-
-//Peter
-
-The following changes since commit 5602f64ab8c3654737273c0e7ac1c966fa8afb6a:
-
-  archiver: Fix ASSUME_PROVIDED issues (2016-04-11 09:03:58 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/clean_users
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/clean_users
-
-Peter Kjellerstedt (1):
-  Revert "useradd.bbclass: remove user/group created by the package in
-    clean* task"
-
- meta/classes/sstate.bbclass  |  5 -----
- meta/classes/useradd.bbclass | 29 -----------------------------
- 2 files changed, 34 deletions(-)
-
--- 
-2.1.0
+>
+>> +            else: target_image = 'zImage'
+>> +
+>> +            d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", target_image)
+>>   }
+>>   
+>>   do_uboot_mkimage() {
+>>
+>
 
 
