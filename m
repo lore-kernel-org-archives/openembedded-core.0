@@ -1,29 +1,53 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 06B316057B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id C6A9A65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 12:33:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3CCXIc8008346
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Apr 2016 13:04:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id A554E2E14F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 05:33:18 -0700 (PDT)
-Received: from server.local (128.224.22.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 12 Apr 2016 05:33:18 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1460442964.git.liezhi.yang@windriver.com>
-	<0877ab068513b9720c808aaeb0c8a90f9a45afc3.1460442964.git.liezhi.yang@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <570CEB0D.7090701@windriver.com>
-Date: Tue, 12 Apr 2016 08:33:17 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <0877ab068513b9720c808aaeb0c8a90f9a45afc3.1460442964.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] linux-yocto-tiny: fix KBRANCH
+	Tue, 12 Apr 2016 15:04:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id au7NIQhknFFS
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id D93252E145
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id C289713C5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id B7B0E1528
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id B6418103B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 15:04:21 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3CD4Lrb031853
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 15:04:21 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3CD4Le6031851
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Apr 2016 15:04:21 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Apr 2016 15:04:20 +0200
+Message-Id: <13707837c60a10607031061f287fc03c0471b35b.1460466222.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1460466222.git.pkj@axis.com>
+References: <cover.1460466222.git.pkj@axis.com>
+In-Reply-To: <cover.1460466222.git.pkj@axis.com>
+References: <cover.1460466222.git.pkj@axis.com>
+Subject: [PATCH 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +60,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 12:33:20 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Apr 2016 13:04:25 -0000
 
-On 2016-04-12 2:36 AM, Robert Yang wrote:
-> Fixed:
-> WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: After meta data application, the kernel tree branch is standard/tiny/common-pc. The
-> WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: SRC_URI specified branch standard/tiny/base. The branch will be forced to standard/tiny/base,
-> WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: but this means the board meta data (.scc files) do not match the SRC_URI specification.
-> WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: The meta data and branch standard/tiny/base should be inspected to ensure the proper
-> WARNING: linux-yocto-tiny-4.4.3+gitAUTOINC+770996a263_73481a3abd-r0 do_patch: kernel is being built.
->
-> Use standard/tiny/common-pc which is pointed by the .scc to fix problem.
-> Btw, standard/tiny/base and standard/tiny/common-pc points to the same
-> commit id.
+Removal of users/group when cleansstating a recipe as implemented here
+totally breaks when multiple recipes install the samer user/groups.
 
-When tiny eventually supports more architectures/boards we'll have
-to change this again, but for the 2.1 release this is the change
-with the least impact.
+This reverts commit b5304ce438666a7418746f4ddd32703ae3188089.
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/sstate.bbclass  |  5 -----
+ meta/classes/useradd.bbclass | 29 -----------------------------
+ 2 files changed, 34 deletions(-)
 
-I can pick this patch up and put it in my queue, speak now if someone
-else is going to grab it.
-
-Bruce
-
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
->   meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-> index 4c79bfd..37ff046 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-> @@ -1,4 +1,4 @@
-> -KBRANCH ?= "standard/tiny/base"
-> +KBRANCH ?= "standard/tiny/common-pc"
->   LINUX_KERNEL_TYPE = "tiny"
->   KCONFIG_MODE = "--allnoconfig"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-> index 9446da9..dcb545e 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-> @@ -1,4 +1,4 @@
-> -KBRANCH ?= "standard/tiny/base"
-> +KBRANCH ?= "standard/tiny/common-pc"
->   LINUX_KERNEL_TYPE = "tiny"
->   KCONFIG_MODE = "--allnoconfig"
->
->
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 8c62327..4a4269c 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -51,7 +51,6 @@ SSTATEPREINSTFUNCS = ""
+ SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
+ SSTATEPOSTINSTFUNCS = ""
+ EXTRA_STAGING_FIXMES ?= ""
+-SSTATECLEANFUNCS = ""
+ 
+ # Check whether sstate exists for tasks that support sstate and are in the
+ # locked signatures file.
+@@ -451,10 +450,6 @@ def sstate_clean(ss, d):
+                 stfile.endswith(rm_nohash):
+             oe.path.remove(stfile)
+ 
+-    # Removes the users/groups created by the package
+-    for cleanfunc in (d.getVar('SSTATECLEANFUNCS', True) or '').split():
+-        bb.build.exec_func(cleanfunc, d)
+-
+ sstate_clean[vardepsexclude] = "SSTATE_MANFILEPREFIX"
+ 
+ CLEANFUNCS += "sstate_cleanall"
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index ee402ac..0a6f2be 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -127,35 +127,6 @@ useradd_sysroot_sstate () {
+ 	fi
+ }
+ 
+-userdel_sysroot_sstate () {
+-if test "x${STAGING_DIR_TARGET}" != "x"; then
+-    if [ "${BB_CURRENTTASK}" = "configure" -o "${BB_CURRENTTASK}" = "clean" ]; then
+-        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir}/pseudo"
+-        OPT="--root ${STAGING_DIR_TARGET}"
+-
+-        # Remove groups and users defined for package
+-        GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
+-        USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
+-
+-        if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" != "x"; then
+-            user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-            perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
+-        fi
+-
+-        if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" != "x"; then
+-            group=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $group"
+-        fi
+-
+-    fi
+-fi
+-}
+-
+-SSTATECLEANFUNCS = "userdel_sysroot_sstate"
+-SSTATECLEANFUNCS_class-cross = ""
+-SSTATECLEANFUNCS_class-native = ""
+-SSTATECLEANFUNCS_class-nativesdk = ""
+-
+ do_install[prefuncs] += "${SYSROOTFUNC}"
+ SYSROOTFUNC = "useradd_sysroot"
+ SYSROOTFUNC_class-cross = ""
+-- 
+2.1.0
 
 
